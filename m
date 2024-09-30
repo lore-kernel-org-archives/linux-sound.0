@@ -1,283 +1,138 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2125A26AD9;
-	Mon, 30 Sep 2024 05:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C3D126C07;
+	Mon, 30 Sep 2024 05:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727674350; cv=none; b=RZB1dLKBYXoU5xco2INh1jVgAqM3/itrFwRx/R27O9EeYaR8EEP9DJ4dOBxugtqf3Uyiji6HWyN7NR9nu5c/SLrMXT+FB+fJHrHFPIQ17O0ITbgK999C65mhsPiDp9+EvHS1zf5cdSNvV3otjDTyJqYNgBVANqjvILOoJYvgxqQ=
+	t=1727674960; cv=none; b=eL6+kHamYdFch77QBhWj3SAekO2ocB7oixBDg001AuaNx4r/EaGVhaGEjSWNGz9Ds1TOaI4MYNxQbj6LHeaOhAOAh97sRIUdqLM1tiy68BewzLC4eJESEyd828/tjtOjsi4IsqGwjSgdu6uj7ieYNOgoWepmy9mvuJfihzzgss0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727674350; c=relaxed/simple;
-	bh=NbyetRH8oTFCzTOoilkVMc3XjJuHIU7YcPWd5k/4M5g=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KxHDk1MSOhRHK7hqMqOhVPP1S9w0NPArIvwV2ScVpe/anY42ve6abx19oJLp/ETWB4/iKXBeGDxXggIK9HgcZQNpCIOPbgd6vMX/2wAkYggjNWQlxF3np97ZlCZJ2wqNEKpxCfK24pYLd7b1uIT5J3G/FZeSGpjC4je7YASHiAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=i5+pA7k5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1727674960; c=relaxed/simple;
+	bh=EnpoqgIUgbGCv4B26GwSnq+jqer0A6xiBOpid1AYyhc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=afXZ/ax1om76tLHH+s25FhjiMoq5lsARr/4TyHDNCLj0h1USWTL+BHy0mRN8sNz4bs3bXklzZaIhGXAQ6PAjXKmSngnZbfmHI/DNj6ggk63HCNYhW2PRHIxhwsNErLlPW2yIWvxx9ta7657hWkTnj+I7p+kSNPvPGnHrpf9BtQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=R3mDzn0O; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="i5+pA7k5"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48U0j2Pn013972;
-	Mon, 30 Sep 2024 05:32:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=jgiOEtWWIEx5t+733crHI5
-	ePVCydglOQi6i5NFfxCyU=; b=i5+pA7k5oeXdlhUN/xBbn7OObUDZ0KuEIQgbdO
-	cA9CIRcdklV5z6tXawM7AsQqiCyGBHXO03Cklmmx0pfG25cusWeqmVBUmoT87xDR
-	QGcMJ6BnERzlkwkTNZ+TDvvJwdZ3OiuNWksr5v9CnGjBzcDop9d8mav1vVOxN1ge
-	6iCH2RAXWYbDAk1AkHl50ws+O4+URlAjMWur8J5T/4KhZlyJU2XHmNCOTyGZ9WzI
-	q+E6vkV6n3HN/l/6ukA6B4F0Nt59awzxoMX9SVHJDfaTOF57NteyO3QHRgJrr8/k
-	Iszw0sUci9MqxC+/iUD15aq5zyyIEAKt6+ITr514e6cl+Ftg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41xa673j60-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Sep 2024 05:31:59 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48U5VwMW019400
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 30 Sep 2024 05:31:58 GMT
-Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="R3mDzn0O"
+X-UUID: c47e78367eee11ef8b96093e013ec31c-20240930
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References:CC:To:Subject:MIME-Version:Date:Message-ID; bh=zasI9d4EFSlQDUt9pveMHKbUWNguU0pHqIbERcEhkJU=;
+	b=R3mDzn0OYfxLm0AkkHg1z4tDuUqHPLUTLU8pfof9/DgJ/CNlLgec43/P8q6N4k1JfUhnkhNkX3GixRnAqxpXGvG3Z6ieMrCImr/Eh6qWYf6aZALIGV7Ikrx2B+NIEAaCYzAFqxou4AyrbHlnCM1YmmZpYegPAzjG9c5Ta/rHQJg=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:2b0b04bf-b81b-471d-9fc6-d22c8c7f36a6,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:0c8c7518-b42d-49a6-94d2-a75fa0df01d2,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: c47e78367eee11ef8b96093e013ec31c-20240930
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 443754191; Mon, 30 Sep 2024 13:42:23 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 29 Sep 2024 22:31:52 -0700
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "Srinivas
- Kandagatla" <srinivas.kandagatla@linaro.org>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>, <linux-arm-msm@vger.kernel.org>,
-        <kernel@quicinc.com>, Rohit kumar <quic_rohkumar@quicinc.com>,
-        "Mohammad Rafi
- Shaik" <quic_mohs@quicinc.com>
-Subject: [PATCH v1] ASoC: codecs: lpass-macro: Add support for channel map mixer control
-Date: Mon, 30 Sep 2024 11:01:11 +0530
-Message-ID: <20240930053111.3986838-1-quic_mohs@quicinc.com>
-X-Mailer: git-send-email 2.25.1
+ 15.2.1118.26; Mon, 30 Sep 2024 13:42:22 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs11n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Mon, 30 Sep 2024 13:42:21 +0800
+Message-ID: <edeb6345-fc70-a3e8-0702-b9b146295aa2@mediatek.com>
+Date: Mon, 30 Sep 2024 13:42:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: L6BPmGWeKMLibxdNUiIM0oI5Slm5Mksr
-X-Proofpoint-ORIG-GUID: L6BPmGWeKMLibxdNUiIM0oI5Slm5Mksr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
- priorityscore=1501 bulkscore=0 clxscore=1011 adultscore=0 suspectscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2408220000 definitions=main-2409300038
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/3] dt-bindings: mfd: mediatek: mt6397: add compatible
+ for mt6359-codec
+Content-Language: en-US
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Conor Dooley <conor@kernel.org>, Sen Chu <sen.chu@mediatek.com>, Sean Wang
+	<sean.wang@mediatek.com>, Lee Jones <lee@kernel.org>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Eason Yen
+	<eason.yen@mediatek.com>, Jiaxin Yu <jiaxin.yu@mediatek.com>, Shane Chien
+	<shane.chien@mediatek.com>, Hui Liu <hui.liu@mediatek.com>,
+	<linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-sound@vger.kernel.org>,
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang
+	<bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin
+	<macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, MediaTek
+ Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+References: <20240926092519.6556-1-macpaul.lin@mediatek.com>
+ <20240926092519.6556-2-macpaul.lin@mediatek.com>
+ <20240926-smokeless-clobber-0fb8a1cdc7ab@spud>
+ <78381b10-eae6-1414-6913-994e1ed03410@mediatek.com>
+ <z5zehicgqqsbgsjz5nrjlqrkpqll57gb26jdc3ctpeajtlfusm@b2s5vrbuv3es>
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+In-Reply-To: <z5zehicgqqsbgsjz5nrjlqrkpqll57gb26jdc3ctpeajtlfusm@b2s5vrbuv3es>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Rohit kumar <quic_rohkumar@quicinc.com>
 
-Add channel map mixer control for lpass macro codec DAIs.
 
-Signed-off-by: Rohit kumar <quic_rohkumar@quicinc.com>
-Co-developed-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
----
- sound/soc/codecs/lpass-macro-common.c | 55 +++++++++++++++++++++++++++
- sound/soc/codecs/lpass-macro-common.h |  2 +
- sound/soc/codecs/lpass-rx-macro.c     | 12 ++++++
- sound/soc/codecs/lpass-tx-macro.c     |  9 +++++
- sound/soc/codecs/lpass-va-macro.c     |  9 +++++
- sound/soc/codecs/lpass-wsa-macro.c    | 12 ++++++
- 6 files changed, 99 insertions(+)
+On 9/27/24 17:42, Krzysztof Kozlowski wrote:
+> 	
+> 
+> External email : Please do not click links or open attachments until you 
+> have verified the sender or the content.
+> 
+> On Fri, Sep 27, 2024 at 03:57:58PM +0800, Macpaul Lin wrote:
+>> On 9/27/24 00:04, Conor Dooley wrote:
+>> > On Thu, Sep 26, 2024 at 05:25:18PM +0800, Macpaul Lin wrote:
+>> > > This patch updates the audio-codec properties includes:
+>> > >   - compatible:
+>> > >    - Re-order the supported device items.
+>> > >    - Add 'mt6359-codec' to compatible since MT6359 PMIC has been included
+>> > >      in this DT Schema.
+>> > 
+>> > >    - Set 'additionalProperties: true' for 'mt6359-codec'.
+>> > 
+>> > Why?
+>> 
+>> The mt6359-codec support these 3 properties:
+>> mediatek,mic-type0, mediatek,mic-type-1, mediatek-mic-type2.
+>> While mt6358-sound and mt6397-codec don't (at least, I didn't find
+>> these 3 properties in driver codes.
+>> 
+>> Set 'additionalProperties: true' is also required to fix the following
+>> dtbs_check errors:
+>> pmic: audio-codec: 'mediatek,mic-type-0', 'mediatek,mic-type-1',
+>>       'mediatek,mic-type-2' do not match any of the regexes:
+>>       'pinctrl-[0-9]+'
+> 
+> Why is this a correct fix? Aren't you allowing "pink-pony" property as
+> well?
+> 
+>> 
+>> > > 
+>> > > Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+>> > > ---
+>> > >   Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml | 5 +++--
+> 
+> There is no such file.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-diff --git a/sound/soc/codecs/lpass-macro-common.c b/sound/soc/codecs/lpass-macro-common.c
-index 6e3b8d0897dd..777af4885245 100644
---- a/sound/soc/codecs/lpass-macro-common.c
-+++ b/sound/soc/codecs/lpass-macro-common.c
-@@ -8,12 +8,67 @@
- #include <linux/platform_device.h>
- #include <linux/pm_domain.h>
- #include <linux/pm_runtime.h>
-+#include <sound/control.h>
-+#include <sound/pcm.h>
-+#include <sound/soc.h>
- 
- #include "lpass-macro-common.h"
- 
- static DEFINE_MUTEX(lpass_codec_mutex);
- static enum lpass_codec_version lpass_codec_version;
- 
-+static int lpass_macro_chmap_ctl_get(struct snd_kcontrol *kcontrol,
-+				     struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_pcm_chmap *info = snd_kcontrol_chip(kcontrol);
-+	struct snd_soc_dai *dai = info->private_data;
-+	u32 *chmap_data = NULL;
-+	u32 rx_ch_cnt = 0;
-+	u32 tx_ch_cnt = 0;
-+	u32 rx_ch, tx_ch;
-+
-+	chmap_data = kzalloc(sizeof(u32) * 2, GFP_KERNEL);
-+	if (!chmap_data)
-+		return -ENOMEM;
-+
-+	snd_soc_dai_get_channel_map(dai, &tx_ch_cnt, &tx_ch, &rx_ch_cnt, &rx_ch);
-+	if (rx_ch_cnt) {
-+		chmap_data[0] = rx_ch_cnt;
-+		chmap_data[1] = rx_ch;
-+	} else if (tx_ch_cnt) {
-+		chmap_data[0] = tx_ch_cnt;
-+		chmap_data[1] = tx_ch;
-+	}
-+	memcpy(ucontrol->value.bytes.data, chmap_data, sizeof(u32) * 2);
-+
-+	kfree(chmap_data);
-+	return 0;
-+}
-+
-+int lpass_macro_add_chmap_ctls(struct snd_soc_pcm_runtime *rtd,
-+			       struct snd_soc_dai *dai, int dir)
-+{
-+	struct snd_pcm_chmap *info;
-+	int ret;
-+
-+	info = kzalloc(sizeof(*info), GFP_KERNEL);
-+	if (!info)
-+		return -ENOMEM;
-+
-+	ret =  snd_pcm_add_chmap_ctls(rtd->pcm, dir, NULL,
-+				      2 * sizeof(u32), 0, &info);
-+	if (ret < 0) {
-+		kfree(info);
-+		return ret;
-+	}
-+
-+	/* override handlers */
-+	info->private_data = dai;
-+	info->kctl->get = lpass_macro_chmap_ctl_get;
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(lpass_macro_add_chmap_ctls);
-+
- struct lpass_macro *lpass_macro_pds_init(struct device *dev)
- {
- 	struct lpass_macro *l_pds;
-diff --git a/sound/soc/codecs/lpass-macro-common.h b/sound/soc/codecs/lpass-macro-common.h
-index fb4b96cb2b23..23ed6836addf 100644
---- a/sound/soc/codecs/lpass-macro-common.h
-+++ b/sound/soc/codecs/lpass-macro-common.h
-@@ -40,6 +40,8 @@ struct lpass_macro *lpass_macro_pds_init(struct device *dev);
- void lpass_macro_pds_exit(struct lpass_macro *pds);
- void lpass_macro_set_codec_version(enum lpass_codec_version version);
- enum lpass_codec_version lpass_macro_get_codec_version(void);
-+int lpass_macro_add_chmap_ctls(struct snd_soc_pcm_runtime *rtd,
-+			       struct snd_soc_dai *dai, int dir);
- 
- static inline void lpass_macro_pds_exit_action(void *pds)
- {
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index 71e0d3bffd3f..05bd0f8d126b 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -1954,10 +1954,22 @@ static int rx_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
- 	return 0;
- }
- 
-+static int rx_macro_pcm_new(struct snd_soc_pcm_runtime *rtd,
-+			    struct snd_soc_dai *dai)
-+{
-+	int dir = SNDRV_PCM_STREAM_PLAYBACK;
-+
-+	if (dai->id == RX_MACRO_AIF_ECHO)
-+		dir = SNDRV_PCM_STREAM_CAPTURE;
-+
-+	return lpass_macro_add_chmap_ctls(rtd, dai, dir);
-+}
-+
- static const struct snd_soc_dai_ops rx_macro_dai_ops = {
- 	.hw_params = rx_macro_hw_params,
- 	.get_channel_map = rx_macro_get_channel_map,
- 	.mute_stream = rx_macro_digital_mute,
-+	.pcm_new = rx_macro_pcm_new,
- };
- 
- static struct snd_soc_dai_driver rx_macro_dai[] = {
-diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
-index a134584acf90..c7a8e2694e36 100644
---- a/sound/soc/codecs/lpass-tx-macro.c
-+++ b/sound/soc/codecs/lpass-tx-macro.c
-@@ -1211,10 +1211,19 @@ static int tx_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
- 	return 0;
- }
- 
-+static int tx_macro_pcm_new(struct snd_soc_pcm_runtime *rtd,
-+			    struct snd_soc_dai *dai)
-+{
-+	int dir = SNDRV_PCM_STREAM_CAPTURE;
-+
-+	return lpass_macro_add_chmap_ctls(rtd, dai, dir);
-+}
-+
- static const struct snd_soc_dai_ops tx_macro_dai_ops = {
- 	.hw_params = tx_macro_hw_params,
- 	.get_channel_map = tx_macro_get_channel_map,
- 	.mute_stream = tx_macro_digital_mute,
-+	.pcm_new = tx_macro_pcm_new,
- };
- 
- static struct snd_soc_dai_driver tx_macro_dai[] = {
-diff --git a/sound/soc/codecs/lpass-va-macro.c b/sound/soc/codecs/lpass-va-macro.c
-index c781da476240..1a13f472ed3a 100644
---- a/sound/soc/codecs/lpass-va-macro.c
-+++ b/sound/soc/codecs/lpass-va-macro.c
-@@ -939,10 +939,19 @@ static int va_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
- 	return 0;
- }
- 
-+static int va_macro_pcm_new(struct snd_soc_pcm_runtime *rtd,
-+			    struct snd_soc_dai *dai)
-+{
-+	int dir = SNDRV_PCM_STREAM_CAPTURE;
-+
-+	return lpass_macro_add_chmap_ctls(rtd, dai, dir);
-+}
-+
- static const struct snd_soc_dai_ops va_macro_dai_ops = {
- 	.hw_params = va_macro_hw_params,
- 	.get_channel_map = va_macro_get_channel_map,
- 	.mute_stream = va_macro_digital_mute,
-+	.pcm_new = va_macro_pcm_new,
- };
- 
- static struct snd_soc_dai_driver va_macro_dais[] = {
-diff --git a/sound/soc/codecs/lpass-wsa-macro.c b/sound/soc/codecs/lpass-wsa-macro.c
-index c989d82d1d3c..7c4fd4bf2668 100644
---- a/sound/soc/codecs/lpass-wsa-macro.c
-+++ b/sound/soc/codecs/lpass-wsa-macro.c
-@@ -1344,9 +1344,21 @@ static int wsa_macro_get_channel_map(const struct snd_soc_dai *dai,
- 	return 0;
- }
- 
-+static int wsa_macro_pcm_new(struct snd_soc_pcm_runtime *rtd,
-+			     struct snd_soc_dai *dai)
-+{
-+	int dir = SNDRV_PCM_STREAM_PLAYBACK;
-+
-+	if (dai->id == WSA_MACRO_AIF_VI || dai->id == WSA_MACRO_AIF_ECHO)
-+		dir = SNDRV_PCM_STREAM_CAPTURE;
-+
-+	return lpass_macro_add_chmap_ctls(rtd, dai, dir);
-+}
-+
- static const struct snd_soc_dai_ops wsa_macro_dai_ops = {
- 	.hw_params = wsa_macro_hw_params,
- 	.get_channel_map = wsa_macro_get_channel_map,
-+	.pcm_new = wsa_macro_pcm_new,
- };
- 
- static struct snd_soc_dai_driver wsa_macro_dai[] = {
--- 
-2.25.1
+This patch is no longer necessary. I'm working on a new fix (v7)
+for 'Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml' and try 
+to rid of these mess in audio-codec node.
 
+Thanks
+Macpaul Lin
