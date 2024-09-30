@@ -1,132 +1,138 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB613BB24;
-	Mon, 30 Sep 2024 16:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476BA5103F;
+	Mon, 30 Sep 2024 17:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727714061; cv=none; b=U49Gbscijxh5Esl4qWraztG6VpfHTx3vWfWS29bqJ1h65FAmVaSSyP8pmjDJF7BYzlUL13Ke5nyWv9l4vql/pfjazwKxyeHckL2CzU3+aine+bzWeLivA/m2xuBexEiC5vpZl/uwFzwllEzeDIfIuD4O2C0bizfn90el6vSqAHo=
+	t=1727716389; cv=none; b=ZLYlJEPHwSzhi31/cw2j8yyntq4fUJFjLCAEyWsyEyvTYN09uPcEBadeCTs2WX3AEmFkChNmAf/vlZVWMiEwZo3PIhu9Lz1bQuvE+041xfmfsWThKUyTyquN65CI8aKNhElN/h/kPtLJPeU0trrKV5ZkuGyiSsh1I9uaMZk9B0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727714061; c=relaxed/simple;
-	bh=Qf8w32+ianb/P6mmXXQkfYYDksr3EPluaIRN2UzchLU=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=qsrhSqicmISPxAAx267mc4mCHyw+yFbO53pD377VQuChVvLG2FEEDxhYi8W90+zqRwdudD//MAcgACa9DBYqLXJ5HE5AChzOWMrGVWDlceaxKfGXGk3aXw7IxWw38RWyA0WCAEi1+PXTZIyNIxv17MUPcVFhWIFGpnJN6ed30eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=AL0vjq+X; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1727716389; c=relaxed/simple;
+	bh=14AJRSeRfxvmwLi0dFmdbeq6u7D9PkODNFuzo6jOIOc=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCf8lMxiEu9p7RFsBNe6iBVWHhNy88GBVgjIh7g/IIqDT7ytaYlCJm+lom4knguvdGD81t2MUP6MTbAfHJeUg5XC72mN7GAdagfVv+w47MQulyEbyKjRPzMLxVeRZWtF3C5lQcw78sT/t5FYqcqWafetB78s9jfONSnXLdIPhlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZrjHO35c; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="AL0vjq+X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1727714031; x=1728318831; i=markus.elfring@web.de;
-	bh=Elp8feHwzLHEvNgI9yMIUjekemWT/zzJtyACfJwiUIQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=AL0vjq+XrUYRdIJT+vEufYJR9dYtYtRZlbH5uqFxSWi0lw7kVHlmzquoYI24nrUc
-	 0tEbu+Rtsa1kp8WXhB5iVN9Gc4MIZNu1X7Y62Mwu57QTdvGZ8KnQxDJC/+Jn0zI6f
-	 bUwis5dxTBV9jwYCT2zshkxzn0xz+3YR1eUwU0LZYn4NbG1sYbjWtqz4uqR4r9ham
-	 5VM0N8+WPjTHxivXyv60d274xnLXyyb+M5K+9m+5r/d96qZxZk5LK2ivgLwSzKhTx
-	 PKyoa9UGsJ3SFrZNRAAtuBqzw7zdkNE6hz75SAL3n0ght8O5y0+WNv3A7U7AjGs8Y
-	 VRJd8EbUmdIJes8ngg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MK574-1sc0Iq3iiE-00QFXj; Mon, 30
- Sep 2024 18:33:50 +0200
-Message-ID: <30cfc980-3b38-4e98-a753-b149746cf93c@web.de>
-Date: Mon, 30 Sep 2024 18:33:49 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZrjHO35c"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48UBQBAO025185;
+	Mon, 30 Sep 2024 17:12:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=K2r9+s9SuH8Gr71DwAy9Eays
+	xmRxbEBhfH4RwCV1fH0=; b=ZrjHO35cfucMqUPQfuI8nEjthGYTUnlzirFV55T6
+	LH74o6I9JMkkiRghMK4xWezkHY3NN4Vpq4jFYsgPhW60vbk/17hfnIhw8GKx8fZs
+	lZsDfAOr9zgTjDZtuKU7rb+hKfbduJhAXR+q1AqKMHScKgkvKVYm+crgrpdsamQs
+	BjCAEVp350zDKbfWI0AixDwwR//NC1YILphNMC7PlnUyGfrO3/kqg7RxJcuQw2Sc
+	ZhjPtZuCbxvzI1txPvwD8vQfUz4GCV/GcwBUZKER4Po2K7kfGttAxOPNs5cLrB6o
+	BhXV9BpsMnlBpXd1C5nW5BExQBsCJ/1G+adMfNdieBOOBQ==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 41x9cydh7b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Sep 2024 17:12:29 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 48UHCRfP003691
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 30 Sep 2024 17:12:27 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 30 Sep 2024 10:12:27 -0700
+Date: Mon, 30 Sep 2024 10:12:26 -0700
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Gax-c <zichenxie0106@gmail.com>
+CC: <srinivas.kandagatla@linaro.org>, <lgirdwood@gmail.com>,
+        <broonie@kernel.org>, <perex@perex.cz>, <tiwai@suse.com>,
+        <rohitkr@codeaurora.org>, <alsa-devel@alsa-project.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        Zijie Zhao
+	<zzjas98@gmail.com>, Chenyuan Yang <chenyuan0y@gmail.com>
+Subject: Re: [PATCH] Fix possible NULL Pointer Dereference in
+ 'asoc_qcom_lpass_cpu_platform_probe'
+Message-ID: <Zvrb+q28S/C4z2eH@hu-bjorande-lv.qualcomm.com>
+References: <20240930011521.26283-1-zichenxie0106@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rohit kumar <quic_rohkumar@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Takashi Iwai <tiwai@suse.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Zijie Zhao <zzjas98@gmail.com>,
- Chenyuan Yang <chenyuan0y@gmail.com>
-References: <20240930011521.26283-1-zichenxie0106@gmail.com>
-Subject: Re: [PATCH] Fix possible NULL Pointer Dereference in
- 'asoc_qcom_lpass_cpu_platform_probe'
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 In-Reply-To: <20240930011521.26283-1-zichenxie0106@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wWPrxVgNAW89ZtYL7yCE9yBsQPQ1CEh6dTzMElmw1CIQYjlLjDi
- ymQyan+7h+OEOJdXyAPBfl2phLYm2KCFUzaFzczAomXzFIp3KGtBDMx771osuQmjqEYJytv
- G9WUQXWTgqahgur6IolnNTAUmBCQcHVduPyRX1blabpKy8+UQxZUgcajxym9t/Yqnw5ZMar
- wpa8ptkxJxxV+iHzQQD6A==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:X4rV4JRbJeA=;IsqwtxPmorxf/jI/87t0I20eQn9
- KC2pSZVTtF3/v8Kx2qyOpJQC4H/WrXQKfe2pPvygbpBBdsF8jHLeRdIcPkvGpVje7bCCKNEqm
- NsIMp3qcdGQWYY4Li5H9sD2au6WT4whXrB8yppJWKFZJxJbE+FFq1y6vINs2zQZ6kZBcfVERd
- 5kthtfAO6YG2Myyx4suCKzZFiZZBOFG2Xz1ud0D38xF6/9Au0q0jDhRGY5b+gBnofK6lDuGN8
- /Ef1FJ0JRvIK8lwV68PYYpLRx/zOZLX+2oxGQzaHOHQcwpviqy0uTC8FyHtlrYw0yNvyLtWP0
- dnHXDn4dqiutTmgYCRPW1kr0tAH/fmRadfh80ak/Pjmq9z5n3SdjlydpVUJ8GHY05AeDQiN5b
- TZBttdld9R4Frz7nIkGJN3+W4+Il8Z7sUF5B+l8eE3YsvDfjIxUl7sLMgkOl6/KP8haMDX2HE
- 7fS4zVk+b9GEw/UGMIVGu5E241GW5K/ycsvrxvyvybFlBp5tAAfVzBQ6odUg4CXTIr8V1RhL2
- 8Nm3/agphLLjDRDQfTuBQGPEUxT2G4EFp3sjuFi58lPFA+NmhXyRITWuf4e+IccVyt+V7gDDX
- 9AbKqY6cOopzkdv8bdF0s+I3xYvQuCI8XlAa7s5PxzUnwbQYVA4xUr7GVJtKViVcVFlxRvTZI
- ycg2K2hxZmUOCGwFK6GnNRJp0phAF+KjNrYR2Mg2R7Iv8Yyg9qdBhALLpYtsdZFKIf+bABoTx
- qP/plC1DTegxmOKesvo8lCfiLXx01e7Fetspzv/imT/ufgR6H9EEBbjudbtDVTRcBcVfG6pOj
- vWjUakkgumCEpbCz3XlYbwJw==
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Ufx07w5KGn_-HNTs76H7-Rip3r15c-L5
+X-Proofpoint-ORIG-GUID: Ufx07w5KGn_-HNTs76H7-Rip3r15c-L5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
+ bulkscore=0 spamscore=0 phishscore=0 suspectscore=0 priorityscore=1501
+ mlxlogscore=999 impostorscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2408220000
+ definitions=main-2409300123
 
-> A 'devm_kzalloc' in 'asoc_qcom_lpass_cpu_platform_probe' could possibly =
-return NULL pointer.
-> NULL Pointer Dereference may be triggerred in 'asoc_qcom_lpass_cpu_platf=
-orm_probe' without addtional check.
+On Sun, Sep 29, 2024 at 08:15:22PM -0500, Gax-c wrote:
+> A 'devm_kzalloc' in 'asoc_qcom_lpass_cpu_platform_probe' could possibly return NULL pointer.
+> NULL Pointer Dereference may be triggerred in 'asoc_qcom_lpass_cpu_platform_probe' without addtional check.
 > Add a null check for the returned pointer.
+> 
 
-How do you think about a wording variant like the following?
-
-  The result from a call of the function =E2=80=9Cdevm_kzalloc=E2=80=9D wa=
-s passed to
-  a subsequent function call without checking for a null pointer before
-  (according to a memory allocation failure).
-  Thus return directly after a failed devm_kzalloc() call.
+Your description and patch looks good to me.
 
 
-=E2=80=A6
+But please run git log on the changed file and add a prefix to your
+subject to match other changes to this file, and please wrap your commit
+message at 75 characters.
+
+A good resource to read about this is:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#the-canonical-patch-format
+
+Please also use the form devm_kzalloc() instead of 'devm_kzalloc' when
+referring to kernel functions.
+
+It seems reasonable to mark this for backporting to stable, so I'd also
+suggest adding the following tag:
+
+Cc: stable@vger.kernel.org
+> Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
 > Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
 > Reported-by: Zichen Xie <zichenxie0106@gmail.com>
-=E2=80=A6
-
-How good does such a tag combination fit together for the same person?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.12-rc1#n525
-
-
-Can a subject like =E2=80=9C[PATCH] ASoC: qcom: lpass-cpu: Return directly=
- after a failed devm_kzalloc() call
-in asoc_qcom_lpass_cpu_platform_probe()=E2=80=9D be more appropriate?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.12-rc1#n613
-
-
-=E2=80=A6
+> Reported-by: Zijie Zhao <zzjas98@gmail.com>
+> Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> ---
+>  sound/soc/qcom/lpass-cpu.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+> index 5a47f661e0c6..a8e56f47f237 100644
+> --- a/sound/soc/qcom/lpass-cpu.c
 > +++ b/sound/soc/qcom/lpass-cpu.c
-> @@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct plat=
-form_device *pdev)
->  	drvdata->i2sctl =3D devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sct=
-l),
+> @@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+>  	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
 >  					GFP_KERNEL);
->
-> +	if (!drvdata->i2sctl)
-> +		return -ENOMEM;
-=E2=80=A6
+>  
 
-I suggest to omit a blank line here.
-
-
-By the way:
-Would you become interested to omit the label =E2=80=9Cerr=E2=80=9D from t=
-his function implementation finally?
+Please drop this empty line.
 
 Regards,
-Markus
+Bjorn
+
+> +	if (!drvdata->i2sctl)
+> +		return -ENOMEM;
+> +
+>  	/* Initialize bitfields for dai I2SCTL register */
+>  	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
+>  						drvdata->lpaif_map);
+> -- 
+> 2.25.1
+> 
+> 
+> 
+> 
+> 
