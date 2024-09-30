@@ -1,84 +1,81 @@
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net [83.223.78.240])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EE218801E;
-	Mon, 30 Sep 2024 09:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.78.240
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C15E1EA84;
+	Mon, 30 Sep 2024 09:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727687766; cv=none; b=Zez1KnGEc1VkLZw77raM6fZk4hAMGdwXCS6+qNRAz2acXoO1D9lVrlYs5Wu6mkEpmtHhoBNtwKOipRpbtDrYegsjzVCgANsJFGZ8fcn4cosKNFGDPSN51EwfsFmAkegSfPuV+pFuO57t5ziPUR8iRfM9t2iP7Otu5D9POqYEfg4=
+	t=1727688372; cv=none; b=P/pGutGvoubvXB9v51C/gkfIP2VF1pKGTi8PbkxgqeX1SyAx6bIqRjcUqI8U73UTcyefzbyLmtl9joLE8UlJBw+YxRBr/R/nL/1pyl8+l2NdqaiGnJpNpOt1nl51KAtpYNclCJUJXBNyEO2KC8Km039tQNQj/iKDNaw70J08OD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727687766; c=relaxed/simple;
-	bh=HPoR5OGNEXDZs6E/hPEzNFBIUqBuZrFxaX8QUHpMnEw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bq+gmKjEXn9vq1jS6c3v3NEdLd8HBdkg1tFKtvgXD9PT8GUBQQ1EUjRXLFAbW9CRsOy/HjdO4OGv6XO4PMLfuEQQTkXFprotjtP/sy9IcCc8rF7Cbtw0kbQ3Iasw4Y6ebBQa/bLTVmsmM5bXq+pc7/PGZdyA3u8hYrKDSKs8If4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.78.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout2.hostsharing.net (Postfix) with ESMTPS id C5D132800BB5C;
-	Mon, 30 Sep 2024 11:15:54 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id AECA23D75F9; Mon, 30 Sep 2024 11:15:54 +0200 (CEST)
-Date: Mon, 30 Sep 2024 11:15:54 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Maxim Mikityanskiy <maxtram95@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>, Peter Wu <peter@lekensteyn.nl>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-Message-ID: <ZvpsSjgDFd-pbzFW@wunner.de>
-References: <871q1ygov9.wl-tiwai@suse.de>
- <ZttEUjeYFzdznYKM@mail.gmail.com>
- <87wmjndbha.wl-tiwai@suse.de>
- <ZtxZBUjlF8TeIUKC@mail.gmail.com>
- <87jzfncvm0.wl-tiwai@suse.de>
- <ZtyMWSA0bg1SjFSU@mail.gmail.com>
- <87ed5vcp23.wl-tiwai@suse.de>
- <Zu5_faxUwoIl09fW@mail.gmail.com>
- <87msjpk5el.wl-tiwai@suse.de>
- <ZvpTRLxSkcqn03Fk@mail.gmail.com>
+	s=arc-20240116; t=1727688372; c=relaxed/simple;
+	bh=idxgyuER2MHeqDbyn3N5PMcWgX/FiLELm2aeJU9EBOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cPvBI9iXxNZEx2ReCH6WFBrvpzIE9iOVrWQJTbbI2yZypRj0mt4zjuhDGYZqUizSRL3z/5qfNEYIlvuZdzSwwMuosX8gw69vcYqU4ynZNtvO8qHkoa9tDVPh7RiGwC7Wjb7c+hrG+FQ2iQeApppvXg0zhjLzIdy70GOmXsF7Dbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N4eeI5bO; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N4eeI5bO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1727688369;
+	bh=idxgyuER2MHeqDbyn3N5PMcWgX/FiLELm2aeJU9EBOg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=N4eeI5bOKCU5YtmjZfhA0TICxGkvR2FWa6VsAl6iVd0B+CIQqlcFflHGuGD/PWltH
+	 DSukScD7rTvlbprhvob8/95C3DiRpA6nB8Q/g38780TJzz0GYQt5uq36XQD2BY2Agr
+	 nmlp/xE3A/H3hJTdYttt4Zq/RKfukynwP1hRJ9xia1vGAvoz4MjylQzMrHbhAZ36GF
+	 b4GZJSpmvViGFtyGcRIDxnvUQLmsVsU2uXl10gdf6jZfSCChOsvEaUTtV6CINXxjne
+	 Pg1giRMJCy/YiaOqluAPaPmhvdC/dqbTdmr7fUWNLqu3yQxRNFsYm6OFnv4JXkNt8E
+	 Wvrjb+6Vv/T1A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CA76817E1091;
+	Mon, 30 Sep 2024 11:26:08 +0200 (CEST)
+Message-ID: <9260a488-e386-4103-bdd0-04bdc2db8f0f@collabora.com>
+Date: Mon, 30 Sep 2024 11:26:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZvpTRLxSkcqn03Fk@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] arm64: dts: mediatek: mt6359: fix dtbs_check error
+ for audio-codec
+To: Macpaul Lin <macpaul.lin@mediatek.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+ Macpaul Lin <macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
+ Chris-qj chen <chris-qj.chen@mediatek.com>,
+ MediaTek Chromebook Upstream
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+ Chen-Yu Tsai <wenst@chromium.org>
+References: <20240930075451.14196-1-macpaul.lin@mediatek.com>
+ <20240930075451.14196-2-macpaul.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20240930075451.14196-2-macpaul.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 30, 2024 at 10:29:08AM +0300, Maxim Mikityanskiy wrote:
-> Anyways, adding a DMI check to hda_intel or quirk_nvidia_hda seems the
-> same level of efforts, so I can proceed with the former. It's the same
-> power consumption either way, right?
+Il 30/09/24 09:54, Macpaul Lin ha scritto:
+> This change fixes these dtbs_check errors for audio-codec:
+> 1. pmic: 'mt6359codec' does not match any of the regexes: 'pinctrl-[0-9]+'
+>   - Replace device node name to generic 'audio-codec'
+> 2. pmic: regulators: 'compatible' is a required property
+>   - Add 'mediatek,mt6359-codec' to compatible.
 > 
-> I'm also thinking of adding a module parameter to block probing of the
-> DGPU audio. Back in the days, there were plenty of similar Lenovo
-> laptops, which might also suffer from the same issue.
+> Fixes: 3b7d143be4b7 ("arm64: dts: mt6359: add PMIC MT6359 related nodes")
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 
-Adding new command line parameters for hardware quirks is generally
-frowned upon these days and is usually greeted by Greg KH's trademark
-"this isn't the 1990s anymore" comment.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Drivers are supposed to auto-detect hardware with quirks and handle
-them correctly without the user having to add a command line option.
 
-Users should not get accustomed to fiddling with the command line.
-They won't have the need to report broken hardware and the driver
-may never be amended to deal with affected models automatically.
-
-Thanks,
-
-Lukas
