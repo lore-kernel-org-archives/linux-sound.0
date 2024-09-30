@@ -1,107 +1,257 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010033.outbound.protection.outlook.com [52.101.229.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F5D137E;
-	Mon, 30 Sep 2024 01:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727658963; cv=none; b=GvCFxPBkeg+1S2/AcpLYZNIOhRFcv4fO0nOcqhofVjCHTZB0m4r/Ue+mRVR/lYRguK5UrwrivJH15i4EDXh8y+Eo/feJxtbRnNWBXmQK8dvQjq10OVMVctp4GSxK/kUbUOeQisQBd6sf+xHb7zVLiR/9afZY1ohUx1KKu9tbFqY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727658963; c=relaxed/simple;
-	bh=pZBBO8OTpmOP+7nbPeLuWP7ms/KMEjDy++NOOuPuwLk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EiLyz/thfbbHLfeZLRHwkymFLreFVYokd2IyHbqOOwTV8EbJ+G6RQ9BDd54dU7hfO5LU/ELNFnguRiBSZ54KuqOYzX+SlxHF3CuQrw0NOHQxu3+z8DCtqad0d0Hbd5QYYlsDfNJjTMYWTZEBV90Qo/d+itFCxYMUvjzughGFQno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRJao4vt; arc=none smtp.client-ip=209.85.219.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5D55684
+	for <linux-sound@vger.kernel.org>; Mon, 30 Sep 2024 02:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727662419; cv=fail; b=okBNGC0LJQYUOJfzfpVDwDKyt2iidAdrTevTRC9eFpCRQWuRyO33bN237jMNH53oZDRHWofMIUUrt5syh5BV8Rai069Jr1p/0f11ZP0f0kMM5bKaMC0kF8dYjtb9+c5Ltd3aXXRIQa2/8LiM1iq+nPioR9XQUXJmKEscSjhQqI4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727662419; c=relaxed/simple;
+	bh=HyxQlGBeBDV45/C7EgNSTKuR+6T3qCPkVX7ikEBLsa8=;
+	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=BpkhGFqWooX5nZ+5quHyECR3uXVHF3x/dxbdZVc108oDKWBP+/ODdQVTEXRMaxybK679Vql7QwHNKN1kUZIB5rekbGLamSsiFRvun1lEtRV6rhjFTgV0CWXJmWhLZTvCKor9Q8g6TJ7HWHu2jNzWKwe2MdH9UnmnZVMV3AjcfRY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=DAhG2f3/; arc=fail smtp.client-ip=52.101.229.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRJao4vt"
-Received: by mail-qv1-f67.google.com with SMTP id 6a1803df08f44-6c3603292abso40528226d6.1;
-        Sun, 29 Sep 2024 18:16:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727658959; x=1728263759; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XeEoQG+Pvg6ci51SvJDb0G+G8SkJPaDXclm5RHYYhP8=;
-        b=iRJao4vtjT2I3GhkNVCyNqy7JSwx/zpajy8IF60ASgq7p+ea2l9OgQxW3Nr03ksxu4
-         pOmQMR+LYhuXaQZtUk8aKm1L5adt+x8bAQcX8qDDek5SPhUcUwz9h/zyMJO8QEkgulBh
-         GP8n5CL1WEq3BL4RTfva4Kzt11/2qJ7279gPaQxJZl0mjgThR3YKYF7FBNcnim701+tG
-         q3pNVmq3nFTciHeD6cnDIcyfmXPRNFHQj/5ZJzM1f4haNBYRdvJolzcOTNK32HrJ4p8t
-         9lqH0nI89jQzy7gZ/vGL5pUOnwIJimtTRPIkY0fAp2VHDFntdxvszID6GHKRjpIH8Ct+
-         kGQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727658959; x=1728263759;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XeEoQG+Pvg6ci51SvJDb0G+G8SkJPaDXclm5RHYYhP8=;
-        b=kmpxYnaU8z+ri9yTREVcsQip233zDOES6PWWvADYMAjwsy0m7XfupM9xy+px60Ue3E
-         bB4nX01WvrTLi4FPw7jhRdIuysn/FghuwdR1GE2MV/k0Cxp3LR6kCOUpxjnyo4rEu+TE
-         nsC6ZrvpDHP0Cu1Kn4hE48L2+dnWmtKd7B7Nki1ZsGpe3Uq+D0VY5f2H8vtvVDplj9Ia
-         IoiEDWVuD4Ikbcriiqn8jCf7httFOU7ByRj6IXSSj2bbEKFNEsKrVN2I6J9mebF1pP9+
-         bBtA/mWSLftUDhK+NLlmUeznvM0WKpmg/q21e0BQ6XolOwYwSjalB4OKwWaXR5RotBOS
-         Q7OA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzXPwtN7kNw/yfa4Cf1/DMS8GF0WLBQ0q+LCYyDGJykzjJNdHgHjFjlWRkikxAgH20H8VkgrjUdTybwWQ=@vger.kernel.org, AJvYcCW68BTbNHETYR7iL04Oa07AgI/GQsc1C7DA/M7v2NA+P6iPftSqaspQILFx0jFk/hF8ZR5pGOefz9m1qpiu@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0Gq81Q1UFXRybZj00mLJtc5TwFBbl6U7Gu7pz0q6gYAqFU+Ck
-	BwCChi3OaI4trLX4PXD59PncY1nlft1+BgeVu1CUexhusgDjIi68
-X-Google-Smtp-Source: AGHT+IE1dpA3piB+ipRduIUb/gj93dPastsENChqKZq6mad780d2qFEIKkFKLh/ZJY7o2T7Z/ot/fA==
-X-Received: by 2002:a05:6214:4b11:b0:6c5:ab33:5244 with SMTP id 6a1803df08f44-6cb3b630fb0mr160430726d6.31.1727658959474;
-        Sun, 29 Sep 2024 18:15:59 -0700 (PDT)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b62c057sm35251886d6.60.2024.09.29.18.15.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Sep 2024 18:15:58 -0700 (PDT)
-From: Gax-c <zichenxie0106@gmail.com>
-To: srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Gax-c <zichenxie0106@gmail.com>,
-	Zijie Zhao <zzjas98@gmail.com>,
-	Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: [PATCH] Fix possible NULL Pointer Dereference in 'asoc_qcom_lpass_cpu_platform_probe'
-Date: Sun, 29 Sep 2024 20:15:22 -0500
-Message-Id: <20240930011521.26283-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="DAhG2f3/"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ggteJYSUW7oYwTmoAN0/M8doMxdF6lymiaCXB0pWPmdDz/+qR3Z4oA+2PzaXuybVUFmd3FYf465FnPkdRG/PJCLnBxs/Ww7H2acXF6c6ZQInDzkMNxPuaXQnaQLymc+f7n7iNgbK2XYnpAlMa75hXfNnW4L2SfBqIRzpfWkrRdKoIKWP/53xT9+0+78Yk5YTnQnXeTy0ytIRLlAIFIDcCr7Uqi7HhiTub97JdNZ3BtttoA+M2TJxJfwWV5IVV15dgjUa5xr4dgB1tYz6vpss3zvkH2X1VlR1MU4Vu/tFQsMSkHi8rXO6GbACcXEosunPn9x2HOQNj86K6W1Tv6UhqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q8Dxnwq4IBquD89IEv7h8qjFMjuOhEnrekx/IfY3zuQ=;
+ b=mLLnFx44IYS9QnRTrmKR0XCWw7X9PH51g9SbtTqeAmwBK4icQgRvE9vAOn8jcfiU9ysi7gZg2nRyabDtKZJ5SORDKRldkaQvFd5pGj4il1qBmrhtEmWPaE+ZkfXYQr2gROvdG1etjEhKfp+6ac7oe9a0hPdHmzF+uIMMbTKoiaVMEGAaqZpWjvmKd9dNKShob1eHLW0HdeqFONHApdkINrptLUy6mwQdlXssLET+x60otA9HQRzqqode8YtI03jqItX8lFOy1+oQ4o1hJMYGPY0WjaEQGtxomL9Le8HswRdy7UWyTWV/SxsWq8b6mdAEOrQecHapi6QRYt3e/ZZDPg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q8Dxnwq4IBquD89IEv7h8qjFMjuOhEnrekx/IfY3zuQ=;
+ b=DAhG2f3/5TwpA2LwiY6BzeY5v/70ZWCkG53av2GUWu/mxMNXHSt3jSAIoh5/wjQifZTPZ5y0GdDV6LtHaTq7IBR1cgMKAQbpeu9NsxZ11Q1lNf5+p+Jbk+BDLoqwVgVdOla7k6jARPZ8IUScJYfbw/j1W/rqvfp69+VCpWVw114=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB8143.jpnprd01.prod.outlook.com
+ (2603:1096:400:104::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Mon, 30 Sep
+ 2024 02:13:32 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8005.024; Mon, 30 Sep 2024
+ 02:13:32 +0000
+Message-ID: <87r091lwhg.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: [PATCH v2 00/13] ASoC: remove dpcm_xxx flags
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Mon, 30 Sep 2024 02:13:31 +0000
+X-ClientProxiedBy: TYCP286CA0334.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:38e::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8143:EE_
+X-MS-Office365-Filtering-Correlation-Id: 333474e1-b6bb-47a5-78ce-08dce0f57b4c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?u2gjYe1KZoqSYGO7jmRolX3mI0hfNWH/ak+JSsN+FXOJqaozedI+SHEDR+P4?=
+ =?us-ascii?Q?uT5OBUBzdJK4NzP05pROe7ePByIUUTAilbTHc2iGPD4CNC2PbwJPefOVnWnK?=
+ =?us-ascii?Q?FT+GVuGjBGsG29nN6QVYdt/4juER0fZsU0qeawa/pyyHpEl1EshdQqROgCsm?=
+ =?us-ascii?Q?t4laL/ALc+hOw94ExAn9SKVFZxiXtxi4TDC+OREGVrrsYEd+O8dMAofwoKWE?=
+ =?us-ascii?Q?Hxf1BVKr2DjYBtL00fpNRhflQT7Lw1I4wLTGICVK/4erT72GfqNLhMu72SB3?=
+ =?us-ascii?Q?iVo9g0w14DV3y4B1+7p45uahIae7pJFpFLNoRvmTpjoel0L51PKLjkUKvEnz?=
+ =?us-ascii?Q?VX3+uK+qqJhEzC48Aq5RpU1/SGbKBNFO1Do1kZjL44LZxPklKUY7WA2l0Zwo?=
+ =?us-ascii?Q?JNGK32+ncMFWAzzrWul8NuMkkf1wHXoFp0BCLmu0E8ZfyZN+l/dSIWlJGSPK?=
+ =?us-ascii?Q?gw65QxNEBn1P7Q4J7bsfrf0SXSkR7+IRl3wMgwWvIe4qXw5LxmeArrAyRBcj?=
+ =?us-ascii?Q?3PmvbCOOinek5VbcqJGgtZGqHrugPDM1cK8evk0l0XMlI1FoxLEONbcRWUba?=
+ =?us-ascii?Q?RxqOJgERbdixGmvB4L7i+YG1Dn+NGuM3UqcCxOaCXnYtswhYLbk3aFBOcUaA?=
+ =?us-ascii?Q?u4S/zgm/1L4RVU5cIqsjhncduzgrKfB0JkbFurdm89SRIHdBJ1I5vl1ve8BF?=
+ =?us-ascii?Q?OwqxPn7SSt7Hr5o0Fl8v5qf63oG2cOokpGsI5RNHCTrD/cbN/njlAZbhYJjp?=
+ =?us-ascii?Q?86asbMacDO5/0XpCwVcOTW2kVDtVtRQoE0ampwjMP+O5LwCEUqN54t/rEJvH?=
+ =?us-ascii?Q?tzGjwX7dOBCTu+c2eb/mAH3I+qwEc4FOnRCIKb2UMyfCmMr7nFnZcZyFaZbC?=
+ =?us-ascii?Q?VAeyPis80/lPT3ik9hhE3EfsJydA8JkQx1w34AZ4m/vQ+a1daiyCggtuIx3p?=
+ =?us-ascii?Q?gYSWhlVTliGRC61flirnEsHMYiHNZ/Oki7JrA8JIqwud4gFQ/NGobD2uHFXy?=
+ =?us-ascii?Q?wSu/0mG5028pF0nvOgnIiULiTjWXpzxLCWOMXT8vMlEps6EgeN4ARDFAPt22?=
+ =?us-ascii?Q?RvGLCR+A6z9Fa6EU1EPUKOr+FmOBKTX2LfqYnN8vAt6Hgq2+pLZS1B/6CfYc?=
+ =?us-ascii?Q?hX0wc5x472lyPG6FVFtMXfqxhaGPAwuwVtk5zAbGbNxy/UcPSMOSSjoLzDNj?=
+ =?us-ascii?Q?DAtjnqqypW0WbJ0wDEndyV+jjY1FNCMNZYtwvU5BC8Om3pCCBJPtWJVSG/v/?=
+ =?us-ascii?Q?H/6lmCXlgV2RPO9LAXnK37/bIPjUbV+CuMtdBEyqh/HUILKgb3HcKVeQqxUM?=
+ =?us-ascii?Q?FX/ryjR0XjYxO6vMs9xC0KPaniKWMZuQ3GGGPUqkuECE/6FTXXXFspdEIfAL?=
+ =?us-ascii?Q?c+XQLBXobZsMgsObaVHVWa/ZPWiKLmAM3nr/7znMp69bDLdfxQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Fv43bYCG4Rv3hijKMWPnRJNk/TmGO0FDUNHmUZtWHlIdEIKeG9AewDmu0x5Z?=
+ =?us-ascii?Q?2usSM8Orf4ndALrQnIX3b/BY3fFezF6uCk3aYxuWGkENvRe91OZO3Al5Agx6?=
+ =?us-ascii?Q?hASWBDnMkiogxKqoOPfDpNSVqz1hlMpVHTpbXkOilj7qinbelBfJ6bymxlji?=
+ =?us-ascii?Q?la+sLyTlG5YaIuXrcXTjz4fHRoLMtu5RL++NMKz60Ke+d2hYEsLpmGaJjAvh?=
+ =?us-ascii?Q?VDRSqvHSiEsqbAa0EsgmopNeakTsXf1HbZUmSPt6SlvYukM6MtnsUMxYXC07?=
+ =?us-ascii?Q?d2dAcrirPSzcjwoJNlpbc262nR1koEnBA/I+S/SfTBJfBnaibHNWVXKQqVFM?=
+ =?us-ascii?Q?2GLeOLBPBsjG5VqaYisVkMyb5Fyif76R7Z5F9kKllrPxax7VzFSUnqTa+hOR?=
+ =?us-ascii?Q?YWScTNJW/4Ss+BOu3/le7oCjj9uIm+JddKeYuN0DghYtMJqdXg0tpr7i/r8K?=
+ =?us-ascii?Q?NLMNfCKeMAhet7ck4LqRhfbDRLBSWAnyIPZwjuFC6Y5KSInClzd5Wm41zTD2?=
+ =?us-ascii?Q?gKQfbmkKEsuSopVM+XAKd+7w4L1u+RCE0SScQxznBATcmlDLWdEmwl4+bugW?=
+ =?us-ascii?Q?XWiJQ1D+TKLIeOnhHHFeUa2DJUfLewyNV63vck9X2Q8Co+m4ST37UvQaf3ja?=
+ =?us-ascii?Q?yznVD3hsA2DD8j9TuvxLIt9HWqDgHBDJmI6Jg+m/78omKDRwuBIdwAQ0caFJ?=
+ =?us-ascii?Q?3/507uod/yUL5ptFhI2SEh3D/HynHYARRtAsHoN1mp0fITLzJwBW8/COQ0tV?=
+ =?us-ascii?Q?6OJWvC3qaGQ48A1wTs+LclPyv2sm8qLl7ftlCt+8ng5nw9gn11/gE6K09Bor?=
+ =?us-ascii?Q?XlT63/cd9Jc4Fs332j3kzO8cVg7ZH7n2Ea9mGfuEFAOjd76gNS1r/0jP7iLA?=
+ =?us-ascii?Q?wuI9Q+YMu8OcMlEzAdgzjESRNafWh7glrriZEf2Dv8rckVuPvtXUG2eZKx11?=
+ =?us-ascii?Q?7HS803OxQwkat6j8WQdeGc0osbhExMWttGDcxAHtZasoKPTfP4zWUghPxVzR?=
+ =?us-ascii?Q?h5n4+H0Hebywy1nG25tzluObAGEF1PKSs/sHLFh2UDJVId/7iqYHl2xcw8Zk?=
+ =?us-ascii?Q?LD5xbdkAA7x+AL45awYh1QopurVzreqn44EL9Sl4TlLWSgcEF9iwVin5eOiF?=
+ =?us-ascii?Q?Wu1FC3zUHmMbvx56lEChQzad1RqH1roY0ypiChWP0HKGb7c7Wr2O+NWfZwwo?=
+ =?us-ascii?Q?uTqnIg9GrW2oNSNTIvKqTC/Ww15VYBR9Ms463w9utlKd5WlE3oQxcGYrmCVy?=
+ =?us-ascii?Q?VmP9f/S5KakrCQDEXtvrhIqjgi2lO60B2BaGnQww0bwv9O/uQKceqn8O07kf?=
+ =?us-ascii?Q?GsBxojGiKY/qMFnmhd7H8zo2OMnBzW01UZ3TFdrE7Pmme2RpzoUZ/6A2fg5/?=
+ =?us-ascii?Q?+EUfZC6BaubFkpc5oSIK0DBR6nWhqVoFqbWjqWUL4/94vnrG5yfVDmEkGtYj?=
+ =?us-ascii?Q?ac0uRNwbT4YhwcpmIeOy05irigdvlomplmfxIVIZ7In3S+VTFNnp9AbjviBf?=
+ =?us-ascii?Q?VZ/d6BMIL6AaUzWbV85SZPYwISQvhSq3xcZHAXesWRxq7mqrxyPubu9VbZx0?=
+ =?us-ascii?Q?TzdyS7N7Ak4jPDsYWQ4JPIF34+JMdF9UuAd2chwN4tcCBZaGm3MgzyKoQuz6?=
+ =?us-ascii?Q?pAPn0VeqLPGK5KpTMUjVkzk=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 333474e1-b6bb-47a5-78ce-08dce0f57b4c
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2024 02:13:32.0751
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cRIlKU90JGa0wJdG9EKheO6P+lsSJa7gA37FTH5xn5lPeQoIrAzV2TQ1mOLXa0TbYHucNrNsu9FCmv/vDv3jUeh7odRc/eLOOP85/JzcZC1zRSTjJpHOJh0eGfowIOu4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8143
 
-A 'devm_kzalloc' in 'asoc_qcom_lpass_cpu_platform_probe' could possibly return NULL pointer.
-NULL Pointer Dereference may be triggerred in 'asoc_qcom_lpass_cpu_platform_probe' without addtional check.
-Add a null check for the returned pointer.
 
-Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-Reported-by: Zichen Xie <zichenxie0106@gmail.com>
-Reported-by: Zijie Zhao <zzjas98@gmail.com>
-Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
----
- sound/soc/qcom/lpass-cpu.c | 3 +++
- 1 file changed, 3 insertions(+)
+Hi Mark
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 5a47f661e0c6..a8e56f47f237 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
- 					GFP_KERNEL);
- 
-+	if (!drvdata->i2sctl)
-+		return -ENOMEM;
-+
- 	/* Initialize bitfields for dai I2SCTL register */
- 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
- 						drvdata->lpaif_map);
+This is v2 patch-set
+
+Now, we don't need to use dpcm_playback/capture flags for DPCM since v6.11,
+and thus we can use playback/capture_only flags instead too for DPCM,
+which is same as non-DPCM.
+
+Let's remove dpcm_playback/capture flags, and use playback/capture_only flags
+instead.
+
+[Before]			[After]
+	dpcm_playback = 1;	/* no setting is needed */
+	dpcm_capture  = 1;
+
+	dpcm_playback = 1;	playback_only = 1;
+	dpcm_capture  = 0;
+
+	dpcm_playback = 0;	capture_only = 1;
+	dpcm_capture  = 1;
+
+And then, because no-one uses dpcm_xxx flags, we don't need to have the code
+for both DPCM and non-DPCM. These can be handled by same code.
+
+This patch-set is based on latest linus/master branch.
+
+v1 -> v2
+	- rebased on v6.12-rc1
+	- tidyup flag handling for sof
+
+Link: https://lore.kernel.org/r/87r0979uhx.wl-kuninori.morimoto.gx@renesas.com
+
+Kuninori Morimoto (13):
+  ASoC: amd: remove dpcm_xxx flags
+  ASoC: fsl: remove dpcm_xxx flags
+  ASoC: sof: remove dpcm_xxx flags
+  ASoC: intel: remove dpcm_xxx flags
+  ASoC: samsung: remove dpcm_xxx flags
+  ASoC: mediatek: remove dpcm_xxx flags
+  ASoC: soc-core: remove dpcm_xxx flags
+  ASoC: soc-compress: remove dpcm_xxx flags
+  ASoC: soc-topology: remove dpcm_xxx flags
+  ASoC: intel: boards: remove dpcm_xxx flags
+  ASoC: soc-pcm: remove dpcm_xxx flags
+  ASoC: doc: remove dpcm_xxx flags
+  ASoC: soc-pcm: merge DPCM and non-DPCM validation check
+
+ Documentation/sound/soc/dpcm.rst              | 11 +--
+ include/sound/soc.h                           |  5 -
+ sound/soc/amd/acp-da7219-max98357a.c          | 20 ++--
+ sound/soc/amd/acp-es8336.c                    |  2 -
+ sound/soc/amd/acp/acp-mach-common.c           | 24 ++---
+ sound/soc/amd/acp3x-rt5682-max9836.c          |  6 +-
+ sound/soc/amd/vangogh/acp5x-mach.c            |  6 --
+ sound/soc/fsl/fsl-asoc-card.c                 | 24 ++---
+ sound/soc/fsl/imx-audmix.c                    | 18 ++--
+ sound/soc/fsl/imx-card.c                      |  4 +-
+ sound/soc/intel/avs/boards/da7219.c           |  2 -
+ sound/soc/intel/avs/boards/dmic.c             |  4 +-
+ sound/soc/intel/avs/boards/es8336.c           |  2 -
+ sound/soc/intel/avs/boards/hdaudio.c          |  4 -
+ sound/soc/intel/avs/boards/i2s_test.c         |  2 -
+ sound/soc/intel/avs/boards/max98357a.c        |  2 +-
+ sound/soc/intel/avs/boards/max98373.c         |  2 -
+ sound/soc/intel/avs/boards/max98927.c         |  2 -
+ sound/soc/intel/avs/boards/nau8825.c          |  2 -
+ sound/soc/intel/avs/boards/rt274.c            |  2 -
+ sound/soc/intel/avs/boards/rt286.c            |  2 -
+ sound/soc/intel/avs/boards/rt298.c            |  2 -
+ sound/soc/intel/avs/boards/rt5514.c           |  2 +-
+ sound/soc/intel/avs/boards/rt5663.c           |  2 -
+ sound/soc/intel/avs/boards/rt5682.c           |  2 -
+ sound/soc/intel/avs/boards/ssm4567.c          |  2 -
+ sound/soc/intel/boards/bdw-rt5650.c           |  4 -
+ sound/soc/intel/boards/bdw-rt5677.c           |  4 -
+ sound/soc/intel/boards/bdw_rt286.c            | 10 +-
+ sound/soc/intel/boards/bytcht_cx2072x.c       |  6 +-
+ sound/soc/intel/boards/bytcht_da7213.c        |  6 +-
+ sound/soc/intel/boards/bytcht_es8316.c        |  6 +-
+ sound/soc/intel/boards/bytcht_nocodec.c       |  6 +-
+ sound/soc/intel/boards/bytcr_rt5640.c         |  6 +-
+ sound/soc/intel/boards/bytcr_rt5651.c         |  6 +-
+ sound/soc/intel/boards/bytcr_wm5102.c         |  6 +-
+ sound/soc/intel/boards/cht_bsw_max98090_ti.c  |  6 +-
+ sound/soc/intel/boards/cht_bsw_nau8824.c      |  6 +-
+ sound/soc/intel/boards/cht_bsw_rt5645.c       |  6 +-
+ sound/soc/intel/boards/cht_bsw_rt5672.c       |  6 +-
+ sound/soc/intel/boards/ehl_rt5660.c           | 14 ++-
+ sound/soc/intel/boards/hsw_rt5640.c           | 10 +-
+ sound/soc/intel/boards/sof_board_helpers.c    | 15 +--
+ sound/soc/intel/boards/sof_es8336.c           |  8 +-
+ sound/soc/intel/boards/sof_pcm512x.c          |  9 +-
+ sound/soc/intel/boards/sof_wm8804.c           |  2 -
+ sound/soc/mediatek/mt2701/mt2701-cs42448.c    | 20 +---
+ sound/soc/mediatek/mt2701/mt2701-wm8960.c     |  6 +-
+ sound/soc/mediatek/mt6797/mt6797-mt6351.c     | 24 ++---
+ sound/soc/mediatek/mt7986/mt7986-wm8960.c     |  6 +-
+ sound/soc/mediatek/mt8173/mt8173-max98090.c   |  6 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5514.c    |  6 +-
+ .../mediatek/mt8173/mt8173-rt5650-rt5676.c    | 10 +-
+ sound/soc/mediatek/mt8173/mt8173-rt5650.c     | 10 +-
+ .../mediatek/mt8183/mt8183-da7219-max98357.c  | 34 +++----
+ .../mt8183/mt8183-mt6358-ts3a227-max98357.c   | 34 +++----
+ sound/soc/mediatek/mt8186/mt8186-mt6366.c     | 86 +++++++----------
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c     | 58 ++++++------
+ .../mt8192/mt8192-mt6359-rt1015-rt5682.c      | 78 +++++++---------
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c     | 60 ++++++------
+ sound/soc/mediatek/mt8365/mt8365-mt6357.c     | 14 +--
+ sound/soc/samsung/odroid.c                    | 10 +-
+ sound/soc/soc-compress.c                      | 15 ++-
+ sound/soc/soc-core.c                          | 20 +---
+ sound/soc/soc-pcm.c                           | 93 +++++++------------
+ sound/soc/soc-topology-test.c                 |  2 -
+ sound/soc/soc-topology.c                      |  4 +-
+ sound/soc/sof/nocodec.c                       |  7 +-
+ 68 files changed, 318 insertions(+), 583 deletions(-)
+
 -- 
-2.25.1
+2.43.0
 
