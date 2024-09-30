@@ -1,40 +1,50 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC7E18787B;
-	Mon, 30 Sep 2024 09:26:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B23E188735
+	for <linux-sound@vger.kernel.org>; Mon, 30 Sep 2024 09:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727688374; cv=none; b=seR0KoHMSnCM6vrkfJ87ILRwuJSpP8nR/zcuJRn1UaD7oUXeqLxf6Lb9+wU87UzRaREz+ZfzmEf8VOYGvo3S6lULRVYDI8TcYr+cE+uDVjir4VTrHXIetEScUOJxmGdjze5F3FnJ4KZbD+Tgnupo0Gn8uRe5xeTOgu3cwCTsRSA=
+	t=1727689503; cv=none; b=WKBjToniGmxZOOExscGlyQkZ5KJ6KeuS6aiEM/OJXIQIH+R1lhJWODiwxLnuxBzVvhGVQ1UW95pYuv1T8QsSImfqEpuPWgPDw1P3Nwc2cV4RFOFK2miEym8MMBNEFxgJGoG5SuTllbX2xn4uLwlM/K2WAuJ4hgdSPKWYvR5zGrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727688374; c=relaxed/simple;
-	bh=ESiC2GOpvxGfYWJul0YYydb+LAlHnP6rF2ndfAGzpQw=;
+	s=arc-20240116; t=1727689503; c=relaxed/simple;
+	bh=Q1AdGozcclP0r+s3Y2IB7CLEYJu+sAnra0/syEMcwxE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ipk1GTF1ECgjaxFz0vonEP+sPaiEmtZH1S1ZcxiOvsdbpSpsDRfNIOQSw726dUxBqPxD2HTnK0fShhZBJvM7SbphqARQLcbKhHYq3TGPc9GkvxAeKauskpZZXwaYTWGjl2BZAqyTz3MA/ftEHAxOPzTqWmTCVAHiWChetew5TtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HID+3H9Q; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=gkcdoDTCzA2957v9ob1DvPq2hAjTP9QBdNYIIugCWJIKmp/U+0qxFWFQGTpGrcnClJwUhajSRiz5YjO/+qArZ8Q18a+lO2+DbcmDvy/nvMx7xvOEUFOrZ6P253MUfa3GXAwFF74Jqz9JxFaITN2fHR2/fr7aZ2Q66ZQN/l2MNzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4FVdwk5; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HID+3H9Q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727688370;
-	bh=ESiC2GOpvxGfYWJul0YYydb+LAlHnP6rF2ndfAGzpQw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HID+3H9QbZnQQwdbU8gSz8uf+Tzch3B/xjKgNr+Uhi+HGZsWtTo/kVZEHXHM8Txmn
-	 BMwyXnZxzDC+l7V4NaBs/uJU63cm/Cpiilh1+laqz7+KQsokRrX5+n7CkGxbJxUUBj
-	 qWBnjndvLGUSpnkKDhkRGldKcEbEqa1Re0NhGLF41+JQudOdlsuRRDlBTlBddqYPlO
-	 blAVnHuASno4ANbcJqrXY3PIb3uBxXTIl5ihuCx829XRR3jN9djPgx2Wi5IpovNlyd
-	 Za28LwM5HwVDVBtEOwFxtAs0nnpi2SK+hyrnuGFc630gW0RS5FNUWXbNhY/I7o1oAP
-	 w+wU4V4TyKKLQ==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1405517E10AF;
-	Mon, 30 Sep 2024 11:26:10 +0200 (CEST)
-Message-ID: <2782dd71-25ae-44ae-a8df-6af995ef7413@collabora.com>
-Date: Mon, 30 Sep 2024 11:26:10 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4FVdwk5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727689502; x=1759225502;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Q1AdGozcclP0r+s3Y2IB7CLEYJu+sAnra0/syEMcwxE=;
+  b=m4FVdwk5pisxcgZKIJUttnVXykhmhAhjF/ldejULIF59X1j5jNEiikwI
+   h3D14LKZap3XrhaPtJigAExVD5lA+ZNvtRgUhBCKV5D+cAzIUuJK5nolF
+   /zBwrAnKXFN5hfWr5FPxvbmBEvE+s8T6xMoYmcdi2zmYo4+5WfL9ju4v5
+   b9qsZH9hY9OJn7X1KDZWjDSCkhBFfUo8gyGV1pmYyIPyBkn+pjxH5W6Xq
+   Zxi2n+uEkcEhfxeUxszpO+jAyd+afM1uwtF6ZMetxbgVI6Ksm9b+mYWa/
+   vCiypK6Mp55A2fNdeX1ezJH9Ljn88vTN32ISw3pYqmPciJnaDH1TbiaMP
+   Q==;
+X-CSE-ConnectionGUID: XHRaO/LzTyilhV9ss+tiIg==
+X-CSE-MsgGUID: 0ZZZRnbaSju6PuMAq136uQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="37911148"
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
+   d="scan'208";a="37911148"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 02:45:01 -0700
+X-CSE-ConnectionGUID: bLNqx0rMR466jqFYeR3mRw==
+X-CSE-MsgGUID: u5YJzkvoT9WLLgb1TqVeXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,165,1725346800"; 
+   d="scan'208";a="77754484"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 02:44:59 -0700
+Message-ID: <7b4ddfa0-193e-44a1-a039-1f2fdea0923d@linux.intel.com>
+Date: Mon, 30 Sep 2024 11:44:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,61 +52,43 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: mt6359: Update generic node
- name and dmic-mode
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Sen Chu <sen.chu@mediatek.com>,
- Chris-qj chen <chris-qj.chen@mediatek.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Jiaxin Yu <jiaxin.yu@mediatek.com>
-References: <20240930075451.14196-1-macpaul.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v2 04/13] ASoC: intel: remove dpcm_xxx flags
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+References: <87r091lwhg.wl-kuninori.morimoto.gx@renesas.com>
+ <87ldz9lwgl.wl-kuninori.morimoto.gx@renesas.com>
 Content-Language: en-US
-In-Reply-To: <20240930075451.14196-1-macpaul.lin@mediatek.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <87ldz9lwgl.wl-kuninori.morimoto.gx@renesas.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 30/09/24 09:54, Macpaul Lin ha scritto:
-> Some fix and updates in the following items:
-> 1. examples:
->     Update generic node name to 'audio-codec' to comply with the
->     coming change in 'mt6359.dtsi'. This change is necessary to fix the
->     dtbs_check error:
->     pmic: 'mt6359codec' does not match any of the regexes: 'pinctrl-[0-9]+'
+On 9/30/2024 4:14 AM, Kuninori Morimoto wrote:
+> dpcm_xxx flags are no longer needed. It converts dpcm_xxx flag to
+> xxx_only if needed.
 > 
-> 2. mediatek,dmic-mode:
->     After inspecting the .dts and .dtsi files using 'mt6359-codec', it was
->     discovered that the definitions of 'two wires' and 'one wire' are
->     inverted compared to the DT schema.
->     For example, the following boards using MT6359 PMIC:
->      - mt8192-asurada.dtsi
->      - mt8195-cherry.dtsi
->     These boards use the same definitions of 'dmic-mode' as other boards
->     using MT6358 PMIC. The meaning of '0' or '1' has been noted as comments
->     in the device trees.
-> 
->     Upon examining the code in [1] and [2], it was confirmed that the
->     definitions of 'dmic-mode' are consistent between "MT6359 PMIC" and
->     "MT6358 PMIC". Therefore, the DT Schema should be correct as is.
-> 
-> References:
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/soc/codecs/mt6358.c#n1875
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/soc/codecs/mt6359.c#L1515
-> 
-> Fixes: 539237d1c609 ("dt-bindings: mediatek: mt6359: add codec document")
-> Signed-off-by: Jiaxin Yu <jiaxin.yu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>   sound/soc/intel/avs/boards/da7219.c        | 2 --
+>   sound/soc/intel/avs/boards/dmic.c          | 4 ++--
+>   sound/soc/intel/avs/boards/es8336.c        | 2 --
+>   sound/soc/intel/avs/boards/hdaudio.c       | 4 ----
+>   sound/soc/intel/avs/boards/i2s_test.c      | 2 --
+>   sound/soc/intel/avs/boards/max98357a.c     | 2 +-
+>   sound/soc/intel/avs/boards/max98373.c      | 2 --
+>   sound/soc/intel/avs/boards/max98927.c      | 2 --
+>   sound/soc/intel/avs/boards/nau8825.c       | 2 --
+>   sound/soc/intel/avs/boards/rt274.c         | 2 --
+>   sound/soc/intel/avs/boards/rt286.c         | 2 --
+>   sound/soc/intel/avs/boards/rt298.c         | 2 --
+>   sound/soc/intel/avs/boards/rt5514.c        | 2 +-
+>   sound/soc/intel/avs/boards/rt5663.c        | 2 --
+>   sound/soc/intel/avs/boards/rt5682.c        | 2 --
+>   sound/soc/intel/avs/boards/ssm4567.c       | 2 --
+>   sound/soc/intel/boards/sof_board_helpers.c | 2 --
 
-
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-
+That's a bit of weird split, sof_board_helpers.c should've probably been 
+with the rest of SOF boards in patch 10? ;)
 
