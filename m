@@ -1,93 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BA419AA4E;
-	Mon, 30 Sep 2024 18:16:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217921A262D;
+	Mon, 30 Sep 2024 21:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727720203; cv=none; b=HYc0v2ICUZ+oz+KQl3IJz44uFWFeqFgd5rdkE797pQb21tmrJXbwIgbQLpMaCx+FBdnsuUJnSS81KaPWCiCuNKCaN/B3XQeSHqVjIReOD4ZtKwhyj5e/BAvra+rxiXrYr2y6+hoJ/TTawPXJtfw+c8ADgSiPQzyzmYkGkgYISYo=
+	t=1727731589; cv=none; b=BcRKTogK35aBMqtALOymNoeoftn5IxOvnk5ZGd5mD5z5cwp/nSGj8cH7K7amjScQnMyeDuGs1NfgcA173Ib6JL1zCHjut1gzMlHWlHGsYigJyNMw6/Pst1azTVBa1qS2ymlC5cSGRZaStLmI4gt7m2yyjaV5mxqVdKOuR9N8l8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727720203; c=relaxed/simple;
-	bh=VCrdlTntQ95qWL4t3QB3ipBkFH7QItj4R8rGZcyzAFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0aro8sfyU9CVhMr7zqTDgbNPpSGupvVAWdza/zl53URsAH7HAJQ0fzXFb6As2sRSO5FmxWjqLnTHAEZz3d+H17/MYPLtx31VeO2YO9u4GVxgHIElu6ZougiEYsx8xhYCk3LyKes8IRA/7N1eeCwfZmxO4w+mc5vPyd29RhLDwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FbXBYXkY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727731589; c=relaxed/simple;
+	bh=5DSDo8MzAb3DNmtRyg6pZv65Kq1qofZob/dU/IC7z7Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=X339BKVLxWpEsKHiD6BR3nuH0L8N8G9jB1MdNiqvqrhnJGUXbXFNmNu6F8thbYFNrDeT1TfeKQrxNy1Cchj98/QyR+s+Dzu12uymf4sNBSdFXQzUvjuddzBPSJZRUp5aeIsJzmSyTeZv0nVwzrpUZpiFGSsJJHkmLdJIqT1oH9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZBPHXG9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FbXBYXkY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20242C4CED2;
-	Mon, 30 Sep 2024 18:16:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZBPHXG9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A7CC4CED5;
+	Mon, 30 Sep 2024 21:26:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727720202;
-	bh=VCrdlTntQ95qWL4t3QB3ipBkFH7QItj4R8rGZcyzAFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FbXBYXkYLYvrh5wG2uXVkbjroBgW6xudVIdZKZK/qMgkhcvz4jJHNn2FSegxq7z/f
-	 EqWLXm/fSNOkfer8ouNRxcy89yBB/FdN8rAjCBT9i53OmEGeZN5seCoN1iLjxhnAZ1
-	 xNfCk0eQhs1WLspsws4mb1X7z9vQyAHOBh1eDULa3GeRA46pQuphSzPk4GP0gdN5vh
-	 Y/EF3uh43sa97IO28DAnhm2/V3ulcPLk6qrmy8JIHGOM/5KVV5E4htlSmMlJEfniJm
-	 ozhMU9XTNyZfrfPWMSClNkrfqwwC/rlkPS2FgTOVi1SqG3pOMtw4WLoMFyyKr9DHaE
-	 rWugP43xSudvQ==
-Date: Mon, 30 Sep 2024 19:16:37 +0100
+	s=k20201202; t=1727731588;
+	bh=5DSDo8MzAb3DNmtRyg6pZv65Kq1qofZob/dU/IC7z7Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hZBPHXG9cy/lP+B/6nCN0kcLFNfzs6ynniCE6iamj1tCfeaeedTYMI4Dh3dGUfUkR
+	 JE0eKRnCfjliUtpvvwTUiRBipF7DVJGdVjtRb/mRMPJIpcmOzuos1jE6Wz3Pk/ufNB
+	 MJsQRWH6VWmb2X59bvtL0VxRfNLKbkB3jJW6ne37jO9pyty8mLoYUYO4APAsu5ZUyN
+	 tJ/Ferk8U0FJ37kYCCNHPUChcLgsyVSGWBgoscJBZaWMI6u+AbjGcEXr4xTlZMFFXL
+	 RMirmwYm2Qu2hhN1qCsV9W4wypEExojGBY9OSilB977WC2S22kKyA5NwBZ0fpV8R5o
+	 pnWD+Hyjlunhw==
 From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rohit kumar <quic_rohkumar@quicinc.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>,
-	Zijie Zhao <zzjas98@gmail.com>,
-	Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: Re: [PATCH] Fix possible NULL Pointer Dereference in
- 'asoc_qcom_lpass_cpu_platform_probe'
-Message-ID: <75ec53cc-ffd7-484a-8c98-d02fdc6aa847@sirena.org.uk>
-References: <20240930011521.26283-1-zichenxie0106@gmail.com>
- <30cfc980-3b38-4e98-a753-b149746cf93c@web.de>
+To: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
+ Markus Elfring <Markus.Elfring@web.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ Julia Lawall <julia.lawall@inria.fr>
+In-Reply-To: <a7ce512c-0f82-47f6-89fb-f7269e4fdfae@web.de>
+References: <a7ce512c-0f82-47f6-89fb-f7269e4fdfae@web.de>
+Subject: Re: (subset) [PATCH 0/2] ASoC: tas5805m: Adjustments for
+ tas5805m_i2c_probe()
+Message-Id: <172773158692.2197048.4426255275584939181.b4-ty@kernel.org>
+Date: Mon, 30 Sep 2024 22:26:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6M3j18/8xJpvc7f0"
-Content-Disposition: inline
-In-Reply-To: <30cfc980-3b38-4e98-a753-b149746cf93c@web.de>
-X-Cookie: My EARS are GONE!!
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
+On Mon, 16 Sep 2024 10:38:09 +0200, Markus Elfring wrote:
+> A few update suggestions were taken into account
+> from static source code analysis.
+> 
+> Markus Elfring (2):
+>   Use scope-based resource management
+>   Improve a size determination
+> 
+> [...]
 
---6M3j18/8xJpvc7f0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, Sep 30, 2024 at 06:33:49PM +0200, Markus Elfring wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> How do you think about a wording variant like the following?
+Thanks!
 
->   The result from a call of the function =E2=80=9Cdevm_kzalloc=E2=80=9D w=
-as passed to
->   a subsequent function call without checking for a null pointer before
->   (according to a memory allocation failure).
->   Thus return directly after a failed devm_kzalloc() call.
+[2/2] ASoC: tas5805m: Improve a size determination in tas5805m_i2c_probe()
+      commit: 0e9f73f109025f0d5d16b104b6684e6c03aa0c83
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---6M3j18/8xJpvc7f0
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb66wQACgkQJNaLcl1U
-h9DDGwf+NnAvu+yXZ+1Avz8syo7V5EvlIz6QlMOuUMIW5mOBY1wpiVTxRqJinUHv
-MlwzXH4ja6NFSOI5xUJrrAMzIV5M37iY9gxaY0t4Ru9XVjzdDOT2pzL3ZiZp0j7O
-xOg3+xKjw6sHxppNuRhji9T29qDn+qgERfqdyA4BxRDLmoMd2QODPVG8DuYBOdXu
-XDKLYRLvMl4A6dhfVHyg2cegHSFf5TRe9/SwkTM1D53Ir4AI1DYALag5FZmZVXJD
-3v7akWseVADudrgmGLgj7g837Bvcut6qLDNMI4IcPKSoT3OlqF0BCSKsZfjDh2A8
-F66LwOaBNHCrbOgm3KaFRt0n6ldyBQ==
-=r1s9
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---6M3j18/8xJpvc7f0--
+Thanks,
+Mark
+
