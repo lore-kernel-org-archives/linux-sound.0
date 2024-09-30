@@ -1,333 +1,192 @@
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5F115B0F2;
-	Mon, 30 Sep 2024 07:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE0B13D8A4;
+	Mon, 30 Sep 2024 07:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727681355; cv=none; b=qEBmEpAJ2zJ+tYz6kTbSL1Qw4takXwFvLONavOsem962+dL7ntJ6Wm+t0HxrRK7cP0VfazObKtZtvChGNP0Qn9k89GtREhOsDLWnW7qfroT0UNFwVedg84oaaQZHOTwSSYTgu4/VLSA5FTGxSkF9ucNRjM9flelnUU/fb+j3bh4=
+	t=1727681615; cv=none; b=byUme7oqJoU9aIAJkubP7DxhqXIN7FN4B4jtGk9KPC51+K/ZWSCZFhVBkGm7SY41bJv5HxQZsKZ/3RtdbbCTw0P3mg/pF+Kfp3FD2+lBxMBbuO9xyYxIA07WPPuC1Xrn5cyyyz/sBHqfjt5eWPJeWdY4D9T19GSGsbWLPNXtoP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727681355; c=relaxed/simple;
-	bh=4cDa+u88I0pMWqWCNEMDn5VkzDxbaj2BkSk0iZiE4to=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VXr9IjwWaYFo0CAXNc+GzGGzvqTVumHWiYj5mwn44YpTGfif6+ccBDvgFg0rCsEGbuFhDg1+fzJL2o6N/VvNSEidjqi//2I8oVe4k0nxEn9bQpCAO7oC4dB9/WNVZ4/QNT4WrexQ9Hh7YhKwURUUeHE3j1kSG+BsCq7r5FLYXwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QzzMUH7A; arc=none smtp.client-ip=209.85.166.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727681615; c=relaxed/simple;
+	bh=2kUuEFQUl5B2eNq61qTOn/tI/N1cOAn4CvOrHdbmdgg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ep+YOyVp73jJjsxk92JrZemJK58Fd98m1uC2pMhCmCLfvZYv3+tklMqWQdRnUTMji/tBd6xV4ThZ30LRMOGzvmLBfiLog4tR5tC6S62kiNwnUZqn/JE9qVLTHpZGvoYTIY2RTVZejpdCkSm9OulW1dazFArUk3XIlAI6jFsxSx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=gWmFQxiP; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QzzMUH7A"
-Received: by mail-io1-f44.google.com with SMTP id ca18e2360f4ac-8323b555ae2so195227839f.2;
-        Mon, 30 Sep 2024 00:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727681353; x=1728286153; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ue4slqDzCbCmGA30w+Pb5YzimVTExtoPtfBb9HsY6Oc=;
-        b=QzzMUH7AJGi01UuNqEQEB798JYE/rls9dJcJr7kTb4BphstDK/An6bIqqxotb6rwhX
-         KyQH9N/uxJXZ3xOJdSiiVELVA+5yRCp6LbqdKZvafCKahZWNSatLse1ZVVn8XqohGGWa
-         K9UOAygy8QbTYtgOvI6rXOePWkiOdeA0lcpaGhYlbGEaY2hr2y7I5BocbIVGOg40A5B/
-         y21HGnGrUqsJCJ/KAXGRz+hb0uv+/QcDT2/0L3UvaL6KT537QuAIQnh3hGGofOaKhnTz
-         OXYC0W/BtuCJlOkuF0Oij/FHXA1PeuqKc/brv9Cfji+379B07Is//fr+s0SU7wGBGr8H
-         +L7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727681353; x=1728286153;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ue4slqDzCbCmGA30w+Pb5YzimVTExtoPtfBb9HsY6Oc=;
-        b=vkACEnJXn+Hd7xpH7QK3XY6M6sBQz62asyyYD70ZNM0Z24WLTJnpWVpBCkmR347o0x
-         Yj+nIm5Qlbh3CLpxCuI2IQ98/8y1PWVj+C9GYM10mba7L5pW8GXx/oSvYhXGpGTl6Rjf
-         1UDZBxNX9lyz8W1pri4Mr/YK5AKhm/3CosKeCwV0VK45JcYCVKIWBjov9402/EqC+Zzv
-         E9LSkc4pN6HzxDVzvnskhPN/csmPRWmzzLaHCVJG2v2OjN7jtNedpKx8dTa7RFRHyveM
-         w1fZBRegBfR03GgawQ5YJMawWUAYhxCfbflkwOhSkyO0bvUFiHpjQByB2GuZ6+t/Ecvn
-         zRZw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5BQAx10xTRK7KZ62qj1o4Ghct1OjC1RLZx+hrEdOQlpIKHAxoADEDudZe2AMTXyVyr/YlALsiuauv9BE=@vger.kernel.org, AJvYcCXXyGT9A21N1TRkl+jfuA/vd4Svq5PN4CDMdmBzCAF0PdLC4v4nCtzWDHSi3Noks17Y8SiYnUGGIE/N7pI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvOvST5enm1MQHnZxCipcpuR/7hf9tBCVlV+Mkm3/g3NhzS59D
-	qAEVHGHDqvu0jKLpBS6YhZA8MemE8DkLBCL8W3c9/agV/v7fU+TP
-X-Google-Smtp-Source: AGHT+IGacX11scw+O2iK40BP9s20/lwFcvx5mVYDNS4YesXdgGUPbznMoSpeqjGTjAv5kktO6CF/RQ==
-X-Received: by 2002:a05:6602:2b13:b0:82a:418d:b03f with SMTP id ca18e2360f4ac-83493205446mr1095731039f.8.1727681352695;
-        Mon, 30 Sep 2024 00:29:12 -0700 (PDT)
-Received: from localhost ([38.97.116.244])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4d88884a015sm2005155173.38.2024.09.30.00.29.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 00:29:11 -0700 (PDT)
-Date: Mon, 30 Sep 2024 10:29:08 +0300
-From: Maxim Mikityanskiy <maxtram95@gmail.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Sui Jingfeng <suijingfeng@loongson.cn>,
-	Bjorn Helgaas <bhelgaas@google.com>, Peter Wu <peter@lekensteyn.nl>,
-	Lukas Wunner <lukas@wunner.de>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Fix Optimus when GPU has no sound
-Message-ID: <ZvpTRLxSkcqn03Fk@mail.gmail.com>
-References: <20240904203955.245085-1-maxtram95@gmail.com>
- <871q1ygov9.wl-tiwai@suse.de>
- <ZttEUjeYFzdznYKM@mail.gmail.com>
- <87wmjndbha.wl-tiwai@suse.de>
- <ZtxZBUjlF8TeIUKC@mail.gmail.com>
- <87jzfncvm0.wl-tiwai@suse.de>
- <ZtyMWSA0bg1SjFSU@mail.gmail.com>
- <87ed5vcp23.wl-tiwai@suse.de>
- <Zu5_faxUwoIl09fW@mail.gmail.com>
- <87msjpk5el.wl-tiwai@suse.de>
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="gWmFQxiP"
+X-UUID: 47893aae7efe11ef8b96093e013ec31c-20240930
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=KwWXCGAW/ByfoA2er9EQDpwMhHapKsGPkQ088kaxyr0=;
+	b=gWmFQxiPxXRBZWxF6/VUcY6rT+gYITJ1itSSHxJmn+z77BIBRG4HeYUJJ37Ka16O+4E7JfrJ419TiENlu4+ahXUN7VQdUByFhk4KQ3MICsw+LEUj9huPoDwAgceF5L0zdfT48cMRH8KOvtNtrV09zRoZRjfwpR0yyjsb3aWgFm8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:58bba1e5-f74a-44c7-a7e6-38c213dae9cd,IP:0,U
+	RL:25,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:6dc6a47,CLOUDID:05c4fad0-7921-4900-88a1-3aef019a55ce,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 47893aae7efe11ef8b96093e013ec31c-20240930
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw02.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1730998133; Mon, 30 Sep 2024 15:33:25 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 30 Sep 2024 15:33:24 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 30 Sep 2024 15:33:24 +0800
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+	<lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu
+	<sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Macpaul Lin
+	<macpaul.lin@mediatek.com>, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli
+	<f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Sebastian
+ Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	<linux-input@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-pm@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-rtc@vger.kernel.org>, <linux-sound@vger.kernel.org>, Alexandre Mergnat
+	<amergnat@baylibre.com>
+CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
+	<wenst@chromium.org>
+Subject: [PATCH v7 2/3] ASoC: dt-bindings: mt6358: Convert to DT Schema
+Date: Mon, 30 Sep 2024 15:33:10 +0800
+Message-ID: <20240930073311.1486-2-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20240930073311.1486-1-macpaul.lin@mediatek.com>
+References: <20240930073311.1486-1-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87msjpk5el.wl-tiwai@suse.de>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On Mon, 30 Sep 2024 at 08:43:46 +0200, Takashi Iwai wrote:
-> On Sat, 21 Sep 2024 10:10:37 +0200,
-> Maxim Mikityanskiy wrote:
-> > 
-> > On Sat, 07 Sep 2024 at 20:10:44 +0200, Takashi Iwai wrote:
-> > > On Sat, 07 Sep 2024 19:24:41 +0200,
-> > > Maxim Mikityanskiy wrote:
-> > > > 
-> > > > On Sat, 07 Sep 2024 at 17:49:11 +0200, Takashi Iwai wrote:
-> > > > > On Sat, 07 Sep 2024 15:45:41 +0200,
-> > > > > Maxim Mikityanskiy wrote:
-> > > > > > 
-> > > > > > On Sat, 07 Sep 2024 at 12:06:25 +0200, Takashi Iwai wrote:
-> > > > > > > On Fri, 06 Sep 2024 20:05:06 +0200,
-> > > > > > > Maxim Mikityanskiy wrote:
-> > > > > > > > 
-> > > > > > > > On Thu, 05 Sep 2024 at 16:24:26 +0200, Takashi Iwai wrote:
-> > > > > > > > > On Wed, 04 Sep 2024 22:39:55 +0200,
-> > > > > > > > > Maxim Mikityanskiy wrote:
-> > > > > > > > > > 
-> > > > > > > > > > Lenovo IdeaPad Z570 with NVIDIA GeForce Ge 520M doesn't have sound on
-> > > > > > > > 
-> > > > > > > > Spotted a typo: s/520M/540M/
-> > > > > > > > 
-> > > > > > > > > > the discrete GPU. snd_hda_intel probes the device and schedules
-> > > > > > > > > > azx_probe_continue(), which fails at azx_first_init(). The driver ends
-> > > > > > > > > > up probed, but calls azx_free() and stops the chip. However, from the
-> > > > > > > > > > runtime PM point of view, the device remains active, because the PCI
-> > > > > > > > > > subsystem makes it active on probe, and it's still bound. It prevents
-> > > > > > > > > > vga_switcheroo from turning off the DGPU (pci_create_device_link() syncs
-> > > > > > > > > > power management for the video and audio devices).
-> > > > > > > > > > 
-> > > > > > > > > > Fix it by forcing the device to the suspended state in azx_free().
-> > > > > > > > > > 
-> > > > > > > > > > Fixes: 07f4f97d7b4b ("vga_switcheroo: Use device link for HDA controller")
-> > > > > > > > > > Signed-off-by: Maxim Mikityanskiy <maxtram95@gmail.com>
-> > > > > > > > > 
-> > > > > > > > > What if this device probe is skipped (e.g. adding your device entry to
-> > > > > > > > > driver_denylist[] in hda_intel.c)?  Is the device also in the
-> > > > > > > > > runtime-suspended state?
-> > > > > > > > 
-> > > > > > > > I added the following:
-> > > > > > > > 
-> > > > > > > > { PCI_DEVICE_SUB(0x10de, 0x0bea, 0x0000, 0x0000) },
-> > > > > > > > 
-> > > > > > > > The probe was apparently skipped (the device is not attached to a
-> > > > > > > > driver), runtime_status=suspended, runtime_usage=0, the GPU goes to
-> > > > > > > > DynOff.
-> > > > > > > 
-> > > > > > > OK, that's good.
-> > > > > > > 
-> > > > > > > > However, I'm not sure whether it's a good idea to blacklist 540M
-> > > > > > > > entirely, as there might be other laptops with this GPU that have sound,
-> > > > > > > > and AFAIK there are variants of Lenovo Z570 with other NVIDIA GPUs.
-> > > > > > > 
-> > > > > > > You should specify the PCI SSID of your device instead of 0:0 in the
-> > > > > > > above, so that it's picked up only for yours.
-> > > > > > 
-> > > > > > Where can I get it?
-> > > > > > 
-> > > > > > # cat /sys/bus/pci/devices/0000\:01\:00.1/subsystem_vendor
-> > > > > > 0x0000
-> > > > > > # cat /sys/bus/pci/devices/0000\:01\:00.1/subsystem_device
-> > > > > > 0x0000
-> > > > > 
-> > > > > Ouch, Lenovo didn't set it right.
-> > > > > Alternatively we may introduce a deny list based on DMI.  Hmm...
-> > > > 
-> > > > A DMI-based quirk sounds better than blocking any NVIDIA 540M, it would
-> > > > also allow handling alternative GPUs on this laptop model.
-> > > > 
-> > > > But could you explain what's wrong with a generic approach that I
-> > > > suggest (probe_continue failed => mark as suspended)? It doesn't require
-> > > > any lists. Any drawbacks?
-> > > 
-> > > As you noticed, it will leave the device bound with driver, i.e. this
-> > > looks as if it were operative.  It means that the sound driver is
-> > > still responsible for suspend/resume or whatever action even though
-> > > it's totally useless.  In that sense, it makes more sense to give it
-> > > away at the early stage before actually binding it, and the deny list
-> > > is exactly for that.
-> > 
-> > Thanks for your feedback!
-> 
-> Sorry for the late reply, as I've been off in the last weeks.
-> 
-> > Do you happen to know whether there is a way for a driver to unbind
-> > itself after probe() returned success? I've never seen anything like
-> > this, but it would be a perfect solution: no lists and no driver bound
-> > after the delayed initialization fails.
-> 
-> I don't think it's possible for now (at least in a clean way).
-> It should be a call of device_driver_detach(), but it's no exported
-> API.
-> 
-> > > Apart from that, the suggested change itself can be applied
-> > > independently from the deny list update, too.  It'd be good for other
-> > > similar devices, too.
-> > 
-> > I was trying to avoid lists, because it's a maintainance nightmare (the
-> > lists are never complete, there might be false positives, etc.), and
-> > we'd need to add another type of a list for DMI quirks. Moreover, adding
-> > both my change and a list entry has a drawback that similarly broken
-> > devices will use different workaround code (i.e. less robust), and the
-> > ones that use the generic fallback will never get on the list, because
-> > no one will report it.
-> > 
-> > As a maintainer, what's your preferred approach?
-> > 
-> > 1. Unbind ourselves on failure in azx_probe_continue() (but I don't know
-> > whether it's possible).
-> 
-> So it's no easy way.
-> 
-> > 2. Add a DMI deny list to hda_intel.
-> > 
-> > 3. Add a DMI check to quirk_nvidia_hda (i.e. don't enable a non-existent
-> > HDA if it's not enabled by BIOS on this laptop model).
-> 
-> I'm afraid that it may break other systems; IIRC, the power up was
-> needed explicitly even if it's disabled on BIOS.
+Convert the MediaTek MT6358 Audio CODEC bindings to DT schema.
 
-I'm not suggesting full removal of quirk_nvidia_hda. If we add a DMI
-check to disable quirk_nvidia_hda on this particular laptop model, it
-can't break other systems, can it?
+This change implements the following updates:
+1. Compatible property: Added the const 'mediatek,mt6358-sound'
+   to ensure alignment with the schema in the actual (DTS) file
+   "mt8186-corsola.dtsi" with 'mediatek,mt6366-sound'.
+2. Example: Removed the example section, as it should be relocated to
+   the MT6397 PMIC file 'mfd/mediatek,mt6397.yaml'.
 
-Anyways, adding a DMI check to hda_intel or quirk_nvidia_hda seems the
-same level of efforts, so I can proceed with the former. It's the same
-power consumption either way, right?
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
+---
+ .../devicetree/bindings/sound/mt6358.txt      | 26 ------------
+ .../devicetree/bindings/sound/mt6358.yaml     | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 26 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/sound/mt6358.txt
+ create mode 100644 Documentation/devicetree/bindings/sound/mt6358.yaml
 
-I'm also thinking of adding a module parameter to block probing of the
-DGPU audio. Back in the days, there were plenty of similar Lenovo
-laptops, which might also suffer from the same issue.
+Changess for v1~v6:
+ - It was not in the origin patch set.
 
-> > 4. Driver becomes a stub no failure in azx_probe_continue() (this
-> > patch).
-> 
-> It's OK, but slightly risky.  It's kept bound, hence any unexpected
-> thing might happen if the code is changed without noticing it.
-> 
-> > 5. Some combo of 4 and 2/3?
-> 
-> Not safe.
-> 
-> So, from the safety POV, I'd rather take the DMI deny list approach.
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > > Though, a slight concern is the sequence of runtime PM you applied in
-> > > the patch.  Is it a standard idiom to perform pm_runtime_disable(),
-> > > set_suspended() and enable()?
-> > 
-> > I'm not an expert in PM. Before I wrote this code, I was meditating on
-> > the docs for a few hours, and what I understood was:
-> > 
-> > 1. As we are disabling the device (below in the same function), we need
-> > set_suspended() to just update the state.
-> > 
-> > 2. set_suspended() must be called with PM disabled (see the comment
-> > above the function).
-> > 
-> > 3. Disable and enable must come in pairs, because there is refcounting.
-> > 
-> > I've seen set_suspended() after disable() on device remove (e.g.,
-> > rt9120_remove()). For hda_intel, assuming that disable/enable are
-> > already paired, adding a new disable without a matching enable would
-> > break refcounting. Hence such a sequence.
-> > 
-> > I'd love to hear an opinion from someone more experienced in PM.
-> > 
-> > > Also, azx_free() is the common
-> > > destructor, hence it's called also at the regular driver unbinding.
-> > > I'm not entirely sure whether it's OK to call there also at
-> > > unbinding.
-> > 
-> > I don't have hardware to test this flow, but theoretically it looks OK
-> > to me: we set the suspended state as we disable the device.
-> > 
-> > > 
-> > > thanks,
-> > > 
-> > > Takashi
-> > > 
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > Takashi
-> > > > > 
-> > > > > 
-> > > > > > 
-> > > > > > Is it not the right place?
-> > > > > > 
-> > > > > > > 
-> > > > > > > Takashi
-> > > > > > > 
-> > > > > > > > Another way to make vga_switcheroo work is to disable quirk_nvidia_hda,
-> > > > > > > > although I don't know whether it can be done without recompiling the
-> > > > > > > > kernel. In this case, 0000:01:00.1 doesn't even appear on the bus.
-> > > > > > > > 
-> > > > > > > > (Note that I need to set nouveau.modeset=2 either way, otherwise it
-> > > > > > > > stays in DynPwr if the screen is on.)
-> > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > thanks,
-> > > > > > > > > 
-> > > > > > > > > Takashi
-> > > > > > > > > 
-> > > > > > > > > > ---
-> > > > > > > > > >  sound/pci/hda/hda_intel.c | 14 +++++++++++++-
-> > > > > > > > > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > > > > > > > > 
-> > > > > > > > > > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> > > > > > > > > > index b79020adce63..65fcb92e11c7 100644
-> > > > > > > > > > --- a/sound/pci/hda/hda_intel.c
-> > > > > > > > > > +++ b/sound/pci/hda/hda_intel.c
-> > > > > > > > > > @@ -1361,8 +1361,20 @@ static void azx_free(struct azx *chip)
-> > > > > > > > > >  	if (use_vga_switcheroo(hda)) {
-> > > > > > > > > >  		if (chip->disabled && hda->probe_continued)
-> > > > > > > > > >  			snd_hda_unlock_devices(&chip->bus);
-> > > > > > > > > > -		if (hda->vga_switcheroo_registered)
-> > > > > > > > > > +		if (hda->vga_switcheroo_registered) {
-> > > > > > > > > >  			vga_switcheroo_unregister_client(chip->pci);
-> > > > > > > > > > +
-> > > > > > > > > > +			/* Some GPUs don't have sound, and azx_first_init fails,
-> > > > > > > > > > +			 * leaving the device probed but non-functional. As long
-> > > > > > > > > > +			 * as it's probed, the PCI subsystem keeps its runtime
-> > > > > > > > > > +			 * PM status as active. Force it to suspended (as we
-> > > > > > > > > > +			 * actually stop the chip) to allow GPU to suspend via
-> > > > > > > > > > +			 * vga_switcheroo.
-> > > > > > > > > > +			 */
-> > > > > > > > > > +			pm_runtime_disable(&pci->dev);
-> > > > > > > > > > +			pm_runtime_set_suspended(&pci->dev);
-> > > > > > > > > > +			pm_runtime_enable(&pci->dev);
-> > > > > > > > > > +		}
-> > > > > > > > > >  	}
-> > > > > > > > > >  
-> > > > > > > > > >  	if (bus->chip_init) {
-> > > > > > > > > > -- 
-> > > > > > > > > > 2.46.0
-> > > > > > > > > > 
+Changes for v7:
+ - It is seperated from the origin patch set (2/2, v6).
+   It could simplifies the audio-codec node in next patch (3/3, v7)
+   of 'mfd/mediatek,mt6397.yaml'
+
+diff --git a/Documentation/devicetree/bindings/sound/mt6358.txt b/Documentation/devicetree/bindings/sound/mt6358.txt
+deleted file mode 100644
+index fbe9e55c68f5..000000000000
+--- a/Documentation/devicetree/bindings/sound/mt6358.txt
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Mediatek MT6358 Audio Codec
+-
+-The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
+-For more detail, please visit Mediatek PMIC wrapper documentation.
+-
+-Must be a child node of PMIC wrapper.
+-
+-Required properties:
+-
+-- compatible - "string" - One of:
+-    "mediatek,mt6358-sound"
+-    "mediatek,mt6366-sound"
+-- Avdd-supply : power source of AVDD
+-
+-Optional properties:
+-- mediatek,dmic-mode : Indicates how many data pins are used to transmit two
+-	channels of PDM signal. 0 means two wires, 1 means one wire. Default
+-	value is 0.
+-
+-Example:
+-
+-mt6358_snd {
+-	compatible = "mediatek,mt6358-sound";
+-	Avdd-supply = <&mt6358_vaud28_reg>;
+-	mediatek,dmic-mode = <0>;
+-};
+diff --git a/Documentation/devicetree/bindings/sound/mt6358.yaml b/Documentation/devicetree/bindings/sound/mt6358.yaml
+new file mode 100644
+index 000000000000..5f7611e26a89
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/mt6358.yaml
+@@ -0,0 +1,41 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/mt6358.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek MT6358 Audio Codec
++
++maintainers:
++  - Jiaxin Yu <jiaxin.yu@mediatek.com>
++  - Macpaul Lin <macpaul.lin@mediatek.com>
++
++description: |
++  The communication between MT6358 and SoC is through Mediatek PMIC wrapper.
++  For more detail, please visit Mediatek PMIC wrapper documentation.
++  Must be a child node of PMIC wrapper.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt6366-sound
++      - mediatek,mt6358-sound
++    const: mediatek,mt6358-sound
++
++  Avdd-supply:
++    description: Power source of AVDD
++
++  mediatek,dmic-mode:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      Indicates how many data pins are used to transmit two channels of PDM
++      signal. 0 means two wires, 1 means one wire. Default value is 0.
++    enum:
++      - 0 # two wires
++      - 1 # one wire
++
++required:
++  - compatible
++  - Avdd-supply
++
++additionalProperties: false
+-- 
+2.45.2
+
