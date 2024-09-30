@@ -1,129 +1,161 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59D418858E;
-	Mon, 30 Sep 2024 10:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50957189B98;
+	Mon, 30 Sep 2024 10:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727691153; cv=none; b=hZ0YQVbNDgjoPa5tz81/9Csp/B06TMBILNXpArFS9sHZMqcryRNfZi5hw7PtN5FjAqR+RfvPLFkOdrZCAF5XPZBORFRsLWSxf9YXQjPPKC0T7/3BBJFPWiBYF/0Wiz0lellCiuFzYFmPZp9nU9YOqExg5TurogInioLVDhI1s00=
+	t=1727692547; cv=none; b=We+dSA2+YNkd+fTDWn27Jt0Mzzi3vMetT8gwVs7Kne45lW2nsUVE0EHYuZjwXEMUc7OC3wWovYWyeBEuWnSlXrFTiKh6/C5x/04e5UjpvV9PqgtXdP272tV5+uG7oWypysUbLZBlZEAo/ZQ8SpbVOeJUBLjAliip/khhGColvFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727691153; c=relaxed/simple;
-	bh=AWRGwNAR8HQF5vgW2X9+dExB7v1O+jkA3G5ve2Rc66k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lrsoplaW8Z1fJZDXZuWY3QFpY7Sp5XS1KR6KrCWnlDeAqDQ7mhLcRMSju4nj7+9/a/JPXP1uFi2rmDmsPan5/0NSlQOk9EdwAcQ0Wy825OIJ+s7MLkDys38o+8pCYnLHHLDEtf0djvXUvHJyrpAktn78KL2L0UGiUYKWHFFkMKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gzRVfWC2; arc=none smtp.client-ip=209.85.214.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727692547; c=relaxed/simple;
+	bh=K2KYdsOr0X5H4XjzzrhlyKfrWbeb2sW3IDbTJRqI184=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lHCgGpNzVWSpakkQA2q6bQXfrax6sO2lhRSewwZwt47ZuS4CQn5Qtv+7NPxgh52RGSbpdZQZwDZ8tCVAmsL/vsoCnTRjqDAeuYHnDBMGM53uBfNNhfHKolqNn7bxDYHp+UNC6C6cIe1Hw7JcUz0LDKg3o2gNi7j6TYeeuCh8pH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HnHz5wNO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jdctg/1/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HnHz5wNO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jdctg/1/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gzRVfWC2"
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-20b9b35c7c7so1809235ad.1;
-        Mon, 30 Sep 2024 03:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727691151; x=1728295951; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IUsTgMCDlYF8NCO+DUyGQXMRDmDOC3gw5dVi9Tj9wRw=;
-        b=gzRVfWC2ePcjjx2zcuxNiAjrUAqqGUIeMvJUg3Pmv+O9eMX8ADlDnPTSaYn4mWrl82
-         Sb5JZrOXUw7a2js8m3GD+oV26KiPT8f5RIhOZSujGhN7YZaHyFwsIS9YHVSHO1x6M2HW
-         XDvkm1eqZNJ1WhJsQ7dIyVv5Bd8yrRjJzWRyXJZh8GYGFSJIM35C4MZGrYFYcmeMkor5
-         MEdJ7yXjEUFjMU2Pnm79aRnuBmB12chLABUlucSgP4Ca9RKdpogUf9GWkTBKuAlRQ/6h
-         +Varl3hFwsQwdsAr2reMD4rfAmNRDdcSt+vxAHp39OOiKTH5tqy+8FugfGSZsBuvuXHJ
-         X57A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727691151; x=1728295951;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IUsTgMCDlYF8NCO+DUyGQXMRDmDOC3gw5dVi9Tj9wRw=;
-        b=xSPOLrF9D1eXnDwsxsQSmaWcm+jLKzobr/D/sV79+ZOK1fOmEt1c65Dyzzehk0xhFN
-         Kzwc967k3u+m2C/wtuPqrGwsjkeZ1Szb25DndH4yY/RelT64VUNjHlvaqQwg6ypS1NNo
-         qdrG8SHX+tk+dFUZ2Z/vC8qRuCvIYmnfnddcyOjdb/6TZHj2tWmmm1o9HduYA95kTdck
-         K0IzoQeNNVhaVjJl5Ocf4g+X+vi/pwoaPNGD6qMnqBIOszsut54PoOIW2PxQG4PSWV0/
-         NgxD0BFkPKI/SaISLG0bQXeO9PdVromEQy9DeWC/rzwhBR2Izkdi12Jcu///Ppozaujc
-         f8mA==
-X-Forwarded-Encrypted: i=1; AJvYcCUoYGrA8Ff4ug/ooX+rHFhemPcl5/OzxKPclwa0/yKq/LHm97HEDcmSGxGIt09VtpjPh1Ap4KZG@vger.kernel.org, AJvYcCWo/7rIxJ974gSmap2nXPqgHEnybpCil0fMH5tuLr1EeYoNU3VqmTEeYm6H/lvBlrsC34XfF0dpcSSrmfg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRKUkj9HD84OIWcX10ElgPpWzRIlGysT/peGGbAhPt/nDCHwDr
-	aZLZQtVZIPHVXhmDrwU6OUTOP4QNNvJqE19otJ1vNzVsOUU9CEz6
-X-Google-Smtp-Source: AGHT+IE+XkNU1MrrwGIggtxA53BM40AFHc4Ez/pr2u8o6EBbjl9eIRtRRkKENw2ss5jQQykE7/l9Hg==
-X-Received: by 2002:a17:902:c40f:b0:205:76f3:fc2c with SMTP id d9443c01a7336-20b367ddf1dmr156177005ad.16.1727691151036;
-        Mon, 30 Sep 2024 03:12:31 -0700 (PDT)
-Received: from tom-QiTianM540-A739.. ([106.39.42.164])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37e61b00sm51584855ad.275.2024.09.30.03.12.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 03:12:30 -0700 (PDT)
-From: Qiu-ji Chen <chenqiuji666@gmail.com>
-To: support.opensource@diasemi.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HnHz5wNO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jdctg/1/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HnHz5wNO";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jdctg/1/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 672D01FB9C;
+	Mon, 30 Sep 2024 10:35:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727692543; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qxx1UQrE80LFqs8p40hza8Wbc1XUKLK21rskYeGfvxI=;
+	b=HnHz5wNOEyPG0ycQ0L+fBMoy10bAEJzuvNlg80cSdMiE2C0oba8KzMXGnzxf6K2PTFK+KM
+	yZJqIt1Xl2EA8Wq+cQBGrCrt+X0LZcCmF6lnX2tB+O0zsEK94hIjdnLHs7XvWKhDg+epJA
+	HJXA52JzRKdR02CqrkxnYvuox5eHu7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727692543;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qxx1UQrE80LFqs8p40hza8Wbc1XUKLK21rskYeGfvxI=;
+	b=Jdctg/1/e5myV/nqw5H4J0L93YcdniIxpHTLbJCuvaedjWoKrrWEd3aGLQpFM7t1u2MSHU
+	2UrfERVGyBM7mnCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HnHz5wNO;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Jdctg/1/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727692543; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qxx1UQrE80LFqs8p40hza8Wbc1XUKLK21rskYeGfvxI=;
+	b=HnHz5wNOEyPG0ycQ0L+fBMoy10bAEJzuvNlg80cSdMiE2C0oba8KzMXGnzxf6K2PTFK+KM
+	yZJqIt1Xl2EA8Wq+cQBGrCrt+X0LZcCmF6lnX2tB+O0zsEK94hIjdnLHs7XvWKhDg+epJA
+	HJXA52JzRKdR02CqrkxnYvuox5eHu7Q=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727692543;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Qxx1UQrE80LFqs8p40hza8Wbc1XUKLK21rskYeGfvxI=;
+	b=Jdctg/1/e5myV/nqw5H4J0L93YcdniIxpHTLbJCuvaedjWoKrrWEd3aGLQpFM7t1u2MSHU
+	2UrfERVGyBM7mnCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2028413A8B;
+	Mon, 30 Sep 2024 10:35:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tU4tBv9++mbaQwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 30 Sep 2024 10:35:43 +0000
+Date: Mon, 30 Sep 2024 12:36:36 +0200
+Message-ID: <87ed51ig23.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Salvatore Bonaccorso <carnil@debian.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	Eric Degenetais <eric.4.debian@grabatoulnz.fr>,
 	linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	Qiu-ji Chen <chenqiuji666@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: codecs: Fix atomicity violation in snd_soc_component_get_drvdata()
-Date: Mon, 30 Sep 2024 18:12:16 +0800
-Message-Id: <20240930101216.23723-1-chenqiuji666@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	stable <stable@vger.kernel.org>,
+	regressions@lists.linux.dev,
+	Sasha Levin <sashal@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [regression] Regular "cracks" in HDMI sound during playback since backport to 6.1.y for 92afcc310038 ("ALSA: hda: Conditionally use snooping for AMD HDMI")
+In-Reply-To: <ZvgCdYfKgwHpJXGE@eldamar.lan>
+References: <ZvgCdYfKgwHpJXGE@eldamar.lan>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 672D01FB9C
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-An atomicity violation occurs when the validity of the variables 
-da7219->clk_src and da7219->mclk_rate is being assessed. Since the entire 
-assessment is not protected by a lock, the da7219 variable might still be 
-in flux during the assessment, rendering this check invalid.
+On Sat, 28 Sep 2024 15:19:49 +0200,
+Salvatore Bonaccorso wrote:
+> 
+> Hi
+> 
+> In downstream Debian we got a report from  Eric Degenetais, in
+> https://bugs.debian.org/1081833 that after the update to the 6.1.106
+> based version, there were regular cracks in HDMI sound during
+> playback.
+> 
+> Eric was able to bisec the issue down to
+> 92afcc310038ebe5d66c689bb0bf418f5451201c in the v6.1.y series which
+> got applied in 6.1.104.
+> 
+> Cf. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1081833#47
+> 
+> #regzbot introduced: 92afcc310038ebe5d66c689bb0bf418f5451201c
+> #regzbot link: https://bugs.debian.org/1081833
+> 
+> It should be noted that Eric as well tried more recent stable series
+> as well, in particular did test as well 6.10.6 based version back on
+> 20th september, and the issue was reproducible there as well.
+> 
+> Is there anything else we can try to provide?
 
-To fix this issue, we recommend adding a lock before the block 
-if ((da7219->clk_src == clk_id) && (da7219->mclk_rate == freq)) so that 
-the legitimacy check for da7219->clk_src and da7219->mclk_rate is 
-protected by the lock, ensuring the validity of the check.
+Could you check 6.12-rc1 kernel whether the problem still appears?
+If yes, check with snd_hda_intel.snoop=0 boot option. 
 
-This possible bug is found by an experimental static analysis tool
-developed by our team. This tool analyzes the locking APIs
-to extract function pairs that can be concurrently executed, and then
-analyzes the instructions in the paired functions to identify possible
-concurrency bugs including data races and atomicity violations.
+I guess we should revert the patch in anyway; for 6.12, it's no longer
+correct to check with get_dma_ops(), and if this causes a problem on
+the older releases, the assumption isn't correct, either.
 
-Fixes: 6d817c0e9fd7 ("ASoC: codecs: Add da7219 codec driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Qiu-ji Chen <chenqiuji666@gmail.com>
----
- sound/soc/codecs/da7219.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/codecs/da7219.c b/sound/soc/codecs/da7219.c
-index 311ea7918b31..e2da3e317b5a 100644
---- a/sound/soc/codecs/da7219.c
-+++ b/sound/soc/codecs/da7219.c
-@@ -1167,17 +1167,20 @@ static int da7219_set_dai_sysclk(struct snd_soc_dai *codec_dai,
- 	struct da7219_priv *da7219 = snd_soc_component_get_drvdata(component);
- 	int ret = 0;
- 
--	if ((da7219->clk_src == clk_id) && (da7219->mclk_rate == freq))
-+	mutex_lock(&da7219->pll_lock);
-+
-+	if ((da7219->clk_src == clk_id) && (da7219->mclk_rate == freq)) {
-+		mutex_unlock(&da7219->pll_lock);
- 		return 0;
-+	}
- 
- 	if ((freq < 2000000) || (freq > 54000000)) {
-+		mutex_unlock(&da7219->pll_lock);
- 		dev_err(codec_dai->dev, "Unsupported MCLK value %d\n",
- 			freq);
- 		return -EINVAL;
- 	}
- 
--	mutex_lock(&da7219->pll_lock);
--
- 	switch (clk_id) {
- 	case DA7219_CLKSRC_MCLK_SQR:
- 		snd_soc_component_update_bits(component, DA7219_PLL_CTRL,
--- 
-2.34.1
+thanks,
 
+Takashi
