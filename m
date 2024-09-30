@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217921A262D;
-	Mon, 30 Sep 2024 21:26:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8E81A2C1F
+	for <linux-sound@vger.kernel.org>; Mon, 30 Sep 2024 21:26:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727731589; cv=none; b=BcRKTogK35aBMqtALOymNoeoftn5IxOvnk5ZGd5mD5z5cwp/nSGj8cH7K7amjScQnMyeDuGs1NfgcA173Ib6JL1zCHjut1gzMlHWlHGsYigJyNMw6/Pst1azTVBa1qS2ymlC5cSGRZaStLmI4gt7m2yyjaV5mxqVdKOuR9N8l8U=
+	t=1727731592; cv=none; b=KgKAgtUArzXCe9izZgdH/vA45cGTLjiCz/+V4f2mWmgJHNvKn7UEJ5u0wJOnGR6Pe12kR47yAHM/jwbX8oPAojQWAPMtwRn+6Krt80a0WBeuNvOFH6wIOdCL1CuvDzcHjcdVTmsps44v7///8Og68lj3jyIuGga7VOMk6h3ZqIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727731589; c=relaxed/simple;
-	bh=5DSDo8MzAb3DNmtRyg6pZv65Kq1qofZob/dU/IC7z7Y=;
+	s=arc-20240116; t=1727731592; c=relaxed/simple;
+	bh=Xp61C7r0mqe/66MjAMdt1iih6QcgjF1Vd60S9xYPAVE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=X339BKVLxWpEsKHiD6BR3nuH0L8N8G9jB1MdNiqvqrhnJGUXbXFNmNu6F8thbYFNrDeT1TfeKQrxNy1Cchj98/QyR+s+Dzu12uymf4sNBSdFXQzUvjuddzBPSJZRUp5aeIsJzmSyTeZv0nVwzrpUZpiFGSsJJHkmLdJIqT1oH9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZBPHXG9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=aGuvlBvu73pKLuyHwO0heaYkn9xZDmbAStYL/dnOsCdRvTjibHyl80PtxhLXdIkbYOnyILKMrNW528uM4qYP1GjMxDA+HMJVBU/Lgch0TR6lFLh3cadBCYS+cediKjyTZDIs/vjNAkuGYVq7UlKF4zxRGoxjZG1mbUU5xM/KRGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oBYWT8/D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZBPHXG9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22A7CC4CED5;
-	Mon, 30 Sep 2024 21:26:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oBYWT8/D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2016C4CECD;
+	Mon, 30 Sep 2024 21:26:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727731588;
-	bh=5DSDo8MzAb3DNmtRyg6pZv65Kq1qofZob/dU/IC7z7Y=;
+	s=k20201202; t=1727731592;
+	bh=Xp61C7r0mqe/66MjAMdt1iih6QcgjF1Vd60S9xYPAVE=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hZBPHXG9cy/lP+B/6nCN0kcLFNfzs6ynniCE6iamj1tCfeaeedTYMI4Dh3dGUfUkR
-	 JE0eKRnCfjliUtpvvwTUiRBipF7DVJGdVjtRb/mRMPJIpcmOzuos1jE6Wz3Pk/ufNB
-	 MJsQRWH6VWmb2X59bvtL0VxRfNLKbkB3jJW6ne37jO9pyty8mLoYUYO4APAsu5ZUyN
-	 tJ/Ferk8U0FJ37kYCCNHPUChcLgsyVSGWBgoscJBZaWMI6u+AbjGcEXr4xTlZMFFXL
-	 RMirmwYm2Qu2hhN1qCsV9W4wypEExojGBY9OSilB977WC2S22kKyA5NwBZ0fpV8R5o
-	 pnWD+Hyjlunhw==
+	b=oBYWT8/D7gCHQpz7AdGj58uskTo0wB4kNOUkPxdwy+qtqdGxWMgxWUSzCh0xVMWKj
+	 NPi95iIQExOBZmXEpODgQWBffBf29Bv9c5O1oFJ8GeHyIkcLHtD1TEIhNq+KYOboaQ
+	 138y+OTm+oKttkm398wceDFYbIQKy2fR9ZOyJ1eUpCVmYVCy7pz/HX8D5JVmjz+JwU
+	 slFxyYr6cPRRP85Byi+7OWGI8zYSO4CKxPpxrsNN+xzv0LGUP/4lNC7CkNZJ8haTu2
+	 zhxegnLhOYtpo4IuBH2FMr/TX+IePJpmKaQCws0Mj1Pi1eGVwxmnklNRWQqiwGMtSZ
+	 paNdGdfwvgDKg==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
- Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Julia Lawall <julia.lawall@inria.fr>
-In-Reply-To: <a7ce512c-0f82-47f6-89fb-f7269e4fdfae@web.de>
-References: <a7ce512c-0f82-47f6-89fb-f7269e4fdfae@web.de>
-Subject: Re: (subset) [PATCH 0/2] ASoC: tas5805m: Adjustments for
- tas5805m_i2c_probe()
-Message-Id: <172773158692.2197048.4426255275584939181.b4-ty@kernel.org>
-Date: Mon, 30 Sep 2024 22:26:26 +0100
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ oliva@gnu.org
+In-Reply-To: <20240914090521.2224276-1-shumingf@realtek.com>
+References: <20240914090521.2224276-1-shumingf@realtek.com>
+Subject: Re: [PATCH v2] ASoC: rt1320: reads patch code from firmware file
+Message-Id: <172773159070.2197048.15498234088041924022.b4-ty@kernel.org>
+Date: Mon, 30 Sep 2024 22:26:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +46,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 16 Sep 2024 10:38:09 +0200, Markus Elfring wrote:
-> A few update suggestions were taken into account
-> from static source code analysis.
+On Sat, 14 Sep 2024 17:05:21 +0800, shumingf@realtek.com wrote:
+> This patch removes many lines of the patch code and
+> reads the patch code from firmware files.
 > 
-> Markus Elfring (2):
->   Use scope-based resource management
->   Improve a size determination
 > 
-> [...]
 
 Applied to
 
@@ -65,8 +58,8 @@ Applied to
 
 Thanks!
 
-[2/2] ASoC: tas5805m: Improve a size determination in tas5805m_i2c_probe()
-      commit: 0e9f73f109025f0d5d16b104b6684e6c03aa0c83
+[1/1] ASoC: rt1320: reads patch code from firmware file
+      commit: d72498fad93abf1817c4998d172a3d7f98f76bbe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
