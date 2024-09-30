@@ -1,109 +1,132 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C579A191F81;
-	Mon, 30 Sep 2024 14:53:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB613BB24;
+	Mon, 30 Sep 2024 16:34:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727707990; cv=none; b=Q2llzy2ruGrpCIQLehB2IqBF8NMvfbLHGrpNRecNQwnwgrMWSg1MpPrkIGZpSLmpOmfZbmQXhbWZIPEF5U5EJXyP4ueAco2JjZ4yl7CJ8UASGq0nKoDegxYZMQ3oK8cfTkoH8YMH6n+fhhHbvTxTU6F8A88qPIXqkSW20q8wmcI=
+	t=1727714061; cv=none; b=U49Gbscijxh5Esl4qWraztG6VpfHTx3vWfWS29bqJ1h65FAmVaSSyP8pmjDJF7BYzlUL13Ke5nyWv9l4vql/pfjazwKxyeHckL2CzU3+aine+bzWeLivA/m2xuBexEiC5vpZl/uwFzwllEzeDIfIuD4O2C0bizfn90el6vSqAHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727707990; c=relaxed/simple;
-	bh=IEZyqI9p1dpM5X1TBW/EbjmZcituc+iGg9sknYVX4co=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KOBcdvTs4FllJ+SnkqsuzIwKEuX0g3c2C4b3+FYs7d/7lBzSmsDsxEzBReeegISR61rbceNhJ2t5Tt/ZzOEOmqJobXhEI16o2EYWy/2Kb57lzkRtXWenjuzjQjdnqBJB59MtNeD/RN0k4Kn6NSX6/8MR01BXU3po+YxuQXs8ivE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ad7rn+Bg; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727714061; c=relaxed/simple;
+	bh=Qf8w32+ianb/P6mmXXQkfYYDksr3EPluaIRN2UzchLU=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=qsrhSqicmISPxAAx267mc4mCHyw+yFbO53pD377VQuChVvLG2FEEDxhYi8W90+zqRwdudD//MAcgACa9DBYqLXJ5HE5AChzOWMrGVWDlceaxKfGXGk3aXw7IxWw38RWyA0WCAEi1+PXTZIyNIxv17MUPcVFhWIFGpnJN6ed30eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=AL0vjq+X; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ad7rn+Bg"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2e137183587so696390a91.3;
-        Mon, 30 Sep 2024 07:53:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727707988; x=1728312788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yzZUrPo7VwF9JRFW0jXLatknVBb1CHVP9jTUv/xcRtc=;
-        b=Ad7rn+BgSZXRRPT4z/0I4Vv+s6eCcUOSEmKAKY9yQuQWJBjcX/EkufKao6P+QiZzeP
-         s2/+bDgCnsyKqD34f4G3hTkBW9kYuvnTy+oJH/LV1OY0Nlf3ADwev0Onw+qrfYH3ohp+
-         OY1d/5UAo7skQSAbA2d2fA4/Yh+ayaNLA55LWsr2rxSaZXadCWAoKd9J/MjKB3DT+jHZ
-         Z6aFemtOo9hzfZIAhBpvQpHcsFn0KiAq4wtIc8C5EiyLwLGclTTlmsAoUxCb0PQdhAOy
-         A5Nm9AYr3rspUmzZK54hZo0KJzJUyDGsRf5vLKp6tMANOqEeDJlbZPcyTQpsOoMrDoe4
-         FRRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727707988; x=1728312788;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yzZUrPo7VwF9JRFW0jXLatknVBb1CHVP9jTUv/xcRtc=;
-        b=qsJanICcH3YYK/5NeaprALVTpsJPRf68mReqgwvFFkS2o7zlJy/OViaeuHzhs1uMS+
-         1v/0wYkdtt3luqjOArEW6zpMyFZjakIRRGONu/10Nf9ThpPRRnj04+6vwPfCjn1M4AN4
-         J7V91tUfWBX4zmKqiyxn0Nh/CclpoqtbrjyDQJ3Gzg1owNL+VsRxkKvJB0euDMXp9Hzl
-         k6zoB1oe9AxJzuA/hLu1BVaXINcqH64JyedC+mYH/pVl7FFvYLvqpnO2A2AA6Yz7QnV5
-         eCn2brzN0cm2s67rHfd7sPTdjoQAzHg+pcbBEbeJ6U73S1xL8krUh7RTHN9lKCgp8GJv
-         q9MA==
-X-Forwarded-Encrypted: i=1; AJvYcCWk9r07pk+l29RWLQPg6nHzhQ40uzySbEMGrYbu41y1x0y/RxIOK6TPkF6hMf2r6pEK9lGgRguBLF1tpf8=@vger.kernel.org, AJvYcCXLQAf8CqTEI6+rjZYnqGprA/8Q9PmtjsBl547nhRhEBUilwzCLIxcee02fO0ooPLR33tnOHDhUmrRwoxo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0U8bwjg1d4wSNlMy0CxNkYA4+2QTdMcK8WTCBlwAKTBZRXV/E
-	twQ8wTLPKJ6aqjqGSgRqLvA3B8dsZHsxBndS0XuvfCJqXuHU/uTl
-X-Google-Smtp-Source: AGHT+IE76nvgMp3ss1EgYURcxr6slKLUutk2wg0KfFLhK9sMF9tqejGLNevkpTYdm/YhLLGA3ILB8w==
-X-Received: by 2002:a17:90a:9a83:b0:2e0:7e46:5ecb with SMTP id 98e67ed59e1d1-2e0b8e97ee9mr14496868a91.31.1727707987968;
-        Mon, 30 Sep 2024 07:53:07 -0700 (PDT)
-Received: from embed-PC.. ([2401:4900:1c26:3294:a303:135d:2d56:fd2e])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e0b6ca63f9sm7966808a91.33.2024.09.30.07.53.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 07:53:07 -0700 (PDT)
-From: Abhishek Tamboli <abhishektamboli9@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
-	skhan@linuxfoundation.org,
-	rbmarliere@gmail.com,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
-Date: Mon, 30 Sep 2024 20:23:00 +0530
-Message-Id: <20240930145300.4604-1-abhishektamboli9@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="AL0vjq+X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1727714031; x=1728318831; i=markus.elfring@web.de;
+	bh=Elp8feHwzLHEvNgI9yMIUjekemWT/zzJtyACfJwiUIQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=AL0vjq+XrUYRdIJT+vEufYJR9dYtYtRZlbH5uqFxSWi0lw7kVHlmzquoYI24nrUc
+	 0tEbu+Rtsa1kp8WXhB5iVN9Gc4MIZNu1X7Y62Mwu57QTdvGZ8KnQxDJC/+Jn0zI6f
+	 bUwis5dxTBV9jwYCT2zshkxzn0xz+3YR1eUwU0LZYn4NbG1sYbjWtqz4uqR4r9ham
+	 5VM0N8+WPjTHxivXyv60d274xnLXyyb+M5K+9m+5r/d96qZxZk5LK2ivgLwSzKhTx
+	 PKyoa9UGsJ3SFrZNRAAtuBqzw7zdkNE6hz75SAL3n0ght8O5y0+WNv3A7U7AjGs8Y
+	 VRJd8EbUmdIJes8ngg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.84.95]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MK574-1sc0Iq3iiE-00QFXj; Mon, 30
+ Sep 2024 18:33:50 +0200
+Message-ID: <30cfc980-3b38-4e98-a753-b149746cf93c@web.de>
+Date: Mon, 30 Sep 2024 18:33:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rohit kumar <quic_rohkumar@quicinc.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Zijie Zhao <zzjas98@gmail.com>,
+ Chenyuan Yang <chenyuan0y@gmail.com>
+References: <20240930011521.26283-1-zichenxie0106@gmail.com>
+Subject: Re: [PATCH] Fix possible NULL Pointer Dereference in
+ 'asoc_qcom_lpass_cpu_platform_probe'
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240930011521.26283-1-zichenxie0106@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:wWPrxVgNAW89ZtYL7yCE9yBsQPQ1CEh6dTzMElmw1CIQYjlLjDi
+ ymQyan+7h+OEOJdXyAPBfl2phLYm2KCFUzaFzczAomXzFIp3KGtBDMx771osuQmjqEYJytv
+ G9WUQXWTgqahgur6IolnNTAUmBCQcHVduPyRX1blabpKy8+UQxZUgcajxym9t/Yqnw5ZMar
+ wpa8ptkxJxxV+iHzQQD6A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:X4rV4JRbJeA=;IsqwtxPmorxf/jI/87t0I20eQn9
+ KC2pSZVTtF3/v8Kx2qyOpJQC4H/WrXQKfe2pPvygbpBBdsF8jHLeRdIcPkvGpVje7bCCKNEqm
+ NsIMp3qcdGQWYY4Li5H9sD2au6WT4whXrB8yppJWKFZJxJbE+FFq1y6vINs2zQZ6kZBcfVERd
+ 5kthtfAO6YG2Myyx4suCKzZFiZZBOFG2Xz1ud0D38xF6/9Au0q0jDhRGY5b+gBnofK6lDuGN8
+ /Ef1FJ0JRvIK8lwV68PYYpLRx/zOZLX+2oxGQzaHOHQcwpviqy0uTC8FyHtlrYw0yNvyLtWP0
+ dnHXDn4dqiutTmgYCRPW1kr0tAH/fmRadfh80ak/Pjmq9z5n3SdjlydpVUJ8GHY05AeDQiN5b
+ TZBttdld9R4Frz7nIkGJN3+W4+Il8Z7sUF5B+l8eE3YsvDfjIxUl7sLMgkOl6/KP8haMDX2HE
+ 7fS4zVk+b9GEw/UGMIVGu5E241GW5K/ycsvrxvyvybFlBp5tAAfVzBQ6odUg4CXTIr8V1RhL2
+ 8Nm3/agphLLjDRDQfTuBQGPEUxT2G4EFp3sjuFi58lPFA+NmhXyRITWuf4e+IccVyt+V7gDDX
+ 9AbKqY6cOopzkdv8bdF0s+I3xYvQuCI8XlAa7s5PxzUnwbQYVA4xUr7GVJtKViVcVFlxRvTZI
+ ycg2K2hxZmUOCGwFK6GnNRJp0phAF+KjNrYR2Mg2R7Iv8Yyg9qdBhALLpYtsdZFKIf+bABoTx
+ qP/plC1DTegxmOKesvo8lCfiLXx01e7Fetspzv/imT/ufgR6H9EEBbjudbtDVTRcBcVfG6pOj
+ vWjUakkgumCEpbCz3XlYbwJw==
 
-Add the quirk for HP Pavilion Gaming laptop 15z-ec200 for
-enabling the mute led. The fix apply the ALC285_FIXUP_HP_MUTE_LED
-quirk for this model.
+> A 'devm_kzalloc' in 'asoc_qcom_lpass_cpu_platform_probe' could possibly =
+return NULL pointer.
+> NULL Pointer Dereference may be triggerred in 'asoc_qcom_lpass_cpu_platf=
+orm_probe' without addtional check.
+> Add a null check for the returned pointer.
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=219303
+How do you think about a wording variant like the following?
 
-Signed-off-by: Abhishek Tamboli <abhishektamboli9@gmail.com>
----
-Changes in v2:
-- Add the quirk entry in PCI SSID sort order.
-- Use lower letters for hex numbers.
-[v1]: https://lore.kernel.org/all/20240926155112.8079-1-abhishektamboli9@gmail.com/
+  The result from a call of the function =E2=80=9Cdevm_kzalloc=E2=80=9D wa=
+s passed to
+  a subsequent function call without checking for a null pointer before
+  (according to a memory allocation failure).
+  Thus return directly after a failed devm_kzalloc() call.
 
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 4ca66234e561..b8e33e4a0baa 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10349,6 +10349,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8896, "HP EliteBook 855 G8 Notebook PC", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8898, "HP EliteBook 845 G8 Notebook PC", ALC285_FIXUP_HP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x103c, 0x88d0, "HP Pavilion 15-eh1xxx (mainboard 88D0)", ALC287_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x88dd, "HP Pavilion 15z-ec200", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8902, "HP OMEN 16", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x890e, "HP 255 G8 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_COEFBIT2),
- 	SND_PCI_QUIRK(0x103c, 0x8919, "HP Pavilion Aero Laptop 13-be0xxx", ALC287_FIXUP_HP_GPIO_LED),
---
-2.34.1
+=E2=80=A6
+> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+> Reported-by: Zichen Xie <zichenxie0106@gmail.com>
+=E2=80=A6
 
+How good does such a tag combination fit together for the same person?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc1#n525
+
+
+Can a subject like =E2=80=9C[PATCH] ASoC: qcom: lpass-cpu: Return directly=
+ after a failed devm_kzalloc() call
+in asoc_qcom_lpass_cpu_platform_probe()=E2=80=9D be more appropriate?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc1#n613
+
+
+=E2=80=A6
+> +++ b/sound/soc/qcom/lpass-cpu.c
+> @@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct plat=
+form_device *pdev)
+>  	drvdata->i2sctl =3D devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sct=
+l),
+>  					GFP_KERNEL);
+>
+> +	if (!drvdata->i2sctl)
+> +		return -ENOMEM;
+=E2=80=A6
+
+I suggest to omit a blank line here.
+
+
+By the way:
+Would you become interested to omit the label =E2=80=9Cerr=E2=80=9D from t=
+his function implementation finally?
+
+Regards,
+Markus
