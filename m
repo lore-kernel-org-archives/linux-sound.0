@@ -1,61 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18E419D06E;
-	Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E03848E;
+	Mon, 30 Sep 2024 14:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727697904; cv=none; b=BuIkDLXqLplrwaGRXZ4II0PmSWx1nyhmBcov3ccq7xoVLSlUmtgBe/Bz2PlRtmzf5wvJcwe4Cxv4BL5ixTwpD/jGw6Kr+0ZEEcgkK7jc4zoEpdjQ9GiiU/Cg5QFTO4zIXnbkm5tXy9sS6cY/jxtNye0y+sCmDIRLk465qN4buTo=
+	t=1727704920; cv=none; b=k4msPbp64HUYAvjnW4AzDgsxH1bNbJOGZdQflz1j/5pjgx4dLWPo2Zpr3jkEtKh4KEzWmovVGgGATRuN4TBh7psyuPWyJS2r90wzPObtLLD3o+5DHaqkVqjTIUF7Y2PdKbhoR6NiwbMNvPHifnqryG8FvS3mwZeFlRBG/fHuZbQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727697904; c=relaxed/simple;
-	bh=3h4q3O3nZWF4pcTjxsmhFX9tmFa7J4/gtzBFBjRIyyA=;
-	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
-	 References:Subject; b=PDJQrNT/Me6uBuNXq18pD5YYa+6mkB8DAOxz+gFOsaWRc68stfMff7Hz7rSfoCSBz0D8ifCZLoDYU0l4PSlpxlN33f5mPwY9IZRrIf3+i8TGPn/AZgQDKdBzuiKooi3bttOjYjIPB/KhcrwEORoXxOQ8V8WP/cs6A62RobMRs+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7ZwDjAo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727704920; c=relaxed/simple;
+	bh=G6LzdqOokS23LP1VY338tGcBvZCN/ylAvCaZppvKVcg=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ruPt9uIDyA5y+kM0cD90g0rJSX1qFY8A7n9YEkzt++aAz13PjISw8K+UI/jg/5lZM7gNCb7TzEOTEFGvY2F/IcwMhCynK88emV7k3F3Pev0F+N0dBAEQkqTK4bXKTqR2oCb+T4FNoDLsOnuhn/CAIfLqzATyGUShiRViUo8zR3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p3ho+n9d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eEO/mOn/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p3ho+n9d; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eEO/mOn/; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7ZwDjAo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E995C4CEC7;
-	Mon, 30 Sep 2024 12:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727697904;
-	bh=3h4q3O3nZWF4pcTjxsmhFX9tmFa7J4/gtzBFBjRIyyA=;
-	h=From:Date:To:In-Reply-To:References:Subject:From;
-	b=R7ZwDjAopFewbDxTLm8UhXRWXRusqNDAR0p1k2hspkSTNCJZ0O6BpxtduXcnpFjdx
-	 1a/m3paVgRpDDrFRih7wrGC5ZVFz2b1ZH9WjM1+Ghl03Jx8QfVcLlgyju+9gujZ5iE
-	 +p6RMGqOJFqSLfzTgXSLPe8Ox9zlsEs6MOWxQ2eUXTLTEI35EdHOr2iv8EDnbzxbdv
-	 RZ4rGmyTlrXVuPZwpyLggJ8orjivwvThGhBri5RgTG5bZxKBWkCvXxXDxTBeGwX0v4
-	 qVxzKb7YZM6Q/nVO6UbwCy1Co0Zc//gRVuQFwdXEjy/r8j+abc8jx1wl7Az4ZkYq7H
-	 ZMBUMF5wzTC4w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3F7953804CB9;
-	Mon, 30 Sep 2024 12:05:08 +0000 (UTC)
-From: gfrank227 via Bugspray Bot <bugbot@kernel.org>
-Date: Mon, 30 Sep 2024 12:05:10 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p3ho+n9d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eEO/mOn/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p3ho+n9d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eEO/mOn/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id ABFDA21A64;
+	Mon, 30 Sep 2024 14:01:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727704916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JBtmLH9COnq4AhxoZndZCXmFIPw/Tb/FqVdz+ETVuio=;
+	b=p3ho+n9d13D5Br2KKpvA3EE7+DtUE9NO+R0DafHbl4xW1Al59cC8ZqBiPsBw5R4sZWS/yn
+	Q3Jx+mT6tG3XMQPOEmXjmSxPSe7O0tj6s7c0NIih5b+QprdlxOl35mdU+aVMRlHrk0RmZI
+	RaH0+GzznvF3ShIUKvu5W0tx+MiQwYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727704916;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JBtmLH9COnq4AhxoZndZCXmFIPw/Tb/FqVdz+ETVuio=;
+	b=eEO/mOn/QlUxT7GsQu87oQRKNZ9XwiDI9OjzZ40nZhhaQknq4oiDvPmyAa1LEvCLvAi9V4
+	WUmFj9dP1aeqSyAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=p3ho+n9d;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="eEO/mOn/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727704916; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JBtmLH9COnq4AhxoZndZCXmFIPw/Tb/FqVdz+ETVuio=;
+	b=p3ho+n9d13D5Br2KKpvA3EE7+DtUE9NO+R0DafHbl4xW1Al59cC8ZqBiPsBw5R4sZWS/yn
+	Q3Jx+mT6tG3XMQPOEmXjmSxPSe7O0tj6s7c0NIih5b+QprdlxOl35mdU+aVMRlHrk0RmZI
+	RaH0+GzznvF3ShIUKvu5W0tx+MiQwYI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727704916;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JBtmLH9COnq4AhxoZndZCXmFIPw/Tb/FqVdz+ETVuio=;
+	b=eEO/mOn/QlUxT7GsQu87oQRKNZ9XwiDI9OjzZ40nZhhaQknq4oiDvPmyAa1LEvCLvAi9V4
+	WUmFj9dP1aeqSyAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7AC7D13A8B;
+	Mon, 30 Sep 2024 14:01:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id AbmXHFSv+mYYCQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 30 Sep 2024 14:01:56 +0000
+Date: Mon, 30 Sep 2024 16:02:49 +0200
+Message-ID: <87ed51grxy.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	kernel-janitors@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/35] ALSA: Reorganize kerneldoc parameter names
+In-Reply-To: <20240930112121.95324-5-Julia.Lawall@inria.fr>
+References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+	<20240930112121.95324-5-Julia.Lawall@inria.fr>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-To: linux-sound@vger.kernel.org, tiwai@suse.com, perex@perex.cz, 
- bugs@lists.linux.dev
-Message-ID: <20240930-b219303c7-eed76af13c8d@bugzilla.kernel.org>
-In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
-References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
-Subject: Re: Mute LED light is not working on my HP laptop
-X-Bugzilla-Product: Linux
-X-Bugzilla-Component: Kernel
-X-Mailer: bugspray 0.1-dev
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: ABFDA21A64
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.98%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[inria.fr:email,suse.de:mid,suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-gfrank227 writes via Kernel.org Bugzilla:
+On Mon, 30 Sep 2024 13:20:50 +0200,
+Julia Lawall wrote:
+> 
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
+> 
+> Problems identified using Coccinelle.
+> 
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-thanks. Do you think it'll make it into 6.12?
+Applied now.  Thanks.
 
-View: https://bugzilla.kernel.org/show_bug.cgi?id=219303#c7
-You can reply to this message to join the discussion.
--- 
-Deet-doot-dot, I am a bot.
-Kernel.org Bugzilla (bugspray 0.1-dev)
 
+Takashi
