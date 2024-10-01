@@ -1,147 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572B81C579F;
-	Tue,  1 Oct 2024 13:48:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E73224CF
+	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 13:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727790513; cv=none; b=LxUy62IptB7/GSENaoNABA5amEdSq1+Fw2NORTEEPraIidDo1Xe5Sg4eH+C4nxbuTSU81DRUombF31nOZWLZ2CxFd+LUtFkIi9P2vTF2GOKPN2KqdYpvFuBbjR3cxdqtSt4zNTy/FRvDG9Ys1OEQGRA4CHd9hxmFswo21zw6JBM=
+	t=1727790627; cv=none; b=DeQSFFfPT5A6BGmFJA+NMWpzhy2dV+3LQlrJ/mo7sXN7c6NYnGisr7A9iDsvK1/305doUhRVjELYgHkjqIwlSb1mRhObf4Y1WVLniQCY1C2u/bu1hGY2Wa5hKxaNEkDAtPhzSj731bYuByhERq5ape5oAeJG5p1EiT4UlQhdOVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727790513; c=relaxed/simple;
-	bh=hYg0Fu0D6IoftEUgUjWbcBn5SdluW6xHgOAg9+UBNzA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fJ17iRkkELM23Ux+20ljUFWpSL26/ghYtXc4VKEGxZ+rOOmzWXiQrDnGCCajH2aOQJ4coo9FH4KsP1qRE9Tv1E1hxXILg8JJZLPNZzJbE+PQEe+jlpDwwj2Nk//Pgc+2koZ6JF1nNutW1ttQHDCrR6h/+G+SZJE1G3m52VgeUAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNwkIeX2; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727790627; c=relaxed/simple;
+	bh=dveGBljm7UEvi8gZaPX4Fj9VImGU7ctszDWc7FARMwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fAOS9DngK89KG0qFyJ78WNzeRCyhG33l47juoYw5qtxIUx9TF1rzJ7UfhHu72OHVpITsH4v+Pgnbl1tOnEuM8PEc8AZ0TgcUWIjFymPB7R1PgSLalAxS4UmhMz62DfoPNEpPJpMitmccsDYMGm4QrTTFa3ugjkNcZM0l1WFwv8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KL+RmCRS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNwkIeX2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727790513; x=1759326513;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hYg0Fu0D6IoftEUgUjWbcBn5SdluW6xHgOAg9+UBNzA=;
-  b=HNwkIeX2M3ZbW84YnM698zxb087PJN++6JW31D4Mddf+hb1rVpFzKQPo
-   PYthRGh/rsHH+VheNasG0bnVN+fzVm3cfH5TPP2+0980ISaPlRE6MuTmZ
-   /8WPez2+kp5T3Z+OzGuqD8aQZObJoijCkR+WVEzEYcY1yS7XAQ75ae7Yy
-   E8H0GrhCHoGUzRVbauGSHPhsXbkJguhkFju3TwMNzWvE5VQLV/0ZlNwxE
-   rnXndD5EhFZ6YqF9UbLZuy+HhdeZlDcXe5SIG6hrzfFRPyJ/Xh+ZkU4pk
-   k2/HKFn/2aWrnDMybh7/SwZA7fFx0hJyFXytW6w+Eozv6OsXnepK3Ygo7
-   Q==;
-X-CSE-ConnectionGUID: CEurDm+zSXK1F7c5n/RCQQ==
-X-CSE-MsgGUID: LhkMJ57JTpaK8Wjlv+nc/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11212"; a="27018698"
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="27018698"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 06:48:31 -0700
-X-CSE-ConnectionGUID: vvOEWfuOQp6aUElZPlvVAw==
-X-CSE-MsgGUID: jKRp70E6QsmfnSnjQ90fUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,167,1725346800"; 
-   d="scan'208";a="78534228"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2024 06:48:25 -0700
-Message-ID: <04f17b40-cb63-4758-80fb-91996f71a07c@linux.intel.com>
-Date: Tue, 1 Oct 2024 15:48:22 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KL+RmCRS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94396C4CEC6;
+	Tue,  1 Oct 2024 13:50:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727790626;
+	bh=dveGBljm7UEvi8gZaPX4Fj9VImGU7ctszDWc7FARMwY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=KL+RmCRS550Mk93sOfmQoIENJ+OUkK0O6xXu8pwFIHFd+mEgW5z/mMHsLQMgzadxn
+	 Q6eVgE9vGudHbaRJzJll7N9t0TWAEW1jZiHlyGZwhPN3da/+Is7aOr7NAYhGy36Kb3
+	 Wemn20sat5mVt1EPXqeWAFli1cj+yVtlckny30mI2UiSGdC9CjYT+7nkBfPQ9aDmGJ
+	 qVioEp6kkc7PyyvuA8R0sCxilYKuFmweLYSlNNLfhpMBMN1ddM6YLGg/lOK8Hbo2VC
+	 aSu3hYqWFGWR68z/supz4JjvKeb0SEDvf//uee3OC9AXTumETGU7VFYBrt5wUXflJ9
+	 UaVOmIkv24M/w==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, shumingf@realtek.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
+ kernel test robot <lkp@intel.com>
+In-Reply-To: <20241001071836.3719162-1-shumingf@realtek.com>
+References: <20241001071836.3719162-1-shumingf@realtek.com>
+Subject: Re: [PATCH] ASoC: rt1320: fix the range of patch code address
+Message-Id: <172779062337.2290041.16568498435860240014.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 14:50:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v28 18/32] ASoC: doc: Add documentation for SOC USB
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
- lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
- pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
- bgoswami@quicinc.com, robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20240925010000.2231406-1-quic_wcheng@quicinc.com>
- <20240925010000.2231406-19-quic_wcheng@quicinc.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20240925010000.2231406-19-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On 9/25/2024 2:59 AM, Wesley Cheng wrote:
-> With the introduction of the soc-usb driver, add documentation highlighting
-> details on how to utilize the new driver and how it interacts with
-> different components in USB SND and ASoC.  It provides examples on how to
-> implement the drivers that will need to be introduced in order to enable
-> USB audio offloading.
+On Tue, 01 Oct 2024 15:18:36 +0800, shumingf@realtek.com wrote:
+> >> sound/soc/codecs/rt1320-sdw.c:564:14:
+> warning: result of comparison of constant 4295491583 with expression of type 'unsigned int' is always false
+> [-Wtautological-constant-out-of-range-compare]
+>      564 |                                 if (addr > 0x10007ffff || addr < 0x10007000) {
+>          |                                     ~~~~ ^ ~~~~~~~~~~~
+>    1 warning generated.
 > 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> ---
+> [...]
 
-...
+Applied to
 
-> +USB Offload Related Kcontrols
-> +=============================
-> +Details
-> +-------
-> +A set of kcontrols can be utilized by applications to help select the proper sound
-> +devices to enable USB audio offloading.  SOC USB exposes the get_offload_dev()
-> +callback that designs can use to ensure that the proper indices are returned to the
-> +application.
-> +
-> +Implementation
-> +--------------
-> +
-> +**Example:**
-> +
-> +  **Sound Cards**:
-> +
-> +	::
-> +
-> +	  0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
-> +						SM8250-MTP-WCD9380-WSA8810-VA-DMIC
-> +	  1 [Seri           ]: USB-Audio - Plantronics Blackwire 3225 Seri
-> +						Plantronics Plantronics Blackwire
-> +						3225 Seri at usb-xhci-hcd.1.auto-1.1,
-> +						full sp
-> +	  2 [C320M          ]: USB-Audio - Plantronics C320-M
-> +                      Plantronics Plantronics C320-M at usb-xhci-hcd.1.auto-1.2, full speed
-> +
-> +  **USB Sound Card** - card#1:
-> +
-> +	::
-> +
-> +	  USB Offload Playback Route PCM#0        -1, -1 (range -1->255)
-> +
-> +  **USB Sound Card** - card#2:
-> +
-> +	::
-> +
-> +	  USB Offload Playback Route PCM#0        0, 1 (range -1->255)
-> +
-> +The above example shows a scenario where the system has one ASoC platform card
-> +(card#0) and two USB sound devices connected (card#1 and card#2).  When reading
-> +the available kcontrols for each USB audio device, the following kcontrol lists
-> +the mapped offload path for the specific device:
-> +
-> +	``USB Offload Playback Route#*``
-> +
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Those examples would probably be easier to follow if you also provided 
-something similar to "aplay -l" output in addition to above sound card list.
+Thanks!
 
-> +The kcontrol is indexed, because a USB audio device could potentially have
-> +several PCM devices.  The above kcontrols are defined as:
-> +
-> +  - ``USB Offload Playback Route PCM`` **(R)**: Returns the ASoC platform sound
-> +    card and PCM device index.  The output **"0, 1"** (card index, PCM device index)
-> +    signifies that there is an available offload path for the USB SND device
-> +    through card#0 - PCM device#1.  If **"-1, -1"** is seen, then no offload path is
-> +    available for the USB SND device.
-> +
+[1/1] ASoC: rt1320: fix the range of patch code address
+      commit: a34b9d812d7ec95789b15ce84de5f03c6dd1137b
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
