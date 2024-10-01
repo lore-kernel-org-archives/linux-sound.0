@@ -1,108 +1,88 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473A1CDA0D;
-	Tue,  1 Oct 2024 21:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41A21CEAD9
+	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 23:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727816564; cv=none; b=rr9/X0WBw6uPEIsyJWrANZixB4inwTgPejW/82DokLSQEtmub9sJRG6iwa6DuDMGqH8jrIyM1Y2igjTCJNpVay+TudVCyeSp2OnIg8KbDK1yojqoJb8SLL+i7UeNfPCmRwBmfH8Nn1pdkInzW5B6t7tRqN34DiXh9susNbFwXCY=
+	t=1727825174; cv=none; b=UIC1XM2WjNq6SibrXrbMuUyTyY2QaN/g94PK7lLoFaklYnkqzoivmt+r4VrfYKD+8Y/PPgqPmrNHxXofjxGP09SQ284Wl0W9NrP2JllLZueismmBd4uIqinfnOn20E3IdRnR6sMWDDwvgkPF7yVpT77mmd849q0XzpVQ7iVmHEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727816564; c=relaxed/simple;
-	bh=j9nKdkXSYWiIqZC/EjeMLZoVdFKq933DP4Fk2mYbuDc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CmRKbN73ruUf8CzsSWgVi1g9+yLsCEo0YVEOiFFfIszrk6/ZfTsPWzs8dX+bsz2ZSs4SsEbdk8ZgTjteRJ9dLrGCs5Yy6kgtoG9ChXxwrxqriB/CfGiyyOzcqPNpmgGMYKvJLLvwT/iyyijbcH9myE77jb4H1XkKsu4Ga+PQeac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A1P/u8i9; arc=none smtp.client-ip=209.85.222.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727825174; c=relaxed/simple;
+	bh=UGDnuMXBI/aOrvP8EgpslsYBhs4h9T0atATFAJpFItk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=YdErrGrG2MVUyv0BRsbNg5xE4FeWIsrANQxCgS6850MZ5SIVUDuLjR1zxe0XMawxJecgX7aQqFJ36C2hNlOcwVTx78m6qzer+38E8SR2VUIjXelsabg8KI8Kip2r8TQpEchZM5VEh8s/PdcAO8m87KZ3ZMF1LURpBkEq3/LLNJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2az8YIp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1P/u8i9"
-Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-7acdd65fbceso493604885a.3;
-        Tue, 01 Oct 2024 14:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727816562; x=1728421362; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+jYH5NvXI+E7Di+eslBeYdYxG/YksuIt7qvi8S1X1cA=;
-        b=A1P/u8i9w8DH84ZJYr9Oc8ig8TdqJ+VE7yU6co5YApx2zCQr84Wm4OY1IgX2SaLNQh
-         9JUwt+CSaefuQC+VPVa1hGrYIxsYy4byfE5A/WKw/Tvgl8JRClvpskCk0nUc8wzWh2Qg
-         VC0dWEWqw2UfaXXl+c4P6YhZx8UmV8Ms0919FlFVv1+zMddB8iRviFpINur8ZW6ByTAh
-         70zBsqUjjLgoADRxFwRoRU178966FDSIzxsO9TkoRgwvcsJqnq/aCJ9yw/ELa+fl4P3d
-         RQK0O/+Sr5yT07ohhVX711lf0KTpQw781qXeqUaeVTE+0GWx6uLk7nfAZ3t6JJIvafbV
-         lfWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727816562; x=1728421362;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+jYH5NvXI+E7Di+eslBeYdYxG/YksuIt7qvi8S1X1cA=;
-        b=dOmBOPGyLojjD1wQ5Vvfhvwe7V+oECoq8gkeCV6PTRxtYOGy7cr698JYkUSyNZm88R
-         A8C6PFUI3YsE7ztArhja4Rbc52gKom3SZVrRKRuGP0ZcPdA4E8n+r8GrGYglUeoiBBpy
-         Z7jwXFVfHqDiXLTYDmWnC89GxXYVURUAXP8UDhU0RVrus3jUohH7jU5lyeqTdEl7TZVt
-         bopNALsmyTCMFKeT7Bd02WXTnfiomte7XL/2aZihy1aOqafJL1yjE3wsoYqSsE3UFRdB
-         mpl/a3ndCmeb7ken06o42J2Gk1Af51V0zijdSpCkYC4WKJt8V+DDFPXu8xgrg7FdmpYT
-         jF3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVsBNYUNnTodirSSxp3ZTAWP3vTSpjOwx+K6LnLeCnV+FtsPOaN7RELcHRIzZN97cwv2QHSyS2Z6NpK0vr+@vger.kernel.org, AJvYcCWeiidxs1963OfEOh88GSxg7I74rPmnQA4GGs9Yfwswto6mg2CVPPU4MrWcGuku7XuyaAy/8xTv@vger.kernel.org, AJvYcCWhJ0vmR7Gz4VeKjKvtq6rBdMG6G2Ixhi8Sgd3hikd/XiMJTh5p8czO88n/4EBjJ61dQ0q6RhK1p2aZZzI=@vger.kernel.org, AJvYcCXuIU1tuhDYb3LavJPMgDHgf1Wx8q4lwa12NxKtf/WoTkTACQjhP1ZRLdPA+efu8BoCq8ePnH7GsCzmaCXB@vger.kernel.org
-X-Gm-Message-State: AOJu0YxASC7xnpSFoXvg1cCS4rr5bsjlH/u8PGABb4LOEjqb3vd7TNut
-	+oeP0UTL6E3kLOTizb/fFrVyyed0iCyUo/BLy29pnq59OEU9TQoL
-X-Google-Smtp-Source: AGHT+IH8uerN1xuIll5+jKNYSNyQKKRV3hWcMZLGc4+dVp70EfVbpJdn2EImWBYE6QoIIu3JG79n3g==
-X-Received: by 2002:a05:620a:46a4:b0:7a4:dff8:35e6 with SMTP id af79cd13be357-7ae6274f7e5mr123077585a.62.1727816562236;
-        Tue, 01 Oct 2024 14:02:42 -0700 (PDT)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae3783d269sm540615685a.116.2024.10.01.14.02.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 14:02:41 -0700 (PDT)
-From: Gax-c <zichenxie0106@gmail.com>
-To: srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenyuan0y@gmail.com,
-	zzjas98@gmail.com,
-	Gax-c <zichenxie0106@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
-Date: Tue,  1 Oct 2024 16:02:10 -0500
-Message-Id: <20241001210209.2554-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2az8YIp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF71CC4CEC6;
+	Tue,  1 Oct 2024 23:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727825173;
+	bh=UGDnuMXBI/aOrvP8EgpslsYBhs4h9T0atATFAJpFItk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=U2az8YIpSrR2p9kBCGbpuDZ+K7Bbi41ca2N+3po/2/GssqUBpR0fGE2by6fLVZbou
+	 REfxcn5TzaUIjzeGCE0+4eq47xcNtR/c1HWe7Vk7aUkv3e4+snoEMqwP808RiQjLve
+	 NC8ZoNryfEIMxVPimBIDlOdopPaZruW2O98yE5dcnamURuVWgwWgtJAh6ReSpckoYs
+	 KVZVbgyppw0ZsdozvDp7h6dy+9s84w6+9wFQgkNHz5LKpnljN3Qro+qxH8w8T377aL
+	 gBhBNK8SxQaN/lWoZF3H+6S0dB82vCz5tBwzItxsXkZUA/8CZlkS2PWI4+xZJ1tufj
+	 OWeLTaDFjUN1g==
+From: Mark Brown <broonie@kernel.org>
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com
+In-Reply-To: <20241001061738.34854-1-yung-chuan.liao@linux.intel.com>
+References: <20241001061738.34854-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: soc-acpi: Fix missing empty
+ terminators
+Message-Id: <172782517091.2309357.16693220151436664573.b4-ty@kernel.org>
+Date: Wed, 02 Oct 2024 00:26:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
-possibly return NULL pointer. NULL Pointer Dereference may be
-triggerred without addtional check.
-Add a NULL check for the returned pointer.
+On Tue, 01 Oct 2024 14:17:36 +0800, Bard Liao wrote:
+> There is no links_num in struct snd_soc_acpi_mach {}, and we test
+> !link->num_adr as a condition to end the loop in hda_sdw_machine_select().
+> So an empty item in struct snd_soc_acpi_link_adr array is required.
+> 
+> Bard Liao (1):
+>   ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
+> 
+> [...]
 
-Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-Cc: stable@vger.kernel.org
-Reported-by: Zichen Xie <zichenxie0106@gmail.com>
----
- sound/soc/qcom/lpass-cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied to
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 5a47f661e0c6..242bc16da36d 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1242,6 +1242,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 	/* Allocation for i2sctl regmap fields */
- 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
- 					GFP_KERNEL);
-+	if (!drvdata->i2sctl)
-+		return -ENOMEM;
- 
- 	/* Initialize bitfields for dai I2SCTL register */
- 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
--- 
-2.25.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
+      commit: 5afc29ba44fdd1bcbad4e07246c395d946301580
+[2/2] ASoC: Intel: soc-acpi: arl: Fix some missing empty terminators
+      commit: cccb586f513cd999b9dade82e5a25b711d90a76f
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
