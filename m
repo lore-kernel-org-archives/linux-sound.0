@@ -1,90 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48EFF1C2458;
-	Tue,  1 Oct 2024 12:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F153F1EB46;
+	Tue,  1 Oct 2024 13:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727787487; cv=none; b=gq1QY0Vhdrby4wESmxEVZmgtCKyzK0bCz//jbMNsnDIlS5/sFgnY1sLdbKwngWhTDggaCCnwtfOAMLxzDF7gK5UsoDyS2zq3UQ7rNjwiqA6qeb5owe/Fw9W1PddQ/HqQpGGFNm8N7hxb26hNKtMCeEg1Q6YJxlvNLiuLCkZFs2Y=
+	t=1727789338; cv=none; b=euzGtB3XTOwBTunhEIyTIBRoYUq6+0HAmGpjl/40UTcu2mWH+0RgAJwSMnQD+Ur04cddqcwJSSWjFHLLxePT0V6derB978k7BubbWn4hNNg33XSaMZmPkQsH4EpK5FU5WPiylEAenkh5HTZiglz/3PmJLlsGiS9kL3h0EfC4p0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727787487; c=relaxed/simple;
-	bh=QyEZfHdMYJ+lGcIcvHz3IB8FoqlRl1lML5exUpqUBTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CmFTtRGp9ZJ0sYAZRGiA/3M1H/uCIj5JYJYjHZAMqxJq36B356dkxHrJKa19jIs+TkrO356Tm98+0JBRiaorzP8x8KKd+r5TBWDZg4uN8oxnxMrxI9alEWOB9llSSr5xGveip/BC8Uhus2cVc3p3z2WHq+ZybAuXNmE19kU26jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q3jqfhjh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q3jqfhjh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B902C4CEC6;
-	Tue,  1 Oct 2024 12:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727787486;
-	bh=QyEZfHdMYJ+lGcIcvHz3IB8FoqlRl1lML5exUpqUBTA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q3jqfhjhJyToS+rPzZEqV2DJHGWKizZqhHmzKQuND2eWzdqfwlCiEcnOC/smQGWQf
-	 xCxKLd07nggWaurz38kUUdZHDyk3A+M6jVagcA7hvkUJP9J11iCirRhkYcfXGA9+l8
-	 b4qdhP3wrEyBCFp446b+WBxr5UkZz1Vs133zl+CP/a0XXg8HtjBjNbXXUX3RnEk1zz
-	 TFTurWbtXnpmAk76Gp9i1lt+djTnXrwIx0vqUDsIEWXyIAnYHhC6P0RbVEhgjUcRez
-	 IBIYsagFf3KlFaijPENMZcVHYQ74vQWpHD14jes0b4HWXzd43+9F6Q+Zn+CfU3vpVo
-	 cSQKhfHvoeEuQ==
-Date: Tue, 1 Oct 2024 13:58:01 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Bjorn Andersson <quic_bjorande@quicinc.com>,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	Chenyuan Yang <chenyuan0y@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rohit kumar <quic_rohkumar@quicinc.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, Zichen Xie <zichenxie0106@gmail.com>,
-	Zijie Zhao <zzjas98@gmail.com>
-Subject: Re: [PATCH] Fix possible NULL Pointer Dereference in
- 'asoc_qcom_lpass_cpu_platform_probe'
-Message-ID: <1b8a5949-2501-4501-b722-137fcf122cf6@sirena.org.uk>
-References: <Zvrb+q28S/C4z2eH@hu-bjorande-lv.qualcomm.com>
- <cf8e2da5-818d-4783-a3c4-bb6aa62088f2@web.de>
+	s=arc-20240116; t=1727789338; c=relaxed/simple;
+	bh=1QT+2obgp7SCSU5glw0/9WjUKxr02K/paJ8QAMmhxu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FNrITMbjhWNEkFUbfXnVM1jmkdMEhLxl6ijkX0jkqj+o+fBW1yE0YIUGLrCUIcZWKjWpIYyDnlutrCAAa83GLDWPYmkyus7Ahj3YTq1foU+k7M2YznWFSPmXZ/5FgTKsdbszxaJacccjv5YCZGEv9iw9bqLB+zy8b4anAfNQpug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9651339;
+	Tue,  1 Oct 2024 06:29:24 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 251D13F64C;
+	Tue,  1 Oct 2024 06:28:53 -0700 (PDT)
+Date: Tue, 1 Oct 2024 14:28:50 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 3/6] clk: sunxi-ng: h616: Add sigma-delta modulation
+ settings for audio PLL
+Message-ID: <20241001142850.1c275f78@donnerap.manchester.arm.com>
+In-Reply-To: <20240929100750.860329-4-ryan@testtoast.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-4-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/cGtRaFPuIMQKWOf"
-Content-Disposition: inline
-In-Reply-To: <cf8e2da5-818d-4783-a3c4-bb6aa62088f2@web.de>
-X-Cookie: Even a hawk is an eagle among crows.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun, 29 Sep 2024 23:06:04 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
 
---/cGtRaFPuIMQKWOf
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Ryan,
 
-On Tue, Oct 01, 2024 at 02:48:54PM +0200, Markus Elfring wrote:
+> Allwinner has previously released a H616 audio driver which also
+> provides sigma-delta modulation for the audio PLL clocks. This approach
+> is used in other Allwinner SoCs, including the H3 and A64.
+> 
+> One change from the vendor code is made to the PLL clocks, the 
+> vendor-specified dividers of 4/2/1 for the 1/2/4x clocks respectively result 
+> in audio playback that is too slow by 50%. Therefore the dividers are simply
+> doubled to 8/4/2 which results in correct playback rates.
 
-> > Your description and patch looks good to me.
+The reason for that is you force .M0 to 1 (divide by 2), in the fixup
+below (in the probe routine).
+So for instance for the 4x clock, the formula is:
+	PLL_AUDIO(4X) = 24MHz*N/M0/M1/P
+M1 is cleared (div by 1), M0 is set (div by 2), P is exposed as .m, and N
+as .n in the ccu_nm struct. So you get that extra by-2 divider, that is
+invisible to the CCF, hence you need to compensate for that.
 
-> Interesting =E2=80=9Cview=E2=80=9D =E2=80=A6
+But with tweaking the dividers only in the fixed-factor clocks below, you
+still leave the original (_hs) clock wrong, which is a parent to other
+clocks, if I see this correctly.
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Can you try to add a .fixed_post_div = 2 in the ccu_nm definition, and
+then put the real dividers in the fixed-factor clocks?
 
---/cGtRaFPuIMQKWOf
-Content-Type: application/pgp-signature; name="signature.asc"
+And please explain all this in comments ...
 
------BEGIN PGP SIGNATURE-----
+> Add SDM to the H616 clock control unit driver.
+> 
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 36 +++++++++++++-------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> index 84e406ddf9d12..be272947b0fee 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> @@ -215,20 +215,23 @@ static struct ccu_nkmp pll_de_clk = {
+>  	},
+>  };
+>  
+> -/*
+> - * TODO: Determine SDM settings for the audio PLL. The manual suggests
+> - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
+> - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
+> - * pattern=0xe001288c for 22.5792 MHz.
+> - * This clashes with our fixed PLL_POST_DIV_P.
+> - */
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmb78dgACgkQJNaLcl1U
-h9Ae2gf/SjdwIbpI6k7ZUnbe4dgp9xn/Piq0S4chNNyqq3t0wy+zWAyUwLRjL5Y5
-+nWCk3X0qImHgisbz6Z0m+4CA3a5voxCYUVtHCMFVljfydvNve5AzxDFQsYhDWub
-nBgHEqiceARe+qyhYooXEnrgeAC0LWU8J+7tXt/ylrIgo14rlGZQSiEw36DeynCG
-tOpBI7eXSjfTJFwn3Q3+o7tA05cI1A2JP5IOcjp2KD6rXqSBg5DzhnZPwH6VGz9w
-gQvhnVBft5ZIXqy+GZPy7dJqnKINZxivNGgnxnV7D7/812hBNDMriEvMQHJtLpe+
-9MqYln6QlWgAyy7xethxx5A46RPpYg==
-=kNGb
------END PGP SIGNATURE-----
+>  #define SUN50I_H616_PLL_AUDIO_REG	0x078
+> +
 
---/cGtRaFPuIMQKWOf--
+Can you please (re-)add a comment here explaining the sources of these
+parameters? Because the values deviate from the ones in the manual.
+And also please mention here that there are two more divider bits (named
+m0 and m1 in the manual), that we cannot model in our ccu_nm struct, and
+thus force them to fixed values in the probe routine below?
+
+> +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
+> +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
+> +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
+> +};
+> +
+>  static struct ccu_nm pll_audio_hs_clk = {
+>  	.enable		= BIT(31),
+>  	.lock		= BIT(28),
+> -	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> +	.n			= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> +	.m			= _SUNXI_CCU_DIV(16, 6),
+
+Can you please keep the original indentation? You could add a "post-div"
+comment after the .m parameter, to map to the manual.
+
+And add that ".fixed_post_div = 2," here.
+
+> +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
+> +				  BIT(24), 0x178, BIT(31)),
+> +
+>  	.common		= {
+> +		.features = CCU_FEATURE_SIGMA_DELTA_MOD,
+
+Please indent like the other parameters below.
+
+>  		.reg		= 0x078,
+>  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
+>  					      &ccu_nm_ops,
+> @@ -690,13 +693,13 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+>   */
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
+>  			    clk_parent_pll_audio,
+> -			    96, 1, CLK_SET_RATE_PARENT);
+> +			    8, 1, CLK_SET_RATE_PARENT);
+
+As mentioned, with the fixed_post_div, you should be able to put the real
+divider values in here.
+
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
+>  			    clk_parent_pll_audio,
+> -			    48, 1, CLK_SET_RATE_PARENT);
+> +			    4, 1, CLK_SET_RATE_PARENT);
+>  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
+>  			    clk_parent_pll_audio,
+> -			    24, 1, CLK_SET_RATE_PARENT);
+> +			    2, 1, CLK_SET_RATE_PARENT);
+>  
+>  static const struct clk_hw *pll_periph0_parents[] = {
+>  	&pll_periph0_clk.common.hw
+> @@ -1135,13 +1138,10 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+>  		writel(val, reg + usb2_clk_regs[i]);
+>  	}
+>  
+> -	/*
+> -	 * Force the post-divider of pll-audio to 12 and the output divider
+> -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
+> -	 */
+
+Can you please keep the comment, and adjust it accordingly? Saying that
+the recommended BSP parameters for the PLL audio recommend M0 to be 1, and
+M1 to be 0, and that we enforce this here?
+
+Cheers,
+Andre
+
+>  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
+> -	val &= ~(GENMASK(21, 16) | BIT(0));
+> -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
+> +	val &= ~BIT(1);
+> +	val |= BIT(0);
+> +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+>  
+>  	/*
+>  	 * First clock parent (osc32K) is unusable for CEC. But since there
+
