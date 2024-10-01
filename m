@@ -1,97 +1,110 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD69B645;
-	Tue,  1 Oct 2024 15:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330831CBE91;
+	Tue,  1 Oct 2024 17:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727796368; cv=none; b=mGZ0AuJzQoHuM9PejuY5QP4gQooH4WG+TdvEi9BDVStWk0dZB4nNqN1f8E1Ep6Uy8ipQpktGxyye6nBeUkFScjTdqVompceUjRnHEnV+l9UNeKfzVM1khfRAJehV/t0iBi/IZbUe4ZQKYuBUJed8jN7NcVptNestcD/MotNsNV0=
+	t=1727805189; cv=none; b=iLcMBjmKBlkiddFNhx++lxh8HZZhfqZnqScjavxbON2DVZEthckT4IocEDhTANvUCY78MYE5s2JO4LA2+yP1QL5139dwSss9b5Qazej9Up9rbmjCVw5Fx94pFdkGZfF1Sm91majS6nPFx1821uMOfP7OjIW7lN9uxbKejiufYyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727796368; c=relaxed/simple;
-	bh=+YZZSxfbdyiIr93tIMUZDxqaYcghUxhFXzEBtAfe9Sw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KO6SYNQfkuGY/Y33xFzaMGeWP2McpihAovPxVgW/3SdQFJG2HtNvM6nBWkajzZN5o//9CqzVE5rkF8HgFdwWIGnj8G0Q/mN0OdzjP8j9OvDn3qg4EBTteP5z1nsFcdcat70RorInKYx4hHByM4Zz1x2XhSBI2fTmHNUTvGgdjmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IsRCdtlk; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1727805189; c=relaxed/simple;
+	bh=V234jebYcblKJHaW08SlVHYoHv/9EbT1j3IuhFaCA6c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=oGEDoV/wCi2eMgV56H1rxHM5iUDN5/7mUKh4DrypEqbtNYlyFMsLRvtRRa71c/PNhZ3/c5Hcjv3WXmBdru0wJ5oi832pw+tbWZ8lzq+kbAWbsUtriSEASjd06Xq2yMC1pKRbq+h1W4LQ1NdSKt2rNWWPdRMX7Ovcnvq4xhOOkUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rflcr7Z/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IsRCdtlk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1727796364;
-	bh=+YZZSxfbdyiIr93tIMUZDxqaYcghUxhFXzEBtAfe9Sw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IsRCdtlkZPMbwZhF685OXK4Jrwj57OtfDIQHj1ZDuS1AA3K5BX0ZP7O0HY8uDgHna
-	 Ej9yVcpiofM61HL21cd/KWYTTG2XmHoQIbJw7PznJ8mJQbT2GCInkt4SLh65yLIgyv
-	 vD+5Sf3esOwjR3PIhtzxULPXDsWeHX2eyLV10QW1jsAqU5tQqLu8lQPTPBjFcp7j5m
-	 8UvMF9Z1ApUljwa9IkHvwwYMrbP+eaKpqnMiDV4++YPNdyqvuwhp4adlvQkxPvIQpn
-	 ShnMZmveHuhDrVOB1oV5YCJHVEmEqyhf+jw1fB1Pd5B9trw/EdBfFOdrAeLh50tW50
-	 phIwzx9zBxqhA==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9B21417E0FDC;
-	Tue,  1 Oct 2024 17:26:03 +0200 (CEST)
-Message-ID: <a3089f16-bc43-4ee0-b313-94e5a37cb449@collabora.com>
-Date: Tue, 1 Oct 2024 17:26:03 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rflcr7Z/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE149C4CEC6;
+	Tue,  1 Oct 2024 17:53:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727805188;
+	bh=V234jebYcblKJHaW08SlVHYoHv/9EbT1j3IuhFaCA6c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Rflcr7Z/6fGAXVpxP4bcU1glKPbGggbNHSOZfP0soZhN1YPEIf7AIAvBR7dWeRVSE
+	 3+Aiv6g3fJmCL0WVU6D17Zw6pdNhZ5D1KQw/f7aRFGI5DW22HYu64I9oXQVxvI7aRf
+	 QarMvEEv0UHGxyVM+eBuMRrTx6TWf3ufHPJUzfwxgdJbnUMiSD508Iv6dYtSlJxzvX
+	 5sR1HeW3SC4WFPJ4WkMwA+u6o3aAm+Iz+QKXRE5cI9zhy3ECrL2N/ZxDSo+HbX3Bog
+	 1qufKeosWZVE/r/pFj00KrFDn0YeJkxHAv2UQbRS9ROy3Qlmv7X2gt3erZPbptFuG7
+	 kiQFV/otleXZw==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240918061540.685579-1-Vijendar.Mukunda@amd.com>
+References: <20240918061540.685579-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 0/8] ASoC: amd: acp: refactor acp version
+ differentiation logic
+Message-Id: <172780518563.2298697.14487896281426250267.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 18:53:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/3] regulator: dt-bindings: mt6323: Convert to DT
- schema
-To: Macpaul Lin <macpaul.lin@mediatek.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
- Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>,
- Vladimir Oltean <olteanv@gmail.com>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-input@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-sound@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
- Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
- MediaTek Chromebook Upstream
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- Chen-Yu Tsai <wenst@chromium.org>
-References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241001104145.24054-1-macpaul.lin@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Il 01/10/24 12:41, Macpaul Lin ha scritto:
-> Convert the MT6323 regulator binding from the old text-based format to
-> the new DT schema style. The property "regulator-name" has been added
-> as required property to reflect current usage in mt6323.dtsi.
+On Wed, 18 Sep 2024 11:45:32 +0530, Vijendar Mukunda wrote:
+> Currently different logics being used in the code for acp version
+> differentiation. This patch series refactors the code to use acp pci
+> revision id for handling acp version specific code.
 > 
-> Examples have been streamlined and relocated to the parent schema file:
->    mfd/mediatek,mt6397.yaml.
+> Vijendar Mukunda (8):
+>   ASoC: amd: acp: simplify platform conditional checks code
+>   ASoC: amd: acp: use acp_rev for platform specific conditional checks
+>   ASoC: amd: acp: use acp pci revision id for platform differntiation
+>   ASoC: amd: acp: store acp pci rev id in platform driver private
+>     structure
+>   ASoC: amd: acp: pass acp pci revision id as platform data
+>   ASoC: amd: acp: remove unused variable from acp_card_drvdata structure
+>   ASoC: amd: acp: replace adata->platform conditional check
+>   ASoC: amd: acp: remove unused variable from acp platform driver
 > 
-> Update maintainer and submitter information with new entries from MediaTek.
-> 
-> The reference document cited in "mediatek,mt7530.yaml" has been updated
-> to point to this new DT schema file
-> 
-> Signed-off-by: Sen Chu <sen.chu@mediatek.com>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Acked-by: Mark Brown <broonie@kernel.org>
+> [...]
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/8] ASoC: amd: acp: simplify platform conditional checks code
+      commit: 839a8b18dbd2e2345a261169fb68d950a1071862
+[2/8] ASoC: amd: acp: use acp_rev for platform specific conditional checks
+      commit: fca471b5d094dabd65f6d8777096e9ed1df1bef7
+[3/8] ASoC: amd: acp: use acp pci revision id for platform differntiation
+      commit: 5dbf8a19fe5d5a4c764ba88d171b06704354296a
+[4/8] ASoC: amd: acp: store acp pci rev id in platform driver private structure
+      commit: 40412a298c77eaa4a22a1aa7030bcc0b2e02c618
+[5/8] ASoC: amd: acp: pass acp pci revision id as platform data
+      commit: 0eae2c96b49d85b31ab635b9dc6f09b09d3c54de
+[6/8] ASoC: amd: acp: remove unused variable from acp_card_drvdata structure
+      commit: 2e609185e174a9ffd462ab125085ddfcbe9e2f4d
+[7/8] ASoC: amd: acp: replace adata->platform conditional check
+      commit: b33d93990e3774a24575517c6fcc2167036672d1
+[8/8] ASoC: amd: acp: remove unused variable from acp platform driver
+      commit: 9864c8af89eb14a2e5334f8e24bb82086182e894
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
