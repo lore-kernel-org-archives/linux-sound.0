@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDEC1CDA20
-	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 17:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE771CB534;
+	Tue,  1 Oct 2024 17:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727805202; cv=none; b=Q9oa5alM9NWSTw2YEC4f/jdQZ19ET3dzMixLg4Fv8uygu+yJ0LbcqJbgF2RP8/UrQrHUZ7PVMFUNqu4g0w/moNcEb6gR3vvsOLF5yvji7zcWEww4eiATAMdV7/8ie5CwfyAPU4C5P0hlHH8FuFKb88eybDKzYsZcBUDhNQ6MvR0=
+	t=1727805204; cv=none; b=qNSZkqWmVs5ZeOj9I7dVCirppKXnbZsq+UPVKzNo9FBniay2FD/LSIj8qT9UrcyhchMiPjZ+6vRc8ywUjo0RgB11Na1giDEwQsTu0VBiG3g854JHjaqvfxs5Vh2/rn8cOtXG+xPYzeuIJ6+bRmq2l8qjzHKfbteesksKKvpQpf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727805202; c=relaxed/simple;
-	bh=rdu8NL5WsUbn5RMyH5goYyYCtyogitFe8oO28rlRcqQ=;
+	s=arc-20240116; t=1727805204; c=relaxed/simple;
+	bh=EpCIJHF8WYIhXubstEdsps8ND5AisiZx4uTrVG3sHfc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WjAunz+NIjSVKBjIeceCifPX0IAsCL+7/cCNKhHqcPHXT1IEzsCWKS+4A7Y8WaEqGL1ntU6gD2Nb2dts+Y3Sn+XzRreN1aV6WKvtikezyNrn0E/yaW6q966mxMKTtIlnmqpelSj+pW8ENW8UDFXAiByxp2qphGTuanob0fw3U7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPdfC79h; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kv49jBtnQqPPZCatv/JdAtBeC7jWxw92pp73JujkgDMzGlUslk0v5nT/BI/3GtS9k+5XGkZS9wSV+MuVtFTWToqS61v74CfrLxXrt6HoaEay0/2MMvEWwRNyK5SYYhFj8BNi3OOExTe8AricRjUq3qMUb2h6DT85+0BCUt4Nwpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ijeBwhoN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPdfC79h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2E8C4CED4;
-	Tue,  1 Oct 2024 17:53:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ijeBwhoN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C8EFC4CED3;
+	Tue,  1 Oct 2024 17:53:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727805201;
-	bh=rdu8NL5WsUbn5RMyH5goYyYCtyogitFe8oO28rlRcqQ=;
+	s=k20201202; t=1727805204;
+	bh=EpCIJHF8WYIhXubstEdsps8ND5AisiZx4uTrVG3sHfc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=YPdfC79hXynqOy6fqk+1igGWO6rDMl9Qwbgxz+pLRV+KsqlSINpcEXz8AL3o+DrE1
-	 WVjuiPQ7fDK/wT9XH5kFNT6+1uU0JH9eU8U52UbPQ3HGGFL0PsyTvrNf8cCMvAFwvD
-	 GGlraLP/Cskkcw1eOqLOrg6WXfR5xUJMNGj9slMQs/RHwXGeDJT2LO4gAxp94vRln7
-	 7GRv8VPjkJtpdnpiB1u7WE7rkwvF/bsmc8ojt4G+T7VlWUGcOE5n6QHUj5LjS6rPjZ
-	 mcpyesdwEY93ZjPlJIU2Nmw5/0iEprULsI96UVXngjhMqdeqthc06bF/lDwWQpDdKw
-	 p4p8UwV0hAIiA==
+	b=ijeBwhoN9h5cFUiI0KEGcgxWWPSypnENSqWxZoqKG9xZX6LHogseIppLyiA0TegGD
+	 tn7o1kliCZzAslvmvplyX09NEGJzUeXlL816upiUOT0+etbLe3/WQIWFjcmGG+j81t
+	 Ek1IwCBnLB47BefZmzy2Pde5uSoTfXzxk4Pq6666DvU8VdDkXB9aU+XpCswHpQjgmo
+	 TBz6o+BTIUwuej9wCAbBKDaJgMjtzP+o+idVFgx/aF0wdISFIiq8EwWSF1ATH6tpx7
+	 81QDMVHFADb6TxP3kLT4Hs3Q7QTvI5FvkaVRac6eVFdOHpAAu/dFqZohjsExyyg3FU
+	 Zrc4GiB2sWlXQ==
 From: Mark Brown <broonie@kernel.org>
-To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Hongbo Li <lihongbo22@huawei.com>
-Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <20240821070815.2326534-1-lihongbo22@huawei.com>
-References: <20240821070815.2326534-1-lihongbo22@huawei.com>
-Subject: Re: [PATCH -next 0/5] sound/soc: fix some macro definitions and
- usages
-Message-Id: <172780519925.2298697.9944176143649696918.b4-ty@kernel.org>
-Date: Tue, 01 Oct 2024 18:53:19 +0100
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Igor Prusov <ivprusov@salutedevices.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, kernel@salutedevices.com, prusovigor@gmail.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
+References: <20240925-ntp-amps-8918-8835-v3-0-e2459a8191a6@salutedevices.com>
+Subject: Re: [PATCH v3 0/6] ASoC: Add NTP8918 and NTP8835 codecs support
+Message-Id: <172780520098.2298697.10488363021323219650.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 18:53:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,17 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Wed, 21 Aug 2024 15:08:10 +0800, Hongbo Li wrote:
-> Many variable in macro are not used as we used macro_check
-> script to detect and mamually check, let us address these
-> issues.
-> 
-> Hongbo Li (5):
->   sound/soc: fix macro definition on TWL4030_OUTPUT_PGA
->   sound/soc remove unused substream in macro soc_component_mark_pop
->   sound/soc remove unused substream in macro soc_dai_mark_pop
->   sound/soc remove unused substream in macro soc_link_mark_pop
->   sound/soc: fix macro definition on STM_SAI_HAS_EXT_SYNC
+On Wed, 25 Sep 2024 17:52:38 +0300, Igor Prusov wrote:
+> This series adds support for two NeoFidelity amplifiers. For both
+> amplifiers vendor provides software for equalizer and filters
+> configuration, which generates firmware files with registers values.
+> Since in both cases those files have same encoding, a common helper
+> module is added to get firmware via request_firmware() API and set
+> registers values.
 > 
 > [...]
 
@@ -66,16 +66,18 @@ Applied to
 
 Thanks!
 
-[1/5] sound/soc: fix macro definition on TWL4030_OUTPUT_PGA
-      commit: ac9fc25f114aec07e7f5348606c9702f8377f44a
-[2/5] sound/soc remove unused substream in macro soc_component_mark_pop
-      commit: 5687851e484bdb22fa565578e0b046a50d502941
-[3/5] sound/soc remove unused substream in macro soc_dai_mark_pop
-      commit: 7215afbd8c090a3254f8cadabb550adf1c00547f
-[4/5] sound/soc remove unused substream in macro soc_link_mark_pop
-      commit: 2f12d0de77b99f0f35755d16efeb12e6f45e5710
-[5/5] sound/soc: fix macro definition on STM_SAI_HAS_EXT_SYNC
-      commit: 7a01e17e42fe944982acde1dd40bdea177372173
+[1/6] dt-bindings: vendor-prefixes: Add NeoFidelity, Inc
+      commit: 5d9e6d6fc1b98c8c22d110ee931b3b233d43cd13
+[2/6] ASoC: codecs: Add NeoFidelity Firmware helpers
+      commit: ba1850dc0f2b5638a4a6aa16905c1856dc17587b
+[3/6] ASoC: dt-bindings: Add NeoFidelity NTP8918
+      commit: 64fbb6bdd45b8953fcad5c4ec648f74c96aec5f3
+[4/6] ASoC: codecs: Add NeoFidelity NTP8918 codec
+      commit: 2bd61fff3e93b93a20f618028433bcbe8329a6db
+[5/6] ASoC: dt-bindings: Add NeoFidelity NTP8835
+      commit: 3e2aba5f0b0cafad44c2f635dc19d7bf3f54b978
+[6/6] ASoC: codecs: Add NeoFidelity NTP8835 codec
+      commit: dc9004ea273a9141c16b90a687da70b77f5a640a
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
