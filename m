@@ -1,55 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9455A1CC8AB;
-	Tue,  1 Oct 2024 17:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDEC1CDA20
+	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 17:53:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727805200; cv=none; b=O0pvekGLc+UE2usRGt05/dgjBSdUh4UOOvEU3dL28bV25/SR+qzPyRIL9SpjrKoFPKnfP9yq6IgDWNmJiHl7kaHoaTpYXnWXkWYQMmgvMl47kD0paFcFu63SC0O1e7Pah4x5vXTyMAAHoA6XAW2m+qhDyLvulh/9iytdJJTj0Os=
+	t=1727805202; cv=none; b=Q9oa5alM9NWSTw2YEC4f/jdQZ19ET3dzMixLg4Fv8uygu+yJ0LbcqJbgF2RP8/UrQrHUZ7PVMFUNqu4g0w/moNcEb6gR3vvsOLF5yvji7zcWEww4eiATAMdV7/8ie5CwfyAPU4C5P0hlHH8FuFKb88eybDKzYsZcBUDhNQ6MvR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727805200; c=relaxed/simple;
-	bh=an7wYpPqt2R7TgWMl+pfDAOwZGn/V/Z9kjfDwk8AGtA=;
+	s=arc-20240116; t=1727805202; c=relaxed/simple;
+	bh=rdu8NL5WsUbn5RMyH5goYyYCtyogitFe8oO28rlRcqQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Ij5nmBsCrvvYCecam/rAfviF373kDAa8Gxpk50aOj+T3uq3sr9zhV2Sml1Z7Qw5a/RqxYlO0KEectq+oUag9THgp2h2PnJUSMCY+vExcqYBqoKkKcNEztPFB/5a5N64xJmroQgDcj/XPZe1GBNZe4EZsVbaUe0vMTqQwLRSshr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cUdghwbc; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=WjAunz+NIjSVKBjIeceCifPX0IAsCL+7/cCNKhHqcPHXT1IEzsCWKS+4A7Y8WaEqGL1ntU6gD2Nb2dts+Y3Sn+XzRreN1aV6WKvtikezyNrn0E/yaW6q966mxMKTtIlnmqpelSj+pW8ENW8UDFXAiByxp2qphGTuanob0fw3U7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YPdfC79h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cUdghwbc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14DFFC4CECD;
-	Tue,  1 Oct 2024 17:53:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YPdfC79h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F2E8C4CED4;
+	Tue,  1 Oct 2024 17:53:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727805200;
-	bh=an7wYpPqt2R7TgWMl+pfDAOwZGn/V/Z9kjfDwk8AGtA=;
+	s=k20201202; t=1727805201;
+	bh=rdu8NL5WsUbn5RMyH5goYyYCtyogitFe8oO28rlRcqQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=cUdghwbcOytt1+ZkD7mUFJTbf/S5CMvNfpMdxCoMCRjb3Gib8E0qpdGuw420cw4SJ
-	 H5iuDfEMa6Hu5CC6IhlEnYXq+dydv+v7X5cXQASyim/FHy0AlkOen/bBGH+A95+lse
-	 boaoG5uvecAMEuVuoox0RlBGUdUbh9PZkrp6rfcZHDS6qizBPnFQjvLg/UETTWPSoD
-	 /mQwjT21NzQLvLGAFOJFeN2ZDaSKupMHZkgfaahikJL5F2EeMXPZssXYv6H+E9+GoZ
-	 oKDEzufB2pjrOMgzxh38CbZvRgQuGYEQkCqj6O2ciglGUl/OpJvNv/soOV7FwE3LR4
-	 bvMHn35L2HYbw==
+	b=YPdfC79hXynqOy6fqk+1igGWO6rDMl9Qwbgxz+pLRV+KsqlSINpcEXz8AL3o+DrE1
+	 WVjuiPQ7fDK/wT9XH5kFNT6+1uU0JH9eU8U52UbPQ3HGGFL0PsyTvrNf8cCMvAFwvD
+	 GGlraLP/Cskkcw1eOqLOrg6WXfR5xUJMNGj9slMQs/RHwXGeDJT2LO4gAxp94vRln7
+	 7GRv8VPjkJtpdnpiB1u7WE7rkwvF/bsmc8ojt4G+T7VlWUGcOE5n6QHUj5LjS6rPjZ
+	 mcpyesdwEY93ZjPlJIU2Nmw5/0iEprULsI96UVXngjhMqdeqthc06bF/lDwWQpDdKw
+	 p4p8UwV0hAIiA==
 From: Mark Brown <broonie@kernel.org>
-To: Tim Harvey <tharvey@gateworks.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Ray Jui <rjui@broadcom.com>, 
- Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, 
- Baojun Xu <baojun.xu@ti.com>, Olivier Moysan <olivier.moysan@foss.st.com>, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- alsa-devel@alsa-project.org, linux-stm32@st-md-mailman.stormreply.com
-In-Reply-To: <20240729-const_snd_soc_component_driver-v2-0-1994f44f1ec2@gmail.com>
-References: <20240729-const_snd_soc_component_driver-v2-0-1994f44f1ec2@gmail.com>
-Subject: Re: [PATCH v2 0/2] {ASoC,media}: constify snd_soc_component_driver
- when used as read-only
-Message-Id: <172780519475.2298697.14049924817371991791.b4-ty@kernel.org>
-Date: Tue, 01 Oct 2024 18:53:14 +0100
+To: peter.ujfalusi@gmail.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Hongbo Li <lihongbo22@huawei.com>
+Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+In-Reply-To: <20240821070815.2326534-1-lihongbo22@huawei.com>
+References: <20240821070815.2326534-1-lihongbo22@huawei.com>
+Subject: Re: [PATCH -next 0/5] sound/soc: fix some macro definitions and
+ usages
+Message-Id: <172780519925.2298697.9944176143649696918.b4-ty@kernel.org>
+Date: Tue, 01 Oct 2024 18:53:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,13 +46,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 29 Jul 2024 11:37:36 +0200, Javier Carrasco wrote:
-> Declare `snd_soc_component_driver` as const to move their declarations
-> to read-only sections for the drivers that do not modify the struct
-> after its declaration.
+On Wed, 21 Aug 2024 15:08:10 +0800, Hongbo Li wrote:
+> Many variable in macro are not used as we used macro_check
+> script to detect and mamually check, let us address these
+> issues.
 > 
-> Apart from a single case under media/, the affected drivers are members
-> of the ASoC subsystem.
+> Hongbo Li (5):
+>   sound/soc: fix macro definition on TWL4030_OUTPUT_PGA
+>   sound/soc remove unused substream in macro soc_component_mark_pop
+>   sound/soc remove unused substream in macro soc_dai_mark_pop
+>   sound/soc remove unused substream in macro soc_link_mark_pop
+>   sound/soc: fix macro definition on STM_SAI_HAS_EXT_SYNC
 > 
 > [...]
 
@@ -76,10 +66,16 @@ Applied to
 
 Thanks!
 
-[1/2] media: i2c: tda1997x: constify snd_soc_component_driver struct
-      (no commit info)
-[2/2] ASoC: constify snd_soc_component_driver struct
-      commit: 8adff2ff73d8271c993549b106b26f301fa003cf
+[1/5] sound/soc: fix macro definition on TWL4030_OUTPUT_PGA
+      commit: ac9fc25f114aec07e7f5348606c9702f8377f44a
+[2/5] sound/soc remove unused substream in macro soc_component_mark_pop
+      commit: 5687851e484bdb22fa565578e0b046a50d502941
+[3/5] sound/soc remove unused substream in macro soc_dai_mark_pop
+      commit: 7215afbd8c090a3254f8cadabb550adf1c00547f
+[4/5] sound/soc remove unused substream in macro soc_link_mark_pop
+      commit: 2f12d0de77b99f0f35755d16efeb12e6f45e5710
+[5/5] sound/soc: fix macro definition on STM_SAI_HAS_EXT_SYNC
+      commit: 7a01e17e42fe944982acde1dd40bdea177372173
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
