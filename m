@@ -1,97 +1,152 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FC91BD4F6
-	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 07:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991DD63D;
+	Tue,  1 Oct 2024 07:50:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727767153; cv=none; b=MrOMnsZF11eFZ8S4uBKHDyhX6FNb1kMR22KzZR71QnuT+VYqFfMCCbrYG6xnD4a3esXVe42p8+qcOJPfOG+tWIT49Ts4/BFxEa9Dbb1jCFlRe1RxiZT5IN/JsYqz8Sh6WiO+KGKi4IEOHdy4tl1HtJjHT+8NViN31iOofDEkwb4=
+	t=1727769025; cv=none; b=ULXbIAQLLrdPJCz3oakoRgr0awQsJBMNgE3/sKlqaxlIfRw4hSnMwPgiRkwcOt2paGsZxbV5SXkKULqY4uucIFoZSdsYUBPXE0TAglHNMkqRu0E/bTNejks21uiYuHgm+y6flMacYDsoUn72dKS4gV5iGE/NJ/LqB8TwpCIl3UM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727767153; c=relaxed/simple;
-	bh=1Af+cMxBkXLSjAoAnEDCDYH4cQKcjE5YLO0S+GT0bhU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gPruTnangODI7NLFtWVbVL/gUukhe+IpMblba38NnW+VViYc4nwBnt5KVW2QItnVpiV/JoUIon1liPCRNQWSUSwx5+xLSnWwbKd/RiqlySfAYnpl9plN0XvdAPLa2f9MgPOAXYLLU9OFSafqcyH+AyMtgE5S3X1sV429f+mKci4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=gKXqFarp; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1727769025; c=relaxed/simple;
+	bh=H8GT7CQPQCP0iqDT0akwe9NghW+v/5sAgRRAbcbb5Wo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=YAcLIo74mrIfQAvGzYPqFtJF88U6v3vSmN5ciGW6zaSk4BJSfslUDPpJk1PPTL+VnqfdVmgC+qO4KZplKeGUrZvddBd3F6P9HdmItyWVOheIcKfq6orzqwYYPVJ6fIiDLg/8nKcQowU7buhOdkLXE9WRW4oSI0/KpAhsOzDqwo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=qyHtKOEu; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="gKXqFarp"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4917IeEeA673088, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1727767120; bh=1Af+cMxBkXLSjAoAnEDCDYH4cQKcjE5YLO0S+GT0bhU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=gKXqFarpQNSLTfz6yAwQejP3OuHWUelI/6HbYtLFP0hwxj4ku/wjqFXpyj5HiTZoQ
-	 242SmvKUhqYiyHW5X17fonugTbcob1kW7Gnb/jZK+ZZyyTWxpJrRjPAiy9s4u8/3p/
-	 mMCydfs+/NKRR+K0Ze/D0XcfYHLUMH2rjRA85hL5tV31eO/Bk9QlEuSj8lJE2Uj5Zj
-	 cCQJ3kztWAf9hSYBPmKOOzq3m3QGBe2NuhDpqaXpbWLyVIDeVrhQFz6KmpVDdMVqHe
-	 WBqs2tnaRg9vJ7dli/2cEwispOYJHv3jyuaWl27j+afuJeCvM/oZM/4prd7yOiCKYK
-	 utcHAfDh32kEQ==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.05/5.92) with ESMTPS id 4917IeEeA673088
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 1 Oct 2024 15:18:40 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="qyHtKOEu"
+X-UUID: ccdfc1c07fc911efb66947d174671e26-20241001
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:CC:To:From:Subject:MIME-Version:Date:Message-ID; bh=FlXzrXpPCzLcSODdsG8c3PiQzj81rbhZ9JEiAPkX18g=;
+	b=qyHtKOEuOk6q6+jzGD1iSnaFQHlFcBrsieaxCfeRvA4W8KDlpk926lBA2sxf4FRJXNE4kxdX+/3t5NZhVbS+EbjFGG7HudBW8762A5ZXLyChg9v78v3HH8Ee+ohLNkbFr3+Z1ICpJ4lePfo5K0vLYoxIKYgRZfm/jXekpou276c=;
+X-CID-CACHE: Type:Local,Time:202410011505+08,HitQuantity:1
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:f4145b70-66da-4fe0-ad2c-5b0a2bbc4e74,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6dc6a47,CLOUDID:f94b0ad1-7921-4900-88a1-3aef019a55ce,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|-5,EDM:-3,IP:ni
+	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: ccdfc1c07fc911efb66947d174671e26-20241001
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1105446460; Tue, 01 Oct 2024 15:50:17 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 1 Oct 2024 15:18:41 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 1 Oct 2024 15:18:40 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] ASoC: rt1320: fix the range of patch code address
-Date: Tue, 1 Oct 2024 15:18:36 +0800
-Message-ID: <20241001071836.3719162-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+ 15.2.1118.26; Tue, 1 Oct 2024 15:50:16 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkmbs13n2.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.2.1118.26 via Frontend
+ Transport; Tue, 1 Oct 2024 15:50:14 +0800
+Message-ID: <c2fb40cc-491f-1c1a-7343-c70a60b3a031@mediatek.com>
+Date: Tue, 1 Oct 2024 15:50:12 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v7 2/3] ASoC: dt-bindings: mt6358: Convert to DT Schema
+Content-Language: en-US
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones
+	<lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino
+ Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu
+	<sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, Andrew Lunn
+	<andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean
+	<olteanv@gmail.com>, "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Sebastian Reichel <sre@kernel.org>, Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, <linux-input@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-leds@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-pm@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai
+	<wenst@chromium.org>
+References: <20240930073311.1486-1-macpaul.lin@mediatek.com>
+ <20240930073311.1486-2-macpaul.lin@mediatek.com>
+ <6l6hb264yvhd6e6neurd5t4gmv5z5c5gpg27icijif3hq4cuu7@pbhfkdxb2eam>
+ <42dc4e9a-efcd-e166-b4fd-d4fe0dcd3c77@mediatek.com>
+In-Reply-To: <42dc4e9a-efcd-e166-b4fd-d4fe0dcd3c77@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
 
->> sound/soc/codecs/rt1320-sdw.c:564:14:
-warning: result of comparison of constant 4295491583 with expression of type 'unsigned int' is always false
-[-Wtautological-constant-out-of-range-compare]
-     564 |                                 if (addr > 0x10007ffff || addr < 0x10007000) {
-         |                                     ~~~~ ^ ~~~~~~~~~~~
-   1 warning generated.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202410011159.InLKFd40-lkp@intel.com/
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
----
- sound/soc/codecs/rt1320-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/1/24 15:05, Macpaul Lin wrote:
+> On 10/1/24 14:34, Krzysztof Kozlowski wrote:
+> 
+> [snip]
+> 
+>>> +description: |
+>>> +  The communication between MT6358 and SoC is through Mediatek PMIC 
+>>> wrapper.
+>>> +  For more detail, please visit Mediatek PMIC wrapper documentation.
+>>> +  Must be a child node of PMIC wrapper.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    enum:
+>>> +      - mediatek,mt6366-sound
+>>> +      - mediatek,mt6358-sound
+>>> +    const: mediatek,mt6358-sound
+>>
+>> This wasn't ever tested.
+> 
+> Hum, I have indeed tested it with linux-next/master branch.
+> Ran dt_binding_check with dtschema trunk with this single file
+> but didn't get any warning or errors.
+> 'make dt_binding_check DT_SCHEMA_FILES=mt6358.yaml'
+> 
+> Could you please help to paste the error log for me?
+> If there are new errors, I need to check if there is any
+> environment issue.
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index 2404de8ae03d..ebd6f09bd990 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -561,7 +561,7 @@ static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
- 				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
- 					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
- 
--				if (addr > 0x10007ffff || addr < 0x10007000) {
-+				if (addr > 0x10007fff || addr < 0x10007000) {
- 					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
- 					goto _exit_;
- 				}
--- 
-2.34.1
+I've both tested both of the following format pass dt_binding_check.
+#1.
+properties:
+   compatible:
+     items:
+       - enum:
+           - mediatek,mt6366-sound
+           - mediatek,mt6358-sound
+       - const: mediatek,mt6358-sound
 
+#2.
+properties:
+   compatible:
+     enum:
+       - mediatek,mt6366-sound
+       - mediatek,mt6358-sound
+     const: mediatek,mt6358-sound
+
+>> Do not send untested code, it's a waste of reviewers' time.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+>>
+> Thanks
+> Macpaul Lin
+
+Should I update it with format #1?
+
+Thanks
+Macpaul Lin
