@@ -1,109 +1,176 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011019.outbound.protection.outlook.com [40.107.74.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2839173;
-	Tue,  1 Oct 2024 00:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727742274; cv=none; b=Q/VbjaFJi1ppgPLNR1aHcCG4oxx0KG8OWlOr6TXvsvxJinWA8zQR/M7LRe4TmFe5ROF+4v4rTjCgNIfo0X1xegPazSMNwSHzxH734wQr4DLUdd+V/rgbdDAAgeZVqqZ2ByPLWO9JiiPMoixXbOtYFdESzdOtnaiu1JXrE6oxkT8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727742274; c=relaxed/simple;
-	bh=RR4YJEuiCB+s4fOTHaO2fk03o/BIx9b2dGauH/q9zfI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K86TkI+fkUkOcW5pwhIQdyjvKEXDXO6bGG7rWKkMiwAQ/zpVqnQZHLPS7iNIXX2P2rssQXYRwF6/dj/YetrelnlUhHoM7vq98IBAVQA4FvG/Og6N6dK302nMAUkHYZb4KGpV6KgiSuvvdRHN6RHc39IF47nj9us+mCNN6zSa8m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8otNILN; arc=none smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CF1B663
+	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 00:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1727743441; cv=fail; b=k3VjqG7ikgm3z+XBsyjTIHAE+r+FHPsE6L1dfa5yVUL+7UGA7N2BGcUxte0KPQvLbRWH1jAtaOg5SCSD93p0C/1Q65UxzJCkL89opVPECqXhWUn+StjG2rYqd4sk9fJvrPWv7BHgTLkoLWE0pk4zuq0ytlq4Gup4w+xaPM4pr7c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1727743441; c=relaxed/simple;
+	bh=s5L29XpUtH95TOssq/nyqFbwWTfPD774GCsxzyThRTI=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=XCeEscU2dlhTwLNX+HsviHWI4rjnXcfHFQxnfvZtutND41btMibUV+j4INsPdOGx3+si2E0RHRICHZNQblPBsk9egeA5r04JbgMaieLoe1cUNQG41minx1apIQdNDNRYkmUXVkaJR2ywaXxGC7Pq9pegKBShomqJi5toswev5fA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=PtQjcJzN; arc=fail smtp.client-ip=40.107.74.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8otNILN"
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-6cb2824ddc2so39531606d6.1;
-        Mon, 30 Sep 2024 17:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727742272; x=1728347072; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UXJNocpNHIaneGGPh7u0gkYrjLLyA3SxEfbfZIWZAYE=;
-        b=P8otNILNZhG1P0cukcyh3sY5jROW69KKkCgThUI04WIqlzcsVPS/0CgsIY7YpYvLXC
-         o7DgI9RBtshoJJrxTBtLk2VhPZH6euFRinmtCrCH34QfS4h3Qa/PsCZ3EETRolZeQfAw
-         /gDGHnJjsbvWND1/J3/8xkMqNoq6GKiSQoPxF2PwOm86xLZQgAgy6w7J7z7J/TW2SkXW
-         Y0hLQcJ04pou+/jk0up+V1bCQdBefXngMEmocWxAYgHQls6ff3T1PxOh7o5G97lqxNwP
-         7oGMfsIgydieDVoy/AFuiQrQIbywdXEn0V2e0JSkRN9HHrdLznSBroYaU3YRK3+h8JW6
-         zTkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727742272; x=1728347072;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UXJNocpNHIaneGGPh7u0gkYrjLLyA3SxEfbfZIWZAYE=;
-        b=wPg57s3BAIbPHDFDFOMlO63LUFA4mu9YIpKNo1+4ldbnxR8YX+9FVeiVwjSde3em47
-         QS1O9JO2mGwDnFZFWY/zixyHOO7p2SMALzMxXHZy3FfpE7GV4Iyf6gbhUf6ASDcR0LST
-         ASMikCgq30iNfD55MPD2Azcz9oXaPJZA3Zc9KntRYzhevI7sm/ApvfYQJPrhFxu7Mtgi
-         cA1xKdAZqUNBWxyIMJhBmUisEMy23URsqVixpPbgZYKap6MZf2h232DBdf3FncjamHk+
-         PjKcKA/iY/UkQsn0qeBnsvRr8ToIKjGyIAOlyUP2sLOqjZNIuyveTmiTSsJsBhyvPynM
-         GrhA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjBi7QTHLVVJmXSigmeYk81k8LBKrctlr9XVLgrZcDFDt8VuhFTihRayRaidRSxLbDlssRFipz@vger.kernel.org, AJvYcCVA+B1lxVbiG1ZDgBpwHh+Sti8nOeCTv2XwmXicbdW88oufYrAzScQGKewdSCGWapsGhGd8eyauX2qc0/OZ@vger.kernel.org, AJvYcCWlcoqTcDgq4EtFLCTNgr06zWBFd7sJfJ8EITMnFM2caAxPHOkzEf/OypBdiSQQAGZ7Pox3zOCWYNHzCEA=@vger.kernel.org, AJvYcCXYIL8C0mWkBLAV39Yu5vfmea5bJCDnYxlY6jvymm2mP4FWc47RXjgRZlLUnAM0WI5KSvl/H/bhnGD2vGkQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWZPndUtEXVZVmrNg1GxeZTuORofl51yhhB3GpB0Xd27aCFE05
-	Ko7coOoFX2WG/onNkNqA7Y8AODj4nVbbs+PFMX+LmMgeqrXTEYFs
-X-Google-Smtp-Source: AGHT+IFqcL3S9UyEKrwwWrFna24JxfP1Qfwil+sI6wQESX1DtQgsUOKRCkTwCI1uJWo3OmH6tjkBtA==
-X-Received: by 2002:a05:6214:4206:b0:6cb:3ba9:b834 with SMTP id 6a1803df08f44-6cb3ba9b883mr186213266d6.24.1727742271738;
-        Mon, 30 Sep 2024 17:24:31 -0700 (PDT)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb3b66b5a8sm44361256d6.79.2024.09.30.17.24.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 17:24:30 -0700 (PDT)
-From: Gax-c <zichenxie0106@gmail.com>
-To: srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Gax-c <zichenxie0106@gmail.com>,
-	Zijie Zhao <zzjas98@gmail.com>,
-	Chenyuan Yang <chenyuan0y@gmail.com>
-Subject: [PATCH] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
-Date: Mon, 30 Sep 2024 19:24:09 -0500
-Message-Id: <20241001002409.11989-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="PtQjcJzN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TH52amB/PKIXl0UodVTQldYs1deqrPDJfgab82iS5+izPvziEXypdgFgrJtzIAZVRCEWPgOgX7L1+FYUl23dLkd2fFcIZgjrBm/S9MuBbMEbPXKryWFxaZZJp+X+E0oTyKz/z+vm0JzlYto5+BGGwfLwCrHYogbphJn3K5TmGgUCHkR5AEQxZaeyOQrpZFPwS+yUIGjAJGIDVY5HokqIcDStRfa5GKOeh5SXUAX1x2vf1qT1nXh3EK8X3Ebg932mP+mdcZG3MbXSx0XwozzS+gzlicNEQeIZGIbeMH8LWuFv2bMSd/oiD8xSc0Te8vUI0p78SWVnu+YgDIVl+sX/uQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0fhWeeumlxAe0F0YwmfxuXDqHjFVEWvJynMLrDnqGNQ=;
+ b=VX1eVlxZBz3Ld21VAwzY8H9KSkuA9a3c5h97wRTOmO60uQf2OcEFUzY7Rnk/7C8tf94d/cjpcm12+/7T+LUztvk7umqMxJpppzKgTGdBLu6HILYpmqevAtDp0jMwthcowKaJ3J31KrYgmM+cXIUcQphcggqi77u3is8f9K89gC2khgVBpsdw2GagTxG4uTZUZj12paAh5gOCMxnzUlsJrEsaLh/GGKWjdnV8xD0sxS7AGFRBeg9Q3+XZYLgGSGNoTj1LugJ5LbAtUy3rFJdSSUgr2aDD+ASSb+2gwJhAxtLhty67Ebqm1oxkmTBQq9I6AH/81bxFV0KIfycl6dRYuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0fhWeeumlxAe0F0YwmfxuXDqHjFVEWvJynMLrDnqGNQ=;
+ b=PtQjcJzNbA2J6/fKd3A83xlFFZ5lhALCsmx9a5J7kYzAyYxI9JegTwjsGOS9FBeiaebSOvEy125Z8GLJk4z9DOUi6bxY06sRL/ApaaWbW+dJjCu1C1ykG27duhmI+z5Pcj9luVHDxTi+29KA9tWSwnXmiK+3yMMn/4pd2N3JqiE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYBPR01MB5568.jpnprd01.prod.outlook.com
+ (2603:1096:404:802d::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Tue, 1 Oct
+ 2024 00:43:56 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8005.026; Tue, 1 Oct 2024
+ 00:43:56 +0000
+Message-ID: <87zfnoveic.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 04/13] ASoC: intel: remove dpcm_xxx flags
+In-Reply-To: <7b4ddfa0-193e-44a1-a039-1f2fdea0923d@linux.intel.com>
+References: <87r091lwhg.wl-kuninori.morimoto.gx@renesas.com>
+	<87ldz9lwgl.wl-kuninori.morimoto.gx@renesas.com>
+	<7b4ddfa0-193e-44a1-a039-1f2fdea0923d@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 1 Oct 2024 00:43:55 +0000
+X-ClientProxiedBy: TYWPR01CA0001.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::6) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYBPR01MB5568:EE_
+X-MS-Office365-Filtering-Correlation-Id: 204e0af4-5cf9-4c6d-19b4-08dce1b22145
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?g8sQuZ4siLrrRxAdrPBcryW+XI40Tp/Oi3TI3Yc6XLI6t36o5cOa0y2Kr/pc?=
+ =?us-ascii?Q?I2ZnY1xboO5vQhU8hygExoktmXcyLEyP3xByi1JDWbSk+U17IGFQD9k2I0jK?=
+ =?us-ascii?Q?0zQ9WtWlCIBxQKsfxS7cpNszsGTfQMcV784dccwuPoiwpPCaaAdJjFbbXTec?=
+ =?us-ascii?Q?bQTPgGsmumzn8byJp1MA5M799LRBPe8j8N1Bn9wlBViMNvKCQwfdPktafFIz?=
+ =?us-ascii?Q?6ucg5pKtB0osEat3zaKeGZ1+60bno9f1Ra9yQRvbn6jSGsWCNipdxgkqvL5r?=
+ =?us-ascii?Q?NcxqtqbS6gQJ35ktoU7jXVRGtNhKOFbuIMoQerp6/twqh0DGKfkueu1+bUWI?=
+ =?us-ascii?Q?x7TTY6AWq07o5lFJ35ougVQXs/3/vHrvLohgXNj7qhGt0XT6YxUdUZyu+zNA?=
+ =?us-ascii?Q?d/NWYK8kddJ7Jei8UxuKTAZocj4NA0+exQBgLpSYcX5p1O73UR9Z5fseHStb?=
+ =?us-ascii?Q?hEFL9BlMRJANXewnbf/3fWU7+tFZj0AZDrK21iisihZUfV165CO3UaJ7C7KJ?=
+ =?us-ascii?Q?OPjl9YEpKWZR3rT6GtKyD54mXU9X0NrBTl/9/dlr/GhaVeJYenEdFgV9LLgT?=
+ =?us-ascii?Q?5xwCLP5/kAshP0ybHh8p4dSsA34LP++WW52CCuPboHBK4/WV3B24wZfZdulb?=
+ =?us-ascii?Q?EB81XHCRSyy/xpsRQeTMszpu2bmXv1Hi20UtY5R61iTm2UX9fzMj3R2xGQ1s?=
+ =?us-ascii?Q?2Gt/wwwmURUhGVggu1IBzbGK/QVbsQO5iih//BHUKXLP18qywFZIuU7Lr8wN?=
+ =?us-ascii?Q?B3xKz03w7pD9DeMKnjSa+LaLgn3ClDOvmPkWXe9qKZB2XxVFNGzt3FEsjI2b?=
+ =?us-ascii?Q?+coM45zTKWaifIrRlTwl47HJ/j4hNTAxWQmSeR6NJbrM+jh6rxpwLPdiFSz2?=
+ =?us-ascii?Q?Fsmk9/WDDT7NW8jbJVdOQ7vi7Nt9TjfvFQ66+B8IWREwdF8uscBW2IpQvlpw?=
+ =?us-ascii?Q?fmUssobeUWJe7mNhg9DR3OpCJi8UEA/IQTFxUbXad7mDlzPQun6bG3u4QEhA?=
+ =?us-ascii?Q?Dos2ZQRu+Y6cS8WnrVH/iWcJtuuMWQFtyLhBfwwF6F25QUKZKUAYH4nbuRcf?=
+ =?us-ascii?Q?Gyv971XuEJeuTdqaOgoDpzwUdxpu9YER4WjsGF/9sKB6W6XJOOiXcCB4FsNw?=
+ =?us-ascii?Q?7yxUWJrs6vXkkjz+9fF9rO7fWt9n4hyXsE90fS8cSGlgVr8zwXfuFgBvtaVX?=
+ =?us-ascii?Q?Kcsm6zZL2MVjEw/RH27OflNFFgCqEIPXHYHmiGBqKRL/kfSyoe3IteJal+Ob?=
+ =?us-ascii?Q?fFMOqwirIxMpImcdNAnn/xsuw4xz9gfc+iME5mXvz2gfieSXQV7DVJltNhbV?=
+ =?us-ascii?Q?vCEArxbN2S3h63Dq3FLhNnfrG568XvqwcUCnfNBo8hCgTy+97cMUBP4zp41s?=
+ =?us-ascii?Q?fasdLQZnXgP3KXQLPf2Russ/cwN3bgos5n5Uo77yaezaSlGPnQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1pma5UdQYjGQnIKe5fU+Vm9jASgYtVWAwmw4/EKLvrzAUYavjeAvJj1MF9o+?=
+ =?us-ascii?Q?rFN4VsJjyOEcipAujDLk5UFX84Gsu5FkzzIfu6QBcIqX72dwxeg1Mqre/aW1?=
+ =?us-ascii?Q?B7fj0WE+3nOdA3l402K2Of5oqiX8blq8/gdolGKYXzdU59PkBf8RNUTQfJcn?=
+ =?us-ascii?Q?6gYay5Hze4hCeZLzHQbiYR8j+nkDdGQ+M/q8TEu475IRBLfmk/CJZgVBeyjG?=
+ =?us-ascii?Q?AMc40Is+eU08zNk6mFwur7XWnxSLsW8WHjXYkZ6fjo76t34Sl/DiSCIDVLz9?=
+ =?us-ascii?Q?5gLMF2jkKP3MKl7p1+xlc8YyyR8c4CdI2mGheMBEs/VE3Vhgd1BEQDIpOhV6?=
+ =?us-ascii?Q?f3eDYPOLt+3uXKuMfnA/sQXDLQgjYHjJS+8Lf3RX4qRUXWBfiT+Kig4/HWnl?=
+ =?us-ascii?Q?AFO7bzJ2EsilPyr48dTNwsrJB8VG1vGKhUny/em5s8m2dIV1VbcwEXOD2UsA?=
+ =?us-ascii?Q?pGfqns8KuglYP2xfGKbOS26HpjhKLv/EisuyR2OUr7bQrI2ZST1YVQFVey6L?=
+ =?us-ascii?Q?OfiUsPREhIKtpakGrRfv08vCnZcQUxd6m83STyojTCNHD1qTeVoEgNtS7N0u?=
+ =?us-ascii?Q?BxbZFZ6qSDq0JqJqPmLetlwPX9qHV7OysE1qa2S8jWVJGsdAqWGkdQpe+hVW?=
+ =?us-ascii?Q?PLZqIZoUUBxtnnXhI/CVQ5cLIwm4UQZXQ5ZcsVEVLT2oLLBzLI3s6T1eHQvH?=
+ =?us-ascii?Q?5/IFR1Hd50HAlf0RVYgg7jiBZ/aZlgFdbVbiaGQwfu0rtqHlL+oMs21RONzP?=
+ =?us-ascii?Q?DaeIvUsXyMzVM+ratn0cFIZqgDHWyklAiKlCDctOUAnQvyvTDokwzdGUkuea?=
+ =?us-ascii?Q?TuOHF5Y4g53eYDZ3AeI8TI2jkPrWjjhi5IMaSUwmMLzP3RBYu2kQmVUZ0tED?=
+ =?us-ascii?Q?5GLFpLbaTBLk2+lp7+A/vvjTl65/uLU+9i12g/joGPWI65FJOCXRkp1Ovpxo?=
+ =?us-ascii?Q?4oUb2GOGIA5uluS2bzKSOjrmtEOkZi46OVGq34kUFy7Qy0mEX6XJ36BkzIaX?=
+ =?us-ascii?Q?Ikp3Z1mnE9tHF2fF/H+3tHGMl5aGETlh1zKZIOs+GDK+gm6JXHUyVHBoaJso?=
+ =?us-ascii?Q?9LW2Obhj9p+7JLiO/5R6IocsqtgdXdKOK1OhMYm+h9Cv2b2opZ1XH4zrT3yH?=
+ =?us-ascii?Q?cU4SxOjKS+IC2pTxn7QUPa37dWuxXPGUrCheakcMBkJAgNZ6G/4LiL30Js9o?=
+ =?us-ascii?Q?sPQrfmEgpRzq3Y60DAT0Mhd65hhCAzl7qdjgn+MX1PJiVOyv3lNcjp7udDBS?=
+ =?us-ascii?Q?54nvAdE/Wra8kUsRV/F60K8p0TfFhK6QL8ktYYqZe+MtbLiPrDbygRl/ZP9S?=
+ =?us-ascii?Q?RPaf0BjxztKvugVMtw/wP+dqK6hz8grsP4C247JcNlzMSnAY+QIwL/GFrxNq?=
+ =?us-ascii?Q?6jN+eqY19UZ90jvisj7rKMIv7jcIbCmFwo5WrHsRc6MziC1WoVjIKPyoOuwC?=
+ =?us-ascii?Q?KjjJsWf6xHOlXuQUWwBqGaVIE2U6pUeuNpW9gm35KFrcDv/zmMGetR6uyDSR?=
+ =?us-ascii?Q?NXaWIxUPa6VTeF0hcRY64/UcYxM+pc3ilbFaWd1EHVLlpTMua1uPl/ecKNGR?=
+ =?us-ascii?Q?rKb9s1B1hSnWIwy9ZIuSITh23e9A9TkL43ULV7VCm1a4DzaNaHN3Ief87cbb?=
+ =?us-ascii?Q?OAgB4LkvueOQMULgf2BLTZA=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 204e0af4-5cf9-4c6d-19b4-08dce1b22145
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2024 00:43:55.9728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IMXCdW08wPWfnEcT+u7vy64CiAO3cTooHQH/XvbKDBLFHVeap87m6EQqZtaXFWRIvzv+9eb41OEV7qRfZO9xE4HcO/YNMr0FHuDh1hfqRZ5y6ysnv3wSdIhaDEnccFwu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5568
 
-A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could possibly return NULL pointer.
-NULL Pointer Dereference may be triggerred without addtional check.
-Add a NULL check for the returned pointer.
 
-Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-Reported-by: Zichen Xie <zichenxie0106@gmail.com>
-Reported-by: Zijie Zhao <zzjas98@gmail.com>
-Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+Hi Amadeusz
+
+> >   sound/soc/intel/avs/boards/da7219.c        | 2 --
+> >   sound/soc/intel/avs/boards/dmic.c          | 4 ++--
+> >   sound/soc/intel/avs/boards/es8336.c        | 2 --
+> >   sound/soc/intel/avs/boards/hdaudio.c       | 4 ----
+> >   sound/soc/intel/avs/boards/i2s_test.c      | 2 --
+> >   sound/soc/intel/avs/boards/max98357a.c     | 2 +-
+> >   sound/soc/intel/avs/boards/max98373.c      | 2 --
+> >   sound/soc/intel/avs/boards/max98927.c      | 2 --
+> >   sound/soc/intel/avs/boards/nau8825.c       | 2 --
+> >   sound/soc/intel/avs/boards/rt274.c         | 2 --
+> >   sound/soc/intel/avs/boards/rt286.c         | 2 --
+> >   sound/soc/intel/avs/boards/rt298.c         | 2 --
+> >   sound/soc/intel/avs/boards/rt5514.c        | 2 +-
+> >   sound/soc/intel/avs/boards/rt5663.c        | 2 --
+> >   sound/soc/intel/avs/boards/rt5682.c        | 2 --
+> >   sound/soc/intel/avs/boards/ssm4567.c       | 2 --
+> >   sound/soc/intel/boards/sof_board_helpers.c | 2 --
+> 
+> That's a bit of weird split, sof_board_helpers.c should've probably been 
+> with the rest of SOF boards in patch 10? ;)
+
+Ah yes. Thank you for pointing it.
+Will fix and post v3
+
+Thank you for your help !!
+
+Best regards
 ---
- sound/soc/qcom/lpass-cpu.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 5a47f661e0c6..a8e56f47f237 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1243,6 +1243,9 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
- 					GFP_KERNEL);
- 
-+	if (!drvdata->i2sctl)
-+		return -ENOMEM;
-+
- 	/* Initialize bitfields for dai I2SCTL register */
- 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
- 						drvdata->lpaif_map);
--- 
-2.25.1
-
+Kuninori Morimoto
