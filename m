@@ -1,111 +1,107 @@
-Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4DFE1C2DB7
-	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 18:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
+Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5211B5820;
+	Tue,  1 Oct 2024 19:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727808946; cv=none; b=Qd5HBUvQypHTW1FQijn8xJFwl5nXtGNOxszQWVDRdUBMjemBXdEdJv1oEFyqWFgKO/WBq0KYpGYxoV1wNJPcmQ6rggu1pTasdUG2SFlXA0rAXLqL6VxK1pKyye6YHtr+wT90LyjiKQQKhQlSLx1vGpalYLPHXY2vl775bztu+5k=
+	t=1727810473; cv=none; b=lgxwE/z0qUEtTL1fH6tbX8wvoCpAwQCqm7NpPT8gB2bavnp49Z/bHLX6ePPsygbjhajguXX8peQCVV/bPEz/XWOJlzoHGoLs4XHUYcUY+qm1UQ6TtkYUeqZw9oCKF8KEx0TcomXUi0axF/XMC4DPdjsP4hKuBo3fMZz1ALBtfTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727808946; c=relaxed/simple;
-	bh=vgpNV0LJq/20YqnUxlMDjN2uxMH5I+Q7zuzDOEDA904=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tsW1UcSt8wFpW1mDKOIlf+SFSxokvrcP2LH84m+xFIE+x5YWOQ2XRgVjDdK2nCz3SOC+jXFOFcUx+hfGH+jBWLN86Fm1rVchQoOXTYWUt94ysOInyuzxAMMIfWm/iaaOldhPuaTiDvrOc49L5Uqb6ihKVx3Vf0EyIwqoKMRx2Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=pass smtp.mailfrom=ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=VzEXnYez; arc=none smtp.client-ip=136.144.140.114
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ijzerbout.nl
+	s=arc-20240116; t=1727810473; c=relaxed/simple;
+	bh=c7zFNn+Mgez+Y9zHry4VSAq7W/1SrN5YFvt3fipXU0E=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fIMb73BBtdMvyAw6vtZZ7njHiMfaOxGHxlq+8suWCSfgH7b3FjfXm+z6NRNlOJMwc8XP4Tk1x37Eh+sYql7hhl3bk9TLbjtLpeF0sP88Fn0fAvWCZbBIk9Rcclk+lbS6VVCV4r+LoM+1WRgFsNLcv5mXTbXduozxdrRIQwr5ei0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru; spf=pass smtp.mailfrom=maxima.ru; dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b=eAhzF+wo; arc=none smtp.client-ip=81.200.124.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxima.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="VzEXnYez"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
-	t=1727808941; bh=vgpNV0LJq/20YqnUxlMDjN2uxMH5I+Q7zuzDOEDA904=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VzEXnYezY0OqpdNnffWbYouGAIkMYOZSguIi1At6cMQx9mAL/BRrMjBHlMArYxXvW
-	 eSvloUvC9Q00ur4wJygJkAIRj3uZUHatdAyQn0wU6g09Bg7NmOPcxqjnGBRmD0cGQ6
-	 0dAYGE+/gq7YxZ/ZMSqzn/X2FY83AfHsqCkEdOdUSXRgFq0h/rQ4xwuerXxgAvth9E
-	 cXwKQLAI2UGGZQtH47c3Cp65bszfGZMPJWKmsOAowjqeeR7I9A028KR3tx/vHVI5Sa
-	 X1ChG6tu4YIqy/ZEqa86bT9/soYVmj35gs91hFequDqeG2wK/YohzsouL8rOdRCVvW
-	 ip3V1+m0dTs6QYikT1C/XUZzeegXo+g0sj5HzH941phVfdm4X5YEByv4MTG5DSfrZZ
-	 T4BMqW3KIF1DwNXiSCcA92EmpXFGzy/1rs4w//XkXB6nDO/vqF3VKhtOin5EmSGjnI
-	 1EInrj5tXra9mTnyttAM4wuNUlNWjQZWleAZAmWCUjNzRFN+IyQEall/l9eR2UEPzC
-	 ENRa9jhRJPd7xsTWSoZzn9wHrKOHDIwLtGm5J/t50PD4RbAUyXg1B7o68kl2VTgP6r
-	 xIAN92UDJTLefeZVT6tb39G7uYNTWSoQFPN9hGVbFpku8/0L6fQ99tmZVER/15dbrk
-	 u4Zxemdn2480UsTuMx6WI09k=
-Received: from [IPV6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a] (racer.ijzerbout.nl [IPv6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a])
-	by bout3.ijzerbout.nl (Postfix) with ESMTPSA id 1497C18D592;
-	Tue,  1 Oct 2024 20:55:40 +0200 (CEST)
-Message-ID: <216bad53-84e1-4dc8-a88e-11f0d0ddfa41@ijzerbout.nl>
-Date: Tue, 1 Oct 2024 20:55:38 +0200
+	dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b="eAhzF+wo"
+Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
+	by ksmg02.maxima.ru (Postfix) with ESMTP id D3FCC1E000A;
+	Tue,  1 Oct 2024 22:11:11 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru D3FCC1E000A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
+	t=1727809871; bh=UmJNbXllIaG1Doy7kbysmC0vkO90MSqRndg2Q7c52PM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=eAhzF+woU7fU+yPVa0a7WNFeU0atssHgFHC24IAvIxHnsZUUEOfqpB9ZQQjd2CUig
+	 vDYcM7L0lHvGOCH+VaXsmJiKvaNCJ48aHiN+bQH34BusWU+CCLUFCiY68e9I14/iNt
+	 QgKgNEwzIaZD061GrMlZcw7eXfasNBxHUm/UBSDrGHLpx89X84LUd+R5g7hhIqhIKa
+	 btahgxkxrkf+HGNRVe6MpvMJId6VpwmY/YVuIf44ZCkpAavbXBs9xKD8E8UsMQagA3
+	 TV260qvUm2mbpOOyuOKt8n91x6Vp2i/Yvl784rxQyNvg3mTT30o04bIzZSiQPQbYC1
+	 K0A4LmKwwmTsw==
+Received: from ksmg02.maxima.ru (unknown [81.200.124.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg02.maxima.ru (Postfix) with ESMTPS;
+	Tue,  1 Oct 2024 22:11:11 +0300 (MSK)
+Received: from GS-NOTE-190.mt.ru (10.0.246.20) by mmail-p-exch02.mt.ru
+ (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Tue, 1 Oct 2024
+ 22:11:09 +0300
+From: Murad Masimov <m.masimov@maxima.ru>
+To: Liam Girdwood <lgirdwood@gmail.com>
+CC: Murad Masimov <m.masimov@maxima.ru>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Venkata
+ Prasad Potturu <venkataprasad.potturu@amd.com>, Muhammad Usama Anjum
+	<usama.anjum@collabora.com>, Syed Saba Kareem <Syed.SabaKareem@amd.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: amd: acp: drop bogus NULL check from i2s_irq_handler
+Date: Tue, 1 Oct 2024 22:08:39 +0300
+Message-ID: <20241001190848.711-1-m.masimov@maxima.ru>
+X-Mailer: git-send-email 2.46.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: rt1320: reads patch code from firmware file
-To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com,
- oliva@gnu.org
-References: <20240914090521.2224276-1-shumingf@realtek.com>
-Content-Language: en-US
-From: Kees Bakker <kees@ijzerbout.nl>
-In-Reply-To: <20240914090521.2224276-1-shumingf@realtek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
+ (81.200.124.62)
+X-KSMG-Rule-ID: 7
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 188128 [Oct 01 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: m.masimov@maxima.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;spf=none smtp.mailfrom=maxima.ru;dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 37 0.3.37 76d1f08bc1e1f80c2a3a76a1cc8929a49fe2f262, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, ksmg02.maxima.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;maxima.ru:7.1.1;81.200.124.62:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62, {DNS response errors}
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/10/01 15:39:00 #26689466
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-Op 14-09-2024 om 11:05 schreef shumingf@realtek.com:
-> From: Shuming Fan <shumingf@realtek.com>
->
-> This patch removes many lines of the patch code and
-> reads the patch code from firmware files.
->
-> Signed-off-by: Shuming Fan <shumingf@realtek.com>
-[...]
-> +static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
-> +{
-> +	struct sdw_slave *slave = rt1320->sdw_slave;
-> +	const struct firmware *patch;
-> +	const char *filename;
-> +	unsigned int addr, val;
-> +	const unsigned char *ptr;
-> +	int ret, i;
-> +
-> +	if (rt1320->version_id <= RT1320_VB)
-> +		filename = RT1320_VAB_MCU_PATCH;
-> +	else
-> +		filename = RT1320_VC_MCU_PATCH;
-> +
-> +	/* load the patch code here */
-> +	ret = request_firmware(&patch, filename, &slave->dev);
-> +	if (ret) {
-> +		dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
-> +		regmap_write(rt1320->regmap, 0xc598, 0x00);
-> +		regmap_write(rt1320->regmap, 0x10007000, 0x67);
-> +		regmap_write(rt1320->regmap, 0x10007001, 0x80);
-> +		regmap_write(rt1320->regmap, 0x10007002, 0x00);
-> +		regmap_write(rt1320->regmap, 0x10007003, 0x00);
-> +	} else {
-> +		ptr = (const unsigned char *)patch->data;
-> +		if ((patch->size % 8) == 0) {
-> +			for (i = 0; i < patch->size; i += 8) {
-> +				addr = (ptr[i] & 0xff) | (ptr[i + 1] & 0xff) << 8 |
-> +					(ptr[i + 2] & 0xff) << 16 | (ptr[i + 3] & 0xff) << 24;
-> +				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
-> +					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
-> +
-> +				if (addr > 0x10007ffff || addr < 0x10007000) {
-Oops 0x10007ffff must be 0x10007fff
-> +					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
-> +					goto _exit_;
-> +				}
-> +				if (val > 0xff) {
-> +					dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
-> +					goto _exit_;
-> +				}
-> +				regmap_write(rt1320->regmap, addr, val);
-> +			}
-> +		}
-> +_exit_:
-> +		release_firmware(patch);
-> +	}
-> +}
->
+When i2s_irq_handler is called, it's guaranteed that adata is not NULL,
+since IRQ handlers are guaranteed to be provided with a valid data pointer.
+Moreover, adata pointer is being dereferenced right before the NULL check,
+which makes the check pointless, even if adata could be NULL.
+
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
+
+Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+---
+ sound/soc/amd/acp/acp-platform.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
+index 3a7a467b7063..ce712aea953d 100644
+--- a/sound/soc/amd/acp/acp-platform.c
++++ b/sound/soc/amd/acp/acp-platform.c
+@@ -142,9 +142,6 @@ static irqreturn_t i2s_irq_handler(int irq, void *data)
+ 	u16 i2s_flag = 0;
+ 	u32 ext_intr_stat, ext_intr_stat1;
+
+-	if (!adata)
+-		return IRQ_NONE;
+-
+ 	if (adata->rsrc->no_of_ctrls == 2)
+ 		ext_intr_stat1 = readl(ACP_EXTERNAL_INTR_STAT(adata, (rsrc->irqp_used - 1)));
+
+--
+2.39.2
+
