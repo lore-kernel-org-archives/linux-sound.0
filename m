@@ -1,93 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADED1CDFC9;
-	Tue,  1 Oct 2024 17:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4DFE1C2DB7
+	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 18:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727805207; cv=none; b=rC3B6WCS3AzhT+6pP8dt8/Q5tAYY38L1/DOrumXtu5rFBEu+boWyimn1n9zP5stKKD/aoyvCrUj2DoSe0mzLtYNQi8dm22ub6ynLvxp3HJxiolO0q5yrivaleHIVraldZ5xZA8h6OOho1mpEF0xGnyGSwfzsWB3Ehop9jU5fn8o=
+	t=1727808946; cv=none; b=Qd5HBUvQypHTW1FQijn8xJFwl5nXtGNOxszQWVDRdUBMjemBXdEdJv1oEFyqWFgKO/WBq0KYpGYxoV1wNJPcmQ6rggu1pTasdUG2SFlXA0rAXLqL6VxK1pKyye6YHtr+wT90LyjiKQQKhQlSLx1vGpalYLPHXY2vl775bztu+5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727805207; c=relaxed/simple;
-	bh=zFUAfX1xGLKWPqysQ2DsF4JQETrYOAYztxgnX54f+SU=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jb6dQRTTG+ayfvJ07qw7xPlrMOwoGAQt+9wGQEKELC2Kn3/3OrnpaSnCFXBGgQYveOebTsEfzyCxz5+eAwSjEWtY4etH2H+VUvmThwOz67kWIk3phqoNvdQUnlLC1FgcERCbOL0NZHlLF0AZvSlX09+PxNvMzm7BOl6EUPPZEvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BtTa7fc5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727808946; c=relaxed/simple;
+	bh=vgpNV0LJq/20YqnUxlMDjN2uxMH5I+Q7zuzDOEDA904=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tsW1UcSt8wFpW1mDKOIlf+SFSxokvrcP2LH84m+xFIE+x5YWOQ2XRgVjDdK2nCz3SOC+jXFOFcUx+hfGH+jBWLN86Fm1rVchQoOXTYWUt94ysOInyuzxAMMIfWm/iaaOldhPuaTiDvrOc49L5Uqb6ihKVx3Vf0EyIwqoKMRx2Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=pass smtp.mailfrom=ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=VzEXnYez; arc=none smtp.client-ip=136.144.140.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BtTa7fc5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 249B9C4CECD;
-	Tue,  1 Oct 2024 17:53:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727805207;
-	bh=zFUAfX1xGLKWPqysQ2DsF4JQETrYOAYztxgnX54f+SU=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=BtTa7fc5dYV7KmtWiwKcr/Gn5pqBlFp2RlGzO/sBQcWTRxSwnOL/1nFaQPu0bGQYa
-	 fRyrtywXMXiY32M9yj5/ZJamVKXInQm3iPrSUPkzjDltkBUaxMkkG/jSesFL1c8Qqb
-	 Au3Y9+9vqxi/1NkBe5jqUSmtJKKxUrs7pVsUCPAr5L6nGdgP5G0VQh7QUdu1dF/mQW
-	 +KFOJhXVYWU5Am/F2QZSTwgh2goWTcLYZXJaq8BuPQCCwV9b5n7lQjLACvknMYEdJu
-	 CO/9ssjkRPPcp09yrwntnriRrEcAymTysK0Ef3zqUnvLjs7jOZx6gpDoBpXWicNkjD
-	 ejNW3L3AfbqaA==
-From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <1727424031-19551-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1727424031-19551-1-git-send-email-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/3] ASoC: fsl_micfil: fix and improvement
-Message-Id: <172780520382.2298697.5976871562900019910.b4-ty@kernel.org>
-Date: Tue, 01 Oct 2024 18:53:23 +0100
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="VzEXnYez"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
+	t=1727808941; bh=vgpNV0LJq/20YqnUxlMDjN2uxMH5I+Q7zuzDOEDA904=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=VzEXnYezY0OqpdNnffWbYouGAIkMYOZSguIi1At6cMQx9mAL/BRrMjBHlMArYxXvW
+	 eSvloUvC9Q00ur4wJygJkAIRj3uZUHatdAyQn0wU6g09Bg7NmOPcxqjnGBRmD0cGQ6
+	 0dAYGE+/gq7YxZ/ZMSqzn/X2FY83AfHsqCkEdOdUSXRgFq0h/rQ4xwuerXxgAvth9E
+	 cXwKQLAI2UGGZQtH47c3Cp65bszfGZMPJWKmsOAowjqeeR7I9A028KR3tx/vHVI5Sa
+	 X1ChG6tu4YIqy/ZEqa86bT9/soYVmj35gs91hFequDqeG2wK/YohzsouL8rOdRCVvW
+	 ip3V1+m0dTs6QYikT1C/XUZzeegXo+g0sj5HzH941phVfdm4X5YEByv4MTG5DSfrZZ
+	 T4BMqW3KIF1DwNXiSCcA92EmpXFGzy/1rs4w//XkXB6nDO/vqF3VKhtOin5EmSGjnI
+	 1EInrj5tXra9mTnyttAM4wuNUlNWjQZWleAZAmWCUjNzRFN+IyQEall/l9eR2UEPzC
+	 ENRa9jhRJPd7xsTWSoZzn9wHrKOHDIwLtGm5J/t50PD4RbAUyXg1B7o68kl2VTgP6r
+	 xIAN92UDJTLefeZVT6tb39G7uYNTWSoQFPN9hGVbFpku8/0L6fQ99tmZVER/15dbrk
+	 u4Zxemdn2480UsTuMx6WI09k=
+Received: from [IPV6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a] (racer.ijzerbout.nl [IPv6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a])
+	by bout3.ijzerbout.nl (Postfix) with ESMTPSA id 1497C18D592;
+	Tue,  1 Oct 2024 20:55:40 +0200 (CEST)
+Message-ID: <216bad53-84e1-4dc8-a88e-11f0d0ddfa41@ijzerbout.nl>
+Date: Tue, 1 Oct 2024 20:55:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] ASoC: rt1320: reads patch code from firmware file
+To: shumingf@realtek.com, broonie@kernel.org, lgirdwood@gmail.com
+Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com,
+ oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com,
+ oliva@gnu.org
+References: <20240914090521.2224276-1-shumingf@realtek.com>
+Content-Language: en-US
+From: Kees Bakker <kees@ijzerbout.nl>
+In-Reply-To: <20240914090521.2224276-1-shumingf@realtek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
 
-On Fri, 27 Sep 2024 16:00:28 +0800, Shengjiu Wang wrote:
-> Fix the usage of regmap_write_bits().
-> Move mclk clock enablement to late stage.
-> Enable the micfil error interrupt.
-> 
-> Shengjiu Wang (3):
->   ASoC: fsl_micfil: fix regmap_write_bits usage
->   ASoC: fsl_micfil: Add mclk enable flag
->   ASoC: fsl_micfil: Enable micfil error interrupt
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: fsl_micfil: fix regmap_write_bits usage
-      commit: 06df673d20230afb0e383e39235a4fa8b9a62464
-[2/3] ASoC: fsl_micfil: Add mclk enable flag
-      commit: b47024dc624bcffb89d238f4a5b490363cea2a1e
-[3/3] ASoC: fsl_micfil: Enable micfil error interrupt
-      commit: cc3ae21f360bfa375fc3539e24e7adb0e643a9d4
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Op 14-09-2024 om 11:05 schreef shumingf@realtek.com:
+> From: Shuming Fan <shumingf@realtek.com>
+>
+> This patch removes many lines of the patch code and
+> reads the patch code from firmware files.
+>
+> Signed-off-by: Shuming Fan <shumingf@realtek.com>
+[...]
+> +static void rt1320_load_mcu_patch(struct rt1320_sdw_priv *rt1320)
+> +{
+> +	struct sdw_slave *slave = rt1320->sdw_slave;
+> +	const struct firmware *patch;
+> +	const char *filename;
+> +	unsigned int addr, val;
+> +	const unsigned char *ptr;
+> +	int ret, i;
+> +
+> +	if (rt1320->version_id <= RT1320_VB)
+> +		filename = RT1320_VAB_MCU_PATCH;
+> +	else
+> +		filename = RT1320_VC_MCU_PATCH;
+> +
+> +	/* load the patch code here */
+> +	ret = request_firmware(&patch, filename, &slave->dev);
+> +	if (ret) {
+> +		dev_err(&slave->dev, "%s: Failed to load %s firmware", __func__, filename);
+> +		regmap_write(rt1320->regmap, 0xc598, 0x00);
+> +		regmap_write(rt1320->regmap, 0x10007000, 0x67);
+> +		regmap_write(rt1320->regmap, 0x10007001, 0x80);
+> +		regmap_write(rt1320->regmap, 0x10007002, 0x00);
+> +		regmap_write(rt1320->regmap, 0x10007003, 0x00);
+> +	} else {
+> +		ptr = (const unsigned char *)patch->data;
+> +		if ((patch->size % 8) == 0) {
+> +			for (i = 0; i < patch->size; i += 8) {
+> +				addr = (ptr[i] & 0xff) | (ptr[i + 1] & 0xff) << 8 |
+> +					(ptr[i + 2] & 0xff) << 16 | (ptr[i + 3] & 0xff) << 24;
+> +				val = (ptr[i + 4] & 0xff) | (ptr[i + 5] & 0xff) << 8 |
+> +					(ptr[i + 6] & 0xff) << 16 | (ptr[i + 7] & 0xff) << 24;
+> +
+> +				if (addr > 0x10007ffff || addr < 0x10007000) {
+Oops 0x10007ffff must be 0x10007fff
+> +					dev_err(&slave->dev, "%s: the address 0x%x is wrong", __func__, addr);
+> +					goto _exit_;
+> +				}
+> +				if (val > 0xff) {
+> +					dev_err(&slave->dev, "%s: the value 0x%x is wrong", __func__, val);
+> +					goto _exit_;
+> +				}
+> +				regmap_write(rt1320->regmap, addr, val);
+> +			}
+> +		}
+> +_exit_:
+> +		release_firmware(patch);
+> +	}
+> +}
+>
