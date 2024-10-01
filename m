@@ -1,114 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4051321D;
-	Tue,  1 Oct 2024 19:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB621CDFB8;
+	Tue,  1 Oct 2024 20:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727811934; cv=none; b=VARoRptDiW0PD9XuCV4rHmRqVPGE2O25oYcK53Z5L00DxS6gnayUl/ROq3h+RhLR5pXpsQ1D8reqTU6p6Hwu421/8dSvN5GiUVc5tK/jabfi3Bwbk3IbYKil3C91CauBxW3hLcsRcUhxVfmkasTa3+zY3HkMnCuRnhgxwUt1mNo=
+	t=1727815675; cv=none; b=DM9B5E7guyEVOnZUAtmq0h5kkEx4RpESu+1IO/KY1yI9ehD7WXEsquYEdjOL8/+wbON0W6AmFUVm7DBvb5ehhXNKaJLanDDKnRhoKg8jKfFVATrB4hXc3ncmeStUo+Oge+ilg6L3jNqGpnjSJxMB17YgAu0aK4R9BvI1v9Avweo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727811934; c=relaxed/simple;
-	bh=0dcHpSThL1HpAZucSpJAzYAzmgO6PumaqA1JSgMYfUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pZTwI82qbP4MaU9qpoHj14Jnd0jG5ljYbehUX27Ee5bgWan0q+O56aToXl1DHLQMXelrS+i8YAfyjFaKQNsrkGg0/njqT7HRZffmeNkmNm5j8aWKmaZ5T1BqU3u3ws9xAg76gfQbt7ZdjvIJ8KzZCkbzseU/MmmkrPcRO+LOr40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJ3RKnHn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727815675; c=relaxed/simple;
+	bh=JWQmFj28vAA7pfGSgFPser4PWendSu3+yh/XwPZ7QDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNtv73PmqjJrQuxgzQZ6hP2i28GBqO1xi7glrysL1fdfj4o3IruFUmDzhJDFWuBwTt1rpaCqnT2KOSm1BGUnX2aF6VpPBLhbGSqzDc0NxVQME+OsQc249UFkt9kf8op4P0Xh52q0AqJYlfj7m4t6J99F/oQ5WSzXOS7tZXHNkEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cZEyP7Bf; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJ3RKnHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72819C4CEC6;
-	Tue,  1 Oct 2024 19:45:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727811934;
-	bh=0dcHpSThL1HpAZucSpJAzYAzmgO6PumaqA1JSgMYfUc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IJ3RKnHnFha5a9c1Z6Ev/ZmCKO5XvH5HgGw1In9MtpbauVe1/lPdrLM7FpnL9IbKI
-	 5F6j8MwZBazoM57lPjlEGl0/+9KgQFuIxncfyE7eU1dnBHUU1jIW0cbUh4AUR0acls
-	 LUXbq9Hs9k6VVYt0eWrSCDj7Yfdj7n0keJa5DXekBlbTtJ8Hm8aocue8b/OdcMbZmK
-	 CWvSd7K5dnf49UKUTEYV2yE6wR4m/jmteRDS2YkNIFji6DlS8Llk72d1FOcXk5R8pT
-	 b3QaK1fa2gw7J2xFb6sZUWXMs+Py0TC1VVy6KwqIgqdImv4RPXwavzDkOZxSYwQWY4
-	 FqZwzJBUeNw0Q==
-Message-ID: <a78e1fa4-3e13-466e-a0ae-04912e90c09a@kernel.org>
-Date: Tue, 1 Oct 2024 21:45:27 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cZEyP7Bf"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 4434420003;
+	Tue,  1 Oct 2024 20:47:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1727815671;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7K/Eugdwj8fUKd8disrVXoOxjLjfRgm10Zw7MAU2ris=;
+	b=cZEyP7BfbsdDIRYXFoW85KZoxgrkUFjYoHO06PgZTSGhNOxcfza4NwQ+tvIn60v1P7YlSk
+	FaK7AQUpxUHaCEIYq362WRBmmENU7UW1RmZFYiX5AJ+cmTg1lRMagXYAZnFi0z8S4QVNoP
+	ZQFhevSmzKPWpVbGdTQV8Ne8sg2ORASSHX/EtcyPTO49LpaE4wCAWQR5p2/zuffnGqrepS
+	hhzdm+g9DseFRnYFL89H1Ml2RceZPPH/3AybFwLrCld2F2ItzB1aDbT8dUJ4faP9sHmtEm
+	ibOGyHl8vWXd3jbxFbD+YDeHhEg7KZDDIX208FRoEHLXqAZ4iS4EMChD9EpSoA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jayesh Choudhary <j-choudhary@ti.com>,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
+Date: Tue,  1 Oct 2024 22:47:49 +0200
+Message-ID: <20241001204749.390054-1-miquel.raynal@bootlin.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: Fix NULL Dereference in
- asoc_qcom_lpass_cpu_platform_probe()
-To: Gax-c <zichenxie0106@gmail.com>, srinivas.kandagatla@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Zijie Zhao <zzjas98@gmail.com>,
- Chenyuan Yang <chenyuan0y@gmail.com>
-References: <20241001002409.11989-1-zichenxie0106@gmail.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241001002409.11989-1-zichenxie0106@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: miquel.raynal@bootlin.com
 
-On 01/10/2024 02:24, Gax-c wrote:
-> A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could possibly return NULL pointer.
-> NULL Pointer Dereference may be triggerred without addtional check.
-> Add a NULL check for the returned pointer.
-> 
-> Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-> Reported-by: Zichen Xie <zichenxie0106@gmail.com>
-> Reported-by: Zijie Zhao <zzjas98@gmail.com>
-> Reported-by: Chenyuan Yang <chenyuan0y@gmail.com>
+My understanding of the interrupts property is that it can either be:
+1/ - TX
+2/ - TX
+   - RX
+3/ - Common/combined.
 
-Commit still needs improvements.
+There are very little chances that either:
+   - TX
+   - Common/combined
+or even
+   - TX
+   - RX
+   - Common/combined
+could be a thing.
 
-You ignored also Bjorn's review.
+Looking at the interrupt-names definition (which uses oneOf instead of
+anyOf), it makes indeed little sense to use anyOf in the interrupts
+definition. I believe this is just a mistake, hence let's fix it.
 
-Best regards,
-Krzysztof
+Fixes: 8be90641a0bb ("ASoC: dt-bindings: davinci-mcasp: convert McASP bindings to yaml schema")
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+---
+ .../devicetree/bindings/sound/davinci-mcasp-audio.yaml          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
+index 7735e08d35ba..ab3206ffa4af 100644
+--- a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
++++ b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
+@@ -102,7 +102,7 @@ properties:
+     default: 2
+ 
+   interrupts:
+-    anyOf:
++    oneOf:
+       - minItems: 1
+         items:
+           - description: TX interrupt
+-- 
+2.43.0
 
