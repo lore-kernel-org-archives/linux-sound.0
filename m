@@ -1,50 +1,74 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB621CDFB8;
-	Tue,  1 Oct 2024 20:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473A1CDA0D;
+	Tue,  1 Oct 2024 21:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727815675; cv=none; b=DM9B5E7guyEVOnZUAtmq0h5kkEx4RpESu+1IO/KY1yI9ehD7WXEsquYEdjOL8/+wbON0W6AmFUVm7DBvb5ehhXNKaJLanDDKnRhoKg8jKfFVATrB4hXc3ncmeStUo+Oge+ilg6L3jNqGpnjSJxMB17YgAu0aK4R9BvI1v9Avweo=
+	t=1727816564; cv=none; b=rr9/X0WBw6uPEIsyJWrANZixB4inwTgPejW/82DokLSQEtmub9sJRG6iwa6DuDMGqH8jrIyM1Y2igjTCJNpVay+TudVCyeSp2OnIg8KbDK1yojqoJb8SLL+i7UeNfPCmRwBmfH8Nn1pdkInzW5B6t7tRqN34DiXh9susNbFwXCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727815675; c=relaxed/simple;
-	bh=JWQmFj28vAA7pfGSgFPser4PWendSu3+yh/XwPZ7QDU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNtv73PmqjJrQuxgzQZ6hP2i28GBqO1xi7glrysL1fdfj4o3IruFUmDzhJDFWuBwTt1rpaCqnT2KOSm1BGUnX2aF6VpPBLhbGSqzDc0NxVQME+OsQc249UFkt9kf8op4P0Xh52q0AqJYlfj7m4t6J99F/oQ5WSzXOS7tZXHNkEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cZEyP7Bf; arc=none smtp.client-ip=217.70.183.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1727816564; c=relaxed/simple;
+	bh=j9nKdkXSYWiIqZC/EjeMLZoVdFKq933DP4Fk2mYbuDc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CmRKbN73ruUf8CzsSWgVi1g9+yLsCEo0YVEOiFFfIszrk6/ZfTsPWzs8dX+bsz2ZSs4SsEbdk8ZgTjteRJ9dLrGCs5Yy6kgtoG9ChXxwrxqriB/CfGiyyOzcqPNpmgGMYKvJLLvwT/iyyijbcH9myE77jb4H1XkKsu4Ga+PQeac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A1P/u8i9; arc=none smtp.client-ip=209.85.222.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cZEyP7Bf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 4434420003;
-	Tue,  1 Oct 2024 20:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727815671;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7K/Eugdwj8fUKd8disrVXoOxjLjfRgm10Zw7MAU2ris=;
-	b=cZEyP7BfbsdDIRYXFoW85KZoxgrkUFjYoHO06PgZTSGhNOxcfza4NwQ+tvIn60v1P7YlSk
-	FaK7AQUpxUHaCEIYq362WRBmmENU7UW1RmZFYiX5AJ+cmTg1lRMagXYAZnFi0z8S4QVNoP
-	ZQFhevSmzKPWpVbGdTQV8Ne8sg2ORASSHX/EtcyPTO49LpaE4wCAWQR5p2/zuffnGqrepS
-	hhzdm+g9DseFRnYFL89H1Ml2RceZPPH/3AybFwLrCld2F2ItzB1aDbT8dUJ4faP9sHmtEm
-	ibOGyHl8vWXd3jbxFbD+YDeHhEg7KZDDIX208FRoEHLXqAZ4iS4EMChD9EpSoA==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jayesh Choudhary <j-choudhary@ti.com>,
-	alsa-devel@alsa-project.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A1P/u8i9"
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-7acdd65fbceso493604885a.3;
+        Tue, 01 Oct 2024 14:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727816562; x=1728421362; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+jYH5NvXI+E7Di+eslBeYdYxG/YksuIt7qvi8S1X1cA=;
+        b=A1P/u8i9w8DH84ZJYr9Oc8ig8TdqJ+VE7yU6co5YApx2zCQr84Wm4OY1IgX2SaLNQh
+         9JUwt+CSaefuQC+VPVa1hGrYIxsYy4byfE5A/WKw/Tvgl8JRClvpskCk0nUc8wzWh2Qg
+         VC0dWEWqw2UfaXXl+c4P6YhZx8UmV8Ms0919FlFVv1+zMddB8iRviFpINur8ZW6ByTAh
+         70zBsqUjjLgoADRxFwRoRU178966FDSIzxsO9TkoRgwvcsJqnq/aCJ9yw/ELa+fl4P3d
+         RQK0O/+Sr5yT07ohhVX711lf0KTpQw781qXeqUaeVTE+0GWx6uLk7nfAZ3t6JJIvafbV
+         lfWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727816562; x=1728421362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+jYH5NvXI+E7Di+eslBeYdYxG/YksuIt7qvi8S1X1cA=;
+        b=dOmBOPGyLojjD1wQ5Vvfhvwe7V+oECoq8gkeCV6PTRxtYOGy7cr698JYkUSyNZm88R
+         A8C6PFUI3YsE7ztArhja4Rbc52gKom3SZVrRKRuGP0ZcPdA4E8n+r8GrGYglUeoiBBpy
+         Z7jwXFVfHqDiXLTYDmWnC89GxXYVURUAXP8UDhU0RVrus3jUohH7jU5lyeqTdEl7TZVt
+         bopNALsmyTCMFKeT7Bd02WXTnfiomte7XL/2aZihy1aOqafJL1yjE3wsoYqSsE3UFRdB
+         mpl/a3ndCmeb7ken06o42J2Gk1Af51V0zijdSpCkYC4WKJt8V+DDFPXu8xgrg7FdmpYT
+         jF3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVsBNYUNnTodirSSxp3ZTAWP3vTSpjOwx+K6LnLeCnV+FtsPOaN7RELcHRIzZN97cwv2QHSyS2Z6NpK0vr+@vger.kernel.org, AJvYcCWeiidxs1963OfEOh88GSxg7I74rPmnQA4GGs9Yfwswto6mg2CVPPU4MrWcGuku7XuyaAy/8xTv@vger.kernel.org, AJvYcCWhJ0vmR7Gz4VeKjKvtq6rBdMG6G2Ixhi8Sgd3hikd/XiMJTh5p8czO88n/4EBjJ61dQ0q6RhK1p2aZZzI=@vger.kernel.org, AJvYcCXuIU1tuhDYb3LavJPMgDHgf1Wx8q4lwa12NxKtf/WoTkTACQjhP1ZRLdPA+efu8BoCq8ePnH7GsCzmaCXB@vger.kernel.org
+X-Gm-Message-State: AOJu0YxASC7xnpSFoXvg1cCS4rr5bsjlH/u8PGABb4LOEjqb3vd7TNut
+	+oeP0UTL6E3kLOTizb/fFrVyyed0iCyUo/BLy29pnq59OEU9TQoL
+X-Google-Smtp-Source: AGHT+IH8uerN1xuIll5+jKNYSNyQKKRV3hWcMZLGc4+dVp70EfVbpJdn2EImWBYE6QoIIu3JG79n3g==
+X-Received: by 2002:a05:620a:46a4:b0:7a4:dff8:35e6 with SMTP id af79cd13be357-7ae6274f7e5mr123077585a.62.1727816562236;
+        Tue, 01 Oct 2024 14:02:42 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae3783d269sm540615685a.116.2024.10.01.14.02.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 14:02:41 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: srinivas.kandagatla@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rohitkr@codeaurora.org
+Cc: alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
-Date: Tue,  1 Oct 2024 22:47:49 +0200
-Message-ID: <20241001204749.390054-1-miquel.raynal@bootlin.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	chenyuan0y@gmail.com,
+	zzjas98@gmail.com,
+	Gax-c <zichenxie0106@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
+Date: Tue,  1 Oct 2024 16:02:10 -0500
+Message-Id: <20241001210209.2554-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,47 +76,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-My understanding of the interrupts property is that it can either be:
-1/ - TX
-2/ - TX
-   - RX
-3/ - Common/combined.
+A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
+possibly return NULL pointer. NULL Pointer Dereference may be
+triggerred without addtional check.
+Add a NULL check for the returned pointer.
 
-There are very little chances that either:
-   - TX
-   - Common/combined
-or even
-   - TX
-   - RX
-   - Common/combined
-could be a thing.
-
-Looking at the interrupt-names definition (which uses oneOf instead of
-anyOf), it makes indeed little sense to use anyOf in the interrupts
-definition. I believe this is just a mistake, hence let's fix it.
-
-Fixes: 8be90641a0bb ("ASoC: dt-bindings: davinci-mcasp: convert McASP bindings to yaml schema")
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+Cc: stable@vger.kernel.org
+Reported-by: Zichen Xie <zichenxie0106@gmail.com>
 ---
----
- .../devicetree/bindings/sound/davinci-mcasp-audio.yaml          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/qcom/lpass-cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-index 7735e08d35ba..ab3206ffa4af 100644
---- a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-+++ b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-@@ -102,7 +102,7 @@ properties:
-     default: 2
+diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+index 5a47f661e0c6..242bc16da36d 100644
+--- a/sound/soc/qcom/lpass-cpu.c
++++ b/sound/soc/qcom/lpass-cpu.c
+@@ -1242,6 +1242,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 	/* Allocation for i2sctl regmap fields */
+ 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
+ 					GFP_KERNEL);
++	if (!drvdata->i2sctl)
++		return -ENOMEM;
  
-   interrupts:
--    anyOf:
-+    oneOf:
-       - minItems: 1
-         items:
-           - description: TX interrupt
+ 	/* Initialize bitfields for dai I2SCTL register */
+ 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
 -- 
-2.43.0
+2.25.1
 
