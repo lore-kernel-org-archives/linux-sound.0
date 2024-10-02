@@ -1,106 +1,82 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 547A31D096B;
-	Wed,  2 Oct 2024 16:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE0315D1
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 16:54:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727885597; cv=none; b=SKOC2F7qm9a9i57/erL/AdF31FHHDd+GLtbf5Lqr8ou4GNorSt1MkquHDNp5/k+4P4AvcuJcO5Q/8tN1+7ccUqHo3EvwUyWYPQYUldfbXOfhzvmk4XsF6ykvIrkx2h6jVx1yAkVC5A6jtw8j5XJu572a2artraKTqvscLsyMs0E=
+	t=1727888069; cv=none; b=heOwukn87r5m7RqTZEaMqsl6pxJneUPgWiuV+8rcoHnecWMAaZOHGRZyqXQs0S8Kp+gcs7DgsJLLy+4cmL5atIDfwVTYpQucE+hYM2gVnY7RW7c2pautsRB3fawECYfI5ZhpZmSkq78k7W2VSwpz5CdWYuwGJ38WZxAtuv2tD2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727885597; c=relaxed/simple;
-	bh=PFhe5qkwffgB5AUaRLfTYJBjKYBOL3NW5GVEq2FjsS4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PMV9TCnE33uHucBP+udEPs9sZa8bV29Z0Wm5F/lZdS/Kk2NTDIhmGFmZk4K4pjRwpIgCyiIuPhpNzb0PMBvALYkx/qr+lsJQ0kuaJczczlxfFuSUuri2V6rznZoky7WqHV9mVCzMz5YEC0yEAxlqhzhs9cCuLxK+EMjF8CwWQoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UNtG9yC5; arc=none smtp.client-ip=209.85.219.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1727888069; c=relaxed/simple;
+	bh=+YeeQ4xnlzOHP+A4u5xDPshiePPruw4fYsJO9K382KA=;
+	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=PkGaeajRu8aKufIwYgGEfMfC3WumdZku9NF9ahkg9Uz+9XuN4f3B5VCwFPi8jaz+E+tO9WfNaLs255yQ9GA9QdKMFxEC0TZ8ab+sXuWUKfmMVsT3GFmjK1IzMl9m+IfMIQzjaNHRx3Ucr+Q95//UNZ/sEsP0DPfibOvs5W3pciQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=eNJ2UrTy; arc=none smtp.client-ip=185.70.43.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UNtG9yC5"
-Received: by mail-qv1-f66.google.com with SMTP id 6a1803df08f44-6cb2c5128d5so244456d6.0;
-        Wed, 02 Oct 2024 09:13:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727885595; x=1728490395; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YaAqXYOrs+Q0T3ILVjOtUUUJDGq2kyVBWsgDISQYgtE=;
-        b=UNtG9yC5OmiLAET2H+seWY3/gRLrDEfVkDf3WkcAX3d7yR0ztJSI3x0cnc4NQiDxep
-         JJe/gpn/11F3+exiZ9mEQkQ+wurthnHIMR4z1Mw5UzjIP4/o4xPygj9y/87p5fAtW6Bo
-         l3PpSkg01vfID9T9AbBHmzi8VXsZrTCXjmD31d8O8wlkkh9L844F1MXtvyrYxRabspol
-         oeD1MLrdVMAm053WUfs1RKI/ahuZifPi26APU5EAMrsoYzgJ07ZQn4O/FA5Ea3457nE3
-         bfg/4yMeRXsXIZbgSKYihD7E9hasXVyQ0ALl8u2qRUVWXX0AQlYipV+0b7424GfPe/Mm
-         AG6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727885595; x=1728490395;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YaAqXYOrs+Q0T3ILVjOtUUUJDGq2kyVBWsgDISQYgtE=;
-        b=aPvdMzktW8hvBGGqfP6/OT7wNJ5BOA/2C75mQNTnFZ2BYAi7hqJewKAwPbJkPao0Qv
-         69ulbrLQkl0qA4iWO1u0bUqzVpQC8WhoN674LizrAe79LrsOAmgR2wY5hDreFCe8k1Oa
-         YQR1g9qcIRfDTG7IyvQki+/GL9IpfD1vBOI5kBGxvL2XN1d0yOXFDQ/DZHh5JT1ih2hd
-         m2EPoXLYPBURL9o0I7IpkflRw/hIah8WyCpTHek8D84ICWCZIh+bUhatmLQmPvMLdxX2
-         S/Ls7j6JNlYSoMvbFGshUqc09+5jznktlVUNSPmUNjKoJnEe4DRsDf/WIT2NNnsPxQE2
-         Chvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUMo6t2Gv96koCPMSsBzPRRFAB6lTecZm4IEVWtLj0Q0WOSWNJjQzyJECWGlb044PlYZZ6jVgP9i6wPFHKZ@vger.kernel.org, AJvYcCUN5kX6vzsNQL1ZML7YY2RcNqTmCv2hIkoG4YXo6szL4i8iow5qrbrDzW3W6a9Vwbv+bzBtnGwh@vger.kernel.org, AJvYcCUfodkmpWgPZOgZI872pttubDSKtjMVV+WKqEjz5x5fOj+wcnkPzDgbnySMwh6HJZeHnONEISUaCpiYOHg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySdwH2UbY/LU24Rs7V1TaHggIiXbrtWRv3tB5v/3EL6XS+hhmR
-	mXk8UGzSyBwIwAXgWqAfNiInSMjaFJvtqnSPjgZKGQXkd9Gx9GC/
-X-Google-Smtp-Source: AGHT+IEY7+7GGtRvAHmNqZOUe6gPQT/dKtSnV0a8RIReYrDmnLzNoqQ2D0+zzl9Wn9F5tfQBERjB9g==
-X-Received: by 2002:a05:6214:2c08:b0:6cb:3da9:f3b3 with SMTP id 6a1803df08f44-6cb81a852a5mr60575526d6.38.1727885595011;
-        Wed, 02 Oct 2024 09:13:15 -0700 (PDT)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cb8811233bsm7339106d6.41.2024.10.02.09.13.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2024 09:13:14 -0700 (PDT)
-From: Gax-c <zichenxie0106@gmail.com>
-To: srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	zzjas98@gmail.com,
-	chenyuan0y@gmail.com,
-	Gax-c <zichenxie0106@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
-Date: Wed,  2 Oct 2024 11:12:33 -0500
-Message-Id: <20241002161233.9172-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="eNJ2UrTy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1727888058; x=1728147258;
+	bh=ucKdwaqna1B8xoymzZHIN1Kqlw4g7/QHmb4SEO4z7Ok=;
+	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=eNJ2UrTyybTFoC0LPMEqOJWfBAnLDu5G3OxVOGvbW/4GUbSZmMBZv2b8nSz6u6TTf
+	 34m/GllRMgt3/gODqYzpONNAvIDwZp6IwnYmpFUZXbKATRP8ER0P1O9dHM3TC7vblW
+	 8oD015YIuxFYBD3wumseiy8lQAOjf5Xz3IYzTcLojnEgwtc34YYRL1yTub14ezKslB
+	 3htEc5hrbIexyXJuysZl1dYM5xfPKwWZPELpCkWKvkvZN9DmPakS5f0dT5d+s9uzY4
+	 qhf3LQT15leiC4rQveF2jgdWTj5x1/Cl0SMtMq8+OBjLyusVlPMvG2GGwJmVYH+1RO
+	 gIQIAP4GR4Cbg==
+Date: Wed, 02 Oct 2024 16:54:13 +0000
+To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+From: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
+Subject: Incorrect automatic ALSA card ID when unicode is at play
+Message-ID: <yk3WTvKkwheOon_LzZlJ43PPInz6byYfBzpKkbasww1yzuiMRqn7n6Y8vZcXB-xwFCu_vb8hoNjv7DTNwH5TWjpEuiVsyn9HPCEXqwF4120=@protonmail.com>
+Feedback-ID: 20568564:user:proton
+X-Pm-Message-ID: d586403b7677f11222e703c615894baba9b6f4f4
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
-possibly return NULL pointer. NULL Pointer Dereference may be
-triggerred without addtional check.
-Add a NULL check for the returned pointer.
+Hi
 
-Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-Cc: stable@vger.kernel.org
----
- sound/soc/qcom/lpass-cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index 5a47f661e0c6..242bc16da36d 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -1242,6 +1242,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
- 	/* Allocation for i2sctl regmap fields */
- 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
- 					GFP_KERNEL);
-+	if (!drvdata->i2sctl)
-+		return -ENOMEM;
- 
- 	/* Initialize bitfields for dai I2SCTL register */
- 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
--- 
-2.25.1
+When `snd_card::id` is not specified explicitly it is determined automatica=
+lly
+in `sound/core/init.c:snd_card_register()` as follows:
 
+  if (*card->id) {
+    // ...
+  } else {
+    /* create an id from either shortname or longname */
+    const char *src;
+
+    src =3D *card->shortname ? card->shortname : card->longname;
+    snd_card_set_id_no_lock(card, src,
+                                  retrieve_id_from_card_name(src));
+  }
+
+However, `snd_card_set_id_no_lock()`, or more specifically the `copy_valid_=
+id_string()`
+function that it calls does not seem to copy very well with utf-8.
+
+For example, based on the report at https://gitlab.freedesktop.org/pipewire=
+/pipewire/-/issues/4135
+where `card->shortname=3D"Redmi =E7=94=B5=E8=84=91=E9=9F=B3=E7=AE=B1"`, `ca=
+rd->id` will be set to \xE7\xE8\xE9\xE7,
+which are the first bytes of the symbols in the suffix "=E7=94=B5=E8=84=
+=91=E9=9F=B3=E7=AE=B1" because only those
+bytes of the string satisfy the `isalnum()` check in `copy_valid_id_string(=
+)`.
+
+I am not sure what kind of 8-bit character set `isalnum()` is basing these =
+results on, but
+it certainly does not mix well with utf-8 in this scenario at least.
+
+
+Regards,
+Barnab=C3=A1s P=C5=91cze
