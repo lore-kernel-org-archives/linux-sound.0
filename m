@@ -1,112 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA044EAFA;
-	Wed,  2 Oct 2024 05:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF80D7DA9C;
+	Wed,  2 Oct 2024 05:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727848066; cv=none; b=dQTtzKI5gcJqOgDg47t0ol08Y3h/bAZMvVy9IC1oj7kBdSXM+FlP/NaoZMgoXhnF20P3B2XDBiXfiUIbxQqnzxZiPfh3EjhhfayAFfc/TfoxyyID2p0q+15P7SKgCNrIbwSFo9HzvOZaimt4tjwy4JnfKQCDZAIwHMj2ZTsKT4I=
+	t=1727848733; cv=none; b=LLyeOGSDAuVaLripYDVKFTzqpJHFUDEDS+eGgtvhGtwAUgGoy6a1lit4rDGb5upFF5Fqi3cs97qlG26sumHutmJPcK+L7saxYDJxQ47PY8tVMMTtYR8HRnSH0PVc3OvR2XYpvJqKbcHmX2gGE6PbkMvglp4QxTAHclo0VmQxT64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727848066; c=relaxed/simple;
-	bh=VZrkXx08AsYfiGlJVb34m/+hbzgrEIV4F/yYiSCU9q0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ll7F/GzcMFzZgBazjmzyPi/WxGL5EZVUzm63Do4+TAMG3ovKWNsbID2CmJB0lfxgQStM81xOjb+qC2aWfSQ4v3YlElg7llhqTIblfSv5BpidKwqFEONBYmCVS9Rc3TCKo/GsxLI4qvPkkk5t0tvD+CdT5cRL+70bULWJt/XZA64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uYsBrVtT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727848733; c=relaxed/simple;
+	bh=UOTl03DOOV7SlDAksJvetAb0xk40DOwnob6rAZ9l/5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbJNqXNer7RFNiYNKwXYhQFgeUaBYm0a1u93CbHIrad//V/pviBVZGS7yGc7IN/tg53F1gK2PjsiTGaQsjhs3zisO/ruX69A0AQa1owEYxNoCo0yN06nhsw9nVvdFfvj6B6Jusin1JcTbrB9A04094OZzvzXgf0NhEyGoHe85pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qOhJ05Yp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uYsBrVtT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E52DC4CEC5;
-	Wed,  2 Oct 2024 05:47:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qOhJ05Yp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 688A0C4CEC5;
+	Wed,  2 Oct 2024 05:58:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727848065;
-	bh=VZrkXx08AsYfiGlJVb34m/+hbzgrEIV4F/yYiSCU9q0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uYsBrVtTrtI1sPDBl4ZjpDJ+HT9zNhqzRwNkq5OLjso+UnADgTGy3OOqw3JZU3btW
-	 LF6Cg6nRQSY2rQ2RcsCdgY+rCapAJhbgDgVyUBc7vusa5gv6W2gcsXOOLZWpE83jFh
-	 Oto886HazEjFOAlKpqB1P+45jznqRbifr0WrDcbrGsMuAxdRUTHTUO8hRfbw0g0bm5
-	 /zW2huGiKKXtvCRP3o26LpA8EVKAg2h7ioNoWAM7rguScbWhYHdOjHFSOyiS2eP+cM
-	 /W/zUQ1xxO60iq+kC20YGUpXwucCc7xdxgKS/7zP/n+mdbZLl6KyaTYaf1leNcyPBN
-	 GCP9q4wYJlSMQ==
-Message-ID: <33fa69c0-62c7-47bd-a740-acbde41e5b22@kernel.org>
-Date: Wed, 2 Oct 2024 07:47:38 +0200
+	s=k20201202; t=1727848733;
+	bh=UOTl03DOOV7SlDAksJvetAb0xk40DOwnob6rAZ9l/5M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qOhJ05Yp2U95NcHq5xvxPz524T5XJsV5gyevoSqlBBh0itjEHf16irh8ZyafHjjGh
+	 2A3DpmbsPH64CkqRUKyGSgLf0xciig5zUAaHn1KVHBSelzV6KS3fPrcbl3VayNnJjT
+	 lYtWDR++NzQ2/+KGhZ8mxa02trqG+sfiuDKoaFotDg5ypzTpfBk4eBzzUToOv+z7af
+	 rhGmViMIEa4WqPUcLNdEE1nzyjDV8F9Eveu3Ud5jlxg6h2StQGESDAHPNqdNOuFage
+	 ROkL56BAuEJHTCNbPoiUD5PolPneZdyH7fQmHCj6MSwAxmA7gvLOQa7lkh5wsO+JmE
+	 Yn8+ln5kheKhw==
+Date: Wed, 2 Oct 2024 07:58:50 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu <sen.chu@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Sebastian Reichel <sre@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+	Chris-qj chen <chris-qj.chen@mediatek.com>, 
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 2/3] ASoC: dt-bindings: mt6358: Convert to DT Schema
+Message-ID: <kofbpvthmbzynfq2l4x3sxznuzrfcp6qiy4dddfuomdyjpbons@xoze6bxytw56>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-2-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: Fix NULL Dereference in
- asoc_qcom_lpass_cpu_platform_probe()
-To: Gax-c <zichenxie0106@gmail.com>, srinivas.kandagatla@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- rohitkr@codeaurora.org
-Cc: alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- chenyuan0y@gmail.com, zzjas98@gmail.com, stable@vger.kernel.org
-References: <20241001210209.2554-1-zichenxie0106@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
- QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
- gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
- /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
- iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
- VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
- 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
- xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
- eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
- AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
- MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
- Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
- ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
- vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
- oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
- lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
- t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
- uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
- 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
- 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20241001210209.2554-1-zichenxie0106@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241001104145.24054-2-macpaul.lin@mediatek.com>
 
-On 01/10/2024 23:02, Gax-c wrote:
-> A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
-> possibly return NULL pointer. NULL Pointer Dereference may be
-> triggerred without addtional check.
-> Add a NULL check for the returned pointer.
+On Tue, Oct 01, 2024 at 06:41:44PM +0800, Macpaul Lin wrote:
+> Convert the MediaTek MT6358 Audio CODEC bindings to DT schema.
 > 
-> Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
-> Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-> Cc: stable@vger.kernel.org
-> Reported-by: Zichen Xie <zichenxie0106@gmail.com>
+> This change implements the following updates:
+> 1. Compatible property: Added the const 'mediatek,mt6358-sound'
+>    to ensure alignment with the schema in the actual (DTS) file
+>    "mt8186-corsola.dtsi" with 'mediatek,mt6366-sound'.
+> 2. Example: Removed the example section, as it should be relocated to
+>    the MT6397 PMIC file 'mfd/mediatek,mt6397.yaml'.
+> 3. Use filename 'mediatek,mt6358-sound.yaml' to align the compatible
+>    name.
+> 
+> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 
-Drop, you cannot report own work. To whom do you report it?
-
-Was this compiled? Based on the previous work I have doubts.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
