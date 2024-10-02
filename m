@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27E91854;
-	Wed,  2 Oct 2024 17:37:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383E71CFEA3;
+	Wed,  2 Oct 2024 17:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727890673; cv=none; b=c+5pLZEC0B18l5GGlaAKgKAiMFb16LktIAcdaYXlW6df8mi13S/0wk2bLtWhq6w9rGaDgr2N9Ax/VAgURzgtTMYtHbc6/swiWcu+vGXAwejVDhoV9DZZwIFDtOBpTf52sm/LU2Q4ztZaMmXXO+ZMCrcCFI/dMAg9jz/0S+8QYMY=
+	t=1727890678; cv=none; b=rdRtyDHai/tLvUtt1tVomt1MCFjVPteKpdUrWNq8+GHJoJQOoKTy4KjJrmB75k2pg/wVWJ8X05lH2nMBFRg3ROg9kYQUxswMHG27ewIWnQOcsjDUN/Wbv4ru0uB8F7zSwOTFdt+7A14rS7sxBdz8x0jkv+3CSXEobsyqDmlg8Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727890673; c=relaxed/simple;
-	bh=Is+UGbRCPtv4WjnRWip81uNy+MDLQxFdDtBuMKE/U+Q=;
+	s=arc-20240116; t=1727890678; c=relaxed/simple;
+	bh=ghR/kvQjxBOt16mBK2+QUkF3184nbTdC7o+rvMUEqAY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=QsabyHSoOuw9Po76L/VsLqYAhAEajA0iPg2aKxEdPuRgb31lMG9k1sY4rBeqrQaNkOI1vNNbMAcr+0M0/xLpJ44YWmxARBwQWzSDeGXilqUTIlUVggdv8Dtppah9QUweHPqSs6+YxFXPlNxuk2ajqHAHBxTJPdfHdpUGUjXMSwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJJ+I6Be; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ap9UBECXpC0tgi0ptJwNa77Bu0DdFexYb3r5M2E2aZ/MJ9GQzwRduJIVZv7QqTIKrCBYubnvpszBQS7UNv+1yI6Ox5bHTcVjr1N9/pMZPBU24Z7MCMrNkDV9wqP05ORZq5mz9BKeXgesY0xbqn6JVRTZMVyNcT6lXQQJdGacQZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nng2NEU4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJJ+I6Be"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56861C4CEC2;
-	Wed,  2 Oct 2024 17:37:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nng2NEU4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD0EC4CECD;
+	Wed,  2 Oct 2024 17:37:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727890673;
-	bh=Is+UGbRCPtv4WjnRWip81uNy+MDLQxFdDtBuMKE/U+Q=;
+	s=k20201202; t=1727890677;
+	bh=ghR/kvQjxBOt16mBK2+QUkF3184nbTdC7o+rvMUEqAY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MJJ+I6Be7MOG+JiYyakCjiecIE38iB3GwnXnr68osl1Y3qItMkHDVH4LLnMuGmBPd
-	 pcZaFIGYQQYkUwNV8OMqJQ+Xuvih6Xk1WlzMTVgbttAFDFUc+vbaeKf12/cLi9YtpX
-	 Cm7tyA/GPu8Y5XPkHo73IG4RTuchiauB2Hdj/CDydle7Fxw57qzDjNKWhwz9l/0Wb2
-	 2ovuibX/3e5uJLLUBj4ipGRotkLRHQrOdg0b7K71SqAWESlBXm1NbN3yH4rAj9GUxD
-	 KSdBbalVnvnTZOg8P8oIUnvKe262W22Hg6hCAeOTeFlOoXtLSdtiDo5/o8B/0EA7P9
-	 m8umRK3ydwehg==
+	b=nng2NEU4ejCnWzgmt5U5CJBL+wMgOFTF+8RFTLMCbF0pvy0vLsLB74nnA8JK4JR3+
+	 iTxDSVIxrzY0lA4tC7YatNz5vs3W9WW9AS44L6XOA/kbJCgzt9yfFqJ2ht0p5tC3iw
+	 +G4zzxedToVTiy8HFPmbXabrNi0e9Z4H43haxZDdSRprhDtrqGs3nY/rq2T4oK+ppY
+	 IpzOb/AH9vBbWJ32D7VoJkCknErB/Im/RpWC7NxvpocHEKbRlTnQQxPJAH9FvCy0VQ
+	 QQUcp5aQr5XmtGGqhhyTSvJtBfv2bS5cACSjJSQbVCc/GOj1OSgYVn2PqOR5vDIERI
+	 RShlN9wAJwXaA==
 From: Mark Brown <broonie@kernel.org>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jayesh Choudhary <j-choudhary@ti.com>, 
- alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-In-Reply-To: <20241001204749.390054-1-miquel.raynal@bootlin.com>
-References: <20241001204749.390054-1-miquel.raynal@bootlin.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupts
- property
-Message-Id: <172789067103.163279.11797735685119883296.b4-ty@kernel.org>
-Date: Wed, 02 Oct 2024 18:37:51 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, 
+ Murad Masimov <m.masimov@maxima.ru>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>, 
+ Muhammad Usama Anjum <usama.anjum@collabora.com>, 
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, 
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+In-Reply-To: <20241001190848.711-1-m.masimov@maxima.ru>
+References: <20241001190848.711-1-m.masimov@maxima.ru>
+Subject: Re: [PATCH] ASoC: amd: acp: drop bogus NULL check from
+ i2s_irq_handler
+Message-Id: <172789067550.163279.13765967937832147149.b4-ty@kernel.org>
+Date: Wed, 02 Oct 2024 18:37:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,21 +51,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-dedf8
 
-On Tue, 01 Oct 2024 22:47:49 +0200, Miquel Raynal wrote:
-> My understanding of the interrupts property is that it can either be:
-> 1/ - TX
-> 2/ - TX
->    - RX
-> 3/ - Common/combined.
+On Tue, 01 Oct 2024 22:08:39 +0300, Murad Masimov wrote:
+> When i2s_irq_handler is called, it's guaranteed that adata is not NULL,
+> since IRQ handlers are guaranteed to be provided with a valid data pointer.
+> Moreover, adata pointer is being dereferenced right before the NULL check,
+> which makes the check pointless, even if adata could be NULL.
 > 
-> There are very little chances that either:
->    - TX
->    - Common/combined
-> or even
->    - TX
->    - RX
->    - Common/combined
-> could be a thing.
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
 > 
 > [...]
 
@@ -74,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
-      commit: 17d8adc4cd5181c13c1041b197b76efc09eaf8a8
+[1/1] ASoC: amd: acp: drop bogus NULL check from i2s_irq_handler
+      commit: 8cd4e1f087b6906bacbbf8b637cac4e479a9cb34
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
