@@ -1,102 +1,214 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73C171D1743;
-	Wed,  2 Oct 2024 18:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6319340F
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 19:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727893351; cv=none; b=C4DjWUXSuWn1dyhZTZmu6eLFLADy8Oik+WQ4mHCMsEwx/5hjog7SWQzMFTVNc6zuvhF87a+7dB1zowMc+n7PFYS0gsvOxAGo001PZAaCXuN56Vnqv88aZGh7DSMZw6msmbLOlPF2ieOYdPEVCysENT4IBTbW7D8NV7Df4+ZZ/z0=
+	t=1727897657; cv=none; b=SIihReZWm3p9Lh8mO5mMDwIr6NLbgVBLz02e/pU9VByk6/PJXFi2Qvn8ZMigbl6VPj4NGCs1oMwYmLqryRyeJizGU55xB6BTfAHvhR6rBNvqGcIYSAJGdXHjW7AmslslpAZutyxrXGoBacaVcztW8JgsrbVlFWrPrTTtQEDkblM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727893351; c=relaxed/simple;
-	bh=vrEwO142Vt6SPOAdlphqDikIDAg1+nVpkIbjIETDyC4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KQenfIjDbs83GCTww/LdyRlLKjvMBdWzVf4Wjp2/TK6LiHbjgn/+tDDlJK8aVQTaikInW9PUdhYB1o/9paj38ekj0x/3R3KFcYcuss1wun0/mAHJWsQVzx3QtHh6le4mpRQPN+p5znYzH77szXiWAfZOmd3/r72NgfbGq+ahKNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HeKlvi7Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727897657; c=relaxed/simple;
+	bh=xKu20YOTWNm1xVEeGUtCSeOOXVWFVIZWOm+4WqX1HNc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QETdpR8GvIfX1hNa6MD4kSsFI8TWW6A69NnH304Tom5b3wk08CqMTTT2Dikk06FotcRvMsZfJShEIrUCgEOMmXSoa8JQpmfEj89kJZ7lZN5iZ/4hLwCvR8OhffGAZdk0lUDZkyRZkbJmL8ImFvY5Mn57csB+lyuP3U1Eu7dWlMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fziR4jMA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WhvXSn1i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fziR4jMA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WhvXSn1i; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HeKlvi7Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7437CC4CEC2;
-	Wed,  2 Oct 2024 18:22:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727893351;
-	bh=vrEwO142Vt6SPOAdlphqDikIDAg1+nVpkIbjIETDyC4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HeKlvi7Q7CEwPk/CifDRD2PjgNdtz7KGMKKJHrKkui4OM6lvXfno9FXsyrMCSztTQ
-	 tWKDI2w0xO2Oqy8oaQv31Go61tlIK4NTmS//ms5jcYwEWcAXTdvNY/4PFbfWoOjgeO
-	 Ny1gR62gaQMYvsS8orTxh1pshkKMhtP+gKjQh3bsnaFAT/411n67Jrm9ipZoeaUdHi
-	 uoxZ5KF94bXG9Cmkgzr1kar2dlkD+Xcl2XlXp8gx2BSeTVYRYK4K5VBxeMITs4QIJf
-	 X6ZFjtDiqnDHlmVQJsacmIFN/vQd3jlolht/ECqAnD1SXnjLg1aIMuPnyhTPfbmkvi
-	 VW0e0bIRSRf2Q==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org, 
- bgoswami@quicinc.com, lgirdwood@gmail.com, 
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- andersson@kernel.org, perex@perex.cz, tiwai@suse.com, 
- linux-arm-msm@vger.kernel.org, alsa-devel@alsa-project.org, 
- devicetree@vger.kernel.org, dmitry.baryshkov@linaro.org, 
- krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org, 
- linux-kernel@vger.kernel.org, a39.skl@gmail.com, 
- Konrad Dybcio <konradybcio@kernel.org>, Alex Elder <elder@kernel.org>
-In-Reply-To: <20241002022015.867031-1-alexey.klimov@linaro.org>
-References: <20241002022015.867031-1-alexey.klimov@linaro.org>
-Subject: Re: (subset) [PATCH v2 0/7] qrb4210-rb2: add HDMI audio playback
- support
-Message-Id: <172789334720.173380.12816331564584587389.b4-ty@kernel.org>
-Date: Wed, 02 Oct 2024 19:22:27 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fziR4jMA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WhvXSn1i";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fziR4jMA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WhvXSn1i"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 902901FD7D
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 19:34:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727897653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
+	b=fziR4jMAQOmonay/4bhud0YnkMsfhA0eOFLjmErw97GO33g9LrGa8RepNLFhUFTB0j3j4M
+	7jxWy61ETzEPxYZorrBofEnNevmBD4gw42YzuardzgMPhZgqGeULkwHF3tv7jOYCX8TyCw
+	CrHWrK/Y5NqwS8FodMEf6Xp/ZseOpwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727897653;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
+	b=WhvXSn1iqTg1W96OgnKc0M6MiZsVlQ7nHp57nDeL7mKYeOBG5uNZ1qjNCdUMKFWIYCAktx
+	vIC+q4OE0UG3YiBg==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727897653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
+	b=fziR4jMAQOmonay/4bhud0YnkMsfhA0eOFLjmErw97GO33g9LrGa8RepNLFhUFTB0j3j4M
+	7jxWy61ETzEPxYZorrBofEnNevmBD4gw42YzuardzgMPhZgqGeULkwHF3tv7jOYCX8TyCw
+	CrHWrK/Y5NqwS8FodMEf6Xp/ZseOpwg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727897653;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
+	b=WhvXSn1iqTg1W96OgnKc0M6MiZsVlQ7nHp57nDeL7mKYeOBG5uNZ1qjNCdUMKFWIYCAktx
+	vIC+q4OE0UG3YiBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5875613A6E;
+	Wed,  2 Oct 2024 19:34:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NZsJFDSg/WaUDQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 19:34:12 +0000
+Date: Wed, 02 Oct 2024 21:35:05 +0200
+Message-ID: <875xqal2mu.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Linux Sound ML <linux-sound@vger.kernel.org>,	Takashi Iwai
+ <tiwai@suse.de>,	linux-kernel@vger.kernel.org,	Ban Tao
+ <fengzheng923@gmail.com>,	Lars-Peter Clausen <lars@metafoo.de>,	Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,	Johannes Berg
+ <johannes@sipsolutions.net>,	Jerome Brunet <jbrunet@baylibre.com>,	Martin
+ =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Peter Rosin
+ <peda@axentia.se>,	Clemens Ladisch <clemens@ladisch.de>,	Takashi Sakamoto
+ <o-takashi@sakamocchi.jp>,	"Geoffrey D. Bennett" <g@b4.vu>,	Shengjiu Wang
+ <shengjiu.wang@gmail.com>,	Xiubo Li <Xiubo.Lee@gmail.com>,	Fabio Estevam
+ <festevam@gmail.com>,	Nicolin Chen <nicoleotsuka@gmail.com>,
+	"J.M.B. Downing" <jonathan.downing@nautel.com>,	Piotr Wojtaszczyk
+ <piotr.wojtaszczyk@timesys.com>,	Vladimir Zapolskiy <vz@mleia.com>,	Herve
+ Codina <herve.codina@bootlin.com>,	Cezary Rojewski
+ <cezary.rojewski@intel.com>,	Liam Girdwood
+ <liam.r.girdwood@linux.intel.com>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Bard Liao
+ <yung-chuan.liao@linux.intel.com>,	Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>,	Kiseok Jo <kiseok.jo@irondevice.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,	Daniel Mack <zonque@gmail.com>,
+	Stephan Gerhold <stephan@gerhold.net>,	Peter Ujfalusi
+ <peter.ujfalusi@gmail.com>,	Jarkko Nikula <jarkko.nikula@bitmer.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
+ <s.nawrocki@samsung.com>,	Vinod Koul <vkoul@kernel.org>,	Sanyog Kale
+ <sanyog.r.kale@intel.com>,	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Olivier Moysan <olivier.moysan@foss.st.com>,	Shenghao Ding
+ <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
+ <baojun.xu@ti.com>,	M R Swami Reddy <mr.swami.reddy@ti.com>,	Vishwas A
+ Deshpande <vishwas.a.deshpande@ti.com>,	Kirill Marinushkin
+ <kmarinushkin@birdec.com>,	Kevin Cernekee <cernekee@chromium.org>,	Anton
+ Yakovlev <anton.yakovlev@opensynergy.com>,	"Michael S. Tsirkin"
+ <mst@redhat.com>,	Oleksandr Andrushchenko
+ <oleksandr_andrushchenko@epam.com>
+Subject: Re: [PATCH] MAINTAINERS: ALSA: use linux-sound@vger.kernel.org list
+In-Reply-To: <20241002151536.1855793-1-perex@perex.cz>
+References: <20241002151536.1855793-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-dedf8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[lin];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_GT_50(0.00)[51];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,gmail.com,metafoo.de,analog.com,sipsolutions.net,baylibre.com,cutebit.org,axentia.se,ladisch.de,sakamocchi.jp,b4.vu,nautel.com,timesys.com,mleia.com,bootlin.com,intel.com,linux.intel.com,linux.dev,irondevice.com,tuxon.dev,gerhold.net,bitmer.com,linaro.org,samsung.com,kernel.org,foss.st.com,ti.com,birdec.com,chromium.org,opensynergy.com,redhat.com,epam.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-On Wed, 02 Oct 2024 03:20:08 +0100, Alexey Klimov wrote:
-> Rebased on top of -master, tested.
+On Wed, 02 Oct 2024 17:15:36 +0200,
+Jaroslav Kysela wrote:
 > 
-> Changes since v1:
-> -- removed handling of MI2S clock in sm2450_snd_shutdown(): setting clock rate
->    and disabling it causes audio delay on playback start;
-> -- removed empty sound { } node from sm6115.dtsi as suggested by Krzysztof;
-> -- moved lpi_i2s2_active pins description to qrb423310 board-specific file
->    as suggested by Dmitry Baryshkov;
-> -- moved q6asmdai DAIs to apr soc node as suggested by Konrad Dybcio;
-> -- lpass_tlmm is not disabled;
-> -- lpass_tlmm node moved to sm4250.dtsi;
-> -- kept MultiMedia DAIs as is, without them the sound card driver doesn't initialise;
-> -- added some reviewed-by tags.
+> We are now using the linux-sound@vger.kernel.org list for kernel
+> related work. This patch converts all remaining entries that reference
+> the former alsa-devel mailing list.
 > 
-> [...]
+> All ALSA developers should subscribe to the linux-sound
+> mailing list. Thank you.
+> 
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Ban Tao <fengzheng923@gmail.com>
+> Cc: Lars-Peter Clausen <lars@metafoo.de>
+> Cc: Nuno Sá <nuno.sa@analog.com>
+> Cc: Johannes Berg <johannes@sipsolutions.net>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: Martin Povi¹er <povik+lin@cutebit.org>
+> Cc: Peter Rosin <peda@axentia.se>
+> Cc: Clemens Ladisch <clemens@ladisch.de>
+> Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+> Cc: Geoffrey D. Bennett <g@b4.vu>
+> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+> Cc: Xiubo Li <Xiubo.Lee@gmail.com>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Nicolin Chen <nicoleotsuka@gmail.com>
+> Cc: J.M.B. Downing <jonathan.downing@nautel.com>
+> Cc: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
+> Cc: Vladimir Zapolskiy <vz@mleia.com>
+> Cc: Herve Codina <herve.codina@bootlin.com>
+> Cc: Cezary Rojewski <cezary.rojewski@intel.com>
+> Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+> Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Cc: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> Cc: Kiseok Jo <kiseok.jo@irondevice.com>
+> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> Cc: Daniel Mack <zonque@gmail.com>
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
+> Cc: Jarkko Nikula <jarkko.nikula@bitmer.com>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
+> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
+> Cc: Shenghao Ding <shenghao-ding@ti.com>
+> Cc: Kevin Lu <kevin-lu@ti.com>
+> Cc: Baojun Xu <baojun.xu@ti.com>
+> Cc: M R Swami Reddy <mr.swami.reddy@ti.com>
+> Cc: Vishwas A Deshpande <vishwas.a.deshpande@ti.com>
+> Cc: Kirill Marinushkin <kmarinushkin@birdec.com>
+> Cc: Kevin Cernekee <cernekee@chromium.org>
+> Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 
-Applied to
+Applied now, thanks.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
-
-[1/7] ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
-      commit: bbd1e5ea66f6ca88624faefe0a153637f53ad15d
-[2/7] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
-      commit: b97bc0656a66f89f78098d4d72dc04fa9518ab11
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
