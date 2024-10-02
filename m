@@ -1,72 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB34B1D07BF;
-	Wed,  2 Oct 2024 15:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866591D0BA5;
+	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727882083; cv=none; b=X2zuDnFatncqyZgR+Oy3eesiQMDzR1w8zgfiat86RgB2tJUaSzx79T3RBC0KaqDxfsY5xsodsss4qxkpOsgO2R/wEbozFMqiHNOyyavkBc6I1RkqEtVO657lX6FUR09UV0biJu9URJcHZ7qnHWGg08J2ZS96NJ5yLWI6UMr6rHs=
+	t=1727882105; cv=none; b=NkfpBvT0G8U4g2atjFae4cKn9z/84v+R6ghguThOJ5wwlC0sfaKaTD8RlrZRILP1WDVT0mPVwC7qr/ErqCu2/4Mjedtt5Tr0MKFJelIOifgeD6VJcpNFvrFPX8dae62aweO5RQmGd286LsyACTziorHsWr4So6QxUdc+Y8Ewi6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727882083; c=relaxed/simple;
-	bh=2UMd8GmskoKqy4N/TkOwVnnjCGhVBuWUY7EHrHnC5UM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y3MQi8rEf2ssZvvJFnm/VtW19ZTbLXB06yE8oNvAJeh+oX5HDNWN4IVn9l+nt+OM6RZ64v/yScrp7ovRXSwDD0OB9l5qbYBLp6rv3a7R2TkXHZFv99iZZ4lleBCPQ517lHrLCud+lsTgFDG+GZeEl9tm3SWXQxz837uvCgYpPYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J1XuMtHo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727882105; c=relaxed/simple;
+	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	h=From:Date:MIME-Version:Content-Type:To:Message-ID:In-Reply-To:
+	 References:Subject; b=GoUI62Bss5j2p6E73FN+Rgyt+c5hfCx21tQKWblxXc0jZ6d6aLH1IKENM9edga6GBm/Ks3t6jmHilMayqRJlCqpnZO7P+mr2059aSD2aFPJcYozbmPiPDMjtbfdtxBgSfPpur0vVbU7V2FNsDac+sIKF9D9er8JxJh3fMT3FcJo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e8BU9RJn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J1XuMtHo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A30BEC4CEC2;
-	Wed,  2 Oct 2024 15:14:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e8BU9RJn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28E29C4CEC2;
+	Wed,  2 Oct 2024 15:15:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727882082;
-	bh=2UMd8GmskoKqy4N/TkOwVnnjCGhVBuWUY7EHrHnC5UM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=J1XuMtHoVpDXWG+dyY0I5crIMd79WXCziK1/hmmg4BJWOpM4fJYDVIUDL/Y5ZaZxn
-	 3c3s3KqyYm5eKwaMIApqllmhUjJR8t5r9pQxIiaiWN9aeZyaZCIKjYf73PokmtaQqj
-	 GGp0Yqg36aPVKfbZOI5WSL4/6pJQMg4WRrUzwbGmGiW5zmVl2q6VvZFyW3zNejY3Yc
-	 QdIcCvRwYLVqt8o+SF5/veOUD1xAL20IgGytq3g1zJAsPbrQaNFZHfZ0CBMCGFyHpl
-	 19CzOgyM7R/H/YTKaHzQlJ0n8ui92GjSSNerqRpkFlr5watB9KgF1XprF7+x04YfzC
-	 8dsHdG5b4mJ0Q==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: [PATCH] ASoC: codecs: wcd9335: remove unnecessary MODULE_ALIAS()
-Date: Thu,  3 Oct 2024 00:14:34 +0900
-Message-ID: <20241002151436.43684-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	s=k20201202; t=1727882105;
+	bh=PfQnazah1z/sNKvTGca/p7zxq+ml4pdTpgE2IHxjHLc=;
+	h=From:Date:To:In-Reply-To:References:Subject:From;
+	b=e8BU9RJnn5UzldaRD0wW9cq+w9Hv/tLCvfQotuEPhSNmxdtgEWEz1YtKXkyZ8Tmnn
+	 WSXWI9+9PGyGfs61igXC0k32uzpIkLLNC6Q2nX+XTqLani3V7pZeY1nVS+tst0z9Vv
+	 AxOMgMT8HirYycO0kTseXXnlZrGMydBVITP7rHxPw6fwPv5A1m+ZNH/dkMC71Gvg0S
+	 mgzh1UDPs76m717F/dRaDd/8FGNk/gcIpYS2I2S9L9qbxIvS1Pz/uusq06k0md+4Xk
+	 wBE6EWAB+EEB7l8uhMnQbzaK0FVknihbpgVGPDdmxHDrx5fMs0CbnHU4dbyOvesSCp
+	 7jgabiQjiAXcA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 794AA3803262;
+	Wed,  2 Oct 2024 15:15:09 +0000 (UTC)
+From: abhishek via Bugspray Bot <bugbot@kernel.org>
+Date: Wed, 02 Oct 2024 15:15:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+To: perex@perex.cz, tiwai@suse.com, bugs@lists.linux.dev, 
+ linux-sound@vger.kernel.org
+Message-ID: <20241002-b219303c8-ea09e4d017a3@bugzilla.kernel.org>
+In-Reply-To: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+References: <20240924-b219303c0-b3829da31e15@bugzilla.kernel.org>
+Subject: Re: Mute LED light is not working on my HP laptop
+X-Bugzilla-Product: Linux
+X-Bugzilla-Component: Kernel
+X-Mailer: bugspray 0.1-dev
 
-Since commit b4b818305578 ("slimbus: generate MODULE_ALIAS() from
-MODULE_DEVICE_TABLE()"), modpost automatically generates MODULE_ALIAS()
-from MODULE_DEVICE_TABLE(slim, ).
+abhishek writes via Kernel.org Bugzilla:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+Hi,
+The patch has been included in the 6.12-rc1.
 
- sound/soc/codecs/wcd9335.c | 1 -
- 1 file changed, 1 deletion(-)
+link : https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=d75dba49744478c32f6ce1c16b5f391c2d5cef5f
 
-diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
-index 373a31ddccb2..a2521e16c099 100644
---- a/sound/soc/codecs/wcd9335.c
-+++ b/sound/soc/codecs/wcd9335.c
-@@ -5177,4 +5177,3 @@ static struct slim_driver wcd9335_slim_driver = {
- module_slim_driver(wcd9335_slim_driver);
- MODULE_DESCRIPTION("WCD9335 slim driver");
- MODULE_LICENSE("GPL v2");
--MODULE_ALIAS("slim:217:1a0:*");
+View: https://bugzilla.kernel.org/show_bug.cgi?id=219303#c8
+You can reply to this message to join the discussion.
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+Kernel.org Bugzilla (bugspray 0.1-dev)
 
