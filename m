@@ -1,88 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41A21CEAD9
-	for <linux-sound@vger.kernel.org>; Tue,  1 Oct 2024 23:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C076FB0
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 02:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727825174; cv=none; b=UIC1XM2WjNq6SibrXrbMuUyTyY2QaN/g94PK7lLoFaklYnkqzoivmt+r4VrfYKD+8Y/PPgqPmrNHxXofjxGP09SQ284Wl0W9NrP2JllLZueismmBd4uIqinfnOn20E3IdRnR6sMWDDwvgkPF7yVpT77mmd849q0XzpVQ7iVmHEM=
+	t=1727835623; cv=none; b=T2iWQtyMejlOeK/IFu6b4zBUv1koecOI+MIf0JGIVKU8K4C8tL/4omjZk09rSKf0pGr0USaebl/UdDnIIygdzSL3c+E6NyL5uEdeio0DoZrXaScR1/QocRbljD2B+WfXrmtXv3lzj38qC4qb0InidjGfn0oqjWTjOQkIpjDxdrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727825174; c=relaxed/simple;
-	bh=UGDnuMXBI/aOrvP8EgpslsYBhs4h9T0atATFAJpFItk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=YdErrGrG2MVUyv0BRsbNg5xE4FeWIsrANQxCgS6850MZ5SIVUDuLjR1zxe0XMawxJecgX7aQqFJ36C2hNlOcwVTx78m6qzer+38E8SR2VUIjXelsabg8KI8Kip2r8TQpEchZM5VEh8s/PdcAO8m87KZ3ZMF1LURpBkEq3/LLNJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U2az8YIp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727835623; c=relaxed/simple;
+	bh=qDf4Q21OUR0O2CrvOwqoQ6MiuMMP4c/itFO4cayaOKs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZDO9Y+czoOfMxuOZvRzkYGumOr3CNSRTrTG9AuLmCqi6Gw9+AU4VGu6lMQsXxD4+3hRJZgWnoz3lvvPEHpiNFs/91GM0LvUIsYsJ9sA7RqUfaepADcksecUzZmVdhH5F+ShNZaTO6OQ6pTEcKnfDcbm+vLXpWwkkCRqjVuUNFAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tA8/+rQR; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U2az8YIp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF71CC4CEC6;
-	Tue,  1 Oct 2024 23:26:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727825173;
-	bh=UGDnuMXBI/aOrvP8EgpslsYBhs4h9T0atATFAJpFItk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=U2az8YIpSrR2p9kBCGbpuDZ+K7Bbi41ca2N+3po/2/GssqUBpR0fGE2by6fLVZbou
-	 REfxcn5TzaUIjzeGCE0+4eq47xcNtR/c1HWe7Vk7aUkv3e4+snoEMqwP808RiQjLve
-	 NC8ZoNryfEIMxVPimBIDlOdopPaZruW2O98yE5dcnamURuVWgwWgtJAh6ReSpckoYs
-	 KVZVbgyppw0ZsdozvDp7h6dy+9s84w6+9wFQgkNHz5LKpnljN3Qro+qxH8w8T377aL
-	 gBhBNK8SxQaN/lWoZF3H+6S0dB82vCz5tBwzItxsXkZUA/8CZlkS2PWI4+xZJ1tufj
-	 OWeLTaDFjUN1g==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com, peter.ujfalusi@linux.intel.com
-In-Reply-To: <20241001061738.34854-1-yung-chuan.liao@linux.intel.com>
-References: <20241001061738.34854-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: soc-acpi: Fix missing empty
- terminators
-Message-Id: <172782517091.2309357.16693220151436664573.b4-ty@kernel.org>
-Date: Wed, 02 Oct 2024 00:26:10 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tA8/+rQR"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37cc5fb1e45so4217897f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 01 Oct 2024 19:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1727835619; x=1728440419; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJP6FxuMyrGQPzIx4I24nor0DhnXqA79XYYTGXwNkXg=;
+        b=tA8/+rQR20kn1gBWDv8DBbSunZRM9WlFmDSTrNifY3Kk5z4/LiUXFLB1kC8+XEZ9jR
+         VI50av13/0CQWbpdCebF6PLOpY5UaUPUHKLUPVdRuOMVaPN5KHqd934W5XOG59jHvXTV
+         k/VetB30QeWD8lp53VIEwwOftn9RGeNqgIzXcvjMQFNXQesdbjfTXpmoehWW6Xdad7R9
+         PjTyAg0N0iBKR1ABIBXDCXZFyPdg5I+m3pYUipFKekFVd3MW8EddoAnb2HveDCq4crk6
+         L4dfzIXPe5aK4l3FGJqu8OOgXLv0dTu7fhOmSDbMFgqhw1/VnQvKrXt8OksqTuxKDFX0
+         4PLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727835619; x=1728440419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJP6FxuMyrGQPzIx4I24nor0DhnXqA79XYYTGXwNkXg=;
+        b=g11KWVoliqQFNH0dNFlRpcA3CmtfD05L1ssf6J+r1WtP16RTRFh1XSo7DZDq7s9Nz9
+         aUU2IBopgvxHSlNAjXplyrR9CaH1nBzYaWnELrD+Oh19t/LG09t3G8CfX4tnJvXGeILx
+         FMZMJk3FNQUEf4aWTdJNicqBMUleqwlCWxKXg6U3Fi1nQ7uaCl5h7N2FjasxW0Yl6lQp
+         k7reZ7HYHW4WBxkVIAVtONosu+lSs03CcrmOViwwg99dzTytutR2ao+fdfY2BpOkTa1I
+         MdrRNLMjOT95spNO7BPuOejYLNaONguUzFfv+l814+GRoeq4njRtGJysctVrVwovpph0
+         6DmA==
+X-Gm-Message-State: AOJu0YyzAHTFFn2M1iSi0Cd2jB9SUb2Z/EyOWQit9by/zlAHjF19/5FC
+	XJE2E5PkXht1ECG2yOFBmmhd+j2fjxNm4cbLUoCMLL3HTkVo2SckQfcakrUKMfEti1YGtMPrec6
+	Hsts=
+X-Google-Smtp-Source: AGHT+IFs22+u0l81gOgbkwdFzWLkYNo/t5JE/s/V9n01odUb3GkqtgMLO52O3EfAFsS1MGoPOvkYtA==
+X-Received: by 2002:adf:a388:0:b0:37c:cee1:acb5 with SMTP id ffacd0b85a97d-37cfb8b18aemr868706f8f.7.1727835618798;
+        Tue, 01 Oct 2024 19:20:18 -0700 (PDT)
+Received: from localhost.localdomain ([2.125.184.148])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2945f2esm787518866b.117.2024.10.01.19.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 19:20:17 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: linux-sound@vger.kernel.org,
+	srinivas.kandagatla@linaro.org,
+	bgoswami@quicinc.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-arm-msm@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org,
+	elder@linaro.org,
+	dmitry.baryshkov@linaro.org,
+	krzysztof.kozlowski@linaro.org,
+	caleb.connolly@linaro.org,
+	linux-kernel@vger.kernel.org,
+	a39.skl@gmail.com,
+	alexey.klimov@linaro.org
+Subject: [PATCH v2 0/7] qrb4210-rb2: add HDMI audio playback support
+Date: Wed,  2 Oct 2024 03:20:08 +0100
+Message-ID: <20241002022015.867031-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Transfer-Encoding: 8bit
 
-On Tue, 01 Oct 2024 14:17:36 +0800, Bard Liao wrote:
-> There is no links_num in struct snd_soc_acpi_mach {}, and we test
-> !link->num_adr as a condition to end the loop in hda_sdw_machine_select().
-> So an empty item in struct snd_soc_acpi_link_adr array is required.
-> 
-> Bard Liao (1):
->   ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
-> 
-> [...]
+Rebased on top of -master, tested.
 
-Applied to
+Changes since v1:
+-- removed handling of MI2S clock in sm2450_snd_shutdown(): setting clock rate
+   and disabling it causes audio delay on playback start;
+-- removed empty sound { } node from sm6115.dtsi as suggested by Krzysztof;
+-- moved lpi_i2s2_active pins description to qrb423310 board-specific file
+   as suggested by Dmitry Baryshkov;
+-- moved q6asmdai DAIs to apr soc node as suggested by Konrad Dybcio;
+-- lpass_tlmm is not disabled;
+-- lpass_tlmm node moved to sm4250.dtsi;
+-- kept MultiMedia DAIs as is, without them the sound card driver doesn't initialise;
+-- added some reviewed-by tags.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+This series still keeps "qcom,qrb4210-rb2-sndcard" for sm8250 soundcard. As per
+off the list discussion with Srini it was suggested to have it since in future it
+may be required to add clocks, workarounds, quirks, model-specific things based on
+this compatible. The same as for RB5 compatible in sm8250 snd driver.
 
-Thanks!
+This focuses on HDMI audio playback only hence there are no soundwire and dmic pins,
+for instance. The work to enable playback via wcd+wsa8815 amplifier is in progress (it works)
+and one of the routes is to merge such two patchsets together.
 
-[1/2] ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
-      commit: 5afc29ba44fdd1bcbad4e07246c395d946301580
-[2/2] ASoC: Intel: soc-acpi: arl: Fix some missing empty terminators
-      commit: cccb586f513cd999b9dade82e5a25b711d90a76f
+Link to prev series:
+https://lore.kernel.org/linux-sound/20240628010715.438471-1-alexey.klimov@linaro.org/
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Alexey Klimov (7):
+  ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
+  ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
+  ASoC: qcom: sm8250: add handling of secondary MI2S clock
+  arm64: dts: qcom: sm6115: add apr and its services
+  arm64: dts: qcom: sm4250: add LPASS LPI pin controller
+  arm64: dts: qcom: qrb4210-rb2: add description of lpi_i2s2 pins
+  arm64: dts: qcom: qrb4210-rb2: add HDMI audio playback support
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+ .../bindings/sound/qcom,sm8250.yaml           |  1 +
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts      | 91 +++++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm4250.dtsi          | 16 ++++
+ arch/arm64/boot/dts/qcom/sm6115.dtsi          | 72 +++++++++++++++
+ sound/soc/qcom/sm8250.c                       |  9 ++
+ 5 files changed, 189 insertions(+)
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.45.2
 
