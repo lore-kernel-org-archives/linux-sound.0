@@ -1,164 +1,174 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92FA31CF5FB;
-	Wed,  2 Oct 2024 15:58:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEEC1D0420
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 15:59:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727884720; cv=none; b=X9aS9ja4uT8KWOmvjpGA1YkmYmvBRqIYoiICBi1UkIpLLiSVrZKOs8KWWWD0tzK/greLXHmuRILJ5fBezWft23DxmyX3rM0bfe2ouf7P7Lam//++Z3K6MsfGoIKnk0QvrXfMZKnEqV41NOwgiFUvW5qjTeQpV29gvq7xWB4lxHw=
+	t=1727884746; cv=none; b=gUoCD9vPNTrIhxlfECARMwGQqwDI1Ma1d6rUktDjhTlJuPfLNRKUPOXxZ04HAfdojGYHuxq1pWip055D3GirMfQbP52y7jHYtUNZaxdBzIkkt0akZ5jh68+XcO//UrimOjvCvR09UkX+3C1bYHDcm8nEw2Yh0CWlWlHAN2B5QjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727884720; c=relaxed/simple;
-	bh=IFt1l3WRAd33DVYmb2YGMXAlt8wJczD1SE45A27CeIM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iOZoSSv65nQikNQJDmgUMupWGvbuDVVK+CjjBnC3fZM9hqyEnyU2rslsf56tggZGLTAt7iRbJ4t80yVTxdwFnaiZLM0ziqgNejFZLg7ZOfEyu2mCONaS6LIwR2RGAakQbnfyEf71/VeV1fkrfuNmcVxVi1IanXgKfnroMWplJgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p0EKbvEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xeDNG8X9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p0EKbvEv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xeDNG8X9; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1727884746; c=relaxed/simple;
+	bh=614htAUmT+zfDuleaduyUj4LHiRrHhetedOz4iw9vys=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MLK1ruxFWQv4YLUO4si4r3vXU5OuKty8/gBuAfOo/K9HtNwz7/X5jbwosMf5cTGEIHNYgWhQHZbGtksQbbI74N8oausoAPVRf2P457fShbAzTBs0AM5OY/Q/25EWsxHe9sCM7Wx7LxOqHptP2v0i6WqUL1vh4JDsGzfTyZB+GZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=avgFfuNT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3eG1so/x; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=avgFfuNT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3eG1so/x; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p0EKbvEv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xeDNG8X9";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p0EKbvEv";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xeDNG8X9"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="avgFfuNT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3eG1so/x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="avgFfuNT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3eG1so/x"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BFCB61FD65;
-	Wed,  2 Oct 2024 15:58:34 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FABF1FD65;
+	Wed,  2 Oct 2024 15:59:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727884714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xF2mG5eEs8tWaefGTk6lxFNI2Eew5R2odZGrPfW4ueI=;
-	b=p0EKbvEv0XRiP2glhr9CIQfysxmeqIMTTGVHbwuHm/3kRkhH2Gy9ewuR/ZQpqa43RaqjZc
-	7O32i2AM8SxWFAHHm4sY4cRuZ31d6aY9QX26QhmyAJHpHiZOfrAH1ff6EjvJ4F/5qa33TA
-	ZTCnPTycV/W+WqfHJw3dscMnCfqtGEc=
+	t=1727884743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=yz9WH+oIE3j29fUejfNnX099Z29eyasIpwlfuUtOQ+0=;
+	b=avgFfuNTYEJAl0Exz/9rgYy4m00KhoMeYCecXS38+ZcigsoePacVxFgoGxHU9ad8UuHOnA
+	YRmgrR3/4b/9VwdESlqW4NttE07XtIHSm3lhDiDnWPDtVCjFcrMa59L5p9NR5xLCFp+Blb
+	KtnhQyN58Zl8Fj2wAYSTBf5/utG9NSI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727884714;
+	s=susede2_ed25519; t=1727884743;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xF2mG5eEs8tWaefGTk6lxFNI2Eew5R2odZGrPfW4ueI=;
-	b=xeDNG8X9YKoYqX72zALzY/fMel0aDGeaWRXAiXZznF6YTrI3/LrrRrjPqOpfbAIcAyEBWg
-	Dx2hIdwnZCk7HPDg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=yz9WH+oIE3j29fUejfNnX099Z29eyasIpwlfuUtOQ+0=;
+	b=3eG1so/xJwBIbyAhQuUZ6xPja4tJ/Jxp173uji9GV6486mi4PrRCbV8czL47ChmVK/cOGL
+	Xu5oYKta0yvkjCBw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=p0EKbvEv;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xeDNG8X9
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727884714; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xF2mG5eEs8tWaefGTk6lxFNI2Eew5R2odZGrPfW4ueI=;
-	b=p0EKbvEv0XRiP2glhr9CIQfysxmeqIMTTGVHbwuHm/3kRkhH2Gy9ewuR/ZQpqa43RaqjZc
-	7O32i2AM8SxWFAHHm4sY4cRuZ31d6aY9QX26QhmyAJHpHiZOfrAH1ff6EjvJ4F/5qa33TA
-	ZTCnPTycV/W+WqfHJw3dscMnCfqtGEc=
+	t=1727884743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=yz9WH+oIE3j29fUejfNnX099Z29eyasIpwlfuUtOQ+0=;
+	b=avgFfuNTYEJAl0Exz/9rgYy4m00KhoMeYCecXS38+ZcigsoePacVxFgoGxHU9ad8UuHOnA
+	YRmgrR3/4b/9VwdESlqW4NttE07XtIHSm3lhDiDnWPDtVCjFcrMa59L5p9NR5xLCFp+Blb
+	KtnhQyN58Zl8Fj2wAYSTBf5/utG9NSI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727884714;
+	s=susede2_ed25519; t=1727884743;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xF2mG5eEs8tWaefGTk6lxFNI2Eew5R2odZGrPfW4ueI=;
-	b=xeDNG8X9YKoYqX72zALzY/fMel0aDGeaWRXAiXZznF6YTrI3/LrrRrjPqOpfbAIcAyEBWg
-	Dx2hIdwnZCk7HPDg==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=yz9WH+oIE3j29fUejfNnX099Z29eyasIpwlfuUtOQ+0=;
+	b=3eG1so/xJwBIbyAhQuUZ6xPja4tJ/Jxp173uji9GV6486mi4PrRCbV8czL47ChmVK/cOGL
+	Xu5oYKta0yvkjCBw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7C75E13974;
-	Wed,  2 Oct 2024 15:58:34 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0139E13974;
+	Wed,  2 Oct 2024 15:59:02 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WD4aHapt/WaDTwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 15:58:34 +0000
-Date: Wed, 02 Oct 2024 17:59:27 +0200
-Message-ID: <87a5fmlcm8.wl-tiwai@suse.de>
+	id 4XGwOsZt/WatTwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 15:59:02 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Salvatore Bonaccorso <carnil@debian.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	Eric Degenetais <eric.4.debian@grabatoulnz.fr>,
-	linux-kernel@vger.kernel.org,
-	stable <stable@vger.kernel.org>,
-	regressions@lists.linux.dev,
-	Sasha Levin <sashal@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [regression] Regular "cracks" in HDMI sound during playback since backport to 6.1.y for 92afcc310038 ("ALSA: hda: Conditionally use snooping for AMD HDMI")
-In-Reply-To: <87ed51ig23.wl-tiwai@suse.de>
-References: <ZvgCdYfKgwHpJXGE@eldamar.lan>
-	<87ed51ig23.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Cc: Salvatore Bonaccorso <carnil@debian.org>
+Subject: [PATCH] Revert "ALSA: hda: Conditionally use snooping for AMD HDMI"
+Date: Wed,  2 Oct 2024 17:59:39 +0200
+Message-ID: <20241002155948.4859-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: BFCB61FD65
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	R_MISSING_CHARSET(0.50)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email];
+	RCVD_TLS_ALL(0.00)[]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Mon, 30 Sep 2024 12:36:36 +0200,
-Takashi Iwai wrote:
-> 
-> On Sat, 28 Sep 2024 15:19:49 +0200,
-> Salvatore Bonaccorso wrote:
-> > 
-> > Hi
-> > 
-> > In downstream Debian we got a report from  Eric Degenetais, in
-> > https://bugs.debian.org/1081833 that after the update to the 6.1.106
-> > based version, there were regular cracks in HDMI sound during
-> > playback.
-> > 
-> > Eric was able to bisec the issue down to
-> > 92afcc310038ebe5d66c689bb0bf418f5451201c in the v6.1.y series which
-> > got applied in 6.1.104.
-> > 
-> > Cf. https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1081833#47
-> > 
-> > #regzbot introduced: 92afcc310038ebe5d66c689bb0bf418f5451201c
-> > #regzbot link: https://bugs.debian.org/1081833
-> > 
-> > It should be noted that Eric as well tried more recent stable series
-> > as well, in particular did test as well 6.10.6 based version back on
-> > 20th september, and the issue was reproducible there as well.
-> > 
-> > Is there anything else we can try to provide?
-> 
-> Could you check 6.12-rc1 kernel whether the problem still appears?
-> If yes, check with snd_hda_intel.snoop=0 boot option. 
-> 
-> I guess we should revert the patch in anyway; for 6.12, it's no longer
-> correct to check with get_dma_ops(), and if this causes a problem on
-> the older releases, the assumption isn't correct, either.
+This reverts commit 478689b5990deb626a0b3f1ebf165979914d6be4.
 
-I decided to revert the commit.  Will submit the patch now.
+The fix seems leading to regressions for other systems.
+Also, the way to check the presence of IOMMU via get_dma_ops() isn't
+reliable and it's no longer applicable for 6.12.  After all, it's no
+right fix, so let's revert it at first.
 
+To be noted, the PCM buffer allocation has been changed to try the
+continuous pages at first since 6.12, so the problem could be already
+addressed without this hackish workaround.
 
-Takashi
+Reported-by: Salvatore Bonaccorso <carnil@debian.org>
+Closes: https://lore.kernel.org/ZvgCdYfKgwHpJXGE@eldamar.lan
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/hda_controller.h |  2 +-
+ sound/pci/hda/hda_intel.c      | 10 +---------
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/sound/pci/hda/hda_controller.h b/sound/pci/hda/hda_controller.h
+index 68c883f202ca..c2d0109866e6 100644
+--- a/sound/pci/hda/hda_controller.h
++++ b/sound/pci/hda/hda_controller.h
+@@ -28,7 +28,7 @@
+ #else
+ #define AZX_DCAPS_I915_COMPONENT 0		/* NOP */
+ #endif
+-#define AZX_DCAPS_AMD_ALLOC_FIX	(1 << 14)	/* AMD allocation workaround */
++/* 14 unused */
+ #define AZX_DCAPS_CTX_WORKAROUND (1 << 15)	/* X-Fi workaround */
+ #define AZX_DCAPS_POSFIX_LPIB	(1 << 16)	/* Use LPIB as default */
+ #define AZX_DCAPS_AMD_WORKAROUND (1 << 17)	/* AMD-specific workaround */
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index edeaf3ee273c..bf9c9bfd38e3 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -40,7 +40,6 @@
+ 
+ #ifdef CONFIG_X86
+ /* for snoop control */
+-#include <linux/dma-map-ops.h>
+ #include <asm/set_memory.h>
+ #include <asm/cpufeature.h>
+ #endif
+@@ -307,7 +306,7 @@ enum {
+ 
+ /* quirks for ATI HDMI with snoop off */
+ #define AZX_DCAPS_PRESET_ATI_HDMI_NS \
+-	(AZX_DCAPS_PRESET_ATI_HDMI | AZX_DCAPS_AMD_ALLOC_FIX)
++	(AZX_DCAPS_PRESET_ATI_HDMI | AZX_DCAPS_SNOOP_OFF)
+ 
+ /* quirks for AMD SB */
+ #define AZX_DCAPS_PRESET_AMD_SB \
+@@ -1707,13 +1706,6 @@ static void azx_check_snoop_available(struct azx *chip)
+ 	if (chip->driver_caps & AZX_DCAPS_SNOOP_OFF)
+ 		snoop = false;
+ 
+-#ifdef CONFIG_X86
+-	/* check the presence of DMA ops (i.e. IOMMU), disable snoop conditionally */
+-	if ((chip->driver_caps & AZX_DCAPS_AMD_ALLOC_FIX) &&
+-	    !get_dma_ops(chip->card->dev))
+-		snoop = false;
+-#endif
+-
+ 	chip->snoop = snoop;
+ 	if (!snoop) {
+ 		dev_info(chip->card->dev, "Force to non-snoop mode\n");
+-- 
+2.43.0
+
