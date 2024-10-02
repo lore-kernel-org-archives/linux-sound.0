@@ -1,82 +1,98 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE0315D1
-	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 16:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27E91854;
+	Wed,  2 Oct 2024 17:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727888069; cv=none; b=heOwukn87r5m7RqTZEaMqsl6pxJneUPgWiuV+8rcoHnecWMAaZOHGRZyqXQs0S8Kp+gcs7DgsJLLy+4cmL5atIDfwVTYpQucE+hYM2gVnY7RW7c2pautsRB3fawECYfI5ZhpZmSkq78k7W2VSwpz5CdWYuwGJ38WZxAtuv2tD2U=
+	t=1727890673; cv=none; b=c+5pLZEC0B18l5GGlaAKgKAiMFb16LktIAcdaYXlW6df8mi13S/0wk2bLtWhq6w9rGaDgr2N9Ax/VAgURzgtTMYtHbc6/swiWcu+vGXAwejVDhoV9DZZwIFDtOBpTf52sm/LU2Q4ztZaMmXXO+ZMCrcCFI/dMAg9jz/0S+8QYMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727888069; c=relaxed/simple;
-	bh=+YeeQ4xnlzOHP+A4u5xDPshiePPruw4fYsJO9K382KA=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=PkGaeajRu8aKufIwYgGEfMfC3WumdZku9NF9ahkg9Uz+9XuN4f3B5VCwFPi8jaz+E+tO9WfNaLs255yQ9GA9QdKMFxEC0TZ8ab+sXuWUKfmMVsT3GFmjK1IzMl9m+IfMIQzjaNHRx3Ucr+Q95//UNZ/sEsP0DPfibOvs5W3pciQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=eNJ2UrTy; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1727890673; c=relaxed/simple;
+	bh=Is+UGbRCPtv4WjnRWip81uNy+MDLQxFdDtBuMKE/U+Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=QsabyHSoOuw9Po76L/VsLqYAhAEajA0iPg2aKxEdPuRgb31lMG9k1sY4rBeqrQaNkOI1vNNbMAcr+0M0/xLpJ44YWmxARBwQWzSDeGXilqUTIlUVggdv8Dtppah9QUweHPqSs6+YxFXPlNxuk2ajqHAHBxTJPdfHdpUGUjXMSwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJJ+I6Be; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="eNJ2UrTy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1727888058; x=1728147258;
-	bh=ucKdwaqna1B8xoymzZHIN1Kqlw4g7/QHmb4SEO4z7Ok=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=eNJ2UrTyybTFoC0LPMEqOJWfBAnLDu5G3OxVOGvbW/4GUbSZmMBZv2b8nSz6u6TTf
-	 34m/GllRMgt3/gODqYzpONNAvIDwZp6IwnYmpFUZXbKATRP8ER0P1O9dHM3TC7vblW
-	 8oD015YIuxFYBD3wumseiy8lQAOjf5Xz3IYzTcLojnEgwtc34YYRL1yTub14ezKslB
-	 3htEc5hrbIexyXJuysZl1dYM5xfPKwWZPELpCkWKvkvZN9DmPakS5f0dT5d+s9uzY4
-	 qhf3LQT15leiC4rQveF2jgdWTj5x1/Cl0SMtMq8+OBjLyusVlPMvG2GGwJmVYH+1RO
-	 gIQIAP4GR4Cbg==
-Date: Wed, 02 Oct 2024 16:54:13 +0000
-To: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
-From: =?utf-8?Q?Barnab=C3=A1s_P=C5=91cze?= <pobrn@protonmail.com>
-Subject: Incorrect automatic ALSA card ID when unicode is at play
-Message-ID: <yk3WTvKkwheOon_LzZlJ43PPInz6byYfBzpKkbasww1yzuiMRqn7n6Y8vZcXB-xwFCu_vb8hoNjv7DTNwH5TWjpEuiVsyn9HPCEXqwF4120=@protonmail.com>
-Feedback-ID: 20568564:user:proton
-X-Pm-Message-ID: d586403b7677f11222e703c615894baba9b6f4f4
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJJ+I6Be"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56861C4CEC2;
+	Wed,  2 Oct 2024 17:37:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1727890673;
+	bh=Is+UGbRCPtv4WjnRWip81uNy+MDLQxFdDtBuMKE/U+Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=MJJ+I6Be7MOG+JiYyakCjiecIE38iB3GwnXnr68osl1Y3qItMkHDVH4LLnMuGmBPd
+	 pcZaFIGYQQYkUwNV8OMqJQ+Xuvih6Xk1WlzMTVgbttAFDFUc+vbaeKf12/cLi9YtpX
+	 Cm7tyA/GPu8Y5XPkHo73IG4RTuchiauB2Hdj/CDydle7Fxw57qzDjNKWhwz9l/0Wb2
+	 2ovuibX/3e5uJLLUBj4ipGRotkLRHQrOdg0b7K71SqAWESlBXm1NbN3yH4rAj9GUxD
+	 KSdBbalVnvnTZOg8P8oIUnvKe262W22Hg6hCAeOTeFlOoXtLSdtiDo5/o8B/0EA7P9
+	 m8umRK3ydwehg==
+From: Mark Brown <broonie@kernel.org>
+To: Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jayesh Choudhary <j-choudhary@ti.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+In-Reply-To: <20241001204749.390054-1-miquel.raynal@bootlin.com>
+References: <20241001204749.390054-1-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupts
+ property
+Message-Id: <172789067103.163279.11797735685119883296.b4-ty@kernel.org>
+Date: Wed, 02 Oct 2024 18:37:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-dedf8
 
-Hi
+On Tue, 01 Oct 2024 22:47:49 +0200, Miquel Raynal wrote:
+> My understanding of the interrupts property is that it can either be:
+> 1/ - TX
+> 2/ - TX
+>    - RX
+> 3/ - Common/combined.
+> 
+> There are very little chances that either:
+>    - TX
+>    - Common/combined
+> or even
+>    - TX
+>    - RX
+>    - Common/combined
+> could be a thing.
+> 
+> [...]
 
+Applied to
 
-When `snd_card::id` is not specified explicitly it is determined automatica=
-lly
-in `sound/core/init.c:snd_card_register()` as follows:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-  if (*card->id) {
-    // ...
-  } else {
-    /* create an id from either shortname or longname */
-    const char *src;
+Thanks!
 
-    src =3D *card->shortname ? card->shortname : card->longname;
-    snd_card_set_id_no_lock(card, src,
-                                  retrieve_id_from_card_name(src));
-  }
+[1/1] ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
+      commit: 17d8adc4cd5181c13c1041b197b76efc09eaf8a8
 
-However, `snd_card_set_id_no_lock()`, or more specifically the `copy_valid_=
-id_string()`
-function that it calls does not seem to copy very well with utf-8.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-For example, based on the report at https://gitlab.freedesktop.org/pipewire=
-/pipewire/-/issues/4135
-where `card->shortname=3D"Redmi =E7=94=B5=E8=84=91=E9=9F=B3=E7=AE=B1"`, `ca=
-rd->id` will be set to \xE7\xE8\xE9\xE7,
-which are the first bytes of the symbols in the suffix "=E7=94=B5=E8=84=
-=91=E9=9F=B3=E7=AE=B1" because only those
-bytes of the string satisfy the `isalnum()` check in `copy_valid_id_string(=
-)`.
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-I am not sure what kind of 8-bit character set `isalnum()` is basing these =
-results on, but
-it certainly does not mix well with utf-8 in this scenario at least.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-Regards,
-Barnab=C3=A1s P=C5=91cze
+Thanks,
+Mark
+
