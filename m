@@ -1,55 +1,57 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C076FB0
-	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 02:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD29E79F6
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 02:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727835623; cv=none; b=T2iWQtyMejlOeK/IFu6b4zBUv1koecOI+MIf0JGIVKU8K4C8tL/4omjZk09rSKf0pGr0USaebl/UdDnIIygdzSL3c+E6NyL5uEdeio0DoZrXaScR1/QocRbljD2B+WfXrmtXv3lzj38qC4qb0InidjGfn0oqjWTjOQkIpjDxdrY=
+	t=1727835624; cv=none; b=qUgBmIOE05rAXhhWZmHshq5jEkQuuz3/E0WnYOkw0nCfHaFgWamSxm+giw7V2lnSvrOfbuge4Ts4ftoLFkkFfCOuw6PG+FIHhMaoPWmaP1pYDCvM0TXBKufKcyrTPL+QEYOX6W8pmVTBevKBSM89/o+wK0bkoWSgrSiu44V5VZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727835623; c=relaxed/simple;
-	bh=qDf4Q21OUR0O2CrvOwqoQ6MiuMMP4c/itFO4cayaOKs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZDO9Y+czoOfMxuOZvRzkYGumOr3CNSRTrTG9AuLmCqi6Gw9+AU4VGu6lMQsXxD4+3hRJZgWnoz3lvvPEHpiNFs/91GM0LvUIsYsJ9sA7RqUfaepADcksecUzZmVdhH5F+ShNZaTO6OQ6pTEcKnfDcbm+vLXpWwkkCRqjVuUNFAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tA8/+rQR; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1727835624; c=relaxed/simple;
+	bh=/4OzswiX65Sc0g0+jbX5ZOydAN10emdJ5kCChBhnLgc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ugHWgalneBEya4855TRHCNfI/RsbcFddhlpad4FL4E70i6jxgFeaHHR/GIAzjxV8VLpVof5AxKdB7FCo/BTz3+NwTKOCmonDCVxMoS41HsgVg386baEVf6GiDCUm79g3teEUdo4oDce4yICf6dSE6kK3U+f0ytp6hubyU4q93+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rLbPbRTx; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tA8/+rQR"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37cc5fb1e45so4217897f8f.2
-        for <linux-sound@vger.kernel.org>; Tue, 01 Oct 2024 19:20:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rLbPbRTx"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso943761566b.3
+        for <linux-sound@vger.kernel.org>; Tue, 01 Oct 2024 19:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727835619; x=1728440419; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XJP6FxuMyrGQPzIx4I24nor0DhnXqA79XYYTGXwNkXg=;
-        b=tA8/+rQR20kn1gBWDv8DBbSunZRM9WlFmDSTrNifY3Kk5z4/LiUXFLB1kC8+XEZ9jR
-         VI50av13/0CQWbpdCebF6PLOpY5UaUPUHKLUPVdRuOMVaPN5KHqd934W5XOG59jHvXTV
-         k/VetB30QeWD8lp53VIEwwOftn9RGeNqgIzXcvjMQFNXQesdbjfTXpmoehWW6Xdad7R9
-         PjTyAg0N0iBKR1ABIBXDCXZFyPdg5I+m3pYUipFKekFVd3MW8EddoAnb2HveDCq4crk6
-         L4dfzIXPe5aK4l3FGJqu8OOgXLv0dTu7fhOmSDbMFgqhw1/VnQvKrXt8OksqTuxKDFX0
-         4PLQ==
+        d=linaro.org; s=google; t=1727835621; x=1728440421; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qULz6qGLbMOUjMR5vVv1AH2Pj+Ui9tcw2zEInfPNef0=;
+        b=rLbPbRTxx37wbOMeRUHGDX6dEO/DDycPUkt0sPoHCcebHttXf/GwSvDHvpjfLzR/fQ
+         N0WTlo1WtZJO4QAUFlEVSk42M+RIjBbSDnMMrXXgtjJYJufZpklb7Z3I/Hf3kaJhjSO1
+         sKN1GtnQJSrYZrU8Uf9O/AKH4tmispkBSQgOKrzqw5e3duHRrPX7oPpsS2uyxbK3keNk
+         oy6LDKQk18P6Y08o6vcH1T02izJh269a5FykOGAoeWTt817kUq186G3RA7dcly2vwGKW
+         0kQj6p75o252UUNuey31y3jW++6tv3R8RX2IqFTLAUtccyaPDU7Y2zL3Sv5jDIxNBjB8
+         eY5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727835619; x=1728440419;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XJP6FxuMyrGQPzIx4I24nor0DhnXqA79XYYTGXwNkXg=;
-        b=g11KWVoliqQFNH0dNFlRpcA3CmtfD05L1ssf6J+r1WtP16RTRFh1XSo7DZDq7s9Nz9
-         aUU2IBopgvxHSlNAjXplyrR9CaH1nBzYaWnELrD+Oh19t/LG09t3G8CfX4tnJvXGeILx
-         FMZMJk3FNQUEf4aWTdJNicqBMUleqwlCWxKXg6U3Fi1nQ7uaCl5h7N2FjasxW0Yl6lQp
-         k7reZ7HYHW4WBxkVIAVtONosu+lSs03CcrmOViwwg99dzTytutR2ao+fdfY2BpOkTa1I
-         MdrRNLMjOT95spNO7BPuOejYLNaONguUzFfv+l814+GRoeq4njRtGJysctVrVwovpph0
-         6DmA==
-X-Gm-Message-State: AOJu0YyzAHTFFn2M1iSi0Cd2jB9SUb2Z/EyOWQit9by/zlAHjF19/5FC
-	XJE2E5PkXht1ECG2yOFBmmhd+j2fjxNm4cbLUoCMLL3HTkVo2SckQfcakrUKMfEti1YGtMPrec6
-	Hsts=
-X-Google-Smtp-Source: AGHT+IFs22+u0l81gOgbkwdFzWLkYNo/t5JE/s/V9n01odUb3GkqtgMLO52O3EfAFsS1MGoPOvkYtA==
-X-Received: by 2002:adf:a388:0:b0:37c:cee1:acb5 with SMTP id ffacd0b85a97d-37cfb8b18aemr868706f8f.7.1727835618798;
-        Tue, 01 Oct 2024 19:20:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727835621; x=1728440421;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qULz6qGLbMOUjMR5vVv1AH2Pj+Ui9tcw2zEInfPNef0=;
+        b=oAzm/9OYE+P6Cqduz0wYnB2d9XAaf8P1ZrpM8jii7IiKpn0eIKO4JdVIN9+rn7SwWu
+         hrMxKLwh3ttf766YpOmve5UmBAyNXPBCvU5W8TTsxItnV+vZME36vJuEaXzN7kK8AxUW
+         e16tRGqMFcizWsFihmbnL0UCEWhFthALDbG7rdnBNFs+4T4JVmX9XFOTotqeb/4MbQWv
+         wmG4NZsbu0k0vfkkEouwzaSD99z0ylPu+G27VxeKL5EIyhpKbGXA0WKy40srK+URiSaY
+         kdKXCiBxP15r82bnAmPtvoatoZsXGZx9Ar51Ey534tPDCwep0mohcv8fmtanboTtblUy
+         jzAA==
+X-Gm-Message-State: AOJu0YwY5tnJ8T/RSHCSlq8pMwJd4zmEWw7rX4U+gpUUzkzG8qdSbBTT
+	QtwmSfjZiYStGFmaLibX0duQeX5udPjiE5cIuEgLkrH28ChYILy/f7PScbBkKWekBom9cx0eEny
+	kkgU=
+X-Google-Smtp-Source: AGHT+IGE1xKkXbjGlYr68N6L4QY5x/jSLWNeq4c/fQ8oGKGTVtK4Gvl9c5GnBJX1hBRWwC0HCq1myA==
+X-Received: by 2002:a17:907:25cb:b0:a8d:2e3a:5303 with SMTP id a640c23a62f3a-a98f8295ed5mr139129766b.39.1727835620710;
+        Tue, 01 Oct 2024 19:20:20 -0700 (PDT)
 Received: from localhost.localdomain ([2.125.184.148])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2945f2esm787518866b.117.2024.10.01.19.20.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2945f2esm787518866b.117.2024.10.01.19.20.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 19:20:17 -0700 (PDT)
+        Tue, 01 Oct 2024 19:20:19 -0700 (PDT)
 From: Alexey Klimov <alexey.klimov@linaro.org>
 To: linux-sound@vger.kernel.org,
 	srinivas.kandagatla@linaro.org,
@@ -73,10 +75,12 @@ Cc: robh@kernel.org,
 	linux-kernel@vger.kernel.org,
 	a39.skl@gmail.com,
 	alexey.klimov@linaro.org
-Subject: [PATCH v2 0/7] qrb4210-rb2: add HDMI audio playback support
-Date: Wed,  2 Oct 2024 03:20:08 +0100
-Message-ID: <20241002022015.867031-1-alexey.klimov@linaro.org>
+Subject: [PATCH v2 1/7] ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
+Date: Wed,  2 Oct 2024 03:20:09 +0100
+Message-ID: <20241002022015.867031-2-alexey.klimov@linaro.org>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241002022015.867031-1-alexey.klimov@linaro.org>
+References: <20241002022015.867031-1-alexey.klimov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -85,48 +89,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rebased on top of -master, tested.
+Add adsp-backed soundcard compatible for QRB4210 RB2 platform,
+which as of now looks fully compatible with SM8250.
 
-Changes since v1:
--- removed handling of MI2S clock in sm2450_snd_shutdown(): setting clock rate
-   and disabling it causes audio delay on playback start;
--- removed empty sound { } node from sm6115.dtsi as suggested by Krzysztof;
--- moved lpi_i2s2_active pins description to qrb423310 board-specific file
-   as suggested by Dmitry Baryshkov;
--- moved q6asmdai DAIs to apr soc node as suggested by Konrad Dybcio;
--- lpass_tlmm is not disabled;
--- lpass_tlmm node moved to sm4250.dtsi;
--- kept MultiMedia DAIs as is, without them the sound card driver doesn't initialise;
--- added some reviewed-by tags.
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+ Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-This series still keeps "qcom,qrb4210-rb2-sndcard" for sm8250 soundcard. As per
-off the list discussion with Srini it was suggested to have it since in future it
-may be required to add clocks, workarounds, quirks, model-specific things based on
-this compatible. The same as for RB5 compatible in sm8250 snd driver.
-
-This focuses on HDMI audio playback only hence there are no soundwire and dmic pins,
-for instance. The work to enable playback via wcd+wsa8815 amplifier is in progress (it works)
-and one of the routes is to merge such two patchsets together.
-
-Link to prev series:
-https://lore.kernel.org/linux-sound/20240628010715.438471-1-alexey.klimov@linaro.org/
-
-Alexey Klimov (7):
-  ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
-  ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
-  ASoC: qcom: sm8250: add handling of secondary MI2S clock
-  arm64: dts: qcom: sm6115: add apr and its services
-  arm64: dts: qcom: sm4250: add LPASS LPI pin controller
-  arm64: dts: qcom: qrb4210-rb2: add description of lpi_i2s2 pins
-  arm64: dts: qcom: qrb4210-rb2: add HDMI audio playback support
-
- .../bindings/sound/qcom,sm8250.yaml           |  1 +
- arch/arm64/boot/dts/qcom/qrb4210-rb2.dts      | 91 +++++++++++++++++++
- arch/arm64/boot/dts/qcom/sm4250.dtsi          | 16 ++++
- arch/arm64/boot/dts/qcom/sm6115.dtsi          | 72 +++++++++++++++
- sound/soc/qcom/sm8250.c                       |  9 ++
- 5 files changed, 189 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+index 1d3acdc0c733..2e2e01493a5f 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,sm8250.yaml
+@@ -30,6 +30,7 @@ properties:
+           - qcom,apq8096-sndcard
+           - qcom,qcm6490-idp-sndcard
+           - qcom,qcs6490-rb3gen2-sndcard
++          - qcom,qrb4210-rb2-sndcard
+           - qcom,qrb5165-rb5-sndcard
+           - qcom,sc7180-qdsp6-sndcard
+           - qcom,sc8280xp-sndcard
 -- 
 2.45.2
 
