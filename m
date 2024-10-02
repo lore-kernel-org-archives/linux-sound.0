@@ -1,119 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6319340F
-	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 19:34:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FB013CFA6
+	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 19:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727897657; cv=none; b=SIihReZWm3p9Lh8mO5mMDwIr6NLbgVBLz02e/pU9VByk6/PJXFi2Qvn8ZMigbl6VPj4NGCs1oMwYmLqryRyeJizGU55xB6BTfAHvhR6rBNvqGcIYSAJGdXHjW7AmslslpAZutyxrXGoBacaVcztW8JgsrbVlFWrPrTTtQEDkblM=
+	t=1727897759; cv=none; b=WTfrcEbg3nUD4CkVXFMHnEyS/ywQQb66nVcGlYx3MOCE4xM9/1mnJNdJ0yVOhOg9MZyQ9jMlxKfRF/t4yQYMn/k9FKxwJorzE0Cd/o4TtZOM15ED+F4c7ZzuFwfl1Syh8oB8eS3RE7L15EbCp8iq5NY5oxJ4e/p7cTKjyNQtN+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727897657; c=relaxed/simple;
-	bh=xKu20YOTWNm1xVEeGUtCSeOOXVWFVIZWOm+4WqX1HNc=;
+	s=arc-20240116; t=1727897759; c=relaxed/simple;
+	bh=lxubPs3pK4iZsOorsHMHefP7CzUy3ooGj0aU9aZUYZY=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QETdpR8GvIfX1hNa6MD4kSsFI8TWW6A69NnH304Tom5b3wk08CqMTTT2Dikk06FotcRvMsZfJShEIrUCgEOMmXSoa8JQpmfEj89kJZ7lZN5iZ/4hLwCvR8OhffGAZdk0lUDZkyRZkbJmL8ImFvY5Mn57csB+lyuP3U1Eu7dWlMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fziR4jMA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WhvXSn1i; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fziR4jMA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WhvXSn1i; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=mZSkbeskSJDOFapi4QTVAzCQPN5GxatwsfbgAgSvlyWO9oByoJvMp1lyppkg9+lKN+8k02OdRD1i2/gfHHvOhbsvn3fKKGSVa4RKS/jnwpwY3KkSSRagewLD04xiUE4sETRP0kWDO//Os+oCdy0tmehrUgTlUtZ2cNoLQf046a4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=vSLweW9s; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ScMkYZnr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z7SRPtEM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ybvfmKz9; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fziR4jMA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WhvXSn1i";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fziR4jMA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WhvXSn1i"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vSLweW9s";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ScMkYZnr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z7SRPtEM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ybvfmKz9"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 902901FD7D
-	for <linux-sound@vger.kernel.org>; Wed,  2 Oct 2024 19:34:13 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F1EA921CA1;
+	Wed,  2 Oct 2024 19:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727897653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1727897756; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
-	b=fziR4jMAQOmonay/4bhud0YnkMsfhA0eOFLjmErw97GO33g9LrGa8RepNLFhUFTB0j3j4M
-	7jxWy61ETzEPxYZorrBofEnNevmBD4gw42YzuardzgMPhZgqGeULkwHF3tv7jOYCX8TyCw
-	CrHWrK/Y5NqwS8FodMEf6Xp/ZseOpwg=
+	bh=VvJyqVnaeuvkctP3eVIMf/XVJJInmuDJ/eur119nCuc=;
+	b=vSLweW9sVeB8wA7/pqYhS6wQMlqLiIOQd2+nwH3MgZtJhAGE6Two1ShonmKruwNh1oPtEF
+	XaaBzWRkUx6NJNEC5S0cXjOaewBkOLGu9hGX0+VaPqJefP4VvcA/jkbYHyPVnQz5Z25PL6
+	WESVDwqQHkUkU5PV7OujmEIRTe7qBCw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727897653;
+	s=susede2_ed25519; t=1727897756;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
-	b=WhvXSn1iqTg1W96OgnKc0M6MiZsVlQ7nHp57nDeL7mKYeOBG5uNZ1qjNCdUMKFWIYCAktx
-	vIC+q4OE0UG3YiBg==
-Authentication-Results: smtp-out2.suse.de;
+	bh=VvJyqVnaeuvkctP3eVIMf/XVJJInmuDJ/eur119nCuc=;
+	b=ScMkYZnrdl3u26WwDZ8KakNTqJIkG5qMNbbDyRmsk3OWJIzUArSa6BZNMd5/la9dwCCNJR
+	GYN6ihsPNgWzm1Dw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727897653; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1727897755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
-	b=fziR4jMAQOmonay/4bhud0YnkMsfhA0eOFLjmErw97GO33g9LrGa8RepNLFhUFTB0j3j4M
-	7jxWy61ETzEPxYZorrBofEnNevmBD4gw42YzuardzgMPhZgqGeULkwHF3tv7jOYCX8TyCw
-	CrHWrK/Y5NqwS8FodMEf6Xp/ZseOpwg=
+	bh=VvJyqVnaeuvkctP3eVIMf/XVJJInmuDJ/eur119nCuc=;
+	b=z7SRPtEMHHhVm3KVBSyS4Oi8fFLRUAzGpblB2MwepwULHGNDiZIaDmByT4eWt+vjrVHUvH
+	x6wb83ck3+gqMWU59nZJ+po8p/LZtfttNYfTMP7998ZYN9s3OX0r3y2hxtao7cTbiCA/Ck
+	SUH73aJ3yKuRYhQ+ExQx74iwinetazo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727897653;
+	s=susede2_ed25519; t=1727897755;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bkPq3Tqq4+DFeCmMuxDHXn7UQLOD+ntOPosCkgrFsh4=;
-	b=WhvXSn1iqTg1W96OgnKc0M6MiZsVlQ7nHp57nDeL7mKYeOBG5uNZ1qjNCdUMKFWIYCAktx
-	vIC+q4OE0UG3YiBg==
+	bh=VvJyqVnaeuvkctP3eVIMf/XVJJInmuDJ/eur119nCuc=;
+	b=ybvfmKz9pHPkN1Wr/+33ENJNrstUu7r/V2ZL75yEEGtyRYbVxNJWig9AFy7JvqTZSg+uXX
+	rZJgDKMGU4uNSFDQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5875613A6E;
-	Wed,  2 Oct 2024 19:34:12 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC79F13A6E;
+	Wed,  2 Oct 2024 19:35:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NZsJFDSg/WaUDQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 19:34:12 +0000
-Date: Wed, 02 Oct 2024 21:35:05 +0200
-Message-ID: <875xqal2mu.wl-tiwai@suse.de>
+	id ReEtMJug/WYMDgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 02 Oct 2024 19:35:55 +0000
+Date: Wed, 02 Oct 2024 21:36:49 +0200
+Message-ID: <874j5ul2jy.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Jaroslav Kysela <perex@perex.cz>
-Cc: Linux Sound ML <linux-sound@vger.kernel.org>,	Takashi Iwai
- <tiwai@suse.de>,	linux-kernel@vger.kernel.org,	Ban Tao
- <fengzheng923@gmail.com>,	Lars-Peter Clausen <lars@metafoo.de>,	Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>,	Johannes Berg
- <johannes@sipsolutions.net>,	Jerome Brunet <jbrunet@baylibre.com>,	Martin
- =?ISO-8859-2?Q?Povi=B9er?= <povik+lin@cutebit.org>,	Peter Rosin
- <peda@axentia.se>,	Clemens Ladisch <clemens@ladisch.de>,	Takashi Sakamoto
- <o-takashi@sakamocchi.jp>,	"Geoffrey D. Bennett" <g@b4.vu>,	Shengjiu Wang
- <shengjiu.wang@gmail.com>,	Xiubo Li <Xiubo.Lee@gmail.com>,	Fabio Estevam
- <festevam@gmail.com>,	Nicolin Chen <nicoleotsuka@gmail.com>,
-	"J.M.B. Downing" <jonathan.downing@nautel.com>,	Piotr Wojtaszczyk
- <piotr.wojtaszczyk@timesys.com>,	Vladimir Zapolskiy <vz@mleia.com>,	Herve
- Codina <herve.codina@bootlin.com>,	Cezary Rojewski
- <cezary.rojewski@intel.com>,	Liam Girdwood
- <liam.r.girdwood@linux.intel.com>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Bard Liao
- <yung-chuan.liao@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>,	Kiseok Jo <kiseok.jo@irondevice.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,	Daniel Mack <zonque@gmail.com>,
-	Stephan Gerhold <stephan@gerhold.net>,	Peter Ujfalusi
- <peter.ujfalusi@gmail.com>,	Jarkko Nikula <jarkko.nikula@bitmer.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Vinod Koul <vkoul@kernel.org>,	Sanyog Kale
- <sanyog.r.kale@intel.com>,	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,	Shenghao Ding
- <shenghao-ding@ti.com>,	Kevin Lu <kevin-lu@ti.com>,	Baojun Xu
- <baojun.xu@ti.com>,	M R Swami Reddy <mr.swami.reddy@ti.com>,	Vishwas A
- Deshpande <vishwas.a.deshpande@ti.com>,	Kirill Marinushkin
- <kmarinushkin@birdec.com>,	Kevin Cernekee <cernekee@chromium.org>,	Anton
- Yakovlev <anton.yakovlev@opensynergy.com>,	"Michael S. Tsirkin"
- <mst@redhat.com>,	Oleksandr Andrushchenko
- <oleksandr_andrushchenko@epam.com>
-Subject: Re: [PATCH] MAINTAINERS: ALSA: use linux-sound@vger.kernel.org list
-In-Reply-To: <20241002151536.1855793-1-perex@perex.cz>
-References: <20241002151536.1855793-1-perex@perex.cz>
+Cc: =?ISO-8859-1?Q?Barnab=E1s_?= =?ISO-8859-2?Q?P=F5cze?=
+ <pobrn@protonmail.com>,	"linux-sound@vger.kernel.org"
+ <linux-sound@vger.kernel.org>,	Takashi Iwai <tiwai@suse.de>
+Subject: Re: Incorrect automatic ALSA card ID when unicode is at play
+In-Reply-To: <506d56d3-540e-4675-a126-347e176b8a0d@perex.cz>
+References: <yk3WTvKkwheOon_LzZlJ43PPInz6byYfBzpKkbasww1yzuiMRqn7n6Y8vZcXB-xwFCu_vb8hoNjv7DTNwH5TWjpEuiVsyn9HPCEXqwF4120=@protonmail.com>
+	<506d56d3-540e-4675-a126-347e176b8a0d@perex.cz>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -121,94 +91,138 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
 	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[lin];
-	ARC_NA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_GT_50(0.00)[51];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,gmail.com,metafoo.de,analog.com,sipsolutions.net,baylibre.com,cutebit.org,axentia.se,ladisch.de,sakamocchi.jp,b4.vu,nautel.com,timesys.com,mleia.com,bootlin.com,intel.com,linux.intel.com,linux.dev,irondevice.com,tuxon.dev,gerhold.net,bitmer.com,linaro.org,samsung.com,kernel.org,foss.st.com,ti.com,birdec.com,chromium.org,opensynergy.com,redhat.com,epam.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[protonmail.com,vger.kernel.org,suse.de];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Spam-Score: -1.80
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 02 Oct 2024 17:15:36 +0200,
+On Wed, 02 Oct 2024 20:00:15 +0200,
 Jaroslav Kysela wrote:
 > 
-> We are now using the linux-sound@vger.kernel.org list for kernel
-> related work. This patch converts all remaining entries that reference
-> the former alsa-devel mailing list.
+> On 02. 10. 24 18:54, Barnabás Pőcze wrote:
+> > Hi
+> > 
+> > 
+> > When `snd_card::id` is not specified explicitly it is determined automatically
+> > in `sound/core/init.c:snd_card_register()` as follows:
+> > 
+> >    if (*card->id) {
+> >      // ...
+> >    } else {
+> >      /* create an id from either shortname or longname */
+> >      const char *src;
+> > 
+> >      src = *card->shortname ? card->shortname : card->longname;
+> >      snd_card_set_id_no_lock(card, src,
+> >                                    retrieve_id_from_card_name(src));
+> >    }
+> > 
+> > However, `snd_card_set_id_no_lock()`, or more specifically the `copy_valid_id_string()`
+> > function that it calls does not seem to copy very well with utf-8.
+> > 
+> > For example, based on the report at https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4135
+> > where `card->shortname="Redmi 电脑音箱"`, `card->id` will be set to \xE7\xE8\xE9\xE7,
+> > which are the first bytes of the symbols in the suffix "电脑音箱" because only those
+> > bytes of the string satisfy the `isalnum()` check in `copy_valid_id_string()`.
+> > 
+> > I am not sure what kind of 8-bit character set `isalnum()` is basing these results on, but
+> > it certainly does not mix well with utf-8 in this scenario at least.
 > 
-> All ALSA developers should subscribe to the linux-sound
-> mailing list. Thank you.
+> It seems that isalnum() also returns true for characters above 0x80
+> (see lib/ctype.c):
 > 
-> Cc: linux-kernel@vger.kernel.org
-> Cc: Ban Tao <fengzheng923@gmail.com>
-> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> Cc: Nuno S� <nuno.sa@analog.com>
-> Cc: Johannes Berg <johannes@sipsolutions.net>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Martin Povi�er <povik+lin@cutebit.org>
-> Cc: Peter Rosin <peda@axentia.se>
-> Cc: Clemens Ladisch <clemens@ladisch.de>
-> Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> Cc: Geoffrey D. Bennett <g@b4.vu>
-> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
-> Cc: Xiubo Li <Xiubo.Lee@gmail.com>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Nicolin Chen <nicoleotsuka@gmail.com>
-> Cc: J.M.B. Downing <jonathan.downing@nautel.com>
-> Cc: Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>
-> Cc: Vladimir Zapolskiy <vz@mleia.com>
-> Cc: Herve Codina <herve.codina@bootlin.com>
-> Cc: Cezary Rojewski <cezary.rojewski@intel.com>
-> Cc: Liam Girdwood <liam.r.girdwood@linux.intel.com>
-> Cc: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-> Cc: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Cc: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-> Cc: Kiseok Jo <kiseok.jo@irondevice.com>
-> Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-> Cc: Daniel Mack <zonque@gmail.com>
-> Cc: Stephan Gerhold <stephan@gerhold.net>
-> Cc: Peter Ujfalusi <peter.ujfalusi@gmail.com>
-> Cc: Jarkko Nikula <jarkko.nikula@bitmer.com>
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Cc: Sanyog Kale <sanyog.r.kale@intel.com>
-> Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-> Cc: Olivier Moysan <olivier.moysan@foss.st.com>
-> Cc: Shenghao Ding <shenghao-ding@ti.com>
-> Cc: Kevin Lu <kevin-lu@ti.com>
-> Cc: Baojun Xu <baojun.xu@ti.com>
-> Cc: M R Swami Reddy <mr.swami.reddy@ti.com>
-> Cc: Vishwas A Deshpande <vishwas.a.deshpande@ti.com>
-> Cc: Kirill Marinushkin <kmarinushkin@birdec.com>
-> Cc: Kevin Cernekee <cernekee@chromium.org>
-> Cc: Anton Yakovlev <anton.yakovlev@opensynergy.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,                        /* 128-143 */
+> 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,                        /* 144-159 */
+> _S|_SP,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,    /* 160-175 */
+> _P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,_P,        /* 176-191 */
+> _U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,_U,        /* 192-207 */
+> _U,_U,_U,_U,_U,_U,_U,_P,_U,_U,_U,_U,_U,_U,_U,_L,        /* 208-223 */
+> _L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,_L,        /* 224-239 */
+> _L,_L,_L,_L,_L,_L,_L,_P,_L,_L,_L,_L,_L,_L,_L,_L};       /* 240-255 */
+> 
+> We should probably add isacii() check like:
+> 
+> diff --git a/sound/core/init.c b/sound/core/init.c
+> index b92aa7103589..114fb87de990 100644
+> --- a/sound/core/init.c
+> +++ b/sound/core/init.c
+> @@ -654,13 +654,19 @@ void snd_card_free(struct snd_card *card)
+>  }
+>  EXPORT_SYMBOL(snd_card_free);
+> 
+> +/* check, if the character is in the valid ASCII range */
+> +static inline bool safe_ascii_char(char c)
+> +{
+> +	return isascii(c) && isalnum(c);
+> +}
+> +
+>  /* retrieve the last word of shortname or longname */
+>  static const char *retrieve_id_from_card_name(const char *name)
+>  {
+>  	const char *spos = name;
+> 
+>  	while (*name) {
+> -		if (isspace(*name) && isalnum(name[1]))
+> +		if (isspace(*name) && safe_ascii_char(name[1]))
+>  			spos = name + 1;
+>  		name++;
+>  	}
+> @@ -687,12 +693,12 @@ static void copy_valid_id_string(struct snd_card
+> *card, const char *src,
+>  {
+>  	char *id = card->id;
+> 
+> -	while (*nid && !isalnum(*nid))
+> +	while (*nid && !safe_ascii_char(*nid))
+>  		nid++;
+>  	if (isdigit(*nid))
+>  		*id++ = isalpha(*src) ? *src : 'D';
+>  	while (*nid && (size_t)(id - card->id) < sizeof(card->id) - 1) {
+> -		if (isalnum(*nid))
+> +		if (safe_ascii_char(*nid))
+>  			*id++ = *nid;
+>  		nid++;
+>  	}
+> @@ -787,7 +793,7 @@ static ssize_t id_store(struct device *dev, struct
+> device_attribute *attr,
+> 
+>  	for (idx = 0; idx < copy; idx++) {
+>  		c = buf[idx];
+> -		if (!isalnum(c) && c != '_' && c != '-')
+> +		if (!safe_ascii_char(c) && c != '_' && c != '-')
+>  			return -EINVAL;
+>  	}
+>  	memcpy(buf1, buf, copy);
+> 
+> 
+> Takashi, do you have a better idea?
 
-Applied now, thanks.
+I believe your change is fine.  Care to submit a proper fix patch?
 
+
+thanks,
 
 Takashi
