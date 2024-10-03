@@ -1,126 +1,136 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A1A2CA9;
-	Thu,  3 Oct 2024 07:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533DF84A39
+	for <linux-sound@vger.kernel.org>; Thu,  3 Oct 2024 07:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727939909; cv=none; b=OXwIGkppHLGb/NT/lxfWYHCNc1hDmSVYq+UtxmYwh3hzAIQxncY0SiX2GwQwBgLHmzM6Bo7zsHKak3Cq9I7QUgY2U279wvK4VRcdGuDmQZGoNprZa1VrP7svLq4sxL7UZHrdBYgYjbqWZ93di1DlenskYuiSCMb39zEpQgmKLwo=
+	t=1727940215; cv=none; b=fV+dWA0qpg3jaWNGRj/CjAFehTnH3JiRiEwnHvEfyfRf4Y8hMEHYVUT38Ucxmi8V3WzAg+2OqOMmyy9SzLdweulLB/THWmxOrJt3kglgtmLTzARlvM8zP+Ikvegio0NpZ+wKLud9QL1rRedYIBDpozVZVVRoErAqzxZwYjs+w0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727939909; c=relaxed/simple;
-	bh=kJGB9Hobjy2rYg9xXwmeHXV0lEaswvAw6NN/nRKr1uo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZJEOF47RxdQmqiWOjJmR1Ia5Sj4FfMm/7dxsrE+qqL25U6R1Dq8l39ekZHOu5UK/f0M8uCgi3LANWQtVrwTuZz4NytVMal3stzIaC4KFqmw+L/mlDeiK1D1roZNu+VtjqGZacsYgQXn4jf4wiDjQni8JCZFxnqFGBDXMCRT0xXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ufOgue36; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XP8Wv8Vm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NR+njKNf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hzvA82rA; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1727940215; c=relaxed/simple;
+	bh=+AR7p4a9tZykmRl4b/T93PhH4SEr43dTI1XSm/MzUjc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=uMkDcuC8soThMQDIsy3R87rChJps6owuATOO5+7hR/2XXQLdMXWsAGFWNRntUWTaBKgJF85IUJF/A+ftgP5Z5ecoun9u6+ogeW8LWS0SHU3wgAM9shbeUKRqrR+XyssKu7+wut6+AaxhJ8ILHC6AJvVd4NPgKhSYHy5/mvauv4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVRgRzzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EqJsAgZ8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVRgRzzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EqJsAgZ8; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ufOgue36";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XP8Wv8Vm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NR+njKNf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hzvA82rA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVRgRzzV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EqJsAgZ8";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVRgRzzV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EqJsAgZ8"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E8FDC21D0A;
-	Thu,  3 Oct 2024 07:18:09 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2312F21B93;
+	Thu,  3 Oct 2024 07:23:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727939890; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dum5nJMR5yZp8cLZblbpre2+vXo2MjICzgmsJ6Ryds=;
-	b=ufOgue36eTwkvXfUvrtt7WnGqNvQyS8QGP3fh8BharrtVL4lRCEwqtrxUVDKXJNjgyvJbp
-	1JuYorRJXiRYLLbK04aaC5N+gg6R2JeivF0S3OcSBNfNjzYW838T/606kUBXNeyiiN1pME
-	hqxTIfyT05Thk93hq1QANg3qlI2ITH4=
+	t=1727940209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
+	b=XVRgRzzVGEujVng9szrD/Uq9X9ZgWPDJgD4bsOYWCrwjMd0PU/kHrFMkThvMx/wgBowvLo
+	SvxMe9z+pKf58sMtDLygx8TPSQsC6GtwaQiFquPYpcvN4LUTihdAw5GrI9dHNUHXxYUow5
+	lYqbcVtHL2wXxchmWIyR+krHw9POsaw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727939890;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dum5nJMR5yZp8cLZblbpre2+vXo2MjICzgmsJ6Ryds=;
-	b=XP8Wv8VmdUa6YtJrqBgMhXg13Ne4k714ka18soZG1DaKrUMRr6GE4rRVoTPwcmUtipOVsL
-	IKtQhU3U4WKlW3Bw==
+	s=susede2_ed25519; t=1727940209;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
+	b=EqJsAgZ8YZzG9KwX8qY46UIxCKDjQ4pFkT4QLUpTaOWe+sets2H7edgpt3Aef0QGx4lcT1
+	cSVz4uwcpc5ouSCA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XVRgRzzV;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EqJsAgZ8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727939889; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dum5nJMR5yZp8cLZblbpre2+vXo2MjICzgmsJ6Ryds=;
-	b=NR+njKNfonQ+GGetvM49rq4OxPoiEz05kh4lAYQiYfa6/dq0PvSq8jtNlyOnPMyIZD9P5G
-	ESxQljjDkVy4+zHyUkQzolWL0gBzmIIKCIkCqCtbS/ZUlmtjUWPiHJcmXC9f2dUvQW62Kg
-	ugNkcLsA5p6Q5+0uw/Nts49WwBIL/Hc=
+	t=1727940209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
+	b=XVRgRzzVGEujVng9szrD/Uq9X9ZgWPDJgD4bsOYWCrwjMd0PU/kHrFMkThvMx/wgBowvLo
+	SvxMe9z+pKf58sMtDLygx8TPSQsC6GtwaQiFquPYpcvN4LUTihdAw5GrI9dHNUHXxYUow5
+	lYqbcVtHL2wXxchmWIyR+krHw9POsaw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727939889;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4dum5nJMR5yZp8cLZblbpre2+vXo2MjICzgmsJ6Ryds=;
-	b=hzvA82rABKFWS/gHnICvFhuy6dDL7YAZMnWz/Ucgo78jNOumYoAIlmPCw646DjFQaSICu8
-	Xf7BCK/7PO3ZHDAg==
+	s=susede2_ed25519; t=1727940209;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
+	b=EqJsAgZ8YZzG9KwX8qY46UIxCKDjQ4pFkT4QLUpTaOWe+sets2H7edgpt3Aef0QGx4lcT1
+	cSVz4uwcpc5ouSCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BEA67139CE;
-	Thu,  3 Oct 2024 07:18:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04D1B139CE;
+	Thu,  3 Oct 2024 07:23:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OIdILTFF/maYRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Oct 2024 07:18:09 +0000
-Date: Thu, 03 Oct 2024 09:19:03 +0200
-Message-ID: <87wmipk61k.wl-tiwai@suse.de>
+	id GE3eOnBG/mb/RQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Oct 2024 07:23:28 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Jan Lalinsky <lalinsky@c4.cz>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Add native DSD support for Luxman D-08u
-In-Reply-To: <20241003030811.2655735-1-lalinsky@c4.cz>
-References: <20241003030811.2655735-1-lalinsky@c4.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Add missing parameter description for snd_hdac_stream_timecounter_init()
+Date: Thu,  3 Oct 2024 09:24:18 +0200
+Message-ID: <20241003072420.8932-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 2312F21B93
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-On Thu, 03 Oct 2024 05:08:11 +0200,
-Jan Lalinsky wrote:
-> 
-> Add native DSD support for Luxman D-08u DAC, by adding the PID/VID 1852:5062.
-> This makes DSD playback work, and also sound quality when playing PCM files
-> is improved, crackling sounds are gone.
-> 
-> Signed-off-by: Jan Lalinsky <lalinsky@c4.cz>
+Add the missing description for the new parameter "start" of
+snd_hdac_stream_timecounter_init() in the previous patch.
 
-Applied now, thanks.
+Fixes: df5215618fbe ("ALSA: hda: fix trigger_tstamp_latched")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202410031300.ecLmATNd-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/hda/hdac_stream.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index 0411a8fe9d6f..2670792f43b4 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -657,6 +657,7 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
+  * snd_hdac_stream_timecounter_init - initialize time counter
+  * @azx_dev: HD-audio core stream (master stream)
+  * @streams: bit flags of streams to set up
++ * @start: true for PCM trigger start, false for other cases
+  *
+  * Initializes the time counter of streams marked by the bit flags (each
+  * bit corresponds to the stream index).
+-- 
+2.43.0
 
-Takashi
