@@ -1,85 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BB91E515;
-	Thu,  3 Oct 2024 14:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76211A0719;
+	Thu,  3 Oct 2024 15:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727966062; cv=none; b=YSeXR2eSiNWrfzQzo4Qeik15O9XLEm+kCcR6RPIAl1geha1pzuvZS1s8EShMJW3ncu1dZsjfokjQbQY+BoE+jDGqHT2nX5DfOxjP7eX20MZvNNb6XtnUDBvYEsHTD1BhW9H3UCTzxCxPeeTcD7MlZ3kEXl/V5JsU/eLodUen6zo=
+	t=1727969265; cv=none; b=nOk3YUswPX6BDpPnbwCAp1e5qDttfjE1AR7gQ8kGda6ff1s0VA9SIjfK13L2b98WX3lUSW4JXLojsDre3oFgttYUPc9oKaU5MtdrIjVHhxxkgCBIFsGgG7186BZllEiaynF25PIymdIpoZ+Zzqvh3aMC3vfd1Mvesx9EskSNrdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727966062; c=relaxed/simple;
-	bh=nnPP8bWPDyT8v9Qdnjq4i8N7ZoiPh70nuxYZUnnynwE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=m8YHXFJ1xWQJcrse66fzEAD9mm4J7z251hExoburXcikeIcFJVKrM/nZWrHIYvQKC6OpfGPgVj4ObnT011URR/+CryAgJ6GGGA0jA6/J5g5ddCflb8NQUn4O/bbk8yCi7ulKniX4Wpwv4SYjYmqbwLwWXJ3NO739YArYNJDvGQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELXU7+SB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727969265; c=relaxed/simple;
+	bh=qsa9Tr36UghnCP9lXSpaAMsZJLGVmYl72voh9q9E3tI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=lezwjKzLMqmzkRLBG81+q9/miRZsoQcJRDkVASAxOi3GEAJOTOQt4jhertLa3f8KD/F3wpcFUgVerHWSX0mpHaaVku9SfCJu4aKY45gLMoyWCzjfkIfQWr8eXP3cXcswrGcQZ8pLdh+Yw4hr4HQWX+M0Aoj2JYjkU6VYi3FVUDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+97ZQ+T; arc=none smtp.client-ip=209.85.222.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELXU7+SB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0243FC4CEC5;
-	Thu,  3 Oct 2024 14:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727966061;
-	bh=nnPP8bWPDyT8v9Qdnjq4i8N7ZoiPh70nuxYZUnnynwE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ELXU7+SBjMYGEban/p/w0N/aEX8UOeiARoBC1YJXJHmGCn8sdBPBE9ykH8ADKOfW5
-	 VPMiI4iDJmcLk7RvNG7Hk9cQUBPIk+VwRYcG8+7mXlt49Hg3oWqC5GDK3QuH2Subu9
-	 vnIJP9nhTRpXG97J3tMz4vftfUf2DIILt4x7Xw+VcoueGTvJC2uAroPUfRiZWC+vcv
-	 JsNB4+7sOZvwflnmXzx/DynAA0Ho3KzDjpO7qR0N+20dEYZajqkIJ8QnlHcRZzsryI
-	 zEbKgAB90WjT6jahRK2cWX2GWCxJ0vE2/iSUey/8vbL2DSr4o2twdh7FED+43YJZ2c
-	 dCq03J0R3H79g==
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, linux-kernel@vger.kernel.org
-In-Reply-To: <20241002151436.43684-1-masahiroy@kernel.org>
-References: <20241002151436.43684-1-masahiroy@kernel.org>
-Subject: Re: [PATCH] ASoC: codecs: wcd9335: remove unnecessary
- MODULE_ALIAS()
-Message-Id: <172796605971.115923.16568830906477882779.b4-ty@kernel.org>
-Date: Thu, 03 Oct 2024 15:34:19 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+97ZQ+T"
+Received: by mail-qk1-f196.google.com with SMTP id af79cd13be357-7a99e8d5df1so111091985a.2;
+        Thu, 03 Oct 2024 08:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727969263; x=1728574063; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5/dGEqQC57GQUROEFrRin+HCPiuYX6M1Xji3KrbNk7A=;
+        b=D+97ZQ+Tf52/T/DzntL5nI5tkC9mkuytA15IRhbfbCyWmarr02HFxyyfVu3AURnSrl
+         0BJA/Gr3tlumDYroY+J2RLrs0lJ/5x5WO3h+ju4bVBfDqEYTUzYav9Z9z8TPisgQ7b8G
+         9A1apDOX/Z+Agw1QprYxuQBti3dz6XPeT21ySHLJ4dOV00NEDs7Dr/BGyUGSzHp3wqog
+         yfXCagXrzLlXasUdyqCwnII0Es2HA81kG+E0ubS02FjLhdzFys4PsoEOUZR4BJwoUhHW
+         wHUZimu4qjZsPTiBn62y83XiK8SC32MpN2vhOIAcWOC1Z2FCghK3QOfA8ngexymOT6FU
+         aVvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727969263; x=1728574063;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5/dGEqQC57GQUROEFrRin+HCPiuYX6M1Xji3KrbNk7A=;
+        b=w1o43lQhtSoHiVE4Xealv/e57zf+cWjDjtfw6xFKdg9t3th5VnTLdyip1mICxerW+a
+         NUt+Hri4SD7x6GqSLwmCuZIPjB2bhGj99/9dF3JuJjaPr0g8kq6VO49JZ/ZlIMKQRQSZ
+         QWhmEQv0NcOUhltub+ts/nlJROxY8L2YQGo5PxuzdGK7EADEBwZ+fJc53HDFKD3YdGUO
+         naWc55X1XUqh59EG3EKVL90YLfoA6wN7FwwRb4XfvJrjIvmzC4Si1UgTjAj0xwTcqblp
+         li06Ngh8s3ldnaY/dhqKks/lx0JFTlq3QoLLgk8ScbcaqJaROK6vJw9daXewcStphrRg
+         +5qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU++kfiX1905Cc22FgrgaDvcw4vb+ukhJ4yuAwcmAsL6zffuvJSLSNqHfijO4HGIuvTFMNCqdwgalEVp8s=@vger.kernel.org, AJvYcCWCIEd7Txvxb3iqk0+EjzNlJCmB83ya+xaDDVACg5+2GkO/OY1vhHovNKKNTH3uB80a/rUr0lapgivh73iX@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4MnjKa5B5iukCGh5wz2d+PfRm+T/SEuToI9jem9q5xLKq4Zax
+	DV0jrWvL2wus76TtAPFUruvUB9Q0vFZgqNu7aryVA+e2ws6dWCGH
+X-Google-Smtp-Source: AGHT+IHusAAhgTINbI8Xq6hjYClvjuFgNYxmnMzHJ2IBsHBLKRXVnOAN8u7Rvx6/ufQVetfS4EI0/w==
+X-Received: by 2002:a05:620a:1926:b0:7a9:bf31:dbc9 with SMTP id af79cd13be357-7ae626ad92bmr1144156485a.4.1727969262543;
+        Thu, 03 Oct 2024 08:27:42 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae6b39b674sm59232685a.34.2024.10.03.08.27.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2024 08:27:41 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: gregkh@linuxfoundation.org,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rohitkr@codeaurora.org,
+	srinivas.kandagatla@linaro.org
+Cc: stable@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	chenyuan0y@gmail.com,
+	zzjas98@gmail.com,
+	Zichen Xie <zichenxie0106@gmail.com>
+Subject: [PATCH] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
+Date: Thu,  3 Oct 2024 10:27:39 -0500
+Message-Id: <20241003152739.9650-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <2024100358-crewmate-headwear-164e@gregkh>
+References: <2024100358-crewmate-headwear-164e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-dedf8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 03 Oct 2024 00:14:34 +0900, Masahiro Yamada wrote:
-> Since commit b4b818305578 ("slimbus: generate MODULE_ALIAS() from
-> MODULE_DEVICE_TABLE()"), modpost automatically generates MODULE_ALIAS()
-> from MODULE_DEVICE_TABLE(slim, ).
-> 
-> 
+From: Zichen Xie <zichenxie0106@gmail.com>
 
-Applied to
+A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
+possibly return NULL pointer. NULL Pointer Dereference may be
+triggerred without addtional check.
+Add a NULL check for the returned pointer.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ sound/soc/qcom/lpass-cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks!
-
-[1/1] ASoC: codecs: wcd9335: remove unnecessary MODULE_ALIAS()
-      commit: 6061483d7141db3a805f8660eae23805af02d544
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+index 5a47f661e0c6..242bc16da36d 100644
+--- a/sound/soc/qcom/lpass-cpu.c
++++ b/sound/soc/qcom/lpass-cpu.c
+@@ -1242,6 +1242,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 	/* Allocation for i2sctl regmap fields */
+ 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
+ 					GFP_KERNEL);
++	if (!drvdata->i2sctl)
++		return -ENOMEM;
+ 
+ 	/* Initialize bitfields for dai I2SCTL register */
+ 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
+-- 
+2.25.1
 
