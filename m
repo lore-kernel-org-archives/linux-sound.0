@@ -1,81 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFD810940;
-	Thu,  3 Oct 2024 08:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F620136657;
+	Thu,  3 Oct 2024 08:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727942416; cv=none; b=mRl7YEA7EbBiboJOohYN7mJ2HiMff//XS4kIymOR59krZ6bwX7zprvUoLL++7BSOpysbmWmq+0N3TYP+9G7kqQmW6uMt4fM8+wv2MnYhI4jNfYNEA1EmG0ljJSc2s+LGvdwM2NwNGEcNZFYJmOjE2774FODLkh/t5MMas6xyPB4=
+	t=1727942925; cv=none; b=b0T2D3McWSuRmJvZs3x0VQnQAmfooEIihUconn8PrB1odiIGDkMW8sbol0tg8GeLQQcPE6Z+XoaxdiaSDNI1K3vF8Iu5CnGnllNlX0RvLwUfl7VuTxzCICx6YITYtmmwv8SDHw6hdFLAbAbxw5nPIjd/jQd852M8eBf2qT7K870=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727942416; c=relaxed/simple;
-	bh=YoAvCVp4HtIMRiHkCzZhf/KFXZd0NkaR4FoWZ9wm1Po=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LkDVPSEdLZwKPjQbCKV3V6J51lBxQxGSPIANjYUPjs7lcZnjSrzRpnLIYRcmcAYJ16ErN14WeQrDl7GptZIb/bM4SbekYQn60hj3r9yuP6rWim5Za4pfuqVsjtxQGdO+pon352hjGlUA1Dxtq1XQSyoBbH4EDoGCsQY5qhUfUvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WEmtEx+t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1727942925; c=relaxed/simple;
+	bh=e5W2aYSP1MKqfdbHXFkLuzX4Zd/Z/L7WAazVK9xYHEQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DRnsCvI216bcjzRgCm9mOn7Qmfc6Mxf7PJm+L1Wxd+/OKm4zL3sYkTvv2ZEpzhtbd+qjpyT4kGsao/hfj5sJUlsj87SaOd6HZUzQ6Zn5Eswt3I5HwdsS1FOctxcu7uGDCM8Kbf0IcFqB77DUoFAyqM1MgoaQMZFlCQ4Y34imfVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqfZFW6E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WEmtEx+t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815EEC4CEC7;
-	Thu,  3 Oct 2024 08:00:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqfZFW6E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D226C4CEC7;
+	Thu,  3 Oct 2024 08:08:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727942416;
-	bh=YoAvCVp4HtIMRiHkCzZhf/KFXZd0NkaR4FoWZ9wm1Po=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WEmtEx+tFS5bHueV3GqjKU3ouGIX0j/NwPqU05yv4EIU5dngKmYcHz23gUbSuab4U
-	 Ls6BkvmMaB2o+pXYQct54xiAMNpMAVlsVY5qas9VD7kE0xs5dY/SWqKOZv9U6fyTpb
-	 /swHNlYHAOgqltAUOlVnOv1rk8ZZRvcFjjlNDYfli0lQcHqn9CgbjjShzNzDxFfVwN
-	 fUPk5YbPzit9Vin97imTFmX5cgEWpLC8wlyfXOlKHqRDKvTOPZg2E7EKsk+G7aQtcm
-	 7d8qOcnJj2Kb7c2yqOgVtz2DkMGWpqi3ecjLlU/I9dsxdMradOLAQUnWTHatVevuW/
-	 /hycbVKGF6a4g==
-Date: Thu, 3 Oct 2024 13:30:12 +0530
+	s=k20201202; t=1727942924;
+	bh=e5W2aYSP1MKqfdbHXFkLuzX4Zd/Z/L7WAazVK9xYHEQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DqfZFW6E8ftGnXrPuTs7A+tykuu7TcfmXmDLQefs4Uc82jjQnHTsLbeOR6TfeyZI7
+	 DEJ1U27tIbAHT+6yHsTDFKIVY0BZXAIoq0PdFQYGYMGlBik8koADz68tu9xEP6QFFM
+	 gcY0YbXFpLs9szVzjOMFlPM6f2XlSTHCIbis7sBiW4oVWlwjob4eBtBd3NtIrfnz/x
+	 vC2Z6NrIukyh8uCiYuv0RZxjY609DDhvdhWQPSI0buiflKsqvLRL8F99Est4FDa4NL
+	 YEqw/Ika+TjAwleXlPraM3J9Jxc6C1KThEkzHE2VJAazf7MkC2XRHVJOaGy0QsYcVf
+	 F59Qq4yfoHU7A==
 From: Vinod Koul <vkoul@kernel.org>
-To: "Liao, Bard" <bard.liao@intel.com>
-Cc: Bard Liao <yung-chuan.liao@linux.intel.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"pierre-louis.bossart@linux.intel.com" <pierre-louis.bossart@linux.intel.com>
-Subject: Re: [PATCH] soundwire: intel_auxdevice: add kernel parameter for
- mclk divider
-Message-ID: <Zv5PDAQjrhfG+78d@vaman>
-References: <20240806083840.24094-1-yung-chuan.liao@linux.intel.com>
- <ZsGhdFm8nYkm5Y5w@vaman>
- <SJ2PR11MB84245A5FAA3672471928C26CFF8C2@SJ2PR11MB8424.namprd11.prod.outlook.com>
+To: broonie@kernel.org, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.dev, 
+ yung-chuan.liao@linux.intel.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
+ venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240924081846.1834612-1-Vijendar.Mukunda@amd.com>
+References: <20240924081846.1834612-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 0/4] refactor amd soundwire manager driver for acp 6.3
+ platform
+Message-Id: <172794292092.250995.1839758557261465524.b4-ty@kernel.org>
+Date: Thu, 03 Oct 2024 13:38:40 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <SJ2PR11MB84245A5FAA3672471928C26CFF8C2@SJ2PR11MB8424.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 19-08-24, 08:13, Liao, Bard wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Vinod Koul <vkoul@kernel.org>
-> > Sent: Sunday, August 18, 2024 3:24 PM
-> > To: Bard Liao <yung-chuan.liao@linux.intel.com>
-> > Cc: linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; pierre-
-> > louis.bossart@linux.intel.com; Liao, Bard <bard.liao@intel.com>
-> > Subject: Re: [PATCH] soundwire: intel_auxdevice: add kernel parameter for
-> > mclk divider
-> > 
-> > On 06-08-24, 16:38, Bard Liao wrote:
-> > > From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> > >
-> > > Add a kernel parameter to work-around discrepancies between hardware
-> > > and platform firmware, it's not unusual to see e.g. 38.4MHz listed in
-> > > _DSD properties as the SoundWire clock source, but the hardware may be
-> > > based on a 19.2 MHz mclk source.
-> > 
-> > I think this should be documented in kernel-parameters.txt?
-> 
-> The parameter is only needed when a BIOS provides a MCLK rate which
-> does not match the actual rate. It is not a normal case and it happens rarely.
-> Is it really necessary to be documented in kernel-parameters.txt?
 
-Yes I think so, all of the parameters are supposed to be documented :-)
+On Tue, 24 Sep 2024 13:48:42 +0530, Vijendar Mukunda wrote:
+> This patch series refactors the amd soundwire manager driver to support
+> acp 6.3 platform based on acp pci revision id.
+> This patch series prepared on top of asoc tree for-next branch.
+> This patch series should be applied at one go.
+> 
+> @Vinod: Please help to review soundwire patches and provide ack-by for
+> this patch series.
+> 
+> [...]
 
+Applied, thanks!
+
+[1/4] soundwire: amd: pass acp pci revision id as resource data
+      commit: ced20ea315fe8591093f19574ec32222c1ab71ba
+[2/4] soundwire: amd: refactor existing code for acp 6.3 platform
+      commit: 7b54323dde29452dd06e6acd2701d9b489c9547d
+[3/4] ASoC: SOF: amd: pass acp_rev as soundwire resource data
+      commit: 1bb50ead592ceaf2b1572c7d08797b8b3229432e
+[4/4] ASoC: amd: ps: pass acp pci revision id as soundwire resource data
+      commit: 425f598ea69713b9e60f08e48a19be56b7bfddbc
+
+Best regards,
 -- 
 ~Vinod
+
+
