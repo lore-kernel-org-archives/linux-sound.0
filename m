@@ -1,86 +1,139 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C30145B24;
-	Thu,  3 Oct 2024 12:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6421547DC
+	for <linux-sound@vger.kernel.org>; Thu,  3 Oct 2024 13:58:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727958034; cv=none; b=WtPuKm2zOaqzczCWKqsjcTsydLXIisT+qUEt8hSQmEM+x2HD0YHRHLGpxfFmnXG6fEs1/pzAQ53nh5+QON5oBzJXqwdwdKI2dNxPBa7yZ7oYEW8a4AiHWiCeQPCKb/RDZuQyTCT/wElWtr9C6rXZDDE3jAv8HbQ9sTdT4gWHUrE=
+	t=1727963901; cv=none; b=NVCx0j6uzNYTyEH7SRrlAmwjyzaGsD9KXUAZcg7NGllS40O8+HsDC1Hbu++cslOe1key0ynMbQjGiFPkcD9EmnBUDjztx5GhXC9bCgXnOyh6Amu5iMeTc4hf6VScPORpA+tQqZ16jjNRwkdr7nmeH0SQ+myUQ5FGB0aIj+8/FeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727958034; c=relaxed/simple;
-	bh=mXo/Y+0M6ZvpsQyuy5w66zUhARgNZ+kp7VwSuWRG4tE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qmg0DnXZGOOiuM7qZv4KwmJCf+LUOjkb8rluDd2n+3VSZMPuTOJu8aXXE9LgOJUfXPqanvXxQtOUNxynpS8XmvZ3PXfn2Bjt/i581XNIIgilew0g4kP8YWtRSFAj6lnmfiJzH6KSz884Cx2WLSQCo7wnog8M4ZfglAjU2czD7V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PPUl49i+; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1727963901; c=relaxed/simple;
+	bh=NNK5nawUYUB8YT90fpu+4B4IFymWPgmsYNzOIoaFRWo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tJXb3/urubI32pKdFl7X4nGLRQF6boyPnD/xhjGrhzOv/Gy93BkXaR71m1l3328/x1t7RvOT2bThXwAHfNi8ywNcsDYK7EuXiN6U5qbVlVLK0+mC2npBx/kPQ5NENO1+FybM6DI1TSq+WdbItOfofH8jPPEwv1P+jeWr3M2H8Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uhPY5Xmp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4qSOnHl4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=uhPY5Xmp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4qSOnHl4; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PPUl49i+"
-Received: by mail.gandi.net (Postfix) with ESMTPA id BAF6CFF806;
-	Thu,  3 Oct 2024 12:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727958026;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=raONT/HDAF820rUPmdb9npjFE1C+hNrjJMaVhiZEuHE=;
-	b=PPUl49i+7NL/QVvzTkv5oQjcPgshOGCSDxQagvw3DTLFvBv82BV+k54uuDBe9nbRcNXo2d
-	hisqysF1sOJjfB89Oc06laVvprUi+zQ79MssBxBh5mQ95tYjNmTXtSRI2LSGiwE2oDhkW/
-	kdxFYqYpzmsONGgzRKnNrlR5ybMbODq+1SpX1BcnXyG3QXee8h7Gy39CnJei4w4rKCveu7
-	B2ND3URuDcfprMIGXuInRg80a4qcyDX+lCy9a08x5h9ZpiMe4+s5xk6QFAE50luGV2nr91
-	jIkuY4AWaqvKiAjfZjvQKYJY83t53WvcWSXZqpyzERxATdI67lRGvzX9s5IIcQ==
-From: Herve Codina <herve.codina@bootlin.com>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH] ASoC: fsl: fsl_qmc_audio: Remove the logging when parsing channels
-Date: Thu,  3 Oct 2024 14:20:15 +0200
-Message-ID: <20241003122015.677681-1-herve.codina@bootlin.com>
-X-Mailer: git-send-email 2.46.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uhPY5Xmp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4qSOnHl4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="uhPY5Xmp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4qSOnHl4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A49791FB60;
+	Thu,  3 Oct 2024 13:58:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727963890; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l801UzA69RykpxKHSOzKjZOM2rWVDS+j18vBoTmeDVk=;
+	b=uhPY5XmpdCzuq2V360/O+uiLucGy8COhs5NKrg6Cm1MXL5IXbtEaFdY2fOvbQ+ZgpBXYfV
+	osfyvQVQjh+4+Io+FoaAWtROIWq5OtTRGAFfnrmDP/mhKpgTRtXS+EYNt9o1NAZ+NrDFH+
+	kXDCffpWuccp9iHIBqvPoNhgsbwUHeY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727963890;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l801UzA69RykpxKHSOzKjZOM2rWVDS+j18vBoTmeDVk=;
+	b=4qSOnHl4c2DySmk4mjkPbUt+ymdcJGrVYRQF18ueZNrVimxNQkjLRMgLE55ATzuR4e2Hvk
+	pydtWsjGxcuBWNCg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=uhPY5Xmp;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4qSOnHl4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727963890; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l801UzA69RykpxKHSOzKjZOM2rWVDS+j18vBoTmeDVk=;
+	b=uhPY5XmpdCzuq2V360/O+uiLucGy8COhs5NKrg6Cm1MXL5IXbtEaFdY2fOvbQ+ZgpBXYfV
+	osfyvQVQjh+4+Io+FoaAWtROIWq5OtTRGAFfnrmDP/mhKpgTRtXS+EYNt9o1NAZ+NrDFH+
+	kXDCffpWuccp9iHIBqvPoNhgsbwUHeY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727963890;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l801UzA69RykpxKHSOzKjZOM2rWVDS+j18vBoTmeDVk=;
+	b=4qSOnHl4c2DySmk4mjkPbUt+ymdcJGrVYRQF18ueZNrVimxNQkjLRMgLE55ATzuR4e2Hvk
+	pydtWsjGxcuBWNCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7D02013882;
+	Thu,  3 Oct 2024 13:58:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id BNpMHfKi/mY7RAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Oct 2024 13:58:10 +0000
+Date: Thu, 03 Oct 2024 15:59:04 +0200
+Message-ID: <874j5tnv87.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Hans Peter Moller Ebner <hmoller@uc.cl>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"perex@perex.cz" <perex@perex.cz>
+Subject: Re: [PATCH] ALSA: line6: add hw monitor volume control to POD HD500X
+In-Reply-To: <DM6PR11MB3066E77893D89953CE26E242B0712@DM6PR11MB3066.namprd11.prod.outlook.com>
+References: <DM6PR11MB3066E77893D89953CE26E242B0712@DM6PR11MB3066.namprd11.prod.outlook.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: herve.codina@bootlin.com
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: A49791FB60
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On each channel parsing, a log message is issued. This log message is
-not needed and become annoying when many channels are used (up to 64
-channel supported).
+On Thu, 03 Oct 2024 13:14:39 +0200,
+Hans Peter Moller Ebner wrote:
+> 
+> Add hw monitor volume control for POD HD500X. This is done adding
+> LINE6_CAP_HWMON_CTL to the capabilities
+> 
+> Signed-off-by: Hans P. Moller <hmoller@uc.cl>
 
-Simply remove this unneeded log message.
+The patch is unfortunately not applicable cleanly, since your mailer
+likely broke spaces and tabs.  Could you try to correct the mailer
+setup and resubmit (at best via git-send-email)?
 
-Signed-off-by: Herve Codina <herve.codina@bootlin.com>
----
- sound/soc/fsl/fsl_qmc_audio.c | 2 --
- 1 file changed, 2 deletions(-)
+Maybe you can try to submit to yourself and test applying it in your
+side before submitting to ML, too.
 
-diff --git a/sound/soc/fsl/fsl_qmc_audio.c b/sound/soc/fsl/fsl_qmc_audio.c
-index 8668abd35208..e257b8adafe0 100644
---- a/sound/soc/fsl/fsl_qmc_audio.c
-+++ b/sound/soc/fsl/fsl_qmc_audio.c
-@@ -838,8 +838,6 @@ static int qmc_audio_dai_parse(struct qmc_audio *qmc_audio, struct device_node *
- 				qmc_dai->id, i, ret);
- 			return ret;
- 		}
--		dev_info(qmc_audio->dev, "dai %d QMC channel %d mode %d, nb_tx_ts %u, nb_rx_ts %u\n",
--			 qmc_dai->id, i, info.mode, info.nb_tx_ts, info.nb_rx_ts);
- 
- 		if (info.mode != QMC_TRANSPARENT) {
- 			dev_err(qmc_audio->dev, "dai %d QMC chan %d mode %d is not QMC_TRANSPARENT\n",
--- 
-2.46.1
 
+thanks,
+
+Takashi
