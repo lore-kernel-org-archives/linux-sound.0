@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F620136657;
-	Thu,  3 Oct 2024 08:08:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B983E13B780;
+	Thu,  3 Oct 2024 08:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727942925; cv=none; b=b0T2D3McWSuRmJvZs3x0VQnQAmfooEIihUconn8PrB1odiIGDkMW8sbol0tg8GeLQQcPE6Z+XoaxdiaSDNI1K3vF8Iu5CnGnllNlX0RvLwUfl7VuTxzCICx6YITYtmmwv8SDHw6hdFLAbAbxw5nPIjd/jQd852M8eBf2qT7K870=
+	t=1727942929; cv=none; b=u5UcpJAo7d1k1ei9A2NIPvTunfIxCL+cUgF0BmKuiqceNI6qhpkAi0SsUg7CDUd3tG2KXMAQ+YOxfQrpqPqm+4zU8XSIm0jNKMH5ssJIKfJm5ltWkCMBQtLs6id6pWRgjUSFGksa1Y5qeq2Rntr0zOmxdq0yJMoCWFDmzmB5kcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727942925; c=relaxed/simple;
-	bh=e5W2aYSP1MKqfdbHXFkLuzX4Zd/Z/L7WAazVK9xYHEQ=;
+	s=arc-20240116; t=1727942929; c=relaxed/simple;
+	bh=JQSc4Gy74IYsv6b5rvwlAPl/JwX6/yk84vSqYveWEuc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=DRnsCvI216bcjzRgCm9mOn7Qmfc6Mxf7PJm+L1Wxd+/OKm4zL3sYkTvv2ZEpzhtbd+qjpyT4kGsao/hfj5sJUlsj87SaOd6HZUzQ6Zn5Eswt3I5HwdsS1FOctxcu7uGDCM8Kbf0IcFqB77DUoFAyqM1MgoaQMZFlCQ4Y34imfVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqfZFW6E; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=LhfO78CKZs5zNmQjmV4TWagwgidEF1rEO5H8JnyWsAgFbZmminlUSRUpgOeQhRogwIFWkYLbDsJcxYb7N52lZKUJemAXbbzw4jSmS3pEF3lOz2KGASNvrljNfT31er4wWEOP0m6OVdHJdrCHg6uYg8zA+1u3v2U8zqxKuhn2VUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H/v78EfN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqfZFW6E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D226C4CEC7;
-	Thu,  3 Oct 2024 08:08:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H/v78EfN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4292C4CECD;
+	Thu,  3 Oct 2024 08:08:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1727942924;
-	bh=e5W2aYSP1MKqfdbHXFkLuzX4Zd/Z/L7WAazVK9xYHEQ=;
+	s=k20201202; t=1727942929;
+	bh=JQSc4Gy74IYsv6b5rvwlAPl/JwX6/yk84vSqYveWEuc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DqfZFW6E8ftGnXrPuTs7A+tykuu7TcfmXmDLQefs4Uc82jjQnHTsLbeOR6TfeyZI7
-	 DEJ1U27tIbAHT+6yHsTDFKIVY0BZXAIoq0PdFQYGYMGlBik8koADz68tu9xEP6QFFM
-	 gcY0YbXFpLs9szVzjOMFlPM6f2XlSTHCIbis7sBiW4oVWlwjob4eBtBd3NtIrfnz/x
-	 vC2Z6NrIukyh8uCiYuv0RZxjY609DDhvdhWQPSI0buiflKsqvLRL8F99Est4FDa4NL
-	 YEqw/Ika+TjAwleXlPraM3J9Jxc6C1KThEkzHE2VJAazf7MkC2XRHVJOaGy0QsYcVf
-	 F59Qq4yfoHU7A==
+	b=H/v78EfNnZjNKail1j5W34O35Pvi5fd2p1HO34lqnFLYUad0XMvpbQrPR87FVLAmW
+	 XQCTAIxqDPOBfe3M26dXntTkZf5c7yK1TRbQCnc84ZvHH6jIuMg43aSNdXHVJG+eUI
+	 6h5vvWrJRofyewIERnXANePLbvSGL1aDIB+xhCNQb5OhVpfzfScrumT+6Jf9cT3PHC
+	 EAdU0lbAU6jZEeKBEbwxyXO7N7HM20dvQKbjjSUjgfEokKwEjCDNz4GYhuzuA0sics
+	 qxksdisDUXeDaRG44/IeCaHomFO/RVOxK1wawrxBG6UHX9nb+2q1htDYrFJVtC7hDS
+	 sbtXNZZodb7aA==
 From: Vinod Koul <vkoul@kernel.org>
-To: broonie@kernel.org, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.dev, 
- yung-chuan.liao@linux.intel.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
- venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240924081846.1834612-1-Vijendar.Mukunda@amd.com>
-References: <20240924081846.1834612-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 0/4] refactor amd soundwire manager driver for acp 6.3
- platform
-Message-Id: <172794292092.250995.1839758557261465524.b4-ty@kernel.org>
-Date: Thu, 03 Oct 2024 13:38:40 +0530
+To: linux-sound@vger.kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ pierre-louis.bossart@linux.dev, bard.liao@intel.com
+In-Reply-To: <20241003070650.62787-1-yung-chuan.liao@linux.intel.com>
+References: <20241003070650.62787-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH v2 RESEND 00/14] soundwire: mipi-disco: add partial
+ SoundWire Disco 2.1
+Message-Id: <172794292755.250995.11138295698068056449.b4-ty@kernel.org>
+Date: Thu, 03 Oct 2024 13:38:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,27 +48,46 @@ Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.13.0
 
 
-On Tue, 24 Sep 2024 13:48:42 +0530, Vijendar Mukunda wrote:
-> This patch series refactors the amd soundwire manager driver to support
-> acp 6.3 platform based on acp pci revision id.
-> This patch series prepared on top of asoc tree for-next branch.
-> This patch series should be applied at one go.
+On Thu, 03 Oct 2024 15:06:36 +0800, Bard Liao wrote:
+> This patch series adds partial support for the SoundWire Disco 2.1.
 > 
-> @Vinod: Please help to review soundwire patches and provide ack-by for
-> this patch series.
+> v2:
+>  - use mipi_device_property_read_bool() to get "mipi-sdw-sdca-interrupt-register-list"
+> 
+> Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 > 
 > [...]
 
 Applied, thanks!
 
-[1/4] soundwire: amd: pass acp pci revision id as resource data
-      commit: ced20ea315fe8591093f19574ec32222c1ab71ba
-[2/4] soundwire: amd: refactor existing code for acp 6.3 platform
-      commit: 7b54323dde29452dd06e6acd2701d9b489c9547d
-[3/4] ASoC: SOF: amd: pass acp_rev as soundwire resource data
-      commit: 1bb50ead592ceaf2b1572c7d08797b8b3229432e
-[4/4] ASoC: amd: ps: pass acp pci revision id as soundwire resource data
-      commit: 425f598ea69713b9e60f08e48a19be56b7bfddbc
+[01/14] soundwire: mipi_disco: add MIPI-specific property_read_bool() helpers
+        commit: 093227bc53a023991ba04315f42839a22b613113
+[02/14] soundwire: optimize sdw_stream_runtime memory layout
+        commit: 444d6824a4feca142b0a57095a2f1f1bda98e2ab
+[03/14] soundwire: optimize sdw_master_prop
+        commit: 6cb2c156439430a7f9db2e1f71a7dccf1ca978bf
+[04/14] soundwire: optimize sdw_bus structure
+        commit: 0a323dad1c4e04048988cd04c60eaffd6ae61b1a
+[05/14] soundwire: optimize sdw_slave_prop
+        commit: 1c758df5a83ea0c9b5055536336d8a586b5010b0
+[06/14] soundwire: optimize sdw_dp0_prop
+        commit: 557e28f8b53243097162cf4d3e59bcee9fb9713b
+[07/14] soundwire: optimize sdw_dpn_prop
+        commit: 9942f90bdcc035eb5f01d7343dac99bd805ef3ec
+[08/14] soundwire: mipi-disco: remove DPn audio-modes
+        commit: 1ae4aa59d79399be0591c8d78c44e280406e2c34
+[09/14] soundwire: mipi-disco: add error handling for property array read
+        commit: a489afc105ed55f7537fb158e40d083ee57a698b
+[10/14] soundwire: mipi_disco: add support for clock-scales property
+        commit: 89e95be18de16ed4942bb77b639118abcd085ce4
+[11/14] soundwire: mipi-disco: add support for peripheral channelprepare timeout
+        commit: 4b230967c5506b1e55d4fd37722d87fb7aaa1ce7
+[12/14] soundwire: mipi-disco: add comment on DP0-supported property
+        commit: 1ab88b57bbc2196545a510679e01b1f26158c39b
+[13/14] soundwire: mipi-disco: add new properties from 2.0 spec
+        commit: 543bd28a3bfeff31f748ba83348b63313dd37ff9
+[14/14] soundwire: mipi-disco: add support for DP0/DPn 'lane-list' property
+        commit: 71b405b184449fffcb76ea0814104b71dfdb2aee
 
 Best regards,
 -- 
