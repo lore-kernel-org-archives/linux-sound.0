@@ -1,181 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A80014F121;
-	Thu,  3 Oct 2024 07:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB451C32;
+	Thu,  3 Oct 2024 07:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727939279; cv=none; b=GBcniyuFryfY2GMKU8XoN340W6WOU7pjWuqQ8BwMG/Hey4Riirsiym3CMvx+p2KMgUeEHoxJZ4n9qE/9zH7xdhmOS3FWkv9ThGJ52g4Kf0VerNo2EUFvArsARiIAKWFn+PfCUoBudwHWKuuPbShutri/zlXvvcagsTelORwJWqo=
+	t=1727939839; cv=none; b=H6AX5Ru1x4wo4+6sxOT55b7Lv5KBv/ZPKfOe3a1hugSsjGG9KYORVl/DnRxfgSlEoORV0skmi82tpQLuPAZPwNrDOrQeGzfVHLiwYgRt8VzkIYy4p5nQ7pNJWG2+kbJW0augUywONUwAu3mceWro1g0yswz1o3Y3Mz68ZtxwyQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727939279; c=relaxed/simple;
-	bh=awf+jdv0Kcu1kulfBFzwxSCd1Qw1p3qofzbE26Kc4ow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RsK/PIrfXry9UYuzCR0o/ZPRVGFoosSZVpNAsOZM3qPk9wMGozpzEu1+YG2dFms0qwSJ250JZ1ITea6cQ6EjqCICNvrcrbVsi/tf5o05xoN/eYglmv6+dxM6hOqAo0RCChzpSyoT88ouiJ+ycVX159po5hyEg6Tw0R7W9iPyKoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gg5+XHlq; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1727939839; c=relaxed/simple;
+	bh=nJY+p0sPTrxFeABVUAyF8jxM4uABIjpT6dJnDTXGMeo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i5498CYBF8JT0MR13Ac3fYMCU1hzwpDS4eloCzgbYs/WYIp1+0XZcg13aO1rxTU+COnjHi3NS2biLgjTNekmxgxH/GpgBMNtsJdQr01lqz8fOUBPyDiSRbwY1OgEzzB06ueQy1raTxgQoZyf1zR16gKw9lz657B30NX6YIYRowE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W1omWeUJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=JDHfBCfU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=aEgMcRKI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rBv+hemK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gg5+XHlq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727939279; x=1759475279;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=awf+jdv0Kcu1kulfBFzwxSCd1Qw1p3qofzbE26Kc4ow=;
-  b=Gg5+XHlq+oGHgTyhwGrelREUkaFwf/XShxgDRXFrU5NPd32gN0hQKwN7
-   Lpdm3tGgn3OkYZqt4flHdjy9/kAkymLaRd5f9xJZPMQUnIfWDF33waZ6b
-   o/uFr7Vz/4swCkJTO74XfyVB3OTWnFLrWjkEnRp7zgQ+/GiL5Xli9gzNZ
-   yRdO6w1mMktYb6SI72e7TZDzK8zPuz6xIUOFEmNsfDdtraQ6C11VTJ4Zx
-   lNpE33IaWgydPJVOUlfN4SkatGk368BSuU/RIdMlFw5T4Qqbf76zY5D14
-   X8bdv7itBD6CvPjMh/8lv3UXuyx9c0XOY5joreCLPD8qK3DXkwaU0aeol
-   g==;
-X-CSE-ConnectionGUID: 9gJYFQf5Rsm6CLb8DRKdBg==
-X-CSE-MsgGUID: L44CRLEmTLSDdze+Thq4/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27070815"
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="27070815"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 00:07:58 -0700
-X-CSE-ConnectionGUID: pCJTjvbVQJ+bPD/hTIr/8w==
-X-CSE-MsgGUID: 9v+vI98uTTK/S/YePIIn5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,173,1725346800"; 
-   d="scan'208";a="74508433"
-Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.10])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 00:07:55 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH v2 RESEND 14/14] soundwire: mipi-disco: add support for DP0/DPn 'lane-list' property
-Date: Thu,  3 Oct 2024 15:06:50 +0800
-Message-ID: <20241003070650.62787-15-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241003070650.62787-1-yung-chuan.liao@linux.intel.com>
-References: <20241003070650.62787-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W1omWeUJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JDHfBCfU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="aEgMcRKI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rBv+hemK"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 25C8E21BA5;
+	Thu,  3 Oct 2024 07:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727939830; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62SBnhpEg+jfSGYnvnpjof1XUtMNKEtZvykM1CcBB+k=;
+	b=W1omWeUJPaoOjWSQMk5qrlGBbWYop9AF6R4ykeJtfy1qTOSV9k3Ev0FqRnPuDplSqIB/JK
+	OgxZyz2an7ALw+D6rOdXg/sgGm1UUIJKJe7wTKZsE2DQVFLHm35XuORmiunz6SjLiKczRo
+	Icvy3ZcsoqGdl+LMZ6lhVzzFZHTjrys=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727939830;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62SBnhpEg+jfSGYnvnpjof1XUtMNKEtZvykM1CcBB+k=;
+	b=JDHfBCfU13rGGpOtGK7Ft8j6IMtAtf8gvQ8V060399Qq/P1w7i+zDUqX1D2azl4EETmv/o
+	LKy1I+nnANdWSyBw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=aEgMcRKI;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rBv+hemK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1727939829; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62SBnhpEg+jfSGYnvnpjof1XUtMNKEtZvykM1CcBB+k=;
+	b=aEgMcRKIY2YnFVniSLZejsj2rIsGgRRXfTpJ8GV/UoLdWP9lzPLwkl2utFMiiX0UdvoNri
+	Nx36jydYT/D8P5DOjVeaFn4fRHTXIJQKZlbxUaVGN9hVUD9ukFJ1IEr09CT7q7q/RildHv
+	1qHO/WKmYHM8PnlIdt3ug0uLpSTScps=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1727939829;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=62SBnhpEg+jfSGYnvnpjof1XUtMNKEtZvykM1CcBB+k=;
+	b=rBv+hemKpkQcx4+OLbd1FPfiG+ZxTau02xj39JwGQ6lxTqkxLY5e9+jfnpd6cCr6/Rst6I
+	MDfOZkCkIUiB3MCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E7F32139CE;
+	Thu,  3 Oct 2024 07:17:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UA0KN/RE/mZQRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 03 Oct 2024 07:17:08 +0000
+Date: Thu, 03 Oct 2024 09:18:02 +0200
+Message-ID: <87zfnlk639.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Linux Sound ML <linux-sound@vger.kernel.org>,	Takashi Iwai
+ <tiwai@suse.de>,	stable@vger.kernel.org,	=?ISO-8859-1?Q?Barnab=E1s_?=
+ =?ISO-8859-2?Q?P=F5cze?= <pobrn@protonmail.com>
+Subject: Re: [PATCH] ALSA: core: add isascii() check to card ID generator
+In-Reply-To: <20241002194649.1944696-1-perex@perex.cz>
+References: <20241002194649.1944696-1-perex@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 25C8E21BA5
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,protonmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+On Wed, 02 Oct 2024 21:46:49 +0200,
+Jaroslav Kysela wrote:
+> 
+> The card identifier should contain only safe ASCII characters. The isalnum()
+> returns true also for characters for non-ASCII characters.
+> 
+> Buglink: https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/4135
+> Link: https://lore.kernel.org/linux-sound/yk3WTvKkwheOon_LzZlJ43PPInz6byYfBzpKkbasww1yzuiMRqn7n6Y8vZcXB-xwFCu_vb8hoNjv7DTNwH5TWjpEuiVsyn9HPCEXqwF4120=@protonmail.com/
+> Cc: stable@vger.kernel.org
+> Reported-by: Barnabás Põcze <pobrn@protonmail.com>
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 
-The SoundWire specification did not clearly require that ports could
-use all Lanes. Some SoundWire/SDCA peripheral adopters added
-restrictions on which lanes can be used by what port, and the DisCo
-for SoundWire 2.1 specification added a 'lane-list' property to model
-this hardware limitation.
+Applied now.  Thanks.
 
-When not specified, the ports can use all Lanes. Otherwise, the
-'lane-list' indicates which Lanes can be used, sorted by order of
-preference (most-preferred-first).
 
-This patch only reads the properties, the use of this property will
-come at a later time with multi-lane support.
-
-Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- drivers/soundwire/mipi_disco.c | 32 ++++++++++++++++++++++++++++++++
- include/linux/soundwire/sdw.h  |  8 ++++++++
- 2 files changed, 40 insertions(+)
-
-diff --git a/drivers/soundwire/mipi_disco.c b/drivers/soundwire/mipi_disco.c
-index 36e734751225..9d59f486edbe 100644
---- a/drivers/soundwire/mipi_disco.c
-+++ b/drivers/soundwire/mipi_disco.c
-@@ -197,6 +197,22 @@ static int sdw_slave_read_dp0(struct sdw_slave *slave,
- 	dp0->imp_def_interrupts = mipi_fwnode_property_read_bool(port,
- 				"mipi-sdw-imp-def-dp0-interrupts-supported");
- 
-+	nval = fwnode_property_count_u32(port, "mipi-sdw-lane-list");
-+	if (nval > 0) {
-+		dp0->num_lanes = nval;
-+		dp0->lane_list = devm_kcalloc(&slave->dev,
-+					      dp0->num_lanes, sizeof(*dp0->lane_list),
-+					      GFP_KERNEL);
-+		if (!dp0->lane_list)
-+			return -ENOMEM;
-+
-+		ret = fwnode_property_read_u32_array(port,
-+					       "mipi-sdw-lane-list",
-+					       dp0->lane_list, dp0->num_lanes);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
- 	return 0;
- }
- 
-@@ -326,6 +342,22 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
- 		fwnode_property_read_u32(node, "mipi-sdw-port-encoding-type",
- 					 &dpn[i].port_encoding);
- 
-+		nval = fwnode_property_count_u32(node, "mipi-sdw-lane-list");
-+		if (nval > 0) {
-+			dpn[i].num_lanes = nval;
-+			dpn[i].lane_list = devm_kcalloc(&slave->dev,
-+							dpn[i].num_lanes, sizeof(*dpn[i].lane_list),
-+							GFP_KERNEL);
-+			if (!dpn[i].lane_list)
-+				return -ENOMEM;
-+
-+			ret = fwnode_property_read_u32_array(node,
-+						       "mipi-sdw-lane-list",
-+						       dpn[i].lane_list, dpn[i].num_lanes);
-+			if (ret < 0)
-+				return ret;
-+		}
-+
- 		fwnode_handle_put(node);
- 
- 		i++;
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index 952514f044f0..73f655334fe9 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -238,6 +238,8 @@ enum sdw_clk_stop_mode {
-  * @simple_ch_prep_sm: If channel prepare sequence is required
-  * @imp_def_interrupts: If set, each bit corresponds to support for
-  * implementation-defined interrupts
-+ * @num_lanes: array size of @lane_list
-+ * @lane_list: indicates which Lanes can be used by DP0
-  *
-  * The wordlengths are specified by Spec as max, min AND number of
-  * discrete values, implementation can define based on the wordlengths they
-@@ -252,6 +254,8 @@ struct sdw_dp0_prop {
- 	bool BRA_flow_controlled;
- 	bool simple_ch_prep_sm;
- 	bool imp_def_interrupts;
-+	int num_lanes;
-+	u32 *lane_list;
- };
- 
- /**
-@@ -275,6 +279,8 @@ struct sdw_dp0_prop {
-  * @num_ch_combinations: Number of channel combinations supported
-  * @channels: Discrete channels supported
-  * @ch_combinations: Channel combinations supported
-+ * @lane_list: indicates which Lanes can be used by DPn
-+ * @num_lanes: array size of @lane_list
-  * @modes: SDW mode supported
-  * @max_async_buffer: Number of samples that this port can buffer in
-  * asynchronous modes
-@@ -300,6 +306,8 @@ struct sdw_dpn_prop {
- 	u32 num_ch_combinations;
- 	u32 *channels;
- 	u32 *ch_combinations;
-+	u32 *lane_list;
-+	int num_lanes;
- 	u32 modes;
- 	u32 max_async_buffer;
- 	u32 port_encoding;
--- 
-2.43.0
-
+Takashi
