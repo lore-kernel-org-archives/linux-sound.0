@@ -1,136 +1,113 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533DF84A39
-	for <linux-sound@vger.kernel.org>; Thu,  3 Oct 2024 07:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 161478F5C
+	for <linux-sound@vger.kernel.org>; Thu,  3 Oct 2024 07:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727940215; cv=none; b=fV+dWA0qpg3jaWNGRj/CjAFehTnH3JiRiEwnHvEfyfRf4Y8hMEHYVUT38Ucxmi8V3WzAg+2OqOMmyy9SzLdweulLB/THWmxOrJt3kglgtmLTzARlvM8zP+Ikvegio0NpZ+wKLud9QL1rRedYIBDpozVZVVRoErAqzxZwYjs+w0Q=
+	t=1727940714; cv=none; b=jhsBZjh5aRYSYv1R81pyUKZvIpR5p0Znfibq+ctL21Qocb5vATKgo1MBTPLHmSo7Xfp+jNQRIuksXyEy1ds8t5Rw0xDslyYzzXv/vEnK1ZFxxOOqVJm4c56xbKj6czzx4uiexHc8Q6vQzbs5wYnSNdClyEO2X4e9aQxL9o3lytw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727940215; c=relaxed/simple;
-	bh=+AR7p4a9tZykmRl4b/T93PhH4SEr43dTI1XSm/MzUjc=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=uMkDcuC8soThMQDIsy3R87rChJps6owuATOO5+7hR/2XXQLdMXWsAGFWNRntUWTaBKgJF85IUJF/A+ftgP5Z5ecoun9u6+ogeW8LWS0SHU3wgAM9shbeUKRqrR+XyssKu7+wut6+AaxhJ8ILHC6AJvVd4NPgKhSYHy5/mvauv4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVRgRzzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EqJsAgZ8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XVRgRzzV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EqJsAgZ8; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1727940714; c=relaxed/simple;
+	bh=sKXwBQUygGRz7AFSmEwLPg10jXQDQpo9MiVZi/yAIY4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=iBHS+LJSmPM/HE482PfWCiUDFFW5eMxAeLsl03C8a2QbE3sCGRBNPOD+YdTGpFHVY1O4kLO3QfjlXMIi0IbL8hDQxKiHgFnk9l5Jbf232FKm2hOVN0Gux0d08avaPVliWAnvmR2PAhZIAf4LF0LJxoZgvvaUSycAfCvAxxo9ouY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=kYkBM7jd; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVRgRzzV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EqJsAgZ8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XVRgRzzV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EqJsAgZ8"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="kYkBM7jd"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C98D14488;
+	Thu,  3 Oct 2024 09:31:46 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C98D14488
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1727940706; bh=IeHnpBPFvhLvYo0S0SYPqMmF++urf2uo9vjXhbKAakA=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=kYkBM7jdsg80/bAI9P137vUpWYkL26ItBCEm0zgXwJNsuMHqiWAiI6xmOGZEaKgRM
+	 6kHXWmA+nM/NUql6w37WpG3pqeF/4Z0Rn8/QVtlrxXfjgTdoVbEGyZn/N2OEEwcUqH
+	 KSE46UUdrq7x23W0rO3Bo7b+6YhhrAeLn2GAcK6o=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2312F21B93;
-	Thu,  3 Oct 2024 07:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727940209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
-	b=XVRgRzzVGEujVng9szrD/Uq9X9ZgWPDJgD4bsOYWCrwjMd0PU/kHrFMkThvMx/wgBowvLo
-	SvxMe9z+pKf58sMtDLygx8TPSQsC6GtwaQiFquPYpcvN4LUTihdAw5GrI9dHNUHXxYUow5
-	lYqbcVtHL2wXxchmWIyR+krHw9POsaw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727940209;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
-	b=EqJsAgZ8YZzG9KwX8qY46UIxCKDjQ4pFkT4QLUpTaOWe+sets2H7edgpt3Aef0QGx4lcT1
-	cSVz4uwcpc5ouSCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XVRgRzzV;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EqJsAgZ8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1727940209; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
-	b=XVRgRzzVGEujVng9szrD/Uq9X9ZgWPDJgD4bsOYWCrwjMd0PU/kHrFMkThvMx/wgBowvLo
-	SvxMe9z+pKf58sMtDLygx8TPSQsC6GtwaQiFquPYpcvN4LUTihdAw5GrI9dHNUHXxYUow5
-	lYqbcVtHL2wXxchmWIyR+krHw9POsaw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1727940209;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=PPpg9p6KyyXCtCfK3II7ueO1TORUlFMRxz47/ipnMgY=;
-	b=EqJsAgZ8YZzG9KwX8qY46UIxCKDjQ4pFkT4QLUpTaOWe+sets2H7edgpt3Aef0QGx4lcT1
-	cSVz4uwcpc5ouSCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04D1B139CE;
-	Thu,  3 Oct 2024 07:23:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GE3eOnBG/mb/RQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 03 Oct 2024 07:23:28 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Add missing parameter description for snd_hdac_stream_timecounter_init()
-Date: Thu,  3 Oct 2024 09:24:18 +0200
-Message-ID: <20241003072420.8932-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu,  3 Oct 2024 09:31:44 +0200 (CEST)
+Message-ID: <cc9061f2-d9b5-42e2-a0fc-b04d2192973e@perex.cz>
+Date: Thu, 3 Oct 2024 09:31:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 2312F21B93
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda: Add missing parameter description for
+ snd_hdac_stream_timecounter_init()
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20241003072420.8932-1-tiwai@suse.de>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20241003072420.8932-1-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the missing description for the new parameter "start" of
-snd_hdac_stream_timecounter_init() in the previous patch.
+On 03. 10. 24 9:24, Takashi Iwai wrote:
+> Add the missing description for the new parameter "start" of
+> snd_hdac_stream_timecounter_init() in the previous patch.
+> 
+> Fixes: df5215618fbe ("ALSA: hda: fix trigger_tstamp_latched")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202410031300.ecLmATNd-lkp@intel.com/
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
 
-Fixes: df5215618fbe ("ALSA: hda: fix trigger_tstamp_latched")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202410031300.ecLmATNd-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/hda/hdac_stream.c | 1 +
- 1 file changed, 1 insertion(+)
+Sorry for this overlook.
 
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 0411a8fe9d6f..2670792f43b4 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -657,6 +657,7 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
-  * snd_hdac_stream_timecounter_init - initialize time counter
-  * @azx_dev: HD-audio core stream (master stream)
-  * @streams: bit flags of streams to set up
-+ * @start: true for PCM trigger start, false for other cases
-  *
-  * Initializes the time counter of streams marked by the bit flags (each
-  * bit corresponds to the stream index).
+Reviewed-by: Jaroslav Kysela <perex@perex.cz>
+
 -- 
-2.43.0
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
