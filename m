@@ -1,49 +1,57 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EEC13B280;
-	Thu,  3 Oct 2024 08:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A4F13211C;
+	Thu,  3 Oct 2024 09:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727944576; cv=none; b=Ctr0smyJjLXLABUEdjvKVGl5km35D6bJfmuWRi/2qdwp7SEsHctEOKnzYwcNEOMjRz65bG845RNj/UrPhIvcVtXDUXtCm171PtKUdzLwlv/6yjVjoDzN9A3TLjulHTC+MYmjXQtVPJRspNbQT/FKG/ZW1AF4IkgWQSS+NPS9S+s=
+	t=1727948923; cv=none; b=ZitUh3CG/n0GlAIji4/YCmwLwywe0ti6CGXc94JVBoxB+CC1y9HSdpfe79fv6CYt+3kEYAphByy2Y4Ojc1+wg/W8h2Nf/JVG7QqYbPV09oJIMEBpQ5AGXEsSdEmI3h1+7UEqhA+Od67vQl2XQAb45GFlWPlJDFbnMxVmZ20oZCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727944576; c=relaxed/simple;
-	bh=aFhHoczV0rMWeh+VcHeNazYdIGsQ9DwYb7Mz6aNO70I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DsX3mpcupYQBTtimtFvIU5qKBNi5iFv+7geFETGpaMWHMw513pc5gUNcqaAfypkKwRbxbBQgCG4qdf0b3aGh2UYpTqEUWzaBD+5k+FnPULm3mHR0gecyOmoC3y4x/R7zbihLOmSXgZodaS4H8J5+aZl0vnfjTAizLLAvOF3PAkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=b2kb5dVf; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1727948923; c=relaxed/simple;
+	bh=9yRti53di49PLCNBZ7VmGsLC9c5SyiDzMBYw6RkzpMs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aBdW0PMFi0eFriOp/A5/qIr7RPg0OTByN5Y6BLu73q5RiG6bNm1txbbwA35G6ML86hq2hKvq4nvIwVg2tVRv4wxpPXGlHGNWwzYaE2YEcgA0tlGJTjbpepO4W5gmqyhCWNs8teBwH/EO1xa+KWEZGntRD+AbENu4DoKR1wPYP5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2CzSQ1z; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="b2kb5dVf"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5769FE0009;
-	Thu,  3 Oct 2024 08:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1727944572;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sQ9rph851MPwAwZwNHdKiFp9HyVOi/6POo4Z12r84Ug=;
-	b=b2kb5dVfJ4wTrXp881WOyqsREtea0iLIMGxJqHlw65SNFYfVdOFKQm/uufmr8futTjECFd
-	8CFV/F5pTqt8ZSo8/tSlfqKyE+iUBwscK6SZSscopBAZAhxXDtpQLHZU/OschV8CGWLy4t
-	IzZvUdB4lJ3vwke4kNymA2cQg/GVg6Bj+znq2Wk/gUWciqICGq5tKCmMIojl5utxXCs9TP
-	8BCgYcqpir/TJUxBzpxGZvbMVUDbWVsbK7MHp6kM0xlVfuggkb7U1PalZdEQNUarhYXqU6
-	HFtmMWa5bdMBV67G0zPUWY2jQ76dxGc7wmWzu2/8o7TYj0YI8mzjf7zrxx80Wg==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jayesh Choudhary <j-choudhary@ti.com>,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>
-Subject: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupt properties
-Date: Thu,  3 Oct 2024 10:36:11 +0200
-Message-ID: <20241003083611.461894-1-miquel.raynal@bootlin.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2CzSQ1z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727948922; x=1759484922;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9yRti53di49PLCNBZ7VmGsLC9c5SyiDzMBYw6RkzpMs=;
+  b=f2CzSQ1zbt1XG+OeptLD0cnBG81gG9iYiB7jiH5KdTOvol85jIH1Xrki
+   qTjpeDGf/DkEmTBN2Gqa2mHFKGlKuT4/ZDCb/lqQ3keCPuOty8ZAI7PNC
+   FHgTCTDI4eeVvLzAn3KRTARhYw9fcD5MvgGZ9O5yLsECPTC8ODzQJSj1r
+   WM7RpT+CBRW8lwkcybQU/QGfFOZNTOQlASDRvVSAPYpACemdCAjVQN9Yo
+   ha1YF0Nmcpp9+tCFekgMjmCE2PrjJ9U9pVuvo9CdR4/dK9sYAvc1k3xvY
+   ivbn1E+GLI1lx15ogqgLhuxOLrXOyCUWdpWNtG0R/nzlF71vqy11pSrNy
+   A==;
+X-CSE-ConnectionGUID: /nVuf4GoROSvHJOzdNTs3g==
+X-CSE-MsgGUID: V+HsyZkLRV2l4/8aufpvRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11213"; a="27022059"
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="27022059"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:48:41 -0700
+X-CSE-ConnectionGUID: C92sbyi8TzG+UtnA8AfirQ==
+X-CSE-MsgGUID: V9515bIJQUqmxgpANg3EMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,174,1725346800"; 
+   d="scan'208";a="105065633"
+Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.10])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2024 02:48:38 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 0/2] soundwire: cadence: programming flow corrections
+Date: Thu,  3 Oct 2024 17:48:28 +0800
+Message-ID: <20241003094830.119673-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -53,64 +61,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-Combinations of "tx" alone, "rx" alone and "tx", "rx" together are
-supposedly valid (see link below), which is not the case today as "rx"
-alone is not accepted by the current binding.
+To follow the recommended programming flows.
 
-Let's rework the two interrupt properties to expose all correct
-possibilities.
+Pierre-Louis Bossart (2):
+  soundwire: cadence: add soft-reset on startup
+  soundwire: cadence: clear MCP BLOCK_WAKEUP in init
 
-Cc: Péter Ujfalusi <peter.ujfalusi@gmail.com>
-Link: https://lore.kernel.org/linux-sound/20241003102552.2c11840e@xps-13/T/#m277fce1d49c50d94e071f7890aed472fa2c64052
-Fixes: 8be90641a0bb ("ASoC: dt-bindings: davinci-mcasp: convert McASP bindings to yaml schema")
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
-Hello Mark,
-This patch applies on top of the one you already took, but if you prefer
-you can squash them together, I don't mind.
-Cheers,
-Miquèl
----
- .../bindings/sound/davinci-mcasp-audio.yaml    | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/soundwire/cadence_master.c   | 30 ++++++++++++++++++++++++++++
+ drivers/soundwire/cadence_master.h   |  1 +
+ drivers/soundwire/intel_bus_common.c |  6 ++++++
+ 3 files changed, 37 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-index ab3206ffa4af..beef193aaaeb 100644
---- a/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-+++ b/Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
-@@ -102,21 +102,21 @@ properties:
-     default: 2
- 
-   interrupts:
--    oneOf:
--      - minItems: 1
--        items:
--          - description: TX interrupt
--          - description: RX interrupt
--      - items:
--          - description: common/combined interrupt
-+    minItems: 1
-+    maxItems: 2
- 
-   interrupt-names:
-     oneOf:
--      - minItems: 1
-+      - description: TX interrupt
-+        const: tx
-+      - description: RX interrupt
-+        const: rx
-+      - description: TX and RX interrupts
-         items:
-           - const: tx
-           - const: rx
--      - const: common
-+      - description: Common/combined interrupt
-+        const: common
- 
-   fck_parent:
-     $ref: /schemas/types.yaml#/definitions/string
 -- 
 2.43.0
 
