@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFFF210C3E;
-	Fri,  4 Oct 2024 18:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D348B21E956;
+	Fri,  4 Oct 2024 18:29:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728066467; cv=none; b=iW949F8zTJBeQ1Hw5FcibjWj3zDLsfc6mDMUBr2NhcFbLRAPPc22qmfHp+2wWnndJB8MiAi7nDYWnzPktLqST27VjHYbOJY4GZ/Hc2K0GQrrEYwp1rHr/pCRCR/BnrV3rAHslq+lMX6EfTuUixWtirp8ZFlIxRF9nFl4a9mURc0=
+	t=1728066561; cv=none; b=i3JbIqDyjvxNa4LjhV5QsDnM3sV8gB5lEOGkTEr+zMCgNzCYrmsTcZxI6+250RWaW+QB5alf0Gi58/lsRAZML5lG8LDxlCk/eXt5uqIYYGI4L7gIRc+wrGjhZv3H91ZafMeJiTLKrCKEf61T8mnH2WV11yRjUbYQZqQiHCxZILQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728066467; c=relaxed/simple;
-	bh=4k1pkrZBSnGHWphe0BlwP04nF88bIx0iNz/Aesxi6cw=;
+	s=arc-20240116; t=1728066561; c=relaxed/simple;
+	bh=SPU3eq4TmVNQHC2R9k3ZwP+Wi2EFY+ehnuhy5z5Zzrk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SjExWv1Ux9t7cZall/gAULpz4JL4tjKvSBkkEo3+SJfa7cRVkELB7R+tzRGBSHyNNhRd7U/9+zTZ2cCS6gz1bxYWk9cJR3OnH20peAqLNv2EZz+m2pePngkxgX39+DbBXVoysIt/Pb/24/I5sGRyh/zctHl1tmaWL9DRlfCfJRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GPqR21Qx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=LZ1Dbmj9DOJYpjG7oybiDWK7eJU08xL2tgdFPRKkKczC60SWoIrg5kBZOVprm0OZCqGEPyYlLQbIBCIEy3Rm7INnUb20zHxCXpWxv62EQz3fuJwanuvtWlK9EK01fjXZnonZ6fhtwXSgkHY45D+RKzKuiX3AuM8cgfT1QGYh1GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FfCu+dvF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GPqR21Qx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D2DBC4CECC;
-	Fri,  4 Oct 2024 18:27:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FfCu+dvF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4F90C4CEC6;
+	Fri,  4 Oct 2024 18:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728066467;
-	bh=4k1pkrZBSnGHWphe0BlwP04nF88bIx0iNz/Aesxi6cw=;
+	s=k20201202; t=1728066561;
+	bh=SPU3eq4TmVNQHC2R9k3ZwP+Wi2EFY+ehnuhy5z5Zzrk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GPqR21Qx51Dp02u7eRWA/dvCmDzGkaXElhUJvXUjoWmnwC+AKpkZ6aHCyckiJIUxy
-	 t2Ty0or2G/5Uxyo92M90bLHjE8B14ghvLvujXju9wLZYvcMn8WYzGBlevidlqC64ln
-	 KiFype4kqkgPxwt0kO+reM11rVSRFqfxlFjafaDsAflR5XHua1gAgyFT8CblifWkrK
-	 NNBOLeDhrvO0iW6zj/91oTac+1MfysfOlx1KP/U5b05WmAkr+62tkRaqsWUyxVYz/7
-	 P20TGDLhGA9FNhJW3gGiyzgNyj80S/JD2s7Ie8ZnxMJitUdjzO7RSuu1FXsDhF1zrP
-	 9kCDOf0bOvc1Q==
+	b=FfCu+dvFyo7hEflrX8eqPIlHAnLI2jTwuusBqzzll/kxSp+FJqZGfr/Txg9g1Ir4J
+	 Nnyms6hwXXM75CnS3LYPNC+x5qHSgka43YmQJpu43u6gYCp9TYTTyW8KguzIAMMsmC
+	 fp4aklL8NBi76uD0X6E9BgE+7MreZCgfhy/6vlM5RsVO8IuVFNyzeDlsWuX73yVJKg
+	 c3qIZE44CmpmaxdWdCOUrPdUNPmvwvkOrqIbI1XadDrMYebvyWIVaQYldsxbBrrSl2
+	 +QfZc2XeWp7p9QSav7BX8jJoYN8jUjuE4N2e3yfURyJJWPj+RS7cK1aoyWjZyPHF6T
+	 S2FaPNL7k2+Cw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,19 +37,19 @@ Cc: WangYuli <wangyuli@uniontech.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	pierre-louis.bossart@linux.dev,
-	peter.ujfalusi@linux.intel.com,
-	maarten.lankhorst@linux.intel.com,
 	kai.vehmanen@linux.intel.com,
+	maarten.lankhorst@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
 	rsalvaterra@gmail.com,
 	chaitanya.kumar.borah@intel.com,
 	linux-pci@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 15/42] PCI: Add function 0 DMA alias quirk for Glenfly Arise chip
-Date: Fri,  4 Oct 2024 14:26:26 -0400
-Message-ID: <20241004182718.3673735-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 14/31] PCI: Add function 0 DMA alias quirk for Glenfly Arise chip
+Date: Fri,  4 Oct 2024 14:28:22 -0400
+Message-ID: <20241004182854.3674661-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241004182718.3673735-1-sashal@kernel.org>
-References: <20241004182718.3673735-1-sashal@kernel.org>
+In-Reply-To: <20241004182854.3674661-1-sashal@kernel.org>
+References: <20241004182854.3674661-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -58,7 +58,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.112
+X-stable-base: Linux 5.15.167
 Content-Transfer-Encoding: 8bit
 
 From: WangYuli <wangyuli@uniontech.com>
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 56dce858a6934..7ebce76778f71 100644
+index 4d4267105cd2b..2d648967aa85f 100644
 --- a/drivers/pci/quirks.c
 +++ b/drivers/pci/quirks.c
-@@ -4144,6 +4144,10 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
+@@ -4118,6 +4118,10 @@ static void quirk_dma_func0_alias(struct pci_dev *dev)
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe832, quirk_dma_func0_alias);
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_RICOH, 0xe476, quirk_dma_func0_alias);
  
@@ -97,10 +97,10 @@ index 56dce858a6934..7ebce76778f71 100644
  {
  	if (PCI_FUNC(dev->devfn) != 1)
 diff --git a/include/linux/pci_ids.h b/include/linux/pci_ids.h
-index f680897794fa2..69b8c46a42ea7 100644
+index 66e95df2e6867..d1997eda6b1ad 100644
 --- a/include/linux/pci_ids.h
 +++ b/include/linux/pci_ids.h
-@@ -2638,6 +2638,8 @@
+@@ -2635,6 +2635,8 @@
  #define PCI_DEVICE_ID_DCI_PCCOM8	0x0002
  #define PCI_DEVICE_ID_DCI_PCCOM2	0x0004
  
@@ -110,10 +110,10 @@ index f680897794fa2..69b8c46a42ea7 100644
  #define PCI_DEVICE_ID_INTEL_EESSC	0x0008
  #define PCI_DEVICE_ID_INTEL_PXHD_0	0x0320
 diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index 695026c647e1e..a25e90a9be693 100644
+index dd4d802c9e71c..6913d113bb4ea 100644
 --- a/sound/pci/hda/hda_intel.c
 +++ b/sound/pci/hda/hda_intel.c
-@@ -2756,7 +2756,7 @@ static const struct pci_device_id azx_ids[] = {
+@@ -2715,7 +2715,7 @@ static const struct pci_device_id azx_ids[] = {
  	  .driver_data = AZX_DRIVER_ATIHDMI_NS | AZX_DCAPS_PRESET_ATI_HDMI_NS |
  	  AZX_DCAPS_PM_RUNTIME },
  	/* GLENFLY */
