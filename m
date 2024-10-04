@@ -1,291 +1,165 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D12139D0B;
-	Fri,  4 Oct 2024 09:21:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D09A146A7B;
+	Fri,  4 Oct 2024 09:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728033703; cv=none; b=XN7RoeVZe6d9FTOgbo5fYn9hEPZCrFKO/miNvoQko3rrjQEtgELOl0B2Bz9uS1KwT3LR7fnCrg/A4izoXdBz0RdMq+24V3AxXJdU8pi5edwMNKzwZxwKpIhWFKNMRkshNokw/w2iDbNrtLRu5KPPnPpOoM+aSN28mHShEiN+ZRs=
+	t=1728033939; cv=none; b=V/7DjQd46itL7Qnz3Q44zKXPOLcnlvmETd6jLDYTHJxDy4amxGNTG1AiyDvUKtkC9ixAi4IYhA11lOi6v/1/EcvECwh7RVKmzR03sP5azgWPtdMQMQDkSnFu/sfBHdI86NExnH4NTuPycYPjkTfYU9WwQ+zlWEaLGlt5z31RvZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728033703; c=relaxed/simple;
-	bh=jV1V3+gphJ25WTc+zI9DWTg4rwRV6ZRn/+ZRazf6awo=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=eZkLvkJ67iUW6tjPqx6lqe0KNmGYhIs2AvUeMogRbHuUA5Bgdyu6s8Lne2+c4Br/d/vVW57I0/Xh3gE8ivqQXSqMjPSM4bFYAUCr5ockeGrre97MISlQanf25jbCocY1iD2eypCI9Tx5JzF1sMsJXthVESX6zt0edIqEX8LLePE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1dqG5NQZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A6FZuMMJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1dqG5NQZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=A6FZuMMJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728033939; c=relaxed/simple;
+	bh=645ko5croWnHBkUGstpACowgWBQjdeIjQ+SqtTQUsw8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=RSdZ5XuDya26PmJ9QPsWSM/7wcMWDw1Vfycl5JGZMiY+DBzL9Y7AWlaq1ycOYs+ogy+JZW7HSCV9pTYXckK+y73OKDyn7gM+CliweElkNBwUjDj7bay3J15QfbeCLSbSc8lJ48wIFAHZTBSKCFy7kGHIYPU6XLJyrEVMD+E1jAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de; spf=pass smtp.mailfrom=tuxedo.de; dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b=TRWObgKF; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1dqG5NQZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A6FZuMMJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1dqG5NQZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="A6FZuMMJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 82EB221E79;
-	Fri,  4 Oct 2024 09:21:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728033693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZbRMeOo7+gG7DCshmhHBjxN68K93DcuLR/0DlJkK0L0=;
-	b=1dqG5NQZcZKxIuU1Gre9FMnlWzW7hdxBJTZ5D0SbeQpTjP8EcNXt+PZIUlfjZrFnXMHKec
-	EOOIE7tpzN3d0NRUmkXBx5BrMxs2Hq6i4AZLyJtDYKwQzyFAvYjIakzpTh3LhTmna7E91P
-	KS4sRBC29U/USpaSMulR5IN71jlUneU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728033693;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZbRMeOo7+gG7DCshmhHBjxN68K93DcuLR/0DlJkK0L0=;
-	b=A6FZuMMJ6NI9uJ1GlNbKN6NmyryveoF66hra0Pe7+5Pdg/kcTblG7u3bCsBI6zcgeVbWG3
-	hqSJRMeSqSbY0WCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1dqG5NQZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=A6FZuMMJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728033693; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZbRMeOo7+gG7DCshmhHBjxN68K93DcuLR/0DlJkK0L0=;
-	b=1dqG5NQZcZKxIuU1Gre9FMnlWzW7hdxBJTZ5D0SbeQpTjP8EcNXt+PZIUlfjZrFnXMHKec
-	EOOIE7tpzN3d0NRUmkXBx5BrMxs2Hq6i4AZLyJtDYKwQzyFAvYjIakzpTh3LhTmna7E91P
-	KS4sRBC29U/USpaSMulR5IN71jlUneU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728033693;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZbRMeOo7+gG7DCshmhHBjxN68K93DcuLR/0DlJkK0L0=;
-	b=A6FZuMMJ6NI9uJ1GlNbKN6NmyryveoF66hra0Pe7+5Pdg/kcTblG7u3bCsBI6zcgeVbWG3
-	hqSJRMeSqSbY0WCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 597B713A55;
-	Fri,  4 Oct 2024 09:21:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mYChFJ2z/2Y6CQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 04 Oct 2024 09:21:33 +0000
-Date: Fri, 04 Oct 2024 11:22:27 +0200
-Message-ID: <875xq8mdd8.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.12-rc2
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b="TRWObgKF"
+Received: from mail.tuxedocomputers.com (localhost [IPv6:::1])
+	(Authenticated sender: cs@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id B3B282FC0064;
+	Fri,  4 Oct 2024 11:25:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedo.de; s=default;
+	t=1728033932;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HHHUyfkGOAubihwR899hP5kwPoySVKzIJzeKuYqsakw=;
+	b=TRWObgKF6O1D+Av1P8K05+348lRJOF3M5TS4AanMWZV17D2h8ZTV4qdi3v6vx8sw8yy3NT
+	uFHXHB1JWV1ReyPfYSG0Z5awvfCnpg3qIVT6ocmKKluCiHjztlXx8nOkdFrWGiH65bEYai
+	Oam4zax1jV4pQNP7i7YeIjYiou9d0/gFY7lN7SNuJcB0DL5KqTrawwnI1Y2pESI8J8ieTM
+	QY4cDo8ttdphgQrdIzskFbxiuKOTFxDoD5n4Gy67k5U1i3lxRaiYZeuWOmCpYwdC49DBBB
+	onSsVkFQcJsKiN4aBevu2EK1cRZmxxQTS+NVrw+YGLZoMu5266h3q9FqPLMjqw==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 82EB221E79
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Date: Fri, 04 Oct 2024 11:25:32 +0200
+From: Christoffer Sandberg <cs@tuxedo.de>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jerry Luo <jerryluo225@gmail.com>, christian@heusel.eu,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz,
+ regressions@lists.linux.dev, wse@tuxedocomputers.com
+Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
+In-Reply-To: <87iku8mfzh.wl-tiwai@suse.de>
+References: <87jzfbh5tu.wl-tiwai@suse.de>
+ <ea6e5168-238f-41f5-9600-36b75ed990a1@gmail.com>
+ <87jzetk2l0.wl-tiwai@suse.de> <b38b5947482a5ca4b55e0ddb908c2f34@tuxedo.de>
+ <87seteli51.wl-tiwai@suse.de>
+ <d348ca06-38ca-474f-8673-dff2248331e5@gmail.com>
+ <dbc783cc2608ac63ffd420b1dc3eeaa9@tuxedo.de> <87iku8mfzh.wl-tiwai@suse.de>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <8292a0dccbdcfcaebfb04bd84aa240e6@tuxedo.de>
+X-Sender: cs@tuxedo.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Linus,
 
-please pull sound fixes for v6.12-rc2 from:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc2
+On 4.10.2024 10:25, Takashi Iwai wrote:
+> On Fri, 04 Oct 2024 10:18:10 +0200,
+> Christoffer Sandberg wrote:
+>> 
+>> 
+>> 
+>> On 2.10.2024 23:28, Jerry Luo wrote:
+>> > On 10/2/24 10:00 AM, Takashi Iwai wrote:
+>> >> On Wed, 02 Oct 2024 10:21:22 +0200,
+>> >> Christoffer Sandberg wrote:
+>> >>>
+>> >>>
+>> >>> On 30.9.2024 09:44, Takashi Iwai wrote:
+>> >>>> On Mon, 23 Sep 2024 21:37:42 +0200,
+>> >>>> Jerry Luo wrote:
+>> >>>>>
+>> >>>>> Hi Takashi,
+>> >>>>>
+>> >>>>> On Mon, 16 Sep 2024 19:22:05 +0200,
+>> >>>>>
+>> >>>>> Takashi Iwai wrote:
+>> >>>>>
+>> >>>>>      Could you give alsa-info.sh output from both working and
+>> >>>>> non-working
+>> >>>>>      cases?  Run the script with --no-upload option and attach the
+>> >>>>> outputs.
+>> >>>>>
+>> >>>>>      thanks,
+>> >>>>>
+>> >>>>>      Takashi
+>> >>>>>
+>> >>>>> Issue now reappear, output from alsa-info.sh are attached. If they
+>> >>>>> are still
+>> >>>>> needed.
+>> >>>> Thanks.  The obvious difference seems to be the assignment of two
+>> >>>> DACs
+>> >>>> 0x10 and 0x11 for headphone and speaker outputs.
+>> >>>>
+>> >>>> Christoffer, how are those on your machines?
+>> >>> I attached alsa-info from the Sirius Gen2 device.
+>> >>>
+>> >>> Comparing the working/nonworking of Jerry, yeah, the assignment of
+>> >>> 0x10 and 0x11 looks switched around. I don't see what difference this
+>> >>> would make. Also, node 0x22 has "bass speaker" controls in the
+>> >>> non-working version.
+>> >>>
+>> >>> Comparing the Sirius Gen2 alsa-info with Jerrys, to me it looks like
+>> >>> the non-working version corresponds to our working version.
+>> >>>
+>> >>> I would expect the non-working version to happen all the time though
+>> >>> with regards to the "bass speaker" controls. Why would this only
+>> >>> happen sometimes?
+>> >> Thanks!  The assignment of DACs depend on the pins and topology, so it
+>> >> can be a bit sensitive.
+>> >>
+>> >> Now looking more closely at both outputs, I wonder how the commit
+>> >> breaks pang14.  Maybe it has a PCI SSID 2782:12c5 (or 12c3) while the
+>> >> codec SSID is 2782:12b3?  If so, the patch below should fix.
+>> 
+>> Interesting, you're right, PCI SSID c3/c5 and codec SSID c3/c5 for the
+>> Siriuses.
+>> 
+>> I had a look around. In patch_realtek there are some cases where codec
+>> SSID match is needed as well. Would it be better/safer to directly do
+>> this immediately or keep it as an exception where it breaks or for
+>> known sensitive models/brands?
+> 
+> It needs a better handling, yes.  OTOH, the driver became gigantic and
+> it's very tough to change the basic matching stuff.  That is, we can't
+> flip from PCI SSID to codec SSID out of sudden, as it'll break
+> certainly many other systems.
+> 
+> What I have in mind is to add an extra flag to the matching table to
+> indicate the codec SSID matching, something like:
+> 
+> --- a/sound/pci/hda/hda_local.h
+> +++ b/sound/pci/hda/hda_local.h
+> @@ -282,6 +282,7 @@ struct hda_fixup {
+>  	int type;
+>  	bool chained:1;		/* call the chained fixup(s) after this */
+>  	bool chained_before:1;	/* call the chained fixup(s) before this */
+> +	bool match_codec_ssid:1; /* match with codec SSID instead of PCI SSID 
+> */
+>  	int chain_id;
+>  	union {
+>  		const struct hda_pintbl *pins;
+> 
 
-The topmost commit is b3ebb007060f89d5a45c9b99f06a55e36a1945b5
+Sounds reasonable to me. It would mean either-or then though.
 
-----------------------------------------------------------------
+> Although this will help in this case, many of existing code do check
+> codec ID in addition to PCI SSID, and this flag won't help for them as
+> is.
 
-sound fixes for 6.12-rc2
+For the fixups where codec SSID is already known for all cases it would 
+be possible to represent current logic with matching both SSIDs.
 
-Slightly high amount of changes in this round, partly because of my
-vacation in the last weeks.  But all changes are small and nothing
-looks worrisome.
+Otherwise I can not judge whether matching both PCI SSID and codec SSID 
+at the same time would be needed.
 
-The biggest LOCs is MAINTAINERS updates, and there is a core change
-for card-ID string creation for non-ASCII inputs.  Others are rather
-device-specific, such as new quirks and device IDs for ASoC, usual
-HD-audio and USB-audio quirks and fixes, as well as regression fixes
-in HD-audio HDMI audio and Conexant codec.
-
-----------------------------------------------------------------
-
-Abdul Rahim (1):
-      selftest: alsa: check if user has alsa installed
-
-Abhishek Tamboli (1):
-      ALSA: hda/realtek: Add a quirk for HP Pavilion 15z-ec200
-
-Ai Chao (1):
-      ALSA: hda/realtek: Add quirk for Huawei MateBook 13 KLV-WX9
-
-Alexey Klimov (3):
-      ASoC: codecs: lpass-rx-macro: add missing CDC_RX_BCL_VBAT_RF_PROC2 to default regs values
-      ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
-      ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
-
-Andrei Simion (1):
-      ASoC: atmel: mchp-pdmc: Skip ALSA restoration if substream runtime is uninitialized
-
-Baojun Xu (1):
-      ALSA: hda/tas2781: Add new quirk for Lenovo Y990 Laptop
-
-Bard Liao (1):
-      ASoC: Intel: soc-acpi-intel-rpl-match: add missing empty item
-
-Charles Han (1):
-      ASoC: intel: sof_sdw: Add check devm_kasprintf() returned value
-
-Charles Keepax (1):
-      ASoC: Intel: soc-acpi: arl: Fix some missing empty terminators
-
-Christophe JAILLET (2):
-      ALSA: mixer_oss: Remove some incorrect kfree_const() usages
-      ALSA: gus: Fix some error handling paths related to get_bpos() usage
-
-Dan Carpenter (1):
-      ALSA: silence integer wrapping warning
-
-David Lawrence Glanzman (1):
-      ASoC: amd: yc: Add quirk for HP Dragonfly pro one
-
-Hans P. Moller (1):
-      ALSA: line6: add hw monitor volume control to POD HD500X
-
-Hui Wang (1):
-      ASoC: imx-card: Set card.owner to avoid a warning calltrace if SND=m
-
-Jan Lalinsky (1):
-      ALSA: usb-audio: Add native DSD support for Luxman D-08u
-
-Jaroslav Kysela (3):
-      ALSA: hda: fix trigger_tstamp_latched
-      MAINTAINERS: ALSA: use linux-sound@vger.kernel.org list
-      ALSA: core: add isascii() check to card ID generator
-
-Julia Lawall (1):
-      ALSA: Reorganize kerneldoc parameter names
-
-Lianqin Hu (1):
-      ALSA: usb-audio: Add delay quirk for VIVO USB-C HEADSET
-
-Miquel Raynal (1):
-      ASoC: dt-bindings: davinci-mcasp: Fix interrupts property
-
-Nikolai Afanasenkov (1):
-      ALSA: hda/realtek: fix mute/micmute LED for HP mt645 G8
-
-Oder Chiou (1):
-      ALSA: hda/realtek: Fix the push button function for the ALC257
-
-Oldherl Oh (1):
-      ALSA: hda/conexant: fix some typos
-
-Ricardo Rivera-Matos (1):
-      ASoC: cs35l45: Corrects cs35l45_get_clk_freq_id function data type
-
-Shengjiu Wang (1):
-      ASoC: fsl_sai: Enable 'FIFO continue on error' FCONT bit
-
-Takashi Iwai (5):
-      ALSA: hda/generic: Unconditionally prefer preferred_dacs pairs
-      ALSA: hda/generic: Drop obsoleted obey_preferred_dacs flag
-      Revert "ALSA: hda: Conditionally use snooping for AMD HDMI"
-      ALSA: hda: Add missing parameter description for snd_hdac_stream_timecounter_init()
-      ALSA: hda/conexant: Fix conflicting quirk for System76 Pangolin
-
-Tang Bin (1):
-      ASoC: topology: Fix incorrect addressing assignments
-
-Uwe Kleine-König (1):
-      ALSA: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-
-Vijendar Mukunda (1):
-      ASoC: amd: acp: don't set card long_name
-
-Wolfram Sang (1):
-      ASoC: dt-bindings: renesas,rsnd: correct reg-names for R-Car Gen1
-
-Yu Jiaoliang (1):
-      ALSA: Fix typos in comments across various files
-
----
- .../bindings/sound/davinci-mcasp-audio.yaml        |  2 +-
- .../devicetree/bindings/sound/qcom,sm8250.yaml     |  1 +
- .../devicetree/bindings/sound/renesas,rsnd.yaml    |  2 +-
- MAINTAINERS                                        | 86 +++++++++++-----------
- include/sound/hdaudio.h                            |  2 +-
- sound/aoa/codecs/onyx.c                            |  2 +-
- sound/aoa/codecs/tas.c                             |  2 +-
- sound/core/compress_offload.c                      |  2 +-
- sound/core/control.c                               |  2 +
- sound/core/init.c                                  | 14 +++-
- sound/core/oss/mixer_oss.c                         |  4 +-
- sound/core/oss/rate.c                              |  2 +-
- sound/core/pcm_native.c                            |  2 +-
- sound/core/sound.c                                 |  2 +-
- sound/hda/hdac_stream.c                            |  7 +-
- sound/isa/gus/gus_pcm.c                            |  4 +-
- sound/pci/hda/cs35l41_hda_i2c.c                    |  2 +-
- sound/pci/hda/hda_codec.c                          |  2 +-
- sound/pci/hda/hda_controller.c                     |  3 +-
- sound/pci/hda/hda_controller.h                     |  2 +-
- sound/pci/hda/hda_generic.c                        |  4 +-
- sound/pci/hda/hda_generic.h                        |  1 -
- sound/pci/hda/hda_intel.c                          | 10 +--
- sound/pci/hda/patch_conexant.c                     | 40 ++++++----
- sound/pci/hda/patch_realtek.c                      |  9 ++-
- sound/pci/hda/tas2781_hda_i2c.c                    |  2 +-
- sound/soc/amd/acp/acp-sdw-sof-mach.c               |  5 --
- sound/soc/amd/yc/acp6x-mach.c                      |  7 ++
- sound/soc/atmel/mchp-pdmc.c                        |  3 +
- sound/soc/codecs/cs35l45-tables.c                  |  2 +-
- sound/soc/codecs/cs35l45.h                         |  2 +-
- sound/soc/codecs/lpass-rx-macro.c                  |  2 +-
- sound/soc/fsl/fsl_sai.c                            |  5 +-
- sound/soc/fsl/fsl_sai.h                            |  1 +
- sound/soc/fsl/imx-card.c                           |  1 +
- sound/soc/intel/boards/sof_sdw.c                   | 12 +++
- sound/soc/intel/common/soc-acpi-intel-arl-match.c  |  2 +
- sound/soc/intel/common/soc-acpi-intel-rpl-match.c  |  1 +
- sound/soc/qcom/sm8250.c                            |  1 +
- sound/soc/soc-topology.c                           |  4 +-
- sound/usb/line6/podhd.c                            |  2 +-
- sound/usb/quirks.c                                 |  4 +
- tools/testing/selftests/alsa/Makefile              |  4 +
- 43 files changed, 162 insertions(+), 107 deletions(-)
-
+In any case, your approach would reduce code size if this is a recurring 
+thing.
