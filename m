@@ -1,135 +1,142 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5841D5AC1;
-	Fri,  4 Oct 2024 07:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0134D6F305;
+	Fri,  4 Oct 2024 08:18:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728025495; cv=none; b=PDwj/3T2e6D1gzom2PcZwoHFpLY/yYBODCDXC5SBStvrZTbHiXz314GWH+nSeJnqLyAmqCXVVyqj5vnztkweCPO9tTHr1Icat8t1uqjHVUKUBly9u5fOcRz1fGrL7umAUA87fQSVxRWdM2udXDlkPQzH91P24VWJN30yHifhHSQ=
+	t=1728029902; cv=none; b=IVLXVLbRTJKNUimGOJcwMZJ6g5hmro98vKOLSRiKJfxlekT4/Kp8WH8FMXJ/cssLyTPhpw7LP0TN8KCTzsYO8qoNnasVPymcmVwSBJz/PHCWfOPE2+uEX+NVd5qvRmKZ4iqTyG+U1AK9Lc8jh2ufCGy3+SqF4msofJ566Hq17U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728025495; c=relaxed/simple;
-	bh=02OxzDxOgls4GMwzupW0yz4DITd3y+pOaJC6zYFXW0g=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EceSeVUTmiOqeiVYCH9ztuRpmFqTEwZnMotORtgVTuN4O7+DIa7ipSP3ANrCS7msP48Mj5MWcZghgq26TXcXGTTVYxef7mbWO+2y/HocEzMkjtUfIVnC0f2YRSwr05H//XtE2A2t5yL3hOo/Hv1IG8VN/sMkjVXxPmDUYuyaZYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eFaHnsLn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=usps7IjM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=eFaHnsLn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=usps7IjM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728029902; c=relaxed/simple;
+	bh=vEVx02YeXFs1Ck3x9SmNG7bAkUKtAAM5e0JVmiFheKE=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=n50SGis27FZmO42oHaius9DXTUK+8ebj44jrrdZ9ADsmqdzturtl9N+DE3iEinUXf1Rzm9nxF8Xz5hY1vJZIrxYzWC3+58iYroUmrG6YP9GpKoZjIIEPEFgUgCguyl9tZKsTXXH14YU0VU4g+u1yarN2HvvS5TI2/iuJoBR7fLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de; spf=pass smtp.mailfrom=tuxedo.de; dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b=EeaRuE8R; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tuxedo.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedo.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eFaHnsLn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="usps7IjM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="eFaHnsLn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="usps7IjM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 115041FEE5;
-	Fri,  4 Oct 2024 07:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728025492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=tuxedo.de header.i=@tuxedo.de header.b="EeaRuE8R"
+Received: from mail.tuxedocomputers.com (localhost [IPv6:::1])
+	(Authenticated sender: cs@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id B95CD2FC0064;
+	Fri,  4 Oct 2024 10:18:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedo.de; s=default;
+	t=1728029890;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=2z4otWxjdPcCdjNkRrjOiTHRc7iq16jflnfryrKXjII=;
-	b=eFaHnsLnYdZy2PimhDJm+qNMBxNLpV14HT0WyLhiXzQ0M1jmoTQOXg555pJk6XLlZuOZYu
-	BpGxZbOL1MzpgDIOAuYwOL1Idq9dhJziQhafXTs9w91qZ5Oc1g5/q9AJZP+1sichxUkQQE
-	bp3DS7MkxWzQTbM8l2dSFJbCyhCHoPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728025492;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2z4otWxjdPcCdjNkRrjOiTHRc7iq16jflnfryrKXjII=;
-	b=usps7IjMJKFoHI56HNPTW0VP7UK3pT/r/Recm9iuzU83Zu+g72pClf5T3ySuJDq9fsuuj7
-	lLf/lIsWaWbo1kBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=eFaHnsLn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=usps7IjM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728025492; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2z4otWxjdPcCdjNkRrjOiTHRc7iq16jflnfryrKXjII=;
-	b=eFaHnsLnYdZy2PimhDJm+qNMBxNLpV14HT0WyLhiXzQ0M1jmoTQOXg555pJk6XLlZuOZYu
-	BpGxZbOL1MzpgDIOAuYwOL1Idq9dhJziQhafXTs9w91qZ5Oc1g5/q9AJZP+1sichxUkQQE
-	bp3DS7MkxWzQTbM8l2dSFJbCyhCHoPA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728025492;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2z4otWxjdPcCdjNkRrjOiTHRc7iq16jflnfryrKXjII=;
-	b=usps7IjMJKFoHI56HNPTW0VP7UK3pT/r/Recm9iuzU83Zu+g72pClf5T3ySuJDq9fsuuj7
-	lLf/lIsWaWbo1kBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E009D13A55;
-	Fri,  4 Oct 2024 07:04:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ONKbNZOT/2YqXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 04 Oct 2024 07:04:51 +0000
-Date: Fri, 04 Oct 2024 09:05:45 +0200
-Message-ID: <87ttdsmjp2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Hans P Moller <hmoller@uc.cl>
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: line6: add hw monitor volume control to POD HD500X
-In-Reply-To: <20241003232828.5819-1-hmoller@uc.cl>
-References: <20241003232828.5819-1-hmoller@uc.cl>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	bh=+CpL4Sl5F+f6FBlOiTv4ia09midQCrE4QrZcBntnkKI=;
+	b=EeaRuE8RPsGjp8wzk/S3kRhFvF7BTozX6DMp/XJnkHT2lYEoqclf5o5COivn3FaAOA718F
+	BJGwsO+naHqt+QhDd9swWSjHnoO3/wtjQtbvGqUc3y2LZgr2IRskf1Uv6VrHDCJLQ1s7aF
+	TuK34/uqQ7DMmrDvmFLV3LJFvTRr5O1QmXJEcqa3U27dxhD1Wo3Fln5DdXcvy67wtbC2cf
+	gUcAq5QFVZS/VkFNFaUqeyuR3BewVx753bFsidtfsd//Ua/suhjhT0jNOcQL8CyGZ89L+/
+	rXAZ7nAYS+iijXgrDyh4nLvpdZXeIZXf9jouVsekjum36C49YNdv6Ppuy+y41g==
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 115041FEE5
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.991];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Date: Fri, 04 Oct 2024 10:18:10 +0200
+From: Christoffer Sandberg <cs@tuxedo.de>
+To: Jerry Luo <jerryluo225@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>, christian@heusel.eu,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz,
+ regressions@lists.linux.dev, wse@tuxedocomputers.com
+Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
+In-Reply-To: <d348ca06-38ca-474f-8673-dff2248331e5@gmail.com>
+References: <87jzfbh5tu.wl-tiwai@suse.de>
+ <ea6e5168-238f-41f5-9600-36b75ed990a1@gmail.com>
+ <87jzetk2l0.wl-tiwai@suse.de> <b38b5947482a5ca4b55e0ddb908c2f34@tuxedo.de>
+ <87seteli51.wl-tiwai@suse.de>
+ <d348ca06-38ca-474f-8673-dff2248331e5@gmail.com>
+User-Agent: Roundcube Webmail/1.4.15
+Message-ID: <dbc783cc2608ac63ffd420b1dc3eeaa9@tuxedo.de>
+X-Sender: cs@tuxedo.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, 04 Oct 2024 01:28:28 +0200,
-Hans P Moller wrote:
+
+
+On 2.10.2024 23:28, Jerry Luo wrote:
+> On 10/2/24 10:00 AM, Takashi Iwai wrote:
+>> On Wed, 02 Oct 2024 10:21:22 +0200,
+>> Christoffer Sandberg wrote:
+>>> 
+>>> 
+>>> On 30.9.2024 09:44, Takashi Iwai wrote:
+>>>> On Mon, 23 Sep 2024 21:37:42 +0200,
+>>>> Jerry Luo wrote:
+>>>>> 
+>>>>> Hi Takashi,
+>>>>> 
+>>>>> On Mon, 16 Sep 2024 19:22:05 +0200,
+>>>>> 
+>>>>> Takashi Iwai wrote:
+>>>>> 
+>>>>>      Could you give alsa-info.sh output from both working and
+>>>>> non-working
+>>>>>      cases?  Run the script with --no-upload option and attach the
+>>>>> outputs.
+>>>>> 
+>>>>>      thanks,
+>>>>> 
+>>>>>      Takashi
+>>>>> 
+>>>>> Issue now reappear, output from alsa-info.sh are attached. If they
+>>>>> are still
+>>>>> needed.
+>>>> Thanks.  The obvious difference seems to be the assignment of two 
+>>>> DACs
+>>>> 0x10 and 0x11 for headphone and speaker outputs.
+>>>> 
+>>>> Christoffer, how are those on your machines?
+>>> I attached alsa-info from the Sirius Gen2 device.
+>>> 
+>>> Comparing the working/nonworking of Jerry, yeah, the assignment of
+>>> 0x10 and 0x11 looks switched around. I don't see what difference this
+>>> would make. Also, node 0x22 has "bass speaker" controls in the
+>>> non-working version.
+>>> 
+>>> Comparing the Sirius Gen2 alsa-info with Jerrys, to me it looks like
+>>> the non-working version corresponds to our working version.
+>>> 
+>>> I would expect the non-working version to happen all the time though
+>>> with regards to the "bass speaker" controls. Why would this only
+>>> happen sometimes?
+>> Thanks!  The assignment of DACs depend on the pins and topology, so it
+>> can be a bit sensitive.
+>> 
+>> Now looking more closely at both outputs, I wonder how the commit
+>> breaks pang14.  Maybe it has a PCI SSID 2782:12c5 (or 12c3) while the
+>> codec SSID is 2782:12b3?  If so, the patch below should fix.
+
+Interesting, you're right, PCI SSID c3/c5 and codec SSID c3/c5 for the 
+Siriuses.
+
+I had a look around. In patch_realtek there are some cases where codec 
+SSID match is needed as well. Would it be better/safer to directly do 
+this immediately or keep it as an exception where it breaks or for known 
+sensitive models/brands?
+
+>> 
+>> Could you guys try it and verify whether it fixes for Pangolin and
+>> doesn't break Sirius?
+>> 
+>> 
+>> Takashi
+>> 
+> It does seems to fix the issue on Pangolin. It might worth mention
+> that the headphone output will have the same issue when the speaker is
+> not working. Now they are all good. Thanks!
 > 
-> Add hw monitor volume control for POD HD500X. This is done adding
-> LINE6_CAP_HWMON_CTL to the capabilities
 > 
-> Signed-off-by: Hans P. Moller <hmoller@uc.cl>
+> Jerry
 
-Applied now.  Thanks.
+Tested on our devices, both speakers still active.
 
+That's an ok from my side as well, thanks!
 
-Takashi
+Christoffer
