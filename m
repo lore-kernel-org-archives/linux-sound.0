@@ -1,40 +1,59 @@
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D1A1537C3;
-	Sat,  5 Oct 2024 15:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ACA166308;
+	Sat,  5 Oct 2024 18:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728142894; cv=none; b=RkOkJxfGQzYg9NxdR03rRLilYHCB5pOlBRLwxAEihXxPGoJ9KXHSc585pb+pzhiCUYp5Wl1uDCoaxzrjPZaIaaYt/fIGtq4PoPFAMbG+AqmxZvd9Q+k507mo1u/2SbC2/r4HX2N2MQ0jyujhb7k9kgwb8rgq7OcovPPolZ/B5r8=
+	t=1728153898; cv=none; b=QX0YOWcf7NALV2TM3invycJbzCUjM4zgZpGXogo1Btqx7AcNurEs4OOxOKmXb6rmUmJarIaXMlOFB0uDEP2BUm+ccRmihWq97GByUfRIKwUSWOl42tswUz6PqDA7qL95QD5SNhE2n5QXnaK9ztdG/ddKgGNwVePExwc6ITblMLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728142894; c=relaxed/simple;
-	bh=AA1s0Ci9ozC3WMvOPZhiXoxjx8/13qajUfnk+TtR2Dw=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=SCHdZxfsO2EgWqaebbVzn0M9QET40Db11JW4ZLo5RLDK04cqGbjHam8sfRtdsilq+gpC9jqocZBTlo7eZ0doZf/aZT/Z2j0xoYCuASyy3VbCehoiEXnr7XzvNIztGhvCRCVDKmneqyvcMP7+48xD7NsCAqf1OfYDeZvMmZqScFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FVAI0//E; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1728153898; c=relaxed/simple;
+	bh=6RLhYMi5+WUMBMxyQrcB3l0ygGZ73nNgwKYQMVuya1A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ncl5IKHgup3/C7VhycxqEoT8GgtjN4WzbgyEc3pP3FQG4Rpl6paK4Ppuvxb7S/1JEAf4v9R/JGbDrx96O8UIIG4hPlm/1lslOu5ItoIASDMckb3hUwqmON2ead5wzt7JNnSx2EfPOK8kxB//E9aLXB336vqEc/fpNtiGtrjE4vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FRCfVdvD; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FVAI0//E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1728142854; x=1728747654; i=markus.elfring@web.de;
-	bh=Oix7kgCYIxahefd/lUj+gnr1RHpaKFan/VSKFUUttN8=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=FVAI0//ER12gz1M7bLVJ/lh4FsxIyFag9DguyOlhqNQ+fwfW1OUcCfcGv2ZnhiaF
-	 UHppkjlpbFDYfwNl4f1u+hODZsjpquibgzXWkxtqnr08fLzpv7jBEgNkMdUMdK2HP
-	 zOL1pcwU06YBNtSCUSOzAB0bY6s7NV91EFB4Hxgag4uh+SSm5zY2RSkN/5TBBAZ0T
-	 DQTc/tKcuoYJvZ8OhfryRkq2RH5GbSgAbRa42dPoxg1IXcIau286GhocJoA1Ok10W
-	 nMcRRs6t2bLUNHokMxsBe5ch2MP1bpOU0TkzM2LBeGaKna6ASqgf6FCZujl+22SfB
-	 P2OXGaueW441TC7AFA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1M7Nii-1t4mPS0pQ4-007G3r; Sat, 05
- Oct 2024 17:40:54 +0200
-Message-ID: <ee94b16a-baa7-471c-997e-f1bf17b074b8@web.de>
-Date: Sat, 5 Oct 2024 17:40:53 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FRCfVdvD"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cbc22e1c4so23950825e9.2;
+        Sat, 05 Oct 2024 11:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728153895; x=1728758695; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
+        b=FRCfVdvDiiPbYo76NSYP3eMsPZYEAPfc39oBd4fwjqzCgRo+rlpl+ch26V2fcmjWJq
+         kHf/HppfUNiuuRq6SYgDf57BcnyuyAsB5XeUySlS5YF0Gleaxj7knAIA3EgzJS2NMlxH
+         tDZGxLxsMDXvl9+WhkLrqvQ6pj4X+i6chBU10hDT6ffoLMgVgkTiVXvjkchsA5cZbft/
+         ko9v+X36BAtrqyOlxSrGNfi9haYlXPLqsPgwaEUNsD7Y+E39wNnPOpfl6V3rsGOcNjgf
+         ApSW0VIu4xMonM5ilgFfNiO6oSHQhMjy77wGRlh1/hDkFAnpy3oGXg91W4zDkmQ2H4Ip
+         m+Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728153895; x=1728758695;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
+        b=pjxEiVNDnRU0xlFPtfVAg4o4NshM0ObG8/3jRCV/IHMKQzQfOzL+94hPTdhcv6p/ur
+         agTBKbgzn1CsKa45rHzPS7fnc5n5zvYfYpDCjkKqlmX9kH9mUJ8jt/kWD/c4IjZIl8Oz
+         bZxsYGI7eow96pFiA8VEz4PoQ90qhMnNEzUGG7CpHpaeg7XtOphd8K4RLhSOcBP9bBC8
+         MqLEhHF7dMpnhBQeBudPAcZaYB7QwTDyzGG/SxyfHQwNsogTJPbs3AZon6Nw83uN720z
+         5xz7vRa/EizbJt7kGNzBeqjHpl7TeiEvIapQJ5xrc+/lMKQF8z+3FU2vQ976cTT6LgRR
+         9MZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUOJ7yCDtQirGD03E95ig2/GjLBPluWhYCrqiSO+43kw7qBQbV+1T9VsySpjWyvB+VlsiVARWqy1Vh2@vger.kernel.org, AJvYcCUe48atRazOwdZB3Eg/AJQZ+ifrbaaS/wUg2lxWkZhfv9yWpxtPIwEpJ7lO/cjbMUYyGdSuAvRO81ZF@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRu5hWnA+BZ2RZYgzLrBCK+iLRlKmtGQ8OosBpct6nuxtj31rl
+	f8hwFLZK4tIpOGIsYXU9xirn3bl0g78+BPnu+Gb8NnT7xHIgrHX7UbVg/NIflYo=
+X-Google-Smtp-Source: AGHT+IGS2SkoNgUtCC33Hu7GEybMTTgetpmYXGracfsFtDR9HtiXXW4uv8UCigJiKGvdOgxL1AhiBA==
+X-Received: by 2002:a05:600c:4ed1:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42f85aee76amr42496935e9.25.1728153894453;
+        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
+Received: from [192.168.1.18] (102.242-182-91.adsl-dyn.isp.belgacom.be. [91.182.242.102])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d169203f4sm2230523f8f.53.2024.10.05.11.44.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
+Message-ID: <bc6673fe-367e-4488-b936-1bce5552f543@gmail.com>
+Date: Sat, 5 Oct 2024 20:44:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,65 +61,53 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Rohit kumar <quic_rohkumar@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Takashi Iwai <tiwai@suse.com>
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Chenyuan Yang <chenyuan0y@gmail.com>, Zijie Zhao <zzjas98@gmail.com>
-References: <20241003152739.9650-1-zichenxie0106@gmail.com>
-Subject: Re: [PATCH] ASoC: qcom: Fix NULL Dereference in
- asoc_qcom_lpass_cpu_platform_probe()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241003152739.9650-1-zichenxie0106@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FT4PekDjmBCyGrkec/hi9y9+Vtd7tCvznDoAvaVISprcWUYWco5
- dJbyXoyXbt2zGk67OyaHeIwv/Xb144QRPihS/t4Yl9apcFWPRdSKd/+93kPyVXvSYx3XhS4
- a6sk+QiMEFj2cKaa9jgLqGnQJev9X2aPIOZx8vO/D6eEWZtvG9XkN/RJeWXfWqS0Acz8g4o
- c/TG5MdrUGOBS7nSQ4dBw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:bfneBKFioX0=;dvCX7e3cyPK+wwLkUpKtVO0gFQ0
- siD6L3fS2j0Zb3oimAznmc/nfvTKyk/4/0mzI7hUAIynBqh3QQLuxquVN0W5YumtrYP97/xSu
- Lz2Rd1igxLGRhyCdU36y/SWMpzQGy1pfctepFpQ+LL9mFRAyu/PnspTfc1u18QtJc8aaSwbpf
- t6SpJpn5bxHcG7I8ZUKdPlCDOhKzNBVtUMWLVLPAPyw/PdflZ4cwX2lmdGY9Vi3QhCJq7blqk
- Hbaj3XFWTEa2MgVlSKNx4GUDgqLDseRSQvGz0ZlZpQgDIVE5NS9o6Ow4J85QRt1V2Yimo6H//
- 4OLJrzyCNRiKHakvbhYjTBtnB3MpD5FnvigR+3o8bd2ynR3kL/2/CfjSbuedwFpGs1+wfRYWM
- owVEEN33midnIq39gsQu40dJI2CNVwDjAcx8Hp+7NuXF7aNyDYSAI5/WwTFLfA5yRLnrH3/im
- 1cjC1OG+tDRRwClImt/X9XbMQ8LeXwWF/KYjPdNe0wC3mVIATOqQLtDNH841Mh9+yhvUy+VI8
- QWUkSf79DAyBxYAyyzPur42txXj6dV1JbKmQZEUa1p9dJ+rjimhB5lt+nMmpgXMkZUrsp+9Cg
- gg39e7mO07RCcdy3IaQbfhnkZdrnNpsm1TLoHGKTMCjkpGHciFlO9b1v9bdC2dS36k9IGw9nI
- p7C/Xgtp4mFPwj43gUcpag2bl6m8SLqjLk+7Sd8wqL9LcgBF2Ps4GeEM8Viq3/FixODrwOO9h
- JXhiKZqhf41YjWYzXUutiW3aIJLzXeh2qNM+Nwsyy9nvv1pwgFLVCl1mrCNGDTs6lqkW49CE3
- VpYU9fC6mRGcd18rfJBTz92Cymf58hJwsnr2Nnxuv+/DU=
+Subject: Re: [PATCH 0/6] ASoC: add Allwinner H616 audio codec support
+To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org
+References: <20240929100750.860329-1-ryan@testtoast.com>
+Content-Language: en-US
+From: Philippe Simons <simons.philippe@gmail.com>
+In-Reply-To: <20240929100750.860329-1-ryan@testtoast.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
+tested on 6.12-rc1 with RG35XX-H
 
-                   call?
+Tested-by: Philippe Simons <simons.philippe@gmail.com>
 
-
-> possibly return NULL pointer. NULL Pointer Dereference may be
-> triggerred without addtional check.
-=E2=80=A6
-
-* How do you think about to use the term =E2=80=9Cnull pointer dereference=
-=E2=80=9D
-  for the final commit message (including the summary phrase)?
-
-* Would you like to avoid any typos here?
-
-
-=E2=80=A6
-> ---
->  sound/soc/qcom/lpass-cpu.c | 2 ++
-
-Did you overlook to add a version description behind the marker line?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.12-rc1#n723
-
-Regards,
-Markus
+On 29/09/2024 12:06, Ryan Walklin wrote:
+> Hi,
+>
+> The Allwinner H616 has a playback-only audio codec, with a single stereo or
+> differential-mono line output.
+>
+> This patch adds support for the H616 (and H618/H700/T507) SoC. Based on the
+> Allwinner kernel SDK driver, and tested on the H700.
+>
+> Regards,
+>
+> Ryan
+>
+> Marcus Cooper (2):
+>    ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
+>      quirks
+>    ASoC: sun4i-codec: Add playback only flag to quirks
+>
+> Ryan Walklin (4):
+>    clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
+>    dt-bindings: allwinner: add H616 sun4i audio codec binding
+>    ASoC: sun4i-codec: support allwinner H616 codec
+>    arm64: dts: allwinner: h616: Add audio codec node
+>
+>   .../sound/allwinner,sun4i-a10-codec.yaml      |  55 +++-
+>   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  15 +
+>   drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  36 +--
+>   sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
+>   4 files changed, 337 insertions(+), 66 deletions(-)
+>
