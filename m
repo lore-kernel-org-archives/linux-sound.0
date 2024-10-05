@@ -1,47 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B37D1BC2A;
-	Sat,  5 Oct 2024 01:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786F03FF1;
+	Sat,  5 Oct 2024 03:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728093227; cv=none; b=rkL/Ii0f02ks4ssgmAVTUmCuCViSHsAtwLWAnc4BVU77JFr/hHdSS0wn6uMA7jYB3kBkBQGma80YwKC6G2tW9LwBpPsJXSuCzRswwoaSTqpiUxmXxPv9xjd8cVudtuDM0H0CGdQN1DuK/TUTXIKfdCcyOlSEuuNtPisVE/FcxfI=
+	t=1728100280; cv=none; b=Aq7rAKMeyBE/jGp1zSKXo34E8XN6UqSAkx6T1BXWyHLA3OcAAF61ObAqMn0BPajndUlDgUM0VYw4A+i0i5SenhY3shGYJsd2hyMXiK0Rrnz/LgEw9LriBB/JazvkdQbSRwSi3fvZ6v0jOKRv7CMV1ZOeoVUiT7C3yn3OKfY10Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728093227; c=relaxed/simple;
-	bh=xZ8767UXpTwyZFY7SSMD3py13ytUyf5XQQJ9eNUQqKU=;
+	s=arc-20240116; t=1728100280; c=relaxed/simple;
+	bh=LwpJjL/sAZamAjbREfwblRFe/pUWGWf4oudQBiz54rk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sXAM7ycECKZjaotmYn+2DcozGiy8Lln448pTvciLROYnNoep1i7wfCHYxQ9Zcb7LXVUTAmfufdRqlOk345ER8YmvBsZAhGl1QoUJopH2MmY17weJLXx1kDKweJcYrqVblyuQ/dX6TAgsKD7tMJauvAQVvbiQZxE3kRSLDBbS6kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEUG79+q; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TAaow6hHUbp3868aFBzzwM81biSAk/Lwc6G/E+uu+BWn93gw3Cf7tuBVzOHvvYPCcT5Xl2ZBwr0ROxNADdKGP5s8aOEsKV+1ZkIN5s91+90a5tugpc5Ayu7fmZ7NrI+8ZwJ4/+89neGy5rAMgrfKLYSs9Y+uau0A6lcYQJOlsoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pb/Ik5ac; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEUG79+q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26880C4CEC6;
-	Sat,  5 Oct 2024 01:53:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pb/Ik5ac"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB33CC4CEC2;
+	Sat,  5 Oct 2024 03:51:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728093226;
-	bh=xZ8767UXpTwyZFY7SSMD3py13ytUyf5XQQJ9eNUQqKU=;
+	s=k20201202; t=1728100279;
+	bh=LwpJjL/sAZamAjbREfwblRFe/pUWGWf4oudQBiz54rk=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oEUG79+qCJGiUIVWtVpvxCfm2MEi9Qkzv4oTw7dyuOf9BximSAzgKYhogKkZH/rC/
-	 eeTwQ1zo343LVRLa9nuKnAeMwnuoNKozPBGfwxMrsjyRMEqiaDytxBPWpP0uFA05Ga
-	 7nBHBtJiTrJTjs9sQLISjKQDXXe4q/tfq4BidPlhR8CXw8303rIo4EVxEcII0M+9aU
-	 2aLfbOuaifO74aDhsn/PwiQT0Gn52nZOTtzw1oUVcR+LGF6ugfKBw4qCQ121YJsgIj
-	 0uhp2FXLHOjDcCVvG6+AUojz0Va9wBq8n87QX/Z/HaUAE713pusanFp+MSwFMp6o74
-	 8crGCOWIPneTg==
+	b=Pb/Ik5ac1zGRheA15syfndYOOvy73c90bPQPVxm871bmWsMbGYDrjomhqi2AtbxIE
+	 3nsrYWCJn7l+VIKNngJ0bxbREgXEv5BuJ2Q5z4y6hba1GWlTElttgb6nwxfmi8uZuc
+	 SIVoAWPjaF8jE70V4EX/Fbiqoo5LUO+BX+EIBZn5CxRfI10qQQKL6OAZ4AmBfXg35H
+	 Wp49z25WRy/1b95jcLtLvq3YcFA2IARpS/KtMzoUcBtw6K51CODQQcXDIGF+213Zwj
+	 qUpf67QGvVTeO5mCeUKV1Ww5FyjrIozk/Cv38jTo5T02w033VxkIZ/EbLWN+iZuWdp
+	 Fh4SjQetlVBlA==
 From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
- linux-sound@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Biju Das <biju.das.au@gmail.com>, linux-renesas-soc@vger.kernel.org, 
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
-In-Reply-To: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-References: <20241003081140.31332-1-biju.das.jz@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: sh: rz-ssi: Use SSIFCR_FIFO_RST macro
-Message-Id: <172809322387.807456.16909484510083610400.b4-ty@kernel.org>
-Date: Sat, 05 Oct 2024 02:53:43 +0100
+To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Herve Codina <herve.codina@bootlin.com>
+Cc: alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+In-Reply-To: <20241003122015.677681-1-herve.codina@bootlin.com>
+References: <20241003122015.677681-1-herve.codina@bootlin.com>
+Subject: Re: [PATCH] ASoC: fsl: fsl_qmc_audio: Remove the logging when
+ parsing channels
+Message-Id: <172810027430.832098.16999500333273178564.b4-ty@kernel.org>
+Date: Sat, 05 Oct 2024 04:51:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,10 +51,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Thu, 03 Oct 2024 09:11:38 +0100, Biju Das wrote:
-> Use SSIFCR_FIFO_RST macro to make the line shorter.
+On Thu, 03 Oct 2024 14:20:15 +0200, Herve Codina wrote:
+> On each channel parsing, a log message is issued. This log message is
+> not needed and become annoying when many channels are used (up to 64
+> channel supported).
+> 
+> Simply remove this unneeded log message.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -63,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sh: rz-ssi: Use SSIFCR_FIFO_RST macro
-      commit: 64207f8024899938f8e13c4649a060a19f18bff3
+[1/1] ASoC: fsl: fsl_qmc_audio: Remove the logging when parsing channels
+      commit: c6e86e19e778553dbedab617aafb25b6bbaf4cd9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
