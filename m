@@ -1,83 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574004690;
-	Sun,  6 Oct 2024 00:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6F879CD;
+	Sun,  6 Oct 2024 01:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728174571; cv=none; b=WdZ5qDiAP3v9bVK6LmPYwoUG39kuNtXHGQD+Rx7m2l8ODNq57318yL7eX18333H119Ay0DKB38gv/mt7ns8R4C6SY/6ePOt2v3PIIUMIXTUfxoOLMTvhYczNxc/iwENNQOH/k2vy1KJxAitvZK4ej/7SAXjD/8GhqvIPvaNytsI=
+	t=1728179746; cv=none; b=LP318No42i0OaqiwKWZMISmKiFXkbwrQCUbJs1F8sfV9Mal+phTOyTebVl2hYn2rvyMB4tpP0RYJAM6NCMNKeuwZovG3k46+qD4Rz9eMVExPMSx1ONhvSx3lXcsDygfv4T7L2wxuQYM9in9YX63v960FPHoizN6I3ePzcuc4QuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728174571; c=relaxed/simple;
-	bh=IVi6F5BlL7sFbhsFG08Yszd8yWzrvkLgEvB1ht1Gyi0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Re7lDo2fYzbtQicKnxzYKe4wtNPb8V5DcznYvJ22mcir1wcDzVQBDLYpLQDPkdQM0JGAsUainxS8v2clnEq+sDY7dfb0+A2fJEwk+2ZEdWT3Ac/9FDcJcJ0IfE/HjfEXD5mcMv8812IS4QxPZXoLeufTucdE+/ChuPjE1ySpukM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcsrPliz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728179746; c=relaxed/simple;
+	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rs7lWhEgKgtboQkS2yenDkRykYlGFQt5/01n7rhw//hm4PIJrYSZUlKwMb+vZeNZDTa3js21Fwb/g+uKo35QzwZLlbztusZr4Vraiqu8FlrJYeYh115nJjXRIkJ9wQXj6ANLcLYLRoU7HWqQHDlzJ0N7RuTLao5d6zNmxNH+oyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bHJhnSlc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcsrPliz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08EA0C4CEC2;
-	Sun,  6 Oct 2024 00:29:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bHJhnSlc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DCC4CEC2;
+	Sun,  6 Oct 2024 01:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728174571;
-	bh=IVi6F5BlL7sFbhsFG08Yszd8yWzrvkLgEvB1ht1Gyi0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kcsrPlizUZtl6KTW88Lvl1GyK9BAwr9Nr1P/xAqXJhpNWkeP3bQRcsBPiwnqUNiCt
-	 pDdqDFvqp1es2Vz8BwyC8ONIkGDUQMDriovfWPuvBx7f4wXVCLAWHePsLze/3PXDp/
-	 WbjM05WMYnVw9zeHyOaSQOvmYw7D5ojOg1hMCLsYuZ/Vb4o5OtVwzoEZwQnwN7p4UE
-	 xSd/WYIR3+NDglCvGqU6L+l9FSLJzyOdi8loAOb2AdBICRIx9HIhG5CLM/9NRfafcQ
-	 SU6jDyZ5FJDRXVmd0rlz3nDrrcBYtFo71uYWc+iS7wMHMaB0wk/7FzccbzNs4DgAeI
-	 nPlTMWBcNiPfw==
-Date: Sat, 5 Oct 2024 20:29:29 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Jerome Brunet <jbrunet@baylibre.com>, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 6.11 109/244] ASoC: soc-pcm: Indicate warning if
- dpcm_playback/capture were used for availability limition
-Message-ID: <ZwHZ6ePdG3oNRams@sashalap>
-References: <20240925113641.1297102-1-sashal@kernel.org>
- <20240925113641.1297102-109-sashal@kernel.org>
- <ZvP-YQuXTyGDfb8x@finisterre.sirena.org.uk>
+	s=k20201202; t=1728179745;
+	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bHJhnSlcDypCxKXc9/0e8sSwcsPUcNs5OrzLmNK372VoYuGepvQT+MeJe7gZxz24S
+	 Td8OetlGIX6VQqxeo+oLpBwCwYCr2xh0kr7HWG2dWxJwS9C9I5+F0Ozm3XgnvgOi6R
+	 eyo7cMIiqgZ5im6lRwsEC9egd6IBXTkhxhVOAfSeJ6SqQ1OAUWk36taYJoiLw9dpJ9
+	 1TD2kMI24gaTyunNoaEycYfyV8WJ6EL2ZaaiP5SsbbYsVWCcKHV7TrlwKb7lUEYqTY
+	 l48kzmdHzTLb/dBfgaSN3gUHXAeR3ENezjiB4lZZ+5JAICFVxSM/ycZNnlcwg/pUoP
+	 0Njb/XOnUh7ew==
+From: Bjorn Andersson <andersson@kernel.org>
+To: linux-gpio@vger.kernel.org,
+	Julia Lawall <Julia.Lawall@inria.fr>
+Cc: kernel-janitors@vger.kernel.org,
+	audit@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-usb@vger.kernel.org,
+	linux-mm@kvack.org,
+	maple-tree@lists.infradead.org,
+	alsa-devel@alsa-project.org,
+	Sanyog Kale <sanyog.r.kale@intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	dccp@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Jan Kara <jack@suse.cz>,
+	drbd-dev@lists.linbit.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	linux-leds@vger.kernel.org,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	linuxppc-dev@lists.ozlabs.org,
+	tipc-discussion@lists.sourceforge.net,
+	Robin Murphy <robin.murphy@arm.com>,
+	iommu@lists.linux.dev,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	linux-trace-kernel@vger.kernel.org,
+	Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <okorniev@redhat.com>,
+	Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>,
+	linux-nfs@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-wireless@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org
+Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
+Date: Sat,  5 Oct 2024 20:55:35 -0500
+Message-ID: <172817973322.398361.12931602917664759173.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <ZvP-YQuXTyGDfb8x@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 25, 2024 at 02:13:21PM +0200, Mark Brown wrote:
->On Wed, Sep 25, 2024 at 07:25:30AM -0400, Sasha Levin wrote:
->> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>
->> [ Upstream commit fd69dfe6789f4ed46d1fdb52e223cff83946d997 ]
->>
->> I have been wondering why DPCM needs special flag (= dpcm_playback/capture)
->> to use it. Below is the history why it was added to ASoC.
->
->...
->
->> Because of these history, this dpcm_xxx is unneeded flag today. But because
->> we have been used it for 10 years since (B), it may have been used
->> differently. For example some DAI available both playback/capture, but it
->> set dpcm_playback flag only, in this case dpcm_xxx flag is used as
->> availability limitation. We can use playback_only flag instead in this
->> case, but it is very difficult to find such DAI today.
->>
->> Let's add grace time to remove dpcm_playback/capture flag.
->>
->> This patch don't use dpcm_xxx flag anymore, and indicates warning to use
->> xxx_only flag if both playback/capture were available but using only
->> one of dpcm_xxx flag, and not using xxx_only flag.
->
->This is a cleanup/refactoring preparation patch, I can see no reason why
->it would be considered for stable.
 
-Dropped, thanks!
+On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
+> 
+> The misordered cases were identified using the following
+> Coccinelle semantic patch:
+> 
+> // <smpl>
+> @initialize:ocaml@
+> @@
+> 
+> [...]
 
+Applied, thanks!
+
+[24/35] soc: qcom: qmi: Reorganize kerneldoc parameter names
+        commit: eea73fa08e69fec9cdc915592022bec6a9ac8ad7
+
+Best regards,
 -- 
-Thanks,
-Sasha
+Bjorn Andersson <andersson@kernel.org>
