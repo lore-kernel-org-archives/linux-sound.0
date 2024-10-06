@@ -1,119 +1,110 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4CCEAD8
-	for <linux-sound@vger.kernel.org>; Sun,  6 Oct 2024 20:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B902EAD8;
+	Sun,  6 Oct 2024 20:57:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728247047; cv=none; b=qYWQPBTmuj8HR8HZuhjzSbUXKBFfrLQ6eReM4X+T5C5KKnxQE9dd67Dr5bUz0kBcI9P+xbRMBjWdf8OxlBcpQiVcPQiD67hWQKjpb+yHoAPzO5+fYP/fhnF6stEFpXYSIsVm/It74V8DArJRrSiLw4/mzICztpcbvGYXtyHbJfI=
+	t=1728248271; cv=none; b=VzceKHO0PzfmdEPcecpSQwpGVvM8Lok0dBxZSSIib25P0NJhs2FKod/y56QfhyUIN8naKy20ObbLqXg1c35VcuPA4JIzHbXmDreZmiT1p89sJMNjHFHF7VQ77SAAnw6kA1C9KA8FcL2bL0Hfo37jUIhNEIqQrmmQM1CZ7INX4kI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728247047; c=relaxed/simple;
-	bh=M8XFZ+XZu6P9eWWlD53BLavuApuWrkIDcfjsGz1vIG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVEqnXZK5n+GnhjLoMHg3MWL9hjHQze+77xm18bFxcQ79BDDKlCp/Z2RAvSPKOoSSnoEMC+cIUfWtbYue5lAX2ysMnAOzSPgiz984key53T7zySTrg5rerkLyLS8jOG53MZGGiipK9U6kGMatpMq1YPeLf62iXGOq1fwrd6eewY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=po0HuaPA; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728248271; c=relaxed/simple;
+	bh=9k26v9n7uWvM7DAabG5+dgfZHDOlxCvPXYF25rHiFLY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jFY4sr8uPakikFq8no2Ffab1YqIwHv269ZDKKRW0jD7Ofvd3r4BxsOHDF1apwy64AeqWTIh6GsivQ1AfuCKK8p2rgnI6+UG41f/Db/fnEmQvPIVYEmpjZBzPVIA91isL3JpAyUHVws4yE2wj646Sb+G9coE54ROUm/gZr2Wl7VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i2LSRqMe; arc=none smtp.client-ip=209.85.222.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="po0HuaPA"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fac787f39fso38855841fa.2
-        for <linux-sound@vger.kernel.org>; Sun, 06 Oct 2024 13:37:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2LSRqMe"
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-7a9a7bea3cfso220630785a.1;
+        Sun, 06 Oct 2024 13:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728247044; x=1728851844; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0KcY2mGkv8zON8tiPzPr+aw+bAMCypp/7m9sSR46t+M=;
-        b=po0HuaPAlK01i/UHiyzWRdyQvGuCISqw6fUlrbfW5kUS3SoNIAkEenDHcOdHoPzhve
-         +/54kAu36sNYkPsh7Y+9fq3IZ6kdF6pQk7C+/vmkR5CJRQ7wl9H2S4NU8/OIRbRo7C4d
-         3rS+VnMulZkUSMPaoTqXz1LC5FT2vlHgQiCmHhMO+0FThDNMxB0kl7rVhDI/QBL1T0Hd
-         iU51ny6SBkYf5brSNeVIfhErsVEhbERR8TeMzNhIy0ibu/oMnzeyepbKVn992d0MgTvl
-         tPWPbFnvWuc8pBy/OaUqRdsypaJDpz8VIcDRMwXdovYd721NZeF23tT04Qt5iSAE12V4
-         tLPQ==
+        d=gmail.com; s=20230601; t=1728248268; x=1728853068; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PnmB+ZQHx2VRbqXrqnFk/p0zOAvgwQ1BHnY11BPXuhY=;
+        b=i2LSRqMeeP4YeoD23WG8+Ql2a/tXoeK1P/hoiZhOpuo8g2qPKJdmXmzzeJ+FfxH+ea
+         2/zDqfIu1OoU7xGPkfYMV4BuUB92PPTVd+CgFlmrQ+HYpmUi5y2gCNY5qw0wyIuza1mY
+         01igesngfzt/Sup7mhM/bfA9qo0QcbKo9GhjzD2/hj7A6VBdH9xHN+B5GuPQmdg9RnHy
+         nvh6soYaTaMehC1/fbh7l5IhoiunOoqbL/RRY0V2Q87kGAtvG4txGdOvGlM2mZrEj0tM
+         FuT2/utsQ9yOpDSGQNjick/p51IxuAJsMBhX+F/o+1ONLVYoqaxglHSE3Wkx3yL/DGmm
+         CAUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728247044; x=1728851844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0KcY2mGkv8zON8tiPzPr+aw+bAMCypp/7m9sSR46t+M=;
-        b=jJHS1P/dLiSJxYLskgLzFzPAEDjoGsjNFJWTzvZEk+/VTKXLH51/GJkg7rFvtMN/aY
-         7w1nqoLA8Br8p/LbLTdJKNf2qwzxpjdAcNKsmXneNnH+vrhdJJDKCrA4yIqBmyFF8nd6
-         Am1trHnEAUDaexBpHnnNeN5v0TzHPDPpqTarONQwd1M+XI7wm30RaUklXAUOy0+GoiQs
-         3nekOOY/Rdq1/ureIvFlEHi1Zg1cK9JrPxopZdLaRimxLMcKexjWER28ePFpsL5AzibY
-         V8vWW8F/+3r9LF4PAaGp/WeAhlpp75tfuH2lIeKiaiXC3O2lyrYYF1J/pjHnMqZ/E1VX
-         QdsA==
-X-Gm-Message-State: AOJu0Yx8yKAvjNicVLvoNEZbMlAuDuXyqEz+yoxwzvDh8j+o+/gU0lZ7
-	wPfbW7kIfqVBrA/wLr6YkOFmJpwkKyh8NGwk1ERYk6Z6aCWlKcQWJe3qD2BfzYU=
-X-Google-Smtp-Source: AGHT+IHDxJfaAaiHj0TzwVkamnlQWohsnVF+S0nchkFV9KcYV06WShhTWAJdWVE2OCF/8RaOR/iHew==
-X-Received: by 2002:a2e:be20:0:b0:2fa:e4ae:3362 with SMTP id 38308e7fff4ca-2faf3c1403fmr36583341fa.6.1728247044068;
-        Sun, 06 Oct 2024 13:37:24 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00-89ea-67f6-92cd-b49.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:89ea:67f6:92cd:b49])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2faf9ab19desm6156211fa.24.2024.10.06.13.37.21
+        d=1e100.net; s=20230601; t=1728248268; x=1728853068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PnmB+ZQHx2VRbqXrqnFk/p0zOAvgwQ1BHnY11BPXuhY=;
+        b=qcdcEsefeNbiLeaMNZi1TJk71mnnPfOazWUTC8jQD2kUP779fXcQ95XOwmIeAwDvWV
+         aPE9VXFm6sNpqa5HA7n/iU2nzuWjxJjN3lJOZCIDNQjKW5rR42OJdhUfZ1WV/2JnwL6B
+         lGn0PHsvoSAHOx8avwb6PT8TsWRwShwXJEviD5B0oU3ZAR5zHlk0EcztQ8+T2KVHadOa
+         2g8ddKAiLTfoOZ/ECPv2nixYmdrwp8e7aquuHrKox1R3ijE9UhL1o4Z/GJ8nheqVgHuL
+         oFdJhSMYbwzAeccPWGyVTKe5PtZdmfjEOfveflZKhNkSLOELfV9HBixYyp264H42Z/gA
+         j8Kg==
+X-Forwarded-Encrypted: i=1; AJvYcCVaK+WWgLWvDxg4vNfULaa2HjPYyrl51h35XG9XfDs8r5KqNXF+t9Cq+1rh+OrUNs3DPSkHMWZGvKqcHWpB@vger.kernel.org, AJvYcCWEYujRSq55Lw6PNqzk0XfWQTRMWkSSgU4P5hzRM5G8vQZ7WdTM8gom+scPMA1nsQvkxoeBO2N/@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXwVYXIGU4nN4fAciCy7/pdo6OJuTy0DYjEA6Ss6WAsgYGglG+
+	b/cB94aBRzK9ZBjQ93jPbQhmj91S3sX0aNhaczlEKcsEgYE/8042
+X-Google-Smtp-Source: AGHT+IEDrQ4cpe6u1eaulg32wqYdo/IErgLQDzGzYL/7nLTp4wfVTQNvuokBIZBhTIBZIX5rF0MlBg==
+X-Received: by 2002:a05:620a:3705:b0:7a9:bf33:c17a with SMTP id af79cd13be357-7ae6f44cd13mr1634916685a.33.1728248268355;
+        Sun, 06 Oct 2024 13:57:48 -0700 (PDT)
+Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae7562c677sm192360085a.31.2024.10.06.13.57.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 13:37:22 -0700 (PDT)
-Date: Sun, 6 Oct 2024 23:37:20 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org, 
-	bgoswami@quicinc.com, lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org, 
-	konrad.dybcio@linaro.org, perex@perex.cz, tiwai@suse.com, linux-arm-msm@vger.kernel.org, 
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org, elder@linaro.org, 
-	krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org, linux-kernel@vger.kernel.org, 
-	a39.skl@gmail.com
-Subject: Re: [PATCH v2 7/7] arm64: dts: qcom: qrb4210-rb2: add HDMI audio
- playback support
-Message-ID: <a3y3glcauxhsbpwzbglbrtr4khnyueoxvf6kitxn46zzpy3css@qmaircmfrlqd>
-References: <20241002022015.867031-1-alexey.klimov@linaro.org>
- <20241002022015.867031-8-alexey.klimov@linaro.org>
+        Sun, 06 Oct 2024 13:57:47 -0700 (PDT)
+From: Gax-c <zichenxie0106@gmail.com>
+To: srinivas.kandagatla@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rohitkr@codeaurora.org
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	stable@vger.kernel.org,
+	zzjas98@gmail.com,
+	chenyuan0y@gmail.com,
+	Zichen Xie <zichenxie0106@gmail.com>
+Subject: [PATCH v3] ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
+Date: Sun,  6 Oct 2024 15:57:37 -0500
+Message-Id: <20241006205737.8829-1-zichenxie0106@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241002022015.867031-8-alexey.klimov@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 02, 2024 at 03:20:15AM GMT, Alexey Klimov wrote:
-> Add sound node and dsp-related piece to enable HDMI audio
-> playback support on Qualcomm QRB4210 RB2 board. That is the
-> only sound output supported for now.
-> 
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 55 ++++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
-> 
+From: Zichen Xie <zichenxie0106@gmail.com>
 
-[...]
-> @@ -318,6 +365,14 @@ &pon_resin {
->  	status = "okay";
->  };
->  
-> +/* SECONDARY I2S Uses 1 I2S SD Lines for audio on LT9611 HDMI Bridge */
+A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
+possibly return NULL pointer. NULL Pointer Dereference may be
+triggerred without addtional check.
+Add a NULL check for the returned pointer.
 
-Nit: LT9611UXC
+Fixes: b5022a36d28f ("ASoC: qcom: lpass: Use regmap_field for i2sctl and dmactl registers")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+---
+v2: Fix "From" tag.
+v3: Format tags to Fixes/Cc/Signed-off-by.
+---
+ sound/soc/qcom/lpass-cpu.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Nevertheless,
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-
-> +&q6afedai {
-> +	dai@20 {
-> +		reg = <SECONDARY_MI2S_RX>;
-> +		qcom,sd-lines = <0>;
-> +	};
-> +};
-> +
->  &qupv3_id_0 {
->  	status = "okay";
->  };
-> -- 
-> 2.45.2
-> 
-
+diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
+index 5a47f661e0c6..242bc16da36d 100644
+--- a/sound/soc/qcom/lpass-cpu.c
++++ b/sound/soc/qcom/lpass-cpu.c
+@@ -1242,6 +1242,8 @@ int asoc_qcom_lpass_cpu_platform_probe(struct platform_device *pdev)
+ 	/* Allocation for i2sctl regmap fields */
+ 	drvdata->i2sctl = devm_kzalloc(&pdev->dev, sizeof(struct lpaif_i2sctl),
+ 					GFP_KERNEL);
++	if (!drvdata->i2sctl)
++		return -ENOMEM;
+ 
+ 	/* Initialize bitfields for dai I2SCTL register */
+ 	ret = lpass_cpu_init_i2sctl_bitfields(dev, drvdata->i2sctl,
 -- 
-With best wishes
-Dmitry
+2.25.1
+
