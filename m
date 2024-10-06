@@ -1,113 +1,83 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ACA166308;
-	Sat,  5 Oct 2024 18:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574004690;
+	Sun,  6 Oct 2024 00:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728153898; cv=none; b=QX0YOWcf7NALV2TM3invycJbzCUjM4zgZpGXogo1Btqx7AcNurEs4OOxOKmXb6rmUmJarIaXMlOFB0uDEP2BUm+ccRmihWq97GByUfRIKwUSWOl42tswUz6PqDA7qL95QD5SNhE2n5QXnaK9ztdG/ddKgGNwVePExwc6ITblMLE=
+	t=1728174571; cv=none; b=WdZ5qDiAP3v9bVK6LmPYwoUG39kuNtXHGQD+Rx7m2l8ODNq57318yL7eX18333H119Ay0DKB38gv/mt7ns8R4C6SY/6ePOt2v3PIIUMIXTUfxoOLMTvhYczNxc/iwENNQOH/k2vy1KJxAitvZK4ej/7SAXjD/8GhqvIPvaNytsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728153898; c=relaxed/simple;
-	bh=6RLhYMi5+WUMBMxyQrcB3l0ygGZ73nNgwKYQMVuya1A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ncl5IKHgup3/C7VhycxqEoT8GgtjN4WzbgyEc3pP3FQG4Rpl6paK4Ppuvxb7S/1JEAf4v9R/JGbDrx96O8UIIG4hPlm/1lslOu5ItoIASDMckb3hUwqmON2ead5wzt7JNnSx2EfPOK8kxB//E9aLXB336vqEc/fpNtiGtrjE4vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FRCfVdvD; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728174571; c=relaxed/simple;
+	bh=IVi6F5BlL7sFbhsFG08Yszd8yWzrvkLgEvB1ht1Gyi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Re7lDo2fYzbtQicKnxzYKe4wtNPb8V5DcznYvJ22mcir1wcDzVQBDLYpLQDPkdQM0JGAsUainxS8v2clnEq+sDY7dfb0+A2fJEwk+2ZEdWT3Ac/9FDcJcJ0IfE/HjfEXD5mcMv8812IS4QxPZXoLeufTucdE+/ChuPjE1ySpukM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kcsrPliz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FRCfVdvD"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42cbc22e1c4so23950825e9.2;
-        Sat, 05 Oct 2024 11:44:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728153895; x=1728758695; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
-        b=FRCfVdvDiiPbYo76NSYP3eMsPZYEAPfc39oBd4fwjqzCgRo+rlpl+ch26V2fcmjWJq
-         kHf/HppfUNiuuRq6SYgDf57BcnyuyAsB5XeUySlS5YF0Gleaxj7knAIA3EgzJS2NMlxH
-         tDZGxLxsMDXvl9+WhkLrqvQ6pj4X+i6chBU10hDT6ffoLMgVgkTiVXvjkchsA5cZbft/
-         ko9v+X36BAtrqyOlxSrGNfi9haYlXPLqsPgwaEUNsD7Y+E39wNnPOpfl6V3rsGOcNjgf
-         ApSW0VIu4xMonM5ilgFfNiO6oSHQhMjy77wGRlh1/hDkFAnpy3oGXg91W4zDkmQ2H4Ip
-         m+Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728153895; x=1728758695;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fRlB78UEFCV0w7cLJIZE7YuESd3mDDwJ36kzdZq9V+U=;
-        b=pjxEiVNDnRU0xlFPtfVAg4o4NshM0ObG8/3jRCV/IHMKQzQfOzL+94hPTdhcv6p/ur
-         agTBKbgzn1CsKa45rHzPS7fnc5n5zvYfYpDCjkKqlmX9kH9mUJ8jt/kWD/c4IjZIl8Oz
-         bZxsYGI7eow96pFiA8VEz4PoQ90qhMnNEzUGG7CpHpaeg7XtOphd8K4RLhSOcBP9bBC8
-         MqLEhHF7dMpnhBQeBudPAcZaYB7QwTDyzGG/SxyfHQwNsogTJPbs3AZon6Nw83uN720z
-         5xz7vRa/EizbJt7kGNzBeqjHpl7TeiEvIapQJ5xrc+/lMKQF8z+3FU2vQ976cTT6LgRR
-         9MZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUOJ7yCDtQirGD03E95ig2/GjLBPluWhYCrqiSO+43kw7qBQbV+1T9VsySpjWyvB+VlsiVARWqy1Vh2@vger.kernel.org, AJvYcCUe48atRazOwdZB3Eg/AJQZ+ifrbaaS/wUg2lxWkZhfv9yWpxtPIwEpJ7lO/cjbMUYyGdSuAvRO81ZF@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRu5hWnA+BZ2RZYgzLrBCK+iLRlKmtGQ8OosBpct6nuxtj31rl
-	f8hwFLZK4tIpOGIsYXU9xirn3bl0g78+BPnu+Gb8NnT7xHIgrHX7UbVg/NIflYo=
-X-Google-Smtp-Source: AGHT+IGS2SkoNgUtCC33Hu7GEybMTTgetpmYXGracfsFtDR9HtiXXW4uv8UCigJiKGvdOgxL1AhiBA==
-X-Received: by 2002:a05:600c:4ed1:b0:42b:a7c7:5667 with SMTP id 5b1f17b1804b1-42f85aee76amr42496935e9.25.1728153894453;
-        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
-Received: from [192.168.1.18] (102.242-182-91.adsl-dyn.isp.belgacom.be. [91.182.242.102])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d169203f4sm2230523f8f.53.2024.10.05.11.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Oct 2024 11:44:54 -0700 (PDT)
-Message-ID: <bc6673fe-367e-4488-b936-1bce5552f543@gmail.com>
-Date: Sat, 5 Oct 2024 20:44:53 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kcsrPliz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08EA0C4CEC2;
+	Sun,  6 Oct 2024 00:29:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728174571;
+	bh=IVi6F5BlL7sFbhsFG08Yszd8yWzrvkLgEvB1ht1Gyi0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kcsrPlizUZtl6KTW88Lvl1GyK9BAwr9Nr1P/xAqXJhpNWkeP3bQRcsBPiwnqUNiCt
+	 pDdqDFvqp1es2Vz8BwyC8ONIkGDUQMDriovfWPuvBx7f4wXVCLAWHePsLze/3PXDp/
+	 WbjM05WMYnVw9zeHyOaSQOvmYw7D5ojOg1hMCLsYuZ/Vb4o5OtVwzoEZwQnwN7p4UE
+	 xSd/WYIR3+NDglCvGqU6L+l9FSLJzyOdi8loAOb2AdBICRIx9HIhG5CLM/9NRfafcQ
+	 SU6jDyZ5FJDRXVmd0rlz3nDrrcBYtFo71uYWc+iS7wMHMaB0wk/7FzccbzNs4DgAeI
+	 nPlTMWBcNiPfw==
+Date: Sat, 5 Oct 2024 20:29:29 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Jerome Brunet <jbrunet@baylibre.com>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 6.11 109/244] ASoC: soc-pcm: Indicate warning if
+ dpcm_playback/capture were used for availability limition
+Message-ID: <ZwHZ6ePdG3oNRams@sashalap>
+References: <20240925113641.1297102-1-sashal@kernel.org>
+ <20240925113641.1297102-109-sashal@kernel.org>
+ <ZvP-YQuXTyGDfb8x@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] ASoC: add Allwinner H616 audio codec support
-To: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-clk@vger.kernel.org
-References: <20240929100750.860329-1-ryan@testtoast.com>
-Content-Language: en-US
-From: Philippe Simons <simons.philippe@gmail.com>
-In-Reply-To: <20240929100750.860329-1-ryan@testtoast.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <ZvP-YQuXTyGDfb8x@finisterre.sirena.org.uk>
 
-tested on 6.12-rc1 with RG35XX-H
+On Wed, Sep 25, 2024 at 02:13:21PM +0200, Mark Brown wrote:
+>On Wed, Sep 25, 2024 at 07:25:30AM -0400, Sasha Levin wrote:
+>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>
+>> [ Upstream commit fd69dfe6789f4ed46d1fdb52e223cff83946d997 ]
+>>
+>> I have been wondering why DPCM needs special flag (= dpcm_playback/capture)
+>> to use it. Below is the history why it was added to ASoC.
+>
+>...
+>
+>> Because of these history, this dpcm_xxx is unneeded flag today. But because
+>> we have been used it for 10 years since (B), it may have been used
+>> differently. For example some DAI available both playback/capture, but it
+>> set dpcm_playback flag only, in this case dpcm_xxx flag is used as
+>> availability limitation. We can use playback_only flag instead in this
+>> case, but it is very difficult to find such DAI today.
+>>
+>> Let's add grace time to remove dpcm_playback/capture flag.
+>>
+>> This patch don't use dpcm_xxx flag anymore, and indicates warning to use
+>> xxx_only flag if both playback/capture were available but using only
+>> one of dpcm_xxx flag, and not using xxx_only flag.
+>
+>This is a cleanup/refactoring preparation patch, I can see no reason why
+>it would be considered for stable.
 
-Tested-by: Philippe Simons <simons.philippe@gmail.com>
+Dropped, thanks!
 
-On 29/09/2024 12:06, Ryan Walklin wrote:
-> Hi,
->
-> The Allwinner H616 has a playback-only audio codec, with a single stereo or
-> differential-mono line output.
->
-> This patch adds support for the H616 (and H618/H700/T507) SoC. Based on the
-> Allwinner kernel SDK driver, and tested on the H700.
->
-> Regards,
->
-> Ryan
->
-> Marcus Cooper (2):
->    ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
->      quirks
->    ASoC: sun4i-codec: Add playback only flag to quirks
->
-> Ryan Walklin (4):
->    clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
->    dt-bindings: allwinner: add H616 sun4i audio codec binding
->    ASoC: sun4i-codec: support allwinner H616 codec
->    arm64: dts: allwinner: h616: Add audio codec node
->
->   .../sound/allwinner,sun4i-a10-codec.yaml      |  55 +++-
->   .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  15 +
->   drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  36 +--
->   sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
->   4 files changed, 337 insertions(+), 66 deletions(-)
->
+-- 
+Thanks,
+Sasha
