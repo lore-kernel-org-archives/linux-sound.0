@@ -1,111 +1,101 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6F879CD;
-	Sun,  6 Oct 2024 01:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47105166F32;
+	Sun,  6 Oct 2024 08:29:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728179746; cv=none; b=LP318No42i0OaqiwKWZMISmKiFXkbwrQCUbJs1F8sfV9Mal+phTOyTebVl2hYn2rvyMB4tpP0RYJAM6NCMNKeuwZovG3k46+qD4Rz9eMVExPMSx1ONhvSx3lXcsDygfv4T7L2wxuQYM9in9YX63v960FPHoizN6I3ePzcuc4QuE=
+	t=1728203370; cv=none; b=Wtsba0LuVgmguzj8bEur1bejld8b7UR6UDPtsQMkzLDNlj594IrUNhNTrSwVf/eqzYzX+I5q27a9Qsrjmynul0a92IgMZ+jv0aBbFPahurESUze6IXh5sUgNm3D4VH+WrLZHkHMfYVaDDJsAnQqU360DDmiu3DhVb47y3z01exc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728179746; c=relaxed/simple;
-	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rs7lWhEgKgtboQkS2yenDkRykYlGFQt5/01n7rhw//hm4PIJrYSZUlKwMb+vZeNZDTa3js21Fwb/g+uKo35QzwZLlbztusZr4Vraiqu8FlrJYeYh115nJjXRIkJ9wQXj6ANLcLYLRoU7HWqQHDlzJ0N7RuTLao5d6zNmxNH+oyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bHJhnSlc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728203370; c=relaxed/simple;
+	bh=IeAGKkN1wUHgln50MQguJlxeJL1wxccB424rArOqimg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyUCv2nR7dRPlTRGreWkyTKq/dqFvooiRNtNgfSQRn4oZr7yIWS0usDDyJ5TRs4x5Yvg3aK2pht+17aXZnbLT8/aJXd3E/Fx/undYvWny4lSmCy/84/vYRajEPiwiko+9IHGfP7C+QtXvGmrGPOc3QRHrjnMFywKSscq1kWL/vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AK4/R15Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bHJhnSlc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 442DCC4CEC2;
-	Sun,  6 Oct 2024 01:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728179745;
-	bh=/4L+Waftv30hJTd8pHAaY7MDs2ik61gNjRPrwI78SK4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bHJhnSlcDypCxKXc9/0e8sSwcsPUcNs5OrzLmNK372VoYuGepvQT+MeJe7gZxz24S
-	 Td8OetlGIX6VQqxeo+oLpBwCwYCr2xh0kr7HWG2dWxJwS9C9I5+F0Ozm3XgnvgOi6R
-	 eyo7cMIiqgZ5im6lRwsEC9egd6IBXTkhxhVOAfSeJ6SqQ1OAUWk36taYJoiLw9dpJ9
-	 1TD2kMI24gaTyunNoaEycYfyV8WJ6EL2ZaaiP5SsbbYsVWCcKHV7TrlwKb7lUEYqTY
-	 l48kzmdHzTLb/dBfgaSN3gUHXAeR3ENezjiB4lZZ+5JAICFVxSM/ycZNnlcwg/pUoP
-	 0Njb/XOnUh7ew==
-From: Bjorn Andersson <andersson@kernel.org>
-To: linux-gpio@vger.kernel.org,
-	Julia Lawall <Julia.Lawall@inria.fr>
-Cc: kernel-janitors@vger.kernel.org,
-	audit@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-usb@vger.kernel.org,
-	linux-mm@kvack.org,
-	maple-tree@lists.infradead.org,
-	alsa-devel@alsa-project.org,
-	Sanyog Kale <sanyog.r.kale@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	dccp@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	drbd-dev@lists.linbit.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-leds@vger.kernel.org,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	linuxppc-dev@lists.ozlabs.org,
-	tipc-discussion@lists.sourceforge.net,
-	Robin Murphy <robin.murphy@arm.com>,
-	iommu@lists.linux.dev,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	linux-trace-kernel@vger.kernel.org,
-	Neil Brown <neilb@suse.de>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>,
-	linux-nfs@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-wireless@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org
-Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
-Date: Sat,  5 Oct 2024 20:55:35 -0500
-Message-ID: <172817973322.398361.12931602917664759173.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
-References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AK4/R15Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F08DC4CEC5;
+	Sun,  6 Oct 2024 08:29:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728203369;
+	bh=IeAGKkN1wUHgln50MQguJlxeJL1wxccB424rArOqimg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AK4/R15YMTDd0AWBOuLTknswIJMiOl65Me0tIed8vocFDiMO7uWjxW6fQhc/taULo
+	 lWWaGmd4cRW9A6KoDi8zzmw7D/+dsslP18Wp6Kl0SOcLifUinzWL5xZPBX9TIGZEbW
+	 jpRX0UqMUC43Q2S9xKyTM7kLO17uwuFdJt4qXKSU=
+Date: Sun, 6 Oct 2024 10:29:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rohit kumar <quic_rohkumar@quicinc.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, stable@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Chenyuan Yang <chenyuan0y@gmail.com>,
+	Zijie Zhao <zzjas98@gmail.com>
+Subject: Re: [PATCH] ASoC: qcom: Fix NULL Dereference in
+ asoc_qcom_lpass_cpu_platform_probe()
+Message-ID: <2024100620-decency-discuss-df6e@gregkh>
+References: <20241003152739.9650-1-zichenxie0106@gmail.com>
+ <ee94b16a-baa7-471c-997e-f1bf17b074b8@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ee94b16a-baa7-471c-997e-f1bf17b074b8@web.de>
 
-
-On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
-> Reorganize kerneldoc parameter names to match the parameter
-> order in the function header.
+On Sat, Oct 05, 2024 at 05:40:53PM +0200, Markus Elfring wrote:
+> > A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
 > 
-> The misordered cases were identified using the following
-> Coccinelle semantic patch:
+>                    call?
 > 
-> // <smpl>
-> @initialize:ocaml@
-> @@
 > 
-> [...]
+> > possibly return NULL pointer. NULL Pointer Dereference may be
+> > triggerred without addtional check.
+> …
+> 
+> * How do you think about to use the term “null pointer dereference”
+>   for the final commit message (including the summary phrase)?
+> 
+> * Would you like to avoid any typos here?
+> 
+> 
+> …
+> > ---
+> >  sound/soc/qcom/lpass-cpu.c | 2 ++
+> 
+> Did you overlook to add a version description behind the marker line?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/submitting-patches.rst?h=v6.12-rc1#n723
+> 
+> Regards,
+> Markus
 
-Applied, thanks!
+Hi,
 
-[24/35] soc: qcom: qmi: Reorganize kerneldoc parameter names
-        commit: eea73fa08e69fec9cdc915592022bec6a9ac8ad7
+This is the semi-friendly patch-bot of Greg Kroah-Hartman.
 
-Best regards,
--- 
-Bjorn Andersson <andersson@kernel.org>
+Markus, you seem to have sent a nonsensical or otherwise pointless
+review comment to a patch submission on a Linux kernel developer mailing
+list.  I strongly suggest that you not do this anymore.  Please do not
+bother developers who are actively working to produce patches and
+features with comments that, in the end, are a waste of time.
+
+Patch submitter, please ignore Markus's suggestion; you do not need to
+follow it at all.  The person/bot/AI that sent it is being ignored by
+almost all Linux kernel maintainers for having a persistent pattern of
+behavior of producing distracting and pointless commentary, and
+inability to adapt to feedback.  Please feel free to also ignore emails
+from them.
+
+thanks,
+
+greg k-h's patch email bot
