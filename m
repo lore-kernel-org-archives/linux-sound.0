@@ -1,44 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65B916E87D;
-	Mon,  7 Oct 2024 21:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DAF18C351
+	for <linux-sound@vger.kernel.org>; Mon,  7 Oct 2024 21:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728336614; cv=none; b=Qy7dcSUW+18E+ikVU70gpqa2nj/haR/ZHg2A5cw9JDTqfD1cSp7Xz/Mu7S8OmQb8V/i6W/gn47pomW0nVlQwV5mutcfyedGW8lcTQJYbgdGDNId7Lk3e5rI4O/dfaARRdt1d4CwRm5SHB+mG32IfFT7d9vhc24Kejy5VhcdE3R0=
+	t=1728336616; cv=none; b=mUZdgP0Jxo83gEcDkokwqvFp6Qz5/UDDHLL1Pei5KmxXkg+GKJRjplEyELvBled3mHsPUmhnny59ZFnmktqOQmOBjkW+wmMv7SjpJIQzDMoKK7R5I6kZVxtjQh/y5UkvI2xQbzeEPko760fQtZn6WyFMwzzhERZqgCOYEKHzHmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728336614; c=relaxed/simple;
-	bh=8o+yrEOOtiSiBfWaBp1QfIZYWs4xvqSa5neZU4qy49Q=;
+	s=arc-20240116; t=1728336616; c=relaxed/simple;
+	bh=wxcNsQhfpVVjCTG2Y6aqnNdRk6QxyFRik6umuzgPWW0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=T6GRZUcZ/KL0YN5lemYK2um/uqCHHhpY5aMTyFgH/W614aoQgXyL+wxoYCQOEaW8YOW2RuPqjDOnSUFBGYvE0rxPmb6MBxImKhtSKhUQmNYh3Cn+4Vh7lFah5SykkRo6RWJAIAk5IoUTJ4Ioxjc66enMi5oze6pKIy4Unt0N9k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nU1Y9BX1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ssJ+qLlaNzlvWlRQtxdU2BT2w1anNyMYUWiCQlk9QyJpRdXa9Na+axh3JlPibOt8UsUPTZ3DtbXLxZu55hj6xyEfJaV9qd0yizo2sM3lZxxN3vYv7KDqCIsJzO3XmECmYxa1OCL+ZA8gXiQewHLR1UItWmnAiy+zj7Rxlo+yEQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGGIFmAT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nU1Y9BX1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16EDC4CEC6;
-	Mon,  7 Oct 2024 21:30:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGGIFmAT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF299C4CECD;
+	Mon,  7 Oct 2024 21:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728336614;
-	bh=8o+yrEOOtiSiBfWaBp1QfIZYWs4xvqSa5neZU4qy49Q=;
+	s=k20201202; t=1728336616;
+	bh=wxcNsQhfpVVjCTG2Y6aqnNdRk6QxyFRik6umuzgPWW0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nU1Y9BX1SobaMtnlYNWyiLFyo1C4SFdbgigsuJOrrmVl+hpNOZ4CgQo9gOw8znbSC
-	 4T54XVJtVNigk4qQgYSNT5bnhQL7GgpiWMGKkHB1+xsELWg2yN23neB58PcXuPcFhb
-	 sHKzcCS/jvzeCN3oXoCzCQDNaaS3fBsZKf78RwWzIFe8w04Lb0FI0YXPTOdxONksnw
-	 nF3tNTYFeL84t76nu4zo7Z3DySBIDtQq+XR7yyepujHhgaEbozm8Oosj1g170rXhtj
-	 nt91ANdW8fNBkZLLTLReWrE9si7+KalxTwVwqmsDOYf0AWVRu2hmKpU5DYj7RzGUMJ
-	 tsBvRHeaknSSQ==
+	b=oGGIFmATkjM5pe/Jzy595mf44P2lknRt6MrDAADkYW2ZdrjnwLbAhNX8GXdVdQAe6
+	 IjI7zvzhagk+zSMeymeJIoRU48sNYXGwQnGopTxW4aAcGgrOfMXU6DuOG9RPJ88TV4
+	 bKHiqJ1FKYev8S1woiqPI+zYMvpx7US/cjXVbVZspJYlWd863hDVOiPYwDd+jiYGsm
+	 SsJm9lRPNe41dK2AmSc2DWqjd/rIcEuuIjZ5zVquArrRBYVi9wzSpLA/JZwv5yJxyo
+	 kJ1CVtRp7xj/x7hva/JSHxzzXp1CYscly8mP8/4ikjTdltiR6nkxXjwOsg83hraXEi
+	 d3lQbRba1mI1A==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.dev, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- dan.carpenter@linaro.org, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241007085321.3991149-1-Vijendar.Mukunda@amd.com>
-References: <20241007085321.3991149-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 0/3] Fixes and improvements related to amd soundwire
- machine
-Message-Id: <172833661153.2566981.7852746403843852691.b4-ty@kernel.org>
-Date: Mon, 07 Oct 2024 22:30:11 +0100
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, peter.ujfalusi@linux.intel.com
+In-Reply-To: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
+References: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/3] ASoC: Intel: add rt722/rt721 support for PTL
+ platform
+Message-Id: <172833661459.2566981.16500783307779939186.b4-ty@kernel.org>
+Date: Mon, 07 Oct 2024 22:30:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,14 +46,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 07 Oct 2024 14:23:18 +0530, Vijendar Mukunda wrote:
-> This patch series consists of smatch error fixes and code improvements
-> related to amd soundwire generic machine driver.
+On Mon, 07 Oct 2024 15:59:52 +0800, Bard Liao wrote:
+> Rt722, rt721 and rt712 codecs are quite similar. Refactor the existing
+> spk_rtd_init() to support Realtek common multifunction SDCA codecs.
 > 
-> Vijendar Mukunda (3):
->   ASoC: amd: acp: fix for inconsistent indenting
->   ASoC: amd: acp: fix for cpu dai index logic
->   ASoC: amd: acp: refactor sof_card_dai_links_create() function
+> Dharageswari R (1):
+>   ASoC: intel: sof_sdw: add RT722 SDCA card for PTL platform
+> 
+> Naveen Manohar (2):
+>   ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
+>   ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
 > 
 > [...]
 
@@ -66,12 +65,12 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: amd: acp: fix for inconsistent indenting
-      commit: 914219d74931211e719907e0eed03d8133f8b1b7
-[2/3] ASoC: amd: acp: fix for cpu dai index logic
-      commit: 7ce8e4d380d68f34edc96c7efcf95b1476e7f033
-[3/3] ASoC: amd: acp: refactor sof_card_dai_links_create() function
-      commit: 0372abfcd81a4db94070d235e1ae3ff928efcab9
+[1/3] ASoC: intel: sof_sdw: add RT722 SDCA card for PTL platform
+      commit: 69a5d2d0d913cc0190899be7a835a48b0808a5ec
+[2/3] ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
+      commit: 10488630e1072cc5feebf25d1be04505fafb59a5
+[3/3] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
+      commit: 846a8d3cf3bace9f235c38caf1d8d853c323dbd4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
