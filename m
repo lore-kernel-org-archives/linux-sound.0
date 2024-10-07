@@ -1,139 +1,139 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2074.outbound.protection.outlook.com [40.107.220.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDA7125BA;
-	Mon,  7 Oct 2024 08:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728288760; cv=none; b=YvZzzx3XP06xF242HRbtmzvHjI9fNBvlM0tMvxiZj74S9rPV05NPobsN5Yq5EYPhWUc/JQV5fM81Si4eGpVL+i8jQ7OY5nB5mS/JvQ86rcLYbGQYcQDEu2AY2LP+IUH6DsZBgpVyLLuJbrz2r0n5hO+t15ljfWdfVUZFEU5Khxo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728288760; c=relaxed/simple;
-	bh=DQVwkoRIgL8UJm8NCB27MRhflsVRuGICAaTNssZviZ4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=g4EW40h+CZFyf4sW75b2cKq3H9FtztgrwjDDfP/ZCZmtsHiMdOIxfo2Kxu//AiGjL8suPXRJNkEw0XMW8nOF+1odW+mJAJcjFRUfbph4Ok3sfUtf2btDUZTX93M7ThBAQfQxi0/hXjfCZVWw/y/c+tcyR/Yl0vEIFPH7CdK4g8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3NP2d2e; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732DC82485;
+	Mon,  7 Oct 2024 08:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728291227; cv=fail; b=LcqtxepvgCL/3j7emb6QXSvy9yg76mTTU0NqwA/bmQBLZotd/lgfO8TPCGuDJP8i8ypVxy3RACvID5FHPDU/9bqpfKfSwZIt5N8e7GqvM2JlYYFzmQXs7bwGOxDzrBXYT7irdePsf4LiwRr3J10qASQVPk0xYHq4CWvccgcLOSE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728291227; c=relaxed/simple;
+	bh=9aov2+c8SZZyFU7dy05oyfwvTugfFW08cHIIdjPGTLM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P0Y7AF6qq+T0gh9Ekt7nCu10VgXeWZV2NkSqJ803VFhANLY1/PboKwefPmEW7iIey4Tt4KrfcgfytqG8EMg2GX4EGc0UeZqb8qLL+lzYEs/BPEzhYTW9vPz+1MFbgtkE4N7UE6bleYWhj1gos0XtQfHitJNNMCbp+wFSw3KDnMo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ExpCYC7M; arc=fail smtp.client-ip=40.107.220.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3NP2d2e"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c89f3f28b6so5964200a12.2;
-        Mon, 07 Oct 2024 01:12:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728288757; x=1728893557; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bP7+WnRgKS8Y9xY8Z0wXxP8X7E8K6aXgN1VH5WOGnLs=;
-        b=A3NP2d2e79Qy/IiMBFUImdwof9y6MxpJAMpEXjN6RcGMVxIO5Yi9jXmSgxsxhYpYh8
-         TDz/Gt1mIa85IMpV3INPG2RuRtqoGXBZnDlMSUj3J9WtfcOtNKGggCCshUZu8iqDsrYk
-         OQOvjWoA6ZVF1F+IzkX/DK/EcdoXrhh5ZTVZUocoHIo4NaHpn8Zoqc063fDAuT3SVFB3
-         UFLfO6o7FghQ4YtpvarFU/tvAC5ouhHqjkMeSl6L0MT4xlzFTTdD4PJMWupoPsbkk4qS
-         UyD7uAjN+qqLoPVjMpB1QCDZFnK/Gp72jkwC6EjWvc4gyH1fT2z+vQOvzXCMDqmyKHs6
-         KdFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728288757; x=1728893557;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bP7+WnRgKS8Y9xY8Z0wXxP8X7E8K6aXgN1VH5WOGnLs=;
-        b=XnTdLritn6d4csEOMApiT4mMmIBR8HZGjNRJNG59bq3Xceeplz3URjtIaHtTZ2de6C
-         nF1sAg70QLK74JpjmIPsWg1dLHoTZ1675O/QlZwaQWSZZQX7W/QlxnziJQaJo+e6rDPO
-         P/Pcr6PknWtkx11NgEChSzMUc831aXyVjHsxuAN4oZAxX186A9gJULirjhRLyDlQejmC
-         UvJxBhFKhoq8p7HkSN1Q0gTWCf/O5bMGVPyKdG+35yA90yrQsPu3Q6W4gG7NYwvHd4z2
-         Zy02bsvG1K+Sdh+u4umaXy5KF1okkyqBFGgQiCL35jlDNvWC3EzUK7MckKpOicTGrmBK
-         TJRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWjmkOjophMx4wKJt7XI6slhH0iBq4IxXn5Qk/4eUSya4HQ5wOqwhZ9G1A6IpnBcpjh6wm+umIt@vger.kernel.org, AJvYcCX6fE0LGjTB7ly7bUOZrbfZfUN5y5PPEXvElaJiY1rOawDem5MIrekUb2nW524hdEj1TRjAMlp4T8iYGwE=@vger.kernel.org, AJvYcCXiItGVIK7D8sOAPIR0glEY+ZzQ7qOJQVAJgjyFCBNIQA7PFyQs3GegEjsib1IvPIkSUUkkT5gqL3rp12c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRQF8QT4B2gKVLp1bipb2eNVI6bin0AD2xXMyn0TrGUA9KqIVl
-	4EB0B/i/lrtbptZI11U4VbQHqOnbjCKaRWZPxR5B5iqo09GBadSu
-X-Google-Smtp-Source: AGHT+IEykYxqXoYAhLTiaAatQMKb3ZNjmkzBVWNHk/YhG+9R7BMikzWwvtQyBjYx7/diRhDrQmslhw==
-X-Received: by 2002:a17:907:3e13:b0:a99:3ed0:58ad with SMTP id a640c23a62f3a-a993ed0b560mr698403966b.64.1728288757385;
-        Mon, 07 Oct 2024 01:12:37 -0700 (PDT)
-Received: from [127.0.1.1] (83-215-114-114.dyn.cablelink.at. [83.215.114.114])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994d5745e2sm173661866b.23.2024.10.07.01.12.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2024 01:12:37 -0700 (PDT)
-From: Benjamin Bara <bbara93@gmail.com>
-Date: Mon, 07 Oct 2024 10:12:30 +0200
-Subject: [PATCH] Revert "ASoC: tegra: machine: Handle component name
- prefix"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ExpCYC7M"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sxn632u4ld6M1yuBrBgesppFvCnhdlQhwH3UqVLFuxvSlf+B6Xaoeh708Ja7zApCDD7SsA7cimuIR7+pD7Da3O0dfghsA4WzOqpnwiY98zRfMLxU9IT1SRfQlJX/RI5OF9y30AnENE+d6sOBxzYiQjNpRr9o5PDjpFzwOoRw/0ppXZz3mle20g+zEZ5KfLO3bFE1ed7Dy/s8tpVk3zF/ojPkhCfIrWN0I/6ozOcsidQfJLqFNE97WLM/60dSOFHfGE2JQ7DE6rkB7h1dWbZhxGVxTRhC2yjxB9e63VNcMnlXqW6D9RkhpiT7OJANnLGw6delsf/RT3BXoAWSXp6XCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Y4hxOiBVN12gJpatf3Xa4RNzPJc7YZuyZMiBm3RvQY=;
+ b=X5I835PMynnlbGZCoXEmBNo52oD0WmsG28s/a2Tc+K6V5c/db5JGP5faiiz1q9X/69akRou7gV9XOfcaVS3ESt+acJHgQetgO1ql1ek6Q9edVsiVpo0bJMTWQZ2ivi2MAra9b+s39bDwxjS0NXeClvC5vUynrgUfKsQ0Q7Yj9KMcnSfQNGoZOkA2dnlL+GNkXC9TSx1nefx7zyP4vEhZXq5UJtbmuZT4LMij2cvBpkzcKUQB0bFGUpzR3f+i60xJtktQY8Cazdxi4lIRcTx/6hV8SlLhNRoEgKBtinpA1N/Sz9vQZsu5uTgaUxbRsw9HK0bNdkWoVHqGOKwL96ejDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Y4hxOiBVN12gJpatf3Xa4RNzPJc7YZuyZMiBm3RvQY=;
+ b=ExpCYC7MIejj3Xy9k7Q/tmc7eOjOJB+Rni/zGKQDeAL8EMVn5Z7GHrdSXm563mfnARj+anrnc96JX1JF9stL0/CFNEW7ijOPYyITbLoBl3yUtOPiqwMwyuS6Ux9SbI3WxKcibFx7+UD7BsdDVtZkCxq7wpKzzV9TlfbAoJxCmsg=
+Received: from BN0PR07CA0005.namprd07.prod.outlook.com (2603:10b6:408:141::20)
+ by PH0PR12MB7792.namprd12.prod.outlook.com (2603:10b6:510:281::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Mon, 7 Oct
+ 2024 08:53:42 +0000
+Received: from BN2PEPF00004FBF.namprd04.prod.outlook.com
+ (2603:10b6:408:141:cafe::a6) by BN0PR07CA0005.outlook.office365.com
+ (2603:10b6:408:141::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.20 via Frontend
+ Transport; Mon, 7 Oct 2024 08:53:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF00004FBF.mail.protection.outlook.com (10.167.243.185) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8048.13 via Frontend Transport; Mon, 7 Oct 2024 08:53:42 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 7 Oct 2024 03:53:37 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.dev>,
+	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<dan.carpenter@linaro.org>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/3] Fixes and improvements related to amd soundwire machine
+Date: Mon, 7 Oct 2024 14:23:18 +0530
+Message-ID: <20241007085321.3991149-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241007-tegra-dapm-v1-1-bede7983fa76@skidata.com>
-X-B4-Tracking: v=1; b=H4sIAO2XA2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxNDAwNz3ZLU9KJE3ZTEglzd1DRLM8skizRzM6NEJaCGgqLUtMwKsGHRsbW
- 1AI4oEGZcAAAA
-X-Change-ID: 20241007-tegra-dapm-ef969b8f762a
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBF:EE_|PH0PR12MB7792:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee359e12-a7c4-4efd-ecb6-08dce6ad8b56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?abXBV3vL4xUGJsERo4ktpNOPTZuxioI7Y9rdKy4NWDwXWXQCFDmDCrjm5oYF?=
+ =?us-ascii?Q?uEeF5qH9FR7WHcTKFJm1OSZFlWf0jpsNOhIXFPH9ACH70Nx0iVAX04vF9Xcc?=
+ =?us-ascii?Q?GemsQxqGecSDYRHy2OJZlsty7zp2tLusIG79ljEh1H/J7YgsIo9fl41i+ZgF?=
+ =?us-ascii?Q?Wv+hJCIJ27ofQl8wV6h7fl5IZFnt4jbWi7BddTO42Q8/Mff330JT2AwXTgiT?=
+ =?us-ascii?Q?dv5lbyg7+HW8sSj7iVMItyNez8Xfd9Nrtd4AKM8xyr5y5eN8MbtwYbkVbURd?=
+ =?us-ascii?Q?Z9A8CwRJEqHE5EtuqzE1He3BqmdLKxmiV4JY4Kamgz4qf2st300ybqGea7vz?=
+ =?us-ascii?Q?vw7m/ycnYa3IOKiLKJws+E03f79CRB3RPv3ebr4jdsvp9LlUZ76mZTVzWMu0?=
+ =?us-ascii?Q?iKZs+sVQlitKbPLUj7Tc6N99Fo/W1KxdU1ksDdWkLfsu3ImUrT6beTmrByXs?=
+ =?us-ascii?Q?2yuv4StE+w9Gf7GW04MUiri67whUMj7HD0z6Hpti6LfGqcEdkPNy3195eFYo?=
+ =?us-ascii?Q?vjGS3I5NNp2K/cw+WU5dGGawT4g+NqhrgzFAK11ursNuMkiC9MdYuszQXXwA?=
+ =?us-ascii?Q?Xp12fIM1zvQIoHdFeX+hWPJtOjXQGO2aXJQ8G1xnyb5358+dafeQQZqV3FSy?=
+ =?us-ascii?Q?aRTxh7boGSFmAd/J/CF1aBLMnWJpnOquegijD5BuEvjHk3Vfo/dr6oV4epC9?=
+ =?us-ascii?Q?Qd3aJoNyS4Nv75fJDZUBTPYGxhPx/LBJazH5/Mq/Q8u3R9rT5irK5DLFkZZ+?=
+ =?us-ascii?Q?Hy7eWW92gTTyNC7IKTgLEi91MMNdfX5+lfm6YA7Nijob59AzsN6t5qAMopNM?=
+ =?us-ascii?Q?X3DyJtPLj0oT2+8cCl0iQKhFw7qFz39VXXKIilAGjYXOx8w3NyFRv0mt1ijl?=
+ =?us-ascii?Q?gC8e9aqBYyx2PD72es2ze5mlj8StWCu34Lz/OCV6Z5DK/7KzcXtSnMhH7AHX?=
+ =?us-ascii?Q?ot1ZK98as0Hzbir+2SlWH3esYL/MPpdBptxlmXPodDziIfmZ0jMLkBxPmco8?=
+ =?us-ascii?Q?ccVFcFP9RFdjyj84gdKHNJPHyhzJ8Kske91XUR0lUwZU0nycsJfnXsmYHR2C?=
+ =?us-ascii?Q?IYta/m2FdpHGG2pTU/GLten3g2vGxvJ0wjYR8+P/ehPW3NHnunVn+AmDOPsW?=
+ =?us-ascii?Q?+SyPHjDiQuCX1KJgY7ipxi6xo6ktQeZur2mArXf0hRridmkDK0pppGClHj5o?=
+ =?us-ascii?Q?HD0iwRTu6s5kdk1b8mECD2SkbNV8BnJfAGtu0tJhpOZRqpIt7YSYBl/Lu8eW?=
+ =?us-ascii?Q?vUV0XHs07oSLAPMhywTjr/9W2kuL4mclO6B2qbCBMvg4KCAdBn7Nlqkk1MTz?=
+ =?us-ascii?Q?Xx+EaBNdB8QqZl21tLzps5ltELCX+S6+0c25hxcX87DCzlSb4mVclyurntDO?=
+ =?us-ascii?Q?lvlovRhH6JXypStdZveQY8nbQIjI?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2024 08:53:42.0603
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee359e12-a7c4-4efd-ecb6-08dce6ad8b56
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FBF.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7792
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+This patch series consists of smatch error fixes and code improvements
+related to amd soundwire generic machine driver.
 
-This reverts commit f82eb06a40c86c9a82537e956de401d497203d3a.
+Vijendar Mukunda (3):
+  ASoC: amd: acp: fix for inconsistent indenting
+  ASoC: amd: acp: fix for cpu dai index logic
+  ASoC: amd: acp: refactor sof_card_dai_links_create() function
 
-Tegra is adding the DAPM of the respective widgets directly to the card
-and therefore the DAPM has no component. Without the component, the
-precondition for snd_soc_dapm_to_component() fails, which results in
-undefined behavior. Use the old implementation, as we cannot have a
-prefix without component.
+ sound/soc/amd/acp/acp-sdw-sof-mach.c | 47 +++++++++++-----------------
+ 1 file changed, 18 insertions(+), 29 deletions(-)
 
-Cc: stable@vger.kernel.org # v6.7+
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
----
-Original Link:
-https://lore.kernel.org/all/20231023095428.166563-18-krzysztof.kozlowski@linaro.org/
----
- sound/soc/tegra/tegra_asoc_machine.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
-index 775ce433fdbfdbcff4d09d078dbb0e65c0b15b60..bc16f805f52c41d6cb983380ee0ac40944531e52 100644
---- a/sound/soc/tegra/tegra_asoc_machine.c
-+++ b/sound/soc/tegra/tegra_asoc_machine.c
-@@ -81,23 +81,19 @@ static int tegra_machine_event(struct snd_soc_dapm_widget *w,
- 	struct snd_soc_dapm_context *dapm = w->dapm;
- 	struct tegra_machine *machine = snd_soc_card_get_drvdata(dapm->card);
- 
--	if (!snd_soc_dapm_widget_name_cmp(w, "Int Spk") ||
--	    !snd_soc_dapm_widget_name_cmp(w, "Speakers"))
-+	if (!strcmp(w->name, "Int Spk") || !strcmp(w->name, "Speakers"))
- 		gpiod_set_value_cansleep(machine->gpiod_spkr_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!snd_soc_dapm_widget_name_cmp(w, "Mic Jack") ||
--	    !snd_soc_dapm_widget_name_cmp(w, "Headset Mic"))
-+	if (!strcmp(w->name, "Mic Jack") || !strcmp(w->name, "Headset Mic"))
- 		gpiod_set_value_cansleep(machine->gpiod_ext_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!snd_soc_dapm_widget_name_cmp(w, "Int Mic") ||
--	    !snd_soc_dapm_widget_name_cmp(w, "Internal Mic 2"))
-+	if (!strcmp(w->name, "Int Mic") || !strcmp(w->name, "Internal Mic 2"))
- 		gpiod_set_value_cansleep(machine->gpiod_int_mic_en,
- 					 SND_SOC_DAPM_EVENT_ON(event));
- 
--	if (!snd_soc_dapm_widget_name_cmp(w, "Headphone") ||
--	    !snd_soc_dapm_widget_name_cmp(w, "Headphone Jack"))
-+	if (!strcmp(w->name, "Headphone") || !strcmp(w->name, "Headphone Jack"))
- 		gpiod_set_value_cansleep(machine->gpiod_hp_mute,
- 					 !SND_SOC_DAPM_EVENT_ON(event));
- 
-
----
-base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-change-id: 20241007-tegra-dapm-ef969b8f762a
-
-Best regards,
 -- 
-Benjamin Bara <benjamin.bara@skidata.com>
+2.34.1
 
