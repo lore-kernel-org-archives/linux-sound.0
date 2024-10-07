@@ -1,93 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DAF18C351
-	for <linux-sound@vger.kernel.org>; Mon,  7 Oct 2024 21:30:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC2A18CBEC
+	for <linux-sound@vger.kernel.org>; Mon,  7 Oct 2024 22:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728336616; cv=none; b=mUZdgP0Jxo83gEcDkokwqvFp6Qz5/UDDHLL1Pei5KmxXkg+GKJRjplEyELvBled3mHsPUmhnny59ZFnmktqOQmOBjkW+wmMv7SjpJIQzDMoKK7R5I6kZVxtjQh/y5UkvI2xQbzeEPko760fQtZn6WyFMwzzhERZqgCOYEKHzHmw=
+	t=1728338945; cv=none; b=t2cmulGtOaX4KOgSEkNBqnQ4UrmBwglCmmJC+d0zAGmvbMYmVEeOzT7xxMCcfvtslGe8eN+P0F6EBCN8Gtf8eYnLm7mALCO2nltdJPGPlz4ZoxSmrLdisJLjwijE5FiX0IavwbOnyXWTcPON7Dxzzas42HrzzAhN0mkl59G0M5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728336616; c=relaxed/simple;
-	bh=wxcNsQhfpVVjCTG2Y6aqnNdRk6QxyFRik6umuzgPWW0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ssJ+qLlaNzlvWlRQtxdU2BT2w1anNyMYUWiCQlk9QyJpRdXa9Na+axh3JlPibOt8UsUPTZ3DtbXLxZu55hj6xyEfJaV9qd0yizo2sM3lZxxN3vYv7KDqCIsJzO3XmECmYxa1OCL+ZA8gXiQewHLR1UItWmnAiy+zj7Rxlo+yEQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGGIFmAT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728338945; c=relaxed/simple;
+	bh=CqX9Y0dEmHgiIN61I3/zW08Bfod5n7pFQiGUVIMbBVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PLtU3+Bf0jMbID2bXtWGT6M+5bo5QPQXN+F1UnDxua1eGg0G9n6+VMN4x8ImMvNLwLgy4KkszCbxaNSbTHnJWBAf3YvWtSFsgVOzbvuw78u5PDrevdSFCkCdqwdD5v8MwA6l1TtcqkgHoFyaY6JanVHGhTDGA6eaiv3bc8GJHIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f42ekjaj; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGGIFmAT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF299C4CECD;
-	Mon,  7 Oct 2024 21:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728336616;
-	bh=wxcNsQhfpVVjCTG2Y6aqnNdRk6QxyFRik6umuzgPWW0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oGGIFmATkjM5pe/Jzy595mf44P2lknRt6MrDAADkYW2ZdrjnwLbAhNX8GXdVdQAe6
-	 IjI7zvzhagk+zSMeymeJIoRU48sNYXGwQnGopTxW4aAcGgrOfMXU6DuOG9RPJ88TV4
-	 bKHiqJ1FKYev8S1woiqPI+zYMvpx7US/cjXVbVZspJYlWd863hDVOiPYwDd+jiYGsm
-	 SsJm9lRPNe41dK2AmSc2DWqjd/rIcEuuIjZ5zVquArrRBYVi9wzSpLA/JZwv5yJxyo
-	 kJ1CVtRp7xj/x7hva/JSHxzzXp1CYscly8mP8/4ikjTdltiR6nkxXjwOsg83hraXEi
-	 d3lQbRba1mI1A==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com, peter.ujfalusi@linux.intel.com
-In-Reply-To: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
-References: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: Intel: add rt722/rt721 support for PTL
- platform
-Message-Id: <172833661459.2566981.16500783307779939186.b4-ty@kernel.org>
-Date: Mon, 07 Oct 2024 22:30:14 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f42ekjaj"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e28ee5a988dso11427276.2
+        for <linux-sound@vger.kernel.org>; Mon, 07 Oct 2024 15:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728338941; x=1728943741; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CqX9Y0dEmHgiIN61I3/zW08Bfod5n7pFQiGUVIMbBVk=;
+        b=f42ekjajbfDK67ZKARCmr941NjbWO+zYjmvxMyp4Fy4kuKtSrf2iKVgUnqsi4Pq/C8
+         ipLnwDdGgIhMpbV6MbaWihNRjelX2+woJYoIbLTf7wbD0Bhx61DhylVJNKfm5EKD+bxx
+         t76f21S9sdP2+Srx/IKijDY7UfyJgxLwnqWIBzkYi0Sb+DT3hOoxoIAQVRQPbOB/qV3q
+         Adu2DK2XKllz6BnqNBICrcVCCtOrLKrRgH/K3/H9o6de1RgHgyfio5vJeL9oVtyZ5KBH
+         JuVFWDW0N8Y7ot5/Mgf88aiwlINp0hKoeKv2zWBPzzQeNqT2AoyY/oKF9WuxmYryhJzP
+         QjeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728338941; x=1728943741;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CqX9Y0dEmHgiIN61I3/zW08Bfod5n7pFQiGUVIMbBVk=;
+        b=LTOhxdDefaDYp9HfUUtem+EA2brc3srzLS2wII86Fd4D105UpZOe8A3fI+/52PYewn
+         44+Iy5j6FLXMil2e8yZMfhS55+wGjIOLiCy3yR2fPcPvMfR3gFliQytY0XsWGU1Svnmc
+         jki95KdQBSbpV8CJbfSHpJTlDO+jBHj5uwNdUYBkfijGpkPyRkc2JRWdltcOtWNch87Y
+         +nHFPN8ZDbSryb067Pp2ACZu50FM+TndOfHKxmZzPEjMdjFA/ArKXqWhpembrFHLUY6n
+         JFVCPxL+FeKYY0iwk/nsRHwwyjSvBJUPV67YOvPl9rwIfgXZz32SAa9jQxLgXgXrlKOx
+         3Pbg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTwLEIiHXmzlPINIMFCAonVUP78J8wGoYVYUGc5suIh1ik40bxiv2EcDOafwsKKQf4pOPedrfgkVAm9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIOv3MFXF5lvEGoqXmxlhyYUmCIkNofXqwM1RoeyHnUsamKrrt
+	fFWd9kaY6O2y/mxYjrdGpA3ygwKqNwsRDsWzdXAvOTpE2bT/zmek4l00m1QqtErgVfUcWlCyemX
+	GxUUpNrYM8gj4ddwFpfgeqnN8dGvF8P/BavMrrw==
+X-Google-Smtp-Source: AGHT+IE2nJVabbXdwibt1H0pVBms5dYTsG8RkBKKAzfdsgMhYsZ8VyWIk7HanuWHiQPQxXFBk2ezA08qlljJFN0QQR4=
+X-Received: by 2002:a05:6902:848:b0:e28:edbd:765f with SMTP id
+ 3f1490d57ef6-e28edbd7f75mr206026276.2.1728338940867; Mon, 07 Oct 2024
+ 15:09:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
+ <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com> <20241007184924.GH14766@pendragon.ideasonboard.com>
+In-Reply-To: <20241007184924.GH14766@pendragon.ideasonboard.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 8 Oct 2024 00:08:24 +0200
+Message-ID: <CAPDyKFpQVnF7eQv3dup8k-3EijnMjuveCG9sZ=Rpey1Y6MBJEg@mail.gmail.com>
+Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-bluetooth@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, 
+	linux-i3c@lists.infradead.org, linux-iio@vger.kernel.org, 
+	linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
+	iommu@lists.linux.dev, imx@lists.linux.dev, 
+	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, 
+	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
+	asahi@lists.linux.dev, rafael@kernel.org, 
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 07 Oct 2024 15:59:52 +0800, Bard Liao wrote:
-> Rt722, rt721 and rt712 codecs are quite similar. Refactor the existing
-> spk_rtd_init() to support Realtek common multifunction SDCA codecs.
-> 
-> Dharageswari R (1):
->   ASoC: intel: sof_sdw: add RT722 SDCA card for PTL platform
-> 
-> Naveen Manohar (2):
->   ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
->   ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
-> 
-> [...]
+On Mon, 7 Oct 2024 at 20:49, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ulf,
+>
+> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
+> > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hello everyone,
+> > >
+> > > This set will switch the users of pm_runtime_put_autosuspend() to
+> > > __pm_runtime_put_autosuspend() while the former will soon be re-purposed
+> > > to include a call to pm_runtime_mark_last_busy(). The two are almost
+> > > always used together, apart from bugs which are likely common. Going
+> > > forward, most new users should be using pm_runtime_put_autosuspend().
+> > >
+> > > Once this conversion is done and pm_runtime_put_autosuspend() re-purposed,
+> > > I'll post another set to merge the calls to __pm_runtime_put_autosuspend()
+> > > and pm_runtime_mark_last_busy().
+> >
+> > That sounds like it could cause a lot of churns.
+> >
+> > Why not add a new helper function that does the
+> > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
+> > things? Then we can start moving users over to this new interface,
+> > rather than having this intermediate step?
+>
+> I think the API would be nicer if we used the shortest and simplest
+> function names for the most common use cases. Following
+> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
+> most common use case. That's why I like Sakari's approach of repurposing
+> pm_runtime_put_autosuspend(), and introducing
+> __pm_runtime_put_autosuspend() for the odd cases where
+> pm_runtime_mark_last_busy() shouldn't be called.
 
-Applied to
+Okay, so the reason for this approach is because we couldn't find a
+short and descriptive name that could be used in favor of
+pm_runtime_put_autosuspend(). Let me throw some ideas at it and maybe
+you like it - or not. :-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I don't know what options you guys discussed, but to me the entire
+"autosuspend"-suffix isn't really that necessary in my opinion. There
+are more ways than calling pm_runtime_put_autosuspend() that triggers
+us to use the RPM_AUTO flag for rpm_suspend(). For example, just
+calling pm_runtime_put() has the similar effect.
 
-Thanks!
+Moreover, it's similar for pm_runtime_mark_last_busy(), it's called
+during rpm_resume() too, for example. So why bother about having
+"mark_last_busy" in the new name too.
 
-[1/3] ASoC: intel: sof_sdw: add RT722 SDCA card for PTL platform
-      commit: 69a5d2d0d913cc0190899be7a835a48b0808a5ec
-[2/3] ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
-      commit: 10488630e1072cc5feebf25d1be04505fafb59a5
-[3/3] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
-      commit: 846a8d3cf3bace9f235c38caf1d8d853c323dbd4
+That said, my suggestion is simply "pm_runtime_put_suspend".
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+If you don't like it, I will certainly not object to your current
+approach, even if I think it leads to unnecessary churns.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+[...]
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Kind regards
+Uffe
