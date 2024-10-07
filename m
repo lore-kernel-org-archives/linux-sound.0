@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCCB17D378
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB981292CE
 	for <linux-sound@vger.kernel.org>; Mon,  7 Oct 2024 08:00:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728288032; cv=none; b=FXInovrgRX9mnc6w48l6h8as6z8JkYiR4ZyRUYXNGz1LyI1VmDV1SpOB+n3ANhoEFCld+0Fl2b6U83wAJfBulcL8Wg1MNuLi2BIPGPSp4hDyID1W+kH1mGbiwMy18lzt/MWQ8lFfiRAIE9lWRishXPbqQCtP8/m44JwTk4h/GmU=
+	t=1728288032; cv=none; b=patahfG22YdLVzzrQvdh29eqiVWxWP32tYjiwiGzppiz/bN8wVavXbVSuOFxqKoBNmeOwQeKG4hkW+PCq2KnrXpT9lQ1EyBkODCeQqBfT4uiW5m5Ipwn01w+YdsYOe1CJz3twOwe5df8t9eLiK5CNWmQQz2+s9rIot7pPbGMumM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728288032; c=relaxed/simple;
-	bh=cVq7a/ln9nxQUwzyq+7Q6X5EYrwfJhsEMN3YWuKuGWE=;
+	bh=v++KU7i/DtRPXrf4Vh0ub5uX7ZRf76DIoVRA0JdD+JU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=riUhU53Dpg56zull6QOZvLcRFgfzS/P/TTKObb9a288+LiDw3cdAKaRjTqbRh/1jftMNxA3ireYRDq8LXPme4NsPKGSH+XaV6v1CQT52ajU//h//PGUAkscmKx0os5SY2APfA1MytlNhmm9egvk20AUvHIfDoTTaumZ2MMVkW20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEQrYegv; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version:Content-Type; b=hC+auJKoBVpPN/3nEL46DLxzsdML7KOa6RmyIThsOQebIAli8xAZvZ3Ttu+PpL45PAmHGRiWjVTjS8QBsRlBjx/2hXVJHHtVtCpL7VAsHWy6QWNodxCVZNqKd6E5mCUqaSGk6R7lFhCSRUn8C0nV8j6Y+J3B4ABqzSDEF0jzPL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3ZN6mGx; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEQrYegv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3ZN6mGx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1728288031; x=1759824031;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cVq7a/ln9nxQUwzyq+7Q6X5EYrwfJhsEMN3YWuKuGWE=;
-  b=lEQrYegvDmucpgA+UUPDkn7yTEXW02OKwmP1Qjre32ojlLYow2BuWj//
-   Iy+iXv2E73fawKIbD4tNtx77Ao6FhptfUHfC+r7fvzYSdJbfrN1Ww6vra
-   pmacKYNY1t8DA5z+L8EFFPYglMDNXc/jTEltq7GygjdpNHvqd88G71xmL
-   umc8WKU2vLL55RWFK2nL5cVS8ByMzh68IKsKc8UyO6cyudm/sFIU2fI6o
-   EYzI/qNu2vVPBlfe90L0osRgYnFOBkHA9bdVOusRcxTTZARfYSDMpkudi
-   mF9ug+q473uLnx8vIdx2//D7H/qWAQxiqiEjMOSUWl5WTHblYii9wZZMJ
-   g==;
-X-CSE-ConnectionGUID: 3gDgEB75RaGIl9sC/tSoUw==
-X-CSE-MsgGUID: /CWYujmCRV6c615QS+8Xeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="30309356"
+  bh=v++KU7i/DtRPXrf4Vh0ub5uX7ZRf76DIoVRA0JdD+JU=;
+  b=C3ZN6mGx6qHtng9HqMSMlZNOTIRnfwhtANkouGA+8pYq8nA/0ayB4jPA
+   QLy5WVBVWmkSRcljPOmr7kTedEOVFPHSd9F8zdST+ZR0dkNz9YRRkXuQb
+   MzBxJrSmopfQpOwyWmybtgezzcVlg6at5YeOBvInsqHmRov6zIUAeDaz+
+   HMTW5hb8GCdSnirQYopWsji0dsRg5Llx6FRd2vzZqRg+KRGNsC5dao18G
+   r6TazWe5DtHCmaOAsKhIgdT68YZ7GNcctLwn26Afon/ufKwmxh1lHDc5K
+   tZcc5mY8wyaD7KNFRwctE5+t2QQdzksuRPgfwYpLrKGhcm7mBJVDFRyVf
+   Q==;
+X-CSE-ConnectionGUID: VIjdxhIvRx+bcwvdc1MPQw==
+X-CSE-MsgGUID: PPIrv/bUTuK4a8BthyQ8qQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11217"; a="30309347"
 X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="30309356"
+   d="scan'208";a="30309347"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 01:00:29 -0700
-X-CSE-ConnectionGUID: vwjvZ73CQ32AXeCL1FJ5vQ==
-X-CSE-MsgGUID: nuJTUy65QzmydQ9LdlIUtg==
+X-CSE-ConnectionGUID: Z4nfMAhlTHOG0dtCjKjBRg==
+X-CSE-MsgGUID: SwBWrbeORnCZNGb/vLe6HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,183,1725346800"; 
-   d="scan'208";a="80176763"
+   d="scan'208";a="80176724"
 Received: from anmitta2-mobl4.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.70])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 01:00:26 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 01:00:23 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
@@ -50,9 +50,9 @@ Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com,
 	peter.ujfalusi@linux.intel.com
-Subject: [PATCH 3/3] ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
-Date: Mon,  7 Oct 2024 15:59:55 +0800
-Message-ID: <20241007075955.12575-4-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 2/3] ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
+Date: Mon,  7 Oct 2024 15:59:54 +0800
+Message-ID: <20241007075955.12575-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
 References: <20241007075955.12575-1-yung-chuan.liao@linux.intel.com>
@@ -67,163 +67,319 @@ Content-Transfer-Encoding: 8bit
 
 From: Naveen Manohar <naveen.m@intel.com>
 
-Patch adds driver data & match table for rt721
-multi-function codec on PTL-RVP at sdw link3.
+Merge spk_rtd_init for multifunction sdca codecs:rt712/rt722
 
 Signed-off-by: Naveen Manohar <naveen.m@intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-ptl-match.c   | 24 +++++++++++
- sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c      |  5 +++
- .../sdw_utils/soc_sdw_rt_sdca_jack_common.c   |  8 ++++
- sound/soc/sdw_utils/soc_sdw_utils.c           | 41 +++++++++++++++++++
- 4 files changed, 78 insertions(+)
+ include/sound/soc_sdw_utils.h                 |  3 +-
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 18 ++--
+ sound/soc/sdw_utils/Makefile                  |  3 +-
+ sound/soc/sdw_utils/soc_sdw_rt712_sdca.c      | 48 -----------
+ sound/soc/sdw_utils/soc_sdw_rt722_sdca.c      | 41 ---------
+ sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c      | 85 +++++++++++++++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |  4 +-
+ 7 files changed, 98 insertions(+), 104 deletions(-)
+ delete mode 100644 sound/soc/sdw_utils/soc_sdw_rt712_sdca.c
+ delete mode 100644 sound/soc/sdw_utils/soc_sdw_rt722_sdca.c
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
 
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index f68c1f193b3b..2374e6df4e58 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -234,8 +234,7 @@ int asoc_sdw_rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_s
+ int asoc_sdw_rt_amp_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_rt700_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_rt711_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+-int asoc_sdw_rt712_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+-int asoc_sdw_rt722_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
++int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_rt5682_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_cs42l42_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
+ int asoc_sdw_cs42l43_hs_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai);
 diff --git a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-index 5ed905440e9d..f1c0d7a02cda 100644
+index 7107f0151030..5ed905440e9d 100644
 --- a/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
 +++ b/sound/soc/intel/common/soc-acpi-intel-ptl-match.c
-@@ -69,6 +69,24 @@ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
- 	}
+@@ -36,10 +36,10 @@ static const struct snd_soc_acpi_endpoint single_endpoint = {
  };
  
-+static const struct snd_soc_acpi_adr_device rt721_3_single_adr[] = {
-+	{
-+		.adr = 0x000330025d072101ull,
-+		.num_endpoints = ARRAY_SIZE(rt_mf_endpoints),
-+		.endpoints = rt_mf_endpoints,
-+		.name_prefix = "rt721"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_link_adr ptl_rt721_l3[] = {
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(rt721_3_single_adr),
-+		.adr_d = rt721_3_single_adr,
-+	},
-+	{},
-+};
-+
+ /*
+- * RT722 is a multi-function codec, three endpoints are created for
+- * its headset, amp and dmic functions.
++ * Multi-function codecs with three endpoints created for
++ * headset, amp and dmic functions.
+  */
+-static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
++static const struct snd_soc_acpi_endpoint rt_mf_endpoints[] = {
+ 	{
+ 		.num = 0,
+ 		.aggregated = 0,
+@@ -72,8 +72,8 @@ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
  static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
  	{
  		.adr = 0x000030025d072201ull,
-@@ -159,6 +177,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_ptl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-ptl-rt711.tplg",
- 	},
-+	{
-+		.link_mask = BIT(3),
-+		.links = ptl_rt721_l3,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-ptl-rt721.tplg",
-+	},
+-		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
+-		.endpoints = rt722_endpoints,
++		.num_endpoints = ARRAY_SIZE(rt_mf_endpoints),
++		.endpoints = rt_mf_endpoints,
+ 		.name_prefix = "rt722"
+ 	}
+ };
+@@ -81,8 +81,8 @@ static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
+ static const struct snd_soc_acpi_adr_device rt722_1_single_adr[] = {
  	{
- 		.link_mask = BIT(0),
- 		.links = ptl_rt722_only,
+ 		.adr = 0x000130025d072201ull,
+-		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
+-		.endpoints = rt722_endpoints,
++		.num_endpoints = ARRAY_SIZE(rt_mf_endpoints),
++		.endpoints = rt_mf_endpoints,
+ 		.name_prefix = "rt722"
+ 	}
+ };
+@@ -90,8 +90,8 @@ static const struct snd_soc_acpi_adr_device rt722_1_single_adr[] = {
+ static const struct snd_soc_acpi_adr_device rt722_3_single_adr[] = {
+ 	{
+ 		.adr = 0x000330025d072201ull,
+-		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
+-		.endpoints = rt722_endpoints,
++		.num_endpoints = ARRAY_SIZE(rt_mf_endpoints),
++		.endpoints = rt_mf_endpoints,
+ 		.name_prefix = "rt722"
+ 	}
+ };
+diff --git a/sound/soc/sdw_utils/Makefile b/sound/soc/sdw_utils/Makefile
+index 28229ed96ffb..daf019113553 100644
+--- a/sound/soc/sdw_utils/Makefile
++++ b/sound/soc/sdw_utils/Makefile
+@@ -1,9 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ snd-soc-sdw-utils-y := soc_sdw_utils.o soc_sdw_dmic.o soc_sdw_rt_dmic.o \
+ 		       soc_sdw_rt700.o soc_sdw_rt711.o 			\
+-		       soc_sdw_rt712_sdca.o soc_sdw_rt722_sdca.o	\
+ 		       soc_sdw_rt5682.o soc_sdw_rt_sdca_jack_common.o	\
+-		       soc_sdw_rt_amp.o					\
++		       soc_sdw_rt_amp.o soc_sdw_rt_mf_sdca.o		\
+ 		       soc_sdw_bridge_cs35l56.o 			\
+ 		       soc_sdw_cs42l42.o soc_sdw_cs42l43.o 		\
+ 		       soc_sdw_cs_amp.o					\
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt712_sdca.c b/sound/soc/sdw_utils/soc_sdw_rt712_sdca.c
+deleted file mode 100644
+index 5127210b9a03..000000000000
+--- a/sound/soc/sdw_utils/soc_sdw_rt712_sdca.c
++++ /dev/null
+@@ -1,48 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-// This file incorporates work covered by the following copyright notice:
+-// Copyright (c) 2023 Intel Corporation
+-// Copyright (c) 2024 Advanced Micro Devices, Inc.
+-
+-/*
+- *  soc_sdw_rt712_sdca - Helpers to handle RT712-SDCA from generic machine driver
+- */
+-
+-#include <linux/device.h>
+-#include <linux/errno.h>
+-#include <linux/soundwire/sdw.h>
+-#include <linux/soundwire/sdw_type.h>
+-#include <sound/control.h>
+-#include <sound/soc.h>
+-#include <sound/soc-acpi.h>
+-#include <sound/soc-dapm.h>
+-#include <sound/soc_sdw_utils.h>
+-
+-/*
+- * dapm routes for rt712 spk will be registered dynamically according
+- * to the number of rt712 spk used. The first two entries will be registered
+- * for one codec case, and the last two entries are also registered
+- * if two rt712s are used.
+- */
+-static const struct snd_soc_dapm_route rt712_spk_map[] = {
+-	{ "Speaker", NULL, "rt712 SPOL" },
+-	{ "Speaker", NULL, "rt712 SPOR" },
+-};
+-
+-int asoc_sdw_rt712_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+-{
+-	struct snd_soc_card *card = rtd->card;
+-	int ret;
+-
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s spk:rt712",
+-					  card->components);
+-	if (!card->components)
+-		return -ENOMEM;
+-
+-	ret = snd_soc_dapm_add_routes(&card->dapm, rt712_spk_map, ARRAY_SIZE(rt712_spk_map));
+-	if (ret)
+-		dev_err(rtd->dev, "failed to add SPK map: %d\n", ret);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_NS(asoc_sdw_rt712_spk_rtd_init, SND_SOC_SDW_UTILS);
+diff --git a/sound/soc/sdw_utils/soc_sdw_rt722_sdca.c b/sound/soc/sdw_utils/soc_sdw_rt722_sdca.c
+deleted file mode 100644
+index 6a402172289f..000000000000
+--- a/sound/soc/sdw_utils/soc_sdw_rt722_sdca.c
++++ /dev/null
+@@ -1,41 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-// This file incorporates work covered by the following copyright notice:
+-// Copyright (c) 2023 Intel Corporation
+-// Copyright (c) 2024 Advanced Micro Devices, Inc.
+-
+-/*
+- *  soc_sdw_rt722_sdca - Helpers to handle RT722-SDCA from generic machine driver
+- */
+-
+-#include <linux/device.h>
+-#include <linux/errno.h>
+-#include <linux/soundwire/sdw.h>
+-#include <linux/soundwire/sdw_type.h>
+-#include <sound/control.h>
+-#include <sound/soc.h>
+-#include <sound/soc-acpi.h>
+-#include <sound/soc-dapm.h>
+-#include <sound/soc_sdw_utils.h>
+-
+-static const struct snd_soc_dapm_route rt722_spk_map[] = {
+-	{ "Speaker", NULL, "rt722 SPK" },
+-};
+-
+-int asoc_sdw_rt722_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+-{
+-	struct snd_soc_card *card = rtd->card;
+-	int ret;
+-
+-	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
+-					  "%s spk:rt722",
+-					  card->components);
+-	if (!card->components)
+-		return -ENOMEM;
+-
+-	ret = snd_soc_dapm_add_routes(&card->dapm, rt722_spk_map, ARRAY_SIZE(rt722_spk_map));
+-	if (ret)
+-		dev_err(rtd->dev, "failed to add rt722 spk map: %d\n", ret);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL_NS(asoc_sdw_rt722_spk_rtd_init, SND_SOC_SDW_UTILS);
 diff --git a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
-index 8143d59ad10f..81e43319876e 100644
---- a/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
+new file mode 100644
+index 000000000000..8143d59ad10f
+--- /dev/null
 +++ b/sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
-@@ -25,6 +25,10 @@ static const struct snd_soc_dapm_route rt712_spk_map[] = {
- 	{ "Speaker", NULL, "rt712 SPOR" },
- };
- 
-+static const struct snd_soc_dapm_route rt721_spk_map[] = {
-+	{ "Speaker", NULL, "rt721 SPK" },
+@@ -0,0 +1,85 @@
++// SPDX-License-Identifier: GPL-2.0-only
++// This file incorporates work covered by the following copyright notice:
++// Copyright (c) 2024 Intel Corporation.
++
++/*
++ *  soc_sdw_rt_mf_sdca
++ *  - Helpers to handle RT Multifunction Codec from generic machine driver
++ */
++
++#include <linux/device.h>
++#include <linux/errno.h>
++#include <linux/soundwire/sdw.h>
++#include <linux/soundwire/sdw_type.h>
++#include <sound/control.h>
++#include <sound/soc.h>
++#include <sound/soc-acpi.h>
++#include <sound/soc-dapm.h>
++#include <sound/soc_sdw_utils.h>
++
++#define CODEC_NAME_SIZE	6
++
++/* dapm routes for RT-SPK will be registered dynamically */
++static const struct snd_soc_dapm_route rt712_spk_map[] = {
++	{ "Speaker", NULL, "rt712 SPOL" },
++	{ "Speaker", NULL, "rt712 SPOR" },
 +};
 +
- static const struct snd_soc_dapm_route rt722_spk_map[] = {
- 	{ "Speaker", NULL, "rt722 SPK" },
- };
-@@ -39,6 +43,7 @@ struct codec_route_map {
- /* Codec route maps array */
- static const struct codec_route_map codec_routes[] = {
- 	{ "rt712", rt712_spk_map, ARRAY_SIZE(rt712_spk_map) },
-+	{ "rt721", rt721_spk_map, ARRAY_SIZE(rt721_spk_map) },
- 	{ "rt722", rt722_spk_map, ARRAY_SIZE(rt722_spk_map) },
- };
- 
-diff --git a/sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c b/sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c
-index 3e6211dc1599..af43efbb8f79 100644
---- a/sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c
-+++ b/sound/soc/sdw_utils/soc_sdw_rt_sdca_jack_common.c
-@@ -60,6 +60,11 @@ static const struct snd_soc_dapm_route rt713_sdca_map[] = {
- 	{ "rt713 MIC2", NULL, "Headset Mic" },
- };
- 
-+static const struct snd_soc_dapm_route rt721_sdca_map[] = {
-+	{ "Headphone", NULL, "rt721 HP" },
-+	{ "rt721 MIC2", NULL, "Headset Mic" },
++static const struct snd_soc_dapm_route rt722_spk_map[] = {
++	{ "Speaker", NULL, "rt722 SPK" },
 +};
 +
- static const struct snd_soc_dapm_route rt722_sdca_map[] = {
- 	{ "Headphone", NULL, "rt722 HP" },
- 	{ "rt722 MIC2", NULL, "Headset Mic" },
-@@ -121,6 +126,9 @@ int asoc_sdw_rt_sdca_jack_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_s
- 	} else if (strstr(component->name_prefix, "rt713")) {
- 		ret = snd_soc_dapm_add_routes(&card->dapm, rt713_sdca_map,
- 					      ARRAY_SIZE(rt713_sdca_map));
-+	} else if (strstr(component->name_prefix, "rt721")) {
-+		ret = snd_soc_dapm_add_routes(&card->dapm, rt721_sdca_map,
-+					      ARRAY_SIZE(rt721_sdca_map));
- 	} else if (strstr(component->name_prefix, "rt722")) {
- 		ret = snd_soc_dapm_add_routes(&card->dapm, rt722_sdca_map,
- 					      ARRAY_SIZE(rt722_sdca_map));
++/* Structure to map codec names to respective route arrays and sizes */
++struct codec_route_map {
++	const char *codec_name;
++	const struct snd_soc_dapm_route *route_map;
++	size_t route_size;
++};
++
++/* Codec route maps array */
++static const struct codec_route_map codec_routes[] = {
++	{ "rt712", rt712_spk_map, ARRAY_SIZE(rt712_spk_map) },
++	{ "rt722", rt722_spk_map, ARRAY_SIZE(rt722_spk_map) },
++};
++
++static const struct codec_route_map *get_codec_route_map(const char *codec_name)
++{
++	for (size_t i = 0; i < ARRAY_SIZE(codec_routes); i++) {
++		if (strcmp(codec_routes[i].codec_name, codec_name) == 0)
++			return &codec_routes[i];
++	}
++	return NULL;
++}
++
++int asoc_sdw_rt_mf_sdca_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	struct snd_soc_card *card = rtd->card;
++	char codec_name[CODEC_NAME_SIZE];
++	int ret;
++
++	/* acquire codec name */
++	snprintf(codec_name, CODEC_NAME_SIZE, "%s", dai->name);
++
++	/* acquire corresponding route map and size */
++	const struct codec_route_map *route_map = get_codec_route_map(codec_name);
++
++	if (!route_map) {
++		dev_err(rtd->dev, "failed to get codec name and route map\n");
++		return -EINVAL;
++	}
++
++	/* Update card components */
++	card->components = devm_kasprintf(card->dev, GFP_KERNEL,
++					  "%s spk:%s",
++					  card->components, codec_name);
++	if (!card->components)
++		return -ENOMEM;
++
++	/* Add routes */
++	ret = snd_soc_dapm_add_routes(&card->dapm, route_map->route_map, route_map->route_size);
++	if (ret)
++		dev_err(rtd->dev, "failed to add rt sdca spk map: %d\n", ret);
++
++	return ret;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_rt_mf_sdca_spk_rtd_init, SND_SOC_SDW_UTILS);
 diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
-index 3b1af6c81e83..a9323cb444d0 100644
+index a6070f822eb9..3b1af6c81e83 100644
 --- a/sound/soc/sdw_utils/soc_sdw_utils.c
 +++ b/sound/soc/sdw_utils/soc_sdw_utils.c
-@@ -333,6 +333,47 @@ struct asoc_sdw_codec_info codec_info_list[] = {
- 		},
- 		.dai_num = 1,
- 	},
-+	{
-+		.part_id = 0x721,
-+		.version_id = 3,
-+		.dais = {
-+			{
-+				.direction = {true, true},
-+				.dai_name = "rt721-sdca-aif1",
-+				.dai_type = SOC_SDW_DAI_TYPE_JACK,
-+				.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
-+				.init = asoc_sdw_rt_sdca_jack_init,
-+				.exit = asoc_sdw_rt_sdca_jack_exit,
-+				.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
-+				.controls = generic_jack_controls,
-+				.num_controls = ARRAY_SIZE(generic_jack_controls),
-+				.widgets = generic_jack_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_jack_widgets),
-+			},
-+			{
-+				.direction = {true, false},
-+				.dai_name = "rt721-sdca-aif2",
-+				.dai_type = SOC_SDW_DAI_TYPE_AMP,
-+				/* No feedback capability is provided by rt721-sdca codec driver*/
-+				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
-+				.init = asoc_sdw_rt_amp_init,
-+				.exit = asoc_sdw_rt_amp_exit,
+@@ -138,7 +138,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+ 				.init = asoc_sdw_rt_amp_init,
+ 				.exit = asoc_sdw_rt_amp_exit,
+-				.rtd_init = asoc_sdw_rt712_spk_rtd_init,
 +				.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
-+				.controls = generic_spk_controls,
-+				.num_controls = ARRAY_SIZE(generic_spk_controls),
-+				.widgets = generic_spk_widgets,
-+				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
-+			},
-+			{
-+				.direction = {false, true},
-+				.dai_name = "rt721-sdca-aif3",
-+				.dai_type = SOC_SDW_DAI_TYPE_MIC,
-+				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
-+				.rtd_init = asoc_sdw_rt_dmic_rtd_init,
-+			},
-+		},
-+		.dai_num = 3,
-+	},
- 	{
- 		.part_id = 0x722,
- 		.version_id = 3,
+ 				.controls = generic_spk_controls,
+ 				.num_controls = ARRAY_SIZE(generic_spk_controls),
+ 				.widgets = generic_spk_widgets,
+@@ -358,7 +358,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+ 				.init = asoc_sdw_rt_amp_init,
+ 				.exit = asoc_sdw_rt_amp_exit,
+-				.rtd_init = asoc_sdw_rt722_spk_rtd_init,
++				.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
+ 				.controls = generic_spk_controls,
+ 				.num_controls = ARRAY_SIZE(generic_spk_controls),
+ 				.widgets = generic_spk_widgets,
 -- 
 2.43.0
 
