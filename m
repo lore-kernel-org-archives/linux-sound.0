@@ -1,80 +1,59 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C04849C;
-	Mon,  7 Oct 2024 08:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDA7125BA;
+	Mon,  7 Oct 2024 08:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728288358; cv=none; b=lNPJWLCBUFYZKKhEWOrRelLFI+pGbwh7a8cwMBOywrxjBcXoCKNyMlURhuO2VKjNc0lsBOqqcT8SU0jYflJ7TPQmzldKLXcBxRxc6IiOk6S+dCWKHKpu3WbScAuEV2G5MO7pbA/Zs6lAPFxn0F10Vr75ocPF8YJd7O2tLgTMu/o=
+	t=1728288760; cv=none; b=YvZzzx3XP06xF242HRbtmzvHjI9fNBvlM0tMvxiZj74S9rPV05NPobsN5Yq5EYPhWUc/JQV5fM81Si4eGpVL+i8jQ7OY5nB5mS/JvQ86rcLYbGQYcQDEu2AY2LP+IUH6DsZBgpVyLLuJbrz2r0n5hO+t15ljfWdfVUZFEU5Khxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728288358; c=relaxed/simple;
-	bh=waUV4a7mutxzrLnl05aUF1spDLiYo3LFIffRAYq+buw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LpzGJoqBdIAPSHDR5DcEVwCADHgXiitG3yZ/fBrW0V3X0PS9Kt9AqURzDkf85gibLSE49KpboL/SA59QnT2tUTBQ5RRjZZDLeDL4t/L+eD+eiMxDL22gGoE+yL6+B3zI9g3gf1NUSSBOGzDU1RyeRg8+WmCOs/zjN3CWoUsp0tI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=G/k1s40U; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1728288760; c=relaxed/simple;
+	bh=DQVwkoRIgL8UJm8NCB27MRhflsVRuGICAaTNssZviZ4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=g4EW40h+CZFyf4sW75b2cKq3H9FtztgrwjDDfP/ZCZmtsHiMdOIxfo2Kxu//AiGjL8suPXRJNkEw0XMW8nOF+1odW+mJAJcjFRUfbph4Ok3sfUtf2btDUZTX93M7ThBAQfQxi0/hXjfCZVWw/y/c+tcyR/Yl0vEIFPH7CdK4g8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3NP2d2e; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="G/k1s40U"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ZkOxRoRypHAVQgVjyqb7heF/q9DLPK8SmPxFVAuphQI=; b=G/k1s40Ulb10wWe2CvPP9H8zku
-	QyoRAgzReOYMUcvY1lT5FklGPJb9trwS8HWM5iKC2m2ws7E5TBIouShElZ6rUqd7aL1NY7tFFpVKE
-	wqInKhrzG35pjz7jHf4OdIyFp3xZtpyrQXwDcYsiY6x/GxEZc2Jw5mZA5rcEBBcKbM2WHNg1Fdfs2
-	kNbk1NVQV/19IsFaacmsHaoCamjIA1H2jsOPU65USw0roLxH03+ZCKnQBXaVtJ7nLQr2BB8WSp9q/
-	pK0Qc7UupO3XNZW14pv9HT2V5bQRXcSXjTwLYdsqnGept/bPGsRtLZYkPMGkRaEsXJw7YIF5kf8hC
-	Rg1jWntw==;
-Received: from i5e860d18.versanet.de ([94.134.13.24] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sxik7-0004Pv-F9; Mon, 07 Oct 2024 10:05:23 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Adam Ford <aford173@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Adrien Grassein <adrien.grassein@gmail.com>,
-	Lubomir Rintel <lkundrak@v3.sk>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	linux-sound@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up {hp,mic}-det-gpio handling
-Date: Mon,  7 Oct 2024 10:05:20 +0200
-Message-ID: <172814935870.2376693.17979672250689687487.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
-References: <cover.1727438777.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3NP2d2e"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c89f3f28b6so5964200a12.2;
+        Mon, 07 Oct 2024 01:12:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728288757; x=1728893557; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bP7+WnRgKS8Y9xY8Z0wXxP8X7E8K6aXgN1VH5WOGnLs=;
+        b=A3NP2d2e79Qy/IiMBFUImdwof9y6MxpJAMpEXjN6RcGMVxIO5Yi9jXmSgxsxhYpYh8
+         TDz/Gt1mIa85IMpV3INPG2RuRtqoGXBZnDlMSUj3J9WtfcOtNKGggCCshUZu8iqDsrYk
+         OQOvjWoA6ZVF1F+IzkX/DK/EcdoXrhh5ZTVZUocoHIo4NaHpn8Zoqc063fDAuT3SVFB3
+         UFLfO6o7FghQ4YtpvarFU/tvAC5ouhHqjkMeSl6L0MT4xlzFTTdD4PJMWupoPsbkk4qS
+         UyD7uAjN+qqLoPVjMpB1QCDZFnK/Gp72jkwC6EjWvc4gyH1fT2z+vQOvzXCMDqmyKHs6
+         KdFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728288757; x=1728893557;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bP7+WnRgKS8Y9xY8Z0wXxP8X7E8K6aXgN1VH5WOGnLs=;
+        b=XnTdLritn6d4csEOMApiT4mMmIBR8HZGjNRJNG59bq3Xceeplz3URjtIaHtTZ2de6C
+         nF1sAg70QLK74JpjmIPsWg1dLHoTZ1675O/QlZwaQWSZZQX7W/QlxnziJQaJo+e6rDPO
+         P/Pcr6PknWtkx11NgEChSzMUc831aXyVjHsxuAN4oZAxX186A9gJULirjhRLyDlQejmC
+         UvJxBhFKhoq8p7HkSN1Q0gTWCf/O5bMGVPyKdG+35yA90yrQsPu3Q6W4gG7NYwvHd4z2
+         Zy02bsvG1K+Sdh+u4umaXy5KF1okkyqBFGgQiCL35jlDNvWC3EzUK7MckKpOicTGrmBK
+         TJRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWjmkOjophMx4wKJt7XI6slhH0iBq4IxXn5Qk/4eUSya4HQ5wOqwhZ9G1A6IpnBcpjh6wm+umIt@vger.kernel.org, AJvYcCX6fE0LGjTB7ly7bUOZrbfZfUN5y5PPEXvElaJiY1rOawDem5MIrekUb2nW524hdEj1TRjAMlp4T8iYGwE=@vger.kernel.org, AJvYcCXiItGVIK7D8sOAPIR0glEY+ZzQ7qOJQVAJgjyFCBNIQA7PFyQs3GegEjsib1IvPIkSUUkkT5gqL3rp12c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRQF8QT4B2gKVLp1bipb2eNVI6bin0AD2xXMyn0TrGUA9KqIVl
+	4EB0B/i/lrtbptZI11U4VbQHqOnbjCKaRWZPxR5B5iqo09GBadSu
+X-Google-Smtp-Source: AGHT+IEykYxqXoYAhLTiaAatQMKb3ZNjmkzBVWNHk/YhG+9R7BMikzWwvtQyBjYx7/diRhDrQmslhw==
+X-Received: by 2002:a17:907:3e13:b0:a99:3ed0:58ad with SMTP id a640c23a62f3a-a993ed0b560mr698403966b.64.1728288757385;
+        Mon, 07 Oct 2024 01:12:37 -0700 (PDT)
+Received: from [127.0.1.1] (83-215-114-114.dyn.cablelink.at. [83.215.114.114])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994d5745e2sm173661866b.23.2024.10.07.01.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 01:12:37 -0700 (PDT)
+From: Benjamin Bara <bbara93@gmail.com>
+Date: Mon, 07 Oct 2024 10:12:30 +0200
+Subject: [PATCH] Revert "ASoC: tegra: machine: Handle component name
+ prefix"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -82,27 +61,79 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241007-tegra-dapm-v1-1-bede7983fa76@skidata.com>
+X-B4-Tracking: v=1; b=H4sIAO2XA2cC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDAwNz3ZLU9KJE3ZTEglzd1DRLM8skizRzM6NEJaCGgqLUtMwKsGHRsbW
+ 1AI4oEGZcAAAA
+X-Change-ID: 20241007-tegra-dapm-ef969b8f762a
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>
+Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>, 
+ stable@vger.kernel.org
+X-Mailer: b4 0.14.2
 
-On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
-> favor of the "gpios" suffix.  However, there are still several users of
-> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
-> drivers, and DT source files.
-> 
-> [...]
+From: Benjamin Bara <benjamin.bara@skidata.com>
 
-Applied, thanks!
+This reverts commit f82eb06a40c86c9a82537e956de401d497203d3a.
 
-[06/11] arm64: dts: rockchip: Switch to simple-audio-card,hp-det-gpios
-        commit: 7ac5c0a592f73fdc52393f6469ce8211ff3e771f
-[07/11] arm64: dts: rockchip: Switch to hp-det-gpios
-        commit: 3ca743f8a5b568dc5e5d5f1bab0298a4a43c2360
+Tegra is adding the DAPM of the respective widgets directly to the card
+and therefore the DAPM has no component. Without the component, the
+precondition for snd_soc_dapm_to_component() fails, which results in
+undefined behavior. Use the old implementation, as we cannot have a
+prefix without component.
 
-after the binding change from patch 02 got merged into the sound tree
+Cc: stable@vger.kernel.org # v6.7+
+Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
+---
+Original Link:
+https://lore.kernel.org/all/20231023095428.166563-18-krzysztof.kozlowski@linaro.org/
+---
+ sound/soc/tegra/tegra_asoc_machine.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/sound/soc/tegra/tegra_asoc_machine.c b/sound/soc/tegra/tegra_asoc_machine.c
+index 775ce433fdbfdbcff4d09d078dbb0e65c0b15b60..bc16f805f52c41d6cb983380ee0ac40944531e52 100644
+--- a/sound/soc/tegra/tegra_asoc_machine.c
++++ b/sound/soc/tegra/tegra_asoc_machine.c
+@@ -81,23 +81,19 @@ static int tegra_machine_event(struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_dapm_context *dapm = w->dapm;
+ 	struct tegra_machine *machine = snd_soc_card_get_drvdata(dapm->card);
+ 
+-	if (!snd_soc_dapm_widget_name_cmp(w, "Int Spk") ||
+-	    !snd_soc_dapm_widget_name_cmp(w, "Speakers"))
++	if (!strcmp(w->name, "Int Spk") || !strcmp(w->name, "Speakers"))
+ 		gpiod_set_value_cansleep(machine->gpiod_spkr_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
+ 
+-	if (!snd_soc_dapm_widget_name_cmp(w, "Mic Jack") ||
+-	    !snd_soc_dapm_widget_name_cmp(w, "Headset Mic"))
++	if (!strcmp(w->name, "Mic Jack") || !strcmp(w->name, "Headset Mic"))
+ 		gpiod_set_value_cansleep(machine->gpiod_ext_mic_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
+ 
+-	if (!snd_soc_dapm_widget_name_cmp(w, "Int Mic") ||
+-	    !snd_soc_dapm_widget_name_cmp(w, "Internal Mic 2"))
++	if (!strcmp(w->name, "Int Mic") || !strcmp(w->name, "Internal Mic 2"))
+ 		gpiod_set_value_cansleep(machine->gpiod_int_mic_en,
+ 					 SND_SOC_DAPM_EVENT_ON(event));
+ 
+-	if (!snd_soc_dapm_widget_name_cmp(w, "Headphone") ||
+-	    !snd_soc_dapm_widget_name_cmp(w, "Headphone Jack"))
++	if (!strcmp(w->name, "Headphone") || !strcmp(w->name, "Headphone Jack"))
+ 		gpiod_set_value_cansleep(machine->gpiod_hp_mute,
+ 					 !SND_SOC_DAPM_EVENT_ON(event));
+ 
+
+---
+base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
+change-id: 20241007-tegra-dapm-ef969b8f762a
 
 Best regards,
 -- 
-Heiko Stuebner <heiko@sntech.de>
+Benjamin Bara <benjamin.bara@skidata.com>
+
