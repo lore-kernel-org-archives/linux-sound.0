@@ -1,40 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928D91DACA1
-	for <linux-sound@vger.kernel.org>; Mon,  7 Oct 2024 16:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7F31DA0EB;
+	Mon,  7 Oct 2024 16:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728317317; cv=none; b=Rr+c+Yns9kyGR4zlMS3GKHdDqDSQ4o3F1AcmDh5gROHPTTaiaR9VQzByYriErymIeKUXVQACCCJ9Z6s3DKYQj/lbnndCTxAqyGa1Sv3gif3Vy2PbnWwFduMPY0fHMpLZ+Mvuuair5MF98usYz/6Bh2DsA0teCNVry0dYt95R6O4=
+	t=1728317321; cv=none; b=Vkc+je7EdeFpyqTVSBpraMB9WLF1l7wDZCSiBzzwMEBbOEANX97yiI7i7YO5oibzd77OI+8RFM9gG40iUGbmW5qrYOVwiCIrjO0Ovb3ERoKoir8gWu/9l2VJuT7X0zeWoGOzsHJglW8HjfwhfCMfSHowJM6tAx4pADSpv0QdQJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728317317; c=relaxed/simple;
-	bh=R4N9taiLk8988wcfvEgO/6xUaKhWwhASSEM6eFj4Y10=;
+	s=arc-20240116; t=1728317321; c=relaxed/simple;
+	bh=q7x+MeMH8NJaMP+kd5LXA06qF1b7dWCfxGXmKfmhnT0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gr5bwZJHKvAz+G+4WXqeaqwmVTHcErqtSDJtguAODarjpFt9/Yga2TCShfynuHe/ZbCFUCM2sX0n8qeEoDghqQjpRX1WlbuSPtgpXxNaURct/dirLQjbkz7k1WxyECe65vyiDgtIcbBky2ydZwnf8+Q9rtrPBJobJGoI7QQCiT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=De9nvJ8m; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gD7Ayu5dEO9cFdrYYeYpbV6azn+K/Q8V00HgPWLGmhCYqKbOqQD5jdsiIW4Q6EMir6xY+hNziObi3NDoaVRUbOZEro7MR/PtzSz3gp8nYtlLE0bQBr6S+TEfl7jQClEHx84TczVa8J/1Aj+2J4esSbs0azJ4RPSGTIZvPrHofmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EpBXoWTc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="De9nvJ8m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94C1EC4CECC;
-	Mon,  7 Oct 2024 16:08:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EpBXoWTc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 632A6C4CEC7;
+	Mon,  7 Oct 2024 16:08:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728317316;
-	bh=R4N9taiLk8988wcfvEgO/6xUaKhWwhASSEM6eFj4Y10=;
+	s=k20201202; t=1728317320;
+	bh=q7x+MeMH8NJaMP+kd5LXA06qF1b7dWCfxGXmKfmhnT0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=De9nvJ8m1cmBXHIFLYQlaLiTuHVUFOYA6RuTKw2HXxgtpILO8ucyWD01DkfgxjDnD
-	 9wBuWPYEFaxFnfU91dISV/ssKesRb2zl5Qh4UqBqnt2yP6mFBX60il30jdu9uezTAo
-	 wbiNZiTq/jxVaYHLqKnvHSPYaQOgay6hgf8S++qCQEg3APJCQ5e9V0czpwcg7PgEjG
-	 xprVhwq5mvw2tMI4B1m7xxED8T7v685+3WP9kLIhxTAi111jUjUy9VkwNcSRiAR4p1
-	 fwQY5gVouvwSL8aypRx5/buM3x+76Xh32bLQdvuV48CyVJ055E8zutZsuhNtBwyWdE
-	 RFbQy6HzjKGrQ==
+	b=EpBXoWTceQzbIWr1IfCpRcqJGZutVJ6eN3LyBE1bV+sR4F0ydMo8T6uvM9AyZnbkU
+	 RfTVL4bTEKjXOCEGCp9Wf2ZXSJjXW6gPNN8aXIktRwnnEMBFNaCePmDc7e/4+/N4C/
+	 Ff8LzGfQ25mr0x37+1qNmFaC9dO1nBQCjrifHz9S0vyY/kSrX1sHn/OPu6YHAOH0Ui
+	 HxZ7L9sWBeWFgHN+0zMQxIqxUlwOdK0B7q/h4z3dekFEb0HkDJaEMIwu45hUBcYAHj
+	 Q2bek9BHpETsBHGf3NcI111JDPkRwGUjPkzzIY9T7e790djRbJYqsna0/GgCGuDo+r
+	 Faos5R8O/Cb3A==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com, peter.ujfalusi@linux.intel.com
-In-Reply-To: <20241004030135.67968-1-yung-chuan.liao@linux.intel.com>
-References: <20241004030135.67968-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: sof_rt5682: add supports for new
-Message-Id: <172831731530.2397838.15336863068198335598.b4-ty@kernel.org>
-Date: Mon, 07 Oct 2024 17:08:35 +0100
+To: Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jayesh Choudhary <j-choudhary@ti.com>, 
+ alsa-devel@alsa-project.org, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+In-Reply-To: <20241003083611.461894-1-miquel.raynal@bootlin.com>
+References: <20241003083611.461894-1-miquel.raynal@bootlin.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: davinci-mcasp: Fix interrupt
+ properties
+Message-Id: <172831731707.2397838.6276980264553281279.b4-ty@kernel.org>
+Date: Mon, 07 Oct 2024 17:08:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,15 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Fri, 04 Oct 2024 11:01:32 +0800, Bard Liao wrote:
-> Add HDMI-In support for MTL and rt5682 support for PTL.
+On Thu, 03 Oct 2024 10:36:11 +0200, Miquel Raynal wrote:
+> Combinations of "tx" alone, "rx" alone and "tx", "rx" together are
+> supposedly valid (see link below), which is not the case today as "rx"
+> alone is not accepted by the current binding.
 > 
-> Balamurugan C (1):
->   ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for
->     MTL.
-> 
-> Dharageswari R (1):
->   ASoC: Intel: sof_rt5682: Add support for ptl_max98360a_rt5682
+> Let's rework the two interrupt properties to expose all correct
+> possibilities.
 > 
 > [...]
 
@@ -63,10 +66,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: sof_rt5682: Add HDMI-In capture with rt5682 support for MTL.
-      commit: 0f5d2228a99a4733b2a6652e16255be9caf2616a
-[2/2] ASoC: Intel: sof_rt5682: Add support for ptl_max98360a_rt5682
-      commit: 56d3705e4b36bf454965e66d8264356a23135aa7
+[1/1] ASoC: dt-bindings: davinci-mcasp: Fix interrupt properties
+      commit: 8380dbf1b9ef66e3ce6c1d660fd7259637c2a929
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
