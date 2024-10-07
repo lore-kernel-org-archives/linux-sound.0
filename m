@@ -1,102 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAD31662E4;
-	Mon,  7 Oct 2024 13:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5C01D4176;
+	Mon,  7 Oct 2024 13:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728308834; cv=none; b=oAm+vNn+KCnlmMEJryYAsJsdN5uZN7JRhy82iPEbqCDh4U9GYXJKeAtRQnPdGGGaDvN7jAWm/Sdp6ok0FabAPe/Isu36GRsYhHisoZp1mjjZBFzDHOJska+ONH10OyesN1TjG8cblWwsahFbAiyPIrV1c+/5Qaxekb5CNvE4P48=
+	t=1728309184; cv=none; b=jAGeFmbsZE1226606ZN4J/tfmQ/NnKN/QQeyAlqk8AOPgPK8yP/wgnxaAn05ZLefZSc9usD7ocXUrmrH6URmY3Goy26acyZh+2fzdGI8CRGX0iWIk/AlauhzmC5Wln1ltTyb//ayb5Gn1jwsUnE8gxwNrf8KFA1/XAYL/tJ+qog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728308834; c=relaxed/simple;
-	bh=yGFj/O5rnD5FErbWRKXzgdC/zozHjxSeh3qRyTdrHpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M1UwSC4rwY0eVVFPhkvJUY43eb3pZbvZ9wLfaFxD/MWdzA31eL95U6KI5QKokBJSGpSXAMD5mipBONqTI16gfwIPDObxy7oh35CAMRNlmIlFwOo4JrwqI6QE1IEZdhC9hv70HZ0trCofQR9Lti79GdbT8+jUuUIqwwZ6TB133uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcKkyqix; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728309184; c=relaxed/simple;
+	bh=Q9LePdrr2s4bq/oMP9zgTKba2onDYtfWkEOWJ9WSqBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RI0sPvQzmdA3VWNKR/bWxQeNR50xsoASjej/5fCTiHYL/xLg4mMP5Pzh5fi4HIJgR6oA3Ydvx+ivN6HSnFOPpp3Cg/M9+JuqrjHEABTH5lYu6J0J1SL37xIbgdthnF8yDMX9Zz2Ci/nzAEQIErC9nzbhMKQ9PTlFCRl5rf62Atk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ASlFbjrl; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcKkyqix"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ED8AC4CEC6;
-	Mon,  7 Oct 2024 13:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728308833;
-	bh=yGFj/O5rnD5FErbWRKXzgdC/zozHjxSeh3qRyTdrHpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WcKkyqixZ6z9FTdcHN0rpj+oqcJa7DojRBwBguzjszsRUG+BXIOpEGXGGNAOtJiXP
-	 eB/BJCu4bYYJ8InH9iZhMLfqq3EwZOds2+Lt2AinjfSok9aZZqxkn3YikXtMXCvI6n
-	 EUn58tucHkdlPrnyJiX8s+GcOW1Tb4u1SdAKfcNBascNXYT3xTfbNetfsILRPFPFBt
-	 i4iHr0s+DqqBVrliP8zvzEfQ4gBf5bJxDef72m4EAfLspRqHSBHViTsM9zFR+q+wYi
-	 Ru+3HFHNa2wmjyc9PU7tMYWisHGw6nPds3whgWsEFNv8Iyw+h7Tx9Q8SYHPemURAyb
-	 52KrkkclVeHwQ==
-Date: Mon, 7 Oct 2024 14:47:09 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Rohit kumar <quic_rohkumar@quicinc.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Takashi Iwai <tiwai@suse.com>, stable@vger.kernel.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Chenyuan Yang <chenyuan0y@gmail.com>,
-	Zijie Zhao <zzjas98@gmail.com>
-Subject: Re: [PATCH v3] ASoC: qcom: Fix NULL Dereference in
- asoc_qcom_lpass_cpu_platform_probe()
-Message-ID: <ZwPmXVzXphEtvvhx@finisterre.sirena.org.uk>
-References: <20241006205737.8829-1-zichenxie0106@gmail.com>
- <9be6b874-0c4d-4100-887f-0aa693985715@web.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ASlFbjrl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728309183; x=1759845183;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Q9LePdrr2s4bq/oMP9zgTKba2onDYtfWkEOWJ9WSqBk=;
+  b=ASlFbjrliWrAE7JXiWeXtBa72sx0fJoxdIXiL0wiEKYCK8vboGiXEJmi
+   D+4URD0CL1Ay8hK6mvlicplsVMF2uJ0OxyqJ80+LFZq19QYJ/T5jynQY7
+   x3Xrdd+Z6Y9ktFunX0HS+uxEuObmZdAlLJsOsoPvHkcXsb6WwqlGijL3a
+   O7LT9voykZ1hUgauxxLBksRUZEv01QLd2iDIGcO76GwPklOueFhkQFoLu
+   1+oewoHo//Gd4XIVx0es9sS398/pjxxSF+/nt335sQRj/fljOSba9/dk2
+   8tcdqle2/U2TnpmtxgaI23Esw3nFdhZRD3s+679Hft+AGKoxGImtWWbXH
+   g==;
+X-CSE-ConnectionGUID: Kb7tqq7TRJKRrc6pN2VwgA==
+X-CSE-MsgGUID: ANPHJ1tHThakMdYFug91ew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27397771"
+X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
+   d="scan'208";a="27397771"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 06:53:02 -0700
+X-CSE-ConnectionGUID: St91g/rLT62zvHI4op/G6Q==
+X-CSE-MsgGUID: R9gHraGpT/GsKfUxodrKpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,184,1725346800"; 
+   d="scan'208";a="75156310"
+Received: from spc-west-001.gar.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.83])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 06:53:00 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: linux-sound@vger.kernel.org,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH v2 0/3] ASoC: Intel: add rt722/rt721 support for PTL platform
+Date: Mon,  7 Oct 2024 21:52:48 +0800
+Message-ID: <20241007135251.9099-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="9JgK+5okZLJh/tVY"
-Content-Disposition: inline
-In-Reply-To: <9be6b874-0c4d-4100-887f-0aa693985715@web.de>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Rt722, rt721 and rt712 codecs are quite similar. Refactor the existing
+spk_rtd_init() to support Realtek common multifunction SDCA codecs.
 
---9JgK+5okZLJh/tVY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The "ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support" patch
+should not be applied before the "ASoC: rt721-sdca: Add RT721 SDCA
+driver" is applied.
 
-On Mon, Oct 07, 2024 at 03:16:27PM +0200, Markus Elfring wrote:
-> > A devm_kzalloc() in asoc_qcom_lpass_cpu_platform_probe() could
->=20
->                    call?
->=20
->=20
-> > possibly return NULL pointer. NULL Pointer Dereference may be
->=20
-> Can the term =E2=80=9Cnull pointer dereference=E2=80=9D be applied for
-> the final commit message (including the summary phrase)?
->=20
->=20
-> > triggerred without addtional check.
->=20
->   triggered?         additional?
+v2:
+ - Add missing "select SND_SOC_RT721_SDCA_SDW"
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Dharageswari R (1):
+  ASoC: intel: sof_sdw: add RT722 SDCA card for PTL platform
 
---9JgK+5okZLJh/tVY
-Content-Type: application/pgp-signature; name="signature.asc"
+Naveen Manohar (2):
+  ASoC: intel/sdw_utils: refactor RT multifunction sdca speaker codecs
+  ASoC: Intel: soc-acpi-intel-ptl-match: Add rt721 support
 
------BEGIN PGP SIGNATURE-----
+ include/sound/soc_sdw_utils.h                 |  3 +-
+ sound/soc/intel/boards/Kconfig                |  1 +
+ sound/soc/intel/boards/sof_sdw.c              |  8 ++
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 62 +++++++++++--
+ sound/soc/sdw_utils/Makefile                  |  3 +-
+ sound/soc/sdw_utils/soc_sdw_rt712_sdca.c      | 48 ----------
+ sound/soc/sdw_utils/soc_sdw_rt722_sdca.c      | 41 ---------
+ sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c      | 90 +++++++++++++++++++
+ .../sdw_utils/soc_sdw_rt_sdca_jack_common.c   |  8 ++
+ sound/soc/sdw_utils/soc_sdw_utils.c           | 45 +++++++++-
+ 10 files changed, 207 insertions(+), 102 deletions(-)
+ delete mode 100644 sound/soc/sdw_utils/soc_sdw_rt712_sdca.c
+ delete mode 100644 sound/soc/sdw_utils/soc_sdw_rt722_sdca.c
+ create mode 100644 sound/soc/sdw_utils/soc_sdw_rt_mf_sdca.c
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcD5l0ACgkQJNaLcl1U
-h9Bz3wf/Qjsm7YymNTSgU04NIuFJv7cm/idFHsogeWTEMXMQi8XF6YHHZnh5nqgT
-S9nuoLxNBpHddndwDTkmZjPEn/uptCpBeMHJRYa3L2Xc4C605FUBt1uy2kM3LmRX
-konGCd7t9CHNYWWErxvnOhPPgfIKInfEQHhBWl35R/zZRHWHLlN4DLb+SYCdx5JC
-ELx7rjvdBW0o5zUfhUi38aW1m/Lj+CI8/3bBKjTy3HZFx05qpLL0n9X/J8UGBhYS
-ZnNspHpLAo/qmNQBpB5HHYnNCG8YBnVgZvV48NHZJrvMJZ7T8oTOEhzArNcB/8Ou
-srH8XkXcQcrwKLOj9NYITJdOtwxQ0Q==
-=h7hN
------END PGP SIGNATURE-----
+-- 
+2.43.0
 
---9JgK+5okZLJh/tVY--
