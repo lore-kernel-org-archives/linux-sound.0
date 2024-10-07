@@ -1,47 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0A01D54EE;
-	Mon,  7 Oct 2024 13:55:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61DB433CA;
+	Mon,  7 Oct 2024 14:15:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728309323; cv=none; b=Q/skO1eh5kqKEO6uHF7hxhzKbVsb0J7Hp/emsGhslvhTMLoQv1YHHkdof1uRtNxzURJ0Y/6hEJVCPGw6MlCJDADXjSjC6R8P/zNeuHrfJvC6q3yAPKDrlCdMMoKpIuH8iTK7w2zXIEOxlHVPxTPcBhmiVhUL6J4mhV2HlN7L4Hk=
+	t=1728310555; cv=none; b=JLssjm0xEbQ29RF6ezQ7GQ1gsJhXgqQyQGiuBxH6VvesX7KcecjBH3gWTBf4bghyGGzNAsX3IYCJwzp5PNY6SaC0WJjI4iNx0J5nt1Hz4q/LkWndh5GTTWO5M9iPYg5eVQt2DcFT+xaeK85cBfcbmTXFE7iI357ZZyTr4Ml4ZDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728309323; c=relaxed/simple;
-	bh=jV7RkNNOAmSp1W66uhPjFkMmdnAxUOyJwhAUXaxvnhY=;
+	s=arc-20240116; t=1728310555; c=relaxed/simple;
+	bh=3qD+O+1xzIs6q1p8HC+OxtflwSCDotmRykzLnbi1GN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hhXNRa2b8AJmLNQDp9pdXEf9nb/yTMi85mCD1MxBWKFKuFGNuALSNiQbTN/mX5g9tY03wmY7/S9RiuWLFD1i5MsW41NcauY7V5krE7ESHJBjB0OEOfXuBb33VXSBLbvXIIQUGIch/FfLhl8+5ScMApXvnuxRs9UVzTM/a+zAVDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxcxUGoY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lN8/kVHjppau9S/BXk6QgFJIN7Hi1K2UtmM4vrsMJIm73OOy8WuwCdTJewm/r4RNkQOtPxqJlOzTeFdkmv0GoFKszR6MLpqcHE67KG9/oRTr4OPWn4i5z1w8uTJtO4ajGssrd8i5oevdg9HIkqSrn0z299mE1ohEqWyyGorv7sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=szdMgXzi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxcxUGoY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B405C4CED7;
-	Mon,  7 Oct 2024 13:55:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="szdMgXzi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C138FC4CEC6;
+	Mon,  7 Oct 2024 14:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728309323;
-	bh=jV7RkNNOAmSp1W66uhPjFkMmdnAxUOyJwhAUXaxvnhY=;
+	s=k20201202; t=1728310555;
+	bh=3qD+O+1xzIs6q1p8HC+OxtflwSCDotmRykzLnbi1GN4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cxcxUGoYJ29XLZVgvWMR4vtOIUfu8mmrfjqWCL/LiFMZsUw6XMR3qXSO/6ZYaJCGO
-	 oarmLQsFT0/SLMIz84O6myrMHESfLFWmv8WnltmdWAqoovTcqlTolnrZXcNjn4MxFe
-	 YhRmxJ4d0DgEvLL3TDvXEFc0Bx6Hop/z7DjZ29Vkja2WmrPaIZ4aslrmVvNXmhNEtx
-	 ThT/4+DsKpnfUmQAB+tqdoeWTJGGsbXcKwNhiQjTHM793fJG0aPyEUesJSji+gnTV1
-	 OsJomxMg5crABM0v3dISP3g9oCJJbnNglYijylBjA9mX8PhaoiIg+geKCTdEAyRk6p
-	 4ULbvv0zSLBGg==
-Date: Mon, 7 Oct 2024 14:55:07 +0100
+	b=szdMgXzikN+bR54b3MvHNJnGyR26KH24dNATMHRHRHy+LT2a+ub9a0/ROx5liqzB/
+	 XHWZ75o9QeDCCw9xYTCcxex2wnClosRC4A0g5exxj0Nhdx9JF1ScVihAiapBTEToXV
+	 w9OkYJm5YKii8hDyhJYyiIj4k7Uo+0M0SM4+O1wK+V2hzOx0B4mbK3wpVWfXnPcylr
+	 PFUaevfgiRY2629C9DkdhPNuiEtYKFTecqTPJ6AlnuBAng7IMQyv0/+vfJAxjPcMqv
+	 FK0Cag24V8XoXdhQd+neLGzXMm/KhWU40nrg3uRKpbw1X8ZxDIsAEL3BcqQZLqgdAW
+	 Y5883jWkAdWXw==
+Date: Mon, 7 Oct 2024 15:14:38 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Benjamin Bara <bbara93@gmail.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Zichen Xie <zichenxie0106@gmail.com>, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>, linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Benjamin Bara <benjamin.bara@skidata.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] Revert "ASoC: tegra: machine: Handle component name
- prefix"
-Message-ID: <ZwPoO5hYiB3ev-ml@finisterre.sirena.org.uk>
-References: <20241007-tegra-dapm-v1-1-bede7983fa76@skidata.com>
- <32040b21-370f-44af-b1fe-bd625bc3fd9d@linaro.org>
- <CAJpcXm7252KSGdkASJq-GpZPUKnmxL9o3raNJL-QjkL67Pd+OQ@mail.gmail.com>
+	Rohit kumar <quic_rohkumar@quicinc.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Takashi Iwai <tiwai@suse.com>, stable@vger.kernel.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Chenyuan Yang <chenyuan0y@gmail.com>,
+	Zijie Zhao <zzjas98@gmail.com>
+Subject: Re: [v3?] ASoC: qcom: Fix NULL Dereference in
+ asoc_qcom_lpass_cpu_platform_probe()
+Message-ID: <ZwPszt6b5ZzAkskz@finisterre.sirena.org.uk>
+References: <20241006205737.8829-1-zichenxie0106@gmail.com>
+ <bc2f9291-c91d-4e46-bfa9-573eea6a67c2@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,42 +53,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="rfsTlN80Gow+oO9v"
+	protocol="application/pgp-signature"; boundary="B6mD5aEE6D1/oRxA"
 Content-Disposition: inline
-In-Reply-To: <CAJpcXm7252KSGdkASJq-GpZPUKnmxL9o3raNJL-QjkL67Pd+OQ@mail.gmail.com>
+In-Reply-To: <bc2f9291-c91d-4e46-bfa9-573eea6a67c2@web.de>
 X-Cookie: Editing is a rewording activity.
 
 
---rfsTlN80Gow+oO9v
+--B6mD5aEE6D1/oRxA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 07, 2024 at 03:17:45PM +0200, Benjamin Bara wrote:
+On Mon, Oct 07, 2024 at 03:40:21PM +0200, Markus Elfring wrote:
 
-> Instead of reverting, we could probably also rewrite
-> snd_soc_dapm_widget_name_cmp() to directly use dapm->component, instead
-> of using snd_soc_dapm_to_component(). In this case, we can explicitly
-> check for a NULL and skip the prefix check - not sure why it currently
-> is implemented this way.
+> * How do you think about to reconsider the version numbers
+>   a bit more?
+>=20
+> * Would you like to mention the repeated adjustment of
+>   the patch subject?
+>=20
+> * Can a duplicate marker line be replaced by a blank line?
 
-> I think fixing snd_soc_dapm_widget_name_cmp() to be able to handle all
-> cases might be the better option, what do you think?
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
 
-Yes, I think that makes sense.
-
---rfsTlN80Gow+oO9v
+--B6mD5aEE6D1/oRxA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcD6DoACgkQJNaLcl1U
-h9BgUQf/dMB6IM/qORov7dwmlk1NGy30tvrrrgUxwEFMZihx0n5vJ0mZRCNuNS4V
-ODVv/lXQ99BrJK5YrVMpM8XK+a83t6Z6vWQKAqvehGJBIZE5GQVWKZsbzDvRfc4M
-oSinOs5v5oFx2EVXY6l4Tijg5PoAtq5sjdCrDxDZ5r/y0UQbUjmVTJNiZkeI6h+j
-nD1mStsvYmaXLa75AkzDxlFjMp3oGjvrmfeqDb7XJlK3IwefQufItWQY39x2NJDK
-dvYGfZJYIP8qADyyVUQBJHYCS7mnSbc0VaCWwszhEC1UZoFqco7dKpT0LY9+365s
-hh0z1MhnVvGtKHuaCDRfVUE8I/fhng==
-=qsqs
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcD7M4ACgkQJNaLcl1U
+h9CFiAf/V5OjgX/m7bDwCQgaPh8iQoD0Z/LMA6OfjNapjpGiIjXiHTnyl4+joeRF
+XZWhKsmHJQ8m2Cm/N73q98LdMxh49L4ocqv+R0V0p8wRBA0K+w409dSIKvrVMMF8
+mBnNAtuqAnzZGzdXWmh8CEuRRj+D7F9bC7rFrappGop4KIJoswGPkRT5XZwAANKK
+P7QW5dwgHMwi90bYR+cIF3R1mKinWnzDEJenxRyGiD1jhvW4zyoshNZ5fbsZSF1O
+RfdTos0jJvJoFQ3mIe5Z8deCL9eCqW+clErOZ3gSEP5zXMuPnsKyLmhEqs7a1oS+
+Oc9ykkgdRC+fn899c+ALAhcckcaLlQ==
+=JWCO
 -----END PGP SIGNATURE-----
 
---rfsTlN80Gow+oO9v--
+--B6mD5aEE6D1/oRxA--
