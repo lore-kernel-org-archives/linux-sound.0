@@ -1,173 +1,94 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6D581727;
-	Mon,  7 Oct 2024 20:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65B916E87D;
+	Mon,  7 Oct 2024 21:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728334608; cv=none; b=hMDvulT2THdVbXdJ61MTyYzbYSLUhlx09vtbFVI+Nsa/jI4HQDW1RqJULLVxvdz3qz0BsaNHPJG7Uhmt0cv70O0OC1rjLBrt2GXjv+rkPFYOfYq7UYrYJCHl7EghaTt8Z9TOE/LiXSuVRuZjapgUzpHWptNUJfrdSrNG7EamhcI=
+	t=1728336614; cv=none; b=Qy7dcSUW+18E+ikVU70gpqa2nj/haR/ZHg2A5cw9JDTqfD1cSp7Xz/Mu7S8OmQb8V/i6W/gn47pomW0nVlQwV5mutcfyedGW8lcTQJYbgdGDNId7Lk3e5rI4O/dfaARRdt1d4CwRm5SHB+mG32IfFT7d9vhc24Kejy5VhcdE3R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728334608; c=relaxed/simple;
-	bh=dG3wyWFYMaVjIoBouzybQY61wSiQbiFq+z2YFtPd6K8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DxKAacKqr0KdYkwIZCzrqbe9JhpMiq/zAaDocWdqaaezpMQ9d/26O4jyIKxufmwDfrnfv0Y8rO8OJfVlDADsvv3IfkZW7hMFQDn0IDRPO9U2whBxH+A/ZlrjKFyEPYK/T9kzzqvtehPCjt3mOhx/70c/cYzt96Bf/tfu5F/eOs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=23gYOwKs; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1728336614; c=relaxed/simple;
+	bh=8o+yrEOOtiSiBfWaBp1QfIZYWs4xvqSa5neZU4qy49Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=T6GRZUcZ/KL0YN5lemYK2um/uqCHHhpY5aMTyFgH/W614aoQgXyL+wxoYCQOEaW8YOW2RuPqjDOnSUFBGYvE0rxPmb6MBxImKhtSKhUQmNYh3Cn+4Vh7lFah5SykkRo6RWJAIAk5IoUTJ4Ioxjc66enMi5oze6pKIy4Unt0N9k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nU1Y9BX1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="23gYOwKs"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:
-	Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=GZcppo/vr41EkgOQmncX32v6I2fliWs5FAMuIky+p1c=; b=23gYOwKsdLSS64TgJgBvg8Kivj
-	g/hn6mW9PFej/UkXzXTlB5XF5wr6UibV9TRXEcUwP9jxU5U6jytziOI//vRM8fvM8jAK2thD/P+hm
-	fZQPU5kGOFEMRCFuPDsYM83MhRHfbYxxNwwHPw4gCS7Vvri1Pu4g6LQw1rILqFPHVFxByK2y2/u8g
-	zarvW8w728SlNlw1yDT/6tH1a4sqTzVC7ctSCkYl1IEedS78Szh5f3e9KSpbX0xh15IN1wfQd33Ix
-	qlZAhQE9LyWUkgmfCOexqU/Wrnxn6AVlefFwmNZxecNXdUPW4FeSNlfKDynqudDYh21k6nisGXEcW
-	rPu5+4yg==;
-Received: from i5e860d18.versanet.de ([94.134.13.24] helo=phil.lan)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1sxuma-0006Ib-DA; Mon, 07 Oct 2024 22:56:44 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	heiko@sntech.de,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: [PATCH v2] ASoC: dt-bindings: rockchip,rk3036-codec: convert to yaml
-Date: Mon,  7 Oct 2024 22:56:39 +0200
-Message-ID: <20241007205639.2477635-1-heiko@sntech.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nU1Y9BX1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C16EDC4CEC6;
+	Mon,  7 Oct 2024 21:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728336614;
+	bh=8o+yrEOOtiSiBfWaBp1QfIZYWs4xvqSa5neZU4qy49Q=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=nU1Y9BX1SobaMtnlYNWyiLFyo1C4SFdbgigsuJOrrmVl+hpNOZ4CgQo9gOw8znbSC
+	 4T54XVJtVNigk4qQgYSNT5bnhQL7GgpiWMGKkHB1+xsELWg2yN23neB58PcXuPcFhb
+	 sHKzcCS/jvzeCN3oXoCzCQDNaaS3fBsZKf78RwWzIFe8w04Lb0FI0YXPTOdxONksnw
+	 nF3tNTYFeL84t76nu4zo7Z3DySBIDtQq+XR7yyepujHhgaEbozm8Oosj1g170rXhtj
+	 nt91ANdW8fNBkZLLTLReWrE9si7+KalxTwVwqmsDOYf0AWVRu2hmKpU5DYj7RzGUMJ
+	 tsBvRHeaknSSQ==
+From: Mark Brown <broonie@kernel.org>
+To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: alsa-devel@alsa-project.org, pierre-louis.bossart@linux.dev, 
+ lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ dan.carpenter@linaro.org, Basavaraj.Hiregoudar@amd.com, 
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241007085321.3991149-1-Vijendar.Mukunda@amd.com>
+References: <20241007085321.3991149-1-Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH 0/3] Fixes and improvements related to amd soundwire
+ machine
+Message-Id: <172833661153.2566981.7852746403843852691.b4-ty@kernel.org>
+Date: Mon, 07 Oct 2024 22:30:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Convert the binding to yaml.
+On Mon, 07 Oct 2024 14:23:18 +0530, Vijendar Mukunda wrote:
+> This patch series consists of smatch error fixes and code improvements
+> related to amd soundwire generic machine driver.
+> 
+> Vijendar Mukunda (3):
+>   ASoC: amd: acp: fix for inconsistent indenting
+>   ASoC: amd: acp: fix for cpu dai index logic
+>   ASoC: amd: acp: refactor sof_card_dai_links_create() function
+> 
+> [...]
 
-The codec seems to be from Innosilicon, but the compatible has ever only
-been rockchip-based, as they sythesized the codec for the rk3036.
+Applied to
 
-So the yaml file gets a name matching that compatible.
-The only other notable change is the addition of the #sound-dai-cells
-property, that is always required.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Heiko Stuebner <heiko@sntech.de>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
-changes in v2:
-- add Rob's review
-- add missing blank line above the allOf
+Thanks!
 
- .../devicetree/bindings/sound/inno-rk3036.txt | 20 -------
- .../bindings/sound/rockchip,rk3036-codec.yaml | 58 +++++++++++++++++++
- 2 files changed, 58 insertions(+), 20 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/sound/inno-rk3036.txt
- create mode 100644 Documentation/devicetree/bindings/sound/rockchip,rk3036-codec.yaml
+[1/3] ASoC: amd: acp: fix for inconsistent indenting
+      commit: 914219d74931211e719907e0eed03d8133f8b1b7
+[2/3] ASoC: amd: acp: fix for cpu dai index logic
+      commit: 7ce8e4d380d68f34edc96c7efcf95b1476e7f033
+[3/3] ASoC: amd: acp: refactor sof_card_dai_links_create() function
+      commit: 0372abfcd81a4db94070d235e1ae3ff928efcab9
 
-diff --git a/Documentation/devicetree/bindings/sound/inno-rk3036.txt b/Documentation/devicetree/bindings/sound/inno-rk3036.txt
-deleted file mode 100644
-index 758de8e27561..000000000000
---- a/Documentation/devicetree/bindings/sound/inno-rk3036.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Inno audio codec for RK3036
--
--Inno audio codec is integrated inside RK3036 SoC.
--
--Required properties:
--- compatible : Should be "rockchip,rk3036-codec".
--- reg : The registers of codec.
--- clock-names : Should be "acodec_pclk".
--- clocks : The clock of codec.
--- rockchip,grf : The phandle of grf device node.
--
--Example:
--
--	acodec: acodec-ana@20030000 {
--		compatible = "rk3036-codec";
--		reg = <0x20030000 0x4000>;
--		rockchip,grf = <&grf>;
--		clock-names = "acodec_pclk";
--		clocks = <&cru ACLK_VCODEC>;
--	};
-diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3036-codec.yaml b/Documentation/devicetree/bindings/sound/rockchip,rk3036-codec.yaml
-new file mode 100644
-index 000000000000..7570cc1375ca
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/rockchip,rk3036-codec.yaml
-@@ -0,0 +1,58 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/rockchip,rk3036-codec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Rockchip RK3036 internal codec
-+
-+maintainers:
-+  - Heiko Stuebner <heiko@sntech.de>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: rockchip,rk3036-codec
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: clock for audio codec
-+
-+  clock-names:
-+    items:
-+      - const: acodec_pclk
-+
-+  rockchip,grf:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      The phandle of the syscon node for the GRF register.
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - rockchip,grf
-+  - "#sound-dai-cells"
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/rk3036-cru.h>
-+    acodec: audio-codec@20030000 {
-+      compatible = "rockchip,rk3036-codec";
-+      reg = <0x20030000 0x4000>;
-+      rockchip,grf = <&grf>;
-+      clock-names = "acodec_pclk";
-+      clocks = <&cru ACLK_VCODEC>;
-+      #sound-dai-cells = <0>;
-+    };
--- 
-2.43.0
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
