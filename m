@@ -1,126 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EAE1DF96B;
-	Tue,  8 Oct 2024 14:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA2A1E0490
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 14:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728397115; cv=none; b=f6o5b/A+Kpkvl/AtYhiWFq/lvK8eiU2bYcSA/u90+Z/1En7JRIGAzIYMtAr5UZsm3idC70bA710WzcQhzIvTJvF9lbkLD/OGHnlkUBdQlFqlF2Wt8kGd90FRcTaF9EderoF2vc8io1A81i46Ek09fmbwrU91eofTOVAIzsZM0h0=
+	t=1728399257; cv=none; b=R7w40UN1LAh5OcWr9w6Gt4QAAGdHhIFFGKwGso5QHoypU/fJpcSzQaY0xosGQ4qN0mlCUEl1PoG06qO2IWpaViHMe/6vZ6KE1+UeJduwMb99oNr+0ul3aw+1OsCKrMbF//UnVlZRwv1ys3ugN7Tq4ArzpWGKrLauFpiT5oIxens=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728397115; c=relaxed/simple;
-	bh=hKT3uBzYhOP99Yta4PjZvjRY3LiXCkom9Bm+7Of9+gI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oEifIWUAUHC/fRqL1ufrGt/+cBnMkVuuxDxeqz/zzc8WvXO91x6epIHFbgoc6zjeYWxaPtamJ2P1KeEw7wn4LgxktW5EpCBS5au8+3WGHzkqMbKiLxM70U62nZgyimSvtP7m+6ppd2ResAZ/ZKJ9awhfI7CIb9XN/EFJufPr2LQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mEtIdfI7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728399257; c=relaxed/simple;
+	bh=47vEb3Hdq9xPPCEmmUkYg2VZzzZT9NReLtByAZ6PrQU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Io0L1i70wI9OyNucWVCbLLbE1AS4slIz/D1cL2QbssCDFXb58RhQRE/hg1YOAsgfAgwGlICBHqqJDee8SuZf1zugPcLij+QoF3bxh4ac0GJLEeIQq4uEGOw/m6pGxgpegagUlDIaoc9elf95rd+/iF+ALDSbNqOyOMGlVybqhok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gcxsip6F; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mEtIdfI7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F90C4CEC7;
-	Tue,  8 Oct 2024 14:18:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728397115;
-	bh=hKT3uBzYhOP99Yta4PjZvjRY3LiXCkom9Bm+7Of9+gI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mEtIdfI7JAqwO+FUf1BWd1bU1y9Sk2P/3tLe9klSmsW0GiR3kbwP/+4U9bbkeuAd3
-	 20zEX1w/6yjKtYay5o3uOe85GcP/dH+NVfCpW768ADFq0ZgzLi3t+kq6BOowGrqAOw
-	 BI875t7uwCXrZnfyQSSvBb/z7ANUoKkMLZnNXYylHa7kHpfX3W97m9jSAuL8KaMwip
-	 ucZR2qizcc/rV/8uesKV4O7e7MH6ohIR+dd37r3REUSDazekYgBhRgvNdxYdDSw8vK
-	 Ppet5P3dV/5Ula183x5vYrScCsi7/Nw6Yai8mQlughcajgZhqdI16bNCvBwx+6fZVC
-	 IFpKVV/xQdcfA==
-Date: Tue, 8 Oct 2024 09:18:34 -0500
-From: Rob Herring <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v6 1/9] of: property: add of_graph_get_next_port()
-Message-ID: <20241008141834.GA1254664-robh@kernel.org>
-References: <877caz9tdw.wl-kuninori.morimoto.gx@renesas.com>
- <875xqj9tdf.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gcxsip6F"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71dfccba177so2117185b3a.0
+        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 07:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728399254; x=1729004054; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iQ4LVhvFHLa0eWBgE9k6FrixkUFYtnCP97x2+SmMe3Y=;
+        b=gcxsip6FWP1N2f/nY9BjEhzzetImpW5UbfgfGo4GdeSIp200vDtM7qG6dUK9+7L8Xy
+         B/j0OZ6ae50eAgswObIxV+Lw1SuuIendnnC/b6l0IJoLC+9FekJnNFGOj4Ds2vcrw1Ar
+         1yCR56SniaorW5Apyp/1hXszRxXtexLdV0cKg4M3cxqKnu4FtminQ5XW4agScQpkUmRO
+         5MY/8LDYUH1x1OuO4pPbtQ/tG0l6HcF/gGc1oNCTV/VvP3sw/ZfkLYeR2o2IzzWPSt9J
+         Ks8fl6EEQNfv+LerWC/nGIh6igE0gHiRVOb3H7Nf9dmDSdUa9eAYIfKki5sBPQPiOUpN
+         DifA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728399254; x=1729004054;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iQ4LVhvFHLa0eWBgE9k6FrixkUFYtnCP97x2+SmMe3Y=;
+        b=bTSnojBEZaEODmFF722hEbdvnZcdr9km5fcq3Yitth7B9GWRXKZdFkO7LruoRhpHvx
+         dk0n5XiNSHJ2LiFUN1maqWHjJrtFX2I9Yw9gktH2XsnT6cR1Mkb5SBxiWXpQ25QRpJMl
+         XphXpYFTdcREj/+qRiqzBW8LGHPNLIBjDOcTXmD+CDGSnNrc4G+tvnSb9Vjvv6j3WB/v
+         QELjqXLWD/g+zMslWu2nIFNDmOenR/OX9JAivHRDSnJrXojJiNRVxFSR5a5cKBq+52BA
+         epftcufVcbgNH3pTp/x36+hBu/CxBUfMm4hCEUic1sL/bqKZXiYZURbwBk7Zs4lpOhfz
+         CJtQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXnyaXhZNmhClUoFWhVvFpiXTdC1O131PVj6vyIRajEH2cYxRd8cXFPezx+IKtKOpC58L+MMy4kUtVFHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc7u98uD1SNknPavZx7bhoFMb3JnyqEUNV+DdBKBMMeO8s7NcS
+	3Sfpz0fIz9BNF/KaBqLu+ef68z84DtznvTvEF/aKHgdz3ELI3oXeVEFH/1810CI=
+X-Google-Smtp-Source: AGHT+IEE7e5dtXU6pMg21/0OJnrotv0zSN5hz6Qh4qER1MpIu7AV7t7dgpJ2YGuT0VFYFJ+iVS/TPg==
+X-Received: by 2002:a05:6a21:4581:b0:1d2:eaea:39d7 with SMTP id adf61e73a8af0-1d8a193d1c4mr595970637.9.1728399253860;
+        Tue, 08 Oct 2024 07:54:13 -0700 (PDT)
+Received: from [192.168.0.4] (174-21-81-121.tukw.qwest.net. [174.21.81.121])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0cd5006sm6207044b3a.77.2024.10.08.07.54.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 07:54:13 -0700 (PDT)
+Message-ID: <5fe42a14-5070-43f7-8333-ed37c29c947f@linaro.org>
+Date: Tue, 8 Oct 2024 07:54:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875xqj9tdf.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 06/14] alpha: Align prototypes of IO memcpy/memset
+To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Russell King <linux@armlinux.org.uk>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Guo Ren <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Andrew Morton <akpm@linux-foundation.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Rich Felker <dalias@libc.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Niklas Schnelle
+ <schnelle@linux.ibm.com>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org, linux-alpha@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
+ Yann Sionneau <ysionneau@kalrayinc.com>
+References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
+ <20241008075023.3052370-7-jvetter@kalrayinc.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20241008075023.3052370-7-jvetter@kalrayinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 26, 2024 at 12:00:12AM +0000, Kuninori Morimoto wrote:
-> We have endpoint base functions
-> 	- of_graph_get_next_device_endpoint()
-> 	- of_graph_get_device_endpoint_count()
-> 	- for_each_of_graph_device_endpoint()
+On 10/8/24 00:50, Julian Vetter wrote:
+> Align the prototypes of the memcpy_{from,to}io and memset_io functions
+> with the new ones from iomap_copy.c and remove function declarations,
+> because they are now declared in asm-generic/io.h.
 > 
-> Here, for_each_of_graph_device_endpoint() loop finds each endpoints
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint {...};
-> 		};
-> 		port@1 {
-> (2)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In above case, it finds endpoint as (1) -> (2) -> ...
-> 
-> Basically, user/driver knows which port is used for what, but not in
-> all cases. For example on flexible/generic driver case, how many ports
-> are used is not fixed.
-> 
-> For example Sound Generic Card driver which is used from many venders
-> can't know how many ports are used. Because the driver is very
-> flexible/generic, it is impossible to know how many ports are used,
-> it depends on each vender SoC and/or its used board.
-> 
-> And more, the port can have multi endpoints. For example Generic Sound
-> Card case, it supports many type of connection between CPU / Codec, and
-> some of them uses multi endpoint in one port.
-> Then, Generic Sound Card want to handle each connection via "port"
-> instead of "endpoint".
-> But, it is very difficult to handle each "port" via existing
-> for_each_of_graph_device_endpoint(). Getting "port" via of_get_parent()
-> from "endpoint" doesn't work. see below.
-> 
-> 	ports {
-> 		port@0 {
-> (1)			endpoint@0 {...};
-> (2)			endpoint@1 {...};
-> 		};
-> 		port@1 {
-> (3)			endpoint {...};
-> 		};
-> 		...
-> 	};
-> 
-> In other case, we want to handle "ports" same as "port" for some reasons.
-> 
-> 	node {
-> =>		ports@0 {
-> 			port@0 { ... };
-> 			port@1 { ... };
-> 			...
-> 		};
-> =>		ports@1 {
+> Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
+> Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
+> ---
+> Changes for v8:
+> - Mask the argument with 0xff because now it's an int and not a u8
+>    anymore
 
-As I said before. No where is this documented. We're not going to add 
-common helpers for something undocumented and non-standard. Plus, this 
-patch is doing a lot more than $subject says.
 
-Rob
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
+> ---
+>   arch/alpha/include/asm/io.h | 6 ++----
+>   arch/alpha/kernel/io.c      | 4 ++--
+>   2 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
+> index b191d87f89c4..e7d52c8159b0 100644
+> --- a/arch/alpha/include/asm/io.h
+> +++ b/arch/alpha/include/asm/io.h
+> @@ -591,13 +591,11 @@ extern inline u64 readq_relaxed(const volatile void __iomem *addr)
+>   /*
+>    * String version of IO memory access ops:
+>    */
+> -extern void memcpy_fromio(void *, const volatile void __iomem *, long);
+> -extern void memcpy_toio(volatile void __iomem *, const void *, long);
+>   extern void _memset_c_io(volatile void __iomem *, unsigned long, long);
+>   
+> -static inline void memset_io(volatile void __iomem *addr, u8 c, long len)
+> +static inline void memset_io(volatile void __iomem *dst, int c, size_t count)
+>   {
+> -	_memset_c_io(addr, 0x0101010101010101UL * c, len);
+> +	_memset_c_io(dst, 0x0101010101010101UL * (c & 0xff), count);
+>   }
+>   
+>   #define __HAVE_ARCH_MEMSETW_IO
+> diff --git a/arch/alpha/kernel/io.c b/arch/alpha/kernel/io.c
+> index c28035d6d1e6..69c06f1b158d 100644
+> --- a/arch/alpha/kernel/io.c
+> +++ b/arch/alpha/kernel/io.c
+> @@ -481,7 +481,7 @@ EXPORT_SYMBOL(outsl);
+>    * Copy data from IO memory space to "real" memory space.
+>    * This needs to be optimized.
+>    */
+> -void memcpy_fromio(void *to, const volatile void __iomem *from, long count)
+> +void memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
+>   {
+>   	/* Optimize co-aligned transfers.  Everything else gets handled
+>   	   a byte at a time. */
+> @@ -535,7 +535,7 @@ EXPORT_SYMBOL(memcpy_fromio);
+>    * Copy data from "real" memory space to IO memory space.
+>    * This needs to be optimized.
+>    */
+> -void memcpy_toio(volatile void __iomem *to, const void *from, long count)
+> +void memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
+>   {
+>   	/* Optimize co-aligned transfers.  Everything else gets handled
+>   	   a byte at a time. */
+
