@@ -1,107 +1,106 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77161E1A08;
-	Tue,  8 Oct 2024 17:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2ADD20A5FF
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 17:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728407936; cv=none; b=Qev17iE+8t4I7w1NTdzURyV5KwT+I/O8tiLC8uskiTg3orp/llv3B9/8A+pdn8RsDBxUFgXIGtcACASX9ZmM+qDY5wJe5wnaL1sFiifF12dbHOLf8T8CJv0hINalLvhxV5zOF+TRdY14B3cuz1jBXndfesAuc4plvNEvw7Lu8Bc=
+	t=1728409353; cv=none; b=COP0P/lvcDSdNrMA5liBSvoTxN+U2xUw3o38D0Utx+/viVssZN/j9lfcs/IieIVubCPj67atwMD708i8zJW/OOftIszwh9RDDBrxgu9af6QKhDX6x7O9Vy1el8gjX5C/WapJ0LTlKsrT6Opn395WM0kduDB7oPJKdZ8DFOlAx+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728407936; c=relaxed/simple;
-	bh=FZgPYx7TBP9wJQ/hZZYr2GFKYq577ixYA5BIVu0+gWo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=re6aY+tD8QlmY9GHWQ6Hzy7rZSObjXD24esLchxUAlcVJQUXufRnqxdZF49U5OnOCqSS8ffKGAH1TJiqLNW4bR6QyZSAlNUlMnt7BWUX0MEFoVJd4q58dbtvhzlnRvOdV0N9RbetlCRjaA2d4BYhWLEbKHQ/XTGQyxFjoBtkc60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HSahTHSj; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728409353; c=relaxed/simple;
+	bh=nT4KIH53aTZyRAzIGhljOBBqba1mX47mVRjQ/Y1ohBg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eTz+IslD7hVXWM06S6lX1NhC9Szfm0v8Ed8KwWqLhkdIals75MbDs7NISqlhuncsaYtTQDXHNkToDIV1yBjw55asnr6AFw5EmT0uCY8uuoYr4FwPYxlJrwDjJEwkIMWGCWtjZPqciLakYZYl+BvUAUNpQstj+eaCBT1itsozrBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np; spf=none smtp.mailfrom=everestkc.com.np; dkim=fail (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b=H4hHv94/ reason="signature verification failed"; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=everestkc.com.np
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HSahTHSj"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53959a88668so7423633e87.2;
-        Tue, 08 Oct 2024 10:18:54 -0700 (PDT)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=everestkc.com.np header.i=@everestkc.com.np header.b="H4hHv94/"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3e039666812so3201242b6e.1
+        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 10:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728407933; x=1729012733; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cbVzk8DseAfkG3gNp5Is1zNFXwpUEzSD0elv7Vn5RNM=;
-        b=HSahTHSjC+qyYycTWfPR9upRAt8vm9eFnxMctoJDs8gAxjRmb7uLiNXKiqTM78/zpv
-         52lak1bD7MjiyJbwns8JRc/KQIgVLg2Uwtqo4EpsPe0ZjRo83/VpPMTIGGrQivNpCX4C
-         g/lp2vkSE4AWbCQRc9euaoO3L83YSfAf1tWCKmFklxhvJLWuXjq4opfZ0/BsV84rTZVH
-         ZuiAsAGhkq4Zkl8eUCf1rwBqcFv25FKtP0+UIx5dk1ceJFqzWEME8o3TAyaUxUZlScvd
-         FYuJS2THPeMG5Rn5/d6j1FVQgJoWTdnXlHxZkqoFGv39pHfMj4i1MDhfj89z00geRkvA
-         iMrA==
+        d=everestkc.com.np; s=everest; t=1728409350; x=1729014150; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VN7nq27/Zc23ABcQ/rS/ZQA8gDRSyDCq3NgiP8/pXfg=;
+        b=H4hHv94/2XCim882rEr6k58p8KBaJ5uBCSloNy4vPXa0BSEtliDsXChFK/wm9cIkR6
+         LyV9Pw+eQX0eJ3ES1lGZAHRynGLYcFm02Q1I0eYjIuKruIsEcuPpdhqNsLh8syo0Hazf
+         9Z0vpFFUw09jv5atveCeAPo+vZf6NbqmrIre4PPclLGsRkSeRZFJEfl9WY6l+X6lgyB6
+         dJApqOaGLs6rCEn0PMhlpWX0B5kmsNCvZqUe3NHm/617dBQ+2eIz2R8PPWpp3wja+v2U
+         sQgC+6PqnksSym6+8/MVJtWyNpSDWhEECh0SZqcTSwybK6/N3EaaFYQsx9UsMMDlx3qj
+         R+4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728407933; x=1729012733;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cbVzk8DseAfkG3gNp5Is1zNFXwpUEzSD0elv7Vn5RNM=;
-        b=CZ6BdoLHCghxcGhi7paJWeNmiMYdaH0DRgft8u7OaMHBxk5TndzzEVgC2dPvcKTOTH
-         PIBzbwUOZVjxQQGpv53Gk6omygZxnK04cbw0M6tTvNsooAelNxp6FVenT0AtKF7grXHv
-         DKvlL5WNsCLlsi8ywaV1VVQna3CquDv0A3aPOIqndIBqpI3KSfHO8f7qgQ9T1JQ4NJdl
-         IFe8Xy/KFkHpbm89mBkVz+BkpJ8BfKT4FdCHsLayNnf3gpRVGXboAMTaUoROw0mtRlSl
-         EvlGRpNfAdv4ZNcQYA8/+fkeHjHC7MrQ3IMj514gXwfi0fZeGeBxKXpEF11/gMxy69lY
-         GMpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcFmAVUoNkF1qsUl8cIp8dnVWTsteymp2NCQmw/3l5COySOC6tQwINW1T1AglVqK0SDjzqWoWtLiPuSkY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6QcNLkIQQhdZ/jzaSlwDgPuXZXCTzFcSHeyOsCf5HVWMi5eX6
-	KPUwFmzp8vefe3TPuFrBIL5queRTRTWB2okwwTaq0DrsP5klgc7QbfCxTA==
-X-Google-Smtp-Source: AGHT+IHHBeXv89i/o5DrLikofeuiTmUt4x1m9H41ksMvdEGq5wZVLz6dQ6v6AEG+3iaVsinnjQ7UiQ==
-X-Received: by 2002:a05:6512:12d3:b0:533:43bf:565d with SMTP id 2adb3069b0e04-539ab88c2a2mr9522222e87.27.1728407932389;
-        Tue, 08 Oct 2024 10:18:52 -0700 (PDT)
-Received: from [192.168.0.101] (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a994a8da5d3sm381814066b.134.2024.10.08.10.18.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 10:18:51 -0700 (PDT)
-Message-ID: <cf3c5ed3-69bb-4ff0-8377-29cb6fe7a358@gmail.com>
-Date: Tue, 8 Oct 2024 18:18:50 +0100
+        d=1e100.net; s=20230601; t=1728409350; x=1729014150;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VN7nq27/Zc23ABcQ/rS/ZQA8gDRSyDCq3NgiP8/pXfg=;
+        b=KUa6NDN7y6AslcmRyaOEEghwlfXfeMnfL7e+8jhpurOrr2h0ATIzvVyVMhJK3sGERP
+         BhA9xLgysXJHZ5lIu81vFhXbdzZNfat22bNCV/gb7DrBPj0PnkoM12tb41Sfb8aI/qJC
+         06W84nk/yNDiihkSuTsAktGqd4cMvHHwJ6RWkTZ8w3W1e5VDCRB17P0ZL97sVuvagX/6
+         iBBr5ngNLKw798sIomkfc0TJRRbJQXJDPxXJIz0VlQMnfXNHjQQr9ijTsz06Gq6fJ/d4
+         gqw+nCuzANym6q9v8d3/FzkNFXTKc206I5ywaeoPD+99mjpxLyprCwBp5d4Z6BdGu5jS
+         7wEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWS8K2HBQ0Ms83bsq0cOE0kZl3DkeIjmgjsyJn5+UyzqzN3CA5r93VWKOQmfosEUy2Vnsn38TkfOsPDwQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5DnN7f71cMoZT1ixVtOEOceSfOYgHEwlg0GxEWqs8MH13Qf26
+	z5Ql1zcUrHwoyf8LCwGOH7qupWdLp4d3teB5SX0y+uan258hdaXFWuzK/FM8+dk=
+X-Google-Smtp-Source: AGHT+IHUKizUM0XF28YwJfMVg0EB/GPiE3Ua/dfgDBCYQd/B33n6P3+z/RmZ8Ak3CsjiAirh8QorjA==
+X-Received: by 2002:a05:6808:22ac:b0:3e0:4aab:f5b2 with SMTP id 5614622812f47-3e3c1337d46mr16697655b6e.25.1728409349897;
+        Tue, 08 Oct 2024 10:42:29 -0700 (PDT)
+Received: from localhost.localdomain ([132.178.238.28])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-7e9f6833e45sm7069867a12.54.2024.10.08.10.42.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 10:42:29 -0700 (PDT)
+From: "Everest K.C." <everestkc@everestkc.com.np>
+To: oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: "Everest K.C." <everestkc@everestkc.com.np>,
+	skhan@linuxfoundation.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: rt721-sdca: Clean logically deadcode in rt721-sdca.c
+Date: Tue,  8 Oct 2024 11:41:20 -0600
+Message-ID: <20241008174122.4696-1-everestkc@everestkc.com.np>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jack Yu <jack.yu@realtek.com>, Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-Subject: re: ASoC: rt721-sdca: Add RT721 SDCA driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Jack,
+As the same condition was checked in inner and outer if
+statements. The code never reaches the inner else statement.
 
-There is an unsigned variable check in commit:
+Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+---
+ sound/soc/codecs/rt721-sdca.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-commit 86ce355c1f9ab943bbe099ea7d0b8a3af2247f65
-Author: Jack Yu <jack.yu@realtek.com>
-Date:   Tue Oct 1 09:17:38 2024 +0000
-
-     ASoC: rt721-sdca: Add RT721 SDCA driver
-
-
-function rt721_sdca_jack_detect_handler, the following code does not 
-initialize variable ret:
-
-         int btn_type = 0, ret;
-
-         if (!rt721->hs_jack)
-                 return;
-
-         if (!rt721->component->card || 
-!rt721->component->card->instantiated)
-                 return;
-
-         /* SDW_SCP_SDCA_INT_SDCA_6 is used for jack detection */
-         if (rt721->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_6) {
-                 rt721->jack_type = rt_sdca_headset_detect(rt721->regmap,
+diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+index 36056cb7a3ca..4fd26e490610 100644
+--- a/sound/soc/codecs/rt721-sdca.c
++++ b/sound/soc/codecs/rt721-sdca.c
+@@ -611,13 +611,9 @@ static int rt721_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
  
-RT721_SDCA_ENT_GE49);
-                 if (ret < 0)
-                         return;
-         }
+ 		if (!adc_vol_flag) /* boost gain */
+ 			ctl = regvalue / boost_step;
+-		else { /* ADC gain */
+-			if (adc_vol_flag)
+-				ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
+-			else
+-				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
+-		}
+-
++		else /* ADC gain */
++			ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
++
+ 		ucontrol->value.integer.value[i] = ctl;
+ 	}
+ 
+-- 
+2.43.0
 
-..and there is a check for ret < 0, even though it's not been assigned. 
-Should that be a check on rtl->jack_type < 0 instead?
-
-Colin
