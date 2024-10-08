@@ -1,133 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C762314A618;
-	Tue,  8 Oct 2024 06:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Received: from cmccmta1.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C2DF13D52B;
+	Tue,  8 Oct 2024 06:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728367612; cv=none; b=g5QXDFvL8njEGpQLUP7OjWkmAOJOsKPvLtjR8ymjGxTtrhT8qmrJA/Q1NPgu0rdBBnRnSs8AgV+YCQRV/pFIGpuB7BwT6KdYN3yUmjJ5rl+8ePYWjAHdqeZtoLsHMd46ucFoV/E2hw4qYQLkmStm2clczuCxEE0tLevQOINk+7c=
+	t=1728368046; cv=none; b=RVqFsO0cN9D7gi6OpgPtXb2QpQQrqOez0+96sUjyIVSJ8fAyQeYMFAIMMwQ8ZPmDCKLuig+2F8AwFFLT2cZF4BSo+W47V91OsVK3enGbI2G8STYDzG3BPRQhk4hyC4JzPtlNUUS0ZABvxzaBAP8by2onyZBgSvy1q7c0EZbkNI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728367612; c=relaxed/simple;
-	bh=G419xqsgtCr3YapZUHYGtrbBTJwkX6BjsZ3jyky95HY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RB6W8uPhwOR7t8PZ0VCt1Nm0NGX/Ba3GQc1mKunCrIGLG2h7oDmS0wVoxPw65NsalCEEZgK1hM9cZisTo0VmIeevRK0Pyb2fBMK8G29NxEVLg0dWMTLfUaIIbx69m5SL4K5V88Qu+vZ2ISezBKNX1PtCY13XGf9ANLsVN5ZgrrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jia+vuWd; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jia+vuWd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728367611; x=1759903611;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G419xqsgtCr3YapZUHYGtrbBTJwkX6BjsZ3jyky95HY=;
-  b=jia+vuWdX1GejB5JHyorda8vzkbfA1ki4PSLeYLmaZebKIpl4+TFu0x9
-   nU5CO6ttBXa2Tzl8keGzHI6s906IwZrQ5dGkIef+p7ZfAkgUXV8XSbGvg
-   C/+FuQu0MopipNJWwprlb/CLvrMVHD7F4IgsAva7RayXmc+y3QvvlToCv
-   1xDlEf0U9odJDT1EbRF6To8CeUmiBCZQkqD0qgPl1shgFhanM5xJXTiSz
-   4bNdDIkB17XE0/PSWScv0fQWWyMto8/iTKxv1hejMkVDQzDRIZVY6iQTr
-   RxttejbxC0V/n3+TuBFPBnwT1P1Xw/GxwXwjcUemuzdA4MS9p9Dxn37mx
-   Q==;
-X-CSE-ConnectionGUID: gf0tKQj8SPSei6QJbLL7RQ==
-X-CSE-MsgGUID: RNmWxHCoQP6Tc7gPAX5xSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="38673202"
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="38673202"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 23:06:50 -0700
-X-CSE-ConnectionGUID: UqCYFoCXT4u2kt/D1EubvA==
-X-CSE-MsgGUID: jYMcuHdxTeiAZ8hjym65bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="80134042"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.49])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 23:06:47 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	stable@vger.kernel.org,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH for 6.12] ASoC: SOF: Intel: hda-loader: do not wait for HDaudio IOC
-Date: Tue,  8 Oct 2024 09:07:10 +0300
-Message-ID: <20241008060710.15409-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.46.2
+	s=arc-20240116; t=1728368046; c=relaxed/simple;
+	bh=0S3nBWrFpEzQWp0w/N+cTcKJdl4qLDr2PmM9Owe4ixg=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=rur2SJKvsoziDr1lQB0m3iik1z4eJzMUV2GI+v+bgCNKyJhFzPdl7vV9YLAu9YpdwidlPI4+RMolqW33LIy50kdk3/TcTfGjysDtNaBs+MggK2Xqo37W4pVt+3X/qRBP2xNLJSlteKtAZjhLVOuHHjRLg+Nzyptj3+bx8ynViUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee36704cda60b3-af8c3;
+	Tue, 08 Oct 2024 14:13:59 +0800 (CST)
+X-RM-TRANSID:2ee36704cda60b3-af8c3
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from ubuntu.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee26704cda6c40-96abe;
+	Tue, 08 Oct 2024 14:13:59 +0800 (CST)
+X-RM-TRANSID:2ee26704cda6c40-96abe
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
+	zhujun2@cmss.chinamobile.com,
+	duoming@zju.edu.cn,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] sound:aica:Remove unused variable
+Date: Mon,  7 Oct 2024 23:13:57 -0700
+Message-Id: <20241008061357.12042-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+The variable is never referenced in the code, just remove it
 
-Commit 9ee3f0d8c999 ("ASOC: SOF: Intel: hda-loader: only wait for
-HDaudio IOC for IPC4 devices") removed DMA wait for IPC3 case.
-Proceed and remove the wait for IPC4 devices as well.
-
-There is no dependency to IPC version in the load logic and
-checking the firmware status is a sufficient check in case of
-errors.
-
-The removed code also had a bug in that -ETIMEDOUT is returned
-without stopping the DMA transfer.
-
-Cc: stable@vger.kernel.org
-Link: https://github.com/thesofproject/linux/issues/5135
-Fixes: 9ee3f0d8c999 ("ASOC: SOF: Intel: hda-loader: only wait for HDaudio IOC for IPC4 devices")
-Suggested-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/soc/sof/intel/hda-loader.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ sound/sh/aica.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-loader.c b/sound/soc/sof/intel/hda-loader.c
-index 75f6240cf3e1..9d8ebb7c6a10 100644
---- a/sound/soc/sof/intel/hda-loader.c
-+++ b/sound/soc/sof/intel/hda-loader.c
-@@ -294,14 +294,9 @@ int hda_cl_copy_fw(struct snd_sof_dev *sdev, struct hdac_ext_stream *hext_stream
+diff --git a/sound/sh/aica.c b/sound/sh/aica.c
+index 936cd6e91529..66b33623549f 100644
+--- a/sound/sh/aica.c
++++ b/sound/sh/aica.c
+@@ -315,8 +315,6 @@ static void aica_period_elapsed(struct timer_list *t)
+ static void spu_begin_dma(struct snd_pcm_substream *substream)
  {
- 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
- 	const struct sof_intel_dsp_desc *chip = hda->desc;
--	struct sof_intel_hda_stream *hda_stream;
--	unsigned long time_left;
- 	unsigned int reg;
- 	int ret, status;
- 
--	hda_stream = container_of(hext_stream, struct sof_intel_hda_stream,
--				  hext_stream);
--
- 	dev_dbg(sdev->dev, "Code loader DMA starting\n");
- 
- 	ret = hda_cl_trigger(sdev->dev, hext_stream, SNDRV_PCM_TRIGGER_START);
-@@ -310,18 +305,6 @@ int hda_cl_copy_fw(struct snd_sof_dev *sdev, struct hdac_ext_stream *hext_stream
- 		return ret;
- 	}
- 
--	if (sdev->pdata->ipc_type == SOF_IPC_TYPE_4) {
--		/* Wait for completion of transfer */
--		time_left = wait_for_completion_timeout(&hda_stream->ioc,
--							msecs_to_jiffies(HDA_CL_DMA_IOC_TIMEOUT_MS));
--
--		if (!time_left) {
--			dev_err(sdev->dev, "Code loader DMA did not complete\n");
--			return -ETIMEDOUT;
--		}
--		dev_dbg(sdev->dev, "Code loader DMA done\n");
--	}
--
- 	dev_dbg(sdev->dev, "waiting for FW_ENTERED status\n");
- 
- 	status = snd_sof_dsp_read_poll_timeout(sdev, HDA_DSP_BAR,
+ 	struct snd_card_aica *dreamcastcard;
+-	struct snd_pcm_runtime *runtime;
+-	runtime = substream->runtime;
+ 	dreamcastcard = substream->pcm->private_data;
+ 	/*get the queue to do the work */
+ 	schedule_work(&(dreamcastcard->spu_dma_work));
 -- 
-2.46.2
+2.17.1
+
+
 
