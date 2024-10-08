@@ -1,163 +1,120 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F8721501D
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 20:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4B714A82
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 22:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728419890; cv=none; b=A6BWJyZCuIldKGM7DsUt5BtmIZa9zaHdvAs3nVfOjqzEwdyUv7lVckjK6RaCWaPxjf3VF6ymzImMqeclFLd6MjR7vTVRfzFmv7CcHrpgQwxHI9aQ0gju7YPc7WIqieoBs9cIAZ/lDLkxS0UmR22ftyAiLyjVnS2ecO+N+6i0H00=
+	t=1728428204; cv=none; b=te0BGxVqkIFBDRzsycUpliE11YPIXnbWod5wcXF2pT0wUwQ7PNi/Ge46C5/DelzfpmMOkUne/ArzB3ITwXv9P+XQEj5aDl2fV7cbqoQTeJvn9XZ2BzCPgma17EEKLVLOM1qrSYeP5i1tRyttwz6h3rOcW65S1sck7PkEe2JRoYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728419890; c=relaxed/simple;
-	bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R9hxaFCZfFLwnFxoE8pcsaXAydYU0GwOgr6rmCIpMx5h37u2P1xfx0CYRFXuLNDr9PGcovNB3FjmTovUUbKSdbeWgDCwU6ohDhLNESS2h6hWDxuFyTM1f5joi0uLr58h9u/KFnYHmubIdTLd+NWQR8uJat4+UppM/s1D+YqgT2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=18fWZBkO; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1728428204; c=relaxed/simple;
+	bh=W4qAhJNOoB5PxLZ+o81saA+Vr8YRJUGJiJ9OXszqCp8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O2xY1zolsAWPM3Hdp/twVRH0AZfmQJntkxJo3r2Hbx54Uwfbdk8aGmMKEIiKw95Dkf1SJar+3e4VjX+juC2+ko9SC4EujHxHj5DRjkJyX+9KC1SA1BI9D7URU/NNcl9wI2n12NAiJXD3GwiMxNAA8wLZftDe3WL6ES7Y9pvepVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iCahrbZK; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="18fWZBkO"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a99388e3009so471027166b.3
-        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 13:38:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iCahrbZK"
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-82aad6c83ecso236390239f.3
+        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 15:56:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1728419885; x=1729024685; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-        b=18fWZBkO9cDHNP5XkQ39MRLClR2iDC1zySqkncD3SsZKu5Rgs7Dl8pH8lKJp2p962M
-         ZQCXVVOIGzjU5UY81OJcQw0kiLkVxi82epBgL4dI4RqabJSCfzsJV/w4rEU39jnWCoY7
-         yG6e+6Huic3MWrYC1oSE1/3jjgRJEPNAKN3ZTXu7yDRI5rDcTHA6JVJ03K88LUsNIndN
-         hxu1wyd0FmRvkB0XvGhYzl60f9BZXhmzkblJFg6rToFyXPRB5BLZ/aQ9AquxPwlKwAUC
-         26vZdSJyysWVJfHabIaR2zJD8Gkd7meZi0reyXepjlExZa64VCzKDkCcaGkjDZZZyvzq
-         ni5A==
+        d=linuxfoundation.org; s=google; t=1728428201; x=1729033001; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dm5KR3yKJ7nb82RatWgCtQxq9u1gR67HhrKDYKDVxZU=;
+        b=iCahrbZKw1BmgTj+wjJnxp4orGeVV50NGuxwS5OnISzp/EREr2si/gFK3IBCzfKHgG
+         3XWk/PqrIS6lDNi1KMMmmCT6Gmydr5fQn19QJHqwn7+QWzhAIDvyZtK/UWGAk2lzMMWz
+         3pd/fkXjZN7HMZc3Xy9H/dl/5KfhjWYjP8Pgg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728419885; x=1729024685;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jBKc56vBxPYaOUWcC+VFZKlnp8sdizUoPysD1KL2n2Y=;
-        b=OAh6fNOJ1iyqmATLOSGgY8bxX4xmfxywxhtESIXoZDxh2PbOlYFlQJZ25B2wgMAqQW
-         bOiiKux1vOjH3/ZFXoOZQa1BNafNvjLFcOa64it9NgnSU73q7uSqcVChKMCGqJRO1Kqy
-         dNFIZR/zAaS+pXEyHDsl/J5fw7r0ni7lUBLuvq0UIir2SlhFc/vuZA4kvJm+hDsxLF3p
-         OzVFwhvwHQVAfVj7RFCIZeNNJoFsXuk7QInx1g1SybKd45E9LK8cBDfyP1SRRE6RyLAp
-         mEtyvSVzdifRfjU05rhqA01fcwIbcdN8ihZyhytkMlD0MXSfvzTjOfmSuUEwQI4IGCxq
-         mQHw==
-X-Forwarded-Encrypted: i=1; AJvYcCX7TDt0iKKvD28K99z4E+oZ0+AT+1MiakEqnYitT9IAEWdgCqNhk8oWymxmyEf+7utE4MQFACi9zEosZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPdvWn16hYnvDPHlu6pxGoR6zsNuECcOYmCLtiwxFczUgBsKAE
-	Rq+4opFprOvdaFxILJy1y1S4HqqBZ74Ckav/b/Pvh8pSVfru0ee5sWas+c0nu0o=
-X-Google-Smtp-Source: AGHT+IFQsuFQDnMORn6KRqls83kXMRALTmz1xji/Zv3nzyXsaV17OwyYMIY5gtZ7u9n9SjQRNHRlFg==
-X-Received: by 2002:a17:907:94d4:b0:a8d:250a:52b2 with SMTP id a640c23a62f3a-a998d114bbemr3268366b.6.1728419884897;
-        Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:c420:a9b6:c5e1:5b65])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a996274deeesm196971266b.103.2024.10.08.13.38.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 13:38:04 -0700 (PDT)
-Date: Tue, 8 Oct 2024 22:38:02 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-bluetooth@vger.kernel.org, linux-clk@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	dmaengine@vger.kernel.org, linux-gpio@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	nouveau@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, 
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org, patches@opensource.cirrus.com, 
-	iommu@lists.linux.dev, imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
-	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-phy@lists.infradead.org, linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	asahi@lists.linux.dev, rafael@kernel.org, Andy Shevchenko <andy.shevchenko@gmail.com>
-Subject: Re: [PATCH 00/51] treewide: Switch to __pm_runtime_put_autosuspend()
-Message-ID: <ttmnzgsdyng5vab63pvj7csrotbsmwnultjelvdotrvyg2snac@iv7afgect5f3>
-References: <20241004094101.113349-1-sakari.ailus@linux.intel.com>
- <CAPDyKFp0N6UJhnHS164Tdf=xkWB0jzq65L9TdvYazeBQ-6WjeQ@mail.gmail.com>
- <20241007184924.GH14766@pendragon.ideasonboard.com>
+        d=1e100.net; s=20230601; t=1728428201; x=1729033001;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dm5KR3yKJ7nb82RatWgCtQxq9u1gR67HhrKDYKDVxZU=;
+        b=ucV7mnj0yG1OIo2EmtS/rlJ42eWWayNWE46fK/dKY0akRuqy1+08KvXx2C3jPdSTT6
+         OslBDUukhuOKQLbPtvCjPzvkgevhG4lDyyhCqr0AHeiv/vG4hLdiF1wOxNV+6gXVTxB0
+         mbY51CdQ1DTsbHEXFrIcx6ceRBXw5UJZNXIhRa3flejUHb1UqUFMmehoZP+pItsfsFh/
+         lBuo0DWBOXv56uM3LaygbjqWEfBYl5K11KWlOwucxx021O/zgo2IdPCsHofwx2PYCxt6
+         KgnvnxByiBWQybty5AHlkQhK/onSDDh/IePxus9Xqrr88tQKMbp7NyZKGHLFnK+bhmZu
+         llXQ==
+X-Gm-Message-State: AOJu0YyDnqpojzSBXdLDLAoMZo750p1jn5imTbIBmNcS2BzPdUPCrL0e
+	j4HkhNJSOP+t6KnVO1dqqAp/tyUsRhN2mMGTPNnSJuG/d6a6qBjGJdF4U84EnDU=
+X-Google-Smtp-Source: AGHT+IHcsPiG3ayrLelizRE8PQU9rWi1sE+ha97beZLJ2/BTCyNLZxeFA29tgEJkFwYG9+z86gqNAg==
+X-Received: by 2002:a05:6602:1655:b0:831:e9a8:ce28 with SMTP id ca18e2360f4ac-8353d50470fmr49903439f.11.1728428201275;
+        Tue, 08 Oct 2024 15:56:41 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4db6ebf0adbsm1827800173.115.2024.10.08.15.56.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 15:56:40 -0700 (PDT)
+Message-ID: <aab81b14-415f-45ab-84f1-be9ed11e2a18@linuxfoundation.org>
+Date: Tue, 8 Oct 2024 16:56:39 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2ocqjla6tcmukjn3"
-Content-Disposition: inline
-In-Reply-To: <20241007184924.GH14766@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: rt721-sdca: Clean logically deadcode in
+ rt721-sdca.c
+To: "Everest K.C." <everestkc@everestkc.com.np>, oder_chiou@realtek.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20241008174122.4696-1-everestkc@everestkc.com.np>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241008174122.4696-1-everestkc@everestkc.com.np>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 10/8/24 11:41, Everest K.C. wrote:
+> As the same condition was checked in inner and outer if
+> statements. The code never reaches the inner else statement.
+> 
 
---2ocqjla6tcmukjn3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Looks like this file is only on next. Use next in the prefix
+[PATCH-next]
 
-Hello,
+How did you find this problem? Include it in the change log.
 
-On Mon, Oct 07, 2024 at 09:49:24PM +0300, Laurent Pinchart wrote:
-> On Fri, Oct 04, 2024 at 04:38:36PM +0200, Ulf Hansson wrote:
-> > On Fri, 4 Oct 2024 at 11:41, Sakari Ailus <sakari.ailus@linux.intel.com=
-> wrote:
-> > >
-> > > Hello everyone,
-> > >
-> > > This set will switch the users of pm_runtime_put_autosuspend() to
-> > > __pm_runtime_put_autosuspend() while the former will soon be re-purpo=
-sed
-> > > to include a call to pm_runtime_mark_last_busy(). The two are almost
-> > > always used together, apart from bugs which are likely common. Going
-> > > forward, most new users should be using pm_runtime_put_autosuspend().
-> > >
-> > > Once this conversion is done and pm_runtime_put_autosuspend() re-purp=
-osed,
-> > > I'll post another set to merge the calls to __pm_runtime_put_autosusp=
-end()
-> > > and pm_runtime_mark_last_busy().
-> >=20
-> > That sounds like it could cause a lot of churns.
-> >=20
-> > Why not add a new helper function that does the
-> > pm_runtime_put_autosuspend() and the pm_runtime_mark_last_busy()
-> > things? Then we can start moving users over to this new interface,
-> > rather than having this intermediate step?
->=20
-> I think the API would be nicer if we used the shortest and simplest
-> function names for the most common use cases. Following
-> pm_runtime_put_autosuspend() with pm_runtime_mark_last_busy() is that
-> most common use case. That's why I like Sakari's approach of repurposing
-> pm_runtime_put_autosuspend(), and introducing
-> __pm_runtime_put_autosuspend() for the odd cases where
-> pm_runtime_mark_last_busy() shouldn't be called.
+> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> ---
+>   sound/soc/codecs/rt721-sdca.c | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+> index 36056cb7a3ca..4fd26e490610 100644
+> --- a/sound/soc/codecs/rt721-sdca.c
+> +++ b/sound/soc/codecs/rt721-sdca.c
+> @@ -611,13 +611,9 @@ static int rt721_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
+>   
+>   		if (!adc_vol_flag) /* boost gain */
+>   			ctl = regvalue / boost_step;
+> -		else { /* ADC gain */
+> -			if (adc_vol_flag)
+> -				ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
+> -			else
+> -				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
+> -		}
+> -
+> +		else /* ADC gain */
+> +			ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
+> +
+>   		ucontrol->value.integer.value[i] = ctl;
+>   	}
+>   
 
-That's ok for me. However this patch series isn't the optimal path to
-there because most drivers (i.e. those that already today do
-pm_runtime_mark_last_busy() in combination with
-pm_runtime_put_autosuspend()) have to be patched twice.
+Looks reasonable to me. I don't see adc_vol_flag changing.
+Possible copy error from sound/soc/codecs/rt722-sdca.c
 
-The saner route is: Only convert the drivers with a sole
-pm_runtime_put_autosuspend() (i.e. without pm_runtime_mark_last_busy())
-to __pm_runtime_put_autosuspend(). Then add the mark_last_busy() bits to
-pm_runtime_put_autosuspend() and then drop the explicit calls to
-pm_runtime_mark_last_busy() before pm_runtime_put_autosuspend().
+Perhaps rt722-sdca.c came from sound/soc/codecs/rt712-sdca.c
+in which the logic seems to be correct.
 
-(Note this doesn't take into account Rafael's position that
-pm_runtime_put() might be the saner option. My argument applies for that
-conversion analogously.)
+In any case, I will leave it to sound experts to comment whether this
+patch is correct or not.
 
-Best regards
-Uwe
-
---2ocqjla6tcmukjn3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcFmCEACgkQj4D7WH0S
-/k6xnwf/QOZhbtT562rFFa3JIiBatDxTcqyEXoXClrP7jSyQFY/VFzq2S2jRHOFt
-wM6zQUX1bTUqDtC4HozJIbQDjLxd3qFgc5RoTRLV8VhRJbcq9cOo5Nf1h4KJ5Ip9
-nhpzoHwUHoEjEHj1f9UvEWfnFAVCSLFxgb14ZDHZyb2pQue3G5OYI2f2cJYT8YVB
-xQktDFp7rUu4xWDTzoIxNKvR1Ipy5fGxdf9R2/+IQhW64sWuDG2ZH6tAmfn6mEb8
-ecspbesJx+NMbZ06Zl7wqBvyj/DpQGgPaCnWUQ5cI0Of/kOzqxh4+65JK68CLLs0
-/Goin2zz55IZITGC5zHuAA07bW/c7Q==
-=7Wup
------END PGP SIGNATURE-----
-
---2ocqjla6tcmukjn3--
+thanks,
+-- Shuah
