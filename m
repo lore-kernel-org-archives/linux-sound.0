@@ -1,115 +1,102 @@
 Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397DD1DF98F;
-	Tue,  8 Oct 2024 16:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7806F2F3;
+	Tue,  8 Oct 2024 17:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728406033; cv=none; b=d8zvPUZzSHVSwCRPJzqFQMFMOd+vjVL3SYo9KXSMddLCI2rIGdfqO7TjUDGmsLT4Eit9Urm+NYpCB8jULveMBOc5IabaaJR8AgKUMicqa2Jyf45NYfMEv22XZjqC1ts9Agna5haFPAHjRZK5gcd4v3nOoytB5wsokUMD6zV09R8=
+	t=1728406963; cv=none; b=Ws9CVzZCF7diB5fiVuKjFYY+a6YK4YMe7WqJKVxn5q2r6cG1oF4vmvKcuq6lO9P/WRbHFIkt6Zv16EdXvBXY1LbVPUFKpzUlS/md/WBs0T1pAIBrbrn712Ai0e277kwQ7ksXuvLW+aml3FvlR/3qLcblPpnB04bQceEKWzIhIH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728406033; c=relaxed/simple;
-	bh=7NpC9Z9fSFmu/ab7qLKOm3zCtcWbKx6S274Oh3JiwRA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HKncbgOqNUTVLqZTuomwt41hjtuxCQAZWoPrmYDx5mdPfxW+Ig0L7ITLTZrhWHDZoZur5eyQYT1/aB4Yv2qA3ZYfced/ivHPsVIQPeXJEQ1eNpvVAc529WMjVV+dpEddYeiW2jPqY59E3bTFR1PvVSwL52zhFSWFvfDwwihkFAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L59ZEzJw; arc=none smtp.client-ip=209.85.218.42
+	s=arc-20240116; t=1728406963; c=relaxed/simple;
+	bh=sMbNsoCJrjOwNF0YWvFzRa1qE1wyTBhsxmOAUFS8/fM=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=nfXyvDZmRaWwqBsvOdkHZ7Fi1R3ubZhNZ+vIGnWTs+6ALU3LV5XDpyMrIVZ9cD3gh0mFcI2Rf5vdGiZhLTiD84A8iBMOxU78zp82GslaVWkGCYGjsTPL0z1WsCNvIoqSUPwwbr1VvDE0dwG870pFFq0AvPtTpX1cwqr3cVZ/8vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQZHJC5X; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L59ZEzJw"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9968114422so146828166b.2;
-        Tue, 08 Oct 2024 09:47:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQZHJC5X"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a7aa086b077so680137966b.0;
+        Tue, 08 Oct 2024 10:02:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728406030; x=1729010830; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2870U45LetmQ5voKNhtmgAXoj6GNIRWVFzGUh+2Lh68=;
-        b=L59ZEzJwkRtt/Z3C+Kv7psQb+Y4JIhazbxWkSpFJ6kJ7QXPHGe+o0Pdoj9GScjIOPW
-         86cLmINNx1m3q9k+6VNooWfY7fHFLyef97Rnm422m2bqjErlSTsSE9DlQ8ItYZA8ZP++
-         KzUt5psTHyFCtRj1BVDBKKy0F/ptdVzOTK7Eh8ORFZim3SJAiC1JJ0+N9n94+LMEUXL+
-         QFt5QExBDauIDvYnftxnUZWhJ9NtJczP5x9Jpy5WO90siAmumd7l2f82ZPl52h2hznuF
-         T49ZMDy6uKLGGmErS1+RYJ5MFmn2BA3cqe/MTcV9lyphyGaZngeo9HB8m0MAaMXOsZfm
-         q/dg==
+        d=gmail.com; s=20230601; t=1728406960; x=1729011760; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fH6Q+86lLIPQsPYsHY5BtMivrSzj8a09vJ6dNtdDv1s=;
+        b=aQZHJC5XIJgl70SCF758rTY2xT/IapzrivQldtR1Gh4+rfWZR46RiIaSZlp1yQm8aL
+         B0IQAxsgtDmaRIWPx4zzO0w/GMTBBVFOKYYy7QSCGKq1nuNcMsCNJQVMZsl4FjScsF5Y
+         fZYB2RwcNfGRsgVmoDA13a2ALrdPKwG60SWJE6nEFh1RdznIpVh326JGNRQI7FzWE6qi
+         Xay4gEOv8cjZiFyLZxrKmDq9tssBR7K5Ta+RS20YUC6S2Yjk7A2EcW6Xdmi4v7PiQeIM
+         GamDoCd+mdJwvQEKiVjfzB16hyvRC25gqKIURBMG9TsH6u1YQa6tsiWo80cBdvuVyrHQ
+         IOlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728406030; x=1729010830;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2870U45LetmQ5voKNhtmgAXoj6GNIRWVFzGUh+2Lh68=;
-        b=BIv5M7CI/J3lthTAPzy1g2PDs3HE8S5WxNEmE/P98ZuA1Hy0vrnMGM+YLrEU+Y0UBu
-         YLx4jNZ211X9ZwrlEeOQQNcWl3x29RHWS6lWG3XoGUCjOPwkaPmEZ6zfpG2X3mINkYsa
-         5KKmbxdPH5etVzvg887dvjbJLugJ03HF+VraUZbrkQrJRxqPMxWoPbhIBV172+MbeAuU
-         2Ar9LycGLJg6GSvsaZJT5TUh6vtL4abci7e+1vnp//LTDgqdDdMeTuO+LajSj+Ud69fq
-         vUERLvYRGZxbNgVqgwSwoCg4h+o77ulIx1SuVg5K7XEJ7qP5YYVwrQrrrwKs5zpLVCGK
-         NByw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/+WqEegbBmTj6jTmmEOLzJPNR+3q+YXUAvCfPbZmRwWTeTG2QIZIEYclMN8dgiQmnjm46rb0SHbWP8jY=@vger.kernel.org, AJvYcCX3QEUJRnwIAntl6VdL1szK20YWI3E4Sr0jFFfV5OK7kuTN0vWMZbkKj/4ja4oKMW+0sGWh4Y5q12CigOE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3MmPp0ctavaZ0zcPnERyAGBcO1mvQ0xemafDjB0oo5tpEX44r
-	TKwugBgDd6879XCsfXPcmjqeNQSYhTX/XGkPvGoCcnvp0Yo0BlRw
-X-Google-Smtp-Source: AGHT+IF+XZHN0TT5GTel1+0328M9dhDXstpCb+Q7drWou1Rx1UqVJsoDXSnf886iLFXfzfs6mXSzsA==
-X-Received: by 2002:a17:907:7248:b0:a99:5110:7a4d with SMTP id a640c23a62f3a-a99511081f3mr895919666b.61.1728406030247;
-        Tue, 08 Oct 2024 09:47:10 -0700 (PDT)
-Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994f3806cdsm332075466b.118.2024.10.08.09.47.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 09:47:08 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Oder Chiou <oder_chiou@realtek.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jack Yu <jack.yu@realtek.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of values into uninitialized variable ret
-Date: Tue,  8 Oct 2024 17:47:07 +0100
-Message-Id: <20241008164707.203792-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+        d=1e100.net; s=20230601; t=1728406960; x=1729011760;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fH6Q+86lLIPQsPYsHY5BtMivrSzj8a09vJ6dNtdDv1s=;
+        b=Ho203injxEqQgtHG2tPGRFQvo+/mKCb8r00Wez7rRO5e2QXfoePeaWHNK/HiGEAI/W
+         2ZiNVup5vXfJz7/F0uAAQhfdQbl/Sz8MSiyrd2rsGCjzlzr1beW1zOx69LabKNvHjpNu
+         nXKtJbQblw5cge5wDxbVX6pCLgAmVkKaYNGp1iSHyCFhcOfd7qMRnVjZd8PUbgTx/OVt
+         KGnXrMY5ZjRvCyBluas2n0GWINh/EmbfwZb68dAmGLKdTgMXQ013V+mNJcRvm12silDI
+         OgCLi565samcyNb9M3NRgQHmhEK3UPva6jeHWMUHZwnIv/AwJ3uTZgZfhfSFQW1s7Je5
+         xn+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWJcFYa2wUxLgKnkeJHT+zBz7ak8BGOcQlA4IfrUmnUvfUgQD/y0xrSduMM9vBKJdMeK2RX/8UR0khvKhg=@vger.kernel.org, AJvYcCXgHEk+1gwqrXp5OmUo3W+oPvdHH2PPV0/OPmTqQJZ3ToCO6uz7Fk8oj1Vj6wTZGn48HWkYNg4i4U1YoI4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxChu9TpB2kXXuPiFKJYAy09d8k+r9Mi/bc1c6/UgYbI0NxGsEq
+	1dtQJsJsfqoZPVN088v537baHaxowt1J+oAeuu7lKPjg7d/5Tz4DgxS5Bw==
+X-Google-Smtp-Source: AGHT+IFQrL6WPapulu3Wh3pTUUGiA9lYvQ+jaBWiSMotTWC9FnG/h70fI58S0W4VNXMe9Y7uBJN+aA==
+X-Received: by 2002:a17:907:97c6:b0:a99:61f2:49eb with SMTP id a640c23a62f3a-a9961f2967amr478404266b.42.1728406959493;
+        Tue, 08 Oct 2024 10:02:39 -0700 (PDT)
+Received: from [192.168.0.101] (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a993c1b353dsm473226366b.35.2024.10.08.10.02.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 10:02:38 -0700 (PDT)
+Message-ID: <d4ff08fa-199d-4114-bae1-fd36f6a9313c@gmail.com>
+Date: Tue, 8 Oct 2024 18:02:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org
+Cc: Mark Brown <broonie@kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+Subject: re: ASoC: rt721-sdca: Add RT721 SDCA driver
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-There are a handful of bit-wise or'ing of values into the uninitialized
-variable ret resulting in garbage results. Fix this by ininitializing
-ret to zero.
+Hi Jack,
 
-Fixes: bbca8e7050e0 ("ASoC: rt-sdw-common: Common functions for Realtek soundwire driver")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/codecs/rt-sdw-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+With respect to the recent commit in linux-next:
 
-diff --git a/sound/soc/codecs/rt-sdw-common.c b/sound/soc/codecs/rt-sdw-common.c
-index 9ed0e9855699..a422da6cf702 100644
---- a/sound/soc/codecs/rt-sdw-common.c
-+++ b/sound/soc/codecs/rt-sdw-common.c
-@@ -101,21 +101,21 @@ EXPORT_SYMBOL_GPL(rt_sdca_index_update_bits);
-  * rt_sdca_btn_type - Decision of button type.
-  *
-  * @buffer: UMP message buffer.
-  *
-  * A button type will be returned regarding to buffer,
-  * it returns zero if buffer cannot be recognized.
-  */
- int rt_sdca_btn_type(unsigned char *buffer)
- {
- 	u8 btn_type = 0;
--	int ret;
-+	int ret = 0;
- 
- 	btn_type |= buffer[0] & 0xf;
- 	btn_type |= (buffer[0] >> 4) & 0xf;
- 	btn_type |= buffer[1] & 0xf;
- 	btn_type |= (buffer[1] >> 4) & 0xf;
- 
- 	if (btn_type & BIT(0))
- 		ret |= SND_JACK_BTN_2;
- 	if (btn_type & BIT(1))
- 		ret |= SND_JACK_BTN_3;
--- 
-2.39.5
+commit 86ce355c1f9ab943bbe099ea7d0b8a3af2247f65
+Author: Jack Yu <jack.yu@realtek.com>
+Date:   Tue Oct 1 09:17:38 2024 +0000
+
+     ASoC: rt721-sdca: Add RT721 SDCA driver
+
+
+I'm flagging up an issue in function rt721_sdca_dmic_set_gain_get there 
+are a bunch of nested if statements as follows:
+
+                 if (!adc_vol_flag) /* boost gain */
+                         ctl = regvalue / boost_step;
+                 else { /* ADC gain */
+                         if (adc_vol_flag)
+                                 ctl = p->max - (((vol_max - regvalue) & 
+0xffff) / interval_offset);
+                         else
+                                 ctl = p->max - (((0 - regvalue) & 
+0xffff) / interval_offset);
+                 }
+
+The last else statement ctl = p->max - (((0 - regvalue) & 0xffff) / 
+interval_offset) is redundant, since this is the !adc_vol_flag checked 
+for in the first boost gain if clause.
+
+Colin
 
