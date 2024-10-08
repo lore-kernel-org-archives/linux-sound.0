@@ -1,112 +1,90 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869711667DA;
-	Tue,  8 Oct 2024 09:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29318DF96;
+	Tue,  8 Oct 2024 09:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728379945; cv=none; b=E2tjqs1lvZl7rvMwFas6/bFJ9zwAyzY265ih0XtEMrL3vftGpRSDflA60KD2L/TAtUoCWWyfneS8s4Ne0X7iyBtTYbpogBSshyApvavqtGGPIQD98oJF2siUL1oVi5rEC6EueEWaUY4q4J08GOBWIdph/ElBA/4D0axDpg3zRE0=
+	t=1728380877; cv=none; b=Azocho4ZHr3jRkDu5pHqSLA+rCi/sOYjwMZsW+cSEUZ61sp9rAIeRgpdORvJnIh14Hl9snez4B0Ah712YQyHqMSDuopZgDETFTcpcAGc39okT76qbYUlt8Tr6VaPWMMWGA+VNVOOPZ6tN04fFJcvfLTb8iXoL2ZPr+0YM2MNDig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728379945; c=relaxed/simple;
-	bh=DtNUvaG5aVRQZwY0O9ZpeWHToiPPIKHxJRMBlZXkudw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DKS+pAOXzT3gEFjxtMeySaszEAofHpp5gZ/sT+H3gct8bFdbte1/zwlsZU95yLhPTfXlFZcmn3cupuj6fnVxVebxaWJgHRAvJq4u+30l0ZHPH0qe000rM576Yghu+RCZ6DIzYUEA1tEkc8fE1+6XoMKSwIAVzuNn5XCeDSfYj8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XYRYWS+z; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1728380877; c=relaxed/simple;
+	bh=ykHfEdBXhl1fXBnfbo9MF4au8+Teea347Ae9LYLabp4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JvUAi9G3iiOYMFfnKX57qAfKOr78Vt5T0DPGsWP0SG1zA4jvfEdCOauN/BvhN8gaxDXbQoW6hk1wjTmZWDuL5U5Up3+6vkbfI7B1yurRewbc6PLZL7ud9NZZephFmQevwXv5chUAyeZfsOkSRhh1ODQ/3wUFQ7ta0gS4xLVChlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mAfwGVML; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XYRYWS+z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=xyGcAKqyXdq1kSPPIkmS99LVfnBS63wwbbsowm8iq4M=; b=XYRYWS+z8RIT/Be1e2fyTGrd8w
-	OBh+/6Eu8oetgJeuRXO6F/qwYxKs93aV+jSBfCUQZUZJuwswFVdCV8cfUI/KPCr+hpqzu915OEm38
-	tOkHhS0ZfpNycGScxB0pgnhWhUBXr1err78VRrD3tQLvcSDFYWQtqqJBzV69jpNmY/3khV+Co/aDq
-	VAIA7JLYOQlPeuZkAryO/CFCwR0gDMl3wekA74MHSI/HWLqOt0qqjilQGRw9Le8RRVAnc6G4GFaDe
-	TxfCMXqTAfi6s1U0TizGEdFRJSL/eLiVdQlFOPtJnNWrO9Y0b6Ay4himMovud1gGUhvuJOVQDhQDk
-	z93gEE8Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1sy6ZW-00000005Jsk-3rIF;
-	Tue, 08 Oct 2024 09:32:02 +0000
-Date: Tue, 8 Oct 2024 02:32:02 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Julian Vetter <jvetter@kalrayinc.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, guoren <guoren@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-alpha@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
-	Linux-Arch <linux-arch@vger.kernel.org>,
-	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
-	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
-	Yann Sionneau <ysionneau@kalrayinc.com>
-Subject: Re: [PATCH v8 01/14] Consolidate IO memcpy/memset into iomap_copy.c
-Message-ID: <ZwT8EjvlknRYeDas@infradead.org>
-References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
- <20241008075023.3052370-2-jvetter@kalrayinc.com>
- <a9fa56b4-b00c-4941-8c8c-1d3b58b573e2@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mAfwGVML"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 609F5C4CEC7;
+	Tue,  8 Oct 2024 09:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728380876;
+	bh=ykHfEdBXhl1fXBnfbo9MF4au8+Teea347Ae9LYLabp4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mAfwGVMLzJiAlIHjTdcfj2bCS5f//Oq8LHfH9ojls6gbEYbHS65QLvHAbMg86EIEM
+	 XRKZBJkiPNsj49zMtC8YXY0tXnEZN5z3hLbGNDU0myId76zlo8R73AT2sYIelkIecO
+	 cn9V6hZF6+FTi3Pk+4UEtzbrT4s517yG1fGMriQtGMUscV88brG5RLMJC03DFy2Zvy
+	 8OxiPWOStuqDL0+OQUAiV1//nFo1ku699FxJE31Ua88KMeBZH5bLSrbZfZunwsyddy
+	 4CvKR78HoY/4Ux1Q9dnOQ5aYPu/FnV9DRVf7k9C4CQftkeLvaeJAKMQSVr8GUpXetN
+	 +0mDZBZDJlKVg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Heiko Stuebner <heiko@sntech.de>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+In-Reply-To: <20241007205639.2477635-1-heiko@sntech.de>
+References: <20241007205639.2477635-1-heiko@sntech.de>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: rockchip,rk3036-codec: convert
+ to yaml
+Message-Id: <172838087307.2574699.1959235888192800827.b4-ty@kernel.org>
+Date: Tue, 08 Oct 2024 10:47:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a9fa56b4-b00c-4941-8c8c-1d3b58b573e2@app.fastmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Tue, Oct 08, 2024 at 09:27:20AM +0000, Arnd Bergmann wrote:
-> >  #endif /* CONFIG_TRACE_MMIO_ACCESS */
-> > 
-> > +extern void memcpy_fromio(void *to, const volatile void __iomem *from,
-> > +			  size_t count);
-> > +extern void memcpy_toio(volatile void __iomem *to, const void *from,
-> > +			size_t count);
-> > +extern void memset_io(volatile void __iomem *dst, int c, size_t count);
-> > +
+On Mon, 07 Oct 2024 22:56:39 +0200, Heiko Stuebner wrote:
+> Convert the binding to yaml.
 > 
-> I think having this globally visible is the reason you are running
-> into the mismatched prototypes.
+> The codec seems to be from Innosilicon, but the compatible has ever only
+> been rockchip-based, as they sythesized the codec for the rk3036.
+> 
+> So the yaml file gets a name matching that compatible.
+> The only other notable change is the addition of the #sound-dai-cells
+> property, that is always required.
+> 
+> [...]
 
-Yes, especially as architectures sometimes actually implement this
-as macro or inline function.
+Applied to
 
-Please also drop the pointless externs while you're at it.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: dt-bindings: rockchip,rk3036-codec: convert to yaml
+      commit: 5cd575a87f141e438b3e062533bf0c6cc9eba99a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
