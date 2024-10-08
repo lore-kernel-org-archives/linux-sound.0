@@ -1,102 +1,80 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7806F2F3;
-	Tue,  8 Oct 2024 17:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BFB017A5BD;
+	Tue,  8 Oct 2024 17:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728406963; cv=none; b=Ws9CVzZCF7diB5fiVuKjFYY+a6YK4YMe7WqJKVxn5q2r6cG1oF4vmvKcuq6lO9P/WRbHFIkt6Zv16EdXvBXY1LbVPUFKpzUlS/md/WBs0T1pAIBrbrn712Ai0e277kwQ7ksXuvLW+aml3FvlR/3qLcblPpnB04bQceEKWzIhIH4=
+	t=1728407052; cv=none; b=eQ9cSYscszUnVDght253mVNyq+iAuDOFaRbyCaCAoXfA8tGK07PZGnpzc8LMwXnXoAs6UGNV+E1tnn5kVZLkMCJvTXaEbvWwshzcRy24s3oDlV767iB1691FLLndl9Y7HxUmYbyiCuCzj+MklJx4sk6KxZk1t9SzgWkaBwP+Cxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728406963; c=relaxed/simple;
-	bh=sMbNsoCJrjOwNF0YWvFzRa1qE1wyTBhsxmOAUFS8/fM=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=nfXyvDZmRaWwqBsvOdkHZ7Fi1R3ubZhNZ+vIGnWTs+6ALU3LV5XDpyMrIVZ9cD3gh0mFcI2Rf5vdGiZhLTiD84A8iBMOxU78zp82GslaVWkGCYGjsTPL0z1WsCNvIoqSUPwwbr1VvDE0dwG870pFFq0AvPtTpX1cwqr3cVZ/8vM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aQZHJC5X; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728407052; c=relaxed/simple;
+	bh=0zW938phflKE5Gbfjg/+d3eM5rugnPUhMSVe/4FineA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CG2ZurKji4DdcgAz9F4EOk5FpSVLFDlbFhCk6XMEXJKUnO9m0mKh0FscIqex7z/1uGppXafQk8h9wJ8eRdf7mSvBgrIn//OIK5fiRcV3lS0CIiQ+d2c2Qdbc0lKz41i1abz6+k0DWIS836Bc+T3vlS9rZ6iCmrUKIjKR0K90274=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Waw8KIXb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aQZHJC5X"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a7aa086b077so680137966b.0;
-        Tue, 08 Oct 2024 10:02:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728406960; x=1729011760; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fH6Q+86lLIPQsPYsHY5BtMivrSzj8a09vJ6dNtdDv1s=;
-        b=aQZHJC5XIJgl70SCF758rTY2xT/IapzrivQldtR1Gh4+rfWZR46RiIaSZlp1yQm8aL
-         B0IQAxsgtDmaRIWPx4zzO0w/GMTBBVFOKYYy7QSCGKq1nuNcMsCNJQVMZsl4FjScsF5Y
-         fZYB2RwcNfGRsgVmoDA13a2ALrdPKwG60SWJE6nEFh1RdznIpVh326JGNRQI7FzWE6qi
-         Xay4gEOv8cjZiFyLZxrKmDq9tssBR7K5Ta+RS20YUC6S2Yjk7A2EcW6Xdmi4v7PiQeIM
-         GamDoCd+mdJwvQEKiVjfzB16hyvRC25gqKIURBMG9TsH6u1YQa6tsiWo80cBdvuVyrHQ
-         IOlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728406960; x=1729011760;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fH6Q+86lLIPQsPYsHY5BtMivrSzj8a09vJ6dNtdDv1s=;
-        b=Ho203injxEqQgtHG2tPGRFQvo+/mKCb8r00Wez7rRO5e2QXfoePeaWHNK/HiGEAI/W
-         2ZiNVup5vXfJz7/F0uAAQhfdQbl/Sz8MSiyrd2rsGCjzlzr1beW1zOx69LabKNvHjpNu
-         nXKtJbQblw5cge5wDxbVX6pCLgAmVkKaYNGp1iSHyCFhcOfd7qMRnVjZd8PUbgTx/OVt
-         KGnXrMY5ZjRvCyBluas2n0GWINh/EmbfwZb68dAmGLKdTgMXQ013V+mNJcRvm12silDI
-         OgCLi565samcyNb9M3NRgQHmhEK3UPva6jeHWMUHZwnIv/AwJ3uTZgZfhfSFQW1s7Je5
-         xn+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWJcFYa2wUxLgKnkeJHT+zBz7ak8BGOcQlA4IfrUmnUvfUgQD/y0xrSduMM9vBKJdMeK2RX/8UR0khvKhg=@vger.kernel.org, AJvYcCXgHEk+1gwqrXp5OmUo3W+oPvdHH2PPV0/OPmTqQJZ3ToCO6uz7Fk8oj1Vj6wTZGn48HWkYNg4i4U1YoI4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxChu9TpB2kXXuPiFKJYAy09d8k+r9Mi/bc1c6/UgYbI0NxGsEq
-	1dtQJsJsfqoZPVN088v537baHaxowt1J+oAeuu7lKPjg7d/5Tz4DgxS5Bw==
-X-Google-Smtp-Source: AGHT+IFQrL6WPapulu3Wh3pTUUGiA9lYvQ+jaBWiSMotTWC9FnG/h70fI58S0W4VNXMe9Y7uBJN+aA==
-X-Received: by 2002:a17:907:97c6:b0:a99:61f2:49eb with SMTP id a640c23a62f3a-a9961f2967amr478404266b.42.1728406959493;
-        Tue, 08 Oct 2024 10:02:39 -0700 (PDT)
-Received: from [192.168.0.101] (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a993c1b353dsm473226366b.35.2024.10.08.10.02.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 10:02:38 -0700 (PDT)
-Message-ID: <d4ff08fa-199d-4114-bae1-fd36f6a9313c@gmail.com>
-Date: Tue, 8 Oct 2024 18:02:37 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Waw8KIXb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C514BC4CEC7;
+	Tue,  8 Oct 2024 17:04:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728407052;
+	bh=0zW938phflKE5Gbfjg/+d3eM5rugnPUhMSVe/4FineA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Waw8KIXbNxlPOg0aGTuMsKMnH0X91YnISlWgmfb6vpJISOhgGOrYZEedRPVdpKErt
+	 nl76PDOmUjajKq3xRgctaS4hxDDc4t2iok1yWgPUhBlReb5fcvd2Ka6kk0HcFCCqZz
+	 LUFbozDuwOZn7G0BZZStVWStHl6QY9S7/QlPQFuGNhlE91kKuntHxB7rZvCuZluYBf
+	 VZJ8KMw9KgOACfbHlkbbsxHc3zeUVZ9VE0kCS/edfMae5/RsJ+obms5CA3isE9uY2h
+	 pn6K46lDkTEytBM+OXCcIbHEiG+T3oXivr8osBMcuYs/1VRRZnbLiMcch10M9jzjNt
+	 1Fau/tMXJqd8Q==
+Date: Tue, 8 Oct 2024 18:04:08 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of values
+ into uninitialized variable ret
+Message-ID: <ZwVmCNAVSOgqT6Qd@finisterre.sirena.org.uk>
+References: <20241008164707.203792-1-colin.i.king@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jack Yu <jack.yu@realtek.com>, linux-sound@vger.kernel.org
-Cc: Mark Brown <broonie@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-From: "Colin King (gmail)" <colin.i.king@gmail.com>
-Subject: re: ASoC: rt721-sdca: Add RT721 SDCA driver
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hi Jack,
-
-With respect to the recent commit in linux-next:
-
-commit 86ce355c1f9ab943bbe099ea7d0b8a3af2247f65
-Author: Jack Yu <jack.yu@realtek.com>
-Date:   Tue Oct 1 09:17:38 2024 +0000
-
-     ASoC: rt721-sdca: Add RT721 SDCA driver
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TyLxbKPpMzmWmzzr"
+Content-Disposition: inline
+In-Reply-To: <20241008164707.203792-1-colin.i.king@gmail.com>
+X-Cookie: Editing is a rewording activity.
 
 
-I'm flagging up an issue in function rt721_sdca_dmic_set_gain_get there 
-are a bunch of nested if statements as follows:
+--TyLxbKPpMzmWmzzr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-                 if (!adc_vol_flag) /* boost gain */
-                         ctl = regvalue / boost_step;
-                 else { /* ADC gain */
-                         if (adc_vol_flag)
-                                 ctl = p->max - (((vol_max - regvalue) & 
-0xffff) / interval_offset);
-                         else
-                                 ctl = p->max - (((0 - regvalue) & 
-0xffff) / interval_offset);
-                 }
+On Tue, Oct 08, 2024 at 05:47:07PM +0100, Colin Ian King wrote:
+> There are a handful of bit-wise or'ing of values into the uninitialized
+> variable ret resulting in garbage results. Fix this by ininitializing
+> ret to zero.
 
-The last else statement ctl = p->max - (((0 - regvalue) & 0xffff) / 
-interval_offset) is redundant, since this is the !adc_vol_flag checked 
-for in the first boost gain if clause.
+I'm very disappinted in the compiler for not noticing this :(
 
-Colin
+--TyLxbKPpMzmWmzzr
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcFZggACgkQJNaLcl1U
+h9AmNQf/aZQV3YFAQKdZ3rOtcCP7qCa9RyGjVNX2wagfOjCuIt5zVWmotc87gvF+
+NOiue6Z/eMAHXqqWJVEKTPa8Pl0peL+cc4wmkMHpd0/tWFlNd9Xfy/xYoG1OT1lS
+EcXW0qTvM/pFkWtY/p9yFK45mkapMOqU0Z4A0UnpwWjzvcjcHd2dQeJamoYGkre9
+3PDHu+anhvGW5Yl8mjAjTEkSffs2hMlYo1ICJuXB2o3ZaNs2/FlfaQyNj4K5UB6H
+lilIYuHCL6cExFoZ6swCi1t3kkuVYFc9qJIUfm4548Y/uL14nZdWgsjbgw4bHVFJ
+u3WJoSKaEOGJUSzNZYeKX2UL2SfG/g==
+=sXUZ
+-----END PGP SIGNATURE-----
+
+--TyLxbKPpMzmWmzzr--
