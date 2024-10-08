@@ -1,43 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7029F1DE4CC
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 12:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAAE1DE2CF;
+	Tue,  8 Oct 2024 12:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728391913; cv=none; b=dNV+s6nr7h+icJPMgPjyz/At1g3TkJkvnQxXlNL29LX0S7z5M1HUKJTDL/UKNVNlIs9X8uPhZeJvuGxK3RGZ5usGgtPpotEA1rJOih/HI0hRtpZ2/iIWNyp1Y6ZRVSO3Ru/+Ufpg1XXVKU+IIOIw3eBN0lRENouDmD2gtTVUDmI=
+	t=1728391918; cv=none; b=fBnTfsrMfaXtm1p3slOrTvY7Jx/7LJc2X4IAgVKhV+W2AvXefXEKIm8pCrf6vl4A/8RJGqpeaF0BJq8tASKcOaF9v8z9cHRHj9oXPOEXxw7Vs7gdCR/a/WYFRp6imewxHpCWA/EBbgnIIqn1zDBjMx90MIQK1EzxlQqpbYHytPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728391913; c=relaxed/simple;
-	bh=9r4lgL2sInxKXsJRAoc79I41tuRjI1KkmiuOHJNwcJA=;
+	s=arc-20240116; t=1728391918; c=relaxed/simple;
+	bh=5N3muN/1X4NiCe63rOjxyZnAnkXxwydb5VUOMPid/n0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Wulfs0F2cYGvyBzkBPSuok2iiLHMy4aoMOqyDF/vtxvwYr0D6Esa1nHB4AGpbxKf1Aji+1hedC0rgIgr+wkLOpoABZps69NI1zEzbQVBUNkCNNmzqCwFVhT/bxQ04D57dMm6Gy1ndkIyiTqtukMDdo6EaUR6JvWYp360sV0Fv9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDGjXA4d; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=tIhyGaZA6QpG6EjJOccUPL7iXOV+xqnHeYwB+nAjCApcl462FDID58BssFbsk13nADNPzw1kWTByAhXM184/LXscTiuTVRoVsaipxD4W+WXT6HgExnoyBk97y6x5qo+S+80qpW913+OmTRxRbQmpUejogc565fQ7+ZfE/pHmDWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mu80MhJo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDGjXA4d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD08BC4CECC;
-	Tue,  8 Oct 2024 12:51:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mu80MhJo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1762C4CECD;
+	Tue,  8 Oct 2024 12:51:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728391913;
-	bh=9r4lgL2sInxKXsJRAoc79I41tuRjI1KkmiuOHJNwcJA=;
+	s=k20201202; t=1728391918;
+	bh=5N3muN/1X4NiCe63rOjxyZnAnkXxwydb5VUOMPid/n0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oDGjXA4d4yVMogtDSez7aznc8u7SqreFhzFuf6s1C34Q9lzF3tlKWL/+m0YmB1Z7i
-	 GHt+L3A5nuX38y80corkOMHKG7MgsO7O7tCdHpGRFUisGl3R0FZQYBTL4XM9KOz9yx
-	 lz6Dl0vgejXrNyPeEaR5lNrE38wFfw0AdT/Hq8v14e+G1K2RAV3YX/tG+sWpCMCOr4
-	 aTem7Fjp71MhPhnSQ9Zr9Nf/fN2LKudWzxSSsrhpMRjQwfOLYjS6Cl929XMnWZvG7/
-	 2HnsLUNGnvrxmM2Q1codernY4vVVmEukpDAlPkBLGqCl0YPQiqyJ/mIdFO0FUbbX2w
-	 9vc/mlV/T7dhw==
+	b=Mu80MhJoe9qMwu8J2hT65rA7oA1hQzk2s0M1A9DU3IGOapdOpid/afEY98/2yI7u4
+	 6aDS5VBc5OvlI3EozDJiutUw0V26R48corLYlpmNpqaPaSvdkL8IekibsJ8mQsDL1b
+	 zHu31sUtDMFeRC0/idGcNjF44+EfBsQfd14iGQcOKokk/Nk124kg/Q8IO92pAEjskR
+	 ghaZ8jIIerROwTYutrSAvoZMAnT9Oj1ATOIJ02FCN6tJUHBvfQxsdK1llGJ5roo+f0
+	 Ja16ZPEZtXB0HBkjrpjCvT6POwdQ4EVTuUguxko97qUxjym9Mw/SHdpgh7ZjQvpJL8
+	 svpRbSviCGYMA==
 From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- linux-sound@vger.kernel.org, 
- =?utf-8?q?=C5=81ukasz_Majczak?= <lma@chromium.org>
-In-Reply-To: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
-References: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: avs: Update stream status in a separate
- thread
-Message-Id: <172839191060.2607981.6736152278011038099.b4-ty@kernel.org>
-Date: Tue, 08 Oct 2024 13:51:50 +0100
+To: alsa-devel@alsa-project.org, 
+ Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
+ Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+ Daniel Baluta <daniel.baluta@nxp.com>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
+ Emil Velikov <emil.velikov@collabora.com>, 
+ "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, 
+ "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
+ open list <linux-kernel@vger.kernel.org>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20241008091347.594378-1-venkataprasad.potturu@amd.com>
+References: <20241008091347.594378-1-venkataprasad.potturu@amd.com>
+Subject: Re: [PATCH 1/2] ASoC: SOF: amd: Add error log for DSP firmware
+ validation failure
+Message-Id: <172839191267.2607981.16181271445711989031.b4-ty@kernel.org>
+Date: Tue, 08 Oct 2024 13:51:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,18 +57,14 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Tue, 08 Oct 2024 10:37:58 +0200, Amadeusz Sławiński wrote:
-> Function snd_pcm_period_elapsed() is part of sequence servicing HDAudio
-> stream IRQs. It's called under Global Interrupt Enable (GIE) disabled -
-> no HDAudio interrupts will be raised. At the same time, the function may
-> end up calling __snd_pcm_xrun() or snd_pcm_drain_done(). On the
-> avs-driver side, this translates to IPCs and as GIE is disabled, these
-> will never complete successfully.
+On Tue, 08 Oct 2024 14:43:44 +0530, Venkata Prasad Potturu wrote:
+> Add dev_err to print ACP_SHA_DSP_FW_QUALIFIER and ACP_SHA_PSP_ACK
+> register values for PSP firmware validation failure case.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -64,8 +72,10 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: avs: Update stream status in a separate thread
-      commit: 0dbb186c3510cad4e9f443e801bf2e6ab5770c00
+[1/2] ASoC: SOF: amd: Add error log for DSP firmware validation failure
+      commit: 0a5c40393b123f3f08e428143985ab0c5ddb4d28
+[2/2] ASoC: SOF: amd: Fix for ACP SRAM addr for acp7.0 platform
+      commit: 494ddacd4a2ae5fd1c46ea49364eaab4fc1e5461
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
