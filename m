@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F50B1DE4FA;
-	Tue,  8 Oct 2024 12:51:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7029F1DE4CC
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 12:51:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728391911; cv=none; b=bDZlxfOeTF7CWbNeFRZYMNam9j7pG3oy1BKBQve4yuBOVmBZrxYMeVevquEcbUYt9VD3c49eFgrzn2AhW79YmR/AuD7W3Pqh62wwB3yV3fKsNKKUi/UUf+v8vIOkIjoRwoTNwL0ZqzeGlKZW/YVsK9OoRkLXiSgOFbEawWdFCVk=
+	t=1728391913; cv=none; b=dNV+s6nr7h+icJPMgPjyz/At1g3TkJkvnQxXlNL29LX0S7z5M1HUKJTDL/UKNVNlIs9X8uPhZeJvuGxK3RGZ5usGgtPpotEA1rJOih/HI0hRtpZ2/iIWNyp1Y6ZRVSO3Ru/+Ufpg1XXVKU+IIOIw3eBN0lRENouDmD2gtTVUDmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728391911; c=relaxed/simple;
-	bh=YE2XRtzRZkns41fz+Cy8hJ39gj24A9rMJ9r/7gXSnZc=;
+	s=arc-20240116; t=1728391913; c=relaxed/simple;
+	bh=9r4lgL2sInxKXsJRAoc79I41tuRjI1KkmiuOHJNwcJA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eXlSvmn8CN27BL4FJuwMYHrvjIG+4y8tn+PwCWtGfW1R8MKXhDoAiUBGiTQlNKsB6MPAEBwWLjl1wZ7MH9AaGtrBY0DxFM8fBfi3RbDgU580eow2+40ujnJemQIyARlhM/T1gmLuheAwNFymTe/WX+IBtvL90rOYx9wBSw83420=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jtOVeuAA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Wulfs0F2cYGvyBzkBPSuok2iiLHMy4aoMOqyDF/vtxvwYr0D6Esa1nHB4AGpbxKf1Aji+1hedC0rgIgr+wkLOpoABZps69NI1zEzbQVBUNkCNNmzqCwFVhT/bxQ04D57dMm6Gy1ndkIyiTqtukMDdo6EaUR6JvWYp360sV0Fv9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDGjXA4d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jtOVeuAA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C8EDC4CEC7;
-	Tue,  8 Oct 2024 12:51:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDGjXA4d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD08BC4CECC;
+	Tue,  8 Oct 2024 12:51:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728391911;
-	bh=YE2XRtzRZkns41fz+Cy8hJ39gj24A9rMJ9r/7gXSnZc=;
+	s=k20201202; t=1728391913;
+	bh=9r4lgL2sInxKXsJRAoc79I41tuRjI1KkmiuOHJNwcJA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jtOVeuAA7sZesMakms482PV2/c0HplW8mwBPCxqrrO3Ykbh6H4nfOnBFcOhfb6Qbu
-	 eJS+3UEM/DMS9PdY6ooDccNHenaYJA2hUheX0vmZ9pt66iXTFX6LpDw1deQw9LSgNR
-	 YfTwpG06A7IcqVosg5YV4WopXm3VOaqaoTatlmmuOJRqiedA2NYJl94v/9PlqNV+vT
-	 gcm9gIPbZfMNT4L4A5urADcZY6SJmBrTENVKn5EVRQWb6tKFouFeitc1ShqYdJJfKn
-	 td/gbxdMeMWzJo//eMN2UU+P0p6dZtnESAbbQq77UFDR+i+TFGredQ6AX/AHG8Hxzx
-	 yJGIr6kokfKUg==
+	b=oDGjXA4d4yVMogtDSez7aznc8u7SqreFhzFuf6s1C34Q9lzF3tlKWL/+m0YmB1Z7i
+	 GHt+L3A5nuX38y80corkOMHKG7MgsO7O7tCdHpGRFUisGl3R0FZQYBTL4XM9KOz9yx
+	 lz6Dl0vgejXrNyPeEaR5lNrE38wFfw0AdT/Hq8v14e+G1K2RAV3YX/tG+sWpCMCOr4
+	 aTem7Fjp71MhPhnSQ9Zr9Nf/fN2LKudWzxSSsrhpMRjQwfOLYjS6Cl929XMnWZvG7/
+	 2HnsLUNGnvrxmM2Q1codernY4vVVmEukpDAlPkBLGqCl0YPQiqyJ/mIdFO0FUbbX2w
+	 9vc/mlV/T7dhw==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- stable@vger.kernel.org, pierre-louis.bossart@linux.dev
-In-Reply-To: <20241008060710.15409-1-peter.ujfalusi@linux.intel.com>
-References: <20241008060710.15409-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH for 6.12] ASoC: SOF: Intel: hda-loader: do not wait for
- HDaudio IOC
-Message-Id: <172839190833.2607981.9233557897493329826.b4-ty@kernel.org>
-Date: Tue, 08 Oct 2024 13:51:48 +0100
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ linux-sound@vger.kernel.org, 
+ =?utf-8?q?=C5=81ukasz_Majczak?= <lma@chromium.org>
+In-Reply-To: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
+References: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: avs: Update stream status in a separate
+ thread
+Message-Id: <172839191060.2607981.6736152278011038099.b4-ty@kernel.org>
+Date: Tue, 08 Oct 2024 13:51:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,17 +45,16 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Tue, 08 Oct 2024 09:07:10 +0300, Peter Ujfalusi wrote:
-> Commit 9ee3f0d8c999 ("ASOC: SOF: Intel: hda-loader: only wait for
-> HDaudio IOC for IPC4 devices") removed DMA wait for IPC3 case.
-> Proceed and remove the wait for IPC4 devices as well.
-> 
-> There is no dependency to IPC version in the load logic and
-> checking the firmware status is a sufficient check in case of
-> errors.
+On Tue, 08 Oct 2024 10:37:58 +0200, Amadeusz Sławiński wrote:
+> Function snd_pcm_period_elapsed() is part of sequence servicing HDAudio
+> stream IRQs. It's called under Global Interrupt Enable (GIE) disabled -
+> no HDAudio interrupts will be raised. At the same time, the function may
+> end up calling __snd_pcm_xrun() or snd_pcm_drain_done(). On the
+> avs-driver side, this translates to IPCs and as GIE is disabled, these
+> will never complete successfully.
 > 
 > [...]
 
@@ -64,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: Intel: hda-loader: do not wait for HDaudio IOC
-      commit: 9814c1447f9cc67c9e88e0a4423de3a496078360
+[1/1] ASoC: Intel: avs: Update stream status in a separate thread
+      commit: 0dbb186c3510cad4e9f443e801bf2e6ab5770c00
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
