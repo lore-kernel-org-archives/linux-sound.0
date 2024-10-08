@@ -1,150 +1,100 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9B51DE8A9;
-	Tue,  8 Oct 2024 12:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FFCE1E493;
+	Tue,  8 Oct 2024 12:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728390597; cv=none; b=uVcALpihlwzYty4mYzdBZFYDlgi4vDuFsDrilUuSTrZo/qKjaz5J3HQQ45UAFkd4FoQlMZ7VjfS8mC7KT4JaIDtA4gRCZSUZwtoqeD1QYZN3CCS8tqNeAgP2caOzQsl7Ck3LaplsXKgtd3E8DZRcdiu2xM8fRq6RnF/y7/+aHlE=
+	t=1728390731; cv=none; b=o0wE9ohzB5L12osBD3bsYK+8ANIfkbxV+hdhk3bW/E+RJ04e+bu5qEA3JZpVZzo+MR3b5ck2yHrfQoqsg77cysKt0W+fv16GY83tl65B8Ct+3DwWYFTZAoEclrn4bluzONVUW0jy4tPQ8ftK8Uq+bkL+fz90n1iDFjyxOfHH1mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728390597; c=relaxed/simple;
-	bh=SwiKyk1qXPVibzNAdevq0KXsDs6bwkBWLmS/QmHNEeU=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=jwITej01oADPRZRloTNjPbc+gtqTwqt00aUIMi/aZv2NBuVH7UgmHNc7lpoRHNHAK1TFvj7bCC/Ya8ebFvRHFX8ydmQ8qlIWWdma71LDsZ1f5FwXnOVVer5R2Lq5mpAvLgjnDdK8agDLM30xSZHCUL+otlK1+MxZ1r+TkPUISWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=fF+G7/sZ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gm/tz02j; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="fF+G7/sZ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gm/tz02j"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id CAF4F1140242;
-	Tue,  8 Oct 2024 08:29:53 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Tue, 08 Oct 2024 08:29:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1728390593;
-	 x=1728476993; bh=UAD8NfSy5gmGeQl+E5iRkYF97RER4uEtGdtfvJHOxzw=; b=
-	fF+G7/sZcZVBkjEtE3YDHju+SzZwr5W7qDi+1uy5ibQTo6Q/22u+lpmTERwpLpS/
-	gM26A4LNudYtQO8fgP62a8EeudRT8I3GsjmfB4mJlx9877F9dVd8rzWfZ2l24fAC
-	ISKBrRYmor8mtczIhF2xZ+dIpd98BKiPv+CS06ZtVMyUHLCdbqCBj+xdoTNBJyEF
-	IxnYrtLFwa+VoPjqYTlQBUGgbXcppFkeq9b3lh//q9mTkMz3MMZKIE36i2WdNPJ+
-	o9d//8MIo8PlZyBnzBM3U/ik64vPhXzmUic9mUe35+jsqbDMt5JV/5zqUFV1lHis
-	KmJICWCSpGPizCYQ7ayN6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1728390593; x=
-	1728476993; bh=UAD8NfSy5gmGeQl+E5iRkYF97RER4uEtGdtfvJHOxzw=; b=g
-	m/tz02joYJumjvkLzGwR9YDJV/kNuhChrInezhJLft8ruV/rp0jL0BSfVG9LIO9K
-	UVwjDSnnNW1fP0lKW5SaNvPG+GNo943eZScGuRvgeTK2BTAXXEAEunZbELT+jO+k
-	IJa/tL77Y5wqjkOELQToA2gY1447zJCUA/mnyoFOFdOhRYaHd35ie3JOaqRNjGG4
-	3FuKRMcees2ti/q2rqrR2wgr0XGhaIerML2HXNFtYpqcMwWHCI7q4KBJOExki2wa
-	Bq0I5ZymdsQnG9hpwbbed19kelGcdesJZknuuHVKfEf02/HkH1+v51cmyE36sIgy
-	LukEjFjiGQYdp0Hz/VwAA==
-X-ME-Sender: <xms:wCUFZ5W9KUAZHxz092rDJfAFDgciQGITdEh60sb3s0AjfK_rKE-Gdg>
-    <xme:wCUFZ5myaxX1fsEJUll3ERo9TTHcFwkRpJnTJo7HVNVnSaCqeyq9l2otZ5c2ygbYN
-    sUEW6JYPRnvLVCu9xE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefuddghedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhinhhugidqshefledtsehvghgvrh
-    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhhsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehkvghrnhgvlhesgigvnhdtnhdrnhgrmhgv
-X-ME-Proxy: <xmx:wCUFZ1bZvCs7KfTBPM6DUJ3PVG0smdFNNiUbk3DjtNzrKYHLH5K9Fw>
-    <xmx:wCUFZ8U5136AoThXc7VWd0g7CrnPBb5Ak-1OdDTkBhc-GJ7Zhkl30w>
-    <xmx:wCUFZzlbarMfk_Iho0-WG5OL2VvvoMVKFW-lW08VKL4C8SE1qBzHCg>
-    <xmx:wCUFZ5epsPnGQWmBgGbsiAV2bAo5MGKgMPLmtHvPs__hmbSH4NPBag>
-    <xmx:wSUFZxgLlhp1BigvFG0qp-yQrfn6_NA4pwA4aMNAo029wW2gb0rRKNJY>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C4FC22220071; Tue,  8 Oct 2024 08:29:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1728390731; c=relaxed/simple;
+	bh=boKgprdVHWc+66TWJ3kzgy/Y45mAsLRyTN0mo3JmbiQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=S7vL05TytOEiGed+fNOIs2dN17u12YhXtBdSsMVwTrO8W7EcLq9ilGA4kWRjiso0b5hBcoJ1O1tFz+4QsFpF3kRld6J1ULaDCCpNayTquJNE2aTvuzblYeVOmBGJC0ubonEk5UzW0I8aia66sATBofYF5Qvibvcr7OSTcweUNpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C0EADA7;
+	Tue,  8 Oct 2024 05:32:39 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 73B733F73F;
+	Tue,  8 Oct 2024 05:32:07 -0700 (PDT)
+Date: Tue, 8 Oct 2024 13:32:04 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org, Marcus Cooper
+ <codekipper@gmail.com>
+Subject: Re: [PATCH 2/6] ASoC: sun4i-codec: Add playback only flag to quirks
+Message-ID: <20241008133204.3ea38338@donnerap.manchester.arm.com>
+In-Reply-To: <20240929100750.860329-3-ryan@testtoast.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-3-ryan@testtoast.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 08 Oct 2024 12:29:32 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Christoph Hellwig" <hch@infradead.org>,
- "Julian Vetter" <jvetter@kalrayinc.com>
-Cc: "Russell King" <linux@armlinux.org.uk>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Will Deacon" <will@kernel.org>, guoren <guoren@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Richard Henderson" <richard.henderson@linaro.org>,
- "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
- "Matt Turner" <mattst88@gmail.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Helge Deller" <deller@gmx.de>,
- "Yoshinori Sato" <ysato@users.sourceforge.jp>,
- "Rich Felker" <dalias@libc.org>,
- "John Paul Adrian Glaubitz" <glaubitz@physik.fu-berlin.de>,
- "Richard Weinberger" <richard@nod.at>,
- "Anton Ivanov" <anton.ivanov@cambridgegreys.com>,
- "Johannes Berg" <johannes@sipsolutions.net>,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Naveen N Rao" <naveen@kernel.org>,
- "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Heiko Carstens" <hca@linux.ibm.com>,
- "Vasily Gorbik" <gor@linux.ibm.com>,
- "Alexander Gordeev" <agordeev@linux.ibm.com>,
- "Christian Borntraeger" <borntraeger@linux.ibm.com>,
- "Sven Schnelle" <svens@linux.ibm.com>,
- "Niklas Schnelle" <schnelle@linux.ibm.com>,
- "Manivannan Sadhasivam" <manivannan.sadhasivam@linaro.org>,
- "Miquel Raynal" <miquel.raynal@bootlin.com>,
- "Vignesh Raghavendra" <vigneshr@ti.com>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
- loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
- linux-alpha@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
- Linux-Arch <linux-arch@vger.kernel.org>, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, mhi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, linux-mtd@lists.infradead.org,
- linux-sound@vger.kernel.org, "Yann Sionneau" <ysionneau@kalrayinc.com>
-Message-Id: <b54a6f76-fcfd-40bd-b478-ca0a7e1af128@app.fastmail.com>
-In-Reply-To: <ZwUbsviaqFUtjKEQ@infradead.org>
-References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
- <20241008075023.3052370-2-jvetter@kalrayinc.com>
- <ZwUbsviaqFUtjKEQ@infradead.org>
-Subject: Re: [PATCH v8 01/14] Consolidate IO memcpy/memset into iomap_copy.c
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 8, 2024, at 11:46, Christoph Hellwig wrote:
-> On Tue, Oct 08, 2024 at 09:50:09AM +0200, Julian Vetter wrote:
->>  lib/iomap_copy.c         | 127 +++++++++++++++++++++++++++++++++++++++
->
-> On top of the previous comments:  this really should be iomem_copy.c
-> instead.
+On Sun, 29 Sep 2024 23:06:03 +1300
+Ryan Walklin <ryan@testtoast.com> wrote:
 
-Right, I suggested adding it to the existing file since the
-functions are logically related, but the naming of that file
-identifiers in it is unfortunate:
+> From: Marcus Cooper <codekipper@gmail.com>
+> 
+> Some devices only have the playback side of the codec implemented
+> so add a quirk to check for this.
 
-__iowrite32_copy/__iowrite64_copy/__ioread32_copy sound like
-they are meant to work on both IORESOURCE_MEM and IORESOURCE_IO
-mappings the same way that iowrite64/ioread64/ioread32 do,
-but actually using them on x86 port I/O (from pci_iomap or
-ioport_map) would lead to a NULL pointer dereference.
+That's odd, is this really the only place where we need to 
+consider the lack of sampling functionality? I mean it just prevents the
+fields to be populated in our internal struct, how does the rest of the
+kernel know that there is no capture? Is that magically achieved by those
+fields being zero now?
 
-      Arnd
+Cheers,
+Andre
+
+> Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> ---
+>  sound/soc/sunxi/sun4i-codec.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
+> index 37f5678b55291..312d2655c3f4e 100644
+> --- a/sound/soc/sunxi/sun4i-codec.c
+> +++ b/sound/soc/sunxi/sun4i-codec.c
+> @@ -1571,6 +1571,7 @@ struct sun4i_codec_quirks {
+>  	unsigned int reg_dac_txdata;	/* TX FIFO offset for DMA config */
+>  	unsigned int reg_adc_rxdata;	/* RX FIFO offset for DMA config */
+>  	bool has_reset;
+> +	bool playback_only;
+>  };
+>  
+>  static const struct sun4i_codec_quirks sun4i_codec_quirks = {
+> @@ -1779,10 +1780,13 @@ static int sun4i_codec_probe(struct platform_device *pdev)
+>  	scodec->playback_dma_data.maxburst = 8;
+>  	scodec->playback_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+>  
+> -	/* DMA configuration for RX FIFO */
+> -	scodec->capture_dma_data.addr = res->start + quirks->reg_adc_rxdata;
+> -	scodec->capture_dma_data.maxburst = 8;
+> -	scodec->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+> +	if (!quirks->playback_only) {
+> +		/* DMA configuration for RX FIFO */
+> +		scodec->capture_dma_data.addr = res->start +
+> +						quirks->reg_adc_rxdata;
+> +		scodec->capture_dma_data.maxburst = 8;
+> +		scodec->capture_dma_data.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
+> +	}
+>  
+>  	ret = devm_snd_soc_register_component(&pdev->dev, quirks->codec,
+>  				     &sun4i_codec_dai, 1);
+
