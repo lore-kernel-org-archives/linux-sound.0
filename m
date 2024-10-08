@@ -1,180 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C962113AA45
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 08:37:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A31D17ADF8
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 08:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728376622; cv=none; b=AVfo1anbmnt+TPAVslyf7fR2aAN3EIjG6cWdgJVS7C5/YczCVMhlzpQT2vLwR1UdT3BZwAaCXfw5w14gcOsXppwapCBmsNdd3wj7Nkm3PvoI6/GQki2r7ueSGPvJs143xCbOOfsIUbJbjYuihRIwQXTxV1iio+pPGCIJAquVK18=
+	t=1728376998; cv=none; b=SWF8KL7+Ymx22iuTNBB1A/q317vGTLMt9xyU/FXCGD+utUPvt44oumqMbB6sv3mgQ43lcBcx182IbkcNap3mx1zVaXg1itbPYEXN+0UJVmNen8tRMCDJ+lU3MTo47hiHU/1o2rNxefhIDuC97fuPIu3PFSrRAomE3VRBt02uARM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728376622; c=relaxed/simple;
-	bh=0hbOu5GgtmPrRJNSCbgk5glOcGtwVa/ASUN5MLnhxPA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=goYqQumUAkQYO+yzYVXxGZEhpxRTQ+YRHNnNFsWxvgbybOO6jnh1rvBe0LlYWiFtDpbUOclsrBqUA/8BhqssZlsFemKkZV7QfzLiOlI0tZhBtsIbggvTzumpu1P53LHeHTmbw5gm4uiKuNw9upkhmywYv+vkTY0zmS7WmhHxSgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BE1aoJ6H; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728376998; c=relaxed/simple;
+	bh=dsOaWUvgT64VC2VdT0gWtnv9bNDd0zd2Ft7vQVv1hAE=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e5A0Qnk70J+4cFBWOqDBpznxboEuxJnyJR2B5yb/mBpI/QEf8VUZzwLGteJPLqE7SSelLOCX1XxthvV6EQErFnFAS477HL180AO90JrJCHrSqJhl9HFyo7UlwZVCQZQDNJfHwIy6JVOC0o0Vanup+GJkjf4CT7u7W+8VK0Ne4FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=R7usSuq4; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BE1aoJ6H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728376621; x=1759912621;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0hbOu5GgtmPrRJNSCbgk5glOcGtwVa/ASUN5MLnhxPA=;
-  b=BE1aoJ6H+b1BVtHDG7+4d92Mgx4KXknOo374TIcSAVTCcgSmFxB+0vKU
-   6p3bFuXtu0qWmhCvVn9N58mPJksDECkHesYdfIOuC4CSJzM7Cv43MVthv
-   jpE8BFfwo2QuHK8Gh1HIMDE7WO3cKWlfG/1tgU+Ae8up1xDCQu3O0fyjL
-   Mf/+rYmI+STZtIQcpyPOLJFYZ4jh+N224BNpDolfYKQU3DxqyjKTOAf7K
-   M1CIOLYCc6nYcuKL/sZf3eHGocLe+sjKHbpAst12TTyyMV7no64xh4FEn
-   6yQ5aa08b2nUBgL82u5Eq65wsmncj/XqFGupWUL/vFZ5XbVqMTNhXqOQR
-   A==;
-X-CSE-ConnectionGUID: 3wh8kjMLR5Syy/M5hIMSlw==
-X-CSE-MsgGUID: 7XCpUgJeQJmi2/7J35ngWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27502340"
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="27502340"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:37:00 -0700
-X-CSE-ConnectionGUID: FB9RZ9zDTAeoL8NERKGWXQ==
-X-CSE-MsgGUID: LF3GjmdmQ9KbjGhiboyLfA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="106605353"
-Received: from dev2.igk.intel.com ([10.237.148.94])
-  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2024 01:36:57 -0700
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="R7usSuq4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=dsOa
+	WUvgT64VC2VdT0gWtnv9bNDd0zd2Ft7vQVv1hAE=; b=R7usSuq402Sx9DR5cx8V
+	xDD3rScwHft2WIQGSYs0/jkHmuSmJuDIv6qjofWsAQss9jgFvuOGgjoVp+3CyzQc
+	fkMiqoGKENTh1p/5sOkNUoZzny3vZ8Jt1QZE9VzLIB7GoxQ1PmhLLYPhEvKxK1Ec
+	SQu2i77P8JbuacfSw+5Uk6eSx3Efo6nVA5U+QYyY3KBDpQ27H/hYCWfi5HK5UcV+
+	ujTEXFNUzTCphtiHrcgz97D09BdAJ00kLrVZjycR38JLVfji5xoX1dKZYPo/ko2J
+	VOe7PVxZoTZST2PKmFkiVRrG6NEliHGyjosT8cvNCVMR8cyiSVr5SVJiop8Abpje
+	kQ==
+Received: (qmail 405193 invoked from network); 8 Oct 2024 10:43:14 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 8 Oct 2024 10:43:14 +0200
+X-UD-Smtp-Session: l3s3148p1@zDbDIPMjwkZtKPHJ
+Date: Tue, 8 Oct 2024 10:43:13 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] i2c: Replace lists of special clients with
+ flagging of such clients
+Message-ID: <ZwTwoQLAU9emhn13@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: avs: Update stream status in a separate thread
-Date: Tue,  8 Oct 2024 10:37:58 +0200
-Message-Id: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+References: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
+ <ZtQ0KMWUk9iAUCCl@shikoro>
+ <18306ded-6451-4880-9f74-6bceb0f26dea@gmail.com>
+ <ZvqEhntonE9qWnPF@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9FUcZpkfTPPUAaWS"
+Content-Disposition: inline
+In-Reply-To: <ZvqEhntonE9qWnPF@shikoro>
 
-Function snd_pcm_period_elapsed() is part of sequence servicing HDAudio
-stream IRQs. It's called under Global Interrupt Enable (GIE) disabled -
-no HDAudio interrupts will be raised. At the same time, the function may
-end up calling __snd_pcm_xrun() or snd_pcm_drain_done(). On the
-avs-driver side, this translates to IPCs and as GIE is disabled, these
-will never complete successfully.
 
-Improve system stability by scheduling stream-IRQ handling in a separate
-thread.
+--9FUcZpkfTPPUAaWS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
- sound/soc/intel/avs/core.c |  3 ++-
- sound/soc/intel/avs/pcm.c  | 19 +++++++++++++++++++
- sound/soc/intel/avs/pcm.h  | 16 ++++++++++++++++
- 3 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 sound/soc/intel/avs/pcm.h
 
-diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
-index da7bac09acb4e..73d4bde9b2f78 100644
---- a/sound/soc/intel/avs/core.c
-+++ b/sound/soc/intel/avs/core.c
-@@ -28,6 +28,7 @@
- #include "avs.h"
- #include "cldma.h"
- #include "messages.h"
-+#include "pcm.h"
- 
- static u32 pgctl_mask = AZX_PGCTL_LSRMD_MASK;
- module_param(pgctl_mask, uint, 0444);
-@@ -247,7 +248,7 @@ static void hdac_stream_update_pos(struct hdac_stream *stream, u64 buffer_size)
- static void hdac_update_stream(struct hdac_bus *bus, struct hdac_stream *stream)
- {
- 	if (stream->substream) {
--		snd_pcm_period_elapsed(stream->substream);
-+		avs_period_elapsed(stream->substream);
- 	} else if (stream->cstream) {
- 		u64 buffer_size = stream->cstream->runtime->buffer_size;
- 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index afc0fc74cf941..4af8115803568 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -16,6 +16,7 @@
- #include <sound/soc-component.h>
- #include "avs.h"
- #include "path.h"
-+#include "pcm.h"
- #include "topology.h"
- #include "../../codecs/hda.h"
- 
-@@ -30,6 +31,7 @@ struct avs_dma_data {
- 		struct hdac_ext_stream *host_stream;
- 	};
- 
-+	struct work_struct period_elapsed_work;
- 	struct snd_pcm_substream *substream;
- };
- 
-@@ -56,6 +58,22 @@ avs_dai_find_path_template(struct snd_soc_dai *dai, bool is_fe, int direction)
- 	return dw->priv;
- }
- 
-+static void avs_period_elapsed_work(struct work_struct *work)
-+{
-+	struct avs_dma_data *data = container_of(work, struct avs_dma_data, period_elapsed_work);
-+
-+	snd_pcm_period_elapsed(data->substream);
-+}
-+
-+void avs_period_elapsed(struct snd_pcm_substream *substream)
-+{
-+	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-+	struct snd_soc_dai *dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct avs_dma_data *data = snd_soc_dai_get_dma_data(dai, substream);
-+
-+	schedule_work(&data->period_elapsed_work);
-+}
-+
- static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-@@ -77,6 +95,7 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
- 	data->substream = substream;
- 	data->template = template;
- 	data->adev = adev;
-+	INIT_WORK(&data->period_elapsed_work, avs_period_elapsed_work);
- 	snd_soc_dai_set_dma_data(dai, substream, data);
- 
- 	if (rtd->dai_link->ignore_suspend)
-diff --git a/sound/soc/intel/avs/pcm.h b/sound/soc/intel/avs/pcm.h
-new file mode 100644
-index 0000000000000..0f3615c903982
---- /dev/null
-+++ b/sound/soc/intel/avs/pcm.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright(c) 2024 Intel Corporation
-+ *
-+ * Authors: Cezary Rojewski <cezary.rojewski@intel.com>
-+ *          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
-+ */
-+
-+#ifndef __SOUND_SOC_INTEL_AVS_PCM_H
-+#define __SOUND_SOC_INTEL_AVS_PCM_H
-+
-+#include <sound/pcm.h>
-+
-+void avs_period_elapsed(struct snd_pcm_substream *substream);
-+
-+#endif
--- 
-2.34.1
+> Yes, hopefully this week.
 
+Reviewing and testing now. What tests did you run?
+
+
+--9FUcZpkfTPPUAaWS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmcE8KEACgkQFA3kzBSg
+KbbV7A//Us4MxYoeTCPW4rnYln7FBJi3+FjQAeE9PfPTP7J6vq3L4r7ZWI+t16JM
+JU5TtskHaaAGovgVtEplCikd8U05nasqR7B9QwEuexBJLFmckQIhvz04qyE2VZzi
+LG9ZpT4AxpX3u4RBZNSvwvrC7nFPjwv8krDnyH67MVdTa6HQU7kil5EEx7+PZz0M
+g8YH7kJUl64xCuUjWvztMezYzRm0DTGnILmgQ0mDJva7kdgRmSu3xYBb3CotY+st
+AtcL1rePErNbwmUpJdVCuCE3s2tox+TffQo51JdD+yc3E3TiC7byCNPria9XjIkb
+pa9iVa+047SvZS3xhPRDwjyqvRSBMitBctNzwlrZToZIbeWosTOexMSg90WmeqhI
+ryzdfZWN9RoG9Wilo3Yh9jFLx7rjwK+ojWVtj4MnSClzneVsFFpbTsGwzNqB0wmx
+6n4vdn7/Gz+LKpPCakUsS84BLX6gUOw6+B81rx9tIadU5MNIBMadGrVD9/w/bkKd
+bLNN1d97iJa8YCAvXWJlYKpTJeBF1RxZqP5A0m00i5tqIQkMZeDHFOUruht+tZLS
+lfF5HVyzkSanfeQl6ScEwqJj7s63T2a7M2aiC9p1v03z5O2foFVfJCH2jOlp73sc
+eAKpuO3hyilRF3qqi87Qg5eJkCBEmkEX+gAqbfqQwLCAtW4bnTM=
+=T5Vt
+-----END PGP SIGNATURE-----
+
+--9FUcZpkfTPPUAaWS--
