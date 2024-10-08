@@ -1,45 +1,38 @@
 Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 919E23FC7;
-	Tue,  8 Oct 2024 03:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E1022611;
+	Tue,  8 Oct 2024 03:19:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728356562; cv=none; b=Gy8DsSq49UXwPBBVnWU3u+gvpRDxgn+KIgoLEhao7anJq+/jj1Taw4ngpAktPcH0lqvCrcmwg3U2mk5ujzCr/3hAkKDpmLTmsmt4jsD3JqsQBufARjHkDtB1phpN3p033W7Uh4ygLxuDQSfhhNboQFW13CzBfV7HrrmyRy3bXt0=
+	t=1728357595; cv=none; b=qPAnTXiI2vO9IXg1I501dXM/60xkLYN3oi41wesQ4Sinn31Liy7KckS+ErejlslzQXjWfOucP0sJzgyEOCljprV+vShKfR0YSjJaZgiZ/hnzbsXb4/YlJwvHrXMFLlhNipAAfJGk86hc2cFOS++6b/nvWyjBH6JvVSDc37giGaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728356562; c=relaxed/simple;
-	bh=EIblVUPShlUFmQ/WUe97ldk8Qs/Ts9lujgAx4hFJObo=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=Ra3iVMo2BNV3fVllC2XlAZdi4GkjZxW55B19FBbU8qScIihRKdF8rK9XcaC9mynoveRyS679VhDGfGs3xxb+XmZwzAoHlCCM7gEBt+aob6y2yltURwCupt+1KYCt/8BIdyrjFSWaFUUSjykMS5jtQ6l2qUnnSStWdtrxhwSVG68=
+	s=arc-20240116; t=1728357595; c=relaxed/simple;
+	bh=CMtoxgNnYZaWKsGPMC4Y5KmG18rguda+kw6ufkxXmbk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=Q5D3fScIkBELoDLOJa4Uej4WZ5cPAl2wUnNSXPLZJ+JcsvQVZ4hhJonRgzSw5l3YZJyqh9UoDV1if5NGHQVNRV/k5UEQvJeqBa6TnEPYolV5cJEVmhzFg1U63iYrJWwapczK8AxAoqnMsnKRHUqzI6orGwad4bFwTQLnz9SDrHc=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76704a00e407-df40f;
-	Tue, 08 Oct 2024 10:59:27 +0800 (CST)
-X-RM-TRANSID:2ee76704a00e407-df40f
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76704a4d5981-df989;
+	Tue, 08 Oct 2024 11:19:49 +0800 (CST)
+X-RM-TRANSID:2ee76704a4d5981-df989
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from ubuntu.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee66704a00dda2-8b9c4;
-	Tue, 08 Oct 2024 10:59:27 +0800 (CST)
-X-RM-TRANSID:2ee66704a00dda2-8b9c4
+	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee36704a4d44c4-89013;
+	Tue, 08 Oct 2024 11:19:49 +0800 (CST)
+X-RM-TRANSID:2ee36704a4d44c4-89013
 From: Zhu Jun <zhujun2@cmss.chinamobile.com>
 To: perex@perex.cz
-Cc: tiwai@suse.com,
-	wangweidong.a@awinic.com,
-	andriy.shevchenko@linux.intel.com,
-	heiko@sntech.de,
-	kuninori.morimoto.gx@renesas.com,
-	nathan@kernel.org,
-	u.kleine-koenig@baylibre.com,
-	zhujun2@cmss.chinamobile.com,
-	linux-kernel@vger.kernel.org,
+Cc: g@b4.vu,
+	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
-	broonie@kernel.org,
-	lgirdwood@gmail.com
-Subject: [PATCH] sound:aw88399:Correct error handling in aw_dev_get_dsp_status function
-Date: Mon,  7 Oct 2024 19:59:23 -0700
-Message-Id: <20241008025923.10606-1-zhujun2@cmss.chinamobile.com>
+	linux-kernel@vger.kernel.org,
+	zhujun2@cmss.chinamobile.com
+Subject: [PATCH] Sound:mixer_scarlett2:Add error check after retrieving PEQ filter values
+Date: Mon,  7 Oct 2024 20:19:47 -0700
+Message-Id: <20241008031947.10906-1-zhujun2@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -47,27 +40,28 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Added proper error handling for register value check that
-return -EPERM when register value does not meet expected condition
+Add error check after retrieving PEQ filter values in scarlett2_update_filter_values
+that ensure function returns error if PEQ filter value retrieval fails
 
 Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/soc/codecs/aw88399.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/usb/mixer_scarlett2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
-index 8dc2b8aa6832..bba59885242d 100644
---- a/sound/soc/codecs/aw88399.c
-+++ b/sound/soc/codecs/aw88399.c
-@@ -656,7 +656,7 @@ static int aw_dev_get_dsp_status(struct aw_device *aw_dev)
- 	if (ret)
- 		return ret;
- 	if (!(reg_val & (~AW88399_WDT_CNT_MASK)))
--		ret = -EPERM;
-+		return -EPERM;
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 1150cf104985..1b864a9621ba 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -5614,6 +5614,9 @@ static int scarlett2_update_filter_values(struct usb_mixer_interface *mixer)
+ 			SCARLETT2_BIQUAD_COEFFS,
+ 		peq_flt_values);
  
- 	return 0;
- }
++	if (err < 0)
++		return err;
++
+ 	for (i = 0, dst_idx = 0; i < info->dsp_input_count; i++) {
+ 		src_idx = i *
+ 			  info->peq_flt_total_count *
 -- 
 2.17.1
 
