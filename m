@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4138F1CCB35
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 11:09:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984DB1D86F2
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 11:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728385766; cv=none; b=nZYegi/bRApQ8zmYbWHTCCaYVA6Jy3XlRqFTYbp1V2acmzCukMvMibUECuD2Uet5x8tTqJzEs2ya73+6SunXu+fI6PmrCOmCRwQy5wGyLAcbfAsukP/UgwwjnTEDxIrm+C0BLMT7YFzFALAdSZq5jQmC2faFi+lssYmenmuBP8A=
+	t=1728385769; cv=none; b=kyaQI3++uChYQym7JyiTmsUObji1jYGhK8Ca4c5hxxvVlZgFQZCR0khcoFLckvJiuZTPldxZngpX3+zrwvLCqrzQeOWOMmJX2TlfVllbEoj8KnABbWtK7G8sfKvjnYrCVFT5EVK5LWd+KhkQJLWYmOr/Re66E9xj4VFYSalG82Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728385766; c=relaxed/simple;
-	bh=B0jXnVZEOWTnEs3l7EgNZ8h7vsEpApfceQGrS/drw30=;
+	s=arc-20240116; t=1728385769; c=relaxed/simple;
+	bh=V5zaArmAk44L94nMRzek+KslVLGOpPS/6drK08DiDjQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uooJ936M6QbsoprwingLIjngE/inst4VpCpc94rXgXOKf+ew0Y2QAsJKwPKb1aEyv58kqy99sr2dPYz14BuPVcjy+eGxSbTX/ETe3DJWReGb1D2pn6BVhn5u4dSU1AsGuiVmQ6SPzhp5ybB6hKjlaqfaA7rz1mp0YuvuxgF1+Ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZA2PsSNW; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=PHi8FlC0acNpYZTR17SE7Y/T6kHs7yWXZTGvF8peEYoX/q3U0prQ5O7VMtqjnsFTUl7W3OPqOhI3sJXk7qQQa6BJfGoxVO5w+wbx3CvDTgVZoiJmysA0Qp2r9CBEBK7zrwYwaVSqMwmeSEvu0oKFE/qY30Sa6FW0HJ2xQ3rVX9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MepHH7wt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZA2PsSNW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MepHH7wt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728385765; x=1759921765;
+  t=1728385768; x=1759921768;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=B0jXnVZEOWTnEs3l7EgNZ8h7vsEpApfceQGrS/drw30=;
-  b=ZA2PsSNWnHkKu5WcI23R4wOcHyqv+w5fPcUI5/6YL21wQRrSsfnCeGnW
-   YRt1JD9HQKUBZ9CiytxcgTCtFQY0+ko3YE2Zzn6wlsERuuZuTCrPAZnEU
-   7CWB9zEaKLziImMx7qHAO5wbVR4FbfUnm5kyU5VUVgYnru8G7EAWac9BC
-   gE/Z3vBfSo4khLe9vwpR6AK5Yzak5WRKx7OdDlz5n8AeFSXrzdS3I7oxI
-   cJdEm4sBFDBK1eX4kUAo4S13UpU2vt2ha1pBst7JmvP/rzI1DicQaf93d
-   fM3VjIBm7X2NGccB0Nz5FJpeEWHTictzq9Djz8tsmxKG1iU5xgSNO2k4/
-   g==;
-X-CSE-ConnectionGUID: gzy5QeCsTf6Rw0MEiwODAw==
-X-CSE-MsgGUID: 3TEu0sQdQ1mw+5MrY9yOQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="45036998"
+  bh=V5zaArmAk44L94nMRzek+KslVLGOpPS/6drK08DiDjQ=;
+  b=MepHH7wtSseKiwx70JnwDMYgYgwsDgqx4UtuxXSrWYOlfZMZKKFg4awF
+   DJKaxGWxohmQ2G9SIgqOVAxpGE0zhDsv5aRUWz4soL9qwIvZktdJJi4do
+   CSRZfyME8iAGGs+I7nGN3BkxS8iPXktCB+yx0D+3ES+/anV+BB+MrVG/n
+   m3qnsPey4wVshAM893+2sHm3GmdTOiu5qYxUPSe6weip1hOehIicymv1c
+   kHJgW9Kb8mnYIhCI1BsNPMPRANqDWOoalwTTkisOfJ2qnfLc58CnFN2XQ
+   vO1GEzURU+FuZ4rxHA/h0+sP5ik0n+YrdZFvrAGajZP/ZPUqscnsoQ+EN
+   Q==;
+X-CSE-ConnectionGUID: NXAYbpotRMWwsh3CffoThg==
+X-CSE-MsgGUID: YYLFzIz/RD+xgRt9rjqppw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="45037003"
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="45036998"
+   d="scan'208";a="45037003"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:25 -0700
-X-CSE-ConnectionGUID: YMcWZkEfSgSe15/z1CEWOA==
-X-CSE-MsgGUID: rcDCJqMuQn6cYhnXLLKe0g==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:27 -0700
+X-CSE-ConnectionGUID: y6NxwJs6S8SV+FVVw+U27w==
+X-CSE-MsgGUID: fPMfMCgoQamsbmrBXWY1uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="80586729"
+   d="scan'208";a="80586758"
 Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.49])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:23 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:25 -0700
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	ranjani.sridharan@linux.intel.com,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev
-Subject: [PATCH 4/8] ASoC: SOF: ipc4-topology: Simplify match format print in sof_ipc4_init_input_audio_fmt()
-Date: Tue,  8 Oct 2024 14:09:32 +0300
-Message-ID: <20241008110936.22534-5-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH 5/8] ASoC: SOF: ipc4-topology: Use local variables in sof_ipc4_init_output_audio_fmt()
+Date: Tue,  8 Oct 2024 14:09:33 +0300
+Message-ID: <20241008110936.22534-6-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241008110936.22534-1-peter.ujfalusi@linux.intel.com>
 References: <20241008110936.22534-1-peter.ujfalusi@linux.intel.com>
@@ -65,50 +65,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Print out the information line for the found input format once to avoid
-duplicated prints in case when multiple formats are available.
+Use local variables for available_fmt->output_pin_fmts and
+available_fmt->num_output_formats similarly to the input format selection
+to make the two functions easier to understand and help with readability.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/ipc4-topology.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 1f10926921d5..31cbb7f620fd 100644
+index 31cbb7f620fd..45727c4d5b7e 100644
 --- a/sound/soc/sof/ipc4-topology.c
 +++ b/sound/soc/sof/ipc4-topology.c
-@@ -1305,11 +1305,8 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 		channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
- 		valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
- 		if (params_rate(params) == rate && params_channels(params) == channels &&
--		    sample_valid_bits == valid_bits) {
--			dev_dbg(sdev->dev, "matched audio format index for %uHz, %ubit, %u channels: %d\n",
--				rate, valid_bits, channels, i);
-+		    sample_valid_bits == valid_bits)
- 			break;
--		}
+@@ -1210,19 +1210,19 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
+ 					  u32 out_ref_rate, u32 out_ref_channels,
+ 					  u32 out_ref_valid_bits)
+ {
+-	struct sof_ipc4_audio_format *out_fmt;
++	struct sof_ipc4_pin_format *pin_fmts = available_fmt->output_pin_fmts;
++	u32 pin_fmts_size = available_fmt->num_output_formats;
+ 	bool single_format;
+ 	int i;
+ 
+-	if (!available_fmt->num_output_formats)
++	if (!pin_fmts_size)
+ 		return -EINVAL;
+ 
+-	single_format = sof_ipc4_is_single_format(sdev, available_fmt->output_pin_fmts,
+-						  available_fmt->num_output_formats);
++	single_format = sof_ipc4_is_single_format(sdev, pin_fmts, pin_fmts_size);
+ 
+ 	/* pick the first format if there's only one available or if all formats are the same */
+ 	if (single_format) {
+-		base_config->obs = available_fmt->output_pin_fmts[0].buffer_size;
++		base_config->obs = pin_fmts[0].buffer_size;
+ 		return 0;
  	}
  
- 	if (i == pin_fmts_size) {
-@@ -1326,7 +1323,14 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 	/* set base_cfg ibs/obs */
- 	base_config->ibs = pin_fmts[i].buffer_size;
- 
--	dev_dbg(sdev->dev, "Init input audio formats for %s\n", swidget->widget->name);
-+	if (single_format)
-+		dev_dbg(sdev->dev, "Input audio format for %s:\n",
-+			swidget->widget->name);
-+	else
-+		dev_dbg(sdev->dev,
-+			"Input audio format (format index: %d) for %s:\n", i,
-+			swidget->widget->name);
+@@ -1230,17 +1230,18 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
+ 	 * if there are multiple output formats, then choose the output format that matches
+ 	 * the reference params
+ 	 */
+-	for (i = 0; i < available_fmt->num_output_formats; i++) {
++	for (i = 0; i < pin_fmts_size; i++) {
++		struct sof_ipc4_audio_format *fmt = &pin_fmts[i].audio_fmt;
 +
- 	sof_ipc4_dbg_audio_format(sdev->dev, &pin_fmts[i], 1);
+ 		u32 _out_rate, _out_channels, _out_valid_bits;
  
- 	return i;
+-		out_fmt = &available_fmt->output_pin_fmts[i].audio_fmt;
+-		_out_rate = out_fmt->sampling_frequency;
+-		_out_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(out_fmt->fmt_cfg);
+-		_out_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(out_fmt->fmt_cfg);
++		_out_rate = fmt->sampling_frequency;
++		_out_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(fmt->fmt_cfg);
++		_out_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(fmt->fmt_cfg);
+ 
+ 		if (_out_rate == out_ref_rate && _out_channels == out_ref_channels &&
+ 		    _out_valid_bits == out_ref_valid_bits) {
+-			base_config->obs = available_fmt->output_pin_fmts[i].buffer_size;
++			base_config->obs = pin_fmts[i].buffer_size;
+ 			return i;
+ 		}
+ 	}
 -- 
 2.47.0
 
