@@ -1,172 +1,260 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA2A1E0490
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 14:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABBB1E498;
+	Tue,  8 Oct 2024 16:05:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728399257; cv=none; b=R7w40UN1LAh5OcWr9w6Gt4QAAGdHhIFFGKwGso5QHoypU/fJpcSzQaY0xosGQ4qN0mlCUEl1PoG06qO2IWpaViHMe/6vZ6KE1+UeJduwMb99oNr+0ul3aw+1OsCKrMbF//UnVlZRwv1ys3ugN7Tq4ArzpWGKrLauFpiT5oIxens=
+	t=1728403542; cv=none; b=OHLmQkVdS/ZG4jwM3G62DQOJPOVF+WiTQjGP/bDhyhgLipnweHagaSa6Ghj+EPW5uvma7/gd4TevXtgfC89NhfK1lzhFS26b1nTGUKtblSV9v+R8/KLW9MrV1aAbrZtPMD1zTnow/OJgvfCh1pZ3eONksUujk45iCV17mGkZ+Tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728399257; c=relaxed/simple;
-	bh=47vEb3Hdq9xPPCEmmUkYg2VZzzZT9NReLtByAZ6PrQU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Io0L1i70wI9OyNucWVCbLLbE1AS4slIz/D1cL2QbssCDFXb58RhQRE/hg1YOAsgfAgwGlICBHqqJDee8SuZf1zugPcLij+QoF3bxh4ac0GJLEeIQq4uEGOw/m6pGxgpegagUlDIaoc9elf95rd+/iF+ALDSbNqOyOMGlVybqhok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gcxsip6F; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728403542; c=relaxed/simple;
+	bh=ZbRbJWwNF/AeE+LMzcHvqOo/xGfNRwPvyy6wdQeCbdw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AFXHP6yfqVLm8lqPCxmPxhMq42FhVuRwtpGg/3U6m9HJovzM3+9+P0BpL6NY56pKJjPZY4qWhpUGJBkO4nXUSm9zQqdhuqof+mYzsNRpJOJhTKUc78kLhhv1+i/FTJ1G7UIf9ilTXCRlWY28AAbj7NuGRG/l77yXpJSqa8PL21g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PQbvDA3A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TD7EfFCD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nW1hY0pT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WuUBlFIg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gcxsip6F"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71dfccba177so2117185b3a.0
-        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 07:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728399254; x=1729004054; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iQ4LVhvFHLa0eWBgE9k6FrixkUFYtnCP97x2+SmMe3Y=;
-        b=gcxsip6FWP1N2f/nY9BjEhzzetImpW5UbfgfGo4GdeSIp200vDtM7qG6dUK9+7L8Xy
-         B/j0OZ6ae50eAgswObIxV+Lw1SuuIendnnC/b6l0IJoLC+9FekJnNFGOj4Ds2vcrw1Ar
-         1yCR56SniaorW5Apyp/1hXszRxXtexLdV0cKg4M3cxqKnu4FtminQ5XW4agScQpkUmRO
-         5MY/8LDYUH1x1OuO4pPbtQ/tG0l6HcF/gGc1oNCTV/VvP3sw/ZfkLYeR2o2IzzWPSt9J
-         Ks8fl6EEQNfv+LerWC/nGIh6igE0gHiRVOb3H7Nf9dmDSdUa9eAYIfKki5sBPQPiOUpN
-         DifA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728399254; x=1729004054;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iQ4LVhvFHLa0eWBgE9k6FrixkUFYtnCP97x2+SmMe3Y=;
-        b=bTSnojBEZaEODmFF722hEbdvnZcdr9km5fcq3Yitth7B9GWRXKZdFkO7LruoRhpHvx
-         dk0n5XiNSHJ2LiFUN1maqWHjJrtFX2I9Yw9gktH2XsnT6cR1Mkb5SBxiWXpQ25QRpJMl
-         XphXpYFTdcREj/+qRiqzBW8LGHPNLIBjDOcTXmD+CDGSnNrc4G+tvnSb9Vjvv6j3WB/v
-         QELjqXLWD/g+zMslWu2nIFNDmOenR/OX9JAivHRDSnJrXojJiNRVxFSR5a5cKBq+52BA
-         epftcufVcbgNH3pTp/x36+hBu/CxBUfMm4hCEUic1sL/bqKZXiYZURbwBk7Zs4lpOhfz
-         CJtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnyaXhZNmhClUoFWhVvFpiXTdC1O131PVj6vyIRajEH2cYxRd8cXFPezx+IKtKOpC58L+MMy4kUtVFHg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc7u98uD1SNknPavZx7bhoFMb3JnyqEUNV+DdBKBMMeO8s7NcS
-	3Sfpz0fIz9BNF/KaBqLu+ef68z84DtznvTvEF/aKHgdz3ELI3oXeVEFH/1810CI=
-X-Google-Smtp-Source: AGHT+IEE7e5dtXU6pMg21/0OJnrotv0zSN5hz6Qh4qER1MpIu7AV7t7dgpJ2YGuT0VFYFJ+iVS/TPg==
-X-Received: by 2002:a05:6a21:4581:b0:1d2:eaea:39d7 with SMTP id adf61e73a8af0-1d8a193d1c4mr595970637.9.1728399253860;
-        Tue, 08 Oct 2024 07:54:13 -0700 (PDT)
-Received: from [192.168.0.4] (174-21-81-121.tukw.qwest.net. [174.21.81.121])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71df0cd5006sm6207044b3a.77.2024.10.08.07.54.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 07:54:13 -0700 (PDT)
-Message-ID: <5fe42a14-5070-43f7-8333-ed37c29c947f@linaro.org>
-Date: Tue, 8 Oct 2024 07:54:10 -0700
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PQbvDA3A";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TD7EfFCD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nW1hY0pT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WuUBlFIg"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D728E1FB62;
+	Tue,  8 Oct 2024 16:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728403539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
+	b=PQbvDA3A29L5c7TybvH5QZhfHoWgXcMT0f8L+HeIg1k0Gah4tbF6I//g4pJJ+kWvwoQ5pY
+	nlAdc5XycZ0bMEysQWGINQjk4KVBWjma4Kmj3A9M66at5aHtpXZTxsKyPOnS73DcPBvsiI
+	pdBDzYWLwo7neeTCuuvDrK6jzVVwPpk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728403539;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
+	b=TD7EfFCDPM9puXHqYvfsBGD2JAS0sp9CWTdfoUMUxZXJ1wGy3BDHFBH+ObTjE0GokbB+JM
+	NiQxtcZRiNpU+uDw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nW1hY0pT;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WuUBlFIg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728403538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
+	b=nW1hY0pTajWkJO4JzR5jgscOX9qwXucwrOKmGlSs3t42phsVJBneMX9kl6ARW8H+fKt7Gb
+	H9WpY/BzKO8n7WgyDpC5bB6PgA+tv1NK38M7N5aum+q5UJMBMSvHFnqfK61o9i4cIZnSNT
+	Klg/8MvS9Apw8AiN9S8elztxAxpkAHA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728403538;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
+	b=WuUBlFIgBdrp5Szv8iLXSl6Pa4w1E6B8RnpbHt6ynQVNJ6GArenLfhQOaoy98QxWObhw+H
+	DMQHiTVHQynKFNBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 992111340C;
+	Tue,  8 Oct 2024 16:05:38 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bAoQJFJYBWddQQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 08 Oct 2024 16:05:38 +0000
+Date: Tue, 08 Oct 2024 18:06:34 +0200
+Message-ID: <87a5fevat1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Christoffer Sandberg <cs@tuxedo.de>
+Cc: Jerry Luo <jerryluo225@gmail.com>,
+	christian@heusel.eu,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	regressions@lists.linux.dev,
+	wse@tuxedocomputers.com
+Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
+In-Reply-To: <8734lcmd01.wl-tiwai@suse.de>
+References: <87jzfbh5tu.wl-tiwai@suse.de>
+	<ea6e5168-238f-41f5-9600-36b75ed990a1@gmail.com>
+	<87jzetk2l0.wl-tiwai@suse.de>
+	<b38b5947482a5ca4b55e0ddb908c2f34@tuxedo.de>
+	<87seteli51.wl-tiwai@suse.de>
+	<d348ca06-38ca-474f-8673-dff2248331e5@gmail.com>
+	<dbc783cc2608ac63ffd420b1dc3eeaa9@tuxedo.de>
+	<87iku8mfzh.wl-tiwai@suse.de>
+	<8292a0dccbdcfcaebfb04bd84aa240e6@tuxedo.de>
+	<8734lcmd01.wl-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 06/14] alpha: Align prototypes of IO memcpy/memset
-To: Julian Vetter <jvetter@kalrayinc.com>, Arnd Bergmann <arnd@arndb.de>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
- WANG Xuerui <kernel@xen0n.name>, Andrew Morton <akpm@linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Niklas Schnelle
- <schnelle@linux.ibm.com>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-alpha@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
- Yann Sionneau <ysionneau@kalrayinc.com>
-References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
- <20241008075023.3052370-7-jvetter@kalrayinc.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20241008075023.3052370-7-jvetter@kalrayinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D728E1FB62
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,heusel.eu,vger.kernel.org,perex.cz,lists.linux.dev,tuxedocomputers.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 10/8/24 00:50, Julian Vetter wrote:
-> Align the prototypes of the memcpy_{from,to}io and memset_io functions
-> with the new ones from iomap_copy.c and remove function declarations,
-> because they are now declared in asm-generic/io.h.
+On Fri, 04 Oct 2024 11:30:22 +0200,
+Takashi Iwai wrote:
 > 
-> Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
-> Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
-> ---
-> Changes for v8:
-> - Mask the argument with 0xff because now it's an int and not a u8
->    anymore
-
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
-> ---
->   arch/alpha/include/asm/io.h | 6 ++----
->   arch/alpha/kernel/io.c      | 4 ++--
->   2 files changed, 4 insertions(+), 6 deletions(-)
+> On Fri, 04 Oct 2024 11:25:32 +0200,
+> Christoffer Sandberg wrote:
+> > 
+> > 
+> > 
+> > On 4.10.2024 10:25, Takashi Iwai wrote:
+> > > On Fri, 04 Oct 2024 10:18:10 +0200,
+> > > Christoffer Sandberg wrote:
+> > >> 
+> > >> 
+> > >> 
+> > >> On 2.10.2024 23:28, Jerry Luo wrote:
+> > >> > On 10/2/24 10:00 AM, Takashi Iwai wrote:
+> > >> >> On Wed, 02 Oct 2024 10:21:22 +0200,
+> > >> >> Christoffer Sandberg wrote:
+> > >> >>>
+> > >> >>>
+> > >> >>> On 30.9.2024 09:44, Takashi Iwai wrote:
+> > >> >>>> On Mon, 23 Sep 2024 21:37:42 +0200,
+> > >> >>>> Jerry Luo wrote:
+> > >> >>>>>
+> > >> >>>>> Hi Takashi,
+> > >> >>>>>
+> > >> >>>>> On Mon, 16 Sep 2024 19:22:05 +0200,
+> > >> >>>>>
+> > >> >>>>> Takashi Iwai wrote:
+> > >> >>>>>
+> > >> >>>>>      Could you give alsa-info.sh output from both working and
+> > >> >>>>> non-working
+> > >> >>>>>      cases?  Run the script with --no-upload option and attach the
+> > >> >>>>> outputs.
+> > >> >>>>>
+> > >> >>>>>      thanks,
+> > >> >>>>>
+> > >> >>>>>      Takashi
+> > >> >>>>>
+> > >> >>>>> Issue now reappear, output from alsa-info.sh are attached. If they
+> > >> >>>>> are still
+> > >> >>>>> needed.
+> > >> >>>> Thanks.  The obvious difference seems to be the assignment of two
+> > >> >>>> DACs
+> > >> >>>> 0x10 and 0x11 for headphone and speaker outputs.
+> > >> >>>>
+> > >> >>>> Christoffer, how are those on your machines?
+> > >> >>> I attached alsa-info from the Sirius Gen2 device.
+> > >> >>>
+> > >> >>> Comparing the working/nonworking of Jerry, yeah, the assignment of
+> > >> >>> 0x10 and 0x11 looks switched around. I don't see what difference this
+> > >> >>> would make. Also, node 0x22 has "bass speaker" controls in the
+> > >> >>> non-working version.
+> > >> >>>
+> > >> >>> Comparing the Sirius Gen2 alsa-info with Jerrys, to me it looks like
+> > >> >>> the non-working version corresponds to our working version.
+> > >> >>>
+> > >> >>> I would expect the non-working version to happen all the time though
+> > >> >>> with regards to the "bass speaker" controls. Why would this only
+> > >> >>> happen sometimes?
+> > >> >> Thanks!  The assignment of DACs depend on the pins and topology, so it
+> > >> >> can be a bit sensitive.
+> > >> >>
+> > >> >> Now looking more closely at both outputs, I wonder how the commit
+> > >> >> breaks pang14.  Maybe it has a PCI SSID 2782:12c5 (or 12c3) while the
+> > >> >> codec SSID is 2782:12b3?  If so, the patch below should fix.
+> > >> 
+> > >> Interesting, you're right, PCI SSID c3/c5 and codec SSID c3/c5 for the
+> > >> Siriuses.
+> > >> 
+> > >> I had a look around. In patch_realtek there are some cases where codec
+> > >> SSID match is needed as well. Would it be better/safer to directly do
+> > >> this immediately or keep it as an exception where it breaks or for
+> > >> known sensitive models/brands?
+> > > 
+> > > It needs a better handling, yes.  OTOH, the driver became gigantic and
+> > > it's very tough to change the basic matching stuff.  That is, we can't
+> > > flip from PCI SSID to codec SSID out of sudden, as it'll break
+> > > certainly many other systems.
+> > > 
+> > > What I have in mind is to add an extra flag to the matching table to
+> > > indicate the codec SSID matching, something like:
+> > > 
+> > > --- a/sound/pci/hda/hda_local.h
+> > > +++ b/sound/pci/hda/hda_local.h
+> > > @@ -282,6 +282,7 @@ struct hda_fixup {
+> > >  	int type;
+> > >  	bool chained:1;		/* call the chained fixup(s) after this */
+> > >  	bool chained_before:1;	/* call the chained fixup(s) before this */
+> > > +	bool match_codec_ssid:1; /* match with codec SSID instead of
+> > > PCI SSID */
+> > >  	int chain_id;
+> > >  	union {
+> > >  		const struct hda_pintbl *pins;
+> > > 
+> > 
+> > Sounds reasonable to me. It would mean either-or then though.
 > 
-> diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-> index b191d87f89c4..e7d52c8159b0 100644
-> --- a/arch/alpha/include/asm/io.h
-> +++ b/arch/alpha/include/asm/io.h
-> @@ -591,13 +591,11 @@ extern inline u64 readq_relaxed(const volatile void __iomem *addr)
->   /*
->    * String version of IO memory access ops:
->    */
-> -extern void memcpy_fromio(void *, const volatile void __iomem *, long);
-> -extern void memcpy_toio(volatile void __iomem *, const void *, long);
->   extern void _memset_c_io(volatile void __iomem *, unsigned long, long);
->   
-> -static inline void memset_io(volatile void __iomem *addr, u8 c, long len)
-> +static inline void memset_io(volatile void __iomem *dst, int c, size_t count)
->   {
-> -	_memset_c_io(addr, 0x0101010101010101UL * c, len);
-> +	_memset_c_io(dst, 0x0101010101010101UL * (c & 0xff), count);
->   }
->   
->   #define __HAVE_ARCH_MEMSETW_IO
-> diff --git a/arch/alpha/kernel/io.c b/arch/alpha/kernel/io.c
-> index c28035d6d1e6..69c06f1b158d 100644
-> --- a/arch/alpha/kernel/io.c
-> +++ b/arch/alpha/kernel/io.c
-> @@ -481,7 +481,7 @@ EXPORT_SYMBOL(outsl);
->    * Copy data from IO memory space to "real" memory space.
->    * This needs to be optimized.
->    */
-> -void memcpy_fromio(void *to, const volatile void __iomem *from, long count)
-> +void memcpy_fromio(void *to, const volatile void __iomem *from, size_t count)
->   {
->   	/* Optimize co-aligned transfers.  Everything else gets handled
->   	   a byte at a time. */
-> @@ -535,7 +535,7 @@ EXPORT_SYMBOL(memcpy_fromio);
->    * Copy data from "real" memory space to IO memory space.
->    * This needs to be optimized.
->    */
-> -void memcpy_toio(volatile void __iomem *to, const void *from, long count)
-> +void memcpy_toio(volatile void __iomem *to, const void *from, size_t count)
->   {
->   	/* Optimize co-aligned transfers.  Everything else gets handled
->   	   a byte at a time. */
+> Ah yes, it matches primarily with codec SSID instead of fallback.
+> I guess if this flag is set, we shouldn't check PCI SSID, though.
+> 
+> > > Although this will help in this case, many of existing code do check
+> > > codec ID in addition to PCI SSID, and this flag won't help for them as
+> > > is.
+> > 
+> > For the fixups where codec SSID is already known for all cases it
+> > would be possible to represent current logic with matching both SSIDs.
+> > 
+> > Otherwise I can not judge whether matching both PCI SSID and codec
+> > SSID at the same time would be needed.
+> > 
+> > In any case, your approach would reduce code size if this is a
+> > recurring thing.
+> 
+> OK, I'll try to prepare a cleanup patch later.
 
+It turned out that my original idea above wasn't applicable, as we
+want to filter out rather in the quirk table, not the target.
+So I ended up with another patch and submitted shortly ago:
+  https://lore.kernel.org/20241008120233.7154-1-tiwai@suse.de
+
+
+Takashi
