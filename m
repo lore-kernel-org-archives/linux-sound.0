@@ -1,130 +1,97 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2E21DED79;
-	Tue,  8 Oct 2024 11:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAD04C97;
+	Tue,  8 Oct 2024 11:47:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728387389; cv=none; b=fWkbCWfpDLfdCVm1+96tA/PRKPQv14awV+ZmbYVvo+bJDMzhDg3DzpDsY4aDjGcBMIURGkuwRo3yDmamLXXbaIPDJSqgIU+hqvMiV1f1BRJtA3GdK94VTCiOcsepyc8zD3J2QclU2lbptTqoKEowsHLLR4EHXbizIe1zVOkbWPU=
+	t=1728388041; cv=none; b=gUTFthd/RM1GVyDjJb9fKLdVAUTVohgGMZrCq2f2XYKwATjLAcl7N8UJP3ym9Yh4qGTbAgjleVhGw4rkbKK+Bj+pPvmSLMSVMqZFIwYyLe7SKxrs50N/G1MkzSl8uPlnIN210OkKHkvfcE3ZJQofKMGRKtuBCGVDSF+N1OXfohI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728387389; c=relaxed/simple;
-	bh=tNXsqqFWbMFr3g+ctOdBFLt8QeRqJ7KGw2pmNQ53Cz0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YnF/g6bA2u84KzDMGrimH207QgjqgVEuXWEAXe2LrtfxTvytPjz2JLg6paI36fGvtWAXR2AzIm7wkKghDLNHn4Lz0rka+b/4iJ2Q6D6VqWp5uqn/lG7ScFkF17i8Fkh79hN5/qVYgyew3Ct2fMZXc/rtgPhRNfSYJn5GUmXmywk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I0PGcpYq; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728388041; c=relaxed/simple;
+	bh=/y0f7YzkVyLWlST+5tehkw0EW7lI2XHxBGCE/ESVb40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=chVjCevPpO5XEiesey1plN+Fz4KBFvwBHSxRnxNdcvSPlv1LTy0+jk0V8hZTq5C70mtijw1t1KHuoSc0Rlvf62+XiYltzz0AKHkG4ssURIv+ZEs6jzx78JJHSy66gbENT2en6dD5ELezucKW7729zRW8VrnkO+au/xlurmtzWoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=OBm/oqIp; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I0PGcpYq"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c721803a89so7443683a12.1;
-        Tue, 08 Oct 2024 04:36:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728387386; x=1728992186; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NRvHMUxY4zFz42GUBqqGufyMy0VLstlvaUm3YEpzbjw=;
-        b=I0PGcpYq3at0jZCqitGr1W3quaDHbCoerAG7kHDsiIB+yFaaRAHQkF2tMeHyIgrIkk
-         nVuhWHB8EnNhjVZCFenh8jHZgjgxM20uCyGXJxdtcv/wveY72q7gBDxVJZVX2euCeBG4
-         DCiKKDEZnuXwKGOxAQ7Ap4ujCWui7Knb1UJuj3JxtPGtthIogel9cnNoZnjpBdrm4hoH
-         I0wPsUvIfIOZQNz9OHI4YdCrLhw0yjjO80kzuekLWxnNdv3iZO0t313cVNcFKU+V+Vgz
-         WWg2ePC7Sw/ZAGotAnnv/VWS9SV/J9tdAYHypTcseMkFm6unFImrjlPnzNufZtp+Cc+i
-         d12g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728387386; x=1728992186;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NRvHMUxY4zFz42GUBqqGufyMy0VLstlvaUm3YEpzbjw=;
-        b=m7C0duZDudvNKBfFqU80bvzBtCjylrfnQ5VJfW9LDI2lC6Myge3tB7vGF/wR4v3pJz
-         NkciHNe5I5jdauSOd9a3TeSAvQF+A0ZRSwABWy/dZ0+ER3gCnEnLhyOQ8Dp8BmsI6qTJ
-         ohyMOUTsvAh2JIcXdobKg4c8O271xvtmPluEgVVyohGbhw/qz+s2lC4XJb3sX+FpT+wh
-         hYexE2zjGtoGN9Nmujo0Wj8p+iegPORoc6pnK8mamtjPMCOnP9E8FcO0jhCeoTsraUEd
-         lwNLImomKyTxcE0GNWoO4Dl3yL+Wwq7rfhIYBwL8/7pIQLDb3LmNlFOH72GvM8f1KEls
-         aWRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVECjnMPPcvGYDEYkHC0gmB4T7jTxZ7fvvHZR9VgGeWl/XfPx80CnMEpO+zsFZhip9a8C8l6r7LY9mUgn4=@vger.kernel.org, AJvYcCVmPfckk3x/lq8g0N4A6YX90tTQybtSnHicduChnDltgx//HBnHN9RHdNqlsDOgU/zK7ECrrD0PAKuRUe0=@vger.kernel.org, AJvYcCWHN7O6prrL+93E2cGRBBN2uWEITlnP56k+YL1Pkp13z7foug9wyu2YBz/wY4LBznMsReBUzV60@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyj3TlLe6canZ4CCyUsUcXtd2U/TqL8tocOaIHTafAtO8BCly7T
-	dkep1WvIuSEVcSOihnUC+Tmxf0ftHl8KX5zrutGQodvmmtZUfOVs
-X-Google-Smtp-Source: AGHT+IHFBZAP0UjOuvIZiyy54gdCEXyBMbpVvwQbpLknYjjq3h4+A4coza4bM8lsTfSDV0XcUPu91A==
-X-Received: by 2002:a17:906:4fcc:b0:a99:6791:5449 with SMTP id a640c23a62f3a-a9967915cbbmr258151866b.52.1728387385837;
-        Tue, 08 Oct 2024 04:36:25 -0700 (PDT)
-Received: from [127.0.1.1] ([2001:67c:2330:2002:af84:a410:1c4f:f793])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99399c6735sm451283366b.9.2024.10.08.04.36.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 04:36:25 -0700 (PDT)
-From: Benjamin Bara <bbara93@gmail.com>
-Date: Tue, 08 Oct 2024 13:36:14 +0200
-Subject: [PATCH v2] ASoC: dapm: avoid container_of() to get component
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="OBm/oqIp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=bHJknnUwvn2irDVg9N3GrQUk2xrtJqkLpnVNrWGUTUg=; b=OBm/oqIpDPEwYJzGEEYmGHodos
+	4nb5iEN+li/o1811E+zuz4e13n8B5l0kVy64gH+itqqJ+6MMgIxz67I3vuppMSv/TLQkvUhtXu8f8
+	JdDJr2TK5JBVfDowKunhgzPeLGiIVyCzIqqfPnqCiw13Muj5k4NIF8el6/OETD8nLFgKJAWYJ1z9k
+	PlCw8baNajsnF9wvz2Fn32B4W5cgoJXG/oohqQuCvct/gqH2VMmy4CKIrwazuFtuIqNGB+ofJmlvv
+	ORv3ADQUSxQI9VmtfeU+LYQvN1FunfJN1Wc0TfQSv3lVbOzp0ObKeesgHdcQHjZvaWCNfrmcLir7P
+	d6g0NIig==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1sy8g6-00000005ggR-3zEE;
+	Tue, 08 Oct 2024 11:46:58 +0000
+Date: Tue, 8 Oct 2024 04:46:58 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Julian Vetter <jvetter@kalrayinc.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-alpha@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+	mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org,
+	Yann Sionneau <ysionneau@kalrayinc.com>
+Subject: Re: [PATCH v8 01/14] Consolidate IO memcpy/memset into iomap_copy.c
+Message-ID: <ZwUbsviaqFUtjKEQ@infradead.org>
+References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
+ <20241008075023.3052370-2-jvetter@kalrayinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241008-tegra-dapm-v2-1-5e999cb5f0e7@skidata.com>
-X-B4-Tracking: v=1; b=H4sIAC0ZBWcC/23MywqDMBCF4VeRWXeKSYvRrnyP4mI0Ex2KF5IgL
- ZJ3b+q6y//A+Q4I7IUDPIoDPO8SZF1y6EsBw0TLyCg2N+hS31VZGow8ekJL24zsmqrpa2cqTZA
- Pm2cn7xN7drknCXH1n9Pe1W/9y+wKFfZs2TT1zZGp2vASS5GuwzpDl1L6AsoaTZKmAAAA
-X-Change-ID: 20241007-tegra-dapm-ef969b8f762a
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241008075023.3052370-2-jvetter@kalrayinc.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Benjamin Bara <benjamin.bara@skidata.com>
+On Tue, Oct 08, 2024 at 09:50:09AM +0200, Julian Vetter wrote:
+>  lib/iomap_copy.c         | 127 +++++++++++++++++++++++++++++++++++++++
 
-The current implementation does not work for widgets of DAPMs without
-component, as snd_soc_dapm_to_component() requires it. If the widget is
-directly owned by the card, e.g. as it is the case for the tegra
-implementation, the call leads to UB. Therefore directly access the
-component of the widget's DAPM to be able to check if a component is
-available.
-
-Fixes: f82eb06a40c8 ("ASoC: tegra: machine: Handle component name prefix")
-Cc: stable@vger.kernel.org # v6.7+
-Signed-off-by: Benjamin Bara <benjamin.bara@skidata.com>
----
-Hi!
-
-I handled the new patch as V2 of the initial one, although it has a
-different summary. Hope this is fine.
----
-Changes in v2:
-- fix snd_soc_dapm_widget_name_cmp() instead of reverting commit
-- don't pick up R-b of Krzysztof, as different implementation
-- Link to v1: https://lore.kernel.org/r/20241007-tegra-dapm-v1-1-bede7983fa76@skidata.com
----
- sound/soc/soc-dapm.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 9330f1a3f7589dc467c04238830f2009a619a998..c34934c31ffec3970b34b24dcaa0826dfb7d8e86 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -2785,10 +2785,10 @@ EXPORT_SYMBOL_GPL(snd_soc_dapm_update_dai);
- 
- int snd_soc_dapm_widget_name_cmp(struct snd_soc_dapm_widget *widget, const char *s)
- {
--	struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
-+	struct snd_soc_component *component = widget->dapm->component;
- 	const char *wname = widget->name;
- 
--	if (component->name_prefix)
-+	if (component && component->name_prefix)
- 		wname += strlen(component->name_prefix) + 1; /* plus space */
- 
- 	return strcmp(wname, s);
-
----
-base-commit: 8cf0b93919e13d1e8d4466eb4080a4c4d9d66d7b
-change-id: 20241007-tegra-dapm-ef969b8f762a
-
-Best regards,
--- 
-Benjamin Bara <benjamin.bara@skidata.com>
+On top of the previous comments:  this really should be iomem_copy.c
+instead.
 
