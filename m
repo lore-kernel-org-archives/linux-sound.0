@@ -1,496 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3580B1CDFA3
-	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 11:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7D218DF88;
+	Tue,  8 Oct 2024 11:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728385776; cv=none; b=i4w+WoV/pbvqsiJznzX+Ux4A5LWXdXjkIjzUiEm7g0Alx9f9Hl6kKxhkNJOBmsUKXvb0qH5f4SNyLtkakYyz9LolRS5/tQ4542+51qreqPggLqGHuL28AquAlVTuSK+O5bdOyaeGtImGbQLLQghbDOkuLw7Jp04Q4K+YNAM3ptk=
+	t=1728387103; cv=none; b=aTJo8G6hraTs7nuzvWfiGlXDgw2j7ViLe1xQ9Nw8pMZT5FSBMm3G6ODnvsvn/NzsTluZIfDI6bXwj2ERhJzE0Pu6LYjDFnQpqdeEGEtKmvKZlH8Nhsf2dzTGbxWf1DxECH5G5MFeaozLZViGp/+YzeTAaWKHaLBPdZzA5P2GGZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728385776; c=relaxed/simple;
-	bh=ug1S41znjoUf/OvE63S+atNtBFdtD7bJMhGDHdiCvKA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iMdcpHdX2/b3sY0IUuw43WU9s3P04N9EunwGpYtePTCa0SHJBicnQ5DZCHwKVtcP2wmpja64sna3t9d5h9rXKTa6M7fl0DTGp0uli6woOS8zMGOqaw2JZs9n0j3Cgj2viRX3iJUM7U3qT6KUQ7Bq1/F9zLEpakDMIqhKf7arkPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1VCWKdw; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728387103; c=relaxed/simple;
+	bh=4MLtgjRxxgNkMelO+GUd2m509woOHNHx71wgXxKEFmY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=azl55tZovLHMg8p37lyl8pR177OdTglmaBakiRWENlySGcxO5NO8trUbEQrhoU1rlf6wFIqWfGCsqqiVTySleofs1fOCk0hh4uvrjKoDQQHcMyf2fgOuGipv0DLXxqHj4KDkfKjmDWSDOX1rBAYMb0bLKA42rt4LOGasHaoev2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5OcTMj3; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1VCWKdw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728385774; x=1759921774;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ug1S41znjoUf/OvE63S+atNtBFdtD7bJMhGDHdiCvKA=;
-  b=f1VCWKdwBIUqHy44AK/BJn3K+TY8155genDZgqcSSGFALIZbXDamkd03
-   8V5dd9VrUqSpF20O7G9/0JWQlzisUVlmjxo/wfbZMUf5aNk6O4u1s+0we
-   rzuumtOsbddF5l9SNs+75A4SSVdU0X3kQEMmzYfaJKJNuCELLWYaB9nKK
-   mxrhw4GYj7qllVYbuwl/vc8OfwG//xPwtmKvH7nSuyepTHVBLGIEwxbaF
-   PE5f7yG7zGELRTjbp9ytWTqWU36U6AnFWlWI2CK8euMFZcoWOydmfL22E
-   99ygCRfFcErP71MTBj0/86q3Rb5XIwg7gBGp7YQwKk6SFL7ydG1eZyKpP
-   Q==;
-X-CSE-ConnectionGUID: KNAC2SR/R6qMfNBmbPdziQ==
-X-CSE-MsgGUID: viXwBW82SFeuv8N2Wpdplw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="45037031"
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="45037031"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:34 -0700
-X-CSE-ConnectionGUID: TH8+2P4URySOictZvqGuEw==
-X-CSE-MsgGUID: 1geL8Lf8Q8WDMUVPRP2Ntw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
-   d="scan'208";a="80586793"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.49])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 04:09:32 -0700
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH 8/8] ASoC: SOF: ipc4-topology: Add helper function to print the module's in/out audio format
-Date: Tue,  8 Oct 2024 14:09:36 +0300
-Message-ID: <20241008110936.22534-9-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241008110936.22534-1-peter.ujfalusi@linux.intel.com>
-References: <20241008110936.22534-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5OcTMj3"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5399651d21aso5012597e87.3;
+        Tue, 08 Oct 2024 04:31:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728387100; x=1728991900; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lvp626noP7oQtVR/zGHIEJU6VmV0Wj8kYermT0He13o=;
+        b=k5OcTMj3qwof2Dx7jZz/171pD7L36jWPbr90IqdD+osmJhN7ozCuCO0oUsfCRxRo29
+         muJea4OTkTVwZFzte0s06BY1YSlI3176V5yMBtvAxYT4pm8zG84Ps7DJ6fbO/spXrl+i
+         YzbMyHea5LtLke25qdSRKxBdQeOUIbU3PLWmZt13nSA6W+8K8oFDDxEhsV/zrs95p9Jf
+         fCVZcfuZPa3ZaA6u88K3Zo4B8ECz8qrF8fpNbdVERHj3LCgfXRfC0N4YBXCU4enr2VHy
+         5tzN9YxKhBA6thPRNw/RfhpD6kabsmOZNh19LO4MYUWQyoseeutWUaSZSNkCjq6/1I6u
+         gD5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728387100; x=1728991900;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lvp626noP7oQtVR/zGHIEJU6VmV0Wj8kYermT0He13o=;
+        b=CFflJEzQ2EA99VVXBb5qP0D5KStuQAP52KFOSRDlC9N83LZFUDOQIVcTSn7kRXquDQ
+         hesqyVvdagtj3SWhm5tZKS0FetVfRyCIAjnBb6b0z/IHJyjZ/UTsAN5LOjQ1TF81aPYv
+         8MPJ64hPQO3tuzIb6Aabq4VubwEk+3vq9adckSs9rbDAj6eLvjCsmgsmBftoZVpt64bI
+         TnuqtjNBHxX90ADp+qbW9NRPO+fhlhbhuapqaZV2KJ0KqhY/k9C8xl7PPSG1Hr8Vpu/3
+         AA0A9uU4idQFQ3O1BoAIDqROBRTGwcCmx/f05yuSmQpaXRoZ3hld0BLPadqeduEHcrW+
+         8P7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVG4VrDpM39e3eWndgAaqlFNmOMG8db6SDvWFFvTk7mP5SbUtFCjl6LMAtFi54m2Y/9sxqacFvo+SQ=@vger.kernel.org, AJvYcCVZewQYEl+bNatV+9HpuPZJ4rxp/SKjWA9MNp7c1PjqjiByU7drOeDXVQyax2IAPEuPpWTsH6vYi97fQSs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6miFN/8AVT6XKg7E4hPPVDpkj5RwzPxUGMxDmql16H2E1xffG
+	m1s8UYZkDNlOcp9usxr5LEhLC7BbTxLkZbjXx/TmG5ukWBiNm3F+
+X-Google-Smtp-Source: AGHT+IFKRePoUOJoo5YlQxFsV7KSx5alX++zJApTJXAMyCafsd1hVw7C8XCpYGKpyt8KRn4KhaCkpQ==
+X-Received: by 2002:a05:6512:b14:b0:536:53f0:2f8e with SMTP id 2adb3069b0e04-539ab9dd5f6mr7598911e87.37.1728387099896;
+        Tue, 08 Oct 2024 04:31:39 -0700 (PDT)
+Received: from ?IPV6:2a02:3100:a123:2000:657f:ba1:5709:f401? (dynamic-2a02-3100-a123-2000-657f-0ba1-5709-f401.310.pool.telefonica.de. [2a02:3100:a123:2000:657f:ba1:5709:f401])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a993a929562sm440959366b.121.2024.10.08.04.31.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2024 04:31:39 -0700 (PDT)
+Message-ID: <1186d773-0eb7-438e-9947-fb3de453d2ac@gmail.com>
+Date: Tue, 8 Oct 2024 13:31:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] i2c: Replace lists of special clients with
+ flagging of such clients
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+ linux-sound@vger.kernel.org
+References: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
+ <ZtQ0KMWUk9iAUCCl@shikoro> <18306ded-6451-4880-9f74-6bceb0f26dea@gmail.com>
+ <ZvqEhntonE9qWnPF@shikoro> <ZwTwoQLAU9emhn13@shikoro>
+Content-Language: en-US
+From: Heiner Kallweit <hkallweit1@gmail.com>
+Autocrypt: addr=hkallweit1@gmail.com; keydata=
+ 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
+In-Reply-To: <ZwTwoQLAU9emhn13@shikoro>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Introduce a helper function to print out the audio format(s) used by a
-module in a consistent way.
+On 08.10.2024 10:43, Wolfram Sang wrote:
+> 
+>> Yes, hopefully this week.
+> 
+> Reviewing and testing now. What tests did you run?
+> 
+Of course compile-tested the series. Functional test cases:
+- Create device from userspace
+- Delete device from userspace
+- Delete adapter (by removing adapter driver module) and check that
+  userspace-created client device has been auto-removed
 
-The printed text depends on the module format configuration, taking into
-account if they have both input and output support, the format is changed
-by the module and the number of formats supported on input/output.
-
-For example, if a module does not change format, there is no point of
-printing both in and out format, it is adequate to just state the format
-the module is using.
-
-While the function to generate the print is fairly complex (but not too
-much), it will create a cleaner experience on the reader side by handling
-the filtering of the information and present it in a way that it - I hope -
-makes the developer's live a bit more easier when tracking format changes.
-
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-topology.c | 262 ++++++++++++++++++++++++----------
- 1 file changed, 186 insertions(+), 76 deletions(-)
-
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index b00797f89595..56427d6e3679 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -203,6 +203,101 @@ static void sof_ipc4_dbg_audio_format(struct device *dev, struct sof_ipc4_pin_fo
- 	}
- }
- 
-+static void
-+sof_ipc4_dbg_module_audio_format(struct device *dev,
-+				 struct snd_sof_widget *swidget,
-+				 struct sof_ipc4_available_audio_format *available_fmt,
-+				 int in_fmt_index, int out_fmt_index)
-+{
-+	struct sof_ipc4_audio_format *in_fmt, *out_fmt;
-+	u32 out_rate, out_channels, out_valid_bits;
-+	u32 in_rate, in_channels, in_valid_bits;
-+	struct sof_ipc4_pin_format *pin_fmt;
-+
-+	if (!available_fmt->num_input_formats &&
-+	    !available_fmt->num_output_formats)
-+		return;
-+
-+	/* Only input or output is supported by the module */
-+	if (!available_fmt->num_input_formats) {
-+		if (available_fmt->num_output_formats == 1)
-+			dev_dbg(dev, "Output audio format for %s:\n",
-+				swidget->widget->name);
-+		else
-+			dev_dbg(dev,
-+				"Output audio format (format index: %d) for %s:\n",
-+				out_fmt_index, swidget->widget->name);
-+
-+		pin_fmt = &available_fmt->output_pin_fmts[out_fmt_index];
-+		sof_ipc4_dbg_audio_format(dev, pin_fmt, 1);
-+
-+		return;
-+	} else if (!available_fmt->num_output_formats) {
-+		if (available_fmt->num_input_formats == 1)
-+			dev_dbg(dev, "Input audio format for %s:\n",
-+				swidget->widget->name);
-+		else
-+			dev_dbg(dev,
-+				"Input audio format (format index: %d) for %s:\n",
-+				out_fmt_index, swidget->widget->name);
-+
-+		pin_fmt = &available_fmt->input_pin_fmts[in_fmt_index];
-+		sof_ipc4_dbg_audio_format(dev, pin_fmt, 1);
-+
-+		return;
-+	}
-+
-+	in_fmt = &available_fmt->input_pin_fmts[in_fmt_index].audio_fmt;
-+	out_fmt = &available_fmt->output_pin_fmts[out_fmt_index].audio_fmt;
-+
-+	in_rate = in_fmt->sampling_frequency;
-+	in_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
-+	in_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
-+
-+	out_rate = out_fmt->sampling_frequency;
-+	out_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(out_fmt->fmt_cfg);
-+	out_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(out_fmt->fmt_cfg);
-+
-+	if (!(in_valid_bits != out_valid_bits || in_rate != out_rate ||
-+	      in_channels != out_channels)) {
-+		/* There is no change in format */
-+		if (available_fmt->num_input_formats == 1 &&
-+		    available_fmt->num_output_formats == 1)
-+			dev_dbg(dev, "Audio format for %s:\n",
-+				swidget->widget->name);
-+		else
-+			dev_dbg(dev,
-+				"Audio format (in/out format index: %d/%d) for %s:\n",
-+				in_fmt_index, out_fmt_index, swidget->widget->name);
-+
-+		pin_fmt = &available_fmt->input_pin_fmts[in_fmt_index];
-+		sof_ipc4_dbg_audio_format(dev, pin_fmt, 1);
-+
-+		return;
-+	}
-+
-+	/* The format is changed by the module */
-+	if (available_fmt->num_input_formats == 1)
-+		dev_dbg(dev, "Input audio format for %s:\n",
-+			swidget->widget->name);
-+	else
-+		dev_dbg(dev, "Input audio format (format index: %d) for %s:\n",
-+			in_fmt_index, swidget->widget->name);
-+
-+	pin_fmt = &available_fmt->input_pin_fmts[in_fmt_index];
-+	sof_ipc4_dbg_audio_format(dev, pin_fmt, 1);
-+
-+	if (available_fmt->num_output_formats == 1)
-+		dev_dbg(dev, "Output audio format for %s:\n",
-+			swidget->widget->name);
-+	else
-+		dev_dbg(dev, "Output audio format (format index: %d) for %s:\n",
-+			out_fmt_index, swidget->widget->name);
-+
-+	pin_fmt = &available_fmt->output_pin_fmts[out_fmt_index];
-+	sof_ipc4_dbg_audio_format(dev, pin_fmt, 1);
-+}
-+
- static const struct sof_ipc4_audio_format *
- sof_ipc4_get_input_pin_audio_fmt(struct snd_sof_widget *swidget, int pin_index)
- {
-@@ -1254,16 +1349,6 @@ static int sof_ipc4_init_output_audio_fmt(struct snd_sof_dev *sdev,
- out_fmt:
- 	base_config->obs = pin_fmts[i].buffer_size;
- 
--	if (single_format)
--		dev_dbg(sdev->dev, "Output audio format for %s:\n",
--			swidget->widget->name);
--	else
--		dev_dbg(sdev->dev,
--			"Output audio format (format index: %d) for %s:\n", i,
--			swidget->widget->name);
--
--	sof_ipc4_dbg_audio_format(sdev->dev, &pin_fmts[i], 1);
--
- 	return i;
- }
- 
-@@ -1342,16 +1427,6 @@ static int sof_ipc4_init_input_audio_fmt(struct snd_sof_dev *sdev,
- 	/* set base_cfg ibs/obs */
- 	base_config->ibs = pin_fmts[i].buffer_size;
- 
--	if (single_format)
--		dev_dbg(sdev->dev, "Input audio format for %s:\n",
--			swidget->widget->name);
--	else
--		dev_dbg(sdev->dev,
--			"Input audio format (format index: %d) for %s:\n", i,
--			swidget->widget->name);
--
--	sof_ipc4_dbg_audio_format(sdev->dev, &pin_fmts[i], 1);
--
- 	return i;
- }
- 
-@@ -1726,6 +1801,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	struct snd_soc_component *scomp = swidget->scomp;
- 	struct snd_sof_dev *sdev = snd_soc_component_get_drvdata(scomp);
- 	struct sof_ipc4_copier_data *copier_data;
-+	int input_fmt_index, output_fmt_index;
- 	struct snd_pcm_hw_params ref_params;
- 	struct sof_ipc4_copier *ipc4_copier;
- 	struct snd_sof_dai *dai;
-@@ -1737,7 +1813,6 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	int ipc_size, ret, out_ref_valid_bits;
- 	u32 out_ref_rate, out_ref_channels;
- 	u32 deep_buffer_dma_ms = 0;
--	int output_fmt_index;
- 	bool single_output_bitdepth;
- 	int i;
- 
-@@ -1869,10 +1944,11 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	}
- 
- 	/* set input and output audio formats */
--	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &copier_data->base_config,
--					    &ref_params, available_fmt);
--	if (ret < 0)
--		return ret;
-+	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-+							&copier_data->base_config,
-+							&ref_params, available_fmt);
-+	if (input_fmt_index < 0)
-+		return input_fmt_index;
- 
- 	/* set the reference params for output format selection */
- 	single_output_bitdepth = sof_ipc4_copier_is_single_bitdepth(sdev,
-@@ -1885,7 +1961,7 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 	{
- 		struct sof_ipc4_audio_format *in_fmt;
- 
--		in_fmt = &available_fmt->input_pin_fmts[ret].audio_fmt;
-+		in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 		out_ref_rate = in_fmt->sampling_frequency;
- 		out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 
-@@ -2117,6 +2193,9 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
- 
- 	*ipc_config_size = ipc_size;
- 
-+	sof_ipc4_dbg_module_audio_format(sdev->dev, swidget, available_fmt,
-+					 input_fmt_index, output_fmt_index);
-+
- 	/* update pipeline memory usage */
- 	sof_ipc4_update_resource_usage(sdev, swidget, &copier_data->base_config);
- 
-@@ -2152,23 +2231,31 @@ static int sof_ipc4_prepare_gain_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_available_audio_format *available_fmt = &gain->available_fmt;
- 	struct sof_ipc4_audio_format *in_fmt;
- 	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
--	int ret;
-+	int input_fmt_index, output_fmt_index;
- 
--	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &gain->data.base_config,
--					    pipeline_params, available_fmt);
--	if (ret < 0)
--		return ret;
-+	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-+							&gain->data.base_config,
-+							pipeline_params,
-+							available_fmt);
-+	if (input_fmt_index < 0)
-+		return input_fmt_index;
- 
--	in_fmt = &available_fmt->input_pin_fmts[ret].audio_fmt;
-+	in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 	out_ref_rate = in_fmt->sampling_frequency;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
- 
--	ret = sof_ipc4_init_output_audio_fmt(sdev, swidget, &gain->data.base_config,
--					     available_fmt, out_ref_rate,
--					     out_ref_channels, out_ref_valid_bits);
--	if (ret < 0)
--		return ret;
-+	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
-+							  &gain->data.base_config,
-+							  available_fmt,
-+							  out_ref_rate,
-+							  out_ref_channels,
-+							  out_ref_valid_bits);
-+	if (output_fmt_index < 0)
-+		return output_fmt_index;
-+
-+	sof_ipc4_dbg_module_audio_format(sdev->dev, swidget, available_fmt,
-+					 input_fmt_index, output_fmt_index);
- 
- 	/* update pipeline memory usage */
- 	sof_ipc4_update_resource_usage(sdev, swidget, &gain->data.base_config);
-@@ -2187,23 +2274,31 @@ static int sof_ipc4_prepare_mixer_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_available_audio_format *available_fmt = &mixer->available_fmt;
- 	struct sof_ipc4_audio_format *in_fmt;
- 	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
--	int ret;
-+	int input_fmt_index, output_fmt_index;
- 
--	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &mixer->base_config,
--					    pipeline_params, available_fmt);
--	if (ret < 0)
--		return ret;
-+	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-+							&mixer->base_config,
-+							pipeline_params,
-+							available_fmt);
-+	if (input_fmt_index < 0)
-+		return input_fmt_index;
- 
--	in_fmt = &available_fmt->input_pin_fmts[ret].audio_fmt;
-+	in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 	out_ref_rate = in_fmt->sampling_frequency;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
- 
--	ret = sof_ipc4_init_output_audio_fmt(sdev, swidget, &mixer->base_config,
--					     available_fmt, out_ref_rate,
--					     out_ref_channels, out_ref_valid_bits);
--	if (ret < 0)
--		return ret;
-+	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
-+							  &mixer->base_config,
-+							  available_fmt,
-+							  out_ref_rate,
-+							  out_ref_channels,
-+							  out_ref_valid_bits);
-+	if (output_fmt_index < 0)
-+		return output_fmt_index;
-+
-+	sof_ipc4_dbg_module_audio_format(sdev->dev, swidget, available_fmt,
-+					 input_fmt_index, output_fmt_index);
- 
- 	/* update pipeline memory usage */
- 	sof_ipc4_update_resource_usage(sdev, swidget, &mixer->base_config);
-@@ -2223,12 +2318,14 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_audio_format *out_audio_fmt;
- 	struct sof_ipc4_audio_format *in_audio_fmt;
- 	u32 out_ref_rate, out_ref_channels, out_ref_valid_bits;
--	int output_format_index, input_format_index;
-+	int output_fmt_index, input_fmt_index;
- 
--	input_format_index = sof_ipc4_init_input_audio_fmt(sdev, swidget, &src->data.base_config,
--							   pipeline_params, available_fmt);
--	if (input_format_index < 0)
--		return input_format_index;
-+	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-+							&src->data.base_config,
-+							pipeline_params,
-+							available_fmt);
-+	if (input_fmt_index < 0)
-+		return input_fmt_index;
- 
- 	/*
- 	 * For playback, the SRC sink rate will be configured based on the requested output
-@@ -2244,7 +2341,7 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	 * SRC does not perform format conversion, so the output channels and valid bit depth must
- 	 * be the same as that of the input.
- 	 */
--	in_audio_fmt = &available_fmt->input_pin_fmts[input_format_index].audio_fmt;
-+	in_audio_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 	out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_audio_fmt->fmt_cfg);
- 	out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_audio_fmt->fmt_cfg);
- 
-@@ -2255,17 +2352,22 @@ static int sof_ipc4_prepare_src_module(struct snd_sof_widget *swidget,
- 	 */
- 	out_ref_rate = params_rate(fe_params);
- 
--	output_format_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
--							     &src->data.base_config,
--							     available_fmt, out_ref_rate,
--							     out_ref_channels, out_ref_valid_bits);
--	if (output_format_index < 0)
--		return output_format_index;
-+	output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
-+							  &src->data.base_config,
-+							  available_fmt,
-+							  out_ref_rate,
-+							  out_ref_channels,
-+							  out_ref_valid_bits);
-+	if (output_fmt_index < 0)
-+		return output_fmt_index;
-+
-+	sof_ipc4_dbg_module_audio_format(sdev->dev, swidget, available_fmt,
-+					 input_fmt_index, output_fmt_index);
- 
- 	/* update pipeline memory usage */
- 	sof_ipc4_update_resource_usage(sdev, swidget, &src->data.base_config);
- 
--	out_audio_fmt = &available_fmt->output_pin_fmts[output_format_index].audio_fmt;
-+	out_audio_fmt = &available_fmt->output_pin_fmts[output_fmt_index].audio_fmt;
- 	src->data.sink_rate = out_audio_fmt->sampling_frequency;
- 
- 	/* update pipeline_params for sink widgets */
-@@ -2363,35 +2465,40 @@ static int sof_ipc4_prepare_process_module(struct snd_sof_widget *swidget,
- 	struct sof_ipc4_process *process = swidget->private;
- 	struct sof_ipc4_available_audio_format *available_fmt = &process->available_fmt;
- 	void *cfg = process->ipc_config_data;
-+	int output_fmt_index = 0;
-+	int input_fmt_index = 0;
- 	int ret;
- 
--	ret = sof_ipc4_init_input_audio_fmt(sdev, swidget, &process->base_config,
--					    pipeline_params, available_fmt);
--	if (ret < 0)
--		return ret;
-+	input_fmt_index = sof_ipc4_init_input_audio_fmt(sdev, swidget,
-+							&process->base_config,
-+							pipeline_params,
-+							available_fmt);
-+	if (input_fmt_index < 0)
-+		return input_fmt_index;
- 
- 	/* Configure output audio format only if the module supports output */
- 	if (available_fmt->num_output_formats) {
--		u32 out_ref_rate, out_ref_channels, out_ref_valid_bits, fmt_index;
- 		struct sof_ipc4_audio_format *in_fmt;
- 		struct sof_ipc4_pin_format *pin_fmt;
-+		u32 out_ref_rate, out_ref_channels;
-+		int out_ref_valid_bits;
- 
--		in_fmt = &available_fmt->input_pin_fmts[ret].audio_fmt;
-+		in_fmt = &available_fmt->input_pin_fmts[input_fmt_index].audio_fmt;
- 
- 		out_ref_rate = in_fmt->sampling_frequency;
- 		out_ref_channels = SOF_IPC4_AUDIO_FORMAT_CFG_CHANNELS_COUNT(in_fmt->fmt_cfg);
- 		out_ref_valid_bits = SOF_IPC4_AUDIO_FORMAT_CFG_V_BIT_DEPTH(in_fmt->fmt_cfg);
- 
--		fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
--							   &process->base_config,
--							   available_fmt,
--							   out_ref_rate,
--							   out_ref_channels,
--							   out_ref_valid_bits);
--		if (fmt_index < 0)
--			return fmt_index;
-+		output_fmt_index = sof_ipc4_init_output_audio_fmt(sdev, swidget,
-+								  &process->base_config,
-+								  available_fmt,
-+								  out_ref_rate,
-+								  out_ref_channels,
-+								  out_ref_valid_bits);
-+		if (output_fmt_index < 0)
-+			return output_fmt_index;
- 
--		pin_fmt = &available_fmt->output_pin_fmts[fmt_index];
-+		pin_fmt = &available_fmt->output_pin_fmts[output_fmt_index];
- 
- 		/* copy Pin output format for Pin 0 only */
- 		if (pin_fmt->pin_index == 0) {
-@@ -2409,6 +2516,9 @@ static int sof_ipc4_prepare_process_module(struct snd_sof_widget *swidget,
- 		}
- 	}
- 
-+	sof_ipc4_dbg_module_audio_format(sdev->dev, swidget, available_fmt,
-+					 input_fmt_index, output_fmt_index);
-+
- 	/* update pipeline memory usage */
- 	sof_ipc4_update_resource_usage(sdev, swidget, &process->base_config);
- 
--- 
-2.47.0
+Driver auto-detection I couldn't check due to missing hw.
 
