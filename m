@@ -1,95 +1,61 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 102011DE8A0;
-	Tue,  8 Oct 2024 12:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx3.molgen.mpg.de (mx3.molgen.mpg.de [141.14.17.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5085A1DDA15
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 12:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=141.14.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728391045; cv=none; b=C5Nj2lIqJFloji42YYkWqpIisgtwP7/p0BNHtwSsbbZr9P1JiOtSX/YCfeDkfcxxvOI6bJpXwwRQt6II20WP3dL9g43jE4V0nNOHyr5+w7L61hMALpS43jYxX4LKLaFZjX9tFX/VX12wgEwkpMXbnr2jVcSlN3owZMC4de/yxek=
+	t=1728391063; cv=none; b=SOk23FfWx7dwB012xBivWPSkDuQuv+lczqM7REyTNswVkjef+wlAvippvxrLJ/YT/vhDOiiOkRpOH1ZkNjJq6MNZ1Up29I2ZJaXWqnT+QCVq75ZbM9CngdXQ/dlBZ2j9oKSDyiIWSxMwYwlqri0jZC6XksmwuHhSUfuOOjzchPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728391045; c=relaxed/simple;
-	bh=v+WEtr9dY35jpvsZbM+NVqKIkmPufzTrm8bl+Rlh480=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mcoW4JI1celDHkNP8DoL1DXwkH+5GnMWV4i2jRj2k3w1RyHZGVFvnkSV+KPxBlyjLww8KGJ7EeZ0Bur75Z/VS7VlcX0VV74u5OzMe+tFy4Cy8ziji4u1wcX3l/BfHMdM7fMRvtqpxAfOVijggwNfBTrgEFBZuicLi9Zjooqpip4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFD66DA7;
-	Tue,  8 Oct 2024 05:37:52 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 073183F73F;
-	Tue,  8 Oct 2024 05:37:20 -0700 (PDT)
-Date: Tue, 8 Oct 2024 13:37:18 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 6/6] arm64: dts: allwinner: h616: Add audio codec node
-Message-ID: <20241008133718.3ed32cb8@donnerap.manchester.arm.com>
-In-Reply-To: <20240929100750.860329-7-ryan@testtoast.com>
-References: <20240929100750.860329-1-ryan@testtoast.com>
-	<20240929100750.860329-7-ryan@testtoast.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1728391063; c=relaxed/simple;
+	bh=QFh7IBQeHm4s7IvdYnHG3fF9KsefTOagdwQuTEJqaGM=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=PrcxLh80lr0iaLJW6i6/8pyZU8NaVvLSkoQPO52I9MILK/OwZU5r1yNdoExN5yOKOr9McZqroxypxXZXAsOg3A38agflk9DxS08nt3DPMJNR4xFD0LwfiyyQ8eCXTrt6dSewUeFGAkvyBOKVvjsZM5EnYSLRvPbjYrdNqy0Uz1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de; spf=pass smtp.mailfrom=molgen.mpg.de; arc=none smtp.client-ip=141.14.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=molgen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=molgen.mpg.de
+Received: from [172.18.249.96] (ip-185-104-138-68.ptr.icomera.net [185.104.138.68])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pmenzel)
+	by mx.molgen.mpg.de (Postfix) with ESMTPSA id 6CCF26005B94B;
+	Tue,  8 Oct 2024 14:37:15 +0200 (CEST)
+Message-ID: <a302343f-e4a0-46d8-b67f-a834129c12c3@molgen.mpg.de>
+Date: Tue, 8 Oct 2024 14:34:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+From: Paul Menzel <pmenzel@molgen.mpg.de>
+Subject: Small distortion in `speaker-test -t sine` when changing the volume
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 29 Sep 2024 23:06:07 +1300
-Ryan Walklin <ryan@testtoast.com> wrote:
+Dear Linux folks,
 
-Hi Ryan,
 
-> Now that the sun4i codec driver supports the H616, add a node in the
-> device tree for it.
+On the Intel Kaby Lake laptop Dell XPS 13 9360/0596KF, BIOS 2.21.0 
+06/02/2022, with Realtek ALC3246, while debugging a distortion with 
+*mpv* 0.38.0-1+b1 and *pipewire* 1.2.5-1, I noticed, `speaker-test -t 
+sine` works without crackling/distorting, but when changing the volume 
+with the function keys or the slider in the GNOME Shell’s system menu 
+[1] or the GNOME settings, there is a small distortion at each step.
 
-Can you please add another patch that actually enables the codec for at
-least one board? Is that really just status = "okay";? Or do we need
-simple-soundcard nodes still?
-I will try to give it a test on the H61* boards I have, and would then
-like those boards to be enabled as well, as part of this series. Otherwise
-it's somewhat of a dead feature, isn't it?
+I am currently using Debian sid/unstable with GNOME and PipeWire and 
+Linux 6.12-rc1+ (upload of `/sbin/alsa-info` [2]).
 
-Cheers,
-Andre
 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> index e88c1fbac6acc..006fdb7e7e0ae 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> @@ -645,6 +645,21 @@ spdif: spdif@5093000 {
->  			status = "disabled";
->  		};
->  
-> +		codec: codec@05096000 {
-> +			#sound-dai-cells = <0>;
-> +			compatible = "allwinner,sun50i-h616-codec";
-> +			reg = <0x05096000 0x31c>;
-> +			interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks = <&ccu CLK_BUS_AUDIO_CODEC>,
-> +				 <&ccu CLK_AUDIO_CODEC_1X>,
-> +				 <&ccu CLK_AUDIO_CODEC_4X>;
-> +			clock-names = "apb", "codec", "audio-codec-4x";
-> +			resets = <&ccu RST_BUS_AUDIO_CODEC>;
-> +			dmas = <&dma 6>;
-> +			dma-names = "tx";
-> +			status = "disabled";
-> +		};
-> +
->  		gpadc: adc@5070000 {
->  			compatible = "allwinner,sun50i-h616-gpadc",
->  				     "allwinner,sun20i-d1-gpadc";
+Kind regards,
 
+Paul
+
+
+[1]: 
+https://help.gnome.org/users/gnome-help/stable/shell-introduction.html.en#systemmenu
+[2]: https://alsa-project.org/db/?f=fd6d250cc2e3bb36c407188a56932ffe36aec1c1
