@@ -1,260 +1,115 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABBB1E498;
-	Tue,  8 Oct 2024 16:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397DD1DF98F;
+	Tue,  8 Oct 2024 16:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728403542; cv=none; b=OHLmQkVdS/ZG4jwM3G62DQOJPOVF+WiTQjGP/bDhyhgLipnweHagaSa6Ghj+EPW5uvma7/gd4TevXtgfC89NhfK1lzhFS26b1nTGUKtblSV9v+R8/KLW9MrV1aAbrZtPMD1zTnow/OJgvfCh1pZ3eONksUujk45iCV17mGkZ+Tg=
+	t=1728406033; cv=none; b=d8zvPUZzSHVSwCRPJzqFQMFMOd+vjVL3SYo9KXSMddLCI2rIGdfqO7TjUDGmsLT4Eit9Urm+NYpCB8jULveMBOc5IabaaJR8AgKUMicqa2Jyf45NYfMEv22XZjqC1ts9Agna5haFPAHjRZK5gcd4v3nOoytB5wsokUMD6zV09R8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728403542; c=relaxed/simple;
-	bh=ZbRbJWwNF/AeE+LMzcHvqOo/xGfNRwPvyy6wdQeCbdw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AFXHP6yfqVLm8lqPCxmPxhMq42FhVuRwtpGg/3U6m9HJovzM3+9+P0BpL6NY56pKJjPZY4qWhpUGJBkO4nXUSm9zQqdhuqof+mYzsNRpJOJhTKUc78kLhhv1+i/FTJ1G7UIf9ilTXCRlWY28AAbj7NuGRG/l77yXpJSqa8PL21g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PQbvDA3A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=TD7EfFCD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nW1hY0pT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WuUBlFIg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728406033; c=relaxed/simple;
+	bh=7NpC9Z9fSFmu/ab7qLKOm3zCtcWbKx6S274Oh3JiwRA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HKncbgOqNUTVLqZTuomwt41hjtuxCQAZWoPrmYDx5mdPfxW+Ig0L7ITLTZrhWHDZoZur5eyQYT1/aB4Yv2qA3ZYfced/ivHPsVIQPeXJEQ1eNpvVAc529WMjVV+dpEddYeiW2jPqY59E3bTFR1PvVSwL52zhFSWFvfDwwihkFAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L59ZEzJw; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PQbvDA3A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TD7EfFCD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nW1hY0pT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WuUBlFIg"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D728E1FB62;
-	Tue,  8 Oct 2024 16:05:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728403539; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
-	b=PQbvDA3A29L5c7TybvH5QZhfHoWgXcMT0f8L+HeIg1k0Gah4tbF6I//g4pJJ+kWvwoQ5pY
-	nlAdc5XycZ0bMEysQWGINQjk4KVBWjma4Kmj3A9M66at5aHtpXZTxsKyPOnS73DcPBvsiI
-	pdBDzYWLwo7neeTCuuvDrK6jzVVwPpk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728403539;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
-	b=TD7EfFCDPM9puXHqYvfsBGD2JAS0sp9CWTdfoUMUxZXJ1wGy3BDHFBH+ObTjE0GokbB+JM
-	NiQxtcZRiNpU+uDw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=nW1hY0pT;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WuUBlFIg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728403538; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
-	b=nW1hY0pTajWkJO4JzR5jgscOX9qwXucwrOKmGlSs3t42phsVJBneMX9kl6ARW8H+fKt7Gb
-	H9WpY/BzKO8n7WgyDpC5bB6PgA+tv1NK38M7N5aum+q5UJMBMSvHFnqfK61o9i4cIZnSNT
-	Klg/8MvS9Apw8AiN9S8elztxAxpkAHA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728403538;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cCIaegWAbU/B2iHGEWQDJjBxW35IPdzC29ItdoN3sd0=;
-	b=WuUBlFIgBdrp5Szv8iLXSl6Pa4w1E6B8RnpbHt6ynQVNJ6GArenLfhQOaoy98QxWObhw+H
-	DMQHiTVHQynKFNBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 992111340C;
-	Tue,  8 Oct 2024 16:05:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bAoQJFJYBWddQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 08 Oct 2024 16:05:38 +0000
-Date: Tue, 08 Oct 2024 18:06:34 +0200
-Message-ID: <87a5fevat1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Christoffer Sandberg <cs@tuxedo.de>
-Cc: Jerry Luo <jerryluo225@gmail.com>,
-	christian@heusel.eu,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	regressions@lists.linux.dev,
-	wse@tuxedocomputers.com
-Subject: Re: [REGRESSION][BISECTED] Audio volume issues since 4178d78cd7a8
-In-Reply-To: <8734lcmd01.wl-tiwai@suse.de>
-References: <87jzfbh5tu.wl-tiwai@suse.de>
-	<ea6e5168-238f-41f5-9600-36b75ed990a1@gmail.com>
-	<87jzetk2l0.wl-tiwai@suse.de>
-	<b38b5947482a5ca4b55e0ddb908c2f34@tuxedo.de>
-	<87seteli51.wl-tiwai@suse.de>
-	<d348ca06-38ca-474f-8673-dff2248331e5@gmail.com>
-	<dbc783cc2608ac63ffd420b1dc3eeaa9@tuxedo.de>
-	<87iku8mfzh.wl-tiwai@suse.de>
-	<8292a0dccbdcfcaebfb04bd84aa240e6@tuxedo.de>
-	<8734lcmd01.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L59ZEzJw"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9968114422so146828166b.2;
+        Tue, 08 Oct 2024 09:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728406030; x=1729010830; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2870U45LetmQ5voKNhtmgAXoj6GNIRWVFzGUh+2Lh68=;
+        b=L59ZEzJwkRtt/Z3C+Kv7psQb+Y4JIhazbxWkSpFJ6kJ7QXPHGe+o0Pdoj9GScjIOPW
+         86cLmINNx1m3q9k+6VNooWfY7fHFLyef97Rnm422m2bqjErlSTsSE9DlQ8ItYZA8ZP++
+         KzUt5psTHyFCtRj1BVDBKKy0F/ptdVzOTK7Eh8ORFZim3SJAiC1JJ0+N9n94+LMEUXL+
+         QFt5QExBDauIDvYnftxnUZWhJ9NtJczP5x9Jpy5WO90siAmumd7l2f82ZPl52h2hznuF
+         T49ZMDy6uKLGGmErS1+RYJ5MFmn2BA3cqe/MTcV9lyphyGaZngeo9HB8m0MAaMXOsZfm
+         q/dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728406030; x=1729010830;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2870U45LetmQ5voKNhtmgAXoj6GNIRWVFzGUh+2Lh68=;
+        b=BIv5M7CI/J3lthTAPzy1g2PDs3HE8S5WxNEmE/P98ZuA1Hy0vrnMGM+YLrEU+Y0UBu
+         YLx4jNZ211X9ZwrlEeOQQNcWl3x29RHWS6lWG3XoGUCjOPwkaPmEZ6zfpG2X3mINkYsa
+         5KKmbxdPH5etVzvg887dvjbJLugJ03HF+VraUZbrkQrJRxqPMxWoPbhIBV172+MbeAuU
+         2Ar9LycGLJg6GSvsaZJT5TUh6vtL4abci7e+1vnp//LTDgqdDdMeTuO+LajSj+Ud69fq
+         vUERLvYRGZxbNgVqgwSwoCg4h+o77ulIx1SuVg5K7XEJ7qP5YYVwrQrrrwKs5zpLVCGK
+         NByw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/+WqEegbBmTj6jTmmEOLzJPNR+3q+YXUAvCfPbZmRwWTeTG2QIZIEYclMN8dgiQmnjm46rb0SHbWP8jY=@vger.kernel.org, AJvYcCX3QEUJRnwIAntl6VdL1szK20YWI3E4Sr0jFFfV5OK7kuTN0vWMZbkKj/4ja4oKMW+0sGWh4Y5q12CigOE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3MmPp0ctavaZ0zcPnERyAGBcO1mvQ0xemafDjB0oo5tpEX44r
+	TKwugBgDd6879XCsfXPcmjqeNQSYhTX/XGkPvGoCcnvp0Yo0BlRw
+X-Google-Smtp-Source: AGHT+IF+XZHN0TT5GTel1+0328M9dhDXstpCb+Q7drWou1Rx1UqVJsoDXSnf886iLFXfzfs6mXSzsA==
+X-Received: by 2002:a17:907:7248:b0:a99:5110:7a4d with SMTP id a640c23a62f3a-a99511081f3mr895919666b.61.1728406030247;
+        Tue, 08 Oct 2024 09:47:10 -0700 (PDT)
+Received: from localhost (craw-09-b2-v4wan-169726-cust2117.vm24.cable.virginm.net. [92.238.24.70])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994f3806cdsm332075466b.118.2024.10.08.09.47.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 09:47:08 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Oder Chiou <oder_chiou@realtek.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jack Yu <jack.yu@realtek.com>,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of values into uninitialized variable ret
+Date: Tue,  8 Oct 2024 17:47:07 +0100
+Message-Id: <20241008164707.203792-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: D728E1FB62
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,heusel.eu,vger.kernel.org,perex.cz,lists.linux.dev,tuxedocomputers.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 04 Oct 2024 11:30:22 +0200,
-Takashi Iwai wrote:
-> 
-> On Fri, 04 Oct 2024 11:25:32 +0200,
-> Christoffer Sandberg wrote:
-> > 
-> > 
-> > 
-> > On 4.10.2024 10:25, Takashi Iwai wrote:
-> > > On Fri, 04 Oct 2024 10:18:10 +0200,
-> > > Christoffer Sandberg wrote:
-> > >> 
-> > >> 
-> > >> 
-> > >> On 2.10.2024 23:28, Jerry Luo wrote:
-> > >> > On 10/2/24 10:00 AM, Takashi Iwai wrote:
-> > >> >> On Wed, 02 Oct 2024 10:21:22 +0200,
-> > >> >> Christoffer Sandberg wrote:
-> > >> >>>
-> > >> >>>
-> > >> >>> On 30.9.2024 09:44, Takashi Iwai wrote:
-> > >> >>>> On Mon, 23 Sep 2024 21:37:42 +0200,
-> > >> >>>> Jerry Luo wrote:
-> > >> >>>>>
-> > >> >>>>> Hi Takashi,
-> > >> >>>>>
-> > >> >>>>> On Mon, 16 Sep 2024 19:22:05 +0200,
-> > >> >>>>>
-> > >> >>>>> Takashi Iwai wrote:
-> > >> >>>>>
-> > >> >>>>>      Could you give alsa-info.sh output from both working and
-> > >> >>>>> non-working
-> > >> >>>>>      cases?  Run the script with --no-upload option and attach the
-> > >> >>>>> outputs.
-> > >> >>>>>
-> > >> >>>>>      thanks,
-> > >> >>>>>
-> > >> >>>>>      Takashi
-> > >> >>>>>
-> > >> >>>>> Issue now reappear, output from alsa-info.sh are attached. If they
-> > >> >>>>> are still
-> > >> >>>>> needed.
-> > >> >>>> Thanks.  The obvious difference seems to be the assignment of two
-> > >> >>>> DACs
-> > >> >>>> 0x10 and 0x11 for headphone and speaker outputs.
-> > >> >>>>
-> > >> >>>> Christoffer, how are those on your machines?
-> > >> >>> I attached alsa-info from the Sirius Gen2 device.
-> > >> >>>
-> > >> >>> Comparing the working/nonworking of Jerry, yeah, the assignment of
-> > >> >>> 0x10 and 0x11 looks switched around. I don't see what difference this
-> > >> >>> would make. Also, node 0x22 has "bass speaker" controls in the
-> > >> >>> non-working version.
-> > >> >>>
-> > >> >>> Comparing the Sirius Gen2 alsa-info with Jerrys, to me it looks like
-> > >> >>> the non-working version corresponds to our working version.
-> > >> >>>
-> > >> >>> I would expect the non-working version to happen all the time though
-> > >> >>> with regards to the "bass speaker" controls. Why would this only
-> > >> >>> happen sometimes?
-> > >> >> Thanks!  The assignment of DACs depend on the pins and topology, so it
-> > >> >> can be a bit sensitive.
-> > >> >>
-> > >> >> Now looking more closely at both outputs, I wonder how the commit
-> > >> >> breaks pang14.  Maybe it has a PCI SSID 2782:12c5 (or 12c3) while the
-> > >> >> codec SSID is 2782:12b3?  If so, the patch below should fix.
-> > >> 
-> > >> Interesting, you're right, PCI SSID c3/c5 and codec SSID c3/c5 for the
-> > >> Siriuses.
-> > >> 
-> > >> I had a look around. In patch_realtek there are some cases where codec
-> > >> SSID match is needed as well. Would it be better/safer to directly do
-> > >> this immediately or keep it as an exception where it breaks or for
-> > >> known sensitive models/brands?
-> > > 
-> > > It needs a better handling, yes.  OTOH, the driver became gigantic and
-> > > it's very tough to change the basic matching stuff.  That is, we can't
-> > > flip from PCI SSID to codec SSID out of sudden, as it'll break
-> > > certainly many other systems.
-> > > 
-> > > What I have in mind is to add an extra flag to the matching table to
-> > > indicate the codec SSID matching, something like:
-> > > 
-> > > --- a/sound/pci/hda/hda_local.h
-> > > +++ b/sound/pci/hda/hda_local.h
-> > > @@ -282,6 +282,7 @@ struct hda_fixup {
-> > >  	int type;
-> > >  	bool chained:1;		/* call the chained fixup(s) after this */
-> > >  	bool chained_before:1;	/* call the chained fixup(s) before this */
-> > > +	bool match_codec_ssid:1; /* match with codec SSID instead of
-> > > PCI SSID */
-> > >  	int chain_id;
-> > >  	union {
-> > >  		const struct hda_pintbl *pins;
-> > > 
-> > 
-> > Sounds reasonable to me. It would mean either-or then though.
-> 
-> Ah yes, it matches primarily with codec SSID instead of fallback.
-> I guess if this flag is set, we shouldn't check PCI SSID, though.
-> 
-> > > Although this will help in this case, many of existing code do check
-> > > codec ID in addition to PCI SSID, and this flag won't help for them as
-> > > is.
-> > 
-> > For the fixups where codec SSID is already known for all cases it
-> > would be possible to represent current logic with matching both SSIDs.
-> > 
-> > Otherwise I can not judge whether matching both PCI SSID and codec
-> > SSID at the same time would be needed.
-> > 
-> > In any case, your approach would reduce code size if this is a
-> > recurring thing.
-> 
-> OK, I'll try to prepare a cleanup patch later.
+There are a handful of bit-wise or'ing of values into the uninitialized
+variable ret resulting in garbage results. Fix this by ininitializing
+ret to zero.
 
-It turned out that my original idea above wasn't applicable, as we
-want to filter out rather in the quirk table, not the target.
-So I ended up with another patch and submitted shortly ago:
-  https://lore.kernel.org/20241008120233.7154-1-tiwai@suse.de
+Fixes: bbca8e7050e0 ("ASoC: rt-sdw-common: Common functions for Realtek soundwire driver")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ sound/soc/codecs/rt-sdw-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/sound/soc/codecs/rt-sdw-common.c b/sound/soc/codecs/rt-sdw-common.c
+index 9ed0e9855699..a422da6cf702 100644
+--- a/sound/soc/codecs/rt-sdw-common.c
++++ b/sound/soc/codecs/rt-sdw-common.c
+@@ -101,21 +101,21 @@ EXPORT_SYMBOL_GPL(rt_sdca_index_update_bits);
+  * rt_sdca_btn_type - Decision of button type.
+  *
+  * @buffer: UMP message buffer.
+  *
+  * A button type will be returned regarding to buffer,
+  * it returns zero if buffer cannot be recognized.
+  */
+ int rt_sdca_btn_type(unsigned char *buffer)
+ {
+ 	u8 btn_type = 0;
+-	int ret;
++	int ret = 0;
+ 
+ 	btn_type |= buffer[0] & 0xf;
+ 	btn_type |= (buffer[0] >> 4) & 0xf;
+ 	btn_type |= buffer[1] & 0xf;
+ 	btn_type |= (buffer[1] >> 4) & 0xf;
+ 
+ 	if (btn_type & BIT(0))
+ 		ret |= SND_JACK_BTN_2;
+ 	if (btn_type & BIT(1))
+ 		ret |= SND_JACK_BTN_3;
+-- 
+2.39.5
 
-Takashi
