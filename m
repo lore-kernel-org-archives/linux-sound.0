@@ -1,40 +1,40 @@
-Received: from msa.smtpout.orange.fr (smtp-76.smtpout.orange.fr [80.12.242.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B712B9BB;
-	Tue,  8 Oct 2024 05:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D4C41A80;
+	Tue,  8 Oct 2024 05:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728365615; cv=none; b=KqkDtil1cy82SSIHTVLckCdJFOfUHHkf+fiwYRTyvoLnkhVHXnlxvDlO1eywpLHhBy0AhHN3o06gAwO726W74qf0uCcwZA7XFmYPKfbSMThGClDKLcGuqq8uc852MSSQeF1/t9oRMEEO7WCDYhVKGPh1iBdnm5m3WoknDBLJVXA=
+	t=1728366248; cv=none; b=u7/xo9Rj6gFjmFUhV4Ydsjx0xzAtparVz0UbC1FQGhVxraG14kLoT+7WBMEOTLxFrZmzOOynAJnJnHANPwv57NvJigUp7exYRN3j84VNGY7QEvQGzMTm9jwGtUqUkkwkdzGgddyFN47zeQkeksn3RN6wmeIb9O3rzRR8GnFIzrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728365615; c=relaxed/simple;
-	bh=9ni54QSrdwSHq7d2+a5BcIF4MYsHCRqrUkKPaPuMo3o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LSQjHzzAWXeEY3nSHxsoXNp7+iTiO4GLEUEjXVJaOmzQ2NXEzC/4pmMfGsH+ym3wgVeuKqSYUCXdnGsnyIkzNvuIqc6gcQpoGLceQ6l1sYBOeN0oVICbG12utc7ZfLbuUvVni+Nb5Y6RmwpqSTTPLyCe25RP4TvAbUF8zouOwOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=llvyWqoK; arc=none smtp.client-ip=80.12.242.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1728366248; c=relaxed/simple;
+	bh=Xb9IyN/BjczzIKS+5VBCUuKTg9ywM9OoG7zOpHGmm3I=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Ag6MQ+Zr8heW85qGUE6OpH3e8zvQ4G+L+g+LqGhGTiQIlNvOyGf+mMYKutF0DnclSQUolrzwTjHt0qmZen2P6mH9y/Ua386FEjJmS3W7zCsVDbSnlPKPrv2ejpCtIFD7k0xUpkR0eVZWDqh8fTl3qHg5lTtNBMKHdSaqn0gpzoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=tJ5ul+FK; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="llvyWqoK"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id y2hYsjl8DMzKhy2hYsly9M; Tue, 08 Oct 2024 07:24:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1728365048;
-	bh=hoL86RdTqQ8BynHJyVQv0VQLGn74SF5+hgmDuDEGZHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=llvyWqoKgOPDkgmksNGiAUZvkK9V6Ms4sg6ksdFktnf2OfAxAUXxSsW8f55g+KyfF
-	 XarA9mB0f9e1N2TBaRxuvhRt2WcYHpBtFshE6SrOzxuoqpGaArHesAxMNxKaCiXWK8
-	 AilL1N5oM/grhXMI8+sqpCIvhhGjvI+P96yDN0T8gcZGewzXYqp6/muGDQoWjSxRiY
-	 +WDPbgyogFQ/ZL6i6DfYFdqxnV+7ZfYdGyx+2ybBiicC1IQI1OZFuOHTrp7w5XyBf4
-	 1r114NLHeWkkV53KA/nTeH9Bg9XRYP/D3QTx1Df+xZDrkgXx5nvzyHzDmwjSSjcGr/
-	 SLU2k+haLLvhg==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Tue, 08 Oct 2024 07:24:08 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <a5517624-6e26-497a-bcc7-84d7dd786d5c@wanadoo.fr>
-Date: Tue, 8 Oct 2024 07:24:03 +0200
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="tJ5ul+FK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728366218; x=1728971018; i=markus.elfring@web.de;
+	bh=4529eXuxU0IwSjtA7nBJzenTECqC44WFLa8QbCE90lY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=tJ5ul+FKTzgF+hpHnfQ6tA6XaWVFfI4VrHnAsVmKblf3cDzEH5hQrWv+4Q+9nlkj
+	 smgnnvLyz16T+C6sZDdNBJonORtdSMXQJ9+UymBq3VIhjcitjh3VJXVQel05FDOXl
+	 UK7E44iVg+0xohycTicZPRDoZaRx2bbHe/8nok06d1eRCDhdYNmDlNsX7DOONWt9v
+	 2e8X3KM5UHDNrDy9jEMh6x/QZXBRMiEsdiTeHHVvzI2Ut0I64KDC7N2Qtga89HEbM
+	 vayvl0r7suSUW601ZF3CglqcSfp7C05MMMi1iVTHeDCxGa5EqHLs/GGxIyRM19pgK
+	 FIgpwuozSSpjg167AQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MFJnh-1tDmbL0Tqj-00HOQm; Tue, 08
+ Oct 2024 07:43:38 +0200
+Message-ID: <8dc6b92a-7906-4f03-969d-b61ed981f4d9@web.de>
+Date: Tue, 8 Oct 2024 07:43:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,46 +42,64 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Sound:mixer:Remove unnecessary assignment of sprintf
- result in build_mixer_unit_ctl
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>, perex@perex.cz
-Cc: tiwai@suse.com, k.kosik@outlook.com, xristos.thes@gmail.com,
- wangdicheng@kylinos.cn, kl@kl.wtf, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241008033022.11280-1-zhujun2@cmss.chinamobile.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241008033022.11280-1-zhujun2@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
+ "Geoffrey D. Bennett" <g@b4.vu>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20241008031947.10906-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH] ALSA: scarlett2: Add error check after retrieving PEQ
+ filter values
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241008031947.10906-1-zhujun2@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:X1AD2u4/j5Ib9W4sKmZG3jmvbTw2qxBLv5zbc2IVcZGA2f6bHht
+ k+o2WWpxTsfm1S9Ci87pMeX/Q2V3SiKvUBvv4q97wRuiDR/sbze2AkiybucW4RUm1HMTfbj
+ zRUliQtMR1E+Q6RRbGxsHKDWSik+dNyz39p0yAO6WQ5KMif57GCtWEROTuAPnxxq1VlvDKh
+ ZUBPczkxMa/oHY8EzoVIQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OAi+U4NDlRY=;RhKN1QOTYX8TZTruDebMi4krkoi
+ 502BccoegT29g0lZ5R478msPAeme1vKlP02e38vn4vUWXwP/7fxsaomyzezlVtwHgagK1GDem
+ FCke41YQvuaBHREu3u+JfyjgkkYXPJMWm6pRx1lUBPiUZJiZgCKjBikGoYRhtfGoyD1vFFGLS
+ gEtMclOhKFhBWnKFixJGY8q0zleH31HJx3jx7X+lRLMTHLzgeaAsV+pEVaAbrpJ0RAwRgecfC
+ 87qxn8oRZxi7sRhQu/aET3v6BMgu0Nf/dnnqZudkchTF6RU3g3Bmzh3yYvNpJ/YtQ9APbE2mh
+ 1pWCsGz5oVIRANdBm0qzSov+0NEScj+6bu5frdmBJAvopiDHPXvp/APDEaoGi6928Q5ChJAOK
+ BgGSPXUCn7vasA45BCCDtDRuGMVlzN+Rn7c8ruW//2Bx7cZ2OK8KH0vDuhuCrhk+NRsTvnzrq
+ J9Ycnw5h5/YtDbGBoiPLaTtXfGvgqXjDHHbQ0PEQeWN7lEE3Q4JkrTd9ARBreQsqSMbNVWgIB
+ yFzUC4Vd5SXCjYMWl3yNr6ZkPzoQTAkNi9thgiirvBRGsEmKsXrPEA87+/BRIcLLDVQcmtmyA
+ jHBuJ54OtLKIkwOMiiQjaPpvJO8uBMkxpnKty7xtdKwcyfpR19DRKeoS+Wkt1CmRs1Zs/bwrL
+ qbgEV53e45qHk08u7jT8anR3zL6aBoeOMEn+lIJVkg6q9SK/DlL97QjXsc3+gNDUknUR2wLpi
+ 3OfJHjfLR8UaAMwvgfnSjfGe0UGzhUPIricE6hsVXjbjjZGW5nTigOxA3yPs4oWwoisVsApDB
+ 9wHb01parRtwnMn5n4XrfkIw==
 
-Le 08/10/2024 à 05:30, Zhu Jun a écrit :
-> Simplified code by removing redundant assignment of sprintf return value
-> 
-> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
-> ---
->   sound/usb/mixer.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-> index 9945ae55b0d0..dea6cbd65667 100644
-> --- a/sound/usb/mixer.c
-> +++ b/sound/usb/mixer.c
-> @@ -2224,7 +2224,8 @@ static void build_mixer_unit_ctl(struct mixer_build *state,
->   		len = get_term_name(state->chip, iterm, kctl->id.name,
->   				    sizeof(kctl->id.name), 0);
->   	if (!len)
-> -		len = sprintf(kctl->id.name, "Mixer Source %d", in_ch + 1);
-> +		sprintf(kctl->id.name, "Mixer Source %d", in_ch + 1);
+Please check the subsystem specification once more.
+
+
+> Add error check after retrieving PEQ filter values in scarlett2_update_f=
+ilter_values
+> that ensure function returns error if PEQ filter value retrieval fails
+
+* It is usually preferred to end a sentence with a dot, isn't it?
+
+* Would you like to add any tags (like =E2=80=9CFixes=E2=80=9D and =E2=80=
+=9CCc=E2=80=9D) accordingly?
+
+
+=E2=80=A6
+> +++ b/sound/usb/mixer_scarlett2.c
+> @@ -5614,6 +5614,9 @@ static int scarlett2_update_filter_values(struct u=
+sb_mixer_interface *mixer)
+>  			SCARLETT2_BIQUAD_COEFFS,
+>  		peq_flt_values);
+>
+> +	if (err < 0)
+> +		return err;
 > +
->   	append_ctl_name(kctl, " Volume");
->   
->   	usb_audio_dbg(state->chip, "[%d] MU [%s] ch = %d, val = %d/%d\n",
+>  	for (i =3D 0, dst_idx =3D 0; i < info->dsp_input_count; i++) {
+=E2=80=A6
 
-Hi,
+I suggest to omit a blank line before the return value check.
 
-even if not needed, using snprintf() with the same sizeof() as in 
-append_ctl_name() would be nice, IMHO.
-
-CJ
-
+Regards,
+Markus
