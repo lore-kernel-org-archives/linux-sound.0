@@ -1,77 +1,59 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B461E1C0E;
-	Tue,  8 Oct 2024 08:33:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C962113AA45
+	for <linux-sound@vger.kernel.org>; Tue,  8 Oct 2024 08:37:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728376397; cv=none; b=Uuz/0ooDn94DhqmDGhN3mzjaYjrpxBHF4FmHos2OjBlb2M5k06thQtVOA2FABjH1YBw8L337TPeV3Veqm8kqkuII3uUWG2/UUxIP3RseW6SsQgG6UZQ4V7eMkDpjSjkor+00g/S3JoD5pXhP0B54Y0uFb44x3rhuvorlZFc0uO4=
+	t=1728376622; cv=none; b=AVfo1anbmnt+TPAVslyf7fR2aAN3EIjG6cWdgJVS7C5/YczCVMhlzpQT2vLwR1UdT3BZwAaCXfw5w14gcOsXppwapCBmsNdd3wj7Nkm3PvoI6/GQki2r7ueSGPvJs143xCbOOfsIUbJbjYuihRIwQXTxV1iio+pPGCIJAquVK18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728376397; c=relaxed/simple;
-	bh=Wi/Ne+shDHOFqw+Lugm22uvGCgtt/bIev0jwFPOvR2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pB4iQjfLwnZchu1HSsUzTUDJeoAitMFfihNSJ8iMcr6kLuybhmT4ISUBdymi7GvOX/mYo4Hn7F6JEJyzOsFHvMlmJ9UjHVnUMnybWIq4UVFx4OWwBMZ9s59IGyuIM3AqeY7SM2NDhafT80vnC2xPLq1uXuqCWJ+IAG7/bM8+3IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=POSKCKOp; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728376622; c=relaxed/simple;
+	bh=0hbOu5GgtmPrRJNSCbgk5glOcGtwVa/ASUN5MLnhxPA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=goYqQumUAkQYO+yzYVXxGZEhpxRTQ+YRHNnNFsWxvgbybOO6jnh1rvBe0LlYWiFtDpbUOclsrBqUA/8BhqssZlsFemKkZV7QfzLiOlI0tZhBtsIbggvTzumpu1P53LHeHTmbw5gm4uiKuNw9upkhmywYv+vkTY0zmS7WmhHxSgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BE1aoJ6H; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="POSKCKOp"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9EFBD1C000A;
-	Tue,  8 Oct 2024 08:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728376392;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TmLP/WI1VtrRBkIucS2941CxDdB37ieasR6WFFSWafs=;
-	b=POSKCKOpM0S5Rro9I7JX/yFDGVQEbxnQfOlbhvDuVflBTc9b0oQzIQp7fKtzf6mJwdOQ+0
-	Ea9yaFhepRPa3MqaYNcDO/VEW6QLHJqANEHtweXO5D876vZq8tICxDlfjrmrbTDnklWsBz
-	0pAYroBCDAgXQON2fmL69ED1dgdlzDy5jho/yQO5tqH0EdwHwUBc86MuNxTZZ0aBcTJr+T
-	UHYVDWD5LAAELveRyE4v2cHZeoPtNyyU8w7VYOZiIGEcGGrpmUancBz/ZYPglMSFDCCVy6
-	Izc1kwXhCGbPtsztfFaqEyh0UYZq966m3DrL4DrW+CqDmsEUQlcF0xSAXpcASQ==
-Date: Tue, 8 Oct 2024 10:33:06 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Julian Vetter <jvetter@kalrayinc.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Guo Ren <guoren@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, WANG
- Xuerui <kernel@xen0n.name>, Andrew Morton <akpm@linux-foundation.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Richard Henderson
- <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
- Matt Turner <mattst88@gmail.com>, "James E . J . Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Richard
- Weinberger <richard@nod.at>, Anton Ivanov
- <anton.ivanov@cambridgegreys.com>, Johannes Berg
- <johannes@sipsolutions.net>, Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Niklas
- Schnelle <schnelle@linux.ibm.com>, Manivannan Sadhasivam
- <manivannan.sadhasivam@linaro.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-csky@vger.kernel.org, loongarch@lists.linux.dev,
- linux-m68k@lists.linux-m68k.org, linux-alpha@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-sh@vger.kernel.org,
- linux-um@lists.infradead.org, linux-arch@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-sound@vger.kernel.org, Yann Sionneau
- <ysionneau@kalrayinc.com>
-Subject: Re: [PATCH v8 13/14] mtd: Add HAS_IOMEM || INDIRECT_IOMEM
- dependency
-Message-ID: <20241008103306.44123824@xps-13>
-In-Reply-To: <20241008075023.3052370-14-jvetter@kalrayinc.com>
-References: <20241008075023.3052370-1-jvetter@kalrayinc.com>
-	<20241008075023.3052370-14-jvetter@kalrayinc.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BE1aoJ6H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728376621; x=1759912621;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0hbOu5GgtmPrRJNSCbgk5glOcGtwVa/ASUN5MLnhxPA=;
+  b=BE1aoJ6H+b1BVtHDG7+4d92Mgx4KXknOo374TIcSAVTCcgSmFxB+0vKU
+   6p3bFuXtu0qWmhCvVn9N58mPJksDECkHesYdfIOuC4CSJzM7Cv43MVthv
+   jpE8BFfwo2QuHK8Gh1HIMDE7WO3cKWlfG/1tgU+Ae8up1xDCQu3O0fyjL
+   Mf/+rYmI+STZtIQcpyPOLJFYZ4jh+N224BNpDolfYKQU3DxqyjKTOAf7K
+   M1CIOLYCc6nYcuKL/sZf3eHGocLe+sjKHbpAst12TTyyMV7no64xh4FEn
+   6yQ5aa08b2nUBgL82u5Eq65wsmncj/XqFGupWUL/vFZ5XbVqMTNhXqOQR
+   A==;
+X-CSE-ConnectionGUID: 3wh8kjMLR5Syy/M5hIMSlw==
+X-CSE-MsgGUID: 7XCpUgJeQJmi2/7J35ngWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11218"; a="27502340"
+X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
+   d="scan'208";a="27502340"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2024 01:37:00 -0700
+X-CSE-ConnectionGUID: FB9RZ9zDTAeoL8NERKGWXQ==
+X-CSE-MsgGUID: LF3GjmdmQ9KbjGhiboyLfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,186,1725346800"; 
+   d="scan'208";a="106605353"
+Received: from dev2.igk.intel.com ([10.237.148.94])
+  by orviesa002.jf.intel.com with ESMTP; 08 Oct 2024 01:36:57 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?=C5=81ukasz=20Majczak?= <lma@chromium.org>,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: avs: Update stream status in a separate thread
+Date: Tue,  8 Oct 2024 10:37:58 +0200
+Message-Id: <20241008083758.756578-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -79,92 +61,120 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hi Julian,
+Function snd_pcm_period_elapsed() is part of sequence servicing HDAudio
+stream IRQs. It's called under Global Interrupt Enable (GIE) disabled -
+no HDAudio interrupts will be raised. At the same time, the function may
+end up calling __snd_pcm_xrun() or snd_pcm_drain_done(). On the
+avs-driver side, this translates to IPCs and as GIE is disabled, these
+will never complete successfully.
 
-jvetter@kalrayinc.com wrote on Tue,  8 Oct 2024 09:50:21 +0200:
+Improve system stability by scheduling stream-IRQ handling in a separate
+thread.
 
-> The UM arch doesn't have HAS_IOMEM=3Dy, so the build fails because the
-> functions memcpy_fromio and memcpy_toio are not defined anymore. These
-> functions are only build for targets which have HAS_IOMEM=3Dy or
-> INDIRECT_IOMEM=3Dy. So, depend on either of the two.
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+---
+ sound/soc/intel/avs/core.c |  3 ++-
+ sound/soc/intel/avs/pcm.c  | 19 +++++++++++++++++++
+ sound/soc/intel/avs/pcm.h  | 16 ++++++++++++++++
+ 3 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/intel/avs/pcm.h
 
-There are many mtd drivers using memcpy_fromio and memcpy_toio, I'm not
-sure I get why only this subset of drivers would be impacted?
+diff --git a/sound/soc/intel/avs/core.c b/sound/soc/intel/avs/core.c
+index da7bac09acb4e..73d4bde9b2f78 100644
+--- a/sound/soc/intel/avs/core.c
++++ b/sound/soc/intel/avs/core.c
+@@ -28,6 +28,7 @@
+ #include "avs.h"
+ #include "cldma.h"
+ #include "messages.h"
++#include "pcm.h"
+ 
+ static u32 pgctl_mask = AZX_PGCTL_LSRMD_MASK;
+ module_param(pgctl_mask, uint, 0444);
+@@ -247,7 +248,7 @@ static void hdac_stream_update_pos(struct hdac_stream *stream, u64 buffer_size)
+ static void hdac_update_stream(struct hdac_bus *bus, struct hdac_stream *stream)
+ {
+ 	if (stream->substream) {
+-		snd_pcm_period_elapsed(stream->substream);
++		avs_period_elapsed(stream->substream);
+ 	} else if (stream->cstream) {
+ 		u64 buffer_size = stream->cstream->runtime->buffer_size;
+ 
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index afc0fc74cf941..4af8115803568 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -16,6 +16,7 @@
+ #include <sound/soc-component.h>
+ #include "avs.h"
+ #include "path.h"
++#include "pcm.h"
+ #include "topology.h"
+ #include "../../codecs/hda.h"
+ 
+@@ -30,6 +31,7 @@ struct avs_dma_data {
+ 		struct hdac_ext_stream *host_stream;
+ 	};
+ 
++	struct work_struct period_elapsed_work;
+ 	struct snd_pcm_substream *substream;
+ };
+ 
+@@ -56,6 +58,22 @@ avs_dai_find_path_template(struct snd_soc_dai *dai, bool is_fe, int direction)
+ 	return dw->priv;
+ }
+ 
++static void avs_period_elapsed_work(struct work_struct *work)
++{
++	struct avs_dma_data *data = container_of(work, struct avs_dma_data, period_elapsed_work);
++
++	snd_pcm_period_elapsed(data->substream);
++}
++
++void avs_period_elapsed(struct snd_pcm_substream *substream)
++{
++	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
++	struct snd_soc_dai *dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct avs_dma_data *data = snd_soc_dai_get_dma_data(dai, substream);
++
++	schedule_work(&data->period_elapsed_work);
++}
++
+ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+ {
+ 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+@@ -77,6 +95,7 @@ static int avs_dai_startup(struct snd_pcm_substream *substream, struct snd_soc_d
+ 	data->substream = substream;
+ 	data->template = template;
+ 	data->adev = adev;
++	INIT_WORK(&data->period_elapsed_work, avs_period_elapsed_work);
+ 	snd_soc_dai_set_dma_data(dai, substream, data);
+ 
+ 	if (rtd->dai_link->ignore_suspend)
+diff --git a/sound/soc/intel/avs/pcm.h b/sound/soc/intel/avs/pcm.h
+new file mode 100644
+index 0000000000000..0f3615c903982
+--- /dev/null
++++ b/sound/soc/intel/avs/pcm.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright(c) 2024 Intel Corporation
++ *
++ * Authors: Cezary Rojewski <cezary.rojewski@intel.com>
++ *          Amadeusz Slawinski <amadeuszx.slawinski@linux.intel.com>
++ */
++
++#ifndef __SOUND_SOC_INTEL_AVS_PCM_H
++#define __SOUND_SOC_INTEL_AVS_PCM_H
++
++#include <sound/pcm.h>
++
++void avs_period_elapsed(struct snd_pcm_substream *substream);
++
++#endif
+-- 
+2.34.1
 
-Also, from a general standpoint, I don't see with a good eye the
-proliferation of the use of || INDIRECT_IOMEM just for the um
-architecture:
-
-$ git grep HAS_IOMEM | wc -l
-611
-$ git grep INDIRECT_IOMEM | wc -l
-15
-
-I believe the Kconfig symbol should adapt to reflect the fact that IO
-operations are fine, regardless of their type ("direct" or "indirect")
-rather than move the load on the individual drivers.
-
-> Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
-> Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
-> ---
-> Changes for v8:
-> - New patch
-> ---
->  drivers/mtd/chips/Kconfig | 4 ++++
->  drivers/mtd/lpddr/Kconfig | 1 +
->  2 files changed, 5 insertions(+)
->=20
-> diff --git a/drivers/mtd/chips/Kconfig b/drivers/mtd/chips/Kconfig
-> index 19726ebd973d..78afe7ccf005 100644
-> --- a/drivers/mtd/chips/Kconfig
-> +++ b/drivers/mtd/chips/Kconfig
-> @@ -4,6 +4,7 @@ menu "RAM/ROM/Flash chip drivers"
-> =20
->  config MTD_CFI
->  	tristate "Detect flash chips by Common Flash Interface (CFI) probe"
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	select MTD_GEN_PROBE
->  	select MTD_CFI_UTIL
->  	help
-> @@ -16,6 +17,7 @@ config MTD_CFI
-> =20
->  config MTD_JEDECPROBE
->  	tristate "Detect non-CFI AMD/JEDEC-compatible flash chips"
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	select MTD_GEN_PROBE
->  	select MTD_CFI_UTIL
->  	help
-> @@ -211,12 +213,14 @@ config MTD_CFI_UTIL
-> =20
->  config MTD_RAM
->  	tristate "Support for RAM chips in bus mapping"
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	help
->  	  This option enables basic support for RAM chips accessed through
->  	  a bus mapping driver.
-> =20
->  config MTD_ROM
->  	tristate "Support for ROM chips in bus mapping"
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	help
->  	  This option enables basic support for ROM chips accessed through
->  	  a bus mapping driver.
-> diff --git a/drivers/mtd/lpddr/Kconfig b/drivers/mtd/lpddr/Kconfig
-> index 0395aa6b68f1..f35dd8052abc 100644
-> --- a/drivers/mtd/lpddr/Kconfig
-> +++ b/drivers/mtd/lpddr/Kconfig
-> @@ -4,6 +4,7 @@ menu "LPDDR & LPDDR2 PCM memory drivers"
-> =20
->  config MTD_LPDDR
->  	tristate "Support for LPDDR flash chips"
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	select MTD_QINFO_PROBE
->  	help
->  	  This option enables support of LPDDR (Low power double data rate)
-
-
-Thanks,
-Miqu=C3=A8l
