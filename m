@@ -1,940 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4809D18E36F
-	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 08:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017B818A92F
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 08:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728462819; cv=none; b=vE196DlwR+g+z/wCVsHnjdOQ3tHkrU7WbMGBYpDUm0VlxjQqnHL1Ihz2j8+KlUEG5u97m19juIrAGg1TSd2nVxQovAJ/9GV/fsJ8KLEv3icmXAQ758xncwlGmkDoxBqRd45Fp36+7D410+z+NHwGDWz3fxHr8TItLpdivvGGqLU=
+	t=1728463005; cv=none; b=mWhKkv5O0N5AleFrSMBWVu6Y4kaslhtfNnboavawYSr93lGnP5rYJrKTtOl/ABORMRAphA0YX4gkBEg8IEAJ2UVleqGjuT9hSs7mrFxGaVjCU3G1By2EIoqWlsUq1krKfQ/yAIDZkBYipDVfMZdYly5I9wLTCuDXD3wTa0ypQ0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728462819; c=relaxed/simple;
-	bh=crSmf+95f57d59G5pd81SwMTfwANEPybtPQ93QF9USw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Zwb4on8HoAXBKmbHUS8uev8xVo38ph7PIOMLmIZ7+HirFY14YQA5D5r1v9+V+UQRzARFwQ1slWawQZKG/EreKIMY6AFt4pxiZCjO447AVLed9Nn1cjSdY7isKVAS4/Mxc5DFP6+ghC+d9zHMW539h4L34QFg85O6eHc/NVs6djc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AheFU2HY; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728463005; c=relaxed/simple;
+	bh=bwupmCthuGaQS+qMZ/7SrXy7Oyd/5BoNqSfbGXSX0bk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JaKeQCwfqdknGuiD0lkA31ISJZevLt7sh7f4/tQIl0nQghnDTQCQItFcxappCRycezyOBBsQYcN/z1mq302Ipo/8T5VxfZbw295ruedbOdQdVY8JHAJNNcuEXS5FQgNuzPahtimTnfr6ULjuKDbw/QnYUNQKguGOmI/rNbdGW5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c2YPoBJL; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AheFU2HY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728462817; x=1759998817;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=crSmf+95f57d59G5pd81SwMTfwANEPybtPQ93QF9USw=;
-  b=AheFU2HYTIgEhZByb7zoIBUwVVLVYKyXYowaVne0OYV0jl6/X1C/UGqr
-   JRGzfHnM+EI4QO9p955MGqWgaQmSlpFRPKI8jgdKqJPE12J1w1DO3wwKO
-   mlGWsed9K403HcWuQwYuT2Gy2b2BoHjftarrlOVbFT8CwSGXRZ80tH2+A
-   TaxumRX/nPg1zZ+qndXa1yh6FSJ/ZrcT9r+W7JAC6HMYWmnBQSWRA3z7e
-   fQSzjEVVZfGSZl9zoEp+ZONLmp6fpLjwPKcpvtAs30Vcsyp56vL9NZ6C4
-   Mxx5oVWc5Hba4lOZWtkpG3MNjf9Y8lO2iTC5nmgbyZTYJhRFPYVkl5tt2
-   Q==;
-X-CSE-ConnectionGUID: Aof2Tnv4RtC/3XgLfPZa2A==
-X-CSE-MsgGUID: opMEschrS12MB0Ytinl8XQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38335123"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="38335123"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 01:33:33 -0700
-X-CSE-ConnectionGUID: aSXJ8M3ITdOBAS2lGd1ZUQ==
-X-CSE-MsgGUID: 4lW8eBmLRZGzItxCKkRbEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
-   d="scan'208";a="75834694"
-Received: from dev2.igk.intel.com ([10.237.148.94])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Oct 2024 01:33:31 -0700
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c2YPoBJL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728463001;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mOyNV1blUkGi8SBN/l2nmGqTH8tAJ4tec1wRLOcI2Z8=;
+	b=c2YPoBJLb3+dibEsK193hHusnbThaSYTbjnwgisk4TP6N364RwPgMlF4RKqlJyj5zeBSnB
+	WhZGuS49/b272eItXbIyLuXz43grN01icKcPQ9oNfu6zignJOyhCQ/pJNfeoiFRc5nE/it
+	HX30RBDGEjUbcTUbGtw1MfZE95rQv9k=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-RBv0fQCVO1-i_QovOG0OiA-1; Wed, 09 Oct 2024 04:36:39 -0400
+X-MC-Unique: RBv0fQCVO1-i_QovOG0OiA-1
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7afc3f4faaaso255632485a.0
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 01:36:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728462999; x=1729067799;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mOyNV1blUkGi8SBN/l2nmGqTH8tAJ4tec1wRLOcI2Z8=;
+        b=dN/yQJ8Zma/TMaPzO5xR+ryBNCW/IngjdYPCBB2QtoCUTG98xUx4bOx0dexLYpy2vE
+         MiXae9AMXKEgjUC5viQV67BvcApOckpiv7OWCZWSZcqI1KwmVnorC9ugZAZJnN5yPuee
+         Tiq60k1+/6XLpUCsR0MygQcouNjTJRPdjEBUscGlsQEierh4VssJzpdp+lMwg3zXoVMr
+         2KYc9kY/AvWtH8Xnmb72biyvmpxXicBRdfnJa3tOOpLSoE0TWu2LeD02Ht9wOhr3Wdz9
+         cH6GERv0IgWl/KR7U3l5yof/UsYMzgKApTGbqKX1LgR1ATIpVDQ1cXvVKiQI6hx4FnSm
+         9GLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV1/AnSBEpQvwtK9EO2XcTicwfihWDZOpYR6czjZp9cEiCCUwqfY5JAjpdDOG+Q84JHotKZbsISC6FsMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywrxg08+lvMNI3i5DYVJrNIRK8+lxk8ojTpZ6tRgTEDIy9OPKLN
+	k97ta2nLetmMp6bGJHpVpR7KosOOSXlH0gMHtGzh9EyEZ2go7cgMp1xF/RvoiHOxzTXF3iTPD1Z
+	c/qG6iJsHDCsDO6LWZt6zThf/FzAKDyjILZcTv+Y1S/P36Hn7lx8qveV/wzdH
+X-Received: by 2002:a05:620a:29c7:b0:7a2:1db:e286 with SMTP id af79cd13be357-7b0874cd670mr234481785a.52.1728462999257;
+        Wed, 09 Oct 2024 01:36:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFU56nfNbRn4xRa9L06f5Bja7V/qokH03xrDBZWS39o5ckdxWurQft3H7j0iSjtDvnBZDt4+Q==
+X-Received: by 2002:a05:620a:29c7:b0:7a2:1db:e286 with SMTP id af79cd13be357-7b0874cd670mr234479185a.52.1728462998841;
+        Wed, 09 Oct 2024 01:36:38 -0700 (PDT)
+Received: from eisenberg.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75615aa2sm439643585a.14.2024.10.09.01.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 01:36:38 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ASoC: Intel: Remove unused code
-Date: Wed,  9 Oct 2024 10:34:19 +0200
-Message-Id: <20241009083419.319038-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	Takashi Iwai <tiwai@suse.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Ye Bin <yebin10@huawei.com>,
+	=?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>
+Cc: linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-sound@vger.kernel.org
+Subject: [RFC PATCH 00/13] Remove implicit devres from pci_intx()
+Date: Wed,  9 Oct 2024 10:35:06 +0200
+Message-ID: <20241009083519.10088-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.46.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-After removal of Skylake driver there is no users left for sst-dsp and
-sst-ipc interfaces. Remove them.
+Hi all,
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
----
- sound/soc/intel/Kconfig               |   3 -
- sound/soc/intel/common/Makefile       |   3 -
- sound/soc/intel/common/sst-dsp-priv.h | 101 ---------
- sound/soc/intel/common/sst-dsp.c      | 250 ----------------------
- sound/soc/intel/common/sst-dsp.h      |  61 ------
- sound/soc/intel/common/sst-ipc.c      | 294 --------------------------
- sound/soc/intel/common/sst-ipc.h      |  86 --------
- 7 files changed, 798 deletions(-)
- delete mode 100644 sound/soc/intel/common/sst-dsp-priv.h
- delete mode 100644 sound/soc/intel/common/sst-dsp.c
- delete mode 100644 sound/soc/intel/common/sst-dsp.h
- delete mode 100644 sound/soc/intel/common/sst-ipc.c
- delete mode 100644 sound/soc/intel/common/sst-ipc.h
+this series removes a problematic feature from pci_intx(). That function
+sometimes implicitly uses devres for automatic cleanup. We should get
+rid of this implicit behavior.
 
-diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
-index a32fb0a8d7d7c..5bb7047c170f1 100644
---- a/sound/soc/intel/Kconfig
-+++ b/sound/soc/intel/Kconfig
-@@ -15,9 +15,6 @@ config SND_SOC_INTEL_SST_TOPLEVEL
- 
- if SND_SOC_INTEL_SST_TOPLEVEL
- 
--config SND_SOC_INTEL_SST
--	tristate
--
- config SND_SOC_INTEL_CATPT
- 	tristate "Haswell and Broadwell"
- 	depends on ACPI || COMPILE_TEST
-diff --git a/sound/soc/intel/common/Makefile b/sound/soc/intel/common/Makefile
-index 91e146e2487da..da551144ec0fd 100644
---- a/sound/soc/intel/common/Makefile
-+++ b/sound/soc/intel/common/Makefile
-@@ -1,6 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--snd-soc-sst-dsp-y := sst-dsp.o
--snd-soc-sst-ipc-y := sst-ipc.o
- snd-soc-acpi-intel-match-y := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-match.o \
- 	soc-acpi-intel-hsw-bdw-match.o \
- 	soc-acpi-intel-skl-match.o soc-acpi-intel-kbl-match.o \
-@@ -18,5 +16,4 @@ snd-soc-acpi-intel-match-y := soc-acpi-intel-byt-match.o soc-acpi-intel-cht-matc
- 
- snd-soc-acpi-intel-match-y += soc-acpi-intel-ssp-common.o
- 
--obj-$(CONFIG_SND_SOC_INTEL_SST) += snd-soc-sst-dsp.o snd-soc-sst-ipc.o
- obj-$(CONFIG_SND_SOC_ACPI_INTEL_MATCH) += snd-soc-acpi-intel-match.o
-diff --git a/sound/soc/intel/common/sst-dsp-priv.h b/sound/soc/intel/common/sst-dsp-priv.h
-deleted file mode 100644
-index de32bb9afccbd..0000000000000
---- a/sound/soc/intel/common/sst-dsp-priv.h
-+++ /dev/null
-@@ -1,101 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Intel Smart Sound Technology
-- *
-- * Copyright (C) 2013, Intel Corporation
-- */
--
--#ifndef __SOUND_SOC_SST_DSP_PRIV_H
--#define __SOUND_SOC_SST_DSP_PRIV_H
--
--#include <linux/kernel.h>
--#include <linux/types.h>
--#include <linux/interrupt.h>
--#include <linux/firmware.h>
--
--#include "../skylake/skl-sst-dsp.h"
--
--/*
-- * DSP Operations exported by platform Audio DSP driver.
-- */
--struct sst_ops {
--	/* Shim IO */
--	void (*write)(void __iomem *addr, u32 offset, u32 value);
--	u32 (*read)(void __iomem *addr, u32 offset);
--
--	/* IRQ handlers */
--	irqreturn_t (*irq_handler)(int irq, void *context);
--
--	/* SST init and free */
--	int (*init)(struct sst_dsp *sst);
--	void (*free)(struct sst_dsp *sst);
--};
--
--/*
-- * Audio DSP memory offsets and addresses.
-- */
--struct sst_addr {
--	u32 sram0_base;
--	u32 sram1_base;
--	u32 w0_stat_sz;
--	u32 w0_up_sz;
--	void __iomem *lpe;
--	void __iomem *shim;
--};
--
--/*
-- * Audio DSP Mailbox configuration.
-- */
--struct sst_mailbox {
--	void __iomem *in_base;
--	void __iomem *out_base;
--	size_t in_size;
--	size_t out_size;
--};
--
--/*
-- * Generic SST Shim Interface.
-- */
--struct sst_dsp {
--
--	/* Shared for all platforms */
--
--	/* runtime */
--	struct sst_dsp_device *sst_dev;
--	spinlock_t spinlock;	/* IPC locking */
--	struct mutex mutex;	/* DSP FW lock */
--	struct device *dev;
--	void *thread_context;
--	int irq;
--	u32 id;
--
--	/* operations */
--	struct sst_ops *ops;
--
--	/* debug FS */
--	struct dentry *debugfs_root;
--
--	/* base addresses */
--	struct sst_addr addr;
--
--	/* mailbox */
--	struct sst_mailbox mailbox;
--
--	/* SST FW files loaded and their modules */
--	struct list_head module_list;
--
--	/* SKL data */
--
--	const char *fw_name;
--
--	/* To allocate CL dma buffers */
--	struct skl_dsp_loader_ops dsp_ops;
--	struct skl_dsp_fw_ops fw_ops;
--	int sst_state;
--	struct skl_cl_dev cl_dev;
--	u32 intr_status;
--	const struct firmware *fw;
--	struct snd_dma_buffer dmab;
--};
--
--#endif
-diff --git a/sound/soc/intel/common/sst-dsp.c b/sound/soc/intel/common/sst-dsp.c
-deleted file mode 100644
-index cdd2f7cf50ae5..0000000000000
---- a/sound/soc/intel/common/sst-dsp.c
-+++ /dev/null
-@@ -1,250 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Intel Smart Sound Technology (SST) DSP Core Driver
-- *
-- * Copyright (C) 2013, Intel Corporation
-- */
--
--#include <linux/slab.h>
--#include <linux/export.h>
--#include <linux/interrupt.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/io-64-nonatomic-lo-hi.h>
--#include <linux/delay.h>
--
--#include "sst-dsp.h"
--#include "sst-dsp-priv.h"
--
--#define CREATE_TRACE_POINTS
--#include <trace/events/intel-sst.h>
--
--/* Internal generic low-level SST IO functions - can be overidden */
--void sst_shim32_write(void __iomem *addr, u32 offset, u32 value)
--{
--	writel(value, addr + offset);
--}
--EXPORT_SYMBOL_GPL(sst_shim32_write);
--
--u32 sst_shim32_read(void __iomem *addr, u32 offset)
--{
--	return readl(addr + offset);
--}
--EXPORT_SYMBOL_GPL(sst_shim32_read);
--
--void sst_shim32_write64(void __iomem *addr, u32 offset, u64 value)
--{
--	writeq(value, addr + offset);
--}
--EXPORT_SYMBOL_GPL(sst_shim32_write64);
--
--u64 sst_shim32_read64(void __iomem *addr, u32 offset)
--{
--	return readq(addr + offset);
--}
--EXPORT_SYMBOL_GPL(sst_shim32_read64);
--
--/* Public API */
--void sst_dsp_shim_write(struct sst_dsp *sst, u32 offset, u32 value)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&sst->spinlock, flags);
--	sst->ops->write(sst->addr.shim, offset, value);
--	spin_unlock_irqrestore(&sst->spinlock, flags);
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_write);
--
--u32 sst_dsp_shim_read(struct sst_dsp *sst, u32 offset)
--{
--	unsigned long flags;
--	u32 val;
--
--	spin_lock_irqsave(&sst->spinlock, flags);
--	val = sst->ops->read(sst->addr.shim, offset);
--	spin_unlock_irqrestore(&sst->spinlock, flags);
--
--	return val;
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_read);
--
--void sst_dsp_shim_write_unlocked(struct sst_dsp *sst, u32 offset, u32 value)
--{
--	sst->ops->write(sst->addr.shim, offset, value);
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_write_unlocked);
--
--u32 sst_dsp_shim_read_unlocked(struct sst_dsp *sst, u32 offset)
--{
--	return sst->ops->read(sst->addr.shim, offset);
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_read_unlocked);
--
--int sst_dsp_shim_update_bits_unlocked(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value)
--{
--	bool change;
--	unsigned int old, new;
--	u32 ret;
--
--	ret = sst_dsp_shim_read_unlocked(sst, offset);
--
--	old = ret;
--	new = (old & (~mask)) | (value & mask);
--
--	change = (old != new);
--	if (change)
--		sst_dsp_shim_write_unlocked(sst, offset, new);
--
--	return change;
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_update_bits_unlocked);
--
--/* This is for registers bits with attribute RWC */
--void sst_dsp_shim_update_bits_forced_unlocked(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value)
--{
--	unsigned int old, new;
--	u32 ret;
--
--	ret = sst_dsp_shim_read_unlocked(sst, offset);
--
--	old = ret;
--	new = (old & (~mask)) | (value & mask);
--
--	sst_dsp_shim_write_unlocked(sst, offset, new);
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_update_bits_forced_unlocked);
--
--int sst_dsp_shim_update_bits(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value)
--{
--	unsigned long flags;
--	bool change;
--
--	spin_lock_irqsave(&sst->spinlock, flags);
--	change = sst_dsp_shim_update_bits_unlocked(sst, offset, mask, value);
--	spin_unlock_irqrestore(&sst->spinlock, flags);
--	return change;
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_update_bits);
--
--/* This is for registers bits with attribute RWC */
--void sst_dsp_shim_update_bits_forced(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value)
--{
--	unsigned long flags;
--
--	spin_lock_irqsave(&sst->spinlock, flags);
--	sst_dsp_shim_update_bits_forced_unlocked(sst, offset, mask, value);
--	spin_unlock_irqrestore(&sst->spinlock, flags);
--}
--EXPORT_SYMBOL_GPL(sst_dsp_shim_update_bits_forced);
--
--int sst_dsp_register_poll(struct sst_dsp *ctx, u32 offset, u32 mask,
--			 u32 target, u32 time, char *operation)
--{
--	u32 reg;
--	unsigned long timeout;
--	int k = 0, s = 500;
--
--	/*
--	 * split the loop into sleeps of varying resolution. more accurately,
--	 * the range of wakeups are:
--	 * Phase 1(first 5ms): min sleep 0.5ms; max sleep 1ms.
--	 * Phase 2:( 5ms to 10ms) : min sleep 0.5ms; max sleep 10ms
--	 * (usleep_range (500, 1000) and usleep_range(5000, 10000) are
--	 * both possible in this phase depending on whether k > 10 or not).
--	 * Phase 3: (beyond 10 ms) min sleep 5ms; max sleep 10ms.
--	 */
--
--	timeout = jiffies + msecs_to_jiffies(time);
--	while ((((reg = sst_dsp_shim_read_unlocked(ctx, offset)) & mask) != target)
--		&& time_before(jiffies, timeout)) {
--		k++;
--		if (k > 10)
--			s = 5000;
--
--		usleep_range(s, 2*s);
--	}
--
--	if ((reg & mask) == target) {
--		dev_dbg(ctx->dev, "FW Poll Status: reg=%#x %s successful\n",
--					reg, operation);
--
--		return 0;
--	}
--
--	dev_dbg(ctx->dev, "FW Poll Status: reg=%#x %s timedout\n",
--					reg, operation);
--	return -ETIME;
--}
--EXPORT_SYMBOL_GPL(sst_dsp_register_poll);
--
--int sst_dsp_mailbox_init(struct sst_dsp *sst, u32 inbox_offset, size_t inbox_size,
--	u32 outbox_offset, size_t outbox_size)
--{
--	sst->mailbox.in_base = sst->addr.lpe + inbox_offset;
--	sst->mailbox.out_base = sst->addr.lpe + outbox_offset;
--	sst->mailbox.in_size = inbox_size;
--	sst->mailbox.out_size = outbox_size;
--	return 0;
--}
--EXPORT_SYMBOL_GPL(sst_dsp_mailbox_init);
--
--void sst_dsp_outbox_write(struct sst_dsp *sst, void *message, size_t bytes)
--{
--	u32 i;
--
--	trace_sst_ipc_outbox_write(bytes);
--
--	memcpy_toio(sst->mailbox.out_base, message, bytes);
--
--	for (i = 0; i < bytes; i += 4)
--		trace_sst_ipc_outbox_wdata(i, *(u32 *)(message + i));
--}
--EXPORT_SYMBOL_GPL(sst_dsp_outbox_write);
--
--void sst_dsp_outbox_read(struct sst_dsp *sst, void *message, size_t bytes)
--{
--	u32 i;
--
--	trace_sst_ipc_outbox_read(bytes);
--
--	memcpy_fromio(message, sst->mailbox.out_base, bytes);
--
--	for (i = 0; i < bytes; i += 4)
--		trace_sst_ipc_outbox_rdata(i, *(u32 *)(message + i));
--}
--EXPORT_SYMBOL_GPL(sst_dsp_outbox_read);
--
--void sst_dsp_inbox_write(struct sst_dsp *sst, void *message, size_t bytes)
--{
--	u32 i;
--
--	trace_sst_ipc_inbox_write(bytes);
--
--	memcpy_toio(sst->mailbox.in_base, message, bytes);
--
--	for (i = 0; i < bytes; i += 4)
--		trace_sst_ipc_inbox_wdata(i, *(u32 *)(message + i));
--}
--EXPORT_SYMBOL_GPL(sst_dsp_inbox_write);
--
--void sst_dsp_inbox_read(struct sst_dsp *sst, void *message, size_t bytes)
--{
--	u32 i;
--
--	trace_sst_ipc_inbox_read(bytes);
--
--	memcpy_fromio(message, sst->mailbox.in_base, bytes);
--
--	for (i = 0; i < bytes; i += 4)
--		trace_sst_ipc_inbox_rdata(i, *(u32 *)(message + i));
--}
--EXPORT_SYMBOL_GPL(sst_dsp_inbox_read);
--
--/* Module information */
--MODULE_AUTHOR("Liam Girdwood");
--MODULE_DESCRIPTION("Intel SST Core");
--MODULE_LICENSE("GPL v2");
-diff --git a/sound/soc/intel/common/sst-dsp.h b/sound/soc/intel/common/sst-dsp.h
-deleted file mode 100644
-index 998b1a0522816..0000000000000
---- a/sound/soc/intel/common/sst-dsp.h
-+++ /dev/null
-@@ -1,61 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Intel Smart Sound Technology (SST) Core
-- *
-- * Copyright (C) 2013, Intel Corporation
-- */
--
--#ifndef __SOUND_SOC_SST_DSP_H
--#define __SOUND_SOC_SST_DSP_H
--
--#include <linux/kernel.h>
--#include <linux/types.h>
--#include <linux/interrupt.h>
--
--struct sst_dsp;
--
--/*
-- * SST Device.
-- *
-- * This structure is populated by the SST core driver.
-- */
--struct sst_dsp_device {
--	/* Mandatory fields */
--	struct sst_ops *ops;
--	irqreturn_t (*thread)(int irq, void *context);
--	void *thread_context;
--};
--
--/* SHIM Read / Write */
--void sst_dsp_shim_write(struct sst_dsp *sst, u32 offset, u32 value);
--u32 sst_dsp_shim_read(struct sst_dsp *sst, u32 offset);
--int sst_dsp_shim_update_bits(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value);
--void sst_dsp_shim_update_bits_forced(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value);
--
--/* SHIM Read / Write Unlocked for callers already holding sst lock */
--void sst_dsp_shim_write_unlocked(struct sst_dsp *sst, u32 offset, u32 value);
--u32 sst_dsp_shim_read_unlocked(struct sst_dsp *sst, u32 offset);
--int sst_dsp_shim_update_bits_unlocked(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value);
--void sst_dsp_shim_update_bits_forced_unlocked(struct sst_dsp *sst, u32 offset,
--				u32 mask, u32 value);
--
--/* Internal generic low-level SST IO functions - can be overidden */
--void sst_shim32_write(void __iomem *addr, u32 offset, u32 value);
--u32 sst_shim32_read(void __iomem *addr, u32 offset);
--void sst_shim32_write64(void __iomem *addr, u32 offset, u64 value);
--u64 sst_shim32_read64(void __iomem *addr, u32 offset);
--
--/* Mailbox management */
--int sst_dsp_mailbox_init(struct sst_dsp *sst, u32 inbox_offset,
--	size_t inbox_size, u32 outbox_offset, size_t outbox_size);
--void sst_dsp_inbox_write(struct sst_dsp *sst, void *message, size_t bytes);
--void sst_dsp_inbox_read(struct sst_dsp *sst, void *message, size_t bytes);
--void sst_dsp_outbox_write(struct sst_dsp *sst, void *message, size_t bytes);
--void sst_dsp_outbox_read(struct sst_dsp *sst, void *message, size_t bytes);
--int sst_dsp_register_poll(struct sst_dsp  *ctx, u32 offset, u32 mask,
--		 u32 target, u32 time, char *operation);
--
--#endif
-diff --git a/sound/soc/intel/common/sst-ipc.c b/sound/soc/intel/common/sst-ipc.c
-deleted file mode 100644
-index 6b2c83f9f0107..0000000000000
---- a/sound/soc/intel/common/sst-ipc.c
-+++ /dev/null
-@@ -1,294 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Intel SST generic IPC Support
-- *
-- * Copyright (C) 2015, Intel Corporation
-- */
--
--#include <linux/types.h>
--#include <linux/kernel.h>
--#include <linux/list.h>
--#include <linux/wait.h>
--#include <linux/module.h>
--#include <linux/spinlock.h>
--#include <linux/device.h>
--#include <linux/slab.h>
--#include <linux/workqueue.h>
--#include <linux/sched.h>
--#include <linux/delay.h>
--#include <linux/platform_device.h>
--#include <sound/asound.h>
--
--#include "sst-dsp.h"
--#include "sst-dsp-priv.h"
--#include "sst-ipc.h"
--
--/* IPC message timeout (msecs) */
--#define IPC_TIMEOUT_MSECS	300
--
--#define IPC_EMPTY_LIST_SIZE	8
--
--/* locks held by caller */
--static struct ipc_message *msg_get_empty(struct sst_generic_ipc *ipc)
--{
--	struct ipc_message *msg = NULL;
--
--	if (!list_empty(&ipc->empty_list)) {
--		msg = list_first_entry(&ipc->empty_list, struct ipc_message,
--			list);
--		list_del(&msg->list);
--	}
--
--	return msg;
--}
--
--static int tx_wait_done(struct sst_generic_ipc *ipc,
--	struct ipc_message *msg, struct sst_ipc_message *reply)
--{
--	unsigned long flags;
--	int ret;
--
--	/* wait for DSP completion (in all cases atm inc pending) */
--	ret = wait_event_timeout(msg->waitq, msg->complete,
--		msecs_to_jiffies(IPC_TIMEOUT_MSECS));
--
--	spin_lock_irqsave(&ipc->dsp->spinlock, flags);
--	if (ret == 0) {
--		if (ipc->ops.shim_dbg != NULL)
--			ipc->ops.shim_dbg(ipc, "message timeout");
--
--		list_del(&msg->list);
--		ret = -ETIMEDOUT;
--	} else {
--
--		/* copy the data returned from DSP */
--		if (reply) {
--			reply->header = msg->rx.header;
--			if (reply->data)
--				memcpy(reply->data, msg->rx.data, msg->rx.size);
--		}
--		ret = msg->errno;
--	}
--
--	list_add_tail(&msg->list, &ipc->empty_list);
--	spin_unlock_irqrestore(&ipc->dsp->spinlock, flags);
--	return ret;
--}
--
--static int ipc_tx_message(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request,
--	struct sst_ipc_message *reply, int wait)
--{
--	struct ipc_message *msg;
--	unsigned long flags;
--
--	spin_lock_irqsave(&ipc->dsp->spinlock, flags);
--
--	msg = msg_get_empty(ipc);
--	if (msg == NULL) {
--		spin_unlock_irqrestore(&ipc->dsp->spinlock, flags);
--		return -EBUSY;
--	}
--
--	msg->tx.header = request.header;
--	msg->tx.size = request.size;
--	msg->rx.header = 0;
--	msg->rx.size = reply ? reply->size : 0;
--	msg->wait = wait;
--	msg->errno = 0;
--	msg->pending = false;
--	msg->complete = false;
--
--	if ((request.size) && (ipc->ops.tx_data_copy != NULL))
--		ipc->ops.tx_data_copy(msg, request.data, request.size);
--
--	list_add_tail(&msg->list, &ipc->tx_list);
--	schedule_work(&ipc->kwork);
--	spin_unlock_irqrestore(&ipc->dsp->spinlock, flags);
--
--	if (wait)
--		return tx_wait_done(ipc, msg, reply);
--	else
--		return 0;
--}
--
--static int msg_empty_list_init(struct sst_generic_ipc *ipc)
--{
--	int i;
--
--	ipc->msg = kcalloc(IPC_EMPTY_LIST_SIZE, sizeof(struct ipc_message),
--			   GFP_KERNEL);
--	if (ipc->msg == NULL)
--		return -ENOMEM;
--
--	for (i = 0; i < IPC_EMPTY_LIST_SIZE; i++) {
--		ipc->msg[i].tx.data = kzalloc(ipc->tx_data_max_size, GFP_KERNEL);
--		if (ipc->msg[i].tx.data == NULL)
--			goto free_mem;
--
--		ipc->msg[i].rx.data = kzalloc(ipc->rx_data_max_size, GFP_KERNEL);
--		if (ipc->msg[i].rx.data == NULL) {
--			kfree(ipc->msg[i].tx.data);
--			goto free_mem;
--		}
--
--		init_waitqueue_head(&ipc->msg[i].waitq);
--		list_add(&ipc->msg[i].list, &ipc->empty_list);
--	}
--
--	return 0;
--
--free_mem:
--	while (i > 0) {
--		kfree(ipc->msg[i-1].tx.data);
--		kfree(ipc->msg[i-1].rx.data);
--		--i;
--	}
--	kfree(ipc->msg);
--
--	return -ENOMEM;
--}
--
--static void ipc_tx_msgs(struct work_struct *work)
--{
--	struct sst_generic_ipc *ipc =
--		container_of(work, struct sst_generic_ipc, kwork);
--	struct ipc_message *msg;
--
--	spin_lock_irq(&ipc->dsp->spinlock);
--
--	while (!list_empty(&ipc->tx_list) && !ipc->pending) {
--		/* if the DSP is busy, we will TX messages after IRQ.
--		 * also postpone if we are in the middle of processing
--		 * completion irq
--		 */
--		if (ipc->ops.is_dsp_busy && ipc->ops.is_dsp_busy(ipc->dsp)) {
--			dev_dbg(ipc->dev, "ipc_tx_msgs dsp busy\n");
--			break;
--		}
--
--		msg = list_first_entry(&ipc->tx_list, struct ipc_message, list);
--		list_move(&msg->list, &ipc->rx_list);
--
--		if (ipc->ops.tx_msg != NULL)
--			ipc->ops.tx_msg(ipc, msg);
--	}
--
--	spin_unlock_irq(&ipc->dsp->spinlock);
--}
--
--int sst_ipc_tx_message_wait(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request, struct sst_ipc_message *reply)
--{
--	int ret;
--
--	/*
--	 * DSP maybe in lower power active state, so
--	 * check if the DSP supports DSP lp On method
--	 * if so invoke that before sending IPC
--	 */
--	if (ipc->ops.check_dsp_lp_on)
--		if (ipc->ops.check_dsp_lp_on(ipc->dsp, true))
--			return -EIO;
--
--	ret = ipc_tx_message(ipc, request, reply, 1);
--
--	if (ipc->ops.check_dsp_lp_on)
--		if (ipc->ops.check_dsp_lp_on(ipc->dsp, false))
--			return -EIO;
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(sst_ipc_tx_message_wait);
--
--int sst_ipc_tx_message_nowait(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request)
--{
--	return ipc_tx_message(ipc, request, NULL, 0);
--}
--EXPORT_SYMBOL_GPL(sst_ipc_tx_message_nowait);
--
--int sst_ipc_tx_message_nopm(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request, struct sst_ipc_message *reply)
--{
--	return ipc_tx_message(ipc, request, reply, 1);
--}
--EXPORT_SYMBOL_GPL(sst_ipc_tx_message_nopm);
--
--struct ipc_message *sst_ipc_reply_find_msg(struct sst_generic_ipc *ipc,
--	u64 header)
--{
--	struct ipc_message *msg;
--	u64 mask;
--
--	if (ipc->ops.reply_msg_match != NULL)
--		header = ipc->ops.reply_msg_match(header, &mask);
--	else
--		mask = (u64)-1;
--
--	if (list_empty(&ipc->rx_list)) {
--		dev_err(ipc->dev, "error: rx list empty but received 0x%llx\n",
--			header);
--		return NULL;
--	}
--
--	list_for_each_entry(msg, &ipc->rx_list, list) {
--		if ((msg->tx.header & mask) == header)
--			return msg;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(sst_ipc_reply_find_msg);
--
--/* locks held by caller */
--void sst_ipc_tx_msg_reply_complete(struct sst_generic_ipc *ipc,
--	struct ipc_message *msg)
--{
--	msg->complete = true;
--
--	if (!msg->wait)
--		list_add_tail(&msg->list, &ipc->empty_list);
--	else
--		wake_up(&msg->waitq);
--}
--EXPORT_SYMBOL_GPL(sst_ipc_tx_msg_reply_complete);
--
--int sst_ipc_init(struct sst_generic_ipc *ipc)
--{
--	int ret;
--
--	INIT_LIST_HEAD(&ipc->tx_list);
--	INIT_LIST_HEAD(&ipc->rx_list);
--	INIT_LIST_HEAD(&ipc->empty_list);
--	init_waitqueue_head(&ipc->wait_txq);
--
--	ret = msg_empty_list_init(ipc);
--	if (ret < 0)
--		return -ENOMEM;
--
--	INIT_WORK(&ipc->kwork, ipc_tx_msgs);
--	return 0;
--}
--EXPORT_SYMBOL_GPL(sst_ipc_init);
--
--void sst_ipc_fini(struct sst_generic_ipc *ipc)
--{
--	int i;
--
--	cancel_work_sync(&ipc->kwork);
--
--	if (ipc->msg) {
--		for (i = 0; i < IPC_EMPTY_LIST_SIZE; i++) {
--			kfree(ipc->msg[i].tx.data);
--			kfree(ipc->msg[i].rx.data);
--		}
--		kfree(ipc->msg);
--	}
--}
--EXPORT_SYMBOL_GPL(sst_ipc_fini);
--
--/* Module information */
--MODULE_AUTHOR("Jin Yao");
--MODULE_DESCRIPTION("Intel SST IPC generic");
--MODULE_LICENSE("GPL v2");
-diff --git a/sound/soc/intel/common/sst-ipc.h b/sound/soc/intel/common/sst-ipc.h
-deleted file mode 100644
-index 86d44ceadc926..0000000000000
---- a/sound/soc/intel/common/sst-ipc.h
-+++ /dev/null
-@@ -1,86 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * Intel SST generic IPC Support
-- *
-- * Copyright (C) 2015, Intel Corporation
-- */
--
--#ifndef __SST_GENERIC_IPC_H
--#define __SST_GENERIC_IPC_H
--
--#include <linux/types.h>
--#include <linux/kernel.h>
--#include <linux/wait.h>
--#include <linux/list.h>
--#include <linux/workqueue.h>
--#include <linux/sched.h>
--
--struct sst_ipc_message {
--	u64 header;
--	void *data;
--	size_t size;
--};
--
--struct ipc_message {
--	struct list_head list;
--	struct sst_ipc_message tx;
--	struct sst_ipc_message rx;
--
--	wait_queue_head_t waitq;
--	bool pending;
--	bool complete;
--	bool wait;
--	int errno;
--};
--
--struct sst_generic_ipc;
--struct sst_dsp;
--
--struct sst_plat_ipc_ops {
--	void (*tx_msg)(struct sst_generic_ipc *, struct ipc_message *);
--	void (*shim_dbg)(struct sst_generic_ipc *, const char *);
--	void (*tx_data_copy)(struct ipc_message *, char *, size_t);
--	u64  (*reply_msg_match)(u64 header, u64 *mask);
--	bool (*is_dsp_busy)(struct sst_dsp *dsp);
--	int (*check_dsp_lp_on)(struct sst_dsp *dsp, bool state);
--};
--
--/* SST generic IPC data */
--struct sst_generic_ipc {
--	struct device *dev;
--	struct sst_dsp *dsp;
--
--	/* IPC messaging */
--	struct list_head tx_list;
--	struct list_head rx_list;
--	struct list_head empty_list;
--	wait_queue_head_t wait_txq;
--	struct task_struct *tx_thread;
--	struct work_struct kwork;
--	bool pending;
--	struct ipc_message *msg;
--	int tx_data_max_size;
--	int rx_data_max_size;
--
--	struct sst_plat_ipc_ops ops;
--};
--
--int sst_ipc_tx_message_wait(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request, struct sst_ipc_message *reply);
--
--int sst_ipc_tx_message_nowait(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request);
--
--int sst_ipc_tx_message_nopm(struct sst_generic_ipc *ipc,
--	struct sst_ipc_message request, struct sst_ipc_message *reply);
--
--struct ipc_message *sst_ipc_reply_find_msg(struct sst_generic_ipc *ipc,
--	u64 header);
--
--void sst_ipc_tx_msg_reply_complete(struct sst_generic_ipc *ipc,
--	struct ipc_message *msg);
--
--int sst_ipc_init(struct sst_generic_ipc *ipc);
--void sst_ipc_fini(struct sst_generic_ipc *ipc);
--
--#endif
+To do so, a pci_intx() version that is always-managed, and one that is
+never-managed are provided. Then, all pci_intx() users are ported to the
+version they need. Afterwards, pci_intx() can be cleaned up and the
+users of the never-managed version be ported back to pci_intx().
+
+This way we'd get this PCI API consistent again.
+
+The last patch obviously reverts the previous patches that made drivers
+use pci_intx_unmanaged(). But this way it's easier to review and
+approve. It also makes sure that each checked out commit should provide
+correct behavior, not just the entire series as a whole.
+
+Merge plan for this would be to enter through the PCI tree.
+
+Please say so if you've got concerns with the general idea behind the
+RFC.
+
+Regards,
+P.
+
+Philipp Stanner (13):
+  PCI: Prepare removing devres from pci_intx()
+  ALSA: hda: hda_intel: Use always-managed version of pcim_intx()
+  drivers/xen: Use never-managed version of pci_intx()
+  net/ethernet: Use never-managed version of pci_intx()
+  net/ntb: Use never-managed version of pci_intx()
+  misc: Use never-managed version of pci_intx()
+  vfio/pci: Use never-managed version of pci_intx()
+  PCI: MSI: Use never-managed version of pci_intx()
+  ata: Use always-managed version of pci_intx()
+  staging: rts5280: Use always-managed version of pci_intx()
+  wifi: qtnfmac: use always-managed version of pcim_intx()
+  HID: amd_sfh: Use always-managed version of pcim_intx()
+  Remove devres from pci_intx()
+
+ drivers/ata/ahci.c                            |  2 +-
+ drivers/ata/ata_piix.c                        |  2 +-
+ drivers/ata/pata_rdc.c                        |  2 +-
+ drivers/ata/sata_sil24.c                      |  2 +-
+ drivers/ata/sata_sis.c                        |  2 +-
+ drivers/ata/sata_uli.c                        |  2 +-
+ drivers/ata/sata_vsc.c                        |  2 +-
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 ++--
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  2 +-
+ .../wireless/quantenna/qtnfmac/pcie/pcie.c    |  2 +-
+ drivers/pci/devres.c                          | 24 +++----------------
+ drivers/pci/pci.c                             | 14 +----------
+ drivers/staging/rts5208/rtsx.c                |  2 +-
+ include/linux/pci.h                           |  1 +
+ sound/pci/hda/hda_intel.c                     |  2 +-
+ 15 files changed, 18 insertions(+), 47 deletions(-)
+
 -- 
-2.34.1
+2.46.1
 
