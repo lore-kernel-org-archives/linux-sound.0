@@ -1,76 +1,100 @@
-Received: from cmccmta1.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2A07189528;
-	Wed,  9 Oct 2024 09:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2C518B46B;
+	Wed,  9 Oct 2024 09:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728467003; cv=none; b=FR4phiP+VTBXrkY410SDg+sGx+yGPgydQ/jv7I6a2fYS/jc7HvGPGboREcC6Zv9kYEGAJ4Ley+/RKpL1s+CI3m24rEVDVylI+aG5F32Dd/3f0HQ34vww+7Qn+SPhE0ijSW8Rd/WNdhlfY6dgyWBS8sg0zYcpoAf7Wlhrd5gyqUs=
+	t=1728467570; cv=none; b=q+NdF2yW4gNSWD7gtyKyr6QHMYZZSe0YWvC1BVUYgvTcFtZZUJi1ahh0LZuZlSaN3L24rb88GEpv8kp4G94i7nFpvhVOuD+Pgh9d+fl++xYXlCLBhpImmVrS+q0NN7YzVch4LRxgBwUcgUuwSC5SEyKBoUe7CrftohRd9ZlnpBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728467003; c=relaxed/simple;
-	bh=ZMe3jcm3jxvbtWEEvZCYgXS99N2gCSiit+fHXIdZ4KM=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=leV63Grd60Rfe2i25WL1CFfj2iuVbpe8hVotJE1bSK6DTvJg8bAYDj8UtZtQGBMVcQHRbsSsc1W/Qxc56gfaIrMWq3msyAPqVwy0wZhE6dryCiuX/zHOPc1Pj13ThHloRHAI554Gmz+h3vRvwubPOJ6wWbaY7Z0qDLDBSwJi89g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee4670650334aa-bdda8;
-	Wed, 09 Oct 2024 17:43:18 +0800 (CST)
-X-RM-TRANSID:2ee4670650334aa-bdda8
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from ubuntu.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee26706503301f-ef255;
-	Wed, 09 Oct 2024 17:43:18 +0800 (CST)
-X-RM-TRANSID:2ee26706503301f-ef255
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: tiwai@suse.com
-Cc: wangweidong.a@awinic.com,
-	perex@perex.cz,
-	andriy.shevchenko@linux.intel.com,
-	heiko@sntech.de,
-	nathan@kernel.org,
-	u.kleine-koenig@baylibre.com,
-	zhujun2@cmss.chinamobile.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: codecs: Fix error handling in aw_dev_get_dsp_status()
-Date: Wed,  9 Oct 2024 02:43:13 -0700
-Message-Id: <20241009094313.8820-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1728467570; c=relaxed/simple;
+	bh=b0ZbQneXmo6dvdqwYl843ohgOyb8+AdpviLApC1gU+g=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=CytNTPGz9VsmmzJh6RwK3NheZZVHSJHDotBViJbBeF71w7zg/GR1f1DR9HmgibpthCd9+cwTt5fRbVLeLz957g3NrtSMq5EmD13WCIAmkx5KLFHANaXuPixD771C/a7ehTDMgOLJtro1OA5ICn/xj0AJmtFJeY7hh0FzdIGgRTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=mQNccgmj; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="mQNccgmj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728467541; x=1729072341; i=markus.elfring@web.de;
+	bh=b0ZbQneXmo6dvdqwYl843ohgOyb8+AdpviLApC1gU+g=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=mQNccgmj+GGuMxY0hnCHZtsXw0MLprYAqGNGYzBtN6QpCxC95xN4jVOHeyEY26GP
+	 V496DoB/OczRyFbWyUacA0vuOJBl7/5rtUB4+M7Ukedc8ecvWpYB6Yng6iCwUA4p2
+	 f8SjLT25RLdzLf92fxVQLqafw+bowugIKs8AiQJtwuR29/h20El3B8XehQEIuYu1q
+	 gY1m+KD8UMBKKrYq46ZoykWbdVJI92nNqkX3F9/cTqvClYg8WcxnV7TyCu6grx2a8
+	 KFBCB0jl1hQfe6A1E5gS0zr5T9J3ZCygg3cCSTC3SkCckundJwn7N9wyP+DDhxF1E
+	 nBXDOSXqaqNYQcNOEQ==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MkElP-1tj7vg09If-00k7Ko; Wed, 09
+ Oct 2024 11:52:21 +0200
+Message-ID: <36ec69a0-4412-497b-9efc-fe9e980059ed@web.de>
+Date: Wed, 9 Oct 2024 11:52:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
+ "Geoffrey D. Bennett" <g@b4.vu>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Mark Brown <broonie@kernel.org>
+References: <20241009092305.8570-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH v2] ALSA: scarlett2: Add error check after retrieving PEQ
+ filter values
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241009092305.8570-1-zhujun2@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kwJKxbcCqTJXdcUoNSlif8Wg4Gd+7Xq/uXThOP/+wdPeTCN70+l
+ +qku761SoPK6W8HjEOj810tWDJ9QcXbEQA3EG27KCkU5bMUnC25KlIqTas9PCZl23PH+rY5
+ n03cMzhmY5w4sS+cM5PSsRDiIN6pE5UtP5M2kGBd/xPg7zg9UDmdOB9fMkeM0MPr/NGFCJu
+ 3ApFHGHMlh2rXGIkjAGmw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:rLOrM/0n6C0=;vDYcfc8q8mlJ+EFx7vGU6RrZF5j
+ 1baS06f2oKbS6Nip330vp/de6ZNvQxeXXwzrYxCD1jcn3tVW+ptlmYPplbVekzB5zDotahqK1
+ CNtC7WKox7h3NuAQla88ur18uwnSHe67qFxob36WPo1viEfWU+1RySLKABD3tCqmZRVlw6clj
+ nOIbA1nMOndh3CySrwqYswNdMcZrDUgLYbnOQJiqNlpEyt76VomlES7CnArbEKOQKZ9lNmfp8
+ ZF+2rEtHzcb+UcF+fPo04I9j/vCQqcK6+PxAJKNPLWuhOHY+N09450nsurCNWKjkq4J5N/x+n
+ 0GrZedCmDr3gPS32JAqkTI6cH4MQnsrkEXQjjwCgRJjR5YKHxFdN3cSn5CTnjTsuzpdsP7Di5
+ lkCLIxe5hKG1rHkdeHl9q+n70HUxvJVz979fBTbuGX1PykT+yKEUGJ/IgKpkcZB57WUllMvBR
+ Vl8K7/+RjDfQeGQCUFFBTGCBGL89YMOA6JREXS7uOWcVfOa3gbXNlYeQLkmLldXg7Vh9E5FH6
+ JkWaVyiEIO1noCG46peuwdYNjeOC9cqoZSsAELJGPFdpvg5ojfvhQHQB8kfUA20nEu/1MZ8K9
+ SumNPz8xWjde03gVIyJT3VyqxIvJTSaCywJxl+u9F3Bdxs6B+qo/cKTukxgqB1EBlA0bpbF8l
+ jJ2USnhg3MVa2u+NYuDhTkFZLTUA7NZ8g2vJKgBivjVVzZEcZ3fFqOOwUKg623wkX6YaRErEQ
+ I3Aedqg/AcauO11aG1maemtOvtcGhcjIgcaqVR4w8LBC+V36XGzI3sw2jt5WPY4TimBQtoLpJ
+ Uz4DRCH7U5SXA5g/DCoElzLg==
 
-Changed the error handling in aw_dev_get_dsp_status to return -EPERM directly
-instead of setting it to a variable.
+=E2=80=A6
+> Cc: <stable@vger.kernel.org>
 
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
----
-V1 -> V2:
-- add a dot after the commit
-- modify commit info
-
- sound/soc/codecs/aw88399.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/sound/soc/codecs/aw88399.c b/sound/soc/codecs/aw88399.c
-index 8dc2b8aa6832..bba59885242d 100644
---- a/sound/soc/codecs/aw88399.c
-+++ b/sound/soc/codecs/aw88399.c
-@@ -656,7 +656,7 @@ static int aw_dev_get_dsp_status(struct aw_device *aw_dev)
- 	if (ret)
- 		return ret;
- 	if (!(reg_val & (~AW88399_WDT_CNT_MASK)))
--		ret = -EPERM;
-+		return -EPERM;
- 
- 	return 0;
- }
--- 
-2.17.1
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n262
 
 
+> ---
+> V1 -> V2:
+> - commit wit a dot
 
+A dot was appended to a change description.
+
+
+> - add tag "Cc"
+=E2=80=A6
+
+Do you expect that the tag =E2=80=9CFixes=E2=80=9D will be added by an oth=
+er contributor finally?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n145
+
+Regards,
+Markus
