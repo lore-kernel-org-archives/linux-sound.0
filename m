@@ -1,265 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F14618E03E
-	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 10:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF7418FDA5;
+	Wed,  9 Oct 2024 11:13:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728471353; cv=none; b=BAYy/F1CwKLGputp9f5svyRjkIN8ImDs11NwZvq7Nkm+brW/gUk8kVoF4m5PHWgEzgAIQPbPRZ/j2qKB/xYXqir1ntzz4HyOEo22tDHzn7tAzxW+RGz3YeGyRlxuAmU0OEiqaXI9vc72uZAPtzpeLPVrEhOIcWT/Gj4L3Nxv6jg=
+	t=1728472391; cv=none; b=TAB0KL9E8AyqfJ3QSrppiZL1M8zTvNDxgtkEkVPIngtMtSonmN1c16g0T+uvlHpJEKGhYZRLNrtojGE4rZnTHwZSfbFVQu5zw5WmC/H/yPFu4RT5JDNUzeG0EcM2SfXZffI0mAvAjd3i7oHKJmuXNnEESW2KGhmAmFTOEAcszdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728471353; c=relaxed/simple;
-	bh=P6wOEJFH1gN3pSkiGKb7z2pqnwnI+EOwPE66fTmRo9I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zgka4osAkYe7aCamkfhJX0vq/t04b+bJreLrHs3sXsTxTTb5GN4ePOwSqNRnePYAjOt+mGfyuGkFy18Wgn7kiZxf9+Ld9p6o/2n1wGvFCvMKFfy7m86Xw97r5YbBKHAgoesy2aHKonaeWVIFPCEyERcyC7G7kXEv2gvU0sbSClM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UXGmAd/u; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1728472391; c=relaxed/simple;
+	bh=qX+mA08DLyAXi1H7Huu+eGvfQcA/tRypWuV1n8HMJ08=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=XhSMGu+fILB2M0t21GyJeCeLwY79uLKjmtJlLJk39F7vICclav7Dc3Ohjqdxm6rv17jpVMa5LyOmJ69MSoiNS3wu/3A+C8J2yoUfUgdHjsbvGWjASExMngtdLe3SRqm9q/zZvLo4epaGclw3vtyswsY5dr2YeFoHJueZW+qeV+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=CTmscKQS; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UXGmAd/u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728471350;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P6wOEJFH1gN3pSkiGKb7z2pqnwnI+EOwPE66fTmRo9I=;
-	b=UXGmAd/ueXQSn/ubVKycETMgPvnqcbMzwle74kYnWoMEhebollHM8MDV2txuKWVZCozMPX
-	kNrEnoRrZH5x1zEXDvYl+dhxxPTmnL9HVZF1xaB+J3j7k03oa3WnDVxBIUtE0mqWvhmVTG
-	blFopCum6ELHK9KO96pzznYvLq8XAg8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-373-wQfawKatMXOqfayEtQgZRw-1; Wed, 09 Oct 2024 06:55:49 -0400
-X-MC-Unique: wQfawKatMXOqfayEtQgZRw-1
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2e2a29fa586so674176a91.2
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 03:55:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728471348; x=1729076148;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AcZlzWYyN8UAcZA3DQr50bLqr6cMtcb31GCRb120JWk=;
-        b=So5j8XhRMd0vUyhle+ON23I6eDkbsTVw7CnAMK6mQPrZpLxwyUsH85y1F320st5frR
-         n9KJKvK4uNnVQ9S876eepryCUUCh4a2pUt1a71NzixTqUVvq7cFgCSoJPZQaukXlb6nU
-         j00DOFz9Tpsc+l081bMI/Fd3IwO7I5md99jEKyD1mSBH3slQAHkxzzJFB+gMNU3HbPHS
-         SNaN5LXKS7ENlLLM6OeBLZz4oNAj4ypoTFQZ1dAsIZ/MPhMbjvtPuZFcV+FXdmrfIeFP
-         4OtyeVsj/I9WpadFhGsQnF0CUHym2dJ69V30QSMnV1NiQvTcVbuA8NMO7rOj1Fmx72sH
-         r0KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWuPesBmBSQFOUcDA9KMU4jnDKPGEz50PcJ2+b9t98vJtFVHv8h2SAdaMbV91MxTLLSb0Yp2prLKENHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1z1r10Dd64KtX1Juoh/HupLczISEdRmMoliptJ0p5q5xcJ/UK
-	E5D5kNgZkPwcDRsCwr9U8c0rwUJ/GJc+l5FaiIw+nVjV57Dy00kpylewgV0YpSoFT4SKOTcCjoO
-	ItKVE6+Kjgu+62Q4RPRL1VuaJvjJE3W0z/pV8VxAyzhVbKf8EXFItAD6EGXc6
-X-Received: by 2002:a17:90b:28c7:b0:2e2:b21b:2247 with SMTP id 98e67ed59e1d1-2e2b21b2322mr933590a91.27.1728471348030;
-        Wed, 09 Oct 2024 03:55:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEVV2txsjAP9qEDQxARdGlpHpBZTxsJXvis+5//ouL/mBT0m0DdnB1NIlYvykMWn/28LY/iUQ==
-X-Received: by 2002:a17:90b:28c7:b0:2e2:b21b:2247 with SMTP id 98e67ed59e1d1-2e2b21b2322mr933536a91.27.1728471347607;
-        Wed, 09 Oct 2024 03:55:47 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2a365cb84sm1341556a91.0.2024.10.09.03.55.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 03:55:46 -0700 (PDT)
-Message-ID: <d6a78b6a3dec3e2371cced1382cd83d7dcf37426.camel@redhat.com>
-Subject: Re: [RFC PATCH 09/13] ata: Use always-managed version of pci_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
- Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
- Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
- Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
- Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
- <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- Marc Zyngier <maz@kernel.org>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev,
- kvm@vger.kernel.org,  xen-devel@lists.xenproject.org,
- linux-sound@vger.kernel.org
-Date: Wed, 09 Oct 2024 12:55:07 +0200
-In-Reply-To: <95b23ff9-eb17-4e1c-b7a3-2d3691ffc48f@kernel.org>
-References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <20241009083519.10088-10-pstanner@redhat.com>
-	 <95b23ff9-eb17-4e1c-b7a3-2d3691ffc48f@kernel.org>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="CTmscKQS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1728472343; x=1729077143; i=markus.elfring@web.de;
+	bh=CmiVees2hX0CJRf1Bpt/vCFWZaY/cbKkPONcZT2YXwE=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=CTmscKQS/R58YI8WwhE+yjKW9v/7O9kIudoNoyVPcxcMDY87UqaGw9j/Ev3Rykvq
+	 8y6uiD4ocauwKTNfeWSmKHqPlHsKVaIRSRRCgdGQxJXSveuhyM6b/yymXnmm7B1Bb
+	 NLNTwS4RmMkfpi8IIwESggGrKs7ILfMWBFl4jLgqlnOfRDO3NvdWENqmgNrH4Ax9n
+	 Q57tWUt+i4uiLzYp57qJzOln0JpOMdOb5146jZ8ARr6RvDvVMd8F1iZY5SKYgb+TR
+	 mztC435KLtNLoZFoRWh6IcuBnp85FUb6ruSirmJkqG9JnIC3xCKQmjh9l1dq7EUfn
+	 Oatza6V+3FFO33Mihw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.81.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Madzi-1tZUOT2Dgw-00cl2a; Wed, 09
+ Oct 2024 13:12:23 +0200
+Message-ID: <fbbe290b-4dd4-4a65-acfb-8150b621a5c7@web.de>
+Date: Wed, 9 Oct 2024 13:12:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Weidong Wang <wangweidong.a@awinic.com>
+References: <20241009094313.8820-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH v3?] ASoC: codecs: aw88399: Fix error handling in
+ aw_dev_get_dsp_status()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20241009094313.8820-1-zhujun2@cmss.chinamobile.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8pc6Vr5WhFwFtYdO5jKwC4wy9m70WPVXhHQSpdeRW0xiW+GzZei
+ 9X8VAehrnm6M3LZRpyHB4OZJpAxRi44n7HVE8i9IzJc9y7xy12+eSih9JQNV46Sj+kP2Wc0
+ O1hlCnnBF/Df2BQ/iP/+rhAGJwMi0BGWs6SzuFPSAYsD8CqzU3lUuetpJTq+nPoUPH+09aG
+ rvAtUxjLpeqg1ZCw1Jkcw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KxeBCJykDkc=;6U74B9J8sUp2lcGsuewT7kNrO/m
+ SqEE8rp9shg7qBCkGdYsPQRFwXsnZ62/b6Cg14B97U8JzIMQ/yP3BJh9+J8stf0F844BLIrag
+ Cp90dJ6J8lZLYNIXkupgh7cDyaDr4TvBLMLW4sEFrIh7IJb/rJH+6UTGszjrYPGWnMw7aYFiB
+ cwK/85i87u0I7b/1Q7ec5IDqdNfntErW2V5upJZV+0hZrT2MVL/HQq+XhqfDaU+mhzag9JRmU
+ VWTaFYv5hnYrH6V6RtUoRN7mOl0goRqWDVJ9JielCp8VV66udw+Mpt7fv7SWukfBT2Og7ka0v
+ /b74yIQWJ4WqhMFv5/rG+3py7FqzFzkIVZ1OVieEaSTHNkSTBYWSOz9987xcMX58IOuqX1tnH
+ CS1htd5VaryZKND6J60jPyCg5jyLFhetR2C+/S3WYY9x+rrgIUgmzzi0qRd/tYdIvbMNolJTG
+ T6n0NSi+i+GGFJFePAgRdJ+I+I5QcZpQ0yCWZjEfD50aI8mbUqFOe9nlBCEnwlcDSemq6jCd5
+ /SvSLdvd76kIb5H/QP13rgBCiBaIq/pbMxTk9Yt5kfyTY0Eex0awVw/CtZddXQg8Pk1dRPIxM
+ vae4M4zaxw5Xbw4DujKgfVeFCh5LV46LCaOoZKy4J9GFpiytB3YuTAWr+FH7wf2QhzRF7Unzq
+ hmXsY/F62Aoo9ZYp4oQALRUHfqwlxHZj9fxNRplKUxYZc1iRWygn92wHEzRAztLlxuEsaNtey
+ QWSJ7dHGgEUyDkqMgpKuiFBRUwL+vlRC9CHYTUxBjrd2BGnS1JtRniMsp6zzZ/WpCsHwy0z6A
+ pJFeboDJnnp2q3HtHZiMu9gA==
 
-On Wed, 2024-10-09 at 17:51 +0900, Damien Le Moal wrote:
-> On 10/9/24 17:35, Philipp Stanner wrote:
-> > pci_intx() is a hybrid function which can sometimes be managed
-> > through
-> > devres. To remove this hybrid nature from pci_intx(), it is
-> > necessary to
-> > port users to either an always-managed or a never-managed version.
-> >=20
-> > All users in ata enable their PCI-Device with pcim_enable_device().
-> > Thus,
-> > they need the always-managed version.
-> >=20
-> > Replace pci_intx() with pci_intx_unmanaged().
->=20
-> This contradicts the sentence above and the patche replaces
-> pci_intx() with
-> pcim_intx()... So s/pci_intx_unmanaged/pcim_intx in the above
-> sentence ?
+> Changed the error handling in aw_dev_get_dsp_status to return -EPERM dir=
+ectly
+> instead of setting it to a variable.
 
-Yes, absolutely correct, the commit message is broken. The code itself
-is fine, I grepped through it for pci_enable / pcim_enable
+* How do you think about to choose an imperative wording for an improved c=
+hange description?
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n94
 
-P.
+* Would you like to add any tags (like =E2=80=9CFixes=E2=80=9D and =E2=80=
+=9CCc=E2=80=9D) accordingly?
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
+Documentation/process/submitting-patches.rst?h=3Dv6.12-rc2#n145
 
->=20
-> >=20
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > ---
-> > =C2=A0drivers/ata/ahci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
-> > =C2=A0drivers/ata/ata_piix.c=C2=A0=C2=A0 | 2 +-
-> > =C2=A0drivers/ata/pata_rdc.c=C2=A0=C2=A0 | 2 +-
-> > =C2=A0drivers/ata/sata_sil24.c | 2 +-
-> > =C2=A0drivers/ata/sata_sis.c=C2=A0=C2=A0 | 2 +-
-> > =C2=A0drivers/ata/sata_uli.c=C2=A0=C2=A0 | 2 +-
-> > =C2=A0drivers/ata/sata_vsc.c=C2=A0=C2=A0 | 2 +-
-> > =C2=A07 files changed, 7 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
-> > index 45f63b09828a..9273ff3d4732 100644
-> > --- a/drivers/ata/ahci.c
-> > +++ b/drivers/ata/ahci.c
-> > @@ -1985,7 +1985,7 @@ static int ahci_init_one(struct pci_dev
-> > *pdev, const struct pci_device_id *ent)
-> > =C2=A0
-> > =C2=A0=09if (ahci_init_msi(pdev, n_ports, hpriv) < 0) {
-> > =C2=A0=09=09/* legacy intx interrupts */
-> > -=09=09pci_intx(pdev, 1);
-> > +=09=09pcim_intx(pdev, 1);
-> > =C2=A0=09}
-> > =C2=A0=09hpriv->irq =3D pci_irq_vector(pdev, 0);
-> > =C2=A0
-> > diff --git a/drivers/ata/ata_piix.c b/drivers/ata/ata_piix.c
-> > index 093b940bc953..d441246fa357 100644
-> > --- a/drivers/ata/ata_piix.c
-> > +++ b/drivers/ata/ata_piix.c
-> > @@ -1725,7 +1725,7 @@ static int piix_init_one(struct pci_dev
-> > *pdev, const struct pci_device_id *ent)
-> > =C2=A0=09 * message-signalled interrupts currently).
-> > =C2=A0=09 */
-> > =C2=A0=09if (port_flags & PIIX_FLAG_CHECKINTR)
-> > -=09=09pci_intx(pdev, 1);
-> > +=09=09pcim_intx(pdev, 1);
-> > =C2=A0
-> > =C2=A0=09if (piix_check_450nx_errata(pdev)) {
-> > =C2=A0=09=09/* This writes into the master table but it does
-> > not
-> > diff --git a/drivers/ata/pata_rdc.c b/drivers/ata/pata_rdc.c
-> > index 0a9689862f71..09792aac7f9d 100644
-> > --- a/drivers/ata/pata_rdc.c
-> > +++ b/drivers/ata/pata_rdc.c
-> > @@ -340,7 +340,7 @@ static int rdc_init_one(struct pci_dev *pdev,
-> > const struct pci_device_id *ent)
-> > =C2=A0=09=09return rc;
-> > =C2=A0=09host->private_data =3D hpriv;
-> > =C2=A0
-> > -=09pci_intx(pdev, 1);
-> > +=09pcim_intx(pdev, 1);
-> > =C2=A0
-> > =C2=A0=09host->flags |=3D ATA_HOST_PARALLEL_SCAN;
-> > =C2=A0
-> > diff --git a/drivers/ata/sata_sil24.c b/drivers/ata/sata_sil24.c
-> > index 72c03cbdaff4..b771ebd41252 100644
-> > --- a/drivers/ata/sata_sil24.c
-> > +++ b/drivers/ata/sata_sil24.c
-> > @@ -1317,7 +1317,7 @@ static int sil24_init_one(struct pci_dev
-> > *pdev, const struct pci_device_id *ent)
-> > =C2=A0
-> > =C2=A0=09if (sata_sil24_msi && !pci_enable_msi(pdev)) {
-> > =C2=A0=09=09dev_info(&pdev->dev, "Using MSI\n");
-> > -=09=09pci_intx(pdev, 0);
-> > +=09=09pcim_intx(pdev, 0);
-> > =C2=A0=09}
-> > =C2=A0
-> > =C2=A0=09pci_set_master(pdev);
-> > diff --git a/drivers/ata/sata_sis.c b/drivers/ata/sata_sis.c
-> > index ef8724986de3..b8b6d9eff3b8 100644
-> > --- a/drivers/ata/sata_sis.c
-> > +++ b/drivers/ata/sata_sis.c
-> > @@ -290,7 +290,7 @@ static int sis_init_one(struct pci_dev *pdev,
-> > const struct pci_device_id *ent)
-> > =C2=A0=09}
-> > =C2=A0
-> > =C2=A0=09pci_set_master(pdev);
-> > -=09pci_intx(pdev, 1);
-> > +=09pcim_intx(pdev, 1);
-> > =C2=A0=09return ata_host_activate(host, pdev->irq,
-> > ata_bmdma_interrupt,
-> > =C2=A0=09=09=09=09 IRQF_SHARED, &sis_sht);
-> > =C2=A0}
-> > diff --git a/drivers/ata/sata_uli.c b/drivers/ata/sata_uli.c
-> > index 60ea45926cd1..52894ff49dcb 100644
-> > --- a/drivers/ata/sata_uli.c
-> > +++ b/drivers/ata/sata_uli.c
-> > @@ -221,7 +221,7 @@ static int uli_init_one(struct pci_dev *pdev,
-> > const struct pci_device_id *ent)
-> > =C2=A0=09}
-> > =C2=A0
-> > =C2=A0=09pci_set_master(pdev);
-> > -=09pci_intx(pdev, 1);
-> > +=09pcim_intx(pdev, 1);
-> > =C2=A0=09return ata_host_activate(host, pdev->irq,
-> > ata_bmdma_interrupt,
-> > =C2=A0=09=09=09=09 IRQF_SHARED, &uli_sht);
-> > =C2=A0}
-> > diff --git a/drivers/ata/sata_vsc.c b/drivers/ata/sata_vsc.c
-> > index d39b87537168..a53a2dfc1e17 100644
-> > --- a/drivers/ata/sata_vsc.c
-> > +++ b/drivers/ata/sata_vsc.c
-> > @@ -384,7 +384,7 @@ static int vsc_sata_init_one(struct pci_dev
-> > *pdev,
-> > =C2=A0=09=09pci_write_config_byte(pdev, PCI_CACHE_LINE_SIZE,
-> > 0x80);
-> > =C2=A0
-> > =C2=A0=09if (pci_enable_msi(pdev) =3D=3D 0)
-> > -=09=09pci_intx(pdev, 0);
-> > +=09=09pcim_intx(pdev, 0);
-> > =C2=A0
-> > =C2=A0=09/*
-> > =C2=A0=09 * Config offset 0x98 is "Extended Control and Status
-> > Register 0"
->=20
->=20
+=E2=80=A6
+> ---
+> V1 -> V2:
+> - add a dot after the commit
+> - modify commit info
 
+Can it be that higher version numbers would be more appropriate according =
+to
+the evolving patch review?
+
+Regards,
+Markus
