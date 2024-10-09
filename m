@@ -1,137 +1,101 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from irl.hu (irl.hu [95.85.9.111])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1776197A77;
-	Wed,  9 Oct 2024 13:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BA444C76
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 14:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.85.9.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728481750; cv=none; b=jdQuExK7gKPaNMNbKjR0FL3vKI9vj0YETgRz4178hD8W9npiBRAvPmwYKuSpM2dtaQBnk68lzFP1q65JS7GK2gEqsBo+Nt4Vt6UvD4yBPuxNycuHzRhS5LbQ11q/Y8j0YNhfFOiIuwZ+ggrr+Dj4WpIjPZDGKi9elm1McAjhdV0=
+	t=1728484684; cv=none; b=ml3Xv30lc227nwKL2j16Irr7pl3w5c2XhxJHvxNTQaJAmI1EF1dYyRxLeZSI0tvHnP9wYoc7WHvzLZHY1SyqH22J/TRnCwNbbULv5Ck8QiQtmnEAgfG5wzDzsA0MpzMNBr4sfLzj9bRLsyleSnRP+v1lcirwXGlNoSlYXHTbt/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728481750; c=relaxed/simple;
-	bh=YXJWvRTh/Yvo7boP2s83WbOz7ucuh8O27BfdTsO8Z5U=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=neIOgRvEdaKseqR7W+qJgCbFSmslSS6n/NCGUE9teb/NLUh4epG7dwrwvRSVOwn0sDwPYnSNdIAFRBCRFyz4FPYAo3Cdj6DMq+x9euVZOSkddT7Wacevgc83GB3QemD0x38SL4vKNnAxSNUJqodCOJuBfAXsO9OnUqjA6c3yads=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=j4fUE0p/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Hrc1cMwg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=DUPAP0z0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zVmGkj5h; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="j4fUE0p/";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Hrc1cMwg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DUPAP0z0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zVmGkj5h"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CFD1821F70;
-	Wed,  9 Oct 2024 13:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728481747; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mr/ufbEs3uqbhaatE1ESPsPdrQavlqICG1ghV71HRP0=;
-	b=j4fUE0p/4T9otVoYE6NO9Nu49D2lJ5jKuguyXNCU+8YJd7DLLGq+pTOHOiQ4DiEljGSMQ7
-	d4v0Txq7kb7B3sidoGJSNLAIZzbBIKZjMBWb7naQxcjNHOT5j8iu6AqERdpFb9sPsoWsOR
-	CilDn3zvAbqM0zKpTBA/ffFxBhJxUsA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728481747;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mr/ufbEs3uqbhaatE1ESPsPdrQavlqICG1ghV71HRP0=;
-	b=Hrc1cMwgKoJhsqfbbL8rXT53Tkm5nmwffynmrX08GxSHDHeMUmdiLqintFrCRWoui0hQET
-	7g1CXeQF5Z/mlGDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728481745; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mr/ufbEs3uqbhaatE1ESPsPdrQavlqICG1ghV71HRP0=;
-	b=DUPAP0z0CKuQuUnTR9tOTyGDHbaawHHvI+Ew2yFqO7nGHdfChoN7gqbKHubN/9uNbQV0A3
-	dFVqxP83VTcOarJzSEt4ebzugCtyLcjE+1jzeqXkBqwFbyUR5+s5SDg4RjdnLQQOYZt/rL
-	dIh69UBxlEJf9FwvbVMXVJH2mvLZehY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728481745;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Mr/ufbEs3uqbhaatE1ESPsPdrQavlqICG1ghV71HRP0=;
-	b=zVmGkj5hCma8CTsDr/E1HRohmEyXAahAUcC2r/nf7X/osCgcF4tdpzLP2llbMwMyrineY+
-	C1r5w9X/x2J03iAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A31A713A58;
-	Wed,  9 Oct 2024 13:49:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id otWjJtGJBmcjNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 09 Oct 2024 13:49:05 +0000
-Date: Wed, 09 Oct 2024 15:50:00 +0200
-Message-ID: <87h69ltmgn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Vasiliy Kovalev <kovalev@altlinux.org>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bo liu <bo.liu@senarytech.com>
-Subject: Re: [PATCH v2] ALSA: hda/conexant - Fix audio routing for HP EliteOne 1000 G2
-In-Reply-To: <20241009134248.662175-1-kovalev@altlinux.org>
-References: <20241009134248.662175-1-kovalev@altlinux.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1728484684; c=relaxed/simple;
+	bh=UorYuS+GYKeTM3DyQ6RU3v/pAeyyuxUciCa61UGUZck=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=u0oobqNQ+WqZXEzBGXc4LbmoYAuTuUrvXianJ5jvi4gP93IlcAd7rCO9ZgRTgoEMQ4dlfgFod6F7JSOAN4IfU+U6CnRxhEYNGtL4LbJmku2SAI8I4uoDh6GSGjsfeuqYueaEyE1kIVZhGpFsMQ2wC5LuZ7dumJYnyEDdCZsOSYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu; spf=pass smtp.mailfrom=irl.hu; arc=none smtp.client-ip=95.85.9.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=irl.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irl.hu
+Received: from fedori.lan (51b68733.dsl.pool.telekom.hu [::ffff:81.182.135.51])
+  (AUTH: CRAM-MD5 soyer@irl.hu, )
+  by irl.hu with ESMTPSA
+  id 000000000006F8DE.0000000067069415.0023AF1E; Wed, 09 Oct 2024 16:32:52 +0200
+Message-ID: <e104300e8eb8f069768a705cb4b05a9a479850a0.camel@irl.hu>
+Subject: Re: [PATCH 1/2] ALSA: hda: tas2781: Fix missing setup at runtime PM
+From: Gergo Koteles <soyer@irl.hu>
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+  Baojun Xu <baojun.xu@ti.com>
+Date: Wed, 09 Oct 2024 16:32:52 +0200
+In-Reply-To: <20241008122658.9549-1-tiwai@suse.de>
+References: <20241008122658.9549-1-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[altlinux.org:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
 
-On Wed, 09 Oct 2024 15:42:48 +0200,
-Vasiliy Kovalev wrote:
-> 
-> There is a problem with simultaneous audio output to headphones and
-> speakers, and when headphones are turned off, the speakers also turn
-> off and do not turn them on.
-> 
-> However, it was found that if you boot linux immediately after windows,
-> there are no such problems. When comparing alsa-info, the only difference
-> is the different configuration of Node 0x1d:
-> 
-> working conf. (windows): Pin-ctls: 0x80: HP
-> not working     (linux): Pin-ctls: 0xc0: OUT HP
-> 
-> This patch disable the AC_PINCTL_OUT_EN bit of Node 0x1d and fixes the
-> described problem.
-> 
-> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+Hi Takashi,
 
-Thanks, applied now.
+On Tue, 2024-10-08 at 14:26 +0200, Takashi Iwai wrote:
+> tas2781_runtime_suspend() clears the playback_started flag, hence it
+> leads to inconsistent state after runtime suspend is triggered, as if
+> the device hasn't been opened yet.  Also, the counterpart,
+> alc2781_runtime_resume() doesn't call tasdevice_tuning_switch(), and
+> this also causes the inconsistency.
+>=20
+> This patch corrects the superfluous flag clearance and the missing
+> call.
+>=20
+> Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
+> Link: https://bugzilla.suse.com/show_bug.cgi?id=3D1230132
+> Signed-off-by: Takashi Iwai <tiwai@suse.de>
+> ---
+>  sound/pci/hda/tas2781_hda_i2c.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_=
+i2c.c
+> index 370d847517f9..6d173b721fd0 100644
+> --- a/sound/pci/hda/tas2781_hda_i2c.c
+> +++ b/sound/pci/hda/tas2781_hda_i2c.c
+> @@ -864,10 +864,8 @@ static int tas2781_runtime_suspend(struct device *de=
+v)
+>  	/* The driver powers up the amplifiers at module load time.
+>  	 * Stop the playback if it's unused.
+>  	 */
+> -	if (tas_hda->priv->playback_started) {
+> +	if (tas_hda->priv->playback_started)
+>  		tasdevice_tuning_switch(tas_hda->priv, 1);
+> -		tas_hda->priv->playback_started =3D false;
+> -	}
+> =20
+
+This if-branch were added because I wanted to power up the amplifier at
+module load time in tasdev_fw_ready() with:
+
+ tasdevice_tuning_switch(tas_hda->priv, 0);
+ tas_hda->priv->playback_started =3D true;
+
+but I didn't want it to stay powered forever, if there aren't any=20
+tas2781_hda_playback_hook() call with HDA_GEN_PCM_ACT_CLOSE action.
+
+This seemed like a good idea at the time because the music didn't have
+to be restarted (for HDA_GEN_PCM_ACT_OPEN action) when the module was
+reloaded. But this is a rare use case, today I don't think it's
+important to have it in there.
+
+In general cases, tas2781_hda_playback_hook() turns the amplifier on
+and off, and sets the playback_started flag.
+If I understand correctly, the playback_started will be off at the time
+of runtime_suspend()/runtime_resume() calls.
+
+So I think the mentioned two lines from the tasdev_fw_ready() function
+and the mentioned if-branch can be deleted.
 
 
-Takashi
+Thanks,
+Gergo Koteles
+
