@@ -1,179 +1,90 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61542187FEA;
-	Wed,  9 Oct 2024 08:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE5B18858E
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 08:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728461417; cv=none; b=gkipsDNp7qeZyoNXljfz1VJN0yJsmDT5v1scHTMsdOvdBAW0taqmIGcPw+3ZbVkuu/s+0Bv1N074Mqlu1/rBOEWjCuq8Su7zhWC8RYiD21wjaK/biGWYfrdYUB3oNPJOLuYfYE4Wq9Rr0Gu9WORb4PkzTIZed/k/t4wasDlC/bc=
+	t=1728461506; cv=none; b=YopP/nLtd2JgdTk/R8FmJ1LLo8Fc701SYL/A6COBdIFVbQtBQcMaKyjtOT633bb7+yTc4L8pTa55WIapJsvrOu+fdkiktJGeXxNGJfKakcH4jspRJmcmYgAoIkyadph5SpUeqviQsFiR0V76Zr6wxmQ87pnjeSIYgB+9/1ZY3T0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728461417; c=relaxed/simple;
-	bh=tFE5nv9zTJEDkzyKc8O9At/Af8djsSGyqcmqplt/6pI=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References; b=nmfp3Z/9SxTxttWonXez5nmIIs/jJ+06NN4zrbneFCqt2eGp8aR5XCTwCb7PXybp8t7gkr2uw2Aad4n9S9sjse30MPfSx9OlQVK0titbvlCD7SIJ8BoGzIZe5ZXWKTfxaf44nCeVFbFPvqRjXz2RrFGFjugTa2l28UbamaIOS5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 124A41A27F8;
-	Wed,  9 Oct 2024 10:10:08 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id CEA541A223E;
-	Wed,  9 Oct 2024 10:10:07 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 71A87183F0C0;
-	Wed,  9 Oct 2024 16:10:06 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
+	s=arc-20240116; t=1728461506; c=relaxed/simple;
+	bh=v/ZgTTbXGnyP4nOL0UCA9iJQ4OPfrdEWYPOfVm3lk6Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AM17Uce+4iMkJp9LZTg/FbyZebgswkKKSioyCg3J0k6fDRtL8eBoMR2f/ZiFZxKhyx9EHqdNPiFJyVZiVNPQCR8uI79G7NoHP8DRXxAzERtaU2HZ67XIVIE1p4rMqgBiKMd2W78JHurmTAP3/lSCa4ftRbQlsQ8ZhUOLwynXjGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KMB4FIYF; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KMB4FIYF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728461505; x=1759997505;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=v/ZgTTbXGnyP4nOL0UCA9iJQ4OPfrdEWYPOfVm3lk6Y=;
+  b=KMB4FIYFND5WkfymIRo58Wti9GiZQtQb18My785Rp1RwlxmpMueC9MXO
+   yOu/ed/ewDPFztDXydmVlZbgW2KhVH2zqH0FlFEs+9QOhXAuR/CYVAwKS
+   GeciLZPzQmoNk2xQyrtr2Ob71USem8HlyHcX3x+SuEjYef+8TZ3otGgOJ
+   vEj/Wy2dgjUTnf2IWXZc6pB11NpPsr97z+IV988zz5vJ5j9JhcVB6ZgXr
+   use7FzXE0XMZKnwxrH305d83qvtlw42HXqoddn5vcaYeacE7jvHfcK7jY
+   YpfPa9Oy5QrsYIbeJtDkdYbEaUZktJCaDATKxGuCBc4DOBJNfzVRFQPzz
+   A==;
+X-CSE-ConnectionGUID: CVKNAik9TM2WB0eSrx0YSA==
+X-CSE-MsgGUID: vzHOCGmHQcGecbyMydzxug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="38332451"
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
+   d="scan'208";a="38332451"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 01:11:44 -0700
+X-CSE-ConnectionGUID: OEy7Pl0NQDuSSPOEF8/5bw==
+X-CSE-MsgGUID: ZeAADyShQF658hbLjI5icA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,189,1725346800"; 
+   d="scan'208";a="76049160"
+Received: from dev2.igk.intel.com ([10.237.148.94])
+  by orviesa010.jf.intel.com with ESMTP; 09 Oct 2024 01:11:43 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chancel.liu@nxp.com
-Subject: [PATCH 2/2] ASoC: imx-card: Add CS42888 support
-Date: Wed,  9 Oct 2024 15:46:44 +0800
-Message-Id: <1728460004-364-3-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] ASoC: topology: Bump minimal topology ABI version
+Date: Wed,  9 Oct 2024 10:12:30 +0200
+Message-Id: <20241009081230.304918-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Chancel Liu <chancel.liu@nxp.com>
+When v4 topology support was removed, minimal topology ABI version
+should have been bumped.
 
-CS42888 codec provides 4 multi-bit ADC and 8 multi-bit DAC.
-Add support for this codec in imx-card ASoC machine driver.
-
-Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Fixes: fe4a07454256 ("ASoC: Drop soc-topology ABI v4 support")
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 ---
- sound/soc/fsl/imx-card.c | 54 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 47 insertions(+), 7 deletions(-)
+ include/uapi/sound/asoc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/fsl/imx-card.c b/sound/soc/fsl/imx-card.c
-index 2f3dbbd15791..306168b164d3 100644
---- a/sound/soc/fsl/imx-card.c
-+++ b/sound/soc/fsl/imx-card.c
-@@ -25,6 +25,7 @@ enum codec_type {
- 	CODEC_AK4458,
- 	CODEC_AK4497,
- 	CODEC_AK5552,
-+	CODEC_CS42888,
- };
+diff --git a/include/uapi/sound/asoc.h b/include/uapi/sound/asoc.h
+index 99333cbd3114e..c117672d44394 100644
+--- a/include/uapi/sound/asoc.h
++++ b/include/uapi/sound/asoc.h
+@@ -88,7 +88,7 @@
  
- /*
-@@ -185,6 +186,16 @@ static struct imx_akcodec_tdm_fs_mul ak5558_tdm_fs_mul[] = {
- 	{ .min = 512,	.max = 512,	.mul = 1024 },
- };
+ /* ABI version */
+ #define SND_SOC_TPLG_ABI_VERSION	0x5	/* current version */
+-#define SND_SOC_TPLG_ABI_VERSION_MIN	0x4	/* oldest version supported */
++#define SND_SOC_TPLG_ABI_VERSION_MIN	0x5	/* oldest version supported */
  
-+static struct imx_akcodec_fs_mul cs42888_fs_mul[] = {
-+	{ .rmin = 8000,   .rmax = 48000,  .wmin = 256,  .wmax = 1024, },
-+	{ .rmin = 64000,  .rmax = 96000,  .wmin = 128,  .wmax = 512, },
-+	{ .rmin = 176400, .rmax = 192000, .wmin = 64,  .wmax = 256, },
-+};
-+
-+static struct imx_akcodec_tdm_fs_mul cs42888_tdm_fs_mul[] = {
-+	{ .min = 256,	.max = 256,	.mul = 256 },
-+};
-+
- static const u32 akcodec_rates[] = {
- 	8000, 11025, 16000, 22050, 32000, 44100, 48000, 88200,
- 	96000, 176400, 192000, 352800, 384000, 705600, 768000,
-@@ -210,6 +221,14 @@ static const u32 ak5558_tdm_channels[] = {
- 	1, 2, 3, 4, 5, 6, 7, 8,
- };
- 
-+static const u32 cs42888_channels[] = {
-+	1, 2, 4, 6, 8,
-+};
-+
-+static const u32 cs42888_tdm_channels[] = {
-+	1, 2, 3, 4, 5, 6, 7, 8,
-+};
-+
- static bool format_is_dsd(struct snd_pcm_hw_params *params)
- {
- 	snd_pcm_format_t format = params_format(params);
-@@ -241,6 +260,7 @@ static bool codec_is_akcodec(unsigned int type)
- 	case CODEC_AK4497:
- 	case CODEC_AK5558:
- 	case CODEC_AK5552:
-+	case CODEC_CS42888:
- 		return true;
- 	default:
- 		break;
-@@ -340,13 +360,15 @@ static int imx_aif_hw_params(struct snd_pcm_substream *substream,
- 			return ret;
- 		}
- 
--		ret = snd_soc_dai_set_tdm_slot(codec_dai,
--					       BIT(slots) - 1,
--					       BIT(slots) - 1,
--					       slots, slot_width);
--		if (ret && ret != -ENOTSUPP) {
--			dev_err(dev, "failed to set codec dai[%d] tdm slot: %d\n", i, ret);
--			return ret;
-+		if (format_is_tdm(link_data)) {
-+			ret = snd_soc_dai_set_tdm_slot(codec_dai,
-+						       BIT(slots) - 1,
-+						       BIT(slots) - 1,
-+						       slots, slot_width);
-+			if (ret && ret != -ENOTSUPP) {
-+				dev_err(dev, "failed to set codec dai[%d] tdm slot: %d\n", i, ret);
-+				return ret;
-+			}
- 		}
- 	}
- 
-@@ -609,6 +631,8 @@ static int imx_card_parse_of(struct imx_card_data *data)
- 				plat_data->type = CODEC_AK5558;
- 			else if (!strcmp(link->codecs->dai_name, "ak5552-aif"))
- 				plat_data->type = CODEC_AK5552;
-+			else if (!strcmp(link->codecs->dai_name, "cs42888"))
-+				plat_data->type = CODEC_CS42888;
- 
- 		} else {
- 			link->codecs	 = &snd_soc_dummy_dlc;
-@@ -766,6 +790,12 @@ static int imx_card_probe(struct platform_device *pdev)
- 		data->dapm_routes[i].sink = "ASRC-Capture";
- 		data->dapm_routes[i].source = "CPU-Capture";
- 		break;
-+	case CODEC_CS42888:
-+		data->dapm_routes[0].sink = "Playback";
-+		data->dapm_routes[0].source = "CPU-Playback";
-+		data->dapm_routes[1].sink = "CPU-Capture";
-+		data->dapm_routes[1].source = "Capture";
-+		break;
- 	default:
- 		break;
- 	}
-@@ -805,6 +835,16 @@ static int imx_card_probe(struct platform_device *pdev)
- 			plat_data->support_tdm_channels = ak5558_tdm_channels;
- 			plat_data->num_tdm_channels = ARRAY_SIZE(ak5558_tdm_channels);
- 			break;
-+		case CODEC_CS42888:
-+			plat_data->fs_mul = cs42888_fs_mul;
-+			plat_data->num_fs_mul = ARRAY_SIZE(cs42888_fs_mul);
-+			plat_data->tdm_fs_mul = cs42888_tdm_fs_mul;
-+			plat_data->num_tdm_fs_mul = ARRAY_SIZE(cs42888_tdm_fs_mul);
-+			plat_data->support_channels = cs42888_channels;
-+			plat_data->num_channels = ARRAY_SIZE(cs42888_channels);
-+			plat_data->support_tdm_channels = cs42888_tdm_channels;
-+			plat_data->num_tdm_channels = ARRAY_SIZE(cs42888_tdm_channels);
-+			break;
- 		default:
- 			break;
- 		}
+ /* Max size of TLV data */
+ #define SND_SOC_TPLG_TLV_SIZE		32
 -- 
 2.34.1
 
