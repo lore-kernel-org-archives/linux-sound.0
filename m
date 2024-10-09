@@ -1,75 +1,112 @@
-Received: from cmccmta1.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4388F1898ED;
-	Wed,  9 Oct 2024 09:23:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A4C18A92C;
+	Wed,  9 Oct 2024 09:38:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728465795; cv=none; b=QSScxhteRTGB64gTbQoDrT37SASbhfHpAPyzLJ4k4go2snapTAhxCu1DhLSwpBuY4g2e2jS2cv5UNbM8IEC+wgTZdDDT8BE312AajIjYCj+XPCs5Ol4BhB75qRunnhiQE8CbkMUj1cdJxuN2iaAKhNRqTFHDuIELxWkwkxMY5sY=
+	t=1728466729; cv=none; b=prFeuXZjxjZBc93wv8edNPbqcUY1KofiAl5gt6F1U2olnTZJTVY7jBw0FAp1AH+Jtmz3qOitdoP5botYwkKbfXAtgai+BMC4YUUNhLYpkII8cQnbCd7JqpmMbACAT84AYuY6e30o/UgM0a2NpudWHZITDXhXhddnwoFDsVleVjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728465795; c=relaxed/simple;
-	bh=1drW9l+6jSiyANAra8I6eaiXPKeY6uDJsAxn+KAd5n4=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=WP0XdpTlS8y9CugqiL1AC3be7qAyEimARMfNvJ0Zq4EbxqHoVPvqxgA3UfW4YytnK9DXhxTRfrLCzKf0hQpb3lDnGw3jiAoRDcp7QErl2kJ3CNOccL8cHXUvD9Foo2zFV85lr2jh0GAxZqOJHk7VE6MNVmzz7s945vXouzTuBwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app04-12004 (RichMail) with SMTP id 2ee467064b7908c-bd98a;
-	Wed, 09 Oct 2024 17:23:08 +0800 (CST)
-X-RM-TRANSID:2ee467064b7908c-bd98a
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from ubuntu.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr03-12003 (RichMail) with SMTP id 2ee367064b7b117-e7fde;
-	Wed, 09 Oct 2024 17:23:08 +0800 (CST)
-X-RM-TRANSID:2ee367064b7b117-e7fde
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	g@b4.vu,
-	linux-sound@vger.kernel.org,
-	zhujun2@cmss.chinamobile.com,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: scarlett2: Add error check after retrieving PEQ filter values
-Date: Wed,  9 Oct 2024 02:23:05 -0700
-Message-Id: <20241009092305.8570-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1728466729; c=relaxed/simple;
+	bh=Jw9m9MFXObg+vZ7wq05G3wqyWtyj3AK1eBeQfJJK90U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBlxEih2Csikk9VWf4y7W32fhYH4ScQE7t2bYKCeDP3giTH2VRNUpP9HVnbJmTsdAAEc1U9vteu+PNRk6E1rZBJsHb748tm6n5wVcPCDGwXrjBbuHGus/jVA863Kve8xMVKb3t9GLN7RA3XKnJ7MPKhq4ScYwVtTEUw39Ma8gGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AcLymq+h; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AcLymq+h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B808BC4CEC5;
+	Wed,  9 Oct 2024 09:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728466728;
+	bh=Jw9m9MFXObg+vZ7wq05G3wqyWtyj3AK1eBeQfJJK90U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AcLymq+hoDLhN3h3N8nHp58BgFOa4jDynBqk5dzipxHtlbGOU9EoJHZr1xWIGUvqd
+	 1/8BzU9GNB5AWykOOa82//nU/OkQpZ2Tl07ETsLRXZZMd4MYEMeaOwuFdvt3dbdEkn
+	 E0Fd5uSJFrxi3J4FjD1qWeIfBp1sHnDUf7i3tpjk=
+Date: Wed, 9 Oct 2024 11:38:45 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 10/13] staging: rts5280: Use always-managed version
+ of pci_intx()
+Message-ID: <2024100936-brunette-flannels-0d82@gregkh>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <20241009083519.10088-11-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009083519.10088-11-pstanner@redhat.com>
 
-Add error check after retrieving PEQ filter values in scarlett2_update_filter_values
-that ensure function returns error if PEQ filter value retrieval fails.
+On Wed, Oct 09, 2024 at 10:35:16AM +0200, Philipp Stanner wrote:
+> pci_intx() is a hybrid function which can sometimes be managed through
+> devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> port users to either an always-managed or a never-managed version.
+> 
+> rts5208 enables its PCI-Device with pcim_enable_device(). Thus, it needs the
+> always-managed version.
+> 
+> Replace pci_intx() with pcim_intx().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>  drivers/staging/rts5208/rtsx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: <stable@vger.kernel.org>
----
-V1 -> V2: 
-- commit wit a dot
-- add tag "Cc"
-- delete a blank before the return value check
-
- sound/usb/mixer_scarlett2.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 1150cf104985..4cddf84db631 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -5613,6 +5613,8 @@ static int scarlett2_update_filter_values(struct usb_mixer_interface *mixer)
- 			info->peq_flt_total_count *
- 			SCARLETT2_BIQUAD_COEFFS,
- 		peq_flt_values);
-+	if (err < 0)
-+		return err;
- 
- 	for (i = 0, dst_idx = 0; i < info->dsp_input_count; i++) {
- 		src_idx = i *
--- 
-2.17.1
-
-
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
