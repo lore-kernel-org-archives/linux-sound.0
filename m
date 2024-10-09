@@ -1,63 +1,63 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 984AE19B59C
-	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 08:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF6418F2C4
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 08:38:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728463110; cv=none; b=fSV+5M3MC3Ggu0wofC2jAO373vlqnXP4dxsXwQx1cZPO6NNLbDdvwYNozpRWUby2jsZpayrhzMCH2CfUBdzJh4V8HBbSGZsywdzR1UoV4SH7sQ77fiVzEdH1aOUdy2sG2aksBCk1Qtl/KP5i+XRVoBs3ksR7W19+yTMTXIkNyvw=
+	t=1728463113; cv=none; b=J/tZupxlkS9cR+cHgZSlShF5WSurxpgFiqNuGJIIEJw0hhbK+mCc9Mag1hTcW74fTZH9PLBJFxbM+Ck6rAXt1nDlMMd5fxEfNQcG3aGHrycqFSxVupPPpbXQFX2P3/oCPv2OnPpWw2XrDeMwnYtt07jlgPWm1Zybhd/v4En6Q3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728463110; c=relaxed/simple;
-	bh=j+VCbR/KiPKDGLB6duXvKzwDAwEJ7m2zrLvdpz2kZb0=;
+	s=arc-20240116; t=1728463113; c=relaxed/simple;
+	bh=Lw8nVToTiATn58hQ12EGOn9YIfVgElTyIgXjl0KlRIc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J9xVdKNzNEwV/2rXNHq4qCZxd0eAvb0SUp2BQrUOaAi9nwixucN7R4xvOJhF5AlUHq+P6itJ6qauflhDcJUGer6HXI8ZgDQg68/sKYz0EdlM1zzKEHVPTtMWzdsEFKQSXe1KJhFXGga+hXlTO8TXO1wsQND7CQrtnmLWs1Hrhk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xu6xFqHz; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=bhfzD5r+YEf4NrKY1ajv834uTxrXy8A/dndEtCYRD1kJqXBm+qBLJE5/iBPMdaFaWsOrptO1yDFSgZwI9WGcVpAhT10fumMhj5oXU/1lV5B79miAEXVwBNYq1s4Uhd16aeyaUHGm3yEMbINQxMaEB/JHelRG2/Xkk4bjAqFDuZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fX1Y18yA; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xu6xFqHz"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fX1Y18yA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728463107;
+	s=mimecast20190719; t=1728463111;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TJ4XyKRMzVRAPh09Ypw2QkYDvdqyB5dqjRwvTDPzI5M=;
-	b=Xu6xFqHzbGjgBkVXzwoWE3EY+jrSFTGKNoHLdoGBBW453ZmaM6c2VISCxxGwHpw8jR0rFG
-	GdT1wyA+Ijj/vHiwUKwFHRiSrrook0VyPt4D+E7tfFpg1O8GSG6kfXxj7GfrTULue/ls3X
-	JsMQ8F/rlvQsHf6cFoLLiz+EQ2j280k=
+	bh=u7xGfk4qndjTqagar0QlDaIVC8D2pMzlwDaMVJxc9mw=;
+	b=fX1Y18yAwx7II3ykm/z3uy0psGQZMJSusKxf6Cv1PKibOl7bQR3iZNExXDZcPGgX90aJyK
+	mWKtG8Wuir6xIPO22V/j9rC6WXPdKu7Ljx0PGxyHQVLVhzf+/0/IdAezujfHpZv38zs0QM
+	Fg2bBvwm42jOGe7DFyZDXvJG3djdXls=
 Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
  [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-28-BJ9v1-Q5Mju8kxHMCMrKfA-1; Wed, 09 Oct 2024 04:38:20 -0400
-X-MC-Unique: BJ9v1-Q5Mju8kxHMCMrKfA-1
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7a9a71b17a3so1133297985a.0
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 01:38:20 -0700 (PDT)
+ us-mta-332-1hk5KwMdNQWbmVrDX5XqTg-1; Wed, 09 Oct 2024 04:38:30 -0400
+X-MC-Unique: 1hk5KwMdNQWbmVrDX5XqTg-1
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7a9af65cf73so621524885a.0
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 01:38:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728463100; x=1729067900;
+        d=1e100.net; s=20230601; t=1728463110; x=1729067910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=TJ4XyKRMzVRAPh09Ypw2QkYDvdqyB5dqjRwvTDPzI5M=;
-        b=xSMAx6OJO7/2XnN9EZVSisjn3SFNrS7zwmLrKYi1lPhetmtTj7uNy73BJ3NSoq8Apw
-         IoLwED5/unvKWV4hAKnyRVfizXGtVYx0FjGm08krPEBqFPvchOBNzncrbhTGPwVdAFnV
-         1itB6IC+XZBBQUCY9QVT9aXatxqpflrb8qr2O6WBp+ektWhMBQ0EWJcrwa4klEQMX2f9
-         YUeNvCwXgNO4APKnGqz0WiOqJbHD8K4GE+ZP7V+grmhfOWorqW8lKM/xC3BFCVcRm/Jq
-         62TTmZMJ3TTSavyTdMS+raEG/JaSwTJpKb0EApz0OHxu3Lap9hRGsjfWO2J5zU3S1qN+
-         uwLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjhJ8mR9lzF+uSG5YDSE5AwgRiLHqN7Yirf0ASWG6UidapF7OhV1iqxG8IKq8ebpHJtEKgCBz72wouTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhXiz0L8UNAuM+//JxGPUMin3UjWNGysOVUHYzs4Lv03hBGJ9F
-	QC3+bnzmusa3r5nBWZlQNbvHe0OEE91Lf7SQCOKfXsHyXgT1RV/vGDQh/p7osQWummSxT+s61Qh
-	JHvW0flKhc3WdKGCjjSjqRGprXG0A1MKcC7FQfRqVBhMVz0WsRIIbOB5r66UW
-X-Received: by 2002:a05:620a:191e:b0:7ae:5c5b:a3ee with SMTP id af79cd13be357-7b07954eaf1mr214934985a.30.1728463099808;
-        Wed, 09 Oct 2024 01:38:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEohpGdz3FQCfvuYPGv1Kgp6VmjNVq/mWsuKLRVQIwcRgXug1EQeuW78e0HsYLtO7HnORD33g==
-X-Received: by 2002:a05:620a:191e:b0:7ae:5c5b:a3ee with SMTP id af79cd13be357-7b07954eaf1mr214929685a.30.1728463099420;
-        Wed, 09 Oct 2024 01:38:19 -0700 (PDT)
+        bh=u7xGfk4qndjTqagar0QlDaIVC8D2pMzlwDaMVJxc9mw=;
+        b=dUam2b6hcg46K92lWObepBVYXPYCxXHzwXSpWpu86CoR8BnCfuNsBU0PAYf1cRTRaI
+         y5jw0NJjAcwsCadeOf+peUSlv5U5amBiMghLaHXfA3RC7Juw7ouHMECVJhHGnUj/7Vs9
+         K7JRgqLXttZhv2H1j49oj0pecS34289jtsvGzdLH7R7IudSa/ASgd0upQs4scVghAsXf
+         ehRUShsJEQjmtzojbhr/f0kJd3jN8vq2ZIvbOTJ+D+02mOyAd9WynUs16Vtc2jxVb2DO
+         6sizD9hye4siTOxE5Zfs0V1nPnndNAbbYsYfx7LtUVduCGKGFsOs03+LxXB07VR+dHbd
+         O49w==
+X-Forwarded-Encrypted: i=1; AJvYcCX/Q2JeIQzBKCUtHoeki3zPHfEg9OC5rSsYlrnjLsTuSpsWYkSdZQV6Vus9+4cmZBaF4lt8M4dIwLWOuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJQI6mQ67awvR/EQaHYzuwdAofAgW2isZjoFlXJ25d2mH1Lxz4
+	iNVjNe9wGSr7qjJXvQPNN2LLJFxEWm4n1P13eBajbt06r5ou+63YD3Q7V2ckRassLWe8cEcRuNa
+	WsgxgoFL31J3CXKdnImsh/Iw9hs8PrJpMCMISoK37PPFu+lIPF1qNpn3DUWl9
+X-Received: by 2002:a05:620a:460d:b0:7a9:befa:eeea with SMTP id af79cd13be357-7b079523fa5mr211573685a.10.1728463109610;
+        Wed, 09 Oct 2024 01:38:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGDFSvxtLv6Q0pe/4IBD0n4HBYmqOqMV7Zg8tkr7BJx3NcG6raccYdUXiO6MGZhunZjFhe2CA==
+X-Received: by 2002:a05:620a:460d:b0:7a9:befa:eeea with SMTP id af79cd13be357-7b079523fa5mr211570485a.10.1728463109176;
+        Wed, 09 Oct 2024 01:38:29 -0700 (PDT)
 Received: from eisenberg.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75615aa2sm439643585a.14.2024.10.09.01.38.10
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7ae75615aa2sm439643585a.14.2024.10.09.01.38.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 01:38:19 -0700 (PDT)
+        Wed, 09 Oct 2024 01:38:28 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Damien Le Moal <dlemoal@kernel.org>,
 	Niklas Cassel <cassel@kernel.org>,
@@ -131,9 +131,9 @@ Cc: linux-ide@vger.kernel.org,
 	kvm@vger.kernel.org,
 	xen-devel@lists.xenproject.org,
 	linux-sound@vger.kernel.org
-Subject: [RFC PATCH 11/13] wifi: qtnfmac: use always-managed version of pcim_intx()
-Date: Wed,  9 Oct 2024 10:35:17 +0200
-Message-ID: <20241009083519.10088-12-pstanner@redhat.com>
+Subject: [RFC PATCH 12/13] HID: amd_sfh: Use always-managed version of pcim_intx()
+Date: Wed,  9 Oct 2024 10:35:18 +0200
+Message-ID: <20241009083519.10088-13-pstanner@redhat.com>
 X-Mailer: git-send-email 2.46.1
 In-Reply-To: <20241009083519.10088-1-pstanner@redhat.com>
 References: <20241009083519.10088-1-pstanner@redhat.com>
@@ -152,27 +152,51 @@ pci_intx() is a hybrid function which can sometimes be managed through
 devres. To remove this hybrid nature from pci_intx(), it is necessary to
 port users to either an always-managed or a never-managed version.
 
-qtnfmac enables its PCI-Device with pcim_enable_device(). Thus, it needs the
-always-managed version.
+All users of amd_mp2_pci_remove(), where pci_intx() is used, call
+pcim_enable_device(), which is why the driver needs the always-managed
+version.
 
 Replace pci_intx() with pcim_intx().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/net/wireless/quantenna/qtnfmac/pcie/pcie.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        | 4 ++--
+ drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/wireless/quantenna/qtnfmac/pcie/pcie.c b/drivers/net/wireless/quantenna/qtnfmac/pcie/pcie.c
-index f66eb43094d4..3adcfac2886f 100644
---- a/drivers/net/wireless/quantenna/qtnfmac/pcie/pcie.c
-+++ b/drivers/net/wireless/quantenna/qtnfmac/pcie/pcie.c
-@@ -204,7 +204,7 @@ static void qtnf_pcie_init_irq(struct qtnf_pcie_bus_priv *priv, bool use_msi)
+diff --git a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+index 0c28ca349bcd..48cfd0c58241 100644
+--- a/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
++++ b/drivers/hid/amd-sfh-hid/amd_sfh_pcie.c
+@@ -122,7 +122,7 @@ int amd_sfh_irq_init_v2(struct amd_mp2_dev *privdata)
+ {
+ 	int rc;
  
- 	if (!priv->msi_enabled) {
- 		pr_warn("legacy PCIE interrupts enabled\n");
--		pci_intx(pdev, 1);
-+		pcim_intx(pdev, 1);
- 	}
+-	pci_intx(privdata->pdev, true);
++	pcim_intx(privdata->pdev, true);
+ 
+ 	rc = devm_request_irq(&privdata->pdev->dev, privdata->pdev->irq,
+ 			      amd_sfh_irq_handler, 0, DRIVER_NAME, privdata);
+@@ -248,7 +248,7 @@ static void amd_mp2_pci_remove(void *privdata)
+ 	struct amd_mp2_dev *mp2 = privdata;
+ 	amd_sfh_hid_client_deinit(privdata);
+ 	mp2->mp2_ops->stop_all(mp2);
+-	pci_intx(mp2->pdev, false);
++	pcim_intx(mp2->pdev, false);
+ 	amd_sfh_clear_intr(mp2);
+ }
+ 
+diff --git a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+index db36d87d5634..ec9feb8e023b 100644
+--- a/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
++++ b/drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c
+@@ -289,7 +289,7 @@ static void amd_mp2_pci_remove(void *privdata)
+ 	sfh_deinit_emp2();
+ 	amd_sfh_hid_client_deinit(privdata);
+ 	mp2->mp2_ops->stop_all(mp2);
+-	pci_intx(mp2->pdev, false);
++	pcim_intx(mp2->pdev, false);
+ 	amd_sfh_clear_intr(mp2);
  }
  
 -- 
