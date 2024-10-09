@@ -1,158 +1,135 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F1E17C61;
-	Wed,  9 Oct 2024 02:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B267653365
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 05:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728440218; cv=none; b=q8Lnfeu+sqpCdi7NddqDhLGcwGFdXVj1vhoYHr3vqAxIg3+h9Wd+kZPB0Kiw70yomdESj1KqnfhnssjnpiG16tyNs3ndr7D+xqADJj8sgNLkayonbgmzdQUQqxFFyQ5e2R+JeXhheXlFbVOR+NlTvFCVPeFrTYj1qXJ1NRSgvmc=
+	t=1728452714; cv=none; b=JOh7e2fv6lMSkaDDs6ASNNAuix+jj4iq2n3na+Qy0TEAin72zDTjsC66jQknXVh/+JkoUpgoy6ofFwTg/8ooPSsZbt640/I/ydpxfhBkw3DLHWF+7L+5iWCjjul8z9w3ZHLem3I0/od5MiyuSOXHieWhKXWd51W16YnmK9cLFdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728440218; c=relaxed/simple;
-	bh=Ag/O9XzHB2k414SUf0LuYKbaX6hIVmwXzgwCMonICZU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=i1lpLuywmWVjddls5gY++fhfGNk8LahG/McX/YdyK4E3j7sUdv+Eld3aO94+Euq8bKC0RhfnVkKn/uvswVb3cuXZGZCGW8wCvq2WO5oRRaDoW6HfTVl+LsIVNAv3aZ1RtvYz/qGkXQvbe0R0e+1vdSi9Y0ohUQAzRaIUMp1iOgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=euD4V4ne; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1728452714; c=relaxed/simple;
+	bh=+BTCQ0PUkDQsZaHM85ifIgxYY/Dc9P+yTGat716rR8E=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=o2CwNNIFi085hG9HnoWZZg/gD2HRMyveaXxlkGZG0yQAOC0CpW9Hfz6J65CbpHGhzuSHfACp5fXJFAWM6JqfWcM+B0rWHu2MPl+1Relb8RM9XQ+itG5t7X3NvJW0qC4H+0k5f4FhsfkS4oONUZHbvBRUS8w/bvc7hVTthNbEj+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nPeRRPYS; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="euD4V4ne"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4992GS9p8079717, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1728440188; bh=Ag/O9XzHB2k414SUf0LuYKbaX6hIVmwXzgwCMonICZU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version;
-	b=euD4V4nePE30VBkGbQtKfAu5NQyETO87Xn8mcOMvBKSr8MA9xsMokjSqVWE4LLjQa
-	 ACwdFoi03zsd2nKscY5C+tbO2YrNmZ678olUU7uONAJbCY/0za3QAF5qTSF0xfjcv4
-	 +77rWaEqRivWHIvn9Gjum97etDstgZKuGLeZMGow4XI9IR84ascBh013RBwKV9GW9O
-	 IJ6adhZy2F+SyNBVRZLGihoTm5OXq1mytDYa2RzYILvFdII5y3HoRlLu1jZFjPf5sL
-	 7a/lNlCwmDkwbHDoOKAYT0Uecpl2FaY9XD2b6H7OaoZBUO7AeynZ69Ccdgtp0efZ75
-	 mO4qMoPa826FA==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4992GS9p8079717
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 9 Oct 2024 10:16:28 +0800
-Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 9 Oct 2024 10:16:27 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 9 Oct 2024 10:16:26 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
- RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
- 15.01.2507.035; Wed, 9 Oct 2024 10:16:26 +0800
-From: Jack Yu <jack.yu@realtek.com>
-To: Mark Brown <broonie@kernel.org>, Colin Ian King <colin.i.king@gmail.com>
-CC: Oder Chiou <oder_chiou@realtek.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of values into uninitialized variable ret
-Thread-Topic: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of values
- into uninitialized variable ret
-Thread-Index: AQHbGaG8YJlbgZqe9keJkoeqo+O4cLJ8js0AgACaTrA=
-Date: Wed, 9 Oct 2024 02:16:26 +0000
-Message-ID: <00bfbc805d9746579129083dafdc1bd0@realtek.com>
-References: <20241008164707.203792-1-colin.i.king@gmail.com>
- <ZwVmCNAVSOgqT6Qd@finisterre.sirena.org.uk>
-In-Reply-To: <ZwVmCNAVSOgqT6Qd@finisterre.sirena.org.uk>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-Content-Type: multipart/mixed;
-	boundary="_002_00bfbc805d9746579129083dafdc1bd0realtekcom_"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nPeRRPYS"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e26ba37314so48407027b3.0
+        for <linux-sound@vger.kernel.org>; Tue, 08 Oct 2024 22:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1728452711; x=1729057511; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PiDuNikJa50xX1llUd7AeY3ATX9u0RAJOKDPy46wYBY=;
+        b=nPeRRPYS+F72m1z8+Q+7qy6Yrbn3a6E6t4+xT19NuzRYQLqL/FL473zRIWmMes7tYo
+         p1QZeWLPdZvpVtJYgABOB5VYu5k6rUpnbYNeAf/2TcZxE+/XcwMhhkkLNW7E+9dzwrUa
+         /eEXlQKFmRBQN2FzdLH8ReIt3qe/H/3aUH7vYKgZiTES7HfnIoveGOLMhvEOc5tC/S5H
+         Qm49xOLmFLKsDr//uDcjvO1EJTExJsnBHRFbqWVMf2c9J3Oi+3FG3wcOSf4RwJbk27kv
+         Ql0B0RAdxpmaoo3jc5mx6GkQB0EhXr7eiPSAMDVk4cLFO4/IY8291Duz+xg1SBQOIURG
+         Rhsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728452711; x=1729057511;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PiDuNikJa50xX1llUd7AeY3ATX9u0RAJOKDPy46wYBY=;
+        b=MXqc/r6eYm0FQKCWKcdY4P/OhfXQIjpwAfE3lhr8yL58H+n75/IP2F8Xk3Nuee6HBf
+         6rvgXybhUtZKMDpXeLfdCGC4zJJfVrTyc+OSXfTbPN+rMTSAU6JoXINInGBgSCDzdO47
+         lq3TmG2UeI2DYtVI6lfJb5p1J2jSkCeFhBHxbfVr27hRLFHxOvhtIPYoJ/Onp6qNHVh3
+         6hhwERbIVjwN6ypqFajjUaG9ufOi9QShlANZEuStCdDRub0/+ZjJtBM955WWIUER8TKl
+         dFt9Rhb5esp95QF9ZU3ssCSBCJZ36YaOpYgx41aqM0ID/p+P71wPiBsyVG8cMCMx786u
+         Qc5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUox9nylJpBjR2uzw22sAoxTvvzBMqiBrG5Id/G06Ddi7f3IpWCwR4lDQx9iv2t1fl+otyUnyezRL9wNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6Mme6wBMA+VB7h/a9AEtMGJneA1Zo/8E94hW/S09Sw4x53e2w
+	OK5xthrvCliipwmJR29vwSO7ZEB8t03brOXhQwwRQtIkvejB4ap2955FXRvXMSCw/h+6bPO2Ue1
+	128LSfmN33NW+aA==
+X-Google-Smtp-Source: AGHT+IFAdtbaCD2+euCYcocpkcRI7vVB9WTSltof4jpixDozK9ZQRUBAoBW7ahCtF6q1tP5317kIACf9RUK8soQ=
+X-Received: from guanyulin.c.googlers.com ([fda3:e722:ac3:cc00:131:cd17:ac11:19c7])
+ (user=guanyulin job=sendgmr) by 2002:a05:690c:4a91:b0:6dd:bcce:7cbe with SMTP
+ id 00721157ae682-6e3220de42bmr24407b3.2.1728452711549; Tue, 08 Oct 2024
+ 22:45:11 -0700 (PDT)
+Date: Wed,  9 Oct 2024 05:42:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
+Message-ID: <20241009054429.3970438-1-guanyulin@google.com>
+Subject: [PATCH v4 0/5] Support system sleep with offloaded usb transfers
+From: Guan-Yu Lin <guanyulin@google.com>
+To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
+	mathias.nyman@intel.com, stern@rowland.harvard.edu, elder@kernel.org, 
+	oneukum@suse.com, yajun.deng@linux.dev, dianders@chromium.org, 
+	kekrby@gmail.com, perex@perex.cz, tiwai@suse.com, tj@kernel.org, 
+	stanley_chang@realtek.com, andreyknvl@gmail.com, 
+	christophe.jaillet@wanadoo.fr, quic_jjohnson@quicinc.com, 
+	ricardo@marliere.net, grundler@chromium.org, niko.mauno@vaisala.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, badhri@google.com, albertccwang@google.com, 
+	quic_wcheng@quicinc.com, pumahsu@google.com, 
+	Guan-Yu Lin <guanyulin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
---_002_00bfbc805d9746579129083dafdc1bd0realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Wesley Cheng and Mathias Nyman's USB offload design enables a co-processor
+to handle some USB transfers, potentially allowing the main system to
+sleep and save power. However, Linux's power management system halts the
+USB host controller when the main system isn't managing any USB transfers.
+To address this, the proposal modifies the system to recognize offloaded
+USB transfers and manage power accordingly.
 
+This involves two key steps:
+1. Transfer Status Tracking: Propose xhci_sideband_get and
+xhci_sideband_put to track USB transfers on the co-processor, ensuring the
+system is aware of any ongoing activity.
+2. Power Management Adjustment:  Modifications to the USB driver stack
+(dwc3 controller driver, xhci host controller driver, and USB device
+drivers) allow the system to sleep without disrupting co-processor managed
+USB transfers. This involves adding conditional checks to bypass some
+power management operations.
 
+patches depends on series "Introduce QC USB SND audio offloading support" 
+https://lore.kernel.org/lkml/20240925010000.2231406-11-quic_wcheng@quicinc.com/T/
 
-> -----Original Message-----
-> From: Mark Brown <broonie@kernel.org>
-> Sent: Wednesday, October 9, 2024 1:04 AM
-> To: Colin Ian King <colin.i.king@gmail.com>
-> Cc: Oder Chiou <oder_chiou@realtek.com>; Liam Girdwood
-> <lgirdwood@gmail.com>; Jaroslav Kysela <perex@perex.cz>; Takashi Iwai
-> <tiwai@suse.com>; Jack Yu <jack.yu@realtek.com>;
-> linux-sound@vger.kernel.org; kernel-janitors@vger.kernel.org;
-> linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH][next] ASoC: rt-sdw-common: Fix bit-wise or'ing of va=
-lues
-> into uninitialized variable ret
->=20
-> On Tue, Oct 08, 2024 at 05:47:07PM +0100, Colin Ian King wrote:
-> > There are a handful of bit-wise or'ing of values into the
-> > uninitialized variable ret resulting in garbage results. Fix this by
-> > ininitializing ret to zero.
->=20
-> I'm very disappinted in the compiler for not noticing this :(
+changelog
+----------
+Changes in v4:
+- Isolate the feature into USB driver stack.
+- Integrate with series "Introduce QC USB SND audio offloading support"
 
-I'm sorry for such mistake. I've sent a patch to fix this yesterday, please=
- refer attachment.
+Changes in v3:
+- Integrate the feature with the pm core framework.
 
---_002_00bfbc805d9746579129083dafdc1bd0realtekcom_
-Content-Type: message/rfc822
-Content-Disposition: attachment;
-	creation-date="Wed, 09 Oct 2024 02:16:25 GMT";
-	modification-date="Wed, 09 Oct 2024 02:16:25 GMT"
+Changes in v2:
+- Cosmetics changes on coding style.
 
-From: Jack Yu <jack.yu@realtek.com>
-To: "broonie@kernel.org" <broonie@kernel.org>, "lgirdwood@gmail.com"
-	<lgirdwood@gmail.com>
-CC: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"lars@metafoo.de" <lars@metafoo.de>, "bard.liao@intel.com"
-	<bard.liao@intel.com>, "naveen.m@intel.com" <naveen.m@intel.com>,
-	"Flove(HsinFu)" <flove@realtek.com>, Oder Chiou <oder_chiou@realtek.com>,
-	=?big5?B?U2h1bWluZyBbrVOu0bvKXQ==?= <shumingf@realtek.com>,
-	=?big5?B?RGVyZWsgW6TovHe4cV0=?= <derek.fang@realtek.com>, Jack Yu
-	<jack.yu@realtek.com>
-Subject: [PATCH 2/2] ASoC: rt721-sdca: Fix issue of warning message
-Thread-Topic: [PATCH 2/2] ASoC: rt721-sdca: Fix issue of warning message
-Thread-Index: AdsZYB5twYpxAqYfT+6Yl9jzt54Bxg==
-Date: Tue, 8 Oct 2024 08:57:35 +0000
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-X-MS-Exchange-Organization-RecordReviewCfmType: 0
-Content-Type: text/plain; charset="big5"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
+[v3] PM / core: conditionally skip system pm in device/driver model
+[v2] usb: host: enable suspend-to-RAM control in userspace
+[v1] [RFC] usb: host: Allow userspace to control usb suspend flows
+---
 
-Rml4IGlzc3VlIG9mIHdhcm5pbmcgbWVzc2FnZXMgY2F1c2VkIGJ5IHNvbWUgdmFyaWFibGVzLg0K
-DQpTaWduZWQtb2ZmLWJ5OiBKYWNrIFl1IDxqYWNrLnl1QHJlYWx0ZWsuY29tPg0KLS0tDQogc291
-bmQvc29jL2NvZGVjcy9ydC1zZHctY29tbW9uLmMgfCAyICstDQogc291bmQvc29jL2NvZGVjcy9y
-dDcyMS1zZGNhLmMgICAgfCA0ICsrLS0NCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
-KSwgMyBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL3NvdW5kL3NvYy9jb2RlY3MvcnQtc2R3
-LWNvbW1vbi5jIGIvc291bmQvc29jL2NvZGVjcy9ydC1zZHctY29tbW9uLmMNCmluZGV4IDllZDBl
-OTg1NTY5OS4uYTQyMmRhNmNmNzAyIDEwMDY0NA0KLS0tIGEvc291bmQvc29jL2NvZGVjcy9ydC1z
-ZHctY29tbW9uLmMNCisrKyBiL3NvdW5kL3NvYy9jb2RlY3MvcnQtc2R3LWNvbW1vbi5jDQpAQCAt
-MTA4LDcgKzEwOCw3IEBAIEVYUE9SVF9TWU1CT0xfR1BMKHJ0X3NkY2FfaW5kZXhfdXBkYXRlX2Jp
-dHMpOw0KIGludCBydF9zZGNhX2J0bl90eXBlKHVuc2lnbmVkIGNoYXIgKmJ1ZmZlcikNCiB7DQog
-CXU4IGJ0bl90eXBlID0gMDsNCi0JaW50IHJldDsNCisJaW50IHJldCA9IDA7DQogDQogCWJ0bl90
-eXBlIHw9IGJ1ZmZlclswXSAmIDB4ZjsNCiAJYnRuX3R5cGUgfD0gKGJ1ZmZlclswXSA+PiA0KSAm
-IDB4ZjsNCmRpZmYgLS1naXQgYS9zb3VuZC9zb2MvY29kZWNzL3J0NzIxLXNkY2EuYyBiL3NvdW5k
-L3NvYy9jb2RlY3MvcnQ3MjEtc2RjYS5jDQppbmRleCAzNjA1NmNiN2EzY2EuLjIwMWNiNjY3Yzhj
-MSAxMDA2NDQNCi0tLSBhL3NvdW5kL3NvYy9jb2RlY3MvcnQ3MjEtc2RjYS5jDQorKysgYi9zb3Vu
-ZC9zb2MvY29kZWNzL3J0NzIxLXNkY2EuYw0KQEAgLTMwLDcgKzMwLDcgQEAgc3RhdGljIHZvaWQg
-cnQ3MjFfc2RjYV9qYWNrX2RldGVjdF9oYW5kbGVyKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykN
-CiB7DQogCXN0cnVjdCBydDcyMV9zZGNhX3ByaXYgKnJ0NzIxID0NCiAJCWNvbnRhaW5lcl9vZih3
-b3JrLCBzdHJ1Y3QgcnQ3MjFfc2RjYV9wcml2LCBqYWNrX2RldGVjdF93b3JrLndvcmspOw0KLQlp
-bnQgYnRuX3R5cGUgPSAwLCByZXQ7DQorCWludCBidG5fdHlwZSA9IDA7DQogDQogCWlmICghcnQ3
-MjEtPmhzX2phY2spDQogCQlyZXR1cm47DQpAQCAtNDIsNyArNDIsNyBAQCBzdGF0aWMgdm9pZCBy
-dDcyMV9zZGNhX2phY2tfZGV0ZWN0X2hhbmRsZXIoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQ0K
-IAlpZiAocnQ3MjEtPnNjcF9zZGNhX3N0YXQxICYgU0RXX1NDUF9TRENBX0lOVF9TRENBXzYpIHsN
-CiAJCXJ0NzIxLT5qYWNrX3R5cGUgPSBydF9zZGNhX2hlYWRzZXRfZGV0ZWN0KHJ0NzIxLT5yZWdt
-YXAsDQogCQkJCQkJCVJUNzIxX1NEQ0FfRU5UX0dFNDkpOw0KLQkJaWYgKHJldCA8IDApDQorCQlp
-ZiAocnQ3MjEtPmphY2tfdHlwZSA8IDApDQogCQkJcmV0dXJuOw0KIAl9DQogDQotLSANCjIuMzQu
-MQ0KDQo=
+Guan-Yu Lin (5):
+  usb: dwc3: separate dev_pm_ops for each pm_event
+  usb: xhci-plat: separate dev_pm_ops for each pm_event
+  usb: add apis for sideband uasge tracking
+  xhci: sideband: add api to trace sideband usage
+  usb: host: enable sideband transfer during system sleep
 
---_002_00bfbc805d9746579129083dafdc1bd0realtekcom_--
+ drivers/usb/core/driver.c         | 64 ++++++++++++++++++++++
+ drivers/usb/core/hcd.c            |  1 +
+ drivers/usb/core/usb.c            |  1 +
+ drivers/usb/dwc3/core.c           | 90 ++++++++++++++++++++++++++++++-
+ drivers/usb/dwc3/core.h           |  8 +++
+ drivers/usb/host/xhci-plat.c      | 38 +++++++++++--
+ drivers/usb/host/xhci-plat.h      |  7 +++
+ drivers/usb/host/xhci-sideband.c  | 74 +++++++++++++++++++++++++
+ include/linux/usb.h               | 13 +++++
+ include/linux/usb/hcd.h           |  4 ++
+ include/linux/usb/xhci-sideband.h |  5 ++
+ sound/usb/qcom/qc_audio_offload.c |  3 ++
+ 12 files changed, 303 insertions(+), 5 deletions(-)
+
+-- 
+2.47.0.rc0.187.ge670bccf7e-goog
+
