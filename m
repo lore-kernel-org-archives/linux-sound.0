@@ -1,74 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CB918EFEC
-	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 10:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F14618E03E
+	for <linux-sound@vger.kernel.org>; Wed,  9 Oct 2024 10:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728471023; cv=none; b=r0wdVgnMeCrQjovJ/zUwwjCOeyh01U58m8Ic7mFiO1C2OobMP0FkkhcPPWFseZLx8FzSS9+AxhxZCDbR+bLzGTzLkQh4mXZHbqtE68gkqLnNtVwizqxZMMpQ1nRWdgG4wMEHWT8wWcLxDElrWniT4KnNfwUmn/umxEC55Eu0P3E=
+	t=1728471353; cv=none; b=BAYy/F1CwKLGputp9f5svyRjkIN8ImDs11NwZvq7Nkm+brW/gUk8kVoF4m5PHWgEzgAIQPbPRZ/j2qKB/xYXqir1ntzz4HyOEo22tDHzn7tAzxW+RGz3YeGyRlxuAmU0OEiqaXI9vc72uZAPtzpeLPVrEhOIcWT/Gj4L3Nxv6jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728471023; c=relaxed/simple;
-	bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
+	s=arc-20240116; t=1728471353; c=relaxed/simple;
+	bh=P6wOEJFH1gN3pSkiGKb7z2pqnwnI+EOwPE66fTmRo9I=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aoh6ZdH3Be+gLzCvG4ET7+s0Z4B79xE3h236E6i4znQXRAa2HHxDG7LnreXloGN47bZVFpJu5rfys874QWWOoWKSnqNn9QW6WTzEqcPOdzrxUCURar0vtJNNZofp2FELJ+LyOqNjNyA2IJvNeV0mnydSJiBbH1EC08e5aqlysBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PDicS0Vh; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=Zgka4osAkYe7aCamkfhJX0vq/t04b+bJreLrHs3sXsTxTTb5GN4ePOwSqNRnePYAjOt+mGfyuGkFy18Wgn7kiZxf9+Ld9p6o/2n1wGvFCvMKFfy7m86Xw97r5YbBKHAgoesy2aHKonaeWVIFPCEyERcyC7G7kXEv2gvU0sbSClM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UXGmAd/u; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PDicS0Vh"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UXGmAd/u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728471020;
+	s=mimecast20190719; t=1728471350;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
-	b=PDicS0VhcsTqvmpflns9/rwRwqswB8RmklHD1TNlw/2TBej4iM7Fe5MswZe/Z9yQQawOBj
-	Est8sgEia2VzIWzJhK+u/3t8DwsQLJ1kYOPjNtZ0SSM3e/RYwuQcAGvMVdFtBAvsRNnF+/
-	K0nrKKqmJtgSbKKRZoBlHLeRtgedeb0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=P6wOEJFH1gN3pSkiGKb7z2pqnwnI+EOwPE66fTmRo9I=;
+	b=UXGmAd/ueXQSn/ubVKycETMgPvnqcbMzwle74kYnWoMEhebollHM8MDV2txuKWVZCozMPX
+	kNrEnoRrZH5x1zEXDvYl+dhxxPTmnL9HVZF1xaB+J3j7k03oa3WnDVxBIUtE0mqWvhmVTG
+	blFopCum6ELHK9KO96pzznYvLq8XAg8=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-386-y2TurfLAN-Chgk_BUfsFEA-1; Wed, 09 Oct 2024 06:50:19 -0400
-X-MC-Unique: y2TurfLAN-Chgk_BUfsFEA-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-42cb857fc7dso57277525e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 03:50:19 -0700 (PDT)
+ us-mta-373-wQfawKatMXOqfayEtQgZRw-1; Wed, 09 Oct 2024 06:55:49 -0400
+X-MC-Unique: wQfawKatMXOqfayEtQgZRw-1
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-2e2a29fa586so674176a91.2
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 03:55:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728471018; x=1729075818;
+        d=1e100.net; s=20230601; t=1728471348; x=1729076148;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=DSgm22aJFfiNtDR5PH9COXLN1T3/sjP+t9mUNwfGUwc=;
-        b=W8CBL8LoMgyOcSVousaVtHuSEvtXoTTi2Rn6nnSx+bwpxFy80Dr3ittR1PcxnZhv/e
-         wer41ajlbuV9pd071UK92zkdrCBEzurzQ0Sy1bPQxp4Ywdcts4kyEwjwM/5Fio13NSb1
-         mrgkbRO0wyvxb8lk+C10fENaOSzXkfmknfLzMccEaHBjfjUhHCWvCPYDdeSJh8qCKTRG
-         Sd8kajhnDs/LqVA/I5kjD4Gn2aia3kjeJfFoXcWxr0/pf/NrKzFA/ktXR1ube7+B9rX6
-         +nzuWKsKPMbHC/xw1dubhDiv+zzSFer1V/RoNpFm2sxhMZQCbbHt7mgbrNfzITc9bjvR
-         shQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXhnNPFKjpR5LvHgF0hZgRzNTDvmUMPL+iG6Tet6cvcAbjwAAkOu/ha/sNfaxUSylVAyde3txoL5GXbnw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQE5MIICTwMtHaZIhVuyg1TtpvKQF4apCO2OghKTelEC2ODCrX
-	dTl1YhvU1qNSw0M6p9HC/DsOKMDl6G6g7LtN/IV3qibEyWABV23Mat1FEy1qXrIhnI7TXBPUWqc
-	sZqvmABHn3ZuLDalIxSQny7QOodIe6A7r8VtUY8KlIxXRwhG6zT7R91T6ZGZf
-X-Received: by 2002:a05:600c:154e:b0:42c:bf94:f9ad with SMTP id 5b1f17b1804b1-430d748c5demr14383625e9.34.1728471018502;
-        Wed, 09 Oct 2024 03:50:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHApNTrtsbft1V7n10B4IIxH4JucbHmoQkQ4Jkaz+as7iAf1Sn6WqJVUcb29pY2MStHfTeBSg==
-X-Received: by 2002:a05:600c:154e:b0:42c:bf94:f9ad with SMTP id 5b1f17b1804b1-430d748c5demr14383375e9.34.1728471017985;
-        Wed, 09 Oct 2024 03:50:17 -0700 (PDT)
+        bh=AcZlzWYyN8UAcZA3DQr50bLqr6cMtcb31GCRb120JWk=;
+        b=So5j8XhRMd0vUyhle+ON23I6eDkbsTVw7CnAMK6mQPrZpLxwyUsH85y1F320st5frR
+         n9KJKvK4uNnVQ9S876eepryCUUCh4a2pUt1a71NzixTqUVvq7cFgCSoJPZQaukXlb6nU
+         j00DOFz9Tpsc+l081bMI/Fd3IwO7I5md99jEKyD1mSBH3slQAHkxzzJFB+gMNU3HbPHS
+         SNaN5LXKS7ENlLLM6OeBLZz4oNAj4ypoTFQZ1dAsIZ/MPhMbjvtPuZFcV+FXdmrfIeFP
+         4OtyeVsj/I9WpadFhGsQnF0CUHym2dJ69V30QSMnV1NiQvTcVbuA8NMO7rOj1Fmx72sH
+         r0KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXWuPesBmBSQFOUcDA9KMU4jnDKPGEz50PcJ2+b9t98vJtFVHv8h2SAdaMbV91MxTLLSb0Yp2prLKENHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1z1r10Dd64KtX1Juoh/HupLczISEdRmMoliptJ0p5q5xcJ/UK
+	E5D5kNgZkPwcDRsCwr9U8c0rwUJ/GJc+l5FaiIw+nVjV57Dy00kpylewgV0YpSoFT4SKOTcCjoO
+	ItKVE6+Kjgu+62Q4RPRL1VuaJvjJE3W0z/pV8VxAyzhVbKf8EXFItAD6EGXc6
+X-Received: by 2002:a17:90b:28c7:b0:2e2:b21b:2247 with SMTP id 98e67ed59e1d1-2e2b21b2322mr933590a91.27.1728471348030;
+        Wed, 09 Oct 2024 03:55:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVV2txsjAP9qEDQxARdGlpHpBZTxsJXvis+5//ouL/mBT0m0DdnB1NIlYvykMWn/28LY/iUQ==
+X-Received: by 2002:a17:90b:28c7:b0:2e2:b21b:2247 with SMTP id 98e67ed59e1d1-2e2b21b2322mr933536a91.27.1728471347607;
+        Wed, 09 Oct 2024 03:55:47 -0700 (PDT)
 Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1695e62bsm10108645f8f.81.2024.10.09.03.50.15
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2a365cb84sm1341556a91.0.2024.10.09.03.55.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 03:50:17 -0700 (PDT)
-Message-ID: <6f54425072b008481a0511fc140bab2590cd1c06.camel@redhat.com>
-Subject: Re: [RFC PATCH 03/13] drivers/xen: Use never-managed version of
- pci_intx()
+        Wed, 09 Oct 2024 03:55:46 -0700 (PDT)
+Message-ID: <d6a78b6a3dec3e2371cced1382cd83d7dcf37426.camel@redhat.com>
+Subject: Re: [RFC PATCH 09/13] ata: Use always-managed version of pci_intx()
 From: Philipp Stanner <pstanner@redhat.com>
-To: Juergen Gross <jgross@suse.com>, Damien Le Moal <dlemoal@kernel.org>, 
- Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex
- Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>, Manish
- Chopra <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+To: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
  Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
  Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
  GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
@@ -77,7 +76,8 @@ To: Juergen Gross <jgross@suse.com>, Damien Le Moal <dlemoal@kernel.org>,
  <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
  <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
  <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
  <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
  Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
  Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
@@ -103,11 +103,11 @@ Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev,
  kvm@vger.kernel.org,  xen-devel@lists.xenproject.org,
  linux-sound@vger.kernel.org
-Date: Wed, 09 Oct 2024 12:50:14 +0200
-In-Reply-To: <3874c932-71c4-4253-9dcf-a9c302e6bc7e@suse.com>
+Date: Wed, 09 Oct 2024 12:55:07 +0200
+In-Reply-To: <95b23ff9-eb17-4e1c-b7a3-2d3691ffc48f@kernel.org>
 References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <20241009083519.10088-4-pstanner@redhat.com>
-	 <3874c932-71c4-4253-9dcf-a9c302e6bc7e@suse.com>
+	 <20241009083519.10088-10-pstanner@redhat.com>
+	 <95b23ff9-eb17-4e1c-b7a3-2d3691ffc48f@kernel.org>
 User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -120,35 +120,146 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2024-10-09 at 10:51 +0200, Juergen Gross wrote:
-> On 09.10.24 10:35, Philipp Stanner wrote:
+On Wed, 2024-10-09 at 17:51 +0900, Damien Le Moal wrote:
+> On 10/9/24 17:35, Philipp Stanner wrote:
 > > pci_intx() is a hybrid function which can sometimes be managed
 > > through
 > > devres. To remove this hybrid nature from pci_intx(), it is
 > > necessary to
 > > port users to either an always-managed or a never-managed version.
 > >=20
-> > xen enables its PCI-Device with pci_enable_device(). Thus, it
-> > needs the never-managed version.
+> > All users in ata enable their PCI-Device with pcim_enable_device().
+> > Thus,
+> > they need the always-managed version.
 > >=20
 > > Replace pci_intx() with pci_intx_unmanaged().
-> >=20
-> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 >=20
-> Acked-by: Juergen Gross <jgross@suse.com>
->=20
-> BTW, the diffstat in the [PATCH 00/13] mail is missing some files,
-> e.g. the changes of this patch.
+> This contradicts the sentence above and the patche replaces
+> pci_intx() with
+> pcim_intx()... So s/pci_intx_unmanaged/pcim_intx in the above
+> sentence ?
 
-Ooops, probably something exploded when I copied the backed-up cover-
-letter after regenerating the patches. Will fix.
-
-But good to see that someone actually reads cover letters :p
+Yes, absolutely correct, the commit message is broken. The code itself
+is fine, I grepped through it for pci_enable / pcim_enable
 
 P.
 
 >=20
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > ---
+> > =C2=A0drivers/ata/ahci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+> > =C2=A0drivers/ata/ata_piix.c=C2=A0=C2=A0 | 2 +-
+> > =C2=A0drivers/ata/pata_rdc.c=C2=A0=C2=A0 | 2 +-
+> > =C2=A0drivers/ata/sata_sil24.c | 2 +-
+> > =C2=A0drivers/ata/sata_sis.c=C2=A0=C2=A0 | 2 +-
+> > =C2=A0drivers/ata/sata_uli.c=C2=A0=C2=A0 | 2 +-
+> > =C2=A0drivers/ata/sata_vsc.c=C2=A0=C2=A0 | 2 +-
+> > =C2=A07 files changed, 7 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
+> > index 45f63b09828a..9273ff3d4732 100644
+> > --- a/drivers/ata/ahci.c
+> > +++ b/drivers/ata/ahci.c
+> > @@ -1985,7 +1985,7 @@ static int ahci_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id *ent)
+> > =C2=A0
+> > =C2=A0=09if (ahci_init_msi(pdev, n_ports, hpriv) < 0) {
+> > =C2=A0=09=09/* legacy intx interrupts */
+> > -=09=09pci_intx(pdev, 1);
+> > +=09=09pcim_intx(pdev, 1);
+> > =C2=A0=09}
+> > =C2=A0=09hpriv->irq =3D pci_irq_vector(pdev, 0);
+> > =C2=A0
+> > diff --git a/drivers/ata/ata_piix.c b/drivers/ata/ata_piix.c
+> > index 093b940bc953..d441246fa357 100644
+> > --- a/drivers/ata/ata_piix.c
+> > +++ b/drivers/ata/ata_piix.c
+> > @@ -1725,7 +1725,7 @@ static int piix_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id *ent)
+> > =C2=A0=09 * message-signalled interrupts currently).
+> > =C2=A0=09 */
+> > =C2=A0=09if (port_flags & PIIX_FLAG_CHECKINTR)
+> > -=09=09pci_intx(pdev, 1);
+> > +=09=09pcim_intx(pdev, 1);
+> > =C2=A0
+> > =C2=A0=09if (piix_check_450nx_errata(pdev)) {
+> > =C2=A0=09=09/* This writes into the master table but it does
+> > not
+> > diff --git a/drivers/ata/pata_rdc.c b/drivers/ata/pata_rdc.c
+> > index 0a9689862f71..09792aac7f9d 100644
+> > --- a/drivers/ata/pata_rdc.c
+> > +++ b/drivers/ata/pata_rdc.c
+> > @@ -340,7 +340,7 @@ static int rdc_init_one(struct pci_dev *pdev,
+> > const struct pci_device_id *ent)
+> > =C2=A0=09=09return rc;
+> > =C2=A0=09host->private_data =3D hpriv;
+> > =C2=A0
+> > -=09pci_intx(pdev, 1);
+> > +=09pcim_intx(pdev, 1);
+> > =C2=A0
+> > =C2=A0=09host->flags |=3D ATA_HOST_PARALLEL_SCAN;
+> > =C2=A0
+> > diff --git a/drivers/ata/sata_sil24.c b/drivers/ata/sata_sil24.c
+> > index 72c03cbdaff4..b771ebd41252 100644
+> > --- a/drivers/ata/sata_sil24.c
+> > +++ b/drivers/ata/sata_sil24.c
+> > @@ -1317,7 +1317,7 @@ static int sil24_init_one(struct pci_dev
+> > *pdev, const struct pci_device_id *ent)
+> > =C2=A0
+> > =C2=A0=09if (sata_sil24_msi && !pci_enable_msi(pdev)) {
+> > =C2=A0=09=09dev_info(&pdev->dev, "Using MSI\n");
+> > -=09=09pci_intx(pdev, 0);
+> > +=09=09pcim_intx(pdev, 0);
+> > =C2=A0=09}
+> > =C2=A0
+> > =C2=A0=09pci_set_master(pdev);
+> > diff --git a/drivers/ata/sata_sis.c b/drivers/ata/sata_sis.c
+> > index ef8724986de3..b8b6d9eff3b8 100644
+> > --- a/drivers/ata/sata_sis.c
+> > +++ b/drivers/ata/sata_sis.c
+> > @@ -290,7 +290,7 @@ static int sis_init_one(struct pci_dev *pdev,
+> > const struct pci_device_id *ent)
+> > =C2=A0=09}
+> > =C2=A0
+> > =C2=A0=09pci_set_master(pdev);
+> > -=09pci_intx(pdev, 1);
+> > +=09pcim_intx(pdev, 1);
+> > =C2=A0=09return ata_host_activate(host, pdev->irq,
+> > ata_bmdma_interrupt,
+> > =C2=A0=09=09=09=09 IRQF_SHARED, &sis_sht);
+> > =C2=A0}
+> > diff --git a/drivers/ata/sata_uli.c b/drivers/ata/sata_uli.c
+> > index 60ea45926cd1..52894ff49dcb 100644
+> > --- a/drivers/ata/sata_uli.c
+> > +++ b/drivers/ata/sata_uli.c
+> > @@ -221,7 +221,7 @@ static int uli_init_one(struct pci_dev *pdev,
+> > const struct pci_device_id *ent)
+> > =C2=A0=09}
+> > =C2=A0
+> > =C2=A0=09pci_set_master(pdev);
+> > -=09pci_intx(pdev, 1);
+> > +=09pcim_intx(pdev, 1);
+> > =C2=A0=09return ata_host_activate(host, pdev->irq,
+> > ata_bmdma_interrupt,
+> > =C2=A0=09=09=09=09 IRQF_SHARED, &uli_sht);
+> > =C2=A0}
+> > diff --git a/drivers/ata/sata_vsc.c b/drivers/ata/sata_vsc.c
+> > index d39b87537168..a53a2dfc1e17 100644
+> > --- a/drivers/ata/sata_vsc.c
+> > +++ b/drivers/ata/sata_vsc.c
+> > @@ -384,7 +384,7 @@ static int vsc_sata_init_one(struct pci_dev
+> > *pdev,
+> > =C2=A0=09=09pci_write_config_byte(pdev, PCI_CACHE_LINE_SIZE,
+> > 0x80);
+> > =C2=A0
+> > =C2=A0=09if (pci_enable_msi(pdev) =3D=3D 0)
+> > -=09=09pci_intx(pdev, 0);
+> > +=09=09pcim_intx(pdev, 0);
+> > =C2=A0
+> > =C2=A0=09/*
+> > =C2=A0=09 * Config offset 0x98 is "Extended Control and Status
+> > Register 0"
 >=20
-> Juergen
 >=20
 
