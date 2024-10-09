@@ -1,166 +1,61 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC382186E26;
-	Wed,  9 Oct 2024 07:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05DA184528;
+	Wed,  9 Oct 2024 08:10:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728460400; cv=none; b=QYWZWJDbXc+S607vV/R+dDzGYgVjJHo7n33I4xsmTuyxWZiDWYfcktQGSK843TFdjF8qihrU3uASWSa6pKx9UgH+X7odw1kdizTr/jEhfKZ5C05EmZga6ZRXMYsEBb4UCU3neP8j9qOvl5vP/8wYd6Nva8/CHMVLE88HjCXqlYk=
+	t=1728461415; cv=none; b=cAFqSKQpHOTHOKTSgkYO3Ci1TAMAZMh6t6PAnL2bQ+6W7I+kWZeeo5skaIzzboN5ZBXdrEvooYyJ63CT/5h87ECWhAaVrjgKCNX4PgdJ0um0AplK5zXDN4mEzx3pvsNmSX/zPIfxUKZmrZCBJHEQFJLjSe6R8vaknTfGiA0unq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728460400; c=relaxed/simple;
-	bh=uvEbzJ/pOvdhu2JpfUea1G2jjPAPO7O8//5rWein2no=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P0U5kJEHcdlmyk3ipBPllgReZHGbXF5ihMfovH6r4efa6tNbVkea+6mn8ntJg+7ACp0/8R3YasefeHSxGaXyQG1yjt8mSxienTtjFvU0s9iV6365yYKqY7P9e9ValHnFttkjzK4iCgX6rzqHPfp8X3MO9EvENzeHfLOmr1RYMjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.38])
-	by gateway (Coremail) with SMTP id _____8DxurJsNgZn87IQAA--.23350S3;
-	Wed, 09 Oct 2024 15:53:16 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.68.38])
-	by front1 (Coremail) with SMTP id qMiowMBxXuRnNgZn1hYhAA--.37420S3;
-	Wed, 09 Oct 2024 15:53:15 +0800 (CST)
-From: Binbin Zhou <zhoubinbin@loongson.cn>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
+	s=arc-20240116; t=1728461415; c=relaxed/simple;
+	bh=6OlxNdWclmStA3eFD7BwTcnFpuuKsg5RM48Uu03S2UE=;
+	h=From:To:Subject:Date:Message-Id; b=FfV81wdKi0KY+cRDpJ6gL+IrvVBdUOuK0SrtCniuBMcfH8aDqmhQ06Mfn458MXRR12T9/4toWh279LxFOU1DpyAiYE5p6NChGqs7QUGHG5uJPpiGZiLzT7sVNYqfbBFrBfeudDxFxacOw3cXM4xXnSfHcZ2HdFQacVOXTQiu4hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id EFB6C20142C;
+	Wed,  9 Oct 2024 10:10:05 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id B65A7200874;
+	Wed,  9 Oct 2024 10:10:05 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 00B65183F0C0;
+	Wed,  9 Oct 2024 16:10:03 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
 	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v3 9/9] LoongArch: dts: Add I2S support to Loongson-2K2000
-Date: Wed,  9 Oct 2024 15:53:00 +0800
-Message-ID: <88924698de2bc3fe5129891b99b4ef0402af1aa8.1728459624.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <cover.1728459624.git.zhoubinbin@loongson.cn>
-References: <cover.1728459624.git.zhoubinbin@loongson.cn>
+	linux-kernel@vger.kernel.org,
+	chancel.liu@nxp.com
+Subject: [PATCH 0/2] ASoC: imx-card: add cs42888 codec support
+Date: Wed,  9 Oct 2024 15:46:42 +0800
+Message-Id: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMBxXuRnNgZn1hYhAA--.37420S3
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Kw45XryxCr4xGFyDur45urX_yoW8CFyUpF
-	Zru3yDGr4rXF129a15JFWUJr1rJF9YkF93W3ZIy3y8Gw4qgw1jvr48tF92vF1xW3yrX3y2
-	qrnYkryjk3WUJwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUd529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUm2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26F4UJVW0owAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
-	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
-	Gryq6s0DMcIj6I8E87Iv67AKxVW8Jr0_Cr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0x
-	vY0x0EwIxGrwACjcxG6xCI17CEII8vrVW3JVW8Jr1lc7CjxVAaw2AFwI0_GFv_Wryl42xK
-	82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2
-	IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
-	6r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_tr0E3s1lIxAIcVC0I7IYx2
-	IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
-	jsIE14v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x07bd3ktUUUUU=
 
-The module is supported, adding it.
+add cs42888 codec support
 
-Not all Loongson-2K1000 boards have an i2s interface, here is an example
-of enabling it:
+Chancel Liu (2):
+  ASoC: imx-card: Set mclk for codec
+  ASoC: imx-card: Add CS42888 support
 
-sound {
-	compatible = "loongson,ls-audio-card";
-	model = "Loongson-ASoC";
-	mclk-fs = <512>;
+ sound/soc/fsl/imx-card.c | 59 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 52 insertions(+), 7 deletions(-)
 
-	cpu {
-		sound-dai = <&i2s>;
-	};
-
-	codec {
-		sound-dai = <&es8323>;
-	};
-};
-
-&i2c1 {
-	status = "okay";
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	es8323:es8323@10 {
-		compatible = "everest,es8323";
-		reg = <0x10>;
-		#sound-dai-cells = <0>;
-	};
-};
-
-&i2s {
-	status = "okay";
-
-	clock-frequency = <175000000>;
-	#sound-dai-cells = <0>;
-};
-
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
----
- arch/loongarch/boot/dts/loongson-2k2000.dtsi | 22 ++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/arch/loongarch/boot/dts/loongson-2k2000.dtsi b/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-index 0953c5707825..b4ff55a33e90 100644
---- a/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-+++ b/arch/loongarch/boot/dts/loongson-2k2000.dtsi
-@@ -173,6 +173,22 @@ rtc0: rtc@100d0100 {
- 			status = "disabled";
- 		};
- 
-+		i2c@1fe00120 {
-+			compatible = "loongson,ls2k-i2c";
-+			reg = <0x0 0x1fe00120 0x0 0x8>;
-+			interrupt-parent = <&liointc>;
-+			interrupts = <8 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
-+		i2c@1fe00130 {
-+			compatible = "loongson,ls2k-i2c";
-+			reg = <0x0 0x1fe00130 0x0 0x8>;
-+			interrupt-parent = <&liointc>;
-+			interrupts = <9 IRQ_TYPE_LEVEL_HIGH>;
-+			status = "disabled";
-+		};
-+
- 		uart0: serial@1fe001e0 {
- 			compatible = "ns16550a";
- 			reg = <0x0 0x1fe001e0 0x0 0x10>;
-@@ -243,9 +259,11 @@ display@6,1 {
- 				status = "disabled";
- 			};
- 
--			hda@7,0 {
-+			i2s@7,0 {
- 				reg = <0x3800 0x0 0x0 0x0 0x0>;
--				interrupts = <58 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupts = <78 IRQ_TYPE_LEVEL_HIGH>,
-+					     <79 IRQ_TYPE_LEVEL_HIGH>;
-+				interrupt-names = "tx", "rx";
- 				interrupt-parent = <&pic>;
- 				status = "disabled";
- 			};
 -- 
-2.43.5
+2.34.1
 
