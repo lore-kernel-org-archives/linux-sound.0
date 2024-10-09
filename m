@@ -1,39 +1,38 @@
-Received: from cmccmta2.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7326317A584;
-	Wed,  9 Oct 2024 07:09:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
+Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5355236D;
+	Wed,  9 Oct 2024 07:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728457794; cv=none; b=ThsRtcNAdpVBAOKCEAcx75AHG53oLU2kWAYuhhT2YWwbiLQF6/DYR78kZ5DOlkA5arGVoRBb1Z6bty8I2PiVc/Aa6YcmfXEU2sg3m15hPH865b9MaluKlYl8f8/HAdodDlziCAU+r6LiinrwptFSRIhmXD4zhDNt23aqAVArWus=
+	t=1728459142; cv=none; b=uKkdv3sX2G29JyoQ+IytuaIpY70g/Oy9gKIR/JvB3Xv6QGGQIz7hzG8bbYLr16rVOQ2uJbc64k4YJ1sXkZAIBPqE6S30BELAFDFZMCzWSY5JycHpH6f031P1+kxA72oP0KwFoLR6Ir1tHEXrI2cex546KsjksAMAIizyzI6mf2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728457794; c=relaxed/simple;
-	bh=GXhah2Tt/c9Sm5S7ElbdIJybcrICXCQMzokQtUOsYSY=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=KeTvc/r65UFxblMp8//TvbRp9igskOYnpvFg1A8PQ2NoxBufV5JcFx7Ko9w7CYuRZvJNWHWlMQ8S3qtmI+57OHz4pEwJK799+4S+HzKa3i3Li9kdp4Extm/G8Kx70rfi2ksQxQxZ12sgxAh4Tp3JlSVTYgtqNORahGFYvi1g0m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
+	s=arc-20240116; t=1728459142; c=relaxed/simple;
+	bh=CMtoxgNnYZaWKsGPMC4Y5KmG18rguda+kw6ufkxXmbk=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=NZE4Z6PJH49sVORRjpWwRWoHRMR0R5cL764xy0F+gRq5doTDlSGsTlJi/n1AQrZyOLMOEAi/HiGQY14edOUKOV6ok3D0bvSjOiM3QMEIzURUOKPDo0rLdDzYUzOqGbq7Ewu1sfV5MzGnadr/sB89ZFeLt8+DbPMey0KFL6nrZfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee567062c39dac-eadb9;
-	Wed, 09 Oct 2024 15:09:49 +0800 (CST)
-X-RM-TRANSID:2ee567062c39dac-eadb9
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee86706317d387-263c4;
+	Wed, 09 Oct 2024 15:32:14 +0800 (CST)
+X-RM-TRANSID:2ee86706317d387-263c4
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from ubuntu.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee267062c39593-e4770;
-	Wed, 09 Oct 2024 15:09:48 +0800 (CST)
-X-RM-TRANSID:2ee267062c39593-e4770
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee56706317cb0a-de461;
+	Wed, 09 Oct 2024 15:32:13 +0800 (CST)
+X-RM-TRANSID:2ee56706317cb0a-de461
 From: Zhu Jun <zhujun2@cmss.chinamobile.com>
 To: tiwai@suse.com
-Cc: perex@perex.cz,
-	kl@kl.wtf,
-	zhujun2@cmss.chinamobile.com,
-	k.kosik@outlook.com,
+Cc: g@b4.vu,
+	perex@perex.cz,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Use snprintf instead of sprintf in build_mixer_unit_ctl
-Date: Wed,  9 Oct 2024 00:09:44 -0700
-Message-Id: <20241009070944.6937-1-zhujun2@cmss.chinamobile.com>
+	linux-kernel@vger.kernel.org,
+	zhujun2@cmss.chinamobile.com
+Subject: [PATCH] ALSA: scarlett2: Add error check after retrieving PEQ filter values
+Date: Wed,  9 Oct 2024 00:32:11 -0700
+Message-Id: <20241009073211.7266-1-zhujun2@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -41,28 +40,28 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 
-Simplified code by removing redundant assignment of sprintf return value
-and improved safety by replacing sprintf with snprintf.
+Add error check after retrieving PEQ filter values in scarlett2_update_filter_values
+that ensure function returns error if PEQ filter value retrieval fails
 
 Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/usb/mixer.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/usb/mixer_scarlett2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 9945ae55b0d0..b6c3d2ee416e 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -2224,7 +2224,8 @@ static void build_mixer_unit_ctl(struct mixer_build *state,
- 		len = get_term_name(state->chip, iterm, kctl->id.name,
- 				    sizeof(kctl->id.name), 0);
- 	if (!len)
--		len = sprintf(kctl->id.name, "Mixer Source %d", in_ch + 1);
-+		snprintf(kctl->id.name, sizeof(kctl->id.name), "Mixer Source %d", in_ch + 1);
-+
- 	append_ctl_name(kctl, " Volume");
+diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
+index 1150cf104985..1b864a9621ba 100644
+--- a/sound/usb/mixer_scarlett2.c
++++ b/sound/usb/mixer_scarlett2.c
+@@ -5614,6 +5614,9 @@ static int scarlett2_update_filter_values(struct usb_mixer_interface *mixer)
+ 			SCARLETT2_BIQUAD_COEFFS,
+ 		peq_flt_values);
  
- 	usb_audio_dbg(state->chip, "[%d] MU [%s] ch = %d, val = %d/%d\n",
++	if (err < 0)
++		return err;
++
+ 	for (i = 0, dst_idx = 0; i < info->dsp_input_count; i++) {
+ 		src_idx = i *
+ 			  info->peq_flt_total_count *
 -- 
 2.17.1
 
