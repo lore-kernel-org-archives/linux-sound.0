@@ -1,188 +1,82 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A3E1A00F0;
-	Thu, 10 Oct 2024 09:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1684029AF;
+	Thu, 10 Oct 2024 09:49:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728552478; cv=none; b=s0ETjREnRYohf3inqi662uQK3Z06jkDT+djFtLyms2OC2WMkGckJdeyEuwb/EotEB/puh6Ayxwag42TtkE7zGsv6PDXvnLalT9wwyXe45Lpj+diqDjV5gnekemThGCtEpRkjvotJEUFdMo2GtpAa00ZVUFM8HA6EnPi31NiMqrw=
+	t=1728553789; cv=none; b=rRxQRzRdTRJzOmfFob5S7ugvGnE8y7qyNTCCgwY+MOEhm8C4fLGjnEGr74bsmwkhFz725Bq89NHaF3bRjE6PeUd3Tv1hyCmSjvbm8wW9Yop8jzSqkcgs/XaGWE7/+VMvDmgS0G3o3ac07BGo4IAKtPN0MRYWcJ7FGOlZQ1z9QU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728552478; c=relaxed/simple;
-	bh=Qc/AzkQlI2nXPdkpvLykvsnuBMgjz/SDo6Yy82JMdn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ODU0yXRtj8AriTd+lRAjcKAYMFzhNFPmR+WpaDwckZicVv/iPtyYC6SPEJ1WCtnkFFYEyTSe3p3r7hUitiUL3m11lT9kh/BXR08OnBVMS4ay4jjVcVUAnXhdinF0CHr7isNXo34dKH1njNBpji/tmDRz6h+IAq54DcvDIqd9f5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HYHexWZb; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1728553789; c=relaxed/simple;
+	bh=sOKlcUDcVIYv8es7Svh5TEbxwRfsmyZvU+K9y1sAGl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gwvOEkQWPKe0qE5mq4ppCtMEwXpOGKIfaDcjXuLih/cyvXEAW6j2lacPkLatoofth4pUiB9nZ2jMbP8JPyYl/X05rA9apodz/IcxUSmNssuvg256QLh73pzCbGwy7880Viln8QOKfUgfvCsvm2dQXlQZYHZGKtHt0YHGUNl7m4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PnoFtgwV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HYHexWZb"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E8E0C240009;
-	Thu, 10 Oct 2024 09:27:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728552473;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SIpvFyTZgLUu94xOGDEGcr970RAQUxKWuf6ktquG0pA=;
-	b=HYHexWZbzisi+7I32KvQ/3MgFxTE0vqgO/bvfPgFfvjFRZ5OL9sONbUEfexGaj3nIYFNBg
-	rFZUaS9+M6En3zav/tnEjpEGrVtrUchLMaFKubrwz/WPA5PkH2uATnZ/FxbUUIIlOa9i79
-	LftYlIOBb1T/NFh5hwpmp7x5qIojm8Qgq4Z8BE9AXAPsz6/N6EONB62+aL71r4rZPTGC05
-	TbrVH8EBsOkG8a8EwJ/WP7/2wT5erFKgJoylTC6JKbG3f2l7lguUKdnT57IhBnrziOxfBW
-	oyZsmZ5SKpI9QmYRMdUhHMS9zuORceU+OxkeXy4uL2O+2ozkIJp+R2VbWKooGA==
-Date: Thu, 10 Oct 2024 11:27:51 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: "Mahapatra, Amit Kumar" <amit.kumar-mahapatra@amd.com>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>, "michael@walle.cc"
- <michael@walle.cc>, "broonie@kernel.org" <broonie@kernel.org>,
- "pratyush@kernel.org" <pratyush@kernel.org>, "richard@nod.at"
- <richard@nod.at>, "vigneshr@ti.com" <vigneshr@ti.com>, Rob Herring
- <robh@kernel.org>, "cornor+dt@kernel.org" <cornor+dt@kernel.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>, "linux-spi@vger.kernel.org"
- <linux-spi@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-mtd@lists.infradead.org"
- <linux-mtd@lists.infradead.org>, "nicolas.ferre@microchip.com"
- <nicolas.ferre@microchip.com>, "alexandre.belloni@bootlin.com"
- <alexandre.belloni@bootlin.com>, "claudiu.beznea@tuxon.dev"
- <claudiu.beznea@tuxon.dev>, "Simek, Michal" <michal.simek@amd.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "alsa-devel@alsa-project.org"
- <alsa-devel@alsa-project.org>, "patches@opensource.cirrus.com"
- <patches@opensource.cirrus.com>, "linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>, "git (AMD-Xilinx)" <git@amd.com>,
- "amitrkcian2002@gmail.com" <amitrkcian2002@gmail.com>, Conor Dooley
- <conor.dooley@microchip.com>, "beanhuo@micron.com" <beanhuo@micron.com>
-Subject: Re: Add stacked and parallel memories support in spi-nor
-Message-ID: <20241010112751.01e5afa1@xps-13>
-In-Reply-To: <IA0PR12MB769930E81D3D66B51CDC8213DC782@IA0PR12MB7699.namprd12.prod.outlook.com>
-References: <IA0PR12MB7699B360C7CF59E0A3D095F9DC8D2@IA0PR12MB7699.namprd12.prod.outlook.com>
-	<20240930110408.6ec43e97@xps-13>
-	<IA0PR12MB769930E81D3D66B51CDC8213DC782@IA0PR12MB7699.namprd12.prod.outlook.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PnoFtgwV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503A7C4CEC5;
+	Thu, 10 Oct 2024 09:49:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728553788;
+	bh=sOKlcUDcVIYv8es7Svh5TEbxwRfsmyZvU+K9y1sAGl4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PnoFtgwVFP8jz1lqnlXqpRQFN9k9Gva+GButJXcoVLTcJa80vNNGkb9YtN5UCSFpY
+	 xuCbNx4zI7qvl6rHE/B7nZJCjjyNuCwwZ/2D8HUtGZkX39z18lrF6Tw5xWrRocr2lo
+	 FV0LgQDhc5U1igE2/UBjkLizAompnTYylpbPbf2TxZzS6DAoLsxVll2k81AVEOCZP4
+	 /8CqtbwhJZBH/gf6NeWOkoZEDrlhhTwZZYO8fTBosdytGk2S7IefQuEvpLs6g2QTvc
+	 smkCJ9sAUigCuCJAod5CZ/yLQdq9uwXHH2g0fLpV5KwNjyYsVMibdjGqh1MiCgR9+t
+	 MQs71v9bWMkjg==
+Date: Thu, 10 Oct 2024 10:49:45 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Tang Bin <tangbin@cmss.chinamobile.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/2] ASoC: mediatek: mt8188: Remove unnecessary variable
+ assignments
+Message-ID: <ZwejOZQlSsWbAWBg@finisterre.sirena.org.uk>
+References: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="k3nsdihw8mA/diZ8"
+Content-Disposition: inline
+In-Reply-To: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
+X-Cookie: Editing is a rewording activity.
+
+
+--k3nsdihw8mA/diZ8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: miquel.raynal@bootlin.com
 
-Hi Amit,
+On Thu, Oct 10, 2024 at 03:35:47PM +0800, Tang Bin wrote:
+> In the function mtk_dai_hdmitx_dptx_hw_params, the variable
+> 'ret' is redundant, thus remove it.
 
-amit.kumar-mahapatra@amd.com wrote on Thu, 10 Oct 2024 09:17:58 +0000:
+Please don't send patch serieses without cover letters, having a cover=20
+letter makes it easier to tell why the series is a series and makes it
+easier for tooling to work with the series.
 
-> Hello Miquel,
->=20
-> > > - The stacked-memories DT bindings will contain the phandles of the f=
-lash nodes =20
-> > connected in stacked mode. =20
-> > >
-> > > - The first flash node will contain the mtd partition that would have
-> > > the cross over memory staring at a memory location in the first flash
-> > > and ending at some memory location of the 2nd flash =20
-> >=20
-> > I don't like that much. Describing partitions past the actual device so=
-unds wrong. If
-> > you look into [1] there is a suggestion from Rob to handle this case us=
-ing a property
-> > that tells us there is a continuation, so from a software perspective w=
-e can easily
-> > make the link, but on the hardware description side the information are=
- correct. =20
->=20
-> I reviewed Rob's suggestions in [1], and I need to examine the MTD layer=
-=20
-> to determine how this can be implemented from a software perspective.=20
-> For reference, here is Rob's suggestion:
->=20
-> Describe each device and partition separately and add link(s) from one=20
-> partition to the next=20
->=20
-> flash0 {
->   partitions {
->     compatible =3D "fixed-partitions";
->     concat-partition =3D <&flash1_partitions>;
->     ...
->   };
-> };
->=20
-> flash1 {
->   flash1_partition: partitions {
->     compatible =3D "fixed-partitions";
->     ...
->   };
-> };
->=20
-> >=20
-> > If this description is accepted, then fine, you can deprecate the "stac=
-ked-memories"
-> > property. =20
->=20
-> I believe that in addition to Rob's description, we should also include=20
-> the 'stacked-memories' property. This property helps us identify which=20
-> flashes are stacked, while Rob's suggestion explains how the partitions=20
-> within the stacked flashes are connected.
->=20
-> For example, if we have three flashes connected to an SPI host, with=20
-> flash@0 and flash@1 operating in stacked mode and flash@2 functioning as =
-a=20
-> standalone flash, the Device Tree binding might look something like this:=
-=20
-> Please share your thoughts on this.
->=20
-> spi@0 {
->   ...
->   flash@0 {
->     compatible =3D "jedec,spi-nor"
->     reg =3D <0x00>;
->     stacked-memories =3D <&flash@0 &flash@1>;
->     spi-max-frequency =3D <50000000>;
->     ...
->         flash0_partition: partitions {
->             compatible =3D "fixed-partitions";
-> 	concat-partition =3D <&flash1_partitions>;=09
->         	partition@0 {
->           	    label =3D "Stacked-Flash-1";
->                 reg =3D <0x0 0x800000>;
-> 	}
->         }
->     }
->   flash@1 {
->     compatible =3D "jedec,spi-nor"
->      reg =3D <0x01>;
->     spi-max-frequency =3D <50000000>;
->     ...
->         flash1_partition: partitions {
->             compatible =3D "fixed-partitions";
-> 	concat-partition =3D <&flash0_partitions>;=09
->         	partition@0 {
->           	    label =3D " Stacked-Flash-2";
->                 reg =3D <0x0 0x800000>;
-> 	}
->         }
->   }
->=20
->   flash@2 {
->     compatible =3D "jedec,spi-nor"
->      reg =3D <0x01>;
->     spi-max-frequency =3D <50000000>;
->     ...
->         partitions {
->             compatible =3D "fixed-partitions";
-> 	concat-partition =3D <&flash0_partitions>;=09
->         	partition@0 {
->           	    label =3D "Single-Flash";
->                 reg =3D <0x0 0x800000>;
-> 	}
->         }
->   }
+--k3nsdihw8mA/diZ8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I'm sorry but this is pretty messed up. The alignments are wrong, I
-believe the labels are wrong, the reg properties as well. Can you
-please work on this example and send an updated version?
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Miqu=C3=A8l
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcHozgACgkQJNaLcl1U
+h9BTrQf/dvyLMa5N8atLKqhwKgHzZbLbq3zfN9tjwPX11KsHTUv8NHPRtsBQWZCX
+89eRdk8SEXRIS82p5CCQU509DCJFSgzborbduFb7MDaI73hhopdRV2WLPPDMu5G6
+CNjjVHR9Lr3YgqDSR+D5vc5MvhRwnGd5rej2ymlPgvsGleSnseHtVqdzkD44tvJC
+CcZS8Rs2kaDF0hyqckQq6deQSivyJBTEaDNewRB89palzjMlmvFU/Q6FPv2aAY2O
+pZ1bXNci5zOYdSrALGKzCCzzpUA3REoyBwZjhoFqF6ujeCnYia4eUtsm0ZAOSzHs
+uGG0teM2LEb459x/lteK+r/WiCnrLg==
+=A4F3
+-----END PGP SIGNATURE-----
+
+--k3nsdihw8mA/diZ8--
