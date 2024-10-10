@@ -1,243 +1,173 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2047.outbound.protection.outlook.com [40.107.21.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B65F1BBBFE
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728547763; cv=none; b=IAY9oBGdSTqmg7hjqaFBElgcgbdx3zpF77sNkownDuFIwVtym0XMIOtEi9AeY5IISEBEYDzKHQbAtK1S5L19QFHQMg/WpMDx6VYxkfXs5bh3TPoAicAv6zHlTGxk/m3zW18B9kVsP70wdaLtJb/YcseIPWaZfVn2S4Ya3/Ukeqo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728547763; c=relaxed/simple;
-	bh=pw8KOQX2sQzFlQlPbqII5/R8X0bzkOW8a5wxz7PnGKI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=of6pLawn2jANdnF0UBWtrEpOdBB0vaPDIdqhBXi0qDe4cRNT32FI3l+TSOIq8Z3IXUH/Y7mvFwvLT7hmqIfeCICNorVyJxXlW0z9Y2uUs8xQ4HSDEGh/QjpedL2DkvSFeHKaWmFEqwlZq6IUfbchbCO7s32jGGra3PPVnzJyEag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MKorcZtY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42841BDABE;
+	Thu, 10 Oct 2024 08:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728547893; cv=fail; b=Q9EqSAoFfVlojwR8zpBuM/r1GLULACfPxR6Cl3iY0LfTJJ1IO+ATLobFa3c7y+VxLWTe7NaFYbUQWlP04ewBDds6cNm3xVLcjsiqvf4flcvdw+oV8N7DXz2UqfGtxPE2cf/zdI2v2mmcGup4PSontsARAvqI8cWbC6/46bICW1U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728547893; c=relaxed/simple;
+	bh=vgnX9Oox/1+3ENK6JnmNGNmkfT+0CwVo4j38slZOxP0=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=afhieG16j5iOw5afhbBdqN9yv1cbHih6jLFOi+Cxi88t1gKfSYpvrmamWcFqVP1CARoqz/I36sC1B58ZYwj5o+sK50EfLMBOM0sYjVE/+/Y9xgobAJRFOZzUON66tpnBboOFVEEvZKWivcShNsAs+9pLxKAtZrpCaOvxxby0Ncc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=NzxjFlga; arc=fail smtp.client-ip=40.107.21.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MKorcZtY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728547760;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw8KOQX2sQzFlQlPbqII5/R8X0bzkOW8a5wxz7PnGKI=;
-	b=MKorcZtYqPVyu9qFNW0PPlu++U9wCyP/7B8XwBPfdWG7stS1a9grtp3lWE7V6SOhtsRDdv
-	oJCjGsvpXTbNR3bEYBG2w5Wm1IqALxK3QlC9oDO2YaagBmwzDDUeEk61ZawQJBnCuP9g88
-	Nq4GQwiQv/LTWxeEk6MPVhwtLDd/ABo=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-387-8j7Prp-DO_-nZf59YaoaDw-1; Thu, 10 Oct 2024 04:09:18 -0400
-X-MC-Unique: 8j7Prp-DO_-nZf59YaoaDw-1
-Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-53996a1e52bso595451e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 01:09:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728547757; x=1729152557;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pw8KOQX2sQzFlQlPbqII5/R8X0bzkOW8a5wxz7PnGKI=;
-        b=PGh2bFmfzcVf+5Hrrydpp+ZBkxe5EonLE0ySiyVpanc2OBvwY9nAWW3j/00/pgEOf/
-         0zYzMU6BlVXMuYqRL7399fB4n+1idFP9Z1VKvBZa5F7s+pbnOJWQC5SRkhrHahPAoGRs
-         HHJcI2IlI/PZJrF0RtuFMg8uV4fNoZD7YdIB0YbJNXnAXcntJj3BLFNy8exQVJh5/FGv
-         cV4WB3OYPuzxzh8bZErgb1O6diOnTkKxyWvU7k5+PSg23bX3UUSgSr3hIH3rfLTXRIrG
-         EA0SvACpj3HRfqoJmIujb6wIQaZKQk/1Gb39cmMJ0cDP/CmlfuT/VPlPSA3Uu0gl1Akq
-         At3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWXsoL3ytQ5T3txUzVX1l6R7AS2yBag9hYaJNZn0PpE6uZTIvXHbi/td7qJYm1RcZQfQyftYhQthTwH6g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxT6NCqPYp20Ojs4/LSntWoKOWX8xyPZTu0qx4NjB0Jcr7Sg++u
-	PBRC1RZrTCBFuzLVa2x+87x0qBT1eyH1XXtD6OIF/NwSpM8TE1X+wn+hoCxT5Gk3Gdge6lBES3z
-	rSl51gLIh6xbAUcHV/rLVub/1lG9zgvwcgT5mP8+qTw8fIIwgO0YhemxCrKWC
-X-Received: by 2002:a05:6512:39c5:b0:539:8e9a:7a5d with SMTP id 2adb3069b0e04-539c496d11bmr3575177e87.59.1728547757174;
-        Thu, 10 Oct 2024 01:09:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFYx/LKt+QTCY84iQbturhiv4PGMfz8gf1TEkJnFJaO0GasD2CA7x+ACPT7d09hd8mpWAI6Rw==
-X-Received: by 2002:a05:6512:39c5:b0:539:8e9a:7a5d with SMTP id 2adb3069b0e04-539c496d11bmr3575082e87.59.1728547756510;
-        Thu, 10 Oct 2024 01:09:16 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43096601152sm42136595e9.0.2024.10.10.01.09.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 01:09:16 -0700 (PDT)
-Message-ID: <6468cf3e4a06c008644c98a7a79f81a1c04752b8.camel@redhat.com>
-Subject: Re: [RFC PATCH 00/13] Remove implicit devres from pci_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>, Damien Le Moal
- <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
- Manish Chopra <manishc@marvell.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
- <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
- <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
- Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
- S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
- Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
- Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
- Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
- Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
- <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- Marc Zyngier <maz@kernel.org>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  linux-staging@lists.linux.dev,
- kvm@vger.kernel.org,  xen-devel@lists.xenproject.org,
- linux-sound@vger.kernel.org
-Date: Thu, 10 Oct 2024 10:09:12 +0200
-In-Reply-To: <8643a212-884c-48de-a2d0-0f068fc49ca2@gmail.com>
-References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <8643a212-884c-48de-a2d0-0f068fc49ca2@gmail.com>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="NzxjFlga"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k2hrSGRivmaLxzGLVWv7PSVEpH5ipQ89zwUJhA1Qdx44D5dYB1t0AbMzene6/KI/bqSSbqGeDARR/qF57EzUoX/5xRC8VzG2VAshvUTLhWc+oTC19/1WnD8Qn5Xtzv7HVFf8Oy8pgkDR0fsuRZBxlPECKFkKxhFtYbl9kKBAt6IWlmhJa9XIJQR3IEIEYMPPUIKAaNE3Opry/drKhscKMmwY9/C+WkNK8IzR7cNQoTyqPzy3W+mE9kc+TmiI4+dpqXH4931QL0GVY/nzrHKDRut6ts9bwT45eezQyPuKkZe8XibFPt7Bsm5IEfgqu0Cz5WTu3aA4qpX8rRu6mHEORw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gi6gPWFQQks0QJQ5BOEmhNWKcsM8KIMnch0/LL+Yl54=;
+ b=ymzw9v0piY056RLkUGoATLQKRbHT9KHbe6lbzG48gpb36lHAwc5dFSQ2gywvZtNr1SZmr2PvP3NlY4xmg80wmkZr2eGqdZs4N30AqlvIdKaQv9yNwqgOBn4r5aAXyuiv4luaHAtyceTsy4D7FixYE8g4fLAfEBVw2fNhTYwA6axqaVl4nFdN0bdSNpoar6r4aQ7qGx5a5BPLjSxCeV/qm4SIPE7eU6JkKR3sWUeyd59vf9f6jcXF+cFrY/M0GjXj0EqKVSKkwch4NZDmEYddvoZ/jnN5wHfbE2e6bj0vXq79etc0P/lZb5oVo9SCy9Noa12G8SNSoZFo8qcZi4Nphg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gi6gPWFQQks0QJQ5BOEmhNWKcsM8KIMnch0/LL+Yl54=;
+ b=NzxjFlgaWIJDSkmpCJy/LAHNcchRpzcKTDn3rE15Fnv8k/GCSnfmbEMkAgoOcg9/oO+Zbkr5EUA8GKEwhVvWAqxGq/CI/H6dxcRzJREqqs5pBHPuJ6Cn4pS1/diamtiekEB3ATBos8uX2x3q05jPmanAgXBImEtgDgKmoaWyfFOiXVaJGTer/xnYtcEOcCLpHsm99engNlQoIrcpSi4AU/ZbLS6ZKaBblSaFsmGPjXHgzrOs3FSRjry8VNdH2n9z5JilIjJn1xPni7GK4LHWEQrOtrB4piPmjcu1vrw8nrm7A9vabyqW8TVqUQJvPYejqAI0VD7NDuuX5sqY395nYA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DU2PR04MB8774.eurprd04.prod.outlook.com (2603:10a6:10:2e1::21)
+ by PA1PR04MB10397.eurprd04.prod.outlook.com (2603:10a6:102:449::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.16; Thu, 10 Oct
+ 2024 08:11:28 +0000
+Received: from DU2PR04MB8774.eurprd04.prod.outlook.com
+ ([fe80::88b8:8584:24dc:e2a1]) by DU2PR04MB8774.eurprd04.prod.outlook.com
+ ([fe80::88b8:8584:24dc:e2a1%5]) with mapi id 15.20.8026.020; Thu, 10 Oct 2024
+ 08:11:28 +0000
+Message-ID: <6f2fe091-6436-4b28-a898-33d7939a7736@nxp.com>
+Date: Thu, 10 Oct 2024 11:11:25 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] ASoC: imx-card: add cs42888 codec support
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, shengjiu.wang@gmail.com,
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ chancel.liu@nxp.com
+References: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
+Content-Language: en-US
+From: Iuliana Prodan <iuliana.prodan@nxp.com>
+In-Reply-To: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR02CA0138.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::35) To DU2PR04MB8774.eurprd04.prod.outlook.com
+ (2603:10a6:10:2e1::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR04MB8774:EE_|PA1PR04MB10397:EE_
+X-MS-Office365-Filtering-Correlation-Id: dc08df73-975b-4e73-0f44-08dce9032409
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?c1BYaGU0RzkraUZwRE1TVGpUTSt3cWxHNXpqZk0wc1BjR0JrTjRzcFJURmNN?=
+ =?utf-8?B?RTg0UzRhYS9BRnR0ejZvUkI1USt3MUN3UXczc2VWKytzSnZHOEVtRGZJMHc5?=
+ =?utf-8?B?aGU0djIvMzJjcmhQL1BkWUt0b3FjQVlCSmhCYnhYSzJxRjVlbDFoUEpaRWR0?=
+ =?utf-8?B?SlBJc21FVmdobWtYUHdqNkhqKy9PWGdFU2tZbFNaRitBNEdxQ0FHekdMK2No?=
+ =?utf-8?B?eVRhRnVYR29xZU5iNlkzdzZGYVJqbDNNbHluNithQk5IWWwvcWF3M3h0djZn?=
+ =?utf-8?B?NHpOay9GSk5vc3pIWU9ZbUY1OWFvc1B0RnZ1VklGWnlteVpWWjdORm1ZYmNR?=
+ =?utf-8?B?UGVBS0RCY1lmMHBDYTRjQjVNRERuZ3J2WkhKN2lvdU1IeDR3NTVleGwrS0Yv?=
+ =?utf-8?B?R3lQR0h6c1NyT3lLRS9XRVdQT2piU1JPdXpWcmZHaEM0dnh3cVM2cy81eXJ3?=
+ =?utf-8?B?aXYranN0VW96Rmp5ZFBhTVVnbHBZeHJPTDdNTFNIbE1icHUvdEN0R0FuUjNm?=
+ =?utf-8?B?YkRSREhrZ0FPczEvNEFKOTNKbXd1RS90U3J5UFpuRlZRZENEZGg0cjJSbVdi?=
+ =?utf-8?B?WncrK3krUkJUNVpIa3pIcTVxeFlXb0ZHL0RyT0VKVXZmL2RoVkhwd0FVMzhB?=
+ =?utf-8?B?Vi9iMy9GTENYZkh2Zm41Q1BUbmpYeDMra2krUmlhQjl4eUJLRFJtV3RhU3Fw?=
+ =?utf-8?B?WVRibzhuRVdOUTh4UTdYck5wclVMWEtDdXVDTDBCOHF4Q1JOVFN3Tnh1Q284?=
+ =?utf-8?B?eE0yWm5weU5qNDk3QjM2TDdDRThhQzR2ZVIrWnNEZHBydFg1UEVFVnE1OEt1?=
+ =?utf-8?B?VmQ1QzJwNHhlRnJwLzBzYkRNaXZXWENUNk1TSFNRTndEeStjSUtOWUg3eDl2?=
+ =?utf-8?B?M0NsQlQvNHFnVStlZFRzaU0relJyTXVrdjF0dWxzcHM3dEVrbmNobnVKSE1O?=
+ =?utf-8?B?VmFUd1ZmS1F2eWV5WnR6eC90ZXd5dlZJOUowMXlMZkNtNG16L29yT1dTNjEy?=
+ =?utf-8?B?QUF0dlZPMlR4RHJNdi9oc0E1bEhLd2pOZm5rV05EeVlWSXA0NmgxMGtQaXl6?=
+ =?utf-8?B?V1RVcWtMQVA3TjRSeUN6ZEM4MnNkYW9wOXBYR0lEbTRGbjhCalJZYVV4YSto?=
+ =?utf-8?B?VnB4a01aRlVDdUZyeGJkTXpkWGpTK2lRaGhUWU9KMzNENWFsdGt6VVlTanZH?=
+ =?utf-8?B?cUF4dlBoUkVza3BEMkx4anNvSFNKLy95ZEl4bUN4QkgwOEtjVmljQjhIbG1q?=
+ =?utf-8?B?ejlWOVcveTh4L0g5S21aRlF5VllscUtBRS8zYk1tbk4yaVpiVE90bFc4Ynk4?=
+ =?utf-8?B?V0Z5eGJ4aVJXR2hyTmRCd29zcFdLeUpjNHh6eWc3VnMySlhoR0ZTNkNkdGxE?=
+ =?utf-8?B?bGZvd2hWYVVEWGlGamVBZTRVcFB3MG0vdFFuaUVNa3BWQVNCUThUU0xZc2sw?=
+ =?utf-8?B?ZmFGTEp1MS8rRllJTTRsTkkxQ2Y5OXdRdURGMGJTNUlnZnI3aDkwT2o4ek5i?=
+ =?utf-8?B?L2s4VzFyaDBEKzZaVzFoYWlRQlQySDZ5MTJMcVgvOG9YMG5reFY2bzVMeXJR?=
+ =?utf-8?B?YkM0V2t3bzJCK1c0NmtvYjNPckNEbmVqTldaeDl0OUR5cVdRSkt0L1Nvc0Rh?=
+ =?utf-8?B?WnFyVkp0dVovcmc4b0pvaWNLVVpQWitJajlaUXFibXpnKzZIRWpUM0c2VUpI?=
+ =?utf-8?B?TnF0KzRnQytRd1ZDcFk3MWNCWXRDekVBdjMvMmpPNW9tSEJpaWt3TG1vN2VF?=
+ =?utf-8?Q?lvcuALFEnPHPqbpwkSsLvxM/0oywf/Y0VJXohEt?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR04MB8774.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dzdXOUYrOTFRZHJFR3ZES1Z2anBvWDArMWtscHJrL25xZy82MWpPRmJrOXFK?=
+ =?utf-8?B?L0lnZU9pTi9mTGR5TktEdzlKSlhiTG1hc0FTOW5ZdldCdlRUWmFVTG5wMVN2?=
+ =?utf-8?B?eEpXdW1ndUZoYkRZVHQ1SldlWUJUYU05NW52bXBjNjZqQk84THBVWW1JdmUr?=
+ =?utf-8?B?V1dBd1R2SmllbjhkZkc2SkRzV25oS1N3RHJEZldiKzQyS0habTVPZUc1bHRG?=
+ =?utf-8?B?MExuc21rNHZodzBTQ3FWbEZUT3VHZ1Yxc2trdFg0TDZlY2xKNTBqMk9sMkJo?=
+ =?utf-8?B?dU1OVWZidi9GYlN1czMvSVdvbCtoSnJZZzRUOWNTSVFOY3ZCcXdhbzVmSHlZ?=
+ =?utf-8?B?d1grYUF5Qk5SeGljVlNlQ283SlhIV3krQ2FoVXUzNVRJbzcvSFRMTUQxQ0N6?=
+ =?utf-8?B?RG80Tjc0VE9qb3JsNGZSdU1EMWpycDlZdmhidVRXdkhXbzdZV2Y3VkRBNllu?=
+ =?utf-8?B?V0RTenNxRllOZExlWnpLdi9wcGZvMXZTRTE2Wm5aSERUQXV0NjZmbnJUbExL?=
+ =?utf-8?B?UE9TbFdQR0FQeW5PcEtaQlVZNmJoS2R6L2k3OUZuNG10NFU4UWhMK1JPVGFC?=
+ =?utf-8?B?dXNlejdMM0JvZkJXOXdjcXpwUGwyT2tyMTRQQ29ZeW1CNDF5empmcmJya3I2?=
+ =?utf-8?B?cjhBVk1WNHRwalBSRFVKU2hRVGc3bjNMeW9XN3MzTkFiSXJ4cTNKenZKWE1n?=
+ =?utf-8?B?cXNiOFNidkc2TmtpQ2tIKzZtSmRYSUtlVE52QXUxR3VYbzBGbGNZVk1iayth?=
+ =?utf-8?B?SGpMMFplbnBzWEVSdEtrQU9GdGFJcEpnTWMxM1k2U3U5NW16ZU1BVGlOOTFF?=
+ =?utf-8?B?cUhBZ2gvQkVkVThmRmdaNXMwdkE5T2J4SmhNajdScnRVbndlZGdZUW41SC8z?=
+ =?utf-8?B?YVlZdStsYzVHSWJlem9vOFFpcTlVWnNXMVRrV0haMW1VbkdvZ0UyaldLUUxJ?=
+ =?utf-8?B?MkdyaVhNaWNLeDJXZkhYb0JPMmFaYlFkN3JJalA4WmNYMW81SGJGa3dMZnFa?=
+ =?utf-8?B?Tk9EL2JoZ2NTRkZhY2Q2RW1waDViNEtoNS9IdkxKUjZOL3plRndqV0QvM2lM?=
+ =?utf-8?B?a1JpZXFmc0NKSm91V1h1SXA5dmZKazBRYUcvVUFaQ1pJRkpnUGhnTm5IbTRl?=
+ =?utf-8?B?Ylp6eVJRditFSlpIWk0xeE1BcHdkS0FCYXM2UlJycnJLMURzdS9vOUZRQVZa?=
+ =?utf-8?B?elZSa1lFM2MrbjQ0TzRFcnYvUWI1RDlRdjJ5bTRVT3k1bVVYaVRvdEZmUDJQ?=
+ =?utf-8?B?NThhclJCNC9NeU4wcjdIaFlEc0l3TzV1TkdEMDJqeXpyc2JidlJjMEsyTjVU?=
+ =?utf-8?B?bk95UWt2VTFrNWdycmZaajYxTzNGNko4eERsa01JcHdEUWgyeVp0OEJXdjlZ?=
+ =?utf-8?B?NmlKYjFQeHdxcWdVdHNlVkVTNjQ5cmFtZzBrUVBLUkg4NUl2RjIvejFnVkVx?=
+ =?utf-8?B?Y2ZTYldVV3djaHVLc2VXN0N1Zkh4am5aRUMzR2p4TlVSQkhURTh4V1Y0aDR3?=
+ =?utf-8?B?azBURER3V0VPQW9aam1qWlZLMXRVZ1U1RGI4d3J2RkI1ZG5HcWN6TGZ1SThw?=
+ =?utf-8?B?Zkc1Z1VEU3MrbEVJZnloOUR0TTNkNUJiMUVrSlZ1Q1VSOHBmTEN3MFVNcERM?=
+ =?utf-8?B?cVh4VmR3SGZPK3VTSTgzanpkMzJ1UUh1VW02aXJDRDZUc2tISTltSVRQZ0w5?=
+ =?utf-8?B?WDZ1NWIyUXAwMTBNNWV1S08xWkJBZCtTc0xUcE9OU2U3MWpqdThlNTNUb05n?=
+ =?utf-8?B?VlJFUDloZCtiSXl5WG5JVW14VWQza2Q4NXVOdys4OVovY3BBYndQSEJ1WHoz?=
+ =?utf-8?B?Tjhya3k1U3AvcEhXVXorRC9oYkJjZE5OQnU2UFFEUEVXdWozYWFwYlplMDNS?=
+ =?utf-8?B?amlIejlOUk9vWFNWWVk5QnBSMEpBUG83RzNhbkR6c0gwWk5yQzNMT1JzQmNX?=
+ =?utf-8?B?WUhlZUpBZzk3Z1ROR2pBMi9PRG5sYk1YZVJuWFdPZWR0L2xWSHN3eWlyOTBw?=
+ =?utf-8?B?MXdrdld4c2t1ZjlGcHZTQnRqQUI0ajJwNDJnMktka1JIaUVMZ09qNUJEenlY?=
+ =?utf-8?B?MEpXL3lWSUZqcjFlTUNidE9DbFNyTEZrTCtIY0s0dkpUejdRaW1vcTJ0Uk9X?=
+ =?utf-8?Q?8Y6Jn33qWHLzP8cEJ3cSXCEsR?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc08df73-975b-4e73-0f44-08dce9032409
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR04MB8774.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 08:11:28.0263
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vflYbXNjRk/Bz9Kuwww5EILKUR5WwV9WqZRLpUUz5TrqMpkya1rzBn1LA6wvNzzj2vjuJXcMLfs07Wr9p0mudg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB10397
 
-On Wed, 2024-10-09 at 20:32 +0200, Heiner Kallweit wrote:
-> On 09.10.2024 10:35, Philipp Stanner wrote:
-> > Hi all,
-> >=20
-> > this series removes a problematic feature from pci_intx(). That
-> > function
-> > sometimes implicitly uses devres for automatic cleanup. We should
-> > get
-> > rid of this implicit behavior.
-> >=20
-> > To do so, a pci_intx() version that is always-managed, and one that
-> > is
-> > never-managed are provided. Then, all pci_intx() users are ported
-> > to the
-> > version they need. Afterwards, pci_intx() can be cleaned up and the
-> > users of the never-managed version be ported back to pci_intx().
-> >=20
-> > This way we'd get this PCI API consistent again.
-> >=20
-> AFAICS pci_intx() is used only by drivers which haven't been
-> converted
-> to the pci_alloc_irq_vectors() API yet. Wouldn't it be better to do
-> this
-> instead of trying to improve pci_intx()?
+On 10/9/2024 10:46 AM, Shengjiu Wang wrote:
+> add cs42888 codec support
+>
+> Chancel Liu (2):
+>    ASoC: imx-card: Set mclk for codec
+>    ASoC: imx-card: Add CS42888 support
+For the series:
+Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
 
-This would be the cr=C3=A9me-de-la-cr=C3=A9me-solution, yes.
+Thanks,
+Iulia
 
-But such a portation would require more detailed knowledge of the old
-drivers.
-
-In this discussion, Alex points out that at least in some drivers, you
-can't replace pci_intx() without further ado:
-https://lore.kernel.org/all/20240904151020.486f599e.alex.williamson@redhat.=
-com/
-
-
-What we could do is mark pci_intx() and pcim_intx() as deprecated and
-point everyone to pci_alloc_irq_vectors(). Then someone can look into
-porting the old drivers at some point in the future.
-
-
-P.
-
-
-> Eventually pci_intx() would have to be used in PCI core only.
->=20
-> > The last patch obviously reverts the previous patches that made
-> > drivers
-> > use pci_intx_unmanaged(). But this way it's easier to review and
-> > approve. It also makes sure that each checked out commit should
-> > provide
-> > correct behavior, not just the entire series as a whole.
-> >=20
-> > Merge plan for this would be to enter through the PCI tree.
-> >=20
-> > Please say so if you've got concerns with the general idea behind
-> > the
-> > RFC.
-> >=20
-> > Regards,
-> > P.
-> >=20
-> > Philipp Stanner (13):
-> > =C2=A0 PCI: Prepare removing devres from pci_intx()
-> > =C2=A0 ALSA: hda: hda_intel: Use always-managed version of pcim_intx()
-> > =C2=A0 drivers/xen: Use never-managed version of pci_intx()
-> > =C2=A0 net/ethernet: Use never-managed version of pci_intx()
-> > =C2=A0 net/ntb: Use never-managed version of pci_intx()
-> > =C2=A0 misc: Use never-managed version of pci_intx()
-> > =C2=A0 vfio/pci: Use never-managed version of pci_intx()
-> > =C2=A0 PCI: MSI: Use never-managed version of pci_intx()
-> > =C2=A0 ata: Use always-managed version of pci_intx()
-> > =C2=A0 staging: rts5280: Use always-managed version of pci_intx()
-> > =C2=A0 wifi: qtnfmac: use always-managed version of pcim_intx()
-> > =C2=A0 HID: amd_sfh: Use always-managed version of pcim_intx()
-> > =C2=A0 Remove devres from pci_intx()
-> >=20
-> > =C2=A0drivers/ata/ahci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/ata_piix.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/pata_rdc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/sata_sil24.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/sata_sis.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/sata_uli.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/ata/sata_vsc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0drivers/hid/amd-sfh-hid/amd_sfh_pcie.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
-> > =C2=A0drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |=C2=A0 2 +-
-> > =C2=A0.../wireless/quantenna/qtnfmac/pcie/pcie.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 2 +-
-> > =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 24 +++------------
-> > ----
-> > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 14 +----------
-> > =C2=A0drivers/staging/rts5208/rtsx.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> > =C2=A0sound/pci/hda/hda_intel.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 2 +-
-> > =C2=A015 files changed, 18 insertions(+), 47 deletions(-)
-> >=20
->=20
-
+>   sound/soc/fsl/imx-card.c | 59 +++++++++++++++++++++++++++++++++++-----
+>   1 file changed, 52 insertions(+), 7 deletions(-)
+>
