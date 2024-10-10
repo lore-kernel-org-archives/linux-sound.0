@@ -1,146 +1,201 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E23B1C9DF6;
-	Thu, 10 Oct 2024 14:15:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6451CCEE3;
+	Thu, 10 Oct 2024 14:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728569711; cv=none; b=jZPMCzQH9eX1j6VT72pNUf5ZfxdaSLP4GJYn0iYXfOG1E2/ctaqn2eCKMISvG0SSRsgOohjuUnpcYcLqU79ZDia+kH2hD4zemznp2n9GChe0FLDx8GpHnJLkYLJ6+hGv49HlN7Xxyr8zUambTSX7XeypoV5vfa0UBymCoBg2dmI=
+	t=1728570975; cv=none; b=Gov1APkTnmS/82z5npFR3oebVNvKjc1F+YriPZ/pOJu9a99SgC/EhpuAm2r0m0xRemjqcAeg7dhQnSfroJ35i1KFqJRC6ywaswkSFARS9bG1c9vMrNNfKwN3huUimsbKp8PR15HyVDpvFdCBeBkLv+Z5ocdgctwtmGgzZjAGXg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728569711; c=relaxed/simple;
-	bh=2INkBWXW27HJCXiErjqURJrmSzXXzHkDKgEdSz1K6Os=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UCOFESD4P8/DpwL4DRWQ/jgC/X0F2BheiT9uNtTbvVP9Qr5SowaFdB1Avds+yqc8tvUm/Me3uikHerIfDL3icGe5I3w5PLWuDdeDmp0LQnMDXtP5EP5cA6FayH7DnQPwkTT1euYAE3UmNRlJ+6xykoka9y7clTVEMlZ659Sa0ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gvbjgmpl; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728570975; c=relaxed/simple;
+	bh=0HWa+HgvncmD0KmVXfi81CVYBk+mrUwhHki8BfXhDr4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jrFEAjcfx5tFpK9DBlg/Pv7ew54sQ9KJ+mZTONmNYLJLCAbeSBsQslNk/hpWaLKvp/1vxi5vC/KvD6bpT4wwvQL4LmCEkM/CbB0PK1dUlNa/ucTXy44YRaTvUEcVIkUbey8PU2dzjBF1S7fnZYml/H+xT1eorPSkH3UgsMqa/B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WY9CFkJW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DlRNticD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WY9CFkJW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DlRNticD; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gvbjgmpl"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d5038c653so284296f8f.2;
-        Thu, 10 Oct 2024 07:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728569708; x=1729174508; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7q2FZumu2G20wy1lC59leHuwf1R4fBFyhN95QyjItZo=;
-        b=Gvbjgmpl0T8XaJkocrXuLGPvt9lYYiPYeaEPCctjCGOK9ZWTQhnlhsNWIUEp6UDJ84
-         zzP1/EjWIqvRsIZiNNz+WI0PAUevNcj/i6AET4IYA2cYd/CghTpCd11EUjFXHk2BptAU
-         iXM8omZxwNSaWABnfXC39l65/BqSO8KENDc4pd2qxqaq4duGdvrHaFNc1Wegjr4aeacb
-         CAlTOr4EAyRcM5E+38CmprDgCzrum7RsmZi3lVQhTnGhonzLMdp0uJmnEknSg5YHQHFn
-         8WSsqYumpznTq8jgTa5QeTCMozNighrLnhI4U+reeq8Wo7qseUmmkjnMVf9cUiHgQbk+
-         y7eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728569708; x=1729174508;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7q2FZumu2G20wy1lC59leHuwf1R4fBFyhN95QyjItZo=;
-        b=pSr3fIL/2SNUPgfs7ZVxt1FOVuCmFYOjhu+oO+5nnGp/PU3I9cYDSUihQTkt+CUf1v
-         PVS9PdKWE5z4vOGuciElE3DBn6GoQ+Xn5tOKVt7uCW/fwmOwSQv/Zhg6qoHF1WMmuzQ4
-         NOv1XaA8wpjH/WPgHKu/Ek2pywwwC/3YMHmMOujwij9U0wX0FMN880Sugh5dJ/Gc7Lsz
-         jMkHpP6q0lH9W5S6AkvhkiwphxmykGhl+LPfR1J3rq9RGe4/iDrXYriEJA1uBYESVT4z
-         M1DrPXkG9YgTqOxwiYtZ33m5Gfj0UiIycb2jEAjGAKrlm4y0yUtvr4H2GYv1GTK+tXNe
-         p/7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVia0NAXoRa6NEvlEOCzKa5WJjLDbtd6rt275i1BY1tvGLGBbIKhkkI96U5r1icmZTdcULOTw1/gMh1LokxzmPAzVw=@vger.kernel.org, AJvYcCXqJjJI0fMdnka6YRjQ8suwzYhH1ccjC5J52SzerhhUnkWnRzI1gC6Ywfv/CWI1anx0yQc9gJlalPFXcDQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfRWHKf0OqCaKA0cjItUG6M8jRZqTVK58f9Ib0Sr5AkW1W3vgR
-	ElWAfStIJ88rMVSuOwgBmxLFaUWBrM9FaLFBaC34E+dlgpmiVQpN
-X-Google-Smtp-Source: AGHT+IGWlJsgC0hO9WtdgVosxWy7j7K1ygTeLaOoc8OonbSc8sUa5VLZwnekUXshOwS0UkFj46WxcQ==
-X-Received: by 2002:adf:fe12:0:b0:37d:4f1b:361 with SMTP id ffacd0b85a97d-37d4f1b043amr1044509f8f.25.1728569708181;
-        Thu, 10 Oct 2024 07:15:08 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6cfcdbsm1681797f8f.58.2024.10.10.07.15.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 07:15:07 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to endpoint parsing
-Date: Thu, 10 Oct 2024 15:14:32 +0100
-Message-ID: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WY9CFkJW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DlRNticD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WY9CFkJW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DlRNticD"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 451E421CAC;
+	Thu, 10 Oct 2024 14:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728570972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
+	b=WY9CFkJWnco+0KhhTgGRMTjSMef/51OM37yyykwbfFvc2zRAm7LK+MfT57+sAz3P1+ZqEv
+	frwpqvktsG1jg9YON1J7GZRq9LerY6mKbAbu+PJFzxv+aWG3ElW250oREazYskdTjFi6Bt
+	bxvUQRQU7olWsRWW6OKL7OdoEcZ3/yA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728570972;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
+	b=DlRNticDHdgxDzFMaBGOnyLg1QpfoIkkys5s91EYuQpbOZ/QNKBgTA13/XUujPcsA7mFsq
+	VZP7WN2pSKA58DBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WY9CFkJW;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DlRNticD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728570972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
+	b=WY9CFkJWnco+0KhhTgGRMTjSMef/51OM37yyykwbfFvc2zRAm7LK+MfT57+sAz3P1+ZqEv
+	frwpqvktsG1jg9YON1J7GZRq9LerY6mKbAbu+PJFzxv+aWG3ElW250oREazYskdTjFi6Bt
+	bxvUQRQU7olWsRWW6OKL7OdoEcZ3/yA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728570972;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
+	b=DlRNticDHdgxDzFMaBGOnyLg1QpfoIkkys5s91EYuQpbOZ/QNKBgTA13/XUujPcsA7mFsq
+	VZP7WN2pSKA58DBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E63711370C;
+	Thu, 10 Oct 2024 14:36:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IRj4NlvmB2dFagAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 10 Oct 2024 14:36:11 +0000
+Date: Thu, 10 Oct 2024 16:37:08 +0200
+Message-ID: <8734l410tn.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: 'Takashi Iwai' <tiwai@suse.de>,
+	"'Luke D. Jones'" <luke@ljones.dev>,
+	<tiwai@suse.com>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<rf@opensource.cirrus.com>,
+	<foss@athaariq.my.id>,
+	<sbinding@opensource.cirrus.com>,
+	<kailang@realtek.com>,
+	<perex@perex.cz>
+Subject: Re: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
+In-Reply-To: <001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
+References: <20241009205800.40570-1-luke@ljones.dev>
+	<000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com>
+	<87wmig17f2.wl-tiwai@suse.de>
+	<001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 451E421CAC
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Thu, 10 Oct 2024 15:20:25 +0200,
+Simon Trimmer wrote:
+> 
+> On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
+> > On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
+> > > On Wed, Oct 09, 2024, Luke D. Jones wrote:
+> > > > The GA605W laptop has almost the exact same codec setup as the GA403
+> > > > and so the same quirks apply to it.
+> > > >
+> > > > Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> > > > ---
+> > > >  sound/pci/hda/patch_realtek.c | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/sound/pci/hda/patch_realtek.c
+> > b/sound/pci/hda/patch_realtek.c
+> > > > index 41e1119877b3..19b0bae074b6 100644
+> > > > --- a/sound/pci/hda/patch_realtek.c
+> > > > +++ b/sound/pci/hda/patch_realtek.c
+> > > > @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
+> > > > alc269_fixup_tbl[] = {
+> > > ...
+> > > >  	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
+> > > ALC285_FIXUP_CS35L56_I2C_2),
+> > > > -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> > > ALC285_FIXUP_CS35L56_I2C_2),
+> > > > +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> > > ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+> > > ...
+> > >
+> > > Hi Luke,
+> > > Thanks!
+> > >
+> > > The support code for the CS35L56 has changed a little in Takashi's
+> branches
+> > > from what that patch was generated against and there is no longer an
+> > > existing quirk in the fixup table to trigger the component binding (but
+> the
+> > > general idea seems reasonable to hook the fixup of the headset mic).
+> > 
+> > Right, the patch doesn't apply to the latest tree for 6.12-rc.
+> > 
+> > We should start with setting up only the pincfg.  The binding with
+> > Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
+> > of speaker and bass speaker is an open question, whether we still need
+> > the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
+> > 
+> > BTW, rather a question to Cirrus devs: may the call of
+> > find_cirrus_companion_amps() conflict with the existing manual setup
+> > of the Cirrus codec by a quirk entry?
+> 
+> I think we're good (I rarely get to access to the end products so try to
+> stick to the parts of the system that I have the details for which never
+> includes the Realtek codec...) in this general case I'd just expect that the
+> quirk entries wouldn't have the element at the end of the chain that used to
+> do the amp component binding fixup and the remaining tweaks for things like
+> the Realtek routing and mute indicators would be unaffected.
 
-On the HiHope boards, we have a single port with a single endpoint defined
-as below:
-....
-        rsnd_port: port {
-                rsnd_endpoint: endpoint {
-                        remote-endpoint = <&dw_hdmi0_snd_in>;
+Well, there are quirks that do call comp_generic_fixup() with fixed
+arguments, and I'm afraid they'll lead to some spurious error
+messages.  Namely, find_cirrus_companion_amps() is called before
+snd_hda_apply_fixup(PRE_PROBE), so comp_generic_fixup() might be
+already invoked there, and the quirk entry invokes
+comp_generic_fixup() again.  This will end up with an error message by
+the parent->codec check in hda_component_manager_init().
+It's just a message and nothing harmful happening, though.
 
-                        dai-format = "i2s";
-                        bitclock-master = <&rsnd_endpoint>;
-                        frame-master = <&rsnd_endpoint>;
 
-                        playback = <&ssi2>;
-                };
-        };
-....
-
-With commit 547b02f74e4a ("ASoC: rsnd: enable multi Component support for
-Audio Graph Card/Card2"), support for multiple ports was added. This caused
-probe failures on HiHope boards, as the endpoint could not be retrieved due
-to incorrect device node pointers being used.
-
-This patch fixes the issue by updating the `rsnd_dai_of_node()` and
-`rsnd_dai_probe()` functions to use the correct device node pointers based
-on the port names ('port' or 'ports'). It ensures that the endpoint is
-properly parsed for both single and multi-port configurations, restoring
-compatibility with HiHope boards.
-
-Fixes: 547b02f74e4a ("ASoC: rsnd: enable multi Component support for Audio Graph Card/Card2")
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Hi Geert,
-I was intending to rename the sh folder to renesas, do you think that should be OK?
-Cheers, Prabhakar
----
- sound/soc/sh/rcar/core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index 9784718a2b6f..eca5ce096e54 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -1281,7 +1281,9 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
- 		if (!of_node_name_eq(ports, "ports") &&
- 		    !of_node_name_eq(ports, "port"))
- 			continue;
--		priv->component_dais[i] = of_graph_get_endpoint_count(ports);
-+		priv->component_dais[i] =
-+			of_graph_get_endpoint_count(of_node_name_eq(ports, "ports") ?
-+						    ports : np);
- 		nr += priv->component_dais[i];
- 		i++;
- 		if (i >= RSND_MAX_COMPONENT) {
-@@ -1493,7 +1495,8 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
- 			if (!of_node_name_eq(ports, "ports") &&
- 			    !of_node_name_eq(ports, "port"))
- 				continue;
--			for_each_endpoint_of_node(ports, dai_np) {
-+			for_each_endpoint_of_node(of_node_name_eq(ports, "ports") ?
-+						  ports : np, dai_np) {
- 				__rsnd_dai_probe(priv, dai_np, dai_np, 0, dai_i);
- 				if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(priv)) {
- 					rdai = rsnd_rdai_get(priv, dai_i);
--- 
-2.43.0
-
+Takashi
