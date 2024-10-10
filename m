@@ -1,84 +1,167 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3B71F470D;
-	Thu, 10 Oct 2024 14:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C691CB301;
+	Thu, 10 Oct 2024 14:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728571792; cv=none; b=hze+nwQKFZUmAPFCIF//Nt6GhRiqCXhUcAT2Gn5pAN8jewmzvmnszXFzo89EBUZcdV7nXFjg2Pgxd18k0WcV2iDZC2ZiF775BGsKKfj8scjL9Fcwgbq/C/I/1YAu69DsTb4EMyRq6qB992hhlB5/NBX3bXq1Y071jxmRZHrGn0Q=
+	t=1728571848; cv=none; b=gzO501AaXSdndmUJFu9Ms0GOBVnde49TPdQ1GNnrCj/ix2q4ccC2CgcBMCBsx25UgfH7BPQaI/Apk1txLazliAF4CtlMfvfn3WSz80dzwAj8zfMTsWD6M61COWHRLzyjPG+773tbjvULGZv6VWx5cZAN4VJBnhwOcqA2dILxoks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728571792; c=relaxed/simple;
-	bh=gEqsursoMXes/uTPnwXCUjTwPXROEmBJpWx6slNqVPo=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ptd1KmxbEF2DoKxkxaSZulzzoY8U3BNMjr/EfyiIFQ2OWEkWUFWTyZpBl7mgUQkUNqfXTNtzG/bjhiNjpLzqpnVXgRrYa3OLjvDg8qpu17/02cu38ysKG4eO4C0kdnrURV0bbYD8BVhKSunmIEqu/W0I3AB9mrzZ23uGXtvrP7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBGb+/8X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728571848; c=relaxed/simple;
+	bh=sibCqydeqQiNQIf/lBDGFiiLV6uF5mNsecPlSRVwL9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B3/scKROThIj3haRrGDKbpf/DI6sLwIJXqFP4NEEuUqrEil3zLx+S6JIGezTJ7XtW/cMHpy8pKkCedx+vLZvrLhO2cdzQAYdQTjcLrt9GiSrkItJRJUd5XZ5Q3x7mCVqhREOiRSF1XgLgfOvKeBIQjXGPkM7REGy1+K9rTvbOnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HzrPiJMu; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBGb+/8X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405BCC4CEC5;
-	Thu, 10 Oct 2024 14:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728571792;
-	bh=gEqsursoMXes/uTPnwXCUjTwPXROEmBJpWx6slNqVPo=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=ZBGb+/8XTDSAFMXJQKsVhxQxKIb5lH/1WJg0VlEZCL2fjd5GRByvlA2YbdMvdbym3
-	 QFkP+IOpgIRSnncGrV5OM57rGa7ks+JJO68QPMLkkotD/+yG7jeaBGZ30k3U1401oO
-	 7Ew7nCe7iFQxTLWjnVn4iCIiutpiBPb1GgYRRoyGQv3ilWHA6IH1m8sc335xv4rMfJ
-	 c4TFmDj0R1ejorx2vFliitTBjeNWIQpN8oMHgXYl4AgtiRwof5vaIvK5JR0js38i32
-	 tV7OxalPp0IBZ9gaNIs7iYZdVLWvu7/xZo5WjGp1aj/ExK5+EjE5xJlUN/lrl3RwwL
-	 mcP6nEGSsGluA==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20241010050451.11913-1-krzysztof.kozlowski@linaro.org>
-References: <20241010050451.11913-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: qcom: sm8250: correct typo in shutdown function
- name
-Message-Id: <172857178995.3727572.14267501698995203930.b4-ty@kernel.org>
-Date: Thu, 10 Oct 2024 15:49:49 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HzrPiJMu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728571848; x=1760107848;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=sibCqydeqQiNQIf/lBDGFiiLV6uF5mNsecPlSRVwL9Y=;
+  b=HzrPiJMuD2f3mp/TH4iEQ0T1f3sseukJKhhNrIKpJV8F/ZhP+DkZw8+a
+   3uiMySVHDpJx0VmG8HQbfdLeIdZZx2wtZfGfewytc0KIlIVEWcGIEAG28
+   UeEl329Pd64uocuSzvQXExl+5i/Un0s3kie7q/rSpCN36QYAZEAJf+7ET
+   YVbisKNnTImnkcHA3Ck/cxK9BUROl7lZMaJrQgTGgmoA4u9l7mg/J0yVR
+   LraoxaWTVFlrBJE+m8mNfdUPKZDbz9Tv7J8pbVvdGJI19qPMdQrrrh+NG
+   tA5fSgsCvD/2tbH3KVcuI5qgsyU/PUJxE32O19OVgRtIAqf69aAilT6BF
+   A==;
+X-CSE-ConnectionGUID: NmRIE5LLTFq5Iz2muUcGXA==
+X-CSE-MsgGUID: f6YHws0fQ1GM8x850rpSwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27880006"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="27880006"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:50:46 -0700
+X-CSE-ConnectionGUID: 7wY/4jxvQLCPgvYMG4Ai+Q==
+X-CSE-MsgGUID: 2AQrvW1rQX2PPbhnm34TWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="114082669"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:50:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1syuUj-00000001ZJ4-117L;
+	Thu, 10 Oct 2024 17:50:25 +0300
+Date: Thu, 10 Oct 2024 17:50:25 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>, Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 00/13] Remove implicit devres from pci_intx()
+Message-ID: <ZwfpsSxnwm7K4eMF@smile.fi.intel.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <8643a212-884c-48de-a2d0-0f068fc49ca2@gmail.com>
+ <6468cf3e4a06c008644c98a7a79f81a1c04752b8.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6468cf3e4a06c008644c98a7a79f81a1c04752b8.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 10 Oct 2024 07:04:51 +0200, Krzysztof Kozlowski wrote:
-> The function is for sm8250, so fix the odd number in "sm2450" prefix for
-> soc ops shutdown callback.  No functional impact.
+On Thu, Oct 10, 2024 at 10:09:12AM +0200, Philipp Stanner wrote:
+> On Wed, 2024-10-09 at 20:32 +0200, Heiner Kallweit wrote:
+> > On 09.10.2024 10:35, Philipp Stanner wrote:
+
+...
+
+> > > To do so, a pci_intx() version that is always-managed, and one that
+> > > is
+> > > never-managed are provided. Then, all pci_intx() users are ported
+> > > to the
+> > > version they need. Afterwards, pci_intx() can be cleaned up and the
+> > > users of the never-managed version be ported back to pci_intx().
+> > > 
+> > > This way we'd get this PCI API consistent again.
+> > > 
+> > AFAICS pci_intx() is used only by drivers which haven't been
+> > converted
+> > to the pci_alloc_irq_vectors() API yet. Wouldn't it be better to do
+> > this
+> > instead of trying to improve pci_intx()?
+
+My first impression was the same...
+
+> This would be the créme-de-la-créme-solution, yes.
 > 
+> But such a portation would require more detailed knowledge of the old
+> drivers.
 > 
+> In this discussion, Alex points out that at least in some drivers, you
+> can't replace pci_intx() without further ado:
+> https://lore.kernel.org/all/20240904151020.486f599e.alex.williamson@redhat.com/
+> 
+> What we could do is mark pci_intx() and pcim_intx() as deprecated and
+> point everyone to pci_alloc_irq_vectors(). Then someone can look into
+> porting the old drivers at some point in the future.
 
-Applied to
+...but here I got the point by Philipp.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
-
-[1/1] ASoC: qcom: sm8250: correct typo in shutdown function name
-      commit: 2aab7d186bf10d1591e7645ca32cddeeb4dcaf20
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
