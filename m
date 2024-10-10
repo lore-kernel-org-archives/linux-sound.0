@@ -1,187 +1,121 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE011BFE12
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 09:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87331A0AF5;
+	Thu, 10 Oct 2024 09:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728551601; cv=none; b=Mlm3SK9t8Kt6dtbrMzDUtn4qEkzZrUYl6rlC7wqyUtQoTRW4O74JZGhZhH7Y2pBRSEu9cDgTqmzKtBUbBLE9tpvWctAG9vUsIoQKq95YuvXzZ1SwqP2uYId6LJnVZOdgHJ3iXCw+lktgzMHkF7JiGfxebZbBdVf7txHwbjOTFpE=
+	t=1728551772; cv=none; b=m10P6YiwLc7JsAzOAdc5GiIiIX9dd4mZx1SMc3yGnrs7IE/TB3ZNY8/4B5qTzowor4SVLwVsksJrutLHWMwiQr553LwkjP0/euBVS8UO8EOTTCBR/ZNBeLKotj2/MABWMDbpe/F1/+3/ZkHaAI8cwbP9pjpZV/f7Rn9y+tjX/ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728551601; c=relaxed/simple;
-	bh=v4XN18e+CyZcuqWrnUyls/e8CpJTrCIwM8PKMvwb8/g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nc9EUtJMLiDnKv9ajrSuk7V4+YpUT06siN0Xq401+/ZdeB7c9iD7x8kwTw8FDoEp1sqwHDxmaEGWv+CTJuk27R7lYmOjNIeF++8LZnOCHLyOxNQjxTq2buzu4MWG+vClwxteRniCBTL6k8XA2tzo8XokPO9a/qMEdZi7LX+EFho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=c+sBxVBc; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1728551772; c=relaxed/simple;
+	bh=6F7gsY3zxZOCu5XPgIF+qfkkYguPkDIkva6myNI0Slo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pX5/y6s5m40oaMyuz8S0MlBKr8I8LZj3KlrUJ0LAYejCBOoq3R8W/KWlc+/10lrQvtXGpwjqQ5JA+nYgPkn5DjC15UQE1MM2NsLE7RZkNn7DyX8L/LlPyLJIjaXcH3HGiHRIJIOrLtiDXWs7dk3evl3HZ+/BajHqyxRRTAENLZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=THL5Fe8N; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=bkoc27xj; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="c+sBxVBc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1728551598;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=v4XN18e+CyZcuqWrnUyls/e8CpJTrCIwM8PKMvwb8/g=;
-	b=c+sBxVBclE/ad3VRFgfdnV6lw9VVrxCPgaSVROvHtI5oDNs1IsiGnWxxxpg4IAAWz4oxiN
-	ga94eI0u5olM9rsRPsSYWkGlkHBbFU4gkg6kC4ZoGa8kZ5jhT/nMnpknEtKUz+EkcUIn5J
-	qUMOUv4vYjmUUmUk8abV0pxi1PFfkIM=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-JKIKm-quPseuGZg4T6hApQ-1; Thu, 10 Oct 2024 05:13:17 -0400
-X-MC-Unique: JKIKm-quPseuGZg4T6hApQ-1
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-71e0228d71dso722191b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 02:13:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728551595; x=1729156395;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v4XN18e+CyZcuqWrnUyls/e8CpJTrCIwM8PKMvwb8/g=;
-        b=xU43lQ/LnOp8KX4ol05DtuQxJWDQ2vZpAEjOtKjP369Cxxa+i5j6bxRfa43qObsUwc
-         sSGw+cUb2W5RWguXSOuAM1LXF88i8+tJlYbe8fToyge5erl6ohtFmq4k9N88s4mFapzp
-         Hl/IU498DxYpeKi763am4FsTLTCQWo8a8RZAU9HxUq5wTGFPcRT17cnORLnfUUQ6Jz+J
-         tx1ilf0kOTkCxZzS4+mdxONFk5uvdKVEr7cpZwuR54rYwXvz9V2jT9c00vqnxAqN/0nN
-         6xQMg/O0kP8wwamGdS3xhf77CHgyOZE9fWiFvuGlw8b9U8FUwo9LaIXTADW89YrQ9X3I
-         86RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWoufu/1ThgB21L5sWOOWY3TAvDaUl2LiYbC8ZkWpF3ZgZVQGM5NX+eo3z48J8mkLdM9DeTf1pdLpAU/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+cSP8njAVAR6Rnns8IEFWqGJ3Tps8vAINwXX3g8dlJ7vsVeDj
-	Pr60/t51cl9H47fyp5JcR7poeQK3U8sz9Lcj+sINro6GYKSxyWyBFGznuuXJklY0M8NbSLljmuM
-	VKEvoOm/jLKz10glO0hSrHuDQpLLOt4NOj0YnPBDGOoRdZC/gY2jwzuCbAtmh
-X-Received: by 2002:a05:6a00:3e12:b0:71e:cc7:c511 with SMTP id d2e1a72fcca58-71e1dbc7610mr9332055b3a.23.1728551594978;
-        Thu, 10 Oct 2024 02:13:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGep+sT+xfvdEWHCwKXB/cVXFvEo8d4o8Uec70ymXyXBB7IFwxFmp57q9aFEQPPEpGRMx5+Ug==
-X-Received: by 2002:a05:6a00:3e12:b0:71e:cc7:c511 with SMTP id d2e1a72fcca58-71e1dbc7610mr9331963b3a.23.1728551594451;
-        Thu, 10 Oct 2024 02:13:14 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2ab0a617sm642626b3a.192.2024.10.10.02.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 02:13:14 -0700 (PDT)
-Message-ID: <306f4f0c8c966647170cf7fdab11285dba976ea1.camel@redhat.com>
-Subject: Re: [RFC PATCH 10/13] staging: rts5280: Use always-managed version
- of pci_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>, Damien Le Moal
- <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru
- <skalluru@marvell.com>, Manish Chopra <manishc@marvell.com>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
- <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
- <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
- Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
- S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
- Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
- Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
- Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
- Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
- Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
- <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
- netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
- ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
- linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Thu, 10 Oct 2024 11:12:33 +0200
-In-Reply-To: <2024101006-chump-image-e65c@gregkh>
-References: <20241009083519.10088-1-pstanner@redhat.com>
-	 <20241009083519.10088-11-pstanner@redhat.com>
-	 <2024100936-brunette-flannels-0d82@gregkh>
-	 <411f3c94-58b5-471e-bc58-e23d89d2078f@gmail.com>
-	 <b57dbf0c83125d58e4e2b488b5b5f71410fd8d6a.camel@redhat.com>
-	 <2024101006-chump-image-e65c@gregkh>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="THL5Fe8N";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bkoc27xj"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id D0BE413804D9;
+	Thu, 10 Oct 2024 05:16:07 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-01.internal (MEProxy); Thu, 10 Oct 2024 05:16:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm2; t=1728551767; x=
+	1728638167; bh=DzC6lX+E/78Mu9gpg/UDozeH+U4hgVP1fbmTpf8/dD4=; b=T
+	HL5Fe8N0YRwo3BnXY7dF7YlCXD88r7tQCs4Xax8YqCG164EKbHFclSBYkJRRxXDU
+	cfubDEwX+SzEJkDVmXLerhVSAu1Mz1XXTorIcQSyuSBKITO7Pva8JRuGUb/nRa+x
+	dMPlWvW9aQzmuxF3iP7PUKaAcMABnEu2GVAqdAvUPb1yyU1tTi72/tgReuKv8Ydw
+	78f9jOyLDgKk2yifVwEHcBqU6y8GxFwTH7tJ69vOtv8YxYdq2jFZDvRYAW3ez/sx
+	S6wr52mYHi9SaulwWWlXag/bMu9Sf0sGDoY4mcRo5Pxx9lOmuFUusA3oS2V6h7+p
+	vTHeTp6/fwckVatKHdngQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1728551767; x=1728638167; bh=DzC6lX+E/78Mu9gpg/UDozeH+U4h
+	gVP1fbmTpf8/dD4=; b=bkoc27xjPsMaBRJRXcCaRAZRRaKqmTOT6+EM7eyM18QN
+	1wz/rysM3i3vMRgZHAd4f6svMPtKLPzvLTN74Yd/I4ekD1VNWzUHzs/k9JxHbdcU
+	bvxUx8I4HdUOPy/sXpvfqv1ElQxzuFcRfDmYDXpqhrTJlP5KtjBo9hfKk3+YHgPc
+	75IiGyPQbO5bJPiI9/yvbOaRUGA5g3qWip8t0tMfHxRdNAdc3z0ucpXJnTMbe2a9
+	GOBW6ouoh2IaiTV/ebhRzyGmSpDEX92QSP0qYn3fQNlR8o1SJRuSPzis1B2Surrv
+	WV7uMt4PCEOc+M7pGWFjIY4baUodoG6eh8eMYaW2PA==
+X-ME-Sender: <xms:V5sHZ_fbCxwPZKTvcELLdkbpCOXFEGgi2NP2dNeOj7VKjf3j9gX2VQ>
+    <xme:V5sHZ1OuVtouD0J7GL0jh2diCh1duJT6B0ktLad1XOFm0RHGuJ1SxIO9tZpmx6CWZ
+    aYOPQ47x041fq5BNvI>
+X-ME-Received: <xmr:V5sHZ4gja32Mslt3xTrU3EPwSNLa7NM6_LKte-DOTqSyVelV_RSp70YYMIG9LqkZs6GZYnHCPMHxZLxIcoYKddumDi3ZnFgSsHU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefhedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvve
+    fukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefvrghkrghshhhiucfurghkrghm
+    ohhtohcuoehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhpqeenucggtffrrg
+    htthgvrhhnpeehhffhteetgfekvdeiueffveevueeftdelhfejieeitedvleeftdfgfeeu
+    udekueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsggprhgtphhtthhopeei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlihhnuhigsehtrhgvsghlihhgrd
+    horhhgpdhrtghpthhtoheptghlvghmvghnsheslhgrughishgthhdruggvpdhrtghpthht
+    ohepphgvrhgvgiesphgvrhgvgidrtgiipdhrtghpthhtohepthhifigrihesshhushgvrd
+    gtohhmpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlh
+    drohhrgh
+X-ME-Proxy: <xmx:V5sHZw-9zZ6JtWtVDiODCcx1IxtU8iTgJ-B10IhZ-heA0Dr1qtyqPg>
+    <xmx:V5sHZ7u9jP3WD9oP6qLLpQjfLY2jy-VySe5hmK8SVERfuFl4UfazYA>
+    <xmx:V5sHZ_FmrfqyKYU2UrgBkYnke2nkTfEe0EZyfnaas1DA6azUjs3sjQ>
+    <xmx:V5sHZyPsGt06JK8IFHIoOPR1ZIvkJYoppJMu3aFRAvERgpB9YAgGkg>
+    <xmx:V5sHZ_gsFC6QHIpnHH0yEnjtpRtn1lm0tW8unNeneKt4J4OXEvIcoDEj>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Oct 2024 05:16:05 -0400 (EDT)
+Date: Thu, 10 Oct 2024 18:16:02 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: linux@treblig.org
+Cc: clemens@ladisch.de, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: firewire: Remove unused cmp_connection_update
+Message-ID: <20241010091602.GA144496@workstation.local>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	linux@treblig.org, clemens@ladisch.de, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+References: <20241009003653.254753-1-linux@treblig.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009003653.254753-1-linux@treblig.org>
 
-On Thu, 2024-10-10 at 11:03 +0200, Greg Kroah-Hartman wrote:
-> On Thu, Oct 10, 2024 at 10:03:30AM +0200, Philipp Stanner wrote:
-> > On Wed, 2024-10-09 at 21:41 +0200, Philipp Hortmann wrote:
-> > > On 10/9/24 11:38, Greg Kroah-Hartman wrote:
-> > > > On Wed, Oct 09, 2024 at 10:35:16AM +0200, Philipp Stanner
-> > > > wrote:
-> > > > > pci_intx() is a hybrid function which can sometimes be
-> > > > > managed
-> > > > > through
-> > > > > devres. To remove this hybrid nature from pci_intx(), it is
-> > > > > necessary to
-> > > > > port users to either an always-managed or a never-managed
-> > > > > version.
-> > > > >=20
-> > > > > rts5208 enables its PCI-Device with pcim_enable_device().
-> > > > > Thus,
-> > > > > it needs the
-> > > > > always-managed version.
-> > > > >=20
-> > > > > Replace pci_intx() with pcim_intx().
-> > > > >=20
-> > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > > ---
-> > > > > =C2=A0 drivers/staging/rts5208/rtsx.c | 2 +-
-> > > > > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >=20
-> > > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > >=20
-> > >=20
-> > > Hi Philipp,
-> > >=20
-> > > this driver (rts5208) will be removed soon - patch is send in.
-> > >=20
-> > > Discussion about removal:
-> > > https://lore.kernel.org/linux-staging/2024100943-shank-washed-a765@gr=
-egkh/T/#t
-> >=20
-> >=20
-> > Alright, thx for the heads up.
-> >=20
-> > I'm not entirely how best to deal with that, though. I could drop
-> > this
-> > patch, but then the driver would end up with an unmanaged
-> > pci_intx().
-> >=20
-> > Might this be a problem for users if my series lands sooner than
-> > the
-> > removal, say in v6.13 and your removal in v6.14?
->=20
-> The removal will happen in 6.13, I'm going to be queueing it up right
-> now.
+Hi,
 
-Alright, thx. Then I drop patch #10.
+Thanks for your sending the patch.
 
-P.
+On Wed, Oct 09, 2024 at 01:36:53AM +0100, linux@treblig.org wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> cmp_connection_update() has been unused since 2019's commit
+> 7eb7b18e9fc7 ("ALSA: fireworks: code refactoring for bus reset handler")
+> 
+> Remove it.
+> 
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> ---
+>  sound/firewire/cmp.c | 47 --------------------------------------------
+>  sound/firewire/cmp.h |  1 -
+>  2 files changed, 48 deletions(-)
 
->=20
-> thanks,
->=20
-> greg k-h
->=20
+Indeed. The issued kernel API is unused.
 
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+
+Thanks
+
+Takashi Sakamoto
