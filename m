@@ -1,198 +1,103 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FFE1BB6BA;
-	Thu, 10 Oct 2024 13:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091461C7B6A;
+	Thu, 10 Oct 2024 14:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728568377; cv=none; b=uLp0lWLr+Lwhjj79/hZMqigFZFbRflQ86sc7/WpFXVTUiaFbAreOot9pqjVFU38H2AofRf9ESIfQpQ+HrkpRWWPjIgFaYLzDIqXJjDYzIMWhHw1CbGTR44dVWYYYVoYtDGGldaL1KLZvFsT8EnwmskWEsD+X97EYFtqa4k+IIuE=
+	t=1728568990; cv=none; b=NLIvosuDEIGiT1jAYrk7m1M1th4e2ZLPV9NPiSqk/gfzCA0yG7cQ66e6QWvT2amRvepZKxvd2FmyMlGWYIQeBkdNbdJICXd+vBuVXMvJPFXvmC9txDrotpooqOC1FFZKw/JNoljtPqVaG4Urp1LbDeeEkdM47cu+Lk92hd+0HR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728568377; c=relaxed/simple;
-	bh=YOeZq4gdp89ctDpF5WT2qnKvP3R2Vh4bvhExzfhY7Rw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qsvXkGV5hGE7VPdT/semMMwboTxsmPIQUE6CjSuQ9I6PeC/hsYzCT/Y0pMpGP8J2glr09u4w/7q4EmvpEfd0OlCj+T5OEW2C6G6i5V0Tns6AMfWZm9JPfq4T1bw5+hNh8BX2utbssGyiT1e1+CyI4uNv+Jd4VNzFoy11nRqeDJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bb/8ib5b; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728568990; c=relaxed/simple;
+	bh=BygIAlplpuoaa5rCG5EvJhHrt41vr/Z+Nx1Wiya21Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=euomGw+KMSRodJsGdXhpq4aNEhxLKF6fw+bTLDJQw5l9nlDsHyd2OELPZHTQF2d1Bai91JDJTAvRgxCFMuolrc5ImTH92gDmspI5g3HKRQk44zWRhHj0+VSdGzK2e1cdCmAcRFjpXtNU1WRs82Fuad7ejWGBh9UKQAaAD/FuJ7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FO1lKsVO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bb/8ib5b"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fabe5c8c26so8987161fa.2;
-        Thu, 10 Oct 2024 06:52:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728568374; x=1729173174; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WOrxW89AILQk3udFAERN7y6AGGLIomslxo7RvrRZ38Y=;
-        b=Bb/8ib5bSm5a1CEi7+tUe2pSJAh6UbQ0ojXJJHfr1aIGpies8fhxyjWf2x8swftLAt
-         ncPjGv3HyD8NwOsdPt0pacTfSbagI0o/dvXrU5lodoGGJf+DwtbYq+I/rXiSFmmKSabb
-         VnvGNxNpXkvqt44HxHpPrvr39zmRPEV6M6qcQsmhmqJ0t/xC/AfRoD8bPAtP4zPcOC72
-         X5+L4GD3qDwQlvdnVwpdRsXFczEarn7qMSOiYUNzx4fVbbYVPIJvViIa5s2ZgNHmbZHe
-         UJPCrcFfLJvpGjsrH5LX7L97O9YbZoUzewhuLWwp4vnsSlnMVNuTm+MER3/5lifnXGPz
-         swHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728568374; x=1729173174;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WOrxW89AILQk3udFAERN7y6AGGLIomslxo7RvrRZ38Y=;
-        b=p5/Zr1vFputDZ6Tr7lt1hl39bWxhhBryhwpRXYzP17ljpvE3ddQ8J7FYa9P1a9mpN/
-         5J7kabF3LLSQkK2UTwYouSOammhrwdNanRMAN/OCsY/gBX3g3LhRX/OUHHNcyzUhTLR/
-         OoqNNDQhDGjVIOjbswUePay01pEEaUFUgg0XKfYbTedZkfx3W029wvJjtbtlJyHBvkfa
-         hzTNVB4HypJDuakzMy2CkyfCV5KU1m46GGxY3etukkJKy/j0eVeFbJ2Ow7WQW51XAH54
-         yIH8YT4AYRWYeaJyLo9dPUilruPE+IUQ6+AR/EFcFPKwOSK/mQyFb4C5HSuJ2S6Hue1+
-         nInA==
-X-Forwarded-Encrypted: i=1; AJvYcCXNRYDN6+MevRFklrqzIZ13wCRvIBCrEzv1upZ6mnlJMsxkH98yIWLPoYjP6oRdtZ0oN37cZpycUBEmS8g=@vger.kernel.org, AJvYcCXye+oIOApHVmE60Y2ecZa0RdQZ7z6+VqCcjrnb/toFOpSHKmjqOIq9Hnd+3xx/KRki7W63EizG1V80aiU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfHlqcDNduBlk4Fdk+ytMHbQ84obcD8UcjoVqZ83AAUzQkp+OX
-	wvvqSjTyLudXTiyQkq4lyVlgZgZAY8aKbotT1RKbb3gG5CJ7hAU7WRZDzf1hP7WgR4sO3pFhl3W
-	HwVFPjGtcqRxHzQtbwmh95ARajm0=
-X-Google-Smtp-Source: AGHT+IFiV/oe6ftCSnrY7kyWamWo9/1u8Pum4SDAuMad0lrhvAfaM6nzggC3GCxiMPa8Ad+RAUbPvZr6tKLhuZDF7Vk=
-X-Received: by 2002:a2e:a545:0:b0:2fa:be5c:8ae8 with SMTP id
- 38308e7fff4ca-2fb187d2818mr41048491fa.41.1728568373219; Thu, 10 Oct 2024
- 06:52:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FO1lKsVO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B181BC4CEC5;
+	Thu, 10 Oct 2024 14:03:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728568989;
+	bh=BygIAlplpuoaa5rCG5EvJhHrt41vr/Z+Nx1Wiya21Ro=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FO1lKsVOX5UNb4ZAVIk6Ma/WGoLBEd/tTa6/1edNYR7b/8105Vy6BC/Qhv2tv2cOX
+	 RZ6h6U3Bfr6+iYnvjBGJ41Wzu5tEpnx5WzFPgUp1amyRnnBAsWVWaH1DdeOTrkIkde
+	 HQyPXFk4nuKQUQlLgyY1QSjsANFlA1VvfLZBZ0w9NOravPh812MISdE2DHOcBOJ4Qv
+	 n/iQ+XDqHqSrK45hF7oP0XjIV29YxcVXGSMQeX+fAfNjJdStF8l5oh2PYktOwixMBY
+	 Myu+/ljnXnj6LI56F4DKIFyckJJMX8jL0HNzbNSkIQs8jOHxYtJRfGdHnfkg7ALhJb
+	 VvPnA2OK+6Bzg==
+Date: Thu, 10 Oct 2024 15:03:05 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Binbin Zhou <zhoubinbin@loongson.cn>, linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Weidong Wang <wangweidong.a@awinic.com>,
+	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuming Fan <shumingf@realtek.com>
+Subject: Re: (subset) [PATCH v3 0/9] ASoC: Some issues about loongson i2s
+Message-ID: <ZwfemUEfFHJRiCr9@finisterre.sirena.org.uk>
+References: <cover.1728459624.git.zhoubinbin@loongson.cn>
+ <172855884981.3258793.17729935826036139739.b4-ty@kernel.org>
+ <CAMpQs4+0_P0ExcU7O12XvKPQ+CoP8KpAWUJpL2wP4--+gWQ6hA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241009101807.1473-1-shenghao-ding@ti.com> <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
- <7e138a1c8b6d4ace8c759bb2266216da@ti.com> <3ef8a82f-5e71-4386-90e1-f34222a60bdf@gmail.com>
- <50daaa7a-d590-4ae5-b33f-8f51d0c2f457@gmail.com>
-In-Reply-To: <50daaa7a-d590-4ae5-b33f-8f51d0c2f457@gmail.com>
-From: Antheas Kapenekakis <antheas.dk@gmail.com>
-Date: Thu, 10 Oct 2024 15:52:41 +0200
-Message-ID: <CAGwozwFAK_8HVgfNok_6jcsNq2OVdNzTc+KotxF0vhPd+PJTHQ@mail.gmail.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v1] Upload dsp firmware for ASUS laptop
- 1EB30 & 1EB31 and Update WHENCE for both
-To: Mario Limonciello <superm1@gmail.com>
-Cc: "Ding, Shenghao" <shenghao-ding@ti.com>, 
-	"linux-firmware@kernel.org" <linux-firmware@kernel.org>, "Xu, Baojun" <baojun.xu@ti.com>, 
-	"derekjohn.clark@gmail.com" <derekjohn.clark@gmail.com>, "13916275206@139.com" <13916275206@139.com>, 
-	"romangg@manjaro.org" <romangg@manjaro.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "Chen, Robin" <robinchen@ti.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Yi, Ken" <k-yi@ti.com>, 
-	"philm@manjaro.org" <philm@manjaro.org>, "jlobue10@gmail.com" <jlobue10@gmail.com>, 
-	"luke@ljones.dev" <luke@ljones.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="elDH6aAabrlLvot5"
+Content-Disposition: inline
+In-Reply-To: <CAMpQs4+0_P0ExcU7O12XvKPQ+CoP8KpAWUJpL2wP4--+gWQ6hA@mail.gmail.com>
+X-Cookie: Editing is a rewording activity.
 
-Hi Mario,
-as I am not logged in, kindly close
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/272
 
-Then, while consulting it and
-https://gitlab.com/kernel-firmware/linux-firmware/-/commit/d65613ab8c480dec6d63733d3286451aa8b3795f
-, modify the whence so that 1EB3 points to 1EB30.
+--elDH6aAabrlLvot5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Otherwise, your merge will not work with the current TAS driver, and
-we will have to do a second round of workarounds while it is the case.
-We have had that symlink for over 3 months now, and as Chen said,
-while not ideal, it will do for the time being.
+On Thu, Oct 10, 2024 at 06:15:22PM +0600, Binbin Zhou wrote:
+> On Thu, Oct 10, 2024 at 5:14=E2=80=AFPM Mark Brown <broonie@kernel.org> w=
+rote:
 
-You may add me as suggested-by using my lkml email signature
+> > [5/9] ASoC: loongson: Fix component check failed on FDT systems
+> >       (no commit info)
 
-Antheas
+> Thanks for applying this patchset.
 
-On Thu, 10 Oct 2024 at 15:39, Mario Limonciello <superm1@gmail.com> wrote:
->
->
->
-> On 10/10/24 08:30, Mario Limonciello wrote:
-> >> Although TAS2XXX1EB30.bin and TAS2XXX1EB31.bin are both in ti/tas2781,
-> >> yet it reported "does not exist".
-> >> I have no idea why the file is there while report "does not exist".
-> >> After I removed the newly-merged, no such report.
-> >
-> > I think you forgot to git add them to the commit?
-> >
-> >>
-> >> Following is the log.
-> >>
-> >> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# make check
-> >> Check that executables have
-> >> shebangs.....................................Passed
-> >> Forbid new
-> >> submodules....................................................Passed
-> >> Check
-> >> Yaml...............................................................Passed
-> >> Check for broken symlinks............................(no files to
-> >> check)Skipped
-> >> Detect Destroyed
-> >> Symlinks................................................Passed
-> >> shellcheck...............................................................Passed
-> >> black....................................................................Passed
-> >> markdownlint.............................................................Failed
-> >> - hook id: markdownlint
-> >> - exit code: 1
-> >>
-> >> internal/modules/cjs/loader.js:818
-> >>    throw err;
-> >>    ^
-> >>
-> >> Error: Cannot find module 'node:fs'
-> >> Require stack:
-> >> - /root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/
-> >> node_modules/markdownlint-cli/markdownlint.js
-> >>      at Function.Module._resolveFilename (internal/modules/cjs/
-> >> loader.js:815:15)
-> >>      at Function.Module._load (internal/modules/cjs/loader.js:667:27)
-> >>      at Module.require (internal/modules/cjs/loader.js:887:19)
-> >>      at require (internal/modules/cjs/helpers.js:85:18)
-> >>      at Object.<anonymous> (/root/.cache/pre-commit/repoxl59c0uz/
-> >> node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js:5:12)
-> >>      at Module._compile (internal/modules/cjs/loader.js:999:30)
-> >>      at Object.Module._extensions..js (internal/modules/cjs/
-> >> loader.js:1027:10)
-> >>      at Module.load (internal/modules/cjs/loader.js:863:32)
-> >>      at Function.Module._load (internal/modules/cjs/loader.js:708:14)
-> >>      at Function.executeUserEntryPoint [as runMain] (internal/modules/
-> >> run_main.js:60:12) {
-> >>    code: 'MODULE_NOT_FOUND',
-> >>    requireStack: [
-> >>      '/root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/
-> >> node_modules/markdownlint-cli/markdownlint.js'
-> >>    ]
-> >> }
-> >>
-> >
-> > This looks like you're missing some dependencie on you system for
-> > markdownlint. You need nodejs v18.
-> >
-> > If you can't install this you can skip this check when you commit by
-> > adding "SKIP=markdownlint" to your environment while running 'git commit'.
-> >
-> >> Check
-> >> whence.............................................................Failed
-> >> - hook id: check-whence
-> >> - exit code: 1
-> >>
-> >> E: ti/tas2781/TAS2XXX1EB30.bin listed in WHENCE does not exist
-> >> E: ti/tas2781/TAS2XXX1EB31.bin listed in WHENCE does not exist
-> >> E: target ti/tas2781/TAS2XXX1EB30.bin of link TAS2XXX1EB30.bin in
-> >> WHENCE does not exist
-> >> E: target ti/tas2781/TAS2XXX1EB31.bin of link TAS2XXX1EB31.bin in
-> >> WHENCE does not exist
-> >>
-> >
-> > These files are missing in your commit or they have broken links. Double
-> > check them.
-> >
-> >> make: *** [Makefile:10: check] Error 1
-> >> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# ls ti/tas2781/TAS2XXX1* -al
-> >> -rw-r--r-- 1 root root 35220 Sep 28 21:54 ti/tas2781/TAS2XXX1EB30.bin
-> >> -rw-r--r-- 1 root root 35220 Sep 28 21:55 ti/tas2781/TAS2XXX1EB31.bin
-> >> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new#
-> >>>
-> >>> Thanks,
-> >
->
-> You know - as you've been having problems with git and at least I've got
-> the intent and your S-o-b for the firmware I've taken your MR and
-> rebased/squashed it for you here:
->
-> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/317
->
-> I'll merge this and if you have any follow ups you can do them on top as
-> future MR (preferred!) or patches to M/L.
->
-> Thanks!
->
+> But I don't seem to see the 5th patch in the for-next branch, what
+> other questions do you have about that patch?
+> On FDT systems we need this patch, otherwise the component check will fai=
+l.
+
+That's a bugfix so is going as such.
+
+--elDH6aAabrlLvot5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcH3pEACgkQJNaLcl1U
+h9Dgzgf+JGDkp2/NsV0ZjdHREp4keQ6HGjDH37shxHpVA1zHNQvVwqlqgdkKjhZR
+sC0i1zIb1NJe+2214yDGwKfJf+quKJ/uBsvoD5UmR1+rYLGuhiQ0SS/NtjtC5w19
+Gk5PJUmHn3dKqNV07yLPulOuJ7Yv7373IUO8IqvWzjDShc5n5ThHSoT7F953vArf
+WH4S7M83Zvef5NqplBTcfensCgiC+P6OMDQhLvZkFtQvaUC73VjsHuB3MT8bg3dN
+r9O9bWWrAY6RsN8hFZb6ZHn/sP2kA5dHUr9uwxlZtJ+fjPSexkPfh0RpC2zJO1Mr
+VYZJpu0Eclb8nxbcV7C7P2L8aJkDQg==
+=MHlW
+-----END PGP SIGNATURE-----
+
+--elDH6aAabrlLvot5--
