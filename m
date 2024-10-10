@@ -1,85 +1,173 @@
-Received: from cmccmta1.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78EDE1C3F24;
-	Thu, 10 Oct 2024 07:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDB0204F72
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728545769; cv=none; b=V6k5caiS90uvqXHIeUHTR7Lr3HlTkBEWakG9Zyun+TPUu9F95OLvN32pGH6xC/BgtccDaGfbWOZDZMG2jcDdg2EZ7S1PxfmkiagD7HaOfZDFY+jfPGYQPJ8J8RchCdhiPnSrsdvCEH0hmxXVE2ogOeH/q4J1nemLpLVSsiM9QUk=
+	t=1728547420; cv=none; b=BqhkWGBjR4LNik8IrdqKUWx50TQ8nY+yM01H+FvexHn+thetoZrVV4LpmlByXPqyTSHq0kXm4a8oTDknuh85yghE+1EzdDz4hyREyb1WlHwBhWxD6BcbokDiERKcxTJmIEsREaazHaOay2a8OJ6A1KZFJDsgkZqnYyFQuTfutFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728545769; c=relaxed/simple;
-	bh=rXzDHmmLjzqa0/NFh+UsiE9QaIvcVFS534eYqU4kNnE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=H+fBDgLb63shdimUCyAX+/bGBXJuaSL0WPRlP1DGc+2NCo5e7fsNVS0dIHwUMY94NP3rRa+bADZYH2G+W98WUiSH7xINbKvItYUpZsmbea1yfG0N8aNQ/S9JCIrhpE5aQIn4+dGfsqeKUEFo5MgXx8JUYkqrqbPOgIWTPFi5QSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee3670783e228e-c4aa8;
-	Thu, 10 Oct 2024 15:36:02 +0800 (CST)
-X-RM-TRANSID:2ee3670783e228e-c4aa8
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from leadsec.example.com.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee1670783df7fd-3f86b;
-	Thu, 10 Oct 2024 15:36:02 +0800 (CST)
-X-RM-TRANSID:2ee1670783df7fd-3f86b
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH 1/2] ASoC: mediatek: mt8188: Remove unnecessary variable assignments
-Date: Thu, 10 Oct 2024 15:35:47 +0800
-Message-Id: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.33.0
+	s=arc-20240116; t=1728547420; c=relaxed/simple;
+	bh=o6Yj13wTDdGSHGjmO/sKiO7EHFlnxmZYRbSplb6dOKU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l1jDaJhuOjSb8Ax5+J0GSAAm61o59QLRpXv0KiQQE/E6DwaMMVQV9cppweQcdUgneXAovzMoGSfzbdYLBkmM6DQZphWBU5TpLGPwuxCAWD+RllWs1wuGAalFmPx/jTfB4b37Ctkiy/QvSCuUzivYT6FI9dScKs0LmI9ff8o/3cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ky3II9Pe; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ky3II9Pe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728547418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o6Yj13wTDdGSHGjmO/sKiO7EHFlnxmZYRbSplb6dOKU=;
+	b=Ky3II9Pe3t+C8sy+q5JqGqtM4N6q9hBTKb3fJQlgpGWMAjh/9cw+QGUXkpPqBg1rpTBzT8
+	V4UmNt3nnLLogexCYPieKb+IRFQhRRogi+ShxZMy9j5iU2XQht2xYDAkOysu8eD3CrUejR
+	B7Q/maoBGW7UXO+VSgfbhrm788fJ/ZA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-541-dj1kQvcSNy6hCqOXtWZUtw-1; Thu, 10 Oct 2024 04:03:37 -0400
+X-MC-Unique: dj1kQvcSNy6hCqOXtWZUtw-1
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d45f1e935so239801f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 01:03:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728547415; x=1729152215;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=o6Yj13wTDdGSHGjmO/sKiO7EHFlnxmZYRbSplb6dOKU=;
+        b=VcVW26gC8EH1sOCP7hmVYFtawtJ5uGRicABFEq7eoHyqVbFqn0eGQDYXkSheKAco7F
+         6nAaygKy+Fl2NPSLmDpGc+rbme2ZxKkx4APQtSILWDti5QqoDrr0MzdiSktH71JxKonw
+         L4m1yNa0jMxOca5wetcC29FCD/W/rkhvKU2cA4ZY5IU01oYORJKdlWADSPPG4EuiU+uO
+         L+ttQQ0bwBSiM1DCeh4N9rhl2xrOaXfncslBOzO8yCdTdzg2P//TgRYAKOBeOAI84Fyh
+         6UVxDc4sCIPKSZ9cqCtYDOwyCQIPIKPbwJ8pDDyh8e5NOzGQxdvOvWgZqOOaPo8DFPT5
+         YQtw==
+X-Forwarded-Encrypted: i=1; AJvYcCVG2ZMnGIf8jlKAqiv3L7E75T3HdAja/9/vK9G5XYUq94NIZ0Ds0nK7dDKMgQjJO2o+9eZ1gLV1KLLK0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpSduKphGAg4e0BMMjeD1af2jx1mzNR9iWmeKlcbCvuec1rI2v
+	4WktZaeXE/NJD5YFbvRnZHnY+zWpXjqbw1P9Gb5IDmbZZabonpBlCOgsa1JFafeseDPUp7ulxkQ
+	7KF++wPJFaFhztb8hdTTKDugVvarkf3T5Zamfb+PedLlPhtZ0+IUVD0scw4AI
+X-Received: by 2002:adf:f3c7:0:b0:37c:d299:b5f0 with SMTP id ffacd0b85a97d-37d3ab44f04mr2752574f8f.59.1728547414834;
+        Thu, 10 Oct 2024 01:03:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFCPZ/N+8I6yvkHpm2WH4x1aWbcKYPe3oMumoEtWLk5b9nz8TmEseUc5OhVu0HO7+xCgvRnQw==
+X-Received: by 2002:adf:f3c7:0:b0:37c:d299:b5f0 with SMTP id ffacd0b85a97d-37d3ab44f04mr2752523f8f.59.1728547414296;
+        Thu, 10 Oct 2024 01:03:34 -0700 (PDT)
+Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7edecasm776544f8f.97.2024.10.10.01.03.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 01:03:33 -0700 (PDT)
+Message-ID: <b57dbf0c83125d58e4e2b488b5b5f71410fd8d6a.camel@redhat.com>
+Subject: Re: [RFC PATCH 10/13] staging: rts5280: Use always-managed version
+ of pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Alex Dubov
+ <oakad@yahoo.com>,  Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>,  Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>, 
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
+ Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
+ Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
+ Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+ Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
+ <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
+ linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Thu, 10 Oct 2024 10:03:30 +0200
+In-Reply-To: <411f3c94-58b5-471e-bc58-e23d89d2078f@gmail.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+	 <20241009083519.10088-11-pstanner@redhat.com>
+	 <2024100936-brunette-flannels-0d82@gregkh>
+	 <411f3c94-58b5-471e-bc58-e23d89d2078f@gmail.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the function mtk_dai_hdmitx_dptx_hw_params, the variable
-'ret' is redundant, thus remove it.
-
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
- sound/soc/mediatek/mt8188/mt8188-dai-etdm.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c b/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
-index 2a48f5fd6..69a091dad 100644
---- a/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
-+++ b/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
-@@ -2422,7 +2422,6 @@ static int mtk_dai_hdmitx_dptx_hw_params(struct snd_pcm_substream *substream,
- 	unsigned int channels = params_channels(params);
- 	snd_pcm_format_t format = params_format(params);
- 	int width = snd_pcm_format_physical_width(format);
--	int ret;
- 
- 	if (!is_valid_etdm_dai(dai->id))
- 		return -EINVAL;
-@@ -2450,9 +2449,7 @@ static int mtk_dai_hdmitx_dptx_hw_params(struct snd_pcm_substream *substream,
- 		etdm_data->data_mode = MTK_DAI_ETDM_DATA_MULTI_PIN;
- 	}
- 
--	ret = mtk_dai_etdm_configure(afe, rate, channels, width, dai->id);
--
--	return ret;
-+	return mtk_dai_etdm_configure(afe, rate, channels, width, dai->id);
- }
- 
- static int mtk_dai_hdmitx_dptx_set_sysclk(struct snd_soc_dai *dai,
--- 
-2.27.0
+On Wed, 2024-10-09 at 21:41 +0200, Philipp Hortmann wrote:
+> On 10/9/24 11:38, Greg Kroah-Hartman wrote:
+> > On Wed, Oct 09, 2024 at 10:35:16AM +0200, Philipp Stanner wrote:
+> > > pci_intx() is a hybrid function which can sometimes be managed
+> > > through
+> > > devres. To remove this hybrid nature from pci_intx(), it is
+> > > necessary to
+> > > port users to either an always-managed or a never-managed
+> > > version.
+> > >=20
+> > > rts5208 enables its PCI-Device with pcim_enable_device(). Thus,
+> > > it needs the
+> > > always-managed version.
+> > >=20
+> > > Replace pci_intx() with pcim_intx().
+> > >=20
+> > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > > ---
+> > > =C2=A0 drivers/staging/rts5208/rtsx.c | 2 +-
+> > > =C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> >=20
+>=20
+> Hi Philipp,
+>=20
+> this driver (rts5208) will be removed soon - patch is send in.
+>=20
+> Discussion about removal:
+> https://lore.kernel.org/linux-staging/2024100943-shank-washed-a765@gregkh=
+/T/#t
 
 
+Alright, thx for the heads up.
+
+I'm not entirely how best to deal with that, though. I could drop this
+patch, but then the driver would end up with an unmanaged pci_intx().
+
+Might this be a problem for users if my series lands sooner than the
+removal, say in v6.13 and your removal in v6.14?
+
+P.
+
+>=20
+> Thanks for your support.
+>=20
+> Bye Philipp
+>=20
 
