@@ -1,161 +1,146 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4861CB322;
-	Thu, 10 Oct 2024 14:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E23B1C9DF6;
+	Thu, 10 Oct 2024 14:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728569476; cv=none; b=eglma0j/Tpt4a6XizfI7jbDuZuzBiZ8uZ1oZcOJhG5JzLjPtyWTjMLujJZwRf3a6FM4daN6yEfsHoZYVWP/DdU+NWoEGJzsrThBKjzi7NKI/VVe925thESQKJl17Y8/ByuidpkJPGAJ22HlxPQsKNP9B4AnanupT59OlpNGgvzg=
+	t=1728569711; cv=none; b=jZPMCzQH9eX1j6VT72pNUf5ZfxdaSLP4GJYn0iYXfOG1E2/ctaqn2eCKMISvG0SSRsgOohjuUnpcYcLqU79ZDia+kH2hD4zemznp2n9GChe0FLDx8GpHnJLkYLJ6+hGv49HlN7Xxyr8zUambTSX7XeypoV5vfa0UBymCoBg2dmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728569476; c=relaxed/simple;
-	bh=1yylciXsLYYSioPLf48P+RnSSIHazRBTvgOQ20rKQXQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=otq5SCZiGbuVhGfsQZtHTu77dWpZB8vDnsXmWhpE4uf08WNW9KzU0p5viEgpSv9X50k/lEEY2nqPaz25PpX0RUYIe+9nRhH+Jd7VJU1tuzY2PHQeCDucef3G/MrQkZ8TV/1HDMIw5Jb4N2RvdtA9iYZ1OuIFPyx1kSqVBj9AZcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDpQ7bY6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMEK6aEU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDpQ7bY6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMEK6aEU; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728569711; c=relaxed/simple;
+	bh=2INkBWXW27HJCXiErjqURJrmSzXXzHkDKgEdSz1K6Os=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UCOFESD4P8/DpwL4DRWQ/jgC/X0F2BheiT9uNtTbvVP9Qr5SowaFdB1Avds+yqc8tvUm/Me3uikHerIfDL3icGe5I3w5PLWuDdeDmp0LQnMDXtP5EP5cA6FayH7DnQPwkTT1euYAE3UmNRlJ+6xykoka9y7clTVEMlZ659Sa0ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gvbjgmpl; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDpQ7bY6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMEK6aEU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDpQ7bY6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMEK6aEU"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2C57B21FAC;
-	Thu, 10 Oct 2024 14:11:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728569472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
-	b=XDpQ7bY6n45UwZvFtC9+TAMeJJEJg0xBBFXi786tPXIf2UfKs6lkxJ9mDg81Uh6aDSgWNl
-	Voy2NVfzlgyD1t8uLQzzL8ORIRhI0gehVZVYT03LUBQLA6z/F9nbvl0XGCmawrtNFxRC94
-	Ee93UbfKwyx4kuPzxArVDD7t4nTgB1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728569472;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
-	b=hMEK6aEUuGS0jJYIfjWNeTBYPI1dK/HNX3omGOoLAy6Z7Gdahi08qr0s+QV8FoUbBjxNCm
-	PGGjMRULOalcDSBw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728569472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
-	b=XDpQ7bY6n45UwZvFtC9+TAMeJJEJg0xBBFXi786tPXIf2UfKs6lkxJ9mDg81Uh6aDSgWNl
-	Voy2NVfzlgyD1t8uLQzzL8ORIRhI0gehVZVYT03LUBQLA6z/F9nbvl0XGCmawrtNFxRC94
-	Ee93UbfKwyx4kuPzxArVDD7t4nTgB1g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728569472;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
-	b=hMEK6aEUuGS0jJYIfjWNeTBYPI1dK/HNX3omGOoLAy6Z7Gdahi08qr0s+QV8FoUbBjxNCm
-	PGGjMRULOalcDSBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0B1D1370C;
-	Thu, 10 Oct 2024 14:11:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 0KyvNX/gB2duYgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Oct 2024 14:11:11 +0000
-Date: Thu, 10 Oct 2024 16:12:08 +0200
-Message-ID: <877cag11zb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Julian Vetter <jvetter@kalrayinc.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gvbjgmpl"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d5038c653so284296f8f.2;
+        Thu, 10 Oct 2024 07:15:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728569708; x=1729174508; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7q2FZumu2G20wy1lC59leHuwf1R4fBFyhN95QyjItZo=;
+        b=Gvbjgmpl0T8XaJkocrXuLGPvt9lYYiPYeaEPCctjCGOK9ZWTQhnlhsNWIUEp6UDJ84
+         zzP1/EjWIqvRsIZiNNz+WI0PAUevNcj/i6AET4IYA2cYd/CghTpCd11EUjFXHk2BptAU
+         iXM8omZxwNSaWABnfXC39l65/BqSO8KENDc4pd2qxqaq4duGdvrHaFNc1Wegjr4aeacb
+         CAlTOr4EAyRcM5E+38CmprDgCzrum7RsmZi3lVQhTnGhonzLMdp0uJmnEknSg5YHQHFn
+         8WSsqYumpznTq8jgTa5QeTCMozNighrLnhI4U+reeq8Wo7qseUmmkjnMVf9cUiHgQbk+
+         y7eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728569708; x=1729174508;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7q2FZumu2G20wy1lC59leHuwf1R4fBFyhN95QyjItZo=;
+        b=pSr3fIL/2SNUPgfs7ZVxt1FOVuCmFYOjhu+oO+5nnGp/PU3I9cYDSUihQTkt+CUf1v
+         PVS9PdKWE5z4vOGuciElE3DBn6GoQ+Xn5tOKVt7uCW/fwmOwSQv/Zhg6qoHF1WMmuzQ4
+         NOv1XaA8wpjH/WPgHKu/Ek2pywwwC/3YMHmMOujwij9U0wX0FMN880Sugh5dJ/Gc7Lsz
+         jMkHpP6q0lH9W5S6AkvhkiwphxmykGhl+LPfR1J3rq9RGe4/iDrXYriEJA1uBYESVT4z
+         M1DrPXkG9YgTqOxwiYtZ33m5Gfj0UiIycb2jEAjGAKrlm4y0yUtvr4H2GYv1GTK+tXNe
+         p/7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVia0NAXoRa6NEvlEOCzKa5WJjLDbtd6rt275i1BY1tvGLGBbIKhkkI96U5r1icmZTdcULOTw1/gMh1LokxzmPAzVw=@vger.kernel.org, AJvYcCXqJjJI0fMdnka6YRjQ8suwzYhH1ccjC5J52SzerhhUnkWnRzI1gC6Ywfv/CWI1anx0yQc9gJlalPFXcDQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfRWHKf0OqCaKA0cjItUG6M8jRZqTVK58f9Ib0Sr5AkW1W3vgR
+	ElWAfStIJ88rMVSuOwgBmxLFaUWBrM9FaLFBaC34E+dlgpmiVQpN
+X-Google-Smtp-Source: AGHT+IGWlJsgC0hO9WtdgVosxWy7j7K1ygTeLaOoc8OonbSc8sUa5VLZwnekUXshOwS0UkFj46WxcQ==
+X-Received: by 2002:adf:fe12:0:b0:37d:4f1b:361 with SMTP id ffacd0b85a97d-37d4f1b043amr1044509f8f.25.1728569708181;
+        Thu, 10 Oct 2024 07:15:08 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6cfcdbsm1681797f8f.58.2024.10.10.07.15.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 07:15:07 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	Yann Sionneau
- <ysionneau@kalrayinc.com>
-Subject: Re: [PATCH] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
-In-Reply-To: <20241010124601.700528-1-jvetter@kalrayinc.com>
-References: <20241010124601.700528-1-jvetter@kalrayinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to endpoint parsing
+Date: Thu, 10 Oct 2024 15:14:32 +0100
+Message-ID: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 10 Oct 2024 14:46:01 +0200,
-Julian Vetter wrote:
-> 
-> When building for the UM arch and neither INDIRECT_IOMEM=y, nor
-> HAS_IOMEM=y is selected, it will fall back to the implementations from
-> asm-generic/io.h for IO memcpy. But these fall-back functions just do a
-> memcpy. So, instead of depending on UML, add dependency on 'HAS_IOMEM ||
-> INDIRECT_IOMEM'.
-> 
-> Acked-by: Takashi Iwai <tiwai@suse.de>
-> Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
-> Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-This is expected to be applied via sound.git tree?
-Then I'll happily take it.
+On the HiHope boards, we have a single port with a single endpoint defined
+as below:
+....
+        rsnd_port: port {
+                rsnd_endpoint: endpoint {
+                        remote-endpoint = <&dw_hdmi0_snd_in>;
 
+                        dai-format = "i2s";
+                        bitclock-master = <&rsnd_endpoint>;
+                        frame-master = <&rsnd_endpoint>;
 
-thanks,
+                        playback = <&ssi2>;
+                };
+        };
+....
 
-Takashi
+With commit 547b02f74e4a ("ASoC: rsnd: enable multi Component support for
+Audio Graph Card/Card2"), support for multiple ports was added. This caused
+probe failures on HiHope boards, as the endpoint could not be retrieved due
+to incorrect device node pointers being used.
 
-> ---
->  sound/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/Kconfig b/sound/Kconfig
-> index 4c036a9a420a..8b40205394fe 100644
-> --- a/sound/Kconfig
-> +++ b/sound/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  menuconfig SOUND
->  	tristate "Sound card support"
-> -	depends on HAS_IOMEM || UML
-> +	depends on HAS_IOMEM || INDIRECT_IOMEM
->  	help
->  	  If you have a sound card in your computer, i.e. if it can say more
->  	  than an occasional beep, say Y.
-> -- 
-> 2.34.1
-> 
-> 
-> 
-> 
-> 
+This patch fixes the issue by updating the `rsnd_dai_of_node()` and
+`rsnd_dai_probe()` functions to use the correct device node pointers based
+on the port names ('port' or 'ports'). It ensures that the endpoint is
+properly parsed for both single and multi-port configurations, restoring
+compatibility with HiHope boards.
+
+Fixes: 547b02f74e4a ("ASoC: rsnd: enable multi Component support for Audio Graph Card/Card2")
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+Hi Geert,
+I was intending to rename the sh folder to renesas, do you think that should be OK?
+Cheers, Prabhakar
+---
+ sound/soc/sh/rcar/core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
+index 9784718a2b6f..eca5ce096e54 100644
+--- a/sound/soc/sh/rcar/core.c
++++ b/sound/soc/sh/rcar/core.c
+@@ -1281,7 +1281,9 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
+ 		if (!of_node_name_eq(ports, "ports") &&
+ 		    !of_node_name_eq(ports, "port"))
+ 			continue;
+-		priv->component_dais[i] = of_graph_get_endpoint_count(ports);
++		priv->component_dais[i] =
++			of_graph_get_endpoint_count(of_node_name_eq(ports, "ports") ?
++						    ports : np);
+ 		nr += priv->component_dais[i];
+ 		i++;
+ 		if (i >= RSND_MAX_COMPONENT) {
+@@ -1493,7 +1495,8 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
+ 			if (!of_node_name_eq(ports, "ports") &&
+ 			    !of_node_name_eq(ports, "port"))
+ 				continue;
+-			for_each_endpoint_of_node(ports, dai_np) {
++			for_each_endpoint_of_node(of_node_name_eq(ports, "ports") ?
++						  ports : np, dai_np) {
+ 				__rsnd_dai_probe(priv, dai_np, dai_np, 0, dai_i);
+ 				if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(priv)) {
+ 					rdai = rsnd_rdai_get(priv, dai_i);
+-- 
+2.43.0
+
