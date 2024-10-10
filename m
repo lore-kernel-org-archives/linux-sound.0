@@ -1,112 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6571C2DC8;
-	Thu, 10 Oct 2024 11:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9012433CD2
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 11:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728558855; cv=none; b=BTeggg+fvhRWYIQGsBF5lDRgG0TcGfZygew0yLHOqILWYgP0lJ5diQ6fT4FS9N9rtT5glAgaYx93LGbc74SvLZ2aSQJXTTt+NDMW1CAOgu1jZieVSpWIJ8O4bwT9JUvj6/KPUQ7U3IHKXK2SSv3k0RXxrcgdOzNoT9u0HFL2nPo=
+	t=1728559162; cv=none; b=lJVHO0LIADABtQ3x+gv8f8btCzA7SViAcJjL/Xs7HCykG8j8kAEu8kjyfW2Z0ycy5RqHUDgzrRa6RLqkSRzE7HD8EQXlrUtI2BqtgyCFQ7xpF07USrpVQm5oZdkj1wmrn98sFNA+wTVZLGYGf8xU+HVmWSJhI2SzTnB62x3mvPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728558855; c=relaxed/simple;
-	bh=yimnheOQtKviFcnoHT8nlYQ+Lzpz2qCO7iOqKUctSxI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mKsGTp+5qADEEa//yqC79MAVgrLhplcMQPQToI3TuR0G+pGxH6UeIzHAPPEzbf7lLSb3HI6hYlp4oEC9GCMiI0iRtoHNpr1DKkX45GWPlRdtHZ7VIZKGIaNwT0O/6ezTIo17RqQxGmX7cSweK0pQ23weVrGBjaYWn1FrV//BT38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsnjJsC6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728559162; c=relaxed/simple;
+	bh=nz0iWSSKmy53/ggtFZ71B5LhtR0c5iT4D8YlE06f2II=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=OyOEgx/oEmNP2Ux7zQUEKlfwrLBMQnev3rhQTydWiC0aVUc+rwmK+t6eAeuDYyXDLQZuGNAZ+Nl4Gp7RtR71NzH7i4hbo0Tb+Cc4EGsUEyTxKttKlp739OAx+2zrJsg3RpOeeRmiFk4cwK4RoDhLtGGPj14g6+SbmvVM651HPPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J9c545MV; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsnjJsC6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B82AC4CEC6;
-	Thu, 10 Oct 2024 11:14:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728558854;
-	bh=yimnheOQtKviFcnoHT8nlYQ+Lzpz2qCO7iOqKUctSxI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jsnjJsC6wV1HeLK5bX5su+dwHaEQPFBKCIOWSp90CXMAXanaDsv1Aanz47DVSbYOK
-	 BsNBu2at46GYpSQcNC0Xd2eMyBanh8moyYV3e7k2bXtF0nU4zL9mTlWKhYJQBkK+Yp
-	 gSSYsdrOYslaF7b7lj0b0/kwtCPtH8vv6XPZ4ZS7Vx306nlDmWEbV7ReBmVOUJR+08
-	 RtkQstZvo1KDKsWPtJO82Hlsle9k5CACLQWTRyi+g/QwrI/pZ3DsjB/0LmFvOt3dRm
-	 Mh7KfEYOd25f8QI8mV1EIaJdvT/8xKLwjTJgjza9ftZD18HPDY3FinajQMmMNbiJMp
-	 dEZA+M9v4aklg==
-From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
- Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, 
- loongarch@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Weidong Wang <wangweidong.a@awinic.com>, 
- Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
- Herve Codina <herve.codina@bootlin.com>, 
- Masahiro Yamada <masahiroy@kernel.org>, Shuming Fan <shumingf@realtek.com>
-In-Reply-To: <cover.1728459624.git.zhoubinbin@loongson.cn>
-References: <cover.1728459624.git.zhoubinbin@loongson.cn>
-Subject: Re: (subset) [PATCH v3 0/9] ASoC: Some issues about loongson i2s
-Message-Id: <172855884981.3258793.17729935826036139739.b4-ty@kernel.org>
-Date: Thu, 10 Oct 2024 12:14:09 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J9c545MV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728559162; x=1760095162;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nz0iWSSKmy53/ggtFZ71B5LhtR0c5iT4D8YlE06f2II=;
+  b=J9c545MVH65Y24BTJL2+3a83SUC6XRstHdO78AuqIyMJJnBsNVZ+JEhi
+   tMuVuaBg3lfWuauffRVcPHrcIslfZhczq+VFoZSJcY9Z2Q9MHiLttoOSe
+   HElg21r+Vfqn7naRRJ60l66dQDlQ8b0rVNzEhpukPISSA5xM+M+cFA2sD
+   j0oqF1DOEhfyf2sv7N9cz4kMC2S8mHKrbJ7vYlK8dhZJffZD4KCGo5U64
+   GHI8KzLNyYh2WA95bakhUVw74GC4HUFh1APQjqQc9vMvhYKCnQXdRY3DS
+   25FrLKN+IHmqUxAaOGFvgHcBjYn0SY6v3LVPlqpl5rKGk7FPXE3r95pgb
+   A==;
+X-CSE-ConnectionGUID: i0X1Ft/NSMmQJTlR9H2HIw==
+X-CSE-MsgGUID: 5XXLrVqmShOsrGQjeBkSmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="31608268"
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="31608268"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 04:19:21 -0700
+X-CSE-ConnectionGUID: +WQDeznlS62dQoIRFBZsWg==
+X-CSE-MsgGUID: 6Sx8qr/iRFCvKieE6tStAg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,192,1725346800"; 
+   d="scan'208";a="76559665"
+Received: from dev2.igk.intel.com ([10.237.148.94])
+  by fmviesa009.fm.intel.com with ESMTP; 10 Oct 2024 04:19:19 -0700
+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Subject: [PATCH] ASoC: Intel: avs: Fix return status of avs_pcm_hw_constraints_init()
+Date: Thu, 10 Oct 2024 13:20:08 +0200
+Message-Id: <20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 09 Oct 2024 15:51:42 +0800, Binbin Zhou wrote:
-> This patch set is mainly about Loongson i2s related issues.
-> 
-> Please allow me to briefly explain this patch set:
-> Patch 1-2: Add ES8323 codec required on Loongson-2K2000
-> Patch 3-4: Add uda1342 codec required on Loongson-2K1000
-> Patch 5: Fix the problem of unable to detect codec under FDT system.
-> Patch 6-7: Add Loongson i2s platform device support
-> Patch 8-9: Related DTS support.
-> 
-> [...]
+Check for return code from avs_pcm_hw_constraints_init() in
+avs_dai_fe_startup() only checks if value is different from 0. Currently
+function can return positive value, change it to return 0 on success.
 
-Applied to
+Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+--
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I've observed KASAN on our setups and while patch itself is correct
+regardless. Problem seems to be caused by recent changes to rates, as
+this started happening after recent patchsets and doesn't reproduce with
+those reverted
+https://lore.kernel.org/linux-sound/20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com/
+https://lore.kernel.org/linux-sound/20240911135756.24434-1-tiwai@suse.de/
+I've tested using Mark tree, where they are both applied and for some
+reason snd_pcm_hw_constraint_minmax() started returning positive value,
+while previously it returned 0. I'm bit worried if it signals some
+potential deeper problem regarding constraints with above changes.
 
-Thanks!
+---
+ sound/soc/intel/avs/pcm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1/9] ASoC: dt-bindings: Add Everest ES8323 Codec
-      commit: 5bf2bea8a8b3d0255953868c7bf652235a17a65d
-[2/9] ASoC: codecs: Add support for ES8323
-      commit: b97391a604b9e259c6a983fc1b715d205d9da505
-[3/9] ASoC: dt-bindings: Add NXP uda1342 Codec
-      commit: de567431596a8163a9441407fdab315f12bc2769
-[4/9] ASoC: codecs: Add uda1342 codec driver
-      commit: de0fb25e37aae7aae133d6c3d0b0e1e31a79878d
-[5/9] ASoC: loongson: Fix component check failed on FDT systems
-      (no commit info)
-[6/9] ASoC: dt-bindings: Add Loongson I2S controller
-      commit: d4c2e9e33a0c903cc3a00114d6c02aa2cf403d33
-[7/9] ASoC: loongson: Add I2S controller driver as platform device
-      commit: ba4c5fad598c07492844e514add3ccda467063b2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
+index 4af8115803568..945f9c0a6a545 100644
+--- a/sound/soc/intel/avs/pcm.c
++++ b/sound/soc/intel/avs/pcm.c
+@@ -509,7 +509,7 @@ static int avs_pcm_hw_constraints_init(struct snd_pcm_substream *substream)
+ 			    SNDRV_PCM_HW_PARAM_FORMAT, SNDRV_PCM_HW_PARAM_CHANNELS,
+ 			    SNDRV_PCM_HW_PARAM_RATE, -1);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ static int avs_dai_fe_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
+-- 
+2.34.1
 
