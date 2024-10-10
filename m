@@ -1,159 +1,151 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B60718CC0B
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 05:18:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F151311AC
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 05:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728537519; cv=none; b=pyZIiviYLVSoMm4yF5RRHTpS/QdgdrUrTf0XDdTqH7w0CMzvYz/0+979DNdfHcP/Wobxl37PphX6I39ZKqDokhne60LPpPY6LoQPvSQCogEcJirSH3VvnGArMUyHlX62ushmKG+Fia9gBFMTMVFmbZWEoPnhDfWtxsbUW6DbF0M=
+	t=1728538229; cv=none; b=qFMPf7a42RYc/LsV22qbfSpDIXj0+A1Du4OtZr1C0YpGUiUzoJIBbGzjM0wy1EeCdQD8g5LCTV6hYgh0QE8NEovMTz8Fg6L7sioFM+j1gFtMKnbjUKFf3QqnIqU0rNKdoc5hSRs+TyXdJjGkYjtFPNGpcrsjoRRNsT/snv7bAD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728537519; c=relaxed/simple;
-	bh=NAaLcb1c56IZx8lzNsfJTIM5stUx1s5veN8SL1v17nM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vl3DyfIWowPzVzHZYII5dCYOMzq95YqeXVSO7HH+Am8Z3RFtkY5wRNbBcHmd1ALd8NCOqtvBGFTArSoje+gaYiw0bGi0NsLPhRmErE1YfrXxdjG5mLD202uvnPs4RJ5+k76ILQ79SGQJAabQMpKAwp0G05jcTWAZj1LAUGjVMDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jXSoDP4q; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728538229; c=relaxed/simple;
+	bh=8vrimWluOky7+aW1AAmoRPcEh4YVHM2VIY8aApW/HZE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pp/fAch+zcfVK1Fsim9be0iUmYhFUe9teUgjlaBqC22Gjgm+TtnpPuIEXJHtRvlPA8fDLDwsFxkWhn/UU6PEELj/qH68IOt21VR0RPROnRynQRijIUhQEdzSvXmn46C+UaJ5i1QDmbxjYBPeX29zBB6kJLLQD4RtGpEKEzPTr6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=z2HHIU/n; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jXSoDP4q"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5c8daae8ae3so84162a12.0
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 22:18:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z2HHIU/n"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43111d23e29so94595e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 22:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728537516; x=1729142316; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fKhs0S0gUj775pvsh1Bp/mrfRNzAsV4s0aKSxIUIYeA=;
-        b=jXSoDP4qzTaT6QwLQUdt0MZtywKA3AbYiXjmZPreVgriubqBCl1FsrFMlDCLVbneDE
-         xtpLZ5QxEryzLIAoCN2hPoBvFfdRKngftyTsH9gjkwQp/GdKXPT5qiZLWTlGna4mw4x2
-         Ng7JDaPd+q7pO5WIGTQSFJ68FVfDi98nFm3OL16hCpZwE7C/F+TJUzKZRcqPOBASgemZ
-         t8tfZAFdR2vEv2EvIeL5V4+3u6bwB4lMMzIlwKIjryjTeh69iM+44zLjWzgSuaueRjjv
-         xQFPXtHtmYxd3bH0I98AqGfqvmn5XNcLggFY7u10u5JDZ2OD1lk5WDyxfAWlWny1+uqn
-         ygqA==
+        d=google.com; s=20230601; t=1728538226; x=1729143026; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5Vsbn1te+zu6FOdxZ9pZKFB7CXsrSwAH4ylvWDXfwvY=;
+        b=z2HHIU/n2aBAKKWCVeuWNYwBobqKgIz4HQ6ZiX8GDLe9iaTDCqU73JRYNkTrUv1WHs
+         3EhoR2rK1nEh2q+H5ShTlt0QrW0MqNo/qShNozrDxrW9xM4Y2Pa8uFrIN0RxM1ow7szK
+         WU3EwPR8BWLODS4qmptJE5pFSf5/hZEFtjkQqyamx7AuNcoh3X53IFeOuJGx7ArRROq0
+         wHPQhAmGqlLOsTMtrMxo9gP+dZ+nlsxcNo1rNJTSXK6WVogW9GcpjwQ0GjXvsfPWvhWH
+         m9QqFcefl3ZFRDircUHVkcUCvazxLoF1ubYHLhIJuSfg5yog2ke+tN6FjUl1aq9IrCb5
+         jN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728537516; x=1729142316;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fKhs0S0gUj775pvsh1Bp/mrfRNzAsV4s0aKSxIUIYeA=;
-        b=XVJx/AKoJ1X84zKpPt1349QQbrgK5WvCgC29mcUM3kS54Xg0342iFa+0P6e7/m4W/Z
-         bmDLGUIU2WF3B5e9rzy4p6AiMrV3ac9SYyafSplCb69inrQU5ahpXjuI5kyip/Enow4/
-         oLxiSa1rcm0sXHnm1e/DIXzx3Kxog7pY/QGa3VGfCrk1c615E0XEGOd90Xkt49fWs8Ov
-         4KknEOrVFmBbQW7XrIwhox1pYaEe+GkEzYUDRDSLMFhJa1kileCPwztFCD7FFoBh/qPX
-         exkZNEzon9V1nGuB1VklsTj0z3UNi2UuCBUHDILnJofxH7PvvIhtyth4c0TXeng3856w
-         FjLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVE1PDBpH3+FDe5Mu8pyHGfQ1CaglVxmZC/dZXYdz8CVTz+JdT4RmbuepeZgaTvNfYn6954FQfHynXfpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWPmQ0bdkz/psWsm2nK/kKIeiBSHiAJ4vIcaURQcwKHvRJXRHp
-	kysj8ePlFQxZVpqkRwxxKlVFeErNkqRtwlmwrU6XvfFmqG9IBfCT0ErC5cg0N1vXLIT30kS1h9z
-	A
-X-Google-Smtp-Source: AGHT+IEp/yBMUunQRs1yALlfTSfnv5vE4xHYwvDb67zuYa6DMR5OjTvZRFRSU0fQnp3CPhCUkuiQbA==
-X-Received: by 2002:a17:906:c151:b0:a99:482c:b2c6 with SMTP id a640c23a62f3a-a998d1fe04dmr202804466b.8.1728537516271;
-        Wed, 09 Oct 2024 22:18:36 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7f27bd7sm32218566b.74.2024.10.09.22.18.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 22:18:34 -0700 (PDT)
-Message-ID: <f46623f3-b915-42db-a1e5-0427df310b8b@linaro.org>
-Date: Thu, 10 Oct 2024 07:18:32 +0200
+        d=1e100.net; s=20230601; t=1728538226; x=1729143026;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Vsbn1te+zu6FOdxZ9pZKFB7CXsrSwAH4ylvWDXfwvY=;
+        b=JmRZ7ghze6wf/pG3HTjpggoiUSNQfLpQGfkbDLl1J+ocksALVcgH0KGYIqESVZzsdJ
+         wJ6M0S4yGOB/OLeYDq+o4f+PqOXIa1mvbhW67iDi/Sqfge+P12xZgBR+M8kUCJiqAkWw
+         0K13ODnUr4HAxMXi1jYBVY/zPUdfyDa0Or+3qcTapj1fp1oFcpcHvX9h6e+x0YX7Xyih
+         fxfP2CqjcA+V6Nm1Q6lSjiSLSFQkyl0fq0wJk9WAk7lXK9MEZY8RY/KEzXoQptFBJHo8
+         NFk0B5cJo2NeEZGsgCMyIkrzWVS0HVhN8RLLKCKWXoZOz48eJBGHVPjNql1QWqDi0vss
+         MKyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrbkHgV9TIbhQYjNF2+pa5rifUICNjjTU3O2SuzqzRlVIBiuVfPTdv4SuJ8bknDfMHmw2GFyzmcwVTUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDMe/lvqvnT8Z73nB65BUrO7klB9INorXrqQT9fXEbHuKzgCbz
+	wZHbIAgiG1pMOCZW0+JSOcXZR+1MdOe0YNxypB65rWuyUnEcG0THyd+esyrtXlFcOJ3aUiu9oXZ
+	cGny/CGXNNnhxNvryqOV22JafIlIdGc1demJY
+X-Google-Smtp-Source: AGHT+IExR+gZgJ9+ZjEm/14g9BXJdiE3901d7DoQIau1dkDL3xiK2Bq9ZBBLMMTnoABIwrRyI5YGN5iG92XsC0UWHcA=
+X-Received: by 2002:a05:600c:3d88:b0:42c:9e35:cde6 with SMTP id
+ 5b1f17b1804b1-431161221eemr2758015e9.2.1728538225796; Wed, 09 Oct 2024
+ 22:30:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: sdm845: add missing soundwire runtime stream
- alloc
-To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
- srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
-Cc: stable@vger.kernel.org, broonie@kernel.org, dmitry.baryshkov@linaro.org,
- pierre-louis.bossart@linux.intel.com, vkoul@kernel.org, lgirdwood@gmail.com,
- perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org
-References: <20241009213922.999355-1-alexey.klimov@linaro.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20241009213922.999355-1-alexey.klimov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20241009054429.3970438-1-guanyulin@google.com>
+ <20241009054429.3970438-4-guanyulin@google.com> <2024100941-limping-dislodge-5c74@gregkh>
+In-Reply-To: <2024100941-limping-dislodge-5c74@gregkh>
+From: Guan-Yu Lin <guanyulin@google.com>
+Date: Thu, 10 Oct 2024 13:30:00 +0800
+Message-ID: <CAOuDEK0a43yLhCoA8iq=stj+QQAmKTCVWGKHvKM6-GPEaN9C3g@mail.gmail.com>
+Subject: Re: [PATCH v4 3/5] usb: add apis for sideband uasge tracking
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com, 
+	stern@rowland.harvard.edu, elder@kernel.org, oneukum@suse.com, 
+	yajun.deng@linux.dev, dianders@chromium.org, kekrby@gmail.com, perex@perex.cz, 
+	tiwai@suse.com, tj@kernel.org, stanley_chang@realtek.com, 
+	andreyknvl@gmail.com, christophe.jaillet@wanadoo.fr, 
+	quic_jjohnson@quicinc.com, ricardo@marliere.net, grundler@chromium.org, 
+	niko.mauno@vaisala.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, badhri@google.com, 
+	albertccwang@google.com, quic_wcheng@quicinc.com, pumahsu@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 09/10/2024 23:39, Alexey Klimov wrote:
-> During the migration of Soundwire runtime stream allocation from
-> the Qualcomm Soundwire controller to SoC's soundcard drivers the sdm845
-> soundcard was forgotten.
-> 
-> At this point any playback attempt or audio daemon startup, for instance
-> on sdm845-db845c (Qualcomm RB3 board), will result in stream pointer
-> NULL dereference:
+On Wed, Oct 9, 2024 at 8:44=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Wed, Oct 09, 2024 at 05:42:57AM +0000, Guan-Yu Lin wrote:
+> > +void usb_sideband_get(struct usb_device *udev)
+> > +{
+> > +     struct usb_device *parent =3D udev;
+> > +
+> > +     do {
+> > +             atomic_inc(&parent->sb_usage_count);
+>
+> As this is a reference count, use refcount_t please.
 
-...
+Acknowledged, will change it in the next patch. Thanks for the guidance.
 
-> 
-> Reproduced and then fix was tested on db845c RB3 board.
-> 
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: stable@vger.kernel.org
-> Fixes: 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to soundcards")
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
+>
+> > +             parent =3D parent->parent;
+> > +     } while (parent);
+>
+> Woah, walking up the device chain?  That should not be needed, or if so,
+> then each device's "usage count" is pointless.
+>
 
-We should fix this everywhere, not only sdm845. I'll look at remaining
-sc7280.
+Say a hub X with usb devices A,B,C attached on it, where usb device A
+is actively used by sideband now. We'd like to introduce a mechanism
+so that hub X won't have to iterate through all its children to
+determine sideband activities under this usb device tree. This problem
+is similar to runtime suspending a device, where rpm uses
+power.usage_count for tracking activity of the device itself and
+power.child_count to check the children's activity. In our scenario,
+we don't see the need to separate activities on the device itself or
+on its children. So we combine two counters in rpm as sb_usage_count,
+denoting the sideband activities under a specific usb device. We have
+to keep a counter in each device so that we won't influence the usb
+devices that aren't controlled by a sideband.
+When sideband activity changes on a usb device, its usb device parents
+should all get notified to maintain the correctness of sb_usage_count.
+This notifying process creates the procedure to walk up the device
+chain.
 
->  sound/soc/qcom/sdm845.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> > +bool usb_sideband_check(struct usb_device *udev)
+> > +{
+> > +     return !!atomic_read(&udev->sb_usage_count);
+>
+> And what happens if it changes right after you make this call?  This
+> feels racy and broken.
+>
 
+Seems like we need a mechanism to block any new sideband access after
+the usb device has been suspended. How about adding a lock during the
+period when the usb device is suspended? Do you think this is the
+correct direction to address the race condition?
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> > @@ -731,6 +732,8 @@ struct usb_device {
+> >
+> >       u16 hub_delay;
+> >       unsigned use_generic_driver:1;
+> > +
+> > +     atomic_t sb_usage_count;
+>
+> Why is this on the device and not the interface that is bound to the
+> driver that is doing this work?
+>
+> thanks,
+>
+> greg k-h
 
-Best regards,
-Krzysztof
+If the count is bound on the usb interface, I'm afraid that the
+sideband information couldn't be broadcasted across its usb device
+parents. Do you have some insight on how we can achieve this?
 
+Regards,
+Guan-Yu
