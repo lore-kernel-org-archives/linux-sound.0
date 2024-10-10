@@ -1,151 +1,159 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F151311AC
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 05:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC9619DF81
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 05:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728538229; cv=none; b=qFMPf7a42RYc/LsV22qbfSpDIXj0+A1Du4OtZr1C0YpGUiUzoJIBbGzjM0wy1EeCdQD8g5LCTV6hYgh0QE8NEovMTz8Fg6L7sioFM+j1gFtMKnbjUKFf3QqnIqU0rNKdoc5hSRs+TyXdJjGkYjtFPNGpcrsjoRRNsT/snv7bAD8=
+	t=1728538877; cv=none; b=DoJxEEZEtYLuL4Be/ikmhCeiSSn55mrHbdPmXpTfz1LNwIoqh9NIA/zhgnOIMZK/392y4EWmLW6vgS2K+eNdUsNEfOfMkj8VsRjzDm7z1W6/dQjsbDeqihEsDmX8TurcYk/OSc+taHXVNhk5EcnzCR2bc9/K4nyn7xcuPgjz4Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728538229; c=relaxed/simple;
-	bh=8vrimWluOky7+aW1AAmoRPcEh4YVHM2VIY8aApW/HZE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pp/fAch+zcfVK1Fsim9be0iUmYhFUe9teUgjlaBqC22Gjgm+TtnpPuIEXJHtRvlPA8fDLDwsFxkWhn/UU6PEELj/qH68IOt21VR0RPROnRynQRijIUhQEdzSvXmn46C+UaJ5i1QDmbxjYBPeX29zBB6kJLLQD4RtGpEKEzPTr6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=z2HHIU/n; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728538877; c=relaxed/simple;
+	bh=n4Yya5UPRWjsrwv/MuCHQ92gyPnyPl8+oSddQONc8CQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X6VRyW3c7qkflTCcTPqsrMXypTrOGofFCcG+q6gVznvKkzGHycMGMy3Rc6BRUwzDSTj6dMyknUhsG/ae85OC+ONaqkUnijbDsChS09XlJ8qCbQvyES93oPnjvYPAxDSezy1TSuSn4M57gXkovoqRthYQgnrRT6htUWBzQoTNS4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FBSsFZ9g; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="z2HHIU/n"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43111d23e29so94595e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 22:30:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FBSsFZ9g"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43052b41f25so815995e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 22:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728538226; x=1729143026; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5Vsbn1te+zu6FOdxZ9pZKFB7CXsrSwAH4ylvWDXfwvY=;
-        b=z2HHIU/n2aBAKKWCVeuWNYwBobqKgIz4HQ6ZiX8GDLe9iaTDCqU73JRYNkTrUv1WHs
-         3EhoR2rK1nEh2q+H5ShTlt0QrW0MqNo/qShNozrDxrW9xM4Y2Pa8uFrIN0RxM1ow7szK
-         WU3EwPR8BWLODS4qmptJE5pFSf5/hZEFtjkQqyamx7AuNcoh3X53IFeOuJGx7ArRROq0
-         wHPQhAmGqlLOsTMtrMxo9gP+dZ+nlsxcNo1rNJTSXK6WVogW9GcpjwQ0GjXvsfPWvhWH
-         m9QqFcefl3ZFRDircUHVkcUCvazxLoF1ubYHLhIJuSfg5yog2ke+tN6FjUl1aq9IrCb5
-         jN/w==
+        d=linaro.org; s=google; t=1728538874; x=1729143674; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BrjgwvWHN78rnkhk76+UTuuJL83ajLzHr+I9S6dugRc=;
+        b=FBSsFZ9gZv9XtdeBEDvKsDcuFtEMP5gl9YsSMT5Qy2fXEiU1z/Pt6pqDPBOcDjT45j
+         61NplynnmV51wLdFj3BTpuhVMeWVM99U8ChkbnRqD1YC6bfOTUdZOkI3rySTz3Krx2BT
+         +R3hSqgOCYyXaq1Oqn051/MuFoHascA29pwdkkOBumNBwnsfbYWvG07/3DXIGZErpbLk
+         SoMu+IhOQAFsd59k2/tdxVlHl54x81IVuzW25nBC9YnHJ1cVDzuweAWcCHTzxfHWKZZ6
+         tP+4E2EWiwlnSQgpHcXVjcrEy3DVTGTyIlDoRoLi+LMAG0A84QiaPFg8yjhAVnTefSs2
+         Vz5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728538226; x=1729143026;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Vsbn1te+zu6FOdxZ9pZKFB7CXsrSwAH4ylvWDXfwvY=;
-        b=JmRZ7ghze6wf/pG3HTjpggoiUSNQfLpQGfkbDLl1J+ocksALVcgH0KGYIqESVZzsdJ
-         wJ6M0S4yGOB/OLeYDq+o4f+PqOXIa1mvbhW67iDi/Sqfge+P12xZgBR+M8kUCJiqAkWw
-         0K13ODnUr4HAxMXi1jYBVY/zPUdfyDa0Or+3qcTapj1fp1oFcpcHvX9h6e+x0YX7Xyih
-         fxfP2CqjcA+V6Nm1Q6lSjiSLSFQkyl0fq0wJk9WAk7lXK9MEZY8RY/KEzXoQptFBJHo8
-         NFk0B5cJo2NeEZGsgCMyIkrzWVS0HVhN8RLLKCKWXoZOz48eJBGHVPjNql1QWqDi0vss
-         MKyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWrbkHgV9TIbhQYjNF2+pa5rifUICNjjTU3O2SuzqzRlVIBiuVfPTdv4SuJ8bknDfMHmw2GFyzmcwVTUA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDMe/lvqvnT8Z73nB65BUrO7klB9INorXrqQT9fXEbHuKzgCbz
-	wZHbIAgiG1pMOCZW0+JSOcXZR+1MdOe0YNxypB65rWuyUnEcG0THyd+esyrtXlFcOJ3aUiu9oXZ
-	cGny/CGXNNnhxNvryqOV22JafIlIdGc1demJY
-X-Google-Smtp-Source: AGHT+IExR+gZgJ9+ZjEm/14g9BXJdiE3901d7DoQIau1dkDL3xiK2Bq9ZBBLMMTnoABIwrRyI5YGN5iG92XsC0UWHcA=
-X-Received: by 2002:a05:600c:3d88:b0:42c:9e35:cde6 with SMTP id
- 5b1f17b1804b1-431161221eemr2758015e9.2.1728538225796; Wed, 09 Oct 2024
- 22:30:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728538874; x=1729143674;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BrjgwvWHN78rnkhk76+UTuuJL83ajLzHr+I9S6dugRc=;
+        b=geIna/CZm87f8ALatWGTFrvPDvARgH0N/4siZyvgZM5ZQcPWlmiN8UTqTetZGPLiX1
+         R+6ZIx33nCPnQliTyBahyNychE3Gk0uNG/Fgj4pTKOXy8vh2YJx6vRlPNjS+KjFQaeB/
+         D8uojyNR2+tGpMDLQ8iAxhTTVQ+TI8Q2j8pp+uwbOD+t6egJRIowsUOHUo4apKlhB5nN
+         TD8FxU9t7dE0ck4xydtiEWl1i+YApmmv8O1wpCUBk8iD9jdCJ2my/qNr4J/+du0qlRuT
+         pNyXiWmnIf3K37oVn9bgtjDQu3Kkn90wwiPsphl8UX5HcRz70zAtEBUMAcD0dwwHBAX5
+         BDtA==
+X-Forwarded-Encrypted: i=1; AJvYcCXZphRGr/7FFNSnTp0mP3cHubHgsuuGaS52zTFWjV4+PoqFUX5FGwUTkzYel8AAZ3vDjYLV/+OUsDJcPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy29gGYCro8pEpWuuaTx7ch8dozD/4duWr1cZNXCoUJoR77oOpY
+	fpQFjrcnrigR0HkGC9Nq4jAJOUVaJoUroEvR7DszS3HFq/qj09IT3OBqa8oQBts=
+X-Google-Smtp-Source: AGHT+IGMcrbWh3FiBdofv+GjB6zrahVpaykf4I2KG2DTDJ+cpZ7YQE/hZsMQaI6xmqyVJXWZmAb75Q==
+X-Received: by 2002:a05:6000:144b:b0:378:955f:d47d with SMTP id ffacd0b85a97d-37d3aa7927amr1902648f8f.11.1728538874120;
+        Wed, 09 Oct 2024 22:41:14 -0700 (PDT)
+Received: from krzk-bin.. ([178.197.211.167])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7ee0afsm522116f8f.102.2024.10.09.22.41.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Oct 2024 22:41:13 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Steev Klimaszewski <steev@kali.org>
+Subject: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+Date: Thu, 10 Oct 2024 07:41:09 +0200
+Message-ID: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241009054429.3970438-1-guanyulin@google.com>
- <20241009054429.3970438-4-guanyulin@google.com> <2024100941-limping-dislodge-5c74@gregkh>
-In-Reply-To: <2024100941-limping-dislodge-5c74@gregkh>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Thu, 10 Oct 2024 13:30:00 +0800
-Message-ID: <CAOuDEK0a43yLhCoA8iq=stj+QQAmKTCVWGKHvKM6-GPEaN9C3g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/5] usb: add apis for sideband uasge tracking
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com, 
-	stern@rowland.harvard.edu, elder@kernel.org, oneukum@suse.com, 
-	yajun.deng@linux.dev, dianders@chromium.org, kekrby@gmail.com, perex@perex.cz, 
-	tiwai@suse.com, tj@kernel.org, stanley_chang@realtek.com, 
-	andreyknvl@gmail.com, christophe.jaillet@wanadoo.fr, 
-	quic_jjohnson@quicinc.com, ricardo@marliere.net, grundler@chromium.org, 
-	niko.mauno@vaisala.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, badhri@google.com, 
-	albertccwang@google.com, quic_wcheng@quicinc.com, pumahsu@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 9, 2024 at 8:44=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Wed, Oct 09, 2024 at 05:42:57AM +0000, Guan-Yu Lin wrote:
-> > +void usb_sideband_get(struct usb_device *udev)
-> > +{
-> > +     struct usb_device *parent =3D udev;
-> > +
-> > +     do {
-> > +             atomic_inc(&parent->sb_usage_count);
->
-> As this is a reference count, use refcount_t please.
+Commit 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to
+soundcards") moved the allocation of Soundwire stream runtime from the
+Qualcomm Soundwire driver to each individual machine sound card driver,
+except that it forgot to update SC7280 card.
 
-Acknowledged, will change it in the next patch. Thanks for the guidance.
+Just like for other Qualcomm sound cards using Soundwire, the card
+driver should allocate and release the runtime.  Otherwise sound
+playback will result in a NULL pointer dereference or other effect of
+uninitialized memory accesses (which was confirmed on SDM845 having
+similar issue).
 
->
-> > +             parent =3D parent->parent;
-> > +     } while (parent);
->
-> Woah, walking up the device chain?  That should not be needed, or if so,
-> then each device's "usage count" is pointless.
->
+Cc: stable@vger.kernel.org
+Cc: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: Steev Klimaszewski <steev@kali.org>
+Fixes: 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to soundcards")
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Say a hub X with usb devices A,B,C attached on it, where usb device A
-is actively used by sideband now. We'd like to introduce a mechanism
-so that hub X won't have to iterate through all its children to
-determine sideband activities under this usb device tree. This problem
-is similar to runtime suspending a device, where rpm uses
-power.usage_count for tracking activity of the device itself and
-power.child_count to check the children's activity. In our scenario,
-we don't see the need to separate activities on the device itself or
-on its children. So we combine two counters in rpm as sb_usage_count,
-denoting the sideband activities under a specific usb device. We have
-to keep a counter in each device so that we won't influence the usb
-devices that aren't controlled by a sideband.
-When sideband activity changes on a usb device, its usb device parents
-should all get notified to maintain the correctness of sb_usage_count.
-This notifying process creates the procedure to walk up the device
-chain.
+---
 
-> > +bool usb_sideband_check(struct usb_device *udev)
-> > +{
-> > +     return !!atomic_read(&udev->sb_usage_count);
->
-> And what happens if it changes right after you make this call?  This
-> feels racy and broken.
->
+Not tested on hardware. The sc7280 sound card differs a bit from the
+ones I am working on, thus please kindly test and confirm.  Without the
+patch KASAN should show something similar to:
+https://lore.kernel.org/linux-sound/20241009213922.999355-1-alexey.klimov@linaro.org/T/#u
 
-Seems like we need a mechanism to block any new sideband access after
-the usb device has been suspended. How about adding a lock during the
-period when the usb device is suspended? Do you think this is the
-correct direction to address the race condition?
+The patch should fix it.
+---
+ sound/soc/qcom/sc7280.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> > @@ -731,6 +732,8 @@ struct usb_device {
-> >
-> >       u16 hub_delay;
-> >       unsigned use_generic_driver:1;
-> > +
-> > +     atomic_t sb_usage_count;
->
-> Why is this on the device and not the interface that is bound to the
-> driver that is doing this work?
->
-> thanks,
->
-> greg k-h
+diff --git a/sound/soc/qcom/sc7280.c b/sound/soc/qcom/sc7280.c
+index 207ac5da4dd4..230af8d7b205 100644
+--- a/sound/soc/qcom/sc7280.c
++++ b/sound/soc/qcom/sc7280.c
+@@ -23,6 +23,7 @@
+ #include "common.h"
+ #include "lpass.h"
+ #include "qdsp6/q6afe.h"
++#include "sdw.h"
+ 
+ #define DEFAULT_MCLK_RATE              19200000
+ #define RT5682_PLL_FREQ (48000 * 512)
+@@ -316,6 +317,7 @@ static void sc7280_snd_shutdown(struct snd_pcm_substream *substream)
+ 	struct snd_soc_card *card = rtd->card;
+ 	struct sc7280_snd_data *data = snd_soc_card_get_drvdata(card);
+ 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
++	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
+ 
+ 	switch (cpu_dai->id) {
+ 	case MI2S_PRIMARY:
+@@ -333,6 +335,9 @@ static void sc7280_snd_shutdown(struct snd_pcm_substream *substream)
+ 	default:
+ 		break;
+ 	}
++
++	data->sruntime[cpu_dai->id] = NULL;
++	sdw_release_stream(sruntime);
+ }
+ 
+ static int sc7280_snd_startup(struct snd_pcm_substream *substream)
+@@ -347,6 +352,8 @@ static int sc7280_snd_startup(struct snd_pcm_substream *substream)
+ 	switch (cpu_dai->id) {
+ 	case MI2S_PRIMARY:
+ 		ret = sc7280_rt5682_init(rtd);
++		if (ret)
++			return ret;
+ 		break;
+ 	case SECONDARY_MI2S_RX:
+ 		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
+@@ -360,7 +367,8 @@ static int sc7280_snd_startup(struct snd_pcm_substream *substream)
+ 	default:
+ 		break;
+ 	}
+-	return ret;
++
++	return qcom_snd_sdw_startup(substream);
+ }
+ 
+ static const struct snd_soc_ops sc7280_ops = {
+-- 
+2.43.0
 
-If the count is bound on the usb interface, I'm afraid that the
-sideband information couldn't be broadcasted across its usb device
-parents. Do you have some insight on how we can achieve this?
-
-Regards,
-Guan-Yu
