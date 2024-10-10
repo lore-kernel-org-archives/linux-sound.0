@@ -1,255 +1,122 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B82810A12
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 00:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCA718E02D;
+	Thu, 10 Oct 2024 03:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728520439; cv=none; b=LdHjlmjPns2Af/Ih4nlg7l2D39J9w0QCmwLMnqaBsZ7kA5ifvvSq96K3t1u7ndWui727KURBtaLVFN/IxrAs8Dzt9NiWa3m6X3F/MH1laSUrtIXMeorY0JHWfI31Pcgbm/wJvdwMahkdUTjkqp3OJB0957BXiAQB1Pp9/FwDzO8=
+	t=1728529590; cv=none; b=duscsPs+DbS/zz5wMQyf66FXSgyDfUGaRTxWLXLVgWJc3fuuGUFYCTxLBkmnnmJ1TQigbU7R34Qu6HPwzSzHiMN85z99cr600lEA6l9GA1P+f5HB3KIoRIKdt7Esg/WMX5LZ8KZu08h5+undxIlp12Np4jfyy+vazPLQ8BP3esQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728520439; c=relaxed/simple;
-	bh=ZeelYH8VnNj//5IJ4M8ZOuzZBtXZAbw71SorIgb+7s4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QC5YCrUnb0Hxcl9obb/CV0f4AuDlAQmvV9lgw8h2pg9cwYw/RqFenwgD7JUshUPHaMDqYluNGYtR9P9krzLSXJ9lF5DnwUBhGrfyT2YkC2/38pw/Tp3IrAx0DdNDaK124DgjmoRZ92xylUsUWfwCfBdqOc4AiKU2mb6zXoTET7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org; spf=pass smtp.mailfrom=kali.org; dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b=c3phwLCL; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kali.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kali.org
+	s=arc-20240116; t=1728529590; c=relaxed/simple;
+	bh=6Dm3mrwwOt+/YGSsRNsgDFHyQmDUOxNDIGoiEwlaCtE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KxVDNGHO5KrQ6FH/3KYmwJXCrd6hJWG9GeRVS6ypCoaJwGSOjUbLSLnahgBaHyNTUjdXL7VRWOOTaUe9zAQFkvNotUkp/W9ZW0IjJaq6Ovk51+wsL7kQiag4CEn0LdpzMzyI//Q/bxkT7dwJkqTpczygQ4iQTgJHyOO5pD5TD14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fHHb6XuD; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kali.org header.i=@kali.org header.b="c3phwLCL"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5c89f3f28b6so379664a12.2
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 17:33:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fHHb6XuD"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7093997dffdso156542a34.2;
+        Wed, 09 Oct 2024 20:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google; t=1728520436; x=1729125236; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t3fKVGSAlNjckIiZ+oe9M59U57xg/4iYvvzitdxkMa8=;
-        b=c3phwLCLCwgFRZDBd1KltOj+VwC72ILaxgKPGJ7o63+xsNY7R61J5eNXjeJvgXOfgM
-         2xL16rWCS6+sx7x2YG5iXq0rjeTgPMLj/nEBT3yTcCixukY3FdWrPk0ASj75ovYBz8N2
-         q2t5Q2V1rY4CsGe1IRSD+yFR9uqv+ezEoZzWcSxcigORdpWpqAnfXsAkETdRmpRnthUu
-         qmQ4/OMoOptAgMfDcA6i8yhvB/cPHKstd+8Qpp+esB/F10CNQiaM61wTAqrKwCBDQPEe
-         Y7IcoqCodwhSA2jJkIATfOeIWyZ3GMqA/XdYFjnCYqeHDgRveTtUUzMfjDdSsQ8iQM6p
-         lk+Q==
+        d=gmail.com; s=20230601; t=1728529586; x=1729134386; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0S9i0QsKrTEFXoLHFccDF34hrvX9l0HAkJSbDJmtsuk=;
+        b=fHHb6XuDk2cfFkuB3avr2mzXAmRbYIdn/QuQrbpViA5sfVFY7ssOLbpFkI5y9msYe6
+         P53s5gXnTPAQW3zddBIVhMqOuFM4XpnijZr196TuT3R7kIoUlG3EpEIj+MhNH9Zb82nJ
+         R37u9q1kMcO/HHiqXrroBedu1IzhMNvlNbG6pgVYF7rAgOWcC0bUj7YpeBXngXNOxpqS
+         ERjN8dX6rmmoNbFDLhBXruMgfowyWxlndFG2B1zbuVzdaqb8tEpeYZ4+i54J+lv0UXpc
+         7pcf1IkHW9YlDzBELBf45AnjForMV06O8iPfCv4+Ho0fL4DuwtMhMSEEUnsZvTnS5DBx
+         vtOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728520436; x=1729125236;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t3fKVGSAlNjckIiZ+oe9M59U57xg/4iYvvzitdxkMa8=;
-        b=oSzURSEcsz40aqW0HciNpzy3ZndNqNTsomBd9eRjLIQamqtp2j7bhlJz4MeA4aQqkZ
-         fnj+6GsbfSaZUAnz4wK7Thtfbz/pel+QPdIqMV+rYBIofBETXiGPY6Df5mcfZHm9i4pj
-         OXHvHmJEs6xFSD74A2cEXyGUPjltvfmN0xzGDwQtu1cgzqDlbWgL9xb073ZEBEFldHZP
-         UXDjVKTcb0Gu4nwqETM4ozsNcW797aI9Efnb49N0o1qaLwqW83s/WA+hdlG93dvGaT8j
-         W7Rwq6r4q0fijWE+cG4ClpmQ31hroN6iIFWf/iEgadNP4+3KkOSTN/dcDniAbACLb48L
-         043Q==
-X-Gm-Message-State: AOJu0Yz/afXGwwdbQx1slvF5/ckBqQiE0Eo/O9CqTDyANOubqJyBt63f
-	GRJaCWyRd8GOq8jaKytgAtpwjuMp4zYr9pth6GF7t+uA3b4zgx5OEc3MfVHXs4KWbQ7AtLIlGKp
-	ZTwlPBm0HML4JowjupiGXsOjADp6Ji7yyvmHW4A==
-X-Google-Smtp-Source: AGHT+IHmmF/XDWlMuPhBm1Jg1GUTwu6Xp949ldgPO2FAE0Mfw7lrJ/pqJc7oe8PlgA4Dsq4A+gL+Y5wglhMUs08dZwM=
-X-Received: by 2002:a05:6402:13c1:b0:5c7:927:6a5e with SMTP id
- 4fb4d7f45d1cf-5c91d63dad5mr3159171a12.21.1728520435836; Wed, 09 Oct 2024
- 17:33:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728529586; x=1729134386;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0S9i0QsKrTEFXoLHFccDF34hrvX9l0HAkJSbDJmtsuk=;
+        b=wTxs805Dx2pbOIUNzdu5/TCLgzadHTcvthqJu2lEg1vhV7qeTEkXDZoWCeVQO0AEGY
+         RisjfCy/lHcoCWed8+itJGHl9GV0y+8jFqNwXPYulHte6llqA9EZbBSMjTb3vVZjIfNS
+         LzjDZTmgtng0CBRLaixO16hdq7ykuV/CwW9mt0k0n1x7x2OzrCSGmAAz14fBr8ffF2F8
+         Re6jpbLqYA/UCv+p3oWAo+IJmvcp0k+Cvl/H5NsnJ5xVY38OBE2f0ih01HcHjZIU/yKm
+         NVBgtFUxZtTuUS3SmV30vgEmwHCbzyt68pKuNG1uAoCOU2chXU6dMY0TgCo1OjdWE8T9
+         D73A==
+X-Forwarded-Encrypted: i=1; AJvYcCV44vch2z8zXChIBl6PC3tvv4yd36cV+WJ2iM1JSCCzSFiu8vWUB1Mr7KZRr0m86wxHNjCTHbSxeV/OJLo=@vger.kernel.org, AJvYcCVmFp/o+jcXJCGi7/MndhkC6EOw0hx4YRUBLg0Nv+SWXMvsWYxw4a3XkryrMLqnvpeujrao4usT51QRs/Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+jVsDABfCQ2CpGHSM2TambG0H5VsC3OA7ttBTI3E1J5jk7RGS
+	wCQyr2tm9spIRAaUDaBlMfoKJFm+RLcnAh6Bznn9oJF5kGq0n9kc
+X-Google-Smtp-Source: AGHT+IENQKCoupa70Rsc818NrmBzIViwc1MsXFBDTbFtlqmHkomz1zji8Ovv17zTYRXXBs8loHJsUg==
+X-Received: by 2002:a05:6830:349e:b0:715:5494:5d34 with SMTP id 46e09a7af769-716a421dd6fmr3309545a34.20.1728529586370;
+        Wed, 09 Oct 2024 20:06:26 -0700 (PDT)
+Received: from ?IPV6:2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a? ([2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-717d0035698sm47835a34.76.2024.10.09.20.06.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Oct 2024 20:06:25 -0700 (PDT)
+Message-ID: <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
+Date: Wed, 9 Oct 2024 22:06:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241009213922.999355-1-alexey.klimov@linaro.org>
-In-Reply-To: <20241009213922.999355-1-alexey.klimov@linaro.org>
-From: Steev Klimaszewski <steev@kali.org>
-Date: Wed, 9 Oct 2024 19:33:44 -0500
-Message-ID: <CAKXuJqiK3BHT-=3zyT1tbunpNF1b_gyZUAd4EE2FY2r7TbaXug@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: qcom: sdm845: add missing soundwire runtime stream alloc
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org, 
-	linux-arm-msm@vger.kernel.org, stable@vger.kernel.org, broonie@kernel.org, 
-	dmitry.baryshkov@linaro.org, krzysztof.kozlowski@linaro.org, 
-	pierre-louis.bossart@linux.intel.com, vkoul@kernel.org, lgirdwood@gmail.com, 
-	perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] Upload dsp firmware for ASUS laptop 1EB30 & 1EB31 and
+ Update WHENCE for both
+To: Shenghao Ding <shenghao-ding@ti.com>, linux-firmware@kernel.org
+Cc: baojun.xu@ti.com, derekjohn.clark@gmail.com, 13916275206@139.com,
+ romangg@manjaro.org, linux-sound@vger.kernel.org, robinchen@ti.com,
+ linux-kernel@vger.kernel.org, k-yi@ti.com, navada@ti.com, philm@manjaro.org,
+ jlobue10@gmail.com, luke@ljones.dev, antheas.dk@gmail.com
+References: <20241009101807.1473-1-shenghao-ding@ti.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@gmail.com>
+In-Reply-To: <20241009101807.1473-1-shenghao-ding@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Alexey,
 
-On Wed, Oct 9, 2024 at 4:39=E2=80=AFPM Alexey Klimov <alexey.klimov@linaro.=
-org> wrote:
->
-> During the migration of Soundwire runtime stream allocation from
-> the Qualcomm Soundwire controller to SoC's soundcard drivers the sdm845
-> soundcard was forgotten.
->
-> At this point any playback attempt or audio daemon startup, for instance
-> on sdm845-db845c (Qualcomm RB3 board), will result in stream pointer
-> NULL dereference:
->
->  Unable to handle kernel NULL pointer dereference at virtual
->  address 0000000000000020
->  Mem abort info:
->    ESR =3D 0x0000000096000004
->    EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->    SET =3D 0, FnV =3D 0
->    EA =3D 0, S1PTW =3D 0
->    FSC =3D 0x04: level 0 translation fault
->  Data abort info:
->    ISV =3D 0, ISS =3D 0x00000004, ISS2 =3D 0x00000000
->    CM =3D 0, WnR =3D 0, TnD =3D 0, TagAccess =3D 0
->    GCS =3D 0, Overlay =3D 0, DirtyBit =3D 0, Xs =3D 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=3D0000000101ecf000
->  [0000000000000020] pgd=3D0000000000000000, p4d=3D0000000000000000
->  Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->  Modules linked in: ...
->  CPU: 5 UID: 0 PID: 1198 Comm: aplay
->  Not tainted 6.12.0-rc2-qcomlt-arm64-00059-g9d78f315a362-dirty #18
->  Hardware name: Thundercomm Dragonboard 845c (DT)
->  pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
->  pc : sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->  lr : sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->  sp : ffff80008a2035c0
->  x29: ffff80008a2035c0 x28: ffff80008a203978 x27: 0000000000000000
->  x26: 00000000000000c0 x25: 0000000000000000 x24: ffff1676025f4800
->  x23: ffff167600ff1cb8 x22: ffff167600ff1c98 x21: 0000000000000003
->  x20: ffff167607316000 x19: ffff167604e64e80 x18: 0000000000000000
->  x17: 0000000000000000 x16: ffffcec265074160 x15: 0000000000000000
->  x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
->  x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
->  x8 : 0000000000000000 x7 : 0000000000000000 x6 : ffff167600ff1cec
->  x5 : ffffcec22cfa2010 x4 : 0000000000000000 x3 : 0000000000000003
->  x2 : ffff167613f836c0 x1 : 0000000000000000 x0 : ffff16761feb60b8
->  Call trace:
->   sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->   wsa881x_hw_params+0x68/0x80 [snd_soc_wsa881x]
->   snd_soc_dai_hw_params+0x3c/0xa4
->   __soc_pcm_hw_params+0x230/0x660
->   dpcm_be_dai_hw_params+0x1d0/0x3f8
->   dpcm_fe_dai_hw_params+0x98/0x268
->   snd_pcm_hw_params+0x124/0x460
->   snd_pcm_common_ioctl+0x998/0x16e8
->   snd_pcm_ioctl+0x34/0x58
->   __arm64_sys_ioctl+0xac/0xf8
->   invoke_syscall+0x48/0x104
->   el0_svc_common.constprop.0+0x40/0xe0
->   do_el0_svc+0x1c/0x28
->   el0_svc+0x34/0xe0
->   el0t_64_sync_handler+0x120/0x12c
->   el0t_64_sync+0x190/0x194
->  Code: aa0403fb f9418400 9100e000 9400102f (f8420f22)
->  ---[ end trace 0000000000000000 ]---
->
-> 0000000000006108 <sdw_stream_add_slave>:
->     6108:       d503233f        paciasp
->     610c:       a9b97bfd        stp     x29, x30, [sp, #-112]!
->     6110:       910003fd        mov     x29, sp
->     6114:       a90153f3        stp     x19, x20, [sp, #16]
->     6118:       a9025bf5        stp     x21, x22, [sp, #32]
->     611c:       aa0103f6        mov     x22, x1
->     6120:       2a0303f5        mov     w21, w3
->     6124:       a90363f7        stp     x23, x24, [sp, #48]
->     6128:       aa0003f8        mov     x24, x0
->     612c:       aa0203f7        mov     x23, x2
->     6130:       a9046bf9        stp     x25, x26, [sp, #64]
->     6134:       aa0403f9        mov     x25, x4        <-- x4 copied to x=
-25
->     6138:       a90573fb        stp     x27, x28, [sp, #80]
->     613c:       aa0403fb        mov     x27, x4
->     6140:       f9418400        ldr     x0, [x0, #776]
->     6144:       9100e000        add     x0, x0, #0x38
->     6148:       94000000        bl      0 <mutex_lock>
->     614c:       f8420f22        ldr     x2, [x25, #32]!  <-- offset 0x44
->     ^^^
-> This is 0x6108 + offset 0x44 from the beginning of sdw_stream_add_slave()
-> where data abort happens.
-> wsa881x_hw_params() is called with stream =3D NULL and passes it further
-> in register x4 (5th argument) to sdw_stream_add_slave() without any check=
-s.
-> Value from x4 is copied to x25 and finally it aborts on trying to load
-> a value from address in x25 plus offset 32 (in dec) which corresponds
-> to master_list member in struct sdw_stream_runtime:
->
-> struct sdw_stream_runtime {
->         const char  *              name;        /*     0     8 */
->         struct sdw_stream_params   params;      /*     8    12 */
->         enum sdw_stream_state      state;       /*    20     4 */
->         enum sdw_stream_type       type;        /*    24     4 */
->         /* XXX 4 bytes hole, try to pack */
->  here-> struct list_head           master_list; /*    32    16 */
->         int                        m_rt_count;  /*    48     4 */
->         /* size: 56, cachelines: 1, members: 6 */
->         /* sum members: 48, holes: 1, sum holes: 4 */
->         /* padding: 4 */
->         /* last cacheline: 56 bytes */
->
-> Fix this by adding required calls to qcom_snd_sdw_startup() and
-> sdw_release_stream() to startup and shutdown routines which restores
-> the previous correct behaviour when ->set_stream() method is called to
-> set a valid stream runtime pointer on playback startup.
->
-> Reproduced and then fix was tested on db845c RB3 board.
->
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: stable@vger.kernel.org
-> Fixes: 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to =
-soundcards")
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+
+On 10/9/24 05:18, Shenghao Ding wrote:
+> Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 > ---
->  sound/soc/qcom/sdm845.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
-> index 75701546b6ea..a479d7e5b7fb 100644
-> --- a/sound/soc/qcom/sdm845.c
-> +++ b/sound/soc/qcom/sdm845.c
-> @@ -15,6 +15,7 @@
->  #include <uapi/linux/input-event-codes.h>
->  #include "common.h"
->  #include "qdsp6/q6afe.h"
-> +#include "sdw.h"
->  #include "../codecs/rt5663.h"
->
->  #define DRIVER_NAME    "sdm845"
-> @@ -416,7 +417,7 @@ static int sdm845_snd_startup(struct snd_pcm_substrea=
-m *substream)
->                 pr_err("%s: invalid dai id 0x%x\n", __func__, cpu_dai->id=
-);
->                 break;
->         }
-> -       return 0;
-> +       return qcom_snd_sdw_startup(substream);
->  }
->
->  static void  sdm845_snd_shutdown(struct snd_pcm_substream *substream)
-> @@ -425,6 +426,7 @@ static void  sdm845_snd_shutdown(struct snd_pcm_subst=
-ream *substream)
->         struct snd_soc_card *card =3D rtd->card;
->         struct sdm845_snd_data *data =3D snd_soc_card_get_drvdata(card);
->         struct snd_soc_dai *cpu_dai =3D snd_soc_rtd_to_cpu(rtd, 0);
-> +       struct sdw_stream_runtime *sruntime =3D data->sruntime[cpu_dai->i=
-d];
->
->         switch (cpu_dai->id) {
->         case PRIMARY_MI2S_RX:
-> @@ -463,6 +465,9 @@ static void  sdm845_snd_shutdown(struct snd_pcm_subst=
-ream *substream)
->                 pr_err("%s: invalid dai id 0x%x\n", __func__, cpu_dai->id=
-);
->                 break;
->         }
-> +
-> +       data->sruntime[cpu_dai->id] =3D NULL;
-> +       sdw_release_stream(sruntime);
->  }
->
->  static int sdm845_snd_prepare(struct snd_pcm_substream *substream)
-> --
-> 2.45.2
->
->
-Thank you so much for tracking this down!  Was experiencing the same
-thing on my Lenovo Yoga C630, and testing with this patch, I no longer
-see the null pointer and also have working audio.
+>   WHENCE                     |   4 ++++
+>   ti/tas2781/TAS2XXX2234.bin | Bin
+>   2 files changed, 4 insertions(+)
+>   mode change 100644 => 100755 ti/tas2781/TAS2XXX2234.bin
+> 
+> diff --git a/WHENCE b/WHENCE
+> index a9c8bb5..00096eb 100644
+> --- a/WHENCE
+> +++ b/WHENCE
+> @@ -7487,6 +7487,8 @@ Originates from https://git.codelinaro.org/linaro/qcomlt/audioreach-topology.git
+>   --------------------------------------------------------------------------
+>   
+>   Driver: ti-tas2781 - tas2781 firmware
+> +File: ti/tas2781/TAS2XXX1EB30.bin
+> +File: ti/tas2781/TAS2XXX1EB31.bin
+>   File: ti/tas2781/TAS2XXX2234.bin
+>   File: ti/tas2781/TAS2XXX387D.bin
+>   File: ti/tas2781/TAS2XXX387E.bin
+> @@ -7516,6 +7518,8 @@ File: ti/tas2781/TAS2XXX38DF.bin
+>   File: ti/tas2781/TAS2XXX38E0.bin
+>   File: ti/tas2781/TIAS2781RCA2.bin
+>   File: ti/tas2781/TIAS2781RCA4.bin
+> +Link: TAS2XXX1EB30.bin -> ti/tas2781/TAS2XXX1EB30.bin
+> +Link: TAS2XXX1EB31.bin -> ti/tas2781/TAS2XXX1EB31.bin
+>   Link: TAS2XXX2234.bin -> ti/tas2781/TAS2XXX2234.bin
+>   Link: TAS2XXX387D.bin -> ti/tas2781/TAS2XXX387D.bin
+>   Link: TAS2XXX387E.bin -> ti/tas2781/TAS2XXX387E.bin
+> diff --git a/ti/tas2781/TAS2XXX2234.bin b/ti/tas2781/TAS2XXX2234.bin
+> old mode 100644
+> new mode 100755
 
-Tested-by: Steev Klimaszewski <steev@kali.org> # Lenovo Yoga C630
+Hello,
+
+I tried to process this into a MR on Gitlab and it failed CI.
+
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/311
+
+Please run 'make check' before submitting.
+
+Thanks,
