@@ -1,50 +1,55 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CB63D3B8;
-	Thu, 10 Oct 2024 15:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980781CC16C
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 15:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728572875; cv=none; b=jvAIl+F1iCUIeCnvcvAwutceJVUg0FItYa67gk26Dq2aASC8rRiAdfRTEhalESSlp0FpfuUQz91A2ZsfuBiOIn2kIOxR91lIPa8kvcyaj/rMsIcaoGPKfoafYyW4tUUrbhrU4MlgUxnHYrmevv845KbqT3YEag7u9C0zp2Nn9Is=
+	t=1728572940; cv=none; b=D/rFpehYGxY6l0QFSw+lA+Vzm5DuQl+Vj8bttwVBf29ceDSpoVOFfjtqzqFwYEVbkU8TiMY3CzMe9zZ3s0l8JhrbQwB/opGW6Old1M0xR959konVMVrUbepzMq741CPLSEOVnFBEPvMrITwKj6YG9LG65Add7IxFdcmu0Mo/6kM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728572875; c=relaxed/simple;
-	bh=FXnz/6+zRZNXdcQYpR2t1giU/Ki+1WevBRAjIusqUCI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qk+riBgJcGSgxp7LYOAgVwRxMbWiw5NkqnIaV65eLmRE1upDdxAsjeW2f73orfX/QnGhlZHow6z+wMNHv7GMi7aLVBwesej/ku339PIpiT08Fzj76FNoyrEnDQB0c6+zTbLOnt1QD35HJGesmycaMW70TFxIH8bfHGu7zkA00iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=fNghzfND; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1728572940; c=relaxed/simple;
+	bh=re8B3h/H8vFcHw1pRsstqY/4kJcouThAZOKm6C5wvDY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O1fyzvwohBXQaiOPTMxYvHoiTROqyHAVZLcG+2NaXQyDzRRjlG2NZewJDeQQRfZyHBRhEG3K1Q1nEBd3ObDFk+Y+JtneHuQCKkcjCSsCfDIj6T39nLwEEgcUKFOoniVGTgMx3eddYJt2W9ZBweuL93mnh2tUwhC66MqAAjWwFds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ux03A54M; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="fNghzfND"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49A4VG9R000957;
-	Thu, 10 Oct 2024 10:07:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=rRFszoAm5F0h0DLje/Lizchf0ZNh1onDr0em4Eo/jS8=; b=
-	fNghzfNDxcqoLr4RsNic05jauY5ln51TG4w1StSE8y3j3eIDglkQwN1Lv4cY7YED
-	kNJUlHa2CLWWzImrcv9Y4hxelyNLO8k7AjabbFMONpOEqM32ZzdAaDJ9TpsdQVn4
-	tyW1e1BB5Qsfw0oV3evRpYhh1XS/CnJ86UD7wBt6/KikFRZEQTPCztA4jtKygvHN
-	y+biUF3w8K13VK2ymYWPWKd+tZSIhppsn4odnqVgErQl7P7R7WacPWGjKVpKSWhx
-	PMfgvfr1vVBtbBeOwzAw0UwxwvrYOSIIw85/13lnuIxrbSt0zqbCiFvdO68KzbVj
-	FXvFi7xnE6qhIYrzPCxrCg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4232uy7g1v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 10:07:27 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
- 2024 16:07:24 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 10 Oct 2024 16:07:24 +0100
-Received: from [198.90.208.18] (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id B724482024A;
-	Thu, 10 Oct 2024 15:07:24 +0000 (UTC)
-Message-ID: <300a9fe1-a431-4fa2-8a25-d31d0d264099@opensource.cirrus.com>
-Date: Thu, 10 Oct 2024 16:07:24 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ux03A54M"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a367da1f8cso3951635ab.2
+        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:08:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1728572937; x=1729177737; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1OeAK/S0DDD0sB2cslV1aKUTfEhLWliOpkHnue8Kakw=;
+        b=Ux03A54MufDQlntI2F9Rdo9s/4tWYJATjI6Tw9wNtxzwy4BALWMusSNp59FvUpnBLQ
+         2X0kHv6ZWVCFxEfioDg55gbA1+WA/+6F9l0PjY252HLB5eTeMRBwZFtqeHFqmji/O9Mg
+         PCg0QmFRZ5VAoXXm9vnSWzxBkbzzKsKwHurTs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728572937; x=1729177737;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1OeAK/S0DDD0sB2cslV1aKUTfEhLWliOpkHnue8Kakw=;
+        b=O+/V8vR3H8je/Rol5HWcKz+LeTc/qq4p+4OwogFu97b5iH46XqIIZUL3EZFLtgCY5t
+         2yEO3ev+FUEX4ib8814YSHaAabqGvLgSuawCMXwF4qpY/HJNgpRx8iW2ky1oQZXBiDzu
+         EKJk+UDBd7Co/XFHrjrBU1wh4HkWtlXNNBAc/udMOl5Z2hEgyUcvNdW3c/7KjmIw7aV8
+         Kwp/6dKVvl3D5l6Y6B+sePNmYiHG+E+KOiyfvOKYD/kSkQWnDLCDmSELpxhUuZywBLbh
+         h8ez3NeTETVoRQtqeB4y/1fqB2LVSLg311RnA5wUSWdS0C3X4gvwkcq+8Cb/PSBpLcQ/
+         28MA==
+X-Gm-Message-State: AOJu0YxrI72ZQleMk4M97RBdyZcd1jonAA+ZmHEofMOeOZafx7O9KeFP
+	sevbdpbCv6xqzWoXgVqwW44CcBh3T1KxpcDZKFPrV97QuHFtMSJYFyA+QA7lvJI=
+X-Google-Smtp-Source: AGHT+IF/YFch+FuI6hF1QYufR1Nw3E8maa4x6ZomIfSTsL5GK4U6VyY878xnwVPnu1VbxY9IMgvlNQ==
+X-Received: by 2002:a05:6e02:1445:b0:3a0:985b:ddb4 with SMTP id e9e14a558f8ab-3a397cd8b87mr55731195ab.2.1728572936492;
+        Thu, 10 Oct 2024 08:08:56 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a3afdb3444sm3040575ab.34.2024.10.10.08.08.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 08:08:55 -0700 (PDT)
+Message-ID: <e44527e8-b7c6-4712-97a6-d54f02ad2dc9@linuxfoundation.org>
+Date: Thu, 10 Oct 2024 09:08:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,102 +57,61 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
-To: Takashi Iwai <tiwai@suse.de>, Simon Trimmer <simont@opensource.cirrus.com>
-CC: "'Luke D. Jones'" <luke@ljones.dev>, <tiwai@suse.com>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <foss@athaariq.my.id>, <sbinding@opensource.cirrus.com>,
-        <kailang@realtek.com>, <perex@perex.cz>
-References: <20241009205800.40570-1-luke@ljones.dev>
- <000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com>
- <87wmig17f2.wl-tiwai@suse.de>
- <001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
- <8734l410tn.wl-tiwai@suse.de>
-Content-Language: en-GB
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-In-Reply-To: <8734l410tn.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH-next V2] ASoC: rt721-sdca: Clean logically deadcode in
+ rt721-sdca.c
+To: "Everest K.C." <everestkc@everestkc.com.np>, oder_chiou@realtek.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20241008234422.5274-1-everestkc@everestkc.com.np>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20241008234422.5274-1-everestkc@everestkc.com.np>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 6pWlagTAbAdVnETHdO6_gcnI47bs2QzA
-X-Proofpoint-ORIG-GUID: 6pWlagTAbAdVnETHdO6_gcnI47bs2QzA
-X-Proofpoint-Spam-Reason: safe
 
-On 10/10/2024 3:37 pm, Takashi Iwai wrote:
-> On Thu, 10 Oct 2024 15:20:25 +0200,
-> Simon Trimmer wrote:
->>
->> On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
->>> On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
->>>> On Wed, Oct 09, 2024, Luke D. Jones wrote:
->>>>> The GA605W laptop has almost the exact same codec setup as the GA403
->>>>> and so the same quirks apply to it.
->>>>>
->>>>> Signed-off-by: Luke D. Jones <luke@ljones.dev>
->>>>> ---
->>>>>   sound/pci/hda/patch_realtek.c | 2 +-
->>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/sound/pci/hda/patch_realtek.c
->>> b/sound/pci/hda/patch_realtek.c
->>>>> index 41e1119877b3..19b0bae074b6 100644
->>>>> --- a/sound/pci/hda/patch_realtek.c
->>>>> +++ b/sound/pci/hda/patch_realtek.c
->>>>> @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
->>>>> alc269_fixup_tbl[] = {
->>>> ...
->>>>>   	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
->>>> ALC285_FIXUP_CS35L56_I2C_2),
->>>>> -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
->>>> ALC285_FIXUP_CS35L56_I2C_2),
->>>>> +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
->>>> ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
->>>> ...
->>>>
->>>> Hi Luke,
->>>> Thanks!
->>>>
->>>> The support code for the CS35L56 has changed a little in Takashi's
->> branches
->>>> from what that patch was generated against and there is no longer an
->>>> existing quirk in the fixup table to trigger the component binding (but
->> the
->>>> general idea seems reasonable to hook the fixup of the headset mic).
->>>
->>> Right, the patch doesn't apply to the latest tree for 6.12-rc.
->>>
->>> We should start with setting up only the pincfg.  The binding with
->>> Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
->>> of speaker and bass speaker is an open question, whether we still need
->>> the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
->>>
->>> BTW, rather a question to Cirrus devs: may the call of
->>> find_cirrus_companion_amps() conflict with the existing manual setup
->>> of the Cirrus codec by a quirk entry?
->>
->> I think we're good (I rarely get to access to the end products so try to
->> stick to the parts of the system that I have the details for which never
->> includes the Realtek codec...) in this general case I'd just expect that the
->> quirk entries wouldn't have the element at the end of the chain that used to
->> do the amp component binding fixup and the remaining tweaks for things like
->> the Realtek routing and mute indicators would be unaffected.
+On 10/8/24 17:44, Everest K.C. wrote:
+> As the same condition was checked in inner and outer if
+> statements. The code never reaches the inner else statement.
 > 
-> Well, there are quirks that do call comp_generic_fixup() with fixed
-> arguments, and I'm afraid they'll lead to some spurious error
-> messages.  Namely, find_cirrus_companion_amps() is called before
-> snd_hda_apply_fixup(PRE_PROBE), so comp_generic_fixup() might be
-> already invoked there, and the quirk entry invokes
-> comp_generic_fixup() again.  This will end up with an error message by
-> the parent->codec check in hda_component_manager_init().
-> It's just a message and nothing harmful happening, though.
+> This issue was reported by Coverity Scan with CID = 1600271.
 > 
-find_cirrus_companion_amps() currently only handles CS35L54/56/57, and
-when that patch was sent it also converted all quirks using those
-devices so they _don't_ call comp_generic_fixup(). The purpose of the
-warning was to detect people adding a quirk that tried to do the old
-way of manual component binding setup from the quirk.
+> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
+> ---
+> V1 -> V2: - Updated the patch prefix to PATCH-next
+> 	  - Added how the issue was discovered
+> 
+>   sound/soc/codecs/rt721-sdca.c | 10 +++-------
+>   1 file changed, 3 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
+> index 36056cb7a3ca..4fd26e490610 100644
+> --- a/sound/soc/codecs/rt721-sdca.c
+> +++ b/sound/soc/codecs/rt721-sdca.c
+> @@ -611,13 +611,9 @@ static int rt721_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
+>   
+>   		if (!adc_vol_flag) /* boost gain */
+>   			ctl = regvalue / boost_step;
+> -		else { /* ADC gain */
+> -			if (adc_vol_flag)
+> -				ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
+> -			else
+> -				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
+> -		}
+> -
+> +		else /* ADC gain */
+> +			ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
+> +
+>   		ucontrol->value.integer.value[i] = ctl;
+>   	}
+>   
 
-The remaining quirks that call comp_generic_fixup() are for CS35L41/51,
-which we haven't converted yet because there are many more models, some
-with strange ACPI and some that are old models we can't easily get hold
-of to re-test.
 
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+
+As mentioned in my review for v1 of this patch, the exact same problem
+exists in sound/soc/codecs/rt722-sdca.c as well, in case you want to send
+patch to fix that one.
+
+thanks,
+-- Shuah
