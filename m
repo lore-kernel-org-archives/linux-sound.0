@@ -1,248 +1,149 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B78DC1B3724
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F41C7E765;
+	Thu, 10 Oct 2024 09:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728550373; cv=none; b=jFMNcgOjppzCZ66uPO/LFAvLgSAq68nzpy/ogW4ry0g+a6FVqCR3rntJS61EMQRgmcXVZRTOY8Wqf61acV+7/RMXzVHVb27yTgIvyjl/SLHhFQK9jYRxpUQGSB0GjO67SS2IkX9f99FxElyI6X5Zyw0C6aceqamigRaw8/6PS4w=
+	t=1728551017; cv=none; b=p5nF10Uph7OkYx3tW5eVrFy/FFV1F5p0bJfRBjZtZy5R773R9IONA2w36chRPE4xChdmqxDeCE5mhKEIC2w4SNVE9Tg51WKjAqxpY8JX7i8skQWxRrZ5AW91C4iNrmY3wVgux88rE7LA4dx3qrsDOR+pz6niG03vz39sm0gS2S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728550373; c=relaxed/simple;
-	bh=0kuuvx8S6hxYXc/Q2SEM7qWLako0NeQPxFPsHkxB69s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZGbq4+ekF+MaaMzInYPcBhlvkrdUCt2bGWQR2jGzVQqJ/QKlK0V8fpwRbIoflveeBu7mKkhvmWb8MEk2qkmOmtwDZnY1G+KxFBOTUmjJCuLU7DiLwxE7UiX1RgEot2IlHNbVo87hTOSYnVAQ7KMS3TRhdSc+Q7D8AC3ziJRDS18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z3kNozI4; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728551017; c=relaxed/simple;
+	bh=qIga4ENKvNDSpomy+u9cYcJeIt2znVA3OvUMUn8Vt00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ixm5ONYehhGK5Cg2sHEP249mMbZtKoA/AelPpVKighJmu4VrJg3SrTrMNPKVNRHD7UPS97cLzgAmIuhpDwQl3MpqcthBg8NIx884NfjdOAjg2A9TTl2lNG2SjDQwFxtjijT33k/ShiLzZxBdMOnN1PG8NNsRv6hHv5E4ZdESxt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ma16Iqar; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z3kNozI4"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4305413aec9so5987665e9.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 01:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728550370; x=1729155170; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4gB+FHKjUtmOrTxqJNh1pOMw3FFxgDS/WvLLgffyczM=;
-        b=z3kNozI4Axn5eRaMpmMWlpUrTT1W5Rs3V/3MtpgEeLXR/GIq3oSELpVJAx/RwQWgh3
-         VbZ7uIPY8uPsQhibKbXsL+LEJENnfeR5Ko4fXV6FdH+g4XIZxGDMmJ9gZ+t6cspJhsib
-         gBRVTKQb0XTjhGxGc4tRiQDyI2jw5eInnyZSQBdLeBHLtENIRDwfZ7gk/ISErzCyXFmX
-         n81vMlypqLaCedLu/0q5p6H8IB/qtS9EaBj0y1RNbNs3Cac6e49ebEzZgpIIq/CTVrv/
-         5BfhTdVfn5UcZn0+WxfGA9/eQDwrQR+pn8TJymgSqbXJFnEexEi5iBd76F3SAnmFHI71
-         Hrsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728550370; x=1729155170;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4gB+FHKjUtmOrTxqJNh1pOMw3FFxgDS/WvLLgffyczM=;
-        b=cq75Hwpbolcct5oum/Oh8kFoNCLJoexIl+Vf3njUYITZHy/61YABL7RZ2+8Hmqty84
-         IBf8pXDujcAusFGwS/2Ev7+O7iQwR9/aDRMpBlb5VwfRKnZytP4zdCw0FxpwlagS25Y7
-         UQuMb0fJnVRaC/E//mmCAylhOyOyu7HgPlJziuFrbAXmlDUPxbDbCRU+JI6NvQpizlB9
-         c2Mxsqgey6lg7uO1s6TqlKqKEHh0xXBdOXYCoO3rSWqpoTKaJ4xP8riYswvERRgaj0LB
-         tLMOgudUtsEmOobCOlFVF2LRMytiquRpvJcptGwOqrHX+4Ol2az6dZXM8osccUybJUn8
-         yOAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUe14Ve1FPZz24z3wFRyw8mhT8nU0YewVD6bavzX7D5SA4ii3tUqmEgpm7PuKDLR93uX+K9pyeAx6KmQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzvl/gO1MQZqCZL/glV7CbUnxyE9FrJkHoS7DcWCVC+78aMkn74
-	MdDfWZPhRJz0wWSsxw/7QX/5uJbBufaV5yq7hFGb2CVVyQEifazDE3H/1N7WVVU=
-X-Google-Smtp-Source: AGHT+IHF6MBLxr7Jsp2l5hDpG1f+RZEDPhjwpuRTU+QgJgiAT9795ytUe4ZI5bD7CxezWQIY1nBr0g==
-X-Received: by 2002:a05:600c:1e10:b0:428:f0c2:ef4a with SMTP id 5b1f17b1804b1-430ccf1d7fdmr49634915e9.13.1728550370074;
-        Thu, 10 Oct 2024 01:52:50 -0700 (PDT)
-Received: from [192.168.68.111] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-431182d7bddsm9333705e9.8.2024.10.10.01.52.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 01:52:49 -0700 (PDT)
-Message-ID: <32bb0156-a820-402c-8076-630e5fb1bc8c@linaro.org>
-Date: Thu, 10 Oct 2024 09:52:47 +0100
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ma16Iqar"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6CC3C4CEC5;
+	Thu, 10 Oct 2024 09:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728551016;
+	bh=qIga4ENKvNDSpomy+u9cYcJeIt2znVA3OvUMUn8Vt00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ma16Iqar46lFxN+U2JAe5vdwsOfrFSCv51iNGmJlzaeAsMcNWERh9kaZfcgmAlIsn
+	 7oz09EjJd/j2moVcv8Qezht0w8lMm2GuIu9huksqREaTjb8+PZCZvolwVMZIoA3XXU
+	 MiZzJ+yW2KdX7Yc9d7XcuMS6Gb4qyxLjxlOU9iVM=
+Date: Thu, 10 Oct 2024 11:03:33 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 10/13] staging: rts5280: Use always-managed version
+ of pci_intx()
+Message-ID: <2024101006-chump-image-e65c@gregkh>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <20241009083519.10088-11-pstanner@redhat.com>
+ <2024100936-brunette-flannels-0d82@gregkh>
+ <411f3c94-58b5-471e-bc58-e23d89d2078f@gmail.com>
+ <b57dbf0c83125d58e4e2b488b5b5f71410fd8d6a.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: sdm845: add missing soundwire runtime stream
- alloc
-To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Cc: stable@vger.kernel.org, broonie@kernel.org, dmitry.baryshkov@linaro.org,
- krzysztof.kozlowski@linaro.org, pierre-louis.bossart@linux.intel.com,
- vkoul@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
- linux-kernel@vger.kernel.org
-References: <20241009213922.999355-1-alexey.klimov@linaro.org>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20241009213922.999355-1-alexey.klimov@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b57dbf0c83125d58e4e2b488b5b5f71410fd8d6a.camel@redhat.com>
 
+On Thu, Oct 10, 2024 at 10:03:30AM +0200, Philipp Stanner wrote:
+> On Wed, 2024-10-09 at 21:41 +0200, Philipp Hortmann wrote:
+> > On 10/9/24 11:38, Greg Kroah-Hartman wrote:
+> > > On Wed, Oct 09, 2024 at 10:35:16AM +0200, Philipp Stanner wrote:
+> > > > pci_intx() is a hybrid function which can sometimes be managed
+> > > > through
+> > > > devres. To remove this hybrid nature from pci_intx(), it is
+> > > > necessary to
+> > > > port users to either an always-managed or a never-managed
+> > > > version.
+> > > > 
+> > > > rts5208 enables its PCI-Device with pcim_enable_device(). Thus,
+> > > > it needs the
+> > > > always-managed version.
+> > > > 
+> > > > Replace pci_intx() with pcim_intx().
+> > > > 
+> > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > > > ---
+> > > >   drivers/staging/rts5208/rtsx.c | 2 +-
+> > > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > 
+> > 
+> > Hi Philipp,
+> > 
+> > this driver (rts5208) will be removed soon - patch is send in.
+> > 
+> > Discussion about removal:
+> > https://lore.kernel.org/linux-staging/2024100943-shank-washed-a765@gregkh/T/#t
+> 
+> 
+> Alright, thx for the heads up.
+> 
+> I'm not entirely how best to deal with that, though. I could drop this
+> patch, but then the driver would end up with an unmanaged pci_intx().
+> 
+> Might this be a problem for users if my series lands sooner than the
+> removal, say in v6.13 and your removal in v6.14?
 
+The removal will happen in 6.13, I'm going to be queueing it up right
+now.
 
-On 09/10/2024 22:39, Alexey Klimov wrote:
-> During the migration of Soundwire runtime stream allocation from
-> the Qualcomm Soundwire controller to SoC's soundcard drivers the sdm845
-> soundcard was forgotten.
-> 
-> At this point any playback attempt or audio daemon startup, for instance
-> on sdm845-db845c (Qualcomm RB3 board), will result in stream pointer
-> NULL dereference:
-> 
->   Unable to handle kernel NULL pointer dereference at virtual
->   address 0000000000000020
->   Mem abort info:
->     ESR = 0x0000000096000004
->     EC = 0x25: DABT (current EL), IL = 32 bits
->     SET = 0, FnV = 0
->     EA = 0, S1PTW = 0
->     FSC = 0x04: level 0 translation fault
->   Data abort info:
->     ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->     CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->     GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->   user pgtable: 4k pages, 48-bit VAs, pgdp=0000000101ecf000
->   [0000000000000020] pgd=0000000000000000, p4d=0000000000000000
->   Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->   Modules linked in: ...
->   CPU: 5 UID: 0 PID: 1198 Comm: aplay
->   Not tainted 6.12.0-rc2-qcomlt-arm64-00059-g9d78f315a362-dirty #18
->   Hardware name: Thundercomm Dragonboard 845c (DT)
->   pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->   pc : sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->   lr : sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->   sp : ffff80008a2035c0
->   x29: ffff80008a2035c0 x28: ffff80008a203978 x27: 0000000000000000
->   x26: 00000000000000c0 x25: 0000000000000000 x24: ffff1676025f4800
->   x23: ffff167600ff1cb8 x22: ffff167600ff1c98 x21: 0000000000000003
->   x20: ffff167607316000 x19: ffff167604e64e80 x18: 0000000000000000
->   x17: 0000000000000000 x16: ffffcec265074160 x15: 0000000000000000
->   x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
->   x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
->   x8 : 0000000000000000 x7 : 0000000000000000 x6 : ffff167600ff1cec
->   x5 : ffffcec22cfa2010 x4 : 0000000000000000 x3 : 0000000000000003
->   x2 : ffff167613f836c0 x1 : 0000000000000000 x0 : ffff16761feb60b8
->   Call trace:
->    sdw_stream_add_slave+0x44/0x380 [soundwire_bus]
->    wsa881x_hw_params+0x68/0x80 [snd_soc_wsa881x]
->    snd_soc_dai_hw_params+0x3c/0xa4
->    __soc_pcm_hw_params+0x230/0x660
->    dpcm_be_dai_hw_params+0x1d0/0x3f8
->    dpcm_fe_dai_hw_params+0x98/0x268
->    snd_pcm_hw_params+0x124/0x460
->    snd_pcm_common_ioctl+0x998/0x16e8
->    snd_pcm_ioctl+0x34/0x58
->    __arm64_sys_ioctl+0xac/0xf8
->    invoke_syscall+0x48/0x104
->    el0_svc_common.constprop.0+0x40/0xe0
->    do_el0_svc+0x1c/0x28
->    el0_svc+0x34/0xe0
->    el0t_64_sync_handler+0x120/0x12c
->    el0t_64_sync+0x190/0x194
->   Code: aa0403fb f9418400 9100e000 9400102f (f8420f22)
->   ---[ end trace 0000000000000000 ]---
-> 
-> 0000000000006108 <sdw_stream_add_slave>:
->      6108:       d503233f        paciasp
->      610c:       a9b97bfd        stp     x29, x30, [sp, #-112]!
->      6110:       910003fd        mov     x29, sp
->      6114:       a90153f3        stp     x19, x20, [sp, #16]
->      6118:       a9025bf5        stp     x21, x22, [sp, #32]
->      611c:       aa0103f6        mov     x22, x1
->      6120:       2a0303f5        mov     w21, w3
->      6124:       a90363f7        stp     x23, x24, [sp, #48]
->      6128:       aa0003f8        mov     x24, x0
->      612c:       aa0203f7        mov     x23, x2
->      6130:       a9046bf9        stp     x25, x26, [sp, #64]
->      6134:       aa0403f9        mov     x25, x4        <-- x4 copied to x25
->      6138:       a90573fb        stp     x27, x28, [sp, #80]
->      613c:       aa0403fb        mov     x27, x4
->      6140:       f9418400        ldr     x0, [x0, #776]
->      6144:       9100e000        add     x0, x0, #0x38
->      6148:       94000000        bl      0 <mutex_lock>
->      614c:       f8420f22        ldr     x2, [x25, #32]!  <-- offset 0x44
->      ^^^
-> This is 0x6108 + offset 0x44 from the beginning of sdw_stream_add_slave()
-> where data abort happens.
-> wsa881x_hw_params() is called with stream = NULL and passes it further
-> in register x4 (5th argument) to sdw_stream_add_slave() without any checks.
-> Value from x4 is copied to x25 and finally it aborts on trying to load
-> a value from address in x25 plus offset 32 (in dec) which corresponds
-> to master_list member in struct sdw_stream_runtime:
-> 
-> struct sdw_stream_runtime {
->          const char  *              name;	/*     0     8 */
->          struct sdw_stream_params   params;	/*     8    12 */
->          enum sdw_stream_state      state;	/*    20     4 */
->          enum sdw_stream_type       type;	/*    24     4 */
->          /* XXX 4 bytes hole, try to pack */
->   here-> struct list_head           master_list;	/*    32    16 */
->          int                        m_rt_count;	/*    48     4 */
->          /* size: 56, cachelines: 1, members: 6 */
->          /* sum members: 48, holes: 1, sum holes: 4 */
->          /* padding: 4 */
->          /* last cacheline: 56 bytes */
-> 
-> Fix this by adding required calls to qcom_snd_sdw_startup() and
-> sdw_release_stream() to startup and shutdown routines which restores
-> the previous correct behaviour when ->set_stream() method is called to
-> set a valid stream runtime pointer on playback startup.
-> 
-> Reproduced and then fix was tested on db845c RB3 board.
-> 
-> Reported-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: stable@vger.kernel.org
-> Fixes: 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to soundcards")
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+thanks,
 
-thanks for fixing this,
-
-
-Reviewed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-
---srini
-> ---
->   sound/soc/qcom/sdm845.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/sound/soc/qcom/sdm845.c b/sound/soc/qcom/sdm845.c
-> index 75701546b6ea..a479d7e5b7fb 100644
-> --- a/sound/soc/qcom/sdm845.c
-> +++ b/sound/soc/qcom/sdm845.c
-> @@ -15,6 +15,7 @@
->   #include <uapi/linux/input-event-codes.h>
->   #include "common.h"
->   #include "qdsp6/q6afe.h"
-> +#include "sdw.h"
->   #include "../codecs/rt5663.h"
->   
->   #define DRIVER_NAME	"sdm845"
-> @@ -416,7 +417,7 @@ static int sdm845_snd_startup(struct snd_pcm_substream *substream)
->   		pr_err("%s: invalid dai id 0x%x\n", __func__, cpu_dai->id);
->   		break;
->   	}
-> -	return 0;
-> +	return qcom_snd_sdw_startup(substream);
->   }
->   
->   static void  sdm845_snd_shutdown(struct snd_pcm_substream *substream)
-> @@ -425,6 +426,7 @@ static void  sdm845_snd_shutdown(struct snd_pcm_substream *substream)
->   	struct snd_soc_card *card = rtd->card;
->   	struct sdm845_snd_data *data = snd_soc_card_get_drvdata(card);
->   	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-> +	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
->   
->   	switch (cpu_dai->id) {
->   	case PRIMARY_MI2S_RX:
-> @@ -463,6 +465,9 @@ static void  sdm845_snd_shutdown(struct snd_pcm_substream *substream)
->   		pr_err("%s: invalid dai id 0x%x\n", __func__, cpu_dai->id);
->   		break;
->   	}
-> +
-> +	data->sruntime[cpu_dai->id] = NULL;
-> +	sdw_release_stream(sruntime);
->   }
->   
->   static int sdm845_snd_prepare(struct snd_pcm_substream *substream)
+greg k-h
