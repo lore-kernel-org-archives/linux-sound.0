@@ -1,82 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1684029AF;
-	Thu, 10 Oct 2024 09:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B805E1BC9EC;
+	Thu, 10 Oct 2024 09:54:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728553789; cv=none; b=rRxQRzRdTRJzOmfFob5S7ugvGnE8y7qyNTCCgwY+MOEhm8C4fLGjnEGr74bsmwkhFz725Bq89NHaF3bRjE6PeUd3Tv1hyCmSjvbm8wW9Yop8jzSqkcgs/XaGWE7/+VMvDmgS0G3o3ac07BGo4IAKtPN0MRYWcJ7FGOlZQ1z9QU0=
+	t=1728554053; cv=none; b=OzmjxsboKeBF2PqRPtbm1ios6HY9g5T3cM0a08/F6HHkszGPLQcRoJt9Svago6O++RovVWCRt+OYFwsXUjTVVOsbppZQfz5ob2sy2wrvP3UiGKRup0jZ2VczjUvO7jZWNGCwUZjVkPLEN1CUHE0Ib7Ufmbl4lHPRD9Vgi39TT5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728553789; c=relaxed/simple;
-	bh=sOKlcUDcVIYv8es7Svh5TEbxwRfsmyZvU+K9y1sAGl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gwvOEkQWPKe0qE5mq4ppCtMEwXpOGKIfaDcjXuLih/cyvXEAW6j2lacPkLatoofth4pUiB9nZ2jMbP8JPyYl/X05rA9apodz/IcxUSmNssuvg256QLh73pzCbGwy7880Viln8QOKfUgfvCsvm2dQXlQZYHZGKtHt0YHGUNl7m4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PnoFtgwV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728554053; c=relaxed/simple;
+	bh=NoHifkCcU/cNxUBhbvJudqLfDrHd9ys3JoFIBJofY8A=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZxapajgJhKrnkl4AYZ/5+0ZU3Kg3Ft5+stupbOIWsXATvXsn6+CSJKvbvv4JTnLPViEx0+qFIFp+3LCzrIonLLH7sA+u3RzcCzmJagzc4uBCBuL78Lqx/lgYRBK3TZR889Ff4PRgKtm4LjQA9/HkId/XRk2e+wWI0sMj1At0WYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Y1Ii4+od; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PnoFtgwV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503A7C4CEC5;
-	Thu, 10 Oct 2024 09:49:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728553788;
-	bh=sOKlcUDcVIYv8es7Svh5TEbxwRfsmyZvU+K9y1sAGl4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PnoFtgwVFP8jz1lqnlXqpRQFN9k9Gva+GButJXcoVLTcJa80vNNGkb9YtN5UCSFpY
-	 xuCbNx4zI7qvl6rHE/B7nZJCjjyNuCwwZ/2D8HUtGZkX39z18lrF6Tw5xWrRocr2lo
-	 FV0LgQDhc5U1igE2/UBjkLizAompnTYylpbPbf2TxZzS6DAoLsxVll2k81AVEOCZP4
-	 /8CqtbwhJZBH/gf6NeWOkoZEDrlhhTwZZYO8fTBosdytGk2S7IefQuEvpLs6g2QTvc
-	 smkCJ9sAUigCuCJAod5CZ/yLQdq9uwXHH2g0fLpV5KwNjyYsVMibdjGqh1MiCgR9+t
-	 MQs71v9bWMkjg==
-Date: Thu, 10 Oct 2024 10:49:45 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] ASoC: mediatek: mt8188: Remove unnecessary variable
- assignments
-Message-ID: <ZwejOZQlSsWbAWBg@finisterre.sirena.org.uk>
-References: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Y1Ii4+od"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49A4VGqf000957;
+	Thu, 10 Oct 2024 04:53:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=/HIZ2Le5v6v0pGIyJ5OLSKxrh1VBKsYH584PmUXSvAc=; b=
+	Y1Ii4+odW+ZeyZ+xUtlk9CqCi3kgqyROVEZ2tHrDNjrYmXAXZBk+fZ/ruYHXc3I3
+	o8h1KkLlOcS4YDTubVD8weQsdxwvKP3lmD7VwXGeocNJGO+uG3PrChe3gzgobYB0
+	emPyIjtN5bXeTRYHjlV5rU6aNALn5R+MvmfH/S0a2eHgM+og5WquMUHEb+nMS0Sz
+	UzJ5v0eW7GKgMaij4cGWvNJvuAqMkwx9W7IXzgfkoxPALDlj+fsFP0lfZPGt4RjG
+	V5P9y2V/+DLz+MJ1v6CkUb79rkkWMVzRNvVX2M3g+hV6b9GKFwGuIE7ioKB6EfyE
+	lt8bouYDJa4xdhH0x/DKnQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4232uy75av-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Oct 2024 04:53:52 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
+ 2024 10:53:49 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 10 Oct 2024 10:53:49 +0100
+Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.188.28])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 96CAA820248;
+	Thu, 10 Oct 2024 09:53:49 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: "'Luke D. Jones'" <luke@ljones.dev>, <tiwai@suse.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <rf@opensource.cirrus.com>, <foss@athaariq.my.id>,
+        <sbinding@opensource.cirrus.com>, <kailang@realtek.com>,
+        <perex@perex.cz>
+References: <20241009205800.40570-1-luke@ljones.dev>
+In-Reply-To: <20241009205800.40570-1-luke@ljones.dev>
+Subject: RE: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
+Date: Thu, 10 Oct 2024 10:53:49 +0100
+Message-ID: <000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="k3nsdihw8mA/diZ8"
-Content-Disposition: inline
-In-Reply-To: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQLaM5BF+fBgGyVU6uCoux+KLk9Da7CBiZjA
+X-Proofpoint-GUID: NjKcoiJovRqF1hl6EMUPY4qW04beMScw
+X-Proofpoint-ORIG-GUID: NjKcoiJovRqF1hl6EMUPY4qW04beMScw
+X-Proofpoint-Spam-Reason: safe
 
+On Wed, Oct 09, 2024, Luke D. Jones wrote:
+> The GA605W laptop has almost the exact same codec setup as the GA403
+> and so the same quirks apply to it.
+> 
+> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> ---
+>  sound/pci/hda/patch_realtek.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 41e1119877b3..19b0bae074b6 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
+> alc269_fixup_tbl[] = {
+...
+>  	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
+ALC285_FIXUP_CS35L56_I2C_2),
+> -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+ALC285_FIXUP_CS35L56_I2C_2),
+> +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+...
 
---k3nsdihw8mA/diZ8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Luke,
+Thanks!
 
-On Thu, Oct 10, 2024 at 03:35:47PM +0800, Tang Bin wrote:
-> In the function mtk_dai_hdmitx_dptx_hw_params, the variable
-> 'ret' is redundant, thus remove it.
+The support code for the CS35L56 has changed a little in Takashi's branches
+from what that patch was generated against and there is no longer an
+existing quirk in the fixup table to trigger the component binding (but the
+general idea seems reasonable to hook the fixup of the headset mic).
+Cheers,
+-Simon
 
-Please don't send patch serieses without cover letters, having a cover=20
-letter makes it easier to tell why the series is a series and makes it
-easier for tooling to work with the series.
-
---k3nsdihw8mA/diZ8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcHozgACgkQJNaLcl1U
-h9BTrQf/dvyLMa5N8atLKqhwKgHzZbLbq3zfN9tjwPX11KsHTUv8NHPRtsBQWZCX
-89eRdk8SEXRIS82p5CCQU509DCJFSgzborbduFb7MDaI73hhopdRV2WLPPDMu5G6
-CNjjVHR9Lr3YgqDSR+D5vc5MvhRwnGd5rej2ymlPgvsGleSnseHtVqdzkD44tvJC
-CcZS8Rs2kaDF0hyqckQq6deQSivyJBTEaDNewRB89palzjMlmvFU/Q6FPv2aAY2O
-pZ1bXNci5zOYdSrALGKzCCzzpUA3REoyBwZjhoFqF6ujeCnYia4eUtsm0ZAOSzHs
-uGG0teM2LEb459x/lteK+r/WiCnrLg==
-=A4F3
------END PGP SIGNATURE-----
-
---k3nsdihw8mA/diZ8--
