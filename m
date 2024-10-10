@@ -1,103 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091461C7B6A;
-	Thu, 10 Oct 2024 14:03:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4861CB322;
+	Thu, 10 Oct 2024 14:11:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728568990; cv=none; b=NLIvosuDEIGiT1jAYrk7m1M1th4e2ZLPV9NPiSqk/gfzCA0yG7cQ66e6QWvT2amRvepZKxvd2FmyMlGWYIQeBkdNbdJICXd+vBuVXMvJPFXvmC9txDrotpooqOC1FFZKw/JNoljtPqVaG4Urp1LbDeeEkdM47cu+Lk92hd+0HR4=
+	t=1728569476; cv=none; b=eglma0j/Tpt4a6XizfI7jbDuZuzBiZ8uZ1oZcOJhG5JzLjPtyWTjMLujJZwRf3a6FM4daN6yEfsHoZYVWP/DdU+NWoEGJzsrThBKjzi7NKI/VVe925thESQKJl17Y8/ByuidpkJPGAJ22HlxPQsKNP9B4AnanupT59OlpNGgvzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728568990; c=relaxed/simple;
-	bh=BygIAlplpuoaa5rCG5EvJhHrt41vr/Z+Nx1Wiya21Ro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=euomGw+KMSRodJsGdXhpq4aNEhxLKF6fw+bTLDJQw5l9nlDsHyd2OELPZHTQF2d1Bai91JDJTAvRgxCFMuolrc5ImTH92gDmspI5g3HKRQk44zWRhHj0+VSdGzK2e1cdCmAcRFjpXtNU1WRs82Fuad7ejWGBh9UKQAaAD/FuJ7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FO1lKsVO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728569476; c=relaxed/simple;
+	bh=1yylciXsLYYSioPLf48P+RnSSIHazRBTvgOQ20rKQXQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=otq5SCZiGbuVhGfsQZtHTu77dWpZB8vDnsXmWhpE4uf08WNW9KzU0p5viEgpSv9X50k/lEEY2nqPaz25PpX0RUYIe+9nRhH+Jd7VJU1tuzY2PHQeCDucef3G/MrQkZ8TV/1HDMIw5Jb4N2RvdtA9iYZ1OuIFPyx1kSqVBj9AZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDpQ7bY6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMEK6aEU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XDpQ7bY6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hMEK6aEU; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FO1lKsVO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B181BC4CEC5;
-	Thu, 10 Oct 2024 14:03:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728568989;
-	bh=BygIAlplpuoaa5rCG5EvJhHrt41vr/Z+Nx1Wiya21Ro=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FO1lKsVOX5UNb4ZAVIk6Ma/WGoLBEd/tTa6/1edNYR7b/8105Vy6BC/Qhv2tv2cOX
-	 RZ6h6U3Bfr6+iYnvjBGJ41Wzu5tEpnx5WzFPgUp1amyRnnBAsWVWaH1DdeOTrkIkde
-	 HQyPXFk4nuKQUQlLgyY1QSjsANFlA1VvfLZBZ0w9NOravPh812MISdE2DHOcBOJ4Qv
-	 n/iQ+XDqHqSrK45hF7oP0XjIV29YxcVXGSMQeX+fAfNjJdStF8l5oh2PYktOwixMBY
-	 Myu+/ljnXnj6LI56F4DKIFyckJJMX8jL0HNzbNSkIQs8jOHxYtJRfGdHnfkg7ALhJb
-	 VvPnA2OK+6Bzg==
-Date: Thu, 10 Oct 2024 15:03:05 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Binbin Zhou <zhoubinbin@loongson.cn>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>,
-	loongarch@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Weidong Wang <wangweidong.a@awinic.com>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuming Fan <shumingf@realtek.com>
-Subject: Re: (subset) [PATCH v3 0/9] ASoC: Some issues about loongson i2s
-Message-ID: <ZwfemUEfFHJRiCr9@finisterre.sirena.org.uk>
-References: <cover.1728459624.git.zhoubinbin@loongson.cn>
- <172855884981.3258793.17729935826036139739.b4-ty@kernel.org>
- <CAMpQs4+0_P0ExcU7O12XvKPQ+CoP8KpAWUJpL2wP4--+gWQ6hA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDpQ7bY6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMEK6aEU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XDpQ7bY6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hMEK6aEU"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2C57B21FAC;
+	Thu, 10 Oct 2024 14:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728569472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
+	b=XDpQ7bY6n45UwZvFtC9+TAMeJJEJg0xBBFXi786tPXIf2UfKs6lkxJ9mDg81Uh6aDSgWNl
+	Voy2NVfzlgyD1t8uLQzzL8ORIRhI0gehVZVYT03LUBQLA6z/F9nbvl0XGCmawrtNFxRC94
+	Ee93UbfKwyx4kuPzxArVDD7t4nTgB1g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728569472;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
+	b=hMEK6aEUuGS0jJYIfjWNeTBYPI1dK/HNX3omGOoLAy6Z7Gdahi08qr0s+QV8FoUbBjxNCm
+	PGGjMRULOalcDSBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728569472; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
+	b=XDpQ7bY6n45UwZvFtC9+TAMeJJEJg0xBBFXi786tPXIf2UfKs6lkxJ9mDg81Uh6aDSgWNl
+	Voy2NVfzlgyD1t8uLQzzL8ORIRhI0gehVZVYT03LUBQLA6z/F9nbvl0XGCmawrtNFxRC94
+	Ee93UbfKwyx4kuPzxArVDD7t4nTgB1g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728569472;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bKGWuHnoAY3oScw9gPPFvX+fuzsUbv/zXNsP6f00WS4=;
+	b=hMEK6aEUuGS0jJYIfjWNeTBYPI1dK/HNX3omGOoLAy6Z7Gdahi08qr0s+QV8FoUbBjxNCm
+	PGGjMRULOalcDSBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E0B1D1370C;
+	Thu, 10 Oct 2024 14:11:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 0KyvNX/gB2duYgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 10 Oct 2024 14:11:11 +0000
+Date: Thu, 10 Oct 2024 16:12:08 +0200
+Message-ID: <877cag11zb.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Julian Vetter <jvetter@kalrayinc.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>,
+	Yann Sionneau
+ <ysionneau@kalrayinc.com>
+Subject: Re: [PATCH] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
+In-Reply-To: <20241010124601.700528-1-jvetter@kalrayinc.com>
+References: <20241010124601.700528-1-jvetter@kalrayinc.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="elDH6aAabrlLvot5"
-Content-Disposition: inline
-In-Reply-To: <CAMpQs4+0_P0ExcU7O12XvKPQ+CoP8KpAWUJpL2wP4--+gWQ6hA@mail.gmail.com>
-X-Cookie: Editing is a rewording activity.
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
+
+On Thu, 10 Oct 2024 14:46:01 +0200,
+Julian Vetter wrote:
+> 
+> When building for the UM arch and neither INDIRECT_IOMEM=y, nor
+> HAS_IOMEM=y is selected, it will fall back to the implementations from
+> asm-generic/io.h for IO memcpy. But these fall-back functions just do a
+> memcpy. So, instead of depending on UML, add dependency on 'HAS_IOMEM ||
+> INDIRECT_IOMEM'.
+> 
+> Acked-by: Takashi Iwai <tiwai@suse.de>
+> Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
+> Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
+
+This is expected to be applied via sound.git tree?
+Then I'll happily take it.
 
 
---elDH6aAabrlLvot5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+thanks,
 
-On Thu, Oct 10, 2024 at 06:15:22PM +0600, Binbin Zhou wrote:
-> On Thu, Oct 10, 2024 at 5:14=E2=80=AFPM Mark Brown <broonie@kernel.org> w=
-rote:
+Takashi
 
-> > [5/9] ASoC: loongson: Fix component check failed on FDT systems
-> >       (no commit info)
-
-> Thanks for applying this patchset.
-
-> But I don't seem to see the 5th patch in the for-next branch, what
-> other questions do you have about that patch?
-> On FDT systems we need this patch, otherwise the component check will fai=
-l.
-
-That's a bugfix so is going as such.
-
---elDH6aAabrlLvot5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcH3pEACgkQJNaLcl1U
-h9Dgzgf+JGDkp2/NsV0ZjdHREp4keQ6HGjDH37shxHpVA1zHNQvVwqlqgdkKjhZR
-sC0i1zIb1NJe+2214yDGwKfJf+quKJ/uBsvoD5UmR1+rYLGuhiQ0SS/NtjtC5w19
-Gk5PJUmHn3dKqNV07yLPulOuJ7Yv7373IUO8IqvWzjDShc5n5ThHSoT7F953vArf
-WH4S7M83Zvef5NqplBTcfensCgiC+P6OMDQhLvZkFtQvaUC73VjsHuB3MT8bg3dN
-r9O9bWWrAY6RsN8hFZb6ZHn/sP2kA5dHUr9uwxlZtJ+fjPSexkPfh0RpC2zJO1Mr
-VYZJpu0Eclb8nxbcV7C7P2L8aJkDQg==
-=MHlW
------END PGP SIGNATURE-----
-
---elDH6aAabrlLvot5--
+> ---
+>  sound/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/Kconfig b/sound/Kconfig
+> index 4c036a9a420a..8b40205394fe 100644
+> --- a/sound/Kconfig
+> +++ b/sound/Kconfig
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  menuconfig SOUND
+>  	tristate "Sound card support"
+> -	depends on HAS_IOMEM || UML
+> +	depends on HAS_IOMEM || INDIRECT_IOMEM
+>  	help
+>  	  If you have a sound card in your computer, i.e. if it can say more
+>  	  than an occasional beep, say Y.
+> -- 
+> 2.34.1
+> 
+> 
+> 
+> 
+> 
