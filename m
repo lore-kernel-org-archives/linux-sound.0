@@ -1,44 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD41A1C2DC8;
-	Thu, 10 Oct 2024 11:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6571C2DC8;
+	Thu, 10 Oct 2024 11:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728558849; cv=none; b=oZlEYKmWazZYkCyyzu0SMcg3WDgKZGwehbXMob8KzVTQhog6bYt060D9UPT9wOc8Dnx2k0z7bo8ZCz6HWVpNRoikPn/PWMBMrxYtyjU07VkMoqbuMJFzLnK2EHdPKIIYruCP7VBjfHmCLEhXaIf5lcqtVvPxG/M9hJMsYxGBq/4=
+	t=1728558855; cv=none; b=BTeggg+fvhRWYIQGsBF5lDRgG0TcGfZygew0yLHOqILWYgP0lJ5diQ6fT4FS9N9rtT5glAgaYx93LGbc74SvLZ2aSQJXTTt+NDMW1CAOgu1jZieVSpWIJ8O4bwT9JUvj6/KPUQ7U3IHKXK2SSv3k0RXxrcgdOzNoT9u0HFL2nPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728558849; c=relaxed/simple;
-	bh=Xkcwtb0WrnxptNevR20ESVve7MqObs8X2QnVhJ8ogb8=;
+	s=arc-20240116; t=1728558855; c=relaxed/simple;
+	bh=yimnheOQtKviFcnoHT8nlYQ+Lzpz2qCO7iOqKUctSxI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lYxuZh6BF4/6K9CnCchs8qnYiuXhALZhKGT4V8YuhyAjoH1lpCocAEg/YlkX2C5hZcBsGeS4ViZa9nIEKIzajp0GZjAlrjGu+rqLZYGuKO4KZ9RtmQVcqcgCflWWIeioioc47o4a+3Xk+jMo7HQpRTtwkKkSx+vWEu3cKF/KtgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ex7U2jk4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=mKsGTp+5qADEEa//yqC79MAVgrLhplcMQPQToI3TuR0G+pGxH6UeIzHAPPEzbf7lLSb3HI6hYlp4oEC9GCMiI0iRtoHNpr1DKkX45GWPlRdtHZ7VIZKGIaNwT0O/6ezTIo17RqQxGmX7cSweK0pQ23weVrGBjaYWn1FrV//BT38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jsnjJsC6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ex7U2jk4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4A5CC4CEC5;
-	Thu, 10 Oct 2024 11:14:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jsnjJsC6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B82AC4CEC6;
+	Thu, 10 Oct 2024 11:14:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728558849;
-	bh=Xkcwtb0WrnxptNevR20ESVve7MqObs8X2QnVhJ8ogb8=;
+	s=k20201202; t=1728558854;
+	bh=yimnheOQtKviFcnoHT8nlYQ+Lzpz2qCO7iOqKUctSxI=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ex7U2jk477p6hZdg9nxjjM4IaQodev13qL6nKjaAlX575f8y1Wq7wXAW0MkOEQkqm
-	 BdCrnr7tCULO2QmQQRPyDgs9yfFIYxrPblJE6DnlF5o4TdeLG1Kwc08LnXLcLGxUc/
-	 ED6KZaVh+YdOKD4MQMVoe3h4vE6p9FcOVVQsT/qjoVm7PCV6eZKtCMu+c57BxvlBau
-	 1MYAJ/xdHWm3C9jSshsY6zwqfEiXl6sRIkN4ycvWNj3rEAzziYAiQ74ioKiHqjL35T
-	 6PDiDsuLqgLgcULBTBW9MKhGH2LCNgIyXcERliLLmoV5u+L/vAI2rGSNjB0pL72YSi
-	 85HA9jRDHaHRQ==
+	b=jsnjJsC6wV1HeLK5bX5su+dwHaEQPFBKCIOWSp90CXMAXanaDsv1Aanz47DVSbYOK
+	 BsNBu2at46GYpSQcNC0Xd2eMyBanh8moyYV3e7k2bXtF0nU4zL9mTlWKhYJQBkK+Yp
+	 gSSYsdrOYslaF7b7lj0b0/kwtCPtH8vv6XPZ4ZS7Vx306nlDmWEbV7ReBmVOUJR+08
+	 RtkQstZvo1KDKsWPtJO82Hlsle9k5CACLQWTRyi+g/QwrI/pZ3DsjB/0LmFvOt3dRm
+	 Mh7KfEYOd25f8QI8mV1EIaJdvT/8xKLwjTJgjza9ftZD18HPDY3FinajQMmMNbiJMp
+	 dEZA+M9v4aklg==
 From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+To: Binbin Zhou <zhoubb.aaron@gmail.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Benjamin Bara <bbara93@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Benjamin Bara <benjamin.bara@skidata.com>, 
- stable@vger.kernel.org
-In-Reply-To: <20241008-tegra-dapm-v2-1-5e999cb5f0e7@skidata.com>
-References: <20241008-tegra-dapm-v2-1-5e999cb5f0e7@skidata.com>
-Subject: Re: [PATCH v2] ASoC: dapm: avoid container_of() to get component
-Message-Id: <172855884665.3258793.1116462601049800083.b4-ty@kernel.org>
-Date: Thu, 10 Oct 2024 12:14:06 +0100
+ Takashi Iwai <tiwai@suse.com>, Rob Herring <robh+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Huacai Chen <chenhuacai@kernel.org>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>
+Cc: Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, Xuerui Wang <kernel@xen0n.name>, 
+ loongarch@lists.linux.dev, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Weidong Wang <wangweidong.a@awinic.com>, 
+ Prasad Kumpatla <quic_pkumpatl@quicinc.com>, 
+ Herve Codina <herve.codina@bootlin.com>, 
+ Masahiro Yamada <masahiroy@kernel.org>, Shuming Fan <shumingf@realtek.com>
+In-Reply-To: <cover.1728459624.git.zhoubinbin@loongson.cn>
+References: <cover.1728459624.git.zhoubinbin@loongson.cn>
+Subject: Re: (subset) [PATCH v3 0/9] ASoC: Some issues about loongson i2s
+Message-Id: <172855884981.3258793.17729935826036139739.b4-ty@kernel.org>
+Date: Thu, 10 Oct 2024 12:14:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,13 +58,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Tue, 08 Oct 2024 13:36:14 +0200, Benjamin Bara wrote:
-> The current implementation does not work for widgets of DAPMs without
-> component, as snd_soc_dapm_to_component() requires it. If the widget is
-> directly owned by the card, e.g. as it is the case for the tegra
-> implementation, the call leads to UB. Therefore directly access the
-> component of the widget's DAPM to be able to check if a component is
-> available.
+On Wed, 09 Oct 2024 15:51:42 +0800, Binbin Zhou wrote:
+> This patch set is mainly about Loongson i2s related issues.
+> 
+> Please allow me to briefly explain this patch set:
+> Patch 1-2: Add ES8323 codec required on Loongson-2K2000
+> Patch 3-4: Add uda1342 codec required on Loongson-2K1000
+> Patch 5: Fix the problem of unable to detect codec under FDT system.
+> Patch 6-7: Add Loongson i2s platform device support
+> Patch 8-9: Related DTS support.
 > 
 > [...]
 
@@ -65,8 +76,20 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dapm: avoid container_of() to get component
-      commit: 3fe9f5882cf71573516749b0bb687ef88f470d1d
+[1/9] ASoC: dt-bindings: Add Everest ES8323 Codec
+      commit: 5bf2bea8a8b3d0255953868c7bf652235a17a65d
+[2/9] ASoC: codecs: Add support for ES8323
+      commit: b97391a604b9e259c6a983fc1b715d205d9da505
+[3/9] ASoC: dt-bindings: Add NXP uda1342 Codec
+      commit: de567431596a8163a9441407fdab315f12bc2769
+[4/9] ASoC: codecs: Add uda1342 codec driver
+      commit: de0fb25e37aae7aae133d6c3d0b0e1e31a79878d
+[5/9] ASoC: loongson: Fix component check failed on FDT systems
+      (no commit info)
+[6/9] ASoC: dt-bindings: Add Loongson I2S controller
+      commit: d4c2e9e33a0c903cc3a00114d6c02aa2cf403d33
+[7/9] ASoC: loongson: Add I2S controller driver as platform device
+      commit: ba4c5fad598c07492844e514add3ccda467063b2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
