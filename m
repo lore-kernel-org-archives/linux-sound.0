@@ -1,149 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BDE38DE1;
-	Thu, 10 Oct 2024 14:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730691CB324
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 14:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728571647; cv=none; b=tKWQLTFDoBIJ9FkGrZmYODpDtWJX9O658dniIgsNy4bUhm4Vu1Zhk6mrxynBck0NT62kXPx7qycbQPnJXRfmxO4OWfkQXeaPLW6MPy2L8lnpqVbOZ3+msdR8TPDNm4QfDuIwUooDA2pCcC1N3OiSHTy/+S5w/UzNmGZi0vZt0Us=
+	t=1728571787; cv=none; b=thwUL1WQU74I0th7J+Cz3dKAXdBt7jjTb4rX21qF7NW69kAFgPXI0UJXs6X0I8YzTrwWVUWWRlVkajCkzhjX4XtgzRVfYcxLsdKIbis9/eBeO1rOC0pHGacj/V5blPTN0eQQoKJX+qO8FXg0QPbeFStFfKbDAJpSK4ZviF1H80s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728571647; c=relaxed/simple;
-	bh=c86bZx+YmfvhEWvQvzDAR3YRQcbqsE152hsx636Xtrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z0tghszancg217vKw3ZupWTIddBcJh8uotV9qFhaJElrD0Evr0/ZB2Hk29sgyFvlhVrUTxNk7AmWgWFVtwRK+mZlO9Cz4cgFiMYeSHTgVv/LyuhzhIbSkoI5jORf+Xfipo1fQ7Wuk8fGX1fVFu+mjevHJcMtJqSbtqoEJI4LEAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cjXn76xN; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728571787; c=relaxed/simple;
+	bh=YaP69K5VUDqXMUI1D0LBEvWWBLBp3LSEaVEwJ5/+Pd8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=RoYOg7WRQFUgZKPqyMSgu7dJFDXvHU/1YBl7Tmm4eoii2a1OjCiiwVXGU+9Onyp1ODpekpevplZc8DTjJzGNemYbZo5tBfXU5aCGbRiBWLRQiZ97iYiSa39/9bFucGtn42bDqc9ds8xk/7e5mhMlAageU/hdYSFpFt/BJgMXda8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QvDrjQXj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cjXn76xN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728571646; x=1760107646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c86bZx+YmfvhEWvQvzDAR3YRQcbqsE152hsx636Xtrw=;
-  b=cjXn76xNUrzThL9oezEvYokDxFyB3lSnf9n/ExLNu85cE7mZnJpjPueo
-   UMalUqfiPoU8rsTYpnunQNfoXnm0WGu97PXnUD3EOZURTbySxfSrGn+OJ
-   7rTGjTp1QU3J0oWCT/KwHCfy7DE6xdG5IyGSZJOqfxlqZMHSnQCiHnmKl
-   0e6Hw1Tq2VngcUyn0knxdZhFb6Wa7GR865w3SRNt2JMvc2NrfMbLPa9G8
-   dcTB13MtnRjB9FaiDf/VmMQSG8Ea2vd6ut2EYLqRiQqxtiJO0iqocaAlT
-   d6sUqjThcex52eQbppSgO4yDHL12mExEt4ZMptW8DZaxdL2S49yhTQPNI
-   w==;
-X-CSE-ConnectionGUID: e1ORoMKCS9SShZHv2GS+gg==
-X-CSE-MsgGUID: oSSq0bGBTn2QQeRTCyEnyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="27879191"
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="27879191"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:47:19 -0700
-X-CSE-ConnectionGUID: CFVtLA2bR8m8vXo4U4Ht/Q==
-X-CSE-MsgGUID: 75L4zIgtTbi5nHx/jM5AKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
-   d="scan'208";a="76227214"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:47:03 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1syuRN-00000001ZEK-3XKp;
-	Thu, 10 Oct 2024 17:46:57 +0300
-Date: Thu, 10 Oct 2024 17:46:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
-	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>, Hannes Reinecke <hare@suse.de>,
-	John Garry <john.g.garry@oracle.com>,
-	Soumya Negi <soumya.negi97@gmail.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
-	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH 02/13] ALSA: hda: hda_intel: Use always-managed
- version of pcim_intx()
-Message-ID: <Zwfo4dr4bfqQGGyl@smile.fi.intel.com>
-References: <20241009083519.10088-1-pstanner@redhat.com>
- <20241009083519.10088-3-pstanner@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QvDrjQXj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5CF7C4CECC;
+	Thu, 10 Oct 2024 14:49:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728571786;
+	bh=YaP69K5VUDqXMUI1D0LBEvWWBLBp3LSEaVEwJ5/+Pd8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=QvDrjQXjaTi6w9gUwezii6TZ/O0UZNHPNNZ3Obp9ipGEZnDGhgwcqgpS6ySRpaSY2
+	 UVAXWMjppQG0gRBp24pgThZxgJTE5donvAmnNnQmsmLXC86cnTFChxfVdguRTfvUEZ
+	 N4OFT4A45ZIIobCF3n+75kSy2+tZ7tOX9CqdDGQ681YHOZH+pJdnUR4P9OVjV6oqBN
+	 Igg0w4UuhFdaJYYXRnCgnJpwENTqdaskmgmsMqst4JvQja7Cc4WbOnEqY44M5vyEJ5
+	 GbBcD/KQmLElZgocKgT0t8If/7o3u3CLC1RgBJ9GpDvtQdvBnMRhpM8Wf7si0D1xEK
+	 D3Imh3eqVi/Bw==
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20241009083419.319038-1-amadeuszx.slawinski@linux.intel.com>
+References: <20241009083419.319038-1-amadeuszx.slawinski@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: Remove unused code
+Message-Id: <172857178549.3727572.8117433915032880049.b4-ty@kernel.org>
+Date: Thu, 10 Oct 2024 15:49:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241009083519.10088-3-pstanner@redhat.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Wed, Oct 09, 2024 at 10:35:08AM +0200, Philipp Stanner wrote:
-> pci_intx() is a hybrid function which can sometimes be managed through
-> devres. To remove this hybrid nature from pci_intx(), it is necessary to
-> port users to either an always-managed or a never-managed version.
+On Wed, 09 Oct 2024 10:34:19 +0200, Amadeusz Sławiński wrote:
+> After removal of Skylake driver there is no users left for sst-dsp and
+> sst-ipc interfaces. Remove them.
 > 
-> hda_intel enables its PCI-Device with pcim_enable_device(). Thus, it needs
-> the always-managed version.
 > 
-> Replace pci_intx() with pcim_intx().
 
-...
+Applied to
 
->  	bus->irq = chip->pci->irq;
->  	chip->card->sync_irq = bus->irq;
-> -	pci_intx(chip->pci, !chip->msi);
-> +	pcim_intx(chip->pci, !chip->msi);
->  	return 0;
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-I believe each driver needs an individual approach. Looking at the above
-I would first to understand why this one is being used and why we can't
-switch to pci{m}_alloc_irq_vectors(). (Yeah, managed pci_alloc_irq_vectors()
-is probably still missing, I don't remember if you introduced it or not.
+Thanks!
 
--- 
-With Best Regards,
-Andy Shevchenko
+[1/1] ASoC: Intel: Remove unused code
+      commit: 970d299b0a0a29b7fa1a36a05f561cd932ee4149
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
