@@ -1,130 +1,157 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2921C9B95;
-	Thu, 10 Oct 2024 13:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51F52AF1D;
+	Thu, 10 Oct 2024 13:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728566449; cv=none; b=CdjdiJgYuTVCre0au5sKgO/3W61b46sUz2HjzBmGiNrkmZvb63jVi30LjeuVDv8HxrMS1D//7uriC4fOnOkGNxrqm9bih8B1ZCf5oVwdr26vLW2vr28Dp/oGsEmhBz1G1O0llBet+ZXqUI1d9479aL17YVEvshz2hv2sHQ9LT0w=
+	t=1728567050; cv=none; b=UouKG/tTXJDVoV1ZT0KZWW8v8GSBcimIzpsfBqbvC86GC+pFF+wb0goRpFp0/xPY9cW/nuesYJ4rJZJr3kORQ3mOgQmZHQhX+p7ZhBcJxKZt+iKdNBG2eS20gQ3l2a6tlEfnqLvJsv0e+WQYdhAeaKvsBK9ixrmZFmBafcW1m24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728566449; c=relaxed/simple;
-	bh=JZrAbpbckH2nBhnmg5VyCz6EUzQ3WD5A0ex838XTkKg=;
-	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dzg59qT+b4fFg5AkcbdGCVwuC6xaciIpFIGEXxp6z3/yJNt8X4oaJBNBmv3jKxwtCeaAAU86eIRSOXGZmP1tNiJMTFBtsY5hb5fSeoYPmm31AY0Q+PD4u4gOa9WhaKLpi7NAWMFib/j0ujpxpQv7OaRi233LgdDdxa6ODiGVfWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=W+3qDMOr; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1728567050; c=relaxed/simple;
+	bh=NKKWad7Govv4BAEPX4u9VEwU2jck9P8QCIU+Aqgxdy4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=auvWd5oiMXdLeoYsDpC6dWNotI9H8C68+4WXQoY1W4rOqbN9gqZ8r2nliHT0rPD7gS5buPSicuF7h8zUpisJaCDMu140z80en33Jr0t6RJKFKgXI7f7/Cr/ROvn99NoDdUsU9MBxbOHea5RHyo45R87RZV5ENmyC8V3ZsjaNKeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltm7gU8U; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="W+3qDMOr"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49A7scEZ023252;
-	Thu, 10 Oct 2024 08:20:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=G7le7fW1jGOAmb535XwG1XQ3Pf+60e0NkXkbfOAA50s=; b=
-	W+3qDMOrmRSRe6ZvEy7OK9j6f8ZY2RvOeQZPAiGYQ/gXgdRVzwadSCX9rzyP+eyq
-	q8rSHpfyyPTylAfZVoNFxv0KUQV+hUX3JSUrCSOAQQQ/rPdpSIzh7WtwwHRDzUJO
-	lGCHlEKGrTYDunT+RLrM5BDqIACUj/ncIp1puOgoabnIuu3ghRFohDg3kuS7S29t
-	XfVyezarpkjoAZRfOZfHYG0uV/V1nefpOmupWOpCTeOIlpoWLvSwfR5vlqjfiAyQ
-	OLEFkeIhYz/i96+ht7QuMnTE/ZV12LSuaRXAA01B9Vzr15AVzMWISWYTlyZfWBAt
-	63FD4rzBlMS2TiieDfo62w==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4231vhxnra-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 10 Oct 2024 08:20:27 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
- 2024 14:20:25 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Thu, 10 Oct 2024 14:20:25 +0100
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.61.68.101])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7082682024A;
-	Thu, 10 Oct 2024 13:20:25 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: 'Takashi Iwai' <tiwai@suse.de>
-CC: "'Luke D. Jones'" <luke@ljones.dev>, <tiwai@suse.com>,
-        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <rf@opensource.cirrus.com>, <foss@athaariq.my.id>,
-        <sbinding@opensource.cirrus.com>, <kailang@realtek.com>,
-        <perex@perex.cz>
-References: <20241009205800.40570-1-luke@ljones.dev>	<000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com> <87wmig17f2.wl-tiwai@suse.de>
-In-Reply-To: <87wmig17f2.wl-tiwai@suse.de>
-Subject: RE: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
-Date: Thu, 10 Oct 2024 14:20:25 +0100
-Message-ID: <001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltm7gU8U"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-716a7fabf31so348324a34.3;
+        Thu, 10 Oct 2024 06:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728567048; x=1729171848; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4SK4LT2nNm84AhZpXABE570v9PceMVgU3Fb2pHfApgw=;
+        b=ltm7gU8UDa+MXN0nLRnpeEFC44e1BRlYrwqzWhBBYmY39kboI/kD+XGbyWDvmsV1yM
+         1+heZVvXIKy/3ZrmZ9iXMxhqja0W4TVXBSt0n8AlLTfNN9KBRxJ3VY+l/iFaThsyPWxq
+         y6xNw55JgH7wUlEU9hQzt4uo2U6vEFhNVzJjgq3T9LskI6Hs2JObH7+f6YIamReveQsK
+         5DQ6DoHDtPCarBONcL3lw6bhuyfDUpHbLs2vaty3h7HADeU5qmVWkpkHuedzUsOnkGqy
+         DjeqakV0TDPM+Ox3NOMYK51AbbwCY2cQAz9Y1uyBD9YeqOVaruSXzI34pbUWs44yGo2g
+         mYIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728567048; x=1729171848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4SK4LT2nNm84AhZpXABE570v9PceMVgU3Fb2pHfApgw=;
+        b=oUW3R/yKDvpaEXIWBEhb7GYv9JrVIe3rj7rE08Lf7xfKiDCQkrZoJtmrcnlzkOfOD+
+         9kRtE4j17UKAvKqRQ+TBy1WWMe5JiXhivaC2iUdnwjgL8FWPSihUcQlpfrHNDwEgCnKy
+         vlx4i6lt4kn5zcb5X4IsYbLq/OziQJkRt5P3YppoZRGDFe3XUTlW8qL/3SdMQWz8Rj+r
+         84Xz4BT3x8dPiCVc7+I9o4dgbZjbqiTIYNAWif9/8tS7lD8HCnuyD+X7PtJ4UMQ6WmtP
+         rMHhVgbMtx2zGvke922nBuGqhbZXkJTrFr9fl06jEX0SKIKj8sUFU+FOAUPNYzOsz7R/
+         BXHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKiFjBDh89vgesqDxcLf+9415+s+KqxmWdiNnw416/58AF4J6i1eBsmv/X5MYfPp4MSyfzk+eGEtVRGmM=@vger.kernel.org, AJvYcCWlwM+rqm9NEAIeAUrDZNQ4eMGbWypmaSRUklWaaZZqwJejNc6f4MNi4JwT2XMmciEb9h4hseV/WRIj1qk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCm0wbBb0VBFugj+yFrshUqXjluT8zMAI3jQKLXCUjT7r+InbF
+	Ji6654j5VioucmxgJuZpyG8xrf46heNZtNWguzL8/s7IdOU7GCIS
+X-Google-Smtp-Source: AGHT+IEkCCEyay3cKAq4bSPwIgeCPS8DRUBLuKqweN2kQt/3ee+FraBEJFL65l9+hg56tgRFbAH9Fg==
+X-Received: by 2002:a05:6870:d93:b0:25e:940:e934 with SMTP id 586e51a60fabf-2883454e9damr3677014fac.47.1728567047426;
+        Thu, 10 Oct 2024 06:30:47 -0700 (PDT)
+Received: from ?IPV6:2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a? ([2603:8080:1400:9f00:1ac8:ba3e:b226:eb6a])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-28858360ebfsm274657fac.35.2024.10.10.06.30.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 06:30:47 -0700 (PDT)
+Message-ID: <3ef8a82f-5e71-4386-90e1-f34222a60bdf@gmail.com>
+Date: Thu, 10 Oct 2024 08:30:45 -0500
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXTERNAL] Re: [PATCH v1] Upload dsp firmware for ASUS laptop
+ 1EB30 & 1EB31 and Update WHENCE for both
+To: "Ding, Shenghao" <shenghao-ding@ti.com>,
+ "linux-firmware@kernel.org" <linux-firmware@kernel.org>
+Cc: "Xu, Baojun" <baojun.xu@ti.com>,
+ "derekjohn.clark@gmail.com" <derekjohn.clark@gmail.com>,
+ "13916275206@139.com" <13916275206@139.com>,
+ "romangg@manjaro.org" <romangg@manjaro.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "Chen, Robin" <robinchen@ti.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Yi, Ken" <k-yi@ti.com>, "philm@manjaro.org" <philm@manjaro.org>,
+ "jlobue10@gmail.com" <jlobue10@gmail.com>, "luke@ljones.dev"
+ <luke@ljones.dev>, "antheas.dk@gmail.com" <antheas.dk@gmail.com>
+References: <20241009101807.1473-1-shenghao-ding@ti.com>
+ <d1941b10-0549-4a0e-a3fe-a8d7c50c175b@gmail.com>
+ <7e138a1c8b6d4ace8c759bb2266216da@ti.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@gmail.com>
+In-Reply-To: <7e138a1c8b6d4ace8c759bb2266216da@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQLaM5BF+fBgGyVU6uCoux+KLk9DawE2RdoNATtvTXawbjR9YA==
-X-Proofpoint-GUID: TJcchQXsWPsZ4rQq9kkWWJ7ATE2ro_Vn
-X-Proofpoint-ORIG-GUID: TJcchQXsWPsZ4rQq9kkWWJ7ATE2ro_Vn
-X-Proofpoint-Spam-Reason: safe
 
-On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
-> On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
-> > On Wed, Oct 09, 2024, Luke D. Jones wrote:
-> > > The GA605W laptop has almost the exact same codec setup as the GA403
-> > > and so the same quirks apply to it.
-> > >
-> > > Signed-off-by: Luke D. Jones <luke@ljones.dev>
-> > > ---
-> > >  sound/pci/hda/patch_realtek.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/sound/pci/hda/patch_realtek.c
-> b/sound/pci/hda/patch_realtek.c
-> > > index 41e1119877b3..19b0bae074b6 100644
-> > > --- a/sound/pci/hda/patch_realtek.c
-> > > +++ b/sound/pci/hda/patch_realtek.c
-> > > @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
-> > > alc269_fixup_tbl[] = {
-> > ...
-> > >  	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
-> > ALC285_FIXUP_CS35L56_I2C_2),
-> > > -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
-> > ALC285_FIXUP_CS35L56_I2C_2),
-> > > +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
-> > ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
-> > ...
-> >
-> > Hi Luke,
-> > Thanks!
-> >
-> > The support code for the CS35L56 has changed a little in Takashi's
-branches
-> > from what that patch was generated against and there is no longer an
-> > existing quirk in the fixup table to trigger the component binding (but
-the
-> > general idea seems reasonable to hook the fixup of the headset mic).
-> 
-> Right, the patch doesn't apply to the latest tree for 6.12-rc.
-> 
-> We should start with setting up only the pincfg.  The binding with
-> Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
-> of speaker and bass speaker is an open question, whether we still need
-> the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
-> 
-> BTW, rather a question to Cirrus devs: may the call of
-> find_cirrus_companion_amps() conflict with the existing manual setup
-> of the Cirrus codec by a quirk entry?
+> Although TAS2XXX1EB30.bin and TAS2XXX1EB31.bin are both in ti/tas2781, yet it reported "does not exist".
+> I have no idea why the file is there while report "does not exist". After I removed the newly-merged, no such report.
 
-I think we're good (I rarely get to access to the end products so try to
-stick to the parts of the system that I have the details for which never
-includes the Realtek codec...) in this general case I'd just expect that the
-quirk entries wouldn't have the element at the end of the chain that used to
-do the amp component binding fixup and the remaining tweaks for things like
-the Realtek routing and mute indicators would be unaffected.
+I think you forgot to git add them to the commit?
 
-Cheers,
--Simon
+> 
+> Following is the log.
+> 
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# make check
+> Check that executables have shebangs.....................................Passed
+> Forbid new submodules....................................................Passed
+> Check Yaml...............................................................Passed
+> Check for broken symlinks............................(no files to check)Skipped
+> Detect Destroyed Symlinks................................................Passed
+> shellcheck...............................................................Passed
+> black....................................................................Passed
+> markdownlint.............................................................Failed
+> - hook id: markdownlint
+> - exit code: 1
+> 
+> internal/modules/cjs/loader.js:818
+>    throw err;
+>    ^
+> 
+> Error: Cannot find module 'node:fs'
+> Require stack:
+> - /root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js
+>      at Function.Module._resolveFilename (internal/modules/cjs/loader.js:815:15)
+>      at Function.Module._load (internal/modules/cjs/loader.js:667:27)
+>      at Module.require (internal/modules/cjs/loader.js:887:19)
+>      at require (internal/modules/cjs/helpers.js:85:18)
+>      at Object.<anonymous> (/root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js:5:12)
+>      at Module._compile (internal/modules/cjs/loader.js:999:30)
+>      at Object.Module._extensions..js (internal/modules/cjs/loader.js:1027:10)
+>      at Module.load (internal/modules/cjs/loader.js:863:32)
+>      at Function.Module._load (internal/modules/cjs/loader.js:708:14)
+>      at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:60:12) {
+>    code: 'MODULE_NOT_FOUND',
+>    requireStack: [
+>      '/root/.cache/pre-commit/repoxl59c0uz/node_env-system/lib/node_modules/markdownlint-cli/markdownlint.js'
+>    ]
+> }
+> 
+
+This looks like you're missing some dependencie on you system for 
+markdownlint. You need nodejs v18.
+
+If you can't install this you can skip this check when you commit by 
+adding "SKIP=markdownlint" to your environment while running 'git commit'.
+
+> Check whence.............................................................Failed
+> - hook id: check-whence
+> - exit code: 1
+> 
+> E: ti/tas2781/TAS2XXX1EB30.bin listed in WHENCE does not exist
+> E: ti/tas2781/TAS2XXX1EB31.bin listed in WHENCE does not exist
+> E: target ti/tas2781/TAS2XXX1EB30.bin of link TAS2XXX1EB30.bin in WHENCE does not exist
+> E: target ti/tas2781/TAS2XXX1EB31.bin of link TAS2XXX1EB31.bin in WHENCE does not exist
+> 
+
+These files are missing in your commit or they have broken links. 
+Double check them.
+
+> make: *** [Makefile:10: check] Error 1
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new# ls ti/tas2781/TAS2XXX1* -al
+> -rw-r--r-- 1 root root 35220 Sep 28 21:54 ti/tas2781/TAS2XXX1EB30.bin
+> -rw-r--r-- 1 root root 35220 Sep 28 21:55 ti/tas2781/TAS2XXX1EB31.bin
+> root@LAPTOP-70RJ5B8Q:/usr/local/src/fw_new#
+>>
+>> Thanks,
 
