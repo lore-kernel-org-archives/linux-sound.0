@@ -1,85 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522F11C68AE;
-	Thu, 10 Oct 2024 12:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2921C9B95;
+	Thu, 10 Oct 2024 13:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728564693; cv=none; b=CJMLkuH8JAy3CMinhC5Eet+1afLYSN/EyinvLPlpL6TWHsYKTqsr8xdV+DkNrOofMjwFlpm5Zp82HU+uFJKGuqY41efStTXtDupZRnww3Rfa7DwyTesROE3jRWFXZ1qbBMcjxQt/TX/kovdVhru26Mu/chaoked2txFqbutQA3Y=
+	t=1728566449; cv=none; b=CdjdiJgYuTVCre0au5sKgO/3W61b46sUz2HjzBmGiNrkmZvb63jVi30LjeuVDv8HxrMS1D//7uriC4fOnOkGNxrqm9bih8B1ZCf5oVwdr26vLW2vr28Dp/oGsEmhBz1G1O0llBet+ZXqUI1d9479aL17YVEvshz2hv2sHQ9LT0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728564693; c=relaxed/simple;
-	bh=lGOOf4EC0zuu8RbnWw3xaV6uo8zy6H9y8REmnoNyEFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQQKvrTIjoPFmElgWFmCBNexJtpCIsuoGUJuVnPjxlVlGCLrqdf0TJ6Z8Ew4G5jLUcet07UnJf5pLvlnkH/6mp+tW4P5i9r1cG6BcC1qF5XMq6Dgrl0shXm1Ngpgm9HC3NLhoIMx1fi/2CqH4G7cU7oVi2SRrcrtm0ytmCfrop4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vpy3bAOV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728566449; c=relaxed/simple;
+	bh=JZrAbpbckH2nBhnmg5VyCz6EUzQ3WD5A0ex838XTkKg=;
+	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dzg59qT+b4fFg5AkcbdGCVwuC6xaciIpFIGEXxp6z3/yJNt8X4oaJBNBmv3jKxwtCeaAAU86eIRSOXGZmP1tNiJMTFBtsY5hb5fSeoYPmm31AY0Q+PD4u4gOa9WhaKLpi7NAWMFib/j0ujpxpQv7OaRi233LgdDdxa6ODiGVfWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=W+3qDMOr; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vpy3bAOV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64228C4CEC5;
-	Thu, 10 Oct 2024 12:51:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728564692;
-	bh=lGOOf4EC0zuu8RbnWw3xaV6uo8zy6H9y8REmnoNyEFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vpy3bAOVBMeKkTsyW7LZGM3ZBkabxx8Cr6HvGiGdW90KonyFWY3QULsvObyP+miH0
-	 O1+cTJU0HSZJTbMMeT+FguCjUNCB3zq2PlpDiWGnashDkXNSPpSKZaYgaliSq88U4J
-	 5O5KyqgaRf85iRqn9TdnEl7EiJGAXOCbPPmyWS39Yyiiee/sZXBvBdax38olpqePAt
-	 9/CxjMhz3TOPRBqALJtnjEVqgStcZoVj1vFf3to+8myoKMPJ3h6lVBAr8ZR/9uC4pE
-	 P3epQ/30pRNkxE9bmlraepYOoa7s2oZ9B1hn0Mf+gYzQaZB66d72GlT27n39y4zL6N
-	 gO/3oLetcbKSQ==
-Date: Thu, 10 Oct 2024 13:51:29 +0100
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?B?5ZSQ5b2s?= <tangbin@cmss.chinamobile.com>
-Cc: lgirdwood <lgirdwood@gmail.com>, perex <perex@perex.cz>,
-	tiwai <tiwai@suse.com>, "matthias.bgg" <matthias.bgg@gmail.com>,
-	"angelogioacchino.delregno" <angelogioacchino.delregno@collabora.com>,
-	linux-sound <linux-sound@vger.kernel.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-mediatek <linux-mediatek@lists.infradead.org>
-Subject: Re: Re: [PATCH 1/2] ASoC: mediatek: mt8188: Remove unnecessary
- variable assignments
-Message-ID: <ZwfN0XMKXiHdQ9Pg@finisterre.sirena.org.uk>
-References: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
- <ZwejOZQlSsWbAWBg@finisterre.sirena.org.uk>
- <202410101755089538782@cmss.chinamobile.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="W+3qDMOr"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49A7scEZ023252;
+	Thu, 10 Oct 2024 08:20:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=G7le7fW1jGOAmb535XwG1XQ3Pf+60e0NkXkbfOAA50s=; b=
+	W+3qDMOrmRSRe6ZvEy7OK9j6f8ZY2RvOeQZPAiGYQ/gXgdRVzwadSCX9rzyP+eyq
+	q8rSHpfyyPTylAfZVoNFxv0KUQV+hUX3JSUrCSOAQQQ/rPdpSIzh7WtwwHRDzUJO
+	lGCHlEKGrTYDunT+RLrM5BDqIACUj/ncIp1puOgoabnIuu3ghRFohDg3kuS7S29t
+	XfVyezarpkjoAZRfOZfHYG0uV/V1nefpOmupWOpCTeOIlpoWLvSwfR5vlqjfiAyQ
+	OLEFkeIhYz/i96+ht7QuMnTE/ZV12LSuaRXAA01B9Vzr15AVzMWISWYTlyZfWBAt
+	63FD4rzBlMS2TiieDfo62w==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 4231vhxnra-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 10 Oct 2024 08:20:27 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 10 Oct
+ 2024 14:20:25 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 10 Oct 2024 14:20:25 +0100
+Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.61.68.101])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7082682024A;
+	Thu, 10 Oct 2024 13:20:25 +0000 (UTC)
+From: Simon Trimmer <simont@opensource.cirrus.com>
+To: 'Takashi Iwai' <tiwai@suse.de>
+CC: "'Luke D. Jones'" <luke@ljones.dev>, <tiwai@suse.com>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <rf@opensource.cirrus.com>, <foss@athaariq.my.id>,
+        <sbinding@opensource.cirrus.com>, <kailang@realtek.com>,
+        <perex@perex.cz>
+References: <20241009205800.40570-1-luke@ljones.dev>	<000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com> <87wmig17f2.wl-tiwai@suse.de>
+In-Reply-To: <87wmig17f2.wl-tiwai@suse.de>
+Subject: RE: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
+Date: Thu, 10 Oct 2024 14:20:25 +0100
+Message-ID: <001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IVUJFxDf0VwMWooe"
-Content-Disposition: inline
-In-Reply-To: <202410101755089538782@cmss.chinamobile.com>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-gb
+Thread-Index: AQLaM5BF+fBgGyVU6uCoux+KLk9DawE2RdoNATtvTXawbjR9YA==
+X-Proofpoint-GUID: TJcchQXsWPsZ4rQq9kkWWJ7ATE2ro_Vn
+X-Proofpoint-ORIG-GUID: TJcchQXsWPsZ4rQq9kkWWJ7ATE2ro_Vn
+X-Proofpoint-Spam-Reason: safe
 
+On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
+> On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
+> > On Wed, Oct 09, 2024, Luke D. Jones wrote:
+> > > The GA605W laptop has almost the exact same codec setup as the GA403
+> > > and so the same quirks apply to it.
+> > >
+> > > Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> > > ---
+> > >  sound/pci/hda/patch_realtek.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/sound/pci/hda/patch_realtek.c
+> b/sound/pci/hda/patch_realtek.c
+> > > index 41e1119877b3..19b0bae074b6 100644
+> > > --- a/sound/pci/hda/patch_realtek.c
+> > > +++ b/sound/pci/hda/patch_realtek.c
+> > > @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
+> > > alc269_fixup_tbl[] = {
+> > ...
+> > >  	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
+> > ALC285_FIXUP_CS35L56_I2C_2),
+> > > -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> > ALC285_FIXUP_CS35L56_I2C_2),
+> > > +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> > ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+> > ...
+> >
+> > Hi Luke,
+> > Thanks!
+> >
+> > The support code for the CS35L56 has changed a little in Takashi's
+branches
+> > from what that patch was generated against and there is no longer an
+> > existing quirk in the fixup table to trigger the component binding (but
+the
+> > general idea seems reasonable to hook the fixup of the headset mic).
+> 
+> Right, the patch doesn't apply to the latest tree for 6.12-rc.
+> 
+> We should start with setting up only the pincfg.  The binding with
+> Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
+> of speaker and bass speaker is an open question, whether we still need
+> the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
+> 
+> BTW, rather a question to Cirrus devs: may the call of
+> find_cirrus_companion_amps() conflict with the existing manual setup
+> of the Cirrus codec by a quirk entry?
 
---IVUJFxDf0VwMWooe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I think we're good (I rarely get to access to the end products so try to
+stick to the parts of the system that I have the details for which never
+includes the Realtek codec...) in this general case I'd just expect that the
+quirk entries wouldn't have the element at the end of the chain that used to
+do the amp component binding fixup and the remaining tweaks for things like
+the Realtek routing and mute indicators would be unaffected.
 
-On Thu, Oct 10, 2024 at 05:55:09PM +0800, =E5=94=90=E5=BD=AC wrote:
+Cheers,
+-Simon
 
-> I am sorry, it's my mistake. I know the rule, just mistake.
-
-That's fine, could you confirm what the situation is with the second
-patch - is there a dependency between the two?
-
---IVUJFxDf0VwMWooe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcHzc4ACgkQJNaLcl1U
-h9DrHAf9FM3gWVAWg+opww6HBSJ+X8+j0aNNvgwBkAgULdM8skCLi0W9mNH1z39m
-sGUfwYUTg2li+Q9nnHk/+WonVAByplp7pT/utIxuck44kFyFw1BWxmxbUdnR80al
-au8TgWuQ7MalsggRGMOgLh+DmaF8mZXW/29hME5ecMRXm062mghN8T0dAEioxkp+
-9J3ItMbFnRltia7+5bF/jY2aLC3DkYxjcmTkDK2hC3hvSG+YsiE+QOGb16EIvHWq
-mxBXuNY4IptvkNHYqkk1WlhQ/JxvRwgkNrIEovYDeas7S0+nakOSyzvwi+DJVnVG
-1RCHTnxXxbvSxMMlu+FS0HeYkiIW2g==
-=FQKz
------END PGP SIGNATURE-----
-
---IVUJFxDf0VwMWooe--
