@@ -1,103 +1,152 @@
-Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D1B1EF08A;
-	Thu, 10 Oct 2024 08:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2AD1CBE95
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728549383; cv=none; b=rN7UYCGOfRWh+g65pHBOyRtOy3HErv4biypUZ+AMAtmVado7VOjASNrjbd0kwtLoHfE8h97Nh0SbPfo0FIZSiE8hvcuD7mC5TL9LOJI+JXA0D6aiyM1YARYTUw9kupyBDsSWJfoXZWJbdgmb8q6jw4lqjWICTJo3hW0166BvnE0=
+	t=1728550216; cv=none; b=qi/MXNCzz9Qcls6xso3qPns3rTHGHr+ECOtO4U0iQq7ip6YLvcxDWIEpMxSe+5jcubfMLQiTAobUJ9pTlTZiTUg9knAl7RVXr4XWRouQW4ng/UZW+s00PYduX+tRYpN5mKo7C4zOgCRlhdBRMMbcyUBr48/nHwo1tHTpT62VV1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728549383; c=relaxed/simple;
-	bh=Fbyl8TGWSc7y9LAYWk6wltZ/PWJmVu8/CNcNbupt+nw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uoWxwBmXNWapuEGKmLgCoX1/2JN/dq7NsNNrB788HXEAc/IlzCS7IlOZpJBylavBRmcGJUDklPfAoJWsKs0vupGefWM1MeMlAN8spfBFgD65XoG2CVzSlmDM+CV7JJevbtzricF2y6pvw3jijxqnMcJcP6d+MeUdrE/1pMgZP+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: by air.basealt.ru (Postfix, from userid 490)
-	id 73B1F2F20268; Thu, 10 Oct 2024 08:36:17 +0000 (UTC)
-X-Spam-Level: 
-Received: from [192.168.0.103] (unknown [178.76.204.78])
-	by air.basealt.ru (Postfix) with ESMTPSA id 9CD852F2023F;
-	Thu, 10 Oct 2024 08:36:16 +0000 (UTC)
-Message-ID: <6ef8fef9-c44d-40d6-f7e1-236e68175071@basealt.ru>
-Date: Thu, 10 Oct 2024 11:36:15 +0300
+	s=arc-20240116; t=1728550216; c=relaxed/simple;
+	bh=5P2PH/oY2rjXr+pjKB8ZtV9oiV2N7F1zJjEPh3Cadzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PmNuRhl2grjFOU1fAGKGLOwD1nJhzTYzsETW7mHBtg7R6HY1zRi++lgOsJ/GKwe3b5Jnj9dwtF3M6xdRmsy+IJCxumaBgMiAwgAhWx1DeSPwK6s9TKFLXDnw6Jf0WNb7gXSljO0x9UUIaunxSvCJXGYWETGEP4qhaQKtpMUQJhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y7rHUI8D; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y7rHUI8D"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43117917eb9so3615365e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 01:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728550211; x=1729155011; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C28wmYcjpWumVpaF4ufJJPgnJaeWt/0xGrgSlXatWFI=;
+        b=Y7rHUI8DGsR8kdC+otSD3I1BDaoUJUGWMMXLr6ZEVxhkvQdUp1auB1Edn4anMo7GnR
+         dyOTmGTrwIsdANSmPYm5HayxHF76118n8uuieZSc3W6//oSFUMreIiYsLMglRkzX0RbT
+         KAIGJGiG6MZw6ks+I279HPQvGSDzI+cvIgnfQ90erHsH9VZNgIMZ5koXyjn3AY0GlJqr
+         m0U2X4IlsQZ68U037M8u925gcWI8rO/Pxhz68DtDsz67QHXHUcv2ON35jLwyTuBlGbDr
+         jwcOKZPvGrVRvCFGfnRia8chvU0zxWMVU3txFRglUcB/Yb2YmMKwd13uRzLzuImk4q+k
+         tEDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728550211; x=1729155011;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C28wmYcjpWumVpaF4ufJJPgnJaeWt/0xGrgSlXatWFI=;
+        b=NB4maNi8F1mGciA4rREIIigezOyOWp3R5zG8rijIN3E9vL8MqF6mmUxVTl/ugQ8ZKp
+         6xA+Y3OidvBXjFP//0xF/WJsptSwHR/dmKQvWs38OpT3QFcUlsX6ne+jbjrnjgp8d7TX
+         11/aTJl4N/6sg6RpbdmNQrhzhTkrYjzC1xnctMUHjN8v6HIbesF54ALoOPAxN78gHuBh
+         bFDiXXVF6hZsF3Ri+FN1qi21PKhP9BEtzOGbxBWI2IoCY91R3DHdTtKcuPZp6nkWzMO6
+         fJej6LYR5WvVurusyedqUkiqbEXxmeNqQfcdY05/BaHL//wz4V06UvoXGyN9mIrUVHQ0
+         wsEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUM4INd/bBb60Gka7VW+plTQkfnAWiFTzv/sHIdREqNxRpkJOmez56j6sw03PppgTQ8r98nDvjjz+j85w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvaNJLrTKwY++ZGQBxdDDsA3NDCgklfEwXfh//ZOa+fJngDPry
+	FkJXMwBiyFzxNjky+staZkQbQ3CZuQnrvursv/d53638wEPw+qeAUaj8qne2AnI=
+X-Google-Smtp-Source: AGHT+IFucfSES3j62KAzEm41LuUqQRM3VySAkjPe4+iZpB8R8Lb977wIeQTSTeOu3TgGseFk0hICSw==
+X-Received: by 2002:a05:600c:4b95:b0:431:1a98:cb40 with SMTP id 5b1f17b1804b1-4311a98cc3dmr1671235e9.18.1728550211283;
+        Thu, 10 Oct 2024 01:50:11 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43117ff5930sm9483515e9.0.2024.10.10.01.50.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 01:50:10 -0700 (PDT)
+Date: Thu, 10 Oct 2024 11:50:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 13/13] Remove devres from pci_intx()
+Message-ID: <7f624c83-115b-4045-b068-0813a18c8200@stanley.mountain>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <20241009083519.10088-14-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] ALSA: hda/conexant - Fix audio routing for HP EliteOne
- 1000 G2
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Kai-Heng Feng <kaihengf@nvidia.com>
-Cc: Vasiliy Kovalev <kovalev@altlinux.org>, Takashi Iwai <tiwai@suse.com>,
- Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, bo liu <bo.liu@senarytech.com>
-References: <20241009134248.662175-1-kovalev@altlinux.org>
- <87h69ltmgn.wl-tiwai@suse.de>
- <b0ac19a5-1d93-41a5-beaa-279939e8ebde@nvidia.com>
- <87y12wsfin.wl-tiwai@suse.de>
-From: Vasiliy Kovalev <kovalev@altlinux.org>
-In-Reply-To: <87y12wsfin.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009083519.10088-14-pstanner@redhat.com>
 
+On Wed, Oct 09, 2024 at 10:35:19AM +0200, Philipp Stanner wrote:
+> pci_intx() is a hybrid function which can sometimes be managed through
+> devres. This hybrid nature is undesirable.
+> 
+> Since all users of pci_intx() have by now been ported either to
+> always-managed pcim_intx() or never-managed pci_intx_unmanaged(), the
+> devres functionality can be removed from pci_intx().
+> 
+> Consequently, pci_intx_unmanaged() is now redundant, because pci_intx()
+> itself is now unmanaged.
+> 
+> Remove the devres functionality from pci_intx(). Remove pci_intx_unmanaged().
+> Have all users of pci_intx_unmanaged() call pci_intx().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-10.10.2024 08:17, Takashi Iwai wrote:
-> On Thu, 10 Oct 2024 05:32:18 +0200,
-> Kai-Heng Feng wrote:
->>
->>
->> On 2024/10/9 9:50 PM, Takashi Iwai wrote:
->>> On Wed, 09 Oct 2024 15:42:48 +0200,
->>> Vasiliy Kovalev wrote:
->>>>
->>>> There is a problem with simultaneous audio output to headphones and
->>>> speakers, and when headphones are turned off, the speakers also turn
->>>> off and do not turn them on.
->>>>
->>>> However, it was found that if you boot linux immediately after windows,
->>>> there are no such problems. When comparing alsa-info, the only difference
->>>> is the different configuration of Node 0x1d:
->>>>
->>>> working conf. (windows): Pin-ctls: 0x80: HP
->>>> not working     (linux): Pin-ctls: 0xc0: OUT HP
->>>>
->>>> This patch disable the AC_PINCTL_OUT_EN bit of Node 0x1d and fixes the
->>>> described problem.
->>>>
->>>> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
->>>
->>> Thanks, applied now.
->>
->> Though this is already applied, is it possible to see if the issue
->> also happens on S4?
->>
->> Linux doesn't put PCI devices like HDA to D3 during shutdown and
->> reboot while Windows does, that might be the reason boot Linux after
->> Windows can workaround the issue.
->>
->> Linux does put PCI devices to D3 for hibernate (S4), so we can use it
->> as an experiment.
-> 
-> Right, it should have been the cached version so that the setup is
-> reapplied automatically; i.e. replace snd_hda_set_pin_ctl() with
-> snd_hda_set_pin_ctl_cached().
-> 
-> Vasiliy, care to test and submit an incremental fix?
+I don't like when we change a function like this but it still compiles fine.
+If someone is working on a driver and hasn't pushed it yet, then it's probably
+supposed to be using the new pcim_intx() but they won't discover that until they
+detect the leaks at runtime.
 
-Ok, I compiled the module with the proposed changes and sent it to the 
-user for testing on a machine with this codec. After testing, I will 
-write about the result.
+Why not leave the pci_intx_unmanaged() name.  It's ugly and that will discorage
+people from introducing new uses.
 
-> 
-> thanks,
-> 
-> Takashi
---
-Thanks,
-Vasiliy Kovalev
+regards,
+dan carpenter
+
