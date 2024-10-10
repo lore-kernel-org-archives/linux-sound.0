@@ -1,55 +1,55 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A3719CCEA
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 17:51:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A5119D89E
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 17:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728582711; cv=none; b=FPRc1CYgTV1/xNVDRQQGwsBwRdI8MLy9RzRzipKMcbvVxtUmSCNOt2viKx30VlG6uG+A7F1auui3P4O6G3+RFwFo+ulMw0QQX67b/vcKFwyAljiuOh4R5fM1h7+nabIOA6ljAKbzqQfVVVLxOsMQRmu6mgFL91C566v7YWrqcwk=
+	t=1728583158; cv=none; b=M2RPfTT/1y1gkgaxLJTXrG5BEilmZ9wrYR29rQNo+teYiUw6Y/PPm9mw3HVxnzkIld8cguXZX1oyg7O0BDHwWn5hgMy/YFCLepAurFLrad9j78+ibxNqXCRj8oIalvuKmYQU7G7PGRrrt3+DzSoxYG//DY94nSTEaxlC/7+JOdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728582711; c=relaxed/simple;
-	bh=UJSZFYvRctXI6GJz7LSK7kgB9Tp1FqTUY187+BR/Ba8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aNcRCh67z6OtKnVSat0fBrAjefe/kHaWDJ5X/WY3yKEKTGeUjwwBCfwyJ6e+xIcEYcTekwNTslgnZbLSZxwl0RkTIi8s31miTqM24yknxat05WUrLHOeeE+pdqtQiU71dRIYgUOoYF0+uxgkv531KfUrWlqTl1WjWUWBJrPggVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=3Jgul8jO; arc=none smtp.client-ip=209.85.216.65
+	s=arc-20240116; t=1728583158; c=relaxed/simple;
+	bh=fQf8rDamxaGPyGkfmavM2UK7fMIs3l4Vh8H8pV+bPYo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wd3Xd4x8o5R8k0Sfog+qQdnf5RBm4kvWA9TKwELpR3B3hBd+OyKGPTNotqg5ZiB1bXdRA2jpWFiERSFp2AYogD1zyiMgKCJUzocVFUau+GlwTlJ6ZDMUtt8Hg0nVv88LTGStrkwGTyePvgZ2NF0IAvJHEsVFRuUNkHUkAPqOYIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np; spf=pass smtp.mailfrom=everestkc.com.np; dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b=ERm50CdY; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=everestkc.com.np
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="3Jgul8jO"
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-2e2a97c2681so1002589a91.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 10:51:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=everestkc-com-np.20230601.gappssmtp.com header.i=@everestkc-com-np.20230601.gappssmtp.com header.b="ERm50CdY"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-71e1ea994edso919407b3a.0
+        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 10:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1728582707; x=1729187507; darn=vger.kernel.org;
+        d=everestkc-com-np.20230601.gappssmtp.com; s=20230601; t=1728583156; x=1729187956; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=csIVU1oc3NWcT8E0sSB7eGgEyy3jd+R9S7E8JN2nK48=;
-        b=3Jgul8jOxWtdWFUM8gB/OYYdJdWVbIvCcnHhT6+jMY2GI7N2Pza4hdsEH9GEujv0jl
-         anCb3C7XiWZiyvtCj01HjzWdaZu2S4UM49LrQeh6mJsPaNSSw/mzP26W5K6EvX0zkMWL
-         rbnh/qHKekT7IPYRixV84gSrU+zSjQd53pzpdDLXq4mV1vC9oddEKO6Q2ykw/Dk91mps
-         JBand1vZ2hVJ3s5Me2ZshGCVH+fsHr9EPZ1z33IjlEnWz3ACwXS4D4+5Z22TpN83VqgP
-         DFK3Sr3dAlw8nnItfZ8G5Rwg4vqwPa6olGvZd7U5yQeLdcdkpCT81F62uDKk79rFkaob
-         OvLg==
+        bh=HohBv7NFxbfPo+te4ViULrLYUWFva2jqhykRRUV9zQQ=;
+        b=ERm50CdYKiEroC4Ro5klAJwqL9fCqIsbOWlWQmHevnGW+E2xk+3HjxeMDY/CQDqDGa
+         yWZWWpMnZZzUDv1w/e4YwKI4AB6Tyb8D2JaPVq4dQ+LxqL+lMOVceAP2XfkwMdSlVgYh
+         A42qqRBzXypteo36GDPSSX1XfPoGGwlgbl1Xf1x2vXle6n0eEkxDEKLPuq6Pb3BjuJgE
+         MdYCcSlCZ/Cqmy+G1WRmGk7CWvzc3kLQD0La5hdk9Mjx8nxZWkHSA0LNt7vmqMVTtBJC
+         rLqEnI2mEDxAJsntFT5MGtOFQBav7GstjfQgPbvzAPU/JP/h4nJcdqpV/jdf+5DfahKb
+         Yw8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728582707; x=1729187507;
+        d=1e100.net; s=20230601; t=1728583156; x=1729187956;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=csIVU1oc3NWcT8E0sSB7eGgEyy3jd+R9S7E8JN2nK48=;
-        b=laIM7iXCsn82n+F61cBNMWsUolpJRGG7eN4LY11bowdE6b4Pkj22UugH7JD6vVMFdk
-         K2quU1MGprGlS66RXbS1En8EY4vYMXb7kHPj0joQggoiIfjlE0713v7z0aJFVn0RyKti
-         F2VfA07L8bakY7KvpW3xz93S0n86zNmsgNwzGasjEIR8Wy7P+v54VuR83u76f7+qzuSQ
-         RM+0vc8w+hSjPmKmZduspHQ5BJV85T9l1bw67DiGIoSjVTYv5RKsr7lD+5IDwAaQGmUT
-         pYq8kWrKa6sRtXDtPCP0oduiOZQeUG6lK0YyqDUBj7w890vnCJvcwecZ74Gt4b22ySkI
-         dDDw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/pjIGRBNbPiruVvpVA9nFTKDzHs2zkI1lrZWInU6MSo4d5jZjBGgF2ahEF0hadLwo+A1lye2tX3d3VA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiBodE+z93EjqRzg4nGLNjTguOrYrjRn8CVGico3rWBG+PFwFM
-	UuQsSfJ+k3pjZdrXB/2gVT5Eu116Nn57JanQKOdz5les0AjW+BgssHrwHjLWjnE=
-X-Google-Smtp-Source: AGHT+IEliYQ2vY5alTul/DtuqR/MXBtKqCl5haGquRWIHTiKT1ggtignHxaIZxZft39sb2Pf9aPzQw==
-X-Received: by 2002:a17:90a:cb01:b0:2e2:c406:ec89 with SMTP id 98e67ed59e1d1-2e2c63551e8mr5170125a91.20.1728582707484;
-        Thu, 10 Oct 2024 10:51:47 -0700 (PDT)
+        bh=HohBv7NFxbfPo+te4ViULrLYUWFva2jqhykRRUV9zQQ=;
+        b=LzgPT6psO0TLZxC+nc4C1YYVzCqEv1ws3/b0HMQAjRl7cCm0dXEWPb5BB1nPhQMsqz
+         oTFJbAqqdSgXiFYyVEHoLX7bdPDsCydPboypjlxMdVR34U26Q1LSOTflvIcf79PMhQqf
+         2pVwGYyEbwy/jmZwPjMRGXK6JOXIb/CRwMnALTuoTxOwzoT/Q+OEFQr2w8hgp8u85pLw
+         d9YgHOvRhWqtHe9axEAGsocJAQKt7JS3qGJuGbjV7Sn2v5OcFd2+0iqxUq+t8SXoeNun
+         OrQ2iNjlrMI5wyKvSxH4YpxrMYRhR4RWGAntdjAz8L6hFiW+QVuH37QNz9H37npuKtTF
+         wlTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUcUD5aFsBLGeQ4qx7jemAZB8VkyIuXCuYBnPK9BOVWURg1zZgWETZxtXWYek1Z5zWVqhe/cX4XVE05oA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVBdc0fT4WIMKtHzLr85d+H9ZPJMbB7lOCFLTJdyM7ZOhmKslM
+	1lVh/qQxSKWLiy//rgV1ZopnlnZAiP8XysHVyAWGiSo1Zt1/Zex+l7kI0l4kE00=
+X-Google-Smtp-Source: AGHT+IHM8zD6LfSp91c2FugBqOiUX9ORN2SdkTlo+3lW83mX/4B9uJAJGZVK0v6/Q0bh2QZsNZMzcQ==
+X-Received: by 2002:a05:6a00:9294:b0:71e:3b8:666f with SMTP id d2e1a72fcca58-71e1db74ed4mr11768482b3a.11.1728583155956;
+        Thu, 10 Oct 2024 10:59:15 -0700 (PDT)
 Received: from localhost.localdomain ([81.17.122.16])
-        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-2e2a571a2ecsm3906665a91.33.2024.10.10.10.51.42
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-71e2a9e953fsm1302945b3a.8.2024.10.10.10.59.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 10:51:47 -0700 (PDT)
+        Thu, 10 Oct 2024 10:59:15 -0700 (PDT)
 From: "Everest K.C." <everestkc@everestkc.com.np>
 To: oder_chiou@realtek.com,
 	lgirdwood@gmail.com,
@@ -60,9 +60,9 @@ Cc: "Everest K.C." <everestkc@everestkc.com.np>,
 	skhan@linuxfoundation.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: rt722-sdca: Remove logically deadcode in rt722-sdca.c
-Date: Thu, 10 Oct 2024 11:50:16 -0600
-Message-ID: <20241010175017.5215-1-everestkc@everestkc.com.np>
+Subject: [PATCH V2][next] ASoC: rt722-sdca: Remove logically deadcode in rt722-sdca.c
+Date: Thu, 10 Oct 2024 11:57:54 -0600
+Message-ID: <20241010175755.5278-1-everestkc@everestkc.com.np>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -81,6 +81,8 @@ Reported-by: Shuah Khan <skhan@linuxfoundation.org>
 Closes: https://lore.kernel.org/all/e44527e8-b7c6-4712-97a6-d54f02ad2dc9@linuxfoundation.org/
 Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
 ---
+V1 -> V2: Added [next] tag
+
  sound/soc/codecs/rt722-sdca.c | 8 ++------
  1 file changed, 2 insertions(+), 6 deletions(-)
 
