@@ -1,201 +1,174 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6451CCEE3;
-	Thu, 10 Oct 2024 14:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5581CF287;
+	Thu, 10 Oct 2024 14:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728570975; cv=none; b=Gov1APkTnmS/82z5npFR3oebVNvKjc1F+YriPZ/pOJu9a99SgC/EhpuAm2r0m0xRemjqcAeg7dhQnSfroJ35i1KFqJRC6ywaswkSFARS9bG1c9vMrNNfKwN3huUimsbKp8PR15HyVDpvFdCBeBkLv+Z5ocdgctwtmGgzZjAGXg8=
+	t=1728571239; cv=none; b=Vbp0qnjgKlvCO7qUp7IxPTtuvE4RHoWZ1zh8sjN4xwuKWv2X7Xpgi5m7SDBMWTKWAc4TtHaaYlOjiZyhNFG7hkWbK7gvSNp9hNW9UgFgCxbPUR22hZDcWvEux5ESQht8HqJvYSOKABJJLG0J0yue2F6ecsjfpoTO0RS6ulMU8DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728570975; c=relaxed/simple;
-	bh=0HWa+HgvncmD0KmVXfi81CVYBk+mrUwhHki8BfXhDr4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jrFEAjcfx5tFpK9DBlg/Pv7ew54sQ9KJ+mZTONmNYLJLCAbeSBsQslNk/hpWaLKvp/1vxi5vC/KvD6bpT4wwvQL4LmCEkM/CbB0PK1dUlNa/ucTXy44YRaTvUEcVIkUbey8PU2dzjBF1S7fnZYml/H+xT1eorPSkH3UgsMqa/B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WY9CFkJW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DlRNticD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WY9CFkJW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DlRNticD; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1728571239; c=relaxed/simple;
+	bh=Uq5PgKpLE7uhqRzqfCFPjNL9bUnSLqy/ztfVl9urxFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iyU4HRBaWtJ9ckQ23mk/9EDVGaDE4bHcWirzDm2/UhQ2K4tBqA8oYaZk/VhWkQVxTvBDx1VN5TYOlNW1yMqhIzNw7aDRFS1blRomGK8KGuaqu5pyL+tZOLZGXinnsuqOp2+4ioL6GKYJ1yv5QrTWEXb8bkpxMkSWJVvBpJjO5Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kvohx1nJ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WY9CFkJW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DlRNticD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WY9CFkJW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DlRNticD"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 451E421CAC;
-	Thu, 10 Oct 2024 14:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728570972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
-	b=WY9CFkJWnco+0KhhTgGRMTjSMef/51OM37yyykwbfFvc2zRAm7LK+MfT57+sAz3P1+ZqEv
-	frwpqvktsG1jg9YON1J7GZRq9LerY6mKbAbu+PJFzxv+aWG3ElW250oREazYskdTjFi6Bt
-	bxvUQRQU7olWsRWW6OKL7OdoEcZ3/yA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728570972;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
-	b=DlRNticDHdgxDzFMaBGOnyLg1QpfoIkkys5s91EYuQpbOZ/QNKBgTA13/XUujPcsA7mFsq
-	VZP7WN2pSKA58DBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=WY9CFkJW;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DlRNticD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728570972; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
-	b=WY9CFkJWnco+0KhhTgGRMTjSMef/51OM37yyykwbfFvc2zRAm7LK+MfT57+sAz3P1+ZqEv
-	frwpqvktsG1jg9YON1J7GZRq9LerY6mKbAbu+PJFzxv+aWG3ElW250oREazYskdTjFi6Bt
-	bxvUQRQU7olWsRWW6OKL7OdoEcZ3/yA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728570972;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+UrJgQMX/YVnCa77CSnsnA4rtK5Q2INuKgk8SpCa+6A=;
-	b=DlRNticDHdgxDzFMaBGOnyLg1QpfoIkkys5s91EYuQpbOZ/QNKBgTA13/XUujPcsA7mFsq
-	VZP7WN2pSKA58DBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E63711370C;
-	Thu, 10 Oct 2024 14:36:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id IRj4NlvmB2dFagAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 10 Oct 2024 14:36:11 +0000
-Date: Thu, 10 Oct 2024 16:37:08 +0200
-Message-ID: <8734l410tn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Simon Trimmer <simont@opensource.cirrus.com>
-Cc: 'Takashi Iwai' <tiwai@suse.de>,
-	"'Luke D. Jones'" <luke@ljones.dev>,
-	<tiwai@suse.com>,
-	<linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<rf@opensource.cirrus.com>,
-	<foss@athaariq.my.id>,
-	<sbinding@opensource.cirrus.com>,
-	<kailang@realtek.com>,
-	<perex@perex.cz>
-Subject: Re: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
-In-Reply-To: <001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
-References: <20241009205800.40570-1-luke@ljones.dev>
-	<000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com>
-	<87wmig17f2.wl-tiwai@suse.de>
-	<001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kvohx1nJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728571237; x=1760107237;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Uq5PgKpLE7uhqRzqfCFPjNL9bUnSLqy/ztfVl9urxFg=;
+  b=kvohx1nJBQjJkXtR7BonDqKnk2WLQ8kzvl1kAiX/UbNcW0uulzNFvqsK
+   fcJUtpkJVb+cxXxaYzsfB5rFDUax0YJV5eBOVnTzm9HtfzrXXk1Q4am7B
+   qjoDK/SzW0sPcvdy/83mUEheSoga3MIc00TpXib+QjtGcVAHgnH2F3+Ii
+   sWX6enJJDC8lKbTxCBZN+m4XBFOvu1Thj++uQUV+5FhkfZOKORS2L2gie
+   BF5q0yMCaZIOW4v+vpukcZiDtJKJbCK00ZLCVex4JqYcVsS0pecsvsv3P
+   A6G0s7+19c57NeGaTpwTVwvmeiE6ytyptxZE/Ep+P3NNWV63h2cMOLdfh
+   g==;
+X-CSE-ConnectionGUID: G2PFZdprT3uxuFLWZ1xo+w==
+X-CSE-MsgGUID: TvdzS29ERRWcOc+n0N2hTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11220"; a="28065604"
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="28065604"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:40:36 -0700
+X-CSE-ConnectionGUID: 24TFoChFQf2xX8y5S/3N6A==
+X-CSE-MsgGUID: bcd6cbeoShWJdS+S7bWq0g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,193,1725346800"; 
+   d="scan'208";a="81191373"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 07:40:22 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1syuKv-00000001Z6U-0EM4;
+	Thu, 10 Oct 2024 17:40:17 +0300
+Date: Thu, 10 Oct 2024 17:40:16 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Chen Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>,
+	Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>, Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Soumya Negi <soumya.negi97@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>,
+	Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-staging@lists.linux.dev, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+Message-ID: <ZwfnULv2myACxnVb@smile.fi.intel.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+ <20241009083519.10088-2-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 451E421CAC
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241009083519.10088-2-pstanner@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 10 Oct 2024 15:20:25 +0200,
-Simon Trimmer wrote:
+On Wed, Oct 09, 2024 at 10:35:07AM +0200, Philipp Stanner wrote:
+> pci_intx() is a hybrid function which sometimes performs devres
+> operations, depending on whether pcim_enable_device() has been used to
+> enable the pci_dev. This sometimes-managed nature of the function is
+> problematic. Notably, it causes the function to allocate under some
+> circumstances which makes it unusable from interrupt context.
 > 
-> On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
-> > On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
-> > > On Wed, Oct 09, 2024, Luke D. Jones wrote:
-> > > > The GA605W laptop has almost the exact same codec setup as the GA403
-> > > > and so the same quirks apply to it.
-> > > >
-> > > > Signed-off-by: Luke D. Jones <luke@ljones.dev>
-> > > > ---
-> > > >  sound/pci/hda/patch_realtek.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/sound/pci/hda/patch_realtek.c
-> > b/sound/pci/hda/patch_realtek.c
-> > > > index 41e1119877b3..19b0bae074b6 100644
-> > > > --- a/sound/pci/hda/patch_realtek.c
-> > > > +++ b/sound/pci/hda/patch_realtek.c
-> > > > @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
-> > > > alc269_fixup_tbl[] = {
-> > > ...
-> > > >  	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
-> > > ALC285_FIXUP_CS35L56_I2C_2),
-> > > > -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
-> > > ALC285_FIXUP_CS35L56_I2C_2),
-> > > > +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
-> > > ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
-> > > ...
-> > >
-> > > Hi Luke,
-> > > Thanks!
-> > >
-> > > The support code for the CS35L56 has changed a little in Takashi's
-> branches
-> > > from what that patch was generated against and there is no longer an
-> > > existing quirk in the fixup table to trigger the component binding (but
-> the
-> > > general idea seems reasonable to hook the fixup of the headset mic).
-> > 
-> > Right, the patch doesn't apply to the latest tree for 6.12-rc.
-> > 
-> > We should start with setting up only the pincfg.  The binding with
-> > Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
-> > of speaker and bass speaker is an open question, whether we still need
-> > the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
-> > 
-> > BTW, rather a question to Cirrus devs: may the call of
-> > find_cirrus_companion_amps() conflict with the existing manual setup
-> > of the Cirrus codec by a quirk entry?
+> To, ultimately, remove the hybrid nature from pci_intx(), it is first
+> necessary to provide an always-managed and a never-managed version
+> of that function. Then, all callers of pci_intx() can be ported to the
+> version they need, depending whether they use pci_enable_device() or
+> pcim_enable_device().
 > 
-> I think we're good (I rarely get to access to the end products so try to
-> stick to the parts of the system that I have the details for which never
-> includes the Realtek codec...) in this general case I'd just expect that the
-> quirk entries wouldn't have the element at the end of the chain that used to
-> do the amp component binding fixup and the remaining tweaks for things like
-> the Realtek routing and mute indicators would be unaffected.
+> An always-managed function exists, namely pcim_intx(), for which
+> __pcim_intx(), a never-managed version of pci_intx() had been
+> implemented.
 
-Well, there are quirks that do call comp_generic_fixup() with fixed
-arguments, and I'm afraid they'll lead to some spurious error
-messages.  Namely, find_cirrus_companion_amps() is called before
-snd_hda_apply_fixup(PRE_PROBE), so comp_generic_fixup() might be
-already invoked there, and the quirk entry invokes
-comp_generic_fixup() again.  This will end up with an error message by
-the parent->codec check in hda_component_manager_init().
-It's just a message and nothing harmful happening, though.
+> Make __pcim_intx() a public function under the name
+> pci_intx_unmanaged(). Make pcim_intx() a public function.
+
+To avoid an additional churn we can make just completely new APIs, namely:
+pcim_int_x()
+pci_int_x()
+
+You won't need all dirty dances with double underscored function naming and
+renaming.
 
 
-Takashi
+...
+
+> +	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> +
+> +	if (enable)
+> +		new = pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> +	else
+> +		new = pci_command | PCI_COMMAND_INTX_DISABLE;
+> +
+> +	if (new != pci_command)
+
+I would use positive conditionals as easy to read (yes, a couple of lines
+longer, but also a win is the indentation and avoiding an additional churn in
+the future in case we need to add something in this branch.
+
+> +		pci_write_config_word(pdev, PCI_COMMAND, new);
+
+...
+
+Otherwise I'm for the idea in general.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
