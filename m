@@ -1,55 +1,55 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AAC19ABD8
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 04:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43ED54A15
+	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 04:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728533613; cv=none; b=BsYrDiquHL5KDd8NXACbOhP47czEAJWglDwzAKFDRxS9vCm46RFLfgL/exvyLpITp34YSJ9uRiawFPWdcdJGUWQYsmwaeQ03YRooey76i7ZoEmL4GfRbfLaShzmPKOI6YuB9NmxGzNH1CvFgw1dKPiQ1cde9KKKwxC+WUlSKzhQ=
+	t=1728533785; cv=none; b=DohgGy0oS2MftIuidI4Mn56Rcb7qmEO7LlL4opOLLDi5YDFz23vWN8OrwiOMy2qi5V+FVLSUFwNk92BOZ3TG654z5ah9pTfJBHkrbdSRHz0x0gSTI72985wIDDAHwRd9vcyDy6SgTB3URtDIBVRrEeMZVv0L6iqwahPDcgvmqrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728533613; c=relaxed/simple;
-	bh=Fa3yqUWIKihSvM8Dky3yrhEY+bGlMJzVhZjJlYz0KOE=;
+	s=arc-20240116; t=1728533785; c=relaxed/simple;
+	bh=/NOfPZ7eMm5ZzTytaiKGiKN9UkLL+n7+0hNpo6cf5sc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oFY6k2E6fPvY8DJ/ZLYONwBoHu5m2RIUm2GKxzNTlfu5NG2obo7idMk+eXBovqXMUVzfl2PgOxbgphH7Jwmh8DuVUFJup4jWoc4Dsg+Tk00b0TR9D/ZdZAJu1zDEzJH2NOv2JZ+4FKjSpcupO3Hp8ID8Oaxw58qtHlHpCXczSuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c8UTv+fs; arc=none smtp.client-ip=209.85.128.44
+	 To:Cc:Content-Type; b=AURgfVwk9sd26JGEKwICMYKRJPzczHUDrSwWaMhNiOO9crJ7aO/GPtP6Kn7dUGYEFyyBPVBM+UhhFFZh/RS+py8PCGNfK7KUUTzx90LQQrB4tYYrtFZZeMXA9lZL6yY6vVvjUf1uEPTRNbVLcVwabvnvR6CxEkCuO6XYrxYafWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iSjSLg2M; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c8UTv+fs"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-431157f7e80so89085e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 21:13:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iSjSLg2M"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-42f6995dab8so134835e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 09 Oct 2024 21:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728533610; x=1729138410; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1728533782; x=1729138582; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Iyc9jvA68dVH8P7BvKMjtZ4Po1WR7+Mp5iLLQbqq2p8=;
-        b=c8UTv+fs1ckWgKPTV4BB9wWHtzT5dyyXPhKYnVvwiqnX1WmablKYvQkjYL3alSaJjc
-         POCov2pMGGDv6850+xMsxT7P6pnXpfH36aTJHSolExJy/3K1+VJTE1nO0H2eJI2+El9h
-         XYUpGsTi8mkkOjfsh1i32uFm3tcN455kCLgdXOsVIW855HtUrbaO6ryaLg4z9aUblHvL
-         TPdqb2YAwLGCXvckWC8AvlOyQ9VqGGbJ+Ve8YjVcvCjgjalrVVKhtRlYDsGmVBcSjDuX
-         o+e9Gs5kf9o/VgtDAsfnWGiSKqwPj+I8DgQza7qV969xvSq6uc+HsZvbpA7MJGD7RvWA
-         ffwg==
+        bh=k9CK/O4HA+lbmjqu3KI23h4Z9dZBS4xoaBV+wIbWtTc=;
+        b=iSjSLg2MsDbrmkufcn5NT3CZZWsnpIZ2tJHIlJF8i0sdfBH5Ci4RFtdCUoHNw4AIlo
+         kbWvzKemShGNnuuOeEDHUjSRHcY+xwajTpIseBJXem1pJHnkBNTUYLFPAKJdEXdB2hm3
+         uyqd+G8VZpfyVwZylbbvOQvFpUkgdBHecSXOw6wJRKi06l9SLLlSeN/5OfXNrADqwNjl
+         jcA1bdkywPpi1GVJITpgGOTaY/+zjPMUpV19MXCKU3YyWyxKo2BfcCKeW1OZSSEZqzbG
+         i350bb00VDIqVD0taQjFwFSDpT8f+A/nGVMbWiQWTKYhQmQ5nJTnjHCYiMs87tLpX4KG
+         qIVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728533610; x=1729138410;
+        d=1e100.net; s=20230601; t=1728533782; x=1729138582;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Iyc9jvA68dVH8P7BvKMjtZ4Po1WR7+Mp5iLLQbqq2p8=;
-        b=u1ZSLEZ2SyosRPBje8zJmBlD32pLRCtjHCZFBLtcRGX/DaGUdVrnyTpGnjutKb+lhE
-         +hi/N2shfg5Cm6FwC2KZNXYQexW/v0cwttQbg2lvHMwV/t0aWzelfVRgdiCwF12LVxyq
-         GUYvMoz1inKUq1glxEhm40RtCsoK8ZFe7CdBt/yr9v5lGMndIkXhFsKKV65XS1cnwefM
-         V922PDd88w0Indy7iT1QnhKevgA7AwHsrN4qEJzkxVxWWdSUf7D1Non3sUN9SocIm93A
-         ScCwoTQtTP4H7jMH7ZyuNgdiRUdtYwkTvmfdKIg1i9tTbbXt3Y4WNSDQcxOCnNOecDzt
-         tKtw==
-X-Forwarded-Encrypted: i=1; AJvYcCXWqm0KL+cFjg4vscq49rZ8x+mtIdZzFt3UddgnPiIvOretRj9Cf/XZa4NyZmIKUmZzSbURkuhKJqx95w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwE1qF1eAiYfLO0+cfdl5V8JVepXWVBjejUeGNMN6B4NhA9YcTn
-	ziP5BRyhzYzqyMyuHv9QcG8mdSvs4hIv/a1booZcBtRfLv0dUC6/B2e72VENYxtvwd4NMw3Fc9B
-	ybeXcTWcohHBvyVNbBsydmhi5rg496MVomxOq
-X-Google-Smtp-Source: AGHT+IFdTWUmTn70J6M/KPiw48mRgBT/PQg7viT/3MqWWJ4nJxut+FCES5a2TXWuELQHIfFu2HpKQYH/QOZz5aWIejw=
-X-Received: by 2002:a05:600c:1e21:b0:42b:a8fc:3937 with SMTP id
- 5b1f17b1804b1-431161b4011mr2588745e9.4.1728533609702; Wed, 09 Oct 2024
- 21:13:29 -0700 (PDT)
+        bh=k9CK/O4HA+lbmjqu3KI23h4Z9dZBS4xoaBV+wIbWtTc=;
+        b=u2jSbRVvX1bIr+X4h0GvpXicrZrLFogcUJEtSAvA5XxVcwJyHBD0u9RhQXjwrEZbUE
+         VMoyucyieeoOvWJFQx3Dgx77guDamH4kh6qfVNYHBTICK3Rlf69T637y5bLo1X3EKVtH
+         ht0fdgKY363ybm0Rk6RKWWgUuCLE0QcScvPMGXrfIO/BjpfxuxHisexmXli5jkGE7Y4w
+         vdtwu5FjnbVjs3HEhhXFlwAjeY2LI7KImg8TYsXHXiENvHY6pjkFhCIBwgVUnoUkLQ9X
+         Qj9QLcDokKClN2d5BkXmZ2ZaEfRmP8QpFjxwryUA2D4JVnhTFsrgDpiiOIVaHDEkOZQd
+         kwLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjUudBfr34s92fnWbnhP3NgaYSbBubbkb7f9oEQY9dUNdZ+++3GqZTwX3pHkaRLKJsffRanuF8cQUnFA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyeHpi7G3wkJg2LkxIX3MntA0rToEcsnlSZEWOhU6wRzSfRSPqX
+	BiU3FgymkssLtjDWfs36mb6pcYB4xWlnHivukX6uT72ip9iB4V/94x2RKVVWAuIK3u9JG7GecJ1
+	b0s+76XCC38QzfD5dhoT4I7I1VesBiPrLTcH/
+X-Google-Smtp-Source: AGHT+IGP7qugmWppsd+XlsR9KmIIvyoIQhlhHpbvsPc4XOnMNQwrh5jCpIEK9VKbli8xlljzbWSo++KAN7+HMPOUG7g=
+X-Received: by 2002:a05:600c:3ec3:b0:426:5d89:896d with SMTP id
+ 5b1f17b1804b1-43116e075ebmr1681815e9.1.1728533782304; Wed, 09 Oct 2024
+ 21:16:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -57,12 +57,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20241009054429.3970438-1-guanyulin@google.com>
- <20241009054429.3970438-2-guanyulin@google.com> <2024100943-gallantly-animosity-2822@gregkh>
-In-Reply-To: <2024100943-gallantly-animosity-2822@gregkh>
+ <20241009054429.3970438-5-guanyulin@google.com> <2024100935-resonate-aneurism-b330@gregkh>
+In-Reply-To: <2024100935-resonate-aneurism-b330@gregkh>
 From: Guan-Yu Lin <guanyulin@google.com>
-Date: Thu, 10 Oct 2024 12:12:00 +0800
-Message-ID: <CAOuDEK3UqynUa6NSDj_mTcnQAZ2vv7kGt9hDJCtmVrm_+-6vOg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] usb: dwc3: separate dev_pm_ops for each pm_event
+Date: Thu, 10 Oct 2024 12:16:00 +0800
+Message-ID: <CAOuDEK11OaXX5g-1OvD3ehew=D=_PixL00PrSP2wf=O9zgUPvA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] xhci: sideband: add api to trace sideband usage
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com, 
 	stern@rowland.harvard.edu, elder@kernel.org, oneukum@suse.com, 
@@ -76,46 +76,21 @@ Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 9, 2024 at 8:45=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+On Wed, Oct 9, 2024 at 8:48=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
  wrote:
 >
-> On Wed, Oct 09, 2024 at 05:42:55AM +0000, Guan-Yu Lin wrote:
-> > +
-> > +static int dwc3_poweroff(struct device *dev)
-> > +{
-> > +     struct dwc3     *dwc =3D dev_get_drvdata(dev);
-> > +     int             ret;
-> > +
-> > +     ret =3D dwc3_suspend_common(dwc, PMSG_HIBERNATE);
+> On Wed, Oct 09, 2024 at 05:42:58AM +0000, Guan-Yu Lin wrote:
+> > --- a/include/linux/usb/hcd.h
+> > +++ b/include/linux/usb/hcd.h
+> > @@ -84,6 +84,10 @@ struct usb_hcd {
+> >       struct urb              *status_urb;    /* the current status urb=
+ */
+> >  #ifdef CONFIG_PM
+> >       struct work_struct      wakeup_work;    /* for remote wakeup */
+> > +#ifdef CONFIG_USB_XHCI_SIDEBAND
+> > +     /* Number of active sideband accessing the host controller. */
+> > +     atomic_t                sb_usage_count;
 >
-> Why is power off hibernate?
->
-> This needs an ack from the dwc3 maintainer as I can't determine if it's
-> correct at all...
->
-> thanks,
->
-> greg k-h
+> It's a reference count, use refcount_t please.
 
-Described in /include/linux/pm.h, PM_EVENT_HIBERNATE message denotes
-the following transition in the PM core code:
-"Hibernation image has been saved, call ->prepare() and ->poweroff()
-for all devices."
-Meantime, the interpretation of the the above description could be
-found in /drivers/base/power/main.c:
-static pm_callback_t pm_op(const struct dev_pm_ops *ops, pm_message_t state=
-)
-{
-...
-        case PM_EVENT_HIBERNATE:
-                return ops->poweroff;
-...
-}
-An example in device drivers could be found in usb/drivers/usb/core/usb.c:
-static int usb_dev_suspend(struct device *dev)
-{
-        return usb_suspend(dev, PMSG_SUSPEND);
-}
-
-Regards,
-Guan-Yu
+Appreciate the clear instructions, let me fix it in the next version.
