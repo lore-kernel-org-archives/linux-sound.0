@@ -1,117 +1,217 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980781CC16C
-	for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 15:08:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8673A1CB312;
+	Thu, 10 Oct 2024 15:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728572940; cv=none; b=D/rFpehYGxY6l0QFSw+lA+Vzm5DuQl+Vj8bttwVBf29ceDSpoVOFfjtqzqFwYEVbkU8TiMY3CzMe9zZ3s0l8JhrbQwB/opGW6Old1M0xR959konVMVrUbepzMq741CPLSEOVnFBEPvMrITwKj6YG9LG65Add7IxFdcmu0Mo/6kM=
+	t=1728573464; cv=none; b=P89erWLrm1h+Dta82vQU6pb9cT+iFazjCsNc9hv77mFE76cdx2+KoZLd4YiTpnk/3X+LEl5yPtf9DQ811xs67rZjlj56EtOTCpizfwCrJZYSowK7iEgxYi31z2ChWDFRMQgfETfboG1YMLs5z4j/5bByAnNM7JBGdkbFYOXlSog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728572940; c=relaxed/simple;
-	bh=re8B3h/H8vFcHw1pRsstqY/4kJcouThAZOKm6C5wvDY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O1fyzvwohBXQaiOPTMxYvHoiTROqyHAVZLcG+2NaXQyDzRRjlG2NZewJDeQQRfZyHBRhEG3K1Q1nEBd3ObDFk+Y+JtneHuQCKkcjCSsCfDIj6T39nLwEEgcUKFOoniVGTgMx3eddYJt2W9ZBweuL93mnh2tUwhC66MqAAjWwFds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ux03A54M; arc=none smtp.client-ip=209.85.166.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1728573464; c=relaxed/simple;
+	bh=gG5srqL+EtKOJZeJNYOMLO2PrNfeumVel5mVNfhnJgA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MdpCFIGJdcjTuie9Ed05cFz02f9iSNi+QINTyWeE4bmyVA7bzwTME24kGBZ79AnOkrEqEDoLM3TD4CISvKcIFl6revQKswn5GPrP219nw1CwNkHfJpQ6FOieS3aTaGvdw7X3lAbui/XvpJAsXbxb1eHG3utX0OFAj40muBmHqXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=khdA80mR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BVybbqgJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=khdA80mR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BVybbqgJ; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ux03A54M"
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a367da1f8cso3951635ab.2
-        for <linux-sound@vger.kernel.org>; Thu, 10 Oct 2024 08:08:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728572937; x=1729177737; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1OeAK/S0DDD0sB2cslV1aKUTfEhLWliOpkHnue8Kakw=;
-        b=Ux03A54MufDQlntI2F9Rdo9s/4tWYJATjI6Tw9wNtxzwy4BALWMusSNp59FvUpnBLQ
-         2X0kHv6ZWVCFxEfioDg55gbA1+WA/+6F9l0PjY252HLB5eTeMRBwZFtqeHFqmji/O9Mg
-         PCg0QmFRZ5VAoXXm9vnSWzxBkbzzKsKwHurTs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728572937; x=1729177737;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1OeAK/S0DDD0sB2cslV1aKUTfEhLWliOpkHnue8Kakw=;
-        b=O+/V8vR3H8je/Rol5HWcKz+LeTc/qq4p+4OwogFu97b5iH46XqIIZUL3EZFLtgCY5t
-         2yEO3ev+FUEX4ib8814YSHaAabqGvLgSuawCMXwF4qpY/HJNgpRx8iW2ky1oQZXBiDzu
-         EKJk+UDBd7Co/XFHrjrBU1wh4HkWtlXNNBAc/udMOl5Z2hEgyUcvNdW3c/7KjmIw7aV8
-         Kwp/6dKVvl3D5l6Y6B+sePNmYiHG+E+KOiyfvOKYD/kSkQWnDLCDmSELpxhUuZywBLbh
-         h8ez3NeTETVoRQtqeB4y/1fqB2LVSLg311RnA5wUSWdS0C3X4gvwkcq+8Cb/PSBpLcQ/
-         28MA==
-X-Gm-Message-State: AOJu0YxrI72ZQleMk4M97RBdyZcd1jonAA+ZmHEofMOeOZafx7O9KeFP
-	sevbdpbCv6xqzWoXgVqwW44CcBh3T1KxpcDZKFPrV97QuHFtMSJYFyA+QA7lvJI=
-X-Google-Smtp-Source: AGHT+IF/YFch+FuI6hF1QYufR1Nw3E8maa4x6ZomIfSTsL5GK4U6VyY878xnwVPnu1VbxY9IMgvlNQ==
-X-Received: by 2002:a05:6e02:1445:b0:3a0:985b:ddb4 with SMTP id e9e14a558f8ab-3a397cd8b87mr55731195ab.2.1728572936492;
-        Thu, 10 Oct 2024 08:08:56 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a3afdb3444sm3040575ab.34.2024.10.10.08.08.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Oct 2024 08:08:55 -0700 (PDT)
-Message-ID: <e44527e8-b7c6-4712-97a6-d54f02ad2dc9@linuxfoundation.org>
-Date: Thu, 10 Oct 2024 09:08:54 -0600
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="khdA80mR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BVybbqgJ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="khdA80mR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BVybbqgJ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AF4041F7FA;
+	Thu, 10 Oct 2024 15:17:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728573460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LJuZzUClB75D4K3mAoxbLzQ/sZDYPSVhPPP6IwNNY4k=;
+	b=khdA80mRwYypyvmm/fCahPDV8NbeflJnn/zAFn54ICbYk+1sqIzRpO6tmLRfCx2K5pQm9U
+	f3aMrjf4e6aDMW66L/JHaruHjkyzCI3BZGYCh778zj/6WgnkTOdtb+GpTbrkAFrfuzDdcm
+	2fww+dMH4daHBKnAcZA1zB4EzpGuFYs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728573460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LJuZzUClB75D4K3mAoxbLzQ/sZDYPSVhPPP6IwNNY4k=;
+	b=BVybbqgJo42E8OjvZJyWk2pbqOtYlfmejq/ixHXAKHg08bahy+83YCjxyhAdKTMK1Qoxvz
+	i5KKOYaLqHBeORDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728573460; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LJuZzUClB75D4K3mAoxbLzQ/sZDYPSVhPPP6IwNNY4k=;
+	b=khdA80mRwYypyvmm/fCahPDV8NbeflJnn/zAFn54ICbYk+1sqIzRpO6tmLRfCx2K5pQm9U
+	f3aMrjf4e6aDMW66L/JHaruHjkyzCI3BZGYCh778zj/6WgnkTOdtb+GpTbrkAFrfuzDdcm
+	2fww+dMH4daHBKnAcZA1zB4EzpGuFYs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728573460;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LJuZzUClB75D4K3mAoxbLzQ/sZDYPSVhPPP6IwNNY4k=;
+	b=BVybbqgJo42E8OjvZJyWk2pbqOtYlfmejq/ixHXAKHg08bahy+83YCjxyhAdKTMK1Qoxvz
+	i5KKOYaLqHBeORDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6826413A6E;
+	Thu, 10 Oct 2024 15:17:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fw8RGBTwB2dGeAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 10 Oct 2024 15:17:40 +0000
+Date: Thu, 10 Oct 2024 17:18:36 +0200
+Message-ID: <87v7y0yoj7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	"'Luke D. Jones'" <luke@ljones.dev>,
+	<tiwai@suse.com>,
+	<linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>,
+	<foss@athaariq.my.id>,
+	<sbinding@opensource.cirrus.com>,
+	<kailang@realtek.com>,
+	<perex@perex.cz>
+Subject: Re: [PATCH] ALSA: hda/realtek: fixup ASUS GA605W
+In-Reply-To: <300a9fe1-a431-4fa2-8a25-d31d0d264099@opensource.cirrus.com>
+References: <20241009205800.40570-1-luke@ljones.dev>
+	<000d01db1afa$4e76b430$eb641c90$@opensource.cirrus.com>
+	<87wmig17f2.wl-tiwai@suse.de>
+	<001401db1b17$2afd9060$80f8b120$@opensource.cirrus.com>
+	<8734l410tn.wl-tiwai@suse.de>
+	<300a9fe1-a431-4fa2-8a25-d31d0d264099@opensource.cirrus.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH-next V2] ASoC: rt721-sdca: Clean logically deadcode in
- rt721-sdca.c
-To: "Everest K.C." <everestkc@everestkc.com.np>, oder_chiou@realtek.com,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20241008234422.5274-1-everestkc@everestkc.com.np>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20241008234422.5274-1-everestkc@everestkc.com.np>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.991];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 10/8/24 17:44, Everest K.C. wrote:
-> As the same condition was checked in inner and outer if
-> statements. The code never reaches the inner else statement.
+On Thu, 10 Oct 2024 17:07:24 +0200,
+Richard Fitzgerald wrote:
 > 
-> This issue was reported by Coverity Scan with CID = 1600271.
-> 
-> Signed-off-by: Everest K.C. <everestkc@everestkc.com.np>
-> ---
-> V1 -> V2: - Updated the patch prefix to PATCH-next
-> 	  - Added how the issue was discovered
-> 
->   sound/soc/codecs/rt721-sdca.c | 10 +++-------
->   1 file changed, 3 insertions(+), 7 deletions(-)
-> 
-> diff --git a/sound/soc/codecs/rt721-sdca.c b/sound/soc/codecs/rt721-sdca.c
-> index 36056cb7a3ca..4fd26e490610 100644
-> --- a/sound/soc/codecs/rt721-sdca.c
-> +++ b/sound/soc/codecs/rt721-sdca.c
-> @@ -611,13 +611,9 @@ static int rt721_sdca_dmic_set_gain_get(struct snd_kcontrol *kcontrol,
->   
->   		if (!adc_vol_flag) /* boost gain */
->   			ctl = regvalue / boost_step;
-> -		else { /* ADC gain */
-> -			if (adc_vol_flag)
-> -				ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
-> -			else
-> -				ctl = p->max - (((0 - regvalue) & 0xffff) / interval_offset);
-> -		}
-> -
-> +		else /* ADC gain */
-> +			ctl = p->max - (((vol_max - regvalue) & 0xffff) / interval_offset);
-> +
->   		ucontrol->value.integer.value[i] = ctl;
->   	}
->   
+> On 10/10/2024 3:37 pm, Takashi Iwai wrote:
+> > On Thu, 10 Oct 2024 15:20:25 +0200,
+> > Simon Trimmer wrote:
+> >> 
+> >> On Thu, 10 Oct 2024 13:15, Takashi Iwai wrote:
+> >>> On Thu, 10 Oct 2024 11:53:49 +0200, Simon Trimmer wrote:
+> >>>> On Wed, Oct 09, 2024, Luke D. Jones wrote:
+> >>>>> The GA605W laptop has almost the exact same codec setup as the GA403
+> >>>>> and so the same quirks apply to it.
+> >>>>> 
+> >>>>> Signed-off-by: Luke D. Jones <luke@ljones.dev>
+> >>>>> ---
+> >>>>>   sound/pci/hda/patch_realtek.c | 2 +-
+> >>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>> 
+> >>>>> diff --git a/sound/pci/hda/patch_realtek.c
+> >>> b/sound/pci/hda/patch_realtek.c
+> >>>>> index 41e1119877b3..19b0bae074b6 100644
+> >>>>> --- a/sound/pci/hda/patch_realtek.c
+> >>>>> +++ b/sound/pci/hda/patch_realtek.c
+> >>>>> @@ -10507,7 +10507,7 @@ static const struct snd_pci_quirk
+> >>>>> alc269_fixup_tbl[] = {
+> >>>> ...
+> >>>>>   	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W",
+> >>>> ALC285_FIXUP_CS35L56_I2C_2),
+> >>>>> -	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> >>>> ALC285_FIXUP_CS35L56_I2C_2),
+> >>>>> +	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W",
+> >>>> ALC285_FIXUP_ASUS_GA403U_HEADSET_MIC),
+> >>>> ...
+> >>>> 
+> >>>> Hi Luke,
+> >>>> Thanks!
+> >>>> 
+> >>>> The support code for the CS35L56 has changed a little in Takashi's
+> >> branches
+> >>>> from what that patch was generated against and there is no longer an
+> >>>> existing quirk in the fixup table to trigger the component binding (but
+> >> the
+> >>>> general idea seems reasonable to hook the fixup of the headset mic).
+> >>> 
+> >>> Right, the patch doesn't apply to the latest tree for 6.12-rc.
+> >>> 
+> >>> We should start with setting up only the pincfg.  The binding with
+> >>> Cirrus is handled via find_cirrus_companion_amps().  The shared DAC
+> >>> of speaker and bass speaker is an open question, whether we still need
+> >>> the workaround by alc285_fixup_speaker2_to_dac1().  Let's see.
+> >>> 
+> >>> BTW, rather a question to Cirrus devs: may the call of
+> >>> find_cirrus_companion_amps() conflict with the existing manual setup
+> >>> of the Cirrus codec by a quirk entry?
+> >> 
+> >> I think we're good (I rarely get to access to the end products so try to
+> >> stick to the parts of the system that I have the details for which never
+> >> includes the Realtek codec...) in this general case I'd just expect that the
+> >> quirk entries wouldn't have the element at the end of the chain that used to
+> >> do the amp component binding fixup and the remaining tweaks for things like
+> >> the Realtek routing and mute indicators would be unaffected.
+> > 
+> > Well, there are quirks that do call comp_generic_fixup() with fixed
+> > arguments, and I'm afraid they'll lead to some spurious error
+> > messages.  Namely, find_cirrus_companion_amps() is called before
+> > snd_hda_apply_fixup(PRE_PROBE), so comp_generic_fixup() might be
+> > already invoked there, and the quirk entry invokes
+> > comp_generic_fixup() again.  This will end up with an error message by
+> > the parent->codec check in hda_component_manager_init().
+> > It's just a message and nothing harmful happening, though.
+> > 
+> find_cirrus_companion_amps() currently only handles CS35L54/56/57, and
+> when that patch was sent it also converted all quirks using those
+> devices so they _don't_ call comp_generic_fixup().
+
+Ah thanks, I completely overlooked that!
+
+> The purpose of the
+> warning was to detect people adding a quirk that tried to do the old
+> way of manual component binding setup from the quirk.
+>
+> The remaining quirks that call comp_generic_fixup() are for CS35L41/51,
+> which we haven't converted yet because there are many more models, some
+> with strange ACPI and some that are old models we can't easily get hold
+> of to re-test.
+
+OK, so we are fine :)
+
+And, even if the conflict happens, it's an error message and it
+indicates that we can get rid of that quirk.
 
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-
-As mentioned in my review for v1 of this patch, the exact same problem
-exists in sound/soc/codecs/rt722-sdca.c as well, in case you want to send
-patch to fix that one.
-
-thanks,
--- Shuah
+Takashi
