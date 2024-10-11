@@ -1,90 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DA51E32BA
-	for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 10:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00DD1E3DC0;
+	Fri, 11 Oct 2024 10:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728642879; cv=none; b=BOM0PdYWYvRqmHwShOINk/8Z2bKSWVR0TvnRVVSOP9xc1kyd1chxXDUsy699uW5iy4yNam+pBNb4fsaJiBAtVMcqwnhc0MrlR2A7Bds7eIaD10CHK2rqEDKjCf6LWv8hHRPh1jOhchSfI1Ks4kqamXf7vSORgWE6TaL+hQPJRGc=
+	t=1728644243; cv=none; b=aYCsi0k7EwdWTqqauIObaRlwuD3OQBje/6lWyIUjnoNWMHB6FAnPbi2OV5vBnjlH+4RZtWz8FK9N1f47U9CCOdVvoOTx9gJFiHJ/KeH9XwPsArqWlz3203xSJikZPos/1nUSLc+MLGwewvxUjzIdlpSaIPcrl6YcrFWUEbPQ56Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728642879; c=relaxed/simple;
-	bh=qQ16roEGDzzhrrlHe5OgeITXMOUTiK9RLz6nEX+V15M=;
+	s=arc-20240116; t=1728644243; c=relaxed/simple;
+	bh=mnkksVx2Xxyxhko4Q7iJCbRLxEhP+89tZTZn5w/HAiI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCZJ5ZKKSAk3a3ujrtN+pLOTgl38b8EZ3p/vzJbx/W3kM1zMFGH8e/eJHzxC1z0tUNvBXCcpiqj6EgRq0TLp3dYJoRHuXhCfhaAvDicNL4oQxpjIDy245mNzPAZpU5zJGhcm4hjT4qLJhzjL3G9CI+v/vLKHo62AvzqZMNLwbcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qyPW6hcB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y7xuUj+8gj16G37aUAJ5IHHvlOgNzz+SS+GpcTIPal9k8v5aKqY6mrMr9jHQSf2qNw0rLnv9WEHQTjM0a6i54QAuFDAkVXGf3TEuGF6/M3EELcRqw6Hi+jCPnu/jenvjzaCbJLe+M2vN9KOEBQ9All18wSVyNiJdx986OI8tKuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=LDqP8meK; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qyPW6hcB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E3DFC4CEC3;
-	Fri, 11 Oct 2024 10:34:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728642878;
-	bh=qQ16roEGDzzhrrlHe5OgeITXMOUTiK9RLz6nEX+V15M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qyPW6hcB8OXcNJaAXrQk1Xx91BTEbZHAPVRgX6DFEQVhvQGvvsyZoHxVa7yCon5Od
-	 QqJyJO120BoTn+adDM1WmFZOq7Ouunv6AsHE2UQzwgyrbcgMpN55nZNaLxGvE6Hc4U
-	 BpXtz+4iUy59wH0Oc1wlUxV3xEjGgrDBD1hgOaBSHgoh8kHqu5mvgVHhJdGa2SKliB
-	 k/K4HpHCl6Gt60oGksyuJAEE3yh90TmRK6cogpNg0kZ7yQQm+z1w8idThC9nbvGkrn
-	 Scwnb5DTCyg/03CS3YPL8pyLmmetjjdGt7voQWmvzH8ymYKX0YnOzV7iDXUQ1pZHvQ
-	 CTp4P3I959pKw==
-Date: Fri, 11 Oct 2024 11:34:35 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: Intel: avs: Fix return status of
- avs_pcm_hw_constraints_init()
-Message-ID: <Zwj_O1tmrQmA14ud@finisterre.sirena.org.uk>
-References: <20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com>
- <172864164240.3853572.8328107515251289485.b4-ty@kernel.org>
- <d7e02acb-fee1-4d17-94c6-96b07f4938c4@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="LDqP8meK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=WyUU7HyfsDsDc16P/YLUuRui/IhSHQhUa6UHKkM8cSA=; b=LDqP8meKMsgdAOyr
+	zyW8TibS5uAC7LxtAhHWduU+fo6GdtodbKsX5SQqFO8jQHiv7yRMcyEh8ADj0FXV+h3oqGE6fSq+z
+	IZdQ1Pwh5PyOUDDHpJRcc7Ivv0XHAUwoSbClHPFBXo+tOFp1zQvS0MEmAGgccv+OIrytA/sUOXSBb
+	ALaubGnzuS82fwwZ7WFKRtFgeDw9xIZpK+IumWd7eW1+u5NrOGGyOqjFzFoXemZielsAwITUD2+s3
+	Pxa/GOuWR05yt9SRSpIGXeSxA20wbL704QcG8X5MEBdooilnkSmNStzC7xnj5l7eJj2H2XnX0zPyb
+	jLErUfRCfHx4RTPrnA==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1szDKY-00AUHy-1o;
+	Fri, 11 Oct 2024 10:57:10 +0000
+Date: Fri, 11 Oct 2024 10:57:10 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: core: Remove unused copy_from_user_toio
+Message-ID: <ZwkEhsYvaEHW_Czd@gallifrey>
+References: <20241010205340.278133-1-linux@treblig.org>
+ <87o73rm29d.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xgJCL6T1o12Zo4yG"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <d7e02acb-fee1-4d17-94c6-96b07f4938c4@linux.intel.com>
-X-Cookie: Editing is a rewording activity.
+In-Reply-To: <87o73rm29d.wl-tiwai@suse.de>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 10:56:56 up 155 days, 22:10,  1 user,  load average: 0.03, 0.02,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
+* Takashi Iwai (tiwai@suse.de) wrote:
+> On Thu, 10 Oct 2024 22:53:40 +0200,
+> linux@treblig.org wrote:
+> > 
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > copy_from_user_toio() has been unused since commit
+> > ce2d8ed8d809 ("ASoC: qcom: Convert to generic PCM copy ops")
+> > 
+> > Remove it.
+> 
+> It's a pair of copy_to_*(), so if any, it should be dropped only after
+> both users are gone.
 
---xgJCL6T1o12Zo4yG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK, fair enough.
 
-On Fri, Oct 11, 2024 at 12:22:14PM +0200, Amadeusz S=C5=82awi=C5=84ski wrot=
-e:
-> On 10/11/2024 12:14 PM, Mark Brown wrote:
-> > On Thu, 10 Oct 2024 13:20:08 +0200, Amadeusz S=C5=82awi=C5=84ski wrote:
+Dave
 
-> > Applied to
-
-> >     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git f=
-or-next
-
-> Seems like I've messed this one a bit, additional comment should've been
-> below '---' instead of '--', as it is now part of patch in tree, should I
-> resend?
-
-No, it's already applied now - it'll be fine.
-
---xgJCL6T1o12Zo4yG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcI/zoACgkQJNaLcl1U
-h9DvaAf+MEQAc61p4jEn3Q5I4s/ce7jnONGeEiesfwlsc+gjUB/AQMk8xpgSMNoC
-Dc214CTQuTT6L6wF1d5PAULQee36HILvo3E6Y2QDJ6j/ajB22TG7rwPCzv21Ttzl
-EMxWGgz2Ad1uFgyMhzRBWAp4YdqmR5Zb0J64KB+pQmcLDI4p5CDekNHOGc4tIM2b
-6OU3hidTv0i5B4UrLXxEsWmxtKQsfbae5nAor3EqdfI15hVTKqL1WNicOxOSC5Uh
-u4P+nGCTkHp0lGQeZsNJ0u8VehU5mkwUYnw1yc/cWffSkv7fSXro12+hs632QjIX
-OxiVNqPQFIXFw1CVImx7YJnaEA0cSA==
-=nIDn
------END PGP SIGNATURE-----
-
---xgJCL6T1o12Zo4yG--
+> 
+> thanks,
+> 
+> Takashi
+> 
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> > ---
+> >  include/sound/core.h |  1 -
+> >  sound/core/memory.c  | 20 --------------------
+> >  2 files changed, 21 deletions(-)
+> > 
+> > diff --git a/include/sound/core.h b/include/sound/core.h
+> > index 1f3f5dccd736..b5a6f3d2bff5 100644
+> > --- a/include/sound/core.h
+> > +++ b/include/sound/core.h
+> > @@ -267,7 +267,6 @@ static inline int snd_minor_info_oss_init(void) { return 0; }
+> >  /* memory.c */
+> >  
+> >  int copy_to_user_fromio(void __user *dst, const volatile void __iomem *src, size_t count);
+> > -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count);
+> >  
+> >  /* init.c */
+> >  
+> > diff --git a/sound/core/memory.c b/sound/core/memory.c
+> > index 2d2d0094c897..8222a851da87 100644
+> > --- a/sound/core/memory.c
+> > +++ b/sound/core/memory.c
+> > @@ -63,26 +63,6 @@ int copy_to_iter_fromio(struct iov_iter *dst, const void __iomem *src,
+> >  }
+> >  EXPORT_SYMBOL(copy_to_iter_fromio);
+> >  
+> > -/**
+> > - * copy_from_user_toio - copy data from user-space to mmio-space
+> > - * @dst: the destination pointer on mmio-space
+> > - * @src: the source pointer on user-space
+> > - * @count: the data size to copy in bytes
+> > - *
+> > - * Copies the data from user-space to mmio-space.
+> > - *
+> > - * Return: Zero if successful, or non-zero on failure.
+> > - */
+> > -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count)
+> > -{
+> > -	struct iov_iter iter;
+> > -
+> > -	if (import_ubuf(ITER_SOURCE, (void __user *)src, count, &iter))
+> > -		return -EFAULT;
+> > -	return copy_from_iter_toio((void __iomem *)dst, &iter, count);
+> > -}
+> > -EXPORT_SYMBOL(copy_from_user_toio);
+> > -
+> >  /**
+> >   * copy_from_iter_toio - copy data from iov_iter to mmio-space
+> >   * @dst: the destination pointer on mmio-space
+> > -- 
+> > 2.47.0
+> > 
+> 
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
