@@ -1,118 +1,95 @@
-Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634EA8F58;
-	Fri, 11 Oct 2024 05:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173E82581;
+	Fri, 11 Oct 2024 06:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728624032; cv=none; b=fx98pSbntEzRxENf2QcaErfKpCwQBpR6oSt0Cvts6z078Yc6a4OxnnCKTBXsuLvC8AwTOY1r0PNW3lB3O6leTqt9aiHENTYycvHlaeIVb5wSCJzgWEBA9Ah3qY9YSa1XKQdxRmiVzoNJkpHrz9Ywbz9631N8PNjSKZha/ALtHr0=
+	t=1728628033; cv=none; b=jnlXWNCbO6OAz7LCUkeOZbWT5+B3nj3l3OScZDtf4AnQooxX1jBGaiHI/rh5AE6vaRthoikCX8tZDwxqOhVHvqH6Y6h6x4W4yLB6C0mFxXTwSlziaPGTE5GSb6p7A0PY0dewffrr3dyoNqDLQkVyaf3npOq0DQumGbMZi1IZKCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728624032; c=relaxed/simple;
-	bh=s65Bz3+ieIAUqwK5ADHiCy63ZY39r7OBbLrjyxkUk4M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gN0j+TP75SX9Ua/CyYmMSKyOP8FPJ27Xn0TcdZ18I3aTYd/CJGzdYW7yZlZSQkhWp1CiE0CzfgpgYv4KbvhtEGkWE2XTlQcfqzCUl1PjhMgDssxodh8ShO3SnOOHDvOzDvbFn/ZJquqO1suh3svzECkf2X1/Fe/dTdCaJmJwvWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=GHb/WN63; arc=none smtp.client-ip=116.203.91.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="GHb/WN63"
-Message-ID: <94782cf4-5317-49fb-bd8c-8dfc4eafae74@manjaro.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
-	t=1728624024;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y/llnmoIv2jFYjcnFeNjsM9lCHRTODti3ojbao7n7Sc=;
-	b=GHb/WN63nq81PzDEaMiWyiiT/1uRK+SE5qK0HiO5zEyIUa6xb/Kru1yvNAGtapeB9cfLqT
-	kPQ1e9RFxQfqkX6J2C0MyX/yG8LQ3F9/jPr9Rcr+tLE/znewRfx60kISkh8usXRjIG1TxE
-	RKqD5FlpZs8T88R1+ahxticaOgqp1GX7m8Y1bIqa9Qu70SQxy4Vw/EIW2rRarge9iiUc9U
-	+N9mu+onKzMq//w/kvVR/0bkO1NUC+qZOLNU3sWaKB+NnPo4dECqakz886nsJOccYyROkM
-	aEbDunUbGl9EJCMH5yLlDqy5bI1nKB4IZLNbvBtQ2Cql5TczzBj7WuR4IdlaDw==
-Date: Fri, 11 Oct 2024 12:20:10 +0700
+	s=arc-20240116; t=1728628033; c=relaxed/simple;
+	bh=Au8e1y4UJ5JVpJtCtQLIGrvNo1nOKnU3QcqpVfdC9SI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C0sDQkZx+yvdHBstqmyhEcq0TB9ATwwAWY97hEEnIvwZpmOVfMCnFRzEdqFxXlHIVhRr/ncEzTO5LtcKeukSDFcr5elKYCkdO1TJ0maFXmVvRR9/KNrE56JlqWPFEDcJJd3GrL0CI6CrmKumXPGrXX7r1lhd0bO/bE6u4bcn5t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e29267b4dc4so126933276.0;
+        Thu, 10 Oct 2024 23:27:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728628030; x=1729232830;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4EFRVBKoHDi7Rk9YKtPxZy/EAUFpof9x2Rx1WtoBkFE=;
+        b=mPENFvG80XOGH3it1T1Jkc698Ah1zPdsxMgCMEP7aUP+TGBVrq68rhtqPO6AfuPYBh
+         aFraPJ+qoVRxb6JYbDVL+r8rsnXAG0GyNDFYCipoyeWwlJkzL04pM36MYAhp8MxGHhP6
+         1g+L0H39pcsasIrRW3pzn2Z+Vvj4adF0Y3QSWw5MpPijSsFxu+KupQDH07xjb8dyyrui
+         3snmLbdXlsFlYljiVrgVcVzKBY6B8qDm/7u83HrY7mkSyhmmZbWvX8LfYSzPKiZ9hXNn
+         j1uA4fyUKJFCQFF31PeTSn0xITo2kWJ6YgAX+b4PIBMz9SYZ0ZRGbyrFg/EvGdV7+VBh
+         ScuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbcZqWOC0L4duouEDcROso+RqsYiUuIDao/HZGOYlTPPLQPz0yQ1bwkFUdzMgKp4a8uNuije0HLbJ85gc=@vger.kernel.org, AJvYcCWp9HWlWsDU90hJSQD/iwkOyBmii5NwJUW3Juf2W/v1aDtmt5uGyF69ZffGhJay0x2E8jrDF4K3gCA9vPA=@vger.kernel.org, AJvYcCWrMoKY2tAfwd3mkwk8sae1o++C7R+hLzuqhx9hj5n7xIAB7uEEvf4IkGpnJqfQizoYTC7IikneUiCXs0cPxBm/Ed0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3hJkweYbubA/uwP/DjP/+G+mMn7jncMMYZxsAB9Xn0yCNB8ka
+	5vsp10szByH3UiAygIMMoClSSg9FLzGceeTqocy9KwAz4KIs+T9OkjoZpas1RVI=
+X-Google-Smtp-Source: AGHT+IGlr41BzbNo5MyCHDTCDpZ4iZGk9KHGlo6eDXydl+AeI8xo26+ry1u14RcVvgWJ+BLYTdigew==
+X-Received: by 2002:a05:690c:4585:b0:6e3:3a22:7205 with SMTP id 00721157ae682-6e347c6b940mr8956617b3.44.1728628029692;
+        Thu, 10 Oct 2024 23:27:09 -0700 (PDT)
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com. [209.85.219.181])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-6e332c6e29bsm4749117b3.114.2024.10.10.23.27.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Oct 2024 23:27:09 -0700 (PDT)
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e29267b4dc4so126920276.0;
+        Thu, 10 Oct 2024 23:27:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV03iedsorFJwL4kEEigIIZxhu5hEYax8k6AmBn8I9miv8BfcDZBPucOziGkAbD3a4OU22KL2ctSiH3J8dQMk6W28w=@vger.kernel.org, AJvYcCWOgPG/wJX8bMev9D43xvSVrajoNgO6hb8IT6FdoCh0KA/Wo9bV5r/FTNg6+IfAieEqujPhbuvvJlvk6iU=@vger.kernel.org, AJvYcCWz2x4mWyUKec4t/8ZlsZRJ1G5C++qwNpUjEJNlq/RD6qV/SmcXyueyjADkyDee7m1hkMZ++rzmv0zyRlY=@vger.kernel.org
+X-Received: by 2002:a05:690c:386:b0:62c:c684:b1e1 with SMTP id
+ 00721157ae682-6e347b5133cmr9785587b3.29.1728628028537; Thu, 10 Oct 2024
+ 23:27:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] ALSA: hda/realtek: tas2781: Fix ROG ALLY X audio
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jonathan LoBue <jlobue10@gmail.com>, perex@perex.cz, tiwai@suse.com,
- shenghao-ding@ti.com, kailang@realtek.com, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- derekjohn.clark@gmail.com, luke@ljones.dev, benato.denis96@gmail.com,
- Kyle Gospodnetich <me@kylegospodneti.ch>,
- Jan Drogehoff <sentrycraft123@gmail.com>,
- Richard Alvarez <alvarez.richard@gmail.com>,
- Miles Montierth <cyber_dopamine@intheblackmedia.com>,
- "Chen, Robin" <robinchen@ti.com>, Antheas Kapenekakis <lkml@antheas.dev>,
- "Xu, Baojun" <baojun.xu@ti.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20240812045325.47736-1-jlobue10@gmail.com>
- <87frra2ocp.wl-tiwai@suse.de>
- <CAGwozwF7aR5UypRTe7tNFR+xOfQ=rhqkzYUgBcYH4_LvO9_zXQ@mail.gmail.com>
- <87cymedlrt.wl-tiwai@suse.de>
- <CAGwozwEyhhDspUTyUwd9fqacKwoUwJJ=ZOHpJ5UfsaBs1kcx_w@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
-Organization: Manjaro Community
-In-Reply-To: <CAGwozwEyhhDspUTyUwd9fqacKwoUwJJ=ZOHpJ5UfsaBs1kcx_w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: ORIGINATING;
-	auth=pass smtp.auth=philm@manjaro.org smtp.mailfrom=philm@manjaro.org
+References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 11 Oct 2024 08:26:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUzTyDvrAGZj0gp4QuW72LvS49VQxBT5UZP6OYXH6xtJA@mail.gmail.com>
+Message-ID: <CAMuHMdUzTyDvrAGZj0gp4QuW72LvS49VQxBT5UZP6OYXH6xtJA@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to
+ endpoint parsing
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15/8/24 19:58, Antheas Kapenekakis wrote:
-> Hi everyone,
-> I created the following Draft MR for the Ally firmware files:
-> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/272
-> 
-> Please comment on it at your leisure. I will remove the Draft status once
-> all the sign-off members verify it for correctness.
-> 
-> @Shenghao: can you restate publicly the license of the firmware files and if
-> there are no issues, sign-off on the MR?
-> 
-> Best,
-> Antheas
+Hi Prabhakar,
 
-The firmware is now finally merged upstream: 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/317/diffs
+On Thu, Oct 10, 2024 at 4:15=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail.c=
+om> wrote:
+> I was intending to rename the sh folder to renesas, do you think that sho=
+uld be OK?
 
-For now a symlink was added to make the current driver implementation by 
-Jonathan work: 
-https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/318/diffs
+That's up to Morimoto-san and the other sound maintainers.
 
-Jim and Robin from TI will adjust the tas2781_hda_i2c driver to load the 
-correct firmware per speaker vendor so the different optimized 
-protection parameters are given.
+>  sound/soc/sh/rcar/core.c | 7 +++++--
 
-For example the following can be used to readout the GUID for 
-calibration data in UEFI BIOS:
+Gr{oetje,eeting}s,
 
-status = efi.get_variable(efi_name, &efi_guid, &attr, &total_sz, data);
+                        Geert
 
-Example source:
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-find /sys/firmware/efi/efivars/ -name *-1f52* -print -exec hexdump -C {} \;
-/sys/firmware/efi/efivars/CALI_DATA-1f52d2a1-bb3a-457d-bc09-43a3f4310a92
-00000000  07 00 00 00 dd f5 15 41  4d ab bb 0f f4 11 bd 31 
-|.......AM......1|
-00000010  bf 5e 97 00 00 00 00 24  2f 8d 10 3e 77 b9 7f 10 
-|.^.....$/..>w...|
-00000020  f3 07 6e 2f b3 d0 93 00  00 00 00 24 00 00 00 00 
-|..n/.......$....|
-00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 
-|................|
-*
-00000050  00 00 00 00 f2 e1 73 66  8e 08 d9 2b 00 00 00 01 
-|......sf...+....|
-00000060  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 
-|................|
-*
-00000080  00 00 00 00                                       |....|
-00000084
-
--- 
-Best, Philip
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
