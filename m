@@ -1,46 +1,46 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01FAF1E9066;
-	Fri, 11 Oct 2024 00:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0601E4106;
+	Fri, 11 Oct 2024 00:07:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728605272; cv=none; b=avWgo57/sQCfou9THCTQJZVjCFpVDPUdTgOZRpaQ+VwZKevc09lp2qpoAYfiP6e9NE7A61Vza/8QJSUBh/CNjGtOrpr5udqft5opCSP59Mht6p+uVUPtVfjb6cCFPHOckvPi3O5TJcgduRlaxcN1tA/74iN3CBrEOpYniOZvQOY=
+	t=1728605272; cv=none; b=EijZlPKfoNqbT8rOslR90KtRR4h+YRkEwu2HQ5151799PbWrYGDdnm3cngtk4rTeHRRVzhlTU6LLt5w3HAEGBHdIFSiymxEa9aXdg2QqD3Kn29IBBVWwuGDHYOn/T5N8iG8CMXggfJ+jDtnqyAYEwI4jDLjDCMfQKwRXHVbCdlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1728605272; c=relaxed/simple;
-	bh=FR9PmxE0JAUHAbSo/6eRx3/E2dbLe7y5jqh5CAoVB8E=;
+	bh=2TQXo2YMYhg/mBJxKuqafaOEZef1g+SCKODQN1pqdkU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FC2vCHjoBei432KLc/rkSyPTmqpELWXc4YUjuJazKNbki8Og7hurNSfYOVu2rnYhgSew3YdINfTz0jhyc615oubw23ROUs+zUKyhSiSxQHrq3ixaXW9TDBoRTmtoaVgJ9DJpKnSMVWR+IMmrzbKkFsC+Rx/dRH/Py6lNaej8T7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=nNpJkX3K; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=I9iYv3nqXVUEVJ5vAj5TLIIuawCesqZr0kPl2Nn+LIQEQNffp8EJD+qLWkcndTjBEgw4cGI3xZdeAqgi4fE58g6EuJtzc8DK/m3E0gNDuJ511LrncQibrndvcsYTEXxvgSgT640ooc3AKNAuhlFX5GIEzeF1cA4R2hCMZTzVCi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=OiJqUPzQ; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="nNpJkX3K"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AHZwcp024155;
-	Fri, 11 Oct 2024 00:07:21 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="OiJqUPzQ"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49AEeILK006976;
+	Fri, 11 Oct 2024 00:07:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jTuiy++G5lj8Z8ZK0GNyWB7rsUZGqX20ze7CZlBIUn0=; b=nNpJkX3KZw7wOIuW
-	UQ5vyXUy0ALTjndOXrinSy5jpqGeG0S6WwUr4cl7F6l/b6TkJ9IOTPuAnllOVvL5
-	hBABrwcOhYnzqY4FCDKF7K3FNinj2m0q8kY5vnOD9j1SjYrIp9J3lSMNVZBjYYPO
-	bne07Q2DVlZ3rUr1AAT1XmCktHgxrX7FZFt5rWDgXrAgNJzcAoFIu6/bI6/mjG1Z
-	L9vRWEMBVzxIhh+SgslvgCgxoGIebrBoxVtZOHwwIXUILOUYSULnvXPJdwdtlA2b
-	PaUk3TYtugxrUqxdvrU8km6tZabNu1zNMWQBoLGr6fcGaLqyNvWr+VwAe/WpLi1W
-	RpcUJQ==
+	/ZM8SPXr7udKkYr/SDUmnoP1IOgbHf5SfkdSPWJ27XA=; b=OiJqUPzQ+iax4MhJ
+	AH/v/M0ikxiH7Bmx1BoedAG8dpCCCQFQSsRj3mvcElH+DyxphOuQWRforVxSV1VO
+	PpeZlo0/srppjTjuNQJHuJP5rhfBG6ebBs/ziSSb/0mO/Sb6KGT3MZbaIPIpPxmT
+	lN1hG/my0TlqRsze5Y4rusxD3WbfsuP0PVCHG+WJt3Jilf22k4B/qnZPzgHpk2O1
+	6G0tqAHIHPQCBtMSwf3F8Nb7xr9nonXe5kTSV+Zmgs8eLi3Zi2tuRGjwN8Z8P0eT
+	Fzwaor2WSFuIcGzInt9Y6UPDV1o1sYUerbdng9eqIELHxafrtIKmc3HoOUW31x/j
+	xVIAfQ==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426adhjdp4-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 426gw2h8ae-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 00:07:21 +0000 (GMT)
+	Fri, 11 Oct 2024 00:07:15 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B07JcK016438
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49B07DLa016379
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 00:07:19 GMT
+	Fri, 11 Oct 2024 00:07:13 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 10 Oct 2024 17:07:19 -0700
+ 15.2.1544.9; Thu, 10 Oct 2024 17:07:13 -0700
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
@@ -54,10 +54,12 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
         Wesley Cheng
-	<quic_wcheng@quicinc.com>
-Subject: [PATCH v28 30/33] ALSA: usb-audio: qcom: Don't allow USB offload path if PCM device is in use
-Date: Thu, 10 Oct 2024 17:06:45 -0700
-Message-ID: <20241011000650.2585600-61-quic_wcheng@quicinc.com>
+	<quic_wcheng@quicinc.com>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v28 20/33] ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
+Date: Thu, 10 Oct 2024 17:06:24 -0700
+Message-ID: <20241011000650.2585600-40-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
 References: <20241011000650.2585600-1-quic_wcheng@quicinc.com>
@@ -73,70 +75,36 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: mZAskHYthJiF2EBZhR-hkplCFCBxEZHZ
-X-Proofpoint-ORIG-GUID: mZAskHYthJiF2EBZhR-hkplCFCBxEZHZ
+X-Proofpoint-GUID: BsR_kfq3cD8zjvJ3Pt6ZycPGVowQEV4I
+X-Proofpoint-ORIG-GUID: BsR_kfq3cD8zjvJ3Pt6ZycPGVowQEV4I
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 mlxscore=0 impostorscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410100159
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ mlxlogscore=957 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 phishscore=0 priorityscore=1501 clxscore=1015
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410100159
 
-Add proper checks and updates to the USB substream once receiving a USB QMI
-stream enable request.  If the substream is already in use from the non
-offload path, reject the stream enable request.  In addition, update the
-USB substream opened parameter when enabling the offload path, so the
-non offload path can be blocked.
+Q6DSP supports handling of USB playback audio data if USB audio offloading
+is enabled.  Add a new definition for the USB_RX AFE port, which is
+referenced when the AFE port is started.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index ca5be81a7fbd..8515a7d32c99 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1479,12 +1479,17 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		goto response;
- 	}
+diff --git a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+index 39f203256c4f..6d1ce7f5da51 100644
+--- a/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
++++ b/include/dt-bindings/sound/qcom,q6dsp-lpass-ports.h
+@@ -139,6 +139,7 @@
+ #define DISPLAY_PORT_RX_5	133
+ #define DISPLAY_PORT_RX_6	134
+ #define DISPLAY_PORT_RX_7	135
++#define USB_RX			136
  
-+	mutex_lock(&chip->mutex);
- 	if (req_msg->enable) {
--		if (info_idx < 0 || chip->system_suspend) {
-+		if (info_idx < 0 || chip->system_suspend || subs->opened) {
- 			ret = -EBUSY;
-+			mutex_unlock(&chip->mutex);
-+
- 			goto response;
- 		}
-+		subs->opened = 1;
- 	}
-+	mutex_unlock(&chip->mutex);
- 
- 	if (req_msg->service_interval_valid) {
- 		ret = get_data_interval_from_si(subs,
-@@ -1506,6 +1511,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		if (!ret)
- 			ret = prepare_qmi_response(subs, req_msg, &resp,
- 						   info_idx);
-+		if (ret < 0) {
-+			mutex_lock(&chip->mutex);
-+			subs->opened = 0;
-+			mutex_unlock(&chip->mutex);
-+		}
- 	} else {
- 		info = &uadev[pcm_card_num].info[info_idx];
- 		if (info->data_ep_pipe) {
-@@ -1535,6 +1545,9 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 		}
- 
- 		disable_audio_stream(subs);
-+		mutex_lock(&chip->mutex);
-+		subs->opened = 0;
-+		mutex_unlock(&chip->mutex);
- 	}
- 
- response:
+ #define LPASS_CLK_ID_PRI_MI2S_IBIT	1
+ #define LPASS_CLK_ID_PRI_MI2S_EBIT	2
