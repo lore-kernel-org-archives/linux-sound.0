@@ -1,86 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B3120C46C;
-	Fri, 11 Oct 2024 09:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8589520C47F;
+	Fri, 11 Oct 2024 09:13:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728637913; cv=none; b=nEshrVGdPTCuKpP+YB000+YWCI8OVZHoh63VgmYAbBVi7DDUrraghbL+es28DR5AyRevjbmjOzzSMuaflQIOdcDuYRIsbrq3z8EUEG3raVhpt1QHH3DsXs4bjpyQMoOWSpLgxLPVL1FgkP60jkuMxBtqZg1J9xBZeMVXo+nUw+o=
+	t=1728638007; cv=none; b=BVpkt/e/QBAvlnSWfx2/iWtdEM5vSkgXi+jsAbnV6eoiQlUj+PIogeGgvBEP/uMbtmxGeA75YUft9FmU/R/VKULRR5pUDFG5PEYVO1AuaVqJNV4K72Ln3Jg0FHE0io8F+XTOCoTPY4cL6WuSIv9OcPfg3Jc4YRHnQpXckFm4hok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728637913; c=relaxed/simple;
-	bh=3uOl5msXhMcnmG4tD4a7j6kHeBRrApQCa2hdgtzfr/g=;
+	s=arc-20240116; t=1728638007; c=relaxed/simple;
+	bh=I0zPs4tdC3JVFAT1NNhbRPgYh1D19zKmb9vE6Hb3gJw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BM1prP55aA4oEqA0Rte2peLcO4AuD1KdHtDlMvD6oTCOKTmiIxwNAs5SoTHiQtLNK+AHnwLEKeQQwgPt9G9g+CLoCHjKyRkThwH7+FGTs7jpE/ypCQQGvQjGX/aoY1EDnnyASxYBsDXzJ+rl7jHb1+UU0PHrKkNY61LRcfT6QXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C33ErDdy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1gVAczZk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xvk+rtk0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aRu3PTSo; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=d89NuPdJkQoAgsPc2eD7/0TzrPZ0gYc0+oPQGRQOC8G1dh1gNKpxlHUjoAGQ6tkWS+YTX3+qsLjSqTk+gev5tkfLi6GClp/bX0KSCm7o8kwm6QvL0hI07jq2vdv1GtiM2pSpFw+e5CSaovaXMG+MRVhnXp4+2wV0/Z9DREITCnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0ZgGEb+Y; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LwNn/VY5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ngy1J+yb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WM6/2M1N; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C33ErDdy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1gVAczZk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xvk+rtk0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aRu3PTSo"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0ZgGEb+Y";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LwNn/VY5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ngy1J+yb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WM6/2M1N"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id EFC91219C5;
-	Fri, 11 Oct 2024 09:11:49 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1EACC1F811;
+	Fri, 11 Oct 2024 09:13:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728637910; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1728638003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xuZTgWdFD/hq8KR11XFrFgYR7ZkWzK+2bSpdRlLNDB4=;
-	b=C33ErDdyZbbbrhnhdFu0f7eb8QvNS+S9jrUImLemWh0zh0jPMxUqXoFG4bJ2fj9q4w2kMu
-	ewif9IzMzvQm6VhCYxvUEq56J0z9HsZcix2kQElcBZ+LxYaMCDfBP2Zw1SnSAJ/y2IAK1r
-	YOICfhHMWDA/0ckGj6TEMCXu2h5aeME=
+	bh=mM41zVvInbeLJExnZbxsbwWFDARvVW/YdPw96Mjt1pw=;
+	b=0ZgGEb+Y1PJ8kmiOhwxKUz1mVh25Nj0GyiN7GPBfiBWXl8KOAO7VAq1mFkpQ1qUbSNV1N1
+	iSjP+bJWSPhSMqBZNO/MANbcyWKsciSZdRMT6/walxnImYIbDCdxcKGObLhABxAq4EvWRt
+	InbFX2qBZO5XoiWCwOgcfD8x4sd6z7c=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728637910;
+	s=susede2_ed25519; t=1728638003;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xuZTgWdFD/hq8KR11XFrFgYR7ZkWzK+2bSpdRlLNDB4=;
-	b=1gVAczZkEGUHbYW86l5zb2Qna6WCI+Vw6rBhNEFv3W8AqWC1dJ6QI4MGIaUMwmIep64t2g
-	9DSmGHzQLxqrZDDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xvk+rtk0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=aRu3PTSo
+	bh=mM41zVvInbeLJExnZbxsbwWFDARvVW/YdPw96Mjt1pw=;
+	b=LwNn/VY5Yemw4BjtbLwqGHODAhMcCs/WqHItAuciGysh/662UDcW6wvHFuEw/jtyhVW4yU
+	QiegFMtW8mvHtuCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ngy1J+yb;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="WM6/2M1N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728637909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1728638002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xuZTgWdFD/hq8KR11XFrFgYR7ZkWzK+2bSpdRlLNDB4=;
-	b=Xvk+rtk0sJ9Rmw79SHnRifqwxFQYjGPonhj9nuESNkrdYmGhd6Lh/YgfjrJig5vFfez0S8
-	Ed5/qKV1MEE2+FQup+GCDByPCDNP49JL2BghrOa4GmE8BCZH8/bdbla35V5e5uFn8VZIE6
-	q+mqi1HVY343ksbnYH/hVJ3fDXaCIvM=
+	bh=mM41zVvInbeLJExnZbxsbwWFDARvVW/YdPw96Mjt1pw=;
+	b=Ngy1J+ybeJtccoGItFV9lgBm3V+oC/oY8326qgqCSli7L4yo7+P2fYowK9hE0dUsSh7Cu4
+	1As1AJIxMnnnr7XO9wk8naZlBnQn8M+Wwi/6hBifQ4OIIdl9MZdpDaAwVrNl73DTIWIVc1
+	BzClw5nqW/VWFHRLZvayaunvTnMhbUQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728637909;
+	s=susede2_ed25519; t=1728638002;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xuZTgWdFD/hq8KR11XFrFgYR7ZkWzK+2bSpdRlLNDB4=;
-	b=aRu3PTSoGpEx6/aKAF7AGNL+FB8YBBJI+TDZliRCP4yncs3Mqecww/EdolAPqL8996ED4s
-	OBQHvQp61+CRPXBQ==
+	bh=mM41zVvInbeLJExnZbxsbwWFDARvVW/YdPw96Mjt1pw=;
+	b=WM6/2M1NoKBtyBOLilqOrXqHdwfj3E7OL6MeIz8L9rSNGxyjQG8wiG+ItiJUWQLAoTWBoF
+	G/t/f4a7s9IfBjBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C5588136E0;
-	Fri, 11 Oct 2024 09:11:49 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DD1B9136E0;
+	Fri, 11 Oct 2024 09:13:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LSLgLtXrCGd4KQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 11 Oct 2024 09:11:49 +0000
-Date: Fri, 11 Oct 2024 11:12:46 +0200
-Message-ID: <87o73rm29d.wl-tiwai@suse.de>
+	id XXWzNDHsCGfhKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Oct 2024 09:13:21 +0000
+Date: Fri, 11 Oct 2024 11:14:18 +0200
+Message-ID: <87msjbm26t.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: linux@treblig.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: core: Remove unused copy_from_user_toio
-In-Reply-To: <20241010205340.278133-1-linux@treblig.org>
-References: <20241010205340.278133-1-linux@treblig.org>
+To: Murad Masimov <m.masimov@maxima.ru>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vitaly
+ Rodionov <vitalyr@opensource.cirrus.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: Re: [PATCH] ALSA: hda/cs8409: Fix possible NULL dereference
+In-Reply-To: <20241010221649.1305-1-m.masimov@maxima.ru>
+References: <20241010221649.1305-1-m.masimov@maxima.ru>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,10 +92,10 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: EFC91219C5
+X-Rspamd-Queue-Id: 1EACC1F811
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -104,16 +107,16 @@ X-Spamd-Result: default: False [-3.51 / 50.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
 	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtesting.org:url,maxima.ru:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
@@ -121,74 +124,21 @@ X-Rspamd-Action: no action
 X-Spam-Score: -3.51
 X-Spam-Flag: NO
 
-On Thu, 10 Oct 2024 22:53:40 +0200,
-linux@treblig.org wrote:
+On Fri, 11 Oct 2024 00:16:45 +0200,
+Murad Masimov wrote:
 > 
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> If snd_hda_gen_add_kctl fails to allocate memory and returns NULL, then
+> NULL pointer dereference will occur in the next line.
 > 
-> copy_from_user_toio() has been unused since commit
-> ce2d8ed8d809 ("ASoC: qcom: Convert to generic PCM copy ops")
+> Since dolphin_fixups function is a hda_fixup function which is not supposed
+> to return any errors, add simple check before dereference, ignore the fail.
 > 
-> Remove it.
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 20e507724113 ("ALSA: hda/cs8409: Add support for dolphin")
+> Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
 
-It's a pair of copy_to_*(), so if any, it should be dropped only after
-both users are gone.
+Thanks, applied.
 
-
-thanks,
 
 Takashi
-
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  include/sound/core.h |  1 -
->  sound/core/memory.c  | 20 --------------------
->  2 files changed, 21 deletions(-)
-> 
-> diff --git a/include/sound/core.h b/include/sound/core.h
-> index 1f3f5dccd736..b5a6f3d2bff5 100644
-> --- a/include/sound/core.h
-> +++ b/include/sound/core.h
-> @@ -267,7 +267,6 @@ static inline int snd_minor_info_oss_init(void) { return 0; }
->  /* memory.c */
->  
->  int copy_to_user_fromio(void __user *dst, const volatile void __iomem *src, size_t count);
-> -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count);
->  
->  /* init.c */
->  
-> diff --git a/sound/core/memory.c b/sound/core/memory.c
-> index 2d2d0094c897..8222a851da87 100644
-> --- a/sound/core/memory.c
-> +++ b/sound/core/memory.c
-> @@ -63,26 +63,6 @@ int copy_to_iter_fromio(struct iov_iter *dst, const void __iomem *src,
->  }
->  EXPORT_SYMBOL(copy_to_iter_fromio);
->  
-> -/**
-> - * copy_from_user_toio - copy data from user-space to mmio-space
-> - * @dst: the destination pointer on mmio-space
-> - * @src: the source pointer on user-space
-> - * @count: the data size to copy in bytes
-> - *
-> - * Copies the data from user-space to mmio-space.
-> - *
-> - * Return: Zero if successful, or non-zero on failure.
-> - */
-> -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count)
-> -{
-> -	struct iov_iter iter;
-> -
-> -	if (import_ubuf(ITER_SOURCE, (void __user *)src, count, &iter))
-> -		return -EFAULT;
-> -	return copy_from_iter_toio((void __iomem *)dst, &iter, count);
-> -}
-> -EXPORT_SYMBOL(copy_from_user_toio);
-> -
->  /**
->   * copy_from_iter_toio - copy data from iov_iter to mmio-space
->   * @dst: the destination pointer on mmio-space
-> -- 
-> 2.47.0
-> 
