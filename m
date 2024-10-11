@@ -1,95 +1,84 @@
-Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA1721733D;
-	Fri, 11 Oct 2024 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA3928684;
+	Fri, 11 Oct 2024 15:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728655053; cv=none; b=B7CVpkq+BKIv2nt6ixTpvOT4etvJE+VThkNZYgZKSwZPBzu6TbjV8mH++tWCPr87IcjcHS9gvMuM3LXxMamIdaN4yC9AI/tL2ncFvbURL7pqZ+v4Ks2HvwOxby5kkPY2xfNBbW/syFwe2nQUu/Tk6gRH6EBrAEWx+KvzedzQ/1g=
+	t=1728660193; cv=none; b=Dgn3xY5TiTlTGwkC/5quehwnFDanEZZw8YzvSIrQBzU0dO8fUSRA6o0qbeITkvT3/hUgmPD+b9XTuS0knE8zjox9aFt/natdRfXsX74EmhJprw0kJyAi9vgRLUjs1/VHFWK955GwNpaZ8COW6aZka6M0vihe0Xd9w/6XVz9hXBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728655053; c=relaxed/simple;
-	bh=T0zQjBp46UcxDnphzem5DLUIPuArGm7W5N4Z5e4L37E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tn2WdBmhSx6bidmpbVno9PUdcOn3xCgkAe5aBU619EFHOf899y04pAW7uAPc0x9Uardb6J+7rl7p3WWaIwOhEPK6MKMtE1uJB33amPKYuidnlAEW4pXiPIlw20ZyQ3GmGVmGn4l6jBib38RyL4mGi48dx1bmagA8V3ms2YkEQOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqmnQ9kA; arc=none smtp.client-ip=209.85.221.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728660193; c=relaxed/simple;
+	bh=5abdJcObkDYdDf1K/z6kROdkKSUOOC7rXUKVxc1vus4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MIan0KImpuVnnBc9XqGzxso/b/74gafxLkqRPlYigGBHsil8N5VO1ZUj+6bs8hpVLPr4jQ4rdb2I9cu0TTSvF2NDLnGA4bR6a2aVozI/jlh1/TjG5mabmfvjKUQboKFBqA/AiirM4eS5pYbxBwgJPfT6pz9fhXYZbZGiywSP+kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko2m0s3i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqmnQ9kA"
-Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-50abb0c511cso603600e0c.0;
-        Fri, 11 Oct 2024 06:57:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728655051; x=1729259851; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T0zQjBp46UcxDnphzem5DLUIPuArGm7W5N4Z5e4L37E=;
-        b=lqmnQ9kAaAUzM9lbBgoxynoCiSMqy/sVy5yDhZQupWEPntznaAkugF1TwAnCNfWBsf
-         v7sd/zWtBsVk0jwkdoJVIlkBBrPY8BeUHm21yyzCyFUJk/d+3p7T0w3vm49wINX1ihOB
-         uERXLZuoRniAO47JlSxFNATyTHYwqCes8aZP3FbQDgfzdV+kV39eM52qsL1zxJtLIeZO
-         QGnpo6MMSWq/YpGgWRVXdCbNSIwcyHDC1xPGLOoNiS4Dr+ycIA8EMtCXxg7ee2Yk/F1j
-         5tYI/jl96bYfqRXuU1rhh+rSTdG1o1Q5Ohkhy9VhyR9OoIC09Ezf1NRI9XamackXZUSc
-         ubDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728655051; x=1729259851;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T0zQjBp46UcxDnphzem5DLUIPuArGm7W5N4Z5e4L37E=;
-        b=VfGww+zHpCnGV19DRJPjSTpYJ6Eb9fV+9U3smOr82Env/AKyOXwIWKlltwlZyj/TsN
-         qCrOakrHYhELDCchSgo/ykswld1xYEUFeX/Z9S1UFTNhUmjjp2tNjHorDFa0JaAH181f
-         jt9tZX1fvhRFj1AO5/ZyXNcA3S1tNg4teEf4s7PDy6K++Xv4Hb1DVRq8xv99egO98Sk6
-         hgPJLfHMabsYIg1xbXyXUBEXKX/lf0hAyqpX+W/atJNXupC/yGzCu9Hv930wRkk2is4I
-         6p5Wl/k3auqR/jmRoX83mShl/RlLYzsRT/8dyDMmG6xbYyRVrHIOLjR569qWhQ2kAeGY
-         h9fw==
-X-Forwarded-Encrypted: i=1; AJvYcCV279I89W1tYmuLQNCel2D4rmzy8cnlt1dxGxjr9PBpIduqLmVn9POFrRKMb/+BA6ID6Spi0FHiLbcvjr93xdfssuM=@vger.kernel.org, AJvYcCW4Z3M+ZU5BK9KkSENPnCdL85BRLedbklxDbr/bW6Eb6DmoNaN9qQKiInVAyZSHw5m02WSssewJawUMqvo=@vger.kernel.org, AJvYcCWNrnb1oVFlRrtJLKbdT5S/nAVR/3eNaPPQvjN0Qai0eOPLmDB7jFmn44tlNu1/9NoFrG5I0yRsqmkAETo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzA0w7tpJZ3P4YkpvPiEK6cE+g44xIOnXGm+O8DrlLPIt3Rkow7
-	DUn4sz1Qc27nyaKP9d4HkRvxjwh6z6CbPKHqPPS7sed3lhBu2Vfg7vY9WH5kXEyfQsJf+gKdAMn
-	T9Tkk2FRtoYdoojuNz35jArEXy80=
-X-Google-Smtp-Source: AGHT+IG5Wj4p2skqh9DuuVskUSc2KO+ylzANDq/NzLbK3ud/R8vSUM8A5FKcg14FKv4ua+/t8XlRbnV/wR27rG9omqg=
-X-Received: by 2002:a05:6122:3b02:b0:50b:c245:a040 with SMTP id
- 71dfb90a1353d-50d1f4d8ff7mr1387126e0c.7.1728655051129; Fri, 11 Oct 2024
- 06:57:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko2m0s3i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84F5DC4CEC3;
+	Fri, 11 Oct 2024 15:23:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728660193;
+	bh=5abdJcObkDYdDf1K/z6kROdkKSUOOC7rXUKVxc1vus4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Ko2m0s3ibgGUNKGBHO8670XxIQ+g2knJ65EwMK0XSAo3+QHd05iWVR8n0U1PuTvgC
+	 MXiqHg+i7EZYn+l/Yo31EwvsGvWgJmoFfKYgr1IP2hwp8W1NYwod3ykmbn+KbgWjDy
+	 bfQ1WUqAVomEQ+ehH7i4l+o4MXXQJhHvNBIiapw182AXXf7H3krY4zMmysKumVFE6w
+	 QptUClE+/WMQ3X+Mbmv94WLE4CbFRgZT9Wkw3o30I43CxXS7VBa4xat3oALmmsGVw4
+	 cFFzBFmp0ii8W3RTCkzdST/oNuCulDt7Qrib6DQqFJ7XD35U2UqJ34zbgUw+WB1XKd
+	 13sM6pABmPoyA==
+From: Mark Brown <broonie@kernel.org>
+To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, "Everest K.C." <everestkc@everestkc.com.np>
+Cc: skhan@linuxfoundation.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241010175755.5278-1-everestkc@everestkc.com.np>
+References: <20241010175755.5278-1-everestkc@everestkc.com.np>
+Subject: Re: [PATCH V2][next] ASoC: rt722-sdca: Remove logically deadcode
+ in rt722-sdca.c
+Message-Id: <172866019117.3915434.7963769393055061429.b4-ty@kernel.org>
+Date: Fri, 11 Oct 2024 16:23:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241011131040.1059130-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <ZwksHY1OWGPhYm0Y@finisterre.sirena.org.uk>
-In-Reply-To: <ZwksHY1OWGPhYm0Y@finisterre.sirena.org.uk>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 11 Oct 2024 14:57:04 +0100
-Message-ID: <CA+V-a8uj7ND7JLS_GLVrwMGxfsMKPr0KHpKuLbpPg8_x1iXouQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ASoC: rsnd: Fix probe failure on HiHope boards due to
- endpoint parsing
-To: Mark Brown <broonie@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Hi Mark,
+On Thu, 10 Oct 2024 11:57:54 -0600, Everest K.C. wrote:
+> As the same condition was checked in inner and outer if statements.
+> The code never reaches the inner else statement.
+> Fix this by removing the logically dead inner else statement.
+> 
+> 
 
-On Fri, Oct 11, 2024 at 2:46=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Fri, Oct 11, 2024 at 02:10:40PM +0100, Prabhakar wrote:
->
-> > v1->v2
-> > - Added a helper function rsnd_pick_endpoint_node_for_ports()
-> > - Updated commit message
-> > - Dropped ACK from Morimoto-san
->
-> v1 was already applied, can you please send an incremental patch
-> instead?
+Applied to
 
-Sure, I will do that.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Cheers,
-Prabhakar
+Thanks!
+
+[1/1] ASoC: rt722-sdca: Remove logically deadcode in rt722-sdca.c
+      commit: 22206e569fb54bf9c95db9a0138a7485ba9e13bc
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
