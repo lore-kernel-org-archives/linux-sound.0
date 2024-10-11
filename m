@@ -1,77 +1,118 @@
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [116.203.91.91])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6981E19413B;
-	Fri, 11 Oct 2024 05:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634EA8F58;
+	Fri, 11 Oct 2024 05:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.91.91
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728623850; cv=none; b=IWoNQioi4OULM923acVvfJG18/JHlIJcwhLh2tPLR2i7kRz8nqSnC1BZ6ghtlPR+lNjV0dcX2yCkjkSJfDWYhtKqorCqLYNQnBvrWxY1cn8f7cLo3pTz+vEFC+iQKEj3DxMCLG9W+owEgS1CZeyRLuNJ1iXusqfR6L5V3sfS8t8=
+	t=1728624032; cv=none; b=fx98pSbntEzRxENf2QcaErfKpCwQBpR6oSt0Cvts6z078Yc6a4OxnnCKTBXsuLvC8AwTOY1r0PNW3lB3O6leTqt9aiHENTYycvHlaeIVb5wSCJzgWEBA9Ah3qY9YSa1XKQdxRmiVzoNJkpHrz9Ywbz9631N8PNjSKZha/ALtHr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728623850; c=relaxed/simple;
-	bh=qTzf7BfUQFe7T6qpwHsV9UbqX69iY36RIVzw3ppdLzo=;
-	h=From:To:Subject:Date:Message-Id; b=kh8Mi7GKqmHR6INPHqcpwgeNR/DPb5re8ENyoQ/D0aVPeb3YX8ljW0dTeb9vOeC8bJ/WckGeKGCFv52qWlu8Ox0m5j0zBzyLkJIL49GoO7jZ0NG5OcizT37HNVYSSJyfiZgnHZ9T0+bAg2H8i/W+d/pm3o3hB0u1+UbRVn1OVs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BA0621A18CD;
-	Fri, 11 Oct 2024 07:17:17 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 802E41A18A2;
-	Fri, 11 Oct 2024 07:17:17 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id D3E9F183B720;
-	Fri, 11 Oct 2024 13:17:15 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
-Date: Fri, 11 Oct 2024 12:53:53 +0800
-Message-Id: <1728622433-2873-1-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+	s=arc-20240116; t=1728624032; c=relaxed/simple;
+	bh=s65Bz3+ieIAUqwK5ADHiCy63ZY39r7OBbLrjyxkUk4M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gN0j+TP75SX9Ua/CyYmMSKyOP8FPJ27Xn0TcdZ18I3aTYd/CJGzdYW7yZlZSQkhWp1CiE0CzfgpgYv4KbvhtEGkWE2XTlQcfqzCUl1PjhMgDssxodh8ShO3SnOOHDvOzDvbFn/ZJquqO1suh3svzECkf2X1/Fe/dTdCaJmJwvWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org; spf=pass smtp.mailfrom=manjaro.org; dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b=GHb/WN63; arc=none smtp.client-ip=116.203.91.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manjaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=manjaro.org header.i=@manjaro.org header.b="GHb/WN63"
+Message-ID: <94782cf4-5317-49fb-bd8c-8dfc4eafae74@manjaro.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manjaro.org; s=2021;
+	t=1728624024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y/llnmoIv2jFYjcnFeNjsM9lCHRTODti3ojbao7n7Sc=;
+	b=GHb/WN63nq81PzDEaMiWyiiT/1uRK+SE5qK0HiO5zEyIUa6xb/Kru1yvNAGtapeB9cfLqT
+	kPQ1e9RFxQfqkX6J2C0MyX/yG8LQ3F9/jPr9Rcr+tLE/znewRfx60kISkh8usXRjIG1TxE
+	RKqD5FlpZs8T88R1+ahxticaOgqp1GX7m8Y1bIqa9Qu70SQxy4Vw/EIW2rRarge9iiUc9U
+	+N9mu+onKzMq//w/kvVR/0bkO1NUC+qZOLNU3sWaKB+NnPo4dECqakz886nsJOccYyROkM
+	aEbDunUbGl9EJCMH5yLlDqy5bI1nKB4IZLNbvBtQ2Cql5TczzBj7WuR4IdlaDw==
+Date: Fri, 11 Oct 2024 12:20:10 +0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Subject: Re: [PATCH] ALSA: hda/realtek: tas2781: Fix ROG ALLY X audio
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jonathan LoBue <jlobue10@gmail.com>, perex@perex.cz, tiwai@suse.com,
+ shenghao-ding@ti.com, kailang@realtek.com, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ derekjohn.clark@gmail.com, luke@ljones.dev, benato.denis96@gmail.com,
+ Kyle Gospodnetich <me@kylegospodneti.ch>,
+ Jan Drogehoff <sentrycraft123@gmail.com>,
+ Richard Alvarez <alvarez.richard@gmail.com>,
+ Miles Montierth <cyber_dopamine@intheblackmedia.com>,
+ "Chen, Robin" <robinchen@ti.com>, Antheas Kapenekakis <lkml@antheas.dev>,
+ "Xu, Baojun" <baojun.xu@ti.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20240812045325.47736-1-jlobue10@gmail.com>
+ <87frra2ocp.wl-tiwai@suse.de>
+ <CAGwozwF7aR5UypRTe7tNFR+xOfQ=rhqkzYUgBcYH4_LvO9_zXQ@mail.gmail.com>
+ <87cymedlrt.wl-tiwai@suse.de>
+ <CAGwozwEyhhDspUTyUwd9fqacKwoUwJJ=ZOHpJ5UfsaBs1kcx_w@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Philip_M=C3=BCller?= <philm@manjaro.org>
+Organization: Manjaro Community
+In-Reply-To: <CAGwozwEyhhDspUTyUwd9fqacKwoUwJJ=ZOHpJ5UfsaBs1kcx_w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Authentication-Results: ORIGINATING;
+	auth=pass smtp.auth=philm@manjaro.org smtp.mailfrom=philm@manjaro.org
 
-Irq handler need to be executed as fast as possible, so
-the log in irq handler is better to use dev_dbg which needs
-to be enabled when debugging.
+On 15/8/24 19:58, Antheas Kapenekakis wrote:
+> Hi everyone,
+> I created the following Draft MR for the Ally firmware files:
+> https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/272
+> 
+> Please comment on it at your leisure. I will remove the Draft status once
+> all the sign-off members verify it for correctness.
+> 
+> @Shenghao: can you restate publicly the license of the firmware files and if
+> there are no issues, sign-off on the MR?
+> 
+> Best,
+> Antheas
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_esai.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The firmware is now finally merged upstream: 
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/317/diffs
 
-diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
-index a65f5b9935a2..0b247f16a163 100644
---- a/sound/soc/fsl/fsl_esai.c
-+++ b/sound/soc/fsl/fsl_esai.c
-@@ -119,10 +119,10 @@ static irqreturn_t esai_isr(int irq, void *devid)
- 		dev_dbg(&pdev->dev, "isr: Transmission Initialized\n");
- 
- 	if (esr & ESAI_ESR_RFF_MASK)
--		dev_warn(&pdev->dev, "isr: Receiving overrun\n");
-+		dev_dbg(&pdev->dev, "isr: Receiving overrun\n");
- 
- 	if (esr & ESAI_ESR_TFE_MASK)
--		dev_warn(&pdev->dev, "isr: Transmission underrun\n");
-+		dev_dbg(&pdev->dev, "isr: Transmission underrun\n");
- 
- 	if (esr & ESAI_ESR_TLS_MASK)
- 		dev_dbg(&pdev->dev, "isr: Just transmitted the last slot\n");
+For now a symlink was added to make the current driver implementation by 
+Jonathan work: 
+https://gitlab.com/kernel-firmware/linux-firmware/-/merge_requests/318/diffs
+
+Jim and Robin from TI will adjust the tas2781_hda_i2c driver to load the 
+correct firmware per speaker vendor so the different optimized 
+protection parameters are given.
+
+For example the following can be used to readout the GUID for 
+calibration data in UEFI BIOS:
+
+status = efi.get_variable(efi_name, &efi_guid, &attr, &total_sz, data);
+
+Example source:
+
+find /sys/firmware/efi/efivars/ -name *-1f52* -print -exec hexdump -C {} \;
+/sys/firmware/efi/efivars/CALI_DATA-1f52d2a1-bb3a-457d-bc09-43a3f4310a92
+00000000  07 00 00 00 dd f5 15 41  4d ab bb 0f f4 11 bd 31 
+|.......AM......1|
+00000010  bf 5e 97 00 00 00 00 24  2f 8d 10 3e 77 b9 7f 10 
+|.^.....$/..>w...|
+00000020  f3 07 6e 2f b3 d0 93 00  00 00 00 24 00 00 00 00 
+|..n/.......$....|
+00000030  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 
+|................|
+*
+00000050  00 00 00 00 f2 e1 73 66  8e 08 d9 2b 00 00 00 01 
+|......sf...+....|
+00000060  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00 
+|................|
+*
+00000080  00 00 00 00                                       |....|
+00000084
+
 -- 
-2.34.1
-
+Best, Philip
