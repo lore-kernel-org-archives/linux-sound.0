@@ -1,84 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AE2194AEC;
-	Fri, 11 Oct 2024 15:23:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470F3195FEA
+	for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 15:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728660196; cv=none; b=VOcztYll3jOaFbLRGKWSYesCeQWanWLyVg0E1myQuw9tOzS1rJrXdZBnOxwVCQb9tR2kowuWZZ/3qNCY8+/DYXt9yXHfkLfBHR1uVuLx+0pbKXr+CKNb2iyp39z4BXiloa6SGeCaPWFAE3Z9rIR2SQf7O643uu17gMwUt/68/WQ=
+	t=1728660768; cv=none; b=RasHG9rEJyTvvtSnUS1+a7v5FBuFI1pmAGQjHsqYgsDsu4tAkjBET0lXsUM1gj55d3Ss3Qclv4XQWROR9PU1gMF0CVwhMKif2qa6jTbcF18PZ355XScjJUBPBdqsb1abnoKGzYw6DK70gBgGC0DcwQ9Cly1oFAL3jywLCvbdFGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728660196; c=relaxed/simple;
-	bh=VxMYsiMGxFdOggv+A2yXHzsko1My1hLKFoG5O1Jw8Pw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=bjhj0AbMNsu0zb2S+nIWv3Ap5Hby9w+flrHDvVZu1g0bteJt32eXJFnND3weELMNZ6i514slZvppKQnsy9Wi8G+BfPXFUGsZ6Izct2snciKFqsB02BKyX0uZqUZexT/XKSIjXTejb4Sy7ieSSejE9OkkqDV1IApVdiXok0O1IOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=inwKbYms; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728660768; c=relaxed/simple;
+	bh=bRJ4Y1/jdFojuUij4IeYNNekIWbJ2nzLiEuafUuGJn8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=cKp7VIMfbtOW7+2LsPwJB/xwIIf/nlt8AGGmECXa4zKe1kBYWxagVxRpOehZ9FjaKo7gnYlqeUpDS8Vtr720VQsYy5iIE4LSUBgceWTQBXQcLNSPiNFndOumQeVbMZz1QUqTWanpBvIp5CgmfPlJch/gD6qhZPm4Z+UrBaXXKH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G7vfvnhP; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="inwKbYms"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D08C4CEC3;
-	Fri, 11 Oct 2024 15:23:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728660196;
-	bh=VxMYsiMGxFdOggv+A2yXHzsko1My1hLKFoG5O1Jw8Pw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=inwKbYmse/jNerPh8/BxmbXBw54gwkLiN0CX2N3bInMxFomMNQlAz/kcymjXilMgn
-	 2kyXa6AbyvtEINqUV2L0FdRbJ/mLNLVoIsuaYaGrD+BxlDXYSZPH613MsFXpq6tWK1
-	 um4w7+atyc2auMd1imP4yCzWYVhHIQu+VHV7AU6BBl3p53p3TN5/z3RZ1swfI1cCmV
-	 IiCzFbhayPQCdJX79ItcbMXeR5lOkWR7ZnImJi568bfdquZJJepmNbGBy/tFvAf8xw
-	 6ybUE/Diry/rJbWaGG2q5UR3nkdiv7Aqn50QfAF9sJY7FQ5t/mmac4rfT9qUF4Gti1
-	 wBloIPz5T3O5g==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com, 
- Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
-References: <20241010073547.3720-1-tangbin@cmss.chinamobile.com>
-Subject: Re: (subset) [PATCH 1/2] ASoC: mediatek: mt8188: Remove
- unnecessary variable assignments
-Message-Id: <172866019355.3915434.3492314512247747487.b4-ty@kernel.org>
-Date: Fri, 11 Oct 2024 16:23:13 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G7vfvnhP"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5c928611371so3009183a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 08:32:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728660765; x=1729265565; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Rat4MPBAsLDnNiR+W9/KxSukyb9q48U+Dl9neWjYf0=;
+        b=G7vfvnhPR+1WBPKyio3JrSyJ52wjfu/6z3FP2FHzp2HY+d5NdOIHgU6LhY+pFCMIM2
+         jnrCRYSSolupvAOFRuULP5hp0SJt039ORqaiUloFg6wTRlUIIrr56cQ3DzkW6k/yYkT7
+         NjnNalltEPMuonFbSm6+QXI0qofrBrfSQUhIn3+CmSZMwJG7QpK6yl56sTaJhoJaRaPz
+         piy051V0uMa5MpYPD6r0oJ/pAUwOPcj5BXUpOvcrJjTg/dZiiOpiu4gYZGpwsKq3pcHE
+         FuQ7kI9/DLbPPJ+Gdgvcu/k8OdDAILuADbVhd/zRqyDb+DuPmmZOuV0KbRTnrDn8H3Ux
+         03Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728660765; x=1729265565;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1Rat4MPBAsLDnNiR+W9/KxSukyb9q48U+Dl9neWjYf0=;
+        b=FVgE1QTvugBhvZmQk9LY5O48Ze1tzWB0K8R4iuZ9tvi8tTXYYmQxOSFNVcekPaFie7
+         DQg8h/AFn8cafWvNXVePd4v9EwaLb83yNrQpxx3YvMrx+vEFiZxYNdS8/DiXD8FCuQ5h
+         IA7IUwv7Sxk7bnw8xO4GrGga+L8anE4avU3pwkUBtZ78KiEawE8nwk/JZuKrhkNN6Mml
+         PkL9Tpal8AcdlgZA1kjmNABWEQSDwC9BrIbgVFQHWji0Aia2S0aW6QnBwMB/WOqC4Xo7
+         L1uycMNKfZ5DSADAFiusd/j58mgRuwsVl0ez6iY9mlSDwp8a9Zd6uQhMr/KlWhYD08mW
+         eFyw==
+X-Gm-Message-State: AOJu0Yze+/4GiLY2010P5Wp1exfrCbS+tEmCfhBzstrxRDkeRfQyBIRb
+	CtaLwGO3hPdADmZzREdWaHZ7pTAVDfkUb+kq033C4xYIvAZgUhafLh75KwhyKnc=
+X-Google-Smtp-Source: AGHT+IG2RSuYoUetJ32zLi/kp0cBZ33Kg6Bh/AWm4gP1CZLAPGxS//Bmvvsy9YjdHMWJKgnFnWy8sw==
+X-Received: by 2002:a05:6402:348e:b0:5c8:8381:c308 with SMTP id 4fb4d7f45d1cf-5c948c8831fmr2027670a12.5.1728660764556;
+        Fri, 11 Oct 2024 08:32:44 -0700 (PDT)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c93711adacsm2049796a12.37.2024.10.11.08.32.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 08:32:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 11 Oct 2024 16:32:42 +0100
+Message-Id: <D4T33J6B5SPK.25S50D16VMDRI@linaro.org>
+Cc: <linux-sound@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+ <linux-arm-msm@vger.kernel.org>, <stable@vger.kernel.org>,
+ <broonie@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <krzysztof.kozlowski@linaro.org>, <pierre-louis.bossart@linux.intel.com>,
+ <vkoul@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+ <tiwai@suse.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: qcom: sdm845: add missing soundwire runtime
+ stream alloc
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Steev Klimaszewski" <steev@kali.org>
+X-Mailer: aerc 0.18.2
+References: <20241009213922.999355-1-alexey.klimov@linaro.org>
+ <CAKXuJqiK3BHT-=3zyT1tbunpNF1b_gyZUAd4EE2FY2r7TbaXug@mail.gmail.com>
+In-Reply-To: <CAKXuJqiK3BHT-=3zyT1tbunpNF1b_gyZUAd4EE2FY2r7TbaXug@mail.gmail.com>
 
-On Thu, 10 Oct 2024 15:35:47 +0800, Tang Bin wrote:
-> In the function mtk_dai_hdmitx_dptx_hw_params, the variable
-> 'ret' is redundant, thus remove it.
-> 
-> 
+Hi Steev,
 
-Applied to
+On Thu Oct 10, 2024 at 1:33 AM BST, Steev Klimaszewski wrote:
+> Hi Alexey,
+>
+> >
+> Thank you so much for tracking this down!  Was experiencing the same
+> thing on my Lenovo Yoga C630, and testing with this patch, I no longer
+> see the null pointer and also have working audio.
+>
+> Tested-by: Steev Klimaszewski <steev@kali.org> # Lenovo Yoga C630
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Thank you for testing! I didn't know that this affected more than one
+board but I was told that it was long-standing bug.
 
-Thanks!
-
-[1/2] ASoC: mediatek: mt8188: Remove unnecessary variable assignments
-      commit: f5a0ea8936a640d8229d5219515141fc496ec5d8
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Best regards,
+Alexey
