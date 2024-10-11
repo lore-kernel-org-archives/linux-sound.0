@@ -1,88 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2BD210182
-	for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 10:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 569B028EB
+	for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 10:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728641645; cv=none; b=jyt6uTARxKfT0LscSNxwPcSmEtqhH62CH6L0eKt/sUC8V99UCeI8qhOoqNlHf9zckCPBd/3wUf2PTUmBomwRtO364SSrQZ/7qxFk3NLeY5r5R5Nqe4mTMkzAgORRT25Uy3nJY1+afnGOxjIfoD3LvwSnmGyqzFj6T/dZSf6F97w=
+	t=1728642141; cv=none; b=Lv1lGql2glXf/6mxpB0q//wEIAcV0Xpe+gV6Z77IFNNk1QgIBJAX3hyZfIaNP4iPJ7McRtn+rGuq9HIcQtsKkikOX+08QHvXp1lJmiCNf3xJP7d5YpZiDcBuFJhJrwABOxOWccphqHrgU/LDSSmd1fpSLc4TtR5NI6PrM8+q7Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728641645; c=relaxed/simple;
-	bh=VlqblCwcm8JLb/pdm5TIvB5VbKbRI/eFTSEUlGPHb9k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=kz6YMS1Tqn23Q8TRHJkcMCuzgZiZwn5YCVKirYluW2ydrXZEJKo8NcoY0+u7K5sJqORWSR9DPQ4xmds0UHj2AHZiXOnmptTFpHAyt2XKR8l8oOgugrIpCiJdCqT1fOuN2A0XiGxpdyvywickSu2RMiuH4OK55p6uqAFMrTM9qYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gisT2pom; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728642141; c=relaxed/simple;
+	bh=g+8WUo+uDgm7chkc1YGCN7aZ+6WIVWAohA9OkgUaKZg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oJspMpZxc2vDDSx6ut4F6465/26OXqsRiab/lynR5Yr/ps7GBLguPqTsYy9CvbO8Cnl+Ji3TWjiFtdMiRmX+Qh+f2EfJCn6cFDMnS4kHSFHTF27sfq+0gkW9CGfoR/mHpTqh/NQGzBpuLCx8x6x0mU8ac+TvGVsDn8rHjfBCNBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFuVrLrP; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gisT2pom"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DD9C4CEC3;
-	Fri, 11 Oct 2024 10:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728641644;
-	bh=VlqblCwcm8JLb/pdm5TIvB5VbKbRI/eFTSEUlGPHb9k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gisT2pomyNS70ic2BNAUe0uWgSaad3Ijv0kXDjFSgPJtqDNezOFhl7fI4ODkNTWFO
-	 5nrOtvlhaR0IiC0MZ3dRVYbtU4hHoqA8Gdv6Lxzimt4VQJ+CPo9ChCv1vtE5qQxmaa
-	 IDUaE9v9gX1qYJISwwjOu7HFei0ASxx1o3MGYKlwZmAwNX7xSjZr8D1wN/U/P+JpC0
-	 +CA1iNVbkz/khC7vALFU1NIXBxXnTUhMsgFGJ6QlYXQkz/J785XVPB4bABRsG06wV2
-	 2nN1MLvi3Gbh/xVKVS7O9yZ04MBhvV/EFx9Df0yCoQwMZyPM7VHEyjE4aHllI5NzN1
-	 YJjOdAboT61Tg==
-From: Mark Brown <broonie@kernel.org>
-To: =?utf-8?q?Amadeusz_S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>, 
- Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com>
-References: <20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: avs: Fix return status of
- avs_pcm_hw_constraints_init()
-Message-Id: <172864164240.3853572.8328107515251289485.b4-ty@kernel.org>
-Date: Fri, 11 Oct 2024 11:14:02 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFuVrLrP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728642139; x=1760178139;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=g+8WUo+uDgm7chkc1YGCN7aZ+6WIVWAohA9OkgUaKZg=;
+  b=RFuVrLrPi4hxgDW2P4lBnOdGec8QN5RqfQEjn3Oi4jUej8XFeM6/4H8k
+   PPaGQ+Uf2est3gWdsJEdIZunNmUM8flGNOvIZz3MYNwpmq0kuUpuRnxJ0
+   Vm/JNBYeplyPpOHonzCxnPvyQbPzZqipiPCB1nakrU9bKi8jOoMQ1YwQm
+   ex3IVKOFeYu7rCCmycgb+znLfA70qEbq5WfymaBY8WKKRjTEIIq8hAQXX
+   ItFhJh9zPYdifOMj/poitCjgMBrlkwNeTg3Jhez7nFAxqMC9n9YtYOWxU
+   SxPg5PQTysKRKRJ0rYaNWNJdIlwV8g7fFU5JREeF7ZPnS3Gik3E/uOav/
+   A==;
+X-CSE-ConnectionGUID: LOZ/DvyXTaeXFwqkruPiHg==
+X-CSE-MsgGUID: +7VqOepAQBugj1NplnzFWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="38618668"
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="38618668"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 03:22:19 -0700
+X-CSE-ConnectionGUID: hr2TErQYTYqOeZZ7fMm4qQ==
+X-CSE-MsgGUID: h9uHU2LpTfWqj+3Nxa7liQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,195,1725346800"; 
+   d="scan'208";a="77172306"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 03:22:17 -0700
+Message-ID: <d7e02acb-fee1-4d17-94c6-96b07f4938c4@linux.intel.com>
+Date: Fri, 11 Oct 2024 12:22:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: Intel: avs: Fix return status of
+ avs_pcm_hw_constraints_init()
+To: Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, Takashi Iwai
+ <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-sound@vger.kernel.org
+References: <20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com>
+ <172864164240.3853572.8328107515251289485.b4-ty@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <172864164240.3853572.8328107515251289485.b4-ty@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-99b12
 
-On Thu, 10 Oct 2024 13:20:08 +0200, Amadeusz Sławiński wrote:
-> Check for return code from avs_pcm_hw_constraints_init() in
-> avs_dai_fe_startup() only checks if value is different from 0. Currently
-> function can return positive value, change it to return 0 on success.
+On 10/11/2024 12:14 PM, Mark Brown wrote:
+> On Thu, 10 Oct 2024 13:20:08 +0200, Amadeusz Sławiński wrote:
+>> Check for return code from avs_pcm_hw_constraints_init() in
+>> avs_dai_fe_startup() only checks if value is different from 0. Currently
+>> function can return positive value, change it to return 0 on success.
+>>
+>> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
+>> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+>> --
+>>
+>> [...]
 > 
-> Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-> Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
-> --
+> Applied to
 > 
-> [...]
+>     https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: Intel: avs: Fix return status of avs_pcm_hw_constraints_init()
-      commit: a0aae96be5ffc5b456ca07bfe1385b721c20e184
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Seems like I've messed this one a bit, additional comment should've been 
+below '---' instead of '--', as it is now part of patch in tree, should 
+I resend?
