@@ -1,237 +1,288 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BF82AE7F;
-	Fri, 11 Oct 2024 11:55:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD9A19923C
+	for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 12:03:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728647748; cv=none; b=jq1G+8Jp9M+keer3VOng3XYk5QF7dmyBFRju07z6d6OY+8KrMnKkHI5CwweHf9GGKEPI9x2aqKqHkBcuth4FonF7VQD7djwtCwJmuWQSVBWgpReXkFjJPxyHMvF+lr6JIdxH91C4WVrfVv2ub9vWVfEyXH23eD/2cyX4tFZkZGs=
+	t=1728648236; cv=none; b=Rd2Pp+ctBkSxtJtWUy7L3tpKyhswXzTbjiKK4IOhAPuq5sAoJbHNRgkCX4RgYNW45ZJef7pP8rZDU3PML94wceMlfJfAqK4Yah5NllH2AKXCK4Su5FPzHAksk1tTR2tLVhTYmWPStMi5hQ7AQZye44SIccLHD8Vv2zYmDcfTFZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728647748; c=relaxed/simple;
-	bh=TKF3Q6GoniS3etrMQC/802TE9lUR+oa2UPZboFmX7NU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=URUdmifSVZ7IaG4+5aiT8juiFkbsKOCFFRrZS0DK6FtI6/Ni6P3OSDxygXvd2NUhb6IQoqBfepwBTDHyV8WPvYAk23jbzk+UnY5repxu/HzMVUUXvLf0JbSxv7l3LuNBmcgk7sgKgsqdSun6Q8Kn5OaO035VBe/CLaB0dvMoBuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lyxg9p0y; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728648236; c=relaxed/simple;
+	bh=Hm1o99Wl0wYT15lGSFJLg7EgiqA98EURXKjTmwFk1nY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g5hiL9vQtPJ80ZWcdXiXe4Bw7qe/3CtQzIU+4g0HnMxy2k9J9dnYSr7bfT9ZWul+a6rBblQ1o+fUm9zGU1MiDtdU/p1X6rd4drSeaPkyB8xL8ixgNNuvfaUXSQRHWL/2WNkvz1QWeMcIJvlIfdTwEmMBKBezb8ze4fzK+o0/qHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TCiarfU0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lyxg9p0y"
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-50ce2aa412dso687591e0c.0;
-        Fri, 11 Oct 2024 04:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728647746; x=1729252546; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fsmhDId2GTy6AcJ8g0rIHy8uxbTvk7bC3UqigQ37z7w=;
-        b=lyxg9p0y0pWfop7vEJ8omFHuyijIx2sJBsw3c4BnSCHxA+VSb4ebYlPRYIn9EfrTbm
-         hxmQt8OA27BgzA48dvpWYT7f9PMX7H3W7O2aj82VkFw3l42Zb4XShPMLVBD0kJhQ5EfH
-         zV7r+ZcLdxttLJlrGBDuIEQ/tqZCeU4gua6mNx1ytWdCcX6pXdt3j6zS9p0Ju6+0iBHm
-         rafuIFsgodAiYES39wt6PRTuodrG/G2Kc8nnQi6U+qbBvq/hle6g/KWE375uySnC+DHG
-         dVDxs8sJU/FiyBriboSnN3zkcEMWU/RWpurMEVqnPHhoZTiCDMIYYQ9FXK7TPGVli8Pf
-         oxRw==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TCiarfU0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728648233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hm1o99Wl0wYT15lGSFJLg7EgiqA98EURXKjTmwFk1nY=;
+	b=TCiarfU0iPIQGnWmU+0uI+yowA0C28XDIq6NwyWAZjAmu16WxkNv+nAccnak6nfjoQgk3x
+	F4zQ9Mxc1fDJogoZ6HOkmyzLVjNv56tsHbmKfgRVGXvKGTqkGC0mFo9Za95omRG8CTTh3r
+	svCyI+Eac8kdZElxiSvpo6WBZochLFo=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-53-ZqzC0vcePSKuCZoVZOvxYg-1; Fri, 11 Oct 2024 08:03:44 -0400
+X-MC-Unique: ZqzC0vcePSKuCZoVZOvxYg-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-42ac185e26cso11745895e9.3
+        for <linux-sound@vger.kernel.org>; Fri, 11 Oct 2024 05:03:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728647746; x=1729252546;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fsmhDId2GTy6AcJ8g0rIHy8uxbTvk7bC3UqigQ37z7w=;
-        b=IlgRHF74REN+3cP4+oMOre0oDpY8CNmreYCIB7RN8Ia/7d3+zfnHFFVqAxO/YcXXAV
-         UPecTmz0d3Jpz6Y+V7TOXX7uf8+oL+ZdpprWZv/+jX4qgufIg9AP9VDMRPWnIoT9pNtY
-         fNfHHJlXSSsAwUz7Qhr8N/PEOcf2BDyVmcqZooPaX6qdm6QskeSGDWuoBkL7Q9VSzy96
-         7jIdDSEZCg8YWhpNymIFwCs1YWoViaHv5/oOETE6bOJjf5NZLGHHOPLQZKOJBbKABIcP
-         MuCQAk2DKuKvwkpqAdimlHyRk7SPuOs6Ftx11XOU1+/KBP+hscJu8g40/57bSPyF0OzM
-         luMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVl1wH6ZEnFBpZTC80/gZy+66leZ8c8HBDoA4opfw/Jz2n4I9ckhSx1DYy7oxyqf/NbG4arlSWnrfPyE8zL0+m/j5U=@vger.kernel.org, AJvYcCVm9qBqT9mWq9KARH+awmOnECQnMIHkXHzEq/5dwMXxBaK96EUYgx1D8XgKgXFxaFyq1eLTvN2xHJWKkGw=@vger.kernel.org, AJvYcCX7Rfu012C20SqMct9OQlVP7wUsMGo8ds2p1ZtcoBiK+mynoxmbGYHjUI8kO61Pq5wkUFlId4yJFBStcns=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKtnJPQe2crcIFVx+Qb75yfoxLplS4qO4E3CYEtZ8jSuWZFqnU
-	rwdaTknAyUyLlCVEz/UUdom9Vzhcbhg0OXVciIjXLmmYEyMe03H0I3o+9V/p1g0RY8vH2FYuSL2
-	jSG10jtShCyTZGOeCqBUnIKHFhxc=
-X-Google-Smtp-Source: AGHT+IFLIBhzai4CZn1KSsuKtR4h7H3pWP9E7OCyGkfJ8k/+vnvQX2Ar08B25rN8jChB4hW82aVeqQ/7DJ9JFOhd0mM=
-X-Received: by 2002:a05:6122:1d09:b0:50a:12e4:2618 with SMTP id
- 71dfb90a1353d-50d1f3910e0mr2244894e0c.2.1728647745848; Fri, 11 Oct 2024
- 04:55:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728648223; x=1729253023;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3I5lHL6mHTQWMds6pJC4dZUawdNZoxrsfeR6hWpkDqM=;
+        b=mW7g+sKwwqx6NH+UDWT83PT4Y3gv3e4EUWGmLHW0JT4gdWnR2aM787LbttSG/PttM2
+         a3yjt1O4m/qDsg9u2Ze5dgyQXVePjD+Md1Gn2SzlSK6nLM3qfRmRDzW4HSoKu7SXeHYJ
+         FAV7dVyTx1/2odZEiEt/qVOEY8xeAUYJHWQTjyzxEGuEU5AiidVD8ZUOWh3xmMY9Vl8n
+         I6rSFaBpHS6xlXcOYFvN2aYC1LqmwqY4ZoIIADNzRgTXsqzeySFzPzmoTqPpOEB5MLut
+         xEefrehA1ffnQE92rlIiT/g9nSDHmma0yAjh0ZKlDzs79bkbijPjdiIa7n7B5FbqucM3
+         K4Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZG2u3uC/buucCCzU3wrrpmdrin72QEXYKWrGsQ1VJJJImu4MhPYeiNjTshAbdJNk1pvXJF1qlkSa7nA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTkoQGVBHu7akBs/r2B4IRan5PIrqQIVjkP5r90wrL5V3hPQvh
+	cocULga4Dj8EjF65ulQ8FguMvCgQUWPirmIe9LOlXWSwlit9gJBRkR9zoAv/0mtdV/hcm0YR2cZ
+	j948Ip7fyHqEZi57mVtCNYvrP/Vtp12qh7am12ingTkrgk+YS+EGogAuSfH4w
+X-Received: by 2002:a05:600c:1d1c:b0:42c:c003:edd1 with SMTP id 5b1f17b1804b1-4311decaa48mr19192025e9.10.1728648222809;
+        Fri, 11 Oct 2024 05:03:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IExbuVJr4JGcXjTZsUgf0Q1cJGFJf/2hMvz1Z5drCky7hS/DrFylID4EQn0lZzCFTWpUUq6Zw==
+X-Received: by 2002:a05:600c:1d1c:b0:42c:c003:edd1 with SMTP id 5b1f17b1804b1-4311decaa48mr19191405e9.10.1728648222253;
+        Fri, 11 Oct 2024 05:03:42 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3d05:4700:3e59:7d70:cabd:144b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430ccf51770sm73523925e9.22.2024.10.11.05.03.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 05:03:41 -0700 (PDT)
+Message-ID: <914de38f0b6b3d2ddf98c16e427085732bebfd4a.camel@redhat.com>
+Subject: Re: [RFC PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,  Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
+ Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Hannes Reinecke <hare@suse.de>, John Garry <john.g.garry@oracle.com>,
+ Soumya Negi <soumya.negi97@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi
+ Liu <yi.l.liu@intel.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, 
+ Christian Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Eric Auger
+ <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
+ linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Fri, 11 Oct 2024 14:03:39 +0200
+In-Reply-To: <20241010114304.064f5d3d.alex.williamson@redhat.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+	 <20241009083519.10088-2-pstanner@redhat.com>
+	 <20241010114304.064f5d3d.alex.williamson@redhat.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdV=EMnPFGJn5J85x5AtE4fYHChLVLOfk6zMR1rrJzS85g@mail.gmail.com>
-In-Reply-To: <CAMuHMdV=EMnPFGJn5J85x5AtE4fYHChLVLOfk6zMR1rrJzS85g@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 11 Oct 2024 12:55:19 +0100
-Message-ID: <CA+V-a8sqV2KOf2iCt9fHgxNhJG92UYdm0v7mZGNZj4U8QLRSXQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to
- endpoint parsing
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Geert,
+On Thu, 2024-10-10 at 11:43 -0600, Alex Williamson wrote:
+> On Wed,=C2=A0 9 Oct 2024 10:35:07 +0200
+> Philipp Stanner <pstanner@redhat.com> wrote:
+>=20
+> > pci_intx() is a hybrid function which sometimes performs devres
+> > operations, depending on whether pcim_enable_device() has been used
+> > to
+> > enable the pci_dev. This sometimes-managed nature of the function
+> > is
+> > problematic. Notably, it causes the function to allocate under some
+> > circumstances which makes it unusable from interrupt context.
+> >=20
+> > To, ultimately, remove the hybrid nature from pci_intx(), it is
+> > first
+> > necessary to provide an always-managed and a never-managed version
+> > of that function. Then, all callers of pci_intx() can be ported to
+> > the
+> > version they need, depending whether they use pci_enable_device()
+> > or
+> > pcim_enable_device().
+> >=20
+> > An always-managed function exists, namely pcim_intx(), for which
+> > __pcim_intx(), a never-managed version of pci_intx() had been
+> > implemented.
+> >=20
+> > Make __pcim_intx() a public function under the name
+> > pci_intx_unmanaged(). Make pcim_intx() a public function.
+> >=20
+> > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > ---
+> > =C2=A0drivers/pci/devres.c | 24 +++---------------------
+> > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0 | 26 ++++++++++++++++++++++++=
+++
+> > =C2=A0include/linux/pci.h=C2=A0 |=C2=A0 2 ++
+> > =C2=A03 files changed, 31 insertions(+), 21 deletions(-)
+> >=20
+> > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+> > index b133967faef8..475a3ae5c33f 100644
+> > --- a/drivers/pci/devres.c
+> > +++ b/drivers/pci/devres.c
+> > @@ -411,31 +411,12 @@ static inline bool mask_contains_bar(int
+> > mask, int bar)
+> > =C2=A0=09return mask & BIT(bar);
+> > =C2=A0}
+> > =C2=A0
+> > -/*
+> > - * This is a copy of pci_intx() used to bypass the problem of
+> > recursive
+> > - * function calls due to the hybrid nature of pci_intx().
+> > - */
+> > -static void __pcim_intx(struct pci_dev *pdev, int enable)
+> > -{
+> > -=09u16 pci_command, new;
+> > -
+> > -=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> > -
+> > -=09if (enable)
+> > -=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> > -=09else
+> > -=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+> > -
+> > -=09if (new !=3D pci_command)
+> > -=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+> > -}
+> > -
+> > =C2=A0static void pcim_intx_restore(struct device *dev, void *data)
+> > =C2=A0{
+> > =C2=A0=09struct pci_dev *pdev =3D to_pci_dev(dev);
+> > =C2=A0=09struct pcim_intx_devres *res =3D data;
+> > =C2=A0
+> > -=09__pcim_intx(pdev, res->orig_intx);
+> > +=09pci_intx_unmanaged(pdev, res->orig_intx);
+> > =C2=A0}
+> > =C2=A0
+> > =C2=A0static struct pcim_intx_devres *get_or_create_intx_devres(struct
+> > device *dev)
+> > @@ -472,10 +453,11 @@ int pcim_intx(struct pci_dev *pdev, int
+> > enable)
+> > =C2=A0=09=09return -ENOMEM;
+> > =C2=A0
+> > =C2=A0=09res->orig_intx =3D !enable;
+> > -=09__pcim_intx(pdev, enable);
+> > +=09pci_intx_unmanaged(pdev, enable);
+> > =C2=A0
+> > =C2=A0=09return 0;
+> > =C2=A0}
+> > +EXPORT_SYMBOL(pcim_intx);
+>=20
+> What precludes this from _GPL?=C2=A0 Also note that this is now calling a
+> GPL symbol, so by default I'd assume it should also be GPL.=C2=A0 Thanks,
 
-Thank you for the review.
+Ah right, I overlooked that pci_intx() also has the _GPL version.
+Will make consistent.
 
-On Fri, Oct 11, 2024 at 7:42=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Oct 10, 2024 at 4:15=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > On the HiHope boards, we have a single port with a single endpoint defi=
-ned
-> > as below:
-> > ....
-> >         rsnd_port: port {
-> >                 rsnd_endpoint: endpoint {
-> >                         remote-endpoint =3D <&dw_hdmi0_snd_in>;
-> >
-> >                         dai-format =3D "i2s";
-> >                         bitclock-master =3D <&rsnd_endpoint>;
-> >                         frame-master =3D <&rsnd_endpoint>;
-> >
-> >                         playback =3D <&ssi2>;
-> >                 };
-> >         };
-> > ....
-> >
-> > With commit 547b02f74e4a ("ASoC: rsnd: enable multi Component support f=
-or
-> > Audio Graph Card/Card2"), support for multiple ports was added. This ca=
-used
-> > probe failures on HiHope boards, as the endpoint could not be retrieved=
- due
-> > to incorrect device node pointers being used.
-> >
-> > This patch fixes the issue by updating the `rsnd_dai_of_node()` and
-> > `rsnd_dai_probe()` functions to use the correct device node pointers ba=
-sed
-> > on the port names ('port' or 'ports'). It ensures that the endpoint is
-> > properly parsed for both single and multi-port configurations, restorin=
-g
-> > compatibility with HiHope boards.
-> >
-> > Fixes: 547b02f74e4a ("ASoC: rsnd: enable multi Component support for Au=
-dio Graph Card/Card2")
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Thanks for your patch!
->
-> > --- a/sound/soc/sh/rcar/core.c
-> > +++ b/sound/soc/sh/rcar/core.c
-> > @@ -1281,7 +1281,9 @@ static int rsnd_dai_of_node(struct rsnd_priv *pri=
-v, int *is_graph)
-> >                 if (!of_node_name_eq(ports, "ports") &&
-> >                     !of_node_name_eq(ports, "port"))
-> >                         continue;
-> > -               priv->component_dais[i] =3D of_graph_get_endpoint_count=
-(ports);
-> > +               priv->component_dais[i] =3D
-> > +                       of_graph_get_endpoint_count(of_node_name_eq(por=
-ts, "ports") ?
-> > +                                                   ports : np);
->
-> As of_node_name_eq() is not inline or __pure, of_node_name_eq(ports,
-> "ports") will be called twice. So it may make sense to add a helper,
-> combining the selection with the validation above:
->
->     const struct device_node *pick_endpoint_node_for_ports(const
-> struct device_node *np,
->                 const struct device_node *e_ports, const struct
-> device_node *e_port)
->     {
->             if (of_node_name_eq(ports, "ports"))
->                     return e_ports;
->             if (of_node_name_eq(ports, "port"))
->                     return e_port;
->             return NULL;
->     }
->
-I'll drop the const maybe to reduce the diff and  have something like below=
-:
+Thx,
+P.
 
-+static struct device_node*
-+       pick_endpoint_node_for_ports(struct device_node *e_ports,
-+                                    struct device_node *e_port)
-+{
-+       if (of_node_name_eq(e_ports, "ports"))
-+               return e_ports;
-+
-+       if (of_node_name_eq(e_ports, "port"))
-+               return e_port;
-+
-+       return NULL;
-+}
+>=20
+> Alex
+>=20
+> > =C2=A0
+> > =C2=A0static void pcim_disable_device(void *pdev_raw)
+> > =C2=A0{
+> > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> > index 7d85c04fbba2..318cfb5b5e15 100644
+> > --- a/drivers/pci/pci.c
+> > +++ b/drivers/pci/pci.c
+> > @@ -4476,6 +4476,32 @@ void pci_disable_parity(struct pci_dev *dev)
+> > =C2=A0=09}
+> > =C2=A0}
+> > =C2=A0
+> > +/**
+> > + * pci_intx - enables/disables PCI INTx for device dev, unmanaged
+> > version
+> > + * @pdev: the PCI device to operate on
+> > + * @enable: boolean: whether to enable or disable PCI INTx
+> > + *
+> > + * Enables/disables PCI INTx for device @pdev
+> > + *
+> > + * This function behavios identically to pci_intx(), but is never
+> > managed with
+> > + * devres.
+> > + */
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
+> > +{
+> > +=09u16 pci_command, new;
+> > +
+> > +=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> > +
+> > +=09if (enable)
+> > +=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> > +=09else
+> > +=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+> > +
+> > +=09if (new !=3D pci_command)
+> > +=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+> > +}
+> > +EXPORT_SYMBOL_GPL(pci_intx_unmanaged);
+> > +
+> > =C2=A0/**
+> > =C2=A0 * pci_intx - enables/disables PCI INTx for device dev
+> > =C2=A0 * @pdev: the PCI device to operate on
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index 573b4c4c2be6..6b8cde76d564 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -1353,6 +1353,7 @@ int __must_check pcim_set_mwi(struct pci_dev
+> > *dev);
+> > =C2=A0int pci_try_set_mwi(struct pci_dev *dev);
+> > =C2=A0void pci_clear_mwi(struct pci_dev *dev);
+> > =C2=A0void pci_disable_parity(struct pci_dev *dev);
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable);
+> > =C2=A0void pci_intx(struct pci_dev *dev, int enable);
+> > =C2=A0bool pci_check_and_mask_intx(struct pci_dev *dev);
+> > =C2=A0bool pci_check_and_unmask_intx(struct pci_dev *dev);
+> > @@ -2293,6 +2294,7 @@ static inline void pci_fixup_device(enum
+> > pci_fixup_pass pass,
+> > =C2=A0=09=09=09=09=C2=A0=C2=A0=C2=A0 struct pci_dev *dev) { }
+> > =C2=A0#endif
+> > =C2=A0
+> > +int pcim_intx(struct pci_dev *pdev, int enabled);
+> > =C2=A0void __iomem *pcim_iomap(struct pci_dev *pdev, int bar, unsigned
+> > long maxlen);
+> > =C2=A0void __iomem *pcim_iomap_region(struct pci_dev *pdev, int bar,
+> > =C2=A0=09=09=09=09const char *name);
+>=20
 
-and use it like below in the rsnd_dai_of_node() function:
-
-@@ -1278,10 +1291,10 @@ static int rsnd_dai_of_node(struct rsnd_priv
-*priv, int *is_graph)
-         * Audio-Graph-Card
-         */
-        for_each_child_of_node(np, ports) {
--               if (!of_node_name_eq(ports, "ports") &&
--                   !of_node_name_eq(ports, "port"))
-+               node =3D pick_endpoint_node_for_ports(ports, np);
-+               if (!node)
-                        continue;
--               priv->component_dais[i] =3D of_graph_get_endpoint_count(por=
-ts);
-+               priv->component_dais[i] =3D of_graph_get_endpoint_count(nod=
-e);
-
-
-> >                 nr +=3D priv->component_dais[i];
-> >                 i++;
-> >                 if (i >=3D RSND_MAX_COMPONENT) {
-> > @@ -1493,7 +1495,8 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
-> >                         if (!of_node_name_eq(ports, "ports") &&
-> >                             !of_node_name_eq(ports, "port"))
-> >                                 continue;
-> > -                       for_each_endpoint_of_node(ports, dai_np) {
-> > +                       for_each_endpoint_of_node(of_node_name_eq(ports=
-, "ports") ?
-> > +                                                 ports : np, dai_np) {
->
-> Likewise.
->
-Ok, now I will have to create a local variable for this loop, which
-will look like something below:
-
-@@ -1486,14 +1499,15 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
-         */
-        dai_i =3D 0;
-        if (is_graph) {
-+               struct device_node *dai_np_port;
-                struct device_node *ports;
-                struct device_node *dai_np;
-
-                for_each_child_of_node(np, ports) {
--                       if (!of_node_name_eq(ports, "ports") &&
--                           !of_node_name_eq(ports, "port"))
-+                       dai_np_port =3D pick_endpoint_node_for_ports(ports,=
- np);
-+                       if (!dai_np_port)
-                                continue;
--                       for_each_endpoint_of_node(ports, dai_np) {
-+                       for_each_endpoint_of_node(dai_np_port, dai_np) {
-                                __rsnd_dai_probe(priv, dai_np, dai_np,
-0, dai_i);
-                                if (!rsnd_is_gen1(priv) &&
-!rsnd_is_gen2(priv)) {
-                                        rdai =3D rsnd_rdai_get(priv, dai_i)=
-;
-
-Does that sound OK?
-
-Cheers,
-Prabhakar
