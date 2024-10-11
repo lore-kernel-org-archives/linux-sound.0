@@ -1,136 +1,82 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00DD1E3DC0;
-	Fri, 11 Oct 2024 10:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDBA215F50;
+	Fri, 11 Oct 2024 11:06:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728644243; cv=none; b=aYCsi0k7EwdWTqqauIObaRlwuD3OQBje/6lWyIUjnoNWMHB6FAnPbi2OV5vBnjlH+4RZtWz8FK9N1f47U9CCOdVvoOTx9gJFiHJ/KeH9XwPsArqWlz3203xSJikZPos/1nUSLc+MLGwewvxUjzIdlpSaIPcrl6YcrFWUEbPQ56Q=
+	t=1728644807; cv=none; b=Dt8ydOrxtU6rgXEOZbFrHbZXO7ve33cjVE3+Vh4TlxGzPq1YdPA+bHATnDvXzPfyCsTlX5B/GhPc5bOuZsrSPjvpQNyXu48jWdvow1qEKppUUItqYYuAdE85O3yGAuEdKZGkUn22TeXLLjFqys9+lgeaN91IuO9TW4G1hP9Lkdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728644243; c=relaxed/simple;
-	bh=mnkksVx2Xxyxhko4Q7iJCbRLxEhP+89tZTZn5w/HAiI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y7xuUj+8gj16G37aUAJ5IHHvlOgNzz+SS+GpcTIPal9k8v5aKqY6mrMr9jHQSf2qNw0rLnv9WEHQTjM0a6i54QAuFDAkVXGf3TEuGF6/M3EELcRqw6Hi+jCPnu/jenvjzaCbJLe+M2vN9KOEBQ9All18wSVyNiJdx986OI8tKuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=LDqP8meK; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1728644807; c=relaxed/simple;
+	bh=OoZeLIah3I01QLkusQPlIZ7O+7pRRC5P3mA7NRcwM+c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=fzfuq8ymzaq3QsUrehlK4iLB/grFRbMyksDjJa/qA1Pux3TBwgJGrj4+grx8q5jB9O9OpH6z5hbt3FMdxDpK/3mK6BUmRT29sRG3rPUU6QoHM4a2LHuyBhLgFzRcQM7geJ3XGbyReTlMmycUwzQhCqaz9egDMA1ln0kFqGLVuYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UmrGb5mb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="LDqP8meK"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=WyUU7HyfsDsDc16P/YLUuRui/IhSHQhUa6UHKkM8cSA=; b=LDqP8meKMsgdAOyr
-	zyW8TibS5uAC7LxtAhHWduU+fo6GdtodbKsX5SQqFO8jQHiv7yRMcyEh8ADj0FXV+h3oqGE6fSq+z
-	IZdQ1Pwh5PyOUDDHpJRcc7Ivv0XHAUwoSbClHPFBXo+tOFp1zQvS0MEmAGgccv+OIrytA/sUOXSBb
-	ALaubGnzuS82fwwZ7WFKRtFgeDw9xIZpK+IumWd7eW1+u5NrOGGyOqjFzFoXemZielsAwITUD2+s3
-	Pxa/GOuWR05yt9SRSpIGXeSxA20wbL704QcG8X5MEBdooilnkSmNStzC7xnj5l7eJj2H2XnX0zPyb
-	jLErUfRCfHx4RTPrnA==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1szDKY-00AUHy-1o;
-	Fri, 11 Oct 2024 10:57:10 +0000
-Date: Fri, 11 Oct 2024 10:57:10 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: core: Remove unused copy_from_user_toio
-Message-ID: <ZwkEhsYvaEHW_Czd@gallifrey>
-References: <20241010205340.278133-1-linux@treblig.org>
- <87o73rm29d.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UmrGb5mb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6BB0C4CECC;
+	Fri, 11 Oct 2024 11:06:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728644805;
+	bh=OoZeLIah3I01QLkusQPlIZ7O+7pRRC5P3mA7NRcwM+c=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=UmrGb5mbPwmt2uFQWta7DbRxN4gV6UvL0HQQXI6fPMFP+RlCTOlDSDYhU+weKIXtz
+	 SvrybybvohJ95KPRoMiRYfyG6VD+YVNPisGiNakF1WmcQjwSDtfdvkTnVXo7SvN/41
+	 p/ve2rfPenx5cPoZ3h/RO/GA8sUvsjWixlSR5V5ZdNdwKnrkDwMR5r9NbjCkHgpYOl
+	 SC7xS1IKQsaV1fPJr6Tu+YlhRpizf1wTpU4TLDQ7TSoRSrmT6WElVSHtyqgoBZJz1f
+	 XHRB8njMKJR8eOQWeoeDCbjHWUNveke60eQFYzQx0IaBtkUZQ6tnqHBFC2IeR/hF+M
+	 PFGOR2UYA9dFg==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Christian Heusel <christian@heusel.eu>
+Cc: Thorsten Leemhuis <linux@leemhuis.info>, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+In-Reply-To: <20241010-bugzilla-219345-asus-vivobook-v1-1-3bb24834e2c3@heusel.eu>
+References: <20241010-bugzilla-219345-asus-vivobook-v1-1-3bb24834e2c3@heusel.eu>
+Subject: Re: [PATCH] ASoC: amd: yc: Add quirk for ASUS Vivobook S15 M3502RA
+Message-Id: <172864480352.3868579.17081032898194754716.b4-ty@kernel.org>
+Date: Fri, 11 Oct 2024 12:06:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <87o73rm29d.wl-tiwai@suse.de>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 10:56:56 up 155 days, 22:10,  1 user,  load average: 0.03, 0.02,
- 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-* Takashi Iwai (tiwai@suse.de) wrote:
-> On Thu, 10 Oct 2024 22:53:40 +0200,
-> linux@treblig.org wrote:
-> > 
-> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> > 
-> > copy_from_user_toio() has been unused since commit
-> > ce2d8ed8d809 ("ASoC: qcom: Convert to generic PCM copy ops")
-> > 
-> > Remove it.
+On Thu, 10 Oct 2024 15:32:11 +0200, Christian Heusel wrote:
+> As reported the builtin microphone doesn't work on the ASUS Vivobook
+> model S15 OLED M3502RA. Therefore add a quirk for it to make it work.
 > 
-> It's a pair of copy_to_*(), so if any, it should be dropped only after
-> both users are gone.
+> 
 
-OK, fair enough.
+Applied to
 
-Dave
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> > ---
-> >  include/sound/core.h |  1 -
-> >  sound/core/memory.c  | 20 --------------------
-> >  2 files changed, 21 deletions(-)
-> > 
-> > diff --git a/include/sound/core.h b/include/sound/core.h
-> > index 1f3f5dccd736..b5a6f3d2bff5 100644
-> > --- a/include/sound/core.h
-> > +++ b/include/sound/core.h
-> > @@ -267,7 +267,6 @@ static inline int snd_minor_info_oss_init(void) { return 0; }
-> >  /* memory.c */
-> >  
-> >  int copy_to_user_fromio(void __user *dst, const volatile void __iomem *src, size_t count);
-> > -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count);
-> >  
-> >  /* init.c */
-> >  
-> > diff --git a/sound/core/memory.c b/sound/core/memory.c
-> > index 2d2d0094c897..8222a851da87 100644
-> > --- a/sound/core/memory.c
-> > +++ b/sound/core/memory.c
-> > @@ -63,26 +63,6 @@ int copy_to_iter_fromio(struct iov_iter *dst, const void __iomem *src,
-> >  }
-> >  EXPORT_SYMBOL(copy_to_iter_fromio);
-> >  
-> > -/**
-> > - * copy_from_user_toio - copy data from user-space to mmio-space
-> > - * @dst: the destination pointer on mmio-space
-> > - * @src: the source pointer on user-space
-> > - * @count: the data size to copy in bytes
-> > - *
-> > - * Copies the data from user-space to mmio-space.
-> > - *
-> > - * Return: Zero if successful, or non-zero on failure.
-> > - */
-> > -int copy_from_user_toio(volatile void __iomem *dst, const void __user *src, size_t count)
-> > -{
-> > -	struct iov_iter iter;
-> > -
-> > -	if (import_ubuf(ITER_SOURCE, (void __user *)src, count, &iter))
-> > -		return -EFAULT;
-> > -	return copy_from_iter_toio((void __iomem *)dst, &iter, count);
-> > -}
-> > -EXPORT_SYMBOL(copy_from_user_toio);
-> > -
-> >  /**
-> >   * copy_from_iter_toio - copy data from iov_iter to mmio-space
-> >   * @dst: the destination pointer on mmio-space
-> > -- 
-> > 2.47.0
-> > 
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Thanks!
+
+[1/1] ASoC: amd: yc: Add quirk for ASUS Vivobook S15 M3502RA
+      commit: 182fff3a2aafe4e7f3717a0be9df2fe2ed1a77de
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
