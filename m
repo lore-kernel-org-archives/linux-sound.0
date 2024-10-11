@@ -1,59 +1,77 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7772581;
-	Fri, 11 Oct 2024 05:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6981E19413B;
+	Fri, 11 Oct 2024 05:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728622970; cv=none; b=mkL8mXYIVN3Sg9JvBjSUV/CJtJuoxo8toMVRj9HQhrjdncm0N7ZP43K6mxchQSOgaoskoPwjKwRwdyBTv/SW6X1ROKuOdT+6Xhe7IYlWg85b8FyMAwVjP1tbpM2um9Tl2W5duvsg8xpQvze8Mw6KsmLexnYFX79z+H6szItX9Yc=
+	t=1728623850; cv=none; b=IWoNQioi4OULM923acVvfJG18/JHlIJcwhLh2tPLR2i7kRz8nqSnC1BZ6ghtlPR+lNjV0dcX2yCkjkSJfDWYhtKqorCqLYNQnBvrWxY1cn8f7cLo3pTz+vEFC+iQKEj3DxMCLG9W+owEgS1CZeyRLuNJ1iXusqfR6L5V3sfS8t8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728622970; c=relaxed/simple;
-	bh=B+sLWmKRT1T9vEjd5LmbOryJh3J4YeWOr3mb4n15DRI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l6zEIU1f5Pskmb1CK+04/GT6s6T+yFzgdQEyJqCbsqmSnJ6IOSr1d/Cu/MAFW7FYRJuNqlS1SjkxgjRghBLubsJIbSN3T4rGTjAMqNTCQLmGkUfU4j3jbPV1CGeXf69XL7o1qIgYHf7kyxHkl+JkEHkwPH8AdNrdDghHwJL9tco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZDIrk3Hk; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZDIrk3Hk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C49C4CEC3;
-	Fri, 11 Oct 2024 05:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728622969;
-	bh=B+sLWmKRT1T9vEjd5LmbOryJh3J4YeWOr3mb4n15DRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZDIrk3HkxbUc220z9iFo0GCWNJvPtsi/EULO78W2Zf1RTHxADX4Yg0ILqgXq3aXnU
-	 oF0XrfbcW6kmN/t6M9EXML1R05lO5LIz9erJdlBqskYYGl7IDE6np5UVo3ysMOKZrL
-	 EA/q25wTVCtypVd6UEWiNq/1NUyhRuA5GnfNnd35XzktlI9bJaijPCCXlHJjSD8KBR
-	 usfWDKV1LXxiB1r42w4eVz9MgRmM0NFRSw6w/lcavBb5JCaPev2PCNd+pkSGQcDEf0
-	 XouMB2VL6QTo4/AzGDqPrEriEeTZ5m4ZJRmuIKzOtCZ9GESB6ZZpj0eM/k2LaHlXub
-	 UZHodKv9RDBNg==
-Date: Fri, 11 Oct 2024 10:32:44 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: broonie@kernel.org, tiwai@suse.de, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com, peter.ujfalusi@linux.intel.com
-Subject: Re: [PATCH 2/2] ASoC/SoundWire: Intel: lnl: enable interrupts after
- first power-up/before last power-down
-Message-ID: <ZwixdK/n4RgNhJL+@vaman>
-References: <20241007121241.30914-1-yung-chuan.liao@linux.intel.com>
- <20241007121241.30914-3-yung-chuan.liao@linux.intel.com>
+	s=arc-20240116; t=1728623850; c=relaxed/simple;
+	bh=qTzf7BfUQFe7T6qpwHsV9UbqX69iY36RIVzw3ppdLzo=;
+	h=From:To:Subject:Date:Message-Id; b=kh8Mi7GKqmHR6INPHqcpwgeNR/DPb5re8ENyoQ/D0aVPeb3YX8ljW0dTeb9vOeC8bJ/WckGeKGCFv52qWlu8Ox0m5j0zBzyLkJIL49GoO7jZ0NG5OcizT37HNVYSSJyfiZgnHZ9T0+bAg2H8i/W+d/pm3o3hB0u1+UbRVn1OVs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BA0621A18CD;
+	Fri, 11 Oct 2024 07:17:17 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 802E41A18A2;
+	Fri, 11 Oct 2024 07:17:17 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id D3E9F183B720;
+	Fri, 11 Oct 2024 13:17:15 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
+Date: Fri, 11 Oct 2024 12:53:53 +0800
+Message-Id: <1728622433-2873-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241007121241.30914-3-yung-chuan.liao@linux.intel.com>
 
-On 07-10-24, 20:12, Bard Liao wrote:
-> From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-> 
-> The HDaudio mlink support makes it more logical to couple interrupt
-> enabling/disabling with power-up/down sequences.
+Irq handler need to be executed as fast as possible, so
+the log in irq handler is better to use dev_dbg which needs
+to be enabled when debugging.
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl_esai.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
+index a65f5b9935a2..0b247f16a163 100644
+--- a/sound/soc/fsl/fsl_esai.c
++++ b/sound/soc/fsl/fsl_esai.c
+@@ -119,10 +119,10 @@ static irqreturn_t esai_isr(int irq, void *devid)
+ 		dev_dbg(&pdev->dev, "isr: Transmission Initialized\n");
+ 
+ 	if (esr & ESAI_ESR_RFF_MASK)
+-		dev_warn(&pdev->dev, "isr: Receiving overrun\n");
++		dev_dbg(&pdev->dev, "isr: Receiving overrun\n");
+ 
+ 	if (esr & ESAI_ESR_TFE_MASK)
+-		dev_warn(&pdev->dev, "isr: Transmission underrun\n");
++		dev_dbg(&pdev->dev, "isr: Transmission underrun\n");
+ 
+ 	if (esr & ESAI_ESR_TLS_MASK)
+ 		dev_dbg(&pdev->dev, "isr: Just transmitted the last slot\n");
 -- 
-~Vinod
+2.34.1
+
