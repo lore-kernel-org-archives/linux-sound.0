@@ -1,96 +1,130 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8E720C46C;
-	Fri, 11 Oct 2024 09:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728021F942E;
+	Fri, 11 Oct 2024 09:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728638074; cv=none; b=eA0pmwz3mO7k1hpacTtd8q/gp0qZ8PO9favj+S9ZzVZ/XlfTpQOin7kzl7KnI6uyPA7j+X1ihLq/Q6Ag2KmVUQgKLYHDU3sizZgsxR0XLEo4aZ+gO8vX2u+Hwenol595IAqSFnFKPC9AL4w6jY9BmB3S+3/Te2LmOSuUpyngfs8=
+	t=1728638228; cv=none; b=DIYj2/SZuqct5INDy13YWqI31ddlxkNryGqmpqTe5h6Dlwf50gmTs0pon92ahOwDUCsyaBWi9TgjwZUJNrJyuFcDCwht694bS63issnz+wOF34qIcz5uyCiER8zcREYZhBWK/T0GscbUnjP3r7dFuczPT0pUPG47vLlZJVbjrE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728638074; c=relaxed/simple;
-	bh=pm1R6q6lJJ6RpeRNCdVCinq55I3Vjxk/fLUNmOjC34Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F08LdEOgSSr/3oTuvUOspEsF0W/q0cEpaMt1Qqn3t1CjyiR6Jdh849N/WJuticdrATHkPZ3AjqZcuNJX3WE5+xQLtgdQf9DwzjUYDyap9s00cugRHRLbay8WwKTC0/lJYXf1R3OAhUA2N+buL48zGkq9LAGTnN98TN1iVoeieg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBWwGlXZ; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728638228; c=relaxed/simple;
+	bh=PALyVzIVOFahpjkGR0jNU/L45VDE0hSJSYliXR7Uqmk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=N/rEW5Q/tc8uuldnUo5E6uFnKQlXn65XxlD39rfJrU/tjDgH1RQN+QzuOvxSw2Ea9lAMPR7lvAEjB2PkZgD4vwBsSfxWzWxxpAIY7Ad0z4YfSb4P8ocUNZ9xclmIW2KvyRKrHYzcVL6PFULlkZb0kVWLL60SfK6D5Tflk1rsmKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GxtCsEBy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EI7LEHQ/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ecCV4c4F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qr0VLfc0; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBWwGlXZ"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-84fd01c9defso465198241.0;
-        Fri, 11 Oct 2024 02:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728638072; x=1729242872; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pm1R6q6lJJ6RpeRNCdVCinq55I3Vjxk/fLUNmOjC34Y=;
-        b=KBWwGlXZ38tzb5Oy8Z4vMI82NRPGQG4N+6Aex8XaXcqwtDdXE0DD+xe2K58nJjlmfO
-         ZEOPFKjlhbC3HRzO+FBjbYY7M7Fa0QHeEu1Gm8XF//l1yIpw5TIvwfcAnoNJFKTNRpsm
-         PayNF5IUOvcl6gjcqUL3LP99/NcHtQ5+WbnaWn0V30SLg57ilqFBaHTZ+u9do+aAWG1t
-         pE7sKWwjY3wUVhUWXEfMdU6Myl60RGbsQwyt5GRvpdO1BUKwdZGIR0aQZzgMpbYqI/jT
-         KpYuV012crX7PWluHSheL2kwZ2mlNe9YtGmwxy5x1DUJqYDqc1/qt/IVqj+vR+gaE3tp
-         jTjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728638072; x=1729242872;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pm1R6q6lJJ6RpeRNCdVCinq55I3Vjxk/fLUNmOjC34Y=;
-        b=exPVgQQKqpfvIbKduO1MG8+lGWDRbNqsPr1m0KxWx8k9PRxRiBvDGXnmiFoa6twewT
-         1f/dJu8X1y3t2IVNtzKp2abvmm8EsQtJ/CVR45/lFBcpY4aTNdeXNSu3aVUvOG0NsXHv
-         ruRhLKiZULTIH0XkLnoHRXNv/h+ac/YHWUp2bFjOCnbcttpajM/Ui+F7YC6I2LixdC0o
-         MGTn6P1yqhZIdZdKYE+WdhNQZYgrvtEaFdPZfJjiyoKK78q5b8qZkTLK2pgU8zn/TZ8h
-         qaBBM2URbjHVsv5SlNm4hDi7eRqC5swO6yTAK7+3rLEBjbEioaBsquo6U0Qb3tRHV8T0
-         4cRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrs5DJMm2utO3JgyljTkJd+SArGj1MZ2nCbGj+61121Bnffyah8ldi0c/DUU/a7aBT6LAy9WgVA++6nCI=@vger.kernel.org, AJvYcCVv8x+l8Fg/rh8AJYYbvAMCJRjcfbJQ/5wZJnbPxcQQeF0P0dN41OtZ195+rkfz3OM8F/sfY904AcGhq0SBuMFnrAA=@vger.kernel.org, AJvYcCWdeImCVwdMmv0IiefGrtQPLnSbmry7rc0VkaSIlEAe6IAVBJnS9LTj4WOVMD3cbcBv/1IZReftqA/JlIA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0rMRI7m2T/BllOsTzNX/I5+1oMSq4NWjXZvxUkDgDBRQ+PytG
-	50t5Wgjp8gSqLedzHJdvv5L7jVWy9PJ2b+aPpmTteKehVnILJGixv58hTfXFehRA/zOWjHq4+0X
-	olz2+bxP5saARvI7VvI0Jg6U6Q6Y=
-X-Google-Smtp-Source: AGHT+IFN6BwD7hbkdaVU4GTY7Q7yv6/OkCHoXg9LhU8kGTJStj4XSqIVXt9WrZknvEoLtnQlQrNDnn6npDT3H2lGJwg=
-X-Received: by 2002:a05:6122:3bcd:b0:508:a4fb:a49f with SMTP id
- 71dfb90a1353d-50d1f4fe720mr856880e0c.7.1728638071925; Fri, 11 Oct 2024
- 02:14:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GxtCsEBy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EI7LEHQ/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ecCV4c4F";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qr0VLfc0"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 91C9C21A5F;
+	Fri, 11 Oct 2024 09:17:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728638224; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KmYmCVyl2rFwD9BiqgFd8yoAxWFD/1VIA+PgBB6i4+Y=;
+	b=GxtCsEByyTBznOeEZGz3uCoxw7gXOR6+KKlRd/G6rNaN2SIo/uoJfHsjAa2jMQDp1AElH0
+	7FKjQyweOcV1qZz5jP4CrATxTVeBwEDq8jpu8O4sJ83iDvlE1+Wq958QV0irqtYu4FC9e4
+	AHdMSQSRZ+LtcMwHfjQ3OnDfXvCv2KQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728638224;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KmYmCVyl2rFwD9BiqgFd8yoAxWFD/1VIA+PgBB6i4+Y=;
+	b=EI7LEHQ/qCHa6ounjWn/JIxerdm18s+tw3pmADsXGOPOyD9g3V9PUGU4s6bgzs0cBATDBG
+	4hocjl7vSf0a6kBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728638223; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KmYmCVyl2rFwD9BiqgFd8yoAxWFD/1VIA+PgBB6i4+Y=;
+	b=ecCV4c4FuI3Vh+kvSCo62rf5CwUCjykXEbPXzGleKSTZhJP08KUAH6PoahbwEP/EqHJekb
+	xozKjl1qS76MolhbvposaDEd8k5TNeFdPk924HfWfV9oicrthOvcrUXzJ6zHR0SKv2f2y8
+	RvPogN+1YOuesRYVqmPpl/QPMsRvvnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728638223;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KmYmCVyl2rFwD9BiqgFd8yoAxWFD/1VIA+PgBB6i4+Y=;
+	b=qr0VLfc0mbNLyJzUDgIL/xINESdVi6zfI0rjtkWMsfgn1n/qeDV4nY+XQ8El6RNOtz1feN
+	i2ACX1+8hpyrooBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 451541370C;
+	Fri, 11 Oct 2024 09:17:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id G4NmDw/tCGcXKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 11 Oct 2024 09:17:03 +0000
+Date: Fri, 11 Oct 2024 11:18:00 +0200
+Message-ID: <87ldyvm20n.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	g@b4.vu,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] ALSA: scarlett2: Add error check after retrieving PEQ filter values
+In-Reply-To: <20241009092305.8570-1-zhujun2@cmss.chinamobile.com>
+References: <20241009092305.8570-1-zhujun2@cmss.chinamobile.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <CAMuHMdUzTyDvrAGZj0gp4QuW72LvS49VQxBT5UZP6OYXH6xtJA@mail.gmail.com>
-In-Reply-To: <CAMuHMdUzTyDvrAGZj0gp4QuW72LvS49VQxBT5UZP6OYXH6xtJA@mail.gmail.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 11 Oct 2024 10:14:05 +0100
-Message-ID: <CA+V-a8vzt0XLVn7BLWwi7d6Y9zUfzxXw21o4ZbERfe6Lt4V_gg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to
- endpoint parsing
-To: Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	Biju Das <biju.das.jz@bp.renesas.com>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-Hi Geert and Kuninori,
+On Wed, 09 Oct 2024 11:23:05 +0200,
+Zhu Jun wrote:
+> 
+> Add error check after retrieving PEQ filter values in scarlett2_update_filter_values
+> that ensure function returns error if PEQ filter value retrieval fails.
+> 
+> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+> Cc: <stable@vger.kernel.org>
 
-On Fri, Oct 11, 2024 at 7:27=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Prabhakar,
->
-> On Thu, Oct 10, 2024 at 4:15=E2=80=AFPM Prabhakar <prabhakar.csengg@gmail=
-.com> wrote:
-> > I was intending to rename the sh folder to renesas, do you think that s=
-hould be OK?
->
-> That's up to Morimoto-san and the other sound maintainers.
->
-Thanks Geert.
+Applied now (with additional Fixes tag).
 
-Morimoto-san, what do you think of renaming the sh folder to renesas?
 
-Cheers,
-Prabhakar
+thanks,
+
+Takashi
