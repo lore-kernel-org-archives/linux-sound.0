@@ -1,229 +1,140 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011013.outbound.protection.outlook.com [40.107.74.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310C1748F;
-	Fri, 11 Oct 2024 02:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728613594; cv=fail; b=j0TGYnYMVGD51dPdtYGtebr8bBmxutO/UWhTB4MkoHLg/DZ6OeVekRiiG1ITuakKF5LpZp4fwYurV0pECVZd2RfDzizvwLP+v3sO/H24vHl7g4oA6eS+7X3UHxuMhShS2HSM6e8cO2hzuQYrm+Mcj7b2yGTnef/3oDTCfTcfjKc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728613594; c=relaxed/simple;
-	bh=WWoD66CYTMSBH5Taf+PZGoIovl7I6wfZcDcjdB+oG9k=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=ZcrPwkz26l4V4FGORpWd+93ViOZHdifdZAnEAHYTldnY7MWPUEEMpvsgjA/yG2dqWlKtd6fH/xIkAd8wP61xdwX4sQt/ZQIAlPvsFrRZzvfLLidDYCa5cXnPrH0mmnw9fngotsRj5G4t+qKkninBVsI+8TMzGnrqQBwZVW50MyM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=IafeLQPx; arc=fail smtp.client-ip=40.107.74.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A8931F4FA8;
+	Fri, 11 Oct 2024 04:40:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728621635; cv=none; b=i5jb+t9zldrCcmQGnTWDhJCCDBXK3XScVWV6umLtnbmum16egLsUtSmW2tBbL6iUBsT01xcwPwkywKbPL/KlFYr03+eYlyG4e+aQsdhfxj9yZZj52qZLiR6X0zKaYm1cLsClcgxvxe7XBRBmsSnBI+1yClgK+RIDcfVNJXTNnxs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728621635; c=relaxed/simple;
+	bh=fv7ZcG807Xn3XkqYXMc7par4sQR3IJcSD+cX+aEunVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QLefQpamKkSBtwpEPzpQ7ctq0M14QoWcxgKTdqZt+nhm421OAq6Z/q/e05VNn1FBFfhiwgJm4gkgzHjkNLy1kWX6KASD8HJKFhklQyvY8xdEzQQ3MuRk9Q8BdIb0wYp2HqGF/4a77srg6TpcCQ4mZBO3zXuJ9ao7aECQ+cq+7/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WWmVV0SK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="IafeLQPx"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gvDUISYud3eRgZmCSrsx85B+U41NId+3wgRuDKgVf/9wgv33M7O8T6GwDMmgzntc+MPWgxZ6X8e1rybm1NpxtEseItP6VlxwbtDQ0i+u24V9url1SRZw6IUrn1pI2WuvQx99Tle1n6MVzTtBDo1HOfpuwOT655YF7auVP7W8JT1XJff6rtyLwhnf/eQkI7GZ/horB4EVjlXdJ4iIOENiwcnC2yv6aap9RroiOCAvdA2ouHuDB0AX2vcKr9DZv7BHEjjycdWdlCRpTwXbBY7BoaLg7TcVBRtB/uewn0dc++D/bg8IzF6rrzfPeEpd7vriw69DWUj9spEpzGd8ZdCthQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s6USLVkglsge8UC8kYymne0GcOeeocv2qEIY8Wr0HaY=;
- b=Gh8uQzLmaoCaXIgcKeQq+gqcdi3yHgRERtVtjgMEypd8tvzkhOCwji8cuHndkYgHOEcwgWQtkW+rtKX3hnbo6a4XXg7zuIpAoFosfjkJYoLBzrnPcTg/7IHCcgEhKA3JNpVJpi0MeduC3RSe6fCdFN53woUPTgMX6qkm9Cc9t66H2xnO9da+hnPsELjcp1kOqe1oUg/8eH3j+QpshLCcGNKe/I5M7zPUQ4TcarR3i4EaUEfqQqB+xdCA/rhreUkvQxcAtW7Awrb0JrEUd/1bPxCijhUqrO6Bd90J3x33tFuHGEsHPHv4ZzaHmKMMVS0xCgHr/8kbXHqkOqURGLHmYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s6USLVkglsge8UC8kYymne0GcOeeocv2qEIY8Wr0HaY=;
- b=IafeLQPx31hSAmmLO2Falam/nfRueklGCeHHip0hlt2/C+n/U6p6rCzy8JSzJnqboyGvMxE30lpI2PrUpZmcvnCURQ+sNEj13t/4QUSNZZ2JwIYdZzkfTkCxrzyG9azH/L6mqSWZA+5NKH33LdZ9wi9Dbc/xtdHqvKBpIaOcY5Y=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8064.jpnprd01.prod.outlook.com
- (2603:1096:400:101::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Fri, 11 Oct
- 2024 02:26:28 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8048.017; Fri, 11 Oct 2024
- 02:26:28 +0000
-Message-ID: <874j5js7cb.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH] ASoC: rsnd: Fix probe failure on HiHope boards due to endpoint parsing
-In-Reply-To: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241010141432.716868-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 11 Oct 2024 02:26:28 +0000
-X-ClientProxiedBy: TYCPR01CA0114.jpnprd01.prod.outlook.com
- (2603:1096:405:4::30) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WWmVV0SK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0939C4CEC3;
+	Fri, 11 Oct 2024 04:40:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1728621634;
+	bh=fv7ZcG807Xn3XkqYXMc7par4sQR3IJcSD+cX+aEunVU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WWmVV0SKZrhfAKyDVF45vorJzXEuQ9GyG3iy2i+Vz7yDdoQnCEyX6gmSh8Wx21DvT
+	 PCfq2zLKOw0EVw3cJ8QLnWs8s+6uzTXfGqumlMrcEpuHpNkfnYYV242neIu3Kg2wee
+	 /dSfEi72bjjFc3iYaMF9jZK5vU7j1q8RovVPhmys=
+Date: Fri, 11 Oct 2024 06:30:58 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com,
+	stern@rowland.harvard.edu, elder@kernel.org, oneukum@suse.com,
+	yajun.deng@linux.dev, dianders@chromium.org, kekrby@gmail.com,
+	perex@perex.cz, tiwai@suse.com, tj@kernel.org,
+	stanley_chang@realtek.com, andreyknvl@gmail.com,
+	christophe.jaillet@wanadoo.fr, quic_jjohnson@quicinc.com,
+	ricardo@marliere.net, grundler@chromium.org, niko.mauno@vaisala.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, badhri@google.com,
+	albertccwang@google.com, quic_wcheng@quicinc.com,
+	pumahsu@google.com
+Subject: Re: [PATCH v4 3/5] usb: add apis for sideband uasge tracking
+Message-ID: <2024101104-feminist-gulf-97e3@gregkh>
+References: <20241009054429.3970438-1-guanyulin@google.com>
+ <20241009054429.3970438-4-guanyulin@google.com>
+ <2024100941-limping-dislodge-5c74@gregkh>
+ <CAOuDEK0a43yLhCoA8iq=stj+QQAmKTCVWGKHvKM6-GPEaN9C3g@mail.gmail.com>
+ <2024101021-vertigo-gopher-e487@gregkh>
+ <CAOuDEK01Ke9KZqPf6KOfXaAQRRvw-y0Vagd9NrP8e8_EG-w52g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8064:EE_
-X-MS-Office365-Filtering-Correlation-Id: a37ea627-abf3-4646-14d8-08dce99c1cb3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?E7YfgWAO3cKgHymfTDoCZZMobA8PzBlh0zUhiXO7ZDnKdypgTybHXeLbMq+v?=
- =?us-ascii?Q?Kia0N497ahEPS6gZ2ILCVQy0RleYlIAek8fNaleiK+4Gaubfm2dumU3ocRLA?=
- =?us-ascii?Q?KZEJXIk1mbUdRJF/KT15FmzPdrDIMfuuW3TvNU0JnCD9f2et4Lw5V9hsz5k9?=
- =?us-ascii?Q?xegrKf12fe0FD0xyg7e8mDLQL8qOMw7xBYh9uE2h7pgQLRdGKJ96PvYhjZdg?=
- =?us-ascii?Q?EaND1sNWqdsZ/kNYn1yTHHnjmi1nSEjb+pyRunLrKDa3Ne0cqwmLS7i9FwOi?=
- =?us-ascii?Q?8BYe0PHMfhiEz90FKLePFFPuLjhPQa7JzsVQ35iN7hLNxTRiDDSFDZnyyU1j?=
- =?us-ascii?Q?DzGxknHZc/+ByJiSxGuCqi3ZUGhOSpOuzqVr2znlHRKHocaQvVDsfMckhILH?=
- =?us-ascii?Q?yi9W38dnesrT97YEXIuX5n+oSOkQjSl+dd5Cq181ebZr59I9gBKAzgt+07/u?=
- =?us-ascii?Q?bQPWSdFJjIUOhDqDr5tnjHUpr/dsNgHQBIws/v42BEPNwEee+HpAMUYC6hVD?=
- =?us-ascii?Q?RWLYJbIPhrUivuHrPhbavjJjn4rXimZkHHchsumrJhNXXSdlp7aSzjUo1zmo?=
- =?us-ascii?Q?8LU++7LIN/XtkW51zaI+8OIfXWoy/ZcvNL3asH0pyYdl0Cd5OigWCaTaJCwW?=
- =?us-ascii?Q?FJIh77Y2eukhQGpYGgzHVc0kwyJbzwRiDMaBBQ36eVsODdTJ+FcWpOd7yUZs?=
- =?us-ascii?Q?FVKc92xY/RlslT1ilb7RQ5cwo1Mi8ULNxEqvY2TKq1ypMkwIc2nT/AQ+edWv?=
- =?us-ascii?Q?VUUmbl6ikTee5StWAqIbcf4aryMOA/SIV+WR2XFcXKv1/TeJnlr04y84NR40?=
- =?us-ascii?Q?WG8UMdNA62cpC5LZs84Pdf2K/kt1H3nwyhwgw2Y0Ba1v7hKnuhpLVzD/4hSx?=
- =?us-ascii?Q?Zq+JWo0gCxHF0ohmsMkiVS/gkxJzjUUshTksq3+8bJtYo6pohSzuD7To6r3E?=
- =?us-ascii?Q?HhA2HRSxgkHvQEemWVZyoSDtBnq2Y765lSZNs8M1N9H92CFwLF1cYQ3BIW1X?=
- =?us-ascii?Q?jZmpageffu+SRpVEhXSAUhXvauRD8NYDIpt25sNcVGCV789YnuymhEkAlVDL?=
- =?us-ascii?Q?ltkhodUza3m9oe8RF/FfP77tzxfwAItg5mcXmkIsnV+R5UVOA1BwEOlu2ZO6?=
- =?us-ascii?Q?qWLXtNeFxu53693wf6von/p+U3xXfWY7pczrgEWNuZ0fxHwZGOHXghKOPy1m?=
- =?us-ascii?Q?0v2XKNYFIAzxJp30vLINDFBjdGEdJ62MTmtazJt3cnbbdHZgRyHfG9Ixf5UZ?=
- =?us-ascii?Q?+bWiYgBfZUM1tJsJYwsDohIg51LYUnAZ/qWG6BLCZSD/VQiNzRgfgCbaXDRF?=
- =?us-ascii?Q?6S/Gq3krq7pFvhU9vUgTh10G/MVXNNnTbIPcZJyxypsNGg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MsHPDniI20b8bsIZkC1eGcxNcBUokfAeWFXFSeJ4PbxN/Kfx6utH9daWXiUH?=
- =?us-ascii?Q?zx8mVOFMOqYVNaJo9EnlskMssBkPHllp3Z9Nf4Pf3mFvpFQ4VBSieTHQ/b33?=
- =?us-ascii?Q?ftsF5ErQ90wgnJS47+EwAzcr/+TTASAgpnZLZrG+gtFyrm8cGTRn7Bgl2NfM?=
- =?us-ascii?Q?rN33LMY1r6PksN49CfBvEfcD/QdqpP65rIakVYmpFPqzJwIbhnq0M6xUK290?=
- =?us-ascii?Q?KvPr0/V9iaPUkQiP8r/0RyghBSHvxFr7IAnp13CGwCwwTC22hzH4qi0co4E1?=
- =?us-ascii?Q?dRYl+axMnqGUvxt8n5Z1uTzXjFiwtCkoDEVDkfq8IXIODejZqF4X6pUjm/MR?=
- =?us-ascii?Q?QK0pl4wnbelW1VtgjhUDF8KwAuwJFgVMeg7j/ZnVC7nfthTNI10XQMkPw5H1?=
- =?us-ascii?Q?V1pa6b4X+P/bIsGi8A/JZLslX+cwJnCmJgUNG3Y88+y/cShyWgIU+3dREeGL?=
- =?us-ascii?Q?eZy00TNjvkmlG6lPcUWeRYZRqLYVreMlnzggiqTkoD7rVwzJAA6XWbqAl/ny?=
- =?us-ascii?Q?SueCmH+LR/SpuOFYCJmP4PSfO73O/0Jr5FAMM+P2pOIIq5OkKlT685nMDRXB?=
- =?us-ascii?Q?f8r6hIQc0O2uGME53u3sLoHT0gllgMEYxzpb/VFFImJFXJK66yN0e0GAZPuR?=
- =?us-ascii?Q?9YfEp0B4PN1XWFkgW3xjhiMYOUX1whLU5fA06LXnuTQbHoZKJll824N4q8d/?=
- =?us-ascii?Q?yBMJeT5YvcKyYoWWnoBwwPfyNaXzrBLppZulDz4Fgjqhvk2udNBDGCJGwE+l?=
- =?us-ascii?Q?g0ktBMp687p/eS6A5pjsbmOZ043Ko7ahfDpBtNcGUYUvTWwK8/5CiAYle3uY?=
- =?us-ascii?Q?3oyINHBFqCXeRYldrWNaruCUkgyZ0qDRJ5dggVcTxQJ8hKTKS5oQEXdMiofS?=
- =?us-ascii?Q?fj5mLuBNEmA4kToSjqlUO089cSI+hIZ4jgAOrmluq8g9kN2f7fP1TgPePlaL?=
- =?us-ascii?Q?Jo6NahHAfndFd6M+fP+0aLSDggrQogXcqBdJ/nj1KpD8vtk24fbfVv2O6KTu?=
- =?us-ascii?Q?47FhOxtVNSiTys8pEaC9r2CqQK+uKg4mmwEkEaaINUQQCzdvnz0MME4Cgewe?=
- =?us-ascii?Q?K/DcDdZUhNS/JH7+MbKTtJwoQMyNXeABMxxdjSdQqfBcxGOw15O129xmum5q?=
- =?us-ascii?Q?gGdby3y0a4yJhwWXo5RpK09HtwthHK2lIsN2rs6CnpydWa2cXyWEb0z5WiBB?=
- =?us-ascii?Q?/jfCiZ5N1Q/10V7PIPop1XSxd1s3EcIQeRYct9jf0Fy7rKbxljWj/poiAR0F?=
- =?us-ascii?Q?IPzxHBBQAZZ9XDGYzYJMvp7DtIiciU8AYdwRf2VNwOFqylo0+YdiBYAD7I/E?=
- =?us-ascii?Q?ZvfRRisPToFGCQeTFR4uZjfxx3R08D3W471nOBn0AggCfCk4/ULCN+8c1XUW?=
- =?us-ascii?Q?JcUKEc7oySNL9d8L0Ihg+Lg0bnJif8hyBbmIA2HnvQSmFd/bbsDCFPq+Y7i9?=
- =?us-ascii?Q?kVapqrZ7xtXjDofFfOWnl0tOy0PpTxaOdoEbkdSz3iLxWYUjzGltGKvp3iuf?=
- =?us-ascii?Q?stuSSUhKFPrf7WifcQCZi2jUz3IVw+koqi2WBSeFZKQ1JrXiI9g/IGo6Oo4s?=
- =?us-ascii?Q?jFkhKbtd+pyMr2P7vfG4xox3eIs6eewvtIji5/oOPw3fAFSmMuJXxawHBeDT?=
- =?us-ascii?Q?EcaOXwMumXiMEzF5EoxYI4w=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a37ea627-abf3-4646-14d8-08dce99c1cb3
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2024 02:26:28.6598
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UF70nZXL2K4wf+mfIvpByP6ZI497WztLN0/Ao0l3T6o0ExGZo0sEPfKZYZ4F+sDvlAZfmHrkkxtxm+nD3p0VLP5cOvgFgnCESELwXKy/kWAf0JbTJE7VYVCKIY4Op2lS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8064
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOuDEK01Ke9KZqPf6KOfXaAQRRvw-y0Vagd9NrP8e8_EG-w52g@mail.gmail.com>
 
-
-Hi
-
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On Fri, Oct 11, 2024 at 12:14:00AM +0800, Guan-Yu Lin wrote:
+> On Thu, Oct 10, 2024 at 2:33 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Oct 10, 2024 at 01:30:00PM +0800, Guan-Yu Lin wrote:
+> > > On Wed, Oct 9, 2024 at 8:44 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Wed, Oct 09, 2024 at 05:42:57AM +0000, Guan-Yu Lin wrote:
+> > > > > +             parent = parent->parent;
+> > > > > +     } while (parent);
+> > > >
+> > > > Woah, walking up the device chain?  That should not be needed, or if so,
+> > > > then each device's "usage count" is pointless.
+> > > >
+> > >
+> > > Say a hub X with usb devices A,B,C attached on it, where usb device A
+> > > is actively used by sideband now. We'd like to introduce a mechanism
+> > > so that hub X won't have to iterate through all its children to
+> > > determine sideband activities under this usb device tree.
+> >
+> > Why would a hub care?
+> >
 > 
-> On the HiHope boards, we have a single port with a single endpoint defined
-> as below:
-> ....
->         rsnd_port: port {
->                 rsnd_endpoint: endpoint {
->                         remote-endpoint = <&dw_hdmi0_snd_in>;
-> 
->                         dai-format = "i2s";
->                         bitclock-master = <&rsnd_endpoint>;
->                         frame-master = <&rsnd_endpoint>;
-> 
->                         playback = <&ssi2>;
->                 };
->         };
-> ....
-> 
-> With commit 547b02f74e4a ("ASoC: rsnd: enable multi Component support for
-> Audio Graph Card/Card2"), support for multiple ports was added. This caused
-> probe failures on HiHope boards, as the endpoint could not be retrieved due
-> to incorrect device node pointers being used.
-> 
-> This patch fixes the issue by updating the `rsnd_dai_of_node()` and
-> `rsnd_dai_probe()` functions to use the correct device node pointers based
-> on the port names ('port' or 'ports'). It ensures that the endpoint is
-> properly parsed for both single and multi-port configurations, restoring
-> compatibility with HiHope boards.
-> 
-> Fixes: 547b02f74e4a ("ASoC: rsnd: enable multi Component support for Audio Graph Card/Card2")
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
-> Hi Geert,
-> I was intending to rename the sh folder to renesas, do you think that should be OK?
-> Cheers, Prabhakar
-> ---
->  sound/soc/sh/rcar/core.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-> index 9784718a2b6f..eca5ce096e54 100644
-> --- a/sound/soc/sh/rcar/core.c
-> +++ b/sound/soc/sh/rcar/core.c
-> @@ -1281,7 +1281,9 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
->  		if (!of_node_name_eq(ports, "ports") &&
->  		    !of_node_name_eq(ports, "port"))
->  			continue;
-> -		priv->component_dais[i] = of_graph_get_endpoint_count(ports);
-> +		priv->component_dais[i] =
-> +			of_graph_get_endpoint_count(of_node_name_eq(ports, "ports") ?
-> +						    ports : np);
->  		nr += priv->component_dais[i];
->  		i++;
->  		if (i >= RSND_MAX_COMPONENT) {
-> @@ -1493,7 +1495,8 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
->  			if (!of_node_name_eq(ports, "ports") &&
->  			    !of_node_name_eq(ports, "port"))
->  				continue;
-> -			for_each_endpoint_of_node(ports, dai_np) {
-> +			for_each_endpoint_of_node(of_node_name_eq(ports, "ports") ?
-> +						  ports : np, dai_np) {
->  				__rsnd_dai_probe(priv, dai_np, dai_np, 0, dai_i);
->  				if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(priv)) {
->  					rdai = rsnd_rdai_get(priv, dai_i);
+> Without the information of sideband activities on the usb devices
+> connected to the hub, the hub couldn't determine if it could suspend
+> or not.
 
-Ah, I had a plan to clean-up around here, but Of-Graph rejected the idea.
-Indeed it will be issue if DT doesn't have "ports".
-I would like to re-cleanup around here in the future.
-But anyway, for this patch
+You are talking about an "internal" hub, right?  And isn't this already
+covered by the original sideband patchset?  If not, how is power
+management being handled there?
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> > > This problem
+> > > is similar to runtime suspending a device, where rpm uses
+> > > power.usage_count for tracking activity of the device itself and
+> > > power.child_count to check the children's activity. In our scenario,
+> > > we don't see the need to separate activities on the device itself or
+> > > on its children.
+> >
+> > But that's exactly what is needed here, if a hub wants to know what is
+> > happening on a child device, it should just walk the list of children
+> > and look :)
+> >
+> > > So we combine two counters in rpm as sb_usage_count,
+> >
+> > Combining counters is almost always never a good idea and will come back
+> > to bite you in the end.  Memory isn't an issue here, speed isn't an
+> > issue here, so why not just do it properly?
+> >
+> 
+> By combining the two comments above, my understanding is that we should either:
+> 1. separating the counter to one recording the sideband activity of
+> itself, one for its children.
+> 2. walk the list of children to check sideband activities on demand.
+> Please correct me if I mistake your messages.
 
+I think 2 is better, as this is infrequent and should be pretty fast to
+do when needed, right?  But I really don't care, just don't combine
+things together that shouldn't be combined.
 
-Thank you for your help !!
+> > > denoting the sideband activities under a specific usb device. We have
+> > > to keep a counter in each device so that we won't influence the usb
+> > > devices that aren't controlled by a sideband.
+> >
+> > I can understand that for the device being "controlled" by a sideband,
+> > but that's it.
+> >
+> > > When sideband activity changes on a usb device, its usb device parents
+> > > should all get notified to maintain the correctness of sb_usage_count.
+> >
+> > Why "should" they?  They shouldn't really care.
+> >
+> 
+> Hubs need the sideband activity information on downstream usb devices,
+> so that the hub won't suspend the upstream usb port when there is a
+> sideband accessing the usb device connected to it.
 
-Best regards
----
-Kuninori Morimoto
+Then why doesn't the sideband code just properly mark the "downstream"
+device a being used like any other normal device?  Why is this acting
+"special"?
+
+thanks,
+
+greg k-h
