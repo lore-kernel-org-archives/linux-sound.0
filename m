@@ -1,49 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35F199249;
-	Sat, 12 Oct 2024 11:26:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0EC19CC27;
+	Sat, 12 Oct 2024 11:26:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728732398; cv=none; b=Np2eHlqcT5tpsyeuUcDfzRxhPxy3Gp/hvr59QVC8rul6MSlrNUL235Kt1HXpzq9GgpKhQyGa+5fLn0OuBpHHjfIVDzCAirda9sQe+Fpzb5TU+UrhSFpqrGDSB0ecWvIl+WiAv9LtgiksIHIT++0e/d3ulRKM8ZnKllgxnwF9euk=
+	t=1728732404; cv=none; b=WwoiQaW0/fFPl7FKs4eqBbIw+jGfq/rOEIT6YQJBPF+VwD6g1GGseNmZ4CLel9b5jwtRwBX4zMOuBt5D0WUDPmq2/EBe7t0X0agy8WMctXzfkuCR69p7tNDi8CeDNEBefo1KnPCGNVSiin7gvJEtvEErWThKN0+J/X37uI9a6ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728732398; c=relaxed/simple;
-	bh=1skIrtuzhEdXdjRYtE21RMLEdVtdi4q6N2SdiwO/CYc=;
+	s=arc-20240116; t=1728732404; c=relaxed/simple;
+	bh=ozWgqL4UktxLyLZYhW3nptSMtJ/SZyukKb1lUVsTyb8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K0f2h8KghxEFGwjzyUmLcUZXa+qv/+gPdxGp9N8GalaxTVsL2/lQ/6w3QotU6s6m836BbaeP0lesW2nY09N6hkyQVbkMf0HoLXhSA75hXR55gVy5NRa8J27Sc0uaYmfVmcYv88mhSSq5rSZPkVic3xsFERw20sApptoY9ZqhFFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJZcFpUI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Nf+nV2bJnSmOEK57xPVPvC5h7ARjIAoHnWPXhP//XBkGcq3gF5L/M93N7uc0TkJIt/lOjF06IfpNSRm8hXTw7niO3FnBYHd7dDFIKbo4njmRIj928D9h7XtZ/d34vRDuvPsecF46HtCR+EXDTTqGk0xNvagZAyeoGP6CB/mwikU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lmOPj5zV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJZcFpUI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46074C4CEC7;
-	Sat, 12 Oct 2024 11:26:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lmOPj5zV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ADFC4CEC6;
+	Sat, 12 Oct 2024 11:26:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728732397;
-	bh=1skIrtuzhEdXdjRYtE21RMLEdVtdi4q6N2SdiwO/CYc=;
+	s=k20201202; t=1728732404;
+	bh=ozWgqL4UktxLyLZYhW3nptSMtJ/SZyukKb1lUVsTyb8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UJZcFpUIv1dWhYNnZz18aKsryFyNJLddQC4u7b0EE90SlxTD8hrwhBzX7bBERZKcD
-	 2ET7mWyl5b6ITd+BO2qlsm8T2Lx9ORP1tlnHubRcbZURvwcupwV2vU3m4wCmEBNmop
-	 B+Ron8EqU3R+oDrsaT8gBv4S1ek0OfVQSpiNEy1LonoNnfXV5ud4dn78hW9Q0krYEX
-	 fWGUhe6evH6qgEKN3RCTs/2L6SI+/fvfOHasEdFVKfM1/Gdt5VgVWKsZHyFxkvVPcy
-	 aoSUG0r58zjYIUX083xcyHq78qmrgUeMJhuSzwY6MCuAkHd1sFr0wOblJ3RPXw549x
-	 bUHSFmJLfm2Tw==
+	b=lmOPj5zVFGU35vsUa9CRKLcTpx5Q7WQj+0L+u7tnIXM4zmtrQMhMSVHc3IIQtdgEs
+	 SEa4PAb13MUP9uujGHPrxLG1T3brFWXjl/v9UPEnQOleNqYSIbOmhdQLp8+xfCwpRx
+	 34Bbtr5sWvLM/XnuiBemC6dRDehWTHB4o/LBt4xi3EQZLPPRLj/fjJFQomsAVhKWzG
+	 Mav4Z+/sSLSaexV/Q1w4uAZiwCUUfDqF2H6C/YuJ9ZC6dwDeKzyYd4HmkFIpsTOc11
+	 kYZJ8xFfqb2UwuIkMHt6rRv7p6RhzqE2NTxbMv8/swZSN0Ky1f82gPlgyScAPQR+sH
+	 TSqnoia0RdfQQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Zeno Endemann <zeno.endemann@mailbox.org>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Alexey Klimov <alexey.klimov@linaro.org>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	srinivas.kandagatla@linaro.org,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
 	tiwai@suse.com,
-	tglx@linutronix.de,
-	cezary.rojewski@intel.com,
-	yung-chuan.liao@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	songxiebing@kylinos.cn,
+	alsa-devel@alsa-project.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 08/16] ALSA: hda: fix trigger_tstamp_latched
-Date: Sat, 12 Oct 2024 07:26:04 -0400
-Message-ID: <20241012112619.1762860-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 12/16] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
+Date: Sat, 12 Oct 2024 07:26:08 -0400
+Message-ID: <20241012112619.1762860-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241012112619.1762860-1-sashal@kernel.org>
 References: <20241012112619.1762860-1-sashal@kernel.org>
@@ -58,84 +56,33 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.3
 Content-Transfer-Encoding: 8bit
 
-From: Jaroslav Kysela <perex@perex.cz>
+From: Alexey Klimov <alexey.klimov@linaro.org>
 
-[ Upstream commit df5215618fbe425875336d3a2d31bd599ae8c401 ]
+[ Upstream commit b97bc0656a66f89f78098d4d72dc04fa9518ab11 ]
 
-When the trigger_tstamp_latched flag is set, the PCM core code assumes that
-the low-level driver handles the trigger timestamping itself. Ensure that
-runtime->trigger_tstamp is always updated.
+Add "qcom,qrb4210-rb2-sndcard" to the list of recognizable
+devices.
 
-Buglink: https://github.com/alsa-project/alsa-lib/issues/387
-Reported-by: Zeno Endemann <zeno.endemann@mailbox.org>
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-Link: https://patch.msgid.link/20241002081306.1788405-1-perex@perex.cz
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Link: https://patch.msgid.link/20241002022015.867031-3-alexey.klimov@linaro.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/sound/hdaudio.h        | 2 +-
- sound/hda/hdac_stream.c        | 6 +++++-
- sound/pci/hda/hda_controller.c | 3 +--
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ sound/soc/qcom/sm8250.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index 7e39d486374a6..b098ceadbe74b 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -590,7 +590,7 @@ void snd_hdac_stream_sync_trigger(struct hdac_stream *azx_dev, bool set,
- void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
- 			  unsigned int streams);
- void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
--				      unsigned int streams);
-+				      unsigned int streams, bool start);
- int snd_hdac_get_stream_stripe_ctl(struct hdac_bus *bus,
- 				struct snd_pcm_substream *substream);
+diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
+index a15dafb99b337..50e175fd521ce 100644
+--- a/sound/soc/qcom/sm8250.c
++++ b/sound/soc/qcom/sm8250.c
+@@ -166,6 +166,7 @@ static int sm8250_platform_probe(struct platform_device *pdev)
  
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index b53de020309f2..0411a8fe9d6f1 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -664,7 +664,7 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
-  * updated accordingly, too.
-  */
- void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
--				      unsigned int streams)
-+				      unsigned int streams, bool start)
- {
- 	struct hdac_bus *bus = azx_dev->bus;
- 	struct snd_pcm_runtime *runtime = azx_dev->substream->runtime;
-@@ -672,6 +672,9 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
- 	bool inited = false;
- 	u64 cycle_last = 0;
- 
-+	if (!start)
-+		goto skip;
-+
- 	list_for_each_entry(s, &bus->stream_list, list) {
- 		if ((streams & (1 << s->index))) {
- 			azx_timecounter_init(s, inited, cycle_last);
-@@ -682,6 +685,7 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
- 		}
- 	}
- 
-+skip:
- 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
- 	runtime->trigger_tstamp_latched = true;
- }
-diff --git a/sound/pci/hda/hda_controller.c b/sound/pci/hda/hda_controller.c
-index 5d86e5a9c814a..f3330b7e0fcfc 100644
---- a/sound/pci/hda/hda_controller.c
-+++ b/sound/pci/hda/hda_controller.c
-@@ -275,8 +275,7 @@ static int azx_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
- 	spin_lock(&bus->reg_lock);
- 	/* reset SYNC bits */
- 	snd_hdac_stream_sync_trigger(hstr, false, sbits, sync_reg);
--	if (start)
--		snd_hdac_stream_timecounter_init(hstr, sbits);
-+	snd_hdac_stream_timecounter_init(hstr, sbits, start);
- 	spin_unlock(&bus->reg_lock);
- 	return 0;
- }
+ static const struct of_device_id snd_sm8250_dt_match[] = {
+ 	{.compatible = "qcom,sm8250-sndcard"},
++	{.compatible = "qcom,qrb4210-rb2-sndcard"},
+ 	{.compatible = "qcom,qrb5165-rb5-sndcard"},
+ 	{}
+ };
 -- 
 2.43.0
 
