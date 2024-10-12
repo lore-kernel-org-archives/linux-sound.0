@@ -1,169 +1,96 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDEC14F9CC
-	for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 10:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C0515CD52;
+	Sat, 12 Oct 2024 11:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728727880; cv=none; b=T5sFaa5m2OXvNvFGPjVKTsLTISzrpfeuF7wZVVdcIheSZHyOgC0SPQzZgHtr5SqFWCJtFeMY6i1DElzT6jAzt5FUQU/08tQfc+OQ5/dBD149BnhesVWv/LJbDJwUTY4NVDsnjc+g3MsIVIJhHCJDVQMnvBTiuBL9j9tRGoHUmgc=
+	t=1728732386; cv=none; b=TQ7h5jjPb8yrq6ruZLl/3rPI/vgBXsJpq9asc2sIV8Kzqo+XQ2VoJhvp+4coiaFZeGIN3eGkg3a1fZvIUMgslKkAIiVCvS63rM6IzCmlhzAA4QyuC06X3Zk4YidwcWDyjS0B0tUFBBlziXgh3E5EtTeuqxW9NS/hhXeDMJvc1RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728727880; c=relaxed/simple;
-	bh=l+g7ZZNhOPkyAa9Dk/e5/JWOw85ZtEH+kE4rgPB/cPM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SmuMd35UkzD6X0oYvnBbByRmVcraAe0GgztAND4R06q/KG0CgV5v+mfrPPlw33le4EV4U1ic4h3oDZIdmdkjEulbfiQ4WOWIQPyeJYdzVuuLDIvVqkXDU6y/pGpihoxPtwl3OnoK6/diAqkjhn7WPatf//THiKPImsCX1MxKvj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K5/hcQvu; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1728732386; c=relaxed/simple;
+	bh=/UhmavUvI2ZNZ2UWyBos8WUr2di3xdupe4CqtO17SeQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FB8q8T2YUdX7Dv+/dqo4b/nCwFPnVrYOfp+PF0PRR9GsgsMRsN7A738KJ8AfCmI3z4dVS25bCXpY2D1HKbo81ZeHWCVf6hEnv3hi42okLdaPWWWwCtg+3/bxyyHASu/7k2m51k3RsDAiSTxluCP3A0gOG9CNwk/YEVOVnE1vloU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlgRSAfk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K5/hcQvu"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c939e5a0f6so404075a12.2
-        for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 03:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728727875; x=1729332675; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6e6wpy4k42n/aq7+kncSL6a1K05K8zISJjrIyP9jbEU=;
-        b=K5/hcQvuyllzQwB8/+dgVPNx+bSqdBMHqjwndOELuddoJ3l+TLbIlWYm4lvXupnNY1
-         oy1A6MdeXuBbCCHOOg1aSa3RjKt9bD0hkR3scXCi9//vvN5mot7FWZksYb12JUsvTb6v
-         kHoCi82cDMuJPxAnBHM29HULFE+Xd0zsoYQtE5IrFRiaM+Fto/+ecjZPfeCnON9ES3FG
-         z+gOh+JQ5CMBYJK19xGlVyFuRlLs1EmxmzjBr+Qpprid2tSQXcdMjGPid8tHNZFZ5zgl
-         HT2BtSBq4/g8dyY8ZWRhzKsFJaBMLwoRnPZcv64t0PqCMLvyzRwNIpYjlZNrmrvbYsUe
-         wUQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728727875; x=1729332675;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6e6wpy4k42n/aq7+kncSL6a1K05K8zISJjrIyP9jbEU=;
-        b=hKLFYbtQ4T001yrjZZc/7USCoJk3lMlhbxrsWAubbqsXBrqpB4RM9gP7W6TU6aBHtf
-         AQUx0pqYOTnI4FvU5MAhN7/ZAQgBpnqtTY1hw18kGVzoUN4ayfnAnn3rWvFR+QwBdI5t
-         NIfYJYYcWbdYv/A+7+ho0LSvT4rfb4qiUtpYQsDIE43iF4ZdwBW5VaH+1BQ/RsOj8hRD
-         QdwpCgDUkYS/yjnQXxvFWcYUUXv/3oyjuGce9s+z/1Z04+pgkH78enSXAfzwmTlcT+No
-         ogT98OciJqf9w2qbpqKvbvQ0o/9Jya4oACjHgIKPC76DnR/i/GLR+w3QoL6+ndmjDd5s
-         ZZRw==
-X-Forwarded-Encrypted: i=1; AJvYcCVAai4wDhl6Mrw96R8obo8aq788TNf0ZcCjKIlZ8adBqXk5zJuj9mKp49AjjmFm0o4go5KdX3SjqgrN2w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMOcfGd0j+drKtgSLfgqYIxnr526m3640hvEg9tCJpIiM1Ur+/
-	KHBizRu838+OexsrzxpxhE2BSPpn7O9+L99fzcHeiYrLlPAh0flLEKoxcWxhkqM=
-X-Google-Smtp-Source: AGHT+IFZ+zSFFM+kAEHqjV12bdV/1nmPVCq1BXVd98k15pNtl3iqmXvxXbLVK3Eb4vJrDA7H1qMnhw==
-X-Received: by 2002:a05:6402:2790:b0:5c9:3fd:2fb0 with SMTP id 4fb4d7f45d1cf-5c948cb2d72mr1410534a12.3.1728727875476;
-        Sat, 12 Oct 2024 03:11:15 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c93711ab3asm2749539a12.30.2024.10.12.03.11.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Oct 2024 03:11:14 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlgRSAfk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE0EC4CEC6;
+	Sat, 12 Oct 2024 11:26:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728732385;
+	bh=/UhmavUvI2ZNZ2UWyBos8WUr2di3xdupe4CqtO17SeQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QlgRSAfkfV4qTYcqx9qug8vthHZJ4O30rmJD9JzsZfHWuRzh8w9ZpnfuwYFgredK1
+	 vntMtLahb+0dWiMJON4CHG03zhZo0FndfN4YNjsoE++L8LmN86Y5shv9AdpVW8ASCf
+	 qQr0YVcDmQ9UlQIMhEYjRZDcC4TQ2WABYOgOi0y5LJMcPLa6ethRdIubK7dWDPft5T
+	 Rr/3W1I68h2tIemur18nYxUIUThNHDK+Dqbcas0zv1wdY3LV9LSMFAyrdIXG8wgFb2
+	 qEFDbCCHASUNdx+YMpgn1Sq7Ok6tTzHLAg1y3yu455cgmWRHjefVmNZAiw2UAilA7L
+	 mCqbxm+TaMw7A==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: David Lawrence Glanzman <davidglanzman@yahoo.com>,
 	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: stable@vger.kernel.org,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Steev Klimaszewski <steev@kali.org>
-Subject: [PATCH v2] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
-Date: Sat, 12 Oct 2024 12:11:08 +0200
-Message-ID: <20241012101108.129476-1-krzysztof.kozlowski@linaro.org>
+	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	mario.limonciello@amd.com,
+	me@jwang.link,
+	end.to.start@mail.ru,
+	mnixry@outlook.com,
+	kfs.szk@gmail.com,
+	malcolm@5harts.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 02/16] ASoC: amd: yc: Add quirk for HP Dragonfly pro one
+Date: Sat, 12 Oct 2024 07:25:58 -0400
+Message-ID: <20241012112619.1762860-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241012112619.1762860-1-sashal@kernel.org>
+References: <20241012112619.1762860-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11.3
 Content-Transfer-Encoding: 8bit
 
-Commit 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to
-soundcards") moved the allocation of Soundwire stream runtime from the
-Qualcomm Soundwire driver to each individual machine sound card driver,
-except that it forgot to update SC7280 card.
+From: David Lawrence Glanzman <davidglanzman@yahoo.com>
 
-Just like for other Qualcomm sound cards using Soundwire, the card
-driver should allocate and release the runtime.  Otherwise sound
-playback will result in a NULL pointer dereference or other effect of
-uninitialized memory accesses (which was confirmed on SDM845 having
-similar issue).
+[ Upstream commit 84e8d59651879b2ff8499bddbbc9549b7f1a646b ]
 
-Cc: stable@vger.kernel.org
-Cc: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: Steev Klimaszewski <steev@kali.org>
-Fixes: 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to soundcards")
-Link: https://lore.kernel.org/r/20241010054109.16938-1-krzysztof.kozlowski@linaro.org
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Adds a quirk entry to enable the mic on HP Dragonfly pro one laptop
 
+Signed-off-by: David Lawrence Glanzman <davidglanzman@yahoo.com>
+Link: https://patch.msgid.link/1249c09bd6bf696b59d087a4f546ae397828656c.camel@yahoo.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Changes in v2:
-1. Add missing 'select SND_SOC_QCOM_SDW' as reported by LKP
----
- sound/soc/qcom/Kconfig  |  1 +
- sound/soc/qcom/sc7280.c | 10 +++++++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
-
-diff --git a/sound/soc/qcom/Kconfig b/sound/soc/qcom/Kconfig
-index 3687b9db5ed4..ca7a30ebd26a 100644
---- a/sound/soc/qcom/Kconfig
-+++ b/sound/soc/qcom/Kconfig
-@@ -209,6 +209,7 @@ config SND_SOC_SC7280
- 	tristate "SoC Machine driver for SC7280 boards"
- 	depends on I2C && SOUNDWIRE
- 	select SND_SOC_QCOM_COMMON
-+	select SND_SOC_QCOM_SDW
- 	select SND_SOC_LPASS_SC7280
- 	select SND_SOC_MAX98357A
- 	select SND_SOC_WCD938X_SDW
-diff --git a/sound/soc/qcom/sc7280.c b/sound/soc/qcom/sc7280.c
-index 207ac5da4dd4..230af8d7b205 100644
---- a/sound/soc/qcom/sc7280.c
-+++ b/sound/soc/qcom/sc7280.c
-@@ -23,6 +23,7 @@
- #include "common.h"
- #include "lpass.h"
- #include "qdsp6/q6afe.h"
-+#include "sdw.h"
- 
- #define DEFAULT_MCLK_RATE              19200000
- #define RT5682_PLL_FREQ (48000 * 512)
-@@ -316,6 +317,7 @@ static void sc7280_snd_shutdown(struct snd_pcm_substream *substream)
- 	struct snd_soc_card *card = rtd->card;
- 	struct sc7280_snd_data *data = snd_soc_card_get_drvdata(card);
- 	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
-+	struct sdw_stream_runtime *sruntime = data->sruntime[cpu_dai->id];
- 
- 	switch (cpu_dai->id) {
- 	case MI2S_PRIMARY:
-@@ -333,6 +335,9 @@ static void sc7280_snd_shutdown(struct snd_pcm_substream *substream)
- 	default:
- 		break;
- 	}
-+
-+	data->sruntime[cpu_dai->id] = NULL;
-+	sdw_release_stream(sruntime);
- }
- 
- static int sc7280_snd_startup(struct snd_pcm_substream *substream)
-@@ -347,6 +352,8 @@ static int sc7280_snd_startup(struct snd_pcm_substream *substream)
- 	switch (cpu_dai->id) {
- 	case MI2S_PRIMARY:
- 		ret = sc7280_rt5682_init(rtd);
-+		if (ret)
-+			return ret;
- 		break;
- 	case SECONDARY_MI2S_RX:
- 		codec_dai_fmt |= SND_SOC_DAIFMT_NB_NF | SND_SOC_DAIFMT_I2S;
-@@ -360,7 +367,8 @@ static int sc7280_snd_startup(struct snd_pcm_substream *substream)
- 	default:
- 		break;
- 	}
--	return ret;
-+
-+	return qcom_snd_sdw_startup(substream);
- }
- 
- static const struct snd_soc_ops sc7280_ops = {
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 06349bf0b6587..ace6328e91e31 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -444,6 +444,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_BOARD_NAME, "8A3E"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "HP"),
++			DMI_MATCH(DMI_BOARD_NAME, "8A7F"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.43.0
 
