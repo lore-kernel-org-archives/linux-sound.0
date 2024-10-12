@@ -1,164 +1,108 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8960195811;
-	Fri, 11 Oct 2024 17:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E2B41C6E;
+	Sat, 12 Oct 2024 03:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728669234; cv=none; b=MCLezlG01+RIunWJMxztVkPB9BLQnYPRasRZxoDyklaiLp11XwQ/FNMyXQOsVX6ZyAhXW5XX1gS7qKxkYToc1krpCUh6TXqopAIqOWmCZWwoDWlYg2IJ9qufHvqWhhZFMd9wO15YbymI8CRB0AuXxbFI/lR2ecvyvzCRk3aOOKE=
+	t=1728704275; cv=none; b=BoIzl74tesKgSRk/JXYmLQ/lYLNuHAcronOj1C9bly3TudMpH+pXNMh+bU8HQeFVdLOlUGV47wi/93wXtfrHx8zWO7nQovnBBpnrjyInoISln3+Mwxlf2GjywCLlu+UwzMFBe3RSHRuLl/wc2myNvbLaaheuAPBHns+XlLAP+UU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728669234; c=relaxed/simple;
-	bh=sMROR4bvAmoZRlyGcAQoX/Rf440iGOcrPpqc15iOgcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mgf/qSkteaeW5aoaYl/MAQhrez2b5qoAoFnTO01GSp0iqdTLSoLihh60zt1DrbkmQUO4FRr+BNVybFA+wiTLPCpgX6T03T4bxqTj05eByz+lFckd1GE5UstiP6LupQNZFJWpojNJRg55iEXCLl0pfsyRgCEiCsbA5sBEF33qcmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CItoddPt; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1728704275; c=relaxed/simple;
+	bh=nDTLNW21/SY6L/1mKys6bWAEfSqQxK7ebVskE/LZEU4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g0Y0JraxDTBDDW+CMULE8SaIr1uBl1tRpFlWxVEOJeg2g9Ox6oh20+VmKdrjHIZ60spufHSdqjYBlNtkrMrBy7eoKGM8cXKkx0hv39G4tmZR8JkvmwoMjpC6h1TG4ivQyGYyyA9mCU4ptfAqHJazd7w7u12bsnA5omw1KzwWkv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Onmg9MY+; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CItoddPt"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d4ec26709so1234197f8f.0;
-        Fri, 11 Oct 2024 10:53:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728669231; x=1729274031; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ci1c3uIbysslDczEe12lDguOg4G6dXqtM4CXMZUK/Hk=;
-        b=CItoddPtyIbpjb0eDbLtZvAC3ADaRtI/ELJawUS2QqmAuEAASVvv0T5FCiLH/iN4Bi
-         cYDq/85q8CHaVziZ0L93ksakutGG1CMSy7o+lERwPCB8M2JcofCecDHWC7nTpsbPqInR
-         HxIr4i1KXgNuQm8v+Je50YR8QpdbWg/FTLhz29R9KwfxI3UCUOI8yCm9KxntTtoJJXNy
-         5xVmMmxiCM0AdaMvyyqjEgyLv3CaTlwmOPFXX2zDxq/oESxdLpJZ4aBlWZPSAxp6H/3O
-         k4Xip34O/ptWMCR2zCB4TGgDI0G+t9N37UG2ZLVsXvXgcfz5iFqQHuYe8x9EUhoS2X5K
-         nFtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728669231; x=1729274031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ci1c3uIbysslDczEe12lDguOg4G6dXqtM4CXMZUK/Hk=;
-        b=ktbOETTv9pky32d0/0AOXelizplsF+wXg5FGoIsWWzzavzIGRFu/ohGvli4uoZM7ZC
-         xKW+eotsDABKRX+bYeTl4FemhJ6+y5B6LAR4ZYe/L+WGmHmJfYhg7SekbBhJxVsL1vFJ
-         8KojTCIHCl3vwaH2U+v6zMWPDwzJf1dhkHqYY/ztn67xWtGaLUjzwNK3nfu1G4+eMbKP
-         cwY9yPXQ/ljbllMCEYADZaZlEHSDaiF1EbNCbBFV49j3y4L0O5PFDvTGAMzN6CniN7Ki
-         lnpGrb9eWeO6eReoJvDcSIbQ+XeMJBE2sRvrCPh43lqAXCwmp0hulfb37csC48rnDW39
-         2xcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVf+DI4/YYJncd54fCOQgDSLiFYzHJXggv7ReQDeS5czJ1AUVLnmGpCb4973F+yyO5f2Her+ajGD5nx5c8=@vger.kernel.org, AJvYcCWwHObqqYDdmoY2ZuS5wih4ZTNUJU9xk4zr6JH/J8lBjUAghrddfyf/c2XzSf1h0REokrzN34iaFjO/6QJq2aEyemg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSP+uu4/zLgE3ipHd+Y1S/dQtSTbfBtoDJ8K/rGaholSSJC4h8
-	Gqz/tCuMrseXYIxFjhviHq3jNb9t56klRqb7PqgK1+9E+Z7lKkiI
-X-Google-Smtp-Source: AGHT+IGgc2PLd8xMAdDKm2awjb5Ou0yqMmygvCIIutttnqDXOrOjdhw6ujWNWc7qmb97bZ9dVB+XIA==
-X-Received: by 2002:a05:6000:10c5:b0:374:b5fc:d31a with SMTP id ffacd0b85a97d-37d551fb375mr2239677f8f.25.1728669230945;
-        Fri, 11 Oct 2024 10:53:50 -0700 (PDT)
-Received: from prasmi.home ([2a00:23c8:2500:a01:2595:4364:d152:dff3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7ef4f6sm4489323f8f.107.2024.10.11.10.53.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 10:53:50 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Onmg9MY+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1728704274; x=1760240274;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nDTLNW21/SY6L/1mKys6bWAEfSqQxK7ebVskE/LZEU4=;
+  b=Onmg9MY+R2xtj3pq1bd4j6xv8QMaln1iK+m/yIU+eBW3PAio8VfWhwcw
+   I1fTPbOuh1GkS46L7TyEg3oRlD7vwpT63EuytEXlofpbdWW/jmDNRKxcS
+   Vt9O2TfhYMQkkI+LbKX/eu9cUOrLw1sTFxuvVCHNiMLs3zzDNvMq/YZnd
+   3FWqd1QbhGexjE65qTXgRSvPKSdvsRM6fhJYLB+uJlhSTD7Uybdgd1iiK
+   vPmSU+dv7iQI3HCWbNS1D0agydoBcsx+WlkmbMlNbv0CqwvPwDI3Z7Zi0
+   nlqKavuxp1vwe2gr5QXf9sY/+FKhGNhP4NZs+TKayi0u+cbKrtBhe9sQt
+   Q==;
+X-CSE-ConnectionGUID: SEAZWXkIQgq07nDam9VJQA==
+X-CSE-MsgGUID: kAMzX8qcQEGcwjzdtUlPKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45589902"
+X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
+   d="scan'208";a="45589902"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2024 20:37:54 -0700
+X-CSE-ConnectionGUID: UWAFK5xlQImDOpIn5TSDug==
+X-CSE-MsgGUID: /sCsxcU+TXWuOY4tkY0i7A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,197,1725346800"; 
+   d="scan'208";a="77557665"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 11 Oct 2024 20:37:51 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1szSwu-000D0l-1M;
+	Sat, 12 Oct 2024 03:37:48 +0000
+Date: Sat, 12 Oct 2024 11:37:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH] ASoC: rsnd: Refactor port handling with helper for endpoint node selection
-Date: Fri, 11 Oct 2024 18:53:46 +0100
-Message-ID: <20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
+	Alexey Klimov <alexey.klimov@linaro.org>,
+	Steev Klimaszewski <steev@kali.org>
+Subject: Re: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream
+ alloc
+Message-ID: <202410121144.H6lBicv6-lkp@intel.com>
+References: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Hi Krzysztof,
 
-Refactor the code responsible for selecting the correct device node for
-audio endpoint parsing in the rsnd driver. A new helper function
-`rsnd_pick_endpoint_node_for_ports()` is introduced to handle the
-selection of the endpoint node by checking whether the port is named
-'port' or 'ports'.
+kernel test robot noticed the following build errors:
 
-This change simplifies the logic in both `rsnd_dai_of_node()` and
-`rsnd_dai_probe()` functions by replacing repetitive condition checks
-with the new helper.
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.12-rc2 next-20241011]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Suggested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
-Note, this patch applies on top of [0]
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
----
- sound/soc/sh/rcar/core.c | 30 +++++++++++++++++++++---------
- 1 file changed, 21 insertions(+), 9 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/ASoC-qcom-sc7280-Fix-missing-Soundwire-runtime-stream-alloc/20241010-134305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20241010054109.16938-1-krzysztof.kozlowski%40linaro.org
+patch subject: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+config: powerpc64-randconfig-r052-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/reproduce)
 
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index eca5ce096e54..c32e88d6a141 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -1233,6 +1233,19 @@ int rsnd_node_count(struct rsnd_priv *priv, struct device_node *node, char *name
- 	return i;
- }
- 
-+static struct device_node*
-+	rsnd_pick_endpoint_node_for_ports(struct device_node *e_ports,
-+					  struct device_node *e_port)
-+{
-+	if (of_node_name_eq(e_ports, "ports"))
-+		return e_ports;
-+
-+	if (of_node_name_eq(e_ports, "port"))
-+		return e_port;
-+
-+	return NULL;
-+}
-+
- static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
- {
- 	struct device *dev = rsnd_priv_to_dev(priv);
-@@ -1278,12 +1291,10 @@ static int rsnd_dai_of_node(struct rsnd_priv *priv, int *is_graph)
- 	 * Audio-Graph-Card
- 	 */
- 	for_each_child_of_node(np, ports) {
--		if (!of_node_name_eq(ports, "ports") &&
--		    !of_node_name_eq(ports, "port"))
-+		node = rsnd_pick_endpoint_node_for_ports(ports, np);
-+		if (!node)
- 			continue;
--		priv->component_dais[i] =
--			of_graph_get_endpoint_count(of_node_name_eq(ports, "ports") ?
--						    ports : np);
-+		priv->component_dais[i] = of_graph_get_endpoint_count(node);
- 		nr += priv->component_dais[i];
- 		i++;
- 		if (i >= RSND_MAX_COMPONENT) {
-@@ -1488,15 +1499,16 @@ static int rsnd_dai_probe(struct rsnd_priv *priv)
- 	 */
- 	dai_i = 0;
- 	if (is_graph) {
-+		struct device_node *dai_np_port;
- 		struct device_node *ports;
- 		struct device_node *dai_np;
- 
- 		for_each_child_of_node(np, ports) {
--			if (!of_node_name_eq(ports, "ports") &&
--			    !of_node_name_eq(ports, "port"))
-+			dai_np_port = rsnd_pick_endpoint_node_for_ports(ports, np);
-+			if (!dai_np_port)
- 				continue;
--			for_each_endpoint_of_node(of_node_name_eq(ports, "ports") ?
--						  ports : np, dai_np) {
-+
-+			for_each_endpoint_of_node(dai_np_port, dai_np) {
- 				__rsnd_dai_probe(priv, dai_np, dai_np, 0, dai_i);
- 				if (!rsnd_is_gen1(priv) && !rsnd_is_gen2(priv)) {
- 					rdai = rsnd_rdai_get(priv, dai_i);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410121144.H6lBicv6-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
+>> ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sc7280.ko] undefined!
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
