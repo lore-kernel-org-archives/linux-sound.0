@@ -1,132 +1,112 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C784315F;
-	Sat, 12 Oct 2024 06:15:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB27A17BA5
+	for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 08:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728713742; cv=none; b=iVpemR99a16Id7gzKejLtHor0TmfpHt3XH8QPvK6s8z6K7z8OzN4nlGymKzw1sQjGTMh+RHX2YmfeKwsQK7XbFYlXP9C2x4xcXeGzSWym7KVhHzYZ03PzhGRvVHqkTQPKyEHVmXEyACUAbDXn+WubfSsYftQA7utcWcpiRf9EGE=
+	t=1728720956; cv=none; b=K0AOaf35CZdFRWbxwJtAyfB3Q+6hzpbTOFwcuCzn5JvSTyu1PYfudU0Rblw6FEHQJh/uLFyKFyepxUW4ayDBw1KiRNx1vTjWDT7CJwPuUf3pxVqyznCtyf0iavAgFKx6NEP9iIR2/eQwzhFoM2bF5u4BDI96UR0ZhSR8uRn2J2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728713742; c=relaxed/simple;
-	bh=wD11ZTz7KkX2Fk4aL4w4jaz8sIAuYj56c2UMcXZZ1qw=;
-	h=From:To:Subject:Date:Message-Id; b=ucXbqPtG26k+0MO0vmT0NXcJEyZ3xS85dhyb9xNYdgcQ0MveFii7k7QX0mxSAnsKlxQ+mUZ+nLDrvwsMF08rlIB/sZZHeIsSdtiQvDJmEaB8Mt/lLWVYRTRPjEv+6qq8sQ/9VmyKvvl880c7wUOLXGAAPERK+arhJ6diywi3lAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 918A2200C27;
-	Sat, 12 Oct 2024 08:15:33 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5929A20067F;
-	Sat, 12 Oct 2024 08:15:33 +0200 (CEST)
-Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
-	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id C29D91939EA1;
-	Sat, 12 Oct 2024 14:15:31 +0800 (+08)
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: fsl_mqs: Support accessing registers by scmi interface
-Date: Sat, 12 Oct 2024 13:52:10 +0800
-Message-Id: <1728712330-4389-1-git-send-email-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.7.4
-X-Virus-Scanned: ClamAV using ClamSMTP
+	s=arc-20240116; t=1728720956; c=relaxed/simple;
+	bh=PWHU5fzEo5gAnHKkrItOxCsgYv5K3qCVxg4l4+hAF6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AMG5BeAT91/L0taPD09l9IgWqyrPqn2Goa4FS8Yzk7JZZ7smTynThWtux9rFO9l+Ml2O17dhHyIBHc0cRLVh1YNNE2QPXCqTulzoKBPArM9Uemb1W6mkD+yXVXuQtnXZqq/ylYZER+E2kKZPIPHuC7q020cNpUM6gRPsKz2FCSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w86uTF17; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w86uTF17"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539d6935b93so2179172e87.2
+        for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 01:15:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728720953; x=1729325753; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=98Avhm8RF4Q1UREJOF0ug2jybyp+VJAFuutUoDh5cao=;
+        b=w86uTF17QPhECQQYzJzoQfR3eewnbj3OjvXp8fHYJ8Vhblxq6OfBbT4ldMISq2ywFI
+         bSk7VX8dbLfwk9TpOPK8qxOlwTS57AF66zJcPG36keCDO+s5JDKAS7FlWjhHf/O4aCFN
+         7TJvis9Lw7sJQlppkyvSwMa4qfcxtiVLy8e3BipJq4Vce1kPb9OWBeSk8zSDAom2xoYS
+         X0r1XWtC+qbkdkznVQT2dJSxvB7uCX5cxoAdYBgz9lVZYLyRgSxc5Qr68I+MgOguFenk
+         ngSArGSuRBpkPIPK7PM+3tzPGlmL3GjR5r8GRi38pd/JJdEdjNNKQPGK+ac9EZahW6Cm
+         zxSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728720953; x=1729325753;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=98Avhm8RF4Q1UREJOF0ug2jybyp+VJAFuutUoDh5cao=;
+        b=oyaVXpwAu17ODMJPPHXduGfF6tBncGE95KYhO7yIYpLR0Fe2iLnw5ahsW3h9aVJjUq
+         RPNHIspFb80aPirXVM+Qe/fuVflZ0XBxMKB7j/O8vte+2Lfyh4yr1U6NYkbuH/jWhWmw
+         zj0txBF2BZaucX1dHCoyXHPD2L/OOAXK1IPwhGqlIj5+WThfpcrwcL8UNnfZ4J68ntwH
+         jXwqmsJU3tq8mrOlol2VZHFSraBRa3v/7gAC7bO/aOO8w+0pFJsZwTh7Bh4D2Bilhb4Z
+         b3ZGsI2o00fzGENRtIjM7WdPR98pYVniQ87ZBTYwKR/mPwfsn+czdLooLVE5unRTgPtW
+         ihug==
+X-Forwarded-Encrypted: i=1; AJvYcCUGG0DQzy0UihRLqpzLEGQzs7vDrfJwOc1i+HNe6FnIkcuv0ybkGtxAGQAbr0w8VhLzrn++bHKxpz32sQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqXw38Bok8VHvfZ/feV1qIpeqND+PyFPUfTGd+jxQ9tmXK9bFZ
+	JeMeRzLB2wmEQZfip5sCkApo6/g+zNAbzlcGDXbbflmGtbAQQ4hmwVSoMaX5lf8=
+X-Google-Smtp-Source: AGHT+IGgU2DIDo2BCzgiYQv6VUZx5oN0m+5FPxjeT4o7Oi65BfD6CL0NSjctE1q+BkuYP1KMk5kOfg==
+X-Received: by 2002:a05:6512:3e05:b0:539:95f0:a05d with SMTP id 2adb3069b0e04-539da5b344cmr2428747e87.58.1728720952823;
+        Sat, 12 Oct 2024 01:15:52 -0700 (PDT)
+Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539cb8f0ea9sm862700e87.186.2024.10.12.01.15.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Oct 2024 01:15:52 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: (subset) [PATCH RFC 0/5] drm: add DRM HDMI Codec framework
+Date: Sat, 12 Oct 2024 11:15:50 +0300
+Message-ID: <172872070672.2226967.8196347515267088542.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
+References: <20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On i.MX95, the MQS module in Always-on (AON) domain only can
-be accessed by System Controller Management Interface (SCMI)
-MISC Protocol. So define a specific regmap_config for the case.
+On Sat, 15 Jun 2024 20:53:29 +0300, Dmitry Baryshkov wrote:
+> While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> there was no simple way to get the drm_connector that stayed at the end
+> of the bridge chain. At the same point the drm_hdmi_connector functions
+> expected to get drm_connector instance.
+> 
+> [...]
 
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
----
- sound/soc/fsl/fsl_mqs.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+Applied to drm-misc-next, thanks!
 
-diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
-index 145f9ca15e43..0513e9e8402e 100644
---- a/sound/soc/fsl/fsl_mqs.c
-+++ b/sound/soc/fsl/fsl_mqs.c
-@@ -6,6 +6,7 @@
- // Copyright 2019 NXP
- 
- #include <linux/clk.h>
-+#include <linux/firmware/imx/sm.h>
- #include <linux/module.h>
- #include <linux/moduleparam.h>
- #include <linux/mfd/syscon.h>
-@@ -74,6 +75,29 @@ struct fsl_mqs {
- #define FSL_MQS_RATES	(SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000)
- #define FSL_MQS_FORMATS	SNDRV_PCM_FMTBIT_S16_LE
- 
-+static int fsl_mqs_sm_read(void *context, unsigned int reg, unsigned int *val)
-+{
-+	struct fsl_mqs *mqs_priv = context;
-+	int num = 1;
-+
-+	if (IS_ENABLED(CONFIG_IMX_SCMI_MISC_DRV) &&
-+	    mqs_priv->soc->ctrl_off == reg)
-+		return scmi_imx_misc_ctrl_get(SCMI_IMX_CTRL_MQS1_SETTINGS, &num, val);
-+
-+	return -EINVAL;
-+};
-+
-+static int fsl_mqs_sm_write(void *context, unsigned int reg, unsigned int val)
-+{
-+	struct fsl_mqs *mqs_priv = context;
-+
-+	if (IS_ENABLED(CONFIG_IMX_SCMI_MISC_DRV) &&
-+	    mqs_priv->soc->ctrl_off == reg)
-+		return scmi_imx_misc_ctrl_set(SCMI_IMX_CTRL_MQS1_SETTINGS, val);
-+
-+	return -EINVAL;
-+};
-+
- static int fsl_mqs_hw_params(struct snd_pcm_substream *substream,
- 			     struct snd_pcm_hw_params *params,
- 			     struct snd_soc_dai *dai)
-@@ -188,6 +212,13 @@ static const struct regmap_config fsl_mqs_regmap_config = {
- 	.cache_type = REGCACHE_NONE,
- };
- 
-+static const struct regmap_config fsl_mqs_sm_regmap = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_read = fsl_mqs_sm_read,
-+	.reg_write = fsl_mqs_sm_write,
-+};
-+
- static int fsl_mqs_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
-@@ -219,6 +250,16 @@ static int fsl_mqs_probe(struct platform_device *pdev)
- 			dev_err(&pdev->dev, "failed to get gpr regmap\n");
- 			return PTR_ERR(mqs_priv->regmap);
- 		}
-+	} else if (mqs_priv->soc->type == TYPE_REG_SM) {
-+		mqs_priv->regmap = devm_regmap_init(&pdev->dev,
-+						    NULL,
-+						    mqs_priv,
-+						    &fsl_mqs_sm_regmap);
-+		if (IS_ERR(mqs_priv->regmap)) {
-+			dev_err(&pdev->dev, "failed to init regmap: %ld\n",
-+				PTR_ERR(mqs_priv->regmap));
-+			return PTR_ERR(mqs_priv->regmap);
-+		}
- 	} else {
- 		regs = devm_platform_ioremap_resource(pdev, 0);
- 		if (IS_ERR(regs))
+[1/5] drm/bridge: lt9611: use HDMI Connector helper to set InfoFrames
+      commit: ac4627c304e7a09068d0e2dba34d21e492649f8d
+
+I'm pushing this patch separately from the rest of the series, it provides an
+example of converting DRM bridge driver to the HDMI Connector framework.
+
+Best regards,
 -- 
-2.34.1
+With best wishes
+Dmitry
 
