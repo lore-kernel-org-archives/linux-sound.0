@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91393193430
-	for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 12:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9F9183CAA;
+	Sat, 12 Oct 2024 12:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728737449; cv=none; b=KwU9n2V+qfNKWtAgJqAOd3JR0dfLRDIOaQz8fwHkSS37pr5nzEsc0ATQENQ2dRCPss815z1kqasp3B4JiQbOFj9V46t9+m6+9R5BfIK/OjbtsXPcCKKpxm5V7CYp6r3jxHJl9ofuR9YayL3xQehYZ2qa04waUQig+ur4XunnIFo=
+	t=1728737452; cv=none; b=M0u6SUGelw8To+Nr0MQsvpjtJaZslO1emW+6/3uanO+ogp1VGkgn4GvkNhTk2EUDiMoA2PYClHCJQwcXedQgRtc6HuoGkXECVCs7bkGoDfKkbwp+xxvV9PLE/iuBuZgI5QZE++H2Ta82j0wniuaqvK7hwLdztR3Nkcn6cRrI2Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728737449; c=relaxed/simple;
-	bh=eEXHPzFT5egR7xIZbHpDM3tW2CYGvTWc5UOflPhaWNI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=gEMaJbdMW2bW75BW6O+LMiyjSNDf0TdpIb8hELKSuH9ULGFQ3miU8ZyOYxtNdECmoeXI6JgyITv3fCJqDCEkG+DUrpCIyIZJE986Hjb2DyECmK2d87MVF1Mi05dwH4l0sQ0t2W3crMvdxToprHam/TOpoc9N2Azf00NRL5QsY34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mf1m3y3V; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728737452; c=relaxed/simple;
+	bh=7oQXNtNUYL0OjUtuqZC5xP1WxqiwNA7nZryyNsHdPSM=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=mPi52k2eKC5Z6PEcogsWB0PZK25jvkPRPJXtb4fP21e1OEyQb0jcXXwZoroQxzpRS9Pnc8TreXU1mFidQu24c94qBB6xXvLmg77Aj/J8hSJVQeIKLZJm6Hf2HTEgYe1v4t8ZMXsr1qJuM8y4huhHSomW2UoWfeSRT79DySfHEgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoHQMVTk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mf1m3y3V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A33B9C4CECE;
-	Sat, 12 Oct 2024 12:50:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoHQMVTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E68C4CED4;
+	Sat, 12 Oct 2024 12:50:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728737449;
-	bh=eEXHPzFT5egR7xIZbHpDM3tW2CYGvTWc5UOflPhaWNI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mf1m3y3V2wGzZWSRW5DTtdAFVb+N78uj+UnYISka6TP2JWD57YSlnAvLS4YwsmAVc
-	 el30tckYtK+2DLAx8rBPXSC+0IsjhzICWzNB8oEocZg+Do56B6cH5eqiAl5CjmD+ZX
-	 LBJ0y0qpmAkrkYcpcdypxEUV7vxU0vanSjzdYhW5qcuo1hJCxzbQss+euoOEmxCcLI
-	 TPdb3R2I2cbHNUpxH3q5LNmSgNf+I/K5dmZaBHVND5RRtQGBlGUx+cb9WN/pubMW0+
-	 NtTiSPsAt5ade9q7StkdhBuOJx8kNs74uo8S4vgYvWNLnDqvBm5g0WA6j99fa7LHML
-	 +w7pgAL38rZcw==
+	s=k20201202; t=1728737451;
+	bh=7oQXNtNUYL0OjUtuqZC5xP1WxqiwNA7nZryyNsHdPSM=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=eoHQMVTkXjMmrmjEkpNb3grnuq/CZrUEfg1dgSX3bokX3TBhLAT2kH52o+9fu1wbv
+	 QpotIZj26pXAvjtEsaJ3IdyOC1qndkgQBia23u2bkNgLlkqPxEZWrGuMDkyUjR+CnH
+	 oQuTwEENJjOoRzzHdYomhJ8Q4y96m8RfTMuvciZ6s5peX7qA9dgUT2Mqiki/hExP2J
+	 CIEbhna9um1ZPPFAKcw/T4pzN33H+m2Fb532GmEclfBb959SgqjK2z+2perkOJdLib
+	 CIyba/V9UmkoC9ZiZuPKbirksvLxZ+5L8Trp+UVIWo3KlUDR5t81XCnSmk7CY7PA0h
+	 N3mwI3tXpQYhQ==
 From: Mark Brown <broonie@kernel.org>
-To: Binbin Zhou <zhoubb.aaron@gmail.com>, 
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
  Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Huacai Chen <chenhuacai@kernel.org>, 
- Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, linux-sound@vger.kernel.org, 
- kernel test robot <lkp@intel.com>
-In-Reply-To: <20241012095840.965087-1-zhoubinbin@loongson.cn>
-References: <20241012095840.965087-1-zhoubinbin@loongson.cn>
-Subject: Re: [PATCH] ASoC: loongson: Fix build warning when !CONFIG_PCI
-Message-Id: <172873744765.3950734.18364191815436266665.b4-ty@kernel.org>
-Date: Sat, 12 Oct 2024 13:50:47 +0100
+ Takashi Iwai <tiwai@suse.com>, Alexey Klimov <alexey.klimov@linaro.org>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20241012100957.129103-1-krzysztof.kozlowski@linaro.org>
+References: <20241012100957.129103-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH] ASoC: qcom: Select missing common Soundwire module
+ code on SDM845
+Message-Id: <172873744990.3950734.14854047170413382738.b4-ty@kernel.org>
+Date: Sat, 12 Oct 2024 13:50:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,19 +49,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-99b12
 
-On Sat, 12 Oct 2024 17:58:40 +0800, Binbin Zhou wrote:
-> Fixes the below if kernel config disable PCI support:
+On Sat, 12 Oct 2024 12:09:57 +0200, Krzysztof Kozlowski wrote:
+> SDM845 sound card driver uses qcom_snd_sdw_startup() from the common
+> Soundwire module, so select it to fix build failures:
 > 
-> sound/soc/loongson/loongson_i2s_pci.c:157:1: warning: data definition has no type or storage class
->      157 | module_pci_driver(loongson_i2s_driver);
->          | ^~~~~~~~~~~~~~~~~
-> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
-> sound/soc/loongson/loongson_i2s_pci.c:157:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
-> sound/soc/loongson/loongson_i2s_pci.c:149:26: warning: 'loongson_i2s_driver' defined but not used [-Wunused-variable]
->      149 | static struct pci_driver loongson_i2s_driver = {
->          |                          ^~~~~~~~~~~~~~~~~~~
+>   ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sdm845.ko] undefined!
 > 
-> [...]
+> 
 
 Applied to
 
@@ -68,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: loongson: Fix build warning when !CONFIG_PCI
-      commit: 45b3605089b41b81ba36b231fbb97e3037a51beb
+[1/1] ASoC: qcom: Select missing common Soundwire module code on SDM845
+      commit: b930d8647869802a0d430aae6b1b05c3acb24a41
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
