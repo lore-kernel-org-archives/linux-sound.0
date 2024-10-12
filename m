@@ -1,48 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC8C17B51B;
-	Sat, 12 Oct 2024 11:26:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF35F199249;
+	Sat, 12 Oct 2024 11:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728732389; cv=none; b=A+uIlqezz5y0NVAymx6iEBkFS1Ns7PANDoJX7TRGO8ZEzjnJpGsHWwOLIyzo7savUd+1SdZgBhVEV6bQDGPDt+iz6CjX5+9DVC98ggsvghM9GNIXHPjPPTbJ6H8qDYnzqjKtz2zHFxhk+YJ6Zhz3ZENiWJbsXXer+ppSrG6cQ1g=
+	t=1728732398; cv=none; b=Np2eHlqcT5tpsyeuUcDfzRxhPxy3Gp/hvr59QVC8rul6MSlrNUL235Kt1HXpzq9GgpKhQyGa+5fLn0OuBpHHjfIVDzCAirda9sQe+Fpzb5TU+UrhSFpqrGDSB0ecWvIl+WiAv9LtgiksIHIT++0e/d3ulRKM8ZnKllgxnwF9euk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728732389; c=relaxed/simple;
-	bh=0auhR6tsRLm+DbOTp+TCsOMxuPCwJ8l84lQU6dR4RCI=;
+	s=arc-20240116; t=1728732398; c=relaxed/simple;
+	bh=1skIrtuzhEdXdjRYtE21RMLEdVtdi4q6N2SdiwO/CYc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O0T+aKBGr/dgr+9K7kAiytRbnsF0TqW2S9lZoZakZGRQJEMLGVxCPVebP0jgYrcvgeNT8ndls5xwlsrXQ5cDW/La76n7pDPRDq+r9484WOShr17/+RYTvC8Ogbxy3jWScPtsaGzNMJxFZzE0wopmGudEjwXZC1dLxkUOsNVZ1gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=blfphoUl; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=K0f2h8KghxEFGwjzyUmLcUZXa+qv/+gPdxGp9N8GalaxTVsL2/lQ/6w3QotU6s6m836BbaeP0lesW2nY09N6hkyQVbkMf0HoLXhSA75hXR55gVy5NRa8J27Sc0uaYmfVmcYv88mhSSq5rSZPkVic3xsFERw20sApptoY9ZqhFFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJZcFpUI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="blfphoUl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6BE6C4CEC6;
-	Sat, 12 Oct 2024 11:26:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJZcFpUI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46074C4CEC7;
+	Sat, 12 Oct 2024 11:26:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728732389;
-	bh=0auhR6tsRLm+DbOTp+TCsOMxuPCwJ8l84lQU6dR4RCI=;
+	s=k20201202; t=1728732397;
+	bh=1skIrtuzhEdXdjRYtE21RMLEdVtdi4q6N2SdiwO/CYc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=blfphoUlkZ1cHv2bJX8EKaKl9DaCma3bXTUjcHY7qv2k6C4rPMxyGmK5sE+foWXF/
-	 tm1A+MpfUvclhj38TDB/jet6AHjI0JEGPQlWBEGQmtSdBiC375nY/tV+0Kq/a1fnDY
-	 8DHEPBP2NrzDb/ansGy3LXKbJzQXFUGYKoP7y161T0H3Pg8RPx9YDu/RKgayglLocP
-	 PCM6QiB9pGdy0arYWXhSTjoMw6NGQ46Ukr7bziQd2qw0GMJX/1ZQIhKG+6NfLL7gEt
-	 8ek+qD6Jz5Inh6IqMd1ixeyrxPeXA67+U7sYWUZW7FN3FUjpLTIcV+1RASWjjLfdo1
-	 z6h+Di94E+KZg==
+	b=UJZcFpUIv1dWhYNnZz18aKsryFyNJLddQC4u7b0EE90SlxTD8hrwhBzX7bBERZKcD
+	 2ET7mWyl5b6ITd+BO2qlsm8T2Lx9ORP1tlnHubRcbZURvwcupwV2vU3m4wCmEBNmop
+	 B+Ron8EqU3R+oDrsaT8gBv4S1ek0OfVQSpiNEy1LonoNnfXV5ud4dn78hW9Q0krYEX
+	 fWGUhe6evH6qgEKN3RCTs/2L6SI+/fvfOHasEdFVKfM1/Gdt5VgVWKsZHyFxkvVPcy
+	 aoSUG0r58zjYIUX083xcyHq78qmrgUeMJhuSzwY6MCuAkHd1sFr0wOblJ3RPXw549x
+	 bUHSFmJLfm2Tw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Zeno Endemann <zeno.endemann@mailbox.org>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org,
+	tglx@linutronix.de,
+	cezary.rojewski@intel.com,
+	yung-chuan.liao@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	songxiebing@kylinos.cn,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 04/16] ASoC: fsl_sai: Enable 'FIFO continue on error' FCONT bit
-Date: Sat, 12 Oct 2024 07:26:00 -0400
-Message-ID: <20241012112619.1762860-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 08/16] ALSA: hda: fix trigger_tstamp_latched
+Date: Sat, 12 Oct 2024 07:26:04 -0400
+Message-ID: <20241012112619.1762860-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241012112619.1762860-1-sashal@kernel.org>
 References: <20241012112619.1762860-1-sashal@kernel.org>
@@ -57,61 +58,84 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.3
 Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+From: Jaroslav Kysela <perex@perex.cz>
 
-[ Upstream commit 72455e33173c1a00c0ce93d2b0198eb45d5f4195 ]
+[ Upstream commit df5215618fbe425875336d3a2d31bd599ae8c401 ]
 
-FCONT=1 means On FIFO error, the SAI will continue from the
-same word that caused the FIFO error to set after the FIFO
-warning flag has been cleared.
+When the trigger_tstamp_latched flag is set, the PCM core code assumes that
+the low-level driver handles the trigger timestamping itself. Ensure that
+runtime->trigger_tstamp is always updated.
 
-Set FCONT bit in control register to avoid the channel swap
-issue after SAI xrun.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/1727676508-22830-1-git-send-email-shengjiu.wang@nxp.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Buglink: https://github.com/alsa-project/alsa-lib/issues/387
+Reported-by: Zeno Endemann <zeno.endemann@mailbox.org>
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+Link: https://patch.msgid.link/20241002081306.1788405-1-perex@perex.cz
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/fsl_sai.c | 5 ++++-
- sound/soc/fsl/fsl_sai.h | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ include/sound/hdaudio.h        | 2 +-
+ sound/hda/hdac_stream.c        | 6 +++++-
+ sound/pci/hda/hda_controller.c | 3 +--
+ 3 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_sai.c b/sound/soc/fsl/fsl_sai.c
-index d03b0172b8ad2..a1f03c97b7bb8 100644
---- a/sound/soc/fsl/fsl_sai.c
-+++ b/sound/soc/fsl/fsl_sai.c
-@@ -613,6 +613,9 @@ static int fsl_sai_hw_params(struct snd_pcm_substream *substream,
+diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
+index 7e39d486374a6..b098ceadbe74b 100644
+--- a/include/sound/hdaudio.h
++++ b/include/sound/hdaudio.h
+@@ -590,7 +590,7 @@ void snd_hdac_stream_sync_trigger(struct hdac_stream *azx_dev, bool set,
+ void snd_hdac_stream_sync(struct hdac_stream *azx_dev, bool start,
+ 			  unsigned int streams);
+ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+-				      unsigned int streams);
++				      unsigned int streams, bool start);
+ int snd_hdac_get_stream_stripe_ctl(struct hdac_bus *bus,
+ 				struct snd_pcm_substream *substream);
  
- 	val_cr4 |= FSL_SAI_CR4_FRSZ(slots);
+diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
+index b53de020309f2..0411a8fe9d6f1 100644
+--- a/sound/hda/hdac_stream.c
++++ b/sound/hda/hdac_stream.c
+@@ -664,7 +664,7 @@ static void azx_timecounter_init(struct hdac_stream *azx_dev,
+  * updated accordingly, too.
+  */
+ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+-				      unsigned int streams)
++				      unsigned int streams, bool start)
+ {
+ 	struct hdac_bus *bus = azx_dev->bus;
+ 	struct snd_pcm_runtime *runtime = azx_dev->substream->runtime;
+@@ -672,6 +672,9 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 	bool inited = false;
+ 	u64 cycle_last = 0;
  
-+	/* Set to avoid channel swap */
-+	val_cr4 |= FSL_SAI_CR4_FCONT;
++	if (!start)
++		goto skip;
 +
- 	/* Set to output mode to avoid tri-stated data pins */
- 	if (tx)
- 		val_cr4 |= FSL_SAI_CR4_CHMOD;
-@@ -699,7 +702,7 @@ static int fsl_sai_hw_params(struct snd_pcm_substream *substream,
+ 	list_for_each_entry(s, &bus->stream_list, list) {
+ 		if ((streams & (1 << s->index))) {
+ 			azx_timecounter_init(s, inited, cycle_last);
+@@ -682,6 +685,7 @@ void snd_hdac_stream_timecounter_init(struct hdac_stream *azx_dev,
+ 		}
+ 	}
  
- 	regmap_update_bits(sai->regmap, FSL_SAI_xCR4(tx, ofs),
- 			   FSL_SAI_CR4_SYWD_MASK | FSL_SAI_CR4_FRSZ_MASK |
--			   FSL_SAI_CR4_CHMOD_MASK,
-+			   FSL_SAI_CR4_CHMOD_MASK | FSL_SAI_CR4_FCONT_MASK,
- 			   val_cr4);
- 	regmap_update_bits(sai->regmap, FSL_SAI_xCR5(tx, ofs),
- 			   FSL_SAI_CR5_WNW_MASK | FSL_SAI_CR5_W0W_MASK |
-diff --git a/sound/soc/fsl/fsl_sai.h b/sound/soc/fsl/fsl_sai.h
-index dadbd16ee3945..9c4d19fe22c65 100644
---- a/sound/soc/fsl/fsl_sai.h
-+++ b/sound/soc/fsl/fsl_sai.h
-@@ -137,6 +137,7 @@
- 
- /* SAI Transmit and Receive Configuration 4 Register */
- 
-+#define FSL_SAI_CR4_FCONT_MASK	BIT(28)
- #define FSL_SAI_CR4_FCONT	BIT(28)
- #define FSL_SAI_CR4_FCOMB_SHIFT BIT(26)
- #define FSL_SAI_CR4_FCOMB_SOFT  BIT(27)
++skip:
+ 	snd_pcm_gettime(runtime, &runtime->trigger_tstamp);
+ 	runtime->trigger_tstamp_latched = true;
+ }
+diff --git a/sound/pci/hda/hda_controller.c b/sound/pci/hda/hda_controller.c
+index 5d86e5a9c814a..f3330b7e0fcfc 100644
+--- a/sound/pci/hda/hda_controller.c
++++ b/sound/pci/hda/hda_controller.c
+@@ -275,8 +275,7 @@ static int azx_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
+ 	spin_lock(&bus->reg_lock);
+ 	/* reset SYNC bits */
+ 	snd_hdac_stream_sync_trigger(hstr, false, sbits, sync_reg);
+-	if (start)
+-		snd_hdac_stream_timecounter_init(hstr, sbits);
++	snd_hdac_stream_timecounter_init(hstr, sbits, start);
+ 	spin_unlock(&bus->reg_lock);
+ 	return 0;
+ }
 -- 
 2.43.0
 
