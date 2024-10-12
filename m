@@ -1,88 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0EC19CC27;
-	Sat, 12 Oct 2024 11:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394CC1F5FA;
+	Sat, 12 Oct 2024 12:50:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728732404; cv=none; b=WwoiQaW0/fFPl7FKs4eqBbIw+jGfq/rOEIT6YQJBPF+VwD6g1GGseNmZ4CLel9b5jwtRwBX4zMOuBt5D0WUDPmq2/EBe7t0X0agy8WMctXzfkuCR69p7tNDi8CeDNEBefo1KnPCGNVSiin7gvJEtvEErWThKN0+J/X37uI9a6ik=
+	t=1728737445; cv=none; b=KhH4xaT50txis1GVSScijZYGKUga2XWK/61T4mprUVNljJxyXpxjxYZAhRoBHVlo/vTFh6BY2xnDvhzWyhFkg+f6mAP0fJIbP4t6hvZ+pFdgdv+Q/IIMZCxcZ/qCWFeBAHeO77jRSF2UqFdFJT/KjSIGf1Qed1zuInTBa14y9z8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728732404; c=relaxed/simple;
-	bh=ozWgqL4UktxLyLZYhW3nptSMtJ/SZyukKb1lUVsTyb8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Nf+nV2bJnSmOEK57xPVPvC5h7ARjIAoHnWPXhP//XBkGcq3gF5L/M93N7uc0TkJIt/lOjF06IfpNSRm8hXTw7niO3FnBYHd7dDFIKbo4njmRIj928D9h7XtZ/d34vRDuvPsecF46HtCR+EXDTTqGk0xNvagZAyeoGP6CB/mwikU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lmOPj5zV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728737445; c=relaxed/simple;
+	bh=v8NCU068r9dRn1DQIRAWChXlgs5/3w1Xkzg3alhshIk=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MmqNUqIk4HFSSRTY6VbnR4p7QJdKd1Km08vK5dsY2TZokRmiEqoIPx19dBFplhiJjdqPhIXnlcKLGf91Mdlrwy2SZ+bWau7tDEkdkmSOHpRjIayXcaJhqpSQkjmPCSoKjHgLkRBbOO0zVZZSq5kbPUyK0psFVlHxdbd0Qxy8VDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EIptPkVk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lmOPj5zV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14ADFC4CEC6;
-	Sat, 12 Oct 2024 11:26:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EIptPkVk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7E4AC4CEC6;
+	Sat, 12 Oct 2024 12:50:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728732404;
-	bh=ozWgqL4UktxLyLZYhW3nptSMtJ/SZyukKb1lUVsTyb8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lmOPj5zVFGU35vsUa9CRKLcTpx5Q7WQj+0L+u7tnIXM4zmtrQMhMSVHc3IIQtdgEs
-	 SEa4PAb13MUP9uujGHPrxLG1T3brFWXjl/v9UPEnQOleNqYSIbOmhdQLp8+xfCwpRx
-	 34Bbtr5sWvLM/XnuiBemC6dRDehWTHB4o/LBt4xi3EQZLPPRLj/fjJFQomsAVhKWzG
-	 Mav4Z+/sSLSaexV/Q1w4uAZiwCUUfDqF2H6C/YuJ9ZC6dwDeKzyYd4HmkFIpsTOc11
-	 kYZJ8xFfqb2UwuIkMHt6rRv7p6RhzqE2NTxbMv8/swZSN0Ky1f82gPlgyScAPQR+sH
-	 TSqnoia0RdfQQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Alexey Klimov <alexey.klimov@linaro.org>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	srinivas.kandagatla@linaro.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 12/16] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
-Date: Sat, 12 Oct 2024 07:26:08 -0400
-Message-ID: <20241012112619.1762860-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241012112619.1762860-1-sashal@kernel.org>
-References: <20241012112619.1762860-1-sashal@kernel.org>
+	s=k20201202; t=1728737444;
+	bh=v8NCU068r9dRn1DQIRAWChXlgs5/3w1Xkzg3alhshIk=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=EIptPkVkRSmm/GUI3d9hQ5wMrt2rbjdH63dw8268TGBhzLxitDTkOFy5aHDLDY5pk
+	 Dn1ZOlGIRRf+S55RhnHmr9W+YDDuUmaiWnSOAnHp6NyYVAiCfk8jJ4UJTupIx08RKM
+	 vbwiZolNs2DVrbm8UmElREWMuIH4quCjSEGpuGg62URhot6Sxp4iKMcMkvj6xHOUCR
+	 5Nw3IrtffKh3gAm0/BtXW3Lz2rt01ZGBtJnjgGOKFWyrnXi9CCmdCgms9wFeUM4yac
+	 RdBrjqb4sUcXSr4en4tI+OdMK+nLb3iB5YxnyGD9e8HWn3oOFMIIBQQBdUSQmh7nLO
+	 TL5AxSfxFoW3Q==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ chancel.liu@nxp.com, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
+References: <1728460004-364-1-git-send-email-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH 0/2] ASoC: imx-card: add cs42888 codec support
+Message-Id: <172873744192.3950734.11628347626617222095.b4-ty@kernel.org>
+Date: Sat, 12 Oct 2024 13:50:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.3
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-From: Alexey Klimov <alexey.klimov@linaro.org>
+On Wed, 09 Oct 2024 15:46:42 +0800, Shengjiu Wang wrote:
+> add cs42888 codec support
+> 
+> Chancel Liu (2):
+>   ASoC: imx-card: Set mclk for codec
+>   ASoC: imx-card: Add CS42888 support
+> 
+> sound/soc/fsl/imx-card.c | 59 +++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 52 insertions(+), 7 deletions(-)
+> 
+> [...]
 
-[ Upstream commit b97bc0656a66f89f78098d4d72dc04fa9518ab11 ]
+Applied to
 
-Add "qcom,qrb4210-rb2-sndcard" to the list of recognizable
-devices.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-Link: https://patch.msgid.link/20241002022015.867031-3-alexey.klimov@linaro.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/qcom/sm8250.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks!
 
-diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-index a15dafb99b337..50e175fd521ce 100644
---- a/sound/soc/qcom/sm8250.c
-+++ b/sound/soc/qcom/sm8250.c
-@@ -166,6 +166,7 @@ static int sm8250_platform_probe(struct platform_device *pdev)
- 
- static const struct of_device_id snd_sm8250_dt_match[] = {
- 	{.compatible = "qcom,sm8250-sndcard"},
-+	{.compatible = "qcom,qrb4210-rb2-sndcard"},
- 	{.compatible = "qcom,qrb5165-rb5-sndcard"},
- 	{}
- };
--- 
-2.43.0
+[1/2] ASoC: imx-card: Set mclk for codec
+      commit: 892373e4de626c61e91816e3d3970d82beb50c4b
+[2/2] ASoC: imx-card: Add CS42888 support
+      commit: b39eec95b84d5dc326c3d7c89e4e08b898dbc73c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
