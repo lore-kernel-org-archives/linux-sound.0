@@ -1,136 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B1914EC73;
-	Sat, 12 Oct 2024 09:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 150FE14D28C
+	for <linux-sound@vger.kernel.org>; Sat, 12 Oct 2024 09:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728726942; cv=none; b=X+wGS2aEldJoUC85AI1giok4sdtrn+Q91/ZSzEigr/85iQuywnjq3BquAZ2qVYkNtR7HdNuOB3/pR+J10lXrGT3BoQPK9f0O8x4UOCaSjXKpCwxYnBHv3TqfdNmx5SD57FtvoeSox+/6iIPplRRGzZ8vYxtwW9qXn8v20YT/5Wo=
+	t=1728727137; cv=none; b=Bbhsk9wHnNpBfkaG5CLyR/FdQXcqZi3eoYWdim3tRS76Eh605sUVOIoWcZYU0qDZocqhh/v4r565190AgRNj56XT3Iu90huVvqGAvA+7iqL6pI8OTQjhm/DrLJJgg/L20LFii97Nt/+7mMo9EJfgzu3Hsgp5bgODxv49GysBgeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728726942; c=relaxed/simple;
-	bh=OHBEqpSE2yLuJGFPNyn+i72FET0rIUgTS5kPDw/JRqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SNIE73s4w+4yoSoHJeJ0lBuVMFyyJiS9tjSalYDDhkvGy4LtG6j6dxs/Gj2aOahAJvi9VWLw0VLZGwsxNtW24x8NDefOw6wGu31kmzDsc3xeFVZJn6F2znliXvJUmrGYG8fX3W0fGh1or+p0SnOTgIFHo0shZQS29kNndYUYKdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ikFdJkMz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ikFdJkMz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0E80C4CEC6;
-	Sat, 12 Oct 2024 09:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728726941;
-	bh=OHBEqpSE2yLuJGFPNyn+i72FET0rIUgTS5kPDw/JRqc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ikFdJkMzaYH1B3l0E8/1JuEfI0oVf2wXryW7quGhPQpdipXLpMbJLwCY6/SOpxlJ5
-	 1RPeZjIqjoEOtqejed5hUsMmgFi99lCO79zH/U3Fp+RZGgBZ/bixCm2MRBMhKoEDdf
-	 gmPjLq3iOExf1J729di01MUItIDB+WKuhFBJhIJ9MwRkM6FOv6VKOaeAdneCTSfNv7
-	 m3EFE7JDqSXkxvC1YAANwW1vWiQU15R20iF0n+9brEpkTwMS5fsi08RjTaAHcIKOMP
-	 bMtZLTtEPA6EH8WKimEyqZ0PzuXsuge7IVq3+gloqLvTDYreC5NV68/vq9eYTGG8WN
-	 WfJDIqvX9QzqQ==
-Message-ID: <ff48995d-99b5-4563-b548-ebc58fd7ed45@kernel.org>
-Date: Sat, 12 Oct 2024 11:55:34 +0200
+	s=arc-20240116; t=1728727137; c=relaxed/simple;
+	bh=f4BZ5LFNNHnAcB4dredSMs5xSDOhkYB50Wx+VajXCLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ug9p3S2qZme5dm0JQMU+aquloxxpbjZuyytJXNDFL1k2WYeqYPh9FDxvjbAjBsi9Bx3ijpr3QxWoac+WvmHHabZO1iBxJI2MU0RWJi4Yz8eKV6OcPADkKCegwSmrn7A84Dtj9GED88hfEYSgJvIvEKe5HHi5pzTjsE+VTI383uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.38])
+	by gateway (Coremail) with SMTP id _____8BxnnNVSApnh_QUAA--.30973S3;
+	Sat, 12 Oct 2024 17:58:45 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.38])
+	by front1 (Coremail) with SMTP id qMiowMDx_9dSSApnzA4lAA--.53587S2;
+	Sat, 12 Oct 2024 17:58:43 +0800 (CST)
+From: Binbin Zhou <zhoubinbin@loongson.cn>
+To: Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+	linux-sound@vger.kernel.org,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASoC: loongson: Fix build warning when !CONFIG_PCI
+Date: Sat, 12 Oct 2024 17:58:40 +0800
+Message-ID: <20241012095840.965087-1-zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream
- alloc
-To: kernel test robot <lkp@intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, stable@vger.kernel.org,
- Alexey Klimov <alexey.klimov@linaro.org>, Steev Klimaszewski <steev@kali.org>
-References: <20241010054109.16938-1-krzysztof.kozlowski@linaro.org>
- <202410121144.H6lBicv6-lkp@intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <202410121144.H6lBicv6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMDx_9dSSApnzA4lAA--.53587S2
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7AryrAryrGr4UWw43Gw43twc_yoW8Aw4fp3
+	ZxA397WrW5tF4ayanxJry8CFyYy343C3W3uF47Jw1jgrZrAa4Uuw18tF15CF42krWUKF9F
+	qFyrGay8G3WDW3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Yb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUXVWUAwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	XVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIev
+	Ja73UjIFyTuYvjxU2MKZDUUUU
 
-On 12/10/2024 05:37, kernel test robot wrote:
-> Hi Krzysztof,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on broonie-sound/for-next]
-> [also build test ERROR on linus/master v6.12-rc2 next-20241011]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/ASoC-qcom-sc7280-Fix-missing-Soundwire-runtime-stream-alloc/20241010-134305
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-> patch link:    https://lore.kernel.org/r/20241010054109.16938-1-krzysztof.kozlowski%40linaro.org
-> patch subject: [PATCH] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
-> config: powerpc64-randconfig-r052-20241011 (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241012/202410121144.H6lBicv6-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410121144.H6lBicv6-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
-> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_module.o
->>> ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sc7280.ko] undefined!
-> 
+Fixes the below if kernel config disable PCI support:
 
-I'll fix it up. Already applied sdm845 also has this issue, I think, so
-I will send a follow up.
+sound/soc/loongson/loongson_i2s_pci.c:157:1: warning: data definition has no type or storage class
+     157 | module_pci_driver(loongson_i2s_driver);
+         | ^~~~~~~~~~~~~~~~~
+sound/soc/loongson/loongson_i2s_pci.c:157:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
+sound/soc/loongson/loongson_i2s_pci.c:157:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+sound/soc/loongson/loongson_i2s_pci.c:149:26: warning: 'loongson_i2s_driver' defined but not used [-Wunused-variable]
+     149 | static struct pci_driver loongson_i2s_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~~
 
-Best regards,
-Krzysztof
+Add the appropriate Kconfig dependency.
+
+Fixes: ba4c5fad598c ("ASoC: loongson: Add I2S controller driver as platform device")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202410101647.o1lI37ou-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202410101439.Tfn5aT6i-lkp@intel.com/
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ sound/soc/loongson/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/loongson/Kconfig b/sound/soc/loongson/Kconfig
+index e641ae4156d9..2d8291c1443c 100644
+--- a/sound/soc/loongson/Kconfig
++++ b/sound/soc/loongson/Kconfig
+@@ -16,6 +16,7 @@ config SND_SOC_LOONGSON_CARD
+ config SND_SOC_LOONGSON_I2S_PCI
+ 	tristate "Loongson I2S-PCI Device Driver"
+ 	depends on LOONGARCH || COMPILE_TEST
++	depends on PCI
+ 	select REGMAP_MMIO
+ 	help
+ 	  Say Y or M if you want to add support for I2S driver for
+
+base-commit: d5ca96a9c21a5bed12bb8d63f1376fdf77026d23
+-- 
+2.43.5
 
