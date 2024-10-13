@@ -1,109 +1,89 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0291F12C54D;
-	Sun, 13 Oct 2024 10:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728813897; cv=pass; b=Mpo5tQfiZdrmETx0zY8QClzQ7zZVjXsUSB/HrlnHOwInJX13V2oKdW3kCjX0sGW0YRYz8mTvA87lZgARR/QR9tbnTo7dbGEeA3PDzjb++uxSx43XtnjCwBGwin85/XydWwpCrnCz6KFmUgtIiboypNnl0aU00mIGnnYw/9wRVgw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728813897; c=relaxed/simple;
-	bh=oowMGgvsSUKUqQmvbNYYKAxPF2sE/579CQdaH2P0nz8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sbgm6l87/5Kf8lhV3Wxc/AV+/WIhia1goklGF4VL4YUXbkVgsJ/Ietiifk68GGoEPZgMA8Q+o//kIL52OOqUd6iaGlnsmrA619a79tJFqbaOj8NKpWOfa27D61RmwuYiBJbymLL6jwWnXDqhD+iNVtxIsxepotj15sSf5/CT9LE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=hVvX2NRU; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE766145A11
+	for <linux-sound@vger.kernel.org>; Sun, 13 Oct 2024 16:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728838630; cv=none; b=iVjOC678UT15OZCthK0dCvi7/GCftPNBbMieEIdBR+cjGeBThyw/wBRiPH5cUsvZu4G89Swh6weNd0uaKeqwUDfZRJnsKjah2WACG35/JuPApcxcMhiHKI2+MblCta6OyKl9UXPo17cTtng2vnjUO1LpdnUZDuH11hkyAZR2KLU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728838630; c=relaxed/simple;
+	bh=soQE9U5tyG/VdGLCoY52x10XVAq4rfQYcf8IuehQA4k=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=RxoIfCP7mJxRE3t4dfAQBUuh8T1ecSws1E616nx/jLotduJS2NxMYKCqMCPpMyRDPmEfCvI7SteGo3ZeAvCiJ+51dIiPhF01KwiFATEuOw4LPuuaf2tqJDN0WPMMeY+IH0VTk25ICe2tEFsmR6RhKkEHABrNIDeWhDN+ONVTxAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com; spf=pass smtp.mailfrom=linuxaudiosystems.com; dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b=ZUIj0HvT; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxaudiosystems.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="hVvX2NRU"
-ARC-Seal: i=1; a=rsa-sha256; t=1728813885; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YgvTr+PgJj9LrbkUSOjHmD6tdvmBExKM15qCESoZeZlAe97uLaIJ8H/RpNKNYRfupyHcwLBxegGwVeobtROlp+RylFmj2LR4AQsuCQd22O+X8CxAq7KsJem32LTcdvnsq7NDTfRS05WlBWg3OGBElSmVmiTGQShuxtC/C2DFtT0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728813885; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wkkHBr0u8fnHFJ7VpZD/I6fU+VrYj7525CWQ+F99E+4=; 
-	b=O2PZWkdZV8VJOB3EWepul4LoWx44XqC9e3jfqGL/iP3Az7cme69IS2sV//otxLRSYRbh/BUybyOpatJHCftOCcOQV/D9bfRhkvNOkz2gmSANKLzke0S7lwHTxyTXboEXjPkrPGSYxYFzQ2YrthU/tfnLt3SioWhor8nwNoXYdnI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728813885;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=wkkHBr0u8fnHFJ7VpZD/I6fU+VrYj7525CWQ+F99E+4=;
-	b=hVvX2NRUlrjdvgxxFJMg3UUadqRf7eNoSFEY5RcpyKUQzeOjnZIit762OWVFAM5/
-	k37XyoxHEG2omeY/6pQP2t3fyzk0xP+qDJsWqrMgF2ve/8K3FOgtKMP/p+Iey149B3e
-	jxOd/S+14zW9ovAYwmZzdB/bSxhYgpoKR/iD3mBmVck977o4JypfZuuH5+DMZkfJAu+
-	eZ5BeYfS3FxMiOnY8YXgAm/J8TXpvuODBXfkd1gHYlF7lVIt/WCI7Jt1AzshyBofxxA
-	v6e9oUkNGih3iptgEw1M3R1VciDfSlmb8C4jeLzSk3giDa6w0o9TZFbN2BZ+fFWxLQc
-	d2M0Zr01nA==
-Received: by mx.zohomail.com with SMTPS id 1728813882781587.9842715185621;
-	Sun, 13 Oct 2024 03:04:42 -0700 (PDT)
-Message-ID: <0c8264f56944c9e739bb494fd98df65b227ca30f.camel@icenowy.me>
-Subject: Re: [PATCH 1/2] ALSA: emu10k1: add a capability bit for no MIDI
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Sun, 13 Oct 2024 18:04:34 +0800
-In-Reply-To: <ZwuYw27Y1YQy-DQJ@ugly>
-References: <20241013014714.7686-1-uwu@icenowy.me>
-	 <20241013014714.7686-2-uwu@icenowy.me> <ZwuYw27Y1YQy-DQJ@ugly>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b="ZUIj0HvT"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e35f08e23eso12392917b3.2
+        for <linux-sound@vger.kernel.org>; Sun, 13 Oct 2024 09:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxaudiosystems-com.20230601.gappssmtp.com; s=20230601; t=1728838628; x=1729443428; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=SJ7q6HLPV5bCtcC+36R4IoXulpsesHuT4ja0WvoymTc=;
+        b=ZUIj0HvTQjtKHyNrM8xtnRKHQ01/5AZYD0me2DXTmBH3fPChDKhs/quPKB8fAvccy3
+         gdYpsJ3LWAZujlhnj0yMmuViqTw0y3w/xzmzk29OoAMptVA7HJ9PI95RfBnYssdEhfsc
+         chjWYvQqIVFV81cPMoH9dsYO2Dh+YSGSdoBN/LBfXerJnFOapwwM95YukEHs112hjsxu
+         4IyxTv8C838hr/ooN+rgslvW5B7ZOaAKbR3pK8FWipgZw7DsGy+N2+nGB2fsb4ViNTT2
+         +QQJ3Adwwm+a0Dso9r/fhGP6Mz6H5o37TpAeVHsaFyy20JWAglU1xRwYiSNTFp5fJD5O
+         gcRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728838628; x=1729443428;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SJ7q6HLPV5bCtcC+36R4IoXulpsesHuT4ja0WvoymTc=;
+        b=G50PcAEt/1Vc8zqR5yfLh6rlJV74Eni5/wIgt/dv27Q/+PlicRwLd8Noi9c6HyMDsk
+         UcTtZn0r+f88af8SXCQZ2s1AXJY02gK5dMJ929w1BoEHuPvFgTayeHZJ2y/Ed9XkwGD0
+         mrWxKUGL7Z4XeMCsQAe5TSv2yoWPqpjizzMJ2IVAhV1jezSu7gUIU8cZOHAxxyiO1BLo
+         nSkF5oZdcOCEby9Y/5IIi2fC3S74RD2DjMof1utRWdgJEBt57kCQjQVf4Q+iHKViapyB
+         Onbv530dagkiXz9hKfqoWzeSY8fWKNn9dy9PkZh7pmWtjLywiKOYJx1cdg2aEOzgVf27
+         OpAQ==
+X-Gm-Message-State: AOJu0YwPS7pi8M5Qkf/7tXE851A19dhlXVDWMvbHgPKtmqKJKmx1JBdl
+	EHvjMJj1b9dgZ4vIBffkRo0k+pxVSSSZT2NTMpPVyJFwBUymqctnSmvH7zSKAoAzjgQiQQD4DKj
+	eZfFGJGD5mKfCl04OO8193lfB6N9Rovehs4MQcruYM9hX+kKmOg==
+X-Google-Smtp-Source: AGHT+IFnsRDqI1tispkFvbJ4cish9wu+sxvB9U5BOFUg3eux7OPpZotBPbEgP5ZMejw05oSn7eI8yd5dol7o98/MMpE=
+X-Received: by 2002:a05:690c:f8c:b0:6e2:12e5:358b with SMTP id
+ 00721157ae682-6e3477bf1a8mr77352267b3.4.1728838627782; Sun, 13 Oct 2024
+ 09:57:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ZohoMailClient: External
+From: Paul Davis <paul@linuxaudiosystems.com>
+Date: Sun, 13 Oct 2024 10:56:57 -0600
+Message-ID: <CAFa_cKmDynOwheDU3gH2NMbj2eRAPEkLL+PP3zd4S5+enVK5Ag@mail.gmail.com>
+Subject: something went wrong with USB iJack data in kernel 6.x
+To: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-=E5=9C=A8 2024-10-13=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 11:54 +0200=EF=BC=
-=8COswald Buddenhagen=E5=86=99=E9=81=93=EF=BC=9A
-> On Sun, Oct 13, 2024 at 09:47:12AM +0800, Icenowy Zheng wrote:
-> > +++ b/sound/pci/emu10k1/emu10k1.c
-> > @@ -133,7 +133,9 @@ static int snd_card_emu10k1_probe(struct
-> > pci_dev *pci,
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0if (err < 0)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-return err;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0}
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (emu->audigy) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (emu->card_capabilities->=
-no_midi) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0dev_info(emu->card->dev, "Card has no ext. MIDI
-> > ports.\n");
-> >=20
-> seems like excess verbosity. there are much more important things
-> that
-> are not reported.
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else if (emu->audigy) {
-> >=20
-> i would eliminate that, and instead populate the card table properly.
-> that's a bit more code, but it's more uniform, and the resulting
-> binary
-> is even a tiny bit smaller.
+I don't know where to start with this issue, but since I noticed it
+trying to use a MIDI device, I thought I would start here. Advice on
+where to take it would  be much appreciated.
 
-Well in fact I just insert this here to prevent a re-indent of the
-following MIDI code.
+High Level symptoms:
 
-Well it could be better to be a=20
-```
-if (!emu->card_capabilities->no_midi) {
-        The original code
-}
-```
+1. plugin in a Novation Lanchkey mk4 to (a) a system running kernel
+6.x (b) a system running kernel 5.x
+2. run aplaymidi -l or arecordmidi -l
 
->=20
-> also, i would squash the patches, as i see no point in having them
-> separate, given their size.
->=20
-> regards
+  Results:
+     (a) kernel 6.x: note the presence of two identical MIDI port
+names for the device
+     (b) kernel 5.x: note the presence of two differently named MIDI
+ports for the device
 
+Mid-level diagnosis:
+
+Run lsusb -v on both kernels. For 5.x, note that the iJACK displays
+include a string for the MIDI port name. For 6.x note that this string
+is missing.
+
+Working with devices bearing identical ports for multiple names ranges
+from extremely difficult to impossible.
+
+I have no idea what layer of the stack can be involved here, other
+than that it is not hardware. I've run both 5.x and 6.x kernels on the
+same system.
