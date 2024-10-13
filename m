@@ -1,87 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9F9183CAA;
-	Sat, 12 Oct 2024 12:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728737452; cv=none; b=M0u6SUGelw8To+Nr0MQsvpjtJaZslO1emW+6/3uanO+ogp1VGkgn4GvkNhTk2EUDiMoA2PYClHCJQwcXedQgRtc6HuoGkXECVCs7bkGoDfKkbwp+xxvV9PLE/iuBuZgI5QZE++H2Ta82j0wniuaqvK7hwLdztR3Nkcn6cRrI2Gg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728737452; c=relaxed/simple;
-	bh=7oQXNtNUYL0OjUtuqZC5xP1WxqiwNA7nZryyNsHdPSM=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=mPi52k2eKC5Z6PEcogsWB0PZK25jvkPRPJXtb4fP21e1OEyQb0jcXXwZoroQxzpRS9Pnc8TreXU1mFidQu24c94qBB6xXvLmg77Aj/J8hSJVQeIKLZJm6Hf2HTEgYe1v4t8ZMXsr1qJuM8y4huhHSomW2UoWfeSRT79DySfHEgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoHQMVTk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B1A17C9;
+	Sun, 13 Oct 2024 01:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728784064; cv=pass; b=JqAlkDnVTcVLjS5IIt+uIdFCAU/XpJEIDwpZarj52kNERkBFzrBKAp0n4/Phe7TMghZRu8Y4v9UBYqK7n6JitqCMiy0Buz0E1NTSRM/11XWGjKa8vqQLEYhoC9jtcEoNmrwETw1qgL7ynF5glSa4NgfgXxUFOkIoI9Oe3m+qoCk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728784064; c=relaxed/simple;
+	bh=aKzvzxILTzxEmE0TZZI6Q40SUjVKIobJ6VAIQ+PGjN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uwx2KuuJXeOAv4CZNIjlB+h6r+Eu1R+I19163s17wQTPB9WGiCYmIF7Wly/VmkQQnXmRmN6r6g4O6UXBjckKmJA5IHOl1EelZ3qIK5pRMKGO+uJy3rRkA0/YIl+mzt04R0xPl3zlI1eYCbRFr8e0ETzF4Opyc/PhbnYD3h69tmc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=lSzuIXBf; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoHQMVTk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E68C4CED4;
-	Sat, 12 Oct 2024 12:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728737451;
-	bh=7oQXNtNUYL0OjUtuqZC5xP1WxqiwNA7nZryyNsHdPSM=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=eoHQMVTkXjMmrmjEkpNb3grnuq/CZrUEfg1dgSX3bokX3TBhLAT2kH52o+9fu1wbv
-	 QpotIZj26pXAvjtEsaJ3IdyOC1qndkgQBia23u2bkNgLlkqPxEZWrGuMDkyUjR+CnH
-	 oQuTwEENJjOoRzzHdYomhJ8Q4y96m8RfTMuvciZ6s5peX7qA9dgUT2Mqiki/hExP2J
-	 CIEbhna9um1ZPPFAKcw/T4pzN33H+m2Fb532GmEclfBb959SgqjK2z+2perkOJdLib
-	 CIyba/V9UmkoC9ZiZuPKbirksvLxZ+5L8Trp+UVIWo3KlUDR5t81XCnSmk7CY7PA0h
-	 N3mwI3tXpQYhQ==
-From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Alexey Klimov <alexey.klimov@linaro.org>, 
- linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20241012100957.129103-1-krzysztof.kozlowski@linaro.org>
-References: <20241012100957.129103-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH] ASoC: qcom: Select missing common Soundwire module
- code on SDM845
-Message-Id: <172873744990.3950734.14854047170413382738.b4-ty@kernel.org>
-Date: Sat, 12 Oct 2024 13:50:49 +0100
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="lSzuIXBf"
+ARC-Seal: i=1; a=rsa-sha256; t=1728784050; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=It0thPt1SNcT8/gZ9ipba0KPZkvMcO0yhXewdMhc5q6qiOuxvp8A04fO99bauARfPxc6oN6hOCl6boFVj5IeoiP0xZXhQDGmFpvuEkRKh2lXncrWO+koLOnd95YRe4NvSUAmOF1qTpZsilKl0KUpR+OrZpotS5YFMOFa/jJOFNY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1728784050; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3CF9QHK0q8CqBiP+xU9cGsEZFeH+jlJV0LlwJo+Juxw=; 
+	b=S4zRqjfveUXpTi3ioluhChRcYrSIz13jfhUxNYplj1fQt08P6/D/n3H4xt/HhaS+h09GBLWZ5oGv1LFWSKNcIwxOb/7+IFst+A8JAwxJvKO10Hb5fUMlBYtIHQK+Mk5KM2bFAe+9rkNl48RSIaY75WPrldxq/DDlFTgS+6Nikbs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728784050;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=3CF9QHK0q8CqBiP+xU9cGsEZFeH+jlJV0LlwJo+Juxw=;
+	b=lSzuIXBfeygqicWnIYnIEXKy0XUXV9uFb50uXnYYH9yX17Wq62TVXBWY8O41F2wJ
+	9GFbDxfj7dbcRa1RbneejTiXZRYG35OtGbBFI0Z1abuJ6GmQK/HddCjcgtV35X8DOaw
+	wU5ZIghd9wVBturficgWo9I7K6gjql13rTcxTfxWjB1GCrLBkgdpTk7WPAle2arykZH
+	gVzDAs3X0hRZ4egL9pVrEhfzKPbDot3msRZQguvhsN0ddkLDco308KTMcGcHYhLBi1F
+	x1e3qPjNV+OkmAH4RElo501fgQ8ieZs21T5qZYhTa5UqGYsdX2t2BsAAB9JL2s01Jxe
+	TUr1gqixyQ==
+Received: by mx.zohomail.com with SMTPS id 1728784048103929.370436072698;
+	Sat, 12 Oct 2024 18:47:28 -0700 (PDT)
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: [PATCH 0/2] ALSA: emu10k1: hide MPU-401 ports for Audigy Rx
+Date: Sun, 13 Oct 2024 09:47:11 +0800
+Message-ID: <20241013014714.7686-1-uwu@icenowy.me>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Sat, 12 Oct 2024 12:09:57 +0200, Krzysztof Kozlowski wrote:
-> SDM845 sound card driver uses qcom_snd_sdw_startup() from the common
-> Soundwire module, so select it to fix build failures:
-> 
->   ERROR: modpost: "qcom_snd_sdw_startup" [sound/soc/qcom/snd-soc-sdm845.ko] undefined!
-> 
-> 
+The Audigy Rx card HW has no external MIDI ports (either directly on the
+card or as an optional breakout), however the current drivers still
+create MPU-401 MIDI ports on it, leads to confusion of DAW software.
 
-Applied to
+Hide the MPU-401 MIDI ports for it.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Icenowy Zheng (2):
+  ALSA: emu10k1: add a capability bit for no MIDI
+  ALSA: emu10k1: hide ext. MIDI ports for Audigy Rx
 
-Thanks!
+ include/sound/emu10k1.h          | 1 +
+ sound/pci/emu10k1/emu10k1.c      | 4 +++-
+ sound/pci/emu10k1/emu10k1_main.c | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-[1/1] ASoC: qcom: Select missing common Soundwire module code on SDM845
-      commit: b930d8647869802a0d430aae6b1b05c3acb24a41
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+-- 
+2.47.0
 
