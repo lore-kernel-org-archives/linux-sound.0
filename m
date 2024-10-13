@@ -1,87 +1,100 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39AC1870;
-	Sun, 13 Oct 2024 01:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728784088; cv=pass; b=VYwevKZ/JRpUo90AplZYoHskoyPL9YFS5hwDXYtW6kSOBZYMLlgmXb1MMwvkmgsH3fP3I0o8kRHBotsycMlFt5igVQF3QF/7bxxySebZw/z/VNhkL6ch8Z8lhfdrnU9LWk9D550eA+3JgjHSECvfHhoOl+dVkT1FPLNJHp4iNAE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728784088; c=relaxed/simple;
-	bh=v5m3CTNEW+D9aVXVPGDzbpijpDQQIxbYHoED16eC4KE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gRn5PD1zmnm4OL7Sxbruhvj1DXPeqnxjmg+e1jYM2yL4qtFxAfoQF7KjU+3ZgRph8frTGOeNe51YtpJOoG6u+o8m3pDxFCdbLpO5vtQhbu0vRn0ZI6ofVc0v3hzx0JsI2YufIVdqeunLg0VXc9fWbCF6lA9cH9+Nve4ZVitU8oI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=PkSZTkAT; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF847804;
+	Sun, 13 Oct 2024 09:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1728813265; cv=none; b=CgSa9PKjF+jNwgY9/YGca+XxBkMJp8V+d83+swA10iZ87eQZKGyob7cyRFE+2SndyXy1UL3VE1OhBeQC/Njuejj4txIlL5OKS8xmcP/ZLqWYFr5/xleOyp1HzHnjaVxnJ8NLq+l1EPr7lIkGlkoP/2Y+7VMyZo9qKnScPCC0jdY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1728813265; c=relaxed/simple;
+	bh=OJ5AhyLgRm7P2UuNNp3mRuuJI7IvSY7HTNsSc7zNEPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NKNttktFOPZjDVTO2ApadOcK4u1JfJnTulSERedVQSOrwC2mT8t3cHowfU3GDYsaeTiwOxN9WOKpqbNABqJfLsHieNcci2yshTHOHv98KLzNklEV5dAXUCObOLFq/q4GvUnwtuc0vwlaimEqJ2jVnEQP/72cjz21UhBwlWHoMBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b=FWpAQ3n/; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="PkSZTkAT"
-ARC-Seal: i=1; a=rsa-sha256; t=1728784080; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=jTjwkYQBfW8q21wC2MrNWLVLsHKui8uzTo5yWxayBdznMS3gc/SwlKZJCZjYwLBwzQ55cbBUNOoibk0Rtj0JconSGZNXWd5Rru1R1MQ5iNmujdm+XWqspcVpY1UE1xDW3NWdBcDHUQz/Oh3iouosp0Sg23h6sRxtA1RaZby9b+k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1728784080; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xMA0Ve0ifeE4zJVgDILKH1JZGeu87x9vinIyWiXeifc=; 
-	b=jDxNw4n9esCeTUR6t9UYT/2KrD83co9F+CJd9F5NfFoxfv8YNRcClQJ7/dtfU6ypZUpHPgRT983u69gvaRRu4dBmTgY0frGUzkhLHQmrH88iYYSBHYi8TDUKxeuJ2y/MLJ05QQ65X2Kmv7LbKm2rL0M7gP9Iwd3a7cS6ik/ZsWI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1728784080;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=xMA0Ve0ifeE4zJVgDILKH1JZGeu87x9vinIyWiXeifc=;
-	b=PkSZTkATw3X9gm1E4R6+hafqWzY+/S8zjk9YLoicQDn3Or686pk7DQzBXSUBPTfL
-	fVeazm09aa2ocWes2SjL/RuVq4njMRukIs/dhIm7aMfiJbylbd2Zorp7jWCUCeuoGdG
-	XnF1uL9admqUH3mTDzhzGs2eiAIeP61Jr5MoBhCy6NGChBL745U+8g4gQoW2kDoldsU
-	pi6AzEoumrI99HtgkXtGMYkT7Uvq21tZFqLRrpuhtMVijjfSzM3KCgGMlMjHlQwo/gP
-	lNUvTFI1Tov+s6+T7pVR+vvxpIjL59MyogquiWLvn0znVIT6EXDQAQ00Ox9NgZIQ75Y
-	i10+oiP3VA==
-Received: by mx.zohomail.com with SMTPS id 1728784077958241.1142985847348;
-	Sat, 12 Oct 2024 18:47:57 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 2/2] ALSA: emu10k1: hide ext. MIDI ports for Audigy Rx
-Date: Sun, 13 Oct 2024 09:47:13 +0800
-Message-ID: <20241013014714.7686-3-uwu@icenowy.me>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241013014714.7686-1-uwu@icenowy.me>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=oswald.buddenhagen@gmx.de header.b="FWpAQ3n/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1728813251; x=1729418051;
+	i=oswald.buddenhagen@gmx.de;
+	bh=vqeZVm15JugonPdtajp4jH6eT/ju9QoLRzHPHcnPjEA=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:In-Reply-To:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FWpAQ3n/NBw+0RLSgrUSXd0cyfh9tYsQrcYlDg9ZkLKG6OmXVgOwa5Mm0ixaGrcY
+	 dUoJ/6pRkeDOJcOkWJSvbVe5e+MCLFbEiR0Uc1kMFeFYtwjJZaDOWjn+bSEhtSb27
+	 M8XZc1cDwEA6kv5jpUKrcM+whuQhWq53rMpY1q9DXDxTtcf5/GsmlrBrQdsZS+Tfq
+	 azUGjmWm+4exJXT7W/2jp6XfREN1ygpIIJMRyJUD2xl1VjOB3BCfHG/H5VOfitN1N
+	 4xwRbeSAbPa9lR0VH8vw2SRuZcwMNKknpm8Pkmv2QONmIfSEZQThEu4ssLcw0VTUs
+	 7+/wQTVmR9V7GLqH3w==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ugly.fritz.box ([89.247.162.121]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MbAh0-1tWm553FI8-00gPkw; Sun, 13
+ Oct 2024 11:54:11 +0200
+Received: by ugly.fritz.box (MasqMail 0.3.5-13-g85b6fce-plus, from userid 1000)
+	id 1szvIh-Lqi-00; Sun, 13 Oct 2024 11:54:11 +0200
+Date: Sun, 13 Oct 2024 11:54:11 +0200
+From: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] ALSA: emu10k1: add a capability bit for no MIDI
+Message-ID: <ZwuYw27Y1YQy-DQJ@ugly>
 References: <20241013014714.7686-1-uwu@icenowy.me>
+ <20241013014714.7686-2-uwu@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20241013014714.7686-2-uwu@icenowy.me>
+X-Provags-ID: V03:K1:NuEU3kD24d9l3aRyLqs9wY99swTUS3wu9/T0+UNrdmN/kp+BDn7
+ At0YP59XmSuZjsru7/NtgtBkp4T5Rji1gqdWAMJqed//iuohLdcw4qi3dh2MRgQU8Pt8dya
+ TqpldtrzcwRIa3Z+fy0G/XLZuFI9PAtV5usx4MXS50uO1n8rfOwALVySVT6AXT0e/Qh6Nn6
+ FnyJCcXEcmH6XdJGwl7fA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:KT7geH487rc=;oiqomaDc4TIErBF7A0Gi7/Lf+MJ
+ cZ8yUvOHayUqzJwXbmc3MnoMHI5yu7w3IcOxVJXcVBt9A0IALSr+rlWpWOWwHvsPqrlz+ssUk
+ i1kA8ltBbUgdVcLAL7fHqY/YmyF7ZgUDFR3d8PTitTGhD/wvLLqbE/DohdpcSkXvWyRCSby+3
+ kV+YVhrkcUuVL5Gr627K5/xlgWeKg82rKOth9PKA7sa4KSX86Q+yvWJUMEmOzDN6VLFti4AlO
+ jtYF32sV6AnLD3Mh3x7c19ctZdMhAKdUXkP5BYAQUc5dbJPnMOEcmn3qPpfYNGz/fEbCgelm3
+ 6N9iGeb7epvHRzfN640N0X4gDhaIYcAeEDPdIbC0JZDN6qGb5f/T5msAao9vsdYsJMV6R+Kv0
+ RVgMv/V55IDr8uWbYSSgEPWfuAhMo4NP45ZEHfQT2Q2clFJOnJ7+iPC0Ha1LYzC+UXehZ3l0S
+ 8FnJc+gYx2bcy/tKyGDyZMGYYLhqiCogIt9gEb4aWLUal0/09HngQ3wWpMqNS1QQKtoYa0Tug
+ ypVYBEJChWoKqJ6FC6a7qHCczDSkWTZX9DL05NQpf0v5VlQRzd1Qqu3R17eER6kfc0NGJ1q3v
+ lig3VDelLdV2pv8Hb2wNvSv2mbFuPxs2ua0PGiTp4lMRWN4wU9mmzhaUsQUWDz3Lypj/WV6xW
+ iNGMeqvx4uhgKMjGQ0d8Rj139VLCAFFcdSLKEgj0JBws5MhNbmtv4uieJyf26jKZs1UNoSmrz
+ CGeddS3REzfufLb3cPI5xFubZrO2u9J04xNCJulB9GUe5YKmY8ssRCj28jGxnlItRwJXrPWub
+ mulZzk+3VxH1Meqf8O8/JHfA==
+Content-Transfer-Encoding: quoted-printable
 
-Audigy Rx is a card w/o any external MIDI ports available.
+On Sun, Oct 13, 2024 at 09:47:12AM +0800, Icenowy Zheng wrote:
+>+++ b/sound/pci/emu10k1/emu10k1.c
+>@@ -133,7 +133,9 @@ static int snd_card_emu10k1_probe(struct pci_dev *pci=
+,
+> 		if (err < 0)
+> 			return err;
+> 	}
+>-	if (emu->audigy) {
+>+	if (emu->card_capabilities->no_midi) {
+>+		dev_info(emu->card->dev, "Card has no ext. MIDI ports.\n");
+>
+seems like excess verbosity. there are much more important things that
+are not reported.
 
-Set the capability bit to hide its MPU-401 ports to prevent confusion.
+>+	} else if (emu->audigy) {
+>
+i would eliminate that, and instead populate the card table properly.
+that's a bit more code, but it's more uniform, and the resulting binary
+is even a tiny bit smaller.
 
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
----
- sound/pci/emu10k1/emu10k1_main.c | 1 +
- 1 file changed, 1 insertion(+)
+also, i would squash the patches, as i see no point in having them
+separate, given their size.
 
-diff --git a/sound/pci/emu10k1/emu10k1_main.c b/sound/pci/emu10k1/emu10k1_main.c
-index 5b8a5ba825bdb..c9240126f78e3 100644
---- a/sound/pci/emu10k1/emu10k1_main.c
-+++ b/sound/pci/emu10k1/emu10k1_main.c
-@@ -947,6 +947,7 @@ static const struct snd_emu_chip_details emu_chip_details[] = {
- 	 .id = "Audigy2",
- 	 .emu10k2_chip = 1,
- 	 .ca0108_chip = 1,
-+	 .no_midi = 1,
- 	 .spk71 = 1,
- 	 .adc_1361t = 1,  /* 24 bit capture instead of 16bit */
- 	 .ac97_chip = 1},
--- 
-2.47.0
-
+regards
