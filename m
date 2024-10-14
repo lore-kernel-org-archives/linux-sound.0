@@ -1,151 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182B684D3E;
-	Mon, 14 Oct 2024 16:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ADB0139D0B
+	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 16:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728921700; cv=none; b=TIV7YGxR5SMQcuFFSjhHKQj5Ktchi810hEoL1gYYIbCRhUVDjqAVEP30XVbwM+avAVfj+Er9alWcAFuo9RvPZKYKjx9tdcVzYfPE95IVwYj7JUCovzLycUHZnVZb0ncFqO+ghrGVVNjz7PCI5oLa+id8N4zauupNmbli0SItDU8=
+	t=1728921835; cv=none; b=EIlnsGeffaGEyL5iXDStMG8H/edevg9Ejlh7/aCimp7urJIE9IeQLp/QtPXJin+ObCb1n0+Mz+6zFfqHor0duEbzhQHxPUZhNx1W8GwgDnTx1lLplGZ/zB6msbZTS27l5KfwG4qeChiHkpleygXqhnhj7y5YKeuUA0eqrxQwqag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728921700; c=relaxed/simple;
-	bh=/LxBb/XpJeYTRjuQxo2hPSUULibUtnh60pBYguxgPOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aUySb6P51pMQmI0GnuwdzSQkJluff8ok0dw4fchcmtyr3VglRYFauqpWlrtc/ggirBLuFMiu6MOhDPMsqu0mLQjxhBvkz759MdHrsZ1XJWOhrqIPFV6kHX0BQt3NQvqBgT0Jo/S8iYGiA7UVzthQMV+eymnWRq4+9MlBQt5Bb9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6WqEIQh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728921835; c=relaxed/simple;
+	bh=COmcZXpGnVpwik4ozxRAAx5Yuahvbc4v4jdOsnCYfPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XGZl3V35ZwWV188trZV7HKwJw5vpI2buV/ktsGPKUgbAY8E1rw/EUUHArEv2ndSahhu/7tXarwYOFEClue+wDwg+cnMC+2yglzFgadNqcaJLC4E0Xsg4JqsTZeDc3yw1QiBvnLsYU11pYOl8mYGThPV+I579tZL0kCv1ZwLgzVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com; spf=pass smtp.mailfrom=linuxaudiosystems.com; dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b=ILvO8Uuv; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxaudiosystems.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6WqEIQh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F7BC4CEC3;
-	Mon, 14 Oct 2024 16:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728921699;
-	bh=/LxBb/XpJeYTRjuQxo2hPSUULibUtnh60pBYguxgPOw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B6WqEIQhvd1zimAbUe+3tMHiLGy7AdQ8uq4due8CME0s9V7+dL+JNyvTYZu0LhZR6
-	 H8s8+v5nWSvdZv7eQWthiBwQVkxJoFuCIBb8w8qd3wNkTigXdmVOe9oKAbbqXQEKTm
-	 yoH7SmoEiAEmM9KnKXd95bpNw0BcFxIsgxbd2tp2M/JCz51GWHhcxYPefhc//9f8XY
-	 NIOlCCEuIiBh6L+pEWJTWS2bwTwrMkmivYbxdoKanAGnb1odK5IIO+5wq+gocIuZf8
-	 tnOTPmHtHx42oyxq2rSZKXyEfb8Ev6/m7RrscJ8X/VUwJ6VKqxXvsIkqyUq1JKVv5e
-	 /zVYto9VrB24Q==
-Date: Mon, 14 Oct 2024 17:01:28 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Greg Marsden <greg.marsden@oracle.com>,
-	Ivan Ivanov <ivan.ivanov@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Matthias Brugger <mbrugger@suse.com>,
-	Miroslav Benes <mbenes@suse.cz>, Takashi Iwai <tiwai@suse.com>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
- constant assumption
-Message-ID: <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
-References: <20241014105514.3206191-1-ryan.roberts@arm.com>
- <20241014105912.3207374-1-ryan.roberts@arm.com>
- <20241014105912.3207374-22-ryan.roberts@arm.com>
- <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
- <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
+	dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b="ILvO8Uuv"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-717da7cb71fso1143065a34.1
+        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 09:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxaudiosystems-com.20230601.gappssmtp.com; s=20230601; t=1728921831; x=1729526631; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4+wOzfgNyCeWVC2ETTq/hEZZ3iEU2YyrUqz1kGdk31o=;
+        b=ILvO8Uuv6vq0AzNb2XTlWS7IA0t8kWOD/mLYrthM/zJvxFGbf89FRpYZ3mXGwrlN+x
+         0i1Yc9icSBiD7MbYL+cWkwT9bc7Gl1BR+drp1Plg6s3fyOcn/oGCiPL/Knr6SnmJ8eIZ
+         CHjwBYYShmoNuVF9JXhWH83uHK0nOzvXAly1R39nIbrDV/ZukAWdcDSESK/hR4nwGQPd
+         EuzbSr9rxIDPmjPz3ZNkmA79TLBeuRRUecxu4t6qMq07r9hInVPi6gN/4UcpYUBPfbrf
+         x6VFc6Y99d1GzsrdikfrhQnhAhyQh8Q0uIwyp31Ve6iSlseEsHnVnJwQCnZdbFm/eWRb
+         hKjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728921831; x=1729526631;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4+wOzfgNyCeWVC2ETTq/hEZZ3iEU2YyrUqz1kGdk31o=;
+        b=cxudhPLVFN2uRULjrjQcIbkdOFPjmjzrHKHE7WY4K6za6XkyeEzrdZYNZzJtc3JVN1
+         7nMe+kNte3e4kdDO7alKGjaDbdxaEGRDQDwRqdycvRvvwGM970RxrmfKtOogGZaZ35iK
+         GNpANllhu25Cg3tmqqiwqZBQZ+tTG1X7dDrsjd/jdhVfE5wZdlLqZE/3hBsBVHPiMovv
+         KJ/vTaFKo9NIYZFdQwGOF0VzkhILfHt8dVf62jqt1BkHC2/z28gw8uKYHZS6UFl/DLF1
+         lV5+YAIJUnsDmAXnWoUxiq5FWGBW+D3gcZm4UFwf9ApM1zubPGXtaKBCYY5MkOhfoNSG
+         dpsA==
+X-Gm-Message-State: AOJu0YzYGU+RbI1x6vw43A7tkvZk3ZWZ+EjZW7Y5JvoEl5zzjDhjxEoI
+	mfvXya3un4Da67Nm+MDh3k6zksWuDH9XNwci+H8vuRF/+MuP315JY/cXgmWYzKNF1iXePuoNkMR
+	yXrubYbEMRVIbO4BTK5FVq/5REMYiTzym9QHMm1lAnYeg3RE=
+X-Google-Smtp-Source: AGHT+IEpcFCz1ybklLITp+t8565kqk6CVcH+RpnlsvbfZLJ3cEfVSs1IC8gXXaKYrlQ9KbhcpENQP9okL1tF1oN8uqk=
+X-Received: by 2002:a05:6830:3699:b0:710:ff85:42fb with SMTP id
+ 46e09a7af769-717d642c2a3mr9225138a34.16.1728921831396; Mon, 14 Oct 2024
+ 09:03:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YQ5NQwwWvL7pQhlB"
-Content-Disposition: inline
-In-Reply-To: <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
-X-Cookie: Editing is a rewording activity.
-
-
---YQ5NQwwWvL7pQhlB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <CAFa_cKmDynOwheDU3gH2NMbj2eRAPEkLL+PP3zd4S5+enVK5Ag@mail.gmail.com>
+ <87wmibjfuk.wl-tiwai@suse.de> <87seszjfj3.wl-tiwai@suse.de>
+In-Reply-To: <87seszjfj3.wl-tiwai@suse.de>
+From: Paul Davis <paul@linuxaudiosystems.com>
+Date: Mon, 14 Oct 2024 10:03:40 -0600
+Message-ID: <CAFa_cKmS-DHykwA=Ej1w9i3+yfz4wyPJTtEG9ADNTJ8t2GSBQw@mail.gmail.com>
+Subject: Re: something went wrong with USB iJack data in kernel 6.x
+To: Takashi Iwai <tiwai@suse.de>
+Cc: linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 14, 2024 at 01:24:02PM +0100, Ryan Roberts wrote:
-> On 14/10/2024 12:38, Mark Brown wrote:
-> > On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
+The thing that puzzles me is that the iJack strings are missing from
+the output of libusb -v, which AFAIU is 100% independent of any ALSA
+code whatsoever. This makes me suspect that no ALSA code is involved
+in this regression. I've also determined since my email that some
+other devices (e.g. an Ableton Push 2) do have iJack name data with
+the 6.x kernel.
 
-> >> ***NOTE***
-> >> Any confused maintainers may want to read the cover note here for cont=
-ext:
-> >> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.=
-com/
+However, things got curiouser as I was trying to get the output of
+alsa-info. It seems that under some conditions, the iJack strings for
+the problematic device are available/displayed with lsusb. My initial
+run of alsa-info showed the iJack strings, subsequent runs of
+alsa-info and/or lsusb -v do not. I also see a continuous stream of
+USB device resets (though these are not happening directly after being
+connected and do not seem related to the presence/absence of iJack
+strings).
 
-> > As documented in submitting-patches.rst please send patches to the=20
-> > maintainers for the code you would like to change.  The normal kernel
-> > workflow is that people apply patches from their inboxes, if they aren't
-> > copied they are likely to not see the patch at all and it is much more
-> > difficult to apply patches.
+So my guess is that is a highly device-specific problem and not a
+regression in any part of the kernel.
 
-> Sure. I think you're implying that you would have liked to be in To: for =
-this
-> patch? I went to quite a lot of trouble to ensure all maintainers were at=
- least
-> in the To: field for patches touching their code. But get_maintainer.pl l=
-ists
-> you as a supporter, not a maintainer when I ran this patch through. Could=
- you
-> clarify what would have been the correct thing to do? I could include all
-> reviewers and supporters as well as maintainers but then I'd be banging up
-> against the limits for some of the patches.
 
-The entry in MAINTAINERS for me is a M:, supporter is just the usual
-get_maintainers noise.  Supported is exactly equivalent to a maintainer.
-Generally if you're going to filter people you should be filtering less
-specific matches out rather than more and if you're looking to filter
-very aggressively look at who actually commits changes to whatever
-you're trying to change, less specific maintainers will generally
-delegate down to the more specific ones.
-
-> > It's probably better to just use PAGE_SIZE_MAX here and avoid the
-> > deferred patching, like the comment says we don't particularly care what
-> > the value actually is here given that it's a dummy.
-
-> OK, so would that be:
-
-> 	.buffer_bytes_max	=3D 128*1024,
-> 	.period_bytes_min	=3D PAGE_SIZE_MAX,      <<<<<
-> 	.period_bytes_max	=3D PAGE_SIZE_MAX*2,    <<<<<
-> 	.periods_min		=3D 2,
-> 	.periods_max		=3D 128,
-
-> It's not really clear to me how all the parameters interact; the buffer s=
-ize
-> 128K, which, if PAGE_SIZE_MAX is 64K, would hold 1 period of the maximum =
-size.
-> But periods_min is 2. So not sure that works? Or perhaps I'm trying to ap=
-ply too
-> much meaning to the param names...
-
-Like Takashi says just using absolute numbers here is probably just as
-sensible, the numbers are there to stop userspace tripping over itself
-but like I say it shouldn't ever get as far as actually using them for
-anything.  So long as we end up with some numbers that don't need any
-late init patching the specifics aren't super important, the use of
-PAGE_SIZE was kind of random.
-
---YQ5NQwwWvL7pQhlB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcNQFUACgkQJNaLcl1U
-h9C0BQgAgLqixHC2HmBLzE8BtScypVWosu4/llyhlnVLHix+5KCjWH4yMIAcDIkm
-jSFLEZw+OQkiVYFGEmM/QkODuq0/yw1Fj9xAh8n5Po4KNj86ffwVuVtgmg8MXlIX
-ze+ysOH4IaGnEzu1ppJLCNNtrOftI1Fm7mDwkGUEB2ZMfP4JoY+q+OnXpZlpqVIf
-t1uQWnUb2bhLR6J9awpzY+fRSoz5x0CJF540oKfBMU3Jo6mhJH0sLc1zZmxwCYIn
-YGFPJVjIjJ0VaXa5+XFXSDvlcLvPiegwSR9Ys3rmEWJNpb/uWdSEDy8+tus4OH2/
-SQF5XoYZF2SEAD1WU+LcRqS3+yzikQ==
-=ZFCZ
------END PGP SIGNATURE-----
-
---YQ5NQwwWvL7pQhlB--
+On Mon, Oct 14, 2024 at 1:42=E2=80=AFAM Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Mon, 14 Oct 2024 09:36:35 +0200,
+> Takashi Iwai wrote:
+> >
+> > On Sun, 13 Oct 2024 18:56:57 +0200,
+> > Paul Davis wrote:
+> > >
+> > > I don't know where to start with this issue, but since I noticed it
+> > > trying to use a MIDI device, I thought I would start here. Advice on
+> > > where to take it would  be much appreciated.
+> > >
+> > > High Level symptoms:
+> > >
+> > > 1. plugin in a Novation Lanchkey mk4 to (a) a system running kernel
+> > > 6.x (b) a system running kernel 5.x
+> > > 2. run aplaymidi -l or arecordmidi -l
+> > >
+> > >   Results:
+> > >      (a) kernel 6.x: note the presence of two identical MIDI port
+> > > names for the device
+> > >      (b) kernel 5.x: note the presence of two differently named MIDI
+> > > ports for the device
+> > >
+> > > Mid-level diagnosis:
+> > >
+> > > Run lsusb -v on both kernels. For 5.x, note that the iJACK displays
+> > > include a string for the MIDI port name. For 6.x note that this strin=
+g
+> > > is missing.
+> > >
+> > > Working with devices bearing identical ports for multiple names range=
+s
+> > > from extremely difficult to impossible.
+> > >
+> > > I have no idea what layer of the stack can be involved here, other
+> > > than that it is not hardware. I've run both 5.x and 6.x kernels on th=
+e
+> > > same system.
+> >
+> > Could you try to narrow down the regression range, e.g. by testing
+> > different 5.x and 6.x kernels?  The best would be git-bisect, but
+> > figuring out the first broken kernel version would help a lot
+> > already.
+> >
+> > Also the issue can be very specific to the device, so please give the
+> > details of your device.  e.g. the alsa-info.sh outputs from both cases
+> > as well as lsusb -v outputs.
+>
+> And, if it's about iJack handling for MIDI v1.x, the only recent
+> change I can see is the upstream commit
+> 41c25e193b2befc22462aa41591d397fab174ca1
+>     ALSA: usb-audio: More relaxed check of MIDI jack names
+>
+> You can try to revert it.
+>
+>
+> Takashi
