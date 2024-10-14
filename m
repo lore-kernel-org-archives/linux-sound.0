@@ -1,212 +1,99 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27109156678;
-	Mon, 14 Oct 2024 10:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4161B1AC444;
+	Mon, 14 Oct 2024 11:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728900372; cv=none; b=Rj/qYEKjYJndg22qxi6bgmEVbD3WFznu8Xye23Rkh1hyUi2dDYQg6aHILdx+WeHDbCqC0B1Turx5qgkQ5fjMOaZ8wtLJnH7P/kacxeYJkspu4kcheZQr8pMBJR6z+bxGCf8eZxHML3HBKc82sr/CoUwdcM4DUiC9bqdVwLsnbuI=
+	t=1728903636; cv=none; b=tdBMDBwBvslljHYQylE3rApYZmAC+K3Huf691vQelKlVoaWuCbANcs56BjTwdbdo0Qv9Fq3XZ0i47G6+MSdrJV9FVUXwqv0zT3z7UkIOYSKhKr4uljGqOuMeFaaBe9CYmvJat4J/dfbUIglxift4vYTIeSzQmqiIVOEhUxOZ3ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728900372; c=relaxed/simple;
-	bh=c1Vkmd+5IoIQPTf+Vi9rkDqlGgCX1fUHs6YcdbpMwkI=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aB9oS10dSaDgxX8KB4tleCWP9t2cL4/WxoKWNbNVelNjukmBhkGAJMMjJtx1VZGaUJejoc0MWNXOFDu1D2A9vseVPwR4Q2oS8gOa03NO2JL52XW6ZSFBbG+Pwsrf06hGcSIQ4CakVUvUDynN6BJpt2t/29t940rv1SS1eSrTqbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D7+QpBvu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yruzElfm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D7+QpBvu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yruzElfm; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D7+QpBvu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yruzElfm";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D7+QpBvu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yruzElfm"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4AF2B1F391;
-	Mon, 14 Oct 2024 10:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728900368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPs40LitxG6Lhr1hU0tbJr+s6Q3AQ5cu6mKJD/Pc1Y=;
-	b=D7+QpBvuErvdhPAbubxdV1BAkozfi7Eyh9/jt0dhNw1cvNi22MNs+PLA0M+pvtUWba1ZGS
-	2PeRSkyYt7MHPixNvqjWqarYwaEyUMj+i6BRVobAKhVa3Z6+hGfwAlzDwKy8w82Y/NrPfH
-	RfEOOpMv3INsRpmyjUG0VLhXNQUGRMU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728900368;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPs40LitxG6Lhr1hU0tbJr+s6Q3AQ5cu6mKJD/Pc1Y=;
-	b=yruzElfm380E+/Bl41LJJlRXJjjOz1+nXe6N5dqokp76lKnSOHdp5jx+d9HFTdHcG07IRz
-	ZNH2oR/Vq4YL1XBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1728900368; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPs40LitxG6Lhr1hU0tbJr+s6Q3AQ5cu6mKJD/Pc1Y=;
-	b=D7+QpBvuErvdhPAbubxdV1BAkozfi7Eyh9/jt0dhNw1cvNi22MNs+PLA0M+pvtUWba1ZGS
-	2PeRSkyYt7MHPixNvqjWqarYwaEyUMj+i6BRVobAKhVa3Z6+hGfwAlzDwKy8w82Y/NrPfH
-	RfEOOpMv3INsRpmyjUG0VLhXNQUGRMU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1728900368;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wIPs40LitxG6Lhr1hU0tbJr+s6Q3AQ5cu6mKJD/Pc1Y=;
-	b=yruzElfm380E+/Bl41LJJlRXJjjOz1+nXe6N5dqokp76lKnSOHdp5jx+d9HFTdHcG07IRz
-	ZNH2oR/Vq4YL1XBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C852013A51;
-	Mon, 14 Oct 2024 10:06:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8m0BLw/tDGedFAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 14 Oct 2024 10:06:07 +0000
-Date: Mon, 14 Oct 2024 12:07:05 +0200
-Message-ID: <87cyk3j8vq.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1728903636; c=relaxed/simple;
+	bh=FcM7fKKo2HWCTYaccbwaa3xgX3AIhVCd/YNKcH7yqmk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NIQISzuEPaWYExXt4MzuQ6+kHEua5xnweku1+BqiWOmdNLiBQRyMC7PxAIgFbgqt+RNhZZcIKV284NM7iQa5+LdoaYd3JnDZEahc3T6aX1NECXo55xUG59oOMyqO+Vj7LH7aAgQUiUvmqlrSS7k/FeOKfBr7CYx5JuxDqoSYmWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7C133168F;
+	Mon, 14 Oct 2024 04:01:04 -0700 (PDT)
+Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.1.196.27])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 201A53F51B;
+	Mon, 14 Oct 2024 04:00:32 -0700 (PDT)
+From: Ryan Roberts <ryan.roberts@arm.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Greg Marsden <greg.marsden@oracle.com>,
+	Ivan Ivanov <ivan.ivanov@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Will Deacon <will@kernel.org>
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v4 0/7] ASoC: fsl: add memory to memory function for ASRC
-In-Reply-To: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time constant assumption
+Date: Mon, 14 Oct 2024 11:58:29 +0100
+Message-ID: <20241014105912.3207374-22-ryan.roberts@arm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241014105912.3207374-1-ryan.roberts@arm.com>
+References: <20241014105514.3206191-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-1-ryan.roberts@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,perex.cz,suse.com,alsa-project.org,vger.kernel.org,gmail.com,lists.ozlabs.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Sep 2024 08:55:09 +0200,
-Shengjiu Wang wrote:
-> 
-> This function is base on the accelerator implementation
-> for compress API:
-> https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59911-1-perex@perex.cz/
-> Add it to this patch set.
-> 
-> Audio signal processing also has the requirement for memory to
-> memory similar as Video.
-> 
-> This asrc memory to memory (memory ->asrc->memory) case is a non
-> real time use case.
-> 
-> User fills the input buffer to the asrc module, after conversion, then asrc
-> sends back the output buffer to user. So it is not a traditional ALSA playback
-> and capture case.
-> 
-> Because we had implemented the "memory -> asrc ->i2s device-> codec"
-> use case in ALSA.  Now the "memory->asrc->memory" needs
-> to reuse the code in asrc driver, so the patch 1 and patch 2 is for refining
-> the code to make it can be shared by the "memory->asrc->memory"
-> driver.
-> 
-> Other change is to add memory to memory support for two kinds of i.MX ASRC
-> modules.
-> 
-> changes in v4:
-> - remove the RFC tag, no comments receive in v3
-> - Add Jaroslav Kysela's patch in this patch set. because it may be
->   better for reviewing in a full patch set.
-> - Fix the list_for_each_entry_reverse to list_for_each_entry_safe_reverse
-> - Fix some coding style issues in Jaroslav Kysela's patch
-> 
-> changes in v3:
-> - use Jaroslav's suggestion for header file compress_params.h (PATCH 01)
-> - remove the ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE definition
-> - remove ASRC_RATIO_MOD in this version because it uses .set_metadata()
->   Will wait Jaroslav's update or other better method in the future.
-> - Address some comments from Pierre.
-> 
-> changes in v2:
-> - Remove the changes in compress API
-> - drop the SNDRV_COMPRESS_SRC_RATIO_MOD
-> - drop the SND_AUDIOCODEC_SRC and struct snd_dec_src
-> - define private metadata key value
->   ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE/ASRC_RATIO_MOD
-> 
-> Jaroslav Kysela (1):
->   ALSA: compress_offload: introduce accel operation mode
-> 
-> Shengjiu Wang (6):
->   ALSA: compress: Add output rate and output format support
->   ASoC: fsl_asrc: define functions for memory to memory usage
->   ASoC: fsl_easrc: define functions for memory to memory usage
->   ASoC: fsl_asrc_m2m: Add memory to memory function
->   ASoC: fsl_asrc: register m2m platform device
->   ASoC: fsl_easrc: register m2m platform device
-> 
->  .../sound/designs/compress-accel.rst          | 136 ++++
->  include/sound/compress_driver.h               |  46 ++
->  include/uapi/sound/compress_offload.h         |  63 +-
->  include/uapi/sound/compress_params.h          |  23 +-
->  sound/core/Kconfig                            |   3 +
->  sound/core/compress_offload.c                 | 351 ++++++++-
->  sound/soc/fsl/Kconfig                         |   1 +
->  sound/soc/fsl/Makefile                        |   2 +-
->  sound/soc/fsl/fsl_asrc.c                      | 179 ++++-
->  sound/soc/fsl/fsl_asrc.h                      |   2 +
->  sound/soc/fsl/fsl_asrc_common.h               |  70 ++
->  sound/soc/fsl/fsl_asrc_m2m.c                  | 727 ++++++++++++++++++
->  sound/soc/fsl/fsl_easrc.c                     | 261 ++++++-
->  sound/soc/fsl/fsl_easrc.h                     |   4 +
->  14 files changed, 1851 insertions(+), 17 deletions(-)
->  create mode 100644 Documentation/sound/designs/compress-accel.rst
->  create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
+To prepare for supporting boot-time page size selection, refactor code
+to remove assumptions about PAGE_SIZE being compile-time constant. Code
+intended to be equivalent when compile-time page size is active.
 
-Are there any objections against this basic design and ABI?
+Wrap global variables that are initialized with PAGE_SIZE derived values
+using DEFINE_GLOBAL_PAGE_SIZE_VAR() so their initialization can be
+deferred for boot-time page size builds.
 
-The details of the implementations can be changed in future, but the
-basic design and the ABI must be set in stone before merging.
+Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
+---
 
+***NOTE***
+Any confused maintainers may want to read the cover note here for context:
+https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
 
-thanks,
+ sound/soc/soc-utils.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Takashi
+diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
+index 303823dc45d7a..74e1bc1087de4 100644
+--- a/sound/soc/soc-utils.c
++++ b/sound/soc/soc-utils.c
+@@ -98,7 +98,7 @@ int snd_soc_tdm_params_to_bclk(const struct snd_pcm_hw_params *params,
+ }
+ EXPORT_SYMBOL_GPL(snd_soc_tdm_params_to_bclk);
+ 
+-static const struct snd_pcm_hardware dummy_dma_hardware = {
++static DEFINE_GLOBAL_PAGE_SIZE_VAR_CONST(struct snd_pcm_hardware, dummy_dma_hardware, {
+ 	/* Random values to keep userspace happy when checking constraints */
+ 	.info			= SNDRV_PCM_INFO_INTERLEAVED |
+ 				  SNDRV_PCM_INFO_BLOCK_TRANSFER,
+@@ -107,7 +107,7 @@ static const struct snd_pcm_hardware dummy_dma_hardware = {
+ 	.period_bytes_max	= PAGE_SIZE*2,
+ 	.periods_min		= 2,
+ 	.periods_max		= 128,
+-};
++});
+ 
+ 
+ static const struct snd_soc_component_driver dummy_platform;
+-- 
+2.43.0
+
