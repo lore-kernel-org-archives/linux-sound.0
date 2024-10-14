@@ -1,103 +1,151 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8974F1AB6F8
-	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 15:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182B684D3E;
+	Mon, 14 Oct 2024 16:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728921577; cv=none; b=d83Q7gslOKbXg4CFqchiVSjbtgVJoEbnmwZ7/J2K7rzdD6YJvANgpPChaIh3r1+MJIUyojZAJ95IVEna9JmBD27qGA4Eu5kUvX1JAL3x9ksBPlcPpddMJkEX48uFP6cglpjRaVmAskUhWrQhyQiJUDRCn6Tp8RkB4ooTew43ajY=
+	t=1728921700; cv=none; b=TIV7YGxR5SMQcuFFSjhHKQj5Ktchi810hEoL1gYYIbCRhUVDjqAVEP30XVbwM+avAVfj+Er9alWcAFuo9RvPZKYKjx9tdcVzYfPE95IVwYj7JUCovzLycUHZnVZb0ncFqO+ghrGVVNjz7PCI5oLa+id8N4zauupNmbli0SItDU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728921577; c=relaxed/simple;
-	bh=ACLKrTH0YpItANlVodfnX3sNPabEH4JgAxp533X1hoM=;
+	s=arc-20240116; t=1728921700; c=relaxed/simple;
+	bh=/LxBb/XpJeYTRjuQxo2hPSUULibUtnh60pBYguxgPOw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fCMMRCfyS5+L7zKwkBUNnNBxfjKj96CiAWHMSSUET+a8U3sd1O5dHRcazLBINC1E72xaXU8xDrKaNGkAST5AafOp8dDix9kdauskKUe1u+LmXZstFCZ6D2oCuer2Bv3C7Ai/9KI708w2WmLb8W989zVKJbmTHqBWtM2Mc+VF+2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=B+gVHf1N; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=aUySb6P51pMQmI0GnuwdzSQkJluff8ok0dw4fchcmtyr3VglRYFauqpWlrtc/ggirBLuFMiu6MOhDPMsqu0mLQjxhBvkz759MdHrsZ1XJWOhrqIPFV6kHX0BQt3NQvqBgT0Jo/S8iYGiA7UVzthQMV+eymnWRq4+9MlBQt5Bb9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6WqEIQh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="B+gVHf1N"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7b10f2c24f0so512178885a.2
-        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 08:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1728921574; x=1729526374; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DYEwaWa0z+lrJLi2rF+V4VJ/LyglDXOo4OWiLT76ZaA=;
-        b=B+gVHf1No+CJJU3x/Wq2WP9xaz15Bl6No5slaQQMz5I8/x3fwtbkcZu+haPkwvL3mc
-         oIdl+9SWAsuCzSyu1AxTKx7DR9eaGcmW9Atl8ROcPFjwYnIx8hdsMjj8CATVZj35T6VI
-         QlskFAD43WmVesvPQw4qFY0ut+uVJDvr87xmBRoWhbFIoxSSW7yD6ka4uOLtAxo1h4/U
-         Ipx6vNKzh26CXNzj70mQp0kNm7fDBQW2vYZgrsYYFUzQXkbdmCTGkguXsvGOHqgReNMD
-         jlqcIVgWl30KygKj5OhHCGpcXF3xwkAGa87nIcwP1ZCvfCxVcwKM7nuCqzMax4gfeHC5
-         5kLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728921574; x=1729526374;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DYEwaWa0z+lrJLi2rF+V4VJ/LyglDXOo4OWiLT76ZaA=;
-        b=UV6dsfm/HbgZkE1AL6n/s9xGZbQH6hP0f32na6xjm7FdPsBSdAXBtl/IGTZ1gmbu7e
-         4rUo+kXcZDv5/TOr6zvwR18lvjnX3C7q9zTTaDyXy5rmNrBoZ1gEG0RGQ11+0yANZVcC
-         LAxfLKZTUGUf9hRYgV0rI6whURyNwfy9IVPNnp8MG6Ltx+0jDdtuo0sVWlfqk3M1zFrF
-         CNZN3v6ISmcTBLeCVtv3g6piWl5CYj6Q0UWMv6gKis1crvX7/EB+t6t2x3SxW/K3cgoD
-         ytFS7bH9BxTeYc9vmeWgSJMa3AhK12hgXwDYG0/rVWURGa6nAAli3575i9DpWkGkXzVW
-         QIyw==
-X-Forwarded-Encrypted: i=1; AJvYcCXIRuwAs8AsvPOoZ9dsZCqqsronNccllyb7IYshqHhV4gMAvDa3AgXzT/GDc+Wc7dOLIYA1DP83DvDTPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4qAn+tcNGbOZXpohYt+NNfgVb65lulBFlLQKyN4d2/iMJnH9A
-	lDTXpvX6P33CKwNBkvfWX5uLYCvwpqf5BpB4ZMpo9oFfpCgrrc1l+qK0P9dtLg==
-X-Google-Smtp-Source: AGHT+IGk9Iq10RUI7wajW08xEovbUpvwwWPSJ+bZFAENPk+W+Aajopx2jMpYWRV1Id4tTpkgx4xJHg==
-X-Received: by 2002:a05:620a:45a4:b0:7a9:c8a1:5d92 with SMTP id af79cd13be357-7b120fb7a61mr1551756485a.16.1728921574487;
-        Mon, 14 Oct 2024 08:59:34 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:681:fd10::c666])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b1148fa3ffsm431710385a.69.2024.10.14.08.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 08:59:34 -0700 (PDT)
-Date: Mon, 14 Oct 2024 11:59:31 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
-	mathias.nyman@intel.com, yajun.deng@linux.dev,
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
-	dianders@chromium.org, perex@perex.cz, tiwai@suse.com,
-	niko.mauno@vaisala.com, andreyknvl@gmail.com,
-	christophe.jaillet@wanadoo.fr, tj@kernel.org,
-	stanley_chang@realtek.com, quic_jjohnson@quicinc.com,
-	ricardo@marliere.net, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	badhri@google.com, albertccwang@google.com, quic_wcheng@quicinc.com,
-	pumahsu@google.com
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system
- sleep
-Message-ID: <fc6361db-558a-4a8d-9304-ec53c7262451@rowland.harvard.edu>
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com>
- <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6WqEIQh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7F7BC4CEC3;
+	Mon, 14 Oct 2024 16:01:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728921699;
+	bh=/LxBb/XpJeYTRjuQxo2hPSUULibUtnh60pBYguxgPOw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B6WqEIQhvd1zimAbUe+3tMHiLGy7AdQ8uq4due8CME0s9V7+dL+JNyvTYZu0LhZR6
+	 H8s8+v5nWSvdZv7eQWthiBwQVkxJoFuCIBb8w8qd3wNkTigXdmVOe9oKAbbqXQEKTm
+	 yoH7SmoEiAEmM9KnKXd95bpNw0BcFxIsgxbd2tp2M/JCz51GWHhcxYPefhc//9f8XY
+	 NIOlCCEuIiBh6L+pEWJTWS2bwTwrMkmivYbxdoKanAGnb1odK5IIO+5wq+gocIuZf8
+	 tnOTPmHtHx42oyxq2rSZKXyEfb8Ev6/m7RrscJ8X/VUwJ6VKqxXvsIkqyUq1JKVv5e
+	 /zVYto9VrB24Q==
+Date: Mon, 14 Oct 2024 17:01:28 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Hildenbrand <david@redhat.com>,
+	Greg Marsden <greg.marsden@oracle.com>,
+	Ivan Ivanov <ivan.ivanov@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Kalesh Singh <kaleshsingh@google.com>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Miroslav Benes <mbenes@suse.cz>, Takashi Iwai <tiwai@suse.com>,
+	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
+ constant assumption
+Message-ID: <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
+References: <20241014105514.3206191-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-22-ryan.roberts@arm.com>
+ <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
+ <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YQ5NQwwWvL7pQhlB"
+Content-Disposition: inline
+In-Reply-To: <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
+X-Cookie: Editing is a rewording activity.
+
+
+--YQ5NQwwWvL7pQhlB
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 14, 2024 at 11:56:40AM -0400, Alan Stern wrote:
-> On Mon, Oct 14, 2024 at 08:50:29AM +0000, Guan-Yu Lin wrote:
+On Mon, Oct 14, 2024 at 01:24:02PM +0100, Ryan Roberts wrote:
+> On 14/10/2024 12:38, Mark Brown wrote:
+> > On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
 
-> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > index 1ff7d901fede..9876b3940281 100644
-> > --- a/drivers/usb/core/hcd.c
-> > +++ b/drivers/usb/core/hcd.c
-> > @@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
-> >  	timer_setup(&hcd->rh_timer, rh_timer_func, 0);
-> >  #ifdef CONFIG_PM
-> >  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
-> > +	refcount_set(&hcd->sb_usage_count, 0);
-> 
-> Did I miss something?  I didn't notice this field in any of the earlier 
-> patches.  Was it already created by the prerequisite series?  If so, why 
-> didn't that series do this initialization?
+> >> ***NOTE***
+> >> Any confused maintainers may want to read the cover note here for cont=
+ext:
+> >> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.=
+com/
 
-Oops, yes, I did miss it -- it's in the 4/5 patch.  Sorry.
+> > As documented in submitting-patches.rst please send patches to the=20
+> > maintainers for the code you would like to change.  The normal kernel
+> > workflow is that people apply patches from their inboxes, if they aren't
+> > copied they are likely to not see the patch at all and it is much more
+> > difficult to apply patches.
 
-Alan Stern
+> Sure. I think you're implying that you would have liked to be in To: for =
+this
+> patch? I went to quite a lot of trouble to ensure all maintainers were at=
+ least
+> in the To: field for patches touching their code. But get_maintainer.pl l=
+ists
+> you as a supporter, not a maintainer when I ran this patch through. Could=
+ you
+> clarify what would have been the correct thing to do? I could include all
+> reviewers and supporters as well as maintainers but then I'd be banging up
+> against the limits for some of the patches.
+
+The entry in MAINTAINERS for me is a M:, supporter is just the usual
+get_maintainers noise.  Supported is exactly equivalent to a maintainer.
+Generally if you're going to filter people you should be filtering less
+specific matches out rather than more and if you're looking to filter
+very aggressively look at who actually commits changes to whatever
+you're trying to change, less specific maintainers will generally
+delegate down to the more specific ones.
+
+> > It's probably better to just use PAGE_SIZE_MAX here and avoid the
+> > deferred patching, like the comment says we don't particularly care what
+> > the value actually is here given that it's a dummy.
+
+> OK, so would that be:
+
+> 	.buffer_bytes_max	=3D 128*1024,
+> 	.period_bytes_min	=3D PAGE_SIZE_MAX,      <<<<<
+> 	.period_bytes_max	=3D PAGE_SIZE_MAX*2,    <<<<<
+> 	.periods_min		=3D 2,
+> 	.periods_max		=3D 128,
+
+> It's not really clear to me how all the parameters interact; the buffer s=
+ize
+> 128K, which, if PAGE_SIZE_MAX is 64K, would hold 1 period of the maximum =
+size.
+> But periods_min is 2. So not sure that works? Or perhaps I'm trying to ap=
+ply too
+> much meaning to the param names...
+
+Like Takashi says just using absolute numbers here is probably just as
+sensible, the numbers are there to stop userspace tripping over itself
+but like I say it shouldn't ever get as far as actually using them for
+anything.  So long as we end up with some numbers that don't need any
+late init patching the specifics aren't super important, the use of
+PAGE_SIZE was kind of random.
+
+--YQ5NQwwWvL7pQhlB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcNQFUACgkQJNaLcl1U
+h9C0BQgAgLqixHC2HmBLzE8BtScypVWosu4/llyhlnVLHix+5KCjWH4yMIAcDIkm
+jSFLEZw+OQkiVYFGEmM/QkODuq0/yw1Fj9xAh8n5Po4KNj86ffwVuVtgmg8MXlIX
+ze+ysOH4IaGnEzu1ppJLCNNtrOftI1Fm7mDwkGUEB2ZMfP4JoY+q+OnXpZlpqVIf
+t1uQWnUb2bhLR6J9awpzY+fRSoz5x0CJF540oKfBMU3Jo6mhJH0sLc1zZmxwCYIn
+YGFPJVjIjJ0VaXa5+XFXSDvlcLvPiegwSR9Ys3rmEWJNpb/uWdSEDy8+tus4OH2/
+SQF5XoYZF2SEAD1WU+LcRqS3+yzikQ==
+=ZFCZ
+-----END PGP SIGNATURE-----
+
+--YQ5NQwwWvL7pQhlB--
