@@ -1,125 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F1D15AAB6;
-	Mon, 14 Oct 2024 11:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0681684B4;
+	Mon, 14 Oct 2024 11:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728905935; cv=none; b=TAvW1FyLXkTYbH0RSDQ016VM4NjCpeTY7BgZgNV1x5PRQ4WfQyncyBVDcQvXCOhskzbwZrlBArlAcDGsyjkvlgOSLDO5BTQGEpAlz5Qxl2GTRcJFmnmAvBJveBESH2kBpUEZxXMpyCLDqZnnRSa1sw478K1Fr6O+kbfVsqa4Dxo=
+	t=1728906746; cv=none; b=dXjmQQztBfDugw/AtNAdvKFMnPGXkgoXS6iUUvPIBl6zHLGKDQ44qHHhM9CtO7vYxKqEksoVmRGkY1uy1FqoNJvTy1+UWGT9xtARq/KYtwYZAZOPtuNRihpld5Hs6LOKn+gg4voojddBQn+V/OObE68roaYxo+j8I1Bf5dyJD9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728905935; c=relaxed/simple;
-	bh=8VfuUeVgtGH6z1bv8BILTJVErAHzlY7901fz61AWmVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T31QdXqANsLgI2fgH9ioIoswQq+1Ac+kAQGUsjx6Xhr2jYTE3Ahbzn44QvlnOKsVUXXK591DLAWVQUgB4BS2lEVUEJiGADxh1bp1VDZbVgVH0C9929DKB/8cuuiapacgI3rCEH566ixVp3oQRv2D3QZS6L++33r7bhnSU/Wi0TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBZjdVlu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728906746; c=relaxed/simple;
+	bh=sDrRw60zuzKbS92EBKllWgxujSkHVzdPmKV/iFTcCSA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ni6Y4NLGSwrbYBO8TC4etOHbyJoc2K7Ji0VQIUm/CvRNH2G8PHZ5OJVMStDmdzmrs4m/s+WSZDjxi3OJdZ6hb9oH4ZLR5xlrpZ/ScJvSXaiSg7nEDhCVcPeG7IcQ4cJiLuTyxppn3AJ+GtPvZKR5b0C/8RWton0AsP0JnaCaieo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4hZPo8J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBZjdVlu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C7AAC4CEC3;
-	Mon, 14 Oct 2024 11:38:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4hZPo8J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7E8C4CED0;
+	Mon, 14 Oct 2024 11:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728905935;
-	bh=8VfuUeVgtGH6z1bv8BILTJVErAHzlY7901fz61AWmVM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GBZjdVlu4Jj13xJuF4qu25fsYJTIPeBYkyw6aGaayoz/Xrjs7lhrWmvvu6ipvEZea
-	 cOExRLfYqbbgzXg7Drv7cz/T7gq3ADxS82SDi7PQk+50F4rOTK1d0SkV+L1D3cOM9j
-	 jv+GGA4FnP4T1bC4kysnH16Gflod0iLpodrURWXbd5qqEKXVDdzkytBa/23HdqNRGq
-	 Yz0IICQTHAEvOFEF2TnKQF1kKg8EQDX/ExbbMRuddnMXngLRjfVIl/FnbvrJU4SHiR
-	 B6qXaN/TXrEoiR+aqRwBURIrVXlpqALzPBU+EaUFOSSNTtlHHUs8cHINMzS3wyk1eX
-	 rdQy+3QNRDOhQ==
-Date: Mon, 14 Oct 2024 12:38:48 +0100
+	s=k20201202; t=1728906745;
+	bh=sDrRw60zuzKbS92EBKllWgxujSkHVzdPmKV/iFTcCSA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=V4hZPo8JulfCIGIR1+wxel5FOy5lMvZYoN1xlsOS4T3feuPgoLHpubNe0d45gBzaY
+	 9FdDF+78nogni21y6/n+ZhotQLNbi9hGTYs/yeSwpVVx0FZX2AwQRPmkxgkH21w4Pt
+	 Y63Vn2XzP/R/OfYR6T0zA5mn4ZDBKvQ3yI2vtwxs+XP/2uEBxgN25HSk449zEGxHsR
+	 B8vVyRE8RydpbT7fAyfxORBtaV6UxfYcFWceaJq4TcpYkKUD4UI+wY+PehN2YGRKbh
+	 Z/tzkfSZwlEBV4rQjB2KZJxhhvauVgrSaWr4QPAg/ULB4dfGbdh3nmc2YkChkxzUyC
+	 V8xQjRWKz82cQ==
 From: Mark Brown <broonie@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Greg Marsden <greg.marsden@oracle.com>,
-	Ivan Ivanov <ivan.ivanov@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Kalesh Singh <kaleshsingh@google.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Matthias Brugger <mbrugger@suse.com>,
-	Miroslav Benes <mbenes@suse.cz>, Takashi Iwai <tiwai@suse.com>,
-	Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
- constant assumption
-Message-ID: <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
-References: <20241014105514.3206191-1-ryan.roberts@arm.com>
- <20241014105912.3207374-1-ryan.roberts@arm.com>
- <20241014105912.3207374-22-ryan.roberts@arm.com>
+To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
+ nicolas.ferre@microchip.com, Andrei Simion <andrei.simion@microchip.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241014092830.46709-1-andrei.simion@microchip.com>
+References: <20241014092830.46709-1-andrei.simion@microchip.com>
+Subject: Re: [PATCH v2 RESEND] MAINTAINERS: Update maintainer list for
+ MICROCHIP ASOC, SSC and MCP16502 drivers
+Message-Id: <172890674010.4183272.7344078847755683372.b4-ty@kernel.org>
+Date: Mon, 14 Oct 2024 12:52:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ycN+RKQXjDkOKbxT"
-Content-Disposition: inline
-In-Reply-To: <20241014105912.3207374-22-ryan.roberts@arm.com>
-X-Cookie: Q:	How do you keep a moron in suspense?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
+On Mon, 14 Oct 2024 12:28:31 +0300, Andrei Simion wrote:
+> To help Claudiu and offload the work, add myself to the maintainer list for
+> those drivers.
+> 
+> 
 
---ycN+RKQXjDkOKbxT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
-> To prepare for supporting boot-time page size selection, refactor code
-> to remove assumptions about PAGE_SIZE being compile-time constant. Code
-> intended to be equivalent when compile-time page size is active.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Thanks!
 
-> ***NOTE***
-> Any confused maintainers may want to read the cover note here for context:
-> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
+[1/1] MAINTAINERS: Update maintainer list for MICROCHIP ASOC, SSC and MCP16502 drivers
+      commit: 3692a4ccacf3c44249e584aea3ae8568f953e7e4
 
-As documented in submitting-patches.rst please send patches to the=20
-maintainers for the code you would like to change.  The normal kernel
-workflow is that people apply patches from their inboxes, if they aren't
-copied they are likely to not see the patch at all and it is much more
-difficult to apply patches.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-> -static const struct snd_pcm_hardware dummy_dma_hardware =3D {
-> +static DEFINE_GLOBAL_PAGE_SIZE_VAR_CONST(struct snd_pcm_hardware, dummy_=
-dma_hardware, {
->  	/* Random values to keep userspace happy when checking constraints */
->  	.info			=3D SNDRV_PCM_INFO_INTERLEAVED |
->  				  SNDRV_PCM_INFO_BLOCK_TRANSFER,
-> @@ -107,7 +107,7 @@ static const struct snd_pcm_hardware dummy_dma_hardwa=
-re =3D {
->  	.period_bytes_max	=3D PAGE_SIZE*2,
->  	.periods_min		=3D 2,
->  	.periods_max		=3D 128,
-> -};
-> +});
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-It's probably better to just use PAGE_SIZE_MAX here and avoid the
-deferred patching, like the comment says we don't particularly care what
-the value actually is here given that it's a dummy.
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---ycN+RKQXjDkOKbxT
-Content-Type: application/pgp-signature; name="signature.asc"
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
------BEGIN PGP SIGNATURE-----
+Thanks,
+Mark
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcNAsgACgkQJNaLcl1U
-h9BWAgf+LdKxooT0VD6Ci0TP5dkUHa2sxEvt7Ga+Fb/ouyFg4FxRMAkp+sEwiikJ
-t69JrZ/RBXdF9knOyE22pj9DcD1zT0AlAIaI/G5ecJXLd3zIZJClHeMAJgfPtMEo
-9CN1OU0Q3Snm6m1AiwZ45f1Xkj6b6nldlpRG1BcPTgYKB+C9STCX5809fm2dVFbF
-w1LTjRW8FHla+sQs25Q71IIgAGo16QKJ9bB2uB5RM6BQXuiz1oht8QVU+9yjsRUO
-cvAccu9UaUkYxy0tNHgHV0puMi3kzx8TvqtJpjs2cwOZCcm4J6AoLJlrGHBERLWr
-K1YwrVWJypo+R9VFxN6GMOoDgoGNmg==
-=I1aS
------END PGP SIGNATURE-----
-
---ycN+RKQXjDkOKbxT--
