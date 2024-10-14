@@ -1,163 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED98215534B;
-	Mon, 14 Oct 2024 09:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0347514D428;
+	Mon, 14 Oct 2024 09:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728897708; cv=none; b=sUnJJ2959y8eUBaKOOnzELAI9Bkf/osSFyamyfb2xjjL+dl/DFP/ciidUFeLGxP016pJ2ESsASkUeprzgQ1VmY5s6xDfmxiLAA0gjj8I+DBFAzSH8VGPOvdrs+uJBPRKkB4ff53YbG1X6JgQc0SCQIfu1kwAsYcQk9EK23dmmeM=
+	t=1728898196; cv=none; b=Y6WnWt0Y2AFIhADQdYHvwcGTQ44HoYA/jtKW9/yWzNxOZmvHse8Nk614j36DliYx8kfMsXry5H4XaKURN+TdGkdjjvuJHDL/N8bhwDLAn119v/4IvKvKkiojaGJ/tqY6iDThwNNAiVpGTJihmqSynj1GoQID9+LBG8gGWFEaR60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728897708; c=relaxed/simple;
-	bh=AN0bb3Rg8bGlAKwyQat5svfN/yPRf8imdA3o/pMSdfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Felx6kZiYpKNBkLcIEuIjTwqXpSlk/gbqOphjkzx2dxVNuS8L4+glZl7Y1h7++tvVDHZmSkRA5GtU1GW6670Z5EE3LAr+utPQgWxCUICQzeE8f94h1690/WNk1gBpJKQPpUlKTN8wyF8AFLVzUE4dM2evc6uKbIq8pCJCLQwU98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xlnaw9yB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1728898196; c=relaxed/simple;
+	bh=+/0MUZYB4A2sleIMMMI/f4e98kGIzrhlAW+0y+eL3lQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jFt1AJi/3QspefCNAYNz8nn7U4+Tp6mY80+9s0X6a82F4FtYQr8Cmn17/1fvyAHL02ZJqkpoGmTJxb8i1fk458MRZb00H/nUwBG/mF8df9iEfKrPKUxsNEHB/MT9+tXg8a+3ISnVcFQl81ph+9EgtFAyidXv4WDMyTGHDZB/RHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=a4n46Plp; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xlnaw9yB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D860DC4CEC3;
-	Mon, 14 Oct 2024 09:21:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1728897707;
-	bh=AN0bb3Rg8bGlAKwyQat5svfN/yPRf8imdA3o/pMSdfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xlnaw9yB/8mQBlpV7fqOGAPzkU12psMr03psuiyFpIrDP9du0aMtgEr28Po8LiDfK
-	 6lSx2LBa9H/72WHiNq/NeV395qGfRtjycvtxw6VZP/ixyR35zbYg9IRTAcR0U7/wLD
-	 0a/pk2ZIoom/hFwa17QZBIpOALPCvFCnh/J/fPnU=
-Date: Mon, 14 Oct 2024 11:21:44 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: Thinh.Nguyen@synopsys.com, mathias.nyman@intel.com,
-	stern@rowland.harvard.edu, yajun.deng@linux.dev,
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
-	dianders@chromium.org, perex@perex.cz, tiwai@suse.com,
-	niko.mauno@vaisala.com, andreyknvl@gmail.com,
-	christophe.jaillet@wanadoo.fr, tj@kernel.org,
-	stanley_chang@realtek.com, quic_jjohnson@quicinc.com,
-	ricardo@marliere.net, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	badhri@google.com, albertccwang@google.com, quic_wcheng@quicinc.com,
-	pumahsu@google.com
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system
- sleep
-Message-ID: <2024101432-dollar-untrue-d366@gregkh>
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="a4n46Plp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1728898195; x=1760434195;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+/0MUZYB4A2sleIMMMI/f4e98kGIzrhlAW+0y+eL3lQ=;
+  b=a4n46PlpL0JjF48mfN5D1u6Q+hspT27V022KdgpK+2mTDl4lQPqOe+/6
+   J1SN9sOw04VnXBUw9FOGdr5WN/SdUh3k1Pvcc7+nn9Ro1y7g5QY6gA3qR
+   PUvzz+s39NifiLoW4itEPVBeRC9/5xCyVkUAIM2Br05MkWKzuPdy/B01z
+   l12NLYXflJ2A4FMJuTp6PYleit0DtfTzoNATcp6KFJIqnOuuA1v83nQDh
+   e2JEmvx3qxD254CIiNBqAIJhY5k5qUW9Lb8k3EIipPN5h5EamrP083FZk
+   s9fspCW4aDhKtp0vgQhS+aIOA24v1FFIjhlFRBfbJV69R+Nvy5gz1VToM
+   A==;
+X-CSE-ConnectionGUID: pCLDKrORScqRABue8oJFyg==
+X-CSE-MsgGUID: AmmQ2eMhSiGkTkZoRt17Qw==
+X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
+   d="scan'208";a="32974832"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Oct 2024 02:29:54 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 14 Oct 2024 02:29:33 -0700
+Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 14 Oct 2024 02:29:30 -0700
+From: Andrei Simion <andrei.simion@microchip.com>
+To: <claudiu.beznea@tuxon.dev>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+	<perex@perex.cz>, <tiwai@suse.com>, <arnd@arndb.de>,
+	<gregkh@linuxfoundation.org>, <nicolas.ferre@microchip.com>
+CC: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, Andrei Simion <andrei.simion@microchip.com>
+Subject: [PATCH v2 RESEND] MAINTAINERS: Update maintainer list for MICROCHIP ASOC, SSC and MCP16502 drivers
+Date: Mon, 14 Oct 2024 12:28:31 +0300
+Message-ID: <20241014092830.46709-1-andrei.simion@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014085816.1401364-6-guanyulin@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, Oct 14, 2024 at 08:50:29AM +0000, Guan-Yu Lin wrote:
-> Sharing a USB controller with another entity via xhci-sideband driver
-> creates power management complexities. To prevent the USB controller
-> from being inadvertently deactivated while in use by the other entity, a
-> usage-count based mechanism is implemented. This allows the system to
-> manage power effectively, ensuring the controller remains available
-> whenever needed.
-> 
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
-> ---
->  drivers/usb/core/driver.c         | 10 ++++++++++
->  drivers/usb/core/hcd.c            |  1 +
->  drivers/usb/core/usb.c            |  1 +
->  drivers/usb/dwc3/core.c           | 13 +++++++++++++
->  drivers/usb/dwc3/core.h           |  8 ++++++++
->  drivers/usb/host/xhci-plat.c      | 10 ++++++++++
->  drivers/usb/host/xhci-plat.h      |  7 +++++++
->  sound/usb/qcom/qc_audio_offload.c |  3 +++
->  8 files changed, 53 insertions(+)
-> 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index e713cf9b3dd2..eb85cbb1a2ff 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -1583,6 +1583,11 @@ int usb_suspend(struct device *dev, pm_message_t msg)
->  	struct usb_device	*udev = to_usb_device(dev);
->  	int r;
->  
-> +	if (msg.event == PM_EVENT_SUSPEND && usb_sideband_check(udev)) {
-> +		dev_dbg(dev, "device accessed via sideband\n");
-> +		return 0;
-> +	}
+To help Claudiu and offload the work, add myself to the maintainer list for
+those drivers.
 
-What prevents the check from changing state right after you call this?
+Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
+---
+v1 -> v2:
+- add acked-by tag
+- adjust commit title
+- update maintainer list for MICROCHIP SSC DRIVER
+---
+ MAINTAINERS | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> +
->  	unbind_no_pm_drivers_interfaces(udev);
->  
->  	/* From now on we are sure all drivers support suspend/resume
-> @@ -1619,6 +1624,11 @@ int usb_resume(struct device *dev, pm_message_t msg)
->  	struct usb_device	*udev = to_usb_device(dev);
->  	int			status;
->  
-> +	if (msg.event == PM_EVENT_RESUME && usb_sideband_check(udev)) {
-> +		dev_dbg(dev, "device accessed via sideband\n");
-> +		return 0;
-> +	}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1eebb14efb5e..73afcdd005ee 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15144,6 +15144,7 @@ F:	drivers/spi/spi-at91-usart.c
+ 
+ MICROCHIP AUDIO ASOC DRIVERS
+ M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
++M:	Andrei Simion <andrei.simion@microchip.com>
+ L:	linux-sound@vger.kernel.org
+ S:	Supported
+ F:	Documentation/devicetree/bindings/sound/atmel*
+@@ -15252,6 +15253,7 @@ F:	include/video/atmel_lcdc.h
+ 
+ MICROCHIP MCP16502 PMIC DRIVER
+ M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
++M:	Andrei Simion <andrei.simion@microchip.com>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Supported
+ F:	Documentation/devicetree/bindings/regulator/microchip,mcp16502.yaml
+@@ -15383,6 +15385,7 @@ F:	drivers/spi/spi-atmel.*
+ 
+ MICROCHIP SSC DRIVER
+ M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
++M:	Andrei Simion <andrei.simion@microchip.com>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Supported
+ F:	Documentation/devicetree/bindings/misc/atmel-ssc.txt
 
-Same here, what's keeping the state from changing?
+base-commit: 7f773fd61baa9b136faa5c4e6555aa64c758d07c
+-- 
+2.34.1
 
-
-> +
->  	/* For all calls, take the device back to full power and
->  	 * tell the PM core in case it was autosuspended previously.
->  	 * Unbind the interfaces that will need rebinding later,
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 1ff7d901fede..9876b3940281 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
->  	timer_setup(&hcd->rh_timer, rh_timer_func, 0);
->  #ifdef CONFIG_PM
->  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
-> +	refcount_set(&hcd->sb_usage_count, 0);
->  #endif
->  
->  	INIT_WORK(&hcd->died_work, hcd_died_work);
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 0b4685aad2d5..d315d066a56b 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -671,6 +671,7 @@ struct usb_device *usb_alloc_dev(struct usb_device *parent,
->  	dev->state = USB_STATE_ATTACHED;
->  	dev->lpm_disable_count = 1;
->  	atomic_set(&dev->urbnum, 0);
-> +	refcount_set(&dev->sb_usage_count, 0);
->  
->  	INIT_LIST_HEAD(&dev->ep0.urb_list);
->  	dev->ep0.desc.bLength = USB_DT_ENDPOINT_SIZE;
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index 2fdafbcbe44c..18c743ce5ac5 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -2550,8 +2550,15 @@ static int dwc3_runtime_idle(struct device *dev)
->  static int dwc3_suspend(struct device *dev)
->  {
->  	struct dwc3	*dwc = dev_get_drvdata(dev);
-> +	struct platform_device *xhci = dwc->xhci;
->  	int		ret;
->  
-> +	if (xhci && xhci_sideband_check(xhci->dev.driver_data)) {
-
-What could go wrong with poking into a random device structure's private
-data that you don't know the type of?  :(
-
-> +		dev_dbg(dev, "device accessed via sideband\n");
-> +		return 0;
-
-I predict, that if this all does get implemented, we're going to have a
-lot of confusion of "why will my devices not go into suspend?"
-questions, right?
-
-How does userspace know if a device is controlled by a sideband path or
-not?  Is there some sysfs link somewhere, and does any tool show it
-anyway?
-
-thanks,
-
-greg k-h
