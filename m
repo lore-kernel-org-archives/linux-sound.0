@@ -1,119 +1,104 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C771586CF
-	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 16:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3226C28FC;
+	Mon, 14 Oct 2024 16:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728922822; cv=none; b=XBAYhlotpQxl3+Vf3yDkBNVRsI2iDbgf0lkIbqV4RNM6oICL7Zlbyooe7KyvFaAO6m5+pCTkuZ3+qrMB2KLekWNf3IGFq2w2q7tVDZVW6blB2wqLJMkdIj7qKc20rNhzTGWIxTu+9vl/iv0XohMnnsovy02VtD+LH6xw9Qi18/0=
+	t=1728922969; cv=none; b=IRAS71gf3qvxOBzQ69rz568bl1v9YF1qYiZdTDH/Zqd0uiSVt0aiCkZO9iplI6NdkWE3hfqzEAAaI+4uWeJetEcQhIgWUF7NImMbmToAEIwwvr0LAfSOdkwU0YsKRWR9u4K2LBxR10nqgkBxcogDf83tYrXa196s4ks3OY7lMAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728922822; c=relaxed/simple;
-	bh=gKvXh/I3PdZE3GR9krNhCfohoX6IveIuFUNNLJAJzdE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EsyI4TC7fps8cWTNpJP44ctAR+AvFYQvTW52M/GeDT3avqHejsP0n4Xkz6uE9v/Ho87XrlE+YGWWy4jYaQ4SPQx65Miq4ZXbtUYPb4BeHYpSwFz59A6DDcSPE+vnemRyuPgc0itIGgatnSkD2d5E52yeSKvYy1KVUa3GXvEjGjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KxIp1gy7; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728922969; c=relaxed/simple;
+	bh=bOmZl1NspXLcp+g5lMmcQ+7bUkVBQAQpj9wx9QBEe50=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=m86DeGKPH0LdBmi/G5IAqYFFew+nqzsVW9It8kNaVtCMFVpM0+pN/p4vgOgaU5R2nEj7hEIBZG/tKFY5/P9QFGTfSY2LAfuXE/fFZLaZ5cN2c3/FSY4jLsikUna34+xVSkXsNFsCHA4odXXYO72FMhqykU4NZDQoZB2i3zRO4o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RjvASecr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KxIp1gy7"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e681ba70so24275e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 09:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728922817; x=1729527617; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gKvXh/I3PdZE3GR9krNhCfohoX6IveIuFUNNLJAJzdE=;
-        b=KxIp1gy70J57FSxV/5Ju7yRNFsi9uGMqBpizNikBdqrRhST3EfZwjR9tmN/MWBQbtP
-         NqfMo2w366X+cTV8HDKetekPPd7VQlLHWBQh+nEHWhJ6fkYrUyLlSPyj5DgR+ql0cX/j
-         hRq2rkmbLw8uFpLO8FaqDyirLFqO11o3sNnTwAadOJhY4JRJvibJwErA1xL+XJyzpeU/
-         lbKxh6mowvlToN5u1WFhR1IP0nhLWrNxQlwab0vLXeDaUFW6Ne4/RicJgbQ8dTg59kDB
-         4x7fgxZRvC2hoQ9Nxou/o7DMYoGXpREUZSla48S8Tq8NcU3kB4z3ZI5KebvGYc3nbNva
-         Ziww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728922817; x=1729527617;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gKvXh/I3PdZE3GR9krNhCfohoX6IveIuFUNNLJAJzdE=;
-        b=e3BKRW2fJFaLy1xsewCvDTBkx8qqmKlnPAGsurUW0xg1HzpgVQCf/9WKtUCR8ZvRoc
-         q1My89pjAntqhL1bzDSAlXAfE5bB/ZbRxmXh5MYLx8IXZT8dYLhBlpCpMw2ThaWtXMYD
-         vGI0xqoq0brAjj4XMSFbAYL6LzjnRaTF/7144YbVSA3+HvUYwyXGOygQlO273p52eltC
-         2q9MOyRTI8rrbJo30kN3AIH6rTd1bDdKPIJBBrFMDqrxOp4aiLm4DzAwthc+AXfRY6Ck
-         KOFZpOTGNqKhlQkVtCAQObmuAoqR0aqTqzA3nFkLoLprI3hMBsGvFQimgfRldwheV+9a
-         Wijg==
-X-Forwarded-Encrypted: i=1; AJvYcCVdtv5pIJLPESMNJLthZlhRRf4AjnUB2don+iba2VA2QdWKqYzghnA1kEspm/EMSsm133DANzavheAn1g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy17T1kCJZeiZ0MrPIycSs6z1xdAb05olFtDodRHpnCgPWczbjJ
-	Ivqq6C87fdlUWE6+u9TVLHpy8hcckYwlqs47kVuWWLv9tYCK/yTEiPBSp7t8Ec55r0Dsn70DTiT
-	uCDlv4j5HYBozCergyGD79Ene3tVZSFQC0TZ5
-X-Google-Smtp-Source: AGHT+IHzzT5Xql/B/YM8yku8j1FfwE05VlFhBxx9961bqHFWjZxX7Ej6fRWAUlINENXZDwDsDBwPpWmPq5lKA+HjF7E=
-X-Received: by 2002:a05:6512:2821:b0:535:3d14:1313 with SMTP id
- 2adb3069b0e04-539e5e762e7mr553189e87.0.1728922817154; Mon, 14 Oct 2024
- 09:20:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RjvASecr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98083C4CEC3;
+	Mon, 14 Oct 2024 16:22:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1728922968;
+	bh=bOmZl1NspXLcp+g5lMmcQ+7bUkVBQAQpj9wx9QBEe50=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=RjvASecrxZpOpjKcvFG+IN8xFnp2LLI7I/RQfDEumNR/fQ3dS3+ADtMMRqHsQLGWi
+	 EiXcmJWG9MDl8SGDSw1DA484/IMjM+uzu5CzVDAq1/IZ1dfy10hZAX9QXRftnPsrA6
+	 v7nW9WsF7Me3GHVXmVVLGWhDBdcmlR96zubbrpQBmVXykyz0gLJxLv+tGOX0yPBgaW
+	 wNNbKikiZGTeIOLxImqJAKhdV5na4sITHxDQQ+sWwUK9V8CsgLugxk6mMLUctaJkSS
+	 rhI/oQh4z6V+zVrzmrZ5VVbpUJF+CUwKegliRYJmKRWN42rdZBaGoSPWbfHa9aKxxF
+	 ZN7b3RxDizdUQ==
+From: Mark Brown <broonie@kernel.org>
+To: Frederic Weisbecker <frederic@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, rust-for-linux@vger.kernel.org, 
+ Alice Ryhl <aliceryhl@google.com>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Miguel Ojeda <ojeda@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ damon@lists.linux.dev, linux-mm@kvack.org, SeongJae Park <sj@kernel.org>, 
+ Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>, 
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, netdev@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+ Nathan Lynch <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+In-Reply-To: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
+References: <20241014-devel-anna-maria-b4-timers-flseep-v3-0-dc8b907cb62f@linutronix.de>
+Subject: Re: (subset) [PATCH v3 00/16] timers: Cleanup delay/sleep related
+ mess
+Message-Id: <172892295715.1548.770734377772758528.b4-ty@kernel.org>
+Date: Mon, 14 Oct 2024 17:22:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com> <afc9fa53-b7f2-45d0-bd30-8681b71beef5@linux.intel.com>
-In-Reply-To: <afc9fa53-b7f2-45d0-bd30-8681b71beef5@linux.intel.com>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Tue, 15 Oct 2024 00:19:00 +0800
-Message-ID: <CAOuDEK0QomQfXqzmP6g8QRdbE5dXob2cuhM3viErUoDHURaB-Q@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system sleep
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
-	mathias.nyman@intel.com, stern@rowland.harvard.edu, yajun.deng@linux.dev, 
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	dianders@chromium.org, perex@perex.cz, tiwai@suse.com, niko.mauno@vaisala.com, 
-	andreyknvl@gmail.com, christophe.jaillet@wanadoo.fr, tj@kernel.org, 
-	stanley_chang@realtek.com, quic_jjohnson@quicinc.com, ricardo@marliere.net, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, badhri@google.com, albertccwang@google.com, 
-	quic_wcheng@quicinc.com, pumahsu@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-On Mon, Oct 14, 2024 at 9:06=E2=80=AFPM Mathias Nyman
-<mathias.nyman@linux.intel.com> wrote:
->
-> On 14.10.2024 11.50, Guan-Yu Lin wrote:
-> > Sharing a USB controller with another entity via xhci-sideband driver
-> > creates power management complexities. To prevent the USB controller
-> > from being inadvertently deactivated while in use by the other entity, =
-a
-> > usage-count based mechanism is implemented. This allows the system to
-> > manage power effectively, ensuring the controller remains available
-> > whenever needed.
->
-> I don't think all this is needed to prevent USB controller from being
-> deactivated while sideband is in use. The modified audio class driver
-> that uses sideband is still bound to a usb interface device, and all
-> normal pm reference counting should work.
->
-> To me it looks like this code is tricking pm framework into believing
-> the usb device and host controller have successfully suspended during
-> system suspend when they in reality are fully up and running.
->
-> I'm not sure I fully understand the case this series is solving.
->
-> Thanks
-> Mathias
->
+On Mon, 14 Oct 2024 10:22:17 +0200, Anna-Maria Behnsen wrote:
+> a question about which sleeping function should be used in acpi_os_sleep()
+> started a discussion and examination about the existing documentation and
+> implementation of functions which insert a sleep/delay.
+> 
+> The result of the discussion was, that the documentation is outdated and
+> the implemented fsleep() reflects the outdated documentation but doesn't
+> help to reflect reality which in turns leads to the queue which covers the
+> following things:
+> 
+> [...]
 
-Your understanding is correct; this series aims to keep necessary
-devices running while the system is suspended. The goal is to keep USB
-transfer available via sideband when the main system is asleep. Since
-we're offloading some USB transfers to another audio DSP, the Linux
-driver is not involved in queueing transfer TRBs, handling event TRBs,
-etc., in some specific "offloaded" USB endpoints. The sideband might
-be bound to a USB interface device to prevent the device from going
-into runtime suspend, but it seems this doesn't prevent devices from
-suspending when the system goes into system-wide suspend. So the main
-purpose of this series is to prevent some related devices being
-suspended during system suspend.
+Applied to
 
-Regards,
-Guan-Yu
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+
+Thanks!
+
+[11/16] regulator: core: Use fsleep() to get best sleep mechanism
+        commit: f20669fbcf99d0e15e94fb50929bb1c41618e197
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
