@@ -1,89 +1,143 @@
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE766145A11
-	for <linux-sound@vger.kernel.org>; Sun, 13 Oct 2024 16:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0534E4C7E;
+	Mon, 14 Oct 2024 06:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728838630; cv=none; b=iVjOC678UT15OZCthK0dCvi7/GCftPNBbMieEIdBR+cjGeBThyw/wBRiPH5cUsvZu4G89Swh6weNd0uaKeqwUDfZRJnsKjah2WACG35/JuPApcxcMhiHKI2+MblCta6OyKl9UXPo17cTtng2vnjUO1LpdnUZDuH11hkyAZR2KLU=
+	t=1728885725; cv=none; b=KyRkis10e0FMlL0TlSnCWe0gyVn3Plzulb3MuQSNyruzyCd7LYJDCBkEXBSpCCdKs7zlLccfInd7wjST1fvJpdBve9jFFGWW/DftX/pm/0y6RDleI+x0FEzChU8ntCwH5+nnU7AwAjPD/2AehKbNN442rvI958CLOO6xwRdxetQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728838630; c=relaxed/simple;
-	bh=soQE9U5tyG/VdGLCoY52x10XVAq4rfQYcf8IuehQA4k=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=RxoIfCP7mJxRE3t4dfAQBUuh8T1ecSws1E616nx/jLotduJS2NxMYKCqMCPpMyRDPmEfCvI7SteGo3ZeAvCiJ+51dIiPhF01KwiFATEuOw4LPuuaf2tqJDN0WPMMeY+IH0VTk25ICe2tEFsmR6RhKkEHABrNIDeWhDN+ONVTxAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com; spf=pass smtp.mailfrom=linuxaudiosystems.com; dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b=ZUIj0HvT; arc=none smtp.client-ip=209.85.128.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linuxaudiosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxaudiosystems.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linuxaudiosystems-com.20230601.gappssmtp.com header.i=@linuxaudiosystems-com.20230601.gappssmtp.com header.b="ZUIj0HvT"
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e35f08e23eso12392917b3.2
-        for <linux-sound@vger.kernel.org>; Sun, 13 Oct 2024 09:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxaudiosystems-com.20230601.gappssmtp.com; s=20230601; t=1728838628; x=1729443428; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=SJ7q6HLPV5bCtcC+36R4IoXulpsesHuT4ja0WvoymTc=;
-        b=ZUIj0HvTQjtKHyNrM8xtnRKHQ01/5AZYD0me2DXTmBH3fPChDKhs/quPKB8fAvccy3
-         gdYpsJ3LWAZujlhnj0yMmuViqTw0y3w/xzmzk29OoAMptVA7HJ9PI95RfBnYssdEhfsc
-         chjWYvQqIVFV81cPMoH9dsYO2Dh+YSGSdoBN/LBfXerJnFOapwwM95YukEHs112hjsxu
-         4IyxTv8C838hr/ooN+rgslvW5B7ZOaAKbR3pK8FWipgZw7DsGy+N2+nGB2fsb4ViNTT2
-         +QQJ3Adwwm+a0Dso9r/fhGP6Mz6H5o37TpAeVHsaFyy20JWAglU1xRwYiSNTFp5fJD5O
-         gcRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728838628; x=1729443428;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SJ7q6HLPV5bCtcC+36R4IoXulpsesHuT4ja0WvoymTc=;
-        b=G50PcAEt/1Vc8zqR5yfLh6rlJV74Eni5/wIgt/dv27Q/+PlicRwLd8Noi9c6HyMDsk
-         UcTtZn0r+f88af8SXCQZ2s1AXJY02gK5dMJ929w1BoEHuPvFgTayeHZJ2y/Ed9XkwGD0
-         mrWxKUGL7Z4XeMCsQAe5TSv2yoWPqpjizzMJ2IVAhV1jezSu7gUIU8cZOHAxxyiO1BLo
-         nSkF5oZdcOCEby9Y/5IIi2fC3S74RD2DjMof1utRWdgJEBt57kCQjQVf4Q+iHKViapyB
-         Onbv530dagkiXz9hKfqoWzeSY8fWKNn9dy9PkZh7pmWtjLywiKOYJx1cdg2aEOzgVf27
-         OpAQ==
-X-Gm-Message-State: AOJu0YwPS7pi8M5Qkf/7tXE851A19dhlXVDWMvbHgPKtmqKJKmx1JBdl
-	EHvjMJj1b9dgZ4vIBffkRo0k+pxVSSSZT2NTMpPVyJFwBUymqctnSmvH7zSKAoAzjgQiQQD4DKj
-	eZfFGJGD5mKfCl04OO8193lfB6N9Rovehs4MQcruYM9hX+kKmOg==
-X-Google-Smtp-Source: AGHT+IFnsRDqI1tispkFvbJ4cish9wu+sxvB9U5BOFUg3eux7OPpZotBPbEgP5ZMejw05oSn7eI8yd5dol7o98/MMpE=
-X-Received: by 2002:a05:690c:f8c:b0:6e2:12e5:358b with SMTP id
- 00721157ae682-6e3477bf1a8mr77352267b3.4.1728838627782; Sun, 13 Oct 2024
- 09:57:07 -0700 (PDT)
+	s=arc-20240116; t=1728885725; c=relaxed/simple;
+	bh=zkIqdZum/IGaRw9kiHLzNgVY56MJxqryiegzsUheLfE=;
+	h=From:To:Subject:Date:Message-Id; b=NEfQNCY6YxIXJICE3igWzZMFz5LXVbWGj95nnMV3wncLa1SHQEdTn7OrR3aIrHVsrAKrBGcvExvIeJ7tzfI7BHBuEj6azcK9kQ49dve3+ceUHFmowko6ELLlKwsNm/HQwMyhpNFv5sTWZe2KBPEjXd4IaVl/1AHyjxhm+kDCzJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 590D51A1440;
+	Mon, 14 Oct 2024 08:02:02 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1F2501A1281;
+	Mon, 14 Oct 2024 08:02:02 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 906AF183DC03;
+	Mon, 14 Oct 2024 14:02:00 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: fsl_micfil: Add sample rate constraint
+Date: Mon, 14 Oct 2024 13:38:33 +0800
+Message-Id: <1728884313-6778-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: Paul Davis <paul@linuxaudiosystems.com>
-Date: Sun, 13 Oct 2024 10:56:57 -0600
-Message-ID: <CAFa_cKmDynOwheDU3gH2NMbj2eRAPEkLL+PP3zd4S5+enVK5Ag@mail.gmail.com>
-Subject: something went wrong with USB iJack data in kernel 6.x
-To: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-I don't know where to start with this issue, but since I noticed it
-trying to use a MIDI device, I thought I would start here. Advice on
-where to take it would  be much appreciated.
+On some platforms, for example i.MX93, there is only one
+audio PLL source, so some sample rate can't be supported.
+If the PLL source is used for 8kHz series rates, then 11kHz
+series rates can't be supported.
 
-High Level symptoms:
+So add constraints according to the frequency of available
+clock sources, then alsa-lib will help to convert the
+unsupported rate for the driver.
 
-1. plugin in a Novation Lanchkey mk4 to (a) a system running kernel
-6.x (b) a system running kernel 5.x
-2. run aplaymidi -l or arecordmidi -l
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+---
+ sound/soc/fsl/fsl_micfil.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-  Results:
-     (a) kernel 6.x: note the presence of two identical MIDI port
-names for the device
-     (b) kernel 5.x: note the presence of two differently named MIDI
-ports for the device
+diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
+index 4e65966d54fc..619ee7a5b867 100644
+--- a/sound/soc/fsl/fsl_micfil.c
++++ b/sound/soc/fsl/fsl_micfil.c
+@@ -28,6 +28,13 @@
+ 
+ #define MICFIL_OSR_DEFAULT	16
+ 
++#define MICFIL_NUM_RATES	7
++#define MICFIL_CLK_SRC_NUM	3
++/* clock source ids */
++#define MICFIL_AUDIO_PLL1	0
++#define MICFIL_AUDIO_PLL2	1
++#define MICFIL_CLK_EXT3		2
++
+ enum quality {
+ 	QUALITY_HIGH,
+ 	QUALITY_MEDIUM,
+@@ -45,9 +52,12 @@ struct fsl_micfil {
+ 	struct clk *mclk;
+ 	struct clk *pll8k_clk;
+ 	struct clk *pll11k_clk;
++	struct clk *clk_src[MICFIL_CLK_SRC_NUM];
+ 	struct snd_dmaengine_dai_dma_data dma_params_rx;
+ 	struct sdma_peripheral_config sdmacfg;
+ 	struct snd_soc_card *card;
++	struct snd_pcm_hw_constraint_list constraint_rates;
++	unsigned int constraint_rates_list[MICFIL_NUM_RATES];
+ 	unsigned int dataline;
+ 	char name[32];
+ 	int irq[MICFIL_IRQ_LINES];
+@@ -450,12 +460,34 @@ static int fsl_micfil_startup(struct snd_pcm_substream *substream,
+ 			      struct snd_soc_dai *dai)
+ {
+ 	struct fsl_micfil *micfil = snd_soc_dai_get_drvdata(dai);
++	unsigned int rates[MICFIL_NUM_RATES] = {8000, 11025, 16000, 22050, 32000, 44100, 48000};
++	int i, j, k = 0;
++	u64 clk_rate;
+ 
+ 	if (!micfil) {
+ 		dev_err(dai->dev, "micfil dai priv_data not set\n");
+ 		return -EINVAL;
+ 	}
+ 
++	micfil->constraint_rates.list = micfil->constraint_rates_list;
++	micfil->constraint_rates.count = 0;
++
++	for (j = 0; j < MICFIL_NUM_RATES; j++) {
++		for (i = 0; i < MICFIL_CLK_SRC_NUM; i++) {
++			clk_rate = clk_get_rate(micfil->clk_src[i]);
++			if (clk_rate != 0 && do_div(clk_rate, rates[j]) == 0) {
++				micfil->constraint_rates_list[k++] = rates[j];
++				micfil->constraint_rates.count++;
++				break;
++			}
++		}
++	}
++
++	if (micfil->constraint_rates.count > 0)
++		snd_pcm_hw_constraint_list(substream->runtime, 0,
++					   SNDRV_PCM_HW_PARAM_RATE,
++					   &micfil->constraint_rates);
++
+ 	return 0;
+ }
+ 
+@@ -1160,6 +1192,12 @@ static int fsl_micfil_probe(struct platform_device *pdev)
+ 	fsl_asoc_get_pll_clocks(&pdev->dev, &micfil->pll8k_clk,
+ 				&micfil->pll11k_clk);
+ 
++	micfil->clk_src[MICFIL_AUDIO_PLL1] = micfil->pll8k_clk;
++	micfil->clk_src[MICFIL_AUDIO_PLL2] = micfil->pll11k_clk;
++	micfil->clk_src[MICFIL_CLK_EXT3] = devm_clk_get(&pdev->dev, "clkext3");
++	if (IS_ERR(micfil->clk_src[MICFIL_CLK_EXT3]))
++		micfil->clk_src[MICFIL_CLK_EXT3] = NULL;
++
+ 	/* init regmap */
+ 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(regs))
+-- 
+2.34.1
 
-Mid-level diagnosis:
-
-Run lsusb -v on both kernels. For 5.x, note that the iJACK displays
-include a string for the MIDI port name. For 6.x note that this string
-is missing.
-
-Working with devices bearing identical ports for multiple names ranges
-from extremely difficult to impossible.
-
-I have no idea what layer of the stack can be involved here, other
-than that it is not hardware. I've run both 5.x and 6.x kernels on the
-same system.
