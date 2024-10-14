@@ -1,269 +1,254 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7041715DBD5
-	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 08:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D191527BB
+	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 09:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728896339; cv=none; b=WLRMd8T1wRr5UwuWOZ7EnbnN1hIsTICjUf1vlc5ljWD98XBtUMPt6JvmwKytvzZtvzoBeclqyZWMK03uDzt5j3j2oARcbQ+iPKvaWkIdmr2qRRj/keiounOuNev5H8r+i/aZYnAJgtKsDTGB4p2ukHP2JvekD+oKFwyAgwnPr9I=
+	t=1728897133; cv=none; b=bjMWC3bcUk4GZpjRhDbqoj/3PMUglJJJ+l/f4IYBKsCukJq9/VpH1IzKIKizJe/mhVplBZ2JuMm8lX/y9YEErWd/mNMHiMiwGf2JMdbV389XTL+kv1/GNST+yXZEcj6PxS/RyRFlRaUqvw6X2e8wQyBFslflLIfRiZAaABVeuJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728896339; c=relaxed/simple;
-	bh=gwBxetmHAUs6dpF8OWOjFANRyC9Za3R8kPrSPs0nUDc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=p05GFYXSUdJwRNVy8E5QwWuuJcFpJtovX3l0e1aBy6p7BkJ9bnCH7lV9ECDoHDRPkLjqwvRndqGSsDamQMuEaGqHHyjCMmytWiFB5KdCkyX6CsWozHD9TcCUExIN5F9djyoTGysyaPdPZwhXSQq54Sy6x6RD0KfbHBdOKfoWQSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J1qAmHHC; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	s=arc-20240116; t=1728897133; c=relaxed/simple;
+	bh=fo2G+KnEW2lnFj+6WF9Ml+ygqa1ze/YVj7KYt9dN/M0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hNB6cUkeSUUez8DzPDo/F+VkFRE3vJbFw0Nr/hMIQA+ZPc95N10y8jqO1uX4Y3Z6k2r0I0uNMRKhMzhO86LpYPiwnjVxP5iGz/TH9HcCV2BI7O5vF03PqpWb5GgigLU1hq+8257ybTgZBEygEnrzBPPIiBXBX6bXUCARQP8vXlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SNgxb5Ce; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J1qAmHHC"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-e292d801e59so3032542276.0
-        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 01:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728896336; x=1729501136; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6y7M/9jWGeDkCGLYRuLSMJUH16Au0fuqCfkifg79sVM=;
-        b=J1qAmHHCiJFaH4fnfBwsmBmxMg9/7ininbnEjPznkTu1oJQ+abrO+D0Y6ellY3OqcL
-         VWZggXSrzH6aULJxqzommvsH5q9s0KXsloO194I/QQSTqMzuqYRyMjLdFqWlKjj84fLQ
-         Bs6PRPr3IOWdZajnh7eqcOoc1PtU2yXWA7DDeoQo5/9VpfBDfpHlV42Z3Sq9wU4Jk9gn
-         N5nLxu1uifURZ6IKKBiEfGnFCDXKVzE6xmTOABAJQbyshF76VG3g1nNXUzSekqaAv2C6
-         0VPHzTmwHnF5uRL4WPkckyTfgcrc1y8KY+Yg+75iS6lKnI2RJlfCylk1kAHmFpU9zWOF
-         8Kfg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SNgxb5Ce"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1728897130;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fo2G+KnEW2lnFj+6WF9Ml+ygqa1ze/YVj7KYt9dN/M0=;
+	b=SNgxb5CehU3QIEbj9YSlMEamnAUpbpzzoqnX0Ama2Ay9LTIbmU6fFZGk8u0W+xSRXRqEsW
+	jWyvO4Ps3HVztilzjEkEemLpSModifL76Ob1nAmAnj13PrsSOzqPtXnVtQ0GW9CQfhEP9/
+	7d03rtVgIndRU+KWk0IVGQMJBPC5yu4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-323-dvSC1CyLMlCDhNuluHQ-Kw-1; Mon, 14 Oct 2024 05:12:09 -0400
+X-MC-Unique: dvSC1CyLMlCDhNuluHQ-Kw-1
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-a99fff1ad9cso114182566b.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 02:12:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728896336; x=1729501136;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6y7M/9jWGeDkCGLYRuLSMJUH16Au0fuqCfkifg79sVM=;
-        b=FYJG4SsuUi/u+0O+F5stvRk3NrCkmH0mSc54NNTSA7Nd2EFH0xdwyuR0JpxLqRNGlu
-         29diDcB82QrNJARSXnyBwIO/FlFpYth4PHp3AuoyVx71bwexouucEYNz5CsMbQEUt0wk
-         Y0Ie14iyVxd6MsNGeyPdtD15P683Guv1Adfpmz+d2A4G0kQBkhfxJ773Gl3a9mx8mlnj
-         0siKX542wNHSqGB3p7o+H9EdjPRZY2mOXcnBAQnLGONgzLOHYm8GNgZo+PqCNPR8rz/D
-         6uJcjl0JEt09QdUDmtOyX/c4zxY58452uL0O1okQnUNcv3+XN2jd/JfPMJawscBn2fxM
-         8SjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVYYgQP+3cEMuxsN0ADsej4fXHpdvExThB0c2PbGXA7P0hyghP+q8/AgfwXo5XtnKtWPv0J8DSdO/TTGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YziGPvF8dZFiKnYGUR3O654Mr2bZrOmmLpdE5aokNzIkm9ckc5v
-	fXmKnF9Ja3tVXbJq+f6CG6fV/ObpK0UeHZfs7mZ0BPf1bacZgeJ2gjgX4+RkLq2KbzD0xg8ZHCp
-	YQKlCW4xcJlukmg==
-X-Google-Smtp-Source: AGHT+IGuAVHy2wuJJSYKKNO9RPkGqP4RolspviXlmTe441Amv5yytcCNW+/6FnAEGZYrCIN0X9y14RK49kCdPM4=
-X-Received: from guanyulin.c.googlers.com ([fda3:e722:ac3:cc00:131:cd17:ac11:19c7])
- (user=guanyulin job=sendgmr) by 2002:a25:8702:0:b0:e29:1864:5215 with SMTP id
- 3f1490d57ef6-e2919dbd114mr7115276.1.1728896336194; Mon, 14 Oct 2024 01:58:56
- -0700 (PDT)
-Date: Mon, 14 Oct 2024 08:50:29 +0000
-In-Reply-To: <20241014085816.1401364-1-guanyulin@google.com>
+        d=1e100.net; s=20230601; t=1728897128; x=1729501928;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=efYEDzJoXvnSDmPZhcwgS+G1MqF2s5kTREhSaGYut/4=;
+        b=UwXhxVGk5QRW5gUd4NYOQkZzBYE2Y+pswqCDslEzn2b+I9TIcVQm5JohJ876wIUT39
+         pjbbtsFNkOc7BpndHyLmaf5jg/frqU1nr0YUy5yz2G8mVPmPlPV9hyykoG4hpLxnQAZc
+         aC9JB0+OWQBFNo1RSaQtsijJCkYEv5XB8O3uIdp+InRw9JllCSMw8+jfCFH5HWPy9yIx
+         OaRuByVoAyY+m6eW3AlAaavBmrO4+An28VRK3XLZJWcbNfcJX16Q/uXTn9P5YwvUtdIT
+         W6ZB18tcSBMjoNPeXk4gpSQJuIXIvwTjZ+iD+jOhagLlX+GFLIBwwGqZW6QqpNDSil/G
+         DLdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXkj3onz2ia0PIXGXnZ6sBq+vB4sUmqTgkX2gZM54HJGTh1UioXR1XSC47sH25Ajcenaje0TfiTQC1WzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvaFqQPbYaN4n+oRcKaaWtIV5R3cK94sKCmfH2ELePzSaPPUzm
+	3sPA26fLd4yQgRfwOHJnSp7m1gl3y+hnT3vEV7aqTDRx76A9pc5T968ksPT30mIYWYJb3pSuxNo
+	xUMB0egq3wozm30lctAM+qQ9MuEFzIYb0lMleyXB9MFOo9ZvHONdnI7VW5VRF
+X-Received: by 2002:a17:907:9611:b0:a99:36ab:d843 with SMTP id a640c23a62f3a-a99b940ff26mr1050659766b.38.1728897127763;
+        Mon, 14 Oct 2024 02:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFnnCmW/otcj2gQQZVhAW9woFCE4udOO76Y7RHXvuu8hpYM4Kp8213Cwui9o9/A0ZQF2FNuJw==
+X-Received: by 2002:a17:907:9611:b0:a99:36ab:d843 with SMTP id a640c23a62f3a-a99b940ff26mr1050652366b.38.1728897127228;
+        Mon, 14 Oct 2024 02:12:07 -0700 (PDT)
+Received: from ?IPv6:2001:16b8:2d37:9800:1d57:78cf:c1ae:b0b3? (200116b82d3798001d5778cfc1aeb0b3.dip.versatel-1u1.de. [2001:16b8:2d37:9800:1d57:78cf:c1ae:b0b3])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99f07c842csm290736366b.54.2024.10.14.02.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 02:12:06 -0700 (PDT)
+Message-ID: <3515493a0d0dd8f1b7df5a5677042946325ea6a8.camel@redhat.com>
+Subject: Re: [RFC PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mario Limonciello <mario.limonciello@amd.com>, Chen
+ Ni <nichen@iscas.ac.cn>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Mostafa Saleh
+ <smostafa@google.com>, Hannes Reinecke <hare@suse.de>, John Garry
+ <john.g.garry@oracle.com>, Soumya Negi <soumya.negi97@gmail.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, "Dr. David Alan
+ Gilbert" <linux@treblig.org>, Christian Brauner <brauner@kernel.org>, Ankit
+ Agrawal <ankita@nvidia.com>, Reinette Chatre <reinette.chatre@intel.com>,
+ Eric Auger <eric.auger@redhat.com>, Ye Bin <yebin10@huawei.com>, Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ Marc Zyngier <maz@kernel.org>, linux-ide@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-input@vger.kernel.org,
+ netdev@vger.kernel.org,  linux-wireless@vger.kernel.org,
+ ntb@lists.linux.dev, linux-pci@vger.kernel.org, 
+ linux-staging@lists.linux.dev, kvm@vger.kernel.org, 
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Mon, 14 Oct 2024 11:12:03 +0200
+In-Reply-To: <ZwktO8AUmFEakhVP@smile.fi.intel.com>
+References: <20241009083519.10088-1-pstanner@redhat.com>
+	 <20241009083519.10088-2-pstanner@redhat.com>
+	 <ZwfnULv2myACxnVb@smile.fi.intel.com>
+	 <f65e9fa01a1947782fc930876e5f84174408db67.camel@redhat.com>
+	 <ZwktO8AUmFEakhVP@smile.fi.intel.com>
+User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20241014085816.1401364-1-guanyulin@google.com>
-X-Mailer: git-send-email 2.47.0.rc1.288.g06298d1525-goog
-Message-ID: <20241014085816.1401364-6-guanyulin@google.com>
-Subject: [PATCH v5 5/5] usb: host: enable sideband transfer during system sleep
-From: Guan-Yu Lin <guanyulin@google.com>
-To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
-	mathias.nyman@intel.com, stern@rowland.harvard.edu, yajun.deng@linux.dev, 
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	dianders@chromium.org, perex@perex.cz, tiwai@suse.com, niko.mauno@vaisala.com, 
-	andreyknvl@gmail.com, christophe.jaillet@wanadoo.fr, tj@kernel.org, 
-	stanley_chang@realtek.com, quic_jjohnson@quicinc.com, ricardo@marliere.net
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, badhri@google.com, albertccwang@google.com, 
-	quic_wcheng@quicinc.com, pumahsu@google.com, 
-	Guan-Yu Lin <guanyulin@google.com>
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sharing a USB controller with another entity via xhci-sideband driver
-creates power management complexities. To prevent the USB controller
-from being inadvertently deactivated while in use by the other entity, a
-usage-count based mechanism is implemented. This allows the system to
-manage power effectively, ensuring the controller remains available
-whenever needed.
+On Fri, 2024-10-11 at 16:50 +0300, Andy Shevchenko wrote:
+> On Fri, Oct 11, 2024 at 02:16:06PM +0200, Philipp Stanner wrote:
+> > On Thu, 2024-10-10 at 17:40 +0300, Andy Shevchenko wrote:
+> > > On Wed, Oct 09, 2024 at 10:35:07AM +0200, Philipp Stanner wrote:
+> > > > pci_intx() is a hybrid function which sometimes performs devres
+> > > > operations, depending on whether pcim_enable_device() has been
+> > > > used
+> > > > to
+> > > > enable the pci_dev. This sometimes-managed nature of the
+> > > > function
+> > > > is
+> > > > problematic. Notably, it causes the function to allocate under
+> > > > some
+> > > > circumstances which makes it unusable from interrupt context.
+> > > >=20
+> > > > To, ultimately, remove the hybrid nature from pci_intx(), it is
+> > > > first
+> > > > necessary to provide an always-managed and a never-managed
+> > > > version
+> > > > of that function. Then, all callers of pci_intx() can be ported
+> > > > to
+> > > > the
+> > > > version they need, depending whether they use
+> > > > pci_enable_device()
+> > > > or
+> > > > pcim_enable_device().
+>=20
+> > > > An always-managed function exists, namely pcim_intx(), for
+> > > > which
+> > > > __pcim_intx(), a never-managed version of pci_intx() had been
+> > > > implemented.
+> > >=20
+> > > > Make __pcim_intx() a public function under the name
+> > > > pci_intx_unmanaged(). Make pcim_intx() a public function.
+>=20
+> It seems I got confused by these two paragraphs. Why the double
+> underscored
+> function is even mentioned here?
 
-Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
----
- drivers/usb/core/driver.c         | 10 ++++++++++
- drivers/usb/core/hcd.c            |  1 +
- drivers/usb/core/usb.c            |  1 +
- drivers/usb/dwc3/core.c           | 13 +++++++++++++
- drivers/usb/dwc3/core.h           |  8 ++++++++
- drivers/usb/host/xhci-plat.c      | 10 ++++++++++
- drivers/usb/host/xhci-plat.h      |  7 +++++++
- sound/usb/qcom/qc_audio_offload.c |  3 +++
- 8 files changed, 53 insertions(+)
+It's mentioned because it's being moved.
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index e713cf9b3dd2..eb85cbb1a2ff 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -1583,6 +1583,11 @@ int usb_suspend(struct device *dev, pm_message_t msg)
- 	struct usb_device	*udev = to_usb_device(dev);
- 	int r;
- 
-+	if (msg.event == PM_EVENT_SUSPEND && usb_sideband_check(udev)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
- 	unbind_no_pm_drivers_interfaces(udev);
- 
- 	/* From now on we are sure all drivers support suspend/resume
-@@ -1619,6 +1624,11 @@ int usb_resume(struct device *dev, pm_message_t msg)
- 	struct usb_device	*udev = to_usb_device(dev);
- 	int			status;
- 
-+	if (msg.event == PM_EVENT_RESUME && usb_sideband_check(udev)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
- 	/* For all calls, take the device back to full power and
- 	 * tell the PM core in case it was autosuspended previously.
- 	 * Unbind the interfaces that will need rebinding later,
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 1ff7d901fede..9876b3940281 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
- 	timer_setup(&hcd->rh_timer, rh_timer_func, 0);
- #ifdef CONFIG_PM
- 	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
-+	refcount_set(&hcd->sb_usage_count, 0);
- #endif
- 
- 	INIT_WORK(&hcd->died_work, hcd_died_work);
-diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-index 0b4685aad2d5..d315d066a56b 100644
---- a/drivers/usb/core/usb.c
-+++ b/drivers/usb/core/usb.c
-@@ -671,6 +671,7 @@ struct usb_device *usb_alloc_dev(struct usb_device *parent,
- 	dev->state = USB_STATE_ATTACHED;
- 	dev->lpm_disable_count = 1;
- 	atomic_set(&dev->urbnum, 0);
-+	refcount_set(&dev->sb_usage_count, 0);
- 
- 	INIT_LIST_HEAD(&dev->ep0.urb_list);
- 	dev->ep0.desc.bLength = USB_DT_ENDPOINT_SIZE;
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 2fdafbcbe44c..18c743ce5ac5 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2550,8 +2550,15 @@ static int dwc3_runtime_idle(struct device *dev)
- static int dwc3_suspend(struct device *dev)
- {
- 	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	struct platform_device *xhci = dwc->xhci;
- 	int		ret;
- 
-+	if (xhci && xhci_sideband_check(xhci->dev.driver_data)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
-+
- 	ret = dwc3_suspend_common(dwc, PMSG_SUSPEND);
- 	if (ret)
- 		return ret;
-@@ -2564,8 +2571,14 @@ static int dwc3_suspend(struct device *dev)
- static int dwc3_resume(struct device *dev)
- {
- 	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	struct platform_device *xhci = dwc->xhci;
- 	int		ret;
- 
-+	if (xhci && xhci_sideband_check(xhci->dev.driver_data)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
- 	pinctrl_pm_select_default_state(dev);
- 
- 	pm_runtime_disable(dev);
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 80047d0df179..e06d597ee3b0 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -26,6 +26,7 @@
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
- #include <linux/usb/otg.h>
-+#include <linux/usb/hcd.h>
- #include <linux/usb/role.h>
- #include <linux/ulpi/interface.h>
- 
-@@ -1704,4 +1705,11 @@ static inline void dwc3_ulpi_exit(struct dwc3 *dwc)
- { }
- #endif
- 
-+#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
-+extern bool xhci_sideband_check(struct usb_hcd *hcd);
-+#else
-+static inline bool xhci_sideband_check(struct usb_hcd *hcd)
-+{ return false; }
-+#endif
-+
- #endif /* __DRIVERS_USB_DWC3_CORE_H */
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 6e49ef1908eb..5fdbdf0c7f1a 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -456,6 +456,11 @@ static int xhci_plat_suspend_common(struct device *dev, struct pm_message pmsg)
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	int ret;
- 
-+	if (pmsg.event == PM_EVENT_SUSPEND && xhci_sideband_check(hcd)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
- 	if (pm_runtime_suspended(dev))
- 		pm_runtime_resume(dev);
- 
-@@ -499,6 +504,11 @@ static int xhci_plat_resume_common(struct device *dev, struct pm_message pmsg)
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	int ret;
- 
-+	if (pmsg.event == PM_EVENT_RESUME && xhci_sideband_check(hcd)) {
-+		dev_dbg(dev, "device accessed via sideband\n");
-+		return 0;
-+	}
-+
- 	if (!device_may_wakeup(dev) && (xhci->quirks & XHCI_SUSPEND_RESUME_CLKS)) {
- 		ret = clk_prepare_enable(xhci->clk);
- 		if (ret)
-diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
-index 6475130eac4b..432a040c81e5 100644
---- a/drivers/usb/host/xhci-plat.h
-+++ b/drivers/usb/host/xhci-plat.h
-@@ -30,4 +30,11 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev,
- void xhci_plat_remove(struct platform_device *dev);
- extern const struct dev_pm_ops xhci_plat_pm_ops;
- 
-+#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
-+extern bool xhci_sideband_check(struct usb_hcd *hcd);
-+#else
-+static inline bool xhci_sideband_check(struct usb_hcd *hcd)
-+{ return false; }
-+#endif
-+
- #endif	/* _XHCI_PLAT_H */
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 2dc651cd3d05..c82b5dbef2d7 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1516,8 +1516,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 			mutex_lock(&chip->mutex);
- 			subs->opened = 0;
- 			mutex_unlock(&chip->mutex);
-+		} else {
-+			xhci_sideband_get(uadev[pcm_card_num].sb);
- 		}
- 	} else {
-+		xhci_sideband_put(uadev[pcm_card_num].sb);
- 		info = &uadev[pcm_card_num].info[info_idx];
- 		if (info->data_ep_pipe) {
- 			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
--- 
-2.47.0.rc1.288.g06298d1525-goog
+>=20
+> > > To avoid an additional churn we can make just completely new
+> > > APIs,
+> > > namely:
+> > > pcim_int_x()
+> > > pci_int_x()
+> > >=20
+> > > You won't need all dirty dances with double underscored function
+> > > naming and
+> > > renaming.
+> >=20
+> > =C3=84hm.. I can't follow. The new version doesn't use double
+> > underscores
+> > anymore. __pcim_intx() is being removed, effectively.
+> > After this series, we'd end up with a clean:
+> >=20
+> > =09pci_intx() <-> pcim_intx()
+> >=20
+> > just as in the other PCI APIs.
+>=20
+> ...
+>=20
+> > > > +=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> > > > +
+> > > > +=09if (enable)
+> > > > +=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
+> > > > +=09else
+> > > > +=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+> > > > +
+> > > > +=09if (new !=3D pci_command)
+> > >=20
+> > > I would use positive conditionals as easy to read (yes, a couple
+> > > of
+> > > lines
+> > > longer, but also a win is the indentation and avoiding an
+> > > additional
+> > > churn in
+> > > the future in case we need to add something in this branch.
+> >=20
+> > I can't follow. You mean:
+> >=20
+> > if (new =3D=3D pci_command)
+> > =C2=A0=C2=A0=C2=A0 return;
+> >=20
+> > ?
+> >=20
+> > That's exactly the same level of indentation.
+>=20
+> No, the body gets one level off.
+>=20
+> > Plus, I just copied the code.
+> >=20
+> > > > +=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+>=20
+> =09if (new =3D=3D pci_command)
+> =09=09return;
+>=20
+> =09pci_write_config_word(pdev, PCI_COMMAND, new);
+>=20
+> See the difference?
+> Also, imaging adding a new code in your case:
+>=20
+> =09if (new !=3D pci_command)
+> =09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+>=20
+> =3D=3D>
+>=20
+> =09if (new !=3D pci_command) {
+> =09=09...foo...
+> =09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+> =09=09...bar...
+> =09}
+>=20
+> And in mine:
+>=20
+> =09if (new =3D=3D pci_command)
+> =09=09return;
+>=20
+> =09...foo...
+> =09pci_write_config_word(pdev, PCI_COMMAND, new);
+> =09...bar...
+>=20
+> I hope it's clear now what I meant.
+
+It is clear.. I'm not necessarily convinced that it's better to review
+than just copying the pre-existing code, but if you really want it we
+can do it I guess.
+
+P.
 
