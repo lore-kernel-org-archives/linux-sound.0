@@ -1,57 +1,57 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DFC1B4F11
-	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 15:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8974F1AB6F8
+	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 15:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728921406; cv=none; b=bElPNyHLmMnD6hk7hsP/JC84uvDwkCZ4EAg/4pCQRo7E4cLcRcl8INBXdhMJ40fzutj4fbwfd149SR6ExuEfO2V4U06APFpFrSx6SE/+jIJ6idWR+qGN4FqyrNY1JS8YgXxjAqAwfayjv4UzjTPwmsu5o3hWuu0pOw8aGv0pc8o=
+	t=1728921577; cv=none; b=d83Q7gslOKbXg4CFqchiVSjbtgVJoEbnmwZ7/J2K7rzdD6YJvANgpPChaIh3r1+MJIUyojZAJ95IVEna9JmBD27qGA4Eu5kUvX1JAL3x9ksBPlcPpddMJkEX48uFP6cglpjRaVmAskUhWrQhyQiJUDRCn6Tp8RkB4ooTew43ajY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728921406; c=relaxed/simple;
-	bh=Rbd/ChyGTacobL4pWk0kh3qA0AC/MXgdsddJsO3lpNY=;
+	s=arc-20240116; t=1728921577; c=relaxed/simple;
+	bh=ACLKrTH0YpItANlVodfnX3sNPabEH4JgAxp533X1hoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUOKuDu+JL4OYux3Gii4OzsC9RhseIJiX2PE25ubhDGzLfIMC9ZwBJeSUyPpL1rt4z6MJYYR6PYFdtDk2J3tPwrSCfH4fP+/LWtElwOUNCx2bsJL3Hg76tCtjzfswsxXWfFc/+aUGnoS/8UDUght+HLkjcb2Z3nC6QomX4SpwtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=fNN7CBpZ; arc=none smtp.client-ip=209.85.222.171
+	 Content-Type:Content-Disposition:In-Reply-To; b=fCMMRCfyS5+L7zKwkBUNnNBxfjKj96CiAWHMSSUET+a8U3sd1O5dHRcazLBINC1E72xaXU8xDrKaNGkAST5AafOp8dDix9kdauskKUe1u+LmXZstFCZ6D2oCuer2Bv3C7Ai/9KI708w2WmLb8W989zVKJbmTHqBWtM2Mc+VF+2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=B+gVHf1N; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="fNN7CBpZ"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b11a28242eso250498885a.3
-        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 08:56:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="B+gVHf1N"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7b10f2c24f0so512178885a.2
+        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 08:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1728921404; x=1729526204; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1728921574; x=1729526374; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=be1hrvlUsBpjG6CtOzQIeoA7DeG52DJehIShe6TxuJg=;
-        b=fNN7CBpZ+RHAZ0Qde8Z82kQspHHC2JsPP0FsUXRE7FgRmaJkoLc/xJo9nj+65HVti1
-         Uewm9bZnst7sddSWiFiqNzY6mVbexJfZCEvNQfkb4deuv0kkCRPLAxm+d40WpSAS/a4T
-         OvBFMAUspub0j8RP4UfEM/XxsVgmgpdPgsixkBVSb+U4fEufjWHAeG2aHXetfyQftHjm
-         28x3OSP/6hxlCvrOUIrOBbQRaaHSPfyeczzk6u3LXdaAeceThqBuvRKNdnC4VMyGhJU2
-         +5TeoWhYhKv3ygVqq7326U/HTszG9SNTkod7SA+RGOQMxocMYnqmV5cca9p/zdLkDatt
-         OJAA==
+        bh=DYEwaWa0z+lrJLi2rF+V4VJ/LyglDXOo4OWiLT76ZaA=;
+        b=B+gVHf1No+CJJU3x/Wq2WP9xaz15Bl6No5slaQQMz5I8/x3fwtbkcZu+haPkwvL3mc
+         oIdl+9SWAsuCzSyu1AxTKx7DR9eaGcmW9Atl8ROcPFjwYnIx8hdsMjj8CATVZj35T6VI
+         QlskFAD43WmVesvPQw4qFY0ut+uVJDvr87xmBRoWhbFIoxSSW7yD6ka4uOLtAxo1h4/U
+         Ipx6vNKzh26CXNzj70mQp0kNm7fDBQW2vYZgrsYYFUzQXkbdmCTGkguXsvGOHqgReNMD
+         jlqcIVgWl30KygKj5OhHCGpcXF3xwkAGa87nIcwP1ZCvfCxVcwKM7nuCqzMax4gfeHC5
+         5kLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728921404; x=1729526204;
+        d=1e100.net; s=20230601; t=1728921574; x=1729526374;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=be1hrvlUsBpjG6CtOzQIeoA7DeG52DJehIShe6TxuJg=;
-        b=NKc32F1kHav1+EZ4o60WPDROvW7uI+Lz5ikgGSbboz8SXPa2gNKwfmZv5Zpz5GXmey
-         xxuUPsjFIshsSVTI6rBvHS/cUpuOjYO3WFUIc1TGfkuBqutFTwrTeyc6A7Y1RVPh81T8
-         6Hrv3l2lETd0ZkdbaJtk4CkYGarcqB/kJb6RocztO8bPyNtlMaWeILv+mOEpMoI6h00e
-         Yo/hLMoXIAj+caN+g/3CqyuJ7V4+YsnAUyPntpbhlZlsigESdg0Tg5GWsVn6L7OEdMo7
-         1iQtw4YXVu+S56GIi+nBShQyVFUXGVEbgyoiE2c0KmAYtXAq3G9xYvcYnUY1K/Og0oeg
-         2Flw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9ScBWjvACOciZybiP42HhIi0Tu0lUUuXvCAg3qvB/3c1vKYVcrdtxEuvUYUtmVTq4Hef0PwS38htN3Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZNdE3lccDxDpz+PgJJbgo35ScNEsc8RzE5o+UsyuWdJWGzC8J
-	GPrGwwCK+hasCRrvhAlyTlZg+x1Yj37OKYIvyypRhoGViIF7oivJdl6QEJFu0g==
-X-Google-Smtp-Source: AGHT+IGdot33FySr+PpKn3xDNoWp1lPSKAmLfTIJ2M3YboljTXEQHme1fTL63RXssphS6RehdMyzzg==
-X-Received: by 2002:a05:6214:5b06:b0:6cb:d1ae:27a6 with SMTP id 6a1803df08f44-6cbf0095668mr170844676d6.24.1728921403730;
-        Mon, 14 Oct 2024 08:56:43 -0700 (PDT)
+        bh=DYEwaWa0z+lrJLi2rF+V4VJ/LyglDXOo4OWiLT76ZaA=;
+        b=UV6dsfm/HbgZkE1AL6n/s9xGZbQH6hP0f32na6xjm7FdPsBSdAXBtl/IGTZ1gmbu7e
+         4rUo+kXcZDv5/TOr6zvwR18lvjnX3C7q9zTTaDyXy5rmNrBoZ1gEG0RGQ11+0yANZVcC
+         LAxfLKZTUGUf9hRYgV0rI6whURyNwfy9IVPNnp8MG6Ltx+0jDdtuo0sVWlfqk3M1zFrF
+         CNZN3v6ISmcTBLeCVtv3g6piWl5CYj6Q0UWMv6gKis1crvX7/EB+t6t2x3SxW/K3cgoD
+         ytFS7bH9BxTeYc9vmeWgSJMa3AhK12hgXwDYG0/rVWURGa6nAAli3575i9DpWkGkXzVW
+         QIyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXIRuwAs8AsvPOoZ9dsZCqqsronNccllyb7IYshqHhV4gMAvDa3AgXzT/GDc+Wc7dOLIYA1DP83DvDTPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4qAn+tcNGbOZXpohYt+NNfgVb65lulBFlLQKyN4d2/iMJnH9A
+	lDTXpvX6P33CKwNBkvfWX5uLYCvwpqf5BpB4ZMpo9oFfpCgrrc1l+qK0P9dtLg==
+X-Google-Smtp-Source: AGHT+IGk9Iq10RUI7wajW08xEovbUpvwwWPSJ+bZFAENPk+W+Aajopx2jMpYWRV1Id4tTpkgx4xJHg==
+X-Received: by 2002:a05:620a:45a4:b0:7a9:c8a1:5d92 with SMTP id af79cd13be357-7b120fb7a61mr1551756485a.16.1728921574487;
+        Mon, 14 Oct 2024 08:59:34 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:681:fd10::c666])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cbe8608bf1sm47088546d6.91.2024.10.14.08.56.42
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b1148fa3ffsm431710385a.69.2024.10.14.08.59.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 08:56:43 -0700 (PDT)
-Date: Mon, 14 Oct 2024 11:56:40 -0400
+        Mon, 14 Oct 2024 08:59:34 -0700 (PDT)
+Date: Mon, 14 Oct 2024 11:59:31 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Guan-Yu Lin <guanyulin@google.com>
 Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
@@ -67,9 +67,10 @@ Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
 	pumahsu@google.com
 Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system
  sleep
-Message-ID: <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
+Message-ID: <fc6361db-558a-4a8d-9304-ec53c7262451@rowland.harvard.edu>
 References: <20241014085816.1401364-1-guanyulin@google.com>
  <20241014085816.1401364-6-guanyulin@google.com>
+ <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,92 +79,25 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241014085816.1401364-6-guanyulin@google.com>
+In-Reply-To: <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
 
-On Mon, Oct 14, 2024 at 08:50:29AM +0000, Guan-Yu Lin wrote:
-> Sharing a USB controller with another entity via xhci-sideband driver
-> creates power management complexities. To prevent the USB controller
-> from being inadvertently deactivated while in use by the other entity, a
-> usage-count based mechanism is implemented. This allows the system to
-> manage power effectively, ensuring the controller remains available
-> whenever needed.
+On Mon, Oct 14, 2024 at 11:56:40AM -0400, Alan Stern wrote:
+> On Mon, Oct 14, 2024 at 08:50:29AM +0000, Guan-Yu Lin wrote:
+
+> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> > index 1ff7d901fede..9876b3940281 100644
+> > --- a/drivers/usb/core/hcd.c
+> > +++ b/drivers/usb/core/hcd.c
+> > @@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
+> >  	timer_setup(&hcd->rh_timer, rh_timer_func, 0);
+> >  #ifdef CONFIG_PM
+> >  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
+> > +	refcount_set(&hcd->sb_usage_count, 0);
 > 
-> Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
-> ---
->  drivers/usb/core/driver.c         | 10 ++++++++++
->  drivers/usb/core/hcd.c            |  1 +
->  drivers/usb/core/usb.c            |  1 +
->  drivers/usb/dwc3/core.c           | 13 +++++++++++++
->  drivers/usb/dwc3/core.h           |  8 ++++++++
->  drivers/usb/host/xhci-plat.c      | 10 ++++++++++
->  drivers/usb/host/xhci-plat.h      |  7 +++++++
->  sound/usb/qcom/qc_audio_offload.c |  3 +++
->  8 files changed, 53 insertions(+)
-> 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index e713cf9b3dd2..eb85cbb1a2ff 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -1583,6 +1583,11 @@ int usb_suspend(struct device *dev, pm_message_t msg)
->  	struct usb_device	*udev = to_usb_device(dev);
->  	int r;
->  
-> +	if (msg.event == PM_EVENT_SUSPEND && usb_sideband_check(udev)) {
-> +		dev_dbg(dev, "device accessed via sideband\n");
-> +		return 0;
-> +	}
+> Did I miss something?  I didn't notice this field in any of the earlier 
+> patches.  Was it already created by the prerequisite series?  If so, why 
+> didn't that series do this initialization?
 
-I'm not so sure about this.  By returning early, you prevent the drivers 
-bound to this device from suspending.  But they can't operate properly 
-when the system is in a low-power mode.  Won't that cause problems?
-
-Maybe this really belongs in usb_suspend_device(), and its counterpart 
-belongs in usb_resume_device().
-
-> +
->  	unbind_no_pm_drivers_interfaces(udev);
->  
->  	/* From now on we are sure all drivers support suspend/resume
-> @@ -1619,6 +1624,11 @@ int usb_resume(struct device *dev, pm_message_t msg)
->  	struct usb_device	*udev = to_usb_device(dev);
->  	int			status;
->  
-> +	if (msg.event == PM_EVENT_RESUME && usb_sideband_check(udev)) {
-> +		dev_dbg(dev, "device accessed via sideband\n");
-> +		return 0;
-> +	}
-> +
->  	/* For all calls, take the device back to full power and
->  	 * tell the PM core in case it was autosuspended previously.
->  	 * Unbind the interfaces that will need rebinding later,
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 1ff7d901fede..9876b3940281 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
->  	timer_setup(&hcd->rh_timer, rh_timer_func, 0);
->  #ifdef CONFIG_PM
->  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
-> +	refcount_set(&hcd->sb_usage_count, 0);
-
-Did I miss something?  I didn't notice this field in any of the earlier 
-patches.  Was it already created by the prerequisite series?  If so, why 
-didn't that series do this initialization?
-
->  #endif
->  
->  	INIT_WORK(&hcd->died_work, hcd_died_work);
-> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> index 0b4685aad2d5..d315d066a56b 100644
-> --- a/drivers/usb/core/usb.c
-> +++ b/drivers/usb/core/usb.c
-> @@ -671,6 +671,7 @@ struct usb_device *usb_alloc_dev(struct usb_device *parent,
->  	dev->state = USB_STATE_ATTACHED;
->  	dev->lpm_disable_count = 1;
->  	atomic_set(&dev->urbnum, 0);
-> +	refcount_set(&dev->sb_usage_count, 0);
-
-And doesn't this belong in the 3/5 patch, the one that creates the 
-sb_usage_count field?
+Oops, yes, I did miss it -- it's in the 4/5 patch.  Sorry.
 
 Alan Stern
