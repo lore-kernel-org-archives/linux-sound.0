@@ -1,110 +1,123 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0347514D428;
-	Mon, 14 Oct 2024 09:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C6921A270;
+	Mon, 14 Oct 2024 09:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728898196; cv=none; b=Y6WnWt0Y2AFIhADQdYHvwcGTQ44HoYA/jtKW9/yWzNxOZmvHse8Nk614j36DliYx8kfMsXry5H4XaKURN+TdGkdjjvuJHDL/N8bhwDLAn119v/4IvKvKkiojaGJ/tqY6iDThwNNAiVpGTJihmqSynj1GoQID9+LBG8gGWFEaR60=
+	t=1728898849; cv=none; b=mY5qE/RQnp7QiSp1bLuHAiZ/yeS0KCvBfzSGN+/r65wyciVrHXnXWJYaBA0VsR8iU5ERsEiTFYs+UNm67/g8bDkEtU7XfVdIEsh/FhZoMXyAHDzou8G2sZGXnIqjaluzpHhHgtdwsBhEzxsBrxY0KXriZfMpN3rUTipDFUMKQa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728898196; c=relaxed/simple;
-	bh=+/0MUZYB4A2sleIMMMI/f4e98kGIzrhlAW+0y+eL3lQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jFt1AJi/3QspefCNAYNz8nn7U4+Tp6mY80+9s0X6a82F4FtYQr8Cmn17/1fvyAHL02ZJqkpoGmTJxb8i1fk458MRZb00H/nUwBG/mF8df9iEfKrPKUxsNEHB/MT9+tXg8a+3ISnVcFQl81ph+9EgtFAyidXv4WDMyTGHDZB/RHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=a4n46Plp; arc=none smtp.client-ip=68.232.153.233
+	s=arc-20240116; t=1728898849; c=relaxed/simple;
+	bh=/NpiSmBVuP9T6x4q3CHJt1BOpKGypAsg4kg+Wj/DAB8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=P1PjNVlXWGiVBWhIhFljOwxlq7LwUC7PcN7fUC8+c16K8TkIKyMxXf5YX8Yd5hlYeZc5FbKRwbK04stu9BW9w7C7ZmlxdtOMI2Ka4ID88sg6yHMsk6KVmtI77Hm36lggEDtJ5+4CxGJGd3kwd6m/zTHtD+I1j/DDS9fXnzXaL+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=hj9MCMT9; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="a4n46Plp"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="hj9MCMT9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1728898195; x=1760434195;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+/0MUZYB4A2sleIMMMI/f4e98kGIzrhlAW+0y+eL3lQ=;
-  b=a4n46PlpL0JjF48mfN5D1u6Q+hspT27V022KdgpK+2mTDl4lQPqOe+/6
-   J1SN9sOw04VnXBUw9FOGdr5WN/SdUh3k1Pvcc7+nn9Ro1y7g5QY6gA3qR
-   PUvzz+s39NifiLoW4itEPVBeRC9/5xCyVkUAIM2Br05MkWKzuPdy/B01z
-   l12NLYXflJ2A4FMJuTp6PYleit0DtfTzoNATcp6KFJIqnOuuA1v83nQDh
-   e2JEmvx3qxD254CIiNBqAIJhY5k5qUW9Lb8k3EIipPN5h5EamrP083FZk
-   s9fspCW4aDhKtp0vgQhS+aIOA24v1FFIjhlFRBfbJV69R+Nvy5gz1VToM
+  t=1728898848; x=1760434848;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=/NpiSmBVuP9T6x4q3CHJt1BOpKGypAsg4kg+Wj/DAB8=;
+  b=hj9MCMT9dE1FGkwySBLkWJ9yivo/tfH1ajvvwU13HuKRhXDybgawpkiT
+   Hl1Mb9fuQAh698rXDdBzw1PLcs3KqXhiIZ8HZpRUoPA2bjAJ0JWm5/Lm0
+   xBLW4jtSQFXV2Z6F6T5C6DIDdCJaZJTlMdMJUVd6mos+2u861uaIEFubS
+   Qta7VnBdt3n0vVydwNHqIWZwqOKzThx+iq0eJHWsiT8eHwp+Lfp1H7VK/
+   0vSVDaf6Qv7kLXbesWznqgKidft8uniVChQeBEn1N1pt2NBB/ElvLor8Q
+   jcyP3A2DB8AicEkGlSzvs+0KEPp6kBmRn4hdonuUCZeXTSRt6endThbnZ
    A==;
-X-CSE-ConnectionGUID: pCLDKrORScqRABue8oJFyg==
-X-CSE-MsgGUID: AmmQ2eMhSiGkTkZoRt17Qw==
+X-CSE-ConnectionGUID: jo68VbivTo+yYcT4uhvzmA==
+X-CSE-MsgGUID: ooE1JRb5SR+Ocx9lVSNyFQ==
 X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="32974832"
+   d="scan'208";a="33538981"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Oct 2024 02:29:54 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Oct 2024 02:40:47 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 14 Oct 2024 02:29:33 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 14 Oct 2024 02:29:30 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <claudiu.beznea@tuxon.dev>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-	<perex@perex.cz>, <tiwai@suse.com>, <arnd@arndb.de>,
-	<gregkh@linuxfoundation.org>, <nicolas.ferre@microchip.com>
-CC: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Andrei Simion <andrei.simion@microchip.com>
-Subject: [PATCH v2 RESEND] MAINTAINERS: Update maintainer list for MICROCHIP ASOC, SSC and MCP16502 drivers
-Date: Mon, 14 Oct 2024 12:28:31 +0300
-Message-ID: <20241014092830.46709-1-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
+ 15.1.2507.35; Mon, 14 Oct 2024 02:40:13 -0700
+Received: from [10.159.245.205] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.35 via Frontend
+ Transport; Mon, 14 Oct 2024 02:40:11 -0700
+Message-ID: <70b4be62-818a-44d8-8330-c912ce6b60e1@microchip.com>
+Date: Mon, 14 Oct 2024 11:40:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 RESEND] MAINTAINERS: Update maintainer list for
+ MICROCHIP ASOC, SSC and MCP16502 drivers
+Content-Language: en-US, fr-FR
+To: Andrei Simion <andrei.simion@microchip.com>, <claudiu.beznea@tuxon.dev>,
+	<broonie@kernel.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>
+CC: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20241014092830.46709-1-andrei.simion@microchip.com>
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Organization: microchip
+In-Reply-To: <20241014092830.46709-1-andrei.simion@microchip.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-To help Claudiu and offload the work, add myself to the maintainer list for
-those drivers.
+On 14/10/2024 at 11:28, Andrei Simion wrote:
+> To help Claudiu and offload the work, add myself to the maintainer list for
+> those drivers.
+> 
+> Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
 
-Acked-by: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Signed-off-by: Andrei Simion <andrei.simion@microchip.com>
----
-v1 -> v2:
-- add acked-by tag
-- adjust commit title
-- update maintainer list for MICROCHIP SSC DRIVER
----
- MAINTAINERS | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks Andrei:
+Acked-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1eebb14efb5e..73afcdd005ee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15144,6 +15144,7 @@ F:	drivers/spi/spi-at91-usart.c
- 
- MICROCHIP AUDIO ASOC DRIVERS
- M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-+M:	Andrei Simion <andrei.simion@microchip.com>
- L:	linux-sound@vger.kernel.org
- S:	Supported
- F:	Documentation/devicetree/bindings/sound/atmel*
-@@ -15252,6 +15253,7 @@ F:	include/video/atmel_lcdc.h
- 
- MICROCHIP MCP16502 PMIC DRIVER
- M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-+M:	Andrei Simion <andrei.simion@microchip.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/regulator/microchip,mcp16502.yaml
-@@ -15383,6 +15385,7 @@ F:	drivers/spi/spi-atmel.*
- 
- MICROCHIP SSC DRIVER
- M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-+M:	Andrei Simion <andrei.simion@microchip.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Supported
- F:	Documentation/devicetree/bindings/misc/atmel-ssc.txt
+Best regards,
+   Nicolas
 
-base-commit: 7f773fd61baa9b136faa5c4e6555aa64c758d07c
--- 
-2.34.1
+
+> ---
+> v1 -> v2:
+> - add acked-by tag
+> - adjust commit title
+> - update maintainer list for MICROCHIP SSC DRIVER
+> ---
+>   MAINTAINERS | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1eebb14efb5e..73afcdd005ee 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15144,6 +15144,7 @@ F:	drivers/spi/spi-at91-usart.c
+>   
+>   MICROCHIP AUDIO ASOC DRIVERS
+>   M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> +M:	Andrei Simion <andrei.simion@microchip.com>
+>   L:	linux-sound@vger.kernel.org
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/sound/atmel*
+> @@ -15252,6 +15253,7 @@ F:	include/video/atmel_lcdc.h
+>   
+>   MICROCHIP MCP16502 PMIC DRIVER
+>   M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> +M:	Andrei Simion <andrei.simion@microchip.com>
+>   L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/regulator/microchip,mcp16502.yaml
+> @@ -15383,6 +15385,7 @@ F:	drivers/spi/spi-atmel.*
+>   
+>   MICROCHIP SSC DRIVER
+>   M:	Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> +M:	Andrei Simion <andrei.simion@microchip.com>
+>   L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+>   S:	Supported
+>   F:	Documentation/devicetree/bindings/misc/atmel-ssc.txt
+> 
+> base-commit: 7f773fd61baa9b136faa5c4e6555aa64c758d07c
 
