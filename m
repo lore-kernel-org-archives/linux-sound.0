@@ -1,84 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0681684B4;
-	Mon, 14 Oct 2024 11:52:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69D07E574;
+	Mon, 14 Oct 2024 12:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728906746; cv=none; b=dXjmQQztBfDugw/AtNAdvKFMnPGXkgoXS6iUUvPIBl6zHLGKDQ44qHHhM9CtO7vYxKqEksoVmRGkY1uy1FqoNJvTy1+UWGT9xtARq/KYtwYZAZOPtuNRihpld5Hs6LOKn+gg4voojddBQn+V/OObE68roaYxo+j8I1Bf5dyJD9I=
+	t=1728908650; cv=none; b=KHP0q1ciOlJtOHBaB1CbOGmtN81OnBHsZL9l2exxhGbR5bZgsS3FtAAjGnZkAoOK5hbJQ27t5vD8Ujel22eECv1B12nP6o35JRTPIn5ZHtWxHeg3JEs5StfIS0uAHZxAM+Cp6i7mnrA6LC9i7LiPPf65PZRWQbpOeU/jd5Ds7A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728906746; c=relaxed/simple;
-	bh=sDrRw60zuzKbS92EBKllWgxujSkHVzdPmKV/iFTcCSA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ni6Y4NLGSwrbYBO8TC4etOHbyJoc2K7Ji0VQIUm/CvRNH2G8PHZ5OJVMStDmdzmrs4m/s+WSZDjxi3OJdZ6hb9oH4ZLR5xlrpZ/ScJvSXaiSg7nEDhCVcPeG7IcQ4cJiLuTyxppn3AJ+GtPvZKR5b0C/8RWton0AsP0JnaCaieo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V4hZPo8J; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V4hZPo8J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7E8C4CED0;
-	Mon, 14 Oct 2024 11:52:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1728906745;
-	bh=sDrRw60zuzKbS92EBKllWgxujSkHVzdPmKV/iFTcCSA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=V4hZPo8JulfCIGIR1+wxel5FOy5lMvZYoN1xlsOS4T3feuPgoLHpubNe0d45gBzaY
-	 9FdDF+78nogni21y6/n+ZhotQLNbi9hGTYs/yeSwpVVx0FZX2AwQRPmkxgkH21w4Pt
-	 Y63Vn2XzP/R/OfYR6T0zA5mn4ZDBKvQ3yI2vtwxs+XP/2uEBxgN25HSk449zEGxHsR
-	 B8vVyRE8RydpbT7fAyfxORBtaV6UxfYcFWceaJq4TcpYkKUD4UI+wY+PehN2YGRKbh
-	 Z/tzkfSZwlEBV4rQjB2KZJxhhvauVgrSaWr4QPAg/ULB4dfGbdh3nmc2YkChkxzUyC
-	 V8xQjRWKz82cQ==
-From: Mark Brown <broonie@kernel.org>
-To: claudiu.beznea@tuxon.dev, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, arnd@arndb.de, gregkh@linuxfoundation.org, 
- nicolas.ferre@microchip.com, Andrei Simion <andrei.simion@microchip.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20241014092830.46709-1-andrei.simion@microchip.com>
-References: <20241014092830.46709-1-andrei.simion@microchip.com>
-Subject: Re: [PATCH v2 RESEND] MAINTAINERS: Update maintainer list for
- MICROCHIP ASOC, SSC and MCP16502 drivers
-Message-Id: <172890674010.4183272.7344078847755683372.b4-ty@kernel.org>
-Date: Mon, 14 Oct 2024 12:52:20 +0100
+	s=arc-20240116; t=1728908650; c=relaxed/simple;
+	bh=Le0e0kUNrDFWDkroBhdDWVbxdg0w8tcg9r/v0Nd3f28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZwJRMNAH8WGT9WzT2ZUK9FstwwqgQ41pywwEtG4tFNeXf8QMcAAbKf4ac11a+1b6jiGoBcIHi4NEMkO9xntamypS8lQa2yvKUszmzVt6zhqU3B4Qh12PaEwLlDPLr6jW7L95Zl8WFEWLiRu6ekwdEMbaOYUd/uDwWTd04CWRPC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 322411007;
+	Mon, 14 Oct 2024 05:24:37 -0700 (PDT)
+Received: from [10.57.86.130] (unknown [10.57.86.130])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2053C3F71E;
+	Mon, 14 Oct 2024 05:24:03 -0700 (PDT)
+Message-ID: <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
+Date: Mon, 14 Oct 2024 13:24:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
+ constant assumption
+Content-Language: en-GB
+To: Mark Brown <broonie@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ David Hildenbrand <david@redhat.com>, Greg Marsden
+ <greg.marsden@oracle.com>, Ivan Ivanov <ivan.ivanov@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>, Kalesh Singh <kaleshsingh@google.com>,
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <mbrugger@suse.com>, Miroslav Benes <mbenes@suse.cz>,
+ Takashi Iwai <tiwai@suse.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-sound@vger.kernel.org
+References: <20241014105514.3206191-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-22-ryan.roberts@arm.com>
+ <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-99b12
 
-On Mon, 14 Oct 2024 12:28:31 +0300, Andrei Simion wrote:
-> To help Claudiu and offload the work, add myself to the maintainer list for
-> those drivers.
+On 14/10/2024 12:38, Mark Brown wrote:
+> On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
+>> To prepare for supporting boot-time page size selection, refactor code
+>> to remove assumptions about PAGE_SIZE being compile-time constant. Code
+>> intended to be equivalent when compile-time page size is active.
 > 
+> Please submit patches using subject lines reflecting the style for the
+> subsystem, this makes it easier for people to identify relevant patches.
+> Look at what existing commits in the area you're changing are doing and
+> make sure your subject lines visually resemble what they're doing.
+> There's no need to resubmit to fix this alone.
+
+No problem, will fix this in the next round (where I anticipate sending more
+targetted serieses to maintainers).
+
 > 
+>> ***NOTE***
+>> Any confused maintainers may want to read the cover note here for context:
+>> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
+> 
+> As documented in submitting-patches.rst please send patches to the 
+> maintainers for the code you would like to change.  The normal kernel
+> workflow is that people apply patches from their inboxes, if they aren't
+> copied they are likely to not see the patch at all and it is much more
+> difficult to apply patches.
 
-Applied to
+Sure. I think you're implying that you would have liked to be in To: for this
+patch? I went to quite a lot of trouble to ensure all maintainers were at least
+in the To: field for patches touching their code. But get_maintainer.pl lists
+you as a supporter, not a maintainer when I ran this patch through. Could you
+clarify what would have been the correct thing to do? I could include all
+reviewers and supporters as well as maintainers but then I'd be banging up
+against the limits for some of the patches.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Or perhaps I've misunderstood the point you're making here.
 
-Thanks!
+> 
+>> -static const struct snd_pcm_hardware dummy_dma_hardware = {
+>> +static DEFINE_GLOBAL_PAGE_SIZE_VAR_CONST(struct snd_pcm_hardware, dummy_dma_hardware, {
+>>  	/* Random values to keep userspace happy when checking constraints */
+>>  	.info			= SNDRV_PCM_INFO_INTERLEAVED |
+>>  				  SNDRV_PCM_INFO_BLOCK_TRANSFER,
+>> @@ -107,7 +107,7 @@ static const struct snd_pcm_hardware dummy_dma_hardware = {
+>>  	.period_bytes_max	= PAGE_SIZE*2,
+>>  	.periods_min		= 2,
+>>  	.periods_max		= 128,
+>> -};
+>> +});
+> 
+> It's probably better to just use PAGE_SIZE_MAX here and avoid the
+> deferred patching, like the comment says we don't particularly care what
+> the value actually is here given that it's a dummy.
 
-[1/1] MAINTAINERS: Update maintainer list for MICROCHIP ASOC, SSC and MCP16502 drivers
-      commit: 3692a4ccacf3c44249e584aea3ae8568f953e7e4
+OK, so would that be:
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+	.buffer_bytes_max	= 128*1024,
+	.period_bytes_min	= PAGE_SIZE_MAX,      <<<<<
+	.period_bytes_max	= PAGE_SIZE_MAX*2,    <<<<<
+	.periods_min		= 2,
+	.periods_max		= 128,
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+It's not really clear to me how all the parameters interact; the buffer size
+128K, which, if PAGE_SIZE_MAX is 64K, would hold 1 period of the maximum size.
+But periods_min is 2. So not sure that works? Or perhaps I'm trying to apply too
+much meaning to the param names...
 
 Thanks,
-Mark
+Ryan
+
 
