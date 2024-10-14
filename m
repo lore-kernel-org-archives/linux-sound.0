@@ -1,91 +1,232 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA751547EF
-	for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 09:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5431A270;
+	Mon, 14 Oct 2024 09:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728899353; cv=none; b=bcoa8OLMt1ZfstXETfyvl0nooPidVaew4GFQyjWQTCwuUWr7I9ArGfNqCIA/sTlOjXrgGGlWL0kvhbYnsS9TSPpqIA13v4jBVI3r3sGVnbqY3Js1cHsNNkPq8Fm0oWg36QN8LUKc5Kay1R4+KoajMJWAB0XjwMctLLhz3Nfw55I=
+	t=1728899541; cv=none; b=aG+6yn6I8w163f9eC6chb5sxiaWXFVb8Itie2xSXObsn+o3zoEMgyI7XUx51CKHLew7eAX/Hx+LD/CWwkaQFFbLV1LpkrH/3ALa8bKaL9ljKyh59PtjgllvrvySgoUHHJR3UNl7Gmcr2FF/incDVhscaS4o37qL4QXybFjbMn5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728899353; c=relaxed/simple;
-	bh=sX2+clgMqGflwZFTNJN/6f020ifcLgdePoK8LI0NZuI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=tW/cBYjj9AhwWNTctB0VZqGIwe41eI/147j+U1MHGQcDq9/CXs1vVAUCxF0s9JzsMJEq4pIy6EYJsCnZ2NVAB/lZqOMNipbF3oiopfvdJodjNMYmGgQiiZobxcrRQmN0Uys4epIP+SoUkJzS1rrAbDP+8sxbj32ktKNJweeUVcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHsydeLO; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1728899541; c=relaxed/simple;
+	bh=mHicux2Sghghav0Fe+EOW1urQ3BtJ5/XdCcM/5RLHl8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r9CO96PRckkz+kX2Gp/KHbrLknar0YcXaHu/QgT2JRr+5wmDFbHS5r1953bgtDOYSSpkiobhMjv3zXv4abAT6w8S1j6KWOXxO9faChutcQE6fI9Jsugi0rRAXnZfD1Ct5J8aD4N3ZjN2H35q5lFtMTsWwCtn173RwBlgxlfnda4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=W5SrG1sB; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHsydeLO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1728899352; x=1760435352;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=sX2+clgMqGflwZFTNJN/6f020ifcLgdePoK8LI0NZuI=;
-  b=mHsydeLOuTDfEgVjE+wYwSmSjE8EFDnz87S+AMJ7yE4yyoheis7JcPIs
-   8ZI5zq3GQ6kQ8BsBpPbc3ocpDcZZ/09rnlJeRynbOrfTYHab0K7Bs6Z2w
-   RbDYg8ekx04OgrASIXZteRDSAPdwtDj1ToAzKuLXoBjCQmIzi81XSEI8k
-   NY0cTaHwX+TEHD4yTpnt/OlcYejROHHFbanj7e9jpn7dHUYlzenJWna4+
-   nic7raCOhYdeSVoZ5eiw60bCLO5NjaCKxgEN6+FvSsS6znppewvGLRJOB
-   eklV1gpi3pkR5qrI1g0YVbF+lQXX9vrBso9Qpv9D1ZM8hI2AcdHgLaSYb
-   Q==;
-X-CSE-ConnectionGUID: kStDATNFRlyKFcvShZC7lA==
-X-CSE-MsgGUID: H9tKWGHmQqWoF794MtzpYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="45712640"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="45712640"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2024 02:49:11 -0700
-X-CSE-ConnectionGUID: zdaH1m4yQ96aCgLfE6u/pw==
-X-CSE-MsgGUID: 0l+SQ/rtRaGtwx4lsJL5HA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,202,1725346800"; 
-   d="scan'208";a="100857963"
-Received: from dev2.igk.intel.com ([10.237.148.94])
-  by fmviesa002.fm.intel.com with ESMTP; 14 Oct 2024 02:49:10 -0700
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH] ALSA: hda: Fix all stream interrupts definition
-Date: Mon, 14 Oct 2024 11:49:58 +0200
-Message-Id: <20241014094958.708563-1-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="W5SrG1sB"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49E4q9EO011934;
+	Mon, 14 Oct 2024 04:52:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=BV5XTXQFrXhWMcDr
+	AKJXjLWD0xeZGGeZFGmj7EbRxYU=; b=W5SrG1sBpvRP5+U575d5cd63RU0FflDY
+	T94mzJieNOdGTdZpUj1uH1ZJ0Oy1yHUBW0t5AzQb8U2JjXLsbfuFfT9TQATBTdOz
+	CTjoPibOmXacXOyQXlwyWQwAYTqfrnKeb/ZNz9W8tNfuIQyv6ME7bhdAdVPiFcCm
+	CsoW7KlUslWzVfRWib7UQWUmRI2PNWR0pvgEb2ub7A3YZOegZJR/Fc3sXUzvt2bP
+	x0RV29jDE40NFveCgE5FgiOIMpyOhD/naYZMvkgl5T1XPrP0sKja4oOlAWnhh2WY
+	/adK7Q63L6ezdn9OczIVW//BgVRed38pprwtlqoD6VNyJ2Av6gelnw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 427nhk1ppp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 14 Oct 2024 04:52:03 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Oct
+ 2024 10:52:02 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 14 Oct 2024 10:52:02 +0100
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1CE6B820248;
+	Mon, 14 Oct 2024 09:52:02 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <lee@kernel.org>, <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] mfd: cs42l43: Disable IRQs during suspend
+Date: Mon, 14 Oct 2024 10:52:02 +0100
+Message-ID: <20241014095202.828194-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: paWG5mel22cDprWMLeYMvIvGHLvFWP90
+X-Proofpoint-ORIG-GUID: paWG5mel22cDprWMLeYMvIvGHLvFWP90
+X-Proofpoint-Spam-Reason: safe
 
-It is defined in header to 0xFF, which only allows to set values for 8
-streams. In specification it is defined as bits from 0 to 29. In
-practice there is no HW with 29 streams, but as the only place where the
-value is used is chip initialization, it is best to make sure that all
-bits are reset properly.
+The ASoC CODEC driver masks the IRQs whilst entering and exiting
+system suspend to avoid issues where the IRQ handler can run but PM
+runtime is disabled. However, as the IRQs could also be used from
+other parts of the driver, it would be better to move this handling to
+the MFD level.
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Remove the handling from the ASoC driver and move it to the MFD
+driver. Whilst moving also ensure the IRQs are all masked at the device
+level before powering down the device, as per hardware recommendations.
+
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/hda_register.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mfd/cs42l43.c      | 62 +++++++++++++++++++++++++++++++++-----
+ sound/soc/codecs/cs42l43.c | 42 --------------------------
+ 2 files changed, 54 insertions(+), 50 deletions(-)
 
-diff --git a/include/sound/hda_register.h b/include/sound/hda_register.h
-index 5ff31e6d41c19..db1cc0b897fd3 100644
---- a/include/sound/hda_register.h
-+++ b/include/sound/hda_register.h
-@@ -180,7 +180,7 @@ enum { SDI0, SDI1, SDI2, SDI3, SDO0, SDO1, SDO2, SDO3 };
- #define SD_STS_FIFO_READY	0x20	/* FIFO ready */
+diff --git a/drivers/mfd/cs42l43.c b/drivers/mfd/cs42l43.c
+index 3b4efb294471..e5f17fc430e4 100644
+--- a/drivers/mfd/cs42l43.c
++++ b/drivers/mfd/cs42l43.c
+@@ -1109,16 +1109,39 @@ EXPORT_SYMBOL_NS_GPL(cs42l43_dev_remove, MFD_CS42L43);
+ static int cs42l43_suspend(struct device *dev)
+ {
+ 	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++	static const struct reg_sequence mask_all[] = {
++		{ CS42L43_DECIM_MASK,			0xFFFFFFFF, },
++		{ CS42L43_EQ_MIX_MASK,			0xFFFFFFFF, },
++		{ CS42L43_ASP_MASK,			0xFFFFFFFF, },
++		{ CS42L43_PLL_MASK,			0xFFFFFFFF, },
++		{ CS42L43_SOFT_MASK,			0xFFFFFFFF, },
++		{ CS42L43_SWIRE_MASK,			0xFFFFFFFF, },
++		{ CS42L43_MSM_MASK,			0xFFFFFFFF, },
++		{ CS42L43_ACC_DET_MASK,			0xFFFFFFFF, },
++		{ CS42L43_I2C_TGT_MASK,			0xFFFFFFFF, },
++		{ CS42L43_SPI_MSTR_MASK,		0xFFFFFFFF, },
++		{ CS42L43_SW_TO_SPI_BRIDGE_MASK,	0xFFFFFFFF, },
++		{ CS42L43_OTP_MASK,			0xFFFFFFFF, },
++		{ CS42L43_CLASS_D_AMP_MASK,		0xFFFFFFFF, },
++		{ CS42L43_GPIO_INT_MASK,		0xFFFFFFFF, },
++		{ CS42L43_ASRC_MASK,			0xFFFFFFFF, },
++		{ CS42L43_HPOUT_MASK,			0xFFFFFFFF, },
++	};
+ 	int ret;
  
- /* INTCTL and INTSTS */
--#define AZX_INT_ALL_STREAM	0xff	   /* all stream interrupts */
-+#define AZX_INT_ALL_STREAM	0x3fffffff	   /* all stream interrupts */
- #define AZX_INT_CTRL_EN	0x40000000 /* controller interrupt enable bit */
- #define AZX_INT_GLOBAL_EN	0x80000000 /* global interrupt enable bit */
+-	/*
+-	 * Don't care about being resumed here, but the driver does want
+-	 * force_resume to always trigger an actual resume, so that register
+-	 * state for the MCU/GPIOs is returned as soon as possible after system
+-	 * resume. force_resume will resume if the reference count is resumed on
+-	 * suspend hence the get_noresume.
+-	 */
+-	pm_runtime_get_noresume(dev);
++	ret = pm_runtime_resume_and_get(dev);
++	if (ret) {
++		dev_err(cs42l43->dev, "Failed to resume for suspend: %d\n", ret);
++		return ret;
++	}
++
++	/* The IRQs will be re-enabled on resume by the cache sync */
++	ret = regmap_multi_reg_write_bypassed(cs42l43->regmap,
++					      mask_all, ARRAY_SIZE(mask_all));
++	if (ret) {
++		dev_err(cs42l43->dev, "Failed to mask IRQs: %d\n", ret);
++		return ret;
++	}
+ 
+ 	ret = pm_runtime_force_suspend(dev);
+ 	if (ret) {
+@@ -1133,6 +1156,26 @@ static int cs42l43_suspend(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	disable_irq(cs42l43->irq);
++
++	return 0;
++}
++
++static int cs42l43_suspend_noirq(struct device *dev)
++{
++	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++
++	enable_irq(cs42l43->irq);
++
++	return 0;
++}
++
++static int cs42l43_resume_noirq(struct device *dev)
++{
++	struct cs42l43 *cs42l43 = dev_get_drvdata(dev);
++
++	disable_irq(cs42l43->irq);
++
+ 	return 0;
+ }
+ 
+@@ -1145,6 +1188,8 @@ static int cs42l43_resume(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	enable_irq(cs42l43->irq);
++
+ 	ret = pm_runtime_force_resume(dev);
+ 	if (ret) {
+ 		dev_err(cs42l43->dev, "Failed to force resume: %d\n", ret);
+@@ -1212,6 +1257,7 @@ static int cs42l43_runtime_resume(struct device *dev)
+ 
+ EXPORT_NS_GPL_DEV_PM_OPS(cs42l43_pm_ops, MFD_CS42L43) = {
+ 	SYSTEM_SLEEP_PM_OPS(cs42l43_suspend, cs42l43_resume)
++	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs42l43_suspend_noirq, cs42l43_resume_noirq)
+ 	RUNTIME_PM_OPS(cs42l43_runtime_suspend, cs42l43_runtime_resume, NULL)
+ };
+ 
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index d0098b4558b5..3ede0e3110f3 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -2402,49 +2402,7 @@ static int cs42l43_codec_runtime_resume(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int cs42l43_codec_suspend(struct device *dev)
+-{
+-	struct cs42l43_codec *priv = dev_get_drvdata(dev);
+-	struct cs42l43 *cs42l43 = priv->core;
+-
+-	disable_irq(cs42l43->irq);
+-
+-	return 0;
+-}
+-
+-static int cs42l43_codec_suspend_noirq(struct device *dev)
+-{
+-	struct cs42l43_codec *priv = dev_get_drvdata(dev);
+-	struct cs42l43 *cs42l43 = priv->core;
+-
+-	enable_irq(cs42l43->irq);
+-
+-	return 0;
+-}
+-
+-static int cs42l43_codec_resume(struct device *dev)
+-{
+-	struct cs42l43_codec *priv = dev_get_drvdata(dev);
+-	struct cs42l43 *cs42l43 = priv->core;
+-
+-	enable_irq(cs42l43->irq);
+-
+-	return 0;
+-}
+-
+-static int cs42l43_codec_resume_noirq(struct device *dev)
+-{
+-	struct cs42l43_codec *priv = dev_get_drvdata(dev);
+-	struct cs42l43 *cs42l43 = priv->core;
+-
+-	disable_irq(cs42l43->irq);
+-
+-	return 0;
+-}
+-
+ static const struct dev_pm_ops cs42l43_codec_pm_ops = {
+-	SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend, cs42l43_codec_resume)
+-	NOIRQ_SYSTEM_SLEEP_PM_OPS(cs42l43_codec_suspend_noirq, cs42l43_codec_resume_noirq)
+ 	RUNTIME_PM_OPS(NULL, cs42l43_codec_runtime_resume, NULL)
+ };
  
 -- 
-2.34.1
+2.39.5
 
