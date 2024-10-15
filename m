@@ -1,200 +1,192 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33A61F80CB;
-	Tue, 15 Oct 2024 18:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816451B85DB
+	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 19:53:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729018515; cv=none; b=Sv/ezGFxt5o4Gmu5m8yqD0cmyA4jRXq8oGeoXiO3av2ZZvL9j9neMMG3egb/T+8h1v9MbK8Az7llTvK0heX/BgmTpv87tvUHBJTXTCPQ3lRt4rq4HD0okm2EmKBPh45tiK3AVpUKlNwn/5bvp/NMRhbwHySUMXO09A5eiU42sbE=
+	t=1729022025; cv=none; b=nrcI8fH4tePFOkbHqjUGlkKbpTENgYo0Slx/MVCOvUsGivTiVZEu7hANv/EsBImsS7KesJCh03dp4css4bDDoBuUW22ifaqf46z0Zvn01FHr/9iQXVbphT3pRGxSfw2mhi1XNotMegYPWxZF+Kt3J/aQmaupvhV37Y6OIceYOlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729018515; c=relaxed/simple;
-	bh=pc1Z8EfWvBxP85WS0wzh/1bQju0KE7F9jhLaLeVkEwQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=km6ixRjAVyb+4I7AZYnCF4nqI6dJx+mbNbwveZU9+ANJH5mMT4AQNdkSY7I4DgKIqi+SDW7W4KhGNAo1isVDn7Ow0FMYTT922FqQfBaugZn2Kt0pdiiIVLhmJNKrf/A60vDCB4f+GdEkJvwXn6A7ZgThnBFYwhp1oIrUoZ9O3SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=nGjlF9Cd; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1729022025; c=relaxed/simple;
+	bh=EyK44VVSzqK0VVd6JZRUhzDLFA8N/4UuvEHVd2mlOVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=coXbbyRn4uQ9wqMPLIINQs9TYgLhSxWKhrBQn5qkF2jlHHfTIhTksxI5tXn/sOZaQRGanrIAXFDvkj9xpW8Xt5OBe7BpXQ0uoMvfuF4tj/hjpUt/LvCYULAXNiH4npfBwqpMk6xJ2YtL5KP6e61atD22AhED95zdAmBVuJNA6K4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GW5kbgnr; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="nGjlF9Cd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1729018474; x=1729623274; i=deller@gmx.de;
-	bh=91lKyLXYNbffBLJOzGVYrJfP7I4FaiD9ad6tG5KIXl4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=nGjlF9CdtAG0c98YK/ciOgKpebINerQcE3LXXTTea8ZejCdSyl/1Bv4CvxYs+xPM
-	 cwaj0jR1/ci4SMrMa9d6lknUwm5FMmEg3K7MiDlRR2yTdZ9282mynazKMh598tviQ
-	 tj6pdL0SiFVFiaQ6nUTAcXfTwb+blIAxv7DY5EgzRPaFrFO3Wmb7OY+eI5xzXuUp3
-	 mGA8Jlr7QTBuDn8Cz7qE+F/dvCMIlBsJXF48Rccq26CB6Db+Bo5Vdyq+5hgzVB0sm
-	 C1O0cPfyELC0IdMiC/cc+4DKb/Ts6iGEvvVCbZGr2vA3tAMOvZgVWlVHaLNJ9crx/
-	 D3iPwIRAADAgXAkF2Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.55] ([109.250.63.79]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPog5-1tMYfZ2qN1-00I7Hx; Tue, 15
- Oct 2024 20:54:34 +0200
-Message-ID: <5225783c-dd8f-40fd-b2de-03950303cf69@gmx.de>
-Date: Tue, 15 Oct 2024 20:54:32 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GW5kbgnr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729022021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iDdlfoCJodlBAEHv18hly2baxUxV3CY1ROqq62ZwNfA=;
+	b=GW5kbgnroZdypZ0pri7f9IK/W/kIDeKtNVySbDcPp6EDis7zRB6U7TwcovpS1hjJHSBhx4
+	DrRJuB3jWOEnhigNPJMq+ISDVH/+4Ys/o3vwInG9p3jQQU0hoqvCQaGF4DfLZIqpUcJzsR
+	cNTygXR/ZlZ9LJOL56rpiwq9BEpuEqo=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-586-BjJ0B_z4Nf2MS1Pb0x93yw-1; Tue, 15 Oct 2024 15:53:40 -0400
+X-MC-Unique: BjJ0B_z4Nf2MS1Pb0x93yw-1
+Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-8354a67eb57so56549639f.2
+        for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 12:53:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729022020; x=1729626820;
+        h=content-transfer-encoding:mime-version:organization:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iDdlfoCJodlBAEHv18hly2baxUxV3CY1ROqq62ZwNfA=;
+        b=d2XoUE/YGczbT2UqztApeEySaRpBWV7IIpky8BaJyRPMV+16+b7NoWVwCBQjp15TxT
+         eV1nRylsho4fjcteAHTFp9c3nJsB2wwgnyXXhUj8pjvzdGZMIMY1XiBc9Z8p+GwkO8et
+         Xfsy/Mu0uQJ1ah/cp1o6xUhil8ViIimAO+mDPmzzLy4CPjTDgSGkfyADaL8U/WZzk/RX
+         G654OR5IOO49flsut1E4unTzT2RcMBH4uvdxUOjbgep1gopS0jbwVHkhVvOC22J/ieN7
+         COhSj0hVC7kIbGfM1E7AGosHKLS4MfbHE9u6PW2xCf29PFao1WihvbOGQTNXhoLlnKGK
+         5udg==
+X-Forwarded-Encrypted: i=1; AJvYcCWosl5iNNfmaCjfCVBxWGQ4H3qZt2Mc0m/Z/0X3UTb+nvDXRYpLoYnfObdy/5ZGae8R54L4zxbYKlNBIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyibk29dfVtZCzWz6dNKUEmm/lcr+2iCSVNJRi5laqA6MgtHK5D
+	ORhTJFAXhBDqELExcU/C2UcYAkVWcHQr4WOp5f21fPy4RxAJs0fWOPi8YTd6sDqYXOGMmCK/cXS
+	UpwI14ac/QbP/qjxYTi+iRMHV50krg2XeHeVAxkkrewF1czt55GYPfE3BiW1V
+X-Received: by 2002:a05:6e02:20e6:b0:3a2:57d2:3489 with SMTP id e9e14a558f8ab-3a3de12de3emr696135ab.3.1729022019789;
+        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESXVYWbDvg1wxgtSYFRG8WjdQ6j0NF7QGGfISEgWPkRfl6g2CRlLVPppWhf9Avs6HBI8mwDw==
+X-Received: by 2002:a05:6e02:20e6:b0:3a2:57d2:3489 with SMTP id e9e14a558f8ab-3a3de12de3emr696075ab.3.1729022019438;
+        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbec9b24b5sm462948173.59.2024.10.15.12.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
+Date: Tue, 15 Oct 2024 13:53:36 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
+ <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>, Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+ Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+ <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+ GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
+ Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+ Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
+ <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
+ =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
+ Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
+ <eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye
+ Bin <yebin10@huawei.com>, Marek =?UTF-8?B?TWFyY3p5a293c2tpLUfDs3JlY2tp?=
+ <marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
+ linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-input@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
+Message-ID: <20241015135336.0de9795e.alex.williamson@redhat.com>
+In-Reply-To: <20241015185124.64726-14-pstanner@redhat.com>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	<20241015185124.64726-14-pstanner@redhat.com>
+Organization: Red Hat
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/9] of: property: add
- of_graph_get_next_port/port_endpoint()
-To: Rob Herring <robh@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Mark Brown <broonie@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Michal Simek <michal.simek@amd.com>,
- Saravana Kannan <saravanak@google.com>, Takashi Iwai <tiwai@suse.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
- linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-sound@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
- <20241015154912.GA1152221-robh@kernel.org>
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-Autocrypt: addr=deller@gmx.de; keydata=
- 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
-In-Reply-To: <20241015154912.GA1152221-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GJiBUxtzYl2oqmHV1d9isoAr9PnsJlZ8OkBgA62GkofDv5+Ijl/
- xilD91oGq42yO3+wq5saZ8tKGwOdDI/qUjLyk4C7kreQ+AND1b82W8c7o6tp6AyeT0T6KW6
- nKJNfyrpFHZnAEepEaqXM5z88v7T+EtGBnHq7nVAR6o6q8unsPkLYsxBrL6pBNo0skxIt0P
- uZWGFU82Nu+R41bpoCcdg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:keeA0EklhAU=;h2mjlKCsFABIuU2aK1/aBwRZbxC
- IC28uf6WtuK7YC0U+ZszY34hB8rIT4BQAWq9wkS9KSnBf26hSyRFMtApi2BcSx6dAZe/FBKIN
- 2zjCBrMtetsVBhjpOMXtWvIbHAbMTNp1vJdheeTylcK4a2XphAqNJz6441x0Umxf31nWtwtu+
- 4zs8ckYo0h6GPnMi1h0fFjQgXgcxqrCPA+HpNJ/+Ir0OixR1WosWBDWV+mI0Fiw+CaIeFPqy8
- MJNQDdpaMx0oeGEmxmhvCKkiW77nK5u/q2trXFE/isjJ52iyi4QqudGKDUv3V9894BYoAoRHC
- K7iDQl9SLBfJeo97fm+uYxO9MxztGkpzupied7+QzS6TwdHdpWqTLnNIxz2iE/0hxu2T3UPOx
- F7I8qbq7jf6e3RnhzA8UXMjFRJB2nUawchKLM2DAoUapYZz+JLo40Eh/cVR0PKODKLZMOssfG
- jf/NzXXlv9BiLXE6k+FoTEQouWOqZ99KXW6saKhRFGQCwfItw8ev4uKzSdarEEEkhXuQYX6y4
- RMq0RmIOEgKxDfrowwL7eKUgP3rAUhyOYkuQjnqrCmw1ulXeXa9HmbqVQl5YpucYwEdcj9JHC
- fe9fCKdAL7sAtoNvNn4z3G4RWbUMxnTq+PdtDG2owMHgEUtsas5ljAj2cHw6GtJFryExs5JU8
- NDmDCkCL+LYiTGcevmpFHxH1a5MSNDb+gLqTMRzzY5UxPVuFbX2ShgcC7hl52QKtb3umaFNCD
- i458Qzp4dj/236ItE8T5kBKTRVtiSj5hL2kS7V9XeZo5iKwtGUi3nghyyozdOd6ZShSRkMQ+Q
- iM6mlWHl2NpA7GcgrdaQprdA==
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 10/15/24 17:49, Rob Herring wrote:
-> On Wed, Oct 09, 2024 at 01:44:30AM +0000, Kuninori Morimoto wrote:
->>
->> Hi Rob, Saravana, Tomi, Laurent, Sakari, Mark
->>
->> This is v7 patch-set
->>
->> Current Of-graph has "endpoint base" for loop, but doesn't have
->> "port base" loop. "endpoint base" loop only is not enough.
->> This patch-set add new "port base" for loop, and use it.
->>
->> v6 -> v7
->> 	- based on latest linus/master branch
->> 	- remove "ports" base functions
->> 	- use "port" base function on "endpoint" function ([3/9])
->> 	- tidyup [1/9] explanation
->>
->> v5 -> v6
->> 	- based on latest linus/master branch
->> 	- [9/9]: fixed compile warrning
->>
->> v4 -> v5
->> 	- tidyup comments
->> 	- [8/9]: parent NULL check was removed
->> 	- [9/9]: use for_each_of_graph_port()
->>
->> v3 -> v4
->> 	- new for_each loop includes __free()
->> 	 - comment indicates to use return_ptr() or no_free_ptr() if
->> 	   it need to continue to use node
->> 	 - each driver based on it
->> 	- care "prev" leak on of_graph_get_next_ports()
->> 	- of_graph_get_next_port_endpoint() indicates WARN() if port
->> 	  has non-endpoint node
->> 	- tidyup each git-log
->>
->> v2 -> v3
->> 	- return NULL if it it doesn't have ports / port
->> 	- add visible comment on of_graph_get_next_ports()
->>
->> v1 -> v2
->> 	- add each Reviewed-by / Acked-by
->> 	- tidyup/update Kernel Docs
->> 	- use prev as parameter
->> 	- update git-log explanation
->> 	- remove extra changes
->>
->> Kuninori Morimoto (9):
->>    of: property: add of_graph_get_next_port()
->>    of: property: add of_graph_get_next_port_endpoint()
->>    of: property: use new of_graph functions
->>    ASoC: test-component: use new of_graph functions
->>    ASoC: audio-graph-card: use new of_graph functions
->>    ASoC: audio-graph-card2: use new of_graph functions
->>    gpu: drm: omapdrm: use new of_graph functions
->>    fbdev: omapfb: use new of_graph functions
->>    media: xilinx-tpg: use new of_graph functions
->
-> The DT parts look fine to me now. I see Mark acked this so he's not
-> expecting to take it. I can take it,
+On Tue, 15 Oct 2024 20:51:23 +0200
+Philipp Stanner <pstanner@redhat.com> wrote:
 
-Speaking for fbdev, I'd be happy if you take them.
+> pci_intx() and its managed counterpart pcim_intx() only exist for older
+> drivers which have not been ported yet for various reasons. Future
+> drivers should preferably use pci_alloc_irq_vectors().
+> 
+> Mark pci_intx() and pcim_intx() as deprecated and encourage usage of
+> pci_alloc_irq_vectors() in its place.
 
-> but need acks on the fbdev and media patches.
+I don't really understand this.  As we've discussed previously
+pci_alloc_irq_vectors() is, unsurprisingly, for allocating PCI IRQ
+vectors while pci_intx() is for manipulating the INTx disable bit on
+PCI devices.  The latter is a generic mechanism for preventing PCI
+devices from generating INTx, regardless of whether there's a vector
+allocated for it.  How does the former replace the latter and why do we
+feel the need to deprecate the latter?
 
-I just sent Ack for fbdev/drm.
+It feels like this fits some narrow narrative and makes all users of
+these now deprecated functions second class citizens.  Why?  At it's
+root these are simply providing mask and set or mask and clear register
+bit operations.  Thanks,
 
-Helge
+Alex
+ 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> ---
+>  drivers/pci/devres.c | 5 ++++-
+>  drivers/pci/pci.c    | 5 ++++-
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
+> index 6f8f712fe34e..4c76fc063104 100644
+> --- a/drivers/pci/devres.c
+> +++ b/drivers/pci/devres.c
+> @@ -435,7 +435,7 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
+>  }
+>  
+>  /**
+> - * pcim_intx - managed pci_intx()
+> + * pcim_intx - managed pci_intx() (DEPRECATED)
+>   * @pdev: the PCI device to operate on
+>   * @enable: boolean: whether to enable or disable PCI INTx
+>   *
+> @@ -443,6 +443,9 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
+>   *
+>   * Enable/disable PCI INTx for device @pdev.
+>   * Restore the original state on driver detach.
+> + *
+> + * This function is DEPRECATED. Do not use it in new code.
+> + * Use pci_alloc_irq_vectors() instead (there is no managed version, currently).
+>   */
+>  int pcim_intx(struct pci_dev *pdev, int enable)
+>  {
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 7ce1d0e3a1d5..dc69e23b8982 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4477,11 +4477,14 @@ void pci_disable_parity(struct pci_dev *dev)
+>  }
+>  
+>  /**
+> - * pci_intx - enables/disables PCI INTx for device dev
+> + * pci_intx - enables/disables PCI INTx for device dev (DEPRECATED)
+>   * @pdev: the PCI device to operate on
+>   * @enable: boolean: whether to enable or disable PCI INTx
+>   *
+>   * Enables/disables PCI INTx for device @pdev
+> + *
+> + * This function is DEPRECATED. Do not use it in new code.
+> + * Use pci_alloc_irq_vectors() instead.
+>   */
+>  void pci_intx(struct pci_dev *pdev, int enable)
+>  {
+
