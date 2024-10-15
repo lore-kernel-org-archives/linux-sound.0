@@ -1,39 +1,43 @@
 Received: from cmccmta3.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 609A118A6C8;
-	Tue, 15 Oct 2024 07:08:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF998189BBF;
+	Tue, 15 Oct 2024 07:49:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728976115; cv=none; b=CMlSnwI/zJPFxtBKdvLRDZkOBlR/2XmkeoLjKCyfA77q6qCaUJILmQoqczTQ1A9RwN3eM7wjXahEXzWAVef+tsAl8BdGIjvntE4xhEzUOvcgWsSqfFZahlytjZdb5/d4a88y8YceDCUVYaKHoo4t21CDGheR53+JTusi9mahfOc=
+	t=1728978586; cv=none; b=kw/Ssgy71zbxIDZ6CZxQAJ0Vc2v2x6ckMBaelzbrvaf3M5Z/yT80moXp3XgbVDtSDTs7++W0CfxPoJvPFk3XKzrYbL1/k3HpmEVv3nzbcwuPqOfFebaQVfGWSLsqo3e65sqNCzBYzPlC/jhXM+aavKfuqCIo31/++0wXNr8G6fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728976115; c=relaxed/simple;
-	bh=CIfFpWyaRMnTNin1IxZCFP/Rnjczo5uyw5p2dmpViik=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SEbhZ2i+eQJcMkdHkuta9SLy8C48HpmLZeuYfseRzZW6mq4WAN+gYx9YWDR86Mfccwcc3UdlLXxp5PBjXkoJ70xzMSxtVY0b2YEShf9xhjpiW/sOQYr53IVJqnM9O7CfScYACtDQjGAE/uVXiyMujAVt2GmwkFew0TPAvf+Um8I=
+	s=arc-20240116; t=1728978586; c=relaxed/simple;
+	bh=ERi7IPOprRx59JXhjMC3xTcDaqfRPPR8xmHcnPlE138=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mlu9XtP4Ud2oY0YS7eE5TCY9lNzNhPy9bcn9pFPFr6bGrXuDjF/e5cYW6Z3DKCxMwO5n+xJF6KXmBDH9jJPP5Iij1BzU1cn52i3pXaGPVyC2I0E5cSingEBXZnT1c5OdMyj/IqnYx4pDOj3qgHdolkKDGIhM5A0r5ehFpoL0VXA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee9670e14eced5-26ee2;
-	Tue, 15 Oct 2024 15:08:28 +0800 (CST)
-X-RM-TRANSID:2ee9670e14eced5-26ee2
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee9670e1e9281e-2782b;
+	Tue, 15 Oct 2024 15:49:40 +0800 (CST)
+X-RM-TRANSID:2ee9670e1e9281e-2782b
 X-RM-TagInfo: emlType=0                                       
 X-RM-SPAM-FLAG:00000000
 Received:from localhost.localdomain (unknown[223.108.79.103])
-	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee6670e14ebe25-f9f0c;
-	Tue, 15 Oct 2024 15:08:28 +0800 (CST)
-X-RM-TRANSID:2ee6670e14ebe25-f9f0c
+	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee7670e1e93b5a-f518e;
+	Tue, 15 Oct 2024 15:49:40 +0800 (CST)
+X-RM-TRANSID:2ee7670e1e93b5a-f518e
 From: Liu Jing <liujing@cmss.chinamobile.com>
-To: lgirdwood@gmail.com
-Cc: broonie@kernel.org,
+To: peter.ujfalusi@gmail.com
+Cc: jarkko.nikula@bitmer.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
 	perex@perex.cz,
 	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-omap@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Liu Jing <liujing@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: fix code redundancy in sound/soc/soc-dapm.c
-Date: Tue, 15 Oct 2024 15:08:26 +0800
-Message-Id: <20241015070826.5933-1-liujing@cmss.chinamobile.com>
+Subject: [PATCH] Use card->dev in replace of the &pdev->dev argument in the dev_err function
+Date: Tue, 15 Oct 2024 15:49:38 +0800
+Message-Id: <20241015074938.6247-1-liujing@cmss.chinamobile.com>
 X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -43,31 +47,72 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the dapm_widget_power_check function, the logic for assigning the value of w->new_power can be simplified
-using the conditional operator
+Because card->dev = &pdev->dev is already defined in the rx51_soc_probe function,
+and then &pdev->dev is still used.
 
 Signed-off-by: Liu Jing <liujing@cmss.chinamobile.com>
 ---
- sound/soc/soc-dapm.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ sound/soc/ti/rx51.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 9330f1a3f758..865940de32c5 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -1428,11 +1428,7 @@ static int dapm_widget_power_check(struct snd_soc_dapm_widget *w)
- 	if (w->power_checked)
- 		return w->new_power;
+diff --git a/sound/soc/ti/rx51.c b/sound/soc/ti/rx51.c
+index 77296237575a..d9900c69e536 100644
+--- a/sound/soc/ti/rx51.c
++++ b/sound/soc/ti/rx51.c
+@@ -371,7 +371,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
  
--	if (w->force)
--		w->new_power = 1;
--	else
--		w->new_power = w->power_check(w);
--
-+	w->new_power = w->force ? 1 : w->power_check(w);
- 	w->power_checked = true;
+ 		dai_node = of_parse_phandle(np, "nokia,cpu-dai", 0);
+ 		if (!dai_node) {
+-			dev_err(&pdev->dev, "McBSP node is not provided\n");
++			dev_err(card->dev, "McBSP node is not provided\n");
+ 			return -EINVAL;
+ 		}
+ 		rx51_dai[0].cpus->dai_name = NULL;
+@@ -381,7 +381,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
  
- 	return w->new_power;
+ 		dai_node = of_parse_phandle(np, "nokia,audio-codec", 0);
+ 		if (!dai_node) {
+-			dev_err(&pdev->dev, "Codec node is not provided\n");
++			dev_err(card->dev, "Codec node is not provided\n");
+ 			return -EINVAL;
+ 		}
+ 		rx51_dai[0].codecs->name = NULL;
+@@ -389,7 +389,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
+ 
+ 		dai_node = of_parse_phandle(np, "nokia,audio-codec", 1);
+ 		if (!dai_node) {
+-			dev_err(&pdev->dev, "Auxiliary Codec node is not provided\n");
++			dev_err(card->dev, "Auxiliary Codec node is not provided\n");
+ 			return -EINVAL;
+ 		}
+ 		rx51_aux_dev[0].dlc.name = NULL;
+@@ -399,7 +399,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
+ 
+ 		dai_node = of_parse_phandle(np, "nokia,headphone-amplifier", 0);
+ 		if (!dai_node) {
+-			dev_err(&pdev->dev, "Headphone amplifier node is not provided\n");
++			dev_err(card->dev, "Headphone amplifier node is not provided\n");
+ 			return -EINVAL;
+ 		}
+ 		rx51_aux_dev[1].dlc.name = NULL;
+@@ -408,7 +408,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
+ 		rx51_codec_conf[1].dlc.of_node = dai_node;
+ 	}
+ 
+-	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
++	pdata = devm_kzalloc(card->dev, sizeof(*pdata), GFP_KERNEL);
+ 	if (pdata == NULL)
+ 		return -ENOMEM;
+ 
+@@ -439,7 +439,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
+ 
+ 	err = devm_snd_soc_register_card(card->dev, card);
+ 	if (err) {
+-		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n", err);
++		dev_err(card->dev, "snd_soc_register_card failed (%d)\n", err);
+ 		return err;
+ 	}
+ 
 -- 
 2.27.0
 
