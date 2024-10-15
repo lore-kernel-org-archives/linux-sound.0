@@ -1,63 +1,63 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1CF1B6D1F
-	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 18:52:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA1320101B
+	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 18:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729018329; cv=none; b=iFSTnEx3w2k3W9g0EAEwQs8d554Ri5hD5nHNpBGtaOTb26kKr6ptBU/IVgv1iumaLxgcYir9eoB/954bTQJ+5o1DwHyC/ZfO1o+9mMMDvfB+2u7Gu5TQ2JWg1dWuLguSqV7F2+hSW/NQ1zsuiFyKZDe+NCFaK7j9ug2ZYVyqHsI=
+	t=1729018332; cv=none; b=IdTO1160zExoDmaA0VxQ5z3+FZWtvmdwcgBVB5YjK6XfkYtOjtTDkpz3lf9C42ZQ4P/HAhnDDS5xGU9BjwZPxaHyMOfmM/d7b6lGxWNqYmTRx++A/6LgSED+K34FKZdohXqAd11APL8O1WpzF0LDAMmPfFD2d9ZzeyPYrgZg8Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729018329; c=relaxed/simple;
-	bh=aRW1yWnGapeZAVe/15kwhBfTtKfyb2GHv/JRGJfOWSg=;
+	s=arc-20240116; t=1729018332; c=relaxed/simple;
+	bh=x/7QFhAzHkLj8+w14TM+V3xJvs5L48Anth4HQxPkvDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R0gjOyqoZxke6izAH/jSjqmkVCFOJUvKj+ro9V6PaV/YOpV4Dx1DpuFUtVevIi9edWxPON4TF0UmakhXne5vhG+iHvBK9rHBnNiVfht4dMDVsAfjUxJ4xdPLT8I0Spb78BesV9Xw/6AKe0JeUtjCY6yvWEl2kSRfAKXKNW0JL3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ddpmrUXj; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=ZrgYTf1w+6HkEY6mc4LOvWiaKFjRpSDvERW8P3SXAJcDZ9dP3dyMMdceDdLaUwL18l9Gm6vvZPcL2SxGCfWoRyPCSwInib04/22hXuml1XX//r/uYLn0b05n0POhlXOI//WpfpFHP5UwkP2vTEYz4AAs82+JnX4JkmxkzShQ7xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O4EfT2H9; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ddpmrUXj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O4EfT2H9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729018326;
+	s=mimecast20190719; t=1729018330;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=op+AvZ1YCKZsOQFtb06qEXzMr+HQn8e2wB0EdtWp+RY=;
-	b=ddpmrUXjdjLqmJe7js0QjV1g/HoJbIEbr+X8oYEuAhiBMOF9rUMdp4/Z8976ihE8aEEfpu
-	iIh+EoFPsrDWPlC0kRU/VwbQsQ6KEa0dtpHkHHK3e9gRXWRWyjGuP8Nu/lYu7cf+gZ/0P5
-	qsnKf2E2uqY9cGwx7+Dc9HTRxz5xmfE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=NsJKOkpA+QoYlzqeYDbY0Dl9xjdlxWNvzFNzd4dMwhk=;
+	b=O4EfT2H9WnO5VeuryMyn25009v9RhI/mEJxxnL8tvrr5dW4ZzWnD2nBRXx137ssvOx4kpu
+	EIbLSqOC68S5cEbTR2q+/Tq+WigVIrkV8Dv4GltWq0TZP7Ai+hE7+tzsefg5WKiIfUzhNI
+	s8sBZY0AbQ6K/DAlKUfZze+HMagsF58=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-WZ2GVXDfMQqW9C1TG_fSRg-1; Tue, 15 Oct 2024 14:52:05 -0400
-X-MC-Unique: WZ2GVXDfMQqW9C1TG_fSRg-1
-Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5c934ceea1fso4548169a12.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 11:52:05 -0700 (PDT)
+ us-mta-682-jdCr90emOmKalOE34BIz9w-1; Tue, 15 Oct 2024 14:52:09 -0400
+X-MC-Unique: jdCr90emOmKalOE34BIz9w-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2fb4c08c02cso12013441fa.1
+        for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 11:52:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729018324; x=1729623124;
+        d=1e100.net; s=20230601; t=1729018327; x=1729623127;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=op+AvZ1YCKZsOQFtb06qEXzMr+HQn8e2wB0EdtWp+RY=;
-        b=eu9yx7zVH0ubh+jQ88Gw+NjwAJ5dRcNXWqnPUJorU9nPWaRD8/GujgudiWb9GUg6zX
-         s/nTuCq23p9ZpkfAqTnaqGHrBXZSiUOHSon+Zr7naZWslGh7Mp9zuysllBT/Ut2oNSjq
-         yrIuDGj3cCMYfcp+VRwZeeNJoSbrIMWUna+Yj7qYdtbpW958eVE0LOWwnp7ePmwPqR4T
-         AaubzS3XHjEs7M16IXKk5FtG15R75Qa4yFAXu4dbLmxDsm84bJlzJnYFBkLwpdLByUX9
-         djrOqOt6+sa2cFvQFrraSxwl41Av3g6cW1qre+BC7iq8K38i+LzDNysI0WKsHBnDnYGq
-         llXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWxgx7Fxe1sdPkwEACjeCXLqcgBQm9tQnhJ42bH3hKFOJNri6h3qRiyG6A03iNgqSXsmmjWBFK8HllnPg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM0HyiG3NrYvJyU+LCKeg2pG2OWqpdhgE2sE3CEpBEI58ex6OL
-	oSw7Hi5EyxEBg6EUmABxwgm33jkj++Gtq02tt37Z5ROmiTIJEaIp+rJ/2magf/i0t6qrwc4ZKYJ
-	ibhUDyX+yihCcHz5wGivruDNhK7S2+fRaSJSiXuWjF+2IzZyQgUdb7vh31hUC
-X-Received: by 2002:a05:6402:548c:b0:5c9:3ff:2734 with SMTP id 4fb4d7f45d1cf-5c948cb2e85mr11413475a12.12.1729018324148;
-        Tue, 15 Oct 2024 11:52:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH9Mt+tYXeO52xhZKwKuRloVsALYEKQc2I21vAq135PHqTEanBCUagfu1NmMBeK/O6BxAgzuw==
-X-Received: by 2002:a05:6402:548c:b0:5c9:3ff:2734 with SMTP id 4fb4d7f45d1cf-5c948cb2e85mr11413425a12.12.1729018323667;
-        Tue, 15 Oct 2024 11:52:03 -0700 (PDT)
+        bh=NsJKOkpA+QoYlzqeYDbY0Dl9xjdlxWNvzFNzd4dMwhk=;
+        b=N6fvqb1tUUKARaJc/OA12fkXBR9Re+1c+ciZsDzHlzSq7bBaSu3+3FmqxNXEghQqQV
+         dZLMasp45SIaQJZo9LRG9+othFznjyFs10K1+5j0q09Fuc/FE/MNGILE3hrGW8I/t8Fi
+         CL5mJkNzMQAWKVP+lTC58xVzzr7HCybrfgoDlNewvZD7JMW0rSmcjXe+dAXQUgJNkIo+
+         v2+6mrjuTrZ2wPD2zUIfoufFJA5KqBQFk8D/xcZpgkacCgxv5IM/5o3FnvUicCEgYTqu
+         2JJaY3WyDPZiHJtC1o8VOwzA9/3m9TpDRkUeKtegNyEALsq/UIYE0ba1+gm6JG43IAVq
+         J/OA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEvDMwvGyoFr6TzDuKfD1p9JZd6CEeiFIYCtgji9HUniUUrBeGKnU4vLf15yU7tNBRr5YPbuzQbgf7wA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyuv3JvERVw2mIWtuc1LwxzwiTrVunnyqjIgabSayMzleNp2XH/
+	nCz2SKVe+6hvrhNAGqRZ3NqNwfK40OR1LY7aPcY9egIHk4ZtDdqaPp+zu0d/yoyz2MLHkgqYZ7m
+	fzm/lOeDkU4DjMYvHDLBJNvFeQjNwbVcfbWlzowMnBjmGXWSXI0KABMzJv/DK
+X-Received: by 2002:a2e:bc24:0:b0:2fb:51e0:951 with SMTP id 38308e7fff4ca-2fb51e00cd9mr38862481fa.7.1729018327275;
+        Tue, 15 Oct 2024 11:52:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVZ1XHHUqIGJ2m/RKPcgltoOTO0Mu8nn9SAFlZXigaFQMqbloSJIQ5jr77XkDUgFazWOLC0g==
+X-Received: by 2002:a2e:bc24:0:b0:2fb:51e0:951 with SMTP id 38308e7fff4ca-2fb51e00cd9mr38861861fa.7.1729018326657;
+        Tue, 15 Oct 2024 11:52:06 -0700 (PDT)
 Received: from eisenberg.fritz.box (200116b82d5d5a0006e2615320d1d4db.dip.versatel-1u1.de. [2001:16b8:2d5d:5a00:6e2:6153:20d1:d4db])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d39a9a2sm974438a12.0.2024.10.15.11.52.00
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c98d39a9a2sm974438a12.0.2024.10.15.11.52.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:52:03 -0700 (PDT)
+        Tue, 15 Oct 2024 11:52:06 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Damien Le Moal <dlemoal@kernel.org>,
 	Niklas Cassel <cassel@kernel.org>,
@@ -125,9 +125,9 @@ Cc: linux-ide@vger.kernel.org,
 	kvm@vger.kernel.org,
 	xen-devel@lists.xenproject.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 07/13] vfio/pci: Use never-managed version of pci_intx()
-Date: Tue, 15 Oct 2024 20:51:17 +0200
-Message-ID: <20241015185124.64726-8-pstanner@redhat.com>
+Subject: [PATCH 08/13] PCI: MSI: Use never-managed version of pci_intx()
+Date: Tue, 15 Oct 2024 20:51:18 +0200
+Message-ID: <20241015185124.64726-9-pstanner@redhat.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241015185124.64726-1-pstanner@redhat.com>
 References: <20241015185124.64726-1-pstanner@redhat.com>
@@ -146,79 +146,48 @@ pci_intx() is a hybrid function which can sometimes be managed through
 devres. To remove this hybrid nature from pci_intx(), it is necessary to
 port users to either an always-managed or a never-managed version.
 
-vfio enables its PCI-Device with pci_enable_device(). Thus, it
-needs the never-managed version.
+MSI sets up its own separate devres callback implicitly in
+pcim_setup_msi_release(). This callback ultimately uses pci_intx(),
+which is problematic since the callback of course runs on driver-detach.
 
-Replace pci_intx() with pci_intx_unmanaged().
+That problem has last been described here:
+https://lore.kernel.org/all/ee44ea7ac760e73edad3f20b30b4d2fff66c1a85.camel@redhat.com/
+
+Replace the call to pci_intx() with one to the never-managed version
+pci_intx_unmanaged().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 ---
- drivers/vfio/pci/vfio_pci_core.c  |  2 +-
- drivers/vfio/pci/vfio_pci_intrs.c | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/pci/msi/api.c | 2 +-
+ drivers/pci/msi/msi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 1ab58da9f38a..90240c8d51aa 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -498,7 +498,7 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
- 		if (vfio_pci_nointx(pdev)) {
- 			pci_info(pdev, "Masking broken INTx support\n");
- 			vdev->nointx = true;
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		} else
- 			vdev->pci_2_3 = pci_intx_mask_supported(pdev);
+diff --git a/drivers/pci/msi/api.c b/drivers/pci/msi/api.c
+index b956ce591f96..c95e2e7dc9ab 100644
+--- a/drivers/pci/msi/api.c
++++ b/drivers/pci/msi/api.c
+@@ -289,7 +289,7 @@ int pci_alloc_irq_vectors_affinity(struct pci_dev *dev, unsigned int min_vecs,
+ 			 */
+ 			if (affd)
+ 				irq_create_affinity_masks(1, affd);
+-			pci_intx(dev, 1);
++			pci_intx_unmanaged(dev, 1);
+ 			return 1;
+ 		}
  	}
-diff --git a/drivers/vfio/pci/vfio_pci_intrs.c b/drivers/vfio/pci/vfio_pci_intrs.c
-index 8382c5834335..40abb0b937a2 100644
---- a/drivers/vfio/pci/vfio_pci_intrs.c
-+++ b/drivers/vfio/pci/vfio_pci_intrs.c
-@@ -118,7 +118,7 @@ static bool __vfio_pci_intx_mask(struct vfio_pci_core_device *vdev)
- 	 */
- 	if (unlikely(!is_intx(vdev))) {
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		goto out_unlock;
- 	}
- 
-@@ -132,7 +132,7 @@ static bool __vfio_pci_intx_mask(struct vfio_pci_core_device *vdev)
- 		 * mask, not just when something is pending.
- 		 */
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 0);
-+			pci_intx_unmanaged(pdev, 0);
- 		else
- 			disable_irq_nosync(pdev->irq);
- 
-@@ -178,7 +178,7 @@ static int vfio_pci_intx_unmask_handler(void *opaque, void *data)
- 	 */
- 	if (unlikely(!is_intx(vdev))) {
- 		if (vdev->pci_2_3)
--			pci_intx(pdev, 1);
-+			pci_intx_unmanaged(pdev, 1);
- 		goto out_unlock;
- 	}
- 
-@@ -296,7 +296,7 @@ static int vfio_intx_enable(struct vfio_pci_core_device *vdev,
- 	 */
- 	ctx->masked = vdev->virq_disabled;
- 	if (vdev->pci_2_3) {
--		pci_intx(pdev, !ctx->masked);
-+		pci_intx_unmanaged(pdev, !ctx->masked);
- 		irqflags = IRQF_SHARED;
- 	} else {
- 		irqflags = ctx->masked ? IRQF_NO_AUTOEN : 0;
-@@ -569,7 +569,7 @@ static void vfio_msi_disable(struct vfio_pci_core_device *vdev, bool msix)
- 	 * via their shutdown paths.  Restore for NoINTx devices.
- 	 */
- 	if (vdev->nointx)
--		pci_intx(pdev, 0);
-+		pci_intx_unmanaged(pdev, 0);
- 
- 	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+diff --git a/drivers/pci/msi/msi.c b/drivers/pci/msi/msi.c
+index 3a45879d85db..53f13b09db50 100644
+--- a/drivers/pci/msi/msi.c
++++ b/drivers/pci/msi/msi.c
+@@ -268,7 +268,7 @@ EXPORT_SYMBOL_GPL(pci_write_msi_msg);
+ static void pci_intx_for_msi(struct pci_dev *dev, int enable)
+ {
+ 	if (!(dev->dev_flags & PCI_DEV_FLAGS_MSI_INTX_DISABLE_BUG))
+-		pci_intx(dev, enable);
++		pci_intx_unmanaged(dev, enable);
  }
+ 
+ static void pci_msi_set_enable(struct pci_dev *dev, int enable)
 -- 
 2.47.0
 
