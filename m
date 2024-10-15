@@ -1,155 +1,143 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3504170828
-	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 03:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461D9173357
+	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 05:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728964684; cv=none; b=LLchK3Zxt+25ZGR4gHJjjRqGqEaoxWJvu3dKT3DPU32WqnWzVEv9HR3lqFY3bmhDnKaDqfX9tEQ6tj/olCtzBGU/V3jz45nAj0yYHI1aTBScZjJJLDZEIXBzWx/9/JIaYGbuOLCGEIMno13TlBDKwmbRKtP5RFNhS10e3EhYRiQ=
+	t=1728971641; cv=none; b=Jiq0Zmabz6StMaVQb5UcnGWww3LHUtHTosmGqNeeuUEn/cp5sIDh6mr8KNUFzHVTcZUcKOM11T6tdvChnK7UKDEL8zp6NJjdue9S9fKyQNd3qakYkeGe6aR5B4IIg50V4geQe8Gnh4M8QMt25eRxc+HX8UXU2TBoiv1CdHke+sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728964684; c=relaxed/simple;
-	bh=N40ZSNWwPk28dZ+LQrxhSO5jACT0zCPufmoUUaRuVJw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DyfxHjw5UJMaL21TCSukxjtkWfmBdrGCJFSCkqw7TnNbAFA4MHB9WpI8wWMMNfzIGc1wZB2DfIRO3sCX04nyuB6dd/9llem6OnyPifm/oU5opVETjxJl5PdmiInNE5EX6kCk+G/TRaL98UYu3AZK4i088lY/agUQbkXh07C6Pg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R4HznoaE; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1728971641; c=relaxed/simple;
+	bh=WlYwPz7MSs+ePIVcNMtm97GmxDe5ARpPUMI1kJcJVLk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Rq2rO0/9nNOPK6FjD41oBe/3bVbmoiOB/9QZQ4f2/0GCrTOHpGMuy3gQyJj5cMp35tMPrDmJk+TKsrnQdIocZ1UHmnkKyz7wlL4RLu6qEGLY1ZYehv3SGVjA68JnG1fN1/Zu7CcquBUxCpJuprs2OvPIRDW+AA3MFtDD2y3OwiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iCKs3PD4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AqkEq6pW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iCKs3PD4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=AqkEq6pW; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R4HznoaE"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c93e9e701fso32387a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 14 Oct 2024 20:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1728964681; x=1729569481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p9QWKZtDdFz4L73hcRjBFd+xD0iZq8pzY5qOSjjFSZc=;
-        b=R4HznoaEDlNPDF6EM7qoHkybgoUZcuH9su7oJQBvY0oqXKrBxJHr/8cCndMM+uLrAh
-         8ersWRigFXsZ0/Vi4gpvK9eUrKIDCcNarKZxA/VDQTGxgmh3r3csUFuUJ+LCGKzaGLe4
-         8YxjzI7xba9K+TWqNpvkbitMVq6FkGOcX7tihNMsqd0T3zRlOkQbXZReDgAp6kxMoQvQ
-         Vj6zA22p/6fymGOR8wINgR9vShNrGpjf9SJCLr8cdyol5/cKtgWWb8L5Pa1/UXG/lrRg
-         CZdFbEAh6mmGOg209D8Sab4Ol2RJqj4CeeKZSr9z4x6MT6K9fsxIOTA2vLQpDrukssE+
-         AF2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728964681; x=1729569481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p9QWKZtDdFz4L73hcRjBFd+xD0iZq8pzY5qOSjjFSZc=;
-        b=Z5RuRsx6dwUtsIfIRnrBWakRcc9s7+zR8OBKmiQdQ0B+slX+RwOBy1uh0GDL7j3O3F
-         fwboEqwstlBbDmLF84ykYbigL3tOurrBphyrpayqKCHXn290cZ0um4WrjsuS1sTgc+Ul
-         A479Vchrtnzs8vpjR0PAiaNVUIVDw4EdJMla6HJpwLdj8sd7cBU2MJzfJPVSVzejDtFl
-         L9KTOZxttzjvMncaXBdaafupIWuqJ8TQGNqM2aOf57NTPFcFU9j9t3Vu2x6mW/U8t7wy
-         nDpYcNt9v6eZB6miJmDVqsYAYHPvuUmcEIEGPpSuqC2Tl0Xb+qKo4f9qZdRCU2YYz+If
-         6G0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUKTbJK4idM0ARqmogntb7M2ZqI3E8TDPJiEVEY/kK/zpY6Xxm18VFsm4mA6OAgolZMtkTYy6oVF0k86Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyghvH2kfnKd/QB9Hc0BU0jKznTrJGQmpyCoB+gTmCwFLn6Fz0R
-	mglYU4x2gYDC1uDj2SrDRpzFkFLvmjNbXbgWKl5fON9yPLE01ZaAI66m8ByKU7Wfnf4A31gVe9l
-	tUHGwopxuWLASvYRkDIR8pFsnqqs/oEXbxYIe
-X-Google-Smtp-Source: AGHT+IE/Mbk48UdN6n+R06D0061d9x0T4HYynAxMG9ehl5kqxUTk/rg+uyWs8G1J3z3EpkLDqsneJzTbxqupOe4TGro=
-X-Received: by 2002:a05:6402:26c1:b0:5c2:5641:af79 with SMTP id
- 4fb4d7f45d1cf-5c95b0bd39amr641707a12.0.1728964680865; Mon, 14 Oct 2024
- 20:58:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iCKs3PD4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AqkEq6pW";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iCKs3PD4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AqkEq6pW"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 167E51FB5C;
+	Tue, 15 Oct 2024 05:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728971637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVila3wJee4DpLQbrWKLPku/A/F2jjyF9VPaUOFbJAc=;
+	b=iCKs3PD4ICz8hHV400G6QCR07bULrfGjm3hX+Mm24BQc6AdPMdL3nWmgCZNes0XSyfSqHw
+	RJLraA8753XbICNdGgvw7dLuLvhP5BuUm6tbfIn/Tdd7cp4wqMLHq52QzMLD/vrzHoCLea
+	bML4kkN41E8qTkv2kYuDm7vjFpuj7cM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728971637;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVila3wJee4DpLQbrWKLPku/A/F2jjyF9VPaUOFbJAc=;
+	b=AqkEq6pWTl4J+OMB+pLbZ79Ccr1/hTyXUl+QKkG9LXnaD6voCB7wzjvF/mVpehSi+hRuTc
+	44x7VC7oBnBFnqBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iCKs3PD4;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AqkEq6pW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1728971637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVila3wJee4DpLQbrWKLPku/A/F2jjyF9VPaUOFbJAc=;
+	b=iCKs3PD4ICz8hHV400G6QCR07bULrfGjm3hX+Mm24BQc6AdPMdL3nWmgCZNes0XSyfSqHw
+	RJLraA8753XbICNdGgvw7dLuLvhP5BuUm6tbfIn/Tdd7cp4wqMLHq52QzMLD/vrzHoCLea
+	bML4kkN41E8qTkv2kYuDm7vjFpuj7cM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1728971637;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WVila3wJee4DpLQbrWKLPku/A/F2jjyF9VPaUOFbJAc=;
+	b=AqkEq6pWTl4J+OMB+pLbZ79Ccr1/hTyXUl+QKkG9LXnaD6voCB7wzjvF/mVpehSi+hRuTc
+	44x7VC7oBnBFnqBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D5104136C7;
+	Tue, 15 Oct 2024 05:53:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rKF5MnQDDmd4YQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 15 Oct 2024 05:53:56 +0000
+Date: Tue, 15 Oct 2024 07:54:54 +0200
+Message-ID: <878qupx64x.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: broonie@kernel.org,
+	tiwai@suse.de,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	peter.ujfalusi@linux.intel.com
+Subject: Re: [PATCH RESEND 0/4] ALSA/hda: intel-sdw-acpi: add support for sdw-manager-list property read
+In-Reply-To: <20241001070611.63288-1-yung-chuan.liao@linux.intel.com>
+References: <20241001070611.63288-1-yung-chuan.liao@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com> <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
-In-Reply-To: <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Tue, 15 Oct 2024 11:56:00 +0800
-Message-ID: <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system sleep
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
-	mathias.nyman@intel.com, yajun.deng@linux.dev, sumit.garg@linaro.org, 
-	kekrby@gmail.com, oneukum@suse.com, dianders@chromium.org, perex@perex.cz, 
-	tiwai@suse.com, niko.mauno@vaisala.com, andreyknvl@gmail.com, 
-	christophe.jaillet@wanadoo.fr, tj@kernel.org, stanley_chang@realtek.com, 
-	quic_jjohnson@quicinc.com, ricardo@marliere.net, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, badhri@google.com, 
-	albertccwang@google.com, quic_wcheng@quicinc.com, pumahsu@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 167E51FB5C
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Mon, Oct 14, 2024 at 11:56=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Mon, Oct 14, 2024 at 08:50:29AM +0000, Guan-Yu Lin wrote:
-> >
-> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> > index e713cf9b3dd2..eb85cbb1a2ff 100644
-> > --- a/drivers/usb/core/driver.c
-> > +++ b/drivers/usb/core/driver.c
-> > @@ -1583,6 +1583,11 @@ int usb_suspend(struct device *dev, pm_message_t=
- msg)
-> >       struct usb_device       *udev =3D to_usb_device(dev);
-> >       int r;
-> >
-> > +     if (msg.event =3D=3D PM_EVENT_SUSPEND && usb_sideband_check(udev)=
-) {
-> > +             dev_dbg(dev, "device accessed via sideband\n");
-> > +             return 0;
-> > +     }
->
-> I'm not so sure about this.  By returning early, you prevent the drivers
-> bound to this device from suspending.  But they can't operate properly
-> when the system is in a low-power mode.  Won't that cause problems?
->
-> Maybe this really belongs in usb_suspend_device(), and its counterpart
-> belongs in usb_resume_device().
->
+On Tue, 01 Oct 2024 09:06:07 +0200,
+Bard Liao wrote:
+> 
+> The DisCo for SoundWire 2.0 spec adds support for a new sdw-manager-list
+> property.  Add it in backwards-compatible mode with 'sdw-master-count'
+> 
+> Takashi, this series can go via ALSA tree now.
+> 
+> Reviewed-by: Takashi Iwai <tiwai@suse.de>
+> 
+> Pierre-Louis Bossart (4):
+>   ALSA/hda: intel-sdw-acpi: cleanup sdw_intel_scan_controller
+>   ALSA/hda: intel-sdw-acpi: fetch fwnode once in
+>     sdw_intel_scan_controller()
+>   ALSA/hda: intel-sdw-acpi: simplify sdw-master-count property read
+>   ALSA/hda: intel-sdw-acpi: add support for sdw-manager-list property
+>     read
 
-To my understanding, after the system is suspended, the USB driver
-will do nothing as the main processor has been suspended. May I check
-what forms of low power mode and operation we are discussing here?
+Applied now to for-linus branch.  Thanks!
 
-usb_suspend_device() did close the required port/bus to maintain usb
-transfer. However, there are additional usb_hcd_flush_endpoint() calls
-aside from usb_suspend_device(). Maybe we should consider not doing
-those also since some of the endpoints are now handled by the
-sideband.
 
-> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > index 1ff7d901fede..9876b3940281 100644
-> > --- a/drivers/usb/core/hcd.c
-> > +++ b/drivers/usb/core/hcd.c
-> > @@ -2593,6 +2593,7 @@ struct usb_hcd *__usb_create_hcd(const struct hc_=
-driver *driver,
-> >       timer_setup(&hcd->rh_timer, rh_timer_func, 0);
-> >  #ifdef CONFIG_PM
-> >       INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
-> > +     refcount_set(&hcd->sb_usage_count, 0);
->
-> Did I miss something?  I didn't notice this field in any of the earlier
-> patches.  Was it already created by the prerequisite series?  If so, why
-> didn't that series do this initialization?
->
-> >  #endif
-> >
-> >       INIT_WORK(&hcd->died_work, hcd_died_work);
-> > diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
-> > index 0b4685aad2d5..d315d066a56b 100644
-> > --- a/drivers/usb/core/usb.c
-> > +++ b/drivers/usb/core/usb.c
-> > @@ -671,6 +671,7 @@ struct usb_device *usb_alloc_dev(struct usb_device =
-*parent,
-> >       dev->state =3D USB_STATE_ATTACHED;
-> >       dev->lpm_disable_count =3D 1;
-> >       atomic_set(&dev->urbnum, 0);
-> > +     refcount_set(&dev->sb_usage_count, 0);
->
-> And doesn't this belong in the 3/5 patch, the one that creates the
-> sb_usage_count field?
->
-> Alan Stern
-
-Thanks for the suggestion, I'll move this, as well as the
-initialization of hcd->sb_usage_count, to corresponding earlier
-patches.
-
-Regards,
-Guan-Yu
+Takashi
