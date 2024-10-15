@@ -1,207 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752661C07D2
-	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 14:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE0E1C07D1
+	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 14:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729003135; cv=none; b=soJSvBcp3MGLLvyiOVPGoq2NlFwy5pFU3l8G/VNJvtbG0kPHM/Nb1hoX4dWttwJLrgqyjwbyGmMnHBCkE1M1R10cpXjxx87P+k1dJNzPkGdJl8fsACZrSU0xrk9915OWcYV7oxBMAl2nZ2MH8LeVSrHIHTuhYzPZohDdTeqSz6k=
+	t=1729003402; cv=none; b=qj/lWiHsBCoZTcb6g/pFnb1+6qk5GSxlI3d5lMSbiw0bGose53GFdIDl2BSJ3p9B90OUp6cyDhxFA9xmW6CVcAxxLhcnojhG+zCP+gPSrNU3JefwqqBNC9J3HqmDFTKlgp/p3mSgbVQWUmZBWA7W8PH8ohbVD1tQqVdOjoR44xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729003135; c=relaxed/simple;
-	bh=7d17fDVTuiWMBxNfZ92O90txnFQfZC2bbxb1qLfr6hE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UEtddaF1en+1cOKJqGlZ4kqAmck+j08h42WVIVbp30bBsPoeo/GPNAWSVvBGH+TbvgwU2FBRsIZOyVa1oFkJgJXtJgpUioEufHL0X2WDxeM0V/Np4Wjuq4+YfyPHQman13LfebYFKntIkYHF+KZqCejx8iZQaOS2aQ4CD5JMRg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mv6S9tqb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eH6RyZpR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Mv6S9tqb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eH6RyZpR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729003402; c=relaxed/simple;
+	bh=3zG8ijviAh3UNaecnSyBL0gw5syOhcN7O0Z2Z+3aryo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/Nr4Yb9IbFLEc9zirYKzhAXQ8CGdboWOLPSBCT/Cs6DqL0VWiyVZ17J8pE/5IkrfLDJrKfNdrWPn7gBBtc0rYReHCEj9EuN5yzP48IyI99H9JxMTKvoBdiaMP5TyZQs2y2OBcelsRis9bKmpTP6aUvc89q7HN4KGTBSzrMi594=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=DR785tQf; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mv6S9tqb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eH6RyZpR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Mv6S9tqb";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eH6RyZpR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 80C031F7DE;
-	Tue, 15 Oct 2024 14:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729003131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FSQjtKphvCm4oraEwQb+lXVfwMC5JTsK8cIGYpwCBVY=;
-	b=Mv6S9tqbC8+6dt57j1KXrOhH+/07W1qlVGHz1QRsH3bhZYdmfLQNE4EqhNADFbP4GP7kux
-	FmnCA+K/PWkLunWd37BxZxtaB8LqBBe8g0hVQirrUbJ+Nla8UHhGKwh9FckcaGfAZFUWzw
-	9msZ6KV2mQ9Nr5VlS/Urt3c391tZjwM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729003131;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FSQjtKphvCm4oraEwQb+lXVfwMC5JTsK8cIGYpwCBVY=;
-	b=eH6RyZpRjeDTFlNfA8pIx+VGEGtBhMb9ulfa6IRt4LzMIhM/bGTmuyLKQUrmNbTXEQN5R/
-	BX5lTefS8Ck0JaDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729003131; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FSQjtKphvCm4oraEwQb+lXVfwMC5JTsK8cIGYpwCBVY=;
-	b=Mv6S9tqbC8+6dt57j1KXrOhH+/07W1qlVGHz1QRsH3bhZYdmfLQNE4EqhNADFbP4GP7kux
-	FmnCA+K/PWkLunWd37BxZxtaB8LqBBe8g0hVQirrUbJ+Nla8UHhGKwh9FckcaGfAZFUWzw
-	9msZ6KV2mQ9Nr5VlS/Urt3c391tZjwM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729003131;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FSQjtKphvCm4oraEwQb+lXVfwMC5JTsK8cIGYpwCBVY=;
-	b=eH6RyZpRjeDTFlNfA8pIx+VGEGtBhMb9ulfa6IRt4LzMIhM/bGTmuyLKQUrmNbTXEQN5R/
-	BX5lTefS8Ck0JaDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 61E5513A53;
-	Tue, 15 Oct 2024 14:38:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nwufFnt+Dmd0CQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 15 Oct 2024 14:38:51 +0000
-Date: Tue, 15 Oct 2024 16:39:49 +0200
-Message-ID: <87wmi9top6.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Paul Davis <paul@linuxaudiosystems.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org
-Subject: Re: something went wrong with USB iJack data in kernel 6.x
-In-Reply-To: <CAFa_cKmS-DHykwA=Ej1w9i3+yfz4wyPJTtEG9ADNTJ8t2GSBQw@mail.gmail.com>
-References: <CAFa_cKmDynOwheDU3gH2NMbj2eRAPEkLL+PP3zd4S5+enVK5Ag@mail.gmail.com>
-	<87wmibjfuk.wl-tiwai@suse.de>
-	<87seszjfj3.wl-tiwai@suse.de>
-	<CAFa_cKmS-DHykwA=Ej1w9i3+yfz4wyPJTtEG9ADNTJ8t2GSBQw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="DR785tQf"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6cbe53a68b5so34765076d6.1
+        for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 07:43:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1729003399; x=1729608199; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xi1uocso5/NdgZpE7t6HMxVGnFAWW+NbbBS6pPLwquk=;
+        b=DR785tQfGwJEWbg4OHMkXh+e3KqPMsKYSWF4NAJhBif9uuZzCU/sMGSV7OAk++JUbG
+         By17IuVFTxzvztpnRHsT160/tZYcFdARE+JT3cqmZrKEeBnlU2qLuGl7yFPeQPWqqEK5
+         IANNA6frJFsFOtz6GoGFtzqIRIzghzEiENCIVlpgjCL7Xt3fzNm7kihTwhxIcjJahRNL
+         0Yj/aI7wj+EAeA/GwE4j0JjNAtEz740G2E3rPV0nq/mCSeeqiOWpKs324p40T10QyYcS
+         W8Aj9npm4f0NmIxhWtoq1Kgf0NJTa0Tths4+WvddLf/FKYd7qTqtTgbMoS8OO1PARvqz
+         tsVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729003399; x=1729608199;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xi1uocso5/NdgZpE7t6HMxVGnFAWW+NbbBS6pPLwquk=;
+        b=Z3vx24AhCKqcIwK8Xd1lSpfky/6SMKd8+vu2qmL4C2/cp9glSS5/eYVY6sO6u59hhc
+         se7/L3EWKWX/RahvBlUWncLgu/1KAufV9uAAPujuwViklV8lEY1fqCKMuLOgykNF2R8l
+         p3jb0l2Vx2kGtKIyNsAthf1thM+JnNVY69RkEz+4VqJ3qPvohekBaY/0rwvw1iZKeCSH
+         D814Hnjrjja60gMY9oRlpxjc6zgxgVOyAqf7MkUcfk5dCELu7eMDcDLhOUSCGt/330tP
+         SWxbydJHFD73+ozfpMRvYPJAOf8pIPdqBctSLrh3sUdA9///QNOVce3+bkKPaMJeNsNc
+         hM3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUP50fM0UPwTbTUW7VpI7Gm45XXGv4iGC9296wSBpqH6SYuuOIfmrqlUY3oKekvghhaUJzRVCZoqFz6LQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3R/ui/eaSUz6Y3HrmvmgBP8YHsHrNa0CLXOkcSuHFzayEMohk
+	HcnOnOCNNGIs09hCSmSohrhqkuRNmtGWaceeqBWj9eaT3/sz+FoMm9XTztB3Ow==
+X-Google-Smtp-Source: AGHT+IHlwqwj2zLwxFP+7TNul9Pxh1d5Xd7nG3ml8Ey1XcTIoXlwe4sCsZV0vRFmkVLRCXSSsyvq1Q==
+X-Received: by 2002:a05:6214:5d11:b0:6cb:e76b:d90 with SMTP id 6a1803df08f44-6cbf0044b74mr186884986d6.13.1729003399548;
+        Tue, 15 Oct 2024 07:43:19 -0700 (PDT)
+Received: from rowland.harvard.edu ([2607:fb60:2501:2805:c6d5:fe22:7fa3:ec54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cc22961b92sm7297386d6.120.2024.10.15.07.43.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 07:43:18 -0700 (PDT)
+Date: Tue, 15 Oct 2024 10:43:15 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Guan-Yu Lin <guanyulin@google.com>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
+	mathias.nyman@intel.com, yajun.deng@linux.dev,
+	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
+	dianders@chromium.org, perex@perex.cz, tiwai@suse.com,
+	niko.mauno@vaisala.com, andreyknvl@gmail.com,
+	christophe.jaillet@wanadoo.fr, tj@kernel.org,
+	stanley_chang@realtek.com, quic_jjohnson@quicinc.com,
+	ricardo@marliere.net, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	badhri@google.com, albertccwang@google.com, quic_wcheng@quicinc.com,
+	pumahsu@google.com
+Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system
+ sleep
+Message-ID: <fddf19f6-d03a-469e-a56f-ef390c099902@rowland.harvard.edu>
+References: <20241014085816.1401364-1-guanyulin@google.com>
+ <20241014085816.1401364-6-guanyulin@google.com>
+ <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
+ <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+In-Reply-To: <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
 
-On Mon, 14 Oct 2024 18:03:40 +0200,
-Paul Davis wrote:
-> 
-> The thing that puzzles me is that the iJack strings are missing from
-> the output of libusb -v, which AFAIU is 100% independent of any ALSA
-> code whatsoever. This makes me suspect that no ALSA code is involved
-> in this regression. I've also determined since my email that some
-> other devices (e.g. an Ableton Push 2) do have iJack name data with
-> the 6.x kernel.
-> 
-> However, things got curiouser as I was trying to get the output of
-> alsa-info. It seems that under some conditions, the iJack strings for
-> the problematic device are available/displayed with lsusb. My initial
-> run of alsa-info showed the iJack strings, subsequent runs of
-> alsa-info and/or lsusb -v do not. I also see a continuous stream of
-> USB device resets (though these are not happening directly after being
-> connected and do not seem related to the presence/absence of iJack
-> strings).
-> 
-> So my guess is that is a highly device-specific problem and not a
-> regression in any part of the kernel.
-
-Yes, it smells more like a firmware bug of the device.
-
-If you prefer having some static names, you can define the entries in
-snd_usbmidi_port_info[] in sound/usb/midi.c for each corresponding
-MIDI port, too.
-
-
-Takashi
-
-> 
-> 
-> On Mon, Oct 14, 2024 at 1:42 AM Takashi Iwai <tiwai@suse.de> wrote:
+On Tue, Oct 15, 2024 at 11:56:00AM +0800, Guan-Yu Lin wrote:
+> On Mon, Oct 14, 2024 at 11:56 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > I'm not so sure about this.  By returning early, you prevent the drivers
+> > bound to this device from suspending.  But they can't operate properly
+> > when the system is in a low-power mode.  Won't that cause problems?
 > >
-> > On Mon, 14 Oct 2024 09:36:35 +0200,
-> > Takashi Iwai wrote:
-> > >
-> > > On Sun, 13 Oct 2024 18:56:57 +0200,
-> > > Paul Davis wrote:
-> > > >
-> > > > I don't know where to start with this issue, but since I noticed it
-> > > > trying to use a MIDI device, I thought I would start here. Advice on
-> > > > where to take it would  be much appreciated.
-> > > >
-> > > > High Level symptoms:
-> > > >
-> > > > 1. plugin in a Novation Lanchkey mk4 to (a) a system running kernel
-> > > > 6.x (b) a system running kernel 5.x
-> > > > 2. run aplaymidi -l or arecordmidi -l
-> > > >
-> > > >   Results:
-> > > >      (a) kernel 6.x: note the presence of two identical MIDI port
-> > > > names for the device
-> > > >      (b) kernel 5.x: note the presence of two differently named MIDI
-> > > > ports for the device
-> > > >
-> > > > Mid-level diagnosis:
-> > > >
-> > > > Run lsusb -v on both kernels. For 5.x, note that the iJACK displays
-> > > > include a string for the MIDI port name. For 6.x note that this string
-> > > > is missing.
-> > > >
-> > > > Working with devices bearing identical ports for multiple names ranges
-> > > > from extremely difficult to impossible.
-> > > >
-> > > > I have no idea what layer of the stack can be involved here, other
-> > > > than that it is not hardware. I've run both 5.x and 6.x kernels on the
-> > > > same system.
-> > >
-> > > Could you try to narrow down the regression range, e.g. by testing
-> > > different 5.x and 6.x kernels?  The best would be git-bisect, but
-> > > figuring out the first broken kernel version would help a lot
-> > > already.
-> > >
-> > > Also the issue can be very specific to the device, so please give the
-> > > details of your device.  e.g. the alsa-info.sh outputs from both cases
-> > > as well as lsusb -v outputs.
+> > Maybe this really belongs in usb_suspend_device(), and its counterpart
+> > belongs in usb_resume_device().
 > >
-> > And, if it's about iJack handling for MIDI v1.x, the only recent
-> > change I can see is the upstream commit
-> > 41c25e193b2befc22462aa41591d397fab174ca1
-> >     ALSA: usb-audio: More relaxed check of MIDI jack names
-> >
-> > You can try to revert it.
-> >
-> >
-> > Takashi
+> 
+> To my understanding, after the system is suspended, the USB driver
+> will do nothing as the main processor has been suspended. May I check
+> what forms of low power mode and operation we are discussing here?
+
+S3 suspend.  You are right that the driver will do nothing while the
+CPU is suspended.  But what about the times before and after that,
+while the suspend and resume procedures are underway?  The driver
+needs to be told to cancel any ongoing transfers while the system
+suspends and then restart them while the system resumes.
+
+> usb_suspend_device() did close the required port/bus to maintain usb
+> transfer.
+
+I don't know what you mean by that.
+
+>  However, there are additional usb_hcd_flush_endpoint() calls
+> aside from usb_suspend_device(). Maybe we should consider not doing
+> those also since some of the endpoints are now handled by the
+> sideband.
+
+Those calls should not be skipped.  If the sideband controller wants
+to handle the endpoints on its own, it can go right ahead.  The main
+controller and the USB core need to know that they shouldn't use the
+endpoint while the system is suspending.
+
+Alan Stern
