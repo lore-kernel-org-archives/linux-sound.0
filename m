@@ -1,192 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816451B85DB
-	for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 19:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729022025; cv=none; b=nrcI8fH4tePFOkbHqjUGlkKbpTENgYo0Slx/MVCOvUsGivTiVZEu7hANv/EsBImsS7KesJCh03dp4css4bDDoBuUW22ifaqf46z0Zvn01FHr/9iQXVbphT3pRGxSfw2mhi1XNotMegYPWxZF+Kt3J/aQmaupvhV37Y6OIceYOlo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729022025; c=relaxed/simple;
-	bh=EyK44VVSzqK0VVd6JZRUhzDLFA8N/4UuvEHVd2mlOVk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=coXbbyRn4uQ9wqMPLIINQs9TYgLhSxWKhrBQn5qkF2jlHHfTIhTksxI5tXn/sOZaQRGanrIAXFDvkj9xpW8Xt5OBe7BpXQ0uoMvfuF4tj/hjpUt/LvCYULAXNiH4npfBwqpMk6xJ2YtL5KP6e61atD22AhED95zdAmBVuJNA6K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GW5kbgnr; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F401F8197;
+	Tue, 15 Oct 2024 20:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729024312; cv=pass; b=uI8NL/DFrzVXstl6Aq15MpErTG/AQnas+BYLeMIhjN0rJE3GLvCleS4CROb5/gIVwwH/SvwIavBMuL8/NDxRQG/uvh6ycfQp5EbI4z2w6Yot1l9h5UBJ/vi1T99aomOBxIv2R88KKFaOmIdmbbXLPgxHT3OMzDNOirbW79aVULs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729024312; c=relaxed/simple;
+	bh=8pgXEjNi/4oUtEnAW6SMd7jhC+spMEMMSSSuFHS3gDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IQK3lUs2acLuB1IJ521CD2wMkDsz1EZetqr0eSuCxshW0og9qPJK4JqbLLx82qFNant7qvb7f8nm/BmFYdEziC097/PYqQal+9XyAXS7Ubqu5O9q6aPscpHmWitiOEpvtd5WQbnlEzmrP6a+34u5m4T42fc7Xc1+HOJa1UouMp0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=OBMAgv84; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GW5kbgnr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729022021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iDdlfoCJodlBAEHv18hly2baxUxV3CY1ROqq62ZwNfA=;
-	b=GW5kbgnroZdypZ0pri7f9IK/W/kIDeKtNVySbDcPp6EDis7zRB6U7TwcovpS1hjJHSBhx4
-	DrRJuB3jWOEnhigNPJMq+ISDVH/+4Ys/o3vwInG9p3jQQU0hoqvCQaGF4DfLZIqpUcJzsR
-	cNTygXR/ZlZ9LJOL56rpiwq9BEpuEqo=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-586-BjJ0B_z4Nf2MS1Pb0x93yw-1; Tue, 15 Oct 2024 15:53:40 -0400
-X-MC-Unique: BjJ0B_z4Nf2MS1Pb0x93yw-1
-Received: by mail-io1-f70.google.com with SMTP id ca18e2360f4ac-8354a67eb57so56549639f.2
-        for <linux-sound@vger.kernel.org>; Tue, 15 Oct 2024 12:53:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729022020; x=1729626820;
-        h=content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=iDdlfoCJodlBAEHv18hly2baxUxV3CY1ROqq62ZwNfA=;
-        b=d2XoUE/YGczbT2UqztApeEySaRpBWV7IIpky8BaJyRPMV+16+b7NoWVwCBQjp15TxT
-         eV1nRylsho4fjcteAHTFp9c3nJsB2wwgnyXXhUj8pjvzdGZMIMY1XiBc9Z8p+GwkO8et
-         Xfsy/Mu0uQJ1ah/cp1o6xUhil8ViIimAO+mDPmzzLy4CPjTDgSGkfyADaL8U/WZzk/RX
-         G654OR5IOO49flsut1E4unTzT2RcMBH4uvdxUOjbgep1gopS0jbwVHkhVvOC22J/ieN7
-         COhSj0hVC7kIbGfM1E7AGosHKLS4MfbHE9u6PW2xCf29PFao1WihvbOGQTNXhoLlnKGK
-         5udg==
-X-Forwarded-Encrypted: i=1; AJvYcCWosl5iNNfmaCjfCVBxWGQ4H3qZt2Mc0m/Z/0X3UTb+nvDXRYpLoYnfObdy/5ZGae8R54L4zxbYKlNBIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyibk29dfVtZCzWz6dNKUEmm/lcr+2iCSVNJRi5laqA6MgtHK5D
-	ORhTJFAXhBDqELExcU/C2UcYAkVWcHQr4WOp5f21fPy4RxAJs0fWOPi8YTd6sDqYXOGMmCK/cXS
-	UpwI14ac/QbP/qjxYTi+iRMHV50krg2XeHeVAxkkrewF1czt55GYPfE3BiW1V
-X-Received: by 2002:a05:6e02:20e6:b0:3a2:57d2:3489 with SMTP id e9e14a558f8ab-3a3de12de3emr696135ab.3.1729022019789;
-        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IESXVYWbDvg1wxgtSYFRG8WjdQ6j0NF7QGGfISEgWPkRfl6g2CRlLVPppWhf9Avs6HBI8mwDw==
-X-Received: by 2002:a05:6e02:20e6:b0:3a2:57d2:3489 with SMTP id e9e14a558f8ab-3a3de12de3emr696075ab.3.1729022019438;
-        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dbec9b24b5sm462948173.59.2024.10.15.12.53.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 12:53:39 -0700 (PDT)
-Date: Tue, 15 Oct 2024 13:53:36 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>, Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?UTF-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
- Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
- <eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye
- Bin <yebin10@huawei.com>, Marek =?UTF-8?B?TWFyY3p5a293c2tpLUfDs3JlY2tp?=
- <marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
-Message-ID: <20241015135336.0de9795e.alex.williamson@redhat.com>
-In-Reply-To: <20241015185124.64726-14-pstanner@redhat.com>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	<20241015185124.64726-14-pstanner@redhat.com>
-Organization: Red Hat
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="OBMAgv84"
+ARC-Seal: i=1; a=rsa-sha256; t=1729024278; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=jwww7gRQHfBX0chd0jT/PqoypZG+ZFlT6XJIWplL5vTeTufNWOp41MOxAQC6Q/LV/ZRpZX5UBvPVpCzRB6FMNtrxyEZ84Q2/oHsm/IiM50Nk5k2BPoidpVEIH26QRGQd5RrLlo/5EveWkrnpIBAKKtl1sXHfew9GLBvKiiDqkCw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1729024278; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=t3x05/iWQkrdQdnoD8NFZZRDkLEPrALiLb9TpzuwUQM=; 
+	b=IuRqM1/IWd9C6ZFNcrGO4mb3V+ZARxquYFUxgMcNH7Qr+kAHjGZEP6WUFKyqLXzkKBfmk5QWP0RPqGvIZPhcU7tQuT8E6AQAa4XXK/J9Ox1Fqz4jr8ntUXF9f0bVuMnZ5MTts3+r2aCjWGivrxZW5kksdYc2wvQ+j5HB++n4WdE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1729024278;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=t3x05/iWQkrdQdnoD8NFZZRDkLEPrALiLb9TpzuwUQM=;
+	b=OBMAgv84wc0VNms2thoO2pvKlssV8a8PHglZNeZc5Q/8n+m9fRwByGeUDQBuq1VV
+	imiboeizclOdd0+zob+6LHwn3UpIMQS10B+r8+okbPsraKswQJ+xvUzjzEIqnaa6vPv
+	6d5WXqeIcRD1P+gQcOjugmzcl8dOduRRdTTe2VQw=
+Received: by mx.zohomail.com with SMTPS id 17290242769731012.8904185135845;
+	Tue, 15 Oct 2024 13:31:16 -0700 (PDT)
+Received: by mercury (Postfix, from userid 1000)
+	id 7FE011060433; Tue, 15 Oct 2024 22:31:05 +0200 (CEST)
+Date: Tue, 15 Oct 2024 22:31:05 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, 
+	Macpaul Lin <macpaul.lin@mediatek.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sen Chu <sen.chu@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Vladimir Oltean <olteanv@gmail.com>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-rtc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	Alexandre Mergnat <amergnat@baylibre.com>, Bear Wang <bear.wang@mediatek.com>, 
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>, 
+	Chris-qj chen <chris-qj.chen@mediatek.com>, 
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <vb324yv7s7yew6m74lfvdv6wnuo6e4rxtiu2q7okypttw46ox2@lgfdkie6o3t2>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-3-macpaul.lin@mediatek.com>
+ <5nvshurbpmjkqysphfrfxhekq3c6od6a2uqai4rfxns64mdvf7@ftjvgjnivr3k>
+ <20241009155222.GB637580@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2l3agui2g5zltsjn"
+Content-Disposition: inline
+In-Reply-To: <20241009155222.GB637580@google.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-1.3.1/228.999.33
+X-ZohoMailClient: External
 
-On Tue, 15 Oct 2024 20:51:23 +0200
-Philipp Stanner <pstanner@redhat.com> wrote:
 
-> pci_intx() and its managed counterpart pcim_intx() only exist for older
-> drivers which have not been ported yet for various reasons. Future
-> drivers should preferably use pci_alloc_irq_vectors().
-> 
-> Mark pci_intx() and pcim_intx() as deprecated and encourage usage of
-> pci_alloc_irq_vectors() in its place.
+--2l3agui2g5zltsjn
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+MIME-Version: 1.0
 
-I don't really understand this.  As we've discussed previously
-pci_alloc_irq_vectors() is, unsurprisingly, for allocating PCI IRQ
-vectors while pci_intx() is for manipulating the INTx disable bit on
-PCI devices.  The latter is a generic mechanism for preventing PCI
-devices from generating INTx, regardless of whether there's a vector
-allocated for it.  How does the former replace the latter and why do we
-feel the need to deprecate the latter?
+Hi,
 
-It feels like this fits some narrow narrative and makes all users of
-these now deprecated functions second class citizens.  Why?  At it's
-root these are simply providing mask and set or mask and clear register
-bit operations.  Thanks,
+On Wed, Oct 09, 2024 at 04:52:22PM +0100, Lee Jones wrote:
+> On Wed, 02 Oct 2024, Krzysztof Kozlowski wrote:
+>=20
+> > On Tue, Oct 01, 2024 at 06:41:45PM +0800, Macpaul Lin wrote:
+> > > Convert the mfd: mediatek: mt6397 binding to DT schema format.
+> > >=20
+> > > MT6323, MT6358, and MT6397 are PMIC devices with multiple function
+> > > subdevices. They share a common PMIC design but have variations in
+> > > subdevice combinations.
+> > >=20
+> > > Key updates in this conversion:
+> > >=20
+> > > 1. RTC:
+> > >    - Convert rtc-mt6397.txt and merge into parent MT6397 PMIC DT sche=
+ma.
+> >=20
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>=20
+> Everyone okay with me taking this without a pull-request?
 
-Alex
- 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
->  drivers/pci/devres.c | 5 ++++-
->  drivers/pci/pci.c    | 5 ++++-
->  2 files changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> index 6f8f712fe34e..4c76fc063104 100644
-> --- a/drivers/pci/devres.c
-> +++ b/drivers/pci/devres.c
-> @@ -435,7 +435,7 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
->  }
->  
->  /**
-> - * pcim_intx - managed pci_intx()
-> + * pcim_intx - managed pci_intx() (DEPRECATED)
->   * @pdev: the PCI device to operate on
->   * @enable: boolean: whether to enable or disable PCI INTx
->   *
-> @@ -443,6 +443,9 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
->   *
->   * Enable/disable PCI INTx for device @pdev.
->   * Restore the original state on driver detach.
-> + *
-> + * This function is DEPRECATED. Do not use it in new code.
-> + * Use pci_alloc_irq_vectors() instead (there is no managed version, currently).
->   */
->  int pcim_intx(struct pci_dev *pdev, int enable)
->  {
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 7ce1d0e3a1d5..dc69e23b8982 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4477,11 +4477,14 @@ void pci_disable_parity(struct pci_dev *dev)
->  }
->  
->  /**
-> - * pci_intx - enables/disables PCI INTx for device dev
-> + * pci_intx - enables/disables PCI INTx for device dev (DEPRECATED)
->   * @pdev: the PCI device to operate on
->   * @enable: boolean: whether to enable or disable PCI INTx
->   *
->   * Enables/disables PCI INTx for device @pdev
-> + *
-> + * This function is DEPRECATED. Do not use it in new code.
-> + * Use pci_alloc_irq_vectors() instead.
->   */
->  void pci_intx(struct pci_dev *pdev, int enable)
->  {
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
+-- Sebastian
+
+--2l3agui2g5zltsjn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmcO0QUACgkQ2O7X88g7
++pq0FQ/9FMCSq1lfOMV4aYkiPMJgvA+Yi89RMy4XcuGLf6F+EvXVlOJN4qdpFD8D
+Pe40iww7vsZTqfHbl/YOLF4g2vJKqxz1wU/TeY2dVv39o++IYhoVaSaQjoJrtHgT
+8p8cHExz+AmO9caP5P6uGx6oTISGKhDr7ZwAY5ntAiacuFhDxJHO3qOXZ/IRzhLo
+WjhmBe4YjhuInmTz0Hq609b+9s2qIwf+aeuxenap+/V2qlZh213GwolJiDc3x+nu
+oa/CCu0c4Ocm/PFmqNdinqGv1hxAP5BlzwTBhVjCWVE3/av6G3pjXzlGRBD+1/QH
+u4mE566PcmYY1AcM28A+sDng1OU362Jdj9xoAfvQRLlvioQ+e4rW2hPxo3Ix4KOK
+bWDwuSVS96Pm/5F2lqXCTqmxYWPD5M9gSdFhvTebVq/OIEh6F8Oqd0wU79T/va8W
+EavPKNvXjekoPv/o7zKStW8Fu8HzeCAvYnDBEjmr7igL+8fKI5SGvcNV3SgSmyBE
+Tp/RLXiICnFqwzKVOS5n9EotpwQvWQEwlkPMhPKjNAi0E06FB/TZRTJ0/f1J+w4E
+TiwnYKQYKaNaM293kor6pNz/PCWvDK1kBMRSOYcmscu8KJjYzmvi/NaBXsHP5oZx
+0aOTHfrk7EXHEWJoLssNe4VKphceb4PosOWNK04tR1yEpcAKc+4=
+=wdwg
+-----END PGP SIGNATURE-----
+
+--2l3agui2g5zltsjn--
