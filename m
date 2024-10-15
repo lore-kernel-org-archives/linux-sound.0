@@ -1,110 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CD561CB9FF;
-	Tue, 15 Oct 2024 15:10:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E05D1DD0F8;
+	Tue, 15 Oct 2024 15:41:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729005004; cv=none; b=LOkmLWw+g49EojrIsjSlCIAEZsWR+G4631nkNuSBpxbYs1VplbIiokyJfg/kPPZvW5EoQlJFweE0fV3LPIWfugyBv/Oclhw4/wjTxMoZzisBMGdUtadho68rsj06n9L4iGkk37xLI0f7PgYPJ9jnSL1Pj7aoxmVAAThko26jnNA=
+	t=1729006893; cv=none; b=Ia7XWlqCE3UAHdjxg480wmnfwXUnaIYnA6Ff7rM+duiSgTxIhan71dRX2FL9MRKN5nP4NvpYFeM5W9QoojbmgXam1dGRhDNDSUWk4/SsJ3iCptODm94B5clwpuak5YnxPWTSWMyH0u6UwYZxk1Ik+DRo7zx2R7huU69Pr00zmkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729005004; c=relaxed/simple;
-	bh=XNOT20YzB4vYewS+APrhVTDzfvkQCe35h99SfISE8h8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PDjjOvDnGoJAhb7jpMpryZGmVuBFsLLKfkAbWD7zIfuyFWdo1hBtZSIR5mGhpF+KFrfFHXUHmTg2moTBTs796/GB4G+eoZLU+2NLU9fpa5rBcxD288fsgOMo8Jkog2D5AnEw2FVCiUSc1z6m6yvefGdYb/SwUpHQkvW9f55v60s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pG/Gq1gy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729006893; c=relaxed/simple;
+	bh=jLKAQ9uXagsJyhH6n6MG/G9/BrDcU+zfGa0vOh67cIg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZGFCIOudip9dX9d2oljFus5P3ZtYPiPUBwtUH5QiUet/3tDA/ypNzO3/Y4tTGCTPXpMAhOSAB5re8c8cYpuMg445qiLDtUfXOqmwkXVo25ON3h0O91KMt/1OgDbZnvdm3+l0SptrhV52NzPgbE/2PC1JBEztR1sMA3maw378d+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+X7X8UH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pG/Gq1gy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06467C4CEC6;
-	Tue, 15 Oct 2024 15:10:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+X7X8UH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80581C4CECF;
+	Tue, 15 Oct 2024 15:41:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729005004;
-	bh=XNOT20YzB4vYewS+APrhVTDzfvkQCe35h99SfISE8h8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=pG/Gq1gyPMhMtzDquoOzHLHu1hTZJCc22ixnM0lbTYg36EfNQ3JapbW2MJ9+rvkfg
-	 +cdpwUeTqzufgtQQaAzHDTNZxjdDeXXFPqNwxTU7sy9SInys/uiOq5Bx5dnl2YT+Vn
-	 +rPkOOFvQRAuiqWHgnQLP85xaKN2eziRqDVYahWEdZDkkmimYMFumMCdmHIXMvCkMu
-	 B7y6QSc/SdLRJq4MdQbvcauSATMQKOxNphvT5B3AaNsBha3VKnOoCx1RtPaTPzIRBL
-	 0CGLNeoUGY196b34z3praMGHpjlrveYNVKKCClFHuLXDuyRSSEaK4T93f/xztjX5sg
-	 a+hy1L41wzdgw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	tangbin <tangbin@cmss.chinamobile.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
-Date: Tue, 15 Oct 2024 15:09:54 +0000
-Message-Id: <20241015150958.2294155-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	s=k20201202; t=1729006893;
+	bh=jLKAQ9uXagsJyhH6n6MG/G9/BrDcU+zfGa0vOh67cIg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u+X7X8UHEd3gozYGyuMwL/tAC/R4zlxoKUwcxrbwDS2Z3cF+8s/7h6AHH6w2JR1oX
+	 1Nh1D+L4buWKaMaT3ZhLrFVjk4ZcQ1yqbIoAVngBeohUwI0u3/XGcpyJ0cTJrgWk7I
+	 IK15mSYsmmG2AaSbnQ5zcmezmsvE7wF+b7kgoEX/Xarb23ECkneLt15BHX5epzyaQr
+	 HJI0pfqjyrztp1TBo0iwtvI8v49YnpufpzLJUvIevYLkK+65R1Jn8/1d0UQa6fLc+T
+	 xsT8XYWHT3KJBi2g6GYZkMX1LuUu2V8xuPm78+EC6UoQf0V+pdauARp3HL53AuwORa
+	 xykZ7Nfzz8XWQ==
+Date: Tue, 15 Oct 2024 16:41:29 +0100
+From: Mark Brown <broonie@kernel.org>
+To: =?utf-8?B?0JjQu9GM0Y8g0K/QutC+0LLQu9C10LI=?= <ilyadud25@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
+Message-ID: <4ab081bb-682a-486a-96fe-99fa65642f06@sirena.org.uk>
+References: <CAPsZJ9WXAeEW=oPKn2F9zC8GHwoiQ8Ly93480c0oxjY9xOCsUg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fbymosMKjkYgxEwX"
+Content-Disposition: inline
+In-Reply-To: <CAPsZJ9WXAeEW=oPKn2F9zC8GHwoiQ8Ly93480c0oxjY9xOCsUg@mail.gmail.com>
+X-Cookie: New customers only.
 
-From: Arnd Bergmann <arnd@arndb.de>
 
-An object file should not be linked into multiple modules and/or
-vmlinux:
+--fbymosMKjkYgxEwX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-scripts/Makefile.build:221: /home/arnd/arm-soc/sound/soc/loongson/Makefile: loongson_i2s.o is added to multiple modules: snd-soc-loongson-i2s-pci snd-soc-loongson-i2s-plat
+On Tue, Oct 15, 2024 at 09:01:39PM +0700, =D0=98=D0=BB=D1=8C=D1=8F =D0=AF=
+=D0=BA=D0=BE=D0=B2=D0=BB=D0=B5=D0=B2 wrote:
+> ASUS VivoBook E1404FA needs a quirks-table entry for the internal
+> microphone to function properly.
 
-Change this one to make it a library module with two exported symbols
-that will work in any configuration.
+> diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+> index ace6328..d06c162 100644
 
-Fixes: ba4c5fad598c ("ASoC: loongson: Add I2S controller driver as platform device")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- sound/soc/loongson/Makefile       | 10 ++++++----
- sound/soc/loongson/loongson_i2s.c |  5 +++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+You've not provided a Signed-off-by for this so I can't do anything with
+it, please see Documentation/process/submitting-patches.rst for details
+on what this is and why it's important.
 
-diff --git a/sound/soc/loongson/Makefile b/sound/soc/loongson/Makefile
-index f396259244a3..c0cb1acb36e3 100644
---- a/sound/soc/loongson/Makefile
-+++ b/sound/soc/loongson/Makefile
-@@ -1,10 +1,12 @@
- # SPDX-License-Identifier: GPL-2.0
- #Platform Support
--snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o loongson_i2s.o loongson_dma.o
--obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PCI) += snd-soc-loongson-i2s-pci.o
-+snd-soc-loongson-i2s-pci-y := loongson_i2s_pci.o loongson_dma.o
-+obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PCI) += snd-soc-loongson-i2s-pci.o snd-soc-loongson-i2s.o
- 
--snd-soc-loongson-i2s-plat-y := loongson_i2s_plat.o loongson_i2s.o
--obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM) += snd-soc-loongson-i2s-plat.o
-+snd-soc-loongson-i2s-plat-y := loongson_i2s_plat.o
-+obj-$(CONFIG_SND_SOC_LOONGSON_I2S_PLATFORM) += snd-soc-loongson-i2s-plat.o snd-soc-loongson-i2s.o
-+
-+snd-soc-loongson-i2s-y := loongson_i2s.o
- 
- #Machine Support
- snd-soc-loongson-card-y := loongson_card.o
-diff --git a/sound/soc/loongson/loongson_i2s.c b/sound/soc/loongson/loongson_i2s.c
-index 40bbf3205391..e8852a30f213 100644
---- a/sound/soc/loongson/loongson_i2s.c
-+++ b/sound/soc/loongson/loongson_i2s.c
-@@ -246,6 +246,7 @@ struct snd_soc_dai_driver loongson_i2s_dai = {
- 	.ops = &loongson_i2s_dai_ops,
- 	.symmetric_rate = 1,
- };
-+EXPORT_SYMBOL_GPL(loongson_i2s_dai);
- 
- static int i2s_suspend(struct device *dev)
- {
-@@ -268,3 +269,7 @@ static int i2s_resume(struct device *dev)
- const struct dev_pm_ops loongson_i2s_pm = {
- 	SYSTEM_SLEEP_PM_OPS(i2s_suspend, i2s_resume)
- };
-+EXPORT_SYMBOL_GPL(loongson_i2s_pm);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Common functions for loongson I2S controller driver");
--- 
-2.39.5
+--fbymosMKjkYgxEwX
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcOjSgACgkQJNaLcl1U
+h9APRwf9FydkQxwYuJDT0VWBk6snQI3/YH7Px2YYfc/4cpiIkJtckv0TMEc6Z1pZ
+6blTtj9k7wrVc3/MpQUr+eoG+XVjMbz9NTt9D6WtlKkIxa2Jmps6ZI2ih2fKZgXu
+S35YH2JscfdR+KaNejocgCe4DQ2mDSeg3rcChpmaYwzPfZL1BWMCzwyuodmO4IoW
+aKfmjIaziFqGSDbX3x+gA9KrL2sNW50yHhJ+e2bYRNm+fxKgBxQ/Oo0pjcNU48i0
+Sc931/va5WKcdRMF5hKquv5TDzkRvWCofXFXob3zAtBFuDksIP7cmBm+VLv1eRw7
+2KtojEhmz61wISh+r5KMXOrVF7O4Tw==
+=PiWx
+-----END PGP SIGNATURE-----
+
+--fbymosMKjkYgxEwX--
