@@ -1,124 +1,166 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA2B71E7666;
-	Tue, 15 Oct 2024 11:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA281E6DEE;
+	Tue, 15 Oct 2024 11:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728992131; cv=none; b=JC7vjwbeQO/Zn3sBy5sKAbKyCCSOHybQ6X3VwBEPJhqeRd9GlNn6rFViNYHUYTWLjW+4t0kMoDwpw7CGIn4FoofhzXWSdhLeEsin2p5/AGVkGsohT9y+RwIwUK08zjSk6xs+XZvojGapIR/Dq2EylaiQDXcJkbtdOT95DUE+QPk=
+	t=1728992295; cv=none; b=ooROSLgyEkFVBke8gdhfJrit23zcRlmKZOKe4NMNXhSkmnwwJ5U9AfTKcFijKnLbyrtRmeOPmvADyD6sf+L0gKkS1juNsgNrf7wa1QxFtiAs+Wu7ErsWqzkF1iih7pX69a+rdgRHtHLyF+oqcjggZzmQUGHzKkKMrSyzbNTmJLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728992131; c=relaxed/simple;
-	bh=53rF6c5jakcS+ik3mitMUiEe/F1PijH5LdoA3YfLRmE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iiJneA6gQl2AQsm7VdfmYAbJuXRfVwheqAJWtDJdJK4ceUgIK/T4DLg9Pd+TlHtQtrS5h2dQ+i1VbFmPYmFtvB7JxsN771KmAcWvfPS0y8Zp9xlcMLsqCQoyKg5cm8lWlFIcJ+QwXey+a1lvO9qXQfg3InJmyrVjchnx83MjaPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16B0B1007;
-	Tue, 15 Oct 2024 04:35:58 -0700 (PDT)
-Received: from [10.57.86.207] (unknown [10.57.86.207])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE23D3F51B;
-	Tue, 15 Oct 2024 04:35:24 -0700 (PDT)
-Message-ID: <6258fd24-e708-444b-88a3-792c14527817@arm.com>
-Date: Tue, 15 Oct 2024 12:35:23 +0100
+	s=arc-20240116; t=1728992295; c=relaxed/simple;
+	bh=jEzSDFOcqMJqSyCQuVq12fE5j1VYUNc6WqXX3ARiZh0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p3Lx1Ayf31+uSzArEUDOUDw+2sf+8p8t9Ld3K70nRhvFh1jiyzxSOSw1Adt79/16ecbufg0I9BdAGlUBU6lH1uEPazymWzdSe+wK00ZLuJbBnjqI7UAq2rklrklqKRV8nQQKJZbkIzEoAnZrGcW/t/69hISGMtAne8uQj76Kec4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FpC4n7YC; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FpC4n7YC"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-430576ff251so45923665e9.0;
+        Tue, 15 Oct 2024 04:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728992292; x=1729597092; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ov3+DycOreL6Dx3RTEEPA6KfpT4tTecahwHHLWf3dMA=;
+        b=FpC4n7YCWpTyiFy3W9ZJW9fsSlCYbfFYCUbJqYLAWBKfC6gDQ84ytfswBCgQhjmQs8
+         1/wbsPGAC2A6ZEKz3jZS1j9hquSrdtEs8d6sFA2c0diwoCsB3h09qlf1xEsIfdxBOZ4W
+         45b0jBto0Ic/wCRQYzSYpDy+98+6zrZh4URU7l/WbVaIx8alQK2MgyKMaFCQBAvUY5gC
+         9HzdxFOrWCzwrqr7o2IfGD+h7eGn7n2YtzX4zExRzbJOQXrg6/BDCO4Xm3e/ZFy5RNhZ
+         5zwjZCl2dLBmaJdR0UHcdjD7MnVqpHX6HZoA0Jp4J0g9B5XM0PF6uTb9eO1iwSno0ztJ
+         kOFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728992292; x=1729597092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ov3+DycOreL6Dx3RTEEPA6KfpT4tTecahwHHLWf3dMA=;
+        b=SFF8d/JYLyNUKHGkUvddo/OAjloNI5knzHjROZ5oikcCjSZMrP7E+VEBScr3J7xcof
+         1bTMCKZabMApLi0KEcwqRdCAMgshVqoc3hyl74On93EA12fmXBk5YHQbfwUSk6JfyWjq
+         Q70uJmYnmMsKItoZYLU0yBK0QVbBJNl1GcC5Oq9cdpTjNEdRW7NL46tlUB+BpUEbUzKM
+         jF03EpOD5AABX0HpPpJnj/enhDKeYClQyb22fA+YXxHCxZycpmemCtH4MrVwgnlSOxaK
+         +wSkdfsTIZGfZ7aKb/5HU3pY0ZfbEKR4e57Eiev1+L7kr3/q+BgBwxYOuvR7zfes3ntO
+         kMug==
+X-Forwarded-Encrypted: i=1; AJvYcCUACo60lmJX3rMFt1K7+uKid2bUPGsMwvsu7UU8UfVmUzhvQ6feUfIpmjCGDYz0GnA+f6Cde/oreC2C3ZYT2BFupC8=@vger.kernel.org, AJvYcCWq9Zo4kCLOU0l9f/0IFttrh05sZT+ucVJ6Sc8ohMy5j5oMco3q94pwM45jguIQS4tmQGCAy+q81B35LQE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybgcD1pMcDqL28A3MsOY+lP6DMBLdI5Kru2BWT6UBAhSzbkaZe
+	G2Yhyey0b5IkjDfOH5GAlfAI4KfoKAD3FJHbNs4ETt6Je77LItxp
+X-Google-Smtp-Source: AGHT+IGNDTeEH+Qno4h75erjhDCtg/Klu5unnqPBkcppVcZzG3zCnun5QzL3cVGcyU8aMFLHyx94CQ==
+X-Received: by 2002:a5d:5587:0:b0:37c:ce58:5a1b with SMTP id ffacd0b85a97d-37d5529f017mr9161580f8f.51.1728992291585;
+        Tue, 15 Oct 2024 04:38:11 -0700 (PDT)
+Received: from prasmi.home ([2a00:23c8:2500:a01:ab23:85df:144b:6ce6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a256sm1363943f8f.14.2024.10.15.04.38.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 04:38:11 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH 0/3] ASoC: Rename "sh" to "renesas"
+Date: Tue, 15 Oct 2024 12:37:54 +0100
+Message-ID: <20241015113757.152548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
- constant assumption
-Content-Language: en-GB
-To: Mark Brown <broonie@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
- David Hildenbrand <david@redhat.com>, Greg Marsden
- <greg.marsden@oracle.com>, Ivan Ivanov <ivan.ivanov@suse.com>,
- Jaroslav Kysela <perex@perex.cz>, Kalesh Singh <kaleshsingh@google.com>,
- Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Matthias Brugger <mbrugger@suse.com>, Miroslav Benes <mbenes@suse.cz>,
- Takashi Iwai <tiwai@suse.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-sound@vger.kernel.org
-References: <20241014105514.3206191-1-ryan.roberts@arm.com>
- <20241014105912.3207374-1-ryan.roberts@arm.com>
- <20241014105912.3207374-22-ryan.roberts@arm.com>
- <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
- <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
- <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/10/2024 17:01, Mark Brown wrote:
-> On Mon, Oct 14, 2024 at 01:24:02PM +0100, Ryan Roberts wrote:
->> On 14/10/2024 12:38, Mark Brown wrote:
->>> On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
-> 
->>>> ***NOTE***
->>>> Any confused maintainers may want to read the cover note here for context:
->>>> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
-> 
->>> As documented in submitting-patches.rst please send patches to the 
->>> maintainers for the code you would like to change.  The normal kernel
->>> workflow is that people apply patches from their inboxes, if they aren't
->>> copied they are likely to not see the patch at all and it is much more
->>> difficult to apply patches.
-> 
->> Sure. I think you're implying that you would have liked to be in To: for this
->> patch? I went to quite a lot of trouble to ensure all maintainers were at least
->> in the To: field for patches touching their code. But get_maintainer.pl lists
->> you as a supporter, not a maintainer when I ran this patch through. Could you
->> clarify what would have been the correct thing to do? I could include all
->> reviewers and supporters as well as maintainers but then I'd be banging up
->> against the limits for some of the patches.
-> 
-> The entry in MAINTAINERS for me is a M:, supporter is just the usual
-> get_maintainers noise.  Supported is exactly equivalent to a maintainer.
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Ugh, In my head I always thought "supporter" was somebody who engaged with the
-subsystem but did not have an official role (like a football supporter). But now
-that I've gone and read the MAINTAINERS file, I see it's actually referring to
-status (supported vs maintained). Sorry about this. Due to this buggy filtering,
-I've missed a few others off other patches in this series. I'll fix that by
-forwarding to them.
+Hi All,
 
-> Generally if you're going to filter people you should be filtering less
-> specific matches out rather than more and if you're looking to filter
-> very aggressively look at who actually commits changes to whatever
-> you're trying to change, less specific maintainers will generally
-> delegate down to the more specific ones.
-> 
->>> It's probably better to just use PAGE_SIZE_MAX here and avoid the
->>> deferred patching, like the comment says we don't particularly care what
->>> the value actually is here given that it's a dummy.
-> 
->> OK, so would that be:
-> 
->> 	.buffer_bytes_max	= 128*1024,
->> 	.period_bytes_min	= PAGE_SIZE_MAX,      <<<<<
->> 	.period_bytes_max	= PAGE_SIZE_MAX*2,    <<<<<
->> 	.periods_min		= 2,
->> 	.periods_max		= 128,
-> 
->> It's not really clear to me how all the parameters interact; the buffer size
->> 128K, which, if PAGE_SIZE_MAX is 64K, would hold 1 period of the maximum size.
->> But periods_min is 2. So not sure that works? Or perhaps I'm trying to apply too
->> much meaning to the param names...
-> 
-> Like Takashi says just using absolute numbers here is probably just as
-> sensible, the numbers are there to stop userspace tripping over itself
-> but like I say it shouldn't ever get as far as actually using them for
-> anything.  So long as we end up with some numbers that don't need any
-> late init patching the specifics aren't super important, the use of
-> PAGE_SIZE was kind of random.
+This patch series aims to rename "sh" to "renesas", along with this
+the references to this path have been updated.
 
-OK, I'll post a respin of this patch independently of the rest of the series,
-given it no longer has a dependency.
+Note,
+- This patch series applies on top of [0] + [1]
+- This change was agrreed based on the discussion [2]
 
-Thanks,
-Ryan
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1] https://lore.kernel.org/all/20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[2] https://lore.kernel.org/all/87v7xuqm84.wl-kuninori.morimoto.gx@renesas.com/
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (3):
+  ASoC: Rename "sh" to "renesas"
+  ASoC: renesas, rsnd: Update file path
+  ASoC: audio-graph-card2: Update comment with renamed file path
+
+ Documentation/devicetree/bindings/sound/renesas,rsnd.txt | 2 +-
+ sound/soc/Kconfig                                        | 2 +-
+ sound/soc/Makefile                                       | 2 +-
+ sound/soc/generic/audio-graph-card2.c                    | 2 +-
+ sound/soc/{sh => renesas}/Kconfig                        | 0
+ sound/soc/{sh => renesas}/Makefile                       | 0
+ sound/soc/{sh => renesas}/dma-sh7760.c                   | 0
+ sound/soc/{sh => renesas}/fsi.c                          | 0
+ sound/soc/{sh => renesas}/hac.c                          | 0
+ sound/soc/{sh => renesas}/migor.c                        | 0
+ sound/soc/{sh => renesas}/rcar/Makefile                  | 0
+ sound/soc/{sh => renesas}/rcar/adg.c                     | 0
+ sound/soc/{sh => renesas}/rcar/cmd.c                     | 0
+ sound/soc/{sh => renesas}/rcar/core.c                    | 0
+ sound/soc/{sh => renesas}/rcar/ctu.c                     | 0
+ sound/soc/{sh => renesas}/rcar/debugfs.c                 | 0
+ sound/soc/{sh => renesas}/rcar/dma.c                     | 0
+ sound/soc/{sh => renesas}/rcar/dvc.c                     | 0
+ sound/soc/{sh => renesas}/rcar/gen.c                     | 0
+ sound/soc/{sh => renesas}/rcar/mix.c                     | 0
+ sound/soc/{sh => renesas}/rcar/rsnd.h                    | 0
+ sound/soc/{sh => renesas}/rcar/src.c                     | 0
+ sound/soc/{sh => renesas}/rcar/ssi.c                     | 0
+ sound/soc/{sh => renesas}/rcar/ssiu.c                    | 0
+ sound/soc/{sh => renesas}/rz-ssi.c                       | 0
+ sound/soc/{sh => renesas}/sh7760-ac97.c                  | 0
+ sound/soc/{sh => renesas}/siu.h                          | 0
+ sound/soc/{sh => renesas}/siu_dai.c                      | 0
+ sound/soc/{sh => renesas}/siu_pcm.c                      | 0
+ sound/soc/{sh => renesas}/ssi.c                          | 0
+ 30 files changed, 4 insertions(+), 4 deletions(-)
+ rename sound/soc/{sh => renesas}/Kconfig (100%)
+ rename sound/soc/{sh => renesas}/Makefile (100%)
+ rename sound/soc/{sh => renesas}/dma-sh7760.c (100%)
+ rename sound/soc/{sh => renesas}/fsi.c (100%)
+ rename sound/soc/{sh => renesas}/hac.c (100%)
+ rename sound/soc/{sh => renesas}/migor.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/Makefile (100%)
+ rename sound/soc/{sh => renesas}/rcar/adg.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/cmd.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/core.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ctu.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/debugfs.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/dma.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/dvc.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/gen.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/mix.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/rsnd.h (100%)
+ rename sound/soc/{sh => renesas}/rcar/src.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ssi.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ssiu.c (100%)
+ rename sound/soc/{sh => renesas}/rz-ssi.c (100%)
+ rename sound/soc/{sh => renesas}/sh7760-ac97.c (100%)
+ rename sound/soc/{sh => renesas}/siu.h (100%)
+ rename sound/soc/{sh => renesas}/siu_dai.c (100%)
+ rename sound/soc/{sh => renesas}/siu_pcm.c (100%)
+ rename sound/soc/{sh => renesas}/ssi.c (100%)
+
+
+base-commit: 4197e5638cfd2d73e67ba89d97ec7ae8383b3b38
+prerequisite-patch-id: 63dc578627303bb0b33654043bd1037fa03063a1
+-- 
+2.43.0
 
