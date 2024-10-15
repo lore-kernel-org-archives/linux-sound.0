@@ -1,120 +1,124 @@
-Received: from cmccmta3.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF998189BBF;
-	Tue, 15 Oct 2024 07:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA2B71E7666;
+	Tue, 15 Oct 2024 11:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1728978586; cv=none; b=kw/Ssgy71zbxIDZ6CZxQAJ0Vc2v2x6ckMBaelzbrvaf3M5Z/yT80moXp3XgbVDtSDTs7++W0CfxPoJvPFk3XKzrYbL1/k3HpmEVv3nzbcwuPqOfFebaQVfGWSLsqo3e65sqNCzBYzPlC/jhXM+aavKfuqCIo31/++0wXNr8G6fw=
+	t=1728992131; cv=none; b=JC7vjwbeQO/Zn3sBy5sKAbKyCCSOHybQ6X3VwBEPJhqeRd9GlNn6rFViNYHUYTWLjW+4t0kMoDwpw7CGIn4FoofhzXWSdhLeEsin2p5/AGVkGsohT9y+RwIwUK08zjSk6xs+XZvojGapIR/Dq2EylaiQDXcJkbtdOT95DUE+QPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1728978586; c=relaxed/simple;
-	bh=ERi7IPOprRx59JXhjMC3xTcDaqfRPPR8xmHcnPlE138=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mlu9XtP4Ud2oY0YS7eE5TCY9lNzNhPy9bcn9pFPFr6bGrXuDjF/e5cYW6Z3DKCxMwO5n+xJF6KXmBDH9jJPP5Iij1BzU1cn52i3pXaGPVyC2I0E5cSingEBXZnT1c5OdMyj/IqnYx4pDOj3qgHdolkKDGIhM5A0r5ehFpoL0VXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee9670e1e9281e-2782b;
-	Tue, 15 Oct 2024 15:49:40 +0800 (CST)
-X-RM-TRANSID:2ee9670e1e9281e-2782b
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from localhost.localdomain (unknown[223.108.79.103])
-	by rmsmtp-syy-appsvr07-12007 (RichMail) with SMTP id 2ee7670e1e93b5a-f518e;
-	Tue, 15 Oct 2024 15:49:40 +0800 (CST)
-X-RM-TRANSID:2ee7670e1e93b5a-f518e
-From: Liu Jing <liujing@cmss.chinamobile.com>
-To: peter.ujfalusi@gmail.com
-Cc: jarkko.nikula@bitmer.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Liu Jing <liujing@cmss.chinamobile.com>
-Subject: [PATCH] Use card->dev in replace of the &pdev->dev argument in the dev_err function
-Date: Tue, 15 Oct 2024 15:49:38 +0800
-Message-Id: <20241015074938.6247-1-liujing@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.27.0
+	s=arc-20240116; t=1728992131; c=relaxed/simple;
+	bh=53rF6c5jakcS+ik3mitMUiEe/F1PijH5LdoA3YfLRmE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iiJneA6gQl2AQsm7VdfmYAbJuXRfVwheqAJWtDJdJK4ceUgIK/T4DLg9Pd+TlHtQtrS5h2dQ+i1VbFmPYmFtvB7JxsN771KmAcWvfPS0y8Zp9xlcMLsqCQoyKg5cm8lWlFIcJ+QwXey+a1lvO9qXQfg3InJmyrVjchnx83MjaPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 16B0B1007;
+	Tue, 15 Oct 2024 04:35:58 -0700 (PDT)
+Received: from [10.57.86.207] (unknown [10.57.86.207])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE23D3F51B;
+	Tue, 15 Oct 2024 04:35:24 -0700 (PDT)
+Message-ID: <6258fd24-e708-444b-88a3-792c14527817@arm.com>
+Date: Tue, 15 Oct 2024 12:35:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v1 22/57] sound: Remove PAGE_SIZE compile-time
+ constant assumption
+Content-Language: en-GB
+To: Mark Brown <broonie@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ Ard Biesheuvel <ardb@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>,
+ David Hildenbrand <david@redhat.com>, Greg Marsden
+ <greg.marsden@oracle.com>, Ivan Ivanov <ivan.ivanov@suse.com>,
+ Jaroslav Kysela <perex@perex.cz>, Kalesh Singh <kaleshsingh@google.com>,
+ Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Matthias Brugger <mbrugger@suse.com>, Miroslav Benes <mbenes@suse.cz>,
+ Takashi Iwai <tiwai@suse.com>, Will Deacon <will@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-sound@vger.kernel.org
+References: <20241014105514.3206191-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-1-ryan.roberts@arm.com>
+ <20241014105912.3207374-22-ryan.roberts@arm.com>
+ <Zw0CyAlSmaxOCZJl@finisterre.sirena.org.uk>
+ <6926988e-5532-457f-9e1a-135b03585c5d@arm.com>
+ <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <Zw1AWEpQYBDyBar6@finisterre.sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Because card->dev = &pdev->dev is already defined in the rx51_soc_probe function,
-and then &pdev->dev is still used.
+On 14/10/2024 17:01, Mark Brown wrote:
+> On Mon, Oct 14, 2024 at 01:24:02PM +0100, Ryan Roberts wrote:
+>> On 14/10/2024 12:38, Mark Brown wrote:
+>>> On Mon, Oct 14, 2024 at 11:58:29AM +0100, Ryan Roberts wrote:
+> 
+>>>> ***NOTE***
+>>>> Any confused maintainers may want to read the cover note here for context:
+>>>> https://lore.kernel.org/all/20241014105514.3206191-1-ryan.roberts@arm.com/
+> 
+>>> As documented in submitting-patches.rst please send patches to the 
+>>> maintainers for the code you would like to change.  The normal kernel
+>>> workflow is that people apply patches from their inboxes, if they aren't
+>>> copied they are likely to not see the patch at all and it is much more
+>>> difficult to apply patches.
+> 
+>> Sure. I think you're implying that you would have liked to be in To: for this
+>> patch? I went to quite a lot of trouble to ensure all maintainers were at least
+>> in the To: field for patches touching their code. But get_maintainer.pl lists
+>> you as a supporter, not a maintainer when I ran this patch through. Could you
+>> clarify what would have been the correct thing to do? I could include all
+>> reviewers and supporters as well as maintainers but then I'd be banging up
+>> against the limits for some of the patches.
+> 
+> The entry in MAINTAINERS for me is a M:, supporter is just the usual
+> get_maintainers noise.  Supported is exactly equivalent to a maintainer.
 
-Signed-off-by: Liu Jing <liujing@cmss.chinamobile.com>
----
- sound/soc/ti/rx51.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Ugh, In my head I always thought "supporter" was somebody who engaged with the
+subsystem but did not have an official role (like a football supporter). But now
+that I've gone and read the MAINTAINERS file, I see it's actually referring to
+status (supported vs maintained). Sorry about this. Due to this buggy filtering,
+I've missed a few others off other patches in this series. I'll fix that by
+forwarding to them.
 
-diff --git a/sound/soc/ti/rx51.c b/sound/soc/ti/rx51.c
-index 77296237575a..d9900c69e536 100644
---- a/sound/soc/ti/rx51.c
-+++ b/sound/soc/ti/rx51.c
-@@ -371,7 +371,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 
- 		dai_node = of_parse_phandle(np, "nokia,cpu-dai", 0);
- 		if (!dai_node) {
--			dev_err(&pdev->dev, "McBSP node is not provided\n");
-+			dev_err(card->dev, "McBSP node is not provided\n");
- 			return -EINVAL;
- 		}
- 		rx51_dai[0].cpus->dai_name = NULL;
-@@ -381,7 +381,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 
- 		dai_node = of_parse_phandle(np, "nokia,audio-codec", 0);
- 		if (!dai_node) {
--			dev_err(&pdev->dev, "Codec node is not provided\n");
-+			dev_err(card->dev, "Codec node is not provided\n");
- 			return -EINVAL;
- 		}
- 		rx51_dai[0].codecs->name = NULL;
-@@ -389,7 +389,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 
- 		dai_node = of_parse_phandle(np, "nokia,audio-codec", 1);
- 		if (!dai_node) {
--			dev_err(&pdev->dev, "Auxiliary Codec node is not provided\n");
-+			dev_err(card->dev, "Auxiliary Codec node is not provided\n");
- 			return -EINVAL;
- 		}
- 		rx51_aux_dev[0].dlc.name = NULL;
-@@ -399,7 +399,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 
- 		dai_node = of_parse_phandle(np, "nokia,headphone-amplifier", 0);
- 		if (!dai_node) {
--			dev_err(&pdev->dev, "Headphone amplifier node is not provided\n");
-+			dev_err(card->dev, "Headphone amplifier node is not provided\n");
- 			return -EINVAL;
- 		}
- 		rx51_aux_dev[1].dlc.name = NULL;
-@@ -408,7 +408,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 		rx51_codec_conf[1].dlc.of_node = dai_node;
- 	}
- 
--	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
-+	pdata = devm_kzalloc(card->dev, sizeof(*pdata), GFP_KERNEL);
- 	if (pdata == NULL)
- 		return -ENOMEM;
- 
-@@ -439,7 +439,7 @@ static int rx51_soc_probe(struct platform_device *pdev)
- 
- 	err = devm_snd_soc_register_card(card->dev, card);
- 	if (err) {
--		dev_err(&pdev->dev, "snd_soc_register_card failed (%d)\n", err);
-+		dev_err(card->dev, "snd_soc_register_card failed (%d)\n", err);
- 		return err;
- 	}
- 
--- 
-2.27.0
+> Generally if you're going to filter people you should be filtering less
+> specific matches out rather than more and if you're looking to filter
+> very aggressively look at who actually commits changes to whatever
+> you're trying to change, less specific maintainers will generally
+> delegate down to the more specific ones.
+> 
+>>> It's probably better to just use PAGE_SIZE_MAX here and avoid the
+>>> deferred patching, like the comment says we don't particularly care what
+>>> the value actually is here given that it's a dummy.
+> 
+>> OK, so would that be:
+> 
+>> 	.buffer_bytes_max	= 128*1024,
+>> 	.period_bytes_min	= PAGE_SIZE_MAX,      <<<<<
+>> 	.period_bytes_max	= PAGE_SIZE_MAX*2,    <<<<<
+>> 	.periods_min		= 2,
+>> 	.periods_max		= 128,
+> 
+>> It's not really clear to me how all the parameters interact; the buffer size
+>> 128K, which, if PAGE_SIZE_MAX is 64K, would hold 1 period of the maximum size.
+>> But periods_min is 2. So not sure that works? Or perhaps I'm trying to apply too
+>> much meaning to the param names...
+> 
+> Like Takashi says just using absolute numbers here is probably just as
+> sensible, the numbers are there to stop userspace tripping over itself
+> but like I say it shouldn't ever get as far as actually using them for
+> anything.  So long as we end up with some numbers that don't need any
+> late init patching the specifics aren't super important, the use of
+> PAGE_SIZE was kind of random.
 
+OK, I'll post a respin of this patch independently of the rest of the series,
+given it no longer has a dependency.
 
+Thanks,
+Ryan
 
