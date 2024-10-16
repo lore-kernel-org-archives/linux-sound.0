@@ -1,154 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF8720896A;
-	Wed, 16 Oct 2024 12:23:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7A2206E71
+	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 12:41:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729081383; cv=none; b=qcUS6j460BhrqPpF5ewYWT0zW9WTAHDfnwJICzQWYXdVv6GCGux/yeNyCB1a4G6w3yCzmH9K3MXsunqVkujsJ8tQE2kgaGRuJh1TTVMBz0/tXfikPCdEm9hWPg0ZzLoMpeQv6/uLZ0l0rlUwnGmdhnuCF4oDXvZjvhku9vESeDg=
+	t=1729082509; cv=none; b=EKH6w6dbI1aqDSt5G1qfndKH1z+yl0cUx06906QFDSR/ooAfcSL9IyJ8/fUQQ14pV2qFdtMPtlxg4TnsH4SY4SK0karo5sNzMN2OCUFd4C4H5b7bjRhk5nieDxD6O5RNuApaqdp5zYN3HnmVUdpY+PAxSPEPDTn0Yttu/rv1lgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729081383; c=relaxed/simple;
-	bh=GNpQFqou08L4HvvgQmtVoW2aASKtf7vi33xFSNUzSZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FcfHmVfAVJXbaTDad4VYn54fzYFiPAgmJ7v2amAwF12NDLexz2KcJEIZ43mBWSF0mJ0UUgbi/UK/nJjxxfq73d9fUniTVlXkrpOrxocoekRnDhmbp8VDoPE5ypX7ZrTosvpRbLgraLIpoed9KXO8aHTk8oOY96B08MkPekWntG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWjzdgna; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729082509; c=relaxed/simple;
+	bh=7s7mxb8AWORUrhpnBZAuRs0KJYeixrfxteXdwF3mTU0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iCkIevkVyENd6fRviP7ASNMdrHRxfl010suUtdvAcfwx4TMCP4A8VRBFu8I1XZ87E0qGsGvvSEWMY/+35qN8cz4koxDBuN0U7gqmyNg9GYOoAMsa/gbbPLphN9z5elPfrQu8P/1tHAZ/yHaquwIDIcdkAAvPt7OteGVFS/ENE4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Nvt28Qux; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWjzdgna"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 871D3C4CEC7;
-	Wed, 16 Oct 2024 12:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729081382;
-	bh=GNpQFqou08L4HvvgQmtVoW2aASKtf7vi33xFSNUzSZs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cWjzdgnaZcMpXiy19gCFyyD33hQfirE7sLHUiJqd2s0Iw9icd5iwZuDCs2m3QbqeW
-	 2q8PbqVNoDsjZGR52OMlqmnr+IhcxMCN9qwRgQ+/dQe3s/wvnpqNNoBmQTA32OVO01
-	 VacWIHA2AiBftcAY3MzV1qEwgXNat67ttJVKAUOzCGmGVivali/h+tSiVuczwYkv6u
-	 /JMI+BWwGUSd7qxQ9OiVjyvz6ojbO9WDXxTp+jH2E3mkux2ipaa7pwRJDTfai9lhEk
-	 Hn/k1oHMd+of9Mt/xN1neNgr6WfVg142fQ5DIVDvuO/0SweUcTphlzIDMs2lApYAwd
-	 Z557QyjsWpRcg==
-Date: Wed, 16 Oct 2024 13:22:56 +0100
-From: Mark Brown <broonie@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH 2/3] ASoC: cs42l84: Add new codec driver
-Message-ID: <abe88a18-28fb-40e5-8bd2-3fde5de9cb56@sirena.org.uk>
-References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
- <20241016-cs42l84-v1-2-8d7e9d437d2d@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Nvt28Qux"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729082505;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=sR2BJapihNLggAZsP9A0NQSPFnGH7MhHauwtA745mN0=;
+	b=Nvt28QuxR9kNPbcjfnPgDIpDNASRY+0u/CQxTVu7WMUvohaeSN8x1to+s3fV72eUJkKrPT
+	M05VY7N8UAxLbLK90NvPFOHNCPgacV++JkBj7HaMH473fYl7F9XLat7z2eoTKFyNUNE1eO
+	7DzkwhTKlCy9xro/O/Q+DL8GZmGtWPM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-169-SfALDSaePc64HQ_R_dFYWQ-1; Wed, 16 Oct 2024 08:41:44 -0400
+X-MC-Unique: SfALDSaePc64HQ_R_dFYWQ-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4311c681dfcso36270525e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 05:41:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729082503; x=1729687303;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sR2BJapihNLggAZsP9A0NQSPFnGH7MhHauwtA745mN0=;
+        b=rr6WDtsVWsIZHelXqRW9gkeOJHQ/uGZDGEblqa1gWlv8+oo1MbIUDFIGdU1mV6kzNw
+         jslyr1h4Ic9q/KBGm0zqCozCrGbLjrQ8Bppcr48aHp4dOc2FQ4okh0Nsj33ogSB/M9j7
+         OUl8fXZXkHN3+ffHR1s6cqxLyGgSEPHmNV+nY2Kh+8SD1uAyTS6fnvfvyQPUvA+uGHX0
+         5cwzqkMKR60VmcwR6OOCfnqOYpUlSRZALcxESlFq+xVM8vOIRpIp0orKvWgahdOFJxGa
+         1ZlNe3kTnpTGJtSS12qgzE6dCwRekeIW7ld8U7Xt0mwsumtKtTmeLA5Xb37ltnXLSl74
+         ZYtg==
+X-Forwarded-Encrypted: i=1; AJvYcCVjsI92WbAO2WArg1LE/pmiXbASt9+FtngxBLEkdLwTrgLmKUtvV9Qe+r57o1gt7lePdK5gJtNUSM1wtg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxE6yShvOjWQ4K6prKu3s4IrY8iJlO5XcxYUbH8SIe4ioGku/PT
+	aJj1YbvnUbfq6AP9r50uXeML5ofhsqLcz+hS8V1yUfb9cTtMznKZJA0GQxkROPhNPTyi15IRWbf
+	XYjxnhJetUld228QikL+Vhead/BWW0wuLAD2Wx/dT5m4bnb418C2mqLtP9ZbF
+X-Received: by 2002:a05:600c:4514:b0:431:157a:986e with SMTP id 5b1f17b1804b1-4314a31d357mr28400805e9.20.1729082502956;
+        Wed, 16 Oct 2024 05:41:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEf6DkLObKhMSbcWX25Z8cQR8BxA15anQyPPh8evt92tsHg1K+r+MKmZynxnhYXfRl0KAulLQ==
+X-Received: by 2002:a05:600c:4514:b0:431:157a:986e with SMTP id 5b1f17b1804b1-4314a31d357mr28400355e9.20.1729082502483;
+        Wed, 16 Oct 2024 05:41:42 -0700 (PDT)
+Received: from eisenberg.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa8ffd6sm4246879f8f.50.2024.10.16.05.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 05:41:42 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Philipp Stanner <pstanner@redhat.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jie Wang <jie.wang@intel.com>,
+	Tero Kristo <tero.kristo@linux.intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Shashank Gupta <shashank.gupta@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Gregory Greenman <gregory.greenman@intel.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-crypto@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v4 00/10] Remove pcim_iomap_regions_request_all()
+Date: Wed, 16 Oct 2024 14:41:22 +0200
+Message-ID: <20241016124136.41540-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="maBAkUOwaatk+XRK"
-Content-Disposition: inline
-In-Reply-To: <20241016-cs42l84-v1-2-8d7e9d437d2d@gmail.com>
-X-Cookie: Snow Day -- stay home.
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Changes in v4:
+  - Add Acked-by's from Giovanni and Kalle.
+
+Changes in v3:
+  - Add missing full stops to commit messages (Andy).
+
+Changes in v2:
+  - Fix a bug in patch №4 ("crypto: marvell ...") where an error code
+    was not set before printing it. (Me)
+  - Apply Damien's Reviewed- / Acked-by to patches 1, 2 and 10. (Damien)
+  - Apply Serge's Acked-by to patch №7. (Serge)
+  - Apply Jiri's Reviewed-by to patch №8. (Jiri)
+  - Apply Takashi Iwai's Reviewed-by to patch №9. (Takashi)
 
 
---maBAkUOwaatk+XRK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Hi all,
 
-On Wed, Oct 16, 2024 at 08:41:01PM +1000, James Calligeros wrote:
+the PCI subsystem is currently working on cleaning up its devres API. To
+do so, a few functions will be replaced with better alternatives.
 
-> The CS42L84 is a codec from Cirrus Logic found in Apple Silicon Macs.
-> The chip continues Apple's long tradition of compelling vendors to
-> spin out bespoke SKUs that are based on existing IP but made subtly
-> incompatible with the publicly available part. CS42L84 is very similar
-> to CS42L42, but has a different regmap.
+This series removes pcim_iomap_regions_request_all(), which has been
+deprecated already, and accordingly replaces the calls to
+pcim_iomap_table() (which were only necessary because of
+pcim_iomap_regions_request_all() in the first place) with calls to
+pcim_iomap().
 
->  sound/soc/codecs/Makefile  |    2 +
->  sound/soc/codecs/cs42l84.c | 1081 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  sound/soc/codecs/cs42l84.h |  210 ++++++++++++++++++++++++++++++++
+Would be great if you can take a look whether this behaves as you
+intended for your respective component.
 
-Something's wrong with your formatting here...
+Cheers,
+Philipp
 
-> @@ -0,0 +1,1081 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * cs42l84.c -- CS42L84 ALSA SoC audio driver
-> + *
+Philipp Stanner (10):
+  PCI: Make pcim_request_all_regions() a public function
+  ata: ahci: Replace deprecated PCI functions
+  crypto: qat - replace deprecated PCI functions
+  crypto: marvell - replace deprecated PCI functions
+  intel_th: pci: Replace deprecated PCI functions
+  wifi: iwlwifi: replace deprecated PCI functions
+  ntb: idt: Replace deprecated PCI functions
+  serial: rp2: Replace deprecated PCI functions
+  ALSA: korg1212: Replace deprecated PCI functions
+  PCI: Remove pcim_iomap_regions_request_all()
 
-Please make the entire comment a C++ one so it's more clearly
-intentional.
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/ata/acard-ahci.c                      |  6 +-
+ drivers/ata/ahci.c                            |  6 +-
+ drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+ drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+ .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+ .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+ drivers/hwtracing/intel_th/pci.c              |  9 ++-
+ .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+ drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+ drivers/pci/devres.c                          | 59 +------------------
+ drivers/tty/serial/rp2.c                      | 12 ++--
+ include/linux/pci.h                           |  3 +-
+ sound/pci/korg1212/korg1212.c                 |  6 +-
+ 14 files changed, 76 insertions(+), 104 deletions(-)
 
-> +static const struct regmap_config cs42l84_regmap = {
-> +	.reg_bits = 16,
-> +	.val_bits = 8,
-> +
-> +	.volatile_reg = cs42l84_volatile_register,
-> +
-> +	.max_register = 0xffff,
+-- 
+2.47.0
 
-Does that register actually exist?
-
-> +	.cache_type = REGCACHE_RBTREE,
-
-Unless you've got a particular reason to use something else new drivers
-should use _MAPLE.
-
-> +static int cs42l84_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
-> +{
-> +	struct snd_soc_component *component = dai->component;
-> +	struct cs42l84_private *cs42l84 = snd_soc_component_get_drvdata(component);
-> +	unsigned int regval;
-> +	int ret;
-
-> +				ret = regmap_read_poll_timeout(cs42l84->regmap,
-> +							       CS42L84_PLL_LOCK_STATUS,
-> +							       regval,
-> +							       (regval & CS42L84_PLL_LOCK_STATUS_LOCKED),
-> +							       CS42L84_PLL_LOCK_POLL_US,
-> +							       CS42L84_PLL_LOCK_TIMEOUT_US);
-> +				if (ret < 0)
-> +					dev_warn(component->dev, "PLL failed to lock: %d\n", ret);
-
-This is too heavyweight for a mute operation, do you really need one?
-
-> +	case 0b00: /* open */
-> +		dev_dbg(cs42l84->dev, "Detected open circuit on HS4\n");
-> +		fallthrough;
-> +	case 0b11: /* shorted */
-> +	default:
-> +		snd_soc_jack_report(cs42l84->jack, SND_JACK_HEADPHONE,
-> +				SND_JACK_HEADSET);
-> +		cs42l84->hs_type = SND_JACK_HEADPHONE;
-> +		dev_dbg(cs42l84->dev, "Detected bare headphone (no mic)\n");
-> +	}
-
-For coding style we should have a break at the end of the case.
-
-> +		default:
-> +			if (cs42l84->plug_state != CS42L84_TRANS)
-> +				cs42l84->plug_state = CS42L84_TRANS;
-> +		}
-
-Here too.
-
---maBAkUOwaatk+XRK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcPsB8ACgkQJNaLcl1U
-h9BddAgAhJBsG36HFJDYb3ITfSZniD+YMmeHaXnJ0/NZt4kJKDV5ar0f0TqNxi9M
-naq16zKH3bgx1eu4jD4hN9mPYsRkT2Q9X/IurlEUYpE0HCm35Q4vU+1Aq3FO9UD/
-BpgkdOV9VfBU82/FVtFINBGR+rIIT+OBVrUAABtAAw3docMOY4aL4AsLNoqyEyg4
-9poBy6vDCctHPol6RAL0IuPrOHa853ZIulARXnpDwOLDeGAzuumw+qcqwekTVn3u
-VHWGDSwW1A10dWRK2xS3Xvjtp6lxerKfzoJR7CqdLVW3wkV4DXjmB+F2Zts1dwgY
-z+vt3hhpCnJzwPPq+mdx5jZVkd80jg==
-=zgvX
------END PGP SIGNATURE-----
-
---maBAkUOwaatk+XRK--
