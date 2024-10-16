@@ -1,102 +1,104 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B154457CBE;
-	Wed, 16 Oct 2024 03:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263B718BC0B;
+	Wed, 16 Oct 2024 05:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729050035; cv=none; b=ldn8+G6bo3DeuCE1qm/IFR/x3nUhTdX0+VLYwg/k78bUx2C7MwDiCwcjjLS8gSwob6cQArWfDOEsVed01VgLL4Tu5FTLrD2bkkfAwBqIxgxsFC4h5Exi6m1ePgkh6QOdbsspnKyHA4wXwPFDJRC1LRD90fjnF7ffHJRGt6rSCOM=
+	t=1729057189; cv=none; b=On8qLn5+FETXyfi/dJjiU5YUmQEJuHmsmF6amDUJCtgrFnqI7yyqSLk5z7n25o6/jsIU+f8gdTShlhy2kQUOK2TWFsKDh/xIsYIDPVWPY3n50xFPIinw7hqHOngWoAvNJ33iqNfD77OL89Qml0HhQu6r/U8zez9vJ/4FGz2xlv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729050035; c=relaxed/simple;
-	bh=KQ3QR+LU7/O30RBWv0q2fn+Gsfca611jNyhD0cCDgJk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OkLzNuQDUNmqO3yFr+nouRYgk228Juxwl7UsgtdWQSkhwUhK94XvUrL0u2m5VACYbSE3ANeRZOBVWYTk16JEJ8mwj7iv4eR/5caUDsyurd7w8W3dVnIXAxsjOJh4emCltRN9gzc0D1ZMRAAxT9miDyT/X0tOJybE9m/7jpXrfD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbUkCbnK; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729057189; c=relaxed/simple;
+	bh=Bd5M4DzFMNGGadIfi1fklC0+ZqtBunY0WkA0awItZsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u9Oj/71ClAwjO5Y/W7bDuTvsHpGMP3oNta9KpmX7UrUKxQidQlVQVlw8jikgS9HWtRjsLvxQrzm6K9oLn5rfzxtjFBMdncOsQR8uv0pi5IVP+0Grb/zm6oJTs4GNaBonzfOk/X+DyY5nbxmmqQr4HKCxQYI3vFDrkTWlQ2Jm7KA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UTPd17kq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbUkCbnK"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f8490856so3085249e87.2;
-        Tue, 15 Oct 2024 20:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729050031; x=1729654831; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0JiFXThj5h3MdZHktHicma4TZYkvCSjOEzEat0CqUdw=;
-        b=QbUkCbnKUkuUkWBxvfBuyXaGW+illEQRfVrifMKOPxDhPSHFthO2X0KpOhOsxm73lf
-         jIhGKdPBlax1hWwhjHulzFZ9RHcDw9/lWW1guc0c71eIy6q+La7yyfGiqQalbucvlNCd
-         LrPVmWtrAyWrV0UOjJWleFyNtsUk2mamAoYAieY3Nz7I28Ynyt/BF7sl0mq7HXSzslFr
-         sSGDYZon6xFgnu8EKhg282sCkvbddqIUi4ATk705bK6ixv0Y3A3TrpGqcw1g8DJdnmLq
-         RtIcT7cOScINLzOgjtgna8jg/+bxm5N+8MjoBziZNgdctyt7n1NjfKwnP59mSFSopycl
-         ykGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729050031; x=1729654831;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0JiFXThj5h3MdZHktHicma4TZYkvCSjOEzEat0CqUdw=;
-        b=SEHJKwkms7hM/EK9SELHXPLYPMI0N34iAz9HsfxxYbAWyO2Vz/X2uNuPBzXVZUyH70
-         ogoGlhqeJ0DL3S7JOhIy1ZVNP+1N63AhWWY4SKkBGZbxz8nKMu8tRNh1MKUMU8UmuOV3
-         dedGUsDuVKJG1dkRzEDtBkpFEsRBpEp+uxk7fKUf+avElIe/5jpG7pylWiZVUZlIN56b
-         SMaIvaM2KpP+pzmJuwIDTW3LYTda+oQgHLYFjdZ8l+o9UadjvQ7MBVhM5UtKzTH6cyNf
-         HqKfEwOfv1WqHhLmhbwbSs0gQRJIJrBmfP269TZjHHfTrE2scwk5kjBTdhBtQLsckYtS
-         xOhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVebruyoxWJTxhxeFeczYRc9ucoEWqLEl4t/Bh3ouYJ2pqYGhmAd+VEWFWpgnxMuZJxnDPtoKFkBZRyFIc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwzQ5RchGGGh83hGOFjTpVy2ssMUpFQ+ZMlU7lZLwBPjuDgFTW
-	0pCMO3wqduYn5zUfHQ4Nt/c1z3syvt3dD+nzl606xxdq3N1qZwrr4K6w9FUe
-X-Google-Smtp-Source: AGHT+IHiH2hluzM7nU0gxSD//kBiOjWqI2gV9MMP3luxK+fK2+YJDkStCi8lZvQS3b0rM9egRZx4aQ==
-X-Received: by 2002:a05:6512:1086:b0:539:8b49:8939 with SMTP id 2adb3069b0e04-539da588443mr7857372e87.41.1729050031090;
-        Tue, 15 Oct 2024 20:40:31 -0700 (PDT)
-Received: from localhost.localdomain ([109.195.41.134])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a00006796sm323205e87.195.2024.10.15.20.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 20:40:30 -0700 (PDT)
-From: Ilya Dudikov <ilyadud25@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	broonie@kernel.org
-Cc: Ilya Dudikov <ilyadud@mail.ru>,
-	perex@perex.cz,
-	lgirdwood@gmail.com,
-	mario.limonciello@amd.com
-Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
-Date: Wed, 16 Oct 2024 10:40:37 +0700
-Message-ID: <20241016034038.13481-1-ilyadud25@gmail.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UTPd17kq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9E85C4CEC5;
+	Wed, 16 Oct 2024 05:39:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729057188;
+	bh=Bd5M4DzFMNGGadIfi1fklC0+ZqtBunY0WkA0awItZsk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UTPd17kqa+JStBo//drZQEXyhoDU5Ick9FOrbiK2kK6EtrjHt2psudKPkH6oC/JjU
+	 UK7DuqgB1JR/yTVSIQJrmb20KHuDiQAI5hwh8cFhK/eWYqq9mtCIzMO4GOty2SoRF6
+	 h+kDt3eL0NVejAHRkxFksFewisHYtyjgnG5HKBLU=
+Date: Wed, 16 Oct 2024 07:39:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>,
+	Manish Chopra <manishc@marvell.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
+	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,
+	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
+	Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Yi Liu <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Eric Auger <eric.auger@redhat.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	Ye Bin <yebin10@huawei.com>,
+	Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Rui Salvaterra <rsalvaterra@gmail.com>, linux-ide@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
+Message-ID: <2024101652-valium-gizzard-cf14@gregkh>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+ <20241015185124.64726-14-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241015185124.64726-14-pstanner@redhat.com>
 
-From: Ilya Dudikov <ilyadud@mail.ru>
+On Tue, Oct 15, 2024 at 08:51:23PM +0200, Philipp Stanner wrote:
+> pci_intx() and its managed counterpart pcim_intx() only exist for older
+> drivers which have not been ported yet for various reasons. Future
+> drivers should preferably use pci_alloc_irq_vectors().
+> 
+> Mark pci_intx() and pcim_intx() as deprecated and encourage usage of
+> pci_alloc_irq_vectors() in its place.
 
-ASUS Vivobook E1404FA needs a quirks-table entry for the internal microphone to function properly.
+No one is going to notice these comments, so please, if this really does
+need to be removed, just remove it from all callers and delete the
+function from the tree.
 
-Signed-off-by: Ilya Dudikov <ilyadud@mail.ru>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+thanks,
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index ace6328e91e3..d06c162701d2 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -325,6 +325,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "M6500RC"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "E1404FA"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.47.0
-
+greg k-h
