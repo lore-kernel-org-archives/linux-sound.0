@@ -1,155 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E2918870D;
-	Wed, 16 Oct 2024 03:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B154457CBE;
+	Wed, 16 Oct 2024 03:40:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729049378; cv=none; b=CcmW2+4wpiIMLqRiDciu4QlO81+ZKUtDdnAcn0BSkVNKrx6yXOLgQipaFQzmPAOdywQdn/OoCD4U5PLRttMl1vNKG1bcikHVnfgvCrLnXRsg9gF3iWiiMIr1ICtW4CajHk9JVqnLXvxf7c93EVrTriuj5Ytf9mjeamjLsziDXsk=
+	t=1729050035; cv=none; b=ldn8+G6bo3DeuCE1qm/IFR/x3nUhTdX0+VLYwg/k78bUx2C7MwDiCwcjjLS8gSwob6cQArWfDOEsVed01VgLL4Tu5FTLrD2bkkfAwBqIxgxsFC4h5Exi6m1ePgkh6QOdbsspnKyHA4wXwPFDJRC1LRD90fjnF7ffHJRGt6rSCOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729049378; c=relaxed/simple;
-	bh=5iP9HtC1kQWNvWEhPvnhX/BLx8sgQFO32QZTth0dpKY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=djFlLHisdwsZbbCcGorNhq+9sCnXazbFXGqo7kTT4jqb0KmWiKMyp3SW7R3fha8QCmyLihlMmOcjufdCbibWu/ZpQzTz135t7rbIQ2EA5/U/JdVys680q7p/VT+qY4H0dJINbPnl3uJblrqtINC+d+eG6WsUHSBZPl2/WikNWFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HwocKubb; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1729050035; c=relaxed/simple;
+	bh=KQ3QR+LU7/O30RBWv0q2fn+Gsfca611jNyhD0cCDgJk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OkLzNuQDUNmqO3yFr+nouRYgk228Juxwl7UsgtdWQSkhwUhK94XvUrL0u2m5VACYbSE3ANeRZOBVWYTk16JEJ8mwj7iv4eR/5caUDsyurd7w8W3dVnIXAxsjOJh4emCltRN9gzc0D1ZMRAAxT9miDyT/X0tOJybE9m/7jpXrfD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QbUkCbnK; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HwocKubb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729049377; x=1760585377;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5iP9HtC1kQWNvWEhPvnhX/BLx8sgQFO32QZTth0dpKY=;
-  b=HwocKubbOW8bknNq9xDMlgU2JQQF4Nkkcjlf5HabRBT8DBYFWhZx5349
-   p20LHXvfcxvHpa13NjDdV6VdAVioVy4Z39seDrQTVv6zOeAkGq0wglbUi
-   9oRrNBu63azivJTvLoKdWboi4lJdsUQlatLILcqUcZ6/ITYaBdI5a38xt
-   9VFHd74P6JDn4ozBD3Kq3NfcAg3ZkAhd3ILLSBg3MaED58dK19Lf3nA67
-   F7mfUQsYEDXFlygbICxbNEXUUvIa0HeM9pKlsVteABu19dpbjnFKzLNYu
-   taIUXj9oeO3cPqCJG9tXz1ZuIN46+pI00LZJcl4LXCZF5QkGzdR/whEL8
-   Q==;
-X-CSE-ConnectionGUID: eEewWZN/QTSDzyzFn0wRbw==
-X-CSE-MsgGUID: Y1eDwj7sQTK7W+muuQoMWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28676522"
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="28676522"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:29:36 -0700
-X-CSE-ConnectionGUID: bVU95W72Q9yBlZSViMZ9ZA==
-X-CSE-MsgGUID: F9M7PSCmT2yn7gCt6ls1wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="78047703"
-Received: from cvapit-mobl1.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.236])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:29:33 -0700
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QbUkCbnK"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f8490856so3085249e87.2;
+        Tue, 15 Oct 2024 20:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729050031; x=1729654831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0JiFXThj5h3MdZHktHicma4TZYkvCSjOEzEat0CqUdw=;
+        b=QbUkCbnKUkuUkWBxvfBuyXaGW+illEQRfVrifMKOPxDhPSHFthO2X0KpOhOsxm73lf
+         jIhGKdPBlax1hWwhjHulzFZ9RHcDw9/lWW1guc0c71eIy6q+La7yyfGiqQalbucvlNCd
+         LrPVmWtrAyWrV0UOjJWleFyNtsUk2mamAoYAieY3Nz7I28Ynyt/BF7sl0mq7HXSzslFr
+         sSGDYZon6xFgnu8EKhg282sCkvbddqIUi4ATk705bK6ixv0Y3A3TrpGqcw1g8DJdnmLq
+         RtIcT7cOScINLzOgjtgna8jg/+bxm5N+8MjoBziZNgdctyt7n1NjfKwnP59mSFSopycl
+         ykGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729050031; x=1729654831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0JiFXThj5h3MdZHktHicma4TZYkvCSjOEzEat0CqUdw=;
+        b=SEHJKwkms7hM/EK9SELHXPLYPMI0N34iAz9HsfxxYbAWyO2Vz/X2uNuPBzXVZUyH70
+         ogoGlhqeJ0DL3S7JOhIy1ZVNP+1N63AhWWY4SKkBGZbxz8nKMu8tRNh1MKUMU8UmuOV3
+         dedGUsDuVKJG1dkRzEDtBkpFEsRBpEp+uxk7fKUf+avElIe/5jpG7pylWiZVUZlIN56b
+         SMaIvaM2KpP+pzmJuwIDTW3LYTda+oQgHLYFjdZ8l+o9UadjvQ7MBVhM5UtKzTH6cyNf
+         HqKfEwOfv1WqHhLmhbwbSs0gQRJIJrBmfP269TZjHHfTrE2scwk5kjBTdhBtQLsckYtS
+         xOhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVebruyoxWJTxhxeFeczYRc9ucoEWqLEl4t/Bh3ouYJ2pqYGhmAd+VEWFWpgnxMuZJxnDPtoKFkBZRyFIc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwzQ5RchGGGh83hGOFjTpVy2ssMUpFQ+ZMlU7lZLwBPjuDgFTW
+	0pCMO3wqduYn5zUfHQ4Nt/c1z3syvt3dD+nzl606xxdq3N1qZwrr4K6w9FUe
+X-Google-Smtp-Source: AGHT+IHiH2hluzM7nU0gxSD//kBiOjWqI2gV9MMP3luxK+fK2+YJDkStCi8lZvQS3b0rM9egRZx4aQ==
+X-Received: by 2002:a05:6512:1086:b0:539:8b49:8939 with SMTP id 2adb3069b0e04-539da588443mr7857372e87.41.1729050031090;
+        Tue, 15 Oct 2024 20:40:31 -0700 (PDT)
+Received: from localhost.localdomain ([109.195.41.134])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a00006796sm323205e87.195.2024.10.15.20.40.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 20:40:30 -0700 (PDT)
+From: Ilya Dudikov <ilyadud25@gmail.com>
+To: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com,
-	ranjani.sridharan@linux.intel.com
-Subject: [PATCH 4/4] ASoC: SOF: Intel: hda: Always clean up link DMA during stop
-Date: Wed, 16 Oct 2024 11:29:10 +0800
-Message-ID: <20241016032910.14601-5-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
-References: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
+	broonie@kernel.org
+Cc: Ilya Dudikov <ilyadud@mail.ru>,
+	perex@perex.cz,
+	lgirdwood@gmail.com,
+	mario.limonciello@amd.com
+Subject: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
+Date: Wed, 16 Oct 2024 10:40:37 +0700
+Message-ID: <20241016034038.13481-1-ilyadud25@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+From: Ilya Dudikov <ilyadud@mail.ru>
 
-This is required to reset the DMA read/write pointers when the stream is
-prepared and restarted after a call to snd_pcm_drain()/snd_pcm_drop().
-Also, now that the stream is reset during stop, do not save LLP registers
-in the case of STOP/suspend to avoid erroneous delay reporting.
+ASUS Vivobook E1404FA needs a quirks-table entry for the internal microphone to function properly.
 
-Link: https://github.com/thesofproject/sof/issues/9502
-Signed-off-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Ilya Dudikov <ilyadud@mail.ru>
 ---
- sound/soc/sof/intel/hda-dai-ops.c | 23 ++++++++++-------------
- sound/soc/sof/intel/hda-dai.c     |  1 +
- 2 files changed, 11 insertions(+), 13 deletions(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/sof/intel/hda-dai-ops.c b/sound/soc/sof/intel/hda-dai-ops.c
-index 484c76147885..92681ca7f24d 100644
---- a/sound/soc/sof/intel/hda-dai-ops.c
-+++ b/sound/soc/sof/intel/hda-dai-ops.c
-@@ -346,20 +346,21 @@ static int hda_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
- 		snd_hdac_ext_stream_start(hext_stream);
- 		break;
--	case SNDRV_PCM_TRIGGER_SUSPEND:
--	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
--		snd_hdac_ext_stream_clear(hext_stream);
--
- 		/*
--		 * Save the LLP registers in case the stream is
--		 * restarting due PAUSE_RELEASE, or START without a pcm
--		 * close/open since in this case the LLP register is not reset
--		 * to 0 and the delay calculation will return with invalid
--		 * results.
-+		 * Save the LLP registers since in case of PAUSE the LLP
-+		 * register are not reset to 0, the delay calculation will use
-+		 * the saved offsets for compensating the delay calculation.
- 		 */
- 		hext_stream->pplcllpl = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPL);
- 		hext_stream->pplcllpu = readl(hext_stream->pplc_addr + AZX_REG_PPLCLLPU);
-+		snd_hdac_ext_stream_clear(hext_stream);
-+		break;
-+	case SNDRV_PCM_TRIGGER_SUSPEND:
-+	case SNDRV_PCM_TRIGGER_STOP:
-+		hext_stream->pplcllpl = 0;
-+		hext_stream->pplcllpu = 0;
-+		snd_hdac_ext_stream_clear(hext_stream);
- 		break;
- 	default:
- 		dev_err(sdev->dev, "unknown trigger command %d\n", cmd);
-@@ -512,7 +513,6 @@ static const struct hda_dai_widget_dma_ops sdw_ipc4_chain_dma_ops = {
- static int hda_ipc3_post_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *cpu_dai,
- 				 struct snd_pcm_substream *substream, int cmd)
- {
--	struct hdac_ext_stream *hext_stream = hda_get_hext_stream(sdev, cpu_dai, substream);
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(cpu_dai, substream->stream);
- 
- 	switch (cmd) {
-@@ -527,9 +527,6 @@ static int hda_ipc3_post_trigger(struct snd_sof_dev *sdev, struct snd_soc_dai *c
- 		if (ret < 0)
- 			return ret;
- 
--		if (cmd == SNDRV_PCM_TRIGGER_STOP)
--			return hda_link_dma_cleanup(substream, hext_stream, cpu_dai);
--
- 		break;
- 	}
- 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index 8cccf38967e7..ac505c7ad342 100644
---- a/sound/soc/sof/intel/hda-dai.c
-+++ b/sound/soc/sof/intel/hda-dai.c
-@@ -302,6 +302,7 @@ static int __maybe_unused hda_dai_trigger(struct snd_pcm_substream *substream, i
- 	}
- 
- 	switch (cmd) {
-+	case SNDRV_PCM_TRIGGER_STOP:
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
- 		ret = hda_link_dma_cleanup(substream, hext_stream, dai);
- 		if (ret < 0) {
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index ace6328e91e3..d06c162701d2 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -325,6 +325,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "M6500RC"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "E1404FA"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
-2.43.0
+2.47.0
 
