@@ -1,235 +1,127 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D513B15B13C
-	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 13:46:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8DA209F3C
+	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 13:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729086405; cv=none; b=r38yNaoPRCLDIbYYWIkNq2WiS7KOE+qA7iQL3+u2l4SHLD+pTZRI/AogHTfW4dx7i5OgoUDFVZUkYoFNkB/jMEYFICnnGHesJkQcUPmFzhIs5ezsxUXO9BDrZvbzDWFU+EgUcbQO0j0S7B4OrYHrx6PxqPYTfRg2c3wV1Eit/zQ=
+	t=1729086541; cv=none; b=myudvrcubTbPZl0Ow9axG8LZUY+bOnWIs8V4Xh5FjK/jhT5SbTthShUhhfTw3uNFrpqMdBKWLqBZ91T3mj8IOBVaWQKcBSc5xthv5W2WYiaUbP6oYtXuqr8Hp06yFYYc3E5UoEhrJpb0F9a6YfYcQGh2FrpWA4BkoZUGrKf+pnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729086405; c=relaxed/simple;
-	bh=gbyIMrt35X5qVQl8T6bF7RwSzyu1Zb9uw6yh7CMS4x4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TeG384C4f4U/93u6S343Xwcc49bTxzq4YjDwibro4d3W88e1lfvaGbQtw/ajqU+60+64aHFAb+cK2dEXrw0mVgUL07Qe+AFtp2FaPjM5SM/BhENtn2K6tAgeQxdPvlgG0xdKnMd5J1+tdg8ujhBwBiw00x63XEXYoirHCOxKyNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TVFWMaQh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h+NE5ZrM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MZm5hUq0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zTSETOTf; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729086541; c=relaxed/simple;
+	bh=dZ+sIna6WYyUXKXxoyA/4YHXdqgh/NQ/Pln3EfPt56M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EFfNy3fC00xOhsQ8eKU4doAMBAcbHTlI+8qlDlHKn0tXHq16+whbQdG/P19+BUh3CrAsmghBzSbRaZMTGTFr9S4hV2HLXkjlEHqBjJVrk2ILFeLMg0ATrXG+DblD30GcTuogQkPp6yhgGndkPwjb5Htzjr3OYbEqzJtKZU9LxYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=HD5H7Fi0; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TVFWMaQh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h+NE5ZrM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MZm5hUq0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zTSETOTf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="HD5H7Fi0"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id CDD8944BF;
+	Wed, 16 Oct 2024 15:41:54 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz CDD8944BF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1729086115; bh=d2kYxqzQ3cm5Aq5Fu/XHGFbGJNoxuONSLWYL2qDRYsg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=HD5H7Fi09rKxb+KoJYM1RdDHgMxFDq/7hBxGB2sQDMZJzZ7umsRhmaVSafU6tEnq4
+	 YXpNf6X+pKxz77umdSJSejKfqqxXBwuqctL+tRZuKhvO+YqXub/wlqc0j2vxDK0gem
+	 rqTErODloVaXw4By3sLbrQQrxePmc+QG+SbdrN68=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0BCBA1F7BF;
-	Wed, 16 Oct 2024 13:46:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729086402; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YsHBBt4Z3wijUgyWzwwNBsWrdswwSTuGmlLN+yNNtVk=;
-	b=TVFWMaQhgOcjQBYIfx/mZFpmGoShNKO81hDLhQxFgu6fKFM6/jcrkKDEi2YFxn+bD9RjIF
-	5x24ofj3pb4sl7BPVqe4+5B37NREd9OEurC8HbuXk5FkC2wAiS2VAI3H8wwZ2ipQ5PSwFs
-	x4v2dher29bORSPabZRfgffNIyV65TM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729086402;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YsHBBt4Z3wijUgyWzwwNBsWrdswwSTuGmlLN+yNNtVk=;
-	b=h+NE5ZrMvrvCSBGcF4HIK7kFzrPSDKhNSCmbcOXhtZ2icKjFfnsE+jeZ+hhOXbJJnw9S6A
-	/5yVKeMLd6BdGBAQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MZm5hUq0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zTSETOTf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729086400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YsHBBt4Z3wijUgyWzwwNBsWrdswwSTuGmlLN+yNNtVk=;
-	b=MZm5hUq0696FpXNYjZFqdhSzrR6ri+3Ivqy6IIWLqd/4O5ZtjwAYe4uR3b2BgrdnRpDKZ1
-	9ncJK9w2Oi+7Ri8i/k+2kuqHXojBXAS185zkzZRlhOSjNaQOQc/0XR6IkHAgHqy+vyJqg+
-	UejBMFu1w5HbZYVS3VEmTp6tY0opf0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729086400;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YsHBBt4Z3wijUgyWzwwNBsWrdswwSTuGmlLN+yNNtVk=;
-	b=zTSETOTf4/k9UlhN4AZ9DnlUlzO1w5K4pJskWgCTqe0/MV/Rez4hLIpbAHf9nzWJHy0pfm
-	lBE61INDqjYBNaDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E55E51376C;
-	Wed, 16 Oct 2024 13:46:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZDNmN7/DD2dOEAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 16 Oct 2024 13:46:39 +0000
-Date: Wed, 16 Oct 2024 15:47:30 +0200
-Message-ID: <87r08grwgd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>,
-	Cezary Rojewski
- <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [RFC PATCH 0/4] Add support for detection
-In-Reply-To: <51db28da-7eb8-401a-b86e-98d95f896643@linux.intel.com>
-References: <20241016130228.1013227-1-amadeuszx.slawinski@linux.intel.com>
-	<87y12ory4x.wl-tiwai@suse.de>
-	<51db28da-7eb8-401a-b86e-98d95f896643@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed, 16 Oct 2024 15:41:49 +0200 (CEST)
+Message-ID: <f05443e3-4049-4546-b308-f8b758ef6729@perex.cz>
+Date: Wed, 16 Oct 2024 15:41:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/4] Add support for detection
+To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Takashi Iwai <tiwai@suse.com>,
+ Mark Brown <broonie@kernel.org>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
+References: <20241016130228.1013227-1-amadeuszx.slawinski@linux.intel.com>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ xsFNBFvNeCsBEACUu2ZgwoGXmVFGukNPWjA68/7eMWI7AvNHpekSGv3z42Iy4DGZabs2Jtvk
+ ZeWulJmMOh9ktP9rVWYKL9H54gH5LSdxjYYTQpSCPzM37nisJaksC8XCwD4yTDR+VFCtB5z/
+ E7U0qujGhU5jDTne3dZpVv1QnYHlVHk4noKxLjvEQIdJWzsF6e2EMp4SLG/OXhdC9ZeNt5IU
+ HQpcKgyIOUdq+44B4VCzAMniaNLKNAZkTQ6Hc0sz0jXdq+8ZpaoPEgLlt7IlztT/MUcH3ABD
+ LwcFvCsuPLLmiczk6/38iIjqMtrN7/gP8nvZuvCValLyzlArtbHFH8v7qO8o/5KXX62acCZ4
+ aHXaUHk7ahr15VbOsaqUIFfNxpthxYFuWDu9u0lhvEef5tDWb/FX+TOa8iSLjNoe69vMCj1F
+ srZ9x2gjbqS2NgGfpQPwwoBxG0YRf6ierZK3I6A15N0RY5/KSFCQvJOX0aW8TztisbmJvX54
+ GNGzWurrztj690XLp/clewmfIUS3CYFqKLErT4761BpiK5XWUB4oxYVwc+L8btk1GOCOBVsp
+ 4xAVD2m7M+9YKitNiYM4RtFiXwqfLk1uUTEvsaFkC1vu3C9aVDn3KQrZ9M8MBh/f2c8VcKbN
+ njxs6x6tOdF5IhUc2E+janDLPZIfWDjYJ6syHadicPiATruKvwARAQABzSBKYXJvc2xhdiBL
+ eXNlbGEgPHBlcmV4QHBlcmV4LmN6PsLBjgQTAQgAOBYhBF7f7LZepM3UTvmsRTCsxHw/elMJ
+ BQJbzXgrAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEDCsxHw/elMJDGAP/ReIRiRw
+ lSzijpsGF/AslLEljncG5tvb/xHwCxK5JawIpViwwyJss06/IAvdY5vn5AdfUfCl2J+OakaR
+ VM/hdHjCYNu4bdBYZQBmEiKsPccZG2YFDRudEmiaoaJ1e8ZsiA3rSf4SiWWsbcBOYHr/unTf
+ 4KQsdUHzPUt8Ffi9HrAFzI2wjjiyV5yUGp3x58ZypAIMcKFtA1aDwhA6YmQ6lb8/bC0LTC6l
+ cAAS1tj7YF5nFfXsodCOKK5rKf5/QOF0OCD2Gy+mGLNQnq6S+kD+ujQfOLaUHeyfcNBEBxda
+ nZID7gzd65bHUMAeWttZr3m5ESrlt2SaNBddbN7NVpVa/292cuwDCLw2j+fAZbiVOYyqMSY4
+ LaNqmfa0wJAv30BMKeRAovozJy62j0AnntqrvtDqqvuXgYirj2BEDxx0OhZVqlI8o5qB6rA5
+ Pfp2xKRE8Fw3mASYRDNad08JDhJgsR/N5JDGbh4+6sznOA5J63TJ+vCFGM37M5WXInrZJBM3
+ ABicmpClXn42zX3Gdf/GMM3SQBrIriBtB9iEHQcRG/F+kkGOY4QDi4BZxo45KraANGmCkDk0
+ +xLZVfWh8YOBep+x2Sf83up5IMmIZAtYnxr77VlMYHDWjnpFnfuja+fcnkuzvvy7AHJZUO1A
+ aKexwcBjfTxtlX4BiNoK+MgrjYywzsFNBFvNeCsBEACb8FXFMOw1g+IGVicWVB+9AvOLOhqI
+ FMhUuDWmlsnT8B/aLxcRVUTXoNgJpt0y0SpWD3eEJOkqjHuvHfk+VhKWDsg6vlNUmF1Ttvob
+ 18rce0UH1s+wlE8YX8zFgODbtRx8h/BpykwnuWNTiotu9itlE83yOUbv/kHOPUz4Ul1+LoCf
+ V2xXssYSEnNr+uUG6/xPnaTvKj+pC7YCl38Jd5PgxsP3omW2Pi9T3rDO6cztu6VvR9/vlQ8Z
+ t0p+eeiGqQV3I+7k+S0J6TxMEHI8xmfYFcaVDlKeA5asxkqu5PDZm3Dzgb0XmFbVeakI0be8
+ +mS6s0Y4ATtn/D84PQo4bvYqTsqAAJkApEbHEIHPwRyaXjI7fq5BTXfUO+++UXlBCkiH8Sle
+ 2a8IGI1aBzuL7G9suORQUlBCxy+0H7ugr2uku1e0S/3LhdfAQRUAQm+K7NfSljtGuL8RjXWQ
+ f3B6Vs7vo+17jOU7tzviahgeRTcYBss3e264RkL62zdZyyArbVbK7uIU6utvv0eYqG9cni+o
+ z7CAe7vMbb5KfNOAJ16+znlOFTieKGyFQBtByHkhh86BQNQn77aESJRQdXvo5YCGX3BuRUaQ
+ zydmrgwauQTSnIhgLZPv5pphuKOmkzvlCDX+tmaCrNdNc+0geSAXNe4CqYQlSnJv6odbrQlD
+ Qotm9QARAQABwsF2BBgBCAAgFiEEXt/stl6kzdRO+axFMKzEfD96UwkFAlvNeCsCGwwACgkQ
+ MKzEfD96Uwlkjg/+MZVS4M/vBbIkH3byGId/MWPy13QdDzBvV0WBqfnr6n99lf7tKKp85bpB
+ y7KRAPtXu+9WBzbbIe42sxmWJtDFIeT0HJxPn64l9a1btPnaILblE1mrfZYAxIOMk3UZA3PH
+ uFdyhQDJbDGi3LklDhsJFTAhBZI5xMSnqhaMmWCL99OWwfyJn2omp8R+lBfAJZR31vW6wzsj
+ ssOvKIbgBpV/o3oGyAofIXPYzhY+jhWgOYtiPw9bknu748K+kK3fk0OeEG6doO4leB7LuWig
+ dmLZkcLlJzSE6UhEwHZ8WREOMIGJnMF51WcF0A3JUeKpYYEvSJNDEm7dRtpb0x/Y5HIfrg5/
+ qAKutAYPY7ClQLu5RHv5uqshiwyfGPaiE8Coyphvd5YbOlMm3mC/DbEstHG7zA89fN9gAzsJ
+ 0TFL5lNz1s/fo+//ktlG9H28EHD8WOwkpibsngpvY+FKUGfJgIxpmdXVOkiORWQpndWyRIqw
+ k8vz1gDNeG7HOIh46GnKIrQiUXVzAuUvM5vI9YaW3YRNTcn3pguQRt+Tl9Y6G+j+yvuLL173
+ m4zRUU6DOygmpQAVYSOJvKAJ07AhQGaWAAi5msM6BcTU4YGcpW7FHr6+xaFDlRHzf1lkvavX
+ WoxP1IA1DFuBMeYMzfyi4qDWjXc+C51ZaQd39EulYMh+JVaWRoY=
+In-Reply-To: <20241016130228.1013227-1-amadeuszx.slawinski@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0BCBA1F7BF
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
 
-On Wed, 16 Oct 2024 15:29:35 +0200,
-Amadeusz S³awiñski wrote:
+On 16. 10. 24 15:02, Amadeusz SÅ‚awiÅ„ski wrote:
+> There are some scenarios when using DSP where one may want to have
+> partially active stream and fully enable it after some event occurs.
 > 
-> On 10/16/2024 3:11 PM, Takashi Iwai wrote:
-> > On Wed, 16 Oct 2024 15:02:24 +0200,
-> > Amadeusz S³awiñski wrote:
-> >> 
-> >> There are some scenarios when using DSP where one may want to have
-> >> partially active stream and fully enable it after some event occurs.
-> >> 
-> >> Following patchset adds new "detect" state to ALSA state machine to
-> >> allow waiting for condition to occur before fully starting a stream. In
-> >> further patches the state is propagated through ASoC components to allow
-> >> them to handling the state as necessary.
-> >> 
-> >> Main goal of this patchset is to allow handling scenarios like keyphrase
-> >> detection - where DSP analyses incoming signal and wakes userspace to
-> >> consume stream only when keyphrase is detected.
-> >> 
-> >> I'm sending this as RFC so we can discuss if this is the way to go or if
-> >> there is perhaps another preferred way of adding such interface.
-> >> Userspace part of implementation is available at
-> >> https://github.com/amadeuszslawinski-intel/alsa-lib/tree/rfc_detect
-> >> 
-> >> Amadeusz S³awiñski (4):
-> >>    ALSA: core: Add support for running detect on capture stream
-> >>    ALSA: core: Allow polling for detection
-> >>    ASoC: pcm: Add support for running detect on capture stream
-> >>    ASoC: Propagate DETECT trigger
-> > 
-> > Generally speaking, the addition of a new PCM state should be avoided.
-> > It'll influence too badly on all user-space programs.  e.g. if an old
-> > user-space program receives such a new state, what should it do?
-> > How can it know it's a fatal error or it can be ignored / skipped?
+> Following patchset adds new "detect" state to ALSA state machine to
+> allow waiting for condition to occur before fully starting a stream. In
+> further patches the state is propagated through ASoC components to allow
+> them to handling the state as necessary.
 > 
-> In this case it should not get into new state unless specifically
-> requested from userspace, unless I'm missing something?
-
-Hmm, if the state is exclusive only for the requested program and
-influences only on that program itself, why does it have to be a
-global PCM state that essentially every program code has to deal with?
-
-> Goal is to allow something along the lines of following in arecord or
-> similar:
+> Main goal of this patchset is to allow handling scenarios like keyphrase
+> detection - where DSP analyses incoming signal and wakes userspace to
+> consume stream only when keyphrase is detected.
 > 
->         ret = snd_pcm_detect(handle); // here only parts of DSP FW
-> needed for detection are running
->         c = snd_pcm_poll_descriptors_count(handle);
-> 
->         pfds = malloc(sizeof(struct pollfd) * c);
-> 
->         snd_pcm_poll_descriptors(handle, pfds, c); // polling for
-> detect event to happen
-> 
->         while (!detected) {
->                 ret = poll(pfds, c, -1);
->                 snd_pcm_poll_descriptors_revents(handle, pfds, c,
-> &revents);
-> 
->                 if (revents == POLLERR) {
->                         error(_("poll, revents == |POLLERR"));
->                 }
->                 if (revents == POLLIN) {
->                         error(_("poll, revents == |POLLIN"));
->                         detected = 1;
->                 }
->         }
+> I'm sending this as RFC so we can discuss if this is the way to go or if
+> there is perhaps another preferred way of adding such interface.
+> Userspace part of implementation is available at
+> https://github.com/amadeuszslawinski-intel/alsa-lib/tree/rfc_detect
 
-It's too complex if it's needed for each program.
-If any, it'd be easier to implement an ioctl() for triggering the
-detect and the sync...
+It looks like a complex extension with a low benefit. We have already layer 
+which can signalize stream readiness - an element in the control API. PCM 
+driver may just return silence samples when the condition is not met for 
+security reasons.
 
->         ret = snd_pcm_start(handle); // starts whatever else is needed
-> for PCM to work
-> 
-> > 
-> > And, if it's about the synchronization of the DSP readiness, can't it
-> > be rather synced in each PCM open or prepare instead?
-> > 
-> 
-> It's too early. We need to do it after hw_params as it needs to create
-> all paths needed for full stream.
+				Jaroslav
 
-It can be done in hw_params, too.  I don't mind where to put, but my
-point is that the sync can be implemented internally without changing
-the external API to user-space.
-
-> During detection it just activates
-> ones needed for detection and only after receiving detection event we
-> want to start ones needed for draining.
-
-So if the driver needs the sync, it can be done in hw_params or
-prepare, too.  Something like stop_sync stuff we introduced.
-In the case of stop_sync, hw_params waits for the pending task by the
-previous stop trigger.  In this case, the sync can be performed after
-hw_params (if requested) instead.
-
-
-thanks,
-
-Takashi
+-- 
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
