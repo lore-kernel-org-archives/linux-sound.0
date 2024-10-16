@@ -1,77 +1,144 @@
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBC85221;
-	Wed, 16 Oct 2024 05:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83760170A37;
+	Wed, 16 Oct 2024 06:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729058175; cv=none; b=hNaEQaDhaz22ONolobV2aUYNTtiqbZPdCp859osqvbikImES47UtlCW9y1+2L2yg65/2m6A1bZqeOK3pK8qCc4I9bt2m6VLqqFraQzZBWf7Y/EFO3P5KA8ncRwi8LzUPwb2QhFcEIUSsto3SZ5KOGB/1W6ilEtk0ODtjUJxjfCE=
+	t=1729061803; cv=none; b=i/lBfo8Ah+/q58YFORx6KBvY6gHlaYRGncB3MtrmGDOEzWW9ZtHvVsFBgUr/ThCW5mc/yY3zsg3XReY682MVq9MdvZQQWzTIVHRrR37pZI78JRT4HgZfwjT4d1N8xkzSI/x2oM/xrzlDHXTUa8xsIJscQIyW81iN3fIgspdBAAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729058175; c=relaxed/simple;
-	bh=EVsQY8fPxvadPhWsnGUGb2WaQ0g3ANREtDe2FCLO9I8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UrwWTR5XpZQVqbtBMWqvl9y4AkekUax2LjspE4/JbgNs9KdTBn7j4qvruVSX95AhB5MxxgufaixuvQChoU7/O1yK7lUtD/dkWiZJGtcZNGaGLV/OOWAL7grXC8Ttn/R7fsz1kWbyCQm5DAuWyIExhT/2sRYDlgNdixHhgnIWlgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=fH1rs0sR; arc=none smtp.client-ip=80.237.130.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="fH1rs0sR"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	In-Reply-To:References; bh=OfDEy5CvavV94PaefN8qX3Rl0Kvh6OaxMiKj2+nKExg=;
-	t=1729058173; x=1729490173; b=fH1rs0sRN0zjeP5Oln5pZ0TgLmeW/MOqlhhu1Z0GqFzLHZh
-	qlMaabGc7B/F8ai4rClQv/ACtxepuZvDJF21GAPUl3pSkasB5VafPglfdJxrgeLguviFvPHjVS3W7
-	LmQ7c2WZizEaEOQONSwL6g0HI8248P+cv9BAUzzf+bFnhJSbX1k+Z8ngnZjSBDAsMfi9eI62gn5lu
-	qg2OErdrn1bgczRmutS67HlR2WHK7cBsKl/lf8jqS+VbXApx4rOrM3u5p8i+YSGuW/Fyh9/nLn7/R
-	De9xuwPhOQXyEObBH2AifA1yHanFOU8UAjWJz495ouVIYxZWme1rasznNvIbFdfQ==;
-Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
-	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1t0x10-0000xh-EW; Wed, 16 Oct 2024 07:56:10 +0200
-Message-ID: <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-Date: Wed, 16 Oct 2024 07:56:09 +0200
+	s=arc-20240116; t=1729061803; c=relaxed/simple;
+	bh=SUtkFaU7RS9ieQKjmJVvtK5q+JcvxASO+kPsiyL23Xg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=LvAPqNEFvPX+TNMijMHQKE6G792sDi1Yii+5IgeeDldRu1PtOFsn/c2rhEDeoc5fnewIHO410Zn47KQ4A6lrCA5KP26FJ2WzoovZunoIQOOfTJmVpPpRKMnhYmAzB9OTXRtZaZ+P+9O7MM9aKwSj/f0w6oGnISMSSPniRRS9BZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.38])
+	by gateway (Coremail) with SMTP id _____8DxNOmlYw9nXZsfAA--.45597S3;
+	Wed, 16 Oct 2024 14:56:37 +0800 (CST)
+Received: from zhoubinbin$loongson.cn ( [223.64.68.38] ) by
+ ajax-webmail-front2 (Coremail) ; Wed, 16 Oct 2024 14:56:32 +0800
+ (GMT+08:00)
+Date: Wed, 16 Oct 2024 14:56:32 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5ZGo5b2s5b2s?= <zhoubinbin@loongson.cn>
+To: "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
+	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+	"Arnd Bergmann" <arnd@arndb.de>,
+	tangbin <tangbin@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhoubb.aaron@gmail.com
+Subject: Re: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT6 build
+ 20240729(6d2960c6) Copyright (c) 2002-2024 www.mailtech.cn loongson
+In-Reply-To: <20241015150958.2294155-1-arnd@kernel.org>
+References: <20241015150958.2294155-1-arnd@kernel.org>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: H2VyAmZvb3Rlcl90eHQ9MzM5Njo2MTg=
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Linux Sound System <linux-sound@vger.kernel.org>,
- Greg KH <gregkh@linuxfoundation.org>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
- <2024101613-giggling-ceremony-aae7@gregkh>
-From: "Linux regression tracking (Thorsten Leemhuis)"
- <regressions@leemhuis.info>
-Content-Language: en-US, de-DE
-Reply-To: Linux regressions mailing list <regressions@lists.linux.dev>
-In-Reply-To: <2024101613-giggling-ceremony-aae7@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1729058173;7a816f2a;
-X-HE-SMSGID: 1t0x10-0000xh-EW
+Message-ID: <52c7e318.434f.192941d2bee.Coremail.zhoubinbin@loongson.cn>
+X-Coremail-Locale: en_US
+X-CM-TRANSID:qciowMCxyMWgYw9nS6ovAA--.1538W
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/1tbiAgEMCGcOWyIO1gAAsP
+X-Coremail-Antispam: 1Uk129KBj93XoWxGFWrAryDWrWDCw4kAry5Awc_yoWrJrWDpF
+	n3C3ykWFyrZr4avFZIyrW8GFyUZryfCrZxWF43J34UGrZrJw17ur9rtF15ZFW7CryUGa40
+	qFykGrW8GFs8G3XCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUl2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAa7VCE64xvF2IEb7IF0Fy264xvF2IEb7IF0Fy264
+	kE64k0F2IE7I0Y6sxI4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2
+	zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7V
+	C2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4xv
+	F2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCY1x0262kKe7AKxVWUAVWUtw
+	CF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWU
+	twC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+	AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xII
+	jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+	A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_Gr1l6VACY4xI67k04243
+	AbIYCTnIWIevJa73UjIFyTuYvjxU55l1UUUUU
 
-On 16.10.24 07:42, Greg KH wrote:
-> On Tue, Oct 15, 2024 at 07:47:22PM -0500, Dean Matthew Menezes wrote:
->> I am not getting sound on the speakers on my Thinkpad X1 Carbon Gen 12
->> with kernel 6.11.2  The sound is working in kernel 6.8
-> 
-> Can you use 'git bisect' to track down the offending change?
+SGkgQXJuZDoKClRoYW5rcyBmb3IgeW91ciBwYXRjaC4KCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+cy0tLS0tCj4gRnJvbTogIkFybmQgQmVyZ21hbm4iIDxhcm5kQGtlcm5lbC5vcmc+Cj4gU2VuZCB0
+aW1lOlR1ZXNkYXksIDEwLzE1LzIwMjQgMjM6MDk6NTQKPiBUbzogIkxpYW0gR2lyZHdvb2QiIDxs
+Z2lyZHdvb2RAZ21haWwuY29tPiwgIk1hcmsgQnJvd24iIDxicm9vbmllQGtlcm5lbC5vcmc+LCAi
+SmFyb3NsYXYgS3lzZWxhIiA8cGVyZXhAcGVyZXguY3o+LCAiVGFrYXNoaSBJd2FpIiA8dGl3YWlA
+c3VzZS5jb20+LCAiQmluYmluIFpob3UiIDx6aG91YmluYmluQGxvb25nc29uLmNuPgo+IENjOiAi
+QXJuZCBCZXJnbWFubiIgPGFybmRAYXJuZGIuZGU+LCB0YW5nYmluIDx0YW5nYmluQGNtc3MuY2hp
+bmFtb2JpbGUuY29tPiwgbGludXgtc291bmRAdmdlci5rZXJuZWwub3JnLCBsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnCj4gU3ViamVjdDogW1BBVENIXSBBU29DOiBsb29uZ3NvbjogbWFrZSBs
+b29uZ3Nvbi1pMnMubyBhIHNlcGFyYXRlIG1vZHVsZQo+IAo+IEZyb206IEFybmQgQmVyZ21hbm4g
+PGFybmRAYXJuZGIuZGU+Cj4gCj4gQW4gb2JqZWN0IGZpbGUgc2hvdWxkIG5vdCBiZSBsaW5rZWQg
+aW50byBtdWx0aXBsZSBtb2R1bGVzIGFuZC9vcgo+IHZtbGludXg6Cj4gCj4gc2NyaXB0cy9NYWtl
+ZmlsZS5idWlsZDoyMjE6IC9ob21lL2FybmQvYXJtLXNvYy9zb3VuZC9zb2MvbG9vbmdzb24vTWFr
+ZWZpbGU6IGxvb25nc29uX2kycy5vIGlzIGFkZGVkIHRvIG11bHRpcGxlIG1vZHVsZXM6IHNuZC1z
+b2MtbG9vbmdzb24taTJzLXBjaSBzbmQtc29jLWxvb25nc29uLWkycy1wbGF0CgpJIHdvdWxkIGxp
+a2UgdG8gYXNrIGZvciBzb21lIGFkdmljZS4KSSBkaWRuJ3Qgbm90aWNlIHRoaXMgd2FybmluZyBi
+ZWZvcmUgd2hlbiBJIHN1Ym1pdHRlZCB0aGUgcGF0Y2gsIGlzIHRoZXJlIHNvbWUgc3BlY2lmaWMg
+Y29tcGlsYXRpb24gb3B0aW9uIHRoYXQgbmVlZHMgdG8gYmUgdHVybmVkIG9uPwoKIwojIFNvQyBB
+dWRpbyBmb3IgTG9vbmdzb24gQ1BVcwojCkNPTkZJR19TTkRfU09DX0xPT05HU09OX0NBUkQ9bQpD
+T05GSUdfU05EX1NPQ19MT09OR1NPTl9JMlNfUENJPW0KQ09ORklHX1NORF9TT0NfTE9PTkdTT05f
+STJTX1BMQVRGT1JNPW0KIyBlbmQgb2YgU29DIEF1ZGlvIGZvciBMb29uZ3NvbiBDUFVzCgpUaGFu
+a3MuCkJpbmJpbgo+IAo+IENoYW5nZSB0aGlzIG9uZSB0byBtYWtlIGl0IGEgbGlicmFyeSBtb2R1
+bGUgd2l0aCB0d28gZXhwb3J0ZWQgc3ltYm9scwo+IHRoYXQgd2lsbCB3b3JrIGluIGFueSBjb25m
+aWd1cmF0aW9uLgo+IAo+IEZpeGVzOiBiYTRjNWZhZDU5OGMgKCJBU29DOiBsb29uZ3NvbjogQWRk
+IEkyUyBjb250cm9sbGVyIGRyaXZlciBhcyBwbGF0Zm9ybSBkZXZpY2UiKQo+IFNpZ25lZC1vZmYt
+Ynk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gLS0tCj4gIHNvdW5kL3NvYy9sb29u
+Z3Nvbi9NYWtlZmlsZSAgICAgICB8IDEwICsrKysrKy0tLS0KPiAgc291bmQvc29jL2xvb25nc29u
+L2xvb25nc29uX2kycy5jIHwgIDUgKysrKysKPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMSBpbnNlcnRp
+b25zKCspLCA0IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9zb3VuZC9zb2MvbG9vbmdz
+b24vTWFrZWZpbGUgYi9zb3VuZC9zb2MvbG9vbmdzb24vTWFrZWZpbGUKPiBpbmRleCBmMzk2MjU5
+MjQ0YTMuLmMwY2IxYWNiMzZlMyAxMDA2NDQKPiAtLS0gYS9zb3VuZC9zb2MvbG9vbmdzb24vTWFr
+ZWZpbGUKPiArKysgYi9zb3VuZC9zb2MvbG9vbmdzb24vTWFrZWZpbGUKPiBAQCAtMSwxMCArMSwx
+MiBAQAo+ICAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCj4gICNQbGF0Zm9ybSBT
+dXBwb3J0Cj4gLXNuZC1zb2MtbG9vbmdzb24taTJzLXBjaS15IDo9IGxvb25nc29uX2kyc19wY2ku
+byBsb29uZ3Nvbl9pMnMubyBsb29uZ3Nvbl9kbWEubwo+IC1vYmotJChDT05GSUdfU05EX1NPQ19M
+T09OR1NPTl9JMlNfUENJKSArPSBzbmQtc29jLWxvb25nc29uLWkycy1wY2kubwo+ICtzbmQtc29j
+LWxvb25nc29uLWkycy1wY2kteSA6PSBsb29uZ3Nvbl9pMnNfcGNpLm8gbG9vbmdzb25fZG1hLm8K
+PiArb2JqLSQoQ09ORklHX1NORF9TT0NfTE9PTkdTT05fSTJTX1BDSSkgKz0gc25kLXNvYy1sb29u
+Z3Nvbi1pMnMtcGNpLm8gc25kLXNvYy1sb29uZ3Nvbi1pMnMubwo+ICAKPiAtc25kLXNvYy1sb29u
+Z3Nvbi1pMnMtcGxhdC15IDo9IGxvb25nc29uX2kyc19wbGF0Lm8gbG9vbmdzb25faTJzLm8KPiAt
+b2JqLSQoQ09ORklHX1NORF9TT0NfTE9PTkdTT05fSTJTX1BMQVRGT1JNKSArPSBzbmQtc29jLWxv
+b25nc29uLWkycy1wbGF0Lm8KPiArc25kLXNvYy1sb29uZ3Nvbi1pMnMtcGxhdC15IDo9IGxvb25n
+c29uX2kyc19wbGF0Lm8KPiArb2JqLSQoQ09ORklHX1NORF9TT0NfTE9PTkdTT05fSTJTX1BMQVRG
+T1JNKSArPSBzbmQtc29jLWxvb25nc29uLWkycy1wbGF0Lm8gc25kLXNvYy1sb29uZ3Nvbi1pMnMu
+bwo+ICsKPiArc25kLXNvYy1sb29uZ3Nvbi1pMnMteSA6PSBsb29uZ3Nvbl9pMnMubwo+ICAKPiAg
+I01hY2hpbmUgU3VwcG9ydAo+ICBzbmQtc29jLWxvb25nc29uLWNhcmQteSA6PSBsb29uZ3Nvbl9j
+YXJkLm8KPiBkaWZmIC0tZ2l0IGEvc291bmQvc29jL2xvb25nc29uL2xvb25nc29uX2kycy5jIGIv
+c291bmQvc29jL2xvb25nc29uL2xvb25nc29uX2kycy5jCj4gaW5kZXggNDBiYmYzMjA1MzkxLi5l
+ODg1MmEzMGYyMTMgMTAwNjQ0Cj4gLS0tIGEvc291bmQvc29jL2xvb25nc29uL2xvb25nc29uX2ky
+cy5jCj4gKysrIGIvc291bmQvc29jL2xvb25nc29uL2xvb25nc29uX2kycy5jCj4gQEAgLTI0Niw2
+ICsyNDYsNyBAQCBzdHJ1Y3Qgc25kX3NvY19kYWlfZHJpdmVyIGxvb25nc29uX2kyc19kYWkgPSB7
+Cj4gIAkub3BzID0gJmxvb25nc29uX2kyc19kYWlfb3BzLAo+ICAJLnN5bW1ldHJpY19yYXRlID0g
+MSwKPiAgfTsKPiArRVhQT1JUX1NZTUJPTF9HUEwobG9vbmdzb25faTJzX2RhaSk7Cj4gIAo+ICBz
+dGF0aWMgaW50IGkyc19zdXNwZW5kKHN0cnVjdCBkZXZpY2UgKmRldikKPiAgewo+IEBAIC0yNjgs
+MyArMjY5LDcgQEAgc3RhdGljIGludCBpMnNfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikKPiAg
+Y29uc3Qgc3RydWN0IGRldl9wbV9vcHMgbG9vbmdzb25faTJzX3BtID0gewo+ICAJU1lTVEVNX1NM
+RUVQX1BNX09QUyhpMnNfc3VzcGVuZCwgaTJzX3Jlc3VtZSkKPiAgfTsKPiArRVhQT1JUX1NZTUJP
+TF9HUEwobG9vbmdzb25faTJzX3BtKTsKPiArCj4gK01PRFVMRV9MSUNFTlNFKCJHUEwiKTsKPiAr
+TU9EVUxFX0RFU0NSSVBUSU9OKCJDb21tb24gZnVuY3Rpb25zIGZvciBsb29uZ3NvbiBJMlMgY29u
+dHJvbGxlciBkcml2ZXIiKTsKPiAtLSAKPiAyLjM5LjUKDQoNCuacrOmCruS7tuWPiuWFtumZhOS7
+tuWQq+aciem+meiKr+S4reenkeeahOWVhuS4muenmOWvhuS/oeaBr++8jOS7hemZkOS6juWPkemA
+gee7meS4iumdouWcsOWdgOS4reWIl+WHuueahOS4quS6uuaIlue+pOe7hOOAguemgeatouS7u+S9
+leWFtuS7luS6uuS7peS7u+S9leW9ouW8j+S9v+eUqO+8iOWMheaLrOS9huS4jemZkOS6juWFqOmD
+qOaIlumDqOWIhuWcsOazhOmcsuOAgeWkjeWItuaIluaVo+WPke+8ieacrOmCruS7tuWPiuWFtumZ
+hOS7tuS4reeahOS/oeaBr+OAguWmguaenOaCqOmUmeaUtuacrOmCruS7tu+8jOivt+aCqOeri+WN
+s+eUteivneaIlumCruS7tumAmuefpeWPkeS7tuS6uuW5tuWIoOmZpOacrOmCruS7tuOAgiANClRo
+aXMgZW1haWwgYW5kIGl0cyBhdHRhY2htZW50cyBjb250YWluIGNvbmZpZGVudGlhbCBpbmZvcm1h
+dGlvbiBmcm9tIExvb25nc29uIFRlY2hub2xvZ3kgLCB3aGljaCBpcyBpbnRlbmRlZCBvbmx5IGZv
+ciB0aGUgcGVyc29uIG9yIGVudGl0eSB3aG9zZSBhZGRyZXNzIGlzIGxpc3RlZCBhYm92ZS4gQW55
+IHVzZSBvZiB0aGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGhlcmVpbiBpbiBhbnkgd2F5IChpbmNs
+dWRpbmcsIGJ1dCBub3QgbGltaXRlZCB0bywgdG90YWwgb3IgcGFydGlhbCBkaXNjbG9zdXJlLCBy
+ZXByb2R1Y3Rpb24gb3IgZGlzc2VtaW5hdGlvbikgYnkgcGVyc29ucyBvdGhlciB0aGFuIHRoZSBp
+bnRlbmRlZCByZWNpcGllbnQocykgaXMgcHJvaGliaXRlZC4gSWYgeW91IHJlY2VpdmUgdGhpcyBl
+bWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHBob25lIG9yIGVtYWls
+IGltbWVkaWF0ZWx5IGFuZCBkZWxldGUgaXQuIA0KDQoNCg==
 
-Yeah, that would help a lot.
-
-But FWIW, I CCed the audio maintainers and the sound mailing list, with
-a bit of luck they might have an idea.
-
-You might also want to publish your dmesg files from the latest working
-and the first broken kernel, that gives people a chance to spot obvious
-problems. Ohh, and runing alsa-info.sh and publishing the output could
-help, too.
-
-Ciao, Thorsten
