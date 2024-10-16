@@ -1,107 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F6F205E05;
-	Wed, 16 Oct 2024 09:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44021206E6A;
+	Wed, 16 Oct 2024 10:23:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729071432; cv=none; b=tMUv6aUC8PIdhk+1ZEkqzFNMbxjkAYK92e8rEkrxRAsAh8pqGy3tiPGc92oHPhDrmtZGo/urrewcAA5wSvD5wVFvFV8LVSwilyITZ2WJkYSLp7GwkgNDexnDllcOOOqGqQK9dQ3AR0NqQ35lnnb/P7O78WHtgmtmI0Z+fMN6Y1w=
+	t=1729074229; cv=none; b=IX4AIboJ8hgRmn+CjeJ/z3dlJaijCMJ8YKRW50E6dc/ipTvs40W1UpvBFQrPi2OWTepkdFx+MDFYn//GttMwFdWM2zrhPwjNIpqNsA6qgI1jxGTKqPqo0Vl3jFq31wId/IQxzM1pIx9CBjmFL6DSvR/FThzRivG/vxY6axZ6rGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729071432; c=relaxed/simple;
-	bh=3qs9RCIcBMaiRaaQowBtUAYRplzqstMrihAHPPNLmDY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=Cnc8wtkcZW4olhmy2rYsWJnD/QgVO9gh2vUVBSkOn67kPDmY099bhEA8vV66VwO97rNkYvxIM3kXWhNUrdu/pbB7gXJTcsJqQdGPIPjm4g3/vevlGgQ40ytb1ARV34FsVdK9InA5uAqNp79NI27YxaJ6uee+i65AQPJYPQSmYKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKOX9/0G; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729074229; c=relaxed/simple;
+	bh=duvDr9mn6ONznmwCzM0juLtAPd4mMVAfQxkSAW/w++c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YDmSxQ8k3bMglbPKJBLADZCDgVjVwGABw60pFxFuyQPQbm7cfGsG69yVRrGF6/D11MK43mOwCEgf3DSbCcPnIKqIH3covtoVxRXOG2UXmok5IpwQz8BRcWYVUfwmmpeiu0JYy+sowvlBH/zZYnHlI0XpYguI95X59LOp2z6E1QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezzjGnOI; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKOX9/0G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83DEC4CECF;
-	Wed, 16 Oct 2024 09:37:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729071431;
-	bh=3qs9RCIcBMaiRaaQowBtUAYRplzqstMrihAHPPNLmDY=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=TKOX9/0GP1+lza5sQLTeaGorlh3MWnyZcXGq05D/f/GBd2opmS8ChUbAgJdPb/CZ1
-	 yn5rFWuoHPLLh+d3Tn7faqhBzYHFIRUNCjskSa+aHE7Hk+eHTbbOc5TCSh9q9iJ3uy
-	 ecD+a1d8UI2TkI22bqwo5dXLynEXWBDFQZqY5PiV0eO3UFpqqqMhVJV65YiRQTDMNj
-	 WP2usCFu0zlWexw7EVaqgNj9e/FFPneDaR8h9YjjAPmN4hPc1uAoQejPiORMJPvOU5
-	 CWaLZFgGsjhgxS13aQ+7ta5bJuOGaob/3dXOYCK3/wDOU6szpcWpgz4jJlrkWESsRr
-	 s45FfeYSH4aKw==
-From: Kalle Valo <kvalo@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>,
-  Sergey Shtylyov <s.shtylyov@omp.ru>,  Basavaraj Natikar
- <basavaraj.natikar@amd.com>,  Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,  Alex Dubov <oakad@yahoo.com>,
-  Sudarsana Kalluru <skalluru@marvell.com>,  Manish Chopra
- <manishc@marvell.com>,  "David S. Miller" <davem@davemloft.net>,  Eric
- Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo
- Abeni <pabeni@redhat.com>,  Rasesh Mody <rmody@marvell.com>,
-  GR-Linux-NIC-Dev@marvell.com,  Igor Mitsyanko <imitsyanko@quantenna.com>,
-  Sergey Matyukevich <geomatsi@gmail.com>,  Sanjay R Mehta
- <sanju.mehta@amd.com>,  Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,  Jon
- Mason <jdmason@kudzu.us>,  Dave Jiang <dave.jiang@intel.com>,  Allen Hubbe
- <allenbh@gmail.com>,  Bjorn Helgaas <bhelgaas@google.com>,  Alex
- Williamson <alex.williamson@redhat.com>,  Juergen Gross <jgross@suse.com>,
-  Stefano Stabellini <sstabellini@kernel.org>,  Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Chen Ni <nichen@iscas.ac.cn>,  Mario
- Limonciello <mario.limonciello@amd.com>,  Ricky Wu <ricky_wu@realtek.com>,
-  Al Viro <viro@zeniv.linux.org.uk>,  Breno Leitao <leitao@debian.org>,
-  Kevin Tian <kevin.tian@intel.com>,  Thomas Gleixner <tglx@linutronix.de>,
-  Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,  Andy
- Shevchenko
- <andriy.shevchenko@linux.intel.com>,  Mostafa Saleh <smostafa@google.com>,
-  Jason Gunthorpe <jgg@ziepe.ca>,  Yi Liu <yi.l.liu@intel.com>,  Christian
- Brauner <brauner@kernel.org>,  Ankit Agrawal <ankita@nvidia.com>,  Eric
- Auger <eric.auger@redhat.com>,  Reinette Chatre
- <reinette.chatre@intel.com>,  Ye Bin <yebin10@huawei.com>,  Marek
- =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-  Pierre-Louis
- Bossart <pierre-louis.bossart@linux.dev>,  Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,  Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
-  linux-ide@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-input@vger.kernel.org,  netdev@vger.kernel.org,
-  linux-wireless@vger.kernel.org,  ntb@lists.linux.dev,
-  linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
-  xen-devel@lists.xenproject.org,  linux-sound@vger.kernel.org
-Subject: Re: [PATCH 10/13] wifi: qtnfmac: use always-managed version of
- pcim_intx()
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	<20241015185124.64726-11-pstanner@redhat.com>
-Date: Wed, 16 Oct 2024 12:36:58 +0300
-In-Reply-To: <20241015185124.64726-11-pstanner@redhat.com> (Philipp Stanner's
-	message of "Tue, 15 Oct 2024 20:51:20 +0200")
-Message-ID: <87y12o4ced.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezzjGnOI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729074228; x=1760610228;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=duvDr9mn6ONznmwCzM0juLtAPd4mMVAfQxkSAW/w++c=;
+  b=ezzjGnOIHZicWzXwSu1qdFF9Q4DxoGQAYulHyNmWs6+D8R2BzUnbLE03
+   aJJ1rTiFbeP4XoBWR3qJnn+KN+rBCq/9tFeeGj+TRtpiBsczhzl/eJ1p8
+   FkK5mvjBzhSkojx0C2V6HgqH7cuMd9wTpQ6wfUO+Pqz+6CmLPhDN7GswU
+   S5BKFZWifRaqugb4S46e9ziJN2a7ik+ZAbcWixFGaETTZd3Ezg/itTivv
+   BLM+Dpuct7Ef82W0jC9taXvzoNAfU4LOATEuYRkKZ5EK7u/MqYU2vCi0p
+   c9E7vVjYJR56eGOfilKp8DJBu8+ODds3Cp7Vobq2mCo4vMkxV1QKvR+V3
+   Q==;
+X-CSE-ConnectionGUID: /PpkekT6QD2X4diniJM3uQ==
+X-CSE-MsgGUID: zmcnADvMSuKURG6sBtcQhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="27985856"
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="27985856"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 03:23:47 -0700
+X-CSE-ConnectionGUID: ayjCf5bTQAuFg+OaTaUUZQ==
+X-CSE-MsgGUID: 8BsxSgJPRPSWXotGpoJbtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,207,1725346800"; 
+   d="scan'208";a="82960807"
+Received: from cvapit-mobl1.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.236])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 03:23:45 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 00/11] ASoC/soundwire: add initial support for SDCA
+Date: Wed, 16 Oct 2024 18:23:22 +0800
+Message-ID: <20241016102333.294448-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Philipp Stanner <pstanner@redhat.com> writes:
+We need to get rt712 version by reading SDCA version and functions.
+This patch series adds initial support for SDCA and add a helper to tell
+if the codec is RT712_VB.
 
-> pci_intx() is a hybrid function which can sometimes be managed through
-> devres. To remove this hybrid nature from pci_intx(), it is necessary to
-> port users to either an always-managed or a never-managed version.
->
-> qtnfmac enables its PCI-Device with pcim_enable_device(). Thus, it needs
-> the always-managed version.
->
-> Replace pci_intx() with pcim_intx().
->
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+This series may go via the ASoC tree with Vinod's Acked-by tag.
 
-Feel free to take this via the PCI tree:
+Bard Liao (1):
+  soundwire: sdw_intel: include linux/acpi.h
 
-Acked-by: Kalle Valo <kvalo@kernel.org>
+Pierre-Louis Bossart (10):
+  ASoC/soundwire: remove sdw_slave_extended_id
+  ASoC: SDCA: add initial module
+  soundwire: slave: lookup SDCA version and functions
+  ASoC: SDCA: add quirk function for RT712_VB match
+  ASoC: rt712-sdca: detect the SMART_MIC function during the probe stage
+  ASoC: soc-acpi: introduce new 'machine check' callback
+  ASoC: sdw_utils: add SmartMic DAI for RT712 VB
+  ASoC: sdw_utils: add SmartMic DAI for RT713 VB
+  ASoC: Intel: soc-acpi: add is_device_rt712_vb() helper
+  ASoC: SOF: Intel: hda: use machine_check() for SoundWire
+
+ drivers/soundwire/Kconfig                     |   1 +
+ drivers/soundwire/amd_init.c                  |  12 +-
+ drivers/soundwire/intel_init.c                |  13 +-
+ drivers/soundwire/slave.c                     |  14 ++
+ include/linux/soundwire/sdw.h                 |   9 +-
+ include/linux/soundwire/sdw_amd.h             |   7 +-
+ include/linux/soundwire/sdw_intel.h           |   8 +-
+ include/sound/sdca.h                          |  62 +++++++
+ include/sound/sdca_function.h                 |  55 ++++++
+ include/sound/soc-acpi.h                      |   8 +-
+ sound/soc/Kconfig                             |   1 +
+ sound/soc/Makefile                            |   1 +
+ sound/soc/amd/ps/pci-ps.c                     |   3 +-
+ sound/soc/codecs/rt712-sdca-sdw.c             |   1 +
+ sound/soc/codecs/rt712-sdca.c                 |  38 +++-
+ sound/soc/codecs/rt712-sdca.h                 |   1 +
+ sound/soc/intel/Kconfig                       |   5 +
+ sound/soc/intel/common/Makefile               |   3 +
+ .../intel/common/soc-acpi-intel-mtl-match.c   |  51 ++++++
+ .../intel/common/soc-acpi-intel-sdca-quirks.c |  42 +++++
+ .../intel/common/soc-acpi-intel-sdca-quirks.h |  14 ++
+ sound/soc/sdca/Kconfig                        |  11 ++
+ sound/soc/sdca/Makefile                       |   5 +
+ sound/soc/sdca/sdca_device.c                  |  67 +++++++
+ sound/soc/sdca/sdca_functions.c               | 173 ++++++++++++++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |  18 +-
+ sound/soc/soc-acpi.c                          |  30 +--
+ sound/soc/sof/amd/acp-common.c                |   3 +-
+ sound/soc/sof/intel/hda.c                     |  19 +-
+ 29 files changed, 610 insertions(+), 65 deletions(-)
+ create mode 100644 include/sound/sdca.h
+ create mode 100644 include/sound/sdca_function.h
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-sdca-quirks.c
+ create mode 100644 sound/soc/intel/common/soc-acpi-intel-sdca-quirks.h
+ create mode 100644 sound/soc/sdca/Kconfig
+ create mode 100644 sound/soc/sdca/Makefile
+ create mode 100644 sound/soc/sdca/sdca_device.c
+ create mode 100644 sound/soc/sdca/sdca_functions.c
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
+2.43.0
 
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
