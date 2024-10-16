@@ -1,88 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1553F165F1A;
-	Wed, 16 Oct 2024 08:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7117165F1A;
+	Wed, 16 Oct 2024 08:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729065705; cv=none; b=quVMVq/37/z/nGyYbr7Q7X6SBmYN40Tr6zqTju8PCt52X3Kv3lITxSxzKE68SO+dsLX+OJuCooblAdlbfuHN4ou0oiYdL1HuYHeTefQk4ZX12fDtfgtGPmrYefhKUv9HmHPKXm1k8coQ7WHERaHfVvmpqef75cZZ2gUJ9vEVJ6c=
+	t=1729065742; cv=none; b=ZOZqSOFiR0XIbyZSqEYaQXQjg+pV12Wm6cg7kTxb+sdSVEnSYavu2F9hqp8Cy/dLSnGHl7yQRP3jW4bRHHFghAGuO0269H6pT4H4Af5dulAfcTgM59mrUuiI5a5QfCd7W5sBnWOPzGf+XDefMCiEPof0VslY0RkQ1zDfgZsxrLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729065705; c=relaxed/simple;
-	bh=pgnglVAzXGWeon4rHJ4Kx6rcYL2QifFuXYmp+TSwhZE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Kzlj7Lou4BtJdWfo1YUkixzeIMp/+/wirCdMw5I7EpOKkDe3hafsLxznRKCTnoMHUFkZrdJ/kpJ26z/QfuehpQDgGAblkvGaXfNzvy4o7DVJmd+Msx0fPK/0vWZF7ZhqweKAktUI64dnBl9sd90IIx47h//dWDGQKejVjNbbpCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i1xcPC1F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729065742; c=relaxed/simple;
+	bh=aqyru2K2BXLWgHvgQ6mdiMQPnNpNoVxIfWtpLpm5Fo0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ruk2EY8nK3aUs7QH1R5Xg77TYCQxToNWdPIAXKs90UP93moDl1xpx6wS4/o9u8a29Jeqb575JD0VWg2Kz7CNJ2dhtNEKx/BuHGh7kmOjgt51krVQwpHKbDgyRSK3Nf8qZsBzo6sHJI62pBcGletqgRB5yrSLIrxUMDLrkHga3m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ThS+MUO3; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i1xcPC1F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F72C4CEC5;
-	Wed, 16 Oct 2024 08:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729065704;
-	bh=pgnglVAzXGWeon4rHJ4Kx6rcYL2QifFuXYmp+TSwhZE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=i1xcPC1FYoDnq2vDB6Dn8+VXcxT6fsXr3uXUs6SupvmWvwUHhEinGQfkNJ/y8V/Cl
-	 SeAkmvm0WMnu0rUpBLsazdxlxraBnjvVCq3a1gtxFBnuIsT2sre1xyukHqBaoBPmij
-	 qelxExb1jKt4xXvNjZZkm5s3D+WRcZD4Rv1aVJnuoEULMbfO90G0XfytM9ONOsqCJp
-	 FmIyYoiHVGvWa8G3k5Ba7QzE/BCdPlrTY3g6rfqwQE3XVK2dKFsRcN59/Z50vMK+vo
-	 uLJgO+AsxsIzQHWqq5hUNvFJttccJfWdEMcjyjl+WsqUis6PMuuhPnnlhN78o54fVs
-	 q5q+ZbigrgHVg==
-From: Lee Jones <lee@kernel.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>, 
- Lee Jones <lee@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, 
- Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, 
- Vladimir Oltean <olteanv@gmail.com>, 
- "David S . Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Sebastian Reichel <sre@kernel.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- linux-input@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-pm@vger.kernel.org, netdev@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-sound@vger.kernel.org, Alexandre Mergnat <amergnat@baylibre.com>, 
- Macpaul Lin <macpaul.lin@mediatek.com>
-Cc: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>, 
- Macpaul Lin <macpaul@gmail.com>, Chris-qj chen <chris-qj.chen@mediatek.com>, 
- MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-In-Reply-To: <20241001104145.24054-3-macpaul.lin@mediatek.com>
-References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
- <20241001104145.24054-3-macpaul.lin@mediatek.com>
-Subject: Re: (subset) [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397:
- Convert to DT schema format
-Message-Id: <172906569700.1146121.13634550536849127452.b4-ty@kernel.org>
-Date: Wed, 16 Oct 2024 09:01:37 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ThS+MUO3"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c9454f3bfaso6848162a12.2;
+        Wed, 16 Oct 2024 01:02:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729065738; x=1729670538; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZtCFeuRBBCL7c2WKLvXHw2/xsvB0Q4sVn0uS0dCJjmM=;
+        b=ThS+MUO3ZfUBcsJ0Dx+d2esfnR9o9nmUyOM65p9RYrHa55/X0Nk71ydmlIXOj018L2
+         1kcWuF66cw85yJvyFnhTbSjnncmvW9JIEt8wPSpviFX2yFQQg6hfXi/TpEl2H+Uq9l0J
+         TfP8JD1GQNUb0U8yl76oOgNuJJdsU2vA58iNJCrqYwgGpBufJzSlcoXxZSr4Dfh1/Vg6
+         XLUXa3CDo2bj+xNEBlG47+KR74ETh3jP1FDFuG2kbDkjCDYcmOl9btwqXY+xlm6zXThS
+         hafWiJHI1XkQYhwuGOtzUIyaaZw1HGj3ZzzcrCdKlM0MJigeWf1RS3ZE+OQK0h4iQG8x
+         34kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729065738; x=1729670538;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZtCFeuRBBCL7c2WKLvXHw2/xsvB0Q4sVn0uS0dCJjmM=;
+        b=tDihY2peIgUpts7o94Sb3q5Ab50/mrnyExOqGh+pIEWjRNif1z7buIZ2H99X5Gb4Kg
+         dp2XG7ilR+f+yNPluec1MrwJzF0CWrXTLthG8IdUd+HovFgkKyFyx1qGajGX6a9tROeW
+         dBJ2ZyoSNcDl3AkWzvnQcuiQDWLPeLeXTKOjlestI6Znnl2xMDrclNoRI10EKZWVncFT
+         polTATEagh6lEhXfQYcIAg82mTjd5vvsl9ftRKJ8MK9lY5C/tHiynlgREbtUtiDICJ3/
+         qMydS/s9Pn5mnVLYzw02mz0FRin0O2Wufg3sVOonhIuBM+W0VGmRbV5nPm4BOrwyGYEn
+         +6cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrsOGGgfGxyKgMy/SP+TZMZkTUFHhjJv8+INNe4ABcnC0QN5hYsycuJhul5B8+HUTMmcdGaoROdIeW/Jg=@vger.kernel.org, AJvYcCWADqYIGkoAZpou/dbxjtAFkNnB6v/63WwOO4RReh2Vqcg6FGTK4mSIuWseyjrHlGhl0f/tXNK7s9azoe0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsJxOeqH/0Ovhp04kX1Uyo1DU44u/L1bjQN022Q35g48xNVXQy
+	cSljGfUTNbX6DoVZV/twmJGNTBphyeSrDf09y6sqgxsuivSRzvupgagY0COFldCm+pMFDe6btZs
+	nOyhcySKIf7bwYyTyN4WOr0hLU3I=
+X-Google-Smtp-Source: AGHT+IENv1biL2MoBmVkiW9/DVZkA779vcn3QmSTBcq4PNMZsq6C2l/biD2V8pQLyRFSUxDptoFZVmHh8dJq551DyXw=
+X-Received: by 2002:a05:6402:5194:b0:5c9:87a0:4fcc with SMTP id
+ 4fb4d7f45d1cf-5c987a050f7mr5892752a12.16.1729065737907; Wed, 16 Oct 2024
+ 01:02:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+References: <20241015150958.2294155-1-arnd@kernel.org> <52c7e318.434f.192941d2bee.Coremail.zhoubinbin@loongson.cn>
+ <887501dc-6bcc-4f98-b472-af609c4c370b@app.fastmail.com>
+In-Reply-To: <887501dc-6bcc-4f98-b472-af609c4c370b@app.fastmail.com>
+From: Binbin Zhou <zhoubb.aaron@gmail.com>
+Date: Wed, 16 Oct 2024 14:02:03 +0600
+Message-ID: <CAMpQs4Lu8To_4buztSNsWRzSHM_uAqLXqyB+p3R-OAnAHeLuFQ@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Arnd Bergmann <arnd@kernel.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Tang Bin <tangbin@cmss.chinamobile.com>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 01 Oct 2024 18:41:45 +0800, Macpaul Lin wrote:
-> Convert the mfd: mediatek: mt6397 binding to DT schema format.
-> 
-> MT6323, MT6358, and MT6397 are PMIC devices with multiple function
-> subdevices. They share a common PMIC design but have variations in
-> subdevice combinations.
-> 
-> Key updates in this conversion:
-> 
-> [...]
+On Wed, Oct 16, 2024 at 1:02=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Wed, Oct 16, 2024, at 06:56, =E5=91=A8=E5=BD=AC=E5=BD=AC wrote:
+> >> -----Original Messages-----
+> >> From: "Arnd Bergmann" <arnd@kernel.org>
+> >> Send time:Tuesday, 10/15/2024 23:09:54
+> >> To: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kerne=
+l.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>=
+, "Binbin Zhou" <zhoubinbin@loongson.cn>
+> >> Cc: "Arnd Bergmann" <arnd@arndb.de>, tangbin <tangbin@cmss.chinamobile=
+.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+> >> Subject: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
+> >>
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >>
+> >> An object file should not be linked into multiple modules and/or
+> >> vmlinux:
+> >>
+> >> scripts/Makefile.build:221: /home/arnd/arm-soc/sound/soc/loongson/Make=
+file: loongson_i2s.o is added to multiple modules: snd-soc-loongson-i2s-pci=
+ snd-soc-loongson-i2s-plat
+> >
+> > I would like to ask for some advice.
+> > I didn't notice this warning before when I submitted the patch, is
+> > there some specific compilation option that needs to be turned on?
+>
+> I think this is one of the warnings that are currently
+> only enabled when building with "make W=3D1". I have this enabled
+> by default as I hope to make it a default warning soon.
+>
+> In general, I would recommend to build new driver code with W=3D1
+> before submitting.
+>
 
-Applied, thanks!
+Okay, thanks for the advice.
+I'll pay special attention to it when submitting code in the future.
 
-[3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
-      commit: 6e357f572638547e9c9e8d8abb7dc572c12032f3
-
---
-Lee Jones [李琼斯]
-
+Thanks.
+Binbin
+>      Arnd
