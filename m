@@ -1,173 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B0D212EF9;
-	Wed, 16 Oct 2024 16:34:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094262139A1;
+	Wed, 16 Oct 2024 18:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729096472; cv=none; b=Xry+gaiubLwsi8FpPxitvQirWpoJJyRg3YfBLFa8eLG7crdrIL6+N9VPtIbkySOID0fDo+ir8a4N9RdrLlm59qt/fSvQJZM6q6KLAIK9rsuoascnyi8THoYiaLs3/ph3as/66DCAA0PsT8x8jf/H4byWbMOM1XXMm9b6LNUSm/c=
+	t=1729103844; cv=none; b=X/V+5rISkRfbijUx/eaR/97+ACuXsj/I+UwerhgpmWETvHuYwXCSOrGzxUXWbDDjFeoVISXDkTXsyXOiJicncvSzSHeob3mAzhAK/0iS8hnh3QkQaTKUTskeyIF0ZuVCMt03OYzSB5QJSmR1uf1H3sUozlL4T3WvHpI4clAuDe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729096472; c=relaxed/simple;
-	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
+	s=arc-20240116; t=1729103844; c=relaxed/simple;
+	bh=dVD/78WBe1bYdeVZ5uGtzNpfOZo8qj/W0AE0OeUqkoE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uIa9cA/dn4mPPD0YTjONED2woRKAxv7wek9gflVy02ho8HhJUYk6zlAWratLDhb2JyyDKG8Pp5oNE1QJ+rpdYO6wMeVXAsxOAqCNjWKhWiIQoAQN3bbbvYFzmLMbXVyH4pM5zeAc+v4/OKeIXVqhImkYuBw7jZSL3N5z3cFLk24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUmiJXUg; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n+fv+hjANAZrlElW2tiAr7osmVMfY3kU95fZ5CE+lnvsWff3P5UxoBhjk9tLEqDixfBw/X62Pyv0Atzzs0smOhFz76fKaCe649dXeS8dyxwMS94fzfYM1+fijux6QxxjZVZj5RfxQAnH7Bwih2T6vpxaWgHr+NkXF1GgFRym9hE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPpfLtNg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUmiJXUg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C4CC4CECE;
-	Wed, 16 Oct 2024 16:34:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPpfLtNg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4B8C4CEC5;
+	Wed, 16 Oct 2024 18:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729096472;
-	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
+	s=k20201202; t=1729103843;
+	bh=dVD/78WBe1bYdeVZ5uGtzNpfOZo8qj/W0AE0OeUqkoE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YUmiJXUgqYVcRwBwKP++87hayLvsKh+JHQw0YskmMGINgFyFJ4i3PwDUkS/nKzHkr
-	 SExhvNHrBsft1uBLclTBBHuJ2IynakzyONMRRpBYueRBMTkQdgbpzNDuL0uGokchK3
-	 +lEZoblOhNWQZTO66eoMRr/eF5P8x2Ifb02FGPT86H5z1Ys2U+EjFEPTT2fajipKQO
-	 q5WrG1j9o9iFkk1FgVYvFIe9RP7sIIqqqYQ/9akbm8SbuVl9QmM8PotbGlm9Msy4qe
-	 p6gbmAI1UtJCn+NpDhna2YCs1MahlVQoqR5ulvDiwf9TEprYQXrs5H0Y0nXRtXAzZo
-	 UWTPRCIEQrVdg==
-Date: Wed, 16 Oct 2024 11:34:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: James Calligeros <jcalligeros99@gmail.com>
-Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: sound: Add CS42L84 codec
-Message-ID: <20241016163429.GA1861304-robh@kernel.org>
-References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
- <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
+	b=XPpfLtNgtjyxWDWq1zMCRwy55+nkRnY8F6ndRUH0LQjNnoY0BjtUnLxUU15NktmN+
+	 6gWH1VcL7J2M4CG+VAGJYJ/dJUPoS4Fdu0QGl1IMpPrges99HsICrOR+km3j4khE30
+	 rm2d0ZZqS68R3uS9wCnobpV8TZnMmudJqvqSaWnrzy2C62ykCxZgMEmvdfhqtUIS+o
+	 OsEZxh+aHsy2L33pRBdr4p1Q3pIMgVdkKPPJwjCM87CwoaBBu/iUd3plSBMSxjup1h
+	 Fv1hZfft1C5IPPlN40yesHo/nKEnuJCo5FnGcBeaqWAm9vVDggwLW8bC9+QgeMllrn
+	 Jj1pil4gDWukg==
+Date: Wed, 16 Oct 2024 19:37:18 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: Rename "sh" to "renesas"
+Message-ID: <242a31a6-8a0c-4db9-97a5-8a9c9f5c29b4@sirena.org.uk>
+References: <20241015113757.152548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8u8bkCjL-YSyMOiKOtfZC8upBwGzhrJ0o+EmZ9S3z5hGA@mail.gmail.com>
+ <87h69cevrt.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="47EfpzAZQNSZ/aR2"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
+In-Reply-To: <87h69cevrt.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: Snow Day -- stay home.
 
-On Wed, Oct 16, 2024 at 08:41:00PM +1000, James Calligeros wrote:
-> From: Martin Povišer <povik+lin@cutebit.org>
-> 
-> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
-> computer models starting with 2021 Macbook Pros. It is not a publicly
-> documented part. To a degree the part is similar to the public CS42L42.
-> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
-> pretty much the same as L42.)
-> 
-> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
-> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
-> ---
->  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  MAINTAINERS                                                 |  1 +
->  2 files changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..12bc6dbeeddfaccf9dd00deb2676deac25f28c9e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
-> @@ -0,0 +1,60 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Cirrus Logic CS42L84 audio CODEC
-> +
-> +maintainers:
-> +  - povik+lin@cutebit.org
 
-Name too please.
+--47EfpzAZQNSZ/aR2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> +
-> +description:
+On Wed, Oct 16, 2024 at 12:28:22AM +0000, Kuninori Morimoto wrote:
 
-Needs a '>' if you want to maintain paragraphs.
+> > I was intending to add the below entry to MAINTAINERS file, but wanted
+> > to make sure you are happy with below (I can send it as a follow up
+> > patch),
 
-> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
-> +  in personal computers sold by Apple. It was first seen in 2021 Macbook Pro
-> +  models.
-> +
-> +  It has stereo DAC for playback, mono ADC for capture, and is somewhat
-> +  similar to CS42L42 but with a different regmap.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - cirrus,cs42l84
-> +
-> +  reg:
-> +    description:
-> +      I2C address of the device
+> I can review / comment for Renesas driver, but can you agree that
+> you continue to pick the patch instead of sending request-pull from me ?
 
-Drop. That's every device.
+Yes, there's no need to send pull requests.
 
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description:
-> +      Reset pin, asserted to reset the device, deasserted to bring
-> +      the device online
+> In addition, I wonder should I be for simple-card/audio-graph, too ?
 
-Drop. That's every reset-gpios.
+Yes, you should be a maintainer/reviewer there.
 
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    description:
-> +      Interrupt for the IRQ output line of the device
+> Please add/remove
 
-Drop.
+> + L: alsa-devel@alsa-project.org
+> - F: Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
 
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      jack_codec: codec@4b {
-> +          compatible = "cirrus,cs42l84";
-> +          reg = <0x4b>;
-> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
-> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
-> +          #sound-dai-cells = <0>;
+Should that be linux-sound@vger.kernel.org instead?
 
-Not documented.
+--47EfpzAZQNSZ/aR2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
->  L:	linux-sound@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
-> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
->  F:	Documentation/devicetree/bindings/sound/apple,*
->  F:	sound/soc/apple/*
->  F:	sound/soc/codecs/cs42l83-i2c.c
-> 
-> -- 
-> 2.47.0
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcQB90ACgkQJNaLcl1U
+h9DYbAf+NqKn+CXp41DFHgGpFeUexB+xp4tTVrdnNjx5ApqvL+cfxx2SMoGJpURk
+QbQTY3lTlnPTTpDxHtttGNP66E+beQl6z2GvtXTekF8Z+aT/+4kPqo2oyjttRrLW
+x6zsMbyRG+J23CAizKQC9RFdSueuOxG1+l5dK4jujaLcs4rxvGCVemn19SojOyGO
+zygmuPOpbd7Gfc1XIvzOm4slPtGfP+eOdgtnZWPpO2Jep6+WK1jjDfuK4hXXr8c4
+3E07UpzK3LWB5lEb+oz0lskfg4+orYuudVtW9UfJAfvs9kerPkxvl3D42/PIXbM0
+GZB3lsHH0UbIMlbShFDkIQuNuRSIZQ==
+=uHkG
+-----END PGP SIGNATURE-----
+
+--47EfpzAZQNSZ/aR2--
