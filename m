@@ -1,114 +1,144 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7117165F1A;
-	Wed, 16 Oct 2024 08:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F045A1D1E99;
+	Wed, 16 Oct 2024 08:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729065742; cv=none; b=ZOZqSOFiR0XIbyZSqEYaQXQjg+pV12Wm6cg7kTxb+sdSVEnSYavu2F9hqp8Cy/dLSnGHl7yQRP3jW4bRHHFghAGuO0269H6pT4H4Af5dulAfcTgM59mrUuiI5a5QfCd7W5sBnWOPzGf+XDefMCiEPof0VslY0RkQ1zDfgZsxrLw=
+	t=1729065779; cv=none; b=DE6uYgVRiN86KbhGp3yKCDmLdKtjuWTx6jKQOKkusxUXNKVTsGceFl4UZzxdXw0fI4sF6Fpgs7H+27H5mHxo1xvIntIrBmHApNfpnLmvHDGc6Uy4s5AOgqhwqsiY1pNK2xTbfmQ9Jofe1XN2gSEx/ddegWrD6mwCRebHfMU3LyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729065742; c=relaxed/simple;
-	bh=aqyru2K2BXLWgHvgQ6mdiMQPnNpNoVxIfWtpLpm5Fo0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ruk2EY8nK3aUs7QH1R5Xg77TYCQxToNWdPIAXKs90UP93moDl1xpx6wS4/o9u8a29Jeqb575JD0VWg2Kz7CNJ2dhtNEKx/BuHGh7kmOjgt51krVQwpHKbDgyRSK3Nf8qZsBzo6sHJI62pBcGletqgRB5yrSLIrxUMDLrkHga3m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ThS+MUO3; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729065779; c=relaxed/simple;
+	bh=VQWxLbP46Yk3JT2ruUu0Qw3xjvSUtKf+K6RBYmBe+lM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mPV/PDB+UNRic1w+yJ6soybzyVhgoHYyloyAVzP1cMRNVMMoIBsosv8Hd9/aFUgYWKow9cxKhv4ypPSDdcfYoJ4Qz1aT0w3jTgniVmhDZJywINcqiI2N5rzTpOLWKReUtPEkQdtCJdHU1+ItC2OXvtB9fwS469Ipt6W7GrcpE9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EdZQu0lv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ThS+MUO3"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c9454f3bfaso6848162a12.2;
-        Wed, 16 Oct 2024 01:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729065738; x=1729670538; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZtCFeuRBBCL7c2WKLvXHw2/xsvB0Q4sVn0uS0dCJjmM=;
-        b=ThS+MUO3ZfUBcsJ0Dx+d2esfnR9o9nmUyOM65p9RYrHa55/X0Nk71ydmlIXOj018L2
-         1kcWuF66cw85yJvyFnhTbSjnncmvW9JIEt8wPSpviFX2yFQQg6hfXi/TpEl2H+Uq9l0J
-         TfP8JD1GQNUb0U8yl76oOgNuJJdsU2vA58iNJCrqYwgGpBufJzSlcoXxZSr4Dfh1/Vg6
-         XLUXa3CDo2bj+xNEBlG47+KR74ETh3jP1FDFuG2kbDkjCDYcmOl9btwqXY+xlm6zXThS
-         hafWiJHI1XkQYhwuGOtzUIyaaZw1HGj3ZzzcrCdKlM0MJigeWf1RS3ZE+OQK0h4iQG8x
-         34kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729065738; x=1729670538;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZtCFeuRBBCL7c2WKLvXHw2/xsvB0Q4sVn0uS0dCJjmM=;
-        b=tDihY2peIgUpts7o94Sb3q5Ab50/mrnyExOqGh+pIEWjRNif1z7buIZ2H99X5Gb4Kg
-         dp2XG7ilR+f+yNPluec1MrwJzF0CWrXTLthG8IdUd+HovFgkKyFyx1qGajGX6a9tROeW
-         dBJ2ZyoSNcDl3AkWzvnQcuiQDWLPeLeXTKOjlestI6Znnl2xMDrclNoRI10EKZWVncFT
-         polTATEagh6lEhXfQYcIAg82mTjd5vvsl9ftRKJ8MK9lY5C/tHiynlgREbtUtiDICJ3/
-         qMydS/s9Pn5mnVLYzw02mz0FRin0O2Wufg3sVOonhIuBM+W0VGmRbV5nPm4BOrwyGYEn
-         +6cQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrsOGGgfGxyKgMy/SP+TZMZkTUFHhjJv8+INNe4ABcnC0QN5hYsycuJhul5B8+HUTMmcdGaoROdIeW/Jg=@vger.kernel.org, AJvYcCWADqYIGkoAZpou/dbxjtAFkNnB6v/63WwOO4RReh2Vqcg6FGTK4mSIuWseyjrHlGhl0f/tXNK7s9azoe0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsJxOeqH/0Ovhp04kX1Uyo1DU44u/L1bjQN022Q35g48xNVXQy
-	cSljGfUTNbX6DoVZV/twmJGNTBphyeSrDf09y6sqgxsuivSRzvupgagY0COFldCm+pMFDe6btZs
-	nOyhcySKIf7bwYyTyN4WOr0hLU3I=
-X-Google-Smtp-Source: AGHT+IENv1biL2MoBmVkiW9/DVZkA779vcn3QmSTBcq4PNMZsq6C2l/biD2V8pQLyRFSUxDptoFZVmHh8dJq551DyXw=
-X-Received: by 2002:a05:6402:5194:b0:5c9:87a0:4fcc with SMTP id
- 4fb4d7f45d1cf-5c987a050f7mr5892752a12.16.1729065737907; Wed, 16 Oct 2024
- 01:02:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EdZQu0lv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25CC7C4CED0;
+	Wed, 16 Oct 2024 08:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729065778;
+	bh=VQWxLbP46Yk3JT2ruUu0Qw3xjvSUtKf+K6RBYmBe+lM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EdZQu0lvkqQKp6i7wnzriOv0ggkWZWcHotek7nZZSEdw35cKxZpgEDMR9IrMPXZbQ
+	 WYoop23uy1X0RnPZxv+h22a0dffsyAWGe47B3VkLwdnV46GNOwJL0i3dnbOWnL5pqV
+	 omdNB+UMVqzfLHYIcQhnCKXUFkU6z65UbCHDFkDyHmnnjxUI+O5bzUMFG8CnQdhrus
+	 XL9m9kdJ61u2FNby/2sWKy01wPxw1/DeGD4aTCMMTOmDF7gVJmeIWCVkItZEaRNeJH
+	 MyKxVJEiK6L05viEsJafMLkbLfvaL3SZzmumCECEL5gaUXlP26Z9cagMEpkoaYU6ij
+	 1iyG5JVbDWBUg==
+Date: Wed, 16 Oct 2024 09:02:48 +0100
+From: Lee Jones <lee@kernel.org>
+To: Macpaul Lin <macpaul.lin@mediatek.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@ucw.cz>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sen Chu <sen.chu@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-pm@vger.kernel.org,
+	netdev@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Alexandre Mergnat <amergnat@baylibre.com>,
+	Bear Wang <bear.wang@mediatek.com>,
+	Pablo Sun <pablo.sun@mediatek.com>, Macpaul Lin <macpaul@gmail.com>,
+	Chris-qj chen <chris-qj.chen@mediatek.com>,
+	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	Chen-Yu Tsai <wenst@chromium.org>
+Subject: Re: [PATCH v8 3/3] dt-bindings: mfd: mediatek: mt6397: Convert to DT
+ schema format
+Message-ID: <20241016080248.GN8348@google.com>
+References: <20241001104145.24054-1-macpaul.lin@mediatek.com>
+ <20241001104145.24054-3-macpaul.lin@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241015150958.2294155-1-arnd@kernel.org> <52c7e318.434f.192941d2bee.Coremail.zhoubinbin@loongson.cn>
- <887501dc-6bcc-4f98-b472-af609c4c370b@app.fastmail.com>
-In-Reply-To: <887501dc-6bcc-4f98-b472-af609c4c370b@app.fastmail.com>
-From: Binbin Zhou <zhoubb.aaron@gmail.com>
-Date: Wed, 16 Oct 2024 14:02:03 +0600
-Message-ID: <CAMpQs4Lu8To_4buztSNsWRzSHM_uAqLXqyB+p3R-OAnAHeLuFQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Binbin Zhou <zhoubinbin@loongson.cn>, Arnd Bergmann <arnd@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Tang Bin <tangbin@cmss.chinamobile.com>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241001104145.24054-3-macpaul.lin@mediatek.com>
 
-On Wed, Oct 16, 2024 at 1:02=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
-:
->
-> On Wed, Oct 16, 2024, at 06:56, =E5=91=A8=E5=BD=AC=E5=BD=AC wrote:
-> >> -----Original Messages-----
-> >> From: "Arnd Bergmann" <arnd@kernel.org>
-> >> Send time:Tuesday, 10/15/2024 23:09:54
-> >> To: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kerne=
-l.org>, "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>=
-, "Binbin Zhou" <zhoubinbin@loongson.cn>
-> >> Cc: "Arnd Bergmann" <arnd@arndb.de>, tangbin <tangbin@cmss.chinamobile=
-.com>, linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-> >> Subject: [PATCH] ASoC: loongson: make loongson-i2s.o a separate module
-> >>
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >>
-> >> An object file should not be linked into multiple modules and/or
-> >> vmlinux:
-> >>
-> >> scripts/Makefile.build:221: /home/arnd/arm-soc/sound/soc/loongson/Make=
-file: loongson_i2s.o is added to multiple modules: snd-soc-loongson-i2s-pci=
- snd-soc-loongson-i2s-plat
-> >
-> > I would like to ask for some advice.
-> > I didn't notice this warning before when I submitted the patch, is
-> > there some specific compilation option that needs to be turned on?
->
-> I think this is one of the warnings that are currently
-> only enabled when building with "make W=3D1". I have this enabled
-> by default as I hope to make it a default warning soon.
->
-> In general, I would recommend to build new driver code with W=3D1
-> before submitting.
->
+Argh, I couldn't bring myself to do it!  Here's a PR instead:
 
-Okay, thanks for the advice.
-I'll pay special attention to it when submitting code in the future.
+The following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
 
-Thanks.
-Binbin
->      Arnd
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-dt-mfd-input-leds-power-rtc-v6.13
+
+for you to fetch changes up to 6e357f572638547e9c9e8d8abb7dc572c12032f3:
+
+  dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format (2024-10-16 09:00:38 +0100)
+
+----------------------------------------------------------------
+Immutable branch between DT, MFD, Input, LEDs Power and RTC due for the v6.13 merge window
+
+----------------------------------------------------------------
+Macpaul Lin (1):
+      dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
+
+ .../bindings/input/mediatek,pmic-keys.yaml         |   2 +-
+ .../devicetree/bindings/leds/leds-mt6323.txt       |  63 ---
+ .../devicetree/bindings/mfd/mediatek,mt6397.yaml   | 588 +++++++++++++++++++++
+ Documentation/devicetree/bindings/mfd/mt6397.txt   | 110 ----
+ .../bindings/power/reset/mt6323-poweroff.txt       |  20 -
+ .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
+ MAINTAINERS                                        |   8 +-
+ 7 files changed, 595 insertions(+), 227 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
+ delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
+ delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txtThe following changes since commit 9852d85ec9d492ebef56dc5f229416c925758edc:
+
+  Linux 6.12-rc1 (2024-09-29 15:06:19 -0700)
+
+are available in the Git repository at:
+
+  ssh://git@gitolite.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git tags/ib-dt-mfd-input-leds-power-rtc-v6.13
+
+for you to fetch changes up to 6e357f572638547e9c9e8d8abb7dc572c12032f3:
+
+  dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format (2024-10-16 09:00:38 +0100)
+
+----------------------------------------------------------------
+Immutable branch between DT, MFD, Input, LEDs Power and RTC due for the v6.13 merge window
+
+----------------------------------------------------------------
+Macpaul Lin (1):
+      dt-bindings: mfd: mediatek: mt6397: Convert to DT schema format
+
+ .../bindings/input/mediatek,pmic-keys.yaml         |   2 +-
+ .../devicetree/bindings/leds/leds-mt6323.txt       |  63 ---
+ .../devicetree/bindings/mfd/mediatek,mt6397.yaml   | 588 +++++++++++++++++++++
+ Documentation/devicetree/bindings/mfd/mt6397.txt   | 110 ----
+ .../bindings/power/reset/mt6323-poweroff.txt       |  20 -
+ .../devicetree/bindings/rtc/rtc-mt6397.txt         |  31 --
+ MAINTAINERS                                        |   8 +-
+ 7 files changed, 595 insertions(+), 227 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/leds/leds-mt6323.txt
+ create mode 100644 Documentation/devicetree/bindings/mfd/mediatek,mt6397.yaml
+ delete mode 100644 Documentation/devicetree/bindings/mfd/mt6397.txt
+ delete mode 100644 Documentation/devicetree/bindings/power/reset/mt6323-poweroff.txt
+ delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-mt6397.txt
+
+-- 
+Lee Jones [李琼斯]
