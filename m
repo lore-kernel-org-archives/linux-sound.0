@@ -1,144 +1,107 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0921F76D2;
-	Wed, 16 Oct 2024 09:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F6F205E05;
+	Wed, 16 Oct 2024 09:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729070437; cv=none; b=imDaVpQpEXdPCwvwBqJI+noG9b98HHQS93SxSwCYwOe6cx13FzB0lQZjG+GCN2qopi6J8a5o259K1pSUel5/6RYyjCH1UfK2n8udnckNqQrhHN6M52P6wrypQVew0NucRbyPEKSTpIce9uowcVNAkF6x1jyYoZRfezX7UuB5Kd0=
+	t=1729071432; cv=none; b=tMUv6aUC8PIdhk+1ZEkqzFNMbxjkAYK92e8rEkrxRAsAh8pqGy3tiPGc92oHPhDrmtZGo/urrewcAA5wSvD5wVFvFV8LVSwilyITZ2WJkYSLp7GwkgNDexnDllcOOOqGqQK9dQ3AR0NqQ35lnnb/P7O78WHtgmtmI0Z+fMN6Y1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729070437; c=relaxed/simple;
-	bh=DLHheLDaRR6+KcGD2A30ZcDjvKbLR7m5Bt+gppFTC5I=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kiRpWnLiy2dMPZBz5u3bLAK+phpuQJHF2EI3P4TpV8aFwCp7JjWTvynfiVu3adGqZifdbycHakjA+O7pvQwKVIPQvbdov90WJINr29Iip4IJHpYqr3JIa5CwXuLmTZ+8AmDt5V5+9ET9UnkkbTCKqlj0+5xYKV3VyyFV9tZyxWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ItfSHzFB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ors147bg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ItfSHzFB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ors147bg; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729071432; c=relaxed/simple;
+	bh=3qs9RCIcBMaiRaaQowBtUAYRplzqstMrihAHPPNLmDY=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=Cnc8wtkcZW4olhmy2rYsWJnD/QgVO9gh2vUVBSkOn67kPDmY099bhEA8vV66VwO97rNkYvxIM3kXWhNUrdu/pbB7gXJTcsJqQdGPIPjm4g3/vevlGgQ40ytb1ARV34FsVdK9InA5uAqNp79NI27YxaJ6uee+i65AQPJYPQSmYKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKOX9/0G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ItfSHzFB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ors147bg";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ItfSHzFB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ors147bg"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3488F1FBF0;
-	Wed, 16 Oct 2024 09:20:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729070434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GvhLUoXtiT4wtzJvaHxpfK3ExOTawW+kyThvNf02t1Y=;
-	b=ItfSHzFB3cL9fMVeibD798GljRMeAlMVFswRxSiPS9pcY9qI3tuqJ04qcqAf9mB8p4jijM
-	vXdkspFJHyoqyBQt+cbFRT+fSYNpuyRzw+jCDc2xx1rx6zYSgamHgHZJVdQlLqtbIu8LEH
-	t9I/t9MtEjdxBd010ts8BUEAUSExMGs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729070434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GvhLUoXtiT4wtzJvaHxpfK3ExOTawW+kyThvNf02t1Y=;
-	b=ors147bgk2fUWL3RCDQ6/ZuiKcxA7UsaMhtD8l4x05CZ7aoVsC3I7wCPu1b1flTibnOyZN
-	btSIvhKlUrDlCnBA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729070434; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GvhLUoXtiT4wtzJvaHxpfK3ExOTawW+kyThvNf02t1Y=;
-	b=ItfSHzFB3cL9fMVeibD798GljRMeAlMVFswRxSiPS9pcY9qI3tuqJ04qcqAf9mB8p4jijM
-	vXdkspFJHyoqyBQt+cbFRT+fSYNpuyRzw+jCDc2xx1rx6zYSgamHgHZJVdQlLqtbIu8LEH
-	t9I/t9MtEjdxBd010ts8BUEAUSExMGs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729070434;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GvhLUoXtiT4wtzJvaHxpfK3ExOTawW+kyThvNf02t1Y=;
-	b=ors147bgk2fUWL3RCDQ6/ZuiKcxA7UsaMhtD8l4x05CZ7aoVsC3I7wCPu1b1flTibnOyZN
-	btSIvhKlUrDlCnBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1A7611376C;
-	Wed, 16 Oct 2024 09:20:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id B+LdBWKFD2faNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 16 Oct 2024 09:20:34 +0000
-Date: Wed, 16 Oct 2024 11:21:24 +0200
-Message-ID: <87bjzktncb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Cc: stable@vger.kernel.org, regressions@lists.linux.dev, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linux Sound
- System <linux-sound@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-In-Reply-To: <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
-	<2024101613-giggling-ceremony-aae7@gregkh>
-	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKOX9/0G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A83DEC4CECF;
+	Wed, 16 Oct 2024 09:37:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729071431;
+	bh=3qs9RCIcBMaiRaaQowBtUAYRplzqstMrihAHPPNLmDY=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=TKOX9/0GP1+lza5sQLTeaGorlh3MWnyZcXGq05D/f/GBd2opmS8ChUbAgJdPb/CZ1
+	 yn5rFWuoHPLLh+d3Tn7faqhBzYHFIRUNCjskSa+aHE7Hk+eHTbbOc5TCSh9q9iJ3uy
+	 ecD+a1d8UI2TkI22bqwo5dXLynEXWBDFQZqY5PiV0eO3UFpqqqMhVJV65YiRQTDMNj
+	 WP2usCFu0zlWexw7EVaqgNj9e/FFPneDaR8h9YjjAPmN4hPc1uAoQejPiORMJPvOU5
+	 CWaLZFgGsjhgxS13aQ+7ta5bJuOGaob/3dXOYCK3/wDOU6szpcWpgz4jJlrkWESsRr
+	 s45FfeYSH4aKw==
+From: Kalle Valo <kvalo@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>,
+  Sergey Shtylyov <s.shtylyov@omp.ru>,  Basavaraj Natikar
+ <basavaraj.natikar@amd.com>,  Jiri Kosina <jikos@kernel.org>,  Benjamin
+ Tissoires <bentiss@kernel.org>,  Arnd Bergmann <arnd@arndb.de>,  Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>,  Alex Dubov <oakad@yahoo.com>,
+  Sudarsana Kalluru <skalluru@marvell.com>,  Manish Chopra
+ <manishc@marvell.com>,  "David S. Miller" <davem@davemloft.net>,  Eric
+ Dumazet <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>,  Paolo
+ Abeni <pabeni@redhat.com>,  Rasesh Mody <rmody@marvell.com>,
+  GR-Linux-NIC-Dev@marvell.com,  Igor Mitsyanko <imitsyanko@quantenna.com>,
+  Sergey Matyukevich <geomatsi@gmail.com>,  Sanjay R Mehta
+ <sanju.mehta@amd.com>,  Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,  Jon
+ Mason <jdmason@kudzu.us>,  Dave Jiang <dave.jiang@intel.com>,  Allen Hubbe
+ <allenbh@gmail.com>,  Bjorn Helgaas <bhelgaas@google.com>,  Alex
+ Williamson <alex.williamson@redhat.com>,  Juergen Gross <jgross@suse.com>,
+  Stefano Stabellini <sstabellini@kernel.org>,  Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Chen Ni <nichen@iscas.ac.cn>,  Mario
+ Limonciello <mario.limonciello@amd.com>,  Ricky Wu <ricky_wu@realtek.com>,
+  Al Viro <viro@zeniv.linux.org.uk>,  Breno Leitao <leitao@debian.org>,
+  Kevin Tian <kevin.tian@intel.com>,  Thomas Gleixner <tglx@linutronix.de>,
+  Ilpo =?utf-8?Q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,  Andy
+ Shevchenko
+ <andriy.shevchenko@linux.intel.com>,  Mostafa Saleh <smostafa@google.com>,
+  Jason Gunthorpe <jgg@ziepe.ca>,  Yi Liu <yi.l.liu@intel.com>,  Christian
+ Brauner <brauner@kernel.org>,  Ankit Agrawal <ankita@nvidia.com>,  Eric
+ Auger <eric.auger@redhat.com>,  Reinette Chatre
+ <reinette.chatre@intel.com>,  Ye Bin <yebin10@huawei.com>,  Marek
+ =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
+  Pierre-Louis
+ Bossart <pierre-louis.bossart@linux.dev>,  Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,  Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
+  linux-ide@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-input@vger.kernel.org,  netdev@vger.kernel.org,
+  linux-wireless@vger.kernel.org,  ntb@lists.linux.dev,
+  linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
+  xen-devel@lists.xenproject.org,  linux-sound@vger.kernel.org
+Subject: Re: [PATCH 10/13] wifi: qtnfmac: use always-managed version of
+ pcim_intx()
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	<20241015185124.64726-11-pstanner@redhat.com>
+Date: Wed, 16 Oct 2024 12:36:58 +0300
+In-Reply-To: <20241015185124.64726-11-pstanner@redhat.com> (Philipp Stanner's
+	message of "Tue, 15 Oct 2024 20:51:20 +0200")
+Message-ID: <87y12o4ced.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Wed, 16 Oct 2024 07:56:09 +0200,
-Linux regression tracking (Thorsten Leemhuis) wrote:
-> 
-> On 16.10.24 07:42, Greg KH wrote:
-> > On Tue, Oct 15, 2024 at 07:47:22PM -0500, Dean Matthew Menezes wrote:
-> >> I am not getting sound on the speakers on my Thinkpad X1 Carbon Gen 12
-> >> with kernel 6.11.2  The sound is working in kernel 6.8
-> > 
-> > Can you use 'git bisect' to track down the offending change?
-> 
-> Yeah, that would help a lot.
-> 
-> But FWIW, I CCed the audio maintainers and the sound mailing list, with
-> a bit of luck they might have an idea.
-> 
-> You might also want to publish your dmesg files from the latest working
-> and the first broken kernel, that gives people a chance to spot obvious
-> problems. Ohh, and runing alsa-info.sh and publishing the output could
-> help, too.
+Philipp Stanner <pstanner@redhat.com> writes:
 
-Yes, alsa-info.sh outputs are really needed for debugging, especially
-because Lenovo has (literally) hundreds of different models.
+> pci_intx() is a hybrid function which can sometimes be managed through
+> devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> port users to either an always-managed or a never-managed version.
+>
+> qtnfmac enables its PCI-Device with pcim_enable_device(). Thus, it needs
+> the always-managed version.
+>
+> Replace pci_intx() with pcim_intx().
+>
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-Please run the script with --no-upload option and attach the outputs
-from both working and non-working cases.
+Feel free to take this via the PCI tree:
 
+Acked-by: Kalle Valo <kvalo@kernel.org>
 
-thanks,
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
 
-Takashi
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
