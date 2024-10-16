@@ -1,80 +1,49 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4951D205158
-	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 14:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B0D212EF9;
+	Wed, 16 Oct 2024 16:34:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729089916; cv=none; b=rtYbYMqAnU6R0ceNbhLHGBpyGo9elJDl7r9GCk9AW6UGy00GsXa610iptJKkBexlJ3O421knRvcc366U7zb1sBVhxToaIvpWLsMWxMWBlKcIcS58OUbIup9NCdjHXCCWUAcvDJYFtgX/PrDmu9pLh/2doAIHtSaamrtDt495QBw=
+	t=1729096472; cv=none; b=Xry+gaiubLwsi8FpPxitvQirWpoJJyRg3YfBLFa8eLG7crdrIL6+N9VPtIbkySOID0fDo+ir8a4N9RdrLlm59qt/fSvQJZM6q6KLAIK9rsuoascnyi8THoYiaLs3/ph3as/66DCAA0PsT8x8jf/H4byWbMOM1XXMm9b6LNUSm/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729089916; c=relaxed/simple;
-	bh=gwAlnD0ysuHK0dO1AtwV9A/Ktyw1gycD/cvHcJw39Bg=;
+	s=arc-20240116; t=1729096472; c=relaxed/simple;
+	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iq0hbvqsCfGsQcTObIiH6iGe0o1ab5qXU8JprB9UR6j3VF8eMcTqCz2ggW5WLZJW72Cgq2mdKevKPUQnxWPVJw8VTEwl2K/vCtzBVryv7IclHLvRHIGSBTIrLNRmxQcyj6k3krkEkxfaITEg5dIZCZynu4Q/gtJKKkF7+fEb9A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=rvE5axtg; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIa9cA/dn4mPPD0YTjONED2woRKAxv7wek9gflVy02ho8HhJUYk6zlAWratLDhb2JyyDKG8Pp5oNE1QJ+rpdYO6wMeVXAsxOAqCNjWKhWiIQoAQN3bbbvYFzmLMbXVyH4pM5zeAc+v4/OKeIXVqhImkYuBw7jZSL3N5z3cFLk24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUmiJXUg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="rvE5axtg"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4608d10be89so7748061cf.2
-        for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 07:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1729089914; x=1729694714; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9XmZhIaaWknSEfe0YZyYzEdhsRIsVMiJXlqkvnAAdos=;
-        b=rvE5axtgCiCvg/Jwh92HNaXNimIADlIVabrEbdG203vs58/c5dCpAp+Pf+lkYZETUd
-         d6TV1jeQBrPgr2zTsvRzj2coFPkEgeC3FrewLO6Sa8d12HpS8vrhxp5QDOBAjl2S6mAI
-         ajkttLYdYAZlR1vcFhQ64R7NExx5lYUBsZa/r6ZDvFTOrmA2gLeP81KMJ4ghMm7ggXka
-         whkHxAJa0zz4wbkpUkGZPJDdvRLo0bNAekcORqw9tpCUxzU/n/K/IFjECMRjReZjf27u
-         JchRntQErYaPGctxJ2/Vcc4BNVuevtXQiConjzj1N3wgaulFEqyi/o/6+RgzIaBVucEw
-         bhfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729089914; x=1729694714;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9XmZhIaaWknSEfe0YZyYzEdhsRIsVMiJXlqkvnAAdos=;
-        b=IfpKG+Jre536cXr3M2s4OMOAJz9oNiz2+xPH/e2o7Nuscle6OoVAXcVGM0rSgHTTO0
-         OgOtimDfXAaKSA/jl00yJlPAQ6PkZ7Jn1DbfiIIcXJoLVEBUSrHHiEczjLVp55kOyJyu
-         qrmtm3IWyVO8s3MkQkHyaAFX16accF8v79OyffVTbvEq9n4ebUZdQKPEKISYqc/pLgKJ
-         BJWqdDUV0GfOMt48nVBuSz/RRGBf+i6K7Ejfxa97niJDlzXttqYB3UCLGGRc34MbPyOI
-         j1R/iadmH0ful0e71/WRjBzfKwkFZY5O0uWjMGxg53G2W2nRzP1UPkdi8KmftzwcYgee
-         M30w==
-X-Forwarded-Encrypted: i=1; AJvYcCVz+78OQRHhqxgO6+wusVtuuFmmiMwtW5olCGJN5eeoJU+gX5ibgIUll8QHcjGElu6a82fMqLvuuBdgfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIug9fYqDqWYwd89mwG+37TTJgBcWfKRHert8rvglq7APd1yAU
-	Ts+9ljIpEisUKtWm7T1uGKSrm+jqdNW8bcVAvKqcuGmt6Ve5Le0LhH6dTpBYcw==
-X-Google-Smtp-Source: AGHT+IG8R7QOdgLdchH6ibtO555VIGGYtjlcpf7axOrrEKRn1Mv6DZi0dDn5WSQwaPsa1Hj5wwey3g==
-X-Received: by 2002:ac8:7e88:0:b0:458:2e21:e422 with SMTP id d75a77b69052e-4608a55de64mr61130171cf.50.1729089914282;
-        Wed, 16 Oct 2024 07:45:14 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:2501:2805:c6d5:fe22:7fa3:ec54])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4607b0a4989sm18471381cf.4.2024.10.16.07.45.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 07:45:13 -0700 (PDT)
-Date: Wed, 16 Oct 2024 10:45:11 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Guan-Yu Lin <guanyulin@google.com>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
-	mathias.nyman@intel.com, yajun.deng@linux.dev,
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com,
-	dianders@chromium.org, perex@perex.cz, tiwai@suse.com,
-	niko.mauno@vaisala.com, andreyknvl@gmail.com,
-	christophe.jaillet@wanadoo.fr, tj@kernel.org,
-	stanley_chang@realtek.com, quic_jjohnson@quicinc.com,
-	ricardo@marliere.net, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	badhri@google.com, albertccwang@google.com, quic_wcheng@quicinc.com,
-	pumahsu@google.com
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system
- sleep
-Message-ID: <003263c8-c901-496b-ae04-7cccd7f3cfa2@rowland.harvard.edu>
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com>
- <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
- <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
- <fddf19f6-d03a-469e-a56f-ef390c099902@rowland.harvard.edu>
- <CAOuDEK3mmR9052FWEJAVBkUanVJ1MLLebZoANiasUpD9TDBjfg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUmiJXUg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C4CC4CECE;
+	Wed, 16 Oct 2024 16:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729096472;
+	bh=X74CUR82Hp13NQGo9Nw3P/9n2781EBJt2T7QAPcjMe8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YUmiJXUgqYVcRwBwKP++87hayLvsKh+JHQw0YskmMGINgFyFJ4i3PwDUkS/nKzHkr
+	 SExhvNHrBsft1uBLclTBBHuJ2IynakzyONMRRpBYueRBMTkQdgbpzNDuL0uGokchK3
+	 +lEZoblOhNWQZTO66eoMRr/eF5P8x2Ifb02FGPT86H5z1Ys2U+EjFEPTT2fajipKQO
+	 q5WrG1j9o9iFkk1FgVYvFIe9RP7sIIqqqYQ/9akbm8SbuVl9QmM8PotbGlm9Msy4qe
+	 p6gbmAI1UtJCn+NpDhna2YCs1MahlVQoqR5ulvDiwf9TEprYQXrs5H0Y0nXRtXAzZo
+	 UWTPRCIEQrVdg==
+Date: Wed, 16 Oct 2024 11:34:29 -0500
+From: Rob Herring <robh@kernel.org>
+To: James Calligeros <jcalligeros99@gmail.com>
+Cc: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: sound: Add CS42L84 codec
+Message-ID: <20241016163429.GA1861304-robh@kernel.org>
+References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com>
+ <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -84,50 +53,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAOuDEK3mmR9052FWEJAVBkUanVJ1MLLebZoANiasUpD9TDBjfg@mail.gmail.com>
+In-Reply-To: <20241016-cs42l84-v1-1-8d7e9d437d2d@gmail.com>
 
-On Wed, Oct 16, 2024 at 03:40:00PM +0800, Guan-Yu Lin wrote:
-> On Tue, Oct 15, 2024 at 10:43 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Tue, Oct 15, 2024 at 11:56:00AM +0800, Guan-Yu Lin wrote:
-> > > On Mon, Oct 14, 2024 at 11:56 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> > > > I'm not so sure about this.  By returning early, you prevent the drivers
-> > > > bound to this device from suspending.  But they can't operate properly
-> > > > when the system is in a low-power mode.  Won't that cause problems?
-> > > >
-> > > > Maybe this really belongs in usb_suspend_device(), and its counterpart
-> > > > belongs in usb_resume_device().
-> > > >
-> > >
-> > > To my understanding, after the system is suspended, the USB driver
-> > > will do nothing as the main processor has been suspended. May I check
-> > > what forms of low power mode and operation we are discussing here?
-> >
-> > S3 suspend.  You are right that the driver will do nothing while the
-> > CPU is suspended.  But what about the times before and after that,
-> > while the suspend and resume procedures are underway?  The driver
-> > needs to be told to cancel any ongoing transfers while the system
-> > suspends and then restart them while the system resumes.
-> >
+On Wed, Oct 16, 2024 at 08:41:00PM +1000, James Calligeros wrote:
+> From: Martin Povišer <povik+lin@cutebit.org>
 > 
-> Regarding the cancellation of ongoing transfers during suspend, I
-> believe usb_hcd_flush_endpoint() handles this as discussed below.
+> CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> computer models starting with 2021 Macbook Pros. It is not a publicly
+> documented part. To a degree the part is similar to the public CS42L42.
+> (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> pretty much the same as L42.)
+> 
+> Signed-off-by: Martin Povišer <povik+lin@cutebit.org>
+> Signed-off-by: James Calligeros <jcalligeros99@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml | 60 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  MAINTAINERS                                                 |  1 +
+>  2 files changed, 61 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..12bc6dbeeddfaccf9dd00deb2676deac25f28c9e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/sound/cirrus,cs42l84.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Cirrus Logic CS42L84 audio CODEC
+> +
+> +maintainers:
+> +  - povik+lin@cutebit.org
 
-There's more to it than that.  If you cancel ongoing transfers by 
-calling usb_hcd_flush_endpoint() without informing the driver first, the 
-driver will get very confused and think the device has failed.
+Name too please.
 
-> Besides calling usb_hcd_flush_endpoint(), are there any other
-> necessary changes before suspending the driver in our scenario? Maybe
-> we could discuss setting usb_device_state to USB_STATE_SUSPENDED.
-> However, my understanding is that this variable reflects the actual
-> device state. Since the device remains active via the sideband in our
-> case,  changing usb_device_state seems unnecessary.
+> +
+> +description:
 
-That's right.
+Needs a '>' if you want to maintain paragraphs.
 
-I don't think anything else is needed.  Just call 
-usb_suspend_interface() like the normal pathway in usb_suspend_both() 
-does, but skip calling usb_suspend_device().
+> +  The CS42L84 is a headphone jack codec made by Cirrus Logic and embedded
+> +  in personal computers sold by Apple. It was first seen in 2021 Macbook Pro
+> +  models.
+> +
+> +  It has stereo DAC for playback, mono ADC for capture, and is somewhat
+> +  similar to CS42L42 but with a different regmap.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cirrus,cs42l84
+> +
+> +  reg:
+> +    description:
+> +      I2C address of the device
 
-Alan Stern
+Drop. That's every device.
+
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description:
+> +      Reset pin, asserted to reset the device, deasserted to bring
+> +      the device online
+
+Drop. That's every reset-gpios.
+
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    description:
+> +      Interrupt for the IRQ output line of the device
+
+Drop.
+
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      jack_codec: codec@4b {
+> +          compatible = "cirrus,cs42l84";
+> +          reg = <0x4b>;
+> +          reset-gpios = <&pinctrl_nub 4 GPIO_ACTIVE_LOW>;
+> +          interrupts-extended = <&pinctrl_ap 180 IRQ_TYPE_LEVEL_LOW>;
+> +          #sound-dai-cells = <0>;
+
+Not documented.
+
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c1a2c296446c0724a0c6e70c845e5e5e1e693fd5..f5f85714dc4e8ca9c60b3f6963b2cec1ea33fdd0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2132,6 +2132,7 @@ L:	asahi@lists.linux.dev
+>  L:	linux-sound@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/sound/adi,ssm3515.yaml
+> +F:	Documentation/devicetree/bindings/sound/cirrus,cs42l84.yaml
+>  F:	Documentation/devicetree/bindings/sound/apple,*
+>  F:	sound/soc/apple/*
+>  F:	sound/soc/codecs/cs42l83-i2c.c
+> 
+> -- 
+> 2.47.0
+> 
