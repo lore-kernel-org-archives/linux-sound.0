@@ -1,99 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mx01.omp.ru (mx01.omp.ru [90.154.21.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094262139A1;
-	Wed, 16 Oct 2024 18:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6949A210C38;
+	Wed, 16 Oct 2024 19:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.154.21.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729103844; cv=none; b=X/V+5rISkRfbijUx/eaR/97+ACuXsj/I+UwerhgpmWETvHuYwXCSOrGzxUXWbDDjFeoVISXDkTXsyXOiJicncvSzSHeob3mAzhAK/0iS8hnh3QkQaTKUTskeyIF0ZuVCMt03OYzSB5QJSmR1uf1H3sUozlL4T3WvHpI4clAuDe8=
+	t=1729108167; cv=none; b=Hiz8s5/ICdMMxDk6V9ri3x90i1jf3rs5l48LYJvNoweU44gB7kNo//tjdsCl3uRsm1lY2bQhJMT5dXtdO/NyNfQIwwN9fOLMTXOYp6goPPaOlW2Ciw063vuRSFUyy1nH/YaEfHUdejrxYViIDLiRngaOSByTXAv952wTmc8TJg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729103844; c=relaxed/simple;
-	bh=dVD/78WBe1bYdeVZ5uGtzNpfOZo8qj/W0AE0OeUqkoE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n+fv+hjANAZrlElW2tiAr7osmVMfY3kU95fZ5CE+lnvsWff3P5UxoBhjk9tLEqDixfBw/X62Pyv0Atzzs0smOhFz76fKaCe649dXeS8dyxwMS94fzfYM1+fijux6QxxjZVZj5RfxQAnH7Bwih2T6vpxaWgHr+NkXF1GgFRym9hE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XPpfLtNg; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XPpfLtNg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D4B8C4CEC5;
-	Wed, 16 Oct 2024 18:37:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729103843;
-	bh=dVD/78WBe1bYdeVZ5uGtzNpfOZo8qj/W0AE0OeUqkoE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XPpfLtNgtjyxWDWq1zMCRwy55+nkRnY8F6ndRUH0LQjNnoY0BjtUnLxUU15NktmN+
-	 6gWH1VcL7J2M4CG+VAGJYJ/dJUPoS4Fdu0QGl1IMpPrges99HsICrOR+km3j4khE30
-	 rm2d0ZZqS68R3uS9wCnobpV8TZnMmudJqvqSaWnrzy2C62ykCxZgMEmvdfhqtUIS+o
-	 OsEZxh+aHsy2L33pRBdr4p1Q3pIMgVdkKPPJwjCM87CwoaBBu/iUd3plSBMSxjup1h
-	 Fv1hZfft1C5IPPlN40yesHo/nKEnuJCo5FnGcBeaqWAm9vVDggwLW8bC9+QgeMllrn
-	 Jj1pil4gDWukg==
-Date: Wed, 16 Oct 2024 19:37:18 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-sound@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 0/3] ASoC: Rename "sh" to "renesas"
-Message-ID: <242a31a6-8a0c-4db9-97a5-8a9c9f5c29b4@sirena.org.uk>
-References: <20241015113757.152548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8u8bkCjL-YSyMOiKOtfZC8upBwGzhrJ0o+EmZ9S3z5hGA@mail.gmail.com>
- <87h69cevrt.wl-kuninori.morimoto.gx@renesas.com>
+	s=arc-20240116; t=1729108167; c=relaxed/simple;
+	bh=+hjBrFzvOL6xiMBUlSJ3Kdsp5Thqjo/zuLD5y0FAQBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=MfJiEO57BgMH1vOP9kbkhdyE6wVYRNA0EAChCwmOrJMsesA+1rN+3V/ISIlkVSX+qX2yhT6qRUwVfbAgxBZhTSman6HK2653d4D5eE5WuU0Qx1a4txdWdMmFVEKnywr2j889Wy5NJUUN+mc29A8ewGg4UplwNz4eg3oFXaRkjzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru; spf=pass smtp.mailfrom=omp.ru; arc=none smtp.client-ip=90.154.21.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=omp.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=omp.ru
+Received: from [192.168.2.102] (213.87.153.89) by msexch01.omp.ru
+ (10.188.4.12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.1258.12; Wed, 16 Oct
+ 2024 22:49:04 +0300
+Message-ID: <a32f0891-936b-4cce-a874-78b1865717ae@omp.ru>
+Date: Wed, 16 Oct 2024 22:49:02 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="47EfpzAZQNSZ/aR2"
-Content-Disposition: inline
-In-Reply-To: <87h69cevrt.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: Snow Day -- stay home.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 09/13] ata: Use always-managed version of pci_intx()
+To: Philipp Stanner <pstanner@redhat.com>, Damien Le Moal
+	<dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Basavaraj Natikar
+	<basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>, Benjamin
+ Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
+	Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
+	<manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
+	<GR-Linux-NIC-Dev@marvell.com>, Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
+	Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
+	<Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+	<dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+	<bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>, Juergen
+ Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen Ni
+	<nichen@iscas.ac.cn>, Mario Limonciello <mario.limonciello@amd.com>, Ricky Wu
+	<ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao
+	<leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>, Thomas Gleixner
+	<tglx@linutronix.de>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+	<ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
+ Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
+	<eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye Bin
+	<yebin10@huawei.com>, =?UTF-8?Q?Marek_Marczykowski-G=C3=B3recki?=
+	<marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>
+CC: <linux-ide@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-wireless@vger.kernel.org>, <ntb@lists.linux.dev>,
+	<linux-pci@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<xen-devel@lists.xenproject.org>, <linux-sound@vger.kernel.org>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+ <20241015185124.64726-10-pstanner@redhat.com>
+Content-Language: en-US
+From: Sergey Shtylyov <s.shtylyov@omp.ru>
+Organization: Open Mobile Platform
+In-Reply-To: <20241015185124.64726-10-pstanner@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: msexch01.omp.ru (10.188.4.12) To msexch01.omp.ru
+ (10.188.4.12)
+X-KSE-ServerInfo: msexch01.omp.ru, 9
+X-KSE-AntiSpam-Interceptor-Info: scan successful
+X-KSE-AntiSpam-Version: 6.1.0, Database issued on: 10/16/2024 19:30:03
+X-KSE-AntiSpam-Status: KAS_STATUS_NOT_DETECTED
+X-KSE-AntiSpam-Method: none
+X-KSE-AntiSpam-Rate: 19
+X-KSE-AntiSpam-Info: Lua profiles 188488 [Oct 16 2024]
+X-KSE-AntiSpam-Info: Version: 6.1.0.4
+X-KSE-AntiSpam-Info: Envelope from: s.shtylyov@omp.ru
+X-KSE-AntiSpam-Info: LuaCore: 39 0.3.39
+ e168d0b3ce73b485ab2648dd465313add1404cce
+X-KSE-AntiSpam-Info: {rep_avail}
+X-KSE-AntiSpam-Info: {Tracking_from_domain_doesnt_match_to}
+X-KSE-AntiSpam-Info: {SMTP from is not routable}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.153.89 in (user)
+ b.barracudacentral.org}
+X-KSE-AntiSpam-Info: {Found in DNSBL: 213.87.153.89 in (user)
+ dbl.spamhaus.org}
+X-KSE-AntiSpam-Info:
+	omp.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2
+X-KSE-AntiSpam-Info: FromAlignment: s
+X-KSE-AntiSpam-Info: ApMailHostAddress: 213.87.153.89
+X-KSE-AntiSpam-Info: {DNS response errors}
+X-KSE-AntiSpam-Info: Rate: 19
+X-KSE-AntiSpam-Info: Status: not_detected
+X-KSE-AntiSpam-Info: Method: none
+X-KSE-AntiSpam-Info: Auth:dmarc=temperror header.from=omp.ru;spf=temperror
+ smtp.mailfrom=omp.ru;dkim=none
+X-KSE-Antiphishing-Info: Clean
+X-KSE-Antiphishing-ScanningType: Heuristic
+X-KSE-Antiphishing-Method: None
+X-KSE-Antiphishing-Bases: 10/16/2024 19:34:00
+X-KSE-Antivirus-Interceptor-Info: scan successful
+X-KSE-Antivirus-Info: Clean, bases: 10/16/2024 5:04:00 PM
+X-KSE-Attachment-Filter-Triggered-Rules: Clean
+X-KSE-Attachment-Filter-Triggered-Filters: Clean
+X-KSE-BulkMessagesFiltering-Scan-Result: InTheLimit
 
+On 10/15/24 9:51 PM, Philipp Stanner wrote:
 
---47EfpzAZQNSZ/aR2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> pci_intx() is a hybrid function which can sometimes be managed through
+> devres. To remove this hybrid nature from pci_intx(), it is necessary to
+> port users to either an always-managed or a never-managed version.
+> 
+> All users in ata enable their PCI-Device with pcim_enable_device(). Thus,
+> they need the always-managed version.
+> 
+> Replace pci_intx() with pcim_intx().
+> 
+> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
 
-On Wed, Oct 16, 2024 at 12:28:22AM +0000, Kuninori Morimoto wrote:
+Reviewed-by: Sergey Shtylyov <s.shtylyov@omp.ru>
 
-> > I was intending to add the below entry to MAINTAINERS file, but wanted
-> > to make sure you are happy with below (I can send it as a follow up
-> > patch),
+[...]
 
-> I can review / comment for Renesas driver, but can you agree that
-> you continue to pick the patch instead of sending request-pull from me ?
+MBR, Sergey
 
-Yes, there's no need to send pull requests.
-
-> In addition, I wonder should I be for simple-card/audio-graph, too ?
-
-Yes, you should be a maintainer/reviewer there.
-
-> Please add/remove
-
-> + L: alsa-devel@alsa-project.org
-> - F: Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-
-Should that be linux-sound@vger.kernel.org instead?
-
---47EfpzAZQNSZ/aR2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcQB90ACgkQJNaLcl1U
-h9DYbAf+NqKn+CXp41DFHgGpFeUexB+xp4tTVrdnNjx5ApqvL+cfxx2SMoGJpURk
-QbQTY3lTlnPTTpDxHtttGNP66E+beQl6z2GvtXTekF8Z+aT/+4kPqo2oyjttRrLW
-x6zsMbyRG+J23CAizKQC9RFdSueuOxG1+l5dK4jujaLcs4rxvGCVemn19SojOyGO
-zygmuPOpbd7Gfc1XIvzOm4slPtGfP+eOdgtnZWPpO2Jep6+WK1jjDfuK4hXXr8c4
-3E07UpzK3LWB5lEb+oz0lskfg4+orYuudVtW9UfJAfvs9kerPkxvl3D42/PIXbM0
-GZB3lsHH0UbIMlbShFDkIQuNuRSIZQ==
-=uHkG
------END PGP SIGNATURE-----
-
---47EfpzAZQNSZ/aR2--
