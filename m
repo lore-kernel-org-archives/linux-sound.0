@@ -1,111 +1,138 @@
-Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1867D1D14FC;
-	Wed, 16 Oct 2024 08:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EB81D9A52;
+	Wed, 16 Oct 2024 08:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729066501; cv=none; b=Cxc3ER65jxZD+u4mc3OkzZLVtAH7FM/xTfZgXuEShZ/g75HtFuGtn8YRM1mkn0SKH7wM0ZOKOGP5MUIk7baU7v3+EKMFL6CDq2+1fXdFCErW6ZMtE1IH4yX0WIrpdhoCkvhRywklTcOhk3tLYQfeH3kieK7KKwc7Tf0pxLJe8p4=
+	t=1729067374; cv=none; b=lUMq9cH+CHl1HpDVh1R+4/Jja9bd4h075NlnbkgvDImWTMo3rBZoo0bVac83OskcAq/gn1i3nX+SP+TDbzTmXQ37ee+RA7dj9cfWJ9M/DXcBJjl3q01pLe8SE4HUj8AQ3SInxIH79tMoID+pSDe51GqsxkSGPlg3HzbbuSZSvJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729066501; c=relaxed/simple;
-	bh=AeeIRsmAculXd0dhod8ePmCmOOk0j8YnvSaah4Mgsxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=la5y4mA+uA8zBdFeQ3Y9cUdgm03cCeDiQycFJ4/dmepRXHAH5qa5b3NMtXIGLJaIXL3EAcfxJV1sO78UZlwkEYdwdJtwz6vO7fZUC0UEKagTT7EYzAM78tK86KVSm2d/l6tr4UMlVNsREck8Pyh9EdyZIoAoIbELwVr7DRiRNtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
-Received: by air.basealt.ru (Postfix, from userid 490)
-	id 4B93B2F2024D; Wed, 16 Oct 2024 08:14:57 +0000 (UTC)
-X-Spam-Level: 
-Received: from [192.168.0.103] (unknown [178.76.204.78])
-	by air.basealt.ru (Postfix) with ESMTPSA id 69E862F20257;
-	Wed, 16 Oct 2024 08:14:56 +0000 (UTC)
-Message-ID: <f3836285-befc-92af-38ef-e58a84f920fd@basealt.ru>
-Date: Wed, 16 Oct 2024 11:14:55 +0300
+	s=arc-20240116; t=1729067374; c=relaxed/simple;
+	bh=2QVud6rRTEq78ehgnvE0AWq3Mxfx3WIffvwH5c15mIo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lEBhG2BU6ugJg7YYnacEIVla4kzDGv+E4Tf2SwGRCkMN+Epti0BI1hcHPFVOyIQg7k46/F6r3vqT6759MemeSqvEi0ywRptU8U9Pu9NtyFNbVBo3Bs3XE8RmU9WbrAtfVC7lKJEiJjdW+PO7jnYvAogG+8qTwK4ROpJjvjUrUKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QNSXilJz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nA7hsqFw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Wk7VZ7jh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=r2OTPr0V; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QNSXilJz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nA7hsqFw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Wk7VZ7jh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r2OTPr0V"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E037A1F83B;
+	Wed, 16 Oct 2024 08:29:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729067365; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LwXyh//LfRGrt4mj3bboVfc5hV0Wk7tWmfJNiNKL6Hs=;
+	b=QNSXilJz+nzSKzxMAP56rvJrsea8kSlX3stK/Gbxyne7RE91dZluwXjkLK0OFwxW4EnD3Y
+	/zaOrwyWih08zFM+6Esj8TuUwtQhJY4UuYvSBaAw4rpNvrK1lpaX7d3u2he1j1UAJ0Vn6r
+	wroQaM+V/TDd7S9wjASQKQ9jdM6ItDs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729067365;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LwXyh//LfRGrt4mj3bboVfc5hV0Wk7tWmfJNiNKL6Hs=;
+	b=nA7hsqFwT6atk0P2lnXvwlfGYnDRUrCePbCK0HBLUz+fCYAFTZKSDN5nLM59V1IxESKrYl
+	uXfevklELnyOciCA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Wk7VZ7jh;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=r2OTPr0V
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729067364; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LwXyh//LfRGrt4mj3bboVfc5hV0Wk7tWmfJNiNKL6Hs=;
+	b=Wk7VZ7jhaWxAJwRN9MPq8GDSNquTpwFYzO+1GFj9V281jIA/A4tTRYMQKN0hSnLLuNWEIC
+	uWUMSONUGP40H0GNoGD/UTxfGHMGK6zNB3MU6Kg6jihHiOYYK7hLaoZnZMkqwHn8jpsxC4
+	iwwsYza79RnrVZjnhjlzwY5Pw4w4x5w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729067364;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LwXyh//LfRGrt4mj3bboVfc5hV0Wk7tWmfJNiNKL6Hs=;
+	b=r2OTPr0VgueZDZr0+9PwirlvlEKB2MdLEIZBWDGdAVfdl1zZKEe0SeHPb4CGL1rtaLNPA7
+	GGU4NIVRX2bTpGDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A611413433;
+	Wed, 16 Oct 2024 08:29:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id N51DJ2R5D2cqJwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 16 Oct 2024 08:29:24 +0000
+Date: Wed, 16 Oct 2024 10:30:22 +0200
+Message-ID: <87frowtppd.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Vasiliy Kovalev <kovalev@altlinux.org>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kai-Heng Feng <kaihengf@nvidia.com>,
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: [PATCH] ALSA: hda/conexant - Use cached pin control for Node 0x1d on HP EliteOne 1000 G2
+In-Reply-To: <20241016080713.46801-1-kovalev@altlinux.org>
+References: <20241016080713.46801-1-kovalev@altlinux.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v2] ALSA: hda/conexant - Fix audio routing for HP EliteOne
- 1000 G2
-Content-Language: en-US
-To: Takashi Iwai <tiwai@suse.de>, Kai-Heng Feng <kaihengf@nvidia.com>
-Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- bo liu <bo.liu@senarytech.com>
-References: <20241009134248.662175-1-kovalev@altlinux.org>
- <87h69ltmgn.wl-tiwai@suse.de>
- <b0ac19a5-1d93-41a5-beaa-279939e8ebde@nvidia.com>
- <87y12wsfin.wl-tiwai@suse.de>
- <6ef8fef9-c44d-40d6-f7e1-236e68175071@basealt.ru>
-From: Vasiliy Kovalev <kovalev@altlinux.org>
-In-Reply-To: <6ef8fef9-c44d-40d6-f7e1-236e68175071@basealt.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E037A1F83B
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-
-10.10.2024 11:36, Vasiliy Kovalev пишет:
+On Wed, 16 Oct 2024 10:07:13 +0200,
+Vasiliy Kovalev wrote:
 > 
-> 10.10.2024 08:17, Takashi Iwai wrote:
->> On Thu, 10 Oct 2024 05:32:18 +0200,
->> Kai-Heng Feng wrote:
->>>
->>>
->>> On 2024/10/9 9:50 PM, Takashi Iwai wrote:
->>>> On Wed, 09 Oct 2024 15:42:48 +0200,
->>>> Vasiliy Kovalev wrote:
->>>>>
->>>>> There is a problem with simultaneous audio output to headphones and
->>>>> speakers, and when headphones are turned off, the speakers also turn
->>>>> off and do not turn them on.
->>>>>
->>>>> However, it was found that if you boot linux immediately after 
->>>>> windows,
->>>>> there are no such problems. When comparing alsa-info, the only 
->>>>> difference
->>>>> is the different configuration of Node 0x1d:
->>>>>
->>>>> working conf. (windows): Pin-ctls: 0x80: HP
->>>>> not working     (linux): Pin-ctls: 0xc0: OUT HP
->>>>>
->>>>> This patch disable the AC_PINCTL_OUT_EN bit of Node 0x1d and fixes the
->>>>> described problem.
->>>
->>> Though this is already applied, is it possible to see if the issue
->>> also happens on S4?
->>>
->>> Linux doesn't put PCI devices like HDA to D3 during shutdown and
->>> reboot while Windows does, that might be the reason boot Linux after
->>> Windows can workaround the issue.
->>>
->>> Linux does put PCI devices to D3 for hibernate (S4), so we can use it
->>> as an experiment.
->>
->> Right, it should have been the cached version so that the setup is
->> reapplied automatically; i.e. replace snd_hda_set_pin_ctl() with
->> snd_hda_set_pin_ctl_cached().
->>
->> Vasiliy, care to test and submit an incremental fix?
+> The cached version avoids redundant commands to the codec, improving
+> stability and reducing unnecessary operations. This change ensures
+> better power management and reliable restoration of pin configurations,
+> especially after hibernation (S4) and other power transitions.
 > 
-> Ok, I compiled the module with the proposed changes and sent it to the 
-> user for testing on a machine with this codec. After testing, I will 
-> write about the result.
+> Fixes: 9988844c457f ("ALSA: hda/conexant - Fix audio routing for HP EliteOne 1000 G2")
+> Suggested-by: Kai-Heng Feng <kaihengf@nvidia.com>
+> Suggested-by: Takashi Iwai <tiwai@suse.de>
+> Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
 
-Using the snd_hda_set_pin_ctl_cache() function instead of 
-snd_hda_set_pin_ctl() leads to the same positive result, there are no 
-problems with sound.  The patch has been sent [1]
+Applied now.  Thanks.
 
-[1] https://lore.kernel.org/all/20241016080713.46801-1-kovalev@altlinux.org/
 
->>
->> thanks,
->>
->> Takashi
-
---
-Thanks,
-Vasiliy Kovalev
+Takashi
