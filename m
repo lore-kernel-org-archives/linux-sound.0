@@ -1,69 +1,111 @@
 Received: from air.basealt.ru (air.basealt.ru [194.107.17.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1181D014E;
-	Wed, 16 Oct 2024 08:07:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1867D1D14FC;
+	Wed, 16 Oct 2024 08:14:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729066070; cv=none; b=G6jF9wI+dFgvibD+P3Y/pePldYuL+TokItaptNgV/2/YUD9c9Hf4apkxpYIsjUPfKtHOGHEMPjin5X0xGC34CSot42HdOf77qXRFDYcooYu5p+cFqJfRAXRhfa0KQSObwGUhwU8fGzLHRoW63KFFUYzvDxrop9d6yPE5ffexEPA=
+	t=1729066501; cv=none; b=Cxc3ER65jxZD+u4mc3OkzZLVtAH7FM/xTfZgXuEShZ/g75HtFuGtn8YRM1mkn0SKH7wM0ZOKOGP5MUIk7baU7v3+EKMFL6CDq2+1fXdFCErW6ZMtE1IH4yX0WIrpdhoCkvhRywklTcOhk3tLYQfeH3kieK7KKwc7Tf0pxLJe8p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729066070; c=relaxed/simple;
-	bh=80u1tV/1D3WvsQ1F4ktEYJvsK5e1rSsqmZHn21wbl64=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bYvJxwUImXpD3leOBuSJu37MB9tsP4ut+fcuBBfAFQG6+rWCMqCebwJaR6HGRA53Ymt7sjZn9c+FDE5PNICH2pUPFk4+QGHdMr4W2vrA4JlKXPWwJb/8qF+y8U107cT4+loZlwl+hEvYajkGnioU6JdeTpbx+DoCQAswxgHNiTg=
+	s=arc-20240116; t=1729066501; c=relaxed/simple;
+	bh=AeeIRsmAculXd0dhod8ePmCmOOk0j8YnvSaah4Mgsxw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=la5y4mA+uA8zBdFeQ3Y9cUdgm03cCeDiQycFJ4/dmepRXHAH5qa5b3NMtXIGLJaIXL3EAcfxJV1sO78UZlwkEYdwdJtwz6vO7fZUC0UEKagTT7EYzAM78tK86KVSm2d/l6tr4UMlVNsREck8Pyh9EdyZIoAoIbELwVr7DRiRNtw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
 Received: by air.basealt.ru (Postfix, from userid 490)
-	id 2571F2F20247; Wed, 16 Oct 2024 08:07:39 +0000 (UTC)
+	id 4B93B2F2024D; Wed, 16 Oct 2024 08:14:57 +0000 (UTC)
 X-Spam-Level: 
-Received: from altlinux.ipa.basealt.ru (unknown [178.76.204.78])
-	by air.basealt.ru (Postfix) with ESMTPSA id 7ADF12F20246;
-	Wed, 16 Oct 2024 08:07:38 +0000 (UTC)
-From: Vasiliy Kovalev <kovalev@altlinux.org>
-To: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Vasiliy Kovalev <kovalev@altlinux.org>,
-	Kai-Heng Feng <kaihengf@nvidia.com>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ALSA: hda/conexant - Use cached pin control for Node 0x1d on HP EliteOne 1000 G2
-Date: Wed, 16 Oct 2024 11:07:13 +0300
-Message-Id: <20241016080713.46801-1-kovalev@altlinux.org>
-X-Mailer: git-send-email 2.33.8
+Received: from [192.168.0.103] (unknown [178.76.204.78])
+	by air.basealt.ru (Postfix) with ESMTPSA id 69E862F20257;
+	Wed, 16 Oct 2024 08:14:56 +0000 (UTC)
+Message-ID: <f3836285-befc-92af-38ef-e58a84f920fd@basealt.ru>
+Date: Wed, 16 Oct 2024 11:14:55 +0300
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2] ALSA: hda/conexant - Fix audio routing for HP EliteOne
+ 1000 G2
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>, Kai-Heng Feng <kaihengf@nvidia.com>
+Cc: Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela <perex@perex.cz>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ bo liu <bo.liu@senarytech.com>
+References: <20241009134248.662175-1-kovalev@altlinux.org>
+ <87h69ltmgn.wl-tiwai@suse.de>
+ <b0ac19a5-1d93-41a5-beaa-279939e8ebde@nvidia.com>
+ <87y12wsfin.wl-tiwai@suse.de>
+ <6ef8fef9-c44d-40d6-f7e1-236e68175071@basealt.ru>
+From: Vasiliy Kovalev <kovalev@altlinux.org>
+In-Reply-To: <6ef8fef9-c44d-40d6-f7e1-236e68175071@basealt.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-The cached version avoids redundant commands to the codec, improving
-stability and reducing unnecessary operations. This change ensures
-better power management and reliable restoration of pin configurations,
-especially after hibernation (S4) and other power transitions.
 
-Fixes: 9988844c457f ("ALSA: hda/conexant - Fix audio routing for HP EliteOne 1000 G2")
-Suggested-by: Kai-Heng Feng <kaihengf@nvidia.com>
-Suggested-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
----
- sound/pci/hda/patch_conexant.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+10.10.2024 11:36, Vasiliy Kovalev пишет:
+> 
+> 10.10.2024 08:17, Takashi Iwai wrote:
+>> On Thu, 10 Oct 2024 05:32:18 +0200,
+>> Kai-Heng Feng wrote:
+>>>
+>>>
+>>> On 2024/10/9 9:50 PM, Takashi Iwai wrote:
+>>>> On Wed, 09 Oct 2024 15:42:48 +0200,
+>>>> Vasiliy Kovalev wrote:
+>>>>>
+>>>>> There is a problem with simultaneous audio output to headphones and
+>>>>> speakers, and when headphones are turned off, the speakers also turn
+>>>>> off and do not turn them on.
+>>>>>
+>>>>> However, it was found that if you boot linux immediately after 
+>>>>> windows,
+>>>>> there are no such problems. When comparing alsa-info, the only 
+>>>>> difference
+>>>>> is the different configuration of Node 0x1d:
+>>>>>
+>>>>> working conf. (windows): Pin-ctls: 0x80: HP
+>>>>> not working     (linux): Pin-ctls: 0xc0: OUT HP
+>>>>>
+>>>>> This patch disable the AC_PINCTL_OUT_EN bit of Node 0x1d and fixes the
+>>>>> described problem.
+>>>
+>>> Though this is already applied, is it possible to see if the issue
+>>> also happens on S4?
+>>>
+>>> Linux doesn't put PCI devices like HDA to D3 during shutdown and
+>>> reboot while Windows does, that might be the reason boot Linux after
+>>> Windows can workaround the issue.
+>>>
+>>> Linux does put PCI devices to D3 for hibernate (S4), so we can use it
+>>> as an experiment.
+>>
+>> Right, it should have been the cached version so that the setup is
+>> reapplied automatically; i.e. replace snd_hda_set_pin_ctl() with
+>> snd_hda_set_pin_ctl_cached().
+>>
+>> Vasiliy, care to test and submit an incremental fix?
+> 
+> Ok, I compiled the module with the proposed changes and sent it to the 
+> user for testing on a machine with this codec. After testing, I will 
+> write about the result.
 
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 3a647f3c65d1b..e7107a14fa9dc 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -330,7 +330,7 @@ static void cxt_fixup_update_pinctl(struct hda_codec *codec,
- 		 * This is the value stored in the codec register after
- 		 * the correct initialization of the previous windows boot.
- 		 */
--		snd_hda_set_pin_ctl(codec, 0x1d, AC_PINCTL_HP_EN);
-+		snd_hda_set_pin_ctl_cache(codec, 0x1d, AC_PINCTL_HP_EN);
- 	}
- }
- 
--- 
-2.33.8
+Using the snd_hda_set_pin_ctl_cache() function instead of 
+snd_hda_set_pin_ctl() leads to the same positive result, there are no 
+problems with sound.  The patch has been sent [1]
 
+[1] https://lore.kernel.org/all/20241016080713.46801-1-kovalev@altlinux.org/
+
+>>
+>> thanks,
+>>
+>> Takashi
+
+--
+Thanks,
+Vasiliy Kovalev
