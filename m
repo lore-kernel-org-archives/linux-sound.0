@@ -1,56 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAF614D6EF
-	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 03:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1113916088F;
+	Wed, 16 Oct 2024 03:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729048041; cv=none; b=INgqKBKt1PWZs++2h8NPY8LwZYsYaeDKffYBFMHcbFtjVT2eKVRCgxrDXylNweZqjv8EzDuY+AE7AbjN4Ha+wcNgI4wr0fG5mi2fcgs6PmssW19mFIoqrKdg2KDEVV5DK4CV2S7vYvravP3QzsniCEyoz+HiKnbSVmkJleTajJE=
+	t=1729049364; cv=none; b=gyvmcoPDHUkXQjZMQpoINe5Xvhs1WfteQVG557tnuF5Hp1lvBKC7Y79HgUQO6oOi62UBQCjFgOxreLr8iTPvMBR6T8XAe2LiJXDu+PuRrC+Y/uH16K/NwsAjU9DEs+uh3Ynx2tUPmBNnogl8l0LQzkkiSZBs7oF3xE59g+9X7Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729048041; c=relaxed/simple;
-	bh=rzTIsV5b9JI46LHBw7eATx3p3hSfW8GFdc0mhNlaQdE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VGdSAjtL4+IM2x2ookqG7ZuhwmLNwKwGnW8/bpfZ7mLIw7tlGy2WSe0v9q04KhIisEhWZ0lL1QREYyfJCvc3VDI1PybC/POnW0RClICiiRnYBp98nwGAwMetNhV2e8zbFybOcW9Rl9mqAxaewMn53GsLLgQLKXN8LY1V4/7Rywc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iW+H+EmK; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1729049364; c=relaxed/simple;
+	bh=iEdW0H6pSNWymAAe4o8Tlp8oetUQehJCG71swjVIz9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V6QBHIbAomVUCNPqu6NOXykpsYqmBaJItwcTCG/+LEu3x6cidLgoABniZc2D/UUgoCqD4SdaYJzBWu743bjFyHkaI94i2T0BnescndfBU7VPdSVO2EaOQitTbUetps0B2UirKNnSy4GYlyOUbZyFEmlKeiXb/sxpdx27AV7jbMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Loi+OPDc; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iW+H+EmK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Loi+OPDc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729048039; x=1760584039;
+  t=1729049363; x=1760585363;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=rzTIsV5b9JI46LHBw7eATx3p3hSfW8GFdc0mhNlaQdE=;
-  b=iW+H+EmKhOVDhQzA37aEwrDBX7bWkDHPNF8GgsGTYyEzddjA3ss+egvy
-   HvPgrbD+A8ALfCBWvXieFZYD4cnQDSndbMpCiZXgQQAHxJsKkoKGO/3VH
-   e/L5ZJ3BjLICR5Se8pp+T/fY3D7rnEl/o+nMtJdxrU7906YbG46wPe6Dr
-   4UzDK6i+d5fWRRKwB2bzHPFsCBp1gsEs1E4SPLGAHlcSnuWo2Ov7tZsGC
-   OW3XwQD9swx7Bf0smLbP2lBP9hKTz50kFKXlU5fB/6+r24zmRUOIhN1TG
-   jJYN0thLprZE+jA0z4Pmj148L2Bky6BiAUsgxUoY+ZLsFgCnIfzGKhHB+
-   A==;
-X-CSE-ConnectionGUID: Dsku4eFrTaavmj3zZmlWNA==
-X-CSE-MsgGUID: cnWy/CC0SnKCzln0Ir0+OQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="39112259"
+  bh=iEdW0H6pSNWymAAe4o8Tlp8oetUQehJCG71swjVIz9s=;
+  b=Loi+OPDchjHEMhBHL9CGGxTxylxGXVyumPs9MtcxjxSKyBCK8VvGhI3L
+   P+aqrD2YpruO303yO34eFSoM7jmZ2Sm1b754RNPTxFP0NRNUdVPSCXskO
+   Vd676l8I6ClxS33yqec/eCYPBQYn5nQzBNL+Y0mh1u1T5h0Z6cdSr0O+d
+   7aayJ9T+5n6Zyu73FY8WZZcSRRW01OH3RnRsQo0ID4QMg2ebBCaIDd/dX
+   49W2mPIVPGBfogJ5MRGNJaea94/x4ZH4wHtxuLPGjMTMWdyRYamYCkNnZ
+   AogjeZgqPAKpE8ZYDDydEuTrilr2EuPE2gf4RtpzGf4G1Qirzpbs02myj
+   g==;
+X-CSE-ConnectionGUID: /fMlyfmOSlGa2EevpEpkbQ==
+X-CSE-MsgGUID: Ih5AO1fZQEy+sKN82HIe2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11225"; a="28676500"
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="39112259"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:07:18 -0700
-X-CSE-ConnectionGUID: P/EBjho/S4q+x3xg1xWy0w==
-X-CSE-MsgGUID: ZHoyolvyS82lN2hh8iI3kg==
+   d="scan'208";a="28676500"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:29:22 -0700
+X-CSE-ConnectionGUID: 1p0dKOPBQ/+rqTgL4b4tNw==
+X-CSE-MsgGUID: jCWvcyp+TGmv1neMHNiMVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,206,1725346800"; 
-   d="scan'208";a="78927911"
+   d="scan'208";a="78047632"
 Received: from cvapit-mobl1.ger.corp.intel.com (HELO yungchua-desk.intel.com) ([10.247.118.236])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:07:16 -0700
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2024 20:29:19 -0700
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de,
+	vkoul@kernel.org
+Cc: vinod.koul@linaro.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH] ASoC: Intel: soc-acpi: lnl: Add match entry for TM2 laptops
-Date: Wed, 16 Oct 2024 11:07:03 +0800
-Message-ID: <20241016030703.13669-1-yung-chuan.liao@linux.intel.com>
+	bard.liao@intel.com,
+	ranjani.sridharan@linux.intel.com
+Subject: [PATCH 0/4] ASoC/SoundWire: clean up link DMA during stop for IPC4
+Date: Wed, 16 Oct 2024 11:29:06 +0800
+Message-ID: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,89 +65,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Derek Fang <derek.fang@realtek.com>
+Clean up the link DMA for playback during stop for IPC4 is required to
+reset the DMA read/write pointers when the stream is prepared and
+restarted after a call to snd_pcm_drain()/snd_pcm_drop(). 
 
-Add a new match table entry on Lunarlake for the TM2 laptops
-with rt713 and rt1318.
+The change is mainly on ASoC. We may go via ASoC tree with Vinod's
+Acked-by tag
 
-Signed-off-by: Derek Fang <derek.fang@realtek.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- .../intel/common/soc-acpi-intel-lnl-match.c   | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
+Ranjani Sridharan (4):
+  ASoC: SOF: ipc4-topology: Do not set ALH node_id for aggregated DAIs
+  ASoC: SOF: Intel: hda: Handle prepare without close for non-HDA DAI's
+  soundwire: intel_ace2x: Send PDI stream number during prepare
+  ASoC: SOF: Intel: hda: Always clean up link DMA during stop
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index 3c4e0c7ca8ee..094ed4b27cb0 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -225,6 +225,15 @@ static const struct snd_soc_acpi_adr_device rt1316_3_group1_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt1318_1_adr[] = {
-+	{
-+		.adr = 0x000133025D131801ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt1318-1"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt1318_1_group1_adr[] = {
- 	{
- 		.adr = 0x000130025D131801ull,
-@@ -243,6 +252,15 @@ static const struct snd_soc_acpi_adr_device rt1318_2_group1_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt713_0_adr[] = {
-+	{
-+		.adr = 0x000031025D071301ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt713"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt714_0_adr[] = {
- 	{
- 		.adr = 0x000030025D071401ull,
-@@ -378,6 +396,20 @@ static const struct snd_soc_acpi_link_adr lnl_sdw_rt1318_l12_rt714_l0[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr lnl_sdw_rt713_l0_rt1318_l1[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt713_0_adr),
-+		.adr_d = rt713_0_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt1318_1_adr),
-+		.adr_d = rt1318_1_adr,
-+	},
-+	{}
-+};
-+
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -447,6 +479,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-lnl-rt1318-l12-rt714-l0.tplg"
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = lnl_sdw_rt713_l0_rt1318_l1,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-lnl-rt713-l0-rt1318-l1.tplg"
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_lnl_sdw_machines);
+ drivers/soundwire/intel_ace2x.c   | 19 +++++-----------
+ sound/soc/sof/intel/hda-dai-ops.c | 23 +++++++++----------
+ sound/soc/sof/intel/hda-dai.c     | 37 +++++++++++++++++++++++++++----
+ sound/soc/sof/ipc4-topology.c     | 15 +++++++++++--
+ 4 files changed, 62 insertions(+), 32 deletions(-)
+
 -- 
 2.43.0
 
