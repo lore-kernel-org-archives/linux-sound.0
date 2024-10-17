@@ -1,88 +1,102 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B181DDA2E;
-	Thu, 17 Oct 2024 13:24:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4141DDA24;
+	Thu, 17 Oct 2024 14:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729171465; cv=none; b=picKREO1d2Yk5I/AXXARlWRNjIPuNpQnbaBW0rBnSsFps/IomRc66Y3mjfgiKjvi6SBw0iqVyD5yjDzH60kPJwHs9vKMD725Vhr5QfxNjpMJwc30BNekJQFg8l8ggbeg/mgnUdiTDjC6xfeSUz6Woy5k0oLp9/TWLp3iWynaNLc=
+	t=1729174803; cv=none; b=AhLeotwwISopy5qsbBvl1Anh+uiFjE0Md4AEPBwrjmRTodMwcm7S0MDwn4OY1H3DJboFn5bN+e/8PrT4kZQvz7GXCTYG1G1BskrUW2MZ1XPGyiYefgxjDBfDpKG4dDmIoEewLMyxs0qKr3KhezOUEUH6EumPVcvAoP9lxZWND00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729171465; c=relaxed/simple;
-	bh=Gz6h/cWpfDus+Fv6R8OuQ6KhEA0lGGLgJfyu+vZc1Ng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c12uBhRet3C/QM01js9MIKirKG7Q7wNshnFjS4oqNIiY00aatlvFvPJSRan+Aqxex+y6c9OWXJFaaDT37JrT4Hg59L8CHCY138w5GiQKgN2gZU1j8gDfUOi7t6igVaWrIarueZcw2LL40L5wD721F5N7hTNmPc3dydOnr0QHaE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rnws0rIu; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729174803; c=relaxed/simple;
+	bh=GLCrs3Dovv1NiZDErsK/6Wy5iJ7ydSzeUdxuxMzzEbc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NgzOwb45mQG5PO3HA1c58AGE4SKtGW0TQ19UOrTY6Z5Yj/Fo0yCR/IDE79NylduH9ozl4i207Xo283Z41mFlLjenZW6ohF6Cprl29NSHT7TqZHQbnaumokOmJXwzpaG5r08ixKt+mGXUEaLEEY7IttzH0OScR7aYVOFI9dLVrVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cJPU1l5K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rnws0rIu"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fabb837ddbso15268631fa.1;
-        Thu, 17 Oct 2024 06:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729171461; x=1729776261; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gz6h/cWpfDus+Fv6R8OuQ6KhEA0lGGLgJfyu+vZc1Ng=;
-        b=Rnws0rIu+1ixHg26H8F79SSTIS2XuzXvKjTzONhiM+ubY9E7gxS7YzWjz7DkkRd3ib
-         itlWKUuP0iV2tzHgGdFWPtc+OrQ/wgTd9gO5OzxDpTJyXk3fZpd/IvspGaED3dSbxAbt
-         iYvCfpKqfcNhVYd4gqMg7W5//4243In58Xu5UTUrMCQ7diVJqeBMwe5nSPSIVjQrG3j6
-         kPTBBCS4WpeZjRgFbKua0TUWAvkJI6xj/bhOe3DT5q/eGaFukU6B8ZduXH8Ezbd1NTzE
-         eard/yGWVQQ//GM3CHgbDf2iZ2dsVr6GewXvLqSwK852m+LQRPTD3C3KHkze15vGqNeo
-         OGdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729171461; x=1729776261;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Gz6h/cWpfDus+Fv6R8OuQ6KhEA0lGGLgJfyu+vZc1Ng=;
-        b=mSoseT56ebBjQEVgW+1uemvr4+Sk9gaQtGrB6K7fPFN0BWcQ5NUJ6ZbfjDddsVwu4G
-         OgxjKsmsRfj0FBrBqlvCv6PJMd96LioMRl7Tumki8tuTao2X0cupdPrKpmMlL6CQ2CST
-         ZQqBYdmBD6ubEUbSABVNCCfRAdH81uj6UkdyKhg/uEOva7ipqmdz9UeRfTRJpn2SX69L
-         oVtloFojv+Fz/DNjJ9Pq+Vt6sHxAnk1OfFVXVtmymWihvG+SZEP7G/PJFGEbyttM8Uf+
-         TvBALowUamvIAvDjw9puPdxfNqwZpBcRPgPikd3cEucjlHxVmKA/sWgprAp+1OKj+CwF
-         EpMw==
-X-Forwarded-Encrypted: i=1; AJvYcCW72iMsntU5eZUiA7BTCMOfECW/y0C7Wa8oYzprsjGfvFS1W4Kf4ReHVWMYUbuj0nnpgJUA/+7pyzDIUhI=@vger.kernel.org, AJvYcCXVnyQVtw6qRiSerKyvlkiwN95yNnZ7x4KjyRIkVNUn54OQMUmRkPrYZjszjT80LJq6r+SYs2AQb6Mi/L4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCotxbhbKP2b3iG4kbuw9IKEkn8+ySRcFBv7HmOsM7VuKfgQz6
-	Tzfp0E9IbQ0FdogYaNolGf/2e6An98Og9uISPuPEtoHC/sO8JFr2O2LiK70ZV6B8XzuhUqCahnw
-	1W/yt5SPoEc+ET1F4jBPNWdnpV8w=
-X-Google-Smtp-Source: AGHT+IFD5qDdg80DA9mBb/Ba6kch83UqlhH3993pbPsJRFaEwYd7KQ9tdLLC5IVGXX1NzhH891rsRl8NvWZZ4Ml9Hqk=
-X-Received: by 2002:a05:651c:1987:b0:2fb:4f8e:efd with SMTP id
- 38308e7fff4ca-2fb4f8e10ebmr126203261fa.32.1729171460504; Thu, 17 Oct 2024
- 06:24:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cJPU1l5K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 855DFC4CEC7;
+	Thu, 17 Oct 2024 14:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729174803;
+	bh=GLCrs3Dovv1NiZDErsK/6Wy5iJ7ydSzeUdxuxMzzEbc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=cJPU1l5Kps56v8mtpHDahoOu/sesVEsbfkxPxTBjZJUFVPTfhquqJmMWgfV57Mzxr
+	 g1rd1vIx0qWhbCmkzM6IbOU0nOCP1F0T68LieQMKCfZIshfUbktERB0aoZhno+uJIB
+	 A5o+vNmH35gCfzcJ1QOdrFU13evRECzSwE6VGCf7j0zJO0BnRmoebOmEkEyOrIn/Fv
+	 R89L1k8bbBzfwhnKPHRNxgVxbKJcHvuhl0Yv/hVpD8djyoy1qYZwYfCn3aQs2Yl9av
+	 VvVxXTl2yNmlJn7lkLhFj8V6hfAEtpxPJ6+iyN7zNxSED2vaeBmgGrG4sDBsIoQhrm
+	 +AHc8oQp8Nn9g==
+From: Mark Brown <broonie@kernel.org>
+To: Frederic Weisbecker <frederic@kernel.org>, 
+ Thomas Gleixner <tglx@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: linux-kernel@vger.kernel.org, Len Brown <len.brown@intel.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Peter Zijlstra <peterz@infradead.org>, SeongJae Park <sj@kernel.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev, 
+ linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>, 
+ linux-arch@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Andy Whitcroft <apw@canonical.com>, 
+ Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ netdev@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Michael Ellerman <mpe@ellerman.id.au>, Nathan Lynch <nathanl@linux.ibm.com>, 
+ linuxppc-dev@lists.ozlabs.org, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ linux-media@vger.kernel.org
+In-Reply-To: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
+References: <20240904-devel-anna-maria-b4-timers-flseep-v1-0-e98760256370@linutronix.de>
+Subject: Re: (subset) [PATCH 00/15] timers: Cleanup delay/sleep related
+ mess
+Message-Id: <172917479725.89568.14288418643818666155.b4-ty@kernel.org>
+Date: Thu, 17 Oct 2024 15:19:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241017071507.2577786-1-chancel.liu@nxp.com>
-In-Reply-To: <20241017071507.2577786-1-chancel.liu@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Thu, 17 Oct 2024 16:25:18 +0300
-Message-ID: <CAEnQRZABGsL7rL+qrwNhyaYDX22D6M2fg=4RKRRRcOAXS9yKxg@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl_micfil: Add a flag to distinguish with
- different volume control types
-To: Chancel Liu <chancel.liu@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Thu, Oct 17, 2024 at 10:15=E2=80=AFAM Chancel Liu <chancel.liu@nxp.com> =
-wrote:
->
-> On i.MX8MM the register of volume control has positive and negative
-> values. It is different from other platforms like i.MX8MP and i.MX93
-> which only have positive values. Add a volume_sx flag to use SX_TLV
-> volume control for this kind of platform. Use common TLV volume control
-> for other platforms.
->
-> Fixes: cdfa92eb90f5 ("ASoC: fsl_micfil: Correct the number of steps on SX=
- controls")
-> Signed-off-by: Chancel Liu <chancel.liu@nxp.com>
+On Wed, 04 Sep 2024 15:04:50 +0200, Anna-Maria Behnsen wrote:
+> a question about which sleeping function should be used in acpi_os_sleep()
+> started a discussion and examination about the existing documentation and
+> implementation of functions which insert a sleep/delay.
+> 
+> The result of the discussion was, that the documentation is outdated and
+> the implemented fsleep() reflects the outdated documentation but doesn't
+> help to reflect reality which in turns leads to the queue which covers the
+> following things:
+> 
+> [...]
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+
+Thanks!
+
+[11/15] regulator: core: Use fsleep() to get best sleep mechanism
+        commit: f20669fbcf99d0e15e94fb50929bb1c41618e197
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
