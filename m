@@ -1,108 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4671B81CC;
-	Thu, 17 Oct 2024 07:51:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D7D1D043A
+	for <linux-sound@vger.kernel.org>; Thu, 17 Oct 2024 08:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729151477; cv=none; b=rINgb2ge31/2/kagIYNBLaP1TzrUm5MtV3Blq/TBMor0gns2MZyQkHl3rGBi/O8HEmrtbugIBKfuvmQ8+G+Miy17063D6nCz3hAxMNGHCwofJUZ9zgANle+jWCKCatv1rrIKGo0jF7p55LMeQYOc+GgXvYfm8ivO60uqddpXYu8=
+	t=1729152769; cv=none; b=NVUVPia+E/WfU7YKYjekWs5rA+Gx+kbVVxTecUyJJ/vcrtFQ+X417VIdo5S6G5uqX4+c7bYEghyi1auEAri7YVSmMuHHIdtMGs+tWArYFrMtkGnPnhtyNy4+vKDDt5IjWWY22pulVXzkjSVrcrO6j/N8zwuAJEyGTxOC8Q1lvYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729151477; c=relaxed/simple;
-	bh=S7jKXDCTV0a7mjHjenpVgcs/7uJFTwTY0Mo7sljId2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QxtspXTxzLbQXZ2mnOYWzLKQX7p3BEDU1tdGN6esBT1HtxghZ9N1e8bMkJm9Of2c0WlhBiWa6M4+lwr6D922xnIFgPiBemwjHWgJE8DKjAVAN+j12uQ6SaUd5l4k2keHbB0Naffttrtfod6Rp9xL4xoNbLJomx1TGUDWnEsvnDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nnuHR7jw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729152769; c=relaxed/simple;
+	bh=woaT2J45zVWWUvxNM5Wp6p+L4KbbqgALTKWoNkftqos=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gRjAU6j9KALJ3S4layrLloi0791L03yo7GK1zXlz7rFJ1gaeSQv+CvjizsmlMs9cAZdXuAkG60gbCzY4FnRsElQxamdaaWWamODTqTM1eucECTvGoCIPHDWjnnO7ttGeCEjsbbyVCJ71MSNoVJvI1fbAA28Iuf9mOeE4JZdXhm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KP7eONNG; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nnuHR7jw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65243C4CEC3;
-	Thu, 17 Oct 2024 07:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729151476;
-	bh=S7jKXDCTV0a7mjHjenpVgcs/7uJFTwTY0Mo7sljId2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nnuHR7jwc5IT9MUnpqTkftP717SgFq2tdbzrAXLJr0NNXMPwkfDRz0DOmpmLKdpfB
-	 vI3dj/r0aj6unSib+Ajn75Z/dVWMfwwAZLpYTqgTPN94WoXpHKZzvx4BCkQqYmF+E5
-	 sR1NtbnU+Y91mNgozQBJkBSYpH9pnxU2CjcuXGV01SwAIff4HHp3dH6d6CsWINCYJa
-	 EKqLVtbTJ61f/74WcKhy8To0jm0Hrduf43nC2norZ95y8fry4OQV6dQexDDbgqGFHD
-	 h/Ylk92vVrLZrg8kZjQAjS9wRS6OBoMYHYqrTeVcuOx4jHmwdkCBhDaUoptKso9F4D
-	 3rAyz4IDimhmg==
-Date: Thu, 17 Oct 2024 09:51:01 +0200
-From: Niklas Cassel <cassel@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Yi Liu <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 09/13] ata: Use always-managed version of pci_intx()
-Message-ID: <ZxDB5TOb-sgiZfXg@ryzen.lan>
-References: <20241015185124.64726-1-pstanner@redhat.com>
- <20241015185124.64726-10-pstanner@redhat.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KP7eONNG"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539fbe22ac0so754065e87.2
+        for <linux-sound@vger.kernel.org>; Thu, 17 Oct 2024 01:12:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729152763; x=1729757563; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=85RPwSziFxh/qGea2gBjsg17pflJMJv9MvJZjHpRCKk=;
+        b=KP7eONNGrf3qaxokaJDvMTalY1g+l2cN9BvgXHt1NEgG0kBuOZZAukrBGZIshbTzw6
+         rVH0nasMQHkKiwpWYLuROrO2Jau6ogtcKmhaiQC+u3cd/DeLis7DPYrJND53I1FyyAbe
+         0ws//YkPJK2x1s1W6SRGYFa5XOrmHL+aYS9BszfZFWVGTq4ZMrHJMerRsoAU3002Fsg/
+         yRVVv6eX14gJJRnsLwTx/2nfmfyALqJ6lulEDqbMFaJfOW/cKsd4XlY/DSmnVsXzq+pv
+         6cc/mbt+R966p6Jke4PR+KLu5YwDKSkWhRtZOqYW5KiLYcyGFM74zNdoQC1Z3VnYrVbq
+         Gihg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729152763; x=1729757563;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=85RPwSziFxh/qGea2gBjsg17pflJMJv9MvJZjHpRCKk=;
+        b=wHmeAAhYwCr5uiANhuLmLhzBeagycizTiqrncueD8TbhzNeXTgo3ErYM/fhXtpo+UL
+         Eyx6W1ZVaXKQ3NpqGHBc2rkOCfzSImnu6kPExQoX+jheAT5e6vBLrr1DQfk3HZozmMvN
+         vJVzCQ3sBqV1/uqdwtElhLqGIXWDqjotCS2Z2Dg4K9IgqVuCR8xXEHdPGQ/TtJ3JLn7J
+         N08w0ZzaF99uc658lv1dHAzAsJbo2pHDb1TLu1RZfrm0FwNMAv6Wn/bUEtYwcXVSNR6m
+         IIIIWU2ywJkK9SYu4Y1hDq6VQbLxcHX/u/xLpV3NeKI8XaTV6NE+0p55veGVWSxXLO5B
+         kVew==
+X-Forwarded-Encrypted: i=1; AJvYcCWN2N9RhkXiMtqHn3+pXtSjM1R3h+qRPMI0Hvht99fGqqjwd7G+HoI9HgLihseEuZa50U7rtiI42Pgnjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywt9vmkuY4aNwugkVXtFCyfgn67LxY2xRnmW3pjkk826BrYG3p7
+	5k1bYgAXelt6X0b9DM1fo4U9l4nWre9A0LkADL4AsUjY07pad40iIRA1V5X8zqc=
+X-Google-Smtp-Source: AGHT+IF4HvDRbWZ701OpZ0aVs0CQKzCEwaD0lVQRRTW4jYUsGFeR4NNUSIABbrcxxUasnWirPst46Q==
+X-Received: by 2002:a05:6512:10c4:b0:533:3fc8:43ee with SMTP id 2adb3069b0e04-53a03f1992bmr4441218e87.13.1729152763341;
+        Thu, 17 Oct 2024 01:12:43 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:b81a:d252:4f5b:7c20? ([2a01:e0a:982:cbb0:b81a:d252:4f5b:7c20])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c4061bsm17885045e9.25.2024.10.17.01.12.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2024 01:12:42 -0700 (PDT)
+Message-ID: <e0ac5665-6460-429d-aadf-beaa9fef8042@linaro.org>
+Date: Thu, 17 Oct 2024 10:12:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015185124.64726-10-pstanner@redhat.com>
+User-Agent: Mozilla Thunderbird
+From: neil.armstrong@linaro.org
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH] ASoC: codecs: tx-macro: correct tx_macro_component_drv
+ name
+To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
+ srinivas.kandagatla@linaro.org, broonie@kernel.org
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-arm-msm@vger.kernel.org, krzysztof.kozlowski@linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20241016215930.1144527-1-alexey.klimov@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20241016215930.1144527-1-alexey.klimov@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Oct 15, 2024 at 08:51:19PM +0200, Philipp Stanner wrote:
-> pci_intx() is a hybrid function which can sometimes be managed through
-> devres. To remove this hybrid nature from pci_intx(), it is necessary to
-> port users to either an always-managed or a never-managed version.
+On 16/10/2024 23:59, Alexey Klimov wrote:
+> It should be actually TX-MACRO rather than RX-MACRO.
+> Rx_macro_component_drv name is RX-MACRO.
 > 
-> All users in ata enable their PCI-Device with pcim_enable_device(). Thus,
-> they need the always-managed version.
-> 
-> Replace pci_intx() with pcim_intx().
-> 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 > ---
+>   sound/soc/codecs/lpass-tx-macro.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/soc/codecs/lpass-tx-macro.c b/sound/soc/codecs/lpass-tx-macro.c
+> index a134584acf90..74e69572796b 100644
+> --- a/sound/soc/codecs/lpass-tx-macro.c
+> +++ b/sound/soc/codecs/lpass-tx-macro.c
+> @@ -2230,7 +2230,7 @@ static int tx_macro_register_mclk_output(struct tx_macro *tx)
+>   }
+>   
+>   static const struct snd_soc_component_driver tx_macro_component_drv = {
+> -	.name = "RX-MACRO",
+> +	.name = "TX-MACRO",
+>   	.probe = tx_macro_component_probe,
+>   	.controls = tx_macro_snd_controls,
+>   	.num_controls = ARRAY_SIZE(tx_macro_snd_controls),
 
-Acked-by: Niklas Cassel <cassel@kernel.org>
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
