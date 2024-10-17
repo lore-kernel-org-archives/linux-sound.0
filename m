@@ -1,42 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80241917E5;
-	Thu, 17 Oct 2024 06:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FB015FD16;
+	Thu, 17 Oct 2024 06:40:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729147033; cv=none; b=q8jBicEDZfLJ7zcuG2iBJZ7m87pIaztO3ovQTjlRluHNgkokz1mjRlXYGszpxsps+LVywpFH/NQ+jFVaN9tKqbaW5njIxIKnUSMg4B+A5DonRuBPJMSUwqGe273QrAnzr/1kxInPLXJWnoXePrsE4FfmAl9IjbD16rvGCOK3rdY=
+	t=1729147223; cv=none; b=N35cQQtpbTcVdgSxHLBraDR+TGFyQRcmiAD9wH4MHA4B+x/nFyofrTBA5XFQ/mzQYMjWiR06FIYqOW/LuHtzpCWUm5yW4VUzlEg9qrA/zycHsf3u4kddMbv98NdPIkXlQchFc3AIfxZR2VBrFB9t0hMloem64+gyfM799oN3ZGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729147033; c=relaxed/simple;
-	bh=J46znkNGsGhxVc2XFpJfW2+IcYnxRbvmuWZoBnkWax0=;
+	s=arc-20240116; t=1729147223; c=relaxed/simple;
+	bh=Q3YK1YytJHA4b0L4yocqevQZD3SkUiTtzwE9kUxDuBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r8vCJB356sjqXgIccpL+yOF3621WiUTRCNkLo7z3J1hsgBmQ0CIhaNg1UHtIhI7A/hSfKAigWGx5h77nXwhMyEw0TMB8KXQbvCpgDm1LXC2uWgbV9uRBWO1U3/ql8CtRyui9FZI/RE8IOP/1pwwC0xFFusHvyNRZh/RdaxD2Rx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrWUBCyl; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P+L5vsjpnprCR7iTnemxLUPLXQVSCzpVNosjBz15JuqDRv9oBznY4kpV2SARtX58Mo5LldRSjBrguwtC/xoR19Lanx4X9EiAFV90tqEh7ywg3NHuW90KQ6kGqbew2Rcv4SEaRof1xeiw8T4a5bxRwDuRFxIobWg+IcCY8cjAYyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qL1dy/+S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrWUBCyl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA5CDC4CEC3;
-	Thu, 17 Oct 2024 06:37:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729147033;
-	bh=J46znkNGsGhxVc2XFpJfW2+IcYnxRbvmuWZoBnkWax0=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qL1dy/+S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8F3C4CEC3;
+	Thu, 17 Oct 2024 06:40:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1729147222;
+	bh=Q3YK1YytJHA4b0L4yocqevQZD3SkUiTtzwE9kUxDuBM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YrWUBCyl5OM6ybWonkxQHxrK+2Fa0TyT2CNtmjyOwfkYXp/UB84vOYXHdBAg5zcmO
-	 O6A2b4ej1fuDgWl8kMUaryRH+dnNx1q72Yn1YI2Bdp8CJBzcjnngyOP5QoQ007uCeX
-	 KhKMPBpAjD+rNs6ZJTwqJEtyXj19WwjOtbYHapeb9YEu/GuO+w305AVEINz0LvlYXz
-	 xn0Z+OKm464WBR4ItMM3U7Qh+f5LTuJSIa2y3WfGbCLssw98/H/nXFCDfVDUQVdEBd
-	 TfUXo+DqTQQ45UNgYDzvRm/2g5BHOov/zRgml5IMZ7Ge1FbRiYTbn92U/U9yvKON9L
-	 9r6gymTUWtO8A==
-Date: Thu, 17 Oct 2024 12:07:09 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: broonie@kernel.org, tiwai@suse.de, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com, ranjani.sridharan@linux.intel.com
-Subject: Re: [PATCH 3/4] soundwire: intel_ace2x: Send PDI stream number
- during prepare
-Message-ID: <ZxCwlYBP4OUFhXR5@vaman>
-References: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
- <20241016032910.14601-4-yung-chuan.liao@linux.intel.com>
+	b=qL1dy/+SiO5IHzdVF2yCqHnZHdolQ6tyRxX+MU5LSoT3iEkA8qdNuM4z/ywhAcId9
+	 U9vv61Hha1JlFE5EFH1L5zCcLCLg6hbvXqbxDwerRvz9Hqm3OiOdRYe5tl+16JfuqS
+	 DjjK7Q9a7gzIEbD7bVNjJS64a4NYJJHZ6P/0tQ9g=
+Date: Thu, 17 Oct 2024 08:40:17 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	lgirdwood@gmail.com, tiwai@suse.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org, bgoswami@quicinc.com, robh@kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation
+ IMOD for secondary interrupters
+Message-ID: <2024101747-defog-squiggly-ef54@gregkh>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-2-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,19 +49,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241016032910.14601-4-yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20241015212915.1206789-2-quic_wcheng@quicinc.com>
 
-On 16-10-24, 11:29, Bard Liao wrote:
-> From: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
 > 
-> In the case of a prepare callback after an xrun or when the PCM is
-> restarted after a call to snd_pcm_drain/snd_pcm_drop, avoid
-> reprogramming the SHIM registers but send the PDI stream number so that
-> the link DMA data can be set. This is needed for the case that the DMA
-> data is cleared when the PCM is stopped and restarted without being
-> closed.
+> Allow creators of xHCI secondary interrupters to specify the interrupt
+> moderation interval value in nanoseconds when creating the interrupter.
+> 
+> If not sure what value to use then use the xhci driver default
+> xhci->imod_interval
+> 
+> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+>  drivers/usb/host/xhci.c     | 4 ++--
+>  drivers/usb/host/xhci.h     | 5 ++++-
+>  3 files changed, 13 insertions(+), 4 deletions(-)
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
+This is already in 6.12-rc1, which makes me confused as to what tree you
+made this series against.
 
--- 
-~Vinod
+thanks,
+
+greg k-h
