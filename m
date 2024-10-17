@@ -1,184 +1,183 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011062.outbound.protection.outlook.com [40.107.74.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905FB1D4332
-	for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 22:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729116655; cv=none; b=LtlOmdTdRdfkg1eLvmwIvMeNZAaFWNBQfQuJz8Kg2xkiusdEvKPOwmx6SO8cvV03CIwqmp6+xrZTCpClZCm/YDgynW/89/GKb/08H4PcnbPneE+pjlh89ydi462QCNjz0tZDUYO0k5CpJNb7Fz+XrJpM7dyPBXl1CoKgKdw7jDg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729116655; c=relaxed/simple;
-	bh=DnqN0GYxTQTNhr1sTx2f2oTCRxAX06WOtWLVVwvY7mU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KVqTpz0f9O33PwYiFqBiV0QOlTh/JeEHP5+ENB4MFL9HSYa9Tu1KWyB3B8jFXuscK8UoF/xRjTd3Zy0gYsodBip69z9MWxVkrD9OorPupB6q/njH/BZPZuXkGn52Ox0xW47yXKS1+pnUEqWkvMXV4zH2aAlI/IbmI8M37Splc50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dSWnKtOA; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96398184D;
+	Thu, 17 Oct 2024 00:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729124569; cv=fail; b=HdllznrmKPYC0GEtQUHErMDNnEPlUDjFdoHsxusPAC6xKbxac4xEi4BfdAqZioblK18omCJl/IM2Lfx8CEns352Am+ZZTsKIW7b0/h+pMLFPOKifVGSrDSIa86Gs8pHsUizQ1Yvdqo+tQs1XBI34KlsQ8w0GMHaPLZ08jtjVbw4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729124569; c=relaxed/simple;
+	bh=U5+7YA5OxsEO4pAFxskw6RDmhxvAwcREX9EbArRVWBE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=ujlB2hrn4Ao3HhKrBVut/HLaIKaR38K2uPfTloO7c79bM8Y1Pzob12HEEYridUJfEx8ukoAfPGB9DOWTr47pl9e2c1emRmq97KPreMOJHrD41c/T+fJUI2iabYIX1TIZkagn/4GTxSvBa4SUjdJfj9Mi3mn9OnOvYE4yBXZf+Cw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=ERDsxfo+; arc=fail smtp.client-ip=40.107.74.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dSWnKtOA"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43123368ea9so2800835e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 16 Oct 2024 15:10:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729116652; x=1729721452; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zkmU+TMQPcdZQQS44rLXxdRUirokbMiNxtTTnsu7A1M=;
-        b=dSWnKtOA7yw1Owg3mmik+FTQ90RHSGMwPHhQX0LG4gTZ/yg7nIu8ULx488nnf6Y/IG
-         NjeexXsnBp04pQ3pFtpZMvkaB2zs62TPvRJ1JDLlcAfDWNXs9Q+cjlaJJ0LanT/YQMNt
-         CbhBHxn4ySkZoDgUwHNvccqYNido4CrJO/XgCbL7Yn/QdMw9Og6OrGiMgbihq6cERPQZ
-         txt/uHMDQStlfdbOLuZT1LlyxFydyhErsL04yJ9+iGNxDuixOs5l8GFJNv5H5fIFXI5n
-         V4Tmf3JkqU387J0aeoMCN210+s2YOLW2kAqrm9vR+C5H12oiL3KW/xu4Qu/eehUCCMt2
-         aylg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729116652; x=1729721452;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zkmU+TMQPcdZQQS44rLXxdRUirokbMiNxtTTnsu7A1M=;
-        b=alNVsIXv6EuJsBaQtBy/ItI1T9Ic4QNTdPzEvt2VSf2N4gM0B7US/V3M8H5tPFZ84i
-         6EZQtWXBBoMUV7mBe4u/FOAft70D1iFkInWOsJWh9oGHVLIcPr4STR2ECeuLaiq8rPzN
-         KfbcjfNBhXM10Y1rWOs/bIaAKW7nOl0f1ssj4XQtgBEBh4MImjmqF5sZWYDlB4iAMs2W
-         JB9yteDa5EKRxI53i1kMA/9zueR4GM/7CFNoPD0q0ymfkctHoXktX2wOPLWaQHz7/CEl
-         P1fWVxhKzUFfvPclGDi63ypdNkFhR83FculVtcS1at2vQHGFIwt6YsILZwg4F53EMf9Z
-         Z13A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/X9axr+sCxN6WGY2C/tiZCh9INDPKr9ZFIrCxLmrq6LFJXsyQVrB+3izmYKqocqfW93RQxMxVDA4fcg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YylzZMgfp4lkodyU8AO5tPiGCpRkv6sTUGGMeh6raBq7kSHsMAI
-	ntueZlifHzXYFdXHLdsDFO/gsT2JYCHQC/jKH1+R0G+MCQqC/R06f1Dn6iqHk3w=
-X-Google-Smtp-Source: AGHT+IE/7GB+laIBn4fQ2eRBjGrY2BLeDRMpZT3OgDpcIf9Rc1ybtQP6yIC4+eEfg4Ir/JeWq7i1xA==
-X-Received: by 2002:a05:600c:1d0b:b0:42f:8fcd:486c with SMTP id 5b1f17b1804b1-4312561a417mr140028865e9.33.1729116651788;
-        Wed, 16 Oct 2024 15:10:51 -0700 (PDT)
-Received: from localhost.localdomain ([2.125.184.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c38b39sm6267325e9.6.2024.10.16.15.10.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 15:10:50 -0700 (PDT)
-From: Alexey Klimov <alexey.klimov@linaro.org>
-To: srinivas.kandagatla@linaro.org,
-	a39.skl@gmail.com,
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="ERDsxfo+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KqGTxaUmVYA+tURdNJLYzJhdwwMhwjS3IOnWiaYMGIuiB8s39LxoguQ9lWVos1e48aVedy0PUioVHX7Y2iJODHgo0EjU7Se5fhV2eVUcVQ+5kcUGI+ehVHrG+24RNRKKnq1hxWdUrLavjNy0vXYIJf8MkfqpG2ghK/EiUErJ3gSdR0ZBRNhf7OmoU82NXIdtrtw1mUgRusIzmQN1CWYFVcxrW4XJJLnQukC9sbFIfqbTJacT7IJkysKGd4S+77DjpeJB/bJxu6JK13btt0g0QrV01tQlLUMeDj3JO9Q2SMCVfu9JGVIyr97gUzJoB+wfS6XK7pQb0OUGFkHQZ8DhiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XqN1OwwSrp689EyFHA13wvqgOcq7fm8UVO8ou8Dtqag=;
+ b=Wvf/Xlxkg0tDihj+Pc4WT1nNclwozSwOLw3zV7gCpvWPxEAC31+/aeIyfsAuILEKqV/IrT1QB/rXfjJCl59q9uJcC7vbSF3cNGw556SNPPPSb7Kc2q/ewFi6n/1XX06uwJrpxBtjgVjcjYuetN4SDx9gkYGY1uWFPiI3pMJmreW23SsveZD93qI1IRTh4UvDlLwxF+RWI+lIVYDilyuyCR0hwmcfaetlJ0Z6wr/pLwZd7fuD6YXiCyAAIzrZ3m3qhhP42jXa2uP5NAxpW9ClfcBHq6CzyfqYmHV6KeooZbYnVTd9ZY5IQXGiEnmE4m6sbMgfkLBXL/inKjFD/uN8pA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XqN1OwwSrp689EyFHA13wvqgOcq7fm8UVO8ou8Dtqag=;
+ b=ERDsxfo+IoMmGxhTd0yVsN9ExLWQuorYib2/Pw9xJFnYNLHSRwd5gTzBYPfz/WWgCdS5WmHcWxo8YuPxNgCO2TkmVddRbCyl6atbZuX0rbfftLe5S9wLKpBs3vvM4V95VmSPHPZHG+8MKjXhFVSOYvOPZRIrJzT76Imz/j6GgSY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSCPR01MB12518.jpnprd01.prod.outlook.com
+ (2603:1096:604:328::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Thu, 17 Oct
+ 2024 00:22:41 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8069.018; Thu, 17 Oct 2024
+ 00:22:41 +0000
+Message-ID: <87r08fshm6.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	linux-sound@vger.kernel.org,
-	broonie@kernel.org,
-	dmitry.baryshkov@linaro.org
-Cc: lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
 	linux-kernel@vger.kernel.org,
-	krzysztof.kozlowski@linaro.org,
-	vkoul@kernel.org
-Subject: [PATCH v2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro for DSM_CTL and SEC7 regs
-Date: Wed, 16 Oct 2024 23:10:49 +0100
-Message-ID: <20241016221049.1145101-1-alexey.klimov@linaro.org>
-X-Mailer: git-send-email 2.45.2
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: Rename "sh" to "renesas"
+In-Reply-To: <242a31a6-8a0c-4db9-97a5-8a9c9f5c29b4@sirena.org.uk>
+References: <20241015113757.152548-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	<CA+V-a8u8bkCjL-YSyMOiKOtfZC8upBwGzhrJ0o+EmZ9S3z5hGA@mail.gmail.com>
+	<87h69cevrt.wl-kuninori.morimoto.gx@renesas.com>
+	<242a31a6-8a0c-4db9-97a5-8a9c9f5c29b4@sirena.org.uk>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 17 Oct 2024 00:22:41 +0000
+X-ClientProxiedBy: TYCP286CA0198.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:385::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB12518:EE_
+X-MS-Office365-Filtering-Correlation-Id: bf9668e7-2dc2-42a4-624d-08dcee41d054
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?72WS0tiVVsBp5khKBw1zsI6DbIfhRAu7DCwJXJdLBH3Ppn9+EPzi5GWMOy6/?=
+ =?us-ascii?Q?5A1YFBi0V8yCMvaTcuCs05lYysp0OSM1e0dV9zWlXybF51G9xwjtPXMj9vzA?=
+ =?us-ascii?Q?AOzgF9NBTtfFxnGymZD4ERA9sv2kICcX2b4C29IFgPDavMqtBbS0bGXp6aNY?=
+ =?us-ascii?Q?vQj+5QJb7rFJStSDblqZfyYYZ5ZGID8q7Gt2cet+4uAtpoGdEtP2JDsAuMMy?=
+ =?us-ascii?Q?e7QwAX6bx8s/978wzzfazdQafhn9mpy+3E3H6wQCvSw35mWp0t8J/ilQWpmI?=
+ =?us-ascii?Q?9i8d1dofTmGRl5X+AgGn0Y7xJE8kB6kIYq8huAQYja+K6NZaJkQlr+9rWuAz?=
+ =?us-ascii?Q?umdrLeDC2CwsYemQ05WsjtkyWZI1KRH1fzTOOmlTPMD1P1tWDydnfa/2VtP1?=
+ =?us-ascii?Q?EvkdANLW5/6X+bOKxEO/BXTBg3OD3WTtwBtzk7oV5Z23jc0y0HWMgj1W5v1N?=
+ =?us-ascii?Q?ZNRuel/4tKfS6vcYKjb70YeJZljUA5/I2TryLKYvsLAqVk0tUz3oM5Lke49D?=
+ =?us-ascii?Q?DpTmB7qfK9EytLjn4hXn6uL2Wq4tzMc57g65AraSJ0nbSIwunuoqE70nUlnc?=
+ =?us-ascii?Q?SXCmWsTC21DcDOrf2CCSPsYv2ZNHzNU00kG+6GDznSx2aoQCydeVHRws0Gil?=
+ =?us-ascii?Q?YjsyTykht86WCk57GyC3zTG+SSVGTSGJNtsatGwW7XlLnJ3/Rg32h8a3oTjw?=
+ =?us-ascii?Q?Cy17UVJfP1vQ/AWlrH8ijb3HDOtgrMkIZgD6WslJCHxA9Cea1OYWLfMRqd5c?=
+ =?us-ascii?Q?3kz29sKa0YSKQuF4gz29cftYaGEaVfQLeFl/AnTD+YxcJgk6v0ZKNZRsriVg?=
+ =?us-ascii?Q?VXBwgJi/Ka9PXZYYtCdWotPjdI5cR8adl7n9wc38R6scMh6CQl3z6wloJSzR?=
+ =?us-ascii?Q?9Z1NxVJsAkbZu64eSElMqRGsOT9P18zeLnko2GFMct5rb/vebKMWLUwoFmc3?=
+ =?us-ascii?Q?JQegJ6keJ/YEYlwIQYPRoUZLlT5Kk+O267nQ04HwY7xPYLjo4Ty3BjFp02s5?=
+ =?us-ascii?Q?SCZr2XzQ16JDx9rySkTT6e8DGPLIiXBrC5BsaiJ2VKf5KX1nAITJedHX6cas?=
+ =?us-ascii?Q?BDOsjcwu7FVNmVbm4vw0m7plgC4NG0eQJtJP6o33Pm9gs0sW0IcbUOmQmXXd?=
+ =?us-ascii?Q?kXNy5uF24/s+8CjNqYyPP0HVFxIru58qo1N3eBNIrWDTBvyDRZVc0CEVL86F?=
+ =?us-ascii?Q?Th0J6FbDSSKlgxgosDWI0Jas9ayC2ZuYMy03NVOtJw5OcTOzMVY+IuXgNpth?=
+ =?us-ascii?Q?argnf/lx5q+4Zb3KozE0Mn+o9/INEHgito0Z2mCKIkEQWFVbTwN+hRq2PNKr?=
+ =?us-ascii?Q?G5BmKkkktdzYyP/KuqVY1RN8BU9kN3kY2WLHB+Gz8HVt81m0I6Wx79bRXTUe?=
+ =?us-ascii?Q?18PcX8A=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?V4AxM/min2T49qwKQynE+FdYQajGyPp1eD6IE9/kvXwheM+fJqtINuYmd81w?=
+ =?us-ascii?Q?ICsFpk8pxDSvIimea0HUcQ+UK7zIHUl5hswbL/nJGc7ZwcwLtX3q9+LT3D0b?=
+ =?us-ascii?Q?C68c4BZqv848vBXClrJ51Xq1i29J4PY+uqiPz4lvnvCh9TbMpUO2PAQYjWz1?=
+ =?us-ascii?Q?w9IG7cqFXBG7LUlAvm2ChpboCEICa5R7yt/xPJUbN3b6TFKTRgOer/zy2eNs?=
+ =?us-ascii?Q?UcQMJldIUwEmNp+vcKe7B+d66tMqh0mLLfMzgJK8NK4oUbc5ixxs24bz2XRO?=
+ =?us-ascii?Q?EQbuS8YO+GgEHkJyfFvHEki7v4n6BSENnD06h43jLk+cOQ4d8p4+M76I1oxf?=
+ =?us-ascii?Q?gXc+wW4mMTVimcH0Lu+wLCmzFK721XxlzQJ7JK108FTs5By7YUB9Giguoy4U?=
+ =?us-ascii?Q?OADXPnzDbXwLxjlhh4iyy4knRZRXkd7txemA1Jmtr5LJYjHbBEguTKBsJ7WQ?=
+ =?us-ascii?Q?mYZR1wBFohM0OYGuOfvfVfo0UC+I5mCP2ECcKM0INUfsjqXCO1VQmn4eud4h?=
+ =?us-ascii?Q?drpKvzudXtmUNepZ+Kg3XzG2RdSXLUc7N0kmYmpig2vJjsCBUIsPGUEZVNRX?=
+ =?us-ascii?Q?IMZT1NMlaw34n22f8IRGun6iPgx2td163FkBk7nOsSYDLYeSJcX14oRYkbLu?=
+ =?us-ascii?Q?j0cwGUL+17BwkQ6VzV5UNPVdflcmhfEYTAtK26ea40dl2Vsx3yq5NI6Ds188?=
+ =?us-ascii?Q?9K99vjhgHSU5fsYwAbufA7ktKLL8xfQveYkAaBTDLNDB8iQScbKsuk/hUkpk?=
+ =?us-ascii?Q?V7uJpmEL6Fg7TeylERanSXp32dGkNXDZRZPIRcneTRiFqpVvg3jzOiHUXCfc?=
+ =?us-ascii?Q?WVCKsuc7kEZfvt0gfDtf8rQxR+1bC7TJ0Qrl/Peuu1bYfBsayM8TS6KwUHnO?=
+ =?us-ascii?Q?8jTPjVf/GBtyOlZTYczw+N0W8jivHQNH5TSw30nbPMu4hx9TGb2na5nOhMwi?=
+ =?us-ascii?Q?VIfHH1vj2DUkH66V4Vn2xWOk/gnaBzxRrD8iBvxo54tR3h5H+XJqfx1EU8Y6?=
+ =?us-ascii?Q?3C2aeh7pynuxT1I39DFJIeR8nNKXTSpxwy1j51QgRlvNsENEKvAZ00j5aW28?=
+ =?us-ascii?Q?ChykCijF+eSGEkdKSL3c55Ym4oSZu4rcKIDY9IzIO52bQ2rT62uI8YjgidQN?=
+ =?us-ascii?Q?AdV21d+t4/FVTy0c13P7cHZO8s4pUl8MVGzC6vC00FIwPew+WHNeV0eGBQMC?=
+ =?us-ascii?Q?UKl27yDs9PTYSLzxeW1U5Sh4l909TkliChHpdXe54LGZHoGgR7fnq17mZnrZ?=
+ =?us-ascii?Q?w6TaOGpNSmT1QwXbSMA9IaVBul4lCAGMMNws9Ew54UxlI5MJLybnrCd/RAeQ?=
+ =?us-ascii?Q?0xjX8xIKuie8DRkJBQNL3QhqxSfD3RbyXn5eMj5GgoaAyGEBUMD8/83nUnX7?=
+ =?us-ascii?Q?je4JzfSTLrFVIKVZzeYqkaAz1VXulMcm1JSCVlLqYXuGD6TA/+EN08oK5sdl?=
+ =?us-ascii?Q?AnzECW7EfbNTg5ZZZC+CiffWSQPlQnElTJLOBCtkjE4Eu0tQ9usWFe/E6/D5?=
+ =?us-ascii?Q?cpBHjy2uwHPeeurdq0s2xBB+Qjw2m0O+eDwmebHSeMV2zBdqKInq3tY0r0D/?=
+ =?us-ascii?Q?Ni6A7rohIqdjoym/L9FPO48oEmywjSb31UMprvJj7+6ftgijHGj+iWO5rS4V?=
+ =?us-ascii?Q?jsFcG8iCnAuRqiavpC+ea9A=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf9668e7-2dc2-42a4-624d-08dcee41d054
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 00:22:41.6374
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NCW9xxuBB4Lva4caw7ETmSSBgssaiClzIOfEYVGMSwsEIb7e8R5QjK8j3/oOD6yuPOegLphqBIOGTBhS3gUm3nrLrrFXCP1x3sQMWjMXvAzxyfrPLFVx4bVS7cODeaJj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB12518
 
-Turns out some registers of pre-2.5 version of rxmacro codecs are not
-located at the expected offsets but 0xc further away in memory. So far
-the detected registers are CDC_RX_RX2_RX_PATH_SEC7 and
-CDC_RX_RX2_RX_PATH_DSM_CTL.
 
-CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n) macro incorrectly generates the address
-0x540 for RX2 but it should be 0x54C and it also overwrites
-CDC_RX_RX2_RX_PATH_SEC7 which is located at 0x540.
-The same goes for CDC_RX_RXn_RX_PATH_SEC7(rx, n).
+Hi Mark, Prabhakar
 
-Fix this by introducing additional rxn_reg_stride2 offset. For 2.5 version
-and above this offset will be equal to 0.
-With such change the corresponding RXn() macros will generate the same
-values for 2.5 codec version for all RX paths and the same old values
-for pre-2.5 version for RX0 and RX1. However for the latter case with
-RX2 path it will also add rxn_reg_stride2 on top.
+> > I can review / comment for Renesas driver, but can you agree that
+> > you continue to pick the patch instead of sending request-pull from me ?
+> 
+> Yes, there's no need to send pull requests.
 
-While at this, also remove specific if-check for INTERP_AUX from
-rx_macro_digital_mute() and rx_macro_enable_interp_clk(). These if-check
-was used to handle such special offset for AUX interpolator but since
-CDC_RX_RXn_RX_PATH_SEC7(rx, n) and CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)
-macros will generate the correst addresses of dsm register, they are no
-longer needed.
+Thanks
 
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+Prabhakar, could you please continue for Renesas Audio Driver ?
+
+> > In addition, I wonder should I be for simple-card/audio-graph, too ?
+> 
+> Yes, you should be a maintainer/reviewer there.
+
+Thanks
+I will post the patch for this
+
+> > + L: alsa-devel@alsa-project.org
+> > - F: Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
+> 
+> Should that be linux-sound@vger.kernel.org instead?
+
+Yeah, Sakamoto-san pointed it.
+
+Thank you for your help !!
+
+Best regards
 ---
-
-Changes in v2:
-- updated macros as suggested by Mark and Dmitry;
-- removed INTERP_AUX if-check in two functions;
-
-Link to previous patch: https://lore.kernel.org/lkml/20240925043823.520218-1-alexey.klimov@linaro.org/
-
- sound/soc/codecs/lpass-rx-macro.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
-
-diff --git a/sound/soc/codecs/lpass-rx-macro.c b/sound/soc/codecs/lpass-rx-macro.c
-index ef7a70fa6966..febbbe073962 100644
---- a/sound/soc/codecs/lpass-rx-macro.c
-+++ b/sound/soc/codecs/lpass-rx-macro.c
-@@ -202,12 +202,14 @@
- #define CDC_RX_RXn_RX_PATH_SEC3(rx, n)	(0x042c  + rx->rxn_reg_stride * n)
- #define CDC_RX_RX0_RX_PATH_SEC4		(0x0430)
- #define CDC_RX_RX0_RX_PATH_SEC7		(0x0434)
--#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)	(0x0434  + rx->rxn_reg_stride * n)
-+#define CDC_RX_RXn_RX_PATH_SEC7(rx, n)		\
-+	(0x0434 + (rx->rxn_reg_stride * n) + ((n > 1) ? rx->rxn_reg_stride2 : 0))
- #define CDC_RX_DSM_OUT_DELAY_SEL_MASK	GENMASK(2, 0)
- #define CDC_RX_DSM_OUT_DELAY_TWO_SAMPLE	0x2
- #define CDC_RX_RX0_RX_PATH_MIX_SEC0	(0x0438)
- #define CDC_RX_RX0_RX_PATH_MIX_SEC1	(0x043C)
--#define CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)	(0x0440  + rx->rxn_reg_stride * n)
-+#define CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)	\
-+	(0x0440 + (rx->rxn_reg_stride * n) + ((n > 1) ? rx->rxn_reg_stride2 : 0))
- #define CDC_RX_RXn_DSM_CLK_EN_MASK	BIT(0)
- #define CDC_RX_RX0_RX_PATH_DSM_CTL	(0x0440)
- #define CDC_RX_RX0_RX_PATH_DSM_DATA1	(0x0444)
-@@ -645,6 +647,7 @@ struct rx_macro {
- 	int rx_mclk_cnt;
- 	enum lpass_codec_version codec_version;
- 	int rxn_reg_stride;
-+	int rxn_reg_stride2;
- 	bool is_ear_mode_on;
- 	bool hph_pwr_mode;
- 	bool hph_hd2_mode;
-@@ -1929,9 +1932,6 @@ static int rx_macro_digital_mute(struct snd_soc_dai *dai, int mute, int stream)
- 							      CDC_RX_PATH_PGA_MUTE_MASK, 0x0);
- 			}
- 
--			if (j == INTERP_AUX)
--				dsm_reg = CDC_RX_RXn_RX_PATH_DSM_CTL(rx, 2);
--
- 			int_mux_cfg0 = CDC_RX_INP_MUX_RX_INT0_CFG0 + j * 8;
- 			int_mux_cfg1 = int_mux_cfg0 + 4;
- 			int_mux_cfg0_val = snd_soc_component_read(component, int_mux_cfg0);
-@@ -2702,9 +2702,6 @@ static int rx_macro_enable_interp_clk(struct snd_soc_component *component,
- 
- 	main_reg = CDC_RX_RXn_RX_PATH_CTL(rx, interp_idx);
- 	dsm_reg = CDC_RX_RXn_RX_PATH_DSM_CTL(rx, interp_idx);
--	if (interp_idx == INTERP_AUX)
--		dsm_reg = CDC_RX_RXn_RX_PATH_DSM_CTL(rx, 2);
--
- 	rx_cfg2_reg = CDC_RX_RXn_RX_PATH_CFG2(rx, interp_idx);
- 
- 	if (SND_SOC_DAPM_EVENT_ON(event)) {
-@@ -3821,6 +3818,7 @@ static int rx_macro_probe(struct platform_device *pdev)
- 	case LPASS_CODEC_VERSION_2_0:
- 	case LPASS_CODEC_VERSION_2_1:
- 		rx->rxn_reg_stride = 0x80;
-+		rx->rxn_reg_stride2 = 0xc;
- 		def_count = ARRAY_SIZE(rx_defaults) + ARRAY_SIZE(rx_pre_2_5_defaults);
- 		reg_defaults = kmalloc_array(def_count, sizeof(struct reg_default), GFP_KERNEL);
- 		if (!reg_defaults)
-@@ -3834,6 +3832,7 @@ static int rx_macro_probe(struct platform_device *pdev)
- 	case LPASS_CODEC_VERSION_2_7:
- 	case LPASS_CODEC_VERSION_2_8:
- 		rx->rxn_reg_stride = 0xc0;
-+		rx->rxn_reg_stride2 = 0x0;
- 		def_count = ARRAY_SIZE(rx_defaults) + ARRAY_SIZE(rx_2_5_defaults);
- 		reg_defaults = kmalloc_array(def_count, sizeof(struct reg_default), GFP_KERNEL);
- 		if (!reg_defaults)
--- 
-2.45.2
-
+Kuninori Morimoto
