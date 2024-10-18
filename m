@@ -1,160 +1,135 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F951CFA9
-	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 12:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD9842077;
+	Fri, 18 Oct 2024 12:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729252802; cv=none; b=obTuzGH2JtwOXkU4b8hFKxNHUvv5UZ8qu8RMsgjgh6rpCQJc1i5yFqueIh0rWu355/Vbd5uRWRtOGFnTcfD+U6FRV5CfRnqvZXMBgLuE3dNRLWZOig8a/fUdg4H1JFqOFgssgPduktQ5QkLIChIU/000P1yH0gpX0BagdH5FAO4=
+	t=1729253743; cv=none; b=sBbt9WdzG05R2/cpEKUulcw2wJUmuYeLEndolft38oyHxdY5GDmrQJA+uYKPaxA12WLueD4dSXj9XbyeLxihz1OLznO9KOxzyyG/jm8sf3aj8F+vXaWNjcYbrmDFil8b+0fPZfDa6lN+PD31oOcuUo4VNHfh5pjQPGIgQMAPk18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729252802; c=relaxed/simple;
-	bh=IZ+ktM1q4VjLBkIUgFdG4NXu1mtAQptlV8rWNSJ9QOM=;
+	s=arc-20240116; t=1729253743; c=relaxed/simple;
+	bh=IE5eND4JS389Mg64lkLSdqShAg+vwI2qRCJ1rs2mbGU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f8P8YX6zvBOMsq0c+yKqIaQaqfZ0vQW5fFX3Dm6lf5MFnSGz5gYXowAuGvPr3k3ljoe2q0/V+TfxGuurHVOzLmzr4CGbiG0Sts19IujHvnAdn0pYo9Q4NAvbNDfH7GpksEJIHnnpt+0gQNcTC2CqyqNZghJeuYDIk+FZmnILTh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s68rtUgk; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=RhNJFiBkcMrrf+AArJSfMg214tb4SXkzQpNsllA3nHVE3ygYrkZIHq66fXE/ETc0jyYAbtnlzQmNI3ZMNCaqC8JqIbXEpduT9k4N5Deb9bt/MPEzJ5s9Z1bF58JKY96YAEpoKzeCZmYwnX6imbsvExllXxvKiI1kIXYWL3l9uhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G2uIDxnQ; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s68rtUgk"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e617ef81so8894e87.1
-        for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 05:00:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G2uIDxnQ"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4608da1bea5so13069421cf.1;
+        Fri, 18 Oct 2024 05:15:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729252799; x=1729857599; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1729253741; x=1729858541; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NFVJy1qmuzdcCDjWiX1hq6jLw4k+NEA+Um1zz1+jP9c=;
-        b=s68rtUgkNbX1p1E40ZOCyuVvSnFNWqp46FsdKDSHWtcKrjpljSIbb3Pe4GevTSoqlL
-         ppEFgsgNcSxTwQE0AcnT/YK/wqEjlNJKVxvK3BJ7VCx/mvmsegDfevoiki9VmjzynVhN
-         vQz256YumXKcSkBXMZ/kx8zb0J7d4vl+KJ58TzdoxANFnftYWa8Nymu94LDaTp5fh45O
-         UG1yc1+9Tscythw+5g2QNCOArU1RUZB6HI7pLOJir3cW8yxWjMlCtHXi69+/GtGGLsZs
-         FLnk5api5G9D0O0S/cQxbUgplEXo42DWKWoXw86dNJv4LRmCPMVm45OosetEP4m2kouz
-         0MuA==
+        bh=20pjU3e//rgq26Yi05Ys1N4I2o5U5qD7ybOOR7293q4=;
+        b=G2uIDxnQpuBwUgWhgo8zozCqGk9kiKfHCRgd2rwA9t0AdTqJe0I+14JCkCTBhtqZ0H
+         osORUaYfQrUe5jsVQQ4tnX9D9l1Bf09hC8H+K9EWglrUuiUbAec+YxeHaqdKxKO4IRho
+         X0yV9M5fkylaa3MQ0OahdeB66W/EVgAOrYBRbyWax0w0moDZTqMWahBj3cIU2Ngt8zvb
+         tjvqMox/t/HoVEgI+a+v4x4/Tepnmr3QYAj3o0r7y8txOX3g21458MUhJhVPdvbAMR4c
+         Vi0BONgpmcck8n1+wflhJYcxfCbc6/pI1p6XZgJ37I3yVzOhFwSP63JLuHgFh96kdQen
+         V5GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729252799; x=1729857599;
+        d=1e100.net; s=20230601; t=1729253741; x=1729858541;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NFVJy1qmuzdcCDjWiX1hq6jLw4k+NEA+Um1zz1+jP9c=;
-        b=ETOnaeqQLSAaggiXekRz9LDAY+R3rvElJHf5XiXrIeSp5qm+/oC/iVFvb7EN23KSki
-         GwZmAyi2DEpvNpjyXxSjgvOdh3QbwJTu9X5KS5CyIlEyInllPMuSrsN5zV55syaHAxBV
-         BF6SFH/oBGBkebCRtkYIqPvlnsn5mRY8bFR1L19Xzis7rH15imQjs+gPqiNKssR6ppkQ
-         +DN1IQFjg3EHWGXPy8L+Z6T4z4TiCoNmspDpU6AX6Ax/J5oHcu9GIP733//KctLvmhRE
-         V8u2BrBtx1OjS6jWC/Q/INbi+jqZKopzN67zr8UI/6yCfuyvTyVoaCnAmAAFnARShOG7
-         dt9g==
-X-Forwarded-Encrypted: i=1; AJvYcCXFbhyuim8vb0CgjRCRHfzdUvOh6wEfs8wZns5rkoqHMPjM8EbdNXozAbJkEInTgA10aiCZDHMvbi5/Rg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVcZxO+hqO4T3zPnOyUGVX1orHoCyKTXbhv9slFNuJMAB0TaPe
-	wUd3hV5CkQvm18vCBjxl5rEFNiEmCZFK9ZqhBpUj0bDJS7ciEA4+s22tihViFfSR41tMqnE+S1d
-	H9t6wj2OUl6+9UMa3RvnoBmQwtNx6E+GPCelc
-X-Google-Smtp-Source: AGHT+IFMpq1BY2E3+83Zu4jQvyCMGZh1ayMrgGbPO35zQuto/FrYqXwDdz8RQvz525bpc+0e4k6UsPfpkEZSfRt6ITA=
-X-Received: by 2002:a05:6512:1294:b0:536:52dc:291f with SMTP id
- 2adb3069b0e04-53a1575907amr148028e87.1.1729252798334; Fri, 18 Oct 2024
- 04:59:58 -0700 (PDT)
+        bh=20pjU3e//rgq26Yi05Ys1N4I2o5U5qD7ybOOR7293q4=;
+        b=O/mix2MH3tzsSM9xnilPj9hXrMdCHMu8PcV9koReyvOPyZSdivgyS89YOC3TdsSBbq
+         j0bkZp9G6KsRJ35YHkEIMw9VvVsuO9Hijf88CGevkYxp/0/NqUOGPzpL+QAxrB+Ea826
+         pYG3dZuPqEHNqbpxI4XrUBPU+dwgfJkcNm2q2QZ9hePe8jjhKyIJ6VQSKYgyvINvIbpr
+         9QwEdcrhBOcv8fNMz5PprRJIboA+OLm3xdskf027mnIQLxEZbuY9QSj8srgYSbjWlozq
+         /DCvo8gjA7zB8zM98YCfPqwmn5XWtp2zFLWqrhxzWFmbw0WU9Kb7CwK6HDvb6ugO43It
+         rsOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJFEduUYIoYDzfkgXErp9oYkz9FZcsnD4XYUFRLXh1monzyh6qD6RGjJwmdtfDxl+cz9ecKrJFdFdCSmE=@vger.kernel.org, AJvYcCWPrTaqfdwfFJSa9kurEbHn4VdIl2zhQ1KUYBDfey+HJtH01i39jFda5tcDsir/WqJd85i9WNAEpYde3vF7@vger.kernel.org, AJvYcCXboH3wgffKNN4B53gqI4FWGZC6boNHZxlXwp0ZC11TedtYapEjFaiogqNHfp/hUTrv/6KHGQdjDRUE@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlDw/dOwsc8bBoyx1R2AeSk+XG+HFp0LPIZMLnC6CE1tnAEHsC
+	XMuq0ogNIFR5zLbxtQc1qhukFG8cOBwzoamS9scr9cYk4g3mVvbJVuNyuMsXRx5TXSIusR4NVKw
+	pAPxQAPNk8BYkRY/mHoHP7xkQqZc=
+X-Google-Smtp-Source: AGHT+IHznlnIPkcD1o9NThG4Pn7268Gn9GiD6LokW8b2HqLdTDhxkp1K0M7XBv6+w0jbPY3BaPJt8cM+9Prcjg21UIk=
+X-Received: by 2002:ac8:5a01:0:b0:45f:bca0:b8d2 with SMTP id
+ d75a77b69052e-460aed53cfemr26349851cf.20.1729253741145; Fri, 18 Oct 2024
+ 05:15:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241014085816.1401364-1-guanyulin@google.com>
- <20241014085816.1401364-6-guanyulin@google.com> <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
- <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
- <fddf19f6-d03a-469e-a56f-ef390c099902@rowland.harvard.edu>
- <CAOuDEK3mmR9052FWEJAVBkUanVJ1MLLebZoANiasUpD9TDBjfg@mail.gmail.com> <003263c8-c901-496b-ae04-7cccd7f3cfa2@rowland.harvard.edu>
-In-Reply-To: <003263c8-c901-496b-ae04-7cccd7f3cfa2@rowland.harvard.edu>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Fri, 18 Oct 2024 19:59:00 +0800
-Message-ID: <CAOuDEK2U1Ok=a=X36R_xjkW7MJm2kQ=G7ohh_oC=+f=rGa2eiA@mail.gmail.com>
-Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system sleep
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
-	mathias.nyman@intel.com, yajun.deng@linux.dev, sumit.garg@linaro.org, 
-	kekrby@gmail.com, oneukum@suse.com, dianders@chromium.org, perex@perex.cz, 
-	tiwai@suse.com, niko.mauno@vaisala.com, andreyknvl@gmail.com, 
-	christophe.jaillet@wanadoo.fr, tj@kernel.org, stanley_chang@realtek.com, 
-	quic_jjohnson@quicinc.com, ricardo@marliere.net, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, badhri@google.com, 
-	albertccwang@google.com, quic_wcheng@quicinc.com, pumahsu@google.com
+References: <20241016-cs42l84-v1-0-8d7e9d437d2d@gmail.com> <20241016-cs42l84-v1-2-8d7e9d437d2d@gmail.com>
+ <abe88a18-28fb-40e5-8bd2-3fde5de9cb56@sirena.org.uk>
+In-Reply-To: <abe88a18-28fb-40e5-8bd2-3fde5de9cb56@sirena.org.uk>
+From: James Calligeros <jcalligeros99@gmail.com>
+Date: Fri, 18 Oct 2024 22:15:29 +1000
+Message-ID: <CAHgNfTwGM8tEsp5SfYp2XmqN2qC557kGyuDwCJfcoxpc7wGSOQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] ASoC: cs42l84: Add new codec driver
+To: Mark Brown <broonie@kernel.org>
+Cc: =?UTF-8?Q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+	David Rhodes <david.rhodes@cirrus.com>, Richard Fitzgerald <rf@opensource.cirrus.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, asahi@lists.linux.dev, 
+	linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Hector Martin <marcan@marcan.st>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 16, 2024 at 10:45=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
-edu> wrote:
->
-> On Wed, Oct 16, 2024 at 03:40:00PM +0800, Guan-Yu Lin wrote:
-> > On Tue, Oct 15, 2024 at 10:43=E2=80=AFPM Alan Stern <stern@rowland.harv=
-ard.edu> wrote:
-> > >
-> > > On Tue, Oct 15, 2024 at 11:56:00AM +0800, Guan-Yu Lin wrote:
-> > > > On Mon, Oct 14, 2024 at 11:56=E2=80=AFPM Alan Stern <stern@rowland.=
-harvard.edu> wrote:
-> > > > > I'm not so sure about this.  By returning early, you prevent the =
-drivers
-> > > > > bound to this device from suspending.  But they can't operate pro=
-perly
-> > > > > when the system is in a low-power mode.  Won't that cause problem=
-s?
-> > > > >
-> > > > > Maybe this really belongs in usb_suspend_device(), and its counte=
-rpart
-> > > > > belongs in usb_resume_device().
-> > > > >
-> > > >
-> > > > To my understanding, after the system is suspended, the USB driver
-> > > > will do nothing as the main processor has been suspended. May I che=
-ck
-> > > > what forms of low power mode and operation we are discussing here?
-> > >
-> > > S3 suspend.  You are right that the driver will do nothing while the
-> > > CPU is suspended.  But what about the times before and after that,
-> > > while the suspend and resume procedures are underway?  The driver
-> > > needs to be told to cancel any ongoing transfers while the system
-> > > suspends and then restart them while the system resumes.
-> > >
-> >
-> > Regarding the cancellation of ongoing transfers during suspend, I
-> > believe usb_hcd_flush_endpoint() handles this as discussed below.
->
-> There's more to it than that.  If you cancel ongoing transfers by
-> calling usb_hcd_flush_endpoint() without informing the driver first, the
-> driver will get very confused and think the device has failed.
->
-> > Besides calling usb_hcd_flush_endpoint(), are there any other
-> > necessary changes before suspending the driver in our scenario? Maybe
-> > we could discuss setting usb_device_state to USB_STATE_SUSPENDED.
-> > However, my understanding is that this variable reflects the actual
-> > device state. Since the device remains active via the sideband in our
-> > case,  changing usb_device_state seems unnecessary.
->
-> That's right.
->
-> I don't think anything else is needed.  Just call
-> usb_suspend_interface() like the normal pathway in usb_suspend_both()
-> does, but skip calling usb_suspend_device().
->
-> Alan Stern
+Hi Mark,
 
-Thanks for the suggestions, let me address them in the next version.
-After some local development, our experiments suggest it may be
-necessary to skip usb_suspend_interface() & usb_hcd_flush_endpoint()
-for connection changes behind a hub and HID events in our scenario.
+On Wed, Oct 16, 2024 at 10:23=E2=80=AFPM Mark Brown <broonie@kernel.org> wr=
+ote:
+> > +static const struct regmap_config cs42l84_regmap =3D {
+> > +     .reg_bits =3D 16,
+> > +     .val_bits =3D 8,
+> > +
+> > +     .volatile_reg =3D cs42l84_volatile_register,
+> > +
+> > +     .max_register =3D 0xffff,
+>
+> Does that register actually exist?
 
-Typically, when the system sleeps, the hub uses remote wakeup to
-reactivate upstream devices and resume the interface to handle
-connection changes. However, our current conclusion is to maintain the
-device in an active state while suspending the interface. This
-deviates from the norm, as remote wakeup is designed to function when
-devices and links are suspended. We're concerned that this discrepancy
-might interfere with the remote wakeup mechanism.
-To address this, we're currently bypassing usb_suspend_interface() and
-usb_hcd_flush_endpoint(). This effectively simulates an "active
-system" state, allowing the USB controller to notify the kernel about
-connection changes via interrupts. This workaround applies to HID
-events as well.
+It is likely that the highest register is the ID register, which would matc=
+h
+CS42L42. Setting that here does not break anything.
 
-Which approach do you recommend? Should we invest in integrating with
-the remote wakeup framework, or is it acceptable to keep necessary
-components active, mirroring an "active system" state?
+> > +static int cs42l84_mute_stream(struct snd_soc_dai *dai, int mute, int =
+stream)
+> > +{
+> > +     struct snd_soc_component *component =3D dai->component;
+> > +     struct cs42l84_private *cs42l84 =3D snd_soc_component_get_drvdata=
+(component);
+> > +     unsigned int regval;
+> > +     int ret;
+>
+> > +                             ret =3D regmap_read_poll_timeout(cs42l84-=
+>regmap,
+> > +                                                            CS42L84_PL=
+L_LOCK_STATUS,
+> > +                                                            regval,
+> > +                                                            (regval & =
+CS42L84_PLL_LOCK_STATUS_LOCKED),
+> > +                                                            CS42L84_PL=
+L_LOCK_POLL_US,
+> > +                                                            CS42L84_PL=
+L_LOCK_TIMEOUT_US);
+> > +                             if (ret < 0)
+> > +                                     dev_warn(component->dev, "PLL fai=
+led to lock: %d\n", ret);
+>
+> This is too heavyweight for a mute operation, do you really need one?
+
+Unfortunately it seems that way. This was carried over directly from CS42L4=
+2,
+and as the comment in the function states, the internal power supply
+will discharge
+itself and crash the chip if the PLL is set up before any of the interfaces
+are fully enabled. This is corroborrated by the CS42L42 datasheet. I've spe=
+nt
+some time today trying to work around this, but trying to sequence and enab=
+le
+the PLL anywhere more sensible either causes the chip to crash or causes
+audible clock jitter artefacts.
 
 Regards,
-Guan-Yu
+James
