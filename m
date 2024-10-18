@@ -1,98 +1,160 @@
 Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98542F46;
-	Fri, 18 Oct 2024 11:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F951CFA9
+	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 12:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729251458; cv=none; b=ivfXduaS/JkwVPOMhsq+oNtSx64oKVpI0hO2IvZAEcKnbUIBsuAIwbEHONvoIXEp3ymUpVkh45zhvRxB4CMHB0vJasH7EJshtvImGjMr2ZgQOgj/Rks41E6ViakeWOy+OujvgROO7gKHBRAp3QMlFvCUzO7CHq9v8ZSbDJrcwrk=
+	t=1729252802; cv=none; b=obTuzGH2JtwOXkU4b8hFKxNHUvv5UZ8qu8RMsgjgh6rpCQJc1i5yFqueIh0rWu355/Vbd5uRWRtOGFnTcfD+U6FRV5CfRnqvZXMBgLuE3dNRLWZOig8a/fUdg4H1JFqOFgssgPduktQ5QkLIChIU/000P1yH0gpX0BagdH5FAO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729251458; c=relaxed/simple;
-	bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
+	s=arc-20240116; t=1729252802; c=relaxed/simple;
+	bh=IZ+ktM1q4VjLBkIUgFdG4NXu1mtAQptlV8rWNSJ9QOM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bVtr3deTP4pow4/ZrJu4s/tm/cbt82+UCHwQ5s4SnwbEg9uRvwL9dEZRyDetp0Wf18ClxrgU75uqv/fmq1t9gd/BEjW8iXXEj/6TXOw4hV/0sChNhhpcYdbsQRDamjwFunoVH12J82huZ0KcHGYzY9QUxEPRY30o6RjNgIckvf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qyfk0RZ+; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=f8P8YX6zvBOMsq0c+yKqIaQaqfZ0vQW5fFX3Dm6lf5MFnSGz5gYXowAuGvPr3k3ljoe2q0/V+TfxGuurHVOzLmzr4CGbiG0Sts19IujHvnAdn0pYo9Q4NAvbNDfH7GpksEJIHnnpt+0gQNcTC2CqyqNZghJeuYDIk+FZmnILTh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s68rtUgk; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qyfk0RZ+"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f58c68c5so3270150e87.3;
-        Fri, 18 Oct 2024 04:37:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s68rtUgk"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e617ef81so8894e87.1
+        for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 05:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729251455; x=1729856255; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1729252799; x=1729857599; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
-        b=Qyfk0RZ+zrV0txLTse0GHwHlzN0TmI2lIObVDvkFeW05jKgDQUlXqfHaht65yXf05k
-         j9KdnkH3Zx/MpvZC0guCARG3XQfYJ1l4FTv8E0OJRFMhG3ft/y+LuSEo+lmsPm1leKO5
-         66R19luMMpBm4KnjeeUJl5OL1ng3dKrLBVQd+yKimhw4LvthBpxPx1agqYgbpY1YHxjh
-         raJ9xoLjJgfWMLoNgcrBpNeoP+C5h1HwvseWyzcDsN6Wg+tVbitASQspQa7NIfp+0SM4
-         F2O2dURVSW47pwPjQ6q5gb8p9xeCKBWmvkjOC/iCbknkkKJ41Mh09caHHGQpHoH5JnwU
-         BOLw==
+        bh=NFVJy1qmuzdcCDjWiX1hq6jLw4k+NEA+Um1zz1+jP9c=;
+        b=s68rtUgkNbX1p1E40ZOCyuVvSnFNWqp46FsdKDSHWtcKrjpljSIbb3Pe4GevTSoqlL
+         ppEFgsgNcSxTwQE0AcnT/YK/wqEjlNJKVxvK3BJ7VCx/mvmsegDfevoiki9VmjzynVhN
+         vQz256YumXKcSkBXMZ/kx8zb0J7d4vl+KJ58TzdoxANFnftYWa8Nymu94LDaTp5fh45O
+         UG1yc1+9Tscythw+5g2QNCOArU1RUZB6HI7pLOJir3cW8yxWjMlCtHXi69+/GtGGLsZs
+         FLnk5api5G9D0O0S/cQxbUgplEXo42DWKWoXw86dNJv4LRmCPMVm45OosetEP4m2kouz
+         0MuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729251455; x=1729856255;
+        d=1e100.net; s=20230601; t=1729252799; x=1729857599;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
-        b=BsOcCZhshrI+KnYbpidTb5mPhYfv37578Bf4MkK/A11dOXWB1gygF9tkGAyzEKhZ/K
-         dfXqll6gup0gNiRo5nX3un5JMK3+k+xfgPynG+069UuI4PRknDETx+6vqB4rffloF0eV
-         4znXzkS9598EndSzmVboGXMWAU7jR01e92IQ5bNuSqP3G0NEX9Br3b9cvSlzaRzKYsH4
-         JsiwjQDrkjntL1rGsusYNziux5Ja374Y9AkK77cMs9urIT11VOv0qWZQjI5PpBvTIXO4
-         TH1PXN+rtmoH9wsNDnYTSfOZt5CdoyCIZoxI+ipS6o6af/C3VxmUtgWNeMi2IFjOSF2N
-         AUVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUueVAQWrYLeXXliEBtze3/NiTgwMVKLu1CGDlIoj2/3/JwxWSLZJBS42+35w379HkwaGV7iGl4kayc8DU=@vger.kernel.org, AJvYcCVG+h8mAMogIMmt2DPsHLGgV7hg1XS0GPkFFOnJZmYMxSFuMeF/btn9UAc3hKSqgiV7P3ka05v4Fheoyps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUw3iM8ulrQf0rb0tFsasO6S67R90oDeKwKIb9Y+erv8O9daGZ
-	hmJjBu7sZWIJUmG1pEGFN/D3otgtSaWXXo+3OfRAWtwWlO2gl3QSfcSbpo/DtjQfRyWSXZpnTM5
-	fDdrZQlYQSyCjAnhYEiZYJEPoW+o=
-X-Google-Smtp-Source: AGHT+IFQAHfNnXc94cDnwolpYvSoq/a6eutp2/Sq+eDgHigng1jmEqrf3HNkTivuT3VBIoOWT8lNwvhzpBD8kgYACac=
-X-Received: by 2002:a05:6512:2315:b0:533:4620:ebec with SMTP id
- 2adb3069b0e04-53a153408b3mr2468738e87.3.1729251454532; Fri, 18 Oct 2024
- 04:37:34 -0700 (PDT)
+        bh=NFVJy1qmuzdcCDjWiX1hq6jLw4k+NEA+Um1zz1+jP9c=;
+        b=ETOnaeqQLSAaggiXekRz9LDAY+R3rvElJHf5XiXrIeSp5qm+/oC/iVFvb7EN23KSki
+         GwZmAyi2DEpvNpjyXxSjgvOdh3QbwJTu9X5KS5CyIlEyInllPMuSrsN5zV55syaHAxBV
+         BF6SFH/oBGBkebCRtkYIqPvlnsn5mRY8bFR1L19Xzis7rH15imQjs+gPqiNKssR6ppkQ
+         +DN1IQFjg3EHWGXPy8L+Z6T4z4TiCoNmspDpU6AX6Ax/J5oHcu9GIP733//KctLvmhRE
+         V8u2BrBtx1OjS6jWC/Q/INbi+jqZKopzN67zr8UI/6yCfuyvTyVoaCnAmAAFnARShOG7
+         dt9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXFbhyuim8vb0CgjRCRHfzdUvOh6wEfs8wZns5rkoqHMPjM8EbdNXozAbJkEInTgA10aiCZDHMvbi5/Rg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVcZxO+hqO4T3zPnOyUGVX1orHoCyKTXbhv9slFNuJMAB0TaPe
+	wUd3hV5CkQvm18vCBjxl5rEFNiEmCZFK9ZqhBpUj0bDJS7ciEA4+s22tihViFfSR41tMqnE+S1d
+	H9t6wj2OUl6+9UMa3RvnoBmQwtNx6E+GPCelc
+X-Google-Smtp-Source: AGHT+IFMpq1BY2E3+83Zu4jQvyCMGZh1ayMrgGbPO35zQuto/FrYqXwDdz8RQvz525bpc+0e4k6UsPfpkEZSfRt6ITA=
+X-Received: by 2002:a05:6512:1294:b0:536:52dc:291f with SMTP id
+ 2adb3069b0e04-53a1575907amr148028e87.1.1729252798334; Fri, 18 Oct 2024
+ 04:59:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241018110743.18786-1-v.shevtsov@maxima.ru>
-In-Reply-To: <20241018110743.18786-1-v.shevtsov@maxima.ru>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 18 Oct 2024 14:36:57 +0300
-Message-ID: <CAHp75VfOoGDYHhNb2PoMOhn1SEnMMF1EXvb2ignWFenEa93Otw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: nau8821: check regmap_raw_read/regmap_raw_write for failure
-To: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Seven Lee <wtli@nuvoton.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	lvc-project@linuxtesting.org
+References: <20241014085816.1401364-1-guanyulin@google.com>
+ <20241014085816.1401364-6-guanyulin@google.com> <9b5fe5d2-77a7-40b7-b260-856c35d9dcec@rowland.harvard.edu>
+ <CAOuDEK2f_mtfiye7MdnOqEkq3pYW1kcdkwEMMBC5CkkQ1OGu3A@mail.gmail.com>
+ <fddf19f6-d03a-469e-a56f-ef390c099902@rowland.harvard.edu>
+ <CAOuDEK3mmR9052FWEJAVBkUanVJ1MLLebZoANiasUpD9TDBjfg@mail.gmail.com> <003263c8-c901-496b-ae04-7cccd7f3cfa2@rowland.harvard.edu>
+In-Reply-To: <003263c8-c901-496b-ae04-7cccd7f3cfa2@rowland.harvard.edu>
+From: Guan-Yu Lin <guanyulin@google.com>
+Date: Fri, 18 Oct 2024 19:59:00 +0800
+Message-ID: <CAOuDEK2U1Ok=a=X36R_xjkW7MJm2kQ=G7ohh_oC=+f=rGa2eiA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/5] usb: host: enable sideband transfer during system sleep
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, 
+	mathias.nyman@intel.com, yajun.deng@linux.dev, sumit.garg@linaro.org, 
+	kekrby@gmail.com, oneukum@suse.com, dianders@chromium.org, perex@perex.cz, 
+	tiwai@suse.com, niko.mauno@vaisala.com, andreyknvl@gmail.com, 
+	christophe.jaillet@wanadoo.fr, tj@kernel.org, stanley_chang@realtek.com, 
+	quic_jjohnson@quicinc.com, ricardo@marliere.net, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, badhri@google.com, 
+	albertccwang@google.com, quic_wcheng@quicinc.com, pumahsu@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 18, 2024 at 2:07=E2=80=AFPM Vitaliy Shevtsov <v.shevtsov@maxima=
-.ru> wrote:
+On Wed, Oct 16, 2024 at 10:45=E2=80=AFPM Alan Stern <stern@rowland.harvard.=
+edu> wrote:
 >
-> The return values from both regmap_raw_read() and regmap_raw_write() are =
-not
-> checked despite they can fail. Propagate possible errors to caller.
+> On Wed, Oct 16, 2024 at 03:40:00PM +0800, Guan-Yu Lin wrote:
+> > On Tue, Oct 15, 2024 at 10:43=E2=80=AFPM Alan Stern <stern@rowland.harv=
+ard.edu> wrote:
+> > >
+> > > On Tue, Oct 15, 2024 at 11:56:00AM +0800, Guan-Yu Lin wrote:
+> > > > On Mon, Oct 14, 2024 at 11:56=E2=80=AFPM Alan Stern <stern@rowland.=
+harvard.edu> wrote:
+> > > > > I'm not so sure about this.  By returning early, you prevent the =
+drivers
+> > > > > bound to this device from suspending.  But they can't operate pro=
+perly
+> > > > > when the system is in a low-power mode.  Won't that cause problem=
+s?
+> > > > >
+> > > > > Maybe this really belongs in usb_suspend_device(), and its counte=
+rpart
+> > > > > belongs in usb_resume_device().
+> > > > >
+> > > >
+> > > > To my understanding, after the system is suspended, the USB driver
+> > > > will do nothing as the main processor has been suspended. May I che=
+ck
+> > > > what forms of low power mode and operation we are discussing here?
+> > >
+> > > S3 suspend.  You are right that the driver will do nothing while the
+> > > CPU is suspended.  But what about the times before and after that,
+> > > while the suspend and resume procedures are underway?  The driver
+> > > needs to be told to cancel any ongoing transfers while the system
+> > > suspends and then restart them while the system resumes.
+> > >
+> >
+> > Regarding the cancellation of ongoing transfers during suspend, I
+> > believe usb_hcd_flush_endpoint() handles this as discussed below.
+>
+> There's more to it than that.  If you cancel ongoing transfers by
+> calling usb_hcd_flush_endpoint() without informing the driver first, the
+> driver will get very confused and think the device has failed.
+>
+> > Besides calling usb_hcd_flush_endpoint(), are there any other
+> > necessary changes before suspending the driver in our scenario? Maybe
+> > we could discuss setting usb_device_state to USB_STATE_SUSPENDED.
+> > However, my understanding is that this variable reflects the actual
+> > device state. Since the device remains active via the sideband in our
+> > case,  changing usb_device_state seems unnecessary.
+>
+> That's right.
+>
+> I don't think anything else is needed.  Just call
+> usb_suspend_interface() like the normal pathway in usb_suspend_both()
+> does, but skip calling usb_suspend_device().
+>
+> Alan Stern
 
-"...them failing."
-"...to the caller."
+Thanks for the suggestions, let me address them in the next version.
+After some local development, our experiments suggest it may be
+necessary to skip usb_suspend_interface() & usb_hcd_flush_endpoint()
+for connection changes behind a hub and HID events in our scenario.
 
-> Found by Linux Verification Center (linuxtesting.org) with Svace.
+Typically, when the system sleeps, the hub uses remote wakeup to
+reactivate upstream devices and resume the interface to handle
+connection changes. However, our current conclusion is to maintain the
+device in an active state while suspending the interface. This
+deviates from the norm, as remote wakeup is designed to function when
+devices and links are suspended. We're concerned that this discrepancy
+might interfere with the remote wakeup mechanism.
+To address this, we're currently bypassing usb_suspend_interface() and
+usb_hcd_flush_endpoint(). This effectively simulates an "active
+system" state, allowing the USB controller to notify the kernel about
+connection changes via interrupts. This workaround applies to HID
+events as well.
 
-> Fixes: aab1ad11d69f ("ASoC: nau8821: new driver")
+Which approach do you recommend? Should we invest in integrating with
+the remote wakeup framework, or is it acceptable to keep necessary
+components active, mirroring an "active system" state?
 
-Are you sure?
-
-While the code wise the patch is correct, the behaviour changes may be
-catastrophic in some corner cases. The first one is the read where we
-try to get the data from the register, that one may be okay, but the
-write should be first put into the group of mandatory or optional IO.
-If it's the second, why bother with the IO failure?
-
---=20
-With Best Regards,
-Andy Shevchenko
+Regards,
+Guan-Yu
