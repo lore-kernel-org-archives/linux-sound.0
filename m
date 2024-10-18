@@ -1,97 +1,202 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBEF18FC9D
-	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 09:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71AA81EF925;
+	Fri, 18 Oct 2024 09:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729242532; cv=none; b=KOlCFWS+TCPfzvAIU++jvDQVhFhNsdJiTdEEPiuAfYubad+XhUbWtBkx39J1jgPi4flKXc6w75cdNNj38jycatCTd/WmNY1PGQaqfUvMIvAOUcEisIeBh+oWavecFXbZG5YRmeXI5ZjRHSB1QhyW2tn+6c6G7Zu22UWYaDAgPfo=
+	t=1729243779; cv=none; b=IPtLzLV6aAkRKWfLEWBz2l2OlD2MEVY/Yln7r8JBJTmI50FgiIkVnKzK9jJ4aNpNwkEKbtEUIZy/EdPafIv7JQCN0V0h63+Y4HgTrYS1Ref0YS8fgbh1pCAUfPRBDSm1K5meuyLz3UWAcquUq3wAcQ7pOvoj8y1MVcWyTKt0C9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729242532; c=relaxed/simple;
-	bh=P0QykGa6mmB3sO44cxFxtnrHxJzaPQAcbu4GIyK/+Zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGD3GazBCDY/ijNMkBq/vgtTDBOKBzzz25mhg/11iqfMoV7SFy2gwFEzLxVKOP+uXotT0dE35/e0Od0rGZekUAQlKECfjcoQRbc4CXBQ11AfjWQi0hZieX/41fKmsPO3WO2VoYBhhe3rdNygKPvA8Ubc6xoikXqgOrFq8wVkg/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NQYVm8mw; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NQYVm8mw"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e13375d3so2168737e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 02:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729242529; x=1729847329; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cxSM6qT+OeQgeWi7041bNluFuXTRIeAOrig+KBLZb4w=;
-        b=NQYVm8mw0+CjTYZZ5HYHTbBH5UoPWGdr4pXCsrFZoVIu+FPi0WfRQ219BJ6sADfeWP
-         dmx6WmsP2sbqccb7IRO+S4VI7BaVny5VyUnI7o/nvjEgpsNiilLm5mv3EtmONSueZtfd
-         sDPZ/Ct5lAo3aHGvTTRAhRcDY4mxmIZki7pB/zs0t7KfZDFc1NQx9Hfx++LFRUsTx/Xj
-         TZ5aZ4XgGsT1LOvU0ectC8gzhf2C5lXlU+GUqEyA7pFESnnfSpnQe+LbtdQTHNTZRTwB
-         pE2J1kNfY/60rNyaUp9mo3BkybCT/teNoRkM+lyo1d1R972tvx4aHP7Ay4fH+5XRlCJe
-         +ECg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729242529; x=1729847329;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cxSM6qT+OeQgeWi7041bNluFuXTRIeAOrig+KBLZb4w=;
-        b=c197IX7CZNQ59X8+WCTBZoyi9s/mh5NwmxAxOfJ3BL+lBV1uZ/iKqfAAmfpep85it6
-         CIycjGK3AFmnEBKs46vrCe8iXJiaeC1BiRAKYNeUzR4vePkNrFMWJaKMFbqXY+6FdjYw
-         4VPs+j9yPqndtM7eFntEX6ET4JFcrWVdWLNEIh8IOtVUOqEqJNuJCvXuyXhu+j/boii0
-         gOVaBoaTb/FcbPXqpHai1TJh1wNsRu/hWcavAFBK36mRhyrh8aD5Y7QbACdYXbpHY/da
-         OrIV/Bbk4dAp1eyILZyn39wrcxDugNLvj/DY7k2ZghEAxPlkl/YF/TwGri9Qg9vzWWLC
-         SF7w==
-X-Gm-Message-State: AOJu0Yxl+6UFcOY6XHAFsuOOuLerGsJLvA75mblWjOymg88adutud516
-	5vgUQMp40w0Jv4zCA8HgxP3RMtxFix3riWStf3BtDC6OxTN+Y4K1QGTIVuHVKGk=
-X-Google-Smtp-Source: AGHT+IFoBABKezjNfDMwz8vy4TQ/qoKjudYMh40y6pmF7qzx8SUfzOO/4EPFP4GNYoeU5aVB7IDSKA==
-X-Received: by 2002:a05:6512:4009:b0:536:9f72:c427 with SMTP id 2adb3069b0e04-53a154a93a0mr944874e87.28.1729242528547;
-        Fri, 18 Oct 2024 02:08:48 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a152044a2sm165741e87.227.2024.10.18.02.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 02:08:47 -0700 (PDT)
-Date: Fri, 18 Oct 2024 12:08:45 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org, 
-	broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org, perex@perex.cz, 
-	tiwai@suse.com, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org, linux-kernel@vger.kernel.org, 
-	a39.skl@gmail.com
-Subject: Re: [PATCH v3 4/5] arm64: dts: qcom: sm4250: add LPASS LPI pin
- controller
-Message-ID: <tg3el4x6hxwizy7oxyw74oeme4siore7l3ko2uofbnssb7roey@lrwmo5x6euc6>
-References: <20241018025452.1362293-1-alexey.klimov@linaro.org>
- <20241018025452.1362293-5-alexey.klimov@linaro.org>
+	s=arc-20240116; t=1729243779; c=relaxed/simple;
+	bh=uGV5pnEFswLCAvUEQtlZ+YU9roqS2PTClQ661RrBjlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mF46VLsY2nVjb2VRkg+3sUxM2bb9dzYrzBg68ZWFBPqZmZYuj/m17zKF+CgjRCVZt9ZFgQA/9VrldYXOjpgFGRs6fsjmHKzEkk6iK/t8/Oj41SchiQMivM5ZR9sKFLJGEDxNRb8ju50Zc174V5yzRgWx/zrJ7tc3p3aJzUBHLCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B678FEC;
+	Fri, 18 Oct 2024 02:30:05 -0700 (PDT)
+Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 541033F58B;
+	Fri, 18 Oct 2024 02:29:33 -0700 (PDT)
+Date: Fri, 18 Oct 2024 10:29:29 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH 3/6] clk: sunxi-ng: h616: Add sigma-delta modulation
+ settings for audio PLL
+Message-ID: <20241018102929.0eda3fc8@donnerap.manchester.arm.com>
+In-Reply-To: <20241001142850.1c275f78@donnerap.manchester.arm.com>
+References: <20240929100750.860329-1-ryan@testtoast.com>
+	<20240929100750.860329-4-ryan@testtoast.com>
+	<20241001142850.1c275f78@donnerap.manchester.arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241018025452.1362293-5-alexey.klimov@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 18, 2024 at 03:54:50AM +0100, Alexey Klimov wrote:
-> Add the Low Power Audio SubSystem Low Power Island (LPASS LPI) pin
-> controller device node required for audio subsystem on Qualcomm
-> QRB4210 RB2. QRB4210 is based on sm4250 which has a slightly different
-> lpass pin controller comparing to sm6115.
+On Tue, 1 Oct 2024 14:28:50 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
+
+Hi Ryan,
+
+> On Sun, 29 Sep 2024 23:06:04 +1300
+> Ryan Walklin <ryan@testtoast.com> wrote:
 > 
-> While at this, also add description of lpi_i2s2 pins (active state)
-> required for audio playback via HDMI.
+> Hi Ryan,
 > 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/sm4250.dtsi | 39 ++++++++++++++++++++++++++++
->  1 file changed, 39 insertions(+)
+> > Allwinner has previously released a H616 audio driver which also
+> > provides sigma-delta modulation for the audio PLL clocks. This approach
+> > is used in other Allwinner SoCs, including the H3 and A64.
+> > 
+> > One change from the vendor code is made to the PLL clocks, the 
+> > vendor-specified dividers of 4/2/1 for the 1/2/4x clocks respectively result 
+> > in audio playback that is too slow by 50%. Therefore the dividers are simply
+> > doubled to 8/4/2 which results in correct playback rates.  
+> 
+> The reason for that is you force .M0 to 1 (divide by 2), in the fixup
+> below (in the probe routine).
+> So for instance for the 4x clock, the formula is:
+> 	PLL_AUDIO(4X) = 24MHz*N/M0/M1/P
+> M1 is cleared (div by 1), M0 is set (div by 2), P is exposed as .m, and N
+> as .n in the ccu_nm struct. So you get that extra by-2 divider, that is
+> invisible to the CCF, hence you need to compensate for that.
+> 
+> But with tweaking the dividers only in the fixed-factor clocks below, you
+> still leave the original (_hs) clock wrong, which is a parent to other
+> clocks, if I see this correctly.
+> 
+> Can you try to add a .fixed_post_div = 2 in the ccu_nm definition, and
+> then put the real dividers in the fixed-factor clocks?
+
+So I tested this change, and it seemed to work for me. Please don't
+forget to add CCU_FEATURE_FIXED_POSTDIV - as I did initially ;-)
+
+> And please explain all this in comments ...
+> 
+> > Add SDM to the H616 clock control unit driver.
+> > 
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 36 +++++++++++++-------------
+> >  1 file changed, 18 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > index 84e406ddf9d12..be272947b0fee 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+> > @@ -215,20 +215,23 @@ static struct ccu_nkmp pll_de_clk = {
+> >  	},
+> >  };
+> >  
+> > -/*
+> > - * TODO: Determine SDM settings for the audio PLL. The manual suggests
+> > - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
+> > - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
+> > - * pattern=0xe001288c for 22.5792 MHz.
+> > - * This clashes with our fixed PLL_POST_DIV_P.
+> > - */  
+> 
+> >  #define SUN50I_H616_PLL_AUDIO_REG	0x078
+> > +  
+> 
+> Can you please (re-)add a comment here explaining the sources of these
+> parameters? Because the values deviate from the ones in the manual.
+> And also please mention here that there are two more divider bits (named
+> m0 and m1 in the manual), that we cannot model in our ccu_nm struct, and
+> thus force them to fixed values in the probe routine below?
+> 
+> > +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
+> > +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
+> > +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
+> > +};
+> > +
+> >  static struct ccu_nm pll_audio_hs_clk = {
+> >  	.enable		= BIT(31),
+> >  	.lock		= BIT(28),
+> > -	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> > +	.n			= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > +	.m			= _SUNXI_CCU_DIV(16, 6),  
+> 
+> Can you please keep the original indentation? You could add a "post-div"
+> comment after the .m parameter, to map to the manual.
+> 
+> And add that ".fixed_post_div = 2," here.
+> 
+> > +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
+> > +				  BIT(24), 0x178, BIT(31)),
+> > +
+> >  	.common		= {
+> > +		.features = CCU_FEATURE_SIGMA_DELTA_MOD,  
+> 
+> Please indent like the other parameters below.
+> 
+> >  		.reg		= 0x078,
+> >  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
+> >  					      &ccu_nm_ops,
+> > @@ -690,13 +693,13 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+> >   */
+                     ^^^^
+There is a comment up here, not shown in this diff, which doesn't apply
+anymore. Please update it.
+
+Cheers,
+Andre
+
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
+> >  			    clk_parent_pll_audio,
+> > -			    96, 1, CLK_SET_RATE_PARENT);
+> > +			    8, 1, CLK_SET_RATE_PARENT);  
+> 
+> As mentioned, with the fixed_post_div, you should be able to put the real
+> divider values in here.
+> 
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
+> >  			    clk_parent_pll_audio,
+> > -			    48, 1, CLK_SET_RATE_PARENT);
+> > +			    4, 1, CLK_SET_RATE_PARENT);
+> >  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
+> >  			    clk_parent_pll_audio,
+> > -			    24, 1, CLK_SET_RATE_PARENT);
+> > +			    2, 1, CLK_SET_RATE_PARENT);
+> >  
+> >  static const struct clk_hw *pll_periph0_parents[] = {
+> >  	&pll_periph0_clk.common.hw
+> > @@ -1135,13 +1138,10 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+> >  		writel(val, reg + usb2_clk_regs[i]);
+> >  	}
+> >  
+> > -	/*
+> > -	 * Force the post-divider of pll-audio to 12 and the output divider
+> > -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
+> > -	 */  
+> 
+> Can you please keep the comment, and adjust it accordingly? Saying that
+> the recommended BSP parameters for the PLL audio recommend M0 to be 1, and
+> M1 to be 0, and that we enforce this here?
+> 
+> Cheers,
+> Andre
+> 
+> >  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
+> > -	val &= ~(GENMASK(21, 16) | BIT(0));
+> > -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
+> > +	val &= ~BIT(1);
+> > +	val |= BIT(0);
+> > +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
+> >  
+> >  	/*
+> >  	 * First clock parent (osc32K) is unusable for CEC. But since there  
 > 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
--- 
-With best wishes
-Dmitry
