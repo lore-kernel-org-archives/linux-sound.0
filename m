@@ -1,65 +1,46 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFF620E323;
-	Fri, 18 Oct 2024 12:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AF442ABD;
+	Fri, 18 Oct 2024 13:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729254674; cv=none; b=f9jT+unLfO+gWgMkmcjC6HpGzIUiIGlluThgJo2VwnhSZwX9nw2AzYqOv2no21LlDXoajZgnvnbvTLebTA4rJDr7FLfg9kTIn/15CZCNxN9bN1hkS2BvvxUXotALt+/uC//40f3fLJFNf/lEOmq9h63/YDQiKuSnyVkD+V15a5s=
+	t=1729259243; cv=none; b=nTrUtTF0qfyojkta7Fa2QJSHDuWd0pk3+cLFN9xx7DirQQ7ovAATUZG48c007teTzGn13FcSsmbyWjjvtbshk++Gtm3tLymveQdlefUJ+aiwgB8i3/bOLVrwwzP8ckoPyz/qPNGyRZ2cKQ2wABLAfKXxOQeqDsz5KvDnUqrSFXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729254674; c=relaxed/simple;
-	bh=YP4ryAVQ6mxQmShuV+kis5u6NU6ySMg9qusRdIUZQ7M=;
+	s=arc-20240116; t=1729259243; c=relaxed/simple;
+	bh=ad1r6xJeTIakYrG+ZigfRB3Jbt0z1F0o6v5ISXwzHs8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TgQod0HayCk6PSrbykFGUBHF++7WCfK3oX3htcFvvArrLCPAqfkY4cMbL7X27b0ThTG2PAH5hiuPWOE54dzryxau0xfErVrWYUX8asi8dra8ZelJYfQcec9btzD5jUFvU9e1QRhiU/Q1/IdHAinnkTVXniDyrZehvHtHLFlaRXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z+2nDTxf; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bnlvrKY0MZMk7dglyzO1ypIJnT6BMLbxIbwJOqU3ZWkPqatIxxDasjEtbsjEqQUa6xULDqXQ8YI9StmN2nqJmJmEXPR37PmzDf6rgok1FOmMsdaBMt2jE2aRfDLLtYVbs2UHe4Wm2QeoZdqpVxDJNfnuCq+ffTOcYw9fLOARaa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TFJo4vrn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z+2nDTxf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729254673; x=1760790673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YP4ryAVQ6mxQmShuV+kis5u6NU6ySMg9qusRdIUZQ7M=;
-  b=Z+2nDTxf9mRvBCAH+1EdeepbGedXbomKbLM5rhr0wKUBwTwhbdMqugN/
-   ghLNyKLmpcVz5cr0zec/y+5TKcZNZZf5eeTtksyeLcTNXjtjOsf144XyM
-   esf6n+M0OhbvAqCAZ5oaGB2d/lZGYGdDuvrdksYhRlossy6GINYNCDkrF
-   XdK22nQyNLssXkVpq4+j8vzEIDju9X15QI32bjJ8+wFLxSYcOsBior7WF
-   AOyJ2CICtnlKBwBHpWc0FwIHc8Wciyt2+i+7zGKIa6sJow8J4Ku2lWGvY
-   /S8ggnM9RWu4F2BfSxGHkeMyjIU6i8iyRAPL5+/U4MKTCKymMThbYhWx7
-   w==;
-X-CSE-ConnectionGUID: 4OgStquhTHGx6+xI9iz+IQ==
-X-CSE-MsgGUID: bCHgIM/XTM+LVC6ybjazxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28875716"
-X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="28875716"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 05:31:12 -0700
-X-CSE-ConnectionGUID: asULgpfwRPCnZJ0v/ixNkg==
-X-CSE-MsgGUID: rXrtIxgBSISh+tpNbvGoFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="109591173"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 05:31:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t1m8H-00000004SZ1-34nZ;
-	Fri, 18 Oct 2024 15:31:05 +0300
-Date: Fri, 18 Oct 2024 15:31:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com, shenghao-ding@ti.com,
-	navada@ti.com, 13916275206@139.com, v-hampiholi@ti.com, v-po@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
-	broonie@kernel.org, antheas.dk@gmail.com
-Subject: Re: [PATCH v2] ALSA: hda/tas2781: Add speaker id check for ASUS
- projects
-Message-ID: <ZxJVCb13lQ4h2KRD@smile.fi.intel.com>
-References: <20241018071118.3298-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TFJo4vrn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EBB1C4CEC6;
+	Fri, 18 Oct 2024 13:47:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729259242;
+	bh=ad1r6xJeTIakYrG+ZigfRB3Jbt0z1F0o6v5ISXwzHs8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TFJo4vrn4tnFRukoYbGx8OI6/M2sT3OqUTr8ub1b2yA6AqYuwbN3eWkr+heTm/CPr
+	 dwBff5wxhJknaasJRHsIA2+PP0BQW6oQVaIgs/1KxqYr9QTkJZSl+7D2Kwc7E+9suU
+	 9gLGIcKITCgTkk5mJgx7sS4E4bnhlu6G7NNYPCpvnTSM/4kzkEjLAvaRKx+eU+I4cd
+	 ePfSPrqU/lYzwUoWE2MEMEf0nv3ejCjfAvEhcGmSfODTzLM4bWwqyu2mQs6nypdukr
+	 6Clzo+89c2+7t8WhJKv8Fs/i0/aSStrqNrMvpIxbxadB0UuvhJfzzZpyb86yGNPElj
+	 T+lc7yDdNxiZg==
+Date: Fri, 18 Oct 2024 08:47:21 -0500
+From: Rob Herring <robh@kernel.org>
+To: wangweidong.a@awinic.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
+	rf@opensource.cirrus.com, neil.armstrong@linaro.org,
+	pierre-louis.bossart@linux.dev, luca.ceresoli@bootlin.com,
+	arnd@arndb.de, quic_pkumpatl@quicinc.com, herve.codina@bootlin.com,
+	masahiroy@kernel.org, shenghao-ding@ti.com,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yijiangtao@awinic.com
+Subject: Re: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88081"
+Message-ID: <20241018134721.GA90231-robh@kernel.org>
+References: <20241018094320.113477-1-wangweidong.a@awinic.com>
+ <20241018094320.113477-2-wangweidong.a@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,96 +49,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018071118.3298-1-baojun.xu@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20241018094320.113477-2-wangweidong.a@awinic.com>
 
-On Fri, Oct 18, 2024 at 03:11:18PM +0800, Baojun Xu wrote:
-> Add speaker id check by gpio in ACPI for ASUS projects.
-> In other vendors, speaker id was checked by BIOS, and was applied in
-> last bit of subsys id, so we can load corresponding firmware binary file
-> for its speaker by subsys id.
-> But in ASUS project, the firmware binary name will be appended an extra
-> number to tell the speakers from different vendors. And this single digit
-> come from gpio level of speaker id in BIOS.
+On Fri, Oct 18, 2024 at 05:43:18PM +0800, wangweidong.a@awinic.com wrote:
+> From: Weidong Wang <wangweidong.a@awinic.com>
+> 
+> Add the awinic,aw88081 property to the awinic,aw88395.yaml file.
 
-...
+That is obvious from reading the diff. Please say something about how 
+this new part compares to the existing parts.
 
-> +	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
-> +	if (IS_ERR(sub)) {
-> +		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
-> +		goto err;
-> +	}
-> +	// Speaker id was needed for ASUS projects.
-> +	if (strstr(sub, TAS2781_ASUS_ID)) {
-
-strstr() is wrong. You can get 1043 in the middle of the bigger number,
-or even text.
-
-> +		ret = devm_acpi_dev_add_driver_gpios(p->dev,
-> +			tas2781_speaker_id_gpios);
-> +		if (ret) {
-> +			dev_err(p->dev, "Unable to add GPIO.\n");
-
-> +			goto err;
-
-No need. If this fails, the below most likely fail as well.
-
-> +		}
-> +		p->speaker_id = devm_gpiod_get(p->dev, "speakerid", GPIOD_IN);
-> +		if (IS_ERR(p->speaker_id)) {
-> +			dev_err(p->dev, "Failed to get Speaker id.\n");
-> +			goto err;
-> +		}
-> +	} else {
-> +		p->speaker_id = NULL;
-> +	}
-
-...
-
-> +	if (tas_priv->speaker_id != NULL) {
-> +		// Speaker id need to be checked for ASUS only.
-> +		spk_id = gpiod_get_value(tas_priv->speaker_id);
-> +		if (spk_id < 0 || spk_id > 1) {
-
-When "> 1" is possible? Isn't it a dead code?
-
-> +			// Speaker id is not valid, use default.
-> +			dev_dbg(tas_priv->dev, "Wrong spk_id = %d\n", spk_id);
-> +			spk_id = 0;
-> +		}
-> +		scnprintf(tas_priv->coef_binaryname,
-
-Why 'c' variant? You do not check the return value anyway. So, what's the point?
-
-> +			  sizeof(tas_priv->coef_binaryname),
-> +			  "TAS2XXX%04X%01d.bin",
-> +			  lower_16_bits(codec->core.subsystem_id),
-> +			  spk_id);
-> +	} else {
-> +		scnprintf(tas_priv->coef_binaryname,
-
-Ditto.
-
-> +			  sizeof(tas_priv->coef_binaryname),
-> +			  "TAS2XXX%04X.bin",
-> +			  lower_16_bits(codec->core.subsystem_id));
-> +	}
-
-...
-
-> @@ -793,7 +844,6 @@ static int tas2781_hda_i2c_probe(struct i2c_client *clt)
->  	const char *device_name;
->  	int ret;
+> 
+> Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
+> ---
+>  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> index ac5f2e0f42cb..b39c76b685f4 100644
+> --- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> +++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - awinic,aw88395
+>        - awinic,aw88261
+>        - awinic,aw88399
+> +      - awinic,aw88081
 >  
-> -
->  	tas_hda = devm_kzalloc(&clt->dev, sizeof(*tas_hda), GFP_KERNEL);
->  	if (!tas_hda)
->  		return -ENOMEM;
-
-Stray change.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>    reg:
+>      maxItems: 1
+> @@ -57,6 +58,7 @@ allOf:
+>            contains:
+>              enum:
+>                - awinic,aw88261
+> +              - awinic,aw88081
+>      then:
+>        properties:
+>          reset-gpios: false
+> -- 
+> 2.47.0
+> 
