@@ -1,87 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437E52040BA;
-	Fri, 18 Oct 2024 17:43:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E10820400F;
+	Fri, 18 Oct 2024 18:57:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729273436; cv=none; b=q+mYJOKs/XmL3PAQaIz4kGqzu6htHhf7QFA0lE6JVnRKPlvpnzTefMAunb835P7GuFYckK2nV4/xBDL67we6txoHEa9y/qMoDadyr7+hdVtyCSNrCitKyY+ablADDN2j/tB/FeNwiXK+suntnrNQaUghFiTUmZe0IDj1mlCYTLk=
+	t=1729277855; cv=none; b=r6V3/SAcKP0i31sAnUExDMRtuaU0IeT0aXc+/i5kkHsyCejQWcw5iQPbVDyaaUgNkU0NGbXgJhLamPKi5o+9Dl8/+GsSCl7YGdyLvS0KTKRyBEwwh0pOPkIJiNnYh5Z8Of15KcQNBcaFJQO1gFPvH92UUcA/b4x8MNTuMep9Mw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729273436; c=relaxed/simple;
-	bh=+QTrwqGEJr1YsaJFpBsMGkz+TbSki+wDf6EtvAvzOUE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XHD/xeeHcQiCw/xR0q5pPfjKkGnA56hMkNdZbsOh5VhojFfO1q49I+/6pFdp1vMcf4m8YBL2kaWsGOnohLKOrTvJMprFAz6T98AqkKDwLwmArJkNHmdNHdaXdt+xwtYmQQpChIlEHnszoex2jxbim6qJji0GracOrN+yKYcgv5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TWFIokuZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729277855; c=relaxed/simple;
+	bh=USwZBd/rmQ4xGvXvT/P1fJ09lLr7kVzbXZdNBQ3+LQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RHqtc6u0dyn0WgwdephNSfPCt8N2YMHDYqfmSF1WCTYuoTRhAOlKyKWCVoUrKRaBHCQV+xL+nxFySHI5ul9hGNLU/bTCIh4S7YrNMr6E9T9Cw02A5VHJUraW9EyJLtWifWecHmzW5LpfJbOGdZWba3vN1x4NJe/+XApvnsPm/6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8p/V7BV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TWFIokuZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3379AC4CED4;
-	Fri, 18 Oct 2024 17:43:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8p/V7BV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E839C4CED4;
+	Fri, 18 Oct 2024 18:57:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729273436;
-	bh=+QTrwqGEJr1YsaJFpBsMGkz+TbSki+wDf6EtvAvzOUE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=TWFIokuZxwvhsET/aF5SSx6MVUmoKEiA7tpx9opA6WoJDRyrgm6Wd+T8YAEkXdCJo
-	 rXFNuAcAHu7ekLJhw4YNN85PLSrkWFLZuNndcMXGfZFMNCww3cFiXvrXEN25LLCai5
-	 qrG1tGq6dKet+cv+DE7wnrsdlD9d5SwabZdAtQzfAFL0DagEtfdi8Xj6AIfnL+Kvgx
-	 pJJglQWSQRWTo1ll59IXZzYBGTNfuXFqVuPa2LXQ4eIevh9UphhO0vuBWxVtzXqKCl
-	 wyxCHsYeshcHt4vw7aePY5yZrlBnmds6/BIbMW77cxyTLj9QjdcWk/MWeo+PpDnAEk
-	 SUbHYI+2A0p7Q==
+	s=k20201202; t=1729277854;
+	bh=USwZBd/rmQ4xGvXvT/P1fJ09lLr7kVzbXZdNBQ3+LQ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d8p/V7BV9R5bv/BfDflLo5c3tZfdN++v+8FDLdPwvRIUNhpVdCKrwfx3ZhzYIBBoL
+	 0ysAxmqq6VxKdnMDowczfEE4iLFgRsjBQ2sg7WpucVGrtlDKJF0dDwHAJstYJYOyrU
+	 DwG9HYrZlXnxXvd17vXwqMU5sBdF4IuvNJKEFJq2BTtGPe2hPSji38r6iqSmctgecG
+	 gekuuMP9GT54JXpLCT/hfZ0YED63bGLsxe+SCoelsauWdYjywYupTIiojk1hK7yABg
+	 pvsG3iqbQ42lBLN/swfRU9WaiT3IwJcXkruF3m/hBbMZWz6fGlPM68cvZL0eb7Q52Y
+	 exWIiOd0e8KhA==
+Date: Fri, 18 Oct 2024 19:57:25 +0100
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Daniel Baluta <daniel.baluta@nxp.com>
-Cc: lgirdwood@gmail.com, ranjani.sridharan@linux.intel.com, 
- kai.vehmanen@linux.intel.com, linux-kernel@vger.kernel.org, 
- Anne Onciulescu <anne.onciulescu@gmail.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Chao Song <chao.song@linux.intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-In-Reply-To: <20241017110313.1423258-1-daniel.baluta@nxp.com>
-References: <20241017110313.1423258-1-daniel.baluta@nxp.com>
-Subject: Re: [PATCH] ASoC: SOF: sof-of-dev: add parameter to override
- tplg/fw_filename
-Message-Id: <172927343394.163659.7634673510798036454.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 18:43:53 +0100
+To: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Cc: Frederic Weisbecker <frederic@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	Len Brown <len.brown@intel.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	rust-for-linux@vger.kernel.org, Alice Ryhl <aliceryhl@google.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>, Miguel Ojeda <ojeda@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, damon@lists.linux.dev,
+	linux-mm@kvack.org, SeongJae Park <sj@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	netdev@vger.kernel.org, linux-sound@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nathan Lynch <nathanl@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: (subset) [PATCH v3 00/16] timers: Cleanup delay/sleep related
+ mess
+Message-ID: <104a3bf5-97ee-4c48-832f-df6c6e219576@sirena.org.uk>
+References: <172892295715.1548.770734377772758528.b4-ty@kernel.org>
+ <877ca5al86.fsf@somnus>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0RRAV7MzKbX8/czK"
+Content-Disposition: inline
+In-Reply-To: <877ca5al86.fsf@somnus>
+X-Cookie: What is the sound of one hand clapping?
 
-On Thu, 17 Oct 2024 14:03:13 +0300, Daniel Baluta wrote:
-> Add support to override topology and firmware filename,
-> using module parameters. This is helpful for development
-> and also for testing various scenarios.
-> 
-> 
 
-Applied to
+--0RRAV7MzKbX8/czK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Oct 18, 2024 at 10:06:33AM +0200, Anna-Maria Behnsen wrote:
 
-Thanks!
+> Would it be ok for you, if the patch is routed through tip tree? kernel
+> test robot triggers a warning for htmldoc that there is a reference to
+> the no longer existing file 'timer-howto.rst':
 
-[1/1] ASoC: SOF: sof-of-dev: add parameter to override tplg/fw_filename
-      commit: 9cb86a9cf12504c8dd60b40a6a200856852c1813
+>   https://lore.kernel.org/r/202410161059.a0f6IBwj-lkp@intel.com
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+It should be fine, worst case we just get a duplicate patch which
+doesn't super matter.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--0RRAV7MzKbX8/czK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcSr5QACgkQJNaLcl1U
+h9C6LAf/Qbwvy9NL2Gez+H9VVFae3GlPM9asUcMBaxp+uO7dhCUt0jnpy4Rf+uhV
+aRnDHjTLb+zTbBwpy96DsJWJPVsRkJobSsCa/FwibRcFeIheFZBo0REddV9DuMst
+/au9J4kG1E1c34bFhrulonNSkF8ebaVYLPfMH69+35eENFwXmFho5dT5usAsr/oP
+vDK6Dll8oW1XdvTqbw3CPv8TCPLze4UN799DWoWtS96MCxKR7lNOI0X01GsSUMl5
+GrYacHh5QPJICOAGcu7hqSds9wsAGz3zMSAQ9lrX+bZAOiCoDk0KcyIKLF3Pg7de
+RcnbwA6aEI+sETc/tSshLKzUVeX5FQ==
+=Qqcc
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--0RRAV7MzKbX8/czK--
