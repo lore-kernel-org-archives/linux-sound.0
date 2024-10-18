@@ -1,131 +1,98 @@
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA3620262E;
-	Fri, 18 Oct 2024 11:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98542F46;
+	Fri, 18 Oct 2024 11:37:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729249690; cv=none; b=cbJDSCXQS52MqtXpL7Cflv7kVXRQnyBWyODqbiyqX8k+uy7WIbEvhFKKxK11jCJRGIHfMKamamGTdDy3YN2nPHh+2/VykVVtPQH3EK9Aw0d6n7fW5XjN0Ycffc0w1jpgmtGcpnjWi7Yqu3vtExiWURKccFN2IzrDskgBgq78MmI=
+	t=1729251458; cv=none; b=ivfXduaS/JkwVPOMhsq+oNtSx64oKVpI0hO2IvZAEcKnbUIBsuAIwbEHONvoIXEp3ymUpVkh45zhvRxB4CMHB0vJasH7EJshtvImGjMr2ZgQOgj/Rks41E6ViakeWOy+OujvgROO7gKHBRAp3QMlFvCUzO7CHq9v8ZSbDJrcwrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729249690; c=relaxed/simple;
-	bh=roZL7Fo4RQ8XJx9gSRchXoZs7X/th6UYrkxC2F/4bsc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jWlWNaBJk2gysmPL9w6oVm5b1emcZ/StAERgcg1mA6hLrlvPElSEx+q0Wf4ZJ6zYYcbp+rq4YR+M8zve0H4/+zq4o6d2ZDAeRyXdwiYZMoUikBXaLy0bg2TNwPMbB0/1O5cEDmFpxsiOaWbegd3ypv0sLm6QsYQ71cOblajLi9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru; spf=pass smtp.mailfrom=maxima.ru; dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b=M9cQWn5S; arc=none smtp.client-ip=81.200.124.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxima.ru
+	s=arc-20240116; t=1729251458; c=relaxed/simple;
+	bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bVtr3deTP4pow4/ZrJu4s/tm/cbt82+UCHwQ5s4SnwbEg9uRvwL9dEZRyDetp0Wf18ClxrgU75uqv/fmq1t9gd/BEjW8iXXEj/6TXOw4hV/0sChNhhpcYdbsQRDamjwFunoVH12J82huZ0KcHGYzY9QUxEPRY30o6RjNgIckvf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qyfk0RZ+; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b="M9cQWn5S"
-Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id 3F9A3C000A;
-	Fri, 18 Oct 2024 14:07:56 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 3F9A3C000A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
-	t=1729249676; bh=mN9Vl+iYWRUJkFg62eJEHwY5V2j4me6G+dqs5tVdAuk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=M9cQWn5S7OaZp80mCs74SdtvBJM+T8EMXz0gIsQmgppcQhpzak/1W0+BXvPK53cP0
-	 hjPGqiXR7hZu0vIB/EOSgkvLkKLMnPwMVb1XWXQqswZrAfYs7qCOkZOPN2MKp3ZsV7
-	 Rva8QWgbc/bosCWL355g5/nSJ8FPW0lqJi+GzGokoxmX0YQccmuyCR7CDhUU5O4hIq
-	 M+MO2KBJ5qDF/6LkNhXql5SwkNOxY7akFPOihkzn8gFEL7WEqGOFhiJLdzIYNxFbKy
-	 ZzYEyTGCU2ZFhfFSa/xwF+Ywv5SiHVWvqFkARdSQK7iuHtJocFagYDufX97oDGRr5O
-	 LvvUVqT3PgdxA==
-Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Fri, 18 Oct 2024 14:07:56 +0300 (MSK)
-Received: from localhost.maximatelecom.ru (10.0.246.97) by
- mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.4; Fri, 18 Oct 2024 14:07:54 +0300
-From: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
-To: Liam Girdwood <lgirdwood@gmail.com>
-CC: Vitaliy Shevtsov <v.shevtsov@maxima.ru>, Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Seven Lee
-	<wtli@nuvoton.com>, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
-	<u.kleine-koenig@pengutronix.de>, Andy Shevchenko
-	<andy.shevchenko@gmail.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] ASoC: nau8821: check regmap_raw_read/regmap_raw_write for failure
-Date: Fri, 18 Oct 2024 16:07:41 +0500
-Message-ID: <20241018110743.18786-1-v.shevtsov@maxima.ru>
-X-Mailer: git-send-email 2.46.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qyfk0RZ+"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539f58c68c5so3270150e87.3;
+        Fri, 18 Oct 2024 04:37:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729251455; x=1729856255; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
+        b=Qyfk0RZ+zrV0txLTse0GHwHlzN0TmI2lIObVDvkFeW05jKgDQUlXqfHaht65yXf05k
+         j9KdnkH3Zx/MpvZC0guCARG3XQfYJ1l4FTv8E0OJRFMhG3ft/y+LuSEo+lmsPm1leKO5
+         66R19luMMpBm4KnjeeUJl5OL1ng3dKrLBVQd+yKimhw4LvthBpxPx1agqYgbpY1YHxjh
+         raJ9xoLjJgfWMLoNgcrBpNeoP+C5h1HwvseWyzcDsN6Wg+tVbitASQspQa7NIfp+0SM4
+         F2O2dURVSW47pwPjQ6q5gb8p9xeCKBWmvkjOC/iCbknkkKJ41Mh09caHHGQpHoH5JnwU
+         BOLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729251455; x=1729856255;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z2ZsHBlv4F58yv72hrFjXHVDQlat+cHzX5o3VrnM12I=;
+        b=BsOcCZhshrI+KnYbpidTb5mPhYfv37578Bf4MkK/A11dOXWB1gygF9tkGAyzEKhZ/K
+         dfXqll6gup0gNiRo5nX3un5JMK3+k+xfgPynG+069UuI4PRknDETx+6vqB4rffloF0eV
+         4znXzkS9598EndSzmVboGXMWAU7jR01e92IQ5bNuSqP3G0NEX9Br3b9cvSlzaRzKYsH4
+         JsiwjQDrkjntL1rGsusYNziux5Ja374Y9AkK77cMs9urIT11VOv0qWZQjI5PpBvTIXO4
+         TH1PXN+rtmoH9wsNDnYTSfOZt5CdoyCIZoxI+ipS6o6af/C3VxmUtgWNeMi2IFjOSF2N
+         AUVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUueVAQWrYLeXXliEBtze3/NiTgwMVKLu1CGDlIoj2/3/JwxWSLZJBS42+35w379HkwaGV7iGl4kayc8DU=@vger.kernel.org, AJvYcCVG+h8mAMogIMmt2DPsHLGgV7hg1XS0GPkFFOnJZmYMxSFuMeF/btn9UAc3hKSqgiV7P3ka05v4Fheoyps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxUw3iM8ulrQf0rb0tFsasO6S67R90oDeKwKIb9Y+erv8O9daGZ
+	hmJjBu7sZWIJUmG1pEGFN/D3otgtSaWXXo+3OfRAWtwWlO2gl3QSfcSbpo/DtjQfRyWSXZpnTM5
+	fDdrZQlYQSyCjAnhYEiZYJEPoW+o=
+X-Google-Smtp-Source: AGHT+IFQAHfNnXc94cDnwolpYvSoq/a6eutp2/Sq+eDgHigng1jmEqrf3HNkTivuT3VBIoOWT8lNwvhzpBD8kgYACac=
+X-Received: by 2002:a05:6512:2315:b0:533:4620:ebec with SMTP id
+ 2adb3069b0e04-53a153408b3mr2468738e87.3.1729251454532; Fri, 18 Oct 2024
+ 04:37:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
- (81.200.124.61)
-X-KSMG-Rule-ID: 7
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 188530 [Oct 18 2024]
-X-KSMG-AntiSpam-Version: 6.1.0.4
-X-KSMG-AntiSpam-Envelope-From: v.shevtsov@maxima.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;spf=none smtp.mailfrom=maxima.ru;dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 40 0.3.40 cefee68357d12c80cb9cf2bdcf92256b1d238d22, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;maxima.ru:7.1.1;ksmg01.maxima.ru:7.1.1;81.200.124.61:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/10/18 09:34:00 #26770281
-X-KSMG-AntiVirus-Status: Clean, skipped
+References: <20241018110743.18786-1-v.shevtsov@maxima.ru>
+In-Reply-To: <20241018110743.18786-1-v.shevtsov@maxima.ru>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 18 Oct 2024 14:36:57 +0300
+Message-ID: <CAHp75VfOoGDYHhNb2PoMOhn1SEnMMF1EXvb2ignWFenEa93Otw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: nau8821: check regmap_raw_read/regmap_raw_write for failure
+To: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Seven Lee <wtli@nuvoton.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	lvc-project@linuxtesting.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The return values from both regmap_raw_read() and regmap_raw_write() are not
-checked despite they can fail. Propagate possible errors to caller.
+On Fri, Oct 18, 2024 at 2:07=E2=80=AFPM Vitaliy Shevtsov <v.shevtsov@maxima=
+.ru> wrote:
+>
+> The return values from both regmap_raw_read() and regmap_raw_write() are =
+not
+> checked despite they can fail. Propagate possible errors to caller.
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+"...them failing."
+"...to the caller."
 
-Fixes: aab1ad11d69f ("ASoC: nau8821: new driver")
-Signed-off-by: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
----
- sound/soc/codecs/nau8821.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+> Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-diff --git a/sound/soc/codecs/nau8821.c b/sound/soc/codecs/nau8821.c
-index de5c4db05c8f..edb95f869a4a 100644
---- a/sound/soc/codecs/nau8821.c
-+++ b/sound/soc/codecs/nau8821.c
-@@ -287,10 +287,8 @@ static int nau8821_biq_coeff_get(struct snd_kcontrol *kcontrol,
- 	if (!component->regmap)
- 		return -EINVAL;
- 
--	regmap_raw_read(component->regmap, NAU8821_R21_BIQ0_COF1,
-+	return regmap_raw_read(component->regmap, NAU8821_R21_BIQ0_COF1,
- 		ucontrol->value.bytes.data, params->max);
--
--	return 0;
- }
- 
- static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
-@@ -299,6 +297,7 @@ static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
- 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
- 	struct soc_bytes_ext *params = (void *)kcontrol->private_value;
- 	void *data;
-+	int ret;
- 
- 	if (!component->regmap)
- 		return -EINVAL;
-@@ -308,12 +307,12 @@ static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
- 	if (!data)
- 		return -ENOMEM;
- 
--	regmap_raw_write(component->regmap, NAU8821_R21_BIQ0_COF1,
-+	ret = regmap_raw_write(component->regmap, NAU8821_R21_BIQ0_COF1,
- 		data, params->max);
- 
- 	kfree(data);
- 
--	return 0;
-+	return ret;
- }
- 
- static const char * const nau8821_adc_decimation[] = {
--- 
-2.46.2
+> Fixes: aab1ad11d69f ("ASoC: nau8821: new driver")
 
+Are you sure?
+
+While the code wise the patch is correct, the behaviour changes may be
+catastrophic in some corner cases. The first one is the read where we
+try to get the data from the register, that one may be okay, but the
+write should be first put into the group of mandatory or optional IO.
+If it's the second, why bother with the IO failure?
+
+--=20
+With Best Regards,
+Andy Shevchenko
