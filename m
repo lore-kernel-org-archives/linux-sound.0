@@ -1,123 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FF9200B86;
-	Fri, 18 Oct 2024 10:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA3620262E;
+	Fri, 18 Oct 2024 11:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729246098; cv=none; b=Tvzq6foWSUgzA8CbBnodYoe2poC1o9QEwkOfSeTxHt99jIcJ0Quh/8AXAyBS0rkWg7p/OQfFomDtYr5UHjVoCHFyiXwQrHRtHtOU1vBpxID8dQHe+VxMwS/WsNuQcck6WnizMVww2JjKkCsdZtSPhyDhZnZ9gN+OGkjXI52UmYQ=
+	t=1729249690; cv=none; b=cbJDSCXQS52MqtXpL7Cflv7kVXRQnyBWyODqbiyqX8k+uy7WIbEvhFKKxK11jCJRGIHfMKamamGTdDy3YN2nPHh+2/VykVVtPQH3EK9Aw0d6n7fW5XjN0Ycffc0w1jpgmtGcpnjWi7Yqu3vtExiWURKccFN2IzrDskgBgq78MmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729246098; c=relaxed/simple;
-	bh=GH2ceyXze/D73ldpbXeQguAiLf6frvdUGRMqrcthw8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qy5shpqPOetaQmkfyZ0iHYzDNw7gC96SH+oC8I+dg05WsbK69zZDiW3F7di2RKTYtkMf4lXyUXsgzHZ7c52Wlkk9OlkBv3iRvVh4an2ttRL9D1TOc3EJYr1UW+XOCHCr/sEYmvGruM91+Nv1e+35fo/zoB93fR0FD66utbuZATU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MO9MSbq2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729249690; c=relaxed/simple;
+	bh=roZL7Fo4RQ8XJx9gSRchXoZs7X/th6UYrkxC2F/4bsc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jWlWNaBJk2gysmPL9w6oVm5b1emcZ/StAERgcg1mA6hLrlvPElSEx+q0Wf4ZJ6zYYcbp+rq4YR+M8zve0H4/+zq4o6d2ZDAeRyXdwiYZMoUikBXaLy0bg2TNwPMbB0/1O5cEDmFpxsiOaWbegd3ypv0sLm6QsYQ71cOblajLi9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru; spf=pass smtp.mailfrom=maxima.ru; dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b=M9cQWn5S; arc=none smtp.client-ip=81.200.124.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxima.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MO9MSbq2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C74DC4CEC3;
-	Fri, 18 Oct 2024 10:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729246098;
-	bh=GH2ceyXze/D73ldpbXeQguAiLf6frvdUGRMqrcthw8k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MO9MSbq2Z/oBEajByo/YyrQUrGboEuCpZe1IyfzdWlmPplqgKfZUvpKSJAGqqnbqC
-	 VsfPJZw9l/tDdnYPmpLnemsuGR4hu48ijjTW+vQQ0DqqQThDPMNdksoy4Ny8Ps1B8Y
-	 pODl2fSaZrgbnzIthPS5nkZcTuTeDk1M52qc7J3acFPjN+iqG1JY6P0iRrn8Cv9deB
-	 boWKICcl+JBVatJO1c7UN+x+tEPB/6vkNygQGWMq1cpbntuDzXxCiDrQQBW5Hnm0zZ
-	 kS16nF4xOXSkR9FNxdyQYQKxgjI1bFZGqyK3y5poL2Q/3xJrSByvz9BN/IXH/kE+cZ
-	 kumtSE6ypw/tw==
-Message-ID: <0311a205-f9fd-47fe-85cf-1e412801cd18@kernel.org>
-Date: Fri, 18 Oct 2024 12:08:08 +0200
+	dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b="M9cQWn5S"
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 3F9A3C000A;
+	Fri, 18 Oct 2024 14:07:56 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 3F9A3C000A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
+	t=1729249676; bh=mN9Vl+iYWRUJkFg62eJEHwY5V2j4me6G+dqs5tVdAuk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=M9cQWn5S7OaZp80mCs74SdtvBJM+T8EMXz0gIsQmgppcQhpzak/1W0+BXvPK53cP0
+	 hjPGqiXR7hZu0vIB/EOSgkvLkKLMnPwMVb1XWXQqswZrAfYs7qCOkZOPN2MKp3ZsV7
+	 Rva8QWgbc/bosCWL355g5/nSJ8FPW0lqJi+GzGokoxmX0YQccmuyCR7CDhUU5O4hIq
+	 M+MO2KBJ5qDF/6LkNhXql5SwkNOxY7akFPOihkzn8gFEL7WEqGOFhiJLdzIYNxFbKy
+	 ZzYEyTGCU2ZFhfFSa/xwF+Ywv5SiHVWvqFkARdSQK7iuHtJocFagYDufX97oDGRr5O
+	 LvvUVqT3PgdxA==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg01.maxima.ru (Postfix) with ESMTPS;
+	Fri, 18 Oct 2024 14:07:56 +0300 (MSK)
+Received: from localhost.maximatelecom.ru (10.0.246.97) by
+ mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.4; Fri, 18 Oct 2024 14:07:54 +0300
+From: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+To: Liam Girdwood <lgirdwood@gmail.com>
+CC: Vitaliy Shevtsov <v.shevtsov@maxima.ru>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Seven Lee
+	<wtli@nuvoton.com>, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
+	<u.kleine-koenig@pengutronix.de>, Andy Shevchenko
+	<andy.shevchenko@gmail.com>, <linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: nau8821: check regmap_raw_read/regmap_raw_write for failure
+Date: Fri, 18 Oct 2024 16:07:41 +0500
+Message-ID: <20241018110743.18786-1-v.shevtsov@maxima.ru>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88081"
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
- tiwai@suse.com, rf@opensource.cirrus.com, neil.armstrong@linaro.org,
- pierre-louis.bossart@linux.dev, luca.ceresoli@bootlin.com, arnd@arndb.de,
- quic_pkumpatl@quicinc.com, herve.codina@bootlin.com, masahiroy@kernel.org,
- shenghao-ding@ti.com, linux-sound@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-References: <20241018094320.113477-1-wangweidong.a@awinic.com>
- <20241018094320.113477-2-wangweidong.a@awinic.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241018094320.113477-2-wangweidong.a@awinic.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-Rule-ID: 7
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 188530 [Oct 18 2024]
+X-KSMG-AntiSpam-Version: 6.1.0.4
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@maxima.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;spf=none smtp.mailfrom=maxima.ru;dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 40 0.3.40 cefee68357d12c80cb9cf2bdcf92256b1d238d22, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;maxima.ru:7.1.1;ksmg01.maxima.ru:7.1.1;81.200.124.61:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/10/18 09:34:00 #26770281
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On 18/10/2024 11:43, wangweidong.a@awinic.com wrote:
-> From: Weidong Wang <wangweidong.a@awinic.com>
-> 
-> Add the awinic,aw88081 property to the awinic,aw88395.yaml file.
-> 
-> Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
-> ---
->  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-> index ac5f2e0f42cb..b39c76b685f4 100644
-> --- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-> +++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-> @@ -20,6 +20,7 @@ properties:
->        - awinic,aw88395
->        - awinic,aw88261
->        - awinic,aw88399
-> +      - awinic,aw88081
+The return values from both regmap_raw_read() and regmap_raw_write() are not
+checked despite they can fail. Propagate possible errors to caller.
 
-I am sorry, but what type of sorting are you keeping here? It looks
-entirely random.
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-Best regards,
-Krzysztof
+Fixes: aab1ad11d69f ("ASoC: nau8821: new driver")
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+---
+ sound/soc/codecs/nau8821.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/sound/soc/codecs/nau8821.c b/sound/soc/codecs/nau8821.c
+index de5c4db05c8f..edb95f869a4a 100644
+--- a/sound/soc/codecs/nau8821.c
++++ b/sound/soc/codecs/nau8821.c
+@@ -287,10 +287,8 @@ static int nau8821_biq_coeff_get(struct snd_kcontrol *kcontrol,
+ 	if (!component->regmap)
+ 		return -EINVAL;
+ 
+-	regmap_raw_read(component->regmap, NAU8821_R21_BIQ0_COF1,
++	return regmap_raw_read(component->regmap, NAU8821_R21_BIQ0_COF1,
+ 		ucontrol->value.bytes.data, params->max);
+-
+-	return 0;
+ }
+ 
+ static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
+@@ -299,6 +297,7 @@ static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
+ 	struct soc_bytes_ext *params = (void *)kcontrol->private_value;
+ 	void *data;
++	int ret;
+ 
+ 	if (!component->regmap)
+ 		return -EINVAL;
+@@ -308,12 +307,12 @@ static int nau8821_biq_coeff_put(struct snd_kcontrol *kcontrol,
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	regmap_raw_write(component->regmap, NAU8821_R21_BIQ0_COF1,
++	ret = regmap_raw_write(component->regmap, NAU8821_R21_BIQ0_COF1,
+ 		data, params->max);
+ 
+ 	kfree(data);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static const char * const nau8821_adc_decimation[] = {
+-- 
+2.46.2
 
