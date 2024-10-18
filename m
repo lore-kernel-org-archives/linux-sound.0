@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6ED76C61
-	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 21:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5CE18CBEC;
+	Fri, 18 Oct 2024 21:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729287039; cv=none; b=SuUeVEyAx4Pl9Z91p3FKkjrHt/Rwdm85EQrWkcfPR8Dj7B13YUEpGnNgQHSOhOwvwY7v/Ca1Sm7NTu6gtWsvFwPYSUc2ClIu/Ss1CR/86oiYk9gLon5TSgcYK4M7TwTHZru2igwPEO9dyASK8ZD8HuPpkBlzF8K4G4mXY6N8tIo=
+	t=1729287041; cv=none; b=b710Z+S3EpPHH1yCk4C8RvcLGCsfP/LT5/m4yzye7yZKQqU8BOzAm5K2ro/yltyF2EDqIO40NghiK/NJgxLO5Vtkt6nEBxNHXqIPh5yoFlxysmdQmRZQcKRgxMeFNytbrSHaAWe44juwGcsDsbbnkjROMo94JMvpmy3iD6qroyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729287039; c=relaxed/simple;
-	bh=6j38h6qJREC/2fSXqR4+0FmmmVdsczDO/Zu/mU2rBuk=;
+	s=arc-20240116; t=1729287041; c=relaxed/simple;
+	bh=fRDd/xAaQiNIntNWabElOUsWdfWNnSZkxRew2pucmek=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Moh2j99s7Kd4d3Sm/lS9OD4enig6c3AXMJ39NbvkIupkZWx4wk27eV6lH5B125WB5laP6sxyLORV93xttr4SWlFhkPrRl0s4mvVk6pz33l4ClQm2tCdwq8UvuV2zIWZfifT2wt5TgQlYvqtgEIIxKVFYShFD/YgDgNuWs2Pyzug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOjAFynC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=PC/H65I6v/FZgAaciim+CPP3oG57J51nO8MYxUiYrMPYOxl70vuRn39rffm4X/EP2A9TM6zxeNSf4bHFagvX6kP6B166R7gzbdzgIlDLJLMUBnRgJX2mJ+4FrluSfZ6QZx/qkyL/xkSRbt8YoXYOGd6GPuXGOo1FNW/DUsmqJLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mlnL/VDN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOjAFynC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AD12C4CED2;
-	Fri, 18 Oct 2024 21:30:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mlnL/VDN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CCFDC4CEC3;
+	Fri, 18 Oct 2024 21:30:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729287038;
-	bh=6j38h6qJREC/2fSXqR4+0FmmmVdsczDO/Zu/mU2rBuk=;
+	s=k20201202; t=1729287040;
+	bh=fRDd/xAaQiNIntNWabElOUsWdfWNnSZkxRew2pucmek=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VOjAFynCNeqmBVMOWYOI66KrPJEvEkrDJc9MrRbSXTqBjc8ta68b7TQhJF8sLWejr
-	 2oFo/He3QKKKKbEXplqstRYYWXxguR8ye8WJuRxMRIo7LHUtyelmls2V6e7JQoiUfk
-	 +nlxMht02nrGLD4vZM8XBmb1nZwLdO54S95nsaMmbctfVY3CcFjMkxwgVa5pBYBzIF
-	 ySA9Zkjvz2IsJ8XKt6q/8894EG7Y7NzdfZ2Q46PaZ2PFTyqCVI5wh6uJkzQCXc+IqM
-	 ZpvkZuYJMkMB5X0MHSwdjsRWDMUPAgn5xTKk7OUOi2CL9j9kXnBwXgeXdAith6+ueE
-	 3AYV7TNUGuonA==
+	b=mlnL/VDN/D6y/xdsDKcstQiEG8ivZ8AfVl4YldfeAhRN/L5Z8O9JUbS5/ma1P2Jtk
+	 au7uwYzJlt9BKqpr6DCeiJ56WRm67ed88+IlIcVO6J1ytRdIKOOGkMmw3oRPn4MrzI
+	 VlCy52pOPvRqc4v88XrH3d8DFnPtSTOWLTNI3M5XgJd6+4U+im0owOdJ0A1gQ7ob+Z
+	 DQPFbSZTHOu5B5CY+fdNZl0GVpCJ6s2Qw0hCrp1Fl2PAcQUEv8N8py6rH6pO1Dtma9
+	 MfyZpbXyPZtAjbSwUsKwObiRO5UkmoX6c4M6Wq//pQkAeEghjaAgIJ/fxQTgBThnum
+	 Yb5AtNw37q41w==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241016030344.13535-1-yung-chuan.liao@linux.intel.com>
-References: <20241016030344.13535-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/4] ASoC: add support for some new Lenovo laptops with
-Message-Id: <172928703735.212383.18386411310380643193.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 22:30:37 +0100
+To: tiwai@suse.de, vkoul@kernel.org, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: vinod.koul@linaro.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, ranjani.sridharan@linux.intel.com
+In-Reply-To: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
+References: <20241016032910.14601-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/4] ASoC/SoundWire: clean up link DMA during stop for
+ IPC4
+Message-Id: <172928703885.212383.18274357800270627734.b4-ty@kernel.org>
+Date: Fri, 18 Oct 2024 22:30:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,16 +48,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 16 Oct 2024 11:03:40 +0800, Bard Liao wrote:
-> Some SKUs are using host DMICs rather than the cs42l43 DMICs, update the
-> endpoint structure for these SKUs to remove the DMIC endpoint.
+On Wed, 16 Oct 2024 11:29:06 +0800, Bard Liao wrote:
+> Clean up the link DMA for playback during stop for IPC4 is required to
+> reset the DMA read/write pointers when the stream is prepared and
+> restarted after a call to snd_pcm_drain()/snd_pcm_drop().
 > 
-> Charles Keepax (4):
->   ASoC: sdw_utils: Add support for exclusion DAI quirks
->   ASoC: sdw_utils: Add a quirk to allow the cs42l43 mic DAI to be
->     ignored
->   ASoC: Intel: sof_sdw: Add quirk for cs42l43 system using host DMICs
->   ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops
+> The change is mainly on ASoC. We may go via ASoC tree with Vinod's
+> Acked-by tag
 > 
 > [...]
 
@@ -64,14 +64,14 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: sdw_utils: Add support for exclusion DAI quirks
-      commit: 3d9b44d0972be1298400e449cfbcc436df2e988e
-[2/4] ASoC: sdw_utils: Add a quirk to allow the cs42l43 mic DAI to be ignored
-      commit: a6f7afb39362ef70d08d23e5bfc0a14d69fafea1
-[3/4] ASoC: Intel: sof_sdw: Add quirk for cs42l43 system using host DMICs
-      commit: ea657f6b24e11651a39292082be84ad81a89e525
-[4/4] ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops
-      commit: 83c062ae81e89f73e3ab85953111a8b3daaaf98e
+[1/4] ASoC: SOF: ipc4-topology: Do not set ALH node_id for aggregated DAIs
+      commit: 9822b4c90d77e3c6555fb21c459c4a61c6a8619f
+[2/4] ASoC: SOF: Intel: hda: Handle prepare without close for non-HDA DAI's
+      commit: 6e38a7e098d32d128b00b42a536151de9ea1340b
+[3/4] soundwire: intel_ace2x: Send PDI stream number during prepare
+      commit: c78f1e15e46ac82607eed593b22992fd08644d96
+[4/4] ASoC: SOF: Intel: hda: Always clean up link DMA during stop
+      commit: ab5593793e9088abcddce30ba8e376e31b7285fd
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
