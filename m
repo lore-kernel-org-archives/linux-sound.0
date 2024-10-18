@@ -1,39 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC2A204F7E
-	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 17:43:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9E36204080;
+	Fri, 18 Oct 2024 17:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729273426; cv=none; b=A+FlLUu3v5p19GK2OZDYzMtLRGyHecB0wvcH6t+IYCS9uerqbe63eTTP48MVD/FzhmpvhZNWhrc3PmDbyod541Syr1DqqsS0ALtflzezSEqi1Xi4OEZACEgUEHfvqanR2HhBFDObyYdedufcCLn5ipX6IWwjp1GJX5a/QVNaOJw=
+	t=1729273429; cv=none; b=ZGgN3ZbFp3NbQSvcWGKWQK2b2N9VmS2gJNWBGUmaol76I0v6mac3+i7PVgtM/wymdEXTzg493kv+O764gu6CR4HhY4kt9nALN9UpSD9bZjWsiwvirWsNcTzDLrBsBLuRvgTblxbisG9byia0gJ1PgKIZfUbFYhPAc5fZEfhwTpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729273426; c=relaxed/simple;
-	bh=cbQ6Gm69o6l1e+r7+XLVr/9a0an2CctZQcG4McWXC6A=;
+	s=arc-20240116; t=1729273429; c=relaxed/simple;
+	bh=2p5IF+ZWqEFOVQII1ShdYMBDiQsd1dQKUutWOu5irWY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZLrCaiBDHyP6UqC6qY+DP2YSpYUJbZaNo1R0Rvuoz+ahMLd/ucWkOsD222jngHWtreKpB67KsGlttrIVvm6C3JY7j9lw4AIPoybkGjT1T5oaWe1Icn7+naKe10BDLcmo675D+JUge46GDNoztEFomT4704n/wNBPUS9jncXsA4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=agAML4Xv; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=qIyBSQQdFkpp2ic1houiZaKFMAgGPubkEJcEJiLx+dco/i1wntBv9CwI0dJrhR1cDywYyRty2+wxRLAeof8Zm4IlprzVUQFvDeyLNZLwHNzcrUws8Ty7ibcT1g9PdG3vR+B8gdZpCSHPJoPHII9wdhs7r6QdBHSeXWInszArGx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o1T8IUrJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="agAML4Xv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5390FC4CEC7;
-	Fri, 18 Oct 2024 17:43:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o1T8IUrJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0B7C4CED3;
+	Fri, 18 Oct 2024 17:43:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729273425;
-	bh=cbQ6Gm69o6l1e+r7+XLVr/9a0an2CctZQcG4McWXC6A=;
+	s=k20201202; t=1729273428;
+	bh=2p5IF+ZWqEFOVQII1ShdYMBDiQsd1dQKUutWOu5irWY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=agAML4XvpnimgEyQpwkGdlaSS3/Vnx984Q3Quv1Gx6SLTT34sU38RPh5Z9AD84mOc
-	 KozYhZvdwpELXJe5c8M079lVeYG3jtIaW1LDqrlC4fA3b5Q9tRUlU/gNiI3EErPlED
-	 8JJwM9N3rtt9O88mtQ7+sWyo0p5ZXjbid7uXSg5A98H3KYH0ZRUntZyyJ2Du3ZOrub
-	 Lxd75kj8bB01mg/gpzw7GctZN1IZsQs5OEh/+QO5GcdfGtacKkP/zYpibmFaBspMoA
-	 oChtMnU7+PoVG8HCSRcd1L7N8EaruVh3LV0VvpLqlQflo8kIwFdwYhq7GsZUL2VVfe
-	 N3K0JwI1uJY+Q==
+	b=o1T8IUrJUhY5KGJNL+zwwNnfzbqqkscpjyP1e1H/qp48L0poiB3hHP97ti/3u7KRr
+	 puJMukpI4FgMxM8KpYzEBEbqURtEgn78kk2G6hpr6Bvk40PJL0PIgXfgD0CgF0BgKC
+	 fb1HyiIzdlIlrjqP+aZTi0JRmEC7B28QTvduYJYZqMx0/RLJhgW+YtLmmA3ycPPUy9
+	 GdGGzVtu3yE8aWWAyxutle0lRO4zKMTZQ+Oji8iHiLK95OVaKPT/1xoC8AR9YNOTu5
+	 Umx7DwgT2dNy/UADghqExqnKIDTIUQdTXIaaEqHEfaU6loMwoguqoPtcmrWNOGcPgU
+	 QwOeWHA822dFQ==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87cyk0eso0.wl-kuninori.morimoto.gx@renesas.com>
-References: <87cyk0eso0.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: makes snd_soc_set_runtime_hwparams() inline
-Message-Id: <172927342507.163659.6611103031533833069.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 18:43:45 +0100
+To: Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Prabhakar <prabhakar.csengg@gmail.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20241011175346.1093649-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH] ASoC: rsnd: Refactor port handling with helper for
+ endpoint node selection
+Message-Id: <172927342605.163659.12231131431088875442.b4-ty@kernel.org>
+Date: Fri, 18 Oct 2024 18:43:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,11 +52,18 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 16 Oct 2024 01:35:27 +0000, Kuninori Morimoto wrote:
-> snd_soc_set_runtime_hwparams() is now doing very simple things.
-> We can makes it simply inline function, without having EXPORT_SYMBOL_GPL()
+On Fri, 11 Oct 2024 18:53:46 +0100, Prabhakar wrote:
+> Refactor the code responsible for selecting the correct device node for
+> audio endpoint parsing in the rsnd driver. A new helper function
+> `rsnd_pick_endpoint_node_for_ports()` is introduced to handle the
+> selection of the endpoint node by checking whether the port is named
+> 'port' or 'ports'.
 > 
+> This change simplifies the logic in both `rsnd_dai_of_node()` and
+> `rsnd_dai_probe()` functions by replacing repetitive condition checks
+> with the new helper.
 > 
+> [...]
 
 Applied to
 
@@ -56,8 +71,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: makes snd_soc_set_runtime_hwparams() inline
-      commit: 0d3039f4d2f4a79798d97f2ac1a9656b055b561f
+[1/1] ASoC: rsnd: Refactor port handling with helper for endpoint node selection
+      commit: daf5e3c68144bdb7e605f46853febc7bb257d44d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
