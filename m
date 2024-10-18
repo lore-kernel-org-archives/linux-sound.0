@@ -1,110 +1,122 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B661D54E9
-	for <linux-sound@vger.kernel.org>; Thu, 17 Oct 2024 22:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FC72F29;
+	Fri, 18 Oct 2024 00:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729203890; cv=none; b=i1ZESRSKvPtZAUP/jhy7yQPyLmi2FPwR6ppDdrJi4s+Ra56CUkFXRPJvEvh+/aXmozrQmjA+vnW3NuKbJY6RnkvLHdi7ax5QbxiIjcDVHez7uaxXPK6+lCJFOA2/N7nPbAI7b0LIFfQx4AqrJpgnXpiYnfwvUfa3wsTZB5t1FOs=
+	t=1729210062; cv=none; b=p+/22HvTwi3Hx0KLc+zs8ht6bcT86kE7MVQMYX800nvkfIXh7yBgJdSaimAi0NoGznWDIMkOGGF8Ar4yIS8yTfQtHY5Cu3Hb3ewfn81TPiK96FuGUz+XDOfhDaNj9siM4CJ4y1JvQaT5WkoD+1kaoinXl/SpMs7i+mBHTUEWEBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729203890; c=relaxed/simple;
-	bh=hJcKXZZqP1q18W3w7Qs8TRcql16FNs7FzZ3BFU+kkYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m+H0lsqahuVgFywupjq81vR2x9pEZX6ZkUYk4mlvchMFpWQagkLX/jSE2UrUEmYZ1U+O27NZXGBpKYPpCE2HdmzAuKUdToeWuWx6B10+F6Xrgsvn85tpLfl+fHdJSPfYF32O0h7kasdXj1iJaWfy5wBE4cD6eDWqVSIRxuEIKuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NEk70zN1; arc=none smtp.client-ip=209.85.167.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729210062; c=relaxed/simple;
+	bh=D9ULUqk+TbUqMTKGR0bFo25YiiZ2cs6nBE1a1b8WqFQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YdYec5faevHtXowN9MxcrRc4Umqg616XfKG4Vn9DjkHEh6oqBy2/8tdvgMT73kUkTs8UPK/WwVCUYdy6f73qp3dmhtOkyXVney8BgyovzFS6dzxQdhkPU2f6UrMPKt+FPtCBg6gyluFW55Ae07dhSDFA51EZIXCu0zFLH7+Ekfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RX9Ouqrq; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NEk70zN1"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f7606199so1793248e87.0
-        for <linux-sound@vger.kernel.org>; Thu, 17 Oct 2024 15:24:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729203884; x=1729808684; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VocsO7a9C7Q0Qui7xbnKUaUO0s/uFElHeUCAM0fdE+E=;
-        b=NEk70zN1wvuWqpNDnzS6XQ651DatKCqOHdJH5LZjIQmvjND9pnLpEBB74kWD8Ma/1w
-         jeBZfBtwukGOSale24yyRbofHKfRmxDu9PiWzjE2jBdAQYEteGl+ZX5L5bzj4E0bzQpG
-         J8twK02jOsd94RWjCDKijVA39AthvsGl9eUTfDs/3UQeqR7ZRfoXAd5bqJxh5v3lCfqo
-         vZNdjqfEb8CLtoasAgs8wYv2nMPCu95lgfJQqRNTHuspkx/6PmzSww/MRv8wXuoHS3h/
-         lgBe6MQDWUjABWwi2mN12YmS7T7hAF9RE1wWmppq+scq76nkeCkaruhd27uFIf7aOVMa
-         QTAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729203884; x=1729808684;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VocsO7a9C7Q0Qui7xbnKUaUO0s/uFElHeUCAM0fdE+E=;
-        b=SS6Kkrw5lKirK763bvYLYndm0LyE3ARP08DWfSNyKVZF850ZjJdgVNhnkuTKrnP3H4
-         KZCVWw7D9RZB7NW+RyCrNe0sBWJHUk2C4+7NBUYmd/f94b+57XpEsG1DZ8YPLIoKORPH
-         w36IfxSDCZRFdM1fmWJD0LDRoC0Skk1pbg9Zi6+XfInSFRyyt+8wxVm1ufKGGaz+OHKq
-         yT6ywtmjRAKKnbAr7OfY6SPsMcO7XEAWcbpPO3gShh5EZ039dKzlO3X1DftF9JjnYWkh
-         8bH+Bphseh9fvFL/71XV+BgU+uHgkNo3nHWf0TUPY5GNtDqvvBBUYzHb239KBjA6D6cI
-         c3VA==
-X-Forwarded-Encrypted: i=1; AJvYcCXSLIT3YIYTPBvnL9gz8PS4BFpAxkDLKC7QY4iV7RHBscAOP6qo4adRQIxOsLHELvTQ8tG5dIPV7Om+Ow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTLMP8VGq9pZ1SkgMPScjCzZ3191sBUW3tpHrtzPgFSr0hT+XG
-	1mf4MllJ37WTRGZ+mBwbmaWN5l6IFi1AEyUxDJKMSPMoSKf1LCbjZ4SbsRooo9U=
-X-Google-Smtp-Source: AGHT+IEa6anJV3E0K7CppiPuZYQbyLcF3shfaKC5Kb78/SiQ3aJxOxbLaEaE05j/Agx5EYEUizZnhg==
-X-Received: by 2002:a05:6512:b06:b0:539:e1ea:c298 with SMTP id 2adb3069b0e04-53a15218cdbmr264581e87.22.1729203883984;
-        Thu, 17 Oct 2024 15:24:43 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53a15211bbcsm44012e87.284.2024.10.17.15.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 15:24:43 -0700 (PDT)
-Date: Fri, 18 Oct 2024 01:24:40 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: srinivas.kandagatla@linaro.org, a39.skl@gmail.com, 
-	linux-sound@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, 
-	tiwai@suse.com, alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org, vkoul@kernel.org
-Subject: Re: [PATCH v2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro for
- DSM_CTL and SEC7 regs
-Message-ID: <nhpeyezvodnww4m4hou3of5xy7lbvme5jydpprpmj3yzr7yarj@thiyvzume4bo>
-References: <20241016221049.1145101-1-alexey.klimov@linaro.org>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RX9Ouqrq"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49HDcuMX016699;
+	Fri, 18 Oct 2024 00:07:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	uxBavpTgL71vWYYy2sA8sf5j3chQYVV9GD147SGaeIE=; b=RX9Ouqrq4NFVay6j
+	q4ttG0ZDVQRxiFHqWMz1ETLYdt9a14mSskOsu4TE50T7xoN7Yz1fi1sDfPZMXDCw
+	Nid3g40KR97d0eIZ6brHzq3xJa0t7AKSCcSoS1FsTDUta85y2SVt5RKKQm0XC+UZ
+	ftQLUofQozfcyUcqlpajRTWKzTMpeConXTyXCrqh/KO8LjdXl+5S0psOcWaD3SwG
+	eOo+yjKkMRzwm4hTVhc4CuOPc0GaEqSVtAgn1QRp3uyc4I+1HGARPsbBQgpR7NKS
+	e8ZqYMKHlVOTbVP2mGtD6UeD4JYw2esaE4AGL3vN9Ffk9mC3fy0oma7dgzZ3FTyN
+	IRBG3A==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42a8w6pdcw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49I07EUv021198
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 18 Oct 2024 00:07:14 GMT
+Received: from [10.71.112.85] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 17 Oct
+ 2024 17:07:13 -0700
+Message-ID: <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+Date: Thu, 17 Oct 2024 17:07:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241016221049.1145101-1-alexey.klimov@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
+ for secondary interrupters
+To: Greg KH <gregkh@linuxfoundation.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <robh@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+ <20241015212915.1206789-2-quic_wcheng@quicinc.com>
+ <2024101747-defog-squiggly-ef54@gregkh>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2024101747-defog-squiggly-ef54@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-ORIG-GUID: IbNrRGE8x9UV4v1k3a1frmTMQ3tDVf0N
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=607
+ malwarescore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410170163
 
-On Wed, Oct 16, 2024 at 11:10:49PM +0100, Alexey Klimov wrote:
-> Turns out some registers of pre-2.5 version of rxmacro codecs are not
-> located at the expected offsets but 0xc further away in memory. So far
-> the detected registers are CDC_RX_RX2_RX_PATH_SEC7 and
-> CDC_RX_RX2_RX_PATH_DSM_CTL.
-> 
-> CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n) macro incorrectly generates the address
-> 0x540 for RX2 but it should be 0x54C and it also overwrites
-> CDC_RX_RX2_RX_PATH_SEC7 which is located at 0x540.
-> The same goes for CDC_RX_RXn_RX_PATH_SEC7(rx, n).
-> 
-> Fix this by introducing additional rxn_reg_stride2 offset. For 2.5 version
-> and above this offset will be equal to 0.
-> With such change the corresponding RXn() macros will generate the same
-> values for 2.5 codec version for all RX paths and the same old values
-> for pre-2.5 version for RX0 and RX1. However for the latter case with
-> RX2 path it will also add rxn_reg_stride2 on top.
-> 
-> While at this, also remove specific if-check for INTERP_AUX from
-> rx_macro_digital_mute() and rx_macro_enable_interp_clk(). These if-check
-> was used to handle such special offset for AUX interpolator but since
-> CDC_RX_RXn_RX_PATH_SEC7(rx, n) and CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n)
-> macros will generate the correst addresses of dsm register, they are no
-> longer needed.
-> 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
-> 
+Hi Greg,
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+On 10/16/2024 11:40 PM, Greg KH wrote:
+> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>
+>> Allow creators of xHCI secondary interrupters to specify the interrupt
+>> moderation interval value in nanoseconds when creating the interrupter.
+>>
+>> If not sure what value to use then use the xhci driver default
+>> xhci->imod_interval
+>>
+>> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+>>  drivers/usb/host/xhci.c     | 4 ++--
+>>  drivers/usb/host/xhci.h     | 5 ++++-
+>>  3 files changed, 13 insertions(+), 4 deletions(-)
+> This is already in 6.12-rc1, which makes me confused as to what tree you
+> made this series against.
 
--- 
-With best wishes
-Dmitry
+Sorry, I didn't fetch the latest changes from usb-next.  In this case, should I rebase and resbumit?
+
+Thanks
+
+Wesley Cheng
+
+> thanks,
+>
+> greg k-h
