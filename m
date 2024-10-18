@@ -1,93 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DCD1917C8;
-	Fri, 18 Oct 2024 21:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7140A18872C
+	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 23:15:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729287048; cv=none; b=rkkqQ4wEq3a+3pkc4aZYQFGQCxFvyeOr7wMPtr2PwiU9yleDeh0SWfdpR8XHrgyeMUQ3+3ISkdUtmQ8oLjsyzSqFZL2dXb00XzuLscfVsZs7k6L2iyOQQW90ukxORRIBZjm9dT9YoZL3PvFPxUGZR2C4VPSJ6H+H+zW1LCgzl3A=
+	t=1729293330; cv=none; b=HIYzLRANxHKcWwFDbhMrfwkFqZuamVml+m6XQYTDN75DPd2C5h6xvwmBKEHRJ0iR1BCGEr69s22/y3m30KY2fe/Z0c/TIQoKaw7Xw3sNMXDKF+xTrsfAyN4KuR21ORU36dFX4TEtDlurzjxUTG9DVhW+/mCO+jP/5toLC6L8+G0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729287048; c=relaxed/simple;
-	bh=MBvpy7HNHufo7wLNxsJXwBL1fUDO4qNiLSPyC9CNR9k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sVCEBsgZqAi0FWbAKjlmSVIAKSWXPA/387edERVNK+2qYBCzW+V4LHZZo9rGLGN4W9pYm5kuExvE39JeRdzYKfFqpqQ8AbSh+0tij4WjLjIBh+VdqHlmzRxzo9QJSzcUQy0SM5DlwQ9yaUCQfRaW3G+1DfrPgBEAm+eK0MJWuLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJjLM/4n; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729293330; c=relaxed/simple;
+	bh=WmM4mn1uG+W/QaiKQsfsqfIu6rhTJ+JkhO0oc8Vsrjg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nx6FYa+7eARzlG7Dpvi5TdqUyRL9YwYyaOm49MsjRfLJOTeldIK67aBe7sIITygCSSnU2JCkDyIT3H/S/HEX+XGuF6eoG+dVPrPXXpTOSfPKKo0hb+DObyna2mgdARepxmlGlVMoY0HBT6qbzheZAXAulbdf3IVxLr/TNvzitbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu; spf=pass smtp.mailfrom=utexas.edu; dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b=hvpc2sPa; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=utexas.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJjLM/4n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21D1AC4CEC3;
-	Fri, 18 Oct 2024 21:30:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729287048;
-	bh=MBvpy7HNHufo7wLNxsJXwBL1fUDO4qNiLSPyC9CNR9k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fJjLM/4npGMaxDfWYLOMbTvcgUJ/4ikAk3+TAjzGKNxvNdiC5aAqQkNHb1QZtQnnt
-	 IM/02lHUTohrU8D+wjbPTNmQLls2tAhvCfY1R899FwQX9cG6s+SkgV712yLCMrmLoj
-	 //BNItpzUWJ3T/YY6U6eBoScChqqmIdcpR2hlDowZnOngS24YW3AbHRmmTZtpRSI4/
-	 sR39CYgNlcsxl1u9VAYPebcBeMGoaMNNCA6ARGuz6e3OjWeium2QRMVzVpxSm+4Ndf
-	 9LUTOA4H2qW7avESAvz/P1Kaa71i8WPfimT0nDIRDthNWqkDt8ud2cih4Jgii304Wv
-	 pRuAJUjQOL63Q==
-From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@linaro.org, a39.skl@gmail.com, 
- linux-sound@vger.kernel.org, dmitry.baryshkov@linaro.org, 
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, krzysztof.kozlowski@linaro.org, 
- vkoul@kernel.org
-In-Reply-To: <20241016221049.1145101-1-alexey.klimov@linaro.org>
-References: <20241016221049.1145101-1-alexey.klimov@linaro.org>
-Subject: Re: [PATCH v2] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro
- for DSM_CTL and SEC7 regs
-Message-Id: <172928704586.212383.11476018993792884716.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 22:30:45 +0100
+	dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b="hvpc2sPa"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso1699528b3a.3
+        for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 16:15:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=utexas.edu; s=google; t=1729293328; x=1729898128; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=WmM4mn1uG+W/QaiKQsfsqfIu6rhTJ+JkhO0oc8Vsrjg=;
+        b=hvpc2sPaHUDu5/Plq5+IFe77gD8Szzp/9bLmO5tvGngy9Op3C2opksJ20ZoOBxsYsd
+         xUAffjV0nj9F6E9hwRvVHDsKlj1hIbsnmj65FXcrkefvx5YpeUJ259RD84N4ty0eBi3a
+         rTz651egMbQGkFnabE/smdbwk/rSsUXKLdjljMbksrv6whRdgQllO84DiPWaif7fUi6T
+         qHEDGu51AxURLUn9dzmTdiQmi7gbHJ6+Q1usDHAuYrdeKr7aPKm4W+/++RhX+e4bhGHs
+         ztyCwSZmyHAs+DA6NSZWmGL7yT8/V7urSTfUrCJOhbAhep+GUCUChBiT3FyCUb2USiAk
+         r+iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729293328; x=1729898128;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WmM4mn1uG+W/QaiKQsfsqfIu6rhTJ+JkhO0oc8Vsrjg=;
+        b=GgzBFuJmmoHq21krSNVtYCevreKlhCV8rXtgMho13GFw4CVETzPNcdU7J2L6SWdOaH
+         XxZ2m6DfakAfxOZJT8LwtRsO8PPcvtcKWbI8nwl+NkDE7Lr71jQdOnkrWMB1N1crCjer
+         oCvMvJlIk0KbgMgZDm2/MjaR3zm4qfIvFb9DNsk9B914/lRunwc9dX2YQZAopZsEqPxH
+         BsNlhHDduSImUCUeF+3S3WULqJAjAYXhRm9DGWVioeqKgd51ThF8m6B7RkywULne8rvj
+         yRDcjvzzMD8X4bwb/7xBv3qOMOsTpSVPD/UrPMeoMTrd09QWLXt7xjMfwqsggBb+4+x9
+         de5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUZhShOwLRrpDRgXMySlxjN8vyJqI8cMbtT2R3SDyOsEd+mTviEC5B0qewNV6CsPGfQ9M4Dihz7yjMlDw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZqMBq8onVHc00SnZGleAVizEygdT5Ie/G7+mH6RFFQa6/xOBw
+	yTZpxTXvbS1KTzzdLoxA6zrbJwqrzir33CFzKJAQ5WIcVOxqH3SUNYDGznEfPnGRJPX5ZIsXuc5
+	tX2gVi1w8JsANMGLCa6GiCrqorV2Z+m2BOWns1Q==
+X-Google-Smtp-Source: AGHT+IHy0LHp2WpuZYGexp0T+Ju3IBaRu7XGQRgALvxfryYO/CTNmMzVsBhM8KF5jWh1WNbD0P1cW0f5eHkYYwt+r6U=
+X-Received: by 2002:a05:6a00:3c8d:b0:71e:e3:608 with SMTP id
+ d2e1a72fcca58-71ea3224f36mr5582634b3a.26.1729293327633; Fri, 18 Oct 2024
+ 16:15:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
+ <2024101613-giggling-ceremony-aae7@gregkh> <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
+ <87bjzktncb.wl-tiwai@suse.de> <CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
+ <87cyjzrutw.wl-tiwai@suse.de>
+In-Reply-To: <87cyjzrutw.wl-tiwai@suse.de>
+From: Dean Matthew Menezes <dean.menezes@utexas.edu>
+Date: Fri, 18 Oct 2024 18:14:51 -0500
+Message-ID: <CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
+Subject: Re: No sound on speakers X1 Carbon Gen 12
+To: Takashi Iwai <tiwai@suse.de>
+Cc: stable@vger.kernel.org, regressions@lists.linux.dev, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Linux Sound System <linux-sound@vger.kernel.org>, Greg KH <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 16 Oct 2024 23:10:49 +0100, Alexey Klimov wrote:
-> Turns out some registers of pre-2.5 version of rxmacro codecs are not
-> located at the expected offsets but 0xc further away in memory. So far
-> the detected registers are CDC_RX_RX2_RX_PATH_SEC7 and
-> CDC_RX_RX2_RX_PATH_DSM_CTL.
-> 
-> CDC_RX_RXn_RX_PATH_DSM_CTL(rx, n) macro incorrectly generates the address
-> 0x540 for RX2 but it should be 0x54C and it also overwrites
-> CDC_RX_RX2_RX_PATH_SEC7 which is located at 0x540.
-> The same goes for CDC_RX_RXn_RX_PATH_SEC7(rx, n).
-> 
-> [...]
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro for DSM_CTL and SEC7 regs
-      commit: 9fc9ef05727ccb45fd881770f2aa5c3774b2e8e2
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+I tried the patch on the Thinkpad X1 Carbon Gen 12 but it didn't work.
+There is still no sound from the speakers.
