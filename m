@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC720492D
-	for <linux-sound@vger.kernel.org>; Fri, 18 Oct 2024 17:43:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89C6204943;
+	Fri, 18 Oct 2024 17:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729273421; cv=none; b=nNdQ6ClO9hYHhO3r9RSTZwTO+PtWZOtGbgDUx2bY7ftaZWy6ASYJySvbmD67y/JfAlnboyGlO3vN6LLwJiOsQJi6He0xAiSC9fTrFEXxERp4oz8Al8kOshzRoK9R5pJfKtpnFlfDaQpPnnHi6vfYiTd3e9Hn8Lmf+L4o3GUJReg=
+	t=1729273423; cv=none; b=heb8TiJqp0AYBOfyjBIuP49rqx4vNrGLzRpHKDpfFJU18Z6WWwFyTOEjwwsj6XzvWx/sqevYUus8lYDB/BPSE6RIsthX55vQOCanShAK4tC0n5EIlcb8b5s+QmqVOvE8A+dpRZ4YquQjQtGACVK2BqGeVLdF47a+hT8LmmlIaTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729273421; c=relaxed/simple;
-	bh=HyeGNbYbo0G5w/r6GKmNEqY1OEKarSkxrOIC3cOb7tA=;
+	s=arc-20240116; t=1729273423; c=relaxed/simple;
+	bh=Z/fw3T8T2wwNYXHyhWtDi8F6gPGQBu10YlXppC24soc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FiVhSgSNfMK2abWpjRqJSkU4bAQ6VliEp7kAV0ILlT0nBbU3gsel8cRMtYU30En0kV4Js3m7y9ZQ3VIv7myFX804irbptCU1Rss9aRDoXbcrJcA95g9cBGNiSxBJ5btaYg+0mbMmIaJvlHN6B4FRTimqYENZ75S05ezXg2UeYyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ay5mg0du; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ieUcQWXkzH1V2ZwGtUhIY+E4k5l6FIZgGclByo/jAlMZlDTMGwZvDaG4vpRRHxuBQBlJWYJTmFbwqXK2viJeRtlbK0JxbUt5I3vpAS3ugQEkC9a5ni67VffkylKyGAmC5VQezvkOxMrtnB9MKe3DARFe69ae61kVSbn6j/lZhE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ejwc/pXf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ay5mg0du"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2854C4CED2;
-	Fri, 18 Oct 2024 17:43:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ejwc/pXf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C88C4CED1;
+	Fri, 18 Oct 2024 17:43:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729273420;
-	bh=HyeGNbYbo0G5w/r6GKmNEqY1OEKarSkxrOIC3cOb7tA=;
+	s=k20201202; t=1729273422;
+	bh=Z/fw3T8T2wwNYXHyhWtDi8F6gPGQBu10YlXppC24soc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Ay5mg0du4gvnzHSkommhN72ZZSJqIBo1o2qYLBEQUe+cXUGEMFqQiOigH6bkvcLlu
-	 ovAV32FumWVSdnnZ9lvkB5thDKe+UpDVVTjGvGFRfaiTIM0GKXA1+lNUBL7cQaElqe
-	 6dLBCrbvLHU/yLDlnUDOO8nSyi3ZLEx4HmKwSRVdlovdVvccI0nYNj+d1gA1g7KMpW
-	 gxNBy8qWEsLWFgx+1bi9dhc32K5vryMm88kZAk9KSxG1ldV3/Y4kab0/zj1q5O/8xi
-	 /veRR0h93aEFk0YO2CZMjwFAHkErUBXHDTiQjYgafcF2W7RSUFdDuMQ2WJBQp2yx3v
-	 XQsCL822n+ByA==
+	b=Ejwc/pXfoSjZaHsG/0rbHfjnjjYE83JRbSuAbppuu9nFklXSnv1FKoL8BtOffTL1t
+	 WWWwdObeZMji2CRB8l24u5N+Ryw2FZhK16g4UkbWLlZaFhQR/U6pjnBQL1ij0aZfRm
+	 RUv+CVGATFikofnZKWhRbq/hNaX0okyUWLczLRGWLyyRki9A3moPlolqmlDpxELYym
+	 IShMxZ5FYW+cAjikorEePF1czIQuSnZTzn5bYLJAiv6xOv2hFoKZgh2WYh6t3KtNTw
+	 a7/QZLgrY65SIhssXm4sRKfKwscby9PFuv57g6mYaLjFHKJUOcPfRdfzJ3183Osus2
+	 oN6VeT5Tj4F9w==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241016030703.13669-1-yung-chuan.liao@linux.intel.com>
-References: <20241016030703.13669-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: Intel: soc-acpi: lnl: Add match entry for TM2
- laptops
-Message-Id: <172927341939.163659.1291274120277251016.b4-ty@kernel.org>
-Date: Fri, 18 Oct 2024 18:43:39 +0100
+To: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ilya Dudikov <ilyadud25@gmail.com>
+Cc: Ilya Dudikov <ilyadud@mail.ru>, perex@perex.cz, lgirdwood@gmail.com, 
+ mario.limonciello@amd.com
+In-Reply-To: <20241016034038.13481-1-ilyadud25@gmail.com>
+References: <20241016034038.13481-1-ilyadud25@gmail.com>
+Subject: Re: [PATCH] ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
+Message-Id: <172927342087.163659.14790159976387403830.b4-ty@kernel.org>
+Date: Fri, 18 Oct 2024 18:43:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,9 +46,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 16 Oct 2024 11:07:03 +0800, Bard Liao wrote:
-> Add a new match table entry on Lunarlake for the TM2 laptops
-> with rt713 and rt1318.
+On Wed, 16 Oct 2024 10:40:37 +0700, Ilya Dudikov wrote:
+> ASUS Vivobook E1404FA needs a quirks-table entry for the internal microphone to function properly.
 > 
 > 
 
@@ -58,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: Intel: soc-acpi: lnl: Add match entry for TM2 laptops
-      commit: 6924565a04e5f424c95e6d894584e3059f257373
+[1/1] ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
+      commit: b0867999e3282378a0b26a7ad200233044d31eca
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
