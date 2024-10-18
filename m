@@ -1,118 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C3C6188A18;
-	Fri, 18 Oct 2024 10:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1FF9200B86;
+	Fri, 18 Oct 2024 10:08:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729246085; cv=none; b=ckI2p/FCH8OYN8F7CFtbMgWYdX5/o7CR2V+fh2UsiOv4faMIR8cu5KOYOBIgiw6ym0whbt+7r/ob94T715qrHwSU1r3s1tsOMSlOMIStrWIrfMgQNTmqxgg8c3igHtLtFw9TzDgDCSVY7BRhY+gnHWPiAf9y8ALvoQGpkNwFoPY=
+	t=1729246098; cv=none; b=Tvzq6foWSUgzA8CbBnodYoe2poC1o9QEwkOfSeTxHt99jIcJ0Quh/8AXAyBS0rkWg7p/OQfFomDtYr5UHjVoCHFyiXwQrHRtHtOU1vBpxID8dQHe+VxMwS/WsNuQcck6WnizMVww2JjKkCsdZtSPhyDhZnZ9gN+OGkjXI52UmYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729246085; c=relaxed/simple;
-	bh=BBgExb/0LqYBvdk3X8OnmkSL96FhQLCnVNqHEHQTNzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A57UtZj2tQr8IMdAwUXGpyV5EvhtDXc0SADvk7GqHBOg1X2bks4a5P+l+DqJoo1w9vke4XiP9rcOBmCIGhkCm4PHopPi95AW9oGuP1zKNwKOnLsgj/xDQAQC4Q9bkkUshMgNB8E3zgPa9qUJIssuGr6qYn7JMiPOjw/qZWyfe+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AE2DFEC;
-	Fri, 18 Oct 2024 03:08:31 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5D22E3F58B;
-	Fri, 18 Oct 2024 03:07:59 -0700 (PDT)
-Date: Fri, 18 Oct 2024 11:07:56 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH 6/6] arm64: dts: allwinner: h616: Add audio codec node
-Message-ID: <20241018110756.3eeb5df2@donnerap.manchester.arm.com>
-In-Reply-To: <20241008133718.3ed32cb8@donnerap.manchester.arm.com>
-References: <20240929100750.860329-1-ryan@testtoast.com>
-	<20240929100750.860329-7-ryan@testtoast.com>
-	<20241008133718.3ed32cb8@donnerap.manchester.arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1729246098; c=relaxed/simple;
+	bh=GH2ceyXze/D73ldpbXeQguAiLf6frvdUGRMqrcthw8k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Qy5shpqPOetaQmkfyZ0iHYzDNw7gC96SH+oC8I+dg05WsbK69zZDiW3F7di2RKTYtkMf4lXyUXsgzHZ7c52Wlkk9OlkBv3iRvVh4an2ttRL9D1TOc3EJYr1UW+XOCHCr/sEYmvGruM91+Nv1e+35fo/zoB93fR0FD66utbuZATU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MO9MSbq2; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MO9MSbq2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C74DC4CEC3;
+	Fri, 18 Oct 2024 10:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729246098;
+	bh=GH2ceyXze/D73ldpbXeQguAiLf6frvdUGRMqrcthw8k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MO9MSbq2Z/oBEajByo/YyrQUrGboEuCpZe1IyfzdWlmPplqgKfZUvpKSJAGqqnbqC
+	 VsfPJZw9l/tDdnYPmpLnemsuGR4hu48ijjTW+vQQ0DqqQThDPMNdksoy4Ny8Ps1B8Y
+	 pODl2fSaZrgbnzIthPS5nkZcTuTeDk1M52qc7J3acFPjN+iqG1JY6P0iRrn8Cv9deB
+	 boWKICcl+JBVatJO1c7UN+x+tEPB/6vkNygQGWMq1cpbntuDzXxCiDrQQBW5Hnm0zZ
+	 kS16nF4xOXSkR9FNxdyQYQKxgjI1bFZGqyK3y5poL2Q/3xJrSByvz9BN/IXH/kE+cZ
+	 kumtSE6ypw/tw==
+Message-ID: <0311a205-f9fd-47fe-85cf-1e412801cd18@kernel.org>
+Date: Fri, 18 Oct 2024 12:08:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88081"
+To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
+ tiwai@suse.com, rf@opensource.cirrus.com, neil.armstrong@linaro.org,
+ pierre-louis.bossart@linux.dev, luca.ceresoli@bootlin.com, arnd@arndb.de,
+ quic_pkumpatl@quicinc.com, herve.codina@bootlin.com, masahiroy@kernel.org,
+ shenghao-ding@ti.com, linux-sound@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: yijiangtao@awinic.com
+References: <20241018094320.113477-1-wangweidong.a@awinic.com>
+ <20241018094320.113477-2-wangweidong.a@awinic.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20241018094320.113477-2-wangweidong.a@awinic.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 8 Oct 2024 13:37:18 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
-
-Hi,
-
-> On Sun, 29 Sep 2024 23:06:07 +1300
-> Ryan Walklin <ryan@testtoast.com> wrote:
+On 18/10/2024 11:43, wangweidong.a@awinic.com wrote:
+> From: Weidong Wang <wangweidong.a@awinic.com>
 > 
-> Hi Ryan,
+> Add the awinic,aw88081 property to the awinic,aw88395.yaml file.
 > 
-> > Now that the sun4i codec driver supports the H616, add a node in the
-> > device tree for it.  
+> Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
+> ---
+>  Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Can you please add another patch that actually enables the codec for at
-> least one board? Is that really just status = "okay";? Or do we need
-> simple-soundcard nodes still?
+> diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> index ac5f2e0f42cb..b39c76b685f4 100644
+> --- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> +++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - awinic,aw88395
+>        - awinic,aw88261
+>        - awinic,aw88399
+> +      - awinic,aw88081
 
-For the records: We don't need simple-soundcard, but we seem to need an
-audio routing entry. So I tested this successfully on the X96 Mate with:
+I am sorry, but what type of sorting are you keeping here? It looks
+entirely random.
 
-&codec {
-	allwinner,audio-routing = "Line Out", "LINEOUT";
-	status = "okay";
-};
-
-So can you add a patch adding those properties to the boards with a 3.5mm
-jack? The OrangePi Zero2 and Zero3 do not have such a jack, but route the
-LINEOUT signals to dedicated pins on the 13-pin header. Not sure that counts?
-
-Cheers,
-Andre
-
-> I will try to give it a test on the H61* boards I have, and would then
-> like those boards to be enabled as well, as part of this series. Otherwise
-> it's somewhat of a dead feature, isn't it?
-> 
-> Cheers,
-> Andre
-> 
-> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > index e88c1fbac6acc..006fdb7e7e0ae 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > @@ -645,6 +645,21 @@ spdif: spdif@5093000 {
-> >  			status = "disabled";
-> >  		};
-> >  
-> > +		codec: codec@05096000 {
-> > +			#sound-dai-cells = <0>;
-> > +			compatible = "allwinner,sun50i-h616-codec";
-> > +			reg = <0x05096000 0x31c>;
-> > +			interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&ccu CLK_BUS_AUDIO_CODEC>,
-> > +				 <&ccu CLK_AUDIO_CODEC_1X>,
-> > +				 <&ccu CLK_AUDIO_CODEC_4X>;
-> > +			clock-names = "apb", "codec", "audio-codec-4x";
-> > +			resets = <&ccu RST_BUS_AUDIO_CODEC>;
-> > +			dmas = <&dma 6>;
-> > +			dma-names = "tx";
-> > +			status = "disabled";
-> > +		};
-> > +
-> >  		gpadc: adc@5070000 {
-> >  			compatible = "allwinner,sun50i-h616-gpadc",
-> >  				     "allwinner,sun20i-d1-gpadc";  
-> 
+Best regards,
+Krzysztof
 
