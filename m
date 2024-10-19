@@ -1,224 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75011817;
-	Fri, 18 Oct 2024 23:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD5329CF6;
+	Sat, 19 Oct 2024 00:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729295139; cv=none; b=OmiOMG8Lys/smUXmH59CeiZe0fgD2Tu+J9+rCerZ5N3b5erD1Op3kUalu3z0Iaj+gyPrvqpNYBZYSXiLCT0BAvCoiZqVrZEZIid2W3b0oSzrOXEbfcRZW/7+jCk2j16fEts/ibTfYGKnJ8stHR6bpx+RszoKeFHZPY74/5IB9hg=
+	t=1729298604; cv=none; b=CdI4ClV/9pgX0HeHN6m/DTqwTywtrIQjocTnq6lKn97ggLJoURa/VMx0++Wb+I0m6FRdaF3z/EXdfYl7oHhdHPY367sJX75/PLM8VLA5uAILzoRmveE1mLOtwYB5Z+Nj9jVIbAmpTzGGuxn5ZSrdtFEh38LCRltvkg04C5d3AgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729295139; c=relaxed/simple;
-	bh=lFZnjV8RlVPG6PrVOgGg9hgB2Ob3uus6nsFdYXxg0xQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TcCmc9xGp5zi+KyatlAp1nCUjrl7OhoX5KPxHwT9SPd8wUmeRdsJZPurUONEIEzZVv+xr1UyvGmyQwPFvFT0EvQU8PUS0O/FqQ1v46ZBKds9MxQuwhAx6v8esadfO+poUJaiyGyCccxH4pzs9jmkIdmJwzVeUdMTjrOARFzipLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=evtxctpR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729298604; c=relaxed/simple;
+	bh=nqf8q4GUqAZCCdp2wBZWAnoftYc47n6AWiSbMm+iR9U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UX/9jXm1OCnj6dK3Rmdg0t2iSZ6VsCMXO4xMnt5zCbs4SgyYY+bVIwmHyGbnzc5rouCZTU2FecDnH0sbXqoqpT9NRpXNt+ucKNsM3WbaAzsh+WuCL67opf1h9xxDsDR1hwTEB87cH4qe/1Ffb2a1JCTLVIu88BOruyv7wKp8bS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=A/gTqk81; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="evtxctpR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6996C4CEC3;
-	Fri, 18 Oct 2024 23:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729295139;
-	bh=lFZnjV8RlVPG6PrVOgGg9hgB2Ob3uus6nsFdYXxg0xQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=evtxctpRyaoTSOigJT5cFz8FlzinZ4CiqIbWurTmKrRfQkXyPwANmEAW+wstE4BGx
-	 TIN4rKkxFq5bRqf1RYbu8X5+GaKP8PCUkJCSI7XdnVuPyggqqCKegX2g9xYIK1RWWo
-	 +b0kx6X/7xFOXGXdvbNco/L2DpCtD2beey4jXYhDZqcjQ6tHOX7X1U5wq38aQ9bZXw
-	 j4FYzQwUpZeifU9a96tVVuahIFbm86NthAcccPlNw2GRZ0nybq3IyuM42izSzAVkj8
-	 T19Q5jWyld7A4Ht/0K1UYHtBeST5LII4RfUrhhhbZUkSRif8tr3x1ApUVAUGVSTvJT
-	 Ma/8xyjaHk33A==
-Date: Fri, 18 Oct 2024 18:45:37 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Yi Liu <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 13/13] PCI: Deprecate pci_intx(), pcim_intx()
-Message-ID: <20241018234537.GA770692@bhelgaas>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="A/gTqk81"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1729298600;
+	bh=nqf8q4GUqAZCCdp2wBZWAnoftYc47n6AWiSbMm+iR9U=;
+	h=From:Date:Subject:To:Cc:From;
+	b=A/gTqk81zv4BjzTzHHkwld7nMQ9bnWiZ6SOhQEKz3gZtlvy9cJKJzJklnlFyPKG3F
+	 Mfgd01+FgrIbA5ka1jQlYTvEBdMv1q+yDkktWaQn08ymGAsdubwn031fBCLZG6BrJ5
+	 1De2supJN89KEqxJWPeGRe0axbe1WvLZa0c/J9FVxncWrkJsLpn2Cecbmrpgk7w2/8
+	 MfXMjrZb/IqvaRSJRkPFXPGsjON5o2t97lEwc3I9DbvUFX9FG6lgZndD++x/Re5tLL
+	 9qksKPNZQa8Fd1Grktkhx3VyqT5SHTECEDHUHci3Dl6hD0tPmduJdVnpD3nbzywzLl
+	 iQJ4xB6CXPHog==
+Received: from localhost (unknown [188.24.146.62])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1B8F317E0F6C;
+	Sat, 19 Oct 2024 02:43:20 +0200 (CEST)
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Date: Sat, 19 Oct 2024 03:43:14 +0300
+Subject: [PATCH] ASoC: dt-bindings: everest,es8328: Document audio graph
+ port
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f871a77fb51e54332886882e8ecb1a4a5f5d296b.camel@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241019-es8328-doc-port-v1-1-25c1d1b5c65c@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAKEAE2cC/x3MywqAIBBA0V+RWTfgo4f2K9EicqzZpGhEEP170
+ vIs7n2gUGYqMIoHMl1cOB4VqhGw7suxEbKvBi11q6RySMUabdHHFVPMJyrZd8EaN5B2UKuUKfD
+ 9H6f5fT8IFNxRYQAAAA==
+X-Change-ID: 20241019-es8328-doc-port-1065f8397e29
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ David Yang <yangxiaohua@everest-semi.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
 
-On Wed, Oct 16, 2024 at 10:53:16AM +0200, Philipp Stanner wrote:
-> On Wed, 2024-10-16 at 10:43 +0200, Heiner Kallweit wrote:
-> > On 16.10.2024 08:57, Philipp Stanner wrote:
-> > > On Tue, 2024-10-15 at 13:53 -0600, Alex Williamson wrote:
-> > > > On Tue, 15 Oct 2024 20:51:23 +0200
-> > > > Philipp Stanner <pstanner@redhat.com> wrote:
-> > > > 
-> > > > > pci_intx() and its managed counterpart pcim_intx() only exist
-> > > > > for
-> > > > > older
-> > > > > drivers which have not been ported yet for various reasons.
-> > > > > Future
-> > > > > drivers should preferably use pci_alloc_irq_vectors().
-> > > > > 
-> > > > > Mark pci_intx() and pcim_intx() as deprecated and encourage
-> > > > > usage
-> > > > > of
-> > > > > pci_alloc_irq_vectors() in its place.
-> > > > 
-> > > > I don't really understand this.  As we've discussed previously
-> > > > pci_alloc_irq_vectors() is, unsurprisingly, for allocating PCI
-> > > > IRQ
-> > > > vectors while pci_intx() is for manipulating the INTx disable bit
-> > > > on
-> > > > PCI devices.  The latter is a generic mechanism for preventing
-> > > > PCI
-> > > > devices from generating INTx, regardless of whether there's a
-> > > > vector
-> > > > allocated for it.  How does the former replace the latter and why
-> > > > do
-> > > > we
-> > > > feel the need to deprecate the latter?
-> > > > 
-> > > > It feels like this fits some narrow narrative and makes all users
-> > > > of
-> > > > these now deprecated functions second class citizens.  Why?  At
-> > > > it's
-> > > > root these are simply providing mask and set or mask and clear
-> > > > register
-> > > > bit operations.  Thanks,
-> > > 
-> > > I got the feeling from the RFC discussion that that was basically
-> > > the
-> > > consensus: people should use pci_alloc_irq_vectors(). Or did I
-> > > misunderstand Andy and Heiner?
-> > > 
-> > I think there are two different use cases for pci_intx().
-> > At first there are several drivers where the direct usage of
-> > pci_intx()
-> > can be eliminated by switching to the pci_alloc_irq_vectors() API.
-> > 
-> > And then there's usage of pci_intx() in
-> > drivers/vfio/pci/vfio_pci_intrs.c
-> > drivers/xen/xen-pciback/conf_space_header.c
-> > There we have to keep the (AFAICS unmanaged) pci_intx() calls.
-> 
-> There is also the usage within PCI itself, in MSI. Patch №8 touches
-> that.
-> 
-> It's why I think this series should land before anyone should port
-> direct pci_intx() users to the irq vectors function, because the latter
-> also uses pci_intx() and its own devres, which sounds explosive to me.
->
-> > > I'm perfectly happy with dropping this patch and continue offering
-> > > pci{m}_intx() to users, since after removing that hybrid hazzard I
-> > > don't see any harm in them anymore.
+The ES8328/ES8388 audio codec is currently used in conjunction with
+audio-graph-card to provide an endpoint for binding with the other side
+of the audio link.
 
-So is the bottom line that we should drop *this* patch and apply the
-rest of the series?
+This is achieved via the 'port' property, which is not supported by the
+binding:
 
-> > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > > ---
-> > > > >  drivers/pci/devres.c | 5 ++++-
-> > > > >  drivers/pci/pci.c    | 5 ++++-
-> > > > >  2 files changed, 8 insertions(+), 2 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-> > > > > index 6f8f712fe34e..4c76fc063104 100644
-> > > > > --- a/drivers/pci/devres.c
-> > > > > +++ b/drivers/pci/devres.c
-> > > > > @@ -435,7 +435,7 @@ static struct pcim_intx_devres
-> > > > > *get_or_create_intx_devres(struct device *dev)
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > - * pcim_intx - managed pci_intx()
-> > > > > + * pcim_intx - managed pci_intx() (DEPRECATED)
-> > > > >   * @pdev: the PCI device to operate on
-> > > > >   * @enable: boolean: whether to enable or disable PCI INTx
-> > > > >   *
-> > > > > @@ -443,6 +443,9 @@ static struct pcim_intx_devres
-> > > > > *get_or_create_intx_devres(struct device *dev)
-> > > > >   *
-> > > > >   * Enable/disable PCI INTx for device @pdev.
-> > > > >   * Restore the original state on driver detach.
-> > > > > + *
-> > > > > + * This function is DEPRECATED. Do not use it in new code.
-> > > > > + * Use pci_alloc_irq_vectors() instead (there is no managed
-> > > > > version, currently).
-> > > > >   */
-> > > > >  int pcim_intx(struct pci_dev *pdev, int enable)
-> > > > >  {
-> > > > > diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> > > > > index 7ce1d0e3a1d5..dc69e23b8982 100644
-> > > > > --- a/drivers/pci/pci.c
-> > > > > +++ b/drivers/pci/pci.c
-> > > > > @@ -4477,11 +4477,14 @@ void pci_disable_parity(struct pci_dev
-> > > > > *dev)
-> > > > >  }
-> > > > >  
-> > > > >  /**
-> > > > > - * pci_intx - enables/disables PCI INTx for device dev
-> > > > > + * pci_intx - enables/disables PCI INTx for device dev
-> > > > > (DEPRECATED)
-> > > > >   * @pdev: the PCI device to operate on
-> > > > >   * @enable: boolean: whether to enable or disable PCI INTx
-> > > > >   *
-> > > > >   * Enables/disables PCI INTx for device @pdev
-> > > > > + *
-> > > > > + * This function is DEPRECATED. Do not use it in new code.
-> > > > > + * Use pci_alloc_irq_vectors() instead.
-> > > > >   */
-> > > > >  void pci_intx(struct pci_dev *pdev, int enable)
-> > > > >  {
-> > > > 
-> > > 
-> > > 
-> > 
-> 
+  rk3588s-indiedroid-nova.dtb: audio-codec@11: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
+    from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
+
+Document the missing property.
+
+Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+---
+ Documentation/devicetree/bindings/sound/everest,es8328.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/sound/everest,es8328.yaml b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
+index a0f4670fa38c8435b63566f7383c940b4950caa4..ed18e40dcaacf7eed39fa659795efb1518678379 100644
+--- a/Documentation/devicetree/bindings/sound/everest,es8328.yaml
++++ b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
+@@ -50,6 +50,10 @@ properties:
+   HPVDD-supply:
+     description: Regulator providing analog output voltage 3.3V
+ 
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
++
+ required:
+   - compatible
+   - clocks
+
+---
+base-commit: f2493655d2d3d5c6958ed996b043c821c23ae8d3
+change-id: 20241019-es8328-doc-port-1065f8397e29
+
