@@ -1,97 +1,132 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD5329CF6;
-	Sat, 19 Oct 2024 00:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9886F2032A;
+	Sat, 19 Oct 2024 08:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729298604; cv=none; b=CdI4ClV/9pgX0HeHN6m/DTqwTywtrIQjocTnq6lKn97ggLJoURa/VMx0++Wb+I0m6FRdaF3z/EXdfYl7oHhdHPY367sJX75/PLM8VLA5uAILzoRmveE1mLOtwYB5Z+Nj9jVIbAmpTzGGuxn5ZSrdtFEh38LCRltvkg04C5d3AgM=
+	t=1729325484; cv=none; b=ZaIoZn0fG/9ADkE73hXbsO+W7w+SL8Hh8V1fObwkhiVd92CD7Xa6FOjq/X4GEE8hA8BY61X4TFss+CAGS6g9tD17zWJ/t792iAYIhqrA+XZsFEPudyEIIfQZyVzC64JMWmSyxfUgla5QIlkwqCz8YUq7KZm1IdWI92J/MIC0VI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729298604; c=relaxed/simple;
-	bh=nqf8q4GUqAZCCdp2wBZWAnoftYc47n6AWiSbMm+iR9U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=UX/9jXm1OCnj6dK3Rmdg0t2iSZ6VsCMXO4xMnt5zCbs4SgyYY+bVIwmHyGbnzc5rouCZTU2FecDnH0sbXqoqpT9NRpXNt+ucKNsM3WbaAzsh+WuCL67opf1h9xxDsDR1hwTEB87cH4qe/1Ffb2a1JCTLVIu88BOruyv7wKp8bS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=A/gTqk81; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1729325484; c=relaxed/simple;
+	bh=8UaTpEhJ/rCVYu4A0emweyKxs/iGBdOE6nwoE22Y9jE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DrkD2S5vAWctiN034kTJk8Sw/iQHS9TLc20srBuS8ysBEeFJn+LC0IwCkLWUvnKOhqTdgyu4BYRo4Kydey+oCbKlGdMTBU1RcJeH5rjPXcTha4tWFUD8goho1Pl9p4Uo2NlKGPIIa97+uHS2vyYn2WGmv1vGljYje7kzpOOTU/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z6CJ9pt7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bfd8sMUK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=z6CJ9pt7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Bfd8sMUK; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="A/gTqk81"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1729298600;
-	bh=nqf8q4GUqAZCCdp2wBZWAnoftYc47n6AWiSbMm+iR9U=;
-	h=From:Date:Subject:To:Cc:From;
-	b=A/gTqk81zv4BjzTzHHkwld7nMQ9bnWiZ6SOhQEKz3gZtlvy9cJKJzJklnlFyPKG3F
-	 Mfgd01+FgrIbA5ka1jQlYTvEBdMv1q+yDkktWaQn08ymGAsdubwn031fBCLZG6BrJ5
-	 1De2supJN89KEqxJWPeGRe0axbe1WvLZa0c/J9FVxncWrkJsLpn2Cecbmrpgk7w2/8
-	 MfXMjrZb/IqvaRSJRkPFXPGsjON5o2t97lEwc3I9DbvUFX9FG6lgZndD++x/Re5tLL
-	 9qksKPNZQa8Fd1Grktkhx3VyqT5SHTECEDHUHci3Dl6hD0tPmduJdVnpD3nbzywzLl
-	 iQJ4xB6CXPHog==
-Received: from localhost (unknown [188.24.146.62])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z6CJ9pt7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bfd8sMUK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z6CJ9pt7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Bfd8sMUK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1B8F317E0F6C;
-	Sat, 19 Oct 2024 02:43:20 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Sat, 19 Oct 2024 03:43:14 +0300
-Subject: [PATCH] ASoC: dt-bindings: everest,es8328: Document audio graph
- port
+	by smtp-out1.suse.de (Postfix) with ESMTPS id AB7DF21188;
+	Sat, 19 Oct 2024 08:11:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729325480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OcoP3O0dBDHJmfObICRJD4oUzvL81XtohfbJf8cTKhY=;
+	b=z6CJ9pt7SQFpl9DHfgSZ2CbLJf+n6HrwVZCL+cGGEA8dSkIunn5A1omgOhGvsvbEeOALTr
+	AcPWf96S1yy8Xats5qO2tz/e3XYj3dNsuzn9/pnRtp7RsyAAPEblDUauUTbNevr8PIOu0l
+	RdsZK9525HczFLmzsCaFdkRUme1D2c0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729325480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OcoP3O0dBDHJmfObICRJD4oUzvL81XtohfbJf8cTKhY=;
+	b=Bfd8sMUKYtsArRbW87YeL4DPJIAbPI6eIdkds/WkXdFVt5TCw3aBh2LoWZaBODyd69z4Au
+	ku7mgCjOmTzq5+Aw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729325480; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OcoP3O0dBDHJmfObICRJD4oUzvL81XtohfbJf8cTKhY=;
+	b=z6CJ9pt7SQFpl9DHfgSZ2CbLJf+n6HrwVZCL+cGGEA8dSkIunn5A1omgOhGvsvbEeOALTr
+	AcPWf96S1yy8Xats5qO2tz/e3XYj3dNsuzn9/pnRtp7RsyAAPEblDUauUTbNevr8PIOu0l
+	RdsZK9525HczFLmzsCaFdkRUme1D2c0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729325480;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OcoP3O0dBDHJmfObICRJD4oUzvL81XtohfbJf8cTKhY=;
+	b=Bfd8sMUKYtsArRbW87YeL4DPJIAbPI6eIdkds/WkXdFVt5TCw3aBh2LoWZaBODyd69z4Au
+	ku7mgCjOmTzq5+Aw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 73F7913736;
+	Sat, 19 Oct 2024 08:11:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id m3MXG6hpE2d/OwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 19 Oct 2024 08:11:20 +0000
+Date: Sat, 19 Oct 2024 10:12:20 +0200
+Message-ID: <87ttd8jyu3.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dean Matthew Menezes <dean.menezes@utexas.edu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	stable@vger.kernel.org,
+	regressions@lists.linux.dev,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: No sound on speakers X1 Carbon Gen 12
+In-Reply-To: <CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
+References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
+	<2024101613-giggling-ceremony-aae7@gregkh>
+	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
+	<87bjzktncb.wl-tiwai@suse.de>
+	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
+	<87cyjzrutw.wl-tiwai@suse.de>
+	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241019-es8328-doc-port-v1-1-25c1d1b5c65c@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAKEAE2cC/x3MywqAIBBA0V+RWTfgo4f2K9EicqzZpGhEEP170
- vIs7n2gUGYqMIoHMl1cOB4VqhGw7suxEbKvBi11q6RySMUabdHHFVPMJyrZd8EaN5B2UKuUKfD
- 9H6f5fT8IFNxRYQAAAA==
-X-Change-ID: 20241019-es8328-doc-port-1065f8397e29
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- David Yang <yangxiaohua@everest-semi.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.988];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-The ES8328/ES8388 audio codec is currently used in conjunction with
-audio-graph-card to provide an endpoint for binding with the other side
-of the audio link.
+On Sat, 19 Oct 2024 01:14:51 +0200,
+Dean Matthew Menezes wrote:
+> 
+> I tried the patch on the Thinkpad X1 Carbon Gen 12 but it didn't work.
+> There is still no sound from the speakers.
 
-This is achieved via the 'port' property, which is not supported by the
-binding:
+Please give again alsa-info.sh output with the patch.
 
-  rk3588s-indiedroid-nova.dtb: audio-codec@11: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
-    from schema $id: http://devicetree.org/schemas/sound/everest,es8328.yaml#
 
-Document the missing property.
-
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- Documentation/devicetree/bindings/sound/everest,es8328.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/sound/everest,es8328.yaml b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
-index a0f4670fa38c8435b63566f7383c940b4950caa4..ed18e40dcaacf7eed39fa659795efb1518678379 100644
---- a/Documentation/devicetree/bindings/sound/everest,es8328.yaml
-+++ b/Documentation/devicetree/bindings/sound/everest,es8328.yaml
-@@ -50,6 +50,10 @@ properties:
-   HPVDD-supply:
-     description: Regulator providing analog output voltage 3.3V
- 
-+  port:
-+    $ref: audio-graph-port.yaml#
-+    unevaluatedProperties: false
-+
- required:
-   - compatible
-   - clocks
-
----
-base-commit: f2493655d2d3d5c6958ed996b043c821c23ae8d3
-change-id: 20241019-es8328-doc-port-1065f8397e29
-
+Takashi
