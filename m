@@ -1,86 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD777320E;
-	Sun, 20 Oct 2024 17:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BE336124
+	for <linux-sound@vger.kernel.org>; Sun, 20 Oct 2024 22:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729447057; cv=none; b=r2rDafGDhZrnbuxvN6Bo7tgLBbMrpHK2yvh8TGOHlltxt8ekvFekYle+lxX5na1v2YWCSleclHY63J+pTn8Ldl6wybO96QteBMqmzc76txFXmv0LsEtvCKTVAMJIFQTOqDkjRpJmQKCghAPQpWgvpbVX9IBtC1HhFKCicTgzljQ=
+	t=1729461935; cv=none; b=g118Mvj1qhp3VEZiRlopQw9W1jNoJsyS9xC7g7MYKipEpA/+FmkE/GAezN0k4p0RH7p/U3MBjNhuIdCeymbHtWQnx/DFYKVuZ/ksMqWNygbQf4WFQp65x78nG2Eoi6HYKD3svlehpl4/yrIhikLhnJGOZauNWhF8EMyfFsLdzMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729447057; c=relaxed/simple;
-	bh=4zQj6Y+b1upLSDxYwWSPMbK0sSE7AnUQaW0OlxZUmdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tsfp/d0hFSjtdrmWvDzbH//laQfD5jN8nAu/cPYNzjq1ZOpzwffHM6qzRHwXKNZCgCeTEfD2fxZzJjqZ3TKjw8nLKxnzSP6+cw4DRbMtBNm12EVdrLIfqWA7Ki03wdvlPfnDgNNiFhiYtUd4ooxOaWG8eUTYDOuRWw+fViTw9r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYyBhPam; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729461935; c=relaxed/simple;
+	bh=3TLzV/58pulwLA4rXdezwT3JhL1GWgNEPFQw2uDz0Ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gd/oMwgVnmiKU7km914KIJdSrd5amXAjc1Dm9Re+42GfFrFF6fD/HGmdkwdKNnSPGlJmYqUalXRUHJOTQ3Jb59MkF27i7jWO/s8oHu5/91uRg2klvkFgYWARm7vmYj4i9ql10aYHK4AuqLI+mZl5GE4/ENEqScrhxuS0trRfBO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=Dhl9QVFm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=H8qaQZVv; arc=none smtp.client-ip=103.168.172.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYyBhPam"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31B4CC4CEC6;
-	Sun, 20 Oct 2024 17:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729447056;
-	bh=4zQj6Y+b1upLSDxYwWSPMbK0sSE7AnUQaW0OlxZUmdg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PYyBhPamDwm9YthcN4jvCE8TzhoHRkZDhfyD2lbbdBR+eeHMprC9JTDutUQt1wm1u
-	 Dp5rvJ2NEBP32IXx/o8+mOlvjCLAqgbX5n9oHumCkkYeXqkI5uAOgWBmTJEuRTsoAx
-	 I2QEdSpEqLYgx3i8Xy9a2aZQhY4uh5ExozBqZN7G2j8GFqGq9K3NkcUMPD+x0fEFI8
-	 44AMFCB6Wr0JRNLOLJdQxgDob9QEUzPNYBcMtZ8I37c6hKVN6F7pGY11Xv4VTq/lZV
-	 Bla9+cZoatYvyixGc0e3O9GWLspQ/WKtH/00G8BjiAARLVeoghhZqFXcMbQVcR/+ZQ
-	 c98ekQqtiGxoQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda/tas2781: select CRC32 instead of CRC32_SARWATE
-Date: Sun, 20 Oct 2024 10:56:24 -0700
-Message-ID: <20241020175624.7095-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="Dhl9QVFm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="H8qaQZVv"
+Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E867011401B9;
+	Sun, 20 Oct 2024 18:05:30 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Sun, 20 Oct 2024 18:05:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1729461930; x=
+	1729548330; bh=VxqPhTxBUjnGxtqwHW4SDZEkiktpgI6Sa6i48YBy6ng=; b=D
+	hl9QVFmkuM4JiZi655SSoVhgLmXqDrtGWTPzaEQmPKwJqgGkdJdtgO+VnPwU7Kb2
+	Y8U+7VKo5wUwo4QsyYp//MHI8iiNAI+jQO0dRGaFUbR0T+QFvs3j7ttDmHiDFCtH
+	7a1LbTjWfON581mD/fDLEFFCtBcBu4YIZ28Ria/9Drn4Oh71OuRoaOXbrdH8hcYI
+	sg6fFQ9wZTJKYKHoYCWkZbFXkJZrMEET2nO7XwmsS9zP9AAO0ZcR9AHviRyfN/65
+	+pqXGPat8jnc7E6RHTqvK7CK9ba/ZR7ABjcvK/VR9i9bFyrWX0t+SabE73YFq0ag
+	ppVuWi/J/Ms/RQO0fJANg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1729461930; x=1729548330; bh=VxqPhTxBUjnGxtqwHW4SDZEkiktp
+	gI6Sa6i48YBy6ng=; b=H8qaQZVvbeIpuVSOurngjJfZpyGTyBNWK9VCtP4maI7d
+	BJmB0ZtYmBknsfIbjn5c8dAGb8nW20W32v5fXHIcIfRSPRIvVmQ3X45QwKJ3YJmO
+	5+AW2uXd4Jqj7SL1owKqfd6GpHfx8y8XkGEpcwZgDAHUMPPxfa0pF4fb+PaFZd46
+	syFWFdUgJZGEkd9hGL7qQVTa08IdgEidJXLtHw2YS9z6xLq4+9PtpvEb2nqVpdZ+
+	uLGN2GEvcrKsONcZ6zwZOO8Aw353+Jwjj4b+FfmVHgYizNWkHbQTnXOzVkmank/j
+	hJg+VTjHHZyUg1YjKvQWwwausaKNn3XQqqiP3v00Ng==
+X-ME-Sender: <xms:qX4VZyJvePdpVEIjMI0vmS2Ey2RbFuU3ss8YUKRsrfZOz6b1ePwjxQ>
+    <xme:qX4VZ6L5bcnJ_OiQ9Ge6WhkRoChk6YBoQY492gGt-Xw4DkABPavjhXddtuni_0JpY
+    IFVsWWy1oINnEzCdTo>
+X-ME-Received: <xmr:qX4VZysu0yZQhKlLqugtuJaCL99AcC8MHtDIUI1yY4gxEHncxANjbGe7Qc36F_He9Xf_9WiReChkX4BEA5WDPK3hsHTiOiZuHw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehkedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
+    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhepudffiedtuddthfehffel
+    lefhheetudeiheelfeetleevjeeifedukeeujeelkeelnecuffhomhgrihhnpehlihhnuh
+    igthgvshhtihhnghdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgttghhihdrjhhppdhnsg
+    gprhgtphhtthhopeelpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehshhhumhdr
+    shgulhesnhhpphgtthdrrhhupdhrtghpthhtohepthhifigrihesshhushgvrdgtohhmpd
+    hrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlvhgtqdhprhhojhgvtghtsehlihhnuhigthgvshhtihhnghdrohhrgh
+    dprhgtphhtthhopehlvhgtqdhprghttghhvghssehlihhnuhigthgvshhtihhnghdrohhr
+    ghdprhgtphhtthhopehkhhhorhhoshhhihhlohhvsehishhprhgrshdrrhhupdhrtghpth
+    htohephihkrghrphhovhesihhsphhrrghsrdhruhdprhgtphhtthhopehvmhgvrhiilhih
+    rghkohhvsehishhprhgrshdrrhhupdhrtghpthhtohepvhgvfhgrnhhovhesihhsphhrrg
+    hsrdhruh
+X-ME-Proxy: <xmx:qX4VZ3a27GHXyDSHZhNBd0wpUshG79-w1IO_WmZ7PykvABtUbBA_bw>
+    <xmx:qX4VZ5Z4wyJpWNgj2mGjx7FgInU2uDrAm2rvSUO___0MVbWa1ce2BQ>
+    <xmx:qX4VZzC4vyqkZqdgJbvDKyLs4oYjOFC2xkHHGlrSHRfFXwH3iySVRA>
+    <xmx:qX4VZ_Yd-lHnqyasXGYd-ndNiKWvqpT0U6aPLARGnES5548tWVWJCA>
+    <xmx:qn4VZ7lgFMEf-ITjMJ0bbpUKaI4vlJJSJocnIi6kAKZS5L6Kd1QTMRJC>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 20 Oct 2024 18:05:26 -0400 (EDT)
+Date: Mon, 21 Oct 2024 07:05:23 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Andrey Shumilin <shum.sdl@nppct.ru>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	lvc-project@linuxtesting.org, lvc-patches@linuxtesting.org,
+	khoroshilov@ispras.ru, ykarpov@ispras.ru, vmerzlyakov@ispras.ru,
+	vefanov@ispras.ru
+Subject: Re: [PATCH] ALSA: firewire-lib: Avoid division by zero in
+ apply_constraint_to_size()
+Message-ID: <20241020220523.GA10241@workstation.local>
+References: <20241018060018.1189537-1-shum.sdl@nppct.ru>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241018060018.1189537-1-shum.sdl@nppct.ru>
 
-From: Eric Biggers <ebiggers@google.com>
+Hi,
 
-Fix the kconfig option for the tas2781 HDA driver to select CRC32 rather
-than CRC32_SARWATE.  CRC32_SARWATE is an option from the kconfig
-'choice' that selects the specific CRC32 implementation.  Selecting a
-'choice' option seems to have no effect, but even if it did work, it
-would be incorrect for a random driver to override the user's choice.
-CRC32 is the correct option to select for crc32() to be available.
+On Fri, Oct 18, 2024 at 09:00:18AM +0300, Andrey Shumilin wrote:
+> The step variable is initialized to zero. It is changed in the loop,
+> but if it's not changed it will remain zero. Add a variable check
+> before the division.
+> 
+> The observed behavior was introduced by commit 826b5de90c0b
+> ("ALSA: firewire-lib: fix insufficient PCM rule for period/buffer size"),
+> and it is difficult to show that any of the interval parameters will
+> satisfy the snd_interval_test() condition with data from the
+> amdtp_rate_table[] table.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 826b5de90c0b ("ALSA: firewire-lib: fix insufficient PCM rule for period/buffer size")
+> Signed-off-by: Andrey Shumilin <shum.sdl@nppct.ru>
+> ---
+>  sound/firewire/amdtp-stream.c | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Eric Biggers <ebiggers@google.com>
----
- sound/pci/hda/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think it a good catch.
 
-diff --git a/sound/pci/hda/Kconfig b/sound/pci/hda/Kconfig
-index bb15a0248250c..68f1eee9e5c93 100644
---- a/sound/pci/hda/Kconfig
-+++ b/sound/pci/hda/Kconfig
-@@ -196,11 +196,11 @@ config SND_HDA_SCODEC_TAS2781_I2C
- 	depends on ACPI
- 	depends on EFI
- 	depends on SND_SOC
- 	select SND_SOC_TAS2781_COMLIB
- 	select SND_SOC_TAS2781_FMWLIB
--	select CRC32_SARWATE
-+	select CRC32
- 	help
- 	  Say Y or M here to include TAS2781 I2C HD-audio side codec support
- 	  in snd-hda-intel driver, such as ALC287.
- 
- comment "Set to Y if you want auto-loading the side codec driver"
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-base-commit: 715ca9dd687f89ddaac8ec8ccb3b5e5a30311a99
--- 
-2.47.0
 
+Regards
+
+Takashi Sakamoto
