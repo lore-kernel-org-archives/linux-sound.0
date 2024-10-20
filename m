@@ -1,177 +1,155 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E6CBA2D;
-	Sun, 20 Oct 2024 07:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04D21078F;
+	Sun, 20 Oct 2024 08:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729408729; cv=none; b=Y+aKpyM9a5Q3dvnJ1T/cOW+zdK9LUF5oWRKcY1ifKy3cOd1EhRn96KgAJQ7rfTZmtdW+9KLhZdKcW5cyP3p0YaaoWEf55TfxBPENrftdlqs9RtJATaC9opPFdYn7xHdy9lfFhatosoGA8YdVsD/5JmSmEv8t9QVZFNRnLfQdRUU=
+	t=1729413125; cv=none; b=tiVyerNg8GDSaECoFSYixW/CMoH83iJNxQeqMOfl0L7zQ/MAlVAkiz2MDrIUEB203dUocfQug8b7dM+2FTxUqr7E5d4/ql+wA7Soyj/VBzF74yCtx/eakAMAAaIaic93M+DeLw2aFNh926Y6UvMyA6K9tZmUWz8x0h0vJrI3pUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729408729; c=relaxed/simple;
-	bh=7T8jIq9N8C0DJGZ91eyFAZd2P2AtqTLtY7CHEzjm+dM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y90VNswwadSLD7Q8//R87TUs/mzeooEi1gQd2F6j6YESWmXhIEP83s+dQqFChDTaDAM0oQomHQyTwRyF34X/lFYRcuc/CnOFFcp531QuYNGoxmTnkwOsM88LjI+u4GSZYLTubNsW/rtp5/Gaos1YXbLo4ELMaCByMxIb1awv+3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c8GP7jYy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W2dPVKAD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c8GP7jYy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W2dPVKAD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729413125; c=relaxed/simple;
+	bh=/5nViu/bmIePsGuB+dzmN9XZR4iyu9XiGbiGzzgZoE4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SKfpR2zVMcmC6ouDK173WkIjBIcwCIwVyornExIXFIeS8N8s9RmqYCECI2ZzD7EPOrwbxVpr8Gp1jUBc6w9bu85Nq6JD5HRTp1w/4ezsnphpQWuenzBBSmSQWlp0yrja0vF7eqY0FAhf3vEMvy7cuplfOnXDrwhui9i7B8yjUpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=W9KTwfup; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Jsi9HHpw; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c8GP7jYy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W2dPVKAD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c8GP7jYy";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W2dPVKAD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D6471FDA7;
-	Sun, 20 Oct 2024 07:18:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729408720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
-	b=c8GP7jYykFI93i08I6K6+dvUhyIpVMe0Xzb8O2w7q69km+gk08hvybznHE828WA8INg3JY
-	+N4VY5IklA7jgyEtaX9nwVE8axTzxiqomcF6EpebrlNrPcGqVzvj3EWnqaRhqRwevywkxo
-	uJOmXQT0qGeuXs2t6am1m5K3060XSmk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729408720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
-	b=W2dPVKAD29f+HGL46xp9OYI9TbfcuJENxAMas+OhxR9gipDyK79eVmty0D4qZhZGiRJijY
-	tYMqoTWTQ1JMizDQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729408720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
-	b=c8GP7jYykFI93i08I6K6+dvUhyIpVMe0Xzb8O2w7q69km+gk08hvybznHE828WA8INg3JY
-	+N4VY5IklA7jgyEtaX9nwVE8axTzxiqomcF6EpebrlNrPcGqVzvj3EWnqaRhqRwevywkxo
-	uJOmXQT0qGeuXs2t6am1m5K3060XSmk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729408720;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
-	b=W2dPVKAD29f+HGL46xp9OYI9TbfcuJENxAMas+OhxR9gipDyK79eVmty0D4qZhZGiRJijY
-	tYMqoTWTQ1JMizDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 051DC13894;
-	Sun, 20 Oct 2024 07:18:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GcUQANCuFGf/egAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 20 Oct 2024 07:18:40 +0000
-Date: Sun, 20 Oct 2024 09:19:39 +0200
-Message-ID: <87h697jl6c.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	stable@vger.kernel.org,
-	regressions@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="W9KTwfup";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Jsi9HHpw"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id EAC731380191;
+	Sun, 20 Oct 2024 04:32:00 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Sun, 20 Oct 2024 04:32:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm3; t=1729413120; x=1729499520; bh=2weQOXWCcA
+	a/ThgSUhPb/LBC5XOmM7XD78NKpSzI2Xk=; b=W9KTwfuplv1ab8u3KEEuk/0WEq
+	NQljQcIGyNagOBd6vukMIdiqlR3iqAq/VGhB4WHfHNexRQn4DarIA3dajeMJhw/6
+	dC6LjTj9UPr5yhcm/SiY4R40tEMw3Hj/nJqgmjZ9Dh5l3KZKse6dSQ+tVFplbnHP
+	zFsqdz8YM3g7LbEeENdZFDAXu0VDjIL0eCqsipVA36cXk64A8DWOixhZDvQruxNU
+	pI8u61iENt4bADzA5Dcd/OvV9FxYWDhdhHpbxRpE3AE/TOS7ijN2aK4c16uwgbGG
+	UbCUIaaOapbt3RwQ6CsRcI4ko/HYdikG2wZUL0s3z4+6Eftyx2O4nPxv9UEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1729413120; x=1729499520; bh=2weQOXWCcAa/ThgSUhPb/LBC5XOm
+	M7XD78NKpSzI2Xk=; b=Jsi9HHpwYfJ/8px/Fjd369NwEPm1Ucr7Ncv+OgdRW9x6
+	boM1VanBUkCX6cWXWdlnrUmM/cdCzknGky6GrUTclaOBpU4VN8zIScLFwF90q2Lz
+	ddiCDGBBHGOKf2CIobCBIGbd/zyfZi62ccJhQR5kljZ2VysSdaYfLBrW1g4dxIIH
+	ivXC5kevITRwHLQ/wz2aTT+sFQR7E4TBeOWEiWMKPU6bTHGQgeKLXhkuVbEd4l+f
+	PJGsBCcp/tHWGQ/H3BXZBfrKPh1c82jdaMnM4+atCubMIgINlZt3jzeXebAX6Xlg
+	0M2KTStuCuRXSOBzyCtdNaDXX2OnxDWYmdhApzIvCw==
+X-ME-Sender: <xms:AMAUZ5nJWWx_rtP5OBauK4rD8AxK5TiUweaAcHixHGoh8JgjC_Og6g>
+    <xme:AMAUZ01oXJxSZuitB4Lp7duHN46TWWlCCFQhMNm-YtEjILWsJBHQ3Ss3dYULCKQn9
+    5emhIYsn4BUuudjyQ>
+X-ME-Received: <xmr:AMAUZ_ruaX37X_wHXjOVmuj9ZjCobGE388MeXP1xiKWjoCkWkn2ZdqUIcOO1aB2rkxLFWXQuKoKWvSDWEbwKTjegFlgG3YvnFNx2P2Y7JYTlUoZ5>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehjedgtdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
+    rhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtoh
+    hmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudev
+    kefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthht
+    ohepudehpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlghhirhgufihoohguse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipdhrtghpthhtohepthhifigrih
+    esshhushgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtphht
+    thhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhope
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtghpthhtohepmhgrtghrohgrlhhp
+    hhgrkedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhhsrdhphhhilhhiph
+    hpvgesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:AMAUZ5nIKvJT1fuTHO9EIptnjP9xhUj3P9CMvvXB37q2akKHBs2m8g>
+    <xmx:AMAUZ32jwGNbMWatd34aINotEhXw7xdj7FNpDMvXb-sJ7QAqVF3AgQ>
+    <xmx:AMAUZ4uGCioUVX9oAt8R9jz1aRMkd6YMdHETNp1uFrZSiwH7HUngPg>
+    <xmx:AMAUZ7W8HWDPV_NuGmnU5g-b02VZzcM_txs9n8ivygKsUZhz_nFWtQ>
+    <xmx:AMAUZ-17UfqWESnBT6_D3eZ6a9tdF6ZoLeZoOv63hXpu5D0zMMEyw6Fb>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 20 Oct 2024 04:31:55 -0400 (EDT)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	Linux Sound System <linux-sound@vger.kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-In-Reply-To: <CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
-	<2024101613-giggling-ceremony-aae7@gregkh>
-	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-	<87bjzktncb.wl-tiwai@suse.de>
-	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
-	<87cyjzrutw.wl-tiwai@suse.de>
-	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
-	<87ttd8jyu3.wl-tiwai@suse.de>
-	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH v2 0/7] ASoC: add Allwinner H616 audio codec support
+Date: Sun, 20 Oct 2024 21:30:50 +1300
+Message-ID: <20241020083124.174724-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.986];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TO_DN_SOME(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sun, 20 Oct 2024 01:11:39 +0200,
-Dean Matthew Menezes wrote:
-> 
-> With the patch I get this alsa-info.sh
+Hi,
 
-The status looks OK; at least the DAC assignment is identical with the
-working case with 6.8 kernel.  But I noticed that your device doesn't
-seem needing the I2S amp, judging from the module list.  Please give 
-the dmesg outputs from both working and non-working cases, as
-requested earlier, for further analysis, too.
+V2 of this patch adding support for the Allwinner H616 (and variants) audio codec. Some rework to improve clock correctness, and DTS changes to enable the codec on boards added.
 
-Then check the following change instead of the previous one:
-
--- 8< --
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10754,8 +10754,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x2318, "Thinkpad Z13 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
- 	SND_PCI_QUIRK(0x17aa, 0x2319, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
- 	SND_PCI_QUIRK(0x17aa, 0x231a, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
--	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
--	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
-+	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_THINKPAD_I2S_SPK),
-+	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_THINKPAD_I2S_SPK),
- 	SND_PCI_QUIRK(0x17aa, 0x2326, "Hera2", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x30bb, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
- 	SND_PCI_QUIRK(0x17aa, 0x30e2, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
--- 8< --
-
-If this doesn't work, let's try to get rid of those entries, instead:
-
--- 8< --
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10754,8 +10754,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x2318, "Thinkpad Z13 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
- 	SND_PCI_QUIRK(0x17aa, 0x2319, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
- 	SND_PCI_QUIRK(0x17aa, 0x231a, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
--	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
--	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
-+//	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
-+//	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
- 	SND_PCI_QUIRK(0x17aa, 0x2326, "Hera2", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x30bb, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
- 	SND_PCI_QUIRK(0x17aa, 0x30e2, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
--- 8< --
-
-If neither of the above brings back the sound, I must have looked at a
-wrong place.
+Changelog v1..v2:
+- Reordered patches to group ASoC changes
+- Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
+- Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
+- Restrict TX-only DMA changes to the H616.
+- Change the codec name to fit into the 16 char limit.
+- Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
+- Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
 
 
-thanks,
+Original blurb below:
 
-Takashi
+Hi,
+
+The Allwinner H616 has a playback-only audio codec, with a single stereo or differential-mono line output.
+
+This patch adds support for the H616 (and H313/H618/H700/T507) SoC. Based on the  Allwinner kernel SDK driver, and tested on the H700.
+
+Regards,
+
+Ryan
+
+Marcus Cooper (2):
+  ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
+    quirks
+  ASoC: sun4i-codec: Add playback only flag to quirks
+
+Ryan Walklin (5):
+  clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
+  dt-bindings: allwinner: add H616 sun4i audio codec binding
+  ASoC: sun4i-codec: support allwinner H616 codec
+  arm64: dts: allwinner: h616: Add audio codec node
+  arm64: dts: allwinner: h313/h616/h618/h700: Enable audio codec for all
+    supported boards
+
+ .../sound/allwinner,sun4i-a10-codec.yaml      |  53 +++-
+ .../dts/allwinner/sun50i-h313-tanix-tx1.dts   |   5 +
+ .../allwinner/sun50i-h616-orangepi-zero.dtsi  |   5 +
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  44 ++-
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+ .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  13 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  44 ++-
+ sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
+ 10 files changed, 401 insertions(+), 75 deletions(-)
+
+-- 
+2.47.0
+
