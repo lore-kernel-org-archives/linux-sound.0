@@ -1,146 +1,177 @@
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5531863F;
-	Sun, 20 Oct 2024 06:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E6CBA2D;
+	Sun, 20 Oct 2024 07:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729407526; cv=none; b=XJoldT79KbbKmlOwf75H7zQ8fckiX+ezotvxS+0nZqxEIQk1ycZSaWaPMcH6rOGBL2s0R6FzI5jsv22QbMT9uerQhflN36cuLUznxhQGeMCwfyjINm9B3njjTtclhPqSyxayvxTDud68xOXloriS+AfU/leDcuIvjczayCZCc7Q=
+	t=1729408729; cv=none; b=Y+aKpyM9a5Q3dvnJ1T/cOW+zdK9LUF5oWRKcY1ifKy3cOd1EhRn96KgAJQ7rfTZmtdW+9KLhZdKcW5cyP3p0YaaoWEf55TfxBPENrftdlqs9RtJATaC9opPFdYn7xHdy9lfFhatosoGA8YdVsD/5JmSmEv8t9QVZFNRnLfQdRUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729407526; c=relaxed/simple;
-	bh=e1jC3kCGXVFP6yG/A2EMJ/CcUeTkg2TnLCsRm0JlL64=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Tf+iLpPNENWpqLdJ4wTWGXaqm2GLhxH2rMGk+fVazX25i8XLSBROAyEnS1MVNe9/w/Z5nPjcpRredic3oAOHaI1I3KqLe9xSqseD7RJDnXkLeZ0ZLcf6EmM+ovsIlBgkuvXCDuMWc77/4upxEyJUinxIfsSXdJjPZh1w89Eo1Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=ECMtwnWg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=diRpU7Jx; arc=none smtp.client-ip=103.168.172.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
+	s=arc-20240116; t=1729408729; c=relaxed/simple;
+	bh=7T8jIq9N8C0DJGZ91eyFAZd2P2AtqTLtY7CHEzjm+dM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y90VNswwadSLD7Q8//R87TUs/mzeooEi1gQd2F6j6YESWmXhIEP83s+dQqFChDTaDAM0oQomHQyTwRyF34X/lFYRcuc/CnOFFcp531QuYNGoxmTnkwOsM88LjI+u4GSZYLTubNsW/rtp5/Gaos1YXbLo4ELMaCByMxIb1awv+3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c8GP7jYy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W2dPVKAD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c8GP7jYy; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=W2dPVKAD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="ECMtwnWg";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="diRpU7Jx"
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id E92FB1140133;
-	Sun, 20 Oct 2024 02:58:42 -0400 (EDT)
-Received: from phl-imap-07 ([10.202.2.97])
-  by phl-compute-04.internal (MEProxy); Sun, 20 Oct 2024 02:58:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
-	 t=1729407522; x=1729493922; bh=Vxb29ne06TRdRyHH/Q3LilEsLkVyQZbu
-	sIsSDPpBR/E=; b=ECMtwnWgDRs9yhVI2uZbJ4UjT1O5kDcKK8gKXAjarNjL4XNr
-	UuyN5Osg1fyTVCuMI+YRHJIAG0bL0TQ56cWoAbDZMcK/ntvSAj6coOyk5Pun2xFf
-	wTecRk+0eVVtO8ufdNJ+fABoRw45CHwTIFSOTLn4XpOybhgKWNR1yWxxprGOLlI5
-	yzzC1yKGfAB+na5jbe/TsqJfbT4iWVWZPsZnjtjVubAMsONgD7xhRThNaxM21VSz
-	crBPz6Yx9sL49rfgz3TuHSjabXkaIbokPskcHyUCWlZdUuhTF2a0/r/QIoTWoO2F
-	O5L+pSaNC4hO4Hy6ETzspvOYmU+x4MEeo13Ytw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1729407522; x=
-	1729493922; bh=Vxb29ne06TRdRyHH/Q3LilEsLkVyQZbusIsSDPpBR/E=; b=d
-	iRpU7JxMXnUUdyTnOdGleNL2BnRPTmIst0RovhpU8u+CIge03mdnJUn+4/gXdu+t
-	6KCsbai5aEtSctKjwnms99jIaFTRuB+SYaNuK6JVt5qAhe49HREf9A8StWRSVZk4
-	5JlWIVOakSu43Ysb3x8DQIdjtUQpgzBuLJ0LU13Pws1kbEwIgtoEcHChC43MhYOq
-	Hmf+T3WystDdINCPbLfowHuNqvHQ0zu3A4FMnIUn2UOzT1mLjJUKy69G6xuPs30h
-	G9odkKALx00KmUtjCKNi3sDcManPdNSsMcpL8WFVpfQj0LPkJy9gShI9O1MNEqMI
-	XBW8PhwRFl08BUT0sLTMA==
-X-ME-Sender: <xms:IqoUZ4rXTHTOfGpqIWwnwA5fTqZ6O-S-h8LHtZ3SKyF1b5INkA_XeQ>
-    <xme:IqoUZ-rdizUi_rX1yGgAe05-S63HSiRjnRBI7bWWf6-HuzlfR71YjV9yZFj5vSt-A
-    JO36ygJdPGx9pnBXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdehiedgudduiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdfthigrnhcuhggrlhhklhhinhdfuceorhihrghnsehtvghsthhtoh
-    grshhtrdgtohhmqeenucggtffrrghtthgvrhhnpeejhfeukeejjefguddvffehveevjefh
-    tddutdfhudduvdevfeejfffgvdelfeeugfenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgs
-    pghrtghpthhtohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeifvghnsh
-    estghsihgvrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgr
-    ihhlrdgtohhmpdhrtghpthhtoheplhhgihhrugifohhougesghhmrghilhdrtghomhdprh
-    gtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhii
-    kheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrmhdqkhgvrhhnvg
-    hlsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheplhhinhhugidq
-    shhunhigiheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehpvghrvgigse
-    hpvghrvgigrdgtiidprhgtphhtthhopehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:IqoUZ9MQBu2SwWi5AMgW-Lm9wMpnJYJNpqHhFvHM1QIgad5a_n4WAg>
-    <xmx:IqoUZ_4nGiB9eFRHLlDGOmWAnX4Bc82bPTPIWrgFddcySfBG_bhnPg>
-    <xmx:IqoUZ37_fImOhwgRd20xL2bBmpP8OZGNNWe7fcKfnA83COaL0b-9Fw>
-    <xmx:IqoUZ_iY0iQuLlKscEVV3Llx3fC_ihLXGLjJLrI4_SepJ4bn2WXseQ>
-    <xmx:IqoUZ_yGgv_kx25UWkDzd8-vv-f0UBGwjoNg-b2HDNBs3ka_o3LIPs21>
-Feedback-ID: idc0145fc:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1F4C7BA006F; Sun, 20 Oct 2024 02:58:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c8GP7jYy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W2dPVKAD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c8GP7jYy";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="W2dPVKAD"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3D6471FDA7;
+	Sun, 20 Oct 2024 07:18:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729408720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
+	b=c8GP7jYykFI93i08I6K6+dvUhyIpVMe0Xzb8O2w7q69km+gk08hvybznHE828WA8INg3JY
+	+N4VY5IklA7jgyEtaX9nwVE8axTzxiqomcF6EpebrlNrPcGqVzvj3EWnqaRhqRwevywkxo
+	uJOmXQT0qGeuXs2t6am1m5K3060XSmk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729408720;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
+	b=W2dPVKAD29f+HGL46xp9OYI9TbfcuJENxAMas+OhxR9gipDyK79eVmty0D4qZhZGiRJijY
+	tYMqoTWTQ1JMizDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729408720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
+	b=c8GP7jYykFI93i08I6K6+dvUhyIpVMe0Xzb8O2w7q69km+gk08hvybznHE828WA8INg3JY
+	+N4VY5IklA7jgyEtaX9nwVE8axTzxiqomcF6EpebrlNrPcGqVzvj3EWnqaRhqRwevywkxo
+	uJOmXQT0qGeuXs2t6am1m5K3060XSmk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729408720;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nFtbtmULMnSG3ZeJX/CQ1Cnqql0kK3sTI0bMhJ/FxrY=;
+	b=W2dPVKAD29f+HGL46xp9OYI9TbfcuJENxAMas+OhxR9gipDyK79eVmty0D4qZhZGiRJijY
+	tYMqoTWTQ1JMizDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 051DC13894;
+	Sun, 20 Oct 2024 07:18:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id GcUQANCuFGf/egAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 20 Oct 2024 07:18:40 +0000
+Date: Sun, 20 Oct 2024 09:19:39 +0200
+Message-ID: <87h697jl6c.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dean Matthew Menezes <dean.menezes@utexas.edu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	stable@vger.kernel.org,
+	regressions@lists.linux.dev,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Linux Sound System <linux-sound@vger.kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: No sound on speakers X1 Carbon Gen 12
+In-Reply-To: <CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
+References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
+	<2024101613-giggling-ceremony-aae7@gregkh>
+	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
+	<87bjzktncb.wl-tiwai@suse.de>
+	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
+	<87cyjzrutw.wl-tiwai@suse.de>
+	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
+	<87ttd8jyu3.wl-tiwai@suse.de>
+	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Sun, 20 Oct 2024 19:58:21 +1300
-From: "Ryan Walklin" <ryan@testtoast.com>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>
-Cc: "Liam Girdwood" <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>,
- "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
- "Chen-Yu Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
- "Samuel Holland" <samuel@sholland.org>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Message-Id: <3588e904-a511-4e6f-83fe-8be9856ce081@app.fastmail.com>
-In-Reply-To: 
- <dwp5z7ioahw7hb5celwhmeooaku2sgj4srzq7z4xmb3i3sa7y6@27rnjl72a2fo>
-References: <20240929100750.860329-1-ryan@testtoast.com>
- <20240929100750.860329-5-ryan@testtoast.com>
- <dwp5z7ioahw7hb5celwhmeooaku2sgj4srzq7z4xmb3i3sa7y6@27rnjl72a2fo>
-Subject: Re: [PATCH 4/6] dt-bindings: allwinner: add H616 sun4i audio codec binding
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.986];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+
+On Sun, 20 Oct 2024 01:11:39 +0200,
+Dean Matthew Menezes wrote:
+> 
+> With the patch I get this alsa-info.sh
+
+The status looks OK; at least the DAC assignment is identical with the
+working case with 6.8 kernel.  But I noticed that your device doesn't
+seem needing the I2S amp, judging from the module list.  Please give 
+the dmesg outputs from both working and non-working cases, as
+requested earlier, for further analysis, too.
+
+Then check the following change instead of the previous one:
+
+-- 8< --
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10754,8 +10754,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x2318, "Thinkpad Z13 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x2319, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x231a, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+-	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
+-	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
++	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_THINKPAD_I2S_SPK),
++	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_THINKPAD_I2S_SPK),
+ 	SND_PCI_QUIRK(0x17aa, 0x2326, "Hera2", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x30bb, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+ 	SND_PCI_QUIRK(0x17aa, 0x30e2, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+-- 8< --
+
+If this doesn't work, let's try to get rid of those entries, instead:
+
+-- 8< --
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10754,8 +10754,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x2318, "Thinkpad Z13 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x2319, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x231a, "Thinkpad Z16 Gen2", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+-	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
+-	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
++//	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
++//	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
+ 	SND_PCI_QUIRK(0x17aa, 0x2326, "Hera2", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x30bb, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+ 	SND_PCI_QUIRK(0x17aa, 0x30e2, "ThinkCentre AIO", ALC233_FIXUP_LENOVO_LINE2_MIC_HOTKEY),
+-- 8< --
+
+If neither of the above brings back the sound, I must have looked at a
+wrong place.
 
 
-On Mon, 30 Sep 2024, at 8:56 AM, Krzysztof Kozlowski wrote:
-> On Sun, Sep 29, 2024 at 11:06:05PM +1300, Ryan Walklin wrote:
+thanks,
 
->>  
->>    clocks:
->> -    items:
->> -      - description: Bus Clock
->> -      - description: Module Clock
->> +    oneOf:
->> +      - items:
->> +          - description: Bus Clock
->> +          - description: Module Clock
->> +      - items:
->> +          - description: Bus Clock
->> +          - description: Module Clock
->> +          - description: Module Clock (4X)
->
-> No, grow the list and add minItems instead.
-
-Thanks, turns out the 4x clock is not actually required by the driver so will remove this and the clock-names change for v2.
-
->> +    then:
->> +      properties:
->> +        allwinner,audio-routing:
->> +          items:
->> +            enum:
->> +              - LINEOUT
->> +              - Line Out
->
-> That's odd, why two same names?
-
-These are the input and output sides respectively, the LINEOUT is the SoC pinout, the Line Out is the board connector as per the routing description above. Just looks odd because the H616 codec has only this single route.
-
->
-> You must restrict the properties you just changed per each variant.
->
-Thanks, will do .
-
-> Best regards,
-> Krzysztof
-
-Regards,
-
-Ryan
+Takashi
