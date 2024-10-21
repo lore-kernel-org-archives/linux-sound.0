@@ -1,200 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821991E1C02;
-	Mon, 21 Oct 2024 08:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB54F1E1C19;
+	Mon, 21 Oct 2024 08:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729498771; cv=none; b=CFfc+n8ZiVtBaahoeBWsLNxT71AwjqoWjtN4QQ0HwMTh3VgfoSRtnP93avjwS5QtuFxXN1kljgkf9Ovok9+Cnp708hv8Uf4W7deX4sLM7RS2oZoVfyw9FfFpwd6x2y8R21ABBQX2pbgwsxlB0G6tYjn/k+qsLBwo/JEJuKpce8A=
+	t=1729498791; cv=none; b=aQOuhicSTjkKu6Qub0sudyhRgfGlXseZiCk9zRs3Md7ancBVsMXVaC84Oxxzz9Yg617WzNVz56vZgfF6oBKH6qJlWxWuDJXKhALVecBN6dTyfXS+eIMTB7iCXEQGEMy21IElTNEs4YduDVP3Ou91X1O4lKPc1M++J6PsOj/mEd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729498771; c=relaxed/simple;
-	bh=vZ3bpzFkblWGaWwjbJan36UvIgPEMxcOM/+Rc3CAZPQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M/1qCx83USoHPZ/Kqn25cBFlJIAA9IGfkoXkSxiWD8MT6bP1D7y7fovYRxUMTESOs3MILrZSE5vYsWrz5lnSB6/E7gI40uHIq0dZt1WEC5JhxOUJxPb/cPnxSlzHxAKh/z8k9fnJYZKYKv0mN79yI4I52b3wzX86xStCsVibfeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BC4uTCmn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ut5wPLcl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=BC4uTCmn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ut5wPLcl; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729498791; c=relaxed/simple;
+	bh=zlmRWwuTPMFj9WwZa+0qdZTSrOAPHiyed6f5Pgikw10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQ3Z8E5h+ALFOlv7QSipuzkMDo8dbpzYza6VqgZbLAVBNcRXs8YCgy+L0bMaxVKsuhsyWJPAxhwawbZYD1kb49sLUw7jyC4i9wiT7jj0U84ZzAPsgxzuH1EEP2O9sg5cGJo8g0O6tXt1AwjPu0YV6KjU+zneNmAuRRnPTCCYlqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8b9hxgd; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BC4uTCmn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ut5wPLcl";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BC4uTCmn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ut5wPLcl"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 80BB021DFF;
-	Mon, 21 Oct 2024 08:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729498767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3lPRZIf9HxynWtv8EN+SFglP1wFbTmjQIxhEX8jNKiQ=;
-	b=BC4uTCmn2DrNjoKU5jWdMxE2Zad5GxzX6iYbNC1tqYKvKAYM2LF4fDO/gd1xVLQxaljz2V
-	wb3J/D1wUXxCgTanEB+OLKv0r7w7vCqmxVhgx0gmOYuNiLca2fuuVlGNxRtmLB/xvNIcNo
-	SPvetAVPnwB1uGZxbQAvjkWQRxY7ifU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729498767;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3lPRZIf9HxynWtv8EN+SFglP1wFbTmjQIxhEX8jNKiQ=;
-	b=ut5wPLcl33BKw4sQRYX4xpX+fOxtHbzk5sNk5Hs5KIswxhar+nPKncLJOtKopDKVnyKs9g
-	86/MwxvCXdfx6TAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BC4uTCmn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ut5wPLcl
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729498767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3lPRZIf9HxynWtv8EN+SFglP1wFbTmjQIxhEX8jNKiQ=;
-	b=BC4uTCmn2DrNjoKU5jWdMxE2Zad5GxzX6iYbNC1tqYKvKAYM2LF4fDO/gd1xVLQxaljz2V
-	wb3J/D1wUXxCgTanEB+OLKv0r7w7vCqmxVhgx0gmOYuNiLca2fuuVlGNxRtmLB/xvNIcNo
-	SPvetAVPnwB1uGZxbQAvjkWQRxY7ifU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729498767;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3lPRZIf9HxynWtv8EN+SFglP1wFbTmjQIxhEX8jNKiQ=;
-	b=ut5wPLcl33BKw4sQRYX4xpX+fOxtHbzk5sNk5Hs5KIswxhar+nPKncLJOtKopDKVnyKs9g
-	86/MwxvCXdfx6TAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 418E4139E0;
-	Mon, 21 Oct 2024 08:19:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xRfGDo8OFmfGYAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 21 Oct 2024 08:19:27 +0000
-Date: Mon, 21 Oct 2024 10:20:27 +0200
-Message-ID: <87o73d6f5g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Dean Matthew Menezes
-	<dean.menezes@utexas.edu>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>,
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-	Jaroslav Kysela
-	<perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Linux Sound System
-	<linux-sound@vger.kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-In-Reply-To: <325719ad24c24f1faee12a4cdceec87b@realtek.com>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
-	<2024101613-giggling-ceremony-aae7@gregkh>
-	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-	<87bjzktncb.wl-tiwai@suse.de>
-	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
-	<87cyjzrutw.wl-tiwai@suse.de>
-	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
-	<87ttd8jyu3.wl-tiwai@suse.de>
-	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
-	<87h697jl6c.wl-tiwai@suse.de>
-	<CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
-	<87ed4akd2a.wl-tiwai@suse.de>
-	<87bjzekcva.wl-tiwai@suse.de>
-	<CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
-	<877ca2j60l.wl-tiwai@suse.de>
-	<325719ad24c24f1faee12a4cdceec87b@realtek.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8b9hxgd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729498790; x=1761034790;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zlmRWwuTPMFj9WwZa+0qdZTSrOAPHiyed6f5Pgikw10=;
+  b=W8b9hxgdWWEXs1VStqWhjOGLTtdnMUjqla3q6su3hHTJpqaBj1iKif3F
+   sGbn1nuaU5H+qv8Hhma3w+CBY3Ckoxuykaz4MFWBbrqxJd8sepimGimPC
+   ph+WrWZhOQ5Lg0IWWwnr3Fpj49megwJNiJIEF2QRV9o4rbmIymaFKQZrU
+   diGGn4qfMT13oCa2PdunVacy10uQ9XRyV9DyqISJbO00WSA8Zm4endsTp
+   FcYDO+yhjh3nGY7vsTdMqv3VpmoOcgAPDxyckC4ogTHQ3ZcLsGMKSbCb7
+   m+AlBeFOqDnUJZ/PF2U2HqEDFXjIQzSMGEE/Zk2RZPGYzt3VskHkNu4fA
+   A==;
+X-CSE-ConnectionGUID: zZF0O7lZSLqzRA4FlErQ9A==
+X-CSE-MsgGUID: R3/4BvKrQq6Ooge0ZjxGWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46436265"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="46436265"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 01:19:50 -0700
+X-CSE-ConnectionGUID: EWBVwNPaTIOCftOgIlaSOQ==
+X-CSE-MsgGUID: 54dYTpVHQe68Xwai9pjvnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
+   d="scan'208";a="83448319"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 01:19:45 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1t2nde-00000005QKp-24KK;
+	Mon, 21 Oct 2024 11:19:42 +0300
+Date: Mon, 21 Oct 2024 11:19:42 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Baojun Xu <baojun.xu@ti.com>, robh+dt@kernel.org, lgirdwood@gmail.com,
+	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
+	shenghao-ding@ti.com, navada@ti.com, 13916275206@139.com,
+	v-hampiholi@ti.com, v-po@ti.com, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
+	yung-chuan.liao@linux.intel.com, broonie@kernel.org,
+	antheas.dk@gmail.com
+Subject: Re: [PATCH v2] ALSA: hda/tas2781: Add speaker id check for ASUS
+ projects
+Message-ID: <ZxYOnqRue6zpaWl8@smile.fi.intel.com>
+References: <20241018071118.3298-1-baojun.xu@ti.com>
+ <ZxJVCb13lQ4h2KRD@smile.fi.intel.com>
+ <8734kpkjns.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 80BB021DFF
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,linux.dev:email];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8734kpkjns.wl-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, 21 Oct 2024 09:56:32 +0200,
-Kailang wrote:
-> 
-> 
-> 
-> > -----Original Message-----
-> > From: Takashi Iwai <tiwai@suse.de>
-> > Sent: Monday, October 21, 2024 2:59 PM
-> > To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-> > Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
-> > stable@vger.kernel.org; regressions@lists.linux.dev; Jaroslav Kysela
-> > <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Linux Sound System
-> > <linux-sound@vger.kernel.org>; Greg KH <gregkh@linuxfoundation.org>
-> > Subject: Re: No sound on speakers X1 Carbon Gen 12
-> > 
-> > 
-> > External mail.
-> > 
-> > 
-> > 
-> > On Mon, 21 Oct 2024 03:30:13 +0200,
-> > Dean Matthew Menezes wrote:
-> > >
-> > > I can confirm that the original fix does not bring back the speaker
-> > > output.  I have attached both outputs for alsa-info.sh
-> > 
-> > Thanks!  This confirms that the only significant difference is the COEF data
-> > between working and patched-non-working cases.
-> > 
-> > Kailang, I guess this model (X1 Carbon Gen 12) isn't with ALC1318, hence your
-> > quirk rather influences badly.  Or may the GPIO3 workaround have the similar
-> > effect?
-> 
-> No, I check with our AE. It's ALC1318 include.
-> And This fixed was testing with Lenovo.
-> 
-> > 
-> > As of now, the possible fix is to simply remove the quirk entries for ALC1318.
-> > But I'd need to know which model was targeted for your original fix in commit
-> > 1e707769df07 and whether the regressed model is with ALC1318.
-> 
-> +	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
-> +	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318),
-> 
-> Yes, this model include ALC1318.
+On Mon, Oct 21, 2024 at 09:19:19AM +0200, Takashi Iwai wrote:
+> On Fri, 18 Oct 2024 14:31:05 +0200,
+> Andy Shevchenko wrote:
+> > On Fri, Oct 18, 2024 at 03:11:18PM +0800, Baojun Xu wrote:
 
-Thanks for confirmation.  So, from the Realtek side, the current code
-looks correct.
+...
 
-Dean, is the BIOS firmware up-to-date on your device?  Just to be
-sure.
+> > > +			// Speaker id is not valid, use default.
+> > > +			dev_dbg(tas_priv->dev, "Wrong spk_id = %d\n", spk_id);
+> > > +			spk_id = 0;
+> > > +		}
+> > > +		scnprintf(tas_priv->coef_binaryname,
+> > 
+> > Why 'c' variant? You do not check the return value anyway. So, what's the point?
+> 
+> There is a difference between snprintf() and scnprintf().
+> With W=1, the compiler (at least the recent gcc version) will warn you
+> when the string truncation may happen in the former case while not
+> complaining for the latter.
+> So, when the truncation is intentional and acceptable (that's
+> certainly most cases), the use of scnprintf() will result in less
+> warnings.
+
+Yes, which is a papering over the potential problem, right?
+I agree that in this case it might be not critical or even
+practical to check for an error, but in general the whole lot
+of s*nprintf() should be used with this is in mind.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Takashi
