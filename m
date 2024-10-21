@@ -1,137 +1,139 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418481CF285;
-	Mon, 21 Oct 2024 07:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEAF1E1022;
+	Mon, 21 Oct 2024 07:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729495224; cv=none; b=B/1v5x96DzIsa/pCgdtDZA/F5MSeizo5nh+GTZk1Glh9vozePwKjypEVFpgL8AlT4Nqo2uC5nmSZalsu/OrAT+QG3i9IrT+aR6G5IIqyVDSd/5Bz0pcT2JwQIqYz7I2E09GOzWiiWpnjeRWeOYkyrdJW++n9lbgwVOqRwvsA+Vw=
+	t=1729497406; cv=none; b=A4f5RRhVdehITMjYDmm3du4/Fd6YrNnDlJyBHOfiMbS28q1uBpyia+FN4hppnsuYuUd8l7uOOpew6xlV0KXDIUPKIYt9aq1ZoLlpSxItdpCSfuvn41PW0DLJ0qlBggJCrFJ5FRrct6OddnemPZc1zQ/2vBJjnIfAu/E4F+1hBKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729495224; c=relaxed/simple;
-	bh=wC1KE+BmfRoc/3npPs9DVHlDh8wxgRu8yANTxtXabEo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XgzOHbG/qN3c89wPDe12AKrslR64watyPgnSkyNYkJwdW5TnPGsnFYFc3PPkwQdXY0aD7CFUkIyj2l1PbKwTfX2Z2CNG+bF2ixWLl6aUSBV97JYGY0ZsAdJmifVcG5FaWLY61X2QuILA3CflqMiuzA28EFEO7lF1e/G//HQQ7+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LW9od1VK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MGSwbEta; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LW9od1VK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MGSwbEta; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729497406; c=relaxed/simple;
+	bh=OQ8rJdgVEyrXGuuW4HbA/wAE8d62CqGOzxmvfsDM7uE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qoppG+WO1zWjUvBZ/NV51Jk9l7yAgULpxO3fsuam0Pt/8Pv0eC9VFauyTWaB1uICQo9udd7O4VvPXEbOYN31/wdZL0yqAX5SwfOS5SBvCc2dvdrqRcCQHZV7ln6IZnNMcNIEdTYnBcd4InTyO5ZeIcg8QekhXwWO5+VSO8p4yvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=dR2SPeVM; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LW9od1VK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MGSwbEta";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LW9od1VK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MGSwbEta"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 648F721E2E;
-	Mon, 21 Oct 2024 07:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729495220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RHnRN1DzmuclfrqOMoAAY9QeUZqGutV4OgwLzgWBYjU=;
-	b=LW9od1VK1lku1MA9YvKx4bUPLavrkP72WhGLN0Pjv5uqaRIfECv7BpqtZcmHHOV6MfZOq0
-	48opNFBCItkEe6Rmcy2/73R4jeMl6J1QhigWEr4jCw5rBiC3s5/FqIsvp6k/rw/Fm5iimN
-	Ha5MXJHLtSHzQiBV8ZKeaWXN+QKx6tc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729495220;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RHnRN1DzmuclfrqOMoAAY9QeUZqGutV4OgwLzgWBYjU=;
-	b=MGSwbEtatXq4UJhNEHlnvlWFGyO0pQcPnOmxO1POtWmv52Up3miujCSkBXtqS/SluLYjaX
-	b6QkAzidc3CaSsCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729495220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RHnRN1DzmuclfrqOMoAAY9QeUZqGutV4OgwLzgWBYjU=;
-	b=LW9od1VK1lku1MA9YvKx4bUPLavrkP72WhGLN0Pjv5uqaRIfECv7BpqtZcmHHOV6MfZOq0
-	48opNFBCItkEe6Rmcy2/73R4jeMl6J1QhigWEr4jCw5rBiC3s5/FqIsvp6k/rw/Fm5iimN
-	Ha5MXJHLtSHzQiBV8ZKeaWXN+QKx6tc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729495220;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RHnRN1DzmuclfrqOMoAAY9QeUZqGutV4OgwLzgWBYjU=;
-	b=MGSwbEtatXq4UJhNEHlnvlWFGyO0pQcPnOmxO1POtWmv52Up3miujCSkBXtqS/SluLYjaX
-	b6QkAzidc3CaSsCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2130D136DC;
-	Mon, 21 Oct 2024 07:20:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id o/jTBrQAFmdoTQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 21 Oct 2024 07:20:20 +0000
-Date: Mon, 21 Oct 2024 09:21:20 +0200
-Message-ID: <87zfmxj4zz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-kernel@vger.kernel.org,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/tas2781: select CRC32 instead of CRC32_SARWATE
-In-Reply-To: <20241020175624.7095-1-ebiggers@kernel.org>
-References: <20241020175624.7095-1-ebiggers@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="dR2SPeVM"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 49L7uXutD2108098, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1729497393; bh=OQ8rJdgVEyrXGuuW4HbA/wAE8d62CqGOzxmvfsDM7uE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=dR2SPeVMQh3kk4XKaVq7WzA5kZqxG5ae70G9KmrK1qQcDdVy1LQ07VfHzZZjhqyBC
+	 Y9zPdKHFLAHTRP3gcEzvvAVVs7p16DfSMwqYqb4H0iYmd0wjC1YWK25jPI8Zoz0aBq
+	 s1GcrR2BvoXOq6GBpIGPDwzbKsMXTefAntam8JOdKt1ypJEt+Q+0K5U5oUyEJVnuGR
+	 f8HuAbgPO1Cn15tEKSfAtV2W9ChVxmlAL47pDwV3TFKz46lqUKzF/xum4XkS2Bv/Nf
+	 JqfQAZOP5Nteo5e9LbyHAwo2LrOJNEq67gBjF+0C73h6aJC3G3uwzzX9jajQBus38P
+	 NKgJ1YRvoI6aA==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 49L7uXutD2108098
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Oct 2024 15:56:33 +0800
+Received: from RTEXDAG01.realtek.com.tw (172.21.6.100) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 21 Oct 2024 15:56:33 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXDAG01.realtek.com.tw (172.21.6.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Mon, 21 Oct 2024 15:56:32 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
+ RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
+ 15.01.2507.035; Mon, 21 Oct 2024 15:56:32 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>,
+        Dean Matthew Menezes
+	<dean.menezes@utexas.edu>
+CC: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
+        Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Linux Sound System
+	<linux-sound@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: RE: No sound on speakers X1 Carbon Gen 12
+Thread-Topic: No sound on speakers X1 Carbon Gen 12
+Thread-Index: AQHbIwVT/23eeZo4dEmkKtnQN51H6bKP5WWAgABb9wCAAJQEMA==
+Date: Mon, 21 Oct 2024 07:56:32 +0000
+Message-ID: <325719ad24c24f1faee12a4cdceec87b@realtek.com>
+References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
+	<2024101613-giggling-ceremony-aae7@gregkh>
+	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
+	<87bjzktncb.wl-tiwai@suse.de>
+	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
+	<87cyjzrutw.wl-tiwai@suse.de>
+	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
+	<87ttd8jyu3.wl-tiwai@suse.de>
+	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
+	<87h697jl6c.wl-tiwai@suse.de>
+	<CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
+	<87ed4akd2a.wl-tiwai@suse.de>	<87bjzekcva.wl-tiwai@suse.de>
+	<CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
+ <877ca2j60l.wl-tiwai@suse.de>
+In-Reply-To: <877ca2j60l.wl-tiwai@suse.de>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-
-On Sun, 20 Oct 2024 19:56:24 +0200,
-Eric Biggers wrote:
-> 
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> Fix the kconfig option for the tas2781 HDA driver to select CRC32 rather
-> than CRC32_SARWATE.  CRC32_SARWATE is an option from the kconfig
-> 'choice' that selects the specific CRC32 implementation.  Selecting a
-> 'choice' option seems to have no effect, but even if it did work, it
-> would be incorrect for a random driver to override the user's choice.
-> CRC32 is the correct option to select for crc32() to be available.
-> 
-> Fixes: 5be27f1e3ec9 ("ALSA: hda/tas2781: Add tas2781 HDA driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-
-Thanks, applied now.
+MIME-Version: 1.0
 
 
-Takashi
+
+> -----Original Message-----
+> From: Takashi Iwai <tiwai@suse.de>
+> Sent: Monday, October 21, 2024 2:59 PM
+> To: Dean Matthew Menezes <dean.menezes@utexas.edu>
+> Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
+> stable@vger.kernel.org; regressions@lists.linux.dev; Jaroslav Kysela
+> <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Linux Sound System
+> <linux-sound@vger.kernel.org>; Greg KH <gregkh@linuxfoundation.org>
+> Subject: Re: No sound on speakers X1 Carbon Gen 12
+>=20
+>=20
+> External mail.
+>=20
+>=20
+>=20
+> On Mon, 21 Oct 2024 03:30:13 +0200,
+> Dean Matthew Menezes wrote:
+> >
+> > I can confirm that the original fix does not bring back the speaker
+> > output.  I have attached both outputs for alsa-info.sh
+>=20
+> Thanks!  This confirms that the only significant difference is the COEF d=
+ata
+> between working and patched-non-working cases.
+>=20
+> Kailang, I guess this model (X1 Carbon Gen 12) isn't with ALC1318, hence =
+your
+> quirk rather influences badly.  Or may the GPIO3 workaround have the simi=
+lar
+> effect?
+
+No, I check with our AE. It's ALC1318 include.
+And This fixed was testing with Lenovo.
+
+>=20
+> As of now, the possible fix is to simply remove the quirk entries for ALC=
+1318.
+> But I'd need to know which model was targeted for your original fix in co=
+mmit
+> 1e707769df07 and whether the regressed model is with ALC1318.
+
++	SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_A=
+LC1318),
++	SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad", ALC287_FIXUP_LENOVO_THKPAD_WH_A=
+LC1318),
+
+Yes, this model include ALC1318.
+
+> =09
+>=20
+> Takashi
