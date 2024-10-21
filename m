@@ -1,346 +1,158 @@
-Received: from smtp.smtpout.orange.fr (smtp-23.smtpout.orange.fr [80.12.242.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AC547A73;
-	Mon, 21 Oct 2024 17:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7DB1FA271;
+	Mon, 21 Oct 2024 17:58:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729530631; cv=none; b=su8eyJp+pIVQrDOS5srBRbPl/H0N5TGKWMzNz1p2YG8D236WlwfYJa6oPqfYw53scGgXSKUwm+Nx9ZWuTiiosvJ23z3g8RBqx4eqS1RY76+LHAN1XmjWwkg29HIkU25aIhPGiyqQ8t12EU9jgkJqwBBZ6/N/a/nL+wgqQG4LW5M=
+	t=1729533516; cv=none; b=C/lKp1JJngQAOMHRC2WqOblvA0kcbxSodkUTXg0g9uaDXdLQZwdb7N+W/hWaWxK7uq/XRWmun3ZNEIc6r/dCoaDk4fto8/55sTzOKkzF4RuzcxpWVt62qSrW1TOsJ+XsQDWhLbdEUC9havfV/HDbBZEkkscaOyWBHgUm82X2T3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729530631; c=relaxed/simple;
-	bh=1c4PdRriiS/iBNfIH4SwhgYqlrt7Y3TPuqnGiKSh1eU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zogc4ZM9dUxd9IA+4akIk5vcKf+uCN3hP+9Syp4ZCOOfpbIjJlFVLwafC0iR2xn16x/A1dkjrUyfWQ4ahcViIC8jD+Jc1ro19F//FliXan3hcQa6h49H8eyOnNgMZFJ29s/0Y+HahKWCD6YHv8gjUVAssPvdfW8/bIzM7aN7ok4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=jx1wrq2m; arc=none smtp.client-ip=80.12.242.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1729533516; c=relaxed/simple;
+	bh=diX1bSWoYN/CNDGT27MeXMFVqGpzL6nJoe9VWrYDQc0=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=QEHm6TrT251yH5k9VvGb1+R9hWVJiVidG0NC4KXLmX99DKF29rjnYuwf5GM3otm22PtJaztK80ItvXqlcWcj0TSyAthebXVHtL2WESHtOa05Mz/vWFK82zsf/kEZTnxqzF0qVQuDYw6OY9WTsG1vvn2H5aloZcpNDSvRP03KoJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQfSuUOA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="jx1wrq2m"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 2vtrtah4RQI3S2vtrtiuDL; Mon, 21 Oct 2024 19:09:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1729530546;
-	bh=mw2F5SJ/CHyQYWKNFVkI3SI/zipNvCqITe7rm4FQeuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=jx1wrq2mL6gLmw2KideZ3NykWqIGyoSnkguxnch8WVCHaRBvt1cYFA7BJnCJssvaN
-	 RIv8KymBkyLQENV5+kW1aonnV/FQ6BnoNn0LhwIZ0mi5CRBnVUfS/jipQOUKydZzZW
-	 2lCTFQbqSvIU81reXWB6xO1U6FIFr+ITDGVlJ5KYh+guLrl+O8T2Ux51HtHSSulFLM
-	 CzGXUDLvoASaHCLnlX5K/KCSdk8MA7zBrdVQsx6O+h3VALp+MvbsxTPI6vuiUUcdNY
-	 QKqhcNMNnXADOxorX+9ueOeaSXQMumwtVRH7jRcH5F33yYRSpXFGOnbO8j5GGA7e/C
-	 dtL0mT3DRDcOQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 21 Oct 2024 19:09:06 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <ab57dbee-59b8-4ec0-91dd-4818b6b28446@wanadoo.fr>
-Date: Mon, 21 Oct 2024 19:08:58 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQfSuUOA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C34A3C4CEF0;
+	Mon, 21 Oct 2024 17:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729533515;
+	bh=diX1bSWoYN/CNDGT27MeXMFVqGpzL6nJoe9VWrYDQc0=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=MQfSuUOA1CiaiUMfWu93gemho9ByrdMMIcdYzfss5nv5KMCzhqM2CSmHQ0+srrBu/
+	 fTVRO4FnrGLPUlW+yHPGGTmkPSiDhqiAd+BmOT4En2xYOudCVyIzT8u2C7xRL4TZTT
+	 HfvPc5lirCar7PE/mWSRS5JAA8LSkZTTtagat07ZTh8UV3Slh2jsm0W4nBkQ+LVk4v
+	 RVbRIlQ7gxHTuw471nIjR8F87/WJskOSQ/y0NJfCqQfZC3+lMBwt39lOgBaeQukhw6
+	 d0tq7jbEpsBOMKAvHQDdFYa9+SOxDrEURkYu+O2BksK/4WiVk3PFQSGW803XLiJ5Vt
+	 S7mstuUNSMZUQ==
+Date: Mon, 21 Oct 2024 12:58:34 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 2/2] ASoC: codecs: Add aw88081 amplifier driver
-To: wangweidong.a@awinic.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
- rf@opensource.cirrus.com, neil.armstrong@linaro.org,
- pierre-louis.bossart@linux.dev, luca.ceresoli@bootlin.com,
- wangweidong.a@awinic.com, arnd@arndb.de, quic_pkumpatl@quicinc.com,
- herve.codina@bootlin.com, masahiroy@kernel.org, shenghao-ding@ti.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, yijiangtao@awinic.com
-References: <20241018094320.113477-1-wangweidong.a@awinic.com>
- <20241018094320.113477-3-wangweidong.a@awinic.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241018094320.113477-3-wangweidong.a@awinic.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ryan Walklin <ryan@testtoast.com>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, 
+ Liam Girdwood <lgirdwood@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+ Jaroslav Kysela <perex@perex.cz>, 
+ Philippe Simons <simons.philippe@gmail.com>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+ Chris Morgan <macroalpha82@gmail.com>, Mark Brown <broonie@kernel.org>
+In-Reply-To: <20241020083124.174724-1-ryan@testtoast.com>
+References: <20241020083124.174724-1-ryan@testtoast.com>
+Message-Id: <172953337677.748365.5628550544800550601.robh@kernel.org>
+Subject: Re: [PATCH v2 0/7] ASoC: add Allwinner H616 audio codec support
 
-Le 18/10/2024 à 11:43, 
-wangweidong.a-tUEr1MkLeujQT0dZR+AlfA@public.gmane.org a écrit :
-> From: Weidong Wang <wangweidong.a-tUEr1MkLeujQT0dZR+AlfA@public.gmane.org>
+
+On Sun, 20 Oct 2024 21:30:50 +1300, Ryan Walklin wrote:
+> Hi,
 > 
-> The driver is for amplifiers aw88081 of Awinic Technology Corporation.
-> The awinic AW88081 is an I2S/TDM input, high efficiency digital
-> Smart K audio amplifier
+> V2 of this patch adding support for the Allwinner H616 (and variants) audio codec. Some rework to improve clock correctness, and DTS changes to enable the codec on boards added.
 > 
-> Signed-off-by: Weidong Wang <wangweidong.a-tUEr1MkLeujQT0dZR+AlfA@public.gmane.org>
-> ---
-
-Hi,
-
-...
-
-> +
-> +#include <linux/i2c.h>
-> +#include <linux/firmware.h>
-
-Sometimes, alphabecal order is prefered.
-
-> +#include <linux/regmap.h>
-> +#include <sound/soc.h>
-> +#include "aw88081.h"
-> +#include "aw88395/aw88395_device.h"
-> +
-> +static const struct regmap_config aw88081_regmap_config = {
-> +	.val_bits = 16,
-> +	.reg_bits = 8,
-> +	.max_register = AW88081_REG_MAX,
-> +	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-> +	.val_format_endian = REGMAP_ENDIAN_BIG,
-> +};
-
-...
-
-> +static int aw88081_dev_check_syspll(struct aw_device *aw_dev)
-> +{
-> +	int ret;
-> +
-> +	ret = aw88081_dev_check_mode1_pll(aw_dev);
-> +	if (ret) {
-> +		dev_dbg(aw_dev->dev, "mode1 check iis failed try switch to mode2 check");
-> +		ret = aw88081_dev_check_mode2_pll(aw_dev);
-> +		if (ret) {
-> +			dev_err(aw_dev->dev, "mode2 check iis failed");
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return ret;
-
-Here and in some other places, return 0; could be used to be more explicit.
-
-> +}
-
-...
-
-> +static int aw88081_reg_update(struct aw88081 *aw88081, bool force)
-> +{
-> +	struct aw_device *aw_dev = aw88081->aw_pa;
-> +	int ret;
-> +
-> +	if (force) {
-> +		ret = regmap_write(aw_dev->regmap,
-> +					AW88081_ID_REG, AW88081_SOFT_RESET_VALUE);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = aw88081_dev_fw_update(aw88081);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		if (aw_dev->prof_cur != aw_dev->prof_index) {
-> +			ret = aw88081_dev_fw_update(aw88081);
-> +			if (ret)
-> +				return ret;
-> +		} else {
-> +			ret = 0;
-
-This else could be removed, and an explicit return 0; used below at the 
-end of the function.
-
-> +		}
-> +	}
-> +
-> +	aw_dev->prof_cur = aw_dev->prof_index;
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int aw88081_profile_info(struct snd_kcontrol *kcontrol,
-> +			 struct snd_ctl_elem_info *uinfo)
-> +{
-> +	struct snd_soc_component *codec = snd_soc_kcontrol_component(kcontrol);
-> +	struct aw88081 *aw88081 = snd_soc_component_get_drvdata(codec);
-> +	char *prof_name, *name;
-> +	int count, ret;
-> +
-> +	uinfo->type = SNDRV_CTL_ELEM_TYPE_ENUMERATED;
-> +	uinfo->count = 1;
-> +
-> +	count = aw88081->aw_pa->prof_info.count;
-> +	if (count <= 0) {
-> +		uinfo->value.enumerated.items = 0;
-> +		return 0;
-> +	}
-> +
-> +	uinfo->value.enumerated.items = count;
-> +
-> +	if (uinfo->value.enumerated.item >= count)
-> +		uinfo->value.enumerated.item = count - 1;
-> +
-> +	name = uinfo->value.enumerated.name;
-> +	count = uinfo->value.enumerated.item;
-> +
-> +	ret = aw88081_dev_get_prof_name(aw88081->aw_pa, count, &prof_name);
-> +	if (ret) {
-> +		strscpy(uinfo->value.enumerated.name, "null",
-> +						strlen("null") + 1);
-
-Np real use fot this hand computed length. Using the 2 parameters 
-version of strscpy() should just be fine, I think.
-
-> +		return 0;
-> +	}
-> +
-> +	strscpy(name, prof_name, sizeof(uinfo->value.enumerated.name));
-
-If  uinfo->value.enumerated.name was used directly as in the if block 
-above, then 'name' could be removed and the 2 parameters only variant of 
-strscpy() coulb be used instead, I think.
-
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int aw88081_init(struct aw88081 *aw88081, struct i2c_client *i2c, struct regmap *regmap)
-> +{
-> +	struct aw_device *aw_dev;
-> +	unsigned int chip_id;
-> +	int ret;
-> +
-> +	/* read chip id */
-> +	ret = regmap_read(regmap, AW88081_ID_REG, &chip_id);
-> +	if (ret) {
-> +		dev_err(&i2c->dev, "%s read chipid error. ret = %d", __func__, ret);
-> +		return ret;
-> +	}
-> +	if (chip_id != AW88081_CHIP_ID) {
-> +		dev_err(&i2c->dev, "unsupported device");
-> +		return -ENXIO;
-> +	}
-> +
-> +	dev_dbg(&i2c->dev, "chip id = %x\n", chip_id);
-> +
-> +	aw_dev = devm_kzalloc(&i2c->dev, sizeof(*aw_dev), GFP_KERNEL);
-> +	if (!aw_dev)
-> +		return -ENOMEM;
-> +
-> +	aw88081->aw_pa = aw_dev;
-> +	aw_dev->i2c = i2c;
-> +	aw_dev->regmap = regmap;
-> +	aw_dev->dev = &i2c->dev;
-> +	aw_dev->chip_id = AW88081_CHIP_ID;
-> +	aw_dev->acf = NULL;
-> +	aw_dev->prof_info.prof_desc = NULL;
-> +	aw_dev->prof_info.count = 0;
-
-No need to init here, and channel below, unless an explicit 0 is more 
-informative than the kzalloc() above.
-
-> +	aw_dev->prof_info.prof_type = AW88395_DEV_NONE_TYPE_ID;
-> +	aw_dev->channel = 0;
-> +	aw_dev->fw_status = AW88081_DEV_FW_FAILED;
-> +	aw_dev->fade_step = AW88081_VOLUME_STEP_DB;
-> +	aw_dev->volume_desc.ctl_volume = AW88081_VOL_DEFAULT_VALUE;
-> +	aw_dev->volume_desc.mute_volume = AW88081_MUTE_VOL;
-> +	aw88081_parse_channel_dt(aw88081);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int aw88081_request_firmware_file(struct aw88081 *aw88081)
-> +{
-> +	const struct firmware *cont = NULL;
-> +	int ret;
-> +
-> +	aw88081->aw_pa->fw_status = AW88081_DEV_FW_FAILED;
-> +
-> +	ret = request_firmware(&cont, AW88081_ACF_FILE, aw88081->aw_pa->dev);
-> +	if (ret)
-> +		return dev_err_probe(aw88081->aw_pa->dev, ret,
-> +					"load [%s] failed!", AW88081_ACF_FILE);
-> +
-> +	dev_dbg(aw88081->aw_pa->dev, "loaded %s - size: %zu\n",
-> +			AW88081_ACF_FILE, cont ? cont->size : 0);
-> +
-> +	aw88081->aw_cfg = devm_kzalloc(aw88081->aw_pa->dev, cont->size + sizeof(int), GFP_KERNEL);
-> +	if (!aw88081->aw_cfg) {
-> +		release_firmware(cont);
-> +		return -ENOMEM;
-> +	}
-> +	aw88081->aw_cfg->len = (int)cont->size;
-> +	memcpy(aw88081->aw_cfg->data, cont->data, cont->size);
-> +	release_firmware(cont);
-> +
-> +	ret = aw88395_dev_load_acf_check(aw88081->aw_pa, aw88081->aw_cfg);
-> +	if (ret) {
-> +		dev_err(aw88081->aw_pa->dev, "load [%s] failed !", AW88081_ACF_FILE);
-
-return dev_err_probe() to be consistent and less verbose.
-
-> +		return ret;
-> +	}
-> +
-> +	mutex_lock(&aw88081->lock);
-> +	/* aw device init */
-> +	ret = aw88081_dev_init(aw88081, aw88081->aw_cfg);
-> +	if (ret)
-> +		dev_err(aw88081->aw_pa->dev, "dev init failed");
-
-return dev_err_probe() to be consistent?
-
-> +	mutex_unlock(&aw88081->lock);
-> +
-> +	return ret;
-> +}
+> Changelog v1..v2:
+> - Reordered patches to group ASoC changes
+> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
+> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
+> - Restrict TX-only DMA changes to the H616.
+> - Change the codec name to fit into the 16 char limit.
+> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
+> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
+> 
+> 
+> Original blurb below:
+> 
+> Hi,
+> 
+> The Allwinner H616 has a playback-only audio codec, with a single stereo or differential-mono line output.
+> 
+> This patch adds support for the H616 (and H313/H618/H700/T507) SoC. Based on the  Allwinner kernel SDK driver, and tested on the H700.
+> 
+> Regards,
+> 
+> Ryan
+> 
+> Marcus Cooper (2):
+>   ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to
+>     quirks
+>   ASoC: sun4i-codec: Add playback only flag to quirks
+> 
+> Ryan Walklin (5):
+>   clk: sunxi-ng: h616: Add sigma-delta modulation settings for audio PLL
+>   dt-bindings: allwinner: add H616 sun4i audio codec binding
+>   ASoC: sun4i-codec: support allwinner H616 codec
+>   arm64: dts: allwinner: h616: Add audio codec node
+>   arm64: dts: allwinner: h313/h616/h618/h700: Enable audio codec for all
+>     supported boards
+> 
+>  .../sound/allwinner,sun4i-a10-codec.yaml      |  53 +++-
+>  .../dts/allwinner/sun50i-h313-tanix-tx1.dts   |   5 +
+>  .../allwinner/sun50i-h616-orangepi-zero.dtsi  |   5 +
+>  .../dts/allwinner/sun50i-h616-x96-mate.dts    |   5 +
+>  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi |  44 ++-
+>  .../allwinner/sun50i-h618-orangepi-zero2w.dts |   5 +
+>  .../sun50i-h618-transpeed-8k618-t.dts         |   5 +
+>  .../sun50i-h700-anbernic-rg35xx-2024.dts      |  13 +-
+>  drivers/clk/sunxi-ng/ccu-sun50i-h616.c        |  44 ++-
+>  sound/soc/sunxi/sun4i-codec.c                 | 297 +++++++++++++++---
+>  10 files changed, 401 insertions(+), 75 deletions(-)
+> 
+> --
+> 2.47.0
+> 
+> 
+> 
 
 
-...
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-> +static int aw88081_i2c_probe(struct i2c_client *i2c)
-> +{
-> +	struct aw88081 *aw88081;
-> +	int ret;
-> +
-> +	ret = i2c_check_functionality(i2c->adapter, I2C_FUNC_I2C);
-> +	if (!ret)
-> +		return dev_err_probe(&i2c->dev, -ENXIO, "check_functionality failed");
-> +
-> +	aw88081 = devm_kzalloc(&i2c->dev, sizeof(*aw88081), GFP_KERNEL);
-> +	if (!aw88081)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&aw88081->lock);
-> +
-> +	i2c_set_clientdata(i2c, aw88081);
-> +
-> +	aw88081->regmap = devm_regmap_init_i2c(i2c, &aw88081_regmap_config);
-> +	if (IS_ERR(aw88081->regmap)) {
-> +		ret = PTR_ERR(aw88081->regmap);
-> +		return dev_err_probe(&i2c->dev, ret, "failed to init regmap: %d\n", ret);
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-No need to repeat 'ret' at theend of the message.
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
-> +	}
-> +
-> +	/* aw pa init */
-> +	ret = aw88081_init(aw88081, i2c, aw88081->regmap);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = devm_snd_soc_register_component(&i2c->dev,
-> +			&soc_codec_dev_aw88081,
-> +			aw88081_dai, ARRAY_SIZE(aw88081_dai));
-> +	if (ret)
-> +		dev_err(&i2c->dev, "failed to register aw88081: %d", ret);
+  pip3 install dtschema --upgrade
 
-dev_err_probe() to be consistent?
 
-> +
-> +	return ret;
-> +}
+New warnings running 'make CHECK_DTBS=y allwinner/sun50i-h313-tanix-tx1.dtb allwinner/sun50i-h616-x96-mate.dtb allwinner/sun50i-h618-orangepi-zero2w.dtb allwinner/sun50i-h618-transpeed-8k618-t.dtb allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb' for 20241020083124.174724-1-ryan@testtoast.com:
 
-...
+arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: soc: codec@05096000: 'ranges' is a required property
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: soc: codec@05096000: 'ranges' is a required property
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: soc: codec@05096000: 'ranges' is a required property
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: soc: codec@05096000: 'ranges' is a required property
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: soc: codec@05096000: 'ranges' is a required property
+	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: codec@05096000: allwinner,audio-routing: b'Line Out\x00LINEOUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dtb: /soc/codec@05096000: failed to match any schema with compatible: ['allwinner,sun50i-h616-codec']
+arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: codec@05096000: allwinner,audio-routing: b'Line Out\x00LINEOUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dtb: /soc/codec@05096000: failed to match any schema with compatible: ['allwinner,sun50i-h616-codec']
+arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: codec@05096000: allwinner,audio-routing: b'Line Out\x00LINEOUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dtb: /soc/codec@05096000: failed to match any schema with compatible: ['allwinner,sun50i-h616-codec']
+arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: codec@05096000: allwinner,audio-routing: b'Line Out\x00LINEOUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dtb: /soc/codec@05096000: failed to match any schema with compatible: ['allwinner,sun50i-h616-codec']
+arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: codec@05096000: allwinner,audio-routing: b'Line Out\x00LINEOUT\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dtb: /soc/codec@05096000: failed to match any schema with compatible: ['allwinner,sun50i-h616-codec']
 
-CJ
+
+
+
+
