@@ -1,24 +1,24 @@
-Received: from out28-123.mail.aliyun.com (out28-123.mail.aliyun.com [115.124.28.123])
+Received: from out198-24.us.a.mail.aliyun.com (out198-24.us.a.mail.aliyun.com [47.90.198.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8083FB8B;
-	Mon, 21 Oct 2024 02:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16963D6D;
+	Mon, 21 Oct 2024 02:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729478638; cv=none; b=LqySdc4H/eNYtPVxTMp07YX1zuSX+oyn1NcSf+slTpaBjuU3ihojCi1REMe6hdBcW9VwscPaVPah48T1RgwBICep546O9gxG33mR7QkUizKc4BcDP6eRiv32AKHHm/Y0u/CuS/9qERZHDa5tPZnKpr9pf2MlmOtjJYIYVejHU+k=
+	t=1729478825; cv=none; b=r1npKSPsGqYZADTfqicO7m8GKhEK4JiIhFFLnq1NcMJH8gCrY6oDoceAFsKFs01oGJIksi02NtcvIpt5WkGdKIdNr6g3SqdOaex+L2lqMLMu9FbIzMJZdPV20W6cLu9bmcTXqgf7piTiHNwhcjEEr1U4BGPm/e3TFFIcvoNb2bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729478638; c=relaxed/simple;
-	bh=tsX7pw2zeVtotLD4KvrH73gVTMOPVdqxTsawDmCzK84=;
+	s=arc-20240116; t=1729478825; c=relaxed/simple;
+	bh=BzymC0jNPL3WCfIw9jguoaYoTzFQf9oEjObuO2viB7A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cna+NK7c6snnMMn8sUNh0+ind+illzzEh31x73OYHpktu7SCuTxa3TJ8LhMA9l+01duvy5d/diKZ9Br0lD9HC/ZUjHeTVNIlQHcABIz0P5vvdRABNinVXID/rRhTRSNtBxHRSCK731DLiYhz388SXfr2t1FBFrq6ISvoGuRkH+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=115.124.28.123
+	 MIME-Version; b=DUvkLGChSdXduGVJVHgVdxmt589l01FJzFJmdXt2D5VUPQI5uJzdBglqCgm5g9uxcH0xMGixI3rp4YxTQLFfQB0bMhvart1myduBKyphJIbd4e9EGKRw+ERzhbLy7ofQNv/g+6MRcDIQgjs1JYAkXoXjWjUq+F9VI99Eux6xqY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.24
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.Zny.adN_1729478617 cluster:ay29)
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.Znxb1i9_1729478795 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Mon, 21 Oct 2024 10:43:43 +0800
+          Mon, 21 Oct 2024 10:46:41 +0800
 From: wangweidong.a@awinic.com
-To: krzk@kernel.org
+To: robh@kernel.org
 Cc: arnd@arndb.de,
 	broonie@kernel.org,
 	conor+dt@kernel.org,
@@ -35,17 +35,16 @@ Cc: arnd@arndb.de,
 	pierre-louis.bossart@linux.dev,
 	quic_pkumpatl@quicinc.com,
 	rf@opensource.cirrus.com,
-	robh@kernel.org,
 	shenghao-ding@ti.com,
 	tiwai@suse.com,
 	wangweidong.a@awinic.com,
 	yijiangtao@awinic.com
 Subject: Re: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88081"
-Date: Mon, 21 Oct 2024 10:43:36 +0800
-Message-ID: <20241021024337.7418-1-wangweidong.a@awinic.com>
+Date: Mon, 21 Oct 2024 10:46:34 +0800
+Message-ID: <20241021024634.7635-1-wangweidong.a@awinic.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <0311a205-f9fd-47fe-85cf-1e412801cd18@kernel.org>
-References: <0311a205-f9fd-47fe-85cf-1e412801cd18@kernel.org>
+In-Reply-To: <20241018134721.GA90231-robh@kernel.org>
+References: <20241018134721.GA90231-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,11 +53,22 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 18, 2024 at 12:08:08PM +0200, krzysztof.kozlowski@linaro.org wrote:
-> On 18/10/2024 11:43, wangweidong.a@awinic.com wrote:
+On Fri, Oct 18, 2024 at 08:47:21PM -0500, robh@kernel.org wrote:
+> On Fri, Oct 18, 2024 at 05:43:18PM +0800, wangweidong.a@awinic.com wrote:
 >> From: Weidong Wang <wangweidong.a@awinic.com>
 >> 
 >> Add the awinic,aw88081 property to the awinic,aw88395.yaml file.
+
+> That is obvious from reading the diff. Please say something about how 
+> this new part compares to the existing parts.
+
+Thank you very much for your review.
+
+I will modify the commit message as shown below
+"Add the awinic,aw88081 property to support the aw88081 chip,
+which is an I2S/TDM input, high efficiency digital 
+Smart K audio amplifie"
+
 >> 
 >> Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
 >> ---
@@ -74,18 +84,21 @@ On Fri, Oct 18, 2024 at 12:08:08PM +0200, krzysztof.kozlowski@linaro.org wrote:
 >>        - awinic,aw88261
 >>        - awinic,aw88399
 >> +      - awinic,aw88081
-
-> I am sorry, but what type of sorting are you keeping here? It looks
-> entirely random.
-
-Thank you very much for your review.
-
-I will change it to
-	- awinic,aw88081
-	- awinic,aw88261
-        - awinic,aw88395
-        - awinic,aw88399
-in PATCH V2
+>>  
+>>    reg:
+>>      maxItems: 1
+>> @@ -57,6 +58,7 @@ allOf:
+>>            contains:
+>>              enum:
+>>                - awinic,aw88261
+>> +              - awinic,aw88081
+>>      then:
+>>        properties:
+>>          reset-gpios: false
+>> -- 
+>> 2.47.0
+>>
 
 Best regards,
 Weidong Wang
+
