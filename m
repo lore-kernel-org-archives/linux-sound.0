@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E4919993B;
-	Mon, 21 Oct 2024 15:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFCE1C6889;
+	Mon, 21 Oct 2024 15:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729524606; cv=none; b=cCDvv32pgh2QWFXKR7FrkngNSy6RmHIOCVO+yPdwpnOSMaFcFM2lJsQ3i+jhgDUAdKpxkaukPaOxYqr4PjrWNWD2vFPCSR+v9aIvcSO06evBQXaW41FNbLsYlRQPi8Z78LoPuY8xNjfEd4Afs3c7JZha2jeHjngPsNOhmW7SJCw=
+	t=1729525622; cv=none; b=FxUOL0nqZ59RzJB5SO2OemrRXUbDHrMY7vSTIGOlWiK5vCYYfsQSWNLZNo1LMgEoUdRw2ZT9VVXgb6iHURICjR2gcrr53ukgCIGUCITss8BqSHjPB77gBvyv6D6rWCEWmg7IC2XNXcM7hZ4jHY3GMN04kaBOtRxJcnnC8nAIYEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729524606; c=relaxed/simple;
-	bh=dUE1dC0WwbpGBprubj5Oa/K/Zq+fLvL/hbO2fJ3OC0A=;
+	s=arc-20240116; t=1729525622; c=relaxed/simple;
+	bh=LAekGIeCxqFBsfXtUjXPbf5aYbs1uWx/zlGBbN3G9Yo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZV6cfIP7hlJ8MYdRPFRSPpOfuLdhOEaN2mjpU5vX/1zrIrCOU8HFFUOaloJxtcaSups+JkYPjI5jiSn2GbPYDzuxGpP9BQd6EVIshQtBuJIEZNMfVOLAua+i42FzurAzorC82msfpapTbRcjgqbOv0+ksf6Ep/b2DPEilKVlqvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrrWUl2I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=REiFtr6JS66qS7yPQO7G9U7HDhczmLsVyXq8li8uoZQbgtEoz3qc8UFeSp9aB4mBy1g84whT5mONISC06zslScX6AJzUWe2xZioAsZrmPumY+gK4bylJ7QhJU+lpGAqiWx6SwGuqmUr6v/IExOIZMBYQR3AZ8i3naz7Vb6WWFgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqQCmwU3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrrWUl2I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20FC4C4CEE7;
-	Mon, 21 Oct 2024 15:30:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqQCmwU3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D03F9C4CEC3;
+	Mon, 21 Oct 2024 15:46:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729524605;
-	bh=dUE1dC0WwbpGBprubj5Oa/K/Zq+fLvL/hbO2fJ3OC0A=;
+	s=k20201202; t=1729525621;
+	bh=LAekGIeCxqFBsfXtUjXPbf5aYbs1uWx/zlGBbN3G9Yo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TrrWUl2Ib7417eQMevFaS820wah8bNcR6PUC6wxXl+187SeMREbsyOZ9X841phdXe
-	 GQ4+jb3YX4kL8Ahw4stU/wdXjjxey92rcYiN4e/3On/Oc3h/W6msL8I7Xe/C2bknL7
-	 SgKnpRrz4f5MEL4prD6Ibib8c2tjb0PF7+T/NY/9keTg6/Qngv9/H+hZIxyymXt4oH
-	 XNBLEL3kkbBgVgu8pJYNxUNWmf5IV3sTKAQedp3oKjIgrtgNUMS/UnQSvBq3ohRBr+
-	 DPO2tgcGhOgxZX9nieMOC1R7tFawhvsDUqPCt/zwoSuJxbAsRM2cMvBnngPML+ksaj
-	 SLne1jxz0dY5A==
-Date: Mon, 21 Oct 2024 16:30:00 +0100
+	b=mqQCmwU3+/gWn1qqzEb4l76p8QXlJvgci8TveEK/G2/WXlYpi6FUsvZb3vHURlWdA
+	 wDoABcDPZPMWGR3gpxGYmvlvAHy0V86BR1VT5dmf11cvtJUaSvrIUe6gDFgUEvMdCK
+	 j0Zvk3fYUDl/cCCuskoNBe0J9U+DXgV7VaQM7K/ZsD6X4LvqEo+DFNpGUA4768iTH7
+	 hGByRsu9vKpnNg+kYDPZ58/FlI43Lds1NCoteZSuSYior3j7G7L14P9GCNXoXWSQ29
+	 XretChBeBwT1RBLW8S9e1o31Ks1TdqY4sIksOKLW6hI8s+r1pCcM/9rcES8qzuceIB
+	 yw0kdKk+onW7g==
+Date: Mon, 21 Oct 2024 16:46:56 +0100
 From: Mark Brown <broonie@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 4/4] ASoC: codecs: adau1373: add powerdown gpio
-Message-ID: <7a8b1560-c091-4e87-a6f4-7ca7453b7414@sirena.org.uk>
-References: <20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com>
- <20241021-adau1373-shutdown-v1-4-bec4ff9dfa16@analog.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Philippe Simons <simons.philippe@gmail.com>,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH v2 5/7] ASoC: sun4i-codec: support allwinner H616 codec
+Message-ID: <182fcf58-26d9-4485-bf0e-89e4def8b5e7@sirena.org.uk>
+References: <20241020083124.174724-1-ryan@testtoast.com>
+ <20241020083124.174724-6-ryan@testtoast.com>
+ <20241020125948.44c27e9e@minigeek.lan>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,36 +51,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="+AkS0J1OYCKGy4EZ"
+	protocol="application/pgp-signature"; boundary="Y4z+P7MYMG3OWZjq"
 Content-Disposition: inline
-In-Reply-To: <20241021-adau1373-shutdown-v1-4-bec4ff9dfa16@analog.com>
+In-Reply-To: <20241020125948.44c27e9e@minigeek.lan>
 X-Cookie: Most people prefer certainty to truth.
 
 
---+AkS0J1OYCKGy4EZ
+--Y4z+P7MYMG3OWZjq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 21, 2024 at 03:46:48PM +0200, Nuno Sa wrote:
-> If the powerdown GPIO is specified, we use it for reset. Otherwise,
-> fallback to a software reset.
+On Sun, Oct 20, 2024 at 12:59:48PM +0100, Andre Przywara wrote:
+> On Sun, 20 Oct 2024 21:30:55 +1300
+> Ryan Walklin <ryan@testtoast.com> wrote:
+>=20
+> Hi,
+>=20
+> > The H616 SoC codec is playback-only with a single line-out route, and
+> > has some register differences from prior codecs.
+> >=20
+> > Add the required compatible string, registers, quirks, DAPM widgets,
+> > codec controls and routes, based on existing devices and the H616
+> > datasheet.
 
-Ideally we'd also put the device into reset when we unload, but that's
-not essential.
+Please delete unneeded context from mails when replying.  Doing this
+makes it much easier to find your reply in the message, helping ensure
+it won't be missed by people scrolling through the irrelevant quoted
+material.
 
---+AkS0J1OYCKGy4EZ
+--Y4z+P7MYMG3OWZjq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcWc3cACgkQJNaLcl1U
-h9BoUAf9FBzDMBHEP/DrPr1FQhJmlHdRZ7rwz64tMzMiMvrPsrSoIY/MlJrgT+go
-r4FIDAYqgzbiqZQZbKkjFvFo8RBD/acwoDG0KS06hNJZXmvUu+v5y/FB5/mMBHB9
-it0RmAYuLPg82Bbi0FkNGc1Cd0Hq+nJWk5VKxNH1lP8mHobLr0mEfnYpz/PTmk8j
-XvvrEEtSML4lRgJwhz7qV1UiQWZ+ECGwAAWeNBdaplpCHcveoUpFeYqRQqh43zMb
-/tlN79oslaIzpaU4Yypb1tKKXe+35Sa2VLg/DZTg1JaumyqHg3oHfdPcYZ84FJJV
-4Qt/JFXf5gmqa7B1D6b6IdaWWliaZA==
-=tVFr
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcWd28ACgkQJNaLcl1U
+h9CM/Af+OFrlR9Haa99Zf7HxdpvfXDEmc4YfB8qZBbVTA/kxkcj58a8iCZq6sy/S
+r3+j6jUo4Qj/sPIesZvXN4S6bhUyHdWeB+0IQaYFqPv29uiJK0tNGxLAqMXcMUZZ
+Wb9IqpnEdSf8LDxIwY0/+o6CYKPll+q8F3+pCpYy/8PHoknKeLsf+42CdqNTdMCt
+qbR8H1d8thnSiaserfL/sKDo835LQtNM6QA7wEXRWFo3sGcHfgK6ugAY7VgJS4Fg
+nPX2sP29QpCJezci0IFIX+Wzo7ARw9L3zrog1WtrHWYxjIl/lFnBtJTuVYO3T0kI
+hatpFUKO8OKllTibWCpQMnTzLxCz4g==
+=lwft
 -----END PGP SIGNATURE-----
 
---+AkS0J1OYCKGy4EZ--
+--Y4z+P7MYMG3OWZjq--
