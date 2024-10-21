@@ -1,117 +1,101 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28081FCF7E;
-	Mon, 21 Oct 2024 20:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CBB41CBEA1;
+	Mon, 21 Oct 2024 22:15:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729541645; cv=none; b=WZq9h4YRy+luxpRrkDSd921k+6CPyGR3hhAWN7KYJRmp7CD15BM5evAaQWMw88OgIKdQSaRGPF7Dp7zy8BqnZsatXE7qpJ8CHZx0FomXQPcYmfDAboizSvxLM+x4/QOJy0T/uPqL7K/bggBjtrYkelbzYLXpdDGkW1GN7Kg/LWc=
+	t=1729548957; cv=none; b=XjxHpWDg/rwEPW/PgS1RZsnS8M4GaVp95GXCxwC91UHJo2bo3qgVtOfOrCZleMEycrv9VfHaDccjk18O/H8naAJIDU3okIijERqjqpENoPsA8h9BrASI/A+5Oxjp+fVAF1BExzetK78zP5T0HLOTMgcQYsPxpuR5smyiPxXnbfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729541645; c=relaxed/simple;
-	bh=RhDfivLBp99aqQqN99iX1ihiJWuLb8WZSsBqMTiq5Jw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IxxLJRLK6o9ZYw5KW+32XwHeigR7Mj0J6LYEkOKV6eiHS4qIYcU9RbxXQzxmWbNEnHp/C5DJWuidfR8smqzS0I+90ktN3YW+PSGv9Hwoxd66gtM5aS/3seDcnoyqsVXC8q9CFNpzmXI02r0xuB63LUq7+AH4c4yu21j7Xu4U/Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzLFHJWw; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729548957; c=relaxed/simple;
+	bh=tlzS8OUaGKKM5mELn1RLA+UMFi/tFuqHtRRxd4kXqJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RucCQfbVVSWuxIwNcmbTKCnhj1LHzyyxNBUxT9c/AYqe0wK3E3Yz5l8tfChvLpCe7IKRLjyNDsEdwp+/7nrDAGiJJ4q5Si6QoKDS0vgJodi7E0u5AJpYIHCADbp3qm4lxWGmh0HOH3JxWoOGkw5hOz0iXnxnsnT2rt1ZIxKvSYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=URjA5o8g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzLFHJWw"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316e9f4a40so22248515e9.2;
-        Mon, 21 Oct 2024 13:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729541642; x=1730146442; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g2CsLO4eOiz7g7HoJIEax9lPCTEohwl7YG0piqoqEL8=;
-        b=RzLFHJWwQPIET+M0qFgGBeeQsOKJm/1hjgBxqBg5KKSqEUKfRW8pu/DtS0DwFhj+ig
-         e/oLAmBOXXf2sW0tS+dfJtr/A2ttpALoe12blxAX63dpPnFXlAGLSRN34MuRkpYBHCmP
-         afvBcDh0u03G4gPFJ8JvkHTEZy8V4FfCY1mBvld3ecxMSz7tzKFY8arxNGmLXsTj7VZs
-         aOIjilZZO0yjssY5qYbmDTe+Cmtz0Nkpb6+PhQZQkf9DVNiQnTu2+ujdwhqeIvQclslY
-         KcDYXjPNLUOjnKVKm+jYQYUbDLqzBloNbgEDuSs5htKbSIG2jGS74mxUED2Z8k7VToSg
-         nJlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729541642; x=1730146442;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g2CsLO4eOiz7g7HoJIEax9lPCTEohwl7YG0piqoqEL8=;
-        b=arzI9rRe11VWNuN7BWZktLfkL76Hdh3NL1w6iUa1Ezjg6k338TgiYSBzC2G2au+sI+
-         OvA93oeQ2hruYln6iZG48u8DPJ+VbXKu8sr6NkxSaIvHQk//siXonBiAFYz0dX/iFQVZ
-         nr3ejceaNwcDCY5SDUY4/0zztsPB1rWcrs76UOu/ffw6rDbngZU2M3lEsUTvFHe17ine
-         5vlOujvSo3ABG41QFigbtfia8UXlMDOhLKynbWLwMGNn9qso0dA/jzc4UKDugUb1mosQ
-         jeJC7bqJmlxwi8Hai6SzpKsWrubcYCmc+32134DJXyR4SpXFF1/QCVIxWWpmpOWe9hjO
-         Ha4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUHdFCPyhTFp/Vl+2NvW2Sb6Qf3mu8vcNNcuoCF8uetM234jSevPT7vN6i2tdCWWhv/EMNgFPjqYyOzujo=@vger.kernel.org, AJvYcCVuZ7oPUNSInae6+jWfOfMIslnpU76eCOdqNXiUFj1QHSmCq92LCNbTe/RGO3W/7JwEVkLm8EP7P8TSa/7miQDDa10=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH096E1VUnlBkvEb9MIfTVH2B4D1LUENxRRQ/Fbn7+6JwHxQhr
-	SRLiQoKpCMOqfjSR0CIBc0IzyVWLP8UoMDD8Iw+x+fzPm25ztL7L
-X-Google-Smtp-Source: AGHT+IGI/nrbbKfm2jJIJ6i1KjPgU9c3mQaNa+6RXVH3tUt9fB6wnoYKd7sqCiHgga1LmBOPynV6Cg==
-X-Received: by 2002:adf:f186:0:b0:376:37e:2729 with SMTP id ffacd0b85a97d-37eab6ef33amr8403475f8f.31.1729541642144;
-        Mon, 21 Oct 2024 13:14:02 -0700 (PDT)
-Received: from prasmi.Home ([2a06:5906:61b:2d00:8a20:67a1:e60f:941e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a584f7sm5042935f8f.53.2024.10.21.13.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 13:14:01 -0700 (PDT)
-From: Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="URjA5o8g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99A33C4CEC3;
+	Mon, 21 Oct 2024 22:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729548957;
+	bh=tlzS8OUaGKKM5mELn1RLA+UMFi/tFuqHtRRxd4kXqJs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=URjA5o8gwhVBxpzGXyx0rnXf3C/QswFyUUSwpGvUv/UBKeWb0sjIxB3MYkxs0dYQv
+	 9dpe6Xcltn1JEVsfORiJfKZdZYHN/b5FtG3ucsHGz3wLZpocimGKA8vXUcXampTBjd
+	 LP12RPeCfq5UPp3vmCbh0V8UbLV+l7+FCC24xc77hLH2zIUDDk+OZOqV+CseTO65Qz
+	 HA7mDtOviNHk4WKCasAEDM/mNR+3PpeLAbbiKwJXONon+7IbaGqcAQs2l0sYxj9jV1
+	 Wfz7J+JWC+QIl7+OdX/Al3MhxeIoJPPzeMmZMYiZEQ6/IUjyx97g+Jva6/3fXmdvCu
+	 37baddp7RVfoQ==
+Date: Mon, 21 Oct 2024 23:15:50 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: James Calligeros <jcalligeros99@gmail.com>,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Prabhakar <prabhakar.csengg@gmail.com>,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC drivers
-Date: Mon, 21 Oct 2024 21:13:49 +0100
-Message-ID: <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+	Neal Gompa <neal@gompa.dev>
+Subject: Re: [PATCH v2 1/3] dt-bindings: sound: Add CS42L84 codec
+Message-ID: <e1d35dc6-4c58-490a-87d3-1e9694b3c650@sirena.org.uk>
+References: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+ <20241020-cs42l84-v2-1-37ba2b6721d9@gmail.com>
+ <20241021192632.GA965116-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AuSqP+ZlqEY4r3Ug"
+Content-Disposition: inline
+In-Reply-To: <20241021192632.GA965116-robh@kernel.org>
+X-Cookie: Most people prefer certainty to truth.
 
-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Add a new entry to the MAINTAINERS file for Renesas ASoC drivers. This
-entry covers the Renesas R-Car, SH7760 and Migo-R audio drivers, including
-the device tree bindings.
+--AuSqP+ZlqEY4r3Ug
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+On Mon, Oct 21, 2024 at 02:26:32PM -0500, Rob Herring wrote:
+> On Sun, Oct 20, 2024 at 12:47:31AM +1000, James Calligeros wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8994bb088035..3a07e76fc7fb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19622,6 +19622,15 @@ L:	linux-remoteproc@vger.kernel.org
- S:	Maintained
- F:	drivers/net/wwan/rpmsg_wwan_ctrl.c
- 
-+RENESAS AUDIO (ASoC) DRIVERS
-+M:	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-+L:	linux-sound@vger.kernel.org
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/sound/renesas,rsnd.*
-+F:	sound/soc/renesas/
-+X:	sound/soc/renesas/rz-ssi.c
-+
- RENESAS CLOCK DRIVERS
- M:	Geert Uytterhoeven <geert+renesas@glider.be>
- L:	linux-renesas-soc@vger.kernel.org
--- 
-2.43.0
+> > CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> > computer models starting with 2021 Macbook Pros. It is not a publicly
+> > documented part. To a degree the part is similar to the public CS42L42.
+> > (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> > pretty much the same as L42.)
 
+> Why can't this be added to=20
+> Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml?
+
+> I guess perhaps you don't know what the supplies look like? Do any of=20
+> the custom properties apply?
+
+I don't know if the Cirrus people who are listed as maintainers of that
+binding might have concerns about doing things that acknowledge this
+particular part.
+
+--AuSqP+ZlqEY4r3Ug
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcW0pYACgkQJNaLcl1U
+h9BZFAf+MkynQkP7ahny4beQjJnCITxsbLUXDPAGR+wG/KKSSbtlgtwaDh9n0KS8
+XBaUhZRgJoImr4uV6+0Nw8NHgsCEoQw/5E6vS2f7614m0H2j5FqZVwgK1L14HwbD
+bJgpZp/Hd1GJSKSwj7mr354p6n7S3TlL8zDsTkTxXHhFwPh+j82aSTdffYG96q9r
+TqfHCFrXRV1Am5DK+WOskUduHAGUXzXo/1HlQldi9Bu0Hn/LCfj9q94ZbrfCGL+P
+xvwYAVpnsRqDyiwusLLDO+AvpsZENN3+eUGOy18CNy3ioxODjEqnyfusnW2VyXUq
+bSRvUQpI7boxZrZtz13nHX5kPBT++Q==
+=KMNB
+-----END PGP SIGNATURE-----
+
+--AuSqP+ZlqEY4r3Ug--
