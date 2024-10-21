@@ -1,89 +1,70 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78D1194AD9;
-	Mon, 21 Oct 2024 09:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D7AA1F7094;
+	Mon, 21 Oct 2024 13:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729504443; cv=none; b=nJ25a1taDlWXkonR4xSM6W9yq8dtzUPe/tVXJaRt4REbs5jZoVGV4d/bPG7V5uDrsdJmKxrB2O7Fg76+lus6moITPcm9D38/vJdmpfJ27Ae5bVH3zhFOCaVPcYCvMuGg3LPitT3Mpj+Dr8lEJyXV70ZK/PuxYv9fW9CVdWFyQEY=
+	t=1729515802; cv=none; b=TsEpHrShGSc9mRjcOKJFlWKb4odauO64Fp2dKYRuqubIWhsXSKMJqbe+gYVhyyUWSVDFGzkuc0RUX87/3WNlJT+PJw3U1T7t1vArajnRSHLJVtfk5rRoh/RIIg/MkxlafHRY4P1hXddmhmPsadLirGfkQ+cdeD0uEZXj00KEyDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729504443; c=relaxed/simple;
-	bh=CIW9ZC2EyngmJGlXZEFJAvl6FtKTAOifG9n7YfxM9cY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbn+8THvGzp+XEiBRNNVchViRW7+w8sbOxaoQkWml8WQVy/MQ1tB0Ty8mr5aNCdp746p4yX1eCG5NDN/5JV8c0rb20sZxdg2ZpurfL7CBmad7Ve9Ut0LqbTvNkSmNm5+ZqdS0wNyAGXaNLbaaKExYvxxa7xWDxiZ1ThpcxLHG0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=NXXh9/lv; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="NXXh9/lv"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49L6u2bf011580;
-	Mon, 21 Oct 2024 04:53:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=hM09E1+hns79M/Y0+P
-	hDqXtGIDUWWbAYZx9DOPn8bWY=; b=NXXh9/lvVtt9VRlmZqmPGby7pMP+0fTjPn
-	ZIN8YloNWqMW/8EItBXTNNeLRBCEiWgrSj36QzDVEEnNA8B7EBD5VhZPQ8dMbBKL
-	rsn8POb+Hvkfnuxp5qxjyMlKlz6enmfoQREp4ZDd1QAcHnel7DhXZ09n2m0iachS
-	q7rdpLSTWOPJV1RvTNH3UqijYZBcGvbwIli1XPzU7hkdRxiBj9ZIQBfeiWaalBcJ
-	W/Yu7iotKxSTrLrvSRmjCDgL1dYx/u3ujjsUzXvCoAJYBAnDkilnsFnAC2Ks97yQ
-	R9hoS43winsiVXsmaYWB+/AWRTbvClOqCwhrij2B5Ot+xBAul8nA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42c96j9jxq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 21 Oct 2024 04:53:46 -0500 (CDT)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 21 Oct
- 2024 10:53:44 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Mon, 21 Oct 2024 10:53:44 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 8780982026A;
-	Mon, 21 Oct 2024 09:53:44 +0000 (UTC)
-Date: Mon, 21 Oct 2024 10:53:43 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Lee Jones <lee@kernel.org>
-CC: Mark Brown <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] mfd: cs42l43: Disable IRQs during suspend
-Message-ID: <ZxYkpy10UxKJScHp@opensource.cirrus.com>
-References: <20241014095202.828194-1-ckeepax@opensource.cirrus.com>
- <Zw0AlU9QsWpZs2Sh@finisterre.sirena.org.uk>
- <20241015143426.GK8348@google.com>
+	s=arc-20240116; t=1729515802; c=relaxed/simple;
+	bh=dOWFqMh59Sgl0bqhHzfLyhgYxpmp8CbQQbjRJzYH2Ds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p84DSNX001kkibXsAMG3vUsSUQ3/bw8BJTdDOTn1AeRy+MjHtxwCxdnVhX+sq1lG1t54ykaNVsP3yjlNrgekKRVatmcMUc1LFT3EYn5nGTI3yXEBEM5VhLBJW+nlfvk6ihf1jUpoYBcKsakcN63NrXzVcgS/ugPiCidCXED0+kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58938DA7;
+	Mon, 21 Oct 2024 06:03:49 -0700 (PDT)
+Received: from e125769.cambridge.arm.com (e125769.cambridge.arm.com [10.1.196.27])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0E123F73B;
+	Mon, 21 Oct 2024 06:03:18 -0700 (PDT)
+From: Ryan Roberts <ryan.roberts@arm.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] ASoC: soc-utils: Remove PAGE_SIZE compile-time constant assumption
+Date: Mon, 21 Oct 2024 14:03:07 +0100
+Message-ID: <20241021130308.3616451-1-ryan.roberts@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241015143426.GK8348@google.com>
-X-Proofpoint-GUID: vOJWK6sN6R_UZb9Hqo8RxchqtyKCQ659
-X-Proofpoint-ORIG-GUID: vOJWK6sN6R_UZb9Hqo8RxchqtyKCQ659
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 15, 2024 at 03:34:26PM +0100, Lee Jones wrote:
-> On Mon, 14 Oct 2024, Mark Brown wrote:
-> 
-> > On Mon, Oct 14, 2024 at 10:52:02AM +0100, Charles Keepax wrote:
-> > > The ASoC CODEC driver masks the IRQs whilst entering and exiting
-> > > system suspend to avoid issues where the IRQ handler can run but PM
-> > > runtime is disabled. However, as the IRQs could also be used from
-> > > other parts of the driver, it would be better to move this handling to
-> > > the MFD level.
-> > 
-> > Acked-by: Mark Brown <broonie@kernel.org.
-> 
-> Do you want a PR?
-> 
+In pursuit of the goal of supporting boot-time page size selection,
+remove use of PAGE_SIZE from the dummy_dma_hardware struct definition,
+since the value is not known at compile-time for this config.
 
-There's no other changes going through the ASoC part of the
-driver for now, so should be fine to just pull this one
-through MFD.
+Given the previous parameters were "essentially random", let's just
+hardcode them as 4K and 4K*2 to sidestep the need to boot-time patch the
+structure with the selected PAGE_SIZE.
 
-Thanks,
-Charles
+Signed-off-by: Ryan Roberts <ryan.roberts@arm.com>
+---
+ sound/soc/soc-utils.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/soc-utils.c b/sound/soc/soc-utils.c
+index 303823dc45d7..aa93e77ac937 100644
+--- a/sound/soc/soc-utils.c
++++ b/sound/soc/soc-utils.c
+@@ -103,8 +103,8 @@ static const struct snd_pcm_hardware dummy_dma_hardware = {
+ 	.info			= SNDRV_PCM_INFO_INTERLEAVED |
+ 				  SNDRV_PCM_INFO_BLOCK_TRANSFER,
+ 	.buffer_bytes_max	= 128*1024,
+-	.period_bytes_min	= PAGE_SIZE,
+-	.period_bytes_max	= PAGE_SIZE*2,
++	.period_bytes_min	= 4096,
++	.period_bytes_max	= 4096*2,
+ 	.periods_min		= 2,
+ 	.periods_max		= 128,
+ };
+--
+2.43.0
+
