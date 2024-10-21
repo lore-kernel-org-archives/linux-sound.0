@@ -1,220 +1,122 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F361E1C18;
-	Mon, 21 Oct 2024 09:31:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729503077; cv=none; b=jVucJHyZGYaVFN0srHqA+Ev99LNwNXPNmGKut22jK+drYf0FgANI0U/zkIepFmh63rjo0soEtJVO/yorMjjr/3hSg9ZJnfjxavyVwVMQQSjEH7iPqjzn93GjqXb7+zyZOvUSrSaadbfyPuRl1Pq4WiijAFQRqy7Nc+vGRVWbTdU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729503077; c=relaxed/simple;
-	bh=GQSpJJI5IGjcyXynsa8pJEnZ5S6eiP4WGTSuAiP3oHI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=CyPvwPNaUPnh3O3DuzbERe37EijOGlNeNbzwWKytdKfMRtL5MEXHatjVlk+RnJkPBGRKq/CvCf9Kgl2g0b6jJ+xegLer/lIsLteHxTjlKcolbOfE6clZ/uz5izcccemxfOlwSihIBKc1tQuEikO1YQKvc1/Cuqzocs1BmX2hD/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=GRljuWkQ; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CA11E2832;
+	Mon, 21 Oct 2024 09:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729503773; cv=pass; b=nJoUSEo6MzNe8pgxhHozUR3VoMJTwLkvBIXLeP/XR6OWZoREIFUACvweacVMm8/Z24HEmmVkdkYTuGzz0HseADmoPusi/GtKTYQ1Bw2FC8xrMsrTptNQ4vbNZannhWG9Kqx/pPxEGY7UUJAxfDLantNgDiW4mPPerEOqAWfCAGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729503773; c=relaxed/simple;
+	bh=Dgn4BIMgi2uJUo6HDYEO3rNdBm10LDPvAFVEi4WVIJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dhjV60mdbu0ZO/bAtMSo8kxUsx4CrTMiMvQdHPoVzm0YvSnxe685nVhS6prbAjs6FEYnVpduRejwMpitydPMCv1Qnszo8ECzbsN1WNHDKudnln/TDJYcDL6WUJB+M9GMOMe+c4eFy7fICJuNhcuCVjw3nzJjI3E/8jXwvdW4V+g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=TT11sIJs; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="GRljuWkQ"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 49L9V7RX02196782, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1729503067; bh=GQSpJJI5IGjcyXynsa8pJEnZ5S6eiP4WGTSuAiP3oHI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=GRljuWkQAX6gChy37FYHi8IZKpbRRseyGLXv8+N0MCz3IxLl4L2INuKi7v/pfoEUX
-	 HgHKNOx9X4eFfI2OxJocZRb8AcJYApZMZAa+j5Z1YR5OQuc/to8fTnGH5Nzsktt++z
-	 eYgDvAWTCiTimvztraLSCdaxOXAgCqifkTeV63BbUooJkq37wIaRQUfeeDoaJuWI8n
-	 /WwbK6qLfFFBli7oGGxaz1T8C9qnRN9TeF35vf9u3dZtD/wDyb0wP7sPn4gPWlyArP
-	 X+i3r5Ie+8SEw+OAP5LIzIPTHFoXC0WSTp8XkBfQ7sMaCrzkIIcfv6x7DNh2yNF54n
-	 k/Ep1vVpHYAZw==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 49L9V7RX02196782
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 21 Oct 2024 17:31:07 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 21 Oct 2024 17:31:08 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 21 Oct 2024 17:31:07 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
- RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
- 15.01.2507.035; Mon, 21 Oct 2024 17:31:07 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>
-CC: Dean Matthew Menezes <dean.menezes@utexas.edu>,
-        "stable@vger.kernel.org"
-	<stable@vger.kernel.org>,
-        "regressions@lists.linux.dev"
-	<regressions@lists.linux.dev>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        Linux Sound System <linux-sound@vger.kernel.org>,
-        Greg KH
-	<gregkh@linuxfoundation.org>
-Subject: RE: No sound on speakers X1 Carbon Gen 12
-Thread-Topic: No sound on speakers X1 Carbon Gen 12
-Thread-Index: AQHbIwVT/23eeZo4dEmkKtnQN51H6bKP5WWAgABb9wCAAJxEgP//e3+AgACHy9D//4FDgIAAjaEg
-Date: Mon, 21 Oct 2024 09:31:07 +0000
-Message-ID: <556c2d97b9054562a96e070efc9f817c@realtek.com>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
-	<2024101613-giggling-ceremony-aae7@gregkh>
-	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-	<87bjzktncb.wl-tiwai@suse.de>
-	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
-	<87cyjzrutw.wl-tiwai@suse.de>
-	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
-	<87ttd8jyu3.wl-tiwai@suse.de>
-	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
-	<87h697jl6c.wl-tiwai@suse.de>
-	<CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
-	<87ed4akd2a.wl-tiwai@suse.de>	<87bjzekcva.wl-tiwai@suse.de>
-	<CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
-	<877ca2j60l.wl-tiwai@suse.de>	<43fe74e10d1d470e80dc2ae937bc1a43@realtek.com>
-	<87ldyh6eyu.wl-tiwai@suse.de>	<18d07dccef894f4cb87b78dd548c5bdd@realtek.com>
- <87h6956dgu.wl-tiwai@suse.de>
-In-Reply-To: <87h6956dgu.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="TT11sIJs"
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4XX9Mh1c2kzyS6;
+	Mon, 21 Oct 2024 12:42:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1729503763;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iItfBry1csHzGqUNbyVvEH2vzYvKChbmjbYESjm867M=;
+	b=TT11sIJskyRx4EEr+KaB1vS9ZH1SrCpLkOsmpLXhV+msJ8nnG/c+KvasmmZkysT/XmnZSF
+	yzI1WuUO2SX3wT0J+rpBDVKiWNTyzy+UbHSQOIEjaKqHupcEcstRyggRrZ89bJ/pCW6MjT
+	E1gF2WbPBegINFg/pG7UZVa227DDmg8=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1729503763; a=rsa-sha256; cv=none;
+	b=dAu7+pIdIlghojNCKKb7WLzQDsJuVijf/a7ZiZcBa3UA0XHPe/kht+wAwuGAtiUGqpd4Te
+	LfWGHY+l6PAYM9iVxr/PvQS7IEAJYX2426q2duOLHAS+HnQV5/TLv/P2PjNAInD2SIs2mA
+	VmHE41wmRy6Gy3+u9bU6C4EA22IgZbk=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1729503763;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iItfBry1csHzGqUNbyVvEH2vzYvKChbmjbYESjm867M=;
+	b=bVCLNoC2TXGV7eAh0a6ceMJHIaPpJJU1ZaP4jA0ZfxVTtkfzdDdnxcM0fVFHXDiBvvll/R
+	NYiTURklrRn0pW+Wj4zdDxekI5VlHJkikY5JLAyrUcNxC6Kac8dWOivI6OMsfq/uZ4Fr52
+	R79/Djv0r4sJdwZfbt0SWAbsfKTtT4A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6DC52634C93;
+	Mon, 21 Oct 2024 12:42:39 +0300 (EEST)
+Date: Mon, 21 Oct 2024 09:42:39 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Helge Deller <deller@gmx.de>, Jaroslav Kysela <perex@perex.cz>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michal Simek <michal.simek@amd.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v7 1/9] of: property: add of_graph_get_next_port()
+Message-ID: <ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
+References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
+ <87v7y2rqwf.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v7y2rqwf.wl-kuninori.morimoto.gx@renesas.com>
 
+Dead Morimoto-san,
 
+On Wed, Oct 09, 2024 at 01:44:48AM +0000, Kuninori Morimoto wrote:
+> diff --git a/drivers/of/property.c b/drivers/of/property.c
+> index 11b922fde7af..6a5d27dd0c64 100644
+> --- a/drivers/of/property.c
+> +++ b/drivers/of/property.c
+> @@ -630,6 +630,43 @@ struct device_node *of_graph_get_port_by_id(struct device_node *parent, u32 id)
+>  }
+>  EXPORT_SYMBOL(of_graph_get_port_by_id);
+>  
+> +/**
+> + * of_graph_get_next_port() - get next port node.
+> + * @parent: pointer to the parent device node, or parent ports node
+> + * @prev: previous port node, or NULL to get first
+> + *
+> + * Parent device node can be used as @parent whether device node has ports node or not.
 
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Monday, October 21, 2024 4:57 PM
-> To: Kailang <kailang@realtek.com>
-> Cc: Takashi Iwai <tiwai@suse.de>; Dean Matthew Menezes
-> <dean.menezes@utexas.edu>; stable@vger.kernel.org;
-> regressions@lists.linux.dev; Jaroslav Kysela <perex@perex.cz>; Takashi Iw=
-ai
-> <tiwai@suse.com>; Linux Sound System <linux-sound@vger.kernel.org>; Greg
-> KH <gregkh@linuxfoundation.org>
-> Subject: Re: No sound on speakers X1 Carbon Gen 12
->=20
->=20
-> External mail.
->=20
->=20
->=20
-> On Mon, 21 Oct 2024 10:38:48 +0200,
-> Kailang wrote:
-> >
-> > But this platform need to assign model
-> ALC287_FIXUP_LENOVO_THKPAD_WH_ALC1318.
-> > It has a chance to broken amp IC.
->=20
-> Yes, if X1 Carbon Gen 12 is indeed the targeted model of the fix, it must=
- be
-> applied.  But we seem still missing some small piece...
->=20
-> > But I don't know why it doesn't have output from speaker.
->=20
-> The diff of COEF dump showed at NID 0x20:
-> (working)    Coeff 0x10: 0x8006
-> (broken)     Coeff 0x10: 0x8806
-> (working)    Coeff 0x46: 0x0004
-> (broken)     Coeff 0x46: 0x0404
-> It shouldn't be a problem to leave the bit 0x800 to COEF 0x10, I suppose?
+This line should be wrapped, no reason to have it longer than 80 chars.
 
-This just change pin function from MLK to GIPO.
-Our AE guess says, it maybe GPIO3 can't pull high.
+Maybe this could be done while applying?
 
->=20
-> > Maybe could run hda_verb to get COEF value. To get NID 0x5A index 0 val=
-ue.
->=20
-> Dean, please run hda-verb program (as root) like:
->   hda-verb /dev/snd/hwC0D0 0x5a SET_COEF_INDEX 0x00
->   hda-verb /dev/snd/hwC0D0 0x5a GET_PROC_COEF 0
->=20
-> and give the outputs on both working and non-working cases.
->=20
-> hda-verb should be included in alsa-utils.
->=20
->=20
-> Takashi
->=20
-> >
-> > > -----Original Message-----
-> > > From: Takashi Iwai <tiwai@suse.de>
-> > > Sent: Monday, October 21, 2024 4:24 PM
-> > > To: Kailang <kailang@realtek.com>
-> > > Cc: Takashi Iwai <tiwai@suse.de>; Dean Matthew Menezes
-> > > <dean.menezes@utexas.edu>; stable@vger.kernel.org;
-> > > regressions@lists.linux.dev; Jaroslav Kysela <perex@perex.cz>;
-> > > Takashi Iwai <tiwai@suse.com>; Linux Sound System
-> > > <linux-sound@vger.kernel.org>; Greg KH <gregkh@linuxfoundation.org>
-> > > Subject: Re: No sound on speakers X1 Carbon Gen 12
-> > >
-> > >
-> > > External mail.
-> > >
-> > >
-> > >
-> > > On Mon, 21 Oct 2024 10:19:53 +0200,
-> > > Kailang wrote:
-> > > >
-> > > > Change to below model.
-> > > > +     SND_PCI_QUIRK(0x17aa, 0x231e, "Thinkpad",
-> > > ALC287_FIXUP_THINKPAD_I2S_SPK),
-> > > > +     SND_PCI_QUIRK(0x17aa, 0x231f, "Thinkpad",
-> > > > + ALC287_FIXUP_THINKPAD_I2S_SPK),
-> > > >
-> > > > The speaker will have output. Right?
-> > >
-> > > FWIW, that was what I asked in
-> > >   https://lore.kernel.org/87h697jl6c.wl-tiwai@suse.de
-> > > and Dean replied that the speaker worked with it.
-> > > (His reply missed Cc, so it didn't appear in the thread, unfortunatel=
-y).
-> > >
-> > >
-> > > Takashi
-> > >
-> > > > > -----Original Message-----
-> > > > > From: Takashi Iwai <tiwai@suse.de>
-> > > > > Sent: Monday, October 21, 2024 2:59 PM
-> > > > > To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-> > > > > Cc: Takashi Iwai <tiwai@suse.de>; Kailang <kailang@realtek.com>;
-> > > > > stable@vger.kernel.org; regressions@lists.linux.dev; Jaroslav
-> > > > > Kysela <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Linux
-> > > > > Sound System <linux-sound@vger.kernel.org>; Greg KH
-> > > > > <gregkh@linuxfoundation.org>
-> > > > > Subject: Re: No sound on speakers X1 Carbon Gen 12
-> > > > >
-> > > > >
-> > > > > External mail.
-> > > > >
-> > > > >
-> > > > >
-> > > > > On Mon, 21 Oct 2024 03:30:13 +0200, Dean Matthew Menezes wrote:
-> > > > > >
-> > > > > > I can confirm that the original fix does not bring back the
-> > > > > > speaker output.  I have attached both outputs for alsa-info.sh
-> > > > >
-> > > > > Thanks!  This confirms that the only significant difference is
-> > > > > the COEF data between working and patched-non-working cases.
-> > > > >
-> > > > > Kailang, I guess this model (X1 Carbon Gen 12) isn't with
-> > > > > ALC1318, hence your quirk rather influences badly.  Or may the
-> > > > > GPIO3 workaround have the similar effect?
-> > > > >
-> > > > > As of now, the possible fix is to simply remove the quirk
-> > > > > entries for
-> > > ALC1318.
-> > > > > But I'd need to know which model was targeted for your original
-> > > > > fix in commit
-> > > > > 1e707769df07 and whether the regressed model is with ALC1318.
-> > > > >
-> > > > >
-> > > > > Takashi
+> + * It will work same as ports@0 node.
+> + *
+> + * Return: A 'port' node pointer with refcount incremented. Refcount
+> + * of the passed @prev node is decremented.
+> + */
+
+-- 
+Kind regards,
+
+Sakari Ailus
