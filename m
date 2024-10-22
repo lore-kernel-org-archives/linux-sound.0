@@ -1,41 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8403619D88F
-	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 14:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C80619D88F;
+	Tue, 22 Oct 2024 14:07:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729606055; cv=none; b=D/DoOmlPcQDZroYHwhaAvy/OZ6EFbiOY0R479ax92m4lm9xipDVEC4rEzMhE385eQLbhChOQkMY4ylarHwsGtoxhmHeM4ZleRgsDHoZN2dS1nPvaJ/I2N7oE+WRjpZsAaTEX8eFh/CLKnuDtNkAE4/woIuiEyKONeBcUELl07Tw=
+	t=1729606058; cv=none; b=cTfeUVBhPeWnjo0Ko9duzDA5N0tXyk1HPzLlEylRdGilhP5vBFcHWEa/Rh+Tx+DUiwDmr2vht7Qx2CIpdA9FK9hYn1rAzC4UBWJ87Qj0lTT6R35OfWejbv+GR1XI3/zwfESFEVpH9guJPMjOKXsFhtPYRAMz5VUnDNJkzix0WJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729606055; c=relaxed/simple;
-	bh=3H0weuPNSSlVZDJ7SA8c5erRyMPv0gzKX9yZqcx0+sI=;
+	s=arc-20240116; t=1729606058; c=relaxed/simple;
+	bh=nE99iModeW89lNsWiK+9LumvbIMcQgQJxkg/6DSWG1M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=lIwKYNObPdLfDCSxI8RuyYu8PtpKViKSk4x9oAZp6k9/lAhYfrlJm9pWyUu2ehzOmrphSjN64qjxrSK6xafkdqL2cJOcN9Yrwa8RSy+yOYIxluCCb7vPoMBpeYtzk/Mkg94vV3gpr7G5Nlr04kFp+fV6YxBf4AFOtDhuYFxKjXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Baf3bFEx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UjCJC+4m9DVvLFZ/6aYv9Pst4hcYPOQ+jCnlX8uSUxZMQsx9SCV5qNeu8QH1O4DPfYwcftT9viFoWB4Dddzfv9yLwbQm/aTaWmuV1kdOt2VRQV1fnrtbgqekmtjy0ODuCt7nDXQjydV+yzwJz5QboKYctMcLLQ10lnahDrcHyC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iuNQhZ+0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Baf3bFEx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1143C4CEC3;
-	Tue, 22 Oct 2024 14:07:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iuNQhZ+0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70F3BC4CEE6;
+	Tue, 22 Oct 2024 14:07:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729606054;
-	bh=3H0weuPNSSlVZDJ7SA8c5erRyMPv0gzKX9yZqcx0+sI=;
+	s=k20201202; t=1729606057;
+	bh=nE99iModeW89lNsWiK+9LumvbIMcQgQJxkg/6DSWG1M=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Baf3bFExT8OU7MI0rgJWGFjuxsfrdPRtUxlIzsulM+bMnfizKl6pKlpWaQ+X+HeTn
-	 CotFqgzHF94CCIj3McTD0eTNO5ePfG5b01EuITqbiMwbCbRmB4F9UYPcLfcNXVHqSB
-	 dQH3qe0qCReus8oTgrQ/nfXNENCBzU5IJFlDVga2mg9/xUVMImu4vpGYj3Hq/+pebb
-	 J/dZfryq+yaAhQPk8QZvvVBnPh0VX58Vk5xunKEM946hU1a95z15ASEIvHgpdqG0K5
-	 kvKxTkHEUh+k6jjYbVX1g7lTCpIAnXtOLRWG+1n1jKGY2M4OcolBGebHa0frsgiI95
-	 8aOKO2YggYa2g==
+	b=iuNQhZ+0zO+BtdYdxmtPJTvw2kCskxbWnd4qO093Pf2BOOxseHlVIuSprOW2468SJ
+	 VoiukHPrnYoALtql/o+yejCyB5scsHEsCmi1fVI7FQ4ex81MCrNOHe/ZCz5rAgzzrT
+	 3DIGN2F4RbIGOm738Zx9L3kikKVo3haU1qbabRnUVQv7psNoQdD3y2nKKlsMF3+pZc
+	 zY5Ox0dwa1hnf9Te+czDDR3U4FXHWsOXZ+AsxyApHNB4kWGcUi8TfLgYSYuqATTP9c
+	 y8lVQ47Z+/CoCIk2m8L70smVVStoW0OWA1tBXm0uHD+10Jn7RuuHQWXP6MU1q/8xAp
+	 BcljCpL9OfydQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Nuno Sa <nuno.sa@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20241021-adau1372-of-table-v1-1-6efbc7946957@analog.com>
-References: <20241021-adau1372-of-table-v1-1-6efbc7946957@analog.com>
-Subject: Re: [PATCH] ASoC: codecs: adau1372: add match table
-Message-Id: <172960605344.41803.17410969493660628007.b4-ty@kernel.org>
-Date: Tue, 22 Oct 2024 15:07:33 +0100
+To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ David Yang <yangxiaohua@everest-semi.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com, 
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241019-es8328-doc-port-v1-1-25c1d1b5c65c@collabora.com>
+References: <20241019-es8328-doc-port-v1-1-25c1d1b5c65c@collabora.com>
+Subject: Re: [PATCH] ASoC: dt-bindings: everest,es8328: Document audio
+ graph port
+Message-Id: <172960605518.41803.10563200262175057259.b4-ty@kernel.org>
+Date: Tue, 22 Oct 2024 15:07:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,10 +51,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Mon, 21 Oct 2024 16:00:49 +0200, Nuno Sa wrote:
-> Add an of_device_id table for both the I2C and SPI drivers.
+On Sat, 19 Oct 2024 03:43:14 +0300, Cristian Ciocaltea wrote:
+> The ES8328/ES8388 audio codec is currently used in conjunction with
+> audio-graph-card to provide an endpoint for binding with the other side
+> of the audio link.
 > 
+> This is achieved via the 'port' property, which is not supported by the
+> binding:
 > 
+> [...]
 
 Applied to
 
@@ -57,8 +67,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: codecs: adau1372: add match table
-      commit: cca8824838a59aba31e182525175e5659c33034f
+[1/1] ASoC: dt-bindings: everest,es8328: Document audio graph port
+      commit: e6d20a9b0f376fda3e3c3709a59cefa6c0021784
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
