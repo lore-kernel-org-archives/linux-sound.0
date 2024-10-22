@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A09A188599;
-	Tue, 22 Oct 2024 21:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B04C130AF6;
+	Tue, 22 Oct 2024 23:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729630831; cv=none; b=ErNl/6ikSqvQ2Wpl2rA9uATqwNDUc3GOfkQs36NkHiHQa5LIfg3zRXiwZMafCy3qnu5/0gFDaGRXYI0VnIiwN1okx9X0jAx8SHsduNoUOND2U4hfLN5eKh2uPo8xLWFKAjUaU2R07ySd+u+fA9Dh6A/fosphq2Y2Q+0pvVWGx2Q=
+	t=1729638946; cv=none; b=aRHjgUEYRPOFtOK3o4fI10alzkSdvBW7DoDNpGalacd46R5hpBG9eW48cb+nqUvDDIFt2mkKgaj0qgCj7nx1piUa6QjLruyXMgu8zHnD9YSsFrB0yts7g5h74ETgHVDEPqXLvlAFYN3o9EjlXmFgCVKB8nMi+tXTwoOGlB3XA2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729630831; c=relaxed/simple;
-	bh=xqtlUhw8rmrDSpNkrqtyPtQIJUIMIG4Xa/kCuAim9xs=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hfl6G3UdEMFtxfKFSDietfF/QBI46vi+UptkrMQxcLe4LeJ6oRNG8o9Xq6s3hSZtvxzrldBnf2yQfurRmXp3rdzYHSW/0nlov9DdiUm1STbRnh1kG1KpeiQIjbAtJoeoRZrs3c1eutXMPSuyaI/c34Gp51Gk3DhUi2/MD+6yjaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRySlJva; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729638946; c=relaxed/simple;
+	bh=eIOJlPjE4CtOTt1MXDUhDT+O5xXsoiSWn8H7fZVwGxQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HS+hO+SK/wNulJFWK2cg3AWVvGaE1PC/8UdrUDRWN8GeV5/0sAz41OkQqgAvFlz1tiPVSGQ6WA/wO3GMj7nAAtH//JQ4sWgCMdnpm46nWrvsRycqXjyIlvf6KpP4KUCUVfOVlFPVDgY3ha1O0zF/PVbcTBIBdZ/hBiL8Mwtmdpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fshk/KL0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRySlJva"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BAFDC4CEE3;
-	Tue, 22 Oct 2024 21:00:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fshk/KL0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B77E2C4CEC3;
+	Tue, 22 Oct 2024 23:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729630830;
-	bh=xqtlUhw8rmrDSpNkrqtyPtQIJUIMIG4Xa/kCuAim9xs=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=sRySlJvaDIgA7CqpeVCHlCjQ9N3IDeVH64OWYdmvNY7+5xl4VEWoVhw9/MPcuQgnf
-	 CjEVJa21+IvZCM5NRpxh0eVky+wFMAVGZXkeixfxhlUvDW1I2bD9aTb2AXSGn4j2Su
-	 tGtIkgCGfsoOg8lzflkZsZ93+pv5E69x6WOT6W7KHZvdy3vopi8SEAuqkgTR2FdIg/
-	 aXPBI0WTQZ8L6vy3jDSa1XU2b1OeSx/koxQx95XBW/S/CM+VfiJMPkzYvchVKvBv0l
-	 DI2zIFB51RfszhjbrHuyL5KorFUaGmputCN/bdy+V9ohn61/BV5Ra5CEVSs7E6NxW6
-	 PLR67TCUEBhAQ==
+	s=k20201202; t=1729638946;
+	bh=eIOJlPjE4CtOTt1MXDUhDT+O5xXsoiSWn8H7fZVwGxQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Fshk/KL0wmHyB3KInp62gSM/+XziHiUxrBWxqQ8BgECtuedldbuc3PfLKA0JK+QB/
+	 5FN9F1ls+12KhWizTA448YzpgtOS9r9vUq/UAx67rKJpXZB1I3XSiaSqFNaBgdK59w
+	 v3VEXnmbmlZ8KtJXHzP6Tz35mE+JWM3uor31O3sck+sdjt47KfAs2htjPS47wmZdvf
+	 NAzasc+iDfoki5el1su+dR91indjxrgCb3rfZ/v8z0N9b5RIDek27p33bMkdAZ0uBa
+	 Wck+QTtUR+TfsMNRtdQccbqLkqOgoySG7ph4U2HlbN+Rog5OEOnhY+oyREf8gMRLGU
+	 4dZrSb4S8huVA==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Shengjiu Wang <shengjiu.wang@nxp.com>
-In-Reply-To: <1728368873-31379-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1728368873-31379-1-git-send-email-shengjiu.wang@nxp.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl_xcvr: enable some interrupts
-Message-Id: <172963082823.164184.11756068817626809151.b4-ty@kernel.org>
-Date: Tue, 22 Oct 2024 22:00:28 +0100
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: stable@vger.kernel.org, Alexey Klimov <alexey.klimov@linaro.org>, 
+ Steev Klimaszewski <steev@kali.org>
+In-Reply-To: <20241012101108.129476-1-krzysztof.kozlowski@linaro.org>
+References: <20241012101108.129476-1-krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2] ASoC: qcom: sc7280: Fix missing Soundwire runtime
+ stream alloc
+Message-Id: <172963894347.334190.2415888818283876880.b4-ty@kernel.org>
+Date: Wed, 23 Oct 2024 00:15:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,13 +52,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 08 Oct 2024 14:27:51 +0800, Shengjiu Wang wrote:
-> Enable interrupt of cmdc status update and the interrupts for
-> wrong preamble received.
+On Sat, 12 Oct 2024 12:11:08 +0200, Krzysztof Kozlowski wrote:
+> Commit 15c7fab0e047 ("ASoC: qcom: Move Soundwire runtime stream alloc to
+> soundcards") moved the allocation of Soundwire stream runtime from the
+> Qualcomm Soundwire driver to each individual machine sound card driver,
+> except that it forgot to update SC7280 card.
 > 
-> Shengjiu Wang (2):
->   ASoC: fsl_xcvr: enable interrupt of cmdc status update
->   ASoC: fsl_xcvr: reset RX dpath after wrong preamble
+> Just like for other Qualcomm sound cards using Soundwire, the card
+> driver should allocate and release the runtime.  Otherwise sound
+> playback will result in a NULL pointer dereference or other effect of
+> uninitialized memory accesses (which was confirmed on SDM845 having
+> similar issue).
 > 
 > [...]
 
@@ -63,10 +72,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: fsl_xcvr: enable interrupt of cmdc status update
-      commit: 06461e288abcd6d67d0a870cd25731c79ebe66ab
-[2/2] ASoC: fsl_xcvr: reset RX dpath after wrong preamble
-      commit: 1e5d0f106164d2089826c16bb521891d1d06d3ad
+[1/1] ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+      commit: db7e59e6a39a4d3d54ca8197c796557e6d480b0d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
