@@ -1,197 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081FA84A36;
-	Tue, 22 Oct 2024 06:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAC813E03E;
+	Tue, 22 Oct 2024 06:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729577200; cv=none; b=r6QlMObP7NCzJ1e6hNzi75+1Yek+C7F1TT/wic6Y++tKDBJwM/c3T+uhojVTFgaoYq+qOlelnOFKuXpHVekszzQC+LnS/MOmhemly7P1kjvm78qpsIry8MfTZE1ukiuTb6IhwdN6/XkPR9BbRn8NQTCyvlIb92HV6Bi922vMLCI=
+	t=1729578935; cv=none; b=muECR/Mz80TBQOSCtg5YWWPqENpWPK6M32zlsCgU+6M0VkNkQopkKvjyjCbI3l+5+9C/mFEuhnqvMzmr0I1vltytabc5UypJPiFC+K8OTS58d+ESqbEHgEEBtwlwDEtt4V7Pf34GlMHKI1PxTF4CFtiebf3lnizT0uTyCYHN1u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729577200; c=relaxed/simple;
-	bh=8QbpdJWB1qxhMrePilvW1Sip+EP6uxpGcvOzDxVCiyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q1HLGo5p9EopEnU/BAXEgDFaNG51YQMOQH9GqfN7ZaT6vOlD6mC6fI9CerF/P23Nco0TfUB1IN63E/Pur9CA8fuyby1QjM2J50mkyiCzRTgjlAzi1I+jsSU5U9I74EA5t/FH1zY8VsL4RughhX+GXbLohNPiT+7ZCTBui3EjLjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ruD4EqDL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729578935; c=relaxed/simple;
+	bh=f/4LPkUrDgub4VPiv5XgAEJ7tHTuc6Y+P4YkJHZv/kA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=izFy7zXxXvYFfzpepiOreOhfl91sL1ySLgdPEmH+dTuewKg+sBjk9sTOKXjv0Nj1MnFviwXTMGAYAid73uO9XKOIDJiqLCS/SaiYkTZKufwlBPJGfiaR3436wF5JGryd/buj2agV4w6Nq+Rukh4qXBW+wo3thXljaayETLuAFtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z3VTEpom; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ruD4EqDL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD458C4CEC3;
-	Tue, 22 Oct 2024 06:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729577199;
-	bh=8QbpdJWB1qxhMrePilvW1Sip+EP6uxpGcvOzDxVCiyI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ruD4EqDLiA2I7chMy/TRZyq5BFFuODRQs1XJBE8a86UOEiWDsQ+mRujooDK57NtcX
-	 m7+zn3ltXWyQRMSEjMyoD1F2b6pW7SgDc4OLGyTm0HOu7jg8EBm4h90mxwErzxBccT
-	 tR0acX04FstTrqoPfSwWL02qKj4DMdA9i0b2GMhd3SeHAjexRUbA6rVaIWZ9TS8xit
-	 H9C+xavpIXSk9ZpIG1IOvnKSuS2GkXj3iJMyWInEtqeqKrV9GeAQIPB9wvtUsPjetn
-	 fa1jFb0QFj7mXAm48KnGaBREIaev0izt6xCSUnsRMoBSWvNoDVjy6t83KZDUrUJ6eL
-	 +bFib2KosMnRQ==
-Date: Tue, 22 Oct 2024 08:06:36 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nuno Sa <nuno.sa@analog.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Subject: Re: [PATCH 2/4] ASoC: dt-bindings: document the adau1373 Codec
-Message-ID: <pj5clifybfwljpq3usfgca7cy54xpmzngdckyb53wc3u4lts53@gtm2mbuiiudw>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z3VTEpom"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4315baec681so54063255e9.2;
+        Mon, 21 Oct 2024 23:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729578932; x=1730183732; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=f/4LPkUrDgub4VPiv5XgAEJ7tHTuc6Y+P4YkJHZv/kA=;
+        b=Z3VTEpombUMH/ufnHcV9nwh9PrntSV4w8lzJreyQ50c73K9Y7KX0F6ONdxqueTs4B2
+         ysR8H5nB0y9gzOsWLLMatIxGjdm8ECk4k1MQU6fUhdUi1RCrq0ZwAmhb6Nt1PGHYAR0b
+         C79m/I2a+nqDaLq3bd1st9IukHmVMOwVqb2VDyZ2Us7fYjua1egL4hqbIXbgVd9mnsFX
+         UZCwrREkS+ojG2ZB2F9gRxdVwCyEdz/IIA4r+b0qgj4pzDJy8RHQtvOTCgRRqfiqiQdo
+         Bz+ArmmcN7uEb8WHtK/DkobFgrtCH4JBGq1s3TQ8w+Uf5I29+sjvyscBR5xlb6+RzSEh
+         EX0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729578932; x=1730183732;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=f/4LPkUrDgub4VPiv5XgAEJ7tHTuc6Y+P4YkJHZv/kA=;
+        b=wBfLzJO+3+qRtdXSZQaMKKMzyLPM5uYRnVChmlxJHJBDjDo4x4ZBKGfHAkb/sLbQSw
+         26tz27BDoOibWjvuvYpyHpSqSrUuaf1RRlbxCVsVecuUsp7OPTuTv4bT7IPXOalFj4Bf
+         zrv5iwert2hZSGwBAVhA84qt0dh1f+a4uQ6hVRbeuwn9GtBF+GiHumMXInTQ559LT/Wx
+         abNxeWnCE4meUePeoS/hwR8JgpAJjo0XIPxpM5V+CcUDm4ORn42t2vYbhvEUx+/XfVE9
+         x2XJIPcOpGIedQVPTM5+QVq3exvgz6dSGWFMgv65wlhJESb0SpiRCHG22oDuRG+6sNsc
+         e1OQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULAlWg1FifQ+DNRcruBSaI6gKz+17k+aC85WwIppc1LgswzriS1Tj0hiLVpxlnxMheSLfOQacZng0/@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRtd9re4mOvEjaEWxZ0iGjOem1kFfMiGJXcigHLqS5rAhiH92z
+	2QHlIyYpLSNBFoVU0SmqLuMTkxZ1lE3mUcPVjBTGMvoiaBVdaiaS
+X-Google-Smtp-Source: AGHT+IFTNXLsxN1R6wim6OUD8zZTTf4YG0tq1SCP94X8xnPM3vGFANeN3Se88tG012MdQ1W1KO52KA==
+X-Received: by 2002:a05:600c:3b25:b0:42f:8515:e4a8 with SMTP id 5b1f17b1804b1-431616331e8mr114512855e9.6.1729578931543;
+        Mon, 21 Oct 2024 23:35:31 -0700 (PDT)
+Received: from ?IPv6:2003:f6:ef15:2100:888:d3c6:a442:4910? (p200300f6ef1521000888d3c6a4424910.dip0.t-ipconnect.de. [2003:f6:ef15:2100:888:d3c6:a442:4910])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5c2bf3sm78051685e9.38.2024.10.21.23.35.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 23:35:30 -0700 (PDT)
+Message-ID: <d8bd85955bc5051f50b473028698f1c9d6b802ce.camel@gmail.com>
+Subject: Re: [PATCH 4/4] ASoC: codecs: adau1373: add powerdown gpio
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Mark Brown <broonie@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, Liam Girdwood
+	 <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	 <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>
+Date: Tue, 22 Oct 2024 08:39:49 +0200
+In-Reply-To: <7a8b1560-c091-4e87-a6f4-7ca7453b7414@sirena.org.uk>
 References: <20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com>
- <20241021-adau1373-shutdown-v1-2-bec4ff9dfa16@analog.com>
+	 <20241021-adau1373-shutdown-v1-4-bec4ff9dfa16@analog.com>
+	 <7a8b1560-c091-4e87-a6f4-7ca7453b7414@sirena.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241021-adau1373-shutdown-v1-2-bec4ff9dfa16@analog.com>
 
-On Mon, Oct 21, 2024 at 03:46:46PM +0200, Nuno Sa wrote:
-> Describe the adau1373 Low Power Codec with Speaker and
-> Headphone Amplifier.
+On Mon, 2024-10-21 at 16:30 +0100, Mark Brown wrote:
+> On Mon, Oct 21, 2024 at 03:46:48PM +0200, Nuno Sa wrote:
+> > If the powerdown GPIO is specified, we use it for reset. Otherwise,
+> > fallback to a software reset.
 >=20
-> While at it, properly add a MAINTAINERS entry for ADI sound bindings.
->=20
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> ---
->  .../devicetree/bindings/sound/adi,adau1373.yaml    | 102 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 103 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/adi,adau1373.yaml b/=
-Documentation/devicetree/bindings/sound/adi,adau1373.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..b2b5b2226ed7b354f2fb7871c=
-17272b347921fa5
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/adi,adau1373.yaml
-> @@ -0,0 +1,102 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/adi,adau1373.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +
+> Ideally we'd also put the device into reset when we unload, but that's
+> not essential.
 
-Just one blank line
+Alright... I can do a v2 with that. Will just wait for some more feedback o=
+n the
+rest.
 
-> +title: Analog Devices ADAU1373 CODEC
-> +
-> +maintainers:
-> +  - Nuno S=C3=A1 <nuno.sa@analog.com>
-> +
-> +description: |
-> +  Analog Devices ADAU1373 Low power codec with speaker and headphone amp=
-lifiers.
-> +  https://www.analog.com/media/en/technical-documentation/data-sheets/AD=
-AU1373.pdf
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - adi,adau1373
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  powerdown-gpios:
-> +    description: GPIO used for hardware power-down.
-> +    maxItems: 1
-> +
-> +  adi,micbias1-microvolt:
-> +    description:
-> +      This property sets the microphone bias voltage for the first micro=
-phone.
-> +    enum: [1800000, 2200000, 2600000, 2900000]
-> +    default: 2900000
-> +
-> +  adi,micbias2-microvolt:
-> +    description:
-> +      This property sets the microphone bias voltage for the second micr=
-ophone.
-> +    enum: [1800000, 2200000, 2600000, 2900000]
-> +    default: 2900000
-> +
-> +  adi,input1-differential:
-> +    description: This property sets the first analog input as differenti=
-al.
-> +    type: boolean
-> +
-> +  adi,input2-differential:
-> +    description: This property sets the second analog input as different=
-ial.
-> +    type: boolean
-> +
-> +  adi,input3-differential:
-> +    description: This property sets the third analog input as differenti=
-al.
-> +    type: boolean
-> +
-> +  adi,input4-differential:
-> +    description: This property sets the fourth analog input as different=
-ial.
-> +    type: boolean
-> +
-> +  adi,lineout-differential:
-> +    description: This property sets the line output as differential.
-> +    type: boolean
-> +
-> +  adi,lineout-gnd-sense:
-> +    description: This property enables the line output ground sense cont=
-rol.
-> +    type: boolean
-> +
-> +  adi,drc-settings:
-> +    description:
-> +      This setting is used to control the dynamic range of the signal. T=
-he
-> +      device provides a maximum of three full band DRCs with 13 entries =
-each.
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    oneOf:
-> +      - minItems: 13
-> +      - minItems: 26
-> +      - minItems: 39
-
-and maxItems?
-
-> +
-> +required:
-> +  - "#sound-dai-cells"
-> +  - compatible
-> +  - reg
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +        audio-codec@1a {
-> +                compatible =3D "adi,adau1373";
-
-Messed indentation.
-
-> +                reg =3D <0x1a>;
-> +                #sound-dai-cells =3D <0>;
-> +                powerdown-gpios =3D <&gpio 100 GPIO_ACTIVE_LOW>;
-
-Extend the example, you have like 10 unused properties.
-
-Best regards,
-Krzysztof
-
+- Nuno S=C3=A1
