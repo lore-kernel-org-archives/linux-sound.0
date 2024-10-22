@@ -1,159 +1,82 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F5A19F10A
-	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 14:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C4719F424
+	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 14:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729606497; cv=none; b=p6vYoDUt8u8AYGH9CfI+ToYYo/dTocjpCzOcDl0hdfu85TB9zO8dEzE7TFarT1yl35mB/ClOBY0HCOD/KhXmerWvniWEOdB4yoEYkYJ0buGFW8TtzVYii7VF6WWyPA31JmLcvt8+YOv7qdt/uv+ypd7CHRct33A8Kd2DV/KImoU=
+	t=1729606671; cv=none; b=AK5zy3gDtPxmS8NMIC+Ml7BbRIJgYTtzPdbtUwRRCwIbgLnNeOffYK4jIKz2K6KMLCL90RjZAMJz3jMgfb1zeT6KOgxbX0cSU/D3mgdJ80vNeh7fXvUG5acLRcQI1xfJZPeAkVvguv9/ZE3JaIJ3x30nKgOKl7oO6J9yv0onfl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729606497; c=relaxed/simple;
-	bh=PYnKEPS+QCRqajw4t4Y4LKoMQKDdeFh/sPGwhyOfNWs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/IFK5aXzAWXncpbN24pJd9xhcnTGnGgFZhbJ0ezCQaIEbXV3E8MeANm2bCtf9HWCJ2vqqJcj/FLnwQcv6xOWsxaDTJJb6KjSfIKY0H0HinrtDcy+/Walkkn852CYOE7jVyHHiXlnrIzZc6+SXH9l2weqe6rxTxv1OrUR1/FO4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bwdnyHc5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O77EFVEM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bwdnyHc5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O77EFVEM; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1729606671; c=relaxed/simple;
+	bh=hW2k9Zeh/su+fjj9SqIn+0lEM2RZ2741y8pD7uXKluo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4q1VMzLM0lrOSvbVRG2UcDG/Sen0rrLEqf6r1FDXMRdkw91VIDMsGWbTQ/0xsNPkrx6GIH4GdQaHHq1/SfWWEMgG2PdXccNt6G+nRJ7but72cOpRYcZhOTGKq7HyoVwfAMaA0G11BQQNNvPm0WxerTwxY/Dp4nCbDy27Gk70vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FjDZMWQK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bwdnyHc5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O77EFVEM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bwdnyHc5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O77EFVEM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 377EE1FD15;
-	Tue, 22 Oct 2024 14:14:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729606493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
-	b=bwdnyHc5WJ0FdvRGszOvL/ipBizoD7Qnzukv3rI5RWnBPNlbsJTJ1TALWEtVb1VjcIPV8U
-	+umKvJ3xcXGO+DatNaAQaUotK0m/qjJ/wVUAJhRuNnRVNnIlZltlgTsF5QVr91Y9Dv6Fq0
-	S2Q/acBhYuutyja1DrR7Qx8/BoeIRhY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729606493;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
-	b=O77EFVEM1f9EJFrm4WWkgrKp2xiSgXxmIkBP2JMPdlUO1gZuGxzIXT65IIqCby5Di75OH2
-	91rxkJ1//JKi/5Aw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bwdnyHc5;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=O77EFVEM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729606493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
-	b=bwdnyHc5WJ0FdvRGszOvL/ipBizoD7Qnzukv3rI5RWnBPNlbsJTJ1TALWEtVb1VjcIPV8U
-	+umKvJ3xcXGO+DatNaAQaUotK0m/qjJ/wVUAJhRuNnRVNnIlZltlgTsF5QVr91Y9Dv6Fq0
-	S2Q/acBhYuutyja1DrR7Qx8/BoeIRhY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729606493;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
-	b=O77EFVEM1f9EJFrm4WWkgrKp2xiSgXxmIkBP2JMPdlUO1gZuGxzIXT65IIqCby5Di75OH2
-	91rxkJ1//JKi/5Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 187D613894;
-	Tue, 22 Oct 2024 14:14:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id hzleBV2zF2cCbgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 14:14:53 +0000
-Date: Tue, 22 Oct 2024 16:15:53 +0200
-Message-ID: <87seso2pgm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Linux Sound ML <linux-sound@vger.kernel.org>,	Takashi Iwai
- <tiwai@suse.de>,	Mark Brown <broonie@kernel.org>,	Shengjiu Wang
- <shengjiu.wang@gmail.com>,	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>,	Vinod Koul <vkoul@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FjDZMWQK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0373BC4CEC3;
+	Tue, 22 Oct 2024 14:17:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729606670;
+	bh=hW2k9Zeh/su+fjj9SqIn+0lEM2RZ2741y8pD7uXKluo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FjDZMWQK5Iuaq2G/DVS/KjMCLTHv7k4KMs9gNHleSaWng++h9kWm6v/86hJCBXaP+
+	 5OOBeZZeB4r3ZEz7gxJdj5FJDi8LGS2G5xlUSfF3pklOPA8YnuqSVoff5B3kFmjMph
+	 996GfW3CMez3ZX1gj84rKF7++MniHAhmoKyNo/cdDuzvha6ozS7PSDJHfLaMvdsdd/
+	 TDuBI0Wn9HDky0ujr4j1Ad17P0MyaY2/h+QV80FrHhFKeT49+ErR4oMPHB3CXPM+07
+	 YVu/eaGYXg+HdwrQchpWGQMZa+JhrgAkjBrpclwoGpPJYfTebhzHpOS11r0qmo1UHb
+	 +bkLJ0rKiMjng==
+Date: Tue, 22 Oct 2024 15:17:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Linux Sound ML <linux-sound@vger.kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vinod Koul <vkoul@kernel.org>
 Subject: Re: [PATCH v6] ALSA: compress_offload: introduce accel operation mode
-In-Reply-To: <20241002093904.1809799-1-perex@perex.cz>
+Message-ID: <9d2e6d81-7e13-4e88-b528-f2648a494377@sirena.org.uk>
 References: <20241002093904.1809799-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+ <87seso2pgm.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 377EE1FD15
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com,linux.dev];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
-X-Spam-Flag: NO
-
-On Wed, 02 Oct 2024 11:39:04 +0200,
-Jaroslav Kysela wrote:
-> 
-> There is a requirement to expose the audio hardware that accelerates various
-> tasks for user space such as sample rate converters, compressed
-> stream decoders, etc.
-> 
-> This is description for the API extension for the compress ALSA API which
-> is able to handle "tasks" that are not bound to real-time operations
-> and allows for the serialization of operations.
-> 
-> For details, refer to "compress-accel.rst" document.
-> 
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
-> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
-> Cc: Amadeusz S³awiñski <amadeuszx.slawinski@linux.intel.com>
-> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-> Cc: Vinod Koul <vkoul@kernel.org>
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-
-Are there any objections to this extension?
-Otherwise I'd like to pick up for 6.13.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WTdhzezix+KnyZDH"
+Content-Disposition: inline
+In-Reply-To: <87seso2pgm.wl-tiwai@suse.de>
+X-Cookie: Surprise due today.  Also the rent.
 
 
-thanks,
+--WTdhzezix+KnyZDH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Takashi
+On Tue, Oct 22, 2024 at 04:15:53PM +0200, Takashi Iwai wrote:
+
+> Are there any objections to this extension?
+> Otherwise I'd like to pick up for 6.13.
+
+Looks good to me.
+
+--WTdhzezix+KnyZDH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcXtAkACgkQJNaLcl1U
+h9Bc3gf9GpC9S4z9nrehYnLodJb4pkEFqOh2zTlaWoN44Xa4kcmuPhGzEXnYHKa0
+NWmkIb/KqxwC0kR7qxwtPegsPok5VBM10JHL3JAB1XydfiwfIVpzuJkZIKYGF7FE
+HU2xJKi3mm5wjV7CQiSWhpcIu61pPJ/d4lWlWt/r4iH+rlQP8cAY6pWc1PxdQnSJ
+HhPl228ByCETJ4+qCby/abysGPv8OqNE/PYJA7CT3P2yoRJ4amA9AhZ55xqtP2dE
+FjesXb33PZovA8nCj4DeBaUF7d7A2eq2/a3XNMei7CRYuuXnZs6Fd41+q7dmatgV
+dQtwt7oOskRQJZ0DymK+QhVDN7pyAg==
+=jBy3
+-----END PGP SIGNATURE-----
+
+--WTdhzezix+KnyZDH--
