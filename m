@@ -1,147 +1,137 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE5E811EB
-	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 06:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1C71494CE;
+	Tue, 22 Oct 2024 07:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729579326; cv=none; b=eqyhm4N5JppC249mlKha3sk9g6/9krs9XwYESp/YV/ZnYEiPgoks9b6YBTkk2aHWYumS+HBsFt5O6zTG4KF3UHsq/UV27vc6WK1npE4EJsiEvQ/aWubx54fPUtcNlBo+KVmFjxg4NYCOBiJOE3t17j1liYrlik5/CUY+J/z0NMY=
+	t=1729581253; cv=none; b=ZZPcFZUKCaD7MsiT5v0a4DIcoSJUkAV50vT3dxjMc74XZZqohxmzyLEiAulpg6VpoxOrqttqDK2oJ6X2vmhjz9Iv1csV0ZlcgFbidCj6M3aHHn+sRFVPtgSSAWcNM9xScaUblJEjDO6a3YuU9MJb7BO/z1KFgOQ7P3f578zOVEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729579326; c=relaxed/simple;
-	bh=1thCTcH23spAhn2EXYxroeApX1m8h0dJWW4QKu3j478=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WXSOWS+IYKiCqMsuA4K7VN2xYhBKaYho+jdpKwvHVo+GLepVhO2KORNlFSjq9NXwUgTaVx5LZCuV5dGNN/cf3ZKxMIYzETa82/W+Qi3DkOz+5JFvoXFXHo1yM9fphxga8qUMpYk2WZKQwadUBqlj8ywrOvTe13eZKC83JKBZQjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=apoviP08; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729581253; c=relaxed/simple;
+	bh=FaTJrnKvTNc+V3dbBhAL3Glgo+sHMhxk4md12E05/ng=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XkBhBWYj50JepntslHMgA5l2eTq5ng49D8paNc2JhgfZVmBTMh/he/RSb/Q3i7O3l/URUGvxx+oapwwGVYUDfW6J15WJvsCQ7/26ZhrJvai0lRJ/wLXkZs8HufTYsZ9US0ir5APz3ZNljJ7iyscWf7H2siRs3vVm5mcag1z2CI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QFqLeoOw; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="apoviP08"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d43a34a0cso476180f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 21 Oct 2024 23:42:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QFqLeoOw"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7c1324be8easo4418897a12.1;
+        Tue, 22 Oct 2024 00:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729579323; x=1730184123; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=duciRezIS4gg7ESTgVskBEGp7JBiK6GVm+jK3y4v+lo=;
-        b=apoviP08plzx+ful4dCHoV0hIwJShFFQdNJyCh57xRoYhdEZLQejQQihFOUlnK68a4
-         Mo6tqadsPYLg5pNi9ES8dTa5flf434uElZYRLrcSGr19z+m8SsXwynBHprfngJYVy9Re
-         vYxLawiP2CKzhDHehjCxxgdV6mbUf0uFZ7armdxTh0uXy1+jRWZhDsQNEK7LQ50BbOIs
-         1PnvEsWGLEbIS4lB3eO/4d71d0hQVqazQHq9lhXR8O2xuAC5cIGBK5OkQVkGr5zKH8iT
-         F+oPmDUC5uh2UpDBGqdZef8JyvXhd5TTJIFw7J4+pEoZccvnkj5EymqR8MrzhBslgVfP
-         Z0eg==
+        d=gmail.com; s=20230601; t=1729581251; x=1730186051; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FaTJrnKvTNc+V3dbBhAL3Glgo+sHMhxk4md12E05/ng=;
+        b=QFqLeoOwPQgQDO8/6JIP2kEVd25ePpBBxzBHnimMdjeGu2C01wWypeqHBICWZtSuSQ
+         FgP9Zo4Fc/0NrhQeN0wbJ3ciGO5TFQ44YTO+dnwVm/6rGDM/jy8nsOrSa6KrN1nkf2gO
+         EO1QCJPNIKM0LLwnbH2k+YYMNQPWwbRK5iS9B0bAzZk2Lu+m5rgoe/oBjEq2haDtLoks
+         +9nLMBjMRzVc/dbrJgiKJJrf0aE1K821agswmzBFXZ78ilcYNXJinZoCZ9oOybWQAVdU
+         iFYuj39iIUsrP/PYwL+vUSeZlY1QDmbI5woB/4ossPPSvgaKIjFpfL9ljuqaWThRzyvS
+         QH5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729579323; x=1730184123;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=duciRezIS4gg7ESTgVskBEGp7JBiK6GVm+jK3y4v+lo=;
-        b=ADW3/wLmNOvZ/05fLL8NZHTULdZDihLbajXrbiZ2hPFQz3Jlps/q8Z9q9sWhDBSwTf
-         ruJKTySrgnA/VcsB0XclOiAjUwPKKJNhAHvP772tQetqklSO1jFGlA9zVOaQvdmwgU8+
-         3I8wBJ2Gdvwpjz/7lAyc0mAgjeKrFBH8dpBYDHHzIVnZ7oBnyL/EW5wJDAMcWv2A505c
-         diKUnDSuGMqqWeONyURga1ZGiIwgR8RH9CXeZtf1nb7WjYz190MjccZ2NPqDAFDKC62V
-         FdisnRGUniuO1NFfs1iMDdnqWGTPlP9P6JNFmGh4V1zkKuyRlVAt/OyEve5QCgWw8umh
-         6VNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUF4wp2gIanUB/FiaAO2J5l9yGF+iM2UWdUdN4RImUE6VNBBDW7Xwsa/8CJIca5E4ZeoaCLotX6fUpCCQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMk7Vc8bdg++JYjTMYQS/NIVcxVc/AK9ndhXNh7OmohpnlysWa
-	m4jf2y3a0Yeuf6ac71xpA3B7g70Ma37TpRaAaqva3VxMw8mbdN1jD++d7UsMWbs=
-X-Google-Smtp-Source: AGHT+IELjStkZnV8uJMVd3FU3vRg2EcfcYQAty8fNGG65QLhbFCLjs2ESgMWCjfcqZNp+pmAgmQ4KA==
-X-Received: by 2002:a05:6000:1445:b0:37e:d965:46b7 with SMTP id ffacd0b85a97d-37ed96547fdmr2222045f8f.10.1729579322571;
-        Mon, 21 Oct 2024 23:42:02 -0700 (PDT)
-Received: from krzk-bin.. ([178.197.211.167])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a5b98asm5914655f8f.61.2024.10.21.23.42.01
+        d=1e100.net; s=20230601; t=1729581251; x=1730186051;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FaTJrnKvTNc+V3dbBhAL3Glgo+sHMhxk4md12E05/ng=;
+        b=DOKCopGW59e6MxwAd0M0ch8Oz11MjAJQ8m5/lhewDbgHNFgsWUfKdUmPI0miX23RiI
+         CbAn1HJlru1UYhRlHmemQLPAULJSXi0KlUTMdlvwXDv0eVu1X15TjSpmj4vPo6WrIi0p
+         wboyHaR8MLILHaLmpAj+jH5t2xEEhFA5J2Bkvj5JqR678qW5hmoUPTuvndlbmelfthFk
+         am2bZkItcO6yvEEQ5rzUxLajLBuBTaaWu3GczE2A2HnSmfOgVmUqFcSbzZnsnQPvym5N
+         8kDtsz7c7Tsn4M27fiHy0hKTMCtO3iYOKzeUX9aVSxVghaC8BjKW4OzjCd/PzKFkbBFP
+         Yn5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUbKwvXr+Z71a/XHR03XZf0kOwTnrV90YV9h0Ggel/JSZqBouRZ8eESeYzT6J0iSh3RAtO/bQN+YW21cbqN@vger.kernel.org, AJvYcCVA8T1CHs1bUBwtYC7MHruClAg4OEUV5uzNeigJoRAE2xOgb+qoxBVyEfJK2qVn1Kg2jXPDevIJJPqc@vger.kernel.org, AJvYcCVC0a0ZHoHyOR8Ya3+fCjuOr14zq7E0zpOuOR9KYMcIdjBugBPog25nqaL5oGMMGGH8QMr+gRMwGOVvK7k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0tVbUESEzn2j6eJCGuwkA+6eQAlNmTD73VRt0GYQY8B30huZd
+	Q4GifY8iYV/1nwKTmu2pzMH/Kr03g3Y+RZDDrrJuLTnEFRusnzV+
+X-Google-Smtp-Source: AGHT+IFpezyYg40TMB0QgVk9F9LufBMXE2hWRts318j7F5wsWf804p9uSDbl2tZNPQIm+93G+p4R+g==
+X-Received: by 2002:a05:6a20:e347:b0:1d9:3acf:8bdd with SMTP id adf61e73a8af0-1d96c40ecf7mr3433222637.22.1729581251406;
+        Tue, 22 Oct 2024 00:14:11 -0700 (PDT)
+Received: from setsuna.localnet (2403-580a-80ed-0-4835-5a07-49e7-f115.ip6.aussiebb.net. [2403:580a:80ed:0:4835:5a07:49e7:f115])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec132ffb8sm4082732b3a.50.2024.10.22.00.14.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 23:42:02 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Melody Olvera <quic_molvera@quicinc.com>,
-	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>
-Subject: [PATCH] ASoC: dt-bindings: qcom: Add SM8750 LPASS macro codecs
-Date: Tue, 22 Oct 2024 08:41:55 +0200
-Message-ID: <20241022064155.22800-1-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
+        Tue, 22 Oct 2024 00:14:11 -0700 (PDT)
+From: James Calligeros <jcalligeros99@gmail.com>
+To: Rob Herring <robh@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Neal Gompa <neal@gompa.dev>
+Cc: Martin =?UTF-8?B?UG92acWhZXI=?= <povik+lin@cutebit.org>,
+ David Rhodes <david.rhodes@cirrus.com>,
+ Richard Fitzgerald <rf@opensource.cirrus.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ asahi@lists.linux.dev, linux-sound@vger.kernel.org,
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>
+Subject: Re: [PATCH v2 1/3] dt-bindings: sound: Add CS42L84 codec
+Date: Tue, 22 Oct 2024 17:14:03 +1000
+Message-ID: <10547772.nUPlyArG6x@setsuna>
+In-Reply-To: <e1d35dc6-4c58-490a-87d3-1e9694b3c650@sirena.org.uk>
+References:
+ <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+ <20241021192632.GA965116-robh@kernel.org>
+ <e1d35dc6-4c58-490a-87d3-1e9694b3c650@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Document compatibles for Qualcomm SM8750 SoC macro digital codecs (RX,
-TX, VA and WSA), compatible with previous generation (SM8550 and
-SM8650).
+Hi all,
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Mon, Oct 21, 2024 at 02:26:32PM -0500, Rob Herring wrote:
+> On Sun, Oct 20, 2024 at 12:47:31AM +1000, James Calligeros wrote:
+> > CS42L84 is a headphone jack codec made by Cirrus Logic and seen in Apple
+> > computer models starting with 2021 Macbook Pros. It is not a publicly
+> > documented part. To a degree the part is similar to the public CS42L42.
+> > (The L84 superseded L83 seen in earlier Apple models, and the L83 was
+> > pretty much the same as L42.)
+>=20
+> Why can't this be added to
+> Documentation/devicetree/bindings/sound/cirrus,cs42l42.yaml?
+>=20
+> I guess perhaps you don't know what the supplies look like? Do any of
+> the custom properties apply?
 
----
+I suppose the original thinking around creating a new binding was simply ne=
+w=20
+driver, new chip, new binding. We also don't describe the power supply of t=
+he=20
+chip at all, as this is all handled by lower level firmware.
 
-Cc: Melody Olvera <quic_molvera@quicinc.com>
-Cc: Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
----
- Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml | 1 +
- Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml | 1 +
- Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml | 1 +
- .../devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml          | 1 +
- 4 files changed, 4 insertions(+)
+Some of the custom properties (e.g. tip sense debounce) should technically=
+=20
+work if we teach the driver how to set them at probe time, however given th=
+at=20
+the chip is almost certainly never going to be used outside of the Apple=20
+Silicon context we went with static values that were first observed under m=
+acOS=20
+and then optimised once we had enough of a working stack to play around in=
+=20
+Linux. The values that go into the registers for each property appear to be=
+=20
+identical to CS42L42, so it should be possible to implement at least some o=
+f=20
+these properties if that is what is preferred.
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-index b8540b30741e..92f95eb74b19 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-rx-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,sm8650-lpass-rx-macro
-+              - qcom,sm8750-lpass-rx-macro
-               - qcom,x1e80100-lpass-rx-macro
-           - const: qcom,sm8550-lpass-rx-macro
- 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-index 3e2ae16c6aba..914798a89878 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-tx-macro.yaml
-@@ -22,6 +22,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,sm8650-lpass-tx-macro
-+              - qcom,sm8750-lpass-tx-macro
-               - qcom,x1e80100-lpass-tx-macro
-           - const: qcom,sm8550-lpass-tx-macro
- 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-index 6b483fa3c428..f41deaa6f4df 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-va-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,sm8650-lpass-va-macro
-+              - qcom,sm8750-lpass-va-macro
-               - qcom,x1e80100-lpass-va-macro
-           - const: qcom,sm8550-lpass-va-macro
- 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-index 6f5644a89feb..9082e363c709 100644
---- a/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,lpass-wsa-macro.yaml
-@@ -21,6 +21,7 @@ properties:
-       - items:
-           - enum:
-               - qcom,sm8650-lpass-wsa-macro
-+              - qcom,sm8750-lpass-wsa-macro
-               - qcom,x1e80100-lpass-wsa-macro
-           - const: qcom,sm8550-lpass-wsa-macro
- 
--- 
-2.43.0
+On Tuesday 22 October 2024 8:15:50=E2=80=AFAM AEST Mark Brown wrote:
+> I don't know if the Cirrus people who are listed as maintainers of that
+> binding might have concerns about doing things that acknowledge this
+> particular part.
+
+I suspect, based on the past behaviour of Apple vendors including Cirrus=20
+themselves, that they either won't or can't publicly acknowledge the existe=
+nce=20
+of this chip. Given this, and the fact that the chip will almost certainly=
+=20
+never be used on any other platform, it is probably better for everyone=20
+involved if we cut them out of the loop.
+
+Regards,
+James
+
 
