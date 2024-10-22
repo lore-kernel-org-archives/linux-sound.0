@@ -1,81 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB021BC06C;
-	Tue, 22 Oct 2024 16:39:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73B17C98;
+	Tue, 22 Oct 2024 18:34:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729615146; cv=none; b=AovoGxjPfGVkVL+33SKMUViztHUI4apvd4/dt8sljm/1WVJS09VBWKyNnrsnns6UmINgP8Rb9GXpkODUFXXxy2+XyHNYip9OYq6ILysZ8OdHGLKGH6NLGRdWQkaY5lPX7JadpNCRYd0U5JKW4ZGBYXX1Qe6S3OC0xCPiilB/F/s=
+	t=1729622044; cv=none; b=fEYGbDishphSrLF3JkJuLQEiBlVF4Ccb6mKdI4S5WfXKTuHcRe1s/+xJRmLRUP9IzorZq2Tn0s8x3skEhpXfNv0vK2FLM9JY7FAsD5iieCosbEpE/uRP1u7vALKHj5hYyHuRvRtq+Ozwdkx6pWVDcAtciYrWHaoOjCIYUgG93Tc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729615146; c=relaxed/simple;
-	bh=1W0o1boI38T6xH20Op/FwrC5u2sfzoI2AuC5Ia4sSK0=;
+	s=arc-20240116; t=1729622044; c=relaxed/simple;
+	bh=jymZ8mZZBmUiMRuUIT5vaWlFr6Yop4ipakjRyd+PLIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dntylIyw147rJS2TNn9Km7ic9TcFmoth4EZ2xwWE/gWasP52iKX9Tz4u6unykPc7Y3mU5VwagHiB4Ra09oDMVwEa/K84dLyUC7LNM/4hZ9BbLONXcySkRiuqo73bXd/J11cRH4dhVOzvy/MylDXLZzyW9SOBewmHExUxSKb7uKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cATx8RbE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqDx51N337ooNcJl6bwrX+gTDbPcECaPZ7gj10CGPlQnnKtXAWzc7hz/4h2dVudlcexnMYX0g0PfgCmVZ9ugnHJ8IP/Gjebd7fL38dSjLmEPAa8qKkEQ/v7kGKivlRJJKFZHqcdAYH6uzAYv5df9w1qcEaulRgawr0/yYPTtnnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXtviMvC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cATx8RbE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B0D2C4CEC3;
-	Tue, 22 Oct 2024 16:39:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXtviMvC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3239FC4CEC3;
+	Tue, 22 Oct 2024 18:34:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729615146;
-	bh=1W0o1boI38T6xH20Op/FwrC5u2sfzoI2AuC5Ia4sSK0=;
+	s=k20201202; t=1729622043;
+	bh=jymZ8mZZBmUiMRuUIT5vaWlFr6Yop4ipakjRyd+PLIM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cATx8RbExfoeUThHzOi8DWG9VU3cqeulVOccx97L/ZFIcGxkEuHYALMnIOoa/vm0q
-	 mZ3FcDB0CvoY50wm3SFeMa6apnFxsGcxGenmnGlTcupXzJZIQJ0pgUCppW/v0y8jQ9
-	 MppPjcGoY+Wu6wgOd4sCx0BoY69uKJIhlI8Yf1J0gJzs7rbbc6TlslGQ+gG6ZcMUHr
-	 Vkrqb9fsZZj44S0gqt1AiBX5u7GjqYDnhpSrjm/gPJGgxwNscjvFnfRg8ucyAhzxDS
-	 e1XngucmtmPeWx27GKXzq90TqO4Yf5Eyg4eP9NS+y17fD/6dnsQjjCMPSaMZFPX2K1
-	 jHQ6SClS4nypA==
-Date: Tue, 22 Oct 2024 17:39:01 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	b=qXtviMvCFaT5/PChSo+3WepnYzsjRVrl6YTyDFGgVE+NvLw1MAmWFoURDuedLjvyp
+	 N9/V/UVV9nqfUK/cAB+Rp9wO3wHumbcWKC1i71oVqvcs8jam8cp5GdzMI86EuVvL8X
+	 UKGs4Rp0RdR3cOYnzFcV0WuGS1yFky0SIC5y5oAajwrWArcyLfRiFoEjVS9jCfkNrx
+	 6sQ7TqY1QQYr90TL6upCfo+1TeMd8kx7K3O0LYShctpBhWkNaQ/HyiXocqXVUOTn7z
+	 U1pXFzkbMNYzbdgWt2nf92bfuQNwDAp44fG0uHs9f1gjiNxcT2iyLcpHRKigzFqE6S
+	 Lz3pkp2gqwmIA==
+Date: Tue, 22 Oct 2024 19:33:58 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Melody Olvera <quic_molvera@quicinc.com>,
-	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>
-Subject: Re: [PATCH] ASoC: dt-bindings: qcom: Add SM8750 LPASS macro codecs
-Message-ID: <20241022-duly-geometry-4b99f14926e9@spud>
-References: <20241022064155.22800-1-krzysztof.kozlowski@linaro.org>
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC drivers
+Message-ID: <95acabb5-38c4-4c4e-93de-36d5e51a43d4@sirena.org.uk>
+References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="am31B1u8bFQKB1sg"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RyxPpZV1wbMIWijA"
 Content-Disposition: inline
-In-Reply-To: <20241022064155.22800-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Cookie: Surprise due today.  Also the rent.
 
 
---am31B1u8bFQKB1sg
+--RyxPpZV1wbMIWijA
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 22, 2024 at 08:41:55AM +0200, Krzysztof Kozlowski wrote:
-> Document compatibles for Qualcomm SM8750 SoC macro digital codecs (RX,
-> TX, VA and WSA), compatible with previous generation (SM8550 and
-> SM8650).
+On Mon, Oct 21, 2024 at 09:13:49PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 >=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Add a new entry to the MAINTAINERS file for Renesas ASoC drivers. This
+> entry covers the Renesas R-Car, SH7760 and Migo-R audio drivers, including
+> the device tree bindings.
+>=20
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Morimoto-san, are you OK with this?  You acked the other changes in the
+series but not this one and since you're the one being volunteered as
+maintainer it seems best to confirm!
 
---am31B1u8bFQKB1sg
+--RyxPpZV1wbMIWijA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZxfVJQAKCRB4tDGHoIJi
-0jSZAP0QJ7geSOzEjOmNnbmf4W+1+y8wS1WyDR7QvS+ZDVpeLwD+Ip57APW2rAPD
-pEWhF/+MYwNQicuWXM4RVDGzdCN8ew0=
-=vYih
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcX8BUACgkQJNaLcl1U
+h9DzuQf/Tqh1sDCW6fpA6sNF/GKbknWi9w3YFhxWPFsFgEfa1qP4ZGmZdqtEwAla
+J0dwFlFx3l2FWPepg7dnGoVggARHjjLgzhjInRdSevKY0DBbSXScxH1YldI/oOEv
+dQmYJx6CsqUgcllEdHDT7wnX4OaDGb+beQMm+/XYdaQxFxMBvghRSVS8MrToKtCN
+hTYXm7DSMHiAOeK0qjBZQioB/G0PKA/yvGoCPnsZ5jfg4smI2osdOiIs2MKxe1TY
+40+FeNOtH73h9x2oYj6JzJ6glc83QsovL4FyTtXZNtPwFGB1C5jtqGWqGLoNhvAG
+UYpb31d7AuDYbqGayc/G99Kb4PNEPQ==
+=ddFG
 -----END PGP SIGNATURE-----
 
---am31B1u8bFQKB1sg--
+--RyxPpZV1wbMIWijA--
