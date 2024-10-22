@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402AF85C5E;
-	Tue, 22 Oct 2024 15:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6106E1A0BFE
+	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 15:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729609459; cv=none; b=Ew5x7TSkhoCkvyL6hcbDibsw/rpZhXI3FiC+wtLMHVJujSW3a9m3hAQ8pzGKImrfpmLgTJAouWiQBJUrTSdy67lsEfLez13NOnYBcqp8GcZRjo6kL4RCqoOFmdfxBglip9/OYVWL9ePwBqSc5mb5eZnxHjSwW53O3B0H8qt//ko=
+	t=1729609894; cv=none; b=BaBMg7Defaj5ENV+nhZN5Y2N9o/OzgRlo1siE0MDwJHF0E5meUmpuHABi4JXuNEw8H/novdA7HdFx2zBvcA7EHz2G+1vTqxv5OD9ePvC8WEEnKytMwHF5mMER9wXWh93k4VU5jyX/3az7Y22bVKNnH338ldH8uAC1s4WNoZwcew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729609459; c=relaxed/simple;
-	bh=QUUBW21t3BimnstQVgGZ0SBenbQzNgaGQZcFRj4mm8Y=;
+	s=arc-20240116; t=1729609894; c=relaxed/simple;
+	bh=RSb1bsRvKHa77xO0n+Y/I5M/4K4LnbNIBh8fZzG/o0M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IP8QphdTMuHcOH9BIOQmHLbXQNDhKunDNnWEgbg64WUXmb8Dpq7cLyKKd8WTQCyhLrqxd+Ddj6wmGvpOGutYtnaQQMn+8EoRc5ZYeGei46hreYoeUmBAjVJev5jJzsHAY8Qq9CozF3lbHCifH5CTh7+CLfev8OdJv16ppGM8SS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LlAbotyQ; arc=none smtp.client-ip=192.198.163.12
+	 In-Reply-To:Content-Type; b=dfpSv1FpIjK1sMrqLPWmY5+yz14rowNiz3XkO4x2LbtAirbZ2v96ebUUBM+WCa9Dq/3SKvhyJCvH7Q1aYYhB0HAzI/BTl8t7aDk36j34J7NswPfv5X7EFlDbf8nO9Kx5imRuOMrBKkBbKr5l1tIYar/qGpWqyzuS+iSKUoBMPi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hTEIqUwN; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LlAbotyQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hTEIqUwN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729609458; x=1761145458;
+  t=1729609893; x=1761145893;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=QUUBW21t3BimnstQVgGZ0SBenbQzNgaGQZcFRj4mm8Y=;
-  b=LlAbotyQHbEfEsioiJ3aQZ7TI9wfh7PQCpGxBC9h3LyU8IV+SMLrXkNs
-   j1eTwNLqVKRog8k2HHSI62ZLo54/gPCpZLVUmkE4bWS4DCfHhpIZwq3h4
-   1ATIwvylkm1QCfCl7FAu1lOTw5nTnB6J4HWIpjVf/NY3da0yxGRoDTJW5
-   v57a5tWSWagvWzEaIFtvzZOOELaL7SIMVNvV70l8RXEMjq9nAiHsPMLrK
-   ZroN1JbRJlO6cOPk4Yz2pNOI5KP6drmz1IDrhS8Xkuz06fCy7DginxC4l
-   2v1KeTm+wFbSKG+85lhsdrXFB2tC1TY0ekePYvfBr1DHRDrxzqucSRemH
-   A==;
-X-CSE-ConnectionGUID: qkAPX3eSReqtCbTygba2Xw==
-X-CSE-MsgGUID: yWmVD47TSXqDjIgq7AoTaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="33079480"
+  bh=RSb1bsRvKHa77xO0n+Y/I5M/4K4LnbNIBh8fZzG/o0M=;
+  b=hTEIqUwNgYO5+LYAqECek/uVRUICHvk7hcb63hMfOtqVP6Q/HBm7BGIs
+   47YlRsVbRRczRPv4Edtv/KBRT08d+kuRNW2Uz9cErv4uh5yKNh3kX6X0L
+   7nkY+iEiciBU6pf5a1vpMOig7tBMRMaRDatZ2EiriI0KQiwZhXUNKHDS9
+   m+ysCMGmB7Bqj64coHs69UYApg+6AUqOTYB5NLrqIuAZBRpm5kDPdybB5
+   cY4yLtD1jZSwcT+7YDfiqnnyu0U32/KtYkru3LLHUoMAhyvXIn/2rtQN7
+   MQdj1EB/YfL6yul5B8AwndmOMj94iA4QXTh5NT6jyY43R2lbadmrOtZcm
+   w==;
+X-CSE-ConnectionGUID: 1TFBKHB6Tcul32VoutFfTA==
+X-CSE-MsgGUID: PL15oZUkRXOxUjc6/FhbSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="16779954"
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="33079480"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:04:16 -0700
-X-CSE-ConnectionGUID: t2EfxH96Ts+ZMKuBfhIFQA==
-X-CSE-MsgGUID: JAHYnJKXTd6WFkKNAaIiYw==
+   d="scan'208";a="16779954"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:11:33 -0700
+X-CSE-ConnectionGUID: DvDj3VMkTvu1+PHFxDS6Lg==
+X-CSE-MsgGUID: QIMm4ZxWRPSWNhxjJ7j2Ng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="80072066"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="84717787"
 Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:04:10 -0700
-Message-ID: <8795c4ad-e3ac-47aa-92dd-f899042cefc0@linux.intel.com>
-Date: Tue, 22 Oct 2024 17:04:07 +0200
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 08:11:31 -0700
+Message-ID: <0c620aa7-ddad-42ae-b82f-91c4aaf80c83@linux.intel.com>
+Date: Tue, 22 Oct 2024 17:11:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,98 +52,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD
- for secondary interrupters
-To: Greg KH <gregkh@linuxfoundation.org>, Takashi Iwai <tiwai@suse.de>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- dmitry.torokhov@gmail.com, corbet@lwn.net, lgirdwood@gmail.com,
- tiwai@suse.com, krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
- Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
- robh@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, alsa-devel@alsa-project.org,
- Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
- <20241015212915.1206789-2-quic_wcheng@quicinc.com>
- <2024101747-defog-squiggly-ef54@gregkh>
- <5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
- <2024101824-hammock-elastic-8d38@gregkh> <87wmi02qcj.wl-tiwai@suse.de>
- <2024102240-gag-famished-245c@gregkh>
+Subject: Re: [RFC PATCH 0/4] Add support for detection
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+ Cezary Rojewski <cezary.rojewski@intel.com>, linux-sound@vger.kernel.org
+References: <20241016130228.1013227-1-amadeuszx.slawinski@linux.intel.com>
+ <87y12ory4x.wl-tiwai@suse.de>
+ <51db28da-7eb8-401a-b86e-98d95f896643@linux.intel.com>
+ <87r08grwgd.wl-tiwai@suse.de>
+ <57dbb306-cccd-4f5d-87d3-cab8aef85dda@linux.intel.com>
+ <bb3cc47b-0a5a-4604-9343-17e0be3c7a06@perex.cz>
 Content-Language: en-US
 From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
  <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <2024102240-gag-famished-245c@gregkh>
+In-Reply-To: <bb3cc47b-0a5a-4604-9343-17e0be3c7a06@perex.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/22/2024 4:02 PM, Greg KH wrote:
-> On Tue, Oct 22, 2024 at 03:56:44PM +0200, Takashi Iwai wrote:
->> On Fri, 18 Oct 2024 07:52:35 +0200,
->> Greg KH wrote:
->>>
->>> On Thu, Oct 17, 2024 at 05:07:12PM -0700, Wesley Cheng wrote:
->>>> Hi Greg,
->>>>
->>>> On 10/16/2024 11:40 PM, Greg KH wrote:
->>>>> On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
->>>>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>>>>
->>>>>> Allow creators of xHCI secondary interrupters to specify the interrupt
->>>>>> moderation interval value in nanoseconds when creating the interrupter.
->>>>>>
->>>>>> If not sure what value to use then use the xhci driver default
->>>>>> xhci->imod_interval
->>>>>>
->>>>>> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>>>> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
->>>>>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>>>>> ---
->>>>>>   drivers/usb/host/xhci-mem.c | 8 +++++++-
->>>>>>   drivers/usb/host/xhci.c     | 4 ++--
->>>>>>   drivers/usb/host/xhci.h     | 5 ++++-
->>>>>>   3 files changed, 13 insertions(+), 4 deletions(-)
->>>>> This is already in 6.12-rc1, which makes me confused as to what tree you
->>>>> made this series against.
->>>>
->>>> Sorry, I didn't fetch the latest changes from usb-next.
->>>
->>> It wasn't even usb-next, it was 6.12-rc1, so I don't know what tree you
->>> based this on :(
->>>
->>>> In this case, should I rebase and resbumit?
->>>
->>> As the series can't be applied as-is, probably.  But I think you might
->>> want to collect some acks from the sound people and xhci developers, as
->>> I can't do anything with this until they look at the changes.
->>
->> Honestly speaking, I couldn't follow fully the discussions about the
->> fundamental design -- IIRC, Pierre and others had concerns to the way
->> to manage the offload device via kcontrols.  Did we get consensus?
+On 10/18/2024 7:15 PM, Jaroslav Kysela wrote:
+> On 18. 10. 24 16:16, Amadeusz Sławiński wrote:
 > 
-> I don't think so.
+>> Our use case is to:
 > 
->> I believe that's the biggest obstacle in the audio side, i.e. what's
->> visible to users.  The kernel internals can be corrected at any time
->> later.
+> Inlined my proposal:
 > 
-> I would like to see that agreed on before I even look at the usb side.
+>> 1. Program DSP with all pipelines it needs to implement whole scenario
+>> (hw_params)
+> 
+> SNDRV_PCM_IOCTL_HW_PARAMS
+> 
+>> 2. Perform additional configuration from usespace
+> 
+> Can be done using control API (/dev/snd/controlC*). E.g. We have already:
+> 
+> numid=19,iface=PCM,name='ELD',device=3
+> numid=32,iface=PCM,name='Playback Channel Map',device=3
+> 
+> Those controls can be R/W as you like.
+> 
+>> 3. Start detection pipelines
+> 
+> SNDRV_PCM_IOCTL_PREPARE
+> 
 
-My main concern is still that one USB audio device can be accessed via 
-two different cards exposed in userspace. Usual USB one, and the one 
-from device which does "offload". Suggested implementation achieves it 
-by adding additional controls, which need to be set in specific way to 
-achieve offload. Overall while I understand the mechanism, I'm not 
-exactly convinced that it is the best way from end user point of view.
+Will check, but from what I recall streams should not be started in 
+prepare due to it being used for xrun recovery, but maybe it doesn't 
+matter for detection ones.
 
-"Implementation" part in Documentation added in patch 19 shows how it 
-looks in userspace now.
+>> 4. Wait for event to happen (it can take however long necessary, for
+>> example hours)
+> 
+> Can be done using control API (/dev/snd/controlC*). There is a mechanism 
+> for event handling already.
+> 
+> Something like (boolean type):
+> 
+> iface=PCM,device=2,name="Event X"   # first event type
+> iface=PCM,device=2,name="Event Y"   # second event type ...
+> 
+> The PCM stream may be active only when at least one event from the above 
+> set is active.
+> 
+>> 5. When event happens start drain pipelines and process data in
+>> userspace likes in standard capture scenario
+> 
+> SNDRV_PCM_IOCTL_START
+> 
+> The driver may set the correct timestamp when the capturing was started. 
+> The sample buffers are already allocated and ready for transfers, so we 
+> can assume that the time window between the event notification (event) 
+> and START ioctl is small, so no samples should be lost.
+> 
+>> 6. When no more data is needed, either stop drain pipelines and go back
+>> to 3 or just close stream
+> 
+> SNDRV_PCM_IOCTL_STOP / DRAIN, SNDRV_PCM_IOCTL_HW_PARAMS or close(fd)
+> 
+> Basically, I think that this extension can be implemented with minimal 
+> changes to the PCM API - it's just about to slightly extend existing APIs.
+> 
+>                  Jaroslav
+> 
 
-If you don't mind two sound cards being used to access same piece of HW, 
-current implementation looks ok to me.
-
-See also:
-https://lore.kernel.org/linux-sound/75ffde3a-7fef-4c15-bfc8-87756e1c3f11@linux.intel.com/
-where I described how I would prefer it to look.
