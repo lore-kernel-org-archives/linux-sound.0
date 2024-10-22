@@ -1,87 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C3713D516;
-	Tue, 22 Oct 2024 11:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF5319F133;
+	Tue, 22 Oct 2024 13:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729596758; cv=none; b=EYODqMv2ESi0fOWsgp3tQxez27uLgix379GfI9vpvS/QJvgWWAAWd4oUTDIUSz401oJYkCNKqeXRFJP74TkivozaVLN3D6+5j5v/ESebxVDkiRPAkej472lazp5SMqFDSCvGD1ERz4mm/aI9qOTeb2LU57CnDMUHEd7AyB9QNT4=
+	t=1729605364; cv=none; b=scyLnSoFSHExt8s0rSwuQmJvgPV3me57zSMNMtrstHkwtUhqg/GEn2DI4RxhUcGHAfkKhIO3Rv1/7BbceIkgTkD94k0FI7xZ51pooRTB2oaFll/R+fT5V1jYd3Z4HbScZdWiHn5VfJWcsOMJ1dSb2FI4o7OcJ06iKpJTFrlsjsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729596758; c=relaxed/simple;
-	bh=FkkqCU683ZRtRpELveQpY8sLAoh27fcWoRv5y49TUes=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=AR0o9PegQANbJhnb5wmPaDCNUPczW/pb1SLFN26IV5LE8wZ9s8oFiyfI7T3LUmefLzBICIou+TurO4KhIxqqX7naHbiuW2wp6uI2XodyPCgyH2b6zbDRVcHkp0fjYLGLjT0vpfvbzs+QoAhqEmnZzmttdYubicnpwmhRdzBtkUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UJqLi2U6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729605364; c=relaxed/simple;
+	bh=Y7HT68PXYjz7d0Br/DnftiWOw45gz2zuwSv4S657zF4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eGe7TvekAaJJoPFjpVTUraJCVi25y3BU24Atn4v25UgbAMS2UHSBbaLn/Q7d6k7qstmNl8RIjTzGHjsDCRtZrj+iAyilironWuYpi8SWEoGAFT0yo+ulKOb8UOXaGKhixXiiCXT2zcYD8ELJRvKsLQuS+7bZMr8NcPcYBXzeIHg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=zYP90jaF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vIs0nCwm; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=B5TBZtQQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ERVik9h3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UJqLi2U6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EA53C4CECD;
-	Tue, 22 Oct 2024 11:32:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729596757;
-	bh=FkkqCU683ZRtRpELveQpY8sLAoh27fcWoRv5y49TUes=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UJqLi2U64hbi0dfDN0Fg6E/tcaB56hed+Y7KknxbWI0Z0WGugybx9AgL1QW5lD+aN
-	 hBl/WzVwjCvLOiw/O8S3PoTTwGinZ3CHq0SWS7K+r8OJszvuBA9AQzKZPqNuRaYJV4
-	 jzlibvrIlIQRAlhjjuQZ/f0NiGz/4LEIQrDWj7UN1bcZOwdciBLrPQ1PPzRYAH2hr8
-	 52mdJTjEuVPvmWJC0wKr4rswcWsXC0/NhlFFg85n4coznaPS7hUzsef8yEp7jPMdG5
-	 4xWNT31iiWVvGttVvVyBLU+g8LHv78iqPunPWvdqQ7EQ1EzDXCeTCecXgsC3iScFi1
-	 0jQxTLS0M6hLg==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Ryan Roberts <ryan.roberts@arm.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241021130308.3616451-1-ryan.roberts@arm.com>
-References: <20241021130308.3616451-1-ryan.roberts@arm.com>
-Subject: Re: [PATCH v2] ASoC: soc-utils: Remove PAGE_SIZE compile-time
- constant assumption
-Message-Id: <172959675624.19329.17579000137371454684.b4-ty@kernel.org>
-Date: Tue, 22 Oct 2024 12:32:36 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="zYP90jaF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vIs0nCwm";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="B5TBZtQQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ERVik9h3"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D6F6D1FD13;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=zYP90jaFV5Pb19n9JW5vzlWwFSGAe0FYGkbu+Cfa+verVBwzWQkpkwgHO33ZFE1a1dvdZK
+	0tuttYC1/ND40gdt/oVuioznRPistLudIU9xk6Zdof6abOgPA7P/swYId5Xclt2KqFkUPn
+	faS1AQNksTyS2I8MJkUgpI7CfoJCs9Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605359;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=vIs0nCwm9UqtOTXXFO9pD/BP3RbeOj6NRCQ/HfioJ6yWSWynK/EOKscWg2EUYRGgcMo+x4
+	vQLfd+I0xAxQduAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=B5TBZtQQ;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ERVik9h3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729605358; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=B5TBZtQQGPrR/TbPsDqk7IKz5X7Tmi0z8yWulsHmNXfN58NXJ7pLzmeTOndtyhgQYMDGux
+	Jhn5TKi5cbmYtWR3p10EYoWsI7n5dizutXWa+Q0ru1VZjUVhTK/eHUtBqUewhTzBQ8rmi6
+	WUSrnL82ebJ0sAg8lV98eb4e0td5tnc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729605358;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IdcbEOWzL6eyI2kQxh26Goo1tOGvWeIqXTumtwk51No=;
+	b=ERVik9h3/yqOOJhof89a2VZZjwOFO1icKKHLZh4yt4bADxjSZ5iuEx8HZ24zLD+hyEGHWK
+	EX0IGujbRuv0oXAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 98B1B13AC9;
+	Tue, 22 Oct 2024 13:55:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id M/jDJO6uF2epZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 13:55:58 +0000
+Date: Tue, 22 Oct 2024 15:56:44 +0200
+Message-ID: <87wmi02qcj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	srinivas.kandagatla@linaro.org,
+	mathias.nyman@intel.com,
+	perex@perex.cz,
+	conor+dt@kernel.org,
+	dmitry.torokhov@gmail.com,
+	corbet@lwn.net,
+	lgirdwood@gmail.com,
+	tiwai@suse.com,
+	krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com,
+	broonie@kernel.org,
+	bgoswami@quicinc.com,
+	robh@kernel.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v29 01/33] xhci: support setting interrupt moderation IMOD for secondary interrupters
+In-Reply-To: <2024101824-hammock-elastic-8d38@gregkh>
+References: <20241015212915.1206789-1-quic_wcheng@quicinc.com>
+	<20241015212915.1206789-2-quic_wcheng@quicinc.com>
+	<2024101747-defog-squiggly-ef54@gregkh>
+	<5847c380-75ce-492a-9a30-0899b7ebe98c@quicinc.com>
+	<2024101824-hammock-elastic-8d38@gregkh>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D6F6D1FD13
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TAGGED_RCPT(0.00)[dt];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,linaro.org,intel.com,perex.cz,kernel.org,gmail.com,lwn.net,suse.com,linux.intel.com,synopsys.com,quicinc.com,vger.kernel.org,alsa-project.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-On Mon, 21 Oct 2024 14:03:07 +0100, Ryan Roberts wrote:
-> In pursuit of the goal of supporting boot-time page size selection,
-> remove use of PAGE_SIZE from the dummy_dma_hardware struct definition,
-> since the value is not known at compile-time for this config.
+On Fri, 18 Oct 2024 07:52:35 +0200,
+Greg KH wrote:
 > 
-> Given the previous parameters were "essentially random", let's just
-> hardcode them as 4K and 4K*2 to sidestep the need to boot-time patch the
-> structure with the selected PAGE_SIZE.
+> On Thu, Oct 17, 2024 at 05:07:12PM -0700, Wesley Cheng wrote:
+> > Hi Greg,
+> > 
+> > On 10/16/2024 11:40 PM, Greg KH wrote:
+> > > On Tue, Oct 15, 2024 at 02:28:43PM -0700, Wesley Cheng wrote:
+> > >> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >>
+> > >> Allow creators of xHCI secondary interrupters to specify the interrupt
+> > >> moderation interval value in nanoseconds when creating the interrupter.
+> > >>
+> > >> If not sure what value to use then use the xhci driver default
+> > >> xhci->imod_interval
+> > >>
+> > >> Suggested-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> > >> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+> > >> Link: https://lore.kernel.org/r/20240905143300.1959279-13-mathias.nyman@linux.intel.com
+> > >> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > >> ---
+> > >>  drivers/usb/host/xhci-mem.c | 8 +++++++-
+> > >>  drivers/usb/host/xhci.c     | 4 ++--
+> > >>  drivers/usb/host/xhci.h     | 5 ++++-
+> > >>  3 files changed, 13 insertions(+), 4 deletions(-)
+> > > This is already in 6.12-rc1, which makes me confused as to what tree you
+> > > made this series against.
+> > 
+> > Sorry, I didn't fetch the latest changes from usb-next.
 > 
-> [...]
+> It wasn't even usb-next, it was 6.12-rc1, so I don't know what tree you
+> based this on :(
+> 
+> > In this case, should I rebase and resbumit?
+> 
+> As the series can't be applied as-is, probably.  But I think you might
+> want to collect some acks from the sound people and xhci developers, as
+> I can't do anything with this until they look at the changes.
 
-Applied to
+Honestly speaking, I couldn't follow fully the discussions about the
+fundamental design -- IIRC, Pierre and others had concerns to the way
+to manage the offload device via kcontrols.  Did we get consensus?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+I believe that's the biggest obstacle in the audio side, i.e. what's
+visible to users.  The kernel internals can be corrected at any time
+later.
 
-Thanks!
 
-[1/1] ASoC: soc-utils: Remove PAGE_SIZE compile-time constant assumption
-      commit: 5337ff41d37d4171868bb7b34dade68e269743f0
+thanks,
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Takashi
