@@ -1,120 +1,92 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B4519D88F;
-	Tue, 22 Oct 2024 14:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42F5A19F10A
+	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 14:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729606082; cv=none; b=nlgV0+XIGAH9JPCaufdCZFempfuf4cYjMCzveogLhdQ4oseB3BGlZEAm5LmQyHjMoTlYGCIai7yZxvQ3OH9EI8HAH6IWGG5IOU6dcX6m4KxMX77mFaw+U/mzQR20bVS3JmKTqZtf6XzVyNLH+d13D36803JK1xUeHR/YWvS1vk4=
+	t=1729606497; cv=none; b=p6vYoDUt8u8AYGH9CfI+ToYYo/dTocjpCzOcDl0hdfu85TB9zO8dEzE7TFarT1yl35mB/ClOBY0HCOD/KhXmerWvniWEOdB4yoEYkYJ0buGFW8TtzVYii7VF6WWyPA31JmLcvt8+YOv7qdt/uv+ypd7CHRct33A8Kd2DV/KImoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729606082; c=relaxed/simple;
-	bh=keN/OaFPBTwJRNnLclouCC/2PmyqicZ/HLWJKZaXkMw=;
+	s=arc-20240116; t=1729606497; c=relaxed/simple;
+	bh=PYnKEPS+QCRqajw4t4Y4LKoMQKDdeFh/sPGwhyOfNWs=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qm0ySYCTCa4bIZl0Az8kmTA6pvuO0QtjQZ02xfGfgqr6tOcG4YlGgFaNj0mMMKODYKAYRVjkqRfJV3bWI3TQho8BYLR718eelOa2Mbqv4mA5WXR+2my+L7CInoUkQVOiGP0olMmqhtBj11qteujBV1PsWihaSiuIZIeKWngAIxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nT065qt4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XB/MFvdM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=nT065qt4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XB/MFvdM; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=c/IFK5aXzAWXncpbN24pJd9xhcnTGnGgFZhbJ0ezCQaIEbXV3E8MeANm2bCtf9HWCJ2vqqJcj/FLnwQcv6xOWsxaDTJJb6KjSfIKY0H0HinrtDcy+/Walkkn852CYOE7jVyHHiXlnrIzZc6+SXH9l2weqe6rxTxv1OrUR1/FO4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bwdnyHc5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O77EFVEM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bwdnyHc5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=O77EFVEM; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nT065qt4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XB/MFvdM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="nT065qt4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XB/MFvdM"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bwdnyHc5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O77EFVEM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bwdnyHc5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="O77EFVEM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 30D9321962;
-	Tue, 22 Oct 2024 14:07:58 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 377EE1FD15;
+	Tue, 22 Oct 2024 14:14:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729606078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729606493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I5YtkOoPrVW2kCBxPLqPAf7UD1c7Fz8OlNH1U+IqDi8=;
-	b=nT065qt4F0yaxGQDtCajKU5QrE+p9X22fQ5X+uJrdOXhWH71O0XxqvB04DrSIvks57q6Cu
-	JdoTUOrhC6F3VM2FqxvCZrrLy8dfmsvHOi34IxJPAYkskRCU+DNNNywW6lsBU0E9auNlTB
-	K4vW+XGRe4RK0Vn8gIuK+2eJqjzzmJQ=
+	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
+	b=bwdnyHc5WJ0FdvRGszOvL/ipBizoD7Qnzukv3rI5RWnBPNlbsJTJ1TALWEtVb1VjcIPV8U
+	+umKvJ3xcXGO+DatNaAQaUotK0m/qjJ/wVUAJhRuNnRVNnIlZltlgTsF5QVr91Y9Dv6Fq0
+	S2Q/acBhYuutyja1DrR7Qx8/BoeIRhY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729606078;
+	s=susede2_ed25519; t=1729606493;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I5YtkOoPrVW2kCBxPLqPAf7UD1c7Fz8OlNH1U+IqDi8=;
-	b=XB/MFvdM6NJqGNpPMiucMvrGVCv1meVqHtwqyxogJgSr9p1OCl+lie6l0tPeIfBtUWHx0K
-	qJIy2sce/WWFCkBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
+	b=O77EFVEM1f9EJFrm4WWkgrKp2xiSgXxmIkBP2JMPdlUO1gZuGxzIXT65IIqCby5Di75OH2
+	91rxkJ1//JKi/5Aw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bwdnyHc5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=O77EFVEM
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1729606078; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1729606493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I5YtkOoPrVW2kCBxPLqPAf7UD1c7Fz8OlNH1U+IqDi8=;
-	b=nT065qt4F0yaxGQDtCajKU5QrE+p9X22fQ5X+uJrdOXhWH71O0XxqvB04DrSIvks57q6Cu
-	JdoTUOrhC6F3VM2FqxvCZrrLy8dfmsvHOi34IxJPAYkskRCU+DNNNywW6lsBU0E9auNlTB
-	K4vW+XGRe4RK0Vn8gIuK+2eJqjzzmJQ=
+	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
+	b=bwdnyHc5WJ0FdvRGszOvL/ipBizoD7Qnzukv3rI5RWnBPNlbsJTJ1TALWEtVb1VjcIPV8U
+	+umKvJ3xcXGO+DatNaAQaUotK0m/qjJ/wVUAJhRuNnRVNnIlZltlgTsF5QVr91Y9Dv6Fq0
+	S2Q/acBhYuutyja1DrR7Qx8/BoeIRhY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1729606078;
+	s=susede2_ed25519; t=1729606493;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=I5YtkOoPrVW2kCBxPLqPAf7UD1c7Fz8OlNH1U+IqDi8=;
-	b=XB/MFvdM6NJqGNpPMiucMvrGVCv1meVqHtwqyxogJgSr9p1OCl+lie6l0tPeIfBtUWHx0K
-	qJIy2sce/WWFCkBg==
+	bh=he4aHzTTnPQf07XjgjhNfP1pEquhJMh3tzlhKP0seeM=;
+	b=O77EFVEM1f9EJFrm4WWkgrKp2xiSgXxmIkBP2JMPdlUO1gZuGxzIXT65IIqCby5Di75OH2
+	91rxkJ1//JKi/5Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 783A713894;
-	Tue, 22 Oct 2024 14:07:57 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 187D613894;
+	Tue, 22 Oct 2024 14:14:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vT/NHL2xF2f0awAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 14:07:57 +0000
-Date: Tue, 22 Oct 2024 16:08:58 +0200
-Message-ID: <87v7xk2ps5.wl-tiwai@suse.de>
+	id hzleBV2zF2cCbgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 22 Oct 2024 14:14:53 +0000
+Date: Tue, 22 Oct 2024 16:15:53 +0200
+Message-ID: <87seso2pgm.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>,	Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,	Basavaraj Natikar
- <basavaraj.natikar@amd.com>,	Jiri Kosina <jikos@kernel.org>,	Benjamin
- Tissoires <bentiss@kernel.org>,	Arnd Bergmann <arnd@arndb.de>,	Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,	Manish Chopra
- <manishc@marvell.com>,	"David S. Miller" <davem@davemloft.net>,	Eric
- Dumazet <edumazet@google.com>,	Jakub Kicinski <kuba@kernel.org>,	Paolo
- Abeni <pabeni@redhat.com>,	Rasesh Mody <rmody@marvell.com>,
-	GR-Linux-NIC-Dev@marvell.com,	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,	Kalle Valo <kvalo@kernel.org>,
-	Sanjay R Mehta <sanju.mehta@amd.com>,	Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>,	Jon Mason <jdmason@kudzu.us>,	Dave Jiang
- <dave.jiang@intel.com>,	Allen Hubbe <allenbh@gmail.com>,	Bjorn Helgaas
- <bhelgaas@google.com>,	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,	Stefano Stabellini
- <sstabellini@kernel.org>,	Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
- Iwai <tiwai@suse.com>,	Chen Ni <nichen@iscas.ac.cn>,	Mario Limonciello
- <mario.limonciello@amd.com>,	Ricky Wu <ricky_wu@realtek.com>,	Al Viro
- <viro@zeniv.linux.org.uk>,	Breno Leitao <leitao@debian.org>,	Kevin Tian
- <kevin.tian@intel.com>,	Thomas Gleixner <tglx@linutronix.de>,	Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>,	Mostafa Saleh
- <smostafa@google.com>,	Jason Gunthorpe <jgg@ziepe.ca>,	Yi Liu
- <yi.l.liu@intel.com>,	Christian Brauner <brauner@kernel.org>,	Ankit Agrawal
- <ankita@nvidia.com>,	Eric Auger <eric.auger@redhat.com>,	Reinette Chatre
- <reinette.chatre@intel.com>,	Ye Bin <yebin10@huawei.com>,	Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,	Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>,	Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,	Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,	Rui Salvaterra <rsalvaterra@gmail.com>,
-	linux-ide@vger.kernel.org,	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,	ntb@lists.linux.dev,
-	linux-pci@vger.kernel.org,	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of pcim_intx()
-In-Reply-To: <20241015185124.64726-3-pstanner@redhat.com>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	<20241015185124.64726-3-pstanner@redhat.com>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Linux Sound ML <linux-sound@vger.kernel.org>,	Takashi Iwai
+ <tiwai@suse.de>,	Mark Brown <broonie@kernel.org>,	Shengjiu Wang
+ <shengjiu.wang@gmail.com>,	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>,	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v6] ALSA: compress_offload: introduce accel operation mode
+In-Reply-To: <20241002093904.1809799-1-perex@perex.cz>
+References: <20241002093904.1809799-1-perex@perex.cz>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -122,79 +94,64 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 377EE1FD15
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
+	MX_GOOD(-0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	MIME_TRACE(0.00)[0:+];
 	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_GT_50(0.00)[66];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,omp.ru,amd.com,arndb.de,linuxfoundation.org,yahoo.com,marvell.com,davemloft.net,google.com,redhat.com,quantenna.com,gmail.com,kudzu.us,intel.com,suse.com,epam.com,perex.cz,iscas.ac.cn,realtek.com,zeniv.linux.org.uk,debian.org,linutronix.de,linux.intel.com,ziepe.ca,nvidia.com,huawei.com,invisiblethingslab.com,linux.dev,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.de,kernel.org,gmail.com,ndufresne.ca,linux.intel.com,linux.dev];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Tue, 15 Oct 2024 20:51:12 +0200,
-Philipp Stanner wrote:
+On Wed, 02 Oct 2024 11:39:04 +0200,
+Jaroslav Kysela wrote:
 > 
-> pci_intx() is a hybrid function which can sometimes be managed through
-> devres. To remove this hybrid nature from pci_intx(), it is necessary to
-> port users to either an always-managed or a never-managed version.
+> There is a requirement to expose the audio hardware that accelerates various
+> tasks for user space such as sample rate converters, compressed
+> stream decoders, etc.
 > 
-> hda_intel enables its PCI-Device with pcim_enable_device(). Thus, it needs
-> the always-managed version.
+> This is description for the API extension for the compress ALSA API which
+> is able to handle "tasks" that are not bound to real-time operations
+> and allows for the serialization of operations.
 > 
-> Replace pci_intx() with pcim_intx().
+> For details, refer to "compress-accel.rst" document.
 > 
-> Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> ---
->  sound/pci/hda/hda_intel.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> index b4540c5cd2a6..b44ca7b6e54f 100644
-> --- a/sound/pci/hda/hda_intel.c
-> +++ b/sound/pci/hda/hda_intel.c
-> @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx *chip, int do_disconnect)
->  	}
->  	bus->irq = chip->pci->irq;
->  	chip->card->sync_irq = bus->irq;
-> -	pci_intx(chip->pci, !chip->msi);
-> +	pcim_intx(chip->pci, !chip->msi);
->  	return 0;
->  }
->  
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> Cc: Amadeusz S³awiñski <amadeuszx.slawinski@linux.intel.com>
+> Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 
-Hm, it's OK-ish to do this as it's practically same as what pci_intx()
-currently does.  But, the current code can be a bit inconsistent about
-the original intx value.  pcim_intx() always stores !enable to
-res->orig_intx unconditionally, and it means that the orig_intx value
-gets overridden at each time pcim_intx() gets called.
-
-Meanwhile, HD-audio driver does release and re-acquire the interrupt
-after disabling MSI when something goes wrong, and pci_intx() call
-above is a part of that procedure.  So, it can rewrite the
-res->orig_intx to another value by retry without MSI.  And after the
-driver removal, it'll lead to another state.
-
-In anyway, as it doesn't change the current behavior, feel free to
-take my ack for now:
-
-Acked-by: Takashi Iwai <tiwai@suse.de>
+Are there any objections to this extension?
+Otherwise I'd like to pick up for 6.13.
 
 
 thanks,
