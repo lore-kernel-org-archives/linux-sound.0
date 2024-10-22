@@ -1,56 +1,56 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBF33B2BB
-	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 03:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC2C13BAC6
+	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 03:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729567899; cv=none; b=CqRegzzphTaXlYysBTmgIfPZ+qQ92z76/or9Xy+peGkRBAGgzcxsPA9xjteZ9WEMar4dsO4WgMvs/XPz+VvB1T07EVQKM79GjlYMrQEJ/FguxDvo4/qlcANy4pgWj4krLh8dw4Bs4njpqGr+m8KJVC8IHzVw+9zwX/qoCsCAONw=
+	t=1729567902; cv=none; b=RwXnH/Q5Jw0Cp4Fqk7C3jTpIn/kS4+8SVZHP5LjB+Ecp68dhz+zV8eIK5rGtdERikecv00P5Iyf+68i7gwfe8GMsE0Xdc5xvbI/Ulp32Xv9Vn33N7UtmdFA7OZPlJZYQLZW9Z7c857VLnGbMOXEGrgbNajNWYIrMF7zhfuGXqkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729567899; c=relaxed/simple;
-	bh=KlYS0u+UdAyAAPyvPaxQwNeaRW79KZNHr8momw/teMc=;
+	s=arc-20240116; t=1729567902; c=relaxed/simple;
+	bh=YK2LpZTHRnkiUqe2Z38KIFqo+pjFGj2BUeIv/Or6Qik=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mqj90YvLsn/EGj9Ue0F6OstjLI45ZqTHVnA+prmXVL+Tr7Yc+viH4wtElStwwXj+oFMv2Q5Kp+ryIHy/t9PNiwR55OhMRY3uW9HragpomkL/OPtTfCsz9+SkX8ygGHT6M6kyV+yaboYSMAtp4WelnW9+ZPToLzdC45W8jfoA6H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wfYxC/IN; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=TNeNOJChZFO1Ywo0a/B4ONBelP5jmGzYzjhqx/0LYthFWhCX5TCyJTUl1K+weBDmIcCsCzU6I6j5Phn/NX1IBCzO0KRiC9iSybl26rt6J2Dx6EoPSnkG5PoT1ykrJM0hJ5xVCJnhBrqy9FVkpzU9cfsKiWXeDpLNGBo8Y7eeXGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=O1YqMyKX; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wfYxC/IN"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315839a7c9so56699435e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 21 Oct 2024 20:31:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="O1YqMyKX"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-431616c23b5so24898975e9.0
+        for <linux-sound@vger.kernel.org>; Mon, 21 Oct 2024 20:31:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729567896; x=1730172696; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1729567899; x=1730172699; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XnGrvWyEkfJGt/0DtGtUAuajOGPJlvd3hyTQL/5+oQU=;
-        b=wfYxC/INd+q0EidBB+EDUXKxsV7PUfelOAXdiFG0BcMVPWe9sRCkWZtebP7Wryu2hq
-         1VUNoCzgyP2fTE6d6CEnbL7K55CCcNvvK+PtPSe+fmUFfRwEtAm/XWWpE1gAZfMWNWch
-         fpZGsXrPEyu0QmFmwTbACfSs0amIzYYjD3su9YW1+ndQXv4zX5XX6nCKuN1p9cPGcM90
-         rNQ4czF4fag3LRduZ6iLgJBVD1CmnxW+k8y4ulUUDgcTrYQePbNX775uZlR88zi8Y2Ru
-         zRvmo5XwtEgLX4cZWrHd1ufh/+T9pYuUB0HI8E1D+a3xZ6ot2nKfgGajG2DqecZyjq7z
-         MydQ==
+        bh=XBmJLCd2hzie+5dOl1H2qg4sljCq/9XPqPeLmC1hVMw=;
+        b=O1YqMyKX1OC/UJybI0GowimkdzWIqSkZEkRsN9n0wRhJvpl79TgManq4pP3T57sEW+
+         Cetc/ueriIzkHWjrIdHRkC1bItfP8IHr+M3qjk9cXYgj6I2mIjlgZIC2y/eQAfkF2U+v
+         9zwRuqqPW6JoF0/PKNGgTv8HJUwvecFiJGuo8sXoRDF8nhmcgTGcmFBtdYD6s7ZFNDK+
+         LpRcB8/+/XJgj9JgznIZjlo8leGF1tyRiqHzuywZv7eok1ghCdUnmMJlMUojgTBTQDZh
+         o4B3cRhyA/f9B89hY9Km0JG/iFSWnuNKZHp6rMF8+9TsphCr9SYiYYuzuRXfPzGPOSoz
+         QxSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729567896; x=1730172696;
+        d=1e100.net; s=20230601; t=1729567899; x=1730172699;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XnGrvWyEkfJGt/0DtGtUAuajOGPJlvd3hyTQL/5+oQU=;
-        b=lIrP8E/JKeEUE4IlG1PTMi8S5i2u9VrVwNoioZtGOHmwsvN40mzzEvp578tVV0v2WV
-         VyKqA3cclzhbIngFzESMYpbtwMFRfd1C3C/eBmr88Ad1hd6WtDG7KQxjHTKKUkbRWc4A
-         zB6OD+5d+Nl+tG9tw1hgl8rV+yx8gtZENnOm1AgC9EqOKaG0eoAYcL1kAdU5VLiMwW5+
-         pdGJ78iP7NW8uKUWvKEQ9zWLQ3D87DfizXqCVbAn+yUVp57zXe5vroo/ye3MmAgEGSMn
-         yiFqEwRCB86zmg8UxGZP4oqXb0umTquqiBWCW+VeWIR1eRv+8+MBJ4m3G074RC5b2oUX
-         tF3A==
-X-Gm-Message-State: AOJu0YxHKofkfC9W5SdJ+FzNIxe2ao3TpBwsO/uX5knnfUBIC5URPskw
-	xfFwXGcm34r4MfpkYPOJOQ2xYN1ckqFgJ9xUm70kE/AjJ4eH319zcyTuSgfOMj8=
-X-Google-Smtp-Source: AGHT+IFuE/kXInfVZsurmtQHN+jwzqaTxF7tmY59sYJo7LsBOCzg3DUkV15bKsOh9KTl27pnowbuhA==
-X-Received: by 2002:a05:600c:1c29:b0:431:5df7:b337 with SMTP id 5b1f17b1804b1-4316163b55emr101507355e9.8.1729567896395;
-        Mon, 21 Oct 2024 20:31:36 -0700 (PDT)
+        bh=XBmJLCd2hzie+5dOl1H2qg4sljCq/9XPqPeLmC1hVMw=;
+        b=Ow2pXLOPeR2sDMDcFt2jq9X88RBBqHy5TJ64CHidy+xHLoRlpjuvsWlBnmfWaom9H2
+         WKaxn1if3SLwv1UaUpr4KcXCro8FWseWhTNjlTZPNe66+yxlgLsMDNgthINSeu6R+bt1
+         Q5z1CSQmXskGWIxoF8ROrxh5iqAZYzC9KuWx9VYi/8Zm3rECTDokez7sHLE3qvUhGTJ2
+         L1WIvC67OPJFjYKSjQSAwdlSv6rgm7N8wIloVMeauOXu30sUcI40Ulmz4j9vGGVUmnyw
+         plz5Db5zQYkte1ktxDJGiwHsZ0Vr1L7nW4WE50f1KhttOUaJImO2Bm5Fbmmwz80ekSur
+         G1fQ==
+X-Gm-Message-State: AOJu0YxsjJEKRXw/i4pWCVWcZVlcRtLoIkmNgYSIAwwmRlLQUt9RwClp
+	+4gmtIAC2pZxx9pue9C8mijy3v1dXGqHojddNRL6JZ2dKD0alEXV0xrCeFSvZ84=
+X-Google-Smtp-Source: AGHT+IHABLScA0LDuWfD4bvGZ+5nYu9oyL/Xebds/KjAusYXDNhqNs0Vq4qmdDufLIH74eB/okuOAw==
+X-Received: by 2002:a05:600c:35c1:b0:431:4fbd:f571 with SMTP id 5b1f17b1804b1-4317be88087mr9335885e9.13.1729567898715;
+        Mon, 21 Oct 2024 20:31:38 -0700 (PDT)
 Received: from localhost.localdomain ([2.125.184.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317d03ea4asm4768455e9.0.2024.10.21.20.31.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317d03ea4asm4768455e9.0.2024.10.21.20.31.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 20:31:36 -0700 (PDT)
+        Mon, 21 Oct 2024 20:31:37 -0700 (PDT)
 From: Alexey Klimov <alexey.klimov@linaro.org>
 To: srinivas.kandagatla@linaro.org,
 	quic_pkumpatl@quicinc.com,
@@ -64,9 +64,9 @@ Cc: linux-sound@vger.kernel.org,
 	tiwai@suse.com,
 	dmitry.baryshkov@linaro.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 1/2] ASoC: codecs: wcd937x: add missing LO Switch control
-Date: Tue, 22 Oct 2024 04:31:30 +0100
-Message-ID: <20241022033132.787416-2-alexey.klimov@linaro.org>
+Subject: [RFC PATCH 2/2] ASoC: codecs: wcd937x: relax the AUX PDM watchdog
+Date: Tue, 22 Oct 2024 04:31:31 +0100
+Message-ID: <20241022033132.787416-3-alexey.klimov@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241022033132.787416-1-alexey.klimov@linaro.org>
 References: <20241022033132.787416-1-alexey.klimov@linaro.org>
@@ -78,35 +78,98 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The wcd937x supports also AUX input but the control that sets correct
-soundwire port for this is missing. This control is required for audio
-playback, for instance, on qrb4210 RB2 board as well as on other
-SoCs.
+On a system with wcd937x, rxmacro and Qualcomm audio DSP, which is pretty
+common set of devices on Qualcomm platforms, and due to the order of how
+DAPM widgets are powered on (they are sorted), there is a small time window
+when wcd937x chip is online and expects the flow of incoming data but
+rxmacro is not yet online. When wcd937x is programmed to receive data
+via AUX port then its AUX PDM watchdog is enabled in
+wcd937x_codec_enable_aux_pa(). If due to some reasons the rxmacro and
+soundwire machinery are delayed to start streaming data, then there is
+a chance for this AUX PDM watchdog to reset the wcd937x codec. Such event
+is not logged as a message and only wcd937x IRQ counter is increased
+however there could be a lot of other reasons for that IRQ.
+There is a similar opportunity for such delay during DAPM widgets power
+down sequence.
 
-Reported-by: Adam Skladowski <a39.skl@gmail.com>
-Reported-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Suggested-by: Adam Skladowski <a39.skl@gmail.com>
-Suggested-by: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+If wcd937x codec reset happens on the start of the playback, then there
+will be no sound and if such reset happens at the end of a playback then
+it may generate additional clicks and pops noises.
+
+On qrb4210 RB2 board without any debugging bits the wcd937x resets are
+sometimes observed at the end of a playback though not always.
+With some debugging messages or with some tracing enabled the AUX PDM
+watchdog resets the wcd937x codec at the start of a playback and there
+is no sound output at all.
+
+In this patch:
+ - TIMEOUT_SEL bit in PDM_WD_CTL2 register is set to increase the watchdog
+reset delay to 100ms which eliminates the AUX PDM watchdog IRQs on
+qrb4210 RB2 board completely and decreases the number of unwanted clicks
+noises;
+
+ - HOLD_OFF bit postpones triggering such watchdog IRQ till wcd937x codec
+reset which usually happens at the end of a playback. This allows to
+actually output some sound in case of debugging.
+
+Cc: Adam Skladowski <a39.skl@gmail.com>
 Cc: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 ---
- sound/soc/codecs/wcd937x.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/codecs/wcd937x.c | 10 ++++++++--
+ sound/soc/codecs/wcd937x.h |  4 ++++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 45f32d281908..0f0d2537d322 100644
+index 0f0d2537d322..08fb13a334a4 100644
 --- a/sound/soc/codecs/wcd937x.c
 +++ b/sound/soc/codecs/wcd937x.c
-@@ -2049,6 +2049,8 @@ static const struct snd_kcontrol_new wcd937x_snd_controls[] = {
- 		       wcd937x_get_swr_port, wcd937x_set_swr_port),
- 	SOC_SINGLE_EXT("HPHR Switch", WCD937X_HPH_R, 0, 1, 0,
- 		       wcd937x_get_swr_port, wcd937x_set_swr_port),
-+	SOC_SINGLE_EXT("LO Switch", WCD937X_LO, 0, 1, 0,
-+		       wcd937x_get_swr_port, wcd937x_set_swr_port),
+@@ -715,12 +715,17 @@ static int wcd937x_codec_enable_aux_pa(struct snd_soc_dapm_widget *w,
+ 	struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+ 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
+ 	int hph_mode = wcd937x->hph_mode;
++	u8 val;
  
- 	SOC_SINGLE_EXT("ADC1 Switch", WCD937X_ADC1, 1, 1, 0,
- 		       wcd937x_get_swr_port, wcd937x_set_swr_port),
+ 	switch (event) {
+ 	case SND_SOC_DAPM_PRE_PMU:
++		val = WCD937X_DIGITAL_PDM_WD_CTL2_EN |
++		      WCD937X_DIGITAL_PDM_WD_CTL2_TIMEOUT_SEL |
++		      WCD937X_DIGITAL_PDM_WD_CTL2_HOLD_OFF;
+ 		snd_soc_component_update_bits(component,
+ 					      WCD937X_DIGITAL_PDM_WD_CTL2,
+-					      BIT(0), BIT(0));
++					      WCD937X_DIGITAL_PDM_WD_CTL2_MASK,
++					      val);
+ 		break;
+ 	case SND_SOC_DAPM_POST_PMU:
+ 		usleep_range(1000, 1010);
+@@ -741,7 +746,8 @@ static int wcd937x_codec_enable_aux_pa(struct snd_soc_dapm_widget *w,
+ 					hph_mode);
+ 		snd_soc_component_update_bits(component,
+ 					      WCD937X_DIGITAL_PDM_WD_CTL2,
+-					      BIT(0), 0x00);
++					      WCD937X_DIGITAL_PDM_WD_CTL2_MASK,
++					      0x00);
+ 		break;
+ 	}
+ 
+diff --git a/sound/soc/codecs/wcd937x.h b/sound/soc/codecs/wcd937x.h
+index 35f3d48bd7dd..4afa48dcaf74 100644
+--- a/sound/soc/codecs/wcd937x.h
++++ b/sound/soc/codecs/wcd937x.h
+@@ -391,6 +391,10 @@
+ #define WCD937X_DIGITAL_PDM_WD_CTL0		0x3465
+ #define WCD937X_DIGITAL_PDM_WD_CTL1		0x3466
+ #define WCD937X_DIGITAL_PDM_WD_CTL2		0x3467
++#define WCD937X_DIGITAL_PDM_WD_CTL2_HOLD_OFF	BIT(2)
++#define WCD937X_DIGITAL_PDM_WD_CTL2_TIMEOUT_SEL	BIT(1)
++#define WCD937X_DIGITAL_PDM_WD_CTL2_EN		BIT(0)
++#define WCD937X_DIGITAL_PDM_WD_CTL2_MASK	GENMASK(2, 0)
+ #define WCD937X_DIGITAL_INTR_MODE		0x346A
+ #define WCD937X_DIGITAL_INTR_MASK_0		0x346B
+ #define WCD937X_DIGITAL_INTR_MASK_1		0x346C
 -- 
 2.45.2
 
