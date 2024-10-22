@@ -1,188 +1,101 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010047.outbound.protection.outlook.com [52.101.228.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E2AC2C8;
-	Tue, 22 Oct 2024 00:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729558413; cv=fail; b=L55xpSIszUSNkqP17oQLeKdDicQ71lo08lF2jMw/KJj0jwRNtmdt1bTqqZ1/GyYIsY7tHivAP4ykbSFsBlfd+NTFJWzjAmZZ+PmkTX5aEyVWIrlRd5+4xLeKZKejCvkLYfSB7tsTndnMza+LRbubJnOMkUUxa5qMPg0TAbHqaL4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729558413; c=relaxed/simple;
-	bh=A1Sxs2wRNnIYbnay0QH1JlgeEAtomnMMyj6IxmBzblU=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=F5Pyg5SjO2v+Z3eQjFQAP/05MZ1CGzM6m6JUq7cfo9Fm/vYRGgCPkSMAaPgd7/UY5Jpjh7JpV2Tm+xl2roPrGAHPd70y4iherwOEz7YtO9cmtPiqrL9h6Ix049o/xszTjYzAygOp+KhnUYbW8D6zdwX/AnFIyEgFTPDaQpywn7Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=GzPDasW2; arc=fail smtp.client-ip=52.101.228.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B15256D
+	for <linux-sound@vger.kernel.org>; Tue, 22 Oct 2024 03:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729567898; cv=none; b=N1xCvRjtlfDBx4M26HUqtw7cTrC4eeQmY08nQZ7mx6+/vsB2MLVUuzUijzYl6My+dy85SaooYk0fuvLJ+FCfIlMbri9oOirgyYChy9l66znU4HkNA9jv+o0el4gYSg9cnEZQfjEyMRROOJL6DwmjS0zyT9QZWFXU0WjyTV07VJw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729567898; c=relaxed/simple;
+	bh=E2iRMBn4vXGC8g6J44VssBZfpzZe5kCM2ZEzAfoRWN0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tr7DQlgRzq+RgufJL+34g+8Z1ZcqRDWIw1SM67Wt8XqBAVpEulBcZkSM8htkh++qwB/j5nubFb5ygdFnkb08yCScAjwR/+gSl3xNrUIBrdy3/J/2L4gIzIOuYgyBSGZf5JLAAEeOewWbKAhr0lrnq93NO1rdPtR/3bPmQFKhY0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PJtI1/JE; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="GzPDasW2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nNWmMCbLyFn+ryrsWOLSm277Jx/jNBmrc39ug2XwdnQ37+VyNgz+71yF/ZmHIkPQuKgthCx/XpUL4HFwxtqO6d2RtcBhMw/KZnmjI9zqNpxDHWY2R+Q7wc8c7eDT1Shz6fLH+3BiWLSD5Gnaih3I1VvWmsbVibmUWBHOtc527LfToRdWvoKXgsycBWekq8Y0B5jrkkHkfoNUhalQHqkmtim9whsMJ50pg2iBD2yj3yRJY0zGx9qoItYUyv1x4kdhzvuwl/rZT8quWOGomJ0wk/Pf4udVLo9GcbjJdSUEVJswrd9aOVn7cCWGtrUbTgWxcdeiGA8DMvpx82v5NqSIdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8QAbNwFxbMGZ+CBBAvHztvOlsBI20cI+mO2/lSVIfMQ=;
- b=VbEGZpx2ZuD3RE+2hemkIpFe7vD5wQ1yc5gllO+4IOWnZj5vQZy1LwZTX4mwRVF+crsDbaVYwu576LmarUIg3VwaodfnHK8qGeXg3mwQqTJdj7dALeWrmFiOTQkE+RliNwkoc5Z2iqJMXzBNoFv8TgrAPy77+lJlhEdTgsnUs8Go7sbNvgA8XZOav37vmKxmHPVi5TJCgGDe2lcYBkR6qMGpiQG90c0VQw9+ygdj+r6xTj9+bz4TCndbaGMO9dD42iSXQhaEC4IsohKapdXn/n7A9N8ihSeyli7i9mUNmGh/sKjtiFfFCc5yqO0zrQStts2oTfGTKnq7sJDrMppjWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8QAbNwFxbMGZ+CBBAvHztvOlsBI20cI+mO2/lSVIfMQ=;
- b=GzPDasW2hk/5EDdoJNqRV+MzZFBJu3erOasJH8PV3/w7iHqvCmu4zrnMONFa35kCnea9LawjlulmGPhATipQth65ddR7aXwGalhlJ8aIZY601AbLeFyoZTDyYnXPge3FSJBcRmVBE3mUigrTKX8vrkmv0wtZLBSwjFj8uNQiH6g=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB5863.jpnprd01.prod.outlook.com
- (2603:1096:604:c6::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Tue, 22 Oct
- 2024 00:53:27 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%5]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
- 00:53:27 +0000
-Message-ID: <87a5exot4p.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Helge Deller <deller@gmx.de>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-fbdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v7 1/9] of: property: add of_graph_get_next_port()
-In-Reply-To: <ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
-References: <87wmiirqwy.wl-kuninori.morimoto.gx@renesas.com>
-	<87v7y2rqwf.wl-kuninori.morimoto.gx@renesas.com>
-	<ZxYiD5CCzcrwbD1o@valkosipuli.retiisi.eu>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 22 Oct 2024 00:53:26 +0000
-X-ClientProxiedBy: TYCP286CA0262.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:455::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PJtI1/JE"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so54536545e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 21 Oct 2024 20:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729567895; x=1730172695; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PRNDAKtg23JE6+vxzUvroP0LZ1F0yJev4yH7XRh0MOs=;
+        b=PJtI1/JEUj6PvPhJj1gISZqfWN02CfPaxQ0XyeAQElCM+rKsLhPrQxMOpSOYgFaFpQ
+         vgOJezeiQGvBp/DJJfa4DnVxRkCQyE+OmVVay7IWjI7mRyVznvYgP3SGA1BMY2ObrMEq
+         5QLEUZzbKXFOH9fS4ilVpPOV+hq9Y8TBUIALgwv8CgU97F+x1MW5zGwDoPezybMkCCsG
+         Dw90FV4uaGi7WrlcM2jk55DVoX8+vKcX6F7m0GpfmM29S8yfPB3tDG3zD2WorZgfwAbY
+         Eg9HTDH/yGAGsi8VQ0/3e2S54GaDxft2Uk0Y4F1coUQZzZUWHDRyObVUxgbWDGl9tXsf
+         sfVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729567895; x=1730172695;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PRNDAKtg23JE6+vxzUvroP0LZ1F0yJev4yH7XRh0MOs=;
+        b=RlzzzH1Stgdj0FPQKzpiVOqldJN7HFDB6AbgL6hnvwszjPEQOdsnr599v8FZJTVcjV
+         8XOE88rpGElldle4FjXG1bgLxWeXLj4HiSpY8v3ikSghGDHZoR+KKpBdk7BHRI6orLi6
+         +yKY41jnXef3L2weZ75J4ghNiyXmI2GZIouNISlpMpSDHo/LnG4sDJ4rrvB+aY0dWpM7
+         bTHwrMzd9dtIbERXFECmMzt4mKjJaRrMbuRf8nCC6df6+LNb1KrYUtQvmWVpKXoaVur4
+         exCmLyM/+tEOjx+bBBYhzdhUm5FJDWRcMB3KX4PXxgP54QDFe6PQSn1u0TP7ms4bDeVd
+         CBqg==
+X-Gm-Message-State: AOJu0YxJxs+pbDutqetoqCg08/UL/lkffWiKHrvujNOGnKQWJrVKuPx+
+	YBKHiZx2L6t09bmULCUc7+1FclnlR3RUXqbD/mXTWWWA4i740o50INiJ8XAD2Ps=
+X-Google-Smtp-Source: AGHT+IEu/69XGSwovBSRpqpBZi4M2aUiW0DQlzn+G8a5nHeh1xypd9CnrLif8WoStF8WP36gEFBhCg==
+X-Received: by 2002:a05:600c:1907:b0:431:1512:743b with SMTP id 5b1f17b1804b1-4317cac091bmr8472035e9.21.1729567894959;
+        Mon, 21 Oct 2024 20:31:34 -0700 (PDT)
+Received: from localhost.localdomain ([2.125.184.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317d03ea4asm4768455e9.0.2024.10.21.20.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 20:31:33 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: srinivas.kandagatla@linaro.org,
+	quic_pkumpatl@quicinc.com,
+	a39.skl@gmail.com,
+	quic_mohs@quicinc.com
+Cc: linux-sound@vger.kernel.org,
+	krzysztof.kozlowski@linaro.org,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	dmitry.baryshkov@linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/2] wcd937x codec fixes
+Date: Tue, 22 Oct 2024 04:31:29 +0100
+Message-ID: <20241022033132.787416-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB5863:EE_
-X-MS-Office365-Filtering-Correlation-Id: f15389b9-47bf-4161-680d-08dcf233f04c
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|52116014|376014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?9rB2HBjn+6FBvWkqOO3uDP9bdUKNcH4enaPubUyJ5iWZcZm47JhCiSoCSV3C?=
- =?us-ascii?Q?2JjcVrfTRgNs2ApACGrIZQXJdqv0bPAlvpeStghyhHkcklFQD8HnSKuF6Q4A?=
- =?us-ascii?Q?hcOYCbEWxvakwZWO01jp73cBxklxXLAGU90umkF7cUArkt0y/7nqrrtMeAcQ?=
- =?us-ascii?Q?79TiW+cb4o9OgBdPCefNhvA3WgIh88e0NbFeYDAjVkFORc1U7YCaT0GHWtBY?=
- =?us-ascii?Q?3k3d+ZlFo0O1KUToDqmdrQucOSBx1Kba0svksqIl4MluRwQ7ZGZFLMvC+oCx?=
- =?us-ascii?Q?wdkNyGOP2Ti3ds2K5ocm3cW8NUPgns6WNpzWdGo3XzlmA9JkgaOmPrM57Gk5?=
- =?us-ascii?Q?NP1rmTfrXluHdCBsS1kvzHJ7mCe2BoCdQQwB/u5qfvTCzxbBvE1OlcQ/OuzF?=
- =?us-ascii?Q?ceFa/7Jjt1PVpat4Tjpq2ww7Ept6d/FNS4tVs1GZ2CvQ1sjUroD6Zdf/3aH6?=
- =?us-ascii?Q?AYuxCmTe6qvpicyg9adzNj6ItoZ+uekvWOergNyNj2dSmTlQcu979XiRYnJB?=
- =?us-ascii?Q?iWwP8HhEUYhiwofr/bm3vSt0fN04t/qBkaIXx6n+q8eFCayOdJx/RnlvmFD0?=
- =?us-ascii?Q?D3wEiKVPJ7nF7jyO4XHguYjKz3qezu2Ku/xUcbSQkPiVBSnsAWBQ4GpmJ1ka?=
- =?us-ascii?Q?H4RCRE7uUl3AjoIFgWrAwdqgkfCHnyKRMBG22eEKxVRR4CO2T+oLA3wxrBgg?=
- =?us-ascii?Q?USBw3QA6srTdQZF+nPHjhMBNrY6HVcmtMx2DZMEYw4LzlnLRfjnMtDJThkip?=
- =?us-ascii?Q?CeJFBvU52Uq8KW7V499INLS+sBIcXv8DD2cPPq4zt7q2grVe4Zw/V4DtLeas?=
- =?us-ascii?Q?fJIVedCxuYbX2RsTTiYKx4S6Ko5PhkWIGHM609vYHda51deLuGYtxlVzaRbA?=
- =?us-ascii?Q?xtUZdiB88pncuV8AFiGd1cOhxoo0ASRyEl17nalWvZV4mFmgFs5qUtg1wyn9?=
- =?us-ascii?Q?248GCFK6IKY1yvZvhwNqcABggki72IZT/Kc7xx+NdvNVfYaV7+6QqlNTWM7j?=
- =?us-ascii?Q?vxGxjWvNViQn7SNBSih/8NudBajXAnNIz18qcXa9YReEHb+0MAuoFnfTa7Ug?=
- =?us-ascii?Q?r7LackEz3d1LZcyrTH1vlSRcZ480gYqUF+vYop+KBWCcstpXcDBueQdm/Mmh?=
- =?us-ascii?Q?4MspU8P+wliH5RrTprYtwqb8CkXs+6E0WComfmntRedazUbg8iy6X0Qljo0d?=
- =?us-ascii?Q?gdIO+SGT/oL0We1Dcx/hBjUceIO6zh2fpAke04UO8jHaLSwwArQb8PdzkZaE?=
- =?us-ascii?Q?8T4ugpklExejzBjOX0aJQhrWPp+FqAbmlKU+3KbBDRz0/Bd6sx+f6X5+5KP1?=
- =?us-ascii?Q?GNoM1B2hghCBePpmcBKErYKZyZCzJuf9e4lLL0VX5YgTTmF4s5QcMmcdZzQq?=
- =?us-ascii?Q?/u8/NFA=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?9jlFSqdW39FGTQHpJrXbkJ5IZ7AMiwM2wRqDqSO6e3ib/4wETJB66hxr01wh?=
- =?us-ascii?Q?gEk99WwQAscbWYn+WURLZ7beUsjk9vDUcViGyZziUydTxkbhrO0UFEr5Rwgs?=
- =?us-ascii?Q?rPBradNZWqlFUI99LKyvSh9e8OMPEcPShWaR5WRhtNG4fxFgDSvdQB3Cd41p?=
- =?us-ascii?Q?50ISXeiFnR230aeXmbD6SriYR6LwJeZadPzGs/SVBtwHXPzUjd8HbrMwTiCb?=
- =?us-ascii?Q?tZ2zZlFLBsvEROCdOYsM6KLiCZETad+SLB2QOcm2VQ8hNabwSZlWbU9i57N0?=
- =?us-ascii?Q?IuxaRcAfMmChub5qBmWKh/Bj5VCbDN4x+nO4pf5K2Zr/ahxdc32ocKKkkfAm?=
- =?us-ascii?Q?yPWVNzbEW7WtKqUXJGAo0tNTRQuJXtdQBiyhKxRWrVC7MxfkxspiIqVEkdSa?=
- =?us-ascii?Q?EsSRXJTY8gZS/dPWovlcvWRXie5x45P/LXvwepCSrFXUH3vXzY9J2lgU40oi?=
- =?us-ascii?Q?7/HdCS+dxY7vCaXWA2NuH/CTi37aZxIXFZ4TaXP06UZAJZ+JYAEbDEOt7c88?=
- =?us-ascii?Q?7xwfyczRGYuMXdHrinI1FCKX/5c0J+Y0ZAd89GDE3XbDLWomVa5fWWsqqMrs?=
- =?us-ascii?Q?J42UIZMNLbRCgajMUaxMxnWPVC4YvT8zfLITvCK8kuk/blMJpbT+o0KuC2yp?=
- =?us-ascii?Q?bElJGkYyhEdR9QMDe5pvuP33Pn+YicRAoDVZb1sYPBSaTGo+C1IzlaOyEWRQ?=
- =?us-ascii?Q?aNsBDPInYVnrAjnd3aKGDK8Dp6Kr+EFwPftrqXwFXsJgcogq/ZWYqZdfg+Fm?=
- =?us-ascii?Q?K5upsW3Ni8RyYZwI5M6fs4UY5SPBp5O9etjBz7rQcOujzUjrLhohKHhOTdFt?=
- =?us-ascii?Q?O+sVZO4xBkdTOgnwg2ppKBX5qcBqIB071JkeKPUpCo3G+9XpHhT92eOeawWX?=
- =?us-ascii?Q?40twM7sFB2nVVlwx73dO6ykJwXPPLxY7sG+XWfc3KBJ+Us3lZO6ejxwu+Old?=
- =?us-ascii?Q?/AxAmB3sUYuMCcNcfmddn2cqdK34Q9oXeYK9zZqur/alWvaeBI18RIV6ZbwQ?=
- =?us-ascii?Q?QujXTBmYjcg6dRylJ6hk/QOsmwAFd4Wu2t54F8uWsHBOLFpPbLJBzOCylhhf?=
- =?us-ascii?Q?m/S5T0qCauWfTPah67p8zWsHnIzATd8qT9QDZA4OW+yhqAO62Rs6Z2f/36f7?=
- =?us-ascii?Q?Rla2gjM+Rci9Szq57ZQslTXe7F0BhG5j6T9TZtAq3Nn46jJXpvVmNo8MiKNz?=
- =?us-ascii?Q?78+t/zSl2+2xdXX+rGtv0zkDYd8px0VJTbxPLmKb9LxU5LGq+ClXyr6ftVXZ?=
- =?us-ascii?Q?cN47nXSmhykx/qp+QbPtzzlTL8aP5Rrkuc90LHw2XCb7D3bAbA14bYHI2mCz?=
- =?us-ascii?Q?9O9vTHj/+vBdFubH7HqC2aU3SvD9l6q7IEk7AxYoER+NhNnsDqZohQjvzmaQ?=
- =?us-ascii?Q?rqITR7slT+OAaDiGPoXW9QOL9EhPKBhpIPHFIluvNI0l1FLwVLmUwx+EtsI5?=
- =?us-ascii?Q?790VjG3c6IYYq1sioG0qaeL+MxB//AtZK9l9TjGXt5Ke300H98QJ+LZjWPsm?=
- =?us-ascii?Q?N1lkK5kScBGtnoWONGSv+bKa5ayKUOoHvuoiFn5N05xSpNEomvw1oHfLtdpo?=
- =?us-ascii?Q?Te/oSF4NF8ZDJyYhcfU5xftd4ZjN5BsE5DWU4QOl2DJ9pMVGN4HQo7h1j81C?=
- =?us-ascii?Q?IVrdCmc36wQ/yze+/uLOgFU=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f15389b9-47bf-4161-680d-08dcf233f04c
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 00:53:26.9870
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EJVDK6hVNTAhrkmFLC+EZC6kW4xe3xcPOFoy7cTLy/S0OoMAr1lKfACV/dyJeoPf860y/JNWoy9SXOXaoN3nzKy1PMIaoqJUhhYvMkJ9ZrwMybReuZrdadE8F40789yF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5863
+Content-Transfer-Encoding: 8bit
 
+This sent as RFC because of the following:
 
-Hi Sakari, Rob
+- regarding the LO switch patch. I've got info about that from two persons
+independently hence not sure what tags to put there and who should be
+the author. Please let me know if that needs to be corrected.
 
-> > +/**
-> > + * of_graph_get_next_port() - get next port node.
-> > + * @parent: pointer to the parent device node, or parent ports node
-> > + * @prev: previous port node, or NULL to get first
-> > + *
-> > + * Parent device node can be used as @parent whether device node has ports node or not.
-> 
-> This line should be wrapped, no reason to have it longer than 80 chars.
-> 
-> Maybe this could be done while applying?
+- the wcd937x pdm watchdog is a problem for audio playback and needs to be
+fixed. The minimal fix would be to at least increase timeout value but
+it will still trigger in case of plenty of dbg messages or other
+delay-generating things. Unfortunately, I can't test HPHL/R outputs hence
+the patch is only for AUX. The other options would be introducing
+module parameter for debugging and using HOLD_OFF bit for that or
+adding Kconfig option.
 
-Thank you for pointing it, Sakari.
+Alexey Klimov (2):
+  ASoC: codecs: wcd937x: add missing LO Switch control
+  ASoC: codecs: wcd937x: relax the AUX PDM watchdog
 
-Rob, I think it is under your queue already (?)
-I can post v8 patch-set, but what is the best way for you ?
+ sound/soc/codecs/wcd937x.c | 12 ++++++++++--
+ sound/soc/codecs/wcd937x.h |  4 ++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-Thank you for your help !!
+-- 
+2.45.2
 
-Best regards
----
-Kuninori Morimoto
