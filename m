@@ -1,52 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C1A1ADFE4;
-	Wed, 23 Oct 2024 14:30:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BFE1C304B;
+	Wed, 23 Oct 2024 14:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729693852; cv=none; b=eaV+RGm0UKGI8gju8ecyueQHyupMviGqJIgyrlixDuQh0ZiXLmlaGpwzo0A0E6CMloUMJbMT8HhBA5ks6PHZnSgRSJFLdw2iQ2QhFgU5YPXd8FE1gYy/YjQe8xUgAogZaLF6rkbs2M2x9TqYVGi0cUqJ+D0Shinl2rR1CRwYGI8=
+	t=1729693899; cv=none; b=W3x+rm6jkcq4FNDoPMnxxGj8rxOOMF+KuVQDlZrilq/Cpa3dst9B0g1Hq+CsaxWbCPWNxEddm9+79Z+6pPAUiwV5EVNQvxSH6b4/qi8TX/hxy1KFnKnXlI+i+YilWvZn/idynT/RNGH2TyAhhcYVBr0s7/S+Kx2cGO8at7prFq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729693852; c=relaxed/simple;
-	bh=EO7BTp5nyJSbncg5gWYnRXvreahukbUhT6PecAKby+E=;
+	s=arc-20240116; t=1729693899; c=relaxed/simple;
+	bh=G59Njn/ri5bLKpEUV6Ax+VakkUWMTqQ2UEYtaLWGdrU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XZsIh0mbNe93MJPg0KV39hk59pA60xCPA5MFUjFunjzhbExd2a4r4c3zh4MAhupLINTGb2yTnM9e0O8WzqPfIIbdW7LOCs5NlI/VHxNcBQgJkLN6R06bHPB4UOWqm07tz2Gkgnes3gA07kZ3gVxBoGZtGsqBkT/pTf1eEzpUKUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=laU2K3UM; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=bkzDlWTdSXbZ1FC2C3rCTKBCnGjekwsg+G/JFLIM9Z0F8hFnDw495jeie58tV4ZaVu42g286DpzGYrSu1oNE6pn9ub9r5OAh0p7grHE+mBlu4AicHkEqgHTk9JjvD2pmAqoPKvokE507noixQD6mbDrPBHtPzx7Y1+HrffG/HAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFjgZPw4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="laU2K3UM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAA5EC4AF09;
-	Wed, 23 Oct 2024 14:30:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFjgZPw4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE05C4CEEA;
+	Wed, 23 Oct 2024 14:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693852;
-	bh=EO7BTp5nyJSbncg5gWYnRXvreahukbUhT6PecAKby+E=;
+	s=k20201202; t=1729693899;
+	bh=G59Njn/ri5bLKpEUV6Ax+VakkUWMTqQ2UEYtaLWGdrU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=laU2K3UM90yvWiTWlQSi1xVcxHHxnPDIspGI1uaO56Z/vAdW6osfom47WpaOJjd7k
-	 83D+ebMAiqQd1cdS3fxeCXs9sdGm0nSGh5BOf2HDbkhXOY/bIaobcDXzaPgUjgFZCO
-	 7tV7suurEIMQfz3Ui4C4XpmTEbdCnkUVkxu0NyuMZ7EUVzrKE5UI60c0x5q73ZQUH4
-	 N3TfMChO3GgGcrhXKfd78er9hlL4MP3HS4G6/VrmW4nRwyZgc9S5qhlc7wtEfwyj0v
-	 uYUckCLlr5NfqG5bhyUcYH9bw2/Rsqi3bzKZmsVFh+KahFMf0e9yo2l2dSw4fyC9h3
-	 p8XnWVJovUOWw==
+	b=qFjgZPw4Ljl/0qGl3Mu97xWsSv8ITmJOzhJqehGlneHHcYuFgsBI/Z+lFqS4UCD6V
+	 aryY7vn5dRfga7SYUP+BwdU2nfFSdBcpJLTWyCow0JGNIMvEufW0YwT4JfDUGIIbXK
+	 /gzyVA+p2HfefU5VxRgb1/Lc3J1hdJOfaOwx9pJPwxcmzZ4drbpkZhX3+XWXuvNzrA
+	 GCWGt/jk5FWDhQ+OvaP+5KjYxBtRKYx5hBWxtT3Ta0A0dhoo+4cWI+1xeg7f9+jH0c
+	 FukgKs/3H/HJn551hnTzSkxlkysuh0Z+l7fSeLeUH0W3c+AV/6QUjph6vUnPR1FtRh
+	 bL604nWn3lS2A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Baojun Xu <baojun.xu@ti.com>,
+Cc: Julian Vetter <jvetter@kalrayinc.com>,
+	Yann Sionneau <ysionneau@kalrayinc.com>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	sbinding@opensource.cirrus.com,
-	kailang@realtek.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	foss@athaariq.my.id,
-	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 22/30] ALSA: hda/tas2781: Add new quirk for Lenovo, ASUS, Dell projects
-Date: Wed, 23 Oct 2024 10:29:47 -0400
-Message-ID: <20241023143012.2980728-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 14/23] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
+Date: Wed, 23 Oct 2024 10:30:58 -0400
+Message-ID: <20241023143116.2981369-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143012.2980728-1-sashal@kernel.org>
-References: <20241023143012.2980728-1-sashal@kernel.org>
+In-Reply-To: <20241023143116.2981369-1-sashal@kernel.org>
+References: <20241023143116.2981369-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,122 +50,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.5
+X-stable-base: Linux 6.6.58
 Content-Transfer-Encoding: 8bit
 
-From: Baojun Xu <baojun.xu@ti.com>
+From: Julian Vetter <jvetter@kalrayinc.com>
 
-[ Upstream commit 1e9c708dc3ae7226d5f9461540e3d583736af5f1 ]
+[ Upstream commit ad6639f143a0b42d7fb110ad14f5949f7c218890 ]
 
-Add new vendor_id and subsystem_id in quirk for Lenovo, ASUS,
-and Dell projects.
+When building for the UM arch and neither INDIRECT_IOMEM=y, nor
+HAS_IOMEM=y is selected, it will fall back to the implementations from
+asm-generic/io.h for IO memcpy. But these fall-back functions just do a
+memcpy. So, instead of depending on UML, add dependency on 'HAS_IOMEM ||
+INDIRECT_IOMEM'.
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
-Link: https://patch.msgid.link/20241011074040.524-1-baojun.xu@ti.com
+Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
+Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
+Link: https://patch.msgid.link/20241010124601.700528-1-jvetter@kalrayinc.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ sound/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index a2737c1ff9204..0cc6d05b5485a 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10238,6 +10238,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1028, 0x0c1e, "Dell Precision 3540", ALC236_FIXUP_DELL_DUAL_CODECS),
- 	SND_PCI_QUIRK(0x1028, 0x0c28, "Dell Inspiron 16 Plus 7630", ALC295_FIXUP_DELL_INSPIRON_TOP_SPEAKERS),
- 	SND_PCI_QUIRK(0x1028, 0x0c4d, "Dell", ALC287_FIXUP_CS35L41_I2C_4),
-+	SND_PCI_QUIRK(0x1028, 0x0c94, "Dell Polaris 3 metal", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1028, 0x0c96, "Dell Polaris 2in1", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1028, 0x0cbd, "Dell Oasis 13 CS MTL-U", ALC289_FIXUP_DELL_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1028, 0x0cbe, "Dell Oasis 13 2-IN-1 MTL-U", ALC289_FIXUP_DELL_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1028, 0x0cbf, "Dell Oasis 13 Low Weight MTU-L", ALC289_FIXUP_DELL_CS35L41_SPI_2),
-@@ -10552,11 +10554,15 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
- 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1043, 0x10a1, "ASUS UX391UA", ALC294_FIXUP_ASUS_SPK),
-+	SND_PCI_QUIRK(0x1043, 0x10a4, "ASUS TP3407SA", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x10c0, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x10d0, "ASUS X540LA/X540LJ", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x10d3, "ASUS K6500ZC", ALC294_FIXUP_ASUS_SPK),
-+	SND_PCI_QUIRK(0x1043, 0x1154, "ASUS TP3607SH", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x115d, "Asus 1015E", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x1043, 0x11c0, "ASUS X556UR", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x1043, 0x1204, "ASUS Strix G615JHR_JMR_JPR", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x1214, "ASUS Strix G615LH_LM_LP", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x125e, "ASUS Q524UQK", ALC255_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1271, "ASUS X430UN", ALC256_FIXUP_ASUS_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x1290, "ASUS X441SA", ALC233_FIXUP_EAPD_COEF_AND_MIC_NO_PRESENCE),
-@@ -10636,6 +10642,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1e63, "ASUS H7606W", ALC285_FIXUP_CS35L56_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e83, "ASUS GA605W", ALC285_FIXUP_CS35L56_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e8e, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA401),
-+	SND_PCI_QUIRK(0x1043, 0x1eb3, "ASUS Ally RCLA72", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x1ed3, "ASUS HN7306W", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1ee2, "ASUS UM6702RA/RC", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x1043, 0x1c52, "ASUS Zephyrus G15 2022", ALC289_FIXUP_ASUS_GA401),
-@@ -10650,6 +10657,13 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x3a40, "ASUS G814JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
- 	SND_PCI_QUIRK(0x1043, 0x3a50, "ASUS G834JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
- 	SND_PCI_QUIRK(0x1043, 0x3a60, "ASUS G634JYR/JZR", ALC285_FIXUP_ASUS_SPI_REAR_SPEAKERS),
-+	SND_PCI_QUIRK(0x1043, 0x3e30, "ASUS TP3607SA", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3ee0, "ASUS Strix G815_JHR_JMR_JPR", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3ef0, "ASUS Strix G635LR_LW_LX", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3f00, "ASUS Strix G815LH_LM_LP", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3f10, "ASUS Strix G835LR_LW_LX", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3f20, "ASUS Strix G615LR_LW", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x1043, 0x3f30, "ASUS Strix G815LR_LW", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x1043, 0x831a, "ASUS P901", ALC269_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x1043, 0x834a, "ASUS S101", ALC269_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x1043, 0x8398, "ASUS P1005", ALC269_FIXUP_STEREO_DMIC),
-@@ -10870,11 +10884,14 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3878, "Lenovo Legion 7 Slim 16ARHA7", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x387d, "Yoga S780-16 pro Quad AAC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x387e, "Yoga S780-16 pro Quad YC", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x387f, "Yoga S780-16 pro dual LX", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x3880, "Yoga S780-16 pro dual YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
- 	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x38a5, "Y580P AMD dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a7, "Y780P AMD YG dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a8, "Y780P AMD VECO dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38a9, "Thinkbook 16P", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
-@@ -10883,6 +10900,8 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38b5, "Legion Slim 7 16IRH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38b6, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38b7, "Legion Slim 7 16APH8", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x38b8, "Yoga S780-14.5 proX AMD YC Dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38b9, "Yoga S780-14.5 proX AMD LX Dual", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38ba, "Yoga S780-14.5 Air AMD quad YC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38bb, "Yoga S780-14.5 Air AMD quad AAC", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38be, "Yoga S980-14.5 proX YC Dual", ALC287_FIXUP_TAS2781_I2C),
-@@ -10893,12 +10912,22 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x38cb, "Y790 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38cd, "Y790 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38d2, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x38d3, "Yoga S990-16 Pro IMH YC Dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38d4, "Yoga S990-16 Pro IMH VECO Dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38d5, "Yoga S990-16 Pro IMH YC Quad", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38d6, "Yoga S990-16 Pro IMH VECO Quad", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38d7, "Lenovo Yoga 9 14IMH9", ALC287_FIXUP_YOGA9_14IMH9_BASS_SPK_PIN),
-+	SND_PCI_QUIRK(0x17aa, 0x38df, "Yoga Y990 Intel YC Dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38e0, "Yoga Y990 Intel VECO Dual", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x38f8, "Yoga Book 9i", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38df, "Y990 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x38f9, "Thinkbook 16P Gen5", ALC287_FIXUP_CS35L41_I2C_2),
- 	SND_PCI_QUIRK(0x17aa, 0x38fa, "Thinkbook 16P Gen5", ALC287_FIXUP_CS35L41_I2C_2),
-+	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
-+	SND_PCI_QUIRK(0x17aa, 0x391f, "Yoga S990-16 pro Quad YC Quad", ALC287_FIXUP_TAS2781_I2C),
-+	SND_PCI_QUIRK(0x17aa, 0x3920, "Yoga S990-16 pro Quad VECO Quad", ALC287_FIXUP_TAS2781_I2C),
- 	SND_PCI_QUIRK(0x17aa, 0x3977, "IdeaPad S210", ALC283_FIXUP_INT_MIC),
- 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo B50-70", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
- 	SND_PCI_QUIRK(0x17aa, 0x3bf8, "Quanta FL1", ALC269_FIXUP_PCM_44K),
+diff --git a/sound/Kconfig b/sound/Kconfig
+index 4c036a9a420ab..8b40205394fe0 100644
+--- a/sound/Kconfig
++++ b/sound/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ menuconfig SOUND
+ 	tristate "Sound card support"
+-	depends on HAS_IOMEM || UML
++	depends on HAS_IOMEM || INDIRECT_IOMEM
+ 	help
+ 	  If you have a sound card in your computer, i.e. if it can say more
+ 	  than an occasional beep, say Y.
 -- 
 2.43.0
 
