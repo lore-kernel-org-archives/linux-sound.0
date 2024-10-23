@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BFE1C304B;
-	Wed, 23 Oct 2024 14:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D7B20F5B3;
+	Wed, 23 Oct 2024 14:32:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729693899; cv=none; b=W3x+rm6jkcq4FNDoPMnxxGj8rxOOMF+KuVQDlZrilq/Cpa3dst9B0g1Hq+CsaxWbCPWNxEddm9+79Z+6pPAUiwV5EVNQvxSH6b4/qi8TX/hxy1KFnKnXlI+i+YilWvZn/idynT/RNGH2TyAhhcYVBr0s7/S+Kx2cGO8at7prFq8=
+	t=1729693940; cv=none; b=YxFOBmeSx6nLopVvYzqhJRQVTjvX1H7hd19brMz+2qyF5jV0yrBBYXBgKHhjqm+JPLo2ivB06Q+ggXdurCJuK6UZF69guHzSMaXGEGVYUmwNI0Yx0zW3hYNeY0dGIM56uRkGvXUDzYq0Vno+dTS6MPROrvOoA+hYdxQpUkE0zQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729693899; c=relaxed/simple;
-	bh=G59Njn/ri5bLKpEUV6Ax+VakkUWMTqQ2UEYtaLWGdrU=;
+	s=arc-20240116; t=1729693940; c=relaxed/simple;
+	bh=bpqZtY02fDUMvDyXaFg08PofO2GL4buz9Y4mnDRaI0A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bkzDlWTdSXbZ1FC2C3rCTKBCnGjekwsg+G/JFLIM9Z0F8hFnDw495jeie58tV4ZaVu42g286DpzGYrSu1oNE6pn9ub9r5OAh0p7grHE+mBlu4AicHkEqgHTk9JjvD2pmAqoPKvokE507noixQD6mbDrPBHtPzx7Y1+HrffG/HAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFjgZPw4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=mWWabgVJqtU3J8m/HK9LVPO+HGKAwRfd39dfln2C9UbCvS5/KkYfeokqD+y7Al959w+Bz5Jp0PiYB46FWdqynKFJv8CVygpFjbQStPjyEr/whJYCSpVaFhS+RcFCVE0E3te5npnvFMj5bmdBvFg+YidfB2tipmiTXfa94Ilx3cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t0sJDPCr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFjgZPw4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE05C4CEEA;
-	Wed, 23 Oct 2024 14:31:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t0sJDPCr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC215C4CEC6;
+	Wed, 23 Oct 2024 14:32:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693899;
-	bh=G59Njn/ri5bLKpEUV6Ax+VakkUWMTqQ2UEYtaLWGdrU=;
+	s=k20201202; t=1729693939;
+	bh=bpqZtY02fDUMvDyXaFg08PofO2GL4buz9Y4mnDRaI0A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qFjgZPw4Ljl/0qGl3Mu97xWsSv8ITmJOzhJqehGlneHHcYuFgsBI/Z+lFqS4UCD6V
-	 aryY7vn5dRfga7SYUP+BwdU2nfFSdBcpJLTWyCow0JGNIMvEufW0YwT4JfDUGIIbXK
-	 /gzyVA+p2HfefU5VxRgb1/Lc3J1hdJOfaOwx9pJPwxcmzZ4drbpkZhX3+XWXuvNzrA
-	 GCWGt/jk5FWDhQ+OvaP+5KjYxBtRKYx5hBWxtT3Ta0A0dhoo+4cWI+1xeg7f9+jH0c
-	 FukgKs/3H/HJn551hnTzSkxlkysuh0Z+l7fSeLeUH0W3c+AV/6QUjph6vUnPR1FtRh
-	 bL604nWn3lS2A==
+	b=t0sJDPCrxKrhD01zqGvhWzLEcub1OU6t+PDP2YNgjlKzxpf3QLEnFQbN6yJ6/UNjz
+	 lMNIHjgMcrHhjc6auEALk7s3h6BEW9ILqr3OVFyOAvjL15Mkrz1IuMgcxjr+OtszW+
+	 IUCJ7pB6a52TpdQzqSq05+Xj+JjRS/ysEOG3XEdnIVQtsReNfQQmUHCVC5AwZfGLGU
+	 MCjaK/X9kUie1AWh+ntuod9JACJ5V48qHDFEgyiPYnLiD8unDtxyug5f8koLrq25sv
+	 JLjbrl7doftR0KM+YmzrADid96wF5ISqjn0Ky27Iv9lDVAhFrnoFT7tM2WMX9wmsTo
+	 tCHllmqSbDGUw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -36,12 +36,12 @@ Cc: Julian Vetter <jvetter@kalrayinc.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 14/23] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
-Date: Wed, 23 Oct 2024 10:30:58 -0400
-Message-ID: <20241023143116.2981369-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 11/17] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
+Date: Wed, 23 Oct 2024 10:31:50 -0400
+Message-ID: <20241023143202.2981992-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143116.2981369-1-sashal@kernel.org>
-References: <20241023143116.2981369-1-sashal@kernel.org>
+In-Reply-To: <20241023143202.2981992-1-sashal@kernel.org>
+References: <20241023143202.2981992-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.58
+X-stable-base: Linux 6.1.114
 Content-Transfer-Encoding: 8bit
 
 From: Julian Vetter <jvetter@kalrayinc.com>
@@ -73,7 +73,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sound/Kconfig b/sound/Kconfig
-index 4c036a9a420ab..8b40205394fe0 100644
+index 1903c35d799e1..5848eedcc3c9f 100644
 --- a/sound/Kconfig
 +++ b/sound/Kconfig
 @@ -1,7 +1,7 @@
