@@ -1,89 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85FB2185AF;
-	Wed, 23 Oct 2024 14:33:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763AA1C8306;
+	Wed, 23 Oct 2024 14:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729694008; cv=none; b=SpGBVdRK3NmRtu4urZDYpyh3wAYzRYrnE29PdlZwL1eIc0AVp6tae2yhZWHxvPAUMPz0hoqiyNfLM2xmDpYlEYKOe3XK7iBVVdQJDCnFEzCKBItr8bilFM/QOvXVgySGTEf8koscTVPEAtb8W/Kxmfkm7yoaoidJL+S/QtU4W74=
+	t=1729694238; cv=none; b=AaKLZ+IDpix6ngI9/YqpqduETLcUVaFp0vVO6pprfTADxSh8Mk8tYSyfGLJhAIj2x4FGX7Y7nM4GY3ICe38ufJz3PlGUjpPMKdQ1g4IyhPEMd9nVbnlicD4MRkkA9ZbmRMohQ7QOZiNCeNWqXGORMpDOoUbVaNfN0pheriMfq+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729694008; c=relaxed/simple;
-	bh=S3UtykaDtYZGznGjl8tHD3XtFFB9dALBjYjnnE+3L38=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rIYoAg46RQxVZsdHpGTAHRcnqcf6fL2ZBMwxqmsFwRKNRecP6zdB1H96TmLBlAhKxZmf/FoSo6OZpqNH8s8GOV2y/z4hsBYxMK0FK+aDB618vr+00ojO3J6ylxxQ2sf9fYA22danOJDzlG8FpWsvzMn7hlTC0mS0kvbK633tglQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtJCDbk1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729694238; c=relaxed/simple;
+	bh=Xp74AfCJ9mcYmGZEx+1354soVXppvVymKqxr3OsJX8M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uNnG+5eyVMldaDI0MS/VcP/ahwylXNnbPEh+drhL3nUqvEF/as9raSEwXBV7GkURx8+xlddgvw8BjRPkb+4CcohL0y3EiKfFc9QYREgTuqv/qHYBptEEYXjv5Z/3IYrZ8ogIskMxIcah8u8Nj9h/Dc6Dg4lgy958V033B8xmqF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=kONNABTK; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtJCDbk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79281C4CEE5;
-	Wed, 23 Oct 2024 14:33:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729694008;
-	bh=S3UtykaDtYZGznGjl8tHD3XtFFB9dALBjYjnnE+3L38=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VtJCDbk1gSag5Ok9nF3P+MpTX4pPXMUXpqPIxOuulRqHNqtnlzopkAzSkzF21j6Ax
-	 GrjkE+mjHS9AkyH0NIskh03/QbfiKF6UVuld/9YjV8fH/sz2rrRddBzY2TQYZz4Bmc
-	 7ijVmOfTiHYQjh5B3me8tiAHktEylT3jEiYXhlZiB630bJJXkaCqH3cpP1T8gaQdFP
-	 dFc4gBaTfH0dcpgne6DOXHYeeUF3B0NEgcoU6kFGQhiv29yWzymzhYcdufhw0DZHfW
-	 Y+ZoXiW/jdqIZ5+c/REj1nAfrtYxlqJAJvUz4vzgvw2PK0+g174dodT6rbW3DCwNyi
-	 jllWkE+nRBpnA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Julian Vetter <jvetter@kalrayinc.com>,
-	Yann Sionneau <ysionneau@kalrayinc.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 4/5] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
-Date: Wed, 23 Oct 2024 10:33:19 -0400
-Message-ID: <20241023143321.2982841-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143321.2982841-1-sashal@kernel.org>
-References: <20241023143321.2982841-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="kONNABTK"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49N4ToPI026682;
+	Wed, 23 Oct 2024 09:37:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=cPDa+ujxwy6nOSQy
+	EihqjpjDHa0YdriBf9HgK3+XAgA=; b=kONNABTKRM7MiDCPkpheEMa66j8YfoxZ
+	zZP6BoljtohLUc/FcVei8PQu/9r7uhjr5uSda7XWdkHe9N0kqwjEyXWSM1lZLLEI
+	TCYIS3saKkctYL/qLbjB+i0JHCo+qwI3F66irmIUn5r6kgAiPLcUcd2kp+3BObYM
+	yPGss+/rNfNG/WEEYwDMARkHjHxXpDqY5JCCVKBrsKLIwNOOLU/AVom0SOZJ6uux
+	X4xQo3/tHFa9oRFt7qhDciW/dWNUWPi2NLc0pHmqyx0hgFtXjJL5X1z0ErBJKLQC
+	kxjQmFpat7tIpJa4ykIz+mQxBLIXU3YblQLeNW5VpMaOD90ySFjNHg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42ca5x56st-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Oct 2024 09:37:03 -0500 (CDT)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Oct
+ 2024 15:37:01 +0100
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 23 Oct 2024 15:37:01 +0100
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id BA284822562;
+	Wed, 23 Oct 2024 14:37:01 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <vkoul@kernel.org>
+CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+        <sanyog.r.kale@intel.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: [PATCH 1/2] soundwire: Update the includes on the sdw.h header
+Date: Wed, 23 Oct 2024 15:37:00 +0100
+Message-ID: <20241023143701.3700714-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.322
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: YA8MHKYNw0Gng7YatA5Np3oTQPovqy8Z
+X-Proofpoint-ORIG-GUID: YA8MHKYNw0Gng7YatA5Np3oTQPovqy8Z
+X-Proofpoint-Spam-Reason: safe
 
-From: Julian Vetter <jvetter@kalrayinc.com>
+There are quite a few things used in the sdw.h header that it relies on
+the consumer to include. If something is used directly in the header it
+should be included by the header. Update the includes to cover the
+missing items, or add forward declarations for things that are only used
+as pointers. Whilst making the change also alphabetise the list of
+includes.
 
-[ Upstream commit ad6639f143a0b42d7fb110ad14f5949f7c218890 ]
-
-When building for the UM arch and neither INDIRECT_IOMEM=y, nor
-HAS_IOMEM=y is selected, it will fall back to the implementations from
-asm-generic/io.h for IO memcpy. But these fall-back functions just do a
-memcpy. So, instead of depending on UML, add dependency on 'HAS_IOMEM ||
-INDIRECT_IOMEM'.
-
-Reviewed-by: Yann Sionneau <ysionneau@kalrayinc.com>
-Signed-off-by: Julian Vetter <jvetter@kalrayinc.com>
-Link: https://patch.msgid.link/20241010124601.700528-1-jvetter@kalrayinc.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/soundwire/sdw.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/sound/Kconfig b/sound/Kconfig
-index 76febc37862de..be30a24daaf1c 100644
---- a/sound/Kconfig
-+++ b/sound/Kconfig
-@@ -1,6 +1,6 @@
- menuconfig SOUND
- 	tristate "Sound card support"
--	depends on HAS_IOMEM || UML
-+	depends on HAS_IOMEM || INDIRECT_IOMEM
- 	help
- 	  If you have a sound card in your computer, i.e. if it can say more
- 	  than an occasional beep, say Y.
+diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+index 73f655334fe9..1fd4b126287f 100644
+--- a/include/linux/soundwire/sdw.h
++++ b/include/linux/soundwire/sdw.h
+@@ -4,12 +4,19 @@
+ #ifndef __SOUNDWIRE_H
+ #define __SOUNDWIRE_H
+ 
++#include <linux/bitfield.h>
+ #include <linux/bug.h>
+-#include <linux/lockdep_types.h>
++#include <linux/completion.h>
++#include <linux/device.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
++#include <linux/lockdep_types.h>
+ #include <linux/mod_devicetable.h>
+-#include <linux/bitfield.h>
++#include <linux/mutex.h>
++#include <linux/types.h>
++
++struct dentry;
++struct fwnode_handle;
+ 
+ struct sdw_bus;
+ struct sdw_slave;
 -- 
-2.43.0
+2.39.5
 
