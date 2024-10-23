@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B3E1D0175
-	for <linux-sound@vger.kernel.org>; Wed, 23 Oct 2024 17:51:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA72C1D0153
+	for <linux-sound@vger.kernel.org>; Wed, 23 Oct 2024 17:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729705863; cv=none; b=cqT7Mb+50KNFsVg4BGtausM/z9UYNIkwxyPljGmtQK9PZKKUTrlWlT6fLr6+Zavw11EFQcd95kXNR9HASP8nP+KGe3jU7vCzFocXyc0nyfkvwgd8qLoXlyo3Aa0GebZ1V8zqh9Mc8DpExMzPANI3ww8XNxipb1pLyBWqX7XW120=
+	t=1729705864; cv=none; b=cNQSjx0fneP3B2lujSHoY+clLYYtBxL/r3xXf5pEShTX5GFpxqlAR5noZdIORmDmW2ppMLM/10bbK6wwiUIGG2j8jvhU/eI+ruqLS1j+LX8iM3ZV6Y3dUSlMC60Fle7EV4ipfOUCDWqB95yqLcBoehfX4ax0PskXHOntaCYsZ8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729705863; c=relaxed/simple;
-	bh=c2WzyIX4sWl7qX+/hZrSf2EBXAGnkp4nmO/PSorBmmE=;
+	s=arc-20240116; t=1729705864; c=relaxed/simple;
+	bh=8r/O1HmDTz+nPdfGKkbI7nNeijD5lk5Okl3fAADNg7g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dy7SILd9k9IPQvSQSXzN1sqJG5a0aPVV3ZD4NeHqWkHxTjXdGPR/oCgk1IUF+kWP68k/ckb6SOp8wReirmolIarVUnpfejHBHPQ6QTmIxoOulbLJbZJFI9/BKhiadxpC1d104Y2Txgfv28amEEgvx8HrIQ+hvO3w1TLd4re4/C4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BMiEhyoa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TfBeJdrfA2UpsSOZNXGEACYbAyRBHdSYutpV4maHuhjgBRjsmnvEjvYxbrJjmc4m8UJqv9NtcWkQ8GA82Bko4TwiADHvwiBZGC83QyHI6zvXZXd/bMyE7ubcPBKIlNfrSi9Bh8MZUxeC7/9TdTg1aNcrDLldgE1uZQCaaLrxTI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPDMKBDT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BMiEhyoa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0FD0C4CEE5;
-	Wed, 23 Oct 2024 17:51:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UPDMKBDT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20A8BC4CEC7;
+	Wed, 23 Oct 2024 17:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729705862;
-	bh=c2WzyIX4sWl7qX+/hZrSf2EBXAGnkp4nmO/PSorBmmE=;
+	s=k20201202; t=1729705863;
+	bh=8r/O1HmDTz+nPdfGKkbI7nNeijD5lk5Okl3fAADNg7g=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BMiEhyoalBDieptxTjgZHygfWwFWBMyu/c7izbVbM2cs12sQdgAmja3j4YJWBmORS
-	 BWqn3o2MEZ3XFLd0+t042Z77lgMSJM2emoTyd0liHN2Ro70HVuZWQtSR2eTCJ1T2xA
-	 LEWdQ2lTIXbq0lc235E9OBsU41Ji/VtpYA0cytMjmoJCSUmyFVcNil1PuS3q80elLc
-	 TQNm4WaQgmdhIBNqRWUtLtCnp0IglpVPvyNFf+wsuYglztNYXn5ZAQ5FvJ5ksqPSIT
-	 bBuO2WjVZ3yGF85TwJDhg0hhCQDWIiWOI/fu3q2fZZAVa0pSje6Fp6lIZPLu4ddJVi
-	 XjHus071rqQ1g==
+	b=UPDMKBDTmTZyrAzga12Q8QXzpN6C1a4nYr8ZdYN7kqarC86rMbRIg/CBvqQBp7Zqg
+	 5O+gQ/vB2IkthkfkNigQ1e6lrMM+gmztyW9odzVxp3Nacifcsmb6/6oBowypp+OXPH
+	 FoTvmJD8kR6X3QICFfwnWcMDP7fabn/2ln+PG4R+6OVdJebnnaC3peV5vzQiJnaKQN
+	 ZnX33WYHIJlL+bxNHxsFye5+my8JUMqsiOSyDwUlFT3VDG6GKbYCwti91UgC13u3X+
+	 F24pEObNggXSdpcww/fLDmmMn4KjxN2Y7gfoTZNjE8BbzphV34wZkezKW/QS4ZG+rp
+	 PyUYBBrBlPxyg==
 From: Mark Brown <broonie@kernel.org>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-In-Reply-To: <87o73mqj5b.wl-kuninori.morimoto.gx@renesas.com>
-References: <87o73mqj5b.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v4 00/13] ASoC: remove dpcm_xxx flags
-Message-Id: <172970586171.110994.6170499612142580470.b4-ty@kernel.org>
-Date: Wed, 23 Oct 2024 18:51:01 +0100
+In-Reply-To: <87ldyi9vje.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ldyi9vje.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v5 00/13] ASoC: remove dpcm_xxx flags
+Message-Id: <172970586286.110994.11698115661977770053.b4-ty@kernel.org>
+Date: Wed, 23 Oct 2024 18:51:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,15 +44,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 15 Oct 2024 00:55:44 +0000, Kuninori Morimoto wrote:
-> 2 weeks past. This is v4 patch-set
+On Sun, 20 Oct 2024 23:58:13 +0000, Kuninori Morimoto wrote:
+> I got kernel-test report that v4 had compile warning.
+> This is v5 patch-set
 > 
 > Now, we don't need to use dpcm_playback/capture flags for DPCM since v6.11,
 > and thus we can use playback/capture_only flags instead too for DPCM,
 > which is same as non-DPCM.
-> 
-> Let's remove dpcm_playback/capture flags, and use playback/capture_only flags
-> instead.
 > 
 > [...]
 
