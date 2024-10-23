@@ -1,134 +1,125 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2735F53E23
-	for <linux-sound@vger.kernel.org>; Wed, 23 Oct 2024 05:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE70213AD05;
+	Wed, 23 Oct 2024 06:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729662236; cv=none; b=T+zhzSXnY+RaIZdqiL3mZtrhXh6ywYkZqGlpJPGX7w742vHimCau/o99EeS2v7DfO73v0bfk3cLROPvKFgbCu+Mj/QZUo+cbp4IX5tKsSUxr83/PeKPjZ5hVV9ZRZpzPm3RG9CLbaMVtSRDyF4kAxlQahgnwKj1ghhwSx6GkqxA=
+	t=1729664126; cv=none; b=X6qzIYVgV3J5p2W9hLH60yjKOWVJI9z0tXmmd3pxvI+48681ce/qPKOiAaG1b6G/i25pfM83t97XqFUoLujHMcka9fz2Ofpn/tW7hGcNmTuF915kY5o2GP4nzxg6pJc47V+hs3lFxwr7VX16zhswDIxwEBVRRYJ1/7UheHTMOHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729662236; c=relaxed/simple;
-	bh=HEHOmO4x0HArs6T+XsSFf1I8dqiav/dQbSg5zOux29g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pEzEnpXxfJM1FLrJpokZcwAycFMYpI2h2O18lyTJHq1BTcYVPihXRVN/xRJwQKmCDwE691+WvJU0YFe5ZNFA/3VIMNFW+run6lssIM9CA58hvrJcBs4RXCFY0VosIo6r09cyTSnGsxSq5oo/UwX1uALBCZKZMVDYDalFPiW6mYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=53IwWAY4; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1729664126; c=relaxed/simple;
+	bh=hOCjI87sY8qupXlz5mDEbVsgaaalAuBsPrcjoZDMtYw=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JfIGWTY4/PZfFJQacfqw29zUhnbQtgY5Ln1avDXMgMThSvSdtmpnG9Rbb+DkCNOKY//DrgpUGwTlHHQFXMY8N6sY+2A5IiVtrlP38ZnGBAoUGlpzp7okd4h95OD2Qq7O+OZdWX93xuuk3TZcDAzrtNdljB85E3FpwgbQWj3XLgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WEtMQlN8; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="53IwWAY4"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C1F454B0B;
-	Wed, 23 Oct 2024 07:43:42 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C1F454B0B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1729662222; bh=gLynSCsdUnJBiWIgPqJyUeiaha12LN8gibuGJ47707g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=53IwWAY4Ypw80BqlTcbarkv0rnOc+vgNirlZSxc/OhCYYDwKeF3gYsfOzJ1w38yxu
-	 gpkgf5lTTaGvYOfFOVS9MYqcLPdX4RoPQOaXxEeuuia/8KXofmfShLHv7uFLzZsY/N
-	 0BDvWsOenEcYETqMrbZ/Fm7hOInU4LPdIYJ/TY5w=
-Received: from [192.168.100.98] (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Wed, 23 Oct 2024 07:43:34 +0200 (CEST)
-Message-ID: <dda07429-76f8-4265-97c3-563ee4ef7515@perex.cz>
-Date: Wed, 23 Oct 2024 07:43:33 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WEtMQlN8"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49MLejDk018638;
+	Wed, 23 Oct 2024 06:15:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=2QMoPtj8QOhCRp2s6Mp3aq
+	1cG4rK8HhM1JZaRz73mOw=; b=WEtMQlN82VMG4hR6fdWJ47shTrADqFzIOTaGnf
+	Nvb5R38GPYd75QjIx4RaoBJ7kcStSy+2OGGWWuKAUu3g7/4Vc9UPj7RDVjbSgZ+6
+	Zn+67Eg6VlXLGkg1QUavvm5I8kc3mwZnHjo2XbqKOj5RAWJ9lIkYiE5SPzrUBNzh
+	Z81NwxdmGmfTWGtsKsESOt+qhYZHjj46+mAg9ltS7n0Z2jMZfXmgRiUCH6GIYKdZ
+	8mzyTYMhyuy9zIKHcVIb4zhpGYWZm68l8d5Ka/FLf3Ml1kUOHKvPXCXPUwVsiHsH
+	bAxnHgoGsLrzZqrq6V43UBDFVuSjLTb3oOK6BrabFws8GRZQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em6692en-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Oct 2024 06:15:00 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49N6F0Pl015692
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Oct 2024 06:15:00 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 22 Oct 2024 23:14:52 -0700
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_rohkumar@quicinc.com>, <kernel@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v2 0/4] Add static channel mapping between soundwire master and slave
+Date: Wed, 23 Oct 2024 11:43:22 +0530
+Message-ID: <20241023061326.3871877-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] ALSA: compress_offload: introduce accel operation mode
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Linux Sound ML <linux-sound@vger.kernel.org>, Takashi Iwai
- <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-References: <20241002093904.1809799-1-perex@perex.cz> <ZxiJMQkbA9MhtjXF@vaman>
-From: Jaroslav Kysela <perex@perex.cz>
-Content-Language: en-US
-Autocrypt: addr=perex@perex.cz; keydata=
- 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
-In-Reply-To: <ZxiJMQkbA9MhtjXF@vaman>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: G9zE8UGDeq2cRtWy7gJ_kFDFrmqCzBCH
+X-Proofpoint-GUID: G9zE8UGDeq2cRtWy7gJ_kFDFrmqCzBCH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ adultscore=0 phishscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1011 mlxscore=0 bulkscore=0 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410230036
 
-On 23. 10. 24 7:27, Vinod Koul wrote:
-> 
-> Hi Jaroslav,
-> 
-> On 02-10-24, 11:39, Jaroslav Kysela wrote:
->> There is a requirement to expose the audio hardware that accelerates various
->> tasks for user space such as sample rate converters, compressed
->> stream decoders, etc.
->>
->> This is description for the API extension for the compress ALSA API which
->> is able to handle "tasks" that are not bound to real-time operations
->> and allows for the serialization of operations.
-> 
-> This lgtm, but I found one thing missing. I think we had
-> discussed that we might want to call the devices with accel api not
-> ComprCxDy but something else? Can we add that.. maybe accelCxDy instead
-> as both are mutually exclusive
+Add static channel map support between soundwire master and slave.
 
-There is a problem when CONFIG_SND_DYNAMIC_MINORS is not set (static minor 
-numbers assignment). I don't see it as an issue, because the accel api 
-requires O_RDWR for open which is new requirement. Old code will obtain an 
-open error for this device. Also note that SND_COMPRESS_PLAYBACK and 
-SND_COMPRESS_CAPTURE is selected based on those open flags, so the device 
-enumeration works already with this assumption.
+Currently, the channel mask for each soundwire port is hardcoded in the wcd937x-sdw driver,
+and the same channel mask value is configured in the soundwire master.
+The Qualcomm boards like the QCM6490-IDP require different channel mask settings
+for the soundwire master and slave ports.
 
-						Jaroslav
+With the introduction of the following channel mapping properties, it is now possible to
+configure the master channel mask directly from the device tree.
 
+Added qcom_swrm_set_channel_map api to set the master channel mask which allows more
+flexible to configure channel mask in runtime for specific active soundwire ports.
+
+Add get and set channel maps support from codec to cpu dais in common
+Qualcomm sdw driver.
+
+Mohammad Rafi Shaik (4):
+  ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+  ASoC: codecs: wcd937x: Add static channel mapping support in
+    wcd937x-sdw
+  soundwire: qcom: Add set_channel_map api support
+  ASoC: qcom: sdw: Add get and set channel maps support from codec to
+    cpu dais
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++
+ drivers/soundwire/qcom.c                      | 26 +++++++++
+ sound/soc/codecs/wcd937x-sdw.c                | 38 +++++++++++--
+ sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+ sound/soc/codecs/wcd937x.h                    |  6 ++-
+ sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+ 6 files changed, 183 insertions(+), 10 deletions(-)
+
+
+base-commit: 7436324ebd147598f940dde1335b7979dbccc339
 -- 
-Jaroslav Kysela <perex@perex.cz>
-Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+2.25.1
 
