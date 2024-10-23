@@ -1,59 +1,62 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764021C9DDB;
-	Wed, 23 Oct 2024 14:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745731FCF53;
+	Wed, 23 Oct 2024 14:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729694238; cv=none; b=hB+vXigjjYNWne60NNuy0wrakr7kTaeStaLJO2BzwTLcZo1/dwieRpTbf7B9pZgPVWcluU8mmuQOS/a35uMevY+Mo8i43cd1jNbY8E7kSFid23XI7aL7A3HJ0j4E+WAdItE7nsbL/eu+CYI0t1nFywftRsSs2+GMbA4XL56LhIQ=
+	t=1729694691; cv=none; b=mVzBiO8gRbqGg5CXDBPsaA502CYaoFJVHdtjhpJ6SaLQ0IVFlRIIPxbDcNT1dx/G+Pp4svxW8ghOb7RFvdMO1D9oGmdcdHIMoQJb2i5CBrEE8D1XwDr5JYGtLdZuCmaQB0apghfDxFVUSAIYfW/WsYnRk7cgcRFbxLGz3jmuf/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729694238; c=relaxed/simple;
-	bh=GHWe9fi4EZBqjJfRmgg5CZkJb4egb0ZlU+qzkS/tRJo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sHY5OjLvTq2qllmF8MEwG6msaXO9jHiMhwmsH85sWCM1a3b79PoWlJEz7/1LVjooMAvxKLZ6yQOf3xSdzrdzxwvD9hskbw8N6Rpzl7kAsw2onFdXaE4aUwZzHs7bg8es4F5xG5d7oDTi0OxHYlVZ2VFydh7QCBELzhrynRknzvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=T267l7Al; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1729694691; c=relaxed/simple;
+	bh=i6gTQQWR/Q7iITKihWhTyePD6C8brJ6TfXHAPQzb59Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gx290zi2Gib8ppgfeU8edJgCs3GCEULwgeK+QITPn5ul/3Kg/wmswLoxWyPqqUcSdsDNC9wzM3nUWQJej5oSrkntGifRNf26tQ4VwZnAkEOjiD5LDzaYiVsGw0miW9pPTl+72H0J7+Qs7F+UHRvhKLSSevn/++cd/QHa3GvQc50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XsrgFca1; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="T267l7Al"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49N5Og5o005492;
-	Wed, 23 Oct 2024 09:37:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=paQiDuQuMxmy8BxNih+2mxQ+SHMnq23tYtT9VmPMPik=; b=
-	T267l7Alxqct+JvMRoRyHgT77dphADRDwA08XdTeHI60f+Yrd+EpiHO6ho3bwto4
-	MpegCDYQRkmC13y7VOwEtvKm0z3U+C4MDJoHCyDge5wTM5RCg7LH7TY/xP8ody8f
-	LUMFwKJPXAsH16wCYbdDrKpyHt0ss42/ouYzplquQ0gzTpZt61ZTHo6KjGNDwN0A
-	nlxZ5E2xiuiqquO2UCBgCIUaj1Hh6UG4YHKffRJsMfcIYLUG6Yk4S5nuyAuCZQz2
-	zqA0CCwjCuEW1er8WsPsCtGZF3aFSXB3YWhcPKeo9kxO49YCzps3v2XwxpSGlu8s
-	Mbuxdo/F9mS9PyKoEWOX8A==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42ca5x56su-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Oct 2024 09:37:03 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Oct
- 2024 15:37:01 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 23 Oct 2024 15:37:01 +0100
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id C8FD0822563;
-	Wed, 23 Oct 2024 14:37:01 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <vkoul@kernel.org>
-CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
-        <sanyog.r.kale@intel.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 2/2] soundwire: Minor formatting fixups in sdw.h header
-Date: Wed, 23 Oct 2024 15:37:01 +0100
-Message-ID: <20241023143701.3700714-2-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241023143701.3700714-1-ckeepax@opensource.cirrus.com>
-References: <20241023143701.3700714-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XsrgFca1"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49NEfhWI004197;
+	Wed, 23 Oct 2024 14:44:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2023-11-20; bh=iPM1LjVOR7/cD8+l6cv2bbnI+DWzh
+	Dz1FfPcamF+CvU=; b=XsrgFca1Aysfrwdc6K1+dC0MxvNFx5WAYYtPmMqshH6t7
+	rosRkcirIEDMgWPoRoXOZr3M3SYlZ/HV4uY4wcVL8193YX+77ycSE2EWqN9qFbDi
+	pRsNKfaiKxlXJ20WLzPjJJqUNxVvKrdG8/mRPfWlpXFrIjFrF0wfbTBi3jajJ6xn
+	VEGsQkqKJHzhHHlxfq/5Xdzzz5ladNYlv8cutxH/dd1QaTacxHv2SK4fbFHw0Wm8
+	8vnLkBtUMoGe2eZcb2RbeXA5gYy1p0bpMbMzK15Jf9gHkyLhwa9ixQf3Zhoulefd
+	or39+hqVbzodDLhJWWvMSgEVDV/DXefXuGOSRx0lw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42c53ur9sa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 23 Oct 2024 14:44:26 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49NEWPJU030950;
+	Wed, 23 Oct 2024 14:44:25 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42emh1max6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 23 Oct 2024 14:44:25 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 49NEiP91016804;
+	Wed, 23 Oct 2024 14:44:25 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 42emh1mawh-1;
+	Wed, 23 Oct 2024 14:44:25 +0000
+From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Igor Prusov <ivprusov@salutedevices.com>,
+        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
+        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
+        error27@gmail.com, kernel test robot <lkp@intel.com>
+Subject: [PATCH next] ASoC: codecs: fix error code in ntp8835_i2c_probe()
+Date: Wed, 23 Oct 2024 07:44:11 -0700
+Message-ID: <20241023144421.1720234-1-harshit.m.mogalapalli@oracle.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,108 +64,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: mW23lCTssN128zrnKzcMqkUc2WG4ZWkL
-X-Proofpoint-ORIG-GUID: mW23lCTssN128zrnKzcMqkUc2WG4ZWkL
-X-Proofpoint-Spam-Reason: safe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-23_12,2024-10-23_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
+ phishscore=0 suspectscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2409260000 definitions=main-2410230089
+X-Proofpoint-GUID: zId7C4s-5whJgfiO-z1nCfoess7VTI58
+X-Proofpoint-ORIG-GUID: zId7C4s-5whJgfiO-z1nCfoess7VTI58
 
-Fixup some minor formatting and whitespace in the sdw.h header file.
+When reset_control_deassert() fails it returns valid error codes stored
+in return, pass that to dev_err_probe() instead of
+PTR_ERR(ntp8835->reset).
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Fixes: dc9004ea273a ("ASoC: codecs: Add NeoFidelity NTP8835 codec")
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/r/202409281054.DUTb5KxU-lkp@intel.com/
+Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
 ---
- include/linux/soundwire/sdw.h | 40 +++++++++++++++--------------------
- 1 file changed, 17 insertions(+), 23 deletions(-)
+Based on static analysis, with smatch, only compile tested
+---
+ sound/soc/codecs/ntp8835.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
-index 1fd4b126287f..784656f740f6 100644
---- a/include/linux/soundwire/sdw.h
-+++ b/include/linux/soundwire/sdw.h
-@@ -616,7 +616,6 @@ struct sdw_slave_ops {
- 	int (*clk_stop)(struct sdw_slave *slave,
- 			enum sdw_clk_stop_mode mode,
- 			enum sdw_clk_stop_type type);
--
- };
+diff --git a/sound/soc/codecs/ntp8835.c b/sound/soc/codecs/ntp8835.c
+index 800bda6b49dd..796e1410496f 100644
+--- a/sound/soc/codecs/ntp8835.c
++++ b/sound/soc/codecs/ntp8835.c
+@@ -428,7 +428,7 @@ static int ntp8835_i2c_probe(struct i2c_client *i2c)
  
- /**
-@@ -690,8 +689,7 @@ struct sdw_master_device {
- 	container_of(d, struct sdw_master_device, dev)
+ 	ret = reset_control_deassert(ntp8835->reset);
+ 	if (ret)
+-		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
++		return dev_err_probe(&i2c->dev, ret,
+ 				     "Failed to deassert reset\n");
  
- struct sdw_driver {
--	int (*probe)(struct sdw_slave *sdw,
--			const struct sdw_device_id *id);
-+	int (*probe)(struct sdw_slave *sdw, const struct sdw_device_id *id);
- 	int (*remove)(struct sdw_slave *sdw);
- 	void (*shutdown)(struct sdw_slave *sdw);
- 
-@@ -710,7 +708,7 @@ struct sdw_driver {
- 	SDW_SLAVE_ENTRY_EXT((_mfg_id), (_part_id), 0, 0, (_drv_data))
- 
- int sdw_handle_slave_status(struct sdw_bus *bus,
--			enum sdw_slave_status status[]);
-+			    enum sdw_slave_status status[]);
- 
- /*
-  * SDW master structures and APIs
-@@ -792,15 +790,14 @@ struct sdw_enable_ch {
-  */
- struct sdw_master_port_ops {
- 	int (*dpn_set_port_params)(struct sdw_bus *bus,
--			struct sdw_port_params *port_params,
--			unsigned int bank);
-+				   struct sdw_port_params *port_params,
-+				   unsigned int bank);
- 	int (*dpn_set_port_transport_params)(struct sdw_bus *bus,
--			struct sdw_transport_params *transport_params,
--			enum sdw_reg_bank bank);
--	int (*dpn_port_prep)(struct sdw_bus *bus,
--			struct sdw_prepare_ch *prepare_ch);
-+					     struct sdw_transport_params *transport_params,
-+					     enum sdw_reg_bank bank);
-+	int (*dpn_port_prep)(struct sdw_bus *bus, struct sdw_prepare_ch *prepare_ch);
- 	int (*dpn_port_enable_ch)(struct sdw_bus *bus,
--			struct sdw_enable_ch *enable_ch, unsigned int bank);
-+				  struct sdw_enable_ch *enable_ch, unsigned int bank);
- };
- 
- struct sdw_msg;
-@@ -835,14 +832,11 @@ struct sdw_defer {
-  */
- struct sdw_master_ops {
- 	int (*read_prop)(struct sdw_bus *bus);
--	u64 (*override_adr)
--			(struct sdw_bus *bus, u64 addr);
--	enum sdw_command_response (*xfer_msg)
--			(struct sdw_bus *bus, struct sdw_msg *msg);
--	enum sdw_command_response (*xfer_msg_defer)
--			(struct sdw_bus *bus);
-+	u64 (*override_adr)(struct sdw_bus *bus, u64 addr);
-+	enum sdw_command_response (*xfer_msg)(struct sdw_bus *bus, struct sdw_msg *msg);
-+	enum sdw_command_response (*xfer_msg_defer)(struct sdw_bus *bus);
- 	int (*set_bus_conf)(struct sdw_bus *bus,
--			struct sdw_bus_params *params);
-+			    struct sdw_bus_params *params);
- 	int (*pre_bank_switch)(struct sdw_bus *bus);
- 	int (*post_bank_switch)(struct sdw_bus *bus);
- 	u32 (*read_ping_status)(struct sdw_bus *bus);
-@@ -1019,12 +1013,12 @@ void sdw_release_stream(struct sdw_stream_runtime *stream);
- int sdw_compute_params(struct sdw_bus *bus);
- 
- int sdw_stream_add_master(struct sdw_bus *bus,
--		struct sdw_stream_config *stream_config,
--		const struct sdw_port_config *port_config,
--		unsigned int num_ports,
--		struct sdw_stream_runtime *stream);
-+			  struct sdw_stream_config *stream_config,
-+			  const struct sdw_port_config *port_config,
-+			  unsigned int num_ports,
-+			  struct sdw_stream_runtime *stream);
- int sdw_stream_remove_master(struct sdw_bus *bus,
--		struct sdw_stream_runtime *stream);
-+			     struct sdw_stream_runtime *stream);
- int sdw_startup_stream(void *sdw_substream);
- int sdw_prepare_stream(struct sdw_stream_runtime *stream);
- int sdw_enable_stream(struct sdw_stream_runtime *stream);
+ 	dev_set_drvdata(&i2c->dev, ntp8835);
 -- 
-2.39.5
+2.39.3
 
