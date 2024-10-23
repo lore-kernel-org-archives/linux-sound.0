@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C886216455;
-	Wed, 23 Oct 2024 14:33:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12732170CF;
+	Wed, 23 Oct 2024 14:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729693986; cv=none; b=DjfZXotGq16Q+pdROPKlnJ9zpuiYyBhUwsncMUHadPSZpNoWxWms2dI+2ewNhY1eu7c5ih7u9PM8uHHQOg0F9RO/+AqvRugiRxprYxIctSd2Ze7GcGloym+V2sfNDuWY7McuWF1q9iy7ajyQ20KXuYs/H7QZ0h1SFEBOLPhcWi8=
+	t=1729693998; cv=none; b=mm/Y96CGeBRQNy4Z/qxTOgO1kUkXcguJ7zA1CaWMDsAA3IoHgyIsPkjJPFYq+gE2pgfGJyM2wR2DvEX5jfOs4BQCB/G9Jy3JZYlopMYT1i+4hXtUWbP5wrTNrj1BT6nOdkJP6diy0d7cdGQ/LBX6Uv7uc13mejsnF9Ta2vb1lSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729693986; c=relaxed/simple;
+	s=arc-20240116; t=1729693998; c=relaxed/simple;
 	bh=NAPVcUUPYvToBWjxwxWJNBTwqvqNI3h1+1+Ik+rH11A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hN0MBOQFgp3YQSN82ziopYlS+yDErnvuIMmWo8Rg2XbdpjaankH3P9IwI2FBL0PJfpzke9E50BVb2OmoVvOsKGqJeKIYUm89RC0uu//DoJPrLbheXCuAQPIkjyNBK0hpXYtKzUX7kw/IAg3rcFlctzx14BSTFQ1LEGBlBO/hW68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtdT9yDA; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ZYFcb2ZRnH+6/Q78E15xvSUG7mYJ59gdE3U8aX/ocp21wIDNYi4GRGI3L1sdG4+FyEd2Qggbp5+3DoxLM4kYRebuDZq57gHHSjkYryFw0U3DIxFHokj3z2Znvf0yetwb0hSul6IMt0HOXgUG/Hnj9mgvox+cabso2TFotJo7liM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PQyqkDro; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtdT9yDA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 636C6C4CEE7;
-	Wed, 23 Oct 2024 14:33:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PQyqkDro"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7574BC4CEC6;
+	Wed, 23 Oct 2024 14:33:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729693986;
+	s=k20201202; t=1729693997;
 	bh=NAPVcUUPYvToBWjxwxWJNBTwqvqNI3h1+1+Ik+rH11A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XtdT9yDAynhiqImRrxFlF9S0yemkDK1J7rJIMNIAYweFj6DCykheeGv94WyJNDRdA
-	 tW0wsTUP3wEtDUfspr3f0jnv+XA/lLi++HoovBma+MdW2D0ZeZNij9/Sa2Ee133iCQ
-	 VHDGUr+9y4MbN6ZvgJtBA9eV3lacU9SITLW3E+eQ+dPArzCOOXlUHqGMaYQIbhB02I
-	 5r3V9z6lHqsxQXux39+1enzq+7tQG+JjzJxIL2a9KpMt4UbG3cT5efpcYZNffrHtvT
-	 uOUUI86R4B8G85cnPWFW2Dzagk+u0dZXIleSA2Hp2PaGI9FA1bvPXIiuvj4lDIW3FV
-	 xiqhi0nrJQe8g==
+	b=PQyqkDroduz6aRw8F2kV4KrlVzldFgU21z9wsPqYodd3qlSxhUCs25MYNE5Wm08in
+	 oNaXjoaGu/E8WbeX//c2NWitBJv6DdZc/atkShqUYYg1J5lK9ocNlLz/kfV9KABNfu
+	 vtskMqxhPLwiwmBWOjVv0j0hsyf0KhkNse0T/zUXgYK5JW4CHjq2tNMWnnDHVoIj+C
+	 4/tFc3HVDzfszxvC6suC4s5IW1jIrlCbhTsQYQc8QAL4yP+yrcWGS+tQom9buavoIF
+	 55fBw6Ln6AZB/GOZJCvNocY0u2xQx6qDG8vx6RNnQjUmHLC4CUStF6JrPNgwmvfXgv
+	 AotU8TA2pRN3Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -36,12 +36,12 @@ Cc: Julian Vetter <jvetter@kalrayinc.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 5/6] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
-Date: Wed, 23 Oct 2024 10:32:52 -0400
-Message-ID: <20241023143257.2982585-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 4/5] sound: Make CONFIG_SND depend on INDIRECT_IOMEM instead of UML
+Date: Wed, 23 Oct 2024 10:33:07 -0400
+Message-ID: <20241023143310.2982725-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023143257.2982585-1-sashal@kernel.org>
-References: <20241023143257.2982585-1-sashal@kernel.org>
+In-Reply-To: <20241023143310.2982725-1-sashal@kernel.org>
+References: <20241023143310.2982725-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.228
+X-stable-base: Linux 5.4.284
 Content-Transfer-Encoding: 8bit
 
 From: Julian Vetter <jvetter@kalrayinc.com>
