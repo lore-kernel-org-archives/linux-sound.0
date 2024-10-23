@@ -1,79 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBD15C603;
-	Wed, 23 Oct 2024 05:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2735F53E23
+	for <linux-sound@vger.kernel.org>; Wed, 23 Oct 2024 05:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729661562; cv=none; b=hX0gi+Niptlky2I075mSGHdMJk3aZNETofN4I1psjmr8f79ht1IFJ8OUMsJ9Cmzuv2WzKfPuKnl52CjFouC9yMZfB+SKO2tV4FwsddJth7EK1Rok53t6NXW8bH0+bS2HBDXFJaf1XMSOGpFvBMGWnZfiUyyLoPTO9spYcg0VqEY=
+	t=1729662236; cv=none; b=T+zhzSXnY+RaIZdqiL3mZtrhXh6ywYkZqGlpJPGX7w742vHimCau/o99EeS2v7DfO73v0bfk3cLROPvKFgbCu+Mj/QZUo+cbp4IX5tKsSUxr83/PeKPjZ5hVV9ZRZpzPm3RG9CLbaMVtSRDyF4kAxlQahgnwKj1ghhwSx6GkqxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729661562; c=relaxed/simple;
-	bh=IUl8/VA1UaXKPGhrMFImpLpr1YuAPaXtMJH2JgermgA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sSUDb2Ec9gGCyc3k7k0xHDkaXyJMEsBIYJ9+0AIF+Bu3V7ytx81Us6gyXB+edo2edM12YKFqJhLUuDcL7kfA3xyAXMf51B5cuBeqgV1C58F9h+3JrMdOZUPwqqa4cgiFIf9odkgrA56Bjr8eBIfyNctyK6KXvDRBoUOkU+iMVkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gme5o/UU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729662236; c=relaxed/simple;
+	bh=HEHOmO4x0HArs6T+XsSFf1I8dqiav/dQbSg5zOux29g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pEzEnpXxfJM1FLrJpokZcwAycFMYpI2h2O18lyTJHq1BTcYVPihXRVN/xRJwQKmCDwE691+WvJU0YFe5ZNFA/3VIMNFW+run6lssIM9CA58hvrJcBs4RXCFY0VosIo6r09cyTSnGsxSq5oo/UwX1uALBCZKZMVDYDalFPiW6mYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=53IwWAY4; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gme5o/UU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9954C4CEC6;
-	Wed, 23 Oct 2024 05:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729661562;
-	bh=IUl8/VA1UaXKPGhrMFImpLpr1YuAPaXtMJH2JgermgA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gme5o/UUp9F2KR6bU1055VofbBLMez72a/thNWlYHF5TlhAgWjpd8gjJ2M9yvLNuQ
-	 S+YuEMGpEwxGjw7t3PQj08Dj2hPIXancpPfx98+UKJGAak4eMHZ/M56Nyv0StrsS8F
-	 SY3TvAwl8z/NUE0CgqcbPcRuT9vY/x2SCpevI9nSvHCsvnzz4y5etTqLpQs5amSGmE
-	 sADTRJqTgUDe47Ld16AEe37IPFJvrKzhFyzAYtpogsnJjDxRe8B/JFL+JTQJGNDTq5
-	 BGHj5nX53K+QQYV5c02vdoc/9vMJNXGomZjhs3PyQQBp8K2pksgMS/mAbtMowLSkXZ
-	 PV9Iz+67gNcrg==
-Date: Wed, 23 Oct 2024 11:02:38 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v4 0/7] ASoC: fsl: add memory to memory function for ASRC
-Message-ID: <ZxiKdpeuIhe/DiV4@vaman>
-References: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="53IwWAY4"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id C1F454B0B;
+	Wed, 23 Oct 2024 07:43:42 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz C1F454B0B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1729662222; bh=gLynSCsdUnJBiWIgPqJyUeiaha12LN8gibuGJ47707g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=53IwWAY4Ypw80BqlTcbarkv0rnOc+vgNirlZSxc/OhCYYDwKeF3gYsfOzJ1w38yxu
+	 gpkgf5lTTaGvYOfFOVS9MYqcLPdX4RoPQOaXxEeuuia/8KXofmfShLHv7uFLzZsY/N
+	 0BDvWsOenEcYETqMrbZ/Fm7hOInU4LPdIYJ/TY5w=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Wed, 23 Oct 2024 07:43:34 +0200 (CEST)
+Message-ID: <dda07429-76f8-4265-97c3-563ee4ef7515@perex.cz>
+Date: Wed, 23 Oct 2024 07:43:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1727247316-16156-1-git-send-email-shengjiu.wang@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] ALSA: compress_offload: introduce accel operation mode
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Linux Sound ML <linux-sound@vger.kernel.org>, Takashi Iwai
+ <tiwai@suse.de>, Mark Brown <broonie@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+References: <20241002093904.1809799-1-perex@perex.cz> <ZxiJMQkbA9MhtjXF@vaman>
+From: Jaroslav Kysela <perex@perex.cz>
+Content-Language: en-US
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <ZxiJMQkbA9MhtjXF@vaman>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 25-09-24, 14:55, Shengjiu Wang wrote:
-> This function is base on the accelerator implementation
-> for compress API:
-> https://patchwork.kernel.org/project/alsa-devel/patch/20240731083843.59911-1-perex@perex.cz/
-> Add it to this patch set.
+On 23. 10. 24 7:27, Vinod Koul wrote:
 > 
-> Audio signal processing also has the requirement for memory to
-> memory similar as Video.
+> Hi Jaroslav,
 > 
-> This asrc memory to memory (memory ->asrc->memory) case is a non
-> real time use case.
+> On 02-10-24, 11:39, Jaroslav Kysela wrote:
+>> There is a requirement to expose the audio hardware that accelerates various
+>> tasks for user space such as sample rate converters, compressed
+>> stream decoders, etc.
+>>
+>> This is description for the API extension for the compress ALSA API which
+>> is able to handle "tasks" that are not bound to real-time operations
+>> and allows for the serialization of operations.
 > 
-> User fills the input buffer to the asrc module, after conversion, then asrc
-> sends back the output buffer to user. So it is not a traditional ALSA playback
-> and capture case.
-> 
-> Because we had implemented the "memory -> asrc ->i2s device-> codec"
-> use case in ALSA.  Now the "memory->asrc->memory" needs
-> to reuse the code in asrc driver, so the patch 1 and patch 2 is for refining
-> the code to make it can be shared by the "memory->asrc->memory"
-> driver.
-> 
-> Other change is to add memory to memory support for two kinds of i.MX ASRC
-> modules.
+> This lgtm, but I found one thing missing. I think we had
+> discussed that we might want to call the devices with accel api not
+> ComprCxDy but something else? Can we add that.. maybe accelCxDy instead
+> as both are mutually exclusive
 
-Are there any patches for tinycompress to use the new IOCTLs here, I
-would like to see those changes as well
+There is a problem when CONFIG_SND_DYNAMIC_MINORS is not set (static minor 
+numbers assignment). I don't see it as an issue, because the accel api 
+requires O_RDWR for open which is new requirement. Old code will obtain an 
+open error for this device. Also note that SND_COMPRESS_PLAYBACK and 
+SND_COMPRESS_CAPTURE is selected based on those open flags, so the device 
+enumeration works already with this assumption.
+
+						Jaroslav
 
 -- 
-~Vinod
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
+
