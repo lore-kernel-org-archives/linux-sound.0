@@ -1,107 +1,278 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745731FCF53;
-	Wed, 23 Oct 2024 14:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B1E1AD41F;
+	Wed, 23 Oct 2024 15:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729694691; cv=none; b=mVzBiO8gRbqGg5CXDBPsaA502CYaoFJVHdtjhpJ6SaLQ0IVFlRIIPxbDcNT1dx/G+Pp4svxW8ghOb7RFvdMO1D9oGmdcdHIMoQJb2i5CBrEE8D1XwDr5JYGtLdZuCmaQB0apghfDxFVUSAIYfW/WsYnRk7cgcRFbxLGz3jmuf/k=
+	t=1729695725; cv=none; b=JFIVbuLY/wv7PK5iEyaPOERAN9Di3Trpye76gXoxOtz6r+rImmLStPX6Dj30PBY8A2aYQK65VUAf/m8fWlVf2yamdDEAw5V99M2j0ypgoFh3J2uHkVIW96qfzM+H4O1rHCU+0aeHbPUjHyShQHt/imv2H7gKF4piBw98dG+q9bE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729694691; c=relaxed/simple;
-	bh=i6gTQQWR/Q7iITKihWhTyePD6C8brJ6TfXHAPQzb59Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gx290zi2Gib8ppgfeU8edJgCs3GCEULwgeK+QITPn5ul/3Kg/wmswLoxWyPqqUcSdsDNC9wzM3nUWQJej5oSrkntGifRNf26tQ4VwZnAkEOjiD5LDzaYiVsGw0miW9pPTl+72H0J7+Qs7F+UHRvhKLSSevn/++cd/QHa3GvQc50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=XsrgFca1; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1729695725; c=relaxed/simple;
+	bh=3xEw+UXfsGP26z4Sgtrqe6P0a/swHKk3oKUuT9CCyZY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=es/Xve1o3XSGgEgF9ttu+R1l1mgvsjjub3a/o1YPo6LqkiW0YDtM4K76ZMtf9C6U6J8iIPQBmArNCla6/oGwaW0faJEteRFlkwQiZ38hzlztjAvVggIR4dQkPSIohG6RIRQkrjKJAZGjLlx/Wfdohw5Yjz/CKMNyi5uNQNUFRl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=2ItZ1jDF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yBKR04wg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fWmPOTyF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YuZHxXn8; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="XsrgFca1"
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49NEfhWI004197;
-	Wed, 23 Oct 2024 14:44:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2023-11-20; bh=iPM1LjVOR7/cD8+l6cv2bbnI+DWzh
-	Dz1FfPcamF+CvU=; b=XsrgFca1Aysfrwdc6K1+dC0MxvNFx5WAYYtPmMqshH6t7
-	rosRkcirIEDMgWPoRoXOZr3M3SYlZ/HV4uY4wcVL8193YX+77ycSE2EWqN9qFbDi
-	pRsNKfaiKxlXJ20WLzPjJJqUNxVvKrdG8/mRPfWlpXFrIjFrF0wfbTBi3jajJ6xn
-	VEGsQkqKJHzhHHlxfq/5Xdzzz5ladNYlv8cutxH/dd1QaTacxHv2SK4fbFHw0Wm8
-	8vnLkBtUMoGe2eZcb2RbeXA5gYy1p0bpMbMzK15Jf9gHkyLhwa9ixQf3Zhoulefd
-	or39+hqVbzodDLhJWWvMSgEVDV/DXefXuGOSRx0lw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42c53ur9sa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Oct 2024 14:44:26 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49NEWPJU030950;
-	Wed, 23 Oct 2024 14:44:25 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42emh1max6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Oct 2024 14:44:25 +0000
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 49NEiP91016804;
-	Wed, 23 Oct 2024 14:44:25 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 42emh1mawh-1;
-	Wed, 23 Oct 2024 14:44:25 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Igor Prusov <ivprusov@salutedevices.com>,
-        Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-        linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, kernel test robot <lkp@intel.com>
-Subject: [PATCH next] ASoC: codecs: fix error code in ntp8835_i2c_probe()
-Date: Wed, 23 Oct 2024 07:44:11 -0700
-Message-ID: <20241023144421.1720234-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2ItZ1jDF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yBKR04wg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fWmPOTyF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YuZHxXn8"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E4C0922003;
+	Wed, 23 Oct 2024 15:02:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729695722; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45xK/8+G8mZGVAAi4hFp9PxMXe5ylZqkKcyee7y5QO0=;
+	b=2ItZ1jDFGk8fncyzUjOD6XP1yUrNx0clEVu6vx5PlWgY0pzhWkTG+ZtGuTuCRk8o3opkVR
+	dfMKygDgm3Jq5vAgizfUaf8cKtsAeQ4XF/G6TOOvoC1PCvT0gXtIJ6o1YtCFBpqgxn1lRp
+	fSH3oUU/jApkJIS3ff7Z5Hf6ZDSyVCA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729695722;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45xK/8+G8mZGVAAi4hFp9PxMXe5ylZqkKcyee7y5QO0=;
+	b=yBKR04wgmFIDNWBjE5QW+Hnw1mB3+YpLhbGyrDlSE5v42/Wn0oqwJTXtDYuSVV5bI/aQHq
+	NeWZpYvZRGkV4xCA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729695720; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45xK/8+G8mZGVAAi4hFp9PxMXe5ylZqkKcyee7y5QO0=;
+	b=fWmPOTyFFK+VxPBZQ27E8g8Odi0gvPqUHrkqQ2QKeK3e96V7dTVsrUlTrX8fBfFIRYP2SR
+	9X8KyTWE0pPVrtX25EqinQG9f1t/MMtZPc4BYI42RYSDXTHUEdo2fpuxgIh4wXKOC6E8vP
+	AtQwg7XXJKV2vlZYgc+r1cxzrlGkyFE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729695720;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=45xK/8+G8mZGVAAi4hFp9PxMXe5ylZqkKcyee7y5QO0=;
+	b=YuZHxXn8vf1q/VffvvFlmQV8HJADESPXQVyITePngDv64EqgM+RiZEQG2jZ271+0TbFBkM
+	esX+WixusA/YvVCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 68CEE13A63;
+	Wed, 23 Oct 2024 15:01:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id NCtrGOcPGWeBIAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 23 Oct 2024 15:01:59 +0000
+Date: Wed, 23 Oct 2024 17:03:00 +0200
+Message-ID: <87ttd2276j.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Basavaraj Natikar <basavaraj.natikar@amd.com>,	Jiri Kosina
+ <jikos@kernel.org>,	Benjamin Tissoires <bentiss@kernel.org>,	Arnd Bergmann
+ <arnd@arndb.de>,	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,	Alex
+ Dubov <oakad@yahoo.com>,	Sudarsana Kalluru <skalluru@marvell.com>,	Manish
+ Chopra <manishc@marvell.com>,	"David S. Miller" <davem@davemloft.net>,	Eric
+ Dumazet <edumazet@google.com>,	Jakub Kicinski <kuba@kernel.org>,	Paolo
+ Abeni <pabeni@redhat.com>,	Rasesh Mody <rmody@marvell.com>,
+	GR-Linux-NIC-Dev@marvell.com,	Igor Mitsyanko <imitsyanko@quantenna.com>,
+	Sergey Matyukevich <geomatsi@gmail.com>,	Kalle Valo <kvalo@kernel.org>,
+	Sanjay R Mehta <sanju.mehta@amd.com>,	Shyam Sundar S K
+ <Shyam-sundar.S-k@amd.com>,	Jon Mason <jdmason@kudzu.us>,	Dave Jiang
+ <dave.jiang@intel.com>,	Allen Hubbe <allenbh@gmail.com>,	Bjorn Helgaas
+ <bhelgaas@google.com>,	Alex Williamson <alex.williamson@redhat.com>,
+	Juergen Gross <jgross@suse.com>,	Stefano Stabellini
+ <sstabellini@kernel.org>,	Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	Chen Ni <nichen@iscas.ac.cn>,	Mario Limonciello
+ <mario.limonciello@amd.com>,	Ricky Wu <ricky_wu@realtek.com>,	Al Viro
+ <viro@zeniv.linux.org.uk>,	Breno Leitao <leitao@debian.org>,	Kevin Tian
+ <kevin.tian@intel.com>,	Thomas Gleixner <tglx@linutronix.de>,	Ilpo
+ =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,	Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>,	Mostafa Saleh
+ <smostafa@google.com>,	Jason Gunthorpe <jgg@ziepe.ca>,	Yi Liu
+ <yi.l.liu@intel.com>,	Christian Brauner <brauner@kernel.org>,	Ankit Agrawal
+ <ankita@nvidia.com>,	Eric Auger <eric.auger@redhat.com>,	Reinette Chatre
+ <reinette.chatre@intel.com>,	Ye Bin <yebin10@huawei.com>,	Marek
+ =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,	Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>,	Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,	Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,	Rui Salvaterra <rsalvaterra@gmail.com>,
+	linux-ide@vger.kernel.org,	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,	kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of pcim_intx()
+In-Reply-To: <6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	<20241015185124.64726-3-pstanner@redhat.com>
+	<87v7xk2ps5.wl-tiwai@suse.de>
+	<6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-23_12,2024-10-23_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 mlxscore=0 spamscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2409260000 definitions=main-2410230089
-X-Proofpoint-GUID: zId7C4s-5whJgfiO-z1nCfoess7VTI58
-X-Proofpoint-ORIG-GUID: zId7C4s-5whJgfiO-z1nCfoess7VTI58
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[yahoo.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_GT_50(0.00)[67];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,omp.ru,amd.com,arndb.de,linuxfoundation.org,yahoo.com,marvell.com,davemloft.net,google.com,redhat.com,quantenna.com,gmail.com,kudzu.us,intel.com,suse.com,epam.com,perex.cz,iscas.ac.cn,realtek.com,zeniv.linux.org.uk,debian.org,linutronix.de,linux.intel.com,ziepe.ca,nvidia.com,huawei.com,invisiblethingslab.com,linux.dev,vger.kernel.org,lists.linux.dev,lists.xenproject.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-When reset_control_deassert() fails it returns valid error codes stored
-in return, pass that to dev_err_probe() instead of
-PTR_ERR(ntp8835->reset).
+On Wed, 23 Oct 2024 15:50:09 +0200,
+Philipp Stanner wrote:
+> 
+> On Tue, 2024-10-22 at 16:08 +0200, Takashi Iwai wrote:
+> > On Tue, 15 Oct 2024 20:51:12 +0200,
+> > Philipp Stanner wrote:
+> > > 
+> > > pci_intx() is a hybrid function which can sometimes be managed
+> > > through
+> > > devres. To remove this hybrid nature from pci_intx(), it is
+> > > necessary to
+> > > port users to either an always-managed or a never-managed version.
+> > > 
+> > > hda_intel enables its PCI-Device with pcim_enable_device(). Thus,
+> > > it needs
+> > > the always-managed version.
+> > > 
+> > > Replace pci_intx() with pcim_intx().
+> > > 
+> > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+> > > ---
+> > >  sound/pci/hda/hda_intel.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> > > index b4540c5cd2a6..b44ca7b6e54f 100644
+> > > --- a/sound/pci/hda/hda_intel.c
+> > > +++ b/sound/pci/hda/hda_intel.c
+> > > @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx *chip,
+> > > int do_disconnect)
+> > >  	}
+> > >  	bus->irq = chip->pci->irq;
+> > >  	chip->card->sync_irq = bus->irq;
+> > > -	pci_intx(chip->pci, !chip->msi);
+> > > +	pcim_intx(chip->pci, !chip->msi);
+> > >  	return 0;
+> > >  }
+> > >  
+> > 
+> > Hm, it's OK-ish to do this as it's practically same as what
+> > pci_intx()
+> > currently does.  But, the current code can be a bit inconsistent
+> > about
+> > the original intx value.  pcim_intx() always stores !enable to
+> > res->orig_intx unconditionally, and it means that the orig_intx value
+> > gets overridden at each time pcim_intx() gets called.
+> 
+> Yes.
+> 
+> > 
+> > Meanwhile, HD-audio driver does release and re-acquire the interrupt
+> > after disabling MSI when something goes wrong, and pci_intx() call
+> > above is a part of that procedure.  So, it can rewrite the
+> > res->orig_intx to another value by retry without MSI.  And after the
+> > driver removal, it'll lead to another state.
+> 
+> I'm not sure that I understand this paragraph completely. Still, could
+> a solution for the driver on the long-term just be to use pci_intx()?
 
-Fixes: dc9004ea273a ("ASoC: codecs: Add NeoFidelity NTP8835 codec")
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202409281054.DUTb5KxU-lkp@intel.com/
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
-Based on static analysis, with smatch, only compile tested
----
- sound/soc/codecs/ntp8835.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+pci_intx() misses the restore of the original value, so it's no
+long-term solution, either.
 
-diff --git a/sound/soc/codecs/ntp8835.c b/sound/soc/codecs/ntp8835.c
-index 800bda6b49dd..796e1410496f 100644
---- a/sound/soc/codecs/ntp8835.c
-+++ b/sound/soc/codecs/ntp8835.c
-@@ -428,7 +428,7 @@ static int ntp8835_i2c_probe(struct i2c_client *i2c)
+What I meant is that pcim_intx() blindly assumes the negative of the
+passed argument as the original state, which isn't always true.  e.g.
+when the driver calls it twice with different values, a wrong value
+may be remembered.
+
+That said, I thought of something like below.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+--- a/drivers/pci/devres.c
++++ b/drivers/pci/devres.c
+@@ -438,8 +438,17 @@ static void pcim_intx_restore(struct device *dev, void *data)
+ 	__pcim_intx(pdev, res->orig_intx);
+ }
  
- 	ret = reset_control_deassert(ntp8835->reset);
- 	if (ret)
--		return dev_err_probe(&i2c->dev, PTR_ERR(ntp8835->reset),
-+		return dev_err_probe(&i2c->dev, ret,
- 				     "Failed to deassert reset\n");
+-static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
++static void save_orig_intx(struct pci_dev *pdev)
+ {
++	u16 pci_command;
++
++	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
++	res->orig_intx = !(pci_command & PCI_COMMAND_INTX_DISABLE);
++}
++
++static struct pcim_intx_devres *get_or_create_intx_devres(struct pci_dev *pdev)
++{
++	struct device *dev = &pdev->dev;
+ 	struct pcim_intx_devres *res;
  
- 	dev_set_drvdata(&i2c->dev, ntp8835);
--- 
-2.39.3
-
+ 	res = devres_find(dev, pcim_intx_restore, NULL, NULL);
+@@ -447,8 +456,10 @@ static struct pcim_intx_devres *get_or_create_intx_devres(struct device *dev)
+ 		return res;
+ 
+ 	res = devres_alloc(pcim_intx_restore, sizeof(*res), GFP_KERNEL);
+-	if (res)
++	if (res) {
++		save_orig_intx(pdev);
+ 		devres_add(dev, res);
++	}
+ 
+ 	return res;
+ }
+@@ -467,11 +478,10 @@ int pcim_intx(struct pci_dev *pdev, int enable)
+ {
+ 	struct pcim_intx_devres *res;
+ 
+-	res = get_or_create_intx_devres(&pdev->dev);
++	res = get_or_create_intx_devres(pdev);
+ 	if (!res)
+ 		return -ENOMEM;
+ 
+-	res->orig_intx = !enable;
+ 	__pcim_intx(pdev, enable);
+ 
+ 	return 0;
