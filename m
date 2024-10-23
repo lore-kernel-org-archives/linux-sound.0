@@ -1,77 +1,95 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D221CA84;
-	Wed, 23 Oct 2024 10:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B9A1A76B2
+	for <linux-sound@vger.kernel.org>; Wed, 23 Oct 2024 11:05:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729679914; cv=none; b=HGwXO/InIkGiuD7taNWB9rNm+c0kkB3Sd5Q7JQ/1XPT3kJOgsF4oKS2rrkcqpBp+e+lJceZhyraXUIl50BWzfDALsxnG6mlj0Us4Rf/XFltu88Wp5sXPAvE4ol2ws4cANThCkBMzGrPR9pVwnGkKdduuvlPbqMgDcuyA8FXSjRs=
+	t=1729681545; cv=none; b=ULf4dRFn2GUFbzdzXpFOq4GLWXGi+EM31ohLGB5khJ3urJkxtvg+rb1kLcZWBRrtDQaNYuCP9+7KIgqUgkkWHh0+1q7UtAWRgL/ojmSo26gyyUPSO2BWyLtaUrRikh2Wkw9MYST4xuHbPWEVxf+EtdtKbG+yful0h8hNVqo7uFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729679914; c=relaxed/simple;
-	bh=dGrUkReW/jmU2friNXD2xLiCuXEVtZVo4FJ7ZK9AQTg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kB4i5/gFZ+G7wtunH0Ak28a+Imt1YdXGkZNSBQvTVrjyla42o5g1TzfP4A0pjGUHlBqp1y6CUjReyFIpKwqt46YE6U/6qV9eHCGCx0yojq3vGrW+nCNxvXKwiWIX6srgAAShz8ZBKV/EnDkpiQyEF0CwK9s7i8dFbhtY5kgl9Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GA2HRKk1; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1729681545; c=relaxed/simple;
+	bh=VgpvMjVMyaY8sdPrk4JeSsgiCO59bDND+4wNQdZQAuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IITAwoN4hRHm9hHabqyHnk1QmSw8x1gQkqq6twQVsP1qHBUIkj8XnyR/8ZY+iMIUACHhvG1USJoSFdQLVH4CJIRXjkg77yxD+zTE0ENPJF5B56tFx87GOiYl+AnWlfDucyUUeNEuRCcgFLG6Bxc9lqPNnnVrHSFwbbwbBUkq5Xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpPOcLhC; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GA2HRKk1"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49N2bpEp023824;
-	Wed, 23 Oct 2024 05:38:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=YlIPwoifJWw+ux8fJL
-	Lw+ug+EejR1tLOpfYAWah2kPU=; b=GA2HRKk14HrgVFcQ0l1fLJ1YevJePZdwBQ
-	U5hUv/0p5Jqlqr/ZFJO2p72EtQ3yGzJKVX1tldKbcpU8YcmefUYYAepjcIdG7rFy
-	sCH5LvPyLd0rWKsM1DSZ28A4g3apAqOqKW2MNQRBy9S79lOfdRUK65w4lxXc2LR5
-	0nLvRLMOLVkamThMPI/lgU/aP7BUpuk/AUHqA7Sm5vawabOEHrHa4C21pjoNWqSl
-	kDE3HWVCix/UwHRa+spciCZFmGZq9+dDqClhi85un1C0jB/7o8At5x3SV2MZunWS
-	FjgTr8b1yf4VqsTBZ3ylmzQG5QzUVN6lV0BWBCGOIEcwVJeEFdDQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42c96jcpk9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Oct 2024 05:38:26 -0500 (CDT)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Oct
- 2024 11:38:25 +0100
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.9 via Frontend Transport; Wed, 23 Oct 2024 11:38:25 +0100
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 14BE4822563;
-	Wed, 23 Oct 2024 10:38:25 +0000 (UTC)
-Date: Wed, 23 Oct 2024 11:38:24 +0100
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Maciej Strozek <mstrozek@opensource.cirrus.com>
-CC: Lee Jones <lee@kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] mfd: cs42l43: Prepare support for updated bios patch
-Message-ID: <ZxjSIBpW5syCULnZ@opensource.cirrus.com>
-References: <20241023100636.28511-1-mstrozek@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpPOcLhC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729681543; x=1761217543;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=VgpvMjVMyaY8sdPrk4JeSsgiCO59bDND+4wNQdZQAuM=;
+  b=BpPOcLhCfQrR7GzDt6JcdK9deSICbR8y2JpwHkAtgK1YnCrOuHmav7Og
+   4utXaE4eA1xk1VQrZHH/dhVdAHKdKmFgGJoyzmbgKaiELCYNn5bPeTaEm
+   XEe4xVB/4D4oeP/B5WgLn1HfqfHI1KUFb7Jdo6Fhq2uy2H6UpsimLotg5
+   zxJcjEy11F1iesBS8bY3Ntm7Ft8Cz4WsMRkfKZ/L7r6/LsvaDLQCWQZQz
+   zyNqKxy/SzWbD3OeQx7urRlz6EAEmfgx0k2aBR3FcVksv83ul427KIoc8
+   0XiaBVhck0zyQHoX0uLCDw3gmdGWpO7Q9bgtA4JZOhlR101PtBcZtOCzk
+   g==;
+X-CSE-ConnectionGUID: uBuBoVf2SAmQUSVT/wqQ7Q==
+X-CSE-MsgGUID: qB1zCgF6R6OKwz4iIt+eZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40381182"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40381182"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 04:05:43 -0700
+X-CSE-ConnectionGUID: X8ZPZk1pSyaJZdzZd19vOw==
+X-CSE-MsgGUID: 6djAS+2NQ/69h5O4XYZAOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
+   d="scan'208";a="79832658"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.23])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 04:05:40 -0700
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	daniel.baluta@nxp.com
+Subject: [PATCH 0/2] ASoC: SOF: core: Module parameter updates
+Date: Wed, 23 Oct 2024 14:06:08 +0300
+Message-ID: <20241023110610.6141-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241023100636.28511-1-mstrozek@opensource.cirrus.com>
-X-Proofpoint-GUID: Tu7ytfnWM6FImtN-cecc04lRP9jJGvt6
-X-Proofpoint-ORIG-GUID: Tu7ytfnWM6FImtN-cecc04lRP9jJGvt6
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 23, 2024 at 11:06:34AM +0100, Maciej Strozek wrote:
-> Newer bios patch firmware versions now require use of the shadow register
-> interface, which was previously only required by the full firmware, update
-> the check accordingly.
-> 
-> Signed-off-by: Maciej Strozek <mstrozek@opensource.cirrus.com>
-> ---
+Hi,
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Add new debug only parameters to override the default IPC and boot
+timeout, these are only available if CONFIG_SND_SOC_SOF_DEBUG is
+enabled, only for developers.
 
-Thanks,
-Charles
+The second patch moves the firmware, topology name/path and IPC
+version overrides from acpi/pci/of platform code to core and markes
+the platform parameters deprecated, to be removed in few kernel
+cycles.
+There is really no point of duplicating these overrides as they
+are not platform dependent.
+
+Regards,
+Peter
+---
+Peter Ujfalusi (2):
+  ASoC: SOF: core: Add debug module parameters to set IPC and boot
+    timeout
+  ASoC: SOF: core: Add fw, tplg and ipc type override parameters
+
+ sound/soc/sof/core.c         | 64 ++++++++++++++++++++++++++++++++++++
+ sound/soc/sof/sof-acpi-dev.c |  4 +--
+ sound/soc/sof/sof-of-dev.c   |  8 ++---
+ sound/soc/sof/sof-pci-dev.c  | 12 +++----
+ 4 files changed, 76 insertions(+), 12 deletions(-)
+
+-- 
+2.47.0
+
