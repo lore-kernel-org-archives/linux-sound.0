@@ -1,47 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2332622B650;
-	Thu, 24 Oct 2024 20:16:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB98D22B650;
+	Thu, 24 Oct 2024 20:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729801012; cv=none; b=TPgcxwXZUmZ59jO7K9xdNDyeqVXZokxBe5o5aoQ2CsHb5Uk7djpWMV3Z8myAUYWxZnY10/wNcwCxnBpmtBd8FIfOSlB6Ex2kngXRmC5jZMEaAEJAvs5cvdPUPYcaYoTc1JT7Z1LCCnZzpgYx3IMd5zQlhnKt12lsJmsm3nGFtd0=
+	t=1729801015; cv=none; b=G5jLi1oKjsXw6pIaftpWIUwfDVC/UQ0NG9CMvyW+6MylHQaXSrNwv+WdlBYsOA2bg8/CxUSxS2MBNESPOf2ITL//w7+oVI3SzwkhUPtE8vG86DfOwuHVuyJccCjd2NUMr7QyOGCv7Dsssjk7mWanynQdNx9hAzwsvv30Y3GqlqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729801012; c=relaxed/simple;
-	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	s=arc-20240116; t=1729801015; c=relaxed/simple;
+	bh=s17en98HCPC4smiDIgxFZgt3DoaeAwBGD5lpSCP0NXY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CYNw+Wc2UFnzVBQPBSzFSPLQd2+E/lMt7nQ3f6tThI2k0F6DyU1hECFUGeK1g0+bH4zTnKaOFVdecVQ4AQ0RRYbPiNlyQkZbLMrsXx9X30bZp2fwfiGRtlud6zEHdSqrs5y0fCh5KzrCS9NXcXN4vwsdsBAayddnUA1OGx8nlmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVlghJjt; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Xr9amLH0dOhO9twfIsFw2OV5lhunbuGHuIlBNmo3wclys06fn7SHlJ6T7ZYf8uJpBnEwiP4x3b7Iycf3WkqBX0mZVc2f1cWTV7Zl8jvI/GISDxIDKP2p0SUmf++KrWwsKHMXCvbWbrLNLoak0uRTabFMpdpykLYlnmLvrm6HoUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fN3PSIaR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVlghJjt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010B0C4CEC7;
-	Thu, 24 Oct 2024 20:16:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fN3PSIaR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FD1BC4CECD;
+	Thu, 24 Oct 2024 20:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729801011;
-	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	s=k20201202; t=1729801015;
+	bh=s17en98HCPC4smiDIgxFZgt3DoaeAwBGD5lpSCP0NXY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uVlghJjtlBAM8RBB0TFYRfF2upDQF6o0IDI3jnzZNQn3qsSu62i4WiMSA0gSD/s0l
-	 2/up8sX6KJ6JidEdblO8bvf8drryM0sB78IeFAJz+BPvwXHTGYVav67Pzh6O53PSek
-	 l/6dbyNegQAks2AHKlKqRjZuOFZ1gVawYJCHGkwtOvbRfnzVAfdCioXOZxExqIpWp3
-	 L7bTdeOYqKrSOcZvW0nEDjRrA6l55aSdbJHzP8syxRBhLHd8ArbcAwaRniUA5iNr2s
-	 pVtS5q/mruJa6l6x4Fdsl1xWn5nlmCb0Dz+IXh7JIVoy9YUwvavlL68+N96RQsW0Ou
-	 CjOayo9B8dv5g==
+	b=fN3PSIaRgf39zGbEzct0rOD33kVm8KPFR++PzQavQEALSng2aODPsqp0uHl2lQ104
+	 u23eIgNuO1U9G448+HHADdzmGMU8ocd9WGLxu5/8+B6RqQqDr3MCNilMloEGq6pHhI
+	 HsIXtApidyCnEeM5EcFy9USp5/zySZkYVsAnrSw4GPpnDYzqjtgpMcdBzEat8rms4j
+	 jttK4atwsFkBqsl4F1F8DVIGnfu0FkGE/wXIk1epMObUz4eycmeVA3FT9zNVLV1/bv
+	 T89QbaRcj7MLuDMs7uwzmFZlfoGcys0BfNrucuB08JV2PlPWUT+vYb6OPDyiGhpduY
+	 g1OEus1nLn7/Q==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>, 
- Philippe Simons <simons.philippe@gmail.com>, 
- Ryan Walklin <ryan@testtoast.com>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-clk@vger.kernel.org
-In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
-References: <20241023075917.186835-1-ryan@testtoast.com>
-Subject: Re: (subset) [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec
- support
-Message-Id: <172980100873.554299.14641282051254983661.b4-ty@kernel.org>
-Date: Thu, 24 Oct 2024 21:16:48 +0100
+To: =?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>, 
+ David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, James Calligeros <jcalligeros99@gmail.com>
+Cc: asahi@lists.linux.dev, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Hector Martin <marcan@marcan.st>, 
+ Neal Gompa <neal@gompa.dev>
+In-Reply-To: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+References: <20241020-cs42l84-v2-0-37ba2b6721d9@gmail.com>
+Subject: Re: [PATCH v2 0/3] ASoC: add CS42L84 codec driver
+Message-Id: <172980101186.554299.11182862966336254463.b4-ty@kernel.org>
+Date: Thu, 24 Oct 2024 21:16:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,17 +53,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 23 Oct 2024 20:56:56 +1300, Ryan Walklin wrote:
-> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
+On Sun, 20 Oct 2024 00:47:30 +1000, James Calligeros wrote:
+> This is version 2 of the Cirrus Logic CS42L84 ASoC codec driver.
 > 
-> Changelog v1..v2:
-> - Reordered patches to group ASoC changes
-> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
-> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
-> - Restrict TX-only DMA changes to the H616.
-> - Change the codec name to fit into the 16 char limit.
-> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
-> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
+> This patch set adds a driver for the Cirrus Logic CS42L84 codec. This chip
+> is (so far) found only on Apple Silicon Macs. In keeping with proud Apple
+> tradition, the CS42L84 is essentially just a CS42L42 with a different
+> regmap and no publicly available datasheet. It may also be missing its
+> parent's S/PDIF capabilities as none of Apple's devices support S/PDIF out,
+> however this cannot be positively confirmed.
 > 
 > [...]
 
@@ -72,14 +71,12 @@ Applied to
 
 Thanks!
 
-[2/7] dt-bindings: allwinner: add H616 sun4i audio codec binding
-      commit: 542e19c20506953c03eec57b1cb65355164dfb64
-[3/7] ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to quirks
-      commit: 5836a9d2ca48bb7473bb10d061c03525d8f4f163
-[4/7] ASoC: sun4i-codec: Add playback only flag to quirks
-      commit: 9fde21d6c5d1f75c2651442e5aae463545136aad
-[5/7] ASoC: sun4i-codec: support allwinner H616 codec
-      commit: 9155c321a1d0220a60878f2c99bc79b5a7e34d95
+[1/3] dt-bindings: sound: Add CS42L84 codec
+      commit: f2a67da9f4eb03f5402acb9aeb65b23cac990827
+[2/3] ASoC: cs42l84: Add new codec driver
+      commit: 250304a0fb34bb74f4726645ae24dc31d7582a22
+[3/3] ASoC: cs42l84: leverage ring sense IRQs to correctly detect headsets
+      commit: 2391b8719d686b1947b5f81250281fa112da91dc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
