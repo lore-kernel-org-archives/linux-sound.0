@@ -1,129 +1,102 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A973C1D3195;
-	Thu, 24 Oct 2024 18:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2332622B650;
+	Thu, 24 Oct 2024 20:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729793090; cv=none; b=XX9K01myViAzqW+9rVpmaHiQ+eRWh9VLsgnk6cDRvoN9UokREeTmIsXsbeBx0gFQGsb2nkVlQF6S1L9cVwmZ/PMMEvthIVkpfh/hYvudidXRXl4ILH7uVKcgmq8yLLpA0+25rPvec6vHtJBw/5S76tCeSK0HLGtQqwGZuowT/IY=
+	t=1729801012; cv=none; b=TPgcxwXZUmZ59jO7K9xdNDyeqVXZokxBe5o5aoQ2CsHb5Uk7djpWMV3Z8myAUYWxZnY10/wNcwCxnBpmtBd8FIfOSlB6Ex2kngXRmC5jZMEaAEJAvs5cvdPUPYcaYoTc1JT7Z1LCCnZzpgYx3IMd5zQlhnKt12lsJmsm3nGFtd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729793090; c=relaxed/simple;
-	bh=UUvsBdUGfSSU/kSjK234k4dPTiQ9P2UYe6HVxv5qs8s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GdCACnMT9xadeMOx4getC0/4LWb1jhkzO0PMzt+ih+zPGEJ+Xnt/C46PlJknrBTRFNAT0Xa5HcD+JSyu5/Zoh8mISPi6P1MOVAHfNDGjGDaC55nK/NQ5MpkFaw6KZ/J8cgNnrrOoGxmnTP5r9VMeK0OhliKjZuC5sm3i+PywgtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kkYxyWGK; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729801012; c=relaxed/simple;
+	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=CYNw+Wc2UFnzVBQPBSzFSPLQd2+E/lMt7nQ3f6tThI2k0F6DyU1hECFUGeK1g0+bH4zTnKaOFVdecVQ4AQ0RRYbPiNlyQkZbLMrsXx9X30bZp2fwfiGRtlud6zEHdSqrs5y0fCh5KzrCS9NXcXN4vwsdsBAayddnUA1OGx8nlmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uVlghJjt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kkYxyWGK"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7ed9f1bcb6bso764919a12.1;
-        Thu, 24 Oct 2024 11:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729793088; x=1730397888; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=otnnjfo+UWzid12pRT8/cZV8/w3a2emTXWpbhB9Bt4Y=;
-        b=kkYxyWGKIvTuXGR5xeBmIDaKuP4NneLriFUv8kuD6l3HOGCHLxTy30nGZL33ndiSM6
-         7S/kCGR2GxQcibB3Goyae96RESREpqK5kkVNgw/2Hm/WAYe3wXk8jwHYxRkJ8TEX4hcj
-         pDB+vF5Cg72bDpit+AK2M8h8EY6znjNMlKbWhuY5/dc3MTIMiqHxZ0tZQ1IwY/bHDhj4
-         qRTe/R8VgegbY+M8wg9E4XXIup32JXqnTH0+A6tgjNgJeKF02c13z25kcdzIozjKUEBD
-         YPIstpNyuOOsJq2ZjvR3opp8l1mUvkYaJKnacSTRpw2ef+dxc0xQeIhL5v+uAIHHSseO
-         NhCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729793088; x=1730397888;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=otnnjfo+UWzid12pRT8/cZV8/w3a2emTXWpbhB9Bt4Y=;
-        b=jraAo2AScgaPzKnXHm6K4DwcKaztQDgW7WjIlNlPTq+G1OwAYvdBdvIfCpAWHRLDOH
-         /SzrJ9z98LepJyNXB9A/ZSwNNh0asZQXI+HuM6iaLEnFfReGV0GLuOtnrEzWrdmysx7K
-         euBGUu7BLNlcdA3R8ghOanZ2GkzbkRtHWi3Ml/larnerTf/te86oufZeMmL1GQJ5DBV0
-         BCgbuAMPrlOh9X+FmYTxOE0/y6U6TNpuJIM2rJ6K4FBRNIvvvUA5qGSxsWdU3o5PYUye
-         41HDKEblOCP8fDMdC+MYkQOmNUHHNZ/JHI3DZ6hXUWhdW6v6Rb+104dOYXpAk20J9MdD
-         lUwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUgSia4WsZCzY2HBrSSJN1WablpgXWoVqdryKcVMDxtMfxaFHy+OafEo0RnzNjhA3s8FBJdpGjGSoCQrMc=@vger.kernel.org, AJvYcCWqeMoCPFLr4pFQmStvsCQD+GfenKn767Hy/1D+ipozcFRL0QfQEO6W9b+9LomiLiPnOWlPfrNphkoJ@vger.kernel.org
-X-Gm-Message-State: AOJu0YziJ8Ezl7tB+k95ZZc8FbwSj6/AWZhIxjjrWW+WCqbjKjtOYi+A
-	AEsQgVck50gqCy7xnZeuHUcAA2niwaojJs0Zyx0BZtj7Jv46WmtE
-X-Google-Smtp-Source: AGHT+IEub2+JtvqeXtaA7sT/CHywt1mAJG1Gr8DmLUILAmgC6hILD5sqLiu5VvrAB7MCT4dvlQPYdA==
-X-Received: by 2002:a05:6a21:4d8b:b0:1d8:f679:ee03 with SMTP id adf61e73a8af0-1d989b359fbmr3222214637.27.1729793087826;
-        Thu, 24 Oct 2024 11:04:47 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:b160:3edf:6e5d:8d4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec132fed9sm8256044b3a.61.2024.10.24.11.04.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 11:04:47 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: broonie@kernel.org
-Cc: robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	shengjiu.wang@nxp.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] ASoC: dt-bindings: fsl_spdif: Document imx6sl/sx compatible fallback
-Date: Thu, 24 Oct 2024 15:04:41 -0300
-Message-Id: <20241024180441.1456490-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uVlghJjt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010B0C4CEC7;
+	Thu, 24 Oct 2024 20:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729801011;
+	bh=M8Hou7W+/slEq6beBx1BMbstELY0N17vo5D8dtjCwaw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=uVlghJjtlBAM8RBB0TFYRfF2upDQF6o0IDI3jnzZNQn3qsSu62i4WiMSA0gSD/s0l
+	 2/up8sX6KJ6JidEdblO8bvf8drryM0sB78IeFAJz+BPvwXHTGYVav67Pzh6O53PSek
+	 l/6dbyNegQAks2AHKlKqRjZuOFZ1gVawYJCHGkwtOvbRfnzVAfdCioXOZxExqIpWp3
+	 L7bTdeOYqKrSOcZvW0nEDjRrA6l55aSdbJHzP8syxRBhLHd8ArbcAwaRniUA5iNr2s
+	 pVtS5q/mruJa6l6x4Fdsl1xWn5nlmCb0Dz+IXh7JIVoy9YUwvavlL68+N96RQsW0Ou
+	 CjOayo9B8dv5g==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>, 
+ Philippe Simons <simons.philippe@gmail.com>, 
+ Ryan Walklin <ryan@testtoast.com>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
+References: <20241023075917.186835-1-ryan@testtoast.com>
+Subject: Re: (subset) [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec
+ support
+Message-Id: <172980100873.554299.14641282051254983661.b4-ty@kernel.org>
+Date: Thu, 24 Oct 2024 21:16:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-From: Fabio Estevam <festevam@denx.de>
+On Wed, 23 Oct 2024 20:56:56 +1300, Ryan Walklin wrote:
+> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
+> 
+> Changelog v1..v2:
+> - Reordered patches to group ASoC changes
+> - Corrected PLL_AUDIO clock dividers to match values from manual and vendor SDK.
+> - Remove PLL_AUDIO_4X clock from the device tree binding (not used in the driver).
+> - Restrict TX-only DMA changes to the H616.
+> - Change the codec name to fit into the 16 char limit.
+> - Move the codec (and spdif) blocks in the H616 DTSI to restore address-order.
+> - Add board enablement (and power/GPIO changes for RG35XX to support speaker amp).
+> 
+> [...]
 
-i.MX6SL and i.MX6SX SPDIF blocks are compatible with i.MX35.
+Applied to
 
-Document 'fsl,imx35-spdif' as a fallback compatible for these two
-chip variants.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-This fixes the following dt-schema warnings:
+Thanks!
 
-compatible: ['fsl,imx6sl-spdif', 'fsl,imx35-spdif'] is too long
-compatible: ['fsl,imx6sx-spdif', 'fsl,imx35-spdif'] is too long
+[2/7] dt-bindings: allwinner: add H616 sun4i audio codec binding
+      commit: 542e19c20506953c03eec57b1cb65355164dfb64
+[3/7] ASoC: sun4i-codec: Add support for different DAC FIFOC addresses to quirks
+      commit: 5836a9d2ca48bb7473bb10d061c03525d8f4f163
+[4/7] ASoC: sun4i-codec: Add playback only flag to quirks
+      commit: 9fde21d6c5d1f75c2651442e5aae463545136aad
+[5/7] ASoC: sun4i-codec: support allwinner H616 codec
+      commit: 9155c321a1d0220a60878f2c99bc79b5a7e34d95
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- .../devicetree/bindings/sound/fsl,spdif.yaml  | 25 +++++++++++--------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-diff --git a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
-index 204f361cea27..3bc18c3b084f 100644
---- a/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
-+++ b/Documentation/devicetree/bindings/sound/fsl,spdif.yaml
-@@ -16,16 +16,21 @@ description: |
- 
- properties:
-   compatible:
--    enum:
--      - fsl,imx35-spdif
--      - fsl,vf610-spdif
--      - fsl,imx6sx-spdif
--      - fsl,imx8qm-spdif
--      - fsl,imx8qxp-spdif
--      - fsl,imx8mq-spdif
--      - fsl,imx8mm-spdif
--      - fsl,imx8mn-spdif
--      - fsl,imx8ulp-spdif
-+    oneOf:
-+      - const: fsl,imx35-spdif
-+      - const: fsl,imx6sx-spdif
-+      - const: fsl,imx8mm-spdif
-+      - const: fsl,imx8mn-spdif
-+      - const: fsl,imx8mq-spdif
-+      - const: fsl,imx8qm-spdif
-+      - const: fsl,imx8qxp-spdif
-+      - const: fsl,imx8ulp-spdif
-+      - const: fsl,vf610-spdif
-+      - items:
-+          - enum:
-+              - fsl,imx6sl-spdif
-+              - fsl,imx6sx-spdif
-+          - const: fsl,imx35-spdif
- 
-   reg:
-     maxItems: 1
--- 
-2.34.1
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
