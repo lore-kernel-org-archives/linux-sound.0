@@ -1,147 +1,87 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-26.us.a.mail.aliyun.com (out198-26.us.a.mail.aliyun.com [47.90.198.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C1B1AF0AD
-	for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 08:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73DCF1B4F32;
+	Thu, 24 Oct 2024 09:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729757181; cv=none; b=GQ4owHhm2XwodCVwce1NNXjrwu3+CzFM5rAOlk95AxsgPnYTI5/e7U+klbLZqcMBeo7ezRlydtXW19Nf8g//yFqAxh4dpVFSANExuraqGvjvP1rqd3DX3dj5IenWaB1eNrPN9sdjB3YTVnIGyKUtvwKv+15LdNCW6pSzU52RMuM=
+	t=1729760634; cv=none; b=l9HhB9alCd4Ob8DEv07DlldNelQhIEQUtJXkoTjprwMWMMXHotet7p/GIX5kKhY7GPuscBstzzUBTdjIphJ7CNF4JZuQj4L4g6etFDCyHDZp3Gq1wqXI745g9NksRqLNi9zSKy4W4gEEqftlnjid4XOI0ql431zuhZKAIy6py3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729757181; c=relaxed/simple;
-	bh=oPU8wiykirsXlfsK3FEHZM1SuFheE2lq9GeofLJroZY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CwuZdJg0FBQwN3YZ0GnhlleTNWhSYcB1AW12ivGqbwmVIZm+jf1Qkfll+karbluG7RL5jrbayJRa1+gb+VjElAc2EPoRK7CUaPLzHH0P0/6Vzia3b4QiamXawyJ1nihKCxsdLXLRyV//pdSmlO82tyvBABCygx//6KcIZZkmn6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tul2PD27; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tul2PD27"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-431695fa98bso5965785e9.3
-        for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 01:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757177; x=1730361977; darn=vger.kernel.org;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zMW6I0sTEYqubA9v2uS/l/YanQ/0kwQs3KpAh7vOnLI=;
-        b=tul2PD27Eg7pri87MSDYD/U1flfjxrFdxiLyLgQ6etoXLVbIbFonYGd2R5QzZE4uHw
-         OVgeVbW3AEDFD0b/Bl3GwuUqIdhdHxfiCyisVKJsapEtOdKxusImvwaQ6aK+X52Brjg0
-         V5ic/2W+AL0OAQVSvmKiASOXWDX2LUqvdkDvkQE1mAeHY6I3dZ1f+qZo2zC0fy2SIBXx
-         O6k0mCv4nK9qEHHVuz+GIaCia+QBhJEQJdsF75mR+YTLsDTHKBM9cG5UgJztXIbCQzct
-         KlgLLh9wn/qPqUpZwOZAqTEKnpjrlJqlRUb/NsNxB4Ht68tWCc500aj1zd2GOzXctqHE
-         02Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729757177; x=1730361977;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zMW6I0sTEYqubA9v2uS/l/YanQ/0kwQs3KpAh7vOnLI=;
-        b=i4/pIVYmnGj1Lq3XTFHSPHAEk906bbkAcBkEkbO30W2rLsFDYx8CJ5/5ROawoAwIcR
-         VxWXmM41umdeV9lAb68Aco+jgjzOlCPbWg3Gf9d148ra8/reIq0QPlE2EOJMDH9LL8kY
-         WqDnlkWFz2B8QrZuvrkO/m7FfpCprZlCQxNVa2hQI4QVBsQnyx2s7DsykborJm0dEiFD
-         9ZHXO8OMPGxTkyou4lTbyRn07cwA8fwM++qF1ERiL46j2OLTBrpFwHD7W3qW2L/AJxsR
-         4Kz5MLOj1oOhkx+Q2EGDMlW0g38jAHN/4/AOZg5b5B+aAZgpF78WDqxJfbEW4WlCkxqJ
-         xYNw==
-X-Forwarded-Encrypted: i=1; AJvYcCW+BQs5FwqwEeNQlm7zjh9oGgFhkmi2keU7G46UNN5TgPiV09egxaU5NpNB8izMyzK05vaS7UUkjlz0NQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzHKBhSizXQZs/zdAe5cyZQ4XI9TR+HAujqzJkppdrE+ECcjSau
-	6Xo+oZ++If4s5pUk+RaIfB6wQZJJhnpZG2LLr66Nh2Dbrw8zxKuWsCQsCtx3oLo=
-X-Google-Smtp-Source: AGHT+IEoZMVKgD69poA0dFC1qIUTHJdJvAa3Cg9Ax/TeZWkK7ol7nwHmrhD5d8D+xQZ2BLd9/bn72g==
-X-Received: by 2002:adf:e903:0:b0:37c:d001:856f with SMTP id ffacd0b85a97d-380458ee3fbmr839512f8f.56.1729757177038;
-        Thu, 24 Oct 2024 01:06:17 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:c04c:f30a:b45c:dbb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a64daasm10701229f8f.64.2024.10.24.01.06.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 01:06:16 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,  Kevin Hilman <khilman@baylibre.com>,
-  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Liam Girdwood
- <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
-  Shawn Guo <shawnguo@kernel.org>,  Shengjiu Wang
- <shengjiu.wang@gmail.com>,  Takashi Iwai <tiwai@suse.com>,  Vinod Koul
- <vkoul@kernel.org>,  Xiubo Li <Xiubo.Lee@gmail.com>,
-  alsa-devel@alsa-project.org,  imx@lists.linux.dev,
-  linux-rpi-kernel@lists.infradead.org,  linux-sound@vger.kernel.org,
-  linux-stm32@st-md-mailman.stormreply.com,  patches@opensource.cirrus.com
-Subject: Re: [PATCH 3/8] ASoC: meson: switch to use rtd->id from rtd->num
-In-Reply-To: <87wmhyb85l.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
-	Morimoto's message of "Thu, 24 Oct 2024 01:29:27 +0000")
-References: <871q06cmsl.wl-kuninori.morimoto.gx@renesas.com>
-	<87wmhyb85l.wl-kuninori.morimoto.gx@renesas.com>
-Date: Thu, 24 Oct 2024 10:06:15 +0200
-Message-ID: <1ja5eudix4.fsf@starbuckisacylon.baylibre.com>
+	s=arc-20240116; t=1729760634; c=relaxed/simple;
+	bh=Mio5m8DqUhJwOfgpWbjqiiGom/IeRSKtu2AJkhAcOmg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r+UceYnjsYipuMuBLHNlOM0QwZBAHwfJXlJhyOkBUbt2L3xM1KY65nchYBJtfQzzrZ2fZ6NfyaOIrDC+GlNj6AcuQOFknw8eu3MJHOzgxY5+t+x67H56zT+//6vqwW+QCd/x4X/eV3jdLTjfgKboJ+YM6oF59TkNJdhkAldwy+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.ZrObrhz_1729760609 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 24 Oct 2024 17:03:35 +0800
+From: wangweidong.a@awinic.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	pierre-louis.bossart@linux.dev,
+	neil.armstrong@linaro.org,
+	rf@opensource.cirrus.com,
+	arnd@arndb.de,
+	wangweidong.a@awinic.com,
+	luca.ceresoli@bootlin.com,
+	quic_pkumpatl@quicinc.com,
+	herve.codina@bootlin.com,
+	masahiroy@kernel.org,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: yijiangtao@awinic.com
+Subject: [PATCH V2 0/2] ASoC: codecs: Add aw88081 amplifier driver
+Date: Thu, 24 Oct 2024 17:03:22 +0800
+Message-ID: <20241024090324.131731-1-wangweidong.a@awinic.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Thu 24 Oct 2024 at 01:29, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
+From: Weidong Wang <wangweidong.a@awinic.com>
 
-> Now rtd->num is renamed to rtd->id. Let's switch.
->
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Add the awinic,aw88081 property to support the aw88081 chip.
 
-Acked-by: Jerome Brunet <jbrunet@baylibre.com>
+The driver is for amplifiers aw88081 of Awinic Technology
+Corporation. The awinic AW88081 is an I2S/TDM input,
+high efficiency digital Smart K audio amplifier
 
-Just one comment: I understand why you have split this into multiple
-patches, I suppose it will help with the review but I wonder if it
-wouldn't be better to squash it all into a single change before
-applying ? To avoid exposing the intermediate state. It might be
-confusing too. The change would not be that big actually.
+v1 -> v2: Modify the order of properties under the compatible node
+            in the awinic,aw88395.yaml file
+          Modify the commit message of the awinic,aw88395.yaml file
+          Move "struct aw88081" into .c files
+          Changing the order of header files
+          Using return 0 as a function return value
+          Modifying strscpy usage
+          Delete useless variable assignments
+          Modify dev_err_probe usage
 
-Just a suggestion ;)
+Weidong Wang (2):
+  ASoC: dt-bindings: Add schema for "awinic,aw88081"
+  ASoC: codecs: Add aw88081 amplifier driver
 
-> ---
->  sound/soc/meson/axg-card.c | 6 +++---
->  sound/soc/meson/gx-card.c  | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
-> index 5ebf287fe7004..a2dfccb7990f3 100644
-> --- a/sound/soc/meson/axg-card.c
-> +++ b/sound/soc/meson/axg-card.c
-> @@ -43,7 +43,7 @@ static int axg_card_tdm_be_hw_params(struct snd_pcm_substream *substream,
->  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
->  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
->  	struct axg_dai_link_tdm_data *be =
-> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
-> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
->  
->  	return meson_card_i2s_set_sysclk(substream, params, be->mclk_fs);
->  }
-> @@ -56,7 +56,7 @@ static int axg_card_tdm_dai_init(struct snd_soc_pcm_runtime *rtd)
->  {
->  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
->  	struct axg_dai_link_tdm_data *be =
-> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
-> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
->  	struct snd_soc_dai *codec_dai;
->  	int ret, i;
->  
-> @@ -86,7 +86,7 @@ static int axg_card_tdm_dai_lb_init(struct snd_soc_pcm_runtime *rtd)
->  {
->  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
->  	struct axg_dai_link_tdm_data *be =
-> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
-> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
->  	int ret;
->  
->  	/* The loopback rx_mask is the pad tx_mask */
-> diff --git a/sound/soc/meson/gx-card.c b/sound/soc/meson/gx-card.c
-> index 455f6bfc9f8fa..b408cc2bbc919 100644
-> --- a/sound/soc/meson/gx-card.c
-> +++ b/sound/soc/meson/gx-card.c
-> @@ -32,7 +32,7 @@ static int gx_card_i2s_be_hw_params(struct snd_pcm_substream *substream,
->  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
->  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
->  	struct gx_dai_link_i2s_data *be =
-> -		(struct gx_dai_link_i2s_data *)priv->link_data[rtd->num];
-> +		(struct gx_dai_link_i2s_data *)priv->link_data[rtd->id];
->  
->  	return meson_card_i2s_set_sysclk(substream, params, be->mclk_fs);
->  }
+ .../bindings/sound/awinic,aw88395.yaml        |    4 +-
+ sound/soc/codecs/Kconfig                      |   12 +
+ sound/soc/codecs/Makefile                     |    2 +
+ sound/soc/codecs/aw88081.c                    | 1087 +++++++++++++++++
+ sound/soc/codecs/aw88081.h                    |  286 +++++
+ 5 files changed, 1390 insertions(+), 1 deletion(-)
+ create mode 100644 sound/soc/codecs/aw88081.c
+ create mode 100644 sound/soc/codecs/aw88081.h
 
+
+base-commit: c2ee9f594da826bea183ed14f2cc029c719bf4da
 -- 
-Jerome
+2.47.0
+
