@@ -1,45 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55661A0B15;
-	Thu, 24 Oct 2024 07:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6AB189BBB;
+	Thu, 24 Oct 2024 07:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729754160; cv=none; b=uvPlL1Z/H3ZUw86sNrL5wfb3jc2a9qECaiNmI5rFRutloGj5b4CC+sXXJzUA3n+wPs/SqcdoZPGSpwwG3CkHRfE760c0+CD6qN9lF5xcSzTeezERTWsz6/7tbc3Ho/KJKYFT1uEggpj1VIw205h1S5CuNP31BEegZpxUYbzpKNY=
+	t=1729755961; cv=none; b=mqz3Q4uwz3Y5fAh8xhhChLZ98ExbuhvkhqJmuIxh6OU3zP+tNPdqyVPFlcO2+jTKhWkPI1jwqLhBEjZ1DOwKFdhQ9ECMZ0/ie1+ySQaeOCp/eeGMZ2uSqTFzxdFIcjMsgL5ugrbVnzYr1YG053iEGLjsBmKj14pJ9+X5C9GkZNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729754160; c=relaxed/simple;
-	bh=LtkRyFa+ptwpI3BjcDqChmf25+0CofX0xNDvVdF3tjE=;
+	s=arc-20240116; t=1729755961; c=relaxed/simple;
+	bh=T+80owMJgrDDVyRL0LAjbSEBW9ztZO0IsWvfnxMpzZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7LIWlbxn/nXZhfhP9TlWFFxGL7w3izGePEAoUbTGeQEcd0DZRqyZRa/F6LuoJ1GHuJROt6sbzkfP31Qa+ov0QyqKwkwQgCaWHJnJThFV6GD5dxvXFFkVeAS72J3Ox+XN/6USRSX8k3FvmjJzEKq3X5cq9K9HampWtM6TDM5oNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e21QQXKb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=TcyvvyjimXSEEdUmRHDSAHZLH/zWdgGK8tgiLyE4rcmAeOuFBCSYgExSESnP4J/gJShwkc7pVgPC/8oJhDOGUQkmRMTPwHc+h6NPTWE52M4anIUo++BYvxtkDxhSfwQHeJXV5NIXUF1ebtiIIJ1Y3QMgPnkm9D8kvwyuFMGppKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tt1ityiM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e21QQXKb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D103CC4CECC;
-	Thu, 24 Oct 2024 07:15:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tt1ityiM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86070C4CEC7;
+	Thu, 24 Oct 2024 07:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729754159;
-	bh=LtkRyFa+ptwpI3BjcDqChmf25+0CofX0xNDvVdF3tjE=;
+	s=k20201202; t=1729755961;
+	bh=T+80owMJgrDDVyRL0LAjbSEBW9ztZO0IsWvfnxMpzZc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e21QQXKbd//X8OwJs3bVISaxQiWtu3fneFc3BZayNh/BwxO89zUaGZauxCeoJ5kao
-	 UbI4PvEouuSFfPGfZISFvMCLF0ryd0boaYZp0yfXDsWsg3KSaV8Qr3phweel8nE9En
-	 GYpqdARDfy3VXLRQRACLv4Rbc1f8Luk6TiG1DlgOQrpLQ4OZUZ9GMnQR/vYXWzD0fz
-	 gyRNFNfwLyHayyBlY6I5XAeFFhhXl7k3GvPmGQiyj93xhLEPKdETZL1WQvsHl8URJg
-	 9LY4wIQ3Ibz2IzUkJlf2vEsT+rJiAOukekGxobroD7ehkBs1KrothEAKQGQ3rLXKHD
-	 X02d11SX0X52w==
-Date: Thu, 24 Oct 2024 09:15:57 +0200
+	b=Tt1ityiMhdKTNa3OQE0xi1izaNQbq7V4iSTnwz8hIrXm86sAuKUnTVnvRU5cnPaIU
+	 2Ijj75H4fbPWjP0NCtJ88qppe895e7FBMD8aekXUKgaM4pY8mvdN5xww+7YHxuOV7z
+	 12K0i6K597AfMYhbPw0LUPFRtSJbb7EpJAFQpGvNuqlWkGDNIVGrDoLCswyqAjq4a3
+	 4tolrgHS7cm0eMYa72kVjHHpoNnU5P3i8XMXI1Habxq/VfsysLj18ig2PIEcajXnzL
+	 4uK1CWdJyWIqZX916mcSZwZtzwIER6XcmJpH3IkxygSRRj7weXE1TOHyBfPkmPSoze
+	 nO5lw03ZgAexg==
+Date: Thu, 24 Oct 2024 09:45:57 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Chris Morgan <macroalpha82@gmail.com>, Philippe Simons <simons.philippe@gmail.com>, 
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 2/7] dt-bindings: allwinner: add H616 sun4i audio
- codec binding
-Message-ID: <6sj56amrx3dtnznafzsycgq6r6do65uq3z3v3pwbcgwdktqqgo@qbrfpmx22b4s>
-References: <20241023075917.186835-1-ryan@testtoast.com>
- <20241023075917.186835-3-ryan@testtoast.com>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Daniel Baluta <daniel.baluta@nxp.com>, Peng Fan <peng.fan@nxp.com>, Mark Brown <broonie@kernel.org>, 
+	Takashi Iwai <tiwai@suse.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+	Conor Dooley <conor+dt@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Iuliana Prodan <iuliana.prodan@nxp.com>, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: remoteproc: fsl,imx-rproc: add new
+ compatible
+Message-ID: <ub7yylef6qyztjtg3pciamg6jjznxh3ydlqsdcg2xcoxqngpi4@j5jlex4qukyz>
+References: <20241023162114.3354-1-laurentiumihalcea111@gmail.com>
+ <20241023162114.3354-2-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,56 +53,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241023075917.186835-3-ryan@testtoast.com>
+In-Reply-To: <20241023162114.3354-2-laurentiumihalcea111@gmail.com>
 
-On Wed, Oct 23, 2024 at 08:56:58PM +1300, Ryan Walklin wrote:
-> The H616 has an audio codec compatible with the sun4i-a10 driver.
+On Wed, Oct 23, 2024 at 12:21:11PM -0400, Laurentiu Mihalcea wrote:
+> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 > 
-> The codec is relatively cut down compared to some of the other Allwinner
-> SoCs and only has a single line-out route (relying on a separate digital
-> microphone IP block for input). HDMI and SPDIF audio are handled
-> separately by an audio hub IP block, which is not currently implemented
-> in mainline kernels. This requires some additional flexibility in the
-> DMA bindings.
+> Add new compatible for imx95's CM7 with SOF.
 > 
-> Add compatible string and routing for the H616 audio codec, and update
-> the required DMA descriptions.
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> 
+> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 > ---
-> Changelog v1..v2:
-> - Remove PLL_AUDIO_4X clock from definition (defined internally but
->   not used by driver and so not required in DTSI)
-> - Restrict TX-only DMA definition to H616
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 58 +++++++++++++++++--
+>  1 file changed, 53 insertions(+), 5 deletions(-)
 > 
-> Changelog v2..v3:
-> 
-> - Fix missing - in H616 conditional binding reported by dt_binding_check.
-> ---
->  .../sound/allwinner,sun4i-a10-codec.yaml      | 53 ++++++++++++++++---
->  1 file changed, 47 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> index 78273647f7665..ebc9097f936ad 100644
-> --- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
-> @@ -22,6 +22,7 @@ properties:
->        - allwinner,sun8i-a23-codec
->        - allwinner,sun8i-h3-codec
->        - allwinner,sun8i-v3s-codec
-> +      - allwinner,sun50i-h616-codec
+> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> index 57d75acb0b5e..ab0d8e017965 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> @@ -28,6 +28,15 @@ properties:
+>        - fsl,imx8qxp-cm4
+>        - fsl,imx8ulp-cm33
+>        - fsl,imx93-cm33
+> +      - fsl,imx95-cm7-sof
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: dram
+> +      - const: mailbox
 
-Are you keeping preferred ordering of entries? Usually it is
-alphanumerical, but you introduce now by model number.
+That's quite different programming model. Are you sure these are devices
+from similar class/type?
 
->  
->    reg:
->      maxItems: 1
-> @@ -40,14 +41,20 @@ properties:
->        - const: codec
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Your big if:then: block suggests this could be separate binding.
 
 Best regards,
 Krzysztof
