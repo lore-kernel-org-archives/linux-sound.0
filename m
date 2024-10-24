@@ -1,296 +1,147 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F941AE01E
-	for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 08:03:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C1B1AF0AD
+	for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 08:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729756996; cv=none; b=XCBeRZvkA0XR4Y9tYv25xF5X9Xurj14JobhO0EzNKzWrhhDfzogHZBVOU+DlViIDzWk2SPzyzZS62fDUs9iquJL4CeIg3FKwyW/dUn4Owgh3CjNoeoWkdcmdKOoD6fVZbR8ojVNro6HWSquCFPerGa4LRCnN2rnGYnyAW0XJMEA=
+	t=1729757181; cv=none; b=GQ4owHhm2XwodCVwce1NNXjrwu3+CzFM5rAOlk95AxsgPnYTI5/e7U+klbLZqcMBeo7ezRlydtXW19Nf8g//yFqAxh4dpVFSANExuraqGvjvP1rqd3DX3dj5IenWaB1eNrPN9sdjB3YTVnIGyKUtvwKv+15LdNCW6pSzU52RMuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729756996; c=relaxed/simple;
-	bh=OTycrCncHkEXGfL2p1SBTSSa5aZhWjbXFaDOrvd1RvI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=agAksuL191V459UQyaD83zO24llGT3RXGRp0aHK+elvb90v2XdKcOQFS0Tzg5OVkikuY4nQqBExG2/bKoGA76FAbRDUISWf8nNXkq8BCZBod1ft160NQ3ix8IqcvEXEvX1ZlRjDWjewmlmWAgRi4SmRbm2t9gcnSeaP82rwvW40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Je2GElwf; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729757181; c=relaxed/simple;
+	bh=oPU8wiykirsXlfsK3FEHZM1SuFheE2lq9GeofLJroZY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=CwuZdJg0FBQwN3YZ0GnhlleTNWhSYcB1AW12ivGqbwmVIZm+jf1Qkfll+karbluG7RL5jrbayJRa1+gb+VjElAc2EPoRK7CUaPLzHH0P0/6Vzia3b4QiamXawyJ1nihKCxsdLXLRyV//pdSmlO82tyvBABCygx//6KcIZZkmn6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=tul2PD27; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Je2GElwf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729756992;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OTycrCncHkEXGfL2p1SBTSSa5aZhWjbXFaDOrvd1RvI=;
-	b=Je2GElwfatJtiCt1Yh9Kjl3x5jqEbZnjQ99SKFrlc+wrE7W4cJd6iE7Yut4hhJFLiBJycK
-	9jARZ0xmuI4C9y4C4R3BvTQiTAkYI93/DN/Ppnz8NZll9y5jijsRpfvNe7adLlhYVmUYUd
-	dOQDHXf2rSC1H7QRrY2Jcke/ncfReiI=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-389-K1xLdXMHMNSwmpiKAxfpLA-1; Thu, 24 Oct 2024 04:03:10 -0400
-X-MC-Unique: K1xLdXMHMNSwmpiKAxfpLA-1
-Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-71817451e83so682946a34.0
-        for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 01:03:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="tul2PD27"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-431695fa98bso5965785e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 01:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729757177; x=1730361977; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zMW6I0sTEYqubA9v2uS/l/YanQ/0kwQs3KpAh7vOnLI=;
+        b=tul2PD27Eg7pri87MSDYD/U1flfjxrFdxiLyLgQ6etoXLVbIbFonYGd2R5QzZE4uHw
+         OVgeVbW3AEDFD0b/Bl3GwuUqIdhdHxfiCyisVKJsapEtOdKxusImvwaQ6aK+X52Brjg0
+         V5ic/2W+AL0OAQVSvmKiASOXWDX2LUqvdkDvkQE1mAeHY6I3dZ1f+qZo2zC0fy2SIBXx
+         O6k0mCv4nK9qEHHVuz+GIaCia+QBhJEQJdsF75mR+YTLsDTHKBM9cG5UgJztXIbCQzct
+         KlgLLh9wn/qPqUpZwOZAqTEKnpjrlJqlRUb/NsNxB4Ht68tWCc500aj1zd2GOzXctqHE
+         02Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729756989; x=1730361789;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eCHAxEtiIjB9/eMXdwm4L84xFlQFaCf3ZNV6cwdqU9g=;
-        b=KzBCIh4Vfzw/9tbbFG0VpIeY5TKOY29ZGFsZXIHsq95EFqScg37DeMJklCOfZiaw7c
-         ar1pzS1ucLfX5X/BmUal3rVfFLv3W32gqQ8Sfg4L5eyFef6jElMEdPSteQAkr+oRTMfj
-         dcp32uWu/25paxgxG/iliRcXRJczxvfaYw4lAv9iYZZFm6lruVelyXppKk7uwHPfhYOG
-         pzRfL6Ll7OfrWjS4ki47MimHJVkshB5CoAJqxoGsBZ/qEQi4zGKPUqTSGlcEHcfqeQwB
-         cbrCGz1H6NqRYRmId7rAyk7tzZV5aQke9kLV4kUTavSQo1PUloOVVV9Pz3hdcSfiPxu6
-         KFEA==
-X-Forwarded-Encrypted: i=1; AJvYcCX4dt7vOr/7Xw89zE3GwrdW1+7M/Y6AXgJBbIrz4GlU6B9M6RZxdCMsMB5xp06SvbXr4SOGFq7sLQfRjA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2UretifexioVJlCUk7Le9csUpyWebDPReVKj+dxcLiIfG4VHA
-	8wHU/99OoqtsYp2NZoTvya0t6g16lOBeFmAPNotdwYJ2tYmx7+kMFiJS5DeCWA1qxHyj2Tqa9sS
-	vYaKIdKT3vvtbya8QxuUEWBzp9NhZtv1vgM2jDYdfLacpY1RfWOMEjvyBp9r+
-X-Received: by 2002:a05:6830:6dc7:b0:718:c0d:6bdb with SMTP id 46e09a7af769-718598599b9mr736388a34.20.1729756989559;
-        Thu, 24 Oct 2024 01:03:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHVwKg5C+Tp+G04yjB73N1UyaDqsdgqmmyDICp7Nqm80mYC6tnNIzWvedx2PALg7dJ9abA7Jw==
-X-Received: by 2002:a05:6830:6dc7:b0:718:c0d:6bdb with SMTP id 46e09a7af769-718598599b9mr736305a34.20.1729756989132;
-        Thu, 24 Oct 2024 01:03:09 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce0099a79fsm47100376d6.90.2024.10.24.01.03.01
+        d=1e100.net; s=20230601; t=1729757177; x=1730361977;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zMW6I0sTEYqubA9v2uS/l/YanQ/0kwQs3KpAh7vOnLI=;
+        b=i4/pIVYmnGj1Lq3XTFHSPHAEk906bbkAcBkEkbO30W2rLsFDYx8CJ5/5ROawoAwIcR
+         VxWXmM41umdeV9lAb68Aco+jgjzOlCPbWg3Gf9d148ra8/reIq0QPlE2EOJMDH9LL8kY
+         WqDnlkWFz2B8QrZuvrkO/m7FfpCprZlCQxNVa2hQI4QVBsQnyx2s7DsykborJm0dEiFD
+         9ZHXO8OMPGxTkyou4lTbyRn07cwA8fwM++qF1ERiL46j2OLTBrpFwHD7W3qW2L/AJxsR
+         4Kz5MLOj1oOhkx+Q2EGDMlW0g38jAHN/4/AOZg5b5B+aAZgpF78WDqxJfbEW4WlCkxqJ
+         xYNw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+BQs5FwqwEeNQlm7zjh9oGgFhkmi2keU7G46UNN5TgPiV09egxaU5NpNB8izMyzK05vaS7UUkjlz0NQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHKBhSizXQZs/zdAe5cyZQ4XI9TR+HAujqzJkppdrE+ECcjSau
+	6Xo+oZ++If4s5pUk+RaIfB6wQZJJhnpZG2LLr66Nh2Dbrw8zxKuWsCQsCtx3oLo=
+X-Google-Smtp-Source: AGHT+IEoZMVKgD69poA0dFC1qIUTHJdJvAa3Cg9Ax/TeZWkK7ol7nwHmrhD5d8D+xQZ2BLd9/bn72g==
+X-Received: by 2002:adf:e903:0:b0:37c:d001:856f with SMTP id ffacd0b85a97d-380458ee3fbmr839512f8f.56.1729757177038;
+        Thu, 24 Oct 2024 01:06:17 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:c04c:f30a:b45c:dbb])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a64daasm10701229f8f.64.2024.10.24.01.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 01:03:08 -0700 (PDT)
-Message-ID: <aec23bb79b9ff7dd7f13eb67460e0605eac22912.camel@redhat.com>
-Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of
- pcim_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu
- <yi.l.liu@intel.com>,  Christian Brauner <brauner@kernel.org>, Ankit
- Agrawal <ankita@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Reinette
- Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Thu, 24 Oct 2024 10:02:59 +0200
-In-Reply-To: <87ttd2276j.wl-tiwai@suse.de>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	 <20241015185124.64726-3-pstanner@redhat.com> <87v7xk2ps5.wl-tiwai@suse.de>
-	 <6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
-	 <87ttd2276j.wl-tiwai@suse.de>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+        Thu, 24 Oct 2024 01:06:16 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,  Kevin Hilman <khilman@baylibre.com>,
+  Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,  Liam Girdwood
+ <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Sascha Hauer <s.hauer@pengutronix.de>,
+  Shawn Guo <shawnguo@kernel.org>,  Shengjiu Wang
+ <shengjiu.wang@gmail.com>,  Takashi Iwai <tiwai@suse.com>,  Vinod Koul
+ <vkoul@kernel.org>,  Xiubo Li <Xiubo.Lee@gmail.com>,
+  alsa-devel@alsa-project.org,  imx@lists.linux.dev,
+  linux-rpi-kernel@lists.infradead.org,  linux-sound@vger.kernel.org,
+  linux-stm32@st-md-mailman.stormreply.com,  patches@opensource.cirrus.com
+Subject: Re: [PATCH 3/8] ASoC: meson: switch to use rtd->id from rtd->num
+In-Reply-To: <87wmhyb85l.wl-kuninori.morimoto.gx@renesas.com> (Kuninori
+	Morimoto's message of "Thu, 24 Oct 2024 01:29:27 +0000")
+References: <871q06cmsl.wl-kuninori.morimoto.gx@renesas.com>
+	<87wmhyb85l.wl-kuninori.morimoto.gx@renesas.com>
+Date: Thu, 24 Oct 2024 10:06:15 +0200
+Message-ID: <1ja5eudix4.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, 2024-10-23 at 17:03 +0200, Takashi Iwai wrote:
-> On Wed, 23 Oct 2024 15:50:09 +0200,
-> Philipp Stanner wrote:
-> >=20
-> > On Tue, 2024-10-22 at 16:08 +0200, Takashi Iwai wrote:
-> > > On Tue, 15 Oct 2024 20:51:12 +0200,
-> > > Philipp Stanner wrote:
-> > > >=20
-> > > > pci_intx() is a hybrid function which can sometimes be managed
-> > > > through
-> > > > devres. To remove this hybrid nature from pci_intx(), it is
-> > > > necessary to
-> > > > port users to either an always-managed or a never-managed
-> > > > version.
-> > > >=20
-> > > > hda_intel enables its PCI-Device with pcim_enable_device().
-> > > > Thus,
-> > > > it needs
-> > > > the always-managed version.
-> > > >=20
-> > > > Replace pci_intx() with pcim_intx().
-> > > >=20
-> > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > ---
-> > > > =C2=A0sound/pci/hda/hda_intel.c | 2 +-
-> > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > > >=20
-> > > > diff --git a/sound/pci/hda/hda_intel.c
-> > > > b/sound/pci/hda/hda_intel.c
-> > > > index b4540c5cd2a6..b44ca7b6e54f 100644
-> > > > --- a/sound/pci/hda/hda_intel.c
-> > > > +++ b/sound/pci/hda/hda_intel.c
-> > > > @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx
-> > > > *chip,
-> > > > int do_disconnect)
-> > > > =C2=A0=09}
-> > > > =C2=A0=09bus->irq =3D chip->pci->irq;
-> > > > =C2=A0=09chip->card->sync_irq =3D bus->irq;
-> > > > -=09pci_intx(chip->pci, !chip->msi);
-> > > > +=09pcim_intx(chip->pci, !chip->msi);
-> > > > =C2=A0=09return 0;
-> > > > =C2=A0}
-> > > > =C2=A0
-> > >=20
-> > > Hm, it's OK-ish to do this as it's practically same as what
-> > > pci_intx()
-> > > currently does.=C2=A0 But, the current code can be a bit inconsistent
-> > > about
-> > > the original intx value.=C2=A0 pcim_intx() always stores !enable to
-> > > res->orig_intx unconditionally, and it means that the orig_intx
-> > > value
-> > > gets overridden at each time pcim_intx() gets called.
-> >=20
-> > Yes.
-> >=20
-> > >=20
-> > > Meanwhile, HD-audio driver does release and re-acquire the
-> > > interrupt
-> > > after disabling MSI when something goes wrong, and pci_intx()
-> > > call
-> > > above is a part of that procedure.=C2=A0 So, it can rewrite the
-> > > res->orig_intx to another value by retry without MSI.=C2=A0 And after
-> > > the
-> > > driver removal, it'll lead to another state.
-> >=20
-> > I'm not sure that I understand this paragraph completely. Still,
-> > could
-> > a solution for the driver on the long-term just be to use
-> > pci_intx()?
->=20
-> pci_intx() misses the restore of the original value, so it's no
-> long-term solution, either.
+On Thu 24 Oct 2024 at 01:29, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Sure that is missing =E2=80=93 I was basically asking whether the driver co=
-uld
-live without that feature.
+> Now rtd->num is renamed to rtd->id. Let's switch.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Consider that point obsolete, see below
+Acked-by: Jerome Brunet <jbrunet@baylibre.com>
 
->=20
-> What I meant is that pcim_intx() blindly assumes the negative of the
-> passed argument as the original state, which isn't always true.=C2=A0 e.g=
-.
-> when the driver calls it twice with different values, a wrong value
-> may be remembered.
+Just one comment: I understand why you have split this into multiple
+patches, I suppose it will help with the review but I wonder if it
+wouldn't be better to squash it all into a single change before
+applying ? To avoid exposing the intermediate state. It might be
+confusing too. The change would not be that big actually.
 
-Ah, I see =E2=80=93 thoguh the issue is when it's called several times with=
- the
-*same* value, isn't it?
+Just a suggestion ;)
 
-E.g.
+> ---
+>  sound/soc/meson/axg-card.c | 6 +++---
+>  sound/soc/meson/gx-card.c  | 2 +-
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/sound/soc/meson/axg-card.c b/sound/soc/meson/axg-card.c
+> index 5ebf287fe7004..a2dfccb7990f3 100644
+> --- a/sound/soc/meson/axg-card.c
+> +++ b/sound/soc/meson/axg-card.c
+> @@ -43,7 +43,7 @@ static int axg_card_tdm_be_hw_params(struct snd_pcm_substream *substream,
+>  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+>  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
+>  	struct axg_dai_link_tdm_data *be =
+> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
+> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
+>  
+>  	return meson_card_i2s_set_sysclk(substream, params, be->mclk_fs);
+>  }
+> @@ -56,7 +56,7 @@ static int axg_card_tdm_dai_init(struct snd_soc_pcm_runtime *rtd)
+>  {
+>  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
+>  	struct axg_dai_link_tdm_data *be =
+> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
+> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
+>  	struct snd_soc_dai *codec_dai;
+>  	int ret, i;
+>  
+> @@ -86,7 +86,7 @@ static int axg_card_tdm_dai_lb_init(struct snd_soc_pcm_runtime *rtd)
+>  {
+>  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
+>  	struct axg_dai_link_tdm_data *be =
+> -		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->num];
+> +		(struct axg_dai_link_tdm_data *)priv->link_data[rtd->id];
+>  	int ret;
+>  
+>  	/* The loopback rx_mask is the pad tx_mask */
+> diff --git a/sound/soc/meson/gx-card.c b/sound/soc/meson/gx-card.c
+> index 455f6bfc9f8fa..b408cc2bbc919 100644
+> --- a/sound/soc/meson/gx-card.c
+> +++ b/sound/soc/meson/gx-card.c
+> @@ -32,7 +32,7 @@ static int gx_card_i2s_be_hw_params(struct snd_pcm_substream *substream,
+>  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+>  	struct meson_card *priv = snd_soc_card_get_drvdata(rtd->card);
+>  	struct gx_dai_link_i2s_data *be =
+> -		(struct gx_dai_link_i2s_data *)priv->link_data[rtd->num];
+> +		(struct gx_dai_link_i2s_data *)priv->link_data[rtd->id];
+>  
+>  	return meson_card_i2s_set_sysclk(substream, params, be->mclk_fs);
+>  }
 
-pcim_intx(pdev, 1); // 0 is remembered as the old value
-pcim_intx(pdev, 1); // 0 is falsely remembered as the old value
-
-Also, it would seem that calling the function for the first time like
-that:
-
-pcim_intx(pdev, 0); // old value: 1
-
-is at least incorrect, because INTx should be 0 per default, shouldn't
-it? Could then even be a 1st class bug, because INTx would end up being
-enabled despite having been disabled all the time.
-
->=20
-> That said, I thought of something like below.
-
-At first glance that looks like a good idea to me, thanks for working
-this out!
-
-IMO you can submit that as a patch so we can discuss it separately.
-
-Greetings,
-Philipp
-
->=20
->=20
-> thanks,
->=20
-> Takashi
->=20
-> -- 8< --
-> --- a/drivers/pci/devres.c
-> +++ b/drivers/pci/devres.c
-> @@ -438,8 +438,17 @@ static void pcim_intx_restore(struct device
-> *dev, void *data)
-> =C2=A0=09__pcim_intx(pdev, res->orig_intx);
-> =C2=A0}
-> =C2=A0
-> -static struct pcim_intx_devres *get_or_create_intx_devres(struct
-> device *dev)
-> +static void save_orig_intx(struct pci_dev *pdev)
-> =C2=A0{
-> +=09u16 pci_command;
-> +
-> +=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
-> +=09res->orig_intx =3D !(pci_command & PCI_COMMAND_INTX_DISABLE);
-> +}
-> +
-> +static struct pcim_intx_devres *get_or_create_intx_devres(struct
-> pci_dev *pdev)
-> +{
-> +=09struct device *dev =3D &pdev->dev;
-> =C2=A0=09struct pcim_intx_devres *res;
-> =C2=A0
-> =C2=A0=09res =3D devres_find(dev, pcim_intx_restore, NULL, NULL);
-> @@ -447,8 +456,10 @@ static struct pcim_intx_devres
-> *get_or_create_intx_devres(struct device *dev)
-> =C2=A0=09=09return res;
-> =C2=A0
-> =C2=A0=09res =3D devres_alloc(pcim_intx_restore, sizeof(*res),
-> GFP_KERNEL);
-> -=09if (res)
-> +=09if (res) {
-> +=09=09save_orig_intx(pdev);
-> =C2=A0=09=09devres_add(dev, res);
-> +=09}
-> =C2=A0
-> =C2=A0=09return res;
-> =C2=A0}
-> @@ -467,11 +478,10 @@ int pcim_intx(struct pci_dev *pdev, int enable)
-> =C2=A0{
-> =C2=A0=09struct pcim_intx_devres *res;
-> =C2=A0
-> -=09res =3D get_or_create_intx_devres(&pdev->dev);
-> +=09res =3D get_or_create_intx_devres(pdev);
-> =C2=A0=09if (!res)
-> =C2=A0=09=09return -ENOMEM;
-> =C2=A0
-> -=09res->orig_intx =3D !enable;
-> =C2=A0=09__pcim_intx(pdev, enable);
-> =C2=A0
-> =C2=A0=09return 0;
->=20
-
+-- 
+Jerome
