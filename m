@@ -1,84 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CED158858;
-	Thu, 24 Oct 2024 12:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03BB1D63FD
+	for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 14:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729772148; cv=none; b=e0wydcMGwodoNT09VvoHHGUnX4ap/k2hItYuBJ+8Qie0EV7Tm7xhHP+wkCd2oh3ci+xeU89rZ5+IqfVB6HF5FeJm0t4bXRD/BDvNt7b3rA5Qr7IOvxrmMDzmEvsDUcr6EaTvTPuEaquFh2AcuZC85qWIAbO+/CEv89eQathI5LI=
+	t=1729780415; cv=none; b=mGle1drKGUb0/BO4xVIQf5wgEFBmlVX6YIWJGXLABNIqONof6bBydyhzxB8Yccbquf8+nnvroL6Sm0VzO2IPiGk2xNZ4qa2OPyK64dw0g9JPrSnHIQ7dnDTsxqJ33CzPNF5k7/7JvF2WIN0cg9DnJ0R+DvVV78cLoV4hqEG28cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729772148; c=relaxed/simple;
-	bh=RfdjdiQYotlIUhZ8rHFChi1FV177D7ZDIqtYjtsWyw4=;
+	s=arc-20240116; t=1729780415; c=relaxed/simple;
+	bh=WBTalTM5o3V5RfIFTm9CZv/cutZeac0aa2X9abX6esY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTwDDs4TQzeWByT35qE8ZrP4kBij0ar6qe5DQl6e6cIToFBu3JIUNU2l/ERL0evYht4AwB/V/9LzCdeFx8QzgQtxkcIbnDAYwGlnlB9LYLKRwe5FgXOU+WTzDsfXqAhVfbLV0MPa5yBfPhZJjuywSItSahHD/aeo9BBLBHrmVJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jGI5GtDd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nP/xYzd8wBk8oaGv8Sw3RnWudGOwB1qqfS0IPoCoDM6RJ0rXuTbNoEPgFWIpblNBa4vBAjPUcYpl/ROE9C8TN3n0KM8lmQoAKV5J4XRvg1+hLuGyKeAl5clvGofz8H/Ub5Sn1L2a+rSYQEJejIy0cwZuZCD6ZgorvCx90IEt2ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BBM+Ljkw; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jGI5GtDd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DF1C4CEC7;
-	Thu, 24 Oct 2024 12:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729772147;
-	bh=RfdjdiQYotlIUhZ8rHFChi1FV177D7ZDIqtYjtsWyw4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jGI5GtDdhYHB3Ie0tMKjkC4qM1M44gkbtu2iUam3ftfeLWXQIsYAlAyEbfhezwBGF
-	 oSwEqq/kgAJjMioRW7ExqT0BwR7Gy3adP82hdl/AnXDyq9yY1sg2DEVJeLdx//O1Ja
-	 KNYFxsJsP2KYEOloEXiDXvludUaXRLMoPwSDn4gA20cNJNL8e6QIlwDvT0yEfouvIQ
-	 v0LDvwQdT0GXkus6JbiJAj/VOpu2LgK/06iPsl9gcEDiQpDOVep8omBKNmqfVHWc5O
-	 w8xrkfr1wg0VTJQOLomnFfQCEpCRmrKQF78OoBErm19ekPUrADWpGOHon/AP0YBQjm
-	 kO9RK3898aY3w==
-Date: Thu, 24 Oct 2024 13:15:42 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chris Morgan <macroalpha82@gmail.com>,
-	Philippe Simons <simons.philippe@gmail.com>,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] ASoC: add Allwinner H616 audio codec support
-Message-ID: <8b902b84-6199-4149-ae40-725fdbc33a5b@sirena.org.uk>
-References: <20241023075917.186835-1-ryan@testtoast.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BBM+Ljkw"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20cf3e36a76so9449225ad.0
+        for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 07:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729780413; x=1730385213; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=deK4DomWPJydxnpax2btzYZb2iY+zRxceQoLFulpLGg=;
+        b=BBM+LjkwbCdqu3Ioma7zSe3Phqav4NckybhIAwjXY61uz/AAnSA1K/afhdwdYLgXZT
+         tO9b5wl6hFfgbsGQkrrW19zHnBja1CyfR7p2BXsg/47JYQMUjNHWBF4ZYLRQBsn3wIgx
+         R129KtV5BhggHg8XhVcuu/mfKesgwqiTgRkbcmRoCj8n0MU/T/IHHgfFzQ/bSUYX0/Md
+         wGHFW25vQbl4YxuLaE0ZNZ1zYXYFBHJCvtK4HBaZG+4T4vPGVv6aB4tHfkOcmBg2+EFS
+         QRBiTE0W6ooZgd5TgtIJkqgmkd53R15DxOqlgIRB2jIv/gWNjh/KcZVfcH3PyvmJ4j+8
+         3quw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729780413; x=1730385213;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=deK4DomWPJydxnpax2btzYZb2iY+zRxceQoLFulpLGg=;
+        b=mPn3gilTZDUdcBtavmkk+VCB4RNMgR56FKRGLO7EemULa6Kd0unn2acublsxx6awqk
+         q/GUa18sevtH470tRqWZZkaU1bgJ72AJJRe2g1n+ndSWGrkvN9Zdhrd6yw6jFFDU/fcM
+         7aQXNor1drDKBskI3mFPmOWp9e4IvsyNb0AZXVs0JNB07wXdeHqgy3BHJBcvzVbtJZSn
+         nWgkPtNlUsA0Y6OkAl+bnHQGPfQbJTy2ENt2ypdGBoEAoN+88jfI6Tu4O0wb5NtxRlka
+         hL5tj9KW44UYIaNmnOwtaBhVJDZ7OZYRyVIT7W8kvxAn6xjeJMTA+K58YUzEOEBduxlB
+         QzeA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3P3q47UQhgbK2nd6axCII12hIFWAcAjXH503d+It/BJkajRoNtpqUXeKAK7OlSZXAQ3ZfISO/UVPNeA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGO0qKsMl62zLJvOQ4D+rmthExIs8boAA09xVntGH6nfPcjhpI
+	FWSeRukbMDSDt8BQWuTdVqJKywgtgvyklxxRPXcjp33M5T1sGb/fK9YC07EwOgA=
+X-Google-Smtp-Source: AGHT+IF2QHwGQNfnbzeB+vGVeNFxEkbVpRfo0zDrRN0S9cesanZ47dqvPBfNb4vh5OOx0sxq3LEACg==
+X-Received: by 2002:a17:903:234c:b0:20c:d2d9:765c with SMTP id d9443c01a7336-20fa9e09acbmr77487705ad.15.1729780413199;
+        Thu, 24 Oct 2024 07:33:33 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:7c96:e131:bee8:c8a4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0bd5ddsm73207425ad.141.2024.10.24.07.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 07:33:32 -0700 (PDT)
+Date: Thu, 24 Oct 2024 08:33:28 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>,
+	linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: remoteproc: fsl,imx-rproc: add new
+ compatible
+Message-ID: <ZxpauMKLcSz73y3B@p14s>
+References: <20241023162114.3354-1-laurentiumihalcea111@gmail.com>
+ <20241023162114.3354-2-laurentiumihalcea111@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="/yr4JFcgoKNigDoS"
-Content-Disposition: inline
-In-Reply-To: <20241023075917.186835-1-ryan@testtoast.com>
-X-Cookie: Real programs don't eat cache.
-
-
---/yr4JFcgoKNigDoS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241023162114.3354-2-laurentiumihalcea111@gmail.com>
 
-On Wed, Oct 23, 2024 at 08:56:56PM +1300, Ryan Walklin wrote:
+Good day,
 
-> V3 of this patch adding support for the Allwinner H616 (and variant)'s audio codec. Some clarification of comments, particularly regarding the clock driver changes, and a small fix for the device tree binding (apologies I forgot to re-run dt_binding_check on V2). Review comments otherwise addressed and reviews noted.
+On Wed, Oct 23, 2024 at 12:21:11PM -0400, Laurentiu Mihalcea wrote:
+> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> 
+> Add new compatible for imx95's CM7 with SOF.
+> 
+> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> ---
+>  .../bindings/remoteproc/fsl,imx-rproc.yaml    | 58 +++++++++++++++++--
+>  1 file changed, 53 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> index 57d75acb0b5e..ab0d8e017965 100644
+> --- a/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> +++ b/Documentation/devicetree/bindings/remoteproc/fsl,imx-rproc.yaml
+> @@ -28,6 +28,15 @@ properties:
+>        - fsl,imx8qxp-cm4
+>        - fsl,imx8ulp-cm33
+>        - fsl,imx93-cm33
+> +      - fsl,imx95-cm7-sof
 
-Please fix your mail client to word wrap within paragraphs at something
-substantially less than 80 columns.  Doing this makes your messages much
-easier to read and reply to.
+Why is this added in the remoteproc bindings when the driver is
+sound/soc/sof/imx/imx95.c?
 
---/yr4JFcgoKNigDoS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcaOm0ACgkQJNaLcl1U
-h9CjYAf+NQxORVWrFlO5dvxx0/C3SPj6ZxsrXWYL8XAnrgib9VRazo1qHMG58PP4
-rqogcBGonb3iWkcRL1Nlnlme2Acw6sSYJDW3bnHtMbDT46qs+AjZlem5hOrts1RU
-lLx3mRCwgYDYOaBKCKB/Rmis8Uxc3jNyC9jlz+dd9wgDSDEkdBPafRi/29hlnAYN
-MnqOYuSIovdCbLSFtaTlY/O+aLeU0rA1vWkIrXiTU++hN2Z1SMtMCXSfXR20Ihem
-noJVhgWBwai4QZ3tEjd+0cFHrO+OHfsvq7yw/etcOGog/1CRFQUvWeVGJ47JKTOe
-DrBkGHNVC0VSG5p5PHxuzl6T565c6Q==
-=ZTjS
------END PGP SIGNATURE-----
-
---/yr4JFcgoKNigDoS--
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  reg-names:
+> +    items:
+> +      - const: dram
+> +      - const: mailbox
+>  
+>    clocks:
+>      maxItems: 1
+> @@ -38,10 +47,8 @@ properties:
+>        Phandle to syscon block which provide access to System Reset Controller
+>  
+>    mbox-names:
+> -    items:
+> -      - const: tx
+> -      - const: rx
+> -      - const: rxdb
+> +    minItems: 1
+> +    maxItems: 4
+>  
+>    mboxes:
+>      description:
+> @@ -49,7 +56,7 @@ properties:
+>        List of <&phandle type channel> - 1 channel for TX, 1 channel for RX, 1 channel for RXDB.
+>        (see mailbox/fsl,mu.yaml)
+>      minItems: 1
+> -    maxItems: 3
+> +    maxItems: 4
+>  
+>    memory-region:
+>      description:
+> @@ -84,6 +91,10 @@ properties:
+>        This property is to specify the resource id of the remote processor in SoC
+>        which supports SCFW
+>  
+> +  port:
+> +    $ref: /schemas/sound/audio-graph-port.yaml#
+> +    unevaluatedProperties: false
+> +
+>  required:
+>    - compatible
+>  
+> @@ -114,6 +125,43 @@ allOf:
+>        properties:
+>          power-domains: false
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx95-cm7-sof
+> +    then:
+> +      properties:
+> +        mboxes:
+> +          minItems: 4
+> +        mbox-names:
+> +          items:
+> +            - const: txdb0
+> +            - const: txdb1
+> +            - const: rxdb0
+> +            - const: rxdb1
+> +        memory-region:
+> +          maxItems: 1
+> +      required:
+> +        - reg
+> +        - reg-names
+> +        - mboxes
+> +        - mbox-names
+> +        - memory-region
+> +        - port
+> +    else:
+> +      properties:
+> +        reg: false
+> +        reg-names: false
+> +        mboxes:
+> +          maxItems: 3
+> +        mbox-names:
+> +          items:
+> +            - const: tx
+> +            - const: rx
+> +            - const: rxdb
+> +        port: false
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> -- 
+> 2.34.1
+> 
