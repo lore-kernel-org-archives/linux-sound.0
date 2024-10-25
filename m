@@ -1,185 +1,178 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 591391D26E7;
-	Fri, 25 Oct 2024 09:38:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82001D359A
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 09:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729849134; cv=none; b=fW1hmOCY10RJQjshdbpUzSp6wB1H0o4JMBDYcYhXaUwOvY+L6Y7bRGrBB/A7cwdU1hdIbhKCvdfGYHQi1Ecm0M4gwpSVVpsW/ETuyIq64ThGCGDhFex9njNDVM3GLOIO2nExOfFdX1DBYOJW7UlX+AmjlChcDihzlq1vseHIc7M=
+	t=1729849153; cv=none; b=mkAZXx30iAiMgYrYigXvnYriWWh3DaK7+caIcB77tqdgcXazNQJzfkRAdOaaMaw6zbcZcZ6+9b3x9/ec2hXn4cZnnuLL+20BOLnKRZCyiw5vVaYJuslWu5XBmYihvvjM+v4jlDFligQ6Z3KTf0cS21eJKBjF39YkAwbb/o0NU3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729849134; c=relaxed/simple;
-	bh=+Q5754NxjzIaGCjBE8cr3K9Tgne9Hh3xvSdv5A40ttE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sYKJi11Wv/FmSpTLji5O6E81uIU53+J6s4d1f+G3JbS1YzMWh6wdJuOIcc/qq3YMZyJ9sQKq/ndI5Dr4c6BUcAQcHi1Lc3Kj8u2f+5PE7e9sxP4ag1/YacLjT3qAtOZUk0gf/7zyadM7W/ew/Rtq99no/Gvg89HZ/BHbsWxlS+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A1BF339;
-	Fri, 25 Oct 2024 02:39:20 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4FA13F528;
-	Fri, 25 Oct 2024 02:38:47 -0700 (PDT)
-Date: Fri, 25 Oct 2024 10:38:41 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] clk: sunxi-ng: h616: Add sigma-delta modulation
- settings for audio PLL
-Message-ID: <20241025103828.41f459b5@donnerap.manchester.arm.com>
-In-Reply-To: <20241023075917.186835-2-ryan@testtoast.com>
-References: <20241023075917.186835-1-ryan@testtoast.com>
-	<20241023075917.186835-2-ryan@testtoast.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1729849153; c=relaxed/simple;
+	bh=jQ//5HHZH8T6N5pVwaDjObpUIcEBoVlNXkQjjBxrApE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OiklT81As3Ow0ZE412i65KMvpL9UbuQhQwngavoJhGRFnj9fZNdoVxgN1PDexNLzfRYab/1TO8gag3L8ilQZ0ACIe5G8BAPaK6SWZ41uiUptg4mYE8kCB72l7EJbNBsLxhnlUgfFCw3Elt9M+f5gwj0kTtB4yR0Z+H6gzKgg8tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oa818Osb; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=aOnEYfgr; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=L1bDVkOr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=yBKIq3/c; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oa818Osb";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aOnEYfgr";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="L1bDVkOr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="yBKIq3/c"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E44461F7E0;
+	Fri, 25 Oct 2024 09:39:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729849149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EOGae0MXifI2pSigJrzQ5lwio+kAQy4dTwxC2t7bxJo=;
+	b=oa818OsbjphoGO6LxsyQyEayufnvDpnLTyqoZhAl4Od1Vtz3uFoc9G/fwT8bH1hoANQsDz
+	PRLpKYuo1wWrlgKE1yhdIsLdl4KAZcGX+k9yT63o2pv7oHrLZvTQh3rnFg4r3mj3ggWsKw
+	5cSVLytroakyimgSeyYUploSNUB9ufs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729849149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EOGae0MXifI2pSigJrzQ5lwio+kAQy4dTwxC2t7bxJo=;
+	b=aOnEYfgrgoYsE0U7r8K9780BPvEEBVDA86C94Hm5LilcNmJzL0ykd+tSKfcxlUOXlMw/VR
+	TQYW77b4xObgrECw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=L1bDVkOr;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="yBKIq3/c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729849148; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EOGae0MXifI2pSigJrzQ5lwio+kAQy4dTwxC2t7bxJo=;
+	b=L1bDVkOrV2n/VKdLf7R2Kww/oaW4xNPk8o+vj9IYdn8EqiQT5bXmVPh1cWDqNXg36XmGNS
+	p3QzIbf8hqPPQ/r2yOPicLZfyisS7NKuEoX0MUKF2whpGSMqK44P1lsan7uK/B46+WySzZ
+	mFQfz23Cb5NO9MeyZSXGSt9xDwIjOwI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729849148;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=EOGae0MXifI2pSigJrzQ5lwio+kAQy4dTwxC2t7bxJo=;
+	b=yBKIq3/cgb3Kea0fSjUlkmcktX2G7zi4eIOg50+mYS/5X48ttTzn3U0slhkmLHOVTwWPRP
+	JoCGenZLLrdG38Bg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A83AE132D3;
+	Fri, 25 Oct 2024 09:39:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wAnrJzxnG2d0egAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 25 Oct 2024 09:39:08 +0000
+Date: Fri, 25 Oct 2024 11:40:09 +0200
+Message-ID: <871q04ttae.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,	Jaroslav Kysela <perex@perex.cz>,	Linux
+ Sound ML <linux-sound@vger.kernel.org>,	Mark Brown <broonie@kernel.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,	Amadeusz =?ISO-8859-2?Q?S=B3awi?=
+ =?ISO-8859-2?Q?=F1ski?= <amadeuszx.slawinski@linux.intel.com>,	Pierre-Louis
+ Bossart <pierre-louis.bossart@linux.dev>,	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH v6] ALSA: compress_offload: introduce accel operation mode
+In-Reply-To: <CAA+D8AN+x72+898v+VuLqwxT5Vh3KVBabkuArH6Cs49w-ZDs8g@mail.gmail.com>
+References: <20241002093904.1809799-1-perex@perex.cz>
+	<87seso2pgm.wl-tiwai@suse.de>
+	<875xpgtv9o.wl-tiwai@suse.de>
+	<CAA+D8AN+x72+898v+VuLqwxT5Vh3KVBabkuArH6Cs49w-ZDs8g@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: E44461F7E0
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email,suse.de:email,suse.de:dkim,suse.de:mid,linux.dev:email]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-On Wed, 23 Oct 2024 20:56:57 +1300
-Ryan Walklin <ryan@testtoast.com> wrote:
-
-Hi Ryan,
-
-> Allwinner has previously released a H616 audio driver which also
-> provides sigma-delta modulation for the audio PLL clocks. This approach
-> is used in other Allwinner SoCs, including the H3 and A64.
+On Fri, 25 Oct 2024 11:15:58 +0200,
+Shengjiu Wang wrote:
 > 
-> The manual-provided clock values are:
-> PLL_AUDIO(hs) = 24 MHz*N/M1
-> PLL_AUDIO(4X) = 24 MHz*N/M0/M1/P
-> PLL_AUDIO(2X) = 24 MHz*N/M0/M1/P/2
-> PLL_AUDIO(1X) = 24 MHz*N/M0/M1/P/4
+> On Fri, Oct 25, 2024 at 4:56 PM Takashi Iwai <tiwai@suse.de> wrote:
+> >
+> > On Tue, 22 Oct 2024 16:15:53 +0200,
+> > Takashi Iwai wrote:
+> > >
+> > > On Wed, 02 Oct 2024 11:39:04 +0200,
+> > > Jaroslav Kysela wrote:
+> > > >
+> > > > There is a requirement to expose the audio hardware that accelerates various
+> > > > tasks for user space such as sample rate converters, compressed
+> > > > stream decoders, etc.
+> > > >
+> > > > This is description for the API extension for the compress ALSA API which
+> > > > is able to handle "tasks" that are not bound to real-time operations
+> > > > and allows for the serialization of operations.
+> > > >
+> > > > For details, refer to "compress-accel.rst" document.
+> > > >
+> > > > Cc: Mark Brown <broonie@kernel.org>
+> > > > Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
+> > > > Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> > > > Cc: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+> > > > Cc: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+> > > > Cc: Vinod Koul <vkoul@kernel.org>
+> > > > Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+> > >
+> > > Are there any objections to this extension?
+> > > Otherwise I'd like to pick up for 6.13.
+> >
+> > Now the patch got merged to for-next branch for 6.13.
+> >
+> > I opened a topic branch "topic/compress-accel" that is cleanly based
+> > on 6.12-rc4.  The further development can be based on this one.
+> >
 > 
-> A fixed post-divider of 2 is used to account for a M0 divider of
-> 2, which cannot be modelled by the existing macros and ccu_nm struct.
-> 
-> Add SDM to the H616 clock control unit driver.
+> Should I send v5 to drop this commit from my v4 series?
+> [PATCH v4 0/7] ASoC: fsl: add memory to memory function for ASRC
 
-Thanks for the changes in the comments, that looks all good to me. I am
-still scratching my head on why Allwinner promotes odd dividers, when
-they somewhat warn about them in the manual, but I trust the wisdom of the
-BSP here, and it certainly works. If any issues arise, we can always fix
-that later.
+Yes, it's better to have a refreshed series.
 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
 
-Confirmed that the registers and bits match the manual, and the SDM values
-also add up to reach those frequencies:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> 
-> ---
-> Changelog v1..v2:
-> - Add fixed_post_div to high-speed audio clock to correct M0 value to 1 (ie divide by 2) based on manual
-> - Correct PLL_AUDIO_(4/2/1)X clocks to manual-provided values
-> - Add/correct inline comments for the above.
-> - add CCU_FEATURE_FIXED_POSTDIV to pll_audio_hs_clk.common.features
-> 
-> Changelog v2..v3:
-> - Update comments and commit message to more accurately reflect SDM changes and rationale
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 46 +++++++++++++++++---------
->  1 file changed, 30 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> index 6c7623d4c59ea..05727fa1ee46e 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> @@ -215,20 +215,30 @@ static struct ccu_nkmp pll_de_clk = {
->  	},
->  };
->  
-> -/*
-> - * TODO: Determine SDM settings for the audio PLL. The manual suggests
-> - * PLL_FACTOR_N=16, PLL_POST_DIV_P=2, OUTPUT_DIV=2, pattern=0xe000c49b
-> - * for 24.576 MHz, and PLL_FACTOR_N=22, PLL_POST_DIV_P=3, OUTPUT_DIV=2,
-> - * pattern=0xe001288c for 22.5792 MHz.
-> - * This clashes with our fixed PLL_POST_DIV_P.
-> +/* 
-> + * Sigma-delta modulation settings table obtained from the vendor SDK driver.
-> + * There are additional M0 and M1 divider bits not modelled here, so forced to
-> + * fixed values in the probe routine. Sigma-delta modulation allows providing a
-> + * fractional-N divider in the PLL, to help reaching those specific
-> + * frequencies with less error.
->   */
-> +static struct ccu_sdm_setting pll_audio_sdm_table[] = {
-> +	{ .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
-> +	{ .rate = 98304000, .pattern = 0xc001eb85, .m = 5, .n = 40 },
-> +};
-> +
->  #define SUN50I_H616_PLL_AUDIO_REG	0x078
->  static struct ccu_nm pll_audio_hs_clk = {
->  	.enable		= BIT(31),
->  	.lock		= BIT(28),
->  	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> -	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-> +	.m		= _SUNXI_CCU_DIV(16, 6),
-> +	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table,
-> +					 BIT(24), 0x178, BIT(31)),
-> +	.fixed_post_div = 2,
->  	.common		= {
-> +		.features	= CCU_FEATURE_FIXED_POSTDIV | 
-> +				  CCU_FEATURE_SIGMA_DELTA_MOD,
->  		.reg		= 0x078,
->  		.hw.init	= CLK_HW_INIT("pll-audio-hs", "osc24M",
->  					      &ccu_nm_ops,
-> @@ -701,18 +711,20 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
->  };
->  
->  /*
-> - * The divider of pll-audio is fixed to 24 for now, so 24576000 and 22579200
-> - * rates can be set exactly in conjunction with sigma-delta modulation.
-> + * The PLL_AUDIO_4X clock defaults to 24.5714 MHz according to the manual, with 
-> + * a final divider of 1. The 2X and 1X clocks use 2 and 4 respectively. The 1x 
-> + * clock is set to either 24576000 or 22579200 for 48Khz and 44.1Khz (and 
-> + * multiples).
->   */
->  static CLK_FIXED_FACTOR_HWS(pll_audio_1x_clk, "pll-audio-1x",
->  			    clk_parent_pll_audio,
-> -			    96, 1, CLK_SET_RATE_PARENT);
-> +			    4, 1, CLK_SET_RATE_PARENT);
->  static CLK_FIXED_FACTOR_HWS(pll_audio_2x_clk, "pll-audio-2x",
->  			    clk_parent_pll_audio,
-> -			    48, 1, CLK_SET_RATE_PARENT);
-> +			    2, 1, CLK_SET_RATE_PARENT);
->  static CLK_FIXED_FACTOR_HWS(pll_audio_4x_clk, "pll-audio-4x",
->  			    clk_parent_pll_audio,
-> -			    24, 1, CLK_SET_RATE_PARENT);
-> +			    1, 1, CLK_SET_RATE_PARENT);
->  
->  static const struct clk_hw *pll_periph0_parents[] = {
->  	&pll_periph0_clk.common.hw
-> @@ -1162,12 +1174,14 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
->  	}
->  
->  	/*
-> -	 * Force the post-divider of pll-audio to 12 and the output divider
-> -	 * of it to 2, so 24576000 and 22579200 rates can be set exactly.
-> +	 * Set the output-divider for the pll-audio clocks (M0) to 2 and the
-> +	 * input divider (M1) to 1 as recommended by the manual when using 
-> +	 * SDM. 
->  	 */
->  	val = readl(reg + SUN50I_H616_PLL_AUDIO_REG);
-> -	val &= ~(GENMASK(21, 16) | BIT(0));
-> -	writel(val | (11 << 16) | BIT(0), reg + SUN50I_H616_PLL_AUDIO_REG);
-> +	val &= ~BIT(1);
-> +	val |= BIT(0);
-> +	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
->  
->  	/*
->  	 * First clock parent (osc32K) is unusable for CEC. But since there
-
+Takashi
