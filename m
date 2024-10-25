@@ -1,129 +1,93 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDA71DAC96;
-	Fri, 25 Oct 2024 10:55:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABA01F7558
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 12:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729853714; cv=none; b=OFoD7EUuUOadoy7Z4al5kK4ylPMw7aAG+aqz0FUu0N7rkEAl09ZaoyW3OrIMDtuKSnyyb1h16em1wYyLphLXtWbgHV/gADZ2pkTCDUhQh/lmEpdaq2mqJ4eO79AHk8bf8KwYCkKnuL29vQIqsqapLGNDfHjz8Vynlkf9pbS5Y9E=
+	t=1729860104; cv=none; b=FklsYk1zxLge1OxZX25wS0JlDcvU6wXy7LWqwJk0qfyWEcUYyXXcn0yqRpgaP+PwjzGd3IcMXMcCC31xpN0bH+hHYPBxDr+EYQ12HffYsRAsodz9A/DFuKifjLRO7ABGdoQvdRiQZBJET0A8tDqAQDpbDK9EMctP0yy9Grtja40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729853714; c=relaxed/simple;
-	bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=H+kfUBQ3BUh79D4PdDzodm1gV8XfbfNBShkhYg1fYCuJoes8SsYajbTTOEfYxy5a15qJ76HUV2Wv6Jq9oMaxyvdFLgy4qx8CrdIH996HosXwmjf2HvEYe9Dw+KNuOiAOCtfk/Ssnh5xmTbzAdenCsCHNZTvTJih/1ClQ3hNL7cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iSnTm1sq; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1729860104; c=relaxed/simple;
+	bh=AqQZLEMJFSrAdX0z32ivvP3i3IXKnECdySEz24gTgpY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=nT/YsQ9oawScuo+kxCD6N+u0r7LZ4ghI0cB9Jve+1jqR/jxQXImy4PXVTCz38P6INH5janaxD1EM0mO4B0POTc0Jjy/BCHvlN8VoJwgfWfem7XXRK+D5ksyrEEkwU9x7XNnP6YW28mhkMuOEojXS4zWmeeSbMIvjZYu0Ek+0LcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m0TVtONL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iSnTm1sq"
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-50d3d2d0775so606814e0c.3;
-        Fri, 25 Oct 2024 03:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729853711; x=1730458511; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-        b=iSnTm1sq0mG3G/hbLAiUxoe2ElE1e01Ep0nVB2sdT62Br0njGm1wPM4Px6CvsB01eJ
-         XNvxeu4Vloy9qunoyTLxIsX/Uc5ix9tlQud0YafQDeAYvuU5QNF34f97FkDoTHzDXZMe
-         tg0dFs06WerjT/hCSwYbupikzxWPjQ0dRidt3OyMmOAXRgb1gdcLqFM/og1q3zVFPS6V
-         R8/twbSpFg1wNXwavpoLq/WLWuuw9WCkk4pk602pEPg9ecAK7xgOctDD86i1PccMR/t1
-         qD29tqce8/a0zjtAhG45o+TmhjDNNo3qCBKvpZOTwXgCuOmrS/yv9gbsH0tSieMvLAe2
-         F2VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729853711; x=1730458511;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fteB5fd02DTrwVquMKLch1Bp7NZwLBbZXfo65lYzTfI=;
-        b=ukC2UYkThpcWciKWaqHsvLK8OpdbrdZ9BzgDgpiYiUeIfQQVURQaLvG0WINqZLr/3J
-         K2DmlOHnKXSg0XzVH1ylVEOsS7Eeh7ASVob4ZTN1+5wMwtH2+vCE7gdcJUBLuSV7NRfA
-         xCAQAhUP2LPPQCI3SPbpoDmQfyeeXLsHyvdzna3P2k0QhkX3EVRmbFqG4xfqTRP3/s9N
-         L6C1/t8kRdakt22FOmfmHjk2JwMmKqLENlzI5ajJJs6mOT6AOfFMKkFeLhmwE5pqNYfv
-         9vFNUNlsUhXFhO7C0M0xS0Y1k+6ZAikG9KbVfYgO7HLnx8C3Z/+Hhsd+RkdIhSVKR7v9
-         VckQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtJlmgaUTJjAKKvwN40tYq+awrSZQADLWRh7dUC6QzqIOI8x82uKyoWO9RYJwZYvx2AFKL8jV1zb6VxEyaM5OubWQ=@vger.kernel.org, AJvYcCVKivpC8ptqTJVd+kZohCSDsDm3o3lUpwVs/nw+kvBA+GwNds87ZsJdCF/OC0802koLSOxZNoGgv+zcVyE=@vger.kernel.org, AJvYcCXn30K3mrsC2yPEvK1TKy1xN4g2o88i6hcvdVrkOmLBtyFI0NZ9Wr/k1t4EQYoHC6fn1b5PdlaJ+zEmXCw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhWRrwDGxzpPSWtJFlzh5PoW1YgJNDTNKG9tlKnG/UPPC0gzhx
-	divKXfcOvBh5l3J0VjOr0SawTEG7awH11GNcq1KQpzzNcLJjOsQu+OYXgGsZHS5cbZr2bpOWp2O
-	SBjHuxJLG8wHrgTA1Nx20Rn4BQyw=
-X-Google-Smtp-Source: AGHT+IGoKGgY4b0rukcVpFW9K/joa+2hDKDXrG/8Oi6I6HOnAZ7rva20VvYXS2swchtaX6IUVYqG08WKfFfrVQi7oVg=
-X-Received: by 2002:a05:6122:902:b0:50d:4cb8:5b10 with SMTP id
- 71dfb90a1353d-50fd020eb9fmr10566674e0c.4.1729853711069; Fri, 25 Oct 2024
- 03:55:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m0TVtONL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1AA23C4CEC3;
+	Fri, 25 Oct 2024 12:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729860103;
+	bh=AqQZLEMJFSrAdX0z32ivvP3i3IXKnECdySEz24gTgpY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=m0TVtONLbQ8zNbuxrdKx2aFIFrSNsWEJWAUjtVU51OeymxiHUrLHYnysB1300ZhHG
+	 EQTGeg+ypw1KeLLdqqz+2rVFJnWdYIPysOQ8dFSM2qWJo944DdjLpbHfohjAK3n42T
+	 7JWtQ79kvsfcHDpMaReGNg7KRM5qFp/L/jBSYGI6AgpGLIf7iaWKNsO0itAUFWJbIV
+	 ObZx9Fe0JgyB4xZmwE8KIQe+4F7MY/5mFRl0JgfzBOzaUVS69cTAtx19E7ZTyvoqcv
+	 I13t6y3w/BEFCTP2C4jiCGBFsw6rHXKxC0+3ZAPwQsmrwxd+b6/0651sP8/0aJVdLb
+	 Or/ErdyGTGl8w==
+From: Mark Brown <broonie@kernel.org>
+To: Cezary Rojewski <cezary.rojewski@intel.com>, 
+ Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
+ Bard Liao <yung-chuan.liao@linux.intel.com>, 
+ Hans de Goede <hdegoede@redhat.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <20241024211615.79518-1-hdegoede@redhat.com>
+References: <20241024211615.79518-1-hdegoede@redhat.com>
+Subject: Re: [PATCH 1/2] ASoC: Intel: bytcr_rt5640: Add support for non
+ ACPI instantiated codec
+Message-Id: <172986010071.56653.11680033904061857798.b4-ty@kernel.org>
+Date: Fri, 25 Oct 2024 13:41:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241021201349.395022-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20241021201349.395022-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <877c9zybbc.wl-kuninori.morimoto.gx@renesas.com> <TY3PR01MB113461595CD0E51F2F0C9CA51864D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113461595CD0E51F2F0C9CA51864D2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 25 Oct 2024 11:54:45 +0100
-Message-ID: <CA+V-a8sqHeEtt-T8fH0qEp-BM8hZCSeUgVe_L67v-UdFPoCjsg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC drivers
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-99b12
 
-Hi Biju,
+On Thu, 24 Oct 2024 23:16:14 +0200, Hans de Goede wrote:
+> On some x86 Bay Trail tablets which shipped with Android as factory OS,
+> the DSDT is so broken that the codec needs to be manually instantatiated
+> by the special x86-android-tablets.ko "fixup" driver for cases like this.
+> 
+> This means that the codec-dev cannot be retrieved through its ACPI fwnode,
+> add support to the bytcr_rt5640 machine driver for such manually
+> instantiated rt5640 i2c_clients.
+> 
+> [...]
 
-On Wed, Oct 23, 2024 at 7:57=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
-> Hi Prabhakar,
->
-> > -----Original Message-----
-> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > Sent: Wednesday, October 23, 2024 12:20 AM
-> > Subject: Re: [PATCH v2 4/4] MAINTAINERS: Add entry for Renesas ASoC dri=
-vers
-> >
-> >
-> > Hi Prabhakar
-> >
-> > Thank you for your patch
-> >
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > >
-> > > Add a new entry to the MAINTAINERS file for Renesas ASoC drivers. Thi=
-s
-> > > entry covers the Renesas R-Car, SH7760 and Migo-R audio drivers,
-> > > including the device tree bindings.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com=
->
-> > > ---
-> > (snip)
-> > > +RENESAS AUDIO (ASoC) DRIVERS
-> > > +M: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > > +L: linux-sound@vger.kernel.org
-> > > +L: linux-renesas-soc@vger.kernel.org
-> > > +S: Supported
-> > > +F: Documentation/devicetree/bindings/sound/renesas,rsnd.*
-> > > +F: sound/soc/renesas/
-> > > +X: sound/soc/renesas/rz-ssi.c
-> >
-> > Unfortunately, I can handle is "fsi" and "rcar"
->
-> Prabhakar, Maybe create separate Maintainers entries for SSI driver,
-> I don't mind you as a Maintainer or myself ?
->
-> 1)Documentation/devicetree/bindings/sound/renesas,rz-ssi.yaml
-> 2)sound/soc/renesas/rz-ssi.c
->
-Ok I'll create an additional patch for this and add yourself and me as
-supporters.
+Applied to
 
-Cheers,
-Prabhakar
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: Intel: bytcr_rt5640: Add support for non ACPI instantiated codec
+      commit: d48696b915527b5bcdd207a299aec03fb037eb17
+[2/2] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet
+      commit: 0107f28f135231da22a9ad5756bb16bd5cada4d5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
