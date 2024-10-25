@@ -1,54 +1,54 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669E1FBF79
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88511F76A9
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729853170; cv=none; b=b9LmterMF7xuj3iiLrwqdIaB8YS6NzKEjfCg85QYVO8CnEJZWZavtxSBJATrH4N+T4Mwq8AZX63jwvw1TZalY+V1fHodi2RSXt1FceMUO5tJglJOl+F7V3R412/zm5geccSGC53ZEY4lfvKXuQoTBmn2rtCsOh2kRsbEPj4DsrY=
+	t=1729853172; cv=none; b=KG1F8Ui1LsXKGlOFUjhaTm7KRnBN/8d71wRaSE7E270d3whvsLPipYG02hMZz/7b4j+CWY8XQg/XU9lh3scVJN08yl4gteE5MUocnOVw94yByGYqjY4r0SjTImSLA+G1+uNq0Fi14rpqE5YH5cTML6GamybxYGrcP3J93HpVA6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729853170; c=relaxed/simple;
-	bh=LEnPFvnyQ5b9D3+6su2thKqg/1KZlfYf9MBK8xIMzjM=;
+	s=arc-20240116; t=1729853172; c=relaxed/simple;
+	bh=49/xKwp90A3nUA7tjT2wsW3FlqT957A383Rxrkqteo4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lpz6JZEDySPbWU2h7XYFeBxG3kAKYqSg9IW8XqEAzGGVHNRtkN16Vqp5/cdpUffl/77DR9O5V5T2uh6seUljidog4bnPGDpwlUDs5u3NbBSjdcPUIHI4IBe6Fc8I40TFBotmbz3VY6ZLooYpS0r60wy/wR3EWcKF3ATyZ+K/6+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PYkZ8vRu; arc=none smtp.client-ip=209.85.210.173
+	 MIME-Version; b=iCWJV1bAiwTKhEn0RO2nTn6iuCpPYzxwl4xKfNZegVF1hwHgiyw8eqwT358FE+9dnsrluFiOu5T+aANyclRN/XajoJKE9NnhIIexC20cdb/uiY+BVkYiPDl/3YaGTrfnSpyYleRgF6Mr+0z/od8/ELAM/9xCENjFwc3ReX6n0fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F4wPASpT; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PYkZ8vRu"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7205646f9ebso336110b3a.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F4wPASpT"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7edb3f93369so1035082a12.1
+        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729853168; x=1730457968; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1729853170; x=1730457970; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mwvSraMLJg1mpGTC+YokyY9uCOj8ssrQMVVeDpVPQnU=;
-        b=PYkZ8vRup9aQmrkGH9O0gdHOlpu0ji7XoMrxmziA5VnWSrf4wuIwh7aaU3aUJRS7ra
-         ks0WaoCL1YtkqWD71JCKs2z2nkrAS7fittxSptawhZTkxkgucWiIvOQzK7hBnWR+0Uxu
-         Uukq6FmVtTYZUmFucVyLhXBIp2LL63x0IEHpI=
+        bh=x425G6dEYUoUHrFlVfLmksWom/x1l9U5kI5PEjY+YTY=;
+        b=F4wPASpTRpww9QXezOSUTGHhiQakLAUMNhw2+Aj59S6w2gD4MVGnyJOSn3+pyFUD89
+         z+qKkmXqOjHLAMNQDSYEEibzbB13RFfzCPPgrSw96APtvFVXDV6Aqyc+dPIcagQauOnv
+         gryZKu589FyMkbCOzAdHlvGNndO5GwfbF6czM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729853168; x=1730457968;
+        d=1e100.net; s=20230601; t=1729853170; x=1730457970;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mwvSraMLJg1mpGTC+YokyY9uCOj8ssrQMVVeDpVPQnU=;
-        b=rjMPQrvNDxIHJsEwom0qNi5nTnFFwL+bQeCtUiyMlXISwma0SzvA+NSgOMRgo6PS6C
-         7Oe8CeVAhbGFr0DNTY4Ht5Fm47mkYJr3QNH9cCHpSdiBpx5L9KT2PP+6al7ztpgVkMIc
-         c1Ubi4QqegUyHHW374vBZmghTRVn0kSUVLv5yA+lglitZ76HogInFjluIBvRZCdHMAZG
-         tZrkrsrr0h1/9x/81zgGspBOXI6oxgjT599fLEhuoOux7i8T89JRck0bX8sM6IcN0AJ+
-         WAsbLf6B3/FJ8TvB2i+pWoCzZu9om82jETriKa4ks0PSAOn6BFyQNTpIusU1WfTDrMth
-         mKYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRyrbzrHkSeoYNHuDdRL35OT37vZU3R5Prh/dFfu/HqZAoQFXnon3aiy+CMr87qbBKFOLG5iodWzk2jw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAHbiE7ANi9UUERbTBnpx3AkDuM+0jUlyJUQVgL3gia9epAVNA
-	wBBl1+fBF5InIBnww3N9Hoqus0AIWaXfhG+CqvZ5SWxryY7p4PWmi9/0e+l/4Q==
-X-Google-Smtp-Source: AGHT+IFZb7u6MhTnx0Cd0nGORaHx/jx1aDgSW1ziWHfbhnILcm9MDtQdpUvmawCumLhb1VWKs1mJwA==
-X-Received: by 2002:a05:6a00:3c94:b0:71e:7a56:3eaf with SMTP id d2e1a72fcca58-72030bba11fmr12544536b3a.24.1729853167589;
-        Fri, 25 Oct 2024 03:46:07 -0700 (PDT)
+        bh=x425G6dEYUoUHrFlVfLmksWom/x1l9U5kI5PEjY+YTY=;
+        b=gqSAQrMBqkcXIB2f33YX+b20mApJmbe28iigHitEF2WCvLXf5gyS3jHnpRBCYumXYB
+         NcaQQqlTZmWw7VqlCiY2WIbeBcj8x2Dyg55ljNzKF26jt4pd1orVV0uqFNZtENMqS+Mr
+         ueoIdDckA0DMXJGq5aN1iQz071jmfX3GO2NaT3BDX5161bZCSYxdR2xiuXrljJi+rWZD
+         dSrxMKXqqu6KKVpuY4u/RAPKDs1LQUzW/RmyhcxOJB6lv5VfTRuf4TMA0BKqwlJSGn2U
+         cmEGDZCVzwKR5nKRs+El+vqz0NRP1JNiqDcRncZT3BUijpXRac0ooIexDH1GQ2/ZQiVf
+         yqYA==
+X-Forwarded-Encrypted: i=1; AJvYcCX+jPT7dPuAWIi16r5o5pZ70ccv9/cz9lWwv/s46o86h5T0UAW0V2YvsVc+b/Nf6n3dQVqC9dHfn2smUQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCVZBlzHq7xUHG5bHrtKOUniEsePFKgtq4lwfz/8N2o7DKRJa4
+	h51PHuHfSCWb8MyAkQPytluMg2p4fA75hvBBgASlwx0c4tXJbNXuEUcBmufsIg==
+X-Google-Smtp-Source: AGHT+IEMFtoeeLC2uQXYFxaWamey1ztw33rudPnMqbRU3YeS/y2Io32Jyg8kyssaMwHSNQ2DL5ZuzA==
+X-Received: by 2002:a05:6a21:3942:b0:1d9:2bed:c7d8 with SMTP id adf61e73a8af0-1d978bd541cmr12258372637.43.1729853170180;
+        Fri, 25 Oct 2024 03:46:10 -0700 (PDT)
 Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:ebe1:dd63:343d:8a4c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.46.05
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.46.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 03:46:07 -0700 (PDT)
+        Fri, 25 Oct 2024 03:46:09 -0700 (PDT)
 From: Fei Shao <fshao@chromium.org>
 To: Mark Brown <broonie@kernel.org>
 Cc: Fei Shao <fshao@chromium.org>,
@@ -60,9 +60,9 @@ Cc: Fei Shao <fshao@chromium.org>,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 3/4] ASoC: dt-bindings: maxim,max98390: Refernce common DAI properties
-Date: Fri, 25 Oct 2024 18:44:43 +0800
-Message-ID: <20241025104548.1220076-4-fshao@chromium.org>
+Subject: [PATCH 4/4] ASoC: dt-bindings: maxim,max98390: Document maxim,dsm_param_name property
+Date: Fri, 25 Oct 2024 18:44:44 +0800
+Message-ID: <20241025104548.1220076-5-fshao@chromium.org>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 In-Reply-To: <20241025104548.1220076-1-fshao@chromium.org>
 References: <20241025104548.1220076-1-fshao@chromium.org>
@@ -74,38 +74,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Reference dai-common.yaml schema to support '#sound-dai-cells' and
-'sound-name-prefix' properties.
+Add the missing "maxim,dsm_param_name" property in the binding.
+This property specifies the customized DSM parameter binary name.
 
 Signed-off-by: Fei Shao <fshao@chromium.org>
 ---
 
- Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
-index deaa6886c42f..5bd235cf15e6 100644
+index 5bd235cf15e6..fa4749735070 100644
 --- a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
 +++ b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
-@@ -9,6 +9,9 @@ title: Maxim Integrated MAX98390 Speaker Amplifier with Integrated Dynamic Speak
- maintainers:
-   - Steve Lee <steves.lee@maximintegrated.com>
+@@ -32,6 +32,10 @@ properties:
+     minimum: 1
+     maximum: 8388607
  
-+allOf:
-+  - $ref: dai-common.yaml#
++  maxim,dsm_param_name:
++    description: The DSM parameter binary name (e.g. dsm_param.bin).
++    $ref: /schemas/types.yaml#/definitions/string
 +
- properties:
-   compatible:
-     const: maxim,max98390
-@@ -36,7 +39,7 @@ required:
-   - compatible
-   - reg
+   reset-gpios:
+     maxItems: 1
  
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
