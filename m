@@ -1,63 +1,63 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512731FB880
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 15:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4C2187855
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 15:00:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729868451; cv=none; b=QnSpdfqggul/uem7NnK9vMZKviTKml5cxAGVg9/AhHCas9V7gs1MqIRocLhvfL8uIy4nc04+H76EYUKKLNUguoGsYAZM5G01ZzbppE4HKIUqlfV7M/kAciFhLkxYUM4Z1iIMmhOQ+FQU6HUjAAfOPXTyLk1nfwxn1vWqnz+vnKY=
+	t=1729868455; cv=none; b=kP7dU/gV5eIwD3DsGFY2yY5HdwhC9MkOM3kAQkKG0XNXY/AEVLMvxiOAr5POImE/C9RYClIXx/EcpdbZaEWDXXagWWoDOdW0N7BcyoR9I7mes7rim+LbBbQKRowcFXpQcyp9LUi07TOIGZeghvHWYJ/+99JGB2hADXdbO0T1RI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729868451; c=relaxed/simple;
-	bh=sVXXOvwhjUtLTRw/diUu9Q79ppS0cnZqeXoEIt69lpI=;
+	s=arc-20240116; t=1729868455; c=relaxed/simple;
+	bh=J3pG/0Gfw8HnALwZ/Br+hrSE4pEfpHhtl4LqImtqkrM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ljo2/Y4lFnJVpxphVfN+gLMsASrGHgMK9yo7Q6FtjpYpPvbsLghNH9MKm9sS6O1m4WmoG66eRTNlLU2wcMUMxHUiaQaQvafQ2iz7UOq1cxrtuSy5cgcIrrvBxLzIbh9NFjGwEke1kOnBEqPftfXO4wN0KgIwhPPdbroxkYmcN9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PK9ZKjjj; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version:Content-Type; b=rTbTfT1RNq+3RkKGbxKX96+rKkmg7dV1Qa+sHzMkwJAJzND/Xe9eVtuSmSuPhLmjexU4hP36ZmJx5EeuqKIzgcZiLrQJWIeKuyYbTKD72ITmHHz+F1GaXxu04fH8myJDOtfbwBi//KBYCELHPE26kUFQj2weIpIt5tiwcsgl80I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TBD7aJHA; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PK9ZKjjj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TBD7aJHA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729868446;
+	s=mimecast20190719; t=1729868450;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NcVaObSC/M1H9Whyn9Sm9wUdy5PG5I9wFKqHVmMGOas=;
-	b=PK9ZKjjjHCRzP96iD3k9xpaEymAIexH173p8v3YaHsaGdBTbgSblMqJdjB8JBoSQwaX8aN
-	OZ5qyZ7NSMe41HpVupjIqk75261XdHOSFiZmYgnd0zng62yFbp4LYAEj/Ja7Doi9eMJ+mI
-	cssKUaxd9bpcHLCNB2e0xJmWJq7kc/I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=tLUy2S875DNBeHIOQOxEOE4p7AHnezc+a90RKtjms08=;
+	b=TBD7aJHAXLFYw3vKa4lHIYmkTHYew3PIVeTRYTobvZ09L24NsAdgpo4q1etHepn/rLYC/4
+	IhLEvZeh3mS/RAPmu7hjq2dS6Q4bKG+xi9HJr4kPAl1sU8lcx6oYTJyPJFF6DdqM8vkbpq
+	bLn20ejyO4/RdXiAe+LZFk7NXyICk5I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-477-yr8blG2PMn-82UH4WCH9gQ-1; Fri, 25 Oct 2024 11:00:44 -0400
-X-MC-Unique: yr8blG2PMn-82UH4WCH9gQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4315ad4938fso15243555e9.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 08:00:44 -0700 (PDT)
+ us-mta-247-6EgpQOEBPCuO9i14_1F0fA-1; Fri, 25 Oct 2024 11:00:49 -0400
+X-MC-Unique: 6EgpQOEBPCuO9i14_1F0fA-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-37d52ca258eso1143295f8f.3
+        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 08:00:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729868443; x=1730473243;
+        d=1e100.net; s=20230601; t=1729868448; x=1730473248;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NcVaObSC/M1H9Whyn9Sm9wUdy5PG5I9wFKqHVmMGOas=;
-        b=WP8FPmChXrwMuk4iPY2brKnmpy7NYcmW3s9O4A+ZXcSZcx2oNJxoM2TjFm73nu1yeb
-         u0xb0iSP8OmAJJPUDm4BxQDdC7qbLzKTnSAut/yGdI9tGul8iF+hSp2TqkVCdyzbhbSe
-         km+nffePL83mVYhf9l2QcWxcm2GfYNNVSrPiI4vVd2z6ehp3vYRoEcZtypg21PFYT9eV
-         tniymhKLU7Czcg4tMtqYi2v6ZMrjay9zgInt+S5/514hlnWQGi/kXBVyN0WdeIMuyhzv
-         Vs3cBjQrrce8didv4TK+V7/95MvIv21f9+jkXgjqMvKqqr2+eb62sNqb34Owdi5uGx4c
-         /XKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVbfvkkTiMsh+6RTGQyxB9IZ0lvVGWA8neb69+6musyPt7KcIqNeXEqynQer4d1kxf9xIEdr+BD/2HkiA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2PoC1U2BVgGkeJPR3ugmfzmKib7g7T0d+ookRbnLZJaYUiIXN
-	87ER+foyS2RQAzRXjtU71euFPK4zcNF8/VCDi80ANEOfnPaseI2m7sPvQywvV8cL8B37gPevIup
-	YmwuKem8BNzPJ3uZ6c6/X1R9wvhcG0uipR840TPVgu25U+/CP1eObIOA3j3lD
-X-Received: by 2002:a05:600c:4e8e:b0:42f:310f:de9 with SMTP id 5b1f17b1804b1-4318c6f4de2mr45987935e9.15.1729868443305;
-        Fri, 25 Oct 2024 08:00:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IETR6RVW3pZ/du4LX4l4NN++/CwsutB2RaWnFX7zlgkal/P+HVGYPqgvnEtlOctQmPceTz6BA==
-X-Received: by 2002:a05:600c:4e8e:b0:42f:310f:de9 with SMTP id 5b1f17b1804b1-4318c6f4de2mr45987205e9.15.1729868442534;
-        Fri, 25 Oct 2024 08:00:42 -0700 (PDT)
+        bh=tLUy2S875DNBeHIOQOxEOE4p7AHnezc+a90RKtjms08=;
+        b=YESdXfQRHqcbUWxqUHNhrM0a770ZQVs4elPBFfJaUadN/nP4aiHhCjiu9d4KNqV2m6
+         nDEUdgQ3ONJuiWRJlxkzV9EtYB2cZInR6C9RMm3HABc/VddxyDcrQrpBFpK4QgEInEG1
+         AiTswhm8y8ZfJNHmXwU+oERNCH+/aWLqM2ebnwOjMuWqF+YLwsqWBF9b9vhjojCxyL1e
+         Ryd1NHGupPNYq9e7hhSOCnRBT/BcBGxJQkV9lODG3ZJLIPMgQvabbPHfM01GP1eT62As
+         PHZE0eQYNQzfB0/hADwKQAoOcFoL9aUbBIG+XEwPgalOf7pXrkeaY4xiwkmyspseEOcI
+         SEXg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWXFwNdJnDHfLH/SWYpN4fwIHBxg+/DAWOw0NGbiDu+YpqSsMyG0frW/HGN8SqFHzDO/a8iGz9ogEX1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywea0pz0vJdTeaOzeqSapkhy9xlHPTCyT/B4ilqYa6B1B6mw1C2
+	EvNnNZ60QHn4eFKgC5qwQeQtaNSljr9SUmz8R0s23hvteYS8bibsY9VxeOe8rYqqksnTJ+M2bw2
+	cGWDRnskq0XqFEeTN89KftkSOQtpRHhLbc12dSukhb973v0JCQuEc8adGduhG
+X-Received: by 2002:adf:8bda:0:b0:37c:cc4b:d1ea with SMTP id ffacd0b85a97d-37efcf93402mr6344497f8f.53.1729868445426;
+        Fri, 25 Oct 2024 08:00:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF6ZQPMgpVCbtBrqjfejgU4ALi6/qBZHusO5I0iFUt9VWaUU2evS88UKp9GOeAkaETKTdLQgA==
+X-Received: by 2002:adf:8bda:0:b0:37c:cc4b:d1ea with SMTP id ffacd0b85a97d-37efcf93402mr6344361f8f.53.1729868444438;
+        Fri, 25 Oct 2024 08:00:44 -0700 (PDT)
 Received: from eisenberg.fritz.box (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de. [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9216fsm1727189f8f.100.2024.10.25.08.00.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9216fsm1727189f8f.100.2024.10.25.08.00.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 08:00:42 -0700 (PDT)
+        Fri, 25 Oct 2024 08:00:44 -0700 (PDT)
 From: Philipp Stanner <pstanner@redhat.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Damien Le Moal <dlemoal@kernel.org>,
@@ -110,9 +110,9 @@ Cc: linux-doc@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	linux-serial@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 04/10] crypto: marvell - replace deprecated PCI functions
-Date: Fri, 25 Oct 2024 16:59:47 +0200
-Message-ID: <20241025145959.185373-5-pstanner@redhat.com>
+Subject: [PATCH 05/10] intel_th: pci: Replace deprecated PCI functions
+Date: Fri, 25 Oct 2024 16:59:48 +0200
+Message-ID: <20241025145959.185373-6-pstanner@redhat.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241025145959.185373-1-pstanner@redhat.com>
 References: <20241025145959.185373-1-pstanner@redhat.com>
@@ -135,75 +135,41 @@ Replace these functions with their successors, pcim_iomap() and
 pcim_request_all_regions().
 
 Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Acked-by: Bharat Bhushan <bbhushan2@marvell.com>
+Acked-by: Alexander Shishkin <alexander.shishkin@linux.intel.com>
 ---
- drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c | 14 +++++++++-----
- drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c | 13 +++++++++----
- 2 files changed, 18 insertions(+), 9 deletions(-)
+ drivers/hwtracing/intel_th/pci.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c b/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
-index 400e36d9908f..94d0e73e42de 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cptpf_main.c
-@@ -739,18 +739,22 @@ static int otx2_cptpf_probe(struct pci_dev *pdev,
- 		dev_err(dev, "Unable to get usable DMA configuration\n");
- 		goto clear_drvdata;
- 	}
--	/* Map PF's configuration registers */
--	err = pcim_iomap_regions_request_all(pdev, 1 << PCI_PF_REG_BAR_NUM,
--					     OTX2_CPT_DRV_NAME);
-+	err = pcim_request_all_regions(pdev, OTX2_CPT_DRV_NAME);
- 	if (err) {
--		dev_err(dev, "Couldn't get PCI resources 0x%x\n", err);
-+		dev_err(dev, "Couldn't request PCI resources 0x%x\n", err);
- 		goto clear_drvdata;
- 	}
- 	pci_set_master(pdev);
- 	pci_set_drvdata(pdev, cptpf);
- 	cptpf->pdev = pdev;
+diff --git a/drivers/hwtracing/intel_th/pci.c b/drivers/hwtracing/intel_th/pci.c
+index 0d7b9839e5b6..e9d8d28e055f 100644
+--- a/drivers/hwtracing/intel_th/pci.c
++++ b/drivers/hwtracing/intel_th/pci.c
+@@ -23,7 +23,6 @@ enum {
+ 	TH_PCI_RTIT_BAR		= 4,
+ };
  
--	cptpf->reg_base = pcim_iomap_table(pdev)[PCI_PF_REG_BAR_NUM];
-+	/* Map PF's configuration registers */
-+	cptpf->reg_base = pcim_iomap(pdev, PCI_PF_REG_BAR_NUM, 0);
-+	if (!cptpf->reg_base) {
-+		err = -ENOMEM;
-+		dev_err(dev, "Couldn't ioremap PCI resource 0x%x\n", err);
-+		goto clear_drvdata;
-+	}
+-#define BAR_MASK (BIT(TH_PCI_CONFIG_BAR) | BIT(TH_PCI_STH_SW_BAR))
  
- 	/* Check if AF driver is up, otherwise defer probe */
- 	err = cpt_is_pf_usable(cptpf);
-diff --git a/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c b/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
-index 527d34cc258b..d0b6ee901f62 100644
---- a/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
-+++ b/drivers/crypto/marvell/octeontx2/otx2_cptvf_main.c
-@@ -358,9 +358,8 @@ static int otx2_cptvf_probe(struct pci_dev *pdev,
- 		dev_err(dev, "Unable to get usable DMA configuration\n");
- 		goto clear_drvdata;
- 	}
--	/* Map VF's configuration registers */
--	ret = pcim_iomap_regions_request_all(pdev, 1 << PCI_PF_REG_BAR_NUM,
--					     OTX2_CPTVF_DRV_NAME);
+ #define PCI_REG_NPKDSC	0x80
+ #define NPKDSC_TSACT	BIT(5)
+@@ -83,10 +82,16 @@ static int intel_th_pci_probe(struct pci_dev *pdev,
+ 	if (err)
+ 		return err;
+ 
+-	err = pcim_iomap_regions_request_all(pdev, BAR_MASK, DRIVER_NAME);
++	err = pcim_request_all_regions(pdev, DRIVER_NAME);
+ 	if (err)
+ 		return err;
+ 
++	if (!pcim_iomap(pdev, TH_PCI_CONFIG_BAR, 0))
++		return -ENOMEM;
 +
-+	ret = pcim_request_all_regions(pdev, OTX2_CPTVF_DRV_NAME);
- 	if (ret) {
- 		dev_err(dev, "Couldn't get PCI resources 0x%x\n", ret);
- 		goto clear_drvdata;
-@@ -369,7 +368,13 @@ static int otx2_cptvf_probe(struct pci_dev *pdev,
- 	pci_set_drvdata(pdev, cptvf);
- 	cptvf->pdev = pdev;
- 
--	cptvf->reg_base = pcim_iomap_table(pdev)[PCI_PF_REG_BAR_NUM];
-+	/* Map VF's configuration registers */
-+	cptvf->reg_base = pcim_iomap(pdev, PCI_PF_REG_BAR_NUM, 0);
-+	if (!cptvf->reg_base) {
-+		ret = -ENOMEM;
-+		dev_err(dev, "Couldn't ioremap PCI resource 0x%x\n", ret);
-+		goto clear_drvdata;
-+	}
- 
- 	otx2_cpt_set_hw_caps(pdev, &cptvf->cap_flag);
- 
++	if (!pcim_iomap(pdev, TH_PCI_STH_SW_BAR, 0))
++		return -ENOMEM;
++
+ 	if (pdev->resource[TH_PCI_RTIT_BAR].start) {
+ 		resource[TH_MMIO_RTIT] = pdev->resource[TH_PCI_RTIT_BAR];
+ 		r++;
 -- 
 2.47.0
 
