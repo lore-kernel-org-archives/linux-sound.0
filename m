@@ -1,124 +1,175 @@
-Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95154879B;
-	Fri, 25 Oct 2024 01:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.61.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975FA23B0;
+	Fri, 25 Oct 2024 06:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729820450; cv=none; b=M96x5+28/onGGCy33A2eBI2ahPug9ce+A0lo2wxwTHrWYk4MwI6J6QsOV/M6oJYIa2yeqKysZ56B5HIPoPzc2xRYkK65R//gL2JMNEO/P0mdSctx0QNAR6CNvFmXgkEI5AeR9amDTHxXVZHO6b/SdhCt+1mmlWTzmlPMrojM6ZE=
+	t=1729836140; cv=none; b=B+WwBZJzy3byegjHIyQiA/ED8CMAnrn0T5CHSZZGRkPmfrRiK0LbGJIcwMjt2p1zSbP/XWqfRH/xyDJQc1XkvUSud0VDd59DQ5k72/dnZlFLmjqwE9F5bUq6ns9Rbvo1nEtxTX0uCT3AbJS0XP35tbrbl4NTE+YMvdiXI8UCBqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729820450; c=relaxed/simple;
-	bh=s8VhV7YOekzg0qBmxC5N32OUoYZeoSaXeWcxaVdUzU4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=es07vXm92qY75sfNffhJb7G+Q+671efsIZvKSa4PgSVfdx4JtJZqyBPFwno9YLcqheUhnh0ZN80Fi1JMurR41kmNbCycm+/ALf6vd+Ucn/Yx13vd5v934wF39BGlA5QAWwRrU9xqoKWoXOwrV5ll4KeXcpurh7eeJ0RSG2FAAGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=IkdWrafR; arc=none smtp.client-ip=139.138.61.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	s=arc-20240116; t=1729836140; c=relaxed/simple;
+	bh=pGlfs/87qW5cbPgrdBoGrYcf0Is6B0O5L6yHvRn1rAY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NEsDeBL13zY6oNTylURY4n+dYahsTX915uQDHQqQP48aBkJBHGqTTRbnm3ZT1wZO2BQHbunr/7g6eP2IzpjpZFf8Cfa31J2SYXF4Vyqn/7EsGx17gzduorgVKOBh20iU1a0VRHzCFJpRvLmMK/EWyhWhIZUftl9gc3QDBDpCG9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B/GRkY7U; arc=none smtp.client-ip=209.85.166.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="IkdWrafR"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1729820448; x=1761356448;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=s8VhV7YOekzg0qBmxC5N32OUoYZeoSaXeWcxaVdUzU4=;
-  b=IkdWrafRftwK3gA39aZiMh20YqFiS1rp7B+H+Xht9PtSckEFtCavsSZ4
-   zaz6wVQ8GG5QMEabXUaliV6pEMXIlumAKBOt/rbZVwFXOpcfRM9ginLII
-   hzQvSj8TnBLrO3g78E8lRCKshfqOw+Fgo5ETX9z5hUBwWnXMg6WX/5SMZ
-   RtLztncIAT2hnqtVKjczQzC8zqRxI07ke0HSAT1F9Ad6zH1KgDk4eBTYi
-   +3gnkdlU22A7itBHDGseZT4CQqDq9JUvOJTCR5wOQs8xhUR1nwa/gAalA
-   Z8ufNfyvV1bIOKg0i+sq6EbbX99Os2PNy02rfCa9gLOoPtaI4Z+t/fmRN
-   g==;
-X-CSE-ConnectionGUID: 9PYzxuvnS02zEur0U08f6A==
-X-CSE-MsgGUID: SrApEPCjTGyGSMST7X6mMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="156807491"
-X-IronPort-AV: E=Sophos;i="6.11,230,1725289200"; 
-   d="scan'208";a="156807491"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 10:39:35 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7C0286C9CB;
-	Fri, 25 Oct 2024 10:39:33 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id AD930103E2;
-	Fri, 25 Oct 2024 10:39:32 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 2E79170BC6;
-	Fri, 25 Oct 2024 10:39:32 +0900 (JST)
-Received: from iaas-rdma.. (unknown [10.167.135.44])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5F98E1A01E9;
-	Fri, 25 Oct 2024 09:39:31 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-kselftest@vger.kernel.org
-Cc: shuah@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Li Zhijian <lizhijian@fujitsu.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: [PATCH for-next 1/7] selftests/alsa: Add a few missing gitignore files
-Date: Fri, 25 Oct 2024 09:40:04 +0800
-Message-ID: <20241025014010.6533-1-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B/GRkY7U"
+Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a3b463e9b0so6409065ab.3;
+        Thu, 24 Oct 2024 23:02:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729836138; x=1730440938; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mDg+Vcaf01znu6tLfRn2IhIdAlHb4VMVWFTZr0BKPgA=;
+        b=B/GRkY7U8g3XneQzpt1adKNbK2j9EALwzEhysp9QJ8e2lZM+z8R+87X5IHYDPljomv
+         rbHfc7xe5tesotwGaNzFNWZGraIEPfkuX+r8yHU6ta45SKaTa3gzLIKxaKWs75xFyg6f
+         qKPIFjV6PRIRcfWz5ft0LB78ghZJTtC5/H1sCJ1lICjiE/5eHZlt9Th6ohdVNcBhYtdZ
+         AcV4WjtRql+js7DlBeqDhtP8TtoJppFEBVxraziKU6m3lVMiF4RoSSOUn+qkkpQEpQgW
+         JdFKx3+BTeHimm6tGxbOuEFuWENc+ilv2EMNEWbXquganOfi008ULB6p0sdtjOeyuI0Q
+         Xo8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729836138; x=1730440938;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mDg+Vcaf01znu6tLfRn2IhIdAlHb4VMVWFTZr0BKPgA=;
+        b=wW3pQ0reGTZy5d1uqDZvxehJCcQagNK6y/vZJx8hTxprrcsNoz+uUoK7ea1R2XWKlp
+         x3Khy4J8E5r6O1nlTG1YxpZ0uc+ncjpux5hn9AUbSiGyLEg0ZxJ5xH+fDKZEtzJSdY/8
+         v9V0eqSJz0HAS1V31KbH58NxbyM/ht+Wj0jsmRRumQvuTB+r5KLT0pWyz45ma6DYOvXG
+         wGBwAC1g84s5ORrNOHk6kKWyQOqVsVtLjX9Q7zPuOy1f7O3XRqRcZ4Lus6aNpvAWA0VN
+         shcV+rxkJclE4lVqjvJCc2/F808TsOrHVaRfl5wDMVvIq35HZOV97BR5Qz2xGU1ZlSB0
+         mAWw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZX9xwd1Wfb2F775ODKQu6Wr+f+Jr9Bj8vAD4QAeKZ9Pp8wvK9nE+VX6e/cNeuAxqzWLNDgzDRNf0F5Q8=@vger.kernel.org, AJvYcCW5wfblKkSW3fgRtd2VtqZAX3ECuQndhLPhS817khyz7Ei0IAXJaw/BZGjWeWaaiuVs3l1CKUbxqwZ7xFY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yznjm/lN8/JfgMQoMFnz4C39AVd7zCZbtYLLcX5VlULOp7OvGA8
+	bqAAKq0RzWHstDco9Mwcp1gwvG/85YMUaQ3SADnUzJDjerfjdka5GbStCQL9+NlE8bk3ytQcLTL
+	JppohaB5E2Dg5+KRi6Z5ipPKYH+Q=
+X-Google-Smtp-Source: AGHT+IHI96rZzZ22LDvmBdQuWwH021STYYNGPQR+XjhKSil2TgSc4rDCozUvDSoqdcK4KvzLi4ZSRjHMWOc3Tbh0J84=
+X-Received: by 2002:a05:6e02:1c0e:b0:3a4:d9d0:55a6 with SMTP id
+ e9e14a558f8ab-3a4de80b425mr47871735ab.19.1729836137602; Thu, 24 Oct 2024
+ 23:02:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28752.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28752.003
-X-TMASE-Result: 10--3.123200-10.000000
-X-TMASE-MatchedRID: 54gb2yeIOXQhiKpapiFQUqoXHZz/dXlxTJDl9FKHbrnBsf5qt44jZ0/m
-	RGqrA8qmt51G676eQJPtDFjbdjEntA8rYO92b9Nm4aN9Pi1E3hczNsXWBvGVBswHSQ+yXjTDr7f
-	LNf2RfSt3yadK9iyoPuaffHI8kAminajGxrJsU4OeAiCmPx4NwGmRqNBHmBveafSbrzwSjfwqtq
-	5d3cxkNZdacNh8njm7zp+PP9TR1iEPsxq987sSn0i++CMiQi/k9qPpshOt6bu5Li8SIkl1u73HO
-	iflqur/Dn6CZ0LqGmt/1G6b11sj9O4zq2MCCj3QFcUQf3Yp/ridO0/GUi4gFb0fOPzpgdcEKeJ/
-	HkAZ8Is=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+References: <1728712330-4389-1-git-send-email-shengjiu.wang@nxp.com>
+In-Reply-To: <1728712330-4389-1-git-send-email-shengjiu.wang@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Fri, 25 Oct 2024 14:02:02 +0800
+Message-ID: <CAA+D8ANM9QYe3idfkp5XJOXwqQUQ-qc_FcpQSKFDzQVhuTWZKw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl_mqs: Support accessing registers by scmi interface
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
+	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Compiled binary files should be added to .gitignore
+On Sat, Oct 12, 2024 at 2:15=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.co=
+m> wrote:
+>
+> On i.MX95, the MQS module in Always-on (AON) domain only can
+> be accessed by System Controller Management Interface (SCMI)
+> MISC Protocol. So define a specific regmap_config for the case.
+>
 
-'git status' complains:
-Untracked files:
-(use "git add <file>..." to include in what will be committed)
-     alsa/global-timer
-     alsa/utimer-test
+find an issue when IMX_SCMI_MISC_DRV=3Dm but SND_SOC_FSL_MQS=3Dy
+will send v2 to fix it.
 
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
----
-Cc: linux-sound@vger.kernel.org
----
-Hello,
-Cover letter is here.
+Best regards
+Shengjiu Wang
 
-This patch set aims to make 'git status' clear after 'make' and 'make
-run_tests' for kselftests.
----
-V2:
-   split as a separate patch from a small one [0]
-   [0] https://lore.kernel.org/linux-kselftest/20241015010817.453539-1-lizhijian@fujitsu.com/
----
- tools/testing/selftests/alsa/.gitignore | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tools/testing/selftests/alsa/.gitignore b/tools/testing/selftests/alsa/.gitignore
-index 12dc3fcd3456..1407fd24a97b 100644
---- a/tools/testing/selftests/alsa/.gitignore
-+++ b/tools/testing/selftests/alsa/.gitignore
-@@ -1,3 +1,5 @@
- mixer-test
- pcm-test
- test-pcmtest-driver
-+global-timer
-+utimer-test
--- 
-2.44.0
-
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  sound/soc/fsl/fsl_mqs.c | 41 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+>
+> diff --git a/sound/soc/fsl/fsl_mqs.c b/sound/soc/fsl/fsl_mqs.c
+> index 145f9ca15e43..0513e9e8402e 100644
+> --- a/sound/soc/fsl/fsl_mqs.c
+> +++ b/sound/soc/fsl/fsl_mqs.c
+> @@ -6,6 +6,7 @@
+>  // Copyright 2019 NXP
+>
+>  #include <linux/clk.h>
+> +#include <linux/firmware/imx/sm.h>
+>  #include <linux/module.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/mfd/syscon.h>
+> @@ -74,6 +75,29 @@ struct fsl_mqs {
+>  #define FSL_MQS_RATES  (SNDRV_PCM_RATE_44100 | SNDRV_PCM_RATE_48000)
+>  #define FSL_MQS_FORMATS        SNDRV_PCM_FMTBIT_S16_LE
+>
+> +static int fsl_mqs_sm_read(void *context, unsigned int reg, unsigned int=
+ *val)
+> +{
+> +       struct fsl_mqs *mqs_priv =3D context;
+> +       int num =3D 1;
+> +
+> +       if (IS_ENABLED(CONFIG_IMX_SCMI_MISC_DRV) &&
+> +           mqs_priv->soc->ctrl_off =3D=3D reg)
+> +               return scmi_imx_misc_ctrl_get(SCMI_IMX_CTRL_MQS1_SETTINGS=
+, &num, val);
+> +
+> +       return -EINVAL;
+> +};
+> +
+> +static int fsl_mqs_sm_write(void *context, unsigned int reg, unsigned in=
+t val)
+> +{
+> +       struct fsl_mqs *mqs_priv =3D context;
+> +
+> +       if (IS_ENABLED(CONFIG_IMX_SCMI_MISC_DRV) &&
+> +           mqs_priv->soc->ctrl_off =3D=3D reg)
+> +               return scmi_imx_misc_ctrl_set(SCMI_IMX_CTRL_MQS1_SETTINGS=
+, val);
+> +
+> +       return -EINVAL;
+> +};
+> +
+>  static int fsl_mqs_hw_params(struct snd_pcm_substream *substream,
+>                              struct snd_pcm_hw_params *params,
+>                              struct snd_soc_dai *dai)
+> @@ -188,6 +212,13 @@ static const struct regmap_config fsl_mqs_regmap_con=
+fig =3D {
+>         .cache_type =3D REGCACHE_NONE,
+>  };
+>
+> +static const struct regmap_config fsl_mqs_sm_regmap =3D {
+> +       .reg_bits =3D 32,
+> +       .val_bits =3D 32,
+> +       .reg_read =3D fsl_mqs_sm_read,
+> +       .reg_write =3D fsl_mqs_sm_write,
+> +};
+> +
+>  static int fsl_mqs_probe(struct platform_device *pdev)
+>  {
+>         struct device_node *np =3D pdev->dev.of_node;
+> @@ -219,6 +250,16 @@ static int fsl_mqs_probe(struct platform_device *pde=
+v)
+>                         dev_err(&pdev->dev, "failed to get gpr regmap\n")=
+;
+>                         return PTR_ERR(mqs_priv->regmap);
+>                 }
+> +       } else if (mqs_priv->soc->type =3D=3D TYPE_REG_SM) {
+> +               mqs_priv->regmap =3D devm_regmap_init(&pdev->dev,
+> +                                                   NULL,
+> +                                                   mqs_priv,
+> +                                                   &fsl_mqs_sm_regmap);
+> +               if (IS_ERR(mqs_priv->regmap)) {
+> +                       dev_err(&pdev->dev, "failed to init regmap: %ld\n=
+",
+> +                               PTR_ERR(mqs_priv->regmap));
+> +                       return PTR_ERR(mqs_priv->regmap);
+> +               }
+>         } else {
+>                 regs =3D devm_platform_ioremap_resource(pdev, 0);
+>                 if (IS_ERR(regs))
+> --
+> 2.34.1
+>
