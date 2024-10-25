@@ -1,225 +1,113 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B3FB1DACA6;
-	Fri, 25 Oct 2024 10:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7E8192592
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729850763; cv=none; b=nQcHOq4MuTwX+ZWFuQAx55lOYiymhcyfQlmIVBkbBhhmFn491SMcs835sE4IRFUpXfnlI8/PIQlyi62hUg6CYbe+ohxBPPzYQilTFJBTTN0VlOrwbg7w7IZi4MGvaLEE9Vw/P1Tbho6sZqzeC4Opjk3SYj/OjcrjwLjblIAHN8o=
+	t=1729853161; cv=none; b=igmPbfUwVb0BCZalsDTeuidNocMr2kDZw+udoYlg28T5VelIXc/zpF5eTBgloOg9sT/Q/aeOZ3jZFEOy6B+bXXjOMEAWtsUgn0XoF0mHYLx5xXjH3U+pHmRuCxCKbVseeh5gRu8zw9Ga+ObN5OCnBtMSsi7Hc0GiWJj3G1/s5GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729850763; c=relaxed/simple;
-	bh=M4JnJNd9VxbsUoJdJzWEFGbpCvdoCcG3TpWP3AR9OfI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d6fuMzyLrh9b0Sv3Fs38t56aOouun5mYUcrLaC4EIC+ghT1j5ze61zOoNn/Xmqv4kVjLWfpTthSfyp+Z+OxS5IskbRFwY+z1cTHn7vBGvCZ6pFt1fYWMhZuJjx4iGMaIfVFq46ltBNMNMIOkaZ+EdcyVeq+/+cihIKGlHIzFSh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C57B339;
-	Fri, 25 Oct 2024 03:06:29 -0700 (PDT)
-Received: from donnerap.manchester.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 902673F73B;
-	Fri, 25 Oct 2024 03:05:57 -0700 (PDT)
-Date: Fri, 25 Oct 2024 11:05:54 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Ryan Walklin <ryan@testtoast.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
- Philippe Simons <simons.philippe@gmail.com>, linux-sound@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, Martin Botka <martin.botka@somainline.org>
-Subject: Re: [PATCH v3 7/7] arm64: dts: allwinner: h313/h616/h618/h700:
- Enable audio codec for all supported boards
-Message-ID: <20241025110554.289809cb@donnerap.manchester.arm.com>
-In-Reply-To: <20241023075917.186835-8-ryan@testtoast.com>
-References: <20241023075917.186835-1-ryan@testtoast.com>
-	<20241023075917.186835-8-ryan@testtoast.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+	s=arc-20240116; t=1729853161; c=relaxed/simple;
+	bh=glzZvvtMnrNVA3ZU2o91oo33HmV5OMU7rrTm5EWNvBw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hkLBGSDSI/wpa4QMsKaLH53HpTu8MfFA7pLHJTBrxVAUzuYoLkLHL4LFBIKSQerhfLq6AkWg9j5uPMHnMZ/3UNG81Yev5kWDMKwottIB91QfLE6tYbN/hlWmNcp4MVZJqV0DvUhzigD1hM881Z3tyHQO9HlTpMUSS2ogsTttsFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kniwZhWZ; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kniwZhWZ"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7db54269325so1251897a12.2
+        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1729853159; x=1730457959; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7qYdMoYNHEEjU8R4jRwxYNDvg+V+aPZxty5Pm7LhAwc=;
+        b=kniwZhWZtx5HQPxo4BPTHhrVzAuBNflyupyvwRpGTa2tMpQH6Bo6Yzu9lp7xHBmorS
+         CcjHKxA7UyUAAamb7ZVqWqK0zPhctY5CQTqhKI5UNI6MlBeeiuJtI08dQHilqOSd4RNC
+         Nb5finrktQM3ZV1d6DhqUm7D8vS5lHzgzVp6M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729853159; x=1730457959;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7qYdMoYNHEEjU8R4jRwxYNDvg+V+aPZxty5Pm7LhAwc=;
+        b=HAEiEcdKq1E1D705sxbqeG/Y6R50iKkQ44mF2COULXMDGSb19NxVj9QPKioFfHSCBk
+         WbBS+qKoB3GWvg2W45OSIZaqJ6v33iaGnjzH0LmCJ0P477qcXM87QT0qwjZMVD2/YPrb
+         CznRTOT5kSeCusw2MGg6qBfPzJABvSfRQojVdf+j3qleoJ7rlGIjLwCmV4cjy0yu3n5u
+         T5hXbW9jciYtkBBbqGReTsbaBTJdaVMU1FaGokNcv2Yyu0tapTsCT33CQ4zMQPDP2rBC
+         aoKraxrGHKzfxyQKM4y+I/U+Obu4Ffw0dID6SMwUpXbA/jv9DHBAOWvF7JuiRhSafjfz
+         jk0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWoavMNDU1nDotjXCndZqKVIln2NRpXS7WKIR/TX2g7i/SZh6wyJ9kRqQkJq7cgQa25urEskbQc5jIoCg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFMl4ofEluPdygFMG/+kB8ZbcRzBfxqg4wDpknUL2ire8+mU4e
+	YseKHJgJUpBb7JjjWABveRMAA1eCmYpvh/KCaN+zG9MkvMS3I8+SatvdxwD+5g==
+X-Google-Smtp-Source: AGHT+IE/jF3qeEh2sSM6HPYBIUpFWAzndUsngpMsqXOHaVXBbGKPEsKfMjMtDshVaZr1AnM6b0wOrw==
+X-Received: by 2002:a05:6a21:31c8:b0:1d8:b962:6087 with SMTP id adf61e73a8af0-1d978ad70efmr11190210637.10.1729853158931;
+        Fri, 25 Oct 2024 03:45:58 -0700 (PDT)
+Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:ebe1:dd63:343d:8a4c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 03:45:58 -0700 (PDT)
+From: Fei Shao <fshao@chromium.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Fei Shao <fshao@chromium.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Steve Lee <steves.lee@maximintegrated.com>,
+	Trevor Wu <trevor.wu@mediatek.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH 0/4] Update properties in two ASoC DT bindings
+Date: Fri, 25 Oct 2024 18:44:40 +0800
+Message-ID: <20241025104548.1220076-1-fshao@chromium.org>
+X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 23 Oct 2024 20:57:03 +1300
-Ryan Walklin <ryan@testtoast.com> wrote:
+Hi maintainers,
 
-Hi,
+This series includes four patches to update two ASoC DT bindings. The
+goal is to fix dtbs_check warnings found with DAI links and audio
+routing configuration on some MediaTek SoCs (MT8195 and MT8188).
 
-> Now that the H616 (and variants) audio codec is supported, enable it for
-> boards with a mainline DTS. The Tanix TX1, Transpeed 8K618-T and X-96
-> Mate have all been tested with the onboard 3.5mm audio jack and the
-> Orange Pi Zero 3 with a 3.5mm jack connected to the audio header.
+This series doesn't introduce new properties - all are either commonly
+described in existing bindings or are available but undocumented.
 
-Martin, if I see this correctly, the Bigtreetech Pi also has an audio jack
-(but not the Manta)?
-Should we enable the codec then there, too? Can you maybe test this?
+Patches 1 and 2 focus on mediatek,mt8188-mt6359.yaml, adding two
+vendor-specific properties and updating the DAI link pattern to be more
+generic.
 
-> The RG35XX (2024, -H, -Plus and -SP variants) are also tested working
-> but have a separate mux and GPIO-controlled (PI5) power amplifier to
-> support both a headphone jack and onboard speakers.
-> 
-> The headphone jack has a GPIO for jack detection, but this is not
-> currently supported by the driver, so audio is heard both via the
-> headphone jack and speakers when the speaker amp is powered (by the
-> CLDO1 regulator, defined as always-on until proper jack detection is
-> implemented).
+Patches 3 and 4 focus on maxim,max98390.yaml, referencing
+dai-common.yaml and documenting a hidden vendor-specific property.
 
-Is the support for that board then premature? Because this would introduce
-a regression, wouldn't it? With kernel 6.13 and this proposed DT it would
-work, courtesy of regulator-always-on, but future DTs (as provided by
-up-to-date firmware like U-Boot) with kernel v6.13 would not anymore, as
-the 6.13 code wouldn't know about the upcoming jack detection bits. So this
-would break forward compatibility.
+Regards,
+Fei
 
-> Define the audio codec and routing for all supported H616 and variant
-> boards, and power and speaker amp enablement where present on boards and
-> known.
 
-For TX1, OrangePi, X96 Mate, 8K618-T:
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Fei Shao (4):
+  ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp and dai-link
+    properties
+  ASoC: dt-bindings: mediatek,mt8188-mt6359: Update DAI link node
+    pattern
+  ASoC: dt-bindings: maxim,max98390: Refernce common DAI properties
+  ASoC: dt-bindings: maxim,max98390: Document maxim,dsm_param_name
+    property
 
-For Tanix TX1, OPi Zero3, X96 Mate, Transpeed 8K618-T:
-Tested-by: Andre Przywara <andre.przywara@arm.com>
+ .../devicetree/bindings/sound/maxim,max98390.yaml  |  9 ++++++++-
+ .../bindings/sound/mediatek,mt8188-mt6359.yaml     | 14 ++++++++++++--
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-Cheers,
-Andre
-
-> 
-> Signed-off-by: Ryan Walklin <ryan@testtoast.com>
-> Tested-by: Philippe Simons <simons.philippe@gmail.com>
-> ---
-> Changelog v1..v2:
-> - Add codec enablement all supported boards.
-> ---
->  .../boot/dts/allwinner/sun50i-h313-tanix-tx1.dts    |  5 +++++
->  .../dts/allwinner/sun50i-h616-orangepi-zero.dtsi    |  5 +++++
->  .../boot/dts/allwinner/sun50i-h616-x96-mate.dts     |  5 +++++
->  .../dts/allwinner/sun50i-h618-orangepi-zero2w.dts   |  5 +++++
->  .../dts/allwinner/sun50i-h618-transpeed-8k618-t.dts |  5 +++++
->  .../allwinner/sun50i-h700-anbernic-rg35xx-2024.dts  | 13 +++++++++++--
->  6 files changed, 36 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> index bb2cde59bd033..bafd3e803106b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-> @@ -65,6 +65,11 @@ reg_vcc5v: vcc5v {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	status = "okay";
-> +};
-> +
->  &cpu0 {
->  	cpu-supply = <&reg_dcdc2>;
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-> index fc7315b944065..19c5cf75f3f7d 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-> @@ -59,6 +59,11 @@ reg_usb1_vbus: regulator-usb1-vbus {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	status = "okay";
-> +};
-> +
->  &ehci1 {
->  	status = "okay";
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> index 26d25b5b59e0f..6dfe4eab91f6a 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-> @@ -33,6 +33,11 @@ reg_vcc5v: vcc5v {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	status = "okay";
-> +};
-> +
->  &cpu0 {
->  	cpu-supply = <&reg_dcdca>;
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> index 6a4f0da972330..a0fe7a9afb77c 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> @@ -54,6 +54,11 @@ reg_vcc3v3: vcc3v3 {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	status = "okay";
-> +};
-> +
->  &cpu0 {
->  	cpu-supply = <&reg_dcdc2>;
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> index d6631bfe629fa..59ee2b253ea4b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-> @@ -52,6 +52,11 @@ wifi_pwrseq: pwrseq {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	status = "okay";
-> +};
-> +
->  &cpu0 {
->  	cpu-supply = <&reg_dcdc2>;
->  };
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> index 899ae3be5683c..89de86b442155 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h700-anbernic-rg35xx-2024.dts
-> @@ -237,6 +237,12 @@ panel_in_rgb: endpoint {
->  	};
->  };
->  
-> +&codec {
-> +	allwinner,audio-routing = "Line Out", "LINEOUT";
-> +	allwinner,pa-gpios = <&pio 8 5 GPIO_ACTIVE_HIGH>; // PI5
-> +	status = "okay";
-> +};
-> +
->  &cpu0 {
->  	cpu-supply = <&reg_dcdc1>;
->  };
-> @@ -352,7 +358,7 @@ reg_aldo3: aldo3 {
->  			reg_aldo4: aldo4 {
->  				regulator-min-microvolt = <1800000>;
->  				regulator-max-microvolt = <1800000>;
-> -				regulator-name = "vcc-pg";
-> +				regulator-name = "avcc";
->  			};
->  
->  			reg_bldo1: bldo1 {
-> @@ -375,7 +381,10 @@ reg_bldo4: bldo4 {
->  			};
->  
->  			reg_cldo1: cldo1 {
-> -				/* 3.3v - audio codec - not yet implemented */
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-spkr-amp";
->  			};
->  
->  			reg_cldo2: cldo2 {
+-- 
+2.47.0.163.g1226f6d8fa-goog
 
