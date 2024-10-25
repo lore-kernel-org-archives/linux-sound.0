@@ -1,307 +1,256 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B201D2F4A
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 08:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6701BA89B;
+	Fri, 25 Oct 2024 08:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729845487; cv=none; b=d+g5o3IHZBuiG8FIb2i9VxZA4Bd4d3dRR79cYN/ysrE5+BKAbkclQRUhEV5wlvI2XkVqOpw7Z0lA8juiOfYGZLMvLwgHzhzS8YwX5U0MuV1/z7ZYfWerFE9SV+XGM2FEphVoDQbUBB/b1J35AIXqVE6ZNe4hcE1M0Ys0leJVzJ4=
+	t=1729845849; cv=none; b=pT56cBeVzk+AnrNt8/jh4mnF5P4NnvQbANYkt9vEfzOstFW6lAR+Vd5iSM8pwM+EbyKrMLS5g2CcxwKp3p2p5lxbvi6PGVffUwfMtbAEltpbMRmfmQqx+Ah91awoSsZqNcMC6FcbR7og76EpXlBKZ+VWh/7p75usWPv+zBERbj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729845487; c=relaxed/simple;
-	bh=+CU0p5rXSrPP3uBwt5801R3G6t7PRg+8+rdxS6Av4Qw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bAfXPd5i4ErrtbFZ4RAtOmWKMgDIRuYeA7aw9GfNxasAIFbWLGKIYZj4aC1aAUAEmhVyuPxUPWqwzM7dLRy/R1wEjEKuNGATwdIM5s/p54aF6HOkBQpLIKp4H+MNwMcmAvTcfObzoKkmdceRvGOEdSzaOtoruKJ9lR8r8OHng0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RYVSEflY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729845849; c=relaxed/simple;
+	bh=6sym0Z3+jhw6V3tTOEsO2KNBvwo4u4Vlc1SXEoFTKqQ=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=ua2Iyx7AjS7HOr2vLARZJtNnIwklMaPQ4zLI/vdCSWMcrqPFCCPtTIb6dZC8J0eWRK6uBbJut94UgRhkK16pRy3QpwuYUMBQ6nP146JTpyTkHuRi4uu/dSh5sKa9wjciUCpcsxWCSiCkCcqVMcPKSjpQgG9X+30BSeucVSgwBNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ifh0aOab; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wgIvr9QC; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Ifh0aOab; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=wgIvr9QC; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RYVSEflY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729845484;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+CU0p5rXSrPP3uBwt5801R3G6t7PRg+8+rdxS6Av4Qw=;
-	b=RYVSEflY+ANZllCmr1c7jOH5pXppyday3td/Ikv55t2h/8bvwhQ+S1Ehi+uOValsfwxohR
-	F4H2L9JTUg+soz6waYRhkyPW1vW33OA/g/+agWiuuKceK7zU8+GfCRhMw2gbNBlGzBZrZn
-	F8V86tkTLQZIddEZDD5zvJl//ANi9DE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-135-AiktfdFdNb6ha6TJ5NYZ1Q-1; Fri, 25 Oct 2024 04:38:03 -0400
-X-MC-Unique: AiktfdFdNb6ha6TJ5NYZ1Q-1
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-37d45f1e935so956734f8f.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 01:38:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729845481; x=1730450281;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t5SfsCaa6OQtbrocW2yvj8So2+UMhrgJURtFbTDl4+U=;
-        b=aYM2aHRqo5mG+GsRW0fsZLJk2dL9dmb6wQsnwOdIyArxCmEr5y5GwtWGZGr1SmTU8D
-         eme6tgf7cJ5HwKTeViEBO5AHi55ogz/s2MzEazGG+rPiCGGoSclYcD75zFEqDw2tMzpH
-         ircrRgQ6yyzJAEGHEkCoaUp3IxOlTNP5vt+C4FW5HbPGFCf6UB2dhQnHV4vqhRFPYAur
-         dUTdCLNJ04XCJnbUfWveIcbYybnmqtn6NyjxD8QdYnztlRJ6G5cfm4TDarRIJUH3xyBc
-         ZfnKpcVJ1904UqH/iC6G2rQziOQUVJdcuBUCCGVl8X/DdhUIWwG5fGDuEcypH44tQBe4
-         mXhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVBhBY1SxD8ljyagsNtDMJHt11OT8+FQ3i3AuvaLCsoD3+/cwtlY1/8UHjhU5odbpoYeRMGtNGREASE0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgLXJmxwTiK+jakN2X+Gq04NlfzuPzugUXRP+K5VCULE5408ab
-	8zMRS56/tbrFuk8Y5EyAGbQlG+ngUrzn8ZlBX4cg93nZFBrA0tquTgx5dk3C5hcdv69mN3VxNnf
-	H7C1glEKRCsLuPIF142YsZEncJ4PaQ458Sboer/HCCYTiCeME8Puhia123/bw
-X-Received: by 2002:a5d:45d2:0:b0:37d:5103:8894 with SMTP id ffacd0b85a97d-37efcf78dadmr5976785f8f.42.1729845481084;
-        Fri, 25 Oct 2024 01:38:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGcYWpz+kQZdr3vU0ccyDv2e4lUiNEwepdTyBtEeS9wkTJkf/x/0hfBIa/kJv59+/PzqJJV1A==
-X-Received: by 2002:a5d:45d2:0:b0:37d:5103:8894 with SMTP id ffacd0b85a97d-37efcf78dadmr5976745f8f.42.1729845480512;
-        Fri, 25 Oct 2024 01:38:00 -0700 (PDT)
-Received: from ?IPv6:2001:16b8:2de5:ba00:738a:c8da:daac:7543? (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de. [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b70c44sm932452f8f.80.2024.10.25.01.37.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 01:38:00 -0700 (PDT)
-Message-ID: <ae081c36c49733b007a8946dceeec0af94fc449a.camel@redhat.com>
-Subject: Re: [PATCH 02/13] ALSA: hda_intel: Use always-managed version of
- pcim_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu
- <yi.l.liu@intel.com>,  Christian Brauner <brauner@kernel.org>, Ankit
- Agrawal <ankita@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Reinette
- Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Fri, 25 Oct 2024 10:37:57 +0200
-In-Reply-To: <875xphzeun.wl-tiwai@suse.de>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	 <20241015185124.64726-3-pstanner@redhat.com> <87v7xk2ps5.wl-tiwai@suse.de>
-	 <6f3db65fe9a5dcd1a7a8d9bd5352ecb248ef57b1.camel@redhat.com>
-	 <87ttd2276j.wl-tiwai@suse.de>
-	 <aec23bb79b9ff7dd7f13eb67460e0605eac22912.camel@redhat.com>
-	 <875xphzeun.wl-tiwai@suse.de>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ifh0aOab";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wgIvr9QC";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ifh0aOab";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wgIvr9QC"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C46DF1F79D;
+	Fri, 25 Oct 2024 08:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729845844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Po8dSFEhLasSM8h9X0R59J9hvW9Nk4L9IvjRSuc6Ru8=;
+	b=Ifh0aOabU94RtXW8D6pPI/b68t6sqEcaFjGYI3UbXG6NbdvK2HWENceGcu2xYS1M1fyhEe
+	rUtea1t90xUaz3tXBEra3cHjd0w6cibz8b8bVoaF9WdhDJ/UL9Qebgeozoy2ZBcMebHQd6
+	PIt3CBfvpTKWFY+EKcM4LQpw6/GtXRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729845844;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Po8dSFEhLasSM8h9X0R59J9hvW9Nk4L9IvjRSuc6Ru8=;
+	b=wgIvr9QC22KNitPdUibVlTaeU2tpulePFkIg1h1EtrXo8FkoKacVTj4gf+4dapAS9Dv1h0
+	7NmRFG+WPvZ8WoDw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1729845844; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Po8dSFEhLasSM8h9X0R59J9hvW9Nk4L9IvjRSuc6Ru8=;
+	b=Ifh0aOabU94RtXW8D6pPI/b68t6sqEcaFjGYI3UbXG6NbdvK2HWENceGcu2xYS1M1fyhEe
+	rUtea1t90xUaz3tXBEra3cHjd0w6cibz8b8bVoaF9WdhDJ/UL9Qebgeozoy2ZBcMebHQd6
+	PIt3CBfvpTKWFY+EKcM4LQpw6/GtXRQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1729845844;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Po8dSFEhLasSM8h9X0R59J9hvW9Nk4L9IvjRSuc6Ru8=;
+	b=wgIvr9QC22KNitPdUibVlTaeU2tpulePFkIg1h1EtrXo8FkoKacVTj4gf+4dapAS9Dv1h0
+	7NmRFG+WPvZ8WoDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 983F513B18;
+	Fri, 25 Oct 2024 08:44:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id +fS8I1RaG2eNZwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 25 Oct 2024 08:44:04 +0000
+Date: Fri, 25 Oct 2024 10:45:05 +0200
+Message-ID: <87bjz8tvu6.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.12-rc5
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Thu, 2024-10-24 at 17:43 +0200, Takashi Iwai wrote:
-> On Thu, 24 Oct 2024 10:02:59 +0200,
-> Philipp Stanner wrote:
-> >=20
-> > On Wed, 2024-10-23 at 17:03 +0200, Takashi Iwai wrote:
-> > > On Wed, 23 Oct 2024 15:50:09 +0200,
-> > > Philipp Stanner wrote:
-> > > >=20
-> > > > On Tue, 2024-10-22 at 16:08 +0200, Takashi Iwai wrote:
-> > > > > On Tue, 15 Oct 2024 20:51:12 +0200,
-> > > > > Philipp Stanner wrote:
-> > > > > >=20
-> > > > > > pci_intx() is a hybrid function which can sometimes be
-> > > > > > managed
-> > > > > > through
-> > > > > > devres. To remove this hybrid nature from pci_intx(), it is
-> > > > > > necessary to
-> > > > > > port users to either an always-managed or a never-managed
-> > > > > > version.
-> > > > > >=20
-> > > > > > hda_intel enables its PCI-Device with pcim_enable_device().
-> > > > > > Thus,
-> > > > > > it needs
-> > > > > > the always-managed version.
-> > > > > >=20
-> > > > > > Replace pci_intx() with pcim_intx().
-> > > > > >=20
-> > > > > > Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-> > > > > > ---
-> > > > > > =C2=A0sound/pci/hda/hda_intel.c | 2 +-
-> > > > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >=20
-> > > > > > diff --git a/sound/pci/hda/hda_intel.c
-> > > > > > b/sound/pci/hda/hda_intel.c
-> > > > > > index b4540c5cd2a6..b44ca7b6e54f 100644
-> > > > > > --- a/sound/pci/hda/hda_intel.c
-> > > > > > +++ b/sound/pci/hda/hda_intel.c
-> > > > > > @@ -786,7 +786,7 @@ static int azx_acquire_irq(struct azx
-> > > > > > *chip,
-> > > > > > int do_disconnect)
-> > > > > > =C2=A0=09}
-> > > > > > =C2=A0=09bus->irq =3D chip->pci->irq;
-> > > > > > =C2=A0=09chip->card->sync_irq =3D bus->irq;
-> > > > > > -=09pci_intx(chip->pci, !chip->msi);
-> > > > > > +=09pcim_intx(chip->pci, !chip->msi);
-> > > > > > =C2=A0=09return 0;
-> > > > > > =C2=A0}
-> > > > > > =C2=A0
-> > > > >=20
-> > > > > Hm, it's OK-ish to do this as it's practically same as what
-> > > > > pci_intx()
-> > > > > currently does.=C2=A0 But, the current code can be a bit
-> > > > > inconsistent
-> > > > > about
-> > > > > the original intx value.=C2=A0 pcim_intx() always stores !enable
-> > > > > to
-> > > > > res->orig_intx unconditionally, and it means that the
-> > > > > orig_intx
-> > > > > value
-> > > > > gets overridden at each time pcim_intx() gets called.
-> > > >=20
-> > > > Yes.
-> > > >=20
-> > > > >=20
-> > > > > Meanwhile, HD-audio driver does release and re-acquire the
-> > > > > interrupt
-> > > > > after disabling MSI when something goes wrong, and pci_intx()
-> > > > > call
-> > > > > above is a part of that procedure.=C2=A0 So, it can rewrite the
-> > > > > res->orig_intx to another value by retry without MSI.=C2=A0 And
-> > > > > after
-> > > > > the
-> > > > > driver removal, it'll lead to another state.
-> > > >=20
-> > > > I'm not sure that I understand this paragraph completely.
-> > > > Still,
-> > > > could
-> > > > a solution for the driver on the long-term just be to use
-> > > > pci_intx()?
-> > >=20
-> > > pci_intx() misses the restore of the original value, so it's no
-> > > long-term solution, either.
-> >=20
-> > Sure that is missing =E2=80=93 I was basically asking whether the drive=
-r
-> > could
-> > live without that feature.
-> >=20
-> > Consider that point obsolete, see below
-> >=20
-> > >=20
-> > > What I meant is that pcim_intx() blindly assumes the negative of
-> > > the
-> > > passed argument as the original state, which isn't always true.=C2=A0
-> > > e.g.
-> > > when the driver calls it twice with different values, a wrong
-> > > value
-> > > may be remembered.
-> >=20
-> > Ah, I see =E2=80=93 thoguh the issue is when it's called several times =
-with
-> > the
-> > *same* value, isn't it?
-> >=20
-> > E.g.
-> >=20
-> > pcim_intx(pdev, 1); // 0 is remembered as the old value
-> > pcim_intx(pdev, 1); // 0 is falsely remembered as the old value
-> >=20
-> > Also, it would seem that calling the function for the first time
-> > like
-> > that:
-> >=20
-> > pcim_intx(pdev, 0); // old value: 1
-> >=20
-> > is at least incorrect, because INTx should be 0 per default,
-> > shouldn't
-> > it? Could then even be a 1st class bug, because INTx would end up
-> > being
-> > enabled despite having been disabled all the time.
->=20
-> Yeah, and the unexpected restore can happen even with a single call
-> of
-> pcim_intx(), if the driver calls it unnecessarily.
->=20
-> > > That said, I thought of something like below.
-> >=20
-> > At first glance that looks like a good idea to me, thanks for
-> > working
-> > this out!
-> >=20
-> > IMO you can submit that as a patch so we can discuss it separately.
->=20
-> Sure, I'm going to submit later.
+Linus,
 
-I just took a look into the old implementation of pci_intx() (there was
-no pcim_intx() back then), before I started cleaning up PCI's devres.
-This what it looked like before
-25216afc9db53d85dc648aba8fb7f6d31f2c8731:
+please pull sound fixes for v6.12-rc5 from:
 
-void pci_intx(struct pci_dev *pdev, int enable)
-{
-=09u16 pci_command, new;
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc5
 
-=09pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+The topmost commit is c9f7a144e7e3effd49303bfc58c07cc10ab2d573
 
-=09if (enable)
-=09=09new =3D pci_command & ~PCI_COMMAND_INTX_DISABLE;
-=09else
-=09=09new =3D pci_command | PCI_COMMAND_INTX_DISABLE;
+----------------------------------------------------------------
 
-=09if (new !=3D pci_command) {
-=09=09struct pci_devres *dr;
+sound fixes for 6.12-rc5
 
-=09=09pci_write_config_word(pdev, PCI_COMMAND, new);
+The majority of changes here are about ASoC.
 
-=09=09dr =3D find_pci_dr(pdev);
-=09=09if (dr && !dr->restore_intx) {
-=09=09=09dr->restore_intx =3D 1;
-=09=09=09dr->orig_intx =3D !enable;
-=09=09}
-=09}
-}
-EXPORT_SYMBOL_GPL(pci_intx);
+There are two core changes in ASoC (the bump of minimal topology
+ABI version and the fix for references of components in DAPM code),
+and others are mostly various device-specific fixes for SoundWire,
+AMD, Intel, SOF, Qualcomm and FSL, in addition to a few usual
+HD-audio quirks and fixes.
 
-If I'm not mistaken the old version did not have the problem because
-the value to be restored only changed if new !=3D pci_command.
+----------------------------------------------------------------
 
-That should always be correct, what do you think?
+Alexey Klimov (2):
+      ASoC: qcom: sdm845: add missing soundwire runtime stream alloc
+      ASoC: codecs: lpass-rx-macro: fix RXn(rx,n) macro for DSM_CTL and SEC7 regs
 
-If so, only my commit 25216afc9db53d85dc648aba8fb7f6d31f2c8731 needs to
-be fixed.
+Amadeusz S³awiñski (2):
+      ASoC: Intel: avs: Update stream status in a separate thread
+      ASoC: topology: Bump minimal topology ABI version
 
-Thanks,
-P.
+Andrei Simion (1):
+      MAINTAINERS: Update maintainer list for MICROCHIP ASOC, SSC and MCP16502 drivers
 
+Andrey Shumilin (1):
+      ALSA: firewire-lib: Avoid division by zero in apply_constraint_to_size()
 
->=20
->=20
-> thanks,
->=20
-> Takashi
->=20
+Benjamin Bara (1):
+      ASoC: dapm: avoid container_of() to get component
+
+Binbin Zhou (1):
+      ASoC: loongson: Fix component check failed on FDT systems
+
+Chancel Liu (1):
+      ASoC: fsl_micfil: Add a flag to distinguish with different volume control types
+
+Christian Heusel (1):
+      ASoC: amd: yc: Add quirk for ASUS Vivobook S15 M3502RA
+
+Colin Ian King (1):
+      ASoC: max98388: Fix missing increment of variable slot_found
+
+Derek Fang (1):
+      ASoC: Intel: soc-acpi: lnl: Add match entry for TM2 laptops
+
+Eric Biggers (1):
+      ALSA: hda/tas2781: select CRC32 instead of CRC32_SARWATE
+
+Ilya Dudikov (1):
+      ASoC: amd: yc: Fix non-functional mic on ASUS E1404FA
+
+Jack Yu (1):
+      ASoC: rt722-sdca: increase clk_stop_timeout to fix clock stop issue
+
+José Relvas (1):
+      ALSA: hda/realtek: Add subwoofer quirk for Acer Predator G9-593
+
+Kai Vehmanen (1):
+      ASoC: SOF: Intel: hda-loader: do not wait for HDaudio IOC
+
+Kailang Yang (1):
+      ALSA: hda/realtek: Update default depop procedure
+
+Kirill Marinushkin (1):
+      ASoC: Change my e-mail to gmail
+
+Krzysztof Kozlowski (2):
+      ASoC: qcom: Select missing common Soundwire module code on SDM845
+      ASoC: qcom: sc7280: Fix missing Soundwire runtime stream alloc
+
+Lad Prabhakar (1):
+      ASoC: rsnd: Fix probe failure on HiHope boards due to endpoint parsing
+
+Miquel Raynal (1):
+      ASoC: dt-bindings: davinci-mcasp: Fix interrupt properties
+
+Ranjani Sridharan (4):
+      ASoC: SOF: ipc4-topology: Do not set ALH node_id for aggregated DAIs
+      ASoC: SOF: Intel: hda: Handle prepare without close for non-HDA DAI's
+      soundwire: intel_ace2x: Send PDI stream number during prepare
+      ASoC: SOF: Intel: hda: Always clean up link DMA during stop
+
+Shengjiu Wang (2):
+      ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
+      ASoC: fsl_micfil: Add sample rate constraint
+
+Venkata Prasad Potturu (2):
+      ASoC: SOF: amd: Add error log for DSP firmware validation failure
+      ASoC: SOF: amd: Fix for ACP SRAM addr for acp7.0 platform
+
+Zhu Jun (1):
+      ASoC: codecs: Fix error handling in aw_dev_get_dsp_status function
+
+Zichen Xie (1):
+      ASoC: qcom: Fix NULL Dereference in asoc_qcom_lpass_cpu_platform_probe()
+
+---
+ .../bindings/sound/davinci-mcasp-audio.yaml        | 18 ++---
+ MAINTAINERS                                        |  5 +-
+ drivers/soundwire/intel_ace2x.c                    | 19 ++---
+ include/uapi/sound/asoc.h                          |  2 +-
+ sound/firewire/amdtp-stream.c                      |  3 +
+ sound/pci/hda/Kconfig                              |  2 +-
+ sound/pci/hda/patch_realtek.c                      | 48 +++++++------
+ sound/soc/amd/yc/acp6x-mach.c                      | 14 ++++
+ sound/soc/codecs/aw88399.c                         |  2 +-
+ sound/soc/codecs/lpass-rx-macro.c                  | 15 ++--
+ sound/soc/codecs/max98388.c                        |  1 +
+ sound/soc/codecs/pcm3060-i2c.c                     |  4 +-
+ sound/soc/codecs/pcm3060-spi.c                     |  4 +-
+ sound/soc/codecs/pcm3060.c                         |  4 +-
+ sound/soc/codecs/pcm3060.h                         |  2 +-
+ sound/soc/codecs/rt722-sdca-sdw.c                  |  2 +-
+ sound/soc/fsl/fsl_esai.c                           |  4 +-
+ sound/soc/fsl/fsl_micfil.c                         | 81 +++++++++++++++++++++-
+ sound/soc/intel/avs/core.c                         |  3 +-
+ sound/soc/intel/avs/pcm.c                          | 19 +++++
+ sound/soc/intel/avs/pcm.h                          | 16 +++++
+ sound/soc/intel/common/soc-acpi-intel-lnl-match.c  | 38 ++++++++++
+ sound/soc/loongson/loongson_card.c                 |  1 +
+ sound/soc/qcom/Kconfig                             |  2 +
+ sound/soc/qcom/lpass-cpu.c                         |  2 +
+ sound/soc/qcom/sc7280.c                            | 10 ++-
+ sound/soc/qcom/sdm845.c                            |  7 +-
+ sound/soc/sh/rcar/core.c                           |  7 +-
+ sound/soc/soc-dapm.c                               |  4 +-
+ sound/soc/sof/amd/acp-loader.c                     |  5 +-
+ sound/soc/sof/amd/acp.c                            |  4 +-
+ sound/soc/sof/intel/hda-dai-ops.c                  | 23 +++---
+ sound/soc/sof/intel/hda-dai.c                      | 37 ++++++++--
+ sound/soc/sof/intel/hda-loader.c                   | 17 -----
+ sound/soc/sof/ipc4-topology.c                      | 15 +++-
+ 35 files changed, 329 insertions(+), 111 deletions(-)
+ create mode 100644 sound/soc/intel/avs/pcm.h
 
