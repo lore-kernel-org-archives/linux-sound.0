@@ -1,72 +1,68 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86A81F81A9
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3669E1FBF79
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729853167; cv=none; b=F5VadM/mnIapV/w7+J8JB/uc+/PnZ1Mu1S2NQEHIf8M0tNp8VuSE8WJCsPx9XyifU4r3r3vpUpXzAVE3LYgxvD0YJ0CK3NyHTWZp7UONlg+i+H2whAtmjWAyWmPqpnCF4BJanlCwEZXvqigVjj+TheWf8HsLuoOJdHwiuhskTl8=
+	t=1729853170; cv=none; b=b9LmterMF7xuj3iiLrwqdIaB8YS6NzKEjfCg85QYVO8CnEJZWZavtxSBJATrH4N+T4Mwq8AZX63jwvw1TZalY+V1fHodi2RSXt1FceMUO5tJglJOl+F7V3R412/zm5geccSGC53ZEY4lfvKXuQoTBmn2rtCsOh2kRsbEPj4DsrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729853167; c=relaxed/simple;
-	bh=J+g1Im0eNTXVrmX/47x2f2dXUENmYhSVLhNDAC3QZt0=;
+	s=arc-20240116; t=1729853170; c=relaxed/simple;
+	bh=LEnPFvnyQ5b9D3+6su2thKqg/1KZlfYf9MBK8xIMzjM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZxwM+LNTtxVKtKt8TxRHoZXLtw68nQ8jG1+8wuNWWdqyUokuShAm+Er2/FapmGHuCUPuNtZrtoIwaRdcYxIpMXDsy+pahgnDfTrk0M2V2UxmHXbxszDI0TnmHRk/0Di5MmbiLoIxcjjJy8a+q+b7IJTe7fsHcDjJgCD4w29yRqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Plfse1oj; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version; b=Lpz6JZEDySPbWU2h7XYFeBxG3kAKYqSg9IW8XqEAzGGVHNRtkN16Vqp5/cdpUffl/77DR9O5V5T2uh6seUljidog4bnPGDpwlUDs5u3NbBSjdcPUIHI4IBe6Fc8I40TFBotmbz3VY6ZLooYpS0r60wy/wR3EWcKF3ATyZ+K/6+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PYkZ8vRu; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Plfse1oj"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso1296218a12.0
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PYkZ8vRu"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7205646f9ebso336110b3a.0
+        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729853165; x=1730457965; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1729853168; x=1730457968; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KHjnlTjdt8BtFp7CiIXNRB6RKGW6gDEeynV8EXeDZt0=;
-        b=Plfse1oj5vetJYzMFj0g8mhd8XWi3vUnO+uoaw/GREF561AVrvV8sUP5Bg9MBi52ui
-         v5W6R05dxC7EJ0Fv1vR4BtdkRQBy75I4mCWluLQBytOpyYuUiSiU01ooCyQws4n38LFo
-         AAXHh5ZDkJW0qHqOhKb5NqpLvugEpvqHwtyEA=
+        bh=mwvSraMLJg1mpGTC+YokyY9uCOj8ssrQMVVeDpVPQnU=;
+        b=PYkZ8vRup9aQmrkGH9O0gdHOlpu0ji7XoMrxmziA5VnWSrf4wuIwh7aaU3aUJRS7ra
+         ks0WaoCL1YtkqWD71JCKs2z2nkrAS7fittxSptawhZTkxkgucWiIvOQzK7hBnWR+0Uxu
+         Uukq6FmVtTYZUmFucVyLhXBIp2LL63x0IEHpI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729853165; x=1730457965;
+        d=1e100.net; s=20230601; t=1729853168; x=1730457968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KHjnlTjdt8BtFp7CiIXNRB6RKGW6gDEeynV8EXeDZt0=;
-        b=gOzxSGOSBMMb9xHt9SyXSblqKkeSsE5+7gKNgjFCSMQ9GTqHhoxflepCykhGc0MBz2
-         NiEIMQnzCinrW8XpzL+NKgcOHlKZCeMxBeyctIXHKaVpf+IxGt2yCGpMdPc3O1XhVAX6
-         h2fV2WMtnpYfVrWwHK+5JxNOuQmTBuhpgKfYynDzqxUY+xEc1v2OS6pLjB7RYIUD7kN3
-         WsAN3uIRH/0zSoDhz+XVgUncNI5M2B+gRC8dfFIcQVhWe25wTwfBVi+diDZTAYtwz5dX
-         1T/53scOZxcLBoQ9TKolScK2O5HXeoPwrPH3rOJDwEaQ9/1nw+4s1JBOeyP3DxPF4VkD
-         xLkA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIbCDnoURg9++E5L/W1+nFYRLcnxpn+gVbi6kN1JAEbpeO85fx2uucLFSwVJTyqRn412anyixMATIdqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5xLEA8CzOEGGrPdDwe1sPxDvQeAAnNUFxCnx/KA8pOzh+klhB
-	/u5USL62MwJV+XIc2ZGABSynL8OJ3wsoeKJJO8xILZv9DXXZxyg3kjaU8XhR4A==
-X-Google-Smtp-Source: AGHT+IFS0h0JqPw1ebmNNkhQOl9Ys/JQ1lPG9I77D6EUM2T3OpCnZPEttx0nxdHn7SemMJj6wUzG/w==
-X-Received: by 2002:a05:6a21:3a82:b0:1d2:f124:a1cb with SMTP id adf61e73a8af0-1d978aeacccmr9904743637.9.1729853165012;
-        Fri, 25 Oct 2024 03:46:05 -0700 (PDT)
+        bh=mwvSraMLJg1mpGTC+YokyY9uCOj8ssrQMVVeDpVPQnU=;
+        b=rjMPQrvNDxIHJsEwom0qNi5nTnFFwL+bQeCtUiyMlXISwma0SzvA+NSgOMRgo6PS6C
+         7Oe8CeVAhbGFr0DNTY4Ht5Fm47mkYJr3QNH9cCHpSdiBpx5L9KT2PP+6al7ztpgVkMIc
+         c1Ubi4QqegUyHHW374vBZmghTRVn0kSUVLv5yA+lglitZ76HogInFjluIBvRZCdHMAZG
+         tZrkrsrr0h1/9x/81zgGspBOXI6oxgjT599fLEhuoOux7i8T89JRck0bX8sM6IcN0AJ+
+         WAsbLf6B3/FJ8TvB2i+pWoCzZu9om82jETriKa4ks0PSAOn6BFyQNTpIusU1WfTDrMth
+         mKYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRyrbzrHkSeoYNHuDdRL35OT37vZU3R5Prh/dFfu/HqZAoQFXnon3aiy+CMr87qbBKFOLG5iodWzk2jw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAHbiE7ANi9UUERbTBnpx3AkDuM+0jUlyJUQVgL3gia9epAVNA
+	wBBl1+fBF5InIBnww3N9Hoqus0AIWaXfhG+CqvZ5SWxryY7p4PWmi9/0e+l/4Q==
+X-Google-Smtp-Source: AGHT+IFZb7u6MhTnx0Cd0nGORaHx/jx1aDgSW1ziWHfbhnILcm9MDtQdpUvmawCumLhb1VWKs1mJwA==
+X-Received: by 2002:a05:6a00:3c94:b0:71e:7a56:3eaf with SMTP id d2e1a72fcca58-72030bba11fmr12544536b3a.24.1729853167589;
+        Fri, 25 Oct 2024 03:46:07 -0700 (PDT)
 Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:ebe1:dd63:343d:8a4c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.46.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.46.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 03:46:04 -0700 (PDT)
+        Fri, 25 Oct 2024 03:46:07 -0700 (PDT)
 From: Fei Shao <fshao@chromium.org>
 To: Mark Brown <broonie@kernel.org>
 Cc: Fei Shao <fshao@chromium.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
 	Rob Herring <robh@kernel.org>,
-	Trevor Wu <trevor.wu@mediatek.com>,
+	Steve Lee <steves.lee@maximintegrated.com>,
 	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 2/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Update DAI link node pattern
-Date: Fri, 25 Oct 2024 18:44:42 +0800
-Message-ID: <20241025104548.1220076-3-fshao@chromium.org>
+Subject: [PATCH 3/4] ASoC: dt-bindings: maxim,max98390: Refernce common DAI properties
+Date: Fri, 25 Oct 2024 18:44:43 +0800
+Message-ID: <20241025104548.1220076-4-fshao@chromium.org>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 In-Reply-To: <20241025104548.1220076-1-fshao@chromium.org>
 References: <20241025104548.1220076-1-fshao@chromium.org>
@@ -78,42 +74,38 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The associated machine driver is not dependent on the format of DAI link
-node names. This means we are allowed to use more descriptive names
-instead of indices without impacting functionality.
-
-Update the binding to accept arbitrary DAI link names with a "-dai-link"
-suffix. This is the common pattern used by the target (MT8188) and other
-(MT8195, MT8186 etc.) MediaTek-based Chromebooks.
+Reference dai-common.yaml schema to support '#sound-dai-cells' and
+'sound-name-prefix' properties.
 
 Signed-off-by: Fei Shao <fshao@chromium.org>
 ---
 
- .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-index 701cedfa38d2..2da34b66818f 100644
---- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-+++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-@@ -40,7 +40,7 @@ properties:
-       name defined in the machine driver.
+diff --git a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
+index deaa6886c42f..5bd235cf15e6 100644
+--- a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
++++ b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
+@@ -9,6 +9,9 @@ title: Maxim Integrated MAX98390 Speaker Amplifier with Integrated Dynamic Speak
+ maintainers:
+   - Steve Lee <steves.lee@maximintegrated.com>
  
- patternProperties:
--  "^dai-link-[0-9]+$":
-+  ".*-dai-link$":
-     type: object
-     description:
-       Container for dai-link level properties and CODEC sub-nodes.
-@@ -112,7 +112,7 @@ examples:
-             "Headphone", "Headphone L",
-             "Headphone", "Headphone R",
-             "AIN1", "Headset Mic";
--        dai-link-0 {
-+        hdmi-dai-link {
-             link-name = "ETDM3_OUT_BE";
-             dai-format = "i2s";
-             mediatek,clk-provider = "cpu";
++allOf:
++  - $ref: dai-common.yaml#
++
+ properties:
+   compatible:
+     const: maxim,max98390
+@@ -36,7 +39,7 @@ required:
+   - compatible
+   - reg
+ 
+-additionalProperties: false
++unevaluatedProperties: false
+ 
+ examples:
+   - |
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
