@@ -1,54 +1,54 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB311D47C7
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86A81F81A9
+	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 10:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729853164; cv=none; b=YJJBJPsfgXN5fMH77lNWcJyV2UrH7un+lPv8yP7GmoHbzFIiLfU9mj4fu/GVeMdaSSuMA2AqMCV6DsacnAFb61GXlxS6hGxGlQ+/OTcaay8jsseCr6XJhVAA40toHIR5Hbf//wjkIszKx3kJI1prgU/RFyVCaznxQQ1DYdaI+zE=
+	t=1729853167; cv=none; b=F5VadM/mnIapV/w7+J8JB/uc+/PnZ1Mu1S2NQEHIf8M0tNp8VuSE8WJCsPx9XyifU4r3r3vpUpXzAVE3LYgxvD0YJ0CK3NyHTWZp7UONlg+i+H2whAtmjWAyWmPqpnCF4BJanlCwEZXvqigVjj+TheWf8HsLuoOJdHwiuhskTl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729853164; c=relaxed/simple;
-	bh=O14uLJFcfQnS9aEjRH8ZapsPP/mCxPsRfwWSDCmOMkY=;
+	s=arc-20240116; t=1729853167; c=relaxed/simple;
+	bh=J+g1Im0eNTXVrmX/47x2f2dXUENmYhSVLhNDAC3QZt0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D29riZzKKMtTZT19sHJwO0KYXzN+lD+twWfC9YzIOC4SwudSLfg2PXV7YC1nSlOkHTm4t8dePw+gx8EC9F0f79T47UEj7hcxh8wxQaok75RR/tCqvcvaD6kuK87RaiyWAKwmlHcQyLFSFoKO9L1NnGNHRIAyiqJzSguDzLFru0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fnSJ4QuQ; arc=none smtp.client-ip=209.85.215.178
+	 MIME-Version; b=ZxwM+LNTtxVKtKt8TxRHoZXLtw68nQ8jG1+8wuNWWdqyUokuShAm+Er2/FapmGHuCUPuNtZrtoIwaRdcYxIpMXDsy+pahgnDfTrk0M2V2UxmHXbxszDI0TnmHRk/0Di5MmbiLoIxcjjJy8a+q+b7IJTe7fsHcDjJgCD4w29yRqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Plfse1oj; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fnSJ4QuQ"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7d4fa972cbeso1487322a12.2
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Plfse1oj"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso1296218a12.0
+        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 03:46:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1729853162; x=1730457962; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1729853165; x=1730457965; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ceLR0IvL9qdGH71mlJjn14Kdj5vXT4ULmmpb71qNMEk=;
-        b=fnSJ4QuQVaAJl+9/VCdbdqBZ7Sxwbr/O6rAx92Td6BQXVubUv++AU/0CvNd8MvlKlc
-         Ph8Lp4dv09HWw3VZrsH8GAHl8tmtMCr/6Z1jA+rwROaUg3c+xCgGkt/u2lru0WQ7MNhA
-         +L3MRDcmbX6KI/d98bJU7NPkzSi9/MuHXqTSQ=
+        bh=KHjnlTjdt8BtFp7CiIXNRB6RKGW6gDEeynV8EXeDZt0=;
+        b=Plfse1oj5vetJYzMFj0g8mhd8XWi3vUnO+uoaw/GREF561AVrvV8sUP5Bg9MBi52ui
+         v5W6R05dxC7EJ0Fv1vR4BtdkRQBy75I4mCWluLQBytOpyYuUiSiU01ooCyQws4n38LFo
+         AAXHh5ZDkJW0qHqOhKb5NqpLvugEpvqHwtyEA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729853162; x=1730457962;
+        d=1e100.net; s=20230601; t=1729853165; x=1730457965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ceLR0IvL9qdGH71mlJjn14Kdj5vXT4ULmmpb71qNMEk=;
-        b=qH3HrkHTZh2lO6M/eVSE61VhNsZ3XOd25+D88sJebP2jiXBtsmt0wyCUds1C+RoN0N
-         Td5yxJ7liISBTkU2WayT0jW5lR7Z74DLeoMGZVb4hAAKAE73IIsy/mS/D0rpiTmbbvBF
-         R2rcbEhEMIPnAZt7Am8L5TAb8bZiWB7+7T638rqO9TU8qHo1BYB29jfWKB1HIzPjEXw0
-         rTBBGbZDVHS+OM04S2k9KFD5ufIPVXvnz0IhS6/bPCJpPBwbONU4BFKMzuPYXag533lL
-         j76QiCkMgzClVgOVS0Qx3cqF3TlaUJOtNAAZCP1uGH67eOqhCEBvWOnKtIKZd1j7iiL7
-         pkKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWaGZEYUaDU4KDI9o+CyO0Dfqki0w4sKou21ar+bNPjmPT1aqmkaKLAZTFWuk37AwecIufccVfQaz9UAw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnrA8FQ63PEI7L2NN7jWe1MCzrpA3JUxfIoX2HrvRA8hby9M6F
-	LoPYELFxzlcn8vzm2TxwVMlnCDBE+rjoqbD46Cm92zWICWuD4ibsxe2Nhs1rqQ==
-X-Google-Smtp-Source: AGHT+IGz6wzyyQ3d+NeaKQh7ukjIPx/hDX/N2T3R4gD20OXmJ38D2JhCFST+k71O7anmr55JG00JVA==
-X-Received: by 2002:a05:6a20:2d1f:b0:1d8:d880:2069 with SMTP id adf61e73a8af0-1d9898ff764mr4972242637.3.1729853161966;
-        Fri, 25 Oct 2024 03:46:01 -0700 (PDT)
+        bh=KHjnlTjdt8BtFp7CiIXNRB6RKGW6gDEeynV8EXeDZt0=;
+        b=gOzxSGOSBMMb9xHt9SyXSblqKkeSsE5+7gKNgjFCSMQ9GTqHhoxflepCykhGc0MBz2
+         NiEIMQnzCinrW8XpzL+NKgcOHlKZCeMxBeyctIXHKaVpf+IxGt2yCGpMdPc3O1XhVAX6
+         h2fV2WMtnpYfVrWwHK+5JxNOuQmTBuhpgKfYynDzqxUY+xEc1v2OS6pLjB7RYIUD7kN3
+         WsAN3uIRH/0zSoDhz+XVgUncNI5M2B+gRC8dfFIcQVhWe25wTwfBVi+diDZTAYtwz5dX
+         1T/53scOZxcLBoQ9TKolScK2O5HXeoPwrPH3rOJDwEaQ9/1nw+4s1JBOeyP3DxPF4VkD
+         xLkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIbCDnoURg9++E5L/W1+nFYRLcnxpn+gVbi6kN1JAEbpeO85fx2uucLFSwVJTyqRn412anyixMATIdqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5xLEA8CzOEGGrPdDwe1sPxDvQeAAnNUFxCnx/KA8pOzh+klhB
+	/u5USL62MwJV+XIc2ZGABSynL8OJ3wsoeKJJO8xILZv9DXXZxyg3kjaU8XhR4A==
+X-Google-Smtp-Source: AGHT+IFS0h0JqPw1ebmNNkhQOl9Ys/JQ1lPG9I77D6EUM2T3OpCnZPEttx0nxdHn7SemMJj6wUzG/w==
+X-Received: by 2002:a05:6a21:3a82:b0:1d2:f124:a1cb with SMTP id adf61e73a8af0-1d978aeacccmr9904743637.9.1729853165012;
+        Fri, 25 Oct 2024 03:46:05 -0700 (PDT)
 Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:ebe1:dd63:343d:8a4c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.45.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72057a0d089sm829548b3a.99.2024.10.25.03.46.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 03:46:01 -0700 (PDT)
+        Fri, 25 Oct 2024 03:46:04 -0700 (PDT)
 From: Fei Shao <fshao@chromium.org>
 To: Mark Brown <broonie@kernel.org>
 Cc: Fei Shao <fshao@chromium.org>,
@@ -64,9 +64,9 @@ Cc: Fei Shao <fshao@chromium.org>,
 	linux-kernel@vger.kernel.org,
 	linux-mediatek@lists.infradead.org,
 	linux-sound@vger.kernel.org
-Subject: [PATCH 1/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp and dai-link properties
-Date: Fri, 25 Oct 2024 18:44:41 +0800
-Message-ID: <20241025104548.1220076-2-fshao@chromium.org>
+Subject: [PATCH 2/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Update DAI link node pattern
+Date: Fri, 25 Oct 2024 18:44:42 +0800
+Message-ID: <20241025104548.1220076-3-fshao@chromium.org>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
 In-Reply-To: <20241025104548.1220076-1-fshao@chromium.org>
 References: <20241025104548.1220076-1-fshao@chromium.org>
@@ -78,40 +78,42 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add "mediatek,adsp" property for the ADSP handle if ADSP is enabled on
-the platform.
-Add "mediatek,dai-link" property for the required DAI links to configure
-sound card.
+The associated machine driver is not dependent on the format of DAI link
+node names. This means we are allowed to use more descriptive names
+instead of indices without impacting functionality.
 
-Both properties are commonly used in the MediaTek sound card driver.
+Update the binding to accept arbitrary DAI link names with a "-dai-link"
+suffix. This is the common pattern used by the target (MT8188) and other
+(MT8195, MT8186 etc.) MediaTek-based Chromebooks.
 
 Signed-off-by: Fei Shao <fshao@chromium.org>
 ---
 
- .../bindings/sound/mediatek,mt8188-mt6359.yaml         | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-index f94ad0715e32..701cedfa38d2 100644
+index 701cedfa38d2..2da34b66818f 100644
 --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
 +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-@@ -29,6 +29,16 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description: The phandle of MT8188 ASoC platform.
+@@ -40,7 +40,7 @@ properties:
+       name defined in the machine driver.
  
-+  mediatek,adsp:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description: The phandle of MT8188 ADSP platform.
-+
-+  mediatek,dai-link:
-+    $ref: /schemas/types.yaml#/definitions/string-array
-+    description:
-+      A list of the desired dai-links in the sound card. Each entry is a
-+      name defined in the machine driver.
-+
  patternProperties:
-   "^dai-link-[0-9]+$":
+-  "^dai-link-[0-9]+$":
++  ".*-dai-link$":
      type: object
+     description:
+       Container for dai-link level properties and CODEC sub-nodes.
+@@ -112,7 +112,7 @@ examples:
+             "Headphone", "Headphone L",
+             "Headphone", "Headphone R",
+             "AIN1", "Headset Mic";
+-        dai-link-0 {
++        hdmi-dai-link {
+             link-name = "ETDM3_OUT_BE";
+             dai-format = "i2s";
+             mediatek,clk-provider = "cpu";
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
