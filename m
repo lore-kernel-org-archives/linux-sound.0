@@ -1,97 +1,124 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5AD941746
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 01:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95154879B;
+	Fri, 25 Oct 2024 01:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.61.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729819397; cv=none; b=rd5Y2BywuXfjK/oNi1ZST5tPSeTObEZvNXtu0GR4zXV4bip/qDamQTIgB+x9smHQLoQwDQxuN/wlNZB9Lu8FlGGNDb9aFjoBk6JTn23empjGEc/agBZDfjkYwOEvsDt/1cHDurq0XFHTF1RxoQE1sn2EuFc8uhoXf9FFYgUcYOU=
+	t=1729820450; cv=none; b=M96x5+28/onGGCy33A2eBI2ahPug9ce+A0lo2wxwTHrWYk4MwI6J6QsOV/M6oJYIa2yeqKysZ56B5HIPoPzc2xRYkK65R//gL2JMNEO/P0mdSctx0QNAR6CNvFmXgkEI5AeR9amDTHxXVZHO6b/SdhCt+1mmlWTzmlPMrojM6ZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729819397; c=relaxed/simple;
-	bh=pIz4D5iSfqKhs9u4Ccrwg9Su/Utf2wLMgSechXdBxec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=erqHLRpa32mrnusliwQ2c1z5G0P58IU1RXf8u4k0boinpgRzlbkyk3ywebxO+lz9UfYhJK5vy/qTdMhIv3N2Q+NvmZuQ3XI5cmK4XNjVwzr9eK/xPcCwNSqZFUy2cr83xBGQNdHrSBqmmAvND9ecRgjCII2+ubuIknGMs6iOMqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu; spf=pass smtp.mailfrom=utexas.edu; dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b=sOvFbXkp; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=utexas.edu
+	s=arc-20240116; t=1729820450; c=relaxed/simple;
+	bh=s8VhV7YOekzg0qBmxC5N32OUoYZeoSaXeWcxaVdUzU4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=es07vXm92qY75sfNffhJb7G+Q+671efsIZvKSa4PgSVfdx4JtJZqyBPFwno9YLcqheUhnh0ZN80Fi1JMurR41kmNbCycm+/ALf6vd+Ucn/Yx13vd5v934wF39BGlA5QAWwRrU9xqoKWoXOwrV5ll4KeXcpurh7eeJ0RSG2FAAGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=IkdWrafR; arc=none smtp.client-ip=139.138.61.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b="sOvFbXkp"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71e6cec7227so1208211b3a.0
-        for <linux-sound@vger.kernel.org>; Thu, 24 Oct 2024 18:23:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=utexas.edu; s=google; t=1729819394; x=1730424194; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pIz4D5iSfqKhs9u4Ccrwg9Su/Utf2wLMgSechXdBxec=;
-        b=sOvFbXkpHQ/17upeJKYgTKjYLnXyiKqSJp/UqyrhFi5MMDogTB1677ECmJCw4mcC/x
-         KMBLCuQKZGayu1BlGJvSkAEtBRdTYTAjpiIBLb3vu53sCo81e1BF+cMzeWEisNBvC6Jl
-         54fdnk3B5cFcpVK2XaQMXF+rx+s4+7/ZYoIIoJXu2cpzSN340q93UzZQvmmyU8MnqNJ3
-         jeNOesXs6aADa83q9XCbXSdvKV3UZIV+WNAzvl0rUedWu9Blv1t9nVnFgKgZXUD9CLjL
-         ICmTU4TLrljrnf/MZws+8+XgmpBCet45tjoJpgammlCOlVy/Y4HInAGjqkhxJhLovTNi
-         +W8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729819394; x=1730424194;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pIz4D5iSfqKhs9u4Ccrwg9Su/Utf2wLMgSechXdBxec=;
-        b=hHVcNAMhJdvWYDWxw+NVejTMDQneatzeq+UyQ+24ttNGxx1uuXOptNopBvidMH6l3O
-         rGRlHFG/U+rP2WfLEfusHE5IuRq18Kxa9HDcLSWB1WlUXAaXFjVoBywqzx4z7cyCbdL8
-         yYQXYT7YpIRMHovFIV5Bp78UvPR1FX+b2yAs32P270rP5V3SmjrlOC2eYUzjtyilCt0d
-         DhJPQ3BJpk4oyRpS8XngEstPjPE3Kg4nB4AP8uUMGXcCN6NlOz17d/4iTSmf1mDtn/xL
-         jNGeDsVHLi8rENBOJROe5w9I1Eca8vBxeMfQkJQeoSThJycQkFZaG5P4Slrp6MF5ibtP
-         4maA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEov/+DcebOtPmxcApSWllQ/KX+ytXC0T+4o4TXGYCoEn8AVTvlxzuQgW+MqMPi5rqMzczuBVfJfwHFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWBulGf16ctOGDAMZp8sQ4B2lDuCn1VGwhd2SX0PM6iwLD7EWX
-	3n47hJiAkLJSpYmfVVWc/de/dV5syTEnIu6hCn2qWS5ikYbgNddd319YazXnAortYOuEURFaFs9
-	u56+OW9ZKfM/JUfXIWWGhSh0XL4vhdthjirWLsA==
-X-Google-Smtp-Source: AGHT+IHfXyziaUAl/+tK39Ykk3K6biro+i36WzXpNeEaPUEW0LrmKuZryiGvNWdoR4dgyxHgV0gJYhyFSUG2HhmvTZI=
-X-Received: by 2002:a05:6a21:70c8:b0:1d3:2923:e37 with SMTP id
- adf61e73a8af0-1d989b4ee3amr4495019637.30.1729819394136; Thu, 24 Oct 2024
- 18:23:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="IkdWrafR"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1729820448; x=1761356448;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=s8VhV7YOekzg0qBmxC5N32OUoYZeoSaXeWcxaVdUzU4=;
+  b=IkdWrafRftwK3gA39aZiMh20YqFiS1rp7B+H+Xht9PtSckEFtCavsSZ4
+   zaz6wVQ8GG5QMEabXUaliV6pEMXIlumAKBOt/rbZVwFXOpcfRM9ginLII
+   hzQvSj8TnBLrO3g78E8lRCKshfqOw+Fgo5ETX9z5hUBwWnXMg6WX/5SMZ
+   RtLztncIAT2hnqtVKjczQzC8zqRxI07ke0HSAT1F9Ad6zH1KgDk4eBTYi
+   +3gnkdlU22A7itBHDGseZT4CQqDq9JUvOJTCR5wOQs8xhUR1nwa/gAalA
+   Z8ufNfyvV1bIOKg0i+sq6EbbX99Os2PNy02rfCa9gLOoPtaI4Z+t/fmRN
+   g==;
+X-CSE-ConnectionGUID: 9PYzxuvnS02zEur0U08f6A==
+X-CSE-MsgGUID: SrApEPCjTGyGSMST7X6mMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="156807491"
+X-IronPort-AV: E=Sophos;i="6.11,230,1725289200"; 
+   d="scan'208";a="156807491"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 10:39:35 +0900
+Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7C0286C9CB;
+	Fri, 25 Oct 2024 10:39:33 +0900 (JST)
+Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
+	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id AD930103E2;
+	Fri, 25 Oct 2024 10:39:32 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 2E79170BC6;
+	Fri, 25 Oct 2024 10:39:32 +0900 (JST)
+Received: from iaas-rdma.. (unknown [10.167.135.44])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5F98E1A01E9;
+	Fri, 25 Oct 2024 09:39:31 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: linux-kselftest@vger.kernel.org
+Cc: shuah@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Li Zhijian <lizhijian@fujitsu.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH for-next 1/7] selftests/alsa: Add a few missing gitignore files
+Date: Fri, 25 Oct 2024 09:40:04 +0800
+Message-ID: <20241025014010.6533-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
- <2024101613-giggling-ceremony-aae7@gregkh> <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
- <87bjzktncb.wl-tiwai@suse.de> <CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
- <87cyjzrutw.wl-tiwai@suse.de> <CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
- <87ttd8jyu3.wl-tiwai@suse.de> <CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
- <87h697jl6c.wl-tiwai@suse.de> <CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
- <87ed4akd2a.wl-tiwai@suse.de> <87bjzekcva.wl-tiwai@suse.de>
- <CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
- <877ca2j60l.wl-tiwai@suse.de> <43fe74e10d1d470e80dc2ae937bc1a43@realtek.com>
- <87ldyh6eyu.wl-tiwai@suse.de> <18d07dccef894f4cb87b78dd548c5bdd@realtek.com>
- <87h6956dgu.wl-tiwai@suse.de> <c47a3841cd554c678a0c5e517dd2ea77@realtek.com>
-In-Reply-To: <c47a3841cd554c678a0c5e517dd2ea77@realtek.com>
-From: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Date: Thu, 24 Oct 2024 20:22:38 -0500
-Message-ID: <CAEkK70SojedmjbXB+a+g+Bys=VWCOpxzV5GkuMSkAgA-jR2FpA@mail.gmail.com>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-To: Kailang <kailang@realtek.com>
-Cc: Takashi Iwai <tiwai@suse.de>, "stable@vger.kernel.org" <stable@vger.kernel.org>, 
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linux Sound System <linux-sound@vger.kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28752.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28752.003
+X-TMASE-Result: 10--3.123200-10.000000
+X-TMASE-MatchedRID: 54gb2yeIOXQhiKpapiFQUqoXHZz/dXlxTJDl9FKHbrnBsf5qt44jZ0/m
+	RGqrA8qmt51G676eQJPtDFjbdjEntA8rYO92b9Nm4aN9Pi1E3hczNsXWBvGVBswHSQ+yXjTDr7f
+	LNf2RfSt3yadK9iyoPuaffHI8kAminajGxrJsU4OeAiCmPx4NwGmRqNBHmBveafSbrzwSjfwqtq
+	5d3cxkNZdacNh8njm7zp+PP9TR1iEPsxq987sSn0i++CMiQi/k9qPpshOt6bu5Li8SIkl1u73HO
+	iflqur/Dn6CZ0LqGmt/1G6b11sj9O4zq2MCCj3QFcUQf3Yp/ridO0/GUi4gFb0fOPzpgdcEKeJ/
+	HkAZ8Is=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-I get the same values for both
+Compiled binary files should be added to .gitignore
 
-axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-0x5a SET_COEF_INDEX 0x00
-nid = 0x5a, verb = 0x500, param = 0x0
-value = 0x0
-axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-0x5a SET_PROC_COEF 0x00
-nid = 0x5a, verb = 0x400, param = 0x0
-value = 0x0
+'git status' complains:
+Untracked files:
+(use "git add <file>..." to include in what will be committed)
+     alsa/global-timer
+     alsa/utimer-test
 
-axiom /home/dean # hda-verb /dev/snd/hwC0D0 0x5a SET_COEF_INDEX 0x00
-nid = 0x5a, verb = 0x500, param = 0x0
-value = 0x0
-axiom /home/dean # hda-verb /dev/snd/hwC0D0 0x5a SET_PROC_COEF 0x00
-nid = 0x5a, verb = 0x400, param = 0x0
-value = 0x0
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+Cc: linux-sound@vger.kernel.org
+---
+Hello,
+Cover letter is here.
+
+This patch set aims to make 'git status' clear after 'make' and 'make
+run_tests' for kselftests.
+---
+V2:
+   split as a separate patch from a small one [0]
+   [0] https://lore.kernel.org/linux-kselftest/20241015010817.453539-1-lizhijian@fujitsu.com/
+---
+ tools/testing/selftests/alsa/.gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tools/testing/selftests/alsa/.gitignore b/tools/testing/selftests/alsa/.gitignore
+index 12dc3fcd3456..1407fd24a97b 100644
+--- a/tools/testing/selftests/alsa/.gitignore
++++ b/tools/testing/selftests/alsa/.gitignore
+@@ -1,3 +1,5 @@
+ mixer-test
+ pcm-test
+ test-pcmtest-driver
++global-timer
++utimer-test
+-- 
+2.44.0
+
