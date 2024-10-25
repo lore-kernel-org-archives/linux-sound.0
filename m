@@ -1,52 +1,44 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082ED1BCA0E
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 08:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ACDC189914;
+	Fri, 25 Oct 2024 08:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729844016; cv=none; b=dHRSyoG8RIcFiyhlWXbsjJLqGq7CePe/Eg6445FnEhkgh8D8faltFAfF9uwHTQWyfd51FEDqEQQyX8lwTx0+Dmb08x/VfEW6YZdgIQIf2jYDnO4E0ct39sLh7TZSfnLx02+V9Addu5IyN9iRZ2H+a0ufI68X40QVPl0Qr2QqYjU=
+	t=1729844470; cv=none; b=mybpzkKFh9dEKC5pIwp9/1hUrbewBkFEraHdqHFYfKRLS3E6cY6FgYjATPFXCyxSSAZFiO+sxIrYsujjKd5dYsm+Z6Buvx7CM7gFxPH3nSaMqd/ZWQMdd+U+rAaUtuTHXjtFqbIpADrsM3RiMbmeW+2mrh/Yx9k1WMwwtjf6Nas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729844016; c=relaxed/simple;
-	bh=I0ei7if7+hgI8XegJb64zQXb6wbV5eUZRlrMCOxNhPM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=P2OcdlD0gX1/uNIkWTqzkrk/8/V7WlZWrzBMyEjuixtk8VJ+uat28SHaM/99THKHP12wwimRuBAH0vmpqJfzNUihjZ67MfqIBnhbfrjXohOmJOuY9+eCiGOG0UHSxAcd/h1PhMQidYTQbXYN9nx+LKTwfFmca3WVS6uRwA/PcgE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=jjcl323n; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="jjcl323n"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 49P8D5kT4301211, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1729843985; bh=I0ei7if7+hgI8XegJb64zQXb6wbV5eUZRlrMCOxNhPM=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type;
-	b=jjcl323n7xozYpFc4bHW3PGtXd9il4qPv4Jg/S9lvDVfVfgpAlcFx8/1FV0iwINXl
-	 1MDYggDNSfeurtIqZ7wb1nfs4XIjerMuUzxQfH7ZdEMcASKSyJGSETB95v6yi/emvo
-	 hY9y+1Lfs2y3G4AIvq6VEM0jEKvqeZ8JS+2UHpupUgnKNwVUQo1Js0T0aB3hRcPSfc
-	 t3N6dYSdPcaDeciM+zuoPlmiXMdmtMyDWml6cX8tDHniksVLAccFCQCI0vgRyaRxYr
-	 1x5qa/q2r+2UMLiOWpFQFPU8h7mJv56rukjmRUuv+LWI1vkHTaeac1z4UWMur94xoy
-	 8XxegcbQ4ryqA==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 49P8D5kT4301211
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Oct 2024 16:13:05 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 25 Oct 2024 16:13:05 +0800
-Received: from sw-server.localdomain (172.22.102.1) by
- RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 25 Oct 2024 16:13:04 +0800
-From: <shumingf@realtek.com>
-To: <broonie@kernel.org>, <lgirdwood@gmail.com>
-CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
-        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
-        <derek.fang@realtek.com>, Shuming Fan <shumingf@realtek.com>
-Subject: [PATCH] ASoC: rt1320: add mic function
-Date: Fri, 25 Oct 2024 16:12:59 +0800
-Message-ID: <20241025081259.1419518-1-shumingf@realtek.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1729844470; c=relaxed/simple;
+	bh=F+8EYrYfCSov3vYJvjIGwMMAlrlWyYadM7OBoaLYkxg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IhM5Oi5xwAVU9OBRZu0iuu0JpfJLwY4OgIhSlXA1nczBzZB8/pCq/54fL8zuoaaicYDXVnPYfH4t2tHnakQllAldngzi1qpIaAx47V4n5eCOLNOkG13kwlcBuHUteaBXP6rq2zeT/lSvsFyyRxrXIuFi9VO75gImZRxMD43DfX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee7671b54ea15c-7b171;
+	Fri, 25 Oct 2024 16:20:58 +0800 (CST)
+X-RM-TRANSID:2ee7671b54ea15c-7b171
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from leadsec.example.com.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr10-12010 (RichMail) with SMTP id 2eea671b54e6a90-2f5f8;
+	Fri, 25 Oct 2024 16:20:58 +0800 (CST)
+X-RM-TRANSID:2eea671b54e6a90-2f5f8
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	lgirdwood@gmail.com
+Cc: alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: tas2781: Fix redundant logical jump
+Date: Fri, 25 Oct 2024 16:20:42 +0800
+Message-Id: <20241025082042.2872-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,592 +46,194 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: RTEXH36505.realtek.com.tw (172.21.6.25) To
- RTEXMBS01.realtek.com.tw (172.21.6.94)
-X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
 
-From: Shuming Fan <shumingf@realtek.com>
+In these functions, some logical jump of "goto" and variable
+are redundant, thus remove them.
 
-This patch adds the mic function.
-
-Signed-off-by: Shuming Fan <shumingf@realtek.com>
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 ---
- sound/soc/codecs/rt1320-sdw.c | 323 ++++++++++++++++++++++++++++++++--
- sound/soc/codecs/rt1320-sdw.h |   4 +
- 2 files changed, 313 insertions(+), 14 deletions(-)
+ sound/soc/codecs/tas2781-i2c.c | 68 +++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 43 deletions(-)
 
-diff --git a/sound/soc/codecs/rt1320-sdw.c b/sound/soc/codecs/rt1320-sdw.c
-index ebd6f09bd990..3510c3819074 100644
---- a/sound/soc/codecs/rt1320-sdw.c
-+++ b/sound/soc/codecs/rt1320-sdw.c
-@@ -21,6 +21,7 @@
- #include <sound/tlv.h>
- #include <sound/sdw.h>
- #include "rt1320-sdw.h"
-+#include "rt-sdw-common.h"
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index 68887799e..27f2f84a4 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -489,14 +489,11 @@ static int tas2563_calib_start_put(struct snd_kcontrol *kcontrol,
+ 	struct snd_soc_component *comp = snd_soc_kcontrol_component(kcontrol);
+ 	struct tasdevice_priv *tas_priv = snd_soc_component_get_drvdata(comp);
+ 	const int sum = ARRAY_SIZE(tas2563_cali_start_reg);
+-	int rc = 1;
+ 	int i, j;
  
- /*
-  * The 'blind writes' is an SDCA term to deal with platform-specific initialization.
-@@ -106,6 +107,8 @@ static const struct reg_sequence rt1320_blind_write[] = {
- 	{ 0x1000db09, 0x00 },
- 	{ 0x1000db0a, 0x40 },
- 	{ 0x0000d540, 0x01 },
-+	{ 0xd172, 0x2a },
-+	{ 0xc5d6, 0x01 },
- };
+ 	guard(mutex)(&tas_priv->codec_lock);
+-	if (tas_priv->chip_id != TAS2563) {
+-		rc = -1;
+-		goto out;
+-	}
++	if (tas_priv->chip_id != TAS2563)
++		return -1;
  
- static const struct reg_sequence rt1320_vc_blind_write[] = {
-@@ -225,22 +228,41 @@ static const struct reg_sequence rt1320_vc_blind_write[] = {
- 	{ 0x0000d540, 0x01 },
- 	{ 0x0000c081, 0xfc },
- 	{ 0x0000f01e, 0x80 },
-+	{ 0xc01b, 0xfc },
-+	{ 0xc5d1, 0x89 },
-+	{ 0xc5d8, 0x0a },
-+	{ 0xc5f7, 0x22 },
-+	{ 0xc5f6, 0x22 },
-+	{ 0xc065, 0xa5 },
-+	{ 0xc06b, 0x0a },
-+	{ 0xd172, 0x2a },
-+	{ 0xc5d6, 0x01 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
- };
- 
- static const struct reg_default rt1320_reg_defaults[] = {
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_02), 0x01 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_MUTE, CH_02), 0x01 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), 0x09 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), 0x0b },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0), 0x03 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_MUTE, CH_01), 0x01 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_MUTE, CH_02), 0x01 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE27, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0), 0x03 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PPU21, RT1320_SDCA_CTL_POSTURE_NUMBER, 0), 0x00 },
--	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), 0x09 },
--	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), 0x0b },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_CS21, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0), 0x09 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0), 0x03 },
- };
- 
- static const struct reg_default rt1320_mbq_defaults[] = {
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01), 0x0000 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_02), 0x0000 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01), 0x0000 },
-+	{ SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_02), 0x0000 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_VOLUME, CH_01), 0x0000 },
- 	{ SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_VOLUME, CH_02), 0x0000 },
- };
-@@ -306,6 +328,17 @@ static bool rt1320_readable_register(struct device *dev, unsigned int reg)
- 	case 0x1000f021:
- 	case 0x3fe2e000 ... 0x3fe2e003:
- 	case 0x3fc2ab80 ... 0x3fc2abd4:
-+	/* 0x40801508/0x40801809/0x4080180a/0x40801909/0x4080190a */
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_REQ_POWER_STATE, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_02):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_MUTE, CH_01):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_MUTE, CH_02):
-+	/* 0x40880900/0x40880980 */
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0):
-+	/* 0x40881500 */
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0):
- 	/* 0x41000189/0x4100018a */
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_MUTE, CH_01):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_MUTE, CH_02):
-@@ -388,6 +421,7 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
- 	case 0x3fc2bf80 ... 0x3fc2bf83:
- 	case 0x3fc2bfc0 ... 0x3fc2bfc7:
- 	case 0x3fe2e000 ... 0x3fe2e003:
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT0, RT1320_SDCA_CTL_FUNC_STATUS, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_SAPU, RT1320_SDCA_CTL_SAPU_PROTECTION_MODE, 0):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_SAPU, RT1320_SDCA_CTL_SAPU_PROTECTION_STATUS, 0):
-@@ -401,6 +435,10 @@ static bool rt1320_volatile_register(struct device *dev, unsigned int reg)
- static bool rt1320_mbq_readable_register(struct device *dev, unsigned int reg)
- {
- 	switch (reg) {
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_02):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01):
-+	case SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_02):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_VOLUME, CH_01):
- 	case SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_VOLUME, CH_02):
- 		return true;
-@@ -456,7 +494,7 @@ static int rt1320_read_prop(struct sdw_slave *slave)
- 	prop->lane_control_support = true;
- 
- 	/* first we need to allocate memory for set bits in port lists */
--	prop->source_ports = BIT(4);
-+	prop->source_ports = BIT(4) | BIT(8) | BIT(10);
- 	prop->sink_ports = BIT(1);
- 
- 	nval = hweight32(prop->source_ports);
-@@ -500,7 +538,8 @@ static int rt1320_read_prop(struct sdw_slave *slave)
- 	return 0;
- }
- 
--static int rt1320_pde_transition_delay(struct rt1320_sdw_priv *rt1320, unsigned char ps)
-+static int rt1320_pde_transition_delay(struct rt1320_sdw_priv *rt1320, unsigned char func,
-+	unsigned char entity, unsigned char ps)
- {
- 	unsigned int delay = 1000, val;
- 
-@@ -509,8 +548,7 @@ static int rt1320_pde_transition_delay(struct rt1320_sdw_priv *rt1320, unsigned
- 	/* waiting for Actual PDE becomes to PS0/PS3 */
- 	while (delay) {
- 		regmap_read(rt1320->regmap,
--			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
--			RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0), &val);
-+			SDW_SDCA_CTL(func, entity, RT1320_SDCA_CTL_ACTUAL_POWER_STATE, 0), &val);
- 		if (val == ps)
- 			break;
- 
-@@ -627,7 +665,7 @@ static void rt1320_vc_preset(struct rt1320_sdw_priv *rt1320)
- 			usleep_range(delay, delay + 1000);
- 
- 		if (reg == SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, RT1320_SDCA_CTL_REQ_POWER_STATE, 0))
--			rt1320_pde_transition_delay(rt1320, val);
-+			rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, val);
+ 	for (i = 0; i < tas_priv->ndev; i++) {
+ 		struct tasdevice *tasdev = tas_priv->tasdevice;
+@@ -523,8 +520,8 @@ static int tas2563_calib_start_put(struct snd_kcontrol *kcontrol,
+ 					q[j].val, 4);
+ 		}
  	}
+-out:
+-	return rc;
++
++	return 1;
  }
  
-@@ -733,6 +771,34 @@ static int rt1320_update_status(struct sdw_slave *slave,
- 	return rt1320_io_init(&slave->dev, slave);
+ static void tas2563_calib_stop_put(struct tasdevice_priv *tas_priv)
+@@ -576,7 +573,7 @@ static int tasdev_cali_data_put(struct snd_kcontrol *kcontrol,
+ 	struct cali_reg *p = &cali_data->cali_reg_array;
+ 	unsigned char *src = ucontrol->value.bytes.data;
+ 	unsigned char *dst = cali_data->data;
+-	int rc = 1, i = 0;
++	int i = 0;
+ 	int j;
+ 
+ 	guard(mutex)(&priv->codec_lock);
+@@ -605,7 +602,7 @@ static int tasdev_cali_data_put(struct snd_kcontrol *kcontrol,
+ 	i += 3;
+ 
+ 	memcpy(dst, &src[i], cali_data->total_sz);
+-	return rc;
++	return 1;
  }
  
-+static int rt1320_pde11_event(struct snd_soc_dapm_widget *w,
-+	struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component =
-+		snd_soc_dapm_to_component(w->dapm);
-+	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-+	unsigned char ps0 = 0x0, ps3 = 0x3;
+ static int tas2781_latch_reg_get(struct snd_kcontrol *kcontrol,
+@@ -1115,25 +1112,21 @@ static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
+ 	char *conf_name, *prog_name;
+ 	int nr_controls = 4;
+ 	int mix_index = 0;
+-	int ret;
+ 
+ 	/* Alloc kcontrol via devm_kzalloc, which don't manually
+ 	 * free the kcontrol
+ 	 */
+ 	dsp_ctrls = devm_kcalloc(tas_priv->dev, nr_controls,
+ 		sizeof(dsp_ctrls[0]), GFP_KERNEL);
+-	if (!dsp_ctrls) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!dsp_ctrls)
++		return -ENOMEM;
+ 
+ 	/* Create mixer items for selecting the active Program and Config */
+ 	prog_name = devm_kstrdup(tas_priv->dev, "Speaker Program Id",
+ 		GFP_KERNEL);
+-	if (!prog_name) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!prog_name)
++		return -ENOMEM;
 +
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		regmap_write(rt1320->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11,
-+				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
-+		rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, ps0);
-+		break;
-+	case SND_SOC_DAPM_PRE_PMD:
-+		regmap_write(rt1320->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11,
-+				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
-+		rt1320_pde_transition_delay(rt1320, FUNC_NUM_MIC, RT1320_SDCA_ENT_PDE11, ps3);
-+		break;
-+	default:
-+		break;
-+	}
+ 	dsp_ctrls[mix_index].name = prog_name;
+ 	dsp_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	dsp_ctrls[mix_index].info = tasdevice_info_programs;
+@@ -1143,10 +1136,9 @@ static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
+ 
+ 	conf_name = devm_kstrdup(tas_priv->dev, "Speaker Config Id",
+ 		GFP_KERNEL);
+-	if (!conf_name) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!conf_name)
++		return -ENOMEM;
 +
-+	return 0;
-+}
+ 	dsp_ctrls[mix_index].name = conf_name;
+ 	dsp_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	dsp_ctrls[mix_index].info = tasdevice_info_configurations;
+@@ -1156,10 +1148,9 @@ static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
+ 
+ 	active_dev_num = devm_kstrdup(tas_priv->dev, "Activate Tasdevice Num",
+ 		GFP_KERNEL);
+-	if (!active_dev_num) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!active_dev_num)
++		return -ENOMEM;
 +
- static int rt1320_pde23_event(struct snd_soc_dapm_widget *w,
- 	struct snd_kcontrol *kcontrol, int event)
- {
-@@ -746,13 +812,13 @@ static int rt1320_pde23_event(struct snd_soc_dapm_widget *w,
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
- 				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps0);
--		rt1320_pde_transition_delay(rt1320, ps0);
-+		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, ps0);
- 		break;
- 	case SND_SOC_DAPM_PRE_PMD:
- 		regmap_write(rt1320->regmap,
- 			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23,
- 				RT1320_SDCA_CTL_REQ_POWER_STATE, 0), ps3);
--		rt1320_pde_transition_delay(rt1320, ps3);
-+		rt1320_pde_transition_delay(rt1320, FUNC_NUM_AMP, RT1320_SDCA_ENT_PDE23, ps3);
- 		break;
+ 	dsp_ctrls[mix_index].name = active_dev_num;
+ 	dsp_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	dsp_ctrls[mix_index].info = tasdevice_info_active_num;
+@@ -1168,21 +1159,17 @@ static int tasdevice_dsp_create_ctrls(struct tasdevice_priv *tas_priv)
+ 	mix_index++;
+ 
+ 	chip_id = devm_kstrdup(tas_priv->dev, "Tasdevice Chip Id", GFP_KERNEL);
+-	if (!chip_id) {
+-		ret = -ENOMEM;
+-		goto out;
+-	}
++	if (!chip_id)
++		return -ENOMEM;
++
+ 	dsp_ctrls[mix_index].name = chip_id;
+ 	dsp_ctrls[mix_index].iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+ 	dsp_ctrls[mix_index].info = tasdevice_info_chip_id;
+ 	dsp_ctrls[mix_index].get = tasdevice_get_chip_id;
+ 	mix_index++;
+ 
+-	ret = snd_soc_add_component_controls(tas_priv->codec, dsp_ctrls,
++	return snd_soc_add_component_controls(tas_priv->codec, dsp_ctrls,
+ 		nr_controls < mix_index ? nr_controls : mix_index);
+-
+-out:
+-	return ret;
+ }
+ 
+ static int tasdevice_create_cali_ctrls(struct tasdevice_priv *priv)
+@@ -1469,7 +1456,6 @@ static int tasdevice_hw_params(struct snd_pcm_substream *substream,
+ 	unsigned int slot_width;
+ 	unsigned int fsrate;
+ 	int bclk_rate;
+-	int rc = 0;
+ 
+ 	fsrate = params_rate(params);
+ 	switch (fsrate) {
+@@ -1479,8 +1465,7 @@ static int tasdevice_hw_params(struct snd_pcm_substream *substream,
  	default:
- 		break;
-@@ -771,6 +837,13 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 	unsigned int gain_l_val, gain_r_val;
- 	unsigned int lvalue, rvalue;
- 	const unsigned int interval_offset = 0xc0;
-+	unsigned int changed = 0, reg_base;
-+	struct rt_sdca_dmic_kctrl_priv *p;
-+	unsigned int regvalue[4], gain_val[4], i;
-+	int err;
-+
-+	if (strstr(ucontrol->id.name, "FU Capture Volume"))
-+		goto _dmic_vol_;
- 
- 	regmap_read(rt1320->mbq_regmap, mc->reg, &lvalue);
- 	regmap_read(rt1320->mbq_regmap, mc->rreg, &rvalue);
-@@ -796,7 +869,48 @@ static int rt1320_set_gain_put(struct snd_kcontrol *kcontrol,
- 	regmap_write(rt1320->mbq_regmap, mc->reg, gain_l_val);
- 	/* Rch */
- 	regmap_write(rt1320->mbq_regmap, mc->rreg, gain_r_val);
-+	goto _done_;
-+
-+_dmic_vol_:
-+	p = (struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-+
-+	/* check all channels */
-+	for (i = 0; i < p->count; i++) {
-+		if (i < 2) {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue[i]);
-+		} else {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue[i]);
-+		}
-+
-+		gain_val[i] = ucontrol->value.integer.value[i];
-+		if (gain_val[i] > p->max)
-+			gain_val[i] = p->max;
-+
-+		gain_val[i] = 0x1e00 - ((p->max - gain_val[i]) * interval_offset);
-+		gain_val[i] &= 0xffff;
-+		if (regvalue[i] != gain_val[i])
-+			changed = 1;
-+	}
-+
-+	if (!changed)
-+		return 0;
-+
-+	for (i = 0; i < p->count; i++) {
-+		if (i < 2) {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			err = regmap_write(rt1320->mbq_regmap, reg_base + i, gain_val[i]);
-+		} else {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			err = regmap_write(rt1320->mbq_regmap, reg_base + i - 2, gain_val[i]);
-+		}
-+
-+		if (err < 0)
-+			dev_err(&rt1320->sdw_slave->dev, "0x%08x can't be set\n", reg_base + i);
-+	}
- 
-+_done_:
- 	return 1;
- }
- 
-@@ -809,6 +923,11 @@ static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
- 		(struct soc_mixer_control *)kcontrol->private_value;
- 	unsigned int read_l, read_r, ctl_l = 0, ctl_r = 0;
- 	const unsigned int interval_offset = 0xc0;
-+	unsigned int reg_base, regvalue, ctl, i;
-+	struct rt_sdca_dmic_kctrl_priv *p;
-+
-+	if (strstr(ucontrol->id.name, "FU Capture Volume"))
-+		goto _dmic_vol_;
- 
- 	regmap_read(rt1320->mbq_regmap, mc->reg, &read_l);
- 	regmap_read(rt1320->mbq_regmap, mc->rreg, &read_r);
-@@ -822,6 +941,121 @@ static int rt1320_set_gain_get(struct snd_kcontrol *kcontrol,
- 
- 	ucontrol->value.integer.value[0] = ctl_l;
- 	ucontrol->value.integer.value[1] = ctl_r;
-+	goto _done_;
-+
-+_dmic_vol_:
-+	p = (struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-+
-+	/* check all channels */
-+	for (i = 0; i < p->count; i++) {
-+		if (i < 2) {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			regmap_read(rt1320->mbq_regmap, reg_base + i, &regvalue);
-+		} else {
-+			reg_base = SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14, RT1320_SDCA_CTL_FU_VOLUME, CH_01);
-+			regmap_read(rt1320->mbq_regmap, reg_base + i - 2, &regvalue);
-+		}
-+
-+		ctl = p->max - (((0x1e00 - regvalue) & 0xffff) / interval_offset);
-+		ucontrol->value.integer.value[i] = ctl;
-+	}
-+_done_:
-+	return 0;
-+}
-+
-+static int rt1320_set_fu_capture_ctl(struct rt1320_sdw_priv *rt1320)
-+{
-+	int err, i;
-+	unsigned int ch_mute;
-+
-+	for (i = 0; i < ARRAY_SIZE(rt1320->fu_mixer_mute); i++) {
-+		ch_mute = (rt1320->fu_dapm_mute || rt1320->fu_mixer_mute[i]) ? 0x01 : 0x00;
-+
-+		if (i < 2)
-+			err = regmap_write(rt1320->regmap,
-+				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113,
-+					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i, ch_mute);
-+		else
-+			err = regmap_write(rt1320->regmap,
-+				SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU14,
-+					RT1320_SDCA_CTL_FU_MUTE, CH_01) + i - 2, ch_mute);
-+		if (err < 0)
-+			return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rt1320_dmic_fu_capture_get(struct snd_kcontrol *kcontrol,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-+	struct rt_sdca_dmic_kctrl_priv *p =
-+		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-+	unsigned int i;
-+
-+	for (i = 0; i < p->count; i++)
-+		ucontrol->value.integer.value[i] = !rt1320->fu_mixer_mute[i];
-+
-+	return 0;
-+}
-+
-+static int rt1320_dmic_fu_capture_put(struct snd_kcontrol *kcontrol,
-+			struct snd_ctl_elem_value *ucontrol)
-+{
-+	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
-+	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-+	struct rt_sdca_dmic_kctrl_priv *p =
-+		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-+	int err, changed = 0, i;
-+
-+	for (i = 0; i < p->count; i++) {
-+		if (rt1320->fu_mixer_mute[i] != !ucontrol->value.integer.value[i])
-+			changed = 1;
-+		rt1320->fu_mixer_mute[i] = !ucontrol->value.integer.value[i];
-+	}
-+
-+	err = rt1320_set_fu_capture_ctl(rt1320);
-+	if (err < 0)
-+		return err;
-+
-+	return changed;
-+}
-+
-+static int rt1320_dmic_fu_info(struct snd_kcontrol *kcontrol,
-+	struct snd_ctl_elem_info *uinfo)
-+{
-+	struct rt_sdca_dmic_kctrl_priv *p =
-+		(struct rt_sdca_dmic_kctrl_priv *)kcontrol->private_value;
-+
-+	if (p->max == 1)
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
-+	else
-+		uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
-+	uinfo->count = p->count;
-+	uinfo->value.integer.min = 0;
-+	uinfo->value.integer.max = p->max;
-+	return 0;
-+}
-+
-+static int rt1320_dmic_fu_event(struct snd_soc_dapm_widget *w,
-+	struct snd_kcontrol *kcontrol, int event)
-+{
-+	struct snd_soc_component *component =
-+		snd_soc_dapm_to_component(w->dapm);
-+	struct rt1320_sdw_priv *rt1320 = snd_soc_component_get_drvdata(component);
-+
-+	switch (event) {
-+	case SND_SOC_DAPM_POST_PMU:
-+		rt1320->fu_dapm_mute = false;
-+		rt1320_set_fu_capture_ctl(rt1320);
-+		break;
-+	case SND_SOC_DAPM_PRE_PMD:
-+		rt1320->fu_dapm_mute = true;
-+		rt1320_set_fu_capture_ctl(rt1320);
-+		break;
-+	}
- 	return 0;
- }
- 
-@@ -842,6 +1076,7 @@ static SOC_ENUM_SINGLE_DECL(rt1320_rx_data_ch_enum,
- 	rt1320_rx_data_ch_select);
- 
- static const DECLARE_TLV_DB_SCALE(out_vol_tlv, -6525, 75, 0);
-+static const DECLARE_TLV_DB_SCALE(in_vol_tlv, -1725, 75, 0);
- 
- static const struct snd_kcontrol_new rt1320_snd_controls[] = {
- 	SOC_DOUBLE_R_EXT_TLV("FU21 Playback Volume",
-@@ -849,6 +1084,13 @@ static const struct snd_kcontrol_new rt1320_snd_controls[] = {
- 		SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_FU21, RT1320_SDCA_CTL_FU_VOLUME, CH_02),
- 		0, 0x57, 0, rt1320_set_gain_get, rt1320_set_gain_put, out_vol_tlv),
- 	SOC_ENUM("RX Channel Select", rt1320_rx_data_ch_enum),
-+
-+	RT_SDCA_FU_CTRL("FU Capture Switch",
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_MUTE, CH_01),
-+		1, 1, 4, rt1320_dmic_fu_info, rt1320_dmic_fu_capture_get, rt1320_dmic_fu_capture_put),
-+	RT_SDCA_EXT_TLV("FU Capture Volume",
-+		SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_FU113, RT1320_SDCA_CTL_FU_VOLUME, CH_01),
-+		rt1320_set_gain_get, rt1320_set_gain_put, 4, 0x3f, in_vol_tlv, rt1320_dmic_fu_info),
- };
- 
- static const struct snd_kcontrol_new rt1320_spk_l_dac =
-@@ -864,12 +1106,19 @@ static const struct snd_soc_dapm_widget rt1320_dapm_widgets[] = {
- 	/* Audio Interface */
- 	SND_SOC_DAPM_AIF_IN("DP1RX", "DP1 Playback", 0, SND_SOC_NOPM, 0, 0),
- 	SND_SOC_DAPM_AIF_OUT("DP4TX", "DP4 Capture", 0, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_AIF_OUT("DP8-10TX", "DP8-10 Capture", 0, SND_SOC_NOPM, 0, 0),
- 
- 	/* Digital Interface */
- 	SND_SOC_DAPM_PGA("FU21", SND_SOC_NOPM, 0, 0, NULL, 0),
- 	SND_SOC_DAPM_SUPPLY("PDE 23", SND_SOC_NOPM, 0, 0,
- 		rt1320_pde23_event,
- 		SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
-+	SND_SOC_DAPM_SUPPLY("PDE 11", SND_SOC_NOPM, 0, 0,
-+		rt1320_pde11_event, SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
-+	SND_SOC_DAPM_ADC("FU 113", NULL, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_ADC("FU 14", NULL, SND_SOC_NOPM, 0, 0),
-+	SND_SOC_DAPM_PGA_E("FU", SND_SOC_NOPM, 0, 0, NULL, 0,
-+		rt1320_dmic_fu_event, SND_SOC_DAPM_POST_PMU | SND_SOC_DAPM_PRE_PMD),
- 
- 	/* Output */
- 	SND_SOC_DAPM_SWITCH("OT23 L", SND_SOC_NOPM, 0, 0, &rt1320_spk_l_dac),
-@@ -880,6 +1129,8 @@ static const struct snd_soc_dapm_widget rt1320_dapm_widgets[] = {
- 	/* Input */
- 	SND_SOC_DAPM_PGA("AEC Data", SND_SOC_NOPM, 0, 0, NULL, 0),
- 	SND_SOC_DAPM_SIGGEN("AEC Gen"),
-+	SND_SOC_DAPM_INPUT("DMIC1"),
-+	SND_SOC_DAPM_INPUT("DMIC2"),
- };
- 
- static const struct snd_soc_dapm_route rt1320_dapm_routes[] = {
-@@ -892,6 +1143,13 @@ static const struct snd_soc_dapm_route rt1320_dapm_routes[] = {
- 
- 	{ "AEC Data", NULL, "AEC Gen" },
- 	{ "DP4TX", NULL, "AEC Data" },
-+
-+	{"DP8-10TX", NULL, "FU"},
-+	{"FU", NULL, "PDE 11"},
-+	{"FU", NULL, "FU 113"},
-+	{"FU", NULL, "FU 14"},
-+	{"FU 113", NULL, "DMIC1"},
-+	{"FU 14", NULL, "DMIC2"},
- };
- 
- static int rt1320_set_sdw_stream(struct snd_soc_dai *dai, void *sdw_stream,
-@@ -915,6 +1173,7 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 		snd_soc_component_get_drvdata(component);
- 	struct sdw_stream_config stream_config;
- 	struct sdw_port_config port_config;
-+	struct sdw_port_config dmic_port_config[2];
- 	struct sdw_stream_runtime *sdw_stream;
- 	int retval;
- 	unsigned int sampling_rate;
-@@ -939,12 +1198,23 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
- 	} else {
- 		if (dai->id == RT1320_AIF1)
- 			port_config.num = 4;
--		else
-+		else if (dai->id == RT1320_AIF2) {
-+			dmic_port_config[0].ch_mask = BIT(0) | BIT(1);
-+			dmic_port_config[0].num = 8;
-+			dmic_port_config[1].ch_mask = BIT(0) | BIT(1);
-+			dmic_port_config[1].num = 10;
-+		} else
- 			return -EINVAL;
- 	}
- 
--	retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
-+	if (dai->id == RT1320_AIF1)
-+		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
- 				&port_config, 1, sdw_stream);
-+	else if (dai->id == RT1320_AIF2)
-+		retval = sdw_stream_add_slave(rt1320->sdw_slave, &stream_config,
-+				dmic_port_config, 2, sdw_stream);
-+	else
+ 		dev_err(tas_priv->dev, "%s: incorrect sample rate = %u\n",
+ 			__func__, fsrate);
+-		rc = -EINVAL;
+-		goto out;
 +		return -EINVAL;
- 	if (retval) {
- 		dev_err(dai->dev, "%s: Unable to configure port\n", __func__);
- 		return retval;
-@@ -977,9 +1247,18 @@ static int rt1320_sdw_hw_params(struct snd_pcm_substream *substream,
  	}
  
- 	/* set sampling frequency */
--	regmap_write(rt1320->regmap,
--		SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_CS21, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
--		sampling_rate);
-+	if (dai->id == RT1320_AIF1)
-+		regmap_write(rt1320->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_AMP, RT1320_SDCA_ENT_CS21, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
-+			sampling_rate);
-+	else {
-+		regmap_write(rt1320->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS113, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
-+			sampling_rate);
-+		regmap_write(rt1320->regmap,
-+			SDW_SDCA_CTL(FUNC_NUM_MIC, RT1320_SDCA_ENT_CS14, RT1320_SDCA_CTL_SAMPLE_FREQ_INDEX, 0),
-+			sampling_rate);
-+	}
+ 	slot_width = params_width(params);
+@@ -1493,20 +1478,17 @@ static int tasdevice_hw_params(struct snd_pcm_substream *substream,
+ 	default:
+ 		dev_err(tas_priv->dev, "%s: incorrect slot width = %u\n",
+ 			__func__, slot_width);
+-		rc = -EINVAL;
+-		goto out;
++		return -EINVAL;
+ 	}
  
- 	return 0;
+ 	bclk_rate = snd_soc_params_to_bclk(params);
+ 	if (bclk_rate < 0) {
+ 		dev_err(tas_priv->dev, "%s: incorrect bclk rate = %d\n",
+ 			__func__, bclk_rate);
+-		rc = bclk_rate;
+-		goto out;
++		return bclk_rate;
+ 	}
+ 
+-out:
+-	return rc;
++	return 0;
  }
-@@ -1070,6 +1349,19 @@ static struct snd_soc_dai_driver rt1320_sdw_dai[] = {
- 		},
- 		.ops = &rt1320_aif_dai_ops,
- 	},
-+	/* DMIC: DP8 2ch + DP10 2ch */
-+	{
-+		.name = "rt1320-aif2",
-+		.id = RT1320_AIF2,
-+		.capture = {
-+			.stream_name = "DP8-10 Capture",
-+			.channels_min = 1,
-+			.channels_max = 4,
-+			.rates = RT1320_STEREO_RATES,
-+			.formats = RT1320_FORMATS,
-+		},
-+		.ops = &rt1320_aif_dai_ops,
-+	},
- };
  
- static int rt1320_sdw_init(struct device *dev, struct regmap *regmap,
-@@ -1097,6 +1389,9 @@ static int rt1320_sdw_init(struct device *dev, struct regmap *regmap,
- 	rt1320->hw_init = false;
- 	rt1320->first_hw_init = false;
- 	rt1320->version_id = -1;
-+	rt1320->fu_dapm_mute = true;
-+	rt1320->fu_mixer_mute[0] = rt1320->fu_mixer_mute[1] =
-+		rt1320->fu_mixer_mute[2] = rt1320->fu_mixer_mute[3] = true;
- 
- 	ret =  devm_snd_soc_register_component(dev,
- 				&soc_component_sdw_rt1320,
-diff --git a/sound/soc/codecs/rt1320-sdw.h b/sound/soc/codecs/rt1320-sdw.h
-index 95ef9d37c6db..23b321aee6a9 100644
---- a/sound/soc/codecs/rt1320-sdw.h
-+++ b/sound/soc/codecs/rt1320-sdw.h
-@@ -26,6 +26,7 @@
- 
- /* RT1320 SDCA Control - function number */
- #define FUNC_NUM_AMP 0x04
-+#define FUNC_NUM_MIC 0x02
- 
- /* RT1320 SDCA entity */
- #define RT1320_SDCA_ENT0 0x00
-@@ -69,6 +70,7 @@
- 
- enum {
- 	RT1320_AIF1,
-+	RT1320_AIF2,
- };
- 
- /*
-@@ -94,6 +96,8 @@ struct rt1320_sdw_priv {
- 	bool hw_init;
- 	bool first_hw_init;
- 	int version_id;
-+	bool fu_dapm_mute;
-+	bool fu_mixer_mute[4];
- };
- 
- #endif /* __RT1320_SDW_H__ */
+ static int tasdevice_set_dai_sysclk(struct snd_soc_dai *codec_dai,
 -- 
-2.34.1
+2.33.0
+
+
 
