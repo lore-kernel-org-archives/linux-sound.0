@@ -1,240 +1,174 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8721A217455
-	for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 15:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1082A21F4D7;
+	Fri, 25 Oct 2024 15:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729868466; cv=none; b=Nnk65VuYCVFilLwSO4uWLZF/+aofTXJ8XuX/m4xshsDl8ZSp4KFJohvkspicnAHgh9KAWBgSyXaOsweJ3fX2JW7lZKorMla0osIeySojALJAZUUZchT+a19kvtnsN/NIryOspHSdU17Qk5p7FFwDhFPbcyGqgVsINPFuezo7C88=
+	t=1729868724; cv=none; b=aupY3IhwgFdOKnC9IBqP/u0WsxK3MSpbmyyh4oq47W7IDj+r0GOiX2BbX86X4+ihvdnB/h3ZwHBYjwqcoHXstbS4kTquHIYYB7liUZkqpns/NbMJ2Fe1L2nwnawvFPC05tQiofwRv3wvIpVfKPyyC/zmOdippGZa3oTfzKEhhso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729868466; c=relaxed/simple;
-	bh=RcTa7mPaWn9S/3FL+we6iyllf4n7RFykRGESqGJxd90=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Neym+26xERjH8dIl91+83nAJ9psdH0eVEVimVunhk+WeGWYiOR73Kb/5E4Qqp8R0CyXMJPNmx5wunZdePQYED7pS8ZWV6/q+mGGBXs2JB85HzWoMm1IWYQuTK8XBh4pQ6tGLs4ktH6szIMWkEuWYt15+QFqDWnnPbKVAbF5ICyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fs91W6bV; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729868724; c=relaxed/simple;
+	bh=bfPrR0zwy73NWJ8fPJX9oUrz7Zb4M0HWAhJmV4sKJDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YoLfshXbgBQmZH8QkChqRPFX09eZqO2jRODpgnDCZgIZIz2lkIGdgx/xVsGBHGzBnHzJZadXXkZDGs9J+p2Cx4P/aGRj+OhdPE4FLy33lBiNPgIUnuUIMQt6TMkApGirhBDIhUPnd+w8QCBc00wms+cD8ySlGyWb4RFGclazf5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c20/G+vv; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fs91W6bV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729868462;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AonUKd9JFeAmu2FkelnO1Z47g8svJdBoVMsQtMVmtG0=;
-	b=fs91W6bVJ13LhyuCx/eJpCgNfjbUvXBjawBI5f3IStRL0jHew7fAEP+LoWjN3eToD0IZJu
-	J3YzdYZMi/A7aOArBc7vRCkMDPAHo7KkCnhyr5HA/qRkm/QeVXkjsYAWiUGYPXC+yUb2y7
-	X/djWm0KzuU2Y6YcsS0PMMzlwthmHSE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-647-caSEEhicOh6RUFIz23kqTw-1; Fri, 25 Oct 2024 11:01:00 -0400
-X-MC-Unique: caSEEhicOh6RUFIz23kqTw-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-37d4922d8c7so1209693f8f.1
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 08:01:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c20/G+vv"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-37ed3bd6114so1288198f8f.2;
+        Fri, 25 Oct 2024 08:05:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729868720; x=1730473520; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ntrH5sZXkLov6m6pn3kJJxwmprPBkU56JOUk30KmUnU=;
+        b=c20/G+vvcVa/1hpBaTJkcNjwi5fODUW03++VGyK8ZBhzUd2xRlQUTK2Mf1K82Zf36r
+         ggzoc1qBnYNsQ3CKNZWBr5ndDR7e4nrHTxYdOs400bNimVOcYptSuqbkZbFg7ulwN1ni
+         jjj6nh8zTNGK0Gp6XM+/9i68f3AOzfTQzJaXorz8CHxqBc1XsjHCs2nOq4GKWaVPiZbe
+         4p8wDbS7np0h7iDPMWKGoki5pfPzdb5CpzuycFxA1JPLbo6il1NcXTnbegtwNYo+nSjc
+         L3KtxZVMuHMiPNYLoqJOK9N7LzkRxeOA//m6+woWC1uEkfeOpIz7DQhKMDxgBJbN1ici
+         vaTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729868459; x=1730473259;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AonUKd9JFeAmu2FkelnO1Z47g8svJdBoVMsQtMVmtG0=;
-        b=RJXmVo8mVYQQS8VZ0OE+Auot/1TguIPQG2r7Oy93zRhCs7KsX7qpir1I+qIOTbX5LI
-         lN2jqH0fao58uKbr9OtUbvi0SMupnrUhB6UYyE7oIT1/38q0zCZadoTnHTb6Mx7UhkDa
-         AhO+7M+GMU9WtkYto9Tv56snJ7JngtVxzPNvmlKKYm1S0Oewike+X+Ta9yLZBNDZrBcJ
-         fmauOxv+XxD2Q+jALeIFLe9cDC6anXepwOM58CsILrEd55b7pv9s54z5KjP2TpvRg6E+
-         FbUc4yoSJXBqZDuqDxJkrFas82pY/Jq4eYRfjZdm/xpFfwE7YFc9tnGywiw2545ZB9nY
-         UR7w==
-X-Forwarded-Encrypted: i=1; AJvYcCX+7kmbfnwhTo37FnSwV2oW1FqY6WDQl8pIwNY9yrd3tjGQWPmoxT2kyeeq7gqgVvexINkPNqRAVqreOQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNC4TVwCzcQeznsaqBkhFSdydp80Tu0798PD3Zlr92zA+kRXol
-	sJMhRgzQ0ADG/CsIgioLEthmPP2ffx+LaRbsmMJnk/LBYedgMl0V2aP4DwC4GpbS0cP0OirjS2M
-	rWlGFozLi6JtEPU8jEuA2BTwQZMtB2QCCRs7m3NmOa1aDbOnKx6MUviEqbrGS
-X-Received: by 2002:a5d:434e:0:b0:37d:4d3f:51e9 with SMTP id ffacd0b85a97d-37efcf7665amr6749358f8f.40.1729868454508;
-        Fri, 25 Oct 2024 08:00:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFYS4KQfglA92Gzw16122qjYNkYIWyEgmDdpCu016/6uuxTInLXjVC7AfMuCfkKwlTQ2XYDlQ==
-X-Received: by 2002:a5d:434e:0:b0:37d:4d3f:51e9 with SMTP id ffacd0b85a97d-37efcf7665amr6749277f8f.40.1729868453962;
-        Fri, 25 Oct 2024 08:00:53 -0700 (PDT)
-Received: from eisenberg.fritz.box (200116b82de5ba00738ac8dadaac7543.dip.versatel-1u1.de. [2001:16b8:2de5:ba00:738a:c8da:daac:7543])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b9216fsm1727189f8f.100.2024.10.25.08.00.52
+        d=1e100.net; s=20230601; t=1729868720; x=1730473520;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ntrH5sZXkLov6m6pn3kJJxwmprPBkU56JOUk30KmUnU=;
+        b=n2w36wtvANLEj1OwK5x1/kQAZRcuYsbBRsYjgY34U0UJf9zxqMG3hfbgPpiYFjSkyk
+         DNATDAu3rIK1S+DnCJmpFsoifZzUz6l/YcypFEFE1vYzP8gpfRkc5PIHvRQPv5t6HfJQ
+         7ulyCJxMAxfjuF/MgPiuHWmv/8CKSo7LdgqhFtitt8VygtAodyjefy4g/mUD0LLefLSb
+         PJ1skFg0ekXdI3f7v+egsaAd7RJBI3Os9CLZGog4rTLYEAv1UIjd227v5ICdOXvTQ2aE
+         91oqE2vyC5KtTGWnDOjfxVZYN9OKEhlA+qm/X1TyfexwP+goJ3tqU4mRkshcOoesiVOD
+         IAOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWSK9/5nOk59ZlyT3cEZgsdXXabZU/Y8qHd51BXC+ZapNECpRHmr006lmipZLEkU2nStSL9qYK7sZrK+JA=@vger.kernel.org, AJvYcCXOlYSxaAAMutZ9jsO7TNimwxwzB391nldl7qenpXRbSNQuwKfdZI7ERqS3t1evTPp8L8gSJ27WbSzJ73RlOb9Xv4Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEpWYStn+fZmJtwrhyDfncG9i+od6DhZF3gcCzFNSnwhSYYRHa
+	mx+SS69q2+WANn1LOaOYWLX6xYMfbLVOUtT3v4Zi8dT+dig7dE7a4Mwq/w==
+X-Google-Smtp-Source: AGHT+IGEUfjIbnltBQHGpvmo4xuG/UePskohtNrh6DLVMJTaxnSFIFmGdfxRTzmw57PFlBBGc+c40Q==
+X-Received: by 2002:a5d:434e:0:b0:37d:4d3f:51e9 with SMTP id ffacd0b85a97d-37efcf7665amr6768174f8f.40.1729868719829;
+        Fri, 25 Oct 2024 08:05:19 -0700 (PDT)
+Received: from prasmi.Home ([2a06:5906:61b:2d00:1044:9cc9:b89d:54cd])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b3b57bsm1764349f8f.26.2024.10.25.08.05.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 08:00:53 -0700 (PDT)
-From: Philipp Stanner <pstanner@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Arnaud Ebalard <arno@natisbad.org>,
-	Srujana Challa <schalla@marvell.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-	Kalle Valo <kvalo@kernel.org>,
-	Serge Semin <fancer.lancer@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kevin Cernekee <cernekee@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+        Fri, 25 Oct 2024 08:05:19 -0700 (PDT)
+From: Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Philipp Stanner <pstanner@redhat.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jie Wang <jie.wang@intel.com>,
-	Tero Kristo <tero.kristo@linux.intel.com>,
-	Adam Guerin <adam.guerin@intel.com>,
-	Shashank Gupta <shashank.gupta@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	Nithin Dabilpuram <ndabilpuram@marvell.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Benjamin Berg <benjamin.berg@intel.com>,
-	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
-	Breno Leitao <leitao@debian.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: linux-doc@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	qat-linux@intel.com,
-	linux-crypto@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev,
-	linux-pci@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 10/10] PCI: Remove pcim_iomap_regions_request_all()
-Date: Fri, 25 Oct 2024 16:59:53 +0200
-Message-ID: <20241025145959.185373-11-pstanner@redhat.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241025145959.185373-1-pstanner@redhat.com>
-References: <20241025145959.185373-1-pstanner@redhat.com>
+	linux-renesas-soc@vger.kernel.org,
+	Prabhakar <prabhakar.csengg@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v3 0/5] ASoC: Rename "sh" to "renesas"
+Date: Fri, 25 Oct 2024 16:05:06 +0100
+Message-ID: <20241025150511.722040-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-pcim_iomap_regions_request_all() have been deprecated in
-commit e354bb84a4c1 ("PCI: Deprecate pcim_iomap_table(),
-pcim_iomap_regions_request_all()").
+From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-All users of this function have been ported to other interfaces by now.
+Hi All,
 
-Remove pcim_iomap_regions_request_all().
+This patch series aims to rename "sh" to "renesas", along with this
+the references to this path have been updated.
 
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
----
- .../driver-api/driver-model/devres.rst        |  1 -
- drivers/pci/devres.c                          | 56 -------------------
- include/linux/pci.h                           |  2 -
- 3 files changed, 59 deletions(-)
+Note,
+- This patch series applies on top of [0]
+- This change was agrreed based on the discussion [1]
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index 5f2ee8d717b1..3a30cf4f6c0d 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -394,7 +394,6 @@ PCI
-   pcim_enable_device()		: after success, some PCI ops become managed
-   pcim_iomap()			: do iomap() on a single BAR
-   pcim_iomap_regions()		: do request_region() and iomap() on multiple BARs
--  pcim_iomap_regions_request_all() : do request_region() on all and iomap() on multiple BARs
-   pcim_iomap_table()		: array of mapped addresses indexed by BAR
-   pcim_iounmap()		: do iounmap() on a single BAR
-   pcim_iounmap_regions()	: do iounmap() and release_region() on multiple BARs
-diff --git a/drivers/pci/devres.c b/drivers/pci/devres.c
-index 2a64da5c91fb..319a477a2135 100644
---- a/drivers/pci/devres.c
-+++ b/drivers/pci/devres.c
-@@ -959,62 +959,6 @@ int pcim_request_all_regions(struct pci_dev *pdev, const char *name)
- }
- EXPORT_SYMBOL(pcim_request_all_regions);
- 
--/**
-- * pcim_iomap_regions_request_all - Request all BARs and iomap specified ones
-- *			(DEPRECATED)
-- * @pdev: PCI device to map IO resources for
-- * @mask: Mask of BARs to iomap
-- * @name: Name associated with the requests
-- *
-- * Returns: 0 on success, negative error code on failure.
-- *
-- * Request all PCI BARs and iomap regions specified by @mask.
-- *
-- * To release these resources manually, call pcim_release_region() for the
-- * regions and pcim_iounmap() for the mappings.
-- *
-- * This function is DEPRECATED. Don't use it in new code. Instead, use one
-- * of the pcim_* region request functions in combination with a pcim_*
-- * mapping function.
-- */
--int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
--				   const char *name)
--{
--	int bar;
--	int ret;
--	void __iomem **legacy_iomap_table;
--
--	ret = pcim_request_all_regions(pdev, name);
--	if (ret != 0)
--		return ret;
--
--	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
--		if (!mask_contains_bar(mask, bar))
--			continue;
--		if (!pcim_iomap(pdev, bar, 0))
--			goto err;
--	}
--
--	return 0;
--
--err:
--	/*
--	 * If bar is larger than 0, then pcim_iomap() above has most likely
--	 * failed because of -EINVAL. If it is equal 0, most likely the table
--	 * couldn't be created, indicating -ENOMEM.
--	 */
--	ret = bar > 0 ? -EINVAL : -ENOMEM;
--	legacy_iomap_table = (void __iomem **)pcim_iomap_table(pdev);
--
--	while (--bar >= 0)
--		pcim_iounmap(pdev, legacy_iomap_table[bar]);
--
--	pcim_release_all_regions(pdev);
--
--	return ret;
--}
--EXPORT_SYMBOL(pcim_iomap_regions_request_all);
--
- /**
-  * pcim_iounmap_regions - Unmap and release PCI BARs
-  * @pdev: PCI device to map IO resources for
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 3b151c8331e5..b59197635c5c 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2301,8 +2301,6 @@ void pcim_iounmap(struct pci_dev *pdev, void __iomem *addr);
- void __iomem * const *pcim_iomap_table(struct pci_dev *pdev);
- int pcim_request_region(struct pci_dev *pdev, int bar, const char *name);
- int pcim_iomap_regions(struct pci_dev *pdev, int mask, const char *name);
--int pcim_iomap_regions_request_all(struct pci_dev *pdev, int mask,
--				   const char *name);
- void pcim_iounmap_regions(struct pci_dev *pdev, int mask);
- void __iomem *pcim_iomap_range(struct pci_dev *pdev, int bar,
- 				unsigned long offset, unsigned long len);
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+[1] https://lore.kernel.org/all/87v7xuqm84.wl-kuninori.morimoto.gx@renesas.com/
+
+v2->v3
+- Updated entries in MAINTAINERS file as requested by Morimoto-san
+- Added new entry in MAINTAINERS file for RZ/ driver.
+
+v1->v2
+- Rebased changes on sound.git for-next
+- Collected Acks from Morimoto-san for patches 1-3
+- Added entry in MAINTAINERS file
+
+Cheers,
+Prabhakar
+
+Lad Prabhakar (5):
+  ASoC: Rename "sh" to "renesas"
+  ASoC: renesas, rsnd: Update file path
+  ASoC: audio-graph-card2: Update comment with renamed file path
+  MAINTAINERS: Add entry for Renesas R-Car and FSI ASoC drivers
+  MAINTAINERS: Add entry for Renesas RZ ASoC driver
+
+ .../bindings/sound/renesas,rsnd.txt           |  2 +-
+ MAINTAINERS                                   | 20 +++++++++++++++++++
+ sound/soc/Kconfig                             |  2 +-
+ sound/soc/Makefile                            |  2 +-
+ sound/soc/generic/audio-graph-card2.c         |  2 +-
+ sound/soc/{sh => renesas}/Kconfig             |  0
+ sound/soc/{sh => renesas}/Makefile            |  0
+ sound/soc/{sh => renesas}/dma-sh7760.c        |  0
+ sound/soc/{sh => renesas}/fsi.c               |  0
+ sound/soc/{sh => renesas}/hac.c               |  0
+ sound/soc/{sh => renesas}/migor.c             |  0
+ sound/soc/{sh => renesas}/rcar/Makefile       |  0
+ sound/soc/{sh => renesas}/rcar/adg.c          |  0
+ sound/soc/{sh => renesas}/rcar/cmd.c          |  0
+ sound/soc/{sh => renesas}/rcar/core.c         |  0
+ sound/soc/{sh => renesas}/rcar/ctu.c          |  0
+ sound/soc/{sh => renesas}/rcar/debugfs.c      |  0
+ sound/soc/{sh => renesas}/rcar/dma.c          |  0
+ sound/soc/{sh => renesas}/rcar/dvc.c          |  0
+ sound/soc/{sh => renesas}/rcar/gen.c          |  0
+ sound/soc/{sh => renesas}/rcar/mix.c          |  0
+ sound/soc/{sh => renesas}/rcar/rsnd.h         |  0
+ sound/soc/{sh => renesas}/rcar/src.c          |  0
+ sound/soc/{sh => renesas}/rcar/ssi.c          |  0
+ sound/soc/{sh => renesas}/rcar/ssiu.c         |  0
+ sound/soc/{sh => renesas}/rz-ssi.c            |  0
+ sound/soc/{sh => renesas}/sh7760-ac97.c       |  0
+ sound/soc/{sh => renesas}/siu.h               |  0
+ sound/soc/{sh => renesas}/siu_dai.c           |  0
+ sound/soc/{sh => renesas}/siu_pcm.c           |  0
+ sound/soc/{sh => renesas}/ssi.c               |  0
+ 31 files changed, 24 insertions(+), 4 deletions(-)
+ rename sound/soc/{sh => renesas}/Kconfig (100%)
+ rename sound/soc/{sh => renesas}/Makefile (100%)
+ rename sound/soc/{sh => renesas}/dma-sh7760.c (100%)
+ rename sound/soc/{sh => renesas}/fsi.c (100%)
+ rename sound/soc/{sh => renesas}/hac.c (100%)
+ rename sound/soc/{sh => renesas}/migor.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/Makefile (100%)
+ rename sound/soc/{sh => renesas}/rcar/adg.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/cmd.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/core.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ctu.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/debugfs.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/dma.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/dvc.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/gen.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/mix.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/rsnd.h (100%)
+ rename sound/soc/{sh => renesas}/rcar/src.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ssi.c (100%)
+ rename sound/soc/{sh => renesas}/rcar/ssiu.c (100%)
+ rename sound/soc/{sh => renesas}/rz-ssi.c (100%)
+ rename sound/soc/{sh => renesas}/sh7760-ac97.c (100%)
+ rename sound/soc/{sh => renesas}/siu.h (100%)
+ rename sound/soc/{sh => renesas}/siu_dai.c (100%)
+ rename sound/soc/{sh => renesas}/siu_pcm.c (100%)
+ rename sound/soc/{sh => renesas}/ssi.c (100%)
+
 -- 
-2.47.0
+2.43.0
 
