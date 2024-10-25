@@ -1,134 +1,133 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE581BC5C;
-	Fri, 25 Oct 2024 07:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+Received: from cmccmta2.chinamobile.com (cmccmta4.chinamobile.com [111.22.67.137])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2AAA199948;
+	Fri, 25 Oct 2024 08:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729841585; cv=none; b=VW8UFeVg5olKQyilSqI2x+vp/sVJ+VRzC/ztAci0T2v+P3TLcwOqv4QC+k7y0lKNAkrf9IPxCleSYsy5qaLiKsL1ldLdSW3AZy5lpf645sthQotMqIS2o0kcss7nQ5VdovUUVUlZAbsrdLYltRWqO+9K16Db/k6slQFcQF3RDbI=
+	t=1729843267; cv=none; b=lAjcDeXM3R0U/+HL25htZSmKJiJXytZoJvVe84nv+GxizNF9jyNJOH+u7bW8Sv4XNFWUPnMlD4nG8m2TSJ8hqGKlZ9L/v/B0I62Ghu+lVZyjxw0PX55grKETC9nwvj/oPWzNM8s4QHt0TksegHgLxMsdsPJwH0yhqh7dJPWaDXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729841585; c=relaxed/simple;
-	bh=rQzYkXul6Rw+pJQnum4RN5R3vzG9twby/wiCPRhKPHQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fAXhtMVUYAQQKBt7vh/q0tjHJvNcFPbRTCV8K5ucVG2jbUBpFs4RgNCzx7IhBMH1SUgNK4bbf0BN5LIZKZv+U8McqeaN4EBDd/3q91QBcGlK5ysm4JnxvnZXVqw1vhsWn9ZlRxTXMzoSzbcK6mAsvPG9EQ7XWwvnR6vIR8iHQnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=pNgK1Bw2; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="pNgK1Bw2"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 49P7WqX22255012, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1729841572; bh=rQzYkXul6Rw+pJQnum4RN5R3vzG9twby/wiCPRhKPHQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=pNgK1Bw2tTTECiBFspXvtWclZJNJte6AB6QwXNhJpt8I+28LeoK4Vu9Y26HwB3SI5
-	 +gxq7TYZNRSHp9iZOWyfARXNOYx8DycVz8KLhWANKOZDARgIG2WuZu/42wx7xDXWq+
-	 qG1W/wbnG2EMtbmx5cLPeENec7AgNPGMLBlyd6CL3x0K8fdE/O3dgLuAGFsfdSHcWe
-	 LlvrGpEIp2BJOlg9y+PvIPEc5S7++O5YnnShDCmW7Y3MG7BGZW5w40auZePYxOBiOT
-	 KRAWN4KXsSoiOmoErEt1SDUpbV74MQr6r9ZFlrdv3x2I3py7eVWD2ezwMfNwoLCZEa
-	 SSzWLbPvvGePA==
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 49P7WqX22255012
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Oct 2024 15:32:52 +0800
-Received: from RTEXMBS02.realtek.com.tw (172.21.6.95) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 25 Oct 2024 15:32:52 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS02.realtek.com.tw (172.21.6.95) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 25 Oct 2024 15:32:51 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
- RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
- 15.01.2507.035; Fri, 25 Oct 2024 15:32:51 +0800
-From: Kailang <kailang@realtek.com>
-To: Takashi Iwai <tiwai@suse.de>,
-        Dean Matthew Menezes
-	<dean.menezes@utexas.edu>
-CC: "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "regressions@lists.linux.dev" <regressions@lists.linux.dev>,
-        Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Linux Sound System
-	<linux-sound@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: RE: No sound on speakers X1 Carbon Gen 12
-Thread-Topic: No sound on speakers X1 Carbon Gen 12
-Thread-Index: AQHbIwVT/23eeZo4dEmkKtnQN51H6bKP5WWAgABb9wCAAJxEgP//e3+AgACHy9D//4FDgIAAhkBggAVELQCAAGMKAIAAiivw
-Date: Fri, 25 Oct 2024 07:32:51 +0000
-Message-ID: <7450fb7c26d64049a92ba4b5df022b41@realtek.com>
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
-	<2024101613-giggling-ceremony-aae7@gregkh>
-	<433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
-	<87bjzktncb.wl-tiwai@suse.de>
-	<CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
-	<87cyjzrutw.wl-tiwai@suse.de>
-	<CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
-	<87ttd8jyu3.wl-tiwai@suse.de>
-	<CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
-	<87h697jl6c.wl-tiwai@suse.de>
-	<CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
-	<87ed4akd2a.wl-tiwai@suse.de>	<87bjzekcva.wl-tiwai@suse.de>
-	<CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
-	<877ca2j60l.wl-tiwai@suse.de>	<43fe74e10d1d470e80dc2ae937bc1a43@realtek.com>
-	<87ldyh6eyu.wl-tiwai@suse.de>	<18d07dccef894f4cb87b78dd548c5bdd@realtek.com>
-	<87h6956dgu.wl-tiwai@suse.de>	<c47a3841cd554c678a0c5e517dd2ea77@realtek.com>
-	<CAEkK70SojedmjbXB+a+g+Bys=VWCOpxzV5GkuMSkAgA-jR2FpA@mail.gmail.com>
- <87ldyctzwt.wl-tiwai@suse.de>
-In-Reply-To: <87ldyctzwt.wl-tiwai@suse.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-x-kse-serverinfo: RTEXMBS02.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1729843267; c=relaxed/simple;
+	bh=j9gjkf9XV2nZESi5Z9A8rCJ0qwQQx0jK647qqJLB7t8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aj3MogMIBFvcei0TzikQTGgS0Yvg5zqCyknE1X6dbh4tDHCMq5/IvKuexT81R5NoLyj/vYeWNXJXBr0Yretm4ERhlVMVm1GkE8IIZMjZk7aoouAPyPm/rT91bXfeivjW6ooqd8hRP87o8sUlGKQSAeYB+eYfmH4jxKjvvh+Z3co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app08-12008 (RichMail) with SMTP id 2ee8671b5034e6b-b5eab;
+	Fri, 25 Oct 2024 16:00:52 +0800 (CST)
+X-RM-TRANSID:2ee8671b5034e6b-b5eab
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from leadsec.example.com.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee5671b50267c1-2dbc8;
+	Fri, 25 Oct 2024 16:00:51 +0800 (CST)
+X-RM-TRANSID:2ee5671b50267c1-2dbc8
+From: Tang Bin <tangbin@cmss.chinamobile.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Tang Bin <tangbin@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: mediatek: mt8192-afe-pcm: Simplify probe() with local dev variable
+Date: Fri, 25 Oct 2024 16:00:26 +0800
+Message-Id: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Transfer-Encoding: 8bit
+
+Simplify the function mt8192_afe_pcm_dev_probe() by
+using local 'dev' instead of '&pdev->dev'.
+
+Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+---
+ sound/soc/mediatek/mt8192/mt8192-afe-pcm.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
+
+diff --git a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c b/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
+index 9b502f4cd..80cda7bf5 100644
+--- a/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
++++ b/sound/soc/mediatek/mt8192/mt8192-afe-pcm.c
+@@ -2158,27 +2158,26 @@ static int mt8192_afe_pcm_dev_probe(struct platform_device *pdev)
+ {
+ 	struct mtk_base_afe *afe;
+ 	struct mt8192_afe_private *afe_priv;
+-	struct device *dev;
++	struct device *dev = &pdev->dev;
+ 	struct reset_control *rstc;
+ 	int i, ret, irq_id;
+ 
+-	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
++	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(34));
+ 	if (ret)
+ 		return ret;
+ 
+-	afe = devm_kzalloc(&pdev->dev, sizeof(*afe), GFP_KERNEL);
++	afe = devm_kzalloc(dev, sizeof(*afe), GFP_KERNEL);
+ 	if (!afe)
+ 		return -ENOMEM;
+ 	platform_set_drvdata(pdev, afe);
+ 
+-	afe->platform_priv = devm_kzalloc(&pdev->dev, sizeof(*afe_priv),
++	afe->platform_priv = devm_kzalloc(dev, sizeof(*afe_priv),
+ 					  GFP_KERNEL);
+ 	if (!afe->platform_priv)
+ 		return -ENOMEM;
+ 	afe_priv = afe->platform_priv;
+ 
+-	afe->dev = &pdev->dev;
+-	dev = afe->dev;
++	afe->dev = dev;
+ 
+ 	/* init audio related clock */
+ 	ret = mt8192_init_clock(afe);
+@@ -2196,7 +2195,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "failed to trigger audio reset\n");
+ 
+-	ret = devm_pm_runtime_enable(&pdev->dev);
++	ret = devm_pm_runtime_enable(dev);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2212,13 +2211,13 @@ static int mt8192_afe_pcm_dev_probe(struct platform_device *pdev)
+ 
+ 	/* enable clock for regcache get default value from hw */
+ 	afe_priv->pm_runtime_bypass_reg_ctl = true;
+-	pm_runtime_get_sync(&pdev->dev);
++	pm_runtime_get_sync(dev);
+ 
+ 	ret = regmap_reinit_cache(afe->regmap, &mt8192_afe_regmap_config);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "regmap_reinit_cache fail\n");
+ 
+-	pm_runtime_put_sync(&pdev->dev);
++	pm_runtime_put_sync(dev);
+ 	afe_priv->pm_runtime_bypass_reg_ctl = false;
+ 
+ 	regcache_cache_only(afe->regmap, true);
+@@ -2285,7 +2284,7 @@ static int mt8192_afe_pcm_dev_probe(struct platform_device *pdev)
+ 	afe->runtime_suspend = mt8192_afe_runtime_suspend;
+ 
+ 	/* register platform */
+-	ret = devm_snd_soc_register_component(&pdev->dev,
++	ret = devm_snd_soc_register_component(dev,
+ 					      &mtk_afe_pcm_platform,
+ 					      afe->dai_drivers,
+ 					      afe->num_dai_drivers);
+-- 
+2.33.0
 
 
 
-> -----Original Message-----
-> From: Takashi Iwai <tiwai@suse.de>
-> Sent: Friday, October 25, 2024 3:17 PM
-> To: Dean Matthew Menezes <dean.menezes@utexas.edu>
-> Cc: Kailang <kailang@realtek.com>; Takashi Iwai <tiwai@suse.de>;
-> stable@vger.kernel.org; regressions@lists.linux.dev; Jaroslav Kysela
-> <perex@perex.cz>; Takashi Iwai <tiwai@suse.com>; Linux Sound System
-> <linux-sound@vger.kernel.org>; Greg KH <gregkh@linuxfoundation.org>
-> Subject: Re: No sound on speakers X1 Carbon Gen 12
->=20
->=20
-> External mail.
->=20
->=20
->=20
-> On Fri, 25 Oct 2024 03:22:38 +0200,
-> Dean Matthew Menezes wrote:
-> >
-> > I get the same values for both
-> >
-> > axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-> > 0x5a SET_COEF_INDEX 0x00 nid =3D 0x5a, verb =3D 0x500, param =3D 0x0 va=
-lue =3D
-> > 0x0
->=20
-> Here OK, but...
->=20
-> > axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-> > 0x5a SET_PROC_COEF 0x00
->=20
-> ... here run GET_PROC_COEF instead, i.e. to read the value.
->=20
-But SOF mode can't read from this usage. I forgot.
-
->=20
-> thanks,
->=20
-> Takashi
