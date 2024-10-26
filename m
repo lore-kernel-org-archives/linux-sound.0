@@ -1,112 +1,95 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A35AB676
-	for <linux-sound@vger.kernel.org>; Sat, 26 Oct 2024 00:23:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C235F9C1
+	for <linux-sound@vger.kernel.org>; Sat, 26 Oct 2024 14:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729902208; cv=none; b=edd41t9AeKpr6A7D3GN3YZO9S5UAcOJs6MRKeauoAMutuFGNEqF9g7oCnfAVbksEpksT9M06O83Ju614JIR/A6m8uqralvBUQSLuLsJDiIPlCb0QARaSRAdL5lMggsB4pdsUQ2R9lU18oPlaqI3CDnEyDMX9FP6d56yLKhMmITM=
+	t=1729953389; cv=none; b=F4qJi02mUBHrvn74CYX3wzMb3Dq9oNcyzka+RDgUOF6CRHOEKzpZ1jDYZGAdezK84D2q217JAlABmQG6yTdfW98enrhN4NOE2zY82QMuwIisnw6XgNQZZpeZ5CK3b+ORU7USSSb5Q7qAD/25mV2wMue8D25sUTDJaLVvLZTR59s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729902208; c=relaxed/simple;
-	bh=kHhUUsS7acJboSqyOaR4b0wxr2z4CQuptpcP3cOxPOA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a1MhVMZcrIzYMi/YsF4YQiB8a3u+7VOPz4tY++oaLNLdo+eHjOPSZnGmzO3m/jSmgh07NNoTMpIxqX0qwHBQnKrQnJS8dADvS40DaCQF1dIU52zejRy9Pu7F4H9eSFfEg5AeKqJOUdcFxMhSzRmyhNJAbuipW64xVWlmfGtHSdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu; spf=pass smtp.mailfrom=utexas.edu; dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b=IONi7o3u; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=utexas.edu
+	s=arc-20240116; t=1729953389; c=relaxed/simple;
+	bh=TJX/e4Dy5Z4C3Yy5n/jg5XqriYUxUjBkFSYQc1hXe6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jkzoiuQYpOPYhqiCdDFf2J7kRJj7vUlMBttf2e3uS3rmonKBZu20Ray1XR+tkuIFirNcRg57eddIYb+j044ot5q0vE8X0eATAfkS15oyeBPty2i6xrMprgYQRC5XZEM3JwyuGpr9kvUr4k7c6dnbi1h9xxXSlY5sawqXDZ0pPd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WTrcXWAO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b="IONi7o3u"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2e30fb8cb07so1878080a91.3
-        for <linux-sound@vger.kernel.org>; Fri, 25 Oct 2024 17:23:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=utexas.edu; s=google; t=1729902205; x=1730507005; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kHhUUsS7acJboSqyOaR4b0wxr2z4CQuptpcP3cOxPOA=;
-        b=IONi7o3u32UCam1LRvPRs9kNYcHuApaJBdhMjsY2O6d0dG+gXrdSYuKtBvff+8SnZD
-         P6W2S+Bq+zul15drH4+0CmAEYICoKMtkgogrgqmz/mMRd1dhDLwnEQuxurIDs8IqDXYq
-         7nANPsMjZ2qO+gWQspZzXBANlSjIURaiygxezXSy48TcI+kVTyPPG4PjMCdJIUnX09SW
-         thO5eyAdJKq5yuww2U3kdEaNwscCDwBxoOUwOuNUkvTZDQ7aBGXZOBEaMkt4LoMoLIob
-         FMDi5xBPS3abhqUSccOGqMC+98tjvkvxWxQ+FGI06lXsS1ICZWzcPrYZXLvu2BMWoJEK
-         u0RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729902205; x=1730507005;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kHhUUsS7acJboSqyOaR4b0wxr2z4CQuptpcP3cOxPOA=;
-        b=W1k9gFuovkxFfHHf70PwhrwLtT2CSiaCNwTZwm1bZ/TxMa2W0YUNvYDHkWc9gf+m/N
-         BDqFCyjVQm+6H3B/HIP9w/wXzAdk81UpMvVazuXYQlgcuoareb8vROOfb2ZWJAPuXGSs
-         22fMMiC7xexEM+RlErcnb2kMcLEiKlHs35jbQtq626OUjNC3QTxFHaH/XpGv4yxb2j4e
-         korYf57r3ZNCQz3CT5jGvAZ/5oD05AqoMGO9CHlifbsUVVut5C+MUShdM7FvQ6hJ9sZo
-         wpNlBr++oReo9q3LIIZFoNwllqmXPMCr6T0f/d/3Ncrj2z0Ir5r7fwjnSqd1xmfyKUwy
-         /F6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWDnIrdoSE3VrsvvKF/S9+pjaLQzzoeQX1WXEPbxXCxjRRnxg8TA5xXlmuUz8yiusIdReIdJlqIz6xPeg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzzd8GbAr6XL1nXu14jHkA4SKTpO+eUB3mjV5kZoc3ZRubZtDtt
-	aLx2B6bsd/HsKBkWSDUi0KufEdQpSnNy2gY6cF2LzP2Gmlk8aFd5ctvxCVd2O0WwGIU7N6o+2u4
-	FXBSNwVAdbzhSDPv3V5NnIJvRgwKhhbrVbCnSffLlmplZqvN7UwIRjEIk
-X-Google-Smtp-Source: AGHT+IF+e3IRvBmjVpfJ/vxYU8vFlrWmYswc5pBL+hm7q7VnV/9ycdn4zyZKiMu8ons8xjFulaoKdAI1FVJ/t9ECa/c=
-X-Received: by 2002:a17:90b:3849:b0:2e0:ab57:51ec with SMTP id
- 98e67ed59e1d1-2e8f11a82c9mr1465674a91.30.1729902205319; Fri, 25 Oct 2024
- 17:23:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WTrcXWAO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1729953385;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=y3GH8sDIRzXwEBbsEQfiQvk90SzDQ5lSRPhKKapcoms=;
+	b=WTrcXWAO4rujX3f7ezoxw/rfFQSE1E6zHlOjqFxnVTd02Od8Z+mS/LBxC7Z1ZoesLR0gLK
+	7Sm9bZ42OboJdnjV627PhW2oDLh/bHlhQgKneqByAGB3ey3G4jNPalNDhwzN2wkQO/eSbC
+	toPQCw+zfcEU8VKtBtp0V4KF7iL6sbo=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-Emy5vFyvPk6WFpIJnTdk5g-1; Sat,
+ 26 Oct 2024 10:36:22 -0400
+X-MC-Unique: Emy5vFyvPk6WFpIJnTdk5g-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3600E1956088;
+	Sat, 26 Oct 2024 14:36:20 +0000 (UTC)
+Received: from shalem.redhat.com (unknown [10.39.192.26])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8FBAC19560A2;
+	Sat, 26 Oct 2024 14:36:16 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	linux-sound@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASoC: Intel: sst: Fix used of uninitialized ctx to log an error
+Date: Sat, 26 Oct 2024 16:36:15 +0200
+Message-ID: <20241026143615.171821-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
- <2024101613-giggling-ceremony-aae7@gregkh> <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
- <87bjzktncb.wl-tiwai@suse.de> <CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
- <87cyjzrutw.wl-tiwai@suse.de> <CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
- <87ttd8jyu3.wl-tiwai@suse.de> <CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
- <87h697jl6c.wl-tiwai@suse.de> <CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
- <87ed4akd2a.wl-tiwai@suse.de> <87bjzekcva.wl-tiwai@suse.de>
- <CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
- <877ca2j60l.wl-tiwai@suse.de> <43fe74e10d1d470e80dc2ae937bc1a43@realtek.com>
- <87ldyh6eyu.wl-tiwai@suse.de> <18d07dccef894f4cb87b78dd548c5bdd@realtek.com>
- <87h6956dgu.wl-tiwai@suse.de> <c47a3841cd554c678a0c5e517dd2ea77@realtek.com>
- <CAEkK70SojedmjbXB+a+g+Bys=VWCOpxzV5GkuMSkAgA-jR2FpA@mail.gmail.com> <87ldyctzwt.wl-tiwai@suse.de>
-In-Reply-To: <87ldyctzwt.wl-tiwai@suse.de>
-From: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Date: Fri, 25 Oct 2024 19:22:48 -0500
-Message-ID: <CAEkK70RAek2Y-syVt3S+3Q-kiriO24e8qQGDTrqC-Xt4kHzbCA@mail.gmail.com>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Kailang <kailang@realtek.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>, 
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linux Sound System <linux-sound@vger.kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-I get the same output: axiom /home/dean # hda-verb /dev/snd/hwC0D0
-0x5a SET_COEF_INDEX 0x00
-nid = 0x5a, verb = 0x500, param = 0x0
-value = 0x0
-axiom /home/dean # hda-verb /dev/snd/hwC0D0 0x5a GET_PROC_COEF 0x00
-nid = 0x5a, verb = 0xc00, param = 0x0
-value = 0x0
+Fix the new "LPE0F28" code path using the uninitialized ctx variable
+to log an error.
 
-On Fri, 25 Oct 2024 at 02:16, Takashi Iwai <tiwai@suse.de> wrote:
->
-> On Fri, 25 Oct 2024 03:22:38 +0200,
-> Dean Matthew Menezes wrote:
-> >
-> > I get the same values for both
-> >
-> > axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-> > 0x5a SET_COEF_INDEX 0x00
-> > nid = 0x5a, verb = 0x500, param = 0x0
-> > value = 0x0
->
-> Here OK, but...
->
-> > axiom /home/dean/linux-6.11.3/sound/pci/hda # hda-verb /dev/snd/hwC0D0
-> > 0x5a SET_PROC_COEF 0x00
->
-> ... here run GET_PROC_COEF instead, i.e. to read the value.
->
->
-> thanks,
->
-> Takashi
+Fixes: 6668610b4d8c ("ASoC: Intel: sst: Support LPE0F28 ACPI HID")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202410261106.EBx49ssy-lkp@intel.com/
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+Note: feel free to squash this into the original patch if you want.
+---
+ sound/soc/intel/atom/sst/sst_acpi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/intel/atom/sst/sst_acpi.c b/sound/soc/intel/atom/sst/sst_acpi.c
+index f4c4774249ee..257180630475 100644
+--- a/sound/soc/intel/atom/sst/sst_acpi.c
++++ b/sound/soc/intel/atom/sst/sst_acpi.c
+@@ -308,7 +308,7 @@ static int sst_acpi_probe(struct platform_device *pdev)
+ 		rsrc = platform_get_resource(pdev, IORESOURCE_MEM,
+ 					     pdata->res_info->acpi_lpe_res_index);
+ 		if (!rsrc) {
+-			dev_err(ctx->dev, "Invalid SHIM base\n");
++			dev_err(dev, "Invalid SHIM base\n");
+ 			return -EIO;
+ 		}
+ 		rsrc->start -= pdata->res_info->shim_offset;
+-- 
+2.47.0
+
