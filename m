@@ -1,95 +1,117 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C235F9C1
-	for <linux-sound@vger.kernel.org>; Sat, 26 Oct 2024 14:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D2D762E0;
+	Sat, 26 Oct 2024 18:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729953389; cv=none; b=F4qJi02mUBHrvn74CYX3wzMb3Dq9oNcyzka+RDgUOF6CRHOEKzpZ1jDYZGAdezK84D2q217JAlABmQG6yTdfW98enrhN4NOE2zY82QMuwIisnw6XgNQZZpeZ5CK3b+ORU7USSSb5Q7qAD/25mV2wMue8D25sUTDJaLVvLZTR59s=
+	t=1729966458; cv=none; b=TgrHD3jj5DjyiaIyVlBIczsI36yVht1zjob+H1vTqbGlpXMWnuMfUFtAEuaf8Rhljr/AvQDxqd++OTjaUHRX8fsHVL7CVz+2EjKakCQnR8WUyLzw2aXQWRZCjy0ECQGsJRGms3f8rKuubRDB8Z4sRmaZJirvge0lJb7uvXSnrm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729953389; c=relaxed/simple;
-	bh=TJX/e4Dy5Z4C3Yy5n/jg5XqriYUxUjBkFSYQc1hXe6A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jkzoiuQYpOPYhqiCdDFf2J7kRJj7vUlMBttf2e3uS3rmonKBZu20Ray1XR+tkuIFirNcRg57eddIYb+j044ot5q0vE8X0eATAfkS15oyeBPty2i6xrMprgYQRC5XZEM3JwyuGpr9kvUr4k7c6dnbi1h9xxXSlY5sawqXDZ0pPd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WTrcXWAO; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1729966458; c=relaxed/simple;
+	bh=XaudYQkyPrtg2QoD+hZd27C6KBzcpjUk0rPaoe+VssI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ciznx9V70hbjxCI2WO1Xny4utDoFQ8ZbG3/I/MaEqnElZHMbrmNWNPT9V1pMGoaNYNO+pMgnpqcvwjsW9K56COJK3qn2ch1Rp9CrmipZJdcbCY8HGgs8yy0eNKend/kEOazzZ/eplAt9Ri9sUOySLUs/F8iUOu+XWVhFcMhMo2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vDwNnoov; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WTrcXWAO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1729953385;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=y3GH8sDIRzXwEBbsEQfiQvk90SzDQ5lSRPhKKapcoms=;
-	b=WTrcXWAO4rujX3f7ezoxw/rfFQSE1E6zHlOjqFxnVTd02Od8Z+mS/LBxC7Z1ZoesLR0gLK
-	7Sm9bZ42OboJdnjV627PhW2oDLh/bHlhQgKneqByAGB3ey3G4jNPalNDhwzN2wkQO/eSbC
-	toPQCw+zfcEU8VKtBtp0V4KF7iL6sbo=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-529-Emy5vFyvPk6WFpIJnTdk5g-1; Sat,
- 26 Oct 2024 10:36:22 -0400
-X-MC-Unique: Emy5vFyvPk6WFpIJnTdk5g-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3600E1956088;
-	Sat, 26 Oct 2024 14:36:20 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.192.26])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8FBAC19560A2;
-	Sat, 26 Oct 2024 14:36:16 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	linux-sound@vger.kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH] ASoC: Intel: sst: Fix used of uninitialized ctx to log an error
-Date: Sat, 26 Oct 2024 16:36:15 +0200
-Message-ID: <20241026143615.171821-1-hdegoede@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vDwNnoov"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41562C4CEC6;
+	Sat, 26 Oct 2024 18:14:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729966457;
+	bh=XaudYQkyPrtg2QoD+hZd27C6KBzcpjUk0rPaoe+VssI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vDwNnoovZPgcctHqMueNQSMUez3Tiu3287RvJJRPVhZc4i1u5ydKIlMPDvu6aJFfV
+	 F1fHr3u5FrcLL/th/f1NBmjUHKmz0CqW5kQRLxHv8sv27hi+o7m3TkHNbw4juWI1GV
+	 U8txc54a7JC97FSlh2iNciClhuOxYOm/8yB6wRn7tWlCNNlUZ2FKGc7Q5UYHysR593
+	 MS8NnrAINiSqx4byQI9nBQKebjER1T0QAkoQ787572yrQC4NL7s0rnXH0q15zGjp8o
+	 nQyuX+WS/BREIWJ6BryqVq9ML737fdrgy4P4HSxrEJmFWiDO5CQtWXTf9WQDnhVQbl
+	 3kbVfqLBZOT4w==
+Message-ID: <e6f4b1b9-f860-4625-9f77-ee475235e958@kernel.org>
+Date: Sat, 26 Oct 2024 20:14:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: document the adau1373 Codec
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
+ Nuno Sa <nuno.sa@analog.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com>
+ <20241021-adau1373-shutdown-v1-2-bec4ff9dfa16@analog.com>
+ <pj5clifybfwljpq3usfgca7cy54xpmzngdckyb53wc3u4lts53@gtm2mbuiiudw>
+ <a38c5d3e4f1cdf90f53b8c17ef7508faaf760f89.camel@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <a38c5d3e4f1cdf90f53b8c17ef7508faaf760f89.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"; x-default=true
 
-Fix the new "LPE0F28" code path using the uninitialized ctx variable
-to log an error.
+On 22/10/2024 08:42, Nuno Sá wrote:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+>>> +    oneOf:
+>>> +      - minItems: 13
+>>> +      - minItems: 26
+>>> +      - minItems: 39
+>>
+>> and maxItems?
+> 
+> Hmm, I had the idea that if maxItems was omitted, then it's the same as
+> minItems? Because that's the intent... We can either have an array of 13, 26 or
+> 39 entries.
 
-Fixes: 6668610b4d8c ("ASoC: Intel: sst: Support LPE0F28 ACPI HID")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202410261106.EBx49ssy-lkp@intel.com/
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Note: feel free to squash this into the original patch if you want.
----
- sound/soc/intel/atom/sst/sst_acpi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That's not the case and none of the files follow such logic. If you
+manage to find one file, please correct or report it.
 
-diff --git a/sound/soc/intel/atom/sst/sst_acpi.c b/sound/soc/intel/atom/sst/sst_acpi.c
-index f4c4774249ee..257180630475 100644
---- a/sound/soc/intel/atom/sst/sst_acpi.c
-+++ b/sound/soc/intel/atom/sst/sst_acpi.c
-@@ -308,7 +308,7 @@ static int sst_acpi_probe(struct platform_device *pdev)
- 		rsrc = platform_get_resource(pdev, IORESOURCE_MEM,
- 					     pdata->res_info->acpi_lpe_res_index);
- 		if (!rsrc) {
--			dev_err(ctx->dev, "Invalid SHIM base\n");
-+			dev_err(dev, "Invalid SHIM base\n");
- 			return -EIO;
- 		}
- 		rsrc->start -= pdata->res_info->shim_offset;
--- 
-2.47.0
+Best regards,
+Krzysztof
 
