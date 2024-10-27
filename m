@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9715D1DFE8;
-	Sun, 27 Oct 2024 20:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802BB1DFE8;
+	Sun, 27 Oct 2024 20:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730062475; cv=none; b=jocGmwJKVI7wYK6Co3smnOkTBP2Z+GxIbTdi880P9jZ8IFNLEAY6INnghNtSXuWepYMZgCTop09NGIDG3wiaP8Wh2L0BAKuUQdt4YwAGnAvuFftWhcAwIPJ1OyZz9g7D2CSRX7l7ocZF0qakjXbqqA1R4yTxxxApd9iBS+JzZsU=
+	t=1730062525; cv=none; b=DzuTUnFh7mi7+5pGFv4SCHverOPuaNnVNVtrlyKZpXySDBIU1ELzyppTxOVKbrAWcmvMDWV+uAJMJwA10Zw59PE77VCx0HLSqIoYKRApNt3zhKfxpWEmMVVZP/pbPSyvoiqOMZzDwPpEkfhfOWFHWKEVBMNCWtaxzok/KoH2oRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730062475; c=relaxed/simple;
-	bh=2/SY7cEbrOd1n+Q4oIA/+7D/s8Dxlqav5A6rulFeiwk=;
+	s=arc-20240116; t=1730062525; c=relaxed/simple;
+	bh=cVqokvOyxFvU1xMd1wGqWXrbr+e3s3HH0AKtdgNqiiA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TYzhyzHm28/Y7c8k+Ig8Q9aC9zsuYsigvfiA6CdFupin3y7GjDsa0N8gLisJt29A3pSauYNxAd0y0lxHuVlXacbDtlA34Ocus6GO23sQq/pUyYZgtwwGW6MF6hJ0/sdtlC7F9TLt7pAgNJy1LMFeQKG0Kk/t27LOAmhwI/CXSFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpUBkjQK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nK2IoYPYBTVDpq7CGxuDEN59RkkaViISzRcj/LzTTpn9OmVhhModu4S1eFijIbRIRsJSHUYgPurg+6tkKn8btO30gi+/h4m1nfuowx4c93NxrNEdLsklz79+rgmceguxlup4xVCp1O4JP4KiT1rYnTvMsgPpe+gwX/jk/T2uILU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VyjXCTvU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpUBkjQK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A44C4CEC3;
-	Sun, 27 Oct 2024 20:54:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VyjXCTvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59098C4CEC3;
+	Sun, 27 Oct 2024 20:55:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730062474;
-	bh=2/SY7cEbrOd1n+Q4oIA/+7D/s8Dxlqav5A6rulFeiwk=;
+	s=k20201202; t=1730062525;
+	bh=cVqokvOyxFvU1xMd1wGqWXrbr+e3s3HH0AKtdgNqiiA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BpUBkjQKLIg/MxSaS7yQD2D3MK30x8PBJ+ulbTB2LMQYacegiKfSxp1WzW/QhvNfV
-	 xLLC57Qy1aD8cd8EleiJvcrMPRoh4nUwCXdenM0NrP0vTw9f/aRwkW0N6cdm55DVVt
-	 +RXTg3kc6t44DlBcR3roEi1j4P8RKlpHnL6T7lggwOMT5v8tzN9KJ6pdnCrICEeCDA
-	 43rzYfvKfh/4zPQyofcirmId0kERVFshiiG+z/TAt5wRCcfo97LbizilGQ6sjwcQ7g
-	 IWwYs8DcP+uVJ8STQnZrh7x8j25pGLnwYW/uQUlIG5p6rBKyjzEiPPx4Xg+BU+bLmq
-	 JkWtuoB7gd+6A==
-Date: Sun, 27 Oct 2024 21:54:30 +0100
+	b=VyjXCTvU1oXMlb+st0YsSdXjD+OAvuNHRtZhLui6BBcKjb2jwya04HqCkRvX9JhG/
+	 XGSEPzebYCbYZLG49uM3qhWIcH1JjF7bnwECwmYq8a1+GSr1M/DMF6bTIlJhkHFxmk
+	 llPxKQG2R5AWIaK+4yNOMMAXz7m/qGgjBysI5BnTEG7jMM66mdkUv4YQG/uzGgJ/kK
+	 ZWHkm7kE3Ec50sWDsDzOJOrt9+wIpg1KZhB1AlYyWwPctju0k/XfxhHrVJ6fb105ar
+	 Ygrfcbp+BogMZehryJ9Qk3d43EJ6f18oQonPxup7z2hxIf7enhWVVzXbVtY9q+hk6m
+	 DYYbBduU3Urmg==
+Date: Sun, 27 Oct 2024 21:55:21 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Fei Shao <fshao@chromium.org>
-Cc: Mark Brown <broonie@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Conor Dooley <conor+dt@kernel.org>, 
+Cc: Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Trevor Wu <trevor.wu@mediatek.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp
- and dai-link properties
-Message-ID: <5vmfh2nkxtpzt2vk4j6ghro7z5stoyvry3enzoqepg6hjxqrho@fofs5cwa2iqq>
+	Rob Herring <robh@kernel.org>, Steve Lee <steves.lee@maximintegrated.com>, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 3/4] ASoC: dt-bindings: maxim,max98390: Refernce common
+ DAI properties
+Message-ID: <i6eljb2nzhwr4bd55dbudsra3sni2hhk2eqgu3gttatwvnolt4@w4uhrklbyop3>
 References: <20241025104548.1220076-1-fshao@chromium.org>
- <20241025104548.1220076-2-fshao@chromium.org>
+ <20241025104548.1220076-4-fshao@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,55 +46,37 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241025104548.1220076-2-fshao@chromium.org>
+In-Reply-To: <20241025104548.1220076-4-fshao@chromium.org>
 
-On Fri, Oct 25, 2024 at 06:44:41PM +0800, Fei Shao wrote:
-> Add "mediatek,adsp" property for the ADSP handle if ADSP is enabled on
-> the platform.
+On Fri, Oct 25, 2024 at 06:44:43PM +0800, Fei Shao wrote:
+> Reference dai-common.yaml schema to support '#sound-dai-cells' and
+> 'sound-name-prefix' properties.
 
-We see this from the diff.
-
-> Add "mediatek,dai-link" property for the required DAI links to configure
-> sound card.
-
-We see this from the diff.
-
-> 
-> Both properties are commonly used in the MediaTek sound card driver.
-
-If they are used, why suddenly they are needed? What changed?
+Why? Is this a DAI?
 
 > 
 > Signed-off-by: Fei Shao <fshao@chromium.org>
 > ---
 > 
->  .../bindings/sound/mediatek,mt8188-mt6359.yaml         | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> index f94ad0715e32..701cedfa38d2 100644
-> --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
-> @@ -29,6 +29,16 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/phandle
->      description: The phandle of MT8188 ASoC platform.
+> diff --git a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
+> index deaa6886c42f..5bd235cf15e6 100644
+> --- a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
+> +++ b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
+> @@ -9,6 +9,9 @@ title: Maxim Integrated MAX98390 Speaker Amplifier with Integrated Dynamic Speak
+>  maintainers:
+>    - Steve Lee <steves.lee@maximintegrated.com>
 >  
-> +  mediatek,adsp:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: The phandle of MT8188 ADSP platform.
-
-And what is the difference between ASoC and ADSP platforms? What are
-they used for?
-
+> +allOf:
+> +  - $ref: dai-common.yaml#
 > +
-> +  mediatek,dai-link:
-> +    $ref: /schemas/types.yaml#/definitions/string-array
-> +    description:
-> +      A list of the desired dai-links in the sound card. Each entry is a
-> +      name defined in the machine driver.
+>  properties:
+>    compatible:
+>      const: maxim,max98390
 
-The list is provided below. I don't understand why do you need it. Your
-msg is pretty useless - you describe what you do, instead of why.
+Missing dai cells - how many DAIs are there?
 
 Best regards,
 Krzysztof
