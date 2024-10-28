@@ -1,40 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0641DED67;
-	Mon, 28 Oct 2024 16:33:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7493018BBB9;
+	Mon, 28 Oct 2024 17:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730133206; cv=none; b=Cvgw5oaaddsi3W4kB8Xb1iz5mFMIk6Py5W3k3wfOJm79OvIo+HOKi2NY8UbyiHMawYq4RWrpC8ZHHlCg4skij5u9sfhaLfitDtniPHTSuwtm81zcU9ABj+Zd937RC5vW9aYVew4RMEXKZZJvJRQiM6N/wkbnlkkTfkikVJCcWz8=
+	t=1730135902; cv=none; b=LzMYJRCM7E2Arx52sbgh9i1MGPiQrWiBdJarjEWsv/j3AgnwAxIATORbaHBTEui+FDDT+1WV/EItK8GW/LyeqEQSxYDZEwziRygfrGAkgJUorpwW9RxQCyDZIcIGNezGWE05iPqnOllVGOPe6cxuUp81GgA2fsOmGlvMAA9f4Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730133206; c=relaxed/simple;
-	bh=S91M8ypzp/zcYlMWhW5ocjNcjVixVQtBVDCTW1REdwU=;
+	s=arc-20240116; t=1730135902; c=relaxed/simple;
+	bh=D78PPQSl6ZzwXnAhQCZItv2ujy63Pn3+gWcO9Llqftc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=l5ZbFIOqJMn410Z3I/dXWChnrdrzwa+5btPE2oPBoyxl0/WM4PgsgTwLhMFEFnxKABg1t56SkXTrRcxSwmn3agqQXPPgTAjBBVkP+eJk5ZozkrS6sOZ5ILbbLGzqQvBTXEylfOZ+97of9JOtUUa2FBKsA/ntDMKlexlgwCf9Ho4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQDd0Gua; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XYI0tw6a5m3eOam7P2wGz3F4NXAXTd+aRTf7okG5b7pS8nck9oQCXkjkOzR/wi79hyneNZKRQBcSMzE+8EVyxlct/G11C0yjQn0mr4yFVvDaXoedZH99/k+BOKEmXRMxyD7G2RE4M0CdAUUBE/AqOSLrf/0RHnra5UoeMM/ryt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CUg8/wy6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQDd0Gua"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C13C4CEC3;
-	Mon, 28 Oct 2024 16:33:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CUg8/wy6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F475C4CEC7;
+	Mon, 28 Oct 2024 17:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730133206;
-	bh=S91M8ypzp/zcYlMWhW5ocjNcjVixVQtBVDCTW1REdwU=;
+	s=k20201202; t=1730135902;
+	bh=D78PPQSl6ZzwXnAhQCZItv2ujy63Pn3+gWcO9Llqftc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ZQDd0GuaUbbgh0rmYIVDqEpzXBZHmxwoz6g0cnWRkntmLl45twSV/uYkz7KgGnOS9
-	 oznKvJacNxPUh+9ia0wZUQ+qhe5vYqhAxD/qWy8Ks1O4j+utDckut+aZzTKmuNYBgP
-	 h+vtcZZ/dogX3Fcw8kYdTrF21hK+winV1ugSHf1qfJI+4z2dN7RMjBATWvrwIQqC0N
-	 VLrhJFmlJUtbM9lWjuUF6/FrYC8WKfmZ43NjDKS4adwBuf2YDZNxcZV08VJcjlTHbE
-	 9LEPLLKALfQD9lPdvHYdT3GREyFaReABJ97NOf/sOXvbxx9D5Wcfo122zBSO/5fG42
-	 W1ZwCjRID+DBg==
+	b=CUg8/wy6zlkSPXz1YbgH6XBSNwTNj5zj6dBjSyToix+gZJxF7cCfC8odPKK++lv3A
+	 +hmnOolUcMbaLvQLnPxCnQEv9amJq7vkXTWhXwG3oorpbvmgS/vUYmY1M5+2TmGxoM
+	 1MVQpUDcwqhQ4N0Z4lB7Qz/Z8Xl3qu4KXBwhCGLcfQx2NI9EBcRWobEVmcJ9zQbx+N
+	 3eZBhLytNyGIESiPBfpOdX0sOdLLJPtvZcNo2jjyzTzDsVb4eoDK+QOQ+X/tz32eoe
+	 5BD0icvYVGKvC1hErUPnvLiQ05bnRCPeORFI8Dxr2CEt5pX3jMib8uQK/IPjKZTjoo
+	 CCRs8sWmxfEbg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, linux@treblig.org
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241028021226.477909-1-linux@treblig.org>
-References: <20241028021226.477909-1-linux@treblig.org>
-Subject: Re: [PATCH] ASoC: soc-devres: Remove unused
- devm_snd_soc_register_dai
-Message-Id: <173013320514.78752.17890412410852640368.b4-ty@kernel.org>
-Date: Mon, 28 Oct 2024 16:33:25 +0000
+To: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Olivier Moysan <olivier.moysan@st.com>, 
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, 
+ linux-sound@vger.kernel.org, patches@opensource.cirrus.com
+In-Reply-To: <a5e5f4b9fb03f46abd2c93ed94b5c395972ce0d1.1729975570.git.christophe.jaillet@wanadoo.fr>
+References: <a5e5f4b9fb03f46abd2c93ed94b5c395972ce0d1.1729975570.git.christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH] ASoC: cs42l51: Fix some error handling paths in
+ cs42l51_probe()
+Message-Id: <173013589929.106425.15659465055974056146.b4-ty@kernel.org>
+Date: Mon, 28 Oct 2024 17:18:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,13 +50,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Mon, 28 Oct 2024 02:12:26 +0000, linux@treblig.org wrote:
-> The last use of devm_snd_soc_register_dai() was removed by
-> commit fc4cb1e15f0c ("ASoC: topology: Properly unregister DAI on removal")
-> in 2021.
+On Sat, 26 Oct 2024 22:46:34 +0200, Christophe JAILLET wrote:
+> If devm_gpiod_get_optional() fails, we need to disable previously enabled
+> regulators, as done in the other error handling path of the function.
 > 
-> Remove it, and the helper it used.
-> 
+> Also, gpiod_set_value_cansleep(, 1) needs to be called to undo a
+> potential gpiod_set_value_cansleep(, 0).
+> If the "reset" gpio is not defined, this additional call is just a no-op.
 > 
 > [...]
 
@@ -61,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-devres: Remove unused devm_snd_soc_register_dai
-      commit: dea15b2abdb09608af5909ed7d168ec20f36a81a
+[1/1] ASoC: cs42l51: Fix some error handling paths in cs42l51_probe()
+      commit: d221b844ee79823ffc29b7badc4010bdb0960224
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
