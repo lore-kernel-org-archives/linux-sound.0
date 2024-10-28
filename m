@@ -1,120 +1,87 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D17F1DE2A2;
-	Mon, 28 Oct 2024 11:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2A1D86DC;
+	Mon, 28 Oct 2024 12:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730114228; cv=none; b=b6MMqQWGLwh65/KXd6Fyd2frDleHCY2qHreT87Ep+Mgyo828M32YMe2sXdvV4wl55fXLDSkxHRIfCjXHdZnBpzpotcza36jK3ZYHwh55bqDoF99n8xSk7t9flNPYwUCF2WxMoVTpURHnPHrAR6mx7i65IA+8fln0I6lZvFQ+qv4=
+	t=1730117524; cv=none; b=CpTSqwPCAIwx+9aUvdjzZtkOrapSZDnZv7Opbu2Fu9svJSPfhOOCkrM5pm9JqkDSjmfC3z2xAjq+IUeM1fnKbpGaVNrss44dVLGS6Qgz+qmr0ETiCpcFLxq3Xi+DAjKF8jhb1bJTcyfllsn9W9kXHTnJUUwL90GIyWkvAqPkQI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730114228; c=relaxed/simple;
-	bh=OTijBIUcwgooA47bUDi5GXCl66rV6BVPvL4tjKZ05yk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UCne2dG+lu0/Br08/c4PR5yTCFsNKwG8e55Y0byQVz2QPFyTw4Bz2/FXcptDd0emsQyjfnF+oAwP/vpU3XP46w3oIYnWsVmcBUvn1i9FP+HeS6BkM1DSMpP587O3J5dsZfrBizxIJCsDNDdt6dlwQJNp1YP3QJPF0wGmVpT8q2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mEFsTGBY; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730117524; c=relaxed/simple;
+	bh=NAZkhhTeYWBcCRnnAZH+eZCWBsmCMSLDc9mRceexjgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PVLUDhNxgnBNhi4mfDSH4lu4yX3XaRxbcv5O6KqJZdXCF99aUlO2BnAwfKLx7opD5EZCAj0d7slPmo7IbYI/rfckl4ScAPs+BMk/N/5+GrTZfPGbI5uBDLcnTYS6pV4NN7wYQe/AjSCfBaF3r0/Ro5aJ+azRArYDv1Llb3bqVaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uTA10aeL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mEFsTGBY"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2e3fca72a41so3291345a91.1;
-        Mon, 28 Oct 2024 04:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730114225; x=1730719025; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p/Xed2jsd+vQgTX6pPhrgTHZ5oskzqTKsIs39zQq57s=;
-        b=mEFsTGBYc/wDcQXn/u59qg08hgL4UsgPpUFD3SIxa2OgxE1uIVQ14BACt38lk88Lvf
-         ptRV7UB1nQVe3PhGkL5k6QbwwSFJBFhi4S4EtDhejOUNqgK/g1SZwCSPYTHclWs/z1YO
-         PlDYcVu2h7QLVHULHkA3llv+dT/PR+NVkRxMn3ATMXXabcGOBojD7jYV2Rkp3RZ61oen
-         GwV1uVXXUvpZo4XoqVv0hmcDASrORaI+te5tcDubV0fJvvXq/oLqkbWRJhpV2gCz0bHi
-         sKx1L4s194gQQcNkL8BugQ1VyyfeKzcVzBJDvFp2w3mH4/dXImqBZAEg1XrPyIT5AyG3
-         M1Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730114225; x=1730719025;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p/Xed2jsd+vQgTX6pPhrgTHZ5oskzqTKsIs39zQq57s=;
-        b=rD1KTYtIyuTQPieUPZ8NYqYsdtalAaW6OS6TeEwH9e+97cDJJsTc3+RlcRndRKqJi7
-         Tn3HZ57vRyW21Z3TaTC9vSU6gF1K4CUm1Z8OmfKJxiIHvCBThxv6X+RWjOMo2rNkyeky
-         qPNuhgeCTe8fx10Fa/DjCAN0rbDbzzcn0WbERXW3sncKBq6gAsNRTYXwZ7semlTHlH2a
-         2az0ORQory9t0X1Cu5IAV2QpXQZJas2rHfCj4OcBDHSSlkB4oJp0YdnbNz+B0b8HdoNa
-         1LFbo9r6ha7EZ1jc3/mBCyuyRQkmbPEYtVSJABr6HqKKO5oQU1cOJ1QqoNcCC8ZOqKDl
-         qy+A==
-X-Forwarded-Encrypted: i=1; AJvYcCU4WBqyuNITx7KVZd9tulaznkGe9tHNwXbbjQM8tvsGjys4105Q7HnhviFo9d6oF/2B/mADTlxzhndXCoo=@vger.kernel.org, AJvYcCWQyeEeeB60X7FuK8roNcX5j3zX1VjipN1WfEhOYr9p7y4fKKZkoRQQpY8wWf9dTsKVXcZckIZ1rwNhsA==@vger.kernel.org, AJvYcCXs+h2OMQsgwaHCdG5caHhsCc+T8kEACKrmLADC6dMiheEZbkzHU2nqQBeOws558a6HaI/VYVMO4AI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRHOshaVHYrkIDGbWqfl+lp10X+SPnbrwv70yuxjxikNfKz03n
-	v26IEglR4XbPWzrvI7okXy/1VbkGtMiNtAmrdJM2mUO03HbCWzZE
-X-Google-Smtp-Source: AGHT+IHA55N/8xPPC/gV4dwC/FvKIinNKqyPZJLHqNOLWmDy6n8NgXi4zmv/xP1i+F0Nv/ISKkEcsQ==
-X-Received: by 2002:a17:90a:a004:b0:2e2:a661:596a with SMTP id 98e67ed59e1d1-2e8f105e840mr10302191a91.13.1730114225454;
-        Mon, 28 Oct 2024 04:17:05 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3771775sm6883251a91.49.2024.10.28.04.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 04:17:02 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id F143F425A749; Mon, 28 Oct 2024 18:16:57 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Sound System <linux-sound@vger.kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH 1/2] ALSA: docs: compress-accel: Format state machine flowchart as code block
-Date: Mon, 28 Oct 2024 18:16:46 +0700
-Message-ID: <20241028111647.17378-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241028111647.17378-1-bagasdotme@gmail.com>
-References: <20241028111647.17378-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uTA10aeL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB9FC4CEC3;
+	Mon, 28 Oct 2024 12:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730117523;
+	bh=NAZkhhTeYWBcCRnnAZH+eZCWBsmCMSLDc9mRceexjgU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uTA10aeL4xtGd63PUIPx4KhhP7HDf7HveJCfWaAvK3qMB3bC8jLKkEhFESanGKbGf
+	 uhuDju3v8m3q6ieocv7/yEBPF18Cm83bCKgYPTn2qye5/6F6nwYL+lAxM0hDQ1du8V
+	 Dh/ZPyGjrWiPXyKtiTxIol4e2/k0WxJX+/8AtT6n40dTRWQ6cmbQyboWn5RSmZglPA
+	 IbMxrtYqDvMPSdSB2BvEZtP6NHs/n63XsT/dRKP97i6mPmFZuEeHcDLhqQx9yYFICM
+	 PkHz47nn0gx8oL6zQVXRROwud3Sjg/7pm75NIrx5uhJzzS+wGzJ9liRCwrMSQ+e+/y
+	 8X53OSDt6bqxw==
+Date: Mon, 28 Oct 2024 12:11:58 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>, shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH AUTOSEL 6.11 05/32] ASoC: fsl_esai: change dev_warn to
+ dev_dbg in irq handler
+Message-ID: <1ad8216d-c24d-4d35-9562-4106e2aafa34@sirena.org.uk>
+References: <20241028105050.3559169-1-sashal@kernel.org>
+ <20241028105050.3559169-5-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1767; i=bagasdotme@gmail.com; h=from:subject; bh=OTijBIUcwgooA47bUDi5GXCl66rV6BVPvL4tjKZ05yk=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOnyhauf77+Qk3DausXtv/Wzr/qRBrcu+U+X/ZQdqnp80 0SuXj6FjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExkniQjw70fIprvPZafTV+p uegB553QBaHi6X0cPwSnCVTxa79VXMzIsN8/6/5hQ+uvCzu2//S5smG3lsauje02K7kPKd71/CQ azwAA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Jw04mRIq6Tcvx3ro"
+Content-Disposition: inline
+In-Reply-To: <20241028105050.3559169-5-sashal@kernel.org>
+X-Cookie: Remember the... the... uhh.....
 
-Stephen Rothwell reports multiple htmldocs indentation warnings when
-merging sound tree for linux-next:
 
-Documentation/sound/designs/compress-accel.rst:67: ERROR: Unexpected indentation.
-Documentation/sound/designs/compress-accel.rst:67: WARNING: Blank line required after table.
-Documentation/sound/designs/compress-accel.rst:68: WARNING: Line block ends without a blank line.
-Documentation/sound/designs/compress-accel.rst:72: WARNING: Block quote ends without a blank line; unexpected unindent.
-Documentation/sound/designs/compress-accel.rst:73: WARNING: Block quote ends without a blank line; unexpected unindent.
+--Jw04mRIq6Tcvx3ro
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix these above by wrapping passthrough audio stream state machine
-flowchart in a literal code block.
+On Mon, Oct 28, 2024 at 06:49:47AM -0400, Sasha Levin wrote:
+> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+>=20
+> [ Upstream commit 54c805c1eb264c839fa3027d0073bb7f323b0722 ]
+>=20
+> Irq handler need to be executed as fast as possible, so
+> the log in irq handler is better to use dev_dbg which needs
+> to be enabled when debugging.
 
-Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20241028193242.11597640@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/sound/designs/compress-accel.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is very marginal for stable material.
 
-diff --git a/Documentation/sound/designs/compress-accel.rst b/Documentation/sound/designs/compress-accel.rst
-index abf1f76a87785c..c9c1744b94c2c0 100644
---- a/Documentation/sound/designs/compress-accel.rst
-+++ b/Documentation/sound/designs/compress-accel.rst
-@@ -57,7 +57,7 @@ from the input buffer size).
- State Machine
- =============
- 
--The passthrough audio stream state machine is described below :
-+The passthrough audio stream state machine is described below::
- 
-                                        +----------+
-                                        |          |
--- 
-An old man doll... just what I always wanted! - Clara
+--Jw04mRIq6Tcvx3ro
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcff40ACgkQJNaLcl1U
+h9CXwAf/dKgisn32gugwOj7kv0kcdBJdUWmANJAOcx1EOHgkOSaJivv+5thFldfv
+7oqPwtMJ7fY3dgB+F9mBaeEme5UEhSHLoawxHLf4C5paoOTr4z3YcXrdwYgwrF3Q
+n+sGIw5qXOgLhuHyOaGLyaMsGaHuI4yB4PfFi/muoWK98SQex0M6iC3+WbAY41D+
+0ghy0A9fIIAy/xK9Q309x9hV6dwfUE4Sg4+DHC2kH9E5JBD9sY4EaGmkdZ7azV2A
+tqwaPUgw34Hip+veM7UMb4m/G3jM6BwAUJporndNYVBmo3O06bDGvZulrRDsUkEi
+7PvclJ+x+hhfc90E9zZn2mCpDj9trg==
+=yJsI
+-----END PGP SIGNATURE-----
+
+--Jw04mRIq6Tcvx3ro--
