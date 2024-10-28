@@ -1,159 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171E7186E59;
-	Mon, 28 Oct 2024 09:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE0E1D270B;
+	Mon, 28 Oct 2024 10:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730108534; cv=none; b=a7dsArpd9t2zvIXdM60eJpy/c7xnk45j14wyZAzJCBr6flMRDpQit43A44lB+Z9GrQ6h4WaSqQEFqksPtmA4u5LZsLcVG/+YZDSulnXnAlJoIYh27p7u58UjzD/C4BRwr7ThkVAhs9JnIiUWqCW8N7YhlnWJ+/xkiKyLGLE9usM=
+	t=1730111926; cv=none; b=F5jqgjsJ1kyWBmASZHu19v8a7vfNcrPI9GGTBQGs8Ono6dY2XbPQPdKBNbHn24U8Uv1T9q3i5nCiLGlOAnvlMnnVsJS7OIOIkfocVM1x77SfVNlChGjRxjk60p5xTGU1X/JCMk31yBOjHH2sLghSIiiem8e3hBcrpw9UlKCVGJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730108534; c=relaxed/simple;
-	bh=u3CcYZPAhCHto7li0VH0IFXnXUVWJuwP8SZ7uyxGndc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iaqZVsBdYeRhAcEuh82IKOtmIEr2UrmbHZo8rUgWTa35zChTlHcO42QQwVECj2T3p4AaqRViJbaJwsDp8nWGQ1X3D+08fwSGs+FBKKrWwwrwtSETrR0HB0LIi+31hSyjSqDIY7kS58J172Kxg4Q1SknacP8Df+XSQhKxsYdUE2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zq5ZaQbc; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730111926; c=relaxed/simple;
+	bh=wzdsu2j4UjuiVcgocXfHDpRtIlfWStfryai7a9e1h9w=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jv8ji6vEcjDeW4OxkAPaGBafK76Nu1djUuUxrsLF6oxDRDOhFooUAFWEv6KLybNBqJU8fRN+aGqqiF3r+7rln+Gmn6J+yKyjs9tk/kkavgLmOeOPwEiCiGEA2kfJO4EE7VPp2BuLPDpvhDPilFi4Db/cMMJ2RYQyel84GG9CFNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=o7v6jURI; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zq5ZaQbc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730108532; x=1761644532;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u3CcYZPAhCHto7li0VH0IFXnXUVWJuwP8SZ7uyxGndc=;
-  b=Zq5ZaQbcWoEMQt3Q1sV3SeyXr3dTH/aa0L57XHp12Z/rWB3StbwdaMPi
-   uXblRNqmXxnucwjA/RvjB4QloIp0TuahHRIUrZdELdiZ3GDGEI1NrVs+k
-   XzVUhOx2Q6g1P0dyTKYtby1IcJq9pY1B6heELYgStEQBmdWQPlwHZb8TZ
-   nvdCNq9dP+3lCkDABsoqBSL2RkTyS5A22QMsY1vb4mVdKz/D1SrlZWbOB
-   pCawXIRbQ/U5XTaaxpYXY+TUainf5730tndxc17/GofYC4t8uXyqpfNUb
-   C8nhz/urVLVO0IEkByYo+u57odBWazf48PsjLHhUnAguP8jwBhfILQKih
-   w==;
-X-CSE-ConnectionGUID: 5mlvsVDpQWasqs/IxISbzA==
-X-CSE-MsgGUID: In1KRxI3SL+CSEpAH+eKcQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="33493347"
-X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="33493347"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 02:42:12 -0700
-X-CSE-ConnectionGUID: V1p5E/jKQkCXUO1JA9ii9Q==
-X-CSE-MsgGUID: JN9SWGHhSfKSLF9tTWxD3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="81470816"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 02:42:07 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1t5MGC-00000007tdH-1h6o;
-	Mon, 28 Oct 2024 11:42:04 +0200
-Date: Mon, 28 Oct 2024 11:42:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com, shenghao-ding@ti.com,
-	navada@ti.com, 13916275206@139.com, v-hampiholi@ti.com, v-po@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
-	broonie@kernel.org, antheas.dk@gmail.com
-Subject: Re: [PATCH v3] ALSA: hda/tas2781: Add speaker id check for ASUS
- projects
-Message-ID: <Zx9cbCq5jl3tOJAk@smile.fi.intel.com>
-References: <20241027143935.1340-1-baojun.xu@ti.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="o7v6jURI"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49S80mfh026238;
+	Mon, 28 Oct 2024 05:38:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=/WeVNuKv2qeq8LI2dz
+	MNVIh7KIor3At70uWYTMRemZk=; b=o7v6jURIdptaXzuhZjAMcW9Bd9JhZ8HXdp
+	XAVYL3bNgnLMOjOFKQHqFGE88TLRRQv0FYT2g+3hkpww/ANppWLY6DzlKR6SUe4c
+	TUtQV3Pjgjj+GVDH1aAKcJzpWS5gSPHJqz8qf3KhOesj6kxbhInwRdzfH2eXytND
+	8Vt6+QHElGukHK6fzUyHjMuWwuswKRMj5+MWllLubM0u9xi6zTJu0W/1KJim7bAu
+	plORmcBD+mgsjrdn8MTqwdaQBTvNxGzGKFe4i9mPw8i2By9lVpkq8MKzKBAIZYwb
+	LRfpZ7Ker/Dv6fhWo6iT/9vTQtomYnkJTEdRu2Mswl7CsPL1+m8Q==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42gwtvsq2w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Oct 2024 05:38:18 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Oct
+ 2024 10:38:16 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Mon, 28 Oct 2024 10:38:16 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 686F6820241;
+	Mon, 28 Oct 2024 10:38:16 +0000 (UTC)
+Date: Mon, 28 Oct 2024 10:38:15 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: David Rhodes <david.rhodes@cirrus.com>,
+        Richard Fitzgerald
+	<rf@opensource.cirrus.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+	<broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+	<tiwai@suse.com>,
+        Olivier Moysan <olivier.moysan@st.com>, <linux-kernel@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs42l51: Fix some error handling paths in
+ cs42l51_probe()
+Message-ID: <Zx9plzaiLcObb6PT@opensource.cirrus.com>
+References: <a5e5f4b9fb03f46abd2c93ed94b5c395972ce0d1.1729975570.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20241027143935.1340-1-baojun.xu@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <a5e5f4b9fb03f46abd2c93ed94b5c395972ce0d1.1729975570.git.christophe.jaillet@wanadoo.fr>
+X-Proofpoint-ORIG-GUID: PKqJLKztO8jDcUeYX2R4iikGQC1njIQG
+X-Proofpoint-GUID: PKqJLKztO8jDcUeYX2R4iikGQC1njIQG
+X-Proofpoint-Spam-Reason: safe
 
-On Sun, Oct 27, 2024 at 10:39:35PM +0800, Baojun Xu wrote:
-> Add speaker id check by gpio in ACPI for ASUS projects.
-> In other vendors, speaker id was checked by BIOS, and was applied in
-> last bit of subsys id, so we can load corresponding firmware binary file
-> for its speaker by subsys id.
-> But in ASUS project, the firmware binary name will be appended an extra
-> number to tell the speakers from different vendors. And this single digit
-> come from gpio level of speaker id in BIOS.
+On Sat, Oct 26, 2024 at 10:46:34PM +0200, Christophe JAILLET wrote:
+> If devm_gpiod_get_optional() fails, we need to disable previously enabled
+> regulators, as done in the other error handling path of the function.
+> 
+> Also, gpiod_set_value_cansleep(, 1) needs to be called to undo a
+> potential gpiod_set_value_cansleep(, 0).
+> If the "reset" gpio is not defined, this additional call is just a no-op.
+> 
+> This behavior is the same as the one already in the .remove() function.
+> 
+> Fixes: 11b9cd748e31 ("ASoC: cs42l51: add reset management")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
 
-...
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-> +	// Speaker id was needed for ASUS projects.
-> +	if (!strncasecmp(sub, TAS2781_ASUS_ID, sizeof(TAS2781_ASUS_ID))) {
-
-Why "case"? Just use strcmp() since the second one is constant and you use it's
-length.
-
-> +		devm_acpi_dev_add_driver_gpios(p->dev,
-> +			tas2781_speaker_id_gpios);
-
-I don't know why you completely removed the check, I would leave a debug
-message on the error path to give a clue to the user if it fails here.
-See how other driver do with this.
-
-Something like
-
-		ret = devm_acpi_dev_add_driver_gpios(p->dev, tas2781_speaker_id_gpios);
-		if (ret)
-			dev_dbg(...);
-
-> +		p->speaker_id = devm_gpiod_get(p->dev, "speakerid", GPIOD_IN);
-> +		if (IS_ERR(p->speaker_id)) {
-> +			dev_err(p->dev, "Failed to get Speaker id.\n");
-
-Wrong value in ret, right?
-
-> +			goto err;
-> +		}
-> +	} else {
-> +		p->speaker_id = NULL;
-> +	}
->  
->  	acpi_dev_free_resource_list(&resources);
->  	strscpy(p->dev_name, hid, sizeof(p->dev_name));
-> +	put_device(physdev);
->  	acpi_dev_put(adev);
->  
->  	return 0;
->  
->  err:
->  	dev_err(p->dev, "read acpi error, ret: %d\n", ret);
-> +	put_device(physdev);
->  	acpi_dev_put(adev);
->  
->  	return ret;
-
-...
-
-> +	if (tas_priv->speaker_id != NULL) {
-> +		// Speaker id need to be checked for ASUS only.
-> +		spk_id = gpiod_get_value(tas_priv->speaker_id);
-> +		if (spk_id < 0) {
-> +			// Speaker id is not valid, use default.
-> +			dev_dbg(tas_priv->dev, "Wrong spk_id = %d\n", spk_id);
-> +			spk_id = 0;
-> +		}
-> +		snprintf(tas_priv->coef_binaryname,
-> +			  sizeof(tas_priv->coef_binaryname),
-> +			  "TAS2XXX%04X%01d.bin",
-
-%01d makes a little sense. Just use %d.
-
-> +			  lower_16_bits(codec->core.subsystem_id),
-> +			  spk_id);
-> +	} else {
-> +		snprintf(tas_priv->coef_binaryname,
-> +			  sizeof(tas_priv->coef_binaryname),
-> +			  "TAS2XXX%04X.bin",
-> +			  lower_16_bits(codec->core.subsystem_id));
-> +	}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Charles
