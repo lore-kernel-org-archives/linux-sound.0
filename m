@@ -1,50 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDBE1DE4EA;
-	Mon, 28 Oct 2024 10:51:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65781DF997;
+	Mon, 28 Oct 2024 10:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112712; cv=none; b=dxjrkYbTa1VmF56pmynfXuQVBIkFtC21eBUlCDrwnusO35+CmjHxb38Wn4fvIIDYyaduJIkrTPFh84vZiA0GUVFs1yNRU8z4pQfKJsFPIVHX6dJLLUMn4Jqj/XZZ/C26v/8VV0f+iyCD18PiDgvQdP+HjaO8n3VlxGKSPX7IyBs=
+	t=1730112743; cv=none; b=pbNIsy1yqnFSlHKUqNrRqKXBtkfoqkDJno7mgZ1NjqtaCFr8rI0+iugKDf9TmKZB4xc7LGYKzJV8JPBoRXEpNBKZlczPk1Q4Z+yPJi1noeuT5EpLE7n3eWgra/7VDvVg2enBhvZK5CoHhL82rCvO34T1sRp0wEaV1hsUTK3AmGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112712; c=relaxed/simple;
-	bh=7CXEDfxOh5O+u15aWw6ujchv9sh90OKuVDVKVuAf0sg=;
+	s=arc-20240116; t=1730112743; c=relaxed/simple;
+	bh=PrX2Ua5t6psIY7oyPUrtdTSYCqZqUaSu4orn2RxDDvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qaa9tw37Ng3OlDv43JVp2K+OadGSlrCQ6yYVeoO5ESPeSAzg/cwrkoqeDZOqxmG+sxqvxu0qZ8/dy2FqOk5OdkdIgdK2kNf7UuABBkByK06diBxDXtB2Vk4RR5qrdar6Yb2qPoEmOnAhkKQCeLa1C7VuFxlWfQOm31jsLVYWRR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzB1h5uo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=diAY4YLqjyLTGXLU8RPva6lXA8JokptMG/RM1uJU68sETUSPoTiRTDROk+iJD/9jq984KDsscT+5OwDeQ8G3pqzwe3Q63WHtGRvTAm7rZSbKECCn5dl5/whSSEYZ6UF03/hCLmU0XxntkCDYwkJ9LshndJgLBuJZt6gzlmmREOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DCUbFRnQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzB1h5uo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15C3C4CEE3;
-	Mon, 28 Oct 2024 10:51:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DCUbFRnQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 532E6C4CEE4;
+	Mon, 28 Oct 2024 10:52:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730112712;
-	bh=7CXEDfxOh5O+u15aWw6ujchv9sh90OKuVDVKVuAf0sg=;
+	s=k20201202; t=1730112743;
+	bh=PrX2Ua5t6psIY7oyPUrtdTSYCqZqUaSu4orn2RxDDvc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dzB1h5uofJgYDGfH8KpVDMU6Ka+cCd0x0Razm8fr29FkcmM3DQysrrnOpr3hs2Pxm
-	 K6Y49AE/uzKZir+uO5ScycMbu5AlMwxT+RAAiuDj7qKP1B6IyLIozPNa83brFJTwVt
-	 IMW56idwCJ2R9eEyE19SS+JDgabpl/hKcOg+nvQu0D4qzBJ47ZSwp/AiRXMDJQJK5F
-	 INJRZtstSOCXZUZeMklLcgs8TjpstnOyU9ry9OBQN+0R+U9S5RbsvogNW5yDahvwKY
-	 MCqZ7ouYTlhH5wAX+WqeJYxFGFFayKvvxeM+9v7xKoENyh6PXH+zrv2ropYTYVU/84
-	 hpWhyQpytQ2Ew==
+	b=DCUbFRnQK2N8NqVEiIXLz/MRFk3Ikz1VNyFvlWBgRUGnD/kd1sySq/vqZQeRBrWJh
+	 MoKhMWVmkBJpqRA3kZjhgRfnICu/8e5jdoeM7dtYXjm/Qbv+9sOlXPro1zeBjMqE+G
+	 UsoyFXaeFpsdpIlf/+cb5MOH6H1xYh2Xd6eM/eqyYoZgFkDlY+PzE8IUxQxttry298
+	 u+nNjF9pksi0VkKhGOJEv6pZRSkyuiEALcPpEqqZm+U7lWTqSx1zP/zGk+ubxg8mAg
+	 vZTah/D0nVkpaTcvoEs6AGvYpCdf0ljCebPHuC2SyzzFfbH3tEEYlL0cP2GXxCuvMW
+	 GKzvSu1rcqdzA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+Cc: Christian Heusel <christian@heusel.eu>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 6.11 24/32] ASoC: fsl_micfil: Add sample rate constraint
-Date: Mon, 28 Oct 2024 06:50:06 -0400
-Message-ID: <20241028105050.3559169-24-sashal@kernel.org>
+	mario.limonciello@amd.com,
+	me@jwang.link,
+	end.to.start@mail.ru,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 02/15] ASoC: amd: yc: Add quirk for ASUS Vivobook S15 M3502RA
+Date: Mon, 28 Oct 2024 06:51:58 -0400
+Message-ID: <20241028105218.3559888-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241028105050.3559169-1-sashal@kernel.org>
-References: <20241028105050.3559169-1-sashal@kernel.org>
+In-Reply-To: <20241028105218.3559888-1-sashal@kernel.org>
+References: <20241028105218.3559888-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,109 +53,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.5
+X-stable-base: Linux 6.6.58
 Content-Transfer-Encoding: 8bit
 
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
+From: Christian Heusel <christian@heusel.eu>
 
-[ Upstream commit b9a8ecf81066e01e8a3de35517481bc5aa0439e5 ]
+[ Upstream commit 182fff3a2aafe4e7f3717a0be9df2fe2ed1a77de ]
 
-On some platforms, for example i.MX93, there is only one
-audio PLL source, so some sample rate can't be supported.
-If the PLL source is used for 8kHz series rates, then 11kHz
-series rates can't be supported.
+As reported the builtin microphone doesn't work on the ASUS Vivobook
+model S15 OLED M3502RA. Therefore add a quirk for it to make it work.
 
-So add constraints according to the frequency of available
-clock sources, then alsa-lib will help to convert the
-unsupported rate for the driver.
-
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/1728884313-6778-1-git-send-email-shengjiu.wang@nxp.com
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=219345
+Signed-off-by: Christian Heusel <christian@heusel.eu>
+Link: https://patch.msgid.link/20241010-bugzilla-219345-asus-vivobook-v1-1-3bb24834e2c3@heusel.eu
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/fsl_micfil.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
-index 22b240a70ad48..49afc59ed4ed9 100644
---- a/sound/soc/fsl/fsl_micfil.c
-+++ b/sound/soc/fsl/fsl_micfil.c
-@@ -28,6 +28,13 @@
- 
- #define MICFIL_OSR_DEFAULT	16
- 
-+#define MICFIL_NUM_RATES	7
-+#define MICFIL_CLK_SRC_NUM	3
-+/* clock source ids */
-+#define MICFIL_AUDIO_PLL1	0
-+#define MICFIL_AUDIO_PLL2	1
-+#define MICFIL_CLK_EXT3		2
-+
- enum quality {
- 	QUALITY_HIGH,
- 	QUALITY_MEDIUM,
-@@ -45,9 +52,12 @@ struct fsl_micfil {
- 	struct clk *mclk;
- 	struct clk *pll8k_clk;
- 	struct clk *pll11k_clk;
-+	struct clk *clk_src[MICFIL_CLK_SRC_NUM];
- 	struct snd_dmaengine_dai_dma_data dma_params_rx;
- 	struct sdma_peripheral_config sdmacfg;
- 	struct snd_soc_card *card;
-+	struct snd_pcm_hw_constraint_list constraint_rates;
-+	unsigned int constraint_rates_list[MICFIL_NUM_RATES];
- 	unsigned int dataline;
- 	char name[32];
- 	int irq[MICFIL_IRQ_LINES];
-@@ -449,12 +459,34 @@ static int fsl_micfil_startup(struct snd_pcm_substream *substream,
- 			      struct snd_soc_dai *dai)
- {
- 	struct fsl_micfil *micfil = snd_soc_dai_get_drvdata(dai);
-+	unsigned int rates[MICFIL_NUM_RATES] = {8000, 11025, 16000, 22050, 32000, 44100, 48000};
-+	int i, j, k = 0;
-+	u64 clk_rate;
- 
- 	if (!micfil) {
- 		dev_err(dai->dev, "micfil dai priv_data not set\n");
- 		return -EINVAL;
- 	}
- 
-+	micfil->constraint_rates.list = micfil->constraint_rates_list;
-+	micfil->constraint_rates.count = 0;
-+
-+	for (j = 0; j < MICFIL_NUM_RATES; j++) {
-+		for (i = 0; i < MICFIL_CLK_SRC_NUM; i++) {
-+			clk_rate = clk_get_rate(micfil->clk_src[i]);
-+			if (clk_rate != 0 && do_div(clk_rate, rates[j]) == 0) {
-+				micfil->constraint_rates_list[k++] = rates[j];
-+				micfil->constraint_rates.count++;
-+				break;
-+			}
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 248e3bcbf386b..d03e95844c3a8 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -339,6 +339,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "M7600RE"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),
++			DMI_MATCH(DMI_PRODUCT_NAME, "M3502RA"),
 +		}
-+	}
-+
-+	if (micfil->constraint_rates.count > 0)
-+		snd_pcm_hw_constraint_list(substream->runtime, 0,
-+					   SNDRV_PCM_HW_PARAM_RATE,
-+					   &micfil->constraint_rates);
-+
- 	return 0;
- }
- 
-@@ -1134,6 +1166,12 @@ static int fsl_micfil_probe(struct platform_device *pdev)
- 	fsl_asoc_get_pll_clocks(&pdev->dev, &micfil->pll8k_clk,
- 				&micfil->pll11k_clk);
- 
-+	micfil->clk_src[MICFIL_AUDIO_PLL1] = micfil->pll8k_clk;
-+	micfil->clk_src[MICFIL_AUDIO_PLL2] = micfil->pll11k_clk;
-+	micfil->clk_src[MICFIL_CLK_EXT3] = devm_clk_get(&pdev->dev, "clkext3");
-+	if (IS_ERR(micfil->clk_src[MICFIL_CLK_EXT3]))
-+		micfil->clk_src[MICFIL_CLK_EXT3] = NULL;
-+
- 	/* init regmap */
- 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(regs))
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.43.0
 
