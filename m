@@ -1,126 +1,126 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5391D958E
-	for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 11:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7031DD886
+	for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 11:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730114092; cv=none; b=WGOxkoGElmRBeUB3K7UEqW10W50ZhJk7248gTIlUEVGgufd3/S+RykXKNlkmQeeo8D4X+voU7+2kvvPDjXdcZ4vMfsTpnEmGpXDR45JF2Jl+iTP8n1F/LpjRnqbq3wDksQ56XaZ1jMuvcEn6+PGTImN+UY6vra5/w3qhDIWyYvA=
+	t=1730114136; cv=none; b=u+1AcNTQ/AU09pN2QLOtMcWiGgW5WIe7HOjKe3YMRfN8wLHa3nr2WpvaD0ZE3EaU9+1idQJuR4PRhIbcLMfk207dGfb0LoTmKUHuBSNWHRySyrct+/h6DtXBTB+RioHzAhsciefgfa4kPQqqbhjcEgoRFj4QoG9mY81F2cmbKZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730114092; c=relaxed/simple;
-	bh=rZV1CslZk1B8arY+dKaXuzo5OLwD/6vbUj85cb0sG88=;
+	s=arc-20240116; t=1730114136; c=relaxed/simple;
+	bh=ynL2y9WuMgj3dveWKiLhJfkJgELagAbwDV6WYmDHEoI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tplAL3+6NXXfRAkOhKQtt5XBcTCmGubS6CS468isr8FkYTfhC1IKev6X4tpwwZtDnDu4sxQUXD2vn6BiMXSWD2vTRzgO3ic2URtb4zWm/0bcs4wcJN0wKpyFGrTn1VffuAXES34Y1L9TVaeXW869Y0QeBcwbqyr++sSikXxupTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fHTmNORu; arc=none smtp.client-ip=209.85.221.180
+	 To:Cc:Content-Type; b=mz2rKRRHrF1IEOdUAE/PysqyMvZtBJmKLc4fagrFJkVShqmt1DiceytRysUJv0g7RWkrSOlv3+nsUT3vKs0rQwBuZ1zPkgMIYKY4GyWmi4pGV6wzZ3qyptqPZpjk1bW5S7rLDtCiYIUH92ngGwcSVnRvZdsrvM8Kvqh2c2Pr1JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OtI0qP7S; arc=none smtp.client-ip=209.85.217.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fHTmNORu"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-50d4797098dso1307423e0c.3
-        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:14:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OtI0qP7S"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4a49505ba64so1341006137.1
+        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730114089; x=1730718889; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1730114133; x=1730718933; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MJAyl38jEw54JK8vLB+Jw3zg1/RGB44yP0anG4AqfEo=;
-        b=fHTmNORuiYWZYyKnWufrERyTY3SU0//FXasX7ZwubuoWb357FaWDkqEwnIlmfo2Jxx
-         3LBdgdcsZkH9SetTnxhLCM7yRhzR9BnDIolsph1gMxMNqqOJPgbZwgzKLDV7RGauRMzK
-         nPsz1HZQP440hBvjPqSA2lvvHw2al8SCsRLVY=
+        bh=QGypUE8EH0PE7RgIhsdX64LwM1rfHWiWWyyBVGZ2vjM=;
+        b=OtI0qP7SSjHwh5LAuOqR28tFwITgpv013tefa1IK9N++UZCvWzr9MICMB78iI0zEKy
+         S/KQatVKNINaUZ6fhJE+v+v1WePlZ0fCOM+qxYExCbPhukqTqogTpQZs8AsByCyA05AS
+         ewjls/aQishMF9pohNiO1imFR6S5ET2Fr+/6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730114089; x=1730718889;
+        d=1e100.net; s=20230601; t=1730114133; x=1730718933;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MJAyl38jEw54JK8vLB+Jw3zg1/RGB44yP0anG4AqfEo=;
-        b=DdwnAAOIZSl1uHaj7lKQIcuDHRvNrcTa09lUkXHDiv9/j5ytECD+VknBti2jziYqfc
-         Nq2zBXrgqGGqwX8W2IR86Cvf8JD0fRY4Ue7eEVouqrmDNmASEflAQppKUTNBd9qddCry
-         kpHd2xwFXASBn+OWiHkXuiU2O5TO5Fgr9lnzPwFQtt1tK8ZPS+kfTEAsvMfm4BMJak80
-         ZJdfr9v/L+f0FLVRCxNrkJ8/LfqKvMEXznlmqdG1LQh0x/JC098bbE7qpwNolm2xHzmU
-         E2YNCiCzFI23rZxa3Lm4ffsrCNlCnNyeYYV+vw4W1tJB2VhpXXiRp4Ej+TidDvtJwrE2
-         aY4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXF5fjYospt+PsaSmGwz9jomhrO+TedopX/bZw1jjSmPpow44ZBymUaQZRyvnkWA41rr/EDp+OKZOMUaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEPr7jRQ4QJOeDydsikrqw3jE0QjOa7t1DSHyRBkh87GzZsoFw
-	pDEnTkyc1/tEyfif48Ov6KC+3R6AMSHAM0SNBrAtd2ClWxueJ/gwstlvjaLJDFTP8QIebo1ROnU
+        bh=QGypUE8EH0PE7RgIhsdX64LwM1rfHWiWWyyBVGZ2vjM=;
+        b=tDZUI0+Yh90+T2h6JDD1ola7q3C1aaB+zr/LcjQcLo2NOJATR8KC6EccgnF5SEtw+J
+         ReNNcLNCOkeehD1HJghtM1CrMszMMwpTyR9TtmXW68+SoNaZqnAWxyKEuqmuf5uWoovT
+         Dbudz4QORrrKQdzRrR8YMArdg603GsCtBfAyfZEmz9NxvQQxyKUeUGfg8Fv/FEbAewCO
+         GkqR8gLE07VNaXLJ/OE/VqPn0VfeNlHBVPi99UfmMmDf6/lKkvIHEuIV3/PS2t45owMU
+         FkCTAiZLpFXLBlEHKjAYMT8PzLXuBVaVvuHhbjMoKr+4aMdJa60udBwB+IFW2F3nCjsQ
+         YRqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXLUsFmyJta9MY865/DwXefUUOl2AMYwfr+Ru3DidnwWxOy0PRyd9dJhtkvcl4LyY1/mfwb0QdbFS4kPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOhie5vIFzTPZyq+OsUIRNkeEP7SxMFimAiBtpvuB+0Mr2Wi4d
+	qQQioSpUNsU84DpGNep86LPrhF26/fFUpRbphavkZb269wipRpu1/calre+69p3IDlNfNR8CfrE
 	=
-X-Google-Smtp-Source: AGHT+IF3yIKYm9+1AcXMCViSa6h2G4H9xJfDgzt5Ym6/BsvmzZODfHX1IHhxnspnbMhvJUMWLuj2ZQ==
-X-Received: by 2002:a05:6122:78f:b0:50c:e37a:97e3 with SMTP id 71dfb90a1353d-510153410b0mr4779361e0c.11.1730114088818;
-        Mon, 28 Oct 2024 04:14:48 -0700 (PDT)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-510047a7791sm818737e0c.52.2024.10.28.04.14.47
+X-Google-Smtp-Source: AGHT+IFOqeNs3eBVQkriXtq+P27AdZDDgFupDfS11Ntjf9nNA6gMZkkjNw03ooGY4FYVcugdEayBDQ==
+X-Received: by 2002:a05:6102:6c9:b0:497:6bb5:398a with SMTP id ada2fe7eead31-4a8cfb5d0c6mr4579449137.7.1730114132855;
+        Mon, 28 Oct 2024 04:15:32 -0700 (PDT)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com. [209.85.221.170])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a8c526411csm1088824137.14.2024.10.28.04.15.31
         for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 04:14:47 -0700 (PDT)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-50d5d6f9fdaso1243972e0c.2
-        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:14:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVqqNxh3RswaWtIfk+qNiR4UhGJi6R12QD++h3tD98xLrXjgKatWyI/0OofFCkqs541qDiaUpOfOTdD4w==@vger.kernel.org
-X-Received: by 2002:a05:6122:1699:b0:50d:583b:934b with SMTP id
- 71dfb90a1353d-5101510e5a4mr4976737e0c.10.1730114086990; Mon, 28 Oct 2024
- 04:14:46 -0700 (PDT)
+        Mon, 28 Oct 2024 04:15:31 -0700 (PDT)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5101bd018ceso438776e0c.1
+        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:15:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW8hpL4E2la+eZW7UAYxqGQAMzsSn4hoiVQv25Y9STlrUvIH3PNdwtitruHCAr+PRCvlg5nPvXE8sMRpg==@vger.kernel.org
+X-Received: by 2002:a05:6122:2207:b0:50c:5683:ad56 with SMTP id
+ 71dfb90a1353d-5101501204bmr4351974e0c.3.1730114130593; Mon, 28 Oct 2024
+ 04:15:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-4-fshao@chromium.org>
- <i6eljb2nzhwr4bd55dbudsra3sni2hhk2eqgu3gttatwvnolt4@w4uhrklbyop3>
-In-Reply-To: <i6eljb2nzhwr4bd55dbudsra3sni2hhk2eqgu3gttatwvnolt4@w4uhrklbyop3>
+References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-5-fshao@chromium.org>
+ <r2qtuopc6d2vygxghgydole5ixxr4z5weougk7ldadyma4zi56@sp34zufvzdaq>
+In-Reply-To: <r2qtuopc6d2vygxghgydole5ixxr4z5weougk7ldadyma4zi56@sp34zufvzdaq>
 From: Fei Shao <fshao@chromium.org>
-Date: Mon, 28 Oct 2024 19:14:11 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njm-YDo=e9Eh7Y_qkLJMa+SK63s8Nre54d0sV0V59DonQ@mail.gmail.com>
-Message-ID: <CAC=S1njm-YDo=e9Eh7Y_qkLJMa+SK63s8Nre54d0sV0V59DonQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] ASoC: dt-bindings: maxim,max98390: Refernce common
- DAI properties
+Date: Mon, 28 Oct 2024 19:14:54 +0800
+X-Gmail-Original-Message-ID: <CAC=S1ng0n25qrrBGa-Qm7XPBwSdW733tV9faa1q1s_z01RSJ5Q@mail.gmail.com>
+Message-ID: <CAC=S1ng0n25qrrBGa-Qm7XPBwSdW733tV9faa1q1s_z01RSJ5Q@mail.gmail.com>
+Subject: Re: [PATCH 4/4] ASoC: dt-bindings: maxim,max98390: Document
+ maxim,dsm_param_name property
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Mark Brown <broonie@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
+	Steve Lee <steves.lee@maximintegrated.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 28, 2024 at 4:55=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+On Mon, Oct 28, 2024 at 4:59=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
 g> wrote:
 >
-> On Fri, Oct 25, 2024 at 06:44:43PM +0800, Fei Shao wrote:
-> > Reference dai-common.yaml schema to support '#sound-dai-cells' and
-> > 'sound-name-prefix' properties.
->
-> Why? Is this a DAI?
-
-I'll add a line to say this is a DAI and the patch fixes dtbs_check errors.
-
->
+> On Fri, Oct 25, 2024 at 06:44:44PM +0800, Fei Shao wrote:
+> > Add the missing "maxim,dsm_param_name" property in the binding.
+> > This property specifies the customized DSM parameter binary name.
 > >
 > > Signed-off-by: Fei Shao <fshao@chromium.org>
 > > ---
 > >
-> >  Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >  Documentation/devicetree/bindings/sound/maxim,max98390.yaml | 4 ++++
+> >  1 file changed, 4 insertions(+)
 > >
 > > diff --git a/Documentation/devicetree/bindings/sound/maxim,max98390.yam=
 l b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
-> > index deaa6886c42f..5bd235cf15e6 100644
+> > index 5bd235cf15e6..fa4749735070 100644
 > > --- a/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
 > > +++ b/Documentation/devicetree/bindings/sound/maxim,max98390.yaml
-> > @@ -9,6 +9,9 @@ title: Maxim Integrated MAX98390 Speaker Amplifier with=
- Integrated Dynamic Speak
-> >  maintainers:
-> >    - Steve Lee <steves.lee@maximintegrated.com>
+> > @@ -32,6 +32,10 @@ properties:
+> >      minimum: 1
+> >      maximum: 8388607
 > >
-> > +allOf:
-> > +  - $ref: dai-common.yaml#
-> > +
-> >  properties:
-> >    compatible:
-> >      const: maxim,max98390
+> > +  maxim,dsm_param_name:
+> > +    description: The DSM parameter binary name (e.g. dsm_param.bin).
+> > +    $ref: /schemas/types.yaml#/definitions/string
 >
-> Missing dai cells - how many DAIs are there?
+> NAK, you cannot document properties post-factum. It's not a property
+> coming from 2014.
+>
+> For me, this is obvious that this is for ACPI and if you want to use it
+> for DT platforms, go through proper review.
+>
+> In any case: NAK for this and other ACPI properties.
 
-Acked. Will add
-"#sound-dai-cells":
-    const 0
+Acknowledged, I didn't know that.
+This was directly from a Maxim customer and I guess they didn't remove
+it when porting from ACPI or something.
+I'll drop this and update DT in another series.
+
+Regards,
+Fei
 
 >
 > Best regards,
