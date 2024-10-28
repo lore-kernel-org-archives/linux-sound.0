@@ -1,135 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02341DD0DB;
-	Mon, 28 Oct 2024 15:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5E51DE3D2;
+	Mon, 28 Oct 2024 15:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730127800; cv=none; b=KI3MA6I8fv5TGaQlw4BokiAhGtJL9NdkFYRz3UrumVNKnaw+GU1Hf+2Yw9JoskoG6ItnNFvM36/S+4ukkYrHibCW6wR0QPHvtg94DS0SS12tn+BInA3pGiMnvGAEQPEdV680oX2mhZ4WF802f0PYA/OBeU2dia7vhZIFm52sSns=
+	t=1730130221; cv=none; b=nVhQ1DktEQ8eeZeYPHInoz9JBQ0n1Puk3ECa2Rb1yKvA+ISP/1Icl+f9SVb+2ynLuwj5BxXI5yUJYXKKOpECLD5LZrMkBfYBlZZGx+/UBtiIEZb7KkXl42Zh4J20pYlDKftmoT/DpygfdyXyN6bLsM9vo5iIFFbR58Jue5is0pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730127800; c=relaxed/simple;
-	bh=FyfUCwFzYkQHmB9U8vscKzqdTeoR6hFWQB3RDlBiCO8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bbRLep7tkqrK7OAf92b54nONrTnRoFIxF82O9l6jOchUWVOg5JIKfEKstFbqRC9jarvRuSmCwD/UgFiea+qtdbBMg148ZspOU+H2NmvPxn3Ew9lEFC5T2kYGhlEctiflC+BP5AbI9ZX2EI613UWxCLjW7xpGz24OgyZu2f7YmbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730130221; c=relaxed/simple;
+	bh=9yAAeMLN9OIod/3f3TPfdB/RXfFmIQlQOi6c1h8WWQw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=lQO9QtSY51fvJ86SH3Sx7LNG518f2Zc6DbauXOohssBGZgmp1u/YE/8gtsbHt+542ed8DPpr/NBr+5jQDoAk464ZxOH2bFLGoLP/SQBwI9NimcAo6dTbM8UQTns6pQ80xLjk7ttA7D6vghfMcKRbPXGD9Zy6PRJsYR9x/U+W0+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZQ2ZYiK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DEF851FD9B;
-	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
-	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
-	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
-	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730127795;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
-	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
-	ATg8vBiD9J0zIlAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
-	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
-	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
-	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730127795;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
-	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
-	ATg8vBiD9J0zIlAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972E9136DC;
-	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id R7rUIrOnH2chDAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Oct 2024 15:03:15 +0000
-Date: Mon, 28 Oct 2024 16:04:18 +0100
-Message-ID: <878qu8qnf1.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,	Linux Next
- Mailing List <linux-next@vger.kernel.org>,	Linux Documentation
- <linux-doc@vger.kernel.org>,	Linux Sound System
- <linux-sound@vger.kernel.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
- Iwai <tiwai@suse.com>,	Jonathan Corbet <corbet@lwn.net>,	Amadeusz
- =?ISO-8859-2?Q?S=B3awi=F1ski?= <amadeuszx.slawinski@linux.intel.com>,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: Re: [PATCH 0/2] Documentation fixes for ALSA Co-processor Acceleration API
-In-Reply-To: <20241028111647.17378-1-bagasdotme@gmail.com>
-References: <20241028111647.17378-1-bagasdotme@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZQ2ZYiK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DE9C1C4CEE4;
+	Mon, 28 Oct 2024 15:43:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730130220;
+	bh=9yAAeMLN9OIod/3f3TPfdB/RXfFmIQlQOi6c1h8WWQw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=OZQ2ZYiKYuv5AZLYMtGHfWDODH5eGISqQEoCKEGj1jpchoO14hdK/vq+HBvCYcaF/
+	 hc1azJA48gPjXOpw0l6Qduo+dgwlmIdqlvErlYt7egmuHkWk1aqDlPpHIvK/uHtcgJ
+	 J6OklcWMzrMquih/ZKz9XxXlcu90UJv1VJZpNGw71j1lQ7MzC9kjw0IG0irFAsy4HY
+	 nQR0RzH/S0BzRRE58Y+dGqeWY/wLL7fTEgVCpgQEgirMWWa3yvaEvOFYSgDeAuz4B3
+	 X6tvPXdvESA/T/oEk2g+uf/NdcAGfxZHIRXnqMfPLzuHJrC1FETP14UKOzoxp3MfzH
+	 JFtZWrNsDE1gg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC826D33998;
+	Mon, 28 Oct 2024 15:43:40 +0000 (UTC)
+From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
+Date: Mon, 28 Oct 2024 16:43:38 +0100
+Subject: [PATCH v2 1/4] ASoC: codecs: adau1373: add some kconfig text
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241028-adau1373-shutdown-v2-1-647f56bbd182@analog.com>
+References: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
+In-Reply-To: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
+To: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+X-Mailer: b4 0.14.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730130219; l=634;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=N9cgwu1zwzbWD0Fw9Jji5tH1Q286lBcXZ7unQPQVoMc=;
+ b=bZajh8COAzo3ueYiEtpERuzBybdCOmSlIp7naGoorXVvjZd5C+Z9EVkceVvWEnCoBCxzxY6qN
+ gJc9NwNPJasCuRral1nBov4XDCHfkC/b6/3y99gxIDYXKOwezGuTFkG
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: Nuno Sa <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Mon, 28 Oct 2024 12:16:45 +0100,
-Bagas Sanjaya wrote:
-> 
-> A small (two-patches) series fixing htmldocs warnings on sound tree that
-> first being noticed in linux-next integration [1].
-> 
-> [1]: https://lore.kernel.org/linux-next/20241028193242.11597640@canb.auug.org.au/
-> 
-> Bagas Sanjaya (2):
->   ALSA: docs: compress-accel: Format state machine flowchart as code
->     block
->   ALSA: docs: Add toctree index entry for co-processor acceleration API
+From: Nuno Sa <nuno.sa@analog.com>
 
-Applied both patches now.  Thanks.
+Add some text to 'tristate' so that we can actually enable the driver
+when using things like menuconfig.
+
+Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+---
+ sound/soc/codecs/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+index 6a6125e94d2d..72643907cef7 100644
+--- a/sound/soc/codecs/Kconfig
++++ b/sound/soc/codecs/Kconfig
+@@ -464,7 +464,7 @@ config SND_SOC_ADAU1372_SPI
+ 	select REGMAP_SPI
+ 
+ config SND_SOC_ADAU1373
+-	tristate
++	tristate "Analog Devices ADAU1373 CODEC"
+ 	depends on I2C
+ 	select SND_SOC_ADAU_UTILS
+ 
+
+-- 
+2.47.0
 
 
-Takashi
