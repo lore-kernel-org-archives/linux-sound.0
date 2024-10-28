@@ -1,85 +1,88 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0E41D61A4;
-	Mon, 28 Oct 2024 15:01:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02341DD0DB;
+	Mon, 28 Oct 2024 15:03:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730127681; cv=none; b=NHx7bZ2sPp1bhamFbzlTkenbEIHMXejLH1Kuav5TdB8QVv4qAhx60HAvT5BdpQTE3AlARhLWWfsV5VNLMlXU8u8zBHdTZr7zRrIWSZ6z0xLl6ofNMSXIjVuIlQouGRPgZUCOQ2nFdXHINKGChNKRdOdEof+CnMcXPpXmSfv9C2k=
+	t=1730127800; cv=none; b=KI3MA6I8fv5TGaQlw4BokiAhGtJL9NdkFYRz3UrumVNKnaw+GU1Hf+2Yw9JoskoG6ItnNFvM36/S+4ukkYrHibCW6wR0QPHvtg94DS0SS12tn+BInA3pGiMnvGAEQPEdV680oX2mhZ4WF802f0PYA/OBeU2dia7vhZIFm52sSns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730127681; c=relaxed/simple;
-	bh=Zsay79nU2eMCSqWrRa8oot6GKFy/BE43j1a9E9/Qt9Q=;
+	s=arc-20240116; t=1730127800; c=relaxed/simple;
+	bh=FyfUCwFzYkQHmB9U8vscKzqdTeoR6hFWQB3RDlBiCO8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C5bTFyDTNpjUWwXQnGOAQDI8S+jA/UeDZz46pC07LBV/REItavHV9WOZjdnAtlHHk0U1SAom0pxBezNHC0ZFYWHHD7ESlnMA9jRoI/G4puNdPkzfnYRa/Dyew7Dmy4v8SOFvRU3KtqVFme3B/7HNr85LFHWNOkwulMKF4HDHhLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XecdA1Wd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0S5ME1kT; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XecdA1Wd; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0S5ME1kT; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=bbRLep7tkqrK7OAf92b54nONrTnRoFIxF82O9l6jOchUWVOg5JIKfEKstFbqRC9jarvRuSmCwD/UgFiea+qtdbBMg148ZspOU+H2NmvPxn3Ew9lEFC5T2kYGhlEctiflC+BP5AbI9ZX2EI613UWxCLjW7xpGz24OgyZu2f7YmbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xScg+AQ+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UebAxn6F; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XecdA1Wd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0S5ME1kT";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XecdA1Wd";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0S5ME1kT"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xScg+AQ+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UebAxn6F"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 98C441FDA1;
-	Mon, 28 Oct 2024 15:01:17 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id DEF851FD9B;
+	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730127677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mbpjmrdgp+jOJf/Yxvcfl5QS2vt8WbjcQQlTRirH1yc=;
-	b=XecdA1WdyK4eKNYL0NncyvaKr/D4rCWRRXJVRWA3VPI1oS09X9s4fHdlx//3izmF7Ui9Gd
-	AffhSoO1IuONR3YcNSPR+WV69NLtWz2pCOgtvqfvASwRqW0mO//2mMylmWLE6lLW7bEk8D
-	2W33G+Lcz7hasKqL9/KNV7AKY7PIO3U=
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
+	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
+	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730127677;
+	s=susede2_ed25519; t=1730127795;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mbpjmrdgp+jOJf/Yxvcfl5QS2vt8WbjcQQlTRirH1yc=;
-	b=0S5ME1kTvVpXYX6PFTle3qvmuBhUvet48PPcLKI+5TIGPgNfWR5N1IZnuhS/qVS/Wuzfcm
-	kOon8PGEZVfNPCDQ==
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
+	ATg8vBiD9J0zIlAw==
 Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=XecdA1Wd;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=0S5ME1kT
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730127677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1730127795; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mbpjmrdgp+jOJf/Yxvcfl5QS2vt8WbjcQQlTRirH1yc=;
-	b=XecdA1WdyK4eKNYL0NncyvaKr/D4rCWRRXJVRWA3VPI1oS09X9s4fHdlx//3izmF7Ui9Gd
-	AffhSoO1IuONR3YcNSPR+WV69NLtWz2pCOgtvqfvASwRqW0mO//2mMylmWLE6lLW7bEk8D
-	2W33G+Lcz7hasKqL9/KNV7AKY7PIO3U=
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=xScg+AQ+r9773h88ATgYoqvE9LTLzAVyt21/NiWiZuRS117NTvaFO6NT/4ilr8aDWMr9s7
+	HpPV2GxA9FD469HvT+3LOIaSezXURipz3MaYsubYoG8H0Sp2BQgP6SpxvAB61l6jumiqva
+	/FDxgEPZ+torkH6w+Uzt43Wk85i+jkU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730127677;
+	s=susede2_ed25519; t=1730127795;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mbpjmrdgp+jOJf/Yxvcfl5QS2vt8WbjcQQlTRirH1yc=;
-	b=0S5ME1kTvVpXYX6PFTle3qvmuBhUvet48PPcLKI+5TIGPgNfWR5N1IZnuhS/qVS/Wuzfcm
-	kOon8PGEZVfNPCDQ==
+	bh=Qwjx7KI2wJnXIRsjYCHo7TaA6tPWUHwucJtMHXYI714=;
+	b=UebAxn6FkLO0fi1wKRnqj3UZmwh6Al90gyqtSrXvt+QEzjrs/1pHjUweKTqLydeFpew2wO
+	ATg8vBiD9J0zIlAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 707D5136DC;
-	Mon, 28 Oct 2024 15:01:17 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972E9136DC;
+	Mon, 28 Oct 2024 15:03:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id H9AhGj2nH2eHCwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 28 Oct 2024 15:01:17 +0000
-Date: Mon, 28 Oct 2024 16:02:20 +0100
-Message-ID: <87a5eoqnib.wl-tiwai@suse.de>
+	id R7rUIrOnH2chDAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 28 Oct 2024 15:03:15 +0000
+Date: Mon, 28 Oct 2024 16:04:18 +0100
+Message-ID: <878qu8qnf1.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
-In-Reply-To: <20241027221655.74885-1-piyuschouhan1598@gmail.com>
-References: <20241027221655.74885-1-piyuschouhan1598@gmail.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,	Linux Next
+ Mailing List <linux-next@vger.kernel.org>,	Linux Documentation
+ <linux-doc@vger.kernel.org>,	Linux Sound System
+ <linux-sound@vger.kernel.org>,	Jaroslav Kysela <perex@perex.cz>,	Takashi
+ Iwai <tiwai@suse.com>,	Jonathan Corbet <corbet@lwn.net>,	Amadeusz
+ =?ISO-8859-2?Q?S=B3awi=F1ski?= <amadeuszx.slawinski@linux.intel.com>,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: Re: [PATCH 0/2] Documentation fixes for ALSA Co-processor Acceleration API
+In-Reply-To: <20241028111647.17378-1-bagasdotme@gmail.com>
+References: <20241028111647.17378-1-bagasdotme@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,105 +91,45 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 98C441FDA1
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FREEMAIL_TO(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	ARC_NA(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_ALL(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Sun, 27 Oct 2024 23:16:55 +0100,
-Piyush Raj Chouhan wrote:
+On Mon, 28 Oct 2024 12:16:45 +0100,
+Bagas Sanjaya wrote:
 > 
-> From: pc1598 <piyushchouhan1598@gmail.com>
+> A small (two-patches) series fixing htmldocs warnings on sound tree that
+> first being noticed in linux-next integration [1].
+> 
+> [1]: https://lore.kernel.org/linux-next/20241028193242.11597640@canb.auug.org.au/
+> 
+> Bagas Sanjaya (2):
+>   ALSA: docs: compress-accel: Format state machine flowchart as code
+>     block
+>   ALSA: docs: Add toctree index entry for co-processor acceleration API
 
-Please drop this line, otherwise it's taken as the author.
-We prefer having the same address as specified in Signed-off-by tag.
+Applied both patches now.  Thanks.
 
-
-thanks,
 
 Takashi
-
-
-> Infinix ZERO BOOK 13 has a 2+2 speaker system which isn't probed correctly.
-> This patch adds a quirk with the proper pin connections.
-> Also The mic in this laptop suffers too high gain resulting in mostly fan noise being recorded,
-> This patch Also limit mic boost.
-> 
-> HW Probe for device; https://linux-hardware.org/?probe=a2e892c47b
-> 
-> Test: All 4 speaker works, Mic has low noise.
-> Signed-off-by: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
-> ---
->  sound/pci/hda/patch_realtek.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 3567b14b52b7..075935707f8a 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -7551,6 +7551,7 @@ enum {
->  	ALC290_FIXUP_SUBWOOFER_HSJACK,
->  	ALC269_FIXUP_THINKPAD_ACPI,
->  	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
-> +	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
->  	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
->  	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
->  	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
-> @@ -7996,6 +7997,16 @@ static const struct hda_fixup alc269_fixups[] = {
->  		.type = HDA_FIXUP_FUNC,
->  		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
->  	},
-> +	[ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13] = {
-> +		.type = HDA_FIXUP_PINS,
-> +		.v.pins = (const struct hda_pintbl[]) {
-> +			{ 0x14, 0x90170151 }, /* use as internal speaker (LFE) */
-> +			{ 0x1b, 0x90170152 }, /* use as internal speaker (back) */
-> +			{ }
-> +		},
-> +		.chained = true,
-> +		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
-> +	},
->  	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
->  		.type = HDA_FIXUP_PINS,
->  		.v.pins = (const struct hda_pintbl[]) {
-> @@ -10989,6 +11000,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
->  	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
->  	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-> +	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
->  	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
->  	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
->  	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
-> -- 
-> 2.46.2
-> 
