@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D3C1EE00D;
-	Mon, 28 Oct 2024 10:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E421DA109;
+	Mon, 28 Oct 2024 10:52:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112765; cv=none; b=UftMj0bfrBrHAjMEbC5zlv3OqHYjGmR63hPVGw74geeNaD5XvWGaU4m3nOFrGI0mplsbdua2zGZaTK3RZUFEbxglCCsmVwFALvgintuQRomMY5kppzJGa3IJgkh9iH04FTs2Ru674nGqK/5rtgM0DlkhwowA3lNoVlHoR0jS5dA=
+	t=1730112777; cv=none; b=OYvc0tLopVpAF5YW/FOD4TquwAP3/AGfxAvU0+Kv2L2caCu7DLNTGY8aZG9cKcKj7JJ+yRk8x9G9tNiukaRd2pPkQjv1A21dL7pfllbsNahRL5X8H6O7BPJPr9axC4ZJ+gqHEZrLAx7xXHDE2MqIDEOTKeEifiu/xqdrbfpZEIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112765; c=relaxed/simple;
-	bh=rX41ZOQ5a9g3sr0RIrKQoLXoA0dMd/d6xOlSLFfu9tg=;
+	s=arc-20240116; t=1730112777; c=relaxed/simple;
+	bh=84GsBB5w5R2XUUGxJbtCGUeTswrKpBuwgnJQozcOhDs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jlVQDs1Rz4XpKbMKCXdTe8sq9QhX2zKwXYDLBgwwobx9AlT39cCm5pr86bVDTgXzEWnjGyePncRa5Or79Z7tEgeP7YMaMKxC6SRtxvG1shID3x8xVB4NpS1Y+91aUoxL+ax6/IfwLg8ZkzRCl5WDG4o6ESphL6qFnntp+ntwaXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nsoG3Xmm; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=rI0ZVQCXtYHaYBX25fu23NWdqgxIm5N8brI5VBRVdSmq5rB0cHNn9oO8L51UDKoTpSG58rMHq3/QcYqWRjf5ClvXr+OIor9F2PJIIf2K+++0hchDUujk7XQGK9K2WZaQBh/toXmFTNm6uVrC5Q+4t1WQDPGb+pmaggAqCH9mvhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ks5xVe8x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nsoG3Xmm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C7AC4CEC3;
-	Mon, 28 Oct 2024 10:52:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ks5xVe8x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F00CDC4CEE3;
+	Mon, 28 Oct 2024 10:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730112765;
-	bh=rX41ZOQ5a9g3sr0RIrKQoLXoA0dMd/d6xOlSLFfu9tg=;
+	s=k20201202; t=1730112777;
+	bh=84GsBB5w5R2XUUGxJbtCGUeTswrKpBuwgnJQozcOhDs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nsoG3Xmm2eMtS7GsKaCU473oR28k+uBfbn7R/lx3RagCxCdbq7x3ueMmiqfiaeES7
-	 WzkvCNMSjdCh8Mno70w4gFJi8eIOJYWqBvfTHg497e66rxgtfOhR5BFp+4vYZwNARz
-	 AXsxLjjRPBAWs5+AuI/MaDuPxerHvF0mgE2xH+iVZ8NyoA8TP5F1x4703C1mALXUKV
-	 KnzRmx8ZgCwU7nSTkKz3dfN+ID+wj6+FDrN6nLCdTPUTHNAj3y2p5fQxZRWvoGUNvj
-	 /pKvLPC+yMF2JJm+vEoZgQ/Np7Jtuql7wOZdM6gkL4p5pneMn+gDThz14MXONo5HFQ
-	 FgUPZraumURBg==
+	b=ks5xVe8xyhd+qioAWP5BCx8OI13+TrGwBraAJhAaBfCi7r2m0uSzIrqk0FolzP76w
+	 UWh5WMsMLyjxmW9JNtSg2xKowl0L+mUvAPUgbTjL3EJkrR7h9y1aDL0ImOMd/qVQWi
+	 m6081kfRXFtOKaLrGAypqmPI2U7rFHntId1OjcRgMSYWFrnReim1VnVk0h7vs6qOvV
+	 VKE52+TNtdooxn2A+hbz6KgQTef5FRL8YhKTf1LMQO4g7Ik/y1nYI+K1NzXDo4Adnx
+	 jQP/TZ4Yeh2tT6/ZNTziJgHBHSSAfvJiJJJOPklrKrma+RcFNLLD8FrS9Bw3Zvn+By
+	 Xv+fb0L9Ls/uw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
+	Iuliana Prodan <iuliana.prodan@nxp.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	shengjiu.wang@gmail.com,
@@ -39,12 +40,12 @@ Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 6.6 13/15] ASoC: fsl_micfil: Add sample rate constraint
-Date: Mon, 28 Oct 2024 06:52:09 -0400
-Message-ID: <20241028105218.3559888-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 2/8] ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
+Date: Mon, 28 Oct 2024 06:52:43 -0400
+Message-ID: <20241028105252.3560220-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241028105218.3559888-1-sashal@kernel.org>
-References: <20241028105218.3559888-1-sashal@kernel.org>
+In-Reply-To: <20241028105252.3560220-1-sashal@kernel.org>
+References: <20241028105252.3560220-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,109 +54,43 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.58
+X-stable-base: Linux 6.1.114
 Content-Transfer-Encoding: 8bit
 
 From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-[ Upstream commit b9a8ecf81066e01e8a3de35517481bc5aa0439e5 ]
+[ Upstream commit 54c805c1eb264c839fa3027d0073bb7f323b0722 ]
 
-On some platforms, for example i.MX93, there is only one
-audio PLL source, so some sample rate can't be supported.
-If the PLL source is used for 8kHz series rates, then 11kHz
-series rates can't be supported.
-
-So add constraints according to the frequency of available
-clock sources, then alsa-lib will help to convert the
-unsupported rate for the driver.
+Irq handler need to be executed as fast as possible, so
+the log in irq handler is better to use dev_dbg which needs
+to be enabled when debugging.
 
 Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-Link: https://patch.msgid.link/1728884313-6778-1-git-send-email-shengjiu.wang@nxp.com
+Reviewed-by: Iuliana Prodan <iuliana.prodan@nxp.com>
+Link: https://patch.msgid.link/1728622433-2873-1-git-send-email-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/fsl/fsl_micfil.c | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ sound/soc/fsl/fsl_esai.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
-index 0d37edb70261c..551c49ed375ef 100644
---- a/sound/soc/fsl/fsl_micfil.c
-+++ b/sound/soc/fsl/fsl_micfil.c
-@@ -28,6 +28,13 @@
+diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
+index 17fefd27ec90a..39eab7f0ab6ca 100644
+--- a/sound/soc/fsl/fsl_esai.c
++++ b/sound/soc/fsl/fsl_esai.c
+@@ -119,10 +119,10 @@ static irqreturn_t esai_isr(int irq, void *devid)
+ 		dev_dbg(&pdev->dev, "isr: Transmission Initialized\n");
  
- #define MICFIL_OSR_DEFAULT	16
+ 	if (esr & ESAI_ESR_RFF_MASK)
+-		dev_warn(&pdev->dev, "isr: Receiving overrun\n");
++		dev_dbg(&pdev->dev, "isr: Receiving overrun\n");
  
-+#define MICFIL_NUM_RATES	7
-+#define MICFIL_CLK_SRC_NUM	3
-+/* clock source ids */
-+#define MICFIL_AUDIO_PLL1	0
-+#define MICFIL_AUDIO_PLL2	1
-+#define MICFIL_CLK_EXT3		2
-+
- enum quality {
- 	QUALITY_HIGH,
- 	QUALITY_MEDIUM,
-@@ -45,9 +52,12 @@ struct fsl_micfil {
- 	struct clk *mclk;
- 	struct clk *pll8k_clk;
- 	struct clk *pll11k_clk;
-+	struct clk *clk_src[MICFIL_CLK_SRC_NUM];
- 	struct snd_dmaengine_dai_dma_data dma_params_rx;
- 	struct sdma_peripheral_config sdmacfg;
- 	struct snd_soc_card *card;
-+	struct snd_pcm_hw_constraint_list constraint_rates;
-+	unsigned int constraint_rates_list[MICFIL_NUM_RATES];
- 	unsigned int dataline;
- 	char name[32];
- 	int irq[MICFIL_IRQ_LINES];
-@@ -449,12 +459,34 @@ static int fsl_micfil_startup(struct snd_pcm_substream *substream,
- 			      struct snd_soc_dai *dai)
- {
- 	struct fsl_micfil *micfil = snd_soc_dai_get_drvdata(dai);
-+	unsigned int rates[MICFIL_NUM_RATES] = {8000, 11025, 16000, 22050, 32000, 44100, 48000};
-+	int i, j, k = 0;
-+	u64 clk_rate;
+ 	if (esr & ESAI_ESR_TFE_MASK)
+-		dev_warn(&pdev->dev, "isr: Transmission underrun\n");
++		dev_dbg(&pdev->dev, "isr: Transmission underrun\n");
  
- 	if (!micfil) {
- 		dev_err(dai->dev, "micfil dai priv_data not set\n");
- 		return -EINVAL;
- 	}
- 
-+	micfil->constraint_rates.list = micfil->constraint_rates_list;
-+	micfil->constraint_rates.count = 0;
-+
-+	for (j = 0; j < MICFIL_NUM_RATES; j++) {
-+		for (i = 0; i < MICFIL_CLK_SRC_NUM; i++) {
-+			clk_rate = clk_get_rate(micfil->clk_src[i]);
-+			if (clk_rate != 0 && do_div(clk_rate, rates[j]) == 0) {
-+				micfil->constraint_rates_list[k++] = rates[j];
-+				micfil->constraint_rates.count++;
-+				break;
-+			}
-+		}
-+	}
-+
-+	if (micfil->constraint_rates.count > 0)
-+		snd_pcm_hw_constraint_list(substream->runtime, 0,
-+					   SNDRV_PCM_HW_PARAM_RATE,
-+					   &micfil->constraint_rates);
-+
- 	return 0;
- }
- 
-@@ -1124,6 +1156,12 @@ static int fsl_micfil_probe(struct platform_device *pdev)
- 	fsl_asoc_get_pll_clocks(&pdev->dev, &micfil->pll8k_clk,
- 				&micfil->pll11k_clk);
- 
-+	micfil->clk_src[MICFIL_AUDIO_PLL1] = micfil->pll8k_clk;
-+	micfil->clk_src[MICFIL_AUDIO_PLL2] = micfil->pll11k_clk;
-+	micfil->clk_src[MICFIL_CLK_EXT3] = devm_clk_get(&pdev->dev, "clkext3");
-+	if (IS_ERR(micfil->clk_src[MICFIL_CLK_EXT3]))
-+		micfil->clk_src[MICFIL_CLK_EXT3] = NULL;
-+
- 	/* init regmap */
- 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
- 	if (IS_ERR(regs))
+ 	if (esr & ESAI_ESR_TLS_MASK)
+ 		dev_dbg(&pdev->dev, "isr: Just transmitted the last slot\n");
 -- 
 2.43.0
 
