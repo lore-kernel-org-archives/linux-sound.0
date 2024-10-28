@@ -1,45 +1,57 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C998D433C9;
-	Mon, 28 Oct 2024 02:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1223218FDC6
+	for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 07:26:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730081565; cv=none; b=ka6zXQOALSyZbFDE8KeuPrn9GmsPakutzi5vI8Xc+lk/oI4TIo39R+dMHxLkXS0cBMet0X6n8n+AxAOsCfoQ9fhxeZT7iV1vEsrQidFWHqUpFaWNh/FmtcDqZAfTc4gusWjYI5bfbs5/QkWgW5lqwyHr/KOys3Ram7KBppid3S8=
+	t=1730100401; cv=none; b=eY4a40W6xS33w4DWnHK/E9/XoPSQqUxGnr+wO521PkYV55ExA6T/Or9Dbv5E7MCyPDGUdORw6jTqjuzrSqzTpDAnsSdeLrW4eGc/9BLrOW5N3jCemRj6Hb4i+QhFtm/g5ZLvLyoqo5ztEKX5MhXyYmlEHRupPt0bUFlHfwB2ieI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730081565; c=relaxed/simple;
-	bh=eOWiFxmtBV9Ahj/oqdrWyOdTi7XxRAictG3MytQg5hU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gK38R/2QUnG+Lcv07/P0bmV0dvgk22VFg1BBhLEu+MIlQqE3hzSAPaTd9wW8sdJfqKq12o0OBSEoIJTKbF0I9LR+SL9wZfJyMMDcKb2GWKdOTpOiqH9ofMxDK0qFL90bOKLTZ8xKG4qz0PhfPE0h7gyOJQQw0RST7X2Pm1Lmi1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=YMtu6hZA; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1730100401; c=relaxed/simple;
+	bh=IieH5UbIHBVPTm6gdc25/5HBZ+ihIJbcWdkuPDNcH3k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hpzBGcfEruX8HON49WuHx+VEF/VXAGMaqbqyd05DORLtjByUwWeC5DVAl0x4cj88Ik0Lp9qMhFyO4sLH1Qw8OTp0QqkP45BNKg2/nOtjSRgUXsccQx5Cw/tj3RTUl7X29TiJ3cMgvhOJiB0HDgBKgGNZ2TXAaLHNFH7n40egYUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwR1LBvo; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="YMtu6hZA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=jqU5JEHKNpVIYeesdnslpCRBXaVzMn9mDNHN1fq+VEM=; b=YMtu6hZAlJNmeZiY
-	yynP58lcGAUoOUsRD2EaiSGFQ0eWXZvb/Z+usLuk03YKxVp1/nmPT/4dX3pJmBasrgBclHtZNE8QS
-	RzUthpQ/EnkPm955SFpuJo8aaF9Tn1GY7pTeJWoNp7Pbixw/NPBA9dC3fAiTzH++Wtp3zTrPVZNGD
-	DXw2Bo7F71q9KcvFGEpOIRMbieUjthd23IxTDbOLPLpeAXaxhL88CkwrDXvWCp+sLe21siqxRFuh9
-	045gdr4yRmbhpOoyxToDFgbmLG/9+AMN6FUSR2j8s6T+jpgSaULdq5mbYmz9l/OQ1jol7hP41vPCZ
-	7F/GXLxnyjaZirDQAw==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1t5FF5-00Dpxx-03;
-	Mon, 28 Oct 2024 02:12:27 +0000
-From: linux@treblig.org
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwR1LBvo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730100401; x=1761636401;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IieH5UbIHBVPTm6gdc25/5HBZ+ihIJbcWdkuPDNcH3k=;
+  b=PwR1LBvous8RxdG/fs1YoT8s8izgmcl+QMbnFJB6C8+XEhMNKCogAkdB
+   HYmTyg9WdTm8OHr2MMhaE+qQUa9BAAVCY6G7B8c/Fuzmgg4cJ2hiBJCrY
+   s/GZI+vTir5Vnqdbor30lZQriwEUObJqLZ66tnKM6GlMVmgXGqh1cFJ93
+   ICw7iTA+uUwll5F+xd4clPkRJKJVDkZVgj2IbLU5L+r6bPXJFRjliz+EW
+   1Xp88FglNuLNHcHXwVfOxM8OyJteWYxsciMS4fRsc0YutwN6ZrgZkUvHZ
+   9ozuDBN97hLdA0lZUVlEQ0F9WUNeYDDS8VDdv4TAnVNaEDqd/gbBJt/DM
+   Q==;
+X-CSE-ConnectionGUID: Bj2P/9vdRQST1/jzoK2K8g==
+X-CSE-MsgGUID: YVRZQzFrSm+gysRbOko0OQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47145525"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="47145525"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 00:26:40 -0700
+X-CSE-ConnectionGUID: N7PYvWwUQcWG4KV40H7UYQ==
+X-CSE-MsgGUID: u2kovzKoS/Sp2LnAboq03w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="81975568"
+Received: from mdroper-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.222.159])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 00:26:38 -0700
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ASoC: soc-devres: Remove unused devm_snd_soc_register_dai
-Date: Mon, 28 Oct 2024 02:12:26 +0000
-Message-ID: <20241028021226.477909-1-linux@treblig.org>
-X-Mailer: git-send-email 2.47.0
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 0/3] ASoC: Intel: add rt722 and rt1320 support
+Date: Mon, 28 Oct 2024 15:26:28 +0800
+Message-ID: <20241028072631.15536-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,83 +60,18 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+This series add rt722 and rt1320 support for a new Dell SKU.
 
-The last use of devm_snd_soc_register_dai() was removed by
-commit fc4cb1e15f0c ("ASoC: topology: Properly unregister DAI on removal")
-in 2021.
+Mac Chiang (3):
+  ASoC: sdw_utils: Add quirk to exclude amplifier function
+  ASoC: intel: sof_sdw: add quirk for Dell SKU
+  ASoC: Intel: soc-acpi-intel-arl-match: Add rt722 and rt1320 support
 
-Remove it, and the helper it used.
+ sound/soc/intel/boards/sof_sdw.c              |  8 +++
+ .../intel/common/soc-acpi-intel-arl-match.c   | 63 +++++++++++++++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           |  2 +
+ 3 files changed, 73 insertions(+)
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- include/sound/soc.h    |  4 ----
- sound/soc/soc-devres.c | 37 -------------------------------------
- 2 files changed, 41 deletions(-)
-
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index e6e359c1a2ac..1b7ceb018bf9 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -1438,10 +1438,6 @@ struct snd_soc_dai *snd_soc_get_dai_via_args(const struct of_phandle_args *dai_a
- struct snd_soc_dai *snd_soc_register_dai(struct snd_soc_component *component,
- 					 struct snd_soc_dai_driver *dai_drv,
- 					 bool legacy_dai_naming);
--struct snd_soc_dai *devm_snd_soc_register_dai(struct device *dev,
--					      struct snd_soc_component *component,
--					      struct snd_soc_dai_driver *dai_drv,
--					      bool legacy_dai_naming);
- void snd_soc_unregister_dai(struct snd_soc_dai *dai);
- 
- struct snd_soc_dai *snd_soc_find_dai(
-diff --git a/sound/soc/soc-devres.c b/sound/soc/soc-devres.c
-index 4534a1c03e8e..c6364caabc0e 100644
---- a/sound/soc/soc-devres.c
-+++ b/sound/soc/soc-devres.c
-@@ -9,43 +9,6 @@
- #include <sound/soc.h>
- #include <sound/dmaengine_pcm.h>
- 
--static void devm_dai_release(struct device *dev, void *res)
--{
--	snd_soc_unregister_dai(*(struct snd_soc_dai **)res);
--}
--
--/**
-- * devm_snd_soc_register_dai - resource-managed dai registration
-- * @dev: Device used to manage component
-- * @component: The component the DAIs are registered for
-- * @dai_drv: DAI driver to use for the DAI
-- * @legacy_dai_naming: if %true, use legacy single-name format;
-- *	if %false, use multiple-name format;
-- */
--struct snd_soc_dai *devm_snd_soc_register_dai(struct device *dev,
--					      struct snd_soc_component *component,
--					      struct snd_soc_dai_driver *dai_drv,
--					      bool legacy_dai_naming)
--{
--	struct snd_soc_dai **ptr;
--	struct snd_soc_dai *dai;
--
--	ptr = devres_alloc(devm_dai_release, sizeof(*ptr), GFP_KERNEL);
--	if (!ptr)
--		return NULL;
--
--	dai = snd_soc_register_dai(component, dai_drv, legacy_dai_naming);
--	if (dai) {
--		*ptr = dai;
--		devres_add(dev, ptr);
--	} else {
--		devres_free(ptr);
--	}
--
--	return dai;
--}
--EXPORT_SYMBOL_GPL(devm_snd_soc_register_dai);
--
- static void devm_component_release(struct device *dev, void *res)
- {
- 	const struct snd_soc_component_driver **cmpnt_drv = res;
 -- 
-2.47.0
+2.43.0
 
