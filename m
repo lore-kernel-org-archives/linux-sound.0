@@ -1,45 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601AC1D7E4E;
-	Mon, 28 Oct 2024 10:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDBE1DE4EA;
+	Mon, 28 Oct 2024 10:51:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112706; cv=none; b=n/g7NTzWkpmkIxlL6857vAOqHGVr8WLG24aa1J33AU3JJF63WeMiZkKvEgkaDWGVNwacG3X8u4x4wX1Vuhhc2e7fSJcE+cXvGE7Kn92TpAD6QvpJqQj2hLwTrJB7yYzx1u4HVwHTLwzmpj3hz3ILaCkK1q+3dgNURFlBmBRN6KE=
+	t=1730112712; cv=none; b=dxjrkYbTa1VmF56pmynfXuQVBIkFtC21eBUlCDrwnusO35+CmjHxb38Wn4fvIIDYyaduJIkrTPFh84vZiA0GUVFs1yNRU8z4pQfKJsFPIVHX6dJLLUMn4Jqj/XZZ/C26v/8VV0f+iyCD18PiDgvQdP+HjaO8n3VlxGKSPX7IyBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112706; c=relaxed/simple;
-	bh=Q946M9xGZhGP++idZLebE0GJjIFz8BtZZxEHxcj4EDg=;
+	s=arc-20240116; t=1730112712; c=relaxed/simple;
+	bh=7CXEDfxOh5O+u15aWw6ujchv9sh90OKuVDVKVuAf0sg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Mv98syTRD3pzAhcaeUorpUzSbJHzOtK/6huUMShGvZXQcYlURZnbY6KIU176GVzH+3ydrrBJAFTvscbPZh+jU1EGF/Vli1CQmjTgUjdZZEBJBPfu9/3hinPyc4kNXSc3YCFbVkgb8NEKk/ly8E4fMEVU22DbfUEC+saCYQejbOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4274WKT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Qaa9tw37Ng3OlDv43JVp2K+OadGSlrCQ6yYVeoO5ESPeSAzg/cwrkoqeDZOqxmG+sxqvxu0qZ8/dy2FqOk5OdkdIgdK2kNf7UuABBkByK06diBxDXtB2Vk4RR5qrdar6Yb2qPoEmOnAhkKQCeLa1C7VuFxlWfQOm31jsLVYWRR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzB1h5uo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4274WKT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB3A5C4CEE4;
-	Mon, 28 Oct 2024 10:51:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dzB1h5uo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F15C3C4CEE3;
+	Mon, 28 Oct 2024 10:51:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730112706;
-	bh=Q946M9xGZhGP++idZLebE0GJjIFz8BtZZxEHxcj4EDg=;
+	s=k20201202; t=1730112712;
+	bh=7CXEDfxOh5O+u15aWw6ujchv9sh90OKuVDVKVuAf0sg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k4274WKTMeD/r22drJFUsoJI/sXp2SEt3F5UZZ3Bqi0EkKLhzwtGKAKPpyNNeS5Sc
-	 rnCNabi1MQTci2ynDF/MSreYfSEQLsDv3MXEEmVDbScvQCo7n3LrAS0P4tWwLrIz9M
-	 FDfygIyszQB0ftqQtklKkEHRssS7K0ruQhAMGaXiSKfjqXQQ961h/FvAqI8Y1lqAiM
-	 Sj3AWMx8DvkP+Xi/IdZkd67CWeyqjwfKPIL5MAs6M1qjokHN2mMeiZiTW74vtkeCfv
-	 UQ5jomlXX/yEUTIF/uJn9sbJTi++6pn8O2pHNILIDZr8lKSpsGtzXI5RA/jGNGeaJz
-	 InagzF2dCaAqQ==
+	b=dzB1h5uofJgYDGfH8KpVDMU6Ka+cCd0x0Razm8fr29FkcmM3DQysrrnOpr3hs2Pxm
+	 K6Y49AE/uzKZir+uO5ScycMbu5AlMwxT+RAAiuDj7qKP1B6IyLIozPNa83brFJTwVt
+	 IMW56idwCJ2R9eEyE19SS+JDgabpl/hKcOg+nvQu0D4qzBJ47ZSwp/AiRXMDJQJK5F
+	 INJRZtstSOCXZUZeMklLcgs8TjpstnOyU9ry9OBQN+0R+U9S5RbsvogNW5yDahvwKY
+	 MCqZ7ouYTlhH5wAX+WqeJYxFGFFayKvvxeM+9v7xKoENyh6PXH+zrv2ropYTYVU/84
+	 hpWhyQpytQ2Ew==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Jack Yu <jack.yu@realtek.com>,
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	oder_chiou@realtek.com,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 21/32] ASoC: rt722-sdca: increase clk_stop_timeout to fix clock stop issue
-Date: Mon, 28 Oct 2024 06:50:03 -0400
-Message-ID: <20241028105050.3559169-21-sashal@kernel.org>
+	linux-sound@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH AUTOSEL 6.11 24/32] ASoC: fsl_micfil: Add sample rate constraint
+Date: Mon, 28 Oct 2024 06:50:06 -0400
+Message-ID: <20241028105050.3559169-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241028105050.3559169-1-sashal@kernel.org>
 References: <20241028105050.3559169-1-sashal@kernel.org>
@@ -54,33 +56,106 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.5
 Content-Transfer-Encoding: 8bit
 
-From: Jack Yu <jack.yu@realtek.com>
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-[ Upstream commit 038fa6ddf5d22694f61ff7a7a53c8887c6b08c45 ]
+[ Upstream commit b9a8ecf81066e01e8a3de35517481bc5aa0439e5 ]
 
-clk_stop_timeout should be increased to 900ms to fix clock stop issue.
+On some platforms, for example i.MX93, there is only one
+audio PLL source, so some sample rate can't be supported.
+If the PLL source is used for 8kHz series rates, then 11kHz
+series rates can't be supported.
 
-Signed-off-by: Jack Yu <jack.yu@realtek.com>
-Link: https://patch.msgid.link/cd26275d9fc54374a18dc016755cb72d@realtek.com
+So add constraints according to the frequency of available
+clock sources, then alsa-lib will help to convert the
+unsupported rate for the driver.
+
+Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Link: https://patch.msgid.link/1728884313-6778-1-git-send-email-shengjiu.wang@nxp.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/rt722-sdca-sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/fsl/fsl_micfil.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
-index 87354bb1564e8..d5c985ff5ac55 100644
---- a/sound/soc/codecs/rt722-sdca-sdw.c
-+++ b/sound/soc/codecs/rt722-sdca-sdw.c
-@@ -253,7 +253,7 @@ static int rt722_sdca_read_prop(struct sdw_slave *slave)
+diff --git a/sound/soc/fsl/fsl_micfil.c b/sound/soc/fsl/fsl_micfil.c
+index 22b240a70ad48..49afc59ed4ed9 100644
+--- a/sound/soc/fsl/fsl_micfil.c
++++ b/sound/soc/fsl/fsl_micfil.c
+@@ -28,6 +28,13 @@
+ 
+ #define MICFIL_OSR_DEFAULT	16
+ 
++#define MICFIL_NUM_RATES	7
++#define MICFIL_CLK_SRC_NUM	3
++/* clock source ids */
++#define MICFIL_AUDIO_PLL1	0
++#define MICFIL_AUDIO_PLL2	1
++#define MICFIL_CLK_EXT3		2
++
+ enum quality {
+ 	QUALITY_HIGH,
+ 	QUALITY_MEDIUM,
+@@ -45,9 +52,12 @@ struct fsl_micfil {
+ 	struct clk *mclk;
+ 	struct clk *pll8k_clk;
+ 	struct clk *pll11k_clk;
++	struct clk *clk_src[MICFIL_CLK_SRC_NUM];
+ 	struct snd_dmaengine_dai_dma_data dma_params_rx;
+ 	struct sdma_peripheral_config sdmacfg;
+ 	struct snd_soc_card *card;
++	struct snd_pcm_hw_constraint_list constraint_rates;
++	unsigned int constraint_rates_list[MICFIL_NUM_RATES];
+ 	unsigned int dataline;
+ 	char name[32];
+ 	int irq[MICFIL_IRQ_LINES];
+@@ -449,12 +459,34 @@ static int fsl_micfil_startup(struct snd_pcm_substream *substream,
+ 			      struct snd_soc_dai *dai)
+ {
+ 	struct fsl_micfil *micfil = snd_soc_dai_get_drvdata(dai);
++	unsigned int rates[MICFIL_NUM_RATES] = {8000, 11025, 16000, 22050, 32000, 44100, 48000};
++	int i, j, k = 0;
++	u64 clk_rate;
+ 
+ 	if (!micfil) {
+ 		dev_err(dai->dev, "micfil dai priv_data not set\n");
+ 		return -EINVAL;
  	}
  
- 	/* set the timeout values */
--	prop->clk_stop_timeout = 200;
-+	prop->clk_stop_timeout = 900;
++	micfil->constraint_rates.list = micfil->constraint_rates_list;
++	micfil->constraint_rates.count = 0;
++
++	for (j = 0; j < MICFIL_NUM_RATES; j++) {
++		for (i = 0; i < MICFIL_CLK_SRC_NUM; i++) {
++			clk_rate = clk_get_rate(micfil->clk_src[i]);
++			if (clk_rate != 0 && do_div(clk_rate, rates[j]) == 0) {
++				micfil->constraint_rates_list[k++] = rates[j];
++				micfil->constraint_rates.count++;
++				break;
++			}
++		}
++	}
++
++	if (micfil->constraint_rates.count > 0)
++		snd_pcm_hw_constraint_list(substream->runtime, 0,
++					   SNDRV_PCM_HW_PARAM_RATE,
++					   &micfil->constraint_rates);
++
+ 	return 0;
+ }
  
- 	/* wake-up event */
- 	prop->wake_capable = 1;
+@@ -1134,6 +1166,12 @@ static int fsl_micfil_probe(struct platform_device *pdev)
+ 	fsl_asoc_get_pll_clocks(&pdev->dev, &micfil->pll8k_clk,
+ 				&micfil->pll11k_clk);
+ 
++	micfil->clk_src[MICFIL_AUDIO_PLL1] = micfil->pll8k_clk;
++	micfil->clk_src[MICFIL_AUDIO_PLL2] = micfil->pll11k_clk;
++	micfil->clk_src[MICFIL_CLK_EXT3] = devm_clk_get(&pdev->dev, "clkext3");
++	if (IS_ERR(micfil->clk_src[MICFIL_CLK_EXT3]))
++		micfil->clk_src[MICFIL_CLK_EXT3] = NULL;
++
+ 	/* init regmap */
+ 	regs = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+ 	if (IS_ERR(regs))
 -- 
 2.43.0
 
