@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8F71DE4C0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF9B1DE4DE;
 	Mon, 28 Oct 2024 15:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730130221; cv=none; b=L+vCa7+hBgIsoy5PtGSTh3Vo2Wk4ZCJdTZbu49H541a+OG4HlnYd5FDQiuHDnZG7uzSQ2+OiDc1eoGpVAleKGqS7eBQtMimlXoEqBDjN76FrtAPLxI4m+TkWr8pfD7wQ/MSbHT0v7Dz47Q+5QCj2dzpBBimIn/eW9VIUPzeTJ0s=
+	t=1730130221; cv=none; b=MdRTFMBWQz93L7bU7djlA/GVx5Z0QyYg9dw9E71AbApncvnwz+Ze26CV6zV7ZZSl2Sj9+6OUwK9+Goa/JbU3jCBXts9SfKIMpdao092dtjSuaXPqhO5Nfv6hKFY7cRb7nbnEYNrKcyJda88YkqmSmKWHymPvsSoLulOpi86thKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730130221; c=relaxed/simple;
-	bh=JZ8SDOTGMdpYsYOVNzjby/fRRlB1xolUofi/4r08bQk=;
+	bh=2x/ZD96RRHOBCxrye3iTWKv5vRtUhfGFCT9vm5h5CAA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pwCpzlPkxe47/Ji8MQa229mLcHEBwEwgfd1CUDs1pAqSPPaS7WmY5Bw/xDOSOgG/eaLM2ly+kvRHDOy7RnelsIgpGXYlRh4luvOTlkpGbmHKP/HSZVABD+xXIPdu9GjOq02jnPl279h5CZUwaV5FLs8BIKhkQMh4UtVt05JOtAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GR1W1PvY; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OS0Eu+2p3erhfpNnhhXNG55XEFVMSibF+bdFHthqXS7ZfyIku5/3zwxiB8K2Z/RbCBSgbDjy75S3lTXh+aHn4O8OKYGZXR6fLzeO7OOPsizSspb2KOpyHOnW+Ryd/sB3My2YTXTRL1cKGAMZbBHhRNadq1kIry1GVtFOj+iFFiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gHJDIRsG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GR1W1PvY"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F00F5C4CEC7;
-	Mon, 28 Oct 2024 15:43:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gHJDIRsG"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 18699C4CEEC;
+	Mon, 28 Oct 2024 15:43:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1730130221;
-	bh=JZ8SDOTGMdpYsYOVNzjby/fRRlB1xolUofi/4r08bQk=;
+	bh=2x/ZD96RRHOBCxrye3iTWKv5vRtUhfGFCT9vm5h5CAA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GR1W1PvYDMORXjQ1YUaYpSmTjtz+Y366qQUj23P8S/sWMEfNpEknwwuqgbcDhQaQz
-	 4yBe9+ipx6aBhruMAHi7nksyBw4yu7rWwd0xas5RqQBWau7ilGfZg78MOn1T5CMBUu
-	 gzdZBrwcgpF8IM2riCi0k2gOEvx4ckFOhd/dwRRJohT34LOT3AnDJsHYigk+rm/WOf
-	 XOtkbd58RERuhIEoif3kn3wFaeiNpM5IbvLO9E1v5e/M70tT97ldVa0uZtQJALHJ/g
-	 5GzDI7S0N/NqAzEH8KKUIOUkTHS5+Jo07KiqcoHb6g/Fa6Acc6o3BHTtKZEm6+7/pV
-	 bVOhi42Ixm47Q==
+	b=gHJDIRsGmOX66i8kO/6XtSKyHN9UQqnP9rleDfFexySAzLqFa0zjxaLliY24glCJN
+	 C4a3cgHTMPdFilVNCXYwMNRkZroq1qoySWAQqp90ptLrOSqG5QQjHjMU+3Xo7r6lQU
+	 roDuHk9qqccIBzqLHppLqpAbzlrgzYtEOZung6JwcDAIaVtLQ7fojDExbuVx40Nxpg
+	 1HvgVUVJSbPLfWlN6zJ29hCJlCa5AwDHUmS68oF+Ilk//Iw1npf+WoJgDbWCwKTjxi
+	 Ini9kueFERShOxfCc2h7bDaZg4kcJFigte6CfPAaCpxSlSp6Uycf2v6wMveV9cr+2u
+	 9XXASEPLCmNxw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDBCDD33990;
-	Mon, 28 Oct 2024 15:43:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E32DD3399D;
+	Mon, 28 Oct 2024 15:43:41 +0000 (UTC)
 From: Nuno Sa via B4 Relay <devnull+nuno.sa.analog.com@kernel.org>
-Date: Mon, 28 Oct 2024 16:43:39 +0100
-Subject: [PATCH v2 2/4] ASoC: dt-bindings: document the adau1373 Codec
+Date: Mon, 28 Oct 2024 16:43:41 +0100
+Subject: [PATCH v2 4/4] ASoC: codecs: adau1373: add powerdown gpio
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,8 +39,8 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20241028-adau1373-shutdown-v2-2-647f56bbd182@analog.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241028-adau1373-shutdown-v2-4-647f56bbd182@analog.com>
 References: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
 In-Reply-To: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
 To: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
@@ -50,11 +50,11 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1730130219; l=4205;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1730130219; l=2094;
  i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=e6/jgIZWmuR3Nbe5npqQP5ffqfzdhUaw8odBN01/3Ho=;
- b=lvBiVXRZY3VExRrlBxINZ1pqhMupcpXaQk5ZpwwgexekX6liDiyNNn0djQ23mLseD9DjN1l7p
- XP3tv6GnLZxBeAkxMQQkOpib53Ep/fneXSjm7shVDQG2oJxAu4BLnKm
+ bh=l3lW7MaibCAG7NXnOqoYOWvd1BhDU+VCpOJOb6hZNr0=;
+ b=P9AQLYbRT4/dJAYNIHgWRzAYiDqi3kiQm1K0uxO+anv520Spe4z5gu1jBz215/Nv/2LVtso3N
+ gpDhdaWUWdoDKDAdgYWIoFhQ8LjfjvnI2TVzWjmxB/pYC5IVq6xyGpp
 X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
  pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
 X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
@@ -64,146 +64,74 @@ Reply-To: nuno.sa@analog.com
 
 From: Nuno Sa <nuno.sa@analog.com>
 
-Describe the adau1373 Low Power Codec with Speaker and
-Headphone Amplifier.
-
-While at it, properly add a MAINTAINERS entry for ADI sound bindings.
+If the powerdown GPIO is specified, we use it for reset. Otherwise,
+fallback to a software reset.
 
 Signed-off-by: Nuno Sa <nuno.sa@analog.com>
 ---
- .../devicetree/bindings/sound/adi,adau1373.yaml    | 111 +++++++++++++++++++++
- MAINTAINERS                                        |   1 +
- 2 files changed, 112 insertions(+)
+ sound/soc/codecs/adau1373.c | 28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/sound/adi,adau1373.yaml b/Documentation/devicetree/bindings/sound/adi,adau1373.yaml
-new file mode 100644
-index 000000000000..97552bf5d951
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/adi,adau1373.yaml
-@@ -0,0 +1,111 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/adi,adau1373.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
+index 9568ff933e12..16b9b2658341 100644
+--- a/sound/soc/codecs/adau1373.c
++++ b/sound/soc/codecs/adau1373.c
+@@ -8,6 +8,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/init.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/delay.h>
+ #include <linux/pm.h>
+ #include <linux/property.h>
+@@ -1485,6 +1486,11 @@ static const struct snd_soc_component_driver adau1373_component_driver = {
+ 	.endianness		= 1,
+ };
+ 
++static void adau1373_reset(void *reset_gpio)
++{
++	gpiod_set_value_cansleep(reset_gpio, 1);
++}
 +
-+title: Analog Devices ADAU1373 CODEC
+ static int adau1373_parse_fw(struct device *dev, struct adau1373 *adau1373)
+ {
+ 	int ret, drc_count;
+@@ -1547,6 +1553,7 @@ static int adau1373_parse_fw(struct device *dev, struct adau1373 *adau1373)
+ static int adau1373_i2c_probe(struct i2c_client *client)
+ {
+ 	struct adau1373 *adau1373;
++	struct gpio_desc *gpiod;
+ 	int ret;
+ 
+ 	adau1373 = devm_kzalloc(&client->dev, sizeof(*adau1373), GFP_KERNEL);
+@@ -1558,7 +1565,26 @@ static int adau1373_i2c_probe(struct i2c_client *client)
+ 	if (IS_ERR(adau1373->regmap))
+ 		return PTR_ERR(adau1373->regmap);
+ 
+-	regmap_write(adau1373->regmap, ADAU1373_SOFT_RESET, 0x00);
++	/*
++	 * If the powerdown GPIO is specified, we use it for reset. Otherwise
++	 * a software reset is done.
++	 */
++	gpiod = devm_gpiod_get_optional(&client->dev, "powerdown",
++					GPIOD_OUT_HIGH);
++	if (IS_ERR(gpiod))
++		return PTR_ERR(gpiod);
 +
-+maintainers:
-+  - Nuno Sá <nuno.sa@analog.com>
++	if (gpiod) {
++		gpiod_set_value_cansleep(gpiod, 0);
++		fsleep(10);
 +
-+description: |
-+  Analog Devices ADAU1373 Low power codec with speaker and headphone amplifiers.
-+  https://www.analog.com/media/en/technical-documentation/data-sheets/ADAU1373.pdf
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,adau1373
-+
-+  reg:
-+    maxItems: 1
-+
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  powerdown-gpios:
-+    description: GPIO used for hardware power-down.
-+    maxItems: 1
-+
-+  adi,micbias1-microvolt:
-+    description:
-+      This property sets the microphone bias voltage for the first microphone.
-+    enum: [1800000, 2200000, 2600000, 2900000]
-+    default: 2900000
-+
-+  adi,micbias2-microvolt:
-+    description:
-+      This property sets the microphone bias voltage for the second microphone.
-+    enum: [1800000, 2200000, 2600000, 2900000]
-+    default: 2900000
-+
-+  adi,input1-differential:
-+    description: This property sets the first analog input as differential.
-+    type: boolean
-+
-+  adi,input2-differential:
-+    description: This property sets the second analog input as differential.
-+    type: boolean
-+
-+  adi,input3-differential:
-+    description: This property sets the third analog input as differential.
-+    type: boolean
-+
-+  adi,input4-differential:
-+    description: This property sets the fourth analog input as differential.
-+    type: boolean
-+
-+  adi,lineout-differential:
-+    description: This property sets the line output as differential.
-+    type: boolean
-+
-+  adi,lineout-gnd-sense:
-+    description: This property enables the line output ground sense control.
-+    type: boolean
-+
-+  adi,drc-settings:
-+    description:
-+      This setting is used to control the dynamic range of the signal. The
-+      device provides a maximum of three full band DRCs with 13 entries each.
-+    $ref: /schemas/types.yaml#/definitions/uint8-array
-+    oneOf:
-+      - minItems: 13
-+        maxItems: 13
-+      - minItems: 26
-+        maxItems: 26
-+      - minItems: 39
-+        maxItems: 39
-+
-+required:
-+  - "#sound-dai-cells"
-+  - compatible
-+  - reg
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        audio-codec@1a {
-+            compatible = "adi,adau1373";
-+            reg = <0x1a>;
-+            #sound-dai-cells = <0>;
-+            powerdown-gpios = <&gpio 100 GPIO_ACTIVE_LOW>;
-+            adi,input2-differential;
-+            adi,input1-differential;
-+            adi,lineout-differential;
-+            adi,micbias2-microvolt = <1800000>;
-+            adi,drc-settings = /bits/ 8 <
-+                0xff 0xff 0x1 0x2 0xa 0xa 0xd 0x1 0xff 0xff 0x5 0xd 0xff
-+            >;
-+        };
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9d6272c00fbd..24bc5fcac74a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1521,6 +1521,7 @@ L:	linux-sound@vger.kernel.org
- S:	Supported
- W:	http://wiki.analog.com/
- W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/devicetree/bindings/sound/adi,*
- F:	sound/soc/codecs/ad1*
- F:	sound/soc/codecs/ad7*
- F:	sound/soc/codecs/adau*
++		ret = devm_add_action_or_reset(&client->dev, adau1373_reset,
++					       gpiod);
++		if (ret)
++			return ret;
++	} else {
++		regmap_write(adau1373->regmap, ADAU1373_SOFT_RESET, 0x00);
++	}
+ 
+ 	dev_set_drvdata(&client->dev, adau1373);
+ 
 
 -- 
 2.47.0
