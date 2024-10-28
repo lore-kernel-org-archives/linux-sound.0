@@ -1,87 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2A1D86DC;
-	Mon, 28 Oct 2024 12:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A831DD0C0;
+	Mon, 28 Oct 2024 14:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730117524; cv=none; b=CpTSqwPCAIwx+9aUvdjzZtkOrapSZDnZv7Opbu2Fu9svJSPfhOOCkrM5pm9JqkDSjmfC3z2xAjq+IUeM1fnKbpGaVNrss44dVLGS6Qgz+qmr0ETiCpcFLxq3Xi+DAjKF8jhb1bJTcyfllsn9W9kXHTnJUUwL90GIyWkvAqPkQI0=
+	t=1730124614; cv=none; b=jWJ/DpHlHeBupw6itX5Rh7fi0saXX+GjCU8AIVIeZLcZZImAlrY7D/eqahwF5lbZhUJlMUNKPVqCb5b5TrTgoKUF4tf0SEailL6GUjJx6UyRAy81LmpGDo3hQJ+9y5Mu6rRBfcSpCBcP7bGMFgRDEgLZApt/dsvlv67KzFBfEdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730117524; c=relaxed/simple;
-	bh=NAZkhhTeYWBcCRnnAZH+eZCWBsmCMSLDc9mRceexjgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVLUDhNxgnBNhi4mfDSH4lu4yX3XaRxbcv5O6KqJZdXCF99aUlO2BnAwfKLx7opD5EZCAj0d7slPmo7IbYI/rfckl4ScAPs+BMk/N/5+GrTZfPGbI5uBDLcnTYS6pV4NN7wYQe/AjSCfBaF3r0/Ro5aJ+azRArYDv1Llb3bqVaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uTA10aeL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730124614; c=relaxed/simple;
+	bh=w9NzcAMM+iN61OPg0k1xFjEljUX4mN8FHC7aBjxP3C4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Te/lks7ib4vt6dIJTNUBtPXu+HFrB9OfLimbNweYHF463BHbmv1y2tMMBfdc1UDkIQEiqhfR5QZrmVjJx81+i5nlin6cpIIQubHkRdbHI9nzI4VyRIPgmG6jLKFTE3Pymc3+LFeSwDJQApPFGa9VuLay1wpJrZCywZ772cHyP/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NG/e0v0Q; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uTA10aeL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FB9FC4CEC3;
-	Mon, 28 Oct 2024 12:12:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730117523;
-	bh=NAZkhhTeYWBcCRnnAZH+eZCWBsmCMSLDc9mRceexjgU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uTA10aeL4xtGd63PUIPx4KhhP7HDf7HveJCfWaAvK3qMB3bC8jLKkEhFESanGKbGf
-	 uhuDju3v8m3q6ieocv7/yEBPF18Cm83bCKgYPTn2qye5/6F6nwYL+lAxM0hDQ1du8V
-	 Dh/ZPyGjrWiPXyKtiTxIol4e2/k0WxJX+/8AtT6n40dTRWQ6cmbQyboWn5RSmZglPA
-	 IbMxrtYqDvMPSdSB2BvEZtP6NHs/n63XsT/dRKP97i6mPmFZuEeHcDLhqQx9yYFICM
-	 PkHz47nn0gx8oL6zQVXRROwud3Sjg/7pm75NIrx5uhJzzS+wGzJ9liRCwrMSQ+e+/y
-	 8X53OSDt6bqxw==
-Date: Mon, 28 Oct 2024 12:11:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Iuliana Prodan <iuliana.prodan@nxp.com>, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, linux-sound@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH AUTOSEL 6.11 05/32] ASoC: fsl_esai: change dev_warn to
- dev_dbg in irq handler
-Message-ID: <1ad8216d-c24d-4d35-9562-4106e2aafa34@sirena.org.uk>
-References: <20241028105050.3559169-1-sashal@kernel.org>
- <20241028105050.3559169-5-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NG/e0v0Q"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37d6ff1cbe1so3254457f8f.3;
+        Mon, 28 Oct 2024 07:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730124610; x=1730729410; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=w9NzcAMM+iN61OPg0k1xFjEljUX4mN8FHC7aBjxP3C4=;
+        b=NG/e0v0QLSbBACbN727KWI653d9p0V32kakB+/TLJnUT+8Vb2NxXLnwu8q0sXi3cvR
+         ipcjhMEnCx5pOMfEO7FzmloaiPn71MuH7WEVuCFewbE7GYgDORRlxnxWytLxGkxnt3Pe
+         qg2HPGpt/xwafulSMFSTqaNEic9R6UZuqM8KN5oDXC1JRp8WzEPwYWQ7J2AaD69a0YQg
+         Sx3jYuNjD+FN1NqMJ8RTgAOW9EG8y+qWDMDOjRsKVHvGVGsj+idPZKlELDQ7wd//HZE5
+         BWa6lVhoxMWnM0WRwfX4+/sYKFUXJvklj6CaEaFuJWEvzDY+BL5zMyRsSJChuBQQM9pc
+         wA8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730124610; x=1730729410;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w9NzcAMM+iN61OPg0k1xFjEljUX4mN8FHC7aBjxP3C4=;
+        b=hFfUFuI8DkIWKIzsBwgJMH4LJGgHhpueBwm6fEcpwN1ocz/eSqrdIklDUYCVQ//NkH
+         pjHUsGmeU/Q7DEyRcFbAFo0tDMiFJHhQQrM3zYpvdHYvel8Nsam80MgeKQxAmptav0it
+         /fjblekfiupwyM8ACINJKzW/7mjjXXLhKNUSEmU1BhN1uc4GGjETewDmZdaQMlMF9UGF
+         P7dITt43+ZbVamF6lu7d/pVNBUl9gK/75tesIwAMXXZ7e0vKvhdp0wL9iwUFFYjLjkjd
+         s+9BM4aBHQIfBdp9MwSEyShXoABY5QvxiuQr+wKkjOOBh00L14YkXZd40eYlio1UprzD
+         Us5w==
+X-Forwarded-Encrypted: i=1; AJvYcCVfFenyAhJGSP+3xEY/DYTmqEGgJasvmy0kx0QRJoWJEQjt5lNefodj5RtU+hvnZKx8sTCXgQTJvXTb@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBrCGYRQJ0v7+7CKqFIATrPUg+Di1E0OLOwUUIHf7BIOw9KTL0
+	OR65f5Vfi/NOCNAaGobpHqpqjZuBYjPf8tEFuZkeNOpdVftchf/e
+X-Google-Smtp-Source: AGHT+IECBIlBzaCqDV5M3+pRddxYcdHuT/BVEKJjvvfRuH8KNfTEkKqQEPXpvfVhfSVxvkXdky34tQ==
+X-Received: by 2002:a5d:434a:0:b0:37d:518f:995d with SMTP id ffacd0b85a97d-3806120ebddmr6436506f8f.56.1730124610516;
+        Mon, 28 Oct 2024 07:10:10 -0700 (PDT)
+Received: from ?IPv6:2001:a61:34c9:ea01:14b4:7ed9:5135:9381? ([2001:a61:34c9:ea01:14b4:7ed9:5135:9381])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b3c236sm9545164f8f.35.2024.10.28.07.10.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 07:10:10 -0700 (PDT)
+Message-ID: <a7690fa0841ad1091f8d761e4eb940f3058ef970.camel@gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: document the adau1373 Codec
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Nuno Sa <nuno.sa@analog.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, Liam Girdwood
+	 <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Jaroslav Kysela
+	 <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen
+	 <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Date: Mon, 28 Oct 2024 15:10:09 +0100
+In-Reply-To: <e6f4b1b9-f860-4625-9f77-ee475235e958@kernel.org>
+References: <20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com>
+	 <20241021-adau1373-shutdown-v1-2-bec4ff9dfa16@analog.com>
+	 <pj5clifybfwljpq3usfgca7cy54xpmzngdckyb53wc3u4lts53@gtm2mbuiiudw>
+	 <a38c5d3e4f1cdf90f53b8c17ef7508faaf760f89.camel@gmail.com>
+	 <e6f4b1b9-f860-4625-9f77-ee475235e958@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Jw04mRIq6Tcvx3ro"
-Content-Disposition: inline
-In-Reply-To: <20241028105050.3559169-5-sashal@kernel.org>
-X-Cookie: Remember the... the... uhh.....
 
-
---Jw04mRIq6Tcvx3ro
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Oct 28, 2024 at 06:49:47AM -0400, Sasha Levin wrote:
-> From: Shengjiu Wang <shengjiu.wang@nxp.com>
+On Sat, 2024-10-26 at 20:14 +0200, Krzysztof Kozlowski wrote:
+> On 22/10/2024 08:42, Nuno S=C3=A1 wrote:
+> > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/uint8-ar=
+ray
+> > > > +=C2=A0=C2=A0=C2=A0 oneOf:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minItems: 13
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minItems: 26
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - minItems: 39
+> > >=20
+> > > and maxItems?
+> >=20
+> > Hmm, I had the idea that if maxItems was omitted, then it's the same as
+> > minItems? Because that's the intent... We can either have an array of 1=
+3, 26 or
+> > 39 entries.
 >=20
-> [ Upstream commit 54c805c1eb264c839fa3027d0073bb7f323b0722 ]
+> That's not the case and none of the files follow such logic. If you
+> manage to find one file, please correct or report it.
 >=20
-> Irq handler need to be executed as fast as possible, so
-> the log in irq handler is better to use dev_dbg which needs
-> to be enabled when debugging.
 
-This is very marginal for stable material.
+Okay...=C2=A0will add maxItems
 
---Jw04mRIq6Tcvx3ro
-Content-Type: application/pgp-signature; name="signature.asc"
+FWIW, playing with the DT example and validating the bindings works (and fa=
+ils) as
+expected when omitting maxItems.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcff40ACgkQJNaLcl1U
-h9CXwAf/dKgisn32gugwOj7kv0kcdBJdUWmANJAOcx1EOHgkOSaJivv+5thFldfv
-7oqPwtMJ7fY3dgB+F9mBaeEme5UEhSHLoawxHLf4C5paoOTr4z3YcXrdwYgwrF3Q
-n+sGIw5qXOgLhuHyOaGLyaMsGaHuI4yB4PfFi/muoWK98SQex0M6iC3+WbAY41D+
-0ghy0A9fIIAy/xK9Q309x9hV6dwfUE4Sg4+DHC2kH9E5JBD9sY4EaGmkdZ7azV2A
-tqwaPUgw34Hip+veM7UMb4m/G3jM6BwAUJporndNYVBmo3O06bDGvZulrRDsUkEi
-7PvclJ+x+hhfc90E9zZn2mCpDj9trg==
-=yJsI
------END PGP SIGNATURE-----
-
---Jw04mRIq6Tcvx3ro--
+- Nuno S=C3=A1
