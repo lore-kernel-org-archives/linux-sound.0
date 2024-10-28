@@ -1,31 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DBE2036E3;
-	Mon, 28 Oct 2024 10:53:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1F31DB362;
+	Mon, 28 Oct 2024 10:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112811; cv=none; b=P7+RDeQar3Y0esrGPPHx365U8eNuTftXw7ycgM6azSK2gBsJmSK6XYoDDvBtaJqG3OzNFmJ2RhuZDyDaFvaP6Cx50F2h+wI2XLuPKlXgYaKmq3xZ2zCOzTdjHJW4ong8aLSemSdur2BtF777Ctdujfh9k29MsPp0QPpu2TSuRWk=
+	t=1730112819; cv=none; b=Vv0qk/2xMqMJboiOBz8kMS5h2ni02qRu+OxhrzBAVib9+ZVJEc38RbwpUSNKYgkdp/LtrX+6dEM3VFgkyDGdmAL3zRQPMBFpKS9dF+k69asvX0Msp1MdeLLphJsQlIKeQhkvivF7MQzqMl0oHa7JLW3ZZtpvE16AIOdnSV4RR8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112811; c=relaxed/simple;
-	bh=pquUi3GFsc2qWnsQ6j4Q1aC0V0bSxG/2pY7Vq/C+t2g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jrw9XWhQtfPrHikY4SRv+YVSl/cFVcyFUpm/d5WScanh76XOFLWGrszEa69ynUNHXNXA0yWjAfxMIuJ/213fifxGm13u11SHETuMb4ZW/Qsalb6/w9zayD9WorKel8To02V1svt7sp1eyny9s/sPrf0JreVWEkaM5iLoIMR7u3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEHycxlm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730112819; c=relaxed/simple;
+	bh=6WZXQ1MujIT4FRtqwHDvxkdeBFqBLQzEoNLj7/HKqes=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sTD5AuoeVlv7PBu3rxVexHPNiVyUHPVa1dnXVPsbzeL0KZnWbLF+KK792OepbXtPqxllI7L1o0SXg0+CAgivY228nZ2X3nCKk3galcsjGzZahWBpSro40oecqX4sq+R69i7kDFCcamcbgMwwZn1Xr6oqmWyCxmWk1DxJvsGBmQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jZoK+lID; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEHycxlm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D311C4CEE4;
-	Mon, 28 Oct 2024 10:53:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jZoK+lID"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8DA3C4CEC3;
+	Mon, 28 Oct 2024 10:53:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730112811;
-	bh=pquUi3GFsc2qWnsQ6j4Q1aC0V0bSxG/2pY7Vq/C+t2g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oEHycxlm+i7MHY0rVAl+iEESXM2ovJf2vko+qZk12U8M5gWWXxaZ08yctIzkrlvIa
-	 PB6siduA/9hgXInWSETU2XXjCZho/lIBLx6hbBPPx2O7lMXRORdARNOTfC1G/4yvMQ
-	 jvJ7jQrl4q4vyfWO16KjcbdkrTjhw+ReEV5TPzhyhQ3PvnWxelibks6zvZY2vbYUc0
-	 zbPZtlPx9YXLr17jwypxrTFFyxWBaziSCI/NoZluG8pLxTTydt7pMmpgDee8+rtDRH
-	 yhVRBAMO49TTSHPX/bQybASShd/W2MF5dLepp2O2kKGSOC5N5kC1q5XYZGA+5BTSly
-	 EDU/70zrJMUqQ==
+	s=k20201202; t=1730112819;
+	bh=6WZXQ1MujIT4FRtqwHDvxkdeBFqBLQzEoNLj7/HKqes=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jZoK+lIDLFXPL2exrRQ+9KKXs+iIoQuaziH4qMOaqbzXi5e5X6Am6dQze7Sl4Zcf7
+	 4UrTXyXw8CXB22etHDkOeXl6i5MZ3xtQW8W0sjzRL3XV3GLM6hda/nZci7gHkXupCL
+	 EOjKmY8XJ2E9knwmt/iAakolDlo/ew8ql3WrTu0FlT9sYhvcYivsfV1YLg8e5zxarm
+	 ch5WGpba15Xsc1iXklRFW4UZA0do7v2JkkX3n5oDswfHwqUw7sMRS0k+DdjqpaGgTZ
+	 3BjPnqK/3Y6QBD1canGAzIQe3hLYq8NSgdy6ZpBvNLjcrRpjQJARliTbsXDdVFvnD8
+	 aNLkR63ScwKfA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,12 +39,10 @@ Cc: Shengjiu Wang <shengjiu.wang@nxp.com>,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 5.10 2/4] ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
-Date: Mon, 28 Oct 2024 06:53:23 -0400
-Message-ID: <20241028105327.3560637-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/3] ASoC: fsl_esai: change dev_warn to dev_dbg in irq handler
+Date: Mon, 28 Oct 2024 06:53:33 -0400
+Message-ID: <20241028105336.3560730-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241028105327.3560637-1-sashal@kernel.org>
-References: <20241028105327.3560637-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.228
+X-stable-base: Linux 5.4.284
 Content-Transfer-Encoding: 8bit
 
 From: Shengjiu Wang <shengjiu.wang@nxp.com>
@@ -75,10 +72,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/fsl/fsl_esai.c b/sound/soc/fsl/fsl_esai.c
-index 9f5f217a96077..cd215cec726be 100644
+index 33ade79fa032e..4904f48de612d 100644
 --- a/sound/soc/fsl/fsl_esai.c
 +++ b/sound/soc/fsl/fsl_esai.c
-@@ -124,10 +124,10 @@ static irqreturn_t esai_isr(int irq, void *devid)
+@@ -98,10 +98,10 @@ static irqreturn_t esai_isr(int irq, void *devid)
  		dev_dbg(&pdev->dev, "isr: Transmission Initialized\n");
  
  	if (esr & ESAI_ESR_RFF_MASK)
