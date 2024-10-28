@@ -1,77 +1,77 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186D01D47A6
-	for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 11:11:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF4E1D958B
+	for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 11:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730113870; cv=none; b=P3fnEpxiEn9X/mMphRHTsSdURwiLC/TnCu1aIHVJZnqPQCymmcW81p+BLE+pRls/ImlRWa1lcFTgXJOKOS8se/fVr/4NkxrWrA/vYZk2ALuKkBOGMzfYZU64uskoak4iz2b+Rb6maxUoaRqII4vX0Wul5+R29leB1UgzvLlAtvQ=
+	t=1730114021; cv=none; b=rZi5S6SmWkZH64d5Hwwo0rsap+w2Jyvu+VxQmmJolfveKtJwBQ11eiNZ2WJavrkpL9idoeMqlpiabVMY3Kcm4zmi+qUd4ES+OnH2dGM/P4YHIRQPw1fA9zYYhCzhMa/8IB4vozIgvbdSJFspbP89Mo7+h/cO3YUr5kBvUOHtRGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730113870; c=relaxed/simple;
-	bh=ZgTV9zpZbKQQXLQ5wQfQWN0K4yKV8OzqkCwsGVG8/BA=;
+	s=arc-20240116; t=1730114021; c=relaxed/simple;
+	bh=67sSyJJi9WY1L30HSgX3jBgORDysaAJJpImWjA7Myno=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CXTY8fwUC39u99kOtl2y9bo+0pbbOri6xDhLFctgC3xa6bONCA0FUTvNHFByEIZybLmdLRGqkb9/5kwPMa48RvC0kYspH+0REaXFF1c6gg5d+3ed8KBp+2K/4jTSA7PZM3FvCfBN3pYJ8kmXJxRveJFxvjHPN+z+ggKyrwKFWyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XEeMnEnu; arc=none smtp.client-ip=209.85.222.47
+	 To:Cc:Content-Type; b=fTQTjLtYSTx5dn/Gd8eCAhdk79USKQKjEAImKStteStaBsY3kixDclnDjGnReLDoWXv4xFPRxSOn8rGh+LoXr8MuSjw+fnKMuCkm9vKS9UcMaLj0shZocl/JPOk3u7IqlBcjfYIB4XTrcQDtlZGCjuwWJlK69W2ioEyaJNwLl3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WERRwVcH; arc=none smtp.client-ip=209.85.217.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XEeMnEnu"
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-84fc9005dccso1089267241.3
-        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:11:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WERRwVcH"
+Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-4a484e9d537so1270836137.1
+        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730113866; x=1730718666; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1730114018; x=1730718818; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wVZy5IrMKfr30Sb+HXmGpWXo6EuG4COK1gDvgq9aZn8=;
-        b=XEeMnEnulr64ndPI4xdutkSZubgv/iQvdX4a2+reazuy0m3jJmQkyunxWTt4ppMNPR
-         MW07MXPm2OWprCcfEPEV2H+YNJTjBUUhyz/Rd6tZGiSjcWO2Tp8+6Ry3ojSJR0ZCzHCG
-         F0+jo3MGW9X3vGKSw6VLLv7d09xP+XFEIHSxI=
+        bh=IdHIuXNcRTp7WeqJ7Dz3GAtmBDa+RGbotWoT8FSQELk=;
+        b=WERRwVcHwc8jzUQ19SJI7xa3v/yvNiMe1/MCN/KhrCXd9ylo4PDkuz3OLYzHeogy6f
+         FfrjqD6YS6lQ1X10bjWJkFWAWEJmxpI2z5YtRESi6IuZnGuvGxLH46UuOzvG887RFiwL
+         PqtsIsLHYpXHgQX10GC346+dqFMM5x7dypUqw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730113866; x=1730718666;
+        d=1e100.net; s=20230601; t=1730114018; x=1730718818;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wVZy5IrMKfr30Sb+HXmGpWXo6EuG4COK1gDvgq9aZn8=;
-        b=TNsqlekDwhMse+Zzcuy+RyBk3gODDnhl2ZvUfofM2qWwUU563o/zyyZ/AIq5Uv7f1R
-         0n8McrDQ3zG4mrYMviSsGQBWckLprg7IWjJVGTkS9BUZcPp6XTY6dJqv6qgJ2/mgtsQO
-         8lOeZw40yt2E32JyNhjdwFpfHsagxk7zItQPZt7hNSHiGu57NRFDGmYh0QFH14pqgpHQ
-         wEKHOFUkH+J6iHCAnh4aacsUT6opJGeZHQ8zbEhHqe89kLmURFSwU1yKQQP9DLv9oDSx
-         OGm1uywTVVqiWBpJC2ZOHU27zddRftwOp3yKZBEyEjL06raZ0gtSJSONNPvgAWMVezw+
-         Zq7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVyIDncHdgtN8mDjcOI8gsMwqVcqib2B3q+SFufiPIipDLed1XcwrO1fL5RKHIdXDfVm4pOGsHR7Ebyfw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1baO7gvKopSHhQTbujw2wxoGtP+fIXegyrDqZhVkMvuBXdF3U
-	lUjmngVFqkJG/P815uLs1dqHxE9UFOeyzeNIQgD6PRlISOpmSYKwU5BYbYiyhGj7bxnSgIURhVA
+        bh=IdHIuXNcRTp7WeqJ7Dz3GAtmBDa+RGbotWoT8FSQELk=;
+        b=MsRU5mjbvCGEslRODM/6hsPaiyTw7SCuqizq6gU4Q8EuNQNN+/JpSxNK53YgUEu4df
+         xawet3KNnVO2hwQ9J/M4yVCAD8t2uEU/uCTQgmyE5o7pni+qKG85mH6qVJkdpwSI8625
+         mS3dhDBjfE9Vhg9RYjbMDkfeIj6LZZA7iUVYaQHZhMB1Xr2kApu6Fi44GkSLustcV0yT
+         nlaf3yDbfcU9hsHLAM5X9wf/RaDr6yRGjsg+7XTUuUzgqnb9D7x5EdoamwMFixRXEI1B
+         GQxq7c+93+2NG9+Ypv1mWuHIk4q0cIt+uGYVNVVYJpns9DwQWI6q80k58UacuALeIGke
+         ozhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrO3x1l8neX2FlA5SwFaumLh5nb72lUbTUVxjmJSPjPEiq1VWNrKbCAdkT8Z9Qwo3a7LNCNCfgZLe7Tw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw14NUZhe3G576r1/GIn/z5Mw6AX7WqgqA1r9w/hypfAKO4nZgV
+	PSx4r090+4vdm2Z2U93sbhupxAO3gae2pZsRb8OBorQQ3UCf1haTJ+lU0bLRZWTINabsB99O0/o
 	=
-X-Google-Smtp-Source: AGHT+IF6DqjqyjTQuEOca+DDEMfVWjQSB91TAsSq/wc6Tg8F8N+AzwAbuiaqgpFX04o+vvdbByKi4g==
-X-Received: by 2002:a05:6122:3d01:b0:50d:99e4:dea6 with SMTP id 71dfb90a1353d-51015055166mr3900838e0c.7.1730113866332;
-        Mon, 28 Oct 2024 04:11:06 -0700 (PDT)
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51004777d3csm831084e0c.39.2024.10.28.04.11.04
+X-Google-Smtp-Source: AGHT+IFt0rcJ7v1d/GjUqpmCV+arwDZK3xluZ7jZ2zBCp26ShTo+/DtswGza5XpWW3pMdooNTvwCpQ==
+X-Received: by 2002:a05:6102:f13:b0:4a3:e1de:4fb3 with SMTP id ada2fe7eead31-4a8cfd50421mr4952407137.26.1730114017988;
+        Mon, 28 Oct 2024 04:13:37 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a8c5267681sm1011730137.17.2024.10.28.04.13.36
         for <linux-sound@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Oct 2024 04:11:04 -0700 (PDT)
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-84fc7b58d4dso988607241.0
-        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:11:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV4hF+engAOL3rdwigkkObgh2owSjlrb95GlWC4m/Scq5ddAyNEngK4nqlFI+82JsrwzxysE9PbStPBLA==@vger.kernel.org
-X-Received: by 2002:a05:6122:3d01:b0:50d:99e4:dea6 with SMTP id
- 71dfb90a1353d-51015055166mr3900796e0c.7.1730113863969; Mon, 28 Oct 2024
- 04:11:03 -0700 (PDT)
+        Mon, 28 Oct 2024 04:13:37 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-851d5b60739so800420241.2
+        for <linux-sound@vger.kernel.org>; Mon, 28 Oct 2024 04:13:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVnwUp3HfeeZRdOstxQpAWooAf66aHlKaMkLVl2cd1hB203rwkbjid9aPq7VgBXXm6xrY55K+sgjaiibw==@vger.kernel.org
+X-Received: by 2002:a05:6122:1786:b0:509:e278:c28a with SMTP id
+ 71dfb90a1353d-5101504d301mr4253732e0c.7.1730114015383; Mon, 28 Oct 2024
+ 04:13:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-2-fshao@chromium.org>
- <5vmfh2nkxtpzt2vk4j6ghro7z5stoyvry3enzoqepg6hjxqrho@fofs5cwa2iqq>
-In-Reply-To: <5vmfh2nkxtpzt2vk4j6ghro7z5stoyvry3enzoqepg6hjxqrho@fofs5cwa2iqq>
+References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-3-fshao@chromium.org>
+ <j5qw52grlce63mccduvryx467h4hvcnqrxrova74d52izq3g5r@wjiflssmq6a5>
+In-Reply-To: <j5qw52grlce63mccduvryx467h4hvcnqrxrova74d52izq3g5r@wjiflssmq6a5>
 From: Fei Shao <fshao@chromium.org>
-Date: Mon, 28 Oct 2024 19:10:27 +0800
-X-Gmail-Original-Message-ID: <CAC=S1njPjtvhsc+voNK447wbQmRiN0xVDi-jgOmba4NLRiNi0Q@mail.gmail.com>
-Message-ID: <CAC=S1njPjtvhsc+voNK447wbQmRiN0xVDi-jgOmba4NLRiNi0Q@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp
- and dai-link properties
+Date: Mon, 28 Oct 2024 19:12:59 +0800
+X-Gmail-Original-Message-ID: <CAC=S1ni-F_oudNyskSbxS1s2gZG7m4U4+nLxt0=dt5+DDkhV4Q@mail.gmail.com>
+Message-ID: <CAC=S1ni-F_oudNyskSbxS1s2gZG7m4U4+nLxt0=dt5+DDkhV4Q@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Update DAI
+ link node pattern
 To: Krzysztof Kozlowski <krzk@kernel.org>
 Cc: Mark Brown <broonie@kernel.org>, 
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
@@ -83,89 +83,88 @@ Cc: Mark Brown <broonie@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 28, 2024 at 4:54=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+On Mon, Oct 28, 2024 at 4:56=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
 g> wrote:
 >
-> On Fri, Oct 25, 2024 at 06:44:41PM +0800, Fei Shao wrote:
-> > Add "mediatek,adsp" property for the ADSP handle if ADSP is enabled on
-> > the platform.
->
-> We see this from the diff.
->
-> > Add "mediatek,dai-link" property for the required DAI links to configur=
-e
-> > sound card.
->
-> We see this from the diff.
->
+> On Fri, Oct 25, 2024 at 06:44:42PM +0800, Fei Shao wrote:
+> > The associated machine driver is not dependent on the format of DAI lin=
+k
+> > node names. This means we are allowed to use more descriptive names
+> > instead of indices without impacting functionality.
 > >
-> > Both properties are commonly used in the MediaTek sound card driver.
+> > Update the binding to accept arbitrary DAI link names with a "-dai-link=
+"
+> > suffix. This is the common pattern used by the target (MT8188) and othe=
+r
+> > (MT8195, MT8186 etc.) MediaTek-based Chromebooks.
 >
-> If they are used, why suddenly they are needed? What changed?
+> We do not want arbitrary names. Why for example green-batman-dai-link
+> should be correct? The existing pattern looks wrong. Please read DT spec
+> and chapter about recommended names.
 
-Nothing has changed. These should have been added altogether when the
-binding was first introduced. This patch is to fill the gaps and fix
-dtbs_check warnings, like I mentioned in the cover letter.
-I can add a line in the commit message saying it's to fix the warning
-in addition to the cover letter, if that's preferred.
+At first I was thinking about regex like
+`^[a-z-]+(-[a-z]+)*-dai-link$` based on the DTS coding style guide,
+but your example is not suggesting that.
+and the name like "hs-capture-dai-link" was rejected, so it's not just
+about enumerating the names either.
+Or "^dai-link@[0-9a-f]+$"? But they don't tie to particular register
+addresses... or just for some pseudo indices?
+I could miss something about DAI links under the sound documentation.
+Still trying to figure it out.
 
 >
 > >
 > > Signed-off-by: Fei Shao <fshao@chromium.org>
 > > ---
 > >
-> >  .../bindings/sound/mediatek,mt8188-mt6359.yaml         | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
+> >  .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml     | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > >
 > > diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt=
 6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.=
 yaml
-> > index f94ad0715e32..701cedfa38d2 100644
+> > index 701cedfa38d2..2da34b66818f 100644
 > > --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.ya=
 ml
 > > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.ya=
 ml
-> > @@ -29,6 +29,16 @@ properties:
-> >      $ref: /schemas/types.yaml#/definitions/phandle
-> >      description: The phandle of MT8188 ASoC platform.
+> > @@ -40,7 +40,7 @@ properties:
+> >        name defined in the machine driver.
 > >
-> > +  mediatek,adsp:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: The phandle of MT8188 ADSP platform.
+> >  patternProperties:
+> > -  "^dai-link-[0-9]+$":
+> > +  ".*-dai-link$":
 >
-> And what is the difference between ASoC and ADSP platforms? What are
-> they used for?
+> This breaks existing users.
 
-I'm not a MediaTek or audio folks, and I'm afraid that I'm not the
-best person to explain the details accurately in front of experts on
-the list... I know it's an audio DSP but that explains nothing.
-MediaTek didn't provide a meaningful explanation in the tree or
-commits, and I want to avoid adding additional but likely misleading
-descriptions from someone who doesn't have enough knowledge,
-potentially causing even more confusing situations in the future.
-Plus, the same changes were accepted as-is in the past, so I assumed
-they might be self-explanatory to people who are familiar with the
-matter.
-
->
-> > +
-> > +  mediatek,dai-link:
-> > +    $ref: /schemas/types.yaml#/definitions/string-array
-> > +    description:
-> > +      A list of the desired dai-links in the sound card. Each entry is=
- a
-> > +      name defined in the machine driver.
->
-> The list is provided below. I don't understand why do you need it. Your
-> msg is pretty useless - you describe what you do, instead of why.
-
-I think this is used to explicitly list the intermediate but hidden
-DAIs, but again, there's not much info about them unless MediaTek can
-explain more details and why they need a vendor property for this.
+There's no existing users in upstream, and the only downstream user is
+the MT8188 Chromebook DT that I'm trying to upstream, which I can fix.
+This binding was upstreamed exclusively for that DT.
+Even if we take a step back and assume someone has another DT already
+following this pattern (and that would be a surprise), this wouldn't
+break anything except a dtbs_check error, which would be trivial if
+they don't run that or attempt upstreaming. The driver doesn't use
+node names to distinguish DAI links.
+I want to fix this pattern before any actual users are in the tree if
+possible, but I'm also fine to stick with dai-link-0 to dai-link-10 in
+the case that nothing is changed and the DT has to follow the existing
+patterns.
 
 Regards,
 Fei
 
+>
+> >      type: object
+> >      description:
+> >        Container for dai-link level properties and CODEC sub-nodes.
+> > @@ -112,7 +112,7 @@ examples:
+> >              "Headphone", "Headphone L",
+> >              "Headphone", "Headphone R",
+> >              "AIN1", "Headset Mic";
+> > -        dai-link-0 {
+> > +        hdmi-dai-link {
+>
+> No. Not really justified.
 >
 > Best regards,
 > Krzysztof
