@@ -1,59 +1,57 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A701DDC1A;
-	Mon, 28 Oct 2024 11:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9040E1D61A2;
+	Mon, 28 Oct 2024 11:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730114225; cv=none; b=Tbdy+Zoue9hhwpeqoJc5mwPg9jODkxO/ftq8dthuciKKyCmdy1WG24Y9Z7IaxGwJuIQtO0GHUL287fSYD7e6P0cJqybeikTV6YiAiYnHUNGwZV2nPxAfPD7J4c9+nqh5lPvgacJSOcvdlOEaYhNwkofkF9f5xsHR0QfAu8jqOjI=
+	t=1730114225; cv=none; b=fQ/QBj6xTwsBHuWrEIwQNyKvQyrEjqkxs4I3pqQmbgnxKMfLiJVb/ybUNYdGbySwwxbsWOgJSZc4YReoDPtDkxjpm3O1SE50x5+KPEBwUXqlFZ4fR1rLX8A/H1Ml7iDmCfhWJ1AXOQzGuzDCPEKtsiGSXyYcwQPlr7/WTPcA4pk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730114225; c=relaxed/simple;
-	bh=udgix+BA0Yz2Z83UTmnihD9al1N6MkL6rU4Csfuk1ls=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HZt6nVXiqrBNYm8Uh/E1sqSCebHk4GWKNLesnxmplhqZ41/uj/pAu6fhpLot6HLOBCJgfdpbyKpRddJoZk9e+oVi7kJLJOtd1uihUgvjDkBv6Au7P3CGbx9IeFi1cOaRLIJ8QTqmD0vGWVELTBplfvHBauHkYaA55DBwSthCfTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OARIjY0L; arc=none smtp.client-ip=209.85.214.175
+	bh=Mxx597M/sVwtRXKyXQ3t/slPbGemI4c1oBODxSYTCAE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hlZdehutrBqDNzH3C50M49NGo/Y+GjvMoj4GAUPpSclQcBFVUREgNPMmYIt+2Z/v6DDoY6GsSGzDx5OOKAukNEKf77PnPxTZ2Q0845iy3DspTcP3lu33HJbQLrp4XKX8zvD7xoPaPww6043zAWI3+mAYM6bYMPodmxvM0mCDV7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7iQhJO+; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OARIjY0L"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c7ee8fe6bso34274305ad.2;
-        Mon, 28 Oct 2024 04:17:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7iQhJO+"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e8235f0b6so3053051b3a.3;
+        Mon, 28 Oct 2024 04:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730114222; x=1730719022; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QL6hFT7larAjJLBZMdITsgjQqEgj9ErnvLNAtVfMEd4=;
-        b=OARIjY0LmE0eSB+cKNuAIhKkzvGHRT+btGQdy3UdNhirlYeqnDevnXq8wU1u/cISWW
-         cKnshhj+TI6ymGsh9aBNKCXa+5YN/Rl9LKVvrbTHnt437+9JQgLLxuFRqcsN2JPeI6pe
-         B+kzEtFv0s0Khd2cmM/ALXXVIWhVMcyH3telXvS3wn4ujSlLOwo54AR1rHL+gKLDna0i
-         U6Cf7izw4qUxUatJR5xwbP95b2vCLPjc6VNrffceva56OJ+TGDCR2zGEvkSM2X4BGFyp
-         8nqXftxBPDbvOt23Hz/85IuSBHAJZaeoUZTVlUzlelUVHj5ah8EaiC78kPFcFxAzFzho
-         phKQ==
+        d=gmail.com; s=20230601; t=1730114223; x=1730719023; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ORjMty/TkXC30xWgYYYlVcOJ2nYVBxh1DhXJWSe7Un8=;
+        b=I7iQhJO++w1/FqCCtuO5QJmrbGzXus6voTUwwGldtYDU4W0p0VAOIsyAhUpjmcFvXv
+         WVUEn32MkgTIoOlbbDvr6+yNL52Hd4f8uLMkHqNlBLPU+WhX3YLcq8Vv/rInBiYU6Nsr
+         c7S6pILIHwhYcz5TMP9ZOyzmfZ7NmIUKIJ5meYNxYTMqapkBAI6Fqh1LTyq9d1AwY7PR
+         RJE/SqTXGShnskYcGgIpm3zndvbQAzhlIqQJ5FJRTjOkiTEhbem4UJ6DYWfriW3Yqn4r
+         /u4I/Df62OCHYj3sbugI+yTMLZX0Z2ANlKB9NAQdxCVbaT7zBm5X3n/QJjZ0K4FQod7Q
+         pslw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730114222; x=1730719022;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QL6hFT7larAjJLBZMdITsgjQqEgj9ErnvLNAtVfMEd4=;
-        b=S5m4s6otAZUk1/3vSokYmYBwFYh/+2mklJmayVIzblrMl6vfHzMhLWYqjBh/SMdjqu
-         SQdBk+IvN66j5rV1rXFIAgDW9/dB5OwRyFxKgVTc5p0/oF11hY1E5aKac5f914bZmqJA
-         kyl0IRh1T04ukWiWeA61lHFTKMvgNg7lt2rs6V/kXWBB0AMAMNNaucQIv+Xvl695fhGH
-         WtynbWTcU7bSiIdZLSnFIAvu8S+gSGpjFfc6LvStZ21U37tCkn8XnSbICcXbi5sGZ4zc
-         EDMoYD17rtrGEYjG8wj8LMb8I5ltSO+n1PQCAd41kn4rQs28tNAaWybhFb7LruViUrWF
-         MUWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOPU09+5H3LG2AlbKWPjreGXJbbfpc5RfvtVcaree2BInUs2ET5J6Fwz3CLCd6f+3fTTW2ko2JT+03vwo=@vger.kernel.org, AJvYcCVoy+9dBSm31xBssiaOSGnKVCMg2HbWl3fMn2Fxj/BwrD14V5q91BwPs6bg834SNfolpwMcL/JAvdU=@vger.kernel.org, AJvYcCXdIvq3HlvZ4v4WyySaA08n81+XVRDKkMqY8Ej8t2IwqsAZjm6dU3i8w05APCMAtlkDROxeGG/Bz89ZFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYRZS4bQX90A2e6gisvTHtSxtTnkleY2qsnb+ZoowER/QPmz49
-	M1DO0IC8q3VLG+M/YuZKTk4WkV0TVPua6kJQUUakG5+rKDnrDyGNYwA03w==
-X-Google-Smtp-Source: AGHT+IH1c58av/1fFAVD8AQ4N/eqv040FRu0hs7Od4OPtw3SNK1WOehtmjdxskjDV8eLFz1UkKWxHg==
-X-Received: by 2002:a17:90a:9a8d:b0:2c9:a3ca:cc98 with SMTP id 98e67ed59e1d1-2e8f1057e99mr9995788a91.7.1730114222236;
+        d=1e100.net; s=20230601; t=1730114223; x=1730719023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ORjMty/TkXC30xWgYYYlVcOJ2nYVBxh1DhXJWSe7Un8=;
+        b=pUmTCBU5/kOP6fUOXV+9fiFlomJgrLbo45AO4aEtzoGCWhDbpCXBMMn7irWDlVObEh
+         chde6lXXllPs365u/VBMHS5DckomRS7C3N0JX1s6kx1d6rO5//55qlDBia8U26VxRCQy
+         q95GeUAbcCtDwvnhZy7m+gpKjM6Gn8tteQGzSX++OJi/PDk0yVH9wR+K/NxjqaxToE9T
+         t2avX848NUpHWu0mjR0mJG8i5QAHICI24+Inos09CzFXJBFe3NX5HseA/wQhSNQQAtFF
+         w6M7d4SDTSWqNdbK7ZUue7UhP6h4Q2HV8c0od1urPxTb16Se1K6c4F29Mzb2DSRzDQFT
+         VClQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYT1yt/6Q/+b6XDTTX9TS/Gaay9v14bTxIahDud88bEuV2r6LrhepxgC+29hAfkvwdS04DykSabO4BA1A=@vger.kernel.org, AJvYcCV+6dDjtiB+pvGd1VD09bPcUEk3HDHHJYWneD1FJKmxEbpEq7YLtyA2F0joNvl0KVOV4H3SYqJdgRPmaw==@vger.kernel.org, AJvYcCWPg8QFNfxwEv8T2HQDqzMHKdSRtN5YSKdw7mRiohi1cAVxHWhKxx5nW68iHPicFhY1v9nz8j8CmNU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhqCivElHwRQ32qidoH6IVD1dcKV/LI2CWcqbEuiR2qfEzjzDK
+	0KQZBnEYhodzT8CZdKgg3fUEWlgm5pr6uUvS3AcazTRkHOkWiMwd
+X-Google-Smtp-Source: AGHT+IEs3xJO2VaS6OLu/ZG4EsgKrQMwterQHy96fotP+n8dGvJPA95DEczzR1ej4HZ3Rlo8vkQqpg==
+X-Received: by 2002:a05:6a00:9286:b0:71e:db72:3c87 with SMTP id d2e1a72fcca58-7206306effemr9510452b3a.20.1730114222596;
         Mon, 28 Oct 2024 04:17:02 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e8e3770e48sm6793276a91.47.2024.10.28.04.17.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72083fee549sm1107848b3a.106.2024.10.28.04.17.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 28 Oct 2024 04:17:00 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 101FA44187FD; Mon, 28 Oct 2024 18:16:57 +0700 (WIB)
+	id C2E0F4207D11; Mon, 28 Oct 2024 18:16:57 +0700 (WIB)
 From: Bagas Sanjaya <bagasdotme@gmail.com>
 To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Linux Next Mailing List <linux-next@vger.kernel.org>,
@@ -65,47 +63,36 @@ Cc: Jaroslav Kysela <perex@perex.cz>,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>,
 	Palmer Dabbelt <palmer@rivosinc.com>,
 	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 2/2] ALSA: docs: Add toctree index entry for co-processor acceleration API
-Date: Mon, 28 Oct 2024 18:16:47 +0700
-Message-ID: <20241028111647.17378-3-bagasdotme@gmail.com>
+Subject: [PATCH 0/2] Documentation fixes for ALSA Co-processor Acceleration API
+Date: Mon, 28 Oct 2024 18:16:45 +0700
+Message-ID: <20241028111647.17378-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241028111647.17378-1-bagasdotme@gmail.com>
-References: <20241028111647.17378-1-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=910; i=bagasdotme@gmail.com; h=from:subject; bh=udgix+BA0Yz2Z83UTmnihD9al1N6MkL6rU4Csfuk1ls=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOnyhavf3Gvh2n/JPe36t4vsr7bN5Hu81De5lvk6S8TPy 3ruIlqXO0pZGMS4GGTFFFkmJfI1nd5lJHKhfa0jzBxWJpAhDFycAjAR5WkMfzg1PjW7/+Kxe1cu nD6/4Oq3pb72gSceCczOf6cy27hs01qGf7ZhTBPdpRqeqif+YGGYIHco08jpy9/E31axBe71RV+ SOAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=669; i=bagasdotme@gmail.com; h=from:subject; bh=Mxx597M/sVwtRXKyXQ3t/slPbGemI4c1oBODxSYTCAE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOnyhYt+6iSZGfYern2XkGP2yPJY1azL75fvVfk+pblwu btDQMXRjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEykoY6R4enETRyH9qVcPHNy 071ZdZeWqbvL/O3751st686r87Te3Yjhn+7tv/sLVPPOhT/zfZyxdsXzlpgz68p8fZgfsrBP9tv KygIA
 X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
 
-Sphinx reports missing toctree entry warning for co-processor
-acceleration API docs:
+A small (two-patches) series fixing htmldocs warnings on sound tree that
+first being noticed in linux-next integration [1].
 
-Documentation/sound/designs/compress-accel.rst: WARNING: document isn't included in any toctree
+[1]: https://lore.kernel.org/linux-next/20241028193242.11597640@canb.auug.org.au/
 
-Add the missing entry to fix the warning.
+Bagas Sanjaya (2):
+  ALSA: docs: compress-accel: Format state machine flowchart as code
+    block
+  ALSA: docs: Add toctree index entry for co-processor acceleration API
 
-Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/sound/designs/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/sound/designs/compress-accel.rst | 2 +-
+ Documentation/sound/designs/index.rst          | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/sound/designs/index.rst b/Documentation/sound/designs/index.rst
-index b79db9ad87325a..6b825c5617fc16 100644
---- a/Documentation/sound/designs/index.rst
-+++ b/Documentation/sound/designs/index.rst
-@@ -6,6 +6,7 @@ Designs and Implementations
- 
-    control-names
-    channel-mapping-api
-+   compress-accel
-    compress-offload
-    timestamping
-    jack-controls
+
+base-commit: 0216ded72db896b24cbdd8cd6531482571b25cf6
 -- 
 An old man doll... just what I always wanted! - Clara
 
