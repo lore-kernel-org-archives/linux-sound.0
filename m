@@ -1,299 +1,139 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4625C202F65
-	for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 08:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E25618E35D;
+	Tue, 29 Oct 2024 09:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730192000; cv=none; b=EeIBHn2TK4O3ZlZnC6kh8gB/9cr1fCikAPR+3ppK3yP6NjDsrdIlZqyCjZEQE8/qN2saNt9ho53//LqmutKk7lhTmnaGuCwIOsOdc+4pga9bVTmJP5kkc8aWzjGE6lxLZzzxBdQkpSH4jAmigGBv5wffN12UmFGfB/Zqd7XMr3w=
+	t=1730192539; cv=none; b=l3IXN42FnxNFpz6n0Hr1Apde76gkaUKreqjFyJjlshMWbXuIKNA1gSUd4qzaGirHhhpBvv8orJbCOJkLvTsVcWX0fmDo00npjnEbSeFVl7nmzJzUkBTZpNzbhCD3GKjEz7x6/8PWHNU6QtgP6t9mq6abRO5dcvl+3dbEvON1weQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730192000; c=relaxed/simple;
-	bh=xoS6Wdsxlxl89fuWL52mxZlC9ubS35kNL7hyj2Y9HZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ooC+sF/oLFotvE3MWhZySVitNTMgz7WcgF1+0Df53M6ZJ6lWgMDEldipjI7n47IQD93AmT3FMS8ICNvoxXL9jCOFQAZ/kPIavxDj3bY5YgGIl2342kY8SS+KmEg3OlSi0dzx9uwDnP7QEdV3ZWms8qnS8zaTXSJ7UBKnlfZUPKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FoaIHSBM; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1730192539; c=relaxed/simple;
+	bh=NtdFzJOp97394Q4Et/3bYuJRFxfOOMBt1r8lk0rQYXU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ftT4GUc7yTDqrZogWFeb7iplxfie91qF6X5MEsquyMIgUxD4tY2CyPkxXJSMQwewuueQmYbT2xhU0NIgEGqWheQ8yj1SZX9+X9hd6o/40nt9GO2NDWPLluzrut9hiBlMd6w5Uu1Me4MbcbE1sEE2nA2Iq27U7sJZYSp6nYio018=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m2o11jjn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zk9NTIB9; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m2o11jjn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zk9NTIB9; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FoaIHSBM"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4a74cfa7671so3187544137.0
-        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 01:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730191997; x=1730796797; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t6yWe4/NLA7+pMhnzpuf35J4OYCHyR3KA6ogeYDKvqs=;
-        b=FoaIHSBMh9ca9Ij++2UhHgcZoD7A5XqOhbZYoSEmtCm+QJ07xdE9V3Clvh137zPnd5
-         IRh7PPWBp/BGTFyQNgfzWHKTW29NrX3Qz8x+5kFxuoeTLSPzKqVdGeBLAJf+JbBGYH0X
-         /N5ovGV3eARPq32ZJgBViZcv+0avtENmT8rwo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730191997; x=1730796797;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t6yWe4/NLA7+pMhnzpuf35J4OYCHyR3KA6ogeYDKvqs=;
-        b=lphW+vYa6yQwF+vD4fFEvSY5HSFO0onnenNRbCzQf3xzRxJeE5krd2v55vVH+ZIxGM
-         BRqNaRYzJ7lqWuUDiMdi8k16XVjoHv9MvVySgePV8lZYHoJjqW6SaoqaOpBQHOqS04Ko
-         lXBv5n+q7DXaP/S+4XFGwnmfiDibqnoKfANJ9IRhD8vfdiB/iKyl9AJlFsb3tmPx9E3L
-         b7uj8FhHC2zAlGZq2kC3Eivc8t9k1ZLi67aHUtnECDPE30QpZCKd96eG3nyY8xZJu57y
-         NsgWklo0iy5IoGFVOfQi/wtBJna0+ObLAlR2CFa9GleYpxHZ87Uv0EXIjaDYIfsoY21u
-         WMNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXzq90K6QBLEbF/daW1Ka4A7iO4pzKWMtuiUcT34qoFVTQPAtHYW0VISnh/KXzC+RNa42FPdbZHC5RH3A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwT8aRMMmVcVFiZIEVnuKcKlAQdorT3LCS6Kin6KRPzCCsgVEIJ
-	XEhv2LCzHJVMkCXjM1+XWUawBeK79x0uzCE+9Nrx4Ma3FsQDsTD3WxRYb4Yo97Rg4BYfUpQ6uFM
-	=
-X-Google-Smtp-Source: AGHT+IEvAKkzOZRyiC94+8NId25XHeJXisTm+wZLxXxdXdmNfMx2wntH6I07SaowD3y+Sj73QNomYw==
-X-Received: by 2002:a05:6102:358e:b0:4a7:4900:4b72 with SMTP id ada2fe7eead31-4a8f6b27270mr502345137.11.1730191996971;
-        Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a8c527233bsm1283890137.20.2024.10.29.01.53.16
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-50d431b0ae2so3243809e0c.1
-        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVF6XFj2NPGYC/HIB6OjCgPX2/4t3n5isNKp4Ld7u2GdvN/Jp37r0tkZiLUDGlq7gl2kyMW7P1muONGsw==@vger.kernel.org
-X-Received: by 2002:a05:6122:1d53:b0:50d:39aa:7881 with SMTP id
- 71dfb90a1353d-510506f0f83mr526608e0c.0.1730191995625; Tue, 29 Oct 2024
- 01:53:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m2o11jjn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zk9NTIB9";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m2o11jjn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zk9NTIB9"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 502201FE50;
+	Tue, 29 Oct 2024 09:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730192535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cDfEk7mo7OlH4G2ONhSdrP33D0dS24zcU36TyeVhLQ=;
+	b=m2o11jjnjdC9uxt5ob38YJzaiv9nugfA6KS7lpdRP3iLeXw4LQcOgTXXGtZssAj1fROXup
+	xyIHs9BCfmLAsXiN8e3km0jrnPLGHeVlfTyHM2KwhDP69COmoOgNx/RPBEwF3JSexMQqR7
+	S+6GGwo/Ad+t1Gp9xpCydTTtFFqmJm8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730192535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cDfEk7mo7OlH4G2ONhSdrP33D0dS24zcU36TyeVhLQ=;
+	b=zk9NTIB953jKYqkqV4GQ84gfsqk4Nh7saVxOuym46UAvP7EkTr+zJ4mwtEuYYvKtC2tEb3
+	GuOuWQVZzj01mIAQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=m2o11jjn;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zk9NTIB9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730192535; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cDfEk7mo7OlH4G2ONhSdrP33D0dS24zcU36TyeVhLQ=;
+	b=m2o11jjnjdC9uxt5ob38YJzaiv9nugfA6KS7lpdRP3iLeXw4LQcOgTXXGtZssAj1fROXup
+	xyIHs9BCfmLAsXiN8e3km0jrnPLGHeVlfTyHM2KwhDP69COmoOgNx/RPBEwF3JSexMQqR7
+	S+6GGwo/Ad+t1Gp9xpCydTTtFFqmJm8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730192535;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2cDfEk7mo7OlH4G2ONhSdrP33D0dS24zcU36TyeVhLQ=;
+	b=zk9NTIB953jKYqkqV4GQ84gfsqk4Nh7saVxOuym46UAvP7EkTr+zJ4mwtEuYYvKtC2tEb3
+	GuOuWQVZzj01mIAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2435B136A5;
+	Tue, 29 Oct 2024 09:02:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qCt0B5ekIGdTFAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 29 Oct 2024 09:02:15 +0000
+Date: Tue, 29 Oct 2024 10:03:18 +0100
+Message-ID: <874j4v2sdl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
+Cc: =inux-sound@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH] ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
+In-Reply-To: <20241028155516.15552-1-piyuschouhan1598@gmail.com>
+References: <20241028155516.15552-1-piyuschouhan1598@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-2-fshao@chromium.org>
- <5vmfh2nkxtpzt2vk4j6ghro7z5stoyvry3enzoqepg6hjxqrho@fofs5cwa2iqq>
- <CAC=S1njPjtvhsc+voNK447wbQmRiN0xVDi-jgOmba4NLRiNi0Q@mail.gmail.com>
- <20c793fb-cfdf-4c05-a421-3eb623ff6df0@collabora.com> <5b55f75f2fc8a783bf2fdaeac80fd5954e16a2c8.camel@mediatek.com>
-In-Reply-To: <5b55f75f2fc8a783bf2fdaeac80fd5954e16a2c8.camel@mediatek.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Tue, 29 Oct 2024 16:52:38 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nizJHcvxG2-HO7MhwWup-o6SO0XBp1_OBN35SCtUW73iA@mail.gmail.com>
-Message-ID: <CAC=S1nizJHcvxG2-HO7MhwWup-o6SO0XBp1_OBN35SCtUW73iA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp
- and dai-link properties
-To: =?UTF-8?B?VHJldm9yIFd1ICjlkLPmlofoia8p?= <Trevor.Wu@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: "krzk@kernel.org" <krzk@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "broonie@kernel.org" <broonie@kernel.org>, 
-	"conor+dt@kernel.org" <conor+dt@kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 502201FE50
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, Oct 29, 2024 at 11:05=E2=80=AFAM Trevor Wu (=E5=90=B3=E6=96=87=E8=
-=89=AF) <Trevor.Wu@mediatek.com> wrote:
->
-> On Mon, 2024-10-28 at 15:25 +0100, AngeloGioacchino Del Regno wrote:
-> > External email : Please do not click links or open attachments until
-> > you have verified the sender or the content.
-> >
-> >
-> > Il 28/10/24 12:10, Fei Shao ha scritto:
-> > > On Mon, Oct 28, 2024 at 4:54=E2=80=AFAM Krzysztof Kozlowski <
-> > > krzk@kernel.org> wrote:
-> > > >
-> > > > On Fri, Oct 25, 2024 at 06:44:41PM +0800, Fei Shao wrote:
-> > > > > Add "mediatek,adsp" property for the ADSP handle if ADSP is
-> > > > > enabled on
-> > > > > the platform.
-> > > >
-> > > > We see this from the diff.
-> > > >
-> > > > > Add "mediatek,dai-link" property for the required DAI links to
-> > > > > configure
-> > > > > sound card.
-> > > >
-> > > > We see this from the diff.
-> > > >
-> > > > >
-> > > > > Both properties are commonly used in the MediaTek sound card
-> > > > > driver.
-> > > >
-> > > > If they are used, why suddenly they are needed? What changed?
-> > >
-> > > Nothing has changed. These should have been added altogether when
-> > > the
-> > > binding was first introduced. This patch is to fill the gaps and
-> > > fix
-> > > dtbs_check warnings, like I mentioned in the cover letter.
-> > > I can add a line in the commit message saying it's to fix the
-> > > warning
-> > > in addition to the cover letter, if that's preferred.
-> > >
-> > > >
-> > > > >
-> > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
-> > > > > ---
-> > > > >
-> > > > >   .../bindings/sound/mediatek,mt8188-mt6359.yaml         | 10
-> > > > > ++++++++++
-> > > > >   1 file changed, 10 insertions(+)
-> > > > >
-> > > > > diff --git
-> > > > > a/Documentation/devicetree/bindings/sound/mediatek,mt8188-
-> > > > > mt6359.yaml
-> > > > > b/Documentation/devicetree/bindings/sound/mediatek,mt8188-
-> > > > > mt6359.yaml
-> > > > > index f94ad0715e32..701cedfa38d2 100644
-> > > > > --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-
-> > > > > mt6359.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-
-> > > > > mt6359.yaml
-> > > > > @@ -29,6 +29,16 @@ properties:
-> > > > >       $ref: /schemas/types.yaml#/definitions/phandle
-> > > > >       description: The phandle of MT8188 ASoC platform.
-> > > > >
-> > > > > +  mediatek,adsp:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > > > > +    description: The phandle of MT8188 ADSP platform.
-> > > >
-> > > > And what is the difference between ASoC and ADSP platforms? What
-> > > > are
-> > > > they used for?
-> > >
-> > > I'm not a MediaTek or audio folks, and I'm afraid that I'm not the
-> > > best person to explain the details accurately in front of experts
-> > > on
-> > > the list... I know it's an audio DSP but that explains nothing.
-> > > MediaTek didn't provide a meaningful explanation in the tree or
-> > > commits, and I want to avoid adding additional but likely
-> > > misleading
-> > > descriptions from someone who doesn't have enough knowledge,
-> > > potentially causing even more confusing situations in the future.
-> > > Plus, the same changes were accepted as-is in the past, so I
-> > > assumed
-> > > they might be self-explanatory to people who are familiar with the
-> > > matter.
-> > >
-> >
-> > The Audio DSP is a Tensilica HiFi-5 DSP, and it's a block that is -
-> > hardware
-> > speaking - separated from the rest of the Audio interfaces of the
-> > SoC.
-> >
-> > The whole sound subsystem can work either with or without the DSP, in
-> > the sense
-> > that the DSP itself can remain unpowered and completely unconfigured
-> > if its
-> > functionality is not desired - hence, this is a board specific
-> > configuration:
-> > if the board wants to use the DSP, we use the DSP - otherwise, we
-> > just don't.
-> >
-> > Regarding the two "platforms", in short:
-> > "mediatek,platform" -> Audio Front End (AFE)
-> > "mediatek,adsp" -> Audio DSP
-> >
-> > Now, you can either link the AFE DAIs to the I2S
-> >
-> > As for "mediatek,platform" - that's used to link the Analog Front End
-> > (AFE) as
-> > the DAI Link platform (so the path is direct to/from DL/UL DAIs to
-> > AFE) or the
-> > ADSP one as the DAI Link platform (so that the path is to/from DL/UL
-> > DAIs to
-> > DSP to AFE), but that - of course - still requires an AFE, otherwise
-> > you cannot
-> > get the audio out of the speakers or in from the mic anyway.
-> >
-> > > >
-> > > > > +
-> > > > > +  mediatek,dai-link:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/string-array
-> > > > > +    description:
-> > > > > +      A list of the desired dai-links in the sound card. Each
-> > > > > entry is a
-> > > > > +      name defined in the machine driver.
-> > > >
-> > > > The list is provided below. I don't understand why do you need
-> > > > it. Your
-> > > > msg is pretty useless - you describe what you do, instead of why.
-> > >
-> > > I think this is used to explicitly list the intermediate but hidden
-> > > DAIs, but again, there's not much info about them unless MediaTek
-> > > can
-> > > explain more details and why they need a vendor property for this.
-> > >
-> >
-> > Yes, this is used for exactly that... but I believe that we can
-> > deprecate this
-> > now that we have support for the "standard" `audio-routing` property
-> > and for the
-> > DAI Link nodes (examples that you can find in current device trees
-> > are mm-dai-link,
-> > hs-playback-dai-link, or any other subnode of the sound card).
-> >
-> > Specifically, those subnodes *do* require a "link-name" property,
-> > which *does*
-> > effectively contain the same DAI Link names as the ones that are
-> > inside of the
-> > "mediatek,dai-link" property.
-> >
-> > On MT8195, you can find both the subnodes and the mediatek,dai-link -
-> > yes - but
-> > that was done to retain compatibility of the device tree with old
-> > drivers (so,
-> > an unusual case of new device tree on old kernel).
-> >
-> > Finally, I believe that we can avoid adding that "mediatek,dai-link"
-> > property
-> > to the MT8188 binding, and rely on:
-> >   1. Whatever is provided in struct snd_soc_card for that device; and
-> >   2. Whatever is provided in device trees as dai link subnodes, which
-> > would
-> >      restrict N.1 as that's anyway describing card prelinks.
-> >
->
-> The "mediatek,dai-link" property is utilized to hide the unused dai-
-> links in the sound card. By hiding the unused FE links, it can save the
-> necessary memory and prevent conflicts where both the DSP and AP
-> control the same AFE Memifs.
->
-> This concept was first implemented in mt8195 as Mark aimed to avoid the
-> need for a separate driver for different system configurations.
-> With the introduction of DSP (SOF), if certain AFE Memifs are already
-> in use in the DSP route, they should be excluded from the PCM nodes
-> created for the AFE platform.
->
-> At that time, we did not have a better way to handle these scenarios,
-> so we made use of a vendor-defined property.
->
-> It has been a while since I last kept up with the updates in mt8188, so
-> I'm uncertain if the current mechanism for sound card description is
-> sufficient for handling such scenarios. If it is, I agree that we can
-> deprecate such a vendor property from mt8188.
->
-> Thanks,
-> Trevor
->
->
-> > Cheers,
-> > Angelo
+On Mon, 28 Oct 2024 16:55:16 +0100,
+Piyush Raj Chouhan wrote:
+> 
+> Infinix ZERO BOOK 13 has a 2+2 speaker system which isn't probed correctly.
+> This patch adds a quirk with the proper pin connections.
+> Also The mic in this laptop suffers too high gain resulting in mostly fan noise being recorded,
+> This patch Also limit mic boost.
+> 
+> HW Probe for device; https://linux-hardware.org/?probe=a2e892c47b
+> 
+> Test: All 4 speaker works, Mic has low noise.
+> Signed-off-by: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
 
-Many thanks Angelo and Trevor for the information.
-The audio-routing property is in place, so I'll check if removing the
-vendor property makes any impact, and refresh the series accordingly.
-
-Thanks,
-Fei
+Applied now.  Thanks.
 
 
-
-> >
-> > > Regards,
-> > > Fei
-> > >
-> > > >
-> > > > Best regards,
-> > > > Krzysztof
-> > > >
-> >
-> >
+Takashi
