@@ -1,101 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1F20B20F;
-	Tue, 29 Oct 2024 20:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE2E4DA03;
+	Tue, 29 Oct 2024 22:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730234146; cv=none; b=I45HVHJpK4KwUZ58mwZWyPrjeo7nj3ISvFEjPwJtrS6LKXaQ7Yyc6PdGTfM8vmDB+pJ54xHLC/rl32WHGIRXvQ0yCOZ7hiGbPW134YdAJFE0xiBNJc/+qPToJtQAD/EO1kqoqN0K7tbzD0T2Sc0qUdiGLCjTJtJ79378MYd0pac=
+	t=1730240034; cv=none; b=EF39D0lDYcUwroxLiZrcFtQFbfWIDckLSKYmK00JRN6hA27PLfNJ1LFMPSkPKfeFAnkHHc8Vkl6Df+HDAFwYYny8h6J6kOrTQ0HaXXAP0yOS1L64IROlCziGHjEsH50S+QhLA56BJbeNiiOP3HMl8EVqQp4yFN9fsbncOgHKNwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730234146; c=relaxed/simple;
-	bh=EH49fBcg1xnPZSv8CjBUPDLHZTVEnhL92w20nPZLvxw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GfdnQWdiW+lyzXxcwUAGA/uCNRIZoRU+OjwmilPHNdp/K1LtP9hw3zqy8hnazi4YwGJEd1ASzTaHR+eDvEgwt+BsjxLZcUkvfyJKy2e34IcZKrvupbh+eEDkyjG/r/iBxdrbNaEoyxKhZMSwRya+TCt8+pUSUp91Q+ZrIEwA71w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYvIRtAm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730240034; c=relaxed/simple;
+	bh=rmDG1//6yBuFI5nKR7yoJjw3Pamwhqf8C8NM9xA+QpY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=d7PnnZkzX1fbfXudtohV0/c4jWGsy51L6zyIH2glCnQeVC0HrQqtnvz1sw+Cs2eTZoy0F8j5a3WtIAyRcdeMZBhWUqWHeM8kY8h28wJjdDxyMP1glihdMnNsd8bTNamW/TiViQFjBFrsHvEoLvvZwtzqf9Ltz4S5wq7ocStEMkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jschaer.ch; spf=pass smtp.mailfrom=jschaer.ch; dkim=pass (2048-bit key) header.d=jschaer.ch header.i=@jschaer.ch header.b=pUPq261l; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nSHMtr2G; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jschaer.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jschaer.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYvIRtAm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3892BC4CEE4;
-	Tue, 29 Oct 2024 20:35:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730234146;
-	bh=EH49fBcg1xnPZSv8CjBUPDLHZTVEnhL92w20nPZLvxw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KYvIRtAmtoixygMz+a2XxHt6DkPRuQjciy2Xm03E3wMqsbV3tLs50qwpWQSrnjm41
-	 /MIoS9Fuxx5hp4+7WME89l48G9pESX/ygwqTaUF5InHJp0UH2sLjuLu5Z8AKOSg8iw
-	 iEnqog0g283e1ktePYZYYacZ6aWje6Ao90HsXZV8aTnC0r4N6PTlnqBlWfJX46Hqz0
-	 CBNMK2nwjeL+VIvg0tDdWQymmT/n97hx+R2K2cb9cGE0+n6R2Vd7PHJHZhEQsVVOKH
-	 fn+9Axqa+oo5ObCVIHCjNBrH2fMoBfjO6t1z67WwnUm4+U8TqsEAhD66rq0Nfjnxee
-	 PqUmSF7gB92hA==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- Nuno Sa <nuno.sa@analog.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-In-Reply-To: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
-References: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
-Subject: Re: [PATCH v2 0/4] ASoC: codecs: adau1373: drop platform data
-Message-Id: <173023414396.174179.15867147846547510289.b4-ty@kernel.org>
-Date: Tue, 29 Oct 2024 20:35:43 +0000
+	dkim=pass (2048-bit key) header.d=jschaer.ch header.i=@jschaer.ch header.b="pUPq261l";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nSHMtr2G"
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 8898D11401E5;
+	Tue, 29 Oct 2024 18:13:50 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Tue, 29 Oct 2024 18:13:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jschaer.ch; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1730240030; x=1730326430; bh=KP
+	cJEhulemEQxkhyMekvyHf5hCr+l5XSqwkpJLdIrE8=; b=pUPq261la7EQRN2v3L
+	ROVu/pr8q5TllkI9jjnYx6XvCiXLIwPS/lrTgQu93XazNYEyEYep15L30bt1c4vK
+	550K/WFxLtTslZbRvsRs9bguOLzzS9ESPdu3EYnsdEVeRVq7VUKZuzH8QL4XdI6e
+	CMozEnHHiB3FZmLyLe6KtKwL3P+JJZVvkCbNN/QK6sp1NhACPdPY4rXhsP+JpbnT
+	fNAEXyUhedfktPHgt2uYgfeaoL5dlHb7sO3pmTe2LML7zzc4X+nnltY5VM0gZxCg
+	6oQreBdcP5sK+O3f5YptlqlBcKnvepk9LmDkaZpmkg3LAJte/u+74gToCWV+TVjj
+	yaMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1730240030; x=1730326430; bh=KPcJEhulemEQxkhyMekvyHf5hCr+
+	l5XSqwkpJLdIrE8=; b=nSHMtr2GGF8BmmKFQjPOzuYIoVJCQZ9edix0e6tsnkWX
+	jhPlcZVwV9V3ybeROsqo+KczNZOXyR3tBvzBnTsLdwsQmsS2PpbSHVSeWBpJkS2v
+	IfkztTKM549KvCXMeE80NnWuB7b3JoOe8XEZLzxQqxIptr3arQmIW1GfZDwd2t5F
+	I4jSjxe0mWBUiNi33FCwASgCmUgfiQ+PJ1DaXlZcLDEa2dMrJEgpuu2TrqPy2Wu4
+	phibNaxLtKfEnFAva52T3Y4/3XXc+qaTmChMt41CQp7JlvA7F2Gzcax+n1K8ZcOW
+	TIwYIyeoNP7Gx4rtMUMwOi4Gdmj3P8xYdbNTK22FVg==
+X-ME-Sender: <xms:HV4hZ8G49qTZH9V09UYc0qcBUVuxcndNOiGSe5Jrt2Vg_o4fcT2eMQ>
+    <xme:HV4hZ1Us7N4xrM3Z4mCLU-ijzM9ZN1BIxkjysJpqlVmPKvZFt4mlq_8cI3OKA_mFi
+    s_sHhM92T3E0nxaLnc>
+X-ME-Received: <xmr:HV4hZ2KWH6Z9AdJwg7qc7_d7Dut4RM-KrMkalD6jIdDu8-gSJWpcrQvy2itNTYSgvqqAkCQvaBxH-i6oAAe0WwuZr0QK9wt3xi2VZ0HQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdekuddgudehfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffogggtgfesthekredtredtjeen
+    ucfhrhhomheplfgrnhcuufgthhomrhcuoehjrghnsehjshgthhgrvghrrdgthheqnecugg
+    ftrfgrthhtvghrnhepheeifeegfffghfffueejueeljeefvedvleefieffhfejleeggeei
+    ffffffffteelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepjhgrnhesjhhstghhrggvrhdrtghhpdhnsggprhgtphhtthhopeehpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehpvghrvgigsehpvghrvgigrdgtiidprhgtphhtth
+    hopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtthhopehlihhnuhigqdhsohhunhgu
+    sehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvg
+    hlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrnhesjhhstghhrggv
+    rhdrtghh
+X-ME-Proxy: <xmx:HV4hZ-F_yv-ToGOfMWCNEPNjTM2_TvUEF2RjwPXwY1IR1jeElkm3Cg>
+    <xmx:HV4hZyVdzBUKWICe30fmvHv3Q8vwFzMLjX2w5Q35ROCZ38H527B5xA>
+    <xmx:HV4hZxODtVhqCLKksa9V7QbozdlShjHrcCIgHFqvecYyuJxhqH65GQ>
+    <xmx:HV4hZ51yLZtzxVgzGdawuylXg5c4zGW56iR4y72edaklViOO24s2dg>
+    <xmx:Hl4hZ0e7eKj7j_0jdcbGzdh9Gt16DbZdi700LnuCnWcd1CEV8ZAQ0WlH>
+Feedback-ID: ie67446dc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 29 Oct 2024 18:13:48 -0400 (EDT)
+From: =?UTF-8?q?Jan=20Sch=C3=A4r?= <jan@jschaer.ch>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Jan=20Sch=C3=A4r?= <jan@jschaer.ch>
+Subject: [PATCH] ALSA: usb-audio: Add quirks for Dell WD19 dock
+Date: Tue, 29 Oct 2024 23:12:49 +0100
+Message-Id: <20241029221249.15661-1-jan@jschaer.ch>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 28 Oct 2024 16:43:37 +0100, Nuno Sa wrote:
-> Here it goes v2...
-> 
-> v1:
->  * https://lore.kernel.org/all/20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com/
-> 
-> v2:
->  - Patch 2 (Bindings):
->    * Removed extra blank line;
->    * Fixed example messed indentation;
->    * Added more properties to the example;
->    * Add maxItems.
->  - Patch 4 (Powerdown gpio):
->    * Powerdown the chip when unbound.
-> 
-> [...]
+The WD19 family of docks has the same audio chipset as the WD15. This
+change enables jack detection on the WD19.
 
-Applied to
+We don't need the dell_dock_mixer_init quirk for the WD19. It is only
+needed because of the dell_alc4020_map quirk for the WD15 in
+mixer_maps.c, which disables the volume controls. Even for the WD15,
+this quirk was apparently only needed when the dock firmware was not
+updated.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Signed-off-by: Jan Schär <jan@jschaer.ch>
+---
+ sound/usb/mixer_quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks!
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 2a9594f34dac..6456e87e2f39 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -4042,6 +4042,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ 			break;
+ 		err = dell_dock_mixer_init(mixer);
+ 		break;
++	case USB_ID(0x0bda, 0x402e): /* Dell WD19 dock */
++		err = dell_dock_mixer_create(mixer);
++		break;
+ 
+ 	case USB_ID(0x2a39, 0x3fd2): /* RME ADI-2 Pro */
+ 	case USB_ID(0x2a39, 0x3fd3): /* RME ADI-2 DAC */
 
-[1/4] ASoC: codecs: adau1373: add some kconfig text
-      commit: bebf0f45326e6cbb6f96e405e4179962a5675aaf
-[2/4] ASoC: dt-bindings: document the adau1373 Codec
-      commit: 6b26a56fc035971951299dc1330e1fc5d49866c9
-[3/4] ASoC: codecs: adau1373: drop patform_data
-      commit: 71743cbe28cf1d1f845a30bc9664c3b6a08f0d30
-[4/4] ASoC: codecs: adau1373: add powerdown gpio
-      commit: ba79bca407d3b7e6f5be209d9b3f73f81ee8d460
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+base-commit: 583e8f76410a5b7e0238426d8e6e1e1d2f4994b0
+-- 
+2.34.1
 
