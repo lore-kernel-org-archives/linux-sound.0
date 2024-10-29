@@ -1,325 +1,299 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E41F20262F
-	for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 07:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4625C202F65
+	for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 08:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730187491; cv=none; b=oEXZ/x5v2ljUK9uubAjgSDomi53B+BWELE1tjJDLb8k15qPVdF0qwFGuhdGntzzXcN5jlwBmSzcRmeLZ4WrtISuQZst5V8E0KFswXNDEYHINBALaAQ+FkWiDisKFk/QkwGbukrGnMrBwroNlmgU814YABvfCF7mIcAPdGDbTbZM=
+	t=1730192000; cv=none; b=EeIBHn2TK4O3ZlZnC6kh8gB/9cr1fCikAPR+3ppK3yP6NjDsrdIlZqyCjZEQE8/qN2saNt9ho53//LqmutKk7lhTmnaGuCwIOsOdc+4pga9bVTmJP5kkc8aWzjGE6lxLZzzxBdQkpSH4jAmigGBv5wffN12UmFGfB/Zqd7XMr3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730187491; c=relaxed/simple;
-	bh=bofb0GXHAy72+VfSg4Mly92y7jtyu1u1iViJjOuNI8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BXdxG7ksP+TYWl884L7296P/zsf04P0lIZIJ2oiFpfq6rjAkCXItH2idT98RkYu2rMpopvPjnhcKfm5RP0xVUYzM2D8+s4l7gvilbd/vV1Teuzwa5yApUbB0L8YBGOdM6GK/Xx3suYWc7fpNgDkNYOnLe0/Oy0FbPAFm54DojFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=vwpJBXzm; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730192000; c=relaxed/simple;
+	bh=xoS6Wdsxlxl89fuWL52mxZlC9ubS35kNL7hyj2Y9HZQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ooC+sF/oLFotvE3MWhZySVitNTMgz7WcgF1+0Df53M6ZJ6lWgMDEldipjI7n47IQD93AmT3FMS8ICNvoxXL9jCOFQAZ/kPIavxDj3bY5YgGIl2342kY8SS+KmEg3OlSi0dzx9uwDnP7QEdV3ZWms8qnS8zaTXSJ7UBKnlfZUPKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FoaIHSBM; arc=none smtp.client-ip=209.85.217.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="vwpJBXzm"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-431695fa98bso49828865e9.3
-        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 00:38:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FoaIHSBM"
+Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-4a74cfa7671so3187544137.0
+        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 01:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730187486; x=1730792286; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kRBCS21xbUg+ZtyrX+0216a9IgyvQrvSGGoh4bdg5Wo=;
-        b=vwpJBXzmjKfOE2sHAUT+ssPeAWEhkb/VKqFWareYc1zKaKsVBJnylK9ZTWZ6tqb/t/
-         ncivuz2AOGy05OezfX1EJXrAKtd/a+bPyZezpoQ8LRf4mHVj/FUbqsQ+BMEdC8JGQ72s
-         G3+GwZ8liRrULzjiEj8PfAzbrmIvN1MzRgqwtasuL5YG/iD/QPC5kbAhSE0X8MLb2Ruc
-         RTzCz2QABUazaPL97Dg+H1772JVh0HD2pjMDaQFuVzbFAqqLM2qrVfGmnCKrOpMG3dAT
-         bToBKYnieEHGe5qgCM0I0SSqQUe247DlWvuAbX2WTEOhUpu60RV4DDJhcsXZkkevL0JO
-         0N2A==
+        d=chromium.org; s=google; t=1730191997; x=1730796797; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t6yWe4/NLA7+pMhnzpuf35J4OYCHyR3KA6ogeYDKvqs=;
+        b=FoaIHSBMh9ca9Ij++2UhHgcZoD7A5XqOhbZYoSEmtCm+QJ07xdE9V3Clvh137zPnd5
+         IRh7PPWBp/BGTFyQNgfzWHKTW29NrX3Qz8x+5kFxuoeTLSPzKqVdGeBLAJf+JbBGYH0X
+         /N5ovGV3eARPq32ZJgBViZcv+0avtENmT8rwo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730187486; x=1730792286;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kRBCS21xbUg+ZtyrX+0216a9IgyvQrvSGGoh4bdg5Wo=;
-        b=E2/l5JjManz/ZGWwX+LOuSNVbs+mRpG07LrRbthn/VvXpBobB+vXxyiysZGvFIOK7w
-         maunMfdVx+DLytBrIoqKLIVTFaDm3vNy7OPT6MP2aDEs3dnk4rtdSfho8TSTaubqcFNU
-         Wr6fEFrR0OIoP/JDDaNeHmtqiIdqpfjwX0NLQNRynB4Eq1NyaXploeGq9jdqVkEFWf1I
-         1AR6y3r8rnaYtqprCBCB1Uwwll2e7XUYQKKF/COOmvkAjX2HDRSkOxGEhrD2LK6Tq+68
-         rbOTCMCbgCHWGHEDbJ9ndhSXNJexVExEkIUW/V4qK5eLYjhmEysUjYCNByd7mHFGWhnn
-         ZMew==
-X-Forwarded-Encrypted: i=1; AJvYcCU2dsbx/SlXUNWz7wLFdxvBgNRjLi2FfsaX2ZSGyV5p57SJnfYT5BIi9dfHH2U7gXoGIvt75ilVY3MKDw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz17XZp8WtFbh8MQpSKuf6Xe7w56uOGd2asY+bKKx16sRLrPGw/
-	jPWOfHM2v5L1ktmWPL+R/cFc8lNRkdcoFrq7D0G3jFTRNO7C8LlH7ukAXMY3ed4=
-X-Google-Smtp-Source: AGHT+IE/QTlrTfqOXWM8zSxaY+sQmjccOShgerlk9HjJclBzVZ62XYIIe6dba6vKrd4PnXhBaOl1zQ==
-X-Received: by 2002:a05:600c:4e0f:b0:431:12d0:746b with SMTP id 5b1f17b1804b1-4319ad294a4mr81325345e9.35.1730187484985;
-        Tue, 29 Oct 2024 00:38:04 -0700 (PDT)
-Received: from localhost (p50915d2d.dip0.t-ipconnect.de. [80.145.93.45])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b5706c3sm164752335e9.34.2024.10.29.00.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 00:38:04 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Ivan Orlov <ivan.orlov0322@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH] sound: Switch back to struct platform_driver::remove()
-Date: Tue, 29 Oct 2024 08:37:47 +0100
-Message-ID: <20241029073748.508077-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1730191997; x=1730796797;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t6yWe4/NLA7+pMhnzpuf35J4OYCHyR3KA6ogeYDKvqs=;
+        b=lphW+vYa6yQwF+vD4fFEvSY5HSFO0onnenNRbCzQf3xzRxJeE5krd2v55vVH+ZIxGM
+         BRqNaRYzJ7lqWuUDiMdi8k16XVjoHv9MvVySgePV8lZYHoJjqW6SaoqaOpBQHOqS04Ko
+         lXBv5n+q7DXaP/S+4XFGwnmfiDibqnoKfANJ9IRhD8vfdiB/iKyl9AJlFsb3tmPx9E3L
+         b7uj8FhHC2zAlGZq2kC3Eivc8t9k1ZLi67aHUtnECDPE30QpZCKd96eG3nyY8xZJu57y
+         NsgWklo0iy5IoGFVOfQi/wtBJna0+ObLAlR2CFa9GleYpxHZ87Uv0EXIjaDYIfsoY21u
+         WMNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzq90K6QBLEbF/daW1Ka4A7iO4pzKWMtuiUcT34qoFVTQPAtHYW0VISnh/KXzC+RNa42FPdbZHC5RH3A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT8aRMMmVcVFiZIEVnuKcKlAQdorT3LCS6Kin6KRPzCCsgVEIJ
+	XEhv2LCzHJVMkCXjM1+XWUawBeK79x0uzCE+9Nrx4Ma3FsQDsTD3WxRYb4Yo97Rg4BYfUpQ6uFM
+	=
+X-Google-Smtp-Source: AGHT+IEvAKkzOZRyiC94+8NId25XHeJXisTm+wZLxXxdXdmNfMx2wntH6I07SaowD3y+Sj73QNomYw==
+X-Received: by 2002:a05:6102:358e:b0:4a7:4900:4b72 with SMTP id ada2fe7eead31-4a8f6b27270mr502345137.11.1730191996971;
+        Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4a8c527233bsm1283890137.20.2024.10.29.01.53.16
+        for <linux-sound@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-50d431b0ae2so3243809e0c.1
+        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 01:53:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVF6XFj2NPGYC/HIB6OjCgPX2/4t3n5isNKp4Ld7u2GdvN/Jp37r0tkZiLUDGlq7gl2kyMW7P1muONGsw==@vger.kernel.org
+X-Received: by 2002:a05:6122:1d53:b0:50d:39aa:7881 with SMTP id
+ 71dfb90a1353d-510506f0f83mr526608e0c.0.1730191995625; Tue, 29 Oct 2024
+ 01:53:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8427; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=bofb0GXHAy72+VfSg4Mly92y7jtyu1u1iViJjOuNI8o=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnIJDMDMnZBV7DocFNxEnCFbvqTaMWTOgrRJ9/c IbcL2jDvQmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZyCQzAAKCRCPgPtYfRL+ Tu98B/4gJo9q/Fgct6hluhXw8q+tQ5dF1BSpJ6nHeqplYujtgo382D7jTSdgvdP966ghu0jLNZW 3YS2mOsukJil3wG1Lz0PhuS+BlSNQKUB+fPty+hhAZIABLcgmmvrUDP0iM2slhEO32pKl6qcEXV fikATTb1hjzZTvc18EECgkaxjM+ZDES2vxXFQlXkph0b4WYlvgZPOvvAGrpDfgE6UXIIPbb05Iz 7D8QaBk5d0/dVI01H0vTnV8EBiwSVCF+KtehiUNLAXm82iqpENvT2DocfWKmPcFk0czA+osxSpe VsHmtxbe1pesSbw3cJrdPFf+3SdmUdnOCeXOtRUck/Bxz30j
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+References: <20241025104548.1220076-1-fshao@chromium.org> <20241025104548.1220076-2-fshao@chromium.org>
+ <5vmfh2nkxtpzt2vk4j6ghro7z5stoyvry3enzoqepg6hjxqrho@fofs5cwa2iqq>
+ <CAC=S1njPjtvhsc+voNK447wbQmRiN0xVDi-jgOmba4NLRiNi0Q@mail.gmail.com>
+ <20c793fb-cfdf-4c05-a421-3eb623ff6df0@collabora.com> <5b55f75f2fc8a783bf2fdaeac80fd5954e16a2c8.camel@mediatek.com>
+In-Reply-To: <5b55f75f2fc8a783bf2fdaeac80fd5954e16a2c8.camel@mediatek.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Tue, 29 Oct 2024 16:52:38 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nizJHcvxG2-HO7MhwWup-o6SO0XBp1_OBN35SCtUW73iA@mail.gmail.com>
+Message-ID: <CAC=S1nizJHcvxG2-HO7MhwWup-o6SO0XBp1_OBN35SCtUW73iA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add adsp
+ and dai-link properties
+To: =?UTF-8?B?VHJldm9yIFd1ICjlkLPmlofoia8p?= <Trevor.Wu@mediatek.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: "krzk@kernel.org" <krzk@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "broonie@kernel.org" <broonie@kernel.org>, 
+	"conor+dt@kernel.org" <conor+dt@kernel.org>, "robh@kernel.org" <robh@kernel.org>, 
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-return void") .remove() is (again) the right callback to implement for
-platform drivers.
+On Tue, Oct 29, 2024 at 11:05=E2=80=AFAM Trevor Wu (=E5=90=B3=E6=96=87=E8=
+=89=AF) <Trevor.Wu@mediatek.com> wrote:
+>
+> On Mon, 2024-10-28 at 15:25 +0100, AngeloGioacchino Del Regno wrote:
+> > External email : Please do not click links or open attachments until
+> > you have verified the sender or the content.
+> >
+> >
+> > Il 28/10/24 12:10, Fei Shao ha scritto:
+> > > On Mon, Oct 28, 2024 at 4:54=E2=80=AFAM Krzysztof Kozlowski <
+> > > krzk@kernel.org> wrote:
+> > > >
+> > > > On Fri, Oct 25, 2024 at 06:44:41PM +0800, Fei Shao wrote:
+> > > > > Add "mediatek,adsp" property for the ADSP handle if ADSP is
+> > > > > enabled on
+> > > > > the platform.
+> > > >
+> > > > We see this from the diff.
+> > > >
+> > > > > Add "mediatek,dai-link" property for the required DAI links to
+> > > > > configure
+> > > > > sound card.
+> > > >
+> > > > We see this from the diff.
+> > > >
+> > > > >
+> > > > > Both properties are commonly used in the MediaTek sound card
+> > > > > driver.
+> > > >
+> > > > If they are used, why suddenly they are needed? What changed?
+> > >
+> > > Nothing has changed. These should have been added altogether when
+> > > the
+> > > binding was first introduced. This patch is to fill the gaps and
+> > > fix
+> > > dtbs_check warnings, like I mentioned in the cover letter.
+> > > I can add a line in the commit message saying it's to fix the
+> > > warning
+> > > in addition to the cover letter, if that's preferred.
+> > >
+> > > >
+> > > > >
+> > > > > Signed-off-by: Fei Shao <fshao@chromium.org>
+> > > > > ---
+> > > > >
+> > > > >   .../bindings/sound/mediatek,mt8188-mt6359.yaml         | 10
+> > > > > ++++++++++
+> > > > >   1 file changed, 10 insertions(+)
+> > > > >
+> > > > > diff --git
+> > > > > a/Documentation/devicetree/bindings/sound/mediatek,mt8188-
+> > > > > mt6359.yaml
+> > > > > b/Documentation/devicetree/bindings/sound/mediatek,mt8188-
+> > > > > mt6359.yaml
+> > > > > index f94ad0715e32..701cedfa38d2 100644
+> > > > > --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-
+> > > > > mt6359.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-
+> > > > > mt6359.yaml
+> > > > > @@ -29,6 +29,16 @@ properties:
+> > > > >       $ref: /schemas/types.yaml#/definitions/phandle
+> > > > >       description: The phandle of MT8188 ASoC platform.
+> > > > >
+> > > > > +  mediatek,adsp:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > > > +    description: The phandle of MT8188 ADSP platform.
+> > > >
+> > > > And what is the difference between ASoC and ADSP platforms? What
+> > > > are
+> > > > they used for?
+> > >
+> > > I'm not a MediaTek or audio folks, and I'm afraid that I'm not the
+> > > best person to explain the details accurately in front of experts
+> > > on
+> > > the list... I know it's an audio DSP but that explains nothing.
+> > > MediaTek didn't provide a meaningful explanation in the tree or
+> > > commits, and I want to avoid adding additional but likely
+> > > misleading
+> > > descriptions from someone who doesn't have enough knowledge,
+> > > potentially causing even more confusing situations in the future.
+> > > Plus, the same changes were accepted as-is in the past, so I
+> > > assumed
+> > > they might be self-explanatory to people who are familiar with the
+> > > matter.
+> > >
+> >
+> > The Audio DSP is a Tensilica HiFi-5 DSP, and it's a block that is -
+> > hardware
+> > speaking - separated from the rest of the Audio interfaces of the
+> > SoC.
+> >
+> > The whole sound subsystem can work either with or without the DSP, in
+> > the sense
+> > that the DSP itself can remain unpowered and completely unconfigured
+> > if its
+> > functionality is not desired - hence, this is a board specific
+> > configuration:
+> > if the board wants to use the DSP, we use the DSP - otherwise, we
+> > just don't.
+> >
+> > Regarding the two "platforms", in short:
+> > "mediatek,platform" -> Audio Front End (AFE)
+> > "mediatek,adsp" -> Audio DSP
+> >
+> > Now, you can either link the AFE DAIs to the I2S
+> >
+> > As for "mediatek,platform" - that's used to link the Analog Front End
+> > (AFE) as
+> > the DAI Link platform (so the path is direct to/from DL/UL DAIs to
+> > AFE) or the
+> > ADSP one as the DAI Link platform (so that the path is to/from DL/UL
+> > DAIs to
+> > DSP to AFE), but that - of course - still requires an AFE, otherwise
+> > you cannot
+> > get the audio out of the speakers or in from the mic anyway.
+> >
+> > > >
+> > > > > +
+> > > > > +  mediatek,dai-link:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/string-array
+> > > > > +    description:
+> > > > > +      A list of the desired dai-links in the sound card. Each
+> > > > > entry is a
+> > > > > +      name defined in the machine driver.
+> > > >
+> > > > The list is provided below. I don't understand why do you need
+> > > > it. Your
+> > > > msg is pretty useless - you describe what you do, instead of why.
+> > >
+> > > I think this is used to explicitly list the intermediate but hidden
+> > > DAIs, but again, there's not much info about them unless MediaTek
+> > > can
+> > > explain more details and why they need a vendor property for this.
+> > >
+> >
+> > Yes, this is used for exactly that... but I believe that we can
+> > deprecate this
+> > now that we have support for the "standard" `audio-routing` property
+> > and for the
+> > DAI Link nodes (examples that you can find in current device trees
+> > are mm-dai-link,
+> > hs-playback-dai-link, or any other subnode of the sound card).
+> >
+> > Specifically, those subnodes *do* require a "link-name" property,
+> > which *does*
+> > effectively contain the same DAI Link names as the ones that are
+> > inside of the
+> > "mediatek,dai-link" property.
+> >
+> > On MT8195, you can find both the subnodes and the mediatek,dai-link -
+> > yes - but
+> > that was done to retain compatibility of the device tree with old
+> > drivers (so,
+> > an unusual case of new device tree on old kernel).
+> >
+> > Finally, I believe that we can avoid adding that "mediatek,dai-link"
+> > property
+> > to the MT8188 binding, and rely on:
+> >   1. Whatever is provided in struct snd_soc_card for that device; and
+> >   2. Whatever is provided in device trees as dai link subnodes, which
+> > would
+> >      restrict N.1 as that's anyway describing card prelinks.
+> >
+>
+> The "mediatek,dai-link" property is utilized to hide the unused dai-
+> links in the sound card. By hiding the unused FE links, it can save the
+> necessary memory and prevent conflicts where both the DSP and AP
+> control the same AFE Memifs.
+>
+> This concept was first implemented in mt8195 as Mark aimed to avoid the
+> need for a separate driver for different system configurations.
+> With the introduction of DSP (SOF), if certain AFE Memifs are already
+> in use in the DSP route, they should be excluded from the PCM nodes
+> created for the AFE platform.
+>
+> At that time, we did not have a better way to handle these scenarios,
+> so we made use of a vendor-defined property.
+>
+> It has been a while since I last kept up with the updates in mt8188, so
+> I'm uncertain if the current mechanism for sound card description is
+> sufficient for handling such scenarios. If it is, I agree that we can
+> deprecate such a vendor property from mt8188.
+>
+> Thanks,
+> Trevor
+>
+>
+> > Cheers,
+> > Angelo
 
-Convert all platform drivers below sound to use .remove(), with
-the eventual goal to drop struct platform_driver::remove_new(). As
-.remove() and .remove_new() have the same prototypes, conversion is done
-by just changing the structure member name in the driver initializer.
+Many thanks Angelo and Trevor for the information.
+The audio-routing property is in place, so I'll check if removing the
+vendor property makes any impact, and refresh the series accordingly.
 
-On the way do a few whitespace changes to make indention consistent.
+Thanks,
+Fei
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
 
-I did a single patch for all of sound. sound/soc was already converted
-separately, so isn't mixed in here. While I usually prefer to do one
-logical change per patch, this seems to be overengineering here as the
-individual changes are really trivial and shouldn't be much in the way
-for stable backports. But I'll happily split the patch if you prefer it
-split.
 
-This is based on today's next, if conflicts arise when you apply it at
-some later time and don't want to resolve them, feel free to just drop
-the changes to the conflicting files. I'll notice and followup at a
-later time then. Or ask me for a fixed resend. (Having said that, I
-recommend b4 am -3 + git am -3 which should resolve most conflicts just
-fine.)
-
-Best regards
-Uwe
-
- sound/arm/pxa2xx-ac97.c             | 2 +-
- sound/atmel/ac97c.c                 | 2 +-
- sound/drivers/mts64.c               | 2 +-
- sound/drivers/pcmtest.c             | 2 +-
- sound/drivers/portman2x4.c          | 2 +-
- sound/mips/hal2.c                   | 2 +-
- sound/mips/sgio2audio.c             | 4 ++--
- sound/oss/dmasound/dmasound_paula.c | 2 +-
- sound/pci/hda/hda_tegra.c           | 2 +-
- sound/ppc/powermac.c                | 2 +-
- sound/sh/aica.c                     | 2 +-
- sound/sh/sh_dac_audio.c             | 2 +-
- sound/sparc/cs4231.c                | 2 +-
- sound/sparc/dbri.c                  | 2 +-
- 14 files changed, 15 insertions(+), 15 deletions(-)
-
-diff --git a/sound/arm/pxa2xx-ac97.c b/sound/arm/pxa2xx-ac97.c
-index 4c367e73b2c9..77b11616a7ee 100644
---- a/sound/arm/pxa2xx-ac97.c
-+++ b/sound/arm/pxa2xx-ac97.c
-@@ -271,7 +271,7 @@ static void pxa2xx_ac97_remove(struct platform_device *dev)
- 
- static struct platform_driver pxa2xx_ac97_driver = {
- 	.probe		= pxa2xx_ac97_probe,
--	.remove_new	= pxa2xx_ac97_remove,
-+	.remove		= pxa2xx_ac97_remove,
- 	.driver		= {
- 		.name	= "pxa2xx-ac97",
- 		.pm	= &pxa2xx_ac97_pm_ops,
-diff --git a/sound/atmel/ac97c.c b/sound/atmel/ac97c.c
-index 402b5f66dcc3..d8f8e08f1bb7 100644
---- a/sound/atmel/ac97c.c
-+++ b/sound/atmel/ac97c.c
-@@ -861,7 +861,7 @@ static void atmel_ac97c_remove(struct platform_device *pdev)
- 
- static struct platform_driver atmel_ac97c_driver = {
- 	.probe		= atmel_ac97c_probe,
--	.remove_new	= atmel_ac97c_remove,
-+	.remove		= atmel_ac97c_remove,
- 	.driver		= {
- 		.name	= "atmel_ac97c",
- 		.pm	= ATMEL_AC97C_PM_OPS,
-diff --git a/sound/drivers/mts64.c b/sound/drivers/mts64.c
-index 6fc255a6754d..17f215bad0ec 100644
---- a/sound/drivers/mts64.c
-+++ b/sound/drivers/mts64.c
-@@ -1008,7 +1008,7 @@ static void snd_mts64_remove(struct platform_device *pdev)
- 
- static struct platform_driver snd_mts64_driver = {
- 	.probe  = snd_mts64_probe,
--	.remove_new = snd_mts64_remove,
-+	.remove = snd_mts64_remove,
- 	.driver = {
- 		.name = PLATFORM_DRIVER,
- 	}
-diff --git a/sound/drivers/pcmtest.c b/sound/drivers/pcmtest.c
-index 21cefaf5419a..72378f354fd0 100644
---- a/sound/drivers/pcmtest.c
-+++ b/sound/drivers/pcmtest.c
-@@ -640,7 +640,7 @@ static struct platform_device pcmtst_pdev = {
- 
- static struct platform_driver pcmtst_pdrv = {
- 	.probe =	pcmtst_probe,
--	.remove_new =	pdev_remove,
-+	.remove =	pdev_remove,
- 	.driver =	{
- 		.name = "pcmtest",
- 	},
-diff --git a/sound/drivers/portman2x4.c b/sound/drivers/portman2x4.c
-index 54d818d2f53d..5e4ef25a83a4 100644
---- a/sound/drivers/portman2x4.c
-+++ b/sound/drivers/portman2x4.c
-@@ -794,7 +794,7 @@ static void snd_portman_remove(struct platform_device *pdev)
- 
- static struct platform_driver snd_portman_driver = {
- 	.probe  = snd_portman_probe,
--	.remove_new = snd_portman_remove,
-+	.remove = snd_portman_remove,
- 	.driver = {
- 		.name = PLATFORM_DRIVER,
- 	}
-diff --git a/sound/mips/hal2.c b/sound/mips/hal2.c
-index 3c26334227bb..991793e6bda9 100644
---- a/sound/mips/hal2.c
-+++ b/sound/mips/hal2.c
-@@ -886,7 +886,7 @@ static void hal2_remove(struct platform_device *pdev)
- 
- static struct platform_driver hal2_driver = {
- 	.probe	= hal2_probe,
--	.remove_new = hal2_remove,
-+	.remove = hal2_remove,
- 	.driver = {
- 		.name	= "sgihal2",
- 	}
-diff --git a/sound/mips/sgio2audio.c b/sound/mips/sgio2audio.c
-index a8551ccdd1bf..4e2ff954ff59 100644
---- a/sound/mips/sgio2audio.c
-+++ b/sound/mips/sgio2audio.c
-@@ -917,8 +917,8 @@ static void snd_sgio2audio_remove(struct platform_device *pdev)
- 
- static struct platform_driver sgio2audio_driver = {
- 	.probe	= snd_sgio2audio_probe,
--	.remove_new = snd_sgio2audio_remove,
--	.driver = {
-+	.remove	= snd_sgio2audio_remove,
-+	.driver	= {
- 		.name	= "sgio2audio",
- 	}
- };
-diff --git a/sound/oss/dmasound/dmasound_paula.c b/sound/oss/dmasound/dmasound_paula.c
-index b8fad12f9e5f..8d443a3663d3 100644
---- a/sound/oss/dmasound/dmasound_paula.c
-+++ b/sound/oss/dmasound/dmasound_paula.c
-@@ -732,7 +732,7 @@ static void __exit amiga_audio_remove(struct platform_device *pdev)
-  * triggering a section mismatch warning.
-  */
- static struct platform_driver amiga_audio_driver __refdata = {
--	.remove_new = __exit_p(amiga_audio_remove),
-+	.remove = __exit_p(amiga_audio_remove),
- 	.driver = {
- 		.name	= "amiga-audio",
- 	},
-diff --git a/sound/pci/hda/hda_tegra.c b/sound/pci/hda/hda_tegra.c
-index d967e70a7058..b1e30a83dfb0 100644
---- a/sound/pci/hda/hda_tegra.c
-+++ b/sound/pci/hda/hda_tegra.c
-@@ -606,7 +606,7 @@ static struct platform_driver tegra_platform_hda = {
- 		.of_match_table = hda_tegra_match,
- 	},
- 	.probe = hda_tegra_probe,
--	.remove_new = hda_tegra_remove,
-+	.remove = hda_tegra_remove,
- 	.shutdown = hda_tegra_shutdown,
- };
- module_platform_driver(tegra_platform_hda);
-diff --git a/sound/ppc/powermac.c b/sound/ppc/powermac.c
-index 8e29c92830ad..f1b0cf9ea555 100644
---- a/sound/ppc/powermac.c
-+++ b/sound/ppc/powermac.c
-@@ -160,7 +160,7 @@ static SIMPLE_DEV_PM_OPS(snd_pmac_pm, snd_pmac_driver_suspend, snd_pmac_driver_r
- 
- static struct platform_driver snd_pmac_driver = {
- 	.probe		= snd_pmac_probe,
--	.remove_new	= snd_pmac_remove,
-+	.remove		= snd_pmac_remove,
- 	.driver		= {
- 		.name	= SND_PMAC_DRIVER,
- 		.pm	= SND_PMAC_PM_OPS,
-diff --git a/sound/sh/aica.c b/sound/sh/aica.c
-index 66b33623549f..39bf51ff43a1 100644
---- a/sound/sh/aica.c
-+++ b/sound/sh/aica.c
-@@ -599,7 +599,7 @@ static int snd_aica_probe(struct platform_device *devptr)
- 
- static struct platform_driver snd_aica_driver = {
- 	.probe = snd_aica_probe,
--	.remove_new = snd_aica_remove,
-+	.remove = snd_aica_remove,
- 	.driver = {
- 		.name = SND_AICA_DRIVER,
- 	},
-diff --git a/sound/sh/sh_dac_audio.c b/sound/sh/sh_dac_audio.c
-index e7b6ce7bd086..e7b80328f0ef 100644
---- a/sound/sh/sh_dac_audio.c
-+++ b/sound/sh/sh_dac_audio.c
-@@ -383,7 +383,7 @@ static int snd_sh_dac_probe(struct platform_device *devptr)
-  */
- static struct platform_driver sh_dac_driver = {
- 	.probe	= snd_sh_dac_probe,
--	.remove_new = snd_sh_dac_remove,
-+	.remove = snd_sh_dac_remove,
- 	.driver = {
- 		.name = "dac_audio",
- 	},
-diff --git a/sound/sparc/cs4231.c b/sound/sparc/cs4231.c
-index a1339f9ef12a..1b44119edfbc 100644
---- a/sound/sparc/cs4231.c
-+++ b/sound/sparc/cs4231.c
-@@ -2107,7 +2107,7 @@ static struct platform_driver cs4231_driver = {
- 		.of_match_table = cs4231_match,
- 	},
- 	.probe		= cs4231_probe,
--	.remove_new	= cs4231_remove,
-+	.remove		= cs4231_remove,
- };
- 
- module_platform_driver(cs4231_driver);
-diff --git a/sound/sparc/dbri.c b/sound/sparc/dbri.c
-index b5d53c5550d3..69f1c9e37f4b 100644
---- a/sound/sparc/dbri.c
-+++ b/sound/sparc/dbri.c
-@@ -2682,7 +2682,7 @@ static struct platform_driver dbri_sbus_driver = {
- 		.of_match_table = dbri_match,
- 	},
- 	.probe		= dbri_probe,
--	.remove_new	= dbri_remove,
-+	.remove		= dbri_remove,
- };
- 
- module_platform_driver(dbri_sbus_driver);
-
-base-commit: 6fb2fa9805c501d9ade047fc511961f3273cdcb5
--- 
-2.45.2
-
+> >
+> > > Regards,
+> > > Fei
+> > >
+> > > >
+> > > > Best regards,
+> > > > Krzysztof
+> > > >
+> >
+> >
