@@ -1,111 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2087.outbound.protection.outlook.com [40.107.105.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AA318E05A;
-	Mon, 28 Oct 2024 23:45:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730159139; cv=none; b=nfIW7l47yllkMBhmg0W+R5TdKB+3gWtH/QokpSBj6riVkAyFM0XevzL1rum3Vg4T/twZHzYjERxnOfdpLgTa5KLe03bQ+/pnpjZ1EadxrEJtVRP9RjtZtJm0nAwPoaxVeY4mHz1zgH7H9AcbBEF3vQcSuzkIquusNf9VCyYpDnQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730159139; c=relaxed/simple;
-	bh=PsTGH/9Ub2NfuqfUh00DfLpIpZXLRTLsrt/TPHNjJdI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptip6qSpXOT/SqrLIStuxaYygR6PniBWEZOVOs3vsataj6j/tZuCKEn8moWrXFy0Ew3y/Gs58rS5CTTiRzLDQfn3Qy+FyM05pMukXCKhHp2cr0S1Gg1TN6dvAYz6nRsEhwDZhajXAVhxA+1b70F5QJZoOJpBSc2mj9NLL0JoYw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RMSjvrDQ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19C28172A;
+	Tue, 29 Oct 2024 02:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.105.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730167865; cv=fail; b=dHsArDk4hCJssmHWI7w/mJYaOULacD4mt66ussU3TR9SYgC7+VVtiHljcfLXr/sTxuo9N+O2MdiI0wI9r5jZwhTqksZxtqtlRhRkFgSIHeyxzk0o2byuaL1Y2A5ZcRtgPGLXaQ0lmbaGuQKmlu8iHDFzSg/kweOeakzN7+6DGnQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730167865; c=relaxed/simple;
+	bh=KMIul9Cn3g9KtMsUjvC+bK/PpNnEw8ZLa24rpFgBFso=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=YsiMhROw8zaKa0Abj8NCNajNysuUDImfhJCbF85Tr0h0BZt4rMD6mgBz2gga5v1PBpfaCTvqsppIW9rs71CLLBtwjVq3woFcAX/xcp385BZbwnkfXrOCWZG5LF2OR/Op5CbjXb3y31SHKlnxWf9mn1SZxhgUjCx/ZQCIuZ/1Joc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=LLtst7H3; arc=fail smtp.client-ip=40.107.105.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RMSjvrDQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E28C4CECD;
-	Mon, 28 Oct 2024 23:45:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730159138;
-	bh=PsTGH/9Ub2NfuqfUh00DfLpIpZXLRTLsrt/TPHNjJdI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RMSjvrDQqf8T8IWUvIpEw2rxnO16/3kVnAFkZ0JZaA4txTa77UPNs3DYhNvdZM8n8
-	 7Dn/jWu02kvvnkGpjnkkCq9XXeTPP67UgUszBOcOqHDZ+LyyxeJ5AzJrHo+YiOnRqs
-	 n3/nzQGXXHt0+JTpploDCwXOUy1E/5G1JAU+BVTWiLe2J6VzCoZ+unahl/bh0cFMrS
-	 PmFIBmYCwDX3Hg9P4c88E28A9/JaXMo19dMuTHmH+LlcmIdS9EaTjgDrWUzpKEDx+B
-	 4dqXXFXY6uNAMZE3yUqBHr1dZlErS7tHwe2srwW6SaYMF4jgkmVd0YVgjxJ2qqvBac
-	 egHtnt488mh6w==
-Date: Mon, 28 Oct 2024 16:45:35 -0700
-From: Kees Cook <kees@kernel.org>
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: Aleksei Vetrov <vvvvvv@google.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] ASoC: dapm: fix bounds checker error in
- dapm_widget_list_create
-Message-ID: <202410281645.5FFC8E6E@keescook>
-References: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
- <28ade5d1-d13a-4388-bd0b-f03211937abd@embeddedor.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="LLtst7H3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SaLI09I2TdNIGcAkhooILC4BS0m1ndK5sH68zWGp9sm1R+vaB8l3L2WBRmHElL9R7nSoziJwJjku6t1OumhO2P/89q+GyjeuWYAJARKGH6vCVCf20luaMOh3FOAnVf6Fa/IXWVOfUG4p5rkHns2PgQZ8/wSxDmiLP8mt2a48ItQSyOMTEN1JwLU7iMkYN1NTZx5aNhLobffvMOvtxTkgsyATJ83dvp+m8elAD6rngkZ82OrQ8MGX9qUKDsyh9+gc8AqKR0DuN6aMS6TdpYsotWVgE7bE/8fxvO1WzZ9Bm7cJK1rZ8I00ydsO7mXogau/KcfDtAzDVxyQ5qu6KNoKpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8YyfDaq0FJyGSNVYxtX8WQCfTWhOPFrKKDVZIE93Ruw=;
+ b=xM3at9dpds2M7OcWIkeJYhHFubY37inODLc5/4G/1XvhjmR0XUT1I9gW6jO593NYYnB96BI49a7MPdNExVfPYVVHqQpsVDuwacqxE8P+h5bDr4/EGRJN/gXtkottOjv+K0z4l1TvQaMsWNS8F2F7dtHo9+DEoGChZsEIecvzRKS+sJrZ6nSLdvO56dKx7X5Ua8cqcf8LAUyQdCu8HEVZ4InABBlDeipccBGHEzScD12t1Ll6Qc/HP6bv8+QMh4GTl4Ia8DqRZDuU8aAgT9M8BZFVBBAM6J3W5Wsqt5ZqRfA+Q1L2adeAmsU3xGS8FDIEZkosZ67fKXL3NewJhSLhYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8YyfDaq0FJyGSNVYxtX8WQCfTWhOPFrKKDVZIE93Ruw=;
+ b=LLtst7H3FR8JwFb3QjclCJQVZJ4kI0ODmaPIGmfpV7Dd+mQz/3jVdD2rZo28rn+fi8zr8VrOammQBphf1vAAEZ3XAjDOKxPL6mEt2nRhH+vq/IQJ4EBw2kKXCu/uRv9bRFSZoPlVTKAifWC/yI6fKsuo5JjlPgenaF6MXfnQy6h+ZauX0m0xYuhr0nCFZXgjQevvaCqsFLTU0ZDx+ojTJOzlN7TI/6cJo92hwtqMyt0eYDRpnkessju5x0AlaP0mBCliMQzN5kTWuN/p3bXqDshWwtFKcaS6fne3XESXX1e7JceQNqpMP7WHH8KwjKAYSlScfBHrP4miY+358WQoBw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by DU2PR04MB9147.eurprd04.prod.outlook.com (2603:10a6:10:2f6::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Tue, 29 Oct
+ 2024 02:10:56 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%6]) with mapi id 15.20.8093.023; Tue, 29 Oct 2024
+ 02:10:56 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v5 0/6] ASoC: fsl: add memory to memory function for ASRC
+Date: Tue, 29 Oct 2024 10:20:51 +0800
+Message-Id: <20241029022057.816402-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR01CA0031.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::11) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <28ade5d1-d13a-4388-bd0b-f03211937abd@embeddedor.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DU2PR04MB9147:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1303dab9-dc18-4d12-b9af-08dcf7beec28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|52116014|1800799024|366016|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wOQz+pU0k6D7ePZ8Hp60MW8kn1oIZZmbftatWB9CW+5NzmcqICEdcjPegTyQ?=
+ =?us-ascii?Q?hasMr7ldi8MhTkp/IBJO2TweLbbGY8ydGfqnGnF6yEuAiYikIzfrJc9MJsm4?=
+ =?us-ascii?Q?IYe4tx/m4QqawXX6zuGCD4BejLIMnPmlbKrEG46BeUguxWywZ3mDkfYi8CVs?=
+ =?us-ascii?Q?znLYHMyYJniCl0pCRB5eYz7ZrUC4qqR3bg+eGCpK8fAsnDufqN4JaD2dR5zy?=
+ =?us-ascii?Q?HE3AB3v8B3yMCl72oz7AmDAKRD4h/50hK/g951iMM7dxSmviJxjN3QSfmYD4?=
+ =?us-ascii?Q?XQrgCzV5rxJU4AY4tfz9ypg0+7rUTeY/Y8K/TwsOaGuZtk7tnQbmUR8VmRX0?=
+ =?us-ascii?Q?R37ily1NJ5YQjdS1jpoNq3dA0E73B+wRKR5SQIVFU5T8o6kXQbgo9/xYzWGS?=
+ =?us-ascii?Q?mBxN59BEMuxuqrzTE9pmiB3D9h+VU25KO25c+tICitlEUZAaFaAUtosAvj7n?=
+ =?us-ascii?Q?oRPCLESGkoy4nYHinh1NEOUHcKRcHALfUYrtTNauQJ8NL9EPyszc/nxMqPY8?=
+ =?us-ascii?Q?8iHLuCN5waDldySm11vZ1fv9uWGjtdCZSUYXmsZlNPEwC8iVjefK7phFwH78?=
+ =?us-ascii?Q?w/ugA4y+pEQlYFqIfoErYGseIBaBLNJQZYlPTfOGaKje9YzmVISfWR9QgXNU?=
+ =?us-ascii?Q?Uuwk5q8HrFdvBT6TvAkHNavQDMz1P2sOuTKbPWIjqKPWUh+bcwOjGiAhIvuM?=
+ =?us-ascii?Q?X1BWA6SkqGlcqWID3vk/IhESsNPPNpO+X2NzLI/x17DIKnUHbERUOGr4VRpN?=
+ =?us-ascii?Q?DwXnkH82kUnvoaCoZuDmcHfVRO0l1jGMnsTtx6JNi5WG0LhdRZr/Mnr7qwMS?=
+ =?us-ascii?Q?sNVCjLQBKdIk7KDE1flFyNTF9v1gRZn7KzC3WyA7X/hZQrXM04Y3ozab+HHJ?=
+ =?us-ascii?Q?BlVOp4cERWoTUBWuQ6UYDdm3NqwXpec/ZnvZhDy3/m3rQTGISb/zSBmNT7sx?=
+ =?us-ascii?Q?BstYxXEclgw47Vpar7MLnIaQz2A+8ffDuunGdEJl4uddHTyEm6bprtgq6/Ze?=
+ =?us-ascii?Q?Hqmwp1ovLlNQhoL5TBioXZr524quSfdQY5+CuMAgjOkPKEFjLZe1OQy9OQoI?=
+ =?us-ascii?Q?lDLTVV0WQpFt9tXHcXLVJn6goU8wLbrBJClOreigmOAuJTNnWrybFQ0Te8Nw?=
+ =?us-ascii?Q?YDw+tDe1A1aQ168v6I+RN5QqwUgkFDPwpwbNvmK8H5szL9X0WDO1xl380D41?=
+ =?us-ascii?Q?QDggoEhbL293Gsf1/WS4eD+UnL3eUgN4RvMVkuOhPzY3YbLKIdVSok8KK3Qz?=
+ =?us-ascii?Q?IqGD+p4uesjVfsMrfwOVO7SNrRoV0ffC/CWN92ZMD9/egd7E+UmeVIYHAJLk?=
+ =?us-ascii?Q?XbRfyERRbGiLBjUUpkskAr3nU6FWbJo5ZsZqPdoYuQUGxwUiH42XQvE1X2ft?=
+ =?us-ascii?Q?Rk2vaDrC0multFMbhJ8RijRU4nERR8e2NeScgNVq4hAEN5WLig=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qgi6DhMV78YqxJgs2bJx510OYLfiq5DV5QoJaLb/Tz5uw+GT6MY3aV7oDKZ+?=
+ =?us-ascii?Q?SPPBHUSBk2QBy3pbUXyuIQ0pJqkvniUtUdNbZQcIXhvItdIgBQ52xU/6sBGJ?=
+ =?us-ascii?Q?UYqvnowKZj7ZTTZGaeDN3lnXebuBSWZK58FnVu7pyMJAjCZMxJVR1u4pzUKh?=
+ =?us-ascii?Q?ri1emKD08J//V9e7dNWMxRjmz5CeUGH/27oSuBrMEnl6828AhkZmkcvrUe1A?=
+ =?us-ascii?Q?3yrrCmKPo404tQK7yyjjfvqOkyBFZGiMgRQYWawhetf09F+IkSZd+Gx1R2Pe?=
+ =?us-ascii?Q?ds9PGRyxNUV/x6pckQoHt+ZN8LoddToB1OYcoeXwVb5dqXLaqBzhOvcwdMLT?=
+ =?us-ascii?Q?RkPUqy2xK/k/NjVFLBhfSDEP+WpGachtIS9IklWkJDhv/onGFchiDnXyemZS?=
+ =?us-ascii?Q?6oGnkfI+L9M/uZyEL31WYtmXCA5XAE7/csPypV8DU9KONs35sM5QaifLUXxl?=
+ =?us-ascii?Q?s2Mz71r5sxb8tpJ98TTZKqfuWKVqx155rcpe9ApkMHtoHqP1u3gUTr8X/PZl?=
+ =?us-ascii?Q?UPVymglSMUebYak+HocUS7msFSCAhTSG38bgdS3QkUL4Y4bwEju1yJLvoYEh?=
+ =?us-ascii?Q?+tCyp5tRtiyitCNmX3q5vLY0LGWmt61Z4Lw+fKHi2FzRi/AaDxxcLrmIrl3O?=
+ =?us-ascii?Q?/lVonXI0wlGeQetxsn5Ru5asHhqi4sVpe8XUlsVM4lBdD1rzmqIlmbFvvN3I?=
+ =?us-ascii?Q?4aFrjQ9xfH1srn1oN2ZCJeRRt8uwOOAUpFXA+d1aMStqL3Z5zgp1lQcELkAF?=
+ =?us-ascii?Q?EwgHZ3eJLuRyLBon/Tcp6EDklM55At9KA4eWiOqmV8v6oJHu7zwi86fr9pDD?=
+ =?us-ascii?Q?hCX/2f1akAaspZp8W7CDhxIq/1YuWJ49mVBiu+lvIyBM+bUjCUGjiN9Tr1De?=
+ =?us-ascii?Q?Q0j2GreBVKfv1Su5PobVT8o6AZv870TdlcMam5zZMOY/iXqZH6w1if2xUgyV?=
+ =?us-ascii?Q?Zbzk9O6rMy6B3ebXNPAXNwEMlL9OyCCkUESEKsfPsbeT4O9ZK2HpI8Pa1gKs?=
+ =?us-ascii?Q?1WjLMjf6CyVj8QY9GypN37iyarcDhAHKMk/ZTRLw+Vo+fnCiYzNHu5MCCkxY?=
+ =?us-ascii?Q?UiQc5UtnqxtViig70BxoR7oZxNSx+WQFAqov6aciRzohXc8ee0c7c6xjLJR2?=
+ =?us-ascii?Q?rENaguVkSgNnc9z5j6lbFyyv+5Xhf1FUqDVupOK+ku86jQzUWpjhdcTPJkC+?=
+ =?us-ascii?Q?RvhpprtGjLlWgOt3FUn+WpJhxRxkKu+DT/3nw/cXmitjbx21lSCz3ewxJqIZ?=
+ =?us-ascii?Q?scQx6jW100RIGGIVvhaLkPJS4HzC6O41K2OQHNCpI+FCMqrlX3Jcqfi/WyA3?=
+ =?us-ascii?Q?JuQSDROrZDqGeZ7A1Ftj+acBbgqant5WLB5K6dIXMeRKn4wq78Mu5hxCX3xc?=
+ =?us-ascii?Q?KvxqO8zYrn5l9zF8oTZko1TfaGaq4M++hqW2+OQ5z63QXP7cURo7nLvLvd/K?=
+ =?us-ascii?Q?Dc16edB5936lU9t04fHvRAeP4Y+vZx2fHSB5w4c9iDlByvqIbXC0HyQKLyKl?=
+ =?us-ascii?Q?SIn4mbRgAzxS4vBjNRL/DRTtc691WO85Hm357jT4/Mx65iJvTamNrO+L5fjc?=
+ =?us-ascii?Q?SVJjcWUshoftAFVC9iZH5BkNTQZupB5PgUAhjs1g?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1303dab9-dc18-4d12-b9af-08dcf7beec28
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 02:10:56.1496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5T4RLTcQxSxyeoQyxSkUyOXe2TAugUAXxmnwlTQ8sheuQRdBVfXMsxsnGJc8kcYoD3zcHltoAAIpnHP02wP3qA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9147
 
-On Mon, Oct 28, 2024 at 04:58:58PM -0600, Gustavo A. R. Silva wrote:
-> 
-> 
-> On 28/10/24 16:50, Aleksei Vetrov wrote:
-> > The widgets array in the snd_soc_dapm_widget_list has a __counted_by
-> > attribute attached to it, which points to the num_widgets variable. This
-> > attribute is used in bounds checking, and if it is not set before the
-> > array is filled, then the bounds sanitizer will issue a warning or a
-> > kernel panic if CONFIG_UBSAN_TRAP is set.
-> > 
-> > This patch sets the size of the widgets list calculated with
-> > list_for_each as the initial value for num_widgets as it is used for
-> > allocating memory for the array. It is updated with the actual number of
-> > added elements after the array is filled.
-> 
-> As in the previous patch, this should include the following tag
-> (and probably CC stable):
-> 
-> Fixes: 80e698e2df5b ("ASoC: soc-dapm: Annotate struct snd_soc_dapm_widget_list with __counted_by")
+This function is base on the accelerator implementation
+for compress API:
+https://patchwork.kernel.org/project/alsa-devel/patch/20241002093904.1809799-1-perex@perex.cz/
 
-Whoops! My mistake. :) Thanks for catching this one!
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
 
--Kees
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
 
-> 
-> Thanks
-> -- 
-> Gustavo
-> 
-> > 
-> > Signed-off-by: Aleksei Vetrov <vvvvvv@google.com>
-> > ---
-> >   sound/soc/soc-dapm.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-> > index c34934c31ffec3970b34b24dcaa0826dfb7d8e86..99521c784a9b16a232a558029a2f3e88bd8ebfb1 100644
-> > --- a/sound/soc/soc-dapm.c
-> > +++ b/sound/soc/soc-dapm.c
-> > @@ -1147,6 +1147,8 @@ static int dapm_widget_list_create(struct snd_soc_dapm_widget_list **list,
-> >   	if (*list == NULL)
-> >   		return -ENOMEM;
-> > +	(*list)->num_widgets = size;
-> > +
-> >   	list_for_each_entry(w, widgets, work_list)
-> >   		(*list)->widgets[i++] = w;
-> > 
-> > ---
-> > base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-> > change-id: 20241028-soc-dapm-bounds-checker-fix-5bae621455b2
-> > 
-> > Best regards,
-> 
-> 
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the patch 1 and patch 2 is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
+
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+modules.
+
+changes in v5:
+- Drop Jaroslav Kysela's patch as it has been merged.
+- Add Jaroslav Kysela's Acked-by tag, received in v3.
+
+changes in v4:
+- remove the RFC tag, no comments receive in v3
+- Add Jaroslav Kysela's patch in this patch set. because it may be
+  better for reviewing in a full patch set.
+- Fix the list_for_each_entry_reverse to list_for_each_entry_safe_reverse
+- Fix some coding style issues in Jaroslav Kysela's patch
+
+changes in v3:
+- use Jaroslav's suggestion for header file compress_params.h (PATCH 01)
+- remove the ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE definition
+- remove ASRC_RATIO_MOD in this version because it uses .set_metadata()
+  Will wait Jaroslav's update or other better method in the future.
+- Address some comments from Pierre.
+
+changes in v2:
+- Remove the changes in compress API
+- drop the SNDRV_COMPRESS_SRC_RATIO_MOD
+- drop the SND_AUDIOCODEC_SRC and struct snd_dec_src
+- define private metadata key value
+  ASRC_OUTPUT_FORMAT/ASRC_OUTPUT_RATE/ASRC_RATIO_MOD
+
+Shengjiu Wang (6):
+  ALSA: compress: Add output rate and output format support
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc_m2m: Add memory to memory function
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+
+ include/uapi/sound/compress_params.h |  23 +-
+ sound/soc/fsl/Kconfig                |   1 +
+ sound/soc/fsl/Makefile               |   2 +-
+ sound/soc/fsl/fsl_asrc.c             | 179 ++++++-
+ sound/soc/fsl/fsl_asrc.h             |   2 +
+ sound/soc/fsl/fsl_asrc_common.h      |  70 +++
+ sound/soc/fsl/fsl_asrc_m2m.c         | 727 +++++++++++++++++++++++++++
+ sound/soc/fsl/fsl_easrc.c            | 261 +++++++++-
+ sound/soc/fsl/fsl_easrc.h            |   4 +
+ 9 files changed, 1260 insertions(+), 9 deletions(-)
+ create mode 100644 sound/soc/fsl/fsl_asrc_m2m.c
 
 -- 
-Kees Cook
+2.34.1
+
