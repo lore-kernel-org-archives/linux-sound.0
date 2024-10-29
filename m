@@ -1,80 +1,90 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47158192B77;
-	Tue, 29 Oct 2024 15:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8E4143C69;
+	Tue, 29 Oct 2024 18:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730215031; cv=none; b=p41OoqCJ5KMHSrppFJU1UgjMs28R2TIqnlMGHqAs3ZXXVxRsl4n4dyzNuv3Kx0TlvtI/pYBflj0AUVtBVU4BbDfsRLnG8mICX5QvStDEBJEw08k8u7l1Qd1W/Rr/fGb71Rgu6uLwTPGEKyo+pB4Mdm2sOrtuaO9BwbMdcZNAYsA=
+	t=1730225723; cv=none; b=G3fcnywM5k2crHgr8IkAW9Wdw90yCxXK0qQ9HeRfUGYg4l3hq3lEe3ts0eV8Z5+wqNVlIY435mYQqZ7o+EV9xZ04E375PzzFAOKob0UqAskjGftfO8976ujbKWuDVEuAUDVwY3EyFhJZoa4fJF/xw6yLOl71biULI9b7oxB/avY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730215031; c=relaxed/simple;
-	bh=X20z7GefWCS549ZB0qFpnPZUBG5PFp5AoO0yonruGKc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uforDcZySzh+onxFUjZg71RHquEtibxP3KlTzj1eWt5st/fqiOvU7l9feZoj6mgCtcMnC21mlvpfFADNQa3BcKRMh1KiV3ga5fWYpZlhi3QeJBfX0QUMrSQKLuU95Fegp0IeafPtTB03yIQyYoZnoHzJzZ7GhRlRtbw6GXXGaV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=a5SuEHfI; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1730225723; c=relaxed/simple;
+	bh=SUd8Fc60kMIwRHBEd644PvXPNmN6u673tT5mHr0L2U0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4kc4HZmXk9VTPFNCbsR0LQ+RoSWFjDAvGREAM9YHkTGL68/A/bamR/yo6EyXUtkEZzoWLcHicRF2EMnM7UmxUUYvNPcnQYve3l289eanVTEU87Q8BaJWC+uQeSsZ1ZR8i+cnz7F/UF7gopACiA/abTIXqCI6uN+C0xGm47AyS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCb5Ad1A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="a5SuEHfI"
-Received: from wse.fritz.box (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id DE87C2FC0055;
-	Tue, 29 Oct 2024 16:16:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1730215020;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a8HcFvhqg4aU8hKd63N/kK897ejSGqVIO1jn5GtFu6M=;
-	b=a5SuEHfIlvchRUn1KxkbrZxk0OndRDHfupKWWdv9xjMmBKL+CuERCkXNBeDCTozFd+J1fz
-	I9AuU4X53BV2qoJuuDnXR/8jjqgcFrzywdAE0im5ZZGmDN9a9TlAqYwOwhUe8VaoHkkJNx
-	AbOQRov2P2rmnN6Bt0b3tpxjqc6VYsI=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Christoffer Sandberg <cs@tuxedo.de>,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16 Gen6 mb1
-Date: Tue, 29 Oct 2024 16:16:53 +0100
-Message-Id: <20241029151653.80726-2-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241029151653.80726-1-wse@tuxedocomputers.com>
-References: <20241029151653.80726-1-wse@tuxedocomputers.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCb5Ad1A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3DECC4CECD;
+	Tue, 29 Oct 2024 18:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730225723;
+	bh=SUd8Fc60kMIwRHBEd644PvXPNmN6u673tT5mHr0L2U0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cCb5Ad1ALPrqxmK8RmjJSVLH82wkbcGBny8r8W4SeYAd49O8iT7Nwc9kCtO4gJI3m
+	 /m1279qtmKoSs6PEfBaaT093vHFVZiy9MTIulVb1Gw7nigJlxhhHE6wwCyxFTB4eXp
+	 mXYJ14oRze08dQ1np6AtzQPxXYqgw9ULxU3vuAtPDOpQJA9L0GO13N6Tzh9sR5QAl5
+	 Bp9rDHodEUeuyjqpk/VBiJw4DeKgd77o02eziFehH3OAPknwdIFaXxmCTPVaRLSfME
+	 kCDlujuW9kbbtgae3PrjAiIg3fFYnDjDlvVGJLcZn6yH3RkKGreiycMTvswaJ4Qd6v
+	 NavE+3CTiJ0Lw==
+Date: Tue, 29 Oct 2024 18:15:17 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Aleksei Vetrov <vvvvvv@google.com>
+Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dapm: fix bounds checker error in
+ dapm_widget_list_create
+Message-ID: <608eb849-dd8f-4578-b5e7-940cf0883d0c@sirena.org.uk>
+References: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
+ <28ade5d1-d13a-4388-bd0b-f03211937abd@embeddedor.com>
+ <ZyDlAd-Z26wnhZK5@google.com>
+ <da230ccf-37b6-4e43-be12-9035c594e535@sirena.org.uk>
+ <ZyD77Y8bIP3JCAZE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m9pEjx8BKKls8u8P"
+Content-Disposition: inline
+In-Reply-To: <ZyD77Y8bIP3JCAZE@google.com>
+X-Cookie: May be too intense for some viewers.
 
-From: Christoffer Sandberg <cs@tuxedo.de>
 
-Quirk is needed to enable headset microphone on missing pin 0x19.
+--m9pEjx8BKKls8u8P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+On Tue, Oct 29, 2024 at 03:14:53PM +0000, Aleksei Vetrov wrote:
+> On Tue, Oct 29, 2024 at 02:08:32PM +0000, Mark Brown wrote:
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index d065fb1e1d79c..c835f58783ff2 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10983,6 +10983,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1d05, 0x1409, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
- 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
--- 
-2.34.1
+> > For this fix I couldn't send v2, because it has been already applied by
+> > Mark Brown. Guess I would need to send a separate message to the stable
+> > team asking them to pick this patch from git.
 
+Yeah, ping the stable team (or there's a good chance if it mentions
+something that sounds vaugely like it might be a fix they'll backport it
+anyway).
+
+--m9pEjx8BKKls8u8P
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmchJjQACgkQJNaLcl1U
+h9AQRgf/a2GBYei+J8s+gsxooV9IOOFtXRNfi0r7cTXM76i8ADlzxwfP+0YeOwwZ
+aEvlC6FACNmwMYFHUTYakWLna93Z18CI2lYto00Cx62aA0dV8nNXoIuAobXFIg5n
+hqMyIfijNAT46GYbrKsFMN6mLv1TzqBPx65a2VxwdKLNJpEQSV+nTNOZNb/2sd/j
+5J6w/s0hBWvzqTI9jzCWxQDExdQsGWOH+7ZgGStizVwrwMTGgnjSOmZOhLUU5EEb
+6yANvLIcJYYPERnQDLaaBEZpAKC3pHoSVc8S+X4s5DQdlytpPIa2tothmDbKjEG/
+x6w2wxTsrsBhiBNzs5eIw/KGZ1lpqA==
+=tqkL
+-----END PGP SIGNATURE-----
+
+--m9pEjx8BKKls8u8P--
