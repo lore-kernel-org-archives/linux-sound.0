@@ -1,93 +1,94 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3234320494C;
-	Tue, 29 Oct 2024 12:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34513621
+	for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 12:51:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730205982; cv=none; b=nejcujJ4Ac3BEdq6ZkFiffgNScQ43iPl6Kq5ziYt3AWXICwX4+Ke9tp85myhK1YCfeyUsF9K5yZ+l1Tk2TwhYhyak4ZZ/rvZ2ASDsb0GRJ17d1nILZPAaEMMM8QV2xJdQqmEScr7NolAI+rgUAxo7h0wNTJVxioMorrXnyq5VRw=
+	t=1730206264; cv=none; b=gLvd6PFJ40JTWrb5jz6EHuIu+qYw99DXD2slLQ7TQ/kZC+KrRbLWXDRo/VRX+fllycuYt9G244detfdgPrtvIWl12/dj9YRj+416c9aNs8827XKuQqlJ0FwnQNMNK3v4KB6Pa8Pk1/zH/kHVGKlemzByGJxJUAgwHZ+MR1WZ4z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730205982; c=relaxed/simple;
-	bh=uAj+8t0xewdfbCSl3OHFX3wOboNaulolhytV/WDj0mY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=idmSKrtxktipmToCZoIi8rylBvNKg5YDQjRtRDzz8W+LAmLdbu70Hnb5yhZ7kdVAUbX3Q8/cGDi4XXIVxzEKJROQYP+uADpOxFlq4uFZKyVDj3yVLmmmzkArjb0HOwW/Ad7lflL9RUPLnjgAxQmyU0JybSaB/8iXNnOPnl/jqDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PHaQFc45; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730206264; c=relaxed/simple;
+	bh=xH2CMMFqSLKMd0Tqh+sts1ypcYbz4BgYEKnYl4eRMaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLnYvxMqvEUCsgpPAyLufAlUefjhNIcvq5EH91t0011fHqux8D2jGTCnzk5lnsk0+8T/GlOP12yxxFYsOpx+ZiNt68JydP6v+SblUzj0+GdJMN9fU7yw82l6swqAhvKoqsr9T5+y3RDZvZ3VLTIT7FMi9fGcvr3Nh0vYopHRh3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jN+aAOis; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHaQFc45"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CDB0C4CECD;
-	Tue, 29 Oct 2024 12:46:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jN+aAOis"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3ECBC4CECD;
+	Tue, 29 Oct 2024 12:51:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730205982;
-	bh=uAj+8t0xewdfbCSl3OHFX3wOboNaulolhytV/WDj0mY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=PHaQFc45OGT5Ec5I7CSrcxGZC9E3sGVaLjO98aOISj48Bres9uVLnop/zcqOAJTd+
-	 bz1zMTepxxB5TEGc3cTRIUSW3bGdEQNFrppJbrzTg6cGPK+ikNkt367hSqqU00og+Z
-	 MpeRDXZpd6x85oQlw8rKKVrth0weQJgu0eTR5ctHEl7vlsT3qSYfGRAi4CPHymgVGR
-	 250eE7VP1mvj1Q8RH/zSWpaougW2S6Ke8Ctcscga0vDKIpqPguSBQd2OLoTUZsLlB/
-	 gm7S2vFX6T6jvtAywSTc320AUpCqkgHcapB6YiCIivhyslvU0X5ho/BVvlLQB2/fDl
-	 Mce1wEsJ1EFMw==
+	s=k20201202; t=1730206263;
+	bh=xH2CMMFqSLKMd0Tqh+sts1ypcYbz4BgYEKnYl4eRMaU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jN+aAOislgsiZkqy8L7fbHRyZz+NQOBV0qJGY4pzMJkzCJcjefelD9kwVP+8zWCnR
+	 4KjNTSaizoBKtJVtw8XuCzkOV0BxYAQPJWMV4bepj/tARQ7Jhbb96BW2Rh37s3uFBU
+	 y1ix+JSyP9enJMR0BHIpOHTlrT8LtGBwrxWMeYljZytRUFN5p+AFq8PxZkTApo4hoP
+	 WtxAxBIFbvOxjm3Rg7wjhm5Or0nKLcODsK6GgatXr11mJFXBojsHRPNnluIB39G4MY
+	 QS2yYfDWq/Azm4HEInOXntrCXH82kuOHd7Sn0NBMSyqBVR889/6kZI+MYoDrHj7AGc
+	 H/vAn9ph/tF0A==
+Date: Tue, 29 Oct 2024 12:50:59 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
- Aleksei Vetrov <vvvvvv@google.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-hardening@vger.kernel.org
-In-Reply-To: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
-References: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
-Subject: Re: [PATCH] ASoC: dapm: fix bounds checker error in
- dapm_widget_list_create
-Message-Id: <173020598004.42950.8042237651169849553.b4-ty@kernel.org>
-Date: Tue, 29 Oct 2024 12:46:20 +0000
+To: "Shalini Manjunatha (Consultant) (QUIC)" <quic_c_shalma@quicinc.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"Raghu Ballappa Bankapur (QUIC)" <quic_rbankapu@quicinc.com>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"Krishna Kishor Jha (QUIC)" <quic_kkishorj@quicinc.com>
+Subject: Re: ASoC Kernel 6.1: Query regarding dynamic dai link/dapm
+ registration during bootup
+Message-ID: <aa1a8eb7-685c-4aa7-b73c-640bbcebdcd5@sirena.org.uk>
+References: <MW4PR02MB7266556C7EA581EB90AE81EDD44B2@MW4PR02MB7266.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="b1KLVv4xEzbzkh0+"
+Content-Disposition: inline
+In-Reply-To: <MW4PR02MB7266556C7EA581EB90AE81EDD44B2@MW4PR02MB7266.namprd02.prod.outlook.com>
+X-Cookie: May be too intense for some viewers.
 
-On Mon, 28 Oct 2024 22:50:30 +0000, Aleksei Vetrov wrote:
-> The widgets array in the snd_soc_dapm_widget_list has a __counted_by
-> attribute attached to it, which points to the num_widgets variable. This
-> attribute is used in bounds checking, and if it is not set before the
-> array is filled, then the bounds sanitizer will issue a warning or a
-> kernel panic if CONFIG_UBSAN_TRAP is set.
-> 
-> This patch sets the size of the widgets list calculated with
-> list_for_each as the initial value for num_widgets as it is used for
-> allocating memory for the array. It is updated with the actual number of
-> added elements after the array is filled.
-> 
-> [...]
 
-Applied to
+--b1KLVv4xEzbzkh0+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Oct 29, 2024 at 10:35:08AM +0000, Shalini Manjunatha (Consultant) (QUIC) wrote:
 
-Thanks!
+Please fix your mail client to word wrap within paragraphs at something
+substantially less than 80 columns.  Doing this makes your messages much
+easier to read and reply to.
 
-[1/1] ASoC: dapm: fix bounds checker error in dapm_widget_list_create
-      commit: 2ef9439f7a19fd3d43b288d38b1c6e55b668a4fe
+> 1) can we register sound card twice during bootup, once with limited
+> dai links and next with all required ones?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+You can certainly register a card driver, then unregister it and
+register a new one that binds to the same firmware?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> 2) can we register dai links/dapm dynamically based on use case requriement?
+> 3) If it is possible, could you share any reference from any other vendor who is able to achieve the same?.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+In theory you should be able to dynamically add controls, but it's not
+something people really do at the minute.  You'd have to be careful with
+locking and make sure that your userspace can cope with things appearing
+dynamically.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--b1KLVv4xEzbzkh0+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcg2jIACgkQJNaLcl1U
+h9Bk4Qf9ENT4rpQ4sGRuPWeviGEqMjgdAJRmCgmPktLIyvrE4O5n3RMEAKvu09Ds
+pigNtDBEiFUHeAHhfWuDffWDf9G0Kb+uiriSxk09K6MGvnp/wFXzoTvgs1yIMOSO
+UBye7FDFxQBZkJa/nkJmrEe0q+C1vZLPgKG++BWGKGdHtWTG4Vxv7/q/wm92xnj6
+yRFgwSV9fBIfbUNe1/Ac7JMCYQfarSxuP0AtYvL6GSAG7efaV3MYQ+0N08N6xJBT
+eqwpUSK7yx+HHPu8uNYf97UZRVlTH07behQcWfZ606RWUTk3PdvNj6fLeNsnHkA0
+Loz2a05AxSnIG14Sl/m+XIPMonxXxg==
+=YqSQ
+-----END PGP SIGNATURE-----
+
+--b1KLVv4xEzbzkh0+--
