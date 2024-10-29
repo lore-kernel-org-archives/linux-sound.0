@@ -1,34 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856E542A92;
-	Tue, 29 Oct 2024 14:08:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D100A18DF86
+	for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 15:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730210917; cv=none; b=e5VwT3fFFETqP+RLzrUOgRGQsKcsBKYoFhWhin1YrNMqQU8sURlYYDQOcePSSccvYy774Anx7wUH09Mamwm3rLNGqkXg0i4iXwhK35u+GJJBjn57Kag4akmdcQuGujCDdVFHa1kqg6acySR3ykt0aWBIetx6M/bMc6UuwKSqip4=
+	t=1730214900; cv=none; b=tGuZ/tB10m96ycnfbsFc7L5Gr1usodsnk99hIF+pGT4d5UNdNdZ4VTRnJBreZzlxW+o/+EG51Kxx1eEomW9TDOiVodLabc/qUyU+6d9bDBfYnpAwmAykj93oxyNbMHlrdLzgSCa6sbR/oj+yJXvq2qfpN6IJA4hTpbdyfIS25w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730210917; c=relaxed/simple;
-	bh=ObDzOhYCuptnWikVtFmXWeBb94o2pZmdsPmc1Vb4m4I=;
+	s=arc-20240116; t=1730214900; c=relaxed/simple;
+	bh=WEVAFJYtA9Y8eRxcAvnLv1yBU6QJV9W9DD7V7ombfd0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nRlp5PCYZPTbiwgkJLDq4IFoIF4AHxUSM0afz7tmnmN5z0zMOqBgJr15oWkP6f6Kns3YofqgldhA8Sq5Jmo1IbNuadXf8UlVk5c+tHplC3+IGqIWg+pqdsGBGeT++2wi2wNiEjlr/OvE46hK89/GI0L0txMDWU4QAabHlGiFQoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CyLq3F6C; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPUzR1i1Yx9AI9Vi0XJnDxZxd4Ug8nfVvgsnsSSx1hNMFhvgJXvyerdCECHWwZdZyKQ8G7U+zceuTJvGwfg6z3peLVHs3B5BoEhClgf7B4Gco0ODCoejEWeuAzmR9s4vJv5NVVumAuy4ASVl8oJ778FvZM40a4qqMXZeLWmgqrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sk/FAPPB; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CyLq3F6C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5ECC4CECD;
-	Tue, 29 Oct 2024 14:08:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730210917;
-	bh=ObDzOhYCuptnWikVtFmXWeBb94o2pZmdsPmc1Vb4m4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CyLq3F6C4Jb3uE3m9U9UXOrYlYTQilpLv2CHJmEOSnK7XypTSrePEMX0XasfLcydi
-	 cOh23QeYStyUJih2j/+ED2eegBEhW98+aakvfIPBISE48FqbsBLmLiG+kRmbcCUkLq
-	 1OX/S4YG+dJwcpFiElWDl2YrLPBc/ohXhX29N3IVOODd2jXGI9BjScSk0iMGFaW1wZ
-	 0Gq3FGWWXXJYbTlEoJQcA4UgpWuoZCHtAYd0mw/J/cGD1BkpsHzY/adpVcA3VRpmBd
-	 JaguFeCPVNK/fAgLWigDFWYoO/xz9uYeZBKKHO2LFYyBVMcm3PIboxGuvkm/f7m/Z8
-	 imQ51x9DOJKVQ==
-Date: Tue, 29 Oct 2024 14:08:32 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Aleksei Vetrov <vvvvvv@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sk/FAPPB"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-37d462c91a9so4009384f8f.2
+        for <linux-sound@vger.kernel.org>; Tue, 29 Oct 2024 08:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730214897; x=1730819697; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WEVAFJYtA9Y8eRxcAvnLv1yBU6QJV9W9DD7V7ombfd0=;
+        b=sk/FAPPBMcanj6XgUuieuWg508jt0negFuv+PV4bmlG01OBOnPpZQGJlk36qdr7YFr
+         0J1/6zO6k86Q+7+hwY7z1DI1qggMXr9yWzSX0GvG9c/e8bDQTbGZmAfMLA0on0Zt6lga
+         Ilxmuta3u05IARzoERXiVfiwMgDin20efLFw7Bqjc8PDUlCWBQe+3L929VnYHvzfeFN2
+         N5p7ymEoAcZyxLg/AWvYn2MrURs0/J90kQF3l3BYGfxApiUcjTXOU/rVO0ATOW4es2C6
+         pVin2cIfpZN6HMMqA9loNJvDTYqvk9u7g/w+Nulsp2mEQcqmZr0q8WLgbKoOD1Y9gK9q
+         q+hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730214897; x=1730819697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WEVAFJYtA9Y8eRxcAvnLv1yBU6QJV9W9DD7V7ombfd0=;
+        b=be3UsEcIN13b2+tpEeboZL+9rnRFgtCQUPW8G4kYvAXqTyl0LBr7xFMmnq47oZoppE
+         X3tSxzqticZU7epbxjRMweoK4EVAZ7DoiVCrDriZsxLDwtlnLKMJFLAdw7fG3RzwT/4m
+         1Vu6un4fif50C6zvgthawbZ0mNNtjQV1i+Tsfw6eoyRUgA4HGZSr+FwbJ64Y+8Ld+MuV
+         Xqs4O6fYBBtKo0WPDYyNOMe+f6CCE2KkR+qVPLJvS+2wLdxvsrSM1d6DqzEA93a1DalL
+         3vOU3CIUcagDW6/F0u7ZVckOV+YTzrOrCAsgmZP2y0K2LJpC8aq9cV3qv9ILw4XFeCdK
+         8G5g==
+X-Forwarded-Encrypted: i=1; AJvYcCV1yZ+EwEEX3T4C0pQ9QaGU8u1hyFxcwu2lL5+ruMOGyVjCtcawYHh+iVbt7z28EKM/uadyvdtyGV4kDg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4F4vUw53W2fhD35tF3wpyuXuvzTNTPbCeIxa32vrHE5BjeLvb
+	KG//QHPHQT6WtnuCyW/6y61IepvQ+mEjKK0YFd6HlTnJNaCp2SskiWhPJ2P2zA==
+X-Google-Smtp-Source: AGHT+IEvPtGdVcRU8TyR3DvwW2u3wVv8xHoeVwhinPnFxDCWGaaWXCPAv9qcGbEX9d4Eegwr9M5sCw==
+X-Received: by 2002:a05:6000:118c:b0:374:c4c2:fc23 with SMTP id ffacd0b85a97d-381b710f70bmr1760f8f.56.1730214897028;
+        Tue, 29 Oct 2024 08:14:57 -0700 (PDT)
+Received: from localhost (65.0.187.35.bc.googleusercontent.com. [35.187.0.65])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b71479sm12702220f8f.69.2024.10.29.08.14.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 08:14:56 -0700 (PDT)
+Date: Tue, 29 Oct 2024 15:14:53 +0000
+From: Aleksei Vetrov <vvvvvv@google.com>
+To: Mark Brown <broonie@kernel.org>
 Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -38,46 +63,34 @@ Cc: "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
 	linux-hardening@vger.kernel.org
 Subject: Re: [PATCH] ASoC: dapm: fix bounds checker error in
  dapm_widget_list_create
-Message-ID: <da230ccf-37b6-4e43-be12-9035c594e535@sirena.org.uk>
+Message-ID: <ZyD77Y8bIP3JCAZE@google.com>
 References: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
  <28ade5d1-d13a-4388-bd0b-f03211937abd@embeddedor.com>
  <ZyDlAd-Z26wnhZK5@google.com>
+ <da230ccf-37b6-4e43-be12-9035c594e535@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Smf6UI3x8BM1at2s"
-Content-Disposition: inline
-In-Reply-To: <ZyDlAd-Z26wnhZK5@google.com>
-X-Cookie: May be too intense for some viewers.
-
-
---Smf6UI3x8BM1at2s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <da230ccf-37b6-4e43-be12-9035c594e535@sirena.org.uk>
 
-On Tue, Oct 29, 2024 at 01:37:05PM +0000, Aleksei Vetrov wrote:
+On Tue, Oct 29, 2024 at 02:08:32PM +0000, Mark Brown wrote:
+> That doesn't seem to have shown up here?
 
-> Sent v2.
+Sorry for the mix up, I've accidentally replied in the wrong thread.
+As I said in https://lore.kernel.org/all/ZyDndtgj5vKo-wvB@google.com/:
 
-That doesn't seem to have shown up here?
+> Actually, my reply above meant to be for the nl80211 fix
+> (https://lore.kernel.org/r/20241028-nl80211_parse_sched_scan-bounds-checker-fix-v1-1-bb640be0ebb7@google.com).
 
---Smf6UI3x8BM1at2s
-Content-Type: application/pgp-signature; name="signature.asc"
+> For this fix I couldn't send v2, because it has been already applied by
+> Mark Brown. Guess I would need to send a separate message to the stable
+> team asking them to pick this patch from git.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcg7F8ACgkQJNaLcl1U
-h9B/rAf/cLEITqILQmYrE0RumhbYtZyY4dnDDKVlSj2QfLqRDxLP4bfdZt/xfMn9
-W0KcIXOwy4PuMJe/vKNvOg0GfWX3wDyGBwxiGbaZpZpRlZJgHNInpqPqCKVAPJw9
-Kf3DgtiAL7CdUB+5JKcFK4lPZZ6R4aqWV5V3moU6+J54a5wVCyHL5V+4KCB3XNgC
-J3BH8XSVx4+CrA6YdxNzJL8YYii88a96PZf5V5beBbMQhz8gWV9bRjwWatnLBtsF
-yvUyl9J4R/A7a7wKnQ+X3aUbQFpS5t7hmSIZU/dJqhqLZ///JiNCiOaDe57eWYc5
-Aauaqaq0v1NgxKFldJkgN80cVYOoDQ==
-=8qa+
------END PGP SIGNATURE-----
-
---Smf6UI3x8BM1at2s--
+Cheers
+--
+Aleksei Vetrov
