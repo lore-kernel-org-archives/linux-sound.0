@@ -1,112 +1,165 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618877464;
-	Tue, 29 Oct 2024 05:57:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070BA1DF243;
+	Tue, 29 Oct 2024 06:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730181478; cv=none; b=Y/Adj+OoIpx4irMSS7D0/NEMdlG+P0AtyUHbLn7Hg5zsYYYDZkSBnkD697NEK3tgOkj7cFBiduF9wu/deGu6sCFobUxAO4f4HF+Ts4pY2SqdyUVg9Ah4YLg52n+AhIRJUbUTNB5aWZ1gbXj4yh3yDSB7TY5gxrIzfivX3XxOI7I=
+	t=1730183212; cv=none; b=Zp6C5IBdxOV5MevOgUObHec0qrLrb7IHS8ZVav8q0gYs1mrJeaL3B2024YSn3611uhEWhTd1JJvdrYOto+TplY1hL8Ct51ck/Znu9WokkF1R5svYN3gBeUT6n4c5tSfkNAoKZMJPGfFZMZm4vmZpZRgqtFYIHnkzZwYOiPPB6hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730181478; c=relaxed/simple;
-	bh=ZdmxadM0qitMz8h++TS+i+JMGgqwYOA9lEVe+RyuLTA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nVyQ+TqIxs5kAm66vk9aJA7y79L3YLC1PPToH7OYFdegaVE7b4li/jw26dErl3MJMZFkY9CmRs8uefA6XwCE00acKzweVzSsyu+xaRlXucY85XnUJK216NXwz02U0yW8d2ot3IH3gjjOVQoL+h+YFUcaelbCZ4s/SmH51ShGkYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=NbrwfI7a; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1730183212; c=relaxed/simple;
+	bh=IfNNGE41sAXqehyuYoE/cEw3HG+DgkTj+GhJu0Wj7gw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U0cu82XlhUWKivCkliIc+t6eiC1aTCP9AUsaPP6NrUowbS7tPt22mFwWD0sV7rl/a6M57OqsaZciVOHKquHiI6iFHNlZCBMey3Rw2LCksZkLoaCm+KzowFGIbWisSE7vjOebkdU063dX8W55n8moLz6gpFhjIq+Y34PHyb1uPEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1wsk7ho; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="NbrwfI7a"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=y5hIEno3hSw6Bs0nElkBzz+S0GGKfeU4NL68Zcym0TA=; b=NbrwfI7aCxqhCar/MFfBqte2mf
-	VGpnwyAfOfOh9lRUXfqFcG42dV5YmDVFqRY8J6BHuxzjYZktxw94kcQstkaCDifpGDCKhfJ28j9ME
-	1hEM7NxgPSOWMhvNMbTOv0+my+QF6FOLbzvtDnVxyMDLLxm0lsrObclwmLDpcT0g8koFLu+EzSFqc
-	oizBkhahfbGiY7y16s/95CbXy/nKXo2yYrEG0sAxBGhJ8YJXNKecY13vxY1KcN65YDl3/4Bo4cDz4
-	D9RnOzStcM0gxOrICT6d92LrRXZejeZB7efsDRjKfZonPNUp1mub0wTCuTODyBTntFmIHNc7SCA0n
-	vledpmHA==;
-Received: from [185.156.123.69] (helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1t5fEb-0005Ts-O7; Tue, 29 Oct 2024 06:57:41 +0100
-From: Heiko Stuebner <heiko@sntech.de>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Dmitry Yashin <dmt.yashin@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, Dmitry Yashin <dmt.yashin@gmail.com>
-Subject:
- Re: [PATCH 2/3] dt-bindings: arm: rockchip: add Banana Pi BPI-P2 Pro board
-Date: Tue, 29 Oct 2024 06:57:39 +0100
-Message-ID: <5957455.DvuYhMxLoT@phil>
-In-Reply-To: <20241028213314.476776-3-dmt.yashin@gmail.com>
-References:
- <20241028213314.476776-1-dmt.yashin@gmail.com>
- <20241028213314.476776-3-dmt.yashin@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1wsk7ho"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C7A4C4CECD;
+	Tue, 29 Oct 2024 06:26:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730183211;
+	bh=IfNNGE41sAXqehyuYoE/cEw3HG+DgkTj+GhJu0Wj7gw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I1wsk7hofiKEX3lmeXbG/Ml53ueyliw3uXt0HwTKekAoKM/pdshMmz+7/1/7XgGA0
+	 JkTOYJwoainHiCoQXXUofe7sGmjSEuZJ+xHeH8MpuD5v8p6qH4tmsyEO1O6hnj+H1+
+	 28emFmOis+9BY7SASlv6ivNU9ZRuwbIwIuHzavfg/cQesrnd8S9YaBBEn4RT5essU2
+	 btHSECArULcVC/sbznvmn2K0VPEB8aK3UWCLmlQOQjID9IZPOmAImeHKgxQmEWHiG1
+	 PGCelYQE2E3OzudL2TYZPGFyQl1ni1GK2roHz5mHbDinG2aXLKZsL+wax0F7Cvi4Ch
+	 B89d9igmVq13g==
+Message-ID: <913df216-d031-4681-957e-c9354da337ea@kernel.org>
+Date: Tue, 29 Oct 2024 07:26:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/4] ASoC: dt-bindings: mediatek,mt8188-mt6359: Update DAI
+ link node pattern
+To: Fei Shao <fshao@chromium.org>
+Cc: Mark Brown <broonie@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>,
+ Trevor Wu <trevor.wu@mediatek.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
+References: <20241025104548.1220076-1-fshao@chromium.org>
+ <20241025104548.1220076-3-fshao@chromium.org>
+ <j5qw52grlce63mccduvryx467h4hvcnqrxrova74d52izq3g5r@wjiflssmq6a5>
+ <CAC=S1ni-F_oudNyskSbxS1s2gZG7m4U4+nLxt0=dt5+DDkhV4Q@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <CAC=S1ni-F_oudNyskSbxS1s2gZG7m4U4+nLxt0=dt5+DDkhV4Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Am Montag, 28. Oktober 2024, 22:33:13 CET schrieb Dmitry Yashin:
-> Banana Pi BPI-P2 Pro is the SBC made by Shenzhen SINOVOIP based on
-> Rockchip RK3308.
+On 28/10/2024 12:12, Fei Shao wrote:
+> On Mon, Oct 28, 2024 at 4:56 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On Fri, Oct 25, 2024 at 06:44:42PM +0800, Fei Shao wrote:
+>>> The associated machine driver is not dependent on the format of DAI link
+>>> node names. This means we are allowed to use more descriptive names
+>>> instead of indices without impacting functionality.
+>>>
+>>> Update the binding to accept arbitrary DAI link names with a "-dai-link"
+>>> suffix. This is the common pattern used by the target (MT8188) and other
+>>> (MT8195, MT8186 etc.) MediaTek-based Chromebooks.
+>>
+>> We do not want arbitrary names. Why for example green-batman-dai-link
+>> should be correct? The existing pattern looks wrong. Please read DT spec
+>> and chapter about recommended names.
 > 
-> Banana Pi BPI-P2 Pro features:
-> - Rockchip RK3308B-S
-> - DDR3 512 MB
-> - eMMC 8 GB
-> - 100M lan + onboard PoE
-> - 40 pin and 12 pin headers
-> - AP6256 BT + WIFI
-> - TF card slot
-> - 2x USB 2.0 (Type-C OTG and Type-A)
-> - Headphone jack
+> At first I was thinking about regex like
+> `^[a-z-]+(-[a-z]+)*-dai-link$` based on the DTS coding style guide,
+> but your example is not suggesting that.
+> and the name like "hs-capture-dai-link" was rejected, so it's not just
+> about enumerating the names either.
+> Or "^dai-link@[0-9a-f]+$"? But they don't tie to particular register
+> addresses... or just for some pseudo indices?
+> I could miss something about DAI links under the sound documentation.
+> Still trying to figure it out.
+
+You did not provide any reasoning why this has to be changed and why
+usually preferred generic dai-link is not correct. Names are not
+descriptive.
+
+
 > 
-> Add devicetree binding for Banana Pi BPI-P2 Pro.
+>>
+>>>
+>>> Signed-off-by: Fei Shao <fshao@chromium.org>
+>>> ---
+>>>
+>>>  .../devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml     | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> index 701cedfa38d2..2da34b66818f 100644
+>>> --- a/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8188-mt6359.yaml
+>>> @@ -40,7 +40,7 @@ properties:
+>>>        name defined in the machine driver.
+>>>
+>>>  patternProperties:
+>>> -  "^dai-link-[0-9]+$":
+>>> +  ".*-dai-link$":
+>>
+>> This breaks existing users.
 > 
-> Signed-off-by: Dmitry Yashin <dmt.yashin@gmail.com>
-> ---
->  Documentation/devicetree/bindings/arm/rockchip.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/rockchip.yaml b/Documentation/devicetree/bindings/arm/rockchip.yaml
-> index 1e3eceb266b7..0c85c15d5c04 100644
-> --- a/Documentation/devicetree/bindings/arm/rockchip.yaml
-> +++ b/Documentation/devicetree/bindings/arm/rockchip.yaml
-> @@ -1104,6 +1104,11 @@ properties:
->            - const: rockchip,rk3568-evb1-v10
->            - const: rockchip,rk3568
->  
-> +      - description: Sinovoip RK3308 Banana Pi BPI-P2 Pro
+> There's no existing users in upstream, and the only downstream user is
+> the MT8188 Chromebook DT that I'm trying to upstream, which I can fix.
+> This binding was upstreamed exclusively for that DT.
 
-isn't BPI the short form of Banana Pi?
-So the naming is sort of double and I'd expect it to be
-    Sinovoip RK3308 BanaPi P2 Pro
-similar to how the R2 below does is?
-
-
-Heiko
-
-> +        items:
-> +          - const: sinovoip,rk3308-bpi-p2pro
-> +          - const: rockchip,rk3308
-> +
->        - description: Sinovoip RK3568 Banana Pi R2 Pro
->          items:
->            - const: sinovoip,rk3568-bpi-r2pro
-> 
+So you have entire commit msg to explain impact.
 
 
 
+Best regards,
+Krzysztof
 
