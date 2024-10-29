@@ -1,104 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF5B20408C;
-	Tue, 29 Oct 2024 09:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967A520493E;
+	Tue, 29 Oct 2024 10:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730195428; cv=none; b=O/wjRpqUhffSgpF2YKncbsOuyRBJUM0L7bcuP4T4MdfkupJDHJHRJBQvK09Kcy1c3RKZIEM1dKnjoPC7hbqBoYSOEqaeYZjMUpEvrCnRn9aZ1jc8x5x028NgbPwoa/kWe5LO4OQhIFmzWQU8UetSI0ckTu0ZmGLG07yZ+UI25v4=
+	t=1730197533; cv=none; b=dcpYDdPElBsyLVjkY3hhQrtOuDJ13sGVyd8oi+VWwbCP/uEEDrF/i9TEXRRbSj0pGGb/cnsKn1YB3IfisIzF+p8J7m+dsKDPeE0EyLU2O1kvBPFpUnPA8kUefTd2RjODsdscaDoK1j+SxAyJvS+WqMEka8D7zVO9hUjFfVKXVs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730195428; c=relaxed/simple;
-	bh=l2eZ1x4L7FVeLGEx8M58IpKnMVCKjsvAwgQ0wKrSN6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QTWXCamuo0L9w/S3q72dd8VY52GdLjZcEXNYniX51tbcLMJc5+sohmf2ScHgu+ZPWyP8KgFJdCXoKXT0hgLGougPDJrTFDvAuEC2L/ERrIYJk0zs/2Nzd8hEQXpC3GXJkQCDmt5b9MKZKejESAXjopfwwAjGuGPQq0dolHjXqZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g7RfndZD; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730197533; c=relaxed/simple;
+	bh=y9NumT39ftBDSQuti8WYEfIhUghcFJ6KxtciHYnMAWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o3bNV2srxY6c652tcUDb/uSfkbTTPGifiRqoKCHcCGxcmb4QWYk8o5JZ8Ulm1J2o3/qSr40UZEiW007QLuU0lgxQVDgcEc0RNZhIHUzjHOZk4iOy0I2SLaTCEfW+rRHdVV9ndaMT3AskxUiO2eK3hldJl1YI9i/8NCX3QVLKDfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=l7ztNarw; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g7RfndZD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730195427; x=1761731427;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=l2eZ1x4L7FVeLGEx8M58IpKnMVCKjsvAwgQ0wKrSN6A=;
-  b=g7RfndZDiyH666EoSqikuHhGEK4NoxhusGX8iJKOGMnfzjnWPPBTOMBk
-   CzjHVtO7+4FYqM+UbPJ79OURVur5dQmsEfMElkxeESbq46t7pszG2fh6u
-   Jge7Ppskyor/YC7Qz4E4RwuV6ZuZGiFLdsW4oRif8W3DG1klVQe+RW0x+
-   tPj35C4WO3vW1qot+DQLvQoetzmFncn+WcNB0GyKqV6DV3r3GDMsPIcoZ
-   YS/mGejxnj+lwyIJzq1rCrbOBQMpTG2iyVArKAY+bSQsySF6C+HmPqGl3
-   06MOkJGdOX2U23nCoWxdAgWCoOso0E8eSWCJgZxYl8sZTtOY3ugmmDPZE
-   Q==;
-X-CSE-ConnectionGUID: zvQQnV1NRAeJbOUWTPp7qQ==
-X-CSE-MsgGUID: JPTLWcJ4SG6bp03kP1Xedg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="33620287"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="33620287"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 02:50:27 -0700
-X-CSE-ConnectionGUID: y6v2tymxTNmAPMdGKhTssA==
-X-CSE-MsgGUID: ZMGc0KROS5SN60Itnmn1wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81835899"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 02:50:23 -0700
-Message-ID: <987b8806-2ec7-41f7-bdeb-8f843c34a993@linux.intel.com>
-Date: Tue, 29 Oct 2024 10:50:21 +0100
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="l7ztNarw"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DB8794000A;
+	Tue, 29 Oct 2024 10:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730197527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eUH/rpUCPGOSk8YLeW4XbiRH5XfXa3Tcsoj64v3K+ko=;
+	b=l7ztNarw6Olae9y03XSNGT6NuOTvnLXgSjsvasgyAVvwdLNliuiwu7cI+mDPhDiqK/9nzd
+	XH5pUsIItxtEdoSzaSOswy8lej4ARU3m1bmjE0z3oObD9TTG4CPEbz4P8bRIrEmMkQsA+D
+	J8FFye+ETWgxJEqMWBTHtguSoRFdTADi7DpisIBivWERpRDKLasuV5tn7MteFzCzQbE7Tc
+	vpdcKL8MseN+lSqtLFZIoUD89wTaFt1WFVsLRZxYQahGPEqJDBiG1q0n6aPXcU97BFm33h
+	QtVPsR9lCJRy4jEihJyst+Zsp9QteKZxqhvqlZ3PBXR9s9vODELGkJvfhTQw3w==
+Date: Tue, 29 Oct 2024 11:25:25 +0100
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Yashin <dmt.yashin@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: rockchip,rk3308-codec: add port
+ property
+Message-ID: <20241029112525.50c15b60@booty>
+In-Reply-To: <20241028213314.476776-2-dmt.yashin@gmail.com>
+References: <20241028213314.476776-1-dmt.yashin@gmail.com>
+	<20241028213314.476776-2-dmt.yashin@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: dapm: fix bounds checker error in
- dapm_widget_list_create
-To: Aleksei Vetrov <vvvvvv@google.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <20241028-soc-dapm-bounds-checker-fix-v1-1-262b0394e89e@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On 10/28/2024 11:50 PM, Aleksei Vetrov wrote:
-> The widgets array in the snd_soc_dapm_widget_list has a __counted_by
-> attribute attached to it, which points to the num_widgets variable. This
-> attribute is used in bounds checking, and if it is not set before the
-> array is filled, then the bounds sanitizer will issue a warning or a
-> kernel panic if CONFIG_UBSAN_TRAP is set.
+Hello Dmitry,
+
+On Tue, 29 Oct 2024 02:33:12 +0500
+Dmitry Yashin <dmt.yashin@gmail.com> wrote:
+
+> Fix DTB warnings when rk3308-codec used with audio-graph-card by
+> documenting port property:
 > 
-> This patch sets the size of the widgets list calculated with
-> list_for_each as the initial value for num_widgets as it is used for
-> allocating memory for the array. It is updated with the actual number of
-> added elements after the array is filled.
+> codec@ff560000: 'port' does not match any of the regexes: 'pinctrl-[0-9]+'
 > 
-> Signed-off-by: Aleksei Vetrov <vvvvvv@google.com>
+> Signed-off-by: Dmitry Yashin <dmt.yashin@gmail.com>
 > ---
->   sound/soc/soc-dapm.c | 2 ++
->   1 file changed, 2 insertions(+)
+>  .../devicetree/bindings/sound/rockchip,rk3308-codec.yaml      | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-> index c34934c31ffec3970b34b24dcaa0826dfb7d8e86..99521c784a9b16a232a558029a2f3e88bd8ebfb1 100644
-> --- a/sound/soc/soc-dapm.c
-> +++ b/sound/soc/soc-dapm.c
-> @@ -1147,6 +1147,8 @@ static int dapm_widget_list_create(struct snd_soc_dapm_widget_list **list,
->   	if (*list == NULL)
->   		return -ENOMEM;
->   
-> +	(*list)->num_widgets = size;
-> +
->   	list_for_each_entry(w, widgets, work_list)
->   		(*list)->widgets[i++] = w;
->   
+> diff --git a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> index ecf3d7d968c8..2cf229a076f0 100644
+> --- a/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> +++ b/Documentation/devicetree/bindings/sound/rockchip,rk3308-codec.yaml
+> @@ -48,6 +48,10 @@ properties:
+>        - const: mclk_rx
+>        - const: hclk
+>  
+> +  port:
+> +    $ref: audio-graph-port.yaml#
+> +    unevaluatedProperties: false
 
-and after that there is (*list)->num_widgets = i;
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Can this be somehow simplified to remove 'i', if it set before assignment?
+Also, why not adding a 'port' node to the example below? Can be done in
+v2 in case you send one.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
