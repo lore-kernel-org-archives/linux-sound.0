@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8020B1EA;
-	Tue, 29 Oct 2024 20:35:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF1F20B20F;
+	Tue, 29 Oct 2024 20:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730234144; cv=none; b=ko1fQDPV4BW4R1a3F8ycKpWOn9S6ub67+dX7dGE7l4nQAoFi78fvHHmHOhqs459kqZeEgUtVdZgUiM3NwZA06EGKoDlF9421AEgIxGSwwwl/Ru33MQhwSVddkbKnaP5isD8Lw+Y6jlRyDWtodrxTMSSNt6yVcH6hcga3FqQImFw=
+	t=1730234146; cv=none; b=I45HVHJpK4KwUZ58mwZWyPrjeo7nj3ISvFEjPwJtrS6LKXaQ7Yyc6PdGTfM8vmDB+pJ54xHLC/rl32WHGIRXvQ0yCOZ7hiGbPW134YdAJFE0xiBNJc/+qPToJtQAD/EO1kqoqN0K7tbzD0T2Sc0qUdiGLCjTJtJ79378MYd0pac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730234144; c=relaxed/simple;
-	bh=ONGKXVSgZrrRY5M9vuQpxWfzUreR6foBojSBdMgOX6A=;
+	s=arc-20240116; t=1730234146; c=relaxed/simple;
+	bh=EH49fBcg1xnPZSv8CjBUPDLHZTVEnhL92w20nPZLvxw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UtbloGkRRYcEfPM/wpuOclY449zUcuqgiCzoEFkwRPRgiDqk+wWYAIQpcGFYCycHUlH3D4axwqmHXVyRAv7ztxNZ5+yS1tn25xz2msGxY+jatz2oyEYUBvIgXD/kIirbAUwrlXmDRhScjYWKsk9RsixQ1FCg0GMMQ0pkmbdYis8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fXiSNg6U; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GfdnQWdiW+lyzXxcwUAGA/uCNRIZoRU+OjwmilPHNdp/K1LtP9hw3zqy8hnazi4YwGJEd1ASzTaHR+eDvEgwt+BsjxLZcUkvfyJKy2e34IcZKrvupbh+eEDkyjG/r/iBxdrbNaEoyxKhZMSwRya+TCt8+pUSUp91Q+ZrIEwA71w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYvIRtAm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fXiSNg6U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B12FC4CECD;
-	Tue, 29 Oct 2024 20:35:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYvIRtAm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3892BC4CEE4;
+	Tue, 29 Oct 2024 20:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730234143;
-	bh=ONGKXVSgZrrRY5M9vuQpxWfzUreR6foBojSBdMgOX6A=;
+	s=k20201202; t=1730234146;
+	bh=EH49fBcg1xnPZSv8CjBUPDLHZTVEnhL92w20nPZLvxw=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=fXiSNg6UIHx5ipnEYaIG5nYWtF/u4BasUHfGE9KW4yov9NRbOTNpy6BFnv4B0SWV0
-	 9q0Av1OhfI/lqVhnpHi03LTPi18MdAWVfNkM7piftbWTPMfflCy+AVBmNLsZs+aWBZ
-	 z5G71IVkDGohEDx4i88v67vZ6PRdkm8/u38YDTjf3qAVJjORbi9woNAFA1IWUhuy+B
-	 vPn5oca0Fy4pRfmzQu3C4zyURAzt/zopOfK6pakbKZpWeUCqFQhckrwID+S4kUceY/
-	 xpMna8K979bP5VZ0pxgkAen17Edb6B6EqW1sSNBtJx6bZwJj/QjRkXChwCik4E+7ni
-	 r229INsC0ap9A==
+	b=KYvIRtAmtoixygMz+a2XxHt6DkPRuQjciy2Xm03E3wMqsbV3tLs50qwpWQSrnjm41
+	 /MIoS9Fuxx5hp4+7WME89l48G9pESX/ygwqTaUF5InHJp0UH2sLjuLu5Z8AKOSg8iw
+	 iEnqog0g283e1ktePYZYYacZ6aWje6Ao90HsXZV8aTnC0r4N6PTlnqBlWfJX46Hqz0
+	 CBNMK2nwjeL+VIvg0tDdWQymmT/n97hx+R2K2cb9cGE0+n6R2Vd7PHJHZhEQsVVOKH
+	 fn+9Axqa+oo5ObCVIHCjNBrH2fMoBfjO6t1z67WwnUm4+U8TqsEAhD66rq0Nfjnxee
+	 PqUmSF7gB92hA==
 From: Mark Brown <broonie@kernel.org>
-To: srinivas.kandagatla@linaro.org, quic_pkumpatl@quicinc.com, 
- a39.skl@gmail.com, quic_mohs@quicinc.com, 
- Alexey Klimov <alexey.klimov@linaro.org>
-Cc: linux-sound@vger.kernel.org, krzysztof.kozlowski@linaro.org, 
- lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- dmitry.baryshkov@linaro.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241022033132.787416-1-alexey.klimov@linaro.org>
-References: <20241022033132.787416-1-alexey.klimov@linaro.org>
-Subject: Re: [RFC PATCH 0/2] wcd937x codec fixes
-Message-Id: <173023414119.174179.9413439029785380150.b4-ty@kernel.org>
-Date: Tue, 29 Oct 2024 20:35:41 +0000
+To: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ Nuno Sa <nuno.sa@analog.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+In-Reply-To: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
+References: <20241028-adau1373-shutdown-v2-0-647f56bbd182@analog.com>
+Subject: Re: [PATCH v2 0/4] ASoC: codecs: adau1373: drop platform data
+Message-Id: <173023414396.174179.15867147846547510289.b4-ty@kernel.org>
+Date: Tue, 29 Oct 2024 20:35:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,20 +48,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 22 Oct 2024 04:31:29 +0100, Alexey Klimov wrote:
-> This sent as RFC because of the following:
+On Mon, 28 Oct 2024 16:43:37 +0100, Nuno Sa wrote:
+> Here it goes v2...
 > 
-> - regarding the LO switch patch. I've got info about that from two persons
-> independently hence not sure what tags to put there and who should be
-> the author. Please let me know if that needs to be corrected.
+> v1:
+>  * https://lore.kernel.org/all/20241021-adau1373-shutdown-v1-0-bec4ff9dfa16@analog.com/
 > 
-> - the wcd937x pdm watchdog is a problem for audio playback and needs to be
-> fixed. The minimal fix would be to at least increase timeout value but
-> it will still trigger in case of plenty of dbg messages or other
-> delay-generating things. Unfortunately, I can't test HPHL/R outputs hence
-> the patch is only for AUX. The other options would be introducing
-> module parameter for debugging and using HOLD_OFF bit for that or
-> adding Kconfig option.
+> v2:
+>  - Patch 2 (Bindings):
+>    * Removed extra blank line;
+>    * Fixed example messed indentation;
+>    * Added more properties to the example;
+>    * Add maxItems.
+>  - Patch 4 (Powerdown gpio):
+>    * Powerdown the chip when unbound.
 > 
 > [...]
 
@@ -71,10 +71,14 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: wcd937x: add missing LO Switch control
-      commit: 041db4bbe04e8e0b48350b3bbbd9a799794d5c1e
-[2/2] ASoC: codecs: wcd937x: relax the AUX PDM watchdog
-      commit: 107a5c853eef5336a9846e7dd2f9184b6e3c07c7
+[1/4] ASoC: codecs: adau1373: add some kconfig text
+      commit: bebf0f45326e6cbb6f96e405e4179962a5675aaf
+[2/4] ASoC: dt-bindings: document the adau1373 Codec
+      commit: 6b26a56fc035971951299dc1330e1fc5d49866c9
+[3/4] ASoC: codecs: adau1373: drop patform_data
+      commit: 71743cbe28cf1d1f845a30bc9664c3b6a08f0d30
+[4/4] ASoC: codecs: adau1373: add powerdown gpio
+      commit: ba79bca407d3b7e6f5be209d9b3f73f81ee8d460
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
