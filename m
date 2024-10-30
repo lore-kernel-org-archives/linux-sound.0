@@ -1,118 +1,84 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26D7C213EEC;
-	Wed, 30 Oct 2024 15:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2F436126;
+	Wed, 30 Oct 2024 16:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730303853; cv=none; b=osjVMHtO83fGWPd4PUOuFp8noWKEeoDpS+vM3354k5N+g2id0pL29kGsgmudvcbBYJUaPHJFqkDM/JZCIS21v6D5eGK6O0SfNfhuoIuiaD1ydzzzzf/25ICOrsZKgpCh+X8SwP1m7/ZgUisKoX2WsDlE6PYwFxmUYnWnvGwKEQc=
+	t=1730304143; cv=none; b=t0lddDHTOfDIspE5VNB3M4vNeq3VVPXzC+LuQeUu/cwRiW8gjHfYYCvnmvvvIHg3P05HBq4fV0XuBwICc71ICgsCD+E214BKrMMhBGfgQqhX2OgKJlr5hKtNa5+WrvuzGk9EzR87I94ppMdqcaP4bPq0vOPRr2lBgdlduEzY8rM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730303853; c=relaxed/simple;
-	bh=kNn6yVtxGO/Yo8W9cIjthmdVONNF455zFnORPlULS4A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NMke1XPw8vEiC/aCxWdDIyQHhjoZKqD0ykc7L4VSITwPhEpxrexQ8yx0RsHpREV6XQRr2l1U17NaliQFjdGdv7ZJolT0bcEVhkaWoK1aiI3AhgXDmqDllsLOQLOTeyHmg4rNRaQ1/u2qYkl3LlKopni69zPjfv3ev2Lv9NPCClI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GlrdZHFI; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730304143; c=relaxed/simple;
+	bh=YIULgKbhVLl2KEUkjm5ebB+z6v8KNB9tZvb34/55RMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NokSxImVb+sV54q97H8FlQyXitksucIefQLcBu9Lz0XBGj5Wnu9ZAdcL9kUkP2skWkkBTeMW5FWX5HHk6RoUVogdqF/Z1p0S/kMBihJi7ompRavi+NuifxL3OC8ZdoS68yq+KK5JWPS2d6U+bBf1MMo+LbVDyhKLqRvRF7x2RzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=INk/yM5l; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GlrdZHFI"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cf6eea3c0so11795ad.0;
-        Wed, 30 Oct 2024 08:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730303851; x=1730908651; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jKBQQRyBnijRoqoRqmBb6hQgU1uV8yL5Bv3ozKPB0u4=;
-        b=GlrdZHFIsKvf9mqLT/56vjuIDXEHwJfTfEWV5LPZ7nE2eafICXvpPXXC1XjeZ9lhL3
-         cN9b9ixsP30uFDieyAVTdYyaLTvukRclaZz42bjHsb8R3dAqV91XqOMBZRoAEO4aqf+l
-         4fy0qjwWgD5Kv47bJEzlUaf1L/420zRogHzwETplUhcIjBfnJinZAxmCnIWGPN+/INZP
-         4yszA2EUTp6Uhnv/Qj2h78XcQASJgYzjirDu3myW5eqpVJHzaOV8kOXUrvXocEnEFyUE
-         fsxmPLTFdN4fAe7f75zvi901sfAWMTAGYzvIDuYegyuxtFw85Ypk86N03vfblYH0GwNK
-         jx1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730303851; x=1730908651;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jKBQQRyBnijRoqoRqmBb6hQgU1uV8yL5Bv3ozKPB0u4=;
-        b=MtDbkJxYukyLdRFjAYSwsXaHVTwH1KcJQymdtolhk1Au93GNMdK/DRZCibb1azPGdJ
-         ubGDq8Y1UXkse8PsXwx38Nqh6YyyAVnldRZQ3ogoDaBmrm15e9I3m0M79SW6PLQtoTj3
-         boP+9wqdQqGD2hyfkabdQHKgNVTaBP+xCPHfO0R72wS88fh5EK4UnzHFNXlkZ+OvoPZ8
-         tLY1hXyZxge+kb4A6f0hWuQ5jMwpWPExLhzlUlqkrm0Udm+foRTmf2VPxDr7XKfQaEBy
-         Kt2hGzKFPBZEII9PdAe2gFIM98FmI+Uzr7qlNA6jaNC546xBcn6uhOUwy8BsKQUU8klq
-         A+7w==
-X-Forwarded-Encrypted: i=1; AJvYcCX7e4PpyxBSQmbRqwSmevWVXNTaGQt78yq+sIpoj9XknfvhPNEt7Rt12NriXpXSbvkegj7yatysbK/RwqI=@vger.kernel.org, AJvYcCXuJUHm3Zp+D014m7AKkAqhYc3Hwzk0oXqgyZzCloLUcuzasCCTKKXCs5xL7MI9eeb+PZa4O+72dh/Mwtg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyjqsm1j3QR4SFzavInm3niCQOrGHkMyBWqEwr7o4U3o2GxQXNr
-	Y6jcLALMTu0OrK1D0lB5d3LYJOsgndsCLMeohmGWDPBCMN4vaoih
-X-Google-Smtp-Source: AGHT+IHfeBY1wLOHJcfuuZr4MGMWUhM8UccQKJCNVpY56jJ/Pe6fPK5w13eoK8CnBVK1TJPXN4y+8A==
-X-Received: by 2002:a17:903:191:b0:20c:5909:cc48 with SMTP id d9443c01a7336-210c6c3453fmr205801475ad.40.1730303851061;
-        Wed, 30 Oct 2024 08:57:31 -0700 (PDT)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40f2:e:4b75:b7f1:6e21:98e0:5a37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc02dbb4sm82346195ad.183.2024.10.30.08.57.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 08:57:30 -0700 (PDT)
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-To: lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Suraj Sonawane <surajsonawane0215@gmail.com>
-Subject: [PATCH] sound: fix uninit-value in sof_ipc4_pcm_dai_link_fixup_rate
-Date: Wed, 30 Oct 2024 21:27:05 +0530
-Message-Id: <20241030155705.31327-1-surajsonawane0215@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="INk/yM5l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1982FC4CED0;
+	Wed, 30 Oct 2024 16:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730304143;
+	bh=YIULgKbhVLl2KEUkjm5ebB+z6v8KNB9tZvb34/55RMc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=INk/yM5lxlbPlzB5uUxspssKfu+Dzl+tM/QbkEjKZ6GWe7NxgZrhK7cg61luWkP+t
+	 LVmOW0Me6esngVwbOHmGIgsxMj/4kD7ALzCHB+Puew05h1mlT/9F8mKaeKyResrSJH
+	 HzBDtu8YDBKiY23rHCU5ZY1fDplTfJ2ME1ZWjZST18nU9buM59n9d8vKICVu0vwIPu
+	 iMMqhdecBbhAU5rZndJFnhEscuy0kHFI/JTs6wkBc7lCXaf7d+zfryhnu3OFRJOEBB
+	 +FeX5kSqEvJjZynt/MVdz7/mwAx6l4LgXguRuHrd5nwvCYmoY6tchvm+9eVjSPftML
+	 +O61Y7Uanib1g==
+From: Mark Brown <broonie@kernel.org>
+To: david.rhodes@cirrus.com, 
+ Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: rf@opensource.cirrus.com, povik+lin@cutebit.org, lgirdwood@gmail.com, 
+ perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com, asahi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
+In-Reply-To: <20241030021047.70543-1-jiapeng.chong@linux.alibaba.com>
+References: <20241030021047.70543-1-jiapeng.chong@linux.alibaba.com>
+Subject: Re: [PATCH -next] ASoC: cs42l84: Remove unused including
+ <linux/version.h>
+Message-Id: <173030414082.39784.12603422768068027639.b4-ty@kernel.org>
+Date: Wed, 30 Oct 2024 16:02:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-Fix an issue detected by the Smatch tool:
+On Wed, 30 Oct 2024 10:10:47 +0800, Jiapeng Chong wrote:
+> ./sound/soc/codecs/cs42l84.c: 15 linux/version.h not needed.
+> 
+> 
 
-sound/soc/sof/ipc4-pcm.c:615 sof_ipc4_pcm_dai_link_fixup_rate()
-error: uninitialized symbol 'be_rate'.
-sound/soc/sof/ipc4-pcm.c:636 sof_ipc4_pcm_dai_link_fixup_rate()
-error: uninitialized symbol 'be_rate'.
+Applied to
 
-These errors occurred because the variable 'be_rate' is declared but
-may not be assigned a value before it is used. Specifically, if the
-loop that assigns values to 'be_rate' does not execute (for example,
-when 'num_input_formats' is zero), 'be_rate' remains uninitialized,
-leading to potential undefined behavior.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-To resolve this issue, initialize 'be_rate' to 0 at the point of
-declaration. This ensures that 'be_rate' has a defined value before
-it is used in subsequent calculations, preventing any warnings or
-undefined behavior in cases where the loop does not run.
+Thanks!
 
-Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
----
- sound/soc/sof/ipc4-pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] ASoC: cs42l84: Remove unused including <linux/version.h>
+      commit: 334d538e176ce0c70bea5321d067432df2299bca
 
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 4df2be3d3..d08419859 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -600,7 +600,7 @@ static int sof_ipc4_pcm_dai_link_fixup_rate(struct snd_sof_dev *sdev,
- 	unsigned int fe_rate = params_rate(params);
- 	bool fe_be_rate_match = false;
- 	bool single_be_rate = true;
--	unsigned int be_rate;
-+	unsigned int be_rate = 0;
- 	int i;
- 
- 	/*
--- 
-2.34.1
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
