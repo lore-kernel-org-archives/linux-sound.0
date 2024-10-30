@@ -1,44 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E196219CAE;
-	Wed, 30 Oct 2024 17:10:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853921BD9F7;
+	Wed, 30 Oct 2024 17:14:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730308255; cv=none; b=cdgQAOXlW1c48eFKbopoUwgQ0Trvse2g+U+RAEPDYF6T4MvoHJ4GqeE6d0W0jbdUYMeBnwwMCRZ3byuBQuU4+CbjNa/d5qU7RXj4ikD2TXs9pTmKV1GWWVuMzT8AYVleQ1cPQwBmb2exic66A/fLh/2Lt4SRwITGs2S6zSCvIFE=
+	t=1730308493; cv=none; b=Mn7J/iLM0fTw2DfGoa16b/RwBT2PiBtuiPgVjZFO8VhsQVSNds2zSksyrCdGEcsZWS7O6xSVI6rjgP7hOzpzucFbeFMzzDJRE9In/YaxLWcGrBDPlbjeHav/vAPRPAaifh6vi7HgcbT1wB835qlWvqE7fOwKmrAoL6LhRSoqlm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730308255; c=relaxed/simple;
-	bh=ca3vfwRVxz8HR6hgXtbC1AS1aZ+zuvqCi4svlgqeCWc=;
+	s=arc-20240116; t=1730308493; c=relaxed/simple;
+	bh=u+UIzsE2LAWlfcNx/d9eBpjzeP5vEFMjHlcbR8gn1LQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T0X+Q6PjO0hgrKuKqkSxHBef1ExXhkVrAccWfkYFNp4hw6+txyOdoD+1a6f34nOCROrU2M+9edQq68KocwCYwOra3tiw+m+rQhrOfgcqkRXfbExXAnQDP/kQFEJEz1YSHZhjCk9XfGsROMkGqcoL37cBrzs2jDVRq/TKcv3OpGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dNXeP6SX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BH3EdS7rbKuLFpQFNZ+iWEUKj8xCeT+l1anvpA3GImG0LqCiI00aQEKFtZPSalAMHWlaZSyM57eHiuC6vSzTv6AqMFIsnljm5Yuh6xPvpka4HrZGRzSImaIMblHAjU8D1zkV/8xZ9RYpixEa6kPh+wNvOdADnmxP1eKi2Bxl1I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s1lhCbCt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dNXeP6SX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0604CC4CECE;
-	Wed, 30 Oct 2024 17:10:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s1lhCbCt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA3CFC4CECE;
+	Wed, 30 Oct 2024 17:14:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730308254;
-	bh=ca3vfwRVxz8HR6hgXtbC1AS1aZ+zuvqCi4svlgqeCWc=;
+	s=k20201202; t=1730308493;
+	bh=u+UIzsE2LAWlfcNx/d9eBpjzeP5vEFMjHlcbR8gn1LQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dNXeP6SX8hI3T+FtiH1wngFf1zAURzcXFYkjCRiF9O6dwpIl4VLrunPRCfZChiCQO
-	 JMLrWWTPAY3G31ZkFFjU86EiaO/SPBB1ByfXhr4/Q3ONCKX1dVg822ieYDAXfEibSY
-	 gsSB7wmq0+6d/KYZKpCQy/PQvZWhbgDEsQswnPa+Uxdp1KAM7YDcfEiDVwhWQXa40a
-	 dmdvDtAR5x59D/w/Yov7fk6jixyu4ruz7WsAn/3Q8WdtE+SWVYurOHP0erVQ42GNRs
-	 Vl1pnkVkjP27FjeRTAebcDPILlalWWw5BdgMG3pKASrsWkYIx9vDdCXm3SqjtYwJ8i
-	 Yf6NOtxJWdtBQ==
-Date: Wed, 30 Oct 2024 17:10:49 +0000
+	b=s1lhCbCtrulrKBX3bgLiC9qOLS9kzPc4e1HFBFJpRXJCOdHswYlDpbZFWn21SnXif
+	 ahzA/MLaKt/wjWXPO6leBwahWvelCqhCccCpkMmyZtI+wwOZsfkKbCL7s79w3reBLb
+	 E1G/4rLMpVGVojOUscwUvTvoqq5UlW1lIgcS6EujkXeHZms7kuOBQ6LdjMwBAlfWNx
+	 l4XpGJPrzTqcwjb6A16j53uIJX8PGobSDQGz29+7Ktzu1gWQ8mOiCj0BcqIITapoWb
+	 YI2FA6C9vg6ozegrWqXHGo1PgVT1u4+NxfshFr017AyP4eAht1EzSSE8EvGRqypmiP
+	 OJjsHiDKm0zow==
+Date: Wed, 30 Oct 2024 17:14:48 +0000
 From: Mark Brown <broonie@kernel.org>
 To: Suraj Sonawane <surajsonawane0215@gmail.com>
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com,
-	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] sound: fix uninit-value in
- sof_ipc4_pcm_dai_link_fixup_rate
-Message-ID: <28112e29-e326-40d7-a550-d3466f454658@sirena.org.uk>
-References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
+Subject: Re: [PATCH] sound: fix uninit-value in i2s_dma_isr
+Message-ID: <635f1691-74e9-4e48-8ebf-8e7ce0c6d1e3@sirena.org.uk>
+References: <20241030170829.36161-1-surajsonawane0215@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,38 +42,54 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ga2wZhdiu8rFg1Tl"
+	protocol="application/pgp-signature"; boundary="MQdPN2PYzhrYRi+s"
 Content-Disposition: inline
-In-Reply-To: <20241030155705.31327-1-surajsonawane0215@gmail.com>
+In-Reply-To: <20241030170829.36161-1-surajsonawane0215@gmail.com>
 X-Cookie: I feel partially hydrogenated!
 
 
---Ga2wZhdiu8rFg1Tl
+--MQdPN2PYzhrYRi+s
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 30, 2024 at 09:27:05PM +0530, Suraj Sonawane wrote:
+On Wed, Oct 30, 2024 at 10:38:29PM +0530, Suraj Sonawane wrote:
 > Fix an issue detected by the Smatch tool:
+>=20
+> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
+> error: uninitialized symbol 'val_1'.
+> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
+> error: uninitialized symbol 'val_2'.
+>=20
+> These errors occurred because the variables 'val_1' and 'val_2' are
+> declared but may not be assigned a value before they are used.
+> Specifically, if the loop that assigns values to 'val_1' and 'val_2'
+> does not execute (for example, when 'offlevel' is zero), these
+> variables remain uninitialized, leading to potential undefined
+> behavior.
+>=20
+> To resolve this issue, initialize 'val_1' and 'val_2' to 0 at the
+> point of declaration. This ensures that 'val_1' and 'val_2' have
+> defined values before they are used in subsequent calculations,
+> preventing any warnings or undefined behavior in cases where the
+> loop does not run.
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+This will shut the warning up, but why are these values valid?  Are we
+handling the cases where the loops do not execute properly?
 
---Ga2wZhdiu8rFg1Tl
+--MQdPN2PYzhrYRi+s
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmciaJgACgkQJNaLcl1U
-h9APzgf/fL3lMz/XXfWEBQ/iT0vfIFKAZ47WPnv6HT2WN7alwh4+3oMMjf22j4qJ
-+ma+KvxEp4lv+OnY5aEOWZu+qFpcX2DuDfcwtTRPV60IUKM2KUDWYZ4VUsiRP+Dt
-N5dbKJ48/G/tZtD1whLnvcMdzKgsr6skNR8fxMYi6WcNlOjX4dUJoKj0vAEcGeIV
-iiVIlD23U4PZe3iABYGgvfXMto5+IaHNPPz00gNUF28NpTE1BKeJhqd3frsj8iSi
-N7gB58DVs7pqFFvZX1H9UaIdZ8KU/kP6HHsq0VDy6RQX7z39KrCuDkcFeMDzcIRG
-qmCGISo5uGoFCX7dpTKf/ZilT7+06w==
-=7Egp
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmciaYgACgkQJNaLcl1U
+h9C3dwf+JZ315ez2ikVHreXBKQBRZVx0IZE8f7hZigdeRuM0J0jpU8645q/YSReP
+T2hZeIFihq0odYaL+d4wzO/7MFLuUD49dsRDmvFAMP3Bc+MMHo98GAcXqRT+5yhT
+xMhdu0+DAuFLeYP+IUpfXuv9p2FLIt/f/7maH9Rbtz5vmZ4y21VwNlWgafMMen/w
+RP9FDB/Va+YuVMGIqYYXWSWjSVKPvFkj5vGWoiwKPF8OEFrurUJUwDqqkrsNTGg1
+Rhp15h2F4MdU+FAaB+pocSsJkFYS9rH7FYarBDMkv259YHVtvLon/6SErT3tzxXx
+v1q3nuMqKYU/kcUD+KFg1PSstpxpJg==
+=FU6s
 -----END PGP SIGNATURE-----
 
---Ga2wZhdiu8rFg1Tl--
+--MQdPN2PYzhrYRi+s--
