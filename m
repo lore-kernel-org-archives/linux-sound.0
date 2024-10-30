@@ -1,98 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2FE205AC7;
-	Wed, 30 Oct 2024 17:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D75B1BD9DD;
+	Wed, 30 Oct 2024 17:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730309611; cv=none; b=g055mYlsm7pXbcptS4a4zqlku3DaztcHt1UH4OyAWF6mOjuM0mXyTjAl1ND+krrH8Ea0usl0H1ZE/LAmrkyCvETd4+WKfbhuJCCoqsyAr07pFAMcg0HzlCpq2+DPjM0j7rOvVa6iQSKPm45Z82hgpcohgXEHW/vOuYXh7+FBA30=
+	t=1730310525; cv=none; b=Ke8ao9i20D4F0lLy1DnKANX6FAqn+Jwl+xP0cFLgD4/sslnNDX9ZUUZwQv2p5go2N5oecYDJpQnBd7W0R92RfIzxedOCxeeXTV5NAXSprZS1Enq1w3900fqEKaD3Mon63POsRx5aA48k9/otkSjdsFbwdK1ypFrcBf29s/XwqEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730309611; c=relaxed/simple;
-	bh=ZIyf7WCrqLwhcnOvg/DJm8/zI0IqGS0JY8JDkkt68nk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Nq7IKjOhXB3KqCfG1DHjICS4lnRKr3YHGsxmE/qEHbnmp6W8gjIdeU7hCXgbAsGPqNKJa0KKPioY30HxaaBGUcFkc2WRFiD3UjiJvW9QI8n5IC1jzv5q+FizHQaLlQgZp4RLLfy3aB8JtzN9wUZBBysLsvXfAxxkJ61djyNlwhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X+MkZl0E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730310525; c=relaxed/simple;
+	bh=S/CnkymRqaJT3ioMxi9DFh/1tiGv8xRkdVInnQUNGAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vABFi9OWf9hln/ARvNSD4RPI53hMO7Jam4n2RRaHhvmeafjbvJte/CXfTnXwJ1a8rPi4CqCmcvhmCWuZJ2HpsI3hULSE3jqNChAcAJJABhE1N/vFn2uqZiO22OTAi2xzrNnwoXNPc2TBbzQbXP27eHaKcEPp/HZntP8HvhNP/x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nr5PzKo7; arc=none smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X+MkZl0E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8FCEC4CED1;
-	Wed, 30 Oct 2024 17:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730309611;
-	bh=ZIyf7WCrqLwhcnOvg/DJm8/zI0IqGS0JY8JDkkt68nk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X+MkZl0EmcuWbZVAmvWMQBuR/l5xWvFURXxBGDDCKNDbS+6zxzkVPOMwCEGYQm45B
-	 iQ3+5/m8DqcFkmu/5wMKie9w6FvqoPW9j/csm5uPQ0k5eK6et/CkWsY2KRloOxMEUZ
-	 XAd6P44bw3jQnqrT01nePngeTdV9eCfBpmRx0YflKXi5OCnVn82u0lpv3OKCM7fWXT
-	 L/FQ3NmEcDB2NPxoHtoEoJNUO5NhHyhTQEiv3MnewiqjbOUrHJh7t9nC+w2xyE3Zgr
-	 Sk1KJegpYBQPxR3FXBQ6CmEheIVWE+7i1vcPrIQYgjt45t8iidhpWAitSS2hznmAsB
-	 foiEB55OgDC/A==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Prabhakar <prabhakar.csengg@gmail.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20241025150511.722040-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20241025150511.722040-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v3 0/5] ASoC: Rename "sh" to "renesas"
-Message-Id: <173030960849.47565.15749613189750530919.b4-ty@kernel.org>
-Date: Wed, 30 Oct 2024 17:33:28 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nr5PzKo7"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fabb837ddbso603281fa.1;
+        Wed, 30 Oct 2024 10:48:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730310521; x=1730915321; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3c8WANbuwNQmIFyGiM0fFg9azajzbhCZ4zzBYom44vk=;
+        b=Nr5PzKo7lU/+i0ASAbL2EZHJ+HIT9AgM/lTggm5bc9OoV9DHYkO6M/e0v2NOnJh0VI
+         x5ogQJjyJwUsz+iU4bd4z34Tvdnf/K8LGbUjYsGyrCO4egxBLWV+YxX/5FMltwsv3Es8
+         qmlz20oOBGK+GiQFuELjgBm8ipv9SfCT5C64ezriWg2rTCstVyogeE7Rnsk1PRlkvoTy
+         WXwbVyaBKs9fsznU/N+ERS4iT5wkcWVYf5a1JOiQU9Hg+NaLqSbTX4P7Twg9uOSPQv5W
+         lTT0328hRjLR6LVVN8DQPxQVNjjTlZlLS6YXzstSwISR0odpnSWAMwYZDjmuwWFf+Oy4
+         mKLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730310521; x=1730915321;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3c8WANbuwNQmIFyGiM0fFg9azajzbhCZ4zzBYom44vk=;
+        b=LGRNhuIS8ORoRfdGl2WzdKlgwwPVWil+X5xhfYOYyAvp/XCcT39wrCkxpiolxQ262D
+         pqiMVW8XQhjJRdUo921kGR+UKOPrSPqi5CRY0O1bwfzRvYSEJoTMiFbCcYCikjs/aw36
+         D5kKmEuDOtR4EF9Q1dDEsE761cjstX/bfKz4yZ9WhJMkqj1B0Hl5GQSvytoXnpflo34z
+         Sth4xwiREi80YWoTqmTI7vfJqm8epdPC+K3fi1Kl1N46nU7Oc00f/RqK4tgYzR5L6y+W
+         JTVQ8nDANpQ2Ph7/pUG6KsmVYGVEIFP/alG7SUWPJYCuwWrpcuPHtotdJ0zPFEyb3bCq
+         vB5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUW6x69MBc4Tdh2b4EiJhiPEe4n6SbxBYWo7ZR3jcjt1fwBBA32PvG/+rZ/2ywFLcQmimebE/Ez4ZEG@vger.kernel.org, AJvYcCXaE0JU93PrAye1nS9NsYIRhQyKhRAs9q89gguUDvelNewx/5sCTF2srNLeAVztv2CzrScjzHSABssDCNOt@vger.kernel.org
+X-Gm-Message-State: AOJu0YzksAx+QB5wOCnYMTx9s7CLoZmdWgsm7JbEESbpAqJLwXHSKGfK
+	levWc75RIqeSoRCSxvCyCTv9njjvMnKRyqYZNjDSfOHs9hKqVGbzx8JUUA==
+X-Google-Smtp-Source: AGHT+IF936HZvLKS36ZaGc+lnPVpTe4gcKZT85VFBeyPb+8M3ZNRhuEEpARe78myz2xA5w8VsI1TWQ==
+X-Received: by 2002:a2e:d09:0:b0:2fa:d7ea:a219 with SMTP id 38308e7fff4ca-2fcbe08857emr105624461fa.37.1730310520853;
+        Wed, 30 Oct 2024 10:48:40 -0700 (PDT)
+Received: from standask-GA-A55M-S2HP (lu-nat-113-247.ehs.sk. [188.123.113.247])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b3a088adesm587224766b.222.2024.10.30.10.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 10:48:40 -0700 (PDT)
+Date: Wed, 30 Oct 2024 18:48:38 +0100
+From: Stanislav Jakubek <stano.jakubek@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: sound: sprd,pcm-platform: convert to YAML
+Message-ID: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 25 Oct 2024 16:05:06 +0100, Prabhakar wrote:
-> This patch series aims to rename "sh" to "renesas", along with this
-> the references to this path have been updated.
-> 
-> Note,
-> - This patch series applies on top of [0]
-> - This change was agrreed based on the discussion [1]
-> 
-> [...]
+Convert the Spreadtrum DMA plaform bindings to DT schema.
+Adjust filename to match compatible.
 
-Applied to
+Signed-off-by: Stanislav Jakubek <stano.jakubek@gmail.com>
+---
+ .../bindings/sound/sprd,pcm-platform.yaml     | 56 +++++++++++++++++++
+ .../devicetree/bindings/sound/sprd-pcm.txt    | 23 --------
+ 2 files changed, 56 insertions(+), 23 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/sprd,pcm-platform.yaml
+ delete mode 100644 Documentation/devicetree/bindings/sound/sprd-pcm.txt
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/5] ASoC: Rename "sh" to "renesas"
-      commit: c0aba02cdc1afde6c2349db95ad36b9532b42a37
-[2/5] ASoC: renesas, rsnd: Update file path
-      commit: 94c0a8a10f05782a4426a67343e3081601ad3f1a
-[3/5] ASoC: audio-graph-card2: Update comment with renamed file path
-      commit: 1b3130e9e77e4286a2e495b4b3c3efcf54848633
-[4/5] MAINTAINERS: Add entry for Renesas R-Car and FSI ASoC drivers
-      commit: 3dc2c89473a43b1ab83a7f0196e41eb3145844d6
-[5/5] MAINTAINERS: Add entry for Renesas RZ ASoC driver
-      commit: 8fc6907ee343336dc5ae75665883fdbf7e012d26
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/Documentation/devicetree/bindings/sound/sprd,pcm-platform.yaml b/Documentation/devicetree/bindings/sound/sprd,pcm-platform.yaml
+new file mode 100644
+index 000000000000..c15c01bbb884
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/sprd,pcm-platform.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/sprd,pcm-platform.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Spreadtrum DMA platform
++
++maintainers:
++  - Orson Zhai <orsonzhai@gmail.com>
++  - Baolin Wang <baolin.wang7@gmail.com>
++  - Chunyan Zhang <zhang.lyra@gmail.com>
++
++properties:
++  compatible:
++    const: sprd,pcm-platform
++
++  dmas:
++    maxItems: 10
++
++  dma-names:
++    items:
++      - const: normal_p_l
++      - const: normal_p_r
++      - const: normal_c_l
++      - const: normal_c_r
++      - const: voice_c
++      - const: fast_p
++      - const: loop_c
++      - const: loop_p
++      - const: voip_c
++      - const: voip_p
++
++required:
++  - compatible
++  - dmas
++  - dma-names
++
++additionalProperties: false
++
++examples:
++  - |
++    platform {
++      compatible = "sprd,pcm-platform";
++      dmas = <&agcp_dma 1 1>, <&agcp_dma 2 2>,
++             <&agcp_dma 3 3>, <&agcp_dma 4 4>,
++             <&agcp_dma 5 5>, <&agcp_dma 6 6>,
++             <&agcp_dma 7 7>, <&agcp_dma 8 8>,
++             <&agcp_dma 9 9>, <&agcp_dma 10 10>;
++      dma-names = "normal_p_l", "normal_p_r",
++                  "normal_c_l", "normal_c_r",
++                  "voice_c", "fast_p",
++                  "loop_c", "loop_p",
++                  "voip_c", "voip_p";
++    };
++...
+diff --git a/Documentation/devicetree/bindings/sound/sprd-pcm.txt b/Documentation/devicetree/bindings/sound/sprd-pcm.txt
+deleted file mode 100644
+index fbbcade2181d..000000000000
+--- a/Documentation/devicetree/bindings/sound/sprd-pcm.txt
++++ /dev/null
+@@ -1,23 +0,0 @@
+-* Spreadtrum DMA platform bindings
+-
+-Required properties:
+-- compatible: Should be "sprd,pcm-platform".
+-- dmas: Specify the list of DMA controller phandle and DMA request line ordered pairs.
+-- dma-names: Identifier string for each DMA request line in the dmas property.
+-  These strings correspond 1:1 with the ordered pairs in dmas.
+-
+-Example:
+-
+-	audio_platform:platform@0 {
+-		compatible = "sprd,pcm-platform";
+-		dmas = <&agcp_dma 1 1>, <&agcp_dma 2 2>,
+-		     <&agcp_dma 3 3>, <&agcp_dma 4 4>,
+-		     <&agcp_dma 5 5>, <&agcp_dma 6 6>,
+-		     <&agcp_dma 7 7>, <&agcp_dma 8 8>,
+-		     <&agcp_dma 9 9>, <&agcp_dma 10 10>;
+-		dma-names = "normal_p_l", "normal_p_r",
+-			"normal_c_l", "normal_c_r",
+-			"voice_c", "fast_p",
+-			"loop_c", "loop_p",
+-			"voip_c", "voip_p";
+-	};
+-- 
+2.43.0
 
