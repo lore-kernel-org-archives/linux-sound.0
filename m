@@ -1,113 +1,83 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AA91E32C9;
-	Wed, 30 Oct 2024 17:08:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E196219CAE;
+	Wed, 30 Oct 2024 17:10:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730308132; cv=none; b=ADUgFAZq5R3mmO8mXmivcZAQB8e74rDEXGJxRDNlJWpKuua1FFANGWgRyceZMyC2zf5Nn+CnC5aExI7jSBwxzp+4rHEKiF8eQ19gfjfmANLHOkbPMjB2ndCLNLMXAF0a6OVPIMj5KSskbqE8TVJF4SqDA2RrN5jUPcay70VkSDM=
+	t=1730308255; cv=none; b=cdgQAOXlW1c48eFKbopoUwgQ0Trvse2g+U+RAEPDYF6T4MvoHJ4GqeE6d0W0jbdUYMeBnwwMCRZ3byuBQuU4+CbjNa/d5qU7RXj4ikD2TXs9pTmKV1GWWVuMzT8AYVleQ1cPQwBmb2exic66A/fLh/2Lt4SRwITGs2S6zSCvIFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730308132; c=relaxed/simple;
-	bh=zLzWsdqdkLdo5yQoNKWpUaGcI3MxjgSYvusBwRn8BaM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kgIRNb0dKRcuJNDsIzt7BprRtsU5xEn91VgKN0GadGXlEanOBvx83LbhYy+rtXxGiNpsr9gXz2fVx+wNKeDly3e45XyAhmu/rUrxotyY/1lhdcwqHtMGt52EkZVERzEsogZUbWm9etLSHQJxr7tdp7PctUp6GJdUsJAFQ9Q+cak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWq3jTvR; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730308255; c=relaxed/simple;
+	bh=ca3vfwRVxz8HR6hgXtbC1AS1aZ+zuvqCi4svlgqeCWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T0X+Q6PjO0hgrKuKqkSxHBef1ExXhkVrAccWfkYFNp4hw6+txyOdoD+1a6f34nOCROrU2M+9edQq68KocwCYwOra3tiw+m+rQhrOfgcqkRXfbExXAnQDP/kQFEJEz1YSHZhjCk9XfGsROMkGqcoL37cBrzs2jDVRq/TKcv3OpGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dNXeP6SX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWq3jTvR"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-20cf3e36a76so832615ad.0;
-        Wed, 30 Oct 2024 10:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730308130; x=1730912930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oZtsE52QkN9iFiKaGSL0zIc6WpdAz1ZQ1OR9aOWTY/g=;
-        b=NWq3jTvRttLJ4M0ZdfXUxwLRsih6BV7TM8e5xeY3uMyPlcyqrIiw2ypTyBxCDjpw18
-         NJ1v6WOHYVns7uEFQnuSIDcUzF73mCVe8lrb3kK32WVNygD7XoOGdwtylq3zawCF3BfX
-         0m4PqI6XOiJSkvxhjUBZdPa4gfDWPp4qdq44C2uq28E9EtXH7CgPvnOqyh/OMWHcSH+3
-         uW09ODT/IwYccRtA++FBx/PfokRIKEqaHladlXP4slfAYeOjlqfXMsgyzKxZWHmon4hf
-         lCq9Bofjnpq9k2qFT8l+8UAhmgD54hb7TEn+gnzlLsYC4rcR224aDgf6eDPZ3fJyPsPq
-         T7mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730308130; x=1730912930;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oZtsE52QkN9iFiKaGSL0zIc6WpdAz1ZQ1OR9aOWTY/g=;
-        b=bTaHey92Q8FMDVcQUF096LXOuTVABWbAxlLicSNMG8ZAAs31zuNV8UKszpaWUqMwaD
-         1RQQ6ut2fQn97PASL6DoeJ6t/G+Mb1UcoNrMyEWthbG3O4CKyW5e2h5BGxU47edRdqCN
-         ijcTvPg0rXVryEx6uqPpU7ID8M4sGlOGapVjG+pD3Jw3/Fu9iZSiZbZtorVbXG6ihGqt
-         F4u5f4OTIACSbSjutvL4S+7f2gb5loSBIAxarCtbLdh+5ENG0ESeP0X3avlxDnqua+4u
-         ndA1Fy1TloWz9A2YM/LcjD62bO9suU7ZXEsGoHbH9gZJzE3xVZI7/h7k9d5J5dxQ+Ei2
-         jVWw==
-X-Forwarded-Encrypted: i=1; AJvYcCUIVBHv3KTG1O0ObNMuvl4uvlqMcqz8N1Vu2w7KE0SHGtFObPGilISK7Dbq/oJRzgv6odHrwfeDPzVRS50=@vger.kernel.org, AJvYcCVvwSk7n61p7ByF+lmOWbyBQ2qZ3bBHZFrxOMHSybg40bmocHrhsH1Pcexx1l2luYo9EOpMVfE4OSBmkEo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwzngAxG9SLZJ7/+p2ycHb0L6mdFIpA4DjxqSxCY31sLJfHijlq
-	6NAVqzszhbrH8vfUlWZJgWdQa/rsNlbtFLjXubQC2osVpeX9kjYY
-X-Google-Smtp-Source: AGHT+IGE5cJy+TKfk1C9J0HtLczSUIJb6WS87avDkG+MgkalMLNZnSQF+iNlT8S56Gl1cpzBqBeidQ==
-X-Received: by 2002:a17:902:f54b:b0:20b:5439:f194 with SMTP id d9443c01a7336-21103acdc27mr1700765ad.16.1730308129335;
-        Wed, 30 Oct 2024 10:08:49 -0700 (PDT)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:40f2:e:4b75:7d7f:c4fc:66c0:77e9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-210bc063e7esm82339525ad.276.2024.10.30.10.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 10:08:48 -0700 (PDT)
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Suraj Sonawane <surajsonawane0215@gmail.com>
-Subject: [PATCH] sound: fix uninit-value in i2s_dma_isr
-Date: Wed, 30 Oct 2024 22:38:29 +0530
-Message-Id: <20241030170829.36161-1-surajsonawane0215@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dNXeP6SX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0604CC4CECE;
+	Wed, 30 Oct 2024 17:10:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730308254;
+	bh=ca3vfwRVxz8HR6hgXtbC1AS1aZ+zuvqCi4svlgqeCWc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dNXeP6SX8hI3T+FtiH1wngFf1zAURzcXFYkjCRiF9O6dwpIl4VLrunPRCfZChiCQO
+	 JMLrWWTPAY3G31ZkFFjU86EiaO/SPBB1ByfXhr4/Q3ONCKX1dVg822ieYDAXfEibSY
+	 gsSB7wmq0+6d/KYZKpCQy/PQvZWhbgDEsQswnPa+Uxdp1KAM7YDcfEiDVwhWQXa40a
+	 dmdvDtAR5x59D/w/Yov7fk6jixyu4ruz7WsAn/3Q8WdtE+SWVYurOHP0erVQ42GNRs
+	 Vl1pnkVkjP27FjeRTAebcDPILlalWWw5BdgMG3pKASrsWkYIx9vDdCXm3SqjtYwJ8i
+	 Yf6NOtxJWdtBQ==
+Date: Wed, 30 Oct 2024 17:10:49 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev, perex@perex.cz, tiwai@suse.com,
+	sound-open-firmware@alsa-project.org, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound: fix uninit-value in
+ sof_ipc4_pcm_dai_link_fixup_rate
+Message-ID: <28112e29-e326-40d7-a550-d3466f454658@sirena.org.uk>
+References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ga2wZhdiu8rFg1Tl"
+Content-Disposition: inline
+In-Reply-To: <20241030155705.31327-1-surajsonawane0215@gmail.com>
+X-Cookie: I feel partially hydrogenated!
 
-Fix an issue detected by the Smatch tool:
 
-sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
-error: uninitialized symbol 'val_1'.
-sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
-error: uninitialized symbol 'val_2'.
+--Ga2wZhdiu8rFg1Tl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-These errors occurred because the variables 'val_1' and 'val_2' are
-declared but may not be assigned a value before they are used.
-Specifically, if the loop that assigns values to 'val_1' and 'val_2'
-does not execute (for example, when 'offlevel' is zero), these
-variables remain uninitialized, leading to potential undefined
-behavior.
+On Wed, Oct 30, 2024 at 09:27:05PM +0530, Suraj Sonawane wrote:
+> Fix an issue detected by the Smatch tool:
 
-To resolve this issue, initialize 'val_1' and 'val_2' to 0 at the
-point of declaration. This ensures that 'val_1' and 'val_2' have
-defined values before they are used in subsequent calculations,
-preventing any warnings or undefined behavior in cases where the
-loop does not run.
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
----
- sound/soc/bcm/bcm63xx-pcm-whistler.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--Ga2wZhdiu8rFg1Tl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/sound/soc/bcm/bcm63xx-pcm-whistler.c b/sound/soc/bcm/bcm63xx-pcm-whistler.c
-index 018f2372e..5c23c228e 100644
---- a/sound/soc/bcm/bcm63xx-pcm-whistler.c
-+++ b/sound/soc/bcm/bcm63xx-pcm-whistler.c
-@@ -232,7 +232,7 @@ static int bcm63xx_pcm_close(struct snd_soc_component *component,
- 
- static irqreturn_t i2s_dma_isr(int irq, void *bcm_i2s_priv)
- {
--	unsigned int availdepth, ifflevel, offlevel, int_status, val_1, val_2;
-+	unsigned int availdepth, ifflevel, offlevel, int_status, val_1 = 0, val_2 = 0;
- 	struct bcm63xx_runtime_data *prtd;
- 	struct snd_pcm_substream *substream;
- 	struct snd_pcm_runtime *runtime;
--- 
-2.34.1
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmciaJgACgkQJNaLcl1U
+h9APzgf/fL3lMz/XXfWEBQ/iT0vfIFKAZ47WPnv6HT2WN7alwh4+3oMMjf22j4qJ
++ma+KvxEp4lv+OnY5aEOWZu+qFpcX2DuDfcwtTRPV60IUKM2KUDWYZ4VUsiRP+Dt
+N5dbKJ48/G/tZtD1whLnvcMdzKgsr6skNR8fxMYi6WcNlOjX4dUJoKj0vAEcGeIV
+iiVIlD23U4PZe3iABYGgvfXMto5+IaHNPPz00gNUF28NpTE1BKeJhqd3frsj8iSi
+N7gB58DVs7pqFFvZX1H9UaIdZ8KU/kP6HHsq0VDy6RQX7z39KrCuDkcFeMDzcIRG
+qmCGISo5uGoFCX7dpTKf/ZilT7+06w==
+=7Egp
+-----END PGP SIGNATURE-----
+
+--Ga2wZhdiu8rFg1Tl--
