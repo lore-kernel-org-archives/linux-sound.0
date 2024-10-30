@@ -1,169 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066A11BD9E7;
-	Wed, 30 Oct 2024 22:17:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB51A1D0F54;
+	Wed, 30 Oct 2024 22:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730326660; cv=none; b=WjaKySa2kpuoRCJ6DxfG384mkLP9oWjuiuP6xJbSBep0TqYGQDSFaxeanto9MuQ8UXEO3d3xaE5iUzBceWzPQO/tFZw9MhGvIcixGUY68bd0en9SlWyI0vY/yeY2DkW38d4f0t/uQ4HgrWWasehqWWv4gMT+rJoEhF9XDE/ub8o=
+	t=1730326742; cv=none; b=NOf8BTvN2/JqLX7Q/dfy7a4Ji73Kem+PlVU+CJ84PHSK8NrlXetpEO2X4m+FF+FOFpfGsEyIlEqoJqJQLF97KVFX+Qlw1JUBAUucY9K7A9T/ezP69XJk2sSpFBGddYzGaX8IymXHcGgEtk5icif9q45AnZC4U127bqYt9jmFnSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730326660; c=relaxed/simple;
-	bh=hmCcTNJwyZk0ee56ytBk9i4eOtptK5uTArpnChQPbzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=oy3V2usP3KrNnwy1jGIZGkW4JlJh0GP8RyUFGP7313Jyvtrobj4qmyhPm0mR5NFc1OYMR7YkcXZUfR6ByBN/KjLUYq77UdgwfuMf/5QHr1T4oYPeFlUG6wcP3IEHj1s5GNAHQM0YyXotJYsv5eLqVWWDemH9eCHcyJCxqaCSrTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oGnfP7Ar; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730326742; c=relaxed/simple;
+	bh=F3rCOskbgR5Tgx+Rf/5frqWmUJHOP3bkNxuCb2WvJA4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NFYZr0/BUsvskrrzWTWE8VQDx8056aydAHKxZ5TLE2RO6vguKy7XVWtRitvXQZaT57E2TtN0SDei3vD6sjtqxcMaR1cSHvkVPAai5W3C2KkA7V/xbtY836ohb1ouEeCp1CeQbYFoYFqGJ8C4pHq7+RaB3Wl7cu5QQQhrpI/VvCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rPA/LP7h; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oGnfP7Ar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3913FC4CECE;
-	Wed, 30 Oct 2024 22:17:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730326659;
-	bh=hmCcTNJwyZk0ee56ytBk9i4eOtptK5uTArpnChQPbzk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=oGnfP7ArKKdfSdgdnkKr7SkEnhwI4nY+JGypMiyscKrSh2koWdUM4bEIYHcoVRtmA
-	 HuGtZd7+EhsSZKGsSElcy0Ekf1Ww0XJz+CC/k+Lyv93Pjy1sctZPVHq2ye34KwR2cM
-	 BK6k4mDq37WcoKSeIdS6Dykd1seb3K6MaOqwt7pucQeiJF9BIdqo96G1NTsjD7AK/F
-	 RSMAKuBU3/553ttm2CAep19cPgSP8wuqNrGnio71malobZI2XoVqqJ3i5mKV/tHQzD
-	 b+pchDCDpw/vI+Q3mqbdXkWdGIm9PhoPKYSd9frqB8SQkOwkBxe7BOOJjjYvM4WuEB
-	 3GNefMYxm1CyQ==
-Date: Wed, 30 Oct 2024 17:17:37 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Philipp Stanner <pstanner@redhat.com>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>,
-	Basavaraj Natikar <basavaraj.natikar@amd.com>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Dubov <oakad@yahoo.com>,
-	Sudarsana Kalluru <skalluru@marvell.com>,
-	Manish Chopra <manishc@marvell.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rasesh Mody <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com,
-	Igor Mitsyanko <imitsyanko@quantenna.com>,
-	Sergey Matyukevich <geomatsi@gmail.com>,
-	Kalle Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen Ni <nichen@iscas.ac.cn>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ricky Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	Breno Leitao <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Mostafa Saleh <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Yi Liu <yi.l.liu@intel.com>, Christian Brauner <brauner@kernel.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Eric Auger <eric.auger@redhat.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Ye Bin <yebin10@huawei.com>,
-	Marek =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Rui Salvaterra <rsalvaterra@gmail.com>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	ntb@lists.linux.dev, linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/13] Remove implicit devres from pci_intx()
-Message-ID: <20241030221737.GA1223682@bhelgaas>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rPA/LP7h"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 343C242C0B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1730326729; bh=mcsnwyNOjL28C4fD3C7HpEhmbEgiYcyoM3bw9n6dh1s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=rPA/LP7hJ/Umkl4IcwguZH6HORv5nbibamyQjSonnFpRubxoem/dlnC7lXjKGd84t
+	 9XABCZ0AYVKnQzAMojT4sdSWY+GVF5L5hKgW/K7EvyzzTb9fIyTUjbu2S4tRoT101m
+	 FJ94f/TkpJaWFmqd/tSkZPKNFwwrEUfFmeiyAiIzzLuFwjtpm2FRlQIPl9dTbj/sJ2
+	 cEiwUW8xWIIl2hIE/Ck5J0I6uEVIriRaIOSXi4bS8U2SGKipUYzbNfEJRC20MI0M/M
+	 Zwplo1TUVkq1MvGR3Pk2TAWXTvL1L+7hm8H4UMRvfVrjPDXHAh1hif8z9/qKyhFNe9
+	 wGJIBg+EYzytQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 343C242C0B;
+	Wed, 30 Oct 2024 22:18:49 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH V2] ASoC: doc: update clocking
+In-Reply-To: <CABCoZhAgnkDReqdMTgEjKYX4b9y0XqocEheQR1DhsBCtp7zpHg@mail.gmail.com>
+References: <20241029235623.46990-1-yesanishhere@gmail.com>
+ <fceef9c9-f928-47fe-a6e7-cdb28af62f71@sirena.org.uk>
+ <CABCoZhAgnkDReqdMTgEjKYX4b9y0XqocEheQR1DhsBCtp7zpHg@mail.gmail.com>
+Date: Wed, 30 Oct 2024 16:18:46 -0600
+Message-ID: <874j4ts08p.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015185124.64726-1-pstanner@redhat.com>
+Content-Type: text/plain
 
-On Tue, Oct 15, 2024 at 08:51:10PM +0200, Philipp Stanner wrote:
-> @Driver-Maintainers: Your driver might be touched by patch "Remove
-> devres from pci_intx()". You might want to take a look.
-> 
-> Changes since the RFC [1]:
->   - Add a patch deprecating pci{m}_intx(). (Heiner, Andy, Me)
->   - Add Acked-by's already given.
->   - Export pcim_intx() as a GPL function. (Alex)
->   - Drop patch for rts5280, since this driver will be removed quite
->     soon. (Philipp Hortmann, Greg)
->   - Use early-return in pci_intx_unmanaged() and pci_intx(). (Andy)
-> 
-> Hi all,
-> 
-> this series removes a problematic feature from pci_intx(). That function
-> sometimes implicitly uses devres for automatic cleanup. We should get
-> rid of this implicit behavior.
-> 
-> To do so, a pci_intx() version that is always-managed, and one that is
-> never-managed are provided. Then, all pci_intx() users are ported to the
-> version they need. Afterwards, pci_intx() can be cleaned up and the
-> users of the never-managed version be ported back to pci_intx().
-> 
-> This way we'd get this PCI API consistent again.
-> 
-> Patch "Remove devres from pci_intx()" obviously reverts the previous
-> patches that made drivers use pci_intx_unmanaged(). But this way it's
-> easier to review and approve. It also makes sure that each checked out
-> commit should provide correct behavior, not just the entire series as a
-> whole.
-> 
-> Merge plan for this is to enter through the PCI tree.
-> 
-> [1] https://lore.kernel.org/all/20241009083519.10088-1-pstanner@redhat.com/
+anish kumar <yesanishhere@gmail.com> writes:
 
-I *think* this series depends on resolution of Takashi's "Restore the
-original INTX_DISABLE bit by pcim_intx()" patch [2], right?
+>> This feels like it is (or should be) duplicating the kerneldoc generated
+>> documentation - I'm not sure that we can cross reference the two
+>> sensibly through?
+>
+> Jonathan, wondering if you know a way to link the clock functions defined
+> in https://github.com/torvalds/linux/blob/master/sound/soc/soc-dai.c here?
 
-For now I'm postponing this series, but let me know if that's not the
-right thing.
+I'm not quite sure what your question is.  Kerneldoc comments can be
+brought into the documentation, of course - that's a big part of what
+the build system does.  You can link to that documentation just by
+saying function() - nothing more required.  What else are you looking
+for?
 
-[2] https://lore.kernel.org/r/20241024155539.19416-1-tiwai@suse.de
+Thanks,
 
-> Philipp Stanner (13):
->   PCI: Prepare removing devres from pci_intx()
->   ALSA: hda_intel: Use always-managed version of pcim_intx()
->   drivers/xen: Use never-managed version of pci_intx()
->   net/ethernet: Use never-managed version of pci_intx()
->   net/ntb: Use never-managed version of pci_intx()
->   misc: Use never-managed version of pci_intx()
->   vfio/pci: Use never-managed version of pci_intx()
->   PCI: MSI: Use never-managed version of pci_intx()
->   ata: Use always-managed version of pci_intx()
->   wifi: qtnfmac: use always-managed version of pcim_intx()
->   HID: amd_sfh: Use always-managed version of pcim_intx()
->   Remove devres from pci_intx()
->   PCI: Deprecate pci_intx(), pcim_intx()
-> 
->  drivers/ata/ahci.c                            |  2 +-
->  drivers/ata/ata_piix.c                        |  2 +-
->  drivers/ata/pata_rdc.c                        |  2 +-
->  drivers/ata/sata_sil24.c                      |  2 +-
->  drivers/ata/sata_sis.c                        |  2 +-
->  drivers/ata/sata_uli.c                        |  2 +-
->  drivers/ata/sata_vsc.c                        |  2 +-
->  drivers/hid/amd-sfh-hid/amd_sfh_pcie.c        |  4 +--
->  drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |  2 +-
->  .../wireless/quantenna/qtnfmac/pcie/pcie.c    |  2 +-
->  drivers/pci/devres.c                          | 29 +++++--------------
->  drivers/pci/pci.c                             | 19 ++++--------
->  include/linux/pci.h                           |  1 +
->  sound/pci/hda/hda_intel.c                     |  2 +-
->  14 files changed, 26 insertions(+), 47 deletions(-)
-> 
-> -- 
-> 2.47.0
-> 
+jon
