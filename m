@@ -1,360 +1,196 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD890BA4A;
-	Wed, 30 Oct 2024 05:07:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA111E3DD8
+	for <linux-sound@vger.kernel.org>; Wed, 30 Oct 2024 11:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730264882; cv=none; b=V5hmsaOcDqxNZSIjce3iaMzuO6hp27pZUXB1gybgj2TpJaB0c4NUENtsTtJXNtDBJVs0iQurX+a5h9LSp233Niayjb85Kw/XMvgIz2BDiUEzGBv1DWMEQn5wPyYxs20Of6u8Q5PracSehPIpTiZB7uhIhBqOOIsj3urcHUz27N4=
+	t=1730287698; cv=none; b=nZGBCM/oatQeKPAeoH7MLbqhvqYnsX4rTawxJqjGkqSlb9+P1cvvmaGg0jBbl6ZipcFRsdgzz5gY9hpXo73Rth1+NLu5Mwi1wtNiQ4rHEpKNW3g+HpS+3kREZ7LhNNlPfXHVJ0DC+1/vD+uNNXHZ8httFZwdOK32HqA4NtvnGFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730264882; c=relaxed/simple;
-	bh=dN6dWGsj0J+OPpngUYV8QXJlh0F89unqq6bsVm2JvYc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dlQwFhn614Mf9rrfnDEvoALBXxuNRL8rbMFwF5WaQNf7rYOAD1IJZRpzDblrC5tIDgYSeslLTm3e7iCQLyYkkrwCTJQm/GInAI0S6M4B8JZgUKdwSa0TamRX+veNvZ60qQfvpuV2Ukb4iWCa5+UcO06n0lG9y3D8bclYuRqeuOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=lMCMlvKW; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1730287698; c=relaxed/simple;
+	bh=1nBiOt4E9hWg/0zn3g4OFCyMxJcpq+nbeiFpVMj1Z9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Aux84zroJhfYkFozqPALP1o7ZvWAG4Rn5bmZF0OTb4HX0Bm5I3fqCQvvJcdNXZ37wkrxGv3fCLU3KhfdpFRHvdb9snhFzd7GAyuLhrhVpvFYkFqvr+PRkQhgECub33V+g/HcGNEe5XcX1P+J+WZmXqVBaE7eUZk8/Yn+TlJl8hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a+Naaeaa; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="lMCMlvKW"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TM0eSA012773;
-	Wed, 30 Oct 2024 05:07:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5EaiPV8HgOn+AOMbwRUCE8i+sVD4MK8Fvx+leJhokhw=; b=lMCMlvKW9/Frk9qy
-	+GjnzZGQigvOUDxtQW+qXN6WPoQmBXsdi+/UyC3HnG4kvXaw5TxQdt3IFTipPrdm
-	nwCAyq0wZDFNfW9sdZ2s5L4s8BrFK9d6xFetwGzJEd3pap9KqB4tcDh1I6FuiOei
-	2ol6qEKsG7m2Is4hfm00+W5qTt27ruXbWYkVp5G/ymTk14Vb5QviopCEDCRF3+FB
-	o/+9ESRPb1fFXgjdxAr76FIKGqUje/N7dmwWmbDg5p7JOpqGYfgQ7/pcYt0pikmZ
-	EeufpI7M3RclCcTXO4RirDn4khPhYCHnUf4tUBelzw8BO3DPd265Gt7Zp4VWo8w+
-	6EDPVw==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grgujrf9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 05:07:30 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49U57THl015152
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Oct 2024 05:07:29 GMT
-Received: from [10.216.49.160] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Oct
- 2024 22:07:20 -0700
-Message-ID: <d98bff34-d7ea-2b05-0c0d-eaf0392aef3f@quicinc.com>
-Date: Wed, 30 Oct 2024 10:37:17 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+Naaeaa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730287695;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=F5SOWMgY56iXsI2F11A2ajlpJiSFnTM4sKk1Get+9MQ=;
+	b=a+NaaeaaKJno8CT/BASz0ZJCQm9fPymncP98pfKd5eyo8DK5AQqZ/PQA8qBbbSQnH1DnRb
+	haEKOAXIVjiK+X0VeWTOll+qcBjlkRGVvw8saKHwUvKT22xmWnjnZWpv2766a2ERyITIpB
+	H6ErQvjINkCLl8T+Ybz69o5qaeXUnng=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-213-Vj2zSdvpNqyruUuu2Ss_ig-1; Wed, 30 Oct 2024 07:28:13 -0400
+X-MC-Unique: Vj2zSdvpNqyruUuu2Ss_ig-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a9a1af73615so459779966b.0
+        for <linux-sound@vger.kernel.org>; Wed, 30 Oct 2024 04:28:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730287693; x=1730892493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=F5SOWMgY56iXsI2F11A2ajlpJiSFnTM4sKk1Get+9MQ=;
+        b=KczXZp7x31yHPvWxcUNXtWZ208Oxrlc7dT1TYR+zuv1b6/MBjng1QHBNE1IaFcMh4g
+         MWE78Wp9GYhTRcZee1APqhi8dDiHHGa4C3e1LVsNQR9WRwnUozK8tQZWoL9jdR0WAEfb
+         E0jTVSlHMF773EhXmw6gJdjWraKNl8B1E+A5lzl4FbCRke6FLYv5RK9bnXyLK/XTXkXy
+         4zbwpFVrV+5hAoeOMKUKSrkpwXKjzfN9oaXsnKAUVhpSa1sx9iwK5dqeAICzOeVOiaQ7
+         G0HMlvYJ6PN3aTCRvmJELK5/aB7iVw/g0ChYdgFiso70Fk1O8Xam4TFX0ISBNbenzawD
+         H6eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWY1ztlRcas3ukYenZXmD8//iR/17gr+d+kI5Hli5ugBvR6EEvJqTyMTL5s2R679B4WPhOeM5j9ude2ZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR4gTIuB7MIxrB4VbqHrE7eF1HxQSE8YPrXs03RHH7ptSBSe03
+	rLlBnmu/g276i9ZOiMNpRekHmvnj7XxRjOpH6WJL2GLx4zFjTgXbXuxOcFo5rcWTpjndHqb7IMl
+	PwdWMXz5XYnr+V/FUF+ht2aQCs5Thc47N7Z7mBFtnQk3Ge2Nbxs/kbnvKjllP
+X-Received: by 2002:a17:907:3ea6:b0:a9a:d52:9e79 with SMTP id a640c23a62f3a-a9de632e87cmr1484258366b.60.1730287692578;
+        Wed, 30 Oct 2024 04:28:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHnDINiXRUE96BlR23lv9C+OQFBClKdFZUq7ld2UJ9kzdhczUGabkr4/M1e9W23thWxvBAWBg==
+X-Received: by 2002:a17:907:3ea6:b0:a9a:d52:9e79 with SMTP id a640c23a62f3a-a9de632e87cmr1484255566b.60.1730287692107;
+        Wed, 30 Oct 2024 04:28:12 -0700 (PDT)
+Received: from eisenberg.fritz.box ([2001:16b8:3db7:f800:98bb:372a:45f9:41e4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b30f58991sm557324566b.159.2024.10.30.04.28.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 04:28:11 -0700 (PDT)
+From: Philipp Stanner <pstanner@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>,
+	Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Philipp Stanner <pstanner@redhat.com>,
+	Jie Wang <jie.wang@intel.com>,
+	Michal Witwicki <michal.witwicki@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Damian Muszynski <damian.muszynski@intel.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	zhang jiao <zhangjiao2@cmss.chinamobile.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org,
+	qat-linux@intel.com,
+	linux-crypto@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: [PATCH v6 00/10] Remove pcim_iomap_regions_request_all()
+Date: Wed, 30 Oct 2024 12:27:33 +0100
+Message-ID: <20241030112743.104395-1-pstanner@redhat.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static channel
- mapping support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>,
-        Sanyog Kale <sanyog.r.kale@intel.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <kernel@quicinc.com>
-References: <20241023061326.3871877-1-quic_mohs@quicinc.com>
- <20241023061326.3871877-2-quic_mohs@quicinc.com>
- <qzjbiby7w6a7m4e324hdatgklmejlcxfwv7tszzfmdqahgrbu2@bcwsdlrpncxq>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <qzjbiby7w6a7m4e324hdatgklmejlcxfwv7tszzfmdqahgrbu2@bcwsdlrpncxq>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: VHEgHkQ44s6yuQoIlMFokJ7O4BZ33SqG
-X-Proofpoint-GUID: VHEgHkQ44s6yuQoIlMFokJ7O4BZ33SqG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1011
- lowpriorityscore=0 adultscore=0 mlxscore=0 bulkscore=0 suspectscore=0
- phishscore=0 spamscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2409260000
- definitions=main-2410300037
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 10/23/2024 1:22 PM, Krzysztof Kozlowski wrote:
-> On Wed, Oct 23, 2024 at 11:43:23AM +0530, Mohammad Rafi Shaik wrote:
->> Add static channel mapping between master and slave rx/tx ports for
->> Qualcomm wcd937x soundwire codec.
->>
->> Currently, the channel mask for each soundwire port is hardcoded in the
->> wcd937x-sdw driver, and the same channel mask value is configured in the
->> soundwire master.
->>
->> The Qualcomm boards like the QCM6490-IDP require different channel mask settings
->> for the soundwire master and slave ports.
-> 
-> Different than what? Other wcd937x? Which are these?
-> 
-For Qualcomm QCM6490-IDP board soundwire master needs a different 
-channel mask setting.
+Changes in v6:
+  - Add Ilpo's RB to patch #1
+  - Rephrase error log messages in patch #6. (Ilpo)
 
-The wcd937x channel mask values are hardcoded in wcd driver.
-https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x-sdw.c#L35
-https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd938x-sdw.c#L37
+Changes in v5:
+  - Add Acked-by's from Alexander and Bharat (the latter sent off-list,
+    because of some issue with receiving the previous patch sets).
 
-In case of QCM6490-IDP the soundwire master and wcd937x require 
-different channel mask settings, not the same.
-For Example, wcd937x ADC2 connection
+Changes in v4:
+  - Add Acked-by's from Giovanni and Kalle.
 
-                           Master                 Slave (wcd937x)
-                      +--------------+           +--------------+
-                      |  +--------+  |           |  +--------+  |
-          ADC1  ----->|  | PORT1  |  |           |  |   TX1  | 
-|<-----------ADC1
-          ADC2  ----->|  |        |  |           |  |        |  |
-                      |  +--------+  |           |  +--------+  |
-                      |              |           |              |
-          ADC3  ----->|  +--------+  |           |  +--------+  |
-                      |  |  PORT2 |  |           |  |   TX2  | 
-|<-----------ADC2
-                      |  |        |  |           |  |        | 
-|<-----------ADC3
-                      |  +--------+  |           |  +--------+  |
-                      |              |           |              |
-                      |  +--------+  |           |  +--------+  |
-  DMIC0...DMIC3------>|  |  PORT3 |  |           |  |   TX3  | 
-|<-----------DMIC0...DMIC3
-                      |  |        |  |           |  |        | 
-|<-----------MBHC
-                      |  +--------+  |           |  +--------+  |
-                      |              |           |              |
-                      |  +--------+  |           |  +--------+  |
-  DMIC4...DMIC3 ----->|  |  PORT4 |  |           |  |   TX4  | 
-|<-----------DMIC4...DMIC7
-                      |  |        |  |           |  |        |  |
-                      |  +--------+  |           |  +--------+  |
-                      |              |           |              |
-                      +------------- +           +--------------+
+Changes in v3:
+  - Add missing full stops to commit messages (Andy).
 
-					
-For ADC2, The Slave needs to configure TX2 Port with channel mask value 
-1 and
-For Master, it required PORT1 with channel mask  value 2.
+Changes in v2:
+  - Fix a bug in patch №4 ("crypto: marvell ...") where an error code
+    was not set before printing it. (Me)
+  - Apply Damien's Reviewed- / Acked-by to patches 1, 2 and 10. (Damien)
+  - Apply Serge's Acked-by to patch №7. (Serge)
+  - Apply Jiri's Reviewed-by to patch №8. (Jiri)
+  - Apply Takashi Iwai's Reviewed-by to patch №9. (Takashi)
 
 
-In existing design master and slave configured with same channel mask, 
-it will fail ADC2.
-The new design will help to configure channel mapping between master and 
-slave from DT.
+Hi all,
 
->>
->> With the introduction of the following channel mapping properties, it is now possible
->> to configure the master channel mask directly from the device tree.
->>
->> The qcom,tx-channel-mapping property specifies the static channel mapping between the slave
->> and master tx ports in the order of slave port channels which is adc1, adc2, adc3, adc4,
->> dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
-> 
-> I still don't get what is the channel here.
-> 
-Typo error,
+the PCI subsystem is currently working on cleaning up its devres API. To
+do so, a few functions will be replaced with better alternatives.
 
-The qcom,tx-channel-mapping property specifies the static channel 
-mapping between the slave
+This series removes pcim_iomap_regions_request_all(), which has been
+deprecated already, and accordingly replaces the calls to
+pcim_iomap_table() (which were only necessary because of
+pcim_iomap_regions_request_all() in the first place) with calls to
+pcim_iomap().
 
-and master tx ports in the order of slave port channel index which are 
-adc1, adc2, adc3, adc4,
+Would be great if you can take a look whether this behaves as you
+intended for your respective component.
 
-dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+Cheers,
+Philipp
 
+Philipp Stanner (10):
+  PCI: Make pcim_request_all_regions() a public function
+  ata: ahci: Replace deprecated PCI functions
+  crypto: qat - replace deprecated PCI functions
+  crypto: marvell - replace deprecated PCI functions
+  intel_th: pci: Replace deprecated PCI functions
+  wifi: iwlwifi: replace deprecated PCI functions
+  ntb: idt: Replace deprecated PCI functions
+  serial: rp2: Replace deprecated PCI functions
+  ALSA: korg1212: Replace deprecated PCI functions
+  PCI: Remove pcim_iomap_regions_request_all()
 
+ .../driver-api/driver-model/devres.rst        |  1 -
+ drivers/ata/acard-ahci.c                      |  6 +-
+ drivers/ata/ahci.c                            |  6 +-
+ drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+ drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+ .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+ .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+ drivers/hwtracing/intel_th/pci.c              |  9 ++-
+ .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+ drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+ drivers/pci/devres.c                          | 59 +------------------
+ drivers/tty/serial/rp2.c                      | 12 ++--
+ include/linux/pci.h                           |  3 +-
+ sound/pci/korg1212/korg1212.c                 |  6 +-
+ 14 files changed, 76 insertions(+), 104 deletions(-)
 
-https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x.h#L599
-
-
-
-Will be fixed in the next version
-
->>
->> The qcom,rx-channel-mapping property specifies static channel mapping between the slave
->> and master rx ports in the order of slave port channels which is hph_l, hph_r, clsh,
->> comp_l, comp_r, lo, dsd_r, dsd_l.
-> 
-> And this description copies binding :/.
-> 
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
->
-
-Ack
-
->>
->> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
->> ---
->>   .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
->>   1 file changed, 36 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->> index d3cf8f59cb23..a6bc9b391db0 100644
->> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->> @@ -58,6 +58,38 @@ properties:
->>       items:
->>         enum: [1, 2, 3, 4, 5]
->>   
->> +  qcom,tx-channel-mapping:
->> +    description: |
->> +      Specifies static channel mapping between slave and master tx port
->> +      channels.
->> +      In the order of slave port channels which is adc1, adc2, adc3, adc4,
->> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
->> +      ch_mask1 ==> bit mask value 1
->> +      ch_mask2 ==> bit mask value 2
->> +      ch_mask3 ==> bit mask value 4
->> +      ch_mask4 ==> bit mask value 8
->> +    $ref: /schemas/types.yaml#/definitions/uint8-array
->> +    minItems: 8
->> +    maxItems: 13
-> 
-> Why size is variable? This device has fixed amount of slave ports, I
-> think.
->
-
-yes will check modify
-
->> +    items:
->> +      enum: [1, 2, 4, 8]
-> 
-> What is the point of using bits if you cannot actually create a bit mask
-> out of it? Why this cannot be 7?
-> 
-Actually, these values should be fixed: 1 (0001), 2 (0010), 4(0100), 
-8(1000).
-
-
-If required to set 7, it is handled in wcd driver based on mixer commands.
-https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x.c#L1199
-
-
-Example:
-WCD937X_HPH_L -> channel mask value is 1
-WCD937X_HPH_R -> channel mask value is 2
-
-
-The final channel mask for that specific port is 3
->> +
->> +  qcom,rx-channel-mapping:
->> +    description: |
->> +      Specifies static channels mapping between slave and master rx port
->> +      channels.
->> +      In the order of slave port channels, which is
->> +      hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
->> +      ch_mask1 ==> bit mask value 1
->> +      ch_mask2 ==> bit mask value 2
->> +      ch_mask3 ==> bit mask value 4
->> +      ch_mask4 ==> bit mask value 8
-> 
-> and the value is what exactly? Index is channel, but what does "ch_mask4 ==> bit
-> mask value 8" mean? I don't understand this at all.
-> 
-
-                           Master
-                      +--------------+
-                      |  +--------+  |
-           ADC1 ----->|  | PORT1  |  |
-           ADC2 ----->|  |        |  |
-                      |  +--------+  |
-                      |              |
-           ADC3 ----->|  +--------+  |
-                      |  |  PORT2 |  |
-                      |  |        |  |
-                      |  +--------+  |
-                      |              |
-                      |  +--------+  |
-   DMIC0...DMIC3 ---->|  |  PORT3 |  |
-                      |  |        |  |
-                      |  +--------+  |
-                      |              |
-                      |  +--------+  |
-   DMIC4...DMIC7----->|  |  PORT4 |  |
-                      |  |        |  |
-                      |  +--------+  |
-                      |              |
-                      +------------- +
-
-
-The PORT1 has 2 ADC connections,
-
-ADC1 -> PORT1 ch_mask index 1 -> channel mask value 1 (0001)
-ADC2 -> PORT1 ch_mask index 2 -> channel mask value 2 (0010)
-
-
-DMIC0 -> PORT3 ch_mask index 1 -> channel mask value 1 (0001)
-DMIC1 -> PORT3 ch_mask index 2 -> channel mask value 2 (0010)
-DMIC2 -> PORT3 ch_mask index 3 -> channel mask value 4 (0100)
-DMIC3 -> PORT3 ch_mask index 4 -> channel mask value 8 (1000)
-
-
-Will check and add a proper description.
-
-
->> +    $ref: /schemas/types.yaml#/definitions/uint8-array
->> +    minItems: 8
->> +    maxItems: 8
->> +    items:
->> +      enum: [1, 2, 4, 8]
->> +
->>   required:
->>     - compatible
->>     - reg
->> @@ -74,6 +106,8 @@ examples:
->>               compatible = "sdw20217010a00";
->>               reg = <0 4>;
->>               qcom,rx-port-mapping = <1 2 3 4 5>;
->> +            qcom,rx-channel-mapping =  /bits/ 8 <0x01 0x02 0x01 0x01 0x02
->> +                                                 0x01 0x01 0x02>;
->>           };
->>       };
->>   
->> @@ -85,6 +119,8 @@ examples:
->>               compatible = "sdw20217010a00";
->>               reg = <0 3>;
->>               qcom,tx-port-mapping = <2 2 3 4>;
->> +            qcom,tx-channel-mapping = /bits/ 8 <0x01 0x02 0x01 0x01 0x02 0x04
->> +                                                0x04 0x08 0x01 0x02 0x04 0x8>;
-> 
-> Keep it consistent, e.g. everywhere without leading 0... actually not
-> sure why this is hex, either.
-> 
-
-Ack, okay will check and modify.
-
-
-For hex value, Actually took the reference from port mask values in swr 
-DT entry.
-https://elixir.bootlin.com/linux/v6.12-rc5/source/arch/arm64/boot/dts/qcom/sc7280.dtsi#L2528
->>           };
->>       };
->>   
->> -- 
->> 2.25.1
-
-Thanks & Regards,
-Rafi.
->>
+-- 
+2.47.0
 
