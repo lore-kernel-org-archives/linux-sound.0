@@ -1,85 +1,154 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A9982899;
-	Wed, 30 Oct 2024 18:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7772A14F90;
+	Wed, 30 Oct 2024 21:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730312049; cv=none; b=ZuAY5WC5bpvxnEEX8P7q8WslCnyze1P9JBMQDMYTyaAbqhFMVt1cbKzq3MoL/t2Tlxd1v9WPWcP0mphSVdxlKWhjOat6nxTlqTXv7nnHF85cykFxuNcq4xSkhHATD0LP9EDddv6pcebtKffE0ebIh22BNLfVJ/V8+iuQ+pB/sLs=
+	t=1730322663; cv=none; b=btWfmSMr/y/PexnDcYKHsXtpXNtvOoMcmH7dgHgxrKly+fMraUK6qrpxsWQ313DbTQMV5OALmVP0x83nwoalXy3KJjQjwLfy4/HuLM/nNpLdOq9np4X3wU7q0UG+A6Vvs9Vp9kxEpKadfk2HM7DfXIQI6kp0bVMugfl3HGZ/uxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730312049; c=relaxed/simple;
-	bh=gPom55NrJIdbKpm1OIV8sl9jUaW8THjT/W08qytNduY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RiQqfpZQb0Dp4CRn6NRdVdVLUP/pzBcvJgLeQRjBDRV620PmM6YjqcejU3+AZV017xZOLdqDOUvhuolZ0X9Si4dwR84L5keZLCKIJpzpxyqBZPd6/Y5R79SVWrW5AzGLfvQvtQUp7pCDbeKSvfS2bWYsYfMr/3E+iEZbz14DeaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrtg4v2F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730322663; c=relaxed/simple;
+	bh=49YpfPgybjyunYRlnfXehdPEI1xELY9QE5/uJT2eRPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=OKdXsIS+svbrCFi7nUIkBnbKoaGi7E13i1aa1umAF0RR/uqCBe5bCk9ZqMOqoyWQecBz7Nm09ymc5GW6juw/Q3fF9w2GsLeWihun5XJXkr/vDMJs2cyJHpRCr/q2cFSqQOhS3rpF3Ev6t+VTd0xSju95xYR+tas00Vn9LY+dPyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkEQfGIc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrtg4v2F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FF14C4CED2;
-	Wed, 30 Oct 2024 18:14:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkEQfGIc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB149C4CECE;
+	Wed, 30 Oct 2024 21:11:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730312048;
-	bh=gPom55NrJIdbKpm1OIV8sl9jUaW8THjT/W08qytNduY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lrtg4v2F6vLvgHtFFIiNEK8+MjINfH8XZyiQKGsB9f2m4CdhP5wbSNPOBOdGFjF6s
-	 q9x8cw+TXo3Tt/72B2PYAbDnWOiGISanNNE24eUH1FbuCwReCBW/CHLK/Us4OqRJzw
-	 BjX4vItTnYSgXIbrMaSV5T+ni9z44y8jlvTmeWJBy4hza7/EEeQn8AqP8ckO68mNDA
-	 53YiMRdvzcsFDL58KaPXEyMYIQ5/O1KV7l1edIgNr88UksVk5vGsNBpM9FFetq5jD5
-	 56Pf7WqdyDmlrex0iiLGoTcXZbR9dmjIF+QYCdxyGczP+A95eS9oAmztbNbvNp9MC0
-	 7dXjUVU8zFIgQ==
-Date: Wed, 30 Oct 2024 18:14:03 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Stanislav Jakubek <stano.jakubek@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: sound: sprd,pcm-platform: convert to
- YAML
-Message-ID: <97cb13bf-b1b8-4a8e-bb6e-7662ed28bde1@sirena.org.uk>
-References: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
+	s=k20201202; t=1730322663;
+	bh=49YpfPgybjyunYRlnfXehdPEI1xELY9QE5/uJT2eRPQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=pkEQfGIccHm/wjiCrCCWe/fH7mfNqtwdKRguI2XyD+0KsDUZwN+Z3GEyLkB72KLSy
+	 ulaBG27WfSdkBPsSCq9Yjp/3JTK5hLojfRSklS9RUiQPlAcnN7CviYKk/XyzFK0ByX
+	 Ip+k/evjUE7lioJxM7T4DzxFai1kidYxX7YiT7IXRP34r0U25bFA99l8ZHQOmfqDpU
+	 1YHV4iYYti/4gl4juv7KbZgDYPOhzdN4tgMBXwvF191SrIvWNuZizINVQBdIJ1KUlB
+	 zAB3Bq3cuJ15LzgOUrz0K+qEuKnNH6URIYvoC6qQ0lGtlTrzqYvfrsPzuyf4NmCutU
+	 +Q30d8ivn5xlA==
+Date: Wed, 30 Oct 2024 16:11:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Philipp Stanner <pstanner@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Damien Le Moal <dlemoal@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Arnaud Ebalard <arno@natisbad.org>,
+	Srujana Challa <schalla@marvell.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+	Kalle Valo <kvalo@kernel.org>, Jon Mason <jdmason@kudzu.us>,
+	Dave Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Kevin Cernekee <cernekee@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Mark Brown <broonie@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jie Wang <jie.wang@intel.com>,
+	Michal Witwicki <michal.witwicki@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Adam Guerin <adam.guerin@intel.com>,
+	Damian Muszynski <damian.muszynski@intel.com>,
+	Bharat Bhushan <bbhushan2@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Emmanuel Grumbach <emmanuel.grumbach@intel.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Breno Leitao <leitao@debian.org>,
+	Yedidya Benshimol <yedidya.ben.shimol@intel.com>,
+	Serge Semin <fancer.lancer@gmail.com>,
+	zhang jiao <zhangjiao2@cmss.chinamobile.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-ide@vger.kernel.org, qat-linux@intel.com,
+	linux-crypto@vger.kernel.org, linux-wireless@vger.kernel.org,
+	ntb@lists.linux.dev, linux-pci@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6 00/10] Remove pcim_iomap_regions_request_all()
+Message-ID: <20241030211100.GA1220400@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gOI4wYstUM9HsCLk"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
-X-Cookie: I feel partially hydrogenated!
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241030112743.104395-1-pstanner@redhat.com>
 
+On Wed, Oct 30, 2024 at 12:27:33PM +0100, Philipp Stanner wrote:
+> Changes in v6:
+>   - Add Ilpo's RB to patch #1
+>   - Rephrase error log messages in patch #6. (Ilpo)
+> 
+> Changes in v5:
+>   - Add Acked-by's from Alexander and Bharat (the latter sent off-list,
+>     because of some issue with receiving the previous patch sets).
+> 
+> Changes in v4:
+>   - Add Acked-by's from Giovanni and Kalle.
+> 
+> Changes in v3:
+>   - Add missing full stops to commit messages (Andy).
+> 
+> Changes in v2:
+>   - Fix a bug in patch №4 ("crypto: marvell ...") where an error code
+>     was not set before printing it. (Me)
+>   - Apply Damien's Reviewed- / Acked-by to patches 1, 2 and 10. (Damien)
+>   - Apply Serge's Acked-by to patch №7. (Serge)
+>   - Apply Jiri's Reviewed-by to patch №8. (Jiri)
+>   - Apply Takashi Iwai's Reviewed-by to patch №9. (Takashi)
+> 
+> 
+> Hi all,
+> 
+> the PCI subsystem is currently working on cleaning up its devres API. To
+> do so, a few functions will be replaced with better alternatives.
+> 
+> This series removes pcim_iomap_regions_request_all(), which has been
+> deprecated already, and accordingly replaces the calls to
+> pcim_iomap_table() (which were only necessary because of
+> pcim_iomap_regions_request_all() in the first place) with calls to
+> pcim_iomap().
+> 
+> Would be great if you can take a look whether this behaves as you
+> intended for your respective component.
+> 
+> Cheers,
+> Philipp
+> 
+> Philipp Stanner (10):
+>   PCI: Make pcim_request_all_regions() a public function
+>   ata: ahci: Replace deprecated PCI functions
+>   crypto: qat - replace deprecated PCI functions
+>   crypto: marvell - replace deprecated PCI functions
+>   intel_th: pci: Replace deprecated PCI functions
+>   wifi: iwlwifi: replace deprecated PCI functions
+>   ntb: idt: Replace deprecated PCI functions
+>   serial: rp2: Replace deprecated PCI functions
+>   ALSA: korg1212: Replace deprecated PCI functions
+>   PCI: Remove pcim_iomap_regions_request_all()
+> 
+>  .../driver-api/driver-model/devres.rst        |  1 -
+>  drivers/ata/acard-ahci.c                      |  6 +-
+>  drivers/ata/ahci.c                            |  6 +-
+>  drivers/crypto/intel/qat/qat_420xx/adf_drv.c  | 11 +++-
+>  drivers/crypto/intel/qat/qat_4xxx/adf_drv.c   | 11 +++-
+>  .../marvell/octeontx2/otx2_cptpf_main.c       | 14 +++--
+>  .../marvell/octeontx2/otx2_cptvf_main.c       | 13 ++--
+>  drivers/hwtracing/intel_th/pci.c              |  9 ++-
+>  .../net/wireless/intel/iwlwifi/pcie/trans.c   | 16 ++---
+>  drivers/ntb/hw/idt/ntb_hw_idt.c               | 13 ++--
+>  drivers/pci/devres.c                          | 59 +------------------
+>  drivers/tty/serial/rp2.c                      | 12 ++--
+>  include/linux/pci.h                           |  3 +-
+>  sound/pci/korg1212/korg1212.c                 |  6 +-
+>  14 files changed, 76 insertions(+), 104 deletions(-)
 
---gOI4wYstUM9HsCLk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Wed, Oct 30, 2024 at 06:48:38PM +0100, Stanislav Jakubek wrote:
-> Convert the Spreadtrum DMA plaform bindings to DT schema.
-> Adjust filename to match compatible.
-
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
-
---gOI4wYstUM9HsCLk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcid2oACgkQJNaLcl1U
-h9BOkgf+JtiwxnUsmi1LQ1DAbES3Mn8VD56Dkoe8ji5V7KVMAMP3JMqXUZBHWhMT
-shdLHUEY9d8H1gmLZfZcE59NYdfPATsN56Ck/arp3pFX8cJTn+xX0vSSixfdw1fn
-LSf4Mraf+yS8567FB7RTYxhFFWAKogO/SAIYt2iETRFmCCO8RSm0MlwhTC/XEd9I
-ke7aLn7qWciXVR7rtTb9mrdHEAV9rUnylyJ+6rt4EsK07CPPvJaLoj7UBJ/csAG4
-SLhaVP+pQrXeIp/plSpXKNUUUA5id5CrtfrzuEmIPIHuvHX4WUzuQ+ljkHJxddHI
-pfZRoXRWVWDYHwBRswcRA/gRdmCzgA==
-=uAbo
------END PGP SIGNATURE-----
-
---gOI4wYstUM9HsCLk--
+Applied to pci/devm for v6.13, thanks!
