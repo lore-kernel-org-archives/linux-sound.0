@@ -1,91 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F2013A89A;
-	Thu, 31 Oct 2024 10:33:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBC513A869;
+	Thu, 31 Oct 2024 11:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730370789; cv=none; b=hpcw/kh5u6vhY9KRIWM47MriRqL37CSDx0LWe4zC63lhHUx+O5ZDq7K/c5fSEPBYAQWTu683gaMBqREIZrxHphBRapmVwpJwvZIZWW4BkbPmOF9SvydLbzK1nE0InBVYZhkYmTaVGocsSP9WHz9/eJgtzY5Gf1rZMurZ/0rvx14=
+	t=1730373250; cv=none; b=jjyrQrkjwT5FJc2fKYSW5WpL9l6G70LuDnUvOAVO/VqgVB8lTnAl4LQ6pNBRTSrAeC07wOt4UUGGge9KUESCwFFCM3UBgZiBDX7Q/jYUUf9KnebXLqPL837QIerq6FGEpHF6Xb6qz7v4L+utLCfzvnWmpCnvcB6BGZUFHGeQcMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730370789; c=relaxed/simple;
-	bh=eKNfUqel5OZ/TgCB4bHe6tb2bJ1iWuMce18w3T5R0H8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bpbR6ENAYvV0C1uJD514IXKNGHzh8qpakNvdoSSLt0qDGBQvBs4XeZTjHeVfc/doHFT0bpqSpjfO/5O9zVN7/CdhOzz05Cwl05TZ2NguXaie1sg9OK/utAXchXbcDpnDtfO9EcYrhy8lnI7XpgZzgox/ZngXvVy6v7DfUyqCxeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ga3uW7Uz; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730373250; c=relaxed/simple;
+	bh=GfY6uEgX/ususpsUcZOx7OWF5IJU0mwMlBmVQZiOSsE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H8G4U9iJWkn+jsxdMjGacmiAzkY/jvch8aXmgu/bovNCAmlaIlmiRvzYB7MBd3JA8PvguhrTcirZsNFWyXew/ymfabYiviHPJSTeu7X1hAKy7pXgb+W82oIg79v2hBrLVC8aMeoj6d6jtO98qVhgtGaBuZCj833qJJsgPdkU4TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=hHmpXcD5; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ga3uW7Uz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730370788; x=1761906788;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=eKNfUqel5OZ/TgCB4bHe6tb2bJ1iWuMce18w3T5R0H8=;
-  b=Ga3uW7Uz1cMVSkyabO6GQy/EszbuVmLS0GhSfANayt/ya74BehwGTD6F
-   PlGtgJqIlqSSswDclFFwMo6oRpo1fLEqbVMAU1h+xEZYgWjleB2r/x80p
-   iH7XQBOjG//xrW8PiSA85EfVzvfhiN/vjpLuQ+KP3OCiieh+IcFehGw+A
-   gD3Zs7dEXo19RHNUgXvZCvL/xhOhre9ddyqVi2QkMeHnsKIKWJjFs03+G
-   Q7HqSM/+lRI5aioQSKDFmNKwdUmAbzdXpd2cfB7PfbThzX6lcDqyr0e8x
-   HOc2uw5NK1DaBd7KaER2y5efBZ6wtAOuWaXi9czvD2zwDX+GGDtihsNzf
-   Q==;
-X-CSE-ConnectionGUID: Ei+EczOLRK6y7FC/uf4l+Q==
-X-CSE-MsgGUID: XEUk3eP/SO6QUCHMf1tldQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30293902"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30293902"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 03:33:08 -0700
-X-CSE-ConnectionGUID: WfjPpFE0RAe6p3LORAF2+Q==
-X-CSE-MsgGUID: IvOrv0jhR7+2FJzBn97Yuw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="86522566"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa003.fm.intel.com with ESMTP; 31 Oct 2024 03:33:05 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 392BA17D; Thu, 31 Oct 2024 12:33:03 +0200 (EET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Brown <broonie@kernel.org>,
-	Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
-	Mohammad Rafi Shaik <quic_mohs@quicinc.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1 1/1] ASoC: codecs: wcd937x: Remove unused of_gpio.h
-Date: Thu, 31 Oct 2024 12:33:02 +0200
-Message-ID: <20241031103302.2450830-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.43.0.rc1.1336.g36b5255a03ac
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="hHmpXcD5"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49V6nioL009687;
+	Thu, 31 Oct 2024 06:13:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=YYC/8DnwoAIbtcz0I+
+	v3DJqMUw3+Qmf/MjyCT7t5k1E=; b=hHmpXcD5x9m2K/9IXPzvJOBy7nF1TxUAvs
+	M3WKAFt8CYVMlmxI9A7ySoezAfL1xV1XDPMWP0gcX7SrI6kJc3lWvJLZNB8hSPa/
+	ve6NjwEa6C6x+oc7g26GpLMdNiX9ZO+Eka4mEs9hoipjotp7bhpx5zGy6Ly40b0+
+	9GOh39UxfWqdpCxv2J7BtIxxfeH6GM171N5BJb2N2zRllNjmwU1SUPijxo7palXe
+	TKwjIjx2JMY9a/sStRfFJx0aGwmlbeOO48mGSl+ftuxw2zX766qLOhdlfmYG3Nb0
+	D6KXZYO9zj1j0kJsAWFo0tVn7d0h1MVuusekZdQhTSRlRL5ugiCw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42gvuje4vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 31 Oct 2024 06:13:52 -0500 (CDT)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 31 Oct
+ 2024 11:13:50 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Thu, 31 Oct 2024 11:13:50 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 9ABBC820241;
+	Thu, 31 Oct 2024 11:13:50 +0000 (UTC)
+Date: Thu, 31 Oct 2024 11:13:49 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: anish kumar <yesanishhere@gmail.com>
+CC: <perex@perex.cz>, <tiwai@suse.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH V3] Docs/sound: Update codec-to-codec documentation
+Message-ID: <ZyNmbQ88HbvkaSe8@opensource.cirrus.com>
+References: <20241028194121.41993-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241028194121.41993-1-yesanishhere@gmail.com>
+X-Proofpoint-GUID: r-wnKOItCPaFgg7dN0ce5OH3aXa1sIN5
+X-Proofpoint-ORIG-GUID: r-wnKOItCPaFgg7dN0ce5OH3aXa1sIN5
+X-Proofpoint-Spam-Reason: safe
 
-of_gpio.h is deprecated and subject to remove. The drivers in question
-don't use it, simply remove the unused header.
+On Mon, Oct 28, 2024 at 12:41:21PM -0700, anish kumar wrote:
+> Updated documentation to provide more details
+> for codec-to-codec connection.
+> 
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+> v3: took care of comments from Charles Keepax and
+> as advised modified some details.
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- sound/soc/codecs/wcd937x.c | 1 -
- 1 file changed, 1 deletion(-)
+This still has all the DPCM bits in it.
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index 08fb13a334a4..c9d5e67bf66e 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
-@@ -7,7 +7,6 @@
- #include <linux/gpio/consumer.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
--#include <linux/of_gpio.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
--- 
-2.43.0.rc1.1336.g36b5255a03ac
-
+Thanks,
+Charles
