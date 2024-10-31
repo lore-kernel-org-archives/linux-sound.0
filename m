@@ -1,268 +1,190 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF7C1940A1
-	for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 09:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9DB197556;
+	Thu, 31 Oct 2024 09:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730366921; cv=none; b=qvhaiP33+PwRw1UWU+k5DEUBAeNZszwKgFhTlcECWBdBjsvQ1GdvZMQ+QR1FTwJhAoJ5jntl0oj8NXRG52lr+AblulQUMQniHJwvXP17Fa7t/MXPIjThidnoKSdpyNAuEPOesRDxFQXHFS0cjSsMYshmoVsUSDiBAhMooYt4RLY=
+	t=1730367294; cv=none; b=CoduAJNdAohzgrfwR+NPaoK+dBt84zWXSrSjg4R3ZCcCSRAi7C65oOmf67blFfSEcB9X3MJP4+9IMck4eRw3xFgG4Gv8k2KCX1GS2lZ7GvuplGGmkUqwKnmmDz3xhG++reh1sltqocjqX4FWDSXHCSOR3t6Q1EAE2txyYtGXs50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730366921; c=relaxed/simple;
-	bh=d6wn1lKONgblnZ++1qSDC4UeXUH/h7Owd02AbOfZVIQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MuyIfgWp3T1K2eCN2AU7qKY3DJgy1xnmgyDlInRgHtRcR7z2M1OmApJrH4YlXvAsFXMuQcGd/vK9f1E8jR0CnaxIXF0f6MbuipS2qaJj6ol+82HYHGErYh8QMNN0Ak1nLXAgW/dELmBE13HOGRtTLOfqs1alwD1TBtQduxfayaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DCABTsmQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1730367294; c=relaxed/simple;
+	bh=niiZTCgRtzfWSVRbWqD1/QkJo5ax0robeVdIJMAjaxE=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=q5tTVXD31i0MV5gyc+ZKZuiJxmBvOOAmuVp9GuxIQ1QpaXk7RwXo/EWczCISceMWNUWhUDHdr5W5xmQq3C1upbhV3BlQc56oFZr94ylIZKNjnlqrE1q0W4w2Q9Mekyew3SOhgAz0N0E16RxkM9VfXnj3mIKmPF50vkTh40O3GYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bYFuX0Af; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gkq2147k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bYFuX0Af; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gkq2147k; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DCABTsmQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730366918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=d6wn1lKONgblnZ++1qSDC4UeXUH/h7Owd02AbOfZVIQ=;
-	b=DCABTsmQrlrqZPPC8obhqarMKF6G/CAJS7qc5NNpwMiMvoKhAJrqkJ2rRJVOdK086ArbgF
-	GtGT0Df/MSUFQmBhPQIAaj/eNGr2TT12SWRcpooAXH7XLDutptpnRQnTrg7Y5Vp43pxVP0
-	tmJW2c2lsjnCPirM6rya5ZzdoqhOkgU=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-49-WZe2aPCUPSunLGFXqBGMvQ-1; Thu, 31 Oct 2024 05:28:35 -0400
-X-MC-Unique: WZe2aPCUPSunLGFXqBGMvQ-1
-Received: by mail-lj1-f199.google.com with SMTP id 38308e7fff4ca-2fcda6c1906so4587451fa.1
-        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 02:28:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730366914; x=1730971714;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=d6wn1lKONgblnZ++1qSDC4UeXUH/h7Owd02AbOfZVIQ=;
-        b=xUE0oDZ/3UIisyq0t3SzQ16ix7OQZBh2GFYkb0zvKZNia2mk9fLapMwtUMcg/P659N
-         Gk2MMUJI8Wd7HdRvU06Oq5a5UNP+ZTC9NMPI9D1Qf39jS7lyq2Y1bAY0sl8H+2RBFHq/
-         WRgfmifaN8CM/fKODsyrcTHHlDjXs0z7MsSeBkVUzY9mWu7WuQ8HC2l6/5zqC9sFVC3n
-         Ulz/2WS+IENH/KYY6+eavOuTeHWO5YmrQpQKEE55GcWYTaJqDKHQH0pvanuAK44jxkwb
-         wr9JcBrOj5bB0fUkyBIjfMs7wLZaQ2LDANFpf2WK73MEKKWbonJI1vEHDL1LMzT05Uo+
-         vj9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWJygs0UGyfSYXJO2kIX25V6qOcKOJnHBrNPb28EPfLEvEc3Lobf3LMhWlQjZq52mixrOE7f+PnpjQ73w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxmNp57TVI4LfXBA/revGDXDyq/grIlHSFbWvxKyCST1L0OQrP1
-	g37CgiUAA33ZEF/62/tccQYpZ3NMHG0KPWjCoa4rTDUT6U/I2rUmlbLtDx3eo2jtzDEe5jT7n52
-	H1UK06xLMmblEgHmTyEnaJVFldWg/OJ5Tg0uOz8Ycpo8o6qIc2mAIcjj8sHaR
-X-Received: by 2002:a2e:b8cf:0:b0:2fb:58b1:3731 with SMTP id 38308e7fff4ca-2fd058fbda2mr43394611fa.6.1730366913672;
-        Thu, 31 Oct 2024 02:28:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEinR4wm9boDAsEkZ9V3ivoUKK9VQmKYoIEQNVXO7Y2sjsmX4v4AmQcNIDCbC3ckt5R0LeFLA==
-X-Received: by 2002:a2e:b8cf:0:b0:2fb:58b1:3731 with SMTP id 38308e7fff4ca-2fd058fbda2mr43394381fa.6.1730366913125;
-        Thu, 31 Oct 2024 02:28:33 -0700 (PDT)
-Received: from dhcp-64-16.muc.redhat.com (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e94cdsm18626575e9.28.2024.10.31.02.28.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 02:28:32 -0700 (PDT)
-Message-ID: <f13c91f2d1e7672e1d9983425117eeb6347c0ea1.camel@redhat.com>
-Subject: Re: [PATCH 00/13] Remove implicit devres from pci_intx()
-From: Philipp Stanner <pstanner@redhat.com>
-To: Takashi Iwai <tiwai@suse.de>, Bjorn Helgaas <helgaas@kernel.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, 
- Sergey Shtylyov <s.shtylyov@omp.ru>, Basavaraj Natikar
- <basavaraj.natikar@amd.com>, Jiri Kosina <jikos@kernel.org>,  Benjamin
- Tissoires <bentiss@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Dubov <oakad@yahoo.com>,
- Sudarsana Kalluru <skalluru@marvell.com>, Manish Chopra
- <manishc@marvell.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Rasesh Mody <rmody@marvell.com>,
- GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko <imitsyanko@quantenna.com>,
- Sergey Matyukevich <geomatsi@gmail.com>, Kalle Valo <kvalo@kernel.org>,
- Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar S K
- <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Thomas Gleixner <tglx@linutronix.de>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Mostafa Saleh
- <smostafa@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu
- <yi.l.liu@intel.com>,  Christian Brauner <brauner@kernel.org>, Ankit
- Agrawal <ankita@nvidia.com>, Eric Auger <eric.auger@redhat.com>, Reinette
- Chatre <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?ISO-8859-1?Q?Marczykowski-G=F3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>,
- linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Thu, 31 Oct 2024 10:28:29 +0100
-In-Reply-To: <87plngwrws.wl-tiwai@suse.de>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	 <20241030221737.GA1223682@bhelgaas> <87plngwrws.wl-tiwai@suse.de>
-User-Agent: Evolution 3.52.4 (3.52.4-1.fc40)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bYFuX0Af";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gkq2147k";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bYFuX0Af";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gkq2147k"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 76A6F1F7D4;
+	Thu, 31 Oct 2024 09:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730367290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
+	b=bYFuX0AfkEkr9XlUJSS0b6d7hHmtN85C2mzQc7/yhAjNSkX8CT1VBta/uf1oIWDma6UNg3
+	XNXA5ScLVqNyDO48V/FFw+hdrQM09m2zQKLo/vf7U8SjVF6DeYLu3OqgiPOAfJdQbxgbz2
+	agSclZHHaJJskBf38H726ieWwY3cJvk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730367290;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
+	b=gkq2147kiDhak+pIHRXaNvY5qTLuCzJowRjShbsLq7xH9jbNwTgmhZhmaESTJLsUR4LezR
+	rKP6IVTiVHcmN1AA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bYFuX0Af;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gkq2147k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730367290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
+	b=bYFuX0AfkEkr9XlUJSS0b6d7hHmtN85C2mzQc7/yhAjNSkX8CT1VBta/uf1oIWDma6UNg3
+	XNXA5ScLVqNyDO48V/FFw+hdrQM09m2zQKLo/vf7U8SjVF6DeYLu3OqgiPOAfJdQbxgbz2
+	agSclZHHaJJskBf38H726ieWwY3cJvk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730367290;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
+	b=gkq2147kiDhak+pIHRXaNvY5qTLuCzJowRjShbsLq7xH9jbNwTgmhZhmaESTJLsUR4LezR
+	rKP6IVTiVHcmN1AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C17C13A53;
+	Thu, 31 Oct 2024 09:34:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Ni8YETpPI2cVLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Oct 2024 09:34:50 +0000
+Date: Thu, 31 Oct 2024 10:35:54 +0100
+Message-ID: <87ldy4wr5x.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
+ Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.12-rc6
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 76A6F1F7D4
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Thu, 2024-10-31 at 10:19 +0100, Takashi Iwai wrote:
-> On Wed, 30 Oct 2024 23:17:37 +0100,
-> Bjorn Helgaas wrote:
-> >=20
-> > On Tue, Oct 15, 2024 at 08:51:10PM +0200, Philipp Stanner wrote:
-> > > @Driver-Maintainers: Your driver might be touched by patch
-> > > "Remove
-> > > devres from pci_intx()". You might want to take a look.
-> > >=20
-> > > Changes since the RFC [1]:
-> > > =C2=A0 - Add a patch deprecating pci{m}_intx(). (Heiner, Andy, Me)
-> > > =C2=A0 - Add Acked-by's already given.
-> > > =C2=A0 - Export pcim_intx() as a GPL function. (Alex)
-> > > =C2=A0 - Drop patch for rts5280, since this driver will be removed
-> > > quite
-> > > =C2=A0=C2=A0=C2=A0 soon. (Philipp Hortmann, Greg)
-> > > =C2=A0 - Use early-return in pci_intx_unmanaged() and pci_intx().
-> > > (Andy)
-> > >=20
-> > > Hi all,
-> > >=20
-> > > this series removes a problematic feature from pci_intx(). That
-> > > function
-> > > sometimes implicitly uses devres for automatic cleanup. We should
-> > > get
-> > > rid of this implicit behavior.
-> > >=20
-> > > To do so, a pci_intx() version that is always-managed, and one
-> > > that is
-> > > never-managed are provided. Then, all pci_intx() users are ported
-> > > to the
-> > > version they need. Afterwards, pci_intx() can be cleaned up and
-> > > the
-> > > users of the never-managed version be ported back to pci_intx().
-> > >=20
-> > > This way we'd get this PCI API consistent again.
-> > >=20
-> > > Patch "Remove devres from pci_intx()" obviously reverts the
-> > > previous
-> > > patches that made drivers use pci_intx_unmanaged(). But this way
-> > > it's
-> > > easier to review and approve. It also makes sure that each
-> > > checked out
-> > > commit should provide correct behavior, not just the entire
-> > > series as a
-> > > whole.
-> > >=20
-> > > Merge plan for this is to enter through the PCI tree.
-> > >=20
-> > > [1]
-> > > https://lore.kernel.org/all/20241009083519.10088-1-pstanner@redhat.co=
-m/
-> >=20
-> > I *think* this series depends on resolution of Takashi's "Restore
-> > the
-> > original INTX_DISABLE bit by pcim_intx()" patch [2], right?
->=20
-> IIUC, it's not really dependent, as pcim_intx() has been used in
-> pci_intx() internally when the PCI device is already managed.
-> My patch is to correct the already existing behavior.
+Linus,
 
-IOW, pcim_intx() does not behave correctly, independently from removing
-the call to it in pci_intx().
+please pull sound fixes for v6.12-rc6 from:
 
-> =C2=A0 So I guess you
-> can take this series, and I'll post the revised patch later (sorry, I
-> was too busy for other tasks).
->=20
->=20
-> thanks,
->=20
-> Takashi
->=20
-> >=20
-> > For now I'm postponing this series, but let me know if that's not
-> > the
-> > right thing.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc6
 
-There are still several reviews / acks missing from the respective
-driver maintainers, so there's no hurry with this series regarding your
-side ;)
+The topmost commit is e49370d769e71456db3fbd982e95bab8c69f73e8
 
-Regards
-P.
+----------------------------------------------------------------
 
+sound fixes for 6.12-rc6
 
-> >=20
-> > [2] https://lore.kernel.org/r/20241024155539.19416-1-tiwai@suse.de
-> >=20
-> > > Philipp Stanner (13):
-> > > =C2=A0 PCI: Prepare removing devres from pci_intx()
-> > > =C2=A0 ALSA: hda_intel: Use always-managed version of pcim_intx()
-> > > =C2=A0 drivers/xen: Use never-managed version of pci_intx()
-> > > =C2=A0 net/ethernet: Use never-managed version of pci_intx()
-> > > =C2=A0 net/ntb: Use never-managed version of pci_intx()
-> > > =C2=A0 misc: Use never-managed version of pci_intx()
-> > > =C2=A0 vfio/pci: Use never-managed version of pci_intx()
-> > > =C2=A0 PCI: MSI: Use never-managed version of pci_intx()
-> > > =C2=A0 ata: Use always-managed version of pci_intx()
-> > > =C2=A0 wifi: qtnfmac: use always-managed version of pcim_intx()
-> > > =C2=A0 HID: amd_sfh: Use always-managed version of pcim_intx()
-> > > =C2=A0 Remove devres from pci_intx()
-> > > =C2=A0 PCI: Deprecate pci_intx(), pcim_intx()
-> > >=20
-> > > =C2=A0drivers/ata/ahci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/ata_piix.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/pata_rdc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/sata_sil24.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/sata_sis.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/sata_uli.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/ata/sata_vsc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A0drivers/hid/amd-sfh-hid/amd_sfh_pcie.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +--
-> > > =C2=A0drivers/hid/amd-sfh-hid/sfh1_1/amd_sfh_init.c |=C2=A0 2 +-
-> > > =C2=A0.../wireless/quantenna/qtnfmac/pcie/pcie.c=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +-
-> > > =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 29 +++++--------
-> > > ------
-> > > =C2=A0drivers/pci/pci.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 19 ++++--------
-> > > =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> > > =C2=A0sound/pci/hda/hda_intel.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 2 +-
-> > > =C2=A014 files changed, 26 insertions(+), 47 deletions(-)
-> > >=20
-> > > --=20
-> > > 2.47.0
-> > >=20
->=20
+Here we see slightly more commits than wished, but basically all are
+small and mostly trivial fixes.  The only core change is the
+workaround for __counted_by() usage in ASoC DAPM code, while the rest
+are device-specific fixes for Intel Baytrail devices, Cirrus and
+wcd937x codecs, and HD-audio / USB-audio devices.
+
+----------------------------------------------------------------
+
+Aleksei Vetrov (1):
+      ASoC: dapm: fix bounds checker error in dapm_widget_list_create
+
+Alexey Klimov (2):
+      ASoC: codecs: wcd937x: add missing LO Switch control
+      ASoC: codecs: wcd937x: relax the AUX PDM watchdog
+
+Christoffer Sandberg (2):
+      ALSA: hda/realtek: Fix headset mic on TUXEDO Gemini 17 Gen3
+      ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16 Gen6 mb1
+
+Christophe JAILLET (1):
+      ASoC: cs42l51: Fix some error handling paths in cs42l51_probe()
+
+Dmitry Yashin (1):
+      ASoC: dt-bindings: rockchip,rk3308-codec: add port property
+
+Hans de Goede (5):
+      ASoC: codecs: rt5640: Always disable IRQs from rt5640_cancel_work()
+      ASoC: Intel: bytcr_rt5640: Add support for non ACPI instantiated codec
+      ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet
+      ASoC: Intel: sst: Support LPE0F28 ACPI HID
+      ASoC: Intel: sst: Fix used of uninitialized ctx to log an error
+
+Jan Schär (1):
+      ALSA: usb-audio: Add quirks for Dell WD19 dock
+
+Kailang Yang (1):
+      ALSA: hda/realtek: Limit internal Mic boost on Dell platform
+
+Piyush Raj Chouhan (1):
+      ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
+
+---
+ .../bindings/sound/rockchip,rk3308-codec.yaml      |  4 ++
+ sound/hda/intel-dsp-config.c                       |  4 ++
+ sound/pci/hda/patch_realtek.c                      | 35 +++++++++++-
+ sound/soc/codecs/cs42l51.c                         |  7 ++-
+ sound/soc/codecs/rt5640.c                          | 27 +++++----
+ sound/soc/codecs/wcd937x.c                         | 12 +++-
+ sound/soc/codecs/wcd937x.h                         |  4 ++
+ sound/soc/intel/atom/sst/sst_acpi.c                | 64 +++++++++++++++++++---
+ sound/soc/intel/boards/bytcr_rt5640.c              | 48 +++++++++++++++-
+ sound/soc/soc-dapm.c                               |  2 +
+ sound/usb/mixer_quirks.c                           |  3 +
+ 11 files changed, 179 insertions(+), 31 deletions(-)
 
