@@ -1,69 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77711386C9;
-	Thu, 31 Oct 2024 16:17:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282ED19C562
+	for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 16:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730391437; cv=none; b=ZLal8sQOaihI/GxAjU5UFW3IGyj7zQ1pk+5nBsJDVJnDOtYfm3R8DrqLmCOYoX8KkWYTTTsQp6/HN+wVIQAgQZizefnDlv4WwjPCZWzS5IIS6DujBR+owfqdKP2ja6w+XIw643l+STEe6mfbpkQbmqXLa12sdrQozw5HQ1zXRss=
+	t=1730391626; cv=none; b=B9fYJ/W4f7fjaVV+8NjfBmMYMUUWN1zYgjhwZU1OEUdiDCj79KEz8noM1izGdlL5j5Nxo6kWM6bIbeZHNFMq8ZxxQH5fpjy92lu40261qpK7JGg7E/2WraGFeCFw7EIrlAlsBgyJ5izeJB8Iwsx5mCQGvBRDzjaBPKguC9DVkBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730391437; c=relaxed/simple;
-	bh=BLJfnW3jiq/AIhgD6ZXfzXiMxza1mbbVkuda13/ao7o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=f6km46ckGpvWPWZOzmCcUfnBb9IXF7Wp6o2sICUJc72a4pUJ4+yUUYSBecAOcEep6JaNTRW1mMUBySihVrAKtu3mV+1GbpeCJif3SUNTmPSEVJZbVAsm1N6FbxDqvgHS5JBeSZqT04qKCLsb1L2C8HCXucv40VBhJAV9xSn6SM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gbLyd1YD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730391626; c=relaxed/simple;
+	bh=PurOHOtmhxFSTeR1C0jvtM67MPrL4QTz3dZFIUROUto=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=r2phcJaPmFNnqyNi8HcGMaTzRJTzWcPjaTszaTm2u8gJWvCvGPjCYytjUqroqGEXE0ms1Y1LV5xxfVJj4hWTVfhnnBFE8l1NUKYSOOqNKl4F/x6e5z5p1S7skuQYb8Vld1o1kvC3WKb/Tng0hz932t2wJ0jezOUrzGcx7lg2Wxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XuJaQaGK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Mavml3F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XuJaQaGK; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7Mavml3F; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gbLyd1YD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23BBFC4FDF1;
-	Thu, 31 Oct 2024 16:17:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730391437;
-	bh=BLJfnW3jiq/AIhgD6ZXfzXiMxza1mbbVkuda13/ao7o=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=gbLyd1YD0w48TBG+uhYfCpKtjyRfrUgbUK500tUUQCxzUMxppMVt2du4MQ5XM245j
-	 hCIraMnOE5h9CIALh2KCBGmvNzncRKP8CLgZ0cgtBaDS0C5erAglfr46hfF0BWOrbt
-	 tdCjogKE7KE5IAKFLRwxJpEdQM5rHSsT7YNd/7Eqc52sWeIqONje54LySGbc1nwh+v
-	 jY/zlK5oP2VbiTcKNd6RAvP7WLX/DyJpyzJ9CszNYkFtUCmEpb8ubHh8B25K6O3UzN
-	 9deJCDvvlkvuM0IwD0lgNDDP4gDgzZZUoKsAO2P8nzbS567WZ7Kc+8/V0bICXaJXK6
-	 JtFI9s75csjQQ==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org, broonie@kernel.org, 
- Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-In-Reply-To: <20241014095202.828194-1-ckeepax@opensource.cirrus.com>
-References: <20241014095202.828194-1-ckeepax@opensource.cirrus.com>
-Subject: Re: (subset) [PATCH] mfd: cs42l43: Disable IRQs during suspend
-Message-Id: <173039143588.1800953.3015027062724816237.b4-ty@kernel.org>
-Date: Thu, 31 Oct 2024 16:17:15 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XuJaQaGK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Mavml3F";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XuJaQaGK";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7Mavml3F"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 52D7721CEA;
+	Thu, 31 Oct 2024 16:20:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730391622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sSvtL57+fugT2TV4x+llkSZ5/knd2Szh4vYAWxm3UU=;
+	b=XuJaQaGK1USEwmdHATWjmJ0oemOr2s4VywbEaWHy/xUax1RH3CBJDgPWJSJvrT0QnS6SZe
+	MaJDKhBLECxuyONlDnaosGqQndlgLb1WAkD2qQ7+WYwDzaJ/VlpbT36wVaWZT1aGGiTRUH
+	XYdczGD6H0RlijFZzQ6lqvORe+EjY+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730391622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sSvtL57+fugT2TV4x+llkSZ5/knd2Szh4vYAWxm3UU=;
+	b=7Mavml3FrEGpVLufXpSDDlnCkJGVSi3vyLWgW5M1n7/6L39yVdChmeqg196K+JWWrq5RZq
+	Jka77Gkj2v4A8BAg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730391622; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sSvtL57+fugT2TV4x+llkSZ5/knd2Szh4vYAWxm3UU=;
+	b=XuJaQaGK1USEwmdHATWjmJ0oemOr2s4VywbEaWHy/xUax1RH3CBJDgPWJSJvrT0QnS6SZe
+	MaJDKhBLECxuyONlDnaosGqQndlgLb1WAkD2qQ7+WYwDzaJ/VlpbT36wVaWZT1aGGiTRUH
+	XYdczGD6H0RlijFZzQ6lqvORe+EjY+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730391622;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2sSvtL57+fugT2TV4x+llkSZ5/knd2Szh4vYAWxm3UU=;
+	b=7Mavml3FrEGpVLufXpSDDlnCkJGVSi3vyLWgW5M1n7/6L39yVdChmeqg196K+JWWrq5RZq
+	Jka77Gkj2v4A8BAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B36C13A53;
+	Thu, 31 Oct 2024 16:20:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id km9mCUauI2fRMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 31 Oct 2024 16:20:22 +0000
+Date: Thu, 31 Oct 2024 17:21:26 +0100
+Message-ID: <87o730uttl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-2?Q?Jaros=B3aw?= Janik <jaroslaw.janik@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+In-Reply-To: <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+	<87r07wws4j.wl-tiwai@suse.de>
+	<5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.13.0
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Mon, 14 Oct 2024 10:52:02 +0100, Charles Keepax wrote:
-> The ASoC CODEC driver masks the IRQs whilst entering and exiting
-> system suspend to avoid issues where the IRQ handler can run but PM
-> runtime is disabled. However, as the IRQs could also be used from
-> other parts of the driver, it would be better to move this handling to
-> the MFD level.
+On Thu, 31 Oct 2024 17:12:53 +0100,
+Jaros�aw Janik wrote:
 > 
-> Remove the handling from the ASoC driver and move it to the MFD
-> driver. Whilst moving also ensure the IRQs are all masked at the device
-> level before powering down the device, as per hardware recommendations.
+> On 31.10.2024 10:15, Takashi Iwai wrote:
 > 
-> [...]
+> > Per reading the patch description, though, the behavior appears to be
+> > pretty unreliable, as it depends on the runtime suspend.  We may
+> > control the runtime PM better if we know that the beep must be
+> > submitted; or it's even possible to runtime resume/re-suspend upon
+> > beeping, too.  But it's maybe too complex than needed.
+> 
+> You must have misunderstood that, this unreliable behavior is what
+> happens with your patch applied, once this patch is reverted everything
+> works perfectly fine (again). Perhaps the commit message should be
+> rewritten to indicate it more clearly, e.g. replace:
+> > now those beeps are either muted altogether
+> with
+> > since 4f61c8fe3520 those beeps are either muted altogether
+> 
+> ... or perhaps it should be just left as it is...
 
-Applied, thanks!
+Hm, so the beep works even if the HD-audio device is runtime-suspended
+before shutdown?  Also, beeping at suspend/resume works no matter
+whether runtime-suspended or not?
 
-[1/1] mfd: cs42l43: Disable IRQs during suspend
-      commit: 2bb0106db90f86c3c513c26bb42ef0798ae8164d
 
---
-Lee Jones [李琼斯]
+thanks,
 
+Takashi
