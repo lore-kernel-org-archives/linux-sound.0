@@ -1,98 +1,106 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5BA219DF49
-	for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 16:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13C11386C9;
+	Thu, 31 Oct 2024 16:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730391178; cv=none; b=FmTlTnBPrj3oUq2oLkeqc2m95H2YT4Qwqwg/h9kd7Lc4rn0l2TiextVMWKN8F/f1t7UAVyi8MliY93shz30JvUv482o8PiZgbz+9IP+Bf9vslLvKQfHn7HRsHObZXKStN2Bg7918QrOintoShubfz3mxIgHGq5TD33M2p2tiWRM=
+	t=1730391433; cv=none; b=Dk+VkOao7PW2RDTDFb7zOEhUu86RlsYGO2NaGZPtHKaxWrsGeL5Zh4exSF6sTE/nsuKebhyhy5cxdmPNv+DHo8t9p0KHQEgpC3zTsCmtVg+04Mb/MkoYHw2yV+wEaA3/5kjjMRrpep1lqF2ETOTNIhsqpdNGxg/87IU9RHySxaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730391178; c=relaxed/simple;
-	bh=T7lsxKz9kQsG7strIXKc3gaNkdkt4hLNvF6991VM4Dc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ag1IzXASfnlZweJjIfvenlIQwgEtJma2HHz0F2+uBmdVIVAeeREyEGU5r92u2U7GPndYXkh6oeluY/1A6eJPKmfl7qUhMN2n8uTvXUvSvpbfbjT56kVOT/EBPbsVYHh6PUpjChhwV36/bQ6BFu9yD9ugma0qyEnqXoN3vy+1vNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m8BLUrgY; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730391433; c=relaxed/simple;
+	bh=GD77o6wDWPVJSdV448NuijMv5dO/BCfKcwYpRdlroN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foyvrIOTexnN6pSpOYmX4V9GR+FA2NXuYvOfFWDHxEhSd4Gvaj4RfdFpjCeb9qRLTn2TgNoWeU8/gJ2D81A15Zj6XDrd/22M9yx1KOvMypUN750OEUIGL2sJmLgGRdJw+CCI7/JkiETgP5UQ/iFOcqpcO8Sk0H/XHc8mLY4ACDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UOcBTstv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m8BLUrgY"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9a4031f69fso155451566b.0
-        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 09:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730391175; x=1730995975; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=33Vl4BG5lS6i+uqsZfszmYg374g55dOekrq3OhCrRPg=;
-        b=m8BLUrgYWarCGmwq6CkCoXi08oAccNv4cPNSM36UJDSD7UjDTsLeNmwsGCk/di6NT9
-         1OtO1qsBRTd9FUYPrblg9Xt0bQI70e0ApzJ1bxvREuMh+hdzebmBKPpNzLybucFZalc9
-         dbeVYAcKxj1oly4YYA47iAMssjdTAeDX6hdVJDm4g3FrUtbjIE/V0jH4+btVuc7R6Uzn
-         OZ1H8enW3mopD54xOMmM7/9wWHzA2W/vHpH+P3Aozq0i2anLqCRYpHVYwwZ0wNSC+ing
-         DTRmHVodjFMXwccQkZuNaWyCAhR87bvpuf9BRkLUbfZvTYJjPirdKEIQSZnurMABF3Xz
-         dw9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730391175; x=1730995975;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=33Vl4BG5lS6i+uqsZfszmYg374g55dOekrq3OhCrRPg=;
-        b=uvVsHZ15kdmxJ54luHT0Z8T78sJkjrNdH4nvYEDYkLzeEudA39/7LEwi7eNAUELmnR
-         QQlUfncKrl4Q4R9R6GKZ9MaFH8Z/wsO3fdoDMAHkCWzL4mejzBCPuFn6Tva4XHm0MWeG
-         TRJoZ3PxRpvh6VcxDe/+vphLpzJO+AhqTCUUqiKhixeqdXVqdqfsbyD4bzpZlrseyAAR
-         azXdvRQLw+wU4AJNrFeUQYgU43c7/J7z+fhHTIL5hKqLRjqkxOqaxPIo0QWNLI/8CnbP
-         fKB2ECS+ww2kJWKVhtF3VFrTuHc0cvooEiqnTKLJOaZSkuCPpCIs1BaFMd9xT2IWPD6h
-         AeUg==
-X-Forwarded-Encrypted: i=1; AJvYcCVOpqjepjA2CyJeei87kWLP922FS8HF1GC+81ZDjAWrJqfYl90O3SEL/RJgkWnv15OaFxco1fxyytH93w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbALiHe2K8ZB1bhHxw4K5/b+bH3f/pBgBX49vhKDdMJs5Tth74
-	RGDs5oBmXbiriggo5nZllBaTihg9QcbUsNdoTQEaBqwYEw6LBR6U
-X-Google-Smtp-Source: AGHT+IEIOWNHYZtp6hG2x3Oeh1unpwO75JV6wt2k/6i0jA55K7cVTxSSqoACbnvEW3HPy1cKj/lyxQ==
-X-Received: by 2002:a17:907:86a2:b0:a9a:134:9887 with SMTP id a640c23a62f3a-a9de6167ad2mr1794669566b.41.1730391174696;
-        Thu, 31 Oct 2024 09:12:54 -0700 (PDT)
-Received: from [172.24.224.254] (adlk52.neoplus.adsl.tpnet.pl. [79.185.14.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e564c4fbbsm82772166b.58.2024.10.31.09.12.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 09:12:54 -0700 (PDT)
-Message-ID: <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
-Date: Thu, 31 Oct 2024 17:12:53 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UOcBTstv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EBECC4E695;
+	Thu, 31 Oct 2024 16:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730391432;
+	bh=GD77o6wDWPVJSdV448NuijMv5dO/BCfKcwYpRdlroN0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UOcBTstv+fB1unmrew1x98bsx53N5gvm0tay5K48wwsIkLSSIALxL6EKXP2ynRVs9
+	 5uIRnumUYr8mIL1/W1wkpH0i34ncXrcalrbOdRe9xughOFjP2zFqEaHtXi9XtFaTCD
+	 eYITWcRCCHdRHaipW0xVmwznJIPbvJIMw0b2RrSKbql5KtpQv1uf1IkQJxtvNkuSYH
+	 s2pk0SuRyuDN0adhYXBHwq8yXo/V7xGi8dFtJ6JcAjBcE5mpQhbucTlIwj7ES5iG8e
+	 EP2pKl4dnVu0vJGhZZPrHMzavgwXCjynpRV334NtMML3mjczmbew97Cb1/h+QY2Hh6
+	 ZhMWOsQ2WZ7Gg==
+Date: Thu, 31 Oct 2024 16:17:08 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound: fix uninit-value in i2s_dma_isr
+Message-ID: <d97a58c7-347b-48f9-aa69-d4ff5a4038e3@sirena.org.uk>
+References: <20241030170829.36161-1-surajsonawane0215@gmail.com>
+ <635f1691-74e9-4e48-8ebf-8e7ce0c6d1e3@sirena.org.uk>
+ <a4039ca2-6c76-4431-8e27-caebe1a56deb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
- <87r07wws4j.wl-tiwai@suse.de>
-Content-Language: en-US, pl-PL
-From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
-In-Reply-To: <87r07wws4j.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="e/Kq205jgHuYrXyw"
+Content-Disposition: inline
+In-Reply-To: <a4039ca2-6c76-4431-8e27-caebe1a56deb@gmail.com>
+X-Cookie: Make a wish, it might come true.
 
-On 31.10.2024 10:15, Takashi Iwai wrote:
 
-> Per reading the patch description, though, the behavior appears to be
-> pretty unreliable, as it depends on the runtime suspend.  We may
-> control the runtime PM better if we know that the beep must be
-> submitted; or it's even possible to runtime resume/re-suspend upon
-> beeping, too.  But it's maybe too complex than needed.
+--e/Kq205jgHuYrXyw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You must have misunderstood that, this unreliable behavior is what
-happens with your patch applied, once this patch is reverted everything
-works perfectly fine (again). Perhaps the commit message should be
-rewritten to indicate it more clearly, e.g. replace:
-> now those beeps are either muted altogether
-with
-> since 4f61c8fe3520 those beeps are either muted altogether
+On Thu, Oct 31, 2024 at 12:17:56PM +0530, Suraj Sonawane wrote:
+> On 30/10/24 22:44, Mark Brown wrote:
 
-... or perhaps it should be just left as it is...
+> > This will shut the warning up, but why are these values valid?  Are we
+> > handling the cases where the loops do not execute properly?
 
-Thanks anyway!
+> Thank you for the feedback and your time.
 
--- 
-Regards!
-Jarosław Janik
+> The uninitialized warning for val_1 and val_2 arises because, in some cas=
+es,
+> the offlevel value is zero, and as a result, the loop does not execute,
+> leaving these variables potentially undefined. The subsequent code
+> calculates prtd->dma_addr_next using val_1 + val_2, so it's necessary to
+> have val_1 and val_2 initialized to a known value, even when the loop does
+> not run.
 
+> Initializing them to zero ensures prtd->dma_addr_next has a defined value
+> without triggering undefined behavior. However, if a zero initialization
+> could cause unintended behavior in dma_addr_next, I could alternatively
+> handle this case by setting dma_addr_next conditionally when offlevel is
+> non-zero.
+
+This is describing again what the patch does, which basically just boils
+down to shutting up the warning.
+
+> Let me know if there=E2=80=99s a preferred approach, or if you'd suggest =
+a different
+> initial value for these variables based on the expected use.
+
+We need to understand what the change is doing - what do the values
+mean, is the real issue that we're missing some error handling for the
+case that lets us fall through without initialisation?
+
+--e/Kq205jgHuYrXyw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcjrYMACgkQJNaLcl1U
+h9CviAf/ZGEEcO/JvFeZxfdjosIExKyugcJouP3kA4Y9MyFwuEsG/u4JbxzJIbeY
+m69cr55NfPfiHOp21LOSK7ofb4f5eLzkWvHNyQRu5criru5UmmkWMjKh189QIQ+L
+aAGuehlFs9S6uW9Jy/He+R4lGfA2nxxMvG/BP6OR9Zi8cR8LIf+BE+mh7wTB2kkT
+blCjH/VRW6fCQLofWfzDy+VfZOkgNjg5ksVV3qRNPSy5t9Go6lC/0OWObLHrSX0f
+4T1XHkESFlowe9w74fd8WcemXWOlP5irCpYHCgew7LZ2Ig31azYHt3IlSvR1jDbD
+y9Bo6tVEJ4eHfF4/SMd1NeVhq79t2Q==
+=MJU1
+-----END PGP SIGNATURE-----
+
+--e/Kq205jgHuYrXyw--
