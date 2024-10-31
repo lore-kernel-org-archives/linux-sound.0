@@ -1,104 +1,110 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E571BD9DC;
-	Thu, 31 Oct 2024 03:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DA11BD9DC;
+	Thu, 31 Oct 2024 03:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730346897; cv=none; b=DSRJuibNEfYBWbnHPOVeVski1MnDUsrQEJsxrmfzeSgzVuSaqe5ZwQ5FQuWvQGM7yGGl4QWdWnMZBqqeeDd+zI4rorLiH15YA8e8EF55EUkVPgPbKjaGlycTbz6mUTw0paP93tdeSiy+08DAKsO71gQPrG3UUj3pE/nXyZeaNLQ=
+	t=1730347124; cv=none; b=Jpyf9wd0NR+pMTyYB7Yaz2Ix2/eiXqwNO6+fdH1A151jCgRpTdlgOaTRT6hw/q4bgvLdYSSrYq4JqD6q8OONU3g65go+pOFzcMMkVjElRUr3Rdmx2ZzRf9lxuHZK4IHoi/lUf9r77eJysn7ZC2E492Al8Cknjq6Eu4KKnHb3yOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730346897; c=relaxed/simple;
-	bh=96Iv6THCGP0JrhryaiJYFkXsq35hdKyqbJhSHwJ51QE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z9P/t1BfM1jrBAgID188OXUqTs2LYUjmr1JU8uDO7XtpiwAn1wwDC8YxmbYh6x6eHdUGyKUhA+d1QILSPk8HmPQA2YlNe31Vhvavf0OjvHijpTzvwa1CEryGiUm7LlHrE6z3YkfzBgzUU28/l94d8AyEnZHSgSvuX25/2aghOv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CpKDXv+P; arc=none smtp.client-ip=209.85.208.170
+	s=arc-20240116; t=1730347124; c=relaxed/simple;
+	bh=P+ZoPofAO9CrQzRt6EgkaEQnuN2/i7IZf1CrYZsm3lQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jv4FC23yh6QARE1YUNSJmoS8xc6u/M0Yag3qZAXw0RZzwHjoglAfQFu4jHrNo2jXUNf5ZgPQkgpCm83YZoLrkCKDP2qB3tAmewIYeIxyPnj7k2XaPXpSOuhUddPCYC0KwmSet44oM3HWDvh7EVgkUQgaBZr4bDkRDhTWGRtcW0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBeriMDp; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CpKDXv+P"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2fb5fa911aaso6570701fa.2;
-        Wed, 30 Oct 2024 20:54:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBeriMDp"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-20cb89a4e4cso4255515ad.3;
+        Wed, 30 Oct 2024 20:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730346894; x=1730951694; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KD+YSmHeMO76TRixPhraqIR6tq9sHj0TxN2haMlVSMA=;
-        b=CpKDXv+P/lbJgWcxRJboepVApdAmpsQWCg1lUnJdTwroX+IqothI27Vgq96Hv9QBGo
-         HS34YTTUYYoyehO+K/ao/bCNtDHELS2Q1a8qfK38S/IOLlJA9Plq5Cq7ExCxRmk5Qgex
-         T3fVU3WRXRVx1sci2q5i3jc+HotpUehP398VHqGbiK5mSLEGRC02SrSqtQbkIwQHVsbJ
-         ePXTOQZd+h+NBeOXWgRJ8A40HzLyIgAcH0TkC0JHV2A42Car6mhoPLFJU4GRmG/hSB0F
-         Mby0tBuaOXKh4JxXQ7S8u4D0r3+Q7NHmHOzXHTk+x6q3XK5xbDqkG1j8Ai3TyGO+Lg+b
-         J0oQ==
+        d=gmail.com; s=20230601; t=1730347122; x=1730951922; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YKsH7tcmYk6G4taCb3CHfNomgw1vnUT3D+1Ikv+W9E0=;
+        b=cBeriMDpdyV7aOZCEaksd78AGqBWHVXVsWzGJyhvZyR9C85BrSzldxwmxSSJ1srZ7N
+         Nqc/WypVORmUei2PRAo0Dkajpb3yq5/ubrn5ri2s5iyTNa2zV1PM2AwwlY32TACK8eK1
+         8rnqj/v/XUl1brUNVuSWhdCZpBfn0cWPnQSWgkZ4lIe62P+O47StAr9cABryGIGo614d
+         qVqmn452pbITYxqZamdKUuAnwcSthdwg8JsuwOwJ96WD8u2iceX4KBV4ngwWzeb1FmrD
+         x5dylvwjrkeFZmYpE9TZpiMW8cWJObAhEDA7q76m64UvTILdWM3RlxgDQDL96kzQuc4L
+         kZmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730346894; x=1730951694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KD+YSmHeMO76TRixPhraqIR6tq9sHj0TxN2haMlVSMA=;
-        b=Z5puFzqtSpofjobvPz0F5k74gw5PTiCRNe6+F/pRDiTrJtUrQoi9Cwi7zj3AwNDPTc
-         D5HsyyYcZtP+yr4cwlUoWoUm9cWYGq6HLYbmguoPkQ+3WAEQbhU5aqNUvGr+JMwtxEtG
-         836efXkZeCdDyUp97UrBZGYCgzz1FAT2RPFFhD9+TcIm1D6bqc8Ofn7EQ8ryu04kIlxo
-         bykXfQNSDpknxKiAVaWcOKp46RNe9qsT84wxRlvrBs5b8IBqeSkDLAQaz6P+SlUoHdaO
-         3sKX2JeEolg8IeLoGu9r72QxTwDRxRUkkKcyNaCYjjOXz9HeSLzukbAOBOXPFpjrXv03
-         3wvg==
-X-Forwarded-Encrypted: i=1; AJvYcCU0/hIUVH5pUtbOhddQ7zE2hnC3I6EWYNi1jE39Sg4oR+IyhOlPjMNrLEqU4LvO0HRDumVe9XBYRQxI+FU=@vger.kernel.org, AJvYcCWo36Ev8BX4dVy4BKYshrxZ/YxR7gbkJ2hYX7hjgnXhfvfBvrobw8fIrDB6SB9bKXTAAuVuC/Y/b7g=@vger.kernel.org, AJvYcCXKMQOKGSl/BWH6Osl0mLmyXqqW20YTu7ZmAsCG80v5n9EVHCJbiOsD/ee9Sm36aHgq4ARijEcqzytBesa3@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpGbYnFm/ANBYPz67AeRtWrMirCNe+LXN6yeFfNlpXKoS6616a
-	wMYzLg9LAw62KQ2tAMb10VXVfhFuBCG0OE0H7SBjuTIC6UsXYUkXZD/xaJ8T4hrwCaiDn375FlZ
-	XH1iaNyP1V1KKLeO5HfX+IqiGl4M=
-X-Google-Smtp-Source: AGHT+IH1Qml0b81A/MqCwi0uUiAO5U4CKapC3bT+sUH9kMTSDUXGnNB3R5Ad+0AKCWifyCOhlyVORYWD/Q9HSfiN3ps=
-X-Received: by 2002:a05:651c:1990:b0:2fb:8c9a:fe3f with SMTP id
- 38308e7fff4ca-2fcd08bc0ebmr119476751fa.22.1730346893276; Wed, 30 Oct 2024
- 20:54:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730347122; x=1730951922;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YKsH7tcmYk6G4taCb3CHfNomgw1vnUT3D+1Ikv+W9E0=;
+        b=VL2Cl+7HrPdF0QIL37S9D7C/wxRBg3q0nj2+OEzXG4cpFxxKSQ78ZR2Rvx0hW0DWIB
+         1wzLBb8P3+i7cwWS8gu5Ayl55nu8bTGYLwKEamMxW4HwXF3H+RIHt/c0dXmYUYDIW6Dc
+         kb44PCFeaJxteq4dcLsXth4FkhbjOX2ZgOh23DON4J+Ya3IXyNQUJv4HjwihbjoCBN5U
+         7Vb1H4N23p67MTfq6736SjiiiOty+xNF4N7OFYvylxeK77oN1bItqZOg/dwypaEwDEoz
+         NSF/3iKUP2esvkUcTtQ+Rqy9uDheWhnlGW6TmpYoaGOOUPgA3cq85g8bYezK5tmJDAGf
+         s64A==
+X-Forwarded-Encrypted: i=1; AJvYcCUhAsrCZiN2eVIhzJWJKfHwP2gYjUsXT3tjm1q/yISUbWga29p1rs3Vl3vNe7NfWjcPBIDo+9Isxc8=@vger.kernel.org, AJvYcCXQQWXyU/eMJb7DgpkecnevIOUL0EfNWkwFSppzRm76EqYfRcNaFDf5MpVFrYFUmVp1gIGltoCvgdQjZ5E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqF+1nm3JkvEEX+vi3+KkAGXs5si85GfLuiQk04aPdw+Hpq5O8
+	/BrV7/34Gig/FOrKXelPw/jbXy4DcU1o45HTKQFYrl/Zt3ZV6Zuy
+X-Google-Smtp-Source: AGHT+IHM7J/7cbyKydtwl/06qdn1JLPkjt8hrSlBqOmvnNdDccMARyW/y2ckAtM+E2wDuFntDycUnQ==
+X-Received: by 2002:a17:903:2346:b0:20d:2804:bcde with SMTP id d9443c01a7336-210c6c293f5mr235511265ad.35.1730347121557;
+        Wed, 30 Oct 2024 20:58:41 -0700 (PDT)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:7d08:cd12:4b73:5f28])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057c4ed4sm3028065ad.230.2024.10.30.20.58.40
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Oct 2024 20:58:41 -0700 (PDT)
+From: anish kumar <yesanishhere@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH V2] ASoC: doc: update clock api details
+Date: Wed, 30 Oct 2024 20:58:29 -0700
+Message-Id: <20241031035829.54852-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241029235623.46990-1-yesanishhere@gmail.com>
- <fceef9c9-f928-47fe-a6e7-cdb28af62f71@sirena.org.uk> <CABCoZhAgnkDReqdMTgEjKYX4b9y0XqocEheQR1DhsBCtp7zpHg@mail.gmail.com>
- <874j4ts08p.fsf@trenco.lwn.net>
-In-Reply-To: <874j4ts08p.fsf@trenco.lwn.net>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Wed, 30 Oct 2024 20:54:41 -0700
-Message-ID: <CABCoZhA4AwbKCse3S-hBgJgUQ08Dy2sTAFYmP=TiZxnwtkewHg@mail.gmail.com>
-Subject: Re: [PATCH V2] ASoC: doc: update clocking
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: broonie@kernel.org, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 30, 2024 at 3:18=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> anish kumar <yesanishhere@gmail.com> writes:
->
-> >> This feels like it is (or should be) duplicating the kerneldoc generat=
-ed
-> >> documentation - I'm not sure that we can cross reference the two
-> >> sensibly through?
-> >
-> > Jonathan, wondering if you know a way to link the clock functions defin=
-ed
-> > in https://github.com/torvalds/linux/blob/master/sound/soc/soc-dai.c he=
-re?
->
-> I'm not quite sure what your question is.  Kerneldoc comments can be
-> brought into the documentation, of course - that's a big part of what
-> the build system does.  You can link to that documentation just by
-> saying function() - nothing more required.  What else are you looking
-> for?
+Added ASoC clock api kernel doc in this
+document.
 
-Was missing this, thanks Jonathan.
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+v2: converted to use kernel doc based on comment
+from Jonathan and Mark. 
 
-.. kernel-doc:: sound/soc/soc-dai.c
-   :identifiers:
+ Documentation/sound/soc/clocking.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-Will send V2.
->
-> Thanks,
->
-> jon
+diff --git a/Documentation/sound/soc/clocking.rst b/Documentation/sound/soc/clocking.rst
+index 32122d6877a3..25d016ea8b65 100644
+--- a/Documentation/sound/soc/clocking.rst
++++ b/Documentation/sound/soc/clocking.rst
+@@ -42,5 +42,17 @@ rate, number of channels and word size) to save on power.
+ It is also desirable to use the codec (if possible) to drive (or master) the
+ audio clocks as it usually gives more accurate sample rates than the CPU.
+ 
++ASoC provided clock APIs
++------------------------
+ 
++.. kernel-doc:: sound/soc/soc-dai.c
++   :identifiers: snd_soc_dai_set_sysclk
+ 
++.. kernel-doc:: sound/soc/soc-dai.c
++   :identifiers: snd_soc_dai_set_clkdiv
++
++.. kernel-doc:: sound/soc/soc-dai.c
++   :identifiers: snd_soc_dai_set_pll
++
++.. kernel-doc:: sound/soc/soc-dai.c
++   :identifiers: snd_soc_dai_set_bclk_ratio
+-- 
+2.39.3 (Apple Git-146)
+
