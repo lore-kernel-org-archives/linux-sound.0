@@ -1,190 +1,344 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9DB197556;
-	Thu, 31 Oct 2024 09:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D82197A9A;
+	Thu, 31 Oct 2024 09:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730367294; cv=none; b=CoduAJNdAohzgrfwR+NPaoK+dBt84zWXSrSjg4R3ZCcCSRAi7C65oOmf67blFfSEcB9X3MJP4+9IMck4eRw3xFgG4Gv8k2KCX1GS2lZ7GvuplGGmkUqwKnmmDz3xhG++reh1sltqocjqX4FWDSXHCSOR3t6Q1EAE2txyYtGXs50=
+	t=1730368762; cv=none; b=d9bBWBjZonuNyels0AVt4r1KwG68LknV9jXmBfpPpUyuSe+V/YWhxvJlYq6puZpIlj7WiZZ21T9twjTftR+oCiy6H7UMNClX2UEHONel+YrNHcbf7DQtHvUpWe/AeFHKChpkmF96tYMpeS2bPVmnBkDWi5CsqpZxL26V/oFEJvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730367294; c=relaxed/simple;
-	bh=niiZTCgRtzfWSVRbWqD1/QkJo5ax0robeVdIJMAjaxE=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=q5tTVXD31i0MV5gyc+ZKZuiJxmBvOOAmuVp9GuxIQ1QpaXk7RwXo/EWczCISceMWNUWhUDHdr5W5xmQq3C1upbhV3BlQc56oFZr94ylIZKNjnlqrE1q0W4w2Q9Mekyew3SOhgAz0N0E16RxkM9VfXnj3mIKmPF50vkTh40O3GYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bYFuX0Af; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gkq2147k; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bYFuX0Af; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gkq2147k; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730368762; c=relaxed/simple;
+	bh=0Z/Ae2UNtxEs3oOIzL9noQbt9KWPAGJ+Ppa2XVlpXeU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uKZjlYRH/9WWnzPkz6zJbYt2uIjYyDQzJAWq/yLqJsQPRnQrBanN4RJKLj8oGJm8uYPnO5p1PnzPyfqYGts7+zTsBDm/8bcJ2W6MNl/m/9IrfMg6aT/b0uCgr+KJJyvXU+FJ4lQhE9Z78eHziuF2Ku1bkRan2UlYV+9yEOOkLG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmGBbOJ0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bYFuX0Af";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gkq2147k";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bYFuX0Af";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gkq2147k"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 76A6F1F7D4;
-	Thu, 31 Oct 2024 09:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730367290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
-	b=bYFuX0AfkEkr9XlUJSS0b6d7hHmtN85C2mzQc7/yhAjNSkX8CT1VBta/uf1oIWDma6UNg3
-	XNXA5ScLVqNyDO48V/FFw+hdrQM09m2zQKLo/vf7U8SjVF6DeYLu3OqgiPOAfJdQbxgbz2
-	agSclZHHaJJskBf38H726ieWwY3cJvk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730367290;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
-	b=gkq2147kiDhak+pIHRXaNvY5qTLuCzJowRjShbsLq7xH9jbNwTgmhZhmaESTJLsUR4LezR
-	rKP6IVTiVHcmN1AA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bYFuX0Af;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gkq2147k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730367290; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
-	b=bYFuX0AfkEkr9XlUJSS0b6d7hHmtN85C2mzQc7/yhAjNSkX8CT1VBta/uf1oIWDma6UNg3
-	XNXA5ScLVqNyDO48V/FFw+hdrQM09m2zQKLo/vf7U8SjVF6DeYLu3OqgiPOAfJdQbxgbz2
-	agSclZHHaJJskBf38H726ieWwY3cJvk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730367290;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7LQqGi+STaQS8efhJJrG9XShYj6w+9H2fAdBtqwECtI=;
-	b=gkq2147kiDhak+pIHRXaNvY5qTLuCzJowRjShbsLq7xH9jbNwTgmhZhmaESTJLsUR4LezR
-	rKP6IVTiVHcmN1AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C17C13A53;
-	Thu, 31 Oct 2024 09:34:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Ni8YETpPI2cVLAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 31 Oct 2024 09:34:50 +0000
-Date: Thu, 31 Oct 2024 10:35:54 +0100
-Message-ID: <87ldy4wr5x.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.12-rc6
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmGBbOJ0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06069C4CEC3;
+	Thu, 31 Oct 2024 09:59:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730368761;
+	bh=0Z/Ae2UNtxEs3oOIzL9noQbt9KWPAGJ+Ppa2XVlpXeU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PmGBbOJ0DKa25hH+c1NLm5IW6UAQOPuqujiGj89c+Dmkl9+bri+eg6qS8wnnXSXud
+	 HduqN9MsQsDJiHd1E6FqtGnpgikzYv4vXhYymJDHNWcyv0BvGesK3LdaW+IrkEUox+
+	 Kb4xLAsh2aLrzLbOn1qHAxuAP6v6unc816JgeplfgO4QyBxXtYXTUH6u9Xc30DagaT
+	 Y01NeeLyCEZcvkv1GzH5/2HrD+IdpVJcIsK9lN8+hu6m4KSns8146sCQ5uy8C8nKNN
+	 ED2MFbA8ebI8UEGkBDs/KparCPlu/s1J7APBi3pDIe4bKyPVr87hJG/rBFdxrj+3cQ
+	 MbpxQWun36q6g==
+Message-ID: <f11f1a3c-0626-4f6c-9bfd-1bf6fb37388e@kernel.org>
+Date: Thu, 31 Oct 2024 10:59:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 76A6F1F7D4
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static channel
+ mapping support
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com, kernel@quicinc.com
+References: <20241023061326.3871877-1-quic_mohs@quicinc.com>
+ <20241023061326.3871877-2-quic_mohs@quicinc.com>
+ <qzjbiby7w6a7m4e324hdatgklmejlcxfwv7tszzfmdqahgrbu2@bcwsdlrpncxq>
+ <d98bff34-d7ea-2b05-0c0d-eaf0392aef3f@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <d98bff34-d7ea-2b05-0c0d-eaf0392aef3f@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Linus,
+On 30/10/2024 06:07, Mohammad Rafi Shaik wrote:
+> On 10/23/2024 1:22 PM, Krzysztof Kozlowski wrote:
+>> On Wed, Oct 23, 2024 at 11:43:23AM +0530, Mohammad Rafi Shaik wrote:
+>>> Add static channel mapping between master and slave rx/tx ports for
+>>> Qualcomm wcd937x soundwire codec.
+>>>
+>>> Currently, the channel mask for each soundwire port is hardcoded in the
+>>> wcd937x-sdw driver, and the same channel mask value is configured in the
+>>> soundwire master.
+>>>
+>>> The Qualcomm boards like the QCM6490-IDP require different channel mask settings
+>>> for the soundwire master and slave ports.
+>>
+>> Different than what? Other wcd937x? Which are these?
+>>
+> For Qualcomm QCM6490-IDP board soundwire master needs a different 
+> channel mask setting.
 
-please pull sound fixes for v6.12-rc6 from:
+I understand, but I asked different than which board? Maybe all boards
+needs this different channel setting, so basically it is "not different".
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc6
+> 
+> The wcd937x channel mask values are hardcoded in wcd driver.
+> https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x-sdw.c#L35
+> https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd938x-sdw.c#L37
+> 
+> In case of QCM6490-IDP the soundwire master and wcd937x require 
+> different channel mask settings, not the same.
+> For Example, wcd937x ADC2 connection
+> 
+>                            Master                 Slave (wcd937x)
+>                       +--------------+           +--------------+
+>                       |  +--------+  |           |  +--------+  |
+>           ADC1  ----->|  | PORT1  |  |           |  |   TX1  | 
+> |<-----------ADC1
+>           ADC2  ----->|  |        |  |           |  |        |  |
+>                       |  +--------+  |           |  +--------+  |
+>                       |              |           |              |
+>           ADC3  ----->|  +--------+  |           |  +--------+  |
+>                       |  |  PORT2 |  |           |  |   TX2  | 
+> |<-----------ADC2
+>                       |  |        |  |           |  |        | 
+> |<-----------ADC3
+>                       |  +--------+  |           |  +--------+  |
+>                       |              |           |              |
+>                       |  +--------+  |           |  +--------+  |
+>   DMIC0...DMIC3------>|  |  PORT3 |  |           |  |   TX3  | 
+> |<-----------DMIC0...DMIC3
+>                       |  |        |  |           |  |        | 
+> |<-----------MBHC
+>                       |  +--------+  |           |  +--------+  |
+>                       |              |           |              |
+>                       |  +--------+  |           |  +--------+  |
+>   DMIC4...DMIC3 ----->|  |  PORT4 |  |           |  |   TX4  | 
+> |<-----------DMIC4...DMIC7
+>                       |  |        |  |           |  |        |  |
+>                       |  +--------+  |           |  +--------+  |
+>                       |              |           |              |
+>                       +------------- +           +--------------+
+> 
+> 					
+> For ADC2, The Slave needs to configure TX2 Port with channel mask value 
+> 1 and
+> For Master, it required PORT1 with channel mask  value 2.
+> 
+> 
+> In existing design master and slave configured with same channel mask, 
+> it will fail ADC2.
+> The new design will help to configure channel mapping between master and 
+> slave from DT.
+> 
+>>>
+>>> With the introduction of the following channel mapping properties, it is now possible
+>>> to configure the master channel mask directly from the device tree.
+>>>
+>>> The qcom,tx-channel-mapping property specifies the static channel mapping between the slave
+>>> and master tx ports in the order of slave port channels which is adc1, adc2, adc3, adc4,
+>>> dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+>>
+>> I still don't get what is the channel here.
+>>
+> Typo error,
+> 
+> The qcom,tx-channel-mapping property specifies the static channel 
+> mapping between the slave
+> 
+> and master tx ports in the order of slave port channel index which are 
+> adc1, adc2, adc3, adc4,
+> 
+> dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+> 
+> 
+> 
+> https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x.h#L599
+> 
+> 
+> 
+> Will be fixed in the next version
+> 
+>>>
+>>> The qcom,rx-channel-mapping property specifies static channel mapping between the slave
+>>> and master rx ports in the order of slave port channels which is hph_l, hph_r, clsh,
+>>> comp_l, comp_r, lo, dsd_r, dsd_l.
+>>
+>> And this description copies binding :/.
+>>
+>> Please wrap commit message according to Linux coding style / submission
+>> process (neither too early nor over the limit):
+>> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+>>
+> 
+> Ack
+> 
+>>>
+>>> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+>>> ---
+>>>   .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
+>>>   1 file changed, 36 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> index d3cf8f59cb23..a6bc9b391db0 100644
+>>> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> @@ -58,6 +58,38 @@ properties:
+>>>       items:
+>>>         enum: [1, 2, 3, 4, 5]
+>>>   
+>>> +  qcom,tx-channel-mapping:
+>>> +    description: |
+>>> +      Specifies static channel mapping between slave and master tx port
+>>> +      channels.
+>>> +      In the order of slave port channels which is adc1, adc2, adc3, adc4,
+>>> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+>>> +      ch_mask1 ==> bit mask value 1
+>>> +      ch_mask2 ==> bit mask value 2
+>>> +      ch_mask3 ==> bit mask value 4
+>>> +      ch_mask4 ==> bit mask value 8
+>>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+>>> +    minItems: 8
+>>> +    maxItems: 13
+>>
+>> Why size is variable? This device has fixed amount of slave ports, I
+>> think.
+>>
+> 
+> yes will check modify
+> 
+>>> +    items:
+>>> +      enum: [1, 2, 4, 8]
+>>
+>> What is the point of using bits if you cannot actually create a bit mask
+>> out of it? Why this cannot be 7?
+>>
+> Actually, these values should be fixed: 1 (0001), 2 (0010), 4(0100), 
+> 8(1000).
 
-The topmost commit is e49370d769e71456db3fbd982e95bab8c69f73e8
+What is fixed here?
 
-----------------------------------------------------------------
+I asked why these look like bitmasks but they cannot be used as bitmask.
+This is a mapping, so index is channel slave port channel number and the
+value is master port channel number, no?
 
-sound fixes for 6.12-rc6
+> 
+> 
+> If required to set 7, it is handled in wcd driver based on mixer commands.
+> https://elixir.bootlin.com/linux/v6.12-rc5/source/sound/soc/codecs/wcd937x.c#L1199
 
-Here we see slightly more commits than wished, but basically all are
-small and mostly trivial fixes.  The only core change is the
-workaround for __counted_by() usage in ASoC DAPM code, while the rest
-are device-specific fixes for Intel Baytrail devices, Cirrus and
-wcd937x codecs, and HD-audio / USB-audio devices.
+I talk about binding. Why you are not allowing value of 7 if this is a
+mask? If this is not a mask - property says it is channel mapping - then
+these should be [1-4].
 
-----------------------------------------------------------------
+> 
+> 
+> Example:
+> WCD937X_HPH_L -> channel mask value is 1
+> WCD937X_HPH_R -> channel mask value is 2
 
-Aleksei Vetrov (1):
-      ASoC: dapm: fix bounds checker error in dapm_widget_list_create
 
-Alexey Klimov (2):
-      ASoC: codecs: wcd937x: add missing LO Switch control
-      ASoC: codecs: wcd937x: relax the AUX PDM watchdog
 
-Christoffer Sandberg (2):
-      ALSA: hda/realtek: Fix headset mic on TUXEDO Gemini 17 Gen3
-      ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16 Gen6 mb1
+> 
+> 
+> The final channel mask for that specific port is 3
+>>> +
+>>> +  qcom,rx-channel-mapping:
+>>> +    description: |
+>>> +      Specifies static channels mapping between slave and master rx port
+>>> +      channels.
+>>> +      In the order of slave port channels, which is
+>>> +      hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
+>>> +      ch_mask1 ==> bit mask value 1
+>>> +      ch_mask2 ==> bit mask value 2
+>>> +      ch_mask3 ==> bit mask value 4
+>>> +      ch_mask4 ==> bit mask value 8
+>>
+>> and the value is what exactly? Index is channel, but what does "ch_mask4 ==> bit
+>> mask value 8" mean? I don't understand this at all.
+>>
+> 
+>                            Master
+>                       +--------------+
+>                       |  +--------+  |
+>            ADC1 ----->|  | PORT1  |  |
+>            ADC2 ----->|  |        |  |
+>                       |  +--------+  |
+>                       |              |
+>            ADC3 ----->|  +--------+  |
+>                       |  |  PORT2 |  |
+>                       |  |        |  |
+>                       |  +--------+  |
+>                       |              |
+>                       |  +--------+  |
+>    DMIC0...DMIC3 ---->|  |  PORT3 |  |
+>                       |  |        |  |
+>                       |  +--------+  |
+>                       |              |
+>                       |  +--------+  |
+>    DMIC4...DMIC7----->|  |  PORT4 |  |
+>                       |  |        |  |
+>                       |  +--------+  |
+>                       |              |
+>                       +------------- +
+> 
+> 
+> The PORT1 has 2 ADC connections,
+> 
+> ADC1 -> PORT1 ch_mask index 1 -> channel mask value 1 (0001)
+> ADC2 -> PORT1 ch_mask index 2 -> channel mask value 2 (0010)
+> 
+> 
+> DMIC0 -> PORT3 ch_mask index 1 -> channel mask value 1 (0001)
+> DMIC1 -> PORT3 ch_mask index 2 -> channel mask value 2 (0010)
+> DMIC2 -> PORT3 ch_mask index 3 -> channel mask value 4 (0100)
+> DMIC3 -> PORT3 ch_mask index 4 -> channel mask value 8 (1000)
+> 
+> 
+> Will check and add a proper description.
 
-Christophe JAILLET (1):
-      ASoC: cs42l51: Fix some error handling paths in cs42l51_probe()
 
-Dmitry Yashin (1):
-      ASoC: dt-bindings: rockchip,rk3308-codec: add port property
-
-Hans de Goede (5):
-      ASoC: codecs: rt5640: Always disable IRQs from rt5640_cancel_work()
-      ASoC: Intel: bytcr_rt5640: Add support for non ACPI instantiated codec
-      ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet
-      ASoC: Intel: sst: Support LPE0F28 ACPI HID
-      ASoC: Intel: sst: Fix used of uninitialized ctx to log an error
-
-Jan Schär (1):
-      ALSA: usb-audio: Add quirks for Dell WD19 dock
-
-Kailang Yang (1):
-      ALSA: hda/realtek: Limit internal Mic boost on Dell platform
-
-Piyush Raj Chouhan (1):
-      ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
-
----
- .../bindings/sound/rockchip,rk3308-codec.yaml      |  4 ++
- sound/hda/intel-dsp-config.c                       |  4 ++
- sound/pci/hda/patch_realtek.c                      | 35 +++++++++++-
- sound/soc/codecs/cs42l51.c                         |  7 ++-
- sound/soc/codecs/rt5640.c                          | 27 +++++----
- sound/soc/codecs/wcd937x.c                         | 12 +++-
- sound/soc/codecs/wcd937x.h                         |  4 ++
- sound/soc/intel/atom/sst/sst_acpi.c                | 64 +++++++++++++++++++---
- sound/soc/intel/boards/bytcr_rt5640.c              | 48 +++++++++++++++-
- sound/soc/soc-dapm.c                               |  2 +
- sound/usb/mixer_quirks.c                           |  3 +
- 11 files changed, 179 insertions(+), 31 deletions(-)
+Best regards,
+Krzysztof
 
