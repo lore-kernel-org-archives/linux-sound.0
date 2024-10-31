@@ -1,89 +1,69 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448E91BD515;
-	Thu, 31 Oct 2024 17:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4C613A865
+	for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 18:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730395802; cv=none; b=die3Fvmr25mwlFfxON8RlHXVV1zhKS65c3Wt6Sp6tnSebinBANucuDVgeUv1fjvtIm0azCV3hm8NA6eqw3MkAhJHGT3WMQb8odyRx9rJ+92tF77w23SefqafsRjReC6n01HTLL76cm80PCE8svXZQAwO7uLttbjhy9ag3NCQRGA=
+	t=1730400787; cv=none; b=DL0NQcZmrVqq4Ea8GqsiAE+l24VHJifYYDuP2AGHvDcMFAbmVOUZOA26hPoEto32KKGC5S7y9mWN6CNsV447C8/ud8yjlEBwqkc95BGxbwFQnpuKISBywbs2Ix1+ZtJQ2imC3HnBV9+qFO4XsXToTTXZ8Ina9YcGkYyJMnNii/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730395802; c=relaxed/simple;
-	bh=5ltS1vf+OjUJfP7ZUx7VzetsO8Xd1gc8J/CT1UmsflI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dSZDZGEXwBiPQFP8eAzb2pWOLgrAMqUt60R2N3WztjwHvVHg02lrYka+uM4Z1ZC+7bL0h5s6ZJ4QWQ7r6jYpUcHRXY1rIBybVhiEBGwmpuqtEPDXA6Qq7LCxSCLZ6wmnbq/iqQcxn2S+dsPYpScrOrswfErkPUu1oXQJfYTHGpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j0K2f7D0; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730400787; c=relaxed/simple;
+	bh=QJSsicDwJKIBS1g3FAn/gDcI2s1MVg9sVZNUYVlbrmM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aK9x3vrw5wJr/leOj/xq+24apmZFqy+nfcD6M+HOBeuWkdDdq4fu7mvOh0pl0X6sbqFhUc4HjUYev47rUYWNBGUaVCJ3d79tIDSOjLKrpSqsLPrqLlg7oJctiPJd/GCxbSyyT7DOApMXaZ8/fqZbczSfJNJ9JZlAbAyOWZtlax0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=n2FWjUYQ; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j0K2f7D0"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb5111747cso12635541fa.2;
-        Thu, 31 Oct 2024 10:30:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730395798; x=1731000598; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ltS1vf+OjUJfP7ZUx7VzetsO8Xd1gc8J/CT1UmsflI=;
-        b=j0K2f7D0CWkZofk7b0EfwPwr24fOQNDVsohOPsUj+4pbEVMNWAxGa7/8aOl2SYmYdS
-         NAQeg/4wWqUliZFYeIGdKtugQitCYoe6IKffet+PgJQwRJrquC7QtGhPb8OsM0dEq/cV
-         J8M2ngvoMkwGGTJgjqeJs94bX0JlZK+q0v+WINA2/mF8qsP4l/s28ylT7m+61fGzwADW
-         RSH5koeFVAeDubM1BV6/TycBy3uOSgWJHZ47PNa8jSM8SeCaOvFGuFWxmdIcXknEiFDe
-         yOGslUHqrTtdTIT/6kcXYIa/M81k6XX1i05pjaT9vQ8QLH9iz3swImwCl4/m8eztQFBI
-         Ka1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730395798; x=1731000598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5ltS1vf+OjUJfP7ZUx7VzetsO8Xd1gc8J/CT1UmsflI=;
-        b=TNgmveVjRNo2DV/LbFPucSxh5fhoc0f3Cu81/Bs11krQHQ3vuoVxXsMHSQ+GLPmy6m
-         zjJ8BEklbLmaqdYkvQneIT6iYF5AtAzOAnXicPpUEy5Qmi1N80s62OuHx61TJ93qIzaF
-         EyGcvnleRSRfwH6Anj/1hWkvFNmiUyNXDuWnKrR6tE34tghyurVrqxaUeOh47cX+N1UK
-         J09iazsAKS8oBfUOdVtEDp1S2ayAZ2jhk66mqFROc/GqqVdcs2IIfdf8um9ax3aljdt6
-         1KNauAzgUHJk1HbFESexPifrnM8np/OY+EZ1dmJNo2KU2uDr+PCJV/kmt5A2G8jHmmeO
-         PgnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/lhfpYZFJ6yxOZ86FKoCAQbN7lNJlOLlfxRy9XvVbtLLA6Fv4OatfZgT0PpJyCSwoQYUT2xML9nDC2/j8@vger.kernel.org, AJvYcCVvMDqU0VOFTVFHLdE3UziDF7M3+49Q/8240NCyH1p2XvWd+vaERD3ib0PgmJP0n4yjbjEmS63cfAM=@vger.kernel.org, AJvYcCX7I7Y5B/8h6gvWrRf9tYlLO0e5pHuRQkwYhNusLpL6jFEvRH++HpHrGQfzGjL4611kXPPEz82iuXAfMgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+V0aP8XpV1o5mEavpiBl/SpEn+FIjjARJy9ZjREPVNtmGLK/J
-	4btWeUrsvC2LlAkewM5QCZ4h6vdv3Dz4Ies0TlpkfLVyNSR3+j66c9cvuBAnlsOVkqcpJKT/N03
-	tR77ogzTCIxnuJ0PWvAB6NI6Nako=
-X-Google-Smtp-Source: AGHT+IHJn41Lx9ChohtgWUwNaub+WSRGO7UMJ9chEBli1Xl4uGqqQy+8QlulpqcWxmMZCN4Y7PudCv3pZA7TYS/Hsrg=
-X-Received: by 2002:a05:651c:210a:b0:2fb:266b:e3b2 with SMTP id
- 38308e7fff4ca-2fdecc3051dmr23642021fa.36.1730395798131; Thu, 31 Oct 2024
- 10:29:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="n2FWjUYQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=QJSsicDwJKIBS1g3FAn/gDcI2s1MVg9sVZNUYVlbrmM=; t=1730400784;
+	x=1730832784; b=n2FWjUYQT+UIuuET8elxb5A+qmMP8iWwDfW2lENFvUDp/7pNizUqwQSX9+2Rx
+	xM3hY8ragrHyM8MbZB+n7mJiCn7WKXRgh+gFSYD4UeCrVfvjZEL2Eddmm/p1UE/xTjUzJxNOpBxKq
+	CcIVc4RjCpwEv70o7JRzzVdY49lDsZKn41eyG5Xda1xmkA1KLGRx3NCh39qP9bqb+YWthW/bE85yn
+	HTlEgzy47cMB8+4/qkOQhM6caucqzeclNhc1Dv/EnpZ30BvzCa86eRvUf7pZiji1C8n+wDY4vmLVA
+	edAM2fswm5zWKwhlxCp8+Z7xFqAEYk3R7fiXaXZoEUZh3pMuOg==;
+Received: from [2a02:8108:8980:2478:87e9:6c79:5f84:367d]; authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	id 1t6aI2-0003BI-Lc; Thu, 31 Oct 2024 19:53:02 +0100
+Message-ID: <de6fd9b1-e0f7-4694-88df-6b16039f2433@leemhuis.info>
+Date: Thu, 31 Oct 2024 19:53:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028194121.41993-1-yesanishhere@gmail.com> <ZyNmbQ88HbvkaSe8@opensource.cirrus.com>
-In-Reply-To: <ZyNmbQ88HbvkaSe8@opensource.cirrus.com>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Thu, 31 Oct 2024 10:29:46 -0700
-Message-ID: <CABCoZhDkBWs-siGPAD2rHBnw=tqyoXmiPVMF_Kyy3EO7t35RXQ@mail.gmail.com>
-Subject: Re: [PATCH V3] Docs/sound: Update codec-to-codec documentation
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: perex@perex.cz, tiwai@suse.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+To: Takashi Iwai <tiwai@suse.de>, =?UTF-8?Q?Jaros=C5=82aw_Janik?=
+ <jaroslaw.janik@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+ <87r07wws4j.wl-tiwai@suse.de>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: en-MW
+In-Reply-To: <87r07wws4j.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;regressions@leemhuis.info;1730400784;207b0c6c;
+X-HE-SMSGID: 1t6aI2-0003BI-Lc
 
-On Thu, Oct 31, 2024 at 4:13=E2=80=AFAM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
+On 31.10.24 10:15, Takashi Iwai wrote:
+> On Wed, 30 Oct 2024 18:18:11 +0100,
+> Jarosław Janik wrote:
 >
-> On Mon, Oct 28, 2024 at 12:41:21PM -0700, anish kumar wrote:
-> > Updated documentation to provide more details
-> > for codec-to-codec connection.
-> >
-> > Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> > ---
-> > v3: took care of comments from Charles Keepax and
-> > as advised modified some details.
->
-> This still has all the DPCM bits in it.
+>> PS. Don't forget to have this backported to LTS kernels, please.
+> This should be taken usually automatically as long as Fixes tag points
+> to the right commit.
 
-sigh, the wrong patch was sent. Will resend.
->
-> Thanks,
-> Charles
+Usually: yes. But a quick reminder: it also might be silently dropped.
+
+If you want to ensure it's backported, a stable tag is a must:
+https://docs.kernel.org/process/stable-kernel-rules.html
+
+Ciao, Thorsten
