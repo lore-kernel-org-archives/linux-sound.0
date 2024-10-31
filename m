@@ -1,130 +1,93 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C001F19EEC0;
-	Thu, 31 Oct 2024 13:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752CB1A01C6;
+	Thu, 31 Oct 2024 14:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730382307; cv=none; b=PO4c+rpmqDEgR8okCGeIDGu7cg7rnsGaDYDVIgQSozUWTcH5kVYg55ZuEVZ0cP1TI8KBvIkiGJj5U5xaxQ64rIfTC4ajjhKKnR+fpk/DZwE9p4LU5bS/aSUve2t/y4AQhBTBZ38A1tFlpnXj8UjQFf6OiOzXvOCCwcpipiRRI9k=
+	t=1730384864; cv=none; b=i1FrLIHwigCxaxzxAS7iY+NPb9qCkff2+Yi/8zdoRnEJMddMywbUbHWPMWgd2XbDGv8bRyrNH8Eq0sSiF2z/nNffB/0Q0grRnHSQnGEfl6fZD3gvty2ccnMze/JOXZ+04pssdWFuFpqMxsTLDJawcc+8kyNtGncX60yjiz63NGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730382307; c=relaxed/simple;
-	bh=SyiKIQDNVRhU2dYWC7KpnbYi2u+O8MurNHCaNdwZdao=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Jysb6iqz23lag5IlsmQUOz7/rXCj016mYBLVGtEpVA8Wj6unrULdgSB0vBvxgouO4TqAm4uM9ZpDYRPj8dKhlzEMYggkvKDY1hM89DZNMJANo+GWYNUjsnfqRcSuZ+oL+gmrex/V1utaUwUkf/cTdPbtN++bMDPCwmScGdR1Osc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=yoCNsTYA; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tnv8I/cO; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1730384864; c=relaxed/simple;
+	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AxEtIpzA+PCQIM6DZfkTcZokxZE1W5h13BXqpoPCWuV3fh3OOmiOio8XcAA1ATyxJh5Hyerb0dOKrHchEN69Mn6it2u+zg7nTTCLuC0GdKiuMPsVEy8gGpzcNyTsW+6H6XfteI7AJMpnpPZ1AzUmrwA6oqzdqJnxK1Ko3W90Gmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SMSdNMD+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="yoCNsTYA";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tnv8I/cO"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1730382304;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eEO4GUXIuQTW+sY+/WiYJk1PjJtbzNP/nS0HeFEOI6A=;
-	b=yoCNsTYAFyyFk5pGSYkD1piEjw8MOo53vDo2YkXW02EDMHDlaOfzFQIBgvw62YeQnStj0R
-	qkY5Ky9UOyVC1w3OVKBzXSwejc99F3AGpf5zUOBwsDyJSVfTnZWMWet1KTbQJOfOLCVNhV
-	cy7TVNur5FmVBVRh+KOvfZ/CNyLR8SNv9i7yqNqrq5kD5xMENaMe0V6OpvokmfW/Ob9QM/
-	5un8Zwrlq9QRR3JPr7QuSkLpK98KMG43mFh0DMvW9yQHq+GuztrjGuFKrW+m4h5GhCy/Ac
-	kp1SwmKR/ksHOOv6R90FQYE4O+PRPlazUvlT9/6ThYdYhTcp0TO69X6RMhaPYQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1730382304;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eEO4GUXIuQTW+sY+/WiYJk1PjJtbzNP/nS0HeFEOI6A=;
-	b=tnv8I/cOG9O9Bmuz6A4PtC/V6UOPd//2+oyqsIznzxGGzis4KZd76yQ3kxGFswkP13hKpV
-	nr8ioE+FYr3wlOBw==
-To: Philipp Stanner <pstanner@redhat.com>, Damien Le Moal
- <dlemoal@kernel.org>, Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
- Manish Chopra <manishc@marvell.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
- <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
- <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
- Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam
- Sundar S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave
- Jiang <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Alex Williamson
- <alex.williamson@redhat.com>, Juergen Gross <jgross@suse.com>, Stefano
- Stabellini <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Philipp Stanner <pstanner@redhat.com>, Ricky
- Wu <ricky_wu@realtek.com>, Al Viro <viro@zeniv.linux.org.uk>, Breno Leitao
- <leitao@debian.org>, Kevin Tian <kevin.tian@intel.com>, Ilpo =?utf-8?Q?J?=
- =?utf-8?Q?=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
- Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric
- Auger <eric.auger@redhat.com>, Reinette Chatre
- <reinette.chatre@intel.com>, Ye Bin <yebin10@huawei.com>, Marek
- =?utf-8?Q?Marczykowski-G=C3=B3recki?= <marmarek@invisiblethingslab.com>,
- Pierre-Louis
- Bossart <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Rui Salvaterra <rsalvaterra@gmail.com>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 01/13] PCI: Prepare removing devres from pci_intx()
-In-Reply-To: <20241015185124.64726-2-pstanner@redhat.com>
-References: <20241015185124.64726-1-pstanner@redhat.com>
- <20241015185124.64726-2-pstanner@redhat.com>
-Date: Thu, 31 Oct 2024 14:45:03 +0100
-Message-ID: <87cyjgwfmo.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SMSdNMD+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A4AC4CECF;
+	Thu, 31 Oct 2024 14:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730384862;
+	bh=0VFKeI1RdtsenUvtom72hXjYrfUswcH7nHkImzR9QY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SMSdNMD+U58gioJZAobamXIL4QOVQC/TammrC2vS9MsmHXrB8wAQcdF5HXTuWm0Bd
+	 GsgF6jUW5jN9BdIHHrUJ2H7UbF6aFNsFf/Xxbo+ybbDumCPu55HSNJ+/v57e1lYPqw
+	 RJpp2wriW7qsdZF/N35UDTI6bekcS/aS6+VsPun3peJiyM1zEKr4rwUkw6afMLSiWD
+	 2KBSivQr3XWHUh4yUAUyxoMj9Lt4oyn9HaUB4yXZVzf2xwY2JBVh7zF8pia91sZU3G
+	 HtX6q1zvkAw///hleArznfjVKan3w0PrwyIXMpxVS5Dzstqj4n5zCV/+6UTyuS/tXY
+	 r/Um/BCGySChA==
+Date: Thu, 31 Oct 2024 14:27:37 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v4 06/10] ASoC: sun4i-codec: Add DMA Max Burst field
+Message-ID: <33f8c68a-d21a-4c04-b7be-adeab520d5c5@sirena.org.uk>
+References: <20241031123538.2582675-1-csokas.bence@prolan.hu>
+ <20241031123538.2582675-6-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="558g04AZnavlqknE"
+Content-Disposition: inline
+In-Reply-To: <20241031123538.2582675-6-csokas.bence@prolan.hu>
+X-Cookie: Make a wish, it might come true.
 
-On Tue, Oct 15 2024 at 20:51, Philipp Stanner wrote:
-> +/**
-> + * pci_intx - enables/disables PCI INTx for device dev, unmanaged version
 
-mismatch vs. actual function name.
+--558g04AZnavlqknE
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> + * @pdev: the PCI device to operate on
-> + * @enable: boolean: whether to enable or disable PCI INTx
-> + *
-> + * Enables/disables PCI INTx for device @pdev
-> + *
-> + * This function behavios identically to pci_intx(), but is never managed with
-> + * devres.
-> + */
-> +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
+On Thu, Oct 31, 2024 at 01:35:32PM +0100, Cs=F3k=E1s, Bence wrote:
+> From: Mesih Kilinc <mesihkilinc@gmail.com>
+>=20
+> Allwinner suniv F1C100s has similar DMA engine to sun4i but it has
+> smaller max burst size compared to sun4i. Add a quirk field to
+> differantitate between them.
 
-This is a misnomer. The function controls the INTX_DISABLE bit of a
-PCI device. Something like this:
+You've not copied me on the rest of the series so I don't know what's
+going on with dependencies.  When sending a patch series it is important
+to ensure that all the various maintainers understand what the
+relationship between the patches as the expecation is that there will be
+interdependencies.  Either copy everyone on the whole series or at least
+copy them on the cover letter and explain what's going on.  If there are
+no strong interdependencies then it's generally simplest to just send
+the patches separately to avoid any possible confusion.
 
-void __pci_intx_control()
-{
-}
+--558g04AZnavlqknE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-static inline void pci_intx_enable(d)
-{
-        __pci_intx_control(d, true);
-}
+-----BEGIN PGP SIGNATURE-----
 
-.....
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcjk9gACgkQJNaLcl1U
+h9DFuwf/WrEXxsnAh3sDyS+Or2fX9sOWwQ1iCN/IUpg+CS4mWAHnkn8vSvAKQEvk
+YIztm/llMpt5Nb4AmUz0BIMECSiIRlBcsT9FhQEdFvR8JFI98AHUfpwkZ/WWihyP
+DGLqbnD3tIIU9ZO82mrVY7YS7Mz2meMjPtkhJndkMaWuyV6/65J1HTYn0cySykAZ
+wyZtt8fCVufFlcSBO7cH0I5jSxr2dQscSIhjzO9ltJOuVvNgh6eEwH1jiwiRzBXW
+uHtoSmqP4a8kutz5pOTatCs6mgBt/zud8Fa0Pf0RjHUk7IVqVYCNo4PDx/bDs9aC
+JGaKxTuvIPu1SsxpxRpGJyQAKivOgA==
+=uZWg
+-----END PGP SIGNATURE-----
 
-makes it entirely clear what this is about.
-
-Hmm?
-
-Thanks,
-
-        tglx
+--558g04AZnavlqknE--
