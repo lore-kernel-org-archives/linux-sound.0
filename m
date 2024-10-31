@@ -1,57 +1,58 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BCD1BDA99
-	for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 19:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3ACD8C0B;
+	Thu, 31 Oct 2024 19:41:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730403177; cv=none; b=CjxBHAdszomyesnSKgcnBP/xBmB6fFrQRes8zHckwg8DjspT1yypnJwtFGpxdDaGd6a3UqSpLM53Bxg/ivBnVWSXlabc7E7t6T/jsHQ4M+JknfoFytI+TaxN1xStq4XCBSXjumkQj/tOjAhlwkr8TuR1PA7iNmH9+5tPq1+e9ug=
+	t=1730403678; cv=none; b=MftF7duWJbx2rhM5A+c2OhP7lRQJgJZpuNsCux7o2r5h187YMZ9GdfzInPgC9hcR+s01xiDwvG8RwD30BL8uG8doTPCBwUdbwEdCVeodPb4EuwqvgtL55FBJHuhVVpPyLf3pT761nnEWpPUHdy3n5wejWgXNw6z3GAGn3Uc1KN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730403177; c=relaxed/simple;
-	bh=seH14HbOa0G2TI6FtYNVyHz93mLML89znvZKAJV7Th8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=r0g8bTz2yovN07SHpr78cipvntQr/NCfwhodZfXkVgLPLH4dY3xAtdxiMUwZy7Mhzns4bUhG1nQ/SxPtWlAq8fa2QMgcKP8TIahE5ow00xsAEqIkqCK8k9BMsdfhois+ehix66ZK/qLgPLYofy0TRm0+xJgnyW/WtaddjcLxgoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZHCoc8th; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1730403678; c=relaxed/simple;
+	bh=JsM585WluehrN5H1BS8Ef1eqRWVfkvFHTb1kx9Sz8AE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=ZoDmIKjquye/p5zwhhOzJDmHJsKtqxfjil2LfKQ0ManCPvOcVhWNv05FlBGfH/jd9/e9gMAv2Pg7bUdadReDlA2iSZ/fxW9Ao4yeKuv3U82DHY9iKx/sduMTUwIvQMoufkqqCuP4RJuwIesXYhY8divHkiONWoPPAqi/QbEEUY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zf998KMt; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHCoc8th"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9a6b4ca29bso143939566b.3
-        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 12:32:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zf998KMt"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a99cc265e0aso198377566b.3;
+        Thu, 31 Oct 2024 12:41:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730403173; x=1731007973; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:autocrypt:from
+        d=gmail.com; s=20230601; t=1730403674; x=1731008474; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:autocrypt:subject:from
          :content-language:user-agent:mime-version:date:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D1pzhSlqlbKPTbcnIugKvI3ZJqjleCzOO1Im3Is6eyQ=;
-        b=ZHCoc8thOYFuXGIzObtY4SwIJqbDXI7IVvhWDTd40AC8pm+9mxz3KVFTL9VRAi0iiN
-         qw2Gs4ZyI6Npj8iNCYKKjIlNjOQ8nmHkti662eIXbgrPUkdrVuSZ0wrcg/RiKhm+nYR1
-         C/PPrzA3B3632dyi1OJHrqLpzH7wMAvIFl5v96CX1EFU/w6sEhbE95nczDKSblK/O6Hb
-         R14JWWrNPF2DZ539pFad59LJz00hd6cwhPn3kftSm9eI5Pxv72nY65qpG4qWo22Bzz98
-         G8Xi99fZpJrbu7MnmAeQ75eJs0GcVP54rR+9AslsVaR/u1/WtzKqbmwppcZSVlYHBvqd
-         B81w==
+        bh=YzNYu0/AjzJL7XVmohx4A6iJPqW08FCWPl6HVe70NGk=;
+        b=Zf998KMtjYlD2sJgHyMj/0x4xrM2TCZgWdfRw5kTGXP2J6xURmgp/RpLKfkP4XNVpb
+         eWTgGf7ZsQfAvdQy5LV+KY4v/AU/0YE1GtDZYAKmSeEnVvsp49M26D8zVJRhaAIUOpLt
+         pA9LJaUMIQKnLG3W/oP3fFBnEvUjQ9S74NZl9rj1p6Loe1mibKPe5QCuFe1DZE7UVByX
+         OJVe9Cc/vm7P2Ua2BTkv/gCVixOMKVOrOZY5qnXRaiHwD+gkjs2BrHLMYrl7qOQoLZd0
+         BeEhmaaKKuCKCDbJiMS9rQR9z8bsgV/nAS+J/NhaB+rHOszl9n8smrk6k5JZUEzFNuZk
+         5KtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730403173; x=1731007973;
-        h=content-transfer-encoding:cc:to:subject:autocrypt:from
+        d=1e100.net; s=20230601; t=1730403674; x=1731008474;
+        h=content-transfer-encoding:cc:to:autocrypt:subject:from
          :content-language:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D1pzhSlqlbKPTbcnIugKvI3ZJqjleCzOO1Im3Is6eyQ=;
-        b=Bbdbmbb3kPm6iWd2VcZ1hdljlGGBXrD70No58cP8G/Bs94thC5+ydYZsy0vxrKFVoM
-         l2zItEbQmChQt10+UqcA/4Y8aBkzfSl8JbEICLlqQ7LR/yhdEfOMfOHN08LT4x3ltx3F
-         DC8DW+cWEWfzB0H5tqpADQAsPRM9WJ3jKTaNrQLh3BCagK4Mnw5VOgK6nhfdtLZPdMI8
-         FlH3KxJe0+VXnSOj7yJYkwNrx6yptGyG2v0dedl86AXt4QxxmSfFgKZ4fXBN+3z4S9Dy
-         WGVWb1PbPs5x4kNhAhNb/gCFtxELErGAV6D6YB1JbM7tvXEUTNPRDKXjLChIPsdA5kfu
-         7W+g==
-X-Gm-Message-State: AOJu0Yxjzr7SstyAWZvrRcZ3aA/enSOzvK8fyYZvGc5PqKyqZvlfBozE
-	XWNVekzGG6JXbyR27S0RCZ3s7Q/BW7J+tYVeKtVoytJdwxcAIDtq
-X-Google-Smtp-Source: AGHT+IErRPUwN4pv8NXYMrTgioMLlIkJMd1sX7RfLwNUIQm5RGrOV5iAcSQgEd0aDBst8tlUlA0ubg==
-X-Received: by 2002:a17:907:9814:b0:a9a:20b4:4078 with SMTP id a640c23a62f3a-a9e508dc1d3mr374728666b.16.1730403173313;
-        Thu, 31 Oct 2024 12:32:53 -0700 (PDT)
+        bh=YzNYu0/AjzJL7XVmohx4A6iJPqW08FCWPl6HVe70NGk=;
+        b=ATY2NFiYkb94fGc2KgMowesPoOiWlHiim2rcdDshTBuGdkQ6fiB24sRszf9PoT8E3Q
+         grfVSk53YY4Kmp7maHzjdbVQJXW7ejdPJXWbkubvEFYkw4CQ6GBI3yrMfu3b7/G6r7kK
+         yByTjZwA2r5+AreawZevsaJFoFdhi6Mah3PoYWnAXRo27+bWAyYolGPuxqOj6z1WDaQg
+         wTXes4WgtYiREDzbYA725eQSn0J3ap8pYOY29S3HJo4YdlTtKQ/cf7t46EZdl3gI/hnv
+         57P2JEmdRna4ReVumQRhVhN7WQof8nj71IicMxOtwJYjbw6KRhIMXYmL6ADiQfBFGSYL
+         rG5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWIMOam4S8FOAbskeBTShiD2ULodM3lJmLeuIdmYs1tfcCGm8zevFAZ/7gFRkbVkw/Z7il9Ffwqdio=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yychf9bVaf/tP65R2BYtHXJoNCjIy/gT8qFy4DDocXOCuvrkIUg
+	t8YHV2T4bRrxpHJOdRfKJPsbcobuH4IgCFx305GwUneE23nFthrp
+X-Google-Smtp-Source: AGHT+IEkuXnrlxaCLjBLuYBguXJvces8GJgRGw1VoOzt+Jdq+aXyJiQCMpD5N87u8AmT0eczcgfS1A==
+X-Received: by 2002:a17:907:948c:b0:a99:f8db:68b2 with SMTP id a640c23a62f3a-a9de5ecca55mr2152582566b.18.1730403674181;
+        Thu, 31 Oct 2024 12:41:14 -0700 (PDT)
 Received: from ?IPV6:2a02:3100:af9e:3f00:f876:f664:2bd5:aff4? (dynamic-2a02-3100-af9e-3f00-f876-f664-2bd5-aff4.310.pool.telefonica.de. [2a02:3100:af9e:3f00:f876:f664:2bd5:aff4])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a9e565e095bsm97101066b.99.2024.10.31.12.32.52
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a9e566845c1sm97028166b.210.2024.10.31.12.41.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 31 Oct 2024 12:32:52 -0700 (PDT)
-Message-ID: <1b7e109b-eb69-4542-8022-4ac8f9116474@gmail.com>
-Date: Thu, 31 Oct 2024 20:32:52 +0100
+        Thu, 31 Oct 2024 12:41:13 -0700 (PDT)
+Message-ID: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
+Date: Thu, 31 Oct 2024 20:41:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,6 +62,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Content-Language: en-US
 From: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] ALSA: hda: intel: Switch to pci_alloc_irq_vectors API
 Autocrypt: addr=hkallweit1@gmail.com; keydata=
  xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
  sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
@@ -104,51 +106,74 @@ Autocrypt: addr=hkallweit1@gmail.com; keydata=
  H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
  lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
  OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-Subject: [PATCH] ALSA: hda: intel: Don't free interrupt when suspending
 To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org
+Cc: linux-sound@vger.kernel.org, Philipp Stanner <pstanner@redhat.com>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-There's no need to free/re-request the interrupt on system suspend.
-PCI core takes care, using functions like pci_restore_msi_state().
+Switch from legacy pci_msi_enable()/pci_intx() API to the
+pci_alloc_irq_vectors API.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 ---
- sound/pci/hda/hda_intel.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ sound/pci/hda/hda_intel.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index b4540c5cd..9fc5e6c5d 100644
+index 9fc5e6c5d..fc329b6a7 100644
 --- a/sound/pci/hda/hda_intel.c
 +++ b/sound/pci/hda/hda_intel.c
-@@ -1040,14 +1040,6 @@ static int azx_suspend(struct device *dev)
- 	chip = card->private_data;
- 	bus = azx_bus(chip);
- 	azx_shutdown_chip(chip);
--	if (bus->irq >= 0) {
--		free_irq(bus->irq, chip);
--		bus->irq = -1;
--		chip->card->sync_irq = -1;
--	}
--
--	if (chip->msi)
--		pci_disable_msi(chip->pci);
+@@ -773,6 +773,14 @@ static void azx_clear_irq_pending(struct azx *chip)
+ static int azx_acquire_irq(struct azx *chip, int do_disconnect)
+ {
+ 	struct hdac_bus *bus = azx_bus(chip);
++	int ret;
++
++	if (!chip->msi || pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_MSI) < 0) {
++		ret = pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_INTX);
++		if (ret < 0)
++			return ret;
++		chip->msi = 0;
++	}
  
- 	trace_azx_suspend(chip);
+ 	if (request_irq(chip->pci->irq, azx_interrupt,
+ 			chip->msi ? 0 : IRQF_SHARED,
+@@ -786,7 +794,6 @@ static int azx_acquire_irq(struct azx *chip, int do_disconnect)
+ 	}
+ 	bus->irq = chip->pci->irq;
+ 	chip->card->sync_irq = bus->irq;
+-	pci_intx(chip->pci, !chip->msi);
  	return 0;
-@@ -1062,11 +1054,6 @@ static int __maybe_unused azx_resume(struct device *dev)
- 		return 0;
+ }
  
- 	chip = card->private_data;
--	if (chip->msi)
--		if (pci_enable_msi(chip->pci) < 0)
+@@ -1879,13 +1886,9 @@ static int azx_first_init(struct azx *chip)
+ 		chip->gts_present = true;
+ #endif
+ 
+-	if (chip->msi) {
+-		if (chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+-			dev_dbg(card->dev, "Disabling 64bit MSI\n");
+-			pci->no_64bit_msi = true;
+-		}
+-		if (pci_enable_msi(pci) < 0)
 -			chip->msi = 0;
--	if (azx_acquire_irq(chip, 1) < 0)
--		return -EIO;
++	if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
++		dev_dbg(card->dev, "Disabling 64bit MSI\n");
++		pci->no_64bit_msi = true;
+ 	}
  
- 	__azx_runtime_resume(chip);
- 
+ 	pci_set_master(pci);
+@@ -2037,7 +2040,7 @@ static int disable_msi_reset_irq(struct azx *chip)
+ 	free_irq(bus->irq, chip);
+ 	bus->irq = -1;
+ 	chip->card->sync_irq = -1;
+-	pci_disable_msi(chip->pci);
++	pci_free_irq_vectors(chip->pci);
+ 	chip->msi = 0;
+ 	err = azx_acquire_irq(chip, 1);
+ 	if (err < 0)
 -- 
 2.47.0
 
