@@ -1,197 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC63156C70;
-	Fri,  1 Nov 2024 08:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE8814F121;
+	Fri,  1 Nov 2024 09:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730450597; cv=none; b=AYm99H+AwUrw/eXfOvyAaZ53tA/N/LWMhrbRjqgWh9acVLFeiuCbQo9ZEZnkQXo6w8mqt0F2V/cZNkez1LSJTUxOnu/sQgyxuFCC/5tj8mrnRkHci9CJpDuXRoL54Hb3HQBWvbCfmvjz/5ZWA8fwgD7+LKqsXCrICBEB8p1H0iM=
+	t=1730451772; cv=none; b=NJAWiq2X2OU/3ufQ/P1SxDSL5pfo9TvJN2ABc5fIrdDHh59dn8ro9OM4yR+sqy+jjD6mFaj3UcIshVSmXR3hSe+AgVPJDPDEjzlGOoRz7302SXfO8S3PJG+aS29jyHezEa5BjiqoZMo8j59bwPsr8luhlPEmVDjqr7QOa+ajQQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730450597; c=relaxed/simple;
-	bh=r4uTEtNDCsi9pVchlXsh3DPNGJNZ7XFPRnuIFO7ryuo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dlRXQ0KcKzjTL/xAdmqTN6X2ilQhzKXmYw32IZ1XKOkHR67cnWFmICiDdpnMWboxRQn5DHdhOttiyDGOq4OdPJplu2X1+JwvNbn1MuQvQC9ZG9al73IAp81AnFv32tem/dzDCWJzYtPsq9F9K/JmhROsKS7vO8leAEilmUGtBGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MdMraDhU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8iHmJWNZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ATB2F7j7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=upmLlQlf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730451772; c=relaxed/simple;
+	bh=jpX64miZjSicPCvHWFljeurBNjrKOA7kXE/Kum3w00A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VEAI8DVPJdh6PNoGA7HZYV+xqeZB53qvHXGiwTuiwCdg5B2uzxsifX7O3t4jBXdlDdmcwi1lgBDms3WJf1BB4W4szrN8UQ8AtYlPbQyh31eNYuY2ggKwOlwKUxYsbSLSa2YAfVJsEG8fj3Mtg2yvFGYyfi/gvtKnB9tsFGGUmac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ITsE46Gv; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MdMraDhU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8iHmJWNZ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ATB2F7j7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="upmLlQlf"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 16C4B21BEB;
-	Fri,  1 Nov 2024 08:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730450593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
-	b=MdMraDhUnbQn6lC94/NmwQCFmjMO3KcS/CnUqm2Aff1vUUf/oyQhCijNuHOlbQdKezE4vE
-	tx5TcERWIRHMTRWry/dLfEXMZ3JmEqUl9vbuwmouaQDg1sEwtio/WpWACBJZoCG1vbq4LS
-	AXHY8HoaDRmX2Wr5bdQyAmDatkHdYt4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730450593;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
-	b=8iHmJWNZQNqkxZgtoW62zZZaGccMNaXDVNm1GBI8n+ZvYb4fb0OhcAI59a+csp81FKOhfo
-	+I+UqfYNayagZUCw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730450592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
-	b=ATB2F7j7f51iJGKW1D8/EGZ1LB0mNrHmLQs7SziD7vcuCBGXFwcYM9T6G7m6+sb8ZzNTjM
-	WRtO+VsIZ5WSjuELppgZAy9WpNeCF4cxBrwVsb1F+9yWRKQUMa4ZyrsFV8rwESqV9nduEb
-	ZMMVQZxC38XKBpMOYjgejG4PB/fZ90w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730450592;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
-	b=upmLlQlfBOfAH9CLkf5lZpuhAxLNHpSWYG9Y2LQjWy2j7tB2zt2cfIAM/bdvk6xMTcoY6+
-	C9tajtNa92N8e6Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D046413722;
-	Fri,  1 Nov 2024 08:43:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GxEEMZ+UJGfhLgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 01 Nov 2024 08:43:11 +0000
-Date: Fri, 01 Nov 2024 09:44:16 +0100
-Message-ID: <87bjyzuyvz.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Philipp Stanner <pstanner@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda: intel: Switch to pci_alloc_irq_vectors API
-In-Reply-To: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
-References: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ITsE46Gv"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7cd8803fe0aso1352918a12.0;
+        Fri, 01 Nov 2024 02:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730451770; x=1731056570; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K5wIpO3UePnQeHMidc8/MfjJKyjpUxm9tMd6myVja94=;
+        b=ITsE46GvhnA8HB5pkGtle5ndsoDgKQIr8/3OXCg46CWgjbnEU4WvXMgjL0v+QHB+JB
+         85OFRjy8OCIMcC48jvN3PjSwq61Lqlgc7RIiIkutbc9gLXidp6zTfSp/9FlftwVMOT33
+         c0AOIf8rsyPoW1e81b6oddPht/VWLy5QDCegcrKsd8lbs/4a3YdtK1JZpv65ow6OT8XK
+         4I5RFhTWGMKatOV1q7QZ+mMME221IwIvv52u6iJyCg2v3I0VMDzG6IXRpQZbaZPtns/5
+         8zLNzhMI/SP40b+q6caZR+h99YdcldBSOTIOkiJQcDKUVqh0spqVe6r2QeAb1C/o/0dT
+         SexA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730451770; x=1731056570;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K5wIpO3UePnQeHMidc8/MfjJKyjpUxm9tMd6myVja94=;
+        b=nxpInAHmqExymme9fk5bzvol9slnxWdpYGXwguA6GpNKQ5E3f6+zPmHtMA4fGDsCgG
+         xUdCX+Cl/d7s229/x+3CdWHcAZTHkiHVzoptG9YlUhe2RFZxzNHyKntlKjj+kvJIefPR
+         1FmsRx1n8GMCrFlrs2Hi02quenTBE4jGfI7SjZeVsdHJBBSktMV7ZAchZ35NCANEIDem
+         xATXQV+U/4w1ucmyHvTPluC0kmRltOmymbRNIR2tndqSB/FG+IMCYhLe3upixDwwyZds
+         hnniSV3CrvQ56doef0bw/6CX3pVSEygZfluEzGDFqIgEUP7Y9Vs8ALccyRPOi0q0QOlX
+         jR6g==
+X-Forwarded-Encrypted: i=1; AJvYcCW6yK68IZqwRnm3X4Zrgmu1x2vRHOYo9p8hNnoUZc5m918waXO2zdbtwBW24sL7NtKr2u1K772Bw8fFgjQ=@vger.kernel.org, AJvYcCWR1FlW5KWtp3dXgK8cxsu464LGtcngVs6y45QUTuarh9ccoXZvtjG+9oC/ARPQXn3hROlatJgBEgAE2Lg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzRN+zwZiqYkGlBjF4FpzAkPK1BTKgTATdS3KkTdu1+MUbRWxU
+	LzyFwgXMxEOGO2g/VSXeu5/OFKAtTKFcRTVadtpjNPYkztxh4RHf
+X-Google-Smtp-Source: AGHT+IHTtQ/wgMIUcwz+wAKo34+msM4cr405X+Z9eZtrm4KWfXxpkr2F4pbmroM2VK4G3qvTGyr8pA==
+X-Received: by 2002:a17:902:e741:b0:20c:cf39:fe2d with SMTP id d9443c01a7336-210f74f48e4mr123100245ad.5.1730451769676;
+        Fri, 01 Nov 2024 02:02:49 -0700 (PDT)
+Received: from ?IPV6:2409:40f2:1005:5df4:82b4:ad58:ba20:9155? ([2409:40f2:1005:5df4:82b4:ad58:ba20:9155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056edec1sm18466215ad.50.2024.11.01.02.02.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Nov 2024 02:02:49 -0700 (PDT)
+Message-ID: <e8fe072a-e1b9-41b0-9382-6562139e31d3@gmail.com>
+Date: Fri, 1 Nov 2024 14:32:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] sound: fix uninit-value in i2s_dma_isr
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241030170829.36161-1-surajsonawane0215@gmail.com>
+ <635f1691-74e9-4e48-8ebf-8e7ce0c6d1e3@sirena.org.uk>
+ <a4039ca2-6c76-4431-8e27-caebe1a56deb@gmail.com>
+ <d97a58c7-347b-48f9-aa69-d4ff5a4038e3@sirena.org.uk>
+Content-Language: en-US
+From: Suraj Sonawane <surajsonawane0215@gmail.com>
+In-Reply-To: <d97a58c7-347b-48f9-aa69-d4ff5a4038e3@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 31 Oct 2024 20:41:12 +0100,
-Heiner Kallweit wrote:
+On 31/10/24 21:47, Mark Brown wrote:
+> On Thu, Oct 31, 2024 at 12:17:56PM +0530, Suraj Sonawane wrote:
+>> On 30/10/24 22:44, Mark Brown wrote:
 > 
-> Switch from legacy pci_msi_enable()/pci_intx() API to the
-> pci_alloc_irq_vectors API.
+>>> This will shut the warning up, but why are these values valid?  Are we
+>>> handling the cases where the loops do not execute properly?
 > 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-
-So, this change looks conflicting with the pcim_intx() cleanup patch
-set from Philipp.  I think we can take this one and drop the
-corresponding one from Philipp's patch set.
-
-Bjorn, Philipp, does it sound OK?
-
-
-thanks,
-
-Takashi
-
-> ---
->  sound/pci/hda/hda_intel.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
+>> Thank you for the feedback and your time.
 > 
-> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> index 9fc5e6c5d..fc329b6a7 100644
-> --- a/sound/pci/hda/hda_intel.c
-> +++ b/sound/pci/hda/hda_intel.c
-> @@ -773,6 +773,14 @@ static void azx_clear_irq_pending(struct azx *chip)
->  static int azx_acquire_irq(struct azx *chip, int do_disconnect)
->  {
->  	struct hdac_bus *bus = azx_bus(chip);
-> +	int ret;
-> +
-> +	if (!chip->msi || pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_MSI) < 0) {
-> +		ret = pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_INTX);
-> +		if (ret < 0)
-> +			return ret;
-> +		chip->msi = 0;
-> +	}
->  
->  	if (request_irq(chip->pci->irq, azx_interrupt,
->  			chip->msi ? 0 : IRQF_SHARED,
-> @@ -786,7 +794,6 @@ static int azx_acquire_irq(struct azx *chip, int do_disconnect)
->  	}
->  	bus->irq = chip->pci->irq;
->  	chip->card->sync_irq = bus->irq;
-> -	pci_intx(chip->pci, !chip->msi);
->  	return 0;
->  }
->  
-> @@ -1879,13 +1886,9 @@ static int azx_first_init(struct azx *chip)
->  		chip->gts_present = true;
->  #endif
->  
-> -	if (chip->msi) {
-> -		if (chip->driver_caps & AZX_DCAPS_NO_MSI64) {
-> -			dev_dbg(card->dev, "Disabling 64bit MSI\n");
-> -			pci->no_64bit_msi = true;
-> -		}
-> -		if (pci_enable_msi(pci) < 0)
-> -			chip->msi = 0;
-> +	if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
-> +		dev_dbg(card->dev, "Disabling 64bit MSI\n");
-> +		pci->no_64bit_msi = true;
->  	}
->  
->  	pci_set_master(pci);
-> @@ -2037,7 +2040,7 @@ static int disable_msi_reset_irq(struct azx *chip)
->  	free_irq(bus->irq, chip);
->  	bus->irq = -1;
->  	chip->card->sync_irq = -1;
-> -	pci_disable_msi(chip->pci);
-> +	pci_free_irq_vectors(chip->pci);
->  	chip->msi = 0;
->  	err = azx_acquire_irq(chip, 1);
->  	if (err < 0)
-> -- 
-> 2.47.0
+>> The uninitialized warning for val_1 and val_2 arises because, in some cases,
+>> the offlevel value is zero, and as a result, the loop does not execute,
+>> leaving these variables potentially undefined. The subsequent code
+>> calculates prtd->dma_addr_next using val_1 + val_2, so it's necessary to
+>> have val_1 and val_2 initialized to a known value, even when the loop does
+>> not run.
 > 
+>> Initializing them to zero ensures prtd->dma_addr_next has a defined value
+>> without triggering undefined behavior. However, if a zero initialization
+>> could cause unintended behavior in dma_addr_next, I could alternatively
+>> handle this case by setting dma_addr_next conditionally when offlevel is
+>> non-zero.
+> 
+> This is describing again what the patch does, which basically just boils
+> down to shutting up the warning.
+> 
+>> Let me know if there’s a preferred approach, or if you'd suggest a different
+>> initial value for these variables based on the expected use.
+> 
+> We need to understand what the change is doing - what do the values
+> mean, is the real issue that we're missing some error handling for the
+> case that lets us fall through without initialisation?
+Thank you for clarifying.
+
+I reviewed the context around val_1 and val_2 in dma_addr_next. These 
+values are expected to come from the registers when offlevel is 
+non-zero, representing the next DMA address and length information. If 
+offlevel is zero, it means there’s no offset data to process, and 
+dma_addr_next might not need updating in that case.
+
+A more precise solution would be to conditionally update 
+prtd->dma_addr_next only when offlevel is non-zero, as this would 
+reflect the intended logic without relying on an arbitrary initialization.
+
+Would it be better to revise the patch to conditionally update 
+prtd->dma_addr_next only when offlevel is non-zero?
+
+Let me know if this approach aligns better with the expected behavior.
+
+Thank you again for your time.
+
+Thanks,
+Suraj
