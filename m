@@ -1,136 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378F52A1B2
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 02:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2C322B
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.35.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730427320; cv=none; b=lx1m40+Y7i6QaMinAlLO8WprwrGs6DwxA+i2b4wycxgskUdZRMOxVAd246EaYb4j8p3KhaOacgjhIoApWjJHnWfDTMqjjSD66MtqLFBiCEcoMEGdO4iBUeS/p2sBe20Sur8KYZLVoyClttWK30jZKovVskmHAUzqZDEZU4NfCdg=
+	t=1730436244; cv=none; b=FxdMNnyMPkZuWEsCGTBZ6YSNMTUQEfkbdg339bszPJhSWvdRNfcR8jnJZY1O79tt2ZjTY2eV5BlqFNKlvjl4sWIMww1JmtR/KYrdskAPmG5+qjozWEQf7ld66RTYQ/esG+z6G5oPzzPKv6y1A9Wi+NJk2eTLOGZaYDffx+Tgm6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730427320; c=relaxed/simple;
-	bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RMaXfnttoW1MGywS8kcdsnpLFOZVCAB9Q4sUCky9ArMMSWiidxJkOYkvLRvPv38Ugf3vm8KmV4+HVq+nl6ygAhOI3K2uyz7AXlVsmxlF1UyNElhDtBZtOxz7jReaOI0XIaMlc66MnQaQltLXraF94jFj0YUOH0ng0IfkFlMoK+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EV3sOP6l; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1730436244; c=relaxed/simple;
+	bh=lds4D1YqbDt6dvw0YVK0ecsm+5xw0Dh21ZXrEpbZBU0=;
+	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=KHCoGMiu9DRBJgk+5Pnc3HNXmHfrziViqjh6d3vad1WX3UwZzqN5CkDwBq7mGEFzatlYC4HCoIkbK+ipJggDn2h2igsdQ+7MojGDoiX8TOexJyX5ajqF0yB9SE2o3loM/v6mZ/whM+Nv6pnFIVHNQX2LOYvgxPcm/m6rCWwOrOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=Ly5bpRhJ; arc=none smtp.client-ip=51.81.35.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EV3sOP6l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730427314;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
-	b=EV3sOP6lowtne1+EkhjTwKTQl/4VJxSqhA4kb83dl3NzBgvY4aT0SbjOacOfXoNrgZXlBI
-	uW89e+oabvEonSh6Cd1BdLfecj4spWBZBK8vpeDDfc250OgcJvZA4RmJ3EwCvIlvzRvLLm
-	HX4Y9Ctqlw/tmUGI8+K0fbNqeoK9qb8=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-663-NxrDnBihPdeNJL6bqaOYJg-1; Thu, 31 Oct 2024 22:15:10 -0400
-X-MC-Unique: NxrDnBihPdeNJL6bqaOYJg-1
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-7ea999a79a2so1806558a12.2
-        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 19:15:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730427310; x=1731032110;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
-        b=qV8F61ACA1T6fctpZDWZlBc7nXt+2ryNFdyZEbifphCO25eQYe1HZjUMSEZV69nw4U
-         IHco+8pQgWl/QhrItl49Zdenmi2d6z8VrLRheF3zqpe21NOPfH/gYay0HaKmVkFhzc0j
-         pMR04/nIWYJnmbC51K/eRcBGy8WX4/4BnjsABGO0DvbuBpOpUyrY2/rmY43NND129lID
-         29z+QmYz5GgPLCeN3I3foFSeGrD0Td8ZQu/D1BveSbwYgpOVA35iU+83k20WXPTOEKJ7
-         ZXzdcsAj2IYDXRA77d5PXF0Yu26VysYuY2zhmM5F3ay7aYfTineCI+GgKUUHs7Jwn+Fz
-         NqBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5fdf0icuyaUhas/cntEZpssElhp2mn/IA0H2K9GermBsKjaGQAo08jIQ3UUAqgVjwqrhhpegZKtkr0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yye8Yq0SmLqp4S/Ln5oJl2lmxVxGDBAwXR2b7ruvWNtRWIO8kig
-	J9VsE1Lf0VtziS/MZwehNlgrbiyohtcDwWvdlXCe+EYVzT9yn27F/JIdtaaCv+Qn4wNfHeyIrSe
-	rGNn1O0rqV+ON8feoFZLnDq8WNMd38FG6sWQCL9MUotoUXgms3TfVv9VTYFEI57slpYX2c7GSiI
-	utrR3HY9XtRRo23X3n4MloRepWHPTwdQJ9EDM=
-X-Received: by 2002:a17:90b:2d92:b0:2e2:e159:8f7b with SMTP id 98e67ed59e1d1-2e94c29f2cemr2655440a91.3.1730427309714;
-        Thu, 31 Oct 2024 19:15:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHy16t0It8M5wuxzMCN0u7b3KxhGxysg7D6J/QWKdLqLpcbAtWiRV69Dq4QwYxCS/HPdiOkYmqXnbjdd/QPCCE=
-X-Received: by 2002:a17:90b:2d92:b0:2e2:e159:8f7b with SMTP id
- 98e67ed59e1d1-2e94c29f2cemr2655410a91.3.1730427309206; Thu, 31 Oct 2024
- 19:15:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="Ly5bpRhJ"
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id D174520A02
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:35:57 +0000 (UTC)
+Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.155])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id A35E726760
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:35:48 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay3.mymailcheap.com (Postfix) with ESMTPS id F3DF83E8D7;
+	Fri,  1 Nov 2024 05:35:40 +0100 (CET)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 97EF440078;
+	Fri,  1 Nov 2024 04:35:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1730435740; bh=lds4D1YqbDt6dvw0YVK0ecsm+5xw0Dh21ZXrEpbZBU0=;
+	h=Date:From:To:Cc:Subject:From;
+	b=Ly5bpRhJ+wLnQxkFhcNGM2nXuaCqkCAM86YFI3zj9U7mRg7PG1CkbGQejcecZ8pVB
+	 vDxR5MLeSuDYUfj2BM/4ab4kB95AB2HgLNmZyhjLPfIbTx9f1RjEVG4sTF944vxsvR
+	 RFO2bk65zSj0f9eYS5e+K7CPIrStnpsElK+ELM3g=
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0082440E46;
+	Fri,  1 Nov 2024 04:35:35 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com> <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
-In-Reply-To: <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 1 Nov 2024 10:11:11 +0800
-Message-ID: <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
-Subject: Re: [PATCH v2] virtio: only reset device and restore status if needed
- in device resume
-To: qiang4.zhang@linux.intel.com
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jens Axboe <axboe@kernel.dk>, 
-	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
-	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	"Chen, Jian Jun" <jian.jun.chen@intel.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, David Hildenbrand <david@redhat.com>, 
-	Gerd Hoffmann <kraxel@redhat.com>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Qiang Zhang <qiang4.zhang@intel.com>, 
-	virtualization@lists.linux.dev, linux-block@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Fri, 01 Nov 2024 12:35:35 +0800
+From: Mingcong Bai <jeffbai@aosc.io>
+To: broonie@kernel.org
+Cc: mario.limonciello@amd.com, linux-sound@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
+Message-ID: <8bad41b7ddbc8e061f682ecdf00a50e1@aosc.io>
+X-Sender: jeffbai@aosc.io
+Organization: Anthon Open Source Community
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 97EF440078
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Spamd-Result: default: False [-0.40 / 10.00];
+	BAYES_HAM(-0.30)[75.02%];
+	MIME_GOOD(-0.10)[text/plain];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	MISSING_XM_UA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3]
+X-Rspamd-Action: no action
 
-On Fri, Nov 1, 2024 at 9:54=E2=80=AFAM <qiang4.zhang@linux.intel.com> wrote=
-:
->
-> From: Qiang Zhang <qiang4.zhang@intel.com>
->
-> Virtio core unconditionally reset and restore status for all virtio
-> devices before calling restore method. This breaks some virtio drivers
-> which don't need to do anything in suspend and resume because they
-> just want to keep device state retained.
+Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
+internal microphone to be enabled.
 
-The challenge is how can driver know device doesn't need rest.
+This is likely due to similar reasons as seen previously on Redmi Book
+14/15 Pro 2022 models (since they likely came with similar firmware):
 
-For example, PCI has no_soft_reset which has been done in the commit
-"virtio: Add support for no-reset virtio PCI PM".
+- dcff8b7ca92d724bdaf474a3fa37a7748377813a (ASoC: amd: yc: Add Xiaomi
+   Redmi Book Pro 15 2022 into DMI table)
+- c1dd6bf6199752890d8c59d895dd45094da51d1f (ASoC: amd: yc: Add Xiaomi
+   Redmi Book Pro 14 2022 into DMI table)
 
-And there's a ongoing long discussion of adding suspend support in the
-virtio spec, then driver know it's safe to suspend/resume without
-reset.
+A quirk would likely be needed for Xiaomi Book Pro 15 2022 models, too.
+However, I do not have such device on hand so I will leave it for now.
 
->
-> Virtio GPIO is a typical example. GPIO states should be kept unchanged
-> after suspend and resume (e.g. output pins keep driving the output) and
-> Virtio GPIO driver does nothing in freeze and restore methods. But the
-> reset operation in virtio_device_restore breaks this.
+Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+---
+  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+  1 file changed, 7 insertions(+)
 
-Is this mandated by GPIO or virtio spec? If yes, let's quote the revelant p=
-art.
-
->
-> Since some devices need reset in suspend and resume while some needn't,
-> create a new helper function for the original reset and status restore
-> logic so that virtio drivers can invoke it in their restore method
-> if necessary.
-
-How are those drivers classified?
-
->
-> Signed-off-by: Qiang Zhang <qiang4.zhang@intel.com>
-
-Thanks
+diff --git a/sound/soc/amd/yc/acp6x-mach.c 
+b/sound/soc/amd/yc/acp6x-mach.c
+index 438865d5e376..dc476bfb6da4 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -395,6 +395,13 @@ static const struct dmi_system_id 
+yc_acp_quirk_table[] = {
+  			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi Book Pro 15 2022"),
+  		}
+  	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Xiaomi Book Pro 14 2022"),
++		}
++	},
+  	{
+  		.driver_data = &acp6x_card,
+  		.matches = {
+-- 
+2.47.0
 
