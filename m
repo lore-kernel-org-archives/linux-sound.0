@@ -1,146 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0152484A5E;
-	Fri,  1 Nov 2024 08:14:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E11F839F4
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 08:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730448869; cv=none; b=d6t6Y1F6kX1iaym8JeJjkuGHtm47Yz/tzGXZPUHtsUXubVQkqeVzDYWYFEu3vOGvYxs4iatSzUFXNowZPstXrmORR2NvfR25J4mP4vHRXtaielgnojX8FN6bmCZp3PVteagaT/SbIcg7TezZgVBboq5d2clWubUcSiAICb6uQ8A=
+	t=1730449081; cv=none; b=uk45COo3m748uP8BVxixdkp1NwDTA/Oy3BHe8d326nDsnoiUJGuBM98B8ZfK3qDNZLTExkuTS1KS4EZM1DpDbLTFLmm9KdjxWR8QujhRTK5G4IMeOdraGA10cr0Vdd6rzQSBmatJCAQhrt6IonlBCV49dgwTh4dKtEolt3QUb4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730448869; c=relaxed/simple;
-	bh=TeFuD4EkGsPleD8hJkslZxcZRg6USTXrl/FwyS9Z094=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S0LCYwYCXw45K7f0Xa2LEiiwIG8qJiqI6iR02xa29u9c05gqzD7qD8dOyZDzkwA9ZNzKOZFEq94E3u4L/XG/yIrgQ2eZPPiCjCB2IHVrll4E4DlN082IQ6XSbHfq7dLKE0XgKMjbVY1NqvscIq4hfDASga9Nr0EhBJG9c01mD2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qZhHuI21; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730449081; c=relaxed/simple;
+	bh=B+S8KAMe7UkMm5Dqf7b8fMYzV7MgdjTAwHQ/+Rc57cw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GDDzTf6O/0cZ2BUxqqjk4Iq4B2mb2Nqq2blKlWtgARw7RJ3pnBWQ95qm4p0PXm3xXqPKmvSITmpBkemA8QAama1am1lD3POP1Z8MSYnUSAhCbW9qeOz0i3gdpLsYiKjHJ6wpt/d/XkWe1hftk+wMnuINYh4dr56VyVg9CaSqyu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xvfS3oDM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cGlxifVy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xvfS3oDM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cGlxifVy; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qZhHuI21"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D065EC4CECD;
-	Fri,  1 Nov 2024 08:14:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730448868;
-	bh=TeFuD4EkGsPleD8hJkslZxcZRg6USTXrl/FwyS9Z094=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qZhHuI21iH4oJd813Z85XkXHycBQp2Xq2VhC/lNZGgnpenHtSFz650GpAePajxRpQ
-	 1g07p3wA0RuaFoN+Tle9Llbm36p5HZRCkd2n2QGnGJK3Il9mHs8zLkwsa81b7pbJar
-	 u1xn4yNwhjS1OPS+NR5eZ6jWzZdB1GzRQSnRjkORuBNYkgrmlKlNdaTV/iA8PU0fJa
-	 uSOZmCOvlFTsRIddmsOhUdJwik+6dxxPQWNwW3wHd71SSjnDfUrW1g+CDFogtAv7q+
-	 zidsq/eNMaU9U9U6qo4cFA6VbqIOOuOb30Hi2/fxoCZcs9yuCFLyYYeSe9Bysn5RXF
-	 fLpxFraW49y4Q==
-Date: Fri, 1 Nov 2024 09:14:24 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: broonie@kernel.org, konradybcio@kernel.org, 
-	konrad.dybcio@oss.qualcomm.com, andersson@kernel.org, srinivas.kandagatla@linaro.org, 
-	tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 08/10] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
- amplifier
-Message-ID: <5zkslmf7m5vphs2wjcdg3536eo7tuh3stjthh3ulkr7oic5i25@qtnsog5ladsb>
-References: <20241101053154.497550-1-alexey.klimov@linaro.org>
- <20241101053154.497550-9-alexey.klimov@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xvfS3oDM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cGlxifVy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xvfS3oDM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cGlxifVy"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1833721CC4;
+	Fri,  1 Nov 2024 08:17:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730449071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8ifPx82Sr9oDi7sY2uddjD1KZ0N4ONXvx0D0MUWaSo=;
+	b=xvfS3oDMF0zMWxybL4w7BBMXHeCQIfdTW3pkjQusfUa+VeCszTF3Bg7l6zEgxCkDLxjcnt
+	xgjIWp0t0nHTROMZsFKwrqT6f1j7Y3Q+Qd259TerNBx3K4K+mmNkLiy1tNpz91RV+p7+Gw
+	4pfJD/yPazFnp5mRbnjSEM7JIQQxPFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730449071;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8ifPx82Sr9oDi7sY2uddjD1KZ0N4ONXvx0D0MUWaSo=;
+	b=cGlxifVyNN2o4N1Il+Jqh1twEpSi//BfdVxUPZfIB+pFt4DanVK6jpsf5G2l6g7Xcb5eF2
+	EfBZCaVISPxJJKAA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xvfS3oDM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=cGlxifVy
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730449071; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8ifPx82Sr9oDi7sY2uddjD1KZ0N4ONXvx0D0MUWaSo=;
+	b=xvfS3oDMF0zMWxybL4w7BBMXHeCQIfdTW3pkjQusfUa+VeCszTF3Bg7l6zEgxCkDLxjcnt
+	xgjIWp0t0nHTROMZsFKwrqT6f1j7Y3Q+Qd259TerNBx3K4K+mmNkLiy1tNpz91RV+p7+Gw
+	4pfJD/yPazFnp5mRbnjSEM7JIQQxPFA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730449071;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=U8ifPx82Sr9oDi7sY2uddjD1KZ0N4ONXvx0D0MUWaSo=;
+	b=cGlxifVyNN2o4N1Il+Jqh1twEpSi//BfdVxUPZfIB+pFt4DanVK6jpsf5G2l6g7Xcb5eF2
+	EfBZCaVISPxJJKAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E410F13722;
+	Fri,  1 Nov 2024 08:17:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id j6PZNa6OJGc4KAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 01 Nov 2024 08:17:50 +0000
+Date: Fri, 01 Nov 2024 09:18:55 +0100
+Message-ID: <87ikt7v028.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-2?Q?Jaros=B3aw?= Janik <jaroslaw.janik@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+In-Reply-To: <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+	<87r07wws4j.wl-tiwai@suse.de>
+	<5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+	<87o730uttl.wl-tiwai@suse.de>
+	<5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241101053154.497550-9-alexey.klimov@linaro.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1833721CC4
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-On Fri, Nov 01, 2024 at 05:31:52AM +0000, Alexey Klimov wrote:
-> One WSA881X amplifier is connected on QRB4210 RB2 board
-> hence only mono speaker is supported. This amplifier is set
-> to work in analog mode only. Also add required powerdown
-> pins/gpios.
+On Thu, 31 Oct 2024 17:43:18 +0100,
+Jaros³aw Janik wrote:
 > 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 45 ++++++++++++++++++++++++
->  1 file changed, 45 insertions(+)
+> On 31.10.2024 17:21, Takashi Iwai wrote:
+> > Hm, so the beep works even if the HD-audio device is runtime-suspended
+> > before shutdown?  Also, beeping at suspend/resume works no matter
+> > whether runtime-suspended or not?
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> index fc71f5930688..76b9ae1b0ebc 100644
-> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> @@ -63,6 +63,16 @@ hdmi_con: endpoint {
->  		};
->  	};
->  
-> +	i2c0_gpio: i2c0 {
+> Well, to what I recall - my (current) Thinkpad has never beeped on
+> shutdown, other than that - without your "extra muting" patch - yes -
+> beeping in every other circumstances works no matter if HDA controller
+> is in PM suspend or not; this is what I've got used to for many years of
+> using Thinkpads.
 
-Is 0 name on the schematics or datasheet? If yes, then i2c-0. If not,
-then i2c-1
+Do you mean about the beep emitted via thinkpad_acpi stuff or the
+normal beep via terminal etc?  The latter must work even with the
+patch, but the question is only about the former.  And that's the case
+for the shutdown beep tone.
 
+You can pass snd_hda_intel.beep_mode=0 option to disable HD-audio
+beep, verify the device being runtime-suspended, and check whether the
+beep via thinkpad_acpi still works (after reverting).
 
-> +		compatible = "i2c-gpio";
-> +
-> +		sda-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
-> +		scl-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		status = "disabled";
-> +	};
-> +
->  	i2c2_gpio: i2c {
+> And one more thing - with your patch - beeping is not muted on my laptop
+> completely, you can still hear it if you are in a quiet room, it's just
+> very "weak".
 
-i2c-(x+1)
+It might be because there can be two routes of beep tone; one via
+HD-audio and another internally.
 
 
->  		compatible = "i2c-gpio";
->  
-> @@ -272,6 +282,25 @@ zap-shader {
->  	};
->  };
->  
-> +&i2c0_gpio {
-> +	clock-frequency = <400000>;
-> +	status = "okay";
-> +
-> +	wsa881x: codec@f {
-> +		compatible = "qcom,qrb4210-wsa881x-i2c-codec";
-> +		reg = <0x0f>;
-> +		pinctrl-0 = <&wsa_en_active>;
-> +		pinctrl-1 = <&wsa_en_sleep>;
-> +		pinctrl-names = "default", "sleep";
-> +		clocks = <&q6afecc LPASS_CLK_ID_MCLK_2 LPASS_CLK_ATTRIBUTE_COUPLE_NO>;
-> +		clock-names = "wsa_mclk";
-> +		powerdown-gpios = <&lpass_tlmm 16 GPIO_ACTIVE_LOW>;
-> +		mclk-gpios = <&lpass_tlmm 18 GPIO_ACTIVE_HIGH>;
-> +		sound-name-prefix = "SpkrMono";
-> +		#sound-dai-cells = <0>;
-> +	};
-> +};
-> +
->  &i2c2_gpio {
->  	clock-frequency = <400000>;
->  	status = "okay";
-> @@ -746,6 +775,22 @@ wcd_reset_n_sleep: wcd-reset-n-sleep-state {
->  		bias-disable;
->  		output-low;
->  	};
-> +
-> +	wsa_en_active: wsa-en-active-state {
-> +		pins = "gpio106";
-> +		function = "gpio";
-> +		drive-strength = <16>;
-> +		bias-disable;
-> +		output-high;
-> +	};
-> +
-> +	wsa_en_sleep: wsa-en-sleep-state {
-> +		pins = "gpio106";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-pull-down;
-> +		input-enable;
+thanks,
 
-Are you sure this passes dtbs_check? I think this was not allowed since
-1.5 years.
-
-Best regards,
-Krzysztof
-
+Takashi
