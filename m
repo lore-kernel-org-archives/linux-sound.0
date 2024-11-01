@@ -1,193 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89789155324;
-	Fri,  1 Nov 2024 10:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80ADC86252;
+	Fri,  1 Nov 2024 12:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730458797; cv=none; b=Og58lJ24CBp5QK2oZm3lZxxu48zS2LuUj0kZ7EH5fxTiL2Wsalo1dSky2laNlnrkQcJGAjWr4Gk8Uf/rHS2fQLAx0sbiGiE7eD+6oOn5Xy5GRaYIoAb3Q/1GT6PonwKLHAVWgYfOen4TLWqVDFpjVr1+xKUDKr9LVME8KpoCVdo=
+	t=1730462537; cv=none; b=qxYeWAtUifWbBPcy2rekfOOnGbgZuR0YTfvuuCg7xhiGhfVTaapsMnRwx70JlCV55Ke0QZD+bvGybYQxEcJOuo+l+ZFsGSP4o+rdGB+3CH46xzAOOqWH9XAgUVxGlr18sn63SAl2x1uEI4nBC3J4f+G7HSs9rj3LCjCqwsElSFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730458797; c=relaxed/simple;
-	bh=ue70Ww36EcBDEZaGYurD6rsjfoEbrn4L9zEF9CmzN+A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D/BsunXOChYEnzM+4kMq6bh6LkXMq0ZC2bW5LTY+2VG9TzvWFNg9feINEPpfnRy2pZjL8KeX7CnKTJTZ3zfujdBuYHTVhDQQmweDMx2HKs4PJ/ol0jToyImmx6Fp5L3L/kpYt1whFD3m5FsbNc8HLzX+KkjMXnxJ9Tp4Fk4Tugs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VUNeavb4; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730462537; c=relaxed/simple;
+	bh=zXlmXsSCyrYCiE4Y/bcDk5StCf2s7K479mjZtcQLKgU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FYkQ1bmzWFF64sXyJWeKm2TuJkD4OZtBBzQyqnxllt3ddt6HfP/XVKdF2v6ujoQZCCBPxYxQt12APu804OmuEMjQR8NcY+svyzSY0d2axNS/fy91N5DfCMuO0YkAU+ffb5uHdU2ComMWw7rPfIgq9KM9w4Gq6FduJifcJkho9c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ml7H3Wj2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VUNeavb4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730458795; x=1761994795;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ue70Ww36EcBDEZaGYurD6rsjfoEbrn4L9zEF9CmzN+A=;
-  b=VUNeavb4S59HV0KiWDIiQlOXKlxVqTifUWNjtfhc1EF8qVN2LOMWsa/x
-   NfQgTAYeoRsOex2GHISzDm2XrokS++gpkJu6NSnGRxuCkecv+/6ZBatxR
-   KnxrviVS9Zvs2BIggzJJQLHnh2zdzULs6U7lW5v7HY44jY6/nvpzbC+26
-   1lC9z7t6+6LOtJKebff7UiAxZVW7RW4c5ZIO6Uh68/qPCzhaTS3R4eZJY
-   EKLcAqUWK8M9JRbtx28ljPZpM2P+j3LQc7WkP45oL5l4aCUVx51GxVD1n
-   X5w5Qgdiw88eIQvEg6pa3NscnyPfeUDl8k+EcGZS5iKyjsERjvDbkiPDq
-   A==;
-X-CSE-ConnectionGUID: Jxw9JT2BQVuDdWmA2rImWQ==
-X-CSE-MsgGUID: NeoSFPoeQvS0XKMxLOfsfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="29651789"
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="29651789"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 03:59:53 -0700
-X-CSE-ConnectionGUID: 6ur4aUqYSmO1fR4NBhLZlw==
-X-CSE-MsgGUID: tT97F7GiSFm1AAgVezXLiw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="83365995"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.234])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 03:59:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Phong LE <ple@baylibre.com>, Inki Dae
- <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
- Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King
- <linux@armlinux.org.uk>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
- <heiko@sntech.de>, Andy
- Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH RFC v2 6/7] drm/display/hdmi: implement connector update
- functions
-In-Reply-To: <20241101-drm-bridge-hdmi-connector-v2-6-739ef9addf9e@linaro.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org>
- <20241101-drm-bridge-hdmi-connector-v2-6-739ef9addf9e@linaro.org>
-Date: Fri, 01 Nov 2024 12:59:38 +0200
-Message-ID: <871pzvjk2t.fsf@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ml7H3Wj2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D35CC4CED1;
+	Fri,  1 Nov 2024 12:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730462537;
+	bh=zXlmXsSCyrYCiE4Y/bcDk5StCf2s7K479mjZtcQLKgU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ml7H3Wj2Wb1oJIQILdWCH4AbMvtTWYFZNBVwvpXpaSrOB7mGyePq951GoUOhlimz6
+	 qKthGosqlxtb75TTqLoXXp5DswycEgq9oV5vzvI8Iwp07oOAnednu078BYVkQUjDiq
+	 mlPqKuLLg3UarSWp7r0cse1F8zYqmvEEI4gblAeNPPA9zaw5zBt/D7fI8vN4xe+aVh
+	 Aa3zzzJXLAqxB17pwyo+Fjidm7VOxfpb5chwnB86jZ++F3M2MNBXdvhy621PPHrVdK
+	 8rzs/sLU17vxlkNRtWcCbBzJDnVWbV3XNSlU38MGPiw7lC4wTCL0LUZqmf4Qo42fVl
+	 oLRoqGkALDxUA==
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e30d1d97d20so1682759276.2;
+        Fri, 01 Nov 2024 05:02:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUU7znHpkFqrQj0GNwtjz1/PF9bXY8SKowW28GogSWVZyBkWzZ35UDUdIXG1dJ6glD/fzEREuYXprSMbwQP@vger.kernel.org, AJvYcCVLP8nQajao3hBfP9pFFnAz75XAyXIPHNdedOgVzDXaF09XN8nfFjRSN34g+adLT8rCig8R+qRjCdr8+Kx4Zg==@vger.kernel.org, AJvYcCVVOirxLIWasPgn9IbG9/SRhF8M+I6rK3d4fpYS5FnoHsdSmAICaL4LeLlqbbR+XsxUimVPlC6T0ke+@vger.kernel.org, AJvYcCVf60hykBEQmkJIvd3zUmXUBkR9AbswN7saHcfe3GIBaPhvJWx/i3ePCg3VWdkn1wYrLPo/rLOcNAey/Nc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx4pMk8f4BC4dO/x2JZ73HDMymFXcsoyaWhCYSWL5MqDnzUIMc
+	IQllT7LEEPnVi7l3Li98Zcxzm9caPPvD2IdQevhRZ7f7U+qLKO+luwEF/TXnBr7qZd7bC8s7n5F
+	dbmh48DmHLfwcuMzxbebITMDx2A==
+X-Google-Smtp-Source: AGHT+IGsNLqMz/aG++/V/FvS+KiQcFzeIW8oeXXwcgYyCoEntih6aXTowBTADYjXqSGa4NgckdwB9Lxq9hsxw5pJMHA=
+X-Received: by 2002:a05:690c:6e10:b0:6e3:24c1:cdf8 with SMTP id
+ 00721157ae682-6e9d8a2c2a1mr231777577b3.22.1730462535994; Fri, 01 Nov 2024
+ 05:02:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20241101053154.497550-1-alexey.klimov@linaro.org> <20241101053154.497550-8-alexey.klimov@linaro.org>
+In-Reply-To: <20241101053154.497550-8-alexey.klimov@linaro.org>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 1 Nov 2024 07:02:04 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJE20OHcbKY13eQsYjbNumj_vQEKQw28GU0tH0Si=G+ZA@mail.gmail.com>
+Message-ID: <CAL_JsqJE20OHcbKY13eQsYjbNumj_vQEKQw28GU0tH0Si=G+ZA@mail.gmail.com>
+Subject: Re: [PATCH v1 07/10] ASoC: codecs: add wsa881x-i2c amplifier codec driver
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: broonie@kernel.org, konradybcio@kernel.org, konrad.dybcio@oss.qualcomm.com, 
+	andersson@kernel.org, srinivas.kandagatla@linaro.org, tiwai@suse.com, 
+	lgirdwood@gmail.com, perex@perex.cz, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	dmitry.baryshkov@linaro.org, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 01 Nov 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> The HDMI Connectors need to perform a variety of tasks when the HDMI
-> connector state changes. Such tasks include setting or invalidating CEC
-> address, notifying HDMI codec driver, updating scrambler data, etc.
+On Fri, Nov 1, 2024 at 12:32=E2=80=AFAM Alexey Klimov <alexey.klimov@linaro=
+.org> wrote:
 >
-> Implementing such tasks in a driver-specific callbacks is error prone.
-> Start implementing the generic helper function (currently handling only
-> the HDMI Codec framework) to be used by driver utilizing HDMI Connector
-> framework.
+> Add support to analog mode of WSA8810/WSA8815 Class-D Smart Speaker
+> family of amplifiers. Such amplifiers is primarily interfaced with
+> SoundWire but they also support analog mode which is configurable
+> by setting one of the pins to high/low. In such case the WSA881X
+> amplifier is configurable only using i2c.
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> To have stereo two WSA881X amplifiers are required but mono
+> configurations are also possible.
+>
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
 > ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 56 +++++++++++++++++++++++++
->  include/drm/display/drm_hdmi_state_helper.h     |  4 ++
->  2 files changed, 60 insertions(+)
+>  sound/soc/codecs/Kconfig          |   11 +
+>  sound/soc/codecs/Makefile         |    2 +
+>  sound/soc/codecs/wsa881x-common.h |   19 +
+>  sound/soc/codecs/wsa881x-i2c.c    | 1454 +++++++++++++++++++++++++++++
+>  4 files changed, 1486 insertions(+)
+>  create mode 100644 sound/soc/codecs/wsa881x-i2c.c
 >
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> index feb7a3a759811aed70c679be8704072093e2a79b..dc9d0cc162b2197dcbadda26686a9c5652e74107 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -748,3 +748,59 @@ drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *con
->  	return ret;
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
+> diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
+> index b8ea8cf73d63..3d7868977262 100644
+> --- a/sound/soc/codecs/Kconfig
+> +++ b/sound/soc/codecs/Kconfig
+> @@ -350,6 +350,7 @@ config SND_SOC_ALL_CODECS
+>         imply SND_SOC_WM9712
+>         imply SND_SOC_WM9713
+>         imply SND_SOC_WSA881X
+> +       imply SND_SOC_WSA881X_I2C
+>         imply SND_SOC_WSA883X
+>         imply SND_SOC_WSA884X
+>         imply SND_SOC_ZL38060
+> @@ -2484,6 +2485,16 @@ config SND_SOC_WSA881X
+>           This enables support for Qualcomm WSA8810/WSA8815 Class-D
+>           Smart Speaker Amplifier.
+>
+> +config SND_SOC_WSA881X_I2C
+> +       tristate "WSA881X Codec - Analog mode"
+> +       depends on I2C
+> +       select REGMAP_I2C
+> +       select SND_SOC_WSA881X_COMMON
+> +       help
+> +         This enables support for Qualcomm WSA8810/WSA8815 Class-D Smart
+> +         Speaker Amplifier that works in analog mode and configurable
+> +         via I2C.
 > +
-> +/**
-> + * __drm_atomic_helper_connector_hdmi_update_edid - Update the HDMI Connector basing on passed EDID
-> + * @connector: A pointer to the HDMI connector
-> + * @drm_edid: EDID to process
-> + *
-> + * This function should be called as a part of the .detect() / .detect_ctx()
-> + * and .force() callbacks, updating the HDMI-specific connector's data. The
-> + * function consumes passed EDID, there is no need to free it afterwards. Most
-> + * of the drivers should be able to use
-> + * @drm_atomic_helper_connector_hdmi_update() instead.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
+>  config SND_SOC_WSA883X
+>         tristate "WSA883X Codec"
+>         depends on SOUNDWIRE
+> diff --git a/sound/soc/codecs/Makefile b/sound/soc/codecs/Makefile
+> index bc1498cedf08..682bdf63abea 100644
+> --- a/sound/soc/codecs/Makefile
+> +++ b/sound/soc/codecs/Makefile
+> @@ -399,6 +399,7 @@ snd-soc-wm9713-y :=3D wm9713.o
+>  snd-soc-wm-hubs-y :=3D wm_hubs.o
+>  snd-soc-wsa881x-y :=3D wsa881x.o
+>  snd-soc-wsa881x-common-y :=3D wsa881x-common.o
+> +snd-soc-wsa881x-i2c-y :=3D wsa881x-i2c.o
+>  snd-soc-wsa883x-y :=3D wsa883x.o
+>  snd-soc-wsa884x-y :=3D wsa884x.o
+>  snd-soc-zl38060-y :=3D zl38060.o
+> @@ -821,6 +822,7 @@ obj-$(CONFIG_SND_SOC_WM_ADSP)       +=3D snd-soc-wm-a=
+dsp.o
+>  obj-$(CONFIG_SND_SOC_WM_HUBS)  +=3D snd-soc-wm-hubs.o
+>  obj-$(CONFIG_SND_SOC_WSA881X)  +=3D snd-soc-wsa881x.o
+>  obj-$(CONFIG_SND_SOC_WSA881X_COMMON)   +=3D snd-soc-wsa881x-common.o
+> +obj-$(CONFIG_SND_SOC_WSA881X_I2C)      +=3D snd-soc-wsa881x-i2c.o
+>  obj-$(CONFIG_SND_SOC_WSA883X)  +=3D snd-soc-wsa883x.o
+>  obj-$(CONFIG_SND_SOC_WSA884X)  +=3D snd-soc-wsa884x.o
+>  obj-$(CONFIG_SND_SOC_ZL38060)  +=3D snd-soc-zl38060.o
+> diff --git a/sound/soc/codecs/wsa881x-common.h b/sound/soc/codecs/wsa881x=
+-common.h
+> index cf8643e1f7f7..1b9c20cd3807 100644
+> --- a/sound/soc/codecs/wsa881x-common.h
+> +++ b/sound/soc/codecs/wsa881x-common.h
+> @@ -2,6 +2,7 @@
+>  #ifndef __WSA881x_COMMON_H__
+>  #define __WSA881x_COMMON_H__
+>
+> +#include <linux/i2c.h>
+>  #include <linux/soundwire/sdw.h>
+>  #include <sound/soc.h>
+>
+> @@ -193,6 +194,24 @@ struct wsa881x_priv {
+>         bool port_enable[WSA881X_MAX_SWR_PORTS];
+>  #endif
+>
+> +#if IS_ENABLED(CONFIG_SND_SOC_WSA881X_I2C)
+> +       /* i2c interace for analog mode */
+> +       struct regmap *regmap_analog;
+> +       /* First client is for digital part, the second is for analog par=
+t */
+> +       struct i2c_client *client[2];
+> +       struct snd_soc_component *component;
+> +       struct snd_soc_dai_driver *dai_driver;
+> +       struct snd_soc_component_driver *driver;
+> +       struct gpio_desc *mclk_pin;
+> +       struct clk *wsa_mclk;
+> +       bool boost_enable;
+> +       int spk_pa_gain;
+> +       struct i2c_msg xfer_msg[2];
+> +       bool regmap_flag;
+> +       bool wsa_active;
+> +       int index;
+> +       int version;
+> +#endif
+>         struct gpio_desc *sd_n;
+>         /*
+>          * Logical state for SD_N GPIO: high for shutdown, low for enable=
+.
+> diff --git a/sound/soc/codecs/wsa881x-i2c.c b/sound/soc/codecs/wsa881x-i2=
+c.c
+> new file mode 100644
+> index 000000000000..74fa85306ad9
+> --- /dev/null
+> +++ b/sound/soc/codecs/wsa881x-i2c.c
+> @@ -0,0 +1,1454 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) 2015-2016, 2018-2020, The Linux Foundation. All rights =
+reserved.
+> + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserv=
+ed.
+> + * Copyright (c) 2024, Linaro Limited
 > + */
-> +int
-> +__drm_atomic_helper_connector_hdmi_update_edid(struct drm_connector *connector,
-> +					       const struct drm_edid *drm_edid)
-> +{
-> +	drm_edid_connector_update(connector, drm_edid);
-> +	drm_edid_free(drm_edid);
+> +
+> +#include <linux/clk.h>
+> +#include <linux/clk-provider.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <linux/of_gpio.h>
 
-Not fond of splitting resource management responsibilities
-asymmetrically like this.
+No new users of this please. We are working on removing it.
 
-> +
-> +	if (!drm_edid) {
-> +		drm_connector_hdmi_codec_plugged_notify(connector, false);
-
-Is it a good idea to tie connection status to EDID presence at the
-helper level? Nearly the same, but still orthogonal.
-
-> +
-> +		// TODO: also handle CEC and scramber, HDMI sink disconnected.
-> +
-> +		return 0;
-> +	}
-> +
-> +	drm_connector_hdmi_codec_plugged_notify(connector, true);
-> +
-> +	// TODO: also handle CEC and scramber, HDMI sink is now connected.
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(__drm_atomic_helper_connector_hdmi_update_edid);
-
-Feels wrong to export and document double underscored functions to
-actually be used.
-
-> +
-> +/**
-> + * drm_atomic_helper_connector_hdmi_update - Update the HDMI Connector after reading the EDID
-> + * @connector: A pointer to the HDMI connector
-> + *
-> + * This function should be called as a part of the .detect() / .detect_ctx()
-> + * and .force() callbacks, updating the HDMI-specific connector's data.
-> + *
-> + * Returns:
-> + * Zero on success, error code on failure.
-> + */
-> +int
-> +drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector)
-> +{
-> +	const struct drm_edid *drm_edid = drm_edid_read(connector);
-> +
-> +	return __drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_update);
-> diff --git a/include/drm/display/drm_hdmi_state_helper.h b/include/drm/display/drm_hdmi_state_helper.h
-> index 2d45fcfa461985065a5e5ad67eddc0b1c556d526..ea0980aa25cbbfdd36f44201888c139b0ee943da 100644
-> --- a/include/drm/display/drm_hdmi_state_helper.h
-> +++ b/include/drm/display/drm_hdmi_state_helper.h
-> @@ -20,4 +20,8 @@ int drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector
->  int drm_atomic_helper_connector_hdmi_update_infoframes(struct drm_connector *connector,
->  						       struct drm_atomic_state *state);
->  
-> +int __drm_atomic_helper_connector_hdmi_update_edid(struct drm_connector *connector,
-> +						   const struct drm_edid *drm_edid);
-> +int drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector);
-> +
->  #endif // DRM_HDMI_STATE_HELPER_H_
-
--- 
-Jani Nikula, Intel
+Rob
