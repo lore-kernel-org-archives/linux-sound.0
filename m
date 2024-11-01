@@ -1,121 +1,65 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5265E55896
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 07:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85ADD153BF8;
+	Fri,  1 Nov 2024 07:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730446588; cv=none; b=tKID3YZmGN5fqL9fygzrqXDKFfSf1ATPm2MfSWBrSaDernRCOTjp3eJvebPxaE+efi3vcZp2+V33GPwdS951MxDHXVf0e4SkZmWa8I3lD2mxZuOmXKuPIq+kAj9DNVQVMC1aDjctuuuSr431GaQ0aegmP+SlDDIQ6IP2IUGR5Hk=
+	t=1730446957; cv=none; b=rbTa0kNHfEVG1Tc/yJBV0ddKxdRkC0WJE/0z6Ec8QCHgfb2Gls/MOIrFK9KQBvvjbTA63aytPEq2IWzkvx78nq/MTywPEEHU3LeE64FwKOon0RAimMkyxx1kxYHU8z6HVqbNCK2R5Nn07jvloKce8RzUQJZH+J9Asiv4o8MIwf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730446588; c=relaxed/simple;
-	bh=oDOPJ+VepmciKbxX9Qr5owX8dytwQf0AzteCOUUlTfw=;
+	s=arc-20240116; t=1730446957; c=relaxed/simple;
+	bh=0oNmvFac5245Iw3R03dhUawXYguOd6fOhCVHCDRw/pA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZzL3pOwL/cPgt1Wk1SrcXmvwuJAKg/AyHNa8/vsQNJIjT2pFiIADd37Xt1dZuIRxoO+qFv96MGQ7UBHNV2wVRRjVnjr5e4WuPtTOwWYu0gAdS+yklis9mqHQ8XFl7wYPswVJFilw9VKrr8qOv9by/WHqFXJ1lYsO39VdJVas6Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PkZhVVGJ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TT/1YCr8/g1WxhLJV/SqIHUlhnY0Q2tJ3DMHlCr+wmIhdpdxwOfA7xBoXn8eDHC/wEA8tXua4QBqCFTXOxxERnJFhNdTQHQkOL258EKYzHPn5czedHUhb77n+SIWocbhjuFpdv8naslmTUYl9Z94XLUGyf7v1h504/7LVOAFeqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l8Vr2djH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PkZhVVGJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=JS0m
-	hz5ooNOYznnjSH+5jS9FnNKajjJKK34Qa5JpJmE=; b=PkZhVVGJwwGwV3BP2TpZ
-	R8l/Ux/vWYXW3BBaTe0jxWTyNW5IllIys6dBRiBM73kXEXe/LLue1JP3/jddM2mv
-	4eDX3YQbUaNaZQozMsax4KY0Ye7WRsGbOBgBeimlVihAN6AGVgmkfuFS/VNrQzDQ
-	HZUIDQvWgn7I7Qyy2ub5rfzzgTCSIBqwt0ONwQHznUpiZSTtnBFeOadGhYTZhase
-	+AIV7jSFftsKF2pIKAX6tfMR8oK3zmNTvVFDM5pGhEP5mFZXJtd71heNVSRFUvTr
-	fWHoO4GAIFWwXR3ljuNReRepMvQlq5//uPDxfsktc1iplbE9GCpxT2qujVURdnhs
-	2Q==
-Received: (qmail 3667788 invoked from network); 1 Nov 2024 08:36:13 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 1 Nov 2024 08:36:13 +0100
-X-UD-Smtp-Session: l3s3148p1@eYFM/dQlvfTDwPty
-Date: Fri, 1 Nov 2024 09:36:12 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] i2c: Replace list-based mechanism for handling
- auto-detected clients
-Message-ID: <ZySE7OqlvRRvtyLc@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-References: <3982b2a6-975e-40d2-bf02-2155e5c36c14@gmail.com>
- <d52c2722-5f2e-4224-a8b3-7c9d0cb431d0@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l8Vr2djH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39514C4CECD;
+	Fri,  1 Nov 2024 07:42:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730446957;
+	bh=0oNmvFac5245Iw3R03dhUawXYguOd6fOhCVHCDRw/pA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l8Vr2djHUs7y0gdTiLx9KSyaYapvUg+x7ibuPfsOfpMOet6nEHK4anWnAediZZUBV
+	 YC2HKiiJBIwKRWceDnnojRRPl94/RE6ce91Yeoc9O7gZJUGckMLyiZx0yZL1+Anysz
+	 ztwVDWcObnOm245zQqmPuzT2TgbCID7qUIX7y4cT9CWDGaRIwuT31p9zYSduD1kR86
+	 /+wBEY9xDQs7Fhgb4zixG5LPaHdJeKtORdjyA0EW5LhMqkLVY5B9Cl47nYPU3Pc2yC
+	 7SRukrwKmuLrOm7hhdDIP4qoqQrE6ni9iQeD0p2ISkPx5Is7IRxZt8TFF9Ll8HHPLG
+	 ykSfamTU39XnA==
+Date: Fri, 1 Nov 2024 08:42:33 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Stanislav Jakubek <stano.jakubek@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: sound: sprd,pcm-platform: convert to
+ YAML
+Message-ID: <nquz3c6uty64ujtesz6e4nodycxui6xgvktr6hcq4whkokywph@t62vclojf6gx>
+References: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JIBATO5GOT/FKMYT"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d52c2722-5f2e-4224-a8b3-7c9d0cb431d0@gmail.com>
+In-Reply-To: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
 
+On Wed, Oct 30, 2024 at 06:48:38PM +0100, Stanislav Jakubek wrote:
+> Convert the Spreadtrum DMA plaform bindings to DT schema.
 
---JIBATO5GOT/FKMYT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+typo: platform
 
-Hi Heiner,
+> Adjust filename to match compatible.
+> 
+> Signed-off-by: Stanislav Jakubek <stano.jakubek@gmail.com>
+> ---
 
-sorry for the slow response. I am on the road for two weeks now which
-doesn't leave a lot of review time.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-The good (or bad?) news is that I finally found why I had the feeling of
-"something still missing" from this very interesting approach.
+Best regards,
+Krzysztof
 
-> -	/* Tell drivers about this removal */
-> -	mutex_lock(&core_lock);
-> -	bus_for_each_drv(&i2c_bus_type, NULL, adap,
-> -			       __process_removed_adapter);
-> -	mutex_unlock(&core_lock);
-
-You remove using the lock here...
-
-> -	i2c_for_each_dev(driver, __process_removed_driver);
-> +	/* Satisfy __must_check, function can't fail */
-> +	if (driver_for_each_device(&driver->driver, NULL, NULL,
-
-... and here, because i2c_for_each_dev() utilizes the lock as well. This
-is, you open a race window for deleting clients via removing the driver
-and removing the adapter at the "same" time.
-
-The obvious solution is to use the lock also when removing clients in
-i2c_del_adapter(). But this needs careful thinking about potential side
-effects.
-
-Makes sense so far?
-
-All the best,
-
-   Wolfram
-
-
---JIBATO5GOT/FKMYT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmckhOkACgkQFA3kzBSg
-KbaE1BAAn01RMw5YNdcImy3VPuHpWbei0G24OTXZDImF0L1bDAbUaeTsqLltw0G8
-kaprihW2drCGd7AlW5EMXsGlZuZO3T3WQAiZ3OYUdkwp2kd4pb6CKmOcL1tjYJmj
-j2zSnl1A8YXWaMNmdOib7swRo4Ei989iPcbH3ayJYrm5ud6Js6JAhQoZMuK4XkSi
-QadbHuPz+ip1y3TUKvg5Eg4zVBWQqdeqspXlEtwEBVwH16fO1hNiTwH16ziC3JpM
-YIbQv4OPkziZkN5VzM1AmSy2I6bWC0jF4VBgEAl2jZjohpXrZ+U7TH6PoSVN/uAf
-DgjTzdzePT0FCqQsKhYIXudFVf1U2b2iLtLApB/U6rsWOf7yU/PrbrhSTnb7IidU
-ezS3FvVnypO0/oNiVx7K9pog4KmdfHFLnr5BNRo7flOPkYpyT+c+cQyikYXpCPZr
-za4px7ichacl0MVN0HytI1dRltllgrYjlsiPZDSD41paD6xN+R/Lt2/ncNVPHpls
-N3r4qOC1hYluoVcK/3BgrBZPD3BKyhquFZ2dH6KJmPYFQjE6KGbhTB2MLw52InH2
-G/TY74u9fVYWee02h4iAprXxxzdLQ3r/tLYW8j9Zmc7iMl0vUFmQYJ0Z67VCWLnu
-EYM1BZ7Sf9u0CKcqKfxw0pjQiJ2TMCHZw1fGy9Shvq+mRssxWV8=
-=R107
------END PGP SIGNATURE-----
-
---JIBATO5GOT/FKMYT--
