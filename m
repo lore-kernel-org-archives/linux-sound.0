@@ -1,85 +1,87 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653784087C
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 08:20:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC63156C70;
+	Fri,  1 Nov 2024 08:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730449226; cv=none; b=BF72PJjk0EhWg1GW9Lx1iVnPJmmBRWyzM3Wr0/j1CD0nXFrKHjuRR04/W30eB8fXY6bYybOoa14prCz3OXQ3a/guy8xBqKrbaco8jdRc0tseGyIetDH5IS40dkqDuk2Cm7Ft7bfLmcZJqYbYLJALYMuh2KfqmuF5Sb7/5+cOyMQ=
+	t=1730450597; cv=none; b=AYm99H+AwUrw/eXfOvyAaZ53tA/N/LWMhrbRjqgWh9acVLFeiuCbQo9ZEZnkQXo6w8mqt0F2V/cZNkez1LSJTUxOnu/sQgyxuFCC/5tj8mrnRkHci9CJpDuXRoL54Hb3HQBWvbCfmvjz/5ZWA8fwgD7+LKqsXCrICBEB8p1H0iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730449226; c=relaxed/simple;
-	bh=MNy+VtQjNoOk079jXCXLWxNEoUxfksNMB+aPLvkXcdA=;
+	s=arc-20240116; t=1730450597; c=relaxed/simple;
+	bh=r4uTEtNDCsi9pVchlXsh3DPNGJNZ7XFPRnuIFO7ryuo=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aHWTPLY+XTydjLT0NcS4s59itUiSNWauFArQTmgYgtRzvSf5Xl0pw2Y1YieNS1sDVaxykUesU7RTedKB5OPhk3hn+SZUlVp/3kRNsehRnmcasrIPikTbbj+kC1+NmlPKesxgTK9B2+nRC0KElSOdGoZS2N3L/eNm8/tUvvkIrbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcoA6eAR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5edSckQi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pcoA6eAR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5edSckQi; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=dlRXQ0KcKzjTL/xAdmqTN6X2ilQhzKXmYw32IZ1XKOkHR67cnWFmICiDdpnMWboxRQn5DHdhOttiyDGOq4OdPJplu2X1+JwvNbn1MuQvQC9ZG9al73IAp81AnFv32tem/dzDCWJzYtPsq9F9K/JmhROsKS7vO8leAEilmUGtBGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MdMraDhU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8iHmJWNZ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ATB2F7j7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=upmLlQlf; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcoA6eAR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5edSckQi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pcoA6eAR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5edSckQi"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MdMraDhU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8iHmJWNZ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ATB2F7j7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="upmLlQlf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 91DA821CC4;
-	Fri,  1 Nov 2024 08:20:22 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 16C4B21BEB;
+	Fri,  1 Nov 2024 08:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730449222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1730450593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CruuOnvmMU3XMvxi8ettf59rJQ5MO02YiPpev+7Vn7s=;
-	b=pcoA6eARBhuQQHpLTNnyBm44rySXg1Ie3j/QmoC4hZqSg02VZVON4Lz+dRlx5fycL5Qt9T
-	0rn4eqGYS6DaJnii/CcE0xetTRMFHEH4RcjQnutm1//L/OM6BEOjiTcEppGIXiOZAO7oUH
-	4SURGALyv+eGurTV96IBtnAuh7hO9IE=
+	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
+	b=MdMraDhUnbQn6lC94/NmwQCFmjMO3KcS/CnUqm2Aff1vUUf/oyQhCijNuHOlbQdKezE4vE
+	tx5TcERWIRHMTRWry/dLfEXMZ3JmEqUl9vbuwmouaQDg1sEwtio/WpWACBJZoCG1vbq4LS
+	AXHY8HoaDRmX2Wr5bdQyAmDatkHdYt4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730449222;
+	s=susede2_ed25519; t=1730450593;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CruuOnvmMU3XMvxi8ettf59rJQ5MO02YiPpev+7Vn7s=;
-	b=5edSckQiB9B29WakNMX0VXzS3JIp/zdfLlqADA4m+7EGPDxdHkgJZGPci/PADdLNe+w3OS
-	0+H5Yzf3s07KMoBg==
+	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
+	b=8iHmJWNZQNqkxZgtoW62zZZaGccMNaXDVNm1GBI8n+ZvYb4fb0OhcAI59a+csp81FKOhfo
+	+I+UqfYNayagZUCw==
 Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=pcoA6eAR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5edSckQi
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730449222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1730450592; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CruuOnvmMU3XMvxi8ettf59rJQ5MO02YiPpev+7Vn7s=;
-	b=pcoA6eARBhuQQHpLTNnyBm44rySXg1Ie3j/QmoC4hZqSg02VZVON4Lz+dRlx5fycL5Qt9T
-	0rn4eqGYS6DaJnii/CcE0xetTRMFHEH4RcjQnutm1//L/OM6BEOjiTcEppGIXiOZAO7oUH
-	4SURGALyv+eGurTV96IBtnAuh7hO9IE=
+	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
+	b=ATB2F7j7f51iJGKW1D8/EGZ1LB0mNrHmLQs7SziD7vcuCBGXFwcYM9T6G7m6+sb8ZzNTjM
+	WRtO+VsIZ5WSjuELppgZAy9WpNeCF4cxBrwVsb1F+9yWRKQUMa4ZyrsFV8rwESqV9nduEb
+	ZMMVQZxC38XKBpMOYjgejG4PB/fZ90w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730449222;
+	s=susede2_ed25519; t=1730450592;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CruuOnvmMU3XMvxi8ettf59rJQ5MO02YiPpev+7Vn7s=;
-	b=5edSckQiB9B29WakNMX0VXzS3JIp/zdfLlqADA4m+7EGPDxdHkgJZGPci/PADdLNe+w3OS
-	0+H5Yzf3s07KMoBg==
+	bh=ZffON8jA5hVLu8EkFapSxEadCZRFvwdwBRN6Qtasndo=;
+	b=upmLlQlfBOfAH9CLkf5lZpuhAxLNHpSWYG9Y2LQjWy2j7tB2zt2cfIAM/bdvk6xMTcoY6+
+	C9tajtNa92N8e6Aw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6C3AD13722;
-	Fri,  1 Nov 2024 08:20:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D046413722;
+	Fri,  1 Nov 2024 08:43:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X+A1GUaPJGfoKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 01 Nov 2024 08:20:22 +0000
-Date: Fri, 01 Nov 2024 09:21:26 +0100
-Message-ID: <87h68ruzy1.wl-tiwai@suse.de>
+	id GxEEMZ+UJGfhLgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 01 Nov 2024 08:43:11 +0000
+Date: Fri, 01 Nov 2024 09:44:16 +0100
+Message-ID: <87bjyzuyvz.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: Heiner Kallweit <hkallweit1@gmail.com>
 Cc: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: intel: Don't free interrupt when suspending
-In-Reply-To: <1b7e109b-eb69-4542-8022-4ac8f9116474@gmail.com>
-References: <1b7e109b-eb69-4542-8022-4ac8f9116474@gmail.com>
+	linux-sound@vger.kernel.org,
+	Philipp Stanner <pstanner@redhat.com>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: hda: intel: Switch to pci_alloc_irq_vectors API
+In-Reply-To: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
+References: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -88,92 +90,108 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 91DA821CC4
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
-	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Thu, 31 Oct 2024 20:32:52 +0100,
+On Thu, 31 Oct 2024 20:41:12 +0100,
 Heiner Kallweit wrote:
 > 
-> There's no need to free/re-request the interrupt on system suspend.
-> PCI core takes care, using functions like pci_restore_msi_state().
+> Switch from legacy pci_msi_enable()/pci_intx() API to the
+> pci_alloc_irq_vectors API.
+> 
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Well, it wasn't always true for hibernation in the past,
-e.g. snd-intel8x0 driver had to deal with it.  I guess it's no longer
-needed for modern platforms for HD-audio, so I'm going to take this
-for 6.13.
+So, this change looks conflicting with the pcim_intx() cleanup patch
+set from Philipp.  I think we can take this one and drop the
+corresponding one from Philipp's patch set.
+
+Bjorn, Philipp, does it sound OK?
 
 
 thanks,
 
 Takashi
 
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 > ---
->  sound/pci/hda/hda_intel.c | 13 -------------
->  1 file changed, 13 deletions(-)
+>  sound/pci/hda/hda_intel.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
 > 
 > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-> index b4540c5cd..9fc5e6c5d 100644
+> index 9fc5e6c5d..fc329b6a7 100644
 > --- a/sound/pci/hda/hda_intel.c
 > +++ b/sound/pci/hda/hda_intel.c
-> @@ -1040,14 +1040,6 @@ static int azx_suspend(struct device *dev)
->  	chip = card->private_data;
->  	bus = azx_bus(chip);
->  	azx_shutdown_chip(chip);
-> -	if (bus->irq >= 0) {
-> -		free_irq(bus->irq, chip);
-> -		bus->irq = -1;
-> -		chip->card->sync_irq = -1;
-> -	}
-> -
-> -	if (chip->msi)
-> -		pci_disable_msi(chip->pci);
+> @@ -773,6 +773,14 @@ static void azx_clear_irq_pending(struct azx *chip)
+>  static int azx_acquire_irq(struct azx *chip, int do_disconnect)
+>  {
+>  	struct hdac_bus *bus = azx_bus(chip);
+> +	int ret;
+> +
+> +	if (!chip->msi || pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_MSI) < 0) {
+> +		ret = pci_alloc_irq_vectors(chip->pci, 1, 1, PCI_IRQ_INTX);
+> +		if (ret < 0)
+> +			return ret;
+> +		chip->msi = 0;
+> +	}
 >  
->  	trace_azx_suspend(chip);
+>  	if (request_irq(chip->pci->irq, azx_interrupt,
+>  			chip->msi ? 0 : IRQF_SHARED,
+> @@ -786,7 +794,6 @@ static int azx_acquire_irq(struct azx *chip, int do_disconnect)
+>  	}
+>  	bus->irq = chip->pci->irq;
+>  	chip->card->sync_irq = bus->irq;
+> -	pci_intx(chip->pci, !chip->msi);
 >  	return 0;
-> @@ -1062,11 +1054,6 @@ static int __maybe_unused azx_resume(struct device *dev)
->  		return 0;
+>  }
 >  
->  	chip = card->private_data;
-> -	if (chip->msi)
-> -		if (pci_enable_msi(chip->pci) < 0)
+> @@ -1879,13 +1886,9 @@ static int azx_first_init(struct azx *chip)
+>  		chip->gts_present = true;
+>  #endif
+>  
+> -	if (chip->msi) {
+> -		if (chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+> -			dev_dbg(card->dev, "Disabling 64bit MSI\n");
+> -			pci->no_64bit_msi = true;
+> -		}
+> -		if (pci_enable_msi(pci) < 0)
 > -			chip->msi = 0;
-> -	if (azx_acquire_irq(chip, 1) < 0)
-> -		return -EIO;
+> +	if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+> +		dev_dbg(card->dev, "Disabling 64bit MSI\n");
+> +		pci->no_64bit_msi = true;
+>  	}
 >  
->  	__azx_runtime_resume(chip);
->  
+>  	pci_set_master(pci);
+> @@ -2037,7 +2040,7 @@ static int disable_msi_reset_irq(struct azx *chip)
+>  	free_irq(bus->irq, chip);
+>  	bus->irq = -1;
+>  	chip->card->sync_irq = -1;
+> -	pci_disable_msi(chip->pci);
+> +	pci_free_irq_vectors(chip->pci);
+>  	chip->msi = 0;
+>  	err = azx_acquire_irq(chip, 1);
+>  	if (err < 0)
 > -- 
 > 2.47.0
 > 
