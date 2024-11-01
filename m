@@ -1,177 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64074142624;
-	Fri,  1 Nov 2024 05:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAF3137745
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 05:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730438576; cv=none; b=BjTU3MQOIv+ollAFSG/uvmLI0bYJG56QrJIIzkn3i5v1o/NLC7603GbRAjzuAesFki0MqNZ4g+N8N78enxFVLrqFArpc2SUC1lMA1PjvjHBeXHe/2DHito3q4B3QPdVQ+AsiCmofgANBVtrkwCuTYumv3zTlwQgRm9zVOItS9lo=
+	t=1730439119; cv=none; b=d5lnjhgO2Onb88Cgz5bXuG1T3ymkpZ9Az/3J4fqSOyLgctwY61yskIoWgVHj5KwZG/UGLt4tz4JlLHl9C6s5Yj3tUNRue+B+At9QdlHDjPPEz7StjV+aWI+5H9YzpYjil2okjf6kz9YzNzxlYkrcWRFQbEyNS6ngsc3h96mYbYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730438576; c=relaxed/simple;
-	bh=pGNjlh/5TANRkDFAanOu/LKbRP8oaSiAvvCfhO4t6yI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H6Kcvv3qxJLw+YOwTM2OafQK8pwIiHp4QQvy9RW6fnDxoR5duxlf2jtPFP5kcaKMZSLR7lyuTUAk7QJALXGKKNLYTUbHRzoNRuDcet4nBbLk1aSGUaDpDjThdonkf26bLJQ8e0jYhkL9vf1mTEUB2ySNutK5m/BYuVti3Sp9TW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YYD9qxns; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730439119; c=relaxed/simple;
+	bh=f1RmulpmUSMqzKAwuIYtW6IAIRiLTRg9tNshHqQ3298=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uPiGMGsejEkmc6HXedmU0qGILaBN1Arb1EBgv2ab9r8af5Zq0R07DUUTI+4tZsIDAILAMMpIf+IHw+uxKAZvj9gopDs4DK89pOA3iD17LswGtMN2ckLWv6V9zKoqYscjmSw5B9dwbbSdbizGfdKgJfXGajNwEenBZphLdwPT2Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qr38qwD/; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYD9qxns"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730438574; x=1761974574;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=pGNjlh/5TANRkDFAanOu/LKbRP8oaSiAvvCfhO4t6yI=;
-  b=YYD9qxns7tfTKNWnEINwY5oeJvXljPRcGawyhfCWqzP3K7nexPS+Kdm2
-   U1wKHQXNqFeYLkksa+mzqGjct60JItoDsUcQTWH+QggQzUbUDHJtsCBap
-   trIDOL6eVYYIC2YufcRnYU5RT4A8uV4tH8NywAnZpQviOV7/QNbBbYVN/
-   Wf96U5njp8QgfXkEYfuJPQ8ItGlrpGs/xzDuCSgZ7W5S6u/sn8RCcT+Xw
-   9LFYYKltlTM0LHoY0BggSSFiM9/33emXHC/JvwAMbnevER1UI8tov4pcB
-   ACVCn918QNYGdEQVZMR1MZSPpVrrlg25JW7spIdn5HyBnnzfduiKlRTmu
-   Q==;
-X-CSE-ConnectionGUID: jA2xccugSsu1flMsUGDkeQ==
-X-CSE-MsgGUID: E8OGjcz2QgarRGZ/LjKR8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30314687"
-X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="30314687"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:22:51 -0700
-X-CSE-ConnectionGUID: TVbU//UlQUCwNIzd8pgqTg==
-X-CSE-MsgGUID: R6mTecEmTzu92S+st927WA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="83678534"
-Received: from qz-dev1.sh.intel.com (HELO localhost) ([10.239.147.28])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:22:44 -0700
-Date: Fri, 1 Nov 2024 13:20:11 +0800
-From: Qiang Zhang <qiang4.zhang@linux.intel.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jens Axboe <axboe@kernel.dk>, Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gonglei <arei.gonglei@huawei.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	"Chen, Jian Jun" <jian.jun.chen@intel.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Qiang Zhang <qiang4.zhang@intel.com>,
-	virtualization@lists.linux.dev, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
-	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] virtio: only reset device and restore status if
- needed in device resume
-Message-ID: <ZyRlC-5V_NTKgzXh@dev-qz>
-References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com>
- <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
- <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qr38qwD/"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4315df7b43fso13552255e9.0
+        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 22:31:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730439116; x=1731043916; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=J3MWPpUlrtWjiJFYp3qiFYtsvVqLXH1zB5HEmfy78o0=;
+        b=Qr38qwD/exjABP2O+EsTPDuL7Q8ZRXbCnrQtNWiNMO0QvXz6LfBeyLz+hFWafWRHIV
+         8pIYd5bhM7L/s8XWMA1itQZ2tXH0Gp3rkSB1l3dDXhwrWuoLWRSAqBN5HzbEvSqhaN+H
+         5D/Qru15rWp/Ef58jODoBOox/KBibRVQCFj6YLruw8SOpcLYRdzbLAN600fuWLEy7uVs
+         VyaZxsn3QuZRAolsPyTOVaUfPx2J74TPJ/lbhXkTsiV/fEjEE1YVYWJDqfQLp9DV4cOn
+         PNSwD5swi3el2iZsLitzNyjBBxlaZvi/HnYVP9z7dIAxD6stqHNFbkJWM/slkrh+haqo
+         t6cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730439116; x=1731043916;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J3MWPpUlrtWjiJFYp3qiFYtsvVqLXH1zB5HEmfy78o0=;
+        b=gejrEVLLihHGGxcjvN985xly3VzX71N3YHVjIMB34Z0CsG3WXf7WnLL3vAUTS2xk0I
+         zbGrVP6Ujq2iP9+2d2zMH9ka1rioMYjV2LfDx2fT/2w7ZsOQEcmDP77kt329nHUwVOR7
+         jHQ0N9PBt9WQbil4HsaXIZMHUeqo0POKEHfvszXG3hVSgv/uJFg1eVheDws6ZyoYlREF
+         thW9pg6YcuOCkJipC/IyOYeRbnUBPUszrPZ8a7xEzv2jvMiiA7s9BkESeTLlfwrKUmVu
+         NpsA93bX1ne8JqWdvRFr87d00zr1g90tepY/bsq4XEShXSeup8Iyai35vEq4ipLttYSh
+         Q4Bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWuX5okamEQiAeRdjQhiPYUYqrJhIi8otJv98VcgVYqH+hQ/kCMf6OGw04V3dw+DllfH2IWSa8vWAENuw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzzMVj6nPlWkBXllOonFc+XW09ny/t6+5Au71XPqcQKpLM6lne
+	hgE7+QfAbWOcc8dvckv5y5xX/xGeQ0QT5YrWkEckQr9j3OJl9Y3LOtqo4SL2bKs=
+X-Google-Smtp-Source: AGHT+IEcTAMe1fJt4ESug+3wnBEMPewCh8Gb8+NM5JQNsU5wQ0NYYJmDobVmWnU4wn8oMQGHgcaQ7w==
+X-Received: by 2002:a05:600c:470b:b0:42c:b750:1a1e with SMTP id 5b1f17b1804b1-4319ab94b8fmr186458175e9.0.1730439115963;
+        Thu, 31 Oct 2024 22:31:55 -0700 (PDT)
+Received: from localhost.localdomain ([2.222.231.247])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d6852fdsm46960505e9.34.2024.10.31.22.31.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 22:31:55 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: broonie@kernel.org,
+	konradybcio@kernel.org,
+	konrad.dybcio@oss.qualcomm.com,
+	andersson@kernel.org,
+	srinivas.kandagatla@linaro.org
+Cc: tiwai@suse.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	dmitry.baryshkov@linaro.org,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 00/10] qrb4210-rb2: add wsa/wcd audio playback support
+Date: Fri,  1 Nov 2024 05:31:44 +0000
+Message-ID: <20241101053154.497550-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
 
-On Fri, Nov 01, 2024 at 10:11:11AM +0800, Jason Wang wrote:
-> On Fri, Nov 1, 2024 at 9:54 AM <qiang4.zhang@linux.intel.com> wrote:
-> >
-> > From: Qiang Zhang <qiang4.zhang@intel.com>
-> >
-> > Virtio core unconditionally reset and restore status for all virtio
-> > devices before calling restore method. This breaks some virtio drivers
-> > which don't need to do anything in suspend and resume because they
-> > just want to keep device state retained.
-> 
-> The challenge is how can driver know device doesn't need rest.
+This is basically RFC, REVIEW or v1. At least to understand if splitting
+wsa881x is a right direction and also it is not clear to me what should
+be done to force mono output (to mix two channels together).
 
-Hi,
+Unfortunately, only one amplifier is wired in hence only single speaker.
+There is no support for capture, visense, reading wsa temperature yet.
 
-Per my understanding to PM, in the suspend flow, device drivers need to
-1. First manage/stop accesses from upper level software and
-2. Store the volatile context into in-memory data structures.
-3. Put devices into some low power (suspended) state.
-The resume process does the reverse.
-If a device context won't loose after entering some low power state
-(optional), it's OK to skip step 2.
+This implements the playback via the following path:
+RX1 from DSP is connected to rxmacro which communicates with wcd codec
+using soundwire. This goes into AUX input of wcd.
+wcd codec outputs analog audio into wsa amplifier which can, surprisingly,
+amplify the signal.
 
-For virtio devices, spec doesn't define whether their states will lost
-after platform entering suspended state. So to work with different
-hypervisors, virtio drivers typically trigger a reset in suspend/resume
-flow. This works fine for virtio devices if following conditions are met:
-- Device state can be totally recoverable.
-- There isn't any working behaviour expected in suspended state, i.e. the
-  suspended state should be sub-state of reset.
-However, the first point may be hard to implement from driver side for some
-devices. The second point may be unacceptable for some kind of devices.
+Special thanks to Srini. Without his help and support this patchset
+wouldn't be here.
 
-For your question, for devices whose suspended state is alike reset state,
-the hypervisor have the flexibility to retain its state or not, kernel
-driver can unconditionally reset it with proper re-initialization to
-accomplish better compatibility. For others, hypervisor *must* retain
-device state and driver just keeps using it.
+This series depends on:
+ -- HDMI audio playback
+https://lore.kernel.org/linux-sound/20241101005925.186696-1-alexey.klimov@linaro.org/
+ -- and on LPASS clock controller
+https://lore.kernel.org/linux-clk/20241101012247.216825-1-alexey.klimov@linaro.org/
 
-> 
-> For example, PCI has no_soft_reset which has been done in the commit
-> "virtio: Add support for no-reset virtio PCI PM".
-> 
-> And there's a ongoing long discussion of adding suspend support in the
-> virtio spec, then driver know it's safe to suspend/resume without
-> reset.
+The other bits like fixes for rxmacro and wcd937x codecs were accepted
+as far as I understand.
 
-That's great! Hopefully it can fill the gap.
-Currently, I think we can safely move the reset to drivers' freeze methods,
-virtio core has no reason to take it as a common action required by all
-devices. And the reset operation can be optional skipped if driver have
-hints from device that it can retain state.
+Alexey Klimov (10):
+  arm64: dts: qcom: sm6115: add LPASS devices
+  arm64: dts: qcom: sm4250: add description of soundwire pins
+  arm64: dts: qcom: qrb4210-rb2: add wcd937x codec support
+  ASoC: codecs: wsa881x: split into common and soundwire drivers
+  dt-bindings: arm: qcom-soc: extend pattern matching for
+    QRB4210/QRB2210 SoCs
+  ASoC: dt-bindings: add wsa881x-i2c binding for analog mode
+  ASoC: codecs: add wsa881x-i2c amplifier codec driver
+  arm64: dts: qcom: qrb4210-rb2: enable wsa881x amplifier
+  arm64: dts: qcom: qrb4210-rb2: add WSA audio playback support
+  ASoC: qcom: sm8250: force single channel via RX_1 output
 
-> 
-> >
-> > Virtio GPIO is a typical example. GPIO states should be kept unchanged
-> > after suspend and resume (e.g. output pins keep driving the output) and
-> > Virtio GPIO driver does nothing in freeze and restore methods. But the
-> > reset operation in virtio_device_restore breaks this.
-> 
-> Is this mandated by GPIO or virtio spec? If yes, let's quote the revelant part.
+ .../devicetree/bindings/arm/qcom-soc.yaml     |    4 +-
+ .../bindings/sound/qcom,wsa881x-i2c.yaml      |  103 ++
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts      |  120 +-
+ arch/arm64/boot/dts/qcom/sm4250.dtsi          |   46 +
+ arch/arm64/boot/dts/qcom/sm6115.dtsi          |  132 ++
+ sound/soc/codecs/Kconfig                      |   15 +
+ sound/soc/codecs/Makefile                     |    4 +
+ sound/soc/codecs/wsa881x-common.c             |  123 ++
+ sound/soc/codecs/wsa881x-common.h             |  425 +++++
+ sound/soc/codecs/wsa881x-i2c.c                | 1454 +++++++++++++++++
+ sound/soc/codecs/wsa881x.c                    |  493 +-----
+ sound/soc/qcom/sm8250.c                       |   10 +
+ 12 files changed, 2445 insertions(+), 484 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/sound/qcom,wsa881x-i2c.yaml
+ create mode 100644 sound/soc/codecs/wsa881x-common.c
+ create mode 100644 sound/soc/codecs/wsa881x-common.h
+ create mode 100644 sound/soc/codecs/wsa881x-i2c.c
 
-No. But in actual hardware design (e.g. Intel PCH GPIO), or from the
-requirement perspective, GPIO pin state can be (should support) retained
-in suspended state.
-If Virtio GPIO is used to let VM operate such physical GPIO chip indirectly,
-it can't be reset in suspend and resume. Meanwhile the hypervisor will
-retain pin states after suspension.
+-- 
+2.45.2
 
-> 
-> >
-> > Since some devices need reset in suspend and resume while some needn't,
-> > create a new helper function for the original reset and status restore
-> > logic so that virtio drivers can invoke it in their restore method
-> > if necessary.
-> 
-> How are those drivers classified?
-
-I think this depends whether hypervisor will keep devices state in platform
-suspend process. I think hypervisor should because suspend and reset are
-conceptually two different things.
-
-
-Thanks
-Qiang
