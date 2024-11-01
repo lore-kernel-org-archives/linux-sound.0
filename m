@@ -1,138 +1,136 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00E2F17C91;
-	Fri,  1 Nov 2024 02:13:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378F52A1B2
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 02:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730427206; cv=none; b=ptrOFAE3ugInowDHmdajOhic3tjwmGtdjM64xRvTgwvn3AjDZSrv5QM4CYUusFbKL3e8lBYM4CKI3rlaQEgVH+Wyorce1wpDT7Ehsu8oc5HYqapBZ3fTJN/Gc+bluyRzSK5r0htXxUR2+58ndPMi2jdXCvstESeds12TZnoSidY=
+	t=1730427320; cv=none; b=lx1m40+Y7i6QaMinAlLO8WprwrGs6DwxA+i2b4wycxgskUdZRMOxVAd246EaYb4j8p3KhaOacgjhIoApWjJHnWfDTMqjjSD66MtqLFBiCEcoMEGdO4iBUeS/p2sBe20Sur8KYZLVoyClttWK30jZKovVskmHAUzqZDEZU4NfCdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730427206; c=relaxed/simple;
-	bh=VmJYV41tllW25FZf3Oc/NCLhuoIMwX9svmMOiic3T7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZHn6Kv8dcLEPnJDffizZop4jyrwLTgPxfy6QzNDTp0OdpPF23XMXda3HIJzSl5FEzkwEWp29fmSLooIr5/1aIC+p42UPYd9/YgjqCrgOVGNPMVMdzqSzO7bm6gYq23gbeUYY25CGbV8MfrLVOHVonQCDuYo3Pjxhq4A5tmDn6TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ieDfyz1B; arc=none smtp.client-ip=209.85.215.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730427320; c=relaxed/simple;
+	bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RMaXfnttoW1MGywS8kcdsnpLFOZVCAB9Q4sUCky9ArMMSWiidxJkOYkvLRvPv38Ugf3vm8KmV4+HVq+nl6ygAhOI3K2uyz7AXlVsmxlF1UyNElhDtBZtOxz7jReaOI0XIaMlc66MnQaQltLXraF94jFj0YUOH0ng0IfkFlMoK+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EV3sOP6l; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ieDfyz1B"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7db54269325so1130042a12.2;
-        Thu, 31 Oct 2024 19:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730427200; x=1731032000; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rZOZuucoarJhPdgJIizqCWGGAjPi/UbhCrvv3LalGO0=;
-        b=ieDfyz1BlsSJSIsmJskkz9pKXaZbAXzsBzf4HohxG1rygzXNK603ohMHrFzXL49q8r
-         lpjwv2TfHE4puxvOzPEhWHYxFGdIGu6dwgMdvBYv8CguDZx0PO6fMeMBPM0GtZdBqIC+
-         TBK2mgjxyJB8Hj7Ee7cptQRfRWnlWQdbdOi+Mld+gxA+LLlN3VlG2O1SlyZ3lRYR6H6n
-         uTIlMdJhpCkbzwwhLO8kUVmh3qdDTWowcxYCmPwrPmj5J1Fa1RqKNgGcNM1N45CPiwS/
-         0t/Tn3efsK1socgerQ2TEL4fT9Q692v2IRYXII+XpzuM6Nrs0652nMb4qRv/w7Mlrj7G
-         HEFg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EV3sOP6l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730427314;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
+	b=EV3sOP6lowtne1+EkhjTwKTQl/4VJxSqhA4kb83dl3NzBgvY4aT0SbjOacOfXoNrgZXlBI
+	uW89e+oabvEonSh6Cd1BdLfecj4spWBZBK8vpeDDfc250OgcJvZA4RmJ3EwCvIlvzRvLLm
+	HX4Y9Ctqlw/tmUGI8+K0fbNqeoK9qb8=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-663-NxrDnBihPdeNJL6bqaOYJg-1; Thu, 31 Oct 2024 22:15:10 -0400
+X-MC-Unique: NxrDnBihPdeNJL6bqaOYJg-1
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-7ea999a79a2so1806558a12.2
+        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 19:15:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730427200; x=1731032000;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZOZuucoarJhPdgJIizqCWGGAjPi/UbhCrvv3LalGO0=;
-        b=cocCuKpgceFY/ysbU9Exi7V7Yaqh3rBDnNUkg58MNPnaWIRGwVtnsOFkTRKiSf0ioH
-         4bQWkRi64WMnmBX5NpKNTHL/4A+CRSU0KtvwcAObysA2N4cD8JDW4O9Y2bfH+/DPdJTu
-         iI320GPahk/iAGp1/sS3T6frVxPdcvqT4e3noUcWAn45svYEFresNAE9ngz5CBbhBbdk
-         Dgdt38ZqIP8HDXyrsmGjBMQNcoGJyuDhjYvfW+S6XdIIN/EfSSggWkVLWhHOLzJQaTeQ
-         n8NUXUUlazq9m8uubPeuoKbaYJdEU2s2qmpS1OapydD24iyRMG6CkxC8/vToQbOS46hN
-         yo/A==
-X-Forwarded-Encrypted: i=1; AJvYcCU/oW2bdvCV1uwvhzXUXkaqPYeTi4HZa+wVuGuhyhcBuW5MAcoiPyUN2wleTgwBwH18qDUqMccAo0o=@vger.kernel.org, AJvYcCWt79oCXEvKQHg3HadQrru/7iDivL7+5s92ktRzghS9zimseHZpuqBs4uCzCeSHlho9201Bxf7G5VroJe4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRvlBh/2rjBmKERmA/Z5B5QimQkSWgvyJERKTkUir460AWubs6
-	vnz7oJG8BIHJr8bH2BOfQzGMUw0G0MnaJxG3Bu2eIHE4G7xjG+yguHIBfg==
-X-Google-Smtp-Source: AGHT+IHFxRwrAmlWQSawoDRQWB12YXIyMpZvpxkaSI7FwbamgT8XpysSwshg5o2vXRwnXDG+toxcWw==
-X-Received: by 2002:a05:6a20:e605:b0:1d9:dfd:93c0 with SMTP id adf61e73a8af0-1dba556fdc2mr1893780637.49.1730427200136;
-        Thu, 31 Oct 2024 19:13:20 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fbfb05asm4067002a91.48.2024.10.31.19.13.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 19:13:18 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id DA1AA422298D; Fri, 01 Nov 2024 09:13:12 +0700 (WIB)
-Date: Fri, 1 Nov 2024 09:13:12 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Message-ID: <ZyQ5OJM8k1rGog2R@archie.me>
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
+        d=1e100.net; s=20230601; t=1730427310; x=1731032110;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yJdGIwUEYPOmEs8ij3kiy6zzV0QYlQFlQfm8YmlYIbg=;
+        b=qV8F61ACA1T6fctpZDWZlBc7nXt+2ryNFdyZEbifphCO25eQYe1HZjUMSEZV69nw4U
+         IHco+8pQgWl/QhrItl49Zdenmi2d6z8VrLRheF3zqpe21NOPfH/gYay0HaKmVkFhzc0j
+         pMR04/nIWYJnmbC51K/eRcBGy8WX4/4BnjsABGO0DvbuBpOpUyrY2/rmY43NND129lID
+         29z+QmYz5GgPLCeN3I3foFSeGrD0Td8ZQu/D1BveSbwYgpOVA35iU+83k20WXPTOEKJ7
+         ZXzdcsAj2IYDXRA77d5PXF0Yu26VysYuY2zhmM5F3ay7aYfTineCI+GgKUUHs7Jwn+Fz
+         NqBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5fdf0icuyaUhas/cntEZpssElhp2mn/IA0H2K9GermBsKjaGQAo08jIQ3UUAqgVjwqrhhpegZKtkr0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yye8Yq0SmLqp4S/Ln5oJl2lmxVxGDBAwXR2b7ruvWNtRWIO8kig
+	J9VsE1Lf0VtziS/MZwehNlgrbiyohtcDwWvdlXCe+EYVzT9yn27F/JIdtaaCv+Qn4wNfHeyIrSe
+	rGNn1O0rqV+ON8feoFZLnDq8WNMd38FG6sWQCL9MUotoUXgms3TfVv9VTYFEI57slpYX2c7GSiI
+	utrR3HY9XtRRo23X3n4MloRepWHPTwdQJ9EDM=
+X-Received: by 2002:a17:90b:2d92:b0:2e2:e159:8f7b with SMTP id 98e67ed59e1d1-2e94c29f2cemr2655440a91.3.1730427309714;
+        Thu, 31 Oct 2024 19:15:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHy16t0It8M5wuxzMCN0u7b3KxhGxysg7D6J/QWKdLqLpcbAtWiRV69Dq4QwYxCS/HPdiOkYmqXnbjdd/QPCCE=
+X-Received: by 2002:a17:90b:2d92:b0:2e2:e159:8f7b with SMTP id
+ 98e67ed59e1d1-2e94c29f2cemr2655410a91.3.1730427309206; Thu, 31 Oct 2024
+ 19:15:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="LF52oUGBAhFpI3TC"
-Content-Disposition: inline
-In-Reply-To: <20241031211411.58726-1-yesanishhere@gmail.com>
-
-
---LF52oUGBAhFpI3TC
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com> <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
+In-Reply-To: <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 1 Nov 2024 10:11:11 +0800
+Message-ID: <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
+Subject: Re: [PATCH v2] virtio: only reset device and restore status if needed
+ in device resume
+To: qiang4.zhang@linux.intel.com
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jens Axboe <axboe@kernel.dk>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	"Chen, Jian Jun" <jian.jun.chen@intel.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, David Hildenbrand <david@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Qiang Zhang <qiang4.zhang@intel.com>, 
+	virtualization@lists.linux.dev, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection especially around
-> the scenarios and DAPM core details for C2C
-> creation.
-"Describe in more detail codec-to-codec connection, especially on
-use cases and DAPM core details for C2C creation."
-> +An ALSA-based audio system typically involves playback and capture
-> +functionality, where users may require audio file playback through
-> +speakers or recording from microphones. However, certain systems
-> +necessitate audio data routing directly between components, such as FM
-> +radio to speakers, without CPU involvement. For such scenarios, ASoC(
-> +ALSA system on chip) provides a mechanism known as codec-to-codec (C2C)
-"For such scenarios, ASoC (ALSA system on chip) ..."
-> +connections, leveraging the Dynamic Audio Power Management (DAPM)
-> +framework to facilitate direct data transfers between codecs.
-> <snipped>...
-> +To better understand the configuration inspired by the setup found in
-> +``sound/soc/samsung/speyside.c``, here are several key points:
-> +
-> +1. The presence of ``c2c_params`` informs the DAPM core that the DAI link
-> +   represents a C2C connection.
-> +
-> +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines the si=
-ze
-> +   of this array.
-> +
-> +3. If ``num_c2c_params`` is 1:
-> +
-> +   - The C2C DAI is configured with the provided ``snd_soc_pcm_stream``
-> +     parameters.
-> +
-> +4. If ``num_c2c_params`` is greater than 1:
-> +
-> +   - A kcontrol is created, allowing the user to select the index of the
-> +     ``c2c_params`` array to be used.
+On Fri, Nov 1, 2024 at 9:54=E2=80=AFAM <qiang4.zhang@linux.intel.com> wrote=
+:
+>
+> From: Qiang Zhang <qiang4.zhang@intel.com>
+>
+> Virtio core unconditionally reset and restore status for all virtio
+> devices before calling restore method. This breaks some virtio drivers
+> which don't need to do anything in suspend and resume because they
+> just want to keep device state retained.
 
-I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, ...;
-otherwise if ``num_c2c_params`` is greater than 1, ...".
+The challenge is how can driver know device doesn't need rest.
 
-Thanks.
+For example, PCI has no_soft_reset which has been done in the commit
+"virtio: Add support for no-reset virtio PCI PM".
 
---=20
-An old man doll... just what I always wanted! - Clara
+And there's a ongoing long discussion of adding suspend support in the
+virtio spec, then driver know it's safe to suspend/resume without
+reset.
 
---LF52oUGBAhFpI3TC
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Virtio GPIO is a typical example. GPIO states should be kept unchanged
+> after suspend and resume (e.g. output pins keep driving the output) and
+> Virtio GPIO driver does nothing in freeze and restore methods. But the
+> reset operation in virtio_device_restore breaks this.
 
------BEGIN PGP SIGNATURE-----
+Is this mandated by GPIO or virtio spec? If yes, let's quote the revelant p=
+art.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZyQ5NAAKCRD2uYlJVVFO
-o5xQAP4j3eAqx7gX+rsm+lIePL79OVwhm3ezNuXCEqibAGrMcQEAilp7lgEL9fP0
-L9V8spKCrUVJCs5OPOedR9G3AdRMsw8=
-=sXwv
------END PGP SIGNATURE-----
+>
+> Since some devices need reset in suspend and resume while some needn't,
+> create a new helper function for the original reset and status restore
+> logic so that virtio drivers can invoke it in their restore method
+> if necessary.
 
---LF52oUGBAhFpI3TC--
+How are those drivers classified?
+
+>
+> Signed-off-by: Qiang Zhang <qiang4.zhang@intel.com>
+
+Thanks
+
