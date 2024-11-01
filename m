@@ -1,63 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E0F1E2609;
-	Thu, 31 Oct 2024 23:03:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC0CA28DD0
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 00:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730415802; cv=none; b=rYfJMp0mfR8hO65Ob8Byk19m5ExbrohzSv7BqPTlH4SdK43/T+m8UsASa287IsQIfMjPPZ4Zegv+JMPdFo8461nNBEJQk7fFfWSYjP7aDMO6wQe2oVlRKuYeKLgKYE4WcCQIgwHtSA6b5OLUwJOX8ZGkv/ZtQDRBhf8KHkEKTvs=
+	t=1730422774; cv=none; b=YCAXGQn74FM25Q6pc4KqdKrDk7NfF3Db5MMhGjD+nNd+nFZlCDf4zta9sh/J/uvbh7yIk70iWRefANT8t5yIz+C/R4cl7Nbbt3ixiJho4ZCAfkL/mPcKq30/ZzyiB78pxf2gnkFkwfmXDnTrmx5SXmRPuba0by8djxN+4qX2E/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730415802; c=relaxed/simple;
-	bh=2rUfUBn+uYHR56KeONuS8QIVGQCHI2ASS1aihF/lJWc=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=kYqn9i5dYdluHBEeElFavleiKwBNJws71ytb5o11SL+RYWD/3fxKU4MSXB1RewM2ordOn/VqD/cmkNc4xO4YCaqSy53mJD2xA/eSkrWDv/9+Nep8k5T7abFIfUbVC+wxAokdZRU750hGff8Urk5eMG+F3cw2MmNuKDdeLJcu7HU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLwGor32; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730422774; c=relaxed/simple;
+	bh=FU379s8mvRva31rty9JujdS04YmHXrpAzztd4t/2fpo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a8gY7pTnF6UQu6R74V9ebC2RUypydPnr8sParoKIeVqf8Pdhy1D1hNR1V74Y5d9S7wNWJtjaJFPqKIXwbIQgqZYe/49bSNzexMPeaky08AEWaHrQpI54qd5w/56OO/Kc5LInU8plqNqw977Cm9And8o8YT5ItBjYTEcoJCe4ZZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uIN1077A; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLwGor32"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49CD5C4CEC3;
-	Thu, 31 Oct 2024 23:03:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730415802;
-	bh=2rUfUBn+uYHR56KeONuS8QIVGQCHI2ASS1aihF/lJWc=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=hLwGor325ZzCx+y1HvgeWaYyayb6fVNvs9+kNxKgPsNkN8ANg1VUsNCqMPG+8dkQm
-	 4a3RETLKK/ipL0Ch7hQKzew4yLdfSa2SpDspq5H4HO3TJekkXRQA4gVMG2UoTThPPi
-	 S4qYgJSH+2GJiP17TlA4oxxPTBLTToXCFu8rtfwl9+6bbXP7ZTMGm2leESwH8wQSTp
-	 I75BejdD+pkwpckllr7HpYqoM9JkBiaeqyvCr07Mu391m9pOl87N1P/9oa8/WEkHww
-	 d4w8Ps1z+6trpJqgjjsdQNacCtXl9/HdiruWLI2I3ufBWqKB5u7HRMmUdqWtiieybv
-	 TlYFco6tQNx1Q==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70F15380AC02;
-	Thu, 31 Oct 2024 23:03:31 +0000 (UTC)
-Subject: Re: [GIT PULL] sound fixes for 6.12-rc6
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <87ldy4wr5x.wl-tiwai@suse.de>
-References: <87ldy4wr5x.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87ldy4wr5x.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc6
-X-PR-Tracked-Commit-Id: e49370d769e71456db3fbd982e95bab8c69f73e8
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 15cb732c16edd39ce00ce655710e34cc82bbcf2c
-Message-Id: <173041580991.2114557.18322611029599317227.pr-tracker-bot@kernel.org>
-Date: Thu, 31 Oct 2024 23:03:29 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uIN1077A"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so13417385e9.2
+        for <linux-sound@vger.kernel.org>; Thu, 31 Oct 2024 17:59:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730422767; x=1731027567; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PieXQqSCHfmGnEpV2Kk4rV11C01mRedDjCrdFDNwM/M=;
+        b=uIN1077A/X2v+to07XBgxxdLeE7ruJlTTbDFPDVIXAH4VvL5PuVIHAxkNqlEOzlRX7
+         v88OPsOM15PElyrDlthMm/xGw3KlRd96QnqWjmo7hu/TLvrC7hvU0Fy3bPOWieloAdhe
+         Dftcdh7lkK8eK0e8GmKrsPvj3vz2T0eD28U3RIXXNTZVuux5hfhh3aGSw1XNtCpVhdR2
+         A+BpdrRfKBpaoAEDxDhGPpioXyYwhmxmTPgGXFGO3IrEnOUnB26Sctdj25MIlKXm0S5B
+         C2YjowzuZH2r6KPmGjiFsHSLDwmy7hls4/L0sjF5/iQPZxIvyXSdkHQJtQBFQ8ptL6tn
+         B9Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730422767; x=1731027567;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PieXQqSCHfmGnEpV2Kk4rV11C01mRedDjCrdFDNwM/M=;
+        b=Ow31x/ZiX0v5geP4RkA0QNeQrdRnRQKpToXD773fmYuKeSX1J+v3yFE7LaJyB3lyt5
+         /yDkvWp5jAODzddHOxUSivnBIWczVHYqr8NF1UCalkE6giiYvKHh0aTNFR7w4uGobuil
+         v6bV16KKMqco+ptfWmmTyCR2Xw0aazKCvCF+2cWtbFAYHB6l3Vdf9dmXE70WBqVrkD1r
+         dBVnvOND9e6Vo68q+ZRibX7GpxYf9mBQb9S0gUkILZOkzdNT7SS+PWtNYcxZEQFKzfLm
+         sZgpdVmL+0Zd9NPzk6pV1kuYhlMBIFtDXNYStvyD0ci4qTxfZL2/8Zsis7lYiWgpRiUC
+         uIFQ==
+X-Gm-Message-State: AOJu0Yx4kvYvu8jSh6fFji39IDdnjzqcX6cKnraqtKXmRmIu23CKbSL1
+	NMLwiJ5IBIweXUv1O4EoXfWySLE8y5Qe4cuz/PL9jEVLeOaYD0J1+VRNh7IFPGG+FhOoWyBVqKY
+	60Eo=
+X-Google-Smtp-Source: AGHT+IHqxItP2cM4Ot5dUREUP0W2CMB4uLuKVDROnIDTI+B7l0A6vFKtvV+10MvfFiHBZobiQ48BUg==
+X-Received: by 2002:a5d:584a:0:b0:371:8eb3:603a with SMTP id ffacd0b85a97d-381be7d6144mr4596700f8f.27.1730422766456;
+        Thu, 31 Oct 2024 17:59:26 -0700 (PDT)
+Received: from localhost.localdomain ([2.222.231.247])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd947a9fsm74208035e9.22.2024.10.31.17.59.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Oct 2024 17:59:26 -0700 (PDT)
+From: Alexey Klimov <alexey.klimov@linaro.org>
+To: linux-sound@vger.kernel.org,
+	srinivas.kandagatla@linaro.org,
+	broonie@kernel.org
+Cc: lgirdwood@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andersson@kernel.org,
+	konradybcio@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	dmitry.baryshkov@linaro.org,
+	krzysztof.kozlowski@linaro.org,
+	caleb.connolly@linaro.org,
+	linux-kernel@vger.kernel.org,
+	a39.skl@gmail.com
+Subject: [PATCH v4 0/5] qrb4210-rb2: add HDMI audio playback support
+Date: Fri,  1 Nov 2024 00:59:20 +0000
+Message-ID: <20241101005925.186696-1-alexey.klimov@linaro.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The pull request you sent on Thu, 31 Oct 2024 10:35:54 +0100:
+Rebased on top of -next, re-tested.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12-rc6
+Changes in v4 (or since v3):
+ -- cleaned doubled spaces in the last patch as suggested by Konrad;
+ -- added Reviewed-by tag to patch 4.
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/15cb732c16edd39ce00ce655710e34cc82bbcf2c
+URL to previous series:
+https://lore.kernel.org/linux-sound/20241018025452.1362293-1-alexey.klimov@linaro.org/
 
-Thank you!
+Changes since v2:
+-- added tags, updated commit messages, added Cc;
+-- updated LT9611 -> LT9611UXC comment in qrb4210-rb2.dts;
+-- updated addresses in DT to 8 hex digits as requested by Dmitry;
+-- added lpass pinctrl to sm6115.dtsi as suggested by Dmitry;
+-- added lpass pinctrl override and pins description to sm4250.dtsi,
+pins are the property of sm4250;
+-- verified with make dtbs_check as suggested by Krzysztof and Rob's bot.
+-- dropped two patches (they seem to be merged):
+[PATCH v2 1/7] ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
+[PATCH v2 2/7] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
+-- stopped Cc-ing out-of-date emails.
+
+Changes since v1:
+-- removed handling of MI2S clock in sm2450_snd_shutdown(): setting clock rate
+   and disabling it causes audio delay on playback start;
+-- removed empty sound { } node from sm6115.dtsi as suggested by Krzysztof;
+-- moved lpi_i2s2_active pins description to qrb423310 board-specific file
+   as suggested by Dmitry Baryshkov;
+-- moved q6asmdai DAIs to apr soc node as suggested by Konrad Dybcio;
+-- lpass_tlmm is not disabled;
+-- lpass_tlmm node moved to sm4250.dtsi;
+-- kept MultiMedia DAIs as is, without them the sound card driver doesn't initialise;
+-- added some reviewed-by tags.
+
+Alexey Klimov (5):
+  ASoC: qcom: sm8250: add handling of secondary MI2S clock
+  arm64: dts: qcom: sm6115: add apr and its services
+  arm64: dts: qcom: sm6115: add LPASS LPI pin controller
+  arm64: dts: qcom: sm4250: add LPASS LPI pin controller
+  arm64: dts: qcom: qrb4210-rb2: add HDMI audio playback support
+
+ arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 59 ++++++++++++++++
+ arch/arm64/boot/dts/qcom/sm4250.dtsi     | 39 +++++++++++
+ arch/arm64/boot/dts/qcom/sm6115.dtsi     | 87 ++++++++++++++++++++++++
+ sound/soc/qcom/sm8250.c                  |  8 +++
+ 4 files changed, 193 insertions(+)
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+2.45.2
+
