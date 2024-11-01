@@ -1,92 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2079.outbound.protection.outlook.com [40.107.223.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22BC81ACA;
-	Fri,  1 Nov 2024 01:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730426047; cv=none; b=IuE8rHk14cpiM49SLBHAFTFRqxqjIa6b9eSMpGwbHe0GZDmpa5lQpKUYyqzW9GGBjmE8lEuUpXK6YBqcYjcQSShnXlDgYW0GoVayA8Y4rGQ8R+PmEPMX+HE9TY0hpl40weOoqdydo0X9zBK3cOJCWjA0TUiVEWn3gaP2NDd/+1U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730426047; c=relaxed/simple;
-	bh=3HRKGQNIiCPfH8z+twS7cEGWy+9O3/ZETqBtK388FqY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BIPOT5p2Z2YgU4QfHdb0Ud+NdGbmExWOpXhOQj6celTV1VzULFGrLV0S7iuhn2e/Lj+iJbghzlCS1SS3Sb2+UDAKRLKd0R/Sfdmc4hYKwOOpNb54hGsfpgyiWPdi9u+4OLejsxHVPL8CBayU59l8hXPifOQjnp/CciSzmxOwMPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CaYJP/k/; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B4917C91;
+	Fri,  1 Nov 2024 02:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.79
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730426957; cv=fail; b=RrsG6WLwlLmOfL1HwZhy7paVPNJPdoJqT1p4L8h9K7FuCRqWahLo7nYj2ouZ1PCYxt4mmLgd/7+7FI9tkSTirbEVk81DpDmOPAo4nXFoCIQwsofs9TH5wTmQBZTE86vDA1hlnoWGUjxTOhthPlUYIJphOXsdhnxVpINTNyT+dG0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730426957; c=relaxed/simple;
+	bh=m8Fdimy1uNQJ0phYeZwakJsZ7awf0wC1IRLCVzW6bfE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lqzBs3NpJt4ay0+wNFTdDnRvGjwiHHDFMQBFySRaMkOK1KRfy8wrG/fVNdSDYkJqFpa47xoyoBWHnN3GyU6YbQMQdT7aHw0jxt941dWqCAqqRS0iYlF7u6evIlOEMudFaTWK4W6y1+YVAiVylCoYg9f2MeiZim31bO6zGpfe9PU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GzuGNsWe; arc=fail smtp.client-ip=40.107.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CaYJP/k/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730426041; x=1761962041;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3HRKGQNIiCPfH8z+twS7cEGWy+9O3/ZETqBtK388FqY=;
-  b=CaYJP/k/O9GtrrveYPp2+1Tgz5S6RVPLzwncYbvmUrLN3tUKSxLKWJYP
-   7y5kokmFn8Z6/PfDulizsjZOZijDJ2DAd5v5rWdWNGA2yljJCZmPypu7B
-   NDdIMzahu1J0E1NyenN+eu4OOS1ebIk3yjUM/XhPXzxVTM2QLd34kXded
-   z/v4v9xcaCIYbH8aW70P4QEyZJeu9iBqqG/9CtlUgMJ2lqghMv/966qzh
-   quaZLvRX3KoQVxnzhVh4YK0SkDfD6cOudJbwfr6/PZ9otoO7ussSj6DAC
-   515n5DUwlujLGPA0sUDXj38k+5iCjtXvcNJgKozESFwDT+zvJ7QsIksev
-   A==;
-X-CSE-ConnectionGUID: bjnDxhpNSrCQ3l6km2HVKA==
-X-CSE-MsgGUID: NNc6GJcbQHm/rmFcGt907w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="41559322"
-X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="41559322"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 18:53:59 -0700
-X-CSE-ConnectionGUID: 3rFKcVZHRfKkqRp5id5Qlw==
-X-CSE-MsgGUID: FTKPoQIpTc+gi+1I4sWetA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="106145077"
-Received: from qz-dev1.sh.intel.com (HELO localhost) ([10.239.147.28])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 18:53:40 -0700
-From: qiang4.zhang@linux.intel.com
-To: "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Amit Shah <amit@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gonglei <arei.gonglei@huawei.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	"Chen, Jian Jun" <jian.jun.chen@intel.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	David Hildenbrand <david@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Qiang Zhang <qiang4.zhang@intel.com>,
-	virtualization@lists.linux.dev,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2] virtio: only reset device and restore status if needed in device resume
-Date: Fri,  1 Nov 2024 09:50:58 +0800
-Message-ID: <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com>
-References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GzuGNsWe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cMo+9nBgdJS5v4UVOI4sBU5088/jKNfJXPh22RHia26uy4LFsK/HxPt/xO2joqnfZXbeR3ZdpMEDtex++3ZuN1q2bDpnDq8GXF1ct0JbWOcETiNJBF0wTArTx0jGIdHPEFRgEYAF4kC+0teZ4c5e0LkbUjthypLRscOihwAzO31tDhmYstguxKj5b+yvZiOhLuZFnl8tJLD+QJmzeAXGjRDjbt6otzFQox5+c0Mz5goqLYyf2Jh8s63wIF+rZJ6CghMwW1Ht6KkDCAXuXnKE2iG/FNSgjvFB6KPCgOv9mvoQQZ/mm1lrzniRz3HZo6aQ1XiI9FW0I3d2zKsADysqJQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=noDUDqaFZhPy6kcmY1mzhsPcf/4dTn5WVMmfAf1hVPc=;
+ b=HZoyaZIZuBoPqNRSMOH2ijD3hsqzoS2DR7gEIvW0F7nM3zYoYhY9nrZYcaYyB7NuxgPkXChHkjki5H6NNgq1CPx1juLk4hV8JGdc+FBEbX7NL6QexDlkqIUGOumAVEjscPdHLaFotWKTftpVraua+0kpzFm20KWNwHuRvLhIB9CTYMiW2N648UFPxd2JcnWfXyTxC2hBz6MW5pr5QydtaKXSNn1Xg65IiYZDePHiVI0uR36oyM3HVX5ob8MBJh1oFkbUgszfAB1ioZUz8ad4WoD087lwp/1F6eXZG2q1kRmWHYjgYCRU9WOh1L0b1GCGpweWyJpQSq7UfrDchJwleA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=noDUDqaFZhPy6kcmY1mzhsPcf/4dTn5WVMmfAf1hVPc=;
+ b=GzuGNsWe0yuyJMCRUepCPN4ZrRLza+ezpmCgrVs1iLMtb+oF2d+GwZ8rQbX/+i4V1+MgKOMFWRuss5n4jkNZlGfbJ+W20F4rlU3Yaa4KBH9VqeK9bIFRvJbtQQVp0AGn0rjHn0mLlox5HrwnoPlO/dUiHl9CYueUG/jIOFrXNsk=
+Received: from BYAPR06CA0068.namprd06.prod.outlook.com (2603:10b6:a03:14b::45)
+ by IA1PR12MB8285.namprd12.prod.outlook.com (2603:10b6:208:3f6::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.27; Fri, 1 Nov
+ 2024 02:09:09 +0000
+Received: from SJ5PEPF00000206.namprd05.prod.outlook.com
+ (2603:10b6:a03:14b:cafe::cf) by BYAPR06CA0068.outlook.office365.com
+ (2603:10b6:a03:14b::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20 via Frontend
+ Transport; Fri, 1 Nov 2024 02:09:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SJ5PEPF00000206.mail.protection.outlook.com (10.167.244.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8114.16 via Frontend Transport; Fri, 1 Nov 2024 02:09:08 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 31 Oct 2024 21:08:42 -0500
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <yung-chuan.liao@linux.intel.com>,
+	<ranjani.sridharan@linux.intel.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<Mario.Limonciello@amd.com>, <Richard.Gong@amd.com>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Vijendar
+ Mukunda" <Vijendar.Mukunda@amd.com>, Liam Girdwood
+	<liam.r.girdwood@intel.com>
+Subject: [PATCH 0/2] Soundwire dai link init logic refactor
+Date: Fri, 1 Nov 2024 07:38:00 +0530
+Message-ID: <20241101020802.1103181-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -94,327 +75,75 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF00000206:EE_|IA1PR12MB8285:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25dc4bfa-0e2f-4397-3bc9-08dcfa1a2b6e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?6lNs6oBcgPIENgawVKcZz9mmogmPLt2Fi7CIG04q+HHUn6Gu7hKzoUOQZYhF?=
+ =?us-ascii?Q?it49DCDSqKP0B4Nz4uKVNBsSeibnVaOqF5TWWHGTXjKx3zC9+Re29vmH8i9J?=
+ =?us-ascii?Q?FShpJ7YrHJI03T4f5sdGebDuMwDpjumHWm3rvEczcpwsTAk7Uww2uNFX310X?=
+ =?us-ascii?Q?Hb33KkL6cnwyg4D7ZCpsJT2W6wk81mhkkRALtpSY5sjHa1Kt3EkTj75+djzF?=
+ =?us-ascii?Q?TdJ2e9YGUNeOBBYHqveWpSvu/534vx7sTtcWDHfL6ZCznEEYbpB13kbaezj1?=
+ =?us-ascii?Q?dhme0YlkcQntxQro/ZkBqdrPHhbaf2JoF2CxRblX3ZGDFMdgmgYMlf6CGF6j?=
+ =?us-ascii?Q?vV0t5/J2NSAM8N5xKKUxgjqYLU5ozw7q8/qE3Ihk8uk8abr3uX5w4Kwlv92b?=
+ =?us-ascii?Q?Jz3kcyg6qHD9+aleP5OoeQX+QEInabo4M5kYX9QhUjIxvgR1NC3jjXxo3dEv?=
+ =?us-ascii?Q?lUJbq4xHQoXqBmajLmfTFJFs3r5hI9NjUkqOn9TcqeAIQEupO/Sy9RxLFi1i?=
+ =?us-ascii?Q?TWTMCHluUEXlcBWHdwL2/MTddqG6AZ9YbcgWs2XLNHCoMvP9W2kfCPgKC37J?=
+ =?us-ascii?Q?zwKuhS9ZlgP+tOa0cJGQ5pzJjSYO5J2nvXDZFFH2BFMkVcjavhTy0JC0xSj2?=
+ =?us-ascii?Q?PgMVJGTGJmwfTR22BOZTX+aXnIDbquWRw7fbIIpBzCttmBNCzQjPj5Zttxa9?=
+ =?us-ascii?Q?JGf4zF4ah19qMVtCbeptHfa9YWs2W6AwyMIKAvNpuggUPSfmMvX9vIg0/2SS?=
+ =?us-ascii?Q?7YgYqDHK5X0AvVvhvCGEabN6KdM4Pymwm6ob9zU/lhx+NrRrvwOE5JNQY5qR?=
+ =?us-ascii?Q?+EAF3QgAKznScUVSPR2QcuxtqWM6t2bmWINsPgL5GB7qud6ef1o24XmKbeUN?=
+ =?us-ascii?Q?rNTjCnkmBHZTo0Pq9BCs+uKwcMdIWibkTXzlyCgu/yMdCavp3wO59UHu32jz?=
+ =?us-ascii?Q?c0Ojmiqm+9eT6CJp/3Z5Eraewnopsy1yOUbfw1pvvGIzQMDtAypXPkes1JyS?=
+ =?us-ascii?Q?R/NJMj5qqleCSBqTK8WcX+RscaKEYnlQDO76rxqLq3H+1oy/x4bmCGZsG+X1?=
+ =?us-ascii?Q?DQPW6GkD2xFIsZsHyWUZUcclZjgT1rU/ioyntVF2d0GeBf7kcDctk3VpHM7t?=
+ =?us-ascii?Q?i4p3kpDi1taWz55iy3Ez2/WVbCKuRuuKtNUVoQ8RTi5S/ZWo/6dVfuzkwPOU?=
+ =?us-ascii?Q?pwxA5JipQ0hnnsQ3B+KkHKeZJKrCJme/g9XkchdNDYgvWchNBk8WwR7RYmtP?=
+ =?us-ascii?Q?qDzUDpucFrSk5I7HNvC5bZnHAE5FYLcc03JOrVvebSG9UOuZTwGltTUBmU4W?=
+ =?us-ascii?Q?qAltce+aiUHb3Jj7IMYxlLZFCPiseFYiWhJYCiGG3a5y6oDXXqFK6S00xP6y?=
+ =?us-ascii?Q?3Wq22OPEu3yPX2CyFI6z2hDbRwSXO0p5mF6vqaZ3b7765kEZVQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 02:09:08.3099
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25dc4bfa-0e2f-4397-3bc9-08dcfa1a2b6e
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF00000206.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8285
 
-From: Qiang Zhang <qiang4.zhang@intel.com>
+This patch series refactors the SoundWire dai link init logic for Intel
+and AMD generic SoundWire machine driver and also updates the stream_name
+in dai_links structure.
 
-Virtio core unconditionally reset and restore status for all virtio
-devices before calling restore method. This breaks some virtio drivers
-which don't need to do anything in suspend and resume because they
-just want to keep device state retained.
+Link: https://github.com/thesofproject/linux/pull/5218
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 
-Virtio GPIO is a typical example. GPIO states should be kept unchanged
-after suspend and resume (e.g. output pins keep driving the output) and
-Virtio GPIO driver does nothing in freeze and restore methods. But the
-reset operation in virtio_device_restore breaks this.
+Vijendar Mukunda (2):
+  ASoC: sdw_utils/intel/amd: refactor dai link init logic
+  ASoC: sdw_utils: Update stream_name in dai_links structure
 
-Since some devices need reset in suspend and resume while some needn't,
-create a new helper function for the original reset and status restore
-logic so that virtio drivers can invoke it in their restore method
-if necessary.
+ include/sound/soc_sdw_utils.h        |  5 +++--
+ sound/soc/amd/acp/acp-sdw-sof-mach.c |  8 ++++----
+ sound/soc/intel/boards/sof_sdw.c     | 12 ++++++------
+ sound/soc/sdw_utils/soc_sdw_utils.c  | 10 ++++++----
+ 4 files changed, 19 insertions(+), 16 deletions(-)
 
-Signed-off-by: Qiang Zhang <qiang4.zhang@intel.com>
----
-v1 -> v2:
- - Fix compilation error when CONFIG_PM_SLEEP is disabled. Move
-   virtio_device_reset_and_restore_status out of CONFIG_PM_SLEEP scope.
-
- drivers/block/virtio_blk.c                 |  4 ++
- drivers/char/hw_random/virtio-rng.c        |  4 ++
- drivers/char/virtio_console.c              |  4 ++
- drivers/crypto/virtio/virtio_crypto_core.c |  4 ++
- drivers/i2c/busses/i2c-virtio.c            |  6 ++
- drivers/net/virtio_net.c                   |  4 ++
- drivers/scsi/virtio_scsi.c                 |  4 ++
- drivers/virtio/virtio.c                    | 83 ++++++++++++----------
- drivers/virtio/virtio_balloon.c            |  4 ++
- drivers/virtio/virtio_input.c              |  4 ++
- drivers/virtio/virtio_mem.c                |  4 ++
- include/linux/virtio.h                     |  1 +
- sound/virtio/virtio_card.c                 |  4 ++
- 13 files changed, 94 insertions(+), 36 deletions(-)
-
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index 194417abc105..bba7148bd219 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -1612,6 +1612,10 @@ static int virtblk_restore(struct virtio_device *vdev)
- 	struct virtio_blk *vblk = vdev->priv;
- 	int ret;
- 
-+	ret = virtio_device_reset_and_restore_status(vdev);
-+	if (ret)
-+		return ret;
-+
- 	ret = init_vq(vdev->priv);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/char/hw_random/virtio-rng.c b/drivers/char/hw_random/virtio-rng.c
-index dd998f4fe4f2..954280514f5a 100644
---- a/drivers/char/hw_random/virtio-rng.c
-+++ b/drivers/char/hw_random/virtio-rng.c
-@@ -218,6 +218,10 @@ static int virtrng_restore(struct virtio_device *vdev)
- {
- 	int err;
- 
-+	err = virtio_device_reset_and_restore_status(vdev);
-+	if (err)
-+		return err;
-+
- 	err = probe_common(vdev);
- 	if (!err) {
- 		struct virtrng_info *vi = vdev->priv;
-diff --git a/drivers/char/virtio_console.c b/drivers/char/virtio_console.c
-index c62b208b42f1..c431e4d5cd29 100644
---- a/drivers/char/virtio_console.c
-+++ b/drivers/char/virtio_console.c
-@@ -2132,6 +2132,10 @@ static int virtcons_restore(struct virtio_device *vdev)
- 
- 	portdev = vdev->priv;
- 
-+	ret = virtio_device_reset_and_restore_status(vdev);
-+	if (ret)
-+		return ret;
-+
- 	ret = init_vqs(portdev);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/crypto/virtio/virtio_crypto_core.c b/drivers/crypto/virtio/virtio_crypto_core.c
-index d0278eb568b9..b3363dd80448 100644
---- a/drivers/crypto/virtio/virtio_crypto_core.c
-+++ b/drivers/crypto/virtio/virtio_crypto_core.c
-@@ -536,6 +536,10 @@ static int virtcrypto_restore(struct virtio_device *vdev)
- 	struct virtio_crypto *vcrypto = vdev->priv;
- 	int err;
- 
-+	err = virtio_device_reset_and_restore_status(vdev);
-+	if (err)
-+		return err;
-+
- 	err = virtcrypto_init_vqs(vcrypto);
- 	if (err)
- 		return err;
-diff --git a/drivers/i2c/busses/i2c-virtio.c b/drivers/i2c/busses/i2c-virtio.c
-index 2a351f961b89..ce6493d6fe8e 100644
---- a/drivers/i2c/busses/i2c-virtio.c
-+++ b/drivers/i2c/busses/i2c-virtio.c
-@@ -251,6 +251,12 @@ static int virtio_i2c_freeze(struct virtio_device *vdev)
- 
- static int virtio_i2c_restore(struct virtio_device *vdev)
- {
-+	int ret;
-+
-+	ret = virtio_device_reset_and_restore_status(vdev);
-+	if (ret)
-+		return ret;
-+
- 	return virtio_i2c_setup_vqs(vdev->priv);
- }
- 
-diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-index 792e9eadbfc3..5be2a5f68f68 100644
---- a/drivers/net/virtio_net.c
-+++ b/drivers/net/virtio_net.c
-@@ -6693,6 +6693,10 @@ static __maybe_unused int virtnet_restore(struct virtio_device *vdev)
- 	struct virtnet_info *vi = vdev->priv;
- 	int err;
- 
-+	err = virtio_device_reset_and_restore_status(vdev);
-+	if (err)
-+		return err;
-+
- 	err = virtnet_restore_up(vdev);
- 	if (err)
- 		return err;
-diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-index 8471f38b730e..3aeddf6331d3 100644
---- a/drivers/scsi/virtio_scsi.c
-+++ b/drivers/scsi/virtio_scsi.c
-@@ -1016,6 +1016,10 @@ static int virtscsi_restore(struct virtio_device *vdev)
- 	struct virtio_scsi *vscsi = shost_priv(sh);
- 	int err;
- 
-+	err = virtio_device_reset_and_restore_status(vdev);
-+	if (err)
-+		return err;
-+
- 	err = virtscsi_init(vdev, vscsi);
- 	if (err)
- 		return err;
-diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-index b9095751e43b..55f80a61fb85 100644
---- a/drivers/virtio/virtio.c
-+++ b/drivers/virtio/virtio.c
-@@ -527,6 +527,41 @@ void unregister_virtio_device(struct virtio_device *dev)
- }
- EXPORT_SYMBOL_GPL(unregister_virtio_device);
- 
-+int virtio_device_reset_and_restore_status(struct virtio_device *dev)
-+{
-+	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
-+	int ret;
-+
-+	/* We always start by resetting the device, in case a previous
-+	 * driver messed it up. */
-+	virtio_reset_device(dev);
-+
-+	/* Acknowledge that we've seen the device. */
-+	virtio_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE);
-+
-+	/* Maybe driver failed before freeze.
-+	 * Restore the failed status, for debugging. */
-+	if (dev->failed)
-+		virtio_add_status(dev, VIRTIO_CONFIG_S_FAILED);
-+
-+	if (!drv)
-+		return 0;
-+
-+	/* We have a driver! */
-+	virtio_add_status(dev, VIRTIO_CONFIG_S_DRIVER);
-+
-+	ret = dev->config->finalize_features(dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = virtio_features_ok(dev);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(virtio_device_reset_and_restore_status);
-+
- #ifdef CONFIG_PM_SLEEP
- int virtio_device_freeze(struct virtio_device *dev)
- {
-@@ -554,44 +589,20 @@ int virtio_device_restore(struct virtio_device *dev)
- 	struct virtio_driver *drv = drv_to_virtio(dev->dev.driver);
- 	int ret;
- 
--	/* We always start by resetting the device, in case a previous
--	 * driver messed it up. */
--	virtio_reset_device(dev);
--
--	/* Acknowledge that we've seen the device. */
--	virtio_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE);
--
--	/* Maybe driver failed before freeze.
--	 * Restore the failed status, for debugging. */
--	if (dev->failed)
--		virtio_add_status(dev, VIRTIO_CONFIG_S_FAILED);
--
--	if (!drv)
--		return 0;
--
--	/* We have a driver! */
--	virtio_add_status(dev, VIRTIO_CONFIG_S_DRIVER);
--
--	ret = dev->config->finalize_features(dev);
--	if (ret)
--		goto err;
--
--	ret = virtio_features_ok(dev);
--	if (ret)
--		goto err;
--
--	if (drv->restore) {
--		ret = drv->restore(dev);
--		if (ret)
--			goto err;
-+	if (drv) {
-+		if (drv->restore) {
-+			ret = drv->restore(dev);
-+			if (ret)
-+				goto err;
-+		}
-+
-+		/* If restore didn't do it, mark device DRIVER_OK ourselves. */
-+		if (!(dev->config->get_status(dev) & VIRTIO_CONFIG_S_DRIVER_OK))
-+			virtio_device_ready(dev);
-+
-+		virtio_config_core_enable(dev);
- 	}
- 
--	/* If restore didn't do it, mark device DRIVER_OK ourselves. */
--	if (!(dev->config->get_status(dev) & VIRTIO_CONFIG_S_DRIVER_OK))
--		virtio_device_ready(dev);
--
--	virtio_config_core_enable(dev);
--
- 	return 0;
- 
- err:
-diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
-index b36d2803674e..ba92b3e56391 100644
---- a/drivers/virtio/virtio_balloon.c
-+++ b/drivers/virtio/virtio_balloon.c
-@@ -1163,6 +1163,10 @@ static int virtballoon_restore(struct virtio_device *vdev)
- 	struct virtio_balloon *vb = vdev->priv;
- 	int ret;
- 
-+	ret = virtio_device_reset_and_restore_status(vdev);
-+	if (ret)
-+		return ret;
-+
- 	ret = init_vqs(vdev->priv);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/virtio/virtio_input.c b/drivers/virtio/virtio_input.c
-index a5d63269f20b..81c2ffd0e76e 100644
---- a/drivers/virtio/virtio_input.c
-+++ b/drivers/virtio/virtio_input.c
-@@ -374,6 +374,10 @@ static int virtinput_restore(struct virtio_device *vdev)
- 	struct virtio_input *vi = vdev->priv;
- 	int err;
- 
-+	err = virtio_device_reset_and_restore_status(vdev);
-+	if (err)
-+		return err;
-+
- 	err = virtinput_init_vqs(vi);
- 	if (err)
- 		return err;
-diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
-index b0b871441578..47c23aa43c20 100644
---- a/drivers/virtio/virtio_mem.c
-+++ b/drivers/virtio/virtio_mem.c
-@@ -3018,6 +3018,10 @@ static int virtio_mem_restore(struct virtio_device *vdev)
- 	struct virtio_mem *vm = vdev->priv;
- 	int ret;
- 
-+	ret = virtio_device_reset_and_restore_status(vdev);
-+	if (ret)
-+		return ret;
-+
- 	ret = virtio_mem_init_vq(vm);
- 	if (ret)
- 		return ret;
-diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-index 306137a15d07..bce26597b8fc 100644
---- a/include/linux/virtio.h
-+++ b/include/linux/virtio.h
-@@ -178,6 +178,7 @@ int virtio_device_freeze(struct virtio_device *dev);
- int virtio_device_restore(struct virtio_device *dev);
- #endif
- void virtio_reset_device(struct virtio_device *dev);
-+int virtio_device_reset_and_restore_status(struct virtio_device *dev);
- 
- size_t virtio_max_dma_size(const struct virtio_device *vdev);
- 
-diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-index 965209e1d872..3c7a6d76c46c 100644
---- a/sound/virtio/virtio_card.c
-+++ b/sound/virtio/virtio_card.c
-@@ -412,6 +412,10 @@ static int virtsnd_restore(struct virtio_device *vdev)
- 	struct virtio_snd *snd = vdev->priv;
- 	int rc;
- 
-+	rc = virtio_device_reset_and_restore_status(vdev);
-+	if (rc)
-+		return rc;
-+
- 	rc = virtsnd_find_vqs(snd);
- 	if (rc)
- 		return rc;
 -- 
-2.45.2
+2.34.1
 
