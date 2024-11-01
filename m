@@ -1,104 +1,108 @@
-Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85432E62C;
-	Fri,  1 Nov 2024 18:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D101DDC10;
+	Fri,  1 Nov 2024 19:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730487367; cv=none; b=FfMrTfFOCxv1m8bVOsG0U7qfrQkDtNouq35ig3RxHQLILbpZj5eoMgRw61X2WToycOs1eWv4zc3uvJ+Y/e3UAPkwOjUStja23s1ubnpToLiCCgt/evTO84ppgEyK6TsS5anorjnyFwzIlr4864VKIsmaCr+77RC8nOWqwFCI0bE=
+	t=1730489211; cv=none; b=PdfHUMDZpyWeX3fYOdgkye9fftdXqME9d0eT+KCWENdSAwypRcTPfpWtar96kYKc9+BBNvBA+JunF9EotPQpr0Vh6ijJBChAET2ocuqB2QbSdWSeXZPLjGWKm65YTU4y4NED/OEDAR0piSGisdkrOdoF/iGTeiqocL+n0GMoN58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730487367; c=relaxed/simple;
-	bh=cyibAUBc3nH31Y5bGIhi81fOdMfwmNkmQSSTQXnNcX0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bJoQ7Gm1c869eWbM5Nc/Fyp/3mYRVeXouI7rigixSfGgAURsFa7NDYdMSAU+fuGuFYucqJGmLaAWKZ8ijS7FCnzG8x781rPzu9HNZjdZw9nD/XjEPKAdOpTdgqceaXN6wPAdq3st+dIM8pXpKdbqwPVus63J5WnSIIKDydF/fTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru; spf=pass smtp.mailfrom=maxima.ru; dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b=Wng5xmnK; arc=none smtp.client-ip=81.200.124.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxima.ru
+	s=arc-20240116; t=1730489211; c=relaxed/simple;
+	bh=Sa/HhTUDVpk4NXfCGGmyvJmpwzaluhlGU0TChrjB+bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mt6idbueTOxpOdLtPOvTuKOA0Y7ihJBXkfclL05J+O+zLcRO/bUGejkgGnrjMUfQ9GoMcigEY6NWvOSer8+PlZR6zhNTml+BoWDMMzkGW8PMGIkpUrluGX3Ut/vB51jThUM+PJdD8OI5Gk/UzsdeJZgTC+SN8swkN705dfXo6Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SaFXkfUu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b="Wng5xmnK"
-Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
-	by ksmg02.maxima.ru (Postfix) with ESMTP id 04E8A1E0018;
-	Fri,  1 Nov 2024 21:55:57 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru 04E8A1E0018
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
-	t=1730487357; bh=NUPsggGiv381n1ARMdQIdkqwV7+9gs+JmfmHBwCQ0Aw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=Wng5xmnKVC9gqB2NWMDUrYBg7910xxrWjAVdqdL74Kr82nPZeyFOtUQiZHQRekwAE
-	 4WTtHcEGwomA7vp20pQ5vWWKCbVpFzoindZUL4GvUUbBA9k8EKeeC7h53EDercY9T8
-	 geyc3R0TabZOpDSqa17CkigkyeR9qJF5+CTLHLHniWZ840RB0XsWn9xz//dF3P03jt
-	 8QfR+nSBZ6ZOFHIBgA+yd27HDI24/EUfbsrGrSeUmRGzbdECePHsz+S0qRolqGwqSN
-	 i7YyABNuiGQCoeahh3P8H6kjmxV1fh5f2vWuZ0Yk3rlIqpcexKr/iBYOaqVPHHOO+7
-	 yBIuHzjxxotYQ==
-Received: from ksmg02.maxima.ru (autodiscover.maxima.ru [81.200.124.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg02.maxima.ru (Postfix) with ESMTPS;
-	Fri,  1 Nov 2024 21:55:56 +0300 (MSK)
-Received: from GS-NOTE-190.mt.ru (10.0.247.10) by mmail-p-exch02.mt.ru
- (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Fri, 1 Nov 2024
- 21:55:53 +0300
-From: Murad Masimov <m.masimov@maxima.ru>
-To: Clemens Ladisch <clemens@ladisch.de>
-CC: Murad Masimov <m.masimov@maxima.ru>, Takashi Sakamoto
-	<o-takashi@sakamocchi.jp>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH] ALSA: firewire-lib: fix return value on fail in amdtp_tscm_init()
-Date: Fri, 1 Nov 2024 21:55:13 +0300
-Message-ID: <20241101185517.1819-1-m.masimov@maxima.ru>
-X-Mailer: git-send-email 2.46.0.windows.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SaFXkfUu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 691F2C4CED1;
+	Fri,  1 Nov 2024 19:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730489211;
+	bh=Sa/HhTUDVpk4NXfCGGmyvJmpwzaluhlGU0TChrjB+bo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SaFXkfUuVpXBA4XRS/CsNDgnVARbi2alUSb+Hi/XtJC1GKki1zmHwC/kEqPNARka3
+	 9A8fYPfozklJGgLPZ2Dk7KQbLBQTUftc76f5NWJF8nfXehWeNU8NtYmxAWbSXJfFWi
+	 H/KN35oAasjjbOuYK9HMZI3TK6h68sKN2QJJNH1ZIgJWT9oyLceeERvCkBX+JFo5ji
+	 QUPRvx+waOf0+Gs6+GQQQ0LNiCHD6GdNfjU15c0Hd2Tx4CgIis6LL4602aCUmdOyy4
+	 GuJcEublpLssP2OKfyLFXaTvkVpaAza+PmxCx0JeSEftPfqu8JO5YyRy2y0y005DDz
+	 HIHZCCTxXvtEg==
+Date: Fri, 1 Nov 2024 19:26:41 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH RFC v2 2/7] ASoC: hdmi-codec: move no_capture_mute to
+ struct hdmi_codec_pdata
+Message-ID: <e57aa9c7-1a35-4ed3-94c7-f3acd3293b6d@sirena.org.uk>
+References: <20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org>
+ <20241101-drm-bridge-hdmi-connector-v2-2-739ef9addf9e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
- (81.200.124.62)
-X-KSMG-Rule-ID: 7
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Lua-Profiles: 188915 [Nov 01 2024]
-X-KSMG-AntiSpam-Version: 6.1.1.7
-X-KSMG-AntiSpam-Envelope-From: m.masimov@maxima.ru
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;spf=none smtp.mailfrom=maxima.ru;dkim=none
-X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41 623e98d5198769c015c72f45fabbb9f77bdb702b, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, maxima.ru:7.1.1;127.0.0.199:7.1.2;81.200.124.62:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;ksmg02.maxima.ru:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.62
-X-MS-Exchange-Organization-SCL: -1
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiPhishing: Clean
-X-KSMG-LinksScanning: Clean
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/11/01 17:50:00 #26800554
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Xe2LhHWxNYWP+TP/"
+Content-Disposition: inline
+In-Reply-To: <20241101-drm-bridge-hdmi-connector-v2-2-739ef9addf9e@linaro.org>
+X-Cookie: We read to say that we have read.
 
-If amdtp_stream_init() fails in amdtp_tscm_init(), the latter returns zero,
-though it's supposed to return error code, which is checked inside
-init_stream() in file tascam-stream.c.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+--Xe2LhHWxNYWP+TP/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes: 47faeea25ef3 ("ALSA: firewire-tascam: add data block processing layer")
-Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
----
- sound/firewire/tascam/amdtp-tascam.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Nov 01, 2024 at 12:19:03PM +0200, Dmitry Baryshkov wrote:
+> The no_capture_mute flag might differ from platform to platform,
+> especially in the case of the wrapping implementations, like the
+> upcoming DRM HDMI Codec framework. Move the flag next to all other flags
+> in struct hdmi_codec_pdata.
 
-diff --git a/sound/firewire/tascam/amdtp-tascam.c b/sound/firewire/tascam/amdtp-tascam.c
-index 0b42d6559008..079afa4bd381 100644
---- a/sound/firewire/tascam/amdtp-tascam.c
-+++ b/sound/firewire/tascam/amdtp-tascam.c
-@@ -238,7 +238,7 @@ int amdtp_tscm_init(struct amdtp_stream *s, struct fw_unit *unit,
- 	err = amdtp_stream_init(s, unit, dir, flags, fmt,
- 			process_ctx_payloads, sizeof(struct amdtp_tscm));
- 	if (err < 0)
--		return 0;
-+		return err;
+Acked-by: Mark Brown <broonie@kernel.org>
 
- 	if (dir == AMDTP_OUT_STREAM) {
- 		// Use fixed value for FDF field.
---
-2.39.2
+--Xe2LhHWxNYWP+TP/
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmclK3AACgkQJNaLcl1U
+h9AmVwf/dWfRKRI7gD3AqmFK1DexdVqm2bNZhFPhh2L1LOQy2vXI7nvVt/2acOos
+2JHf3BYuLSIWMThTjkBKh173OCY3MTjzfkZIXRpsK6c7DuqPKLvJSakMt7/bWzvI
+fb7j49YV7k/kD7rEZBGA6cm4UTMLe9STpUG3fyNqIBBWEtnxZmGLR99iBXiM+m5R
+PoqILxDPVsroDHtz5xX/rUOxM6Fj9vG8TRgkfdHLvRdOjmYQxDD67WiUJKH8RSJ+
+li+pH4COp9QU4likh9C3pYaLUEZ4s8Jm9boYt2IZtt66rnGl8vsAjoSW8LOnKlQM
+3gmYAtofdaWiOHyS73Z1FO3Eu1quBw==
+=ZSKp
+-----END PGP SIGNATURE-----
+
+--Xe2LhHWxNYWP+TP/--
