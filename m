@@ -1,60 +1,59 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87330140E34;
-	Fri,  1 Nov 2024 22:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7339374D1
+	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 23:15:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730499154; cv=none; b=WnZpBPAiivg8SWzbcFn13GWvXdA/AOXCrsYKET6c3JVIlqnIvRv9xXptnkIRx/ylZf9d9em7XJZSk7FR+HXQJFWYs++Qi8FUxoN4wCqHUUkcf7Z7wpatZ0QkQ+k975wRT9vHNszFAg/zNJGEMV2GFQeeiFB+oQBsm62nV80oaZs=
+	t=1730502929; cv=none; b=Ve8RYcwbzHzEfrtPhwqpSkQoTskznifN8PLDIqJBqRU8n9Gz692w+7ATz8f1ODndomi7VCn4gZCnqVfyWu2sIvzwbjSRtM9E7Vq47BIpAgpv3M7f6WsKQFuKv/pp96iMWcUzSPKAq7Tr9irPQnm6vbBTvo/qOaikMIlDt6X4K54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730499154; c=relaxed/simple;
-	bh=Isa3y+7fan9RtWtq6m080K6phf2ClQ7hWCxy61obMJQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BQ0XQLkwERiQtXk9buAlOUSxSiHJTYQ0g1g7VOqZ6yNGIdcvrLJj1FDBDPXxtXh1raUOovuTBk9wtr6l5Lj/9FXPGA1iEscwC9HkfCIbEEPSlk7bpsf40Ob2nWjOk+3TJImgIM3iTvvAFrL1WuH73ErxybSL4P/Yu54g49yH0d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nlp39ud3; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1730502929; c=relaxed/simple;
+	bh=qNEbyNsFh8m0HFo9zNrZWDMCVFwkyr9BtQFOEIGU47o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MdP7OgU2X+W219CpRzh2waWiPfATL0yX808iBCxZVtBmAcFFz1wbP3ExLbzIyu3hpmk6lCHctcZXxgdTOAQyAU221aEeaxkhqYZ6KpzvqsIxDJDHdP+so5R1Gf7sv2T1bkJUrcxwrqGuNHBRQJuG5UrGpm+/fukuzNUyhhV3KaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTK+OT63; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nlp39ud3"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a99f3a5a44cso321337166b.3;
-        Fri, 01 Nov 2024 15:12:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTK+OT63"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539e59dadebso2922473e87.0
+        for <linux-sound@vger.kernel.org>; Fri, 01 Nov 2024 16:15:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730499151; x=1731103951; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=a3QMI16GFQtgLYx2O7jhdDk/qMOj0cUXZKRxEAXJaQ4=;
-        b=nlp39ud3TSQiRC6qPV3Kk3xxI3d1Vvj4nzDuy0zl3Dwf8V3XOBdZOrl9t0IUOJBF8W
-         rI9zDU/i4Jwh8KVNLaa1TjvQz9yMfuLqjR1UmPY8qne/utwrWH0qBuOR/N2JcB1RHYbk
-         XuNuQ5lT5lbON0m8o0ZkA8qg22kPlVaAjaEjPfKx8XeKXBRmCLGsW2KOhS9AQo96TB1Q
-         HNU5G5QBMKchznXnzWarQWE80cYJvf06qdG0RIw+gWGiD5bPp6NrMZaP6cy5vTuNNwfu
-         NpnBODqFjoR/CO3WJ4l33meMginbruGg31AkmAyUW+Qk5KWHYz0MbUUDTBY1yq1qfXP3
-         H8BQ==
+        d=gmail.com; s=20230601; t=1730502926; x=1731107726; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TeKTD/weqanNEFQS4DfAE4bTf6nbrT+dXwVhiqfxcRs=;
+        b=bTK+OT63FttIBc36woZVqu6FTFRwKf+gkuCt4lRMC2O/qqur31d9/2vi42nwH3rUtj
+         OtS+fFoq+7kGiN+olwMv+CR3UpFI3lH2orb21Adn98U2KQczMouXpWnnYalc4XLK0EGo
+         EU2k7CvDeKEeMuoaLmrRYUFV9t/b61xXa2mmrQBrEy8/sJaKNRPjoLdYa0FvCQ3nLI9I
+         mk9W6dmEyBoQlk/vMHyfjoIHd+o40dpUmgfjFoyrBuHKB8bh0mHQ3x8dAcOlpqmFJqlS
+         AayPV1qSmIK8yxBUBgZoZbcWpnOAXVCZdJy+8kFy9joIyMVlZLTObHQDdDN8NLg45Uje
+         Nu5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730499151; x=1731103951;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a3QMI16GFQtgLYx2O7jhdDk/qMOj0cUXZKRxEAXJaQ4=;
-        b=IxZDkUd7cnmKS3cBpmBiOYPUKYIxwul0z0GBwlUl/uYLUJ3L/TATeesgnYWOzB1TVS
-         1MXQHzuB42t1yLci/tvP+M4aoHjx13Pt838+aRn/UKXdKHZUrW43uADF10QXqpjilOta
-         b9xpyWFlUXZw/b/XZqp6qFzyZQNkBGl/vEqlob8FMvANS3zhYY77zadExflZkm/m7GSZ
-         Aq3AohAGxWXvSj1n23J4d7xdREJK7lawxEXTOgMd58sRoIAHCzSD/j1Y/uKOxhC6JaHN
-         o2k94MIVLBULTdsG9UL6RyyCnkw3KLvLQFJGuBr7bpqF+gS1/fMP6odpTFMg273cd0a3
-         5XbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMn1Jd2bVHlTrco7n217G4YJObJE1p37FoJOun1CMfyT5sMwGogMWJSSCE2tivnZe+vaHesN7Tdk1SIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF6qJOcHutUEnz35BB+OYcheptH+amSjlVUxE3DZG2rOtjI9VL
-	yqmksSlu1rtnmVI4ziNK19jJmg9otwU0GmJI+8OuE1mVV5mXBinXTxDCzw==
-X-Google-Smtp-Source: AGHT+IH4ZOTAVJiP+r9p3Vp84IPINvLCnkdppwkZQXSZXyNJM9zWXUrU12GSavHJZmGub7jfHmccog==
-X-Received: by 2002:a17:907:96a9:b0:a9a:a88a:466c with SMTP id a640c23a62f3a-a9de632e59emr2259423766b.61.1730499150473;
-        Fri, 01 Nov 2024 15:12:30 -0700 (PDT)
-Received: from ?IPV6:2a02:3100:9dbc:bd00:c5db:e5ed:512d:1904? (dynamic-2a02-3100-9dbc-bd00-c5db-e5ed-512d-1904.310.pool.telefonica.de. [2a02:3100:9dbc:bd00:c5db:e5ed:512d:1904])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a9e56645ecesm236391766b.178.2024.11.01.15.12.29
+        d=1e100.net; s=20230601; t=1730502926; x=1731107726;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TeKTD/weqanNEFQS4DfAE4bTf6nbrT+dXwVhiqfxcRs=;
+        b=OT/bNJoTuVqRFbTykz+s4zVDHFNukK6GY7VnaG9RzKDWOUsebir6KiebZrHg3TG9Eu
+         8f7ES0YYZ6QadYXDWLzVEbWbmvd2vZuiMRhaCGBhAlsbfMyZgDW9xNV+xPElotJoDI00
+         nOIEkpwPRgRH/LKxXkdMXiAQEwgFjdkFoNaV55eftPro+SdWFg1TNS6mgXgk89opidnC
+         sALhhZocgA7JOoXBDEtZY+EkBe0kwsYK0c/AraLVSVVenF477gHgSoQAUipZnD+VOYu6
+         jVpscRGGi09dkOV0Mhu4u1SERl4D58GfmRN6e90xnWDV3KWq/HyqCff3jisjlB/ingeK
+         RLOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUELp3mtftY55K0PDADsjhjmBiCk1qgU3VB+2W+6cZhX2U3vp/61XFggi4RXp8HxQmFZS0E8kt1RU4+CA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywOEkVJvR3vNgQlGVJoZ+KxZLmLl4wkOVnbjdCp6hDWr7lXDjM
+	UvI8AmEQ/MckU680brHg6wS/ijNbYiky77xfdJXZRSXjGjiLw+io
+X-Google-Smtp-Source: AGHT+IEQFBlkuE2j81iisacwVCtGuXknFeJ9h5HHfjAN+258v7vPtm/8kd22O1RBN5BKOamjOfzxBA==
+X-Received: by 2002:a05:6512:1086:b0:52e:fd75:f060 with SMTP id 2adb3069b0e04-53b34ca4c4emr11354187e87.61.1730502925474;
+        Fri, 01 Nov 2024 16:15:25 -0700 (PDT)
+Received: from [172.24.224.254] (adlk52.neoplus.adsl.tpnet.pl. [79.185.14.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bde0c34sm701929e87.269.2024.11.01.16.15.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2024 15:12:29 -0700 (PDT)
-Message-ID: <9052426e-2503-4f5e-aeba-74b78da5f3b1@gmail.com>
-Date: Fri, 1 Nov 2024 23:12:29 +0100
+        Fri, 01 Nov 2024 16:15:25 -0700 (PDT)
+Message-ID: <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+Date: Sat, 2 Nov 2024 00:15:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -62,116 +61,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH v3 4/4] i2c: core: Remove obsolete members of i2c_adapter and
- i2c_client
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
-Cc: "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
- linux-sound@vger.kernel.org
-References: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
-Content-Language: en-US
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- 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
-In-Reply-To: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+ <87r07wws4j.wl-tiwai@suse.de>
+ <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+ <87o730uttl.wl-tiwai@suse.de>
+ <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+ <87ikt7v028.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
+In-Reply-To: <87ikt7v028.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-After the lists of auto-detected and userspace-created clients have been
-removed, we can remove now unused struct members.
+On 11/1/24 09:18, Takashi Iwai wrote:
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/i2c/i2c-core-base.c | 2 --
- include/linux/i2c.h         | 6 ------
- 2 files changed, 8 deletions(-)
+>> Well, to what I recall - my (current) Thinkpad has never beeped on
+>> shutdown, other than that - without your "extra muting" patch - yes -
+>> beeping in every other circumstances works no matter if HDA controller
+>> is in PM suspend or not; this is what I've got used to for many years of
+>> using Thinkpads.
+> 
+> Do you mean about the beep emitted via thinkpad_acpi stuff or the
+> normal beep via terminal etc?  The latter must work even with the
+> patch, but the question is only about the former.  And that's the case
+> for the shutdown beep tone.
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 15397cfaa..32929ca96 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -1530,8 +1530,6 @@ static int i2c_register_adapter(struct i2c_adapter *adap)
- 	adap->locked_flags = 0;
- 	rt_mutex_init(&adap->bus_lock);
- 	rt_mutex_init(&adap->mux_lock);
--	mutex_init(&adap->userspace_clients_lock);
--	INIT_LIST_HEAD(&adap->userspace_clients);
- 
- 	/* Set default timeout to 1 second if not already set */
- 	if (adap->timeout == 0)
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 376136b18..42de42807 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -313,8 +313,6 @@ struct i2c_driver {
-  * @dev: Driver model device node for the slave.
-  * @init_irq: IRQ that was set at initialization
-  * @irq: indicates the IRQ generated by this device (if any)
-- * @detected: member of an i2c_driver.clients list or i2c-core's
-- *	userspace_devices list
-  * @slave_cb: Callback when I2C slave mode of an adapter is used. The adapter
-  *	calls it to pass on slave events to the slave driver.
-  * @devres_group_id: id of the devres group that will be created for resources
-@@ -345,7 +343,6 @@ struct i2c_client {
- 	struct device dev;		/* the device structure		*/
- 	int init_irq;			/* irq set at initialization	*/
- 	int irq;			/* irq issued by device		*/
--	struct list_head detected;
- #if IS_ENABLED(CONFIG_I2C_SLAVE)
- 	i2c_slave_cb_t slave_cb;	/* callback for slave mode	*/
- #endif
-@@ -751,9 +748,6 @@ struct i2c_adapter {
- 	char name[48];
- 	struct completion dev_released;
- 
--	struct mutex userspace_clients_lock;
--	struct list_head userspace_clients;
--
- 	struct i2c_bus_recovery_info *bus_recovery_info;
- 	const struct i2c_adapter_quirks *quirks;
- 
+Yes, I meant beeps emitted by ACPI firmware and I'm not confusing them
+with beeps generated by linux console - as you said - the latter work
+fine no matter if your patch is applied or not, the former only work
+fine if that patch is reverted.
+
+BTW. The ACPI beeps we are talking about are not emitted by
+thinkapd_acpi module, but by ACPI firmware; you can take a look at how
+thinpad_acpi handles writes to /proc/acpi/ibm/beep - it doesn't make any
+beep itself, it just injects some "fake" ACPI event - and beep is
+generated by laptop's firmware in response to that event (the
+terminology here might not be too good, because my knowledge of ACPI is
+rather modest).
+
+Anyway - with that being said - when it comes to the lack of beep on
+shutdown on *my* laptop - this must be because of *my* laptop's APCI
+firmware just doesn't  emit beep for this specific event.
+
+> You can pass snd_hda_intel.beep_mode=0 option to disable HD-audio
+> beep, verify the device being runtime-suspended, and check whether the
+> beep via thinkpad_acpi still works (after reverting).
+
+Yes, that works.
+I've even had another test - with patch applied I increased power_save
+param in this module to 3 seconds and now:
+- when I unplug AC - there is no beep, because device is PM suspended
+- now I hit Tab in bash on linux console, kernel emits beep and keeps
+device awaken for 3 more seconds - so I quickly unplug AC - there is a
+beep, then wait ~3 seconds and plug it back - no beep now. That shall
+prove that our understanding of what's going on is OK.
+
 -- 
-2.47.0
-
+Regards
+Jarosław Janik
 
