@@ -1,122 +1,177 @@
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E2C322B
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.81.35.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64074142624;
+	Fri,  1 Nov 2024 05:22:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730436244; cv=none; b=FxdMNnyMPkZuWEsCGTBZ6YSNMTUQEfkbdg339bszPJhSWvdRNfcR8jnJZY1O79tt2ZjTY2eV5BlqFNKlvjl4sWIMww1JmtR/KYrdskAPmG5+qjozWEQf7ld66RTYQ/esG+z6G5oPzzPKv6y1A9Wi+NJk2eTLOGZaYDffx+Tgm6E=
+	t=1730438576; cv=none; b=BjTU3MQOIv+ollAFSG/uvmLI0bYJG56QrJIIzkn3i5v1o/NLC7603GbRAjzuAesFki0MqNZ4g+N8N78enxFVLrqFArpc2SUC1lMA1PjvjHBeXHe/2DHito3q4B3QPdVQ+AsiCmofgANBVtrkwCuTYumv3zTlwQgRm9zVOItS9lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730436244; c=relaxed/simple;
-	bh=lds4D1YqbDt6dvw0YVK0ecsm+5xw0Dh21ZXrEpbZBU0=;
-	h=MIME-Version:Date:From:To:Cc:Subject:Message-ID:Content-Type; b=KHCoGMiu9DRBJgk+5Pnc3HNXmHfrziViqjh6d3vad1WX3UwZzqN5CkDwBq7mGEFzatlYC4HCoIkbK+ipJggDn2h2igsdQ+7MojGDoiX8TOexJyX5ajqF0yB9SE2o3loM/v6mZ/whM+Nv6pnFIVHNQX2LOYvgxPcm/m6rCWwOrOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=Ly5bpRhJ; arc=none smtp.client-ip=51.81.35.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1730438576; c=relaxed/simple;
+	bh=pGNjlh/5TANRkDFAanOu/LKbRP8oaSiAvvCfhO4t6yI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H6Kcvv3qxJLw+YOwTM2OafQK8pwIiHp4QQvy9RW6fnDxoR5duxlf2jtPFP5kcaKMZSLR7lyuTUAk7QJALXGKKNLYTUbHRzoNRuDcet4nBbLk1aSGUaDpDjThdonkf26bLJQ8e0jYhkL9vf1mTEUB2ySNutK5m/BYuVti3Sp9TW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YYD9qxns; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="Ly5bpRhJ"
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
-	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id D174520A02
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:35:57 +0000 (UTC)
-Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.155])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id A35E726760
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 04:35:48 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
-	by relay3.mymailcheap.com (Postfix) with ESMTPS id F3DF83E8D7;
-	Fri,  1 Nov 2024 05:35:40 +0100 (CET)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 97EF440078;
-	Fri,  1 Nov 2024 04:35:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1730435740; bh=lds4D1YqbDt6dvw0YVK0ecsm+5xw0Dh21ZXrEpbZBU0=;
-	h=Date:From:To:Cc:Subject:From;
-	b=Ly5bpRhJ+wLnQxkFhcNGM2nXuaCqkCAM86YFI3zj9U7mRg7PG1CkbGQejcecZ8pVB
-	 vDxR5MLeSuDYUfj2BM/4ab4kB95AB2HgLNmZyhjLPfIbTx9f1RjEVG4sTF944vxsvR
-	 RFO2bk65zSj0f9eYS5e+K7CPIrStnpsElK+ELM3g=
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0082440E46;
-	Fri,  1 Nov 2024 04:35:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YYD9qxns"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730438574; x=1761974574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=pGNjlh/5TANRkDFAanOu/LKbRP8oaSiAvvCfhO4t6yI=;
+  b=YYD9qxns7tfTKNWnEINwY5oeJvXljPRcGawyhfCWqzP3K7nexPS+Kdm2
+   U1wKHQXNqFeYLkksa+mzqGjct60JItoDsUcQTWH+QggQzUbUDHJtsCBap
+   trIDOL6eVYYIC2YufcRnYU5RT4A8uV4tH8NywAnZpQviOV7/QNbBbYVN/
+   Wf96U5njp8QgfXkEYfuJPQ8ItGlrpGs/xzDuCSgZ7W5S6u/sn8RCcT+Xw
+   9LFYYKltlTM0LHoY0BggSSFiM9/33emXHC/JvwAMbnevER1UI8tov4pcB
+   ACVCn918QNYGdEQVZMR1MZSPpVrrlg25JW7spIdn5HyBnnzfduiKlRTmu
+   Q==;
+X-CSE-ConnectionGUID: jA2xccugSsu1flMsUGDkeQ==
+X-CSE-MsgGUID: E8OGjcz2QgarRGZ/LjKR8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30314687"
+X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
+   d="scan'208";a="30314687"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:22:51 -0700
+X-CSE-ConnectionGUID: TVbU//UlQUCwNIzd8pgqTg==
+X-CSE-MsgGUID: R6mTecEmTzu92S+st927WA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
+   d="scan'208";a="83678534"
+Received: from qz-dev1.sh.intel.com (HELO localhost) ([10.239.147.28])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:22:44 -0700
+Date: Fri, 1 Nov 2024 13:20:11 +0800
+From: Qiang Zhang <qiang4.zhang@linux.intel.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Jens Axboe <axboe@kernel.dk>, Olivia Mackall <olivia@selenic.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Gonglei <arei.gonglei@huawei.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	"Chen, Jian Jun" <jian.jun.chen@intel.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	David Hildenbrand <david@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Qiang Zhang <qiang4.zhang@intel.com>,
+	virtualization@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] virtio: only reset device and restore status if
+ needed in device resume
+Message-ID: <ZyRlC-5V_NTKgzXh@dev-qz>
+References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com>
+ <20241101015101.98111-1-qiang4.zhang@linux.intel.com>
+ <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 01 Nov 2024 12:35:35 +0800
-From: Mingcong Bai <jeffbai@aosc.io>
-To: broonie@kernel.org
-Cc: mario.limonciello@amd.com, linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
-Message-ID: <8bad41b7ddbc8e061f682ecdf00a50e1@aosc.io>
-X-Sender: jeffbai@aosc.io
-Organization: Anthon Open Source Community
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 97EF440078
-X-Rspamd-Server: nf1.mymailcheap.com
-X-Spamd-Result: default: False [-0.40 / 10.00];
-	BAYES_HAM(-0.30)[75.02%];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3]
-X-Rspamd-Action: no action
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
 
-Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
-internal microphone to be enabled.
+On Fri, Nov 01, 2024 at 10:11:11AM +0800, Jason Wang wrote:
+> On Fri, Nov 1, 2024 at 9:54 AM <qiang4.zhang@linux.intel.com> wrote:
+> >
+> > From: Qiang Zhang <qiang4.zhang@intel.com>
+> >
+> > Virtio core unconditionally reset and restore status for all virtio
+> > devices before calling restore method. This breaks some virtio drivers
+> > which don't need to do anything in suspend and resume because they
+> > just want to keep device state retained.
+> 
+> The challenge is how can driver know device doesn't need rest.
 
-This is likely due to similar reasons as seen previously on Redmi Book
-14/15 Pro 2022 models (since they likely came with similar firmware):
+Hi,
 
-- dcff8b7ca92d724bdaf474a3fa37a7748377813a (ASoC: amd: yc: Add Xiaomi
-   Redmi Book Pro 15 2022 into DMI table)
-- c1dd6bf6199752890d8c59d895dd45094da51d1f (ASoC: amd: yc: Add Xiaomi
-   Redmi Book Pro 14 2022 into DMI table)
+Per my understanding to PM, in the suspend flow, device drivers need to
+1. First manage/stop accesses from upper level software and
+2. Store the volatile context into in-memory data structures.
+3. Put devices into some low power (suspended) state.
+The resume process does the reverse.
+If a device context won't loose after entering some low power state
+(optional), it's OK to skip step 2.
 
-A quirk would likely be needed for Xiaomi Book Pro 15 2022 models, too.
-However, I do not have such device on hand so I will leave it for now.
+For virtio devices, spec doesn't define whether their states will lost
+after platform entering suspended state. So to work with different
+hypervisors, virtio drivers typically trigger a reset in suspend/resume
+flow. This works fine for virtio devices if following conditions are met:
+- Device state can be totally recoverable.
+- There isn't any working behaviour expected in suspended state, i.e. the
+  suspended state should be sub-state of reset.
+However, the first point may be hard to implement from driver side for some
+devices. The second point may be unacceptable for some kind of devices.
 
-Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
----
-  sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
-  1 file changed, 7 insertions(+)
+For your question, for devices whose suspended state is alike reset state,
+the hypervisor have the flexibility to retain its state or not, kernel
+driver can unconditionally reset it with proper re-initialization to
+accomplish better compatibility. For others, hypervisor *must* retain
+device state and driver just keeps using it.
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c 
-b/sound/soc/amd/yc/acp6x-mach.c
-index 438865d5e376..dc476bfb6da4 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -395,6 +395,13 @@ static const struct dmi_system_id 
-yc_acp_quirk_table[] = {
-  			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi Book Pro 15 2022"),
-  		}
-  	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Xiaomi Book Pro 14 2022"),
-+		}
-+	},
-  	{
-  		.driver_data = &acp6x_card,
-  		.matches = {
--- 
-2.47.0
+> 
+> For example, PCI has no_soft_reset which has been done in the commit
+> "virtio: Add support for no-reset virtio PCI PM".
+> 
+> And there's a ongoing long discussion of adding suspend support in the
+> virtio spec, then driver know it's safe to suspend/resume without
+> reset.
 
+That's great! Hopefully it can fill the gap.
+Currently, I think we can safely move the reset to drivers' freeze methods,
+virtio core has no reason to take it as a common action required by all
+devices. And the reset operation can be optional skipped if driver have
+hints from device that it can retain state.
+
+> 
+> >
+> > Virtio GPIO is a typical example. GPIO states should be kept unchanged
+> > after suspend and resume (e.g. output pins keep driving the output) and
+> > Virtio GPIO driver does nothing in freeze and restore methods. But the
+> > reset operation in virtio_device_restore breaks this.
+> 
+> Is this mandated by GPIO or virtio spec? If yes, let's quote the revelant part.
+
+No. But in actual hardware design (e.g. Intel PCH GPIO), or from the
+requirement perspective, GPIO pin state can be (should support) retained
+in suspended state.
+If Virtio GPIO is used to let VM operate such physical GPIO chip indirectly,
+it can't be reset in suspend and resume. Meanwhile the hypervisor will
+retain pin states after suspension.
+
+> 
+> >
+> > Since some devices need reset in suspend and resume while some needn't,
+> > create a new helper function for the original reset and status restore
+> > logic so that virtio drivers can invoke it in their restore method
+> > if necessary.
+> 
+> How are those drivers classified?
+
+I think this depends whether hypervisor will keep devices state in platform
+suspend process. I think hypervisor should because suspend and reset are
+conceptually two different things.
+
+
+Thanks
+Qiang
