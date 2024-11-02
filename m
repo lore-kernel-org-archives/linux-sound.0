@@ -1,143 +1,211 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5220745016;
-	Sat,  2 Nov 2024 07:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BC042070
+	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 08:26:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730533048; cv=none; b=LZUt462i2SW2ypd0GSSR+5J9+LiYo0GPwqYH1qFS1QI5WmesykrwuIc7PlDm/Sjrpu5NOSyKhEKNwuPevq2HF75PwJ1tOXk4wczwgkPxipADJ3R5arGcNWk1zB2Jt6wdp2Fy/BTvCTWfFTpHVKzYUI0Dx2SZSXL+V0shU4Z9q+E=
+	t=1730535997; cv=none; b=OMameMs4DgpACH+ZeBQWkSCRxLsSKEpT04WSCCoAgX1JjvWV9ExnRD1NetRk0jL8vFrqAcL/ymlzDOCrqj6kDgIF+YRJNU4yMyHO6WoBmeDqEp/WAygt/9wzgbnwVruNi+lsJZFWKOrpuFC/XPee8ZU0zC7cOQ4w1yOVUUhSxuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730533048; c=relaxed/simple;
-	bh=dklRbIY/mUInDT+b8/wRQfEfzkMNBkjmTdc8xV2shZI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=VkpLsQL5e65+PkAtPycs1M593HCgaHCFuSGLxurk0p7SvNbFwPmRPbBNwk9HDRSTg3XNUA3Y2HUnkh2N3aOVpKqPQcig5xqweC7aMjaL0wV8lAQSEeYYZ4Hoy5yx8/tNvNR8pvpxnnRlxD9oC5r+oPYU9E4oge0/WySj/kRoiyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzNLwY7d; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730535997; c=relaxed/simple;
+	bh=3kP7YnhxF9UZ8kjDPJxIz2TSuEotO5kqs32Rm15EPAE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sqo0zibf5qr0VrHddCp3yhjLXJuuY7nSrVUXVlp5T3dKjc+axDXNOyBsTIWOOKqNuLFifNyKkMSPCZ3LXjdrEePG6v3TdixhyTlp+mC2YlmOIYbBboNNpLCqN6S2zlKEK8H1M+8EvFya93UyOWbHyWD1BiTy2MIuVKrhfhr2FAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rB+xj6Rt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=faP1nFzV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rB+xj6Rt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=faP1nFzV; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzNLwY7d"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20c805a0753so25357675ad.0;
-        Sat, 02 Nov 2024 00:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730533046; x=1731137846; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JuFkpD4Ej+eBtUbmQcpmyqTe1MglqkEa8v9mMQvGlkw=;
-        b=DzNLwY7dkxupH90fKEdYLekiDsCWcwzyGKYLb7GAU734ZZ81IVB/K0Mc9ajkwWg0Sr
-         Y5oK0r29tmiTsvTePZZq0tSrLWTeFU5NfsZJcRreobGXp4UIkMAv2X31fx9ldDZqH7eE
-         rynFq7qzvvt7zkL1GHvXVK8EDefFH1p32gY8VLzsFccref1CqjlMun15QnTGV9YstBfF
-         3Cy/ird9qfoDYoac7OjBhaQNZORghGV9PvtPf18SR4pBrvELZ6a+oeIiKpX9m4bmX8lA
-         zhV+Q+0y+aQFNJupYqBb9M+NXUUZHN2fZRqmHTL6uOA0QVfZfJ/GvcMTjvjyQX6WsI5y
-         Aupw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730533046; x=1731137846;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JuFkpD4Ej+eBtUbmQcpmyqTe1MglqkEa8v9mMQvGlkw=;
-        b=WRFLZe11Pk4iZjarYxasxxH/3gIrDvXrGJMwRNlN3CJobsOGsLLk9t4n9JfEidUjF4
-         NWJIso+O9LPBEKHKs07PP4AJeExZOhVCJV4qqGorqRrfTeWgIG8w3H/Fm8cCHfcsozsO
-         iX4dy8P9yWepb4NyQHqSmXfrYIZZ6wnRbfOQQdHN/4viiSHMoDxsRevnUwchkNeOBemN
-         ZT/tY4sdTPntJsT+yIixXne/XqR/h8ANVglToJBFkb2yBV9yUhWrrpNmZ41z4D3y0SbT
-         UqM6oeQh0AaE7PhW2uiFNp0jWqA1rigkwADY160+3FQdQyjtN2ZShkxDSIDpdlTGz9jU
-         fwlA==
-X-Forwarded-Encrypted: i=1; AJvYcCXEnbPfOgxWudyK3/+1AiFE6oQPRWksylP9Ddssk1/d/eFH/N/tAC5DDFOzFb4ydu/DTYPjMCUgqzg=@vger.kernel.org, AJvYcCXv+XPfIfiZIErb6nhV4B2GnQ6TGDVXWjTdhxvDbZCaDkvK76+cW7QVhUnxR5TQq2+AMcB61R5sxHw/p9U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfOU47yupaBuRrZ2FNTnyrS9T9ZOPbW+Di7yAz5PqCGJltYo+t
-	xD0juwpwBf7tpaeuCzJEJuYNxQNjCbzfPco7b2qJQKe/+m/HgJb52SsTzyaVkrg=
-X-Google-Smtp-Source: AGHT+IEhDZQ3xjUskKBqIJ5NheHjTuM+tJa6hT3eFe63rXrxHsDaIb9lMzYixpZ2NG0r7qeFZb0YJQ==
-X-Received: by 2002:a17:903:2445:b0:20c:bcd8:5ccb with SMTP id d9443c01a7336-210c6c0610amr366251015ad.30.1730533046304;
-        Sat, 02 Nov 2024 00:37:26 -0700 (PDT)
-Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:7d08:cd12:4b73:5f28])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211057a5c2dsm30297145ad.174.2024.11.02.00.37.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 02 Nov 2024 00:37:25 -0700 (PDT)
-From: anish kumar <yesanishhere@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH] ALSA: machine: update documentation
-Date: Sat,  2 Nov 2024 00:37:18 -0700
-Message-Id: <20241102073718.64040-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rB+xj6Rt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="faP1nFzV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rB+xj6Rt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="faP1nFzV"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 602DB21B8A;
+	Sat,  2 Nov 2024 08:26:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730535986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
+	b=rB+xj6RtWC0mTszZ18qMREcaxlv6vD/oQOXohFZfxkftLjl1zudQ+PpMeaVjGMrRuZN3Lr
+	GD1Re6h/bpVH1yAd4T2P55wNzqJKoCWwp+tQ6Gb2x3ew9h7wAC+L+KWlLAVWn2zhqFIdzV
+	KBmHmJ+hx+i9V4cp6Y/OmEapSCpS0r4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730535986;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
+	b=faP1nFzVkz/jjxMZvgij8AC693DeoytrBlqicI4VwxmyyFCTN1CqChwtO7tOG7eCHDEPJ6
+	JoHr5s0YBcUu4bCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rB+xj6Rt;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=faP1nFzV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730535986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
+	b=rB+xj6RtWC0mTszZ18qMREcaxlv6vD/oQOXohFZfxkftLjl1zudQ+PpMeaVjGMrRuZN3Lr
+	GD1Re6h/bpVH1yAd4T2P55wNzqJKoCWwp+tQ6Gb2x3ew9h7wAC+L+KWlLAVWn2zhqFIdzV
+	KBmHmJ+hx+i9V4cp6Y/OmEapSCpS0r4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730535986;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
+	b=faP1nFzVkz/jjxMZvgij8AC693DeoytrBlqicI4VwxmyyFCTN1CqChwtO7tOG7eCHDEPJ6
+	JoHr5s0YBcUu4bCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 384C013736;
+	Sat,  2 Nov 2024 08:26:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id wLU5DDLiJWeqdwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 02 Nov 2024 08:26:26 +0000
+Date: Sat, 02 Nov 2024 09:27:31 +0100
+Message-ID: <871pzuujkc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-2?Q?Jaros=B3aw?= Janik <jaroslaw.janik@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+In-Reply-To: <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+	<87r07wws4j.wl-tiwai@suse.de>
+	<5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+	<87o730uttl.wl-tiwai@suse.de>
+	<5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+	<87ikt7v028.wl-tiwai@suse.de>
+	<74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-2
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 602DB21B8A
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-1. Added clocking details.
-2. Updated ways to register the dai's
-3. Bit more detail about card registration details.
+On Sat, 02 Nov 2024 00:15:24 +0100,
+Jaros�aw Janik wrote:
+> 
+> On 11/1/24 09:18, Takashi Iwai wrote:
+> 
+> >> Well, to what I recall - my (current) Thinkpad has never beeped on
+> >> shutdown, other than that - without your "extra muting" patch - yes -
+> >> beeping in every other circumstances works no matter if HDA controller
+> >> is in PM suspend or not; this is what I've got used to for many years of
+> >> using Thinkpads.
+> > 
+> > Do you mean about the beep emitted via thinkpad_acpi stuff or the
+> > normal beep via terminal etc?  The latter must work even with the
+> > patch, but the question is only about the former.  And that's the case
+> > for the shutdown beep tone.
+> 
+> Yes, I meant beeps emitted by ACPI firmware and I'm not confusing them
+> with beeps generated by linux console - as you said - the latter work
+> fine no matter if your patch is applied or not, the former only work
+> fine if that patch is reverted.
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
- Documentation/sound/soc/machine.rst | 30 +++++++++++++++++++++++++++--
- 1 file changed, 28 insertions(+), 2 deletions(-)
+OK.
 
-diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/soc/machine.rst
-index 515c9444deaf..af7bad7ba134 100644
---- a/Documentation/sound/soc/machine.rst
-+++ b/Documentation/sound/soc/machine.rst
-@@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in your machine. e.g.
- 	.ops = &corgi_ops,
-   };
- 
-+In the above struct, dai’s are registered using names but you can pass
-+either dai name or device tree node but not both. Also, names used here
-+for cpu/codec/platform dais should be globally unique.
-+
-+Additionaly below example macro can be used to register cpu, codec and
-+platform dai.
-+
-+SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-+	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-+	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-+	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-+
- struct snd_soc_card then sets up the machine with its DAIs. e.g.
- ::
- 
-@@ -81,9 +93,13 @@ struct snd_soc_card then sets up the machine with its DAIs. e.g.
- 	.num_links = 1,
-   };
- 
-+Following this, ``devm_snd_soc_register_card`` can be used to register
-+the sound card. During the registration, the individual components
-+such as the codec, CPU, and platform are probed. If all these components
-+are successfully probed, the sound card gets registered.
- 
- Machine Power Map
-------------------
-+---------------------------
- 
- The machine driver can optionally extend the codec power map and to become an
- audio power map of the audio subsystem. This allows for automatic power up/down
-@@ -92,6 +108,16 @@ sockets in the machine init function.
- 
- 
- Machine Controls
------------------
-+-----------------------
- 
- Machine specific audio mixer controls can be added in the DAI init function.
-+
-+
-+Clocking Controls:
-+—-----------------
-+
-+As previously noted, clock configuration is handled within the machine driver.
-+For details on the clock APIs that the machine driver can utilize for
-+setup, please refer to Documentation/sound/soc/clocking.rst. However, the
-+callback needs to be registered by the CPU/Codec/Platform drivers to configure
-+the clocks that is needed for the corresponding device operation.
--- 
-2.39.3 (Apple Git-146)
+> BTW. The ACPI beeps we are talking about are not emitted by
+> thinkapd_acpi module, but by ACPI firmware; you can take a look at how
+> thinpad_acpi handles writes to /proc/acpi/ibm/beep - it doesn't make any
+> beep itself, it just injects some "fake" ACPI event - and beep is
+> generated by laptop's firmware in response to that event (the
+> terminology here might not be too good, because my knowledge of ACPI is
+> rather modest).
+> 
+> Anyway - with that being said - when it comes to the lack of beep on
+> shutdown on *my* laptop - this must be because of *my* laptop's APCI
+> firmware just doesn't  emit beep for this specific event.
 
+Yes, it seems like that. 
+
+> > You can pass snd_hda_intel.beep_mode=0 option to disable HD-audio
+> > beep, verify the device being runtime-suspended, and check whether the
+> > beep via thinkpad_acpi still works (after reverting).
+> 
+> Yes, that works.
+> I've even had another test - with patch applied I increased power_save
+> param in this module to 3 seconds and now:
+> - when I unplug AC - there is no beep, because device is PM suspended
+> - now I hit Tab in bash on linux console, kernel emits beep and keeps
+> device awaken for 3 more seconds - so I quickly unplug AC - there is a
+> beep, then wait ~3 seconds and plug it back - no beep now. That shall
+> prove that our understanding of what's going on is OK.
+
+For checking the runtime-suspend, at best check the sysfs file entry.
+e.g. cat /sys/bus/hdaudio/devices/hdaudioC0D0/power/runtime_status
+
+And, I see that Conexant codec doesn't have the beep generator but
+it's only passthrough.  Then beep_mode option doesn't change
+anything, but the "Beep" mixer volume/switch may influence on the
+behavior; not only the beep volume but also the runtime-suspend
+behavior.  You can try adjusting the volume/switch if it influences on
+anything.
+
+In anyway, you can try unload pcspkr module as well.  This is the
+Linux input device for the beep in your case.  (For Realtek codecs,
+there can be additional beep input device driven by HD-audio codec
+itself, and that's managed via beep_mode module option).
+
+Without pcspkr, the beep from the terminal shouldn't work -- unless
+it's handled by the sound server like pulesaudio.  And, if I
+understand correctly from your description, even without pcspkr, the
+firmware beep should keep working.
+
+As you see, the simple beeping stuff is really complex due to its
+history.  Although it's a legacy feature, a few people still love it,
+hence it can't go away soon :)
+
+
+Takashi
