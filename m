@@ -1,130 +1,208 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B2B14B94F
-	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 09:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA15E155741
+	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 10:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730539828; cv=none; b=YTPwYclPQ2qwG1dsW7N56cEA24uqfv2TdSH+FQEx8aiHLoKlsJVk3w5ybDWugef/NRpbTySr1P1LKXL/PuBqXn29f5ViGIU+7utcJfWgV8tW6FLDHtzxvGkCh4KsZZ8BT0KjiNQXTOPgeIbZstJ4SNL8827MA/5Fktp+j8MGvf4=
+	t=1730542060; cv=none; b=L1jm3zfPqczZup0jXXM+AzdCQYxjnToJFbnRSUJPMtWTDnWBf39iPCRbVoffYZDdNNRqTK1S9b3QK2n/LzBBP/TM8phCXqbPrKKz7c3PbeJ+LTMSbAB3DjhbACrUg2mDQ1CA1IqVaVfhwR9LqK2Ac4wPvUEv/1yHDrxUZ47PNNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730539828; c=relaxed/simple;
-	bh=KguoIWYcyHjI/KTVd2RGJJ5CuHRqYCPvOiQw9hWn1/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QSMjxx4wVh4iloW/JRk4yTM3nuFtpbEAkYqOCP6nPOGjJDLB8WAR9FlYUwZVpmJuY2nBZqv7nKOm4RECZXqrMhMKO0zfYR77y+Xyi9AUGgB9XEH9c28o5K7GvTLN8jLSMDd9yQ3+O/vE+WfGrr6dksyR+YCvmWmj9BQrQ1eHrU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UP/DPhS+; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1730542060; c=relaxed/simple;
+	bh=i+1z3Ip6El4BgnqJld5MEpQ8YfC12QTIUJUw6yNAjqE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=laMnoMcvawrr4mkX8ArKW4T9JUAv9RiCSBkEE3UbaCP2jS+U5XsG0P7hAjR9wfLaDnrqXKBaAFQjkC0U0j85C8QZOTF+0clwO546XqDtjF0diBY1wdF0AwR0QFUCiJx/faNBE5QvA2xKJ90jfha3ESqT8BQk9OEEp/WPbUgaucE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MAx7+UUm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DIy9HG23; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MAx7+UUm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DIy9HG23; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UP/DPhS+"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A250bJN030452
-	for <linux-sound@vger.kernel.org>; Sat, 2 Nov 2024 09:30:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BkeD2HeLP970ElEG5FogJPdESKQj6KjvxZECpLrGFKk=; b=UP/DPhS+hN4UnU8g
-	ja5FeCMt3i4ucwlir98n0a38a929N4aZrmnNupnPPGDVOR1DbNCFo7AEH4zpIBq0
-	VXQD4quYSFFaRMn5kQ79ugSI4VroWKgtH9JcLK+Oftbl8cHCnDVDwqFIcn1qcqRS
-	aT/EDRGptbt3e3plC31abpiO4qStldL3O9RKHfe6CNszfSBKbkharimssONpqE9i
-	q58mB+fiBPHSzbRI2yIKQIVVDtIF+G00ViotW2xbuuXMmAS2jf5+ci0Uba3AOZe/
-	/tZdVAOE7NkRucPDvomc+mQ0kuohpwaPPxlW47sKOK73k7KP2j4Lr0GOAcQi+GV/
-	rVf/gw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd5cgdfn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Sat, 02 Nov 2024 09:30:25 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7acbd9dc5a6so32277585a.0
-        for <linux-sound@vger.kernel.org>; Sat, 02 Nov 2024 02:30:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730539824; x=1731144624;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BkeD2HeLP970ElEG5FogJPdESKQj6KjvxZECpLrGFKk=;
-        b=UyTC1xZfjbGhbzZ0E04IklfmFBUBHm6WBublVf21mvQ4Ogh3tZv+AlCXotRIYVi9Ct
-         4ohqRS3VQiNs0ndB34KKSi04fmA5dYLYPGnvKXFi9cT/akAmyBCvlvrskOjh15iJ/ak6
-         FWeOy8m21krW6G0TGOVWChtfWSAYqL+cZvHJST1NUChRImPgs5kj1bP+vmnrPB7a59+A
-         FVSIcBNkBY4FWLH8uUwzezIkQxrR/Geg7t8+BRIvjcHW2A0YFhvQPCGoyddkqXtCXCju
-         GEw4NL5nUYW0/EASxdmewejJUbOs9T/R29s31jQEz01O6wRm5JaN0+mW9Itj2meildgk
-         wszQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/4QP1s9fA+N9kXiEU4GbSx7X7aGaJ6JqvvOjiCUZ95Y7xRUrQFlu8zsJzewHnEWqDrmyRlXq9Fr4UXA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGDGVlddMGTE7rrt0FvUEJQVdreZenKj5xgfQvgjYGUNnFA8yO
-	BCnZ5PDOP7efAJFJljSSubu0QsUv7hK78J9IrZ6zpX3IFRpW2WOR6tt7JbsRNxU7UEUpqrwuXMm
-	dm4TN3jWFXnL3rLjFGSbQMxoXVyc71Nk1Y0CbtEJ/uGuvpO5iWm1gVTJIpzOmtQ==
-X-Received: by 2002:a05:620a:4687:b0:7b1:45be:2e93 with SMTP id af79cd13be357-7b193ed1cc6mr1776340385a.2.1730539824121;
-        Sat, 02 Nov 2024 02:30:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGTn+cmJ+8XggYZPxMks84hd5eMzE9GVnlaPbjGcGjUXNk5B311VxjwpRp3dbrLk5HLSAW3Dg==
-X-Received: by 2002:a05:620a:4687:b0:7b1:45be:2e93 with SMTP id af79cd13be357-7b193ed1cc6mr1776339185a.2.1730539823722;
-        Sat, 02 Nov 2024 02:30:23 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e566447a1sm292887066b.176.2024.11.02.02.30.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2024 02:30:23 -0700 (PDT)
-Message-ID: <8078589d-d724-422e-a5f0-f5b6c67deafe@oss.qualcomm.com>
-Date: Sat, 2 Nov 2024 10:30:18 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MAx7+UUm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DIy9HG23";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MAx7+UUm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DIy9HG23"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BA3A31FD6D;
+	Sat,  2 Nov 2024 10:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730542056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ii1jxKMyvhiu1yIxPCn8a7PqmniINOyx+GgWlnpkmdA=;
+	b=MAx7+UUm59vL5Xdxlo+5QW1KQ5ZsQhuYpDgfHgDbNTPogU8DKocdhsDEq9H/FrQLXpzc7k
+	LSH28aG4dUolcBNjNZGRV0THVgkbiJiGGYkKxnY6WpgZ0oS/yefwIK54H15PFerRfk1sxH
+	a6tHqBnYSpNyyCE4SjWfbZQvG0dOp98=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730542056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ii1jxKMyvhiu1yIxPCn8a7PqmniINOyx+GgWlnpkmdA=;
+	b=DIy9HG23uJX/J6IBu7mNFC7rQruhnAjN4WyP53Gds1dFLSUJ2TiorT3r83W3bQMWVt+Qg5
+	qek6tFgHhvZtuYDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MAx7+UUm;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DIy9HG23
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730542056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ii1jxKMyvhiu1yIxPCn8a7PqmniINOyx+GgWlnpkmdA=;
+	b=MAx7+UUm59vL5Xdxlo+5QW1KQ5ZsQhuYpDgfHgDbNTPogU8DKocdhsDEq9H/FrQLXpzc7k
+	LSH28aG4dUolcBNjNZGRV0THVgkbiJiGGYkKxnY6WpgZ0oS/yefwIK54H15PFerRfk1sxH
+	a6tHqBnYSpNyyCE4SjWfbZQvG0dOp98=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730542056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ii1jxKMyvhiu1yIxPCn8a7PqmniINOyx+GgWlnpkmdA=;
+	b=DIy9HG23uJX/J6IBu7mNFC7rQruhnAjN4WyP53Gds1dFLSUJ2TiorT3r83W3bQMWVt+Qg5
+	qek6tFgHhvZtuYDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8FA4913736;
+	Sat,  2 Nov 2024 10:07:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Og7RIej5JWe5DgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 02 Nov 2024 10:07:36 +0000
+Date: Sat, 02 Nov 2024 11:08:41 +0100
+Message-ID: <87r07ut0ba.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda: intel: Don't free interrupt when suspending
+In-Reply-To: <cc57a1bb-719f-4840-a84f-ceb7f03ad061@gmail.com>
+References: <1b7e109b-eb69-4542-8022-4ac8f9116474@gmail.com>
+	<87h68ruzy1.wl-tiwai@suse.de>
+	<cc57a1bb-719f-4840-a84f-ceb7f03ad061@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 08/10] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
- amplifier
-To: Alexey Klimov <alexey.klimov@linaro.org>, broonie@kernel.org,
-        konradybcio@kernel.org, konrad.dybcio@oss.qualcomm.com,
-        andersson@kernel.org, srinivas.kandagatla@linaro.org
-Cc: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241101053154.497550-1-alexey.klimov@linaro.org>
- <20241101053154.497550-9-alexey.klimov@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241101053154.497550-9-alexey.klimov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: OiV0xPvHzztWvULX0htIXgh44lpdUxL0
-X-Proofpoint-GUID: OiV0xPvHzztWvULX0htIXgh44lpdUxL0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 mlxscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
- suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 malwarescore=0
- mlxlogscore=838 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411020084
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: BA3A31FD6D
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 1.11.2024 6:31 AM, Alexey Klimov wrote:
-> One WSA881X amplifier is connected on QRB4210 RB2 board
-> hence only mono speaker is supported. This amplifier is set
-> to work in analog mode only. Also add required powerdown
-> pins/gpios.
+On Fri, 01 Nov 2024 10:49:23 +0100,
+Heiner Kallweit wrote:
 > 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 45 ++++++++++++++++++++++++
->  1 file changed, 45 insertions(+)
+> On 01.11.2024 09:21, Takashi Iwai wrote:
+> > On Thu, 31 Oct 2024 20:32:52 +0100,
+> > Heiner Kallweit wrote:
+> >>
+> >> There's no need to free/re-request the interrupt on system suspend.
+> >> PCI core takes care, using functions like pci_restore_msi_state().
+> > 
+> > Well, it wasn't always true for hibernation in the past,
+> > e.g. snd-intel8x0 driver had to deal with it.  I guess it's no longer
+> > needed for modern platforms for HD-audio, so I'm going to take this
+> > for 6.13.
+> > 
+> Interesting, do you have any link to what the issue with intel8x0 was?
+> In the commit history I didn't find something related at a first glance.
+
+I also don't remember exactly, sorry.  It was decades ago.
+
+The old bug entry
+  https://bugzilla.kernel.org/show_bug.cgi?id=219416
+showed why the irq handler was freed at suspend on intel8x0.  My vague
+memory says that this was the original fix, and there was another bug
+report of hibernation issue.  I'm no longer sure whether it was
+intel8x0, though -- it might be another PCI sound driver, too.
+But the only certain thing is that it was tad old issue.
+
+> Maybe also PCI core simply is more mature meanwhile.
+
+Hopefully, and I bet for it by taking a risk to apply your cleanup :)
+
+
+thanks,
+
+Takashi
+
+> Heiner
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> >>
+> >> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> >> ---
+> >>  sound/pci/hda/hda_intel.c | 13 -------------
+> >>  1 file changed, 13 deletions(-)
+> >>
+> >> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> >> index b4540c5cd..9fc5e6c5d 100644
+> >> --- a/sound/pci/hda/hda_intel.c
+> >> +++ b/sound/pci/hda/hda_intel.c
+> >> @@ -1040,14 +1040,6 @@ static int azx_suspend(struct device *dev)
+> >>  	chip = card->private_data;
+> >>  	bus = azx_bus(chip);
+> >>  	azx_shutdown_chip(chip);
+> >> -	if (bus->irq >= 0) {
+> >> -		free_irq(bus->irq, chip);
+> >> -		bus->irq = -1;
+> >> -		chip->card->sync_irq = -1;
+> >> -	}
+> >> -
+> >> -	if (chip->msi)
+> >> -		pci_disable_msi(chip->pci);
+> >>  
+> >>  	trace_azx_suspend(chip);
+> >>  	return 0;
+> >> @@ -1062,11 +1054,6 @@ static int __maybe_unused azx_resume(struct device *dev)
+> >>  		return 0;
+> >>  
+> >>  	chip = card->private_data;
+> >> -	if (chip->msi)
+> >> -		if (pci_enable_msi(chip->pci) < 0)
+> >> -			chip->msi = 0;
+> >> -	if (azx_acquire_irq(chip, 1) < 0)
+> >> -		return -EIO;
+> >>  
+> >>  	__azx_runtime_resume(chip);
+> >>  
+> >> -- 
+> >> 2.47.0
+> >>
 > 
-> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> index fc71f5930688..76b9ae1b0ebc 100644
-> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
-> @@ -63,6 +63,16 @@ hdmi_con: endpoint {
->  		};
->  	};
->  
-> +	i2c0_gpio: i2c0 {
-> +		compatible = "i2c-gpio";
-> +
-> +		sda-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
-> +		scl-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		status = "disabled";
-
-Does it not work with &i2c1?
-
-Konrad
