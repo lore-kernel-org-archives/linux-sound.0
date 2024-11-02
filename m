@@ -1,125 +1,129 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7339374D1
-	for <linux-sound@vger.kernel.org>; Fri,  1 Nov 2024 23:15:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF16133F9
+	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 01:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730502929; cv=none; b=Ve8RYcwbzHzEfrtPhwqpSkQoTskznifN8PLDIqJBqRU8n9Gz692w+7ATz8f1ODndomi7VCn4gZCnqVfyWu2sIvzwbjSRtM9E7Vq47BIpAgpv3M7f6WsKQFuKv/pp96iMWcUzSPKAq7Tr9irPQnm6vbBTvo/qOaikMIlDt6X4K54=
+	t=1730510440; cv=none; b=uYznTuKSSlBQzXEe1sNPWpySc53l+SPRVsJfT1yjdk/lbpRg5SDB4odjakIKm9EBQIR4G7FcQNQzPEkRB1F0rp74DkPPAniIH8OYeVQIlxChKNKfJlxN4cYXJwsf3lYp67g8THZueQGAs2OlqFoV0rLBIdm6zbl0PQLGjXssFSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730502929; c=relaxed/simple;
-	bh=qNEbyNsFh8m0HFo9zNrZWDMCVFwkyr9BtQFOEIGU47o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MdP7OgU2X+W219CpRzh2waWiPfATL0yX808iBCxZVtBmAcFFz1wbP3ExLbzIyu3hpmk6lCHctcZXxgdTOAQyAU221aEeaxkhqYZ6KpzvqsIxDJDHdP+so5R1Gf7sv2T1bkJUrcxwrqGuNHBRQJuG5UrGpm+/fukuzNUyhhV3KaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bTK+OT63; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730510440; c=relaxed/simple;
+	bh=BrRccpbniEuTyMXzSED9H43qEsIYFjr8x4RBaeeAYPY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gaRLrYS4lNM2WSy6lRg1owsb4FNu8GiOQOzh4AQ0e+SvEqFRJZnAEAEYtjBg08N1c1ryfJSqgNBIti51YV0t7Y1urZYsy6j9bORv5ayTRPfcz9OpDvDtrs5rjMJBBuWNlRrG9FqefPo/EoKASPyH+AE6AJ2K46C0gEwWlyT4HXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=hjpwYCcP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kghhN6Xw; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bTK+OT63"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539e59dadebso2922473e87.0
-        for <linux-sound@vger.kernel.org>; Fri, 01 Nov 2024 16:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730502926; x=1731107726; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TeKTD/weqanNEFQS4DfAE4bTf6nbrT+dXwVhiqfxcRs=;
-        b=bTK+OT63FttIBc36woZVqu6FTFRwKf+gkuCt4lRMC2O/qqur31d9/2vi42nwH3rUtj
-         OtS+fFoq+7kGiN+olwMv+CR3UpFI3lH2orb21Adn98U2KQczMouXpWnnYalc4XLK0EGo
-         EU2k7CvDeKEeMuoaLmrRYUFV9t/b61xXa2mmrQBrEy8/sJaKNRPjoLdYa0FvCQ3nLI9I
-         mk9W6dmEyBoQlk/vMHyfjoIHd+o40dpUmgfjFoyrBuHKB8bh0mHQ3x8dAcOlpqmFJqlS
-         AayPV1qSmIK8yxBUBgZoZbcWpnOAXVCZdJy+8kFy9joIyMVlZLTObHQDdDN8NLg45Uje
-         Nu5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730502926; x=1731107726;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TeKTD/weqanNEFQS4DfAE4bTf6nbrT+dXwVhiqfxcRs=;
-        b=OT/bNJoTuVqRFbTykz+s4zVDHFNukK6GY7VnaG9RzKDWOUsebir6KiebZrHg3TG9Eu
-         8f7ES0YYZ6QadYXDWLzVEbWbmvd2vZuiMRhaCGBhAlsbfMyZgDW9xNV+xPElotJoDI00
-         nOIEkpwPRgRH/LKxXkdMXiAQEwgFjdkFoNaV55eftPro+SdWFg1TNS6mgXgk89opidnC
-         sALhhZocgA7JOoXBDEtZY+EkBe0kwsYK0c/AraLVSVVenF477gHgSoQAUipZnD+VOYu6
-         jVpscRGGi09dkOV0Mhu4u1SERl4D58GfmRN6e90xnWDV3KWq/HyqCff3jisjlB/ingeK
-         RLOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUELp3mtftY55K0PDADsjhjmBiCk1qgU3VB+2W+6cZhX2U3vp/61XFggi4RXp8HxQmFZS0E8kt1RU4+CA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywOEkVJvR3vNgQlGVJoZ+KxZLmLl4wkOVnbjdCp6hDWr7lXDjM
-	UvI8AmEQ/MckU680brHg6wS/ijNbYiky77xfdJXZRSXjGjiLw+io
-X-Google-Smtp-Source: AGHT+IEQFBlkuE2j81iisacwVCtGuXknFeJ9h5HHfjAN+258v7vPtm/8kd22O1RBN5BKOamjOfzxBA==
-X-Received: by 2002:a05:6512:1086:b0:52e:fd75:f060 with SMTP id 2adb3069b0e04-53b34ca4c4emr11354187e87.61.1730502925474;
-        Fri, 01 Nov 2024 16:15:25 -0700 (PDT)
-Received: from [172.24.224.254] (adlk52.neoplus.adsl.tpnet.pl. [79.185.14.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53c7bde0c34sm701929e87.269.2024.11.01.16.15.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2024 16:15:25 -0700 (PDT)
-Message-ID: <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
-Date: Sat, 2 Nov 2024 00:15:24 +0100
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="hjpwYCcP";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kghhN6Xw"
+Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B8273114019B;
+	Fri,  1 Nov 2024 21:20:35 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Fri, 01 Nov 2024 21:20:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1730510435; x=
+	1730596835; bh=QdTh2P9MU68on4G0MEvWGMMNXmTCT3NzZ7eJgtZDayo=; b=h
+	jpwYCcPki6FfdbBG6SqtZwsBVLwSl03AMN2Jo82zYPiNBnKEIA5mfP5cSnewJIpS
+	Nng9LIq3KgjSENdOhknoUYpVt8DUbA7u/x+TI2tTOgCSswa6ibaR/cKfj8abg9oz
+	AUcRB9UlE5/5ivr+gFpX0EFM2V+0nrnjJMKCvUabL6954faEe5FgTpu7Iof95qe5
+	QT5yOgaef2mlj/fqwT4IB3HJl2hfp5BZn0mNdJ5e+1JUQpg1gRqKwwO1dw0GjIUh
+	BSSS7Rn9ZItpohx/A7j/O2pLFUBu41LDlM6vWYVg6LM2+pbeXuz+Q0hOH7mCyuMx
+	eRAUSUEt/1IXquIYFbA5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1730510435; x=1730596835; bh=QdTh2P9MU68on4G0MEvWGMMNXmTCT3NzZ7e
+	JgtZDayo=; b=kghhN6XwGU8l9iQSk+mpr/A3jaqltq4IBc6mUGGaIT+Jlnbp4GE
+	T0R8xviXaJULbebMeUWSn0FAcxdg4dYZDm+x9ffpClvZSK7FcIf1gwacNTKQkSTZ
+	i0SgRsclUtvKgy+Wt0Rw+jsE6zj1YGsYL3WPmxBMYvbnyflyIgGV7Z2sufpMlUz8
+	F5hfB96Z27JaTQgTJyVBdLeaKwOUWKH9G9aJbRnL/05LrwqgMJCzdLejkWI/WMo1
+	QXm5LbaS9x13NmRU9RZ6c1IzHea5w41j408u1V6t9/LjVc2lY4UEoibnADcU1PE4
+	TEKm+FaXS6se4hBlfLiPFokmPRRXOamjZKQ==
+X-ME-Sender: <xms:Yn4lZ0udJ7HaLw_15X4rwe0_werePO43sWoVTcHbV4v3MxhFh2TjYA>
+    <xme:Yn4lZxd3SVhUoQJK6YhiGciyaR7Z4MTq2Bq1paRwgf3-nouNO4ucB_ajScZecA9T2
+    0z25qaO2pVwUcCvEpA>
+X-ME-Received: <xmr:Yn4lZ_y22krnSZFC3rKSCkqSGbphvY-lxpAIAYNF2J6wi_20q1M3O5jYNU3c1HVN_ezg_xiaVO0141hDItZ9aSRYf9sS4v9ElA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdeltddgfedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
+    ucfhrhhomhepvfgrkhgrshhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihessh
+    grkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhephefhhfettefgkedvieeu
+    ffevveeufedtlefhjeeiieetvdelfedtgfefuedukeeunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgrmhho
+    tggthhhirdhjphdpnhgspghrtghpthhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepmhdrmhgrshhimhhovhesmhgrgihimhgrrdhruhdprhgtphhtthhopehtihif
+    rghisehsuhhsvgdrtghomhdprhgtphhtthhopehlihhnuhigqdhsohhunhgusehvghgvrh
+    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhvtgdqphhrohhjvggttheslhhinhhu
+    gihtvghsthhinhhgrdhorhhg
+X-ME-Proxy: <xmx:Yn4lZ3O9udxZP0YgqkbsqWodTIlQp40x5bsD2OBViriTWo5_xps50A>
+    <xmx:Yn4lZ0_Aknc79XAQO7X3B8BALgBqDtfl06ogpyzZTbNZyLOoPSUNiw>
+    <xmx:Yn4lZ_V3_Q2LD7TCfRli9WlvOvrFcEpMacr_nmLbBsY-yeLWgo2ZUw>
+    <xmx:Yn4lZ9fCKy0RHpoyD0PsbPeu0HUVOoPTTbJ1dTriefWTmE0oOO5tuA>
+    <xmx:Y34lZ4Y1rAdpdS3pTSEVJnf3t0wsMi6RWo9Lduukb3wTSfFdzrWBHhCI>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Nov 2024 21:20:33 -0400 (EDT)
+Date: Sat, 2 Nov 2024 10:20:29 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Murad Masimov <m.masimov@maxima.ru>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH] ALSA: firewire-lib: fix return value on fail in
+ amdtp_tscm_init()
+Message-ID: <20241102012029.GA446652@workstation.local>
+References: <20241101185517.1819-1-m.masimov@maxima.ru>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
- <87r07wws4j.wl-tiwai@suse.de>
- <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
- <87o730uttl.wl-tiwai@suse.de>
- <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
- <87ikt7v028.wl-tiwai@suse.de>
-Content-Language: en-US, pl-PL
-From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
-In-Reply-To: <87ikt7v028.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241101185517.1819-1-m.masimov@maxima.ru>
 
-On 11/1/24 09:18, Takashi Iwai wrote:
+Hi,
 
->> Well, to what I recall - my (current) Thinkpad has never beeped on
->> shutdown, other than that - without your "extra muting" patch - yes -
->> beeping in every other circumstances works no matter if HDA controller
->> is in PM suspend or not; this is what I've got used to for many years of
->> using Thinkpads.
+On Fri, Nov 01, 2024 at 09:55:13PM +0300, Murad Masimov wrote:
+> If amdtp_stream_init() fails in amdtp_tscm_init(), the latter returns zero,
+> though it's supposed to return error code, which is checked inside
+> init_stream() in file tascam-stream.c.
 > 
-> Do you mean about the beep emitted via thinkpad_acpi stuff or the
-> normal beep via terminal etc?  The latter must work even with the
-> patch, but the question is only about the former.  And that's the case
-> for the shutdown beep tone.
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 47faeea25ef3 ("ALSA: firewire-tascam: add data block processing layer")
+> Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+> ---
+>  sound/firewire/tascam/amdtp-tascam.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/firewire/tascam/amdtp-tascam.c b/sound/firewire/tascam/amdtp-tascam.c
+> index 0b42d6559008..079afa4bd381 100644
+> --- a/sound/firewire/tascam/amdtp-tascam.c
+> +++ b/sound/firewire/tascam/amdtp-tascam.c
+> @@ -238,7 +238,7 @@ int amdtp_tscm_init(struct amdtp_stream *s, struct fw_unit *unit,
+>  	err = amdtp_stream_init(s, unit, dir, flags, fmt,
+>  			process_ctx_payloads, sizeof(struct amdtp_tscm));
+>  	if (err < 0)
+> -		return 0;
+> +		return err;
+> 
+>  	if (dir == AMDTP_OUT_STREAM) {
+>  		// Use fixed value for FDF field.
 
-Yes, I meant beeps emitted by ACPI firmware and I'm not confusing them
-with beeps generated by linux console - as you said - the latter work
-fine no matter if your patch is applied or not, the former only work
-fine if that patch is reverted.
+Indeed. The return value should not be from the err variable. It looks
+good to me, regardless of the circumstances.
 
-BTW. The ACPI beeps we are talking about are not emitted by
-thinkapd_acpi module, but by ACPI firmware; you can take a look at how
-thinpad_acpi handles writes to /proc/acpi/ibm/beep - it doesn't make any
-beep itself, it just injects some "fake" ACPI event - and beep is
-generated by laptop's firmware in response to that event (the
-terminology here might not be too good, because my knowledge of ACPI is
-rather modest).
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-Anyway - with that being said - when it comes to the lack of beep on
-shutdown on *my* laptop - this must be because of *my* laptop's APCI
-firmware just doesn't  emit beep for this specific event.
 
-> You can pass snd_hda_intel.beep_mode=0 option to disable HD-audio
-> beep, verify the device being runtime-suspended, and check whether the
-> beep via thinkpad_acpi still works (after reverting).
+Thanks
 
-Yes, that works.
-I've even had another test - with patch applied I increased power_save
-param in this module to 3 seconds and now:
-- when I unplug AC - there is no beep, because device is PM suspended
-- now I hit Tab in bash on linux console, kernel emits beep and keeps
-device awaken for 3 more seconds - so I quickly unplug AC - there is a
-beep, then wait ~3 seconds and plug it back - no beep now. That shall
-prove that our understanding of what's going on is OK.
-
--- 
-Regards
-Jarosław Janik
-
+Takashi Sakamoto
