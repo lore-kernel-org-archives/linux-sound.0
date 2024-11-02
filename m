@@ -1,211 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BC042070
-	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 08:26:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B2B14B94F
+	for <linux-sound@vger.kernel.org>; Sat,  2 Nov 2024 09:30:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730535997; cv=none; b=OMameMs4DgpACH+ZeBQWkSCRxLsSKEpT04WSCCoAgX1JjvWV9ExnRD1NetRk0jL8vFrqAcL/ymlzDOCrqj6kDgIF+YRJNU4yMyHO6WoBmeDqEp/WAygt/9wzgbnwVruNi+lsJZFWKOrpuFC/XPee8ZU0zC7cOQ4w1yOVUUhSxuY=
+	t=1730539828; cv=none; b=YTPwYclPQ2qwG1dsW7N56cEA24uqfv2TdSH+FQEx8aiHLoKlsJVk3w5ybDWugef/NRpbTySr1P1LKXL/PuBqXn29f5ViGIU+7utcJfWgV8tW6FLDHtzxvGkCh4KsZZ8BT0KjiNQXTOPgeIbZstJ4SNL8827MA/5Fktp+j8MGvf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730535997; c=relaxed/simple;
-	bh=3kP7YnhxF9UZ8kjDPJxIz2TSuEotO5kqs32Rm15EPAE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sqo0zibf5qr0VrHddCp3yhjLXJuuY7nSrVUXVlp5T3dKjc+axDXNOyBsTIWOOKqNuLFifNyKkMSPCZ3LXjdrEePG6v3TdixhyTlp+mC2YlmOIYbBboNNpLCqN6S2zlKEK8H1M+8EvFya93UyOWbHyWD1BiTy2MIuVKrhfhr2FAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rB+xj6Rt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=faP1nFzV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rB+xj6Rt; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=faP1nFzV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730539828; c=relaxed/simple;
+	bh=KguoIWYcyHjI/KTVd2RGJJ5CuHRqYCPvOiQw9hWn1/w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QSMjxx4wVh4iloW/JRk4yTM3nuFtpbEAkYqOCP6nPOGjJDLB8WAR9FlYUwZVpmJuY2nBZqv7nKOm4RECZXqrMhMKO0zfYR77y+Xyi9AUGgB9XEH9c28o5K7GvTLN8jLSMDd9yQ3+O/vE+WfGrr6dksyR+YCvmWmj9BQrQ1eHrU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UP/DPhS+; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rB+xj6Rt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="faP1nFzV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rB+xj6Rt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="faP1nFzV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 602DB21B8A;
-	Sat,  2 Nov 2024 08:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730535986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
-	b=rB+xj6RtWC0mTszZ18qMREcaxlv6vD/oQOXohFZfxkftLjl1zudQ+PpMeaVjGMrRuZN3Lr
-	GD1Re6h/bpVH1yAd4T2P55wNzqJKoCWwp+tQ6Gb2x3ew9h7wAC+L+KWlLAVWn2zhqFIdzV
-	KBmHmJ+hx+i9V4cp6Y/OmEapSCpS0r4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730535986;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
-	b=faP1nFzVkz/jjxMZvgij8AC693DeoytrBlqicI4VwxmyyFCTN1CqChwtO7tOG7eCHDEPJ6
-	JoHr5s0YBcUu4bCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=rB+xj6Rt;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=faP1nFzV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730535986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
-	b=rB+xj6RtWC0mTszZ18qMREcaxlv6vD/oQOXohFZfxkftLjl1zudQ+PpMeaVjGMrRuZN3Lr
-	GD1Re6h/bpVH1yAd4T2P55wNzqJKoCWwp+tQ6Gb2x3ew9h7wAC+L+KWlLAVWn2zhqFIdzV
-	KBmHmJ+hx+i9V4cp6Y/OmEapSCpS0r4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730535986;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lvhNaGXtPH3/VVpqhPC2vBav0VMIhnBv7Tf2OLyoq5o=;
-	b=faP1nFzVkz/jjxMZvgij8AC693DeoytrBlqicI4VwxmyyFCTN1CqChwtO7tOG7eCHDEPJ6
-	JoHr5s0YBcUu4bCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 384C013736;
-	Sat,  2 Nov 2024 08:26:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wLU5DDLiJWeqdwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 02 Nov 2024 08:26:26 +0000
-Date: Sat, 02 Nov 2024 09:27:31 +0100
-Message-ID: <871pzuujkc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?Jaros=B3aw?= Janik <jaroslaw.janik@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
-In-Reply-To: <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
-References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
-	<87r07wws4j.wl-tiwai@suse.de>
-	<5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
-	<87o730uttl.wl-tiwai@suse.de>
-	<5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
-	<87ikt7v028.wl-tiwai@suse.de>
-	<74e49336-4552-4224-9b14-204d4264d647@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UP/DPhS+"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A250bJN030452
+	for <linux-sound@vger.kernel.org>; Sat, 2 Nov 2024 09:30:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BkeD2HeLP970ElEG5FogJPdESKQj6KjvxZECpLrGFKk=; b=UP/DPhS+hN4UnU8g
+	ja5FeCMt3i4ucwlir98n0a38a929N4aZrmnNupnPPGDVOR1DbNCFo7AEH4zpIBq0
+	VXQD4quYSFFaRMn5kQ79ugSI4VroWKgtH9JcLK+Oftbl8cHCnDVDwqFIcn1qcqRS
+	aT/EDRGptbt3e3plC31abpiO4qStldL3O9RKHfe6CNszfSBKbkharimssONpqE9i
+	q58mB+fiBPHSzbRI2yIKQIVVDtIF+G00ViotW2xbuuXMmAS2jf5+ci0Uba3AOZe/
+	/tZdVAOE7NkRucPDvomc+mQ0kuohpwaPPxlW47sKOK73k7KP2j4Lr0GOAcQi+GV/
+	rVf/gw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd5cgdfn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Sat, 02 Nov 2024 09:30:25 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7acbd9dc5a6so32277585a.0
+        for <linux-sound@vger.kernel.org>; Sat, 02 Nov 2024 02:30:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730539824; x=1731144624;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BkeD2HeLP970ElEG5FogJPdESKQj6KjvxZECpLrGFKk=;
+        b=UyTC1xZfjbGhbzZ0E04IklfmFBUBHm6WBublVf21mvQ4Ogh3tZv+AlCXotRIYVi9Ct
+         4ohqRS3VQiNs0ndB34KKSi04fmA5dYLYPGnvKXFi9cT/akAmyBCvlvrskOjh15iJ/ak6
+         FWeOy8m21krW6G0TGOVWChtfWSAYqL+cZvHJST1NUChRImPgs5kj1bP+vmnrPB7a59+A
+         FVSIcBNkBY4FWLH8uUwzezIkQxrR/Geg7t8+BRIvjcHW2A0YFhvQPCGoyddkqXtCXCju
+         GEw4NL5nUYW0/EASxdmewejJUbOs9T/R29s31jQEz01O6wRm5JaN0+mW9Itj2meildgk
+         wszQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV/4QP1s9fA+N9kXiEU4GbSx7X7aGaJ6JqvvOjiCUZ95Y7xRUrQFlu8zsJzewHnEWqDrmyRlXq9Fr4UXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGDGVlddMGTE7rrt0FvUEJQVdreZenKj5xgfQvgjYGUNnFA8yO
+	BCnZ5PDOP7efAJFJljSSubu0QsUv7hK78J9IrZ6zpX3IFRpW2WOR6tt7JbsRNxU7UEUpqrwuXMm
+	dm4TN3jWFXnL3rLjFGSbQMxoXVyc71Nk1Y0CbtEJ/uGuvpO5iWm1gVTJIpzOmtQ==
+X-Received: by 2002:a05:620a:4687:b0:7b1:45be:2e93 with SMTP id af79cd13be357-7b193ed1cc6mr1776340385a.2.1730539824121;
+        Sat, 02 Nov 2024 02:30:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGTn+cmJ+8XggYZPxMks84hd5eMzE9GVnlaPbjGcGjUXNk5B311VxjwpRp3dbrLk5HLSAW3Dg==
+X-Received: by 2002:a05:620a:4687:b0:7b1:45be:2e93 with SMTP id af79cd13be357-7b193ed1cc6mr1776339185a.2.1730539823722;
+        Sat, 02 Nov 2024 02:30:23 -0700 (PDT)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e566447a1sm292887066b.176.2024.11.02.02.30.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 Nov 2024 02:30:23 -0700 (PDT)
+Message-ID: <8078589d-d724-422e-a5f0-f5b6c67deafe@oss.qualcomm.com>
+Date: Sat, 2 Nov 2024 10:30:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 602DB21B8A
-X-Spam-Score: -2.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 08/10] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
+ amplifier
+To: Alexey Klimov <alexey.klimov@linaro.org>, broonie@kernel.org,
+        konradybcio@kernel.org, konrad.dybcio@oss.qualcomm.com,
+        andersson@kernel.org, srinivas.kandagatla@linaro.org
+Cc: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
+        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241101053154.497550-1-alexey.klimov@linaro.org>
+ <20241101053154.497550-9-alexey.klimov@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241101053154.497550-9-alexey.klimov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: OiV0xPvHzztWvULX0htIXgh44lpdUxL0
+X-Proofpoint-GUID: OiV0xPvHzztWvULX0htIXgh44lpdUxL0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ spamscore=0 mlxscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0
+ suspectscore=0 adultscore=0 clxscore=1015 phishscore=0 malwarescore=0
+ mlxlogscore=838 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411020084
 
-On Sat, 02 Nov 2024 00:15:24 +0100,
-Jaros³aw Janik wrote:
+On 1.11.2024 6:31 AM, Alexey Klimov wrote:
+> One WSA881X amplifier is connected on QRB4210 RB2 board
+> hence only mono speaker is supported. This amplifier is set
+> to work in analog mode only. Also add required powerdown
+> pins/gpios.
 > 
-> On 11/1/24 09:18, Takashi Iwai wrote:
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 45 ++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
 > 
-> >> Well, to what I recall - my (current) Thinkpad has never beeped on
-> >> shutdown, other than that - without your "extra muting" patch - yes -
-> >> beeping in every other circumstances works no matter if HDA controller
-> >> is in PM suspend or not; this is what I've got used to for many years of
-> >> using Thinkpads.
-> > 
-> > Do you mean about the beep emitted via thinkpad_acpi stuff or the
-> > normal beep via terminal etc?  The latter must work even with the
-> > patch, but the question is only about the former.  And that's the case
-> > for the shutdown beep tone.
-> 
-> Yes, I meant beeps emitted by ACPI firmware and I'm not confusing them
-> with beeps generated by linux console - as you said - the latter work
-> fine no matter if your patch is applied or not, the former only work
-> fine if that patch is reverted.
+> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> index fc71f5930688..76b9ae1b0ebc 100644
+> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> @@ -63,6 +63,16 @@ hdmi_con: endpoint {
+>  		};
+>  	};
+>  
+> +	i2c0_gpio: i2c0 {
+> +		compatible = "i2c-gpio";
+> +
+> +		sda-gpios = <&tlmm 4 GPIO_ACTIVE_HIGH>;
+> +		scl-gpios = <&tlmm 5 GPIO_ACTIVE_HIGH>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		status = "disabled";
 
-OK.
+Does it not work with &i2c1?
 
-> BTW. The ACPI beeps we are talking about are not emitted by
-> thinkapd_acpi module, but by ACPI firmware; you can take a look at how
-> thinpad_acpi handles writes to /proc/acpi/ibm/beep - it doesn't make any
-> beep itself, it just injects some "fake" ACPI event - and beep is
-> generated by laptop's firmware in response to that event (the
-> terminology here might not be too good, because my knowledge of ACPI is
-> rather modest).
-> 
-> Anyway - with that being said - when it comes to the lack of beep on
-> shutdown on *my* laptop - this must be because of *my* laptop's APCI
-> firmware just doesn't  emit beep for this specific event.
-
-Yes, it seems like that. 
-
-> > You can pass snd_hda_intel.beep_mode=0 option to disable HD-audio
-> > beep, verify the device being runtime-suspended, and check whether the
-> > beep via thinkpad_acpi still works (after reverting).
-> 
-> Yes, that works.
-> I've even had another test - with patch applied I increased power_save
-> param in this module to 3 seconds and now:
-> - when I unplug AC - there is no beep, because device is PM suspended
-> - now I hit Tab in bash on linux console, kernel emits beep and keeps
-> device awaken for 3 more seconds - so I quickly unplug AC - there is a
-> beep, then wait ~3 seconds and plug it back - no beep now. That shall
-> prove that our understanding of what's going on is OK.
-
-For checking the runtime-suspend, at best check the sysfs file entry.
-e.g. cat /sys/bus/hdaudio/devices/hdaudioC0D0/power/runtime_status
-
-And, I see that Conexant codec doesn't have the beep generator but
-it's only passthrough.  Then beep_mode option doesn't change
-anything, but the "Beep" mixer volume/switch may influence on the
-behavior; not only the beep volume but also the runtime-suspend
-behavior.  You can try adjusting the volume/switch if it influences on
-anything.
-
-In anyway, you can try unload pcspkr module as well.  This is the
-Linux input device for the beep in your case.  (For Realtek codecs,
-there can be additional beep input device driven by HD-audio codec
-itself, and that's managed via beep_mode module option).
-
-Without pcspkr, the beep from the terminal shouldn't work -- unless
-it's handled by the sound server like pulesaudio.  And, if I
-understand correctly from your description, even without pcspkr, the
-firmware beep should keep working.
-
-As you see, the simple beeping stuff is really complex due to its
-history.  Although it's a legacy feature, a few people still love it,
-hence it can't go away soon :)
-
-
-Takashi
+Konrad
