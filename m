@@ -1,114 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031141C9EDB;
-	Mon,  4 Nov 2024 18:27:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32FE1C4A03
+	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 19:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730744854; cv=none; b=r4ud1Cj4sXla2GkyFFkdwVcxHgASh4hDtgLOf7Y0lW6/FTQtTh1Dcm6eGpL3RkF6U6Bphu0IOFYIc40H+Aq6RAPI6u+2opXxBVnj28La+cAFfxyLfdpzEOXWjn1ZAPK4Gm62HhxXoh/J4KmobNHiJrXhElde32hIXF7zjrNsxMY=
+	t=1730747153; cv=none; b=K7/lpHDXzsyl1SSUsch/MZ3fd6l5LyrCMG6epWlC0qgtZUCy81lmLCiRcMIWlDNuU+XXTTWlbANt37UyWLZ2wha95Y/6+RMGFoMlhCfS8br2zcYMdQXlMxdwnjz0hW7Db/AwFG7zXMnrimyURRWscT1wTcrDP+I8k8U5bNWl61E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730744854; c=relaxed/simple;
-	bh=CKBWtU4GRwbElT4iatXhq6MbCOH4QUyqf9y8QhcrITE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P8WKR48hJrAlNrQugW2q74IRiZkzQTxb0NimQBDdfreDvmhuPfpu12yjAtxk3iygTOi+h29fDqtBa99/J57ac+MSAva5qFbwK261p3fCFfeDbrHjwBZ01+MqOnND8/m7okd7V9ehfb6sPaI134AuCMgprRp/uI+Qq+s8REZaihk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=joJ9Ibb1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730747153; c=relaxed/simple;
+	bh=3LOhl08G6PvTYOgeQq5RouYg7fPg314NdpEq/P3BNnI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mr/e9aFVsDM82TMLjB2IlsxXzz0VgCBSuhDikU6DkMPJmcLqF3N0Kim3KegsfvliL9y68t0sxgXvpdPI2k0Kw4jIzIIn7AyD2umAZyDR/cgzvi9xIV5drdbrPkCS8WzqNPCyrMH5D9B6N2j0MHyX47Sccuel+R9ZECF5rTf9E2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W2Okv/Hr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8C4w1U1K; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W2Okv/Hr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8C4w1U1K; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="joJ9Ibb1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F037BC4CECE;
-	Mon,  4 Nov 2024 18:27:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730744853;
-	bh=CKBWtU4GRwbElT4iatXhq6MbCOH4QUyqf9y8QhcrITE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=joJ9Ibb1clP/25G7DfAJgTGMmPFZ2cDID+BuLHToL5dg6KVhcRp/pI7o3tN+qlcLD
-	 ylp+VHx77luQ2CI0HfHpGGud7b6hZbdaGuvnyeqHjaYfD7C7AXbSsq5kBLO3//Wn+h
-	 BtkpaUNZc0Oc+DQKTz8lr8XsH+kYibhjJdT5RI02qS9QeoK1OAoL3CWNhQx7nB13wj
-	 l7UZ8u2SCbP+BYcC1eljStbMQVDly3LOiFTQtV9CnGKeIvSVYxP2Nfc4rejt/3vMiB
-	 rMI1RD4yfihWp61JIg0ooGHv1ZgjBulglzC1kIy6z21peOvpnkKSQIhai8asAoTSGu
-	 BP329W4/whkCA==
-Date: Mon, 4 Nov 2024 18:27:28 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: Suraj Sonawane <surajsonawane0215@gmail.com>, daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com, lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	perex@perex.cz, pierre-louis.bossart@linux.dev,
-	ranjani.sridharan@linux.intel.com,
-	sound-open-firmware@alsa-project.org, tiwai@suse.com,
-	yung-chuan.liao@linux.intel.com
-Subject: Re: [PATCH v2] sound: fix uninit-value in
- sof_ipc4_pcm_dai_link_fixup_rate
-Message-ID: <d19b77e2-496b-4633-a69c-576cc79c004a@sirena.org.uk>
-References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
- <20241103113702.27673-1-surajsonawane0215@gmail.com>
- <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W2Okv/Hr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8C4w1U1K";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W2Okv/Hr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8C4w1U1K"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C542E21BB7;
+	Mon,  4 Nov 2024 19:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730747149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QDHALFWnqYEBUiWw0psD3cTIvlK5m321SnIANjntVFE=;
+	b=W2Okv/Hr08XLYw1hWygy5iE7ahzi38kAifDTTXKUjDpY0wIuhxDZBp7Um8j8ZyeyWBW60L
+	h9iKyuiQdZbWTa7JQSGrf1R5gnnMJqFcpbJZ8c9cHJK/h4zzUeBD/I8e+IOqDVa58rD5E5
+	DywnEldABnbZ2mMTJHDqrOSN/UQENKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730747149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QDHALFWnqYEBUiWw0psD3cTIvlK5m321SnIANjntVFE=;
+	b=8C4w1U1Ky1uf6J8T3KnMrMgikximUAg4nwdeZgq06dW7skOxETeGMnYtRtYQ5j/Ns+X6Ui
+	cUWtejBC0s3NEdDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730747149; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QDHALFWnqYEBUiWw0psD3cTIvlK5m321SnIANjntVFE=;
+	b=W2Okv/Hr08XLYw1hWygy5iE7ahzi38kAifDTTXKUjDpY0wIuhxDZBp7Um8j8ZyeyWBW60L
+	h9iKyuiQdZbWTa7JQSGrf1R5gnnMJqFcpbJZ8c9cHJK/h4zzUeBD/I8e+IOqDVa58rD5E5
+	DywnEldABnbZ2mMTJHDqrOSN/UQENKk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730747149;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=QDHALFWnqYEBUiWw0psD3cTIvlK5m321SnIANjntVFE=;
+	b=8C4w1U1Ky1uf6J8T3KnMrMgikximUAg4nwdeZgq06dW7skOxETeGMnYtRtYQ5j/Ns+X6Ui
+	cUWtejBC0s3NEdDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A54FC13736;
+	Mon,  4 Nov 2024 19:05:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fUryJg0bKWdoWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Nov 2024 19:05:49 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Heiner Kallweit <hkallweit1@gmail.com>
+Subject: [PATCH] ALSA: hda: Fix unused variable warning
+Date: Mon,  4 Nov 2024 20:06:53 +0100
+Message-ID: <20241104190654.32216-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="f5+v6BDU93UAdGtJ"
-Content-Disposition: inline
-In-Reply-To: <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
-X-Cookie: The meek are contesting the will.
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_CC(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
+The previous code cleanup made a variable not really used, which now
+leads to a compile warning.  Let's fix it.
 
---f5+v6BDU93UAdGtJ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: cac99f73f075 ("ALSA: hda: intel: Don't free interrupt when suspending")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202411050247.3esQz7Am-lkp@intel.com/
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/pci/hda/hda_intel.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-On Mon, Nov 04, 2024 at 12:52:09PM +0200, P=E9ter Ujfalusi wrote:
-> On 03/11/2024 13:37, Suraj Sonawane wrote:
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index fc329b6a70f5..6e271777feb9 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1039,13 +1039,11 @@ static int azx_suspend(struct device *dev)
+ {
+ 	struct snd_card *card = dev_get_drvdata(dev);
+ 	struct azx *chip;
+-	struct hdac_bus *bus;
+ 
+ 	if (!azx_is_pm_ready(card))
+ 		return 0;
+ 
+ 	chip = card->private_data;
+-	bus = azx_bus(chip);
+ 	azx_shutdown_chip(chip);
+ 
+ 	trace_azx_suspend(chip);
+-- 
+2.43.0
 
-> > Fix an issue detected by the Smatch tool:
-> >=20
-> > sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
-> > error: uninitialized symbol 'be_rate'.
-> >=20
-> > This issue occurred because the variable 'be_rate' could remain
-> > uninitialized if num_input_formats is zero. In such cases, the
-> > loop that assigns a value to 'be_rate' would not execute,
-> > potentially leading to undefined behavior when rate->min and
-> > rate->max are set with an uninitialized 'be_rate'.
-> >=20
-> > To resolve this, an additional check for num_input_formats > 0
-> > was added before setting rate->min and rate->max with 'be_rate'.
-> > This ensures that 'be_rate' is assigned only when there are valid
-> > input formats, preventing any use of uninitialized data.
-
-> > -		rate->min =3D be_rate;
-> > -		rate->max =3D rate->min;
-> > +		/* Set rate only if be_rate was assigned */
-> > +		if (num_input_formats > 0) {
-
-> By definition the copier must have at least one input and one output
-> format, this check is going to be always true.
-
-Static analysis of the code can't reasonably tell that, we need
-something that ensures that it doesn't detect a spuriously uninitialised
-variable here.  Possibly a
-
-	if (WARN_ON_ONCE(!num_input_formats))
-		return -EINVAL;
-
-or similar?
-
---f5+v6BDU93UAdGtJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcpEg8ACgkQJNaLcl1U
-h9DKywf8Ce6RMkQi51AuKN/2vWZ6ETHIHkyh5Y1nCU7vJ0DVzwbqAk2AzWExYvZv
-Oc1Ls3z0akVISRjusKzoBt9srKmhjoixTfjtPIrAzgx7vgoGq9Fko3eoMKohUIG7
-Ct6QYPmfSYtmxbNb3b3YR3yIzr+vwTh/TsFGSuQm0dWJtcZbn2q6Tftb8PcjKhA9
-Zldyq8N4OD74OWuftAHixtJDlS3c3gxS3yDmiteOg/yKQUwSPJZq0mKqcG/QjOu1
-LWzaO4sRfG4XnparU24enWXjH71FAe0DjtuQxCXRDBTmVESBgoYQyrZ8ylRsxi62
-rZFqE/iqe7ZQ6dfuBVxITwKKmWfDXA==
-=Noxs
------END PGP SIGNATURE-----
-
---f5+v6BDU93UAdGtJ--
