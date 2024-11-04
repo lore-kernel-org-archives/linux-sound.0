@@ -1,121 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD661D2F46;
-	Mon,  4 Nov 2024 10:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4636C1BC9FE;
+	Mon,  4 Nov 2024 10:53:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730717581; cv=none; b=FaLTskCdgQ6amg9kp/hlICb2SPqaELM+CO5GbjoU2mLGIoBnWL54Ehrlu13Gks/BWs2w0nZTPYogZ/RQISHrI4UIqVqfQNwsGqbwH9+KqZjshdq8sGy3J4cwZoRHK+LXSABufLERzcE6DDE1oUhqh5XeVrG0r7EWN0UvALpGLvc=
+	t=1730717609; cv=none; b=EnawI4K+16FRamSYnT0GD4SCwdVrLU7W0de4F75+ACX0gOh/bROrG6gqUKohCDI5OzMCaR+xwZ0+soPIZWU7EQdnxhJ9J7dzNtQEknO2COs6yr7qORST3rE85MTzV964NmOwrNbqAOJmR6nvz+hvXJ5kpRUgFRV+YEP7QVVXEy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730717581; c=relaxed/simple;
-	bh=dlIgtHsSJIpiQAd85jQfmAMXLCYDsUZXYwS+9YlXkxA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u3GU7dVTVKnx3HX5FTtn1BM53h/VcEy57eN32NTSLRrk+bf71m1FQJfAS6rL5YRAncxZFmfKYxExXdYzDPWZktAQM3QUyHtuEjm1RfBaJgc+siFy/dxsruJ/C7iAH85l5Z27Q7e1KpYxrZD1nQ2+PwqxH8FZ9UxpX1TekLVQSh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWAvrpE3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730717609; c=relaxed/simple;
+	bh=God9650+vBM2+0hWukpmY/djha/CUK0fx3SutwpjJS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KD9ZP3NTe8v3sBXUOoOKNX7UH1Mnw9o4VU8t+NZBa2jwCfDQPYDS6FUHnxsZNVD4KUjjlL6vvbLr1tGKDjGBeK42lgMT4Mq1ZoNQmgLiFmqUQH44Jm9iFwNYMI48VPC/fKU1RNlD1wq1QM6Ve5WclyuCDb/61VgJSN1jK8bkqqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lMgsSlZB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWAvrpE3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC38BC4CED2;
-	Mon,  4 Nov 2024 10:52:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lMgsSlZB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14C6C4CECE;
+	Mon,  4 Nov 2024 10:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730717581;
-	bh=dlIgtHsSJIpiQAd85jQfmAMXLCYDsUZXYwS+9YlXkxA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OWAvrpE3A2FRh+wjXJfwILG8J4dLZFIo16NRumUPZUn+v9+Vc6DWCBFFovYovL8es
-	 wEqEt0h2jvEfRqJDidZEVV281m/1qCU0p7E0SiqrzhlBZK+qb8cntg2bBo+5x4Wox2
-	 vaspoD8HmBaHTzbbnfMSA55WOJrMQqLYqZPtEaNgPDDDhkbh8roKfGPpek3mv2SMcj
-	 FrMB+O20AykEyrO4zjWM7BMpe4lmXk4YctpJn2RWowRuNmW6BADe15zpn/Ab7OKO1z
-	 iudfVZS//01YekJGMpFghJ1m6Aigq1ePcrY7blswnhTvwVcnLPj/sWC60yyebNGYCX
-	 xWJ9P/gucDjVg==
+	s=k20201202; t=1730717607;
+	bh=God9650+vBM2+0hWukpmY/djha/CUK0fx3SutwpjJS4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lMgsSlZBm8+iAkbQbLkQNlYcc381oFVPuyouRGfHgcLc91crh0ajGB3WiArm1qF4k
+	 cYwX+hWHUrayemKSu1uPAFlXZixwkJxMMvMrf/f2cu+HT8pfBS/t2eDCKhRZCXqnRK
+	 Ib2XAtXW+3g0yjCD1iMIN4oUsmvQJBpCdBtztbS0+DbvkAcv7TEKzPmbSyw8UMYx55
+	 DckIX3ragu4qy5Q2yiUt9kyxQpWNuDYOwIRX3kJiQhhTMH/qcoFlcwNSgJMDhIWW7/
+	 U/U0qJmdtergh5jnw96kN86boEWDS5b5YSbSwfKOWG/xkIRG4ZvhcHpZ9+Pq20XVW3
+	 S30JVpbZnmjqw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	cezary.rojewski@intel.com,
+	liam.r.girdwood@linux.intel.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	rf@opensource.cirrus.com,
+	pierre-louis.bossart@linux.dev,
+	u.kleine-koenig@baylibre.com,
+	alban.boye@protonmail.com,
+	tomlohave@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 11/14] ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
-Date: Mon,  4 Nov 2024 05:52:03 -0500
-Message-ID: <20241104105228.97053-11-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 01/11] ASoC: Intel: bytcr_rt5640: Add support for non ACPI instantiated codec
+Date: Mon,  4 Nov 2024 05:52:59 -0500
+Message-ID: <20241104105324.97393-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241104105228.97053-1-sashal@kernel.org>
-References: <20241104105228.97053-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.59
+X-stable-base: Linux 6.1.115
 Content-Transfer-Encoding: 8bit
 
-From: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
 
-[ Upstream commit ef5fbdf732a158ec27eeba69d8be851351f29f73 ]
+[ Upstream commit d48696b915527b5bcdd207a299aec03fb037eb17 ]
 
-Infinix ZERO BOOK 13 has a 2+2 speaker system which isn't probed correctly.
-This patch adds a quirk with the proper pin connections.
-Also The mic in this laptop suffers too high gain resulting in mostly
-fan noise being recorded,
-This patch Also limit mic boost.
+On some x86 Bay Trail tablets which shipped with Android as factory OS,
+the DSDT is so broken that the codec needs to be manually instantatiated
+by the special x86-android-tablets.ko "fixup" driver for cases like this.
 
-HW Probe for device; https://linux-hardware.org/?probe=a2e892c47b
+This means that the codec-dev cannot be retrieved through its ACPI fwnode,
+add support to the bytcr_rt5640 machine driver for such manually
+instantiated rt5640 i2c_clients.
 
-Test: All 4 speaker works, Mic has low noise.
+An example of a tablet which needs this is the Vexia EDU ATLA 10 tablet,
+which has been distributed to schools in the Spanish Andalucía region.
 
-Signed-off-by: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
-Link: https://patch.msgid.link/20241028155516.15552-1-piyuschouhan1598@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patch.msgid.link/20241024211615.79518-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/pci/hda/patch_realtek.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ sound/soc/intel/boards/bytcr_rt5640.c | 33 ++++++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 3 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 9be5a5c509f09..ec68893f79dcd 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7264,6 +7264,7 @@ enum {
- 	ALC290_FIXUP_SUBWOOFER_HSJACK,
- 	ALC269_FIXUP_THINKPAD_ACPI,
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
-+	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
- 	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
-@@ -7642,6 +7643,16 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
- 	},
-+	[ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x14, 0x90170151 }, /* use as internal speaker (LFE) */
-+			{ 0x1b, 0x90170152 }, /* use as internal speaker (back) */
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
-+	},
- 	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -10395,6 +10406,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-+	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
+diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
+index ff879e173d51d..7a57d7abd3803 100644
+--- a/sound/soc/intel/boards/bytcr_rt5640.c
++++ b/sound/soc/intel/boards/bytcr_rt5640.c
+@@ -17,6 +17,7 @@
+ #include <linux/acpi.h>
+ #include <linux/clk.h>
+ #include <linux/device.h>
++#include <linux/device/bus.h>
+ #include <linux/dmi.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/gpio/machine.h>
+@@ -32,6 +33,8 @@
+ #include "../atom/sst-atom-controls.h"
+ #include "../common/soc-intel-quirks.h"
+ 
++#define BYT_RT5640_FALLBACK_CODEC_DEV_NAME	"i2c-rt5640"
++
+ enum {
+ 	BYT_RT5640_DMIC1_MAP,
+ 	BYT_RT5640_DMIC2_MAP,
+@@ -1687,9 +1690,33 @@ static int snd_byt_rt5640_mc_probe(struct platform_device *pdev)
+ 
+ 	codec_dev = acpi_get_first_physical_node(adev);
+ 	acpi_dev_put(adev);
+-	if (!codec_dev)
+-		return -EPROBE_DEFER;
+-	priv->codec_dev = get_device(codec_dev);
++
++	if (codec_dev) {
++		priv->codec_dev = get_device(codec_dev);
++	} else {
++		/*
++		 * Special case for Android tablets where the codec i2c_client
++		 * has been manually instantiated by x86_android_tablets.ko due
++		 * to a broken DSDT.
++		 */
++		codec_dev = bus_find_device_by_name(&i2c_bus_type, NULL,
++					BYT_RT5640_FALLBACK_CODEC_DEV_NAME);
++		if (!codec_dev)
++			return -EPROBE_DEFER;
++
++		if (!i2c_verify_client(codec_dev)) {
++			dev_err(dev, "Error '%s' is not an i2c_client\n",
++				BYT_RT5640_FALLBACK_CODEC_DEV_NAME);
++			put_device(codec_dev);
++		}
++
++		/* fixup codec name */
++		strscpy(byt_rt5640_codec_name, BYT_RT5640_FALLBACK_CODEC_DEV_NAME,
++			sizeof(byt_rt5640_codec_name));
++
++		/* bus_find_device() returns a reference no need to get() */
++		priv->codec_dev = codec_dev;
++	}
+ 
+ 	/*
+ 	 * swap SSP0 if bytcr is detected
 -- 
 2.43.0
 
