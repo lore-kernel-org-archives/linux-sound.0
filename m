@@ -1,108 +1,75 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284761ABECD
-	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 09:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8FF1ADFE4
+	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 09:30:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730712419; cv=none; b=cuIkyPTixLAtoH1ntJfe5D5CeI+AB4CiDOG2F8oxs7116aqMHKjLycodRqXKkI7vWezWXusaweqgZarxZSTyPanJ2p8VOGT6S74F9zNGynb9wa6RbLeUIPMYvJ4fUUcdDJoMWA5BUIQSgeDz9hhV+6v9I2EIASnEfwYvn4p73w0=
+	t=1730712607; cv=none; b=tN+M96kZtCeqG0DWRSqLz4w0W+ooS/rosQWoWm6nbglQJAaShiD5cxW1HDLII6xJHj0XGH1pkNlIXfYhhY/w9aX9RHwWYen41qpDiS9ZpsFdmPyB4xWjafLgZSPYCTjXtQ9PpA4LA4jLORI+9AEb6BbUhv2DPWnqZV3f3EvneTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730712419; c=relaxed/simple;
-	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+	s=arc-20240116; t=1730712607; c=relaxed/simple;
+	bh=wBP7ZYHgobRSMBkhoEuY8+vWGRQFJrQ0yJVuQgNAU1k=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mGQBOMLaR2VeZ2uDrlIwynipHWYFsgl2BHeA5dcn38VZz+/cxYbNpvsGC3qnVRUGyrZwHZXuW0X9veP97He16nwfG2M57FsZ0wKcmSDkJT3g68IVNbOEDXcqcPEjSl/96BPXtNuC4m4D43OXbSP+zAAmEE8OZa2ZqL6gUEkdxsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hs7Ppm7w; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=texc6rShl5E3AlZHrJYcjke2I9fzqmxwwC4rwiXSNiD3rLusylUpkJfk+dfDib5kQSLRpmUZisdJuP2g5A06HpR1QGD11kk55Dd1WPRBZHET+xK79Ze532ISwZynOQfRDMxvlSb0Es0SmLwa5Lav8rtDr/eq9fMOtaDQMp3fNe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Gqj+go1C; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hs7Ppm7w"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gqj+go1C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730712417;
+	s=mimecast20190719; t=1730712604;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
-	b=hs7Ppm7wXaEwXylZk3WlnuRhOBVi9EZFeFaHA5C2kpvSH/VjkVm6K0TiNsnRe0z8Kj9ISO
-	QeHbTMdAtNM8OMz7ZsX56g97CaQyWzdOZ7ETkNzghr2NW+8F20RyIMZTCqi56KBYvwZI4U
-	2b2TxZfnuV5aUNIoqBdGJ9P5nVrVU+4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=wBP7ZYHgobRSMBkhoEuY8+vWGRQFJrQ0yJVuQgNAU1k=;
+	b=Gqj+go1C3ow2H6J1kdL4nrAuGBEA87acUrUvkVx0IGJn5fWcQw0B+05tebBz8pNenAUY5G
+	ZHia9ywLb7A094vU3vRYuMqYjsMkCbev3oUcOyHhHabXSkPyxl9T4nwQ9dNX4XhLzZscDN
+	ov0W77B/oqVqqij0U1SnwEDJ3uAYR64=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-fewq8rsAPrSLxrfzCzvO7A-1; Mon, 04 Nov 2024 04:26:56 -0500
-X-MC-Unique: fewq8rsAPrSLxrfzCzvO7A-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d5a3afa84so1946247f8f.3
-        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 01:26:55 -0800 (PST)
+ us-mta-516-q4SafW3tN9aOIbvDs9mNNA-1; Mon, 04 Nov 2024 04:30:03 -0500
+X-MC-Unique: q4SafW3tN9aOIbvDs9mNNA-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4314f023f55so27440265e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 01:30:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730712415; x=1731317215;
+        d=1e100.net; s=20230601; t=1730712602; x=1731317402;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
-        b=p9fdOwPj8BxU7RMInuFRUylQMDFRPkTguPLCLQVXVuPpBVpjGHZhtfwVrhw/ByJA0J
-         x/MTJOa1afPznyoYdbrqpV6drnVJzOsPiqD+nO91nNMv3UULmoff5sj205+QYoqiOz74
-         iAuMc4QLTl+c84iAZ7mk1CY4fK1pVw4HLTfFZugqd6tVYeJMZQM40PDmgIkcTywGj/Db
-         mWGZVLDfr1EeMql7LGor4I1sMFAQQnGsLXLo9/GnBS6mD3FUzl3CSmiVApGs//G56qw9
-         RdljsDkJjxpKiqG2IwIGwx9MhG1je2D/bUBiQnRhlFmZqYJiAXK2ymmGEH9M+W0v0KUH
-         Sb2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUADvp+6NwVJTMLKnoPpLH0Tackv4rV2zW4plFO0oVgNwU3lWvdRA5COytZktHDY1KI2i7mmaOf6HejtA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2QlUOQNSfiUiLD7wKp/ZBH0w7Pw+c80kNTH0thauu0Sug5AC1
-	RaAw7vs33dlrdLPqhg8tYrsKrktdF+WzFoZbUJT2G9S6Nb8qbiw3XIb7rzeMvI95+eyAiY7KNsN
-	YUOxaryvaIJBgW+fWurMzc9TIt7qDOtfS7O18zdILmQUQhR9r4z7hV+5/tn+M
-X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192704f8f.4.1730712414721;
-        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHUG4i3r4RT/0mDz+U1cY7m40dZcu2ijC6eEouX1uNQBldOHTZd5hoduIq2TUsnjYO3wLrnew==
-X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192628f8f.4.1730712414212;
-        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
+        bh=gKtfGtvu9QuGOQ+mF1Y/MWcBZGqBG4faf6TA4C8EU4U=;
+        b=MTwrfgZzFIdsXZnyXuY4aKUkg9eOyOMXZU2qAz7c0T15OIfus5S34E2jEi9dYCLwO8
+         bNObe7LbFrtuPgeawcYvgyrzvrzTLWlZFUUBho90VA+le/X+m+SRlbN9x/JQTpopJpJt
+         9p2c9n8awmwYx6Fb8SiHirpM8Ov1YjBnYGX4pUSdvMbZDJzMK8iDsroOIihtoaXuFTCP
+         qX4/7MH9Tole56czKZ4EYL5W1+R+94i4Slg8r2ns4HgeeEyh9Z7gbqGhoy6//4RoLJyC
+         B54YHptLMYJX06PUsDHdR+Betnkwc7B5DvO6KiJy6naEgDLEcHFmXv60ZgqiqzDfWTxV
+         vCiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4Bs7twHVddsyamC5lCqig6xgKqkgSLmqorVhD9CTpQ3Rtetdzy6MLbbIagUoWvrNaoyWm25RPtMXuww==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkMrZxWuXiE92Isvnl6wToJLhAiSP74Fqp52BUqU5hioncABwo
+	fbKdGImr6a1XssTNrOJsedXLohOdnqhH275S/8dhWTSZk2EiqCUwrceej+B11zILGskGH2JwGA4
+	FWbulVWQOKncUXBTNMeGyjEIDxC3gN8vuMlwMGBXDuF3ik4TL7sPqx7cz9GML
+X-Received: by 2002:a05:600c:3b9c:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-4319ac70754mr289713265e9.1.1730712601965;
+        Mon, 04 Nov 2024 01:30:01 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHhkGRUsLKoGes7Q+Gaa4JMpFBwwQDw4NqRdOi0qUWkq4kjb4UQjFbDvmfNCttWq+TBxtSH/Q==
+X-Received: by 2002:a05:600c:3b9c:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-4319ac70754mr289713005e9.1.1730712601522;
+        Mon, 04 Nov 2024 01:30:01 -0800 (PST)
 Received: from ?IPv6:2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f? (200116b82d7fe40007f8722cbb2ebb7f.dip.versatel-1u1.de. [2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7d20sm12817150f8f.7.2024.11.04.01.26.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5bf447sm145387895e9.13.2024.11.04.01.30.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 01:26:53 -0800 (PST)
-Message-ID: <a8d9f32f60f55c58d79943c4409b8b94535ff853.camel@redhat.com>
-Subject: Re: [PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+        Mon, 04 Nov 2024 01:30:00 -0800 (PST)
+Message-ID: <a16dab7222bc1388f4a4d5b1baa6ce0c613d7933.camel@redhat.com>
+Subject: Re: [PATCH] ALSA: hda: intel: Switch to pci_alloc_irq_vectors API
 From: Philipp Stanner <pstanner@redhat.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Damien Le Moal
- <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
- <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
- Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
- Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
- Manish Chopra <manishc@marvell.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
- <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
- <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
- Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
- S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
- <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, Oleksandr Tyshchenko
- <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
- <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
- <kevin.tian@intel.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
- <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
- Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
- <eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye
- Bin <yebin10@huawei.com>, Marek =?ISO-8859-1?Q?Marczykowski-G=F3recki?=
- <marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>
-Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-input@vger.kernel.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
- linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
-Date: Mon, 04 Nov 2024 10:26:51 +0100
-In-Reply-To: <87cyjgwfmo.ffs@tglx>
-References: <20241015185124.64726-1-pstanner@redhat.com>
-	 <20241015185124.64726-2-pstanner@redhat.com> <87cyjgwfmo.ffs@tglx>
+To: Takashi Iwai <tiwai@suse.de>, Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	linux-sound@vger.kernel.org, Bjorn Helgaas <helgaas@kernel.org>, 
+ "linux-pci@vger.kernel.org"
+	 <linux-pci@vger.kernel.org>
+Date: Mon, 04 Nov 2024 10:30:00 +0100
+In-Reply-To: <87bjyzuyvz.wl-tiwai@suse.de>
+References: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
+	 <87bjyzuyvz.wl-tiwai@suse.de>
 User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -115,66 +82,98 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-10-31 at 14:45 +0100, Thomas Gleixner wrote:
-> On Tue, Oct 15 2024 at 20:51, Philipp Stanner wrote:
-> > +/**
-> > + * pci_intx - enables/disables PCI INTx for device dev, unmanaged
-> > version
+On Fri, 2024-11-01 at 09:44 +0100, Takashi Iwai wrote:
+> On Thu, 31 Oct 2024 20:41:12 +0100,
+> Heiner Kallweit wrote:
+> >=20
+> > Switch from legacy pci_msi_enable()/pci_intx() API to the
+> > pci_alloc_irq_vectors API.
+> >=20
+> > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 >=20
-> mismatch vs. actual function name.
-
-ACK, will fix
-
+> So, this change looks conflicting with the pcim_intx() cleanup patch
+> set from Philipp.=C2=A0 I think we can take this one and drop the
+> corresponding one from Philipp's patch set.
 >=20
-> > + * @pdev: the PCI device to operate on
-> > + * @enable: boolean: whether to enable or disable PCI INTx
-> > + *
-> > + * Enables/disables PCI INTx for device @pdev
-> > + *
-> > + * This function behavios identically to pci_intx(), but is never
-> > managed with
-> > + * devres.
-> > + */
-> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
->=20
-> This is a misnomer. The function controls the INTX_DISABLE bit of a
-> PCI device. Something like this:
->=20
-> void __pci_intx_control()
-> {
-> }
->=20
-> static inline void pci_intx_enable(d)
-> {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pci_intx_control(d, true);
-> }
->=20
-> .....
->=20
-> makes it entirely clear what this is about.
+> Bjorn, Philipp, does it sound OK?
 
-Well, I would agree if it were about writing a 'real' new function. But
-this is actually about creating a _temporary_ function which is added
-here and removed again in patch 12 of this same series.
+Yes, that will be trivial to do. I'll just drop my hda_intel patch and
+that's it.
 
-It wouldn't even be needed; the only reason why it exists is to make it
-easy for the driver maintainers concerned by patches 2-11 to review the
-change and understand what's going on. Hence it is
-"pci_intx_unmanaged()" =3D=3D "Attention, we take automatic management away
-from your driver"
-
-pci_intx() is then fully restored after patch 12 and it keeps its old
-name.
-
-Gr=C3=BC=C3=9Fe,
-Philipp
-
+Thanks,
+P.
 
 >=20
-> Hmm?
 >=20
-> Thanks,
+> thanks,
 >=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tglx
+> Takashi
+>=20
+> > ---
+> > =C2=A0sound/pci/hda/hda_intel.c | 21 ++++++++++++---------
+> > =C2=A01 file changed, 12 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> > index 9fc5e6c5d..fc329b6a7 100644
+> > --- a/sound/pci/hda/hda_intel.c
+> > +++ b/sound/pci/hda/hda_intel.c
+> > @@ -773,6 +773,14 @@ static void azx_clear_irq_pending(struct azx
+> > *chip)
+> > =C2=A0static int azx_acquire_irq(struct azx *chip, int do_disconnect)
+> > =C2=A0{
+> > =C2=A0=09struct hdac_bus *bus =3D azx_bus(chip);
+> > +=09int ret;
+> > +
+> > +=09if (!chip->msi || pci_alloc_irq_vectors(chip->pci, 1, 1,
+> > PCI_IRQ_MSI) < 0) {
+> > +=09=09ret =3D pci_alloc_irq_vectors(chip->pci, 1, 1,
+> > PCI_IRQ_INTX);
+> > +=09=09if (ret < 0)
+> > +=09=09=09return ret;
+> > +=09=09chip->msi =3D 0;
+> > +=09}
+> > =C2=A0
+> > =C2=A0=09if (request_irq(chip->pci->irq, azx_interrupt,
+> > =C2=A0=09=09=09chip->msi ? 0 : IRQF_SHARED,
+> > @@ -786,7 +794,6 @@ static int azx_acquire_irq(struct azx *chip,
+> > int do_disconnect)
+> > =C2=A0=09}
+> > =C2=A0=09bus->irq =3D chip->pci->irq;
+> > =C2=A0=09chip->card->sync_irq =3D bus->irq;
+> > -=09pci_intx(chip->pci, !chip->msi);
+> > =C2=A0=09return 0;
+> > =C2=A0}
+> > =C2=A0
+> > @@ -1879,13 +1886,9 @@ static int azx_first_init(struct azx *chip)
+> > =C2=A0=09=09chip->gts_present =3D true;
+> > =C2=A0#endif
+> > =C2=A0
+> > -=09if (chip->msi) {
+> > -=09=09if (chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+> > -=09=09=09dev_dbg(card->dev, "Disabling 64bit
+> > MSI\n");
+> > -=09=09=09pci->no_64bit_msi =3D true;
+> > -=09=09}
+> > -=09=09if (pci_enable_msi(pci) < 0)
+> > -=09=09=09chip->msi =3D 0;
+> > +=09if (chip->msi && chip->driver_caps & AZX_DCAPS_NO_MSI64) {
+> > +=09=09dev_dbg(card->dev, "Disabling 64bit MSI\n");
+> > +=09=09pci->no_64bit_msi =3D true;
+> > =C2=A0=09}
+> > =C2=A0
+> > =C2=A0=09pci_set_master(pci);
+> > @@ -2037,7 +2040,7 @@ static int disable_msi_reset_irq(struct azx
+> > *chip)
+> > =C2=A0=09free_irq(bus->irq, chip);
+> > =C2=A0=09bus->irq =3D -1;
+> > =C2=A0=09chip->card->sync_irq =3D -1;
+> > -=09pci_disable_msi(chip->pci);
+> > +=09pci_free_irq_vectors(chip->pci);
+> > =C2=A0=09chip->msi =3D 0;
+> > =C2=A0=09err =3D azx_acquire_irq(chip, 1);
+> > =C2=A0=09if (err < 0)
+> > --=20
+> > 2.47.0
+> >=20
 >=20
 
