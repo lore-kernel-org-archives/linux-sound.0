@@ -1,173 +1,180 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2060.outbound.protection.outlook.com [40.107.223.60])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E04B1AC8AE;
-	Mon,  4 Nov 2024 09:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730711611; cv=fail; b=R0SxH5gJkCKBpEsyI1HI/z5z3W9Q+ScEXJCcz2PZUOAMNUXn0n/YJRof340PlfsRWre+wgBFyKFLR9wx4J+nT5n0RIL8TyVbZl1VMWe/Xes7BRxyaVXb1YpGjUKe+MksWHypVbBxK1ZnY8Eg6SF4M83zny5r0sKC5CfZjiSyor4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730711611; c=relaxed/simple;
-	bh=s/ttbCKYGCQAyBg3k8aAJ8YN3CnoFMqeymrKJHMbdKQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NvCOv4t9bSWkHpymnohzvKf0hmwFLVot9WuY5rqlucUPE3WBjBQUzNPIgRt8I3HJTGVlqJYUGIqZ7uJ6KdBRBlT6+0bg9KxJ6t0if7m7D3Ok1M6UhY8G4xP9AfzA8AUbTvVh/fei8GCpyBRyxXX3/RvMLR7INFNRmgbbuyHXi/0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QnmO26VV; arc=fail smtp.client-ip=40.107.223.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284761ABECD
+	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 09:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730712419; cv=none; b=cuIkyPTixLAtoH1ntJfe5D5CeI+AB4CiDOG2F8oxs7116aqMHKjLycodRqXKkI7vWezWXusaweqgZarxZSTyPanJ2p8VOGT6S74F9zNGynb9wa6RbLeUIPMYvJ4fUUcdDJoMWA5BUIQSgeDz9hhV+6v9I2EIASnEfwYvn4p73w0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730712419; c=relaxed/simple;
+	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mGQBOMLaR2VeZ2uDrlIwynipHWYFsgl2BHeA5dcn38VZz+/cxYbNpvsGC3qnVRUGyrZwHZXuW0X9veP97He16nwfG2M57FsZ0wKcmSDkJT3g68IVNbOEDXcqcPEjSl/96BPXtNuC4m4D43OXbSP+zAAmEE8OZa2ZqL6gUEkdxsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hs7Ppm7w; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QnmO26VV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NRpu+8kNT0+zVxdMnCwERxqBph+mIJ697wktfo12YACaAxftpEcDW0L2VNlTTFZvfHXMFOsvenfI+zEIQgVJDkPaJuaudGw0b2ZZTGquv4Uy7TuBTNXw/EOJOxdeGY5ykDK4eB5735RSTZmZPAv4gA0rFwv+AEEhjlx4MjPkRgj6qGV95y52paTvBMpjmfC8zFM5gFtoc5vVkC4kyN7/MvhZQvyP+ttKvyqMgwVxxckKW/w1Ec229UA/znuFF8yyb58AXjfjvjnzfSyDJjSY8+3hkFXptHJYs6B2l4vDhofQuhQN3+QnGBCaCF3R4Kb+VKd8K0657SVPSu1lAefo4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H3XTEcGdcJdq740imtppkEgkuDroXgp5hq4UxzUuc64=;
- b=FqHu6Q5OwT87hjQ3TX7C4A2/BEjPaC8VjDfkKaVH70gIL79+JxZncJCiS2j9cClBzdM9Y1rLn4ijP4lyeVhA/4q/YnTzPhjlsdb+5V00aJrXbayHv72XcktxM2ut7aAM1v9fS8zHoDqVnvVx2FPEubEkduUGXxjf1cWwfqF7oJcZHQQQf4zBC/QUTqo01938kB67k4uAJjb4siLC3DWTkTYRactyW+SuKMGe5SpGc5p/y17euxqjDbWwD9k3uGk9djYV4g18bTZed706c8kJp54tutN+HsyNgiKWueDHInbEhzbLmF+Sl5Tj5SHFBiPpajEKXhQx9GGQFhF3r/LyeQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H3XTEcGdcJdq740imtppkEgkuDroXgp5hq4UxzUuc64=;
- b=QnmO26VVByeHWETT05EZMGvU12EOvsg67vVwKQ9VnMzwSwUO2MpGRQKsw2qaKUCQNFtNqTQ37VECn5KM2s3jxTRDiN7ERia0DAJxo9vczgooeP6whx4U3gPhoj12VZcFz2ahNVetopx/CSBoXr+UVmN+MmB3vADwK6GwDE671dk=
-Received: from SJ0PR03CA0229.namprd03.prod.outlook.com (2603:10b6:a03:39f::24)
- by DM4PR12MB6062.namprd12.prod.outlook.com (2603:10b6:8:b2::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8114.30; Mon, 4 Nov 2024 09:13:27 +0000
-Received: from SJ1PEPF00002311.namprd03.prod.outlook.com
- (2603:10b6:a03:39f:cafe::c3) by SJ0PR03CA0229.outlook.office365.com
- (2603:10b6:a03:39f::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30 via Frontend
- Transport; Mon, 4 Nov 2024 09:13:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ1PEPF00002311.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8137.17 via Frontend Transport; Mon, 4 Nov 2024 09:13:27 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 4 Nov
- 2024 03:13:23 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 4 Nov
- 2024 03:13:22 -0600
-Received: from prasad-lnx-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 4 Nov 2024 03:13:18 -0600
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <mario.limonciello@amd.com>, <Vijendar.Mukunda@amd.com>,
-	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
-	<ssabakar@amd.com>, Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Cristian Ciocaltea
-	<cristian.ciocaltea@collabora.com>, Emil Velikov
-	<emil.velikov@collabora.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@linaro.org>, "open list:SOUND - SOC LAYER / DYNAMIC
- AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: amd: acp: Fix for ACP SOF dmic tplg component load failure
-Date: Mon, 4 Nov 2024 14:43:10 +0530
-Message-ID: <20241104091312.1108299-1-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hs7Ppm7w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730712417;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+	b=hs7Ppm7wXaEwXylZk3WlnuRhOBVi9EZFeFaHA5C2kpvSH/VjkVm6K0TiNsnRe0z8Kj9ISO
+	QeHbTMdAtNM8OMz7ZsX56g97CaQyWzdOZ7ETkNzghr2NW+8F20RyIMZTCqi56KBYvwZI4U
+	2b2TxZfnuV5aUNIoqBdGJ9P5nVrVU+4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-588-fewq8rsAPrSLxrfzCzvO7A-1; Mon, 04 Nov 2024 04:26:56 -0500
+X-MC-Unique: fewq8rsAPrSLxrfzCzvO7A-1
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-37d5a3afa84so1946247f8f.3
+        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 01:26:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730712415; x=1731317215;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=M7ueN/LQ529FLGouL/3BXVgrjx8tY87847WIrlhrom4=;
+        b=p9fdOwPj8BxU7RMInuFRUylQMDFRPkTguPLCLQVXVuPpBVpjGHZhtfwVrhw/ByJA0J
+         x/MTJOa1afPznyoYdbrqpV6drnVJzOsPiqD+nO91nNMv3UULmoff5sj205+QYoqiOz74
+         iAuMc4QLTl+c84iAZ7mk1CY4fK1pVw4HLTfFZugqd6tVYeJMZQM40PDmgIkcTywGj/Db
+         mWGZVLDfr1EeMql7LGor4I1sMFAQQnGsLXLo9/GnBS6mD3FUzl3CSmiVApGs//G56qw9
+         RdljsDkJjxpKiqG2IwIGwx9MhG1je2D/bUBiQnRhlFmZqYJiAXK2ymmGEH9M+W0v0KUH
+         Sb2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUADvp+6NwVJTMLKnoPpLH0Tackv4rV2zW4plFO0oVgNwU3lWvdRA5COytZktHDY1KI2i7mmaOf6HejtA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2QlUOQNSfiUiLD7wKp/ZBH0w7Pw+c80kNTH0thauu0Sug5AC1
+	RaAw7vs33dlrdLPqhg8tYrsKrktdF+WzFoZbUJT2G9S6Nb8qbiw3XIb7rzeMvI95+eyAiY7KNsN
+	YUOxaryvaIJBgW+fWurMzc9TIt7qDOtfS7O18zdILmQUQhR9r4z7hV+5/tn+M
+X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192704f8f.4.1730712414721;
+        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHUG4i3r4RT/0mDz+U1cY7m40dZcu2ijC6eEouX1uNQBldOHTZd5hoduIq2TUsnjYO3wLrnew==
+X-Received: by 2002:a5d:5f54:0:b0:37d:373c:ed24 with SMTP id ffacd0b85a97d-381c7a3a49cmr8192628f8f.4.1730712414212;
+        Mon, 04 Nov 2024 01:26:54 -0800 (PST)
+Received: from ?IPv6:2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f? (200116b82d7fe40007f8722cbb2ebb7f.dip.versatel-1u1.de. [2001:16b8:2d7f:e400:7f8:722c:bb2e:bb7f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10b7d20sm12817150f8f.7.2024.11.04.01.26.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 01:26:53 -0800 (PST)
+Message-ID: <a8d9f32f60f55c58d79943c4409b8b94535ff853.camel@redhat.com>
+Subject: Re: [PATCH 01/13] PCI: Prepare removing devres from pci_intx()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Damien Le Moal
+ <dlemoal@kernel.org>,  Niklas Cassel <cassel@kernel.org>, Sergey Shtylyov
+ <s.shtylyov@omp.ru>, Basavaraj Natikar <basavaraj.natikar@amd.com>, Jiri
+ Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alex Dubov <oakad@yahoo.com>, Sudarsana Kalluru <skalluru@marvell.com>,
+ Manish Chopra <manishc@marvell.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rasesh Mody
+ <rmody@marvell.com>, GR-Linux-NIC-Dev@marvell.com, Igor Mitsyanko
+ <imitsyanko@quantenna.com>, Sergey Matyukevich <geomatsi@gmail.com>, Kalle
+ Valo <kvalo@kernel.org>, Sanjay R Mehta <sanju.mehta@amd.com>, Shyam Sundar
+ S K <Shyam-sundar.S-k@amd.com>, Jon Mason <jdmason@kudzu.us>, Dave Jiang
+ <dave.jiang@intel.com>, Allen Hubbe <allenbh@gmail.com>, Bjorn Helgaas
+ <bhelgaas@google.com>, Alex Williamson <alex.williamson@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, Oleksandr Tyshchenko
+ <oleksandr_tyshchenko@epam.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Chen Ni <nichen@iscas.ac.cn>, Mario Limonciello
+ <mario.limonciello@amd.com>, Ricky Wu <ricky_wu@realtek.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Breno Leitao <leitao@debian.org>, Kevin Tian
+ <kevin.tian@intel.com>, Ilpo =?ISO-8859-1?Q?J=E4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Mostafa Saleh <smostafa@google.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Yi Liu <yi.l.liu@intel.com>, Christian
+ Brauner <brauner@kernel.org>, Ankit Agrawal <ankita@nvidia.com>, Eric Auger
+ <eric.auger@redhat.com>, Reinette Chatre <reinette.chatre@intel.com>, Ye
+ Bin <yebin10@huawei.com>, Marek =?ISO-8859-1?Q?Marczykowski-G=F3recki?=
+ <marmarek@invisiblethingslab.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>,  Rui Salvaterra <rsalvaterra@gmail.com>
+Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-input@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-wireless@vger.kernel.org, ntb@lists.linux.dev,
+ linux-pci@vger.kernel.org,  kvm@vger.kernel.org,
+ xen-devel@lists.xenproject.org, linux-sound@vger.kernel.org
+Date: Mon, 04 Nov 2024 10:26:51 +0100
+In-Reply-To: <87cyjgwfmo.ffs@tglx>
+References: <20241015185124.64726-1-pstanner@redhat.com>
+	 <20241015185124.64726-2-pstanner@redhat.com> <87cyjgwfmo.ffs@tglx>
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: venkataprasad.potturu@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002311:EE_|DM4PR12MB6062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3452061f-21b1-464d-6598-08dcfcb0f18f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|7416014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xcez+bzxBA6JbyKIKIYJ4bbQfbenEpcV13FOGskoFriTcssYG9NiwCDZ6tTZ?=
- =?us-ascii?Q?obH+GhfjAhM1jF9aienidVWA0oB59Jy8ExFh2u/ZBtCqf01qtzYjkwovyy5L?=
- =?us-ascii?Q?yad8E6QLNCIJnFFHiiJkwn6gZHWzE+kIlTu/bnGnCTTAWh029tZ63Q4zVZWM?=
- =?us-ascii?Q?O84VDA54moiYKG9abVeZPjKV3a4MXw/086aythQagt8kuDJIrQTj5PmaFB6/?=
- =?us-ascii?Q?IQMAlnwGqwoDJisQwZKwCNuUXxsZCt2rIR8ifSFQxG5qOl1MtYQtDUfS7LMt?=
- =?us-ascii?Q?5Fjd9BFCpD0Sv9B+REAXtAAZ2SEbxFwqz+gFGAGjXMHejS/EWVp3UUDOGBVT?=
- =?us-ascii?Q?rfCQN8+j0RlfDYeI26Wug5WmeDq3e78iu1HKgt4V+4kkl8HwQnU6vK/H4JPL?=
- =?us-ascii?Q?QAA8gEkh5uoT5gMy/WQ+v2SVovovpHJjwH/LH0EQDvdCZvAmZYk+2S/SArgE?=
- =?us-ascii?Q?KzhXUEH/c8lhw5Y45njmW6kJ/BXf9WnpNT5zdBvRSLfH5eRyitOwDjLVS2kU?=
- =?us-ascii?Q?CumE8aAmqsyd5gV54IyDw2m6/6WoSjJ+7kelpAMQEInjgE8jeyZemQfrwcey?=
- =?us-ascii?Q?TFKt+Iv2438QrjU/MrqdOvOZi+2ZRJ5HkNNBiQnIY2i6zMZcTTE2Fw9acarR?=
- =?us-ascii?Q?iu95fzECAZTgbqGoGdiQ71W5b1mTtiRVcGcz2A7PjUfPWiWbQZNv0ONmsqj1?=
- =?us-ascii?Q?ZD8f6bp7P4TBOoaHr8kz3iRP1Ur/+B/jhVVWxlAqtMd+02hWGDuYh6AgF3UX?=
- =?us-ascii?Q?/QsXruQSphVPokJksdqpGzml4KYfRfhGRn1GlLGmN7lEHA1UpxpFUB289fSE?=
- =?us-ascii?Q?GmZWinVmGx2wwwIZOcsusFado4RsG6ytPLfX4zennoGVmpe0B4naVaGvfN+F?=
- =?us-ascii?Q?m6vaRbW/buocs7n7XMazEFdgsPvsKh62OX5Dh4t0W+8oIj1xKZRNkpJzX3ce?=
- =?us-ascii?Q?rtGWOe3zWJRKwa043wd7j2CwHUYgB9WEysmKcEWpgvdTOy3jQFYd9RNcR4le?=
- =?us-ascii?Q?l46/15k8E3Q5iMgGLg2gre1kp8Z6VJrl4V/gOMbCopG6iX+d7v5sQMsif+am?=
- =?us-ascii?Q?bJ+kJznfr++DjdUupihZwHHdGANp4d1zapzb9xNucuw0vdd5Y6exhJoCjhPI?=
- =?us-ascii?Q?9vX5lI6Ft5QKVW8vWZW+oY/Vom/PA+QgANORIFOPN8s5sHgGX61UnPSOZsI3?=
- =?us-ascii?Q?UkQUiIBghC4RT990lxtBZ+JjTBWyUTQN0Gqj6HTJ3D/+JpqnjfoXqH1I05gN?=
- =?us-ascii?Q?6Iku1YI7M3qRxWG9o7ZT7B0PIk8FOeoTcfVeHEyiK3ItHYGxZe0WN54Md3Ti?=
- =?us-ascii?Q?oXU9gUGML5YRVvdag8E+DVWmCO5w28J+w3zrWdou4Ju7Vnik+GgVnN4R2HQm?=
- =?us-ascii?Q?FSWXiCzydJkqpwum4tZrH3dW+umA2zHqH+K+NfE4FVjs2fjBaQ=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(7416014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 09:13:27.5355
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3452061f-21b1-464d-6598-08dcfcb0f18f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002311.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6062
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Stream name mismatch with topology file causes tplg load failure.
+On Thu, 2024-10-31 at 14:45 +0100, Thomas Gleixner wrote:
+> On Tue, Oct 15 2024 at 20:51, Philipp Stanner wrote:
+> > +/**
+> > + * pci_intx - enables/disables PCI INTx for device dev, unmanaged
+> > version
+>=20
+> mismatch vs. actual function name.
 
-As SOF framework assigns dailink->stream name, overriding stream name
-other than link name causes SOF dmic component load failure.
+ACK, will fix
 
-[   35.474995] snd_sof_amd_acp70 0000:c4:00.5: error: can't connect DAI ACPDMIC0.IN stream acp-dmic-codec
-[   35.475001] snd_sof_amd_acp70 0000:c4:00.5: failed to add widget type 28 name : ACPDMIC0.IN stream acp-dmic-codec
-[   35.475013] sof_mach acp70-dsp: ASoC: failed to load widget ACPDMIC0.IN
-[   35.475018] sof_mach acp70-dsp: ASoC: topology: could not load header: -22
-[   35.475072] snd_sof_amd_acp70 0000:c4:00.5: error: tplg component load failed -22
-[   35.475083] snd_sof_amd_acp70 0000:c4:00.5: error: failed to load DSP topology -22
-[   35.475090] snd_sof_amd_acp70 0000:c4:00.5: ASoC: error at snd_soc_component_probe on 0000:c4:00.5: -22
-[   35.475117] sof_mach acp70-dsp: ASoC: failed to instantiate card -22
-[   35.475254] sof_mach acp70-dsp: error -EINVAL: Failed to register card(sof-acp70-dsp)
-[   35.475261] sof_mach acp70-dsp: probe with driver sof_mach failed with error -22
+>=20
+> > + * @pdev: the PCI device to operate on
+> > + * @enable: boolean: whether to enable or disable PCI INTx
+> > + *
+> > + * Enables/disables PCI INTx for device @pdev
+> > + *
+> > + * This function behavios identically to pci_intx(), but is never
+> > managed with
+> > + * devres.
+> > + */
+> > +void pci_intx_unmanaged(struct pci_dev *pdev, int enable)
+>=20
+> This is a misnomer. The function controls the INTX_DISABLE bit of a
+> PCI device. Something like this:
+>=20
+> void __pci_intx_control()
+> {
+> }
+>=20
+> static inline void pci_intx_enable(d)
+> {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __pci_intx_control(d, true);
+> }
+>=20
+> .....
+>=20
+> makes it entirely clear what this is about.
 
-Fixes: b2385de2ae11 ("ASoC: amd: acp: Add stream name to ACP PDM DMIC devices")
+Well, I would agree if it were about writing a 'real' new function. But
+this is actually about creating a _temporary_ function which is added
+here and removed again in patch 12 of this same series.
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
----
- sound/soc/amd/acp/acp-mach-common.c | 1 -
- 1 file changed, 1 deletion(-)
+It wouldn't even be needed; the only reason why it exists is to make it
+easy for the driver maintainers concerned by patches 2-11 to review the
+change and understand what's going on. Hence it is
+"pci_intx_unmanaged()" =3D=3D "Attention, we take automatic management away
+from your driver"
 
-diff --git a/sound/soc/amd/acp/acp-mach-common.c b/sound/soc/amd/acp/acp-mach-common.c
-index 67aa0ad83486..d314253207d5 100644
---- a/sound/soc/amd/acp/acp-mach-common.c
-+++ b/sound/soc/amd/acp/acp-mach-common.c
-@@ -1561,7 +1561,6 @@ int acp_sofdsp_dai_links_create(struct snd_soc_card *card)
- 
- 	if (drv_data->dmic_cpu_id == DMIC) {
- 		links[i].name = "acp-dmic-codec";
--		links[i].stream_name = "DMIC capture";
- 		links[i].id = DMIC_BE_ID;
- 		links[i].codecs = dmic_codec;
- 		links[i].num_codecs = ARRAY_SIZE(dmic_codec);
--- 
-2.39.2
+pci_intx() is then fully restored after patch 12 and it keeps its old
+name.
+
+Gr=C3=BC=C3=9Fe,
+Philipp
+
+
+>=20
+> Hmm?
+>=20
+> Thanks,
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tglx
+>=20
 
