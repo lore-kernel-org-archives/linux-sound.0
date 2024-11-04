@@ -1,50 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B287F1C07F1;
-	Mon,  4 Nov 2024 16:41:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031141C9EDB;
+	Mon,  4 Nov 2024 18:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730738479; cv=none; b=u87HNAexi6DDes3PF4f/IOMGSrC1TYqOirXhJ8GYIVUn3+85xNaaSFP2Mrp3Mn9uiR2us+ZAW0FmpqKFMwBBx9/hmBpoaAbd8nlqg0kcSz9/p0wgUZKb7VXfjawz20UrE/oKWcR4LGCXusALmUujso1FbXv06gA0pGvkiOt0AOM=
+	t=1730744854; cv=none; b=r4ud1Cj4sXla2GkyFFkdwVcxHgASh4hDtgLOf7Y0lW6/FTQtTh1Dcm6eGpL3RkF6U6Bphu0IOFYIc40H+Aq6RAPI6u+2opXxBVnj28La+cAFfxyLfdpzEOXWjn1ZAPK4Gm62HhxXoh/J4KmobNHiJrXhElde32hIXF7zjrNsxMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730738479; c=relaxed/simple;
-	bh=+B9xFugGobw2ZRWDNdrYNv/jQoedsgnzX20cqqtb3i8=;
+	s=arc-20240116; t=1730744854; c=relaxed/simple;
+	bh=CKBWtU4GRwbElT4iatXhq6MbCOH4QUyqf9y8QhcrITE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DuODPNyIFffkZxCQhsICGvEOWLVdBnxutNUTLddZJEfOxanS92UZhvHa72euQw5bZMr6i84HMu2shsmgZHokZ2oi1CKmbyqARYQuHZYZlHZkZUaiZFovDZx7XTXcMruphskAsmfG6FGSTJGNvJklEnQ+UeGvtpEiTVu0emBSuCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWjugrvu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=P8WKR48hJrAlNrQugW2q74IRiZkzQTxb0NimQBDdfreDvmhuPfpu12yjAtxk3iygTOi+h29fDqtBa99/J57ac+MSAva5qFbwK261p3fCFfeDbrHjwBZ01+MqOnND8/m7okd7V9ehfb6sPaI134AuCMgprRp/uI+Qq+s8REZaihk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=joJ9Ibb1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWjugrvu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D29C4CECE;
-	Mon,  4 Nov 2024 16:41:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="joJ9Ibb1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F037BC4CECE;
+	Mon,  4 Nov 2024 18:27:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730738479;
-	bh=+B9xFugGobw2ZRWDNdrYNv/jQoedsgnzX20cqqtb3i8=;
+	s=k20201202; t=1730744853;
+	bh=CKBWtU4GRwbElT4iatXhq6MbCOH4QUyqf9y8QhcrITE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OWjugrvuDz6ff1jX/EzVG4/5uQaUmp1rB0aAZ84F+JUT2zEz56uX+cXmYmmDbldk2
-	 UbhbOGj3IXz8OKNgB2+5YfAEdCUCMImjpwSQ7RqsxtwYDe5v1KA9Bjf8gJOBqPCswA
-	 6EnDbu8MrjWQszhTFJwgJK3Qi7rRh4x6YoFVpDBHZnXBPv321bpIic0X87FGSnk09b
-	 x4epqNCrtv9imO8+7YX4eRYgmRYegPpjGWCDyfGOsckK+wtSzunlOLmlD7WKqRyEct
-	 41BYaHLIba6sMWBmPxbjI3w6OvSq6rSnjk3alY9Iw9RuS+d+pW45muP1DwnAzha6X7
-	 eySOu/81VHVkw==
-Date: Mon, 4 Nov 2024 16:41:14 +0000
+	b=joJ9Ibb1clP/25G7DfAJgTGMmPFZ2cDID+BuLHToL5dg6KVhcRp/pI7o3tN+qlcLD
+	 ylp+VHx77luQ2CI0HfHpGGud7b6hZbdaGuvnyeqHjaYfD7C7AXbSsq5kBLO3//Wn+h
+	 BtkpaUNZc0Oc+DQKTz8lr8XsH+kYibhjJdT5RI02qS9QeoK1OAoL3CWNhQx7nB13wj
+	 l7UZ8u2SCbP+BYcC1eljStbMQVDly3LOiFTQtV9CnGKeIvSVYxP2Nfc4rejt/3vMiB
+	 rMI1RD4yfihWp61JIg0ooGHv1ZgjBulglzC1kIy6z21peOvpnkKSQIhai8asAoTSGu
+	 BP329W4/whkCA==
+Date: Mon, 4 Nov 2024 18:27:28 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: Ki-Seok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
- initial DT binding
-Message-ID: <ac5ad26e-ef76-4ad9-9396-2b175276a5c8@sirena.org.uk>
-References: <20241104-irondevice-sma1307-v3-0-4bbe79895f54@irondevice.com>
- <20241104-irondevice-sma1307-v3-1-4bbe79895f54@irondevice.com>
- <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
- <20241104161751.GA320514-robh@kernel.org>
+To: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: Suraj Sonawane <surajsonawane0215@gmail.com>, daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com, lgirdwood@gmail.com,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	perex@perex.cz, pierre-louis.bossart@linux.dev,
+	ranjani.sridharan@linux.intel.com,
+	sound-open-firmware@alsa-project.org, tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com
+Subject: Re: [PATCH v2] sound: fix uninit-value in
+ sof_ipc4_pcm_dai_link_fixup_rate
+Message-ID: <d19b77e2-496b-4633-a69c-576cc79c004a@sirena.org.uk>
+References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
+ <20241103113702.27673-1-surajsonawane0215@gmail.com>
+ <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,49 +49,66 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oagKkKyvt1o8YX1v"
+	protocol="application/pgp-signature"; boundary="f5+v6BDU93UAdGtJ"
 Content-Disposition: inline
-In-Reply-To: <20241104161751.GA320514-robh@kernel.org>
+In-Reply-To: <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
 X-Cookie: The meek are contesting the will.
 
 
---oagKkKyvt1o8YX1v
-Content-Type: text/plain; charset=us-ascii
+--f5+v6BDU93UAdGtJ
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 04, 2024 at 10:17:51AM -0600, Rob Herring wrote:
-> On Mon, Nov 04, 2024 at 07:33:47AM +0000, Ki-Seok Jo wrote:
+On Mon, Nov 04, 2024 at 12:52:09PM +0200, P=E9ter Ujfalusi wrote:
+> On 03/11/2024 13:37, Suraj Sonawane wrote:
 
-> > +    enum:
-> > +      - irondevice,sma1307a
-> > +      - irondevice,sma1307aq
-> > +    description:
-> > +      If a 'q' is added, it indicated the product is AEC-Q100
-> > +      qualified for automotive applications. SMA1307A supports
-> > +      both WLCSP and QFN packages. However, SMA1307AQ only
-> > +      supports the QFN package.
+> > Fix an issue detected by the Smatch tool:
+> >=20
+> > sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
+> > error: uninitialized symbol 'be_rate'.
+> >=20
+> > This issue occurred because the variable 'be_rate' could remain
+> > uninitialized if num_input_formats is zero. In such cases, the
+> > loop that assigns a value to 'be_rate' would not execute,
+> > potentially leading to undefined behavior when rate->min and
+> > rate->max are set with an uninitialized 'be_rate'.
+> >=20
+> > To resolve this, an additional check for num_input_formats > 0
+> > was added before setting rate->min and rate->max with 'be_rate'.
+> > This ensures that 'be_rate' is assigned only when there are valid
+> > input formats, preventing any use of uninitialized data.
 
-> Is this difference visible to software? The package is not, so that part=
-=20
-> is irrelevant.
+> > -		rate->min =3D be_rate;
+> > -		rate->max =3D rate->min;
+> > +		/* Set rate only if be_rate was assigned */
+> > +		if (num_input_formats > 0) {
 
-It seems reasonable to allow it as a compatible if it's sold as a
-separate part, even if we don't need to care.
+> By definition the copier must have at least one input and one output
+> format, this check is going to be always true.
 
---oagKkKyvt1o8YX1v
+Static analysis of the code can't reasonably tell that, we need
+something that ensures that it doesn't detect a spuriously uninitialised
+variable here.  Possibly a
+
+	if (WARN_ON_ONCE(!num_input_formats))
+		return -EINVAL;
+
+or similar?
+
+--f5+v6BDU93UAdGtJ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmco+SkACgkQJNaLcl1U
-h9C3WQf/cvCLIIc9BSmHgNbLWWFbm12PJ+ga/IEM7Ud6luckZzqyjyZRvFV/uy0E
-JabJmdMpallRe/VTN0/0aXbMFY66Jw+3QVCyLprfuYr6GtItgkLxE7SdO32bmp6N
-1Qj5qXJETVb2PWiVsvmVjRitxuKTfLJms0HGgaK5VMwdkV6nTjujPDhKLfIzbgOl
-kDEI+s+aZXcOSbqk69XjFrRtXMiiGZKqbFbdfOncUdt6i1UeiM7AuIvJzjLh18gp
-o2v7CQ5BI+/WXKEk3Mqz8c16WBBiJYmihPraozovwIlDRp7BH7o3qBqX/SxR5TLz
-OkBQzrEMqk42cfC+HVpeWVHb6ML8TA==
-=ZsMY
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcpEg8ACgkQJNaLcl1U
+h9DKywf8Ce6RMkQi51AuKN/2vWZ6ETHIHkyh5Y1nCU7vJ0DVzwbqAk2AzWExYvZv
+Oc1Ls3z0akVISRjusKzoBt9srKmhjoixTfjtPIrAzgx7vgoGq9Fko3eoMKohUIG7
+Ct6QYPmfSYtmxbNb3b3YR3yIzr+vwTh/TsFGSuQm0dWJtcZbn2q6Tftb8PcjKhA9
+Zldyq8N4OD74OWuftAHixtJDlS3c3gxS3yDmiteOg/yKQUwSPJZq0mKqcG/QjOu1
+LWzaO4sRfG4XnparU24enWXjH71FAe0DjtuQxCXRDBTmVESBgoYQyrZ8ylRsxi62
+rZFqE/iqe7ZQ6dfuBVxITwKKmWfDXA==
+=Noxs
 -----END PGP SIGNATURE-----
 
---oagKkKyvt1o8YX1v--
+--f5+v6BDU93UAdGtJ--
