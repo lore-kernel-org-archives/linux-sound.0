@@ -1,127 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4A318BB84;
-	Mon,  4 Nov 2024 10:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644FD1B3923;
+	Mon,  4 Nov 2024 10:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730717536; cv=none; b=BRC1MJVhaUPE2N2YVhgg+jgpl/DhV6E8SuCzOLz/8mHnf+gzns5h9jZJh77Ldnucsn+xywSTAkHlMeLWV/uKPH4CkPvvgcCUnvxhMztmp5EDGvgUakqOYx2hIUQRdgWNYCUZx0DMHaIV5BiZXw4XsuaNTR3BrqyCC5b66+vyEQs=
+	t=1730717553; cv=none; b=mE9kuUvJrbxz+DhZNHp7bUMxH4LDMlW2ulqZV5z+4QaVxs+/CIJ52tg+Y18sIweiM3iG72lEdnbokULgsKbt5wgmAnA8jas4Qht//3Y8fcEXCkCW2SLDQQj87D2Ar+FMRI20I7cML/DESl5uJ3bpKIEwOUoo5brTdaAxi5HaNFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730717536; c=relaxed/simple;
-	bh=Uk1iiLYLyoRnUhMJxOSfgzDMTCawW2FdcelKradx3Mc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UWhxwjWgdL4AfwY9z3Ld9adpGLmPEA6c1vSg/usl+GHfbQRJLgARiXOErt+Ke56SK1vZG5m18E/nEa74eeBOz5jpsLZTz1YBFDFhNWmfZ6K6ehNNr1Cpl4rlxZW+wMpkDysZAYduimw2vo+/HSvkt0WMJE+TvztHaIyj/Mb+c2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IIfBPzUl; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730717553; c=relaxed/simple;
+	bh=/CqpRmaAXfpMm+eLl6GaZN+LR/GNS0Wg/hggFubOTl0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m7I5bDAhx7JC3V+CdRHMz0Hm10MpOqY8nEkx4Ox0wRgOUJM9uAu+Gdc+dUoRf487kBVwZK7IX3oa56klxTkl2iJOXC6mKVKwe/mUItem9teyUJgXiM3/axJ8j+tZwb4RQ9XN5dn/nx8C/C7xM3h8ctwQc+2se8vCAxy3WwPliqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rBCi5B5O; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IIfBPzUl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730717534; x=1762253534;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Uk1iiLYLyoRnUhMJxOSfgzDMTCawW2FdcelKradx3Mc=;
-  b=IIfBPzUl5phKH+sMSdN8VwBidNxVij+p/IxYsQoRHjWXsyqCvYA29fMk
-   xiswZVxm2Sioba05X7RqqfRjpy0nbBDd58rJoMTzJTo675xRCZfMu69Ga
-   PPRZ8f/MCWEhy4U/rGExQW08nQXXTXU21pt7eB+YKjs5gtQ/iZxYf05Wm
-   7ZBCFl7r0/aafgS49VzvwNjvA+pANSL5PwGv4pxQZc+9d4rrVJZ1hUr3e
-   i2WaNJEkv87qDmGlPPUGTpLTEoi8a5heiD2RdpIHLOQe57ab3VEs7mr8S
-   hFSrMCnipC/fcFBtr7UZvjLbzsd3yg4Jo7texmCS0A+x4kIsMXwPDdlVC
-   w==;
-X-CSE-ConnectionGUID: OvYyN1DoQkqkPfynM7ugPQ==
-X-CSE-MsgGUID: LKuL/y5JTgO3A6k719zqiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="41799440"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="41799440"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 02:52:14 -0800
-X-CSE-ConnectionGUID: aIyglxVlRzGO0AWQgMPJfg==
-X-CSE-MsgGUID: 0dpG+hToTnyY4zYBJ/Oi3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83549794"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO [10.245.244.217]) ([10.245.244.217])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 02:52:12 -0800
-Message-ID: <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
-Date: Mon, 4 Nov 2024 12:52:09 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rBCi5B5O"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEB2BC4CED5;
+	Mon,  4 Nov 2024 10:52:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730717553;
+	bh=/CqpRmaAXfpMm+eLl6GaZN+LR/GNS0Wg/hggFubOTl0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rBCi5B5ObQEGlkt77vJpE+EyMUflvnMbIRu9H8vdGtyFj1lqcL/IpxBy64fiIR/zp
+	 NQNjP6JcW8Xz14BBgPQvKLA6MqZmsL1xuJljAlxftHLHcLN7TVetbqwf2jmtvw/rks
+	 zO6YdBMkqKj8xKjbjCkd0zDxcdsVs55DTzOefyT1WswMk56y53EER0J2bph8MtLZUV
+	 dpBeqF/wH2C7LGVO9K2TV6VbfiynxN7bfltFuucflu5KI68JMFpl3GZd7S6sLRpQXS
+	 lN2uwW76ocAUdkRi+A/XX5zkLXC2gWVWTUtarlDNm6VX5w06vSTUZbwJdL3N51wbvX
+	 JPXCGwBnFKIuQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 02/14] ASoC: codecs: rt5640: Always disable IRQs from rt5640_cancel_work()
+Date: Mon,  4 Nov 2024 05:51:54 -0500
+Message-ID: <20241104105228.97053-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241104105228.97053-1-sashal@kernel.org>
+References: <20241104105228.97053-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] sound: fix uninit-value in
- sof_ipc4_pcm_dai_link_fixup_rate
-To: Suraj Sonawane <surajsonawane0215@gmail.com>
-Cc: broonie@kernel.org, daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com,
- lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, perex@perex.cz, pierre-louis.bossart@linux.dev,
- ranjani.sridharan@linux.intel.com, sound-open-firmware@alsa-project.org,
- tiwai@suse.com, yung-chuan.liao@linux.intel.com
-References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
- <20241103113702.27673-1-surajsonawane0215@gmail.com>
-From: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20241103113702.27673-1-surajsonawane0215@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.59
 Content-Transfer-Encoding: 8bit
 
+From: Hans de Goede <hdegoede@redhat.com>
 
+[ Upstream commit 032532f91a1d06d0750f16c49a9698ef5374a68f ]
 
-On 03/11/2024 13:37, Suraj Sonawane wrote:
-> Fix an issue detected by the Smatch tool:
-> 
-> sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
-> error: uninitialized symbol 'be_rate'.
-> 
-> This issue occurred because the variable 'be_rate' could remain
-> uninitialized if num_input_formats is zero. In such cases, the
-> loop that assigns a value to 'be_rate' would not execute,
-> potentially leading to undefined behavior when rate->min and
-> rate->max are set with an uninitialized 'be_rate'.
-> 
-> To resolve this, an additional check for num_input_formats > 0
-> was added before setting rate->min and rate->max with 'be_rate'.
-> This ensures that 'be_rate' is assigned only when there are valid
-> input formats, preventing any use of uninitialized data.
-> 
-> This solution maintains defined behavior for rate->min and rate->max,
-> ensuring they are only assigned when valid be_rate data is available.
-> 
-> Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
-> ---
-> V1: Initialize 'be_rate' to 0.
-> V2: Add conditional assignment based on num_input_formats to ensure
-> be_rate is used only when assigned.
-> 
->  sound/soc/sof/ipc4-pcm.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-> index 4df2be3d3..d5d7ffc69 100644
-> --- a/sound/soc/sof/ipc4-pcm.c
-> +++ b/sound/soc/sof/ipc4-pcm.c
-> @@ -633,8 +633,11 @@ static int sof_ipc4_pcm_dai_link_fixup_rate(struct snd_sof_dev *sdev,
->  			return -EINVAL;
->  		}
->  
-> -		rate->min = be_rate;
-> -		rate->max = rate->min;
-> +		/* Set rate only if be_rate was assigned */
-> +		if (num_input_formats > 0) {
+Disable IRQs from rt5640_cancel_work(), this fixes a crash caused by
+the IRQ never getting freed when the driver is unbound from the i2c_client
+with jack-detection active:
 
-By definition the copier must have at least one input and one output
-format, this check is going to be always true.
+[  193.138780] rt5640 i2c-rt5640: ASoC: unknown pin LDO2
+[  193.138830] rt5640 i2c-rt5640: ASoC: unknown pin MICBIAS1
+[  193.671218] BUG: kernel NULL pointer dereference, address: 0000000000000078
+[  193.671239] #PF: supervisor read access in kernel mode
+[  193.671248] #PF: error_code(0x0000) - not-present page
+...
+[  193.671531]  ? asm_exc_page_fault+0x22/0x30
+[  193.671551]  ? rt5640_jack_inserted+0x10/0x80 [snd_soc_rt5640]
+[  193.671574]  rt5640_detect_headset+0x93/0x130 [snd_soc_rt5640]
+[  193.671596]  rt5640_jack_work+0x93/0x355 [snd_soc_rt5640]
 
-> +			rate->min = be_rate;
-> +			rate->max = rate->min;
-> +		}
->  	}
->  
->  	return 0;
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patch.msgid.link/20241024215612.92147-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/rt5640.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
 
+diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+index e8cdc166bdaa9..1955d77cffd99 100644
+--- a/sound/soc/codecs/rt5640.c
++++ b/sound/soc/codecs/rt5640.c
+@@ -2422,10 +2422,20 @@ static irqreturn_t rt5640_jd_gpio_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void rt5640_cancel_work(void *data)
++static void rt5640_disable_irq_and_cancel_work(void *data)
+ {
+ 	struct rt5640_priv *rt5640 = data;
+ 
++	if (rt5640->jd_gpio_irq_requested) {
++		free_irq(rt5640->jd_gpio_irq, rt5640);
++		rt5640->jd_gpio_irq_requested = false;
++	}
++
++	if (rt5640->irq_requested) {
++		free_irq(rt5640->irq, rt5640);
++		rt5640->irq_requested = false;
++	}
++
+ 	cancel_delayed_work_sync(&rt5640->jack_work);
+ 	cancel_delayed_work_sync(&rt5640->bp_work);
+ }
+@@ -2466,13 +2476,7 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+ 	if (!rt5640->jack)
+ 		return;
+ 
+-	if (rt5640->jd_gpio_irq_requested)
+-		free_irq(rt5640->jd_gpio_irq, rt5640);
+-
+-	if (rt5640->irq_requested)
+-		free_irq(rt5640->irq, rt5640);
+-
+-	rt5640_cancel_work(rt5640);
++	rt5640_disable_irq_and_cancel_work(rt5640);
+ 
+ 	if (rt5640->jack->status & SND_JACK_MICROPHONE) {
+ 		rt5640_disable_micbias1_ovcd_irq(component);
+@@ -2480,8 +2484,6 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+ 		snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
+ 	}
+ 
+-	rt5640->jd_gpio_irq_requested = false;
+-	rt5640->irq_requested = false;
+ 	rt5640->jd_gpio = NULL;
+ 	rt5640->jack = NULL;
+ }
+@@ -2801,7 +2803,8 @@ static int rt5640_suspend(struct snd_soc_component *component)
+ 	if (rt5640->jack) {
+ 		/* disable jack interrupts during system suspend */
+ 		disable_irq(rt5640->irq);
+-		rt5640_cancel_work(rt5640);
++		cancel_delayed_work_sync(&rt5640->jack_work);
++		cancel_delayed_work_sync(&rt5640->bp_work);
+ 	}
+ 
+ 	snd_soc_component_force_bias_level(component, SND_SOC_BIAS_OFF);
+@@ -3035,7 +3038,7 @@ static int rt5640_i2c_probe(struct i2c_client *i2c)
+ 	INIT_DELAYED_WORK(&rt5640->jack_work, rt5640_jack_work);
+ 
+ 	/* Make sure work is stopped on probe-error / remove */
+-	ret = devm_add_action_or_reset(&i2c->dev, rt5640_cancel_work, rt5640);
++	ret = devm_add_action_or_reset(&i2c->dev, rt5640_disable_irq_and_cancel_work, rt5640);
+ 	if (ret)
+ 		return ret;
+ 
 -- 
-Péter
+2.43.0
 
