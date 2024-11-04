@@ -1,96 +1,148 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE2C1AAE27;
-	Mon,  4 Nov 2024 09:36:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C1A1AF0A8
+	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 10:06:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730712969; cv=none; b=hXJMplEW9hye3yhA0n0rsFjiJQgAzEPuo3nS15T2izx3XsbJQ9OX1VHKc3Z5+O+Ad3R0ztI/9+Z8ZHvuSBAuaLm2OWekhMNOBdzzInqQB+dVcgITfAcCAoCscESEDU36PbS/rWDqVrLd6eOaZnM+uuAzT9k9BDH9kXWSIpctGIs=
+	t=1730714798; cv=none; b=qcr5YT4dBxYZtqUcLz7ql0qsIiQ5CRG+5hbHANCd3sREFOazxJvU9T8BYbAg8dW+fhX5p3a5dxGyFkLPlZtoMZ+//LwopWGDR4fn/rf0hQ1fp35ftshWAk5+2cBY5XcoO6ZT2YK7Mn11W4ERD1xB6NYgmqSdGIh83UPNrBwGBmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730712969; c=relaxed/simple;
-	bh=OZU7EisROitQm9UKkAKn6cyUaMVFwrs2M+6wFnp01/Q=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=N0ZJZ9GILjisRovJHWf2dYqaDn5/ExNQa8HA523tsSUHb9CTU3/Zwp1B2BQUlIynlG7tPipQh9Pgy+FqHafiIq2RJWSUrD/QreNyO/auSWpfRQAptuNh0+PyVN6s9NhFQepc1cCUcU7pdrYdLH5NNgApNftvtW4wAgiy4cr5ccc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=d9FQ15s9; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1730714798; c=relaxed/simple;
+	bh=JmtvEw/u/AghLzWja4k/2XjqaVAf7g4OIIL0W/Axvts=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=W3We84SJP32MAZLip6y92MKUwlx3cF1l/UkQ+tgEtgRZ6gEi58JTZzWiOJjyPqcq4gtvze4vUN0Pz0g6dbzRYTMByamcuS8Nigp6wUXx8w+hng9lOnIxwq2VAUy6zNfD5q6YuFSAgMkUSTKaM29kCh6w9mFhcW9DOfy4Ct7RbUA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C11noZCs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEAuDAfj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C11noZCs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pEAuDAfj; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="d9FQ15s9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1730712935; x=1731317735; i=markus.elfring@web.de;
-	bh=OZU7EisROitQm9UKkAKn6cyUaMVFwrs2M+6wFnp01/Q=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=d9FQ15s9wCk8mgTbgGwrPDKx6h2mFTz4PtwupuQRPe5CFu1bnsQLJTo4WzFuhf1U
-	 u5wGWUwDsDA1n1w3C2gaC8RtwNNCSgxqgmC2GNTIrZ+/GYNj0EKNdFsT/RVKmbsPl
-	 WZg4kJfggvkkCTUf6RP7xAU0svK94SAnubVKwBdE8wTCTLjRJm9RtXWIdooWYfrTJ
-	 ZBIBvrD8Ql/I6q7RYxILXTxzAvWNbG8PTjvZ0kuWId872VN0ZbB5BQVjKR17IhOio
-	 KFo/5y0mYE6cDHhFHgJcpOqxKtIYpRtCD7yFXtQYrQT8020OywEHrUnKN2wLInnxP
-	 Uk6YILANqF16QUbEvw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MGgNU-1t440L0IOQ-0043na; Mon, 04
- Nov 2024 10:35:35 +0100
-Message-ID: <e1ac11b3-b746-4564-8daa-3527aa13e348@web.de>
-Date: Mon, 4 Nov 2024 10:35:23 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C11noZCs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEAuDAfj";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C11noZCs";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pEAuDAfj"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 28B7321BB6;
+	Mon,  4 Nov 2024 10:06:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730714793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=FByBFvGLrMrUihL0maXOmieE4CUb+/GeNtgPAnQRw3w=;
+	b=C11noZCs0PVteldgjiiQ4STWCyb3Kf7St5J5LwFHsg79ZER165WtPlVIAW9QVsvim34C1Y
+	Z9ALYk43zfumhj7laoO6wYfOvowQNi7I6ljkVpMZMYoIaYSNxqCfsM9OI5V3bPjFtbssYP
+	q85zFREHSSjr0t4eT18bBWzLE9vau+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730714793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=FByBFvGLrMrUihL0maXOmieE4CUb+/GeNtgPAnQRw3w=;
+	b=pEAuDAfjAkOHpi5fmW+o6xNgBbfRzx3LEEBibFDvp82jgZP1xME0TXAh5xZ1oWFqebbbEu
+	3E5U3VmQfgx/+9AQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=C11noZCs;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pEAuDAfj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730714793; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=FByBFvGLrMrUihL0maXOmieE4CUb+/GeNtgPAnQRw3w=;
+	b=C11noZCs0PVteldgjiiQ4STWCyb3Kf7St5J5LwFHsg79ZER165WtPlVIAW9QVsvim34C1Y
+	Z9ALYk43zfumhj7laoO6wYfOvowQNi7I6ljkVpMZMYoIaYSNxqCfsM9OI5V3bPjFtbssYP
+	q85zFREHSSjr0t4eT18bBWzLE9vau+0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730714793;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=FByBFvGLrMrUihL0maXOmieE4CUb+/GeNtgPAnQRw3w=;
+	b=pEAuDAfjAkOHpi5fmW+o6xNgBbfRzx3LEEBibFDvp82jgZP1xME0TXAh5xZ1oWFqebbbEu
+	3E5U3VmQfgx/+9AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F7E113736;
+	Mon,  4 Nov 2024 10:06:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id XjSYAqmcKGfqKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 04 Nov 2024 10:06:33 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: ump: Don't enumeration invalid groups for legacy rawmidi
+Date: Mon,  4 Nov 2024 11:07:34 +0100
+Message-ID: <20241104100735.16127-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
- linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
- Mark Brown <broonie@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Emil Velikov <emil.velikov@collabora.com>, Jaroslav Kysela <perex@perex.cz>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
- syed saba kareem <ssabakar@amd.com>, Takashi Iwai <tiwai@suse.com>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-References: <20241104091312.1108299-1-venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH] ASoC: amd: acp: Fix for ACP SOF dmic tplg component load
- failure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241104091312.1108299-1-venkataprasad.potturu@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:t147qZrJLa7AZUH9g3WArVAjME+fFuU5SLNNeXrUy5CyR7KC/0q
- 13dGdV5l3Wtxp+pBeckAoYriBuRraampOJgd+09FsuQtzRUR7imp5sNBY7p5MU9oqkeiGnn
- WmyFVQxZQ5ZJz5MdnP1BjyVgCbQVmHeBZnF+CICS1961SVTjojfC+PYqDFI9/c1KHxWZo6r
- FB2rCuDCo9NEjQzWh/0Dg==
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 28B7321BB6
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_NONE(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Iea/YmE1kSY=;gVxxXN+WQbtUWzm8KB/OPkIBUzQ
- IsoFhOMRzEP/cbXJV3hbF6DxZjnbAzJTZ++yN3kNrIu67qXHS/cZmc+H6pbFzNbGx535rUm1W
- lH/tRWVlntQff5dy42GrJsplSgDTni2+t6aFxRjR108EeDGUXLJiCY+Eol5bg8fZcw0CqoSFZ
- gkcd37r1mjS2CX+gfAi50nqUoMCUCod3ujsC9G7VnbUwU8zWQZKaXG+Zmpc8Eh0tmr+tjWinz
- Bshafa3Xd2KAf7ZaUL4Y/jdk3YWEXmmPDJKEZpJICTPAqVTxf7YnLrAcIZZqP2QXkRN27grAp
- 1A25LkSO/Jg17ROCFe9HQNlj8K5LgNaC/NJOthP8YSmUpKnJTSnCjhZmRut3kLO3V07In4xUH
- Z7YMwc4q3rWdC/pr+poef2amGE3OvIAepHueCI7ICjtAkS3Mh+jhozbW9Cqj5E/7TGwRunyUH
- iWSohZNcqeRfrYHBPZEyJFvU1PaGempmw01PhwPHCuP0UP05LSQ1/VxlIY7rOZEgSiMbjh45N
- nAweqyt7L1cZPoVHTUmw9F6X7OUFtvJPX8p6V5WVN4n6cW1F69DNZRJDXIVcTLt/tsEco1K2r
- FZQoNg2Qa0TRAfPpS27o1KfJdHW34QPN4xiGI6RNpcwW3JG1/af00njjT3x4SL9lgMpKTKoDS
- RDJwIRivSc6UKLFehoF58XacEGtend7WTXk5UUv7KRvAW8yWiyFFZSA5TkigZjLI3HuLCZXnG
- 0ZF13E4tAGE7GLwM8GdAy6cLpTfnaeCndgEfgHRcEPOowlEyx/hFqbNaUFK24BYHeyF00eooG
- rd9UZS1R9n56omaiWcytNLbw==
 
-=E2=80=A6
-> As SOF framework assigns dailink->stream name, overriding stream name
-> other than link name causes SOF dmic component load failure.
-=E2=80=A6
+The legacy rawmidi tries to enumerate all possible UMP groups
+belonging to the UMP endpoint.  But currently it shows all 16 ports
+when the UMP endpoint is configured with static blocks, although most
+of them may be unused.
 
-Will another imperative wording be helpful for an improved change descript=
-ion?
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
+There was already a fix for the sequencer client side to ignore such
+groups in the commit 3bfd7c0ba184 ("ALSA: seq: ump: Skip useless ports
+for static blocks"), and this commit is a similar fix for UMP
+rawmidi devices; it adds simply the check for the validity of each
+group that has been already parsed.  (Note that the group info was
+moved to snd_ump_endpoint.groups[] by the commit 0642a3c5cacc0321c755
+("ALSA: ump: Update substream name from assigned FB names")).
 
-Regards,
-Markus
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/ump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index cf22a17e38dd..7d59a0a9b037 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1233,7 +1233,7 @@ static int fill_legacy_mapping(struct snd_ump_endpoint *ump)
+ 
+ 	num = 0;
+ 	for (i = 0; i < SNDRV_UMP_MAX_GROUPS; i++)
+-		if (group_maps & (1U << i))
++		if ((group_maps & (1U << i)) && ump->groups[i].valid)
+ 			ump->legacy_mapping[num++] = i;
+ 
+ 	return num;
+-- 
+2.43.0
+
