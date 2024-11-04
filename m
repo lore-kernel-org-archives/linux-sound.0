@@ -1,74 +1,144 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21391BF804;
-	Mon,  4 Nov 2024 15:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2245F1C302B;
+	Mon,  4 Nov 2024 16:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730735840; cv=none; b=EmR9DSsedWgf0FJm3DyFrQR/xzQIxxuUUt3ErDh1jDJeCsrw0f2sMDoPqOSDr3pb8TEhWDy5S3lUFm+GY5lqPisYYmGY0Rr8OKMrpmxJCkjOr+Nnv4dUDwY7OY37Thlgyx0RM0SE8oyQesEt8ogj6xzNqmlfn6uN9sejHpoGJgU=
+	t=1730737074; cv=none; b=R/hPJ/Vcc1lZb1VpOIsWNaTnTXUB6uawf09w3z9t18MktotYa6Cnq01fP2FkQJN6/bBa505rnKpg6B6zIQ9/zhxiWqvDLCwEhl8Hcx7XuOCZ8bJO803NZpnfy66vHAW1tyUiYDk9jQYkSCFbpAHwMJlVFXSN7MvToNlT8oWVjMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730735840; c=relaxed/simple;
-	bh=du3D9Ti6JlIpp3Bx+I1pxH4VeSvLJQ6Ys6/W+ho9O+k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TAvTcX/dqcIVtnHY1xsWWwobKEjXECVxnPRuKXi6ieszFlb9sG5lbrFAQxNAdbTlvWLs+1zppp71djb4In2RtZ48IwiQJi3m/SqipElemU0JtcPGqH3Aa+F/WLozLv9sUH0a754cTBK2S8LttJrxpOXBrCc6H0JTUqKEO+Tcp14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhkgX+5D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730737074; c=relaxed/simple;
+	bh=bfAsiSNijIbn9dA6dCEoAJCNnIpUVnYgwURSK8OS4ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IQobsu5VIIO0CwXbww039kEDHa0/CXJdYHHK64Cdfdwlp+dlQuyk9aHYM5wgHRstQ5aj4N5sROgIm+YRmg5eW+oDsYexrLYOGK3RiNyX1esar8OlBdstoNlH3TaaI4uI2RaskbtNzdVYc2xssA3PRlYSObUAbcpPpDZt2M5bX+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELeHiV4v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhkgX+5D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9567FC4CECE;
-	Mon,  4 Nov 2024 15:57:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELeHiV4v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E502C4CECE;
+	Mon,  4 Nov 2024 16:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730735838;
-	bh=du3D9Ti6JlIpp3Bx+I1pxH4VeSvLJQ6Ys6/W+ho9O+k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WhkgX+5Dt2lESakf8onXXzW7cZ5C/VqXTnynUXelk6LMEmiXhiiS5uKvIiglYRRQd
-	 r9RgkSZwoBub61J/vu+uTCqUEU5Ysp0D09w42GTSBZWCxX1EfAehu9alRA25tch2LA
-	 f0lxhUclCAfrEgeCiP7XMk73AL1jAXLjj481hlXxCSN67ZjIMUU0zsbjfEbevIoMJ/
-	 5WrBNrm/zPmv3jByyuHyNh2s3y8gktj41YrXr6X8tTIgUsbLAz6duPWeSGogxZ43h5
-	 iX9Q6SKBCIk9tK5vr7TMzpOKsV2UaAlMIR8AmfYR6NIq/rmyqePpo/iA+7ZCt7RwqH
-	 axASATQSWEtlQ==
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e28fe07e97dso4350588276.3;
-        Mon, 04 Nov 2024 07:57:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU+ajockVYa4qSm+DAZ3DMOHSyKKIchZzwafAKVJBKdZ+d8Tb/GIhiXazyIsnXtS7oYqkpZ+rS/QkM+@vger.kernel.org, AJvYcCWBYEyUPPlUVQjRL+F6XxtiwyzU//nfg+lZxIHevxI3gHujcmZzJ6DrtkeYjJW7ObPJMaGBjdQTt3X4299F@vger.kernel.org, AJvYcCWG5fZkjSNfwgtq2jMeIhuR8zmlmW+si2gErxRA0/UIkRffkD8soBRGwHRUAOIzeU6bZDxYsIdb2rFcD2g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyrLbTX72UxhtMSv1sUjIpU/70lyRo7DfMEjcDdNzbS8Gf5MN1F
-	4DaZbnku/yh9nCI9m+fpmfjl7PzurQGwMqNuf+oTrclOCIT4uuW8q1mrLvrkiS+0Q4W6cM3NjBL
-	xKAlTYFPrBiLr3o0htcObQtvRZA==
-X-Google-Smtp-Source: AGHT+IFJthhkSzkBdnbiB5dDIi1s/eaCvQbG6JsPmn7TbVCmrz/zQ6MVdpFKk0iB6A/Zy7+RL9YE/wF2HoO/7hQxgz4=
-X-Received: by 2002:a05:6902:3188:b0:e33:25e2:4af6 with SMTP id
- 3f1490d57ef6-e3325e24e4amr5209097276.6.1730735837784; Mon, 04 Nov 2024
- 07:57:17 -0800 (PST)
+	s=k20201202; t=1730737073;
+	bh=bfAsiSNijIbn9dA6dCEoAJCNnIpUVnYgwURSK8OS4ug=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ELeHiV4vJKBVJKglPnNwM4FU9h4OgvTXusWR8lAPnMYQkdfviOs8EYxwcL7BFbdiL
+	 2RVJSf42kx/VHzzyjb4XTns0+4vRba32OT2rKvpm8SOwYAx5UdrChcvvsSZ2CEFndf
+	 daO4CLeyWE5Lbh8G7KVLF5o9n7K3VsPFRKrVV44BpsC97egsW8iREvcfqojKpnzwj1
+	 03GkPzA0xMlNzY9F/Q3KiNX+Iqyda+V0dAPhUZYMyiihT49jsH9JICKfJKpendetVR
+	 cx3TENatm5/RUWWRx9XlsjY818EJGeRDOmYYG69p1JW1AKCDsHHhDGMSFgkG2nm4P1
+	 lv2vYvcLarrcw==
+Date: Mon, 4 Nov 2024 10:17:51 -0600
+From: Rob Herring <robh@kernel.org>
+To: Ki-Seok Jo <kiseok.jo@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
+ initial DT binding
+Message-ID: <20241104161751.GA320514-robh@kernel.org>
+References: <20241104-irondevice-sma1307-v3-0-4bbe79895f54@irondevice.com>
+ <20241104-irondevice-sma1307-v3-1-4bbe79895f54@irondevice.com>
+ <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102125712.2647325-1-csokas.bence@prolan.hu> <20241102125712.2647325-3-csokas.bence@prolan.hu>
-In-Reply-To: <20241102125712.2647325-3-csokas.bence@prolan.hu>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 4 Nov 2024 09:57:06 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+BFBTUT_VrkmCTV-XBmNvscGF0Bzfj7LEeytRea55aBg@mail.gmail.com>
-Message-ID: <CAL_Jsq+BFBTUT_VrkmCTV-XBmNvscGF0Bzfj7LEeytRea55aBg@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] dt-bindings: sound: Add Allwinner suniv F1C100s
- Audio Codec
-To: =?UTF-8?B?Q3PDs2vDoXMsIEJlbmNl?= <csokas.bence@prolan.hu>
-Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
 
-On Sat, Nov 2, 2024 at 8:00=E2=80=AFAM Cs=C3=B3k=C3=A1s, Bence <csokas.benc=
-e@prolan.hu> wrote:
->
-> Add compatible string for Allwinner suniv F1C100s audio codec.
->
-> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
-> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
+On Mon, Nov 04, 2024 at 07:33:47AM +0000, Ki-Seok Jo wrote:
+> 
+
+I don't see the rest of the series (I fetch from lore). That means your 
+threading is broken.
+
+> This adds the schema binding for the Iron Device SMA1307 Amp
+> 
+> Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
 > ---
->  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+v3, but where is the revision history?
+
+>  .../bindings/sound/irondevice,sma1307.yaml         | 54 ++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml b/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
+> new file mode 100644
+> index 000000000..0bb4ee664
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+
+"%YAML 1.2" goes on the 2nd line.
+
+> +---
+> +$id: http://devicetree.org/schemas/sound/irondevice,sma1307.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Iron Device SMA1307 Audio Amplifier
+> +
+> +maintainers:
+> +  - Kiseok Jo <kiseok.jo@irondevice.com>
+> +
+> +description:
+> +  SMA1307 boosted digital speaker amplifier
+> +  with feedback-loop.
+
+Wrap lines at 80 char.
+
+> +
+> +allOf:
+> +  - $ref: dai-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - irondevice,sma1307a
+> +      - irondevice,sma1307aq
+> +    description:
+> +      If a 'q' is added, it indicated the product is AEC-Q100
+> +      qualified for automotive applications. SMA1307A supports
+> +      both WLCSP and QFN packages. However, SMA1307AQ only
+> +      supports the QFN package.
+
+Is this difference visible to software? The package is not, so that part 
+is irrelevant.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#sound-dai-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#sound-dai-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        amplifier@1e {
+> +            compatible = "irondevice,sma1307a";
+> +            reg = <0x1e>;
+> +            #sound-dai-cells = <1>;
+> +        };
+> +    };
+> 
+> --
+> 2.39.2
+> 
