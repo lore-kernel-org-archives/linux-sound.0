@@ -1,64 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC0470816;
-	Mon,  4 Nov 2024 15:45:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21391BF804;
+	Mon,  4 Nov 2024 15:57:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730735154; cv=none; b=tfYzfbjupk6Ty1Ia2cssOKYmc7egb29VrusQoQ3m7IZD+WmYuY1kQDDdpnTaXExDiP9RvmCcdjQUF1X4agknnMCXQiryiOiK2tocB4YLscyEbHRAK7KI4wiQ4ukYEzIGeLYVauW2yCHmfGh/qurFInHOYtL4PYKgV60KWp2Y7Bo=
+	t=1730735840; cv=none; b=EmR9DSsedWgf0FJm3DyFrQR/xzQIxxuUUt3ErDh1jDJeCsrw0f2sMDoPqOSDr3pb8TEhWDy5S3lUFm+GY5lqPisYYmGY0Rr8OKMrpmxJCkjOr+Nnv4dUDwY7OY37Thlgyx0RM0SE8oyQesEt8ogj6xzNqmlfn6uN9sejHpoGJgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730735154; c=relaxed/simple;
-	bh=hpKGIEgf5TYQkLq+8qx78PTEEBg3/Hh7MOPIKh9I5Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RHa6qYxl5oZUqEDZNh4BgZhEMXz3avj2MYk+nbew11TkowRuF7mtHMSXlpNZyfDHwFQfmw07aa7u46NRsLxcLhDLXbWHCPx5vj9s7/2zc/9q4vIET44615UupV8t1kOFRy8IGt69KCtUTd0469VYfi6Vhw9HArvpgesk8ZOi02w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iegfnr5c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730735840; c=relaxed/simple;
+	bh=du3D9Ti6JlIpp3Bx+I1pxH4VeSvLJQ6Ys6/W+ho9O+k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TAvTcX/dqcIVtnHY1xsWWwobKEjXECVxnPRuKXi6ieszFlb9sG5lbrFAQxNAdbTlvWLs+1zppp71djb4In2RtZ48IwiQJi3m/SqipElemU0JtcPGqH3Aa+F/WLozLv9sUH0a754cTBK2S8LttJrxpOXBrCc6H0JTUqKEO+Tcp14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WhkgX+5D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iegfnr5c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3961FC4CECE;
-	Mon,  4 Nov 2024 15:45:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WhkgX+5D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9567FC4CECE;
+	Mon,  4 Nov 2024 15:57:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730735153;
-	bh=hpKGIEgf5TYQkLq+8qx78PTEEBg3/Hh7MOPIKh9I5Tk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iegfnr5cZub0L3skSUElMYZzy5tB8OwYtAybd7HzajHs0h9qJVMoWVo7JCSnOK53C
-	 ClEPj0tL0bueu10SkrFhZpHuv08S14bC1qYGQTQSoPSCe4gsYFZVX+Kqi6XmKI03Xu
-	 wDiXVgndccOx98bWBqeoDFYeFdNsaWiB1RBOia1u6u6IgKgC792l4MqZI2S5JCmfkN
-	 +wkMT83dURWvAPc/VJy9QM8lM2Jdb7ULXHQnLcgxQcBmYifNHrzfrX/M4NOeHDSdWu
-	 VWIRVaM9VG6c5PZErrazcaEfo/daisimy7f8iEfn3m//xpRi1wgAq20628hw9ivzof
-	 b6SqUItJLsq2g==
-Date: Mon, 4 Nov 2024 09:45:51 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-	linux-arm-msm@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: qcom,sm8250: Add SM8750 sound card
-Message-ID: <173073515085.215062.12387546442080685714.robh@kernel.org>
-References: <20241101165159.370619-1-krzysztof.kozlowski@linaro.org>
+	s=k20201202; t=1730735838;
+	bh=du3D9Ti6JlIpp3Bx+I1pxH4VeSvLJQ6Ys6/W+ho9O+k=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=WhkgX+5Dt2lESakf8onXXzW7cZ5C/VqXTnynUXelk6LMEmiXhiiS5uKvIiglYRRQd
+	 r9RgkSZwoBub61J/vu+uTCqUEU5Ysp0D09w42GTSBZWCxX1EfAehu9alRA25tch2LA
+	 f0lxhUclCAfrEgeCiP7XMk73AL1jAXLjj481hlXxCSN67ZjIMUU0zsbjfEbevIoMJ/
+	 5WrBNrm/zPmv3jByyuHyNh2s3y8gktj41YrXr6X8tTIgUsbLAz6duPWeSGogxZ43h5
+	 iX9Q6SKBCIk9tK5vr7TMzpOKsV2UaAlMIR8AmfYR6NIq/rmyqePpo/iA+7ZCt7RwqH
+	 axASATQSWEtlQ==
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e28fe07e97dso4350588276.3;
+        Mon, 04 Nov 2024 07:57:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+ajockVYa4qSm+DAZ3DMOHSyKKIchZzwafAKVJBKdZ+d8Tb/GIhiXazyIsnXtS7oYqkpZ+rS/QkM+@vger.kernel.org, AJvYcCWBYEyUPPlUVQjRL+F6XxtiwyzU//nfg+lZxIHevxI3gHujcmZzJ6DrtkeYjJW7ObPJMaGBjdQTt3X4299F@vger.kernel.org, AJvYcCWG5fZkjSNfwgtq2jMeIhuR8zmlmW+si2gErxRA0/UIkRffkD8soBRGwHRUAOIzeU6bZDxYsIdb2rFcD2g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrLbTX72UxhtMSv1sUjIpU/70lyRo7DfMEjcDdNzbS8Gf5MN1F
+	4DaZbnku/yh9nCI9m+fpmfjl7PzurQGwMqNuf+oTrclOCIT4uuW8q1mrLvrkiS+0Q4W6cM3NjBL
+	xKAlTYFPrBiLr3o0htcObQtvRZA==
+X-Google-Smtp-Source: AGHT+IFJthhkSzkBdnbiB5dDIi1s/eaCvQbG6JsPmn7TbVCmrz/zQ6MVdpFKk0iB6A/Zy7+RL9YE/wF2HoO/7hQxgz4=
+X-Received: by 2002:a05:6902:3188:b0:e33:25e2:4af6 with SMTP id
+ 3f1490d57ef6-e3325e24e4amr5209097276.6.1730735837784; Mon, 04 Nov 2024
+ 07:57:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241101165159.370619-1-krzysztof.kozlowski@linaro.org>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu> <20241102125712.2647325-3-csokas.bence@prolan.hu>
+In-Reply-To: <20241102125712.2647325-3-csokas.bence@prolan.hu>
+From: Rob Herring <robh@kernel.org>
+Date: Mon, 4 Nov 2024 09:57:06 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+BFBTUT_VrkmCTV-XBmNvscGF0Bzfj7LEeytRea55aBg@mail.gmail.com>
+Message-ID: <CAL_Jsq+BFBTUT_VrkmCTV-XBmNvscGF0Bzfj7LEeytRea55aBg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+To: =?UTF-8?B?Q3PDs2vDoXMsIEJlbmNl?= <csokas.bence@prolan.hu>
+Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On Fri, 01 Nov 2024 17:51:58 +0100, Krzysztof Kozlowski wrote:
-> Add bindings for SM8750 sound card, compatible with older SM8450
-> variant.
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+On Sat, Nov 2, 2024 at 8:00=E2=80=AFAM Cs=C3=B3k=C3=A1s, Bence <csokas.benc=
+e@prolan.hu> wrote:
+>
+> Add compatible string for Allwinner suniv F1C100s audio codec.
+>
+> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
 > ---
->  Documentation/devicetree/bindings/sound/qcom,sm8250.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
+>  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
