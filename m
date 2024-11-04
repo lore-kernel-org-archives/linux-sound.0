@@ -1,130 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB2B1F942;
-	Mon,  4 Nov 2024 13:22:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147C779FD;
+	Mon,  4 Nov 2024 14:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730726573; cv=none; b=gfeswtxb6vz4sy2s4MeMpFS5nrs+ZxuW+tf9/gv7mxuBl4++xtmHR2Nn46BgCzDpvqzMLuppu1E3OPj5ZJ9isYbONyaE8MGRa2fTp63A4Uiq5kELJAUeh54buLUI8sb+ro3fjg85nxIcdNaVU9K8LyOGtk8L3hyZEA/RrAUzaIU=
+	t=1730729041; cv=none; b=X2+AnQFt32d42tfBdrmXLp8qjCOeSl7KasQGkjisdZAXjo6F9lOnV0jnyAPsZ++yGHCvmER8vUtXTZhFksphbsN9/nzQsnWXBWPJ0w8U1NmO/sFmndJShcvpvMgk4Z8FOO+dVEPCVLGepUk48QaJiaJz3iVOWoTlMJizSRc3Ids=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730726573; c=relaxed/simple;
-	bh=jENhgwjHfHLpHVisFsFtPBea2iPPH9L7WxXFlxC/V3Q=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t2mp99Ufwy20cbL67bQso0bAbJWMaR8kxDe0AwNWpkVQwJMnktNuJTTJREN4lPiDCbIvt3UCmILawCRjX92cL7kb4Fp8aLvLr+iQJ0Z24BU4BLMCYMDFNJtcoOge9+bTtuJJQ53JPCV2GpL3ec4jcFse7tRt3snj1MVyifr/DB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qUQ0XOtU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bI37hxgQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oH/oeR7u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=kQM+343q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730729041; c=relaxed/simple;
+	bh=0BjiMv0VjBbA0wKoTP1NVXNesF4nWLPu+2GtxIbUMuw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LceNXRD4MSKX5/7EwJabZxG72GJDfhd8g0wOzruM07VL2MTK+RxtGwZpA46JXbNmlnBq0UYuHM9g0vA1ZNB4xzbDpLtynCa7e7hBvLqVcwkUo8T0RH+J1ITZDuoGS1hSuXm45SrBRzDoWSNTLA24J09PuDrO+lAicUe6A0ESje4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pOrNaQdR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qUQ0XOtU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bI37hxgQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oH/oeR7u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kQM+343q"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F287A21DDA;
-	Mon,  4 Nov 2024 13:22:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730726570; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WP+efpquukK7qg3JnxY1hr4qsWnRjhge2MvS9FSY9/c=;
-	b=qUQ0XOtUdinGwezHfnWUXA5NDMJ/C+BBx27+prfmP+NIVJcjswH1qjJV9TpuuXlZNKA88I
-	6YCoIDe5kYc70gTLKBYPuvF1PZQmYsYKNglP5QGRU2hWwFjx5rWFcz2tJs3Kyl0NDAB72z
-	QPu2N3aWpYpb/Sle+cItWfTkjnthl70=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730726570;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WP+efpquukK7qg3JnxY1hr4qsWnRjhge2MvS9FSY9/c=;
-	b=bI37hxgQwD4SwPOJCZaZPz5j73gndAJf0YwYSMDcapUbBwnAfEKqjuIVmr4Um6vpDpRCM8
-	tjdcGMhgDHo8xLDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730726568; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WP+efpquukK7qg3JnxY1hr4qsWnRjhge2MvS9FSY9/c=;
-	b=oH/oeR7usF+voNP+XTXuKI7mw/9d7LgEztFgn6okOXIIE36ss3CeSDxUyaHMMv80zdVNeS
-	E4R+1At0xM4LLL1qYRtBRTlULedPj87tWw6vyHnRFRiYjLlIFWdk6vcPdg1rNcqDhPROSO
-	UGtQsulyIeNykZxciJFKaT9ijzRpEVg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730726568;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WP+efpquukK7qg3JnxY1hr4qsWnRjhge2MvS9FSY9/c=;
-	b=kQM+343q3q4lySrJ7LeVVMwpXjDtfpRrNtELi1ZezM2yQia6+NTVhuZAzDwXuryIc26SQu
-	EQi2qx4bj6J7ryCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDF941373E;
-	Mon,  4 Nov 2024 13:22:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id L7oxLajKKGd0aQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Nov 2024 13:22:48 +0000
-Date: Mon, 04 Nov 2024 14:23:54 +0100
-Message-ID: <87r07rb09h.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Philipp Stanner <pstanner@redhat.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH] ALSA: hda: intel: Switch to pci_alloc_irq_vectors API
-In-Reply-To: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
-References: <11c60429-9435-4666-8e27-77160abef68e@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pOrNaQdR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541ACC4CECE;
+	Mon,  4 Nov 2024 14:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730729039;
+	bh=0BjiMv0VjBbA0wKoTP1NVXNesF4nWLPu+2GtxIbUMuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pOrNaQdR2NgTs0W4BXgN6H2uFywY5sWWlwpRj5WaK1/LoOwNAsrBu8LWq8/PRLvnk
+	 xFidrFgaI9OFHM9ovVO1s4l6c5BpZT1DO5tt5rsGOwFWgMS5ZZLUkih2OWItsT31RI
+	 WY0Ytb2rpppwmr6nyzW0gc3g6VLrIAfwIs1esPqLl1PKFKJtinzFijBCCRwIyto4IP
+	 vrCbUReZXVN4rF1odjkj/vkP42pXLBO/9O6M2/TtpnB38NehLYwRek0o2aUPygojuq
+	 5SgRRAMBEST+ag5bZBqSmWOEH5H1Yyw9IKOBh5f1HiEC7UaUUG30B6VLu1ktw8S3e+
+	 Lkpb8d39cryVQ==
+Date: Mon, 4 Nov 2024 14:03:54 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ki-Seok Jo <kiseok.jo@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] ASoC: sma1307: Add driver for Iron Device SMA1307
+Message-ID: <45c69c35-cc52-4fa2-9212-821a7f841b61@sirena.org.uk>
+References: <20241104-irondevice-sma1307-v3-0-4bbe79895f54@irondevice.com>
+ <20241104-irondevice-sma1307-v3-2-4bbe79895f54@irondevice.com>
+ <SL2P216MB2337F87E4E884158CCE77DA38C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
-
-On Thu, 31 Oct 2024 20:41:12 +0100,
-Heiner Kallweit wrote:
-> 
-> Switch from legacy pci_msi_enable()/pci_intx() API to the
-> pci_alloc_irq_vectors API.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-
-Applied to for-next branch now.  Thanks.
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7C2n8T4N/M0aFJ1I"
+Content-Disposition: inline
+In-Reply-To: <SL2P216MB2337F87E4E884158CCE77DA38C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+X-Cookie: The meek are contesting the will.
 
 
-Takashi
+--7C2n8T4N/M0aFJ1I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Nov 04, 2024 at 07:33:50AM +0000, Ki-Seok Jo wrote:
+>=20
+> The Iron Device SMA1307 is a boosted digital speaker amplifier
+>=20
+> v2 -> v3
+> 	- Use BIT() macro
+> 	- Changed the value in sizeof
+
+The changelog should go after the --- so the tools automatically drop
+it.
+
+> ---
+>  To                         |    0
+
+This looks like it got in by mistake.  Other than that things look good,
+I've fixed this up manually.
+
+--7C2n8T4N/M0aFJ1I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmco1EkACgkQJNaLcl1U
+h9Ay7gf8DdtxLYVBqRNpwQOU/2HkpA+8Z088OKG1BdvWv/fMqBrJHWqA8u9Hp/xR
+H5053JBVGnyurnri4P/0B9jvtEg0EVu27lNzJ9tRdqzGJW+0Qhi/L25DMMSf4o9y
++DfZfQPq7GzEJODXwwXN3FTOL+xgNn+F3054Yh67Zp6jaglOoxzlq1xRXSgOX6l/
+X+uImrMZXBcz+rJRmib5ilWnvstvHk4UIV3Pcbslarl/8eYJ9BznMqWJlpY2eh0Q
+f/MQKpse3+he2tO5gtXj0hPkyMqGy+Ys9oXcLjOC5dsgUY1hziWrsH0QC82PBJw7
+R54cnxCQCEjGl8OEi/g2T5rrT3J5oQ==
+=Tlvq
+-----END PGP SIGNATURE-----
+
+--7C2n8T4N/M0aFJ1I--
