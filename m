@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2245F1C302B;
-	Mon,  4 Nov 2024 16:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B287F1C07F1;
+	Mon,  4 Nov 2024 16:41:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730737074; cv=none; b=R/hPJ/Vcc1lZb1VpOIsWNaTnTXUB6uawf09w3z9t18MktotYa6Cnq01fP2FkQJN6/bBa505rnKpg6B6zIQ9/zhxiWqvDLCwEhl8Hcx7XuOCZ8bJO803NZpnfy66vHAW1tyUiYDk9jQYkSCFbpAHwMJlVFXSN7MvToNlT8oWVjMg=
+	t=1730738479; cv=none; b=u87HNAexi6DDes3PF4f/IOMGSrC1TYqOirXhJ8GYIVUn3+85xNaaSFP2Mrp3Mn9uiR2us+ZAW0FmpqKFMwBBx9/hmBpoaAbd8nlqg0kcSz9/p0wgUZKb7VXfjawz20UrE/oKWcR4LGCXusALmUujso1FbXv06gA0pGvkiOt0AOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730737074; c=relaxed/simple;
-	bh=bfAsiSNijIbn9dA6dCEoAJCNnIpUVnYgwURSK8OS4ug=;
+	s=arc-20240116; t=1730738479; c=relaxed/simple;
+	bh=+B9xFugGobw2ZRWDNdrYNv/jQoedsgnzX20cqqtb3i8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IQobsu5VIIO0CwXbww039kEDHa0/CXJdYHHK64Cdfdwlp+dlQuyk9aHYM5wgHRstQ5aj4N5sROgIm+YRmg5eW+oDsYexrLYOGK3RiNyX1esar8OlBdstoNlH3TaaI4uI2RaskbtNzdVYc2xssA3PRlYSObUAbcpPpDZt2M5bX+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELeHiV4v; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DuODPNyIFffkZxCQhsICGvEOWLVdBnxutNUTLddZJEfOxanS92UZhvHa72euQw5bZMr6i84HMu2shsmgZHokZ2oi1CKmbyqARYQuHZYZlHZkZUaiZFovDZx7XTXcMruphskAsmfG6FGSTJGNvJklEnQ+UeGvtpEiTVu0emBSuCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OWjugrvu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELeHiV4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E502C4CECE;
-	Mon,  4 Nov 2024 16:17:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OWjugrvu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04D29C4CECE;
+	Mon,  4 Nov 2024 16:41:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730737073;
-	bh=bfAsiSNijIbn9dA6dCEoAJCNnIpUVnYgwURSK8OS4ug=;
+	s=k20201202; t=1730738479;
+	bh=+B9xFugGobw2ZRWDNdrYNv/jQoedsgnzX20cqqtb3i8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ELeHiV4vJKBVJKglPnNwM4FU9h4OgvTXusWR8lAPnMYQkdfviOs8EYxwcL7BFbdiL
-	 2RVJSf42kx/VHzzyjb4XTns0+4vRba32OT2rKvpm8SOwYAx5UdrChcvvsSZ2CEFndf
-	 daO4CLeyWE5Lbh8G7KVLF5o9n7K3VsPFRKrVV44BpsC97egsW8iREvcfqojKpnzwj1
-	 03GkPzA0xMlNzY9F/Q3KiNX+Iqyda+V0dAPhUZYMyiihT49jsH9JICKfJKpendetVR
-	 cx3TENatm5/RUWWRx9XlsjY818EJGeRDOmYYG69p1JW1AKCDsHHhDGMSFgkG2nm4P1
-	 lv2vYvcLarrcw==
-Date: Mon, 4 Nov 2024 10:17:51 -0600
-From: Rob Herring <robh@kernel.org>
-To: Ki-Seok Jo <kiseok.jo@irondevice.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	b=OWjugrvuDz6ff1jX/EzVG4/5uQaUmp1rB0aAZ84F+JUT2zEz56uX+cXmYmmDbldk2
+	 UbhbOGj3IXz8OKNgB2+5YfAEdCUCMImjpwSQ7RqsxtwYDe5v1KA9Bjf8gJOBqPCswA
+	 6EnDbu8MrjWQszhTFJwgJK3Qi7rRh4x6YoFVpDBHZnXBPv321bpIic0X87FGSnk09b
+	 x4epqNCrtv9imO8+7YX4eRYgmRYegPpjGWCDyfGOsckK+wtSzunlOLmlD7WKqRyEct
+	 41BYaHLIba6sMWBmPxbjI3w6OvSq6rSnjk3alY9Iw9RuS+d+pW45muP1DwnAzha6X7
+	 eySOu/81VHVkw==
+Date: Mon, 4 Nov 2024 16:41:14 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: Ki-Seok Jo <kiseok.jo@irondevice.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
@@ -39,106 +40,61 @@ Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v3 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
  initial DT binding
-Message-ID: <20241104161751.GA320514-robh@kernel.org>
+Message-ID: <ac5ad26e-ef76-4ad9-9396-2b175276a5c8@sirena.org.uk>
 References: <20241104-irondevice-sma1307-v3-0-4bbe79895f54@irondevice.com>
  <20241104-irondevice-sma1307-v3-1-4bbe79895f54@irondevice.com>
  <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+ <20241104161751.GA320514-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="oagKkKyvt1o8YX1v"
+Content-Disposition: inline
+In-Reply-To: <20241104161751.GA320514-robh@kernel.org>
+X-Cookie: The meek are contesting the will.
+
+
+--oagKkKyvt1o8YX1v
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 04, 2024 at 07:33:47AM +0000, Ki-Seok Jo wrote:
-> 
+On Mon, Nov 04, 2024 at 10:17:51AM -0600, Rob Herring wrote:
+> On Mon, Nov 04, 2024 at 07:33:47AM +0000, Ki-Seok Jo wrote:
 
-I don't see the rest of the series (I fetch from lore). That means your 
-threading is broken.
+> > +    enum:
+> > +      - irondevice,sma1307a
+> > +      - irondevice,sma1307aq
+> > +    description:
+> > +      If a 'q' is added, it indicated the product is AEC-Q100
+> > +      qualified for automotive applications. SMA1307A supports
+> > +      both WLCSP and QFN packages. However, SMA1307AQ only
+> > +      supports the QFN package.
 
-> This adds the schema binding for the Iron Device SMA1307 Amp
-> 
-> Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
-> ---
+> Is this difference visible to software? The package is not, so that part=
+=20
+> is irrelevant.
 
-v3, but where is the revision history?
+It seems reasonable to allow it as a compatible if it's sold as a
+separate part, even if we don't need to care.
 
->  .../bindings/sound/irondevice,sma1307.yaml         | 54 ++++++++++++++++++++++
->  1 file changed, 54 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml b/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
-> new file mode 100644
-> index 000000000..0bb4ee664
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/irondevice,sma1307.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+--oagKkKyvt1o8YX1v
+Content-Type: application/pgp-signature; name="signature.asc"
 
-"%YAML 1.2" goes on the 2nd line.
+-----BEGIN PGP SIGNATURE-----
 
-> +---
-> +$id: http://devicetree.org/schemas/sound/irondevice,sma1307.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Iron Device SMA1307 Audio Amplifier
-> +
-> +maintainers:
-> +  - Kiseok Jo <kiseok.jo@irondevice.com>
-> +
-> +description:
-> +  SMA1307 boosted digital speaker amplifier
-> +  with feedback-loop.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmco+SkACgkQJNaLcl1U
+h9C3WQf/cvCLIIc9BSmHgNbLWWFbm12PJ+ga/IEM7Ud6luckZzqyjyZRvFV/uy0E
+JabJmdMpallRe/VTN0/0aXbMFY66Jw+3QVCyLprfuYr6GtItgkLxE7SdO32bmp6N
+1Qj5qXJETVb2PWiVsvmVjRitxuKTfLJms0HGgaK5VMwdkV6nTjujPDhKLfIzbgOl
+kDEI+s+aZXcOSbqk69XjFrRtXMiiGZKqbFbdfOncUdt6i1UeiM7AuIvJzjLh18gp
+o2v7CQ5BI+/WXKEk3Mqz8c16WBBiJYmihPraozovwIlDRp7BH7o3qBqX/SxR5TLz
+OkBQzrEMqk42cfC+HVpeWVHb6ML8TA==
+=ZsMY
+-----END PGP SIGNATURE-----
 
-Wrap lines at 80 char.
-
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - irondevice,sma1307a
-> +      - irondevice,sma1307aq
-> +    description:
-> +      If a 'q' is added, it indicated the product is AEC-Q100
-> +      qualified for automotive applications. SMA1307A supports
-> +      both WLCSP and QFN packages. However, SMA1307AQ only
-> +      supports the QFN package.
-
-Is this difference visible to software? The package is not, so that part 
-is irrelevant.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  '#sound-dai-cells':
-> +    const: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - '#sound-dai-cells'
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        amplifier@1e {
-> +            compatible = "irondevice,sma1307a";
-> +            reg = <0x1e>;
-> +            #sound-dai-cells = <1>;
-> +        };
-> +    };
-> 
-> --
-> 2.39.2
-> 
+--oagKkKyvt1o8YX1v--
