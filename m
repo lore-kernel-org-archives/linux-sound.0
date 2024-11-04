@@ -1,109 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F77D1C6F72;
-	Mon,  4 Nov 2024 10:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88201D5162
+	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 11:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730717742; cv=none; b=HlGtwftmNwn4F6QTfk4S/IP5nX0154MY0NuJDjCAzelnfart44N4/sEaq82M8XLAb3GvphjwNgzg0TGuPOn3TZxoeHMe0SVYy21gtvq6dtQulSj3JMgARrWe1ikBwa5Q42iJZmNlt5Rsl5HOSPqylrxa0Hq6tAVXRJHL5fwETfM=
+	t=1730718776; cv=none; b=k/m1ZrmIMICvM9eDixpUKka2ZF8Cnm1lnmbi46uL99DiRwanhwfVCfHxjaar9qElycLjUpUNgZ6Tn96NWAZVXYyNLcFXDboIrZM/jNPZFAR4XHJqaHfM6i+EyMCZZ3apxdz0aGO0ch47F2oVhmtCcqQ3Qq3Sj2jZ9UzYYLQnImo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730717742; c=relaxed/simple;
-	bh=kJpDQw+xwsKO10rJ3WJ+NUqZU6XSrhQ2MlqEGPupdQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IP377Sylk84up7Q/yK3y7PKptLR1/LtjDLv5F3CxYPGFyqUQkb5FXsZGtJUF4EBjdnoVlxiGV9vbhZohFGHPPZ5LESK1TWVbjIRNq1P1ovQYIHzYLuh0QkZI0DOoGQTwqz7kj4AuWqNH6iSP/8jOurO156RSNjo9mU3WGoWJ21c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gw2Ry4W4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730718776; c=relaxed/simple;
+	bh=GfTqS8OGtgvdq4CghxVn86HK6W2OBHBs1c4oIr7MYHI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ObrXqno9EwnPxq40U1yDeisPusZ1/gWJrY87422TGHo1H8LQSIBpe3c/tVarVQL4KvRop5iIxYXFjKIBEZFxX1q/xrWnzdrYA1zHZFzO0DWZJUFArKe9VGZ/mNUiHt/gXbSkCG46183OcWZt/n4OvSxCyVJ06S2IT8Wl0kzNSEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cxVVPBqX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gw2Ry4W4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ACECC4CECE;
-	Mon,  4 Nov 2024 10:55:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730717742;
-	bh=kJpDQw+xwsKO10rJ3WJ+NUqZU6XSrhQ2MlqEGPupdQg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Gw2Ry4W4/Z37gvUXr4rS6fIX6PQFg4FPsanPdaWbgupllhyTC9bcITxEAWJ0TY5AI
-	 cb5MqQSj4yVT5lc6UkH4g4m/ypd/TroNN8x2v1rCnTE7ob07KEa7CnwM53vViJjL5I
-	 ruOD7Ek+n7pyUmj3P66MdVEaZQYSPeplPog8JOjnLNgOE9HiGRxdQSlmqsfcuNgUQf
-	 DS7OEFKrwi/A9yG2xsFOx3Ia2ul6izA+8LTjNOfdkrxxz8bp5AjWLDZkYo5gwN7drS
-	 IwFaPJNxHSWD8cbq4RCL4PZd++iEtj5p9ydCD6CRo/Gkln0wkJso9Dvviak86G5tUb
-	 URcdNKwEaAJtA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	alban.boye@protonmail.com,
-	u.kleine-koenig@baylibre.com,
-	tomlohave@gmail.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 1/5] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet
-Date: Mon,  4 Nov 2024 05:55:30 -0500
-Message-ID: <20241104105539.98219-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cxVVPBqX"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A3NlkCT027342
+	for <linux-sound@vger.kernel.org>; Mon, 4 Nov 2024 11:12:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FkrN5aPzH8cFJEUSM1S5b0+HOoTa6/UxeCk1GA3RQ9E=; b=cxVVPBqXDuq7NWL+
+	K0ZmgTrC/lj+ijuwzxBWw59YbYsxfcyXoO4/cpsxY6E5KqxeqJV6REBqI1dMCVj0
+	nyIBbRafDqPM7sopTLCJJcryagtohr8oQ+QT059X6poX5vCs+ngT09h+DW4JIyRu
+	tFXrnb1xPulcBuYOK9ZRd9BPeljahCv1uFUEeofR7hidLsF7tdrzB6I/gZAKMs3c
+	pRZsV3ERVhL4vcYbk76TP0LIz486cGWKUU5vuTVZwyCsmBsSHl5Vj1H+pivihBCY
+	0dRGCUrzvWqbI3YnM50T3U1gIodUQzMIPpk0LQgtvhP/9R8DH+sP+n7fB0sKhrVP
+	6RGZYA==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42ncyxuxtw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 11:12:53 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6cbd0a3f253so12737096d6.3
+        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 03:12:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730718772; x=1731323572;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FkrN5aPzH8cFJEUSM1S5b0+HOoTa6/UxeCk1GA3RQ9E=;
+        b=iSB++HahyfkWKtJbcCLKujSMRgDWi/ijLkJ214BhxhpaHLan+XlmW9Cu6CCyEKLy6K
+         f09T+8f/36+40Md0l0uS7Oa7kVWtOoXQlOsJo583xt3WuAxiDXQ084Rc7HhR0/WKvb2Y
+         vZXWcgCV99aqX56xt0IVnRGtJGU+ePydfFJMkNbSj/cvjuJIdOBEqW9KBLpYIzoN2W0F
+         Abf3uRIM0zg2kTnwOOxxVbhVlyZyJa9sjOcTsz664lXf2a0+4rtoefSF3XNETLzo8F1b
+         43aUSQ5vCrE6z5zGcDji2vi1d4mERPpFVsP7YLSPsHRu0bq0kMcHuuryR6z9/UtiBWIC
+         YQtg==
+X-Forwarded-Encrypted: i=1; AJvYcCUe/3bTeEb+4nYBe/hcXenY0Rccqa0PAT+kqqyxd4Kik6c8Qn8jrqONg37nBp1+QRWBxz9D/vl+hlE07Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeqD0fFl2TrnFxxVrhr85nxfDnWCBPQKFj9f37LYCqeUUlXkyg
+	5n7Lcr0ZFdVf9Y8CepeEOJYLB0YkvzyXw/8jZb5BsYhqZaqZk1TBNIq1GFhNHrcShXGMWyrpmof
+	CqtSp50Bc8Z2z8g6F1L3nW+XoDXVLP0hREBvAm5PT3Cviev5/HdH/RswH7LgJz4vlVeOlBQ==
+X-Received: by 2002:a05:620a:17ab:b0:7b1:43b3:8189 with SMTP id af79cd13be357-7b193f68cf5mr2130262885a.12.1730718772730;
+        Mon, 04 Nov 2024 03:12:52 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE1kLsLhTw1eCaFhwc75OEkkLjLtmAZaNU8WNIlpyHgnRFt+2XGunT7R8lTybD+GT5231O6HQ==
+X-Received: by 2002:a05:620a:17ab:b0:7b1:43b3:8189 with SMTP id af79cd13be357-7b193f68cf5mr2130260885a.12.1730718772318;
+        Mon, 04 Nov 2024 03:12:52 -0800 (PST)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565e08d0sm536708066b.115.2024.11.04.03.12.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 03:12:51 -0800 (PST)
+Message-ID: <e9d5e5fb-a656-46f4-9f5e-c6092729709c@oss.qualcomm.com>
+Date: Mon, 4 Nov 2024 12:12:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.322
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/5] arm64: dts: qcom: sm6115: add apr and its services
+To: Alexey Klimov <alexey.klimov@linaro.org>, linux-sound@vger.kernel.org,
+        srinivas.kandagatla@linaro.org, broonie@kernel.org
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
+        conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+        perex@perex.cz, tiwai@suse.com, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, dmitry.baryshkov@linaro.org,
+        krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org,
+        linux-kernel@vger.kernel.org, a39.skl@gmail.com
+References: <20241101005925.186696-1-alexey.klimov@linaro.org>
+ <20241101005925.186696-3-alexey.klimov@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20241101005925.186696-3-alexey.klimov@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 2qP4qkUIwjHLG0zajnYUGwf-jeNGyquW
+X-Proofpoint-GUID: 2qP4qkUIwjHLG0zajnYUGwf-jeNGyquW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 suspectscore=0
+ malwarescore=0 bulkscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 mlxscore=0 phishscore=0 adultscore=0 mlxlogscore=493
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411040099
 
-From: Hans de Goede <hdegoede@redhat.com>
+On 1.11.2024 1:59 AM, Alexey Klimov wrote:
+> Add apr (asynchronous packet router) node and its associated services
+> required to enable audio on QRB4210 RB2 platform.
+> 
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
 
-[ Upstream commit 0107f28f135231da22a9ad5756bb16bd5cada4d5 ]
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 
-The Vexia Edu Atla 10 tablet mostly uses the BYTCR tablet defaults,
-but as happens on more models it is using IN1 instead of IN3 for
-its internal mic and JD_SRC_JD2_IN4N instead of JD_SRC_JD1_IN4P
-for jack-detection.
-
-Add a DMI quirk for this to fix the internal-mic and jack-detection.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patch.msgid.link/20241024211615.79518-2-hdegoede@redhat.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/intel/boards/bytcr_rt5640.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index 16e2ab2903754..2ed63866e9cc6 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -879,6 +879,21 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
- 					BYT_RT5640_SSP0_AIF2 |
- 					BYT_RT5640_MCLK_EN),
- 	},
-+	{	/* Vexia Edu Atla 10 tablet */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+			/* Above strings are too generic, also match on BIOS date */
-+			DMI_MATCH(DMI_BIOS_DATE, "08/25/2014"),
-+		},
-+		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
-+					BYT_RT5640_JD_SRC_JD2_IN4N |
-+					BYT_RT5640_OVCD_TH_2000UA |
-+					BYT_RT5640_OVCD_SF_0P75 |
-+					BYT_RT5640_DIFF_MIC |
-+					BYT_RT5640_SSP0_AIF2 |
-+					BYT_RT5640_MCLK_EN),
-+	},
- 	{	/* Voyo Winpad A15 */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
--- 
-2.43.0
-
+Konrad
