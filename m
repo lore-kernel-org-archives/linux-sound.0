@@ -1,148 +1,155 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FEA1ABEBD;
-	Mon,  4 Nov 2024 10:24:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1919B1B6D17;
+	Mon,  4 Nov 2024 10:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730715873; cv=none; b=Sp4UP7uKl87Qs/qsMiFwPbOETaNv0rmVoGF1klxXlwiPzx0yQ0W0Tb4wQVt0FFZgwUDxNgQZCMGos8y3tGFOVG0JWQ24ZlSNfTNtXAcmVhox8b8KqLnhmt20ZFYV5myMZsWGilfg59+0sttF0sfuEJssDiHHmeWD5e5aKb0aoHM=
+	t=1730717462; cv=none; b=r/fhO1Cg/qbsWklQBhn+aRkpu0o22KKIS40cSqzqRhHNAAa/KwD51VHhr5ARAHbHSFOoht4yT3LvO+ny3RZdG/8XJFM0nQG7fYfbtSv18fEbBhN8GmbU69Dt9a1sIVESz5v575S8x8OK2C1v1a3OYQ0x5pOIWYhbBVUV/7ArBj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730715873; c=relaxed/simple;
-	bh=UhC1xihM0yyX3J7pEDwPom1OrSC8tmiwc5UbVvLh4+A=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N4e8thU0Z1IPREHRaKICH7vzUlOdu2MBLhCAMZh1eHA8X4iVrU12wdxAgQx4ie/FRPdpmOrNaCY1LfoUCmEjaA+JT3EX+iMZfmMKc3qj/8Upd0a/W8CKkOMTSIoD8eFwb4mx14Xc8hhTgxu0l5Jzx9XodBnI5+qMspjfQBFpoOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUVx9LPZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=551VEPYU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oUVx9LPZ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=551VEPYU; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730717462; c=relaxed/simple;
+	bh=iTGqIO9Es4XecuyLxjDR+ZPOneoUJN9I9mMLnY1w8JY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PjAYmwFoqvu7Zp5Eq1QbTKYzX2lFKV+yzNZsHfKINKdWEv5BLRsb3uQsjzBKG3k7gz6gIMOQqP7Ds9UAfMkSng5CCcQOYgW0p2hJGsB+Ii0mFqFvWsnmXCRYwu/ZoPd+DBTNujG81XmpgjcMiIs5C7mTBigB2juUJUJnT/mLOWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VmzFaW8W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUVx9LPZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="551VEPYU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oUVx9LPZ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="551VEPYU"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4ADAB1FDD4;
-	Mon,  4 Nov 2024 10:24:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730715869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QONVyxe8S/T0cD5/iGzh2jvCjZgjKOX2yaCeq/joY70=;
-	b=oUVx9LPZiJdZv9JySK+DzXtr/cMPUK+LAsV6ZHllZFZDMcKVIZdkIOGnxVXz/llxl68SBx
-	9oBt4Dk9tE12tNyUdtbZlwFOF9XvqBgqlVEO706g86YeX1wYGpvirmQ/BfLSSmKFS2UAGz
-	lFmYVSEkWvMqMtKYUynCP3+QIxq5HTU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730715869;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QONVyxe8S/T0cD5/iGzh2jvCjZgjKOX2yaCeq/joY70=;
-	b=551VEPYUjiNMnRPkrslgYNW5G4jRdUCV5lntS3n8g+43d+YG9t2BxoTxCIDURl+u/P4UHd
-	Ck9RrBtMdKvlToDQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oUVx9LPZ;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=551VEPYU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730715869; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QONVyxe8S/T0cD5/iGzh2jvCjZgjKOX2yaCeq/joY70=;
-	b=oUVx9LPZiJdZv9JySK+DzXtr/cMPUK+LAsV6ZHllZFZDMcKVIZdkIOGnxVXz/llxl68SBx
-	9oBt4Dk9tE12tNyUdtbZlwFOF9XvqBgqlVEO706g86YeX1wYGpvirmQ/BfLSSmKFS2UAGz
-	lFmYVSEkWvMqMtKYUynCP3+QIxq5HTU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730715869;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QONVyxe8S/T0cD5/iGzh2jvCjZgjKOX2yaCeq/joY70=;
-	b=551VEPYUjiNMnRPkrslgYNW5G4jRdUCV5lntS3n8g+43d+YG9t2BxoTxCIDURl+u/P4UHd
-	Ck9RrBtMdKvlToDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 151E813736;
-	Mon,  4 Nov 2024 10:24:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BEgFBN2gKGfFLwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 04 Nov 2024 10:24:29 +0000
-Date: Mon, 04 Nov 2024 11:25:34 +0100
-Message-ID: <871pzrcn35.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Murad Masimov <m.masimov@maxima.ru>
-Cc: Clemens Ladisch <clemens@ladisch.de>,
-	Takashi Sakamoto
-	<o-takashi@sakamocchi.jp>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai
-	<tiwai@suse.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>
-Subject: Re: [PATCH] ALSA: firewire-lib: fix return value on fail in amdtp_tscm_init()
-In-Reply-To: <20241101185517.1819-1-m.masimov@maxima.ru>
-References: <20241101185517.1819-1-m.masimov@maxima.ru>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VmzFaW8W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA338C4CED1;
+	Mon,  4 Nov 2024 10:51:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730717461;
+	bh=iTGqIO9Es4XecuyLxjDR+ZPOneoUJN9I9mMLnY1w8JY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VmzFaW8WzDHNcmx6GL9rpiIPTuABJIg63A50jb36S8MYlkW2OBcbth4UMMfoB3dC3
+	 hItUsPoGdp0yqvQQv2Z4AGgYD05l/Fa5Wmth2jgFhZxScd8OX13q9/8hyCrAwQW8ws
+	 rBporr4jMncVCwGgOyIVoqFahEVxHSodnMaSW0hgYo//GgkKPnlZB3LYur170UPAKJ
+	 QrntzWPcATFXH9F58XBADMT9qUVSu2CRsHbBC67PWpAjUoyTBDXFH24q9809Modfwt
+	 hpxTfekLntdpGTAXjaA/HxrTRFQEq5sngBBA+ho++DFbY+7MTU83JVExEB6H+uvg1d
+	 25Wme756zmOZw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.11 06/21] ASoC: codecs: rt5640: Always disable IRQs from rt5640_cancel_work()
+Date: Mon,  4 Nov 2024 05:49:42 -0500
+Message-ID: <20241104105048.96444-6-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241104105048.96444-1-sashal@kernel.org>
+References: <20241104105048.96444-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: *
-X-Spamd-Result: default: False [1.36 / 50.00];
-	RSPAMD_URIBL(4.50)[maxima.ru:email];
-	BAYES_HAM(-2.93)[99.68%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	BAD_REP_POLICIES(0.10)[];
-	MX_GOOD(-0.01)[];
-	R_DKIM_ALLOW(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Score: 1.36
-X-Spamd-Bar: +
-X-Rspamd-Queue-Id: 4ADAB1FDD4
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.11.6
+Content-Transfer-Encoding: 8bit
 
-On Fri, 01 Nov 2024 19:55:13 +0100,
-Murad Masimov wrote:
-> 
-> If amdtp_stream_init() fails in amdtp_tscm_init(), the latter returns zero,
-> though it's supposed to return error code, which is checked inside
-> init_stream() in file tascam-stream.c.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 47faeea25ef3 ("ALSA: firewire-tascam: add data block processing layer")
-> Signed-off-by: Murad Masimov <m.masimov@maxima.ru>
+From: Hans de Goede <hdegoede@redhat.com>
 
-Applied now.  Thanks.
+[ Upstream commit 032532f91a1d06d0750f16c49a9698ef5374a68f ]
 
+Disable IRQs from rt5640_cancel_work(), this fixes a crash caused by
+the IRQ never getting freed when the driver is unbound from the i2c_client
+with jack-detection active:
 
-Takashi
+[  193.138780] rt5640 i2c-rt5640: ASoC: unknown pin LDO2
+[  193.138830] rt5640 i2c-rt5640: ASoC: unknown pin MICBIAS1
+[  193.671218] BUG: kernel NULL pointer dereference, address: 0000000000000078
+[  193.671239] #PF: supervisor read access in kernel mode
+[  193.671248] #PF: error_code(0x0000) - not-present page
+...
+[  193.671531]  ? asm_exc_page_fault+0x22/0x30
+[  193.671551]  ? rt5640_jack_inserted+0x10/0x80 [snd_soc_rt5640]
+[  193.671574]  rt5640_detect_headset+0x93/0x130 [snd_soc_rt5640]
+[  193.671596]  rt5640_jack_work+0x93/0x355 [snd_soc_rt5640]
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Link: https://patch.msgid.link/20241024215612.92147-1-hdegoede@redhat.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/soc/codecs/rt5640.c | 27 +++++++++++++++------------
+ 1 file changed, 15 insertions(+), 12 deletions(-)
+
+diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
+index 16f3425a3e35c..855139348edb4 100644
+--- a/sound/soc/codecs/rt5640.c
++++ b/sound/soc/codecs/rt5640.c
+@@ -2419,10 +2419,20 @@ static irqreturn_t rt5640_jd_gpio_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static void rt5640_cancel_work(void *data)
++static void rt5640_disable_irq_and_cancel_work(void *data)
+ {
+ 	struct rt5640_priv *rt5640 = data;
+ 
++	if (rt5640->jd_gpio_irq_requested) {
++		free_irq(rt5640->jd_gpio_irq, rt5640);
++		rt5640->jd_gpio_irq_requested = false;
++	}
++
++	if (rt5640->irq_requested) {
++		free_irq(rt5640->irq, rt5640);
++		rt5640->irq_requested = false;
++	}
++
+ 	cancel_delayed_work_sync(&rt5640->jack_work);
+ 	cancel_delayed_work_sync(&rt5640->bp_work);
+ }
+@@ -2463,13 +2473,7 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+ 	if (!rt5640->jack)
+ 		return;
+ 
+-	if (rt5640->jd_gpio_irq_requested)
+-		free_irq(rt5640->jd_gpio_irq, rt5640);
+-
+-	if (rt5640->irq_requested)
+-		free_irq(rt5640->irq, rt5640);
+-
+-	rt5640_cancel_work(rt5640);
++	rt5640_disable_irq_and_cancel_work(rt5640);
+ 
+ 	if (rt5640->jack->status & SND_JACK_MICROPHONE) {
+ 		rt5640_disable_micbias1_ovcd_irq(component);
+@@ -2477,8 +2481,6 @@ static void rt5640_disable_jack_detect(struct snd_soc_component *component)
+ 		snd_soc_jack_report(rt5640->jack, 0, SND_JACK_BTN_0);
+ 	}
+ 
+-	rt5640->jd_gpio_irq_requested = false;
+-	rt5640->irq_requested = false;
+ 	rt5640->jd_gpio = NULL;
+ 	rt5640->jack = NULL;
+ }
+@@ -2798,7 +2800,8 @@ static int rt5640_suspend(struct snd_soc_component *component)
+ 	if (rt5640->jack) {
+ 		/* disable jack interrupts during system suspend */
+ 		disable_irq(rt5640->irq);
+-		rt5640_cancel_work(rt5640);
++		cancel_delayed_work_sync(&rt5640->jack_work);
++		cancel_delayed_work_sync(&rt5640->bp_work);
+ 	}
+ 
+ 	snd_soc_component_force_bias_level(component, SND_SOC_BIAS_OFF);
+@@ -3032,7 +3035,7 @@ static int rt5640_i2c_probe(struct i2c_client *i2c)
+ 	INIT_DELAYED_WORK(&rt5640->jack_work, rt5640_jack_work);
+ 
+ 	/* Make sure work is stopped on probe-error / remove */
+-	ret = devm_add_action_or_reset(&i2c->dev, rt5640_cancel_work, rt5640);
++	ret = devm_add_action_or_reset(&i2c->dev, rt5640_disable_irq_and_cancel_work, rt5640);
+ 	if (ret)
+ 		return ret;
+ 
+-- 
+2.43.0
+
