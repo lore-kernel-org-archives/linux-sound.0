@@ -1,53 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793841C32E2;
-	Mon,  4 Nov 2024 10:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE8C1C4A06;
+	Mon,  4 Nov 2024 10:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730717698; cv=none; b=l6RQ5kO+uNY8T2nw/W2J70Fb2ikP1rrlCJlcwDNfrtaElmh0m1TS4pZ+n2G0W06vZSJtU3g3bPPj0Hh3f4QV+8/HyPzGt6PXuiY4TBQvMTRVMFMw0LIx3eupdcHdJQmM6YDdUBoB1Ql26QenHbi6AfZYhJgamHsQYTwZZCJvkts=
+	t=1730717705; cv=none; b=mIZvK3t3qkSoaQg1IZAG3ofyAOI0HnH1tleqaZOi/yMEOKlkVPl6xRXOgUpxioUx3Cfti6IZi1afRkNdBX35C7fZZZtwJCuunoRQ15YgeGaekrO9iYestYjYaLUgI+zRTHC9o/pKLn7DWcqks+ZNab9KR/qZwmxz/dzVQuer5dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730717698; c=relaxed/simple;
-	bh=4ss2VHhvW/g1sgrZ4wjkaod1rti5nO4VvOvH1P8lPi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YJlCDXAnZMjfTkLO/gw56T7qP0qVRLy+NW6LKF436GPtiHytTHOI+p37Vq7aI1w1n5qUdKGpv2FYgbkN2F1Ki/zfWiBsUTnTLwScAJzGkMV0qW3TYwP4vYt+Xpl7M+vHf+yhDvS4uj4yqVNgqcspKzsp2jlQtuRWP4iJ5a6uxgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfQ0ksiX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730717705; c=relaxed/simple;
+	bh=N5CCR2fO6rVvBOCqmI70DKSnvU4cKnRUO2m5Ia69C/4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mGfHbREv6DYGqf7kGtI8u6FWappp4yQ43RlidasX30slEwiwFb0Xf3EmM3741ejtGwqBHJD1/7v6y1u58rGMurmlEGbCRlzW41xgXM7necfnt0eDwf/GLUnzcx7qM6jDgz3Y9Ou41SsNJ43HYK4RoaW7WTdC6tMxWaxzMCzyq2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jghx8oq6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfQ0ksiX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33DE0C4CECE;
-	Mon,  4 Nov 2024 10:54:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jghx8oq6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11BF6C4CECE;
+	Mon,  4 Nov 2024 10:55:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730717698;
-	bh=4ss2VHhvW/g1sgrZ4wjkaod1rti5nO4VvOvH1P8lPi8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EfQ0ksiXJH0ihSwDnyB37AqbUvetrIvuNBiGWoW9kDvLHDrTRJZHjLPwZAJc5Pb2F
-	 PJBcBkIYAk39IJjGhQzs0+j7dmPF69cUMXsSs636IMS6ymXuEDffIvHzOwurCPKkPJ
-	 0H7qchaRginWm7KPeFsXXe4c2DZ8CvmnE//x5Ke+KPZiotjPWu30rbNeI5aMGiJOEk
-	 KF9rn2Vke8qoUYi0QiYohaA36VKF5GM5SecO9miQFbo3Sg2OjpINPUuw8Iz+9D9OR7
-	 /ekto2itKXGVXE6qNbaNTPNeLqDUnCk36MyfELTHReVMXQCrK7dYkPUQa19AACLiFp
-	 tWVnX7VyiBTTw==
+	s=k20201202; t=1730717705;
+	bh=N5CCR2fO6rVvBOCqmI70DKSnvU4cKnRUO2m5Ia69C/4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jghx8oq6GC3H5EkI6tGaChT/ygBKpAGcylKNzoYVjrxHoGL9Q3zG+ZvI1niJvgz+F
+	 VeNb68YIssl0wCNR5HC0DvVs9cXrb+NlwvNbUaydB1vo3q2TZG/gRdvmNMi4aProZ4
+	 1SB+NY6eXizmtH9b7fZjw/cQbb/nAylTuZBfHVnZ5KPywktyifBsS325Z/gwZRYZpR
+	 bs7NQxQPs74fBUIXEArXOkkQNGLbZ9mgz4TzwjnltQ5o3VLC3avLTZ6m3d2zpBDKrf
+	 HVQVa9bcnznEUENZPRD2TQu6lMwDJaECTfT3B+kbIh6MHZ2+QG8BjsDpR14aAHbOLW
+	 V47Q/sYqu3vkw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	tomlohave@gmail.com,
-	alban.boye@protonmail.com,
-	u.kleine-koenig@baylibre.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 1/6] ASoC: Intel: bytcr_rt5640: Add DMI quirk for Vexia Edu Atla 10 tablet
-Date: Mon,  4 Nov 2024 05:54:42 -0500
-Message-ID: <20241104105454.97918-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 4/6] ALSA: hda/realtek: Add subwoofer quirk for Infinix ZERO BOOK 13
+Date: Mon,  4 Nov 2024 05:54:45 -0500
+Message-ID: <20241104105454.97918-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241104105454.97918-1-sashal@kernel.org>
+References: <20241104105454.97918-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -59,51 +57,65 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 5.10.228
 Content-Transfer-Encoding: 8bit
 
-From: Hans de Goede <hdegoede@redhat.com>
+From: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
 
-[ Upstream commit 0107f28f135231da22a9ad5756bb16bd5cada4d5 ]
+[ Upstream commit ef5fbdf732a158ec27eeba69d8be851351f29f73 ]
 
-The Vexia Edu Atla 10 tablet mostly uses the BYTCR tablet defaults,
-but as happens on more models it is using IN1 instead of IN3 for
-its internal mic and JD_SRC_JD2_IN4N instead of JD_SRC_JD1_IN4P
-for jack-detection.
+Infinix ZERO BOOK 13 has a 2+2 speaker system which isn't probed correctly.
+This patch adds a quirk with the proper pin connections.
+Also The mic in this laptop suffers too high gain resulting in mostly
+fan noise being recorded,
+This patch Also limit mic boost.
 
-Add a DMI quirk for this to fix the internal-mic and jack-detection.
+HW Probe for device; https://linux-hardware.org/?probe=a2e892c47b
 
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://patch.msgid.link/20241024211615.79518-2-hdegoede@redhat.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Test: All 4 speaker works, Mic has low noise.
+
+Signed-off-by: Piyush Raj Chouhan <piyushchouhan1598@gmail.com>
+Link: https://patch.msgid.link/20241028155516.15552-1-piyuschouhan1598@gmail.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/bytcr_rt5640.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ sound/pci/hda/patch_realtek.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/sound/soc/intel/boards/bytcr_rt5640.c b/sound/soc/intel/boards/bytcr_rt5640.c
-index 47b581d99da67..6fc6a1fcd935e 100644
---- a/sound/soc/intel/boards/bytcr_rt5640.c
-+++ b/sound/soc/intel/boards/bytcr_rt5640.c
-@@ -935,6 +935,21 @@ static const struct dmi_system_id byt_rt5640_quirk_table[] = {
- 					BYT_RT5640_SSP0_AIF2 |
- 					BYT_RT5640_MCLK_EN),
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 05a2442cfc656..fe12fa9fd3c21 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6881,6 +6881,7 @@ enum {
+ 	ALC290_FIXUP_SUBWOOFER_HSJACK,
+ 	ALC269_FIXUP_THINKPAD_ACPI,
+ 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
++	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
+ 	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
+ 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
+ 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
+@@ -7181,6 +7182,16 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = alc269_fixup_pincfg_U7x7_headset_mic,
  	},
-+	{	/* Vexia Edu Atla 10 tablet */
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
-+			DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
-+			/* Above strings are too generic, also match on BIOS date */
-+			DMI_MATCH(DMI_BIOS_DATE, "08/25/2014"),
++	[ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13] = {
++		.type = HDA_FIXUP_PINS,
++		.v.pins = (const struct hda_pintbl[]) {
++			{ 0x14, 0x90170151 }, /* use as internal speaker (LFE) */
++			{ 0x1b, 0x90170152 }, /* use as internal speaker (back) */
++			{ }
 +		},
-+		.driver_data = (void *)(BYT_RT5640_IN1_MAP |
-+					BYT_RT5640_JD_SRC_JD2_IN4N |
-+					BYT_RT5640_OVCD_TH_2000UA |
-+					BYT_RT5640_OVCD_SF_0P75 |
-+					BYT_RT5640_DIFF_MIC |
-+					BYT_RT5640_SSP0_AIF2 |
-+					BYT_RT5640_MCLK_EN),
++		.chained = true,
++		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
 +	},
- 	{	/* Voyo Winpad A15 */
- 		.matches = {
- 			DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+ 	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
+ 		.type = HDA_FIXUP_PINS,
+ 		.v.pins = (const struct hda_pintbl[]) {
+@@ -9443,6 +9454,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1d72, 0x1945, "Redmi G", ALC256_FIXUP_ASUS_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1d72, 0x1947, "RedmiBook Air", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
++	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
+ 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
+ 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
+ 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
 -- 
 2.43.0
 
