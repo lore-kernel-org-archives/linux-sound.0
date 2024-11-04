@@ -1,131 +1,98 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649A31C0DF0
-	for <linux-sound@vger.kernel.org>; Mon,  4 Nov 2024 11:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54C715C139;
+	Mon,  4 Nov 2024 12:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730719149; cv=none; b=gPI+voIUny5/S2GHJgn5m6T/SW0x2E35Uip9sq4eKqBx2BFoBv+5NrjJu5NETJBvXStdmUQN6E7yT8H5NKy0p/Rrw6ONIxNHK9Lv7Jm14KcI9WGkpLogZaFlYWoQB1LliI3+7Zjp1VakaEd8aA6DevsbMakvxDhW1fCcW8TZ+Ts=
+	t=1730722595; cv=none; b=OjhUd3suT0RTeb+tkuT4HLWLoV0ms6Rl4iH3POOk01wBUTAtxG3XnZHqQPBjeVC55WYdoHH2BsPk5NYuUAIAndCMU6rvEi3axJSlrilb0w9laHr9zl8f9qYeRtv+YAJPK7O8frXti1fWJaadk6Gyr6kJ+LlTSSxMOHSOtXTXAu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730719149; c=relaxed/simple;
-	bh=JgGFqZMz2Caxo/bqJtXtplmuZg+Kq0OfABkegunbOdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QnJFZXmxUS8o924y6WLVcRddarb3D0AFf1lcJtyui+DJHd9wGq9dgw8BkxNSQfpwQ6bNHyGVLrMCjaxTh4ieeSfMXa/4KXBKu894XzDqNhp3eLfKYQG7d6BJH3IEYDrv409ULki4YN7JzUzsfoxeoosg4fdWlQ3w3HQtrs7dyy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XS5i/5yS; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1730722595; c=relaxed/simple;
+	bh=2q5cM5jBgPwB0S1xjxKGbk0Ij/bx8viMdMSL73+1hxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNlhAnm4MInVgqjsSbstdB5SDLusgWhoNdgJVQugzwe3Ta3jYCoawVU4C+La4d88GC52OWlp0zWNB5lAYI9tQkduovi4arcrkjIpwS7xvD+97iSsA9+DWMY+Xjxk4oLjMgTdW37daGML+JjIojRpPca1uxKjDd2eBzEa31didaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISYXWq50; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XS5i/5yS"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A3NfDvQ005560
-	for <linux-sound@vger.kernel.org>; Mon, 4 Nov 2024 11:19:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	A2oqrkGjzA/cLsOTZU66EH16Yp67C8bgxn8gSXmYQkc=; b=XS5i/5ySL9/dX/ot
-	PaFTZCwraJhzf8Z8uQxKTavoDl709y+gKABp/+cdX0BjDp01PZ8HSu/opEETfVQc
-	yF7f+FZUFbJfG+pDvSLXa0w7zHSPbaXVdW+r0sC9aZLJj/H1dxVRtvWvVMzoGYWF
-	5q1a0I3IlN59SHkSQpjT/LTVNYEjLgb6MdK7raUqOeGhUqJal974T6jLZnQz45LW
-	y5QMWSQzwWSDYPzIm2b61uTT7RNBCnf1eqAu8OKsjbFKRH6di/SKPosSNwk4XU4H
-	DTwJGb6ejJUj3hpKPhDAhkL50vm3n5uoZkd1uVI92SxauoH1eR3kIqyDpL0zthe6
-	lYdH7g==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42nd2r3w7b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 11:19:07 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-460903fc1a1so10920141cf.1
-        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 03:19:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730719146; x=1731323946;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=A2oqrkGjzA/cLsOTZU66EH16Yp67C8bgxn8gSXmYQkc=;
-        b=YmJbjUR6UrOQoC93Q28CAfx6Y+kzdvO4qGFF0+YaBSQbZvwKteFRqcuJB7UV8zzI7A
-         NAIeLmbGe1965ZVCYUBepKs1IYYI5cwEepG7frDl4zZwB8rvGNvXL5tT4g6l+Af5Clhm
-         flXh1xk1TGz+vOlcozhTvaa/r6zJxr2rGuNLLcLbCcj7BO/QaNrB33XMwm+g3YKQRmX6
-         4uCDFWelQ6LSpYzKLSbUwVqMmjMBM2/WSwtdZsmp/gTTK6AyIHOkA+JNF35MrGMBLNXC
-         7xuBojq2VjKev+H4TzDCQPNAAqdu59eHzH0xvto80cgj7x8QBvCWgxCWOFge95Ag7Kz2
-         55Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCWVv2XUBQSe62e8GWl6xcXE3Ty3m3CgHZIP1Ts3Bx86sidLi2xNbBggN5T83F9BgMFqEDskXvPqFKuo5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/rBxPJTRp6lN/k0HxHGWoXm8mx7CPjTt46N52nwUq1nF80+6p
-	4zrPsP9Z0VkaaSZz4OYNvvIVjfHc8lcCiGMaany0Bx/Sb8ATdBa62RWh5HkqMgq7ak4YNQVv2tW
-	kcUXQXhuXhiFilzJLQvnbVJr8VHMZYcRPBZCZh8d7FeLHHjFUTPZsGpGbViQAYw==
-X-Received: by 2002:a05:620a:3181:b0:7b1:2242:e3e0 with SMTP id af79cd13be357-7b193ef409amr1999301485a.4.1730719146232;
-        Mon, 04 Nov 2024 03:19:06 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFYmjI7Jslj3eJ0wFw7ek9WtoDBg7hvIWPiFS3CeTaEvgboxht0RJg92uZc82vxdJNXaDmrMg==
-X-Received: by 2002:a05:620a:3181:b0:7b1:2242:e3e0 with SMTP id af79cd13be357-7b193ef409amr1999300485a.4.1730719145792;
-        Mon, 04 Nov 2024 03:19:05 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565df949sm540724366b.121.2024.11.04.03.19.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 03:19:05 -0800 (PST)
-Message-ID: <33174321-d81d-472a-b267-ed2cdd691b74@oss.qualcomm.com>
-Date: Mon, 4 Nov 2024 12:19:02 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISYXWq50"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD52C4CECE;
+	Mon,  4 Nov 2024 12:16:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730722595;
+	bh=2q5cM5jBgPwB0S1xjxKGbk0Ij/bx8viMdMSL73+1hxw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ISYXWq50pkwY7IaQdLnqnQ6LvPiNyernU2Y9U8ikMDdaBY/QUiNnbnJaAjDHFHbE7
+	 2FTHnBZPsWJFGKCeKpc5tiYQjPPxEh8sgbHbSJmJOpl0SNguGBm3ALc4bmaJUkQWoe
+	 slpJ5z/q+IRU5Yfof5et6OVUeCw4mAOiMXana6Xz1YOLvt/QLwegp8PWVr8cgNR3YC
+	 JbviL7aHu7oMmJsgdV61397zHvO33QupWW8n2/Q+u6As8aPZykV7hwN9T7evw/rldT
+	 N0tF1yyvtaf6GTzIDzDiPvA5wraIjCLUKNMA5L+y5gEplnCJF0BKLFDJ2K7Qkd4seK
+	 dR1QNONAnfuTw==
+Date: Mon, 4 Nov 2024 12:16:28 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
+	LKML <linux-kernel@vger.kernel.org>,
+	Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+	syed saba kareem <ssabakar@amd.com>, Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: Re: [PATCH] ASoC: amd: acp: Fix for ACP SOF dmic tplg component load
+ failure
+Message-ID: <d53810ac-a7f6-47da-aa12-0562ed565008@sirena.org.uk>
+References: <20241104091312.1108299-1-venkataprasad.potturu@amd.com>
+ <e1ac11b3-b746-4564-8daa-3527aa13e348@web.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 10/10] ASoC: qcom: sm8250: force single channel via
- RX_1 output
-To: Alexey Klimov <alexey.klimov@linaro.org>, broonie@kernel.org,
-        konradybcio@kernel.org, konrad.dybcio@oss.qualcomm.com,
-        andersson@kernel.org, srinivas.kandagatla@linaro.org
-Cc: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
-        linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241101053154.497550-1-alexey.klimov@linaro.org>
- <20241101053154.497550-11-alexey.klimov@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241101053154.497550-11-alexey.klimov@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: aLImWL5S-ShIIvwTrwJH44qnkK0dj7Z1
-X-Proofpoint-GUID: aLImWL5S-ShIIvwTrwJH44qnkK0dj7Z1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=999 priorityscore=1501 malwarescore=0 bulkscore=0
- lowpriorityscore=0 suspectscore=0 clxscore=1015 phishscore=0 spamscore=0
- mlxscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411040100
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="kTb8e3B9zP668jr+"
+Content-Disposition: inline
+In-Reply-To: <e1ac11b3-b746-4564-8daa-3527aa13e348@web.de>
+X-Cookie: The meek are contesting the will.
 
-On 1.11.2024 6:31 AM, Alexey Klimov wrote:
-> In case of mono configurations we need to enforce single channel
-> output. This is required for audio playback on QRB4210 RB2 board.
-> 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  sound/soc/qcom/sm8250.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/sound/soc/qcom/sm8250.c b/sound/soc/qcom/sm8250.c
-> index 45e0c33fc3f3..7994488d7998 100644
-> --- a/sound/soc/qcom/sm8250.c
-> +++ b/sound/soc/qcom/sm8250.c
-> @@ -39,10 +39,20 @@ static int sm8250_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
->  					SNDRV_PCM_HW_PARAM_RATE);
->  	struct snd_interval *channels = hw_param_interval(params,
->  					SNDRV_PCM_HW_PARAM_CHANNELS);
-> +	struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
->  
->  	rate->min = rate->max = 48000;
->  	channels->min = channels->max = 2;
->  
-> +	/* Maybe should be moved to driver data variant */
-> +	switch (cpu_dai->id) {
-> +	case RX_CODEC_DMA_RX_1:
-> +		channels->min = channels->max = 1;
-> +		break;
 
-This doesn't seem to be specific to either 8250 or 6115. It looks like
-this is board specific.
+--kTb8e3B9zP668jr+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Konrad
+On Mon, Nov 04, 2024 at 10:35:23AM +0100, Markus Elfring wrote:
+> =E2=80=A6
+> > As SOF framework assigns dailink->stream name, overriding stream name
+> > other than link name causes SOF dmic component load failure.
+> =E2=80=A6
+
+> Will another imperative wording be helpful for an improved change descrip=
+tion?
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
+
+Feel free to ignore Markus, he has a long history of sending
+unhelpful review comments and continues to ignore repeated requests
+to stop.
+
+--kTb8e3B9zP668jr+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcouxsACgkQJNaLcl1U
+h9BKcAf/TNNGFpwVuNpRbVlSMez8V2eMkz5wyQajdqcAKWhgfpA4LjxqXW/f4A1g
+ZEHgOPg7WdSnazsqaI/t/q8JOj/j7S033Cw1z6RGT/pXs/CnYnlbi6NSeSSXaUZ9
+vS6ouSn/2qdgqePwSAjcqMUYS5bEHlkI5iBIGcBAugKcBK2W0VI3s679ss+Br83m
++3CHGp4XNiV5LKQyCx948EItuH3d0ncdxTPjgyTUQiPz/WeT9s3xY/TAShRPaB1s
+vt+hfxCNCttGrKtq4+iTNc9l63W2B1cxEjrGrc8WO7Jy7QzDu4RN6boru6xJng7o
+NVY1DEAQ2MYP+8N76znghsRRZkPYrw==
+=9nQZ
+-----END PGP SIGNATURE-----
+
+--kTb8e3B9zP668jr+--
