@@ -1,52 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54C715C139;
-	Mon,  4 Nov 2024 12:16:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985F31E4B0;
+	Mon,  4 Nov 2024 12:41:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730722595; cv=none; b=OjhUd3suT0RTeb+tkuT4HLWLoV0ms6Rl4iH3POOk01wBUTAtxG3XnZHqQPBjeVC55WYdoHH2BsPk5NYuUAIAndCMU6rvEi3axJSlrilb0w9laHr9zl8f9qYeRtv+YAJPK7O8frXti1fWJaadk6Gyr6kJ+LlTSSxMOHSOtXTXAu0=
+	t=1730724109; cv=none; b=Vr0tph+nga861OWLdSQDoD6ajv5w7mQRdrf+0/0QT2ZUvYlH/gD6AKLxwUaeY40qtkKeM448Z7GTjiwenRqHAsez1hWQbOErzh5vtPjGrWW0m3HT7p0gt4qqC8CRVK6XrGcf9Ny4kKIfguY9WSXgovFc8kggwNnaVy8aUsfw3OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730722595; c=relaxed/simple;
-	bh=2q5cM5jBgPwB0S1xjxKGbk0Ij/bx8viMdMSL73+1hxw=;
+	s=arc-20240116; t=1730724109; c=relaxed/simple;
+	bh=C3JFkDiW9cHKcfXA0BS2+Rkk8iwYqgCTvOT/2u4dWk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LNlhAnm4MInVgqjsSbstdB5SDLusgWhoNdgJVQugzwe3Ta3jYCoawVU4C+La4d88GC52OWlp0zWNB5lAYI9tQkduovi4arcrkjIpwS7xvD+97iSsA9+DWMY+Xjxk4oLjMgTdW37daGML+JjIojRpPca1uxKjDd2eBzEa31didaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISYXWq50; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ek4o6gd3diOVqZhUcrDi38HKNF3nHfMP1LQTwivyMpiJTY2CpnzOetqPLSNCxz9RbvwoS0dVkAF6xJaFHSMJvt54WEEOXbx5fgn9Dquc14wA+LYmnxPMm09PdEpO0HWl/Gt2LyHJ3wQ/8lseh75L7UwBfLv1NBumUpxDit8fJeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAgXPygc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISYXWq50"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDD52C4CECE;
-	Mon,  4 Nov 2024 12:16:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAgXPygc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B5BC4CECE;
+	Mon,  4 Nov 2024 12:41:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730722595;
-	bh=2q5cM5jBgPwB0S1xjxKGbk0Ij/bx8viMdMSL73+1hxw=;
+	s=k20201202; t=1730724109;
+	bh=C3JFkDiW9cHKcfXA0BS2+Rkk8iwYqgCTvOT/2u4dWk0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ISYXWq50pkwY7IaQdLnqnQ6LvPiNyernU2Y9U8ikMDdaBY/QUiNnbnJaAjDHFHbE7
-	 2FTHnBZPsWJFGKCeKpc5tiYQjPPxEh8sgbHbSJmJOpl0SNguGBm3ALc4bmaJUkQWoe
-	 slpJ5z/q+IRU5Yfof5et6OVUeCw4mAOiMXana6Xz1YOLvt/QLwegp8PWVr8cgNR3YC
-	 JbviL7aHu7oMmJsgdV61397zHvO33QupWW8n2/Q+u6As8aPZykV7hwN9T7evw/rldT
-	 N0tF1yyvtaf6GTzIDzDiPvA5wraIjCLUKNMA5L+y5gEplnCJF0BKLFDJ2K7Qkd4seK
-	 dR1QNONAnfuTw==
-Date: Mon, 4 Nov 2024 12:16:28 +0000
+	b=rAgXPygcOOQnibfnag50Hb7bQEpVYpq1eB0FiaRiT6h/rCtmjD9mefsl710tpubYi
+	 JveLYBpc0T5ntyNehrOgtQ7DcU6miUzpHbesQRIgVQrg45wZALdWILfcTIslTwc6LW
+	 XTSD9Mrdi/G426OxU2laElrwE+gypGbqOf5xV5DW4v3B1YNGYEQyIEaW/q+IIAm4SQ
+	 1Cvuqm1YbDplMMLJ6DZ5dLMhGMt3fo/tLpb7xQnRcz++lGWPZbmOJSg8DjTtzb4/sB
+	 HRffRQYLOvTrVpFoWjApWYgNVOZnooFenVp+fZoNUPAQPK3w5Lat36lKLTZus9m5sG
+	 ilBMudCkq+PNQ==
+Date: Mon, 4 Nov 2024 12:41:44 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
-	linux-sound@vger.kernel.org, alsa-devel@alsa-project.org,
-	LKML <linux-kernel@vger.kernel.org>,
-	Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
-	Emil Velikov <emil.velikov@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
-	syed saba kareem <ssabakar@amd.com>, Takashi Iwai <tiwai@suse.com>,
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH] ASoC: amd: acp: Fix for ACP SOF dmic tplg component load
- failure
-Message-ID: <d53810ac-a7f6-47da-aa12-0562ed565008@sirena.org.uk>
-References: <20241104091312.1108299-1-venkataprasad.potturu@amd.com>
- <e1ac11b3-b746-4564-8daa-3527aa13e348@web.de>
+To: Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, perex@perex.cz, tiwai@suse.com
+Subject: Re: [PATCH v2] sound: fix uninit-value in i2s_dma_isr
+Message-ID: <d1710182-b4e0-4bb9-bebf-1fa7c48c77fd@sirena.org.uk>
+References: <20241030170829.36161-1-surajsonawane0215@gmail.com>
+ <20241102123630.25446-1-surajsonawane0215@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,45 +42,49 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kTb8e3B9zP668jr+"
+	protocol="application/pgp-signature"; boundary="IGS/bFFv3E6vOYPp"
 Content-Disposition: inline
-In-Reply-To: <e1ac11b3-b746-4564-8daa-3527aa13e348@web.de>
+In-Reply-To: <20241102123630.25446-1-surajsonawane0215@gmail.com>
 X-Cookie: The meek are contesting the will.
 
 
---kTb8e3B9zP668jr+
-Content-Type: text/plain; charset=utf-8
+--IGS/bFFv3E6vOYPp
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 04, 2024 at 10:35:23AM +0100, Markus Elfring wrote:
-> =E2=80=A6
-> > As SOF framework assigns dailink->stream name, overriding stream name
-> > other than link name causes SOF dmic component load failure.
-> =E2=80=A6
+On Sat, Nov 02, 2024 at 06:06:30PM +0530, Suraj Sonawane wrote:
+> Fix an issue detected by the Smatch tool:
+>=20
+> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
+> error: uninitialized symbol 'val_1'.
+> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
+> error: uninitialized symbol 'val_2'.
 
-> Will another imperative wording be helpful for an improved change descrip=
-tion?
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
-ocumentation/process/submitting-patches.rst?h=3Dv6.12-rc5#n94
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
 
---kTb8e3B9zP668jr+
+--IGS/bFFv3E6vOYPp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcouxsACgkQJNaLcl1U
-h9BKcAf/TNNGFpwVuNpRbVlSMez8V2eMkz5wyQajdqcAKWhgfpA4LjxqXW/f4A1g
-ZEHgOPg7WdSnazsqaI/t/q8JOj/j7S033Cw1z6RGT/pXs/CnYnlbi6NSeSSXaUZ9
-vS6ouSn/2qdgqePwSAjcqMUYS5bEHlkI5iBIGcBAugKcBK2W0VI3s679ss+Br83m
-+3CHGp4XNiV5LKQyCx948EItuH3d0ncdxTPjgyTUQiPz/WeT9s3xY/TAShRPaB1s
-vt+hfxCNCttGrKtq4+iTNc9l63W2B1cxEjrGrc8WO7Jy7QzDu4RN6boru6xJng7o
-NVY1DEAQ2MYP+8N76znghsRRZkPYrw==
-=9nQZ
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcowQgACgkQJNaLcl1U
+h9B9lQf/aIZ1xA2G0d2mrcOtRptce8icy5GcsAYDJ7VefLmpBAv1GNQDe8o+Jpno
+JTR1dcLd2ZCYK/homlp1Zsf6bpZL+fytqz3CGat6jGa88IFbgz9Udw7KHClnq1Q2
+caeu6gVEgdqjWEvcoEw8FVFfQxnOliusLPemAeXX2xisYvYhKk5y1PjdoLe1w4ua
+x4XKguyHUM1h5ywNwEKUmm70s7r7SmwDp+ipJjt6P1OzlaexCMRZscTrm4z3fLpi
+22Z0yCO6iH/50DDOoeuHv1Ao+r6ZYa/et9KANBa0ThhLcqoxbH3H4bnl3qjlzTqB
+yLRWYihDCU1stezK+ju/hwbSCQEXDA==
+=Q/1z
 -----END PGP SIGNATURE-----
 
---kTb8e3B9zP668jr+--
+--IGS/bFFv3E6vOYPp--
