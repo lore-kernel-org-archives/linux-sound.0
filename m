@@ -1,89 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35E81E7675;
-	Tue,  5 Nov 2024 18:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6F31EC003;
+	Tue,  5 Nov 2024 19:07:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730830529; cv=none; b=SWTDxaxikTQPVMNvqY5QV46eIBPS4g0+ZHctF78ZHzBxna0VSm6r4SDqMX7NEIBBbUWcBjjvzMa2svpNj3/mJFe1+hK68G4DAwYq5k9N6Q4piJKgxfCVw5kaJxH5tH2wutx+GpeR5+PA5l2yBau69u5RwrGzcSqOiROXsOh/PMk=
+	t=1730833636; cv=none; b=L25kT5SckA0dHRLJFpar8BFejdhiaUqxeHzlpDJo2rH2OB0RBcCWS1xi3J3iynVUSfBqJFCtCDmA42D+iKRlmCSL/z6+dcOBOq/7USOpuiMWuSJvLXIJ49mIMRQ6gdaBZSZVBJyez0q5qxgEo6KiSLfgx6AJcWtX7XG+JIcTeBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730830529; c=relaxed/simple;
-	bh=0SLyPYXn8qaiU3kOUbKXZq/OLmpMozf3yCJYHEr3Ea0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=rYUEg9ATmIXQTyAUop+VerRWEqRzB0QzhNvii3y9i2fzVLfvcL3v5C4IECA6Z1/+Pil8NhqLYy1zxm+PV7CHmNLWqaCvtCJymlj40RcuqTgbftZVcfYeqv4+B3eZhuOLXiAIUY/1hbL4BONMMBILsUGGVUsKaxUFQQj5PzcK/nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tp+AHXtT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730833636; c=relaxed/simple;
+	bh=by3WSMeIlp25DqmO0s/ecQ2fFxdASB3OVFPoOptdzRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s9lVJfs2OZAzdaPZaEzQ47BtaGaoIuA1n+qhIP6fZU4si5OG5hWZs+OIPZkbxbpIiwnObsEvjD+LW9y8T0pblyEQ3kb24G8DyU0a/YCebYL5tijBYYJMXa1EpvvZ15P8Z1dAQfSfoRGMESF8KKxed0STT2IU25cLXGBts+OlnKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dKxoGNOO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tp+AHXtT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA06CC4CED3;
-	Tue,  5 Nov 2024 18:15:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dKxoGNOO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA1BC4CED3;
+	Tue,  5 Nov 2024 19:07:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730830527;
-	bh=0SLyPYXn8qaiU3kOUbKXZq/OLmpMozf3yCJYHEr3Ea0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tp+AHXtTXvtedpfAIISt8W+JoF+2R4z2B7o6AEGmZ2ioHcxjLQV2cID4zKARYJRD1
-	 uQAm5qvitzA4T4aelDRL2FRV35uxkBkmMIgOaxIQeFgXVSy7YH0YBZARO4oywaFf/h
-	 9KieqTw+nHHAmcLix8cRyT9rC4iI+oj86DpKhaqtQy53zj7AQJoLsDeHYjunYIWM4O
-	 XE64ePaaZzORzA7It9RUz3wdo9LBOjqhoxXApy2Zgp/lMfEN5P/Ib7QAGNYFdBUn/d
-	 u2ndf1nMdmLOIAIAImA/+IAcrhX0mejyu5tWTIze8ArMNcZm8hPPE4hmrTGFmQ5E7z
-	 yEOodN5gCfPYw==
+	s=k20201202; t=1730833633;
+	bh=by3WSMeIlp25DqmO0s/ecQ2fFxdASB3OVFPoOptdzRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dKxoGNOOE/nW+68w7Ezqn1AwZfDHPOiARia89Sf4iNLglWqrglSYIpYPkjSDKNqb6
+	 koUDALI2Pldzy2eVYYbBXfkJYrfCOea3hJYgN1h42z4ITCkFDLkzJ5oxVhrIck8G3W
+	 TF4IdzYnyok0+NrVbANpZXCvLP+YsWWZdZCcEX0RrtoGIbdGqko9VibeUwbs41BI9B
+	 Ml+cBZVTQ6muYoliWEfFW6t71BSIEB9KmZ3rVobt4U5cdE+la0TKii03M8uCnbcm/g
+	 R0DLSvQEjKskN18zj0Cc+Ao5fHgoRby+0zm1OJtwLZ51I7mRBY+mKFeVSABkIrtqWT
+	 /o2N9fecc/HeQ==
+Date: Tue, 5 Nov 2024 19:07:07 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Fei Shao <fshao@chromium.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
- David Yang <yangxiaohua@everest-semi.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20241105091910.3984381-1-fshao@chromium.org>
-References: <20241105091910.3984381-1-fshao@chromium.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: everest,es8326: Document interrupt
- property
-Message-Id: <173083052542.94172.3226642386925576095.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 18:15:25 +0000
+To: Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: =?iso-8859-1?Q?P=E9ter?= Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com,
+	lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, perex@perex.cz,
+	pierre-louis.bossart@linux.dev, ranjani.sridharan@linux.intel.com,
+	sound-open-firmware@alsa-project.org, tiwai@suse.com,
+	yung-chuan.liao@linux.intel.com
+Subject: Re: [PATCH v2] sound: fix uninit-value in
+ sof_ipc4_pcm_dai_link_fixup_rate
+Message-ID: <7016fcb5-329d-44f1-967b-3059e059aeb9@sirena.org.uk>
+References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
+ <20241103113702.27673-1-surajsonawane0215@gmail.com>
+ <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
+ <d19b77e2-496b-4633-a69c-576cc79c004a@sirena.org.uk>
+ <1611f678-edaf-4588-8455-61eed32b2baa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="a9wn3mMvYQg3MSF8"
+Content-Disposition: inline
+In-Reply-To: <1611f678-edaf-4588-8455-61eed32b2baa@gmail.com>
+X-Cookie: Don't get mad, get interest.
 
-On Tue, 05 Nov 2024 17:18:11 +0800, Fei Shao wrote:
-> The ES8326 audio codec has one interrupt pin for headset detection
-> according to the datasheet. Document that in the binding.
-> 
-> This fixes dtbs_check error:
->   'interrupts-extended' does not match any of the regexes:
->   'pinctrl-[0-9]+'
-> 
-> [...]
 
-Applied to
+--a9wn3mMvYQg3MSF8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Tue, Nov 05, 2024 at 04:20:23PM +0530, Suraj Sonawane wrote:
 
-Thanks!
+> Thank you, Mark and P=C3=A9ter, for the guidance. I understand now that, =
+while
+> the copier should always have at least one input format, static analysis
+> tools can=E2=80=99t detect this. Based on your suggestions, I=E2=80=99ve =
+considered the
+> following possible solutions to address the issue:
 
-[1/1] ASoC: dt-bindings: everest,es8326: Document interrupt property
-      commit: 99348781d249817c8f96a7cbf636b7c6d74bd756
+> 1. Add a WARN_ON_ONCE(!num_input_formats) check: This would issue a warni=
+ng
+> and return an error if num_input_formats is unexpectedly zero, ensuring we
+> handle any edge cases explicitly.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+> 2. Return an error if no input formats are available: Implementing the
+> following check could provide immediate feedback if num_input_formats is
+> zero:
+>     if (num_input_formats <=3D 0) {
+>         dev_err(sdev->dev, "No input formats available\n");
+>         return -EINVAL; // Return an error if there are no formats
+>     }
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> Would it be preferable to proceed with the WARN_ON_ONCE(!num_input_format=
+s)
+> approach, or is there a preferred alternative from the options above?
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I don't have a super strong preference between the two options.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+--a9wn3mMvYQg3MSF8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks,
-Mark
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcqbNoACgkQJNaLcl1U
+h9BU2Af/aT9TD+DRiTvPdJaE4H7ksT57o5Q8RmBGix8NXsy4KmkPaZ4K3dEsONFD
+S7ck+frCLsRuIC4S/OGlL5FP7r0txZfovFOpxzKYNXsSmGcTBdBcBQ42DOrHb05u
+D/ptkI7ZFaSz/JSmpON4gLjM1Ti417B+OBTADPEbhyC8d4Z8CbtqjYluyy9mR3jf
+2z0ldaG1O0ao2HD2ESM3/C4XF9uZj7429c9qHYOzzcKZVR5RreCbe87rg5uOd4Lp
+TRyb/muKS5xlBh6Gf2Qu8dWqIe0bzZgZjnsqAgwm2Vdxc0BvB2s0LT4GcuNPgsww
+JkCzl+nB9jdAtGRQAe5JJ4hbC9tEQA==
+=vjG9
+-----END PGP SIGNATURE-----
+
+--a9wn3mMvYQg3MSF8--
