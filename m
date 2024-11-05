@@ -1,170 +1,232 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011067.outbound.protection.outlook.com [40.107.74.67])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFA1179BD
-	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 01:00:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730768408; cv=fail; b=S+VDNlc9fenNiveu6ThmdxVADf1gxD3XgFGb//HzCnV8QhZX3vkTzC7ZNZzjKb0T0MbyuDwjxs2PrWe/bt5qTmMIUUcz9m7b2H7sihzYjLrnKXye7TofKz/RhRKKTMzRqkT2Zr+EbjsGMZObCEjl7hEmgxa4VvU1XxcWCVycS3E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730768408; c=relaxed/simple;
-	bh=UzzCe+R3c/lXeHtV7Z938OnhEn32bR1qIH8uhxKPwGU=;
-	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=T7EHqjHhtfG4zj/AhbnFBNV7GUxMP3G6O4um7jzP+E8k79A2UMhiMoUVYnKAN7omZZbW+p3r+JJm4dG7Ry1feKAYeXPdTDBKaqYu3IMWFPvjAozzcYwOn4Ns6BJoi/cWS74ytF3IfqLGJBEBVPxUadM9idw/uwpnszW6uR5i3ZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hmhXW3Is; arc=fail smtp.client-ip=40.107.74.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3129B15FA7B
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 03:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730776201; cv=none; b=NfTKrE8vtcPyYib5O5VKm9usfLyGAMSgUs1BwB3GAc1i5xPGWizuxCjtHVU37kIWlA2x7b9yl+Of1xuf2kCymqQX7e2/ZfXyfLbtd5VPH1E805cMYxwHs2dPnhoCl8n/FZpkf7xSFBlI8TT8AvxtjvLIWGqEg6A4Xy5OV86mvKQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730776201; c=relaxed/simple;
+	bh=iJiqEI4jeiISFUYA5z9mrx3IXzLlVPZzv4h1oYlPJgI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HChgHwHHL/ENuuMeOD71f+PVVEEEAKKTqAkXOLA8D2p2Zix0uChs/hdCFDqfHcFgH9IddbQNA08ckZLdPY0EyWzVVKD/oTMM2b+oBiOmYpJn/hYjBnKh+lGbYJzxg9c+xUseatrraPa6XywIvVyu3d94VyayP2zxAFR45rWqm9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GgMMPnAO; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hmhXW3Is"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WagUh8BKIvJEmNwV3ATpglBI3QHjRP8uK/JNHMOCXd0e/a3WK87PZVbd2dIEYVeX1GyML3uXWI0D4rP5qNUge3YD9BUzfrJK3E+T2Ixt2CAhHiUZFwaa6cxT0pooXQhqBuO0CTLJHPIy22X1tQrb4ir50bz79buLWAYx4LRPqcNcnX9hgITOi31jX2RtGh8zyJe5Xg7N4kBSV14z3OQQxlem+d3sSkDlMKRpPwBOxNcgD6AYE4FBsAlRObrJ6zPXmfUDveesvsus1RLSZHw6uSmSdbgdxB6/chth1C1ftO2t69bn8QBgDnwKetGwn8s/68a7cWyhwNxrTdB29BZgZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AcTXS4/JdUj2SRY2NDRZCUDF01XVYZVD3d8kMsUFoFQ=;
- b=A+W8N1SUzP64NxwAMZimpzRApvzAZooLQ8jIpvmV7ceLNNqGn+JPyKOT0HDAX/+Gnb+ypA7d2HhBBUWu5Lyss6PdLsUWrcdCH/iB2IOP69u1qpW2MNlY7jTNQCbzJCIJRVfdFkKsCigqaPFFvd39q/xPkRq6l+BonK1c0PfYcJ2LCcgcakBCdO9L5hRG7HJk5dwXpQNqu/vh4zML+YkFFQAfqhE4nPNSKYaH5h9mjDko6okzFoUMZqhmfMhB/KpBgI5wLbqX8tLrHG2hYszwxgqVQcnAEjQ9PZ+f6TsdyL0Ua80qycTpY2pbVIKpZELVvgSvfQ3vf/XkGZUGg8qtWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AcTXS4/JdUj2SRY2NDRZCUDF01XVYZVD3d8kMsUFoFQ=;
- b=hmhXW3IsoxI7mSPwagDJl/ZaUljHoDKz3eH4P59zp4AEtr+wuaoJZQPw4yIrZADY0k1oBSgvOW4sbkBkTOua8z9YvCfyKkQznECuSuMpetp7RTNDVEJGXd+MlHP9ADmorvJo1WwyHof2pcLz8OO5SFJqA7tFuLITM7GyzrBOJBY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB8126.jpnprd01.prod.outlook.com
- (2603:1096:400:100::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.31; Tue, 5 Nov
- 2024 01:00:00 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%6]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
- 01:00:00 +0000
-Message-ID: <87ikt2a41c.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2] MAINTAINERS: Generic Sound Card section
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 5 Nov 2024 01:00:00 +0000
-X-ClientProxiedBy: TYAPR01CA0085.jpnprd01.prod.outlook.com
- (2603:1096:404:2c::25) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GgMMPnAO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730776198;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e798jqlARNKREu5f9NYLA+kZVVjz8QYT2h6TT0fZ7qY=;
+	b=GgMMPnAODM0R33WDsyMPuhUsajUIfJ1Miob08DDSe3MQ5vHYBL/+TkVL4+hp6Xw8teBJfg
+	7lL6reYelxKdbOOIoAvx0MoVaV/lA9E57MjWmmroElD2h7ZxUyqKorNx+ZyKyx7doCRT5h
+	4bg/GLrVr4WednkEVOQuiuK/fUSborA=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-445-tLBmFRZgPuuej8HP3Yca1g-1; Mon, 04 Nov 2024 22:09:55 -0500
+X-MC-Unique: tLBmFRZgPuuej8HP3Yca1g-1
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-2e2bb354e91so5077968a91.2
+        for <linux-sound@vger.kernel.org>; Mon, 04 Nov 2024 19:09:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730776194; x=1731380994;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e798jqlARNKREu5f9NYLA+kZVVjz8QYT2h6TT0fZ7qY=;
+        b=ebpLVypJ2XqFQAU0IUZPfelEwNDx9pqI0LHb1rZr5UotZE2FWO78Kf23pcCi+koPf4
+         Dx42yVoo0AAkfYe/7dGaHGJPIavkM3LsZ1UMQEOkxLuSRktsSiRT1CUT3ShNlW71xaso
+         gFv40UA2jm2JuwN/iPyYkzNXa0r9TtR/fcmViG5u7tMRZd8LmetKX2QXW9X6wToWQkET
+         Tv//O8bcNWdaS7p8rKGZ6wryZMJlthDbgd4iCEp2QsYCxrFuLFQUJuXG8bmucgAixYZs
+         ddI7kM9C21yYBchwLi1EjToYVWEXHgdCx9Brf/BTAbQYwCzc65bF+X6L4EQjaeywK7uZ
+         zdmw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwHxya5KMOMyUhl7Mt0GQnF0pZGdeg9hqVrv4L8CjbVen3ReU9dhUqPTeq0P2TNK9KUVNib9LEI+3XLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/CFXjp+RmTEAjQfQpbvzTOtjDUe6EAmbGB2dSuc9X7ncBsehh
+	uoYZVRBR9Blissty6TPfHiJ1vTZYiN1kKrxb4zTRvd5fcb0bGkooWF1/GF3nRXKOIeYmLNtz6rS
+	1sOhektZ4b5RVri96gXDLFxZUMoyJxYDWuFwmnce0NRfsaUO48LFsDCAehtRd3FA6zFyHB+sq+e
+	MLDyY4nVO8EFHeDcItUtMYbXOa6zJ2ekBfZ1U=
+X-Received: by 2002:a17:90a:bc87:b0:2d3:da6d:8330 with SMTP id 98e67ed59e1d1-2e92ce32e36mr24812051a91.4.1730776193972;
+        Mon, 04 Nov 2024 19:09:53 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGYJVUVsmrlOV42/z3JLwA/lW5WLQWpnOFROwOF4DJyTXxU3SnSQkWNTS+6YVqbPJsVSZBiin0tuQPsU4ebyy8=
+X-Received: by 2002:a17:90a:bc87:b0:2d3:da6d:8330 with SMTP id
+ 98e67ed59e1d1-2e92ce32e36mr24812003a91.4.1730776193416; Mon, 04 Nov 2024
+ 19:09:53 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB8126:EE_
-X-MS-Office365-Filtering-Correlation-Id: df27e83f-d127-4248-1727-08dcfd352c7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?r4tDgJFI/jKTrwgBi4g2wRW7Z69fTFJnjQX5SdixmEs6cH7sBauo1QT+KrmK?=
- =?us-ascii?Q?MAFtQ4yqZ1bM+E9+M+tJjuX7Z85/2HiJYg+UdcmavtzK24Z246VP6VJIBxHa?=
- =?us-ascii?Q?nqqBRFbyqsV51dbxj/7NQe6Day3ggOkSntfXUW2KPZaXCwTBv89rzaZlm6U1?=
- =?us-ascii?Q?GRedfRkqz90fPmKFuZ9EPqpCPdfITLTrCz2lHm8gtpDq5HKPaqp7WD6/MK2y?=
- =?us-ascii?Q?pR6v9v6R/Ar5q0fWpGnkigo7AwNIYhP/Tg7tbKwrdK0/twpmaYdEeRI+FEQJ?=
- =?us-ascii?Q?Er93Te4cMxQ4eoFf/py40pcES+153rj+cGFUjOXsSNHNZRNh9wHtanDNWTxg?=
- =?us-ascii?Q?BUPHMX/Vb4aH1IbuSSwG9QeLxyiw+/jQ3Ui2A5YxPLXj/uX2cf3L4Lyo1/un?=
- =?us-ascii?Q?DAR3+NLaTRtHcfA+Jtwnwtp+nsrY5wTb9kwbgLFkFpy3Hld9+dmXHIiUvNN6?=
- =?us-ascii?Q?8axT/KFynngNo5nVC+9Y+Tp8K4411tncapfvFgsaGs4xESIELVRZJL1uO1Ct?=
- =?us-ascii?Q?TdO8uBnl0lWq6oiNzM1Aff1gQFIMatgVMcaXwJXm/FdD38AoDXGnQvIFGBya?=
- =?us-ascii?Q?GbE3rA67HLix8b3CUgzWkajwavXXi9WrVMlAIoL5XuQWfRNOY1OZQ6rIsM3l?=
- =?us-ascii?Q?sBi333yq/NYSCx2flbnKJ2Qui4bZ59d6LJpgp1vmbTK7FmhzLmT4MMvW6CLb?=
- =?us-ascii?Q?HAIJEPKfeNJwDHbbs1oIiCvbi0rtrjK/ipCaWXf3SYlruq9ZP7cfE5HLx9dG?=
- =?us-ascii?Q?nu6Pc5/SRFTivHWHpfFP82aW8viK7F9cVb/NGl3GOuRJ2i8Ji2Qdzmx6bZf5?=
- =?us-ascii?Q?KxrVgIorK7wI/Uy6/LC1imK+o84tv4pDS4lWRdS4NQKPrzOlxaA6OT2aCBgI?=
- =?us-ascii?Q?2KGTKn1c6Z5dqvThuUlt4WqK6ChI8Ip0JTCOC40FVPiCkFcdxVEDfIF1MX2O?=
- =?us-ascii?Q?GHncssnfW8AQuV/72t/0N3ckFvxtgMLFhMP7ADLmKeJqWmF+46GEzHEIQY5s?=
- =?us-ascii?Q?eXYNDLayJ0u/LAsvIiNn2hW5f/ldfZkWCCxejK32xz7BKp4GwLfh+1FDmDP0?=
- =?us-ascii?Q?r+5bJSQVVp/LgOXr4OXpIac4b5dD47rxk0XjOqDihuhvQjDGeVk9VM9e+xIb?=
- =?us-ascii?Q?iU9RNZ/vF8zHy81W2r52d4YzNxOlZ5EOBNGveAvI6Xwc8B4bHqMrIHyXz+Js?=
- =?us-ascii?Q?yETRu/JkkgYUMITqVCQG8YkVesDtjTuO5KQmGK0MtGaFPLlzSh7Rno+IXHVq?=
- =?us-ascii?Q?GZRdO6pbFKWaZxzD/ZlrJqGmP03KIlSkXfqE3TAY3n39aHIus47F4U8tLgoG?=
- =?us-ascii?Q?pE+GQEX9nBfZ0vPDEj3l5icF?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?2xLpvGGytxNFDOzLwNEj8Euynryz2bhGcUxnM5KQb95Ek+POv6YZU8zxY+3/?=
- =?us-ascii?Q?SaRC6yCS9AzWV7NQ01MTNC42EYYshTyETtvIuyA+ZmXOqmd73l493fKO8MDG?=
- =?us-ascii?Q?4J6035DKnKv+GG/ZM1Q89i6ZZpoNyEMMAjArCSuxcIpPza71QM/NopfieOZC?=
- =?us-ascii?Q?D7ApxCI0aLvOf4TKMtEhUxMRgrgn0hxpVMm8lAmrAVoXf6KbDYQJnKvuyDJr?=
- =?us-ascii?Q?wHR8Ob2VeM5d9elcgVyfH8MSdVwtRTvWkm/5RRGpMurSIJvLLU1kQzLgzIfL?=
- =?us-ascii?Q?ZtBqFgHq0lLgkVIA1tMqdbqP8dwQLY4Y0yIgl6OLS1gEasP/Qs7SyBLaSksz?=
- =?us-ascii?Q?vuAyyEAZu/MbJikK601w37zxtsZMItHUR170tN2EurFsHNJB3U1bZF/bsihf?=
- =?us-ascii?Q?ejkQtnAYOF4KljGyXA2Mc0LhOifznMfLFh3Q4QTZKMgewtcnoJJRwDK6maLC?=
- =?us-ascii?Q?kHmMLn+uCt+aHl2WBzzY951f4eTpMSfGwHHHJCa7GkYeVQZ2CT5VASaPOmyy?=
- =?us-ascii?Q?0GO6YEhxlnKTVHC+mNAK/CaHg9GxV/L4s0JGjZwnvFcbIit/PYDsCOylK6PK?=
- =?us-ascii?Q?qeehKl8iC0DLjIqtnC5lv96o8USJvMRxV3i8GzWiWg2Kp4UOwoGzaOYE8ZQh?=
- =?us-ascii?Q?MF6J2AGuBsPqoJYvZcmF+XTwy2CNiW+jXBs8Ya1gzZ9tWWLf7G3sc/1+7Ktv?=
- =?us-ascii?Q?UObCWpszEZdwF4UuQrB/TZOYWrsg+BR2KeijM3DfUNFl82NiJ9Jh+OglBR6j?=
- =?us-ascii?Q?T/HImu+jaUXuUtWK2mPW1a60keCvVEIcKQbm4L+rYCN5dI3YLzIfI5gMocDi?=
- =?us-ascii?Q?VTRP0Xk9Dv28Ui7fJLsKKGGeL0GT9lWGgW76PQ6FpHM+B9bpYm2/vGycRWRM?=
- =?us-ascii?Q?F4fvYnldI/R4QWLNB7sNxXFEtW/88HoYU7PnN05bihzEyDXxJKrr+kZ4i1tf?=
- =?us-ascii?Q?3/9MQUZO/w8Sg/u8ClN+AyFuS/wYtyKeRLK1wy0Ns3ZWQP+/7UQyxix54LcY?=
- =?us-ascii?Q?nA1xDIautu35Qyyl/VwNIU9vrx0SltFJ+09Y8VKGnW951hulCMr+yMIBVuro?=
- =?us-ascii?Q?V2e0PYbiOkg183/EB5z1z6BQ6EAv27MpC2tt7zFdrXnU4uCFs+zjd5EVPbdp?=
- =?us-ascii?Q?ZDyosg2bFSspCa2LN9ouKxPht0AX0WReW478Bh06GQHFdnzgCKMVZYpxOW4E?=
- =?us-ascii?Q?TGXMXdBnR4EEX1JiBTFuSlghoj559fLfGptMeZt8jPigX188xJsqLucssK2C?=
- =?us-ascii?Q?X4ttTMfc+11ckKbrKn9CzzD8l8bnB+BM4zVScbwc2Whb7nCRY6zPI+PmFeUW?=
- =?us-ascii?Q?5RYMmaR48r/PSDGdIpxtJQ1INNjHBfRYCxGJi/d4vZXerwiUM4V2xTS/CZzg?=
- =?us-ascii?Q?DW+kKiMRunoC0RpcdIAAcu6X0hk4Va8/K8Bamh/yS4jApUQsMeAJK3EvbEfH?=
- =?us-ascii?Q?0Z3SSC+HWuMH3G/yDgWxE53jj1JsDGKWdu6wuaeX1BWLhBRB/p04YNvKz6iU?=
- =?us-ascii?Q?W9g+V8xkKkYuK+VFtwIf9IXDfthabW+SLp6HEvLtJ644eZNVq4xOelWmOWMQ?=
- =?us-ascii?Q?SB5zx+KQ2EG6SruyBwYEunMVUaN3c7SJEvGJata7rdArfOSuTRjlOYUi5QKA?=
- =?us-ascii?Q?WJ5OB3MLrKxg6FAe3CqgWFE=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df27e83f-d127-4248-1727-08dcfd352c7e
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2024 01:00:00.4070
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mrHwLChneRqm0LbhRmwEYZ3EdabglpLnl7QnCmtBhqgs1xSbpwI/wYJwe+H83FBPcdjTO5LIhnMAhOesQbQyxGURUiTmMUG4f/2v8K7JzrZCxE25zZhiI3QKC87VtcIu
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB8126
+References: <20241031030847.3253873-1-qiang4.zhang@linux.intel.com>
+ <20241101015101.98111-1-qiang4.zhang@linux.intel.com> <CACGkMEtvrBRd8BaeUiR6bm1xVX4KUGa83s03tPWPHB2U0mYfLA@mail.gmail.com>
+ <ZyRlC-5V_NTKgzXh@dev-qz>
+In-Reply-To: <ZyRlC-5V_NTKgzXh@dev-qz>
+From: Jason Wang <jasowang@redhat.com>
+Date: Tue, 5 Nov 2024 11:09:41 +0800
+Message-ID: <CACGkMEvc+eA7KdJJAtjNPwqve8CwLZYzAmMhf0RWwQ-GwonaUw@mail.gmail.com>
+Subject: Re: [PATCH v2] virtio: only reset device and restore status if needed
+ in device resume
+To: Qiang Zhang <qiang4.zhang@linux.intel.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Jens Axboe <axboe@kernel.dk>, 
+	Olivia Mackall <olivia@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Gonglei <arei.gonglei@huawei.com>, 
+	"David S. Miller" <davem@davemloft.net>, Viresh Kumar <viresh.kumar@linaro.org>, 
+	"Chen, Jian Jun" <jian.jun.chen@intel.com>, Andi Shyti <andi.shyti@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, David Hildenbrand <david@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, Anton Yakovlev <anton.yakovlev@opensynergy.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Qiang Zhang <qiang4.zhang@intel.com>, 
+	virtualization@lists.linux.dev, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ALSA SoC Sound has Generic Sound Card (Simple-Card, Audio-Graph-Card,
-Audio-Graph-Card2). Adds its Maintainer.
+On Fri, Nov 1, 2024 at 1:23=E2=80=AFPM Qiang Zhang <qiang4.zhang@linux.inte=
+l.com> wrote:
+>
+> On Fri, Nov 01, 2024 at 10:11:11AM +0800, Jason Wang wrote:
+> > On Fri, Nov 1, 2024 at 9:54=E2=80=AFAM <qiang4.zhang@linux.intel.com> w=
+rote:
+> > >
+> > > From: Qiang Zhang <qiang4.zhang@intel.com>
+> > >
+> > > Virtio core unconditionally reset and restore status for all virtio
+> > > devices before calling restore method. This breaks some virtio driver=
+s
+> > > which don't need to do anything in suspend and resume because they
+> > > just want to keep device state retained.
+> >
+> > The challenge is how can driver know device doesn't need rest.
+>
+> Hi,
+>
+> Per my understanding to PM, in the suspend flow, device drivers need to
+> 1. First manage/stop accesses from upper level software and
+> 2. Store the volatile context into in-memory data structures.
+> 3. Put devices into some low power (suspended) state.
+> The resume process does the reverse.
+> If a device context won't loose after entering some low power state
+> (optional), it's OK to skip step 2.
+>
+> For virtio devices, spec doesn't define whether their states will lost
+> after platform entering suspended state.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-v1 -> v2
-	- 2 weeks past
-	- rebase to latest asoc/for-6.13 branch
+This is exactly what suspend patch tries to define.
 
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> So to work with different
+> hypervisors, virtio drivers typically trigger a reset in suspend/resume
+> flow. This works fine for virtio devices if following conditions are met:
+> - Device state can be totally recoverable.
+> - There isn't any working behaviour expected in suspended state, i.e. the
+>   suspended state should be sub-state of reset.
+> However, the first point may be hard to implement from driver side for so=
+me
+> devices. The second point may be unacceptable for some kind of devices.
+>
+> For your question, for devices whose suspended state is alike reset state=
+,
+> the hypervisor have the flexibility to retain its state or not, kernel
+> driver can unconditionally reset it with proper re-initialization to
+> accomplish better compatibility. For others, hypervisor *must* retain
+> device state and driver just keeps using it.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a870d5798e811..418156bd42f10 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21720,6 +21720,15 @@ S:	Supported
- W:	https://github.com/thesofproject/linux/
- F:	sound/soc/sof/
- 
-+SOUND - GENERIC SOUND CARD (Simple-Audio-Card, Audio-Graph-Card)
-+M:	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-+S:	Supported
-+L:	linux-sound@vger.kernel.org
-+F:	sound/soc/generic/
-+F:	include/sound/simple_card*
-+F:	Documentation/devicetree/bindings/sound/simple-card.yaml
-+F:	Documentation/devicetree/bindings/sound/audio-graph*.yaml
-+
- SOUNDWIRE SUBSYSTEM
- M:	Vinod Koul <vkoul@kernel.org>
- M:	Bard Liao <yung-chuan.liao@linux.intel.com>
--- 
-2.43.0
+Right, so my question is how did the driver know the behaviour of a
+device? We usually do that via a feature bit.
+
+Note that the thing that matters here is the migration compatibility.
+
+>
+> >
+> > For example, PCI has no_soft_reset which has been done in the commit
+> > "virtio: Add support for no-reset virtio PCI PM".
+> >
+> > And there's a ongoing long discussion of adding suspend support in the
+> > virtio spec, then driver know it's safe to suspend/resume without
+> > reset.
+>
+> That's great! Hopefully it can fill the gap.
+> Currently, I think we can safely move the reset to drivers' freeze method=
+s,
+> virtio core has no reason to take it as a common action required by all
+> devices. And the reset operation can be optional skipped if driver have
+> hints from device that it can retain state.
+
+The problem here is whether the device can be resumed without "soft
+reset" seems a general feature which could be either the knowledge of
+
+1) virtio core (a feature bit or not)
+
+or
+
+2) transport layer (like PCI)
+
+>
+> >
+> > >
+> > > Virtio GPIO is a typical example. GPIO states should be kept unchange=
+d
+> > > after suspend and resume (e.g. output pins keep driving the output) a=
+nd
+> > > Virtio GPIO driver does nothing in freeze and restore methods. But th=
+e
+> > > reset operation in virtio_device_restore breaks this.
+> >
+> > Is this mandated by GPIO or virtio spec? If yes, let's quote the revela=
+nt part.
+>
+> No. But in actual hardware design (e.g. Intel PCH GPIO), or from the
+> requirement perspective, GPIO pin state can be (should support) retained
+> in suspended state.
+> If Virtio GPIO is used to let VM operate such physical GPIO chip indirect=
+ly,
+> it can't be reset in suspend and resume. Meanwhile the hypervisor will
+> retain pin states after suspension.
+>
+> >
+> > >
+> > > Since some devices need reset in suspend and resume while some needn'=
+t,
+> > > create a new helper function for the original reset and status restor=
+e
+> > > logic so that virtio drivers can invoke it in their restore method
+> > > if necessary.
+> >
+> > How are those drivers classified?
+>
+> I think this depends whether hypervisor will keep devices state in platfo=
+rm
+> suspend process.
+
+So the problem is that the actual implementation (hypervisor, physical
+device or mediation) is transparent to the driver. Driver needs a
+general way to know whether it's safe (or not) to reset during the
+suspend/resume.
+
+> I think hypervisor should because suspend and reset are
+> conceptually two different things.
+
+Probably, but rest is and doing software state load/save is common
+practice for devices that will lose their state during PM.
+
+Thanks
+
+>
+>
+> Thanks
+> Qiang
+>
 
