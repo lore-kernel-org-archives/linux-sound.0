@@ -1,42 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B131E1D5AB9
-	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 18:15:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67E5149C50;
+	Tue,  5 Nov 2024 18:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730830518; cv=none; b=hpv4Xte6caSx+gpSSeC33wCcmnn6bk8AmM3fjiz1/o8CjLAaEoopSVKWhKEH1M+mjls4/3ZSafwbcxHqqeuRgV911Eji06Vz7BPZUKrPsmZ7V9OjnVLLn/k9KTvv7/En1zUAFnZANWM7TJUVAivcluaN1Rudq18kx+6/cPQ9Y6E=
+	t=1730830527; cv=none; b=jVcyzSLaU70qFot97HVA1eWXv+V/0091dlfRqbFKznsh/+QG2G7y0yKnoMFvu1WgVd2DLp0+v97a5/HsEBIERcRlPVR2Q8N4Evm0WpKyidjTVHvWJ4XC97i78e3Xh1duA9360JHqu0HGVN3cdd9uOJz9c4w5cSr594AGib7mWc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730830518; c=relaxed/simple;
-	bh=grEi+i3IVOuMk28z/8feWMuuv3yuMPXT4DGNRt/tf3Q=;
+	s=arc-20240116; t=1730830527; c=relaxed/simple;
+	bh=4kEDw3mpTS72uH6/guigCdvq4B9391RyXxfp1ONslIg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=GCJDNMwrVpz6qy8TSoETQY7KZDT/aArkY+FdAN/F5DBFlTqIRhWFdSvwVxuSub5cV/g6pYFnh8aLHU1oeuj0+FKCWybRYpzxLY8Wm5+QyPDK3fpyV1OCqWMSb0l8NoYtAcsXc1O46OEDuQp29wdinb14iOJHBBVmBd2r54DckFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QPtvXS93; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=EuuojKXn3MFr/z08Tf8/o+WOZSZJbK6t7yQ/rQxZ4sZOS3AtwySR7gYO1Q1uJRR5gndEVjVgUsYcdQ66Rf9gy+Z4bocq0X0ZQ98FhUy0yom+lXPPu3cW4n8bIqUs5O3IzM0xDyPrU/nHgtMJRTUN08tO7E5IVGW58ea5L1seqgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4EjHN3K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QPtvXS93"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01268C4CED1;
-	Tue,  5 Nov 2024 18:15:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4EjHN3K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 134CEC4CECF;
+	Tue,  5 Nov 2024 18:15:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730830518;
-	bh=grEi+i3IVOuMk28z/8feWMuuv3yuMPXT4DGNRt/tf3Q=;
+	s=k20201202; t=1730830525;
+	bh=4kEDw3mpTS72uH6/guigCdvq4B9391RyXxfp1ONslIg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=QPtvXS93705d0b8Ib0f3uXTzG2gOa2Q8Jp4kx+D02pqJ35xgiPf2+VQFEFTVSdIDx
-	 dqc24g9ZcXVi7DxYyS9Fp3o9qUUFdjVcL5ZWleGlGWreGwiCkzNyIlQC8k/SwUJT+D
-	 Ik7hLb6hjmP4O04V2jzI1t3/u+HNS3rmKL4DYrZFvmG0LpnhJ1o7sOplI353fBLcdx
-	 OFKOP591YKT4iAIcRYDShFrB1yRlJrye/tbwX6SgsTduN5fJpHQgX5wceY5vHxvKXM
-	 ZUrbSEcKxRQno312Fx4vnqRzvPVhH73auAynWTRdLzgZHgcu0RKF/0Ti+KWp1snXqe
-	 mz/a/gYxDJTJw==
+	b=o4EjHN3KIWyxO4EVu77Ic7n63NEXUNIJOI1UTcN1WeMkCroMfUSvNcEIl3R0tYTWW
+	 FvD7rzQpq9VH/Oym9sZReWhFOtlQQeijfLMpa/h1niRTILkqYAbwUbVZqXvg2K3ijM
+	 5RzBf9MAczmhIg0o+v88USk+hLM3L+dBl60ff0SvpnXvfJPFosYglnxc78Atu9Gov6
+	 AMklzazp6+h4RtriKf8HcN/RuSgIr7L5BegqYxcbbkp4T0EcsYAmyeerjF12oX1Tm7
+	 Dig+4rIo1CaleamLq358AQsipcjvqX8bCQkQjPNfQth6lAetRASKf0bONDg1N+/710
+	 /XY8RTqTlTOGg==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, shumingf@realtek.com
-Cc: linux-sound@vger.kernel.org, lars@metafoo.de, flove@realtek.com, 
- oder_chiou@realtek.com, jack.yu@realtek.com, derek.fang@realtek.com, 
- Vijendar.Mukunda@amd.com
-In-Reply-To: <20241105100557.1987917-1-shumingf@realtek.com>
-References: <20241105100557.1987917-1-shumingf@realtek.com>
-Subject: Re: [PATCH] ASoC: rt722: change the interrupt mask for jack type
- detection
-Message-Id: <173083051565.94172.2123619464199228337.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 18:15:15 +0000
+To: Fei Shao <fshao@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Trevor Wu <trevor.wu@mediatek.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
+In-Reply-To: <20241105091246.3944946-1-fshao@chromium.org>
+References: <20241105091246.3944946-1-fshao@chromium.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add
+ mediatek,adsp property
+Message-Id: <173083052155.94172.6768091589461565148.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 18:15:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,10 +51,17 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 05 Nov 2024 18:05:57 +0800, shumingf@realtek.com wrote:
-> This patch changed the interrupt mask from XU to GE.
+On Tue, 05 Nov 2024 17:11:36 +0800, Fei Shao wrote:
+> On some MediaTek SoCs, an Audio DSP (ADSP) is integrated as a separate
+> hardware block that leverages Sound Open Firmware (SOF) and provides
+> additional audio functionalities. This hardware is optional, and the
+> audio subsystem will still function normally when it's not present.
 > 
+> To enable ADSP support, a 'mediatek,adsp' property is required in the
+> sound card node to pass the ADSP phandle. This allows AFE to link to
+> ADSP when the sound card is probed.
 > 
+> [...]
 
 Applied to
 
@@ -58,8 +69,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: rt722: change the interrupt mask for jack type detection
-      commit: 93b763a5ab13509e9a2bcbcac3002607736e601b
+[1/1] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add mediatek,adsp property
+      commit: ed4bcfbcf45d02fa81c77cff86e914d71c1b3c1f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
