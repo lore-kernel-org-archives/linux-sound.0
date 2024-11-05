@@ -1,87 +1,67 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1151420A8
-	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 12:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC501D5160;
+	Tue,  5 Nov 2024 14:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730808081; cv=none; b=eyaPaMshKP7R+IkKuSK+/gQ0SM16BoIS9jIaFBUnTTafxRi7VaDij4kqBI3F4A1b56JiodpDnhWYkVXhboS4McEuOpLCo52par3XUkC7n6PV18SrREXYbtuATS/m1BIcho8MstdxlKCP5X0oM/ZjA7lOadkTw/WSBTt8MP5hsGg=
+	t=1730815390; cv=none; b=WOaVux1rDvSxRYWpr48V2qp10mMjbgvMKDGbVyPWrINOPRB41yzV2AVK0xXJQP55WyiXlerdhM8J5kFw51WyirN0ecXoqz5ZzydtRY1oX0tw4FeOeXAGmR7EHEVdrWeu316POp6z5ErMELyJ6z90q65GoTGe1VXa0eC89bave9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730808081; c=relaxed/simple;
-	bh=00ibMJiKI1ZHn0eIKpVcP79Zvq6z+J3W6W48lnR5OLc=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sneBeS2L+PYwZ5pEkyMr7betD5QI6q0tQ4N3zYm7dez6utlMWl4oe0fXgrXPwYPkxXb59AUh6RJAfzBj1QKWFeFSn+snS1uxdxsKnXwTesFEb/jCrKHhjex2O7fnLcOME1TK5bo5MU6Ca157/FywvEC7cSapSpBjLFUqIFYGn3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c6tf7vwG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DLLvEQ8U; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=c6tf7vwG; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DLLvEQ8U; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730815390; c=relaxed/simple;
+	bh=aAgUOU83++1ubqUQLjYI1QfRmHl6jjFqID+xsFAHSW4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aWSfso6H/eWJFfIQx3EwMJmNZVSFM56MMlvUW5CN5JBCeVWjyg1bxICtVkzBLUMs6iTS/WCPz7yh2I+1+Hmg/JK917fhaqwoKTj5JqWcmtJ2LMn9NG2wlkh000freVpEjQRcwfKwMVAtYMGxjkqmWg8MTegpC4vIopPHiLxp4/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=LBb2SK2r; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c6tf7vwG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DLLvEQ8U";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="c6tf7vwG";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DLLvEQ8U"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 266BF21E11;
-	Tue,  5 Nov 2024 12:01:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730808077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CNdr+rbY+b+fikmKgPbyY2w70kOW9XRgixtmND6B+fU=;
-	b=c6tf7vwG1kmhfirLf7V0G1OvHbv16rwh7MOHL6rnakkl41Vry3LuHMJKoLrtObUoYXGjOr
-	oSF34Fy2N5ZEpIAZBwuy2wXhBQazsVOWxJkdDP3DycecVAJQy2pWmctQ5xjVhAldbbNn+M
-	hcP46gAyWZkx5W8vgVGNz4LLDctqou0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730808077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CNdr+rbY+b+fikmKgPbyY2w70kOW9XRgixtmND6B+fU=;
-	b=DLLvEQ8UAUMZoKFkORBpJLDRGS4swgH5jt4rIdZNehfC+Twffn0R5Im7NhL1hv1RE7+AE6
-	G2Np2BdKVYfQhoCw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=c6tf7vwG;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DLLvEQ8U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730808077; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CNdr+rbY+b+fikmKgPbyY2w70kOW9XRgixtmND6B+fU=;
-	b=c6tf7vwG1kmhfirLf7V0G1OvHbv16rwh7MOHL6rnakkl41Vry3LuHMJKoLrtObUoYXGjOr
-	oSF34Fy2N5ZEpIAZBwuy2wXhBQazsVOWxJkdDP3DycecVAJQy2pWmctQ5xjVhAldbbNn+M
-	hcP46gAyWZkx5W8vgVGNz4LLDctqou0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730808077;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CNdr+rbY+b+fikmKgPbyY2w70kOW9XRgixtmND6B+fU=;
-	b=DLLvEQ8UAUMZoKFkORBpJLDRGS4swgH5jt4rIdZNehfC+Twffn0R5Im7NhL1hv1RE7+AE6
-	G2Np2BdKVYfQhoCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17A1713A39;
-	Tue,  5 Nov 2024 12:01:17 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id qGM1BQ0JKmcFcAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 05 Nov 2024 12:01:17 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH 2/2] ALSA: usb-audio: Make mic volume workarounds globally applicable
-Date: Tue,  5 Nov 2024 13:02:18 +0100
-Message-ID: <20241105120220.5740-2-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241105120220.5740-1-tiwai@suse.de>
-References: <20241105120220.5740-1-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="LBb2SK2r"
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A5DY4vk006828;
+	Tue, 5 Nov 2024 15:02:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=r0pX1FHgLqkdgm4Z0bWZbm
+	zE7jup2PMJjNG85lq5xOw=; b=LBb2SK2rgGAzRdzHeWVMVj5wUrFOVcCj4SebnD
+	0YjsgEzAP5ZgAP/n0I8FIcSrOD2h1muBRAcXkAgqBlkauf7r8q+SEviZGTuV2ftI
+	uLKulkkQoi74lrGQwYTCObro85lYQTeR3scvvrsNrzNk/prb3uPDRpnWNvuGpYd6
+	Bu31CkevEqmAXPAjeQiMzJGWDihzgew4S1BshrCAXr46cAm15N6ZBVdVBmsQYcc2
+	pgUIhp9EGsLHVZibfJnPX1dfHLVT6GOyWA1JdL8JenhyZLagv/e3sNe2lCN0fRzp
+	FhflMwuRzWUIY0aSrcyPRMgMKJu2LahlJJgasPs2ieP/gJ+Q==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42ncxbvpm2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 05 Nov 2024 15:02:42 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8680940064;
+	Tue,  5 Nov 2024 15:01:37 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 19ECB2676C6;
+	Tue,  5 Nov 2024 15:00:15 +0100 (CET)
+Received: from localhost (10.252.16.126) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 5 Nov
+ 2024 15:00:14 +0100
+From: Olivier Moysan <olivier.moysan@foss.st.com>
+To: Olivier Moysan <olivier.moysan@foss.st.com>,
+        Arnaud Pouliquen
+	<arnaud.pouliquen@foss.st.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: dt-bindings: stm32: add missing port property
+Date: Tue, 5 Nov 2024 14:59:41 +0100
+Message-ID: <20241105135942.526624-1-olivier.moysan@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -89,220 +69,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 266BF21E11
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-It seems that many webcams have buggy firmware and don't expose the
-mic capture volume with the proper resolution.  We have workarounds in
-mixer.c, but judging from the numbers, those can be better managed as
-global quirk flags.
+Add missing port property in STM32 SPDIFRX binding.
+This will prevent potential warning:
+Unevaluated properties are not allowed ('port' was unexpected)
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
 ---
- sound/usb/mixer.c    | 58 ++++++++++++--------------------------------
- sound/usb/quirks.c   | 31 +++++++++++++++++++----
- sound/usb/usbaudio.h |  4 +++
- 3 files changed, 45 insertions(+), 48 deletions(-)
+ Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index bd67027c7677..0591da283926 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1084,6 +1084,21 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 				  struct snd_kcontrol *kctl)
- {
- 	struct snd_usb_audio *chip = cval->head.mixer->chip;
+diff --git a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
+index 3dedc81ec12f..56c5738ea4c5 100644
+--- a/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
++++ b/Documentation/devicetree/bindings/sound/st,stm32-spdifrx.yaml
+@@ -50,6 +50,10 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  port:
++    $ref: audio-graph-port.yaml#
++    unevaluatedProperties: false
 +
-+	if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_384) {
-+		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
-+			usb_audio_info(chip,
-+				"set resolution quirk: cval->res = 384\n");
-+			cval->res = 384;
-+		}
-+	} else if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_16) {
-+		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
-+			usb_audio_info(chip,
-+				"set resolution quirk: cval->res = 16\n");
-+			cval->res = 16;
-+		}
-+	}
-+
- 	switch (chip->usb_id) {
- 	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
- 	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C600 */
-@@ -1168,27 +1183,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 		}
- 		break;
- 
--	case USB_ID(0x046d, 0x0807): /* Logitech Webcam C500 */
--	case USB_ID(0x046d, 0x0808):
--	case USB_ID(0x046d, 0x0809):
--	case USB_ID(0x046d, 0x0819): /* Logitech Webcam C210 */
--	case USB_ID(0x046d, 0x081b): /* HD Webcam c310 */
--	case USB_ID(0x046d, 0x081d): /* HD Webcam c510 */
--	case USB_ID(0x046d, 0x0825): /* HD Webcam c270 */
--	case USB_ID(0x046d, 0x0826): /* HD Webcam c525 */
--	case USB_ID(0x046d, 0x08ca): /* Logitech Quickcam Fusion */
--	case USB_ID(0x046d, 0x0991):
--	case USB_ID(0x046d, 0x09a2): /* QuickCam Communicate Deluxe/S7500 */
--	/* Most audio usb devices lie about volume resolution.
--	 * Most Logitech webcams have res = 384.
--	 * Probably there is some logitech magic behind this number --fishor
--	 */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 384\n");
--			cval->res = 384;
--		}
--		break;
- 	case USB_ID(0x0495, 0x3042): /* ESS Technology Asus USB DAC */
- 		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
- 			strstr(kctl->id.name, "Capture Volume") != NULL) {
-@@ -1197,28 +1191,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->res = 1;
- 		}
- 		break;
--	case USB_ID(0x1224, 0x2a25): /* Jieli Technology USB PHY 2.0 */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
--	case USB_ID(0x1bcf, 0x2283): /* NexiGo N930AF FHD Webcam */
--	case USB_ID(0x03f0, 0x654a): /* HP 320 FHD Webcam */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
--	case USB_ID(0x1bcf, 0x2281): /* HD Webcam */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
- 	}
- }
- 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index c5fd180357d1..cbfbb064a9c2 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2115,7 +2115,7 @@ struct usb_audio_quirk_flags_table {
- static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	/* Device matches */
- 	DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
-@@ -2123,10 +2123,31 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY |
- 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-+	DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0809,
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0819, /* Logitech Webcam C210 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x081b, /* HD Webcam c310 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x081d, /* HD Webcam c510 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0825, /* HD Webcam c270 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0826, /* HD Webcam c525 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x084c, /* Logitech ConferenceCam Connect */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x046d, 0x08ca, /* Logitech Quickcam Fusion */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x0991, /* Logitech QuickCam Pro */
--		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR |
-+		   QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x09a2, /* QuickCam Communicate Deluxe/S7500 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
-@@ -2194,7 +2215,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1397, 0x0507, /* Behringer UMC202HD */
-@@ -2232,9 +2253,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x2040, 0x7201, /* Hauppauge HVR-950Q-MXL */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index b0f042c99608..158ec053dc44 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -194,6 +194,8 @@ extern bool snd_usb_skip_validation;
-  * QUIRK_FLAG_FIXED_RATE
-  *  Do not set PCM rate (frequency) when only one rate is available
-  *  for the given endpoint.
-+ * QUIRK_FLAG_MIC_RES_16 and QUIRK_FLAG_MIC_RES_384
-+ *  Set the fixed resolution for Mic Capture Volume (mostly for webcams)
-  */
- 
- #define QUIRK_FLAG_GET_SAMPLE_RATE	(1U << 0)
-@@ -218,5 +220,7 @@ extern bool snd_usb_skip_validation;
- #define QUIRK_FLAG_IFACE_SKIP_CLOSE	(1U << 19)
- #define QUIRK_FLAG_FORCE_IFACE_RESET	(1U << 20)
- #define QUIRK_FLAG_FIXED_RATE		(1U << 21)
-+#define QUIRK_FLAG_MIC_RES_16		(1U << 22)
-+#define QUIRK_FLAG_MIC_RES_384		(1U << 23)
- 
- #endif /* __USBAUDIO_H */
+   access-controllers:
+     minItems: 1
+     maxItems: 2
 -- 
-2.43.0
+2.25.1
 
