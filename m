@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798751DA602;
-	Tue,  5 Nov 2024 16:38:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0484917C7CE;
+	Tue,  5 Nov 2024 16:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730824693; cv=none; b=NQeji37ZYXd+OBslviuK2PrQDVjIFf7NqHBcWV20eaSqgJt/H73xzXf0rwpmnpvTikPy+6uzgwOmPoRpy6F5TpB7kenV0TqEs/pvImiaPAfxzBFR8UJg54jQXYahaxNkkAPD4KNpZKpI0HJ1BzdInatahvclE8t62g86UfMahEA=
+	t=1730824696; cv=none; b=MV9cFkXqD1Krb9csmldS1+6pc/UvRkYrPmWXA70Eguklk6Uc1fUU3CttR82sKeKx7/HFOSHDksYcW4VwZzz2X15wRwsb5WAaucB6WnXrH2b5lyaiY58Bd4ApnqY5e5cgFl6hck82FAV853p5fS1LXCkmY/tUEtsy6Qhe0vPj/4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730824693; c=relaxed/simple;
-	bh=4GPQD5DR/BXC6wmr9UiBHIMnc68vGt6gMW/ULhmN5jQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Z3pWPzi5ohLeiY2z3li/OGBAWhmtvoV3XmSn8yAyN/iizJepadGSAdUAzDdwpWfP/WZ/p0v1NDWIf9vS4IHSK3mloGXDRp1Ip+2WypyN38fSK9gE1itneNqwTk1MXpbEY8OTlfWSwHQA099NB9ozeKYbloprd3bJJtWe+00f8z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkjJaxpJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730824696; c=relaxed/simple;
+	bh=WCZhPeJ0cbeNMsYfbhHV+9cWVHtfghsiRz8NqGMWiek=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BYkATVTkzR4sVgzpXWW6bgJzf8alpJlLYXbCN/To6XKzBf+wmTxKQc+/UGvqcQ2KUMQcG/iz09h1pWVuJkaQbL6CZzvUGdRF2GDMGRCXoSiZHbSMZPi/wCUb+IZj00twMkerOCdW2F3c7KaoYsUkpdCSR/TgGDP89d482VAJ2RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fCHoQ3ve; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkjJaxpJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7401FC4CED3;
-	Tue,  5 Nov 2024 16:38:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fCHoQ3ve"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C536C4CED4;
+	Tue,  5 Nov 2024 16:38:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730824693;
-	bh=4GPQD5DR/BXC6wmr9UiBHIMnc68vGt6gMW/ULhmN5jQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HkjJaxpJ8v3d4NJbVDFRP9+vy5nrpU8lfn5xiGKRboGDYa8YmGZTk6f8CbdXH+xjG
-	 6XXHIfxuQ7/huO9ZVDnFLKt6RbpBKIx+/M9TEHlH3DfBwrL7hM682lCZWWbqdPdx08
-	 sLh0O0fc276GWklgcO6YBNjYBBHqmSfunxAG1ttOK0tCMvA4DhNLy/IIIyFHzPKITm
-	 fynXau+IqEXdeNPRU0UP/HB6MMUiThwoK1wX1eoTjlqkkzowP99GHCEdks1V/oMUX0
-	 I7mPieSaPkj005R5j1VYoIxKCo4E3cEMj4aXNUO/48Y5hNoaAbaP1gERwfNb/iPh1e
-	 BOdRDQd7lTDYw==
+	s=k20201202; t=1730824695;
+	bh=WCZhPeJ0cbeNMsYfbhHV+9cWVHtfghsiRz8NqGMWiek=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=fCHoQ3veyBOvbg2BXm/m/h8tBo8XlVx9QfEr7MaIADUFBbPVxB4zxtkTOI4mHyTCh
+	 FqxwZFsaXZluemS3x0qkOYjBxCmbxakhfAU9D9QMwTbGaOnAP3LO4/uYEEOMuo04PH
+	 WJrRxZnbG3hpVglb/WZjEaTleIk40KDioE3kFcj08Fquq0QUbFbRXP3cVAvC00PTLB
+	 wVu4SzjTbfiNVsRAb3T4FHRqByBcNTTcCHJQClNDKZC1jHnM6umZDC4K2aUDwuLm0p
+	 1xYvSWg73rYlbOz40DCKu5NrNg0g5aExS2V9kNu4qEoiC8oq9byePwV5RquO37zM3o
+	 HIqUWhfGd3WpA==
 From: Mark Brown <broonie@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- shengjiu.wang@nxp.com, linux-sound@vger.kernel.org, 
- devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
-In-Reply-To: <20241028020749.36972-1-festevam@gmail.com>
-References: <20241028020749.36972-1-festevam@gmail.com>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl_spdif: Document imx6sl/sx
- compatible fallback
-Message-Id: <173082469120.77847.4914036439907961950.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 16:38:11 +0000
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20241025062935.1071408-1-shengjiu.wang@nxp.com>
+References: <20241025062935.1071408-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH v2] ASoC: fsl_mqs: Support accessing registers by scmi
+ interface
+Message-Id: <173082469323.77847.1613545045732850065.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 16:38:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,15 +47,12 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Sun, 27 Oct 2024 23:07:49 -0300, Fabio Estevam wrote:
-> i.MX6SL and i.MX6SX SPDIF blocks are compatible with i.MX35.
+On Fri, 25 Oct 2024 14:29:35 +0800, Shengjiu Wang wrote:
+> On i.MX95, the MQS module in Always-on (AON) domain only can
+> be accessed by System Controller Management Interface (SCMI)
+> MISC Protocol. So define a specific regmap_config for the case.
 > 
-> Document 'fsl,imx35-spdif' as a fallback compatible for these two
-> chip variants.
 > 
-> This fixes the following dt-schema warnings:
-> 
-> [...]
 
 Applied to
 
@@ -63,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: fsl_spdif: Document imx6sl/sx compatible fallback
-      commit: 82e54d65416b8e7cae422bee1755dd203c95d500
+[1/1] ASoC: fsl_mqs: Support accessing registers by scmi interface
+      commit: 101c9023594ac937b11739aab149a0c14ab901b6
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
