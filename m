@@ -1,84 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021086.outbound.protection.outlook.com [40.107.42.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE621FAC4D;
-	Mon,  4 Nov 2024 21:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730754750; cv=none; b=P3yf6LvOAvnk/698A9a2aWoGYp+BvLCB89wyTNp/3TazY3rZSl8yi52n6z/YaQDUGrw+IN4NnFftebzYQkbFOK+TT/XBGA2LtDeOcnXJP97nGxIe2BR+x81vPGQBivA1Y3CDOCTmWn8vuZ7oBHD9ZX/Z/dls7Yn+25YM3c/ovBI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730754750; c=relaxed/simple;
-	bh=Ge7cZ9ZbzoR8ao8b7oGum7vK7hHAW59mt0jCVyFPlis=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LgoG4tkqqL/pS5GL9ErvBoGxQjy7ZB8bo6bcQ1/VZsjNbXhEaiLuGLZ5oQHLIiBqeWXOSW/7QJCpnVD+qlT1CenjLjOzV2ToPPIeMiHCln1/8ogcFJMRm9n6J1TWj1EjhN3GHyjYtefniCsCX2qP2vy7lDgcOqE6DLql+7Vj1V0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QnVXECTH; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QnVXECTH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC93C4CECE;
-	Mon,  4 Nov 2024 21:12:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730754749;
-	bh=Ge7cZ9ZbzoR8ao8b7oGum7vK7hHAW59mt0jCVyFPlis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QnVXECTHl2d+Yh8Hee++kEQr98gw8XdgecRqVNdWREggQWAkBRHHq7B8eZ4HV0mdH
-	 t6eKgu5p8k3PhjbmfHlxy9Y5SDAFP/uUtmYVT1tEecHuzlvH6eXKLoQ7CN6OJXHGzD
-	 1LoYsgokBL0q1187pOGSqiMTVkxknbFkKn94l7jvdl+2v71UuaCRXi0QydVJdlNrOg
-	 yluv3wPSNWyJalJ9p4K+PoTHsEtFAOTIohOuBD9+ZYHA6fHLwRTX9MIM3/8Y/GaIx1
-	 5HZ6HHZBvIisEMb8CI+TwDRFVwSf28+Nx4XHOMkwvV4LnJNQNXFsLR4umfUnIblTLt
-	 ZPFOLsOEYz+dg==
-Date: Mon, 4 Nov 2024 21:12:24 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Belin <nbelin@baylibre.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4368D46BF
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 00:10:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730765450; cv=fail; b=UHekPw4AZ+6PZxr1fyUNRlBlNx37tCMr+GZWzOTFId2viNXSvZdr++X3hlJKisGXTtp14zYSqi2QO3YRNNWqIQaunEhsR7xWpUuMQQm+kLHIiosJb4/pHNd62Tug/yMoq6MCMIUsKXlvtd8Lrxiv1x1SRPb67jrxQNRFQKh2p58=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730765450; c=relaxed/simple;
+	bh=rTo05Yoni/Y5TJLtDtTVIxefM+gmh66jPU7DIB+2EKg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=PqdrM8k72/xX/8nMxsdqW/AQL7m59WJnGJpgFABbt3trmXg2MCUgcZC5aZagVVP9g+MMG73Mw89xdzLFim1xBUDk/dnFEbyAYixMlr4rIwwTmMtDlp+H2DSABnpGXDDqyjQKcyUM0j/85xNqDCbiV93CeQw36MMD9iXX+MLZgek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com; spf=pass smtp.mailfrom=irondevice.com; arc=fail smtp.client-ip=40.107.42.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=irondevice.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=irondevice.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ylXrn6LD7zYTe/rxrLs9N4g3ul3hmmxR5Q37cUTnyCzPxAnUApNqWgQX6gf3sxbOPw70XNMhID+wJqyZayQ+Wl78pstHAW6pEdAjPKAgO6SRFkjaq5o8HLT61fE6N5w3V759AJM9W/269pv7YmukDDtu0D5LEkL3JTdj11Y0Q5UvWUXrN3W53Gp+L6U2YtYXQNS1/Y8nBrJ8p2F3YpTskL5swPXz5yHH6zzounbmlQhof9xAIp6tEJSqqWE/HeyQn3dhhZwZcFmge/UJ3vRWQ82eDBpZ6roKALX7aE+bvuPiUwDwv92HDpt2LGbcXXIQBnnJrwqnLtFBVNQx9KlHaw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rTo05Yoni/Y5TJLtDtTVIxefM+gmh66jPU7DIB+2EKg=;
+ b=fDssZM2nepPiyxDJj+hX5taYHVqX2KvdniApSEKQzcNDY7bNFIk9ZasQdtBC0ttggXj/2Jz90mLU9FwGUbLEHmntbuguISGxq4gfQUphs0KQUGZrJEgUEbI2FKS2FYLLa5cCGDSPVxoCosC/4B+IGcefcyfL+VNKTbDrGmOjz4Tqq/qtsE3s0UVqR4+qOzDjFxgMzChfQ3FpEGhd1o8tFYHZnQQOlHRs35RSHk+3vP9AaNofRF+Kfr9490+Fu3hvA9NeljIXNWxuT8vD4l5MjF17g+3cJzSm2vKvpewaHzP3e3PObDtM54G6B6922wXInBwjXQPPOQ2fpY/kBt3tyQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=irondevice.com; dmarc=pass action=none
+ header.from=irondevice.com; dkim=pass header.d=irondevice.com; arc=none
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14c::11)
+ by SE2P216MB1554.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Tue, 5 Nov
+ 2024 00:10:44 +0000
+Received: from SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756]) by SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+ ([fe80::7e8d:9550:c46b:2756%4]) with mapi id 15.20.8114.031; Tue, 5 Nov 2024
+ 00:10:44 +0000
+From: Ki-Seok Jo <kiseok.jo@irondevice.com>
+To: Rob Herring <robh@kernel.org>
+CC: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
-Message-ID: <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
-References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
- <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: FW: [PATCH v3 1/2] ASoC: dt-bindings: irondevice,sma1307: Add initial
+ DT binding
+Thread-Topic: [PATCH v3 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
+ initial DT binding
+Thread-Index: AQHbLouKiZhyQxp3QEaHiHHnHEZlXrKmujyggACS3YCAAH7jwA==
+Date: Tue, 5 Nov 2024 00:10:44 +0000
+Message-ID:
+ <SL2P216MB2337EC0F531BD24D6341D9D48C522@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+References: <20241104-irondevice-sma1307-v3-0-4bbe79895f54@irondevice.com>
+ <20241104-irondevice-sma1307-v3-1-4bbe79895f54@irondevice.com>
+ <SL2P216MB23377A60BEC4396ADFA78A6A8C512@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+ <20241104161751.GA320514-robh@kernel.org>
+In-Reply-To: <20241104161751.GA320514-robh@kernel.org>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=irondevice.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SL2P216MB2337:EE_|SE2P216MB1554:EE_
+x-ms-office365-filtering-correlation-id: bf35b47f-e58e-4860-c356-08dcfd2e4ae7
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?9a11yGA6Ui08+xvoQlV2CTH41K3gliUrzg6nh3k2yk0BlEwSbcA5wB/0z8zR?=
+ =?us-ascii?Q?E2QBqLTVNQuxEPJIJdSfF8Ft4S7zyPw6H2kwdCr3KaE4nXNWpc3vxAOcrWlj?=
+ =?us-ascii?Q?FDvVtcQkgtJPO7XJIpdUnFi2cALubGfl0KQUaUFYZd2ju0AOgbWVwNM0TqtT?=
+ =?us-ascii?Q?tHX3CnJ7oLF7Kh70K5Few0GkamvLD1wy8KUcyW5LzS5maSXZXNkGmSoYDEwK?=
+ =?us-ascii?Q?9KwaEtsxHYL+MQJvvOAPKKS7v3f85Qgto7EXH3GaFQFoEje+NZLGZJ0dHk+y?=
+ =?us-ascii?Q?0OKsC/RZyjxWXIooynbSC88cCDIlF3PZQGtEenB9f3kXqxlLn7C0zLPnXOhv?=
+ =?us-ascii?Q?DiQe7XZJO+ic99e9w21ohtt0p2yuunnB5WmTRrxU1wOBX5oimqBOJuGfRbE1?=
+ =?us-ascii?Q?FmMuNwiMC/Mm0/rJ1rmA3OQmmdmuzFZ/AHg5hCeiMjTxF//DLttmyel2j7k1?=
+ =?us-ascii?Q?N5uUM6D6ZbxyBT0Mke5A9GKk89E0OGttMpTwlSngnJYoGjJnBA5sqFJGP87s?=
+ =?us-ascii?Q?Zgpb/eCm2k1/V7u63VW4RNzVWg66ar263DMVFOn8OVGMCwew+iBEIS217LgF?=
+ =?us-ascii?Q?JgNccBwKFBSJUoRWxiYojC9IeX5BPO5K0cJW2VFOxvtHcN6Nd/RrJuM7ogsj?=
+ =?us-ascii?Q?lliJgIjTP2Z8dZ2s7A08jb1I8jsA7lzHnilcoHAh08VCyI2Kl6/OLf9yKI6d?=
+ =?us-ascii?Q?yiEFydVEtpdVslR83aeHHtE6dgajdZ4w9oPFE4r3fK/jUArSYJEpovYGTWwv?=
+ =?us-ascii?Q?VzydbCbt2OKkjNGjoMKIJTMVGD2atAcoLGItTRxmCXvbSxK2LgE7Y4NvNohp?=
+ =?us-ascii?Q?QC80NLeINgi0H7xk5D8hX8BceWOL7ON0+5MjkLxPKAI2zHcdSrU1Wyl9B2sN?=
+ =?us-ascii?Q?ad7NZk7Kb8Pq13DjlSNn1BlthWu9Ks3dDRMBOYrBxlfVcRIsjJeIJfX6EytO?=
+ =?us-ascii?Q?OlXZTCczYk8o2UyZ1wYgyw3K1lPIbPAd094z5MlIiLfQO8DE0JVf8fwxCPOS?=
+ =?us-ascii?Q?Vt4p4afIMRN8F55jLoks4TDwfXUG6KTqQpdY/ubFT7RmEOb9y2lSlLFkKSHs?=
+ =?us-ascii?Q?iAjEzbmKqsA8twQk0nbHEgRJNeBydwUhkAA3r3pZaVi9okd9lJPc5ZgMejf2?=
+ =?us-ascii?Q?ExOzhWf0wiuQigA0yPYRuPiLbhSxCY+xryyJjvZr00SW9uUPOQmxkQ195jh5?=
+ =?us-ascii?Q?4Ce+Nq7fMwAP2xckqLxE0jhGhQKbF7onauC2qmF6gA/uVWgZIVbfR9WPyUCa?=
+ =?us-ascii?Q?tLphNDZzy6HGn8duxLgad3XdrYG4ddhSBmR9sRqQExZvbS8HMP4TeAqefoNd?=
+ =?us-ascii?Q?RKo7YyAfb48icZDei7PBdGq8QuvSUNKaDGW+faGMVdVQqTz1l5pYAx+jxoec?=
+ =?us-ascii?Q?xlLFexk=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB2337.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?0scmS1AcEzj27XD3/d8qqy9LTfumJn1iEoVtqeUFv8TqiggnXNBxaqrbEovE?=
+ =?us-ascii?Q?KUHwGnEu9wzn2nkGv2Vkfx2WEoJ7b99+RJ1crfri2cAZSagDEK8W+/tVn28A?=
+ =?us-ascii?Q?fUxFbkguKPRr5CEhv55K6NdMiqxxmruC0mCmLmY5lzDtDAanAP6ULfG9rSL8?=
+ =?us-ascii?Q?8ql8BmjWbzOi6rIsL0TBRcQIV//xr9ZkxiOkyp06fEh0AItepu4FTWWgFfLy?=
+ =?us-ascii?Q?7MW5s2IUnUTJW81rSzsh/9tipfECsI1W0PFAmgC+LQmmd3tRBIXR0ePwYicC?=
+ =?us-ascii?Q?q4kh4+hb/SyE2Y+p87p/MDwtsl1uqTD+xxE0ocKzxKnlA9YQfLI976YlGLi+?=
+ =?us-ascii?Q?Yxu09NNSehUkFmPsS9Goiz4ZRX4sT7iqK6AhViEvzVXgJGD9cB6Mu9+QQZxd?=
+ =?us-ascii?Q?aL3JO725Q712hTqIprMYFR7vPLulPd/yCuvdlD6NthnpCz4Pm8MgY7wB1zLQ?=
+ =?us-ascii?Q?FXUJchlWDCtTXLKK+dz9DU4eHEHJfeeUGCbRTRldEDMZPZrvx+ZqGB0Ij8kh?=
+ =?us-ascii?Q?96x0+8qBgWbkZeJ8B38ELCFikOZPxD6yZ7YQhwIGni/q0wmErUn/c0IwSk6W?=
+ =?us-ascii?Q?hIG8sJlEwTjuI+KN4mCAwUjoWPn4CoIe56kva+lJ2mc3vzeXUP1YiXV5KIFh?=
+ =?us-ascii?Q?gjxmrCjQYzsRPvIzDGQIZw3acGq+ZSbqegdSRYFkqtgHYmu74GmpOLShkc7q?=
+ =?us-ascii?Q?tNHQBiJw4d79i4U8trCv87/0DKaVq8lu97mlZ03HZDqTFS9m3YrSMwRnLZ+U?=
+ =?us-ascii?Q?u/xoDerONBH7B25OiT8KpKJjdnJyEpWnzXhSnzx8/woyEEjV9J1QWLlZ4QIM?=
+ =?us-ascii?Q?EpzWDgZvZiG77dS11o4qIY9xyY73ZYD/wkECjLLvo9iEnqsyLe5K0QlhDkn+?=
+ =?us-ascii?Q?WLo3VCYss+K4PPoaRgWgbd97HYiUHNsyOl2TCi9OR9LIMgue7LsZofixtO4z?=
+ =?us-ascii?Q?i4noJZoMEjHQOpag08u1fjwgI2ALYMLWMpXGkogzJlYbL9bZnh4PrIkAl2wI?=
+ =?us-ascii?Q?0aEAlxJP1pCK0GCoz2XvMzYjKoDSaHyZxuLse9ha5tMw7mTB5kdvP0MGoHG4?=
+ =?us-ascii?Q?s683nkOd1SN4aGQ+pp9odNuCcYLPGFvlFimdR5vSYdP8BbvkQlDgNHE/BMn8?=
+ =?us-ascii?Q?prcaq5T3g5ouV+gHSoBqhHl5yqT8mgROyLQYMl6GmUyskXVLvPPsjxDNCDj5?=
+ =?us-ascii?Q?8M7hy/0hWqZMAX4eBXquSs7bgFR1HMeCfid5jvXGPAF/g1ibRD/po9xBgnO0?=
+ =?us-ascii?Q?LjRcvGYbA9eaYqSe2s92lRNtDqfD76XPvi8ZlvN1DA0YT8O/VoPTgW8FKEMh?=
+ =?us-ascii?Q?3arSgMAAvNiKcoYdunBK5ztBG/wt1CEoDDC9cfVQILoziR0gpJ9xGh6xAyW3?=
+ =?us-ascii?Q?3TYu7iUl5wQaycnlhBV2cKrcEkZx3L8Rj/F/F3jp8gcYCik392b18+ERbFGY?=
+ =?us-ascii?Q?3hvL1rfzSKQ7+3AoJZVJgR9ReGUNNGKhH214OUI8TNZ1yBYy/JtS6qBwPxqO?=
+ =?us-ascii?Q?iOvh3P3gp84lKgJ/cg1Kc9PRdtZeqP+9OAUE7oA/zcgLHgFkp7ZJEONMyX42?=
+ =?us-ascii?Q?iR05/odgUXiG582h4Hz7c0vKk6S5H+g2aCK9yBLK?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JSrXVVE4KL1bPTNt"
-Content-Disposition: inline
-In-Reply-To: <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
-X-Cookie: The meek are contesting the will.
+X-OriginatorOrg: irondevice.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB2337.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf35b47f-e58e-4860-c356-08dcfd2e4ae7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2024 00:10:44.6422
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b4849faa-3337-494e-a76a-cb25a3b3d7d1
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Bmv6rVLDK1cKsAWz5oG3hTYvAgFskxQOcLWmAeXZncmiTA/61QIOMKPt9cjahXKM4+/OzxXZ+tqIjwBnodKUfW97QPiGFIZla55c6vonuHw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB1554
+
+>=20
+> On Mon, Nov 04, 2024 at 07:33:47AM +0000, Ki-Seok Jo wrote:
+> >
+>=20
+> I don't see the rest of the series (I fetch from lore). That means your
+> threading is broken.
+
+Okay, I see.=20
+
+It appears that using the b4 tool this time may have caused some issues,
+resulting in the removal of previous content. I would appreciate any
+suggestions you might have for reconnecting the series. Thank you!
+
+>=20
+> > This adds the schema binding for the Iron Device SMA1307 Amp
+> >
+> > Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
+> > ---
+>=20
+> v3, but where is the revision history?
+
+Yes, that sounds good. Thank you!
+
+There are changes before v2, but there are no changes in this section=20
+when transitioning to v3, so I didn't include anything.
+
+Would it be better to add the previous changes and indicate that=20
+there are no changes when moving to v3?
 
 
---JSrXVVE4KL1bPTNt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-On Mon, Nov 04, 2024 at 09:06:26PM +0200, Andy Shevchenko wrote:
-> On Thu, Oct 31, 2024 at 12:27:25PM +0200, Andy Shevchenko wrote:
-> > Update header inclusions to follow IWYU (Include What You Use)
-> > principle.
+Thank you for your help!
+I'll reflect on the points you've mentioned and update it to v4.
 
-> Hmm... I think we are waiting for somebody to Ack / review this change?
-
-Yes.
-
---JSrXVVE4KL1bPTNt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcpOLcACgkQJNaLcl1U
-h9A+Xgf8DL0xbsC9QTvJ6PRG9kwZT0mqrDxTEqD2aa7uKL/BWe/4iYsDhzva68pJ
-kMULqD+2acYoXMapAq5yXLcHKceCj0yGRUegY3xin06Qn5mxAIqq/+kUXwSYxHZ6
-GRZcB6QZZYIjuxMGbSFBbFYIU/yar28WL1JWFDoE8uLljBz0LeW2RHEqRgro6FnZ
-pXqcXsV9o7gruTH+FWeQukJ6yc2bun7IA2UQRrtFSW43u4lKNNv2IIweXu2hcek6
-lCq0OTQSDcK3wwTOKivjHm2e61Rxz0XWwrnHD4+94UZiGmvUITQWEeyBpgkZ72w1
-/UfnNCQ32IQc9tb3VECJdVgZekfXtA==
-=xe2s
------END PGP SIGNATURE-----
-
---JSrXVVE4KL1bPTNt--
+If I download the source again, make the necessary modifications,
+and then just change the version to v4 before sending it,
+could that cause the threading to break again?
