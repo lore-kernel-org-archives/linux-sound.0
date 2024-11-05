@@ -1,46 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A201D90A4;
-	Tue,  5 Nov 2024 16:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798751DA602;
+	Tue,  5 Nov 2024 16:38:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730824691; cv=none; b=jGyXgSZLSmU76gS51TO0OMiMKDEryD/Y0jYeHLZTB7nbZ0Fbt9bmbAtbis6kTgDZzUlgI0I74g5tIP9xcGqcCIDBu9bWlSsjaGcImj9AwWI6G4vN0yDwQyTSq9WADIKAFUr9CSyvnJoKT40TCNskcWWbB9wPUwOA6SSHJe0Jf3w=
+	t=1730824693; cv=none; b=NQeji37ZYXd+OBslviuK2PrQDVjIFf7NqHBcWV20eaSqgJt/H73xzXf0rwpmnpvTikPy+6uzgwOmPoRpy6F5TpB7kenV0TqEs/pvImiaPAfxzBFR8UJg54jQXYahaxNkkAPD4KNpZKpI0HJ1BzdInatahvclE8t62g86UfMahEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730824691; c=relaxed/simple;
-	bh=L4Pbz261GoCmDClvB0Y4Y96/VFFgp32O3nwSMNTEtlM=;
+	s=arc-20240116; t=1730824693; c=relaxed/simple;
+	bh=4GPQD5DR/BXC6wmr9UiBHIMnc68vGt6gMW/ULhmN5jQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ewXw30qvq5oXAup7LCFuhS1zICdnoLUhfiO7tEJBngubxxtharVxiv3dIcgPOaSfCBTYeD+zLShnVM+CTFdrVXY8IDCYoiAoqyBjW5d8xfHDihR/bdmEKqXbeyc3z9FVXj9R+MgK7xxXqGVf68LxrMU1423iac90qk4NvI+iE+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jPv0yFHk; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Z3pWPzi5ohLeiY2z3li/OGBAWhmtvoV3XmSn8yAyN/iizJepadGSAdUAzDdwpWfP/WZ/p0v1NDWIf9vS4IHSK3mloGXDRp1Ip+2WypyN38fSK9gE1itneNqwTk1MXpbEY8OTlfWSwHQA099NB9ozeKYbloprd3bJJtWe+00f8z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HkjJaxpJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jPv0yFHk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC428C4CECF;
-	Tue,  5 Nov 2024 16:38:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HkjJaxpJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7401FC4CED3;
+	Tue,  5 Nov 2024 16:38:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730824691;
-	bh=L4Pbz261GoCmDClvB0Y4Y96/VFFgp32O3nwSMNTEtlM=;
+	s=k20201202; t=1730824693;
+	bh=4GPQD5DR/BXC6wmr9UiBHIMnc68vGt6gMW/ULhmN5jQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=jPv0yFHkbaIUekifVXCSYte+t2lgAbVN8O2LPai6dm0DZhGF0SVH8cOHLLN/B/PJV
-	 7iXvx3ve3WPJbTSvyUhyIPlts8G/YTLj6q5pFDmULcNeNM0CCIai3+qX3AhZaPSlYb
-	 IA+ipkybbGTXcwwwRbIl5nvHjTB5PSoCkqgUv/+9KipWOfLYFPRsEaviOn7eU9tshc
-	 7hfi8LFkyY9TgXnU/l7fIcsg+M+xUldqVxqayAgtvMxz5s0R0JSqqE4PwUI1GTG8DF
-	 TuqvGlNyCZt2WD0tYJRkA+VwtEogBvCciklFsUgr/CtiHcjQpMVrsg2FLb/USmk9s2
-	 WOXyWkVzj5M2A==
+	b=HkjJaxpJ8v3d4NJbVDFRP9+vy5nrpU8lfn5xiGKRboGDYa8YmGZTk6f8CbdXH+xjG
+	 6XXHIfxuQ7/huO9ZVDnFLKt6RbpBKIx+/M9TEHlH3DfBwrL7hM682lCZWWbqdPdx08
+	 sLh0O0fc276GWklgcO6YBNjYBBHqmSfunxAG1ttOK0tCMvA4DhNLy/IIIyFHzPKITm
+	 fynXau+IqEXdeNPRU0UP/HB6MMUiThwoK1wX1eoTjlqkkzowP99GHCEdks1V/oMUX0
+	 I7mPieSaPkj005R5j1VYoIxKCo4E3cEMj4aXNUO/48Y5hNoaAbaP1gERwfNb/iPh1e
+	 BOdRDQd7lTDYw==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Chunyan Zhang <zhang.lyra@gmail.com>, 
- Stanislav Jakubek <stano.jakubek@gmail.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
-References: <9fc646b70a73e7a6c513771d69b0edcd140f09d7.1730310275.git.stano.jakubek@gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: sprd,pcm-platform: convert to
- YAML
-Message-Id: <173082468863.77847.2522114143831566586.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 16:38:08 +0000
+To: Fabio Estevam <festevam@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ shengjiu.wang@nxp.com, linux-sound@vger.kernel.org, 
+ devicetree@vger.kernel.org, Fabio Estevam <festevam@denx.de>
+In-Reply-To: <20241028020749.36972-1-festevam@gmail.com>
+References: <20241028020749.36972-1-festevam@gmail.com>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: fsl_spdif: Document imx6sl/sx
+ compatible fallback
+Message-Id: <173082469120.77847.4914036439907961950.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 16:38:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,11 +47,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 30 Oct 2024 18:48:38 +0100, Stanislav Jakubek wrote:
-> Convert the Spreadtrum DMA plaform bindings to DT schema.
-> Adjust filename to match compatible.
+On Sun, 27 Oct 2024 23:07:49 -0300, Fabio Estevam wrote:
+> i.MX6SL and i.MX6SX SPDIF blocks are compatible with i.MX35.
 > 
+> Document 'fsl,imx35-spdif' as a fallback compatible for these two
+> chip variants.
 > 
+> This fixes the following dt-schema warnings:
+> 
+> [...]
 
 Applied to
 
@@ -63,10 +63,8 @@ Applied to
 
 Thanks!
 
-[1/2] dt-bindings: sound: sprd,pcm-platform: convert to YAML
-      commit: a80aedeb816c81e86e3a59384f010da3414479dd
-[2/2] dt-bindings: sound: sprd,sc9860-mcdt: convert to YAML
-      commit: 310558120e5eaf48025c3947fc91b4d02bd90fac
+[1/1] ASoC: dt-bindings: fsl_spdif: Document imx6sl/sx compatible fallback
+      commit: 82e54d65416b8e7cae422bee1755dd203c95d500
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
