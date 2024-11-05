@@ -1,44 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75BE31EB9E9;
-	Tue,  5 Nov 2024 19:07:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B791EBFE3;
+	Tue,  5 Nov 2024 19:07:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730833644; cv=none; b=jujn2BZO/3hUqwGPiQnugBAeApq75jp1/gHqk7az4rpSlK+4zmmVfeVTMXD4TjAwy5QYnQJmaXvBYWwHo4XxOMgb2QuynnKT1a3h2WVA7Iqhdxh9g9S/ZrDpGyjl7XKPcQWV3xfQxEk4E61aWbdWUO4uEVfIaXQ2vMZSppDxhNU=
+	t=1730833648; cv=none; b=jbhbmd/AeahpCvuRcM8c3iWJ1PJgOR7JHaSjjiABDSc9FnH4TX3aoh8dznMd3Cvjq4gGr/Pfxp+VCLkxC323TeebB1TlThCjEOFztr5xjb5JRMYxgLeGr1TLF1Eu3iPIc27ifSH8QWnmu8XyDq3JA2iMQYbcB0t2+UBz9C2trf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730833644; c=relaxed/simple;
-	bh=QF2vNEmdwPntZbzjFEQGu4tKLc04rU44LayLYk5Hh0U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OulMV2rJlBeIMrM3kreCWiL2MMtPlGJyu12WRs4zr7qASmTOUz39pmK9rqCYW0b/e5ys1nkrgfpIbE7pe6XVHyQ2sex1URRiGsFzHX7PD+7eAV/nsLjWPoZRGx363CJ2GhvGMO+kjdWIxlf9+nxq7NpY/kSnss3IHqSCY921rls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UK9kEHfI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730833648; c=relaxed/simple;
+	bh=bJBfX6qg8hW2kBjNewIsOi+0CyauUekBnlmZQZpbsPM=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XY8pPh1tS8tHchpk7c1XUAzZl5DI1slAoAX2TzdvSLqGbFiC1rHgxBReti/KgOHB4F37T++6si8Q84AgxTSeBZxw9J6UorlussXkAaP4l4dE32GV3qbXFaKGQ/ownY1uI9JKiKZlORlgcXpHvXekiYV4s2l+6S+yYHrlCfVGl78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ws5ZPOhU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UK9kEHfI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CEEAC4CECF;
-	Tue,  5 Nov 2024 19:07:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ws5ZPOhU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96663C4CED1;
+	Tue,  5 Nov 2024 19:07:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730833644;
-	bh=QF2vNEmdwPntZbzjFEQGu4tKLc04rU44LayLYk5Hh0U=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UK9kEHfI8fR1r2EiCFiDvVPMKwJPDS0FXyyU58ghuS3i9Vz2ncfOYd/EJSS6wSeIk
-	 jtVThxLEiZgX2ow64dOLN441gIUAjpk/iakWfoD+C72q/kZ8zPB5Z5OpNgC+MFaYd4
-	 ZZB7tStRQ4bWVOkOaO3GXS7vJOXYNZL40VlmPsYpLwb6IUoXvvoZHiaLg1bYoHaJ0v
-	 +0zncU8H/I8yP+ws6jFuk7uJOhzKVoIcf6jv9uXs+gYmi5Tq8RVOj9m6CT237ME5ZN
-	 hzdAdv0BnGETatlbC/Rod2dIxhr9ShNVGrWyco5TGyjMSnsMpUO33TaZeAxos6igSv
-	 Y8rBzr7L3CAyg==
+	s=k20201202; t=1730833648;
+	bh=bJBfX6qg8hW2kBjNewIsOi+0CyauUekBnlmZQZpbsPM=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=Ws5ZPOhUGS4BGBhjO58bXkSAOXZlJVSOeX1WL46YI1g7J7+uu0SjVJCcOPQXlZCzJ
+	 0HIHMEf3qI/TWOANCPJDa48EtIsYCWbGMV8ziP1C9N2vuTwgV3IRBCOPhTtPThjzTr
+	 PCE3I+wiIQipirKQ01UEni4wshs1YoeyCDYH0Hkg0fXBPQvZukoZuE4OsvFjoqKfdT
+	 AZITUrcU1TglWZUMHI8LR0Tn3GLs49h2ZQpaanmBKdspvAhhxMMeL8Jq0iQJncDgZf
+	 Jqlsol00dy+q11CuOVcc7dg03m1ZL4P9h5qmFlxzIbgk8Lk3/o+CdteMFPwB2nQyuH
+	 6IFhmanLMkR+g==
 From: Mark Brown <broonie@kernel.org>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: alsa-devel@alsa-project.org, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
- venkataprasad.potturu@amd.com, Mario.Limonciello@amd.com, 
- Richard.Gong@amd.com, linux-sound@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Liam Girdwood <liam.r.girdwood@intel.com>
-In-Reply-To: <20241101020802.1103181-1-Vijendar.Mukunda@amd.com>
-References: <20241101020802.1103181-1-Vijendar.Mukunda@amd.com>
-Subject: Re: [PATCH 0/2] Soundwire dai link init logic refactor
-Message-Id: <173083364104.105724.13341920313310122179.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 19:07:21 +0000
+To: Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Takashi Iwai <tiwai@suse.com>, 
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, 
+ linux-rpi-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, patches@opensource.cirrus.com, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <871q06cmsl.wl-kuninori.morimoto.gx@renesas.com>
+References: <871q06cmsl.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/8] ASoC: cleasnup rtd and its ID
+Message-Id: <173083364434.105724.3803415580036211483.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 19:07:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,15 +54,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 01 Nov 2024 07:38:00 +0530, Vijendar Mukunda wrote:
-> This patch series refactors the SoundWire dai link init logic for Intel
-> and AMD generic SoundWire machine driver and also updates the stream_name
-> in dai_links structure.
+On Thu, 24 Oct 2024 01:28:10 +0000, Kuninori Morimoto wrote:
+> rtd has own ID, but it is naming "num" for it. The naming is confusable.
+> This patch rename it to "id".
+> And many functions request both "rtd" and its "id" as function parameter,
+> but rtd itself has rtd->id. This patch cleanup it.
 > 
-> Link: https://github.com/thesofproject/linux/pull/5218
-> Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> And, Qcom driver want to use irregular rtd ID because of its topology,
+> and thus, soc-core need irregular calculation. I'm not sure why only Qcom
+> needs such calculation, but this patch also cleanup it.
+> But I guess we want to cleanup is not soc-core but Qcom side (?)
 > 
 > [...]
 
@@ -67,10 +73,22 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: sdw_utils/intel/amd: refactor dai link init logic
-      commit: 485df22866559e2f821a9754d51a9755ce56e7aa
-[2/2] ASoC: sdw_utils: Update stream_name in dai_links structure
-      commit: d280cf5fbfe3cdd373c98e858834ff87b6ea64de
+[1/8] ASoC: rename rtd->num to rtd->id
+      commit: 40e47e2db6864aa053a62477bd71a16be9dd4066
+[2/8] ASoC: fsl: switch to use rtd->id from rtd->num
+      commit: eae33f737c7a929d92b559fe1a1002d597b7b903
+[3/8] ASoC: meson: switch to use rtd->id from rtd->num
+      commit: b19f75df8fa9f8d4aa8b5886dca0f2d832a76baa
+[4/8] ASoC: sh: switch to use rtd->id from rtd->num
+      commit: 970a874b76d09d6a5880e8832e572850cfcb4008
+[5/8] ASoC: generic: switch to use rtd->id from rtd->num
+      commit: 742e622db67efc32affb5893fdcc0149f374533e
+[6/8] ASoC: remove rtd->num
+      commit: c59db5ed233a19f6aadd086fb89149ec5f6fa855
+[7/8] ASoC: soc-core: do rtd->id trick at snd_soc_add_pcm_runtime()
+      commit: cb18cd26039f5cdecb0ac53fb447b6f0859f3d1c
+[8/8] ASoC: cleanup function parameter for rtd and its id
+      commit: 8b12da9a18f4dd53e4b3a7393829a555e84f073c
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
