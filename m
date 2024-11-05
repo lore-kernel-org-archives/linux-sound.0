@@ -1,105 +1,159 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3D92B9B7;
-	Tue,  5 Nov 2024 11:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803AF1D3195
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 11:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730804644; cv=none; b=UdFxW72YSfMF9CCRVfCwd7uLWllpzlCRzuzKWFq+lKqBC5bmsxapwBKuFySriP9kNLX4KaBXPbHxVuLvZDd/6pRDHFHCI1BlkHjRVZSjg5CYp6hLXfjCixmUZf22YZuoSmeSIk2Pk5AW7ahd0J15068LEB/gh5Pfzy7cBSa0Yo8=
+	t=1730805071; cv=none; b=q68erNL/Cfj2tSrwSwR6/NfjJCw2bKk+NghMrDvIDbF8w0nAdWNjkZZSUeZcTqnI3ONbcdUDENpHgEAIkUWvfpk3VLCr5nZRsIrUUPUrU79yhAFpVYwXqeSfZRkf/PXaaBgP3zMPuEFdELdJrPk+MF8VacWvJnJ6gGODNHPIqBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730804644; c=relaxed/simple;
-	bh=nan3RQi5wxFVEr0Ad/m1dJyKlkrKoStwQ9P+1WrCK7I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jfar3DDNgDYUNJGHZBj0GDovyRXXmdvh7ptOfPQCLa6rupd1wOCh3TmNQzVsPtUijlafSBL2z9VahH0emHsMbQYFVxEB86M8YGWnRbB+SUfFCOjBbW2le7mLM8OsPMQAds3qCG7JILFb2L6txt/7iZrhUT70+hYYlilOLgUPc5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fMBs/RBG; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730805071; c=relaxed/simple;
+	bh=HLn1onA7Q1EHYrgsINywbRfo+u78y/ij4Levl6FiA9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l4MB9P8ZC0cDAQVvxxo9juHz315nt87CjUjBubbtK3mZ1IVOGnKi+9YkCIVm3zVxIzZDjNGfSSv7J8etPOKQHUTmIflcGxK9pTlmlQN1Gh/MlEK5FcrSZELqC3S2BJI8+AbmspYx41IRKYkhAm3rtKf4KqHk/5miQ3JKXTO1+Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kL7JXb1a; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fMBs/RBG"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7ea7e2ff5ceso3710461a12.2;
-        Tue, 05 Nov 2024 03:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730804643; x=1731409443; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7s6RNjn6/q+9OR08Z/JWJC3mHOHawh3a7YswG2NdSWo=;
-        b=fMBs/RBGag9BNA5dEk+x7iT+wuzMmwnE0IOZ+dwwn9IeiX5sn1w8mJJcYZ0OGeB7hn
-         QoRLGfSSYS6TtuRNh+V1GmNa6JxwB3WJqazPk+Ab3KrB4MauxiSlU3Dwy5msxL0ZohF4
-         7mEBp0O2sRhFSdeMo+sNvnWinZ4aUv9h4DlYhjC/sbt96QMBiJvg7IwFG+t5++9Dns3i
-         ZLo/biHIOuvVMH9zylknlDVH2GJE6WZy53MSP6A6h3WvHVDmO+ZlpPzcZs7uN2gkC+i3
-         hwPugP2fhbpMCSje7LWJKmNSOGYCZ1i+xqz399dtWdf+2Pja2wYm8qlHS7kj6A8d2l62
-         l80A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730804643; x=1731409443;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7s6RNjn6/q+9OR08Z/JWJC3mHOHawh3a7YswG2NdSWo=;
-        b=dAdpDVATZqPWXisCYYeT81xgykpuY0im6uhM1LYQjQBmuibfP6Xpi0xdWqxAPkCWqB
-         O7cbzOyiAYiLILBiVH8qpybjFJkmMamDtX79JOEBNOinze2bbS2Mb+DZzXMkQ8v3Q6l0
-         ODZ/18qZhXYMNH4Nxp/okyyPCmUccFTTgJJ28GK/581fBblsbYo+OW0yD28AGfwuCwLp
-         ZuNA23MHNfge7BX+C59t3cOFUKMzg//DpcU8oo48hj/4zK/XrwXiBmqWhWAxbPmQxglL
-         Rf8D3PbTFnqlsLQsEWbR2tIp1CQqZzZtS/uukadnUHEAqFw9fNpKMkk2q2+J3Lrvk2Cw
-         Ejlg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTiAbSTnE+UOSzV9ErdA71pW+9RG8jjg4SU+uzz/VOuvNrWtn4mmWd7DmD3BQ3zqWs2CTYOML9tgncE+M=@vger.kernel.org, AJvYcCXWnCBKj42vmd5ZHnW6E3W9Br9mODHm4xE44q4TPF2DVMvxvh3Cgl2v6D5zpQ2KTW3uyThdmkC2cG5Mvjw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS+pfHx0lt52SkHMl1AQSZLxqhGg4VNOjHn5P4s4kx5zCgMPqt
-	f2Tk4gfdimJsCa5pSz+SrPLnycsYIwOCq/YZSdYkBiYbiCpIwwKb
-X-Google-Smtp-Source: AGHT+IGLaIX6/Mm5wEzSjKEyolmNm1nGJYF5ZIFbXSCGeKeeUa41Z9NWp5erk9Jd7QNTdpAzM4Oj9Q==
-X-Received: by 2002:a05:6a21:999f:b0:1d9:c5ad:c995 with SMTP id adf61e73a8af0-1d9eeb06e38mr34491449637.9.1730804642739;
-        Tue, 05 Nov 2024 03:04:02 -0800 (PST)
-Received: from ?IPV6:2409:40c0:1049:499a:fd64:be8:ad93:9d2? ([2409:40c0:1049:499a:fd64:be8:ad93:9d2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee44bf470dsm8863095a12.0.2024.11.05.03.03.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 03:04:01 -0800 (PST)
-Message-ID: <f9fa484f-b7fb-4a32-9958-be41ed67504c@gmail.com>
-Date: Tue, 5 Nov 2024 16:33:54 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kL7JXb1a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730805067; x=1762341067;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=HLn1onA7Q1EHYrgsINywbRfo+u78y/ij4Levl6FiA9s=;
+  b=kL7JXb1a7yD36XaDBRsRmLLbmFsv3pW/Hr+1IWozqhPJiHgFPrn3JMh4
+   mT3OIqdmYmY3Ljg7Ob0rTkh97kZHnzYKJpjopplUkQ9vBRadY4avF8AiO
+   Ioj3OZu370+1kmjeV7RIsvgPTvT3zJKut74HqNxza+LGDe55lIB6x9nZI
+   a9XjBitchqjqaEVxncEpkgan1TD9W7T2hDgoGdXJKqrVahiCySfV4K5Gn
+   /AaoIqZHOQ3wNnvnpd4ZP4ieUJ12PvLkFTzlz5tJeM/gWnW2LnfItB7UT
+   xrD+h9ShQAaci2beZmVC2ZHNLHsmpAtqYoSepd32iTq3/MjbUSqAxn5mZ
+   g==;
+X-CSE-ConnectionGUID: yI5aeh6eQVmINdRGxWA0gA==
+X-CSE-MsgGUID: cB7c+ZusRVG6Kj6oD+ql5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30501556"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30501556"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 03:11:06 -0800
+X-CSE-ConnectionGUID: f4f9xBo2SIKla02B1pn/1g==
+X-CSE-MsgGUID: Tj7ngavlSFWuFoN0JW/PuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
+   d="scan'208";a="84088830"
+Received: from gargmani-mobl1.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.221.182])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 03:11:04 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com,
+	deep_harsora@dell.com
+Subject: [PATCH] ASoC: Intel: sof_sdw: Add missing quirks from some new Dell
+Date: Tue,  5 Nov 2024 19:10:56 +0800
+Message-ID: <20241105111057.182076-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] sound: fix uninit-value in i2s_dma_isr
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, perex@perex.cz, tiwai@suse.com
-References: <20241030170829.36161-1-surajsonawane0215@gmail.com>
- <20241102123630.25446-1-surajsonawane0215@gmail.com>
- <d1710182-b4e0-4bb9-bebf-1fa7c48c77fd@sirena.org.uk>
-Content-Language: en-US
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-In-Reply-To: <d1710182-b4e0-4bb9-bebf-1fa7c48c77fd@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 04/11/24 18:11, Mark Brown wrote:
-> On Sat, Nov 02, 2024 at 06:06:30PM +0530, Suraj Sonawane wrote:
->> Fix an issue detected by the Smatch tool:
->>
->> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
->> error: uninitialized symbol 'val_1'.
->> sound/soc/bcm/bcm63xx-pcm-whistler.c:264 i2s_dma_isr()
->> error: uninitialized symbol 'val_2'.
-> 
-> Please submit patches using subject lines reflecting the style for the
-> subsystem, this makes it easier for people to identify relevant patches.
-> Look at what existing commits in the area you're changing are doing and
-> make sure your subject lines visually resemble what they're doing.
-> There's no need to resubmit to fix this alone.
-> 
-> Please don't send new patches in reply to old patches or serieses, this
-> makes it harder for both people and tools to understand what is going
-> on - it can bury things in mailboxes and make it difficult to keep track
-> of what current patches are, both for the new patches and the old ones.
+From: Deep Harsora <deep_harsora@dell.com>
 
-Thank you for the guidance. I understand the importance of following the 
-existing format for subject lines to maintain consistency within the 
-subsystem. When I submitted the v2 patch earlier, I had been considering 
-this, but I mistakenly thought that switching subject lines between v1 
-and v2 wasn’t necessary. Moving forward, I'll make sure my patches align 
-with the the style for the subsystem and will submit them as new threads 
-to avoid confusion.
+Add missing quirks for some new Dell laptops using cs42l43's speaker
+outputs.
 
-Thank you again for your feedback.
+Signed-off-by: Deep Harsora <deep_harsora@dell.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/intel/boards/sof_sdw.c | 48 ++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 5614e706a0bb..b12f700e842f 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -480,6 +480,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		.driver_data = (void *)(SOF_SDW_TGL_HDMI |
+ 					RT711_JD2),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CF6")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
+@@ -488,6 +496,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CFA")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	/* MeteorLake devices */
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+@@ -572,6 +588,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0D36")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
+@@ -647,6 +671,30 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		},
+ 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
+ 	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CF3")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CF4")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
++	{
++		.callback = sof_sdw_quirk_cb,
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "Dell Inc"),
++			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "0CF5")
++		},
++		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
++	},
+ 	/* Pantherlake devices*/
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
+-- 
+2.43.0
+
