@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2701D184523;
-	Tue,  5 Nov 2024 17:53:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB85B1D5AB9
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 18:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730829192; cv=none; b=Z79H/r9Hr9y/k3Zb9OKy7pY1bTLwLd+NgFgD2vFrJjDQJp8fc5GHXLdbSM6+8uQ4YC5qcn49ygo4xQKe/S8E+2fDaV3l5u/xRfFge6U4lyujN596ldvHJn4ZcAy4VOAYY1L11oLO/elM7a7tDeFzflN2GiSlF309QvnUVmZvQHA=
+	t=1730830515; cv=none; b=bKz48IAhY3JzSauXJCdjlSe3gP/nKd6DDQNWF1zhYDwOFkMy1k56/94U/I+nxPJh/Ozq1v7SZUdEoTH8e8uW2vyhr+6UOvsbyG90IuPaSQafHTyzhSPBvfjexOTIvq53+XrQvKP0NPX2Lg2D0H6rRrs/qqKYuhNgV56nCKFGK0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730829192; c=relaxed/simple;
-	bh=GBpdf1OVO9BOr56k/DS5sh/foQKQ7xW6cGQgQpR2NCA=;
+	s=arc-20240116; t=1730830515; c=relaxed/simple;
+	bh=WsuzBocIubI2t2RizA0h7s/vXJbLgUM2sP+FKYy+X0E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZBEONuhpHDONbUGCUvNiGb5eCkdkPaK5OnKENu1e9AIsCoRQUH+lW/9aDWYjHNf1D79jwOvKJw4qf0087+2+XqrXfaQRf56QgcIASyzkH9zXH3KN9OUZal+7698GGJALwAFSJig9UjQ6P0/OMVMuklq4lnBh0xHqk8II8CDH3Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pw5KJOOy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NjlpNirGiqQDWrKtTYyiyBI9TBlcn1qDpqlL3BlK5QmMiSWBhhl73n3Rmdzragvp+CaeQZV4+NNf1DX60elUjrfbBLQgay9KXuq2Dpg50s8+ujXfeqZxjcPNhSGBR7zWa4HrJkRn+djPuOK7zFIsePw7deH1E0erl1eALpr1Jm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNH4KxOD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pw5KJOOy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342D2C4CECF;
-	Tue,  5 Nov 2024 17:53:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNH4KxOD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9B1C4CECF;
+	Tue,  5 Nov 2024 18:15:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730829191;
-	bh=GBpdf1OVO9BOr56k/DS5sh/foQKQ7xW6cGQgQpR2NCA=;
+	s=k20201202; t=1730830515;
+	bh=WsuzBocIubI2t2RizA0h7s/vXJbLgUM2sP+FKYy+X0E=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Pw5KJOOypZ+1M8BcBE1sks8BopZNvfyjIUSRrCa8l9BsQDa57h+iIrOYogz4Z/R3F
-	 BGgMRI3BzVtRJZnrd8EPtO9bkkwfGVHl3pH2Wb9k32RvLss5b4kESmkAPGMFvsHWU7
-	 HsfImJ/9oLem4OZommuIE4+MHIC+59xP2TXTed92k01Z0Ns2ew0CGMHx4DACRKU4JJ
-	 Rt6gUyszCPAyqEP1rDnwCN2zxwe8JKeNsA5if3fvcBrbsH+KT6vrdO2jglYiHBjqQz
-	 2lzzf4V9w7F5Mxn1wsOslkLlsliJgQFtmY7DgHFTgI5KoAAPxXLXe1yuWuZKixE1Wi
-	 I40bxMdeGXilg==
+	b=KNH4KxODYUL5MSIvWC7SQQTSFYqEYZaPHARYb6/EG7RuxGwq7DvVQqEi65C8lwYaA
+	 F9jJZu+h8DsSj6mz/IBDfLR2DrnqExGZU7aVDISAqm1Eo0ZRMGEbHGMkaInAmoP1Kb
+	 l/nYm7pDWPT5Fs4lnWSVEosWAK0fztyrgKv/pmeQpd+lfOXYrkg0aUA6h2nwnSsi++
+	 bO1lYqlCWOJG4PEU+rufnkMc8vKP1kDVM8iuXGPwsx0+q1z5Bxn4Ae/pt2QzMf2uMB
+	 NtX+nwYNcr0aLE8Jm3hBsIBtZ8Cdq0T7zjxP1DVwquTU9uF3XdUFsqP9UcEAYkwBAT
+	 y1i1iblG8iMjw==
 From: Mark Brown <broonie@kernel.org>
-To: amelie.delaunay@foss.st.com, 
- Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Olivier Moysan <olivier.moysan@foss.st.com>
-Cc: Olivier Moysan <olivier.moysan@st.com>, linux-sound@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241105140242.527279-1-olivier.moysan@foss.st.com>
-References: <20241105140242.527279-1-olivier.moysan@foss.st.com>
-Subject: Re: [PATCH 1/1] ASoC: stm32: spdifrx: fix dma channel release in
- stm32_spdifrx_remove
-Message-Id: <173082918893.89365.2926884723667800367.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 17:53:08 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com, deep_harsora@dell.com
+In-Reply-To: <20241105111057.182076-1-yung-chuan.liao@linux.intel.com>
+References: <20241105111057.182076-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Add missing quirks from some new
+ Dell
+Message-Id: <173083051391.94172.4242002677659899261.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 18:15:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,20 +46,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 05 Nov 2024 15:02:42 +0100, Olivier Moysan wrote:
-> In case of error when requesting ctrl_chan DMA channel, ctrl_chan is not
-> null. So the release of the dma channel leads to the following issue:
-> [    4.879000] st,stm32-spdifrx 500d0000.audio-controller:
-> dma_request_slave_channel error -19
-> [    4.888975] Unable to handle kernel NULL pointer dereference
-> at virtual address 000000000000003d
-> [...]
-> [    5.096577] Call trace:
-> [    5.099099]  dma_release_channel+0x24/0x100
-> [    5.103235]  stm32_spdifrx_remove+0x24/0x60 [snd_soc_stm32_spdifrx]
-> [    5.109494]  stm32_spdifrx_probe+0x320/0x4c4 [snd_soc_stm32_spdifrx]
+On Tue, 05 Nov 2024 19:10:56 +0800, Bard Liao wrote:
+> Add missing quirks for some new Dell laptops using cs42l43's speaker
+> outputs.
 > 
-> [...]
+> 
 
 Applied to
 
@@ -73,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: stm32: spdifrx: fix dma channel release in stm32_spdifrx_remove
-      commit: 9bb4af400c386374ab1047df44c508512c08c31f
+[1/1] ASoC: Intel: sof_sdw: Add missing quirks from some new Dell
+      commit: af23d38caae5841bd7aa754a7e7205ab719f568d
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
