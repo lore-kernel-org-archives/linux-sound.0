@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352991D9A4B;
-	Tue,  5 Nov 2024 16:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2701D184523;
+	Tue,  5 Nov 2024 17:53:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730824711; cv=none; b=o3m2a/VJpTni59GY4G22xZfmYzi47ck8ujbp99DFyYD8H+tPYPSL2H3Y/6V228Qd5B/mW9TWjqttkI9TmtNx+Lz705MR+vfeHMRM+CXZoU60tNq/CBX2j8dFhvnnK0BCuVodmUeS/d2tSNf4I6M1vAVtk/RCiCAJlrJkUNT4OJ8=
+	t=1730829192; cv=none; b=Z79H/r9Hr9y/k3Zb9OKy7pY1bTLwLd+NgFgD2vFrJjDQJp8fc5GHXLdbSM6+8uQ4YC5qcn49ygo4xQKe/S8E+2fDaV3l5u/xRfFge6U4lyujN596ldvHJn4ZcAy4VOAYY1L11oLO/elM7a7tDeFzflN2GiSlF309QvnUVmZvQHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730824711; c=relaxed/simple;
-	bh=X3QevZg0rzrXDfQFtVrzDiR/bMaGBDN1CpqsOH1Ja48=;
+	s=arc-20240116; t=1730829192; c=relaxed/simple;
+	bh=GBpdf1OVO9BOr56k/DS5sh/foQKQ7xW6cGQgQpR2NCA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EUDlFB7UD+RM6uqom20gkW3M9rXAQOsCoREqMHc3lILubQmfRLH7yqj03GyGS1Urf77NaZgHJnhIwhHcGD/nqo1gCyDTfvRuaaatVpHe79yda2JCIGjt+y4EpUZwkS93tg/cye8wh8sR7sK+Xyn2vGf4lYvBFXmdIUvnNHWPRlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLwZYMYU; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ZBEONuhpHDONbUGCUvNiGb5eCkdkPaK5OnKENu1e9AIsCoRQUH+lW/9aDWYjHNf1D79jwOvKJw4qf0087+2+XqrXfaQRf56QgcIASyzkH9zXH3KN9OUZal+7698GGJALwAFSJig9UjQ6P0/OMVMuklq4lnBh0xHqk8II8CDH3Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pw5KJOOy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLwZYMYU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED5DC4CED2;
-	Tue,  5 Nov 2024 16:38:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pw5KJOOy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 342D2C4CECF;
+	Tue,  5 Nov 2024 17:53:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730824710;
-	bh=X3QevZg0rzrXDfQFtVrzDiR/bMaGBDN1CpqsOH1Ja48=;
+	s=k20201202; t=1730829191;
+	bh=GBpdf1OVO9BOr56k/DS5sh/foQKQ7xW6cGQgQpR2NCA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aLwZYMYUdbc96SDQl4CZJP7laKG276AROeHoNAb/mbq0JLX8pGH2ErNkqqR3CVg8N
-	 wzFnZjVoe4to+XZpY9sJNCkq2NuZWXe7RB+L/RIxQawDz4LpKAaTkQ0Snkp/RocZ92
-	 V/JonNjeP1FzhAKY/9P7HCpDQh/8+WkvyZ35K1zzJmsMNtdNDlcPuf0LP39CUwV+Bu
-	 vb09gWYSP1T8UGfcjd3qkimmpy3Nfm8anUXei95OTdaq+ceTA+2hAypAq1K2R+2Z90
-	 E6USeKTASzsIsUwBQ1cB6RpFrTf+W4JEKSFJS07aA0pLz6ygCAEBzhLvmJHUNIMawB
-	 POu5V5s8j3nkg==
+	b=Pw5KJOOypZ+1M8BcBE1sks8BopZNvfyjIUSRrCa8l9BsQDa57h+iIrOYogz4Z/R3F
+	 BGgMRI3BzVtRJZnrd8EPtO9bkkwfGVHl3pH2Wb9k32RvLss5b4kESmkAPGMFvsHWU7
+	 HsfImJ/9oLem4OZommuIE4+MHIC+59xP2TXTed92k01Z0Ns2ew0CGMHx4DACRKU4JJ
+	 Rt6gUyszCPAyqEP1rDnwCN2zxwe8JKeNsA5if3fvcBrbsH+KT6vrdO2jglYiHBjqQz
+	 2lzzf4V9w7F5Mxn1wsOslkLlsliJgQFtmY7DgHFTgI5KoAAPxXLXe1yuWuZKixE1Wi
+	 I40bxMdeGXilg==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Shengjiu Wang <shengjiu.wang@nxp.com>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20241028-esai_fix-v1-0-3c1432a5613c@nxp.com>
-References: <20241028-esai_fix-v1-0-3c1432a5613c@nxp.com>
-Subject: Re: (subset) [PATCH 0/2] ASoC: fsl-esai: allow fsl,imx8qm-esai
- fallback to fsl,imx6ull-esai
-Message-Id: <173082470778.77847.10489834906356614772.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 16:38:27 +0000
+To: amelie.delaunay@foss.st.com, 
+ Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Olivier Moysan <olivier.moysan@st.com>, linux-sound@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241105140242.527279-1-olivier.moysan@foss.st.com>
+References: <20241105140242.527279-1-olivier.moysan@foss.st.com>
+Subject: Re: [PATCH 1/1] ASoC: stm32: spdifrx: fix dma channel release in
+ stm32_spdifrx_remove
+Message-Id: <173082918893.89365.2926884723667800367.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 17:53:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,11 +52,20 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Mon, 28 Oct 2024 15:49:30 -0400, Frank Li wrote:
-> Update binding doc to allow fsl,imx8qm-esai fallback to fsl,imx6ull-esai.
-> Update dts add fsl,imx6ull-esai fallback.
+On Tue, 05 Nov 2024 15:02:42 +0100, Olivier Moysan wrote:
+> In case of error when requesting ctrl_chan DMA channel, ctrl_chan is not
+> null. So the release of the dma channel leads to the following issue:
+> [    4.879000] st,stm32-spdifrx 500d0000.audio-controller:
+> dma_request_slave_channel error -19
+> [    4.888975] Unable to handle kernel NULL pointer dereference
+> at virtual address 000000000000003d
+> [...]
+> [    5.096577] Call trace:
+> [    5.099099]  dma_release_channel+0x24/0x100
+> [    5.103235]  stm32_spdifrx_remove+0x24/0x60 [snd_soc_stm32_spdifrx]
+> [    5.109494]  stm32_spdifrx_probe+0x320/0x4c4 [snd_soc_stm32_spdifrx]
 > 
-> 
+> [...]
 
 Applied to
 
@@ -64,8 +73,8 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: dt-bindings: fsl-esai: allow fsl,imx8qm-esai fallback to fsl,imx6ull-esai
-      commit: adf7ea48ce05a6c5c44f0f9d3f81e83e5cb70c3e
+[1/1] ASoC: stm32: spdifrx: fix dma channel release in stm32_spdifrx_remove
+      commit: 9bb4af400c386374ab1047df44c508512c08c31f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
