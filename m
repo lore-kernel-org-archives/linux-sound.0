@@ -1,66 +1,53 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F413B1D0438
-	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 09:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB013C6BA
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 10:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730798364; cv=none; b=H+Em1mFpGsVmIBPaAh3sUYauJAX1Q72A9m4entUEjBVNHC6g7B04suusk3CscRudxi9r4wvAOreL78ucE8PBtxvmKCIXnh1ZdffT5An8r71rYRvKmHsZlAn1qTMeXs4SbmEaJKVxiIpXu7FR4DdFu1zuMG7Y8joS9yDPrXmC8+E=
+	t=1730801202; cv=none; b=T8NOl1MElhat0AG8eZdALAmfvtyPho4dGhIhoQAJwvBa0xW16j95j6BvKmvKRvuYf5EFfgKtLTSH0uu1LdRMsFVWfAp6pwud/KNNjqDhOk5FuaGP72Sx2r+SHJ4Dq/HC/mdN3WcKNLjtHI5cLeReNp98I9hYDlglw0Jhmyurt5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730798364; c=relaxed/simple;
-	bh=T4lfPA8S9ixb3LEM2QOxvR7XTTqcM7Y8IyvOeRDKLNI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dcBl5yBTY0BvarWcHO6G5NTm7g581UDwYWmTs0ViE7Uz4nvObUt8G3/1005tqR74Q/6StyVvS1Me3IYD7lQ8UORren3y60qWjJENSeFeHWBAFzCIWE9Wr+jJBaeGBTrgnhucj0z+Fv6w8+AfZRS744WevDSx5u1BUhyiulkvDZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Pg1tl8xo; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1730801202; c=relaxed/simple;
+	bh=9Vv/gv2aZ/QoEI79A6AY9fqJircxjwzUWfsclQ2cziE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XGkufQT0zZDdXaoizGftLGBTFZsi+IjVYlRSJ63jF1s2IPjEbWv21udqgn2DfVoJ3KyMvkANom0vXMMJSH+mo/T/fK7LNoqiNs952IYSLICfu51646cEIF/4kALj+e5P4db1DShqkr30KLQVC3j9u3zkWJcpQsF8yKRhmn5K08I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=nrJL+V8j; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Pg1tl8xo"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-720cb6ac25aso3882542b3a.3
-        for <linux-sound@vger.kernel.org>; Tue, 05 Nov 2024 01:19:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1730798362; x=1731403162; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LW99LC0Kexi86oGAcb2ljvk1jhRq1I2JS+rEVFAlaw8=;
-        b=Pg1tl8xo9t2aKiuSC/Iv0U8IZ+eCGe01RiKmydINKypkzVA/TXhfg8TbTUWSojNsWA
-         rPqEgpuJw9afTkiE6QC90FEB1cQ5BhyKdYnXa7hezPo9Z8SLomvSUosRzk+ang4SgzAY
-         aVYEiHiSNzZ+eOu+DGf6DeljFxnV3P9MJnTZw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730798362; x=1731403162;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LW99LC0Kexi86oGAcb2ljvk1jhRq1I2JS+rEVFAlaw8=;
-        b=GlzgnDRh+bNNvzFGM4jBKslQKUFuTro4MhWpSnKDuYV39vLFv/Uzu9ZeTZNVHLjKT9
-         tcx0NHQaNyQBnNxM08cTUQ7G5yidoB0CU2O/suGgyJdtToFwUUbu+vxz99l2QAFfbWer
-         bbIkF9VpJ8oSNMyOKx7A2RtqAeM5sjY9SbE9VXR1X5PGgxsNb1ICh3WZzhDsPLt6Rqdj
-         ewv8t15F5RT/caPRCGv07cuNv9S3cBJsE2psX8AVkQD9BXGeWS9VXBmG4z1AuHtzQLzo
-         zsyCPJ47QfHuzT2qC6UvpSBCGxsTX+L5y2R/Z6lvU2Ph6+iepkiE61LGqxaPDb2dbPaP
-         /CdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWkh2brDjbbFum6stq4CATeT0i2XRfLw+5S32ESUsY22YiVtVBoRzA3rd+nnQJH4qvj1woFfjcp/D19OA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCqzSc8SMR74s8groYqiiTUoltIQMkSFvHnx3KHJRUHduZj6GS
-	XOS42HfpwhX8Suph+nktBwnqZalgQJ7hHmpvIXlsLxUcx6bCqsyh83nm3mWQcw==
-X-Google-Smtp-Source: AGHT+IE+RQFeVzw8zbEzlCI6PqWB5TBlBgH4MxGi/9juWqisHT1+H2kFPqs8VV8Xihz0bbOqadeYvw==
-X-Received: by 2002:a05:6a00:8cf:b0:71e:587d:f276 with SMTP id d2e1a72fcca58-72063093364mr47257026b3a.25.1730798362339;
-        Tue, 05 Nov 2024 01:19:22 -0800 (PST)
-Received: from fshao-p620.tpe.corp.google.com ([2401:fa00:1:10:20ee:3712:ce0b:1ed7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-720bc2c58f7sm9337566b3a.140.2024.11.05.01.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 01:19:22 -0800 (PST)
-From: Fei Shao <fshao@chromium.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Fei Shao <fshao@chromium.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Yang <yangxiaohua@everest-semi.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] ASoC: dt-bindings: everest,es8326: Document interrupt property
-Date: Tue,  5 Nov 2024 17:18:11 +0800
-Message-ID: <20241105091910.3984381-1-fshao@chromium.org>
-X-Mailer: git-send-email 2.47.0.277.g8800431eea-goog
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="nrJL+V8j"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4A5A63zdC910492, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1730801163; bh=9Vv/gv2aZ/QoEI79A6AY9fqJircxjwzUWfsclQ2cziE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=nrJL+V8jFequFj3H7po8c+Yl0EZL9CdHQow72ilpWWqo3a/BKbnB+qm2lnJIO/JFO
+	 6RI10C8jEQgaQprdZXxVJduhPuvQ0oujphRg2hLeFLP159dS4WalrlqwPgEkqCYiN5
+	 xVIdR7B1ce5fsSowuRsXLcAU0dA8B9pgIQFrPveHoEjOgR0R6v5hdVqlbrFOc1lUEs
+	 bQ9CuswcnRjUICth7DLBKl3EDqp5pXlxw59xtKmrjKEqRNEgr4/P1mp17Dn4UzwdQJ
+	 scoDq81WuSxSKJqrBnm2fr3I/XwswGl4p5HrjfZgxliCa556NJrgP7YrUcKJGJ6OEC
+	 oJvAOausV1Xcw==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4A5A63zdC910492
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 5 Nov 2024 18:06:03 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 5 Nov 2024 18:06:04 +0800
+Received: from sw-server.localdomain (172.22.102.1) by
+ RTEXMBS01.realtek.com.tw (172.21.6.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 5 Nov 2024 18:06:03 +0800
+From: <shumingf@realtek.com>
+To: <broonie@kernel.org>, <lgirdwood@gmail.com>
+CC: <linux-sound@vger.kernel.org>, <lars@metafoo.de>, <flove@realtek.com>,
+        <oder_chiou@realtek.com>, <jack.yu@realtek.com>,
+        <derek.fang@realtek.com>, <Vijendar.Mukunda@amd.com>,
+        Shuming Fan <shumingf@realtek.com>
+Subject: [PATCH] ASoC: rt722: change the interrupt mask for jack type detection
+Date: Tue, 5 Nov 2024 18:05:57 +0800
+Message-ID: <20241105100557.1987917-1-shumingf@realtek.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,35 +55,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RTEXH36506.realtek.com.tw (172.21.6.27) To
+ RTEXMBS01.realtek.com.tw (172.21.6.94)
+X-KSE-ServerInfo: RTEXMBS01.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-The ES8326 audio codec has one interrupt pin for headset detection
-according to the datasheet. Document that in the binding.
+From: Shuming Fan <shumingf@realtek.com>
 
-This fixes dtbs_check error:
-  'interrupts-extended' does not match any of the regexes:
-  'pinctrl-[0-9]+'
+This patch changed the interrupt mask from XU to GE.
 
-Signed-off-by: Fei Shao <fshao@chromium.org>
+Signed-off-by: Shuming Fan <shumingf@realtek.com>
 ---
+ sound/soc/codecs/rt722-sdca-sdw.c | 12 ++++--------
+ sound/soc/codecs/rt722-sdca.c     |  7 ++++---
+ 2 files changed, 8 insertions(+), 11 deletions(-)
 
- Documentation/devicetree/bindings/sound/everest,es8326.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/sound/everest,es8326.yaml b/Documentation/devicetree/bindings/sound/everest,es8326.yaml
-index d51431df7acf..b5594a9d508e 100644
---- a/Documentation/devicetree/bindings/sound/everest,es8326.yaml
-+++ b/Documentation/devicetree/bindings/sound/everest,es8326.yaml
-@@ -24,6 +24,10 @@ properties:
-     items:
-       - const: mclk
- 
-+  interrupts:
-+    maxItems: 1
-+    description: interrupt output for headset detection
+diff --git a/sound/soc/codecs/rt722-sdca-sdw.c b/sound/soc/codecs/rt722-sdca-sdw.c
+index d5c985ff5ac5..25fc13687bc8 100644
+--- a/sound/soc/codecs/rt722-sdca-sdw.c
++++ b/sound/soc/codecs/rt722-sdca-sdw.c
+@@ -177,7 +177,7 @@ static int rt722_sdca_update_status(struct sdw_slave *slave,
+ 		 * This also could sync with the cache value as the rt722_sdca_jack_init set.
+ 		 */
+ 			sdw_write_no_pm(rt722->slave, SDW_SCP_SDCA_INTMASK1,
+-				SDW_SCP_SDCA_INTMASK_SDCA_6);
++				SDW_SCP_SDCA_INTMASK_SDCA_0);
+ 			sdw_write_no_pm(rt722->slave, SDW_SCP_SDCA_INTMASK2,
+ 				SDW_SCP_SDCA_INTMASK_SDCA_8);
+ 		}
+@@ -308,12 +308,8 @@ static int rt722_sdca_interrupt_callback(struct sdw_slave *slave,
+ 				SDW_SCP_SDCA_INT_SDCA_0, SDW_SCP_SDCA_INT_SDCA_0);
+ 			if (ret < 0)
+ 				goto io_error;
+-		} else if (ret & SDW_SCP_SDCA_INTMASK_SDCA_6) {
+-			ret = sdw_update_no_pm(rt722->slave, SDW_SCP_SDCA_INT1,
+-				SDW_SCP_SDCA_INT_SDCA_6, SDW_SCP_SDCA_INT_SDCA_6);
+-			if (ret < 0)
+-				goto io_error;
+ 		}
 +
-   "#sound-dai-cells":
-     const: 0
+ 		ret = sdw_read_no_pm(rt722->slave, SDW_SCP_SDCA_INT2);
+ 		if (ret < 0)
+ 			goto io_error;
+@@ -444,7 +440,7 @@ static int __maybe_unused rt722_sdca_dev_system_suspend(struct device *dev)
+ 	mutex_lock(&rt722_sdca->disable_irq_lock);
+ 	rt722_sdca->disable_irq = true;
+ 	ret1 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK1,
+-				SDW_SCP_SDCA_INTMASK_SDCA_0 | SDW_SCP_SDCA_INTMASK_SDCA_6, 0);
++				SDW_SCP_SDCA_INTMASK_SDCA_0, 0);
+ 	ret2 = sdw_update_no_pm(slave, SDW_SCP_SDCA_INTMASK2,
+ 				SDW_SCP_SDCA_INTMASK_SDCA_8, 0);
+ 	mutex_unlock(&rt722_sdca->disable_irq_lock);
+@@ -471,7 +467,7 @@ static int __maybe_unused rt722_sdca_dev_resume(struct device *dev)
+ 	if (!slave->unattach_request) {
+ 		mutex_lock(&rt722->disable_irq_lock);
+ 		if (rt722->disable_irq == true) {
+-			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_6);
++			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK1, SDW_SCP_SDCA_INTMASK_SDCA_0);
+ 			sdw_write_no_pm(slave, SDW_SCP_SDCA_INTMASK2, SDW_SCP_SDCA_INTMASK_SDCA_8);
+ 			rt722->disable_irq = false;
+ 		}
+diff --git a/sound/soc/codecs/rt722-sdca.c b/sound/soc/codecs/rt722-sdca.c
+index f9f7512ca360..908846e994df 100644
+--- a/sound/soc/codecs/rt722-sdca.c
++++ b/sound/soc/codecs/rt722-sdca.c
+@@ -190,8 +190,8 @@ static void rt722_sdca_jack_detect_handler(struct work_struct *work)
+ 	if (!rt722->component->card || !rt722->component->card->instantiated)
+ 		return;
  
+-	/* SDW_SCP_SDCA_INT_SDCA_6 is used for jack detection */
+-	if (rt722->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_6) {
++	/* SDW_SCP_SDCA_INT_SDCA_0 is used for jack detection */
++	if (rt722->scp_sdca_stat1 & SDW_SCP_SDCA_INT_SDCA_0) {
+ 		ret = rt722_sdca_headset_detect(rt722);
+ 		if (ret < 0)
+ 			return;
+@@ -294,7 +294,7 @@ static void rt722_sdca_jack_init(struct rt722_sdca_priv *rt722)
+ 	if (rt722->hs_jack) {
+ 		/* set SCP_SDCA_IntMask1[0]=1 */
+ 		sdw_write_no_pm(rt722->slave, SDW_SCP_SDCA_INTMASK1,
+-			SDW_SCP_SDCA_INTMASK_SDCA_0 | SDW_SCP_SDCA_INTMASK_SDCA_6);
++			SDW_SCP_SDCA_INTMASK_SDCA_0);
+ 		/* set SCP_SDCA_IntMask2[0]=1 */
+ 		sdw_write_no_pm(rt722->slave, SDW_SCP_SDCA_INTMASK2,
+ 			SDW_SCP_SDCA_INTMASK_SDCA_8);
+@@ -308,6 +308,7 @@ static void rt722_sdca_jack_init(struct rt722_sdca_priv *rt722)
+ 		regmap_write(rt722->regmap,
+ 			SDW_SDCA_CTL(FUNC_NUM_JACK_CODEC, RT722_SDCA_ENT_XU0D,
+ 				RT722_SDCA_CTL_SELECTED_MODE, 0), 0);
++		rt722_sdca_index_write(rt722, RT722_VENDOR_HDA_CTL, RT722_GE_RELATED_CTL1, 0x0000);
+ 		/* trigger GE interrupt */
+ 		rt722_sdca_index_update_bits(rt722, RT722_VENDOR_HDA_CTL,
+ 			RT722_GE_RELATED_CTL2, 0x4000, 0x4000);
 -- 
-2.47.0.277.g8800431eea-goog
+2.34.1
 
