@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67E5149C50;
-	Tue,  5 Nov 2024 18:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E35E81E7675;
+	Tue,  5 Nov 2024 18:15:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730830527; cv=none; b=jVcyzSLaU70qFot97HVA1eWXv+V/0091dlfRqbFKznsh/+QG2G7y0yKnoMFvu1WgVd2DLp0+v97a5/HsEBIERcRlPVR2Q8N4Evm0WpKyidjTVHvWJ4XC97i78e3Xh1duA9360JHqu0HGVN3cdd9uOJz9c4w5cSr594AGib7mWc8=
+	t=1730830529; cv=none; b=SWTDxaxikTQPVMNvqY5QV46eIBPS4g0+ZHctF78ZHzBxna0VSm6r4SDqMX7NEIBBbUWcBjjvzMa2svpNj3/mJFe1+hK68G4DAwYq5k9N6Q4piJKgxfCVw5kaJxH5tH2wutx+GpeR5+PA5l2yBau69u5RwrGzcSqOiROXsOh/PMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730830527; c=relaxed/simple;
-	bh=4kEDw3mpTS72uH6/guigCdvq4B9391RyXxfp1ONslIg=;
+	s=arc-20240116; t=1730830529; c=relaxed/simple;
+	bh=0SLyPYXn8qaiU3kOUbKXZq/OLmpMozf3yCJYHEr3Ea0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=EuuojKXn3MFr/z08Tf8/o+WOZSZJbK6t7yQ/rQxZ4sZOS3AtwySR7gYO1Q1uJRR5gndEVjVgUsYcdQ66Rf9gy+Z4bocq0X0ZQ98FhUy0yom+lXPPu3cW4n8bIqUs5O3IzM0xDyPrU/nHgtMJRTUN08tO7E5IVGW58ea5L1seqgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o4EjHN3K; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=rYUEg9ATmIXQTyAUop+VerRWEqRzB0QzhNvii3y9i2fzVLfvcL3v5C4IECA6Z1/+Pil8NhqLYy1zxm+PV7CHmNLWqaCvtCJymlj40RcuqTgbftZVcfYeqv4+B3eZhuOLXiAIUY/1hbL4BONMMBILsUGGVUsKaxUFQQj5PzcK/nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tp+AHXtT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o4EjHN3K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 134CEC4CECF;
-	Tue,  5 Nov 2024 18:15:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tp+AHXtT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA06CC4CED3;
+	Tue,  5 Nov 2024 18:15:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730830525;
-	bh=4kEDw3mpTS72uH6/guigCdvq4B9391RyXxfp1ONslIg=;
+	s=k20201202; t=1730830527;
+	bh=0SLyPYXn8qaiU3kOUbKXZq/OLmpMozf3yCJYHEr3Ea0=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=o4EjHN3KIWyxO4EVu77Ic7n63NEXUNIJOI1UTcN1WeMkCroMfUSvNcEIl3R0tYTWW
-	 FvD7rzQpq9VH/Oym9sZReWhFOtlQQeijfLMpa/h1niRTILkqYAbwUbVZqXvg2K3ijM
-	 5RzBf9MAczmhIg0o+v88USk+hLM3L+dBl60ff0SvpnXvfJPFosYglnxc78Atu9Gov6
-	 AMklzazp6+h4RtriKf8HcN/RuSgIr7L5BegqYxcbbkp4T0EcsYAmyeerjF12oX1Tm7
-	 Dig+4rIo1CaleamLq358AQsipcjvqX8bCQkQjPNfQth6lAetRASKf0bONDg1N+/710
-	 /XY8RTqTlTOGg==
+	b=tp+AHXtTXvtedpfAIISt8W+JoF+2R4z2B7o6AEGmZ2ioHcxjLQV2cID4zKARYJRD1
+	 uQAm5qvitzA4T4aelDRL2FRV35uxkBkmMIgOaxIQeFgXVSy7YH0YBZARO4oywaFf/h
+	 9KieqTw+nHHAmcLix8cRyT9rC4iI+oj86DpKhaqtQy53zj7AQJoLsDeHYjunYIWM4O
+	 XE64ePaaZzORzA7It9RUz3wdo9LBOjqhoxXApy2Zgp/lMfEN5P/Ib7QAGNYFdBUn/d
+	 u2ndf1nMdmLOIAIAImA/+IAcrhX0mejyu5tWTIze8ArMNcZm8hPPE4hmrTGFmQ5E7z
+	 yEOodN5gCfPYw==
 From: Mark Brown <broonie@kernel.org>
 To: Fei Shao <fshao@chromium.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh@kernel.org>, 
- Trevor Wu <trevor.wu@mediatek.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org
-In-Reply-To: <20241105091246.3944946-1-fshao@chromium.org>
-References: <20241105091246.3944946-1-fshao@chromium.org>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add
- mediatek,adsp property
-Message-Id: <173083052155.94172.6768091589461565148.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 18:15:21 +0000
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ David Yang <yangxiaohua@everest-semi.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20241105091910.3984381-1-fshao@chromium.org>
+References: <20241105091910.3984381-1-fshao@chromium.org>
+Subject: Re: [PATCH] ASoC: dt-bindings: everest,es8326: Document interrupt
+ property
+Message-Id: <173083052542.94172.3226642386925576095.b4-ty@kernel.org>
+Date: Tue, 05 Nov 2024 18:15:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,15 +49,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 05 Nov 2024 17:11:36 +0800, Fei Shao wrote:
-> On some MediaTek SoCs, an Audio DSP (ADSP) is integrated as a separate
-> hardware block that leverages Sound Open Firmware (SOF) and provides
-> additional audio functionalities. This hardware is optional, and the
-> audio subsystem will still function normally when it's not present.
+On Tue, 05 Nov 2024 17:18:11 +0800, Fei Shao wrote:
+> The ES8326 audio codec has one interrupt pin for headset detection
+> according to the datasheet. Document that in the binding.
 > 
-> To enable ADSP support, a 'mediatek,adsp' property is required in the
-> sound card node to pass the ADSP phandle. This allows AFE to link to
-> ADSP when the sound card is probed.
+> This fixes dtbs_check error:
+>   'interrupts-extended' does not match any of the regexes:
+>   'pinctrl-[0-9]+'
 > 
 > [...]
 
@@ -69,8 +65,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add mediatek,adsp property
-      commit: ed4bcfbcf45d02fa81c77cff86e914d71c1b3c1f
+[1/1] ASoC: dt-bindings: everest,es8326: Document interrupt property
+      commit: 99348781d249817c8f96a7cbf636b7c6d74bd756
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
