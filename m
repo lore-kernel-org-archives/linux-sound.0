@@ -1,101 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF511EBFF1;
-	Tue,  5 Nov 2024 19:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B27A1E2007
+	for <linux-sound@vger.kernel.org>; Tue,  5 Nov 2024 19:12:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730833652; cv=none; b=A+FYBMfUYjy9QK5Ic68ObVFqXyLqr/1C/Ho2UtLsSLmGPBEUDdWqtG0wbIAxKoMQDIMTnapycJwBggn2Sr5mlWPk2kMDbTN68RaHg0hMTK3wYxq8MsyZgi/3KBljDHegeQhWVCygTmeHP1XOTYOBOHRZTVsksgJ59ExA6o670oQ=
+	t=1730833923; cv=none; b=pDqQBYXxh+MxfBzjZrAcSZDkm9Ps75emhFFmZsWrqE/OJEdexetcME5MSXl1nTbfE8/Wtx5ZG4HhkzaRNFn3++rEt2+kpleKf5wDPXQU5Nv0JkpxSOa3lNKClvfHdahFBtbwECjpJJTCG39tN0QivJ8iZUZxvr7nlriBjAswZH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730833652; c=relaxed/simple;
-	bh=MuK3FRfq7+1ACIOgRDoEQ6BJwiADcCz5WCKT6QfCaw8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hBsbi8rnEIKnlw6YFiph/jqCONib3Mt1sM+1DktnErewWDPp/3USoGpeswoVVzV6XFsf3NA6b8qKF4d8AOt48ppro6OTLGzgZHWS+ReTA5DGoxXUxaP/xnGC+7+WNxv6oauYJoI91DRzuEhP4ri7ygVAOkZCHtE8nO4Bw9A80xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeL6BOTg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730833923; c=relaxed/simple;
+	bh=XsfylNx6cesTvMoFDKWiUIJg/0rM4dntjMromSzAhQI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ABaKDbqhu1nZGlV/UpRIQFCY/D76fhZijDtrDaGo6PegZcxGq4nGhsIzMHSvM3wlQR44gWeNLi9yVNSKHvMWL3O8mWLkVr5xklH07qrtXGG2Y99qyi2mClYWiqVsBVrMd5AM2wj7710l9R8DlN4VY/Bexjw41/Nr3lKrtLRvRm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lELs7dY0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BeL6BOTg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2B7C4CECF;
-	Tue,  5 Nov 2024 19:07:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lELs7dY0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B30BC4CECF;
+	Tue,  5 Nov 2024 19:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730833652;
-	bh=MuK3FRfq7+1ACIOgRDoEQ6BJwiADcCz5WCKT6QfCaw8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BeL6BOTgK/2+/i3Lz/fBWvc6nu4MRRuxl4BKWlsfW4mT0cpIf89Wo8NFC7mCp4bUs
-	 KoAS6Aec3xgeparovH6sXe87MB9GtWbWESwfmT5vbrxljYk0IqaH3T1V9MsEp9nG+R
-	 B/oIZP+2ovIc53EBYsAStI4TbaSjUbGXRccyYq7nBLsklUPEWXXUrL0/Jb8zGEd2Fl
-	 j/xock0QVY1Vb+cPp/JCQUw4iKQZXfYjsxTzf5aR+af7NUnHJMb1LU09yJYEdmWn0p
-	 ijaXowYPXXR4jEzEgBn/FtlkqftprYwdH0Ca11R1K8CxjTUmOiG7/z/e1ilJUiEJws
-	 8dVFSYxoKeyyg==
+	s=k20201202; t=1730833923;
+	bh=XsfylNx6cesTvMoFDKWiUIJg/0rM4dntjMromSzAhQI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lELs7dY0kAGrW99LA2g0moRx9pVJN49w04h5sJxEB6ZWlT6Y0o5f01J9k4hXmPu38
+	 oPVXSrRkdYH7G4lkNy8xFym8dsMwZdEPHZJ4yyKw+kM19E2reQw7fiJSsdrHM1e76P
+	 IQnWFbZFOsrhzEHjuGZ68xoz23G+ndZOioKWYPoSvClFD2crpWAgtwg0Y6OqAb8hcr
+	 D6zuT/wBtEcyyHgqPLYlvLfnrgCadb8sbeBb7T9dwxezbrfQj+hxEyrzYwwX4jhlkE
+	 B3ogKqOVRXWo2Q+j85Zx/KwW+qFFvAdjhoiauQ20l9j8eZ3Kc8+oabMimfnNyxsEok
+	 A9qpnpRJM++UA==
+Date: Tue, 5 Nov 2024 19:11:59 +0000
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
- conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com, 
- pierre-louis.bossart@linux.dev, neil.armstrong@linaro.org, 
- rf@opensource.cirrus.com, arnd@arndb.de, luca.ceresoli@bootlin.com, 
- quic_pkumpatl@quicinc.com, herve.codina@bootlin.com, masahiroy@kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, wangweidong.a@awinic.com
-Cc: yijiangtao@awinic.com
-In-Reply-To: <20241024090324.131731-1-wangweidong.a@awinic.com>
-References: <20241024090324.131731-1-wangweidong.a@awinic.com>
-Subject: Re: [PATCH V2 0/2] ASoC: codecs: Add aw88081 amplifier driver
-Message-Id: <173083364838.105724.16960222397895533638.b4-ty@kernel.org>
-Date: Tue, 05 Nov 2024 19:07:28 +0000
+To: Mingcong Bai <jeffbai@aosc.io>
+Cc: mario.limonciello@amd.com, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14
+ 2022
+Message-ID: <d8234639-0082-474f-94e9-3b7714c13073@sirena.org.uk>
+References: <8bad41b7ddbc8e061f682ecdf00a50e1@aosc.io>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gw86E9ulpVEV4jSR"
+Content-Disposition: inline
+In-Reply-To: <8bad41b7ddbc8e061f682ecdf00a50e1@aosc.io>
+X-Cookie: <doogie> dpkg has bugs?  no way!
 
-On Thu, 24 Oct 2024 17:03:22 +0800, wangweidong.a@awinic.com wrote:
-> Add the awinic,aw88081 property to support the aw88081 chip.
-> 
-> The driver is for amplifiers aw88081 of Awinic Technology
-> Corporation. The awinic AW88081 is an I2S/TDM input,
-> high efficiency digital Smart K audio amplifier
-> 
-> v1 -> v2: Modify the order of properties under the compatible node
->             in the awinic,aw88395.yaml file
->           Modify the commit message of the awinic,aw88395.yaml file
->           Move "struct aw88081" into .c files
->           Changing the order of header files
->           Using return 0 as a function return value
->           Modifying strscpy usage
->           Delete useless variable assignments
->           Modify dev_err_probe usage
-> 
-> [...]
 
-Applied to
+--gw86E9ulpVEV4jSR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Nov 01, 2024 at 12:35:35PM +0800, Mingcong Bai wrote:
+> Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
+> internal microphone to be enabled.
 
-Thanks!
+This doesn't apply against current code, please check and resend.
 
-[1/2] ASoC: dt-bindings: Add schema for "awinic,aw88081"
-      commit: 1d534bfb2b2ecec4e67a1667c67169f7a22e46f5
-[2/2] ASoC: codecs: Add aw88081 amplifier driver
-      commit: aaa73822bbf1912fb50ad21eb770258f7a84c6f7
+Applying: ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
+error: git diff header lacks filename information when removing 1 leading pathname component (line 6)
+error: could not build fake ancestor
+Patch failed at 0001 ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--gw86E9ulpVEV4jSR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+-----BEGIN PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcqbf4ACgkQJNaLcl1U
+h9A7nQf/VXq8WSYcpH8PPVfMvf7EvBphdx81u9YSOAtmacTLVgIOFiycXX59nZt8
+gbZ0dHS5NXv1QEXZCKQrw318XlpVYAmmIdVmTYN3VokTWOG3uhtv4786DhuhFXQn
+RoNVw90/2fRipXMAppFZbsR2r2EaXZBo7Q+SGQfJ1MN7R8MnV9hEWYJOusHiM3IC
+lygip4CNVzHAmvlQTRukJgYmbammRm7/cRD713oJWcen3Nvmv0gkxW1aFRJFIq1/
+3ZZiuaKvMYSUP3SQyuFsTS3uvlrYRe8FTtlL7Kcg5fqOoUyAPQ9lFdOn8rrnq/tN
+wiGHvZ8V7XfL4p6IvwG/rorTLnuZeQ==
+=/WMm
+-----END PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--gw86E9ulpVEV4jSR--
