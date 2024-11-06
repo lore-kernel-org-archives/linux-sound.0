@@ -1,140 +1,184 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3884652F9B
-	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 15:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659AF202F8A;
+	Wed,  6 Nov 2024 15:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730906717; cv=none; b=t/+hvCaY/cEkRJlRd9zwkPeLSy7obOYYWqOXt0gv2XdlFrgXCg/WZ8BIdJSzqlZ66MYW7rNqrjGOwrkZqvipQG8DrtuapAwg+1ccsyi23m0v8rdYSlFtUttCIS7qt96iVFPJkb5nvImtPkqDrFS+cM6qSUzWAf4PF4R2eN7SOIo=
+	t=1730906959; cv=none; b=MvmNWqPzi8xaYbV8suhpUWJoA5nQx+UCIh2M/v8k3BAd0wIQR4UrSnCfwup4FO0y7ePinPRMSrpKCF0SdSHCKdzhrm8xA7jVZdGg1fo3Xgh7hrb/G2G3tR5ZuQpqn3qvYcuhmhvw5nAXj3G2QPdrsQdpqjGVb93ULS01menLoVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730906717; c=relaxed/simple;
-	bh=825fFcUQnPqu974K62Cc6TOzabToD2+pOzemxF4MwRQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d6fQsPVUxNVHtqX+wALVp7fa64XInJniJiBtHjWXJkRu9cShnwYrSACIFI62ciue0sV0k0PxCgv2rNBkURPD/a016nu8LGPv3V9Akms/xWUSzrhE9lqEJZ0ymyN2LCvUwr/5derC+guHnNTnjAF+wpgHtRz/Wpm1PIHRRvrEF7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=eAvksleF; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1730906959; c=relaxed/simple;
+	bh=zj989CJlmIdfkLgwwIuZOhnOoy+Tct/CfqFYGX2PBbs=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hTs7XgEyIvFEtikUe8Ww3AKQQJxE+A8Ae6xjdyRiLNjTKm8yQZhlWNjEXIs2+AiV78MrQQIyj3BcaK7CHAUL3PlSI8MASjf/PBWzLRES8Qj2E8QDjZE0Nrf+6O5jFz9SKqbcy4MZauERzutKpzH8++03MO2zxzveZMVJ3w3SJbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=srEb3s2i; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eAvksleF"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a68480164so1022792366b.3
-        for <linux-sound@vger.kernel.org>; Wed, 06 Nov 2024 07:25:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730906714; x=1731511514; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dpz0KPFgwBV81mrLK+Jjg94JN4iKvNSkamb0eOPZLK4=;
-        b=eAvksleF7W+C+ALDEBsiL1juBKu4OBb8yTa1Uos7IDPpjRzWA0CZkV4wDVvq2ubycU
-         Ft1338HVt9x6/xBsWOh11mGoRQcs4Q3Humzxpd321W1ydp6fNVCBzXNlpEl7wMCHqJ3v
-         M15fNINekBH6k/t+HanQpJNZVzIp18KAnAx0A0se/8nx5S1PrDd1cBWaIWSyn6JoAH6+
-         2x2vii6jgBe1SbVnAFVbI8SsHMtqm8Tz1RV8oa/4Akr/n0hp0RUF80+nXI+uHREaCZsK
-         8DFEWbUeyS60OtSybjOw2o11rgdamI52QSDgm31ETdpHr+4R5TL3TAdQ9YNjgUzllLRd
-         yUWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730906714; x=1731511514;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dpz0KPFgwBV81mrLK+Jjg94JN4iKvNSkamb0eOPZLK4=;
-        b=qlDGbeRggGsC8UxEqJa7YAaRea/SiVNo0cTmYYM3BzuO2FTd6M84hH6+cWqmXEAM07
-         sSCosAZeLI2AE87/4v0gP9XmgMwWLWFqn5ljXYL0yW7i1dJLzD0zmy+/ZpyeA0RKCVJO
-         oLoBqKaXN9OLICrVHCjhlFYFFgrfcyLRb1+KSmvKflo2RnJGc/+cZZymJufGRa2gqvRz
-         qzxJgzh8H4s3a6MlgpSAaZ39sya1w2UPUIa6vbe3+5db4RJhAJ5x+jhjGy4wj1NQD1ft
-         NBkTqj9xaXMngHSNSsWpeYBvspnUuTxsIsHDehagSDf/G7IphdjPz99uRBSjhKU0+Tjk
-         4/CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVHG80wqD19A+iCZ1umRDuEg/WK3bDnW1ej9rA9qJm3PLOy3og06yklcFAJnoAyyfzqxPrX9zNB7i/DA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDbLdRQoO8C+LfdjXqypxVAJRlEgdSKkBeSf6woc76AnvmDYUl
-	PLCk7hEZuZEoCxiX3s66JwVO0rWItWrfmjtdN3HsV3iUfvaNCmhL5KlxD7Ntnmk=
-X-Google-Smtp-Source: AGHT+IGCsBt4YImQ9v/cxMm8F2bd0t7nztI/dFwfKLybyOThX/4Zc2NTUaw9MVXNyjcZDUzvlEvVaQ==
-X-Received: by 2002:a17:907:1a4e:b0:a9a:2523:b4ce with SMTP id a640c23a62f3a-a9de5c91985mr2353019666b.6.1730906713378;
-        Wed, 06 Nov 2024 07:25:13 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb1814086sm294320366b.193.2024.11.06.07.25.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 07:25:12 -0800 (PST)
-Message-ID: <5f524886-7479-44d7-b94f-21207c5a9ff9@tuxon.dev>
-Date: Wed, 6 Nov 2024 17:25:09 +0200
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="srEb3s2i"
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6B4fQS016086;
+	Wed, 6 Nov 2024 16:28:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	6v690GD1bQoY7uAmDqlHHIVXU8KeGeFlzk0ZkeLKKY8=; b=srEb3s2iU8rQBYHd
+	x5/+cPGt89UP8l6ajUXOm1j2Jyfr9WR6Pa+09jc7KcO7wl6Lsvk5p8eHq/78isSK
+	R4/+9Wla7GbRiR9qKTecn9EJxbkHsqKUhyiCF5PqTIE6E7o0BXUsL0lFxYSy7JX8
+	a9RXi1lM3tr8GXoch8Gw3dmfwEBZj4KR48NdHWgfkCJjxf6BE9JkW/zpvj5/+wuJ
+	ZppFlAhnpRTmi/RpgLcMjudMB7HfsCL0iE7DWty41G1hHjiZdwYzAoLiyklZBv0m
+	IrDTTpXYEYdviFrJUauTjTGKyH0VlXmPngw1sxd0aXLqZDgJZKymhsFbsgeDnF8B
+	One9Ig==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42nywnfar5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 06 Nov 2024 16:28:47 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 87C2E40045;
+	Wed,  6 Nov 2024 16:27:33 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 821392656DF;
+	Wed,  6 Nov 2024 16:25:35 +0100 (CET)
+Received: from localhost (10.252.15.15) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 6 Nov
+ 2024 16:25:35 +0100
+From: Olivier Moysan <olivier.moysan@foss.st.com>
+To: Olivier Moysan <olivier.moysan@foss.st.com>,
+        Arnaud Pouliquen
+	<arnaud.pouliquen@foss.st.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue
+	<alexandre.torgue@foss.st.com>
+CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/2] ASoC: dt-bindings: add stm32mp25 support for i2s
+Date: Wed, 6 Nov 2024 16:25:27 +0100
+Message-ID: <20241106152528.939232-2-olivier.moysan@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241106152528.939232-1-olivier.moysan@foss.st.com>
+References: <20241106152528.939232-1-olivier.moysan@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/31] ASoC: sh: rz-ssi: Use a proper bitmask for clear
- bits
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
- broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org,
- support.opensource@diasemi.com, perex@perex.cz, tiwai@suse.com,
- p.zabel@pengutronix.de, Adam.Thomson.Opensource@diasemi.com,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
- <20241106081826.1211088-13-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWxmoUQSSnAVdqhpTQJYvUCJTL0EZbdKmLLhFWi8UCGkg@mail.gmail.com>
- <4e233ebe-b0e1-4b37-9063-bdbeb5980b13@tuxon.dev>
- <CAMuHMdVrKoyRuaa=jtZ5SJ3OX8ytGyN_jwv2uKX2ohGpg6yiuA@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdVrKoyRuaa=jtZ5SJ3OX8ytGyN_jwv2uKX2ohGpg6yiuA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
+Add STM32MP25 support for STM32 I2S peripheral,
+through "st,stm32mp25-i2s" compatible.
 
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+---
+ .../bindings/sound/st,stm32-i2s.yaml          | 60 +++++++++++++++----
+ 1 file changed, 47 insertions(+), 13 deletions(-)
 
-On 06.11.2024 17:21, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Wed, Nov 6, 2024 at 4:17 PM Claudiu Beznea <claudiu.beznea@tuxon.dev> wrote:
->> On 06.11.2024 16:56, Geert Uytterhoeven wrote:
->>> On Wed, Nov 6, 2024 at 9:19 AM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>>
->>>> While it is still correct to pass zero as the bit-clear mask it may be
->>>> confusing. For this, use a proper bitmask for clear bits.
->>>>
->>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>>
->>> Thanks for your patch!
->>>
->>>> --- a/sound/soc/renesas/rz-ssi.c
->>>> +++ b/sound/soc/renesas/rz-ssi.c
->>>> @@ -331,7 +331,7 @@ static void rz_ssi_set_idle(struct rz_ssi_priv *ssi)
->>>>                 dev_info(ssi->dev, "timeout waiting for SSI idle\n");
->>>>
->>>>         /* Hold FIFOs in reset */
->>>> -       rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_FIFO_RST);
->>>> +       rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_FIFO_RST, SSIFCR_FIFO_RST);
->>>
->>> But you're not clearing SSIFCR_FIFO_RST, you're setting it?
->>
->> The bits should be set to reset the FIFOs.
->>
->> By "Use a proper bitmask for clear bits" phrase in the patch title or
->> description I was referring at the 3rd argument of the
->> rz_ssi_reg_mask_setl() function, which has the following prototype:
->>
->> static void rz_ssi_reg_mask_setl(struct rz_ssi_priv *priv, uint reg,
->>
->>                                  u32 bclr, u32 bset)
->>
->>
->> Would you prefer to rephrase it in the next version?
-> 
-> The idea behind such functions is to pass a bitmask representing the
-> bits to be cleared to "bclr", and a bitmask representing the bits
-> to be set to "bset".  In this case, you do not want to clear any bits,
-> so the "bclr" parameter should be zero, and the original code is fine.
+diff --git a/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml b/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
+index 8978f6bd63e5..8f08f1f28a1b 100644
+--- a/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/st,stm32-i2s.yaml
+@@ -13,13 +13,11 @@ description:
+   The SPI/I2S block supports I2S/PCM protocols when configured on I2S mode.
+   Only some SPI instances support I2S.
+ 
+-allOf:
+-  - $ref: dai-common.yaml#
+-
+ properties:
+   compatible:
+     enum:
+       - st,stm32h7-i2s
++      - st,stm32mp25-i2s
+ 
+   "#sound-dai-cells":
+     const: 0
+@@ -28,18 +26,12 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    items:
+-      - description: clock feeding the peripheral bus interface.
+-      - description: clock feeding the internal clock generator.
+-      - description: I2S parent clock for sampling rates multiple of 8kHz.
+-      - description: I2S parent clock for sampling rates multiple of 11.025kHz.
++    minItems: 2
++    maxItems: 4
+ 
+   clock-names:
+-    items:
+-      - const: pclk
+-      - const: i2sclk
+-      - const: x8k
+-      - const: x11k
++    minItems: 2
++    maxItems: 4
+ 
+   interrupts:
+     maxItems: 1
+@@ -79,6 +71,48 @@ required:
+   - dmas
+   - dma-names
+ 
++allOf:
++  - $ref: dai-common.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: st,stm32h7-i2s
++
++    then:
++      properties:
++        clocks:
++          items:
++            - description: clock feeding the peripheral bus interface.
++            - description: clock feeding the internal clock generator.
++            - description: I2S parent clock for sampling rates multiple of 8kHz.
++            - description: I2S parent clock for sampling rates multiple of 11.025kHz.
++
++        clock-names:
++          items:
++            - const: pclk
++            - const: i2sclk
++            - const: x8k
++            - const: x11k
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: st,stm32mp25-i2s
++
++    then:
++      properties:
++        clocks:
++          items:
++            - description: clock feeding the peripheral bus interface.
++            - description: clock feeding the internal clock generator.
++
++        clock-names:
++          items:
++            - const: pclk
++            - const: i2sclk
++
+ unevaluatedProperties: false
+ 
+ examples:
+-- 
+2.25.1
 
-OK, I'll will drop this patch.
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
