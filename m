@@ -1,39 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B911D4333;
-	Wed,  6 Nov 2024 02:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2376217672;
+	Wed,  6 Nov 2024 02:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730859224; cv=none; b=Jv8MatwnJ3ovcY1U2fMKyeVF9PY+8eRehZ0CAZnIZNFrlflLBDsNMGtSNqOOpwo8w832X4v7NIUjMpi/QFWI1gyE8H3HnkLq0hkCv+KzhUxy4aLUwAEE8Hni66HPd9yDiUTUj2fX8dyLt5DI12yo7Q/5nPI0oeT4NYh9JfdMQAs=
+	t=1730859245; cv=none; b=r8f26KvjhgUOzCtwDku7wwyIq6s59KlUu5phE5Nk1i8Vt36OWir/7a/uVHSLXhIU8tJiMId5qj6YzLdGj6vKQA9a6iac6yjm/vZRqGvY+aHyVK6QOv5MEYdF9bNoM0NVQoCXXTmwGvwApl17+7eet76al+Ak9lyvcrPNFX8LnUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730859224; c=relaxed/simple;
-	bh=fvlNTyDTP3UD755VShR9WxYxXdttjUDV+RDgu8Agd4M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HPu3wwegEBn0jixODr9Oi8yuZM+JC4ZVmEHIchEADPH2OitFDVLZQ3vAEZSfzshcscVSSv7LOEcZm1XbsAQMD32xvlvoRw6MOJhAVpDf1zGTGARhS7GtnNun9+2Ne6ydQL+0SVRbKCLBcsDvejCVZYHJUio4Jk58vhBUq77ik98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqxYXinI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730859245; c=relaxed/simple;
+	bh=awAMHUsjXU/AB9Oyd2ktBDh7vHPbVZBObDDy9zLfnNI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P1G2MpefzcIZVPzMtZKNJ4UZz3txIpRflSM1CDiUHJKlDLqqTYBM9zZxn70Nm9QUvOeTIM4FHjwPbC8RrCMIMgfpRq4op/u7u3qM/TPVs2PAPitcgEiWRcco4BGCCBUVZW/9qM2URU1UrPza13csz2SuzFENEnw/ytqOj47sJbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gy/rJP+S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqxYXinI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5CB6C4CECF;
-	Wed,  6 Nov 2024 02:13:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gy/rJP+S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ECEDC4CECF;
+	Wed,  6 Nov 2024 02:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730859224;
-	bh=fvlNTyDTP3UD755VShR9WxYxXdttjUDV+RDgu8Agd4M=;
+	s=k20201202; t=1730859245;
+	bh=awAMHUsjXU/AB9Oyd2ktBDh7vHPbVZBObDDy9zLfnNI=;
 	h=From:To:Cc:Subject:Date:From;
-	b=mqxYXinIrs31/f9PqWpN4fwBSVdcFY7qjtQvzgHlQjMb7Y+0YUfyaQG2iTIY4QcXE
-	 fFxw47OVcunVWQ8WgzAXqU+N8a0OO4IMbctX1ETzEa1dcudcIo+Chtia1XDf1qssBz
-	 +WqyREiGUfrGXVx9j+jOopDT+mwptCHQuqKfplsAWg1feNpKZPHBCxYP6bwi79uPvo
-	 b0N7xr8W6kBj/STbFAecEz2yw/hlu1w36gqLiIfOzo58botR5aaBTcs86cX0/q88VD
-	 0sXGLSmNJl4kIyxHHqYHIiYVng3DuCXpsNYNRmB1wSrCioqFG57XIRgQcZCqaumedX
-	 OLYHHWBA5OLwA==
+	b=gy/rJP+SLvhzaJ6V7H/fLfHeWIA1OIZ01DpWTI4lEMWUJRwr1XRx/j48ozB441rPx
+	 F7YWOlzOqGRDwHCU67O8wc+yemrYdpoOoZW3Q1avX/svXTH9H1RovwkdWySHuJYDWL
+	 oj1Z5wa+TrVai95kqwYPdKbjuFowmQ5eFPLPpCyMnKYG3b2TPUtChUV9nxrRsT6g1p
+	 6/+PL7QU/RSxDB/JT8JAYU7qyVetiGdazIZUDoIPiTivheKptIRb6xlm/mw5g41P09
+	 /NNNQr4PAvz6F9uyI8tZKdVVpaIj00He2dogL47DWTHxtMBLq+BQra69Z8zmvgA+tp
+	 idCvF+pzcR+PQ==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	kailang@realtek.com
-Cc: Takashi Iwai <tiwai@suse.de>,
+	cs@tuxedo.de
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/realtek: Limit internal Mic boost on Dell platform" failed to apply to v5.4-stable tree
-Date: Tue,  5 Nov 2024 21:13:40 -0500
-Message-ID: <20241106021340.183765-1-sashal@kernel.org>
+Subject: FAILED: Patch "ALSA: hda/realtek: Fix headset mic on TUXEDO Gemini 17 Gen3" failed to apply to v5.4-stable tree
+Date: Tue,  5 Nov 2024 21:14:02 -0500
+Message-ID: <20241106021402.183999-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -55,95 +56,34 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From 78e7be018784934081afec77f96d49a2483f9188 Mon Sep 17 00:00:00 2001
-From: Kailang Yang <kailang@realtek.com>
-Date: Fri, 18 Oct 2024 13:53:24 +0800
-Subject: [PATCH] ALSA: hda/realtek: Limit internal Mic boost on Dell platform
+From 0b04fbe886b4274c8e5855011233aaa69fec6e75 Mon Sep 17 00:00:00 2001
+From: Christoffer Sandberg <cs@tuxedo.de>
+Date: Tue, 29 Oct 2024 16:16:52 +0100
+Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on TUXEDO Gemini 17 Gen3
 
-Dell want to limit internal Mic boost on all Dell platform.
+Quirk is needed to enable headset microphone on missing pin 0x19.
 
-Signed-off-by: Kailang Yang <kailang@realtek.com>
+Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/561fc5f5eff04b6cbd79ed173cd1c1db@realtek.com
+Link: https://patch.msgid.link/20241029151653.80726-1-wse@tuxedocomputers.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/hda/patch_realtek.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 3567b14b52b7c..784ac058418fc 100644
+index 7f4926194e50f..e06a6fdc0bab7 100644
 --- a/sound/pci/hda/patch_realtek.c
 +++ b/sound/pci/hda/patch_realtek.c
-@@ -7521,6 +7521,7 @@ enum {
- 	ALC286_FIXUP_SONY_MIC_NO_PRESENCE,
- 	ALC269_FIXUP_PINCFG_NO_HP_TO_LINEOUT,
- 	ALC269_FIXUP_DELL1_MIC_NO_PRESENCE,
-+	ALC269_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
- 	ALC269_FIXUP_DELL2_MIC_NO_PRESENCE,
- 	ALC269_FIXUP_DELL3_MIC_NO_PRESENCE,
- 	ALC269_FIXUP_DELL4_MIC_NO_PRESENCE,
-@@ -7555,6 +7556,7 @@ enum {
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
-+	ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
- 	ALC255_FIXUP_DELL2_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_HEADSET_MODE,
- 	ALC255_FIXUP_HEADSET_MODE_NO_HP_MIC,
-@@ -8114,6 +8116,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_HEADSET_MODE
- 	},
-+	[ALC269_FIXUP_DELL1_LIMIT_INT_MIC_BOOST] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc269_fixup_limit_int_mic_boost,
-+		.chained = true,
-+		.chain_id = ALC269_FIXUP_DELL1_MIC_NO_PRESENCE
-+	},
- 	[ALC269_FIXUP_DELL2_MIC_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -8394,6 +8402,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC255_FIXUP_HEADSET_MODE
- 	},
-+	[ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc269_fixup_limit_int_mic_boost,
-+		.chained = true,
-+		.chain_id = ALC255_FIXUP_DELL1_MIC_NO_PRESENCE
-+	},
- 	[ALC255_FIXUP_DELL2_MIC_NO_PRESENCE] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -11076,6 +11090,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC269_FIXUP_DELL2_MIC_NO_PRESENCE, .name = "dell-headset-dock"},
- 	{.id = ALC269_FIXUP_DELL3_MIC_NO_PRESENCE, .name = "dell-headset3"},
- 	{.id = ALC269_FIXUP_DELL4_MIC_NO_PRESENCE, .name = "dell-headset4"},
-+	{.id = ALC269_FIXUP_DELL4_MIC_NO_PRESENCE_QUIET, .name = "dell-headset4-quiet"},
- 	{.id = ALC283_FIXUP_CHROME_BOOK, .name = "alc283-dac-wcaps"},
- 	{.id = ALC283_FIXUP_SENSE_COMBO_JACK, .name = "alc283-sense-combo"},
- 	{.id = ALC292_FIXUP_TPT440_DOCK, .name = "tpt440-dock"},
-@@ -11630,16 +11645,16 @@ static const struct snd_hda_pin_quirk alc269_fallback_pin_fixup_tbl[] = {
- 	SND_HDA_PIN_QUIRK(0x10ec0289, 0x1028, "Dell", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE,
- 		{0x19, 0x40000000},
- 		{0x1b, 0x40000000}),
--	SND_HDA_PIN_QUIRK(0x10ec0295, 0x1028, "Dell", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE,
-+	SND_HDA_PIN_QUIRK(0x10ec0295, 0x1028, "Dell", ALC269_FIXUP_DELL4_MIC_NO_PRESENCE_QUIET,
- 		{0x19, 0x40000000},
- 		{0x1b, 0x40000000}),
- 	SND_HDA_PIN_QUIRK(0x10ec0256, 0x1028, "Dell", ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
- 		{0x19, 0x40000000},
- 		{0x1a, 0x40000000}),
--	SND_HDA_PIN_QUIRK(0x10ec0236, 0x1028, "Dell", ALC255_FIXUP_DELL1_MIC_NO_PRESENCE,
-+	SND_HDA_PIN_QUIRK(0x10ec0236, 0x1028, "Dell", ALC255_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
- 		{0x19, 0x40000000},
- 		{0x1a, 0x40000000}),
--	SND_HDA_PIN_QUIRK(0x10ec0274, 0x1028, "Dell", ALC274_FIXUP_DELL_AIO_LINEOUT_VERB,
-+	SND_HDA_PIN_QUIRK(0x10ec0274, 0x1028, "Dell", ALC269_FIXUP_DELL1_LIMIT_INT_MIC_BOOST,
- 		{0x19, 0x40000000},
- 		{0x1a, 0x40000000}),
- 	SND_HDA_PIN_QUIRK(0x10ec0256, 0x1043, "ASUS", ALC2XX_FIXUP_HEADSET_MIC,
+@@ -10750,6 +10750,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1558, 0x1404, "Clevo N150CU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x14a1, "Clevo L141MU", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x2624, "Clevo L240TU", ALC256_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1558, 0x28c1, "Clevo V370VND", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1558, 0x4018, "Clevo NV40M[BE]", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x4019, "Clevo NV40MZ", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1558, 0x4020, "Clevo NV40MB", ALC293_FIXUP_SYSTEM76_MIC_NO_PRESENCE),
 -- 
 2.43.0
 
