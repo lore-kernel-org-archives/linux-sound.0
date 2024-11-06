@@ -1,47 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A651D63DF;
-	Wed,  6 Nov 2024 14:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71C317DFF2;
+	Wed,  6 Nov 2024 14:10:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730901926; cv=none; b=JRcVD4yx3yztrrmc5x7JvY8/n2TMKCbyOgIWDHc4H3sdse1VJGPkmvkvekoVzQ74ee2BV8/6Vc2fIzH8N/dtGHUkqBKNXlVdqdL6ttDrMTeVmyOetHss4etnucymUQSaTl/4qZYu65ZRF5WbUfXRLOS2VrXq0UK5LJSQX1k9AXg=
+	t=1730902256; cv=none; b=PcAAT29ytNFDKTC1s+j31EqdE3U7+lIyxymxJouS/dm1BkRfnRpdjKnE862Psx8TY84Rp67wcM+Eo2mpCJWAgiZeDc6HH6P2OcdrxI5olbDmX5FtjMz8i41jee0WW/RUsgWWNe3d9YPvKxdnsG5relsxTy96EVivqay/MDhroSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730901926; c=relaxed/simple;
-	bh=j1W9k4oVkIQL68KFIkXY480BVKIr5DP71SiPlfPiec0=;
+	s=arc-20240116; t=1730902256; c=relaxed/simple;
+	bh=PUuS0tCe3CTdgQYCNE9gH0S9LxjXaMV04akfmdLt1xs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tza8rqh9eUPZFcAJYTuJp5GlAzxa9P1wwaY3aK+AYgxmcWB641VLw6ipZbs8WBR8WCdtKWG9DNdP1IMVaBX/It1ivhBAR5ttcLM2J4ZvKltcmkZPTopZotyg2rO+F/+2SEbz2qse54jNORSAMT6wN6y8bN7wxIt55jlllNK84Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGC5ALmY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Juhh59djhrGRvaCu7klXHOeIxtRP6fs92UdG5xKEoGbj5jdUJp8eWdRoP4b3MBHl+CCh72NUTkjGYhO5saKUBZpKIF5jDAvHf3M9IkzTM/DeskCT7ohdpmiX84CxlEC895SxzFgdwD7u4v7QPEBqfG982faXTTqVWAUfx93ZSdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QxbH4Fy1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGC5ALmY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3D01C4CECD;
-	Wed,  6 Nov 2024 14:05:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QxbH4Fy1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DEB8C4CEC6;
+	Wed,  6 Nov 2024 14:10:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730901926;
-	bh=j1W9k4oVkIQL68KFIkXY480BVKIr5DP71SiPlfPiec0=;
+	s=k20201202; t=1730902256;
+	bh=PUuS0tCe3CTdgQYCNE9gH0S9LxjXaMV04akfmdLt1xs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WGC5ALmYPQWR5iJ2S0XpFdPr7MjA8d8poSP2BqJbGh/BYlBL54G/wFDKbktAYTLfY
-	 r9fIDGuk73SjSSUaXu3ir5NPlwkCnXyzZjLy5enuQm1qK6GemkA+PjQzx4w53VY8A7
-	 lxMjqzUS+UQtIi1DwGkbt/b+WsgDcLro+ATkj9tkzCxYpol6WBsd8uUq3b28PkiFLx
-	 7OppV9IBsVa3SUGRvk3b0hBMFReSK4o8fLx+9dflAw2UAiFP5oHBuBJFo3oUAuggUS
-	 u/4/o760lT0O7ZWQ3r3hL+9SdV7fp0TDF44aWJozT5stfWXU5//2yGwxjzIDxSQehh
-	 d3vRdyBCgpxUQ==
-Date: Wed, 6 Nov 2024 14:05:21 +0000
+	b=QxbH4Fy1pHJGyPJ41m5e8emEMCv+1P3lPgpD4yb/wjS3uXFcz2crCkvWANABOzvOc
+	 rbfJddnBnRCOl/q4LDwWwi+nGY84IESfg58bpVcdy8SJSDNF/vqR0NBdgqZXYpbC4N
+	 ymryP4ePwsJjTPSxDxLtXyof+w9HgOIcIUzZGX03UPDpBMhPM1M8yxpEaxir2KUAFB
+	 077dGpmyQjttR0Uc5S7ehZPPGeET2YLNVl7LmaGSLIZaocltrG+VGv4LOXtVeeBCN8
+	 BGRquysPKdlW2R+IhbHurjwXdehrmqqKOXo2MUl8vds4Ojo6ts7U23D/7rNlcr8/xH
+	 QiFvgSp1TSqKA==
+Date: Wed, 6 Nov 2024 14:10:49 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kiseok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v4 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
- initial DT
-Message-ID: <092cfb04-378f-4997-88e0-35c247b8c445@sirena.org.uk>
-References: <20241106005800.7520-1-kiseok.jo@irondevice.com>
- <20241106005800.7520-2-kiseok.jo@irondevice.com>
- <kspk7qajv7r5glbcawmecbup36cv4wi3hjrgyfyyejjectwwt5@u5nx5y5zirsa>
+To: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+Cc: alsa-devel@alsa-project.org, Vijendar.Mukunda@amd.com,
+	Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+	syed.sabakareem@amd.com,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	"moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: SOF: amd: Fix for incorrect DMA ch status register
+ offset
+Message-ID: <5e1f7675-1f64-4078-a923-ee51945f3c03@sirena.org.uk>
+References: <20241106101455.1229113-1-venkataprasad.potturu@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,40 +56,39 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="x/ijW8mKOHC/k6vi"
+	protocol="application/pgp-signature"; boundary="sV4lFD4NC59+GAjz"
 Content-Disposition: inline
-In-Reply-To: <kspk7qajv7r5glbcawmecbup36cv4wi3hjrgyfyyejjectwwt5@u5nx5y5zirsa>
-X-Cookie: Include me out.
+In-Reply-To: <20241106101455.1229113-1-venkataprasad.potturu@amd.com>
+X-Cookie: Polymer physicists are into chains.
 
 
---x/ijW8mKOHC/k6vi
+--sV4lFD4NC59+GAjz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 06, 2024 at 02:55:21PM +0100, Krzysztof Kozlowski wrote:
-> On Wed, Nov 06, 2024 at 09:57:59AM +0900, Kiseok Jo wrote:
-> > This adds the schema binding for the Iron Device SMA1307 Amp
+On Wed, Nov 06, 2024 at 03:44:53PM +0530, Venkata Prasad Potturu wrote:
 
-> That's a v5. RESEND means you send exactly the same or the same plus
-> tags.
+> Update correct register offset for DMA ch status register.
+>=20
+> Fixes: bff3c2a4062d ("ASoC: SOF: amd: add support for acp7.0 based platfo=
+rm")
 
-No, this is actually a resend - he's resending the v4 that you replied
-to just before this one which was sent with mangled subject lines and
-missing changelogs.
+I can't seem to find this commit.
 
---x/ijW8mKOHC/k6vi
+--sV4lFD4NC59+GAjz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcrd6AACgkQJNaLcl1U
-h9A9EQf+IMZncqsxypZL+DNHZLVibRmnJzwUQ3E0MWBrX1jUxeu1XYC1FYLY8oez
-t1TYTsBkYw+dbZt1Ia7M3PkEAo4KxcAY/nFr/wUjWt7RYRpNUEi1Fcp8qNCRumnx
-yPpanG1xxPgDx0hJ9/lQo3x781dcEOjy2wZQjyxYiiJdhSNFbXxpxSVoScG9xhXo
-1MZisRDS2wUEqORD3E+ejcDr9Sc6fnEr0fshHzfK5dlReGjDAjMw5sTfd7ww73mU
-IC63KnNvtjMSJEdLlTSYZRH7L/Hx4cgDE5JYDrAWCgybiba9MxwDPolhGNIw42Eu
-1ibvbAhNnALQEVMv61Nyke46/X60uw==
-=C9SO
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcreOgACgkQJNaLcl1U
+h9BORAf9GKqaFL4aeOlaQ2Hl3x4DbSrO+YV7ljPwZhaeL2BwWMAEOWd8YkiWOa03
+XsQKgPIWJZu97/1/I1O8FOMRrh0o7Kgea8wz7LO8QgsoH1c2e0Uxzqh9ZZvEKyHn
+wlTX+Ulan8s9IKID24TuaT2Ba++7ce0qTM54+eR5gw0xNpgBMJ6YgnRG0NoCKodz
+rg701vF7M339+wo5ylJ+KKXq4hgOr1pxMmAktHDmuPPIi7ZoqO9qmoj/g8qo6Rk1
+xKU6GEdLJLxBO3xioi5lXv69u0GDawFqoBOTc/4liixQ4o2k3Lkx3qVBdAttWeIF
+eUuGNr/6hiV4EsZN2j6sL232T6ikTg==
+=OyQE
 -----END PGP SIGNATURE-----
 
---x/ijW8mKOHC/k6vi--
+--sV4lFD4NC59+GAjz--
