@@ -1,194 +1,116 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2083.outbound.protection.outlook.com [40.107.236.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA821D63DF;
-	Wed,  6 Nov 2024 14:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730903230; cv=fail; b=jVrJ6ZMStUmL2qw59WhbVupcl3jNBtdc6XfJrq42hMuF3utAfRYBL0I68LlDLZ8D2Md3zZ0Ez6fUplG+fW6tGJSwEoJlq6MSOBVW4CU65XjNBz03eaDf6awFV4cDlPTLR17iTiaJU/5byxlIU14WkPCoTVhzFX/8Pm0nBQWeO8k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730903230; c=relaxed/simple;
-	bh=rQb/lEkyT8t2jzs+4nhQ2oQ4IlLLymf4tlCZipi0Htw=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SmN5FmkjyjgC2IrHcgQEdmaASvRvr/spwL85IfTXYC7Rij4bXicrSIQgjgKo5iRxX54lbTXd1zrHsAIQg4oYvu4E0tZVYnyTfHLHo7mCgI0M887geF1huAUvU2dnqICKU78sXFn2JpGqfeeA30ULk6NUkkPoJGtaqwdLQifBgNY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pQUBh47+; arc=fail smtp.client-ip=40.107.236.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pQUBh47+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TVjRN7csm08ZGhq8tWWyD0MqQGUKOdhYnqVJfhyrNQElHz8O5u4W3Cjj1edi8CLVlSxz6Aq4A3W2C8FHLjE3gQczxU6nlOCxjUG7o6dEqKm4JKf/Jt7QxDmU2z2aMOt+5BFh7B8aja3We5Jaat5tW+c7ziR1/exUGvD9NjMY1NZCxpRytOvs53/8YBV9jPtY45G5Bo00hIVfFwmLOAkp0wxrciq6T7cUJo2P1O/3LECqKz7sR6DRfxvYhZyQli3huTlIQ9wBP+CcwQ0CaoJkxucysYMgs9Va3OxouQPos7xvjw2nRYSFfmKRNmN8zTOjPFAOxx5n051BMf9rQ+arjw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0j1MYDaMi27ZIf/xv0npjukaGFPibNi1rznTQeBNTIM=;
- b=hNg00MB/SkObKeukMdvSWepsnIw/rYW1SfyA5Q/GtfUU+zmHUKFNxqfBv9u5EJuCAmQkPtDa/mGyOGqWbzurzcKCPZK4af87mbtudYKKc9+cMFoCmVOx92EnpQf1ezzozczsBuANUhw4WM7xDSfYeYxkXlXrCVIWS68TV3C8cAt9yXiuuNe8bBGeaMLO6pksfrcZVrmT7XsNPxJB6Y1Uo9JlL/igDUS5d5Eq555lHqEx7yHN3xA2D/DNFVU6jYUxiEM3KODZhDv+vwK0PNsNCVS8VGiirO9rbY9XuxtB73VKH2yj/VRgGF03zN8bZniHF4nUdn8logeB+AoPHFrNTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0j1MYDaMi27ZIf/xv0npjukaGFPibNi1rznTQeBNTIM=;
- b=pQUBh47+xytYPoEJmalkdLa3/WdLDFFXy65FkouOSPIzZyE3LqAjku+tcb8U1n3UI17HmXae0EPTdrpK93tQxmXUey5SDz6uRmAYtXWjulPBwzY4FqqXarT/qwLGgifgKg2do439gdY1fhONvNEecR5Q40rZRVjY8xF/ql2CHvs=
-Received: from DM6PR11CA0048.namprd11.prod.outlook.com (2603:10b6:5:14c::25)
- by MW4PR12MB7143.namprd12.prod.outlook.com (2603:10b6:303:222::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Wed, 6 Nov
- 2024 14:27:05 +0000
-Received: from DS3PEPF000099D4.namprd04.prod.outlook.com
- (2603:10b6:5:14c:cafe::8c) by DM6PR11CA0048.outlook.office365.com
- (2603:10b6:5:14c::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30 via Frontend
- Transport; Wed, 6 Nov 2024 14:27:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS3PEPF000099D4.mail.protection.outlook.com (10.167.17.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8137.17 via Frontend Transport; Wed, 6 Nov 2024 14:27:05 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 6 Nov
- 2024 08:27:04 -0600
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 6 Nov
- 2024 08:27:04 -0600
-Received: from prasad-lnx-mach.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 6 Nov 2024 08:26:59 -0600
-From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
-CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>, "Venkata Prasad
- Potturu" <venkataprasad.potturu@amd.com>, Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.intel.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Bard Liao
-	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
-	<ranjani.sridharan@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, Jaroslav Kysela
-	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Cristian Ciocaltea
-	<cristian.ciocaltea@collabora.com>, Emil Velikov
-	<emil.velikov@collabora.com>, "moderated list:SOUND - SOUND OPEN FIRMWARE
- (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, "open list:SOUND - SOC
- LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, "open
- list" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] ASoC: SOF: amd: Fix for incorrect DMA ch status register offset
-Date: Wed, 6 Nov 2024 19:56:57 +0530
-Message-ID: <20241106142658.1240929-1-venkataprasad.potturu@amd.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8009185B54;
+	Wed,  6 Nov 2024 14:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730905026; cv=none; b=pLBkbEgKVYRfz/1sh2tADQ19YBcj5IjuadqBuA3lULQVZ4EU3oD6N+7MUMdcHSahfDqL/QT/ZMLKfaz5w+u1DMPFiZugAc2Bz0leCtKAVGE7uNXGLz1xMfGPKa9zQrOTKsZYsewwUpTT1NDy842Pl4bqAcWR2RDDOGB3eNofAZ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730905026; c=relaxed/simple;
+	bh=jpohf7BcyhQkTMNu3yh6QMrbC/g8TqQoMKpzGsMPnZU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kv0Pcy1cKY2NptDM/CgTHFk5a2h/cbzKuSlkizdhFGqkTLY/y16soXqSTzDzLPS1WPwlLQalKQhluVkc6RnZGEbT1JJ53nUG32s+oJ1mUJCoTkFJGfsnrGxnlxc5zFSv1aQoDbFhZ2L+E4S4bPIVEl5YHX/4/GU00C6pv3/wxJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e29687f4cc6so5597124276.2;
+        Wed, 06 Nov 2024 06:57:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730905022; x=1731509822;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RbfgXHF/M5lJdXsELqbeNc9f4r5op8eDODQ6Its35/4=;
+        b=nc6tBtCmtFdY80gWVTvnxHqAWRAur52UuA1XYhw+Mr7cvbnoD4O2azs6jDU95y4xSq
+         Fq+pwDVqvyI7oHygGuvgbZsYzynIIHL0k/8VKu7sJtnoYozwhxyOS890E1egWkwXcVlm
+         sB35rXFke/Txc7KPcVgb5AK2YvlGQdeJfVK6pMp/21iESm8bX+NImHv1ts/qy2ukRHQD
+         YSe5MeMCwyZOo4mZP9Ub2LpDOsP+Bmytm93ZG8MluIKeWGRKba7TqhW052p+yRoj0xCO
+         KxHU8m/+6+dLXXsxRjtE0nu+2sSgBOMG/65+gaGHThrNyTJW2/5iIeNghZUiby5aqekX
+         AW8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUMCUxtLpk8lMTQi3W4WZFCixzX8ymyu+tw+yqAqpyDJ7FH6CX4f70fMsg7/K3tmXIjqQGQcB4cQX9BnA==@vger.kernel.org, AJvYcCUR+R2BvJa3KRptyCM5zP+nFY1PqaZY3rF+H+B9zv6ERAQEJWScFfYaOS05on5rKu4WS/wxAIKdwFzg@vger.kernel.org, AJvYcCUscHPF86xmEGzx29JekecdOjm4iyjk1I+YJlpnxlPUpi4kRW0MGmQoBYeU4+FKDJMI3jPLMS2pA93+qMM=@vger.kernel.org, AJvYcCV3bu5uAp4mFDNgVwYWQ8kbqBu3no1vCQ35+ldSP2jdYCwVQN27rwha2vb0aw2Shk9/U6Z0/aF6vBDZBk8W@vger.kernel.org, AJvYcCVOJOqEkdhMwrpJA8/2oTAtZ163IRSVu9jEFcVh4AtxzX+6bFe2EJoNc2n9OC0ZI+zk3zjGWTy1BWeI@vger.kernel.org, AJvYcCWZTKpxCDCA9HvMX2jaDYGk10WliZahv3+qTaH4jfoOvkPt8GPBoi9LounX4sZDsq3Tb1rEOSRQ+4pee4++VKQRPLc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwvNNHw91jR3R4mquYedlmnZCmMHzpAszLj2nNtEqFgSkguA/c
+	LZm/vQqBzEHYkRi+aK4WaeszvFpSGsqWsJzb5VY8w0GGmGpxbvE6j6Ni+Ab+
+X-Google-Smtp-Source: AGHT+IFa9X65WVkG10BvTZIN0NPNUf1oKbpKTVIZn+kMfdO5PvL4sKS4dKqx4MkLJA1WHNNiHZ6unQ==
+X-Received: by 2002:a05:6902:168a:b0:e2b:ba9d:64c5 with SMTP id 3f1490d57ef6-e330269611dmr17580457276.48.1730905022522;
+        Wed, 06 Nov 2024 06:57:02 -0800 (PST)
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e30e82c77e2sm2915046276.0.2024.11.06.06.57.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Nov 2024 06:57:01 -0800 (PST)
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-6ea053b5929so56635607b3.0;
+        Wed, 06 Nov 2024 06:57:01 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU+2FxwH9Gay6jxa662tJV769KupZz0v2BA3Rq+jAhd4q/YX7ygqwQFZdFbjTJFvxUE059imn3YndVkrLF7@vger.kernel.org, AJvYcCUmahFCH9Ho+bUMq0sapbIBL+qT0jXzPfNgfGspj8yAz328whKkYnGudNg7iLSHPI3ctH2sDYX5qlD6sB/2oZkOiTI=@vger.kernel.org, AJvYcCUtT9arbAqdNKimzkKzZ7d2q5q+hUNZYiipYA5cpTltCaJJRunJjeAQMuy3FztiFXLAeuZBmfU9XXEt@vger.kernel.org, AJvYcCV1HswiEbSGNh5eA3Qg3Lxp8hzS3SCoqei2hk/iB4f0M1mE/tsrJ1jJFCLuGlI1xTqB/VavRYvjJMbrOw==@vger.kernel.org, AJvYcCVh2FD+eS52BXoiG7kLUKESZoReh6SJ0sJy55JqrIy3BnoEwQZyFwVWyxadxm1GxpPfiO9W6DAkduLE@vger.kernel.org, AJvYcCWvBriImaRRglrN+1IYsL/3j+/Mt110Mk4SYssjeJG2OebDwcXqGTVKuxenkemcilSTWdJ7uyaJWlXmA04=@vger.kernel.org
+X-Received: by 2002:a05:690c:338d:b0:6e7:e2e9:6940 with SMTP id
+ 00721157ae682-6ea64aebcb5mr193177307b3.10.1730905020721; Wed, 06 Nov 2024
+ 06:57:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: venkataprasad.potturu@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D4:EE_|MW4PR12MB7143:EE_
-X-MS-Office365-Filtering-Correlation-Id: e2e7a817-8246-4ec4-f010-08dcfe6f16ab
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dfKchqcFEVjFCIhBWZvAxe/eqny0KTwre0pOXtYmB/J5YmQJfdd0g1c0uft8?=
- =?us-ascii?Q?faOK+rFMXTQN5GK7FXwEJrODwxkTGBdgrYEt5453sLC+shOhsKvnyV8uoIqc?=
- =?us-ascii?Q?/26oYCMp5wtcVHxKNNjK9sVsLw2PdnMoruWxkOkhZJ0xRbF0aKhifW32TDCC?=
- =?us-ascii?Q?G4pKFbjPwvFQvRLEbRWaodGuA1K8D7L+BCIgxxtAJ8mtNZqfI9oGUsbCRJWn?=
- =?us-ascii?Q?u7H2jeCWfpJ+ls8iog/Odgn7F9yVXXRTDCd4OJLJHmJnFl4BWhETrEFC1iBP?=
- =?us-ascii?Q?TcKwoqohJr5y5x0GGcEYiPudRpZNVqcgSrkjznzwpdX/gmV+NwPw0Lc/hAM9?=
- =?us-ascii?Q?sJKzbsRsx6SbyoV2bcbfnrsNrX8UL9zu81nlB1Jjwba8vPnECKdfAQYSG6VS?=
- =?us-ascii?Q?ToWA/ydKn9M4arMzl4zMO0f1z9ykvtItVt8uG+eDHpBBq/AsV6QLKbZ/g/Nq?=
- =?us-ascii?Q?Srd9e7kh/L2b73i6yoqDrnlPfHYEqyOjSl84t4iARbtZR5yqbcNADPcBTqrN?=
- =?us-ascii?Q?vrwXB+tXKZzo3t4M7bn369vLIgt/NJD95IysvSmCTWp5+H2AMuLcyN57lVT0?=
- =?us-ascii?Q?OSlQhlfcP4LUNICQZh9dfHM2tJo3exlEhqlVLJbU/ahW0KiCe+Ho1fdd9H+T?=
- =?us-ascii?Q?2+Ux9z5H6uC7THAn+kW6ODBuy8QrP31wZyCOZrSUGxcnDCIXXvhgP0BORoGl?=
- =?us-ascii?Q?UPFAp33Xu0OBKVLMBqUe0aEUvYAoeSmnJaw/k16qCbIQxNCxDaqS7GY4+QF8?=
- =?us-ascii?Q?vbrjJYgT75rtxEcjkFLmBGYFryh0S30ClkXzvsyJrn6Toe2Ye6Ntkri0z+I1?=
- =?us-ascii?Q?CmmYBZUnUgRmn5TO7v2aMUCSdd9D9qwmOK9gqta+wnYhCQsmBuji000YmcMp?=
- =?us-ascii?Q?Fuj5+GUd0Ana227Yomg8FVSNn8dMEtGgZn58ZTDMyCTepXVN/+A+tRMbMeYa?=
- =?us-ascii?Q?Y7ULRnLLhojjZp92P8yl9gBqdIqzlnE9AxzdrW+gpLzJ6lL4rIjA94NbZSfW?=
- =?us-ascii?Q?DpewrlRoC4G8ZPuOZcqas9AUr5JTp6k1iRuK1MumNF//AAN/+5XeJYFcAYU0?=
- =?us-ascii?Q?NgvaYsDfoFPaHvHF8+/HxSUqECOr3ZRq/9qerOZczfo0BFP9FmL5wB/pm8w6?=
- =?us-ascii?Q?zAQjVIvIxhelxLfymBdFZ7uvNz2heYnS3G6FJ1MKR55sUkgySGzgB5YGFnbl?=
- =?us-ascii?Q?2m32OAicxSCxuJp2WHc0RdqheAWByNMgK0/AVh1QzU5xz3zewRqIX5iaFiNK?=
- =?us-ascii?Q?fsuifTclEEMIWs5bQ4MrDT3t/dFNXowT5Cg18b5kqbIq8h0nrpd0qe4/ux1y?=
- =?us-ascii?Q?ztZCEIOjL2rC4GxvuT0iF5PskwDnYj6SXHv72mVoy7iAMghQyNPsNK0Zvs7N?=
- =?us-ascii?Q?A3fjFpwd0gBVywFudAYDNUo911ykjHIp0vRwF6NVo55b7Z8OSw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(7416014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2024 14:27:05.4022
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e2e7a817-8246-4ec4-f010-08dcfe6f16ab
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D4.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7143
+References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com> <20241106081826.1211088-13-claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241106081826.1211088-13-claudiu.beznea.uj@bp.renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 6 Nov 2024 15:56:49 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWxmoUQSSnAVdqhpTQJYvUCJTL0EZbdKmLLhFWi8UCGkg@mail.gmail.com>
+Message-ID: <CAMuHMdWxmoUQSSnAVdqhpTQJYvUCJTL0EZbdKmLLhFWi8UCGkg@mail.gmail.com>
+Subject: Re: [PATCH 12/31] ASoC: sh: rz-ssi: Use a proper bitmask for clear bits
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
+	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
+	support.opensource@diasemi.com, perex@perex.cz, tiwai@suse.com, 
+	p.zabel@pengutronix.de, Adam.Thomson.Opensource@diasemi.com, 
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DMA ch status register offset change in acp7.0 platform
+Hi Claudiu,
 
-Incorrect DMA channel status register offset check lead to
-firmware boot failure.
+On Wed, Nov 6, 2024 at 9:19=E2=80=AFAM Claudiu <claudiu.beznea@tuxon.dev> w=
+rote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>
+> While it is still correct to pass zero as the bit-clear mask it may be
+> confusing. For this, use a proper bitmask for clear bits.
+>
+> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-[   14.432497] snd_sof_amd_acp70 0000:c4:00.5: ------------[ DSP dump start ]------------
-[   14.432533] snd_sof_amd_acp70 0000:c4:00.5: Firmware boot failure due to timeout
-[   14.432549] snd_sof_amd_acp70 0000:c4:00.5: fw_state: SOF_FW_BOOT_IN_PROGRESS (3)
-[   14.432610] snd_sof_amd_acp70 0000:c4:00.5: invalid header size 0x71c41000. FW oops is bogus
-[   14.432626] snd_sof_amd_acp70 0000:c4:00.5: unexpected fault 0x71c40000 trace 0x71c40000
-[   14.432642] snd_sof_amd_acp70 0000:c4:00.5: ------------[ DSP dump end ]------------
-[   14.432657] snd_sof_amd_acp70 0000:c4:00.5: error: failed to boot DSP firmware -5
-[   14.432672] snd_sof_amd_acp70 0000:c4:00.5: fw_state change: 3 -> 4
-[   14.433260] dmic-codec dmic-codec: ASoC: Unregistered DAI 'dmic-hifi'
-[   14.433319] snd_sof_amd_acp70 0000:c4:00.5: fw_state change: 4 -> 0
-[   14.433358] snd_sof_amd_acp70 0000:c4:00.5: error: sof_probe_work failed err: -5
+Thanks for your patch!
 
-Update correct register offset for DMA ch status register.
+> --- a/sound/soc/renesas/rz-ssi.c
+> +++ b/sound/soc/renesas/rz-ssi.c
+> @@ -331,7 +331,7 @@ static void rz_ssi_set_idle(struct rz_ssi_priv *ssi)
+>                 dev_info(ssi->dev, "timeout waiting for SSI idle\n");
+>
+>         /* Hold FIFOs in reset */
+> -       rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_FIFO_RST);
+> +       rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_FIFO_RST, SSIFCR_FIFO_RS=
+T);
 
-Fixes: 490be7ba2a01 ("ASoC: SOF: amd: add support for acp7.0 based platform")
+But you're not clearing SSIFCR_FIFO_RST, you're setting it?
 
-Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
----
- sound/soc/sof/amd/acp.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+>  }
+>
+>  static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *s=
+trm)
 
-diff --git a/sound/soc/sof/amd/acp.c b/sound/soc/sof/amd/acp.c
-index de3001f5b9bb..95d4762c9d93 100644
---- a/sound/soc/sof/amd/acp.c
-+++ b/sound/soc/sof/amd/acp.c
-@@ -342,11 +342,19 @@ int acp_dma_status(struct acp_dev_data *adata, unsigned char ch)
- {
- 	struct snd_sof_dev *sdev = adata->dev;
- 	unsigned int val;
-+	unsigned int acp_dma_ch_sts;
- 	int ret = 0;
- 
-+	switch (adata->pci_rev) {
-+	case ACP70_PCI_ID:
-+		acp_dma_ch_sts = ACP70_DMA_CH_STS;
-+		break;
-+	default:
-+		acp_dma_ch_sts = ACP_DMA_CH_STS;
-+	}
- 	val = snd_sof_dsp_read(sdev, ACP_DSP_BAR, ACP_DMA_CNTL_0 + ch * sizeof(u32));
- 	if (val & ACP_DMA_CH_RUN) {
--		ret = snd_sof_dsp_read_poll_timeout(sdev, ACP_DSP_BAR, ACP_DMA_CH_STS, val, !val,
-+		ret = snd_sof_dsp_read_poll_timeout(sdev, ACP_DSP_BAR, acp_dma_ch_sts, val, !val,
- 						    ACP_REG_POLL_INTERVAL,
- 						    ACP_DMA_COMPLETE_TIMEOUT_US);
- 		if (ret < 0)
--- 
-2.39.2
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
