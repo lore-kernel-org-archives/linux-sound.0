@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A27418FDC2
-	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 05:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D4D192B61;
+	Wed,  6 Nov 2024 07:06:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730872746; cv=none; b=dNphLcHswSABUhxk/i+TMQlFvMyy/cOx0AMKXq44GUAdIA6+ZvIyLlLusgcYHpCYqmxU5hiEHgEoypYjbAi5AKpgGkoX8812jUcIOIi6FV9uuTQurYcCeDwrXlZ7blHSuDtBtV20CAR8tQGbKa8rV/sgvPujKHUwFEFXaexka/I=
+	t=1730876814; cv=none; b=Le6ydvNhhfrrId/Uhziqz2ZCmFY5IBofp+JBFGz++b0LKQmpzikwQD40MBpkyHYpoZk4U15ZxLJMMsiux0KtpAR6VbcOmCzPkxiw5sfVk3A+ZOWJcHcwcBPa2WNl5Qxbf2a6sF70E5QFEaGqFfBD3i9ljkgynge9+rmCm/WrZOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730872746; c=relaxed/simple;
-	bh=qn79jxUoezMUZbnGcU8C6pU9M7pGPaUdUuNIrpk9lDw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m4YT2CCPR5kiSqS+KVFHOv8IJiLnrjLCGJxkmAYUn/xMWUW5UM3nNHGkZdT8NQxxje7Kg4UXwFbqrtMROYpMSQzTUsYOZYYq7h5LYEj3mit5JspklyKa99IR7pCSGXhu4XbI1Tl+HyB5J01btA4s9lC4C9zr6KYP4HVcjDW28Gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h6F9sStg; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1730876814; c=relaxed/simple;
+	bh=7pdnXq7EufOCuoXoSdtjBZ4tbALPR7ZeEojqa8COUKA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GrIiD53Dkchwl+yug9ebq1lg9bKwBsFxNL/VVxMjLQ5PNorWF3a6Uc6Xjx/R3c8JDlcefXbj7x1MwNB6uHAqw1AIOORo3WwztEqulSpiNI/isFWCQG2Js6fPkHCGGnLtGEL0HIzYoYPhRLYTKw9yRNZtrMb4KIAF+KSAU9ECO78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xw3iMcwk; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h6F9sStg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xw3iMcwk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730872746; x=1762408746;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=qn79jxUoezMUZbnGcU8C6pU9M7pGPaUdUuNIrpk9lDw=;
-  b=h6F9sStgInAyLJpSmJfFJgv2rvD4q3d68UZUr34CF7ldbBErEyv8zaah
-   3dY0N5MSQMp3Ay4SRVly6fMQuAxR0UIkdZwF906rysfjGb6D3oFZUx9oH
-   QqQ7dmvYxNwgGW/lyosgkjJK3HEFCAshuyZlCR6ZRlMnPM8u/0bdlQx8v
-   14JpgOD2vJcaiv89XzccI268PzsvBTui0W8bqwbeAjmGL4ixNEXNOszVz
-   YL4fNjWDUV3xuXKob8gSMCKAIyDVHovdrF7dCngIn8OFlnXbtBNo2vPYC
-   K+1798mzQ4moAhZcUA/NyrxIIcxL8sRGYOEPoqliT2noW70rgYTFtAMBp
-   g==;
-X-CSE-ConnectionGUID: P6GpD9jBTdeEZOObipIt3A==
-X-CSE-MsgGUID: zNkwGO2wTWquUd6mZKFAvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30505168"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30505168"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 21:59:05 -0800
-X-CSE-ConnectionGUID: mrfRZLfETzSKruhRNolTWA==
-X-CSE-MsgGUID: mLuk8xc8ThijYCVCIw5dxw==
-X-ExtLoop1: 1
+  t=1730876812; x=1762412812;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7pdnXq7EufOCuoXoSdtjBZ4tbALPR7ZeEojqa8COUKA=;
+  b=Xw3iMcwk0AG3zY2G4o2JsfE2ZORCsi8arLTMzQHEes7Aa6I1Tcgx6b47
+   rCDQbS5MX28UCV0QLnd/wJYPWPAMBKGust7d4CvJGgM/VMBW3JNYV48eq
+   LG95VhK+9g34Ic7JBOqQxXDGxj5PUJcdyp7IqnqzrBxcvC+atoD6jL+iX
+   PFNew16l2kH8MPolusWJMfmxi6W6ay5osUB1QXxA5wRIuyek/pihc/DCT
+   wv8M1yX17r5ei0gmot+4K3+NtGDt0r5LhIKaNLxNvUKYofdcvsnW6aGqw
+   K8cUeSeW1TyrNRr/9aU+umQTnfqowy6L2jNfj4yVvi6ZukjvtH0nOCpTs
+   w==;
+X-CSE-ConnectionGUID: NS8JQO7JRmmBWWF0JJryqA==
+X-CSE-MsgGUID: D6vmeZpbSx68Qe6Pfxx5kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42057493"
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="89484382"
-Received: from sramkris-mobl1.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.222.45])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 21:58:21 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
+   d="scan'208";a="42057493"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 23:06:51 -0800
+X-CSE-ConnectionGUID: YncT/+raQ4+gvwOnOC8tkQ==
+X-CSE-MsgGUID: W5BlBnEGSsu+L4VuWZ6yNw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="89185156"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.56])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 23:06:49 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 2/2] ASoC: Intel: Kconfig: select SND_SOC_SDCA by SND_SOC_ACPI_INTEL_SDCA_QUIRKS
-Date: Wed,  6 Nov 2024 13:58:10 +0800
-Message-ID: <20241106055810.10123-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241106055810.10123-1-yung-chuan.liao@linux.intel.com>
-References: <20241106055810.10123-1-yung-chuan.liao@linux.intel.com>
+	linux-kernel@vger.kernel.org,
+	broonie@kernel.org,
+	amadeuszx.slawinski@linux.intel.com
+Subject: [PATCH] ALSA: compress_offload: Remove unused runtime pointer from snd_compr_poll()
+Date: Wed,  6 Nov 2024 09:06:46 +0200
+Message-ID: <20241106070646.2599-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,55 +63,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-SND_SOC_SDCA can't be optional when SND_SOC_ACPI_INTEL_SDCA_QUIRKS is
-selected. IS_REACHABLE can prevent the link error. However it is not
-suitable for this case. When CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS is
-Y and CONFIG_SND_SOC_SDCA is M, the SDCA helpers will be empty and
-return false. But we need the helpers to do their jobs whenSND_SOC_SDCA
-is M.
-IOW, the SDCA library is not optional for Intel platforms where the
-SDCA_QUIRK is selected.
-Also, make SND_SOC_SDCA invisible. SND_SOC_SDCA should be selected if
-a device supports SDCA. User should not unselect it.
+runtime is not used as seen with W=1 :
+sound/core/compress_offload.c: In function ‘snd_compr_poll’:
+sound/core/compress_offload.c:409:35: error: variable ‘runtime’ set but not used [-Werror=unused-but-set-variable]
+  409 |         struct snd_compr_runtime *runtime;
+      |                                   ^~~~~~~
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411021722.DiX1Y5sf-lkp@intel.com/
-Suggested-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
- sound/soc/intel/Kconfig | 2 +-
- sound/soc/sdca/Kconfig  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ sound/core/compress_offload.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
-index f644e9423428..46b45f390ae9 100644
---- a/sound/soc/intel/Kconfig
-+++ b/sound/soc/intel/Kconfig
-@@ -78,7 +78,7 @@ config SND_SOC_ACPI_INTEL_MATCH
+diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+index 5ecdad80a0d8..c08afbd0155b 100644
+--- a/sound/core/compress_offload.c
++++ b/sound/core/compress_offload.c
+@@ -406,7 +406,6 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
+ {
+ 	struct snd_compr_file *data = f->private_data;
+ 	struct snd_compr_stream *stream;
+-	struct snd_compr_runtime *runtime;
+ 	size_t avail;
+ 	__poll_t retval = 0;
  
- config SND_SOC_ACPI_INTEL_SDCA_QUIRKS
- 	tristate
--	imply SND_SOC_SDCA
-+	select SND_SOC_SDCA
+@@ -414,8 +413,6 @@ static __poll_t snd_compr_poll(struct file *f, poll_table *wait)
+ 		return EPOLLERR;
  
- endif ## SND_SOC_INTEL_SST_TOPLEVEL || SND_SOC_SOF_INTEL_TOPLEVEL
+ 	stream = &data->stream;
+-	runtime = stream->runtime;
+-
+ 	guard(mutex)(&stream->device->lock);
  
-diff --git a/sound/soc/sdca/Kconfig b/sound/soc/sdca/Kconfig
-index 07f6822fa614..ee20b9914aa1 100644
---- a/sound/soc/sdca/Kconfig
-+++ b/sound/soc/sdca/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- 
- config SND_SOC_SDCA
--	tristate "ASoC SDCA library"
-+	tristate
- 	depends on ACPI
- 	help
- 	  This option enables support for the MIPI SoundWire Device
+ 	switch (stream->runtime->state) {
 -- 
-2.43.0
+2.47.0
 
