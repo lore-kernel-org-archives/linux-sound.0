@@ -1,420 +1,217 @@
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010032.outbound.protection.outlook.com [52.101.229.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81232036F7;
-	Wed,  6 Nov 2024 15:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730906963; cv=none; b=jDDZMBkneuH+RDkx1WU9/zU5yrMP910xf2ZuliugDWvHNAONb79BO51dRlQ+mFzUlIJmyWFlfmlimB5VWynEGYxmgM0oTLO0UIMsf/UPAlvT/mjP0sjKA9N17ICrvX94h95jN+ln4n02cXNttnavL7Li+EbjgpYRRkcxTM5q9xk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730906963; c=relaxed/simple;
-	bh=Un0Z0EVKulk0a8oe9sLnWY/NfJ8AKEkZhLsX8V+gASE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S4FFA3edA2JhQpKGaLPO9rD83bCbgXqrLQhRkHnCvQPDCi1TvC1r9yCOpFA1VRJMD7vCVsI0LOqwwzjvns30/un206owaX/QFDPW3R2z01I/YLJMk3p65TgbJFp+KTHoA34XfrtxMObG6sl5X6zAlZbez15LJBPWq+97aNOrsQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=A6v4ICl0; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AFC204F96;
+	Wed,  6 Nov 2024 17:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730913583; cv=fail; b=BErjtGX9UJHNJQDYcQtftQHjnVyeBcu49Er63E3oAbKcBfJcMoVZcz7ejV+tFi6/earnz2AO71EAueHaL4SkzH8zdrcmrYt8no82WptKbBQtVZwsR5xqbDpv6dPIuA7wZM1tyXzDoZL+3pnkB0XHaYI3wFYnL7ghnq2nbQqVh4M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730913583; c=relaxed/simple;
+	bh=2cicAjwGRGeoGlkH3ceVLxruVJeV8oVS9FdYPraw3M8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UcJQzhehGaaKcUoxAj5cTDyOm95cVePaCPUQ7+Ap9I0JK8YzxLu7LVUOtwII5HAEUAR9yJGOxemewvQBTwzC49QX8m38COqGdrezRHN4ZJRoJli6tMY1I1QRfGslqlPMJSRTMQL+76cqlqGRww9HULt5TQazQFl4aRdr0kCoADE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=p05HpYbf; arc=fail smtp.client-ip=52.101.229.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="A6v4ICl0"
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A6DjKhV013201;
-	Wed, 6 Nov 2024 16:28:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	AV/+6bQSjKfamtobRHSLeM/m0DwhYt5ZKh5uq1zC2gA=; b=A6v4ICl0WVpPpohO
-	jYyFIRdyTnq/BF9EMUw0P+isqIOl7QlM68f8tlnn4kmZ2DmCU+S/NuT2cNaHCwgP
-	a3rsxGyF8yHZldoliG6mV30/B55hkxpcZHN9vM8RcH/SdyTkQwcxjrM3YRrurHV4
-	s93lFP9X1GnHEuphZp0L6CtT+SaAi4f5H6FxnbxbQmZeI0jJlava6mFy76vZpx9P
-	HTjnOuHxFnnEnffKUUoc0hZk04LRoHipwHy6mRrBYO/GynWHDp32Jh47RFy3coGC
-	GxUkbYz3KnZBJoLVFeV3WwD5TKcPjzNw7Trld/V3P62FaVZaFbLKVrKx7j5ixEn2
-	+4sbNQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42nywnfar6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 Nov 2024 16:28:47 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 88D1C40044;
-	Wed,  6 Nov 2024 16:27:25 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B343F2656E3;
-	Wed,  6 Nov 2024 16:25:36 +0100 (CET)
-Received: from localhost (10.252.15.15) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 6 Nov
- 2024 16:25:36 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
-        Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-CC: <linux-sound@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] ASoC: stm32: i2s: add stm32mp25 support
-Date: Wed, 6 Nov 2024 16:25:28 +0100
-Message-ID: <20241106152528.939232-3-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241106152528.939232-1-olivier.moysan@foss.st.com>
-References: <20241106152528.939232-1-olivier.moysan@foss.st.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="p05HpYbf"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v1BN2rZIjmWhbbUUZjRzQUtIucoqAIyoiR2SMiLmhaZT8uwgZcxA3i8GC2lxRGxNHYnlhjjXSu3vtxAQy+Iq+8dzD+iY7aEZ/obabtXhYfTdARLxtF2HSCcvpczwkJY9xUST7cdwuLoWwYi+RyhQnghqyvNET2CNyXAklz0bmJsQiXXIzssB0QvuCVWzmHTWBl7rlck6jY8bZ5d/U22AY0ZvZNUcaCLhHUhXN+mQjAcxTMeWE+flOTizcqf6VOERs1eWWkII2QJD9zzOsceznqNImbAHJiDt4wurq1Cd8eya64+y+YAlRFaGrm7YTykNTvLreUn7NPf/ZnkAxh0dOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2cicAjwGRGeoGlkH3ceVLxruVJeV8oVS9FdYPraw3M8=;
+ b=Qymj2Vi3thZzrxUNkfcjq9VQUFEzzYHf+KJcRRZfUiY71I5JN9lpwMYjNomK7phUl/Qz46vzEuam4TreN33R2xZh2Bw77J5AFrNAsznxUlxWCkWTl2i5C5ukpyBjG/+VJQ6JJfQOFChCDctLxexoHLC5MKD3ddZ+W8/jbYSV6KMsPoLWHUqTg4Er8f4hr7YN298UGuXCNGjvR2L8LMSE3kLqnXXCtNiZdZUf5cHn3Xl4t+7HTATIkqo841meIcLsljnxNq0H8lVvphLELVXt4bwOxYoO4PqjmxPbMsDYSNxMNqtp3J06kMxk5dmT1fqR8dLOwgL8tEP4BQ5ejEQARQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2cicAjwGRGeoGlkH3ceVLxruVJeV8oVS9FdYPraw3M8=;
+ b=p05HpYbfGE9UTiVNxccU2pWcGPprXivZ3mWkdz0KEjC2abAgd7mhe7LqkH1IbhRnmFfuLoNZvVgQxxOdHKp10IAOSaul3q38KTKd14WvDwNubP2bdZyk/kXmDDq6EdWmJBw6Lkro8hdKvaTzTUBH7+9HNL0ytEpAHUzD6w41UHw=
+Received: from OS9PR01MB12389.jpnprd01.prod.outlook.com
+ (2603:1096:604:2e2::10) by OS3PR01MB9864.jpnprd01.prod.outlook.com
+ (2603:1096:604:1eb::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.19; Wed, 6 Nov
+ 2024 17:19:36 +0000
+Received: from OS9PR01MB12389.jpnprd01.prod.outlook.com
+ ([fe80::d85d:3169:70e9:6a3f]) by OS9PR01MB12389.jpnprd01.prod.outlook.com
+ ([fe80::d85d:3169:70e9:6a3f%5]) with mapi id 15.20.8137.018; Wed, 6 Nov 2024
+ 17:19:35 +0000
+From: Chris Paterson <Chris.Paterson2@renesas.com>
+To: Claudiu.Beznea <claudiu.beznea@tuxon.dev>, Mark Brown <broonie@kernel.org>
+CC: "geert+renesas@glider.be" <geert+renesas@glider.be>,
+	"mturquette@baylibre.com" <mturquette@baylibre.com>, "sboyd@kernel.org"
+	<sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, Biju Das
+	<biju.das.jz@bp.renesas.com>, Prabhakar Mahadev Lad
+	<prabhakar.mahadev-lad.rj@bp.renesas.com>, "lgirdwood@gmail.com"
+	<lgirdwood@gmail.com>, "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+	"support.opensource@diasemi.com" <support.opensource@diasemi.com>,
+	"perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+	"p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+	"Adam.Thomson.Opensource@diasemi.com" <Adam.Thomson.Opensource@diasemi.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, Claudiu Beznea
+	<claudiu.beznea.uj@bp.renesas.com>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
+Subject: RE: [PATCH 22/31] ASoC: da7213: Populate max_register to
+ regmap_config
+Thread-Topic: [PATCH 22/31] ASoC: da7213: Populate max_register to
+ regmap_config
+Thread-Index: AQHbMCVZjQuHAso13k2Di8sgESUG2LKqQ3OAgAADnACAADdkMA==
+Date: Wed, 6 Nov 2024 17:19:35 +0000
+Message-ID:
+ <OS9PR01MB12389111288DF75C0D5C2907AB7532@OS9PR01MB12389.jpnprd01.prod.outlook.com>
+References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241106081826.1211088-23-claudiu.beznea.uj@bp.renesas.com>
+ <d3c28a8b-878c-4894-aa23-5b360153b85d@sirena.org.uk>
+ <bfe67d69-66ad-4121-8c54-a874c7727002@tuxon.dev>
+In-Reply-To: <bfe67d69-66ad-4121-8c54-a874c7727002@tuxon.dev>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OS9PR01MB12389:EE_|OS3PR01MB9864:EE_
+x-ms-office365-filtering-correlation-id: ebaaa2fa-2ae9-46aa-a63b-08dcfe872ffc
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?MDA5aW5LQlhKN0tVUm15aVRKdTlQTWZsRkY3V3JBUUpWWG1IWkc4WjNwVWw2?=
+ =?utf-8?B?NmdjV3B0c3dmdWhEV3NtenRuNkgvYllmNkN2MW84U3JFMmVXR0lGdVFFSytI?=
+ =?utf-8?B?L25WdnhvbDB0aDlmK1FNTjE5eHd6TVFjODZYQzNyL1Q0dVpWQUxZUEZDZ0NV?=
+ =?utf-8?B?aWFISGxaUDg3N08xMGxyMXVrWmVCM3VhRnN4V0t2UHBEaU11cFh3eEVMZ1By?=
+ =?utf-8?B?UlZ5aittUENhYytCSW5xMmc2UTJlM0tZdFlQZzhpc2pZSWU4KzhxaFFZL3Ja?=
+ =?utf-8?B?VVgxNGNpczZyaCtyb2I3MlN4VDJQeFBoSG52YkduRFlXRkZZYWVlKytRYzdt?=
+ =?utf-8?B?aUUrOU9JNVZlSm5rMnVFWDZBZkR3S2drK29ScUZhcDNILzRiM2RJd3d4dGVn?=
+ =?utf-8?B?cCtTaGpKSVQyWEJnams2S3Zka0ZDbXpLd2tuUWpkL0lZR2cxL0dSK2hUcDl2?=
+ =?utf-8?B?UVRMejRnQ05ENTE4ZVBTT28yZVh1VVhEQWE2SFdyTmNRTDlaajhZZk1BdVVy?=
+ =?utf-8?B?QThLKzlGYU55NjgvcnA5QWppcFlpMCtjYkM2a3U5QUFKdFUrQ3k2VERJdlRu?=
+ =?utf-8?B?Sm5xZ3VNT0tCRDk2Z2N5K3NZeExKVmZNWUF5aS9rcjI0RnpDSnY4MnpaVzYz?=
+ =?utf-8?B?bHBUQ1RvVUxIL3gyU1dlQVNsSW9RdnFFWWJSYTFNQzBXUkZUZFlWUkZScjRS?=
+ =?utf-8?B?S1F2Y1p5ZzlkQUd3Y3hFMTR3UzdBNHpLN1B6N1JRRXVEVmdhZVU3Q1FRMy9p?=
+ =?utf-8?B?QnJuUVFkeG56TUhjcmNFWXFydzRoeEV3M2Q3cmxPTWdSTmhYSmJNbmNSZUhh?=
+ =?utf-8?B?YU9QZzFZSUpZT0doNy9VTUowUXJpYUxHNVNtNTFCSFI5cklvZUF2bXJYQjg5?=
+ =?utf-8?B?aEQ4Y2pMdjJ3blpCVDhNcHJHM2M2Q0I3cHRSUkp5QzFaUG51N2JGMnloVml2?=
+ =?utf-8?B?L2d5ZHlud1NybjFaWjB1S0MyWDk0VVk1eGk1MXdrOElrU296RzB0Y3NwcWJE?=
+ =?utf-8?B?YW5PSnZpODNDZlBvL2pGUkpLZ3VaaW1EZ1YrVDVrTXZCcXJpeUQ5Z0Uvc01v?=
+ =?utf-8?B?NU1LSjFXcDZmdnV6S1ZqT2hlS1lVTEVRK1lRQjdaWE1kOVc0Mk5uUjhGWTJQ?=
+ =?utf-8?B?dEJGTU1QR0J0Z3F3MS9tOWRFVldMbjBTeUJvY3hNR3ZISXlnQy9xMWxPTklx?=
+ =?utf-8?B?bE9hWThGdFBCYUdLM0s4dXo1dWkyNUU4RU9NM3V2T3pqeGxROEF0UXE0NDFH?=
+ =?utf-8?B?UUZsZ28xTGd5L1A5YkFXNENKNzNpaEhvNnRkRCtOdVpuMUMrMkJxRGlqM1lR?=
+ =?utf-8?B?cDNJV1R4T3Y5NU1MYnBYcjAyOXUyd2M0cFVNcGNpbjdWd3hlM0lBUkFiTWto?=
+ =?utf-8?B?bXU1YWVGTk1LRGxNYTVwYTJITjdxN3VOd2ZXYjBMVlVVUmhLamhNODhaZHJs?=
+ =?utf-8?B?aGM0NC9SUk5YTUdDOUg1MXRyVWIzUGVOd2o5T2JwWEltcnBZUWVjbCtvN1NP?=
+ =?utf-8?B?LzZ3a2VBL0FiYURHNVV0a3daVmJlMFAycDdtbU1RR1lpV3pod0tpdzMvc1RN?=
+ =?utf-8?B?Um16RlZrSzBIcVBZWFNMejRQVStJdUtuRVlZeUtIZk1Sem1lYWtRQXdRUFNR?=
+ =?utf-8?B?cDMzSEY1NlNqYmd1VnlnaHYwMFo3MEZvd2VDMllEWnB4SzJkN01yYXg5aFRa?=
+ =?utf-8?B?UHgwMjZ5WktUMTI1ejNsRGxvaGhKU1RFblMxa2ZuMVRja1lhSHROS2c5R1Fl?=
+ =?utf-8?B?MldFZUdiQTBGcjB2WGpJVUQ3ZUJZRENMc2ZubFZZWmZkSDBaWEt2cFlqZHFh?=
+ =?utf-8?Q?FhnC6JPBzBbzh7LakWgqxD+EqpiFGVKSscVoo=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS9PR01MB12389.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?WitVZElPaGlteXRTT2RWRS94QjgyS2kwaE1qeERBaXAwRklLQlhiTDUwZnhY?=
+ =?utf-8?B?R25xWUNtVnpuSkwwKzhHSnh1Rk51NnZtbWdvbXN2SUszTW00UlppZ0kwS3VM?=
+ =?utf-8?B?WGZqa2VwNzYxc3NpUTJDeGZGWVUwemlmNTBTczV3SEVBZ1JROFZMRkVqTjhD?=
+ =?utf-8?B?cmxKbCsxRVhYeHFVc1hoNGdxNDFUemtvNTRZZGRSQ21QRTJ6L2pvS01PM0Jr?=
+ =?utf-8?B?QVlaaEx5YllONWJFMTUrZExZNW1pZFBxL3pvNGFyVHRnMk9Ba1JYNkVnaXJy?=
+ =?utf-8?B?U2M2OVRyamNlVnNOUU1iVUtCczlHMS8wV1FuaThoR0NXK0FaY1JwaXM0dmsy?=
+ =?utf-8?B?dFpoNDRnZ2phR3Ftdk85NHBRS2t0dVFPN1k5ZHZQTEc2VTE0N1B6RjRpSWVF?=
+ =?utf-8?B?L3d1UGs1M2VZMXVMazFRd01aNm8zQWlrc2NKcW5oTXg3aFhTOHpFaWN5dkth?=
+ =?utf-8?B?RStIWkJPdGFzb1gvTGVxSkFtc2E3Nm9ENk1tc0FCM3dMb0VNREpUTzczN2xU?=
+ =?utf-8?B?WmV1QklCTHJqS0dYWExyUnVDMGEzS3o1VitMYUV5NENwZXZ0SHVQayt0MEp4?=
+ =?utf-8?B?U3VnMkQ3TThVM2hXZ2w3RXYyWHY3NDRjcWtQak90eTNEYThyQWo5Q3NkZWs0?=
+ =?utf-8?B?a0RoVEdkRGNpNzJKMDhYeWZwaDgvMkdUQkVBaE1lbDM2akpDWnA4Ly94K2oz?=
+ =?utf-8?B?RXZYV3FNNVpDU1VWZEhzMnpFSldaMUU0UjhZVERXMERrV3lBeDlLWFB4SDhW?=
+ =?utf-8?B?REVkSWZsUmRiTmdma1oyZEZLK1EyS2lVaUZNa1Q1NkF5UXJUVkllWnhOOU0y?=
+ =?utf-8?B?N1lEVmtheXUxTVpZWVR1WnpSeTFqRzZrSkNTNGhJQzFjMWR0SktGSWVXbWpu?=
+ =?utf-8?B?Q2xDajBKL2thZURVUFFlb3VYN1NqaFp5SlVLUGw2eUdVbi9kWCtkUCtBYkZa?=
+ =?utf-8?B?S0dZZW9qSjBJM29MSTZicCtGV1h4TjVHZlA2dVJaSzdXMzhTZ3YvWDBvT3pU?=
+ =?utf-8?B?dk5xemZLRDd2b0tXdUdOTzZueHd3K0FpNU5Oeno1NkdDNy85QlZvcTRMKzg0?=
+ =?utf-8?B?NzVJRFlOUDh2V1pERHRSQWcvM0l0L2FSWnRJQUJUSkVlYUJDOUV3eXZsZW1r?=
+ =?utf-8?B?U2h3Q0UwaXMvdGNRcXc1OXZWYWhqS0twTmhTVllPY3Rwdlk2VDBlRmhhRlBv?=
+ =?utf-8?B?ay9BZE00OGRFbmxEZGl2M1AxdnFPM1I0cFI2NUFDMkpMMVpxTzNWajJGSk4v?=
+ =?utf-8?B?MTRQYVM2UDVnekNXK3BDaDRJemlOOWVwcG0zNFNBdWQzNlRCNHh6aG9kUUJa?=
+ =?utf-8?B?dmh4Qm9ja0ZXeC91RXg1NjZ2eHhBVE5FQzdCWlBMZ3NzMWE2UWJyU1FtK05k?=
+ =?utf-8?B?YVd4cGRRTEozT1JjWCt2QzNqdWhaYVFqWW9vZ3o5T3o3TXBkRTI3MG4rb3Ey?=
+ =?utf-8?B?Ui9VWkpmQVZ1OVZmdW85eGpKWlR2OVVOM0JHUkVVQnlSZWVZQ0pMZmhjZmNn?=
+ =?utf-8?B?U1Y0eElsZVcrc1gyTXg3NFhsWHo1enFkWFRTRHNPb0h1cTJZc3BkWEg4T3Nx?=
+ =?utf-8?B?OEMzdGJ3SVN0R3pya3pHMzh3Q3BMdnN6bGFiMVRSeDNLSlVJYXI2UnBlWkRj?=
+ =?utf-8?B?V0c3eGZrTzdERVVwUlpUWlNLR1h6SVZtRnRhYlNnZVpSWWt3WXRwalkyRXkz?=
+ =?utf-8?B?Qll2M2pDUXZpTXZTOTFXaDZkYmFnL3c0bHhYRnVOVUEwR1RGQm80bFJRd2dJ?=
+ =?utf-8?B?MlJjYWxrR2ErN2R5WFRuK2xxUCs1TEF6anBIUkRIQ3JSejBaZVYzRTN6bVFS?=
+ =?utf-8?B?N0UwTmYxWUljeXBhUEljZjBsVTZYanRVak1VWW1lQ3RJOXNycUp1VTlQQzFa?=
+ =?utf-8?B?S2VrWUtFaWRUempFOWlPblF5eWNjZGd5QitYZGVCbXI4eEwxMGxlVTBMV2dX?=
+ =?utf-8?B?UzVKUEw0TStWaXA5akd0NXovOVV5dGwrTUVUNDNZN3RRUEZBMC9yWWZKR1BS?=
+ =?utf-8?B?TEgzV3ZUa3dDNDl3YVo3YTBlaHFOdys3djB1MGxqWlN0a0JYNy9DNnU5YTZ0?=
+ =?utf-8?B?ZWhhM2tyNE4vUmFnaVJJUFVMZ2swNWJuODVjOTIvakFRMHIySmdlaVJKTHJF?=
+ =?utf-8?B?UmVnOHg1Um1icWVzaGVpYzJUcXBvOWd0MnluTWhoeWc2T0Z4VXFmWmlWRHpv?=
+ =?utf-8?B?QlE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS9PR01MB12389.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebaaa2fa-2ae9-46aa-a63b-08dcfe872ffc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2024 17:19:35.8594
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RI6SrISzOhKZg73EBemvxAy0v4t5AbeDs3ZXA7fFVj4vShEjQvxoDVHcx5/tTjYP7GIQBR427+/xqycvLjfSz1ta6Kul80IroFxb2buDTUA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB9864
 
-Add STM32MP25 support for STM32 I2S.
-
-On STM32MP25 the I2S driver does not manage I2S kernel clock rate
-by choosing its parent clock, depending on audio stream rate.
-
-The driver requests a rate change on I2S kernel clock instead.
-It tries to set the higher possible rate, which is a multiple of
-the audio stream rate and which gives an accuracy of at least 1000 ppm.
-
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
----
- sound/soc/stm/stm32_i2s.c | 211 ++++++++++++++++++++++++++++++++++----
- 1 file changed, 189 insertions(+), 22 deletions(-)
-
-diff --git a/sound/soc/stm/stm32_i2s.c b/sound/soc/stm/stm32_i2s.c
-index faa00103ee7f..19dc61008a75 100644
---- a/sound/soc/stm/stm32_i2s.c
-+++ b/sound/soc/stm/stm32_i2s.c
-@@ -200,10 +200,13 @@ enum i2s_datlen {
- 
- #define STM32_I2S_NAME_LEN		32
- #define STM32_I2S_RATE_11K		11025
-+#define STM32_I2S_MAX_SAMPLE_RATE_8K	192000
-+#define STM32_I2S_MAX_SAMPLE_RATE_11K	176400
-+#define STM32_I2S_CLK_RATE_TOLERANCE	1000 /* ppm */
- 
- /**
-  * struct stm32_i2s_data - private data of I2S
-- * @regmap_conf: I2S register map configuration pointer
-+ * @conf: I2S configuration pointer
-  * @regmap: I2S register map pointer
-  * @pdev: device data pointer
-  * @dai_drv: DAI driver pointer
-@@ -224,11 +227,14 @@ enum i2s_datlen {
-  * @divider: prescaler division ratio
-  * @div: prescaler div field
-  * @odd: prescaler odd field
-+ * @i2s_clk_flg: flag set while exclusivity on I2S kernel clock is active
-  * @refcount: keep count of opened streams on I2S
-  * @ms_flg: master mode flag.
-+ * @set_i2s_clk_rate: set I2S kernel clock rate
-+ * @put_i2s_clk_rate: put I2S kernel clock rate
-  */
- struct stm32_i2s_data {
--	const struct regmap_config *regmap_conf;
-+	const struct stm32_i2s_conf *conf;
- 	struct regmap *regmap;
- 	struct platform_device *pdev;
- 	struct snd_soc_dai_driver *dai_drv;
-@@ -249,8 +255,21 @@ struct stm32_i2s_data {
- 	unsigned int divider;
- 	unsigned int div;
- 	bool odd;
-+	bool i2s_clk_flg;
- 	int refcount;
- 	int ms_flg;
-+	int (*set_i2s_clk_rate)(struct stm32_i2s_data *i2s, unsigned int rate);
-+	void (*put_i2s_clk_rate)(struct stm32_i2s_data *i2s);
-+};
-+
-+/**
-+ * struct stm32_i2s_conf - I2S configuration
-+ * @regmap_conf: regmap configuration pointer
-+ * @get_i2s_clk_parent: get parent clock of I2S kernel clock
-+ */
-+struct stm32_i2s_conf {
-+	const struct regmap_config *regmap_conf;
-+	int (*get_i2s_clk_parent)(struct stm32_i2s_data *i2s);
- };
- 
- struct stm32_i2smclk_data {
-@@ -261,6 +280,8 @@ struct stm32_i2smclk_data {
- 
- #define to_mclk_data(_hw) container_of(_hw, struct stm32_i2smclk_data, hw)
- 
-+static int stm32_i2s_get_parent_clk(struct stm32_i2s_data *i2s);
-+
- static int stm32_i2s_calc_clk_div(struct stm32_i2s_data *i2s,
- 				  unsigned long input_rate,
- 				  unsigned long output_rate)
-@@ -312,6 +333,33 @@ static int stm32_i2s_set_clk_div(struct stm32_i2s_data *i2s)
- 				  cgfr_mask, cgfr);
- }
- 
-+static bool stm32_i2s_rate_accurate(struct stm32_i2s_data *i2s,
-+				    unsigned int max_rate, unsigned int rate)
-+{
-+	struct platform_device *pdev = i2s->pdev;
-+	u64 delta, dividend;
-+	int ratio;
-+
-+	if (!rate) {
-+		dev_err(&pdev->dev, "Unexpected null rate\n");
-+		return false;
-+	}
-+
-+	ratio = DIV_ROUND_CLOSEST(max_rate, rate);
-+	if (!ratio)
-+		return false;
-+
-+	dividend = mul_u32_u32(1000000, abs(max_rate - (ratio * rate)));
-+	delta = div_u64(dividend, max_rate);
-+
-+	if (delta <= STM32_I2S_CLK_RATE_TOLERANCE)
-+		return true;
-+
-+	dev_dbg(&pdev->dev, "Rate [%u] not accurate\n", rate);
-+
-+	return false;
-+}
-+
- static int stm32_i2s_set_parent_clock(struct stm32_i2s_data *i2s,
- 				      unsigned int rate)
- {
-@@ -332,6 +380,87 @@ static int stm32_i2s_set_parent_clock(struct stm32_i2s_data *i2s,
- 	return ret;
- }
- 
-+static void stm32_i2s_put_parent_rate(struct stm32_i2s_data *i2s)
-+{
-+	if (i2s->i2s_clk_flg) {
-+		i2s->i2s_clk_flg = false;
-+		clk_rate_exclusive_put(i2s->i2sclk);
-+	}
-+}
-+
-+static int stm32_i2s_set_parent_rate(struct stm32_i2s_data *i2s,
-+				     unsigned int rate)
-+{
-+	struct platform_device *pdev = i2s->pdev;
-+	unsigned int i2s_clk_rate, i2s_clk_max_rate, i2s_curr_rate, i2s_new_rate;
-+	int ret, div;
-+
-+	/*
-+	 * Set maximum expected kernel clock frequency
-+	 * - mclk on:
-+	 *   f_i2s_ck = MCKDIV * mclk-fs * fs
-+	 *   Here typical 256 ratio is assumed for mclk-fs
-+	 * - mclk off:
-+	 *   f_i2s_ck = MCKDIV * FRL * fs
-+	 *   Where FRL=[16,32], MCKDIV=[1..256]
-+	 *   f_i2s_ck = i2s_clk_max_rate * 32 / 256
-+	 */
-+	if (!(rate % STM32_I2S_RATE_11K))
-+		i2s_clk_max_rate = STM32_I2S_MAX_SAMPLE_RATE_11K * 256;
-+	else
-+		i2s_clk_max_rate = STM32_I2S_MAX_SAMPLE_RATE_8K * 256;
-+
-+	if (!i2s->i2smclk)
-+		i2s_clk_max_rate /= 8;
-+
-+	/* Request exclusivity, as the clock may be shared by I2S instances */
-+	clk_rate_exclusive_get(i2s->i2sclk);
-+	i2s->i2s_clk_flg = true;
-+
-+	/*
-+	 * Check current kernel clock rate. If it gives the expected accuracy
-+	 * return immediately.
-+	 */
-+	i2s_curr_rate = clk_get_rate(i2s->i2sclk);
-+	if (stm32_i2s_rate_accurate(i2s, i2s_clk_max_rate, i2s_curr_rate))
-+		return 0;
-+
-+	/*
-+	 * Otherwise try to set the maximum rate and check the new actual rate.
-+	 * If the new rate does not give the expected accuracy, try to set
-+	 * lower rates for the kernel clock.
-+	 */
-+	i2s_clk_rate = i2s_clk_max_rate;
-+	div = 1;
-+	do {
-+		/* Check new rate accuracy. Return if ok */
-+		i2s_new_rate = clk_round_rate(i2s->i2sclk, i2s_clk_rate);
-+		if (stm32_i2s_rate_accurate(i2s, i2s_clk_rate, i2s_new_rate)) {
-+			ret = clk_set_rate(i2s->i2sclk, i2s_clk_rate);
-+			if (ret) {
-+				dev_err(&pdev->dev, "Error %d setting i2s_clk_rate rate. %s",
-+					ret, ret == -EBUSY ?
-+					"Active stream rates may be in conflict\n" : "\n");
-+				goto err;
-+			}
-+
-+			return 0;
-+		}
-+
-+		/* Try a lower frequency */
-+		div++;
-+		i2s_clk_rate = i2s_clk_max_rate / div;
-+	} while (i2s_clk_rate > rate);
-+
-+	/* no accurate rate found */
-+	dev_err(&pdev->dev, "Failed to find an accurate rate");
-+
-+err:
-+	stm32_i2s_put_parent_rate(i2s);
-+
-+	return -EINVAL;
-+}
-+
- static long stm32_i2smclk_round_rate(struct clk_hw *hw, unsigned long rate,
- 				     unsigned long *prate)
- {
-@@ -635,12 +764,16 @@ static int stm32_i2s_set_sysclk(struct snd_soc_dai *cpu_dai,
- 				clk_rate_exclusive_put(i2s->i2smclk);
- 				i2s->mclk_rate = 0;
- 			}
-+
-+			if (i2s->put_i2s_clk_rate)
-+				i2s->put_i2s_clk_rate(i2s);
-+
- 			return regmap_update_bits(i2s->regmap,
- 						  STM32_I2S_CGFR_REG,
- 						  I2S_CGFR_MCKOE, 0);
- 		}
- 		/* If master clock is used, set parent clock now */
--		ret = stm32_i2s_set_parent_clock(i2s, freq);
-+		ret = i2s->set_i2s_clk_rate(i2s, freq);
- 		if (ret)
- 			return ret;
- 		ret = clk_set_rate_exclusive(i2s->i2smclk, freq);
-@@ -667,10 +800,11 @@ static int stm32_i2s_configure_clock(struct snd_soc_dai *cpu_dai,
- 	u32 cgfr;
- 	int ret;
- 
--	if (!(rate % 11025))
--		clk_set_parent(i2s->i2sclk, i2s->x11kclk);
--	else
--		clk_set_parent(i2s->i2sclk, i2s->x8kclk);
-+	if (!i2s->mclk_rate) {
-+		ret = i2s->set_i2s_clk_rate(i2s, rate);
-+		if (ret)
-+			return ret;
-+	}
- 	i2s_clock_rate = clk_get_rate(i2s->i2sclk);
- 
- 	/*
-@@ -915,6 +1049,14 @@ static void stm32_i2s_shutdown(struct snd_pcm_substream *substream,
- 
- 	clk_disable_unprepare(i2s->i2sclk);
- 
-+	/*
-+	 * Release kernel clock if following conditions are fulfilled
-+	 * - Master clock is not used. Kernel clock won't be released trough sysclk
-+	 * - Put handler is defined. Involve that clock is managed exclusively
-+	 */
-+	if (!i2s->i2smclk && i2s->put_i2s_clk_rate)
-+		i2s->put_i2s_clk_rate(i2s);
-+
- 	spin_lock_irqsave(&i2s->irq_lock, flags);
- 	i2s->substream = NULL;
- 	spin_unlock_irqrestore(&i2s->irq_lock, flags);
-@@ -1012,14 +1154,36 @@ static int stm32_i2s_dais_init(struct platform_device *pdev,
- 	return 0;
- }
- 
-+static const struct stm32_i2s_conf stm32_i2s_conf_h7 = {
-+	.regmap_conf = &stm32_h7_i2s_regmap_conf,
-+	.get_i2s_clk_parent = stm32_i2s_get_parent_clk,
-+};
-+
-+static const struct stm32_i2s_conf stm32_i2s_conf_mp25 = {
-+	.regmap_conf = &stm32_h7_i2s_regmap_conf
-+};
-+
- static const struct of_device_id stm32_i2s_ids[] = {
--	{
--		.compatible = "st,stm32h7-i2s",
--		.data = &stm32_h7_i2s_regmap_conf
--	},
-+	{ .compatible = "st,stm32h7-i2s", .data = &stm32_i2s_conf_h7 },
-+	{ .compatible = "st,stm32mp25-i2s", .data = &stm32_i2s_conf_mp25 },
- 	{},
- };
- 
-+static int stm32_i2s_get_parent_clk(struct stm32_i2s_data *i2s)
-+{
-+	struct device *dev = &i2s->pdev->dev;
-+
-+	i2s->x8kclk = devm_clk_get(dev, "x8k");
-+	if (IS_ERR(i2s->x8kclk))
-+		return dev_err_probe(dev, PTR_ERR(i2s->x8kclk), "Cannot get x8k parent clock\n");
-+
-+	i2s->x11kclk = devm_clk_get(dev, "x11k");
-+	if (IS_ERR(i2s->x11kclk))
-+		return dev_err_probe(dev, PTR_ERR(i2s->x11kclk), "Cannot get x11k parent clock\n");
-+
-+	return 0;
-+}
-+
- static int stm32_i2s_parse_dt(struct platform_device *pdev,
- 			      struct stm32_i2s_data *i2s)
- {
-@@ -1031,8 +1195,8 @@ static int stm32_i2s_parse_dt(struct platform_device *pdev,
- 	if (!np)
- 		return -ENODEV;
- 
--	i2s->regmap_conf = device_get_match_data(&pdev->dev);
--	if (!i2s->regmap_conf)
-+	i2s->conf = device_get_match_data(&pdev->dev);
-+	if (!i2s->conf)
- 		return -EINVAL;
- 
- 	i2s->base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-@@ -1052,15 +1216,18 @@ static int stm32_i2s_parse_dt(struct platform_device *pdev,
- 		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->i2sclk),
- 				     "Could not get i2sclk\n");
- 
--	i2s->x8kclk = devm_clk_get(&pdev->dev, "x8k");
--	if (IS_ERR(i2s->x8kclk))
--		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->x8kclk),
--				     "Could not get x8k parent clock\n");
-+	if (i2s->conf->get_i2s_clk_parent) {
-+		i2s->set_i2s_clk_rate = stm32_i2s_set_parent_clock;
-+	} else {
-+		i2s->set_i2s_clk_rate = stm32_i2s_set_parent_rate;
-+		i2s->put_i2s_clk_rate = stm32_i2s_put_parent_rate;
-+	}
- 
--	i2s->x11kclk = devm_clk_get(&pdev->dev, "x11k");
--	if (IS_ERR(i2s->x11kclk))
--		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->x11kclk),
--				     "Could not get x11k parent clock\n");
-+	if (i2s->conf->get_i2s_clk_parent) {
-+		ret = i2s->conf->get_i2s_clk_parent(i2s);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/* Register mclk provider if requested */
- 	if (of_property_present(np, "#clock-cells")) {
-@@ -1126,7 +1293,7 @@ static int stm32_i2s_probe(struct platform_device *pdev)
- 		return ret;
- 
- 	i2s->regmap = devm_regmap_init_mmio_clk(&pdev->dev, "pclk",
--						i2s->base, i2s->regmap_conf);
-+						i2s->base, i2s->conf->regmap_conf);
- 	if (IS_ERR(i2s->regmap))
- 		return dev_err_probe(&pdev->dev, PTR_ERR(i2s->regmap),
- 				     "Regmap init error\n");
--- 
-2.25.1
-
+SGkgQ2xhdWRpdSwNCg0KPiBGcm9tOiBDbGF1ZGl1IEJlem5lYSA8Y2xhdWRpdS5iZXpuZWFAdHV4
+b24uZGV2Pg0KPiBTZW50OiAwNiBOb3ZlbWJlciAyMDI0IDEzOjU2DQo+IA0KPiBIaSwgTWFyaywN
+Cj4gDQo+IE9uIDA2LjExLjIwMjQgMTU6NDMsIE1hcmsgQnJvd24gd3JvdGU6DQo+ID4gT24gV2Vk
+LCBOb3YgMDYsIDIwMjQgYXQgMTA6MTg6MTdBTSArMDIwMCwgQ2xhdWRpdSB3cm90ZToNCj4gPj4g
+RnJvbTogQ2xhdWRpdSBCZXpuZWEgPGNsYXVkaXUuYmV6bmVhLnVqQGJwLnJlbmVzYXMuY29tPg0K
+PiA+Pg0KPiA+PiBPbiB0aGUgUmVuZXNhcyBSWi9HM1MgU01BUkMgQ2FycmllciBJSSBib2FyZCBo
+YXZpbmcgYSBEQTcyMTIgY29kZWMNCj4gKHVzaW5nDQo+ID4+IGRhNzIxMyBkcml2ZXIpIGNvbm5l
+Y3RlZCB0byBvbmUgU1NJRi0yIGF2YWlsYWJsZSBvbiB0aGUgUmVuZXNhcyBSWi9HM1MNCj4gU29D
+DQo+ID4+IGl0IGhhcyBiZWVuIGRpc2NvdmVyZWQgdGhhdCB1c2luZyB0aGUgcnVudGltZSBQTSBB
+UEkgZm9yIHN1c3BlbmQvcmVzdW1lDQo+ID4+IChhcyB3aWxsIGJlIHByb3Bvc2VkIGluIHRoZSBm
+b2xsb3dpbmcgY29tbWl0cykgbGVhZHMgdG8gdGhlIGNvZGVjIG5vdA0KPiA+PiBiZWluZyBwcm9w
+ZXJ0bHkgaW5pdGlhbGl6ZWQgYWZ0ZXIgcmVzdW1lLiBUaGlzIGlzIGJlY2F1c2Ugdy9vDQo+ID4+
+IG1heF9yZWdpc3RlciBwb3B1bGF0ZWQgdG8gcmVnbWFwX2NvbmZpZyB0aGUgcmVnY2FjaGVfcmJ0
+cmVlX3N5bmMoKQ0KPiA+PiBicmVha3Mgb24gYmFzZV9yZWcgPiBtYXggY29uZGl0aW9uIGFuZCB0
+aGUgcmVnY2FjaGVfc3luY19ibG9jaygpIGNhbGwNCj4gaXMNCj4gPj4gc2tpcHBlZC4NCj4gPj4N
+Cj4gPj4gRml4ZXM6IGVmNWMyZWJhMjQxMiAoIkFTb0M6IGNvZGVjczogQWRkIGRhNzIxMyBjb2Rl
+YyIpDQo+ID4+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnDQo+ID4NCj4gPiBXaHkgaXMgdGhp
+cyBhIHN0YWJsZSBmaXggd2hlbiBpdCBvbmx5IGVuYWJsZXMgZnVydGhlciB3b3JrPw0KPiANCj4g
+SSB0aG91Z2h0IHRoYXQgbm90IHN5bmNpbmcgdGhlIGNhY2hlZCByZWdpc3RlcnMgbWlnaHQgaW1w
+YWN0IG90aGVyIHNldHVwcw0KPiBhcyB3ZWxsLg0KPiANCj4gQWxzbywgUmVuZXNhcyBpcyBjb250
+cmlidXRpbmcgdG8gQ0lQIChDaXZpbCBJbmZyYXN0cnVjdHVyZSBQcm9qZWN0KSB3aGljaA0KPiBp
+cyBiYXNlZCBvbiBzdGFibGUgcmVsZWFzZXMuIFRoZSBhdWRpbyBzdXBwb3J0IGluIHRoaXMgc2Vy
+aWVzIHdpbGwgYmUNCj4gYmFja3BvcnRlZCB0byBDSVAga2VybmVscy4gTWFya2luZyBpdCBmb3Ig
+c3RhYmxlIGVhc2UgdGhlIHdvcmsgdG8gYmFja3BvcnQNCj4gdGhlIFJaL0czUyBhdWRpbyBzdXBw
+b3J0IHRvIENJUC4NCg0KV2hpbHN0IHRoZSBhYm92ZSBpcyB0cnVlLCB3ZSBzdGlsbCBtdXN0IGFk
+aGVyZSB0byB0aGUgInN0YWJsZSIgcnVsZXMgLSBPbmx5IGJ1ZyBmaXhlcyBldGMuIHNob3VsZCBi
+ZSBtYXJrZWQgZm9yIHN0YWJsZS4NCkFueSBleHRyYSBlZmZvcnQgaXMgZm9yIENJUCB0byBkby4N
+Cg0KQXMgeW91IHNheSBwZXJoYXBzIHRoaXMgcGF0Y2ggd2lsbCBmaXggY29kZSBmdW5jdGlvbmFs
+aXR5IGZvciBvdGhlciB1c2Vycy4NCkknbGwgbGVhdmUgaXQgdG8gdGhlIHJlbGV2YW50IG1haW50
+YWluZXJzIHRvIGRlY2lkZSBpZiB0aGlzIGlzIGEgc3VpdGFibGUgYnVnIGZpeCBvciBub3QgOikN
+Cg0KS2luZCByZWdhcmRzLCBDaHJpcw0KDQo+IA0KPiBXaXRoIHRoaXMsIHdvdWxkIHlvdSBwcmVm
+ZXIgdG8gZHJvcCB0aGUgIkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnIj8NCj4gDQo+IFRoYW5r
+IHlvdSwNCj4gQ2xhdWRpdSBCZXpuZWENCg0K
