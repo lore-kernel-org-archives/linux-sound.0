@@ -1,99 +1,81 @@
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.156])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B648A33F3
-	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 02:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=137.74.80.156
+Received: from cmccmta1.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AE112C80;
+	Wed,  6 Nov 2024 05:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730861013; cv=none; b=aMuFWOpSJFquQEomRlAVjrg6Oa/Qxrh9p6uFNyKZtakINjR+6w+HHGzUgyUfq8yS0xDsXwU8QbIhFlpqyzo8rn332uPAVSrn4GWO/QTDHR+hPyMjEgseculfUQKwE+TIbzHtaUn9Qbgn1dkhi2PB8NvP/9+lNubbMykpoaLfyOg=
+	t=1730872657; cv=none; b=B09aZbV3xUqcXfalIwR1XHfBHV6RqJLfdxf0moo7ejBqQ/mL5LvxLyBF1MWOpQn3XscIN0dTgaUT4Iid0ENiPQ2ZEQOLV80Q8MhVF5Ng2fB9PjFfTjiqZ+gXpCHj0LEa+q/OYv8P2w2Xfz1/bL0qaqwYEXDfsBIY9zD1G3jm+4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730861013; c=relaxed/simple;
-	bh=l29/Yf98WKz4qYQ88Ubs6cQUYviOEeqF+BBcdJm2rY4=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=nZwN3jHlIYF3KD1xQlEdRFQPjeCLzNoXQX9Cm1v1cTnPQuHDX2YFzMz41B29R6KcUo6e493VryAnWoWxkUOegtTjRId2ETehfMHWTfMdrvq3aGBTcocvBaILSPRZ6k87VWcBpNhaIKKU6JISpQRtmzpVtx1hSP32Th+GwEsG/hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=AvDQdufz; arc=none smtp.client-ip=137.74.80.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="AvDQdufz"
-Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id ED4822031C;
-	Wed,  6 Nov 2024 02:43:29 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf2.mymailcheap.com (Postfix) with ESMTPSA id DF5C5400F7;
-	Wed,  6 Nov 2024 02:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1730861007; bh=l29/Yf98WKz4qYQ88Ubs6cQUYviOEeqF+BBcdJm2rY4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AvDQdufz2QBsqLU0OPBSvoXQ/CqldFywCKbVEgm/+5Jf8q5eeePJQc3njUkwAu1Km
-	 5Lq5l4L4ubMlgNJJekkNyi2CqZJ7ZZ5Is5UwSnra9/PMKX0jh07ggknk65uIrS6FJ4
-	 maatXS9YWWMqLlShDCamLrzcZy/3KUCWuTONwRjs=
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 442CD41344;
-	Wed,  6 Nov 2024 02:43:27 +0000 (UTC)
+	s=arc-20240116; t=1730872657; c=relaxed/simple;
+	bh=2AM/jbmldN3Uoh7ZxuT26wR2a9hMQJ37FTIwOeMLbUc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D+SX8pg0taggS1MfmGOFHWLWCKRkJts2bopScjElsONzrCM0WlM07qTUjZve3efL1kuBoVhr8S+HziK3/FcHzUC1ZKHuPl4yA5P7NJ6vXUs4WQbiZYl28KapE4OO/4AR0fkV3aY6ZLKxh3D8tZyk2q84A42ONSHW3lDis2sibHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee3672b054215b-aa97b;
+	Wed, 06 Nov 2024 13:57:22 +0800 (CST)
+X-RM-TRANSID:2ee3672b054215b-aa97b
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from localhost.localdomain (unknown[223.108.79.103])
+	by rmsmtp-syy-appsvr06-12006 (RichMail) with SMTP id 2ee6672b0541a82-20337;
+	Wed, 06 Nov 2024 13:57:22 +0800 (CST)
+X-RM-TRANSID:2ee6672b0541a82-20337
+From: Luo Yifan <luoyifan@cmss.chinamobile.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Luo Yifan <luoyifan@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: amd: acp: Fix potential null pointer dereference of "adata"
+Date: Wed,  6 Nov 2024 13:57:20 +0800
+Message-Id: <20241106055720.208057-1-luoyifan@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 06 Nov 2024 10:43:26 +0800
-From: Mingcong Bai <jeffbai@aosc.io>
-To: Mark Brown <broonie@kernel.org>
-Cc: mario.limonciello@amd.com, linux-sound@vger.kernel.org
-Subject: Re: [PATCH] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14
- 2022
-In-Reply-To: <d8234639-0082-474f-94e9-3b7714c13073@sirena.org.uk>
-References: <8bad41b7ddbc8e061f682ecdf00a50e1@aosc.io>
- <d8234639-0082-474f-94e9-3b7714c13073@sirena.org.uk>
-Message-ID: <5c23472160eed3c9a10a7f37ebb82b35@aosc.io>
-X-Sender: jeffbai@aosc.io
-Organization: Anthon Open Source Community
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: DF5C5400F7
-X-Rspamd-Server: nf2.mymailcheap.com
-X-Spamd-Result: default: False [-0.10 / 10.00];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3]
-X-Rspamd-Action: no action
 
-Hi Mark,
+The condition `!adata` indicates a possible null pointer dereference
+for the "adata" parameter. To address this, the access to "adata"
+members has been moved after the null check to ensure safer handling.
 
-在 2024-11-06 03:11，Mark Brown 写道：
-> On Fri, Nov 01, 2024 at 12:35:35PM +0800, Mingcong Bai wrote:
->> Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
->> internal microphone to be enabled.
-> 
-> This doesn't apply against current code, please check and resend.
-> 
-> Applying: ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
-> error: git diff header lacks filename information when removing 1 
-> leading pathname component (line 6)
-> error: could not build fake ancestor
-> Patch failed at 0001 ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 
-> 14 2022
+Signed-off-by: Luo Yifan <luoyifan@cmss.chinamobile.com>
+---
+ sound/soc/amd/acp/acp-platform.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Patch rebased against latest master with minor revisions to message 
-format (I forgot to run checkpatch.pl last time). I have just re-sent 
-the patch as v2. Thanks!
+diff --git a/sound/soc/amd/acp/acp-platform.c b/sound/soc/amd/acp/acp-platform.c
+index 3a7a467b7..2acb08073 100644
+--- a/sound/soc/amd/acp/acp-platform.c
++++ b/sound/soc/amd/acp/acp-platform.c
+@@ -137,7 +137,7 @@ EXPORT_SYMBOL_NS_GPL(acp_machine_select, SND_SOC_ACP_COMMON);
+ static irqreturn_t i2s_irq_handler(int irq, void *data)
+ {
+ 	struct acp_dev_data *adata = data;
+-	struct acp_resource *rsrc = adata->rsrc;
++	struct acp_resource *rsrc;
+ 	struct acp_stream *stream;
+ 	u16 i2s_flag = 0;
+ 	u32 ext_intr_stat, ext_intr_stat1;
+@@ -145,6 +145,8 @@ static irqreturn_t i2s_irq_handler(int irq, void *data)
+ 	if (!adata)
+ 		return IRQ_NONE;
+ 
++	rsrc = adata->rsrc;
++
+ 	if (adata->rsrc->no_of_ctrls == 2)
+ 		ext_intr_stat1 = readl(ACP_EXTERNAL_INTR_STAT(adata, (rsrc->irqp_used - 1)));
+ 
+-- 
+2.27.0
 
-Best Regards,
-Mingcong Bai
+
+
