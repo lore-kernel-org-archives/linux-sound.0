@@ -1,40 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD932178FB;
-	Wed,  6 Nov 2024 02:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324F82185A1;
+	Wed,  6 Nov 2024 02:14:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730859248; cv=none; b=YaC27Anaz9v9kfdl8UwMizbH0unF6TDh525qYjtLZKLgtFJl36kD0cpk/Kb+z4R/Kn4Yr1lIDia5VrPaiM1LINVgarspQCMdQZuEYbvLqfvPrgM70U7rhgsC/suF4bJGXXO9LueW3nE+IHZaw0F16ybI+E4Ach1Qv0RYFb6UHzk=
+	t=1730859266; cv=none; b=dGItQf0uKvTvY2NhHJ9a3n//nAW9tA3oZOfl4qP99DpRIdOEta5TJ4a579SAc61Z1mRUE7Rkuh0DLPnm+TViMFEbOy+N1q02kUx8dzMKzw16eKhFKzCBUfl5ENeDZeA9ZRRpiBy0OksxelNFTQn5DsXcJ4uJSsgCIgCVy70n3XM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730859248; c=relaxed/simple;
-	bh=2mhfFY4CusycLGFFB8qPHzk3yqF1Z1C+sLk7hcyqBts=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HqMlr8U+NHFi+ImcVcvHVZXKS7mEfQ8xvnAupeOHNpyT/HqSd+4oR0Yc//19Xwhz9j5VG8qmj+C+jabJOZpChis8N/UI9oT61EYtkazMOE/U9stftO6MVzLEexMI3+Nc3N3VuxzDvsEaLhnDuNxLpo+QvbHkVHc8l9LPslgT2Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGMiLuFu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730859266; c=relaxed/simple;
+	bh=IbuP/LKdrsbrbtM90xkAeC+BN6cpvOVM5z5987hH2OE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aSEVLKXeOTACdrEw/PquvmfbX/1qFYyQeVwAzhI08xZnMhbkDUahk56szhOnied1s1ZgDbHUz6noMiAvnrSkT4UAfhngF0FbqHBN/1PGlTsQRA6MbKTjkZ2+DyXPT0b7Vyvje0sW70lbwvMGN0rpHmflccgpRKh/w7sUFTga+hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6RgL8I1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGMiLuFu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7148AC4CECF;
-	Wed,  6 Nov 2024 02:14:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6RgL8I1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4394DC4CED2;
+	Wed,  6 Nov 2024 02:14:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730859248;
-	bh=2mhfFY4CusycLGFFB8qPHzk3yqF1Z1C+sLk7hcyqBts=;
+	s=k20201202; t=1730859266;
+	bh=IbuP/LKdrsbrbtM90xkAeC+BN6cpvOVM5z5987hH2OE=;
 	h=From:To:Cc:Subject:Date:From;
-	b=LGMiLuFu8btgr5aq29CotXsDUN12q9RGgjx8Pi4ELR6UOpgNaxS2qpsT1VzDSF6Wp
-	 k/CwPVU/CZhYOf2cGW3Fh3z6juP75NcM+guJ1X0I15FRD63SeS9XBIUQXGPotDHote
-	 JrtshVJnaoajJUqi6evw5+hB4HYbT3gvrKFn0VH52ZRwQHDrkFmBngQC20XCxA8B+A
-	 /poVDoifmdpNl5Pn4vJqoyVqB7cF493kVgJSxBt5q475rnX7Qlo3iYtBYqc9Ic6VDR
-	 FeicJ8rgsVymAj6CaW4AI0/oYhuZV7L8pSUbQBzAcLsK8D7Wmq+wrcIIc+sizpNfOY
-	 8zONbwtvO4SSg==
+	b=c6RgL8I1/g4Dc0WP8osiiWCTts/j3aJ41JX2UfCkm8nF/oi87e5E/Wc1FWL3XqJhl
+	 TyyhtiWqYJ8D3rY4MPNSHRuYlSRQ4fj9LOvIv2cqtf1aggKOXD4/03IIlLshYbqaTv
+	 Aa/NhWLk0FSFLvHYjysaAryedFoMHt343rx2U984Vn7HirCD3t2Q8h7VQCqLcc1P2D
+	 y0qRzpHeRV8q3esA6bzM8GmTSKNvWPR0SkCQUcAcpzBoOWedmfcH/WP+oMR8klDyjr
+	 Vwy9RsxSrbHfQAH/+JoMXq6sqvSJAmQI7w9w9Y6IOuXHXGDSyXl7ajPSbPF2/voHsQ
+	 oYneUI2qiJS5g==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
-	cs@tuxedo.de
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	Takashi Iwai <tiwai@suse.de>,
+	jan@jschaer.ch
+Cc: Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16 Gen6 mb1" failed to apply to v4.19-stable tree
-Date: Tue,  5 Nov 2024 21:14:05 -0500
-Message-ID: <20241106021405.184036-1-sashal@kernel.org>
+Subject: FAILED: Patch "ALSA: usb-audio: Add quirks for Dell WD19 dock" failed to apply to v4.19-stable tree
+Date: Tue,  5 Nov 2024 21:14:23 -0500
+Message-ID: <20241106021423.184239-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -44,6 +43,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-Patchwork-Hint: ignore
 X-stable: review
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 The patch below does not apply to the v4.19-stable tree.
@@ -56,35 +56,45 @@ Sasha
 
 ------------------ original commit in Linus's tree ------------------
 
-From e49370d769e71456db3fbd982e95bab8c69f73e8 Mon Sep 17 00:00:00 2001
-From: Christoffer Sandberg <cs@tuxedo.de>
-Date: Tue, 29 Oct 2024 16:16:53 +0100
-Subject: [PATCH] ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16
- Gen6 mb1
+From 4413665dd6c528b31284119e3571c25f371e1c36 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20Sch=C3=A4r?= <jan@jschaer.ch>
+Date: Tue, 29 Oct 2024 23:12:49 +0100
+Subject: [PATCH] ALSA: usb-audio: Add quirks for Dell WD19 dock
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Quirk is needed to enable headset microphone on missing pin 0x19.
+The WD19 family of docks has the same audio chipset as the WD15. This
+change enables jack detection on the WD19.
 
-Signed-off-by: Christoffer Sandberg <cs@tuxedo.de>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+We don't need the dell_dock_mixer_init quirk for the WD19. It is only
+needed because of the dell_alc4020_map quirk for the WD15 in
+mixer_maps.c, which disables the volume controls. Even for the WD15,
+this quirk was apparently only needed when the dock firmware was not
+updated.
+
+Signed-off-by: Jan Schär <jan@jschaer.ch>
 Cc: <stable@vger.kernel.org>
-Link: https://patch.msgid.link/20241029151653.80726-2-wse@tuxedocomputers.com
+Link: https://patch.msgid.link/20241029221249.15661-1-jan@jschaer.ch
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/usb/mixer_quirks.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index e06a6fdc0bab7..571fa8a6c9e12 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -11008,6 +11008,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1d05, 0x115c, "TongFang GMxTGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x121b, "TongFang GMxAGxx", ALC269_FIXUP_NO_SHUTUP),
- 	SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
-+	SND_PCI_QUIRK(0x1d05, 0x1409, "TongFang GMxIXxx", ALC2XX_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d17, 0x3288, "Haier Boyue G42", ALC269VC_FIXUP_ACER_VCOPPERBOX_PINS),
- 	SND_PCI_QUIRK(0x1d72, 0x1602, "RedmiBook", ALC255_FIXUP_XIAOMI_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1d72, 0x1701, "XiaomiNotebook Pro", ALC298_FIXUP_DELL1_MIC_NO_PRESENCE),
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index 2a9594f34dac6..6456e87e2f397 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -4042,6 +4042,9 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ 			break;
+ 		err = dell_dock_mixer_init(mixer);
+ 		break;
++	case USB_ID(0x0bda, 0x402e): /* Dell WD19 dock */
++		err = dell_dock_mixer_create(mixer);
++		break;
+ 
+ 	case USB_ID(0x2a39, 0x3fd2): /* RME ADI-2 Pro */
+ 	case USB_ID(0x2a39, 0x3fd3): /* RME ADI-2 DAC */
 -- 
 2.43.0
 
