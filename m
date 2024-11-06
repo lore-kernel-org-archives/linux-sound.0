@@ -1,148 +1,119 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD021D043D;
-	Wed,  6 Nov 2024 08:45:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239C4183CD6;
+	Wed,  6 Nov 2024 09:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730882707; cv=none; b=rhXTQfvhwzehysTfnCFcY5wZ/lnoJdDkcOulK7KUZ91yyP12OXDQLDt16xGdkMz9xVESSo0YwjIio1AkjP5R7xhWiSj0Wr6cypjRjlKqTDUyT4mcrur4ugQwfO6/l2Gg7rif22dcx7bm8dtsjYcJaw4Ou9bN8aLdMg1nUHOVmkM=
+	t=1730884565; cv=none; b=o7G8WraeHQdJrhW+ZmxoFGb7xKks1PpsJFS6xjgX094+CWXgK6LFCgx/3gYTCgZLXWsRkEcmZRjfNDAxh8z02+ANbpPVOgHHw+7Tax37m0nypQIZgs/BGe9ms7a14wivOHT5QPyqLf7/3SD2fI8ls+MWaKJR/4yOThvg8u2Z5As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730882707; c=relaxed/simple;
-	bh=J24yp9eOiNrvQNu9kBFLlGNdEA4hj8a8DKe9HSNXhLc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aX8r8j4o3mSVxByp4Aj6nCQ5cPfn5WzJ+G/QN1cFQ8NLo79UgevWKnG0meRsIAm0m0nvq2bIK5mvb88YPiwdxKplC152c8KyQYYTgqIXFJ/0Lpu2x+1AIWV9a8bDxWyG5300u3fzFRJCB4UC2zLJg5dPSE1eBQkkE0ELHbCo3No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1srvWp2k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YccZmSgL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1srvWp2k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YccZmSgL; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1730884565; c=relaxed/simple;
+	bh=0MsT+PRcmMBQxJvoT42iJU1htJ6YTamf0usyHQ6hKUs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sX+qetgA7aPT41nP4Sq1Fq2oRNVUyXX75SumUfnWzjom+IThSCycdZGOk+3Lg3pTAtX/DgTCz4XyffDjaQrJ60Rge7OrQjPFsY0FOgO6d7gVpM9KFXFP11+qvauuUM8ka8mWuJiA/I4u7GDIf4WmTw6rmDlu1Jj7HYQkxbrPYl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru; spf=pass smtp.mailfrom=maxima.ru; dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b=JNuVFKJq; arc=none smtp.client-ip=81.200.124.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maxima.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maxima.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1srvWp2k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YccZmSgL";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1srvWp2k";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YccZmSgL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 834E81FCF8;
-	Wed,  6 Nov 2024 08:45:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730882703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
-	b=1srvWp2kNcclibLGORjHmhWEwNU9Z0wLY3ViK9uaArGmuHq10mxemHvoraM2isDabYyKAK
-	Yre+n+GH8qIkXnIySb7Hsr+7JXd2zN2I000OsDEyv8SxqZDPM+1Pmk79JPocuRmSKDUpU4
-	7w1c4VTlZ0rasC+zaYiX9YCdZ3i5uC4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730882703;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
-	b=YccZmSgL/BoF+4KT7T4Bd44jj9cluTEbc9XkUGgAC3tIGtrD7NR226/90Ijmk61bpgySf6
-	HUwIH85FmGTA3/DQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1srvWp2k;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YccZmSgL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1730882703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
-	b=1srvWp2kNcclibLGORjHmhWEwNU9Z0wLY3ViK9uaArGmuHq10mxemHvoraM2isDabYyKAK
-	Yre+n+GH8qIkXnIySb7Hsr+7JXd2zN2I000OsDEyv8SxqZDPM+1Pmk79JPocuRmSKDUpU4
-	7w1c4VTlZ0rasC+zaYiX9YCdZ3i5uC4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1730882703;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
-	b=YccZmSgL/BoF+4KT7T4Bd44jj9cluTEbc9XkUGgAC3tIGtrD7NR226/90Ijmk61bpgySf6
-	HUwIH85FmGTA3/DQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 469D813736;
-	Wed,  6 Nov 2024 08:45:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Cw7fD48sK2dkRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 06 Nov 2024 08:45:03 +0000
-Date: Wed, 06 Nov 2024 09:46:09 +0100
-Message-ID: <87a5ecwy0e.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: vkoul@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	broonie@kernel.org,
-	amadeuszx.slawinski@linux.intel.com
-Subject: Re: [PATCH] ALSA: compress_offload: Use runtime pointer in snd_compr_poll()
-In-Reply-To: <20241106075312.15601-1-peter.ujfalusi@linux.intel.com>
-References: <20241106075312.15601-1-peter.ujfalusi@linux.intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=maxima.ru header.i=@maxima.ru header.b="JNuVFKJq"
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 6BDADC0002;
+	Wed,  6 Nov 2024 12:06:36 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 6BDADC0002
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maxima.ru; s=sl;
+	t=1730883996; bh=zsIfNjJuQRzVx0PaAaQa+PRTtSriwy+5ltfs2Vpbja4=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=JNuVFKJqi9u8k5MpQyyQzuSqrmDj/Rn0L23cdQUe0AJUr/vgQMAH14DCBj138iDNe
+	 9bmUD16ABkOu2w5RBMKm6mo9NmB4yYS+9QoD/iCybitc8uF+IBEwDMDhrgZihmVh0H
+	 bYs/UKNsW+JW5t7QY0G62Abosa1A1eSAZatMbEIQ0uSj1msKyZt7wV7MuT7PPhVsdz
+	 FQHl6L7Sm9/D3fCpmwCjcq+hKdm+pdt5AEfe12zM8hmt6T8mLKrMvUg49x9+vvLE/6
+	 lVJXIo5AzOWhat7N3Q4aHWppInjIU5HigRQiULX3R4ScniVdWlyF368lbKg9s5dvNC
+	 bRT67QAbfgdhw==
+Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg01.maxima.ru (Postfix) with ESMTPS;
+	Wed,  6 Nov 2024 12:06:36 +0300 (MSK)
+Received: from localhost.maximatelecom.ru (10.0.247.43) by
+ mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.1544.4; Wed, 6 Nov 2024 12:06:34 +0300
+From: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: Vitaliy Shevtsov <v.shevtsov@maxima.ru>, Liam Girdwood
+	<liam.r.girdwood@linux.intel.com>, Peter Ujfalusi
+	<peter.ujfalusi@linux.intel.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, Ranjani Sridharan
+	<ranjani.sridharan@linux.intel.com>, Kai Vehmanen
+	<kai.vehmanen@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, Jaroslav
+ Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	<linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH] ASoC: Intel: sof_wm8804: add check for CLKDIV setting
+Date: Wed, 6 Nov 2024 14:06:02 +0000
+Message-ID: <20241106140603.14516-2-v.shevtsov@maxima.ru>
+X-Mailer: git-send-email 2.46.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 834E81FCF8
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,intel.com:email];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-Rule-ID: 7
+X-KSMG-Message-Action: clean
+X-KSMG-AntiSpam-Lua-Profiles: 188984 [Nov 06 2024]
+X-KSMG-AntiSpam-Version: 6.1.1.7
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@maxima.ru
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=maxima.ru;spf=none smtp.mailfrom=maxima.ru;dkim=none
+X-KSMG-AntiSpam-Info: LuaCore: 41 0.3.41 623e98d5198769c015c72f45fabbb9f77bdb702b, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, ksmg01.maxima.ru:7.1.1;maxima.ru:7.1.1;81.200.124.61:7.1.2;127.0.0.199:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-MS-Exchange-Organization-SCL: -1
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiPhishing: Clean
+X-KSMG-LinksScanning: Clean
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.0.1.6960, bases: 2024/11/06 04:26:00 #26824941
+X-KSMG-AntiVirus-Status: Clean, skipped
 
-On Wed, 06 Nov 2024 08:53:12 +0100,
-Peter Ujfalusi wrote:
-> 
-> runtime is not used as seen with W=1 :
-> sound/core/compress_offload.c: In function ¡snd_compr_poll¢:
-> sound/core/compress_offload.c:409:35: error: variable ¡runtime¢ set but not used [-Werror=unused-but-set-variable]
->   409 |         struct snd_compr_runtime *runtime;
->       |                                   ^~~~~~~
-> 
-> Instead of dropping the runtime, use it in the function in place of
-> stream->runtime
-> 
-> Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Currently the return value of snd_soc_dai_set_clkdiv() is not checked for a
+possible failure. Despite it cannot fail as long as the second argument is
+either WM8804_CLKOUT_DIV or WM8804_MCLK_DIV because wm8804_set_clkdiv() handles
+both of them it is still better to add this check for the sake of completeness
+and correctness. Also this is the only snd_soc_dai_set_clkdiv() call site where
+the return value is not processed.
 
-Applied now.  Thanks.
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@maxima.ru>
+---
+ sound/soc/intel/boards/sof_wm8804.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Takashi
+diff --git a/sound/soc/intel/boards/sof_wm8804.c b/sound/soc/intel/boards/sof_wm8804.c
+index facc6c32cbfe..d7ac54e9d0a8 100644
+--- a/sound/soc/intel/boards/sof_wm8804.c
++++ b/sound/soc/intel/boards/sof_wm8804.c
+@@ -123,7 +123,12 @@ static int sof_wm8804_hw_params(struct snd_pcm_substream *substream,
+ 		}
+ 	}
+ 
+-	snd_soc_dai_set_clkdiv(codec_dai, WM8804_MCLK_DIV, mclk_div);
++	ret = snd_soc_dai_set_clkdiv(codec_dai, WM8804_MCLK_DIV, mclk_div);
++	if (ret < 0) {
++		dev_err(rtd->card->dev, "Failed to set WM8804 CLKDIV\n");
++		return ret;
++	}
++
+ 	ret = snd_soc_dai_set_pll(codec_dai, 0, 0, sysclk, mclk_freq);
+ 	if (ret < 0) {
+ 		dev_err(rtd->card->dev, "Failed to set WM8804 PLL\n");
+-- 
+2.46.2
+
