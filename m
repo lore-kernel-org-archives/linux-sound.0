@@ -1,57 +1,57 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9388A1DE896
-	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 08:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D081DE8BA
+	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 08:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730881199; cv=none; b=Y2vN+M7dNQrjnDDbwtAKfMHS1PE49z76cqZfGvMRJv/9uLlcXg3hPWwOEHe+/9q94xleqVoRCT0pkj1MdCIDuXg2q/oHEaqZAUadhsCACVqglTAUjCBP5eKI+B+y3DpTlqyq8YAHKiZ/mAZPqYuTxCeyzM6qcs+6gFzsUTJACFQ=
+	t=1730881202; cv=none; b=QnBZXk6c8WIqopNiyQQ5KBxReckA8uOusU+hoq5SwV6Hnc4cQun6UnIdcPvPoqBudsBeq+vAaH+o84iC7bSZLgPsNH7ojhEcsv+xe8dVzGBDg2pc/DboUETMEc8+2ecth2R69sJbgnyOtxwOaZwRrDtA7I4MzzZqoYyFxBtRFKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730881199; c=relaxed/simple;
-	bh=9yQU3pibX+brmIMUzz7o55brbRDQsa2RoJOTqH73gG0=;
+	s=arc-20240116; t=1730881202; c=relaxed/simple;
+	bh=BHXNEXC1/w9w0FhCNA8Ut+at5P9M9ABgSHfmJMFUoc0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IZr+T+hTB1TMek6cXe2navbUwml8bGWPt+urarD852hxmAoeJZ1k2NabOgeRzSm7zKXhsVpkZS0pYErkfjDbhD/O7Imv2L7ZSoRGA7yaXboSmEbgsMTW7u5g9t3RxK2s8MvsHC4s+c3emw3z2mm5Lz5+JZEY/uZQUWUNL1EW1bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=SVDL58sz; arc=none smtp.client-ip=209.85.218.53
+	 MIME-Version; b=Mh3WckwKvf5DCYdzBltDH48Q8tJG5u3bZ7CEBzfZJagHi/BE2GWkvtrLYcF04xSy9YCvYD5h1dAOcigeExuauT+z2n5RSC4Y4JtugZF4gY6K+40A0yBJV3sNMK6pyvne3oYqQaIk6p5UdimOp569GZTnxS4lTWlua4DRY/AnKl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=BD4T1vL+; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="SVDL58sz"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9e44654ae3so844611166b.1
-        for <linux-sound@vger.kernel.org>; Wed, 06 Nov 2024 00:19:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="BD4T1vL+"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso1006871966b.3
+        for <linux-sound@vger.kernel.org>; Wed, 06 Nov 2024 00:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730881196; x=1731485996; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1730881198; x=1731485998; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OUZqrVOVAOQx25I2zGtXcv17LnnQ6riSA+Z+YzfJ800=;
-        b=SVDL58szJnYKWVvmFWspKC1i80x8zvAMbs8+eAPpjeTXHEsyuDBkdfQT/fTGRMbhR1
-         rgj+wWgyZs0NBtwVDmLo7BjXpqEDwGCMD6uEpIwj7v0i9uiSJq8YevrCEcu/hybX9v84
-         1mmV2az9Sqx4O0/dH8mmf9BhWZiUaSCve07QqJKBWn444ETcEHqLvMzTTKUf+WuBcMTn
-         M7wuZU4Av+HJoQd1u4CVU7rcaunRhi9GYds173TuRsR58F6FgerMlT1CGgO9PikTL3YY
-         yfZwGKzPoxWP1udJ0/Oz+NFQiqVsDYHGmaxwqUmD0chS3wwVkwYf0AvYSnWR5D57H2vp
-         ZCyw==
+        bh=yECIox5RObecLN+cHaST8UhC3ewkjvCv9PiaN0/Ski0=;
+        b=BD4T1vL+pSofDDjkuHh/NBYCRUH7bUE654GUEF01nEfk1H9npk68smUghBKMceYTBH
+         X1lvjuxi/UMsc2Ybq6Q/HjhWvBZd2gqpyH9WjGmKhSSnu0qp4thb2dHM4qZsx2e4oDjo
+         7qpdf0EDQMhBoXAWKou+b7uilzJDSTEtp7zt+4h/5ba/GIKF79Nw6WYj9gqsCTXqO+8+
+         gt2ed6RhJO5gvYrHBf9xWykdPLIEcCYqJ0zWJeACqrXMByGTsRTgiECX7XGCJ8/En3eN
+         AAaqnJrxL+94hSwQKmx684pXVdvnxduY+5nlB/qNRh0GYiq5Mdxu7IdgfF3kSJ9wDgGG
+         WFVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730881196; x=1731485996;
+        d=1e100.net; s=20230601; t=1730881198; x=1731485998;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OUZqrVOVAOQx25I2zGtXcv17LnnQ6riSA+Z+YzfJ800=;
-        b=QZzrc6ujG7VL/pIQvAZNINseqth76anPzAqYf7cWQrTM5Ej6T0E0bgYVRvoGXxw1Cy
-         7PWewFMh9btJSl+J7iGf8bIpvIMHP4ci/B2mVcTCkYFFxA+2EZsXxCjziDU1juhiXHMQ
-         4w1kH7tbaaxd+AeIuU14NTjgeet+3nIYVYh6RYxy4kqjiTMs6Jb2s0ZBmhSSfrBTX2Rj
-         62ZwFIZ/sNZrnwxQJS4GN9T25myev1KGLAISWRDXCRCuRRcbS6FtE+xtttHxy+OiPBXo
-         rf5fX8lb2D9evBsxW2vT+b/CbB/WGetmPoAkKh382LdBq19P3V0BZMWRz3h0i/nolw6H
-         Li1A==
-X-Forwarded-Encrypted: i=1; AJvYcCXsA2D+vo/WLmcgoExZmTiwucbzXTmsMvATXAldMy8kmbVQjsisRgR6HSnAAp2Jlb932RLeRqRnGphiKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJzCTX80Fq9pQew0NTVcEgNYlAAw5Ki4crIp9pttiTtUyQGCgi
-	IGV4K1x8ZhBcwrq9d9XYitQZk6VT2KR+jc+AEM8h/dJ8eTNz6rlmXZ56tWwhWCI=
-X-Google-Smtp-Source: AGHT+IFAj61o8T1/nrUGKe90uLoFOCY22Ct9IQWDiN3o35dikaofTS2OgMHrWcjZ/bVf05WTZ+Y+2A==
-X-Received: by 2002:a17:907:3f83:b0:a9a:6633:3a90 with SMTP id a640c23a62f3a-a9e508ac3c0mr2121950966b.8.1730881196065;
-        Wed, 06 Nov 2024 00:19:56 -0800 (PST)
+        bh=yECIox5RObecLN+cHaST8UhC3ewkjvCv9PiaN0/Ski0=;
+        b=VzM8ykOK+C9MPUtmgORbN7nCiSOXqbTHABMDGmORMUqW50Wov+cDnJ/eCtzyucyXnh
+         u8ktWrWMR3C3EvVEjERGQaYFrj/+/o5QZnafMNp/fer3X884PjUhFp9diLtEfOITutm4
+         rzUToc52g4s6MOdKO1yuTy6JUYXLF4zt3amqipnY0v14RpcDe36NswOtUhAaoRUxESBY
+         n42OBl+QNwD0jkgF1AfimUM0zrggBCTFTm8tk4mTv1ihU3DWLzvVGJPbTtqvGR13p/ga
+         /ezib1HBrBwT0GJdZQIRE2Y3M9wwXuQ5jzuX5LCAkqwg6KQhzE5XrMKA+XalfdCGYX2J
+         j3+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIVtQYT1MPCbbe64e9qWfk3EXxtZOq+UgP5W+qnuOYIMHxUaNd8w030HeDYsSHkB5YPErpuShZV07OVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHd+tSaTJXrfUXp8okyEGKruIrTUlAJAY83FfUbay9IFk4/KFt
+	7fHhij1eR9e+qxF8oDuV+xTTD1QGssveVklwvWROmXQ78DOjcBdl6v15jMcqiDU=
+X-Google-Smtp-Source: AGHT+IGEMFGGhO9PX5iPocUcuztLprgm6nLf2U8XtkwJ0kqqZVdV/QdchMWEvwv3n99+bkam1W7LXg==
+X-Received: by 2002:a17:907:9408:b0:a99:f887:ec09 with SMTP id a640c23a62f3a-a9e655b92b0mr1712798466b.35.1730881198109;
+        Wed, 06 Nov 2024 00:19:58 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.19.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.19.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 00:19:55 -0800 (PST)
+        Wed, 06 Nov 2024 00:19:57 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -78,9 +78,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 19/31] ASoC: sh: rz-ssi: Issue software reset in hw_params API
-Date: Wed,  6 Nov 2024 10:18:14 +0200
-Message-Id: <20241106081826.1211088-20-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH 20/31] ASoC: sh: rz-ssi: Add suspend to RAM support
+Date: Wed,  6 Nov 2024 10:18:15 +0200
+Message-Id: <20241106081826.1211088-21-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
@@ -94,74 +94,107 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The code initially issued software reset on SNDRV_PCM_TRIGGER_START
-action only before starting the first stream. This can be easily moved to
-hw_params() as the action is similar to setting the clocks. Moreover,
-according to the hardware manual (Table 35.7 Bits Initialized by Software
-Reset of the SSIFCR.SSIRST Bit) the software reset action acts also on the
-clock dividers bits. Due to this issue the software reset in hw_params()
-before configuring the clock dividers. This also simplifies the code in
-trigger API.
+The SSIF-2 IP is available on the Renesas RZ/G3S SoC. The Renesas RZ/G3S
+SoC supports a power-saving mode where power to most of the SoC
+components is turned off. Add suspend/resume support to the SSIF-2 driver
+to support this power-saving mode.
+
+On SNDRV_PCM_TRIGGER_SUSPEND trigger the SSI is stopped (the stream
+user pointer is left untouched to avoid breaking user space and the dma
+buffer pointer is set to zero), on SNDRV_PCM_TRIGGER_RESUME software reset
+is issued for the SSIF-2 IP and the clocks are re-configured.
 
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- sound/soc/renesas/rz-ssi.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+ sound/soc/renesas/rz-ssi.c | 46 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 44 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 16bca493a254..f767a667c2bf 100644
+index f767a667c2bf..4fbcc8f11d54 100644
 --- a/sound/soc/renesas/rz-ssi.c
 +++ b/sound/soc/renesas/rz-ssi.c
-@@ -388,6 +388,15 @@ static int rz_ssi_start(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- 	return 0;
+@@ -782,6 +782,32 @@ static int rz_ssi_dma_request(struct rz_ssi_priv *ssi, struct device *dev)
+ 	return -ENODEV;
  }
  
-+static int rz_ssi_swreset(struct rz_ssi_priv *ssi)
++static int rz_ssi_trigger_resume(struct rz_ssi_priv *ssi)
 +{
-+	u32 tmp;
-+
-+	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, SSIFCR_SSIRST);
-+	rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
-+	return readl_poll_timeout_atomic(ssi->base + SSIFCR, tmp, !(tmp & SSIFCR_SSIRST), 1, 5);
-+}
-+
- static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
- {
- 	strm->running = 0;
-@@ -782,14 +791,6 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
- 
- 	switch (cmd) {
- 	case SNDRV_PCM_TRIGGER_START:
--		/* Soft Reset */
--		if (!rz_ssi_is_stream_running(&ssi->playback) &&
--		    !rz_ssi_is_stream_running(&ssi->capture)) {
--			rz_ssi_reg_mask_setl(ssi, SSIFCR, 0, SSIFCR_SSIRST);
--			rz_ssi_reg_mask_setl(ssi, SSIFCR, SSIFCR_SSIRST, 0);
--			udelay(5);
--		}
--
- 		rz_ssi_stream_init(strm, substream);
- 
- 		if (ssi->dma_rt) {
-@@ -914,6 +915,7 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 					SNDRV_PCM_HW_PARAM_SAMPLE_BITS)->min;
- 	unsigned int channels = params_channels(params);
- 	unsigned int rate = params_rate(params);
 +	int ret;
- 
- 	if (sample_bits != 16) {
- 		dev_err(ssi->dev, "Unsupported sample width: %d\n",
-@@ -940,6 +942,10 @@ static int rz_ssi_dai_hw_params(struct snd_pcm_substream *substream,
- 	rz_ssi_cache_hw_params(ssi, rate, channels, strm->sample_width,
- 			       sample_bits);
- 
++
++	if (rz_ssi_is_stream_running(&ssi->playback) ||
++	    rz_ssi_is_stream_running(&ssi->capture))
++		return 0;
++
 +	ret = rz_ssi_swreset(ssi);
 +	if (ret)
 +		return ret;
 +
- 	return rz_ssi_clk_setup(ssi, rate, channels);
- }
++	return rz_ssi_clk_setup(ssi, ssi->hw_params_cache.rate,
++				ssi->hw_params_cache.channels);
++}
++
++static void rz_ssi_streams_suspend(struct rz_ssi_priv *ssi)
++{
++	if (rz_ssi_is_stream_running(&ssi->playback) ||
++	    rz_ssi_is_stream_running(&ssi->capture))
++		return;
++
++	ssi->playback.dma_buffer_pos = 0;
++	ssi->capture.dma_buffer_pos = 0;
++}
++
+ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 			      struct snd_soc_dai *dai)
+ {
+@@ -790,8 +816,16 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	int ret = 0, i, num_transfer = 1;
  
+ 	switch (cmd) {
++	case SNDRV_PCM_TRIGGER_RESUME:
++		ret = rz_ssi_trigger_resume(ssi);
++		if (ret)
++			return ret;
++
++		fallthrough;
++
+ 	case SNDRV_PCM_TRIGGER_START:
+-		rz_ssi_stream_init(strm, substream);
++		if (cmd == SNDRV_PCM_TRIGGER_START)
++			rz_ssi_stream_init(strm, substream);
+ 
+ 		if (ssi->dma_rt) {
+ 			bool is_playback;
+@@ -819,6 +853,12 @@ static int rz_ssi_dai_trigger(struct snd_pcm_substream *substream, int cmd,
+ 
+ 		ret = rz_ssi_start(ssi, strm);
+ 		break;
++
++	case SNDRV_PCM_TRIGGER_SUSPEND:
++		rz_ssi_stop(ssi, strm);
++		rz_ssi_streams_suspend(ssi);
++		break;
++
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		rz_ssi_stop(ssi, strm);
+ 		rz_ssi_stream_quit(ssi, strm);
+@@ -958,7 +998,8 @@ static const struct snd_soc_dai_ops rz_ssi_dai_ops = {
+ static const struct snd_pcm_hardware rz_ssi_pcm_hardware = {
+ 	.info			= SNDRV_PCM_INFO_INTERLEAVED	|
+ 				  SNDRV_PCM_INFO_MMAP		|
+-				  SNDRV_PCM_INFO_MMAP_VALID,
++				  SNDRV_PCM_INFO_MMAP_VALID	|
++				  SNDRV_PCM_INFO_RESUME,
+ 	.buffer_bytes_max	= PREALLOC_BUFFER,
+ 	.period_bytes_min	= 32,
+ 	.period_bytes_max	= 8192,
+@@ -1201,6 +1242,7 @@ static int rz_ssi_runtime_resume(struct device *dev)
+ 
+ static const struct dev_pm_ops rz_ssi_pm_ops = {
+ 	RUNTIME_PM_OPS(rz_ssi_runtime_suspend, rz_ssi_runtime_resume, NULL)
++	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+ };
+ 
+ static struct platform_driver rz_ssi_driver = {
 -- 
 2.39.2
 
