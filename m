@@ -1,111 +1,99 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921901DF24C;
-	Wed,  6 Nov 2024 12:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D991F9EAB;
+	Wed,  6 Nov 2024 13:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730894922; cv=none; b=D3epH6eDHg3cbPUw7KxgewaTaVOWoRMBotdHov7AKsMgZaOejD818vx2JaFgSqUqUD6gjiP56mJSGPUbl28y7dIs+ChwMseN+/twrQHBA3GH1npUCzT8KwTPuacXP6WnMNtMHcFoojS6a+gGIyriU0VhZukyjn/agPeCabvFC3g=
+	t=1730900621; cv=none; b=Ba8EaKXXmZ21ZuZz100zAMfnCptiIGeW0/BfV8Qt0xKuUxNr9h5JPdr/JIFjYNPzd64MJR+Sytziyt8nhBn7LAYhvMKIsxLqGT5qJMDTk9sdtE3UfzT8XaJjKuVRMRjeO1C5PRLN50tfIesTxt+SjTnqAMRnDfZp6QSjKh7j9IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730894922; c=relaxed/simple;
-	bh=4EdajbeLaLBdqCivv+WYhCw/kuZ3B/enGg7P0ePCmf0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aSdC5U89rPPaztTrXiKTg13JEGeH4/MCdU1n0GQMvQHf5ZbzP86YXs0ek00LOQsu92zhsIwo5Nq6nqK7ne9vSr+mFPEfthntDbTK0Mpb4S5O+y4nOmcZpnSeXjyJXXTnTkd0djMRYCws0ZyI7tGQHuhRVA6G3Jff5YKy971P+yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=q62i/63o; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1730900621; c=relaxed/simple;
+	bh=AvHJghciWDhD/x8KUXSpLz7qHkc2aFQiPOOMs5V1Fv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4dcQivjX19G5DWDcUjkdb8fqqx7RE9J0/tq1kHBzu18VGS4rwEJlHbUjyGsrTRBcUYq7v489Gwgh0OEz8BhUulzg3GA92Kl08em1JTTkFjOOYui2oEe8s1Fg9JZLNJvKbo9krA51SHgVRtYgy8AK3iGwB02UCc0NzSbkpNSwaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfRrOfXm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="q62i/63o"
-Received: from [192.168.42.96] (p5de457db.dip0.t-ipconnect.de [93.228.87.219])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 2A68A2FC004A;
-	Wed,  6 Nov 2024 13:08:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1730894916;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o/30wpGdyfSTLtV/rbRbi/mdTrhXhrq63YfJCVlalxw=;
-	b=q62i/63ovV3cLnGYzcJK91S9wP3aR2vjXDj9PYFBx50kBnoc/dYmY7r+7PVQ03EKuD5SVz
-	bWXzplSp/1LcVWk0rhbsILQTpUCTSfd9Wq5DVy9ZsEVaTtM5hcLxj7FjGOSDlyAVjpbEap
-	c8scNJ38uxBrBZo5zCIb/y+O4Cmot4Y=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <d71bdeaf-b137-4826-8926-da9da1904232@tuxedocomputers.com>
-Date: Wed, 6 Nov 2024 13:08:36 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfRrOfXm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69956C4CECD;
+	Wed,  6 Nov 2024 13:43:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730900621;
+	bh=AvHJghciWDhD/x8KUXSpLz7qHkc2aFQiPOOMs5V1Fv0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qfRrOfXmESwZyDQhPNkDJgGi8YWbap+zQSnnKTjNRq0K9d9rKEeLHS6ISBOc0j2kr
+	 T0QHzq7K9ZnLcN6d6mrBJQs6WBeU6BUvOvI/eGFXtWd9TAftn+cVheqed+TaW5m+CV
+	 +4GOrYK3gQL5KFhzalL9L/zI3KX4CE9yoQE/PygkdsjA1rOozplLuj2atjLsNY74RU
+	 BymKoASK8FGh9ttmyKOwg/REy7cughmQAKD0hJ1tXZl19CBJPWndXjjJ9UDHX3Ogy2
+	 GIxlLPsQIpKQyIWgT71PrAPTYYG03xd8zkC8uFT4SjN9JjkOjnwZVM8KoDdGea14Ou
+	 9k0LUcU284nkw==
+Date: Wed, 6 Nov 2024 13:43:33 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Claudiu <claudiu.beznea@tuxon.dev>
+Cc: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com, magnus.damm@gmail.com,
+	linus.walleij@linaro.org, support.opensource@diasemi.com,
+	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
+	Adam.Thomson.Opensource@diasemi.com,
+	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 22/31] ASoC: da7213: Populate max_register to
+ regmap_config
+Message-ID: <d3c28a8b-878c-4894-aa23-5b360153b85d@sirena.org.uk>
+References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241106081826.1211088-23-claudiu.beznea.uj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: FAILED: Patch "ALSA: hda/realtek: Fix headset mic on TUXEDO
- Gemini 17 Gen3" failed to apply to v6.1-stable tree
-To: Sasha Levin <sashal@kernel.org>
-Cc: stable@vger.kernel.org, cs@tuxedo.de, Takashi Iwai <tiwai@suse.de>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241106021124.182205-1-sashal@kernel.org>
- <dc0af563-59d2-4176-ad15-fa93cf5c99d2@tuxedocomputers.com>
- <a7ab1da8-5fe8-4f46-bf18-bfc8d6fa3e6f@tuxedocomputers.com>
- <ZytaejmvQo3NkUrP@sashalap>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <ZytaejmvQo3NkUrP@sashalap>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qgBjwTwv0FsyKsIO"
+Content-Disposition: inline
+In-Reply-To: <20241106081826.1211088-23-claudiu.beznea.uj@bp.renesas.com>
+X-Cookie: Include me out.
 
-Hi,
 
-Am 06.11.24 um 13:00 schrieb Sasha Levin:
-> On Wed, Nov 06, 2024 at 10:23:14AM +0100, Werner Sembach wrote:
->> Am 06.11.24 um 10:19 schrieb Werner Sembach:
->>> Hi,
->>>
->>> Am 06.11.24 um 03:11 schrieb Sasha Levin:
->>>> The patch below does not apply to the v6.1-stable tree.
->>>> If someone wants it applied there, or to any other stable or longterm
->>>> tree, then please email the backport, including the original git commit
->>>> id to <stable@vger.kernel.org>.
->>>
->>> Applying 33affa7fb46c0c07f6c49d4ddac9dd436715064c (ALSA: hda/realtek: Add 
->>> quirks for some Clevo laptops) first and then 
->>> 0b04fbe886b4274c8e5855011233aaa69fec6e75 (ALSA: hda/realtek: Fix headset mic 
->>> on TUXEDO Gemini 17 Gen3) and e49370d769e71456db3fbd982e95bab8c69f73e8 
->>> (ALSA: hda/realtek: Fix headset mic on TUXEDO Stellaris 16 Gen6 mb1) makes 
->>> everything work without alteration.
->>>
->>> The first one is just missing the cc stable tag, probably by accident.
->>>
->>> Should I alter the 2nd and 3rd commit or should I send a patchset that 
->>> includes the first one?
->>
->> Sorry just realized that for 5.15 it's a different patch that is missing for 
->> e49370d769e71456db3fbd982e95bab8c69f73e8 to cleanly apply
->>
->> I will just alter the patches
->
-> It applies, but fails to build:
->
-> In file included from sound/pci/hda/patch_realtek.c:21:
-> sound/pci/hda/patch_realtek.c:9530:59: error: 'ALC2XX_FIXUP_HEADSET_MIC' 
-> undeclared here (not in a function); did you mean 'ALC283_FIXUP_HEADSET_MIC'?
->  9530 |         SND_PCI_QUIRK(0x1d05, 0x1387, "TongFang GMxIXxx", 
-> ALC2XX_FIXUP_HEADSET_MIC),
->       | ^~~~~~~~~~~~~~~~~~~~~~~~
-> ./include/sound/core.h:465:50: note: in definition of macro 'SND_PCI_QUIRK'
->   465 |         {_SND_PCI_QUIRK_ID(vend, dev), .value = (val), .name = (xname)}
->       |                                                  ^~~
-> make[3]: *** [scripts/Makefile.build:289: sound/pci/hda/patch_realtek.o] Error 1
->
-I'm sorry I did not double check if the define exists ins 6.1.
+--qgBjwTwv0FsyKsIO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Considering that it's a fairly new device it's reasonable enough to assume that 
-it's probably not run with the 6.1 kernel and so I don't want to blow up the 
-patch to much. So just forget about it and sorry again that I caused you extra work.
+On Wed, Nov 06, 2024 at 10:18:17AM +0200, Claudiu wrote:
+> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>=20
+> On the Renesas RZ/G3S SMARC Carrier II board having a DA7212 codec (using
+> da7213 driver) connected to one SSIF-2 available on the Renesas RZ/G3S SoC
+> it has been discovered that using the runtime PM API for suspend/resume
+> (as will be proposed in the following commits) leads to the codec not
+> being propertly initialized after resume. This is because w/o
+> max_register populated to regmap_config the regcache_rbtree_sync()
+> breaks on base_reg > max condition and the regcache_sync_block() call is
+> skipped.
+>=20
+> Fixes: ef5c2eba2412 ("ASoC: codecs: Add da7213 codec")
+> Cc: stable@vger.kernel.org
 
-Kind regards,
+Why is this a stable fix when it only enables further work?
 
-Werner Sembach
+--qgBjwTwv0FsyKsIO
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcrcoQACgkQJNaLcl1U
+h9B+uAf/T9UHiIXHURIt+YX7P9zWTkwxOYzQrVtIxV9Uz16GFNImxUT3T7ZkDJPm
+Erxp7p9mSMTejwQKY8qPBDBgFh00UE8ZNhdcb1PmRZTJ4DeK1mOmjl2SulAB/EM9
+v5g+3Cv95GmCpE0FfpsEwuhtz+wPWdJU3lqpG1rVtjMyXzuPqH5Ie4viG/I2pGO5
+RNoUFDOHu2pc7f3i3WzmmywjEDJIhOHXv/rQRy8ZG8TZyvNDDX0sP/+y0ElBUBsB
+81GcYxUjx+0h5uiE0XlXcfdemDG3L73XccwdWEJZ0xh+XKmrVLm1jFoJqLAiY7gM
+jGFGeURWY9VEnaDqJCf33O0nhkmAGQ==
+=RpAB
+-----END PGP SIGNATURE-----
+
+--qgBjwTwv0FsyKsIO--
