@@ -1,57 +1,57 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E201D90D7
-	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 08:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05E61D966B
+	for <linux-sound@vger.kernel.org>; Wed,  6 Nov 2024 08:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730881169; cv=none; b=EjyfgsyQet/Kcihp6o6cRbQDLlk0aP8pB/eU7yTsd8PtzfKooV23u/To0da3eglC+ia2hPsiyLg65V7XcTDCKAC75Z2moQp2tZd6D5ZGfXdqJdQo8t0CcUNqEz7aXy/p6NwhntZrd7e3SsQYyAIHqD5A+lrLn/fYOXLknYkBUks=
+	t=1730881171; cv=none; b=o8eXeIWKwFg6JkGzpmMmoNIG0r7MjJPtHcSMeuP+LvMJBP9v42Kih8enFDMu5RCCDoougn78jPE1ifkmi8U1tLlsLEoTF5kiLWx7DSBxMxW+U5UjAMALFMwgKK0eNqhZprAMYr+he7zp3snUPilePOujaRqsJchQ933QRpSZDzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730881169; c=relaxed/simple;
-	bh=8UOlDm3vrSjRTc4vbWGP2PkIhWAkTQRY2So1hnpltTQ=;
+	s=arc-20240116; t=1730881171; c=relaxed/simple;
+	bh=6Ek26qUtvIoWKsxi8HkRm9I/Gw/NRLrsEUyY6zbNxuc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WSXWBjtEnSn8T261Gu78ZP9CkVydztQY9lnMs3hjOy2cEPWv4g9FZLz4VDpjuxvzmcHkWsr/v9SdoLqJel+UNmAbRWHUYApbDiWSryENNC7eeplixUt2oy6v/B2LZYeKxGbVfRvwszEmZflEkJMd0vNBPTVa1jFvsKI2BNr5u4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=jmVh954j; arc=none smtp.client-ip=209.85.218.44
+	 MIME-Version; b=IflXt3IiQA7qDeHXI8C9RpL3a62a/4SGBnLtCcTGGqTeBoiwtQ9hG6SFKmI8s8hyZlG7SAlPkfdrILvUrBywZxh6DLxnzkN8jX/fZGi66S0ZPrF4X+VdOHRtOQBPlYw143L9cKJbvJLh7YGUSojQamwkxZp0YQtOo85aaNI7zx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=hNZgi+bG; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="jmVh954j"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a99ebb390a5so111764866b.1
-        for <linux-sound@vger.kernel.org>; Wed, 06 Nov 2024 00:19:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="hNZgi+bG"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a998a5ca499so844983866b.0
+        for <linux-sound@vger.kernel.org>; Wed, 06 Nov 2024 00:19:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1730881166; x=1731485966; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1730881168; x=1731485968; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+ke7NRgTssg/IEZFWgLNPKBw8NmV+vA1artHipjKW4=;
-        b=jmVh954jD7M2GVDspV46DP3n+eTyxONuvgCAET/J8yAWK/PVZnydCyq1UMULQkDPqY
-         IHmkCCbeCxpYf/oAHBw+Hu9VwXNJEYeJkR6NmlLAaAPcl7LUS5jmFtVYKoLWU4ZU38Ra
-         b7gRO9gK+l0xAehVCBPMxPf5VJUxVsSwbHc4qhke8WeK6iCoJC0CJr+w+WFpn/lLqmaB
-         9NexTqSK1uo9W7a3tbC5WALhSTdxGmUldVmc9GrwRkA8q+derdXQhn4KjpI0gw8f+sL5
-         fYg95f0Gvgq4NV8UtUX68El4bLi4WVZC4c2bxCTwZr479g334dRBwtQaRCbLQUJbCmpO
-         iFTQ==
+        bh=GoHBduHOLQEZ092SAmR3uOPzxwP2Q2RiiR6ikyLer2I=;
+        b=hNZgi+bG3GRZ2d8TK2bcdkudPI9U6TSplIbxxVUTv3fiTZAprsJ1bsf0NyKpWKdtg4
+         +P/V4qjgWSI/7q8PVRZfgoUu/8786PhZgKWzS3VzbwsQwVGaI27pmXp6OisgM5lhpar4
+         a1QSor7JNBKQHlJiXisNXIwGv2DfWJFB/NRKWn5xGK3yTQD0b2KRnpsUD2q/DylkKIxy
+         CjmLBo1+dBojk3mZH00iXQES1EoTK5smM/E4jYyF3t9MH7tz3PRklzUne7luaM6oiUWU
+         zljNBSBTI9s7QB044QJl/US5K1poKumZAF6oT5xwl8lGaNFFRRXS91tCmhMue/Kit3m7
+         +6XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730881166; x=1731485966;
+        d=1e100.net; s=20230601; t=1730881168; x=1731485968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I+ke7NRgTssg/IEZFWgLNPKBw8NmV+vA1artHipjKW4=;
-        b=gTVv7aF3Gs2QlFtbFs2lc4HFxaN1hyhIxkA834xFKuaM7G7rrq1/v46DwTxmEnLuGa
-         0otOY5E3+F4/jhJytqXL1TvpeyDN9s+ItPbmH0/H4+pThgLYOtGSD/Kwtc+a6i2bDeYp
-         Em7BYvGMpqtNLe7QFhoYSC4j5q9JlFOnTTZGqxY8xOMdVeP40Ak794LKfzT/vUZlWVip
-         vwp1XOmBjht4CXMbIGM1TXJaE8fFPnmibcIE7ik0kM1du6/7n12aeDyg0/8xKhov79jP
-         JmEAmaxNOOa9QpOhE0NCxd/bfittpYVbqGpWlS+lEy4dxC2BL7/K6lwKIJAVZQasd3aR
-         equQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVS1alPE34ohrzDRVnPjQzZ9jxXLATrNfoMwPATGJyhC7p2L+0xyUexgwWzFcKmwZpNtOv195sh4Qm/vw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxUcyx/7YoOqzZLci/MT92V0yTmATG/bHLX+2Oo48YU7Hz/Q3i
-	6LFir1byMKbejXPG9dglLwcR4jbkDfeKAea/oWe6H5q2PJmnIQfoLDZXCjbHBMY=
-X-Google-Smtp-Source: AGHT+IGsSrynXgwp9ybYH96pAnSvTf/jo28kUEGLKKl8GOZpqqi1T6VVn/a9MUUUoZoaN649GiICbA==
-X-Received: by 2002:a17:907:e29f:b0:a9a:616c:459e with SMTP id a640c23a62f3a-a9ec667289fmr159795066b.27.1730881166124;
-        Wed, 06 Nov 2024 00:19:26 -0800 (PST)
+        bh=GoHBduHOLQEZ092SAmR3uOPzxwP2Q2RiiR6ikyLer2I=;
+        b=Zwhex52CsLUBS7/3ZJELHBX1pR6u427ZOXF9diXF484nn5wlsZ5GwckNZxFUU76Vuk
+         737DdTs6ICRIjynQLjTNaAMKkOcTuHpiJKXB6KEm4htxwIdPW/wM2KF5fiN8hRJ07fjC
+         yk87UDoel8c2bko3uB+AZ8fDDhmOLX/m1tIb9pEx6ryElCv6HyQlEjmuWhqZXp6DMgZC
+         G9dSDUBK1nv/YJ4QUYZqixKgWJRkuN3+0MNVWa/z1ZsnuHp/skUrUiycjxAjJtVCHtol
+         mOBz6hvw9tXnPltY5gzameYiI6xpajYuzR0esFo0Ee0LTJi9PfQH6r20C9a5FspqybIr
+         5lWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXf3D8BuWGAjxfarGjAYJ7QwyiSGku/jxRGYnimCwQIyrqcNJd8v7BJHntJw+pvRWdJf8RTeHH1q35LTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKWnu0HQcnQqscHusD13+Mh/mWNYjqkznusCDvTGBCc4Y+PSMs
+	QmMrCHdhCbHze8MfFW3KK9fuq7GED9TnE0/RZAFhxX7aq8v18NqjW5ZLppn8+PM=
+X-Google-Smtp-Source: AGHT+IGh+ma/pDYE5JTblKic8FYEZIZs3cBVq3pZSkJNz2OYaJhHpAd8lsJ304fSaLV+gwT++zPF+Q==
+X-Received: by 2002:a17:906:c108:b0:a9a:a32:bbe4 with SMTP id a640c23a62f3a-a9e654910a8mr1772430266b.12.1730881168184;
+        Wed, 06 Nov 2024 00:19:28 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.19.24
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16a2dbcsm241369766b.40.2024.11.06.00.19.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 00:19:25 -0800 (PST)
+        Wed, 06 Nov 2024 00:19:27 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -77,10 +77,11 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH 05/31] pinctrl: renesas: rzg2l: Add audio clock pins
-Date: Wed,  6 Nov 2024 10:18:00 +0200
-Message-Id: <20241106081826.1211088-6-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	stable@vger.kernel.org
+Subject: [PATCH 06/31] ASoC: sh: rz-ssi: Terminate all the DMA transactions
+Date: Wed,  6 Nov 2024 10:18:01 +0200
+Message-Id: <20241106081826.1211088-7-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
@@ -94,27 +95,36 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add audio clock pins. These are used by audio IPs as input pins to feed
-them with audio clocks.
+In case of full duplex the 1st closed stream doesn't benefit from the
+dmaengine_terminate_async(). Call it after the companion stream is
+closed.
 
+Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
+Cc: stable@vger.kernel.org
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
- drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 ++
- 1 file changed, 2 insertions(+)
+ sound/soc/renesas/rz-ssi.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-index 8ffb9430a134..1190ca4b1808 100644
---- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-+++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
-@@ -2086,6 +2086,8 @@ static const struct rzg2l_dedicated_configs rzg3s_dedicated_pins[] = {
- 						      PIN_CFG_SOFT_PS)) },
- 	{ "TDO", RZG2L_SINGLE_PIN_PACK(0x1, 1, (PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS)) },
- 	{ "WDTOVF_PERROUT#", RZG2L_SINGLE_PIN_PACK(0x6, 0, PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS) },
-+	{ "AUDIO_CLK1", RZG2L_SINGLE_PIN_PACK(0x2, 0, PIN_CFG_IEN) },
-+	{ "AUDIO_CLK2", RZG2L_SINGLE_PIN_PACK(0x2, 1, PIN_CFG_IEN) },
- 	{ "SD0_CLK", RZG2L_SINGLE_PIN_PACK(0x10, 0, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD0)) },
- 	{ "SD0_CMD", RZG2L_SINGLE_PIN_PACK(0x10, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
- 						     PIN_CFG_IO_VMC_SD0)) },
+diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
+index 6efd017aaa7f..2d8721156099 100644
+--- a/sound/soc/renesas/rz-ssi.c
++++ b/sound/soc/renesas/rz-ssi.c
+@@ -415,8 +415,12 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+ 	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
+ 
+ 	/* Cancel all remaining DMA transactions */
+-	if (rz_ssi_is_dma_enabled(ssi))
+-		dmaengine_terminate_async(strm->dma_ch);
++	if (rz_ssi_is_dma_enabled(ssi)) {
++		if (ssi->playback.dma_ch)
++			dmaengine_terminate_async(ssi->playback.dma_ch);
++		if (ssi->capture.dma_ch)
++			dmaengine_terminate_async(ssi->capture.dma_ch);
++	}
+ 
+ 	rz_ssi_set_idle(ssi);
+ 
 -- 
 2.39.2
 
