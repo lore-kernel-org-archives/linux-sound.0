@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA73E20C47D;
-	Wed,  6 Nov 2024 20:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74139209668;
+	Wed,  6 Nov 2024 21:14:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730925615; cv=none; b=W2TEtZHQkNRPPjMLee1rt5WkTII9SiIFiqp0JOhIUTpIY0E63P/2WgCAh/BFTdhZrsSM8gRbze+1K3GhVHvyJB0sAyg6+KKXm16mME3oUp3n1VxcH38RA5UlSaFTJr9sPvcnRWjiW6ZS6CmLFncAn3kDco+XXLAd+ucpPUmuVRk=
+	t=1730927660; cv=none; b=BQP9cdkrj9aIov9V39ArOYtl2RvJeAItA68I8symx3/xf1ckCzBUwj/ngqG6ydk3lZLqrmOCr5uJ64sfSxU+9cajGP7xaw3dfReU3FVOzaqAujaoQgjQvb98H9PgQTC+4F0KSc4byzkpKit96W3VgREp7n+aB9mtgL4hFmwRjSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730925615; c=relaxed/simple;
-	bh=923CZFJy8JdY83rephxGRT7AkdWFW5aNGZ4i8ZHrnbw=;
+	s=arc-20240116; t=1730927660; c=relaxed/simple;
+	bh=7/BdvkRmiyyxC0XnyH5pvkrr+j4iCL5yDpito59jKc8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=sF9oN8apbEeX/EGxVOBjddSt6b+3mYEzpoFmiSS1boV+lypQXqMQbOCy0XkEy2iiLzVrPgfw37DoIP8Bj4ntitbxmPmLeNqe70SIXqLGuLhYBZtOkaj5n7HfA+pSFBbi8+BHTdNYw97qYamd72Ksk5aaI2PgX7nKSAyJ4VoB6Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KRCCFG5X; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=GrDdeXRzCNO3EdPJIpo+q7mPBaEMT//OQ8yqr8b7eAhIBD9M1nnXifogVGWHZlv3XOXfTlr8umyduhDaNdanc+emlFWb2z8RtpS7Oa9MWD4LwSw41BgbBBHTqcHfVO3xpdzinvlkqxj5xlGpu9+cWX3k7Soi1+tVl2pH6gjLi1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FL4mZL1L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KRCCFG5X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF84C4CECD;
-	Wed,  6 Nov 2024 20:40:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FL4mZL1L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C49CC4CEC6;
+	Wed,  6 Nov 2024 21:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730925613;
-	bh=923CZFJy8JdY83rephxGRT7AkdWFW5aNGZ4i8ZHrnbw=;
+	s=k20201202; t=1730927659;
+	bh=7/BdvkRmiyyxC0XnyH5pvkrr+j4iCL5yDpito59jKc8=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=KRCCFG5XS23l1fcbfq1lad1MCtWAtRPLRXGDvx6bqGAfHXvHgFO1lEfbDt1N9SNAH
-	 SYGqDHJ/RTrPZzoBWpwbnDHez419bie4EuG7adn5BfppzLignXgck7AnYZZOpbymZg
-	 wEBSrAy9FAEMWwTUa/4BcuU/KAhRj1jrZgRugViOMiH3+p4OlxUzDMsXFkMAiecDaL
-	 iEcn+b0IKJi6Il1XbsfFkILsTzc+mCwRcwqAX8i5fk+rgDv9363ZPEsOD3kn9tIuj4
-	 UVV+s32mtAU2TuSSq+0NSJTP8hvqH3vXhK+Cbsf5bAWq60LfMw25Cf+CpCPEfWHUnL
-	 32gHrrtdQJPHg==
+	b=FL4mZL1LEP/eoXCMb2ABDyBKV3jMPIEb4b2ONddyE0DiGDwGC12Zt6PDSoXOmLOal
+	 4Sq6sG7lTddHoYBA08gaCc6TtdQTAFfEUUYvtrFLYIo3a92Q5OzQ7WOLzgBgUOFEdp
+	 P15Uqj6IT5RZDnmrWqwyzsAra1fCMbKTpfnbeSPJ/5y82JQvnhcgknY77MlzQpkAdw
+	 vBGMZKTZxRAg3Tp1Kq7noXX1TaNJRDO5pCYLKk85OL6pHPptvwB6A2yOYKfUPZpuI6
+	 hwuGI8Z/vtwGSMz8mDtyn8DxHpQ+kPO3DIj9N0JmQiPzUCaQPGVR4SRuIBgcdRN30R
+	 f+W5WzcuxP8jA==
 From: Mark Brown <broonie@kernel.org>
-To: Mingcong Bai <jeffbai@aosc.io>
-Cc: kexybiscuit@aosc.io, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Mario Limonciello <mario.limonciello@amd.com>, 
- "end.to.start" <end.to.start@mail.ru>, Jiawei Wang <me@jwang.link>, 
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241106024052.15748-1-jeffbai@aosc.io>
-References: <20241106024052.15748-1-jeffbai@aosc.io>
-Subject: Re: [PATCH v2] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro
- 14 2022
-Message-Id: <173092561130.197490.16695681375736124776.b4-ty@kernel.org>
-Date: Wed, 06 Nov 2024 20:40:11 +0000
+To: Fei Shao <fshao@chromium.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <20241105091513.3963102-1-fshao@chromium.org>
+References: <20241105091513.3963102-1-fshao@chromium.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: maxim,max98390: Reference common
+ DAI properties
+Message-Id: <173092765728.208420.14697399337630001578.b4-ty@kernel.org>
+Date: Wed, 06 Nov 2024 21:14:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,17 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 06 Nov 2024 10:40:50 +0800, Mingcong Bai wrote:
-> Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
-> internal microphone to be enabled.
+On Tue, 05 Nov 2024 17:14:31 +0800, Fei Shao wrote:
+> MAX98390 is a smart amplifier and exposes one DAI, so '#sound-dai-cells'
+> property is needed for describing the DAI links.
 > 
-> This is likely due to similar reasons as seen previously on Redmi Book
-> 14/15 Pro 2022 models (since they likely came with similar firmware):
+> Reference the dai-common.yaml schema to allow '#sound-dai-cells' to be
+> used.
 > 
-> - commit dcff8b7ca92d ("ASoC: amd: yc: Add Xiaomi Redmi Book Pro 15 2022
->   into DMI table")
-> - commit c1dd6bf61997 ("ASoC: amd: yc: Add Xiaomi Redmi Book Pro 14 2022
->   into DMI table")
+> This fixes dtbs_check error:
+>   '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
 > 
 > [...]
 
@@ -69,8 +66,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
-      commit: de156f3cf70e17dc6ff4c3c364bb97a6db961ffd
+[1/1] ASoC: dt-bindings: maxim,max98390: Reference common DAI properties
+      commit: 9b915776e0e6a2d185498077e0ebdb154a2751ac
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
