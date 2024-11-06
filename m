@@ -1,112 +1,148 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE552199243;
-	Wed,  6 Nov 2024 08:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD021D043D;
+	Wed,  6 Nov 2024 08:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730882062; cv=none; b=b5KWAakCcawr7N3eh8t/uccDhuLltvPXZMKv+NqgVgO1vSAr8rbY3V40SN0sBovKLEatilPHid6Aoj5SFCqBsKDXuBu0BSgfkrU8NSW+X2cvvA23U2cyhcBCn8pt+EZfAbxee+fcGMqImR/GCqt3V+lm1MYIEVgr+B2KIxt1lIs=
+	t=1730882707; cv=none; b=rhXTQfvhwzehysTfnCFcY5wZ/lnoJdDkcOulK7KUZ91yyP12OXDQLDt16xGdkMz9xVESSo0YwjIio1AkjP5R7xhWiSj0Wr6cypjRjlKqTDUyT4mcrur4ugQwfO6/l2Gg7rif22dcx7bm8dtsjYcJaw4Ou9bN8aLdMg1nUHOVmkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730882062; c=relaxed/simple;
-	bh=Ll0cc7YGGgOI4XpTwHp+3j6I/rcO4Y+t0Ah1lHLeex0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dX2QuLF9sNpe32UPkV2eaLFDfTfICIA4lBwmQt/64LJIbijMFsBaXe2mpqzhm90UMrK1XbKxy/IvQrxtT9+CEkwqRWuIdadpToMGh4HRVZHMnQ+w0RSKPU4w6JQW+/iImYnsKRvHfVT2Y7r1hH9TrMbHemkTqzLAe5Ls7kIWQXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WIXCFwJW; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730882707; c=relaxed/simple;
+	bh=J24yp9eOiNrvQNu9kBFLlGNdEA4hj8a8DKe9HSNXhLc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aX8r8j4o3mSVxByp4Aj6nCQ5cPfn5WzJ+G/QN1cFQ8NLo79UgevWKnG0meRsIAm0m0nvq2bIK5mvb88YPiwdxKplC152c8KyQYYTgqIXFJ/0Lpu2x+1AIWV9a8bDxWyG5300u3fzFRJCB4UC2zLJg5dPSE1eBQkkE0ELHbCo3No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1srvWp2k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YccZmSgL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1srvWp2k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YccZmSgL; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WIXCFwJW"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c8b557f91so65956405ad.2;
-        Wed, 06 Nov 2024 00:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730882060; x=1731486860; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uhYrLpKnm3Tu52gO6lAUWmTkzd/jjfJtwMUHBNetRdU=;
-        b=WIXCFwJWeujptiXg6QkGAzHiEwkEy7jckmK3kco+JFwVhjbsSIVp5oXUcZSJvGslMg
-         zJ6ftbmpv9AndCyjnOBKTTQtMzy/qNByZ3bPE/I83ZrDDSB7XBEPYeVWAjnGghoLRJmE
-         ZDmhs6QjmW3pgxYvhyNF7PzLUkvuwSOGLrL0eQQ/ihADbiA/TAsiskqCo1JEaHIeTYCr
-         YQPaVIDlhQpmIi9IhbxqK/9nIQtJt7XqUuHF2W2verGwTiePlAdw4QgeIwK7IUf7j2Ky
-         ZEgFlcWbvzTz4tkA5scOEPV3R1W+FBV/3gdRUmSMXGYEN4sS/M3N4uTx4xpkCgVC8XTd
-         tKDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730882060; x=1731486860;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uhYrLpKnm3Tu52gO6lAUWmTkzd/jjfJtwMUHBNetRdU=;
-        b=d2oTtbje/bDXuNBhGaEdlWvUeHOZdsUsQbfmnBFeKitMwyWpKw4BQ/mgRCBzQIMv56
-         Z40mfy5W5dyadfi/03m/en6EVnMnjOtAfVENuj5engThj8WawMZYY6QYH6gi0k+FO6z0
-         nFYRi8yw5gLHsWa7aKcoFmNHp90V+ApyQI1bn80Igi4M/q4OcVxiH0vhioh9snxrB6VP
-         vxze2Y5Hj5wDVZ0Eb48VTE+6R6KWqXbrEg3bEWtAmB445IKaHk85C2XsAy4ACczqB5Ip
-         caVoj0uYJwNwl2P52dw1dXhmIX1f1cJbdP2VCaTATNY/w9MCQbNbPu6SpO8pgMLQyGjn
-         CgtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWyQ6Re/wgBCMLjkoHjZiEXIRZtLqoLOE2PKgbWz7Cf2qPGix7I8r/XDQmTTukYskAl/s0Y/8wEJhYvKKU=@vger.kernel.org, AJvYcCXTqcSb093Kqw9whQfl7Hfc5H7UfaDpHH8EG0cdxE/NycfsT9IoCzfgmDbPkVeP1pNnROzFrS2VBx8Lwtc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3kui9e1Ob54a+Ys4okOUbpkOVEv9DLpk0mRshyhc9K6tu7HMt
-	02Vt9sCEVD7T4UIGhLN/feTN+oy9hkkMkPpYpeUL5UVMadzT9Yzt
-X-Google-Smtp-Source: AGHT+IGCIx6tt9vUNII/cL/xBvoWTTb1SAwqBpyvk7kH5Q6LPfS8iVUQ/4QuB1H6nCWh55UkqrgndA==
-X-Received: by 2002:a17:903:2b03:b0:20c:5e86:9b68 with SMTP id d9443c01a7336-210c68a1a99mr552402995ad.4.1730882060167;
-        Wed, 06 Nov 2024 00:34:20 -0800 (PST)
-Received: from [192.168.0.116] ([14.139.108.62])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056edc41sm90919835ad.12.2024.11.06.00.34.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2024 00:34:19 -0800 (PST)
-Message-ID: <a45cacbe-5bf2-4bfa-ba6a-e4602a7689e4@gmail.com>
-Date: Wed, 6 Nov 2024 14:04:12 +0530
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1srvWp2k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YccZmSgL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1srvWp2k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YccZmSgL"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 834E81FCF8;
+	Wed,  6 Nov 2024 08:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730882703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
+	b=1srvWp2kNcclibLGORjHmhWEwNU9Z0wLY3ViK9uaArGmuHq10mxemHvoraM2isDabYyKAK
+	Yre+n+GH8qIkXnIySb7Hsr+7JXd2zN2I000OsDEyv8SxqZDPM+1Pmk79JPocuRmSKDUpU4
+	7w1c4VTlZ0rasC+zaYiX9YCdZ3i5uC4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730882703;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
+	b=YccZmSgL/BoF+4KT7T4Bd44jj9cluTEbc9XkUGgAC3tIGtrD7NR226/90Ijmk61bpgySf6
+	HUwIH85FmGTA3/DQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1srvWp2k;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YccZmSgL
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730882703; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
+	b=1srvWp2kNcclibLGORjHmhWEwNU9Z0wLY3ViK9uaArGmuHq10mxemHvoraM2isDabYyKAK
+	Yre+n+GH8qIkXnIySb7Hsr+7JXd2zN2I000OsDEyv8SxqZDPM+1Pmk79JPocuRmSKDUpU4
+	7w1c4VTlZ0rasC+zaYiX9YCdZ3i5uC4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730882703;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gktV8JM/O5wdbQsOMcRKLeeygObw2HDzdhZs6ZLIFWU=;
+	b=YccZmSgL/BoF+4KT7T4Bd44jj9cluTEbc9XkUGgAC3tIGtrD7NR226/90Ijmk61bpgySf6
+	HUwIH85FmGTA3/DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 469D813736;
+	Wed,  6 Nov 2024 08:45:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Cw7fD48sK2dkRAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 06 Nov 2024 08:45:03 +0000
+Date: Wed, 06 Nov 2024 09:46:09 +0100
+Message-ID: <87a5ecwy0e.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: vkoul@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	broonie@kernel.org,
+	amadeuszx.slawinski@linux.intel.com
+Subject: Re: [PATCH] ALSA: compress_offload: Use runtime pointer in snd_compr_poll()
+In-Reply-To: <20241106075312.15601-1-peter.ujfalusi@linux.intel.com>
+References: <20241106075312.15601-1-peter.ujfalusi@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] sound: fix uninit-value in
- sof_ipc4_pcm_dai_link_fixup_rate
-To: Mark Brown <broonie@kernel.org>
-Cc: =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>,
- daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com, lgirdwood@gmail.com,
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz,
- pierre-louis.bossart@linux.dev, ranjani.sridharan@linux.intel.com,
- sound-open-firmware@alsa-project.org, tiwai@suse.com,
- yung-chuan.liao@linux.intel.com
-References: <20241030155705.31327-1-surajsonawane0215@gmail.com>
- <20241103113702.27673-1-surajsonawane0215@gmail.com>
- <09d8462d-d305-4b83-ade9-747a88aedc38@linux.intel.com>
- <d19b77e2-496b-4633-a69c-576cc79c004a@sirena.org.uk>
- <1611f678-edaf-4588-8455-61eed32b2baa@gmail.com>
- <7016fcb5-329d-44f1-967b-3059e059aeb9@sirena.org.uk>
-Content-Language: en-US
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
-In-Reply-To: <7016fcb5-329d-44f1-967b-3059e059aeb9@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 834E81FCF8
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,intel.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On 06/11/24 00:37, Mark Brown wrote:
-> On Tue, Nov 05, 2024 at 04:20:23PM +0530, Suraj Sonawane wrote:
+On Wed, 06 Nov 2024 08:53:12 +0100,
+Peter Ujfalusi wrote:
 > 
->> Thank you, Mark and PÃ©ter, for the guidance. I understand now that, while
->> the copier should always have at least one input format, static analysis
->> tools canâ€™t detect this. Based on your suggestions, Iâ€™ve considered the
->> following possible solutions to address the issue:
+> runtime is not used as seen with W=1 :
+> sound/core/compress_offload.c: In function ¡snd_compr_poll¢:
+> sound/core/compress_offload.c:409:35: error: variable ¡runtime¢ set but not used [-Werror=unused-but-set-variable]
+>   409 |         struct snd_compr_runtime *runtime;
+>       |                                   ^~~~~~~
 > 
->> 1. Add a WARN_ON_ONCE(!num_input_formats) check: This would issue a warning
->> and return an error if num_input_formats is unexpectedly zero, ensuring we
->> handle any edge cases explicitly.
+> Instead of dropping the runtime, use it in the function in place of
+> stream->runtime
 > 
->> 2. Return an error if no input formats are available: Implementing the
->> following check could provide immediate feedback if num_input_formats is
->> zero:
->>      if (num_input_formats <= 0) {
->>          dev_err(sdev->dev, "No input formats available\n");
->>          return -EINVAL; // Return an error if there are no formats
->>      }
-> 
->> Would it be preferable to proceed with the WARN_ON_ONCE(!num_input_formats)
->> approach, or is there a preferred alternative from the options above?
-> 
-> I don't have a super strong preference between the two options.
-Thank you for the clarification. Iâ€™ll study the best approach in more 
-detail and will send the patch in a while.
+> Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 
-Thanks again for your time and feedback!
+Applied now.  Thanks.
+
+
+Takashi
