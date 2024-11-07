@@ -1,96 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A256A11713
-	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 10:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D7611713;
+	Thu,  7 Nov 2024 10:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730973735; cv=none; b=NOZe6KW19qdG8aAYiziWol4mhMw5FdHsSajwz0JbQDiP22VZqyykdykC0eh80QZ7XTj4I+ryccIjjpuQOblVHara4yG3rhzOv1XeDC5pq7bZndZUgH+v4IA8P0Lt6Qzb9BjR4fj/XbCVC8rc1Efer/R2qsV0SjwZB2kQsfZXUnk=
+	t=1730973739; cv=none; b=duAJphVbl8aY/33QsOmMGL0pN/dka6Mg8HJfmaj4QT41SEj+EN0FGDs5ls/PlwY/+ryHFgc4Jjds3v7u9nxueZEnnLXIOxAyq4wQIXuQw3JmHg/AiXsc6+jm5jwixzcyDEf5O81z+1IuzzzSnbsiiZvtKZgoX1ZaatVvMBVaZV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730973735; c=relaxed/simple;
-	bh=yDHBGA2qZ3pL/QAgUunVdv3gc9go0XCjXRAb1orVOy4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZNJPubGdtWVMvaYC1MxwM/sfJtcllQ/Ny4EJSfuezkTCBQrkM2uJSiOy4OG1VOoI2MaiDObYsmNWZTQJHwNaZIvvqoegvEXKZtir/uYpgwfp7IHxa8+4nMC6ExfpmVKkQo+488zn1+aQQX8pkEPDv1tYQFbvAX09cmCcsDUhNlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RjbcP5t3; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1730973739; c=relaxed/simple;
+	bh=eYH2ACgbRqffR/sv/0uuECjlgyo1XRetpJbSYf2Khb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mQBtdWM+PPcXsJFqDeuWbIIX3Xlm6s1BBpAMY2QukHoTEFiteuZdM/GLINhDHX96UfrOttvlgMfDl90nTU2zZ5iCx15f0sfImGEmLPOvPdsFReahHzV7xB0JGx5/2+4N7t9blXWKRIl/A5OyPf3Yz9752boFlykwRAlQWQg2iKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ls+pTpqK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RjbcP5t3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730973734; x=1762509734;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yDHBGA2qZ3pL/QAgUunVdv3gc9go0XCjXRAb1orVOy4=;
-  b=RjbcP5t31PlcXd3CGXVRtBGXRQPFQ3Y+TPpKODrE6xZ9XfY9+xGdJzlW
-   WYYab6ePwEhSo3jVmmTJwH8Z9ymVTPMG7jh8nTb+UfLVyColnD4gGC7Wx
-   3OSJLznO7ztt9geMyNnShKVyimW3pN7njpahKbwJURDYAWDoS2ZWwYSNC
-   D+u0Gqg5KOUyH9dPTYn8K9BVbSA+9poTiOHkjpnbjtkjUUorw46PMK/k1
-   XZw8ezEkswDn/lARR2oE4xTSp8Vi+XMJnZHK/vukJkBm/qOcvupGUSeCc
-   LALzDju/3IwI3gp7gRJ5ZVadOwu5PqSL6tpUl0shzuA1ts3JAS1XobDdy
-   g==;
-X-CSE-ConnectionGUID: 3jy4nCqsQ9uinYCtw9jFuw==
-X-CSE-MsgGUID: RYxVRCc+TPeajQA50KM6pw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30213267"
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="30213267"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 02:02:13 -0800
-X-CSE-ConnectionGUID: athlArjBSe6qL6lRozrQnw==
-X-CSE-MsgGUID: pnYZdymjQ3+wkMMDZaPGCw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="85425799"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.205])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 02:02:11 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev
-Subject: [PATCH 2/2] ASoC: Intel: Kconfig: Revert make SND_SOC_ACPI_INTEL_MATCH depend on ACPI
-Date: Thu,  7 Nov 2024 12:02:04 +0200
-Message-ID: <20241107100204.24952-3-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
-References: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ls+pTpqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9111EC4CECC;
+	Thu,  7 Nov 2024 10:02:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730973738;
+	bh=eYH2ACgbRqffR/sv/0uuECjlgyo1XRetpJbSYf2Khb8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ls+pTpqKEVFBnjSler0aLSN7NjB7FCMguWmgezFpnazhMTTmT+zdNwoSPyeWZ4geE
+	 /E/4bW9ZVWubuCw8uzmb0OKRJ+Hg8AEz3JX1h5M9yct2/0AH/7gru09Rp8MRXXJSNz
+	 Bla2G6XeEfYocOo0gX6FlRrG24nGsQVGg2gTkC0sxssM1ubKv6vhv/ozXxswt42vIu
+	 cdEnYxCci4D6GiVNSYK7RoTWQcdlpC+r2ww6TqFgITVLRHXQNS6KCHTo11BZ+eBxCx
+	 CWIAPBhT63Ku2OjWvmmUonjYI5kpaZ87vC0FUHRdk33dxmV06cyP2248FUX+l7sGGm
+	 stpvNEjMt5l+Q==
+Date: Thu, 7 Nov 2024 11:02:13 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Kiseok Jo <kiseok.jo@irondevice.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND v4 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
+ initial DT
+Message-ID: <butx33avx7zainw6im72kwdxj6jfvfbdlzugxadu6rfn3uszdx@oxgvrnfl5t5h>
+References: <20241106233144.9283-1-kiseok.jo@irondevice.com>
+ <20241106233144.9283-2-kiseok.jo@irondevice.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241106233144.9283-2-kiseok.jo@irondevice.com>
 
-The acpi-intel-match should be compiled even if ACPI is not selected.
-The ACPI is not compile time requirement, but the exported symbols are
-needed for other modules.
+On Thu, Nov 07, 2024 at 08:31:44AM +0900, Kiseok Jo wrote:
+> This adds the schema binding for the Iron Device SMA1307 Amp
+> 
+> Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
+> ---
+> v3 -> v4
+>  - Modify to fit the character-per-line format
 
-Fixes: b6bd3f3b6357 ("ASoC: Intel: Kconfig: make SND_SOC_ACPI_INTEL_MATCH depend on ACPI")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411070806.UhCRpZok-lkp@intel.com/
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- sound/soc/intel/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+<form letter>
+This is a friendly reminder during the review process.
 
-diff --git a/sound/soc/intel/Kconfig b/sound/soc/intel/Kconfig
-index 502129772856..2db494b0e3cf 100644
---- a/sound/soc/intel/Kconfig
-+++ b/sound/soc/intel/Kconfig
-@@ -70,8 +70,7 @@ if SND_SOC_INTEL_SST_TOPLEVEL || SND_SOC_SOF_INTEL_TOPLEVEL
- 
- config SND_SOC_ACPI_INTEL_MATCH
- 	tristate
--	depends on ACPI
--	select SND_SOC_ACPI
-+	select SND_SOC_ACPI if ACPI
- 	select SND_SOC_ACPI_INTEL_SDCA_QUIRKS
- 	# this option controls the compilation of ACPI matching tables and
- 	# helpers and is not meant to be selected by the user.
--- 
-2.47.0
+It looks like you received a tag and forgot to add it.
+
+If you do not know the process, here is a short explanation: Please add
+Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+or above your Signed-off-by tag. Tag is "received", when provided
+in a message replied to you on the mailing list. Tools like b4 can help
+here. However, there's no need to repost patches *only* to add the tags.
+The upstream maintainer will do that for tags received on the version
+they apply.
+
+https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+
+If a tag was not added on purpose, please state why and what changed.
+</form letter>
+
+Best regards,
+Krzysztof
 
