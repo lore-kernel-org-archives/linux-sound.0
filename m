@@ -1,91 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D19A20D50C;
-	Wed,  6 Nov 2024 23:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2614B161;
+	Thu,  7 Nov 2024 00:21:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730935935; cv=none; b=bf6UQSjBo4g7jdtMlaL4sW9DwmwBHfP0KA41oQN146U88PTWI6dOQql7RxOLGYSgMkU0X39ayJcj15Gjlx0+z7Rqj/KvrBSW50uiqidWYBDpgIUTGbqtCpOPfyR9HjyeJGIpderNEzMaA+YvF9PdyhIeGtraGYt2UJn0gDWn+gQ=
+	t=1730938915; cv=none; b=IddyKXujnt7SLmPl8XelVfUgGGHJ8bNmQA53/Y/xA4VXdfFZn64YpB5sAtyt8Gt0Ks13i4FdhgYdGtdU4d6XYxxeyLtlZ8AuLWJjiJkWok6X8xPJRIQUKsQLsV07hoJzYaHwXU11kip4dC4bELvRD98j4yjC53LKIZESDJpi3Uo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730935935; c=relaxed/simple;
-	bh=87Z6ChZTRDwcQKUGbg4OylOoY3jZ6CxKLD7unKaMEo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qhPOyQikIjFPYufmMYdtqrHuhL3ZRADH89PGlmxJDQAKfz7/fVjDseybSWES6Xhbw6JGQlWrZZY8YfovYZ7tYqzFwAS3BW1OpjLyPT10+ijnV7UQhUV1mk4QSkVv0yt8WCBVAA9ICPZrcVjK/LsZ4z4DxDVC/Diwb7a1LyrkDUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePV3VsEp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730938915; c=relaxed/simple;
+	bh=+CNWzMeB071PME8CXmstzWM4w5EMF9AzDs7sv42HsIc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uaeu5qZXrqc5c6q8WvkFvS0YIWRwAw3dTEgHRwjwCKFY7r3EF6B7yZGvhP27D45BBEUHhoJQN1YyEUkwzByZ5/0wr00MDXb5G/g7XOfu4kjlEDGwNn90YR8yJCZ7Pku1tf5BLTVlmtNB7GIp8n7LswrKGiAKh+ReA6wql/MVsZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSi6Nn+f; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePV3VsEp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80F8CC4CED0;
-	Wed,  6 Nov 2024 23:32:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSi6Nn+f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54DB9C4CEC6;
+	Thu,  7 Nov 2024 00:21:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730935934;
-	bh=87Z6ChZTRDwcQKUGbg4OylOoY3jZ6CxKLD7unKaMEo4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ePV3VsEpc7HYjKBtU9kKj+FbpArK3+YDFH8Cb/YqSJln7HwBnSFIHKlYwz1rDmCl0
-	 gjm1Vm3kI9bS+jXHm8Gl7H5oJ0Y14F3aBh/R0sg3T5Caj/kYambSfj/7/zlLa8vdgV
-	 foyKSojlFuZMopnb0kcpy4EZKdlYqWVN484B4wxNwguEUoC9Rrzng7mNSQLYbZSspp
-	 evQcF4nKtYPzoGtHpatd3YYPXPS85NE2XXtzwZX+dDayQUtezCxEbuhsSXX55KAh66
-	 h2aYIw5L6iXo4nEZ5kv8eWuEOojEwRIcbqCVq91Fhmkau1HQhOLt3ZQf7dyb0qDMP8
-	 EWuHTdPFBAZpw==
-Date: Wed, 6 Nov 2024 23:32:09 +0000
+	s=k20201202; t=1730938914;
+	bh=+CNWzMeB071PME8CXmstzWM4w5EMF9AzDs7sv42HsIc=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FSi6Nn+fZyQj7dKxHIZK7DT+LTkZfbwqFASaTgkoGMlINncNpG1lbmos3IUyB+kWR
+	 CtVJfQv5WBnN0qiss3L6VkLe8dn7SmaHZlDGrW4HfGyufCid71CoiZkmEmXkwmjYe3
+	 NQq+FodDM5h773Dq2XtMGw7fGqRi8oJWlrDrUCPvSPFHPq2zXRhGXgcjdeXw3QNpoU
+	 +M21tQeGCmbJmcrDe7i0Scvrk88eWdN8o+LtiYkBkD7+c/uHZORrEkkU9FdlkYnArr
+	 gB3iNcLbiQsfRCDVuBtG2XgkQn1ae9A7c3q6fbxkR0zPBQsrMXj5mJzGA5Xvrrkbiu
+	 NbmmDAP3XPMew==
 From: Mark Brown <broonie@kernel.org>
-To: Ki-Seok Jo <kiseok.jo@irondevice.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RESEND v4 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
- initial DT
-Message-ID: <921e46e0-1490-40f2-899a-f8562256d49d@sirena.org.uk>
-References: <20241106005800.7520-1-kiseok.jo@irondevice.com>
- <20241106005800.7520-2-kiseok.jo@irondevice.com>
- <kspk7qajv7r5glbcawmecbup36cv4wi3hjrgyfyyejjectwwt5@u5nx5y5zirsa>
- <092cfb04-378f-4997-88e0-35c247b8c445@sirena.org.uk>
- <SL2P216MB2337334118683779C2FEABDB8C532@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
+To: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+ biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
+ lgirdwood@gmail.com, magnus.damm@gmail.com, linus.walleij@linaro.org, 
+ support.opensource@diasemi.com, perex@perex.cz, tiwai@suse.com, 
+ p.zabel@pengutronix.de, Adam.Thomson.Opensource@diasemi.com, 
+ Claudiu <claudiu.beznea@tuxon.dev>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+In-Reply-To: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
+References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
+Subject: Re: (subset) [PATCH 00/31] Add audio support for the Renesas
+ RZ/G3S SoC
+Message-Id: <173093891006.248820.1343956081297583948.b4-ty@kernel.org>
+Date: Thu, 07 Nov 2024 00:21:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2kSW8dw7hKOyK1AY"
-Content-Disposition: inline
-In-Reply-To: <SL2P216MB2337334118683779C2FEABDB8C532@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
-X-Cookie: Include me out.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
+On Wed, 06 Nov 2024 10:17:55 +0200, Claudiu wrote:
+> Series enables the audio support for the Renesas RZ/G3S
+> SoC along with runtime PM and suspend to RAM.
+> 
+> Patches:
+> -    01/31 - add clock, reset and power domain support
+> - 02-04/31 - update versaclock3 clock generator driver to support the
+>              5L35023 hardware variant; versaclock3 provides clocks for
+>              the audio devices (SSIF, DA7212 codec)
+> -    05/31 - add pin control support for audio
+> - 06-21/31 - add SSIF support for the RZ/G3S SoC; fixes and cleanups
+>              were also included
+> - 22-26/31 - updates the da7213 codec driver to support the DA7212
+>              hardware variant; suspend to RAM code was adjusted
+>              to cope with the RZ/G3S power saving modes
+> - 27-31/31 - add device tree support
+> 
+> [...]
 
---2kSW8dw7hKOyK1AY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Wed, Nov 06, 2024 at 11:28:45PM +0000, Ki-Seok Jo wrote:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-> Oh, I'm sorry, that was my mistake.
-> I realized the error and send it again using a script, but I accidentally left out the changelogs.
-> I'll resend it with the changelogs added this time.
-> Since there are no changes, I'll simply resend it without additional modifications.
+Thanks!
 
-It's OK, no need for any further resends just now - just try to consider
-it in future.
+[22/31] ASoC: da7213: Populate max_register to regmap_config
+        commit: 9d4f9f6a7bb1afbde57d08c98f2db4ff019ee19d
+[23/31] ASoC: da7213: Return directly the value of regcache_sync()
+        commit: 841256954037ad80a57b8fa17a794ae9a01b2e23
+[24/31] ASoC: da7213: Add suspend to RAM support
+        commit: 431e040065c814448ffcc2fac493f7dbbfb2e796
+[25/31] ASoC: da7213: Avoid setting PLL when closing audio stream
+        commit: 1e1a2ef95b571825ca9c0113f6bef51e9cec98b0
+[26/31] ASoC: da7213: Extend support for the MCK in range [2, 50] MHz
+        commit: b3296f9095d6ad24723e5ad89c28acc317d0c3cf
 
---2kSW8dw7hKOyK1AY
-Content-Type: application/pgp-signature; name="signature.asc"
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
------BEGIN PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcr/HgACgkQJNaLcl1U
-h9BB/gf/YksRbOGZotMGDGEoCRc1ujhaZOmYBMw0k7mzc1O3IAyX7C7vtTCY4rhj
-HHRqskm3vmGw0DE56lNOK9/oABkXkTnXGW6XX3lsHRcl2whBx3oW5cnPP1vOGqds
-Uop28iRhBj6tcqolAWAmlTlNZOo/fkN4ai6qTVcodHlc1KjZGjE8MQxNO/6Dyr/Q
-U7eh/ouyMpFjYUaK3PjXkfAe8VDhEaoRTKSKH04MfQA8e2PuPQc4Co1k7B2lbD/e
-aWZBsRilxoXcAypGo9/JwGW/uPjFVALitFpAFzTaOzWYGe13Md/GsqFF9kBxBFXZ
-uaaHZtI/dAeNct1iXOix2huMwogcSA==
-=eONU
------END PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
---2kSW8dw7hKOyK1AY--
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
