@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C3A1EF0A2
-	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 12:14:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4923D17BB0D
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 12:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730981688; cv=none; b=YD8SMQ1w9Ccc7FAGSFC6YiUZQ11jJ/mgziatfhWQuZ/7hPP264dSRDVypO91ZY4yUUhHJp0FJ7/lqlc6lCPFebk6EHN4Pxv4f3DF+L5hTjWYr6gxuwUpOq0MgKaGR2Ll0R41RauQ2YAokLWU2SvOGo0WgUEflvpRibuP2kxMZs8=
+	t=1730981741; cv=none; b=oesnf4/6eB0EyhZfJfMXlWNQwiyfkjCSI5gHPUueR/RX36R0kYspgYgnRpanEMQ+ijlD+Vmzdi1RClKFd89nx8srJEsFSskmz6F6dXiD8BWzOzTFLp8dbk1R8b9OQZRWCNl2zvI7YudFU4/K+2gKqn/8kDzoFdCzihVf7MfsPEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730981688; c=relaxed/simple;
-	bh=YUY2g4vsuJCaHe07cROF9O737Vg8JpHdyl4+9rhzoD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ktm00/BLetfEhoIP0W7i+P180Y9HpoCvbXZqkGbRaQxbxMoYOyecD85KWjP0RzR48RWoZeagib2L+qX5uqk0YpnJOcEl/6WQhx6nRrUKlnAucF8xmFpk36dVcC3jZUtZNHoilx2yPKf9Q8sZ/Qwlnhep6iJub3F5qsoC6Fti1r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kDF74Tqp; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1730981741; c=relaxed/simple;
+	bh=UbyC4kSMOuEDpBNP7nhsy7n5Q+5nIgfQ5p4rbejvqj8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TkVZkuszqiWLA2Pv87BE0y3bxILTBP7BzqEL6XUDQv4yGP5yz2vA44tQYlb2u7dM3qRctQHdi7TH48a8GKNWXDm/1VRmayx+rssnGzLlCSkgMfM9/RXcW+PtvBuPHE4IQKzJDVEPqZoo19OiN3dtekuhZ/UKSzfPC/dxdcq5dKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OYwip3se; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kDF74Tqp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OYwip3se"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730981686; x=1762517686;
+  t=1730981740; x=1762517740;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=YUY2g4vsuJCaHe07cROF9O737Vg8JpHdyl4+9rhzoD4=;
-  b=kDF74TqprzOvRTZOnS0rRKr4kgRUo59c9yOIfUGpiPFUCQ577T40RV52
-   +t6v+O3xRUU0aglkFwf/S1O9u5cuZbc3nmoTHJKIU+Xe+A9bJh/F83o+c
-   d2dwzdSsjyTPGj0Ku+ZY6FzkRBwIUzl5+ri1AQvnqDCqnXDOdJ3vc4CUB
-   UKrMgL5mNf1y4sNKHaSBcaorNwpOP8rAMBaxYovKjejlYnFOIdP4TemdX
-   f+YnmbV7P5bVLITlqRqisPdEJTwLUvPntSgzcgbPPywKXT4SBmv/X+wa0
-   CorJ4pZIOAzhOPrPLTzW2RE/vPSaBZA9lPsRasEk8pPfCbGl6RSgw7kIX
+  bh=UbyC4kSMOuEDpBNP7nhsy7n5Q+5nIgfQ5p4rbejvqj8=;
+  b=OYwip3seXKJ5O15LMtDLWJw2xvAovgd8hOHPqdVgorGew1hJ3/su0pV3
+   93qVsZJIewW/wivQ1RvYwh0WIayjQKXN7eAKTM7fdruThDh4s9gYzHrQm
+   A+askMFGpcWsUZWKdb+liSaZ1K7NeUf4pnxypttSVekB63BJ1WMh3dmS+
+   cJ7V19bf5IsCajhd3icBQtuRtSLT4jdCk3/OrQYUytQKxsOpFNe5od65B
+   pmr7/1Yw/tTgSXAIS37D44BsDeyfNAsqgvUv6HQ+El/CwlEm2xDVQ39EJ
+   FCC00vtKNbdDuxeSlOhpHocm+13dU5V8S8oZk0BluIU9CwahlTEoGYOas
    Q==;
-X-CSE-ConnectionGUID: 77Il0ApKQNSUsXQnuXB5nA==
-X-CSE-MsgGUID: Y3MsWB55Q8aXCRdsa/tHgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34743910"
+X-CSE-ConnectionGUID: 2lYO6t92TrCEA7tX3XgWiw==
+X-CSE-MsgGUID: BijbBteNSPGzk5kGagrWOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34595457"
 X-IronPort-AV: E=Sophos;i="6.12,265,1728975600"; 
-   d="scan'208";a="34743910"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 04:14:46 -0800
-X-CSE-ConnectionGUID: JndhmWmRRNeROIspe4wZnA==
-X-CSE-MsgGUID: BsFZyq0lTgCtZ19M6txzgw==
+   d="scan'208";a="34595457"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 04:15:37 -0800
+X-CSE-ConnectionGUID: FpALHl2dTTOqH+ocO+IZ7A==
+X-CSE-MsgGUID: iN4kPm4PRRq0RYxBmq/6lg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,265,1728975600"; 
-   d="scan'208";a="90178000"
+   d="scan'208";a="84991101"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.205])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 04:14:43 -0800
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 04:15:35 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH] ASoC: SOF: Intel: hda: Add support for persistent Code Loader DMA buffers
-Date: Thu,  7 Nov 2024 14:14:40 +0200
-Message-ID: <20241107121440.1472-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH] ASoC: SOF: Intel: hda-stream: Always use at least two BDLE for transfers
+Date: Thu,  7 Nov 2024 14:15:32 +0200
+Message-ID: <20241107121532.3241-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,316 +63,76 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It has been reported that the DMA memory allocation for firmware download
-can fail after extended period of uptime on systems with relatively small
-amount of RAM when the system memory becomes fragmented.
+The HDA specification states that the SDnLVI (Last Valid Index) must be at
+least 1 (two BDLE entry).
 
-The issue primarily happens  when the system is waking up from system
-suspend, swap might not be available and the MM system cannot move things
-around to allow for successful allocation.
+Update the debug prints as well to provide better information.
 
-If the IMR boot is not supported then for each DSP boot we would need to
-allocate the DMA buffer for firmware transfer, which can increase the
-chances of the issue to be hit.
+While the LVI=0 worked so far without issues, it is better to align with
+the specification to avoid unforeseen issues with FW loading.
 
-This patch adds support for allocating the DMA buffers once at first boot
-time and keep it until the system is shut down, rebooted or the drivers
-re-loaded and makes this as the default operation.
-
-With persistent_cl_buffer module parameter the persistent Code Loader
-DMA buffer can be disabled to fall back to on demand allocation.
+Notes:
+- The LVI > 0 rules is valid and honored for audio use cases
+- LVI == 0 is used with software controlled (SPIB) transfers only for
+  firmware and library loading, which is permitted by the hardware
+- This is not spelled out in the specification and it is better to avoid
+  cases
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
 Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/sof/intel/hda-loader.c | 100 ++++++++++++++++++++++---------
- sound/soc/sof/intel/hda.c        |   6 ++
- sound/soc/sof/intel/hda.h        |  14 ++++-
- 3 files changed, 90 insertions(+), 30 deletions(-)
+ sound/soc/sof/intel/hda-stream.c | 32 +++++++++++++++++++++++++++++---
+ 1 file changed, 29 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/sof/intel/hda-loader.c b/sound/soc/sof/intel/hda-loader.c
-index 9d8ebb7c6a10..76a03b6b2728 100644
---- a/sound/soc/sof/intel/hda-loader.c
-+++ b/sound/soc/sof/intel/hda-loader.c
-@@ -26,6 +26,11 @@
- #include "../sof-priv.h"
- #include "hda.h"
+diff --git a/sound/soc/sof/intel/hda-stream.c b/sound/soc/sof/intel/hda-stream.c
+index 3ac63ce67ab1..519bafd3b947 100644
+--- a/sound/soc/sof/intel/hda-stream.c
++++ b/sound/soc/sof/intel/hda-stream.c
+@@ -119,13 +119,39 @@ int hda_dsp_stream_setup_bdl(struct snd_sof_dev *sdev,
+ 	int remain, ioc;
  
-+static bool persistent_cl_buffer = true;
-+module_param(persistent_cl_buffer, bool, 0444);
-+MODULE_PARM_DESC(persistent_cl_buffer, "Persistent Code Loader DMA buffer "
-+		 "(default = Y, use N to force buffer re-allocation)");
+ 	period_bytes = hstream->period_bytes;
+-	dev_dbg(sdev->dev, "period_bytes:0x%x\n", period_bytes);
+-	if (!period_bytes)
++	dev_dbg(sdev->dev, "period_bytes: %#x, bufsize: %#x\n", period_bytes,
++		hstream->bufsize);
 +
- static void hda_ssp_set_cbp_cfp(struct snd_sof_dev *sdev)
- {
- 	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
-@@ -43,9 +48,10 @@ static void hda_ssp_set_cbp_cfp(struct snd_sof_dev *sdev)
- 	}
- }
- 
--struct hdac_ext_stream *hda_cl_prepare(struct device *dev, unsigned int format,
--				       unsigned int size, struct snd_dma_buffer *dmab,
--				       int direction, bool is_iccmax)
-+struct hdac_ext_stream*
-+hda_cl_prepare(struct device *dev, unsigned int format, unsigned int size,
-+	       struct snd_dma_buffer *dmab, bool persistent_buffer, int direction,
-+	       bool is_iccmax)
- {
- 	struct snd_sof_dev *sdev = dev_get_drvdata(dev);
- 	struct hdac_ext_stream *hext_stream;
-@@ -61,11 +67,19 @@ struct hdac_ext_stream *hda_cl_prepare(struct device *dev, unsigned int format,
- 	hstream = &hext_stream->hstream;
- 	hstream->substream = NULL;
- 
--	/* allocate DMA buffer */
--	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, dev, size, dmab);
--	if (ret < 0) {
--		dev_err(sdev->dev, "error: memory alloc failed: %d\n", ret);
--		goto out_put;
-+	/*
-+	 * Allocate DMA buffer if it is temporary or if the buffer is intended
-+	 * to be persistent but not yet allocated.
-+	 * We cannot rely solely on !dmab->area as caller might use a struct on
-+	 * stack (when it is temporary) without clearing it to 0.
-+	 */
-+	if (!persistent_buffer || !dmab->area) {
-+		ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_SG, dev, size, dmab);
-+		if (ret < 0) {
-+			dev_err(sdev->dev, "%s: memory alloc failed: %d\n",
-+				__func__, ret);
-+			goto out_put;
-+		}
- 	}
- 
- 	hstream->period_bytes = 0;/* initialize period_bytes */
-@@ -91,6 +105,10 @@ struct hdac_ext_stream *hda_cl_prepare(struct device *dev, unsigned int format,
- 
- out_free:
- 	snd_dma_free_pages(dmab);
-+	dmab->area = NULL;
-+	dmab->bytes = 0;
-+	hstream->bufsize = 0;
-+	hstream->format_val = 0;
- out_put:
- 	hda_dsp_stream_put(sdev, direction, hstream->stream_tag);
- 	return ERR_PTR(ret);
-@@ -255,7 +273,7 @@ int hda_cl_trigger(struct device *dev, struct hdac_ext_stream *hext_stream, int
- EXPORT_SYMBOL_NS(hda_cl_trigger, SND_SOC_SOF_INTEL_HDA_COMMON);
- 
- int hda_cl_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--		   struct hdac_ext_stream *hext_stream)
-+			  bool persistent_buffer, struct hdac_ext_stream *hext_stream)
- {
- 	struct snd_sof_dev *sdev =  dev_get_drvdata(dev);
- 	struct hdac_stream *hstream = &hext_stream->hstream;
-@@ -279,10 +297,14 @@ int hda_cl_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
- 			  sd_offset + SOF_HDA_ADSP_REG_SD_BDLPU, 0);
- 
- 	snd_sof_dsp_write(sdev, HDA_DSP_HDA_BAR, sd_offset, 0);
--	snd_dma_free_pages(dmab);
--	dmab->area = NULL;
--	hstream->bufsize = 0;
--	hstream->format_val = 0;
++	if (!period_bytes) {
++		unsigned int chunk_size;
 +
-+	if (!persistent_buffer) {
-+		snd_dma_free_pages(dmab);
-+		dmab->area = NULL;
-+		dmab->bytes = 0;
-+		hstream->bufsize = 0;
-+		hstream->format_val = 0;
-+	}
++		chunk_size = snd_sgbuf_get_chunk_size(dmab, 0, hstream->bufsize);
++
+ 		period_bytes = hstream->bufsize;
  
- 	return ret;
- }
-@@ -340,8 +362,8 @@ int hda_cl_copy_fw(struct snd_sof_dev *sdev, struct hdac_ext_stream *hext_stream
- 
- int hda_dsp_cl_boot_firmware_iccmax(struct snd_sof_dev *sdev)
- {
-+	struct sof_intel_hda_dev *hda = sdev->pdata->hw_pdata;
- 	struct hdac_ext_stream *iccmax_stream;
--	struct snd_dma_buffer dmab_bdl;
- 	int ret, ret1;
- 	u8 original_gb;
- 
-@@ -354,7 +376,8 @@ int hda_dsp_cl_boot_firmware_iccmax(struct snd_sof_dev *sdev)
- 	 * the data, so use a buffer of PAGE_SIZE for receiving.
- 	 */
- 	iccmax_stream = hda_cl_prepare(sdev->dev, HDA_CL_STREAM_FORMAT, PAGE_SIZE,
--				       &dmab_bdl, SNDRV_PCM_STREAM_CAPTURE, true);
-+				       &hda->iccmax_dmab, persistent_cl_buffer,
-+				       SNDRV_PCM_STREAM_CAPTURE, true);
- 	if (IS_ERR(iccmax_stream)) {
- 		dev_err(sdev->dev, "error: dma prepare for ICCMAX stream failed\n");
- 		return PTR_ERR(iccmax_stream);
-@@ -366,7 +389,8 @@ int hda_dsp_cl_boot_firmware_iccmax(struct snd_sof_dev *sdev)
- 	 * Perform iccmax stream cleanup. This should be done even if firmware loading fails.
- 	 * If the cleanup also fails, we return the initial error
- 	 */
--	ret1 = hda_cl_cleanup(sdev->dev, &dmab_bdl, iccmax_stream);
-+	ret1 = hda_cl_cleanup(sdev->dev, &hda->iccmax_dmab,
-+			      persistent_cl_buffer, iccmax_stream);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "error: ICCMAX stream cleanup failed\n");
- 
-@@ -408,7 +432,6 @@ int hda_dsp_cl_boot_firmware(struct snd_sof_dev *sdev)
- 	const struct sof_intel_dsp_desc *chip_info;
- 	struct hdac_ext_stream *hext_stream;
- 	struct firmware stripped_firmware;
--	struct snd_dma_buffer dmab;
- 	int ret, ret1, i;
- 
- 	if (hda->imrboot_supported && !sdev->first_boot && !hda->skip_imr_boot) {
-@@ -432,23 +455,31 @@ int hda_dsp_cl_boot_firmware(struct snd_sof_dev *sdev)
- 		return -EINVAL;
- 	}
- 
--	stripped_firmware.data = sdev->basefw.fw->data + sdev->basefw.payload_offset;
--	stripped_firmware.size = sdev->basefw.fw->size - sdev->basefw.payload_offset;
--
- 	/* init for booting wait */
- 	init_waitqueue_head(&sdev->boot_wait);
- 
- 	/* prepare DMA for code loader stream */
-+	stripped_firmware.size = sdev->basefw.fw->size - sdev->basefw.payload_offset;
- 	hext_stream = hda_cl_prepare(sdev->dev, HDA_CL_STREAM_FORMAT,
- 				     stripped_firmware.size,
--				     &dmab, SNDRV_PCM_STREAM_PLAYBACK, false);
-+				     &hda->cl_dmab, persistent_cl_buffer,
-+				     SNDRV_PCM_STREAM_PLAYBACK, false);
- 	if (IS_ERR(hext_stream)) {
- 		dev_err(sdev->dev, "error: dma prepare for fw loading failed\n");
- 		return PTR_ERR(hext_stream);
- 	}
- 
--	memcpy(dmab.area, stripped_firmware.data,
--	       stripped_firmware.size);
-+	/*
-+	 * Copy the payload to the DMA buffer if it is temporary or if the
-+	 * buffer is  persistent but it does not have the basefw payload either
-+	 * because this is the first boot and the buffer needs to be initialized,
-+	 * or a library got loaded and it replaced the basefw.
-+	 */
-+	if (!persistent_cl_buffer || !hda->cl_dmab_contains_basefw) {
-+		stripped_firmware.data = sdev->basefw.fw->data + sdev->basefw.payload_offset;
-+		memcpy(hda->cl_dmab.area, stripped_firmware.data, stripped_firmware.size);
-+		hda->cl_dmab_contains_basefw = true;
-+	}
- 
- 	/* try ROM init a few times before giving up */
- 	for (i = 0; i < HDA_FW_BOOT_ATTEMPTS; i++) {
-@@ -514,7 +545,8 @@ int hda_dsp_cl_boot_firmware(struct snd_sof_dev *sdev)
- 	 * This should be done even if firmware loading fails.
- 	 * If the cleanup also fails, we return the initial error
- 	 */
--	ret1 = hda_cl_cleanup(sdev->dev, &dmab, hext_stream);
-+	ret1 = hda_cl_cleanup(sdev->dev, &hda->cl_dmab,
-+			      persistent_cl_buffer, hext_stream);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "error: Code loader DSP cleanup failed\n");
- 
-@@ -545,7 +577,6 @@ int hda_dsp_ipc4_load_library(struct snd_sof_dev *sdev,
- 	struct hdac_ext_stream *hext_stream;
- 	struct firmware stripped_firmware;
- 	struct sof_ipc4_msg msg = {};
--	struct snd_dma_buffer dmab;
- 	int ret, ret1;
- 
- 	/* if IMR booting is enabled and fw context is saved for D3 state, skip the loading */
-@@ -556,16 +587,28 @@ int hda_dsp_ipc4_load_library(struct snd_sof_dev *sdev,
- 	stripped_firmware.data = fw_lib->sof_fw.fw->data + fw_lib->sof_fw.payload_offset;
- 	stripped_firmware.size = fw_lib->sof_fw.fw->size - fw_lib->sof_fw.payload_offset;
- 
-+	/*
-+	 * force re-allocation of the cl_dmab if the preserved DMA buffer is
-+	 * smaller than what is needed for the library
-+	 */
-+	if (persistent_cl_buffer && stripped_firmware.size > hda->cl_dmab.bytes) {
-+		snd_dma_free_pages(&hda->cl_dmab);
-+		hda->cl_dmab.area = NULL;
-+		hda->cl_dmab.bytes = 0;
++		/*
++		 * HDA spec demands that the LVI value must be at least one
++		 * before the DMA operation can begin. This means that there
++		 * must be at least two BDLE present for the transfer.
++		 *
++		 * If the buffer is not a single continuous area then the
++		 * hda_setup_bdle() will create multiple BDLEs for each segment.
++		 * If the memory is a single continuous area, force it to be
++		 * split into two 'periods', otherwise the transfer will be
++		 * split to multiple BDLE for each chunk in hda_setup_bdle()
++		 *
++		 * Note: period_bytes == 0 can only happen for firmware or
++		 * library loading. The data size is 4K aligned, which ensures
++		 * that the second chunk's start address will be 128-byte
++		 * aligned.
++		 */
++		if (chunk_size == hstream->bufsize)
++			period_bytes /= 2;
 +	}
 +
- 	/* prepare DMA for code loader stream */
- 	hext_stream = hda_cl_prepare(sdev->dev, HDA_CL_STREAM_FORMAT,
- 				     stripped_firmware.size,
--				     &dmab, SNDRV_PCM_STREAM_PLAYBACK, false);
-+				     &hda->cl_dmab, persistent_cl_buffer,
-+				     SNDRV_PCM_STREAM_PLAYBACK, false);
- 	if (IS_ERR(hext_stream)) {
- 		dev_err(sdev->dev, "%s: DMA prepare failed\n", __func__);
- 		return PTR_ERR(hext_stream);
- 	}
+ 	periods = hstream->bufsize / period_bytes;
  
--	memcpy(dmab.area, stripped_firmware.data, stripped_firmware.size);
-+	memcpy(hda->cl_dmab.area, stripped_firmware.data, stripped_firmware.size);
-+	hda->cl_dmab_contains_basefw = false;
+-	dev_dbg(sdev->dev, "periods:%d\n", periods);
++	dev_dbg(sdev->dev, "periods: %d\n", periods);
  
- 	/*
- 	 * 1st stage: SOF_IPC4_GLB_LOAD_LIBRARY_PREPARE
-@@ -628,7 +671,8 @@ int hda_dsp_ipc4_load_library(struct snd_sof_dev *sdev,
- 
- cleanup:
- 	/* clean up even in case of error and return the first error */
--	ret1 = hda_cl_cleanup(sdev->dev, &dmab, hext_stream);
-+	ret1 = hda_cl_cleanup(sdev->dev, &hda->cl_dmab, persistent_cl_buffer,
-+			      hext_stream);
- 	if (ret1 < 0) {
- 		dev_err(sdev->dev, "%s: Code loader DSP cleanup failed\n", __func__);
- 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 38921c0db84e..01b135068b1f 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -936,6 +936,12 @@ void hda_dsp_remove(struct snd_sof_dev *sdev)
- 	/* disable DSP */
- 	hda_dsp_ctrl_ppcap_enable(sdev, false);
- 
-+	/* Free the persistent DMA buffers used for base firmware download */
-+	if (hda->cl_dmab.area)
-+		snd_dma_free_pages(&hda->cl_dmab);
-+	if (hda->iccmax_dmab.area)
-+		snd_dma_free_pages(&hda->iccmax_dmab);
-+
- skip_disable_dsp:
- 	free_irq(sdev->ipc_irq, sdev);
- 	if (sdev->msi_enabled)
-diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
-index b74a472435b5..22bd9c3c8216 100644
---- a/sound/soc/sof/intel/hda.h
-+++ b/sound/soc/sof/intel/hda.h
-@@ -495,6 +495,15 @@ struct sof_intel_hda_dev {
- 
- 	int boot_iteration;
- 
-+	/*
-+	 * DMA buffers for base firmware download. By default the buffers are
-+	 * allocated once and kept through the lifetime of the driver.
-+	 * See module parameter: persistent_cl_buffer
-+	 */
-+	struct snd_dma_buffer cl_dmab;
-+	bool cl_dmab_contains_basefw;
-+	struct snd_dma_buffer iccmax_dmab;
-+
- 	struct hda_bus hbus;
- 
- 	/* hw config */
-@@ -714,11 +723,12 @@ int hda_cl_copy_fw(struct snd_sof_dev *sdev, struct hdac_ext_stream *hext_stream
- 
- struct hdac_ext_stream *hda_cl_prepare(struct device *dev, unsigned int format,
- 				       unsigned int size, struct snd_dma_buffer *dmab,
--				       int direction, bool is_iccmax);
-+				       bool persistent_buffer, int direction,
-+				       bool is_iccmax);
- int hda_cl_trigger(struct device *dev, struct hdac_ext_stream *hext_stream, int cmd);
- 
- int hda_cl_cleanup(struct device *dev, struct snd_dma_buffer *dmab,
--		   struct hdac_ext_stream *hext_stream);
-+		   bool persistent_buffer, struct hdac_ext_stream *hext_stream);
- int cl_dsp_init(struct snd_sof_dev *sdev, int stream_tag, bool imr_boot);
- #define HDA_CL_STREAM_FORMAT 0x40
- 
+ 	remain = hstream->bufsize % period_bytes;
+ 	if (remain)
 -- 
 2.47.0
 
