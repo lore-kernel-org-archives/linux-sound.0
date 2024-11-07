@@ -1,89 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B9D218D8F
-	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 21:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3713221892F;
+	Thu,  7 Nov 2024 21:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731016343; cv=none; b=Y1H23cRR9U/uXr+tO70MP+fKB1hOgEZvx/ccJXx3kS4F+sABKy2GoCSIG6//3bm8YoBXxvkwIdJVIdS5m4DbVlipV0fk8WfkKlqqpeE6cAdladlhF2LX/afNGMKyWzq5wh6D42hSXdy2vhj2qsT2EI4tvKrWl5QMBKJRi10H758=
+	t=1731016487; cv=none; b=aUIpaXu3FwR4nkr9AUXAxeG+AfvAJaAbiNk6G7cQY3G3JD7aroQNpWbDiLkzqjAvQeYrraZ/GDPutI5UV+FMnmEixuWENFZUgaRsVbuZJJAdF2Hpi+084dc2xvSq7doD11IWQMk1AocYRtKK3za93ucDljPZjvYJWG7c36MCRn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731016343; c=relaxed/simple;
-	bh=WMCG0BmwEIO/0kd4ZJG+TXtPUZgK6+7/JN0E6LJzOc4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d/IBrjKsm/jMT+874Y/FKfhJPcxg2kQx/Q44GA6vKJAmYK18TqSL3hsKurw4GIKZuwGqy+TiG04k/zGOURWG4e4CDYFJuc7Bfy8YNbSuTn9fYkrA+gHmcpM7N30OWO2Z1IIK2Se2CxBBdu5ymTb1Km4YSO0mX4EvoyjkHoKGolM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5vXNXPo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731016487; c=relaxed/simple;
+	bh=oIY/GsragsYa+Wkwcmz4K24x4XSEWsBnoMuQbghFAIk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Qg/vKEwDJYvLEju+zVmtua75pWnnsNrrhThydneeMuvdNT3HK9tnUvhww/AW9G3+3AMz8ysMDzsH66bcKKy4UviSfpSDkwqjKME36ku3T3v/iC15vReh7qQn35dO2PH3eUjNkZ0FX2vWKGzuJ6vUgwQEUmUhZ4btFFzVTl6c8k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T0JPbbFF; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5vXNXPo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A658FC4CECE;
-	Thu,  7 Nov 2024 21:52:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731016343;
-	bh=WMCG0BmwEIO/0kd4ZJG+TXtPUZgK6+7/JN0E6LJzOc4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=L5vXNXPoQrlBriGtUj7q1V3B3YGVe81darLWH98amGwmCARtCsBFSkB/4ImYQH7CV
-	 ie6OSwr7U5n+v149U/iGA7eB0I45xZwkZtuuMkszOqh3fpk6/tauR/g6zmqAv5+elw
-	 5hS+QX2K3lpbyMI88TC6SST5eS5Q+e9LJhmWZOU+gZO+Z/GyUTupdknIy/7up0Jj2m
-	 2UA4IoQnUVi2NjMpeZvdineGl2QMB4XwyoSxE34CQ4MhW2OGg+IbMaACtaVV1xYTp2
-	 9gIKHXq4Q1iRMiGjALuBLxdrXN1LkTZHDVnzIQrE99a/NH5C9QUub83LtRE+E+Hi9+
-	 v/xe2qa/k+dWg==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-In-Reply-To: <20241107120306.30680-1-peter.ujfalusi@linux.intel.com>
-References: <20241107120306.30680-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: SOF: ipc3-loader: Handle PROBE_INFO
- ext_manifest type
-Message-Id: <173101634141.271800.11661104850516524282.b4-ty@kernel.org>
-Date: Thu, 07 Nov 2024 21:52:21 +0000
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T0JPbbFF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=GUzuw2C8tWbRxEn7TQiiZns2qpMGqquka3U/u2AU4dc=; b=T0JPbbFFQkkdbbdLWSk0TsIIxX
+	3JTnjDYP3S5+eYDAGoUR/JkLdS82v+rnLk2siz6LldPUh5vV+gI2Oez2AmSeDxHRcauBag2/insQk
+	FwFyOFV8OulM8VZjN/YFUoeWvOtGFjrSHfeKVu/qLuHUiD+3+4+lUvNu7ZejkavtFd1n0lBwSnATJ
+	Cg02fWNnZba0jgzB7T4m+ftUC+E0XhR6sqZc8GaITo+CSGL6IBA/K/FIWC9lgIH1LSevk4bYfJlse
+	P63SJOjkzKXIrBDGWQIO225rzhcNImefUmFL+3/ZDKbk6KAkAK4ttOn69nmzv5AQW2lmFGUArgfIy
+	4062f1sw==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t9ASe-00000007Tdz-1QQx;
+	Thu, 07 Nov 2024 21:54:41 +0000
+Message-ID: <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org>
+Date: Thu, 7 Nov 2024 13:54:36 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Jonathan Corbet <corbet@lwn.net>, anish kumar <yesanishhere@gmail.com>,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+ <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org>
+ <874j4i205j.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <874j4i205j.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
 
-On Thu, 07 Nov 2024 14:03:04 +0200, Peter Ujfalusi wrote:
-> The PROBE_INFO (ext_manifest type 3) is not used by the kernel, but
-> at every tiem the firmware is loaded the following is printed in
-> info level (user visible):
-> unknown sof_ext_man header type 3 size 0x30
+
+
+On 11/7/24 1:40 PM, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
 > 
-> The type is known, but it is not handled, the print is misleading.
+>> On 11/7/24 12:45 PM, Jonathan Corbet wrote:
+>>> anish kumar <yesanishhere@gmail.com> writes:
+>>>
+>>>> Add a comprehensive debugging guide for ALSA audio issues, covering
+>>>> topics from bootup to runtime debugging. This document aims to help
+>>>> developers diagnose and resolve common audio problems in Linux.
+>>>>
+>>>> The guide includes sections on:
+>>>> - Bootup/bringup issues
+>>>> - Runtime debugging
+>>>> - XRUN debugging
+>>>> - Audio pops and clicks
+>>>>
+>>>> This addresses the lack of a centralized debugging resource for ALSA
+>>>> and should help improve the troubleshooting process for audio drivers.
+>>>>
+>>>> Inspired by discussions on LKML:
+>>>> https://lkml.org/lkml/2024/9/24/392
+>>>>
+>>>> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+>>>> ---
+>>>>  Documentation/sound/soc/debug.rst | 334 ++++++++++++++++++++++++++++++
+>>>>  Documentation/sound/soc/index.rst |   1 +
+>>>>  2 files changed, 335 insertions(+)
+>>>>  create mode 100644 Documentation/sound/soc/debug.rst
+>>>
+>>> At a first glance, this seems useful.
+>>>
+>>> I was just looking at Sebastian's new debugging documentation:
+>>>
+>>>   https://lore.kernel.org/all/20241028-media_docs_improve_v3-v1-0-2b1b486c223e@collabora.com/
+>>>
+>>> ... so my immediate thought is that this documentation should be
+>>> coherent and together, rather than scattered though the docs.  Maybe
+>>> move this to process/debugging and integrate it with his work?
+>>
+>> and once again I disagree that these docs should be in Documentation/process/.
 > 
-> [...]
+> OK, I guess I missed that...where do you think we should put them?
 
-Applied to
+It was just a few minutes before this email. ;)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+I see a few possibilities, none perfect:
 
-[1/2] ASoC: SOF: ext_manifest: Add missing ext_manifest type for PROBE_INFO
-      commit: 7f4eb7672b1785119b29a4dff50aeef13368e813
-[2/2] ASoC: SOF: ipc3-loader: 'Handle' PROBE_INFO ext_manifest type when parsing
-      commit: 83e367c1a178045bf3675646aa9582a0c5a4e566
+a. in Documentation/driver-api/debug/  [not quite driver-api though]
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+b. in Documentation/core-api/ along with debugging-via-ohci1394.rst  [maybe in a new /debug/ subdir]
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+c. in (new) Documentation/debug/ and invite the kernel debugging community to add some of their
+   docs here as well.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I'm open to other places (except "process").
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
 
-Thanks,
-Mark
+-- 
+~Randy
 
