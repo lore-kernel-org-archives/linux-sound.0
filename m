@@ -1,49 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2614B161;
-	Thu,  7 Nov 2024 00:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F077FD
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 01:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730938915; cv=none; b=IddyKXujnt7SLmPl8XelVfUgGGHJ8bNmQA53/Y/xA4VXdfFZn64YpB5sAtyt8Gt0Ks13i4FdhgYdGtdU4d6XYxxeyLtlZ8AuLWJjiJkWok6X8xPJRIQUKsQLsV07hoJzYaHwXU11kip4dC4bELvRD98j4yjC53LKIZESDJpi3Uo=
+	t=1730941570; cv=none; b=s4TooYwFYTEWL9d1MYZ9E06XBdKhTe3nqH2ChLEBB391AmxnO/yiOsi6owF31KvDEWG0OcVZIPXQm+4PsSZQ9SDi4btzdVaQ2qakrxM4PI9llkphhSJeNsA6EZJ2LUhK4pym1v2kVl7ujeGs+hv4cB6+uAq6r7bFzPLlCjp24dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730938915; c=relaxed/simple;
-	bh=+CNWzMeB071PME8CXmstzWM4w5EMF9AzDs7sv42HsIc=;
+	s=arc-20240116; t=1730941570; c=relaxed/simple;
+	bh=iLGmiadlkTjEpEqXYzG9liT2zh/k5PFpxJDI24gpE84=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=uaeu5qZXrqc5c6q8WvkFvS0YIWRwAw3dTEgHRwjwCKFY7r3EF6B7yZGvhP27D45BBEUHhoJQN1YyEUkwzByZ5/0wr00MDXb5G/g7XOfu4kjlEDGwNn90YR8yJCZ7Pku1tf5BLTVlmtNB7GIp8n7LswrKGiAKh+ReA6wql/MVsZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FSi6Nn+f; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kc4MbBReIq6ZA5XhYKmv3DkozKCpT6MQOoKfyXOl54MtQtNyduRceEmTu8eLZ1sJOr4MnX7/dsRU7bdLF5JIesHQu1uYJhHiCWE07nXQ/TxEnGjewaZIU648szJlPOxCxiA1l9BWa1BraQi+JZhnQrHrJxFuO+zaFYpQZPFmEW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnIfL+7g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FSi6Nn+f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54DB9C4CEC6;
-	Thu,  7 Nov 2024 00:21:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HnIfL+7g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73F99C4CEC6;
+	Thu,  7 Nov 2024 01:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730938914;
-	bh=+CNWzMeB071PME8CXmstzWM4w5EMF9AzDs7sv42HsIc=;
+	s=k20201202; t=1730941569;
+	bh=iLGmiadlkTjEpEqXYzG9liT2zh/k5PFpxJDI24gpE84=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=FSi6Nn+fZyQj7dKxHIZK7DT+LTkZfbwqFASaTgkoGMlINncNpG1lbmos3IUyB+kWR
-	 CtVJfQv5WBnN0qiss3L6VkLe8dn7SmaHZlDGrW4HfGyufCid71CoiZkmEmXkwmjYe3
-	 NQq+FodDM5h773Dq2XtMGw7fGqRi8oJWlrDrUCPvSPFHPq2zXRhGXgcjdeXw3QNpoU
-	 +M21tQeGCmbJmcrDe7i0Scvrk88eWdN8o+LtiYkBkD7+c/uHZORrEkkU9FdlkYnArr
-	 gB3iNcLbiQsfRCDVuBtG2XgkQn1ae9A7c3q6fbxkR0zPBQsrMXj5mJzGA5Xvrrkbiu
-	 NbmmDAP3XPMew==
+	b=HnIfL+7g8b0UPNtaC4vY9Ew3mEVvXcsPkEZuFQfDAOKNSp45E9fXhzRac23Rsle2y
+	 2SbAHQhNbxDccs8avunCN5AO0MkfD3qJ5PIkwxtIpjJmlaAjSWQRqTtxkQLqJQk5p4
+	 zTetR9IjMdqFhZSWb8080hA8WpQc3+QBv+8SaXyw6ZYnLxEWgtXQWSsb6nim0uFkPg
+	 uCy30XxmB24MuRACVuO++oSTEqkiDDNJxbqUC89JHEqs0y8xL/erb/cyMfE3ampRK6
+	 MawyN8bgE7Y8taRcmnipNourICQ+rcqZniPH4A6VjPU7kQ3Ymi7mpJnIFxVnVSnhvL
+	 qRe9cApncBF3g==
 From: Mark Brown <broonie@kernel.org>
-To: geert+renesas@glider.be, mturquette@baylibre.com, sboyd@kernel.org, 
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
- biju.das.jz@bp.renesas.com, prabhakar.mahadev-lad.rj@bp.renesas.com, 
- lgirdwood@gmail.com, magnus.damm@gmail.com, linus.walleij@linaro.org, 
- support.opensource@diasemi.com, perex@perex.cz, tiwai@suse.com, 
- p.zabel@pengutronix.de, Adam.Thomson.Opensource@diasemi.com, 
- Claudiu <claudiu.beznea@tuxon.dev>
-Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
-References: <20241106081826.1211088-1-claudiu.beznea.uj@bp.renesas.com>
-Subject: Re: (subset) [PATCH 00/31] Add audio support for the Renesas
- RZ/G3S SoC
-Message-Id: <173093891006.248820.1343956081297583948.b4-ty@kernel.org>
-Date: Thu, 07 Nov 2024 00:21:50 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20241106055810.10123-1-yung-chuan.liao@linux.intel.com>
+References: <20241106055810.10123-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: Kconfig: fix undefined symbol:
+ sdca_device_quirk_match issue
+Message-Id: <173094156818.261330.8273983756465145597.b4-ty@kernel.org>
+Date: Thu, 07 Nov 2024 01:06:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,22 +46,13 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Wed, 06 Nov 2024 10:17:55 +0200, Claudiu wrote:
-> Series enables the audio support for the Renesas RZ/G3S
-> SoC along with runtime PM and suspend to RAM.
+On Wed, 06 Nov 2024 13:58:08 +0800, Bard Liao wrote:
+> Fix the ld.lld: error: undefined symbol: sdca_device_quirk_match issue
+> when CONFIG_SND_SOC_SDCA=m and CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS=y.
 > 
-> Patches:
-> -    01/31 - add clock, reset and power domain support
-> - 02-04/31 - update versaclock3 clock generator driver to support the
->              5L35023 hardware variant; versaclock3 provides clocks for
->              the audio devices (SSIF, DA7212 codec)
-> -    05/31 - add pin control support for audio
-> - 06-21/31 - add SSIF support for the RZ/G3S SoC; fixes and cleanups
->              were also included
-> - 22-26/31 - updates the da7213 codec driver to support the DA7212
->              hardware variant; suspend to RAM code was adjusted
->              to cope with the RZ/G3S power saving modes
-> - 27-31/31 - add device tree support
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202411021722.DiX1Y5sf-lkp@intel.com/
+> 
 > 
 > [...]
 
@@ -79,16 +62,10 @@ Applied to
 
 Thanks!
 
-[22/31] ASoC: da7213: Populate max_register to regmap_config
-        commit: 9d4f9f6a7bb1afbde57d08c98f2db4ff019ee19d
-[23/31] ASoC: da7213: Return directly the value of regcache_sync()
-        commit: 841256954037ad80a57b8fa17a794ae9a01b2e23
-[24/31] ASoC: da7213: Add suspend to RAM support
-        commit: 431e040065c814448ffcc2fac493f7dbbfb2e796
-[25/31] ASoC: da7213: Avoid setting PLL when closing audio stream
-        commit: 1e1a2ef95b571825ca9c0113f6bef51e9cec98b0
-[26/31] ASoC: da7213: Extend support for the MCK in range [2, 50] MHz
-        commit: b3296f9095d6ad24723e5ad89c28acc317d0c3cf
+[1/2] ASoC: Intel: Kconfig: make SND_SOC_ACPI_INTEL_MATCH depend on ACPI
+      commit: b6bd3f3b6357f727a177f31861144788eceda3c1
+[2/2] ASoC: Intel: Kconfig: select SND_SOC_SDCA by SND_SOC_ACPI_INTEL_SDCA_QUIRKS
+      commit: 845cb1ddf1fc2212f876db6df9d3277badd35709
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
