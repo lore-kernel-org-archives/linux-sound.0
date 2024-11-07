@@ -1,154 +1,124 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AD4372;
-	Thu,  7 Nov 2024 04:31:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D906C1426C;
+	Thu,  7 Nov 2024 06:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730953890; cv=none; b=OaKyWiznfrPQyBjtVbExmtYcy3Db6c0to/3/PXAoi9DUx7REodsMzr+JKL5a4iTmRr6X2HnSwRdxXcMyKGzilomS6UgC7pYXBnLW6vSms/1B0Ubp5lEbB9nqyBh7gDrIJgDziml19Yrtf1vXaDzSk4fRQSTrebeHhmzOMobEGjw=
+	t=1730961386; cv=none; b=qnoifPvwwPojL+C58vXfkbO4WqToYcEp3xwCyCRDsxBVSCBl1VHFlgbVcQaNlw4LoDJKUJ61lmBkFdD9UCvgLnBZs3xL3znZFL7RXCTFmuxMVYDGuKiLVeTNUruJqVC4Wagc339i+K27oq73kw08f5mrIHjmpjX08GrNfb+VdtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730953890; c=relaxed/simple;
-	bh=YBg7K16J6QX1rjvLstPMBbbo5WtxqTKH7wW9aPT0AZ4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g+5ANXUBkeTGhd0sv4v2ZKz+NztiVCJ7dsMThrQVDPvgeOAeJqR5NiJjCUJF6UT5dobIUcWCE/kS9spsb7A8XF5gEkEsTK2HWjn5Mj/8/l+UNeL5UqfB6E3lrRxCLaFEe9E17lbWXBemESsufmVKQ0m0jHHPafdIji/4GECHhc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fd1utv2v; arc=none smtp.client-ip=209.85.167.46
+	s=arc-20240116; t=1730961386; c=relaxed/simple;
+	bh=guIVPpGhXDuZz5lSMYaKxEnL14XvM6sjR7x1/usB0KA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E1vIRvViCoWhQK/SAHjwtZxMrKazdkDw4AELss2DgbNVkU/bKu93ifVZ8+A3s8dpoILxnJOaFBXuMUnG6qxxh3fmAFFjJ8EaFBWRjtTdg1nhWM7qZDVGuoPgNuF+cJy6gjIOiUmD6eMGAtrZSDtEkFUAH5icYL0f/U5KPwhWzXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0ffS97g; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fd1utv2v"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e59dadebso442194e87.0;
-        Wed, 06 Nov 2024 20:31:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0ffS97g"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2884e6ed0daso282599fac.0;
+        Wed, 06 Nov 2024 22:36:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730953886; x=1731558686; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRkCg2WwREvUvmuCgqmdpMrJhtUN4b15M25FgIXyNck=;
-        b=fd1utv2vDvtxA1ocDqYlYBCPOmUJf8+L1rLsw6jun8KWhkMfg2a3bsieU7bwxgdlpS
-         5cHPBCEg2XavHAiQfW4NpQfCx71hKZ+1p796yjl39zvKSSbJNX9Z2qIF3D+gqNVFWSA5
-         zT97VSfY7Hbl5C+mXMG/J/DBuoisTzYFIlXJBd5WG5rmM+QQzUDFbt0kXktzLck2u3r0
-         QKGFDLA4+EJTdxJwL3+jjxLL83U4XTZHvXAZl3koa7h/sUK63zVRlOJJL5fSii6Qhc0t
-         xO6THJHlsCjHwJgkeVunAQfHaz+9sIKaE3J03818b08Wg8O4cYyKstmhfnhMc1aB1scC
-         ccXg==
+        d=gmail.com; s=20230601; t=1730961384; x=1731566184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YRREKyxHqLad5U75koI+gv+wvbkh7+AWEDayDITERHc=;
+        b=J0ffS97gm600ALfKiOfne6Q6x454NZVvj+oVHv0HwjTv217j7EvE+HXcDTzg5ZKC5n
+         WNybg767IRnGVt/euIEMTcBhuZrCAC0j3Wdlf7hUxNdL9bu3O8muI5f68wztfhxViNP3
+         LW1RxQTvo9ChdYdgFQyEIhokMeJ7wNt8qGJ+SwgnlVISXT0mbELdgZJuOPsYQzmW1lWn
+         yP/vPsY50d+raUtEyKCuHESenw/kFhiF+yy/66Y6WDrU6pYGUBsqSOMPdf5GyudPNnZE
+         NYejS4ynus5L70elUvTzjwonC0+XZZd7xcNZP2MyYl0x4+AhLOCeufFrr+3mGiY1gA+M
+         fgvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730953886; x=1731558686;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gRkCg2WwREvUvmuCgqmdpMrJhtUN4b15M25FgIXyNck=;
-        b=rCElltuVUtbHscOiAQ26952GITRHfFj8PE3f2kJsUDGR5QccsgjbRZhps9jW6s6FZf
-         nqkiUUgzK1cKtn7wQRJ0rtCxza2Vzf5ho4EJDJbyrGfc6fDBBlI8csVIvbOSHyBzHD1X
-         05idM4kVz4/b/lNsoU4qfhQzQBWqhcQMlBBLgJdbWR8UEglyoEEz65Z87aVCsgQO4MeP
-         ABrP95BmLN9wA3mctr+6UU69E38E/oezBDFGVj94+Gqd50DVXpIf+doImct48CrFdoPA
-         UdVufeS4V7MmvvYXbnC3F4N2yFt5sEQCV/zLfTVfbxTsBroin+C2U+nOSWNDwZfWMpxC
-         b9bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKKiJ11ja4MivW2l5oeZKVr/fgOhKpreugawEVSHziL8HPkH/2O5/YXsn2XRxzkKYjGBn/OFNn218=@vger.kernel.org, AJvYcCUvT4GOwWysGpP1YTZ8i6yOL/DpBLUkHkdx1m1crp290jKsPp+M43e5vQg5JnvqcvysuAF0QBYkFXr03czO@vger.kernel.org, AJvYcCVzMkBvixUrm3h25sYsUXGOVQM96BxIDhB9Mv/YKEQsly8JGTR1TCrBlMV5yxLDy/abImTmxq5aLvKcOOM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyg6B/szyvn3zVcqHa+961kvcgg12lq1SerWMG4Po3+VXDrde3H
-	+mGBzqA0jdVTW3q+hYg74iXs9yDEqFEFC/iYo3XtRRDiRIZUbq/UHHpc7uyqFgU5dd+u8Iz5Lps
-	kRAjQ60guFSR5Amrp7q6Xu0kXcWY=
-X-Google-Smtp-Source: AGHT+IGIhdamdcK2Mig+wvTrARkH1ryi6qF4sZog+7cY1AgdHa+yA2DoDJJhgLAndDq6NuItiG8RULDjmcrB7BNtDcY=
-X-Received: by 2002:a05:6512:3d06:b0:53a:1e5:572a with SMTP id
- 2adb3069b0e04-53b348f9926mr22052439e87.16.1730953886244; Wed, 06 Nov 2024
- 20:31:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730961384; x=1731566184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YRREKyxHqLad5U75koI+gv+wvbkh7+AWEDayDITERHc=;
+        b=hb3cfesUpcEuMAVJWfXZ6TvjacpXz0r6eLy1uVQ21YIIpa2515v3vdGH+YeYvRqfLU
+         1VAfeW34d/U15xXEKldFGD+cDjL3i7JfPBeZisavcDwMO0MaIn8XnazZv3MWRpvfNk0S
+         SiK4FKbSzcMuPwfKCc3hLJjM4zZX0IoduvnIolnaDJPrgsmem8G7/sP4RZRjFlB3QS5U
+         6e+J0v91ypDA/IMT4ncZZRp5BDNiEFkDBKNsh2j/gP0cvUsOD97q7AEdOjxG59ECZTdc
+         GXA3lUBMQBDZO54qDfai/vwVluNMhv6GVoNTOUfnqtPndkDJJEUtXRzwz7RZhgqnGbHq
+         FttQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXEYtmz1ikRe7si45DnFgDYIEGbr/lx1K+Yqh+FuVpup6BEO/eDpntojItGPgQOT+33VJf38MXzg76q5LU=@vger.kernel.org, AJvYcCXeUBhFXQu1+2UX8cWDxw5JK5o4JverPSntFClXmem8PfKKMHdB5PPx3nEexAbYj74rMmjpt/sggKmGxYI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR+PE3eFC8w26zYhvwI4b0sF8SAoKKICarJH/1iWE4Tr3p/P3d
+	IvP47nfGzG2xtXy46AHxfXkFf5zXdZE9UKHyFt96WdFzT4WtiUJw
+X-Google-Smtp-Source: AGHT+IGxPjF5mKCWTsENDugEJtirF55iBlvGQQvgV8rcaVaHFl6SIQ2KHWNSbkHPI3GR+eax/Dx99A==
+X-Received: by 2002:a05:6870:1699:b0:288:6a16:fe1 with SMTP id 586e51a60fabf-29051b73046mr35418062fac.18.1730961382927;
+        Wed, 06 Nov 2024 22:36:22 -0800 (PST)
+Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:4040:6ec7:2441:f176:85dc:94fe:adc7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f5bab50sm517097a12.25.2024.11.06.22.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2024 22:36:22 -0800 (PST)
+From: Suraj Sonawane <surajsonawane0215@gmail.com>
+To: lgirdwood@gmail.com,
+	peter.ujfalusi@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	daniel.baluta@nxp.com,
+	kai.vehmanen@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	broonie@kernel.org
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Suraj Sonawane <surajsonawane0215@gmail.com>
+Subject: [PATCH v3] ASoc: SOF: ipc4-pcm: fix uninit-value in sof_ipc4_pcm_dai_link_fixup_rate
+Date: Thu,  7 Nov 2024 12:06:09 +0530
+Message-Id: <20241107063609.11627-1-surajsonawane0215@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241102073718.64040-1-yesanishhere@gmail.com> <Zyb8U3lSvYP0UeuN@archie.me>
-In-Reply-To: <Zyb8U3lSvYP0UeuN@archie.me>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Wed, 6 Nov 2024 20:31:14 -0800
-Message-ID: <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
-Subject: Re: [PATCH] ALSA: machine: update documentation
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Mark,
+Fix an issue detected by the Smatch tool:
 
-Do you have any comments, or should I
-go ahead and respin the patch to address
-the review comments?
+sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
+error: uninitialized symbol 'be_rate'.
 
-On Sat, Nov 2, 2024 at 9:30=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com>=
- wrote:
->
-> On Sat, Nov 02, 2024 at 12:37:18AM -0700, anish kumar wrote:
-> > +Additionaly below example macro can be used to register cpu, codec and
-> > +platform dai.
-> > +
-> > +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> > +     DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> > +     DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> > +     DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-> > +
->
-> Make the macro usage a literal code block:
->
-> ---- >8 ----
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index af7bad7ba13455..8788953cd160f5 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -76,9 +76,9 @@ either dai name or device tree node but not both. Also,=
- names used here
->  for cpu/codec/platform dais should be globally unique.
->
->  Additionaly below example macro can be used to register cpu, codec and
-> -platform dai.
-> +platform dai::
->
-> -SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> +  SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
->         DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
->         DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
->         DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
->
-> >  Machine Power Map
-> > ------------------
-> > +---------------------------
->
-> Keep the section underline length as-is.
->
-> >  Machine Controls
-> > -----------------
-> > +-----------------------
->
-> Likewise.
->
-> > +Clocking Controls:
-> > +=E2=80=94-----------------
-> > +
->
-> Fix the underline to render the section name as a heading:
->
-> ---- >8 ----
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index 8788953cd160f5..bdb9dfc5d88e45 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -113,8 +113,8 @@ Machine Controls
->  Machine specific audio mixer controls can be added in the DAI init funct=
-ion.
->
->
-> -Clocking Controls:
-> -=E2=80=94-----------------
-> +Clocking Controls
-> +-----------------
->
->  As previously noted, clock configuration is handled within the machine d=
-river.
->  For details on the clock APIs that the machine driver can utilize for
->
-> Thanks.
->
-> --
-> An old man doll... just what I always wanted! - Clara
+The warning highlights a case where `be_rate` could remain uninitialized
+if `num_input_formats` is zero, which would cause undefined behavior
+when setting `rate->min` and `rate->max` based on `be_rate`.
+
+To address this issue, a `WARN_ON_ONCE(!num_input_formats)` check was
+added to ensure `num_input_formats` is greater than zero. If this
+condition fails, the function returns `-EINVAL`, preventing the use of
+an uninitialized `be_rate`.
+
+This change improves the robustness of the function by catching an
+invalid state early and providing better feedback during development.
+
+Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
+---
+V1: Initialize 'be_rate' to 0.
+V2: Add conditional assignment based on num_input_formats to ensure
+be_rate is used only when assigned.
+V3: Add WARN_ON_ONCE check to handle the case where num_input_formats
+is zero, ensuring proper error handling for uninitialized be_rate.
+
+ sound/soc/sof/ipc4-pcm.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
+index 4df2be3d3..18fff2df7 100644
+--- a/sound/soc/sof/ipc4-pcm.c
++++ b/sound/soc/sof/ipc4-pcm.c
+@@ -603,6 +603,9 @@ static int sof_ipc4_pcm_dai_link_fixup_rate(struct snd_sof_dev *sdev,
+ 	unsigned int be_rate;
+ 	int i;
+ 
++	if (WARN_ON_ONCE(!num_input_formats))
++		return -EINVAL;
++
+ 	/*
+ 	 * Copier does not change sampling rate, so we
+ 	 * need to only consider the input pin information.
+-- 
+2.34.1
+
