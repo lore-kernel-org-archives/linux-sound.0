@@ -1,74 +1,59 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D906C1426C;
-	Thu,  7 Nov 2024 06:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDC0194A43
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 07:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730961386; cv=none; b=qnoifPvwwPojL+C58vXfkbO4WqToYcEp3xwCyCRDsxBVSCBl1VHFlgbVcQaNlw4LoDJKUJ61lmBkFdD9UCvgLnBZs3xL3znZFL7RXCTFmuxMVYDGuKiLVeTNUruJqVC4Wagc339i+K27oq73kw08f5mrIHjmpjX08GrNfb+VdtI=
+	t=1730963911; cv=none; b=L0EShaJU/KvjbXSt35MdP9sBEbVl7KEqsPnICxo7wPr5aV14J5f8NFKjTcu6+qvml1UnzZ3jF4NZTQlMvceBERqYMheG7rMdMa9JxvnhVZT2W1eCgjJE0pMr7jBS/uP0wYhUihmZnlV3LG9byFkF9VgnLy6eIv1i56M3MRlcUA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730961386; c=relaxed/simple;
-	bh=guIVPpGhXDuZz5lSMYaKxEnL14XvM6sjR7x1/usB0KA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E1vIRvViCoWhQK/SAHjwtZxMrKazdkDw4AELss2DgbNVkU/bKu93ifVZ8+A3s8dpoILxnJOaFBXuMUnG6qxxh3fmAFFjJ8EaFBWRjtTdg1nhWM7qZDVGuoPgNuF+cJy6gjIOiUmD6eMGAtrZSDtEkFUAH5icYL0f/U5KPwhWzXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J0ffS97g; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730963911; c=relaxed/simple;
+	bh=uFyZTwiJiMprtJJR8D/wrJtHsoNW+I53PoAOVJuspnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X6iS0z4LHByzN/FS891eZbxAWwr+7FOGW4IN1kJBih7S1b5Hl5PqBSNwxtiC94XDp3b7X5jnhybncaU6Xqosu/lCgWTN/6BObA1cf4CV0oFkvjdd9SvnZWPSvme9BR2izO3ZRFQ53mMe2tZjqiC+hqYK2qwHwnj7LiQ6pjJHk3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j67oTE+G; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J0ffS97g"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-2884e6ed0daso282599fac.0;
-        Wed, 06 Nov 2024 22:36:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730961384; x=1731566184; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YRREKyxHqLad5U75koI+gv+wvbkh7+AWEDayDITERHc=;
-        b=J0ffS97gm600ALfKiOfne6Q6x454NZVvj+oVHv0HwjTv217j7EvE+HXcDTzg5ZKC5n
-         WNybg767IRnGVt/euIEMTcBhuZrCAC0j3Wdlf7hUxNdL9bu3O8muI5f68wztfhxViNP3
-         LW1RxQTvo9ChdYdgFQyEIhokMeJ7wNt8qGJ+SwgnlVISXT0mbELdgZJuOPsYQzmW1lWn
-         yP/vPsY50d+raUtEyKCuHESenw/kFhiF+yy/66Y6WDrU6pYGUBsqSOMPdf5GyudPNnZE
-         NYejS4ynus5L70elUvTzjwonC0+XZZd7xcNZP2MyYl0x4+AhLOCeufFrr+3mGiY1gA+M
-         fgvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730961384; x=1731566184;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YRREKyxHqLad5U75koI+gv+wvbkh7+AWEDayDITERHc=;
-        b=hb3cfesUpcEuMAVJWfXZ6TvjacpXz0r6eLy1uVQ21YIIpa2515v3vdGH+YeYvRqfLU
-         1VAfeW34d/U15xXEKldFGD+cDjL3i7JfPBeZisavcDwMO0MaIn8XnazZv3MWRpvfNk0S
-         SiK4FKbSzcMuPwfKCc3hLJjM4zZX0IoduvnIolnaDJPrgsmem8G7/sP4RZRjFlB3QS5U
-         6e+J0v91ypDA/IMT4ncZZRp5BDNiEFkDBKNsh2j/gP0cvUsOD97q7AEdOjxG59ECZTdc
-         GXA3lUBMQBDZO54qDfai/vwVluNMhv6GVoNTOUfnqtPndkDJJEUtXRzwz7RZhgqnGbHq
-         FttQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXEYtmz1ikRe7si45DnFgDYIEGbr/lx1K+Yqh+FuVpup6BEO/eDpntojItGPgQOT+33VJf38MXzg76q5LU=@vger.kernel.org, AJvYcCXeUBhFXQu1+2UX8cWDxw5JK5o4JverPSntFClXmem8PfKKMHdB5PPx3nEexAbYj74rMmjpt/sggKmGxYI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR+PE3eFC8w26zYhvwI4b0sF8SAoKKICarJH/1iWE4Tr3p/P3d
-	IvP47nfGzG2xtXy46AHxfXkFf5zXdZE9UKHyFt96WdFzT4WtiUJw
-X-Google-Smtp-Source: AGHT+IGxPjF5mKCWTsENDugEJtirF55iBlvGQQvgV8rcaVaHFl6SIQ2KHWNSbkHPI3GR+eax/Dx99A==
-X-Received: by 2002:a05:6870:1699:b0:288:6a16:fe1 with SMTP id 586e51a60fabf-29051b73046mr35418062fac.18.1730961382927;
-        Wed, 06 Nov 2024 22:36:22 -0800 (PST)
-Received: from purva-IdeaPad-Gaming-3-15IHU6.. ([2409:4040:6ec7:2441:f176:85dc:94fe:adc7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f5bab50sm517097a12.25.2024.11.06.22.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 22:36:22 -0800 (PST)
-From: Suraj Sonawane <surajsonawane0215@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j67oTE+G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730963910; x=1762499910;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uFyZTwiJiMprtJJR8D/wrJtHsoNW+I53PoAOVJuspnA=;
+  b=j67oTE+GIQXNbyXYrTsvq6rPMw4lRCEjKmtTouuR2HtIfdBWkurgxGpy
+   ljx3WH8hxpYUZI7j2srP3Je7W2LG94o9NDLpaMdJYgCbmBDn2oxAEzXhx
+   CrWoVbkD8M/1sq7F73dxrSIVW0AnZ8fwd3TBwyVeEwpuRFw8Z+Myr/MkR
+   lGmipASOvj9invvT+6LZ4kd2v5W9QbhxHzhVWRnj3SoXdqKe7SzHCU7nY
+   oypDiR54ULXZh/e5s6ui76iDFthxc0gF4NyR1Ni1NvEyEssYy1yzo8n1S
+   bF4fezgUDoiyXFy/e/dUS0j/o5tKH6UbkwHB2muQLcu+8ZmbfsXpteJAU
+   g==;
+X-CSE-ConnectionGUID: SPII3IDhSZahzfMTxpO1fQ==
+X-CSE-MsgGUID: JqFt2Ue/RGeqk4BClYYE5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="34569849"
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="34569849"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 23:18:29 -0800
+X-CSE-ConnectionGUID: dbA+9oBNQhiz/BV+js+eLg==
+X-CSE-MsgGUID: SnIl+1/8R6GQOauVVhlUcg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
+   d="scan'208";a="85152087"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.205])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 23:18:27 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	daniel.baluta@nxp.com,
-	kai.vehmanen@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
 	broonie@kernel.org
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Suraj Sonawane <surajsonawane0215@gmail.com>
-Subject: [PATCH v3] ASoc: SOF: ipc4-pcm: fix uninit-value in sof_ipc4_pcm_dai_link_fixup_rate
-Date: Thu,  7 Nov 2024 12:06:09 +0530
-Message-Id: <20241107063609.11627-1-surajsonawane0215@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev
+Subject: [PATCH] ASoC: SOF: Intel: Kconfig: Add ACPI condition for ACPI_INTEL_MATCH in INTEL_COMMON
+Date: Thu,  7 Nov 2024 09:18:25 +0200
+Message-ID: <20241107071825.12704-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,48 +62,30 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix an issue detected by the Smatch tool:
+Only select SND_SOC_ACPI_INTEL_MATCH via SND_SOC_SOF_INTEL_COMMON if ACPI
+is enabled.
 
-sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
-error: uninitialized symbol 'be_rate'.
-
-The warning highlights a case where `be_rate` could remain uninitialized
-if `num_input_formats` is zero, which would cause undefined behavior
-when setting `rate->min` and `rate->max` based on `be_rate`.
-
-To address this issue, a `WARN_ON_ONCE(!num_input_formats)` check was
-added to ensure `num_input_formats` is greater than zero. If this
-condition fails, the function returns `-EINVAL`, preventing the use of
-an uninitialized `be_rate`.
-
-This change improves the robustness of the function by catching an
-invalid state early and providing better feedback during development.
-
-Signed-off-by: Suraj Sonawane <surajsonawane0215@gmail.com>
+Fixes: b6bd3f3b6357 ("ASoC: Intel: Kconfig: make SND_SOC_ACPI_INTEL_MATCH depend on ACPI")
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202411070806.UhCRpZok-lkp@intel.com/
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 ---
-V1: Initialize 'be_rate' to 0.
-V2: Add conditional assignment based on num_input_formats to ensure
-be_rate is used only when assigned.
-V3: Add WARN_ON_ONCE check to handle the case where num_input_formats
-is zero, ensuring proper error handling for uninitialized be_rate.
+ sound/soc/sof/intel/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- sound/soc/sof/ipc4-pcm.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/sound/soc/sof/ipc4-pcm.c b/sound/soc/sof/ipc4-pcm.c
-index 4df2be3d3..18fff2df7 100644
---- a/sound/soc/sof/ipc4-pcm.c
-+++ b/sound/soc/sof/ipc4-pcm.c
-@@ -603,6 +603,9 @@ static int sof_ipc4_pcm_dai_link_fixup_rate(struct snd_sof_dev *sdev,
- 	unsigned int be_rate;
- 	int i;
- 
-+	if (WARN_ON_ONCE(!num_input_formats))
-+		return -EINVAL;
-+
- 	/*
- 	 * Copier does not change sampling rate, so we
- 	 * need to only consider the input pin information.
+diff --git a/sound/soc/sof/intel/Kconfig b/sound/soc/sof/intel/Kconfig
+index 2c43558d96b9..e22b5bbb47f0 100644
+--- a/sound/soc/sof/intel/Kconfig
++++ b/sound/soc/sof/intel/Kconfig
+@@ -26,7 +26,7 @@ config SND_SOC_SOF_INTEL_ATOM_HIFI_EP
+ config SND_SOC_SOF_INTEL_COMMON
+ 	tristate
+ 	select SND_SOC_SOF
+-	select SND_SOC_ACPI_INTEL_MATCH
++	select SND_SOC_ACPI_INTEL_MATCH if ACPI
+ 	select SND_SOC_SOF_XTENSA
+ 	select SND_SOC_INTEL_MACH
+ 	select SND_SOC_ACPI if ACPI
 -- 
-2.34.1
+2.47.0
 
