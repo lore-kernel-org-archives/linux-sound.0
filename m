@@ -1,110 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D6B20FAB9;
-	Thu,  7 Nov 2024 13:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08A02101A3
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 13:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730984827; cv=none; b=bF1zvGUccrx5dCFcAkAZz1ReDEFW+9EDfnDwDO8kSmZtuwtoyegvhbUOFY2B0pJeF338VZ+nXfD4Ow05rUGV5h7I35ZY35PI1WzcXQGUfcaJ/+EXJNRJm4usGdHNIzThbyqrVqi6flhcuiqf8l35Ca4Po/NBDlO0h7+KYAvUS8s=
+	t=1730986128; cv=none; b=mscREBxjfTuaDm1LU+km3GPWKqOmX7LqctI+6jjY625Kmh0QvMFg++sn/qQBqOA1uKf99ZIMJMA7SBAlkP0/OTCJOq/OdI/30pV4CfC6V/OtUwfl85YxfWiP8zNyiMZEojuBLI+Jc+TDG7RD3KwyP6pcbQthfs10UrWv8JOLW0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730984827; c=relaxed/simple;
-	bh=lEUFZriDhDkjVwUILii4JZwb1zW3y17U2hvnZ0QMi6w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Svk64W81rrkqGAr+MTcaHWVmMWp7oIkYsZjwjQEzapDGBsosebIfHcxoyN625NpzXy3XBF2eewAU5vAyR8q7uw0DI/qcNkcAE+ncLRdENNeSiJyJlsQ5yclYqsHBGARdI1tsvlHMhXo0SkqRK1kscwuZrdyorucoVeCnCPcBerE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MniWMyBj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730986128; c=relaxed/simple;
+	bh=bByWK0N+I6i2tcnkd0aoEAU6Nq9794VWFR4oPU6kGGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XzBrkEBl2sIlfWq8eQCp+MQ45SHqN7r2r81vMBlVMhIhZdIMfkfze/TdASObJcG0H1zzZMtKCD4Jl5VBhRGf0wl3fwjwDP+d3BN4BqjI28U/lWraZWTgY2lSLuvZAMZXPwwU7M4QTNMEJSkQmEXNCY9wTFwAaGTqJyzSuACrJMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gq8GYgDa; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MniWMyBj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A63CC4CED2;
-	Thu,  7 Nov 2024 13:07:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730984826;
-	bh=lEUFZriDhDkjVwUILii4JZwb1zW3y17U2hvnZ0QMi6w=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MniWMyBjz3113myrrNYUNfEtyzo49n0WO2n2fb+b2ivnphHxvhZnmEI/Wcx6jbUqN
-	 WQ1+CW8foD0JpjPqsr6Mk1hYaWcH7sl0+Q3xCAOTqGREKVTT9GNKC3/VdDmWGB9T0O
-	 PhzNJj59spsFB3RZl5X5UbBkrxJ1MFdHnN7xElDUn+oqVfSVo2ByFXart7R0ClGRY/
-	 pYK254+klX9qGE5XI5PvsZ6Ir7ajZvc0iMME/Iun9U2rUSuI3hWrIdYZfs9a6H2h93
-	 NCBe7/GIvHILhRMa3lOo5XpKKAUqAwonKE+LyM51sLZp5rnX2u+LMDsu7Ye87RWKRr
-	 PVk5hcqKi9RPg==
-From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com, 
- Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com, 
- Liam Girdwood <lgirdwood@gmail.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Daniel Baluta <daniel.baluta@nxp.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>, 
- Emil Velikov <emil.velikov@collabora.com>, 
- "moderated list:SOUND - SOUND OPEN FIRMWARE (SOF) DRIVERS" <sound-open-firmware@alsa-project.org>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20241106142658.1240929-1-venkataprasad.potturu@amd.com>
-References: <20241106142658.1240929-1-venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH v2] ASoC: SOF: amd: Fix for incorrect DMA ch status
- register offset
-Message-Id: <173098482166.15423.8670682010126055534.b4-ty@kernel.org>
-Date: Thu, 07 Nov 2024 13:07:01 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gq8GYgDa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730986127; x=1762522127;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=bByWK0N+I6i2tcnkd0aoEAU6Nq9794VWFR4oPU6kGGM=;
+  b=gq8GYgDal5EyiqygljO3AURdILg2C8nhFc54R7kJi7zUfg7YsRvEUw2u
+   FH4k8R3WP9J3cm4qcfpKKZgNv0RusuxG7N64IeRskgENuLQmDBrjja1/I
+   aGU5lTFPKUN+Zh44Mf76LQtCWaGEdMm2GwBPp/cgdqytfURHj1BmdR4qN
+   yw465Cj50eDJmKBS34etbqzqGP3OqUEiEZlrl9R9iLTx+pUxlcoISV9HJ
+   no1Ku7ZvutDtao7O0+NSbYWx04u8O9xAFLX7fQ7xMx4I6IUT66M+f7FCX
+   eTxbszXPPEipasMvP8ZE9R/JUB75b2VjgP3UejOVxRcvTNOc/tkIbk/PR
+   w==;
+X-CSE-ConnectionGUID: IfXi4Lc2S7mdHg3XVQGbWQ==
+X-CSE-MsgGUID: pIhsqc/gSWyCpZTUeE8unw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41931768"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41931768"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 05:28:47 -0800
+X-CSE-ConnectionGUID: DFsqfSAHSYGJTihNkMUC6A==
+X-CSE-MsgGUID: uyrnqr4USi2swGmsgnlgwQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,266,1728975600"; 
+   d="scan'208";a="85070278"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.244.205])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 05:28:44 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com,
+	jyri.sarha@linux.intel.com
+Subject: [PATCH] ASoC: SOF: sof-client-probes-ipc4: Set param_size extension bits
+Date: Thu,  7 Nov 2024 15:28:40 +0200
+Message-ID: <20241107132840.17386-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Transfer-Encoding: 8bit
 
-On Wed, 06 Nov 2024 19:56:57 +0530, Venkata Prasad Potturu wrote:
-> DMA ch status register offset change in acp7.0 platform
-> 
-> Incorrect DMA channel status register offset check lead to
-> firmware boot failure.
-> 
-> [   14.432497] snd_sof_amd_acp70 0000:c4:00.5: ------------[ DSP dump start ]------------
-> [   14.432533] snd_sof_amd_acp70 0000:c4:00.5: Firmware boot failure due to timeout
-> [   14.432549] snd_sof_amd_acp70 0000:c4:00.5: fw_state: SOF_FW_BOOT_IN_PROGRESS (3)
-> [   14.432610] snd_sof_amd_acp70 0000:c4:00.5: invalid header size 0x71c41000. FW oops is bogus
-> [   14.432626] snd_sof_amd_acp70 0000:c4:00.5: unexpected fault 0x71c40000 trace 0x71c40000
-> [   14.432642] snd_sof_amd_acp70 0000:c4:00.5: ------------[ DSP dump end ]------------
-> [   14.432657] snd_sof_amd_acp70 0000:c4:00.5: error: failed to boot DSP firmware -5
-> [   14.432672] snd_sof_amd_acp70 0000:c4:00.5: fw_state change: 3 -> 4
-> [   14.433260] dmic-codec dmic-codec: ASoC: Unregistered DAI 'dmic-hifi'
-> [   14.433319] snd_sof_amd_acp70 0000:c4:00.5: fw_state change: 4 -> 0
-> [   14.433358] snd_sof_amd_acp70 0000:c4:00.5: error: sof_probe_work failed err: -5
-> 
-> [...]
+From: Jyri Sarha <jyri.sarha@linux.intel.com>
 
-Applied to
+Write the size of the optional payload of SOF_IPC4_MOD_INIT_INSTANCE
+message to extension param_size-bits.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+The previous IPC4 version does not set these bits that should indicate
+the size of the optional payload (struct sof_ipc4_probe_cfg). The old
+firmware side component code works well without these bits, but when
+the probes are converted to use the generic module API, this does not
+work anymore.
 
-Thanks!
+Fixes: f5623593060f ("ASoC: SOF: IPC4: probes: Implement IPC4 ops for probes client device")
+Signed-off-by: Jyri Sarha <jyri.sarha@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+---
+ sound/soc/sof/sof-client-probes-ipc4.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[1/1] ASoC: SOF: amd: Fix for incorrect DMA ch status register offset
-      commit: 94debe5eaa0adaa24a6de4a8e5f138be7381eb9e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/sof-client-probes-ipc4.c b/sound/soc/sof/sof-client-probes-ipc4.c
+index 796eac0a2e74..603aed222480 100644
+--- a/sound/soc/sof/sof-client-probes-ipc4.c
++++ b/sound/soc/sof/sof-client-probes-ipc4.c
+@@ -125,6 +125,7 @@ static int ipc4_probes_init(struct sof_client_dev *cdev, u32 stream_tag,
+ 	msg.primary |= SOF_IPC4_MSG_TARGET(SOF_IPC4_MODULE_MSG);
+ 	msg.extension = SOF_IPC4_MOD_EXT_DST_MOD_INSTANCE(INVALID_PIPELINE_ID);
+ 	msg.extension |= SOF_IPC4_MOD_EXT_CORE_ID(0);
++	msg.extension |= SOF_IPC4_MOD_EXT_PARAM_SIZE(sizeof(cfg) / sizeof(uint32_t));
+ 
+ 	msg.data_size = sizeof(cfg);
+ 	msg.data_ptr = &cfg;
+-- 
+2.47.0
 
