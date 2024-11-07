@@ -1,40 +1,47 @@
-Received: from cmccmta2.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 330EE17DE36;
-	Thu,  7 Nov 2024 07:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
+Received: from raven.ceotex.de (raven.ceotex.de [46.4.80.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD0E372
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 09:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.4.80.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730966091; cv=none; b=j/H73gr4Twyg8yjPl+D+fyaTGghBKjlEsk0Olq/T9CqBrFMVt+nRz58oBWG5ZwYJAHv0kEO/2kjSgIHKxprnv5W/nGX32x5sDogMMl9+wd7qnensh5lPZsVUWRrCiXIDEbw0FaFrHByxhIjmRrjAGvZHbdhgva0lRtgldrN9vlk=
+	t=1730972869; cv=none; b=Yfy2E6jDgdNASa99putsTdTy4H7DJ2lwhHHxASL6NC+8FGQwYUUe2tG4i+mbxKLuC0W1kvwYaBeiwuzgknrwWFAhWdKia6xtn2mUUnS+Gy4ZrEKHkin8CsFsMv1uRTrDxlR9DyaTH7rz/zKIqygYF6RKQHBG/K0GIYgYxd/oYj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730966091; c=relaxed/simple;
-	bh=vBtwOgGWriVqDc6Q6HWYc/Dq+yCVNqLAPtEn0vu3wOo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aRp6rc3XpfmHJHHfdllUwIfpkkUE7YK81iSc4G2qC00+S0Np53QthrnjUy6HghHxhtg6MDaCS5L8dTZyjUkqLHD91TZ0dzjCbBksoAOmqHlSNl8jZ3QSt6kQdWN+Jh/fuqyPsKlM3n+1RklLNCbXFIQ7MjcfRjR0b63/QCOi8PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app05-12005 (RichMail) with SMTP id 2ee5672c724518c-e619e;
-	Thu, 07 Nov 2024 15:54:46 +0800 (CST)
-X-RM-TRANSID:2ee5672c724518c-e619e
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from localhost.localdomain (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee8672c724002c-58b7b;
-	Thu, 07 Nov 2024 15:54:46 +0800 (CST)
-X-RM-TRANSID:2ee8672c724002c-58b7b
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tang Bin <tangbin@cmss.chinamobile.com>
-Subject: [PATCH] ASoC: ux500: Remove redundant casts
-Date: Thu,  7 Nov 2024 15:54:40 +0800
-Message-Id: <20241107075440.2770-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.33.0
+	s=arc-20240116; t=1730972869; c=relaxed/simple;
+	bh=NNWlfbD6oFHMT/Cy6REuko/BSsnZ86sJFy8kvb59rGU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=THO9JiXlrsTHncadjkBb6wkW88zQ4TMJUPeHzIFOO488vQRQlF/ennr6zCNBLOfU9hWrGV0rjMU5TE4zDVZcpPDbcDo/Weh49ShOAzutJeFH7NhK+b1pVDKsVhp3VV0TbiNOZUeJ1o4KaAu3+VWpOFpCD3KQw0W/WPA9+nkfe8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mpetri.org; spf=pass smtp.mailfrom=mpetri.org; dkim=pass (2048-bit key) header.d=mpetri.org header.i=@mpetri.org header.b=iwIq4uOB; arc=none smtp.client-ip=46.4.80.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mpetri.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mpetri.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mpetri.org header.i=@mpetri.org header.b="iwIq4uOB"
+Received: from localhost (localhost [127.0.0.1]) (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by raven.ceotex.de (Postfix) with ESMTPSA id 4XkcWC6GMtz51F4;
+	Thu,  7 Nov 2024 10:40:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mpetri.org; s=m;
+	t=1730972423;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yxRH/fNFrEpsQp/OB1kRpMw3D8D9QRtN0iEvu/z0ADY=;
+	b=iwIq4uOBqwNK48E6iarPXbyrC04sG/hsEM09XKtrCqJ89jrvbfFgolMSR3eij4qt3V+veX
+	+suWjmKliuSrmRtnl2BCNlQtJiVApwIC2kAFXj+9cDksJw1cXLGY0sefRGTYIz6zV4vQfc
+	aF0AaMRhD1rqDxPHDskIMUAVnCyesGn+w1WJ0w1WxwpJIn3tmudAuCpo3kK7NrFvrGhIYE
+	NrsakGBcYsqSgTvPFoDsvmhF3Aa7LiDtqzdqCxuXQN4NQYuNnxQw7+VAn1F90c5+XoQsc6
+	c9K9I2qEbG4QdA9Lx00SYlIxhCrOFm2WUOA/rFVLk79f6fNfEDY8ubQvCqm/DA==
+Authentication-Results: raven.ceotex.de;
+	auth=pass smtp.mailfrom=mp@mpetri.org
+From: Markus Petri <mp@mpetri.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	linux-sound@vger.kernel.org,
+	Markus Petri <mp@mpetri.org>
+Subject: [PATCH] ASoC: amd: yc: Support dmic on another model of Lenovo Thinkpad E14 Gen 6
+Date: Thu,  7 Nov 2024 10:40:20 +0100
+Message-Id: <20241107094020.1050935-1-mp@localhost>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,48 +50,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the function ux500_msp_drv_probe, the 'int' type cast
-in front of the PTR_ERR() macro is redundant, thus remove
-it.
+Another model of Thinkpad E14 Gen 6 (21M4)
+needs a quirk entry for the dmic to be detected.
 
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
+Signed-off-by: Markus Petri <mp@mpetri.org>
 ---
- sound/soc/ux500/ux500_msp_dai.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/ux500/ux500_msp_dai.c b/sound/soc/ux500/ux500_msp_dai.c
-index a2dd739fd..7798957c6 100644
---- a/sound/soc/ux500/ux500_msp_dai.c
-+++ b/sound/soc/ux500/ux500_msp_dai.c
-@@ -733,7 +733,7 @@ static int ux500_msp_drv_probe(struct platform_device *pdev)
- 
- 	drvdata->reg_vape = devm_regulator_get(&pdev->dev, "v-ape");
- 	if (IS_ERR(drvdata->reg_vape)) {
--		ret = (int)PTR_ERR(drvdata->reg_vape);
-+		ret = PTR_ERR(drvdata->reg_vape);
- 		dev_err(&pdev->dev,
- 			"%s: ERROR: Failed to get Vape supply (%d)!\n",
- 			__func__, ret);
-@@ -743,7 +743,7 @@ static int ux500_msp_drv_probe(struct platform_device *pdev)
- 
- 	drvdata->pclk = devm_clk_get(&pdev->dev, "apb_pclk");
- 	if (IS_ERR(drvdata->pclk)) {
--		ret = (int)PTR_ERR(drvdata->pclk);
-+		ret = PTR_ERR(drvdata->pclk);
- 		dev_err(&pdev->dev,
- 			"%s: ERROR: devm_clk_get of pclk failed (%d)!\n",
- 			__func__, ret);
-@@ -752,7 +752,7 @@ static int ux500_msp_drv_probe(struct platform_device *pdev)
- 
- 	drvdata->clk = devm_clk_get(&pdev->dev, NULL);
- 	if (IS_ERR(drvdata->clk)) {
--		ret = (int)PTR_ERR(drvdata->clk);
-+		ret = PTR_ERR(drvdata->clk);
- 		dev_err(&pdev->dev,
- 			"%s: ERROR: devm_clk_get failed (%d)!\n",
- 			__func__, ret);
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 438865d5e376..f5ae5ceb52a8 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -227,6 +227,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21M3"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21M4"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
-2.33.0
-
-
+2.39.5
 
