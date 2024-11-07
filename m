@@ -1,40 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1C92170C0;
-	Thu,  7 Nov 2024 20:37:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC65218319
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 20:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731011831; cv=none; b=NBjMEZ5shU/51sF9s2SpAKwvfvjWQ35QxX4xg/BXmxZ5Oxf9Cf613pVL+D3tnftb5BY/5xQMU0+5x2tBVHieu8j/tG+K6SJ31pcSIgnwYhnvEH1/P9v2liQ8wYjBXLtp0YLWYuPLaUGFfKqOfq4388oB+pogh0mF5eqcbf56V/I=
+	t=1731011833; cv=none; b=mokAWHpmiunLWge9oMRIbDi1G2jTmUYE9TE+Qc+YIb5f1uK2uMG+r1lBLjQN6JmLEUrtsXRoa2KQOUPGZS5CW8yZ46HcIcLzM/QSF45AjqLeZgzs6zTkHtnxBmqjJuv1cKg6oDP7GOLm410Vcs1dz7xUSsdXqyodG7d3d+Sdago=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731011831; c=relaxed/simple;
-	bh=rub3oLZQNtnOdz/P12PwKjUUiaDdvSq1AfEULziS85I=;
+	s=arc-20240116; t=1731011833; c=relaxed/simple;
+	bh=6ZTUp/CqbIE8smwNsIOHRjIvYnGWDMwiFsyTwHcqeVM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=qakHneWJhw194NVpS11NJvqhuwBSZr44VJjiqq+0grE5zOMbcFbxh6x3qgrVl3H2mx484+i7Eggs2ErPPIleP10wWq+RZ1/X7MJr3Pq4tt0RCp49ozEc3RDKW3eeLZr1PFMXt+UCyANNfdPQsYSX3T3eg9Sbm8+fMZuEKGD9MJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0IhXNUa; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Efkhp9icxhW54W0XYV5Jt954B7LgqsJ3xi5uktyiYK8czcLg8PjBOBnD5wgsvsPnPvNlA5j174ApJb7MnrFP4JIxKYUzKDJobQeV761ODTEiaqgI6F9RElX1rwjAgGBvEkzW0L4pgC7uv9kJaIgD0xZOcWZBBPXWvTWhtIgg0Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cV0/MGBV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0IhXNUa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97C65C4CECC;
-	Thu,  7 Nov 2024 20:37:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cV0/MGBV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49F18C4CECE;
+	Thu,  7 Nov 2024 20:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731011830;
-	bh=rub3oLZQNtnOdz/P12PwKjUUiaDdvSq1AfEULziS85I=;
+	s=k20201202; t=1731011832;
+	bh=6ZTUp/CqbIE8smwNsIOHRjIvYnGWDMwiFsyTwHcqeVM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=D0IhXNUajUjZbIFESthwQe6Unk+E4oCpRecMauktJRHpIe4/5RGYkT6HCWpra8Dv8
-	 fMgI4i2+nnAIqOzXFeyTohUW0FgZpbmqRC6wE/8a5iYIYdIzvPbugi83znsLT16FzX
-	 a/p0n8mjxEjtC1OFWEVrJWnD8qiSEzjFO/O8ayWuds0Vth0RLIJtdGNxBE9RLpGOxG
-	 +x3LjAAP9DBH2P50FTyji54fjBQvYZR7Q5t1mULJepH5eGhMdN29RWshwzRTqQd5Nh
-	 LMMKRhMGC0RwaSxJ6tPahkcH+jgCRCYXDyT5dcVrL+AIm1bm30LcLZQjZ/r0Vft17q
-	 cFGTS5rkFljqA==
+	b=cV0/MGBVzboF+oB6HaEoaKJ68dmET9rLbBgTFrPr+CjHfBywJOKG9U1K13bhOxBqh
+	 sd9AJejO37Mo18pyl5K4Dhhtoea4PDM/286zCmVotu3/4GBjBv+U76fe8iK6IIE/pg
+	 fhAOSJggtVoySpO/MecbCfSj50mH423diKljx4+odnt5dRC1Mg1Fl2Gi1OrlOWnqai
+	 Tce4ChRRlPzlErgngU6lyDLLIk2IV+7/nR3EE7iZHyt04W2cklTxfdlLRINMNaHGsf
+	 WYxG9nBlZxzGQ2rbtIe565ARF2DUqQnEUyzmc+QXsLmzTGfLJ8HDBkTm7awtwYLsHd
+	 wKxprZ0SsOyHQ==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241107075440.2770-1-tangbin@cmss.chinamobile.com>
-References: <20241107075440.2770-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: ux500: Remove redundant casts
-Message-Id: <173101182935.257604.16434756309882094543.b4-ty@kernel.org>
-Date: Thu, 07 Nov 2024 20:37:09 +0000
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, fred.oh@linux.intel.com
+In-Reply-To: <20241107134957.25160-1-peter.ujfalusi@linux.intel.com>
+References: <20241107134957.25160-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: handle only paused streams in
+ hda_dai_suspend()
+Message-Id: <173101183103.257604.1380787731143921954.b4-ty@kernel.org>
+Date: Thu, 07 Nov 2024 20:37:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,12 +47,16 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Thu, 07 Nov 2024 15:54:40 +0800, Tang Bin wrote:
-> In the function ux500_msp_drv_probe, the 'int' type cast
-> in front of the PTR_ERR() macro is redundant, thus remove
-> it.
+On Thu, 07 Nov 2024 15:49:57 +0200, Peter Ujfalusi wrote:
+> hda_dai_suspend() was added to handle paused stream during system
+> suspend. But as a side effect, it also ends up cleaning up the DMA
+> data for those streams that were prepared but not triggered before a
+> system suspend. Since these streams will not receive the prepare
+> callback after resuming, we need to preserve the DMA data during suspend.
+> So, add the check to handle only those streams that are in the paused
+> state to avoid losing the DMA data for all other streams.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -58,8 +64,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: ux500: Remove redundant casts
-      commit: fa24fdc8ae9e6f6fe7a4f7676a4d8c14433a86c0
+[1/1] ASoC: SOF: Intel: hda: handle only paused streams in hda_dai_suspend()
+      commit: 7a117225b15b2d1dc021ab9fc36687c1e61ad2b1
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
