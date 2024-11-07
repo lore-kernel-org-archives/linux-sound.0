@@ -1,98 +1,88 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550AE20ADDC;
-	Thu,  7 Nov 2024 14:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB678212EE0
+	for <linux-sound@vger.kernel.org>; Thu,  7 Nov 2024 15:23:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730991023; cv=none; b=p0w62mY8wTcEUl2Q0DF3EypLoKS7Ri3Notyv3kTyJ759ezAs8eie1cCVvA0ZCUGpYNhTvTOcbadf8NOoV1WPTug3ps6bqsMMMyjle+vITU0bLpq4fLJ94SeCp3mpV+QFfGbxd2TrOTjui3EKLccs08F4YzAJ8DPbLbgjnAlpgrI=
+	t=1730992995; cv=none; b=cEdaT/D/rSNJR0W5eqITBXxSSl9MXIwv/JYssUxO/NpJnD2vkBQXbrKuSf9O1YZ2OpOn5FCwrOMwDRn6x8ruANgqLkcHQDU5U9mVlVE+BAUs4+6hXDEOYAXDc/Wvx+zzasFV1KoYfmBWvrMTYoCwfffHgdXudPWuwDj/hGPCf0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730991023; c=relaxed/simple;
-	bh=3O72Z+3ro0YdY4QPvLsYsBDWaP5dAZLcJHG4CDkfOL0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KCocm/HO79NxUKab+FqrlBuPIFsW8UxDzEKGcwmwFHO6rnpM8GNFWBGWGVlofjOSaTjUhvg/F15DrVXsMWuzcQIS1jSJT4ZWoVCcYBh4t1skyd87hYAzg0fFa0Kac2Z4YTVt2lU6RedZ1xcLvbcM4PranVR3kr/UEEi6R0grvMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=HgnlWPA9; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1730992995; c=relaxed/simple;
+	bh=LxDZKN9ZYDCxh3qEZlhxQBBVJWzNYuq4lQ+03arbSbk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=JC8FPsCkYiP2UNZLvnL5gcRPowOuuz6sOOG4Ek5hFzrZlqstk4G4KKu5zuB9urSRwh39e+1Tf5uGNLoYsY0RVJ1QEezQlL0izW0f0ZXyMNn2oQqngGADzz8uOJUTGt2ihf3JaKMl1+eFLzPXOK3NFWA1DHXKfmmGn9m/9+HmkZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FE1hNys8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="HgnlWPA9"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A7BUge3024535;
-	Thu, 7 Nov 2024 15:50:08 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=lgjTU7mFnOg/SBXD0HtS+z
-	UHuNPPBH2haMWI1pZhhns=; b=HgnlWPA96eHXz3S4FZAHm3+T+EFIJmDLiRoMcv
-	NmgrgaaUPXqqzaz0hQrQAFAKaZEtSp9VDEaGS7T3X+UohfzQSk5fmMCg5yV+72zw
-	524zAgOu6ukTT9FY/kBIuUu27QuvHUCILUlfC1x8dy/bNOWz8Bs3bxObxrkHPaNZ
-	WzUAWpNB0blG4IwYsUQBpOQW1mAB/+4w/HD2UWalKiIo4pP80bMqutcYpLkeuk7e
-	P/MSgVhQwup0QfFzJYc0RKlFRJCPh/TPuEbfZuQcswD9ihocbwOPfydG8LJNEiNn
-	EloRXtEn7tFkkx18ZXbYQIqmJ/GSMxJdofbE/DD9t9hS+3BA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42nd05q0mn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 07 Nov 2024 15:50:08 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5CFD84002D;
-	Thu,  7 Nov 2024 15:48:29 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7D3482BA0A7;
-	Thu,  7 Nov 2024 15:47:36 +0100 (CET)
-Received: from localhost (10.48.86.132) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 7 Nov
- 2024 15:47:36 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
-        Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>
-CC: <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 0/2] ASoC: stm32: i2s: add stm32mp25 support
-Date: Thu, 7 Nov 2024 15:47:10 +0100
-Message-ID: <20241107144712.1305638-1-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FE1hNys8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5999C4CECC;
+	Thu,  7 Nov 2024 15:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730992995;
+	bh=LxDZKN9ZYDCxh3qEZlhxQBBVJWzNYuq4lQ+03arbSbk=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FE1hNys8/3m/uS5NK9XvjY2JwfMGWxs1QuYvl8AbTrLW+xU2u7H0ZGDfmoFmQLZMB
+	 TDpHPGbXmSAOkJpyWOHQWxeJB/CjMJx4VEuy2mUSr0BzMQgq5lpfuPhPsH7nIQi4UB
+	 1RgQcN+yLYhl6e1SAw+c9sy5L48SJs1jimIFmhkNyhfq+x8By9cs98yOWxA1bbrJc1
+	 tmKsiX5q+JD8DO6uClK4QJlIgQX8T1+7umsweqjE2+l/5EwGoNMYjEFg3w+291B8fm
+	 JravCbyX4iPEqwVKPQMJj5E2rSwlv2Xiu99Ll2GUaMoAnIx9mvBoZp7QdAblS+f9jo
+	 E0zFpIBtSzNfw==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+In-Reply-To: <20241107121440.1472-1-peter.ujfalusi@linux.intel.com>
+References: <20241107121440.1472-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: Intel: hda: Add support for persistent Code
+ Loader DMA buffers
+Message-Id: <173099299340.140347.1690242369965058188.b4-ty@kernel.org>
+Date: Thu, 07 Nov 2024 15:23:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-Update STM32 I2S driver and binding to support STM32MP25 SoCs.
+On Thu, 07 Nov 2024 14:14:40 +0200, Peter Ujfalusi wrote:
+> It has been reported that the DMA memory allocation for firmware download
+> can fail after extended period of uptime on systems with relatively small
+> amount of RAM when the system memory becomes fragmented.
+> 
+> The issue primarily happens  when the system is waking up from system
+> suspend, swap might not be available and the MM system cannot move things
+> around to allow for successful allocation.
+> 
+> [...]
 
-Changes in v2:
-- Rearrange clocks and clock-names ranges depending on compatible.
+Applied to
 
-Olivier Moysan (2):
-  ASoC: dt-bindings: add stm32mp25 support for i2s
-  ASoC: stm32: i2s: add stm32mp25 support
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
- .../bindings/sound/st,stm32-i2s.yaml          |  36 ++-
- sound/soc/stm/stm32_i2s.c                     | 211 ++++++++++++++++--
- 2 files changed, 222 insertions(+), 25 deletions(-)
+Thanks!
 
+[1/1] ASoC: SOF: Intel: hda: Add support for persistent Code Loader DMA buffers
+      commit: 1862e847bf115a3ccbf38dd035ea0118be57f2e2
 
-base-commit: 2fd094b86c8ae266b618359e4154ab94e806a412
--- 
-2.25.1
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
