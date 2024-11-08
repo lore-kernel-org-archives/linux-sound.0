@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E471E2857
-	for <linux-sound@vger.kernel.org>; Fri,  8 Nov 2024 13:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019781EBA19;
+	Fri,  8 Nov 2024 13:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731072543; cv=none; b=ZgxQDsuEr/Y2vcB+3WzvVngbmSWl4f0tWELvhZQ8xyyTbFP4Y9t25YUX4CAEe9phuxtcmC3s2BmO7h9s5MgNFrkQCNoo9mIpZwMTdGxAvV/sTK3xs+2ixJq2FN3p3PlA/XdRXC+SGcnwV8cd8cN52zST1DKndWLkYK0PaoyIHr8=
+	t=1731072871; cv=none; b=SWGSEtkHXFibWRQbKUIGrcqVb/AHuA3FkVqiQim4O+XiOfqk4uAkpKqHodeFlb4Q8CiYNB57cNgj+7JPBZFRSr7FUdYyRLcOaoFCXhAmeKZy2JOHZi+sO4lX0GNEtOsvciAvwvTzdtxCIc/JGb8pjRtv8BWN5aTHrDDrORsHFSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731072543; c=relaxed/simple;
-	bh=SvKwqMJIE4NuLauvgTW1PgmhPaFGJPSAxWSGXumwJgM=;
+	s=arc-20240116; t=1731072871; c=relaxed/simple;
+	bh=AtxMtrEHHxcVFmFm9RI+3XLvH70jNaNHwS+z9N8IfLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIBNAyTZffARXwGrUwcpfk8vXMhq/2H9ZLikEq4ou+8I2D2zsnE0TzgTDMXhmhiHj+1eMu3BtzrNYVs787434odBhfT4hEkl0KjIimDr99GNKcAJ6hSrlD3W3zntkwVEXH3TdlsZut4Gc9IpKqolgfF2Gur7RidvwHu1xyRHILk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFQB82XB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=NiKOKoXg+TK93lYzwzDWQTZgmwHc82MsD+aKmXg4gHi40yXRqrQpeidFtxMHzF1gjgHfJPrDfJebWnDo6LSnRbKXwBPpdqsabqYUy0xzRB5r8YhlVhLPj3CQ7vPts3kr9JQMc2lIXxw3m4YoX4ModhzCsWJ5yLLvdOlPyTojUcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeSE79hD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFQB82XB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E75C4CECD;
-	Fri,  8 Nov 2024 13:29:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeSE79hD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09D1BC4CECE;
+	Fri,  8 Nov 2024 13:34:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731072543;
-	bh=SvKwqMJIE4NuLauvgTW1PgmhPaFGJPSAxWSGXumwJgM=;
+	s=k20201202; t=1731072870;
+	bh=AtxMtrEHHxcVFmFm9RI+3XLvH70jNaNHwS+z9N8IfLU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qFQB82XBWn7PQj8/Aa/Q9K51VXLr6zYAm+2pir05ZfEr8cm9WqH9m/omBQX2U9A6g
-	 DHMlI+NoaBfY/bD7jGoyUE4HgI43vuClw/xuHPnR/kVta7LOwYXkfuA3QJ6CAxYuLS
-	 raOfNzxDeyeSrdhLvxUlDQRhoond5lWYNWt1ID86HXy7LUcmDvNK17UHdL0WgOh/UU
-	 oDDwtbvgEZU7M/w6vshOYoVELc3bztM/SdFVjI1irZOR7HeD+F3Z2GjmfH3HKOs6ii
-	 x/ZQ9x3mw0DwnbHoAHM7N3wHPSG7cqXvfzRKTeLlrtkGDjdDiu/O4llwA2sIF+rfq0
-	 d5srBka6T2PfA==
-Date: Fri, 8 Nov 2024 13:28:58 +0000
+	b=aeSE79hDcvAqptNjZPD7DMg6aXot9BeQtiyg7VIjrnyUn/noYrP/icMQWCMgTZTAR
+	 hk55fgEzBdTec9gGTFvofpeRICyXqMl6xoqeOi17OZgYUE6/0pB0eX6nnE+ggCyDth
+	 RQoLv9R1Uig5xAohT72K+GLo1tdtQcUGFkN6Z/w6dS0MBTwD83WcS5m9cJeFiR8a9W
+	 ZsnSXBVgx1q6A4LvW2B1iW4F3JsAGHYdMVPUIfOdco0SeH0ILvKv8sJKmfxb212/kj
+	 Ivn8G5J41VWEi1EeOmIzqvhUHJTg0GHPvFLeaOH08+VL6goAcpfrbdJwzUzTBEebL4
+	 22Co6PqUMeIGA==
+Date: Fri, 8 Nov 2024 13:34:24 +0000
 From: Mark Brown <broonie@kernel.org>
-To: "Shalini Manjunatha (Consultant)" <c_shalma@qti.qualcomm.com>
-Cc: "Shalini Manjunatha (Consultant) (QUIC)" <quic_c_shalma@quicinc.com>,
-	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"Raghu Ballappa Bankapur (QUIC)" <quic_rbankapu@quicinc.com>,
-	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"Krishna Kishor Jha (QUIC)" <quic_kkishorj@quicinc.com>
-Subject: Re: ASoC Kernel 6.1: Query regarding dynamic dai link/dapm
- registration during bootup
-Message-ID: <036ac7eb-aab2-4cf9-b332-e03b7b7c849d@sirena.org.uk>
-References: <MW4PR02MB7266556C7EA581EB90AE81EDD44B2@MW4PR02MB7266.namprd02.prod.outlook.com>
- <PH0PR02MB7269C77CFF58B57CBD2B3637D45D2@PH0PR02MB7269.namprd02.prod.outlook.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: lgirdwood@gmail.com, linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com, ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com, cujomalainey@chromium.org,
+	daniel.baluta@nxp.com, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] ASoC: SOF: stream-ipc: Check for cstream nullity
+ in sof_ipc_msg_data()
+Message-ID: <f3e486b6-8b33-4f68-a6b8-ab63edb5341b@sirena.org.uk>
+References: <20241107134308.23844-1-peter.ujfalusi@linux.intel.com>
+ <20241107134308.23844-2-peter.ujfalusi@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,41 +46,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="M2J6Xqdiv2V/g8ol"
+	protocol="application/pgp-signature"; boundary="3Y54nW98UoZ6e8Yr"
 Content-Disposition: inline
-In-Reply-To: <PH0PR02MB7269C77CFF58B57CBD2B3637D45D2@PH0PR02MB7269.namprd02.prod.outlook.com>
-X-Cookie: Do not overtax your powers.
+In-Reply-To: <20241107134308.23844-2-peter.ujfalusi@linux.intel.com>
+X-Cookie: Send some filthy mail.
 
 
---M2J6Xqdiv2V/g8ol
+--3Y54nW98UoZ6e8Yr
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 08, 2024 at 05:25:44AM +0000, Shalini Manjunatha (Consultant) wrote:
+On Thu, Nov 07, 2024 at 03:43:07PM +0200, Peter Ujfalusi wrote:
+> The nullity of sps->cstream should be checked similarly as it is done in
+> sof_set_stream_data_offset() function.
+> Assuming that it is not NULL if sps->stream is NULL is incorrect and can
+> lead to NULL pointer dereference.
+>=20
+> Fixes: ef8ba9f79953 ("ASoC: SOF: Add support for compress API for stream =
+data/offset")
 
-> Could you please share your input on previously asked query?.
-> We are waiting for response. Thanks in advance.
+This commit, also referenced in the second patch, doesn't exist.
 
-Please don't top post, reply in line with needed context.  This allows
-readers to readily follow the flow of conversation and understand what
-you are talking about and also helps ensure that everything in the
-discussion is being addressed.
-
-https://lore.kernel.org/linux-sound/aa1a8eb7-685c-4aa7-b73c-640bbcebdcd5@sirena.org.uk/
-
---M2J6Xqdiv2V/g8ol
+--3Y54nW98UoZ6e8Yr
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuEhkACgkQJNaLcl1U
-h9CN8Qf/eMlU9mVRPI71yDRW+OVhEYY4P7UwhYeJTac/K6709Gz1A/+3ElDq7Ds2
-pFwkYMOS9hR8xgQFRNjEEe60bNlBPZeerZb79802KX65FFwOmckfqlLIivfJUAzu
-CuAX9+ZpXeiHcrnWb7sSLdt819dUsRxjmZTKiTxq7t8d5f6siEkU61Kx+8Jn/IqO
-u1FD3xky0r44drf7aYYZBdXolW8AfON+klWa519RKzpvRXQNWdIVVzQdOcsr9uDW
-fQYxPCIg1ePUhKuDCaxtOPupxwNoKBlnQYUhD3uGttNOySrPgFoGSZF9wGwAJj1o
-o8fca5jPILO6AlupcrlIULuuYFKsHA==
-=EN4r
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuE2AACgkQJNaLcl1U
+h9COEAf+LJuaNjyluvIuC9HFzDpQsFqK6NwpFxXENAP9p0u9A5shTfa9LOWfVMtR
+l6xETzyNJkLExh3lYmKBPuSvb2NlGUHqBe9xjWucM2jr3TpS5agFJr9s3Y1nvBh7
+sz40P0OaLx9rzyzu+/SHjCa+29mtcPnKPIfPLhl2Plrco+Jn2cXIJLRiJAlpPkCN
+3SWijMpxUrRXwRM3UoIZmgs2NFBCXR4/6F+ieC1hEpMOzHKJBk5fAYLSQ1OgSEGN
+vCsOeaWpY19bhq759RG4D7eUtXG12kzaCFLGAOZFxhosI4gCHqrEACcRxGGtCJJC
+LfiP67H3JIp0MfHv03PnYRjv38Hqxg==
+=dPpx
 -----END PGP SIGNATURE-----
 
---M2J6Xqdiv2V/g8ol--
+--3Y54nW98UoZ6e8Yr--
