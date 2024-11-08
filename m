@@ -1,139 +1,98 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38165233D6B;
-	Fri,  8 Nov 2024 19:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909251AA1C1;
+	Fri,  8 Nov 2024 19:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731093861; cv=none; b=KkzXx8YzMLQk2PDLIjgRezQjSPKp9JbzQeWI5QdAj/5W8waI84tV/HXUM4JTt0xLODjGImYr0ee+QOV9eDwmX/QQZHWtA8uGkhyXELsNM5hYXRW52++TXhVy9yxP8DYLxZhnFDHbo6i3l5VqrMhNvSOfCAsmvLaKlbAUzupfSpc=
+	t=1731094163; cv=none; b=Ertx6IGQO5kdLxPtnCCOFP4VHenJUXLUZznVTaNAcm+r6B9Fb9mdPFuX1ndKqv8uPSmYTDSQedJ9KJ+FU0b18h+8pJTpjZtCQyZPElEf3TSWU0GbpVQnGVY2rChkxtDvMoJg37CXatQF6qd8nRdHBcktu6S6zkLyW6VWxonu888=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731093861; c=relaxed/simple;
-	bh=q7ZGc479MBZttina+0alFRyr7wMWF7vN9ddJwSh5FQs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Tbyxk/OwqqjtLITJDc74WXFpHsZ93HbQ1Z0JhQwMUDokAb/x2nuHDDhExzPDI9qmVhRUjiiAcT2fSTY5ulG/LSPbZ5SMVqTP2sABuP1Zcz7I7AzlGNm4xugMQYCWuiFDO47JLM/3ZBBW0GCjCGgF0r8PnMzO01zbmWdH6uIf+a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+uZvfkg; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731094163; c=relaxed/simple;
+	bh=XyZ4ZGRN+Py46R/0cjYeN0vqeqyTjSVAKF/G+KnROCM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FU8Ojd5mV0+2MGdIgKA/956hYrOg44gbMU9ZRzN6y4nXdE7wusOjkV7470sih0j7IdN2u8xq0RiK/7vH/wjX9cocPDhVqS6e3tWymTvMwDaJANRLXIYv8A+EO9yYkoIPdipcTVL0LcggNJf5rlpnHFaE3tNeF6PMwL+Y/wbgn74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UfmSEFF5; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+uZvfkg"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cdbe608b3so27357455ad.1;
-        Fri, 08 Nov 2024 11:24:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731093859; x=1731698659; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PKffIyY/7SmCgWnQq0g1achquWKvPHPvVC9LDZIXaco=;
-        b=c+uZvfkgQvxWg8Q5pNavLZUQ4UFfBuaXqJdmFarE0zLgLs1rmBRxvoU7BS2Xb9qayM
-         XpOecL6pjpAHJuERJV0VDv2JP5xulz1twiQtqf50pMABZ9vq/ArOp8J2bkM1vi65yn0J
-         Atugx3q1ib+5eWsaygbGtDGutBfVPUuTeV5kTuQkVtpOecoVVU3qoGQOc7/WPv7uhjbq
-         DxGmqMmd3j+HfSbD+G44it6n6hI13WTz0+PxIN7fKJhhFYd6zAolRXe0CnliX37lXq41
-         TJ8Mm4X70scdSeLj7LcrE2zs8QXP6ADN29D3y/pnPhQiyT0YvGsMzOuSpxu63UnYUB6z
-         C6Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731093859; x=1731698659;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PKffIyY/7SmCgWnQq0g1achquWKvPHPvVC9LDZIXaco=;
-        b=M3usNm0j+KIr8x+blI0pOEyWqSftrhmcc1RxNVm5xVAvb4jWVYAq5tnpDqp6NrQGfe
-         pXptk5wZ+SU44ag9JsJIm4EWV6RtHN7r6Wix3YK4T30CjVyNvMgdCLst+bZexne3acQd
-         HRm/EKASWavLawj677QP/iKU0+/6PhFsPGJvoqp+OdNKfsbUxmpfVtgx+LYGe5l7cN8R
-         GDry+C1PhF0eVcFL9faSOU0imiP/1gd7bt9JXULvuRbugnNerCA5Oz3WrKcLQiS9htgN
-         f8XLyEQpb/sCoAUkSwxfipOdUBzFW7xSr/4maG4W1nd+JlGj3ISihTeTgmyVDT+rCvlV
-         yAOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWjfGWJQ9d70Sra+hLrianpj5HFWoglgvbJWyDhXA+rJie9oMkgTK0H7BsGUATJoW+wtBXWGr5WQDqRLQI=@vger.kernel.org, AJvYcCXZaMNh+PUaWPkYEyUkDPQYhWYUOUlC+OdN8+0bmHtMCNu7lQ59nfhFFPOLH695BxVoYRMLgDqZM1w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOXXYC5umiXEnztdugiyLqWCsQiiqCuRd01rgvz4CZ3i9a6+E1
-	czStrGhDRN0DiMPiJex8Zd8sQl3nSUTgM9/ewyndTuzqHJfsCz2r
-X-Google-Smtp-Source: AGHT+IE0z1FmBOzuFCLw52ovVQ929MNg2h9xmryrk7fwh1O7hQFkHO1QBimB1K/uw3LdP75j8JlZJw==
-X-Received: by 2002:a17:902:d4cc:b0:211:6b21:5a87 with SMTP id d9443c01a7336-2118360bcccmr40431895ad.56.1731093859417;
-        Fri, 08 Nov 2024 11:24:19 -0800 (PST)
-Received: from localhost.localdomain ([12.17.209.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177de0453sm34594105ad.107.2024.11.08.11.24.18
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 08 Nov 2024 11:24:18 -0800 (PST)
-From: anish kumar <yesanishhere@gmail.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	anish kumar <yesanishhere@gmail.com>
-Subject: [PATCH V2] ALSA: machine: update documentation
-Date: Fri,  8 Nov 2024 11:24:13 -0800
-Message-Id: <20241108192413.10751-1-yesanishhere@gmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UfmSEFF5"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0F63C42C17
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731094155; bh=P0P5GPcQkcecjTf1uOnWpmVXIS/NJ6iYMMu4Zo1O3yY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=UfmSEFF5VGnFVadDgo9jI0cdfetpsZtxdYhv8gTFXD02CwG2yC7npdXZHEFuKGQsb
+	 NuUE9FgL7h8VTbNvo9S4Q/lgxpWIUkcdcw3f7D7HdFR5IhL9ovsB9+rGYOoNhJXv01
+	 eT2srmyU+jX+X4PwHSnF4kvk/isjKgIkiMaO3epzphcGongE3vru305qHZ5zosyzcd
+	 BR5bKjki+csMGoeKmZFLIBHxysZIRWSRtizTdsngaqAbAIH0jEG12oYlbK7EQqkKKh
+	 /4KQ1PkmlXr//Mc2YiEk2hvwhAKREGQ2BR7eJhcoExdtI9EKAZYhpuZ25GVI2ErA0O
+	 iHzKdPjwUaCSg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0F63C42C17;
+	Fri,  8 Nov 2024 19:29:15 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org, anish kumar <yesanishhere@gmail.com>
+Subject: Re: [PATCH V2] ALSA: machine: update documentation
+In-Reply-To: <20241108192413.10751-1-yesanishhere@gmail.com>
+References: <20241108192413.10751-1-yesanishhere@gmail.com>
+Date: Fri, 08 Nov 2024 12:29:14 -0700
+Message-ID: <87y11twmlx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-1. Added clocking details.
-2. Updated ways to register the dai's
-3. Bit more detail about card registration details.
+anish kumar <yesanishhere@gmail.com> writes:
 
-Signed-off-by: anish kumar <yesanishhere@gmail.com>
----
-V2:
-  took care of comments from bagas related to underline
-  and making macro as literal code block
+> 1. Added clocking details.
+> 2. Updated ways to register the dai's
+> 3. Bit more detail about card registration details.
+>
+> Signed-off-by: anish kumar <yesanishhere@gmail.com>
+> ---
+> V2:
+>   took care of comments from bagas related to underline
+>   and making macro as literal code block
+>
+>  Documentation/sound/soc/machine.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
+c/machine.rst
+> index 515c9444deaf..9c8e006b1e50 100644
+> --- a/Documentation/sound/soc/machine.rst
+> +++ b/Documentation/sound/soc/machine.rst
+> @@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in =
+your machine. e.g.
+>  	.ops =3D &corgi_ops,
+>    };
+>=20=20
+> +In the above struct, dai=E2=80=99s are registered using names but you ca=
+n pass
+> +either dai name or device tree node but not both. Also, names used here
+> +for cpu/codec/platform dais should be globally unique.
+> +
+> +Additionaly below example macro can be used to register cpu, codec and
+> +platform dai::
+> +
+> +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
+> +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
+> +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
+> +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
+> +
 
- Documentation/sound/soc/machine.rst | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+This will not give you the literal block you were hoping for.  Please
+actually build the docs after making changes and look at the results.
 
-diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/soc/machine.rst
-index 515c9444deaf..9c8e006b1e50 100644
---- a/Documentation/sound/soc/machine.rst
-+++ b/Documentation/sound/soc/machine.rst
-@@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in your machine. e.g.
- 	.ops = &corgi_ops,
-   };
- 
-+In the above struct, dai’s are registered using names but you can pass
-+either dai name or device tree node but not both. Also, names used here
-+for cpu/codec/platform dais should be globally unique.
-+
-+Additionaly below example macro can be used to register cpu, codec and
-+platform dai::
-+
-+SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-+	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-+	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-+	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-+
- struct snd_soc_card then sets up the machine with its DAIs. e.g.
- ::
- 
-@@ -81,6 +93,10 @@ struct snd_soc_card then sets up the machine with its DAIs. e.g.
- 	.num_links = 1,
-   };
- 
-+Following this, ``devm_snd_soc_register_card`` can be used to register
-+the sound card. During the registration, the individual components
-+such as the codec, CPU, and platform are probed. If all these components
-+are successfully probed, the sound card gets registered.
- 
- Machine Power Map
- -----------------
-@@ -95,3 +111,13 @@ Machine Controls
- ----------------
- 
- Machine specific audio mixer controls can be added in the DAI init function.
-+
-+
-+Clocking Controls
-+—----------------
-+
-+As previously noted, clock configuration is handled within the machine driver.
-+For details on the clock APIs that the machine driver can utilize for
-+setup, please refer to Documentation/sound/soc/clocking.rst. However, the
-+callback needs to be registered by the CPU/Codec/Platform drivers to configure
-+the clocks that is needed for the corresponding device operation.
--- 
-2.39.3 (Apple Git-146)
+Thanks,
 
+jon
