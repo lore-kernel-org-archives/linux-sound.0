@@ -1,69 +1,99 @@
-Received: from cmccmta2.chinamobile.com (cmccmta8.chinamobile.com [111.22.67.151])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F4A34962C;
-	Fri,  8 Nov 2024 03:27:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.151
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935718F5B;
+	Fri,  8 Nov 2024 04:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731036433; cv=none; b=LaP7OUJvGrA95VLJEOF+BMg4gqx4hmAyLQtq9moQcB6iQLel2aNPv6bUj8w1IUX1o/2Ebq5kY3/2IEvzi89mnWIpXdHnnH4EZ4hC00mdC842K/NEUGhaEV3qXDLKaojoUWQT67+Z0RHVM/BN+1bG0OVdrEXYkaoUTnjNXKsi1cc=
+	t=1731041637; cv=none; b=rHVNPBFRhokAO7BE20SR62eSZ8coeNwVm7Qqoo13scx4wiBDmc+j2cQtBsE61386ArjdEUaBLzMjmioyPfBlTTOLYMN/QtC8UyvKiEkC0lDKwy4TgCkTvKUuC2SAeODdEEujIqI+sgSW3U26H5UUuQviSEv3PkAApjfceNc9+jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731036433; c=relaxed/simple;
-	bh=cDiAD11i49EaVXWiTXFqmb6+pxirgdJOujFJfqczyNs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jUPrvObymswOcHcY74/pSDYhooy+ZBl6xoXsafPxPi0CjkyK50SKRuh0d+2+Z66LceZxvgjEpdBK36m9nnvkYsTBWP2HjoT6B++g4VeXsJszG7GPnbQAN+JaS8hVhRct8Rt3mIN8QzzfTW20L5GM9TELXgpiMBFrjqtEygFH5kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app06-12006 (RichMail) with SMTP id 2ee6672d8508358-bcc24;
-	Fri, 08 Nov 2024 11:27:05 +0800 (CST)
-X-RM-TRANSID:2ee6672d8508358-bcc24
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from localhost.localdomain (unknown[223.108.79.103])
-	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee9672d8507b87-84368;
-	Fri, 08 Nov 2024 11:27:04 +0800 (CST)
-X-RM-TRANSID:2ee9672d8507b87-84368
-From: Luo Yifan <luoyifan@cmss.chinamobile.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Luo Yifan <luoyifan@cmss.chinamobile.com>
-Subject: [PATCH] ALSA: ump: remove unnecessary check on blk
-Date: Fri,  8 Nov 2024 11:27:02 +0800
-Message-Id: <20241108032702.217168-1-luoyifan@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.27.0
+	s=arc-20240116; t=1731041637; c=relaxed/simple;
+	bh=xDe0Rih1Zy6/eX4VW4AwzGi2ydWUQRGpEBHgSFFALH0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P6T5+sU3QBjoGr3ka5u+72UjOBsNyzKtDfTiUmfarHaMdxC9r17jBEHhu2ay8LU9KsXc2upQV66qR618IagxakPSJAW078HP7hTjQ2S/QlP7KiRTxoJ5jNlGUvKfoc0UJ0YfjQNkjTX+SRxUNtoPxhc3k7rPlbsCBGEZ6wuevkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SJwhRuHp; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SJwhRuHp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=7j+d4WbYzfbUnCfgkJbRyFaO8OIKFdo630TnG1rTP+c=; b=SJwhRuHptvNLNMhQnERjbWvWfL
+	ZMFXB2gg25v5tNivRHMFv0L06uHzzaAPhwPbHVJLOSPRG1fnEoA/TPxUmh1r/zyyFX25vtF+20SJ9
+	QUK056fclMNmb+90DJ/UZWn/mX1YMPPLc7M8PD6X9tFBRB/dSf9OKNQ/wSOJOUKwdG8mczt+StJuw
+	EaKR4lDdkKDErGCoIscfJYQjFh8PNWS5xXmL4ahjolJe1txI8jLqSkg7GtFoxIh7O+m4dlX+uQdD/
+	Y4X/ldsdzAKQ8F/TAtN8gqZY0GCwRxpKyPmHZJq2N5CEeH4Wdi61S/rv9TEBF5dyErIlXjf4ZwKO+
+	pO5IWiTg==;
+Received: from [50.53.2.24] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t9H0B-000000086Lq-0KDr;
+	Fri, 08 Nov 2024 04:53:43 +0000
+Message-ID: <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+Date: Thu, 7 Nov 2024 20:53:37 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Jonathan Corbet <corbet@lwn.net>, anish kumar <yesanishhere@gmail.com>,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+ <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org>
+ <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org>
+ <87v7wyznow.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87v7wyznow.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The unsigned expression 'blk' will never be negative, so remove the
-unnecessary check.
 
-Signed-off-by: Luo Yifan <luoyifan@cmss.chinamobile.com>
----
- sound/core/ump.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index cf22a17e3..af763939e 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -366,7 +366,7 @@ int snd_ump_block_new(struct snd_ump_endpoint *ump, unsigned int blk,
- {
- 	struct snd_ump_block *fb, *p;
- 
--	if (blk < 0 || blk >= SNDRV_UMP_MAX_BLOCKS)
-+	if (blk >= SNDRV_UMP_MAX_BLOCKS)
- 		return -EINVAL;
- 
- 	if (snd_ump_get_block(ump, blk))
+On 11/7/24 2:25 PM, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+>> I see a few possibilities, none perfect:
+>>
+>> a. in Documentation/driver-api/debug/  [not quite driver-api though]
+> 
+> No, it's not API stuff, and not limited to drivers.
+> 
+>> b. in Documentation/core-api/ along with debugging-via-ohci1394.rst
+>> [maybe in a new /debug/ subdir]
+> 
+> Again, not really API stuff.
+> 
+>> c. in (new) Documentation/debug/ and invite the kernel debugging
+>> community to add some of their docs here as well.
+> 
+> If we really want to separate the mechanics of kernel development from
+> the associated process information - not always an easy separation, IMO
+> - we could make a top-level "development" directory, put a lot of the
+> other relevant stuff there, and include the debugging stuff.  It seems
+> really weird to put debugging by itself, though; it's only part of the
+> picture.
+
+I could go with that.
+
+> 
+> Why is Documentation/process so bad?
+
+Documentation/process/ is meta-documentation about kernel social "standards"
+among other things. It is "soft" documentation, whereas debugging (IMHO) is
+"hard" documentation.
+
+But hey, it's all your baby. Do whatever pleases you. :)
+
 -- 
-2.27.0
-
-
+~Randy
 
