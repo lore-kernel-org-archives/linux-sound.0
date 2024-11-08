@@ -1,43 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428BEC8CE;
-	Fri,  8 Nov 2024 13:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E471E2857
+	for <linux-sound@vger.kernel.org>; Fri,  8 Nov 2024 13:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731071848; cv=none; b=inQ0PBqhTXuqohKptMcwKV+CUmZaOZREf3fGk9ue9Dbj2dLGTnpdIVCIsLR9rqU5I31ixSYpVf/uJPUYW1LcPqaH1KuHk/xjyL9HuFByLfGCYgMyp32RSkQnarC2mNbS7gGIkK9qwZKa7FpeD1jK6Jdq1L6u9Is2628G6vzxEDI=
+	t=1731072543; cv=none; b=ZgxQDsuEr/Y2vcB+3WzvVngbmSWl4f0tWELvhZQ8xyyTbFP4Y9t25YUX4CAEe9phuxtcmC3s2BmO7h9s5MgNFrkQCNoo9mIpZwMTdGxAvV/sTK3xs+2ixJq2FN3p3PlA/XdRXC+SGcnwV8cd8cN52zST1DKndWLkYK0PaoyIHr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731071848; c=relaxed/simple;
-	bh=vC0TAyJlOXn6cFQ015D58M/bwqDZZ4kC3wImliNAJM0=;
+	s=arc-20240116; t=1731072543; c=relaxed/simple;
+	bh=SvKwqMJIE4NuLauvgTW1PgmhPaFGJPSAxWSGXumwJgM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cv7D93vKuyJpyduowtfP5hhfniyuQ4TYoCKtLQCu4r+M8EZ/CrAzPXbhsXFG1grZNn68g0R8WHjR7B6Q1QbRb3HqnIva/XO/jzLGVHdh7815/v5HIf8Gs+qg+UMS5ZMF31qHlyzmFrIeBnGl6Nl5+TrMOtnp297W4qrpzLvqR04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2IyH1Qt; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BIBNAyTZffARXwGrUwcpfk8vXMhq/2H9ZLikEq4ou+8I2D2zsnE0TzgTDMXhmhiHj+1eMu3BtzrNYVs787434odBhfT4hEkl0KjIimDr99GNKcAJ6hSrlD3W3zntkwVEXH3TdlsZut4Gc9IpKqolgfF2Gur7RidvwHu1xyRHILk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFQB82XB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2IyH1Qt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC700C4CECD;
-	Fri,  8 Nov 2024 13:17:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFQB82XB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E75C4CECD;
+	Fri,  8 Nov 2024 13:29:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731071847;
-	bh=vC0TAyJlOXn6cFQ015D58M/bwqDZZ4kC3wImliNAJM0=;
+	s=k20201202; t=1731072543;
+	bh=SvKwqMJIE4NuLauvgTW1PgmhPaFGJPSAxWSGXumwJgM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b2IyH1QtfCpIF7YBbcZHB+eqjNq6isAv4c6thOxq1wEshvigBorfQ4vM200F3JPmO
-	 a8nbcWFsnon8/DDq/oibJFIQxamATpm/Sj+OHVaZ5VD4ErVfpappC+uE3MnbaE5EOU
-	 PsV9zCf1q3iDXxgP2zQ1RdaFooE88+fN2pVVZf2FzmNd/1g1OeG1tr9gjgMLBbnGeo
-	 5CvRwLNclo4ahroEwbw6AYpVh0lq/qsYNRgXJlNJpPZxRbs7p0F+EBjYKeZxil/ShL
-	 vqe8MtjlP2K3T5DOFezlz80OK7R5cWgr8FjpaOqEqrwe6ju/iZxhNmePDuZwypUWGl
-	 5kdXf2aenw5Fg==
-Date: Fri, 8 Nov 2024 13:17:23 +0000
+	b=qFQB82XBWn7PQj8/Aa/Q9K51VXLr6zYAm+2pir05ZfEr8cm9WqH9m/omBQX2U9A6g
+	 DHMlI+NoaBfY/bD7jGoyUE4HgI43vuClw/xuHPnR/kVta7LOwYXkfuA3QJ6CAxYuLS
+	 raOfNzxDeyeSrdhLvxUlDQRhoond5lWYNWt1ID86HXy7LUcmDvNK17UHdL0WgOh/UU
+	 oDDwtbvgEZU7M/w6vshOYoVELc3bztM/SdFVjI1irZOR7HeD+F3Z2GjmfH3HKOs6ii
+	 x/ZQ9x3mw0DwnbHoAHM7N3wHPSG7cqXvfzRKTeLlrtkGDjdDiu/O4llwA2sIF+rfq0
+	 d5srBka6T2PfA==
+Date: Fri, 8 Nov 2024 13:28:58 +0000
 From: Mark Brown <broonie@kernel.org>
-To: anish kumar <yesanishhere@gmail.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, lgirdwood@gmail.com,
-	perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ALSA: machine: update documentation
-Message-ID: <ef6719af-1b89-416c-8d5d-1c4a70a0a34e@sirena.org.uk>
-References: <20241102073718.64040-1-yesanishhere@gmail.com>
- <Zyb8U3lSvYP0UeuN@archie.me>
- <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
+To: "Shalini Manjunatha (Consultant)" <c_shalma@qti.qualcomm.com>
+Cc: "Shalini Manjunatha (Consultant) (QUIC)" <quic_c_shalma@quicinc.com>,
+	Vinod Koul <vkoul@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	"Raghu Ballappa Bankapur (QUIC)" <quic_rbankapu@quicinc.com>,
+	"alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"Krishna Kishor Jha (QUIC)" <quic_kkishorj@quicinc.com>
+Subject: Re: ASoC Kernel 6.1: Query regarding dynamic dai link/dapm
+ registration during bootup
+Message-ID: <036ac7eb-aab2-4cf9-b332-e03b7b7c849d@sirena.org.uk>
+References: <MW4PR02MB7266556C7EA581EB90AE81EDD44B2@MW4PR02MB7266.namprd02.prod.outlook.com>
+ <PH0PR02MB7269C77CFF58B57CBD2B3637D45D2@PH0PR02MB7269.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,42 +48,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NBcjcDtZsYbRL3y4"
+	protocol="application/pgp-signature"; boundary="M2J6Xqdiv2V/g8ol"
 Content-Disposition: inline
-In-Reply-To: <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
+In-Reply-To: <PH0PR02MB7269C77CFF58B57CBD2B3637D45D2@PH0PR02MB7269.namprd02.prod.outlook.com>
 X-Cookie: Do not overtax your powers.
 
 
---NBcjcDtZsYbRL3y4
+--M2J6Xqdiv2V/g8ol
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Nov 06, 2024 at 08:31:14PM -0800, anish kumar wrote:
+On Fri, Nov 08, 2024 at 05:25:44AM +0000, Shalini Manjunatha (Consultant) wrote:
 
-> Do you have any comments, or should I
-> go ahead and respin the patch to address
-> the review comments?
-
-Please take the review comments into account.
+> Could you please share your input on previously asked query?.
+> We are waiting for response. Thanks in advance.
 
 Please don't top post, reply in line with needed context.  This allows
 readers to readily follow the flow of conversation and understand what
 you are talking about and also helps ensure that everything in the
 discussion is being addressed.
 
---NBcjcDtZsYbRL3y4
+https://lore.kernel.org/linux-sound/aa1a8eb7-685c-4aa7-b73c-640bbcebdcd5@sirena.org.uk/
+
+--M2J6Xqdiv2V/g8ol
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuD2IACgkQJNaLcl1U
-h9DKZQf/ZQ88weCXu6eWl7CZxjbeFl1euriUAnSTdrRGPROmDfZWo4L0LqpXJp3d
-ZO+kNFdaEkepJvmLhfXd0h597uPhNYalO7p6T1WPctnWjrhkMP5dSx6RqFPlrLbD
-htdzbah1IrVD+uBg9IaMrMN0PgSZ8+4AhxPMnHozpX/1I8cBmgGyDDE6y+6S/VDq
-Ja1XUordPZkmuUUDtzLGoX+72ZDof+ddVLiJLVyTZqIGDETJd/NfFjdanb7n/iJs
-yBUAlS990FnuyOpS7KL+RkC9cKZmqSRo36KtiiTIwDFFlx4xpgDx3rAZt7rXaEJC
-dtyHa+c1R72N72wpQ8k15p5UcfpcYw==
-=NclN
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuEhkACgkQJNaLcl1U
+h9CN8Qf/eMlU9mVRPI71yDRW+OVhEYY4P7UwhYeJTac/K6709Gz1A/+3ElDq7Ds2
+pFwkYMOS9hR8xgQFRNjEEe60bNlBPZeerZb79802KX65FFwOmckfqlLIivfJUAzu
+CuAX9+ZpXeiHcrnWb7sSLdt819dUsRxjmZTKiTxq7t8d5f6siEkU61Kx+8Jn/IqO
+u1FD3xky0r44drf7aYYZBdXolW8AfON+klWa519RKzpvRXQNWdIVVzQdOcsr9uDW
+fQYxPCIg1ePUhKuDCaxtOPupxwNoKBlnQYUhD3uGttNOySrPgFoGSZF9wGwAJj1o
+o8fca5jPILO6AlupcrlIULuuYFKsHA==
+=EN4r
 -----END PGP SIGNATURE-----
 
---NBcjcDtZsYbRL3y4--
+--M2J6Xqdiv2V/g8ol--
