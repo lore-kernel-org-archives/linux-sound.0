@@ -1,146 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687DB1E32A9;
-	Fri,  8 Nov 2024 10:45:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595231E3764
+	for <linux-sound@vger.kernel.org>; Fri,  8 Nov 2024 10:50:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731062703; cv=none; b=jLIcpYsGDq862HMhLT7siWrwjOcT9g6EM+lSPVRtgVtsBIv6/vUfWEhmzU7/nrDgpzRfoV3aKB8R3xlxqZzJwEQ5WaBCfSSmlFoKs2QUCCzEbBkZLp5ygLXqIAzgzBtYHYQCiQfGQpnOqAnXGSfB6DNscgFAirwAMwFJQhjlx7E=
+	t=1731063012; cv=none; b=QGnCk9Zvbrr0Eo/dYQfPTgpEGZ8Lg6jKKhDfcHriuwCOzHUmV3uPXoggHTYyuKyaKUVu7PyMsBYwatsQC9ICIt+oQdh0C2IKG4Lw8MTStQSf1BmtytxiM9+q5tw42GoreLjNwWM6iTl8iABlL3wO/lGWHw/7Yp8FlYJsooUoZ2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731062703; c=relaxed/simple;
-	bh=d23y1L/SEe7eDNmnOqbgDqBnRzygc50uv2MDsByI+e4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ETd4N9pZcKuxo3Egi/hk43fEUxdXsS6VLDU1ph4ZceOUoPpB04dIsudYLT4n+PRd293jtSR4AjYEyvF9hJqus67vpMU0WaAgUbOv8jan3B7qOgduL7Hi8NMbn0K8REDbb9TMMjXrddyeozus/GdSzoIL2KpW2TRyPtESZIkVuns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sguci4RA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731063012; c=relaxed/simple;
+	bh=PpgS7pghguQQqOaLBn/7h6GRo5W88qMATqga6s+AMZE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HwHlovqUrfz8359YQDljghu3LgcuEF9tN33swiJLGTkZPJB+M6VO25MagyemSJMEVC3ZAA7Z3O85shopbxRZMCSjJgojEmDgNcyeyRZGMGBb5xYcXDwI4fZPyzAWm9SVrGCjPf9OvX79VXx1ngerFUE2zBIktx2h1/2b3Ie9U/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=eHA/0RGe; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sguci4RA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09F25C4CECD;
-	Fri,  8 Nov 2024 10:44:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731062702;
-	bh=d23y1L/SEe7eDNmnOqbgDqBnRzygc50uv2MDsByI+e4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Sguci4RAmsCM7M1qA9BpQAWlytkWx9wNbe/wS2r3v9T3c5j9OQKbUG2PsyRIcti7N
-	 /KPfdXKiRZ7P+DmhKMHlIR0GwQNNO7moD831S/U7iGwkK19Tu1S0k5cNTw53BnRC9i
-	 C/cIrpryouigGIAtQ9uVc/h5OLV56z6hby/uGpT0rRdBTXIK8x9X28O6iUr6qWvRCb
-	 o0k7IqAjOkawAMv9EQbaph9+0aFq/9c7jTbVRUncc/xOjoUfeq9idDzIKnBon/Hk6+
-	 XB58JpUMNzi84kyUh/KmpNgrS8X5V0H5aZciuoFsB9vKRGZwLAUe9RWZLyigaVHNRD
-	 Zx5oqlWGIMiWQ==
-Message-ID: <eb5dd2b2-b292-47de-bba8-081079b33650@kernel.org>
-Date: Fri, 8 Nov 2024 11:44:58 +0100
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="eHA/0RGe"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7aa086b077so268769166b.0
+        for <linux-sound@vger.kernel.org>; Fri, 08 Nov 2024 02:50:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1731063008; x=1731667808; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9HGjqJtVN8yse62LSp4lxH7xSh7mrFcmEyzm1hZzC2U=;
+        b=eHA/0RGe2PEYO6q4VzHM+lEPnNZccGZOzSIqDnYyEkRgQjTlvDSjQWQ88h3DenLN6O
+         zP0LW+Yt/h6XdhhtRGu0EAR0HZHhPb138mC6Hb1l4pkcPHz4tRjk0/p051Ucxa2qGNjH
+         Gm0TX8ukZ3zGZREKwqQl+WTjAQq/Ot4htqJqf0LftR8As8RmJEgsp+e+b/hSqkOaXOEn
+         Kskk28QzbQYm3dW41z3Ta1ZKFFAY7uTWdVLDLl5J3k8/1FIOQST2EUcdl/mxw91xj/Kn
+         yGCGUtuQPLLhcpGYLygDGWqdP7XDnppXn7jS30mzmFyTJoS/FIr9LvPB4QSZE0Ofs0dX
+         u99w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731063008; x=1731667808;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9HGjqJtVN8yse62LSp4lxH7xSh7mrFcmEyzm1hZzC2U=;
+        b=azn+SIgU88HKxm8jC7mWy5er2ZdThilYM5tRBrMtZjEeFXhTpUBtMpZaRkVTitFDEl
+         hajpTiCJqyGOlAHm7pEQk+H7Q1nxn2G9p4fFJwmhU8i4rosJqBgMKLtm9/C4XvDNPXoB
+         LbTwDS3ujwRiPQ5245gQWDONmkQqSXd7OS0RyjDIGdoKQj1Ew6aK/vUAoLrOP/rZFwjO
+         JyTznSlUu+vVk0Qy0OPc99llF1mTEKntPun1NDwHLlRtRz3o0+9t0o1JbUFiUbwkgn4Y
+         Lps6cwUzm8Q5hz8qJ57W8O2rr8b0uTcbQY719hOJo8qv6t+8OD/jweVuglOEv0f+l0p+
+         fnVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUlW1tnysHE7bAGT9a+o/L+mBvsaxN/N5Ii6Idwd/cdCOERaAg83bxE4zvHf/CSejh0m74kYz1xycWwZw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ4wn+GnqbkykleiQ3eFXryjNu8rO5exGxKEjZp2p7qlP0mI7A
+	5IcUmnOmT575gk5QijcqJUH9GgiIHz4McQYAAg0G3sj9wiOUVOBND3mZ2K4pcCc=
+X-Google-Smtp-Source: AGHT+IFrd1TDLAec9U58LF9s40xqazfiJUW3NmUcK/yIbfcJMdLkexaEXIhuu/tXhcUQIO/IrHqAbA==
+X-Received: by 2002:a17:907:3d90:b0:a9a:c691:dcbc with SMTP id a640c23a62f3a-a9eefebd066mr197835866b.12.1731063007655;
+        Fri, 08 Nov 2024 02:50:07 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0dc574dsm220464866b.101.2024.11.08.02.50.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Nov 2024 02:50:07 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	magnus.damm@gmail.com,
+	linus.walleij@linaro.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	p.zabel@pengutronix.de
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v2 00/25] Add audio support for the Renesas RZ/G3S SoC
+Date: Fri,  8 Nov 2024 12:49:33 +0200
+Message-Id: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v4 1/2] ASoC: dt-bindings: irondevice,sma1307: Add
- initial DT
-To: Ki-Seok Jo <kiseok.jo@irondevice.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
- "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20241106233144.9283-1-kiseok.jo@irondevice.com>
- <20241106233144.9283-2-kiseok.jo@irondevice.com>
- <butx33avx7zainw6im72kwdxj6jfvfbdlzugxadu6rfn3uszdx@oxgvrnfl5t5h>
- <SL2P216MB233740828B79AF06B24FC4F98C5C2@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <SL2P216MB233740828B79AF06B24FC4F98C5C2@SL2P216MB2337.KORP216.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 08/11/2024 00:57, Ki-Seok Jo wrote:
->>
->> On Thu, Nov 07, 2024 at 08:31:44AM +0900, Kiseok Jo wrote:
->>> This adds the schema binding for the Iron Device SMA1307 Amp
->>>
->>> Signed-off-by: Kiseok Jo <kiseok.jo@irondevice.com>
->>> ---
->>> v3 -> v4
->>>  - Modify to fit the character-per-line format
->>
->> <form letter>
->> This is a friendly reminder during the review process.
->>
->> It looks like you received a tag and forgot to add it.
->>
->> If you do not know the process, here is a short explanation: Please add Acked-
->> by/Reviewed-by/Tested-by tags when posting new versions, under or above your
->> Signed-off-by tag. Tag is "received", when provided in a message replied to
->> you on the mailing list. Tools like b4 can help here. However, there's no need
->> to repost patches *only* to add the tags.
->> The upstream maintainer will do that for tags received on the version they
->> apply.
->>
->> https://elixir.bootlin.com/linux/v6.5-
->> rc3/source/Documentation/process/submitting-patches.rst#L577
->>
->> If a tag was not added on purpose, please state why and what changed.
->> </form letter>
->>
->> Best regards,
->> Krzysztof
-> 
-> Thank you for the kind explanation.
-> I'll make sure to add the tag next time.
-> 
-> I tried using b4, but I encountered issues with email delivery.
-> So I haven't been able to use it properly yet.
-> I'll make sure to use it in my next patch.
-> 
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-You don't have to use b4 to send patches. You can collect tags with b4
-trailers even if you send patches standard way (git send-email).
+Hi,
 
-Best regards,
-Krzysztof
+Series enables the audio support for the Renesas RZ/G3S
+SoC along with runtime PM and suspend to RAM.
+
+Patches:
+-    01/25 - add clock, reset and power domain support
+- 02-04/25 - update versaclock3 clock generator driver to support the
+             5L35023 hardware variant; versaclock3 provides clocks for
+             the audio devices (SSIF, DA7212 codec)
+-    05/25 - add pin control support for audio
+- 06-20/25 - add SSIF support for the RZ/G3S SoC; fixes and cleanups
+             were also included
+- 21-25/25 - add device tree support
+
+Merge strategy, if any:
+- clock patches (01-04/25) can go through the Renesas tree
+- pinctrl patch (05/25) can go though the Renesas tree
+- audio patches (06-20/25) can go through the audio tree
+- device tree patches (21-25/25) can go through the Renesas tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v2:
+- fixed typos pointed out in the review process
+- dropped da7213 patches already applied
+- dropped patch "ASoC: sh: rz-ssi: Use a proper bitmask for clear bits"
+  as requested in the review process
+
+
+Claudiu Beznea (25):
+  clk: renesas: r9a08g045-cpg: Add clocks, resets and power domains
+    support for SSI
+  clk: versaclock3: Prepare for the addition of 5L35023 device
+  dt-bindings: clock: versaclock3: Document 5L35023 Versa3 clock
+    generator
+  clk: versaclock3: Add support for the 5L35023 variant
+  pinctrl: renesas: rzg2l: Add audio clock pins
+  ASoC: sh: rz-ssi: Terminate all the DMA transactions
+  ASoC: sh: rz-ssi: Use only the proper amount of dividers
+  ASoC: sh: rz-ssi: Fix typo on SSI_RATES macro comment
+  ASoC: sh: rz-ssi: Remove pdev member of struct rz_ssi_priv
+  ASoC: sh: rz-ssi: Remove the rz_ssi_get_dai() function
+  ASoC: sh: rz-ssi: Remove the first argument of rz_ssi_stream_is_play()
+  ASoC: sh: rz-ssi: Use readl_poll_timeout_atomic()
+  ASoC: sh: rz-ssi: Use temporary variable for struct device
+  ASoC: sh: rz-ssi: Use goto label names that specify their actions
+  ASoC: sh: rz-ssi: Rely on the ASoC subsystem to runtime resume/suspend
+    the SSI
+  ASoC: sh: rz-ssi: Enable runtime PM autosuspend support
+  ASoC: sh: rz-ssi: Add runtime PM support
+  ASoC: sh: rz-ssi: Issue software reset in hw_params API
+  ASoC: sh: rz-ssi: Add suspend to RAM support
+  ASoC: dt-bindings: renesas,rz-ssi: Document the Renesas RZ/G3S SoC
+  arm64: dts: renesas: r9a08g045: Add SSI nodes
+  arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node
+  arm64: dts: renesas: Add da7212 audio codec node
+  arm64: dts: renesas: rzg3s-smarc: Enable SSI3
+  arm64: dts: renesas: rzg3s-smarc: Add sound card
+
+ .../bindings/clock/renesas,5p35023.yaml       |   1 +
+ .../bindings/sound/renesas,rz-ssi.yaml        |   1 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  96 ++++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |  47 +++-
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  66 +++++
+ drivers/clk/clk-versaclock3.c                 |  67 ++++--
+ drivers/clk/renesas/r9a08g045-cpg.c           |  20 ++
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |   2 +
+ sound/soc/renesas/rz-ssi.c                    | 226 +++++++++++-------
+ 9 files changed, 415 insertions(+), 111 deletions(-)
+
+-- 
+2.39.2
 
