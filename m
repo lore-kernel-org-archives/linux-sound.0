@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242291DED55;
-	Fri,  8 Nov 2024 12:26:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007BB1DA21;
+	Fri,  8 Nov 2024 12:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731068812; cv=none; b=BWmTRYP88wiGIz/Dc9Vv19jFREVv4DmjvEvPI+uxDpBNVRDYfKt0D5L7JH9shGIgHOTrSajav+oe2sz2F7MeIqEZkzMJh/U63ED1iNNIUYKmLFtYuITbvVI07QGWJmKxCnMYFmVD/6+ZJX8bbUSipws/FvVnTpPKEB9XaDahx5E=
+	t=1731069129; cv=none; b=FbL2hOpF+/ICsc4MwG9355uSvhXW99Qzh65OFjQP8PEoHcyX1WU79AKZka5I2JLpbNy4BUyjFET4nB+YzD+u60TM8IMFMYwpRya31M7gb/4a1PV8BE3SDILFX3AdnKE2u6WYWMXgkSFmFjJHcgTsDXsJ8xty64rV0fqIObHXZu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731068812; c=relaxed/simple;
-	bh=LE5ViNZC097yakLUhcdt/2Wuhu+SiSGw5zfIBA0XZD4=;
+	s=arc-20240116; t=1731069129; c=relaxed/simple;
+	bh=OTSjLYZ9CZLdTvXs6M+Ao3qZ+7v2e9k19DVGtbucSic=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Do+cyn6EJ7dmItgDFISJZeTGEBrjZNENt2m8X9qnXtft2wk1YiuS3ztBGQ3OvlR9e3wVTQt8le5wCGpc7PEBIoi5jq3yQ5cnhONnlLtcVLi/yBEJdBdzVIxo6QShk+ol59MM1z2/RRNTOl3E0u6z9JbLX148qZjGc41bf5Ahr80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FJVlOg6C; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eh07bxZzXjE0sDVA157DKyxGG+ZN7JruqWWGuLr1V+sBhVYyiHAFU2IQAO/7ah6MgAwfrXUqZPsRO9kQZsa80F/1YH7Y47jn62S69bCxdQQUuqqAZmAEXlCzn+/XTBG1+sR5kOE2iifuRCdZol1p/Glm8lkWGheCya2whjiK3x4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=thlXps8Z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FJVlOg6C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AE97C4CECD;
-	Fri,  8 Nov 2024 12:26:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="thlXps8Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 185C2C4CECD;
+	Fri,  8 Nov 2024 12:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731068811;
-	bh=LE5ViNZC097yakLUhcdt/2Wuhu+SiSGw5zfIBA0XZD4=;
+	s=k20201202; t=1731069128;
+	bh=OTSjLYZ9CZLdTvXs6M+Ao3qZ+7v2e9k19DVGtbucSic=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FJVlOg6CB9NqZpkXXZWGGcE3xtciRj+3e9/6HOJDc/uN+fGb14cuq6eovzph8pA/y
-	 OkmjJNmdX3lQk56OKAeVIqGCp1iBiM95I3dV5p6DtCcH2bsB6Ll2o++rdMMvrZNo0o
-	 FCdAD9FaqEJNDpXPW1NoCdTswVTUbOxO5vTzaqC6r6IfrSTvibhQt9tk8SeGc/MhCe
-	 x+2RtXnmW0c47VR3F72rr+M6i+r58uhBu6OIc7SM24V9Z8SKmuoR7CcmeAcQ6blkX0
-	 furKlzwOWdP417FrJgP5ZA3BE2zAudQw/ZGFdCXziNd342imkYHmt+faIv7IBRbjVl
-	 FaPGOE2NK5vLA==
-Date: Fri, 8 Nov 2024 13:26:48 +0100
+	b=thlXps8ZJocdFA3UPRDrvXaiiCEru2GJimSp8zo+cSiFyBtaPPVWIyjv57IESI9AF
+	 O+xIRj7hmQNOrdrK2C4kxu+ngrYBxXEI2vtqxr1FKjF2RTeDqxUh9hTOhEm6zxWy9+
+	 NmbH/K0z8F/UVdswFtDc7uGiKtR7enBggiINeMQdk6Lp1F4UuEW/B/K/y3xGkEc5xQ
+	 QX8HnYdMQu/mpsx7Y1DEDpQjDI+XfRi5EfDAUult+xkXxwYgYqeG43PuRkTXq61bIe
+	 kne8JaI1PlfgdR+0LoHJhCNE7vAuzNdvHmvs0//W4jVFSEQ4tS9iR+KnLt18rulb8p
+	 yAX6LV9uPrztg==
+Date: Fri, 8 Nov 2024 13:32:03 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Olivier Moysan <olivier.moysan@foss.st.com>
 Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
@@ -36,10 +36,10 @@ Cc: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
 	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] ASoC: dt-bindings: add stm32mp25 support for i2s
-Message-ID: <vbdhp4q6ymyf6skjqblb3f77l2x6po7djhlu5zmh75tbqigaqg@hjyhyzpfklsf>
-References: <20241107144712.1305638-1-olivier.moysan@foss.st.com>
- <20241107144712.1305638-2-olivier.moysan@foss.st.com>
+Subject: Re: [PATCH 1/2] ASoC: dt-bindings: add stm32mp25 support for sai
+Message-ID: <3nkoutm4uixuhetf5cputloooqzpvwhcnq6wklhu3euazmrybe@mjtjqnehfnvg>
+References: <20241107155143.1340523-1-olivier.moysan@foss.st.com>
+ <20241107155143.1340523-2-olivier.moysan@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -48,16 +48,40 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241107144712.1305638-2-olivier.moysan@foss.st.com>
+In-Reply-To: <20241107155143.1340523-2-olivier.moysan@foss.st.com>
 
-On Thu, Nov 07, 2024 at 03:47:11PM +0100, Olivier Moysan wrote:
-> Add STM32MP25 support for STM32 I2S peripheral,
-> through "st,stm32mp25-i2s" compatible.
+On Thu, Nov 07, 2024 at 04:51:41PM +0100, Olivier Moysan wrote:
+> Add STM32MP25 support for STM32 SAI peripheral,
+> through "st,stm32mp25-sai" compatible.
 > 
 > Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
 > ---
->  .../bindings/sound/st,stm32-i2s.yaml          | 36 +++++++++++++++++--
->  1 file changed, 33 insertions(+), 3 deletions(-)
+>  .../bindings/sound/st,stm32-sai.yaml          | 26 ++++++++++++++++++-
+>  1 file changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> index 68f97b462598..4a7129d0b157 100644
+> --- a/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> +++ b/Documentation/devicetree/bindings/sound/st,stm32-sai.yaml
+> @@ -20,6 +20,7 @@ properties:
+>      enum:
+>        - st,stm32f4-sai
+>        - st,stm32h7-sai
+> +      - st,stm32mp25-sai
+>  
+>    reg:
+>      items:
+> @@ -43,9 +44,11 @@ properties:
+>      const: 1
+>  
+>    clocks:
+> +    minItems: 1
+>      maxItems: 3
+>  
+>    clock-names:
+> +    minItems: 1
+
+This actually fixes the binding because it lacked minItems before :/
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
