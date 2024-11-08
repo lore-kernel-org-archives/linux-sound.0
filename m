@@ -1,42 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206AC1DF739;
-	Fri,  8 Nov 2024 13:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428BEC8CE;
+	Fri,  8 Nov 2024 13:17:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731070815; cv=none; b=pdMG/i+Wl0mM4yWWVe07gn3k+sAmmulghw18ggZRKnT5sluXSWuxN1mkblS4/BxzuGx30AQp3+wQwAibhEtj06QdAhzz5wk+Lr5uOVKgOQjKIHHjhXt2hUvX5tPRo7/xrJC9R+6sb0Qhg/jLR34NBFEfuSluBcAYkhec4E7R68A=
+	t=1731071848; cv=none; b=inQ0PBqhTXuqohKptMcwKV+CUmZaOZREf3fGk9ue9Dbj2dLGTnpdIVCIsLR9rqU5I31ixSYpVf/uJPUYW1LcPqaH1KuHk/xjyL9HuFByLfGCYgMyp32RSkQnarC2mNbS7gGIkK9qwZKa7FpeD1jK6Jdq1L6u9Is2628G6vzxEDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731070815; c=relaxed/simple;
-	bh=y/Kf87eKmLNLY/Pl6BexjMOvlzrToTbYbyL/whC7b6s=;
+	s=arc-20240116; t=1731071848; c=relaxed/simple;
+	bh=vC0TAyJlOXn6cFQ015D58M/bwqDZZ4kC3wImliNAJM0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPjujfgFlpql1n4tW05aswckF6vz5Cl2/2zhjA5Fna/ZXIuBFKTixmFZvFW1X+40f2+8yqN2PbJuDXVa0PMIlnGbexY2k6DfU73CyxtxInCg0N87wPbrTt820/uBD1KgFY0lx2ovZN042+T4v1gXew2P/zKt5JDermtNHsmXHsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H3KoZdsB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cv7D93vKuyJpyduowtfP5hhfniyuQ4TYoCKtLQCu4r+M8EZ/CrAzPXbhsXFG1grZNn68g0R8WHjR7B6Q1QbRb3HqnIva/XO/jzLGVHdh7815/v5HIf8Gs+qg+UMS5ZMF31qHlyzmFrIeBnGl6Nl5+TrMOtnp297W4qrpzLvqR04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b2IyH1Qt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H3KoZdsB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0552C4CECD;
-	Fri,  8 Nov 2024 13:00:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b2IyH1Qt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC700C4CECD;
+	Fri,  8 Nov 2024 13:17:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731070814;
-	bh=y/Kf87eKmLNLY/Pl6BexjMOvlzrToTbYbyL/whC7b6s=;
+	s=k20201202; t=1731071847;
+	bh=vC0TAyJlOXn6cFQ015D58M/bwqDZZ4kC3wImliNAJM0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H3KoZdsBulurFEoez6qaLgXQZwlCTTNMNzpje46ub1SfZtp1AfXl0dL9fus5yBbke
-	 2vjPA20pJ26+2rO1zo1OW70fly3KkvvJ9GXwUKmdIeOaGvEsLIAcPgiHIYSiDTru9u
-	 ierzBNhRX1yvLaR45cWPDAEkubsNFRswvVs9DicztzXHaDZJxgox6uBb0jdfgTrJZZ
-	 q9cl5g+VnV4PdOfyHFPSLAWNBneX0IoIx4ocni3bxsOrFpyObXNRWms6Q1cnRoxDLH
-	 ywYItaMQklSPLPsdUMxybIzq3oixZ2URgsgovNCWIo/c6UrqwxSrHb/AOYLj/IrDVH
-	 eTRfLN1bHCY8A==
-Date: Fri, 8 Nov 2024 13:00:10 +0000
+	b=b2IyH1QtfCpIF7YBbcZHB+eqjNq6isAv4c6thOxq1wEshvigBorfQ4vM200F3JPmO
+	 a8nbcWFsnon8/DDq/oibJFIQxamATpm/Sj+OHVaZ5VD4ErVfpappC+uE3MnbaE5EOU
+	 PsV9zCf1q3iDXxgP2zQ1RdaFooE88+fN2pVVZf2FzmNd/1g1OeG1tr9gjgMLBbnGeo
+	 5CvRwLNclo4ahroEwbw6AYpVh0lq/qsYNRgXJlNJpPZxRbs7p0F+EBjYKeZxil/ShL
+	 vqe8MtjlP2K3T5DOFezlz80OK7R5cWgr8FjpaOqEqrwe6ju/iZxhNmePDuZwypUWGl
+	 5kdXf2aenw5Fg==
+Date: Fri, 8 Nov 2024 13:17:23 +0000
 From: Mark Brown <broonie@kernel.org>
-To: John Watts <contact@jookia.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: audio-graph-card2: Purge absent supplies for
- device tree nodes
-Message-ID: <ffeeb9cd-7593-47b2-8fef-ec80cdfcb809@sirena.org.uk>
-References: <20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] ALSA: machine: update documentation
+Message-ID: <ef6719af-1b89-416c-8d5d-1c4a70a0a34e@sirena.org.uk>
+References: <20241102073718.64040-1-yesanishhere@gmail.com>
+ <Zyb8U3lSvYP0UeuN@archie.me>
+ <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,87 +45,42 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nHnIxcBMEGVirgC2"
+	protocol="application/pgp-signature"; boundary="NBcjcDtZsYbRL3y4"
 Content-Disposition: inline
-In-Reply-To: <20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org>
+In-Reply-To: <CABCoZhAV0+MK6FEDRpojHoW4opfqNaYCtTrBTjA8O8+yurLr2A@mail.gmail.com>
 X-Cookie: Do not overtax your powers.
 
 
---nHnIxcBMEGVirgC2
+--NBcjcDtZsYbRL3y4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 08, 2024 at 12:37:15PM +1100, John Watts wrote:
-> The audio graph card doesn't mark its subnodes such as multi {}, dpcm {}
-> and c2c {} as not requiring any suppliers. This causes a hang as Linux
-> waits for these phantom suppliers to show up on boot.
-> Make it clear these nodes have no suppliers.
+On Wed, Nov 06, 2024 at 08:31:14PM -0800, anish kumar wrote:
 
-Copying in Morimoto-san.
+> Do you have any comments, or should I
+> go ahead and respin the patch to address
+> the review comments?
 
->=20
-> Example error message:
-> [   15.208558] platform 2034000.i2s: deferred probe pending: platform: wa=
-it for supplier /sound/multi
-> [   15.208584] platform sound: deferred probe pending: asoc-audio-graph-c=
-ard2: parse error
->=20
-> Signed-off-by: John Watts <contact@jookia.org>
-> ---
->  sound/soc/generic/audio-graph-card2.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/au=
-dio-graph-card2.c
-> index 56f7f946882e831cc4474c86b31f69e15de1549a..68f1da6931af2161dc8815b8c=
-04d10cd614cc182 100644
-> --- a/sound/soc/generic/audio-graph-card2.c
-> +++ b/sound/soc/generic/audio-graph-card2.c
-> @@ -270,16 +270,19 @@ static enum graph_type __graph_get_type(struct devi=
-ce_node *lnk)
-> =20
->  	if (of_node_name_eq(np, GRAPH_NODENAME_MULTI)) {
->  		ret =3D GRAPH_MULTI;
-> +		fw_devlink_purge_absent_suppliers(&np->fwnode);
->  		goto out_put;
->  	}
-> =20
->  	if (of_node_name_eq(np, GRAPH_NODENAME_DPCM)) {
->  		ret =3D GRAPH_DPCM;
-> +		fw_devlink_purge_absent_suppliers(&np->fwnode);
->  		goto out_put;
->  	}
-> =20
->  	if (of_node_name_eq(np, GRAPH_NODENAME_C2C)) {
->  		ret =3D GRAPH_C2C;
-> +		fw_devlink_purge_absent_suppliers(&np->fwnode);
->  		goto out_put;
->  	}
-> =20
->=20
-> ---
-> base-commit: 98f7e32f20d28ec452afb208f9cffc08448a2652
-> change-id: 20241108-graph_dt_fix-d1f0db88a696
->=20
-> Best regards,
-> --=20
-> John Watts <contact@jookia.org>
->=20
+Please take the review comments into account.
 
---nHnIxcBMEGVirgC2
+Please don't top post, reply in line with needed context.  This allows
+readers to readily follow the flow of conversation and understand what
+you are talking about and also helps ensure that everything in the
+discussion is being addressed.
+
+--NBcjcDtZsYbRL3y4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuC1kACgkQJNaLcl1U
-h9DcKwf9EY5TwHTmMcHD+uk+/GHN5AgWcnmwg6lonWAYNVX4R0W8AnXRVS3uYOEv
-DoleuIXezl92+1HiKUsroKj72LeG0GwLO+MBoyVQ25n2q4lUmLz1crtAmeeSkscb
-qTaZJr1JwvtrGfOpecatE3fgxxq/3uPcC5PdxlRn8ZogYea5j98uSvyqHr3G4dbV
-wVXKWXavZ96W06V7w/MjAm9/R465xt8CItLd53eYnT0IUGtE8bMZNIewm/xVVnEm
-Io5ZtCSNdgKtEb0JqUY9dksX6gzhObZMSSQ6xIBSiFHtTkj0lLy7IIFfoJRON7i5
-XyQQO7M6YAGpj/r9izQSAQ0do4B+fA==
-=1KJj
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcuD2IACgkQJNaLcl1U
+h9DKZQf/ZQ88weCXu6eWl7CZxjbeFl1euriUAnSTdrRGPROmDfZWo4L0LqpXJp3d
+ZO+kNFdaEkepJvmLhfXd0h597uPhNYalO7p6T1WPctnWjrhkMP5dSx6RqFPlrLbD
+htdzbah1IrVD+uBg9IaMrMN0PgSZ8+4AhxPMnHozpX/1I8cBmgGyDDE6y+6S/VDq
+Ja1XUordPZkmuUUDtzLGoX+72ZDof+ddVLiJLVyTZqIGDETJd/NfFjdanb7n/iJs
+yBUAlS990FnuyOpS7KL+RkC9cKZmqSRo36KtiiTIwDFFlx4xpgDx3rAZt7rXaEJC
+dtyHa+c1R72N72wpQ8k15p5UcfpcYw==
+=NclN
 -----END PGP SIGNATURE-----
 
---nHnIxcBMEGVirgC2--
+--NBcjcDtZsYbRL3y4--
