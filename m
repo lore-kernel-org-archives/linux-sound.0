@@ -1,40 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A363E2F5E;
-	Sat,  9 Nov 2024 00:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEFD53A7;
+	Sat,  9 Nov 2024 01:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731110708; cv=none; b=SJI50JHOfsnirLfPzIRirG8/tXkkdGx8ofYHw07C087XtpWVIpfpXc6EPdyMBDXdA8UMIYYIyUypwMF2rrp/oXU5XsaX86J1l4rsYoM+Uvcit3pu80AM4cG97X/IJKf11PCoOJK9AyhAHhqcVVS1CsJ+jpgyGxfEH8evUkGkd38=
+	t=1731116921; cv=none; b=Nk8JrcGRi5mBJxNqOibpUjnE0VmWivp68nZNKmSPNP12ydTQ/qAx6/2t7nVMJLILmf44mLeGn10E0hygVWuk2XSwyxWr/X7kf6YWX8DgIy/lgGlm8pVRaxWhisG0HCAVyGETMu0iwgx2at6MrC/i7tGuxUtz3V7b4GH25YvoIKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731110708; c=relaxed/simple;
-	bh=7j8VtJ4gjtJ4b92tHiQE8ipEQ76bvrHUL0Jy8Mdih+g=;
+	s=arc-20240116; t=1731116921; c=relaxed/simple;
+	bh=hclgpLx1u2thY5Z106IKKLi95qjbn5TRUXM80nF2DhQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dq+KzRI638SLNciC+aPAH3rzjLVW4J4HxEUl5uZIrNHdaAdYnm5gnxFkhZnG4q6S/+KdNrL9opUD91BaYstr/KDVw68IVHuCWnzm2D4gmRvfNx2SbKxJRxrrhJ47y7CadDWZ4SY9DZqdHJlH4aPd6GfidykGdbNTEbTWUn/B8Mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X5WhxXgu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=DAiw4/dlJLghUrD9lzgr5vLmuq1ZgsPM3hkgRO/BiC/ksaPIrQWOa8pSSsvhqTo6eGkYNmoecsSvbbD8/zzL7FYbXFTL/xBa+ZCawMfI1Ur7Lr3CWDw+a9mePlyCdpzFnbTAr8H4a5MKDuklMIdgv1clG92DajeORC5Nz2ZgZOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QlD3jwbU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X5WhxXgu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEF8BC4CECE;
-	Sat,  9 Nov 2024 00:05:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QlD3jwbU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A569FC4CECD;
+	Sat,  9 Nov 2024 01:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731110708;
-	bh=7j8VtJ4gjtJ4b92tHiQE8ipEQ76bvrHUL0Jy8Mdih+g=;
+	s=k20201202; t=1731116920;
+	bh=hclgpLx1u2thY5Z106IKKLi95qjbn5TRUXM80nF2DhQ=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=X5WhxXguPWoxCgYvXXuW0Q/mJ3eRvhCHCj14z1rwQRDmJNuXTEtyKNLpRD+CvDI0H
-	 C84Ni/YjHG8FLsqESYox1sBzRisRgBMavDSdZH2j4Be/GJvekKgH2bbsZfUUlDvZuG
-	 ACSij+TteLqA4Vx0m6bqCLV7hx/n/6Z5U8+5Zx4rVbjeuRmHR1ZMR5LJoY4am0NuTe
-	 z9K718Fkd+xy6+Z0CqBAvhrNDZ0J1+BqtP1RGCug4PBvYc4bUZdvs5KJxuIzjae92z
-	 FgmWi9NiglkiWAWvvi7K1oUGti/jM/pudwDyxVTgxRF0EqBN4FmSqgY56WRx34wzbr
-	 EaYAcw9Z4CWpg==
+	b=QlD3jwbUPMhO0wAmxenZoBqw4+Iv7j8dLfsMK7H5PIx/RPu9Aj8ZnLwvgfN43KDaI
+	 +5t9l8KLlPt4+QSXCmrpjUnSQqrBM5Mep7BGsv/bBEudHkGL7B5f8c04qwdH+a+CCQ
+	 ++7RfQSiYMNtSS+mPa+yh7oZhFQX2WbVowoIa5ek/O5tUVBsl8gAZIlZX9k6tYbBma
+	 N2cVM+c+nrgVN4EWSOA4HWBHus+HDtUpZT7cY+NQOTpPZTh+2nlDuMo0lQTkeNfAYT
+	 +nr/iw0DRnj8uwTJgtPu7xVeTVm1To1ANHJ8ulJjI+0A8HS3J7lMK/oTvMvyf5ZoeN
+	 KEGReDo9Q+Ihg==
 From: Mark Brown <broonie@kernel.org>
-To: kiseok.jo@irondevice.com, lgirdwood@gmail.com, perex@perex.cz, 
- tiwai@suse.com, Tang Bin <tangbin@cmss.chinamobile.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20241108011617.2284-1-tangbin@cmss.chinamobile.com>
-References: <20241108011617.2284-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: sma1307: Fix invalid logical judgement
-Message-Id: <173111070657.137066.4136445041221456128.b4-ty@kernel.org>
-Date: Sat, 09 Nov 2024 00:05:06 +0000
+To: linux-sound@vger.kernel.org, srinivas.kandagatla@linaro.org, 
+ Alexey Klimov <alexey.klimov@linaro.org>
+Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org, 
+ perex@perex.cz, tiwai@suse.com, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, dmitry.baryshkov@linaro.org, 
+ krzysztof.kozlowski@linaro.org, caleb.connolly@linaro.org, 
+ linux-kernel@vger.kernel.org, a39.skl@gmail.com
+In-Reply-To: <20241018025452.1362293-1-alexey.klimov@linaro.org>
+References: <20241018025452.1362293-1-alexey.klimov@linaro.org>
+Subject: Re: (subset) [PATCH v3 0/5] rb4210-rb2: add HDMI audio playback
+ support
+Message-Id: <173111691639.152465.4987333033665920086.b4-ty@kernel.org>
+Date: Sat, 09 Nov 2024 01:48:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,12 +51,23 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 08 Nov 2024 09:16:17 +0800, Tang Bin wrote:
-> In the function sma1307_dai_hw_params_amp, the variable
-> 'ret' has not been assigned a value, so the logical judgement
-> is invalid, thus fix it.
+On Fri, 18 Oct 2024 03:54:46 +0100, Alexey Klimov wrote:
+> Rebased on top of -next, re-tested.
 > 
+> Changes since v2:
+> -- added tags, updated commit messages, added Cc;
+> -- updated LT9611 -> LT9611UXC comment in qrb4210-rb2.dts;
+> -- updated addresses in DT to 8 hex digits as requested by Dmitry;
+> -- added lpass pinctrl to sm6115.dtsi as suggested by Dmitry;
+> -- added lpass pinctrl override and pins description to sm4250.dtsi,
+> pins are the property of sm4250;
+> -- verified with make dtbs_check as suggested by Krzysztof and Rob's bot.
+> -- dropped two patches (they seem to be merged):
+> [PATCH v2 1/7] ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
+> [PATCH v2 2/7] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
+> -- stopped Cc-ing out-of-date emails;
 > 
+> [...]
 
 Applied to
 
@@ -58,8 +75,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sma1307: Fix invalid logical judgement
-      commit: 08aa540a196a672b8597fb611e2dc25e42986bd9
+[1/5] ASoC: qcom: sm8250: add handling of secondary MI2S clock
+      commit: ed7bca5b2b891caedf2ed3ffc427eba23559da95
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
