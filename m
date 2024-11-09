@@ -1,41 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCEB364A9
-	for <linux-sound@vger.kernel.org>; Sat,  9 Nov 2024 03:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4D2364A9;
+	Sat,  9 Nov 2024 03:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731122035; cv=none; b=O2ISaoMZKEdbxLoi2nCtNW3TPqR1TdQU8CLBLS17bZekkgNEAHpmtOIksjPacjXdSgaG+Gb+a7xUeWk1Dor8+BBcElI/kraiuvLpuYg285fCC0bFglohQda/P/zXEPRzPMfje1ldNxMSyU0Mg29GhKvIt3/1RZp7vhU3c5k7apw=
+	t=1731122039; cv=none; b=t3G9J0XpykKYBhaK5tkaaS8Xxcqp3GjDENItLKpk/mm32Z7Ogm8r0kACqbYMyW5qMnJmmF6BpxQeS+ff0hj1DPDat75gHyDKVUNiZhCnFXfrO3ct5Doh+MrArWr3Ej0r+yrCm931CAKz4lfsKlf6qzRqWZYvYIgtdDM/B7wmtOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731122035; c=relaxed/simple;
-	bh=yqbaMMWO3qx6tRcB0Bx/Tej7CO0YwvdJh+CciDKZvAA=;
+	s=arc-20240116; t=1731122039; c=relaxed/simple;
+	bh=3iuSVudXSVZ71knUjkoNCSsIOWru8sa9e6szXIqlfzc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hkLMg3mreKuDsVWKowAGkOz6qjR2oKHGhxxmF+y5FUNu6rkqs10u050pJWiw+11h6HMrC2YecV2eRHfhqUT2kZNy18EnF7hfeT4MZwLnimnbnPEx7whBk1spzRv+F1KZn2cBZYPPhsIhNuRe7e7VhF2qJ3NjAkoDQSYISkDZSiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwqCmgPe; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=lDycEIQihqVCZsAQQ7JhzRkfzzruJV6HGf8/L82RrHj+yAN/vmQntQo+2PFc8I+pcyE8DvSy7ta73KnJ8wrBX6KoPxqI9pPMWRkYJYppkhIMYu0pdSbX9cb0f85Ok3opJzqTSMXPBd4nDGLMIIww2SNGnL4OS6LUGjYdCwv2qxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b97qmbzx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwqCmgPe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1B2C4CECD;
-	Sat,  9 Nov 2024 03:13:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b97qmbzx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38A4C4CECD;
+	Sat,  9 Nov 2024 03:13:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731122035;
-	bh=yqbaMMWO3qx6tRcB0Bx/Tej7CO0YwvdJh+CciDKZvAA=;
+	s=k20201202; t=1731122038;
+	bh=3iuSVudXSVZ71knUjkoNCSsIOWru8sa9e6szXIqlfzc=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=mwqCmgPeCLqzT4Sj1V9tGg1h6Rx74I3FplRL+sENPwW3k7/NjtnuswXEnWesS5Scl
-	 3/U1fOwQoOjH7X4SoPgZb9N2OHGk4jzkuV0E+vIoug9PRHLrVFYm/J+awE46Z2ptTp
-	 z2nK7VKQisFMLZr+KpYSrI70HtZSkMFLAhqnHePdrPgVw6QtcydwwIAG36GCCgPwcO
-	 VX7LneVJCvZbyf1HoayWT/TLmj6Cr/pA8CKo7MunxOaLOwlmEJF/sVx8Nh8YzW1oT3
-	 5fnRbvxWm0a5xjVqqB7SqEHnOLBISvxwlzQLD83mk1xm1pr4Rj42Vypm0wCxR8E5CV
-	 +JQGGGE675Iwg==
+	b=b97qmbzxHSMDPTebIajbloR6t/MitYhUl5O/LUAQbMy+TsgopB10WpUI/9piWjhES
+	 V1gnbjuYspRzOZipR3l2z2IW3A1oEfqPsHD3TA2AUyem0X5uRIrkPxVcpdeBH8ryDl
+	 HEm9L0QOeZC4/7PBHQH2qi87weYV74syaBNRqV9nutFYnq2xcwVPLB0Yd8NUOY600N
+	 Iae6osyixnV+3cici8b6Ykjuc4JGPYmOuFFvymAzlMzVVAtxxQuXBHwaIXxylf2WaF
+	 FZ/7QdV9bk6NODxQ4FOPhUh3ydjxvvM2+LABxhYipTZuf+6fj9UcPIrK/6pLIpRXIe
+	 vMo2mPAowliyQ==
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev
-In-Reply-To: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
-References: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH 0/2] ASoC: Intel: Fix Kconfig for ACPI=n
-Message-Id: <173112203349.168194.17228447871015538089.b4-ty@kernel.org>
-Date: Sat, 09 Nov 2024 03:13:53 +0000
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241107144712.1305638-1-olivier.moysan@foss.st.com>
+References: <20241107144712.1305638-1-olivier.moysan@foss.st.com>
+Subject: Re: [PATCH v2 0/2] ASoC: stm32: i2s: add stm32mp25 support
+Message-Id: <173112203540.168194.9961366675088520447.b4-ty@kernel.org>
+Date: Sat, 09 Nov 2024 03:13:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,14 +53,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Thu, 07 Nov 2024 12:02:02 +0200, Peter Ujfalusi wrote:
-> A recent attempt to fix a missing symbol when
-> CONFIG_SND_SOC_SDCA=m and CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS=y
-> caused unmet direct dependency warning with randconig.
+On Thu, 07 Nov 2024 15:47:10 +0100, Olivier Moysan wrote:
+> Update STM32 I2S driver and binding to support STM32MP25 SoCs.
 > 
-> The reason is that SND_SOC_ACPI_INTEL_MATCH is needed to be compilable
-> even if ACPI is not selected, modules have dependency on exported
-> symbols from it.
+> Changes in v2:
+> - Rearrange clocks and clock-names ranges depending on compatible.
+> 
+> Olivier Moysan (2):
+>   ASoC: dt-bindings: add stm32mp25 support for i2s
+>   ASoC: stm32: i2s: add stm32mp25 support
 > 
 > [...]
 
@@ -63,10 +71,10 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: Intel: Kconfig: Only select SND_SOC_SDCA if ACPI is enabled
-      commit: c5bbc47f8e094f4489934a244ee1c14947a5075e
-[2/2] ASoC: Intel: Kconfig: Revert make SND_SOC_ACPI_INTEL_MATCH depend on ACPI
-      commit: 4f1636e7b0384c43856e1442755f48d7c690c2a9
+[1/2] ASoC: dt-bindings: add stm32mp25 support for i2s
+      commit: c69b7edc10d2fff4bcb3dd464ee26cbf22818fec
+[2/2] ASoC: stm32: i2s: add stm32mp25 support
+      commit: 125d0f698ad500b0092812e52a6c342ba055ae68
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
