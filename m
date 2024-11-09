@@ -1,119 +1,89 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A9B9D2FB;
-	Sat,  9 Nov 2024 01:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCEB364A9
+	for <linux-sound@vger.kernel.org>; Sat,  9 Nov 2024 03:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731117071; cv=none; b=hIgd9N+62N99B1S78Xv70diKxhvjqy8d5suL5xly/gN2woowFodlhZgRXeRG6XhLUDWUoef7HbqBlvwXNIceEXHGPlI9mgxPlA+Mb20MEPQ7FqpARPpU7CbnomIULR40YHXnmto4CAgQx/fZi3bJkmWSbzfpBdxco5cJF4ASgBE=
+	t=1731122035; cv=none; b=O2ISaoMZKEdbxLoi2nCtNW3TPqR1TdQU8CLBLS17bZekkgNEAHpmtOIksjPacjXdSgaG+Gb+a7xUeWk1Dor8+BBcElI/kraiuvLpuYg285fCC0bFglohQda/P/zXEPRzPMfje1ldNxMSyU0Mg29GhKvIt3/1RZp7vhU3c5k7apw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731117071; c=relaxed/simple;
-	bh=xfyJag2T35ytm36Eyc1zqhnhEsYhh9HIqhZOfJzFaeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2WtgUooJYK0N72oJtXq5TSw6iGboO/BVF3FVZuc92igCzSAbEaPTXHJuGAn5aqnyI8xwty2jj8zT5Jng/ul7Zr/GXRruu8Vl/DtXk8K82Tboez5LG9hKr2T56Tp17DZDedNLhWzihmoumL6pM43T+7jD9Ln4P8vTB/0PpfvWFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UG0bC4vy; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731122035; c=relaxed/simple;
+	bh=yqbaMMWO3qx6tRcB0Bx/Tej7CO0YwvdJh+CciDKZvAA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=hkLMg3mreKuDsVWKowAGkOz6qjR2oKHGhxxmF+y5FUNu6rkqs10u050pJWiw+11h6HMrC2YecV2eRHfhqUT2kZNy18EnF7hfeT4MZwLnimnbnPEx7whBk1spzRv+F1KZn2cBZYPPhsIhNuRe7e7VhF2qJ3NjAkoDQSYISkDZSiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwqCmgPe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UG0bC4vy"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2fb304e7dso2273537a91.1;
-        Fri, 08 Nov 2024 17:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731117070; x=1731721870; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCSnHC5kBQ2EW/JF6VDQllI84SxLSCTPTHUF+4cUQIg=;
-        b=UG0bC4vyQGmhWO4PHiq67KIZxGBjTxosNWToZYHhq7H3lsOcO62ZNKHrQMQDvg1hB7
-         //MDTf50ZKkFvB8bTVMq+2bfg/nhQifG1RXmePE4GUrjqwYm4JK7a2EzX4fF4Z7HW7wJ
-         x3mjItweWMxaY3xc09Ba+y4jzrCbrt9Tcawhp2kivhXYkfzYVgapGdtipYasspdJzA8l
-         MWLI3z8WU6QpwhOzYOvHUXGPMayV4MJ7Exztizvr7afKDPR+p3KNWYVyhWIaI57iM6uN
-         fNWIm1csTh0oDw4b116QnR0zNXe5VLz4VxeDwQBEuejWFMM+HYiV2nHSs/m220KVKAQe
-         FQCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731117070; x=1731721870;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NCSnHC5kBQ2EW/JF6VDQllI84SxLSCTPTHUF+4cUQIg=;
-        b=Idddh3TF8mqaOfqKIZvdZ1Hfaa6Ck+r4WT13FOFRtK44IyWAesyiw4g/GVz43N9RgG
-         LUgt2RSVtFzPt1Xy1DI6rxJayrwVfjCEwAeoJYOCrRsxHkHcFn783asApQvdosjBep/R
-         tAt5dSbMdImouxq1nBpzo4uUdPny87vzm468mxw9WMucaE02BKqrQKgEFn37nGhMY6t3
-         CVPHT4zPoiemmoORO1XVgh/0XDi1uEAAmtEUtNoDA+Gee+3lvS4OFMPzEh3ck0GyiftU
-         1vBvVUZAWsuTc9jeKIpvfHuBQF71a5S9SFY5z7nLb3C13Ft3Pwe2lbt7Ilum5NCdeYDw
-         RLsw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVixy6QF6ofexfU4rvonOyPs8Iyu5yg9HqGCjifoAo6hUu88aJpmK2vLxcyKD11hlP9mpgTAHYfMNfjL8=@vger.kernel.org, AJvYcCXbSA0zkLt6F9M4TcRcX7djVgDJ8H9r4dDc5ibUPy/DDqhfrjGWxOnj3mfIbkPeMDT1IhG8Fm/VjvQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyJwzJBvupUQhy5m7vUAr2EqfSsYJF+i6MDB4aE6rs4fQ0yiE0
-	S9b4FtcBPFWUzjsVGTlAAXARHdI896P+zoh5h/fc5UKoKUVV7Z65
-X-Google-Smtp-Source: AGHT+IGW7cddmXwpgLZWeCkAUVTIcid6sLrD6AbdNBAPmPn3l0sTJkjWTFjXjgXL/E+DvP1HdbQQzA==
-X-Received: by 2002:a17:90b:2792:b0:2cf:fe5d:ea12 with SMTP id 98e67ed59e1d1-2e9b177d820mr6531348a91.24.1731117069760;
-        Fri, 08 Nov 2024 17:51:09 -0800 (PST)
-Received: from archie.me ([103.124.138.82])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e44586sm37499075ad.165.2024.11.08.17.51.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 17:51:08 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 3771041F52F8; Sat, 09 Nov 2024 08:51:03 +0700 (WIB)
-Date: Sat, 9 Nov 2024 08:51:02 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, anish kumar <yesanishhere@gmail.com>,
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH V2] ALSA: machine: update documentation
-Message-ID: <Zy7ABgpAcxrpid5Y@archie.me>
-References: <20241108192413.10751-1-yesanishhere@gmail.com>
- <87y11twmlx.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwqCmgPe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1B2C4CECD;
+	Sat,  9 Nov 2024 03:13:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731122035;
+	bh=yqbaMMWO3qx6tRcB0Bx/Tej7CO0YwvdJh+CciDKZvAA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=mwqCmgPeCLqzT4Sj1V9tGg1h6Rx74I3FplRL+sENPwW3k7/NjtnuswXEnWesS5Scl
+	 3/U1fOwQoOjH7X4SoPgZb9N2OHGk4jzkuV0E+vIoug9PRHLrVFYm/J+awE46Z2ptTp
+	 z2nK7VKQisFMLZr+KpYSrI70HtZSkMFLAhqnHePdrPgVw6QtcydwwIAG36GCCgPwcO
+	 VX7LneVJCvZbyf1HoayWT/TLmj6Cr/pA8CKo7MunxOaLOwlmEJF/sVx8Nh8YzW1oT3
+	 5fnRbvxWm0a5xjVqqB7SqEHnOLBISvxwlzQLD83mk1xm1pr4Rj42Vypm0wCxR8E5CV
+	 +JQGGGE675Iwg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev
+In-Reply-To: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
+References: <20241107100204.24952-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH 0/2] ASoC: Intel: Fix Kconfig for ACPI=n
+Message-Id: <173112203349.168194.17228447871015538089.b4-ty@kernel.org>
+Date: Sat, 09 Nov 2024 03:13:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="H5TatopWhAH+XSYY"
-Content-Disposition: inline
-In-Reply-To: <87y11twmlx.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
+On Thu, 07 Nov 2024 12:02:02 +0200, Peter Ujfalusi wrote:
+> A recent attempt to fix a missing symbol when
+> CONFIG_SND_SOC_SDCA=m and CONFIG_SND_SOC_ACPI_INTEL_SDCA_QUIRKS=y
+> caused unmet direct dependency warning with randconig.
+> 
+> The reason is that SND_SOC_ACPI_INTEL_MATCH is needed to be compilable
+> even if ACPI is not selected, modules have dependency on exported
+> symbols from it.
+> 
+> [...]
 
---H5TatopWhAH+XSYY
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Fri, Nov 08, 2024 at 12:29:14PM -0700, Jonathan Corbet wrote:
-> anish kumar <yesanishhere@gmail.com> writes:
-> > +Additionaly below example macro can be used to register cpu, codec and
-> > +platform dai::
-> > +
-> > +SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> > +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> > +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> > +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-> > +
->=20
-> This will not give you the literal block you were hoping for.  Please
-> actually build the docs after making changes and look at the results.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-My htmldocs build gets:
+Thanks!
 
-Documentation/sound/soc/machine.rst:81: WARNING: Literal block expected; no=
-ne found.
+[1/2] ASoC: Intel: Kconfig: Only select SND_SOC_SDCA if ACPI is enabled
+      commit: c5bbc47f8e094f4489934a244ee1c14947a5075e
+[2/2] ASoC: Intel: Kconfig: Revert make SND_SOC_ACPI_INTEL_MATCH depend on ACPI
+      commit: 4f1636e7b0384c43856e1442755f48d7c690c2a9
 
-Thanks.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---=20
-An old man doll... just what I always wanted! - Clara
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---H5TatopWhAH+XSYY
-Content-Type: application/pgp-signature; name="signature.asc"
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
------BEGIN PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZy7AAwAKCRD2uYlJVVFO
-o9jSAP4oxqQ+PfIQ5Chdbl+3eQnDt3IXGhPLXutty+wWIWRmCgEAlhYDuiBk3e63
-1LhcgoKbolpJXL/czizfY3ivQvWkxgk=
-=adzc
------END PGP SIGNATURE-----
+Thanks,
+Mark
 
---H5TatopWhAH+XSYY--
