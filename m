@@ -1,284 +1,85 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02A61991A5
-	for <linux-sound@vger.kernel.org>; Sat,  9 Nov 2024 17:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF25D1E4BE;
+	Sat,  9 Nov 2024 19:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731173931; cv=none; b=MNdwNknLelUMuMFkLQzP87C/WzRHlJWap/hrWAeUnxRjUAI8nlx6fdYk3bC44qx2U51kTjLxrVR3lSl8eEZc6q+61xcYqt0ErcYe+1Ainllruxm3dwk+myFBNg33S0JYQa7SGFL86EfIwleumDqLGynBiSeJJguBBnZI7FtkYFg=
+	t=1731179944; cv=none; b=mE6KPOKnIeAFYa+OhNDJXB3vhPtV/oApZUbmERerI9MAydyO1+bA/NSmtbtmem1JEePhekvGCc0irYeE3d+ILAfhZdPYpTrrrN2netdq6MCu0sChrL3Bye85ixzIUvWPNajl51cK/P457iuio5w7XV3MODbMjHZeZ34tVP2SHQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731173931; c=relaxed/simple;
-	bh=cG6BiYtnIMuGLSWrNCwmKIdIDqnFLnsIXWDiSYA+qS4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fyjYwMDJQ2c4kbN+eav8/LmnPC9xZ33mAfsps83YOfjfqd+ffLHUKjHx6BpfMACNynhS7vgZnksasODWTdQujQvhQ8cJQK4lDWEjD5eLox2j5ybJ+037+Jka+wDoTgKxY0fCpk1zpB7xpiqgfUG23IGh8YGCAZPSrkRNf1igX9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yEKzh4d8; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1731179944; c=relaxed/simple;
+	bh=YbRmA8WVWQGzejmSZvTvAXTKgDsJffsaP827z1XCqu4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pweo3GHbQkD4jWzP9Bi75/r/PAB4pE0wCQ8EfHCL0Cb1Ab3nJJI6fNf3cQretNMUcISaQ5ocGW79HUV17M6JQ+KPWK/sDmsW3q0x5j6tilKekhYyhW0sPtJdThg70yIDcXoJsCWuJ2G/TIlwLpQ4OML75SWPPmiZS1D8IkTi3RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fl2/KYos; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yEKzh4d8"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2feeb1e8edfso40247891fa.1
-        for <linux-sound@vger.kernel.org>; Sat, 09 Nov 2024 09:38:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fl2/KYos"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e8607c2aso3783323e87.3;
+        Sat, 09 Nov 2024 11:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731173926; x=1731778726; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+6rulw/lNtnEo0tBG6bWUBB2/E/vFFZuCKLNN5bGCYY=;
-        b=yEKzh4d8VZDdT1nSk0Aaoakiv9MfRKj6Uxrgo/VGJkp51OuIbfJWpxZv5do3okr0B8
-         Xewe7R3oCjCmYGAAPC2JBAf9h/Pdw6mww+P77+gWTGcr/fmEXcUv5HGMl7GzWG4q5rhb
-         1dtbREspWV/bMLDKP4m+8+q2/5jhmFIM2PMhnmN8dNX/rnv8AKnSoZgIv48WfnwS4wxE
-         U8Wv7u0WgUdeyHNlKOv2Mq988QoGn4nhrecQHIqjHB0jlHCS4ArqqVgJFKr5pf5fC95s
-         SZH7XaXwk9YHIxGC8aFrSmPfpCu3X2WOcXYSKw/aWc+tPPpHs1odUGKaeB7AnleaTuMW
-         g+SA==
+        d=gmail.com; s=20230601; t=1731179941; x=1731784741; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YbRmA8WVWQGzejmSZvTvAXTKgDsJffsaP827z1XCqu4=;
+        b=Fl2/KYosAM7rvxM3kogVWB+Zmnl5uPySWE7+5rIqsc3+KJGn9ISvjcKWiimrFYSglG
+         QaxtEn4hs4kAWLOq6Hk57HpQY3e5Qa4tTWYE3jid+n4ynwpJDiEDo8yJU4QEztmtHkxa
+         n6W7HPiMUehR5AM6HFgpIGuoM65XOfeNbUIxqwb3gs8tZYBqSRg//aNy1O/F2BFsRYve
+         TlQ5OeE1cUn57gsWzd3j7eO/W6xyB7nWT/MnyMhQqXI981FNe89ltqc92eCB4nNLVqgy
+         Cxuo9Xr1Nq7CtbjS6TdReTokzku2Ysz22S2wur8fGFLkTrO9VtLn7aLXjBRr8ri5qeU+
+         2afg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731173926; x=1731778726;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+6rulw/lNtnEo0tBG6bWUBB2/E/vFFZuCKLNN5bGCYY=;
-        b=i/f6ngRWTk2b346QFg3doThQT4UVQyke3F4W1Hn9pwlMklw1znZkjWKiDiO9GXs5v4
-         nUl265ZozV3FX7hGNufouyNwZNZPwTC5bQUfvh80o6odIq4ua/QaVZ+NhSiQGPkP//OB
-         V+RWbwQ3ST1pjz3UD+T+tSH2km5Kvl+HdtA7/jTrDj+DxwiW4BdOC6ZoNNBEv9xLKC94
-         VxnjPMOfM8aYGjdwTJ3i8z+70LxdwrFjIaLryTSiM58RtlwgFY4ejd231uzsvZrE3+Hn
-         jAOxbNOs5QOCY/+4sXGz9nkqDYyVQ7piBZe2G7KA2gh8j/8Tnjxl+MICOYJ6t1UmcIId
-         pQjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVjbRrLRp6b8IseSQWPEdZ9b/IAG86Lfx1RHtk3gszOsaA5sZsLsQj1FYzwMKPbkX0nFzxuhzJp8xNjGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoU0Aw5yMC0HmW9NqHUTcN7uMfgQOb5nMDlGBm3LLbu5zjNsFS
-	Uhr4b5As8h5NkCOKycl3U5D5cp2YiPr/BoqgWrlwV++XvrhF7RKTaeyYwa0BSRI=
-X-Google-Smtp-Source: AGHT+IGatdJpXrZhMrODleVrBiUrsfVe/fWc6grf12yxYVJRTNJmQO4th+l4Bm+4iX6izejB8/b8WQ==
-X-Received: by 2002:a2e:a995:0:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2ff2028a9a5mr51218071fa.27.1731173925582;
-        Sat, 09 Nov 2024 09:38:45 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0dc48f7sm383827966b.118.2024.11.09.09.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2024 09:38:45 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH] irqchip: Switch back to struct platform_driver::remove()
-Date: Sat,  9 Nov 2024 18:38:27 +0100
-Message-ID: <20241109173828.291172-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1731179941; x=1731784741;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YbRmA8WVWQGzejmSZvTvAXTKgDsJffsaP827z1XCqu4=;
+        b=u+WM5bDqmXvb7IMavhoCcQUsUHPWmhgzPVreYC+5Zqz/F3zXiKSQ5NmDCfpHcHswmB
+         +g6VKVZWcNmriR088tjLBzH44FgJcvOdJmKPG+TG+KMRVoqhb40OqUklq5sz/atFBDbd
+         WvGeLK6SMWK2oVf0DsU7N4AguffVFpen4BfrGDjoZuIRtrckUEikVDUyrST991T9gbMP
+         0tnzsJGvAyvUxiBuxv/jdztzgTaKtuSEL9R4wVaO4KIl9M4TXwMb7so5oPX3T1AHfSHo
+         PZnMuDZoTN42LtmBbglgcDBZz7K1+8dB2vnOgyepSQ+P8kq/0P06TmkUjf327uY5mcLp
+         kgog==
+X-Forwarded-Encrypted: i=1; AJvYcCUFgRSd0qK+gUm9Qxfiu/n2VNturOvI8D37lUgIfAaaLO9FaP/zROFTcmnPU9+3m6m9nantVXAtpeasCjIK@vger.kernel.org, AJvYcCVYChxNUitqLCYY4kJLm7/wxkGntmZU8wu40BdCY3suV/Dv21IZvA03BaMivdi7M71kgjYxkuMJMTWbVyU=@vger.kernel.org, AJvYcCWK4HYSzmSwTZpksi0yPSZGW5Q6VAb0iTSX7R3tx5vjaojSMtohslxITfYWck77prOUStV2LxippXE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBxy5IiwCIj48xiF6qFgnGKxYYbBLhA08IVsQ0sXp9sz+PfPMz
+	R9FMC6kUZ/2VLBtzlANNkNS4LvLJ3Vo9h0UEmOny79o5ihf+1MAwOQ436tapW6veAkV3Tg1gsIm
+	/ynrZCK3eftu+7fnC1FLq2JoPmrf0F+4oq1M=
+X-Google-Smtp-Source: AGHT+IGatpVSYXkBi9BEH9qmFT6KSODhk/syTDyQfdH1zQpeBKTO15p26ly1y1BEeuem6eScuw7T+4/thdmEBfiRrIk=
+X-Received: by 2002:a05:651c:b0f:b0:2fb:61d9:d72b with SMTP id
+ 38308e7fff4ca-2ff20152500mr30059151fa.1.1731179940880; Sat, 09 Nov 2024
+ 11:19:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7905; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=cG6BiYtnIMuGLSWrNCwmKIdIDqnFLnsIXWDiSYA+qS4=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnL54UuShdHMKtznnRY/uU8T9C6uqh4s2Xw6Ogr gE8iTRWzpaJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZy+eFAAKCRCPgPtYfRL+ Tq1qB/0TAMdLwf1xsB/y+fBhD7Fmxay3zicEHr4QUThMuVtJBkFu2Yd9l7iuOeA+yWKZ+8hctBe Pli4gRTBXIQpGUiEdKmefOLSGIT89PjCrkg3RNnUuzZphg+qknMMdFtdz4i/zpsT8DCC5NPg32V yKJWrc2hgRFLDSJmpurJLlR9fgO2/qSjzoV8jiosgsMYI3ocvbc9slQIBQB0QU5nqVtOJHgT9Kd wAyFUJA67lfYbAZ2WjHcYdyQR1hzfTXWofXRK2ptWKg78xWeii7ATGa2hDC1Gd7JKzSGKRbtMwF 22U4mh1wtvYVJgdUhdPYh8Rh1EXipN9kvqxx7RAgxw7qr5wD
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+References: <20241108192413.10751-1-yesanishhere@gmail.com> <Zy7YDKamcrkSg197@archie.me>
+In-Reply-To: <Zy7YDKamcrkSg197@archie.me>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Sat, 9 Nov 2024 11:18:49 -0800
+Message-ID: <CABCoZhCYVsrTsv+=fM_i_0hz9Gy5zA6imL1-AQaJcOZYzgeB+Q@mail.gmail.com>
+Subject: Re: [PATCH V2] ALSA: machine: update documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After commit 0edb555a65d1 ("platform: Make platform_driver::remove()
-return void") .remove() is (again) the right callback to implement for
-platform drivers.
+On Fri, Nov 8, 2024 at 7:33=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com>=
+ wrote:
+>
+> On Fri, Nov 08, 2024 at 11:24:13AM -0800, anish kumar wrote:
+> > +Clocking Controls
+> > +=E2=80=94----------------
+>
+> I see in my htmldocs build output that above section heading is still
+> normal paragraph instead...
 
-Convert all platform drivers below drivers/irqchipto use .remove(), with
-the eventual goal to drop struct platform_driver::remove_new(). As
-.remove() and .remove_new() have the same prototypes, conversion is done
-by just changing the structure member name in the driver initializer.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
-
-I did a single patch for all of drivers/irqchip. While I usually prefer
-to do one logical change per patch, this seems to be overengineering
-here as the individual changes are really trivial and shouldn't be much
-in the way for stable backports. But I'll happily split the patch if you
-prefer it split. Also if you object the indentation stuff, I can rework
-that.
-
-This is based on yesterday's next, if conflicts arise when you apply it
-at some later time and don't want to resolve them, feel free to just
-drop the changes to the conflicting files. I'll notice and followup at a
-later time then. Or ask me for a fixed resend.
-
-Best regards
-Uwe
-
- drivers/irqchip/irq-imgpdc.c              | 2 +-
- drivers/irqchip/irq-imx-intmux.c          | 2 +-
- drivers/irqchip/irq-imx-irqsteer.c        | 2 +-
- drivers/irqchip/irq-keystone.c            | 2 +-
- drivers/irqchip/irq-ls-scfg-msi.c         | 2 +-
- drivers/irqchip/irq-madera.c              | 2 +-
- drivers/irqchip/irq-mvebu-pic.c           | 2 +-
- drivers/irqchip/irq-pruss-intc.c          | 2 +-
- drivers/irqchip/irq-renesas-intc-irqpin.c | 2 +-
- drivers/irqchip/irq-renesas-irqc.c        | 2 +-
- drivers/irqchip/irq-renesas-rza1.c        | 2 +-
- drivers/irqchip/irq-ts4800.c              | 2 +-
- 12 files changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/irqchip/irq-imgpdc.c b/drivers/irqchip/irq-imgpdc.c
-index b42ed68acfa6..85f80bac0961 100644
---- a/drivers/irqchip/irq-imgpdc.c
-+++ b/drivers/irqchip/irq-imgpdc.c
-@@ -479,7 +479,7 @@ static struct platform_driver pdc_intc_driver = {
- 		.of_match_table	= pdc_intc_match,
- 	},
- 	.probe		= pdc_intc_probe,
--	.remove_new	= pdc_intc_remove,
-+	.remove		= pdc_intc_remove,
- };
- 
- static int __init pdc_intc_init(void)
-diff --git a/drivers/irqchip/irq-imx-intmux.c b/drivers/irqchip/irq-imx-intmux.c
-index 511adfaeec82..787543d07565 100644
---- a/drivers/irqchip/irq-imx-intmux.c
-+++ b/drivers/irqchip/irq-imx-intmux.c
-@@ -361,6 +361,6 @@ static struct platform_driver imx_intmux_driver = {
- 		.pm		= &imx_intmux_pm_ops,
- 	},
- 	.probe		= imx_intmux_probe,
--	.remove_new	= imx_intmux_remove,
-+	.remove		= imx_intmux_remove,
- };
- builtin_platform_driver(imx_intmux_driver);
-diff --git a/drivers/irqchip/irq-imx-irqsteer.c b/drivers/irqchip/irq-imx-irqsteer.c
-index 75a0e980ff35..b0e9788c0045 100644
---- a/drivers/irqchip/irq-imx-irqsteer.c
-+++ b/drivers/irqchip/irq-imx-irqsteer.c
-@@ -328,6 +328,6 @@ static struct platform_driver imx_irqsteer_driver = {
- 		.pm		= &imx_irqsteer_pm_ops,
- 	},
- 	.probe		= imx_irqsteer_probe,
--	.remove_new	= imx_irqsteer_remove,
-+	.remove		= imx_irqsteer_remove,
- };
- builtin_platform_driver(imx_irqsteer_driver);
-diff --git a/drivers/irqchip/irq-keystone.c b/drivers/irqchip/irq-keystone.c
-index 30f1979fa124..808c781e2548 100644
---- a/drivers/irqchip/irq-keystone.c
-+++ b/drivers/irqchip/irq-keystone.c
-@@ -211,7 +211,7 @@ MODULE_DEVICE_TABLE(of, keystone_irq_dt_ids);
- 
- static struct platform_driver keystone_irq_device_driver = {
- 	.probe		= keystone_irq_probe,
--	.remove_new	= keystone_irq_remove,
-+	.remove		= keystone_irq_remove,
- 	.driver		= {
- 		.name	= "keystone_irq",
- 		.of_match_table	= of_match_ptr(keystone_irq_dt_ids),
-diff --git a/drivers/irqchip/irq-ls-scfg-msi.c b/drivers/irqchip/irq-ls-scfg-msi.c
-index 1aef5c4d27c6..c0e1aafe468c 100644
---- a/drivers/irqchip/irq-ls-scfg-msi.c
-+++ b/drivers/irqchip/irq-ls-scfg-msi.c
-@@ -418,7 +418,7 @@ static struct platform_driver ls_scfg_msi_driver = {
- 		.of_match_table	= ls_scfg_msi_id,
- 	},
- 	.probe		= ls_scfg_msi_probe,
--	.remove_new	= ls_scfg_msi_remove,
-+	.remove		= ls_scfg_msi_remove,
- };
- 
- module_platform_driver(ls_scfg_msi_driver);
-diff --git a/drivers/irqchip/irq-madera.c b/drivers/irqchip/irq-madera.c
-index acceb6e7fa95..b32982c11515 100644
---- a/drivers/irqchip/irq-madera.c
-+++ b/drivers/irqchip/irq-madera.c
-@@ -236,7 +236,7 @@ static void madera_irq_remove(struct platform_device *pdev)
- 
- static struct platform_driver madera_irq_driver = {
- 	.probe		= madera_irq_probe,
--	.remove_new	= madera_irq_remove,
-+	.remove		= madera_irq_remove,
- 	.driver = {
- 		.name	= "madera-irq",
- 		.pm	= &madera_irq_pm_ops,
-diff --git a/drivers/irqchip/irq-mvebu-pic.c b/drivers/irqchip/irq-mvebu-pic.c
-index 08b0cc862adf..bd1e06e05a39 100644
---- a/drivers/irqchip/irq-mvebu-pic.c
-+++ b/drivers/irqchip/irq-mvebu-pic.c
-@@ -183,7 +183,7 @@ MODULE_DEVICE_TABLE(of, mvebu_pic_of_match);
- 
- static struct platform_driver mvebu_pic_driver = {
- 	.probe		= mvebu_pic_probe,
--	.remove_new	= mvebu_pic_remove,
-+	.remove		= mvebu_pic_remove,
- 	.driver = {
- 		.name		= "mvebu-pic",
- 		.of_match_table	= mvebu_pic_of_match,
-diff --git a/drivers/irqchip/irq-pruss-intc.c b/drivers/irqchip/irq-pruss-intc.c
-index 060eb000e9d3..bee01980b463 100644
---- a/drivers/irqchip/irq-pruss-intc.c
-+++ b/drivers/irqchip/irq-pruss-intc.c
-@@ -648,7 +648,7 @@ static struct platform_driver pruss_intc_driver = {
- 		.suppress_bind_attrs	= true,
- 	},
- 	.probe		= pruss_intc_probe,
--	.remove_new	= pruss_intc_remove,
-+	.remove		= pruss_intc_remove,
- };
- module_platform_driver(pruss_intc_driver);
- 
-diff --git a/drivers/irqchip/irq-renesas-intc-irqpin.c b/drivers/irqchip/irq-renesas-intc-irqpin.c
-index 9ad37237ba95..954419f2460d 100644
---- a/drivers/irqchip/irq-renesas-intc-irqpin.c
-+++ b/drivers/irqchip/irq-renesas-intc-irqpin.c
-@@ -584,7 +584,7 @@ static SIMPLE_DEV_PM_OPS(intc_irqpin_pm_ops, intc_irqpin_suspend, NULL);
- 
- static struct platform_driver intc_irqpin_device_driver = {
- 	.probe		= intc_irqpin_probe,
--	.remove_new	= intc_irqpin_remove,
-+	.remove		= intc_irqpin_remove,
- 	.driver		= {
- 		.name		= "renesas_intc_irqpin",
- 		.of_match_table	= intc_irqpin_dt_ids,
-diff --git a/drivers/irqchip/irq-renesas-irqc.c b/drivers/irqchip/irq-renesas-irqc.c
-index 76026e0b8e20..cbce8ffc7de4 100644
---- a/drivers/irqchip/irq-renesas-irqc.c
-+++ b/drivers/irqchip/irq-renesas-irqc.c
-@@ -247,7 +247,7 @@ MODULE_DEVICE_TABLE(of, irqc_dt_ids);
- 
- static struct platform_driver irqc_device_driver = {
- 	.probe		= irqc_probe,
--	.remove_new	= irqc_remove,
-+	.remove		= irqc_remove,
- 	.driver		= {
- 		.name		= "renesas_irqc",
- 		.of_match_table	= irqc_dt_ids,
-diff --git a/drivers/irqchip/irq-renesas-rza1.c b/drivers/irqchip/irq-renesas-rza1.c
-index f05afe82db4d..d4e6a68889ec 100644
---- a/drivers/irqchip/irq-renesas-rza1.c
-+++ b/drivers/irqchip/irq-renesas-rza1.c
-@@ -259,7 +259,7 @@ MODULE_DEVICE_TABLE(of, rza1_irqc_dt_ids);
- 
- static struct platform_driver rza1_irqc_device_driver = {
- 	.probe		= rza1_irqc_probe,
--	.remove_new	= rza1_irqc_remove,
-+	.remove		= rza1_irqc_remove,
- 	.driver		= {
- 		.name		= "renesas_rza1_irqc",
- 		.of_match_table	= rza1_irqc_dt_ids,
-diff --git a/drivers/irqchip/irq-ts4800.c b/drivers/irqchip/irq-ts4800.c
-index b5dddb3c1568..cc219f28d317 100644
---- a/drivers/irqchip/irq-ts4800.c
-+++ b/drivers/irqchip/irq-ts4800.c
-@@ -154,7 +154,7 @@ MODULE_DEVICE_TABLE(of, ts4800_ic_of_match);
- 
- static struct platform_driver ts4800_ic_driver = {
- 	.probe		= ts4800_ic_probe,
--	.remove_new	= ts4800_ic_remove,
-+	.remove		= ts4800_ic_remove,
- 	.driver = {
- 		.name		= "ts4800-irqc",
- 		.of_match_table	= ts4800_ic_of_match,
-
-base-commit: 929beafbe7acce3267c06115e13e03ff6e50548a
--- 
-2.45.2
-
+Uploaded a new version to take care of this and the warning.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
