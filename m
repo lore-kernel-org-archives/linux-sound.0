@@ -1,40 +1,40 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC09153573;
-	Sun, 10 Nov 2024 10:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D351537C6;
+	Sun, 10 Nov 2024 12:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731235518; cv=none; b=X+2a4atDSzUZQ9NW6OUSrdnc+GABPSOGy4+CQtNMPtHGVDbR9a41KbTH1WH70GWysJEZBJ+fn7VmVSOOCCcHEcfuzH6jqjvYp+f/xylKpRTj63wwWEPzjWnPxfjbe82ghcgbnWo3+ciqqyjMdVdfvUusP/v6d460YpxltNtGY6Q=
+	t=1731240652; cv=none; b=JeEOA7sefXPPKScKis1Ggln1IVwR4hGrj0JJPVZ1OPd/p4dBeQT+Fi5EZMRxHTAa92lbb1mgVfNLuR0/CH5O6ChbFKaV28u9l/xpeMJSNKmElrTCDA2uueWerWJkVQeoaLH8nBPvMAd+m/68RZq0FXYlAXyhnGMmQ9kad2muWS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731235518; c=relaxed/simple;
-	bh=RBkaVa+v3bdfSur4TMosKjf3T1UqOD8FCPd0qxXj+5E=;
+	s=arc-20240116; t=1731240652; c=relaxed/simple;
+	bh=XTR/nhj5MrW+3ggTFQ749a6iLnniw2ba6f0H4nA+qfA=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=AVYZE6aQu6QF8d7FJn7g5WT5d8Rq/i3kr+Ywoq8v6XefhTEcXREKMKN67hx+bHI3rCL+3i2lgGwl5OSquj7GEEhTX4pB/cNLh2WN39xTkBywyu73A7pyb1TIi8l1UcghBZZvOUrbjU+eZAK36TEjXJyFEiiM4DFbDC33XhqdoKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=npCXaA+9; arc=none smtp.client-ip=212.227.17.12
+	 In-Reply-To:Content-Type; b=Me9MaHnvCnL0otiqtYfD1vj1Qp6JOnRrVMhlXoakgSFiuZGa46RzGFX3YPJffbMTpD0Z67zsK2cwtq7wIp91CwEp0kHni4zJ8lp3/GdOiSAdcNEvxV4bp5L60xO4cTZPzVZGdKIdEMz4qBzMPZ2PEOafESidDTTyUIHxrpRRUPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=nAQdAjwg; arc=none smtp.client-ip=217.72.192.78
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="npCXaA+9"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="nAQdAjwg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1731235492; x=1731840292; i=markus.elfring@web.de;
-	bh=RBkaVa+v3bdfSur4TMosKjf3T1UqOD8FCPd0qxXj+5E=;
+	s=s29768273; t=1731240625; x=1731845425; i=markus.elfring@web.de;
+	bh=XTR/nhj5MrW+3ggTFQ749a6iLnniw2ba6f0H4nA+qfA=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
 	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=npCXaA+9LbaI7T4MUptHXIE9s/sTgjf3EYTUtUB+Z+fPf+8Vrohx9Uq7Qj04mhbp
-	 vXAEOLtqNplPRibmcXOhHGw4UNiD8YzLJLPq1PrU6IC/LM0PpwwaQ7xTvkoEwYgY9
-	 iv/hk/LP2/SBDjcUacZwMDU2RhRI84eGcNPr2PazTD1A1VlosUCq/Ri/8sxp6ZGEA
-	 kNoZ7SvZC/1UVyNxLrzmLwwLmWtqL6rI1dVROPSLmg+wE0S2iUO+d9DLv26LJ2cSh
-	 PunNhNo8bTt9G58fY/93IZsRjRPiHBl5aDViBvEs1KrEmSoZXwJTgHa4SLc0hLS8g
-	 4QjBYf8v89CWZiNHDg==
+	b=nAQdAjwgADWFJo5qTN9mgG2FdrguVGoYj/xwvqAfcuQW9i4WHJDNFjcD78cHmVaC
+	 yIY3WmzjFZ41JAbXSHcXvEK7nJmSwG7TE9uhYOzbwVpdxMBpxlW4PLQjOQLRk+24m
+	 AtSf797iZok8gnigCT2lWL6O8MNO95hGejezOlgmUa4pxe+GJalqWPXGmLkdAz4fo
+	 YbI7xu4b1cMA56XnIzG3FNuNoI/iRDPIo1/P0Fl7xMX30JCfoL8kM/hcrRijT4Mkc
+	 JHJSL/WwgWcSpf7r6al7B5Kw5B5V7O1C1OEJlQGP92jMS6eX0M4JygEZTK4nPSQmz
+	 ChOvIvpy0LOUGOhiVA==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N3Xnl-1tssBb2LND-00tFjA; Sun, 10
- Nov 2024 11:44:52 +0100
-Message-ID: <6ed94ce6-211e-4f6a-9479-34467e6ca7d2@web.de>
-Date: Sun, 10 Nov 2024 11:44:19 +0100
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1N2SKz-1tw8eE1Vtf-00w35Z; Sun, 10
+ Nov 2024 13:10:25 +0100
+Message-ID: <28f2bba7-40f0-4015-af84-d3c08c9a14c1@web.de>
+Date: Sun, 10 Nov 2024 13:10:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,45 +42,46 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Tang Bin <tangbin@cmss.chinamobile.com>, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org, Baojun Xu <baojun.xu@ti.com>,
- Jaroslav Kysela <perex@perex.cz>, Kevin Lu <kevin-lu@ti.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Shenghao Ding <shenghao-ding@ti.com>, Takashi Iwai <tiwai@suse.com>
+To: Tang Bin <tangbin@cmss.chinamobile.com>,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-sound@vger.kernel.org,
+ Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Takashi Iwai <tiwai@suse.com>
 Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20241025082042.2872-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: tas2781: Fix redundant logical jump
+References: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8192-afe-pcm: Simplify probe() with
+ local dev variable
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241025082042.2872-1-tangbin@cmss.chinamobile.com>
+In-Reply-To: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:kq2cIavDfgtbPbNSQLm6JLpH3awd+E/fzjLmAO/20DY0oIkYfk4
- U6iqWBnEmLcu7h0s8lk/RD3Y0DDBdzQICiPLvt1/NfBWurjZiQxw6+vWhjXKL3kIy6FbtER
- 0Mqn3I2Cz7Aa2GXWLqLt6L2qov+ZDPZLYINjjet5yQWpK+xF4NY74POlVQyxdJfi9wVAOTg
- UluwJ61bqcVojDU99xtLA==
+X-Provags-ID: V03:K1:cFryH+0NX5oq80c/QNEmOxjeC51hOP9U2wT+P96GpQKaFgokGkG
+ 7Wf4Mn8YFwyLHHvCbMMy7JcZy5ok+8spkddeOF/7In/eQzmAe6ZLdtEX7AObfjUs7k48cJQ
+ bOq79U5aJKSnzi3foN5ca5TGCXTnYYYP0k8wUbidQsVqnSc1M2E+ehKnocTiasfpdMF5C+6
+ jGyK9d1+5Xa0gJAFHiGuA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:1/WxcWUAL50=;NI6XhN6vHl5Cy63vKB5kyxF2Kcm
- vtmiiTN+CsU0/YgbrcgPKKS59yKWfV7NJw7GrR5y+8sTCMy7m4mWL60VS7sI2O7sfc7guZvHy
- Rz3Mni7eMtFJlwS1618bk+WYNvQsYmVJhVSzxKh7sTXlI+yukCAdqamnrEZvAMzDHl4btoD3E
- /108XPlr6Da/oIu5RRp8359wAkqk4VSfmLiP7Fsam5StD4C+SfA8tNAM5oXto5u0csQ38tPQt
- wSuuPCkawIOF6Z2gojWbGYdJ2ErtUL2nyNi2i/yQA2L++FjPoMJvAW9KnxOfGv4okkHRURxsU
- QmKloITV5GCO0ELLLP0OM41f4Xaysm1ZGXRRDoEs8cXIGYb3DdY2isCCWNYn75r7ihIWbmDyZ
- M6rPSf16AjJnssgZlFaTHb/AlobB81WrabFm8OI8uhyYEu48KIpk7OpEk5meVxf4HFGFFOL5+
- SyZ5WgPGBEBu2IcnS9ShPh9jeFGimX+pYhpO2rTIP6Mz49ZF9cbOhPinYwGyWgYlbYC6Vv2+Z
- Q6nDCXkLOKdyhIBDk7VFbry+WH7qe4dpLZe0LOYmDtRz71rrcXuZ8skJYAfn2DToxX5uqrXey
- iNcRX0z51Q9mBtHaRCU3U+xpeNKrOFPF/r9y6yV8dZe7q2Y9Q6O9Em0ep9otwmysTq0FtVXHZ
- w+OZihCMsjB9W+mdr9p3nHtQIG6wqHS4wuA5dQt4P3PydSlrTVmfZluDS7W6Ds3yCXltjkWj7
- MN3NM8kSALPNheGu5S9BIkGnT/n+1PF+nlopqfUhzXffFvZ2d9c3CzTllrNTWQM42X0cQy0/V
- uVppwj1bR7dR1ErWq5O/ODpLBtNF8M0zgyjSbL53voWD+21+1An0t9F/q7r9JkdqZoSSGlnOo
- xerYhEwPndfmdThlEBjYymJIKlTZp9wGSGPgZ1G6TaTWMANTuAwwCDwfz
+UI-OutboundReport: notjunk:1;M01:P0:ix+3Vngnm6w=;p5QE56Xzwca5K5BFHiuaLGJAO7e
+ auLYxV4OV05Pw5RnzItnmtcO2ieqKwINlj2b7mgshnGe9v4h666f4G3PXQqhbfWO1gRZxzxXP
+ G2o0xQEphxeYmpPNS9GcDQwG89SlGCCWZqeY15vwpzDg8aXkMD627qJt/pq78A/hFnvU8VbLJ
+ uLnReYZtDslBjIcVTHC/d0h4H9DE81xMwOvl0HtOuIlM7KnabVQ2rabX/Z6CpQgprA2DoJDgm
+ 6UTisdG/AABwXS2pUv999C+jRLRRNMrY5XlrSt4LHnTo0SuwZaSmSxwNkEt9DVHlTVKa0kEJG
+ Qj8uADrUnMEzKQvx8In0aTIJ7U8DPhBiSTqOL9qrKKvLlK0LVzltBz72KQ0IjUID+jkMY5eKx
+ zuyMRDOca7cWeWhU8KPn7wAESWXGMai7IJGoMjFk5ii848OglElYfNamS4xzybeqbQGGRUYu6
+ vxqauGbXI6yxyqiRkjU2xJif5KsbeUep1V0hSHU/8CzKVsEV9SyzikeaRe5TYxLMqpSR8PRM2
+ d/3drYn8kg+G65WOE159FhvXYEDBBR4Bz0mK4ATVwS3JNj4LM4vHyhqcnDBXF+9ATbe+pWli8
+ /pIblUEdqbL06nKzC4h0Gv2BKrMtpFnpNP9i7qS0jD96nxHcLwSH57Xu0iP3QBfF7e173NrSo
+ bRp/Z6SMpvHpi8s/qiTfJUIr2/GNT2k9KBrMIfIxrUVPcCKGEmXyd4FGFdT6A8Z8+h+CvkXvu
+ RKIpvVM+P2aMza0wS1zeq+oA2N++LyuFapUbaXM9g5lcaSNOji7/DoB0PGTUUbK0oI9HXh2ti
+ AY1/w/8YCyi+PHKY2Md0odpg==
 
-> In these functions, some logical jump of "goto" and variable
-> are redundant, thus remove them.
+> Simplify the function mt8192_afe_pcm_dev_probe() by
+> using local 'dev' instead of '&pdev->dev'.
 
-Another wording suggestion:
-Return some values directly in a few function implementations.
-Thus remove local variables which became redundant with this refactoring.
+You may occasionally put more than 51 characters into text lines
+for an improved change description.
 
 Regards,
 Markus
