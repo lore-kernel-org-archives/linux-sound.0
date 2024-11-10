@@ -1,87 +1,126 @@
-Received: from mout.web.de (mout.web.de [217.72.192.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D351537C6;
-	Sun, 10 Nov 2024 12:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98E9518E1F;
+	Sun, 10 Nov 2024 21:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731240652; cv=none; b=JeEOA7sefXPPKScKis1Ggln1IVwR4hGrj0JJPVZ1OPd/p4dBeQT+Fi5EZMRxHTAa92lbb1mgVfNLuR0/CH5O6ChbFKaV28u9l/xpeMJSNKmElrTCDA2uueWerWJkVQeoaLH8nBPvMAd+m/68RZq0FXYlAXyhnGMmQ9kad2muWS4=
+	t=1731274227; cv=none; b=IJLbMgwKRZo7qjP5Tgq8mqUz9ACLFjDLOv183FWqWq8U0jnqyn0+q+gKA3jzlVngCqYbJFC1QXFNq0Mr3nvfhVbPLgdtolnI6YhNUUZ0Di9hBHU1uy+R0zRwsbt9b48WRz4puQ24kI7nqmHu8NiSkSw8yieHUDGOELjQTr+dkjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731240652; c=relaxed/simple;
-	bh=XTR/nhj5MrW+3ggTFQ749a6iLnniw2ba6f0H4nA+qfA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=Me9MaHnvCnL0otiqtYfD1vj1Qp6JOnRrVMhlXoakgSFiuZGa46RzGFX3YPJffbMTpD0Z67zsK2cwtq7wIp91CwEp0kHni4zJ8lp3/GdOiSAdcNEvxV4bp5L60xO4cTZPzVZGdKIdEMz4qBzMPZ2PEOafESidDTTyUIHxrpRRUPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=nAQdAjwg; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1731274227; c=relaxed/simple;
+	bh=NAp6CJ5kYLjJB1R58kJpoIq4+i44S3eM82Tj+brt4SI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mxWN7SPuzWb8XWk9whRogCqQbhzuCcKY6KJ987dj9XRVRrT20UAlrc917CkYZVrZm6sOTZo3R+rS6gfUdqP9ZCz843MXJttAB54LPaNHMhQaAylvQtaKM4jylljLdiATdBrtZG31KvkLIvav7zei7blFjwhZZJBS8hh10R+5PkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=isISRmHw; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="nAQdAjwg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1731240625; x=1731845425; i=markus.elfring@web.de;
-	bh=XTR/nhj5MrW+3ggTFQ749a6iLnniw2ba6f0H4nA+qfA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=nAQdAjwgADWFJo5qTN9mgG2FdrguVGoYj/xwvqAfcuQW9i4WHJDNFjcD78cHmVaC
-	 yIY3WmzjFZ41JAbXSHcXvEK7nJmSwG7TE9uhYOzbwVpdxMBpxlW4PLQjOQLRk+24m
-	 AtSf797iZok8gnigCT2lWL6O8MNO95hGejezOlgmUa4pxe+GJalqWPXGmLkdAz4fo
-	 YbI7xu4b1cMA56XnIzG3FNuNoI/iRDPIo1/P0Fl7xMX30JCfoL8kM/hcrRijT4Mkc
-	 JHJSL/WwgWcSpf7r6al7B5Kw5B5V7O1C1OEJlQGP92jMS6eX0M4JygEZTK4nPSQmz
-	 ChOvIvpy0LOUGOhiVA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1N2SKz-1tw8eE1Vtf-00w35Z; Sun, 10
- Nov 2024 13:10:25 +0100
-Message-ID: <28f2bba7-40f0-4015-af84-d3c08c9a14c1@web.de>
-Date: Sun, 10 Nov 2024 13:10:21 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="isISRmHw"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb4af0b6beso49199501fa.3;
+        Sun, 10 Nov 2024 13:30:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731274224; x=1731879024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IN4q1YU72uIu7Vmji1epheMoLR4ByHXyKn9kCj69B2I=;
+        b=isISRmHwM6KS5jp9Hi/wIbb64YCxn6nKjW/V0BB/SRGCB6DaUfefbZBpwbHMWbRj3P
+         rp29IhyVdZy2iEvSxwGSlcaNUWjcoV5LNh4Xo1j3yO313iuhdcOvaNkCPF1EOUMn2HbN
+         DcNu1agBHaXzypoogwjW1VZgfpHV7wzLd2hEb5gvSp/GHNsQPu8DEJgvhrBrBxgCotk5
+         LY3ErnIXzvKvl7TvBhLSzVVvZ/LRq2FHceOPJagpHqMd+N0wcgB126N3co2cNHiMHP3j
+         XIxJIFvvrEw8nOdTKbqX7qxRiOwEbaZG0cqAMHQNneOJ7ArH/+OliYvH8WQbNHGpsC6Q
+         OaHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731274224; x=1731879024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IN4q1YU72uIu7Vmji1epheMoLR4ByHXyKn9kCj69B2I=;
+        b=Q4S5Yeni9JV6qwpyr1+fNXLM0KjnMbV3HKWYzoL+0oHweuOJ78NuQApTf6LlS+jqv6
+         fW6kwsDyKmFO46NtGqNOxhiZArnjYBZ9sZne13hucH31EyWLlqteXlcQ8nj1BYzT3kXY
+         a/1COpw9VSPdVJ1UIrC19kGirzdliJMMXxXw0BUZTOwua/CXYinPY/np5Kn6mylGpA3d
+         U7mi2DffSV1R9PDGVqlO6kYXZzpoc0Uu5gQkDhlFsnjRovDxRE0ayPR2AdS1H3Sg6FSi
+         aw4t18+zyoh0nyUoPnqgsnUMV8df5BwiVrbKYvWdvGEaWZDubXL9VkMdZ0rsNsuxyKM6
+         h8/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVNBlAln2IDURZTifn28rGGajqnkX7V0J4MJFh2Si8iqy52VCiSGqQMvn9a7B9QTCKhnDi5ayusxpc=@vger.kernel.org, AJvYcCVVxwvuev3fiv/nxBw4nnJTpcYGzB9Z0Di2cRvfA3wMVdpzlpz6E55drZh9PELbJSNc6sr6WWJywfUijPa/@vger.kernel.org, AJvYcCXVnuWCJMuRYVz0tiZylR9aPfkAjx/FV3BTMVXIjWpDnCMeRN9feVumTWM4FjzeswMJWeQb4XTg5EUmVGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDUpEMAKf2BA93mvpyCs4tGshRrA67K4SydetAF4GtRBI+olGO
+	bMmc2QAH/Md4dHEXMh6+nIzjtazjv0RUcvu3y+a8EJZMFs52MPhrrCdlCBVx3uPLp9I5WJYlOah
+	CgyroMNmAQCPUdHLUKNYrgM1ta2+y+v5M
+X-Google-Smtp-Source: AGHT+IEB2c2gTPIdbZH8GDNnzG26Sq467ivd/3rexJAdoaplRtu5vvNVFuVF/GAXr2SjBdDhMHc6p+uu+GkwSHskI/Q=
+X-Received: by 2002:a05:6512:15a4:b0:53b:1508:468d with SMTP id
+ 2adb3069b0e04-53d862f82a5mr5909824e87.54.1731274223384; Sun, 10 Nov 2024
+ 13:30:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Tang Bin <tangbin@cmss.chinamobile.com>,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-sound@vger.kernel.org,
- Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Takashi Iwai <tiwai@suse.com>
-Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8192-afe-pcm: Simplify probe() with
- local dev variable
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:cFryH+0NX5oq80c/QNEmOxjeC51hOP9U2wT+P96GpQKaFgokGkG
- 7Wf4Mn8YFwyLHHvCbMMy7JcZy5ok+8spkddeOF/7In/eQzmAe6ZLdtEX7AObfjUs7k48cJQ
- bOq79U5aJKSnzi3foN5ca5TGCXTnYYYP0k8wUbidQsVqnSc1M2E+ehKnocTiasfpdMF5C+6
- jGyK9d1+5Xa0gJAFHiGuA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ix+3Vngnm6w=;p5QE56Xzwca5K5BFHiuaLGJAO7e
- auLYxV4OV05Pw5RnzItnmtcO2ieqKwINlj2b7mgshnGe9v4h666f4G3PXQqhbfWO1gRZxzxXP
- G2o0xQEphxeYmpPNS9GcDQwG89SlGCCWZqeY15vwpzDg8aXkMD627qJt/pq78A/hFnvU8VbLJ
- uLnReYZtDslBjIcVTHC/d0h4H9DE81xMwOvl0HtOuIlM7KnabVQ2rabX/Z6CpQgprA2DoJDgm
- 6UTisdG/AABwXS2pUv999C+jRLRRNMrY5XlrSt4LHnTo0SuwZaSmSxwNkEt9DVHlTVKa0kEJG
- Qj8uADrUnMEzKQvx8In0aTIJ7U8DPhBiSTqOL9qrKKvLlK0LVzltBz72KQ0IjUID+jkMY5eKx
- zuyMRDOca7cWeWhU8KPn7wAESWXGMai7IJGoMjFk5ii848OglElYfNamS4xzybeqbQGGRUYu6
- vxqauGbXI6yxyqiRkjU2xJif5KsbeUep1V0hSHU/8CzKVsEV9SyzikeaRe5TYxLMqpSR8PRM2
- d/3drYn8kg+G65WOE159FhvXYEDBBR4Bz0mK4ATVwS3JNj4LM4vHyhqcnDBXF+9ATbe+pWli8
- /pIblUEdqbL06nKzC4h0Gv2BKrMtpFnpNP9i7qS0jD96nxHcLwSH57Xu0iP3QBfF7e173NrSo
- bRp/Z6SMpvHpi8s/qiTfJUIr2/GNT2k9KBrMIfIxrUVPcCKGEmXyd4FGFdT6A8Z8+h+CvkXvu
- RKIpvVM+P2aMza0wS1zeq+oA2N++LyuFapUbaXM9g5lcaSNOji7/DoB0PGTUUbK0oI9HXh2ti
- AY1/w/8YCyi+PHKY2Md0odpg==
+References: <20241031211411.58726-1-yesanishhere@gmail.com> <ZyQ5OJM8k1rGog2R@archie.me>
+In-Reply-To: <ZyQ5OJM8k1rGog2R@archie.me>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Sun, 10 Nov 2024 13:30:12 -0800
+Message-ID: <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
+Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Simplify the function mt8192_afe_pcm_dev_probe() by
-> using local 'dev' instead of '&pdev->dev'.
+On Thu, Oct 31, 2024 at 7:13=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
+> > Updated documentation to provide more details
+> > for codec-to-codec connection especially around
+> > the scenarios and DAPM core details for C2C
+> > creation.
+> "Describe in more detail codec-to-codec connection, especially on
+> use cases and DAPM core details for C2C creation."
 
-You may occasionally put more than 51 characters into text lines
-for an improved change description.
+Sorry, I like the way it is written.
+> > +An ALSA-based audio system typically involves playback and capture
+> > +functionality, where users may require audio file playback through
+> > +speakers or recording from microphones. However, certain systems
+> > +necessitate audio data routing directly between components, such as FM
+> > +radio to speakers, without CPU involvement. For such scenarios, ASoC(
+> > +ALSA system on chip) provides a mechanism known as codec-to-codec (C2C=
+)
+> "For such scenarios, ASoC (ALSA system on chip) ..."
+> > +connections, leveraging the Dynamic Audio Power Management (DAPM)
+> > +framework to facilitate direct data transfers between codecs.
+> > <snipped>...
+> > +To better understand the configuration inspired by the setup found in
+> > +``sound/soc/samsung/speyside.c``, here are several key points:
+> > +
+> > +1. The presence of ``c2c_params`` informs the DAPM core that the DAI l=
+ink
+> > +   represents a C2C connection.
+> > +
+> > +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines the =
+size
+> > +   of this array.
+> > +
+> > +3. If ``num_c2c_params`` is 1:
+> > +
+> > +   - The C2C DAI is configured with the provided ``snd_soc_pcm_stream`=
+`
+> > +     parameters.
+> > +
+> > +4. If ``num_c2c_params`` is greater than 1:
+> > +
+> > +   - A kcontrol is created, allowing the user to select the index of t=
+he
+> > +     ``c2c_params`` array to be used.
+>
+> I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, ...;
+> otherwise if ``num_c2c_params`` is greater than 1, ...".
 
-Regards,
-Markus
+I like it this way.
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
