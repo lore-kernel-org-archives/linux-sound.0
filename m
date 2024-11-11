@@ -1,135 +1,114 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D6A1A42A5;
-	Mon, 11 Nov 2024 16:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B75F214AD3F;
+	Mon, 11 Nov 2024 18:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731344170; cv=none; b=bEod3NLPypVhEC7gEDtYDVb7RSBHlSYlHkDIgDgP97/K93ecdpnbHbrmt9WOPedbIcxKgB7sU361XFCz0VpZtBRkpEvnsw5VIl2iNsGb1KyquYqDLexIknMVfrwFQN+X/V6brTZrXj2C1haX1bFFBEox44FFSwoGMQJN7odj4mM=
+	t=1731350886; cv=none; b=NHln36MUTsf27oT5aIrmDnCUEmEukiV69DjcXKBVKv2Pn0G6Q2N2dwMXiIUvPYs21gFDNkXykRjLGdz81Bwc4NzWNz9O4veke/8at0OmbUOT9gyekr27HFILOlKSzFPStwJqEjN/XfgtFtMaj9UF7yjNFSVCzdio/A1WpTDjCbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731344170; c=relaxed/simple;
-	bh=3kLzdXkGZ0goZ7AL14qJZ24tx/PDfvKjSoul4AfIyWc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gIJ8jH14WlNYFA2265EO6TNIoKuy3RrZuI2phH+26n3zvPFwvY8VSfwJDyIHsrHP0X3H8LuWbVA7z0YsrbUdtTc8EhWNIoVZDtFRVg6VJsNFifDcGb673eSVbn7iEjehnIu9y0b/dNC97wYt/7wUd4tWvuinOBcrXUQQnub64KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJYqlWzk; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731350886; c=relaxed/simple;
+	bh=EtuMHL3/DLNa8FkUzMzR2zBOQPr2/uCcVvYj9VpDX0o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mnrvGGJHsKlku8axK+yJTnwsNnHket888dH7R4Q+AwEKZbYrgbG615jFLmT6EbZoKWiC+4dBzDpOxHnVzej+N0PlZp6s8r5QwGPwMHRpJzkS/6W4IMO1B5c07cbq6KEG3NjdoIzsSan4stDkah9YWJ2nyQRmeSmr3jM2G5Ti8BM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HfGlCXcg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJYqlWzk"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53a007743e7so5628800e87.1;
-        Mon, 11 Nov 2024 08:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731344166; x=1731948966; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BGIyKdlKD2rjdr8nGTfStLxE86UsO3KrqZkzx50EpGg=;
-        b=MJYqlWzk9CAAaGcNfTsVszqe6mFrTBTez7AXzIvjA0KiJ2VV1jskLmYzlWrfAW+wMK
-         e1zIIvuRmsdLAwAKRPubgzrAv5aL5nmFWFIQU7tS/G1y9pzsyihYVgE62xG01/uQQw5u
-         CxzRRGq8JWdC9e1K2yUsWfU7M/x/79O8+SNn72u1c8rkXqPQx8gqUqmV1xYsFTAbOiQh
-         qe3DmIZTxS3RDd2OeEoIJaawos7CeYCB2K/X1NAhEoFV9sRx8kl/QVynaisxngS0JcQ8
-         z2j3NJzkiYh4QDhVnckqs2hAWc9w4/LBh0R4wzXGj0BON5inU5Sqy9zLIBfy+Q14alV+
-         FpTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731344166; x=1731948966;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BGIyKdlKD2rjdr8nGTfStLxE86UsO3KrqZkzx50EpGg=;
-        b=wAhitgozH/kYKChRNdctQ2vpEfXyoxr5pDgzNJV7Q+Ddgc0LpsTM0/Aynr7HocmUj+
-         knFjlUAgb/UfuVSP1u8Xj8cCnde49AdVQ6rJR9SudUXIGNDwbrLUH2Pk0lpjMFR/P3PL
-         Yk++5kFjlNpo+4/5/B5DakIJ+8eOyIjodduLBIzeE+5HtUTRaeJOytfOIULe/Io9sISm
-         iRvFbFNJ9X3z4yFV4l0BVIC4yzRkZo/wc81GP49wb+kYpYIyXQGORHbJIIzrcuUZ5FTG
-         EJa8NTJCC5Md0looW6dUKZadvCAjwkQud8MzaVf1joug1iOOlLWN0V+XMFaJM+x10n68
-         PF8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV53OOtGT8HGE7hfNvRIRrkhwZ12wiBM4ovmK919AbkPaIuL/kUaU8IOTgoXA9iccJtDtuxejegaKuzbOk=@vger.kernel.org, AJvYcCVNa7JTLd1lEgswuVj9TWaMWxtR1YPaEq0OqKlS3BssLeW0wAM7XsZasrTKKC5p+57QY6TOmRH2QYOtmS+2HW20@vger.kernel.org
-X-Gm-Message-State: AOJu0YwELH72N3hAT+O3NHVbc7fKhvmqL49hn+JNSg+ntQQWk/7Y6HTA
-	CGKLHLcmuB6GQbklh8BPNQTddsgdSUbdBNAN3NomBBc11uTeHglenJB9927J
-X-Google-Smtp-Source: AGHT+IFnmYnGoXcuYt3AhU6Y+aYhmeuhcBjoUc/SyewEzKh1ml1lrjiD9FwIjoozeWWRRSk/eMeAlQ==
-X-Received: by 2002:a05:6512:6d1:b0:539:e873:6d7 with SMTP id 2adb3069b0e04-53d86228c57mr5864656e87.1.1731344166311;
-        Mon, 11 Nov 2024 08:56:06 -0800 (PST)
-Received: from localhost.localdomain (c90-142-33-119.bredband.tele2.se. [90.142.33.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826a7387sm1624737e87.140.2024.11.11.08.56.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 08:56:05 -0800 (PST)
-From: codekipper@gmail.com
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@vger.kernel.org,
-	linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev,
-	linux-sound@vger.kernel.org,
-	lander@jagmn.com
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	andre.przywara@arm.com,
-	wens@csie.org,
-	u.kleine-koenig@baylibre.com,
-	Marcus Cooper <codekipper@gmail.com>
-Subject: [PATCH 3/3] ASoC: sun4i-spdif: Add working 24bit audio support
-Date: Mon, 11 Nov 2024 17:55:31 +0100
-Message-ID: <20241111165600.57219-4-codekipper@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
-References: <20241111165600.57219-1-codekipper@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HfGlCXcg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9DEC4CECF;
+	Mon, 11 Nov 2024 18:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731350886;
+	bh=EtuMHL3/DLNa8FkUzMzR2zBOQPr2/uCcVvYj9VpDX0o=;
+	h=From:Subject:Date:To:Cc:From;
+	b=HfGlCXcg7/Z6DrO4jQ+GqrJuwh3bKRLs0ZnuD9hcd0On22DkSnY8HcOFyhPEq4Jv/
+	 RK0T9V9TtFy3GzUYAFPfCbngNZhRSIe2jWBt+IIUL7RdQ/ncVT6f5i5wPuCcvGjLTV
+	 IxHO4XgrxYA+Xog1ktQVnh4sFCUSa8lNQG9QWrVRPkMKpZVY/jXH4HDxAKGUYtmsGp
+	 dhEUxUwDy6XqYOc+UK4Vn/L3t6B1rW6jRTMW6UU1E34k+eoqGtVpPC9Zha6tJtfgdw
+	 AI2cAQUZBcwkOr8AikTGlbHnM5O2FvJTp0Iu9e2o3iGfzYVwDJ1HDs8XhF01KvAa1t
+	 F5EdwwCyb/1vQ==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH 00/17] ASoC: maxim: Convert to use maple tree caches
+Date: Mon, 11 Nov 2024 18:47:32 +0000
+Message-Id: <20241111-asoc-maxim-maple-v1-0-baa315dc546b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAERRMmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDINBNLM5P1s1NrMjMBZIFOam6icYmaabmZsapFomWSkBtBUWpaZkVYCO
+ jY2trARrWUYtiAAAA
+X-Change-ID: 20241111-asoc-maxim-maple-a34f5763e8a9
+To: Liam Girdwood <lgirdwood@gmail.com>, Peter Rosin <peda@axentia.se>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-355e8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2188; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=EtuMHL3/DLNa8FkUzMzR2zBOQPr2/uCcVvYj9VpDX0o=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnMlFXedEgXvK17+Josa3z449525kpVrFJkz9gQ
+ iu72el3nymJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZzJRVwAKCRAk1otyXVSH
+ 0CfqB/9L1lWAtkc2geX2PucCtcg5z8mT9dORiIH3GsDtGXhzw7EI+DdaztdHWW0fwHyKrAMHQhr
+ /R2qyMCzgLZDInfngvwoK+oQ/ihDSzWNLvciFapnMYEUbT9oeGGd9ewWKxfXvmcA5uYmxUJA89w
+ 7tGNKnsxV6gu+4c/yJFeqOJKncQLl0F8c5+KTWcUQo4eATZK4QcA3aw+qBqcu6mFi8nAu9OvgtL
+ O0uO2M06Drj5aVsUq4ydvVhSv5vDBYDDdchSLuQDO/WDcfrInJ0WwkR/gYdEom73yfukCs7bZ09
+ QssN9JYjGBEnv5zXof8oNuIEpS/dE8qS2KhNTydu6IOX1uo2
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-From: Marcus Cooper <codekipper@gmail.com>
+A big batch of updates to convert the Maxim CODEC drivers to the more
+modern maple tree register cache.
 
-24 bit audio file can be detected by the alsa driver as S32_LE.
-Add this format to what is supported and change the DMA address
-width.
+max9768 has been left as it has 2 bits of register address and therefore
+is a good candiate for rbtree.
 
-Signed-off-by: Marcus Cooper <codekipper@gmail.com>
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/sunxi/sun4i-spdif.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+Mark Brown (17):
+      ASoC: max98088: Use maple tree register cache
+      ASoC: max98095: Use maple tree register cache
+      ASoC: max98095: Use maple tree register cache
+      ASoC: max98363: Use maple tree register cache
+      ASoC: max98371: Use maple tree register cache
+      ASoC: max98373: Use maple tree register cache
+      ASoC: max98388: Use maple tree register cache
+      ASoC: max98390: Use maple tree register cache
+      ASoC: max98396: Use maple tree register cache
+      ASoC: max98504: Use maple tree register cache
+      ASoC: max98520: Use maple tree register cache
+      ASoC: max9860: Use maple tree register cache
+      ASoC: max9867: Use maple tree register cache
+      ASoC: max9877: Use maple tree register cache
+      ASoC: max98925: Use maple tree register cache
+      ASoC: max98926: Use maple tree register cache
+      ASoC: max98927: Use maple tree register cache
 
-diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
-index 5a9407aaa1a19..41caf1795d09b 100644
---- a/sound/soc/sunxi/sun4i-spdif.c
-+++ b/sound/soc/sunxi/sun4i-spdif.c
-@@ -287,14 +287,17 @@ static int sun4i_spdif_hw_params(struct snd_pcm_substream *substream,
- 		return -EINVAL;
- 	}
- 
-+	host->dma_params_tx.addr_width = DMA_SLAVE_BUSWIDTH_4_BYTES;
- 	switch (params_format(params)) {
- 	case SNDRV_PCM_FORMAT_S16_LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT16BIT;
-+		host->dma_params_tx.addr_width = DMA_SLAVE_BUSWIDTH_2_BYTES;
- 		break;
- 	case SNDRV_PCM_FORMAT_S20_3LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT20BIT;
- 		break;
- 	case SNDRV_PCM_FORMAT_S24_LE:
-+	case SNDRV_PCM_FORMAT_S32_LE:
- 		fmt |= SUN4I_SPDIF_TXCFG_FMT24BIT;
- 		break;
- 	default:
-@@ -526,9 +529,10 @@ static const struct regmap_config sun4i_spdif_regmap_config = {
- 
- #define SUN4I_RATES	SNDRV_PCM_RATE_8000_192000
- 
--#define SUN4I_FORMATS	(SNDRV_PCM_FORMAT_S16_LE | \
--				SNDRV_PCM_FORMAT_S20_3LE | \
--				SNDRV_PCM_FORMAT_S24_LE)
-+#define SUN4I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | \
-+				SNDRV_PCM_FMTBIT_S20_3LE | \
-+				SNDRV_PCM_FMTBIT_S24_LE | \
-+				SNDRV_PCM_FMTBIT_S32_LE)
- 
- static struct snd_soc_dai_driver sun4i_spdif_dai = {
- 	.playback = {
+ sound/soc/codecs/max98088.c     | 2 +-
+ sound/soc/codecs/max98090.c     | 2 +-
+ sound/soc/codecs/max98095.c     | 2 +-
+ sound/soc/codecs/max98363.c     | 2 +-
+ sound/soc/codecs/max98371.c     | 2 +-
+ sound/soc/codecs/max98373-i2c.c | 2 +-
+ sound/soc/codecs/max98373-sdw.c | 2 +-
+ sound/soc/codecs/max98388.c     | 2 +-
+ sound/soc/codecs/max98390.c     | 2 +-
+ sound/soc/codecs/max98396.c     | 4 ++--
+ sound/soc/codecs/max9850.c      | 2 +-
+ sound/soc/codecs/max98504.c     | 2 +-
+ sound/soc/codecs/max98520.c     | 2 +-
+ sound/soc/codecs/max9860.c      | 2 +-
+ sound/soc/codecs/max9867.c      | 2 +-
+ sound/soc/codecs/max9877.c      | 2 +-
+ sound/soc/codecs/max98925.c     | 2 +-
+ sound/soc/codecs/max98926.c     | 2 +-
+ sound/soc/codecs/max98927.c     | 2 +-
+ 19 files changed, 20 insertions(+), 20 deletions(-)
+---
+base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
+change-id: 20241111-asoc-maxim-maple-a34f5763e8a9
+
+Best regards,
 -- 
-2.47.0
+Mark Brown <broonie@kernel.org>
 
