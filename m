@@ -1,41 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FF31A0BE0
-	for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 16:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C79B1A256E;
+	Mon, 11 Nov 2024 16:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731343429; cv=none; b=Bukj07bOtSMOMCVMdtZ0beF6Shoe2zyAZhByGpaazCOMUDpL12dEDzqxzMFVpp5XfZpbMzv8xJBIZCRRt/STow8GOslyXIvOnb5vUnbC3/AHaESR5rmevDX8LXDRcfviNug/9jo/xvodIa9gOARWO4jyWljziysmHBkm5mcUsZU=
+	t=1731343432; cv=none; b=rm7JWJcDVpYVOwCbvvjl8qUVF5U0Vw3hKcr2xAYjjCYWZ+2469vizf40BTcgX+O2AetnGmBwtUtDiIH3H/8XkdWg8NqkujI62THI8/CfUsoMoULxXiFcKbzPvHjBrsZPi8NtTZPASm1af8h18jFR79L+wJwvnCa+JyTe30+jJ3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731343429; c=relaxed/simple;
-	bh=aGwfk83gwUEPk4v8XnSoB0A/kyurmmGDOEwNg5Xdigk=;
+	s=arc-20240116; t=1731343432; c=relaxed/simple;
+	bh=nG6iTzLFLjsLDmo/ST31XIcMDE99NoMA5MCsudLilOs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=NeOBRMtysTmnk/AKVvWKRU8dOTgK5oASUtvKeT5SwjkAn4kW/SEK88ThOCX3eOZL4xAwZLcTGXlVeg/ToTZ9SVBrhz7E9VQrfyv+QrlAHqtOHsD0rrtmfFdP2h+0W+rlWDYWcLAVyxCeamydtkAvpf/Uhv1Cv+/o44V8Rugsj+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNpHJGSR; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BWR6+ztclFGd0BU5tY9QqT6QZ20IAdrsqrHLB4BgoiQ14bOvlDc6ejyB+r+K1qbfyN5DmC+ywWGdB1L9otI7UVio/7TMInZcTSKP183uqCRtvG6jRVgHdx+/K0hdXyA/wP5WxQDWoWJbYsJjNLdlL2kqbcXArjAF40Ya7JHe3YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nc4FGU5I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNpHJGSR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7EB7C4CECF;
-	Mon, 11 Nov 2024 16:43:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nc4FGU5I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D385C4CED4;
+	Mon, 11 Nov 2024 16:43:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731343428;
-	bh=aGwfk83gwUEPk4v8XnSoB0A/kyurmmGDOEwNg5Xdigk=;
+	s=k20201202; t=1731343432;
+	bh=nG6iTzLFLjsLDmo/ST31XIcMDE99NoMA5MCsudLilOs=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SNpHJGSRBbSbklMqG7wwbDDl25NjY7UkrTofRiCUZpF5G4zKnzTvZi9GeBZ+2/cPY
-	 ZGuHgt4q2lPMUYojh3rmwTB6BcQdyI3KR0Vu7wrZG564DU1wNCg/0KOHXP/y6d5sfU
-	 IcFPAZYtIbgiW9cKr4DUKXMChtiiBILRQsvBW2V1kRQFaa1+lzyUxBzAIock6IFKsh
-	 8mBzQ0nj2P6t71dfb0UlywPQn2ePKY5M5HdhP1xJRwq5LTIwVJ2x5bqz+fR2J+L97R
-	 c4r9xIuTeXrz+RJsTqfjY22mOFWLOdouiJzQFn6K5STbIpr2qLIlE479IaFxgoWXi7
-	 A+8WP+Tk2Q9iw==
+	b=Nc4FGU5IL/zyOcxlmD9PnplkFpxcMylo57MEO5Ck3ZuPDx/G0RI0Yzc0EXJ7J6N2O
+	 bjDzbJTcnZnEPmFmPIL5/ecFoOPwKbJXdbyBsI9e+jgi+6evBkXo6NBeTo+5KOyfT3
+	 DBBXTw2/fopDpwj9FlpHfJrxFwgTWgt3Xy0wpqAPKaX9n8QrLXnzuxw/5t6wKg2mug
+	 eQP5+ty6ejGfyOPLeRUgI7UBVbXIC0FyY7rd52GOFuJ04h17SoNnoHvMbmWRm1vhOu
+	 ryCaKPtg4OB2rPnTBaqbKla9wg5Ww0TJj/sEaLJ9mIHnhUHFmMuONzpFP0wU22CHRM
+	 +xu1ZIJPxPKWA==
 From: Mark Brown <broonie@kernel.org>
-To: Matthias Brugger <matthias.bgg@gmail.com>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org
-In-Reply-To: <87zfmd8bnf.wl-kuninori.morimoto.gx@renesas.com>
-References: <87zfmd8bnf.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: add symmetric_ prefix for
- dai->rate/channels/sample_bits
-Message-Id: <173134342735.341130.7543402410748480816.b4-ty@kernel.org>
-Date: Mon, 11 Nov 2024 16:43:47 +0000
+To: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, ranjani.sridharan@linux.intel.com, 
+ daniel.baluta@nxp.com, kai.vehmanen@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, 
+ Suraj Sonawane <surajsonawane0215@gmail.com>
+Cc: perex@perex.cz, tiwai@suse.com, sound-open-firmware@alsa-project.org, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241107063609.11627-1-surajsonawane0215@gmail.com>
+References: <20241107063609.11627-1-surajsonawane0215@gmail.com>
+Subject: Re: [PATCH v3] ASoc: SOF: ipc4-pcm: fix uninit-value in
+ sof_ipc4_pcm_dai_link_fixup_rate
+Message-Id: <173134342880.341130.18079450114790118970.b4-ty@kernel.org>
+Date: Mon, 11 Nov 2024 16:43:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +50,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-355e8
 
-On Wed, 06 Nov 2024 00:10:44 +0000, Kuninori Morimoto wrote:
-> snd_soc_dai has rate/channels/sample_bits parameter, but it is only valid
-> if symmetry is being enforced by symmetric_xxx flag on driver.
+On Thu, 07 Nov 2024 12:06:09 +0530, Suraj Sonawane wrote:
+> Fix an issue detected by the Smatch tool:
 > 
-> It is very difficult to know about it from current naming, and easy to
-> misunderstand it. add symmetric_ prefix for it.
+> sound/soc/sof/ipc4-pcm.c: sof_ipc4_pcm_dai_link_fixup_rate()
+> error: uninitialized symbol 'be_rate'.
 > 
+> The warning highlights a case where `be_rate` could remain uninitialized
+> if `num_input_formats` is zero, which would cause undefined behavior
+> when setting `rate->min` and `rate->max` based on `be_rate`.
 > 
 > [...]
 
@@ -62,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: add symmetric_ prefix for dai->rate/channels/sample_bits
-      commit: 1bd775da9ba919b87b2313a78d5957afc1a62dde
+[1/1] ASoc: SOF: ipc4-pcm: fix uninit-value in sof_ipc4_pcm_dai_link_fixup_rate
+      commit: 9a59718a5340aa0240a442115eb499de2ed18ee4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
