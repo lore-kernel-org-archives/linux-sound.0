@@ -1,83 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4B215A85A;
-	Mon, 11 Nov 2024 14:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B340D19F40B;
+	Mon, 11 Nov 2024 14:26:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731334896; cv=none; b=vDJFpCYe5xhVXpDRUNbTTXbocCQLhyn+Kijp2G0zSD+2IRo8CXHUA9aW+gH7zXP6YPT9pyffvC6aXK27IT1loBGFCvof7U2NDamyPEgIVrJnUBBe9rC5ol7GcNNEKIreiWPykFy/WwMJVP+kuBygOYYlLU2da01v/l3PdWdIT5M=
+	t=1731335210; cv=none; b=p6lUuOfsqFZVOwvJiCmmQiJPoabkDcJpGKaoMZmi+uKNcSSEkdE7hSgmDAjmarAqfQ1qkBzzSqeDz4fZj4JDsxRniTWasULWNx3eY5C1njrnRa3B6zgG2V2+Lf2AqY/AcE0q7i3TOmjTEjGcudGrCCptfuCAjEqXYb5874nZOd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731334896; c=relaxed/simple;
-	bh=JDEiWcMieXWkcjS3hsM/fTAS0W5+cZvq5ni6QT7/Kmk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t8kooMAgCIP2AMBh5Jbctkf6ItzhDAFMsyX1l9zp/SuR/T3/+wAJbv+oKspDoCfGn6WqIR/gggz6XJlkrbzPLhSWhAgG8N7Ixj7Ly/w0xeqje5jJXy487/IjdZhgUIZGGNaE3WbiCIeA7B9MDv2pGPiijsG9RQC2lEfxMva8LPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AidX6Z/d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731335210; c=relaxed/simple;
+	bh=XBDNahJlnARGUEaZz8m0NMv2JrYepQ1ZvgaixL0oOII=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6U3QIrqDXoxcYtI0ijyIpAjugT1GCOul68PfVdhVdth5RJ3aQ8fqIljP3ZP6vOtxV+3PFAPVzKbt8viHEOh6axPqAHPeSvjUMrq3yAHD+h+6a6zVhUhRfr2UQwX0f65DQYP5Exy5ZsvZ4bxWIB60uPHLu8l2ybZbS93yLZFI4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oil0JbPC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AidX6Z/d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 397C6C4CECF;
-	Mon, 11 Nov 2024 14:21:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oil0JbPC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A9DC4CECF;
+	Mon, 11 Nov 2024 14:26:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731334895;
-	bh=JDEiWcMieXWkcjS3hsM/fTAS0W5+cZvq5ni6QT7/Kmk=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=AidX6Z/dwj/8lfcJqiaZgFC2ERpSYdOvI4+o6Jkee+f0pjUdYqNk4razBahAC4+iT
-	 vT1RzKOd4eYkKMAqYrtX9l03Bw4WDBAMNNdlJDwMDsx3ORG2bbAG3EMbb54vCYv5Ly
-	 g+USBeK03NUIcgxXm4dXHT+7CG4fXyipWeqzuSj34S2SIIei0bEjXOButRmyuqIIoV
-	 ptUXWCg7rfS4zAo/G/bTAq9c3N9cCFSL7iwDSSlCgS3LUlQUFXwbarYZmUc9Bzp8yA
-	 F7HciGdFPkN+udeSpOTOREOJyn6A3lxe1LNRCCWvzWvSo8/dbpVGIh4jhLmsusyHv2
-	 7iVm/hGpEHsuw==
+	s=k20201202; t=1731335210;
+	bh=XBDNahJlnARGUEaZz8m0NMv2JrYepQ1ZvgaixL0oOII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oil0JbPCpsqxd+Dd1hvtjCgMpQ5r02SEhHcHPV+4OHrFOXfjhuv0O/tXNi8DQbX/Y
+	 heKkvTF6ky84ClfT2q1wHUae+UOY6xb+5EXXXg2r39YHBu+/62xCEmYD//a3Ns/kMb
+	 euEQVFM1rYHbo99SdytuZ82kPhsDU0+UNQGY2sH3gf51PL7mVH5okF2pg53L3HY2/Z
+	 nCk/CqlDUmqE8Zujx/UhxVQYGzt2kT5xnfkyC247uPIo42lPsTncS4mhMk5azcCAat
+	 J11Lc8Y6kwvzEZlDHmjoCsQ/VwarQor3MkNU8rNYxTTHwJaZRIxD/PBlk6gI6ti9qY
+	 t4wucqJ3XAyfQ==
+Date: Mon, 11 Nov 2024 14:26:47 +0000
 From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, corbet@lwn.net, 
- anish kumar <yesanishhere@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20241109192231.11623-1-yesanishhere@gmail.com>
-References: <20241109192231.11623-1-yesanishhere@gmail.com>
-Subject: Re: [PATCH V3] ALSA: machine: update documentation
-Message-Id: <173133489297.303054.7610092091879051755.b4-ty@kernel.org>
-Date: Mon, 11 Nov 2024 14:21:32 +0000
+To: Luo Yifan <luoyifan@cmss.chinamobile.com>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: amd: acp: Fix potential null pointer dereference
+ of "adata"
+Message-ID: <ZzIUJ0sEm-Yw84vJ@finisterre.sirena.org.uk>
+References: <20241106055720.208057-1-luoyifan@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-355e8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7yqAKv7SDId7dEMx"
+Content-Disposition: inline
+In-Reply-To: <20241106055720.208057-1-luoyifan@cmss.chinamobile.com>
+X-Cookie: The end of labor is to gain leisure.
 
-On Sat, 09 Nov 2024 11:22:31 -0800, anish kumar wrote:
-> 1. Added clocking details.
-> 2. Updated ways to register the dai's
-> 3. Bit more detail about card registration details.
-> 
-> 
 
-Applied to
+--7yqAKv7SDId7dEMx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Nov 06, 2024 at 01:57:20PM +0800, Luo Yifan wrote:
+> The condition `!adata` indicates a possible null pointer dereference
+> for the "adata" parameter. To address this, the access to "adata"
+> members has been moved after the null check to ensure safer handling.
 
-Thanks!
+This doesn't apply against current code, please check and resend.
 
-[1/1] ALSA: machine: update documentation
-      commit: e90dbd3839f554bef35786c4bec8276455691b20
+--7yqAKv7SDId7dEMx
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcyFCYACgkQJNaLcl1U
+h9AO9Qf+PfrT6FlJHVopMlzaFKB4i9OdSTiwNYk0H4ZgQQyfgKngbE9fNDrC8BRi
+1cliYEJzCuELaflM72RYfKjFMxYT8ze10u3pbX9p6u3etQtAvJGKk+UgA93MKM1c
+FCRiJRWbGqxtBt6tc08vzBgFNNBCgsyDCShKIk/CJzPDSP8pehoXnLjQ5S+kzBL7
+m+PiYFUI6CoNoQO8vbnxuvXgvTKerWMneNeyfSIHLWo5p7i6pnKgyaKbsHob/S8Q
+xbJ1l0Ck2gcL7gBRI3jPID0qThLLe+SqYARtlc/cP/vc6qXJwmfVwMoqF6XuaXTB
+lIMAiJa+qum9OX6XleL52RzfSgiFhQ==
+=8pGC
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--7yqAKv7SDId7dEMx--
