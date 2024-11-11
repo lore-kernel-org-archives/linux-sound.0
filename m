@@ -1,40 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E2C1A01BD
-	for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 14:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6529515A85A
+	for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 14:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731334891; cv=none; b=J8B1NxmxNl5fQ1801hVDqVWq+A3oNsHqczCE+A+mLHuEbzfnjS2XhgJbke2zk7pRhgfEEjWkzdyKbls+32eCHZ5r2nnitYaUASbU0r0LKW26AJmer3RExvYQvKeO6n5B/bzrLKMB0B7TvjZ9GcXchNHb5mjz/eMwuHOy0K6PZN4=
+	t=1731334893; cv=none; b=b9SVtTIZDKd+k17D4/SuM82nz+0U5+27IpNh9aKwhQ9adQINM67kItxOmZ7kahL3XmwshOXheqenrirKfcHvQ+1RIDfKSlm1R/S1Mz7TR3cySeUZroZWFJo0V7ADOny7IoMcGN1AmLJUtgfn68PaeLQ5ThRo1D/yt6IeLQXKyjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731334891; c=relaxed/simple;
-	bh=mNraMleayjlcTQIA5sZQ0obt7MGqjE9tcFKMVWqwceQ=;
+	s=arc-20240116; t=1731334893; c=relaxed/simple;
+	bh=KLDGogRSDNSd0AIWrvT1c4FzlA0dmvDENkb4jSSzzyM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=aTzodAC6ig6iLzLtF+ZoU7QFbsKpo/iEh1SD4iFq5N2J5IghbYsc8uomHRy2FumNfrhoYbPnvtoREk16BcqGRXWx2PRhssH/lyJmn0eNtvlawQgCGxXliwdqEBIybZ1my2nf2NRxaqeRYD4+VJG4fp2XmfGbc1Ozqk5Pz97F7FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qa4zA9z1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BS9Z592dwasJ5M7Bj5xauZq12mHL2faPtEd6y7EZksx7Gy0lGpR5kzJTvW9HfIx19fraxOItFNQs3IuBpzLNkbagXQmq06PkxfTOpVOts2oSTNBCf0iRbcjIj3M0WJ81OU5AzLoRtl9UlG04CGbfuDzVRmtP4e4iK76MjH4P63g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n2k3E39W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qa4zA9z1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B83A6C4CED6;
-	Mon, 11 Nov 2024 14:21:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n2k3E39W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93052C4AF09;
+	Mon, 11 Nov 2024 14:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731334891;
-	bh=mNraMleayjlcTQIA5sZQ0obt7MGqjE9tcFKMVWqwceQ=;
+	s=k20201202; t=1731334892;
+	bh=KLDGogRSDNSd0AIWrvT1c4FzlA0dmvDENkb4jSSzzyM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qa4zA9z1qtD1odfdYJ5NwXYo87fwBWaTLuHo+tCF23WDv8gV/3YEwLou4bRAZCAnC
-	 u+cwR4YzEM8n/ZIDDfzhY4HOvoMXIWs4+qtHJO4hIh6HbYkZ9rDT7clJWOR/pk1Wee
-	 ipNXdxi06oHe+rGRygxSzrsJDmhte3v/NKlV35S6g7NK5aDieo2PQEbnNUNhaycvPU
-	 ZAeEmBUdF2vNU/CUG7UrAXkdwUSwJEdGecX8IP3yLRiZlqG5mdqcxK2A9z4NvgYhbh
-	 UmDQmhvop6DUgpbbyvyP7jBVQbogIVd+ezPhfeGHBkV0bt4WAF08/cXsczxIwAmGEU
-	 iCoUz8Z5uXazA==
+	b=n2k3E39W1TaKn7rAnTCyE9K9+wubJplGB/3Hj+4lkokE+fJujTmTole0Apy8zYISO
+	 tfetwhR7UXh0wLFcng+qCTA1qrxIrqdxjFgBzpnFgKfnqHPbWun9PRX7cdP/Rcs1zb
+	 2c8RSEGtps7LNta/7vBXPmeu4g0AoaymDepaSmkAlCjA+IZhvG0np+x5GEWH39VIfP
+	 Xx1u1Sn54aj0n7jtcngJ+bxM+Ww/dmjp8cXDaYd8mxliOjzDgG9XOh4JXAvu9GLR9U
+	 AADuqVdHAaYLrvbToutlU3dgAriLz8DnZ4VncCmYPppDpdlsIAWXt2xJqjz4QrYQW6
+	 a91543quW3YGw==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Marek Vasut <marex@denx.de>
-Cc: Chen Ni <nichen@iscas.ac.cn>, Jaroslav Kysela <perex@perex.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20241108235453.196289-1-marex@denx.de>
-References: <20241108235453.196289-1-marex@denx.de>
-Subject: Re: [PATCH] ASoC: max98088: Remove duplicate DACs
-Message-Id: <173133488950.303054.12333895265536366292.b4-ty@kernel.org>
-Date: Mon, 11 Nov 2024 14:21:29 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, deep_harsora@dell.com, bard.liao@intel.com
+In-Reply-To: <20241111070618.5414-1-yung-chuan.liao@linux.intel.com>
+References: <20241111070618.5414-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH] ASoC: intel: sof_sdw: add quirk for Dell SKU This
+ patch adds a quirk to include the codec amplifier function for this Dell
+ SKU.
+Message-Id: <173133489134.303054.13154010254500296516.b4-ty@kernel.org>
+Date: Mon, 11 Nov 2024 14:21:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,11 +46,9 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-355e8
 
-On Sat, 09 Nov 2024 00:53:47 +0100, Marek Vasut wrote:
-> This codec only has one set of left and right DACs, remove the duplicate
-> DACs with duplicated bits controlling them as the userspace can set those
-> controls to mismatched value. This most likely does break userspace ABI,
-> but there seem to be no in-kernel users.
+On Mon, 11 Nov 2024 15:06:18 +0800, Bard Liao wrote:
+> Note: In this SKU '0CF1', the RT722 codec amplifier is
+> excluded, and an external amplifier is used instead.
 > 
 > 
 
@@ -59,8 +58,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: max98088: Remove duplicate DACs
-      commit: 725570f96321f3e0ae1c6a1f80482d2907538d07
+[1/1] ASoC: intel: sof_sdw: add quirk for Dell SKU This patch adds a quirk to include the codec amplifier function for this Dell SKU.
+      commit: d859923faeca740ae9235e2b9328999836e681b9
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
