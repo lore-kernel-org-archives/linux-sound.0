@@ -1,157 +1,164 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6556F15B554;
-	Mon, 11 Nov 2024 10:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9132E157495
+	for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 11:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731322585; cv=none; b=JTBczxgyLbL8GMQ9vJP2isJ7j/v1RcJgB4dslk/Kpr1MiA53PfRijdb40sfvpbaVpNWuPkaowvycLG+nGLumNYyM9pPLaIrnl+7E53sFTZWgZnz185Fl9ClfqCEpjLjwKSHi1mqw5XhJC64yPlkLe1QsZrTCERgkmLrG0Y5xZeQ=
+	t=1731323741; cv=none; b=s6Lofv/duia9yhnyqYEndM9k0eFmkYT20PoMKPzUeZPrNCs5RaO5ejDxHdqnP3r5rxh1iYinj7qMvXZRSwRMAiOwzK6Dh3LKLm9OeVyO/jLBrBnVuptE/n6T58vtdbU2iDeN0mq+upMybqO6WOTQtlv181AuESPMIckJ33MsEyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731322585; c=relaxed/simple;
-	bh=BwQ9j2GDl/1hCk5TWbxqiCBINu0rl8yOHNuJrRUeed8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=alPST/3fLvxfai7UKoowMlA/63PAd2eHWxoeorYgapC7DK0/3XdCgGpqtN8asQIS0hl24kuHlnokKcss/6Cjw/jmbLYkcOGFJmy38eI7x6+PS5iTjGrfJjf1zN++LI/uNw0/V1kg2B8j7fX01oiyOoArqusNHQGr1g842LdKvgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLDSqv/m; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731323741; c=relaxed/simple;
+	bh=UVMY3jncP8KlbJgHSOQbnrh0HSPCD2duUy36Ssl4JeY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EcGiUP/ehUr6nN6EabNxPhtoLSvysP6DmTEBddseZB8YHSVesu4Z1O6RmM6EEQReCwIiVccJ0pBeBKEtPWnmNTclhxahRsO5Ywz4+EktB01HQT4uuMpYUQHbpGsIiTVLiC7ijisozCG9hX+xRzmGzrGI4w8fX+h7gZD3pxVbH3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=OnwcAa7i; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLDSqv/m"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20c803787abso35290155ad.0;
-        Mon, 11 Nov 2024 02:56:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="OnwcAa7i"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a9eb3794a04so677548666b.3
+        for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 03:15:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731322583; x=1731927383; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sd9tR5Govy2G9ckfvVxyx3zB2jsN18XRDCx2eel1ir8=;
-        b=OLDSqv/mqVPXEgeUwvi6HoLVVHrPUtbIj/2GWgW9p9XbbDs9rgHt5hWUBt2nsuHSO4
-         DZlGf7v6A5vIU4rXWTvu85E9p2W+hPX6za5IOZ2KCqnfVhMjbHJ/S8biNUfl8QGCL2M7
-         cnx53+ssTSFwNIusVrTCbTdtCQj89pFtWI9/RdZKCJ63UGjrrAVKlONtou686YhdJBfF
-         TCZRDRLGTiVIFl/47r96mlXAKVBTerK39hAOC5YuHvYEDFcJXmurDjtp6BQbytSiwf8O
-         MRepjJE735lpq/KtANdtuWagvojLWaQuY+oRBnI7BpsJNfmEQ1X1ssmuVU4XBNZRggde
-         Dyqg==
+        d=tuxon.dev; s=google; t=1731323737; x=1731928537; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bhZZuPjatSrdZhX9k+zXeie/9aFPE96IB3h2Z1yS2Hc=;
+        b=OnwcAa7iFccdMPXmNNfuo+XSwSVwwhr08r0lXMAp/OEFWu00qv7wHWnONDdCu/5q7C
+         W+/EI+WP3Z4aGv/Ppvei6+w6/cbz/ivJ1SatoGSfcVKgMOCcmzaLKkwV1G11XNH6ap7P
+         4csA/TfJeSCCpI9ss7PEYectSu1/wz3ulgSj62rdCy3uN3X/rG3ip6lo302p20aszzWf
+         J7j5szIPJqSllJjvLBWecWqsy9XqeDSJLTBldqwznATzvsQT9vUSJGUcbQ6+bY4if8Y4
+         HOBtESNHHgYU2Ok3fGARnCPQDliwu771U7Z11sWnW0I+BBPQ1Gd6PZSkb3JN8n72IqO/
+         AXCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731322583; x=1731927383;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sd9tR5Govy2G9ckfvVxyx3zB2jsN18XRDCx2eel1ir8=;
-        b=a7YN9VM6jXVhM3cZoy/3oDE5ENjwIPK+9g+laszpH5Pdc1RkLfDDvOgCjs0cLI01un
-         UypKAgKg5Mp6qIZ520mjA/RepK2z9j+qIBYvZ3K3CCPolSTbCY+yYhB2quOj5h52k8O3
-         8YUNOvfgLWNwqOF2FxjNWCNYFjeF8RmDCsksOEuxZofdSdiP+4X13DCHZRhJr+wLYF5n
-         4P0UYrpNw7UG/uk1RriTjnLwQrHaffG8gIIAckfkAPM5lJDVGOo6Pv//ugIvMpTn8fAn
-         nFIG1O3OcHdr3XMW2zc4QHMLfqVlC9IytWNZeM97i3KpLyt2C1nU6tTfwnDkNNL9Uz+N
-         ymSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0GPR6ZZj4oGEn44bpByb28LOAasWLVwZ8XU3Qk8t25F86BL6td69OcSL0SmbJ0WksD/4HolnaIX4QkGg=@vger.kernel.org, AJvYcCXmZiO+bpPqXU4mFslNP4gzmcBC5khuJv12uBKRngKkwNx3VdTzgJ5xZX6e+G42Eh9LFGLkxzNwl4o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL52JmX3NOTZBVTw69UR4DbqASYKjkROlMzBovrXO9iBQK5LRJ
-	8i4ysLjY1XyjBFg/Pjmwa2nwwdI2lsbNXsWqKHekaHSBRiGHej03
-X-Google-Smtp-Source: AGHT+IGBeF2/30b+ICRW7AMbuJJyB2s6thTc7CDi93f23isHluxZwIzPAZiF08YXCRIYoC1mB2c2oQ==
-X-Received: by 2002:a17:903:1c2:b0:205:7007:84fa with SMTP id d9443c01a7336-211837c3ddemr204820355ad.28.1731322582419;
-        Mon, 11 Nov 2024 02:56:22 -0800 (PST)
-Received: from archie.me ([103.124.138.80])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e6c12csm74206375ad.251.2024.11.11.02.56.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 02:56:21 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7376D4231EB7; Mon, 11 Nov 2024 17:56:16 +0700 (WIB)
-Date: Mon, 11 Nov 2024 17:56:16 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: anish kumar <yesanishhere@gmail.com>, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH V3] ALSA: machine: update documentation
-Message-ID: <ZzHi0BaxIEStMsY2@archie.me>
-References: <20241109192231.11623-1-yesanishhere@gmail.com>
+        d=1e100.net; s=20230601; t=1731323737; x=1731928537;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bhZZuPjatSrdZhX9k+zXeie/9aFPE96IB3h2Z1yS2Hc=;
+        b=X/Hhy9I0T56oy4b5X9N5jtkYGx14imK3uccUCNuKH3uXkyRpR49MHkJ8gUfvNZe17z
+         TnsbxU31am0Cqx9KjSap0RLobVm1FFDKTFTC2atmxLePum5TKGNHo/fXyJeseTHJSd7h
+         Uq2I9Fpw29ACo0iOU4sifB3Rl/XxTpnYWn2xAceb1wSScCRS++DH5fTpB9yYWHNUFD5F
+         WPRqFLDInudabghMM0WmatAY4JpEtuIi+9Vkrj3vM8tXKDMIJTpdevUfst1sutSNfBMb
+         1X013BsE/GrdPhmr7fx2rhk3Pw+ZhqCRH190TnAKo/xMcR8nv1lQygyFWqfMVs/LrKaw
+         yQJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWjuTaim8PvbcSBF2QDfqL+s5rKYErijiRa+1d++S0c2kAlMZRk3N/SlsyaRirva/2gF7p4Xs3jKeGR0Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoW3MMt6ZEqR49pq3z4G1kWGirihhHy/vk8K6rwb8TKkgTMC+G
+	+5NymtFm/N9RDBZ12Sjl5hWjQcdkXneFai2hfx0Jg+pKak0w6QEbRHqUtOi6eZw=
+X-Google-Smtp-Source: AGHT+IFbp4VgcqWBYLe3U0yCi4vd7nmqSuzbqzRywA4zlYZMwP+tOs/p2A4kYUW8+VEuOgG9xmufbQ==
+X-Received: by 2002:a17:907:6d02:b0:a9a:60c1:136d with SMTP id a640c23a62f3a-a9eeff0e570mr1147950966b.22.1731323736778;
+        Mon, 11 Nov 2024 03:15:36 -0800 (PST)
+Received: from [192.168.50.4] ([82.78.167.28])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a176cbsm593593066b.23.2024.11.11.03.15.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Nov 2024 03:15:36 -0800 (PST)
+Message-ID: <9ef0d9df-3d6c-470a-913c-55698148d00e@tuxon.dev>
+Date: Mon, 11 Nov 2024 13:15:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="DOSrT3liDLmmX29u"
-Content-Disposition: inline
-In-Reply-To: <20241109192231.11623-1-yesanishhere@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/25] ASoC: sh: rz-ssi: Terminate all the DMA
+ transactions
+Content-Language: en-US
+To: Biju Das <biju.das.jz@bp.renesas.com>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "mturquette@baylibre.com" <mturquette@baylibre.com>,
+ "sboyd@kernel.org" <sboyd@kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+ "broonie@kernel.org" <broonie@kernel.org>,
+ "magnus.damm@gmail.com" <magnus.damm@gmail.com>,
+ "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+ "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+ "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>
+Cc: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20241108104958.2931943-1-claudiu.beznea.uj@bp.renesas.com>
+ <20241108104958.2931943-7-claudiu.beznea.uj@bp.renesas.com>
+ <TYCPR01MB1133233B458F3AC5F7C3602B3865F2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+In-Reply-To: <TYCPR01MB1133233B458F3AC5F7C3602B3865F2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi, Biju,
 
---DOSrT3liDLmmX29u
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10.11.2024 10:37, Biju Das wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Claudiu <claudiu.beznea@tuxon.dev>
+>> Sent: 08 November 2024 10:50
+>> To: geert+renesas@glider.be; mturquette@baylibre.com; sboyd@kernel.org; robh@kernel.org;
+>> krzk+dt@kernel.org; conor+dt@kernel.org; Biju Das <biju.das.jz@bp.renesas.com>; Prabhakar Mahadev Lad
+>> <prabhakar.mahadev-lad.rj@bp.renesas.com>; lgirdwood@gmail.com; broonie@kernel.org;
+>> magnus.damm@gmail.com; linus.walleij@linaro.org; perex@perex.cz; tiwai@suse.com;
+>> p.zabel@pengutronix.de
+>> Cc: linux-renesas-soc@vger.kernel.org; linux-clk@vger.kernel.org; devicetree@vger.kernel.org; linux-
+>> kernel@vger.kernel.org; linux-sound@vger.kernel.org; linux-gpio@vger.kernel.org; Claudiu.Beznea
+>> <claudiu.beznea@tuxon.dev>; Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>; stable@vger.kernel.org
+>> Subject: [PATCH v2 06/25] ASoC: sh: rz-ssi: Terminate all the DMA transactions
+>>
+>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+>>
+>> In case of full duplex the 1st closed stream doesn't benefit from the dmaengine_terminate_async().
+>> Call it after the companion stream is closed.
+>>
+>> Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
+> 
+> Maybe add fixes tag for full duplex case as the separation of 
+> Playback/ Capture is introduced in that patch.
 
-On Sat, Nov 09, 2024 at 11:22:31AM -0800, anish kumar wrote:
-> diff --git a/Documentation/sound/soc/machine.rst b/Documentation/sound/so=
-c/machine.rst
-> index 515c9444deaf..9db132bc0070 100644
-> --- a/Documentation/sound/soc/machine.rst
-> +++ b/Documentation/sound/soc/machine.rst
-> @@ -71,6 +71,18 @@ struct snd_soc_dai_link is used to set up each DAI in =
-your machine. e.g.
->  	.ops =3D &corgi_ops,
->    };
-> =20
-> +In the above struct, dai=E2=80=99s are registered using names but you ca=
-n pass
-> +either dai name or device tree node but not both. Also, names used here
-> +for cpu/codec/platform dais should be globally unique.
-> +
-> +Additionaly below example macro can be used to register cpu, codec and
-> +platform dai::
-> +
-> +  SND_SOC_DAILINK_DEFS(wm2200_cpu_dsp,
-> +	DAILINK_COMP_ARRAY(COMP_CPU("samsung-i2s.0")),
-> +	DAILINK_COMP_ARRAY(COMP_CODEC("spi0.0", "wm0010-sdi1")),
-> +	DAILINK_COMP_ARRAY(COMP_PLATFORM("samsung-i2s.0")));
-> +
->  struct snd_soc_card then sets up the machine with its DAIs. e.g.
->  ::
-> =20
-> @@ -81,6 +93,10 @@ struct snd_soc_card then sets up the machine with its =
-DAIs. e.g.
->  	.num_links =3D 1,
->    };
-> =20
-> +Following this, ``devm_snd_soc_register_card`` can be used to register
-> +the sound card. During the registration, the individual components
-> +such as the codec, CPU, and platform are probed. If all these components
-> +are successfully probed, the sound card gets registered.
-> =20
->  Machine Power Map
->  -----------------
-> @@ -95,3 +111,13 @@ Machine Controls
->  ----------------
-> =20
->  Machine specific audio mixer controls can be added in the DAI init funct=
-ion.
-> +
-> +
-> +Clocking Controls
-> +-----------------
-> +
-> +As previously noted, clock configuration is handled within the machine d=
-river.
-> +For details on the clock APIs that the machine driver can utilize for
-> +setup, please refer to Documentation/sound/soc/clocking.rst. However, the
-> +callback needs to be registered by the CPU/Codec/Platform drivers to con=
-figure
-> +the clocks that is needed for the corresponding device operation.
+OK
 
-Looks good, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---DOSrT3liDLmmX29u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzHiywAKCRD2uYlJVVFO
-owsdAP96V6UP1EBcRZGyLlEKuYOhwUs2JOWKbveshD8rM2nxzwEA6D4/9xF27TC1
-PUIGCApEI003/4kuCecnkqov6/T8rAI=
-=6FkS
------END PGP SIGNATURE-----
-
---DOSrT3liDLmmX29u--
+> 
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+> 
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+> 
+> Cheers,
+> Biju
+> 
+>> ---
+>>
+>> Changes in v2:
+>> - none
+>>
+>>  sound/soc/renesas/rz-ssi.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c index 6efd017aaa7f..2d8721156099
+>> 100644
+>> --- a/sound/soc/renesas/rz-ssi.c
+>> +++ b/sound/soc/renesas/rz-ssi.c
+>> @@ -415,8 +415,12 @@ static int rz_ssi_stop(struct rz_ssi_priv *ssi, struct rz_ssi_stream *strm)
+>>  	rz_ssi_reg_mask_setl(ssi, SSICR, SSICR_TEN | SSICR_REN, 0);
+>>
+>>  	/* Cancel all remaining DMA transactions */
+>> -	if (rz_ssi_is_dma_enabled(ssi))
+>> -		dmaengine_terminate_async(strm->dma_ch);
+>> +	if (rz_ssi_is_dma_enabled(ssi)) {
+>> +		if (ssi->playback.dma_ch)
+>> +			dmaengine_terminate_async(ssi->playback.dma_ch);
+>> +		if (ssi->capture.dma_ch)
+>> +			dmaengine_terminate_async(ssi->capture.dma_ch);
+>> +	}
+>>
+>>  	rz_ssi_set_idle(ssi);
+>>
+>> --
+>> 2.39.2
+> 
