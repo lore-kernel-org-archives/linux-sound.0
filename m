@@ -1,89 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38ECF18A6C0;
-	Mon, 11 Nov 2024 13:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C483F15A85A;
+	Mon, 11 Nov 2024 14:21:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731330004; cv=none; b=fibg71tTn8d7X5zopEMqrzTXEAPufZxAZBqNH40lQjbyCG/Bxe9UV4B4z3Nqy+ehB+8A/wKu5zmb1mZrcQWRE7WWg6sJ72Dbvu5wwwaAoEUKAkWyB/Q3LfXzhpe0edM39h1Yes6sx0zR9o88p/1uGrMGcA+aHQFvPTVwBYkVHY4=
+	t=1731334889; cv=none; b=VANBleY8wIB5plwxb9z2XHkxtd/RGdltCwoiMX6Mk2uTUQrXtneqSd7DC1brzRbjGc+JNJURMqN4XQ5F8zFWt+/hzV4flKy8gIJy21MflgOeh/aJlTCZzGk4HJO7reA/52C1OHwVBA+3Kpz1n2yiGxQiuGKKkzjOcC2R20KS5eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731330004; c=relaxed/simple;
-	bh=cTfIcvaXtVOJ3RLpAfsIMnhBPDjlYHzkHn7hReN4Nxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DW+Od1xarJLw8NkZ7pzGl3X/0J0IS4GeHWxor27JiK0+vhpgfrpzezglGznMc+6Zjbxo3Ion7ojMJBMiherHGrZWixESEN4s1RSml3KlOL1498C1xDReFnJhgode7lbYdyPz2tWef7Bsoxszosw/fs3hBqxjkaioD9iW0W9YKS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FwjG9dy8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731334889; c=relaxed/simple;
+	bh=SdtIFHXj9IJA/ws+x0OpsqKUWPnJeMa6F/7OWvkYcqw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=XCRSxxfOkfoXhdgg+G4qZa2mn1e421OVBF9G5UjJd8+NU9F8oxTamIM0OAYs4ZOzJ8tElsJQN9Sf+iflQPSZlr+Bo2x/+EaGsIMrwmD3Rah8yEo4+OpqlpeoWTQcnEUvso3jMQKPyx+c6Im07q8Wih8gquxDHkFfhT+Tf83gsls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZLEVcRXS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FwjG9dy8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4547AC4CECF;
-	Mon, 11 Nov 2024 13:00:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZLEVcRXS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1853C4CECF;
+	Mon, 11 Nov 2024 14:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731330003;
-	bh=cTfIcvaXtVOJ3RLpAfsIMnhBPDjlYHzkHn7hReN4Nxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FwjG9dy8feOeUMgscat3wLAgttFcsxSX8CisOBSVWPZ76R/5Jw98YWorSR/QxRYqr
-	 4kqy0OQo8ZzPhI8n0THBGE7X3UT/mXUCloYUhGKVheaVd159H+nOX1/liQBBX2TUpr
-	 kW8Ci9ycOjRIGdksZRw8mOvO7/07rENEKv0Qxy+XQ764acvn1NZw45chbfIR1L8n6O
-	 8vd+QG34B9RgmYpxE9iWhCFRKhD8+Y8VZquW1yqcRkARzQGAaOxYzs3rnEEymv0tpA
-	 CNJAIaI17MkiOMFCPxqS3IE/rhjwt8cfAt7AO8yzzgRUm2xthPmwIM3lDONUkjvoJ0
-	 OXEcAxemTtLmQ==
-Date: Mon, 11 Nov 2024 12:59:52 +0000
+	s=k20201202; t=1731334889;
+	bh=SdtIFHXj9IJA/ws+x0OpsqKUWPnJeMa6F/7OWvkYcqw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=ZLEVcRXSQWYwARoAcvAgKmvEzKBcSUiGiFBPfvqiv8SBOOoMuWJAcrRhqmmeyI52a
+	 G6yWwKFnYFWlTmJ7TC5MsJhlNtCnrUQFmxCKd9/TZ9mt2XZoe46wS4bzfWJ5qrdGwO
+	 2Ice89Ox3lSskFe9V7tWgBgcGfqbQ3L9dXBm/RNXzJk7pNEENXUR/QNawTaf1YzwJR
+	 KfwiLsHiITI7hWML+q0zchPb94o3kL44w83XTFJZfyna6n6LQEslqstRchQvNBMdL+
+	 wmglk90QLUS0Rdypgb29l3a0L64c0P5RgpHft8redEz6AFNCFFhHdPMclNPyDlUGqi
+	 ocyhDrSmDWqtw==
 From: Mark Brown <broonie@kernel.org>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: Tang Bin <tangbin@cmss.chinamobile.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org,
-	Angelo Gioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ASoC: mediatek: mt8192-afe-pcm: Simplify probe() with
- local dev variable
-Message-ID: <ZzH_yJWLJVfO3sux@finisterre.sirena.org.uk>
-References: <20241025080026.2393-1-tangbin@cmss.chinamobile.com>
- <28f2bba7-40f0-4015-af84-d3c08c9a14c1@web.de>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, John Watts <contact@jookia.org>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org>
+References: <20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org>
+Subject: Re: [PATCH] ASoC: audio-graph-card2: Purge absent supplies for
+ device tree nodes
+Message-Id: <173133488765.303054.8837828611900926496.b4-ty@kernel.org>
+Date: Mon, 11 Nov 2024 14:21:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3w1txq//RnEmfVad"
-Content-Disposition: inline
-In-Reply-To: <28f2bba7-40f0-4015-af84-d3c08c9a14c1@web.de>
-X-Cookie: Editing is a rewording activity.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-355e8
 
+On Fri, 08 Nov 2024 12:37:15 +1100, John Watts wrote:
+> The audio graph card doesn't mark its subnodes such as multi {}, dpcm {}
+> and c2c {} as not requiring any suppliers. This causes a hang as Linux
+> waits for these phantom suppliers to show up on boot.
+> Make it clear these nodes have no suppliers.
+> 
+> Example error message:
+> [   15.208558] platform 2034000.i2s: deferred probe pending: platform: wait for supplier /sound/multi
+> [   15.208584] platform sound: deferred probe pending: asoc-audio-graph-card2: parse error
+> 
+> [...]
 
---3w1txq//RnEmfVad
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-On Sun, Nov 10, 2024 at 01:10:21PM +0100, Markus Elfring wrote:
-> > Simplify the function mt8192_afe_pcm_dev_probe() by
-> > using local 'dev' instead of '&pdev->dev'.
->=20
-> You may occasionally put more than 51 characters into text lines
-> for an improved change description.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Feel free to ignore Markus, he has a long history of sending
-unhelpful review comments and continues to ignore repeated requests
-to stop.
+Thanks!
 
---3w1txq//RnEmfVad
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: audio-graph-card2: Purge absent supplies for device tree nodes
+      commit: f8da001ae7af0abd9f6250c02c01a1121074ca60
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmcx/8QACgkQJNaLcl1U
-h9Cppgf/V3FoC1TPeB/EU3FEu7W8G29WVYt95os1L7qazp9yLlFvUP4kmeYWblBW
-woE1a/RmQ4zFeOaOve3EjrJnVtf8zs9xq7BP/QUc+DjwB1kTh8eHELeM8zFcE7bX
-NwfMpeiZHWBLCwVsNugiDy87OQqgKYU1mIoc9SUi+SLmEcGiLsNgJuUuJvRGozQ+
-URyh7lKaAsQCwQwzF7uXmzBCUhJ6yfKNzn9KkF3KpEAPNJadm+QJ970OnTHPPQNn
-61g63h16VfeyXwgGVkLIyz/pOwegFLbUsIlE0xvq0rsq0roApY/BXNHfxqRoYM3r
-EbmiWMr67Fez6QvJz48oYzdj1MS/Qg==
-=p8XM
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---3w1txq//RnEmfVad--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
