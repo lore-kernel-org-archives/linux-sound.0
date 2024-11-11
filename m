@@ -1,65 +1,48 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3D01A3020;
-	Mon, 11 Nov 2024 16:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD7B1A3BD8
+	for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 16:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731343589; cv=none; b=Aqn/HPcDayEJKzybTBr/e/MHv5sRVMY/NstcTkwU5YoabueLTgggGScL9Gi/yvZnbjL6Nn1h6RCojk3TLmvuIw6vdBbpS2KTM9Dd92JXynwHWYN1WwwEz7OTa22qhxY3nXv3xjKXqQ9F1S7+TCm/RFkZMp8ifMVL8BQm7AIYprs=
+	t=1731344102; cv=none; b=GO4zSQLGdpXyzUob394xJC3pLaJuDF/tbneMXspiE2oZqKmzOzyjiG2ZlFJHQtByQcd8U3kd4S6+e8R7aybEpX2CcIqKVv+Wh8jt+RkZ98gVESewCDjVu1LfpAnlbwC0GdGN/Gz/eOIQkUIqVHdciJ79r//MWot2CMfilcH5lM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731343589; c=relaxed/simple;
-	bh=9EPi3XijBpqH4W1IfrMVIREiWuiI6+Jc+I7ZH8wPkYQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DH5Au1VIwcGqPEUmoBhKsIzqrXeT4kwWCctJZSGrSa+1J+e7VvehhQdwTeROq0idgpgeTeBx5u9TsCH0wMo1OWlZ9qBSO5nR2KllxvdvA0FFpPHtkWcv9Um5n5Hnu7X8HONjn+dSnOvDP8blRYMLODJ78rI9y68ARgWPIaIFyrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mu0BBmkn; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731344102; c=relaxed/simple;
+	bh=9M5joJfbBbQOWbKmJHrfp9RqR5OA1YrFL+mvdsXfwas=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B2q6W0+kwedBHy8a0GXCxrOv6UiJq9jc8T/wmveMkzGBnzf8leWZ6K/xZrJ1wW/x9Mwm0uhwC12eKEaDdh/+eEcDexO9TKA22e2YRmDOisCnDIFzC67ig6W9FX9VAqa+b/2DMjQ9/IuAa7B2DDCEsvX4jrSdK085vifL5Bgdl9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=zAeSmFZ9; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mu0BBmkn"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6cbd1ae26a6so34839186d6.1;
-        Mon, 11 Nov 2024 08:46:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731343586; x=1731948386; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gSEyXzHuQnJ2v6aB4N51WJ4Cwj088/JQkZOXGtq6l3M=;
-        b=mu0BBmknlC8iMkmgABCacleflnOWzIdsiJuH8B0LaFb+NzrfIUpKK9fRoDTc5cdrwi
-         bDqs4807XzEpeWa3e+gXNINwWYJlAwLa2F2McRlk/9brPn6re31lop8uwz/mr4fCtqDY
-         bsgaKnN/MwVOPCpW3NY7WBkyC+Qa8fAsopfcFLcJjpjlMJbXyVbfbVjCsb8jMpOCBWVQ
-         LJBu8Tx8r9sI3nI/qmxNwNY96PxdBUyQcMgYa0mdz/saF8MYbDN8MVMTu/vqk4o41X46
-         qXPR5Jv2GMOk+LtcPrKxZGvvJ+BIaPTZny6wwJAaRAAhaNyFLWOypSkTVlN+iENtasnR
-         tP9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731343586; x=1731948386;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gSEyXzHuQnJ2v6aB4N51WJ4Cwj088/JQkZOXGtq6l3M=;
-        b=nWn4B2nfW4G4FuV2ioMAddQJUE6ht9khCW7mdMAbJ2LMhhUFPnA+19YNRqypjt+A9V
-         6HjHcnhstBSp/5KnBH/hOOJDujOtJhnwoMqi5kO570xdIPU4luS/WoVaIthJ2nt5pglU
-         AqOO0BCsB9BpkJZWn4ehvYw5Ru3JTF/yngPOkhiE7cDL/e+THIEzBQkb4s2lDhixhz70
-         AwjR0/87LsUObFmoMY0jqDTzJU5hMvZRMtin9UkETI5d7g8EfL4JSiDp7AlYVJhPcIHh
-         twLMKcV3q4xvEjjmCIn0+gPPxtkaMtGpjfAoqnq8hCJklMs+IldQa//31aO00CT4aCX7
-         NWKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUP6/q6G1PM4zhl8YM3Wj6SUAI77qp9BqjVp2p8tCQ3iJSYbzTregu+/6w8E8YIpctc5ti9mNryle1F7qk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUp2zDJV6y/lB6/mwAdB9bjDfHMR2D/jjKrDEY0Key0meFwOsu
-	QwaAhR/UErNDFltara6gmLstbzsViC7AWDSN8a6BwRvcIGXRmfavZeA9p0D5
-X-Google-Smtp-Source: AGHT+IFABpYpARiQ/rHIj9A6PhnoCzhB8oFaDClsCHkRkzXcI9LguImbkjyq+DAsgldkQIi/5uAAWg==
-X-Received: by 2002:a05:6214:3d05:b0:6cc:42c:feb with SMTP id 6a1803df08f44-6d39e109443mr193404066d6.2.1731343586300;
-        Mon, 11 Nov 2024 08:46:26 -0800 (PST)
-Received: from eryk-arch.local (217-180-201-42.lxtnkyaa.metronetinc.net. [217.180.201.42])
-        by smtp.googlemail.com with ESMTPSA id 6a1803df08f44-6d39643b9a3sm61749126d6.93.2024.11.11.08.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 08:46:25 -0800 (PST)
-From: Eryk Zagorski <erykzagorski@gmail.com>
-To: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: tiwai@suse.com,
-	soyjuanarbol@gmail.com,
-	erykzagorski@gmail.com
-Subject: [PATCH] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
-Date: Mon, 11 Nov 2024 11:45:21 -0500
-Message-ID: <20241111164520.9079-2-erykzagorski@gmail.com>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="zAeSmFZ9"
+Received: from tr.lan (ip-86-49-120-218.bb.vodafone.cz [86.49.120.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id 072138918D;
+	Mon, 11 Nov 2024 17:54:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1731344096;
+	bh=W0qczkU5R7LU/mqh3QQcPqYxgGgt7r7J8yawehsjsGw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=zAeSmFZ9MLWnYo01f7ReZnjSBbMoCGDTJCG3dolUgQeHlAsV+uB9xqvJ63KQz5n+V
+	 3w0XZbXcnHjY0yOcsUO/CdmC4DlaJOCJ4f+gJ2Rt6DCrWizPzWt1uIyYumngG+0xA7
+	 E+tPhnwS2KoeTDaQZtqKINFZl08c3ifof654ULZdvdUfFXcBB1DP65niLci01U0Omn
+	 TrYuM8ltbnEb2TxRJivMyHe9BiS0N03nbQvKCfgY+YAxtUaBLG/ggXpF8GrkvFmFCa
+	 KrntTCY5wNsQQDLQGGPMark2cEHtM74XSR23fa5flBjpzEbD9QqGtbkDJ2TZDnaV8J
+	 hU4kLLrmQUmWg==
+From: Marek Vasut <marex@denx.de>
+To: linux-sound@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>,
+	Chen Ni <nichen@iscas.ac.cn>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH] ASoC: max98088: Add left/right DAC volume control
+Date: Mon, 11 Nov 2024 17:54:04 +0100
+Message-ID: <20241111165435.113086-1-marex@denx.de>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,48 +50,37 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-This patch switches the P-125 quirk entry to use a composite quirk as the
-P-125 supplies both MIDI and Audio like many of the other Yamaha
-keyboards
+Add left/right DAC digital volume control knob.
 
-Signed-off-by: Eryk Zagorski <erykzagorski@gmail.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- sound/usb/quirks-table.h | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+Cc: Chen Ni <nichen@iscas.ac.cn>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org
+---
+ sound/soc/codecs/max98088.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 24c981c9b240..199d0603cf8e 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -324,7 +324,6 @@ YAMAHA_DEVICE(0x105a, NULL),
- YAMAHA_DEVICE(0x105b, NULL),
- YAMAHA_DEVICE(0x105c, NULL),
- YAMAHA_DEVICE(0x105d, NULL),
--YAMAHA_DEVICE(0x1718, "P-125"),
- {
- 	USB_DEVICE(0x0499, 0x1503),
- 	QUIRK_DRIVER_INFO {
-@@ -391,6 +390,19 @@ YAMAHA_DEVICE(0x1718, "P-125"),
- 		}
- 	}
- },
-+{
-+	USB_DEVICE(0x0499, 0x1718),
-+	QUIRK_DRIVER_INFO {
-+		/* .vendor_name = "Yamaha", */
-+		/* .product_name = "P-125", */
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_MIDI_YAMAHA(3) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- YAMAHA_DEVICE(0x2000, "DGP-7"),
- YAMAHA_DEVICE(0x2001, "DGP-5"),
- YAMAHA_DEVICE(0x2002, NULL),
+diff --git a/sound/soc/codecs/max98088.c b/sound/soc/codecs/max98088.c
+index adb17a458ca3e..d679bd9175ebd 100644
+--- a/sound/soc/codecs/max98088.c
++++ b/sound/soc/codecs/max98088.c
+@@ -480,6 +480,9 @@ static const struct snd_kcontrol_new max98088_snd_controls[] = {
+        SOC_SINGLE("INA Volume", M98088_REG_37_LVL_INA, 0, 7, 1),
+        SOC_SINGLE("INB Volume", M98088_REG_38_LVL_INB, 0, 7, 1),
+ 
++       SOC_SINGLE("DACL Volume", M98088_REG_2F_LVL_DAI1_PLAY, 0, 15, 1),
++       SOC_SINGLE("DACR Volume", M98088_REG_31_LVL_DAI2_PLAY, 0, 15, 1),
++
+        SOC_SINGLE("ADCL Volume", M98088_REG_33_LVL_ADC_L, 0, 15, 0),
+        SOC_SINGLE("ADCR Volume", M98088_REG_34_LVL_ADC_R, 0, 15, 0),
+ 
 -- 
-2.47.0
+2.45.2
 
