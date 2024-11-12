@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A2F21791B;
-	Tue, 12 Nov 2024 10:36:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23A42194A0;
+	Tue, 12 Nov 2024 10:36:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731407778; cv=none; b=uiTe1m7D07oZYHqE6/+N1MY7HUB22fCAVrMudemIRORegxyqcOSlN1+AeHStfxauIdpwYnF3CJi/4psPZEvzAWQhO4h1cG9qD43CTjhTfjBayyWtiFEyiKsm7q1jYsKxx8DMoj7sbhVw6yg4leUcXgdSvXppADGSF1BfnI5ZOac=
+	t=1731407785; cv=none; b=KGb4ePbyeo7lgkgqYS71+711Tpr1bL8nFUzKK0lsnd4qqIN+e8Cph2hAY7Ajg0Rrpz4Y40+XOcG2W7+rMTIBYojG0B2H1eiFNDRp01pAz6lSVoHJKwNkHORwUfzRBRWRmgX8qieVqRcx11A/uBDmxOMy81jOhS77AS8sgLKsQVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731407778; c=relaxed/simple;
-	bh=BC7wOFqWZnXwYcda92nB+EZQpcEXp76VVZnE60kBLEg=;
+	s=arc-20240116; t=1731407785; c=relaxed/simple;
+	bh=7GwKY79ccA5xjg6JepkJmgD7gsArv5j4lUSLgyceZGc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fYpnhDToNcNMXx+f8ZHjTuEAsZrO7eim5y0+JjVYkEUGMEdGPrxShZL6P3RKGDA5JWdY5eB+RwRjKqdGKqxJw+UFm1dyMv29SmK6JvRG7k3h4w80ajI0HDESVyMH2pH5D14FR+rD1aotu/h/aAe86ZGtKP5VyTxP/Qe14D9mXjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nFzzo/wS; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=czl9MfSU6U0l7zd+5u/iUdYEM8Gh3/6yuIcpSwjifJPW3mT9b/KOsNHdyJTUNg85ElZvJEF9LJwDrcsmxgTORbu15TwYLrYs57P+LJI1/U98lBepKMs57jWuCLzC3PxeKxDUiWV0DEDs02NH2S+XybLUGlh23Wnw/hdMfAnfJLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWHVFUBi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nFzzo/wS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B22CFC4CED6;
-	Tue, 12 Nov 2024 10:36:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWHVFUBi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A5BC4CED4;
+	Tue, 12 Nov 2024 10:36:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731407778;
-	bh=BC7wOFqWZnXwYcda92nB+EZQpcEXp76VVZnE60kBLEg=;
+	s=k20201202; t=1731407785;
+	bh=7GwKY79ccA5xjg6JepkJmgD7gsArv5j4lUSLgyceZGc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nFzzo/wSTFD9VKYuMLlRxPbyyZmHQU8O6OhnD6VsIyCczWLAvL75uVD3pTfg4qKKg
-	 DJ0S1qiNaReSCFgBHUdnciTinpWP0MQSwNvNM6TfBN1jcgt11C/Iu33sqBrx7WheUJ
-	 KrPMyCQL2kRPohThVp0ybsyyIT6dz0ZIZKhzF5z3IU3EJQHKBpO2VULbkrHdpFtqRA
-	 89wen45aA3mpaH/erPqNNMSgetdxl7ohGApLcxsbNIgumXJ/Tzz1zEgr5W2MeGUcz1
-	 jIXhfhjdWQ0QS4sOL4TuuGYDnRJcSQOJGnMNzETfqf9qmip9EesqMvhKkQaF4Ctbls
-	 n13jWl64OCDGA==
+	b=nWHVFUBizaerxGIhv2WZObQd9FTPNVE5ERm7JDZsOfTcJTYPo4yXeWKOqo52Ha2Gn
+	 SVTbviirAFzbwkahsuxvbcy61Qw+YVk8iejqS7PhOxIGcPkm2ccKvIDpK3UMZb0Ms9
+	 nhgw9tz7DaxrE796rN7eddFD9I5OBeQz9DxqDo/TrsKheTDQ2cMOhHYflYp9CX01fI
+	 is3LaMyypUf7NVjzbQyegh09S5eR4fJ7Gp1I9rayF80/hXKb0SEpFpRbxDX/EPdC87
+	 9EmX7hQznSK4mbXCRRChJBaV8CwVWCozKkPz0c9PjK1hLehJLoZaQ0BvMzExz0YABh
+	 9G9P19KVQMzAQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Shenghao Ding <shenghao-ding@ti.com>,
+Cc: Mingcong Bai <jeffbai@aosc.io>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	alsa-devel@alsa-project.org,
+	mario.limonciello@amd.com,
+	end.to.start@mail.ru,
+	me@jwang.link,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 07/16] ASoC: tas2781: Add new driver version for tas2563 & tas2781 qfn chip
-Date: Tue, 12 Nov 2024 05:35:49 -0500
-Message-ID: <20241112103605.1652910-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 11/16] ASoC: amd: yc: fix internal mic on Xiaomi Book Pro 14 2022
+Date: Tue, 12 Nov 2024 05:35:53 -0500
+Message-ID: <20241112103605.1652910-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241112103605.1652910-1-sashal@kernel.org>
 References: <20241112103605.1652910-1-sashal@kernel.org>
@@ -56,32 +56,50 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.7
 Content-Transfer-Encoding: 8bit
 
-From: Shenghao Ding <shenghao-ding@ti.com>
+From: Mingcong Bai <jeffbai@aosc.io>
 
-[ Upstream commit fe09de2db2365eed8b44b572cff7d421eaf1754a ]
+[ Upstream commit de156f3cf70e17dc6ff4c3c364bb97a6db961ffd ]
 
-Add new driver version to support tas2563 & tas2781 qfn chip
+Xiaomi Book Pro 14 2022 (MIA2210-AD) requires a quirk entry for its
+internal microphone to be enabled.
 
-Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
-Link: https://patch.msgid.link/20241104100055.48-1-shenghao-ding@ti.com
+This is likely due to similar reasons as seen previously on Redmi Book
+14/15 Pro 2022 models (since they likely came with similar firmware):
+
+- commit dcff8b7ca92d ("ASoC: amd: yc: Add Xiaomi Redmi Book Pro 15 2022
+  into DMI table")
+- commit c1dd6bf61997 ("ASoC: amd: yc: Add Xiaomi Redmi Book Pro 14 2022
+  into DMI table")
+
+A quirk would likely be needed for Xiaomi Book Pro 15 2022 models, too.
+However, I do not have such device on hand so I will leave it for now.
+
+Signed-off-by: Mingcong Bai <jeffbai@aosc.io>
+Link: https://patch.msgid.link/20241106024052.15748-1-jeffbai@aosc.io
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/codecs/tas2781-fmwlib.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/sound/soc/codecs/tas2781-fmwlib.c b/sound/soc/codecs/tas2781-fmwlib.c
-index f3a7605f07104..6474cc551d551 100644
---- a/sound/soc/codecs/tas2781-fmwlib.c
-+++ b/sound/soc/codecs/tas2781-fmwlib.c
-@@ -1992,6 +1992,7 @@ static int tasdevice_dspfw_ready(const struct firmware *fmw,
- 		break;
- 	case 0x202:
- 	case 0x400:
-+	case 0x401:
- 		tas_priv->fw_parse_variable_header =
- 			fw_parse_variable_header_git;
- 		tas_priv->fw_parse_program_data =
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index ace6328e91e31..601785ee2f0b8 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -381,6 +381,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi Book Pro 15 2022"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Xiaomi Book Pro 14 2022"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
 -- 
 2.43.0
 
