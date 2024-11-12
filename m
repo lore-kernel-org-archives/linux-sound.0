@@ -1,103 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E76B139D1B;
-	Tue, 12 Nov 2024 13:09:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D9E5FEE6;
+	Tue, 12 Nov 2024 13:16:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731416998; cv=none; b=imOp1U1uTPW1zc5vWcLs5+Dlw5fbCBg4MwSpUyxhSW1fX80NZjNKVLOa0TGAlJo2oWv6S6FfoyM9kPzkkfes+6RTrYxhxhTDgY8x+wLD1z6m2djB3rD7OMCi8OmXjFf1eViftgHo0ldaItK6E+QZb6cFswlD43bjoWU+88gK7iE=
+	t=1731417380; cv=none; b=c2KtRPjbl7yNpEVxWQKKb1aWmd34QyAgpuSL94O8pHEH0L9OMFo/czcIaU7VRhysMy3LjZAuh5EHkpOGUo+HM0cd/EtoS7qkMkESjyQHYRDWaqgdPApa1+DftR3jc6PdAtASD7k5ytQFzEs4nGViC/+8F4p4AJnq1rhrB6g/0Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731416998; c=relaxed/simple;
-	bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sD7vPStasVGc5gE7LI4AA/FGj3RIEaaPW+/P/f5F2KQLFdhEcF3WOlefNWS/kFrz/TeOlynh1rI8EWb1uiFrYVnTnwl5E1NoU56AMK3cQAHmh822oTSW9vh94Cqid28U93K8Xm37XTWAOf4eQH6lueQEe9ZzeEkOdWdxiTTshBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BE5zfsKU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731417380; c=relaxed/simple;
+	bh=/LXILyQW0YKQwU2/DZFNOfpGJbKzQNU/KY1lRH7sWyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hfty+mKk7y8O/nDudE+cOHaG9iqVVKkndjiO1OvyAaz2SiBgGexHopjBzX+/DgSEuHJZrivhOHCHohUJjdB/5XNORs72/Y01rAckPWk0jc+1q3xruAT5GuTH6Bb+TAL2xuXuDxK7VR1cLlVHPum+0ksjna5B+UTL9QTZKYq2t/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EQtkHIAa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BE5zfsKU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D6BC4CECD;
-	Tue, 12 Nov 2024 13:09:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EQtkHIAa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE6AC4CECD;
+	Tue, 12 Nov 2024 13:16:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731416997;
-	bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
-	h=From:Date:Subject:To:Cc:From;
-	b=BE5zfsKUWJJheftZvRaRfz6tFIXzgM4kSbF3nzYAYCOEIrFNpott7i2of6NWWEQQH
-	 TWpweHCf28ufd4JU82/w58GbR714FxakaXAsj4K+5A12glYbqCTYfkUVtkd5hZkjGW
-	 cIpmh4RxS++6VXB71AmY8h0yrgCMtnuuKfHd1rrSK7Ud1COSiJbnsNBxnhTulSnBN8
-	 XAAqyjJ9MQS5Yhe5QNm1aRgnUaxEMwMmucp6IVjLCpam/sId6LFOcpy8ol5HSi7Nmu
-	 1zteMZAlCcdZGYYQff95nQVWAvcOP5IVzkc5Bkb87V5O25Pm/i5mrINdixnhFpj3ls
-	 q5ToaE1dQVRqA==
+	s=k20201202; t=1731417378;
+	bh=/LXILyQW0YKQwU2/DZFNOfpGJbKzQNU/KY1lRH7sWyk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EQtkHIAa6Y0YGpZn7/2Xj32/gVfaT/iWxz62OhXcodrPL3Vku8QUg+GP5FFRl73Vs
+	 Jlql/AxfEgnnIp91iikhJuXbIAC89ZH48aZifwKllu8pRGP2QKt9fR94VCt0QXCF+3
+	 +cwijR6zc8rHlEyP1L3MShJkB3Wm8lKM9n5g5Z9Vos9B7dJdmvYeOeHp+RZn4DTNYL
+	 8KMqqt3JSqpvT2gSDm/hWljwXrczPzK8Km1H2HNu9mqi574w8IQIwEdEqpw0hobt8e
+	 sSNlXjtyskzF0sntS6V8b6doqGJiK1aHqeDEqQLQVpdsDKzVc68Kj8X0k7SHZ3JpK9
+	 kXSypfc87OQMg==
+Date: Tue, 12 Nov 2024 13:16:15 +0000
 From: Mark Brown <broonie@kernel.org>
-Date: Tue, 12 Nov 2024 13:09:50 +0000
-Subject: [PATCH] ASoC: max9768: Fix event generation for playback mute
+To: Marek Maslanka <mmaslanka@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Support Opensource <support.opensource@diasemi.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ASoC: da7219-aad: Fix detection of plugged jack after
+ resume
+Message-ID: <ZzNVH65o0ue6jn6a@finisterre.sirena.org.uk>
+References: <20241112074048.1762371-1-mmaslanka@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241112-asoc-max9768-event-v1-1-ba5d50599787@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAJ1TM2cC/x2MQQqAIBAAvxJ7biGl0vpKdNDaag9ZaIgg/T1pb
- nOYyRDIMwUYqwyeIge+XBFRV7Acxu2EvBYH2chWFNCEa8HTpEH1GimSe7DRnW1XaW0nFJTw9rR
- x+qfT/L4fTmKMdGQAAAA=
-X-Change-ID: 20241111-asoc-max9768-event-085b4d2bb517
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-355e8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1409; i=broonie@kernel.org;
- h=from:subject:message-id; bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnM1Oj/iyjLp42K6FwkAMtLtI88dujvscwd2q8W
- SOwMPTSaaGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZzNTowAKCRAk1otyXVSH
- 0B5rB/9HgMF1OAq7y41eUySmIuGus3hX6rW/ohRlXijs8I1co/qEIObCFKzyq0MptDCdNYz57zT
- 5qXoAQ0lRBgoU0AdIEpRo9DgG5twicyt4Ih8vFHMduDZR3Q1mcwhzhL20w6d6bzDvZIdMvVGECK
- wLqdr6amN+L9RxbtVTkSECjPG+8S7FgujLn0oGsTuXWCtpIKlt+4d+IL1kuSH098UWItyPCBXnq
- N7OMCB/D3v4WzDHOGrAXel/3FUdOVEBo/raCv5m6Q5cdA+EmWbxxpBAYF5qWig/B91F02Yijlso
- MMhmpt8yeejIs9E33QpcxIrvcbhSuEQBCQbRK0JQ8Iz5CZ6s
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JB+OrQ7TuTIBolfs"
+Content-Disposition: inline
+In-Reply-To: <20241112074048.1762371-1-mmaslanka@google.com>
+X-Cookie: Editing is a rewording activity.
 
-The max9768 has a custom control for playback mute which unconditionally
-returns 0 from the put() operation, rather than returning 1 on change to
-ensure notifications are generated to userspace. Check to see if the value
-has changed and return appropriately.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/max9768.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+--JB+OrQ7TuTIBolfs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/codecs/max9768.c b/sound/soc/codecs/max9768.c
-index e4793a5d179efced38c8f04de5e49f4cf67a17a1..8af3c7e5317fbb0c47baa40b90f8799b9b3d3e8a 100644
---- a/sound/soc/codecs/max9768.c
-+++ b/sound/soc/codecs/max9768.c
-@@ -54,10 +54,17 @@ static int max9768_set_gpio(struct snd_kcontrol *kcontrol,
- {
- 	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
- 	struct max9768 *max9768 = snd_soc_component_get_drvdata(c);
-+	bool val = !ucontrol->value.integer.value[0];
-+	int ret;
- 
--	gpiod_set_value_cansleep(max9768->mute, !ucontrol->value.integer.value[0]);
-+	if (val != gpiod_get_value_cansleep(max9768->mute))
-+		ret = 1;
-+	else
-+		ret = 0;
- 
--	return 0;
-+	gpiod_set_value_cansleep(max9768->mute, val);
-+
-+	return ret;
- }
- 
- static const DECLARE_TLV_DB_RANGE(volume_tlv,
+On Tue, Nov 12, 2024 at 07:40:47AM +0000, Marek Maslanka wrote:
+> Don't notify and mark the jack as unplugged during the "set_jack" action,
+> because this action is called very late in during the resume process, for=
+cing
+> the jack to be unplugged after the resume, even if the jack is plugged in=
+=2E Let's
+> leave the responsibility of managing the insertion of the jack to IRQ.
 
----
-base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
-change-id: 20241111-asoc-max9768-event-085b4d2bb517
+> @@ -33,10 +33,6 @@ void da7219_aad_jack_det(struct snd_soc_component *com=
+ponent, struct snd_soc_jac
+>  	struct da7219_priv *da7219 =3D snd_soc_component_get_drvdata(component);
+> =20
+>  	da7219->aad->jack =3D jack;
+> -	da7219->aad->jack_inserted =3D false;
+> -
+> -	/* Send an initial empty report */
+> -	snd_soc_jack_report(jack, 0, DA7219_AAD_REPORT_ALL_MASK);
+> =20
+>  	/* Enable/Disable jack detection */
+>  	snd_soc_component_update_bits(component, DA7219_ACCDET_CONFIG_1,
 
-Best regards,
--- 
-Mark Brown <broonie@kernel.org>
+This path is also (AFAICT only?) called when registering the jack by
+da7219_set_jack(), I'm not immediately seeing the path for resume.  This
+suggests that what's going on here is an issue with the machine driver
+unregistering the jack over suspend?
 
+--JB+OrQ7TuTIBolfs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmczVR4ACgkQJNaLcl1U
+h9DyIQf/ekR9b6q5XbqcP889qtqZCzoymtgTaSj3bvLa6JKDZd13bL9mvWgRtDRU
+DK4119wZc3+5VFlG1zsgbXDaoKE4xyhJH4t2NXGBilKTLh7f97fRSXJfIfqBTPiD
+fmDdNhBPWw8ayr3MynnOTXR78cFT6o3DNmSYc89eyCQFdT2H9TJre3wyepTDUKlY
+O6MXbrYb7N7XItSZyyMImswSFluq6gJ8VOwdNivzC3+zR7iUA7dRLX2yh5J4ZlAJ
+0XwrmmSW4OLfaVWcPZfEaI3EL7PaDrSXq0RW0AXn2bURKQta5lz4bFABA1dmtvjT
+0lyUcmw5HkYerovMFLi4epvusDacmg==
+=4Yij
+-----END PGP SIGNATURE-----
+
+--JB+OrQ7TuTIBolfs--
