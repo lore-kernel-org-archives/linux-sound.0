@@ -1,40 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3FA433C0
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 13:08:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E76B139D1B;
+	Tue, 12 Nov 2024 13:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731416890; cv=none; b=nIvizcdbpEvcqneFk19Z9h6+NVy1/UecgpnXwGJqn6x0iwMpMlFkT2Q9bSEPUWthssGNtAxu4zaejzCVpP8WpgErP946Z1GsiydH1Lu1kp/bvTpvRkjDDL+Tec41QMx6PxABs6wNcb6fJhbqUdRGHViFR5SmMtnsXbPaDegtXCQ=
+	t=1731416998; cv=none; b=imOp1U1uTPW1zc5vWcLs5+Dlw5fbCBg4MwSpUyxhSW1fX80NZjNKVLOa0TGAlJo2oWv6S6FfoyM9kPzkkfes+6RTrYxhxhTDgY8x+wLD1z6m2djB3rD7OMCi8OmXjFf1eViftgHo0ldaItK6E+QZb6cFswlD43bjoWU+88gK7iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731416890; c=relaxed/simple;
-	bh=YvknVqyrbsjp40/+1thFmNCA2O4XdpZpZfzwzS1EbEA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=hr6T6eb6dNELZ9wTW4Mxr+3im3Q/JS5/Pvks6NaVAGkIdseq99TnaBphjV5EgcJMVnwFAzY3FLASvsaXVd2b52CsWkDiZKAi04DeI4rZ96RaaG3SRv6nJs8t/9BmBNU45qAYrwvDyHgUPbRHF0ldXIDkLxBNzFAgl1j5nSplDR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BzzChgRG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731416998; c=relaxed/simple;
+	bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sD7vPStasVGc5gE7LI4AA/FGj3RIEaaPW+/P/f5F2KQLFdhEcF3WOlefNWS/kFrz/TeOlynh1rI8EWb1uiFrYVnTnwl5E1NoU56AMK3cQAHmh822oTSW9vh94Cqid28U93K8Xm37XTWAOf4eQH6lueQEe9ZzeEkOdWdxiTTshBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BE5zfsKU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BzzChgRG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C987C4CED0;
-	Tue, 12 Nov 2024 13:08:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BE5zfsKU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D6BC4CECD;
+	Tue, 12 Nov 2024 13:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731416890;
-	bh=YvknVqyrbsjp40/+1thFmNCA2O4XdpZpZfzwzS1EbEA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=BzzChgRGBWchUxr8sCyhfVh/NOXHLSCkuEQAL1OMr8CXuVSoCje1UDCZZAkE5Jcle
-	 Px3cOjFb5BZ5WjTqXxR8AZSWp4ZPLGkaku1J0wLF9YqV0hLF4XDgIWvprozvbW7vHr
-	 3aOFFq/kGZGo1uwDEoZUTKKfjqmg44z1J3eyUBIYKWgkWCXHlQoOqJAbYa5FSeofFs
-	 HU+aP899mp0kFxJ+AkLezJAyJmymHiuVcSoRUy/x5YKRppj8lZXwpoTimjh/0lQ/+8
-	 tWY99RpM1nseIfuQo3BiEyFRMJGabsixk6Gqg4F8a6sw3zSzKlH+v+0F26tTQH5QFu
-	 kuD/1fDMr/Bsg==
+	s=k20201202; t=1731416997;
+	bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=BE5zfsKUWJJheftZvRaRfz6tFIXzgM4kSbF3nzYAYCOEIrFNpott7i2of6NWWEQQH
+	 TWpweHCf28ufd4JU82/w58GbR714FxakaXAsj4K+5A12glYbqCTYfkUVtkd5hZkjGW
+	 cIpmh4RxS++6VXB71AmY8h0yrgCMtnuuKfHd1rrSK7Ud1COSiJbnsNBxnhTulSnBN8
+	 XAAqyjJ9MQS5Yhe5QNm1aRgnUaxEMwMmucp6IVjLCpam/sId6LFOcpy8ol5HSi7Nmu
+	 1zteMZAlCcdZGYYQff95nQVWAvcOP5IVzkc5Bkb87V5O25Pm/i5mrINdixnhFpj3ls
+	 q5ToaE1dQVRqA==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, Marek Vasut <marex@denx.de>
-Cc: Chen Ni <nichen@iscas.ac.cn>, Jaroslav Kysela <perex@perex.cz>, 
- Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20241111165523.113142-1-marex@denx.de>
-References: <20241111165523.113142-1-marex@denx.de>
-Subject: Re: [PATCH] ASoC: max98088: Add headphone mixer switch
-Message-Id: <173141688813.388630.6367781195497125901.b4-ty@kernel.org>
-Date: Tue, 12 Nov 2024 13:08:08 +0000
+Date: Tue, 12 Nov 2024 13:09:50 +0000
+Subject: [PATCH] ASoC: max9768: Fix event generation for playback mute
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,38 +36,68 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20241112-asoc-max9768-event-v1-1-ba5d50599787@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAJ1TM2cC/x2MQQqAIBAAvxJ7biGl0vpKdNDaag9ZaIgg/T1pb
+ nOYyRDIMwUYqwyeIge+XBFRV7Acxu2EvBYH2chWFNCEa8HTpEH1GimSe7DRnW1XaW0nFJTw9rR
+ x+qfT/L4fTmKMdGQAAAA=
+X-Change-ID: 20241111-asoc-max9768-event-085b4d2bb517
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.15-dev-355e8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1409; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ZOR976k4viMscvaHHP1VDvAEW/nPievAM4xObeUGsa8=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnM1Oj/iyjLp42K6FwkAMtLtI88dujvscwd2q8W
+ SOwMPTSaaGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZzNTowAKCRAk1otyXVSH
+ 0B5rB/9HgMF1OAq7y41eUySmIuGus3hX6rW/ohRlXijs8I1co/qEIObCFKzyq0MptDCdNYz57zT
+ 5qXoAQ0lRBgoU0AdIEpRo9DgG5twicyt4Ih8vFHMduDZR3Q1mcwhzhL20w6d6bzDvZIdMvVGECK
+ wLqdr6amN+L9RxbtVTkSECjPG+8S7FgujLn0oGsTuXWCtpIKlt+4d+IL1kuSH098UWItyPCBXnq
+ N7OMCB/D3v4WzDHOGrAXel/3FUdOVEBo/raCv5m6Q5cdA+EmWbxxpBAYF5qWig/B91F02Yijlso
+ MMhmpt8yeejIs9E33QpcxIrvcbhSuEQBCQbRK0JQ8Iz5CZ6s
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 11 Nov 2024 17:55:04 +0100, Marek Vasut wrote:
-> Add enable/disable headphone output mixers knob.
-> 
-> 
+The max9768 has a custom control for playback mute which unconditionally
+returns 0 from the put() operation, rather than returning 1 on change to
+ensure notifications are generated to userspace. Check to see if the value
+has changed and return appropriately.
 
-Applied to
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/codecs/max9768.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+diff --git a/sound/soc/codecs/max9768.c b/sound/soc/codecs/max9768.c
+index e4793a5d179efced38c8f04de5e49f4cf67a17a1..8af3c7e5317fbb0c47baa40b90f8799b9b3d3e8a 100644
+--- a/sound/soc/codecs/max9768.c
++++ b/sound/soc/codecs/max9768.c
+@@ -54,10 +54,17 @@ static int max9768_set_gpio(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
+ 	struct max9768 *max9768 = snd_soc_component_get_drvdata(c);
++	bool val = !ucontrol->value.integer.value[0];
++	int ret;
+ 
+-	gpiod_set_value_cansleep(max9768->mute, !ucontrol->value.integer.value[0]);
++	if (val != gpiod_get_value_cansleep(max9768->mute))
++		ret = 1;
++	else
++		ret = 0;
+ 
+-	return 0;
++	gpiod_set_value_cansleep(max9768->mute, val);
++
++	return ret;
+ }
+ 
+ static const DECLARE_TLV_DB_RANGE(volume_tlv,
 
-Thanks!
+---
+base-commit: 8e929cb546ee42c9a61d24fae60605e9e3192354
+change-id: 20241111-asoc-max9768-event-085b4d2bb517
 
-[1/1] ASoC: max98088: Add headphone mixer switch
-      commit: d0621105eff307408ceb3d0eb61ca2a23c37fcbe
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
 
