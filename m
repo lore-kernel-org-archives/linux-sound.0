@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC96230992
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 11:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E013323098C
+	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 11:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411557; cv=none; b=IpKYC8c2PW0+GzrFGFsdgBFkYnP9h8EhJP9fWZQ+fBgEFboOGGLsr1743NKl87qCoIeOQNqwWpi/obgfLMzybmEiboWAQ/1xwK8qqPPunCe+FeZLOd9ttAtVL3Yk6ZuTQEX5HZefKS56mszu2IHUZdD3Eg1GS0QqRE0k5WwQN64=
+	t=1731411559; cv=none; b=UkgjPv1GIWLNGCAWtFpibFATjN8/TeBUQAorMzY7xDrjPKJidhiKL7F3gB2qN+saNfYeWem0zkcxnYc6RRG2NvNzpZ5GWwOQhvRmon9lEFnCfyoHuwyxSYbObsk5Bamyh+i04tt3fWLpiRzN8ZQSovK9as7uOie8B2/M1Q7ZCGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411557; c=relaxed/simple;
-	bh=HaFXJBfSzun+1TbbZzwPw3DAsmTFdr3L2rWAPQXfos8=;
+	s=arc-20240116; t=1731411559; c=relaxed/simple;
+	bh=QX6B/jIjZldaT/9RYRAOtfydt+k0G/gsCl+Z5BDleLQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C6XeFimOOSrHbFFkWeoyrWajwsuUZc21U+kUTTPsA+GQz9akVtWcCqBRNb3LuEFUomq76s2KX7RjbGiCf1n5W7FB2EUdmkz8KpYL+q4l4UKany6fHIjhLL24Ok0+cPhvhk3hbqPWF7K9ZD36cZ8l1S2XP8itZ01J88tgCrFUqeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6BG/oLr; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version:Content-Type; b=ebdRdTm+ECSMxFSm7PzCkEN5ignRHj/GiKGd4owpffLg3ZSTPUp5unMdvfgLBiOBCB01f0h0VFaYVvkeM5ZkII0ew0C2okjajgAaURByW00OtH1dJ9Fws5OBvvoCgcndW8s2Iayh+HxykWF2GA6WEA+7Ef1Yt9IKv8yEIenwDUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxBBiOTT; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6BG/oLr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxBBiOTT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731411557; x=1762947557;
+  t=1731411559; x=1762947559;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HaFXJBfSzun+1TbbZzwPw3DAsmTFdr3L2rWAPQXfos8=;
-  b=Q6BG/oLrFtjzlOzRUaNUY46EhdurNy1zmjhxxWCobxLM3L/3fyM5fDfu
-   R1R88FLXlHVDLCbkTV9GQITc/q/ta4E/Xgv+YFysr37TCuGtE+WuM7zAr
-   8/3qAQegnelMObzio2A8jUaOIdlK2M+9lQ79dEjOr1E3omU0D/aFwbslK
-   z3SMKcM5hLIfILlza7VNhuRjtun3FcUYhJTC3KcDr+bTGycR6WX1qTdFR
-   qjv2KRrRad/1ZwuaCOfDsXebLjRuAxZDMprBow3rJq92TTJ97p4hm76xK
-   oQXwU2TobHq/rl9beX31d5CukIrTcGMtAJ0vmbxxEu1u54S8E6fXC0qhs
-   g==;
-X-CSE-ConnectionGUID: 66h/QrmxT72p8HNXkingag==
-X-CSE-MsgGUID: u25tmTz0Qem+DfTeJ5Cm2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41802883"
+  bh=QX6B/jIjZldaT/9RYRAOtfydt+k0G/gsCl+Z5BDleLQ=;
+  b=MxBBiOTTVmoM7BrGpwAmvqx4K3CEJw3KYuzZqXhKFtJxr0DZJB9bUJmn
+   d9SUqatZh8lYqzJ4iDdQzRA+r7bdCojZYoF2FRiGqVeGWpJ7K5cEsAmBN
+   fLZeil9ks5VHdirzH6iqh575L/PFVAcYlDcE+wMrEd+MtCegb4gjDETwK
+   H76ANc+XL+q46TnUnL/NLrdf4hpGTaMLd7NvvI7beD80mphK3TYQNNkRc
+   NN6pSFLLlpOynTjdqXrQ/gnDFYz0X81gCxtLXd2Vr8PtEuQag7PABaWpz
+   79/pRey3qf5xuYSa6YSHzjsP1qvJFXC1BHH4RcCSUviclwiRAKo7wS0uX
+   A==;
+X-CSE-ConnectionGUID: DKl0gcMVSwqNXd/v2fON5w==
+X-CSE-MsgGUID: Tc448bUyT9S97uYpTr3YSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41802893"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41802883"
+   d="scan'208";a="41802893"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:39:17 -0800
-X-CSE-ConnectionGUID: 99Krs0cySl2X65uuDNAK2w==
-X-CSE-MsgGUID: yHfb9WhSQyWgayuuJbVkwA==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:39:18 -0800
+X-CSE-ConnectionGUID: Yeb16pR7Ta60K7lKrx/Z9A==
+X-CSE-MsgGUID: xkJOV2iiQIWK3cDIgN0IpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="118358218"
+   d="scan'208";a="118358223"
 Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2024 03:39:14 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2024 03:39:16 -0800
 From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
 To: Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
@@ -50,9 +50,9 @@ To: Jaroslav Kysela <perex@perex.cz>,
 Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
 	linux-sound@vger.kernel.org,
 	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [RFC PATCH v2 1/4] ASoC: Intel: avs: Simplify pipeline management
-Date: Tue, 12 Nov 2024 12:40:03 +0100
-Message-Id: <20241112114006.2812697-2-amadeuszx.slawinski@linux.intel.com>
+Subject: [RFC PATCH v2 2/4] ASoC: Intel: avs: Separate path state from pipeline state
+Date: Tue, 12 Nov 2024 12:40:04 +0100
+Message-Id: <20241112114006.2812697-3-amadeuszx.slawinski@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241112114006.2812697-1-amadeuszx.slawinski@linux.intel.com>
 References: <20241112114006.2812697-1-amadeuszx.slawinski@linux.intel.com>
@@ -65,140 +65,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-DSP pipelines follow simple state machine scheme:
-CREATE -> RESET -> PAUSE -> RUNNING -> PAUSE -> RESET -> DELETE
-
-When code was first designed there was assumption that code doesn't
-remember pipeline state, so it can for example send reset command twice
-to pipeline. Final version of code however remembers pipeline state and
-prevents such operations, which allows us to significantly reduce number
-of operations on pipelines.
+Currently path states use pipeline state defines. This is problematic if
+machine state is to be used to start pipelines in special usecase
+scenarios, so provide separate defines for path states and use them.
 
 Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
 ---
- sound/soc/intel/avs/pcm.c | 41 +++++++++++----------------------------
- 1 file changed, 11 insertions(+), 30 deletions(-)
+ sound/soc/intel/avs/path.c | 21 +++++++++++----------
+ sound/soc/intel/avs/path.h |  8 ++++++++
+ 2 files changed, 19 insertions(+), 10 deletions(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 945f9c0a6a545..83eb01cf17e9c 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -206,11 +206,15 @@ static int avs_dai_nonhda_be_hw_params(struct snd_pcm_substream *substream,
- static int avs_dai_nonhda_be_hw_free(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
- {
- 	struct avs_dma_data *data;
-+	int ret;
- 
- 	dev_dbg(dai->dev, "%s: %s\n", __func__, dai->name);
- 
- 	data = snd_soc_dai_get_dma_data(dai, substream);
- 	if (data->path) {
-+		ret = avs_path_reset(data->path);
-+		if (ret < 0)
-+			dev_err(dai->dev, "reset path failed: %d\n", ret);
- 		avs_path_free(data->path);
- 		data->path = NULL;
- 	}
-@@ -234,12 +238,6 @@ static int avs_dai_nonhda_be_trigger(struct snd_pcm_substream *substream, int cm
- 		fallthrough;
- 	case SNDRV_PCM_TRIGGER_START:
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
--		ret = avs_path_pause(data->path);
--		if (ret < 0) {
--			dev_err(dai->dev, "pause BE path failed: %d\n", ret);
--			break;
--		}
--
- 		ret = avs_path_run(data->path, AVS_TPLG_TRIGGER_AUTO);
- 		if (ret < 0)
- 			dev_err(dai->dev, "run BE path failed: %d\n", ret);
-@@ -254,10 +252,6 @@ static int avs_dai_nonhda_be_trigger(struct snd_pcm_substream *substream, int cm
- 		ret = avs_path_pause(data->path);
- 		if (ret < 0)
- 			dev_err(dai->dev, "pause BE path failed: %d\n", ret);
--
--		ret = avs_path_reset(data->path);
--		if (ret < 0)
--			dev_err(dai->dev, "reset BE path failed: %d\n", ret);
- 		break;
- 
- 	default:
-@@ -332,6 +326,7 @@ static int avs_dai_hda_be_hw_free(struct snd_pcm_substream *substream, struct sn
- 	struct hdac_ext_stream *link_stream;
- 	struct hdac_ext_link *link;
- 	struct hda_codec *codec;
-+	int ret;
- 
- 	dev_dbg(dai->dev, "%s: %s\n", __func__, dai->name);
- 
-@@ -341,6 +336,9 @@ static int avs_dai_hda_be_hw_free(struct snd_pcm_substream *substream, struct sn
- 
- 	link_stream = data->link_stream;
- 	link_stream->link_prepared = false;
-+	ret = avs_path_reset(data->path);
-+	if (ret < 0)
-+		dev_err(dai->dev, "reset path failed: %d\n", ret);
- 	avs_path_free(data->path);
- 	data->path = NULL;
- 
-@@ -422,12 +420,6 @@ static int avs_dai_hda_be_trigger(struct snd_pcm_substream *substream, int cmd,
- 	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
- 		snd_hdac_ext_stream_start(data->link_stream);
- 
--		ret = avs_path_pause(data->path);
--		if (ret < 0) {
--			dev_err(dai->dev, "pause BE path failed: %d\n", ret);
--			break;
--		}
--
- 		ret = avs_path_run(data->path, AVS_TPLG_TRIGGER_AUTO);
- 		if (ret < 0)
- 			dev_err(dai->dev, "run BE path failed: %d\n", ret);
-@@ -444,10 +436,6 @@ static int avs_dai_hda_be_trigger(struct snd_pcm_substream *substream, int cmd,
- 			dev_err(dai->dev, "pause BE path failed: %d\n", ret);
- 
- 		snd_hdac_ext_stream_clear(data->link_stream);
--
--		ret = avs_path_reset(data->path);
--		if (ret < 0)
--			dev_err(dai->dev, "reset BE path failed: %d\n", ret);
- 		break;
- 
- 	default:
-@@ -621,6 +609,9 @@ static int __avs_dai_fe_hw_free(struct snd_pcm_substream *substream, struct snd_
+diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
+index f31d5e2caa7b0..fa9ca3faec871 100644
+--- a/sound/soc/intel/avs/path.c
++++ b/sound/soc/intel/avs/path.c
+@@ -891,7 +891,7 @@ static struct avs_path *avs_path_create_unlocked(struct avs_dev *adev, u32 dma_i
  	if (ret < 0)
- 		dev_err(dai->dev, "unbind FE <-> BE failed: %d\n", ret);
+ 		goto err;
  
-+	ret = avs_path_reset(data->path);
-+	if (ret < 0)
-+		dev_err(dai->dev, "reset path failed: %d\n", ret);
- 	avs_path_free(data->path);
- 	data->path = NULL;
- 	snd_hdac_stream_cleanup(hdac_stream(host_stream));
-@@ -782,12 +773,6 @@ static int avs_dai_fe_trigger(struct snd_pcm_substream *substream, int cmd, stru
- 		if (cmd == SNDRV_PCM_TRIGGER_RESUME)
- 			snd_hdac_stream_wait_drsm(hdac_stream(host_stream));
+-	path->state = AVS_PPL_STATE_INVALID;
++	path->state = AVS_PATH_STATE_UNKNOWN;
+ 	return path;
+ err:
+ 	avs_path_free_unlocked(path);
+@@ -1033,7 +1033,7 @@ int avs_path_reset(struct avs_path *path)
+ 	struct avs_dev *adev = path->owner;
+ 	int ret;
  
--		ret = avs_path_pause(data->path);
--		if (ret < 0) {
--			dev_err(dai->dev, "pause FE path failed: %d\n", ret);
--			break;
--		}
--
- 		ret = avs_path_run(data->path, AVS_TPLG_TRIGGER_AUTO);
- 		if (ret < 0)
- 			dev_err(dai->dev, "run FE path failed: %d\n", ret);
-@@ -807,10 +792,6 @@ static int avs_dai_fe_trigger(struct snd_pcm_substream *substream, int cmd, stru
- 		spin_lock_irqsave(&bus->reg_lock, flags);
- 		avs_hda_stream_stop(bus, host_stream);
- 		spin_unlock_irqrestore(&bus->reg_lock, flags);
--
--		ret = avs_path_reset(data->path);
--		if (ret < 0)
--			dev_err(dai->dev, "reset FE path failed: %d\n", ret);
- 		break;
+-	if (path->state == AVS_PPL_STATE_RESET)
++	if (path->state == AVS_PATH_STATE_RESET)
+ 		return 0;
  
- 	default:
+ 	list_for_each_entry(ppl, &path->ppl_list, node) {
+@@ -1041,12 +1041,12 @@ int avs_path_reset(struct avs_path *path)
+ 						 AVS_PPL_STATE_RESET);
+ 		if (ret) {
+ 			dev_err(adev->dev, "reset path failed: %d\n", ret);
+-			path->state = AVS_PPL_STATE_INVALID;
++			path->state = AVS_PATH_STATE_UNKNOWN;
+ 			return AVS_IPC_RET(ret);
+ 		}
+ 	}
+ 
+-	path->state = AVS_PPL_STATE_RESET;
++	path->state = AVS_PATH_STATE_RESET;
+ 	return 0;
+ }
+ 
+@@ -1056,7 +1056,7 @@ int avs_path_pause(struct avs_path *path)
+ 	struct avs_dev *adev = path->owner;
+ 	int ret;
+ 
+-	if (path->state == AVS_PPL_STATE_PAUSED)
++	if (path->state == AVS_PATH_STATE_PAUSED)
+ 		return 0;
+ 
+ 	list_for_each_entry_reverse(ppl, &path->ppl_list, node) {
+@@ -1064,12 +1064,12 @@ int avs_path_pause(struct avs_path *path)
+ 						 AVS_PPL_STATE_PAUSED);
+ 		if (ret) {
+ 			dev_err(adev->dev, "pause path failed: %d\n", ret);
+-			path->state = AVS_PPL_STATE_INVALID;
++			path->state = AVS_PATH_STATE_UNKNOWN;
+ 			return AVS_IPC_RET(ret);
+ 		}
+ 	}
+ 
+-	path->state = AVS_PPL_STATE_PAUSED;
++	path->state = AVS_PATH_STATE_PAUSED;
+ 	return 0;
+ }
+ 
+@@ -1079,7 +1079,7 @@ int avs_path_run(struct avs_path *path, int trigger)
+ 	struct avs_dev *adev = path->owner;
+ 	int ret;
+ 
+-	if (path->state == AVS_PPL_STATE_RUNNING && trigger == AVS_TPLG_TRIGGER_AUTO)
++	if (path->state == AVS_PATH_STATE_RUNNING && trigger == AVS_TPLG_TRIGGER_AUTO)
+ 		return 0;
+ 
+ 	list_for_each_entry(ppl, &path->ppl_list, node) {
+@@ -1090,11 +1090,12 @@ int avs_path_run(struct avs_path *path, int trigger)
+ 						 AVS_PPL_STATE_RUNNING);
+ 		if (ret) {
+ 			dev_err(adev->dev, "run path failed: %d\n", ret);
+-			path->state = AVS_PPL_STATE_INVALID;
++			path->state = AVS_PATH_STATE_UNKNOWN;
+ 			return AVS_IPC_RET(ret);
+ 		}
+ 	}
+ 
+-	path->state = AVS_PPL_STATE_RUNNING;
++	path->state = AVS_PATH_STATE_RUNNING;
++
+ 	return 0;
+ }
+diff --git a/sound/soc/intel/avs/path.h b/sound/soc/intel/avs/path.h
+index bfd253c9fa951..a60e6d2f4ad5c 100644
+--- a/sound/soc/intel/avs/path.h
++++ b/sound/soc/intel/avs/path.h
+@@ -13,6 +13,14 @@
+ #include "avs.h"
+ #include "topology.h"
+ 
++enum avs_path_state {
++	AVS_PATH_STATE_UNKNOWN = 0,
++	AVS_PATH_STATE_RESET,
++	AVS_PATH_STATE_PAUSED,
++	AVS_PATH_STATE_DETECTING,
++	AVS_PATH_STATE_RUNNING,
++};
++
+ struct avs_path {
+ 	u32 dma_id;
+ 	struct list_head ppl_list;
 -- 
 2.34.1
 
