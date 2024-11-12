@@ -1,123 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609312309A7
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 11:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ECDF70817;
+	Tue, 12 Nov 2024 12:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411562; cv=none; b=RiJyDCgohWiCv8WZCUlkOcTrRSmQv6EGBhhyCcOrRiG3l+W1ynGN8jKs5b/YAIikfC8jtzR3rsztQZUcKcn2susA3S7UannWXjoRFz/kTjWZGElB68lejM5R/vJw69YhSXPnm/wACEXOSnK3XIuVg+d5YOOKLP3go7ADhD4Ekgs=
+	t=1731416227; cv=none; b=HisYwpx2+RzT257dRPLk13XmsrkF2zvtiRsVJGD1fjVb4JQ9MQxYb5jzaPmNwHgCcM+zYR19xCw6KP2Pdt15SejCy/F3mKVnwA89UvoQddxv2baSInEfAq8oyXSZpwm39iO1yImTZ9fH5Vy/Ut/4FrqQereSaExHGGMdzpqO0Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411562; c=relaxed/simple;
-	bh=P94ys5rVKS4j1H9x92Eha+fju/GUR7KzWrZgETYkbDQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hopu2o0H+s5rvBj5KK0lnvB39LAzHMGoectvpdWX1L9ayayz3ZPD+10UcZtCG+Yw2PhboVQwY1NGUQGAlipfAUhj/Q3uiozQ7TcQyQiqM/Xd3RVlyZvEa2jUsxdnMV3pfe8TsD9ACJXU+gUF04M8X/gkkjsosP0qjQHmogjpwpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wzk8tPcQ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731416227; c=relaxed/simple;
+	bh=Jmqk02nyjaltgiC9zC29E10A1M1BvP5B4YA43Rd/OIg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Hq7//CPv/84p27/QzGpeQ2Ur0RZOXrz+2A46xQEIn+OLKFv4jsnzqCNyEyE4eYarNRBU9yUJeWN0mPOPUuNE00dTgG2s515P4w/ju8kFEBNkg7BePMITUpEfFERpxbXFG39WsB7RrpRLtD0CVfn/8CEtkc4DeoKo63iePDUxjA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=oaaHNvcj; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wzk8tPcQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731411562; x=1762947562;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=P94ys5rVKS4j1H9x92Eha+fju/GUR7KzWrZgETYkbDQ=;
-  b=Wzk8tPcQUWjCQiPnxhUvPWyBlLHILPd1vj8hwUC25urwqmDQAb4YgFih
-   6fs5cE3eYJjkm03SOC08By3PVx49x/JpqZLwNW3nAHXYV0ZJ+VCf/MLz2
-   XsKX+Tdrg0GTBymUvGq+etwRxAT9+Zcuaj2Mio4AqymMb5ZyTuDZBbUHy
-   XSjbFQ3QO9pCt2uXgqz3fBENcCFenqart6KU9Y50ALPrU8BA0rsWJWnq/
-   CaF3VeEkwmS9vZjByeCp0L6CKbh5ZYVmAHEZXXSASDOk0BEqZNMTjc+79
-   wU8gGM7XmrIgiZJNvH7WoIoTwPvanTMNkP1l6WMIYGib6Jlq7QisuAquY
-   w==;
-X-CSE-ConnectionGUID: RhBXZLTPQQ+TkQ/SgQ3fcA==
-X-CSE-MsgGUID: XexQqEFQRvSZQ9Rdmi7d0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41802906"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41802906"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:39:22 -0800
-X-CSE-ConnectionGUID: 3w8NCYFlS4KMKUC+Llna4Q==
-X-CSE-MsgGUID: 1S6r/3mpQbyRiHqTqHRMow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="118358235"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2024 03:39:19 -0800
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	linux-sound@vger.kernel.org,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [RFC PATCH v2 4/4] ASoC: Intel: avs: Pause detecting pipeline before reset
-Date: Tue, 12 Nov 2024 12:40:06 +0100
-Message-Id: <20241112114006.2812697-5-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241112114006.2812697-1-amadeuszx.slawinski@linux.intel.com>
-References: <20241112114006.2812697-1-amadeuszx.slawinski@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="oaaHNvcj"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC5j6NE023683;
+	Tue, 12 Nov 2024 06:56:48 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=NAFpzXZ94pscwZW0
+	OECzSGbrmKMCzgnrnp9XZPYldM8=; b=oaaHNvcjT4x8TG1Q71wYokf2hx80Z9pI
+	ommM2+Cf5Pf8TsWirqir20P8iLKTiTujD6iuIcjSEt6kmDvUq02OVAXKgtv2QVCB
+	XAEHjtGhmDKupChcUOSi0pugLLEiwAUdKUsqCkRF6bdaEjiTxi+iTP7PHa4NQT2l
+	Kyw497eVnoK3BkY3FxxrMLp1yF/KwdkndtXJZDoajymt/2mVHLg3RLcl02IfALGs
+	XLvHDfSAneJxWSnW07fwqcVD3Rnl8d6UwoD0TjY93PA/eO5Bh+U1/+w6hQso4hZ5
+	AAFjUApkN1cuU4RUdgW6VG2HS3+j/pRaMxdfKX66jXuj1cXTd7MKTQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 42t51p35at-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 12 Nov 2024 06:56:48 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 12 Nov
+ 2024 12:56:47 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Tue, 12 Nov 2024 12:56:47 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E30E0820257;
+	Tue, 12 Nov 2024 12:56:46 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <vkoul@kernel.org>
+CC: <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+        <sanyog.r.kale@intel.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: [PATCH RESEND 1/2] soundwire: Update the includes on the sdw.h header
+Date: Tue, 12 Nov 2024 12:56:45 +0000
+Message-ID: <20241112125646.590240-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: j9iMwuPkK4Dts9VogHfzN-1JJn2ApNif
+X-Proofpoint-ORIG-GUID: j9iMwuPkK4Dts9VogHfzN-1JJn2ApNif
+X-Proofpoint-Spam-Reason: safe
 
-FW pipeline machine state follows specific order, so running path
-needs to be paused before it can reset pipelines.
+There are quite a few things used in the sdw.h header that it relies on
+the consumer to include. If something is used directly in the header it
+should be included by the header. Update the includes to cover the
+missing items, or add forward declarations for things that are only used
+as pointers. Whilst making the change also alphabetise the list of
+includes.
 
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/intel/avs/path.c | 5 +++++
- sound/soc/intel/avs/path.h | 1 +
- sound/soc/intel/avs/pcm.c  | 8 ++++++++
- 3 files changed, 14 insertions(+)
+ include/linux/soundwire/sdw.h | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/intel/avs/path.c b/sound/soc/intel/avs/path.c
-index 5e7b9151178fa..3511ee7c0e22e 100644
---- a/sound/soc/intel/avs/path.c
-+++ b/sound/soc/intel/avs/path.c
-@@ -1102,3 +1102,8 @@ int avs_path_run(struct avs_path *path, int trigger)
+diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+index 73f655334fe9c..1fd4b126287f2 100644
+--- a/include/linux/soundwire/sdw.h
++++ b/include/linux/soundwire/sdw.h
+@@ -4,12 +4,19 @@
+ #ifndef __SOUNDWIRE_H
+ #define __SOUNDWIRE_H
  
- 	return 0;
- }
++#include <linux/bitfield.h>
+ #include <linux/bug.h>
+-#include <linux/lockdep_types.h>
++#include <linux/completion.h>
++#include <linux/device.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
++#include <linux/lockdep_types.h>
+ #include <linux/mod_devicetable.h>
+-#include <linux/bitfield.h>
++#include <linux/mutex.h>
++#include <linux/types.h>
 +
-+bool avs_path_is_detecting(struct avs_path *path)
-+{
-+	return (path->state == AVS_PATH_STATE_DETECTING);
-+}
-diff --git a/sound/soc/intel/avs/path.h b/sound/soc/intel/avs/path.h
-index a60e6d2f4ad5c..48441a44c547b 100644
---- a/sound/soc/intel/avs/path.h
-+++ b/sound/soc/intel/avs/path.h
-@@ -76,5 +76,6 @@ int avs_path_unbind(struct avs_path *path);
- int avs_path_reset(struct avs_path *path);
- int avs_path_pause(struct avs_path *path);
- int avs_path_run(struct avs_path *path, int trigger);
-+bool avs_path_is_detecting(struct avs_path *path);
++struct dentry;
++struct fwnode_handle;
  
- #endif
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 0b618b1d04689..f54dc1ee6b9b2 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -178,6 +178,14 @@ static int avs_dai_prepare(struct snd_pcm_substream *substream, struct snd_soc_d
- 	if (!data->path)
- 		return 0;
- 
-+	if (avs_path_is_detecting(data->path)) {
-+		ret = avs_path_pause(data->path);
-+		if (ret < 0) {
-+			dev_err(dai->dev, "pause path failed: %d\n", ret);
-+			return ret;
-+		}
-+	}
-+
- 	ret = avs_path_reset(data->path);
- 	if (ret < 0) {
- 		dev_err(dai->dev, "reset path failed: %d\n", ret);
+ struct sdw_bus;
+ struct sdw_slave;
 -- 
-2.34.1
+2.39.5
 
