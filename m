@@ -1,175 +1,91 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B02204005;
-	Tue, 12 Nov 2024 16:04:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6F8219E2F;
+	Tue, 12 Nov 2024 20:26:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731427448; cv=none; b=IvuAK/6OZ2vPh+dYn35YYUP2kAtKJASBh3QK2v8RHaopsupvJptsn//iKS8up61yM4FE1SH5dkD+Frx+cNa2S+n7sBt7zzRJCZqmEH3/5Otyp8IoEpE3JctQy2Xpts0I7wE5tUsU6KhgY19BAX1EtU8NrYrrO4sHj3JDBfkCoGU=
+	t=1731443196; cv=none; b=JJBzW0aAkzSqVp5WclL/gkXqDrJBL45oBB/6ekjC6vzWmySPOOsV+MJtMIutrIy1mYUJVAHgUTaJuUc0G9GGeBF4olpMkm2QYYEPL+8eqgE4d4xxMF9Z87NNlh2ljLiW/SvAJb2+zo2IsQtV77F4Lajqqg2MhvSU1tDx0LMLH1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731427448; c=relaxed/simple;
-	bh=l5DrxO8EWdrMiwMpBgE3J+dkWpcb2S9HNrdbP8mt9hE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FBJQkieMFwCVWFyvneDUAwCH5i1EaYidooVQ3EIN3rvR59qGDbXSfQHUX5PxiL7w1oNYQM6JNP5I+q+HuGIK3u588H+3oHIxbc2KWLl/lAXdqkKPvW7Cu2a4M9yN8Vuiv5Kkvk+tX8+V74cJGZbbPRaYEHgWGFec+r2SbFPQ7zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=piTpMSD+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vkBlhbKp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GmSl3jJ7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DM4Yn+lS; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1731443196; c=relaxed/simple;
+	bh=2b/fokZMHb0mMRwj4SG4B6zOQZ3sRC9O4uIs5na1X/s=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qghxgY0WIv8jvXXbCfLOMIyZwh2Ey8UOG6nZMEP45Q4XR6uTOQ9bSa3n/1pdN/esYGCu8Lo5A9tbtUb4+DJPFZJEG+wO3AxCsmBIdG5KLFqIlhiShSjeQxbRqWtqE4ajyY62SOuaNQlAlsJKbIP05nz2ETFrF/9X/02HvPkvqRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=b7LqUr8G; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="piTpMSD+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vkBlhbKp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GmSl3jJ7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DM4Yn+lS"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="b7LqUr8G"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE5E9403F4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1731443192; bh=FSCC1rF49xJWet6H9Ph1rCvq7uKxif/+mtVyYE/+3ps=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=b7LqUr8GNVq9pqlGrDabNR5cP5M93hDJc5aQw4NKHgCjwKa7BVM/p5GwHeK/yv45d
+	 zY8GSIx8xKR1zDv+zXZPOkZGmICvdLGF/S2S4c4ETXRFgEiv6lViHGt0TFPZu8PjAc
+	 W2ozqL10aNKrukcTFUIK2Ed4GEYVnukrk7GxuUFDdEPzRTdKWcldgziQsyOH4+A4oX
+	 kITDDuNUH5I0DGDlcIYcBrWeyzG3rWnadW0Zc0KwldKyLX41h4H3xTeWIySQ8n6LfO
+	 sUnYbIumMb52h7fv8L/Cphmt7WEoDdAqdoGqBU05rnFkRkOkh1OeFHM9EYHzeFLheq
+	 G7/lGeZX95H1g==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DE0B52126C;
-	Tue, 12 Nov 2024 16:04:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731427445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
-	b=piTpMSD+gxnxUaLQReGiekO1FNXVASwD0xVarBwx53dF0sWVinCTNSzb4SNpzvyXnVnFM0
-	qT4yQsa3e19bbCMyFJFM66mOEIPcQLnvxDAsWdxWuSVSta3KCozZfc8QDzxMqkMFbrc3PN
-	GliTxPrTA3M9bJrorKUeNRLIarCXmjE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731427445;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
-	b=vkBlhbKpJ2z2Uht41v5PaxSJiWxLv8UVoW3bYGevfWNGBa7+qGN/+milQ58xjS1s1VluhC
-	/1dVkvWxTUpXLwAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GmSl3jJ7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DM4Yn+lS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731427444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
-	b=GmSl3jJ71FSnZoLeljsh5u+R91yyufm5YFHzyhKNB6Mo84hUvc/8oerqC5Bpa5ivyXb0RF
-	1NHUHayqIZKoUiVcItGg4Pp0ATd7gRAuDX3d6zMzWcXDhe7/AA/cOT33OL2h2Msy5ph0XV
-	INioHOCMPj04k1XW1jrWcXNKvWsXxzI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731427444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
-	b=DM4Yn+lS7d91qaVVTCObnfwqJU4ufFHAP7Hdp6I6Gs/V3Gseh2SWefsPqszbbNrU2TmjgD
-	+Mn9mgcz5lJDl8AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A864713721;
-	Tue, 12 Nov 2024 16:04:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TCrbJ3R8M2dmGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 12 Nov 2024 16:04:04 +0000
-Date: Tue, 12 Nov 2024 17:04:04 +0100
-Message-ID: <874j4ctp57.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] usb: fix a task hung in snd_card_free
-In-Reply-To: <tencent_9E3DBD3732961C37FC4AEC74E3763367E209@qq.com>
-References: <6726bf35.050a0220.35b515.018b.GAE@google.com>
-	<tencent_9E3DBD3732961C37FC4AEC74E3763367E209@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by ms.lwn.net (Postfix) with ESMTPSA id AE5E9403F4;
+	Tue, 12 Nov 2024 20:26:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, anish kumar
+ <yesanishhere@gmail.com>, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, Sebastian Fricke
+ <sebastian.fricke@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+In-Reply-To: <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+References: <20241107200835.3033-1-yesanishhere@gmail.com>
+ <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org>
+ <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org>
+ <87v7wyznow.fsf@trenco.lwn.net>
+ <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org>
+Date: Tue, 12 Nov 2024 13:26:31 -0700
+Message-ID: <87wmh8p5ag.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: DE0B52126C
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[73582d08864d8268b6fd];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Wed, 06 Nov 2024 03:15:49 +0100,
-Edward Adam Davis wrote:
-> 
-> task 1: snd ctrl will add card_dev ref count and can't call close to dec it,
->         it is blocked waiting for task 2 to release the USB dev lock.
-> 
-> task 2: usb dev lock has been locked by hung task (here is usb_disconnect),
->         it is hung waiting for task 1 to exit and release card_dev.
-> 
-> Adjust the USB lock acquisition method to non-blocking in ioctl to avoid
-> hang when the USB connection is closed.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-I'm afraid that this change would break things too badly.
-i.e. changing the blocking behavior to non-blocking is no-go.
+> On 11/7/24 2:25 PM, Jonathan Corbet wrote:
 
-> Reported-and-tested-by: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=73582d08864d8268b6fd
+>> If we really want to separate the mechanics of kernel development from
+>> the associated process information - not always an easy separation, IMO
+>> - we could make a top-level "development" directory, put a lot of the
+>> other relevant stuff there, and include the debugging stuff.  It seems
+>> really weird to put debugging by itself, though; it's only part of the
+>> picture.
+>
+> I could go with that.
+>
+>> 
+>> Why is Documentation/process so bad?
+>
+> Documentation/process/ is meta-documentation about kernel social "standards"
+> among other things. It is "soft" documentation, whereas debugging (IMHO) is
+> "hard" documentation.
+>
+> But hey, it's all your baby. Do whatever pleases you. :)
 
-This particular syzkaller entry can be fixed rather by replacing
-snd_card_free() in snd_usx2y_disconnect() with
-snd_card_free_when_closed() like other USB audio drivers, something
-like below.
+Hopefully not all mine...:)
 
-Judging from the git log, it had been with snd_card_free_in_thread(),
-but was switch to snd_card_free() around year 2005.  Meanwhile the
-handling of async card release got improved, and it's very likely OK
-to use snd_card_free_when_closed() there with the recent kernel.
+My suggestion is to put it under process for now just to not block
+forward progress on this work.  We can surely relocate it if we want to
+make a proper development-processes top-level directory in the future.
 
+Thanks,
 
-thanks,
-
-Takashi
-
--- 8< --
---- a/sound/usb/usx2y/usbusx2y.c
-+++ b/sound/usb/usx2y/usbusx2y.c
-@@ -422,7 +422,7 @@ static void snd_usx2y_disconnect(struct usb_interface *intf)
- 	}
- 	if (usx2y->us428ctls_sharedmem)
- 		wake_up(&usx2y->us428ctls_wait_queue_head);
--	snd_card_free(card);
-+	snd_card_free_when_closed(card);
- }
- 
- static int snd_usx2y_probe(struct usb_interface *intf,
+jon
