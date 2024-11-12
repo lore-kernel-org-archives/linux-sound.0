@@ -1,109 +1,129 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9598215B96E
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 14:11:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90E21FCC66;
+	Tue, 12 Nov 2024 14:38:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731420696; cv=none; b=TkECOKv+N3glTOj+3AL2pONUKlm998Y/yqYxkUU0cbhWxgILnvnS2kfETDkkkhCwPrI1YfSM4AfFT9MPD2wBr24t8VA6ng+3QmIamsRY3ov7KMIS0KXuH9oWMPo69925X7Sn7bhHYeoipAmoplebH0dMybEf6QcBuJuvM/yOdnI=
+	t=1731422336; cv=none; b=Qrw2tOjXeE+lrgLUTp3cV+6Izj3R/xMz4duTxEKLKqNgZRI+iYXg8PURLYKuugaA/hDi8a0xzFmSJs6kQpxmIV4HT3hZUBRoCkFpVrY6tZ9vtwRZOZdZmjRAQtczx2BE60rapevaG5OxalXMgbya+RjWlpPapCJgX2NmSNNDV8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731420696; c=relaxed/simple;
-	bh=1fZhEbTaDiiroktK8JnnW5AlOotjuE0UbSmwivk2zNw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ksBgG3OWTYPdnQkvCCDFdasqdTr8YUxzKaNXi+8EU01dUI5jNvghS1Vd21cPG9u506CM/JC0NEdJMo0p+2l+NApEG9X2f2LcRvNg3hwYATkl0QyXoUA7IDoR3QPP1QOjBPyWNFJWOSRAtZRtcxUCAOczRbl2rH8xB5ZxRSy1Mco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1/bVu0cj; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1731422336; c=relaxed/simple;
+	bh=1UtOMHtwH1SOUw9FhScQrAe8SxbWdIG4GnE7JRRQYBE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jmfjd73rAjq/fsAdMWJvFr2Y7GEufl9sjIryjmqVrycvZsaVMiUq61ce0lxFwNIEYBy9LZMLY7d1S8ee9/zMAljbRGprhaACBZcVhnsuaQSx4THqM1r8b6MgbdazSLA6pyf4ylusJUwbQF0KQvkV8vbSMNKN4g2pu8V1XqXgA74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M+HMnFFN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ab6ZrMQ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=M+HMnFFN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1ab6ZrMQ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1/bVu0cj"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20ca03687fdso200675ad.0
-        for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 06:11:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731420694; x=1732025494; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AkqXyzik8eZACIcFxqtlyAZ4d3oM6XwthEsQPSJKppo=;
-        b=1/bVu0cjI6uYSnBA6czimetVLmc4a5JGirGFl/zFfaishrtCemA91rk4WvrIeXqLtJ
-         Djzps+0sfFL0KSOYuggZhRAu4wd0K9M7BG2NjtGP8wa9l5RKj8hKuc1IYIH+Zi+qYGxH
-         MDHIrC3+MhxDj/mwpaddYiMSPAzfwaCqTUtjYQEi/JO778EoHj/oDnkDj/07kRKaWAWp
-         egSveJvzfPb0MJVPSx3fwv5TzRbbK4oUG5JtQTbQvPORKCVOtgx5jVPvEXaJkKGhmoPu
-         FFDRTq6Oi3Mij6ZsBkRwkfmkfhPwNbzjwVGWAnS8LsWRXcVdAkKuNtheHtwdBHyvYAI1
-         ranQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731420694; x=1732025494;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AkqXyzik8eZACIcFxqtlyAZ4d3oM6XwthEsQPSJKppo=;
-        b=qkqq9qYP3gG7qCPLPb97uLKr0KLP9PrQAcsr8W+xF1qsoGNEDmNNozjocH/9kM6qpG
-         t+YbLvgUS6xydS79XTChO5NcN3iWpLdUGKF52c2YE4djVG9K2Y+pqiyyrN0Lgnx4WKIs
-         Or3LtqyosFK/eAG0Gw40ROPezxpB5HqXzIIvUV0Vd9eu3BcCryC2MJ0/R7lkXaf1Z4Ob
-         VNLQ35vbAucrvIBN4Z4pdYu0myk5K6I2nUjbpsS82JSuo7YjE8oDg7z6GOUpgJPhPsRu
-         JXQ7ASYfhnbcdtx+U5QAIZjqzMifBxJteEqzDhbJBVMRTC5YP8mYT9WAeZ2ga2cWPuS7
-         k6Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDzVVve0n44v6fFhVs8sWIVAZm+A40gYWAOsbHxbG0cGn2cftRTf0NAfm0yJbNwInicwP+W1usAINOog==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRCzvnjHxYyNx4jqp64UE2pGti2GaHNa3heHZGhSGSBdOHkYHs
-	vDF6Kkp+ElJ1stVaoZOa3lIP9SCFAl8C0Y97AIAUBwBkERpgpwsSmFQA90EvuUgLoFMGXFE3f1f
-	p3/APQtFK/kOYewqyMF6gevfnaOEslNN+tMEi
-X-Gm-Gg: ASbGncuZqqZmJsT4ulojgcxB+QNDLelcEyqMao88a1EFvKb4XGK28S2+xtrfT/XCLeH
-	GiJsYyR2UuUR/LxDkB3JD3wmrQpP0lw==
-X-Google-Smtp-Source: AGHT+IHlRgvzbYmdyT/fAOqtiTj4F4oiQEsE+/ajhC4KCnzbFZ6t8EIkbdeU7Hy/B+sKHd+rJDTDQvGKLo1SfMQrNTg=
-X-Received: by 2002:a17:903:124a:b0:20c:568f:37c7 with SMTP id
- d9443c01a7336-211aceca238mr1984225ad.17.1731420693651; Tue, 12 Nov 2024
- 06:11:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M+HMnFFN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ab6ZrMQ";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M+HMnFFN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1ab6ZrMQ"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4C84521276;
+	Tue, 12 Nov 2024 14:38:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731422333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n0BOez1F3uJWzNvDLZTFi0Elq1JhL9g4ZhgqCxyl7/c=;
+	b=M+HMnFFN0tok4v4N2bGnomNceBbIxyEoU/t9QIQdiybu1Zy6t5n6VbsNvqQWLHtrueenCj
+	zuyscEnY8bq9PI0smP5tx1zOthv+clSj6+MIWRhhAnRXK8xQTsJi6LqAkj1wVAFFWn6X0L
+	IxQ39y0y52Mw8bWNQp6Jl8nLVINmMz8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731422333;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n0BOez1F3uJWzNvDLZTFi0Elq1JhL9g4ZhgqCxyl7/c=;
+	b=1ab6ZrMQvYoTwrSMQVq9wcsoejEq4UfQ6f9oNSOOTg9JBtCChepK/gBPAIMFWOaure/Rym
+	iwk03JpMW1NAcyBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731422333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n0BOez1F3uJWzNvDLZTFi0Elq1JhL9g4ZhgqCxyl7/c=;
+	b=M+HMnFFN0tok4v4N2bGnomNceBbIxyEoU/t9QIQdiybu1Zy6t5n6VbsNvqQWLHtrueenCj
+	zuyscEnY8bq9PI0smP5tx1zOthv+clSj6+MIWRhhAnRXK8xQTsJi6LqAkj1wVAFFWn6X0L
+	IxQ39y0y52Mw8bWNQp6Jl8nLVINmMz8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731422333;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n0BOez1F3uJWzNvDLZTFi0Elq1JhL9g4ZhgqCxyl7/c=;
+	b=1ab6ZrMQvYoTwrSMQVq9wcsoejEq4UfQ6f9oNSOOTg9JBtCChepK/gBPAIMFWOaure/Rym
+	iwk03JpMW1NAcyBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E564113301;
+	Tue, 12 Nov 2024 14:38:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id YBRGNXxoM2csfwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 12 Nov 2024 14:38:52 +0000
+Date: Tue, 12 Nov 2024 15:38:52 +0100
+Message-ID: <87frnwtt37.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Eryk Zagorski <erykzagorski@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tiwai@suse.com,
+	soyjuanarbol@gmail.com
+Subject: Re: [PATCH] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
+In-Reply-To: <20241111164520.9079-2-erykzagorski@gmail.com>
+References: <20241111164520.9079-2-erykzagorski@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241112074048.1762371-1-mmaslanka@google.com> <ZzNVH65o0ue6jn6a@finisterre.sirena.org.uk>
-In-Reply-To: <ZzNVH65o0ue6jn6a@finisterre.sirena.org.uk>
-From: =?UTF-8?Q?Marek_Ma=C5=9Blanka?= <mmaslanka@google.com>
-Date: Tue, 12 Nov 2024 15:11:07 +0100
-Message-ID: <CAGcaFA3SdBVtOiPJQG82YwBX01s5_mJszeM4LNSc5Pn74S2Cvw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: da7219-aad: Fix detection of plugged jack after resume
-To: Mark Brown <broonie@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, 
-	Support Opensource <support.opensource@diasemi.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,suse.com,gmail.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Mark,
+On Mon, 11 Nov 2024 17:45:21 +0100,
+Eryk Zagorski wrote:
+> 
+> This patch switches the P-125 quirk entry to use a composite quirk as the
+> P-125 supplies both MIDI and Audio like many of the other Yamaha
+> keyboards
+> 
+> Signed-off-by: Eryk Zagorski <erykzagorski@gmail.com>
 
-On Tue, Nov 12, 2024 at 2:16=E2=80=AFPM Mark Brown <broonie@kernel.org> wro=
-te:
->
-> On Tue, Nov 12, 2024 at 07:40:47AM +0000, Marek Maslanka wrote:
-> > Don't notify and mark the jack as unplugged during the "set_jack" actio=
-n,
-> > because this action is called very late in during the resume process, f=
-orcing
-> > the jack to be unplugged after the resume, even if the jack is plugged =
-in. Let's
-> > leave the responsibility of managing the insertion of the jack to IRQ.
->
-> > @@ -33,10 +33,6 @@ void da7219_aad_jack_det(struct snd_soc_component *c=
-omponent, struct snd_soc_jac
-> >       struct da7219_priv *da7219 =3D snd_soc_component_get_drvdata(comp=
-onent);
-> >
-> >       da7219->aad->jack =3D jack;
-> > -     da7219->aad->jack_inserted =3D false;
-> > -
-> > -     /* Send an initial empty report */
-> > -     snd_soc_jack_report(jack, 0, DA7219_AAD_REPORT_ALL_MASK);
-> >
-> >       /* Enable/Disable jack detection */
-> >       snd_soc_component_update_bits(component, DA7219_ACCDET_CONFIG_1,
->
-> This path is also (AFAICT only?) called when registering the jack by
-> da7219_set_jack(), I'm not immediately seeing the path for resume.  This
-> suggests that what's going on here is an issue with the machine driver
-> unregistering the jack over suspend?
+Thanks, applied now.
 
-In my case the da7219_set_jack() is directly called from avs_card_resume_po=
-st()
-(sound/soc/intel/avs/boards/da7219.c) so that could be a problem too.
+
+Takashi
