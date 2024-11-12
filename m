@@ -1,94 +1,175 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4C52022E2;
-	Tue, 12 Nov 2024 15:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B02204005;
+	Tue, 12 Nov 2024 16:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731426506; cv=none; b=emmoSEmwjs1tzd5TKRxt49aBBT0S9EX8wyQhA5lZA4hyMAoHoUena6RPR02Pn59znQVrt9W9FnaxDxf5dPyEAW2YReTS5f83S/zcWJ3FFdFaRLZy8A7wFTw/121KoOC2bjruGUuCol94XyLH90oYbPF8hRgqPwbt0vPe/0J4A4I=
+	t=1731427448; cv=none; b=IvuAK/6OZ2vPh+dYn35YYUP2kAtKJASBh3QK2v8RHaopsupvJptsn//iKS8up61yM4FE1SH5dkD+Frx+cNa2S+n7sBt7zzRJCZqmEH3/5Otyp8IoEpE3JctQy2Xpts0I7wE5tUsU6KhgY19BAX1EtU8NrYrrO4sHj3JDBfkCoGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731426506; c=relaxed/simple;
-	bh=sofabjbV5hbD1jGxo7ToLfuWm78lBTWXYMqZ+ZuRwNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XBfPIzDqiL+fOGdHrF2aRqMO8ryF/vCSOtSv38L/rzMgEEiD5kM30bkNf+BOGDRBxtfB1VfvFu8vU74S5Wvt/uT/mvWQBSi17ay2ixI79Q/0+obo5pqEGtMK/BgTXuk9YKeCzGCnluU9vO2VfYBq5hdl09q5tY9azgFz3xqiLCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czW7ScnC; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731427448; c=relaxed/simple;
+	bh=l5DrxO8EWdrMiwMpBgE3J+dkWpcb2S9HNrdbP8mt9hE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FBJQkieMFwCVWFyvneDUAwCH5i1EaYidooVQ3EIN3rvR59qGDbXSfQHUX5PxiL7w1oNYQM6JNP5I+q+HuGIK3u588H+3oHIxbc2KWLl/lAXdqkKPvW7Cu2a4M9yN8Vuiv5Kkvk+tX8+V74cJGZbbPRaYEHgWGFec+r2SbFPQ7zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=piTpMSD+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vkBlhbKp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GmSl3jJ7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DM4Yn+lS; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czW7ScnC"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5c941623a5aso12089816a12.0;
-        Tue, 12 Nov 2024 07:48:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731426503; x=1732031303; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J4vvY1hPm4dTwPOX+kLodHdGH7RV8ksGGnHOHxIfjP0=;
-        b=czW7ScnCPGZU87qGM2UYF411QcQ/7Ch+CaAshh4bvOpo7pY0bdTfc8gClQf1EAGeTp
-         QW9dr2J6Yutqi5EyFwbD3lEuwFJrxcCP2blsHDI2JGh+KZ3jmjabs+126YByHYiZE+th
-         Teyi/tRrnODE99QUugIaMscGikc1/QITv2at163KAQtYlv3B48XA3b2/TlsV/+oJyvQw
-         uxQ6P4X42sW5noRhJmOMy31y/lD8PTiv2VC2YMrHLG8UilsGSDs07buQOyWhMmzESOjk
-         o8lf3uYjaGXmbk+EwbMM9q9HXLMfD0YgbWRxYCBZKairu8uX00h1DU6RWdoo95n/+N8O
-         pDsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731426503; x=1732031303;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J4vvY1hPm4dTwPOX+kLodHdGH7RV8ksGGnHOHxIfjP0=;
-        b=MrjK4EgJBxGGVx3DyE3prPSA/oy9M87S/aPMsZm5LkOfHHfwFlQd8/5mK/n4VfYyMH
-         nLNAbfOBYJEGnw/wQWt+grnUndljKfvk0E+095NRVXbM2mx2FRoePUbgMe1Oedq2QbER
-         qO/gCPu3li7NSEhxdK5OJ//HN8Q/0lge66fuTpX5ho9YLhCwWal3MZmblOywKXI+Ln5I
-         S9teOyyerlJInTxNpJg2z0wNaixdZ7PjmXlydzyu60Oh/7CCOXAZ72qCHeJ/D4adafQG
-         mWU8KQOXQux8CI1VqZuftU1aZKIFE2aHX28Mnw0oqKoIB73kKHnXxTKbypcywdVYkEia
-         1Alg==
-X-Forwarded-Encrypted: i=1; AJvYcCWP5SuXPxZ1qMW4jF3Y527ziqsC5y2VGV063H3QbfUo93TjLZoHIAEPm8S2CiQ58SMbBWute/HxGfA/RQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3GZvdtLOLCE/UY5T+LZIgHRWoNam/2OQ0++GKw8cPeWDKH+jp
-	yUzEo7lhTQp3cJ9s1Z1DQMQcF+oglrfUHmjRMpOppPwTuCThLjyf
-X-Google-Smtp-Source: AGHT+IFCboTgk0QbJIGUebZF7ryW3W8srgnHP7WiKEUIOeSpExG9/0LHG4R9watdjNxl9l3QJ9+omA==
-X-Received: by 2002:a05:6402:2410:b0:5cf:4523:4b9c with SMTP id 4fb4d7f45d1cf-5cf45234ceemr6863160a12.3.1731426502622;
-        Tue, 12 Nov 2024 07:48:22 -0800 (PST)
-Received: from max-laptop.. ([93.175.195.113])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c9e36csm6397256a12.66.2024.11.12.07.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 07:48:22 -0800 (PST)
-From: Maksym Glubokiy <maxgl.kernel@gmail.com>
-To: perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="piTpMSD+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vkBlhbKp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GmSl3jJ7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DM4Yn+lS"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DE0B52126C;
+	Tue, 12 Nov 2024 16:04:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731427445; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
+	b=piTpMSD+gxnxUaLQReGiekO1FNXVASwD0xVarBwx53dF0sWVinCTNSzb4SNpzvyXnVnFM0
+	qT4yQsa3e19bbCMyFJFM66mOEIPcQLnvxDAsWdxWuSVSta3KCozZfc8QDzxMqkMFbrc3PN
+	GliTxPrTA3M9bJrorKUeNRLIarCXmjE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731427445;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
+	b=vkBlhbKpJ2z2Uht41v5PaxSJiWxLv8UVoW3bYGevfWNGBa7+qGN/+milQ58xjS1s1VluhC
+	/1dVkvWxTUpXLwAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=GmSl3jJ7;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DM4Yn+lS
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731427444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
+	b=GmSl3jJ71FSnZoLeljsh5u+R91yyufm5YFHzyhKNB6Mo84hUvc/8oerqC5Bpa5ivyXb0RF
+	1NHUHayqIZKoUiVcItGg4Pp0ATd7gRAuDX3d6zMzWcXDhe7/AA/cOT33OL2h2Msy5ph0XV
+	INioHOCMPj04k1XW1jrWcXNKvWsXxzI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731427444;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=64qgWyYd2C7QnivLzTaPxC5rj5UDbBbbzqPmBwQcZDw=;
+	b=DM4Yn+lS7d91qaVVTCObnfwqJU4ufFHAP7Hdp6I6Gs/V3Gseh2SWefsPqszbbNrU2TmjgD
+	+Mn9mgcz5lJDl8AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A864713721;
+	Tue, 12 Nov 2024 16:04:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id TCrbJ3R8M2dmGQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 12 Nov 2024 16:04:04 +0000
+Date: Tue, 12 Nov 2024 17:04:04 +0100
+Message-ID: <874j4ctp57.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com,
 	linux-kernel@vger.kernel.org,
-	Maksym Glubokiy <maxgl.kernel@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs for a HP EliteBook 645 G10
-Date: Tue, 12 Nov 2024 17:48:15 +0200
-Message-ID: <20241112154815.10888-1-maxgl.kernel@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH] usb: fix a task hung in snd_card_free
+In-Reply-To: <tencent_9E3DBD3732961C37FC4AEC74E3763367E209@qq.com>
+References: <6726bf35.050a0220.35b515.018b.GAE@google.com>
+	<tencent_9E3DBD3732961C37FC4AEC74E3763367E209@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: DE0B52126C
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[qq.com];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[73582d08864d8268b6fd];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -2.01
+X-Spam-Flag: NO
 
-HP EliteBook 645 G10 uses ALC236 codec and need the
-ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF quirk to make mute LED and
-micmute LED work.
+On Wed, 06 Nov 2024 03:15:49 +0100,
+Edward Adam Davis wrote:
+> 
+> task 1: snd ctrl will add card_dev ref count and can't call close to dec it,
+>         it is blocked waiting for task 2 to release the USB dev lock.
+> 
+> task 2: usb dev lock has been locked by hung task (here is usb_disconnect),
+>         it is hung waiting for task 1 to exit and release card_dev.
+> 
+> Adjust the USB lock acquisition method to non-blocking in ioctl to avoid
+> hang when the USB connection is closed.
 
-Signed-off-by: Maksym Glubokiy <maxgl.kernel@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+I'm afraid that this change would break things too badly.
+i.e. changing the blocking behavior to non-blocking is no-go.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 571fa8a6c9e1..4b17a20e5b4f 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10496,6 +10496,7 @@ static const struct snd_pci_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8b59, "HP Elite mt645 G7 Mobile Thin Client U89", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8b5d, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8b5e, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
-+	SND_PCI_QUIRK(0x103c, 0x8b5f, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8b63, "HP Elite Dragonfly 13.5 inch G4", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8b65, "HP ProBook 455 15.6 inch G10 Notebook PC", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8b66, "HP", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
--- 
-2.43.0
+> Reported-and-tested-by: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=73582d08864d8268b6fd
 
+This particular syzkaller entry can be fixed rather by replacing
+snd_card_free() in snd_usx2y_disconnect() with
+snd_card_free_when_closed() like other USB audio drivers, something
+like below.
+
+Judging from the git log, it had been with snd_card_free_in_thread(),
+but was switch to snd_card_free() around year 2005.  Meanwhile the
+handling of async card release got improved, and it's very likely OK
+to use snd_card_free_when_closed() there with the recent kernel.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+--- a/sound/usb/usx2y/usbusx2y.c
++++ b/sound/usb/usx2y/usbusx2y.c
+@@ -422,7 +422,7 @@ static void snd_usx2y_disconnect(struct usb_interface *intf)
+ 	}
+ 	if (usx2y->us428ctls_sharedmem)
+ 		wake_up(&usx2y->us428ctls_wait_queue_head);
+-	snd_card_free(card);
++	snd_card_free_when_closed(card);
+ }
+ 
+ static int snd_usx2y_probe(struct usb_interface *intf,
