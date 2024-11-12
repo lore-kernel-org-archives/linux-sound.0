@@ -1,40 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D3E433C0
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 13:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3FA433C0
+	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 13:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731416888; cv=none; b=jm4n5YSk2wdBjwUvXNL00UAsHmsk9MaNn2nB+q3PJnnwzJKe0ys2eOxm+K5UCBd8AWC/JCQgnjRm1PylHfXQMzeMWBmwrqraG76e4J8RWtvfcrc7Hs2MTs1k/ZeIUAWt0hNh4QWMpYmJUuKlH1aEVEvgaXsuWnod+oVfTSWdseE=
+	t=1731416890; cv=none; b=nIvizcdbpEvcqneFk19Z9h6+NVy1/UecgpnXwGJqn6x0iwMpMlFkT2Q9bSEPUWthssGNtAxu4zaejzCVpP8WpgErP946Z1GsiydH1Lu1kp/bvTpvRkjDDL+Tec41QMx6PxABs6wNcb6fJhbqUdRGHViFR5SmMtnsXbPaDegtXCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731416888; c=relaxed/simple;
-	bh=NQ0K1smV2nTKhEHDCxlSxso12iaJtFYp5LoP0Mrpzts=;
+	s=arc-20240116; t=1731416890; c=relaxed/simple;
+	bh=YvknVqyrbsjp40/+1thFmNCA2O4XdpZpZfzwzS1EbEA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=teBMRQG7VqxxiS3fnuciFe6SHTYMHKtNP5wsaD/TPfkMlLGIlnAK2kI6IhhlSuHK8CyKVPE9pbvQKDIpY1xU9n/nVunRRcmW0zdkD3bEy1F4q0YZ28rIc1HABklJxL0ZH25gTV7TdNg2ohtOUrEbnZwPfx4ZXutBKWRY8MWJ2so=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S9knpmib; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=hr6T6eb6dNELZ9wTW4Mxr+3im3Q/JS5/Pvks6NaVAGkIdseq99TnaBphjV5EgcJMVnwFAzY3FLASvsaXVd2b52CsWkDiZKAi04DeI4rZ96RaaG3SRv6nJs8t/9BmBNU45qAYrwvDyHgUPbRHF0ldXIDkLxBNzFAgl1j5nSplDR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BzzChgRG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S9knpmib"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B42EFC4CECD;
-	Tue, 12 Nov 2024 13:08:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BzzChgRG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C987C4CED0;
+	Tue, 12 Nov 2024 13:08:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731416888;
-	bh=NQ0K1smV2nTKhEHDCxlSxso12iaJtFYp5LoP0Mrpzts=;
+	s=k20201202; t=1731416890;
+	bh=YvknVqyrbsjp40/+1thFmNCA2O4XdpZpZfzwzS1EbEA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=S9knpmibLdVJ1jXugO0qLtwT6QJa+E8Pv6c0V5BxRq1epaBMk++1kU327PVXCSl2Q
-	 D7zpVwyU/OmoJaKp6Vv1Gcj1J8tJYG8ZwD+LJ2ipeYmEFVgtp2Kf/Nvwo+goevnwtY
-	 k+IZlCHTkof5v1FQu/7i7jXDwse1mpZZw9tffbBgNhvXg6FNOZmt9Dxy0UDzA3xDSV
-	 835eMKMMeXgSryqoH++H+uAV5Rmp/DB3iVT8502BOdtYl2fdVQ7f7qHnU3BNEj5HZZ
-	 0O/1hPhiOSqQzVM5ROlqStA5q9H9JV0EfXRFAOKEcs+CJPWgjmawpr/bROQPVGw7aw
-	 n19aWaNsYBlbg==
+	b=BzzChgRGBWchUxr8sCyhfVh/NOXHLSCkuEQAL1OMr8CXuVSoCje1UDCZZAkE5Jcle
+	 Px3cOjFb5BZ5WjTqXxR8AZSWp4ZPLGkaku1J0wLF9YqV0hLF4XDgIWvprozvbW7vHr
+	 3aOFFq/kGZGo1uwDEoZUTKKfjqmg44z1J3eyUBIYKWgkWCXHlQoOqJAbYa5FSeofFs
+	 HU+aP899mp0kFxJ+AkLezJAyJmymHiuVcSoRUy/x5YKRppj8lZXwpoTimjh/0lQ/+8
+	 tWY99RpM1nseIfuQo3BiEyFRMJGabsixk6Gqg4F8a6sw3zSzKlH+v+0F26tTQH5QFu
+	 kuD/1fDMr/Bsg==
 From: Mark Brown <broonie@kernel.org>
 To: linux-sound@vger.kernel.org, Marek Vasut <marex@denx.de>
 Cc: Chen Ni <nichen@iscas.ac.cn>, Jaroslav Kysela <perex@perex.cz>, 
  Liam Girdwood <lgirdwood@gmail.com>, Takashi Iwai <tiwai@suse.com>
-In-Reply-To: <20241111165435.113086-1-marex@denx.de>
-References: <20241111165435.113086-1-marex@denx.de>
-Subject: Re: [PATCH] ASoC: max98088: Add left/right DAC volume control
-Message-Id: <173141688629.388630.2482514845219440364.b4-ty@kernel.org>
-Date: Tue, 12 Nov 2024 13:08:06 +0000
+In-Reply-To: <20241111165523.113142-1-marex@denx.de>
+References: <20241111165523.113142-1-marex@denx.de>
+Subject: Re: [PATCH] ASoC: max98088: Add headphone mixer switch
+Message-Id: <173141688813.388630.6367781195497125901.b4-ty@kernel.org>
+Date: Tue, 12 Nov 2024 13:08:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,8 +45,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-355e8
 
-On Mon, 11 Nov 2024 17:54:04 +0100, Marek Vasut wrote:
-> Add left/right DAC digital volume control knob.
+On Mon, 11 Nov 2024 17:55:04 +0100, Marek Vasut wrote:
+> Add enable/disable headphone output mixers knob.
 > 
 > 
 
@@ -56,8 +56,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: max98088: Add left/right DAC volume control
-      commit: 14c7f4867b7e4ddbbde58b398452295051c77137
+[1/1] ASoC: max98088: Add headphone mixer switch
+      commit: d0621105eff307408ceb3d0eb61ca2a23c37fcbe
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
