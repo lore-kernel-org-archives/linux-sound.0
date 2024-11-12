@@ -1,85 +1,159 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEB841C9B71;
-	Mon, 11 Nov 2024 18:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A5D200121;
+	Tue, 12 Nov 2024 00:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731350910; cv=none; b=XZjG6V1VnvajfVQufdJEihidgX2e17lCpe47jiWiaXkVtabLqSkOPgAvXtp7S7mFRbYE7ouzTy0+F1fdJh9Mrvzy3QrkLgtmu/aGcyHxxn/xJk9V82Z+WyeU7dAtrSFS6CDvPhq0Wm5HoXlU2WelJ6a70n1pFbqB4c9ImZzvXXY=
+	t=1731372856; cv=none; b=sqJhuZDLmzLE6HnLsqOByCVkoFBTUjcX+7s9mpMfBMR7QzXVemwtxtOVJAI8bIqtmCseRZtITPw6bUU/jNSjjXU1Xc24seEdBQBwRFy31JuXESxeaonhKBvOPM5XUyst8+7qLCDqqESEMRNFT7LHmnA3warSzFbjIBRejPh/IAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731350910; c=relaxed/simple;
-	bh=RodbN1OVE2eV4MkRdbJ5zWPOqcRJzErI3f2nitm7I+U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qG8rA4TU41OH2jBzTx7tBHht+V3c04wJh9vk1ZcqdEuoLo6ollGsRx2ngNl0fwjMYbxEuuEnfYiAOcXUKS/dxJYdGDukiYrFxC+tGNPkJbOG19exPnLm14jISnREDLGx74TTsi4doslKSYliUQ7hW73bCo65hCJyrJ8GZqxxR6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBkoF6FI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731372856; c=relaxed/simple;
+	bh=Hu4dBsJ5xP62QvmuRPaX4UIwMs8WvQh2ETQ5nwFhdYg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q8kgmDzk6B2jGKYJaLfwUa1c81Ip9lrEeZPv+/H/2yYe156YA60WN18wLR3u8FoZvdLnM75KjFpKxxbaewnACcqijeSsyznqRU/uYPTuyCf/Cv671l9bhm3j3bvSw+nK/Wm1HhRu5isIjb6XdVKyipPldxCh/ASaEWh/foZFvC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m70/qMAx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBkoF6FI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5040DC4CED4;
-	Mon, 11 Nov 2024 18:48:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731350910;
-	bh=RodbN1OVE2eV4MkRdbJ5zWPOqcRJzErI3f2nitm7I+U=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=GBkoF6FIafe2fOLHVPB8gIt88idY91yVLDk0nV5EdesuheQXHJB8VnQ8DnCLDVAMz
-	 y2s10TI9uZUPtB+DZcy379wojWMoEZsiyAQVN4bXwC1lZRzYK8M/UPoEt2dEhTieSh
-	 BEV2qtjTx/2Nz0aQ9AW/0r5sB9jhL3whvd1qKJ5+k7hpfb6EJ0p06TsIFI7EwaWZpl
-	 Crgmovi3FU+qxOSVxAO5HsQEzAFCnDJqo0gaJtNmnYW6FCZBu7wTorY+BKoSdIKrlF
-	 bhWddIG8r6FwFAOt77WTADXozJs5LeGAtfCOoyyLl5ZcNKxsFeYaAfVNqWz441zbYf
-	 F3wzFpm83a/CQ==
-From: Mark Brown <broonie@kernel.org>
-Date: Mon, 11 Nov 2024 18:47:49 +0000
-Subject: [PATCH 17/17] ASoC: max98927: Use maple tree register cache
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m70/qMAx"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20c77459558so46204515ad.0;
+        Mon, 11 Nov 2024 16:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731372854; x=1731977654; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GMJJU2vS4YE3uBb6HCAG4zKl0VOV5PsAT/leQ4TNxnY=;
+        b=m70/qMAxN0pqAqEZpsR6aywgqvwGAQPRLLdjUS2Msv26EsHRCv5g7EjgqxCXmLArWI
+         5X1ZEJTSI5js5ceJCv+fNTvupAjcsHMWEjNwx4v6U7QyojsWwGNI/ErzJMLH04GWuLbp
+         XHUokfuFB594b1Fb0JaEFUqw/tZVEm/GV9QTspb8hvmRxsLDz62ZkHTt9elbiJlqGCiz
+         WKaX9w8a6uhy6K46bA0sJevwMQMlW2Z5oWxtvVo3YSvqwuy2P/qbSA+IhpZympint2hU
+         QPIHOQ0QlVXtwtB5OfPf8DbehNcmRGFRFZrYwu1pchJVfwVdVdHl02hfDycpaRsNhY/f
+         6c0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731372854; x=1731977654;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GMJJU2vS4YE3uBb6HCAG4zKl0VOV5PsAT/leQ4TNxnY=;
+        b=nndm32mdoc2+FoXRwHKkmua42GKktI+11QC3uwrRqukcfjGSETsmz36FWi1WK1ZnGi
+         TR/lXYHnr/vLI67J1AuzP3UaROhovGNmmTbLiFNAQIrzAtJmgxvS6WAJSzgyad51jDEi
+         0X0xeFFdK7GpDRHj1YaH+/UiIOH4/8+kNBpPa64/Dz0VrAKJEXbWlBsycJt6TW7EgrHq
+         hb523S/aYALGlhWIVRbsCP0+G9vhrX18W7ZmWFzO0tCH9QrPic73Ns1It/wZoUMKZfmg
+         A/Hmx+F+urm91Fx02xoCQZA21iEVTRn76t9L/Be7omfgndkh12XI00aVey/j83uF0Yyv
+         IQdg==
+X-Forwarded-Encrypted: i=1; AJvYcCUSHxE0YHzKxgc3bdpN/5e8tZye/uquOKuFxY8fezhqc8W5WGCzBWv3xVjn0rkU/0el7wH4Z2k2qB6ZFmVC@vger.kernel.org, AJvYcCUvdgMmPuXQy9kngrl7YbeahZXnQu/fi0vYbJ2N7hHcmk0B3lOctPCZiK8I3tP3KpKTKffTtOMpjtI=@vger.kernel.org, AJvYcCWeDQJFA3a+abZ6CxQZbtIUcpG/4Nd4Vt6iubuIjKwBhtfF0QHR8CU/vOkkMOVtEyMOj3JT08Hl0epveqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxTPiAGkSTC5Mz/Qh4c6fN6KXcsef9EWhTAyK9c2AcuYRulUm7
+	xZUpx/0+5fzDrzL5lwjMYSFQP9lm+YqG025djF+E9F1PLyt/eJ8eWgmMDg==
+X-Google-Smtp-Source: AGHT+IHwtTvUJoENTDvZnyT0YawUxXABmQ2LbUhLkDiDiIxOPrZJWzce2wnxYA2YuPw/FDUuB20eJQ==
+X-Received: by 2002:a17:903:1d1:b0:211:18bf:e91d with SMTP id d9443c01a7336-211ab967356mr9016955ad.27.1731372853243;
+        Mon, 11 Nov 2024 16:54:13 -0800 (PST)
+Received: from archie.me ([103.124.138.80])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e85419sm81493685ad.273.2024.11.11.16.54.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Nov 2024 16:54:12 -0800 (PST)
+Received: by archie.me (Postfix, from userid 1000)
+	id 889B24209E61; Tue, 12 Nov 2024 07:54:08 +0700 (WIB)
+Date: Tue, 12 Nov 2024 07:54:08 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
+Message-ID: <ZzKnMLe-L7bOe9Tw@archie.me>
+References: <20241031211411.58726-1-yesanishhere@gmail.com>
+ <ZyQ5OJM8k1rGog2R@archie.me>
+ <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241111-asoc-maxim-maple-v1-17-baa315dc546b@kernel.org>
-References: <20241111-asoc-maxim-maple-v1-0-baa315dc546b@kernel.org>
-In-Reply-To: <20241111-asoc-maxim-maple-v1-0-baa315dc546b@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Peter Rosin <peda@axentia.se>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-355e8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1045; i=broonie@kernel.org;
- h=from:subject:message-id; bh=RodbN1OVE2eV4MkRdbJ5zWPOqcRJzErI3f2nitm7I+U=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBnMlFkiA7hP5ww+OMHu9RNIUlhqt/XDbAJpHC5N
- 1WcGNhk7PiJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZzJRZAAKCRAk1otyXVSH
- 0ArlB/0UtlHuCCDtllgn6kt3/WojNnQ/2M8XWkQozSHeYBbykqCdtAMAv4r6Q/CGeYVO29OGSv8
- p0JY/rQpfqpaczYtykxCnLG5htUVszpPelJZHPMleg5umc9UPVT8iN686nHrcwSL7oe7Teg3qeu
- 5c82gtp+qZh7WEnNv6mvraQIRO8IeodjIPehdVpIa6SVEv9JIZCEGeymW0of+zg53Whm8he709D
- 9i0dLM4ptVRt+XTGcQUPEohp14gY1hSh+68Dum8vGXGUrS/WeuU9LeznL340oUwiRlPUXy5LZiX
- IItISiqGYVlXLP232mOXoPkuMNys7tQfc7neH2F+JAT9wVsF
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YERgxwYtdic5yVS3"
+Content-Disposition: inline
+In-Reply-To: <CABCoZhCapQBCj=UJ78XWtzier5m34zX+bwSo4bPxEVkOdZSxRA@mail.gmail.com>
 
-The maple tree register cache uses a more modern data structure than the
-rbtree cache and makes optimisation choices that are more appropriate for
-current hardware, unless there is a specific reason to do something else
-then maple is a better choice for most devices. Switch to it.
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/codecs/max98927.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--YERgxwYtdic5yVS3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/sound/soc/codecs/max98927.c b/sound/soc/codecs/max98927.c
-index 747aa6f1d54f0dea1dfba798c6cf462c026a5050..e878a2b55996ef3ce3d93138d7b68c969b6d6b82 100644
---- a/sound/soc/codecs/max98927.c
-+++ b/sound/soc/codecs/max98927.c
-@@ -777,7 +777,7 @@ static const struct regmap_config max98927_regmap = {
- 	.num_reg_defaults = ARRAY_SIZE(max98927_reg),
- 	.readable_reg	  = max98927_readable_register,
- 	.volatile_reg	  = max98927_volatile_reg,
--	.cache_type       = REGCACHE_RBTREE,
-+	.cache_type       = REGCACHE_MAPLE,
- };
- 
- static void max98927_slot_config(struct i2c_client *i2c,
+On Sun, Nov 10, 2024 at 01:30:12PM -0800, anish kumar wrote:
+> On Thu, Oct 31, 2024 at 7:13=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.c=
+om> wrote:
+> >
+> > On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
+> > > Updated documentation to provide more details
+> > > for codec-to-codec connection especially around
+> > > the scenarios and DAPM core details for C2C
+> > > creation.
+> > "Describe in more detail codec-to-codec connection, especially on
+> > use cases and DAPM core details for C2C creation."
+>=20
+> Sorry, I like the way it is written.
 
--- 
-2.39.5
+What do you mean?
 
+> > > +An ALSA-based audio system typically involves playback and capture
+> > > +functionality, where users may require audio file playback through
+> > > +speakers or recording from microphones. However, certain systems
+> > > +necessitate audio data routing directly between components, such as =
+FM
+> > > +radio to speakers, without CPU involvement. For such scenarios, ASoC(
+> > > +ALSA system on chip) provides a mechanism known as codec-to-codec (C=
+2C)
+> > "For such scenarios, ASoC (ALSA system on chip) ..."
+> > > +connections, leveraging the Dynamic Audio Power Management (DAPM)
+> > > +framework to facilitate direct data transfers between codecs.
+> > > <snipped>...
+> > > +To better understand the configuration inspired by the setup found in
+> > > +``sound/soc/samsung/speyside.c``, here are several key points:
+> > > +
+> > > +1. The presence of ``c2c_params`` informs the DAPM core that the DAI=
+ link
+> > > +   represents a C2C connection.
+> > > +
+> > > +2. ``c2c_params`` can be an array, and ``num_c2c_params`` defines th=
+e size
+> > > +   of this array.
+> > > +
+> > > +3. If ``num_c2c_params`` is 1:
+> > > +
+> > > +   - The C2C DAI is configured with the provided ``snd_soc_pcm_strea=
+m``
+> > > +     parameters.
+> > > +
+> > > +4. If ``num_c2c_params`` is greater than 1:
+> > > +
+> > > +   - A kcontrol is created, allowing the user to select the index of=
+ the
+> > > +     ``c2c_params`` array to be used.
+> >
+> > I guess #3 and #4 can be combined, i.e. "If ``num_c2c_params`` is 1, ..=
+=2E;
+> > otherwise if ``num_c2c_params`` is greater than 1, ...".
+>=20
+> I like it this way.
+
+Sorry again but what do you mean? Keep it as-is?
+
+Confused...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--YERgxwYtdic5yVS3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZzKnMAAKCRD2uYlJVVFO
+ox3aAP42LvxWgRueGN8dNrW4CyiGCTgJNqK0jlQeeYTNMWepiAEAg5Ft2kRDOEdo
+D1PFBi3pkEiC/uYoFYMnH34xevlqDA0=
+=YQyH
+-----END PGP SIGNATURE-----
+
+--YERgxwYtdic5yVS3--
