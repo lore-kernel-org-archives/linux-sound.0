@@ -1,84 +1,303 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C6D205E00
-	for <linux-sound@vger.kernel.org>; Tue, 12 Nov 2024 03:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2477F1990AB;
+	Tue, 12 Nov 2024 05:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731381499; cv=none; b=huAFTl1hzR409hLeJBTkujN35sPHlxoN+ooCSa9v+1a+gwp38MyonAZSb496MQWWilxMB3tWOqPuLGZThZnFTCkoFut0RvL2SYDqo7FwysXfQ7IQ8NAsWZo+mACqTgyTp9dqUPvo1XipjsQsGC2oxavLKMREJ1ljOR2CFUsElhg=
+	t=1731388039; cv=none; b=WuAWT0iAFVVXGVCaaN1C5UchnHMMGIaBevsA276OlSO6m5G5p+ZW5v+Iw/7kr4kMu+2t9Jx89yVJ9OFfsa/GKuL4Farr0JCLcSFdBxwDNIBNAZ/0KJNqE+YXGumadX4BEgEzD/5OfCHDx5ui10U6ABgLEvxlfpHUqAelGXn87Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731381499; c=relaxed/simple;
-	bh=Kz+DjEdznXySwhabk/fkyNPadUJtfFyhxjLJqtBFTMA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N07QY+4G8/Hx2FL2dH0gbP0RmoTNQFugVLacpY8Pav00DzMCjCHtrM8MIpwuRZaVjyuqjWwiW+9edIVByTaLfFzdg3QAkLBe5gRBlmIImBldzj8wSI+GHmftvS5XGJiv/xwqhnGVXHFgBWl0C8hPmqMH1UGH/bhRRcbQG//C5fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu; spf=pass smtp.mailfrom=utexas.edu; dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b=q7WiT80Y; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=utexas.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=utexas.edu
+	s=arc-20240116; t=1731388039; c=relaxed/simple;
+	bh=RYvxk5szbK5nBC40HodFjGOpQ15icHkfsB6+XoS/f3A=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=Y+Fx5FuRu2ahsZKqJo7L8Hy/f7uV5TpR6U4v6aaBskws6OGuvu63X7dDALKIYiFMBUryRrNqw5TlMMte1G8IbPtLRAyCOzSS6zHLCykTAgVdiqxR3YavZtfAf6gXFnDQ37hGxshx4xO9TIQrtTPtLCE4f7KAZ6EXNV9mdnThxSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XJobWbYy; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=utexas.edu header.i=@utexas.edu header.b="q7WiT80Y"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2110a622d76so45353545ad.3
-        for <linux-sound@vger.kernel.org>; Mon, 11 Nov 2024 19:18:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XJobWbYy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-431616c23b5so29691255e9.0;
+        Mon, 11 Nov 2024 21:07:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=utexas.edu; s=google; t=1731381497; x=1731986297; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kz+DjEdznXySwhabk/fkyNPadUJtfFyhxjLJqtBFTMA=;
-        b=q7WiT80YdZ/hwzK4cgDs6QQS7XbTc45NOiYx4pjo73zrs8a1t+okFVEDuNyFdfXliI
-         sXW6lTGjRaK+4JBbGAFCerzGvZVxrFkgbMMGMZjJMYeVe7QnyQuVbU+0q7rjTV8C3vxS
-         TBy2QrAIR1NIUpgMWv89qzZj7n1HG45W8PRqi7BRMNjyuwSfUBvzv39bnn//uUc+1lw2
-         ztVvO62IFCn2hMOkeTsw0AjVMnN5xdpouXRZc8KjjHVjRgApurUt3q5z2i6/lIi8MVci
-         2q0c8UWl7hJlnSCkf1OjQVRY9qKOm6l60vL3R4Sg+G+UqgTBCGP/hHvC1z3Ssd5oivl5
-         6TNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731381497; x=1731986297;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1731388035; x=1731992835; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kz+DjEdznXySwhabk/fkyNPadUJtfFyhxjLJqtBFTMA=;
-        b=KoqcBejZFYygIfFnsqi+sgB/AMObkPwMlbuTYa2zUu4Mf5LBKrYRasNfIDPVlAf11h
-         XqyX/Ase7Cmnog/AYHNvJgeEy5SamAopUtrFKAosoq88L0z6BM/F3JHYXljSh/pbc9WW
-         reuvMbqtKxpuGnrJZOfE99M3lZN0OoabletqIvPwEpnWTbOOTaC4Mx1BKNrwpMPPZ7ZG
-         MIqOrbQWI9E9KwR2Fpw79mD/Dben4qdupOPjDlh+6jipyREX532AtfUT1vRasetrx3oz
-         uAgTb+7PU30IG0zT8zmvkYxrFC2F0Oa94c93zfN62KR46wVzXpiqVnMpUDiQDP/JUiaR
-         AEuw==
-X-Forwarded-Encrypted: i=1; AJvYcCUblvPqBihj3z6UvyK5TSWsM1coOvvsSbVE2AEm0BjcjERBmrvOJ/c790eTEXzLWlBYW8SbvzTPCG7bCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyjXP/gJ2LXAPr38Km576U3WCkeVU8sLHIhqtvVyCBBM4ApuFch
-	jU9fOVxxE1Q4CnOJaDLAhSJz8moPXllUJBUbp1EySX1/OCD/lNMO2JtuLUJ0Pzb8uDnMH/4Y9sh
-	qdeBpA4oV21cBh7BkV51iwoUAFC6VoYI4cNc5LLuywu2VloSyMeo=
-X-Google-Smtp-Source: AGHT+IGv6tGl/DenUr3w5nLyZlQNxRJrfEo7yfHQCrtrVXjF9Q2uKgWZqYtaSe51UMLmlsaAf8S1EKJ15II6j95pLAA=
-X-Received: by 2002:a17:902:cf0a:b0:20c:dbff:b9e5 with SMTP id
- d9443c01a7336-21183d16b33mr213007715ad.33.1731381497040; Mon, 11 Nov 2024
- 19:18:17 -0800 (PST)
+        bh=ILkI2uCTl8t1Nm9lqB/gevASgH86EFHiEk0kNXqkrL8=;
+        b=XJobWbYyoHmrp/70yPQ/0Pw1kqFYpzEKgjWlndmqizLs3kJc6zoaMeRs00kHj0gR6l
+         jmuxDTP1Pm2gsJbzTyuaFRZ2Lr4x7MLpqyuxQZ4tP7fPmU/pZyly6tluvcWQzGFIblVQ
+         QoYnyDogoD0xWLB7lRYbYnI3UdtJK1n1IMU1iCr85y0a1aeFQbkWKWtdV4aih9mlaIKc
+         oe1EKmOfGaunbFpKZCIT3WnvxeOimgm1iCjyO8uj+lxv+KzMiGBUmdMnoBTTl5MZIi5T
+         4b+GfVXZ8HEz9dU4lsbnneCYXrEjykW8UtfIxYw7vh0UFluemv++T9l18pOUjzwwLSI7
+         Pi4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731388035; x=1731992835;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ILkI2uCTl8t1Nm9lqB/gevASgH86EFHiEk0kNXqkrL8=;
+        b=KGh2d8BWeFSnejCLIxiGgQLjqRRZ+Q/fdERrA3FX/wfsKxK8MmMEARLS7NUPPReEtM
+         lMqceY4vqTWmq7XT9FlaaOM4BlTk61NSH53zwfigAdXOKBE2L/mszYdOZPrOQza7tX/r
+         Ljf62RL03db752sFg8YKX2At01RcD3LB3I49AdgEuko2g+FsrtmxIR4vyK2n5SVVxVG8
+         ATHtqpT061Kr/SyHo3kEpSIjWS8izdPgOvpNpcxT+HNNzjH4kJh4VUwfhYFYZTEqBhJn
+         dypLDpVe/r3CxMcJRRhh3pdBj56+a0o5mdZ0NuxOrNrleAOVEGqxO1yjFgjeQ8K0jevI
+         u2Rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWX2nVVojM0aRl+uYTOAV++/q6WoS6eTLUCwdbXb8smRlsJk1XyKvA3xIOVylfpXKWOTWGjj9SFENP4bjU=@vger.kernel.org, AJvYcCXgvSDDo+0BzmUW4Mx7zIj/8UUVuwiAICXVau1Io5WNuRGkhA20Wn1+xz4g7V9a8A1mdM2rH3gyj78G/I0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQU+roLhd1atEaPWWVGjjpI2j7sXGvTUgveU7tAQrGhZynOkOI
+	h1noUX4EeXV20RokhnWrRa2svJ9T05kKngT0tmMQA0opABLaDS3F
+X-Google-Smtp-Source: AGHT+IF9+cgddGpyUpMMtFPxL4rt8NKWIyq5yTuVhSMCdwwREYIF9pAIEl1fAm9HuHFXn5Ih9saM7A==
+X-Received: by 2002:a05:600c:4fc3:b0:424:895c:b84b with SMTP id 5b1f17b1804b1-432b744db26mr117744055e9.4.1731388035094;
+        Mon, 11 Nov 2024 21:07:15 -0800 (PST)
+Received: from smtpclient.apple ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432aa6c0414sm228435215e9.23.2024.11.11.21.07.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 11 Nov 2024 21:07:14 -0800 (PST)
+From: Christian Hewitt <christianshewitt@gmail.com>
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <CAEkK70Tke7UxMEEKgRLMntSYeMqiv0PC8st72VYnBVQD-KcqVw@mail.gmail.com>
- <2024101613-giggling-ceremony-aae7@gregkh> <433b8579-e181-40e6-9eac-815d73993b23@leemhuis.info>
- <87bjzktncb.wl-tiwai@suse.de> <CAEkK70TAk26HFgrz4ZS0jz4T2Eu3LWcG-JD1Ov_2ffMp66oO-g@mail.gmail.com>
- <87cyjzrutw.wl-tiwai@suse.de> <CAEkK70T7NBRA1dZHBwAC7mNeXPo-dby4c7Nn=SYg0vzeHHt-1A@mail.gmail.com>
- <87ttd8jyu3.wl-tiwai@suse.de> <CAEkK70RAWRjRp6_=bSrecSXXMfnepC2P2YriaHUqicv5x5wJWw@mail.gmail.com>
- <87h697jl6c.wl-tiwai@suse.de> <CAEkK70TWL_me58QZXeJSq+=Ry3jA+CgZJttsgAPz1wP7ywqj6A@mail.gmail.com>
- <87ed4akd2a.wl-tiwai@suse.de> <87bjzekcva.wl-tiwai@suse.de>
- <CAEkK70SgwaFNcxni2JUAfz7Ne9a_kdkdLRTOR53uhNzJkBQ3+A@mail.gmail.com>
- <877ca2j60l.wl-tiwai@suse.de> <43fe74e10d1d470e80dc2ae937bc1a43@realtek.com>
- <87ldyh6eyu.wl-tiwai@suse.de> <18d07dccef894f4cb87b78dd548c5bdd@realtek.com>
- <87h6956dgu.wl-tiwai@suse.de> <c47a3841cd554c678a0c5e517dd2ea77@realtek.com>
- <CAEkK70SojedmjbXB+a+g+Bys=VWCOpxzV5GkuMSkAgA-jR2FpA@mail.gmail.com>
- <87ldyctzwt.wl-tiwai@suse.de> <CAEkK70RAek2Y-syVt3S+3Q-kiriO24e8qQGDTrqC-Xt4kHzbCA@mail.gmail.com>
- <b97c52ec20594eecb074d333095a4560@realtek.com>
-In-Reply-To: <b97c52ec20594eecb074d333095a4560@realtek.com>
-From: Dean Matthew Menezes <dean.menezes@utexas.edu>
-Date: Mon, 11 Nov 2024 21:17:39 -0600
-Message-ID: <CAEkK70QottpLxq-prAEPe8TtPR=QBdQWuUrjf6ZT6PipcfS9xw@mail.gmail.com>
-Subject: Re: No sound on speakers X1 Carbon Gen 12
-To: Kailang <kailang@realtek.com>
-Cc: Takashi Iwai <tiwai@suse.de>, "stable@vger.kernel.org" <stable@vger.kernel.org>, 
-	"regressions@lists.linux.dev" <regressions@lists.linux.dev>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Linux Sound System <linux-sound@vger.kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
+Subject: [RESEND v2] ASoC: hdmi-codec: reorder channel allocation list
+Message-Id: <7697010E-E0F2-419F-8378-FC3E491EE1E4@gmail.com>
+Date: Tue, 12 Nov 2024 09:07:00 +0400
+Cc: Matthias Reichl <hias@horus.com>,
+ Jerome Brunet <jbrunet@baylibre.com>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Jani Nikula <jani.nikula@intel.com>,
+ Christian Hewitt <christianshewitt@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+X-Mailer: Apple Mail (2.3826.200.121)
 
-Yes, it works!
+From: Jonas Karlman <jonas@kwiboo.se>
+
+The ordering in hdmi_codec_get_ch_alloc_table_idx() results in
+wrong channel allocation for a number of cases, e.g. when ELD
+reports FL|FR|LFE|FC|RL|RR or FL|FR|LFE|FC|RL|RR|RC|RLC|RRC:
+
+ca_id 0x01 with speaker mask FL|FR|LFE is selected instead of
+ca_id 0x03 with speaker mask FL|FR|LFE|FC for 4 channels
+
+and
+
+ca_id 0x04 with speaker mask FL|FR|RC gets selected instead of
+ca_id 0x0b with speaker mask FL|FR|LFE|FC|RL|RR for 6 channels
+
+Fix this by reordering the channel allocation list with most
+specific speaker mask at the top.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+=E2=80=94
+Changes since v1:
+- Squash content from an additional related patch authored by
+Jonas since the original 2019 v1 submission [0]
+- Minor rewording in the description (nothing creditworthy)
+
+[0] =
+https://patchwork.kernel.org/project/alsa-devel/patch/HE1PR06MB4011885AED9=
+F32B09183B617ACD40@HE1PR06MB4011.eurprd06.prod.outlook.com/
+
+NB: This patch has been included with most Allwinner, Amlogic
+and Rockchip LibreELEC distro images since 2019 but has been
+somewhat forgotten about (despite the occasional nag from me
+to Jonas who is super-busy). However in the last month or so
+adding it to LibreELEC x86-64 and Rasbperry Pi images has also
+solved several 3.1/4.0 speaker placement problems reported in
+forums so it's time to send v2 on Jonas' behalf.
+
+sound/soc/codecs/hdmi-codec.c | 140 +++++++++++++++++++---------------
+1 file changed, 77 insertions(+), 63 deletions(-)
+
+diff --git a/sound/soc/codecs/hdmi-codec.c =
+b/sound/soc/codecs/hdmi-codec.c
+index d3abb7ce2153..63e063fb02de 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -185,84 +185,97 @@ static const struct snd_pcm_chmap_elem =
+hdmi_codec_8ch_chmaps[] =3D {
+/*
+ * hdmi_codec_channel_alloc: speaker configuration available for CEA
+ *
+- * This is an ordered list that must match with hdmi_codec_8ch_chmaps =
+struct
++ * This is an ordered list where ca_id must exist in =
+hdmi_codec_8ch_chmaps
+ * The preceding ones have better chances to be selected by
+ * hdmi_codec_get_ch_alloc_table_idx().
+ */
+static const struct hdmi_codec_cea_spk_alloc hdmi_codec_channel_alloc[] =
+=3D {
+	{ .ca_id =3D 0x00, .n_ch =3D 2,
+-	  .mask =3D FL | FR},
+-	/* 2.1 */
+-	{ .ca_id =3D 0x01, .n_ch =3D 4,
+-	  .mask =3D FL | FR | LFE},
+-	/* Dolby Surround */
++	  .mask =3D FL | FR },
++	{ .ca_id =3D 0x03, .n_ch =3D 4,
++	  .mask =3D FL | FR | LFE | FC },
+	{ .ca_id =3D 0x02, .n_ch =3D 4,
+	  .mask =3D FL | FR | FC },
+-	/* surround51 */
++	{ .ca_id =3D 0x01, .n_ch =3D 4,
++	  .mask =3D FL | FR | LFE },
+	{ .ca_id =3D 0x0b, .n_ch =3D 6,
+-	  .mask =3D FL | FR | LFE | FC | RL | RR},
+-	/* surround40 */
+-	{ .ca_id =3D 0x08, .n_ch =3D 6,
+-	  .mask =3D FL | FR | RL | RR },
+-	/* surround41 */
+-	{ .ca_id =3D 0x09, .n_ch =3D 6,
+-	  .mask =3D FL | FR | LFE | RL | RR },
+-	/* surround50 */
++	  .mask =3D FL | FR | LFE | FC | RL | RR },
+	{ .ca_id =3D 0x0a, .n_ch =3D 6,
+	  .mask =3D FL | FR | FC | RL | RR },
+-	/* 6.1 */
+-	{ .ca_id =3D 0x0f, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FC | RL | RR | RC },
+-	/* surround71 */
++	{ .ca_id =3D 0x09, .n_ch =3D 6,
++	  .mask =3D FL | FR | LFE | RL | RR },
++	{ .ca_id =3D 0x08, .n_ch =3D 6,
++	  .mask =3D FL | FR | RL | RR },
++	{ .ca_id =3D 0x07, .n_ch =3D 6,
++	  .mask =3D FL | FR | LFE | FC | RC },
++	{ .ca_id =3D 0x06, .n_ch =3D 6,
++	  .mask =3D FL | FR | FC | RC },
++	{ .ca_id =3D 0x05, .n_ch =3D 6,
++	  .mask =3D FL | FR | LFE | RC },
++	{ .ca_id =3D 0x04, .n_ch =3D 6,
++	  .mask =3D FL | FR | RC },
+	{ .ca_id =3D 0x13, .n_ch =3D 8,
+	  .mask =3D FL | FR | LFE | FC | RL | RR | RLC | RRC },
+-	/* others */
+-	{ .ca_id =3D 0x03, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FC },
+-	{ .ca_id =3D 0x04, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RC},
+-	{ .ca_id =3D 0x05, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RC },
+-	{ .ca_id =3D 0x06, .n_ch =3D 8,
+-	  .mask =3D FL | FR | FC | RC },
+-	{ .ca_id =3D 0x07, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FC | RC },
+-	{ .ca_id =3D 0x0c, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RC | RL | RR },
+-	{ .ca_id =3D 0x0d, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RL | RR | RC },
+-	{ .ca_id =3D 0x0e, .n_ch =3D 8,
+-	  .mask =3D FL | FR | FC | RL | RR | RC },
+-	{ .ca_id =3D 0x10, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RL | RR | RLC | RRC },
+-	{ .ca_id =3D 0x11, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RL | RR | RLC | RRC },
++	{ .ca_id =3D 0x1f, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC | RL | RR | FLC | FRC },
+	{ .ca_id =3D 0x12, .n_ch =3D 8,
+	  .mask =3D FL | FR | FC | RL | RR | RLC | RRC },
+-	{ .ca_id =3D 0x14, .n_ch =3D 8,
+-	  .mask =3D FL | FR | FLC | FRC },
+-	{ .ca_id =3D 0x15, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FLC | FRC },
+-	{ .ca_id =3D 0x16, .n_ch =3D 8,
+-	  .mask =3D FL | FR | FC | FLC | FRC },
+-	{ .ca_id =3D 0x17, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FC | FLC | FRC },
+-	{ .ca_id =3D 0x18, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RC | FLC | FRC },
+-	{ .ca_id =3D 0x19, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RC | FLC | FRC },
+-	{ .ca_id =3D 0x1a, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RC | FC | FLC | FRC },
+-	{ .ca_id =3D 0x1b, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RC | FC | FLC | FRC },
+-	{ .ca_id =3D 0x1c, .n_ch =3D 8,
+-	  .mask =3D FL | FR | RL | RR | FLC | FRC },
+-	{ .ca_id =3D 0x1d, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | RL | RR | FLC | FRC },
+	{ .ca_id =3D 0x1e, .n_ch =3D 8,
+	  .mask =3D FL | FR | FC | RL | RR | FLC | FRC },
+-	{ .ca_id =3D 0x1f, .n_ch =3D 8,
+-	  .mask =3D FL | FR | LFE | FC | RL | RR | FLC | FRC },
++	{ .ca_id =3D 0x11, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RL | RR | RLC | RRC },
++	{ .ca_id =3D 0x1d, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RL | RR | FLC | FRC },
++	{ .ca_id =3D 0x10, .n_ch =3D 8,
++	  .mask =3D FL | FR | RL | RR | RLC | RRC },
++	{ .ca_id =3D 0x1c, .n_ch =3D 8,
++	  .mask =3D FL | FR | RL | RR | FLC | FRC },
++	{ .ca_id =3D 0x0f, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC | RL | RR | RC },
++	{ .ca_id =3D 0x1b, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RC | FC | FLC | FRC },
++	{ .ca_id =3D 0x0e, .n_ch =3D 8,
++	  .mask =3D FL | FR | FC | RL | RR | RC },
++	{ .ca_id =3D 0x1a, .n_ch =3D 8,
++	  .mask =3D FL | FR | RC | FC | FLC | FRC },
++	{ .ca_id =3D 0x0d, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RL | RR | RC },
++	{ .ca_id =3D 0x19, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RC | FLC | FRC },
++	{ .ca_id =3D 0x0c, .n_ch =3D 8,
++	  .mask =3D FL | FR | RC | RL | RR },
++	{ .ca_id =3D 0x18, .n_ch =3D 8,
++	  .mask =3D FL | FR | RC | FLC | FRC },
++	{ .ca_id =3D 0x17, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC | FLC | FRC },
++	{ .ca_id =3D 0x16, .n_ch =3D 8,
++	  .mask =3D FL | FR | FC | FLC | FRC },
++	{ .ca_id =3D 0x15, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FLC | FRC },
++	{ .ca_id =3D 0x14, .n_ch =3D 8,
++	  .mask =3D FL | FR | FLC | FRC },
++	{ .ca_id =3D 0x0b, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC | RL | RR },
++	{ .ca_id =3D 0x0a, .n_ch =3D 8,
++	  .mask =3D FL | FR | FC | RL | RR },
++	{ .ca_id =3D 0x09, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RL | RR },
++	{ .ca_id =3D 0x08, .n_ch =3D 8,
++	  .mask =3D FL | FR | RL | RR },
++	{ .ca_id =3D 0x07, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC | RC },
++	{ .ca_id =3D 0x06, .n_ch =3D 8,
++	  .mask =3D FL | FR | FC | RC },
++	{ .ca_id =3D 0x05, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | RC },
++	{ .ca_id =3D 0x04, .n_ch =3D 8,
++	  .mask =3D FL | FR | RC },
++	{ .ca_id =3D 0x03, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE | FC },
++	{ .ca_id =3D 0x02, .n_ch =3D 8,
++	  .mask =3D FL | FR | FC },
++	{ .ca_id =3D 0x01, .n_ch =3D 8,
++	  .mask =3D FL | FR | LFE },
+};
+
+struct hdmi_codec_priv {
+@@ -371,7 +384,8 @@ static int hdmi_codec_chmap_ctl_get(struct =
+snd_kcontrol *kcontrol,
+	struct snd_pcm_chmap *info =3D snd_kcontrol_chip(kcontrol);
+	struct hdmi_codec_priv *hcp =3D info->private_data;
+
+-	map =3D info->chmap[hcp->chmap_idx].map;
++	if (hcp->chmap_idx !=3D HDMI_CODEC_CHMAP_IDX_UNKNOWN)
++		map =3D info->chmap[hcp->chmap_idx].map;
+
+	for (i =3D 0; i < info->max_channels; i++) {
+		if (hcp->chmap_idx =3D=3D HDMI_CODEC_CHMAP_IDX_UNKNOWN)
+--=20
+2.34.1
+
