@@ -1,265 +1,133 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2081.outbound.protection.outlook.com [40.107.20.81])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C26206E70;
-	Wed, 13 Nov 2024 20:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.81
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731529291; cv=fail; b=IMD5TK1+03CCETopqGBMFUOuweH0h9EeH5Gpv5oMxQ6d00GmusQqBJC9eSdEWHQrkqUQD1JmIwLeWRACSmmOx6Y9F0i3RDyb5wGFDMlRoWWK1CRC7Nu6NpzI5mgE9uVO4g31AYOZgDcRMdBvZZLtEEL6bht+OVHmHwHvgyyUz38=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731529291; c=relaxed/simple;
-	bh=RiLw05ME+4CdcJy1N6M0fvd9NNGI/4JLcfQeqY+Bnnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QTSDEBDGi/IBgzLUeU5u+/FDYM9N5OznmtZkQI0uPeiZetrlFMHMn5DfDpnX/SQrwJVQVAeIzzfQ8pY8CXVUBo43f+K5QtrJFf2XxF1COyaL8+BnLIxDfJZjT6mjdSQwdNBVYgFfri4QLzA+rtJrZVfo9DiWGs0WZ1oZdx7Gs/A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Ka7yT9dB; arc=fail smtp.client-ip=40.107.20.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8ED33CFC;
+	Wed, 13 Nov 2024 22:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731537828; cv=none; b=eyMAW+8n4sEkBXIUg7f91+bQpSFwMQ2mopjTtKf93ymdfPXV44oh52TQDsqkcBNkKMlI2n3lNTWUQePJU/fFGY+TRyNbJAEnBadU40cFNlR5rr9O+Odu0WhcpBVQyHLkfx6P6NGt8OjkyeMwEwwzxKzRXBZO97b/Ayu3pKU+1Tg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731537828; c=relaxed/simple;
+	bh=e6N6jBMF/NFbuAbQJ0ATdRAlfGpetC8vcmbamz2iU0U=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Nqj196N8DKqTOo39XZM/lvEb2rhuXWWONqOB155DRZ/RHFAKTnGb+iP7K9a/VlQ07FsM5v/lSpevH5PHW7EI9W9dG6JH/LU6Fcr/sTkJJTS2tXxzf/LDw4XO+4+fI8cyfddGTK4pZMCbnGkBEXX0hagdkxoEVAvSrSMRKM2ju08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=eVQ8dECy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MpVxabEm; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Ka7yT9dB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WpXJ9rA0xLcVYdGST25HPfwmY9CVbE8rhBKLWj+rULduVHe23Ndp1PIgW7k+iADGp6w7eqKMSUQFhp14vZo4MyLmOWPitK8UPiqWApN6BzgLPVslqq0R+MiszlBIa2IvDuH08Rw9iTfrRHzOIBd1OT93ilaiBJ5SgmopFXUU1x+u9MGXETDdXO/W+e4+ViZcB1wFqXjI7v4TO/rgzRLtKM94A4vRUVXG7SNlgg8wggAdJ2KksU/8A4wb5sQQQ9LNf3DA8odQO5AsmbTEYXM82XhsfY9yYyqrGkBA4MblKS2rxoidZjKXQdHJmx4SS+9us0GSpsSHUBDI708klbcA7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=apZtN+vUaaoZlJzwLtABq38u9DD5rkWfaNI9QQ+bXzM=;
- b=T65kcyXG/MWMwlRDHsTDeyEGJGGQR1CmB/h8aP0Nvkfn4l3ajrMCKwwza0DN9QvaUPKQBxsZTVZhSlpU1tL62uzb+eRBOethdIdyARBq0Wd6wICl0iJ8B//h6N224zir6kGkcdAYqdkE0H9UWIm5hZUe8jyaLgbc2kRgbb26X+7H700Wdzde4WGnql2JaH+gottfmf0fZqwPoO1UdChXcJ5H25FnHcOmDk+px3WhoAGeZ7CDisyT9VRXFhFnR6O/dVZha4Zh7CxQlOECFrXfLkjOWMuph23NcHf7xTJQCdUsfP9X+gZWXcLyxcR5zgNWBc88/bORnXZhI8VU2jX8Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=apZtN+vUaaoZlJzwLtABq38u9DD5rkWfaNI9QQ+bXzM=;
- b=Ka7yT9dB5d73OMnPHEomajqX0IJvEQz91ok3lQn5lvle0+sFtVZgZDiGbFZ7+EkzXH0ufeOkdv/uATaJni5G/W/uzvNKSZ2IwasV/Wlr1KrftAotfZMnbdDrbEij/0VJvq+Sumo4gwSt1sopo/r49jMkXkRP1i8h0HxuuF137gS0DWX0QBnHjNSlcfSWXwi1AOrualcBfU6B6cC+bc4Af63yK/eUHBWVLWifdwXWn2D2UK14AEouaihwnowuQSex6FsZE32gtyjzvcLkVWeQNWAk0gApzGDEYpUGhzRiU+ccTcoqwK8ntNunxhesVbCXvhf0caLgmokqkNXj9zYhuA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by AS8PR04MB8514.eurprd04.prod.outlook.com (2603:10a6:20b:341::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Wed, 13 Nov
- 2024 20:21:25 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%4]) with mapi id 15.20.8137.027; Wed, 13 Nov 2024
- 20:21:25 +0000
-Date: Wed, 13 Nov 2024 15:21:17 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] arm64: dts: imx: add imx95 dts for sof
-Message-ID: <ZzUKPehw2G9XcRsb@lizhi-Precision-Tower-5810>
-References: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
- <20241113195240.3699-6-laurentiumihalcea111@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241113195240.3699-6-laurentiumihalcea111@gmail.com>
-X-ClientProxiedBy: BY5PR16CA0013.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::26) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eVQ8dECy";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MpVxabEm"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 6979A1140207;
+	Wed, 13 Nov 2024 17:43:44 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Wed, 13 Nov 2024 17:43:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1731537824;
+	 x=1731624224; bh=czIXYuYkVBfX6Ui02g9qzpLxBgPPnotbplS8jYeNbtk=; b=
+	eVQ8dECyK+t9Du4YhRkbshwH9MHvCAk+ld/mE3hMk2vGUBxXDBc6YJdRdXqOj9ge
+	QYayzhL7y/9VHBvKR9NMHHVVmz9io8MxU9zH3lwUKUeuzehbFdTF2nG5dHPOFFyQ
+	pXMLLPCLc349ut1msQAM090uhY+XAI4/LWkjQBD/RgZn9+PV/u7dYTkrcmJCKwZQ
+	qkrXYPLaaJCyOizumE+BImJxj6T1R9yXor4GZ2wsdiPvoaPmR3GtgsaR8vU9j3rh
+	GyCgqYwiL+yZ7BDuqZSIB9G4mh9dVqPS4QWhwAy6tt6SjVsIjqusiKv+c25ifoTo
+	Emk3X8QAzFc36QSBapgKcg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731537824; x=
+	1731624224; bh=czIXYuYkVBfX6Ui02g9qzpLxBgPPnotbplS8jYeNbtk=; b=M
+	pVxabEmQcxocdOnHOZcrcHSPlX1q98MeXhG07gSPbga4q16g7d6EjlGl33hGqnZi
+	+pf4hjsLzixcKXaIO9LPMvLOyWaFSP36WIyUcSwpErbgpbbmfWWKU8yDXw8USC7s
+	mLu+A5BK2F/p2xV6KoRAfb3flSXWhI0FT7n+49bX6Gaki9dFToIXneKhkUMmYpC4
+	D7HiXnXBrmz26bBvuF2XQs7VKPXLwnEbZh0U64ogNjrTMWL1O2OB2U+zjfyX/yy6
+	5Lap5caCPjOHLeUx8F2+4yILfcpyG4uE5Rl+ebuVpD3PJunAoRojP/CEPZvExckO
+	1v6sjUQBI8NrJCui2mxcg==
+X-ME-Sender: <xms:nis1Z8wk5To5zQeAWRdFZ0iL8nkKRkujGdFu4TdEf3Ok8ABwO0CxZQ>
+    <xme:nis1ZwQPpg6o0jlzEXavaOBUg7IY32ix9sZj-KZllFli6iiLzY_0lpBRXuhqA0GLP
+    lF4wwxr66KTlkFyaAY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrvddugddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
+    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
+    gvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffg
+    vedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeelpdhm
+    ohguvgepshhmthhpohhuthdprhgtphhtthhopehtrghnghgsihhnsegtmhhsshdrtghhih
+    hnrghmohgsihhlvgdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
+    rdgtohhmpdhrtghpthhtohepkhhishgvohhkrdhjohesihhrohhnuggvvhhitggvrdgtoh
+    hmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhho
+    ohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghrvgigsehpvghrvgigrd
+    gtiidprhgtphhtthhopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtthhopehlihhn
+    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
+    hnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:nis1Z-VUQrVBWPJUDpUqRIJs5v22pKL8INCu35tfCU7DdIpdfXQlpA>
+    <xmx:nis1Z6hPg-MvP9k4dpmRwXy_b13lssWA4X6yCWO28bzzI2XXkoEXPg>
+    <xmx:nis1Z-CenTNEuXJl4hSNGky2YXJhx9LopysCHS8YHlwVaSFkG853wQ>
+    <xmx:nis1Z7KBQM7yza2bvT3RuLXJCBqw4D8-zLjUFE3WTKq2uBa5WJMf1Q>
+    <xmx:oCs1Z61A9Bm0GV15j2BAmBXfsxpQuaboD9FrH34tmN4uocYkhBuFnf0U>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id B80AD222006F; Wed, 13 Nov 2024 17:43:42 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AS8PR04MB8514:EE_
-X-MS-Office365-Filtering-Correlation-Id: 346ef30c-d984-408c-49c8-08dd0420bf7f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|7416014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?cL6Y40y8xGZ5dyoWi5G06fZWhDuAF5sDCiweBiN4xhRTxc9bS4owc9HCkXBT?=
- =?us-ascii?Q?+zppScjrUCeWLmrDGYVZUMATGvStDzWm9Gr8EF9bmtvJ+adDbZjTfzRXdPzQ?=
- =?us-ascii?Q?Qk8TJnnNzCmDVYqNirzaNkrxbMn8uv93a8M5JDEY5X/bWpTCLn4+ECCFJPe5?=
- =?us-ascii?Q?jAJ9wN4haTq34SptHg1+ZtRVW4K99+nRDJ/8qMUotKf3vfsUak/j6Hjg14LB?=
- =?us-ascii?Q?LzADAE1735RhKdOwrea2WS1J7IK+0o1tCTCsBFY6/h8CPyrJUF4EoyxLpQua?=
- =?us-ascii?Q?oUNL6WY8wARkBc8SrFcjo6QPtYTvrXqDkD/Vh5pM1d9PJUafCU73e/w9V8Hn?=
- =?us-ascii?Q?3w54x9PifDDREsYzgF45N5agZZrJxmzVc7oPxuM7EuGApxpL79RPUmXMZPcM?=
- =?us-ascii?Q?9ClVcwRgqW6lQhxQedbmeqU3PkE+hO1U4XqMxSwB8xfl7DqcIfbq6mX+mwH1?=
- =?us-ascii?Q?POzVYjZX2SlrtDWDn4AbyqBYdteRuF82YROXyOzMrs8Ip0f2u/UVshBnQQMP?=
- =?us-ascii?Q?gG2zhvcI+DDHnv0dMScOhf55JLaslIKur2mGW+flbE1lIFLdMlRL1kl2RO6g?=
- =?us-ascii?Q?5Eg6v1SuqLgF4kSrtPE7g3Z+0EIFSxc9z2u1D6/0F2IEqLmazjoo0Unb+ixd?=
- =?us-ascii?Q?T7rQFPMPndUQk98MTfYvt75KlqWxYSh9UIeNTN27RCFC1J3m3nm7m5zvmn4z?=
- =?us-ascii?Q?CFTRtWnNzb/je/YN1l5SEwDyAqD5vcQzfAnBTXM5Nvm1o+ky//xL2C/YZoD+?=
- =?us-ascii?Q?Zl2eAeF0j1OSG2ZTclUW94Ldz6H0SB/Nm7y2vmMtZIEpLo5rC2QSUIguGpgL?=
- =?us-ascii?Q?VEQR4dtVTPsxM1aFEtLoiN0mRtJVo0hDbrux8TkepnlrMrfaDcCQ9rg+rsIJ?=
- =?us-ascii?Q?+TyteceZYvNzzjBshlUg7VlcCRHovfr8V32hIrzUZw2R7jBz7C3c5A9EFTeX?=
- =?us-ascii?Q?XID62wyqv/INmgdfiGrejdoWWQCrEnfPRi+9J7kisDb3WaKIgZKv+/kMaOEe?=
- =?us-ascii?Q?QAm+w5wcaYhjujRd3Gu6ZFd3i3soadpxFwV116048461nKYmJBV2PDBRdxAj?=
- =?us-ascii?Q?gufY4K3JnF/OqN8sbaEfoI5NR8i+900WiYQdOebN9rdmsCLahZkYlWGAkMxp?=
- =?us-ascii?Q?ftdtPIoQWd2ZAIS4tJ/K6bdzoFndYHMnBUP/Ua4oWkuYc6RdUcRR2SqvhNcN?=
- =?us-ascii?Q?3vuelokhGVx+EQ02yHnvrHkikXxcvf19urBWrikAbkUPl4yg1n4w1jwb6jJ0?=
- =?us-ascii?Q?fHWyHx94olL5tH/qbAlvo/s2v9jvQjpxusjRnfy1OiA9O3akJnjNkKWqCkFj?=
- =?us-ascii?Q?l4spQ/GX6SETI+9LF/lAH0nNeWDfOzAiWRhFg9mInTgto5zJsC9/fWvlkDwJ?=
- =?us-ascii?Q?sorkYFg=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(7416014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DacbkimK0CGB422YKpoYvAXQHZ0XqJC5E2fxo3CdNaeGo44rSrofxhzabmvf?=
- =?us-ascii?Q?33g+enNeICMLONv1ts+c0lTnSIQsMMuoboD/DZ9vqLcrjV0650aCXCDfFJEV?=
- =?us-ascii?Q?y85BaLdp6gQsxbhbDdQcymZpCA9QWskQd+f55lJQ3iJee6C/55OFbpIfx6aj?=
- =?us-ascii?Q?iY49jeSXBkhRC/pPpWF149No2ezqq/NeTFM0kdK7d00DE7R5x6QhhRCT9au2?=
- =?us-ascii?Q?0/UrfEJ6UCc0CVhf3sbjOKUQ5FsWIrbzgWZ+mllgMKmPDoH4/HZXWeRiIJN5?=
- =?us-ascii?Q?MuX+eLkdVYvY0nuT0cn3jaywEnNBgDQ+AfHITXKtwLXlJ7T0I6b2BtG9SS7L?=
- =?us-ascii?Q?v04B8M8GoZK+fUxKoInFX4jy0B6j0g28ELnVUkFI0crsf1CDbblR8gbM1yGQ?=
- =?us-ascii?Q?kDLad578S3gE5BqEDfHO1hxFqNP7wYJDrhBsse8ObYdZX1bToa+mgKklIgH6?=
- =?us-ascii?Q?j+mtsWiZOYZFzMePzeo5pNWMEd9J8jkKUt6wStVwNCw/GJcZJkxvn+X77L5f?=
- =?us-ascii?Q?WUj7bR0/uMGRen9wfCc/s9gMW3awQOoos2+DL0KiwGuatIZe4Ol2GRXZ6QEY?=
- =?us-ascii?Q?jq4clf+b9cRE7RZJ5cQrs1Ad42x2QukDMOqqYIXm9bvjFqzEpPizn3sts68r?=
- =?us-ascii?Q?0b+v3bcRkPr3rM8IBux/vDB0Nx0gRfLkuZXZuMNWtwqVJcMravpS/9UQH1PM?=
- =?us-ascii?Q?YDn6imrn8HU0PJ9YhPTrxD/Asa1u80G/1L6L2WBr+t1XQXW9FDv1gqz8e7tZ?=
- =?us-ascii?Q?n45//S4b93F/5AHhRARyOf1HS96PKazE/Zb7Jz0/2tPs7pQH18sifA6y7kxJ?=
- =?us-ascii?Q?imHNsPJqa17CZ3s8QeqS/AvPXBwyN9vbgkNJ6vOz92Y2ncmyCjFhA4rhz7Zq?=
- =?us-ascii?Q?PeXuKJQI1KI0JsBL/5E6RQBVnHSCMQTL574aHFTDnqQhqCy4XkaS/NGLIw/l?=
- =?us-ascii?Q?fLixeWsrH1SWw1FrNe3MjPAHuZP3wsTd8np8UBcTm4w6uoe04ClpPLNtnWCv?=
- =?us-ascii?Q?5CSKpxMy39AMzDky2rxpe6GCJoE9dK6rYRuKc/zAaBpAmqfgh/BhcMuDhDN0?=
- =?us-ascii?Q?U15rB7ZvhkYone+W/TMU0w05MH6Xr4aBghUPZlUUg1f0nonLA6xczsaYKiPp?=
- =?us-ascii?Q?NnheXN5Sz+Ka+xQtd87Ktr6H/jeKOeF5QtLsNmIznc2aX2dyEG68hKfiReyD?=
- =?us-ascii?Q?rgP9WsmeVxWMl8JN/zK+f/Rxg2D1KlCIyHH1jeQFdimfAPsE1iAwoB3iT/WT?=
- =?us-ascii?Q?qDvPyTxbb6cySt8OSbgnOFySqmN/V2T28qF7ZtMH6b5mVSgNlWwUXp+JqeQg?=
- =?us-ascii?Q?I1wm2muRIQT4CIt9IUrWoPJy3SfIkykVrd1nYKA9eYhHxuP2mQcds8WOcsqH?=
- =?us-ascii?Q?ArkUL01lKz9QTIEJd13o5Own2kkgHxe8P5ie1fIE4q3Yfgbkz8LZ/OROcyrn?=
- =?us-ascii?Q?UjlCRU5/UVRqfMZMsjxtSJ6vuSE9h4C1jY8+G8fsGyOJBbtdiywN7YBX3XR+?=
- =?us-ascii?Q?bxN2EXoAI6qaPs+6tr7JuaLwELgJdMO0v25ONUxuQuF1SAAldN9GV3/WLbzE?=
- =?us-ascii?Q?rkNd3lBPleVn6Mwp8sQ=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 346ef30c-d984-408c-49c8-08dd0420bf7f
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2024 20:21:25.5980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EJkLNKon1yEbZy3YZzWGoMwroYaJqslD9YkQiBkWoopcTKQoGWuF0f9frW4Kdn50Y4zZRe7cPl+soGDlHt2QzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8514
+Date: Wed, 13 Nov 2024 23:43:12 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mark Brown" <broonie@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Kiseok Jo" <kiseok.jo@irondevice.com>,
+ "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
+ "Takashi Iwai" <tiwai@suse.com>, "Tang Bin" <tangbin@cmss.chinamobile.com>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
+In-Reply-To: <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
+References: <20241113115708.4772-1-arnd@kernel.org>
+ <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
+Subject: Re: [PATCH] ASoC: sma1307: fix uninitialized variable refence
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2024 at 02:52:40PM -0500, Laurentiu Mihalcea wrote:
-> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+On Wed, Nov 13, 2024, at 14:24, Mark Brown wrote:
+> On Wed, Nov 13, 2024 at 12:56:50PM +0100, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> When firmware loading is disabled, gcc warns that the local
+>> 'fw' variable fails to get initialized:
+>> 
+>> sound/soc/codecs/sma1307.c: In function 'sma1307_setting_loaded.isra':
+>> sound/soc/codecs/sma1307.c:1717:12: error: 'fw' is used uninitialized [-Werror=uninitialized]
+>>  1717 |         if (!fw) {
+>>       |            ^
+>> sound/soc/codecs/sma1307.c:1712:32: note: 'fw' was declared here
+>>  1712 |         const struct firmware *fw;
+>> 
+>> Initialize this to NULL as that is what it gets checked for in
+>> case of error.
 >
-> Add imx95 DTS for SOF usage.
->
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/Makefile        |  1 +
->  .../dts/freescale/imx95-19x19-evk-sof.dts     | 74 +++++++++++++++++++
+> This is just shutting the warning up - looking at the stub the real
+> issue is that there's a return value from request_firmware() which isn't
+> being checked, we're checking for the initialisation of fw instead.
 
-look like it should be dt overlay.
+I sent the updated version earlier, now just checking the return
+code.
 
->  2 files changed, 75 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts
->
-> diff --git a/arch/arm64/boot/dts/freescale/Makefile b/arch/arm64/boot/dts/freescale/Makefile
-> index 42e6482a31cb..0a313133d013 100644
-> --- a/arch/arm64/boot/dts/freescale/Makefile
-> +++ b/arch/arm64/boot/dts/freescale/Makefile
-> @@ -269,6 +269,7 @@ dtb-$(CONFIG_ARCH_MXC) += imx93-tqma9352-mba93xxca.dtb
->  dtb-$(CONFIG_ARCH_MXC) += imx93-tqma9352-mba93xxla.dtb
->  dtb-$(CONFIG_ARCH_MXC) += imx93-var-som-symphony.dtb
->  dtb-$(CONFIG_ARCH_MXC) += imx95-19x19-evk.dtb
-> +dtb-$(CONFIG_ARCH_MXC) += imx95-19x19-evk-sof.dtb
->
->  imx8mm-kontron-dl-dtbs			:= imx8mm-kontron-bl.dtb imx8mm-kontron-dl.dtbo
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts b/arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts
-> new file mode 100644
-> index 000000000000..3fa4c252e355
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright 2024 NXP
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "imx95-19x19-evk.dts"
-> +
-> +/ {
-> +	reserved-memory {
-> +		adma_res: memory@86100000 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0x0 0x86100000 0x0 0x100000>;
-> +			no-map;
-> +		};
-> +	};
-> +
-> +	sound-wm8962 {
-> +		status = "disabled";
-> +	};
-> +
-> +	sof-sound-wm8962 {
-> +		compatible = "audio-graph-card2";
-> +		links = <&cpu>;
-> +		label = "wm8962-audio";
-> +		hp-det-gpios = <&gpio2 11 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&pinctrl_hp>;
-> +		widgets =
-> +			"Headphone", "Headphones",
-> +			"Microphone", "Headset Mic";
-> +		routing =
-> +			"Headphones", "HPOUTL",
-> +			"Headphones", "HPOUTR",
-> +			"Headset Mic", "MICBIAS",
-> +			"IN3R", "Headset Mic",
-> +			"IN1R", "Headset Mic";
-> +	};
-> +
-> +	sof_cpu: cm7-cpu@80000000 {
-> +		compatible = "fsl,imx95-cm7-sof";
-> +		reg = <0x0 0x80000000 0x0 0x6100000>;
-> +		memory-region = <&adma_res>;
-> +		mboxes = <&mu7 2 0>, <&mu7 2 1>, <&mu7 3 0>, <&mu7 3 1>;
-> +		mbox-names = "txdb0", "txdb1", "rxdb0", "rxdb1";
-> +		cpu: port {
-> +			cpu_ep: endpoint { remote-endpoint = <&codec_ep>; };
-> +		};
-> +	};
+> There is one path in the actual implementation that returns an error
+> code without setting fw, though most do.  Either this caller should be
+> updated to check the return code or if checking fw alone is valid (which
+> TBH does look like the intent) the stub should be updated to set it.
 
-please sort by node name.
+From what I saw earlier, the fw pointer gets set exactly in the
+same cases that return success (through *firmware_p), checking one
+or the other is almost the same, but you are totally right checking
+the return code is the right thing to do here, plus it avoids
+the pointless release_firmware(NULL).
 
-> +};
-> +
-> +&edma2 {
-> +	dma-channel-mask = <0xc0000000>, <0x0>;
-> +};
-
-Why need change dma mask here ?
-
-> +
-> +&sai3 {
-> +	status = "disabled";
-> +};
-> +
-> +&wm8962 {
-> +	assigned-clocks = <&scmi_clk IMX95_CLK_AUDIOPLL1_VCO>,
-> +			  <&scmi_clk IMX95_CLK_AUDIOPLL2_VCO>,
-> +			  <&scmi_clk IMX95_CLK_AUDIOPLL1>,
-> +			  <&scmi_clk IMX95_CLK_AUDIOPLL2>,
-> +			  <&scmi_clk IMX95_CLK_SAI3>;
-> +	assigned-clock-parents = <0>, <0>, <0>, <0>, <&scmi_clk IMX95_CLK_AUDIOPLL1>;
-> +	assigned-clock-rates = <3932160000>, <3612672000>,
-> +			       <393216000>, <361267200>,
-> +			       <12288000>;
-> +	port {
-> +		codec_ep: endpoint { remote-endpoint = <&cpu_ep>; };
-> +	};
-> +};
-> --
-> 2.34.1
->
+       Arnd
