@@ -1,40 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD1F202F80
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B1433CE;
+	Wed, 13 Nov 2024 13:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731503004; cv=none; b=sM2b9YYJMd4rZFb3wl+IPYqsd954tohH9kFaGa57QN2jOQy8UhdatdO9rfJvQquMWlIOEYEsa5jzoBLtTNM253JcqnpowUvHXl6hmUstGq98RbRXlP5RpIstA4MoZCjuiDIeYVy/QEl5PzyIqlyx/HBfatUigx6KuE+b2k+ADxw=
+	t=1731503291; cv=none; b=aARZLBAFqP3mFYvQoN6GOFdVUmflx5fdmwl49ATlgZzzdfZ6lpoVwkILYtaSiqAZoRs+HlFFCbzgCjChkr2PytycBmiltNINFzJ8SQEudH3IDN6a8RSrN945pY2400W97EZZbAZGd8X7Bem07cUOZ83bHe3H7vPb4PnMEzfBPhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731503004; c=relaxed/simple;
-	bh=aNFOVAKOlR+hVAww5Z0y4gTuSYH3cqMlOUj7S0VQQoU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oVWpPza6Nc1xC88R0a1JWFZAW3uFJo1wL2mT10xV8BA1q4Ndo6EXQqeu7nv36xEYbZ0L3dgarJYeuChJB+xa5bUbS7MexXtoHa/HhbO29NwfL1zRcfj/EoHmGMdy29MKsxFGF37CXQPKfL/ai8X4xXRcaIx9a0V10l7+gXpebcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oDYHGQOY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731503291; c=relaxed/simple;
+	bh=2WWRK703YmFJmLzZ2S+UG/8X4WmXCsvMcbUca5/g/z4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iD3TWM0kpjZ1glB7JhPqnUvQi/sKxM5E++15x/guA1Kx3OpcffO7tR3bE9yBYQ2WMSsRKwHa6QXgVsNMSwGzGUW6PChFvlzrH1ufdu3jLeHOhmJZDmkHuZlsSqZYln8VHmZxbC0V/Ed9MP6bypN1IrAq17N2K/f9N6g1XoG2dpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WoRYYZfg; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oDYHGQOY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5102DC4CECD;
-	Wed, 13 Nov 2024 13:03:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731503003;
-	bh=aNFOVAKOlR+hVAww5Z0y4gTuSYH3cqMlOUj7S0VQQoU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oDYHGQOYNuSQREHUIXE0Hip/ujOhXiBZbBvSegIF6CTyngr+47CJlW1m2Y02k98hz
-	 oF8SCuFtodCrmcChj5LN5o4q9U3UCw+nO6ocUVWXMLui5tX3FiayVLlCqTT2SXh9AY
-	 96dDJNL/pVEps+jfgYCfXkOO6iQ4R4SM74yApkJriZdN1fyBBO/a5vR+ENfOqFifrD
-	 eXua+GOnj+hcETVI/Clh2KEvR7yNDt/H0ECkp3saV7GFu8JscII7Q/DIVyeOhnP30g
-	 dpiaABz0Os5l1BlS6YGcEU5WoD/HSTIRNjbBLOb4wBZVReZsroOSaJcB3ImnlUvRtM
-	 bltRnVf2Mm/GA==
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87msi5maz3.wl-kuninori.morimoto.gx@renesas.com>
-References: <87msi5maz3.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH] ASoC: simple-card-utils: care simple_util_dai for
- dummy DAI
-Message-Id: <173150300212.429793.7812327806660265122.b4-ty@kernel.org>
-Date: Wed, 13 Nov 2024 13:03:22 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoRYYZfg"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4316cce103dso85518555e9.3;
+        Wed, 13 Nov 2024 05:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731503288; x=1732108088; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2a0NVxNB/W5Csc9TxzF7W/iYXO3VvsRJea43sdbNNNY=;
+        b=WoRYYZfgI8uTPueNx8rzbEz9s5CpFjORR/NCD4p6s8x2uniGRioWBA9fSPbJdurOfQ
+         muKKJBkbrnlr7k8i9+Gy4dZsXw/8zFK6Db1ov2f1mTgfZQ57hEJlL3/brwrHZSJSlbLW
+         k9TCKWy5nuDYPcibQoVLm8O7qOiDVl7U1HTi5jzyTjtNRJnshCKwaJ3VECtQO1pmvrwC
+         o2O5F6mg9CscgS8s8iB5MLUPe4i2b8Wo3cyjiyiH7S+iFZylYJ4xfPcKI2XyQ4lNX5SV
+         KYK0OWK8dl95+O/OE6mu7lDUwqtdQo198zi1kkJdZv3qWefmJfZUntFf1QipFirgf05Z
+         r3/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731503288; x=1732108088;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2a0NVxNB/W5Csc9TxzF7W/iYXO3VvsRJea43sdbNNNY=;
+        b=tqlvqDMXxI7HpVsTR9KyNprElycEx1FMuvvPJ2aOb1B75rJMC7C3tWo39dnSZ6Glap
+         hbvYUfi4LFUyGGg9SqOBboRsJ8bP7ep5g2BsEsjy2KMmbifxu2jnjTLvxseTZpoOOW37
+         Cw9skasA25IZXKizxeqDaWC0hiQ7ZLx8hI1VEHzFFv54IB/VfbbpHjk3YNMX/stxelAj
+         vKdQARAQwRw3yZestyqn2W0UMUdp7Ji4HCALtVsNzPFuBew7aWj0hS4VPmgl1x4FU+SZ
+         BnpABEXSRW+h480Q2L6ajAXPgYFaRz2E7OOGZzmRhXhdqllx/08Q7Fc0VDN1PPmmDMg6
+         Xf+w==
+X-Forwarded-Encrypted: i=1; AJvYcCUMC9NwRZTUN2rmL+5pjwylhjerUVEBYaZolr8qbdbnoLdocmRhng0CpfzZ/DIelNKG8POyI6uUiaSOluY=@vger.kernel.org, AJvYcCWqTomBGMwHzn80X58I0Zx6jQoaHrotviiTKusbhuc/YWJEDpfRA6HDrWg1exkCccZGpLOOAky5p9MD2ls=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxU5oKWF54HN+fWBUvsQ6fDopAXKop3p9097YYxm3AD9BvvzZIZ
+	obISGxxcwtjefaQwFCNrOhaYkrIlJLbjttm3xahK/m3InZCkZACh
+X-Google-Smtp-Source: AGHT+IFCS0AhpP2qyy3IR0ypDlDOr0f3Bs+wNSNJoR+LC9CYkW34Um/O+lusmxIzJqY8AAMjqsNosA==
+X-Received: by 2002:a05:6000:18a5:b0:381:d890:b5b7 with SMTP id ffacd0b85a97d-381f1889de6mr24360788f8f.52.1731503287618;
+        Wed, 13 Nov 2024 05:08:07 -0800 (PST)
+Received: from localhost ([194.120.133.65])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381edc1104asm18664751f8f.88.2024.11.13.05.08.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 05:08:07 -0800 (PST)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] ASoC: SOF: ipc4-topology: remove redundant assignment to variable ret
+Date: Wed, 13 Nov 2024 13:08:07 +0000
+Message-Id: <20241113130807.1386754-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,45 +76,29 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-355e8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 12 Nov 2024 02:39:44 +0000, Kuninori Morimoto wrote:
-> Simple Card Utils has simple_util_dai which is paired to snd_soc_dai,
-> and assmus that CPU/Codec DAI and its paired simple_util_dai are same
-> order for CPU/Codec
-> 
-> 	simple_util_dai[0] <--> snd_soc_dai[0]
-> 	simple_util_dai[1] <--> snd_soc_dai[1]
-> 	...
-> 
-> [...]
+The variable ret is being assigned a zero value however the value is
+never read because ret is being re-assigned later after the end of
+the switch statement. The assignment is redundant and can be removed.
 
-Applied to
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ sound/soc/sof/ipc4-topology.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: simple-card-utils: care simple_util_dai for dummy DAI
-      commit: add2332795a648b62fd52356001287c015a59e80
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index 1fcf4692a21f..b55eb977e443 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -755,7 +755,6 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
+ 			 * It is fine to call kfree(ipc4_copier->copier_config) since
+ 			 * ipc4_copier->copier_config is null.
+ 			 */
+-			ret = 0;
+ 			break;
+ 		}
+ 
+-- 
+2.39.5
 
