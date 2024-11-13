@@ -1,57 +1,57 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F25201018
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3732022CA
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504957; cv=none; b=Y4pc6B7mb8F0+i250LBWf/f97J94/3/4dnzfbDLUO7y6Nfrv59Y9+NxmAOFKuoQEJherjo5VCCjR5Nf18VkscY/LUWW4mR0l3iNmG0GlmaFFNt7c3XQaG/whUZeTX/SEFKLXvZskmPKLP0QEVvUC5a50ya1CZS7L3Xyb4sN5GIM=
+	t=1731504959; cv=none; b=DV7TRfsSlHwQYzbV2lQQ81FWUs6RXpjvxIwoGNIxRrJB8jVfsp1vWXfqgk1ykJi20v7jmGa2g3H9mhSBY5kMAhZEFWKp3kGmXxE80EUEwa36rAJuTUyUG2zuME8I7Rg+2xtHZGuf9lMVZCCBx3SZzXjXIg0wn0XkdLc8QOvBIh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504957; c=relaxed/simple;
-	bh=TSqSzOs8Q7BMfa4saTar0ZRCzZC0f5vyfoNlajUePmc=;
+	s=arc-20240116; t=1731504959; c=relaxed/simple;
+	bh=hsInE9S4S/vwenjeM66DD4/pCHktkvyL4wYR/f21JYc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XPVGauVxJjz39j4RVr91IuqIhpJwmrmI4WU/vwE8gBdvTmtwPxfLoy/k9UY0zcSjUgqSgxP0hLqIzxI+/BRvQrLZnsYaP45kEL/CoSwn3Z8zDgK1xaw2AAMMTeTB/DiqaStFMdNtiCAvbBgLvMPi3W1h4hjglHM3N29VQbJRQgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kKnKaG2b; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=WkvCQIkCPDgpTI6+qg9V5l1iVcXFmtHMl05j6JBjG4xq3F7tM2Qc4km/IUPJ1xgSDj7ufKpl7du9HWDX6VyzyZKIw4dzFFKaDwqsCNL1nuVcCEBDP6CWO8LGcXD2Ex4ucgnCAvRSx/5eNJPnYSr7/9C0Klqcs1+CEByFXUDOG3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=YcYu1xGk; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kKnKaG2b"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so56502415e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YcYu1xGk"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53a007743e7so7966270e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731504953; x=1732109753; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1731504955; x=1732109755; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9Sa3H1f/E/g0KGrtcmKvCv12Jkl936NP4UC4pZY9H8c=;
-        b=kKnKaG2bzadX4UwnSHcO8CXdNKaiWXHMAVYJjthK0gAm4HGIEwiS0S6a1FQlnCWKvK
-         mNQEGpr8XrymSvEXG5VCV3TIuXqORXY2gfnLe5YeZIW45bGeRkKfsygEiqe80N6y5gvL
-         C4kyjkwszwb1acrefO+dw/WUYQ8hvnVKOPnrW4juTm14naOmdvlb+waV3CwD6NMmY1F9
-         Dzzz45vCwvgRMEyvLYlffysmTlH0HYekWmY/YBxdkAFyScobNGf62mcvjW+/hOgWAh4N
-         HGzP769AZ7qojvnslMrrkOPMjW+n6dmwE+TJ2RxsWSwen1NZZhFE7DPGi7DRt7wREFFZ
-         KbnA==
+        bh=zMlZeixiliINj2sB8B/Hsjodp45t1qy+/EotEbzHeIE=;
+        b=YcYu1xGkwpljYym8LpPMHKuiZvIvXup09ZYCunlEKTd8XO+zpH5qEgnw/ApWezX6Bo
+         JgTEz2elBcZXHxf0hRuZmEamkdek1ymaRorKkyZvN/dDhRasl9C+c3lRDjLhFt/jMgvG
+         4g72FdMdxMT3ba9Oa/i7XqUqd7M93JxQOJih9MaUGVqDPZm68G95cOcABY2J0wNt0BE5
+         DgXrLqdamji13Dzrn8joilMR6Xs8gsyqcEwvsK+d5D1qU/8okfAuscHf1UAibMTloRX7
+         OhB8XT397jgrLdQhOjwcm/PblL/GnbtoUU0+sBSVdz2QABuGFI+5YGS238xZgyAJY96t
+         bBmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731504953; x=1732109753;
+        d=1e100.net; s=20230601; t=1731504955; x=1732109755;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9Sa3H1f/E/g0KGrtcmKvCv12Jkl936NP4UC4pZY9H8c=;
-        b=ngu1ROlF7bCzHUwH/5DSf33wzbVxr4W0c98LVKuIUgfT0ck4iQ4sUGuAjA2liNZWp3
-         k3heic8i3CUBUuQC3Vtf8hqvDgHwSzkHvfIByhDfg27GoaECzhNwqFhC5oheQg+bloMs
-         nrcdtHoAL2FXjkGLvd8cltnlmuNZtI4JjcPylr8WBtw/qgoIFFQEvmygQ48/t1CN0KTN
-         6olHNtlPwX4rkWZMUa+qXjJ4yz6yh+s0kouv+/lN9QdOVOUZErG6Qk+OUgbdjs4D7v61
-         mkn+2gHHY+Yd8I9UEObmh0EFEXDAChsYHVvmBp/E3jqFfXNCjrBH0nbsHswpD1Ci2XXm
-         bdWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVxwrHiHVTwdrvNGhcvIsdDDpzx96XRc7Gwh3VH09A3wI6Bux8bx1oopMSIFKUYEUDbdAUvlSMgDUIsoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzgJqhvTiYvZCSxa7+aX506J7KDTUcP3nURSHG5nKeYwhNjz8Ef
-	4LfFg0xmyOG+YK2cMuolZSAe6hAp3U16T6kNncbcsIf0w0R7rhps2VoPY3rDV0Q=
-X-Google-Smtp-Source: AGHT+IEYHJzqM5FW299ZAdbK6T7DVikcehfuphKy8vP+A1ZGKFW5gkq6w5nT2ifGCWhjngi1zECKUQ==
-X-Received: by 2002:a05:600c:4e0e:b0:431:59b2:f0d1 with SMTP id 5b1f17b1804b1-432cce6825amr58718565e9.4.1731504953372;
-        Wed, 13 Nov 2024 05:35:53 -0800 (PST)
+        bh=zMlZeixiliINj2sB8B/Hsjodp45t1qy+/EotEbzHeIE=;
+        b=Vn6uWenq4RGp4+5V4Xw9/PV3rJyVXPHtyzJ0y6rrSGGdGHhI7wr2z0GCBUHRPyVNwy
+         MCDJldekND60HhyoXAlgVhivjV30cJsc7W6HWWl4I35PMIu45EDF1195+BRrnK8VwjE7
+         f3AdLtZHqwiBd6LkU0+CLdaoZDc6woRIg4hLT7Gfhq3w7eluQnxDI7Fdj1ohi1TIf1ID
+         jDb7DdZlSc2YbqMNWxKAmCIKXGDv1QqOMNMfCHuXOYk/3MqfFvrZxYz5IM70XAIcw+Sd
+         K3qextdjfFIdhws+BN6PGeVNMFhd1y1aMZ4BSxe5bl5oLO3LmwzMsYyXA9Yfae4tldF+
+         qk/g==
+X-Forwarded-Encrypted: i=1; AJvYcCV6hZuaP/mS8lLKcdViXFoPYZkERLfLaSYwM1ZDgJOHkq0DYsncvMptQWKQJ/IbSuzJzUlwbf5UlZB9GA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyU/r30M3OBcwfsIdNBjDk6W2D0Nn0qB7kplWI9g2yyZ68/LE/
+	h+OSw84/9grCOScsBzKP83R9j7BMUhoLRcqFOjXaCSshG1oJEVoFjllcsc0Q9yI=
+X-Google-Smtp-Source: AGHT+IFDoqWlc+LYE1IHHSkdT7sRQOeKuofe1Yq22n5/D6CUznab7ngU7zpCUFlNPYH6frvj2r8HUw==
+X-Received: by 2002:a05:6512:3da0:b0:539:8fcd:524 with SMTP id 2adb3069b0e04-53d9fe8ad7cmr1333681e87.30.1731504955530;
+        Wed, 13 Nov 2024 05:35:55 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 05:35:52 -0800 (PST)
+        Wed, 13 Nov 2024 05:35:55 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -77,9 +77,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 04/25] clk: versaclock3: Add support for the 5L35023 variant
-Date: Wed, 13 Nov 2024 15:35:19 +0200
-Message-Id: <20241113133540.2005850-5-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 05/25] pinctrl: renesas: rzg2l: Add audio clock pins
+Date: Wed, 13 Nov 2024 15:35:20 +0200
+Message-Id: <20241113133540.2005850-6-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
@@ -93,7 +93,8 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add support for the 5L35023 variant of the Versa 3 clock generator.
+Add audio clock pins. These are used by audio IPs as input pins to feed
+them with audio clocks.
 
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
@@ -105,28 +106,22 @@ Changes in v3:
 Changes in v2:
 - none
 
- drivers/clk/clk-versaclock3.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-index 1398d16df5d0..9fe27dace111 100644
---- a/drivers/clk/clk-versaclock3.c
-+++ b/drivers/clk/clk-versaclock3.c
-@@ -1133,8 +1133,14 @@ static const struct vc3_hw_cfg vc3_5p = {
- 	.se2_clk_sel_msk = BIT(6),
- };
- 
-+static const struct vc3_hw_cfg vc3_5l = {
-+	.pll2_vco = { .min = 30000000UL, .max = 130000000UL },
-+	.se2_clk_sel_msk = BIT(0),
-+};
-+
- static const struct of_device_id dev_ids[] = {
- 	{ .compatible = "renesas,5p35023", .data = &vc3_5p },
-+	{ .compatible = "renesas,5l35023", .data = &vc3_5l },
- 	{ /* Sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dev_ids);
+diff --git a/drivers/pinctrl/renesas/pinctrl-rzg2l.c b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+index 8ffb9430a134..1190ca4b1808 100644
+--- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
++++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
+@@ -2086,6 +2086,8 @@ static const struct rzg2l_dedicated_configs rzg3s_dedicated_pins[] = {
+ 						      PIN_CFG_SOFT_PS)) },
+ 	{ "TDO", RZG2L_SINGLE_PIN_PACK(0x1, 1, (PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS)) },
+ 	{ "WDTOVF_PERROUT#", RZG2L_SINGLE_PIN_PACK(0x6, 0, PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS) },
++	{ "AUDIO_CLK1", RZG2L_SINGLE_PIN_PACK(0x2, 0, PIN_CFG_IEN) },
++	{ "AUDIO_CLK2", RZG2L_SINGLE_PIN_PACK(0x2, 1, PIN_CFG_IEN) },
+ 	{ "SD0_CLK", RZG2L_SINGLE_PIN_PACK(0x10, 0, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD0)) },
+ 	{ "SD0_CMD", RZG2L_SINGLE_PIN_PACK(0x10, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
+ 						     PIN_CFG_IO_VMC_SD0)) },
 -- 
 2.39.2
 
