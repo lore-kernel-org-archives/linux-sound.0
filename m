@@ -1,57 +1,57 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2CA1EF95B
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D431FCF6D
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504950; cv=none; b=WbnCJkDi3wQtBuUsHGCiOiZ6CbboZqjpttA5XZAV4d/lLh3jsj1Hn9n9OyJDruX+9zwjxxMuZ33cFR95NRzZpADVbtbl0K2OaxLwYfp/lusVI1BPdpMRq52zgOJm5exwsjplZhi2XBHogbxZ914p4wL5FLN0zOJ9XelzMQleARo=
+	t=1731504953; cv=none; b=JK2Z+0rKBdET9qzrhoyL6pL2v/6Gw4IPz/RXzBuThhoeHKvjHmfQA3LZWAjICYG1ZSdqpjat2UI1t8p8sadn7g7ftm6DhOCGtmf3+SL6L9814RHgY3wOYtMwFosTwAMpwBx/vL1qoYWOsF1HLAc+iLvfOkGZVCD6dsDDH3+7mMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504950; c=relaxed/simple;
-	bh=tRCvEtnmNEMPpYJQYZQqSgTO3s8UYztq2iLuGkoPOpY=;
+	s=arc-20240116; t=1731504953; c=relaxed/simple;
+	bh=RfDIm7nlDF2oT2GxQr71zpHnLW0V+ttG/DYrbbG0ApE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sv+z/ibTVExaqAKCBjzNL6Cl6020k7fWEBZH/Wj2oGzpWAz7obBje520HO9suOkuXmoWVsWQI1h4r9UQNGifsfVuR5kqiHTAcrCOkNhfWzSzaFnMCCCJJnbgiD9YODj6G+Z3rxBMKFCx3XHQCNLnC0KBTbfT01tr7HKbQxR7eP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=QOO0wjA5; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=KiBrSFLP2ZpX/Pc60uYbjV0H6Sf/mZ77O27ipwOsn8QwhpcxMucR4Fu8HhXzmB8iuQ4B2C4X06njqx11h4H23kF+9FKTm21jeqhfIs5cLH1d0L9EvlvVLJN4NO8OLeeWJP8oi97TneJhpkk1TRcgp8K/uLnfXOmPc+yqUfuT1KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cI2dsWAi; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="QOO0wjA5"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-431695fa98bso55672685e9.3
-        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cI2dsWAi"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431616c23b5so4748045e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731504947; x=1732109747; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1731504950; x=1732109750; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wIKrCTKqo0knpYzgqc5iDCSA2PYAxbi2sKJksW310Bo=;
-        b=QOO0wjA5dpONZKhyUX3ow0rznyCc6A9iV7V3tMfxpwbwrFLK9lBpD4e5xxLv4sABQL
-         938ov4IhJ+fi1BxqxsLgISP3cy1rMOTQr9c/mxUoX4ftUn3rCFsulT+VAt/2P/Zw/tQN
-         O7lm7ae1j7F4h5SivXgzzCCa0+3eSzHsFb1mDl2Gji9FFTn+dIlxt3hucdUIhfcvxCGW
-         6F9783SwCflzfGPbnjGs0UyS3GMuiuTPZdkS6KR5fS2tb0VfrG+GsgywuiPWmejC1pHF
-         M0rC8RW31V5sPGDBe6egH9Fl9yvueBYCVmwBzcMli8yPLGQ75VY8WVyN6xJGLoyogFiD
-         yNOA==
+        bh=mlFfDF89R+f/1RC4wcSFS2u2gdJ1RVOHa5PModzkNgg=;
+        b=cI2dsWAi1AuQDCzS7wRJcCxlSTqtXxRTqqLQ4h8cGe3axvMXcl0rUHZaxU1Yerh0dH
+         iWWlr8lBTFL+PzbegynqVzBPCm3jqjeYMbwnW62tqPIGQUKTL0cMc2EkMPrEKYqfrf9f
+         CiyObGTKBF1V3AHx4gcCqWojfKjnahFcmKgGgpi9hqXFqH1uzWG76oM6TOfI53e1ivM0
+         E/ryLIb3euPzFpD8qKmdyykd3v2Zr00KzaeXkkEE7lg8+3b/Nr5Qxq6UL3nUawUyTUhL
+         C9+hd5yFS/N44mFis1q3kNuVjSJpzuNJiTyVFFzW9RpdPgbauYb/nwvoIJwjd1RABI2R
+         Rt8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731504947; x=1732109747;
+        d=1e100.net; s=20230601; t=1731504950; x=1732109750;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wIKrCTKqo0knpYzgqc5iDCSA2PYAxbi2sKJksW310Bo=;
-        b=qPZhEiix/TezXzkpUsG7+bF70HhWja5pG6o8oRJKgmnGXYg2ZcvIWvPH4VekEyDGn5
-         V9KnCbMfU2qH4mlPz1C+kbFJFoY3PxdFhaspW2VVJnwtt+qiYgr5pY7PToKex0gGjOLJ
-         Ri1kJb6S8u/rFsdwXPFN8hhlAA7AgUYpHP02ctXwCKgaNDq9N6bQs8QvSQw4RwgQf7yS
-         uTZ2T+e/kcf/SxwTEA/QSLjaVwSQHc8Gq3DPWvYox/+UEoJ0PTVbbO+R75udqXLGknlb
-         MC9Id4QbUdPa9sUxBhFICQPDlUlhSGR7fwqb2S6tX9DJQX20fxNmX8V4z9wgOUbqGhxn
-         4ZVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWbKtesg3mQCXLwobBYeHyGaKyJBR3MrlS3RdtcOblScawLBADYDhN6UlmLry88sud0kDqo3LC3rb9aow==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwORnsGh8vIWflQKaoa6q5iZ+tw68H2Oswil1WxjAxiwdKiGTjI
-	Okk4KnOzFGx5oXl6vM3UGITJHWs7yQok99xcVgMBBzOuQtLiieHrhl79RCFMVgM=
-X-Google-Smtp-Source: AGHT+IFQreZFi8mnOtWCfd/MMXO2rPTH6077T8y5lvDdCLcFj2DGPY9RyFbfHD6Lh3FLLf+PiUBOcQ==
-X-Received: by 2002:a05:600c:a40a:b0:432:d866:f45e with SMTP id 5b1f17b1804b1-432d866f646mr7318525e9.33.1731504947270;
-        Wed, 13 Nov 2024 05:35:47 -0800 (PST)
+        bh=mlFfDF89R+f/1RC4wcSFS2u2gdJ1RVOHa5PModzkNgg=;
+        b=vYUaVDalBfXuzoy4HqpLWlI67wEEHXRTJDx+GzfE0e/4gBZ39QzBZIMYQDsfTIZy/r
+         kW5H6zFnUL5jDdeJM4zc6X76Ta/hwyPpCDRyZVowR+pc1O4XG54d+60q+fWAhcdr4NIX
+         sKsF1OwxfoLriLRQbDux6njc4yMhLyiI5a3I2SSeREzHNL6Tn1qgmwibZSgRvYw+dU7D
+         j4x+kuy0lok8TlK1jbdVTMq636IERejBsqbue6VdWNtNzp4GsxQ4mnR8IK4HdA4E6w8n
+         HXUl4zX6GiUA93A4DbAZW911QYzRCrx4NQyY5nQkl4rvdSRwdRkvvURvK7Qqa4oylssu
+         3HzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVz3m7pSZ7tub7dmoIsM4MPJEHRxdJIh7aXad2N7neO9VAWhQRqDFavSQAXV6MDOUJmLMeMiwbp5QLlGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygdSmku469muBPk1zb+EOAbpKkrfpaSDDb0mXf8tT1m6IrPQZN
+	gBtpRfF/DOFbKE82REa13ngYmckCmPUGDhvBThZtruMEcSHQcxB1hEY93KK4MH8=
+X-Google-Smtp-Source: AGHT+IFw+3GMGxKApP4R+YjtgrHONIFF1ME9uD6PISb/FTPeiDHDpYmQOy4SeHO2DnTzEdw27TJEmw==
+X-Received: by 2002:a05:600c:1d1c:b0:431:9340:77e0 with SMTP id 5b1f17b1804b1-432b7480d83mr169438265e9.9.1731504949442;
+        Wed, 13 Nov 2024 05:35:49 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 05:35:46 -0800 (PST)
+        Wed, 13 Nov 2024 05:35:48 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -77,9 +77,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
 	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 01/25] clk: renesas: r9a08g045-cpg: Add clocks, resets and power domains support for SSI
-Date: Wed, 13 Nov 2024 15:35:16 +0200
-Message-Id: <20241113133540.2005850-2-claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 02/25] clk: versaclock3: Prepare for the addition of 5L35023 device
+Date: Wed, 13 Nov 2024 15:35:17 +0200
+Message-Id: <20241113133540.2005850-3-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
@@ -93,8 +93,11 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-Add SSI clocks, resets and power domains support for the SSI blocks
-available on the Renesas RZ/G3S SoC.
+The 5P35023 and 5L35035 Versa 3 clock generator variants are different but
+the versaclock3 driver could be used with small adjustments. The features
+that are implemented in driver and differs b/w variants are the PLL2 Fvco
+and clock sel bit for SE2 clock. Adjust the driver to prepare for the
+addition of 5L35023 device.
 
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
@@ -106,54 +109,168 @@ Changes in v3:
 Changes in v2:
 - none
 
- drivers/clk/renesas/r9a08g045-cpg.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ drivers/clk/clk-versaclock3.c | 61 ++++++++++++++++++++++++-----------
+ 1 file changed, 43 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/clk/renesas/r9a08g045-cpg.c b/drivers/clk/renesas/r9a08g045-cpg.c
-index b2ae8cdc4723..d71e77624fac 100644
---- a/drivers/clk/renesas/r9a08g045-cpg.c
-+++ b/drivers/clk/renesas/r9a08g045-cpg.c
-@@ -209,6 +209,14 @@ static const struct rzg2l_mod_clk r9a08g045_mod_clks[] = {
- 	DEF_MOD("sdhi2_imclk2",		R9A08G045_SDHI2_IMCLK2, CLK_SD2_DIV4, 0x554, 9),
- 	DEF_MOD("sdhi2_clk_hs",		R9A08G045_SDHI2_CLK_HS, R9A08G045_CLK_SD2, 0x554, 10),
- 	DEF_MOD("sdhi2_aclk",		R9A08G045_SDHI2_ACLK, R9A08G045_CLK_P1, 0x554, 11),
-+	DEF_MOD("ssi0_pclk",		R9A08G045_SSI0_PCLK2, R9A08G045_CLK_P0, 0x570, 0),
-+	DEF_MOD("ssi0_sfr",		R9A08G045_SSI0_PCLK_SFR, R9A08G045_CLK_P0, 0x570, 1),
-+	DEF_MOD("ssi1_pclk",		R9A08G045_SSI1_PCLK2, R9A08G045_CLK_P0, 0x570, 2),
-+	DEF_MOD("ssi1_sfr",		R9A08G045_SSI1_PCLK_SFR, R9A08G045_CLK_P0, 0x570, 3),
-+	DEF_MOD("ssi2_pclk",		R9A08G045_SSI2_PCLK2, R9A08G045_CLK_P0, 0x570, 4),
-+	DEF_MOD("ssi2_sfr",		R9A08G045_SSI2_PCLK_SFR, R9A08G045_CLK_P0, 0x570, 5),
-+	DEF_MOD("ssi3_pclk",		R9A08G045_SSI3_PCLK2, R9A08G045_CLK_P0, 0x570, 6),
-+	DEF_MOD("ssi3_sfr",		R9A08G045_SSI3_PCLK_SFR, R9A08G045_CLK_P0, 0x570, 7),
- 	DEF_MOD("usb0_host",		R9A08G045_USB_U2H0_HCLK, R9A08G045_CLK_P1, 0x578, 0),
- 	DEF_MOD("usb1_host",		R9A08G045_USB_U2H1_HCLK, R9A08G045_CLK_P1, 0x578, 1),
- 	DEF_MOD("usb0_func",		R9A08G045_USB_U2P_EXR_CPUCLK, R9A08G045_CLK_P1, 0x578, 2),
-@@ -238,6 +246,10 @@ static const struct rzg2l_reset r9a08g045_resets[] = {
- 	DEF_RST(R9A08G045_SDHI0_IXRST, 0x854, 0),
- 	DEF_RST(R9A08G045_SDHI1_IXRST, 0x854, 1),
- 	DEF_RST(R9A08G045_SDHI2_IXRST, 0x854, 2),
-+	DEF_RST(R9A08G045_SSI0_RST_M2_REG, 0x870, 0),
-+	DEF_RST(R9A08G045_SSI1_RST_M2_REG, 0x870, 1),
-+	DEF_RST(R9A08G045_SSI2_RST_M2_REG, 0x870, 2),
-+	DEF_RST(R9A08G045_SSI3_RST_M2_REG, 0x870, 3),
- 	DEF_RST(R9A08G045_USB_U2H0_HRESETN, 0x878, 0),
- 	DEF_RST(R9A08G045_USB_U2H1_HRESETN, 0x878, 1),
- 	DEF_RST(R9A08G045_USB_U2P_EXL_SYSRST, 0x878, 2),
-@@ -286,6 +298,14 @@ static const struct rzg2l_cpg_pm_domain_init_data r9a08g045_pm_domains[] = {
- 				DEF_REG_CONF(CPG_BUS_PERI_COM_MSTOP, BIT(1)), 0),
- 	DEF_PD("sdhi2",		R9A08G045_PD_SDHI2,
- 				DEF_REG_CONF(CPG_BUS_PERI_COM_MSTOP, BIT(11)), 0),
-+	DEF_PD("ssi0",		R9A08G045_PD_SSI0,
-+				DEF_REG_CONF(CPG_BUS_MCPU1_MSTOP, BIT(10)), 0),
-+	DEF_PD("ssi1",		R9A08G045_PD_SSI1,
-+				DEF_REG_CONF(CPG_BUS_MCPU1_MSTOP, BIT(11)), 0),
-+	DEF_PD("ssi2",		R9A08G045_PD_SSI2,
-+				DEF_REG_CONF(CPG_BUS_MCPU1_MSTOP, BIT(12)), 0),
-+	DEF_PD("ssi3",		R9A08G045_PD_SSI3,
-+				DEF_REG_CONF(CPG_BUS_MCPU1_MSTOP, BIT(13)), 0),
- 	DEF_PD("usb0",		R9A08G045_PD_USB0,
- 				DEF_REG_CONF(CPG_BUS_PERI_COM_MSTOP, GENMASK(6, 5)), 0),
- 	DEF_PD("usb1",		R9A08G045_PD_USB1,
+diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
+index 76d7ea1964c3..1398d16df5d0 100644
+--- a/drivers/clk/clk-versaclock3.c
++++ b/drivers/clk/clk-versaclock3.c
+@@ -78,9 +78,6 @@
+ #define VC3_PLL1_VCO_MIN		300000000UL
+ #define VC3_PLL1_VCO_MAX		600000000UL
+ 
+-#define VC3_PLL2_VCO_MIN		400000000UL
+-#define VC3_PLL2_VCO_MAX		1200000000UL
+-
+ #define VC3_PLL3_VCO_MIN		300000000UL
+ #define VC3_PLL3_VCO_MAX		800000000UL
+ 
+@@ -147,9 +144,13 @@ struct vc3_pfd_data {
+ 	u8 mdiv2_bitmsk;
+ };
+ 
++struct vc3_vco {
++	unsigned long min;
++	unsigned long max;
++};
++
+ struct vc3_pll_data {
+-	unsigned long vco_min;
+-	unsigned long vco_max;
++	struct vc3_vco vco;
+ 	u8 num;
+ 	u8 int_div_msb_offs;
+ 	u8 int_div_lsb_offs;
+@@ -166,12 +167,17 @@ struct vc3_div_data {
+ struct vc3_hw_data {
+ 	struct clk_hw hw;
+ 	struct regmap *regmap;
+-	const void *data;
++	void *data;
+ 
+ 	u32 div_int;
+ 	u32 div_frc;
+ };
+ 
++struct vc3_hw_cfg {
++	struct vc3_vco pll2_vco;
++	u32 se2_clk_sel_msk;
++};
++
+ static const struct clk_div_table div1_divs[] = {
+ 	{ .val = 0, .div = 1, }, { .val = 1, .div = 4, },
+ 	{ .val = 2, .div = 5, }, { .val = 3, .div = 6, },
+@@ -386,10 +392,10 @@ static long vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
+ 	const struct vc3_pll_data *pll = vc3->data;
+ 	u64 div_frc;
+ 
+-	if (rate < pll->vco_min)
+-		rate = pll->vco_min;
+-	if (rate > pll->vco_max)
+-		rate = pll->vco_max;
++	if (rate < pll->vco.min)
++		rate = pll->vco.min;
++	if (rate > pll->vco.max)
++		rate = pll->vco.max;
+ 
+ 	vc3->div_int = rate / *parent_rate;
+ 
+@@ -680,8 +686,10 @@ static struct vc3_hw_data clk_pll[] = {
+ 			.num = VC3_PLL1,
+ 			.int_div_msb_offs = VC3_PLL1_LOOP_FILTER_N_DIV_MSB,
+ 			.int_div_lsb_offs = VC3_PLL1_VCO_N_DIVIDER,
+-			.vco_min = VC3_PLL1_VCO_MIN,
+-			.vco_max = VC3_PLL1_VCO_MAX
++			.vco = {
++				.min = VC3_PLL1_VCO_MIN,
++				.max = VC3_PLL1_VCO_MAX
++			}
+ 		},
+ 		.hw.init = &(struct clk_init_data) {
+ 			.name = "pll1",
+@@ -698,8 +706,6 @@ static struct vc3_hw_data clk_pll[] = {
+ 			.num = VC3_PLL2,
+ 			.int_div_msb_offs = VC3_PLL2_FB_INT_DIV_MSB,
+ 			.int_div_lsb_offs = VC3_PLL2_FB_INT_DIV_LSB,
+-			.vco_min = VC3_PLL2_VCO_MIN,
+-			.vco_max = VC3_PLL2_VCO_MAX
+ 		},
+ 		.hw.init = &(struct clk_init_data) {
+ 			.name = "pll2",
+@@ -716,8 +722,10 @@ static struct vc3_hw_data clk_pll[] = {
+ 			.num = VC3_PLL3,
+ 			.int_div_msb_offs = VC3_PLL3_LOOP_FILTER_N_DIV_MSB,
+ 			.int_div_lsb_offs = VC3_PLL3_N_DIVIDER,
+-			.vco_min = VC3_PLL3_VCO_MIN,
+-			.vco_max = VC3_PLL3_VCO_MAX
++			.vco = {
++				.min = VC3_PLL3_VCO_MIN,
++				.max = VC3_PLL3_VCO_MAX
++			}
+ 		},
+ 		.hw.init = &(struct clk_init_data) {
+ 			.name = "pll3",
+@@ -901,7 +909,6 @@ static struct vc3_hw_data clk_mux[] = {
+ 	[VC3_SE2_MUX] = {
+ 		.data = &(struct vc3_clk_data) {
+ 			.offs = VC3_SE2_CTRL_REG0,
+-			.bitmsk = VC3_SE2_CTRL_REG0_SE2_CLK_SEL
+ 		},
+ 		.hw.init = &(struct clk_init_data) {
+ 			.name = "se2_mux",
+@@ -982,6 +989,7 @@ static int vc3_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+ 	u8 settings[NUM_CONFIG_REGISTERS];
++	const struct vc3_hw_cfg *data;
+ 	struct regmap *regmap;
+ 	const char *name;
+ 	int ret, i;
+@@ -1029,9 +1037,16 @@ static int vc3_probe(struct i2c_client *client)
+ 					     clk_pfd[i].hw.init->name);
+ 	}
+ 
++	data = i2c_get_match_data(client);
++
+ 	/* Register pll's */
+ 	for (i = 0; i < ARRAY_SIZE(clk_pll); i++) {
+ 		clk_pll[i].regmap = regmap;
++		if (i == VC3_PLL2) {
++			struct vc3_pll_data *pll_data = clk_pll[i].data;
++
++			pll_data->vco = data->pll2_vco;
++		}
+ 		ret = devm_clk_hw_register(dev, &clk_pll[i].hw);
+ 		if (ret)
+ 			return dev_err_probe(dev, ret, "%s failed\n",
+@@ -1059,6 +1074,11 @@ static int vc3_probe(struct i2c_client *client)
+ 	/* Register clk muxes */
+ 	for (i = 0; i < ARRAY_SIZE(clk_mux); i++) {
+ 		clk_mux[i].regmap = regmap;
++		if (i == VC3_SE2_MUX) {
++			struct vc3_clk_data *clk_data = clk_mux[i].data;
++
++			clk_data->bitmsk = data->se2_clk_sel_msk;
++		}
+ 		ret = devm_clk_hw_register(dev, &clk_mux[i].hw);
+ 		if (ret)
+ 			return dev_err_probe(dev, ret, "%s failed\n",
+@@ -1108,8 +1128,13 @@ static int vc3_probe(struct i2c_client *client)
+ 	return ret;
+ }
+ 
++static const struct vc3_hw_cfg vc3_5p = {
++	.pll2_vco = { .min = 400000000UL, .max = 1200000000UL },
++	.se2_clk_sel_msk = BIT(6),
++};
++
+ static const struct of_device_id dev_ids[] = {
+-	{ .compatible = "renesas,5p35023" },
++	{ .compatible = "renesas,5p35023", .data = &vc3_5p },
+ 	{ /* Sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, dev_ids);
 -- 
 2.39.2
 
