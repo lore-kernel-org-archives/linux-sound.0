@@ -1,61 +1,42 @@
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3293F9FB;
-	Wed, 13 Nov 2024 01:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
+Received: from cmccmta1.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AB14481C4;
+	Wed, 13 Nov 2024 01:58:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731462849; cv=none; b=jjfjZMC8P0EIiSDSdS03Ck/Sf2uZ93m3QmOzHC1r5Ewi4LLcri8hnlcMUL3YZ0gOZ31gIeWL/wqzAss7guY0+NfRjS1LI8lsiVvsv7DIHovGvnb5r5XL7J074hppNW39hMd2fAfnziNVqCGkwivpiu39XpKO15ebRf8RePgxEvQ=
+	t=1731463086; cv=none; b=KrLJHzqi6Z+LZk2xzi538+irhBegP1/LjNxFA/Y6ZHr7nTEuP0oIyCG8Fky16QqoskXXiEVHVH7zGR2SQZW+TYsm9uOiSqF9blkhWLDECdKWBsqrsJAqL0J/LAEx8hcb5tmEpRvxTqYajGv/UY1mPABz66dADfzGNabbf9Ue+b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731462849; c=relaxed/simple;
-	bh=DGfzfgtFtmm9Op45fZ60+QzicBwp3DJIRdRAC6XS6AE=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=lfQobqQL5Rt/ZlYCX642APTRi3S5dbeOyV9HVxo+tABO61j7F/0wwj+TUL9IywDzOD/xQJjocdxd29923Q/0z4WV0LFAAt+AHKPFpWlVjbbhUvOIFgu6I/lI5nOv9rNfbFCY0W71dF+k1fYBpI35oeqzR6krVbu1dPbLgl5aK1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=lkWGilCc; arc=none smtp.client-ip=162.62.57.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="lkWGilCc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1731462530; bh=mXkqNuSGKTzuC2TOeivMF/ydgWANTlG4BtllfcdHm8Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lkWGilCcRgl648rw2sEi4YeP9ipRQCEy0fzq4CnwPox/havQbn9BiXV6Ot+hFOARH
-	 U4WziEkzT+sQ2qwRMAmV4RK6BpkRp4UAQrCVKO/984tZ96QqtoTbC8ICvyPtzDgbdd
-	 0HCH2D/8/Z/rKIueqGswCVwJUbkKAg37kmRkt6uw=
-Received: from pek-lxu-l1.wrs.com ([111.198.227.254])
-	by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
-	id C3010CFF; Wed, 13 Nov 2024 09:48:48 +0800
-X-QQ-mid: xmsmtpt1731462528tqx2qm50p
-Message-ID: <tencent_F41B22255CBA04BB3B33319E461BFF4B3708@qq.com>
-X-QQ-XMAILINFO: MpvVxjO9l39xH+iVuCocCvZEa3gNcmvfqJCZF6cpWf3Xt4VyNqiJ05jQDr8WQ5
-	 tAocq8CciWxj7FVJHynam3aOtI/nARUJJ03b0QWURQyHLWSJfIUWfLiwkEgahJcV1tMb/nz1LO/u
-	 ke5hh2uM6DLPV9Ixer86raIXsDj8AbAHLgyrOa/6scNTvdxJhwRuoKgQseh3+2tI220ZR9uqRdOI
-	 AlLWcDy9JKebRbkI6VPNJQdPrHNRG4B/gFKUWKyvm/zhsOC8cBzyC6GGTVHT1uKNWnA2vcw2w8Wv
-	 Gjl1hAYD7xw0JTLFzbFQXHfAnum18YDhLvzzaeAjN6gJZSrEhgY7UjiUj9nIwBlGfEbnXs+l6qhy
-	 cpwSDGVkojhRLg35xDs2tArjmVyZGqiye1ETeZpZRo2ZJYq77H1NXTmBJFRN0ZBCGi2fswfuZ6tr
-	 3HrQBaqdxXUKuXBMd5SjdmhQ8zu6fu+lWv5sT108AZ/Iko+gx+JCTclu48K0DAVXHAvWkw77htqf
-	 PVXg6dpPaDeDnWHeie1hQFAkemUV1hnV4XUTvSGubI+EIwZ8epuXhlwa+1QlKCQx1LkjASaVbexu
-	 mrRO5OV/dGKh9PtGLNkubIAwlzcM/mn3TueKPXsoJRxdnnQAuVIOsd7kwzE5W9BZOB1gHSz63TFQ
-	 UIXhNIJdwslvlbIQwwqg9oVUpAe5UJfVnDbEYuA+Sm7ojwVWt7qt5UbPFEWXb6o3GIxee0LN78ij
-	 SMzSFSNBAF77XgyP3lLxYkmhoXNTUvSB1BWuFp8NZGmGnaRcGtyUXpzgpSzP9IF/IObOlyR7X0Q5
-	 PztgBuDfs4C7YT724ez/KCj7wv/8LNYULCPgftFwWarVuD/+ySqA7xDjQOKXaTJlsoHYROTlWNEN
-	 nJ2Mi8Tpw7SsuZ7DVXE3ra1hyquVp4pMbUj4vSiOAsqvahl1/m9dTVcAqGAWzLf8WTw+xBuwwy
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-From: Edward Adam Davis <eadavis@qq.com>
-To: tiwai@suse.de
-Cc: eadavis@qq.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
+	s=arc-20240116; t=1731463086; c=relaxed/simple;
+	bh=Sb/hii9sYzUkbrxUho4NcJczD6dyngF5OH681nF1keg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Eyv2gl0eoag4RoZ9V9shHAXcvAjqrJWtieVpVdcfXvBIKkihhrn837cvQ8i/0Jdt7FN/u8F5LKg2lb6W038iwtVhKlBJxqPguCcB1g3DfOXCeHjrlnNq8qwYArMQgcRZWoI63+IVBwMzZC+cr2RcMc8XPkdmJ6JTeCgMY9Onivk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee1673407a8673-e3f88;
+	Wed, 13 Nov 2024 09:58:00 +0800 (CST)
+X-RM-TRANSID:2ee1673407a8673-e3f88
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from localhost.localdomain (unknown[10.55.1.71])
+	by rmsmtp-syy-appsvr01-12001 (RichMail) with SMTP id 2ee1673407a7260-71818;
+	Wed, 13 Nov 2024 09:58:00 +0800 (CST)
+X-RM-TRANSID:2ee1673407a7260-71818
+From: liujing <liujing@cmss.chinamobile.com>
+To: povik+lin@cutebit.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
 	perex@perex.cz,
-	syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] usb: fix a task hung in snd_card_free
-Date: Wed, 13 Nov 2024 09:48:49 +0800
-X-OQ-MSGID: <20241113014848.1785212-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <874j4ctp57.wl-tiwai@suse.de>
-References: <874j4ctp57.wl-tiwai@suse.de>
+	tiwai@suse.com,
+	asahi@lists.linux.dev,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	liujing <liujing@cmss.chinamobile.com>
+Subject: [PATCH] ASoC: apple: Fix the wrong format specifier
+Date: Wed, 13 Nov 2024 09:57:58 +0800
+Message-Id: <20241113015758.5441-1-liujing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -64,56 +45,26 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, 12 Nov 2024 17:04:04 +0100, Takashi Iwai wrote:
-> On Wed, 06 Nov 2024 03:15:49 +0100,
-> Edward Adam Davis wrote:
-> >
-> > task 1: snd ctrl will add card_dev ref count and can't call close to dec it,
-> >         it is blocked waiting for task 2 to release the USB dev lock.
-> >
-> > task 2: usb dev lock has been locked by hung task (here is usb_disconnect),
-> >         it is hung waiting for task 1 to exit and release card_dev.
-> >
-> > Adjust the USB lock acquisition method to non-blocking in ioctl to avoid
-> > hang when the USB connection is closed.
-> 
-> I'm afraid that this change would break things too badly.
-> i.e. changing the blocking behavior to non-blocking is no-go.
-> 
-> > Reported-and-tested-by: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=73582d08864d8268b6fd
-> 
-> This particular syzkaller entry can be fixed rather by replacing
-> snd_card_free() in snd_usx2y_disconnect() with
-> snd_card_free_when_closed() like other USB audio drivers, something
-> like below.
-> 
-> Judging from the git log, it had been with snd_card_free_in_thread(),
-> but was switch to snd_card_free() around year 2005.  Meanwhile the
-> handling of async card release got improved, and it's very likely OK
-> to use snd_card_free_when_closed() there with the recent kernel.
-The snd_card instance will be released in snd_card_do_free().
-So, if snd_card_free_when_closed() is used to replace snd_card_free(), who will release the snd_card instance?
+In the mca_fe_hw_params(), the variable tdm_slot_width is of
+type unsigned int, so the output should be %u
 
-BR,
-Edward
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> -- 8< --
-> --- a/sound/usb/usx2y/usbusx2y.c
-> +++ b/sound/usb/usx2y/usbusx2y.c
-> @@ -422,7 +422,7 @@ static void snd_usx2y_disconnect(struct usb_interface *intf)
->  	}
->  	if (usx2y->us428ctls_sharedmem)
->  		wake_up(&usx2y->us428ctls_wait_queue_head);
-> -	snd_card_free(card);
-> +	snd_card_free_when_closed(card);
->  }
-> 
->  static int snd_usx2y_probe(struct usb_interface *intf,
+Signed-off-by: liujing <liujing@cmss.chinamobile.com>
+
+diff --git a/sound/soc/apple/mca.c b/sound/soc/apple/mca.c
+index c9e7d40c47cc..b4f4696809dd 100644
+--- a/sound/soc/apple/mca.c
++++ b/sound/soc/apple/mca.c
+@@ -616,7 +616,7 @@ static int mca_fe_hw_params(struct snd_pcm_substream *substream,
+ 			tdm_slot_width = 32;
+ 
+ 		if (tdm_slot_width < params_width(params)) {
+-			dev_err(dev, "TDM slots too narrow (tdm=%d params=%d)\n",
++			dev_err(dev, "TDM slots too narrow (tdm=%u params=%d)\n",
+ 				tdm_slot_width, params_width(params));
+ 			return -EINVAL;
+ 		}
+-- 
+2.27.0
+
 
 
