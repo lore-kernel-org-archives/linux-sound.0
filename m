@@ -1,75 +1,71 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2053.outbound.protection.outlook.com [40.107.94.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C951FF7CD
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 11:16:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731496593; cv=none; b=SOvd3nHjs2uzUSxL0Z9bp2zfDYZfxq4nFMeuTXnURo9jbX9FdfJllsMvXguEyDimDnNDknoHGSHWFzKq8urk+WqDKFlHs86KHLjTO2FfRuI7O0OD6HpjfSIDFPt5P6UFF+4dCdC3WJeH3FRGyH8XblCqtwCfEoKHYC5ozgeBIMk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731496593; c=relaxed/simple;
-	bh=gpplrspKYtXDwUhGZxtBVLwHCyAHYcsyMOss17VqeT4=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=I9VTk/EqWt13dZ9oxSSrua66n/pFo49d0il8wqQiudS02UyZm/rXRgTPPRC8Xw+M6WD00dxCRYidGVg6Ltsxrohc9BRdOynjeq50LbrfXrHILLdJiL2pWXRafX1FMu6RUoLMiwPYaDc5Z/OUbryjeVlAy0qUHG9vsd8ZJ15WKp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X2X5+z9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sVw/ODxx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X2X5+z9A; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sVw/ODxx; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD671BD9DC;
+	Wed, 13 Nov 2024 11:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731498767; cv=fail; b=cgiH73rvtNQcxDDA23p56/atNv8h0cbWMfCHg2ozt2kejyElkE1nlCw6G0Cit1yDm9a9+QYJ4nF/W1qKXLA26uPYVef+fVMBlOx9TifJx2f2kArdT+12DSItMcIo29HO0I+WeupZeCA6yOwCFphCV97NgGoM/vny8IBFexPi9tY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731498767; c=relaxed/simple;
+	bh=M6tnjUWtqIBY8m3M8ci0ysd9GW2BQMfclNJQU5u6VV8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dix98ZCl7dNeBsUrCq4JS0DFfWZNHg62vSFphNARYd6CZ579R/LGh5PBgZy04MKvUVP9bZuY0+932GA10LUsdgjF98zJjg9ZAJzhacfwqdhRI6Mp698Zux7/cgv9aOWYEaoH2lI5HrzTB2JJZU4TcXxvo2k3bux+EtfMkqwo8Qk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=AqLoH2Ff; arc=fail smtp.client-ip=40.107.94.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X2X5+z9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sVw/ODxx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X2X5+z9A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sVw/ODxx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C81891F37C;
-	Wed, 13 Nov 2024 11:16:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731496589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CnCJwm0UNhCnzhGAXXuYaqBG6HMZIxmgQJDhWoN0+Ok=;
-	b=X2X5+z9AwUUdSeFxgFeie9sLJUy+LAurSsezbpW5HRW3cmiT1B7+pFdqCG+dQfZGduh0Tc
-	9DesITORNEU0viyPb3oVHKz+3gx0M2itITJ7IpUnio5TfDUzNsCpRsTGOvmRUDYsVjAwHH
-	opUeMMumEQCME8k3fckLWBpoIA5kFLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731496589;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CnCJwm0UNhCnzhGAXXuYaqBG6HMZIxmgQJDhWoN0+Ok=;
-	b=sVw/ODxxxS3o8Gl2rT4YwCI5aF0M6qeEKWaAY566JFd8d9lsjIAQrQWIygmVhnjQXRqqn3
-	58VR2NlTmUDxdzBg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731496589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CnCJwm0UNhCnzhGAXXuYaqBG6HMZIxmgQJDhWoN0+Ok=;
-	b=X2X5+z9AwUUdSeFxgFeie9sLJUy+LAurSsezbpW5HRW3cmiT1B7+pFdqCG+dQfZGduh0Tc
-	9DesITORNEU0viyPb3oVHKz+3gx0M2itITJ7IpUnio5TfDUzNsCpRsTGOvmRUDYsVjAwHH
-	opUeMMumEQCME8k3fckLWBpoIA5kFLE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731496589;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=CnCJwm0UNhCnzhGAXXuYaqBG6HMZIxmgQJDhWoN0+Ok=;
-	b=sVw/ODxxxS3o8Gl2rT4YwCI5aF0M6qeEKWaAY566JFd8d9lsjIAQrQWIygmVhnjQXRqqn3
-	58VR2NlTmUDxdzBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC22213301;
-	Wed, 13 Nov 2024 11:16:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iJaoKI2KNGeVVQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 13 Nov 2024 11:16:29 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: pcm: Define snd_pcm_mmap_data_{open|close}() locally
-Date: Wed, 13 Nov 2024 12:16:27 +0100
-Message-ID: <20241113111628.17069-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="AqLoH2Ff"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pqI0Xov9dXBWaAWYq4KqW3jelDObaqv/cus4pJyI+r0YCx0AVAZVFNcL+BOq2qbxqEonfIwR9WvKqhqTYSeWGOXDnGf9RMETd1tqxVFVo0fPh+l0Tgx3zkTiPCbL+r3y5SuwPXGY+od+g7/KrPf/pngLiDjcQLplGDrgYnKq+4WgduPdbaVBRSS/PPzdRdgXAOowgIahX+g8heuWcRy4Mr/j7HsRhMxvz053N+tCCo8DFosaj3NzUmUMk2NX8bXG87ryX2HmBR3u18xGZTlwhQljoxmKUmBKx3ukaDXM0RbzaxEAhV/6mWKcGqun+H4f6S53ikKngh8Fs6xKwowFWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+oUUHd5pbyXWGf1x2EV/E/BKMUk00W9JA52hzgHBS14=;
+ b=Rqka/sgFBf5olReMYwm09YGkrH0ZeStYfxtAdWkTm8E3XpqaTlWgpsQjOoSV/k/GgY2z/0G3T5HKCBIctXkArvP+lRyQNT7ncO32YkOvUyl/6UhTMUPu34xDGuMANIl2HU+RS58e1LD26OPBsCMWqdbZ5VB6iD15BHgGTN8uXlonfbPlhuDVTllDNLTphx/kYbQyfppF8zpyPVFqc73qlQm7HzlNIZMJvkk36UZEh1pQlLU4b0C8WuxFpKKR/Y/qt7d0dEDC5UPW3WKP4MlUQsSriWW2Nc461VEsevHPHYfOnjVUYEpziYf1xbspSIH7nqXGqHXiHxPFJoSgazHCBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+oUUHd5pbyXWGf1x2EV/E/BKMUk00W9JA52hzgHBS14=;
+ b=AqLoH2FfSk7F1OeZvNLvxM0mblYeECvTZHYs6uky//dwvcGSu1KmNBieIPEm4eDiJqf6e8/L1VBYdtDl3ztrM6TDTxbCY9NdKC2fMdAfHcLASBY0vJEG/JIE3ii0upBODPQBDS6ZuqKQzj5vSxeVnk/E/fHRrtJDcsz/eUIztds=
+Received: from BYAPR06CA0006.namprd06.prod.outlook.com (2603:10b6:a03:d4::19)
+ by CH3PR12MB7548.namprd12.prod.outlook.com (2603:10b6:610:144::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.17; Wed, 13 Nov
+ 2024 11:52:42 +0000
+Received: from MWH0EPF000989E8.namprd02.prod.outlook.com
+ (2603:10b6:a03:d4:cafe::33) by BYAPR06CA0006.outlook.office365.com
+ (2603:10b6:a03:d4::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.29 via Frontend
+ Transport; Wed, 13 Nov 2024 11:52:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000989E8.mail.protection.outlook.com (10.167.241.135) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8158.14 via Frontend Transport; Wed, 13 Nov 2024 11:52:42 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 13 Nov 2024 05:52:37 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<alsa-devel@alsa-project.org>, <linux-kernel@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
+	<mario.limonciello@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Subject: [PATCH 0/6] Add generic AMD Soundwire machine driver for Legacy(No
+Date: Wed, 13 Nov 2024 17:22:17 +0530
+Message-ID: <20241113115223.3274868-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -77,108 +73,82 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.977];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000989E8:EE_|CH3PR12MB7548:EE_
+X-MS-Office365-Filtering-Correlation-Id: d981d179-4c6f-460b-3025-08dd03d9ae63
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?06/vVSX2ku7t/8x7MI9ZQgCoT6Ehrrv6vZdRldoYU4sSEjpwhGevYzDPf96m?=
+ =?us-ascii?Q?Ywn1dzSSNa/xvG4XYPm7R+YJuthFlxTBafFQRwc4xQg5Fcily83V2nUOSw4N?=
+ =?us-ascii?Q?iEWRvfjqC1i90KqOUfyKztYwvin038wiFoEZ/jjrJ5IvDTUU3XM7gn7mCmc9?=
+ =?us-ascii?Q?FOmDQORmytaLXKfke1/4bdJCrqRmZlJO5VcBD+BmK20cxy0q5Aekkmhwufj3?=
+ =?us-ascii?Q?T3C3Is2s3nQmWc5gu1OP9xq+IhgVfuL5Jb0NmRuap4EcNQyoJc6uEQ9E0zlh?=
+ =?us-ascii?Q?aiTQcuAlhhg0uk4LSTQg3gI71KeslxC5n2Ya2xr/xfiwoRFIm6shDcZzbYk5?=
+ =?us-ascii?Q?81nrnkY2LVDcnbqTAM38DQExuFS2rT0Kk5j0RuSS858FJUe+tUY0VWJKokdd?=
+ =?us-ascii?Q?JEoqCMD4VPh9bXN3XrAw2eDZxKvxFCBT0I4wVL+cyw2qkIMivp6XLnD9JBds?=
+ =?us-ascii?Q?rSDj4mLyEn2XXDzaSZScZCbHolpt+QZbzLrANihzZDmeS9zoEyQeRtsByLY5?=
+ =?us-ascii?Q?f+Iil8LL/t/Fflw5QdiDiQxcvEIlLLXHykDbY5B5If1/5cG8dMMWBLfSKYsR?=
+ =?us-ascii?Q?Da+zSRe1CmwoPPI4YcNkHJ2EQ9Izx6KcByXktVq2c8koSv9Pks5S++LkuESe?=
+ =?us-ascii?Q?imQsTVqiR9QcWzvRvIuGPThbPPED7pPdGxGgBLr2NIKt9WfVGV7Fhwn2ewnh?=
+ =?us-ascii?Q?OZN4gaqiO+VtP4363nNmSaePse+Pn5oYZpl6TkYMMfudguOEuVs6HyqsnNxI?=
+ =?us-ascii?Q?Ec63gMoQtprRQpYfv3OYq4BcHpKCR8desKYLy/TYW2E9frx+I2ARDTGoGKV9?=
+ =?us-ascii?Q?NadV4kwePGknc7jd4Jw1YZmuujz4TGpiZRplbdM+TLXVbcA2qoaZ/z8YxtTP?=
+ =?us-ascii?Q?+3wQHv8WkHiYsWWlVuVrXPmdlXYxV4D1/sMItD9yO2C5ApQMfulxEThDIjUE?=
+ =?us-ascii?Q?vkVCCuUWuWvo7Zfy4nZPWCWWWynk1Ur35FoS8dfx9zndMZWCiY/7BZZ88Xf4?=
+ =?us-ascii?Q?+wc0S2WoEXYObg3knl5OF/OtXt9vVagZlO7HZB4eegKgDZOoLykg6ZRNP12G?=
+ =?us-ascii?Q?nSYS+5t6pMomUSBFt0Haiebkux44vqfoHbTQnWLyzLLdO8GRd9Rbk9Iazkbp?=
+ =?us-ascii?Q?yKyey9yBUCQNugF+8I2PQ0rFHNJRFZxdLCe6CoUZfvQm2mDDAtaP3Gs/JteD?=
+ =?us-ascii?Q?9ZTQaYJdO/Vcbn2/lip92utAbCGllbS1hWmpJOD/RuMax1EWBvMmMZ0zWAEt?=
+ =?us-ascii?Q?Dz+GqOg80BQK5LMHRIJZKim5GSWzheNCGSpPD90bXdNNSI9V42sGvn0tcPPT?=
+ =?us-ascii?Q?8hOUSJubj1HY5I61HXEnq4KcmZVaeoYsbgEXSSA8WS5vBA0Z1pVOtYNOHbhs?=
+ =?us-ascii?Q?VRvYFrRpFPkm3kszGERwGQtmRib05O+X2BSVD6TgcE42GAYb2g=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2024 11:52:42.3438
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d981d179-4c6f-460b-3025-08dd03d9ae63
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000989E8.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7548
 
-snd_pcm_mmap_data_open() and _close() are defined as inline functions
-in the public sound/pcm.h, but those are used only locally in
-pcm_native.c, hence they should be better placed there.
+This patch series add SoundWire machines for RT711, RT714, RT1316 and
+RT722 codecs for ACP 6.3 platform. Also, it adds a generic SoundWire
+machine driver code for legacy(No DSP) stack.
 
-Also, those are referred as callbacks, the useless inline is dropped.
+Vijendar Mukunda (6):
+  ASoC: amd: acp: add rt722 based soundwire machines
+  ASoC: amd: acp: add RT711, RT714 & RT1316 support for acp 6.3 platform
+  ASoC: amd: ps: add soundwire machines for acp6.3 platform
+  ASoC: amd: acp: move get_acp63_cpu_pin_id() to common file
+  ASoC: amd: acp: add soundwire machine driver for legacy stack
+  ASoC: amd: ps: fix the pcm device numbering for acp 6.3 platform
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- include/sound/pcm.h     | 24 ------------------------
- sound/core/pcm_native.c | 20 ++++++++++++++++++++
- 2 files changed, 20 insertions(+), 24 deletions(-)
+ sound/soc/amd/acp/Kconfig                |  29 ++
+ sound/soc/amd/acp/Makefile               |   4 +
+ sound/soc/amd/acp/acp-sdw-legacy-mach.c  | 486 +++++++++++++++++++++++
+ sound/soc/amd/acp/acp-sdw-mach-common.c  |  64 +++
+ sound/soc/amd/acp/acp-sdw-sof-mach.c     |  49 +--
+ sound/soc/amd/acp/amd-acp63-acpi-match.c |  54 +++
+ sound/soc/amd/acp/soc_amd_sdw_common.h   |   4 +
+ sound/soc/amd/mach-config.h              |   1 +
+ sound/soc/amd/ps/pci-ps.c                |   1 +
+ sound/soc/amd/ps/ps-sdw-dma.c            |   2 +
+ 10 files changed, 646 insertions(+), 48 deletions(-)
+ create mode 100644 sound/soc/amd/acp/acp-sdw-legacy-mach.c
+ create mode 100644 sound/soc/amd/acp/acp-sdw-mach-common.c
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index ef9cbeaf3784..67c99ffbf51b 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -1393,30 +1393,6 @@ snd_pcm_sgbuf_get_chunk_size(struct snd_pcm_substream *substream,
- 	return snd_sgbuf_get_chunk_size(snd_pcm_get_dma_buf(substream), ofs, size);
- }
- 
--/**
-- * snd_pcm_mmap_data_open - increase the mmap counter
-- * @area: VMA
-- *
-- * PCM mmap callback should handle this counter properly
-- */
--static inline void snd_pcm_mmap_data_open(struct vm_area_struct *area)
--{
--	struct snd_pcm_substream *substream = (struct snd_pcm_substream *)area->vm_private_data;
--	atomic_inc(&substream->mmap_count);
--}
--
--/**
-- * snd_pcm_mmap_data_close - decrease the mmap counter
-- * @area: VMA
-- *
-- * PCM mmap callback should handle this counter properly
-- */
--static inline void snd_pcm_mmap_data_close(struct vm_area_struct *area)
--{
--	struct snd_pcm_substream *substream = (struct snd_pcm_substream *)area->vm_private_data;
--	atomic_dec(&substream->mmap_count);
--}
--
- int snd_pcm_lib_default_mmap(struct snd_pcm_substream *substream,
- 			     struct vm_area_struct *area);
- /* mmap for io-memory area */
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index b465fb6e1f5f..47027fa4eb28 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -3773,6 +3773,26 @@ static int snd_pcm_mmap_control(struct snd_pcm_substream *substream, struct file
- }
- #endif /* coherent mmap */
- 
-+/*
-+ * snd_pcm_mmap_data_open - increase the mmap counter
-+ */
-+static void snd_pcm_mmap_data_open(struct vm_area_struct *area)
-+{
-+	struct snd_pcm_substream *substream = area->vm_private_data;
-+
-+	atomic_inc(&substream->mmap_count);
-+}
-+
-+/*
-+ * snd_pcm_mmap_data_close - decrease the mmap counter
-+ */
-+static void snd_pcm_mmap_data_close(struct vm_area_struct *area)
-+{
-+	struct snd_pcm_substream *substream = area->vm_private_data;
-+
-+	atomic_dec(&substream->mmap_count);
-+}
-+
- /*
-  * fault callback for mmapping a RAM page
-  */
 -- 
-2.43.0
+2.34.1
 
