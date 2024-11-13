@@ -1,57 +1,57 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C869200B9B
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F25201018
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504955; cv=none; b=NzJ1HEoAW764pkdxzzzyo4La2YDhJEi3XTk2gA0TU+NUHGACUcdaOkkon5GexOMonDg33Jjr55CG+k0Fo6/bI1wJSa2pE6LSd7mLIPKybDS7AQPdmwjENl/YRG7xkFb6Mc8fZfcyyqOsUAYE/uZ0j0MHUIobAX5s08A/pH9z4+k=
+	t=1731504957; cv=none; b=Y4pc6B7mb8F0+i250LBWf/f97J94/3/4dnzfbDLUO7y6Nfrv59Y9+NxmAOFKuoQEJherjo5VCCjR5Nf18VkscY/LUWW4mR0l3iNmG0GlmaFFNt7c3XQaG/whUZeTX/SEFKLXvZskmPKLP0QEVvUC5a50ya1CZS7L3Xyb4sN5GIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504955; c=relaxed/simple;
-	bh=hvPyCBg0Ub380Oer84TP7TBiOE9lRasIFgVz5JcxaTo=;
+	s=arc-20240116; t=1731504957; c=relaxed/simple;
+	bh=TSqSzOs8Q7BMfa4saTar0ZRCzZC0f5vyfoNlajUePmc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iVpF/TSIJsL0GmJ24ELUZx7tOS58mBpR3wj2lo33XRKuLw3eOrVhJZ9SJtUdcJGQlgv+ErFmbRTloKvECzUaJeZADiedxs+ZOmZ3wM5XjPCt/Ec60ynLc3jgKMaWLUIguArEaQCfkRhgbbYW+X+dioZ43z1V82pqGszjq6HE9CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=YxOyr/ar; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=XPVGauVxJjz39j4RVr91IuqIhpJwmrmI4WU/vwE8gBdvTmtwPxfLoy/k9UY0zcSjUgqSgxP0hLqIzxI+/BRvQrLZnsYaP45kEL/CoSwn3Z8zDgK1xaw2AAMMTeTB/DiqaStFMdNtiCAvbBgLvMPi3W1h4hjglHM3N29VQbJRQgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=kKnKaG2b; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YxOyr/ar"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so56429695e9.2
-        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="kKnKaG2b"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so56502415e9.1
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731504951; x=1732109751; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1731504953; x=1732109753; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M39uGs9YqOaYwvk+mW8A+OZczlIwAy9DMfbQh/7ugtM=;
-        b=YxOyr/ar/UEJJkPC5H7RfwYV24srrsCd8k8sx/Wsu9MmWlCOKeORpJ/7tq/YDm2ctf
-         ELqCkjIHc3E/PXIugfgjUThbJFG2UV+lLxINfdhCvfa7MkQ+C69HamGwT8rxgyQCXfNT
-         ohX0jq6mv0dZN1a/kvg0eznOhxA6nUGsXvKzLKFP5OCwWhn+tiZv3EOFzHglYbJ38lNY
-         s5enT2XD/dMYElBhPpooHcmS52qJunftvMFvcGekDAuXsjzb9Aq/C/n6x5F5wlYaedLa
-         3aZzTRnQ3wPw3lVwz9fZJOhy5NhdHa+NL/zJQ5tkm/1q9SzNidwVAVW17h6/k9W39+cB
-         JNYw==
+        bh=9Sa3H1f/E/g0KGrtcmKvCv12Jkl936NP4UC4pZY9H8c=;
+        b=kKnKaG2bzadX4UwnSHcO8CXdNKaiWXHMAVYJjthK0gAm4HGIEwiS0S6a1FQlnCWKvK
+         mNQEGpr8XrymSvEXG5VCV3TIuXqORXY2gfnLe5YeZIW45bGeRkKfsygEiqe80N6y5gvL
+         C4kyjkwszwb1acrefO+dw/WUYQ8hvnVKOPnrW4juTm14naOmdvlb+waV3CwD6NMmY1F9
+         Dzzz45vCwvgRMEyvLYlffysmTlH0HYekWmY/YBxdkAFyScobNGf62mcvjW+/hOgWAh4N
+         HGzP769AZ7qojvnslMrrkOPMjW+n6dmwE+TJ2RxsWSwen1NZZhFE7DPGi7DRt7wREFFZ
+         KbnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731504951; x=1732109751;
+        d=1e100.net; s=20230601; t=1731504953; x=1732109753;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=M39uGs9YqOaYwvk+mW8A+OZczlIwAy9DMfbQh/7ugtM=;
-        b=aJ5LSuLMcHSJMgHEpRsSEx3d/NFyGAa5Kx9scoYDqXN41DjJWNeZ4q3c1ev5soFDVd
-         GqDa3tUi3vgMN5OvNRQ/Yznf26ArByDxxRmBbvdr7RUfX+N+Vl4j+n58ccVXWiJQnT9O
-         sU8EEjrZ1WvO0nx/i31WTmEtexEQZno8hW7RMupTV54bEfLt+qV7JEEZmIJDpJ++CM0u
-         YHl/N8fwBiuQZpLYmUDD7P/QXacby+R4jUQe4A9ajvjs74YjaSyK1tr5wqt2ixt2wMLl
-         Ico6npiJRazae+iSpfkmrWt4Y81ZlMaK+pYtoD1odavLwq5fkT8tyIzHmO2YpYyWPczB
-         Tnrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXefNDNjftRHGtyFcvzHXIgI7S6LC4tzaEGM4VDUA9s8vifbpbfB51qgESy/Lg9GNafWEcVqMfxKXR/dQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpXUCa+b//RIhwnko9+XHwPqeLj8RdYAcp7RWM+Too99lajRKh
-	hnLkEDUagwCDu2QFk9nzQNQ84Damrp4gESINhJC2GvbgNSsVQIo7dzk9l6E4eJE=
-X-Google-Smtp-Source: AGHT+IH2ugJaSPEuNVTVb2TRcI8mLVkS7FRoCthfFGJrkjmYo7s857ZhiNnPrsmgApA/a3Xpwba8AA==
-X-Received: by 2002:a05:600c:1f13:b0:431:55c1:f440 with SMTP id 5b1f17b1804b1-432cd47dac2mr60776305e9.30.1731504951418;
-        Wed, 13 Nov 2024 05:35:51 -0800 (PST)
+        bh=9Sa3H1f/E/g0KGrtcmKvCv12Jkl936NP4UC4pZY9H8c=;
+        b=ngu1ROlF7bCzHUwH/5DSf33wzbVxr4W0c98LVKuIUgfT0ck4iQ4sUGuAjA2liNZWp3
+         k3heic8i3CUBUuQC3Vtf8hqvDgHwSzkHvfIByhDfg27GoaECzhNwqFhC5oheQg+bloMs
+         nrcdtHoAL2FXjkGLvd8cltnlmuNZtI4JjcPylr8WBtw/qgoIFFQEvmygQ48/t1CN0KTN
+         6olHNtlPwX4rkWZMUa+qXjJ4yz6yh+s0kouv+/lN9QdOVOUZErG6Qk+OUgbdjs4D7v61
+         mkn+2gHHY+Yd8I9UEObmh0EFEXDAChsYHVvmBp/E3jqFfXNCjrBH0nbsHswpD1Ci2XXm
+         bdWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxwrHiHVTwdrvNGhcvIsdDDpzx96XRc7Gwh3VH09A3wI6Bux8bx1oopMSIFKUYEUDbdAUvlSMgDUIsoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgJqhvTiYvZCSxa7+aX506J7KDTUcP3nURSHG5nKeYwhNjz8Ef
+	4LfFg0xmyOG+YK2cMuolZSAe6hAp3U16T6kNncbcsIf0w0R7rhps2VoPY3rDV0Q=
+X-Google-Smtp-Source: AGHT+IEYHJzqM5FW299ZAdbK6T7DVikcehfuphKy8vP+A1ZGKFW5gkq6w5nT2ifGCWhjngi1zECKUQ==
+X-Received: by 2002:a05:600c:4e0e:b0:431:59b2:f0d1 with SMTP id 5b1f17b1804b1-432cce6825amr58718565e9.4.1731504953372;
+        Wed, 13 Nov 2024 05:35:53 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 05:35:51 -0800 (PST)
+        Wed, 13 Nov 2024 05:35:52 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -76,11 +76,10 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v3 03/25] dt-bindings: clock: versaclock3: Document 5L35023 Versa3 clock generator
-Date: Wed, 13 Nov 2024 15:35:18 +0200
-Message-Id: <20241113133540.2005850-4-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 04/25] clk: versaclock3: Add support for the 5L35023 variant
+Date: Wed, 13 Nov 2024 15:35:19 +0200
+Message-Id: <20241113133540.2005850-5-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
@@ -94,12 +93,8 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-There are some differences b/w 5L35023 and 5P35023 Versa3 clock
-generator variants but the same driver could be used with minimal
-adjustments. The identified differences are PLL2 Fvco, the clock sel
-bit for SE2 clock and different default values for some registers.
+Add support for the 5L35023 variant of the Versa 3 clock generator.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -108,23 +103,30 @@ Changes in v3:
 - collected tags
 
 Changes in v2:
-- collected tags
+- none
 
- Documentation/devicetree/bindings/clock/renesas,5p35023.yaml | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/clk-versaclock3.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-index 42b6f80613f3..162d38035188 100644
---- a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-+++ b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
-@@ -31,6 +31,7 @@ description: |
- properties:
-   compatible:
-     enum:
-+      - renesas,5l35023
-       - renesas,5p35023
+diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
+index 1398d16df5d0..9fe27dace111 100644
+--- a/drivers/clk/clk-versaclock3.c
++++ b/drivers/clk/clk-versaclock3.c
+@@ -1133,8 +1133,14 @@ static const struct vc3_hw_cfg vc3_5p = {
+ 	.se2_clk_sel_msk = BIT(6),
+ };
  
-   reg:
++static const struct vc3_hw_cfg vc3_5l = {
++	.pll2_vco = { .min = 30000000UL, .max = 130000000UL },
++	.se2_clk_sel_msk = BIT(0),
++};
++
+ static const struct of_device_id dev_ids[] = {
+ 	{ .compatible = "renesas,5p35023", .data = &vc3_5p },
++	{ .compatible = "renesas,5l35023", .data = &vc3_5l },
+ 	{ /* Sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, dev_ids);
 -- 
 2.39.2
 
