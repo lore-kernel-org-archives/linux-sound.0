@@ -1,99 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E749E1E0E09;
-	Wed, 13 Nov 2024 13:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93461DF992
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504253; cv=none; b=YmN5qSkFknwi1kImvcO5HmhQOvp2nWjFXdElV2Bchw3Jb8WYDp2RRveJs/wQwqqlK2ickmjSckI8PohBv3q9Kkg94jqPo/4HZU0579Hnrm0x0RMqXrVsWagt2mJ0evGK95o0h56ONVp76psLQabdQf9n30NcV5QTHUQkpPVBHJk=
+	t=1731504950; cv=none; b=eDIuarIf85OcsyQ3ic0MjbVbbBCbGuqL7qyjPR4rOdfs2SzUjTo+msAEFvNiMthbjO/08IsZkQUejQmaboqPK4zTf6rkAzOenCnte4pVAAeoGTgIszQoJDS/2T16ulAyHFPBjucoTEFYtJexGAil+G7wCw409qR/8Fb88Pt8Xzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504253; c=relaxed/simple;
-	bh=w1uGH5DI7jQ4MMG1d2kSZOZ7U2WjgNn6EaaD1OTP5BU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uBGxVdYhHGHN0KZYtyFfJIbsBeJXDiRUvPQq3KdaqJLpKh4bF8BVeTySES+axIHoxoyVxUkaVXwxd0PNOVg6OfOGpYHfc6Gy3nDEEUX4MLSrUxgztA2nD2iF8r8gJ1lrGYYz8UcH7oDRkIU53/gLCktPhvxEE1+7bcOobj5ZnKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfWbQ5mW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731504950; c=relaxed/simple;
+	bh=GSEp7+P2oIqPBwNKWA7wsOuoELp7wiwa4zBQQsvE8bk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WarHX6Y+W1pW2ogWf3peafVSrgSxmfI64vFFEvErgM30rRV+5UYa/afJPg+BXL1OxgB2RMs5stg/RhROltDVtIlKNrnub351wrUVZxwwd5ffpfCehc6SVdkpBDHJu5etkiC5gpie1DlSehbJUQlLpLf/E4IqN2KFg8Xy6ZO1wBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=IU5KkCUM; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfWbQ5mW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E678DC4CECF;
-	Wed, 13 Nov 2024 13:24:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731504252;
-	bh=w1uGH5DI7jQ4MMG1d2kSZOZ7U2WjgNn6EaaD1OTP5BU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QfWbQ5mWy38NB7BhUKkVnGbBQd42dc9mRwjmpKGNPraivGf7PztAwCQaQF2IF6jPA
-	 HI06wjm+Q0ALHRXQZ8OEn4La7cwccfA+ZG+BZjHxrybfdhMTruJ+2GLAsqdKacVYdg
-	 t7mXNqlRW8r1NsA5V4tuIs+VeBZ3ttUp84duASrDjyhQI/Vav1aOsg4L1erMLlyGBZ
-	 Zkl1UT5XONYa6gWD5JZWRUwgo8Lq2HTU7qNzxS0Z9ajBzUkoN1fKfC1oQdrn384EfF
-	 o+oLEUUSrA5B3dO9GbH+42EH9OCIoQ4qBtoSu56rSkT8FMno/ZA9/tprh9kbzvnWnB
-	 vtMYF4sMDcNTw==
-Date: Wed, 13 Nov 2024 13:24:08 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Kiseok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Tang Bin <tangbin@cmss.chinamobile.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sma1307: fix uninitialized variable refence
-Message-ID: <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
-References: <20241113115708.4772-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="IU5KkCUM"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso57946505e9.3
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tuxon.dev; s=google; t=1731504945; x=1732109745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=38RdVR6XfzT/acxg3Evn3RfNKko9KLfNmwUZPEhGtkk=;
+        b=IU5KkCUM3WqNbX7To4Q96Sp4+eJeVH2kQonJr+7fE+ooSNooBahYg9NfSafeVJd3fJ
+         Q9khrr8V2nNSAhthcXmPztX31iEQesx8qji9+fjGec9QLThZBeR1EfDRdtTWO3qr3vkC
+         iXrFZGziUDxIyqB8tsiKjHFNqi8NSxjCn/hdwc9MrNYsyYxMrehDTKV4H5Au7u/JepJ3
+         jLP0feYRaSHeAjXEuDT0/96xJiBsqYuj/f8EfSWLHeFY1n4NhJ2dHaSIslea0vwU0obY
+         FT2Uwj9MIacowyxM+kzXkQePJOECH2+mDzBwKDQZfBFH5ue1fSWyY+dXp7qRRXuWqz3W
+         wFtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731504945; x=1732109745;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=38RdVR6XfzT/acxg3Evn3RfNKko9KLfNmwUZPEhGtkk=;
+        b=nwmt3WEZ1fRvZcI7EGg/0n4x72L3ucA4N5E21rmG7SL0UjyE/xFkqqcQDroOyLJJGm
+         VzpYs+CR4WOXdinHfZ3LrP5dZewdV4WAUziGWT3Lzr3DZA+MABWKzrA4jXN74FoVbhTp
+         hFN3m/XprEzQexwptAo7zRWJzQj1VlcFxSHsdZrxYqHPgxcEsybcXic0OR+lV9ekLJy2
+         mF7tn0lNR961jx52k2iNOyt/MvFoVRVzcQtQyi4guuk2C0EmAxemCGChPOCoQVt18Eiu
+         zV9rUF4IxgxfNgRipQxfZPJnalnkIpS4nOmqzky5PZ/Ni0zi7DW/jbsTHG5sOZSciWAg
+         BKZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWcKOb+zb8IFR3QT0pisokY3rGI8EposihsgGfJJ4fx7hWFbeP+N0yiPZL1ROm2I3WdrRv3uX5YECuAxw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2IEghUP4UJF73xe4Q8cixU9WNqD5HZk6vpRR/cbBCjNkYPAm0
+	uJQ6WA4umqrXyRrT0BWSKQuollX/cQDpUwVKeeTQ94nkuPoMUSVJCZXWRfx94Eo=
+X-Google-Smtp-Source: AGHT+IH6BtO8t01xxiyIYhMvt7Hd4pkTdgZmTb7yTwf7/RBE8w+RkZLnSNs8EBeBk/+f7GQjKwBbng==
+X-Received: by 2002:a05:600c:1f1b:b0:431:60ac:9b0c with SMTP id 5b1f17b1804b1-432d4ad33demr24573945e9.20.1731504944871;
+        Wed, 13 Nov 2024 05:35:44 -0800 (PST)
+Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 05:35:44 -0800 (PST)
+From: Claudiu <claudiu.beznea@tuxon.dev>
+X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
+To: geert+renesas@glider.be,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	magnus.damm@gmail.com,
+	linus.walleij@linaro.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	p.zabel@pengutronix.de
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	claudiu.beznea@tuxon.dev,
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+Subject: [PATCH v3 00/25] Add audio support for the Renesas RZ/G3S SoC
+Date: Wed, 13 Nov 2024 15:35:15 +0200
+Message-Id: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dG8CkEoz4e8R5/aM"
-Content-Disposition: inline
-In-Reply-To: <20241113115708.4772-1-arnd@kernel.org>
-X-Cookie: Editing is a rewording activity.
+Content-Transfer-Encoding: 8bit
+
+From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+
+Hi,
+
+Series enables the audio support for the Renesas RZ/G3S
+SoC along with runtime PM and suspend to RAM.
+
+Patches:
+-    01/25 - add clock, reset and power domain support
+- 02-04/25 - update versaclock3 clock generator driver to support the
+             5L35023 hardware variant; versaclock3 provides clocks for
+             the audio devices (SSIF, DA7212 codec)
+-    05/25 - add pin control support for audio
+- 06-20/25 - add SSIF support for the RZ/G3S SoC; fixes and cleanups
+             were also included
+- 21-25/25 - add device tree support
+
+Merge strategy, if any:
+- clock patches (01-04/25) can go through the Renesas tree
+- pinctrl patch (05/25) can go though the Renesas tree
+- audio patches (06-20/25) can go through the audio tree
+- device tree patches (21-25/25) can go through the Renesas tree
+
+Thank you,
+Claudiu Beznea
+
+Changes in v3:
+- use renesas instead of sh in audio patches title
+- use proper fixes tag for patch
+  "ASoC: renesas: rz-ssi: Terminate all the DMA transactions"
+- collected tags
+
+Changes in v2:
+- fixed typos pointed out in the review process
+- dropped da7213 patches already applied
+- dropped patch "ASoC: sh: rz-ssi: Use a proper bitmask for clear bits"
+  as requested in the review process
 
 
---dG8CkEoz4e8R5/aM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Claudiu Beznea (25):
+  clk: renesas: r9a08g045-cpg: Add clocks, resets and power domains
+    support for SSI
+  clk: versaclock3: Prepare for the addition of 5L35023 device
+  dt-bindings: clock: versaclock3: Document 5L35023 Versa3 clock
+    generator
+  clk: versaclock3: Add support for the 5L35023 variant
+  pinctrl: renesas: rzg2l: Add audio clock pins
+  ASoC: renesas: rz-ssi: Terminate all the DMA transactions
+  ASoC: renesas: rz-ssi: Use only the proper amount of dividers
+  ASoC: renesas: rz-ssi: Fix typo on SSI_RATES macro comment
+  ASoC: renesas: rz-ssi: Remove pdev member of struct rz_ssi_priv
+  ASoC: renesas: rz-ssi: Remove the rz_ssi_get_dai() function
+  ASoC: renesas: rz-ssi: Remove the first argument of
+    rz_ssi_stream_is_play()
+  ASoC: renesas: rz-ssi: Use readl_poll_timeout_atomic()
+  ASoC: renesas: rz-ssi: Use temporary variable for struct device
+  ASoC: renesas: rz-ssi: Use goto label names that specify their actions
+  ASoC: renesas: rz-ssi: Rely on the ASoC subsystem to runtime
+    resume/suspend the SSI
+  ASoC: renesas: rz-ssi: Enable runtime PM autosuspend support
+  ASoC: renesas: rz-ssi: Add runtime PM support
+  ASoC: renesas: rz-ssi: Issue software reset in hw_params API
+  ASoC: renesas: rz-ssi: Add suspend to RAM support
+  ASoC: dt-bindings: renesas,rz-ssi: Document the Renesas RZ/G3S SoC
+  arm64: dts: renesas: r9a08g045: Add SSI nodes
+  arm64: dts: renesas: rzg3s-smarc-som: Add versa3 clock generator node
+  arm64: dts: renesas: Add da7212 audio codec node
+  arm64: dts: renesas: rzg3s-smarc: Enable SSI3
+  arm64: dts: renesas: rzg3s-smarc: Add sound card
 
-On Wed, Nov 13, 2024 at 12:56:50PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> When firmware loading is disabled, gcc warns that the local
-> 'fw' variable fails to get initialized:
->=20
-> sound/soc/codecs/sma1307.c: In function 'sma1307_setting_loaded.isra':
-> sound/soc/codecs/sma1307.c:1717:12: error: 'fw' is used uninitialized [-W=
-error=3Duninitialized]
->  1717 |         if (!fw) {
->       |            ^
-> sound/soc/codecs/sma1307.c:1712:32: note: 'fw' was declared here
->  1712 |         const struct firmware *fw;
->=20
-> Initialize this to NULL as that is what it gets checked for in
-> case of error.
+ .../bindings/clock/renesas,5p35023.yaml       |   1 +
+ .../bindings/sound/renesas,rz-ssi.yaml        |   1 +
+ arch/arm64/boot/dts/renesas/r9a08g045.dtsi    |  96 ++++++++
+ .../boot/dts/renesas/rzg3s-smarc-som.dtsi     |  47 +++-
+ arch/arm64/boot/dts/renesas/rzg3s-smarc.dtsi  |  66 +++++
+ drivers/clk/clk-versaclock3.c                 |  67 ++++--
+ drivers/clk/renesas/r9a08g045-cpg.c           |  20 ++
+ drivers/pinctrl/renesas/pinctrl-rzg2l.c       |   2 +
+ sound/soc/renesas/rz-ssi.c                    | 226 +++++++++++-------
+ 9 files changed, 415 insertions(+), 111 deletions(-)
 
-This is just shutting the warning up - looking at the stub the real
-issue is that there's a return value from request_firmware() which isn't
-being checked, we're checking for the initialisation of fw instead.
-There is one path in the actual implementation that returns an error
-code without setting fw, though most do.  Either this caller should be
-updated to check the return code or if checking fw alone is valid (which
-TBH does look like the intent) the stub should be updated to set it.
+-- 
+2.39.2
 
---dG8CkEoz4e8R5/aM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc0qHcACgkQJNaLcl1U
-h9D8QggAg56F1egAfYIWAARNgFhDs0u5nfZZLY0ZhnJClG7okQVatveZ+yjuWO4b
-3kp5qedHaLits7uzc+IZ/+zEX/0kW8xsp028kP4+sj3m9NswvLkVuApkuHEX0T4H
-Tst4d3wfv0QTnGIO4nWushocxH3JM1X377Qr18AbJrEIV6z0WgkGiy2QzXahzHIH
-j3HbI+GLVC3vlMLR6ipnUNaOudkJSe4ZnRb0C7V85VrGOXvuj/ksVchbdB4s9L+N
-qA11e5+3ER7LYtsGAPq0F5rIqhF1awKLJW/h1oTc8AX8/ivqOH4ihH2aQy9oAbzE
-ZMJLGTN7y/1EdD2VJU6lY0uaiD9ZLQ==
-=EYyE
------END PGP SIGNATURE-----
-
---dG8CkEoz4e8R5/aM--
