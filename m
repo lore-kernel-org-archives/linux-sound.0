@@ -1,57 +1,57 @@
 Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D431FCF6D
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C869200B9B
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 13:35:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504953; cv=none; b=JK2Z+0rKBdET9qzrhoyL6pL2v/6Gw4IPz/RXzBuThhoeHKvjHmfQA3LZWAjICYG1ZSdqpjat2UI1t8p8sadn7g7ftm6DhOCGtmf3+SL6L9814RHgY3wOYtMwFosTwAMpwBx/vL1qoYWOsF1HLAc+iLvfOkGZVCD6dsDDH3+7mMo=
+	t=1731504955; cv=none; b=NzJ1HEoAW764pkdxzzzyo4La2YDhJEi3XTk2gA0TU+NUHGACUcdaOkkon5GexOMonDg33Jjr55CG+k0Fo6/bI1wJSa2pE6LSd7mLIPKybDS7AQPdmwjENl/YRG7xkFb6Mc8fZfcyyqOsUAYE/uZ0j0MHUIobAX5s08A/pH9z4+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504953; c=relaxed/simple;
-	bh=RfDIm7nlDF2oT2GxQr71zpHnLW0V+ttG/DYrbbG0ApE=;
+	s=arc-20240116; t=1731504955; c=relaxed/simple;
+	bh=hvPyCBg0Ub380Oer84TP7TBiOE9lRasIFgVz5JcxaTo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KiBrSFLP2ZpX/Pc60uYbjV0H6Sf/mZ77O27ipwOsn8QwhpcxMucR4Fu8HhXzmB8iuQ4B2C4X06njqx11h4H23kF+9FKTm21jeqhfIs5cLH1d0L9EvlvVLJN4NO8OLeeWJP8oi97TneJhpkk1TRcgp8K/uLnfXOmPc+yqUfuT1KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=cI2dsWAi; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=iVpF/TSIJsL0GmJ24ELUZx7tOS58mBpR3wj2lo33XRKuLw3eOrVhJZ9SJtUdcJGQlgv+ErFmbRTloKvECzUaJeZADiedxs+ZOmZ3wM5XjPCt/Ec60ynLc3jgKMaWLUIguArEaQCfkRhgbbYW+X+dioZ43z1V82pqGszjq6HE9CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=YxOyr/ar; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="cI2dsWAi"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431616c23b5so4748045e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="YxOyr/ar"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so56429695e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 05:35:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1731504950; x=1732109750; darn=vger.kernel.org;
+        d=tuxon.dev; s=google; t=1731504951; x=1732109751; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mlFfDF89R+f/1RC4wcSFS2u2gdJ1RVOHa5PModzkNgg=;
-        b=cI2dsWAi1AuQDCzS7wRJcCxlSTqtXxRTqqLQ4h8cGe3axvMXcl0rUHZaxU1Yerh0dH
-         iWWlr8lBTFL+PzbegynqVzBPCm3jqjeYMbwnW62tqPIGQUKTL0cMc2EkMPrEKYqfrf9f
-         CiyObGTKBF1V3AHx4gcCqWojfKjnahFcmKgGgpi9hqXFqH1uzWG76oM6TOfI53e1ivM0
-         E/ryLIb3euPzFpD8qKmdyykd3v2Zr00KzaeXkkEE7lg8+3b/Nr5Qxq6UL3nUawUyTUhL
-         C9+hd5yFS/N44mFis1q3kNuVjSJpzuNJiTyVFFzW9RpdPgbauYb/nwvoIJwjd1RABI2R
-         Rt8w==
+        bh=M39uGs9YqOaYwvk+mW8A+OZczlIwAy9DMfbQh/7ugtM=;
+        b=YxOyr/ar/UEJJkPC5H7RfwYV24srrsCd8k8sx/Wsu9MmWlCOKeORpJ/7tq/YDm2ctf
+         ELqCkjIHc3E/PXIugfgjUThbJFG2UV+lLxINfdhCvfa7MkQ+C69HamGwT8rxgyQCXfNT
+         ohX0jq6mv0dZN1a/kvg0eznOhxA6nUGsXvKzLKFP5OCwWhn+tiZv3EOFzHglYbJ38lNY
+         s5enT2XD/dMYElBhPpooHcmS52qJunftvMFvcGekDAuXsjzb9Aq/C/n6x5F5wlYaedLa
+         3aZzTRnQ3wPw3lVwz9fZJOhy5NhdHa+NL/zJQ5tkm/1q9SzNidwVAVW17h6/k9W39+cB
+         JNYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731504950; x=1732109750;
+        d=1e100.net; s=20230601; t=1731504951; x=1732109751;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mlFfDF89R+f/1RC4wcSFS2u2gdJ1RVOHa5PModzkNgg=;
-        b=vYUaVDalBfXuzoy4HqpLWlI67wEEHXRTJDx+GzfE0e/4gBZ39QzBZIMYQDsfTIZy/r
-         kW5H6zFnUL5jDdeJM4zc6X76Ta/hwyPpCDRyZVowR+pc1O4XG54d+60q+fWAhcdr4NIX
-         sKsF1OwxfoLriLRQbDux6njc4yMhLyiI5a3I2SSeREzHNL6Tn1qgmwibZSgRvYw+dU7D
-         j4x+kuy0lok8TlK1jbdVTMq636IERejBsqbue6VdWNtNzp4GsxQ4mnR8IK4HdA4E6w8n
-         HXUl4zX6GiUA93A4DbAZW911QYzRCrx4NQyY5nQkl4rvdSRwdRkvvURvK7Qqa4oylssu
-         3HzA==
-X-Forwarded-Encrypted: i=1; AJvYcCVz3m7pSZ7tub7dmoIsM4MPJEHRxdJIh7aXad2N7neO9VAWhQRqDFavSQAXV6MDOUJmLMeMiwbp5QLlGg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygdSmku469muBPk1zb+EOAbpKkrfpaSDDb0mXf8tT1m6IrPQZN
-	gBtpRfF/DOFbKE82REa13ngYmckCmPUGDhvBThZtruMEcSHQcxB1hEY93KK4MH8=
-X-Google-Smtp-Source: AGHT+IFw+3GMGxKApP4R+YjtgrHONIFF1ME9uD6PISb/FTPeiDHDpYmQOy4SeHO2DnTzEdw27TJEmw==
-X-Received: by 2002:a05:600c:1d1c:b0:431:9340:77e0 with SMTP id 5b1f17b1804b1-432b7480d83mr169438265e9.9.1731504949442;
-        Wed, 13 Nov 2024 05:35:49 -0800 (PST)
+        bh=M39uGs9YqOaYwvk+mW8A+OZczlIwAy9DMfbQh/7ugtM=;
+        b=aJ5LSuLMcHSJMgHEpRsSEx3d/NFyGAa5Kx9scoYDqXN41DjJWNeZ4q3c1ev5soFDVd
+         GqDa3tUi3vgMN5OvNRQ/Yznf26ArByDxxRmBbvdr7RUfX+N+Vl4j+n58ccVXWiJQnT9O
+         sU8EEjrZ1WvO0nx/i31WTmEtexEQZno8hW7RMupTV54bEfLt+qV7JEEZmIJDpJ++CM0u
+         YHl/N8fwBiuQZpLYmUDD7P/QXacby+R4jUQe4A9ajvjs74YjaSyK1tr5wqt2ixt2wMLl
+         Ico6npiJRazae+iSpfkmrWt4Y81ZlMaK+pYtoD1odavLwq5fkT8tyIzHmO2YpYyWPczB
+         Tnrg==
+X-Forwarded-Encrypted: i=1; AJvYcCXefNDNjftRHGtyFcvzHXIgI7S6LC4tzaEGM4VDUA9s8vifbpbfB51qgESy/Lg9GNafWEcVqMfxKXR/dQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpXUCa+b//RIhwnko9+XHwPqeLj8RdYAcp7RWM+Too99lajRKh
+	hnLkEDUagwCDu2QFk9nzQNQ84Damrp4gESINhJC2GvbgNSsVQIo7dzk9l6E4eJE=
+X-Google-Smtp-Source: AGHT+IH2ugJaSPEuNVTVb2TRcI8mLVkS7FRoCthfFGJrkjmYo7s857ZhiNnPrsmgApA/a3Xpwba8AA==
+X-Received: by 2002:a05:600c:1f13:b0:431:55c1:f440 with SMTP id 5b1f17b1804b1-432cd47dac2mr60776305e9.30.1731504951418;
+        Wed, 13 Nov 2024 05:35:51 -0800 (PST)
 Received: from claudiu-X670E-Pro-RS.. ([82.78.167.28])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d54e2f2esm25664165e9.1.2024.11.13.05.35.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 05:35:48 -0800 (PST)
+        Wed, 13 Nov 2024 05:35:51 -0800 (PST)
 From: Claudiu <claudiu.beznea@tuxon.dev>
 X-Google-Original-From: Claudiu <claudiu.beznea.uj@bp.renesas.com>
 To: geert+renesas@glider.be,
@@ -76,10 +76,11 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-gpio@vger.kernel.org,
 	claudiu.beznea@tuxon.dev,
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Subject: [PATCH v3 02/25] clk: versaclock3: Prepare for the addition of 5L35023 device
-Date: Wed, 13 Nov 2024 15:35:17 +0200
-Message-Id: <20241113133540.2005850-3-claudiu.beznea.uj@bp.renesas.com>
+	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH v3 03/25] dt-bindings: clock: versaclock3: Document 5L35023 Versa3 clock generator
+Date: Wed, 13 Nov 2024 15:35:18 +0200
+Message-Id: <20241113133540.2005850-4-claudiu.beznea.uj@bp.renesas.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
 References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
@@ -93,12 +94,12 @@ Content-Transfer-Encoding: 8bit
 
 From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 
-The 5P35023 and 5L35035 Versa 3 clock generator variants are different but
-the versaclock3 driver could be used with small adjustments. The features
-that are implemented in driver and differs b/w variants are the PLL2 Fvco
-and clock sel bit for SE2 clock. Adjust the driver to prepare for the
-addition of 5L35023 device.
+There are some differences b/w 5L35023 and 5P35023 Versa3 clock
+generator variants but the same driver could be used with minimal
+adjustments. The identified differences are PLL2 Fvco, the clock sel
+bit for SE2 clock and different default values for some registers.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
 ---
@@ -107,170 +108,23 @@ Changes in v3:
 - collected tags
 
 Changes in v2:
-- none
+- collected tags
 
- drivers/clk/clk-versaclock3.c | 61 ++++++++++++++++++++++++-----------
- 1 file changed, 43 insertions(+), 18 deletions(-)
+ Documentation/devicetree/bindings/clock/renesas,5p35023.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/clk-versaclock3.c b/drivers/clk/clk-versaclock3.c
-index 76d7ea1964c3..1398d16df5d0 100644
---- a/drivers/clk/clk-versaclock3.c
-+++ b/drivers/clk/clk-versaclock3.c
-@@ -78,9 +78,6 @@
- #define VC3_PLL1_VCO_MIN		300000000UL
- #define VC3_PLL1_VCO_MAX		600000000UL
+diff --git a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+index 42b6f80613f3..162d38035188 100644
+--- a/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
++++ b/Documentation/devicetree/bindings/clock/renesas,5p35023.yaml
+@@ -31,6 +31,7 @@ description: |
+ properties:
+   compatible:
+     enum:
++      - renesas,5l35023
+       - renesas,5p35023
  
--#define VC3_PLL2_VCO_MIN		400000000UL
--#define VC3_PLL2_VCO_MAX		1200000000UL
--
- #define VC3_PLL3_VCO_MIN		300000000UL
- #define VC3_PLL3_VCO_MAX		800000000UL
- 
-@@ -147,9 +144,13 @@ struct vc3_pfd_data {
- 	u8 mdiv2_bitmsk;
- };
- 
-+struct vc3_vco {
-+	unsigned long min;
-+	unsigned long max;
-+};
-+
- struct vc3_pll_data {
--	unsigned long vco_min;
--	unsigned long vco_max;
-+	struct vc3_vco vco;
- 	u8 num;
- 	u8 int_div_msb_offs;
- 	u8 int_div_lsb_offs;
-@@ -166,12 +167,17 @@ struct vc3_div_data {
- struct vc3_hw_data {
- 	struct clk_hw hw;
- 	struct regmap *regmap;
--	const void *data;
-+	void *data;
- 
- 	u32 div_int;
- 	u32 div_frc;
- };
- 
-+struct vc3_hw_cfg {
-+	struct vc3_vco pll2_vco;
-+	u32 se2_clk_sel_msk;
-+};
-+
- static const struct clk_div_table div1_divs[] = {
- 	{ .val = 0, .div = 1, }, { .val = 1, .div = 4, },
- 	{ .val = 2, .div = 5, }, { .val = 3, .div = 6, },
-@@ -386,10 +392,10 @@ static long vc3_pll_round_rate(struct clk_hw *hw, unsigned long rate,
- 	const struct vc3_pll_data *pll = vc3->data;
- 	u64 div_frc;
- 
--	if (rate < pll->vco_min)
--		rate = pll->vco_min;
--	if (rate > pll->vco_max)
--		rate = pll->vco_max;
-+	if (rate < pll->vco.min)
-+		rate = pll->vco.min;
-+	if (rate > pll->vco.max)
-+		rate = pll->vco.max;
- 
- 	vc3->div_int = rate / *parent_rate;
- 
-@@ -680,8 +686,10 @@ static struct vc3_hw_data clk_pll[] = {
- 			.num = VC3_PLL1,
- 			.int_div_msb_offs = VC3_PLL1_LOOP_FILTER_N_DIV_MSB,
- 			.int_div_lsb_offs = VC3_PLL1_VCO_N_DIVIDER,
--			.vco_min = VC3_PLL1_VCO_MIN,
--			.vco_max = VC3_PLL1_VCO_MAX
-+			.vco = {
-+				.min = VC3_PLL1_VCO_MIN,
-+				.max = VC3_PLL1_VCO_MAX
-+			}
- 		},
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "pll1",
-@@ -698,8 +706,6 @@ static struct vc3_hw_data clk_pll[] = {
- 			.num = VC3_PLL2,
- 			.int_div_msb_offs = VC3_PLL2_FB_INT_DIV_MSB,
- 			.int_div_lsb_offs = VC3_PLL2_FB_INT_DIV_LSB,
--			.vco_min = VC3_PLL2_VCO_MIN,
--			.vco_max = VC3_PLL2_VCO_MAX
- 		},
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "pll2",
-@@ -716,8 +722,10 @@ static struct vc3_hw_data clk_pll[] = {
- 			.num = VC3_PLL3,
- 			.int_div_msb_offs = VC3_PLL3_LOOP_FILTER_N_DIV_MSB,
- 			.int_div_lsb_offs = VC3_PLL3_N_DIVIDER,
--			.vco_min = VC3_PLL3_VCO_MIN,
--			.vco_max = VC3_PLL3_VCO_MAX
-+			.vco = {
-+				.min = VC3_PLL3_VCO_MIN,
-+				.max = VC3_PLL3_VCO_MAX
-+			}
- 		},
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "pll3",
-@@ -901,7 +909,6 @@ static struct vc3_hw_data clk_mux[] = {
- 	[VC3_SE2_MUX] = {
- 		.data = &(struct vc3_clk_data) {
- 			.offs = VC3_SE2_CTRL_REG0,
--			.bitmsk = VC3_SE2_CTRL_REG0_SE2_CLK_SEL
- 		},
- 		.hw.init = &(struct clk_init_data) {
- 			.name = "se2_mux",
-@@ -982,6 +989,7 @@ static int vc3_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
- 	u8 settings[NUM_CONFIG_REGISTERS];
-+	const struct vc3_hw_cfg *data;
- 	struct regmap *regmap;
- 	const char *name;
- 	int ret, i;
-@@ -1029,9 +1037,16 @@ static int vc3_probe(struct i2c_client *client)
- 					     clk_pfd[i].hw.init->name);
- 	}
- 
-+	data = i2c_get_match_data(client);
-+
- 	/* Register pll's */
- 	for (i = 0; i < ARRAY_SIZE(clk_pll); i++) {
- 		clk_pll[i].regmap = regmap;
-+		if (i == VC3_PLL2) {
-+			struct vc3_pll_data *pll_data = clk_pll[i].data;
-+
-+			pll_data->vco = data->pll2_vco;
-+		}
- 		ret = devm_clk_hw_register(dev, &clk_pll[i].hw);
- 		if (ret)
- 			return dev_err_probe(dev, ret, "%s failed\n",
-@@ -1059,6 +1074,11 @@ static int vc3_probe(struct i2c_client *client)
- 	/* Register clk muxes */
- 	for (i = 0; i < ARRAY_SIZE(clk_mux); i++) {
- 		clk_mux[i].regmap = regmap;
-+		if (i == VC3_SE2_MUX) {
-+			struct vc3_clk_data *clk_data = clk_mux[i].data;
-+
-+			clk_data->bitmsk = data->se2_clk_sel_msk;
-+		}
- 		ret = devm_clk_hw_register(dev, &clk_mux[i].hw);
- 		if (ret)
- 			return dev_err_probe(dev, ret, "%s failed\n",
-@@ -1108,8 +1128,13 @@ static int vc3_probe(struct i2c_client *client)
- 	return ret;
- }
- 
-+static const struct vc3_hw_cfg vc3_5p = {
-+	.pll2_vco = { .min = 400000000UL, .max = 1200000000UL },
-+	.se2_clk_sel_msk = BIT(6),
-+};
-+
- static const struct of_device_id dev_ids[] = {
--	{ .compatible = "renesas,5p35023" },
-+	{ .compatible = "renesas,5p35023", .data = &vc3_5p },
- 	{ /* Sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dev_ids);
+   reg:
 -- 
 2.39.2
 
