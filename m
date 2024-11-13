@@ -1,184 +1,162 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C022C9A;
-	Wed, 13 Nov 2024 06:48:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006BC230987
+	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 07:23:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731480489; cv=none; b=Cq2DnTvI9HaC44OzfRwWCYyjRAEWHBT7axlMLAPcoxEbBNM1WPxOoZHkkgz0wPDwTNwnABVjY1TNbVNrA/JN3CpuUbLpMY/MthjXnqRPDNnaJ3c0TV/Bgv6ufRbCVMZQdr3Fcn8ramUemv4iQLtGo8cnCnR3tfKZMRuoJSUSFdA=
+	t=1731482593; cv=none; b=DNLhI+avHDODS67AaTjsY6cetty9ekqRo7gFwFXC9WhAkxgkBeayk+dPsA71oMRh6cQZyesaaggpdhF8Oc3obfikY6BnTCxouyPXYVLOsezYLQnhw5ywcqEYzGtvBmdFb40uI3EOWYortcQwN4flo7xDPH2GaoyWNSsZkHu2gHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731480489; c=relaxed/simple;
-	bh=h7pP0+KYyaCbZIEKUOy63/L66JPfgorKeNnHtzP2KDs=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IQuQ0ELZ2iv/GnkN7aJjYq9TQBOZoc21zJJWkoDgWEBAJUPTLIsENNMKG5YXmZ9z1WiIpvmRF/fvsHsXEc55woQKpNOJQje2z1gZNfBpw5QaNeVXHEXu31mdfMDSNSv0aksDu/ftaGKwM5FrDYjFQDqGg5AF68ZMXtHIhxnlNJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X4AGHehm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ruBqvx97; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X4AGHehm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ruBqvx97; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1731482593; c=relaxed/simple;
+	bh=MP0zeJ9wG76ilEIwbe5QIhqJkTIzZJqN2qnxuqDEVY4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ctJfdpcbHP0gaBrr282MZanDOC8+SQMk6iL/CtfLgI6Ws56Y0ImCZLN/lVBFycSGp/12HzrnNUkjrsnV8rizmCIwdg12hZl87VFHt4PmSX+7vDh2f8U/JDoEMyR2swBhmPojOoADTV9Z/w8/uk4KwUh4dxqRFOprLxQFMPtx+RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tskX2eKJ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=DCTc6Fpp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dv/LWS/z; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9YtmG/Va; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X4AGHehm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ruBqvx97";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X4AGHehm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ruBqvx97"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tskX2eKJ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DCTc6Fpp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dv/LWS/z";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9YtmG/Va"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A21711F365;
-	Wed, 13 Nov 2024 06:48:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 352161F365;
+	Wed, 13 Nov 2024 07:23:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731480485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
-	b=X4AGHehmoi9JeSDvrg1UjXUKHWX23BYV7gnyqX8q5nObfY3y315Q+0yxyY9G6iWFrjz8fb
-	OToztef1oj7jcSAuebQJMS0MQ6ZdnqHaMC+I6BrsjD6czwKmW+Fby3xs2HFwGy5ZU8s+RH
-	EkaRpXbKLoLRjdu+H3nZ0ioMSCvZek4=
+	t=1731482590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=9RvENJsgqAoBeqedA1dlkTvXRppidldJixwj7S0vobU=;
+	b=tskX2eKJWOiLQalisfx1oEo7nxCK1HUGTnPJvWrgDqR5XwyM2aVZC4aKEZ+dT/2PjQVgOw
+	45RFC3tBW17kLAw4kBGp63FH9o2GK4I4ww9fZOC4syjKYCl/Xs26YMpTkpGjZFimXN7WKo
+	h349XpA0CCsPsko1LHMyZ/xBKAN52nE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731480485;
+	s=susede2_ed25519; t=1731482590;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
-	b=ruBqvx974OSlaij/pXeUr4flchMyer1prF9vjNjdlwtxmsV5Brlm8mxiAVJlE/Y+kiAFGG
-	I2CZFWvQEsc771DQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=9RvENJsgqAoBeqedA1dlkTvXRppidldJixwj7S0vobU=;
+	b=DCTc6FppcFD4j1Pj6HOpdW6XgAmwTEKprun7stHwBMue6Bb9uZkX91waParORwu9ng1BKh
+	jAttuevgmGJueUBw==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="dv/LWS/z";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="9YtmG/Va"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731480485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
-	b=X4AGHehmoi9JeSDvrg1UjXUKHWX23BYV7gnyqX8q5nObfY3y315Q+0yxyY9G6iWFrjz8fb
-	OToztef1oj7jcSAuebQJMS0MQ6ZdnqHaMC+I6BrsjD6czwKmW+Fby3xs2HFwGy5ZU8s+RH
-	EkaRpXbKLoLRjdu+H3nZ0ioMSCvZek4=
+	t=1731482589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=9RvENJsgqAoBeqedA1dlkTvXRppidldJixwj7S0vobU=;
+	b=dv/LWS/zN8jkv6cGC5c6ku3dMFc7mAs160OwaetfNTg3vaYNY3d59KwOWZt2PrAWF/X8b/
+	kQHm9cJC/UEoFwUITdgZHhcdWMa2YP174sFrM/kj3n7mofZ3RdkX4xnTHvRlnOKRSKvI1+
+	3bs6rA1K/jULozJWncjmMXVZPTkMVVQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731480485;
+	s=susede2_ed25519; t=1731482589;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
-	b=ruBqvx974OSlaij/pXeUr4flchMyer1prF9vjNjdlwtxmsV5Brlm8mxiAVJlE/Y+kiAFGG
-	I2CZFWvQEsc771DQ==
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=9RvENJsgqAoBeqedA1dlkTvXRppidldJixwj7S0vobU=;
+	b=9YtmG/VaOvNr47q3uHEwTW9lmXyIsxdfIZ/Rn7HgejBtn2J2BACszzyX99TEMvM69hcSRo
+	NiJ8A61hSkrSRrAw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F49913301;
-	Wed, 13 Nov 2024 06:48:05 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 04E9113301;
+	Wed, 13 Nov 2024 07:23:09 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id iktuFaVLNGd8DQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 13 Nov 2024 06:48:05 +0000
-Date: Wed, 13 Nov 2024 07:48:04 +0100
-Message-ID: <87servsk7v.wl-tiwai@suse.de>
+	id /HIFAN1TNGepFwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Nov 2024 07:23:08 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: Edward Adam Davis <eadavis@qq.com>
-Cc: tiwai@suse.de,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	perex@perex.cz,
-	syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	tiwai@suse.com
-Subject: Re: [PATCH] usb: fix a task hung in snd_card_free
-In-Reply-To: <tencent_F41B22255CBA04BB3B33319E461BFF4B3708@qq.com>
-References: <874j4ctp57.wl-tiwai@suse.de>
-	<tencent_F41B22255CBA04BB3B33319E461BFF4B3708@qq.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+To: linux-sound@vger.kernel.org
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: [PATCH] ALSA: compress_offload: Add missing descriptions in structs
+Date: Wed, 13 Nov 2024 08:23:03 +0100
+Message-ID: <20241113072304.4447-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -1.80
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 352161F365
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[73582d08864d8268b6fd];
-	FREEMAIL_ENVRCPT(0.00)[qq.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[3];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-On Wed, 13 Nov 2024 02:48:49 +0100,
-Edward Adam Davis wrote:
-> 
-> On Tue, 12 Nov 2024 17:04:04 +0100, Takashi Iwai wrote:
-> > On Wed, 06 Nov 2024 03:15:49 +0100,
-> > Edward Adam Davis wrote:
-> > >
-> > > task 1: snd ctrl will add card_dev ref count and can't call close to dec it,
-> > >         it is blocked waiting for task 2 to release the USB dev lock.
-> > >
-> > > task 2: usb dev lock has been locked by hung task (here is usb_disconnect),
-> > >         it is hung waiting for task 1 to exit and release card_dev.
-> > >
-> > > Adjust the USB lock acquisition method to non-blocking in ioctl to avoid
-> > > hang when the USB connection is closed.
-> > 
-> > I'm afraid that this change would break things too badly.
-> > i.e. changing the blocking behavior to non-blocking is no-go.
-> > 
-> > > Reported-and-tested-by: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=73582d08864d8268b6fd
-> > 
-> > This particular syzkaller entry can be fixed rather by replacing
-> > snd_card_free() in snd_usx2y_disconnect() with
-> > snd_card_free_when_closed() like other USB audio drivers, something
-> > like below.
-> > 
-> > Judging from the git log, it had been with snd_card_free_in_thread(),
-> > but was switch to snd_card_free() around year 2005.  Meanwhile the
-> > handling of async card release got improved, and it's very likely OK
-> > to use snd_card_free_when_closed() there with the recent kernel.
-> The snd_card instance will be released in snd_card_do_free().
-> So, if snd_card_free_when_closed() is used to replace snd_card_free(), who will release the snd_card instance?
+Add the missing descriptions for snd_compr_ops, snd_compr_task and
+snd_compr_task_status fields, in order to shut up the build warnings.
 
-Via the release callback of the card device object, which is triggered
-at the last close by refcounting.
+Fixes: 04177158cf98 ("ALSA: compress_offload: introduce accel operation mode")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/20241028193731.4b0c3788@canb.auug.org.au
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/sound/compress_driver.h       | 4 ++++
+ include/uapi/sound/compress_offload.h | 2 ++
+ 2 files changed, 6 insertions(+)
 
+diff --git a/include/sound/compress_driver.h b/include/sound/compress_driver.h
+index 5db4881b0681..b55c9eeb2b54 100644
+--- a/include/sound/compress_driver.h
++++ b/include/sound/compress_driver.h
+@@ -143,6 +143,10 @@ struct snd_compr_stream {
+  * Not valid if copy is implemented
+  * @get_caps: Retrieve DSP capabilities, mandatory
+  * @get_codec_caps: Retrieve capabilities for a specific codec, mandatory
++ * @task_create: Create a set of input/output buffers for accel operations
++ * @task_start: Start (queue) a task for accel operations
++ * @task_stop: Stop (dequeue) a task for accel operations
++ * @task_free: Free a set of input/output buffers for accel operations
+  */
+ struct snd_compr_ops {
+ 	int (*open)(struct snd_compr_stream *stream);
+diff --git a/include/uapi/sound/compress_offload.h b/include/uapi/sound/compress_offload.h
+index 98772b0cbcb7..d62eb93af0ed 100644
+--- a/include/uapi/sound/compress_offload.h
++++ b/include/uapi/sound/compress_offload.h
+@@ -139,6 +139,7 @@ struct snd_compr_metadata {
+  * @output_fd: data output file descriptor (dma-buf)
+  * @input_size: filled data in bytes (from caller, must not exceed fragment size)
+  * @flags: see SND_COMPRESS_TFLG_* defines
++ * @reserved: reserved for future extension
+  */
+ struct snd_compr_task {
+ 	__u64 seqno;
+@@ -169,6 +170,7 @@ enum snd_compr_state {
+  * @output_size: filled data in bytes (from driver)
+  * @output_flags: reserved for future (all zeros - from driver)
+  * @state: actual task state (SND_COMPRESS_TASK_STATE_*)
++ * @reserved: reserved for future extension
+  */
+ struct snd_compr_task_status {
+ 	__u64 seqno;
+-- 
+2.43.0
 
-Takashi
-
-> 
-> BR,
-> Edward
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> > 
-> > -- 8< --
-> > --- a/sound/usb/usx2y/usbusx2y.c
-> > +++ b/sound/usb/usx2y/usbusx2y.c
-> > @@ -422,7 +422,7 @@ static void snd_usx2y_disconnect(struct usb_interface *intf)
-> >  	}
-> >  	if (usx2y->us428ctls_sharedmem)
-> >  		wake_up(&usx2y->us428ctls_wait_queue_head);
-> > -	snd_card_free(card);
-> > +	snd_card_free_when_closed(card);
-> >  }
-> > 
-> >  static int snd_usx2y_probe(struct usb_interface *intf,
-> 
-> 
