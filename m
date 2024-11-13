@@ -1,93 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5442038DD;
-	Wed, 13 Nov 2024 18:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEBC8201276;
+	Wed, 13 Nov 2024 19:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731524122; cv=none; b=puT5evPHDntrCPjwgB5DvXhQDnSOu7yX7VVtXs97KseAK7H1U4F+eWITU369MZCLObGpP9h+91DKzrF3M9kcyDSVhdjITApiSApPusQwZRmaBneS5hIjdyyRjAYrFNp7hVvMohZ3i+Yib9iytFKn65J/tMz1ikor3DHI2AcGOMY=
+	t=1731527602; cv=none; b=KVpTz66VqzAg+Gg0Smj3MS+UfHGqIMhKAuitpMzICdgMrz1oevSkfF0C6ns1kg7Qi39+bdZTLYvfEyj7DAvczoJA8EyYS3e0BcXi/XdFqeGvidh13UYY8nxPCEfdraw8hv2MZcF25OuIpD+QftpSU+WHxWxZYNi3jvzDnGA43XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731524122; c=relaxed/simple;
-	bh=ilWFGCUUNIXRjZzE+xZydZS7gAs9vG0Nt5a/KjvBm9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p3v/EuPyTycWBsvIEWxd8Ay8XtwcSLWN99JCq0g/siv+INQ9qMTiwoPyQPrAd08/crckT6ugIAHwNzvOfBrhVeVyk6clgt+gdp0IftSQBZEdr2Ui+duNzZhUR+bEiR9rFBf7vtheQA6kzDn1FbXbrNqL5rcHeeDExxnXh4lnrOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dd1EPkdh; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731527602; c=relaxed/simple;
+	bh=fZyjE9zHWKAp6KH2H57u9MkeLSHGkrs8DtfPsCk0w5k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YQ7bJkgyaFF1vyz5+wQ3Z+alPD8DJP8npadhKfQ4yjfw51zi1XoUbEfEHpkUg/RSLB7JLKofkPrJ9QMk9cd5/lXFaLcIKNEHRyXg8hYr8sM3TA9ei1U9Mmz8qArB9d60TRk4cipeXUaDWln2rDD3Oo7/jgJHvg87tolip9Ikg1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a0mAeY+x; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dd1EPkdh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731524121; x=1763060121;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ilWFGCUUNIXRjZzE+xZydZS7gAs9vG0Nt5a/KjvBm9A=;
-  b=dd1EPkdhJWYigNbA2rjPA27BT+np8sEBfTwUZ5sDY/sqijRo2SP2GakQ
-   GoyRzdfdyEht3gquUHtslBIMZnP+y/I1P8L4u8yXm3clNUm73cB1mFI2s
-   iuKyeTVV+0KukOBgFdT9MBiEJU1jrOC6PnywPedwwY8vQyyp2DGLqdkIX
-   OFtvfS1ms69XzFU8OmavrS5HAqkjXIzFtDBr6RXcw3CTsVDbn+kK4FQ6k
-   fwGQ6PRhyz4jFBP2jNehpiWO0bsSP0STyuslDTUfxcR6ce6MJi+okPcWu
-   TFskC13k9Abqk8F/xj75KDY6uPNrihLUuzFD+goaIME8sCmAzE6uXdm3S
-   Q==;
-X-CSE-ConnectionGUID: TH0taclzT6KeculwakwaZw==
-X-CSE-MsgGUID: NiD2AT3DTIyD7RUpaPzQ5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31530028"
-X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="31530028"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 10:55:20 -0800
-X-CSE-ConnectionGUID: gtjGOpe9SvabGGxSDfwBKw==
-X-CSE-MsgGUID: y8CrQhEGSeOE1lH1PJhGdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="92885745"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 10:55:16 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tBIWG-0000000ERnJ-1GiJ;
-	Wed, 13 Nov 2024 20:55:12 +0200
-Date: Wed, 13 Nov 2024 20:55:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Baojun Xu <baojun.xu@ti.com>, robh+dt@kernel.org, lgirdwood@gmail.com,
-	perex@perex.cz, pierre-louis.bossart@linux.intel.com,
-	shenghao-ding@ti.com, navada@ti.com, 13916275206@139.com,
-	v-hampiholi@ti.com, v-po@ti.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
-	yung-chuan.liao@linux.intel.com, broonie@kernel.org,
-	antheas.dk@gmail.com, philm@manjaro.org
-Subject: Re: [PATCH v4] ALSA: hda/tas2781: Add speaker id check for ASUS
- projects
-Message-ID: <ZzT2EE3-PxLj3bDo@smile.fi.intel.com>
-References: <20241104093138.4819-1-baojun.xu@ti.com>
- <87ldxnuw1s.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a0mAeY+x"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-432d9b8558aso246985e9.0;
+        Wed, 13 Nov 2024 11:53:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731527597; x=1732132397; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cJ8QMGzCMpCaQwAwEg2/P5qPEfEiY64c9xCdF+siaoo=;
+        b=a0mAeY+x8hSqYu6efWsapBHxI1zn81QpUOITdodZT7RfSizIoI/imK5RoUq2dV1dJs
+         kA40i11ddJygkLkDngGYB7T/Dq/3JQUUwExP44ns0uGI7rRjRiGsuhR5QY9wSzfpH/Xw
+         I2j7gkXVtJfjVSNXkwGUo8tRObZj6YurSoICbZaWox2eJyMevRFbfwBSEJetegB+JU2k
+         xcIR2NCogMtDPJmwVfBSgFRpx//IfJ1duko/Eok4tkZjZvxDmfY2fb/Fy72vM10W9YRF
+         VHxPPrIK+vvHpAiaOwkPBKstreNE2HebEDjIfpA/zjb99mstIPW+l/IW4BIwJmeJPJfu
+         uT+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731527597; x=1732132397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cJ8QMGzCMpCaQwAwEg2/P5qPEfEiY64c9xCdF+siaoo=;
+        b=gGxUi13f1FBwmnhmk35mWK5khrWZRObovY7T0YuKYmrRUH3hqzTnRDwBc+9oI7pbUF
+         Pc+sp1HrY5HhGdF7wGMSnytqkJmRXRxhSOhIG2BH70bXDIHfiF2hYwgDRSES9zS810QD
+         naOzRETpMYBYjzG/jTJzMbzI8+nbGt4pm29E6DZEOxy4bF3bo67DZm+U8HmYG22g4ki8
+         +dxoWKOn92jcs0SbyOmK9Ef6LR40G351h22JoUm4KLfuX4hGMc6r10QZI9XFIhM8V1TD
+         7R/rfjBHk+H1t6FA65g84fkLd99KEqlGc3er20W6LP40bmj/HCE6dFslzcyipd7yFJoz
+         5rUA==
+X-Forwarded-Encrypted: i=1; AJvYcCUCzQw+YBQDhaTCAmjbcnaTwD1B/ZfN1Kop0hp6xfNa0Hf5BGfjLU44mDZNckqI1JoOO5fTt2tkH3wYgJE=@vger.kernel.org, AJvYcCVSBNg0GI0wo94++cogo6HsI9eXH55fwuwi7ObPlqozoy6BYkl6SnngyebAdIBpLL9Mx3/b0W7Bljb/GlJz@vger.kernel.org, AJvYcCXRVGvh5VRkyCnNnUEftG1yoy1HFcKHblP3bauUfDLrk+/2TXvp7qokE1Rhi7Sn7S5KMmIXXG3q29/N@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqWyjUYvHg/8lZRWo5XDIQnVyQaJl8LHbP4AFigPeoxRTnWgoq
+	lPNHxKY2euv91H0nZR9X5CbTqTvtKXbo+H3TPwcEwoC3RhieItnx
+X-Google-Smtp-Source: AGHT+IEJ+OgyDhiObJDLSUqfKPbscxIsWPEYCybVM9JHR8F0mDVuDPh5t34siJcnZuIWqoUEsXJC1w==
+X-Received: by 2002:a5d:64e7:0:b0:374:c7cd:8818 with SMTP id ffacd0b85a97d-38214064d0amr634681f8f.22.1731527597046;
+        Wed, 13 Nov 2024 11:53:17 -0800 (PST)
+Received: from playground.localdomain ([86.127.146.72])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d5503c58sm34633065e9.22.2024.11.13.11.53.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Nov 2024 11:53:15 -0800 (PST)
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Frank Li <Frank.li@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] add sof support on imx95
+Date: Wed, 13 Nov 2024 14:52:35 -0500
+Message-Id: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ldxnuw1s.wl-tiwai@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 13, 2024 at 02:01:51PM +0100, Takashi Iwai wrote:
-> On Mon, 04 Nov 2024 10:31:38 +0100,
-> Baojun Xu wrote:
-> > +	// Speaker id was needed for ASUS projects.
-> > +	if (!strncmp(sub, TAS2781_ASUS_ID, sizeof(TAS2781_ASUS_ID))) {
-> 
-> Is this really correct?  The sizeof(TAS2781_ASUS_ID) is 5, including
-> the terminating NUL.  So this becomes equivalent with strcmp(), and
-> it doesn't check the sub-string.
+From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-It all depends to what that method returns. If it returns the exact string
-then strcmp() is fine, if not, we should understand what it returns then.
+Add sof support on imx95. This series also includes some changes to
+the audio-graph-card2 binding required for the support.
+
+---
+Changes in v2:
+- Added new binding for 95's CM7 core with SOF. fsl,dsp.yaml is no longer used.
+- "hp-det-gpios" and "widgets" properties now reference the definitions from audio-graph.yaml
+- Removed extra empty spaces from DTS as suggested by Frank
+- Ordered 'edma2', 'sai3', 'wm8962' DT nodes alphabetically. The order of the nodes
+placed inside / is kept the same for readability
+- Ordered driver header files includes alphabetically as suggested by Frank
+- Removed "reg-names" and changed the maximum size of the "reg" property to 1 to align
+with the other NXP CPUs sharing the same programming model (i.e: audio processing with SOF).
+The region described in the DTS is the SRAM and the mailbox region is now hardcoded in the
+driver as an offset to the start of the SRAM region.
+- Added new binding with properties required by all NXP CPUs sharing the same programming
+model (i.e: audio processing with SOF).
+- Various driver adjustments made to accomodate the DT changes + some bug fixing related
+to the mboxes not being requested/free'd on resume/suspend.
+- Fixed value passed to "dma-channel-mask". A set bit means the channel is masked, not the
+other way around.
+- Link to v1: https://lore.kernel.org/lkml/20241023162114.3354-1-laurentiumihalcea111@gmail.com/
+---
+
+Laurentiu Mihalcea (5):
+  ASoC: dt-bindings: add common binding for NXP CPUs
+  ASoC: dt-bindings: add binding for imx95's CM7 core
+  ASoC: dt-bindings: audio-graph-card2: add widgets and hp-det-gpios
+    support
+  ASoC: SOF: imx: add driver for imx95
+  arm64: dts: imx: add imx95 dts for sof
+
+ .../bindings/sound/audio-graph-card2.yaml     |   4 +
+ .../bindings/sound/fsl,imx95-cm7-sof.yaml     |  44 ++
+ .../bindings/sound/fsl,sof-cpu.yaml           |  35 ++
+ arch/arm64/boot/dts/freescale/Makefile        |   1 +
+ .../dts/freescale/imx95-19x19-evk-sof.dts     |  74 ++++
+ sound/soc/sof/imx/Kconfig                     |   8 +
+ sound/soc/sof/imx/Makefile                    |   2 +
+ sound/soc/sof/imx/imx95.c                     | 401 ++++++++++++++++++
+ 8 files changed, 569 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts
+ create mode 100644 sound/soc/sof/imx/imx95.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
