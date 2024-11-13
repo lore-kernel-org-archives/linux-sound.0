@@ -1,188 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020D51853
-	for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 06:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C022C9A;
+	Wed, 13 Nov 2024 06:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731480273; cv=none; b=f3ktzYGBVBl4lRC1fxF6I8ba8xdWwLH0JD38r5V849v9gU6c+zk6XQQNA22DqkSRk/VxYxQKeCq7zLmPEz/wgYkbSAbpNqCRkKAz9DG9Lx3x9tRnKyfwZSpysNhzpwhvD3JanRAbrSe+TNeR9nm6ROnrvCOQWL3FWVUya0kPeIM=
+	t=1731480489; cv=none; b=Cq2DnTvI9HaC44OzfRwWCYyjRAEWHBT7axlMLAPcoxEbBNM1WPxOoZHkkgz0wPDwTNwnABVjY1TNbVNrA/JN3CpuUbLpMY/MthjXnqRPDNnaJ3c0TV/Bgv6ufRbCVMZQdr3Fcn8ramUemv4iQLtGo8cnCnR3tfKZMRuoJSUSFdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731480273; c=relaxed/simple;
-	bh=6vURL2XPhPg9gjqUwAmkr9qKh5XyDoVc5R+H89hR6PI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=md/NR+EZNCBqdKTu2pFQ5cuV1gnT/Xaan8CcsaBZ0RorI0loSAyePHUJQwi5aVwWV9/l00N3urL1EqNYzD4LWg0R6DkjL/Ii7/WknkVZMDi1LrnEtdwhh6jryILlDLWmxZPWyE22Bq6QTnu9nlKd7c/3/4vEFAff8y8SPmkXMuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L6e9x93E; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731480489; c=relaxed/simple;
+	bh=h7pP0+KYyaCbZIEKUOy63/L66JPfgorKeNnHtzP2KDs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IQuQ0ELZ2iv/GnkN7aJjYq9TQBOZoc21zJJWkoDgWEBAJUPTLIsENNMKG5YXmZ9z1WiIpvmRF/fvsHsXEc55woQKpNOJQje2z1gZNfBpw5QaNeVXHEXu31mdfMDSNSv0aksDu/ftaGKwM5FrDYjFQDqGg5AF68ZMXtHIhxnlNJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X4AGHehm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ruBqvx97; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=X4AGHehm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ruBqvx97; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L6e9x93E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731480272; x=1763016272;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6vURL2XPhPg9gjqUwAmkr9qKh5XyDoVc5R+H89hR6PI=;
-  b=L6e9x93Em+qA+G1oTPSFUpwzpdYnTl2vq/fytryOwQvpv480l8kM/OjH
-   hKXZor1qobceD1E8xt7vpTOCJjYYM+ebYXOPGcFqe0phQlnI4om9673Va
-   xg6ueLIg9NDq/NAC41iF2SSU2KiCxqCtW4voMggzgx64A8rtVehxxRRdS
-   YZASBysPD2T3ZClxnl9oC9DaNIluWN3uJG7QtPJxYHzthFYPm70HFU4qw
-   bxf691TVbfWEekQcMh+uNajhZwUa88cY+Pt3DGjf51QZIJdq7wImmGrAY
-   oW1uh1ooaSr7SNUq9uI2W2/Jowg7fHNYvPyRYKbZhytsp5NCtwDlcfPbA
-   w==;
-X-CSE-ConnectionGUID: gs65SQvMTY+PJDkNmBDvqA==
-X-CSE-MsgGUID: EKgmD55oSSWXvvMd9tbCvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53907117"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53907117"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 22:44:31 -0800
-X-CSE-ConnectionGUID: 3Y+N5Rn1QyK/xK+2dpPH0w==
-X-CSE-MsgGUID: vNrrZAX6SeWJAVyjqEDezA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="88172932"
-Received: from sramkris-mobl1.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.154])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 22:44:30 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH] ASoC: Intel: soc-acpi-intel-lnl-match: add rt712_vb + rt1320 support
-Date: Wed, 13 Nov 2024 14:44:17 +0800
-Message-ID: <20241113064418.162592-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X4AGHehm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ruBqvx97";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="X4AGHehm";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ruBqvx97"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A21711F365;
+	Wed, 13 Nov 2024 06:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731480485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
+	b=X4AGHehmoi9JeSDvrg1UjXUKHWX23BYV7gnyqX8q5nObfY3y315Q+0yxyY9G6iWFrjz8fb
+	OToztef1oj7jcSAuebQJMS0MQ6ZdnqHaMC+I6BrsjD6czwKmW+Fby3xs2HFwGy5ZU8s+RH
+	EkaRpXbKLoLRjdu+H3nZ0ioMSCvZek4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731480485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
+	b=ruBqvx974OSlaij/pXeUr4flchMyer1prF9vjNjdlwtxmsV5Brlm8mxiAVJlE/Y+kiAFGG
+	I2CZFWvQEsc771DQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731480485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
+	b=X4AGHehmoi9JeSDvrg1UjXUKHWX23BYV7gnyqX8q5nObfY3y315Q+0yxyY9G6iWFrjz8fb
+	OToztef1oj7jcSAuebQJMS0MQ6ZdnqHaMC+I6BrsjD6czwKmW+Fby3xs2HFwGy5ZU8s+RH
+	EkaRpXbKLoLRjdu+H3nZ0ioMSCvZek4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731480485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lnb64D4HI5/47E8RPSDtjpJ8QGGcDwPg6Q/5lYyury8=;
+	b=ruBqvx974OSlaij/pXeUr4flchMyer1prF9vjNjdlwtxmsV5Brlm8mxiAVJlE/Y+kiAFGG
+	I2CZFWvQEsc771DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F49913301;
+	Wed, 13 Nov 2024 06:48:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iktuFaVLNGd8DQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Nov 2024 06:48:05 +0000
+Date: Wed, 13 Nov 2024 07:48:04 +0100
+Message-ID: <87servsk7v.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: tiwai@suse.de,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	tiwai@suse.com
+Subject: Re: [PATCH] usb: fix a task hung in snd_card_free
+In-Reply-To: <tencent_F41B22255CBA04BB3B33319E461BFF4B3708@qq.com>
+References: <874j4ctp57.wl-tiwai@suse.de>
+	<tencent_F41B22255CBA04BB3B33319E461BFF4B3708@qq.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.80
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[qq.com];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[73582d08864d8268b6fd];
+	FREEMAIL_ENVRCPT(0.00)[qq.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Realtek Gen6 AIOC supports rt712_vb on SoundWire link 2 and rt1320 on
-SoundWire link 1.
+On Wed, 13 Nov 2024 02:48:49 +0100,
+Edward Adam Davis wrote:
+> 
+> On Tue, 12 Nov 2024 17:04:04 +0100, Takashi Iwai wrote:
+> > On Wed, 06 Nov 2024 03:15:49 +0100,
+> > Edward Adam Davis wrote:
+> > >
+> > > task 1: snd ctrl will add card_dev ref count and can't call close to dec it,
+> > >         it is blocked waiting for task 2 to release the USB dev lock.
+> > >
+> > > task 2: usb dev lock has been locked by hung task (here is usb_disconnect),
+> > >         it is hung waiting for task 1 to exit and release card_dev.
+> > >
+> > > Adjust the USB lock acquisition method to non-blocking in ioctl to avoid
+> > > hang when the USB connection is closed.
+> > 
+> > I'm afraid that this change would break things too badly.
+> > i.e. changing the blocking behavior to non-blocking is no-go.
+> > 
+> > > Reported-and-tested-by: syzbot+73582d08864d8268b6fd@syzkaller.appspotmail.com
+> > > Closes: https://syzkaller.appspot.com/bug?extid=73582d08864d8268b6fd
+> > 
+> > This particular syzkaller entry can be fixed rather by replacing
+> > snd_card_free() in snd_usx2y_disconnect() with
+> > snd_card_free_when_closed() like other USB audio drivers, something
+> > like below.
+> > 
+> > Judging from the git log, it had been with snd_card_free_in_thread(),
+> > but was switch to snd_card_free() around year 2005.  Meanwhile the
+> > handling of async card release got improved, and it's very likely OK
+> > to use snd_card_free_when_closed() there with the recent kernel.
+> The snd_card instance will be released in snd_card_do_free().
+> So, if snd_card_free_when_closed() is used to replace snd_card_free(), who will release the snd_card instance?
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- .../intel/common/soc-acpi-intel-lnl-match.c   | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
+Via the release callback of the card device object, which is triggered
+at the last close by refcounting.
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-index 094ed4b27cb0..98a9c36d7a4c 100644
---- a/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-lnl-match.c
-@@ -8,6 +8,7 @@
- 
- #include <sound/soc-acpi.h>
- #include <sound/soc-acpi-intel-match.h>
-+#include "soc-acpi-intel-sdca-quirks.h"
- #include "soc-acpi-intel-sdw-mockup-match.h"
- 
- struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_machines[] = {
-@@ -90,6 +91,30 @@ static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
- 	},
- };
- 
-+static const struct snd_soc_acpi_endpoint jack_amp_g1_dmic_endpoints_endpoints[] = {
-+	/* Jack Endpoint */
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	/* Amp Endpoint, work as spk_l_endpoint */
-+	{
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 0,
-+		.group_id = 1,
-+	},
-+	/* DMIC Endpoint */
-+	{
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
- 	{ /* Jack Playback Endpoint */
- 		.num = 0,
-@@ -198,6 +223,15 @@ static const struct snd_soc_acpi_adr_device rt1712_3_single_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt712_vb_2_group1_adr[] = {
-+	{
-+		.adr = 0x000230025D071201ull,
-+		.num_endpoints = ARRAY_SIZE(jack_amp_g1_dmic_endpoints_endpoints),
-+		.endpoints = jack_amp_g1_dmic_endpoints_endpoints,
-+		.name_prefix = "rt712"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
- 	{
- 		.adr = 0x000030025d072201ull,
-@@ -252,6 +286,15 @@ static const struct snd_soc_acpi_adr_device rt1318_2_group1_adr[] = {
- 	}
- };
- 
-+static const struct snd_soc_acpi_adr_device rt1320_1_group1_adr[] = {
-+	{
-+		.adr = 0x000130025D132001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "rt1320-1"
-+	}
-+};
-+
- static const struct snd_soc_acpi_adr_device rt713_0_adr[] = {
- 	{
- 		.adr = 0x000031025D071301ull,
-@@ -410,6 +453,21 @@ static const struct snd_soc_acpi_link_adr lnl_sdw_rt713_l0_rt1318_l1[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr lnl_sdw_rt712_vb_l2_rt1320_l1[] = {
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt712_vb_2_group1_adr),
-+		.adr_d = rt712_vb_2_group1_adr,
-+	},
-+	{
-+		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(rt1320_1_group1_adr),
-+		.adr_d = rt1320_1_group1_adr,
-+	},
-+	{}
-+};
-+
-+/* this table is used when there is no I2S codec present */
- /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 	/* mockup tests need to be first */
-@@ -485,6 +543,13 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_lnl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-lnl-rt713-l0-rt1318-l1.tplg"
- 	},
-+	{
-+		.link_mask = BIT(1) | BIT(2),
-+		.links = lnl_sdw_rt712_vb_l2_rt1320_l1,
-+		.drv_name = "sof_sdw",
-+		.machine_check = snd_soc_acpi_intel_sdca_is_device_rt712_vb,
-+		.sof_tplg_filename = "sof-lnl-rt712-l2-rt1320-l1.tplg"
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_lnl_sdw_machines);
--- 
-2.43.0
 
+Takashi
+
+> 
+> BR,
+> Edward
+> > 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> > -- 8< --
+> > --- a/sound/usb/usx2y/usbusx2y.c
+> > +++ b/sound/usb/usx2y/usbusx2y.c
+> > @@ -422,7 +422,7 @@ static void snd_usx2y_disconnect(struct usb_interface *intf)
+> >  	}
+> >  	if (usx2y->us428ctls_sharedmem)
+> >  		wake_up(&usx2y->us428ctls_wait_queue_head);
+> > -	snd_card_free(card);
+> > +	snd_card_free_when_closed(card);
+> >  }
+> > 
+> >  static int snd_usx2y_probe(struct usb_interface *intf,
+> 
+> 
