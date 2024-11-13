@@ -1,104 +1,105 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B1433CE;
-	Wed, 13 Nov 2024 13:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CC6433CE;
+	Wed, 13 Nov 2024 13:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731503291; cv=none; b=aARZLBAFqP3mFYvQoN6GOFdVUmflx5fdmwl49ATlgZzzdfZ6lpoVwkILYtaSiqAZoRs+HlFFCbzgCjChkr2PytycBmiltNINFzJ8SQEudH3IDN6a8RSrN945pY2400W97EZZbAZGd8X7Bem07cUOZ83bHe3H7vPb4PnMEzfBPhI=
+	t=1731503452; cv=none; b=i+EQ+NYKDi31bYj6qqB5fIJ891ow4xSrArFGUo274X+zIw/ETG/ErQCoZ0m7r2e6kCj6V5sWFJoKNnXmEE23snI0yKSYOfqiM+j3vDmubxCaVy5aCIpfPO4J25YC2Neu4KBmXjZVMKjTZi1IPMlpFRaKi+di0eRL49UNs0Kv0A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731503291; c=relaxed/simple;
-	bh=2WWRK703YmFJmLzZ2S+UG/8X4WmXCsvMcbUca5/g/z4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=iD3TWM0kpjZ1glB7JhPqnUvQi/sKxM5E++15x/guA1Kx3OpcffO7tR3bE9yBYQ2WMSsRKwHa6QXgVsNMSwGzGUW6PChFvlzrH1ufdu3jLeHOhmJZDmkHuZlsSqZYln8VHmZxbC0V/Ed9MP6bypN1IrAq17N2K/f9N6g1XoG2dpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WoRYYZfg; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731503452; c=relaxed/simple;
+	bh=KdSwIyjCScMblkEb9rlJr5s3VHaxyxnbICAYrnRZuJE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bnLJOkeQdQw8CquGy8IgmxLEEr5d7hx0qv8my00QOC+tKm1WGws9WopiVuIi99p7ZjKRhywSA2DJSrD6TxPUat874+V9iY5olWUCAST8A6SYCGEKP0eYbFdyJEvv6v6n0/YqWWs+BeoC+kbUb7NQo0uL5UwLSWKYhHfQcNDdqcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=QME9CyPb; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoRYYZfg"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4316cce103dso85518555e9.3;
-        Wed, 13 Nov 2024 05:08:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731503288; x=1732108088; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2a0NVxNB/W5Csc9TxzF7W/iYXO3VvsRJea43sdbNNNY=;
-        b=WoRYYZfgI8uTPueNx8rzbEz9s5CpFjORR/NCD4p6s8x2uniGRioWBA9fSPbJdurOfQ
-         muKKJBkbrnlr7k8i9+Gy4dZsXw/8zFK6Db1ov2f1mTgfZQ57hEJlL3/brwrHZSJSlbLW
-         k9TCKWy5nuDYPcibQoVLm8O7qOiDVl7U1HTi5jzyTjtNRJnshCKwaJ3VECtQO1pmvrwC
-         o2O5F6mg9CscgS8s8iB5MLUPe4i2b8Wo3cyjiyiH7S+iFZylYJ4xfPcKI2XyQ4lNX5SV
-         KYK0OWK8dl95+O/OE6mu7lDUwqtdQo198zi1kkJdZv3qWefmJfZUntFf1QipFirgf05Z
-         r3/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731503288; x=1732108088;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2a0NVxNB/W5Csc9TxzF7W/iYXO3VvsRJea43sdbNNNY=;
-        b=tqlvqDMXxI7HpVsTR9KyNprElycEx1FMuvvPJ2aOb1B75rJMC7C3tWo39dnSZ6Glap
-         hbvYUfi4LFUyGGg9SqOBboRsJ8bP7ep5g2BsEsjy2KMmbifxu2jnjTLvxseTZpoOOW37
-         Cw9skasA25IZXKizxeqDaWC0hiQ7ZLx8hI1VEHzFFv54IB/VfbbpHjk3YNMX/stxelAj
-         vKdQARAQwRw3yZestyqn2W0UMUdp7Ji4HCALtVsNzPFuBew7aWj0hS4VPmgl1x4FU+SZ
-         BnpABEXSRW+h480Q2L6ajAXPgYFaRz2E7OOGZzmRhXhdqllx/08Q7Fc0VDN1PPmmDMg6
-         Xf+w==
-X-Forwarded-Encrypted: i=1; AJvYcCUMC9NwRZTUN2rmL+5pjwylhjerUVEBYaZolr8qbdbnoLdocmRhng0CpfzZ/DIelNKG8POyI6uUiaSOluY=@vger.kernel.org, AJvYcCWqTomBGMwHzn80X58I0Zx6jQoaHrotviiTKusbhuc/YWJEDpfRA6HDrWg1exkCccZGpLOOAky5p9MD2ls=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxU5oKWF54HN+fWBUvsQ6fDopAXKop3p9097YYxm3AD9BvvzZIZ
-	obISGxxcwtjefaQwFCNrOhaYkrIlJLbjttm3xahK/m3InZCkZACh
-X-Google-Smtp-Source: AGHT+IFCS0AhpP2qyy3IR0ypDlDOr0f3Bs+wNSNJoR+LC9CYkW34Um/O+lusmxIzJqY8AAMjqsNosA==
-X-Received: by 2002:a05:6000:18a5:b0:381:d890:b5b7 with SMTP id ffacd0b85a97d-381f1889de6mr24360788f8f.52.1731503287618;
-        Wed, 13 Nov 2024 05:08:07 -0800 (PST)
-Received: from localhost ([194.120.133.65])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381edc1104asm18664751f8f.88.2024.11.13.05.08.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 05:08:07 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: SOF: ipc4-topology: remove redundant assignment to variable ret
-Date: Wed, 13 Nov 2024 13:08:07 +0000
-Message-Id: <20241113130807.1386754-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="QME9CyPb"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AD5stqU009840;
+	Wed, 13 Nov 2024 07:10:35 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=c+MeybxwNsdzykpyV+
+	1hIr/zg/Ov5gQlqxNpVVQZBCk=; b=QME9CyPb5KeBsAdpVVDGbmFPg5nC7lvCoh
+	K4yZ2vx9WFN7wNpA+8fwRJgSiC+wZ5P3TGaZWnNat7+hwxDE1NsPU2hEFk6Ar0/D
+	PRqasTSqxTXZ0RrBMCCv3ft3VASot7R9nWBxe/ihUYLbDhSr5DD64V/zuUU/PWIt
+	k51b1/PDGOwJf25w3k+6LMCLl8877ou/MY+2Y9xokdBofciMYbAqrdvHRhIpu9RT
+	1l7SOmvCziV6mH5CesVn+dRVawvMqXpbc29TcEMgY/TmUU1NKlS3ETlyEe6ku6XB
+	xVySkgI9x4PlzeIi6q+BKTCkhbDPlnSjq/PVuKY7lkWUeiIU2Yhw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 42t613chfq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 07:10:35 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 13 Nov
+ 2024 13:10:32 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.9 via Frontend Transport; Wed, 13 Nov 2024 13:10:32 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 7664D820257;
+	Wed, 13 Nov 2024 13:10:32 +0000 (UTC)
+Date: Wed, 13 Nov 2024 13:10:31 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: liujing <liujing@cmss.chinamobile.com>
+CC: <david.rhodes@cirrus.com>, <rf@opensource.cirrus.com>,
+        <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>,
+        <vkarpovi@opensource.cirrus.com>
+Subject: Re: [PATCH] ASoC: cs35l45:Increase the error checking returned by
+ the function.
+Message-ID: <ZzSlR1rXuNzb9axM@opensource.cirrus.com>
+References: <20241113085756.2636-1-liujing@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241113085756.2636-1-liujing@cmss.chinamobile.com>
+X-Proofpoint-ORIG-GUID: v8rXeXBW5VHI24MNFRkVl6qPBBAN6G3T
+X-Proofpoint-GUID: v8rXeXBW5VHI24MNFRkVl6qPBBAN6G3T
+X-Proofpoint-Spam-Reason: safe
 
-The variable ret is being assigned a zero value however the value is
-never read because ret is being re-assigned later after the end of
-the switch statement. The assignment is redundant and can be removed.
+On Wed, Nov 13, 2024 at 04:57:56PM +0800, liujing wrote:
+> In cs35l45_dsp_init(), it is necessary to check
+> the return value of the wm_halo_init function.
+> 
+> Signed-off-by: liujing <liujing@cmss.chinamobile.com>
+> 
+> diff --git a/sound/soc/codecs/cs35l45.c b/sound/soc/codecs/cs35l45.c
+> index fa1d9d9151f9..c045c7c05947 100644
+> --- a/sound/soc/codecs/cs35l45.c
+> +++ b/sound/soc/codecs/cs35l45.c
+> @@ -1365,7 +1365,10 @@ static int cs35l45_dsp_init(struct cs35l45_private *cs35l45)
+>  	dsp->cs_dsp.lock_regions = 0xFFFFFFFF;
+>  
+>  	ret = wm_halo_init(dsp);
+> -
+> +	if (ret) {
+> +		dev_err(cs35l45->dev, "wm_halo_init failed: %d\n", ret);
+> +		return ret;
+> +	}
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/sof/ipc4-topology.c | 1 -
- 1 file changed, 1 deletion(-)
+Blank line should go here.
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index 1fcf4692a21f..b55eb977e443 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -755,7 +755,6 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
- 			 * It is fine to call kfree(ipc4_copier->copier_config) since
- 			 * ipc4_copier->copier_config is null.
- 			 */
--			ret = 0;
- 			break;
- 		}
- 
--- 
-2.39.5
+>  	regmap_multi_reg_write(cs35l45->regmap, cs35l45_fs_errata_patch,
+>  						   ARRAY_SIZE(cs35l45_fs_errata_patch));
+>  
 
+The function is kinda weird, but the error check isn't per say
+missing, in that there is a "return ret;" below the
+regmap_multi_reg_write. If we are updating this it would make
+sense to change that return into a "return 0;". But I would be
+slightly nervous that the intention was to apply this errata
+patch even on the error path, no clues in the commit messages.
+David/Vlad you guys know what the intention was here?
+
+Thanks,
+Charles
