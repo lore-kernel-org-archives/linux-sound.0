@@ -1,98 +1,118 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mailout01.agenturserver.de (mailout01.agenturserver.de [185.15.192.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F70014B942;
-	Thu, 14 Nov 2024 10:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C5D1F77B8;
+	Thu, 14 Nov 2024 10:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.15.192.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731580296; cv=none; b=AuCmJBlhVQxmxGQpWHTCPL4TR4GeeXa2thSWhSy3G69u8HH0gf27aVeqOzl3MrNejlXbknchCOkgOY9HTZZHmspnsECQ/cA2i3d6K8/ENC9mJKsikGtHh5/SkHswyTWAFjqU/O6Ww8jjuB67QUcpSdxV7AozYv8z5RJ+mkHk3Tc=
+	t=1731581181; cv=none; b=GOwNqBlUd/1VrLDMMU7WfhbOdMsGRN68YSf6SXk6TrIEKEWNGO0dnCsPtsZIpNC3QQD+Kcap+6wwWzUkjKNgFsp4vJzZ4vMGDGJ9SG575ylRi0P4mc7qpuUONbnUNoJNzwrAZOIlqlkpPf0dkXGdm80xRA70v8ueU6WO7xW2iWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731580296; c=relaxed/simple;
-	bh=qCoX3+VkQ38G13GdIqddjFmSup3UZnQ3D7vMWOypKBQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iakHrL3ClM5P5d8jQ1fLXVm0cLhHT6YR3jZhPh9r8DhWcpJZ++ZWbSQk66M+s/BC0lkVolH8Tv+j7Dn3pubPh9JCLig4RYy38d0nC3FB9xKOEOMTVBWHjhic9iD4AqJZTYyC+/NJD/k47ON0n+YO5jdBWBbZEZCCow4vq4/5cV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=aTWm2+xF; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1731581181; c=relaxed/simple;
+	bh=ytTP33QWUvhpFf/61F4EPneExfKnvwV/PgFhtrUMW8Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o0s2icC8dt5bZEBWjEZyFcataV5ffIS0UkT4BAf8cTEnaxE+QyuTV2jwn/4qEwF7ziK/iJpnVBAx8Mz3TYv7M127rA1UMPnnz7C2psetQWJFn9GKQZm4nck7mUndf9jxhEHXYlU6vh7dWqlhQAQ7HfzhGE8LiP5Loo2MEi5W6y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=merzmedtech.de; spf=pass smtp.mailfrom=merzmedtech.de; dkim=pass (2048-bit key) header.d=merzmedtech.de header.i=@merzmedtech.de header.b=pg+4hoHH; dkim=pass (1024-bit key) header.d=merzmedtech.de header.i=@merzmedtech.de header.b=ELIXin6W; arc=none smtp.client-ip=185.15.192.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=merzmedtech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=merzmedtech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="aTWm2+xF"
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AE7WL5J031759;
-	Thu, 14 Nov 2024 11:30:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=hiPcXqx00CT+g9yrysVEHS
-	Sc0YHvwdzRVZ4uugck4gw=; b=aTWm2+xFv7l+ln9kdScdK/yDueFjIDL1xRPZHD
-	GS3/A4/V8xNXAyG/r0heQKeuNBCfGUNq57v60JLw101EXMMkdZPCl9JsgehOklXB
-	psTiPiZuopKfb6OXmQ7OSqQMYgIzG1nG00XjmQ5RVqJZjToMFk4qH1ULqPF7X1mY
-	e2XCeVGRhrTYzUZKg2Kqzkgcj7Iu7je0ph9s/6u83St8EBF4w2L4yq2ikGzRE0oA
-	OFUUtleEBycQHTbINjEaUEAMl0OoVmyd0bMtumQO66cwF6qkMjE4A0n8qVR8pDvc
-	lnvM4LFUmc6UavUW7L0GKeTmEkke+IOm1iDOj43JCzg5UVZg==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42sx1kyagx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 14 Nov 2024 11:30:58 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 3DC6D40047;
-	Thu, 14 Nov 2024 11:29:37 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 02C98245E7F;
-	Thu, 14 Nov 2024 11:29:01 +0100 (CET)
-Received: from localhost (10.252.20.241) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Thu, 14 Nov
- 2024 11:29:00 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Olivier Moysan <olivier.moysan@foss.st.com>,
-        Arnaud Pouliquen
-	<arnaud.pouliquen@foss.st.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
-	<tiwai@suse.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre
- Torgue <alexandre.torgue@foss.st.com>
-CC: <linux-sound@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] ASoC: stm32: dfsdm: change rate upper limits
-Date: Thu, 14 Nov 2024 11:28:51 +0100
-Message-ID: <20241114102851.2497942-1-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=merzmedtech.de header.i=@merzmedtech.de header.b="pg+4hoHH";
+	dkim=pass (1024-bit key) header.d=merzmedtech.de header.i=@merzmedtech.de header.b="ELIXin6W"
+Received: from mail02.agenturserver.de (mail02.internal [192.168.51.35])
+	by mailout01.agenturserver.de (Postfix) with ESMTP id 5BBA66CBF;
+	Thu, 14 Nov 2024 11:38:58 +0100 (CET)
+Received: from XXX.XXX.XXX.XXX (XXXXX.XX [XXX.XXX.XXX.XXX])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: h.v.raven@merzmedtech.de)
+	by mail.agenturserver.de (Postfix) with ESMTPSA id AB5B6A11DD;
+	Thu, 14 Nov 2024 11:38:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=merzmedtech.de;
+	s=agenturserver2048; t=1731580738;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gh+s1njB+eHDBkuhm8NNHW0/KkfuruIfemdW9Ilrtq8=;
+	b=pg+4hoHH/VpBX7zCPf+YHbcZ0TnDR9q9ygGljgwmqqWqqS1JJEHr2dUBMYBGmAYLlcZW5M
+	whN6OVd4+lpL5b4jkg6maKKLZG5puHqhQ1FO3FvqZoIArFel8NvICgazpg2p8eQZ6c7Pe0
+	JAYM+9TWmiYIaGibmsDJ6MisLEX57zBea3mNYDFqBx52zMRoppc7T4i/b3oIqO5bTREFZ+
+	4i+Ur96FX2/BOZbyQG/dr1I7jeMdvobKb7wSeQB+dIcSXF8rB+1nXLnoGbZg+UihkSamqv
+	UegBx6FqtaAx1KT2sSDZ69wponO5FpU79qK0S69nI/JljqpaH1Rva9y1c/I3wg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=merzmedtech.de;
+	s=agenturserver; t=1731580738;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=gh+s1njB+eHDBkuhm8NNHW0/KkfuruIfemdW9Ilrtq8=;
+	b=ELIXin6Wb0Dq3JtRaPVRVFgoHeNn5RK42OTX+b65+/+woljPvMCcSuft3YUaMKR+RD+iEP
+	QzijwnVnM499HXuusnfRxdhn/XmSdc4toYdxrc2BUdT2bIXzR7i3dgaksgZjXD2Errl2TB
+	9EyqI7DPfELrYfL6QkQcrouqlP9AODQ=
+From: "Hendrik v. Raven" <h.v.raven@merzmedtech.de>
+Subject: [PATCH 0/2] ASoc: simple-mux: Allow to specify an idle-state
+Date: Thu, 14 Nov 2024 11:38:37 +0100
+Message-Id: <20241114-simple-mux-idle-state-v1-0-0b082dd6549b@merzmedtech.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC3TNWcC/x2MQQqAMAwEvyI5WzC1B/Ur4kFs1IBVaVSE0r8bv
+ M0w7CYQikwCXZEg0sPCx66CZQHTOu4LGfbqYCvrENEZ4XBuZML9alGQa7zIVI331ruWarSg2zP
+ SzO//2w85fy5KvG1nAAAA
+X-Change-ID: 20241114-simple-mux-idle-state-08dd2d49e312
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Alexandre Belloni <aleandre.belloni@bootlin.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, "Hendrik v. Raven" <h.v.raven@merzmedtech.de>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=756;
+ i=h.v.raven@merzmedtech.de; h=from:subject:message-id;
+ bh=ytTP33QWUvhpFf/61F4EPneExfKnvwV/PgFhtrUMW8Q=;
+ b=owEBzQIy/ZANAwAKAQP8mG1lSaY7AcsmYgBnNdNBEIU2bPbRE+WCBqh7/k3XABkEds52xtA1B
+ +IO8pfEDC6JApMEAAEKAH0WIQRfy2xFNGjRY609IOcD/JhtZUmmOwUCZzXTQV8UgAAAAAAuAChp
+ c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0NUZDQjZDNDUzNDY
+ 4RDE2M0FEM0QyMEU3MDNGQzk4NkQ2NTQ5QTYzQgAKCRAD/JhtZUmmO579D/9ih61DPqfLM6seiD
+ qFilUyuEXKoTnXFXLg2xhxGaDTG6g3aS5GnFWz35pWnQYYoPQ5o9loF99duOvvITLptIO9zM2lC
+ sV67/GLFDPmMUZKbJTlTj6ZqDU8EECV3nODiW9zzsIaWhO4n71AYA6mu57L/oeyko0T2eQPTbk5
+ QScS1ugGHfva+ghLfH3JiNEUDS9u7KG3DvU/sK/yZXeB04qAw9nxduVWiJmmD5OtJFQWkPJES3W
+ QPNtpgGvJ+f+o4KkEH6AQpWpgsXSpgib1VqkothgXmeMnMA87fgJpoRYiDcJcOU2y/zu/c/iY6H
+ puCczP7EQSMXAITnrKw4mi/PP475PezyDHDC/snlR2sIKNsKN01GisuHQQeAJhkoFeOBU0wNeOh
+ yGpZldFR7jj9RdhYk8oSnMCZzG8m+DYZHmDH1CLoGXxbYQF/8kYAhTeJhE4oPielX4Huds/Fhks
+ oR7k3ZrxDV4YxUyWeoH9ptRaRHJVra1Iq70Fpvj1TPlxR4eroE2dTYvWEynRr3wDYOkgV6PPwD7
+ HITD+/gf4uhSeBUrs9WSmfrsUn5NfPeb7Hd35JxnUIQfmgd/t3mIcMNKMTXi8KnrQF+o3mRjaSk
+ ATkYuySC8S68+mZYEbfNyWGWFknLg1+cHuU5zHYmy7L4hIBpPllV9ZKGU1fF8f07cloA==
+X-Developer-Key: i=h.v.raven@merzmedtech.de; a=openpgp;
+ fpr=7A67B9A9F57B4F324AB6B8EB045B81F5FB5BA3AE
+X-purgate-original-type: clean
+X-purgate-type: clean
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-purgate-size: 758
+X-purgate-ID: 155922::1731580738-D8CA1432-BE9004F6/0/0
 
-Increase rate upper limit to 192kHz to reflect the rate range actually
-supported by the STM32 DFSDM peripheral.
+This series adds support for the idle-state property from the mux
+framework to the simple-mux audio variant. It allows to specify the state
+of the mux when it is not in use.
 
-Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+Signed-off-by: Hendrik v. Raven <h.v.raven@merzmedtech.de>
 ---
- sound/soc/stm/stm32_adfsdm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hendrik v. Raven (2):
+      ASoc: simple-mux: add idle-state support
+      ASoC: dt-bindings: simple-mux: add idle-state property
 
-diff --git a/sound/soc/stm/stm32_adfsdm.c b/sound/soc/stm/stm32_adfsdm.c
-index 78bd817af839..c914d1c46850 100644
---- a/sound/soc/stm/stm32_adfsdm.c
-+++ b/sound/soc/stm/stm32_adfsdm.c
-@@ -142,7 +142,7 @@ static const struct snd_soc_dai_driver stm32_adfsdm_dai = {
- 			       SNDRV_PCM_FMTBIT_S32_LE,
- 		    .rates = SNDRV_PCM_RATE_CONTINUOUS,
- 		    .rate_min = 8000,
--		    .rate_max = 48000,
-+		    .rate_max = 192000,
- 		    },
- 	.ops = &stm32_adfsdm_dai_ops,
- };
+ .../bindings/sound/simple-audio-mux.yaml           |  5 +++
+ sound/soc/codecs/simple-mux.c                      | 40 +++++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+---
+base-commit: 2d5404caa8c7bb5c4e0435f94b28834ae5456623
+change-id: 20241114-simple-mux-idle-state-08dd2d49e312
+
+Best regards,
 -- 
-2.25.1
+Hendrik v. Raven <h.v.raven@merzmedtech.de>
 
