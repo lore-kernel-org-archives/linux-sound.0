@@ -1,83 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526231F9414
-	for <linux-sound@vger.kernel.org>; Thu, 14 Nov 2024 11:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2360B1F8F15;
+	Thu, 14 Nov 2024 11:33:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731583157; cv=none; b=e6mmHA4XmvPT1KWHlGxtMgpKFjGNgRHe73MGmy42wWsEyVBdNB92f5vBDZy32HimH35xl6TO3SWBfQpierdqtgpPX4ZBCJgHYnD23EXHfza7viTVDT3GPp91ZMIbFaJDnKYs5tVowRYosrDEYNhS9XAH1Neh4DpiCYkqMt8581s=
+	t=1731583998; cv=none; b=FbhpsOCRoEqoNKKZipeUOqY1le8Lk4kIzGAr8M1QCFOJ+igYTZ4se9fU3dr0aYZXOcTvj5m29lEvg1s7Ku8KgyA0ePRUWDR2OpCcYRui0L01BSkv7nJQvqrVgFRvQ4hbTjpexQ9WLufZEDcspxYg9l0EEFg1rd834uSmnkBSmLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731583157; c=relaxed/simple;
-	bh=itomjc/1zaOSQCcyg4wnbkLgu0Cei8iPrQHwT6i7vmQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dSGSfrd9p7sW09zsMiUsZ+Nc2aFeeorj7i/er6XIGijGrPmHgon8wINzn2yNPYEHSYdHD4x5ela9wE6y8qBX9Z5eWfHv5qh9npq5ifNY5LJyrEmnENOplatbms7TO1nsknOmBm6tEuanBzvVlJBdrVYVboHOe+5yvRJZSp9iM3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dVPLv6eb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731583998; c=relaxed/simple;
+	bh=uBUzpUqhVVausszbfK5jeC9oMY4Oemoi5dUNSxYiau4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppIzDc/cLbT8gC65yD5vruQ5v2cUfAE6KZigKavP3deKAFbt+D59InxgyHLibWKsDAGuDcipxWj+8QqmqXDxncbacl0M1r+8swqx1AowmUNijZC4PZYRdc1u2Mo3gnuCdDV7t07TLczCujcYF9wPFJPKUfzAeoB803CijwlHgFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAgTvXN9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dVPLv6eb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 961AFC4CED6;
-	Thu, 14 Nov 2024 11:19:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAgTvXN9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55ED1C4CECD;
+	Thu, 14 Nov 2024 11:33:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731583156;
-	bh=itomjc/1zaOSQCcyg4wnbkLgu0Cei8iPrQHwT6i7vmQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dVPLv6ebBViv4RRsEfdmPqEXJ6PG9jQhbUAnAN89VxjbVDOhG5iRKP6aRIhO6BMei
-	 k8dkpmqFZha/XiDDkdpDPtipPIzi0IhRvgMAkuV+LyWyA1tBRbWc14kQtwcMHbqSS7
-	 i+EEFj/i2UsXdMAqKGQ9PSqQVuWdKtkni4gOCtGp+GNEN9lhb5xnLdWopPzc5VYp9i
-	 ONoFp+F0LXtcvxk8GQ5Yk3IJyT75BJrSI1XH153EhDEm5tUspe46Uxsig/jPRWiRB4
-	 axuinfGuY+9tqvouiPTbcmbBOmCKb1Qz0spea+Phu3cE7qNydidp9z5XZaldBt4/0O
-	 BZGgnfInKNosw==
+	s=k20201202; t=1731583997;
+	bh=uBUzpUqhVVausszbfK5jeC9oMY4Oemoi5dUNSxYiau4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WAgTvXN9JlwlxPUhUoJ+a9SbSutQYj9Z4UxFs7oyVe4vEnKsVqxB3iJZERjHEoi/J
+	 Qg33AzV3KABWHu2sn8JodgbDogbRKHXgeDeWPVv8fTuEok0OhiTHMrflx6d+0WL5PM
+	 n4TJgtjZpKob7jwL16ZmV8TGZyVK8SlrG9X8CMFV8+ar3w8PsHhhJz2alXOXzcCbJv
+	 q9G0diYqr689bwFtbN3xRDNIPmbEglozewEhKEJj2sVgHLLDxxN9ynCMlT3DI7eW6C
+	 pezaEvIUaCyHFR23vj05tCu9DzGWpV3MLzqkejo3Jf7583gFjxY/nelEEm/Xt+6lV4
+	 cOyUQiluSxMag==
+Date: Thu, 14 Nov 2024 11:33:14 +0000
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241113064133.162501-1-yung-chuan.liao@linux.intel.com>
-References: <20241113064133.162501-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH] ASoC: sdca: test adev before calling
- acpi_dev_for_each_child
-Message-Id: <173158315442.477396.6408060765327878408.b4-ty@kernel.org>
-Date: Thu, 14 Nov 2024 11:19:14 +0000
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, Kiseok Jo <kiseok.jo@irondevice.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Tang Bin <tangbin@cmss.chinamobile.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: sma1307: fix uninitialized variable refence
+Message-ID: <ZzXf-kdRnDk6-sGx@finisterre.sirena.org.uk>
+References: <20241113115708.4772-1-arnd@kernel.org>
+ <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
+ <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-355e8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="EXKFQsetu0vlZO4G"
+Content-Disposition: inline
+In-Reply-To: <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
+X-Cookie: Editing is a rewording activity.
 
-On Wed, 13 Nov 2024 14:41:33 +0800, Bard Liao wrote:
-> sdca_lookup_functions may be called by a Peripheral that is not listed
-> in the ACPI table. Testing adev is required to avoid kernel NULL pointer
-> dereference.
-> 
-> 
 
-Applied to
+--EXKFQsetu0vlZO4G
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Wed, Nov 13, 2024 at 11:43:12PM +0100, Arnd Bergmann wrote:
+> On Wed, Nov 13, 2024, at 14:24, Mark Brown wrote:
 
-Thanks!
+> > There is one path in the actual implementation that returns an error
+> > code without setting fw, though most do.  Either this caller should be
+> > updated to check the return code or if checking fw alone is valid (which
+> > TBH does look like the intent) the stub should be updated to set it.
 
-[1/1] ASoC: sdca: test adev before calling acpi_dev_for_each_child
-      commit: de35b06bf15cb56c96c7a69474e305852cc170e3
+> From what I saw earlier, the fw pointer gets set exactly in the
+> same cases that return success (through *firmware_p), checking one
+> or the other is almost the same, but you are totally right checking
+> the return code is the right thing to do here, plus it avoids
+> the pointless release_firmware(NULL).
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Yeah, the case I noticed that doesn't set firmware_p is the check for
+firmware_p where it's kind of unavoidable.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--EXKFQsetu0vlZO4G
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc13/oACgkQJNaLcl1U
+h9CVBgf/SbeQaijauH0lGQ5DSi/hEvs/kpEWNX9yNn/W4uPhrZ0ItoLgVlrctS9s
+93sM/XyjJPnQw/aIxIcFNw9dzFBG6fN8bGpd77xfQNic00WvlvqEX7/WknprJ7zb
+ffPGPdsOETBVcg7es9JoUYjLm4KJIQevXt3TJb42IFy95uzcMrznMJnxibpGKj5c
+JcGO5WgzvOG6R/aqv9lI5pUIVmRrEp6IVKxGVjdz3h2JirsrTNWSNWemKZgX8gsL
+zbU0jHlPetdIjAx868u+i1F7X1E+SGeujLus/jq7c6SMHCoNrwvmpc+s94UpURPG
+oqUgO519T/CpU4l7vm1Ua6SNW9Nj6w==
+=pgxD
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
-
+--EXKFQsetu0vlZO4G--
