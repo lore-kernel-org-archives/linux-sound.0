@@ -1,110 +1,136 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-162.mimecast.com (us-smtp-delivery-162.mimecast.com [170.10.129.162])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9364C97
-	for <linux-sound@vger.kernel.org>; Thu, 14 Nov 2024 00:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101FF1EF95B
+	for <linux-sound@vger.kernel.org>; Thu, 14 Nov 2024 06:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731542667; cv=none; b=YdqaEMux/FismaHocRzaGECi9EGQLWl44EmCHlBL2UyWuQubvtvtUiYdq/bKSRZnk0v0vDyZD50nisr00yIRe4T0PYBNovfg5sNBII5mK+D/YCs3Bp1ok9zWIuCoZN9CFyUQ6d32vtiAWJ3aP7ix3Hsaicq8SfJRqOwJCDknyZE=
+	t=1731565812; cv=none; b=Pop06CcW0X4bJIrkgd4D8o22GHiQrvFxIEQ+tjT9xFjs33AK4V5WscqJFlS0bGp53ON32Nd9VzCZpnrIrgLB0pvqR728MLkjpe0orkB22xM97rbqwpPy4Zr3h0XGP424chEHV6kkHYeSPP1Ga5Hg2CiCa/xWu56WYWlhSR2Zqng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731542667; c=relaxed/simple;
-	bh=561KQQ6/C/uqaE76MlqGtmzXHvRMFe4oRknbgQa0WQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iE8Ow/GQ6X+mt7H3WUEVjqL7mfinugz+oUqAubqm+JmddufXa8HF/pwajqHh9YJGT5/zO/jOlrWslOgEr3O3FHu0qsd3bBL2eL0sULr7ZYFdoT+fUQLxj04Yu0BT/e14dMH388C/R5yy63f0cl9ELb2Yi599ZKGEFdGzJTcqQi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4JZSbb6; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731565812; c=relaxed/simple;
+	bh=CsRf5xskqnnwINpwcylW+VBcW/qhSStwtZpmpiu+k+c=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type; b=GhIFa/t/a/V95bjk17kLIVo2iarSfN4kK23N06mwUEnMGzw7bDWNB/VdYuB6Fvt7H2LFpjQRUCxfOrkHCMjbxMc5Um3W/FOn/iok3DBvsEiGrQLpinOy4IANiqInY1QcLNig1jjfmK4TaQWdDlUjUwtTM8lRY6A9s/2PDMlxOuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com; spf=pass smtp.mailfrom=hp.com; dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b=Lf9RBAaB; arc=none smtp.client-ip=170.10.129.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=hp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4JZSbb6"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539ee1acb86so15210e87.0
-        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 16:04:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731542663; x=1732147463; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y3qC6Tv0EGfP/jM8waCnEIuS4GQbkoOTwh+nz1tcABk=;
-        b=b4JZSbb6jqj2/QasGsPXFqSWuTDixU56iJA85oPDQsi1v/LxUgjqfSBYTaAROwiMXZ
-         U4w8q7lUijjIk/ENxWjO0gLVytbVDy+97710/re6fOExg0ZMH0g904gn+JKs0NFyoxsO
-         T229k6fqm/m9AiLxVneH7E840m2hTa5+K5NXcaCu2XYn66KTySYv0Ob6loPnGaz5m6Ig
-         E8nb68GL/kvxRf5vMxYwHiS6VRfq8/mGybDBcbiIb7e441hwH+gFFVdhiNVo8G8h1KLX
-         h6QLZtdCePi4Z7sAeXCT7KMeuZvmLAlmgxKscI3Np+DT/oLT0AarArgVJotWNgo+YgdM
-         AXWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731542663; x=1732147463;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y3qC6Tv0EGfP/jM8waCnEIuS4GQbkoOTwh+nz1tcABk=;
-        b=Hn3C3WadYsnD+CG8ATh4yeTF266nlKoh6qcNkHH25qxK6OFUutaRgJm+lkqb4bInqM
-         xvhoaVPH7ec6amVoHhT6zvO2xKF18AIJvjOZ+QgeRa2Y0pFu5PFTwyu8hkWUO02errIi
-         tTg9Ehh+bZgZ3PbP5OBOxOW83aFvBGkZtOvOLEUoFu9CiqA/YIMwZUC7R2tQGerDV/0X
-         Hj+NtMq0Pikg27XkUKNoPrFUppBlvap6GZvupC6tnO6qCQ4+qEBm/tTHkgT69qtLmacD
-         I6VmqMbOQbHauB9yGAuX+6/xJqW8vo9CwydBxeiE3toGDj+p9cCoofUrp23lqIKLaKIg
-         agUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJNBa5lBPS1ERwXwMyfsJoOcFZyfEp0CoezDIoRnkSiJWhDjVTcy4B82WjiWYFtvSV6QCAtwl+jdY/KQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEnDLbNsUGnGXL4WvDeXgJj7rjMhqPldbDOzEsigRAp11A/t4M
-	6Xkvd2+wIhg68kAaSUqDw+OI5UTOzV+D0/Hd79kvaXl0zhbRZdp2
-X-Google-Smtp-Source: AGHT+IFW5BXZ0hTyPsOGNhCqua/hVl3owWNSIZD0tU6dUTvrcqyvVgD4JPwj8Eg1jfERvajypHLZSA==
-X-Received: by 2002:a05:6512:3ca0:b0:53d:a4d7:1a8b with SMTP id 2adb3069b0e04-53da5c423cemr71057e87.24.1731542663293;
-        Wed, 13 Nov 2024 16:04:23 -0800 (PST)
-Received: from [172.24.224.254] (admh203.neoplus.adsl.tpnet.pl. [79.185.37.203])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826ae98csm2370277e87.232.2024.11.13.16.04.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Nov 2024 16:04:22 -0800 (PST)
-Message-ID: <e1ce4d0b-23ad-46a8-9f46-c38194376f76@gmail.com>
-Date: Thu, 14 Nov 2024 01:04:22 +0100
+	dkim=pass (1024-bit key) header.d=hp.com header.i=@hp.com header.b="Lf9RBAaB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hp.com; s=mimecast20180716;
+	t=1731565808;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=CsRf5xskqnnwINpwcylW+VBcW/qhSStwtZpmpiu+k+c=;
+	b=Lf9RBAaBjFnfNc9GlNQ20/QjNb1la/0rRQhsa+DOcIYeOZIu1q5TGI0UNVAgOZdDP+1W5G
+	Gm8esNsxVgVkNrzaAPmJ1Ddw+NEEl+SwcAXZhqosZW13QoF3bZAftTM3mc+Z8okzbGKfzo
+	bErh8LKNpjQ3rSc4OFF4DzlPgYa+qwg=
+Received: from g8t13016g.inc.hp.com (hpifallback.mail.core.hp.com
+ [15.72.64.134]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-35-6rns3xBqMvuRn99G25z-8A-1; Thu, 14 Nov 2024 01:30:05 -0500
+X-MC-Unique: 6rns3xBqMvuRn99G25z-8A-1
+X-Mimecast-MFC-AGG-ID: 6rns3xBqMvuRn99G25z-8A
+Received: from g8t13021g.inc.hpicorp.net (g8t13021g.inc.hpicorp.net [15.60.27.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by g8t13016g.inc.hp.com (Postfix) with ESMTPS id 905DC6000FD4;
+	Thu, 14 Nov 2024 06:30:02 +0000 (UTC)
+Received: from mail.hp.com (unknown [15.32.134.51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by g8t13021g.inc.hpicorp.net (Postfix) with ESMTPS id 334F5600075A;
+	Thu, 14 Nov 2024 06:26:14 +0000 (UTC)
+Received: from cdc-linux-buildsrv17.. (localhost [127.0.0.1])
+	by mail.hp.com (Postfix) with ESMTP id 6FE7CA4159F;
+	Thu, 14 Nov 2024 14:15:59 +0800 (CST)
+From: Wade Wang <wade.wang@hp.com>
+To: perex@perex.cz,
+	tiwai@suse.com,
+	kl@kl.wtf,
+	linuxhid@cosmicgizmosystems.com,
+	wangdicheng@kylinos.cn,
+	k.kosik@outlook.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	wade.wang@hp.com
+Subject: [PATCH] ALSA: usb-audio: Fix control names for Plantronics/Poly Headsets
+Date: Thu, 14 Nov 2024 14:15:53 +0800
+Message-Id: <20241114061553.1699264-1-wade.wang@hp.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
- <87r07wws4j.wl-tiwai@suse.de>
- <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
- <87o730uttl.wl-tiwai@suse.de>
- <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
- <87ikt7v028.wl-tiwai@suse.de>
- <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
- <871pzuujkc.wl-tiwai@suse.de>
- <18c74a03-ca32-4eec-9771-bfbd37d315a4@gmail.com>
- <87a5e9g68w.wl-tiwai@suse.de>
-Content-Language: en-US, pl-PL
-From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
-In-Reply-To: <87a5e9g68w.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: PZKyQDZee9--E5xgYOr1rESld5fa-gVckDUK1c53nEg_1731565804
+X-Mimecast-Originator: hp.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252; x-default=true
 
-On 8.11.2024 15:17, Takashi Iwai wrote:
-> OTOH, a question is rather the other route -- the beep via pcspkr
-> driver -- if this beep still works while the HD-audio is runtime
-> suspended: that's the interesting point.  Could you check that?
-> You can figure out which input device corresponds what, and try to
-> trigger directly there.
+Add a control name fixer for all headsets with VID 0x047F.
 
-Beep via pcspkr module works fine without your patch - regardless of
-current PM state of HDA device; with your patch applied - the beep is
-very quiet if HDA is suspended (same as with firmware generated beeps).
+Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Signed-off-by: Wade Wang <wade.wang@hp.com>
+---
+ sound/usb/mixer.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-> Also, one more question is whether the beep tone persists if you mute
-> the volume on the HD-audio (e.g. set "Speaker Playback Switch" to
-> off).  The beep tone at shutdown should be gone in this state, too.
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index bd67027c7677..110d43ace4d8 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1664,6 +1664,33 @@ static void check_no_speaker_on_headset(struct snd_k=
+control *kctl,
+ =09snd_ctl_rename(card, kctl, "Headphone");
+ }
+=20
++static void fix_plt_control_name(struct snd_kcontrol *kctl)
++{
++=09static const char * const names_to_remove[] =3D {
++=09=09"Earphone",
++=09=09"Microphone",
++=09=09"Receive",
++=09=09"Transmit",
++=09=09NULL
++=09};
++=09const char * const *n2r;
++=09char *dst, *src;
++=09size_t len;
++
++=09for (n2r =3D names_to_remove; *n2r; ++n2r) {
++=09=09dst =3D strstr(kctl->id.name, *n2r);
++=09=09if (dst !=3D NULL) {
++=09=09=09src =3D dst + strlen(*n2r);
++=09=09=09len =3D strlen(src) + 1;
++=09=09=09if ((char *)kctl->id.name !=3D dst && *(dst - 1) =3D=3D ' ')
++=09=09=09=09--dst;
++=09=09=09memmove(dst, src, len);
++=09=09}
++=09}
++=09if (kctl->id.name[0] =3D=3D '\0')
++=09=09strscpy(kctl->id.name, "Headset", SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
++}
++
+ static const struct usb_feature_control_info *get_feature_control_info(int=
+ control)
+ {
+ =09int i;
+@@ -1780,6 +1807,9 @@ static void __build_feature_ctl(struct usb_mixer_inte=
+rface *mixer,
+ =09=09if (!mapped_name)
+ =09=09=09check_no_speaker_on_headset(kctl, mixer->chip->card);
+=20
++=09=09if (USB_ID_VENDOR(mixer->chip->usb_id) =3D=3D 0x047f)
++=09=09=09fix_plt_control_name(kctl);
++
+ =09=09/*
+ =09=09 * determine the stream direction:
+ =09=09 * if the connected output is USB stream, then it's likely a
+--=20
+2.43.0
 
-pcspkr generated beeps are immune to every mixer/switch setting except
-for "Master Mute Switch", which mutes them completely (i.e. they are not
-very quiet, they are gone). And again - this is the very same as with
-firmware beeps; that would mean that both (firmware's and pcspkr's) are
-using PIT to drive "PC Speaker".
-
-> Yes, the revert is on the way to 6.12-rc7.
-
-Already there by now, thanks!
-
--- 
-Regards!
-Jarosław Janik
