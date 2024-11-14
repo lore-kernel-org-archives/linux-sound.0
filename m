@@ -1,90 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970A318C930;
-	Thu, 14 Nov 2024 16:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552272C190;
+	Thu, 14 Nov 2024 18:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731603491; cv=none; b=CSKup4VSuGQDMh/P2aZ7g/BZZpLNVHlhY2qeTox+gdtMc+4NQvb1qh5E/fEmKfc/ki9b9ett8smGc7LKqif/dEFLWm0UCqb2wcLn5UlCgExNllQ+1WzpbL2qHUQ54aXH3cv75VowJqq8ryrUcq0yW3UBLarqx2oLlElFbLczkxU=
+	t=1731610461; cv=none; b=U3OSAtyOJlUxdPCbJp8GCjJGYHF/L7MMbagcfhr/kIOJ8umRm0cnG+E+sCJ2XNYSJHNStiS09pqYbeqLfi1/fM6Dh1boqC0qO9VIv2BnwSvx4PHCvtO44Xjnfr3jLkEnWaJUfwbDQ+yacQ7lLO0YgIOtj4OqNIwmaf7Q0jpfKxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731603491; c=relaxed/simple;
-	bh=1NYyfhvpaHaoMxKldegCUmIUdIQjsXmFWCzEU3/3wjY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=ZzvGVIV64MNNW444YmNZPElFoQPV7ynBAfVV5fZTkcuJo2zurlFjb9Ncw7dw1RiXVEa3clkEdyeEWuv+iZfQgG/r41LGftIGk/GzdTGy8rB9lebIRU639wPJH6+Bnk2vr938nsRfey2xOhi9pQKTvKUUByT997g3kh3N961aKgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Txv3kyeP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Txv3kyeP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4BD8C4CED0;
-	Thu, 14 Nov 2024 16:58:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731603491;
-	bh=1NYyfhvpaHaoMxKldegCUmIUdIQjsXmFWCzEU3/3wjY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Txv3kyePwuqcJtw5NY64raF6B9OwQI8iVh0PNbb+oJ0JU2vE4KZaX0Ihnr4sx2Jzq
-	 V2ApIeHtIW4oIQs8/udP7l1uZnR4q66FeTOB6xAy5HeFsbjE75KnoBvEmHhf5cdJkG
-	 9B18OBRKuqpUdzjTC5/lgqMB5KtIPN+3YiAMxlDPqkZXlCZodBbsPibMGqhroPSRpv
-	 ovS3qlDR3elMMusvMcvGv+rlRMdKIfLXxLu/GrGbS+upKlfRf98TGAOZEgj/xRl1zd
-	 GUYl4XDOw3E6ogbhWOJbPxYCPVM/Xqo2Tie7D4K1EIbpA6zFeQpaWDwco2c0tZqnWF
-	 JdG5Q3Z6MxZ3g==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Alexandre Belloni <aleandre.belloni@bootlin.com>, 
- "Hendrik v. Raven" <h.v.raven@merzmedtech.de>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org
-In-Reply-To: <20241114-simple-mux-idle-state-v2-0-a30cb37d2be2@merzmedtech.de>
-References: <20241114-simple-mux-idle-state-v2-0-a30cb37d2be2@merzmedtech.de>
-Subject: Re: [PATCH v2 0/2] ASoc: simple-mux: Allow to specify an
- idle-state
-Message-Id: <173160348868.529304.8793310575318436684.b4-ty@kernel.org>
-Date: Thu, 14 Nov 2024 16:58:08 +0000
+	s=arc-20240116; t=1731610461; c=relaxed/simple;
+	bh=nP0/dNyuYxl/up1JgcBU4+hV/85OLUjwiQ8BfozWENQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=m+r4AAi/m4UkynKI1SYxlvXuvKfdRp5dLxypzJ7a/2PjEhymGwVptlBs9/4vpUF8pda/Mb2iiwQ6UZvmKZrOebLhT04tvZ1tIzNEi31bo31VSxw8amauQ66S0i1dldJoSlWAiGRTycHdbzDDo3sj99kdvZW8HZw0WZHwZ4tNLpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 684B629804EC;
+	Thu, 14 Nov 2024 10:44:53 -0800 (PST)
+Message-ID: <4717b9c4-8d9f-40d8-903e-68be30ac7d82@cosmicgizmosystems.com>
+Date: Thu, 14 Nov 2024 10:44:52 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: usb-audio: Fix control names for Plantronics/Poly
+ Headsets
+To: Takashi Iwai <tiwai@suse.de>, Wade Wang <wade.wang@hp.com>
+Cc: perex@perex.cz, tiwai@suse.com, kl@kl.wtf, wangdicheng@kylinos.cn,
+ k.kosik@outlook.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241114061553.1699264-1-wade.wang@hp.com>
+ <87plmythnv.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+In-Reply-To: <87plmythnv.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-355e8
 
-On Thu, 14 Nov 2024 12:01:24 +0100, Hendrik v. Raven wrote:
-> This series adds support for the idle-state property from the mux
-> framework to the simple-mux audio variant. It allows to specify the state
-> of the mux when it is not in use.
+Thanks Takashi,
+
+On 11/13/24 11:10 PM, Takashi Iwai wrote:
+> On Thu, 14 Nov 2024 07:15:53 +0100,
+> Wade Wang wrote:
+>>
+>> Add a control name fixer for all headsets with VID 0x047F.
+>>
+>> Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+>> Signed-off-by: Wade Wang <wade.wang@hp.com>
+> 
+> Thanks for the patch, but from the description, it's not clear what
+> this patch actually does.  What's the control name fixer and how it
+> behaves?
+
+It will be better described in the v2 patch.
+
+It modifies names like
+
+Headset Earphone Playback Volume
+Headset Microphone Capture Switch
+Receive Playback Volume
+Transmit Capture Switch
+
+to
+
+Headset Playback Volume
+Headset Capture Switch
+
+so user space will bind to the headset's audio controls.
+
+> 
+> Also, are you sure that this can be applied to all devices of
+> Plantonics & co?  Including the devices in future.  I thought they had
+> so many different models.
+
+Yes, the quirk only modifies the control names that contain certain keywords.
+Additional keywords may have to be added to the list in the future.
+
+> 
+> Last but not least, __build_feature_ctl() is no right place to add the
+> vendor-specific stuff.  There is already a common place in
+> mixer_quirks.c, e.g. snd_usb_mixer_fu_apply_quirk().  Please move the
+> fix-up to the appropriate place.
+
+I figured as much and I am currently testing with the function updated
+and moved to mixer_quirks.c and will be triggered by snd_usb_mixer_fu_apply_quirk().
+
 > 
 > 
-
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoc: simple-mux: add idle-state support
-      commit: 2b974284aa073d6e2936f9032e8ad7b99480b5b8
-[2/2] ASoC: dt-bindings: simple-mux: add idle-state property
-      commit: 3b7e11a0116c30848d44429650ad80f9cc3bd963
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+> thanks,
+> 
+> Takashi
+> 
+>> ---
+>>  sound/usb/mixer.c | 30 ++++++++++++++++++++++++++++++
+>>  1 file changed, 30 insertions(+)
+>>
+>> diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+>> index bd67027c7677..110d43ace4d8 100644
+>> --- a/sound/usb/mixer.c
+>> +++ b/sound/usb/mixer.c
+>> @@ -1664,6 +1664,33 @@ static void check_no_speaker_on_headset(struct snd_kcontrol *kctl,
+>>  	snd_ctl_rename(card, kctl, "Headphone");
+>>  }
+>>  
+>> +static void fix_plt_control_name(struct snd_kcontrol *kctl)
+>> +{
+>> +	static const char * const names_to_remove[] = {
+>> +		"Earphone",
+>> +		"Microphone",
+>> +		"Receive",
+>> +		"Transmit",
+>> +		NULL
+>> +	};
+>> +	const char * const *n2r;
+>> +	char *dst, *src;
+>> +	size_t len;
+>> +
+>> +	for (n2r = names_to_remove; *n2r; ++n2r) {
+>> +		dst = strstr(kctl->id.name, *n2r);
+>> +		if (dst != NULL) {
+>> +			src = dst + strlen(*n2r);
+>> +			len = strlen(src) + 1;
+>> +			if ((char *)kctl->id.name != dst && *(dst - 1) == ' ')
+>> +				--dst;
+>> +			memmove(dst, src, len);
+>> +		}
+>> +	}
+>> +	if (kctl->id.name[0] == '\0')
+>> +		strscpy(kctl->id.name, "Headset", SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
+>> +}
+>> +
+>>  static const struct usb_feature_control_info *get_feature_control_info(int control)
+>>  {
+>>  	int i;
+>> @@ -1780,6 +1807,9 @@ static void __build_feature_ctl(struct usb_mixer_interface *mixer,
+>>  		if (!mapped_name)
+>>  			check_no_speaker_on_headset(kctl, mixer->chip->card);
+>>  
+>> +		if (USB_ID_VENDOR(mixer->chip->usb_id) == 0x047f)
+>> +			fix_plt_control_name(kctl);
+>> +
+>>  		/*
+>>  		 * determine the stream direction:
+>>  		 * if the connected output is USB stream, then it's likely a
+>> -- 
+>> 2.43.0
+>>
 
