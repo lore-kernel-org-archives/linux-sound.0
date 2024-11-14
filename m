@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2360B1F8F15;
-	Thu, 14 Nov 2024 11:33:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135AF1F8917;
+	Thu, 14 Nov 2024 11:42:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731583998; cv=none; b=FbhpsOCRoEqoNKKZipeUOqY1le8Lk4kIzGAr8M1QCFOJ+igYTZ4se9fU3dr0aYZXOcTvj5m29lEvg1s7Ku8KgyA0ePRUWDR2OpCcYRui0L01BSkv7nJQvqrVgFRvQ4hbTjpexQ9WLufZEDcspxYg9l0EEFg1rd834uSmnkBSmLs=
+	t=1731584551; cv=none; b=AXxHkK15VzSo88ao9AhdF662tMfazN98VSCdYZj8H9OxZ/tEbxXy/46gryFV0BECWMpquQYFJOtD3miNRqcOcNQjeDgHp2pwz5rIj9dIwvTUlqieXuMpZrgAm/F1rYWTF40r7fXq2j52WzQiJ85ud4B2I2OXrU6u7IODbNmYs1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731583998; c=relaxed/simple;
-	bh=uBUzpUqhVVausszbfK5jeC9oMY4Oemoi5dUNSxYiau4=;
+	s=arc-20240116; t=1731584551; c=relaxed/simple;
+	bh=xUGHZDJyHnRsMWo5XBPmfd5sEStqMlmHUm2I238eKsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ppIzDc/cLbT8gC65yD5vruQ5v2cUfAE6KZigKavP3deKAFbt+D59InxgyHLibWKsDAGuDcipxWj+8QqmqXDxncbacl0M1r+8swqx1AowmUNijZC4PZYRdc1u2Mo3gnuCdDV7t07TLczCujcYF9wPFJPKUfzAeoB803CijwlHgFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAgTvXN9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KbK+AAPK1OaVWoSudKjXCmKOqB3416QR/bbnAgKxOW+XUgrli8HR17EYKu/y61gsTznOK/1HExkaONL/3ClQQZqypiN2m7StuvVUf/Q9kTUXkB9CK5Ko+m1UHSvZcLYKzvY75drurZeA9yXBwe7xqv3TIdkjBwhAfLamfYTjioI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QQHAMNvV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAgTvXN9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55ED1C4CECD;
-	Thu, 14 Nov 2024 11:33:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QQHAMNvV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33FB6C4CECD;
+	Thu, 14 Nov 2024 11:42:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731583997;
-	bh=uBUzpUqhVVausszbfK5jeC9oMY4Oemoi5dUNSxYiau4=;
+	s=k20201202; t=1731584550;
+	bh=xUGHZDJyHnRsMWo5XBPmfd5sEStqMlmHUm2I238eKsc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WAgTvXN9JlwlxPUhUoJ+a9SbSutQYj9Z4UxFs7oyVe4vEnKsVqxB3iJZERjHEoi/J
-	 Qg33AzV3KABWHu2sn8JodgbDogbRKHXgeDeWPVv8fTuEok0OhiTHMrflx6d+0WL5PM
-	 n4TJgtjZpKob7jwL16ZmV8TGZyVK8SlrG9X8CMFV8+ar3w8PsHhhJz2alXOXzcCbJv
-	 q9G0diYqr689bwFtbN3xRDNIPmbEglozewEhKEJj2sVgHLLDxxN9ynCMlT3DI7eW6C
-	 pezaEvIUaCyHFR23vj05tCu9DzGWpV3MLzqkejo3Jf7583gFjxY/nelEEm/Xt+6lV4
-	 cOyUQiluSxMag==
-Date: Thu, 14 Nov 2024 11:33:14 +0000
+	b=QQHAMNvVLThR+eMdfABSwEOUMriGZjXe4FPzfTweoSxlLyc/mp3Rls0mai/nVTjkz
+	 Nat5pHpdBh4oMXg1pofzTYQ7pDSzvaYcdJu8uuKHd35Vi409cPJKwt/+N42s7O6Q+s
+	 r4++mv/lPQRjDwckg3ojAzxLfjajp0UCO1M3Xas86WMdOuFct9F3RFEHTSViRHq6tY
+	 6neOmESV2QggywJSPaIEckIdAMlZ0Mj21A2w64iQBkKFi4C1ZqJRbL2yPhwTxABSXf
+	 TXjRcVA8jgPPhQACdKIE3OCVbljK34lcZejC+1Mj7Y7i59DH8Ziw+AQvojXT3SuQ4t
+	 PCV9H5sHNibxg==
+Date: Thu, 14 Nov 2024 11:42:28 +0000
 From: Mark Brown <broonie@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Kiseok Jo <kiseok.jo@irondevice.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Tang Bin <tangbin@cmss.chinamobile.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ASoC: sma1307: fix uninitialized variable refence
-Message-ID: <ZzXf-kdRnDk6-sGx@finisterre.sirena.org.uk>
-References: <20241113115708.4772-1-arnd@kernel.org>
- <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
- <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
+To: Christian Hewitt <christianshewitt@gmail.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Jonas Karlman <jonas@kwiboo.se>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matthias Reichl <hias@horus.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Jani Nikula <jani.nikula@intel.com>
+Subject: Re: [RESEND v2] ASoC: hdmi-codec: reorder channel allocation list
+Message-ID: <ZzXiJIyf8Iyb7f50@finisterre.sirena.org.uk>
+References: <7697010E-E0F2-419F-8378-FC3E491EE1E4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,46 +46,44 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="EXKFQsetu0vlZO4G"
+	protocol="application/pgp-signature"; boundary="usOhYHKopyrymRii"
 Content-Disposition: inline
-In-Reply-To: <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
-X-Cookie: Editing is a rewording activity.
+In-Reply-To: <7697010E-E0F2-419F-8378-FC3E491EE1E4@gmail.com>
+X-Cookie: We have DIFFERENT amounts of HAIR --
 
 
---EXKFQsetu0vlZO4G
+--usOhYHKopyrymRii
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 13, 2024 at 11:43:12PM +0100, Arnd Bergmann wrote:
-> On Wed, Nov 13, 2024, at 14:24, Mark Brown wrote:
+On Tue, Nov 12, 2024 at 09:07:00AM +0400, Christian Hewitt wrote:
+> From: Jonas Karlman <jonas@kwiboo.se>
+>=20
+> The ordering in hdmi_codec_get_ch_alloc_table_idx() results in
+> wrong channel allocation for a number of cases, e.g. when ELD
+> reports FL|FR|LFE|FC|RL|RR or FL|FR|LFE|FC|RL|RR|RC|RLC|RRC:
 
-> > There is one path in the actual implementation that returns an error
-> > code without setting fw, though most do.  Either this caller should be
-> > updated to check the return code or if checking fw alone is valid (which
-> > TBH does look like the intent) the stub should be updated to set it.
+This doesn't apply against current code, please check and resend.
 
-> From what I saw earlier, the fw pointer gets set exactly in the
-> same cases that return success (through *firmware_p), checking one
-> or the other is almost the same, but you are totally right checking
-> the return code is the right thing to do here, plus it avoids
-> the pointless release_firmware(NULL).
+Applying: ASoC: hdmi-codec: reorder channel allocation list
+error: corrupt patch at line 6
+error: could not build fake ancestor
+Patch failed at 0004 ASoC: hdmi-codec: reorder channel allocation list
 
-Yeah, the case I noticed that doesn't set firmware_p is the check for
-firmware_p where it's kind of unavoidable.
-
---EXKFQsetu0vlZO4G
+--usOhYHKopyrymRii
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc13/oACgkQJNaLcl1U
-h9CVBgf/SbeQaijauH0lGQ5DSi/hEvs/kpEWNX9yNn/W4uPhrZ0ItoLgVlrctS9s
-93sM/XyjJPnQw/aIxIcFNw9dzFBG6fN8bGpd77xfQNic00WvlvqEX7/WknprJ7zb
-ffPGPdsOETBVcg7es9JoUYjLm4KJIQevXt3TJb42IFy95uzcMrznMJnxibpGKj5c
-JcGO5WgzvOG6R/aqv9lI5pUIVmRrEp6IVKxGVjdz3h2JirsrTNWSNWemKZgX8gsL
-zbU0jHlPetdIjAx868u+i1F7X1E+SGeujLus/jq7c6SMHCoNrwvmpc+s94UpURPG
-oqUgO519T/CpU4l7vm1Ua6SNW9Nj6w==
-=pgxD
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc14iMACgkQJNaLcl1U
+h9BV4gf+LJ5mkc6iJE3lOhouUfTDTYAb0HCe2hehR3zHxG5fml6bhZRD+qZGXAUN
+Gt6MOhYkXGEBje6OzQcULFUQX8rgEOqMErf0AHylleearH4cceI126kmUxituqrz
+BRFnNP+6qdXMX6VvEJnVYOO3zgVsriCs8nJxrFP9Xx2wRmrkvtaBlF0Fpb+zK5Sk
+x4su143PQwjAstdpAPyuAfbM3yBKzuTHuc8I87dXdpRpmvFTLl3KTK9vjFmr9dQO
+L8REdphCs5400JrG8Qk8BJEL95UI50pB7srN+eY1q1SpBM47zN2Md8SahJXJQ1wt
++++5gMzxxcbPg49N7IO6/WI7xAMzbQ==
+=KPnd
 -----END PGP SIGNATURE-----
 
---EXKFQsetu0vlZO4G--
+--usOhYHKopyrymRii--
