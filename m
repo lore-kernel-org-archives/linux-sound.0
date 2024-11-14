@@ -1,133 +1,110 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8ED33CFC;
-	Wed, 13 Nov 2024 22:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9364C97
+	for <linux-sound@vger.kernel.org>; Thu, 14 Nov 2024 00:04:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731537828; cv=none; b=eyMAW+8n4sEkBXIUg7f91+bQpSFwMQ2mopjTtKf93ymdfPXV44oh52TQDsqkcBNkKMlI2n3lNTWUQePJU/fFGY+TRyNbJAEnBadU40cFNlR5rr9O+Odu0WhcpBVQyHLkfx6P6NGt8OjkyeMwEwwzxKzRXBZO97b/Ayu3pKU+1Tg=
+	t=1731542667; cv=none; b=YdqaEMux/FismaHocRzaGECi9EGQLWl44EmCHlBL2UyWuQubvtvtUiYdq/bKSRZnk0v0vDyZD50nisr00yIRe4T0PYBNovfg5sNBII5mK+D/YCs3Bp1ok9zWIuCoZN9CFyUQ6d32vtiAWJ3aP7ix3Hsaicq8SfJRqOwJCDknyZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731537828; c=relaxed/simple;
-	bh=e6N6jBMF/NFbuAbQJ0ATdRAlfGpetC8vcmbamz2iU0U=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Nqj196N8DKqTOo39XZM/lvEb2rhuXWWONqOB155DRZ/RHFAKTnGb+iP7K9a/VlQ07FsM5v/lSpevH5PHW7EI9W9dG6JH/LU6Fcr/sTkJJTS2tXxzf/LDw4XO+4+fI8cyfddGTK4pZMCbnGkBEXX0hagdkxoEVAvSrSMRKM2ju08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=eVQ8dECy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=MpVxabEm; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1731542667; c=relaxed/simple;
+	bh=561KQQ6/C/uqaE76MlqGtmzXHvRMFe4oRknbgQa0WQ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iE8Ow/GQ6X+mt7H3WUEVjqL7mfinugz+oUqAubqm+JmddufXa8HF/pwajqHh9YJGT5/zO/jOlrWslOgEr3O3FHu0qsd3bBL2eL0sULr7ZYFdoT+fUQLxj04Yu0BT/e14dMH388C/R5yy63f0cl9ELb2Yi599ZKGEFdGzJTcqQi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b4JZSbb6; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="eVQ8dECy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="MpVxabEm"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 6979A1140207;
-	Wed, 13 Nov 2024 17:43:44 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Wed, 13 Nov 2024 17:43:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1731537824;
-	 x=1731624224; bh=czIXYuYkVBfX6Ui02g9qzpLxBgPPnotbplS8jYeNbtk=; b=
-	eVQ8dECyK+t9Du4YhRkbshwH9MHvCAk+ld/mE3hMk2vGUBxXDBc6YJdRdXqOj9ge
-	QYayzhL7y/9VHBvKR9NMHHVVmz9io8MxU9zH3lwUKUeuzehbFdTF2nG5dHPOFFyQ
-	pXMLLPCLc349ut1msQAM090uhY+XAI4/LWkjQBD/RgZn9+PV/u7dYTkrcmJCKwZQ
-	qkrXYPLaaJCyOizumE+BImJxj6T1R9yXor4GZ2wsdiPvoaPmR3GtgsaR8vU9j3rh
-	GyCgqYwiL+yZ7BDuqZSIB9G4mh9dVqPS4QWhwAy6tt6SjVsIjqusiKv+c25ifoTo
-	Emk3X8QAzFc36QSBapgKcg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731537824; x=
-	1731624224; bh=czIXYuYkVBfX6Ui02g9qzpLxBgPPnotbplS8jYeNbtk=; b=M
-	pVxabEmQcxocdOnHOZcrcHSPlX1q98MeXhG07gSPbga4q16g7d6EjlGl33hGqnZi
-	+pf4hjsLzixcKXaIO9LPMvLOyWaFSP36WIyUcSwpErbgpbbmfWWKU8yDXw8USC7s
-	mLu+A5BK2F/p2xV6KoRAfb3flSXWhI0FT7n+49bX6Gaki9dFToIXneKhkUMmYpC4
-	D7HiXnXBrmz26bBvuF2XQs7VKPXLwnEbZh0U64ogNjrTMWL1O2OB2U+zjfyX/yy6
-	5Lap5caCPjOHLeUx8F2+4yILfcpyG4uE5Rl+ebuVpD3PJunAoRojP/CEPZvExckO
-	1v6sjUQBI8NrJCui2mxcg==
-X-ME-Sender: <xms:nis1Z8wk5To5zQeAWRdFZ0iL8nkKRkujGdFu4TdEf3Ok8ABwO0CxZQ>
-    <xme:nis1ZwQPpg6o0jlzEXavaOBUg7IY32ix9sZj-KZllFli6iiLzY_0lpBRXuhqA0GLP
-    lF4wwxr66KTlkFyaAY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrvddugddtudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
-    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
-    gvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffg
-    vedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeelpdhm
-    ohguvgepshhmthhpohhuthdprhgtphhtthhopehtrghnghgsihhnsegtmhhsshdrtghhih
-    hnrghmohgsihhlvgdrtghomhdprhgtphhtthhopehlghhirhgufihoohgusehgmhgrihhl
-    rdgtohhmpdhrtghpthhtohepkhhishgvohhkrdhjohesihhrohhnuggvvhhitggvrdgtoh
-    hmpdhrtghpthhtoheprghrnhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhho
-    ohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghrvgigsehpvghrvgigrd
-    gtiidprhgtphhtthhopehtihifrghisehsuhhsvgdrtghomhdprhgtphhtthhopehlihhn
-    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlih
-    hnuhigqdhsohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:nis1Z-VUQrVBWPJUDpUqRIJs5v22pKL8INCu35tfCU7DdIpdfXQlpA>
-    <xmx:nis1Z6hPg-MvP9k4dpmRwXy_b13lssWA4X6yCWO28bzzI2XXkoEXPg>
-    <xmx:nis1Z-CenTNEuXJl4hSNGky2YXJhx9LopysCHS8YHlwVaSFkG853wQ>
-    <xmx:nis1Z7KBQM7yza2bvT3RuLXJCBqw4D8-zLjUFE3WTKq2uBa5WJMf1Q>
-    <xmx:oCs1Z61A9Bm0GV15j2BAmBXfsxpQuaboD9FrH34tmN4uocYkhBuFnf0U>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B80AD222006F; Wed, 13 Nov 2024 17:43:42 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b4JZSbb6"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539ee1acb86so15210e87.0
+        for <linux-sound@vger.kernel.org>; Wed, 13 Nov 2024 16:04:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731542663; x=1732147463; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3qC6Tv0EGfP/jM8waCnEIuS4GQbkoOTwh+nz1tcABk=;
+        b=b4JZSbb6jqj2/QasGsPXFqSWuTDixU56iJA85oPDQsi1v/LxUgjqfSBYTaAROwiMXZ
+         U4w8q7lUijjIk/ENxWjO0gLVytbVDy+97710/re6fOExg0ZMH0g904gn+JKs0NFyoxsO
+         T229k6fqm/m9AiLxVneH7E840m2hTa5+K5NXcaCu2XYn66KTySYv0Ob6loPnGaz5m6Ig
+         E8nb68GL/kvxRf5vMxYwHiS6VRfq8/mGybDBcbiIb7e441hwH+gFFVdhiNVo8G8h1KLX
+         h6QLZtdCePi4Z7sAeXCT7KMeuZvmLAlmgxKscI3Np+DT/oLT0AarArgVJotWNgo+YgdM
+         AXWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731542663; x=1732147463;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3qC6Tv0EGfP/jM8waCnEIuS4GQbkoOTwh+nz1tcABk=;
+        b=Hn3C3WadYsnD+CG8ATh4yeTF266nlKoh6qcNkHH25qxK6OFUutaRgJm+lkqb4bInqM
+         xvhoaVPH7ec6amVoHhT6zvO2xKF18AIJvjOZ+QgeRa2Y0pFu5PFTwyu8hkWUO02errIi
+         tTg9Ehh+bZgZ3PbP5OBOxOW83aFvBGkZtOvOLEUoFu9CiqA/YIMwZUC7R2tQGerDV/0X
+         Hj+NtMq0Pikg27XkUKNoPrFUppBlvap6GZvupC6tnO6qCQ4+qEBm/tTHkgT69qtLmacD
+         I6VmqMbOQbHauB9yGAuX+6/xJqW8vo9CwydBxeiE3toGDj+p9cCoofUrp23lqIKLaKIg
+         agUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJNBa5lBPS1ERwXwMyfsJoOcFZyfEp0CoezDIoRnkSiJWhDjVTcy4B82WjiWYFtvSV6QCAtwl+jdY/KQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEnDLbNsUGnGXL4WvDeXgJj7rjMhqPldbDOzEsigRAp11A/t4M
+	6Xkvd2+wIhg68kAaSUqDw+OI5UTOzV+D0/Hd79kvaXl0zhbRZdp2
+X-Google-Smtp-Source: AGHT+IFW5BXZ0hTyPsOGNhCqua/hVl3owWNSIZD0tU6dUTvrcqyvVgD4JPwj8Eg1jfERvajypHLZSA==
+X-Received: by 2002:a05:6512:3ca0:b0:53d:a4d7:1a8b with SMTP id 2adb3069b0e04-53da5c423cemr71057e87.24.1731542663293;
+        Wed, 13 Nov 2024 16:04:23 -0800 (PST)
+Received: from [172.24.224.254] (admh203.neoplus.adsl.tpnet.pl. [79.185.37.203])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53d826ae98csm2370277e87.232.2024.11.13.16.04.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Nov 2024 16:04:22 -0800 (PST)
+Message-ID: <e1ce4d0b-23ad-46a8-9f46-c38194376f76@gmail.com>
+Date: Thu, 14 Nov 2024 01:04:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 13 Nov 2024 23:43:12 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mark Brown" <broonie@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
-Cc: "Kiseok Jo" <kiseok.jo@irondevice.com>,
- "Liam Girdwood" <lgirdwood@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>,
- "Takashi Iwai" <tiwai@suse.com>, "Tang Bin" <tangbin@cmss.chinamobile.com>,
- linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <253ed1d8-fdbe-40ac-9791-843f3e1ca226@app.fastmail.com>
-In-Reply-To: <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
-References: <20241113115708.4772-1-arnd@kernel.org>
- <ZzSoeF7dnWDw6rqj@finisterre.sirena.org.uk>
-Subject: Re: [PATCH] ASoC: sma1307: fix uninitialized variable refence
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+ <87r07wws4j.wl-tiwai@suse.de>
+ <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+ <87o730uttl.wl-tiwai@suse.de>
+ <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+ <87ikt7v028.wl-tiwai@suse.de>
+ <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+ <871pzuujkc.wl-tiwai@suse.de>
+ <18c74a03-ca32-4eec-9771-bfbd37d315a4@gmail.com>
+ <87a5e9g68w.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
+In-Reply-To: <87a5e9g68w.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 13, 2024, at 14:24, Mark Brown wrote:
-> On Wed, Nov 13, 2024 at 12:56:50PM +0100, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->> 
->> When firmware loading is disabled, gcc warns that the local
->> 'fw' variable fails to get initialized:
->> 
->> sound/soc/codecs/sma1307.c: In function 'sma1307_setting_loaded.isra':
->> sound/soc/codecs/sma1307.c:1717:12: error: 'fw' is used uninitialized [-Werror=uninitialized]
->>  1717 |         if (!fw) {
->>       |            ^
->> sound/soc/codecs/sma1307.c:1712:32: note: 'fw' was declared here
->>  1712 |         const struct firmware *fw;
->> 
->> Initialize this to NULL as that is what it gets checked for in
->> case of error.
->
-> This is just shutting the warning up - looking at the stub the real
-> issue is that there's a return value from request_firmware() which isn't
-> being checked, we're checking for the initialisation of fw instead.
+On 8.11.2024 15:17, Takashi Iwai wrote:
+> OTOH, a question is rather the other route -- the beep via pcspkr
+> driver -- if this beep still works while the HD-audio is runtime
+> suspended: that's the interesting point.  Could you check that?
+> You can figure out which input device corresponds what, and try to
+> trigger directly there.
 
-I sent the updated version earlier, now just checking the return
-code.
+Beep via pcspkr module works fine without your patch - regardless of
+current PM state of HDA device; with your patch applied - the beep is
+very quiet if HDA is suspended (same as with firmware generated beeps).
 
-> There is one path in the actual implementation that returns an error
-> code without setting fw, though most do.  Either this caller should be
-> updated to check the return code or if checking fw alone is valid (which
-> TBH does look like the intent) the stub should be updated to set it.
+> Also, one more question is whether the beep tone persists if you mute
+> the volume on the HD-audio (e.g. set "Speaker Playback Switch" to
+> off).  The beep tone at shutdown should be gone in this state, too.
 
-From what I saw earlier, the fw pointer gets set exactly in the
-same cases that return success (through *firmware_p), checking one
-or the other is almost the same, but you are totally right checking
-the return code is the right thing to do here, plus it avoids
-the pointless release_firmware(NULL).
+pcspkr generated beeps are immune to every mixer/switch setting except
+for "Master Mute Switch", which mutes them completely (i.e. they are not
+very quiet, they are gone). And again - this is the very same as with
+firmware beeps; that would mean that both (firmware's and pcspkr's) are
+using PIT to drive "PC Speaker".
 
-       Arnd
+> Yes, the revert is on the way to 6.12-rc7.
+
+Already there by now, thanks!
+
+-- 
+Regards!
+Jarosław Janik
