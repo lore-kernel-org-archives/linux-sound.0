@@ -1,36 +1,53 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5537E1D4610;
-	Fri, 15 Nov 2024 15:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A691D762E0;
+	Fri, 15 Nov 2024 16:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731683228; cv=none; b=fUpaHlBRX25zzR/ABxYiZ07VHJOm/8Ct8T2gbTLZxzXhNxyMcEMAPf3u+6KP3Yksh7XLc+UGjTBrmapXdpcuLQH0K+oJlm+hyXEN4medUmyVwOLgOBYOT0AUgQRLW/sHl4pjFVrSWVF2toz//E3TXyOZ426AQlbTcU1DSKoa7iA=
+	t=1731689695; cv=none; b=NmZ9kumtrh6S6Gomtaj9OFiBS7RI5GYdo8F9nNu3MBlpBiqna0aQATUro1prbQsOR0t2aHv9iI5QIzaRWOgL20H2sG3XggdNI/WtDCkj2FWxoZGLCu1lBq77fh42jdMwAc8y/Z9NT3JBg4yqqa+sGIdeCZzY5D5ar8mmXT5UIrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731683228; c=relaxed/simple;
-	bh=Gt8CRfv0JnpQNa9j/2D2BL+u9sRR7UF5j1sio1duMJo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZnLUiqrFnK1Xr8fLn/WwrY63Jv9eBWTc9ROuv8qDLF69tZA7O8Hx1vNE5G4PCys0KD2PAaVPqciAo/y7c4tvtYRiHFEU4CGgb8Vj1felRJyq6F3dJcd8HRJJ4tyxS/jUQz+7EhRNPG8sA8vaBoBnNmg8myogmrdW79g1VyfohVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [223.64.68.202])
-	by gateway (Coremail) with SMTP id _____8DxmeCUYzdnrnc+AA--.57873S3;
-	Fri, 15 Nov 2024 23:07:00 +0800 (CST)
-Received: from localhost.localdomain (unknown [223.64.68.202])
-	by front1 (Coremail) with SMTP id qMiowMCxOMGPYzdnqgFXAA--.5752S2;
-	Fri, 15 Nov 2024 23:06:59 +0800 (CST)
-From: Huacai Chen <chenhuacai@loongson.cn>
-To: Takashi Iwai <tiwai@suse.com>,
+	s=arc-20240116; t=1731689695; c=relaxed/simple;
+	bh=NdGgJpbrkxwQPIZY7b3OV48z5XqL9DWgYsE/gbcOlQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mkKJNYovwMO3aw3Zx0BJvWManJazE/WXegK9YIjP+zFXICW84LUkGy9Yaz2gqaRTvkOMIkZ87E3ast6ocNzZmITe83O5iloONYDUCf7uUmvEux6n2Gj92u74s5ZV/aSvIRF3bSS2pMp0lz/52d81Z6nT02vEPEjtCNc15l2OR6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=cs+nXupu; arc=none smtp.client-ip=80.12.242.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="cs+nXupu"
+Received: from localhost.localdomain ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id BzamtxBk9W6lUBzantT11p; Fri, 15 Nov 2024 17:54:46 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1731689686;
+	bh=VjL0T8V3592eoi9zyDm4yaxJadogguU7vBFf2SgAtkM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=cs+nXupuvX2UUZFgePhpnFr4+FZ3OO/E9X8iNxzxe3Cdoh+N/tfFIcOpAWa0P0Jrr
+	 QfAj8YEfeP8z8e8p6tvvK0bfRMD2bYObEFS1putMrdf9NIlPJ5mlcwBlLYuQsdqbNs
+	 aaNslRxrs2eVdlTSXI/vjJyjii0IM5uJpU0irp1aXG0cE1osFEgPB/fkYOuGQfz8Dt
+	 G8l30Luv5/OmsPXpbSseH+e0razkzCPtUdt89TmnSLNm04hiLc8W+sE8GRQUk16bpP
+	 71azQXcQvowRhQYz1pDmAJZDWBE/AKtQlE3PkwoVGg2XGi9CHVzhwjD7XYaimIcmJH
+	 BaxzWvrFpA1JQ==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 15 Nov 2024 17:54:46 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Xuerui Wang <kernel@xen0n.name>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Huacai Chen <chenhuacai@loongson.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Poll jack events for LS7A HD-Audio
-Date: Fri, 15 Nov 2024 23:06:53 +0800
-Message-ID: <20241115150653.2819100-1-chenhuacai@loongson.cn>
-X-Mailer: git-send-email 2.43.5
+	Takashi Iwai <tiwai@suse.com>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: cs42l51: Constify struct i2c_device_id
+Date: Fri, 15 Nov 2024 17:54:25 +0100
+Message-ID: <d5e686f47eddb14245d0fde693ff77ae749f7a08.1731689646.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -38,52 +55,50 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowMCxOMGPYzdnqgFXAA--.5752S2
-X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
-X-Coremail-Antispam: 1Uk129KBj9xXoWrZw4kCr4rWFWrCr4xAry8Xrc_yoWDJFb_ua
-	1I9r1kW345JFnxCr1Yyrn5JF4Ykw48CrWIgF4IqF4UJ393KrWFqry5ury7CF1xWr4rWryF
-	9w1qvw1Fvr1jgosvyTuYvTs0mTUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbSxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
-	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-	vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4BHqDUUUU
 
-LS7A HD-Audio disable interrupts and use polling mode due to hardware
-drawbacks. As a result, unsolicited jack events are also unusable. If
-we want to support headphone hotplug, we need to also poll jack events.
+'struct i2c_device_id' is not modified in this driver.
 
-Here we use 1500ms as the poll interval if no module parameter specify
-it.
+Constifying this structure moves some data to a read-only section, so
+increase overall security.
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+While at it, also add some space to be consistent with cs42l51_of_match a
+few lines below.
+
+On a x86_64, with allmodconfig:
+Before:
+======
+   text	   data	    bss	    dec	    hex	filename
+   1551	    384	     16	   1951	    79f	sound/soc/codecs/cs42l51-i2c.o
+
+After:
+=====
+   text	   data	    bss	    dec	    hex	filename
+   1631	    304	     16	   1951	    79f	sound/soc/codecs/cs42l51-i2c.o
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- sound/pci/hda/hda_intel.c | 2 ++
- 1 file changed, 2 insertions(+)
+Compile tested-only.
+---
+ sound/soc/codecs/cs42l51-i2c.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index b4540c5cd2a6..5060d5428caf 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -1867,6 +1867,8 @@ static int azx_first_init(struct azx *chip)
- 		bus->polling_mode = 1;
- 		bus->not_use_interrupts = 1;
- 		bus->access_sdnctl_in_dword = 1;
-+		if (!chip->jackpoll_interval)
-+			chip->jackpoll_interval = msecs_to_jiffies(1500);
- 	}
+diff --git a/sound/soc/codecs/cs42l51-i2c.c b/sound/soc/codecs/cs42l51-i2c.c
+index e7cc50096297..f171bd66fcac 100644
+--- a/sound/soc/codecs/cs42l51-i2c.c
++++ b/sound/soc/codecs/cs42l51-i2c.c
+@@ -13,9 +13,9 @@
  
- 	err = pcim_iomap_regions(pci, 1 << 0, "ICH HD audio");
+ #include "cs42l51.h"
+ 
+-static struct i2c_device_id cs42l51_i2c_id[] = {
+-	{"cs42l51"},
+-	{}
++static const struct i2c_device_id cs42l51_i2c_id[] = {
++	{ "cs42l51" },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(i2c, cs42l51_i2c_id);
+ 
 -- 
-2.43.5
+2.47.0
 
