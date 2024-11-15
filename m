@@ -1,136 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646D67346D;
-	Fri, 15 Nov 2024 23:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14201193067;
+	Fri, 15 Nov 2024 23:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731711962; cv=none; b=Zt5EgP+P8LLQ6KkbB97EIjI0QsZD1kn9RSNJsUknVjk6ov2XKG9Mr7vhkdKprYtaOFmMaQ4DquXM7pxe38H436mo/jzzr8xB6UWRTMyEQt2F5hJa2rYBzPgam4l1QXjiNRn9iTD2evim+dQRB5kOqiQ8D+lVKZq6rdy9GMuBU7g=
+	t=1731712849; cv=none; b=Yqny0HZ3VwYzs1sKJOB5ctqlsHOB+mV8KUgeKS4Kw40j4uaiWv9JNlM/Pk0NOknX/7ftkn1sQamElJJYD2R23KUUVBz5KMEwc/73KCzs1UDwrpMkcPX5o1kJYjJO9cE5k9T2xTYKxhoKsugUM0MFTE3CI6vShg2izrn+ej+Ui7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731711962; c=relaxed/simple;
-	bh=e/qjcGC/Gz+mw55kmBF1sqB0PcOV6jBJy2tWUAT/rrA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sNGU4sMO1s+SUeTeEyBzfepF8PgLZHqygEhbuzH3Q14X2NLh4kel2kzdqCdMUjsk2sRz61gdnFRlc2sOWUN0ZbTlg/liFBNsydDlP8JF+Ng+pkXunE8VdvLF/5vRc2YAww7fHIZ527Gg8/XPVfG3kTDZjLH6RZ5XkGtqosScjok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nbpOA4J6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731712849; c=relaxed/simple;
+	bh=aHBaGiFTzA9hi/c3ULYVgr+MH6ar7nzsPVpxqhlR3d0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qReqhrbXA4BTNdYF06GnI1OqwyA+VAcVP2a9b+CeH7jsEZ1KpILmr9Wi2pmU34ZR6F5odXwsXVFkAVzYmYO/lGPIAlh9okqpQ+fqTGk6iXdrNNmVMvi+UMATpaAzeizp0J/0ELOX6RPLGpseXn2CqrzAB8PqkQXp3VNs1888tBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=SaYzzMZW; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o0jZxjqE; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nbpOA4J6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF8F9C4CECF;
-	Fri, 15 Nov 2024 23:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731711961;
-	bh=e/qjcGC/Gz+mw55kmBF1sqB0PcOV6jBJy2tWUAT/rrA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nbpOA4J6ApxLj+x+T5PhlAzZATCwyQyhz9cFaeuFTriSV4jNBgkbcr+YnT33CYU8f
-	 eb8CEWGe+UYmE2Z1tYhdoNvTCMqp/8kQiVF+u4FiY0b6NUVDACoDDBTYWU4G2s+c5i
-	 4CmvxKD8UuBy1FbWwC/Tr5lR5qYs6ArlnuKhMyv+o9vfI4QT5aAEwNOT9K9xvWwCFC
-	 Q6EVTnvXodkHea6AHDiFU8u7n6qvsNnp3gJGfR54eNhE6qBSNIjR2C8nixbI9E1jIc
-	 qc2mh+B1ItHKTHebK/Fv2URc/CxqJzilq8FPBpLHWa7fz90Xj/2piDikKkbT4IPave
-	 Y30wzoHEagrsg==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Sudeep Holla <sudeep.holla@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	arm-scmi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH] firmware: arm_scmi: fix i.MX build dependency
-Date: Sat, 16 Nov 2024 00:05:18 +0100
-Message-Id: <20241115230555.2435004-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="SaYzzMZW";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o0jZxjqE"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1731712845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocF2UaqffllWgiGWdH3dEXBRLSQ8zx6v3UTSvYUEWBM=;
+	b=SaYzzMZW0ZsY0TGo8HlsbXzuUvCi20iDEgp+8ohYBSE4TZQXRHLKLbged2BOetLpsx4OkO
+	tbZB0k+QLCEJmNzJNJ7TX06kODrXybKEr0MN0pB2oucYCsCZhXwiPTvkrVYx4d0RSom1W9
+	M5V6DhOs4++KN4sHh/UkGD4PfYSgL/msvq0en1H26aBKpf6quxCthUWooMmyaT4o/QkfC2
+	lCNSo4ipp434fYIwklbWGy8m/kIcsHAL1J9mGF0JwBaNElltRXstfx+KSUKFTEf5oJlO1l
+	imvGv9XAnBM1fMHYuOdaaDvDY2O6X0pakSlzfvsLT9wL98INhCHIDkaV3HsBDQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1731712845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ocF2UaqffllWgiGWdH3dEXBRLSQ8zx6v3UTSvYUEWBM=;
+	b=o0jZxjqE/bb/KZAxT0liDWVEJtakeTQr/m7JfpgliBKuwvw5FjJoNIULPPZ+hcCbxwHCjD
+	VmO8h0eWyvF8dzAA==
+To: Easwar Hariharan <eahariha@linux.microsoft.com>, Jeff Johnson
+ <quic_jjohnson@quicinc.com>
+Cc: eahariha@linux.microsoft.com, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cocci@inria.fr,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen
+ <anna-maria@linutronix.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Naveen N Rao <naveen@kernel.org>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Louis Peens <louis.peens@corigine.com>,
+ Nicholas Piggin <npiggin@gmail.com>, Michael Ellerman
+ <mpe@ellerman.id.au>, Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, Lucas Stach
+ <l.stach@pengutronix.de>, Takashi Iwai <tiwai@suse.com>, Jaroslav Kysela
+ <perex@perex.cz>, Petr Mladek <pmladek@suse.com>, Joe Lawrence
+ <joe.lawrence@redhat.com>, Miroslav Benes <mbenes@suse.cz>, Jiri Kosina
+ <jikos@kernel.org>, Josh Poimboeuf <jpoimboe@kernel.org>, Ilya Dryomov
+ <idryomov@gmail.com>, Xiubo Li <xiubli@redhat.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Scott Branden
+ <sbranden@broadcom.com>, Ray Jui <rjui@broadcom.com>, Florian Fainelli
+ <florian.fainelli@broadcom.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Luiz Augusto von Dentz
+ <luiz.dentz@gmail.com>, Johan Hedberg <johan.hedberg@gmail.com>, Jens
+ Axboe <axboe@kernel.dk>, Marcel Holtmann <marcel@holtmann.org>, Kalle Valo
+ <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Roger Pau =?utf-8?Q?Monn=C3=A9?=
+ <roger.pau@citrix.com>, Jack
+ Wang <jinpu.wang@cloud.ionos.com>, Andrew Morton
+ <akpm@linux-foundation.org>, "Martin K. Petersen"
+ <martin.petersen@oracle.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, James
+ Smart <james.smart@broadcom.com>, Dick Kennedy
+ <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Jeroen de Borst <jeroendb@google.com>, Shailend Chand
+ <shailend@google.com>, Thomas Zimmermann <tzimmermann@suse.de>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Oded Gabbay <ogabbay@kernel.org>, Ofir Bitton
+ <obitton@habana.ai>, Sven Schnelle <svens@linux.ibm.com>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko
+ Carstens <hca@linux.ibm.com>, Russell King <linux@armlinux.org.uk>, Robert
+ Jarzmik <robert.jarzmik@free.fr>, Haojian Zhuang
+ <haojian.zhuang@gmail.com>, Daniel Mack <daniel@zonque.org>, Nicolas Palix
+ <nicolas.palix@imag.fr>, Julia Lawall <Julia.Lawall@inria.fr>, Simon
+ Horman <horms@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski
+ <kuba@kernel.org>, Eric Dumazet <edumazet@google.com>, "David S. Miller"
+ <davem@davemloft.net>, Jozsef Kadlecsik <kadlec@netfilter.org>, Pablo
+ Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [PATCH v2 00/21] Converge on using secs_to_jiffies()
+In-Reply-To: <8127a2e6-fa62-4c85-b7ed-24748cc9e285@linux.microsoft.com>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <10ee4e8f-d8b4-4502-a5e2-0657802aeb11@linux.microsoft.com>
+ <3ac480f5-549b-4449-baa9-f766e074c409@quicinc.com>
+ <8127a2e6-fa62-4c85-b7ed-24748cc9e285@linux.microsoft.com>
+Date: Sat, 16 Nov 2024 00:20:50 +0100
+Message-ID: <87plmwytgt.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Fri, Nov 15 2024 at 14:15, Easwar Hariharan wrote:
+> On 11/15/2024 1:41 PM, Jeff Johnson wrote:
+>> 
+>> How do you expect this series to land since it overlaps a large number of
+>> maintainer trees? Do you have a maintainer who has volunteered to take the
+>> series and the maintainers should just ack? Or do you want the maintainers to
+>> take the individual patches that are applicable to them?
+>> 
+>> /jeff
+>
+> I am hoping for tglx to take it through his tree since the patch
+> introducing secs_to_jiffies() is in his tree, so sequencing of
+> dependencies would not be an issue.
 
-The newly added SCMI vendor driver references functions in the
-protocol driver but needs a Kconfig dependency to ensure it can link,
-essentially the Kconfig dependency needs to be reversed to match the
-link time dependency:
+Right, but it's two days before the merge window opens, so no.
 
-arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
-fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
-arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
-fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
+> But if tglx won't, we could push it out another cycle and individual
+> maintainers can take the patches that are applicable to their tree for
+> the series.
 
-This however only works after changing the dependency in the SND_SOC_FSL_MQS
-driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
-driver it depends on. This is generally a bad idea, so the best solution
-is to change that into a dependency.
+That's the easiest way forward as it does not create conflicts and all
+maintainers will have the base patch in their trees after rc1.
 
-To allow the ASoC driver to keep building with the SCMI support, this
-needs to be an optional dependency that enforces the link-time
-dependency if IMX_SCMI_MISC_DRV is a loadable module but not
-depend on it if that is disabled.
+Thanks,
 
-Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
-Fixes: 101c9023594a ("ASoC: fsl_mqs: Support accessing registers by scmi interface")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-I'm not sure this is the version we want to go with in the end, without
-having read the code in detail, but the version in linux-next is clearly
-wrong in multiple ways and this is the best I could come up with so far.
-
-If we can agree on this approach, it needs to go through the ASoC tree
-as that contains the 101c9023594a commit at the moment.
----
- drivers/firmware/arm_scmi/vendors/imx/Kconfig | 1 +
- drivers/firmware/imx/Kconfig                  | 1 -
- sound/soc/fsl/Kconfig                         | 2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/firmware/arm_scmi/vendors/imx/Kconfig b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-index 2883ed24a84d..a01bf5e47301 100644
---- a/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-+++ b/drivers/firmware/arm_scmi/vendors/imx/Kconfig
-@@ -15,6 +15,7 @@ config IMX_SCMI_BBM_EXT
- config IMX_SCMI_MISC_EXT
- 	tristate "i.MX SCMI MISC EXTENSION"
- 	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
-+	depends on IMX_SCMI_MISC_DRV
- 	default y if ARCH_MXC
- 	help
- 	  This enables i.MX System MISC control logic such as gpio expander
-diff --git a/drivers/firmware/imx/Kconfig b/drivers/firmware/imx/Kconfig
-index 477d3f32d99a..907cd149c40a 100644
---- a/drivers/firmware/imx/Kconfig
-+++ b/drivers/firmware/imx/Kconfig
-@@ -25,7 +25,6 @@ config IMX_SCU
- 
- config IMX_SCMI_MISC_DRV
- 	tristate "IMX SCMI MISC Protocol driver"
--	depends on IMX_SCMI_MISC_EXT || COMPILE_TEST
- 	default y if ARCH_MXC
- 	help
- 	  The System Controller Management Interface firmware (SCMI FW) is
-diff --git a/sound/soc/fsl/Kconfig b/sound/soc/fsl/Kconfig
-index 8e88830e8e57..678540b78280 100644
---- a/sound/soc/fsl/Kconfig
-+++ b/sound/soc/fsl/Kconfig
-@@ -29,8 +29,8 @@ config SND_SOC_FSL_SAI
- config SND_SOC_FSL_MQS
- 	tristate "Medium Quality Sound (MQS) module support"
- 	depends on SND_SOC_FSL_SAI
-+	depends on IMX_SCMI_MISC_DRV || !IMX_SCMI_MISC_DRV
- 	select REGMAP_MMIO
--	select IMX_SCMI_MISC_DRV if IMX_SCMI_MISC_EXT !=n
- 	help
- 	  Say Y if you want to add Medium Quality Sound (MQS)
- 	  support for the Freescale CPUs.
--- 
-2.39.5
-
+        tglx
