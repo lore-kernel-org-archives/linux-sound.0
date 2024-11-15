@@ -1,111 +1,163 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0621DFFD
-	for <linux-sound@vger.kernel.org>; Fri, 15 Nov 2024 07:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60F242AA3;
+	Fri, 15 Nov 2024 08:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731654246; cv=none; b=NFNC2K65zKngF8kXlq231GL0ADJGkq1a2DHsc+hrOmiOHw6v8WuyqE0bWmQtyuSLY1vSIPOx8Lw2ftJpZ2zXoPYY6PpFRttVRDL+p+lqMD/Mh6NsUoL/iqIBZbSLrYuSRD1JZYSSh10DM9+J0g4tRMFBHV6/uacwyolwg1lSD+A=
+	t=1731658801; cv=none; b=E+RcbXyE0hoJ+40luqYPYwVNfpZrvu8tyr0GAmCLiRiiuo83ZFOCJh/M0veTj/z3ZjWTyQtDSyurje9/AqZY56Pb20y1jL5h0HQLgukqc0IqwOW3lc5KIxY2R9+THeXUmuQqSXpxplCkh7kn4Mpc8MT78iD+j/buvskAjGtl0uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731654246; c=relaxed/simple;
-	bh=/gQa+AAzsMOCTBdSpSgTZeMXYgSmQafHAN36EAUBUCY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WGje/dNZvAGYA8wCCvDCluiby0Tay+8IvNr5yrMWgjwaFC0KmSYGOIkoSy8318zyfTjM4Z803+7YlfQZUieI3lQmpHreE16elYEy3Ack5Z0QmAmLDU3wCZMid3/bz1HZQv/jJEgvrywoLl8xcccYXbuSc4bua4Cwe3y1hB5RJ0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xq10XJxc; arc=none smtp.client-ip=209.85.166.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731658801; c=relaxed/simple;
+	bh=EPIJWquNJXJ1mIWez9vQUyqrd8TEHhNHe09McgvSzEI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JmS1URSZvMAM81kdfcFsfiEsO4JcPWxO1M8xGyCYiB02/+CH0tvaGHCOn6EypgSz33I7gNbbCTDPVkFAzT2AH9tXaZFvVGOhVTlkBmeJ8GUHTpJhAo0OUhFjIsMDRWUZ3XsOnQY6WNQ6CX2/BsQg9DID+ZCix0K9III7KML6TUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wSSwXWjT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pK/eawzK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S/ekDse9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F3wZq/SB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xq10XJxc"
-Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3a4e5a7b026so1233825ab.3
-        for <linux-sound@vger.kernel.org>; Thu, 14 Nov 2024 23:04:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731654242; x=1732259042; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HsPrhcE+0wOhQ0UFNclRCtmPomSqHnfw2nB7AfJcaYw=;
-        b=Xq10XJxcu0nO4lcUmE6k5UeawAnyFO74M7Tw9nrwPGDybH32Y4z2HVaznJqfLA7xkb
-         KQ6VGwRNCwo7uf1ShZcs1XRlZOgvwLonao3uRIin0bXcb55rjfveNGLk0h0OKgLK49Bv
-         zYBaBOXmnptq1xRh3FPXWkJ/G8RIIPv+HlAUzwYysuOIyLb06JULy1R7yy2NetuYSLC1
-         XRpyrsloTl1nbvOYby/39hvo0T193pvy8D8aYcxj+Bt+bPmEkbzxmEbSxIgnrvZOFArx
-         b2pfvTmqj8P1n8ZVuvIdUn+LFnIB1Fhayb+Y/xhOrz+lI98mVzP6AqcIPZ8PaoTQUIPz
-         yopw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731654242; x=1732259042;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HsPrhcE+0wOhQ0UFNclRCtmPomSqHnfw2nB7AfJcaYw=;
-        b=ONpe8JPxFZcuEFzfL7EvCW8PuM4rCeeZCdf/X1cKJY0X4KQh6XdKgXiJNpjbtkkHhS
-         kWapPHqalJzPt+oyO2Kqvj89Y9Iv2J3ufb9IcvovFkArVbknAR7Tb8EWSzWus8OxUFD4
-         0w8wewWgUbzmqmiTbB646AF4dNl2U9xskEHt2aPJdVoGtadFs6MoWmW2TDmbCPqp+zKW
-         5yFAAVd9CGsT2IYaSmGtgfjIBlA61s2bfDCm0smlhBhpkdkymu+IbxmONGAA15FELNmG
-         djPKYfAdt9SrJSob2orom0GyeEbOBDtoCCeOa0/Di69ElNMrCidXcr5HWzM/3mY5/nVr
-         LK1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUpcawvaTT/MwlCZI0OVDxJgTjRf2MQQxwbjQKbuwbiKCLdw8PzI9j1EgaAfgdpu/OPOsua9qt992rRyg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIUgwo1cgolmmM0LUPN3earQ5ZGPjmFQXMKKBhad8RVFhj/2cT
-	CFlHMC4JC4PKCX/rF7ngUadUBFNmhPUzAaIstXRkiMb/DQMV49XhqhqWRFYvNhI6ad51suyUEOG
-	CnTYE7T+DSXtdPcEOhdhrijOTLjg=
-X-Google-Smtp-Source: AGHT+IEtsEzuxTFVYUEtGRJ17ltNdc3B8CWdUjAK/NkVesj+VHxHxo69gD7qxhlfC640Txa54IvI2/V23E1N9t8qlpw=
-X-Received: by 2002:a05:6e02:1d88:b0:3a6:ac4e:2659 with SMTP id
- e9e14a558f8ab-3a74800f183mr17959245ab.6.1731654242441; Thu, 14 Nov 2024
- 23:04:02 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wSSwXWjT";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pK/eawzK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S/ekDse9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F3wZq/SB"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D6E39211F9;
+	Fri, 15 Nov 2024 08:19:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731658798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z6loe5mwuNp8SD+WgZ2xYTjNSfnf6EhgG8xZm+HSkQU=;
+	b=wSSwXWjTMPqsFyoHxSWCUsy8JhafdIWDWM6Ezl3YtszU2fUb0Nfi8wT3A4eRXL9/NHLAR3
+	xL2gMs8OGvN9YnmeoJy9wE4M8adwOsfkcXsnyHwlzoaQLC743hNaT4UfX7am3zPc/fIJea
+	lZhG+gH7Hp0Ez5PQUiCQ2zlk5gHVfgY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731658798;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z6loe5mwuNp8SD+WgZ2xYTjNSfnf6EhgG8xZm+HSkQU=;
+	b=pK/eawzKTIl2EDa0ZlOg4fZ6jqg/VF7DC5QK4YuUydM8YROULGW9boydAIAZPERMclYpEG
+	aPv6m4H4awYmoXAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731658797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z6loe5mwuNp8SD+WgZ2xYTjNSfnf6EhgG8xZm+HSkQU=;
+	b=S/ekDse9tLjwZ8bqb8eO1HsBwgMD8qyCkrdU7E8+lqV0NeUmzWVEO8ZozyQYIvhYB4hKdH
+	kHYEgtMHlaBd80YaRqdSB4BvP0kDTjPJrRC9aCziftmbkDnDQ+N5LXqfvHCwAK0HcYXqlV
+	bf9hbVuAQPlPCpAF3myEr2aCqdb66mc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731658797;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Z6loe5mwuNp8SD+WgZ2xYTjNSfnf6EhgG8xZm+HSkQU=;
+	b=F3wZq/SBhcEym07aHZTt6PAAWwKkmvZjrF1YV62jpc6Xw03NypS9Y6BGnsaKTfz59aJt5c
+	Wkkzf8xJi/RWhcAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8BA99134B8;
+	Fri, 15 Nov 2024 08:19:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 7VzYIC0EN2fCLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 15 Nov 2024 08:19:57 +0000
+Date: Fri, 15 Nov 2024 09:19:57 +0100
+Message-ID: <87jzd4syc2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Wade Wang <wade.wang@hp.com>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	kl@kl.wtf,
+	wangdicheng@kylinos.cn,
+	k.kosik@outlook.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix control names for Plantronics/Poly Headsets
+In-Reply-To: <4717b9c4-8d9f-40d8-903e-68be30ac7d82@cosmicgizmosystems.com>
+References: <20241114061553.1699264-1-wade.wang@hp.com>
+	<87plmythnv.wl-tiwai@suse.de>
+	<4717b9c4-8d9f-40d8-903e-68be30ac7d82@cosmicgizmosystems.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241115065610.39112-1-hanchunchao@inspur.com>
-In-Reply-To: <20241115065610.39112-1-hanchunchao@inspur.com>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Fri, 15 Nov 2024 15:03:50 +0800
-Message-ID: <CAA+D8AMG5VpOk2PXOqUaLV1XwyBa3B2Mbdnc0+v3ArwWmkC5uA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: imx-audmix: Add NULL check in imx_audmix_probe
-To: Charles Han <hanchunchao@inspur.com>
-Cc: viorel.suman@nxp.com, kernel@pengutronix.de, s.hauer@pengutronix.de, 
-	shawnguo@kernel.org, tiwai@suse.com, perex@perex.cz, broonie@kernel.org, 
-	Xiubo.Lee@gmail.com, imx@lists.linux.dev, inux-arm-kernel@lists.infradead.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[outlook.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[suse.de,hp.com,perex.cz,suse.com,kl.wtf,kylinos.cn,outlook.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Fri, Nov 15, 2024 at 2:56=E2=80=AFPM Charles Han <hanchunchao@inspur.com=
-> wrote:
->
-> devm_kasprintf() can return a NULL pointer on failure,but this
-> returned value in imx_audmix_probe() is not checked.
-> Add NULL check in imx_audmix_probe(), to handle kernel NULL
-> pointer dereference error.
->
-> Fixes: b86ef5367761 ("ASoC: fsl: Add Audio Mixer machine driver")
+On Thu, 14 Nov 2024 19:44:52 +0100,
+Terry Junge wrote:
+> 
+> Thanks Takashi,
+> 
+> On 11/13/24 11:10 PM, Takashi Iwai wrote:
+> > On Thu, 14 Nov 2024 07:15:53 +0100,
+> > Wade Wang wrote:
+> >>
+> >> Add a control name fixer for all headsets with VID 0x047F.
+> >>
+> >> Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+> >> Signed-off-by: Wade Wang <wade.wang@hp.com>
+> > 
+> > Thanks for the patch, but from the description, it's not clear what
+> > this patch actually does.  What's the control name fixer and how it
+> > behaves?
+> 
+> It will be better described in the v2 patch.
+> 
+> It modifies names like
+> 
+> Headset Earphone Playback Volume
+> Headset Microphone Capture Switch
+> Receive Playback Volume
+> Transmit Capture Switch
+> 
+> to
+> 
+> Headset Playback Volume
+> Headset Capture Switch
+> 
+> so user space will bind to the headset's audio controls.
 
-The fixes tag should be:
-05d996e11348 ("ASoC: imx-audmix: Split capture device for audmix")
+OK, that makes sense.  I suppose that both "Headset Earphone Playback
+Volume" and "Receive Playback Volume" don't exist at the same time,
+right?
 
-Best regards
-Shengjiu Wang
 
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
-> ---
->  sound/soc/fsl/imx-audmix.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/sound/soc/fsl/imx-audmix.c b/sound/soc/fsl/imx-audmix.c
-> index dcf770b55c4b..231400661c90 100644
-> --- a/sound/soc/fsl/imx-audmix.c
-> +++ b/sound/soc/fsl/imx-audmix.c
-> @@ -274,6 +274,9 @@ static int imx_audmix_probe(struct platform_device *p=
-dev)
->                 /* Add AUDMIX Backend */
->                 be_name =3D devm_kasprintf(&pdev->dev, GFP_KERNEL,
->                                          "audmix-%d", i);
-> +               if (!be_name)
-> +                       return -ENOMEM;
-> +
->                 priv->dai[num_dai + i].cpus     =3D &dlc[1];
->                 priv->dai[num_dai + i].codecs   =3D &snd_soc_dummy_dlc;
->
-> --
-> 2.31.1
->
+Takashi
