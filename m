@@ -1,100 +1,106 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A74419CD08;
-	Fri, 15 Nov 2024 11:49:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882F0190056
+	for <linux-sound@vger.kernel.org>; Fri, 15 Nov 2024 13:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731671376; cv=none; b=nx0DV/kmwiAquiQGRFrPU4vWLx4PGkmCXIUE2XAguKuozX3iFDKpZ+hGAY71x2iw4mDzyuQX72yv756ocl8YK+I2oh5HQJJeH2L5q4CbnY4TZmb4NxPekQ2HJSTznfDulPtbRE/I2MySHX/DCQD6Bhls1GwnKeos14IksKC13hc=
+	t=1731676124; cv=none; b=MPCR3Z2LKL9pgDOmtp2PKwVBb6wfBKm9nKlnwUSXJ5h6LcUkA+K/JhHJKtmf/JqoD/0R1mBh9ikDVGyIuHcHJ33MKXAKD3/cxE1QB38Tfg4EXWPyZTyHIp7gB+gZIxRe9ZKZpvbcUtJ+IEf4jhaTn2YHc3kMskR8p6c7ZKHuMpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731671376; c=relaxed/simple;
-	bh=4LLiP+VUFm3qOSVLMN2/ir4nxnih7Y21VZucPwfBf98=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y9rPZy/iiNFwYD5JrH85ljAU34bn+V5HjE3b0hjqBnlNe5qzD2htKiquxqVM9lTauIuRJNEpFy2PJNEl9Dxq12Wa5m3Yo8VGneSfobclRDjFa9XsNaq8BH4XyVcFQH8dko2LnW5beP1MiDUMngI6gl/2cz8SNnfJ3vI+9vshbgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWIQwZfd; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731676124; c=relaxed/simple;
+	bh=vKXTlXk5EdhE9ocWza8ZBBl5KCXWXlXlJCOYdappd/0=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=fPy3IABKQ9wpls0USd7TbB9uoNQ4dC2GcmV22jv70+8a4kSg6ZZQMS9XfDEbz+PkCskTXI1b7JVz5Zpeab4IvZ568k5wl8P3Nol7dVglIFZl7C+rQ8lAXDBsY1/B7GXZj1z6PO9yVBOqKrVXudmS8je/CJFqwY5Q1gJNjJW0ZhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--bsevens.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Nex7+aUT; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--bsevens.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWIQwZfd"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20cbcd71012so19329095ad.3;
-        Fri, 15 Nov 2024 03:49:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Nex7+aUT"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-e384d715e96so521622276.2
+        for <linux-sound@vger.kernel.org>; Fri, 15 Nov 2024 05:08:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731671373; x=1732276173; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KtoZGAEyQBCnhyYoL/bdON4aQAbKow6V3dd3ML98XEo=;
-        b=jWIQwZfdTPDUDX74BUwXNAThgI2vhWZihy7tRr3XgHGjd9bpGB+tj9VFdU2HSoPEqD
-         OiPKlX/SBlrP81D2PDnmQKIk7vrUhM0MjnlHzDXwWvLJ8dLodJbgzlYVgZS4EpTVUecM
-         LB5X668zuIqerYSz3Wgb+AHGjRtH75UXfZuHzKWkUKIgrm2H1rhi2AHBdh1TWLpCtbmA
-         3uC9MxBoE3nD6YuPu86MFQ0kNOBwFFNn77dbi+/+77n9wyMY27Ou6Fl3QnUWdu/txA+z
-         9JqHlUDRJWlHjB0koC73b6KMndpxOWcuu8fmpR1iEs62zN7mM+idRqFtAgXCafnX275p
-         o9RA==
+        d=google.com; s=20230601; t=1731676121; x=1732280921; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=a6vl797uG55ZBhU/GE8En5eQRqUo0AHaNmsJiyzRWqs=;
+        b=Nex7+aUT2e91FrMiLQWaYkv53LEaryTMEAwJ0k+7UoUijttvGqlq0hnIYnBMh6/SUy
+         sCinsbVEHf31SKRLLp/ccL0906vYj5HEKfYobW2FRYpgDhsZrp5J7MnL2yCDbnBV3Sl8
+         bS0SuMOPbTk9hf+e4caBw1LMIPxemoHSeuEnycDsTeDhQfmn4rbgzXk4ELsZcN0sHG+J
+         QwTZS15e10n4uPzd7ptl3lF95LZZAEsF8DQgfAuZRcAJa0JepsnTwPO1mosN9KyTkach
+         z1jSuZBAE87dFZUrNAKIcdEpassupV7YuqTOIWrAZlHSVj2d/WhmvflPm9cuXceznnFB
+         KxwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731671373; x=1732276173;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KtoZGAEyQBCnhyYoL/bdON4aQAbKow6V3dd3ML98XEo=;
-        b=Nz/LATwW6sAIpwsRNGAMe83ZcGsLk1bSvf6ueI1+RQtJmYu7GK8dGjv7c0gt4x2KSa
-         H/Ajjh36GTQ9breTGh6d0yUZNdeHa4n/tdoU3wUyzuD2cLucg1+VIQ/UEEFbDl3gqClE
-         gUtrp7lC8d75TTD7f+SITC7uGsPAyNh7RCFEg+RKshiwrQf3ygwraWfuoM+84kxpeCPs
-         eRSQL0lsgoxQ2i2TIbmhGdMHhFya07YGrs/vGZgCVfh/GryzyXKnc7pf+/wTHUZzHcqR
-         6UJ16b4Sfb5lWlBFdosMbLoccgNbtoR+IUDzccZhMx+z716MwUB5xQe8qx+1+kZdZafP
-         XB9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVQgxaZdqMwtWeekgLqmyRqaMYUph2lmXpRYypKruH0tEOFPLTVlcpgEHUljAqQ8DvakJQsJJ88lNMDWpw=@vger.kernel.org, AJvYcCXSGCl/D5FtasrvMLq7/PXna12PCrSfqaY5tmMb2lmUSfRz7JnNCZ8JirMv5Fes0noOfwrQ3ye28UMT9g0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwViNYQzsQCs10hhtQnNbmNtKzJOJIwHHzYH22TrQwu12f4BBT
-	oWiJeM5nOE0sUZ6H5AY7uSY7X1yWKZcf+zmz3JSxcbrCA3Kqo/Js4QI2fm3y
-X-Google-Smtp-Source: AGHT+IE5sTGzwQKuTH0On3cSqtf2nsawCLjUF0bcqmiQ/aTjp84Xc+l7NZt2tv8FVSZSvOI7ACAIyQ==
-X-Received: by 2002:a17:902:d50a:b0:20c:8331:cb6e with SMTP id d9443c01a7336-211d0d818c6mr34430995ad.19.1731671373536;
-        Fri, 15 Nov 2024 03:49:33 -0800 (PST)
-Received: from HOME-PC ([223.185.134.27])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f47b2csm10469315ad.219.2024.11.15.03.49.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2024 03:49:33 -0800 (PST)
-From: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-To: frattaroli.nicolas@gmail.com,
-	linux-rockchip@lists.infradead.org
-Cc: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	heiko@sntech.de,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-Subject: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call issue
-Date: Fri, 15 Nov 2024 17:19:24 +0530
-Message-Id: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1731676121; x=1732280921;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=a6vl797uG55ZBhU/GE8En5eQRqUo0AHaNmsJiyzRWqs=;
+        b=FaPuw157b0y/dhNa+QY0IRRVeUzbTqrjsC9JL7PmX8y+/Jt4JNZyphVhiimm+fQsma
+         ke7pHWiRRxAd2gDlMOZ4xQ+Dihflg+LbvS5rYPY2cESNgoj/RzbLKk9ZM2H6WiufiOqp
+         GAkiWiHvY10VHMmSKp5eS/kDYtFgu0ime/+3eN252iluAdBek4JBudA+I/+Jd81n72lh
+         eQfaLlQR3PLFS5cXSB13zNr85YGGz+0y2BjX1Ffxa7PlkqR8+I5DpRc0gj8ksx14TbYL
+         cBVzD3HLByO9SFncXjKppzvHSpOlOg+bsKW0R0/H6JXAg3Tw0P2VK0rkkp9hOFGPXLt5
+         svrw==
+X-Gm-Message-State: AOJu0YzN9ZejIUqYOs2TRxhmXOdQm/FRA2JP9Z1yaYz36mdQ5oOicg8B
+	BJnlJ/Ln1JJS86Xnj7Avmddqyw5RXORNn0NJtJaIeaNyymhXAmL9Uzob9UZKOfb8Wmnaa/1lcsg
+	4Nu+zcg==
+X-Google-Smtp-Source: AGHT+IHR8Fd/xL3xiCHbQp6aZXB6w5mTFY75n0oUfkXYgpaMfqSuNlK6eBLJQv9r5I1Ro+dg9QsaIALCUk0B
+X-Received: from bsevens.c.googlers.com ([fda3:e722:ac3:cc00:28:9cb1:c0a8:22a4])
+ (user=bsevens job=sendgmr) by 2002:a25:2684:0:b0:e25:d46a:a6b6 with SMTP id
+ 3f1490d57ef6-e38265fcc4dmr124031276.8.1731676121460; Fri, 15 Nov 2024
+ 05:08:41 -0800 (PST)
+Date: Fri, 15 Nov 2024 13:08:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241115130833.1077260-1-bsevens@google.com>
+Subject: [PATCH] ALSA: usb-audio: Fix potential out-of-bound accesses for
+ Extigy devices
+From: Benoit Sevens <bsevens@google.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Lianqin Hu <hulianqin@vivo.com>, 
+	Manuel Barrio Linares <mbarriolinares@gmail.com>, wangdicheng <wangdicheng@kylinos.cn>
+Cc: linux-sound@vger.kernel.org, Benoit Sevens <bsevens@google.com>, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This commit fixes a useless call issue detected by Coverity
-(CID 1507978). The call to rockchip_i2s_ch_to_io is unnecessary as its
-return value is never checked or used.
+A bogus devices can provide a bNumConfigurations value that exceeds the
+initial value used in usb_get_configuration for allocating dev->config.
 
-Signed-off-by: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+This can lead to out-of-bounds accesses later, e.g. in
+usb_destroy_configuration.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@kernel.org
+Signed-off-by: Benoit Sevens <bsevens@google.com>
 ---
- sound/soc/rockchip/rockchip_i2s_tdm.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/usb/quirks.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-index d1f28699652f..10f46fbe5175 100644
---- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-+++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-@@ -577,7 +577,6 @@ static int rockchip_i2s_io_multiplex(struct snd_pcm_substream *substream,
- 			return -EINVAL;
- 		}
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c5fd180357d1..970d36d13ad8 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -555,6 +555,7 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
+ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interface *intf)
+ {
+ 	struct usb_host_config *config = dev->actconfig;
++	int num_configs;
+ 	int err;
  
--		rockchip_i2s_ch_to_io(val, true);
- 	} else {
- 		struct snd_pcm_str *capture_str =
- 			&substream->pcm->streams[SNDRV_PCM_STREAM_CAPTURE];
+ 	if (le16_to_cpu(get_cfg_desc(config)->wTotalLength) == EXTIGY_FIRMWARE_SIZE_OLD ||
+@@ -565,8 +566,11 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
+ 				      0x10, 0x43, 0x0001, 0x000a, NULL, 0);
+ 		if (err < 0)
+ 			dev_dbg(&dev->dev, "error sending boot message: %d\n", err);
++		num_configs = dev->descriptor.bNumConfigurations;
+ 		err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+ 				&dev->descriptor, sizeof(dev->descriptor));
++		if (dev->descriptor.bNumConfigurations > num_configs)
++			dev->descriptor.bNumConfigurations = num_configs;
+ 		config = dev->actconfig;
+ 		if (err < 0)
+ 			dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
 -- 
-2.34.1
+2.47.0.338.g60cca15819-goog
 
