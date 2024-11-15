@@ -1,125 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294615383D;
-	Fri, 15 Nov 2024 17:33:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553821E2306;
+	Fri, 15 Nov 2024 18:59:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731692023; cv=none; b=ZPKqLJlbzP3yf6MIrMTyCiAjAbBZswi9A8zova7Qe/2xOQGHQAv/tvQ4Qxrj2cQuEmzmdTM7VmxvA2qJlV6W5cqIVdpC1gFJux1idfnxAWvKPODnv/7Gon0mwNI4qt0/RbmfcaO4IrV7MY7jbXcob5VE+Yf7cF9s4RW81eMbMlQ=
+	t=1731697147; cv=none; b=f3Rm+7uYzO7/gLxZd5QntVURELICvK09ruiVhZpxWcrFM/UK6qFOLIDeidwemzx9gWrfQ2HTmFCNr8Z88Kd4qLycFJfhuvaWx4/Mu/a162nsvdqMZYq0SxtcQgfbHFVeb4RHconHzRziBmDeCaot463lXbk7ZVNVTtLvwFFy3E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731692023; c=relaxed/simple;
-	bh=KAyTU2wbJPNWq+AnPPIg5jRJD0fH1t6QufJ8G6BdE+g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m4JN/F/FHOiVuvx5x2V1SC2cBU+m/7MZOrBp0ZTJ4G1pTM36S5UhMrQU7+R5ATlsOoB2TgC80o8WItNzkUizdsFnR8t/itLIMW0cONhWX7iO+q0McEnhRK7KKs5OZIqethgtBTl7swu6RWR/te3KrDWgL2Y0jVLF5MBMfH8RaFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME/5oqI+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731697147; c=relaxed/simple;
+	bh=6tgPB6hEwpMupszGst2FI5CrWkJRUC5qJZcZHFGaF3U=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=QEGasvx2+8pwv2Qpw7iOfSoAzOtyaqg2mTx8Am36lQ3U5fDn/IGUTCFoD1jAvznbto8/O/vpSzk3slBWlbf9wox4plCP6E3qbfesdygTTl8LqaQytUefUbKfC2qkRXsdoJdMXQzjPgrXl66m3GIHNNmBwiP+7BvureUMtYKCD9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DJCvQurq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME/5oqI+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B938C4CECF;
-	Fri, 15 Nov 2024 17:33:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DJCvQurq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3148CC4CECF;
+	Fri, 15 Nov 2024 18:59:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731692022;
-	bh=KAyTU2wbJPNWq+AnPPIg5jRJD0fH1t6QufJ8G6BdE+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ME/5oqI+9A5m65Ks+FI//A2msRKaoqyZsf8e+ZghTz6L0qiyWlGJI6zbxAO4SjmJ7
-	 QTv6C9Js0yK/mIY90hePo9stLZfjatvVg5Osg7PVkMKaHT0MvI1wZrW3oSKUVrrsx/
-	 fGfxx9566+orfgW9/TF5/rWaUCIRJL1j60bX5O6M6XeVlZoojkhxIif/G6voPR++Ep
-	 VrwdwVo20M6h4e7coL8dKdFziZGDy/mJCEbWTJJrM4FiEFlyZUz2TeibmpDAKmTOCJ
-	 vQ7UCDJDzVsyXx8f8wbgt5GNWmZmeMiG+4/ghCKaLIrFD+MIHxbiGK4Uf5Pn5KYe17
-	 QzfRUhDaCSGow==
-Date: Fri, 15 Nov 2024 11:33:40 -0600
-From: Rob Herring <robh@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Mark Brown <broonie@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: add common binding for NXP CPUs
-Message-ID: <20241115173340.GA3436142-robh@kernel.org>
-References: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
- <20241113195240.3699-2-laurentiumihalcea111@gmail.com>
- <ZzUF+iFeKSqKGcpX@lizhi-Precision-Tower-5810>
+	s=k20201202; t=1731697147;
+	bh=6tgPB6hEwpMupszGst2FI5CrWkJRUC5qJZcZHFGaF3U=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=DJCvQurqqY1VUZRsBBCgQHwxoZEwyjZsGZaWYj0Y5QfaRtbbkmTvMZhjm/P8G8QBK
+	 xjC/6g4gLOPByD/9QCR6jhXg6gqZSlJmXCIgHm1qf7YaSoJtFzs6WeBvKpTPRBJxjF
+	 AppZYgOCzGKy4led6tl5IlPVDnqmjhB/1M4FUI5XjDpWMxsad5qf1eKyOeBZX2qwdW
+	 01ZKfFn0WscH3ah6ZPEYE4+dOGs28z8OsaSnh99Kc5+eJz1+P9ncOez5bU/NaDDNUD
+	 DKvuI8hBwyUKeXVxxTNUyzgbuBKZDM+ywVqFMJ9Kjc5t2ot0/95kmiK7gDzJH8GoNu
+	 3VUnuBk05e0pA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 349EF3809A80;
+	Fri, 15 Nov 2024 18:59:19 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.12
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <877c94stpv.wl-tiwai@suse.de>
+References: <877c94stpv.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <877c94stpv.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12
+X-PR-Tracked-Commit-Id: 5ec23a1b53a98dbd7ea33954db5f0fe7110903aa
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: eeae5ef6bf76b1d828eff26d2ae393cfebac72ad
+Message-Id: <173169715782.2685462.13336643957091062645.pr-tracker-bot@kernel.org>
+Date: Fri, 15 Nov 2024 18:59:17 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZzUF+iFeKSqKGcpX@lizhi-Precision-Tower-5810>
 
-On Wed, Nov 13, 2024 at 03:03:06PM -0500, Frank Li wrote:
-> On Wed, Nov 13, 2024 at 02:52:36PM -0500, Laurentiu Mihalcea wrote:
-> > From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> >
-> > Add common binding for NXP CPUs sharing the same programming
-> > model (i.e: audio processing with SOF).
-> 
-> Add binding for NXP audio processor with Sound Open Firmware (SOF) support.
-> 
-> >
-> > Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> > ---
-> >  .../bindings/sound/fsl,sof-cpu.yaml           | 35 +++++++++++++++++++
-> >  1 file changed, 35 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> > new file mode 100644
-> > index 000000000000..6d63fcd71154
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
-> > @@ -0,0 +1,35 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/sound/fsl,sof-cpu.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: NXP audio CPU common properties
-> 
-> audio processor?
-> 
-> > +
-> > +maintainers:
-> > +  - Daniel Baluta <daniel.baluta@nxp.com>
-> > +
-> > +properties:
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  mboxes:
-> > +    maxItems: 4
-> > +
-> > +  mbox-names:
-> > +    items:
-> > +      - const: txdb0
-> > +      - const: txdb1
-> > +      - const: rxdb0
-> > +      - const: rxdb1
-> > +
-> > +  memory-region:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - reg
-> > +  - mboxes
-> > +  - mbox-names
-> > +  - memory-region
-> > +
-> > +additionalProperties: true
-> 
-> example ?
+The pull request you sent on Fri, 15 Nov 2024 10:59:40 +0100:
 
-Common bindings generally don't have one.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12
 
-Rob
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/eeae5ef6bf76b1d828eff26d2ae393cfebac72ad
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
