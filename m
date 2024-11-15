@@ -1,151 +1,100 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1E4192D64;
-	Fri, 15 Nov 2024 09:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A74419CD08;
+	Fri, 15 Nov 2024 11:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731664785; cv=none; b=F0RdU9YhtqSx91I2IjIVkU1Vs85R171SYJuQZvm6UnVbt5QNNDEKD/vmZNVLD+JJFGBe+B7jbUvEATTUmgU0cLEKW2ZtF4119vn8qzkIYzHai7QDvL/nZCCXaZ9XaoYPYECKWdkfQiqAW/aQ3kUe7OI3Iz5MnxPObD3rETJtQno=
+	t=1731671376; cv=none; b=nx0DV/kmwiAquiQGRFrPU4vWLx4PGkmCXIUE2XAguKuozX3iFDKpZ+hGAY71x2iw4mDzyuQX72yv756ocl8YK+I2oh5HQJJeH2L5q4CbnY4TZmb4NxPekQ2HJSTznfDulPtbRE/I2MySHX/DCQD6Bhls1GwnKeos14IksKC13hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731664785; c=relaxed/simple;
-	bh=aNneLhG6ndUm6PgWRzbt0kR8VVlFoKPdIhn59X2H178=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=gl30XBMkKUQNbGaCw3kB9ZJNxwhaNpj2P8UR8Exq3rGq800P72QnI8lttoqhSZ+LDyI0s172YUHQip/chn4AvJxRd2rrv0gD7sta3zRGupZfwQFGJ4pFB3WZ8jr1uYlRN4EIbl63aJIgkyEXYcoEBc4f03J3nZq3dzj2IAa/JT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HrhlFTU6; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NfwlmhTU; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u9hXQfOV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FT5/TzqE; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1731671376; c=relaxed/simple;
+	bh=4LLiP+VUFm3qOSVLMN2/ir4nxnih7Y21VZucPwfBf98=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y9rPZy/iiNFwYD5JrH85ljAU34bn+V5HjE3b0hjqBnlNe5qzD2htKiquxqVM9lTauIuRJNEpFy2PJNEl9Dxq12Wa5m3Yo8VGneSfobclRDjFa9XsNaq8BH4XyVcFQH8dko2LnW5beP1MiDUMngI6gl/2cz8SNnfJ3vI+9vshbgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jWIQwZfd; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HrhlFTU6";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NfwlmhTU";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u9hXQfOV";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FT5/TzqE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A283B1F7BF;
-	Fri, 15 Nov 2024 09:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731664781; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=gl/T2RQ1L4pDQg5cdpxUzjXA9Vs2o4SR+xWtc9Ju0zg=;
-	b=HrhlFTU6pCOX5mp9DgF+EA35v6NMVmt86LC25HsYsyvIxVoOkIk+PsB5DU3XYxkRuiSdnR
-	yMd/8dadeHdDl85HDaBmhV1+lnsviscqKBUTwgTxt8+JCv+a8SRN/qUAFoiihRNR1r7NJR
-	MTrMUPrKAB7+fg/FBhAT+XwpPCVs+Mk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731664781;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=gl/T2RQ1L4pDQg5cdpxUzjXA9Vs2o4SR+xWtc9Ju0zg=;
-	b=NfwlmhTUSdhs+eEi9rtPmBmyJrasS2T4AuFCDUpVNiUu/+VnB7zCaD91VE1x351FxnnOSB
-	5EDLiJ5bCvUa3UDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731664780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=gl/T2RQ1L4pDQg5cdpxUzjXA9Vs2o4SR+xWtc9Ju0zg=;
-	b=u9hXQfOV4U6ENkpkr7emNOQB9z9eKHxFO5DNLH8Um3xYU9AYeH57bm939t4VoWWlzn6IQc
-	rysKRlSPyap0eGABg0Rrqk9wa8omQvFA7QRnR2YzhWQubVks6JjjxGleyHe1oNOVp9bdND
-	LKTfv9M6TPg5qveoZ2kP3BPZlNWn+pw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731664780;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=gl/T2RQ1L4pDQg5cdpxUzjXA9Vs2o4SR+xWtc9Ju0zg=;
-	b=FT5/TzqEGlJnRndrp8/ZoegcbR5FPVaGetWzFlhWiQjLh8nCD/24+A3wC43Mo4YOcC1CxU
-	pYLPkpUWtNsbjNBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7B858134B8;
-	Fri, 15 Nov 2024 09:59:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e+0EHYwbN2c6TgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 15 Nov 2024 09:59:40 +0000
-Date: Fri, 15 Nov 2024 10:59:40 +0100
-Message-ID: <877c94stpv.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.12
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jWIQwZfd"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20cbcd71012so19329095ad.3;
+        Fri, 15 Nov 2024 03:49:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731671373; x=1732276173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KtoZGAEyQBCnhyYoL/bdON4aQAbKow6V3dd3ML98XEo=;
+        b=jWIQwZfdTPDUDX74BUwXNAThgI2vhWZihy7tRr3XgHGjd9bpGB+tj9VFdU2HSoPEqD
+         OiPKlX/SBlrP81D2PDnmQKIk7vrUhM0MjnlHzDXwWvLJ8dLodJbgzlYVgZS4EpTVUecM
+         LB5X668zuIqerYSz3Wgb+AHGjRtH75UXfZuHzKWkUKIgrm2H1rhi2AHBdh1TWLpCtbmA
+         3uC9MxBoE3nD6YuPu86MFQ0kNOBwFFNn77dbi+/+77n9wyMY27Ou6Fl3QnUWdu/txA+z
+         9JqHlUDRJWlHjB0koC73b6KMndpxOWcuu8fmpR1iEs62zN7mM+idRqFtAgXCafnX275p
+         o9RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731671373; x=1732276173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KtoZGAEyQBCnhyYoL/bdON4aQAbKow6V3dd3ML98XEo=;
+        b=Nz/LATwW6sAIpwsRNGAMe83ZcGsLk1bSvf6ueI1+RQtJmYu7GK8dGjv7c0gt4x2KSa
+         H/Ajjh36GTQ9breTGh6d0yUZNdeHa4n/tdoU3wUyzuD2cLucg1+VIQ/UEEFbDl3gqClE
+         gUtrp7lC8d75TTD7f+SITC7uGsPAyNh7RCFEg+RKshiwrQf3ygwraWfuoM+84kxpeCPs
+         eRSQL0lsgoxQ2i2TIbmhGdMHhFya07YGrs/vGZgCVfh/GryzyXKnc7pf+/wTHUZzHcqR
+         6UJ16b4Sfb5lWlBFdosMbLoccgNbtoR+IUDzccZhMx+z716MwUB5xQe8qx+1+kZdZafP
+         XB9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVQgxaZdqMwtWeekgLqmyRqaMYUph2lmXpRYypKruH0tEOFPLTVlcpgEHUljAqQ8DvakJQsJJ88lNMDWpw=@vger.kernel.org, AJvYcCXSGCl/D5FtasrvMLq7/PXna12PCrSfqaY5tmMb2lmUSfRz7JnNCZ8JirMv5Fes0noOfwrQ3ye28UMT9g0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwViNYQzsQCs10hhtQnNbmNtKzJOJIwHHzYH22TrQwu12f4BBT
+	oWiJeM5nOE0sUZ6H5AY7uSY7X1yWKZcf+zmz3JSxcbrCA3Kqo/Js4QI2fm3y
+X-Google-Smtp-Source: AGHT+IE5sTGzwQKuTH0On3cSqtf2nsawCLjUF0bcqmiQ/aTjp84Xc+l7NZt2tv8FVSZSvOI7ACAIyQ==
+X-Received: by 2002:a17:902:d50a:b0:20c:8331:cb6e with SMTP id d9443c01a7336-211d0d818c6mr34430995ad.19.1731671373536;
+        Fri, 15 Nov 2024 03:49:33 -0800 (PST)
+Received: from HOME-PC ([223.185.134.27])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0f47b2csm10469315ad.219.2024.11.15.03.49.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2024 03:49:33 -0800 (PST)
+From: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+To: frattaroli.nicolas@gmail.com,
+	linux-rockchip@lists.infradead.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	heiko@sntech.de,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+Subject: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call issue
+Date: Fri, 15 Nov 2024 17:19:24 +0530
+Message-Id: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+This commit fixes a useless call issue detected by Coverity
+(CID 1507978). The call to rockchip_i2s_ch_to_io is unnecessary as its
+return value is never checked or used.
 
-please pull sound fixes for v6.12 from:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.12
-
-The topmost commit is 5ec23a1b53a98dbd7ea33954db5f0fe7110903aa
-
-----------------------------------------------------------------
-
-sound fixes for 6.12
-
-A few last-minute fixes.  All changes are device-specific small
-fixes that should be pretty safe to apply.
-
-----------------------------------------------------------------
-
-Deep Harsora (1):
-      ASoC: intel: sof_sdw: add quirk for Dell SKU
-
-Eryk Zagorski (1):
-      ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
-
-John Watts (1):
-      ASoC: audio-graph-card2: Purge absent supplies for device tree nodes
-
-Kailang Yang (2):
-      ALSA: hda/realtek - Fixed Clevo platform headset Mic issue
-      ALSA: hda/realtek - update set GPIO3 to default for Thinkpad with ALC1318
-
-Maksym Glubokiy (1):
-      ALSA: hda/realtek: fix mute/micmute LEDs for a HP EliteBook 645 G10
-
-Mark Brown (1):
-      ASoC: max9768: Fix event generation for playback mute
-
+Signed-off-by: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
 ---
- sound/pci/hda/patch_realtek.c         | 13 +++++++++++--
- sound/soc/codecs/max9768.c            | 11 +++++++++--
- sound/soc/generic/audio-graph-card2.c |  3 +++
- sound/soc/intel/boards/sof_sdw.c      |  8 ++++++++
- sound/usb/quirks-table.h              | 14 +++++++++++++-
- 5 files changed, 44 insertions(+), 5 deletions(-)
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index d1f28699652f..10f46fbe5175 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -577,7 +577,6 @@ static int rockchip_i2s_io_multiplex(struct snd_pcm_substream *substream,
+ 			return -EINVAL;
+ 		}
+ 
+-		rockchip_i2s_ch_to_io(val, true);
+ 	} else {
+ 		struct snd_pcm_str *capture_str =
+ 			&substream->pcm->streams[SNDRV_PCM_STREAM_CAPTURE];
+-- 
+2.34.1
 
