@@ -1,102 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC231D0DDF;
-	Fri, 15 Nov 2024 15:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5537E1D4610;
+	Fri, 15 Nov 2024 15:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731683224; cv=none; b=kOrHRlZwZ//ilVLl4KwuoyXt5lOSlB18OdauxFdrQv3DyLnGZHy0/DaDz4G4asJXQAu+ypmKUE+pBfRkGIqAmyxm6zLvw+JMd4c3CfJThUEYivGCMVVcw9YizwqkP9LQMuGWAmuW4Utvg0eEqpsGn9Qs7vbA/MBhPm+aOm306Wg=
+	t=1731683228; cv=none; b=fUpaHlBRX25zzR/ABxYiZ07VHJOm/8Ct8T2gbTLZxzXhNxyMcEMAPf3u+6KP3Yksh7XLc+UGjTBrmapXdpcuLQH0K+oJlm+hyXEN4medUmyVwOLgOBYOT0AUgQRLW/sHl4pjFVrSWVF2toz//E3TXyOZ426AQlbTcU1DSKoa7iA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731683224; c=relaxed/simple;
-	bh=488LeDMT03GJrMxbHp32JdOvGZEH1XPQ5yO1aJUMtrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nMzcEjcReWbInUhf957M2QUPVaWmTKT7sp5yuuB+4/RHt7iFtshTYwV1f6SQO9VDiTcgn2Z1MI93un/fImgz4m1TyoyH06yZNfyD0unjoYMJYsTbfMqmk2kkFND5cozoW9s8fyZ78Tm69HeXhl4BhAIDa1ojIlRBlpwi11BmnAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Co6tX4Ce; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Co6tX4Ce"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88E5AC4CED2;
-	Fri, 15 Nov 2024 15:07:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731683224;
-	bh=488LeDMT03GJrMxbHp32JdOvGZEH1XPQ5yO1aJUMtrM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Co6tX4Ce0VaVN457Y6xZQmCTc8t+xi/xAm+t+3InloQINTJh2BpB/nwZgf3oai06a
-	 f02yy9DrXsJVjdJs+lDhPqAQGlqA0DvdCa3UquyRZBmNYIAy3SXtjG6oNpabz+RAY3
-	 V/IRL6sP4LBMG6pop7ujpqTnoIX23FYhsceHWpFMYQ/R1oztbtFc9NtPLsBluf/a8r
-	 MlBgjtKTbNUKIynZLJKvBlKF6yxoBnD53h4SdcxrBcOwAkDm/RNzudoosoqcKiM1Zn
-	 rH8XL/yQL3ORJGnUTOfNgYMjyjlcttz1dD6JWaw3MtO9NuwFvF24656s3dLKtjw/ah
-	 Z4Z1EsPp+B1VA==
-Date: Fri, 15 Nov 2024 15:07:01 +0000
-From: Mark Brown <broonie@kernel.org>
-To: =?iso-8859-1?B?Q3Pza+Fz?= Bence <csokas.bence@prolan.hu>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mesih Kilinc <mesihkilinc@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v5 0/3] Add support for codec of F1C100s
-Message-ID: <ZzdjlbelMywpXOAI@finisterre.sirena.org.uk>
-References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
- <594b2929-f7ab-4d30-a97c-1b1b31258d25@prolan.hu>
+	s=arc-20240116; t=1731683228; c=relaxed/simple;
+	bh=Gt8CRfv0JnpQNa9j/2D2BL+u9sRR7UF5j1sio1duMJo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZnLUiqrFnK1Xr8fLn/WwrY63Jv9eBWTc9ROuv8qDLF69tZA7O8Hx1vNE5G4PCys0KD2PAaVPqciAo/y7c4tvtYRiHFEU4CGgb8Vj1felRJyq6F3dJcd8HRJJ4tyxS/jUQz+7EhRNPG8sA8vaBoBnNmg8myogmrdW79g1VyfohVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [223.64.68.202])
+	by gateway (Coremail) with SMTP id _____8DxmeCUYzdnrnc+AA--.57873S3;
+	Fri, 15 Nov 2024 23:07:00 +0800 (CST)
+Received: from localhost.localdomain (unknown [223.64.68.202])
+	by front1 (Coremail) with SMTP id qMiowMCxOMGPYzdnqgFXAA--.5752S2;
+	Fri, 15 Nov 2024 23:06:59 +0800 (CST)
+From: Huacai Chen <chenhuacai@loongson.cn>
+To: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Huacai Chen <chenhuacai@kernel.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xuerui Wang <kernel@xen0n.name>,
+	Jiaxun Yang <jiaxun.yang@flygoat.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: hda: Poll jack events for LS7A HD-Audio
+Date: Fri, 15 Nov 2024 23:06:53 +0800
+Message-ID: <20241115150653.2819100-1-chenhuacai@loongson.cn>
+X-Mailer: git-send-email 2.43.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ep0istO153xYfToL"
-Content-Disposition: inline
-In-Reply-To: <594b2929-f7ab-4d30-a97c-1b1b31258d25@prolan.hu>
-X-Cookie: Editing is a rewording activity.
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMCxOMGPYzdnqgFXAA--.5752S2
+X-CM-SenderInfo: hfkh0x5xdftxo6or00hjvr0hdfq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrZw4kCr4rWFWrCr4xAry8Xrc_yoWDJFb_ua
+	1I9r1kW345JFnxCr1Yyrn5JF4Ykw48CrWIgF4IqF4UJ393KrWFqry5ury7CF1xWr4rWryF
+	9w1qvw1Fvr1jgosvyTuYvTs0mTUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbSxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU4BHqDUUUU
 
+LS7A HD-Audio disable interrupts and use polling mode due to hardware
+drawbacks. As a result, unsolicited jack events are also unusable. If
+we want to support headphone hotplug, we need to also poll jack events.
 
---Ep0istO153xYfToL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Here we use 1500ms as the poll interval if no module parameter specify
+it.
 
-On Fri, Nov 15, 2024 at 02:10:18PM +0100, Cs=F3k=E1s Bence wrote:
-> So, if there's no further remarks, can this be merged? The next window is
-> coming up, and there's the DT addition still waiting in the pipe.
+Cc: stable@vger.kernel.org
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+---
+ sound/pci/hda/hda_intel.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Please don't send content free pings and please allow a reasonable time
-for review.  People get busy, go on holiday, attend conferences and so=20
-on so unless there is some reason for urgency (like critical bug fixes)
-please allow at least a couple of weeks for review.  If there have been
-review comments then people may be waiting for those to be addressed.
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index b4540c5cd2a6..5060d5428caf 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1867,6 +1867,8 @@ static int azx_first_init(struct azx *chip)
+ 		bus->polling_mode = 1;
+ 		bus->not_use_interrupts = 1;
+ 		bus->access_sdnctl_in_dword = 1;
++		if (!chip->jackpoll_interval)
++			chip->jackpoll_interval = msecs_to_jiffies(1500);
+ 	}
+ 
+ 	err = pcim_iomap_regions(pci, 1 << 0, "ICH HD audio");
+-- 
+2.43.5
 
-Sending content free pings adds to the mail volume (if they are seen at
-all) which is often the problem and since they can't be reviewed
-directly if something has gone wrong you'll have to resend the patches
-anyway, so sending again is generally a better approach though there are
-some other maintainers who like them - if in doubt look at how patches
-for the subsystem are normally handled.
-
-Please don't top post, reply in line with needed context.  This allows
-readers to readily follow the flow of conversation and understand what
-you are talking about and also helps ensure that everything in the
-discussion is being addressed.
-
---Ep0istO153xYfToL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmc3Y5QACgkQJNaLcl1U
-h9CPLgf/ZgHaaghsRbFT07zKYB2H+48YxD21K6sLJgxlXtbMMZxTghpDMVHRI19W
-mt1JU3JUgIXEIyrAT9ya5WZlvPygJWxblECU0+Qqg/MXR19qGco9nQ/roMTS1xIE
-GbkbECeHM1V21BdDIQt0Od3a0fwUBgrqV8IsJfpsV2FI51+1IeMmZ8RAeBCnoE2G
-EjudHbRo4hmY7+J/deS3+eZxCK9eKYsmasrrfFXejlr0JqHEan1uPyLF8oqRdf5e
-ZjEi97j4fAuladvktKKzAADVuVMa0+exvloFO1HUABgUgY7T9xkWAOzy5q/rOScJ
-4gDyakjE2bFbI9NDZE65L6Q5FdGctQ==
-=r8ND
------END PGP SIGNATURE-----
-
---Ep0istO153xYfToL--
