@@ -1,104 +1,125 @@
-Received: from smtp.smtpout.orange.fr (smtp-19.smtpout.orange.fr [80.12.242.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A691D762E0;
-	Fri, 15 Nov 2024 16:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3294615383D;
+	Fri, 15 Nov 2024 17:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731689695; cv=none; b=NmZ9kumtrh6S6Gomtaj9OFiBS7RI5GYdo8F9nNu3MBlpBiqna0aQATUro1prbQsOR0t2aHv9iI5QIzaRWOgL20H2sG3XggdNI/WtDCkj2FWxoZGLCu1lBq77fh42jdMwAc8y/Z9NT3JBg4yqqa+sGIdeCZzY5D5ar8mmXT5UIrc=
+	t=1731692023; cv=none; b=ZPKqLJlbzP3yf6MIrMTyCiAjAbBZswi9A8zova7Qe/2xOQGHQAv/tvQ4Qxrj2cQuEmzmdTM7VmxvA2qJlV6W5cqIVdpC1gFJux1idfnxAWvKPODnv/7Gon0mwNI4qt0/RbmfcaO4IrV7MY7jbXcob5VE+Yf7cF9s4RW81eMbMlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731689695; c=relaxed/simple;
-	bh=NdGgJpbrkxwQPIZY7b3OV48z5XqL9DWgYsE/gbcOlQE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mkKJNYovwMO3aw3Zx0BJvWManJazE/WXegK9YIjP+zFXICW84LUkGy9Yaz2gqaRTvkOMIkZ87E3ast6ocNzZmITe83O5iloONYDUCf7uUmvEux6n2Gj92u74s5ZV/aSvIRF3bSS2pMp0lz/52d81Z6nT02vEPEjtCNc15l2OR6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=cs+nXupu; arc=none smtp.client-ip=80.12.242.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1731692023; c=relaxed/simple;
+	bh=KAyTU2wbJPNWq+AnPPIg5jRJD0fH1t6QufJ8G6BdE+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4JN/F/FHOiVuvx5x2V1SC2cBU+m/7MZOrBp0ZTJ4G1pTM36S5UhMrQU7+R5ATlsOoB2TgC80o8WItNzkUizdsFnR8t/itLIMW0cONhWX7iO+q0McEnhRK7KKs5OZIqethgtBTl7swu6RWR/te3KrDWgL2Y0jVLF5MBMfH8RaFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME/5oqI+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="cs+nXupu"
-Received: from localhost.localdomain ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id BzamtxBk9W6lUBzantT11p; Fri, 15 Nov 2024 17:54:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1731689686;
-	bh=VjL0T8V3592eoi9zyDm4yaxJadogguU7vBFf2SgAtkM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=cs+nXupuvX2UUZFgePhpnFr4+FZ3OO/E9X8iNxzxe3Cdoh+N/tfFIcOpAWa0P0Jrr
-	 QfAj8YEfeP8z8e8p6tvvK0bfRMD2bYObEFS1putMrdf9NIlPJ5mlcwBlLYuQsdqbNs
-	 aaNslRxrs2eVdlTSXI/vjJyjii0IM5uJpU0irp1aXG0cE1osFEgPB/fkYOuGQfz8Dt
-	 G8l30Luv5/OmsPXpbSseH+e0razkzCPtUdt89TmnSLNm04hiLc8W+sE8GRQUk16bpP
-	 71azQXcQvowRhQYz1pDmAJZDWBE/AKtQlE3PkwoVGg2XGi9CHVzhwjD7XYaimIcmJH
-	 BaxzWvrFpA1JQ==
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Fri, 15 Nov 2024 17:54:46 +0100
-X-ME-IP: 90.11.132.44
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ME/5oqI+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B938C4CECF;
+	Fri, 15 Nov 2024 17:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731692022;
+	bh=KAyTU2wbJPNWq+AnPPIg5jRJD0fH1t6QufJ8G6BdE+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ME/5oqI+9A5m65Ks+FI//A2msRKaoqyZsf8e+ZghTz6L0qiyWlGJI6zbxAO4SjmJ7
+	 QTv6C9Js0yK/mIY90hePo9stLZfjatvVg5Osg7PVkMKaHT0MvI1wZrW3oSKUVrrsx/
+	 fGfxx9566+orfgW9/TF5/rWaUCIRJL1j60bX5O6M6XeVlZoojkhxIif/G6voPR++Ep
+	 VrwdwVo20M6h4e7coL8dKdFziZGDy/mJCEbWTJJrM4FiEFlyZUz2TeibmpDAKmTOCJ
+	 vQ7UCDJDzVsyXx8f8wbgt5GNWmZmeMiG+4/ghCKaLIrFD+MIHxbiGK4Uf5Pn5KYe17
+	 QzfRUhDaCSGow==
+Date: Fri, 15 Nov 2024 11:33:40 -0600
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
 	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
 	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: [PATCH] ASoC: cs42l51: Constify struct i2c_device_id
-Date: Fri, 15 Nov 2024 17:54:25 +0100
-Message-ID: <d5e686f47eddb14245d0fde693ff77ae749f7a08.1731689646.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.47.0
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] ASoC: dt-bindings: add common binding for NXP CPUs
+Message-ID: <20241115173340.GA3436142-robh@kernel.org>
+References: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
+ <20241113195240.3699-2-laurentiumihalcea111@gmail.com>
+ <ZzUF+iFeKSqKGcpX@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZzUF+iFeKSqKGcpX@lizhi-Precision-Tower-5810>
 
-'struct i2c_device_id' is not modified in this driver.
+On Wed, Nov 13, 2024 at 03:03:06PM -0500, Frank Li wrote:
+> On Wed, Nov 13, 2024 at 02:52:36PM -0500, Laurentiu Mihalcea wrote:
+> > From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> >
+> > Add common binding for NXP CPUs sharing the same programming
+> > model (i.e: audio processing with SOF).
+> 
+> Add binding for NXP audio processor with Sound Open Firmware (SOF) support.
+> 
+> >
+> > Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> > ---
+> >  .../bindings/sound/fsl,sof-cpu.yaml           | 35 +++++++++++++++++++
+> >  1 file changed, 35 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> > new file mode 100644
+> > index 000000000000..6d63fcd71154
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+> > @@ -0,0 +1,35 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/sound/fsl,sof-cpu.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: NXP audio CPU common properties
+> 
+> audio processor?
+> 
+> > +
+> > +maintainers:
+> > +  - Daniel Baluta <daniel.baluta@nxp.com>
+> > +
+> > +properties:
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  mboxes:
+> > +    maxItems: 4
+> > +
+> > +  mbox-names:
+> > +    items:
+> > +      - const: txdb0
+> > +      - const: txdb1
+> > +      - const: rxdb0
+> > +      - const: rxdb1
+> > +
+> > +  memory-region:
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - reg
+> > +  - mboxes
+> > +  - mbox-names
+> > +  - memory-region
+> > +
+> > +additionalProperties: true
+> 
+> example ?
 
-Constifying this structure moves some data to a read-only section, so
-increase overall security.
+Common bindings generally don't have one.
 
-While at it, also add some space to be consistent with cs42l51_of_match a
-few lines below.
-
-On a x86_64, with allmodconfig:
-Before:
-======
-   text	   data	    bss	    dec	    hex	filename
-   1551	    384	     16	   1951	    79f	sound/soc/codecs/cs42l51-i2c.o
-
-After:
-=====
-   text	   data	    bss	    dec	    hex	filename
-   1631	    304	     16	   1951	    79f	sound/soc/codecs/cs42l51-i2c.o
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Compile tested-only.
----
- sound/soc/codecs/cs42l51-i2c.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/cs42l51-i2c.c b/sound/soc/codecs/cs42l51-i2c.c
-index e7cc50096297..f171bd66fcac 100644
---- a/sound/soc/codecs/cs42l51-i2c.c
-+++ b/sound/soc/codecs/cs42l51-i2c.c
-@@ -13,9 +13,9 @@
- 
- #include "cs42l51.h"
- 
--static struct i2c_device_id cs42l51_i2c_id[] = {
--	{"cs42l51"},
--	{}
-+static const struct i2c_device_id cs42l51_i2c_id[] = {
-+	{ "cs42l51" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cs42l51_i2c_id);
- 
--- 
-2.47.0
-
+Rob
