@@ -1,106 +1,73 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from unicom145.biz-email.net (unicom145.biz-email.net [210.51.26.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214313BB22;
-	Fri, 15 Nov 2024 04:46:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BFD187FE8
+	for <linux-sound@vger.kernel.org>; Fri, 15 Nov 2024 06:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.26.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731645965; cv=none; b=o1aUo1r228aFpu0tIQx9IFn14dh6crrfh4DWJ+Ah/jcmdzXpm/ZgxgKLmXrjM3b5NO7D1PvjS+/xLtbXvGoDdTE9gzSWVeb2U7IrMugwqmSSMGofHywIRHe5J4kq5k70IpJjwmBKnQCXHGCO0C2CAgCOj9kiUb5rFHL2e5Hsrzs=
+	t=1731653787; cv=none; b=I+SEBhPN0EBGvSMSYA4yyw0bmZySSLnrMelUxDXdtozRGklGOK5nSr4/aF4b7qfx0gdQ8AyaVS+76jYc99hwwiZxWrGIMChOSq/9GT2yimKKBrG1wjou5jql1vlZzKDEfrAXygnBL79XSS025ig3PidvPKddUwgNRieR7aNpX1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731645965; c=relaxed/simple;
-	bh=b6cnIcR9AC6nzmjvRca5WRqdJjKrJ0vBDKQL0Z6aTxY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=FDkhXLwnH8MJX7e4APQk23dZTQX2HeaalJTtn7ea3x4BdwffbF+7Ao9vaY2hKhBbSxXFgwABBrUjtg9+zFB2L7g8oVxHDkh6292Cg/6xcXInuFgZ1fLPj9XFQQWMeeLVo59KnSoEY6q+vuYqJFC2NabvZidOlA1ONAPJvk48PhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDmF88xy; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDmF88xy"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43152b79d25so2455535e9.1;
-        Thu, 14 Nov 2024 20:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731645962; x=1732250762; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=b6cnIcR9AC6nzmjvRca5WRqdJjKrJ0vBDKQL0Z6aTxY=;
-        b=GDmF88xyF9EOP+jUqJZRaDxMUVL7QMrR66AX4+hkMYz/S52n5yKaVTom9JsWSos0dc
-         0NG3GNlspORv9WTX6btt+m0Ny8Qvb9xWwsdySu2GXGjsK6CqWH2e2eGwtZOxg2NvDkA5
-         +XOvz/b7jWVn+qbbkyDeSDctTZGf4db9otNInWTAgOyPEfoR0pYBOO4iNUFgortK026b
-         s/f8yhuQeIqwuLdqrmN9jImK27Lk0OfPG0Vo4x1ho4xURlcNmMknSYXMaf8LN28BdfDk
-         5/o/+vV71ObN1Y4OyyKqSSyXirxCHq9uPpWm80cSwZluX8cwGZ3bt5Al+/ig8f8LJ6ko
-         ldIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731645962; x=1732250762;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b6cnIcR9AC6nzmjvRca5WRqdJjKrJ0vBDKQL0Z6aTxY=;
-        b=ufocwzm5PiosOjepW/kRMoNGZ3SwCCY1HV/m8GWaRNM4ViupLsrUu8ClLANp++Ft2g
-         5wUbQHXcndL9JJkoCjllfWGeSAmjxdaWv6maA9Q7mwSkQHYt4h+DCpsF6gKfRha9ye2w
-         ABaSte18JbfsD4kZvCnjif4GcFi+1QWaOleVGPR5w93d0b8D8wNjKa/ToDsgfcwMwAVG
-         6X4v1rJH2SzOenXJKdOPA2NrWlBSiiZnP6TzgmtYXtWqtjOh5COwaMOl+xCL4coVL9jj
-         ZuuoMTTgzR8od/seKq+Jv7j/9HDvywwEdQ2BgWM1kcyl7qzl8wYPy0A8mo4K3WhbqFdc
-         KTNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFb98pY0pH6JtuSLwZcFAC6JkK4RaQ2W36ZUyIqZoFOq1WlUcH13ANdmcht+V91RGEDc5r+4GHwX1/U+s=@vger.kernel.org, AJvYcCWuVfnWTJ2mvP1xk9YFcvKfilJ5p9B3Fgkaw8tuBnL/M+2aiii1UlkIsgFBY4b7xR0I85ZyNCRaEKFlXZs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWPumaSyCDmv4JcaxV1MQHV/3mRYZjZZ4VV/AmczkaKOK/Xf02
-	o9HyLmLywe6X+rHarOzGmyrBSG1N2QwnqfiSEgWUaTv6/UZ6MOuO
-X-Google-Smtp-Source: AGHT+IFIkM3N7uR+57CBPb5QyrqE0zz7iKfeepuoTkyWlne4HGbZA/Xv0wuEiFveDKiT7rbnj39vaQ==
-X-Received: by 2002:a05:600c:4eca:b0:42c:b037:5f9d with SMTP id 5b1f17b1804b1-432df71e782mr9727565e9.3.1731645962062;
-        Thu, 14 Nov 2024 20:46:02 -0800 (PST)
-Received: from smtpclient.apple ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dab80ad9sm40454045e9.25.2024.11.14.20.45.59
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Nov 2024 20:46:01 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1731653787; c=relaxed/simple;
+	bh=mMvZ61Vr7hWsoYH3dITBfijIQv3Q+4S5HS/5QkDmVOg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L2Fk0CTyEdEPoUE90Juy2JTpzhRVqx5kXBD3b+2AcIX0pFH+/TxDTEuNmGCeOcha2Dp5QqSy85YUHW8LQ9mL/MTE+bFRAiLJ//bAZNbrZ+sZWPgw7z/U0/Ke/dQfDIomRkck6le7xErSDSJf5Q2PCoXfH1YAyT927+DS6Uiy6Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.26.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from unicom145.biz-email.net
+        by unicom145.biz-email.net ((D)) with ASMTP (SSL) id LHT00112;
+        Fri, 15 Nov 2024 14:56:12 +0800
+Received: from localhost.localdomain (10.94.16.210) by
+ jtjnmail201602.home.langchao.com (10.100.2.2) with Microsoft SMTP Server id
+ 15.1.2507.39; Fri, 15 Nov 2024 14:56:11 +0800
+From: Charles Han <hanchunchao@inspur.com>
+To: <viorel.suman@nxp.com>, <kernel@pengutronix.de>, <s.hauer@pengutronix.de>,
+	<shawnguo@kernel.org>, <tiwai@suse.com>, <perex@perex.cz>,
+	<broonie@kernel.org>, <shengjiu.wang@gmail.com>, <Xiubo.Lee@gmail.com>
+CC: <imx@lists.linux.dev>, <inux-arm-kernel@lists.infradead.org>,
+	<linux-sound@vger.kernel.org>, Charles Han <hanchunchao@inspur.com>
+Subject: [PATCH] ASoC: imx-audmix: Add NULL check in imx_audmix_probe
+Date: Fri, 15 Nov 2024 14:56:10 +0800
+Message-ID: <20241115065610.39112-1-hanchunchao@inspur.com>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.200.121\))
-Subject: Re: [RESEND v2] ASoC: hdmi-codec: reorder channel allocation list
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <ZzXiJIyf8Iyb7f50@finisterre.sirena.org.uk>
-Date: Fri, 15 Nov 2024 08:45:48 +0400
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Matthias Reichl <hias@horus.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Jani Nikula <jani.nikula@intel.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A5A3A740-7FB3-42BC-A723-2648ECE959C6@gmail.com>
-References: <7697010E-E0F2-419F-8378-FC3E491EE1E4@gmail.com>
- <ZzXiJIyf8Iyb7f50@finisterre.sirena.org.uk>
-To: Mark Brown <broonie@kernel.org>
-X-Mailer: Apple Mail (2.3826.200.121)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+tUid: 202411151456127f2a7e5cc4da919ac711d0e077c980ee
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-> On 14 Nov 2024, at 3:42=E2=80=AFpm, Mark Brown <broonie@kernel.org> =
-wrote:
->=20
-> On Tue, Nov 12, 2024 at 09:07:00AM +0400, Christian Hewitt wrote:
->> From: Jonas Karlman <jonas@kwiboo.se>
->>=20
->> The ordering in hdmi_codec_get_ch_alloc_table_idx() results in
->> wrong channel allocation for a number of cases, e.g. when ELD
->> reports FL|FR|LFE|FC|RL|RR or FL|FR|LFE|FC|RL|RR|RC|RLC|RRC:
->=20
-> This doesn't apply against current code, please check and resend.
->=20
-> Applying: ASoC: hdmi-codec: reorder channel allocation list
-> error: corrupt patch at line 6
-> error: could not build fake ancestor
-> Patch failed at 0004 ASoC: hdmi-codec: reorder channel allocation list
+devm_kasprintf() can return a NULL pointer on failure,but this
+returned value in imx_audmix_probe() is not checked.
+Add NULL check in imx_audmix_probe(), to handle kernel NULL
+pointer dereference error.
 
-Looks like mail client =E2=80=98resend=E2=80=99 broke the patch, =
-apologies. I=E2=80=99ve sent
-a v3 to the list to ensure it=E2=80=99s distinct and formatted =
-correctly.
+Fixes: b86ef5367761 ("ASoC: fsl: Add Audio Mixer machine driver")
+Signed-off-by: Charles Han <hanchunchao@inspur.com>
+---
+ sound/soc/fsl/imx-audmix.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-CH.=
+diff --git a/sound/soc/fsl/imx-audmix.c b/sound/soc/fsl/imx-audmix.c
+index dcf770b55c4b..231400661c90 100644
+--- a/sound/soc/fsl/imx-audmix.c
++++ b/sound/soc/fsl/imx-audmix.c
+@@ -274,6 +274,9 @@ static int imx_audmix_probe(struct platform_device *pdev)
+ 		/* Add AUDMIX Backend */
+ 		be_name = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+ 					 "audmix-%d", i);
++		if (!be_name)
++			return -ENOMEM;
++
+ 		priv->dai[num_dai + i].cpus	= &dlc[1];
+ 		priv->dai[num_dai + i].codecs	= &snd_soc_dummy_dlc;
+ 
+-- 
+2.31.1
+
