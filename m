@@ -1,163 +1,106 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F9EB64A
-	for <linux-sound@vger.kernel.org>; Sat, 16 Nov 2024 07:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD34CB64A;
+	Sat, 16 Nov 2024 08:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731743978; cv=none; b=H17RY5xNHa/cUyzqUvSVwVRo7ljrxGECAq49flEu8yVzWvfroUo1uC2yK/3T+sCdClaDUFUBHv4d2ZuoS3pwF9JXZ30gRm6BjeHW+b8AWM65/H4Kbzigbejctiley0EAWfGmKvrIgz3r62uQzUHS2lDJplDkG/nf4yY1HJ5LWAk=
+	t=1731744345; cv=none; b=OT2ykCyrp7ssKROhMsBVwVkFUfl9N8tzmfAJP17QAPFI+nQkLMDlvSSZGp1vDEWkLNY3iiNQ9P94CEUc/P9gkppOe1qVuGN4EHvBfRnA4jr8YKBhgr/CarcfjoiS3JGEZxmeJhTnIARvZWyC2SZC2Bp54QD2/5g0t1keQ0HqR7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731743978; c=relaxed/simple;
-	bh=syAVCylnhi0AytBImEtkvzButQ9wsAguk45yhcS0NNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EOY2qm1QETPYvAKMBQMflfnqB9jYikZUevX4wttMEF688Y2Yo0fJS52u05OSaDMYAcN4Ixe1QxUY4W0OszD3WW+dI2aJwNW7ZhxhH6CmtL5wYqK1nLNpc//Nttams3CjgVMhTQhaPl+ghRI88H1E+voTU9OOHdICWxw9KlKMGbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r5iZGNuE; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731744345; c=relaxed/simple;
+	bh=wgiLgzGKAYU27R3fy6i2E+LUkALYGlu7ODHf9sXAqfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Kt1fBNq0zdqwUMEniUHFkGsZht58GHdtDpGF0Ja9p98DAeBKssllfxgyIEVwGAbvPdUAaG6bLhHXPCeo+fIPDq8jnR423CrmGuIVIi62DJxXupLSmUomzxQKFK4smvxUM9gLd41gJvGLHd6Q4aLoQA2SWhJjI8kByu5iHlVVidQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=myzmuc4y; arc=none smtp.client-ip=80.12.242.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r5iZGNuE"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4315eac969aso14376975e9.1
-        for <linux-sound@vger.kernel.org>; Fri, 15 Nov 2024 23:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731743973; x=1732348773; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xrsdExZKqTlwoTRHJD0ZdQo7yx2uU25FrNS0bU2S5+Y=;
-        b=r5iZGNuEOfNWbi26gs/0hDufWiKU9glpkrz83hfYdk20o+8yDMVRsyZ6+cPIv/oaQN
-         1kDE9R6Vr8IhLeyXsibSIWi+i5grPibUr8CgcnTKyayifBg26F0iK5NCf/Zk+pdy13Hu
-         08u3dXU0sR2s59y+fza8gG5ZMw0Hfg8Sa3w3izBxsCrCB2Hfi3yWK+5VciZPLCvYZRaJ
-         Cm3dD99wasOBV+Vb4KvuHLxcD9cr9PRrdBxQ3n8LlNaCQDaVlvqQLTJ3YxibOJsA3aud
-         mNDVaqD9+G+4jwsF6k6bmfL3lgB8UhWpAIV/7hICAk042PQXjY0vP86Sl31MhmWRTiq6
-         Ag5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731743973; x=1732348773;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xrsdExZKqTlwoTRHJD0ZdQo7yx2uU25FrNS0bU2S5+Y=;
-        b=vCjDUrCDGp6wYpvQ7kqSDMI//DNY+VbxNhhM27srKXbFzq/c6Z9SKRIXE1ZM/2U7Zm
-         FKY4QtoXPWCrr23wLhFPBKZ2IIAJp/G0WlvG/ZI2occ5urqssRvutVaFeJB5c4wGsqqj
-         etsLtYbUE2rZrxvW0HsFuuxQJUBkBJX88xNeDqqLc5ZXzlS5Gn5ac5YdrDGle6hHCI8R
-         SKIGqdPan/JPcwIyr/W6icBLo4Iqsj6cEidCP89a+WkeC5zD+rEdhXTQfzAiiR6DnncG
-         WFi7n2w8r9/ln5eEkyF7bpienbjRhl3O0yTXLHqUlYqWVRihlRNr6KTSaF5IHbI7qNOe
-         dycg==
-X-Forwarded-Encrypted: i=1; AJvYcCUEjp/A5dn84+2d8OkKIcasGniW8Iy2z9w/fjD4bGzVJB2yY5zHA0wF2KNuICJdUEIGWgAqUJbV+qlbjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzh2lXJiCw9zpb2KhT9LcPKmZWIELKR0MgMI8xwO7UKlOYTI+63
-	lvsQGyPakwfbgN3MFTXq1Xn8Qm3brHzxZ3BD4zhK3GVwdLpf3v4w5iAg9ln2RvQ=
-X-Google-Smtp-Source: AGHT+IHwPca/r8TengkDOJBkzNMy5+IC+M/DjfY5vaIp0XwfqGKX+JdkORZRtZVKPaDZkydKQ4+r2A==
-X-Received: by 2002:a05:600c:19cb:b0:431:559d:4103 with SMTP id 5b1f17b1804b1-432defe3203mr49400585e9.7.1731743973417;
-        Fri, 15 Nov 2024 23:59:33 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dab806e1sm81445685e9.20.2024.11.15.23.59.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Nov 2024 23:59:32 -0800 (PST)
-Date: Sat, 16 Nov 2024 10:59:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Julia Lawall <Julia.Lawall@inria.fr>,
-	Nicolas Palix <nicolas.palix@imag.fr>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Ofir Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Shailend Chand <shailend@google.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	James Smart <james.smart@broadcom.com>,
-	Dick Kennedy <dick.kennedy@broadcom.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
-	Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jack Wang <jinpu.wang@cloud.ionos.com>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
-	Petr Mladek <pmladek@suse.com>,
-	Joe Lawrence <joe.lawrence@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Russell King <linux+etnaviv@armlinux.org.uk>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	Louis Peens <louis.peens@corigine.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	cocci@inria.fr, linux-arm-kernel@lists.infradead.org,
-	linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org,
-	linux-mm@kvack.org, linux-bluetooth@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
-	ceph-devel@vger.kernel.org, live-patching@vger.kernel.org,
-	linux-sound@vger.kernel.org, etnaviv@lists.freedesktop.org,
-	oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH 19/22] livepatch: Convert timeouts to secs_to_jiffies()
-Message-ID: <896c656f-6d8c-4337-8464-7557c43a80ab@stanley.mountain>
-References: <20241115-converge-secs-to-jiffies-v1-0-19aadc34941b@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v1-19-19aadc34941b@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="myzmuc4y"
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id CDo4tecI9mK41CDo4tW2mE; Sat, 16 Nov 2024 09:05:34 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1731744334;
+	bh=b+0UwGUK36XBZvKxvr6vjvATT91j6JD6JlC0ymG+Y2I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=myzmuc4yZf7QyGuZva4JAt/xz9USMrsudZ8Ml04eo6D14T1a+RFluvnmVReDMCxeX
+	 I873nmlwJKtlY5sCp/rUGMUY+v7PjpgHpBoJ2sGFGKEGvLVHkonzsZzmjWryqomNmd
+	 PaKr0gw7h9yyg23v/8wW/OCYZGaRgHeYek81hCWfNAOq+K/qELx1Ufj6SLQbh7savU
+	 Dh9sJpkuijTxAxo12hMSRpg5D4SgIdyXuoyrlcZ1Eh0AqVA9EJOH4cMQbhlI2WblXt
+	 z4UQXaqz9syWILV92AwehIwJfohfDohJF7pWWmSRV4jIwzOS/0gVjhYl1PVJNA15hY
+	 Kac5OCl9eSHjQ==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Sat, 16 Nov 2024 09:05:34 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <03d4131f-7204-4cc5-811b-ef541f904e17@wanadoo.fr>
+Date: Sat, 16 Nov 2024 09:05:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241115-converge-secs-to-jiffies-v1-19-19aadc34941b@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] ALSA: hda/tas2781: Add speaker id check for ASUS
+ projects
+To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
+Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ lgirdwood@gmail.com, perex@perex.cz, pierre-louis.bossart@linux.intel.com,
+ shenghao-ding@ti.com, navada@ti.com, 13916275206@139.com,
+ v-hampiholi@ti.com, v-po@ti.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
+ yung-chuan.liao@linux.intel.com, broonie@kernel.org, antheas.dk@gmail.com,
+ philm@manjaro.org
+References: <20241116075006.11994-1-baojun.xu@ti.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20241116075006.11994-1-baojun.xu@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 15, 2024 at 09:22:49PM +0000, Easwar Hariharan wrote:
-> diff --git a/samples/livepatch/livepatch-callbacks-busymod.c b/samples/livepatch/livepatch-callbacks-busymod.c
-> index 378e2d40271a9717d09eff51d3d3612c679736fc..d0fd801a7c21b7d7939c29d83f9d993badcc9aba 100644
-> --- a/samples/livepatch/livepatch-callbacks-busymod.c
-> +++ b/samples/livepatch/livepatch-callbacks-busymod.c
-> @@ -45,7 +45,7 @@ static int livepatch_callbacks_mod_init(void)
->  {
->  	pr_info("%s\n", __func__);
->  	schedule_delayed_work(&work,
-> -		msecs_to_jiffies(1000 * 0));
-> +		secs_to_jiffies(0));
+Le 16/11/2024 à 08:50, Baojun Xu a écrit :
+> Add speaker id check by gpio in ACPI for ASUS projects.
+> In other vendors, speaker id was checked by BIOS, and was applied in
+> last bit of subsys id, so we can load corresponding firmware binary file
+> for its speaker by subsys id.
+> But in ASUS project, the firmware binary name will be appended an extra
+> number to tell the speakers from different vendors. And this single digit
+> come from gpio level of speaker id in BIOS.
+> 
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Better to just call schedule_delayed_work(&work, 0);
+...
 
->  	return 0;
->  }
+> +	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+> +	if (IS_ERR(sub)) {
+> +		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
+> +		goto err;
+> +	}
+> +	// Speaker id was needed for ASUS projects.
 
-regards,
-dan carpenter
+Comments in this file are all /* */.
+Why introduce // in many places?
+
+CJ
+
+> +	if (!strncmp(sub, TAS2781_ASUS_ID, strlen(TAS2781_ASUS_ID))) {
+> +		ret = devm_acpi_dev_add_driver_gpios(p->dev,
+> +			tas2781_speaker_id_gpios);
+> +		if (ret < 0)
+> +			dev_err(p->dev, "Failed to add driver gpio %d.\n",
+> +			ret);
+
+ret should be indented below the ( to ease reading.
+
+> +		p->speaker_id = devm_gpiod_get(p->dev, "speakerid", GPIOD_IN);
+> +		if (IS_ERR(p->speaker_id)) {
+> +			dev_err(p->dev, "Failed to get Speaker id.\n");
+> +			ret = PTR_ERR(p->speaker_id);
+> +			goto err;
+> +		}
+> +	} else {
+> +		p->speaker_id = NULL;
+> +	}
+
+...
