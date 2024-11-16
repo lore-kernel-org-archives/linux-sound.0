@@ -1,88 +1,98 @@
-Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815EE33EC;
-	Sat, 16 Nov 2024 02:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.14])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B232663D;
+	Sat, 16 Nov 2024 06:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731723025; cv=none; b=DbHm462GoCvdUG7NeqeP6S0yuKAPbB6uF4HDcQBHva7HbWMzNWgDyESCGKqFbiT6h/N1kk5LfC+ur+wyJ26zjtzYtGunfMBbBxCuCbjoPf4mBjAhh1GF2zgFL2XYvNsdSEkFzur5a9qjKnZWsssNk1lKz0eyqll6o/VY7lei83o=
+	t=1731737022; cv=none; b=qTw0vMu1+rO9vR4/ypxZXnljbIRZ/fd8Xx9Sn58XZD5w3YtKG8xw5uyKCmoI6uB7PUB0YOFvp5ht4u3uhksVGYxfKQsVDzy4uOuGXOlHLrRanzvRsKF6xED8vX48dAVXf7LE3k0+iYOndtOQZCEjnV6aXVoc9LAWkUCjU/eXYiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731723025; c=relaxed/simple;
-	bh=5v8HwQRVQlq3aD3asA+KsArcbUCWwhUDpDFKqBUyJ4M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vzv7SETISRFggrLtfpfqPdYxE7TO1dofc9zL//ZPyDSxfv0jlNDm3qwXbOGoXfM/PzY2TvK2YoA4X3z0UB9EWNSC6FbkkOS9hr/58ppMn4/kyzzWyPKpLSIySz/mblLLESoL1tXEtuzZS4hrSBba9IzX3JM8DvuuYwvYEnY1cg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
-Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
-	by host11.cruzio.com (Postfix) with ESMTPSA id 1D289223C812;
-	Fri, 15 Nov 2024 18:10:16 -0800 (PST)
-Message-ID: <50e6f713-0fdd-45bf-94c6-6241e008b683@cosmicgizmosystems.com>
-Date: Fri, 15 Nov 2024 18:10:15 -0800
+	s=arc-20240116; t=1731737022; c=relaxed/simple;
+	bh=r4vF8IrdFMgD08hcK4U30rLGVHmU114j0pb9IOhiAkw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=prkrAwJmcUR428t/MimZKDZYRes8+N7yT/XaNFHCv3bwWM+GuLd46NgvSWgPote5pVk7PSkshyGMAxr9AMo5n/ALPMUHO/a40lL57JSBRjdu03kqhyotp0cyPDH/zRs0GijH5kLgGY243nO+IU3RhdYwHb56gDfGAuDHpixW+RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=gpXgdBXa; arc=none smtp.client-ip=1.95.21.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="gpXgdBXa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=8mPwbXqgnl9XrwzwWBl68KnzBBVTshHswhakrqB5B24=;
+	b=gpXgdBXa+f7hGWMWaNsXNRxZs8DVzasNtoJ5a/rJ9woAz0YHpql6I1dHQ00UZ/
+	vXvgNeddwMcR1yDUPqFSB8tpcsbKIACXJcG0jaSqdszBoXcG6QM4nPV96wdUMaRz
+	HQAW++oNfsyaaMxINUI/feX9m31UhnngyxesoiIVtZNM4=
+Received: from dragon (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id Ms8vCgAHL7rHEThnfPKpAg--.27117S3;
+	Sat, 16 Nov 2024 11:30:17 +0800 (CST)
+Date: Sat, 16 Nov 2024 11:30:15 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: Arnd Bergmann <arnd@kernel.org>, Peng Fan <peng.fan@nxp.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix i.MX build dependency
+Message-ID: <ZzgRx5BdYI3yzAGb@dragon>
+References: <20241115230555.2435004-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: usb-audio: Fix control names for Plantronics/Poly
- Headsets
-To: Takashi Iwai <tiwai@suse.de>,
- Terry Junge <linuxhid@cosmicgizmosystems.com>
-Cc: Wade Wang <wade.wang@hp.com>, perex@perex.cz, tiwai@suse.com, kl@kl.wtf,
- wangdicheng@kylinos.cn, k.kosik@outlook.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20241114061553.1699264-1-wade.wang@hp.com>
- <87plmythnv.wl-tiwai@suse.de>
- <4717b9c4-8d9f-40d8-903e-68be30ac7d82@cosmicgizmosystems.com>
- <87jzd4syc2.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Terry Junge <linuxsound@cosmicgizmosystems.com>
-In-Reply-To: <87jzd4syc2.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241115230555.2435004-1-arnd@kernel.org>
+X-CM-TRANSID:Ms8vCgAHL7rHEThnfPKpAg--.27117S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF47WFWUZFyxWw4UWr1ftFb_yoW8CF17pa
+	9a9FyDCFyDJr4rJF47Ar4xX3W09a9YkrWrJF4DG3y8Zrn8ZF4kKFyvgw15XFyku3savr10
+	9F48Xws8WFyqya7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrhL8UUUUU=
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEhaZZWc3+Cc7HAAAsQ
 
-On 11/15/24 12:19 AM, Takashi Iwai wrote:
-> On Thu, 14 Nov 2024 19:44:52 +0100,
-> Terry Junge wrote:
->>
->> Thanks Takashi,
->>
->> On 11/13/24 11:10 PM, Takashi Iwai wrote:
->>> On Thu, 14 Nov 2024 07:15:53 +0100,
->>> Wade Wang wrote:
->>>>
->>>> Add a control name fixer for all headsets with VID 0x047F.
->>>>
->>>> Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
->>>> Signed-off-by: Wade Wang <wade.wang@hp.com>
->>>
->>> Thanks for the patch, but from the description, it's not clear what
->>> this patch actually does.  What's the control name fixer and how it
->>> behaves?
->>
->> It will be better described in the v2 patch.
->>
->> It modifies names like
->>
->> Headset Earphone Playback Volume
->> Headset Microphone Capture Switch
->> Receive Playback Volume
->> Transmit Capture Switch
->>
->> to
->>
->> Headset Playback Volume
->> Headset Capture Switch
->>
->> so user space will bind to the headset's audio controls.
+On Sat, Nov 16, 2024 at 12:05:18AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> OK, that makes sense.  I suppose that both "Headset Earphone Playback
-> Volume" and "Receive Playback Volume" don't exist at the same time,
-> right?
+> The newly added SCMI vendor driver references functions in the
+> protocol driver but needs a Kconfig dependency to ensure it can link,
+> essentially the Kconfig dependency needs to be reversed to match the
+> link time dependency:
+> 
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
+> fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
+> fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
+> 
+> This however only works after changing the dependency in the SND_SOC_FSL_MQS
+> driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
+> driver it depends on. This is generally a bad idea, so the best solution
+> is to change that into a dependency.
+> 
+> To allow the ASoC driver to keep building with the SCMI support, this
+> needs to be an optional dependency that enforces the link-time
+> dependency if IMX_SCMI_MISC_DRV is a loadable module but not
+> depend on it if that is disabled.
+> 
+> Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
+> Fixes: 101c9023594a ("ASoC: fsl_mqs: Support accessing registers by scmi interface")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+> I'm not sure this is the version we want to go with in the end, without
+> having read the code in detail, but the version in linux-next is clearly
+> wrong in multiple ways and this is the best I could come up with so far.
+> 
+> If we can agree on this approach, it needs to go through the ASoC tree
+> as that contains the 101c9023594a commit at the moment.
 
-Yes, that is correct. No device will have both.
+Thanks for spotting and fixing, Arnd!
 
-Terry
+Unless Peng has objection to this change, I'm good with it.
+
+Shawn
 
