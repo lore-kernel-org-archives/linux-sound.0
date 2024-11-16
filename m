@@ -1,61 +1,64 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0F13EA76
-	for <linux-sound@vger.kernel.org>; Sat, 16 Nov 2024 15:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075FD2B2F2;
+	Sat, 16 Nov 2024 18:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731771655; cv=none; b=SkpDziGGkBU6WM0/HX3krR7sQf9MjHC/kF4Gb50HKi5BovZXKiUZN0hgUjHGWoMxjlk4PSXXw9ZbOULwy2I5/azRAW/qNttujaXR288g5WXoCbZ9/uNSY1a5Oh/UJdveqrIFQ68EOpB1k8gDfCG5OC8de+xOnbVNj+L30Wa1Ikk=
+	t=1731783540; cv=none; b=o/QEObvBgL1sw9kspfekyJ5Tr6Sfuh4V7tG3CHedrBJ5FgIenWGYskkLAoRmasHw8BJt/zJsFUcFTalOntYYhylHL86H9HtRrBBWUSqGqOINHzHfHP6l+j2BbL81l+oCVYs3qOqnYAqB0ee9rOw32XFxUJ2kJzydYn/RX1RMkdM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731771655; c=relaxed/simple;
-	bh=Wd+7kLQISUZlzyPvYmSUTVOb8NV4Vyd3OpsFXw6X7a0=;
-	h=From:Message-ID:To:Subject:Date:MIME-Version:Content-Type; b=dp8VwctE6H9jje4c1tefIxSv04gLtWOvqlZOjl3GcPwdAwmcZWWMSTaHxiD5UPW1f9WYe9HWNkRCkaSqLj6ogOgcrdVx/RohJDUuUP+2BKj0d8ETJzIMEDJkFnSvuBeIr/LzosdqTWmDf03Rr44o1MkyK4DecmJDk9cljKVPcSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gl+pA24a; arc=none smtp.client-ip=209.85.210.176
+	s=arc-20240116; t=1731783540; c=relaxed/simple;
+	bh=9NvF7CoMbqIuVC85V+rA1ofb/pRfjazXUXP451cgYUE=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hD37tZrMW5sK4556uIEEG5hLI34du3tVwJo3pN8lv1cRLbHr/HfAjnzd2lQ656F9JnaEFwoYfG+NCHv2c7q2uwhnLbT7HlqcM6VthwfIUICJD7RtiV5swFhKE3new+cbNf4VzNO1tdpzYZyXrmYkg+3I4WOB9m0E+wp6n3gM9l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6ncxo1K; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl+pA24a"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-720c2db824eso2541102b3a.0
-        for <linux-sound@vger.kernel.org>; Sat, 16 Nov 2024 07:40:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6ncxo1K"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20c805a0753so28067825ad.0;
+        Sat, 16 Nov 2024 10:58:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731771653; x=1732376453; darn=vger.kernel.org;
-        h=mime-version:date:subject:to:reply-to:message-id:from:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=gl+pA24anTnI4had/C6pFYtn4cinDFk//M6gcukHSXBuV+t1strSEIq9sL9DJYjDeh
-         +c+/DOVdPkTaERKhk8/E2zU9UdStr3DYCGnfURo4nF+usqoMU904B8NDeoMmCeEHFpBp
-         2u+Wm0TcHLoUP3U6sWvDThc4fk4AgkzsFEzW1ypgMiO+M6JXvztNbKxIS5L9DA3DTaIf
-         Sm9yatXibnnuQYXb2G+ZZeeAs9tfFJIYFSS3hbgu6vDSaBeiS2RAXe47YV5sjAeSbMzE
-         yd7YNgpEmM8ktiQ8nio+TOGvr0sRVMYsToTuTPE+3L8tfxqnw+X1GogpooJFuyzmM67q
-         GgYw==
+        d=gmail.com; s=20230601; t=1731783538; x=1732388338; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6g1oQXsTrdrctZscRJ3TPVmonDFH95VF7gA1oQnI5y0=;
+        b=P6ncxo1KEft0q6sbI4UuqUdSZcrFq5lhtK3A9nX0wJddYjZwDCB1+o8mVRSvJfbNy8
+         VGp/AsrBNdHrgBqbLhYRImjeGejUAxG60lCjob8Qb7HTX+2HfAyRyd2if0G3KIIrx4i3
+         8mYRxM+2ohOvxAX49cjyG5nlwG+DU1bZVune7aHfCAf07kvEWk7pKX8y86bje8wN3IqK
+         o1+ms8opPZwpZYvB/vBWAEaw5YMEy9qFKqujkENwaYwpcoIXik7X8UbTTr9mbB13LGss
+         wUrZugOzoDNG1ax59iMjUeiN/U9NEMFgnHQjyIc7ho6AJgO/mIo3r3icej6DU3vvqgq5
+         UFVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731771653; x=1732376453;
-        h=mime-version:date:subject:to:reply-to:message-id:from
+        d=1e100.net; s=20230601; t=1731783538; x=1732388338;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XHEOkgJ64rwJ+cv0sVIqPUmbc8l+iTifR7HzGzNced0=;
-        b=HubauuByybW/xzfP6inaUVZwRlSt2PzTBr9w3ImxzuVzmlFnWri6zx62dUJ0bQpgiX
-         TybVxLTTZRI4zkktlbFiVt7it5RIFwpb/mlMsFUwe4ULMVnSuAd4yT3cVa5KTtYM90ku
-         XetZRy061KxhXr9/wagksozNBIRLpsZFpsbaGGU/YD9jlJXkN2USRIoOHNqgT14REwJw
-         NEZuaeS55wPl5bRly1W9Npu53ziIfZNEkrz/jKqsRCsQssz/xI89NELQkyjo+6u9PY98
-         goJdbOK226hpoBB1bhJr4j3cGieu2T8ZKfb1nnn+FTvm16sTHFkiHMZ2Jo/HL8CtQyFL
-         RnPw==
-X-Gm-Message-State: AOJu0Yxz+0LS4kmYsjwLBMLbYx+yUjexiApBnu//bWR1GyrZHerGcMBy
-	992Y/ultBfGHFhWabfbXD8E5gcE5UbMSWfl8956AMEnNdV+MXC4ScO4arQ==
-X-Google-Smtp-Source: AGHT+IHm0Mqr5FkFu9WfRvgNFtP/bzC4fOGrtR1XOOpuzoqjW8lUofdlYVdGDfQylpdfHJpGoJRJ0A==
-X-Received: by 2002:a05:6a00:3a0c:b0:724:5b8b:421f with SMTP id d2e1a72fcca58-72476d58b29mr8483488b3a.24.1731771653060;
-        Sat, 16 Nov 2024 07:40:53 -0800 (PST)
-Received: from [103.67.163.162] ([103.67.163.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724770ee79csm3198933b3a.11.2024.11.16.07.40.52
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 16 Nov 2024 07:40:52 -0800 (PST)
-From: "Van. HR" <skirotuh@gmail.com>
-X-Google-Original-From: "Van. HR" <infodesk@information.com>
-Message-ID: <d7c53bd48fd6c9eec149bb67d7f4fa00cf82dd62a8f51b219171fb72eb8fcb51@mx.google.com>
-Reply-To: dirofdptvancollin@gmail.com
-To: linux-sound@vger.kernel.org
-Subject: Nov:16:24
-Date: Sat, 16 Nov 2024 10:40:50 -0500
+        bh=6g1oQXsTrdrctZscRJ3TPVmonDFH95VF7gA1oQnI5y0=;
+        b=MtfUjCOHyw352RV+XEpUZNGw6rxgrxjzSehM3vNzz0EW1ffajLwZcg4WdkE0vpO81z
+         7ICb153+rs2bEAHdL1XaV6HZWpGrRarVyxUQQ/qluQY+/UgfYAjd/Ap4neD8cGfaHWt2
+         n6qN5iBGVQhQQS5suHLPF7NcfgJxqs51qZOVt7VzilysZIkAPleDxGSX/RXylNBRmsVe
+         qwfZ31G/Aa2alki6/6CnVPXFDb5raMNySMcWbATk6RhYPEyewRDy0KssMyp+1eFKNGS2
+         02+/zvY7kg4T2lDW/lE5MK79PsgekhD2HnLymHUP/kMaMgPSGRta4vvqqIMRzftzd1n+
+         bl/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVMht1V45Ol/VrPQdOuQolcQxULwZ8/SME/QuPBhLU+rQWzvU5KzVVYXNugyVprrt/ktSyjfUNP98INeoA=@vger.kernel.org, AJvYcCWqPKcEoIeSRWDY7ZwlPjpcs5f1h5l8c7QpMnNTw7lEtQnmQWjxfvx4zc1pvcnJHtQ627OgzEcA2IejIyQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwddyV6awwNSS5FLDRHZlCImSXt5SHBQIcRQXVpL8gzcwHLDGZQ
+	ayU9qQhaxxp7MmzL56lz0CAKlFLCVbjp9GkB+7uQNwGGe5tfhzPP
+X-Google-Smtp-Source: AGHT+IElM+kP9nrFu84SLcOHQlh9hTYlkbUDN7ol0gu9pT3/Xg0RZomx2OR023i8JDF3mjVyxS2DRQ==
+X-Received: by 2002:a17:902:e812:b0:212:77d:3899 with SMTP id d9443c01a7336-212077d3a92mr12550055ad.31.1731783538019;
+        Sat, 16 Nov 2024 10:58:58 -0800 (PST)
+Received: from RedmiG ([31.162.111.63])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724770eea5csm3357248b3a.2.2024.11.16.10.58.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2024 10:58:57 -0800 (PST)
+Date: Sat, 16 Nov 2024 21:58:45 +0300
+From: Alex Far <anf1980@gmail.com>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	"end.to.start" <end.to.start@mail.ru>, Jiawei Wang <me@jwang.link>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: fix internal mic on Redmi G 2022
+Message-ID: <ZzjrZY3sImcqTtGx@RedmiG>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,13 +66,33 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
-I am a private investment consultant representing the interest of a multinational  conglomerate that wishes to place funds into a trust management portfolio.
+This laptop model requires an additional detection quirk to enable the 
+internal microphone
 
-Please indicate your interest for additional information.
+Signed-off-by: Alex Far <anf1980@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Regards,
-
-Van Collin.
-
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 2436e8deb2be..c33ad161b139 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -409,6 +409,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "Xiaomi Book Pro 14 2022"),
+ 		}
+ 	},
++	{
++		.driver_data = &acp6x_card,
++		.matches = {
++			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi G 2022"),
++		}
++	},
+ 	{
+ 		.driver_data = &acp6x_card,
+ 		.matches = {
+-- 
+2.47.0
