@@ -1,40 +1,41 @@
-Received: from smtp.smtpout.orange.fr (smtp-15.smtpout.orange.fr [80.12.242.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD34CB64A;
-	Sat, 16 Nov 2024 08:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8144F2F29;
+	Sat, 16 Nov 2024 09:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731744345; cv=none; b=OT2ykCyrp7ssKROhMsBVwVkFUfl9N8tzmfAJP17QAPFI+nQkLMDlvSSZGp1vDEWkLNY3iiNQ9P94CEUc/P9gkppOe1qVuGN4EHvBfRnA4jr8YKBhgr/CarcfjoiS3JGEZxmeJhTnIARvZWyC2SZC2Bp54QD2/5g0t1keQ0HqR7Y=
+	t=1731750045; cv=none; b=nKci6P9ChIYbUUbESp0XSYHfKPTpt2rkoFthPx307Sq8WAEpuBYt/C8pbUYXaQo6XYICJkRhYCgMTHQ5PcdvB7C3VBcVLq9bUSQbt6mqaDynATAmYicljBhsNlyT7GprxMqmUhJFw+S8DePkjyWbf8GP8YzxZ55AXZP9yUbNs8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731744345; c=relaxed/simple;
-	bh=wgiLgzGKAYU27R3fy6i2E+LUkALYGlu7ODHf9sXAqfs=;
+	s=arc-20240116; t=1731750045; c=relaxed/simple;
+	bh=AYdjEchhZ5mrm6nYKh972kd0ZosjG1lq2iB4ht9KhII=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kt1fBNq0zdqwUMEniUHFkGsZht58GHdtDpGF0Ja9p98DAeBKssllfxgyIEVwGAbvPdUAaG6bLhHXPCeo+fIPDq8jnR423CrmGuIVIi62DJxXupLSmUomzxQKFK4smvxUM9gLd41gJvGLHd6Q4aLoQA2SWhJjI8kByu5iHlVVidQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=myzmuc4y; arc=none smtp.client-ip=80.12.242.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="myzmuc4y"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id CDo4tecI9mK41CDo4tW2mE; Sat, 16 Nov 2024 09:05:34 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1731744334;
-	bh=b+0UwGUK36XBZvKxvr6vjvATT91j6JD6JlC0ymG+Y2I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=myzmuc4yZf7QyGuZva4JAt/xz9USMrsudZ8Ml04eo6D14T1a+RFluvnmVReDMCxeX
-	 I873nmlwJKtlY5sCp/rUGMUY+v7PjpgHpBoJ2sGFGKEGvLVHkonzsZzmjWryqomNmd
-	 PaKr0gw7h9yyg23v/8wW/OCYZGaRgHeYek81hCWfNAOq+K/qELx1Ufj6SLQbh7savU
-	 Dh9sJpkuijTxAxo12hMSRpg5D4SgIdyXuoyrlcZ1Eh0AqVA9EJOH4cMQbhlI2WblXt
-	 z4UQXaqz9syWILV92AwehIwJfohfDohJF7pWWmSRV4jIwzOS/0gVjhYl1PVJNA15hY
-	 Kac5OCl9eSHjQ==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sat, 16 Nov 2024 09:05:34 +0100
-X-ME-IP: 90.11.132.44
-Message-ID: <03d4131f-7204-4cc5-811b-ef541f904e17@wanadoo.fr>
-Date: Sat, 16 Nov 2024 09:05:23 +0100
+	 In-Reply-To:Content-Type; b=G9p87YQrzyvr9ZgC4UnYmX4PV8h1ms//bFN4cqu6cx2VOL2xUm+JY8ZKFHIQhCb0t/iCMQRjjRaujTMld3nwNvQqfK1s+5RzPYoN6V2Nh60Vkz+iHn/8tGJEKhdTtehwXlB1X8qZR/fPD56bbhCQWpi+KTekh9n8uER5DHCkUx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Xr85N5Gv6z9sSR;
+	Sat, 16 Nov 2024 10:40:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id RSlaypuNxNm4; Sat, 16 Nov 2024 10:40:40 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Xr85N41fnz9sSL;
+	Sat, 16 Nov 2024 10:40:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6B8F18B7A0;
+	Sat, 16 Nov 2024 10:40:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id 9RKIVUrbVgoj; Sat, 16 Nov 2024 10:40:40 +0100 (CET)
+Received: from [192.168.232.159] (POS169858.IDSI0.si.c-s.fr [192.168.232.159])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id EDBE28B763;
+	Sat, 16 Nov 2024 10:40:36 +0100 (CET)
+Message-ID: <b370e8d0-2f87-4819-8f30-1181946295d9@csgroup.eu>
+Date: Sat, 16 Nov 2024 10:40:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,65 +43,136 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] ALSA: hda/tas2781: Add speaker id check for ASUS
- projects
-To: Baojun Xu <baojun.xu@ti.com>, tiwai@suse.de
-Cc: robh+dt@kernel.org, andriy.shevchenko@linux.intel.com,
- lgirdwood@gmail.com, perex@perex.cz, pierre-louis.bossart@linux.intel.com,
- shenghao-ding@ti.com, navada@ti.com, 13916275206@139.com,
- v-hampiholi@ti.com, v-po@ti.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, liam.r.girdwood@intel.com,
- yung-chuan.liao@linux.intel.com, broonie@kernel.org, antheas.dk@gmail.com,
- philm@manjaro.org
-References: <20241116075006.11994-1-baojun.xu@ti.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20241116075006.11994-1-baojun.xu@ti.com>
+Subject: Re: [PATCH v2 01/21] netfilter: conntrack: Cleanup timeout
+ definitions
+To: Easwar Hariharan <eahariha@linux.microsoft.com>,
+ Pablo Neira Ayuso <pablo@netfilter.org>,
+ Jozsef Kadlecsik <kadlec@netfilter.org>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
+ Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
+ Haojian Zhuang <haojian.zhuang@gmail.com>,
+ Robert Jarzmik <robert.jarzmik@free.fr>, Russell King
+ <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
+ <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
+ Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi
+ <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ James Smart <james.smart@broadcom.com>,
+ Dick Kennedy <dick.kennedy@broadcom.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+ Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
+ Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
+ <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann
+ <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>,
+ Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
+ Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Louis Peens <louis.peens@corigine.com>, Michael Ellerman
+ <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <20241115-converge-secs-to-jiffies-v2-1-911fb7595e79@linux.microsoft.com>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <20241115-converge-secs-to-jiffies-v2-1-911fb7595e79@linux.microsoft.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 16/11/2024 à 08:50, Baojun Xu a écrit :
-> Add speaker id check by gpio in ACPI for ASUS projects.
-> In other vendors, speaker id was checked by BIOS, and was applied in
-> last bit of subsys id, so we can load corresponding firmware binary file
-> for its speaker by subsys id.
-> But in ASUS project, the firmware binary name will be appended an extra
-> number to tell the speakers from different vendors. And this single digit
-> come from gpio level of speaker id in BIOS.
+
+
+Le 15/11/2024 à 22:26, Easwar Hariharan a écrit :
+> [Vous ne recevez pas souvent de courriers de eahariha@linux.microsoft.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
 > 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+> None of the higher order definitions are used anymore, so remove
+> definitions for minutes, hours, and days timeouts. Convert the seconds
+> denominated timeouts to secs_to_jiffies()
 
-...
+There is very similar things with tcp_timeouts[] in 
+nf_conntrack_proto_tcp.c, why not convert it as well ?
 
-> +	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
-> +	if (IS_ERR(sub)) {
-> +		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
-> +		goto err;
-> +	}
-> +	// Speaker id was needed for ASUS projects.
+> 
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>   net/netfilter/nf_conntrack_proto_sctp.c | 21 ++++++++-------------
+>   1 file changed, 8 insertions(+), 13 deletions(-)
+> 
+> diff --git a/net/netfilter/nf_conntrack_proto_sctp.c b/net/netfilter/nf_conntrack_proto_sctp.c
+> index 4cc97f971264ed779434ab4597dd0162586b3736..6c95ac96fa42a39acafb5b88a7cf8898010e911c 100644
+> --- a/net/netfilter/nf_conntrack_proto_sctp.c
+> +++ b/net/netfilter/nf_conntrack_proto_sctp.c
+> @@ -39,20 +39,15 @@ static const char *const sctp_conntrack_names[] = {
+>          [SCTP_CONNTRACK_HEARTBEAT_SENT]         = "HEARTBEAT_SENT",
+>   };
+> 
+> -#define SECS  * HZ
+> -#define MINS  * 60 SECS
+> -#define HOURS * 60 MINS
+> -#define DAYS  * 24 HOURS
+> -
+>   static const unsigned int sctp_timeouts[SCTP_CONNTRACK_MAX] = {
+> -       [SCTP_CONNTRACK_CLOSED]                 = 10 SECS,
+> -       [SCTP_CONNTRACK_COOKIE_WAIT]            = 3 SECS,
+> -       [SCTP_CONNTRACK_COOKIE_ECHOED]          = 3 SECS,
+> -       [SCTP_CONNTRACK_ESTABLISHED]            = 210 SECS,
+> -       [SCTP_CONNTRACK_SHUTDOWN_SENT]          = 3 SECS,
+> -       [SCTP_CONNTRACK_SHUTDOWN_RECD]          = 3 SECS,
+> -       [SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]      = 3 SECS,
+> -       [SCTP_CONNTRACK_HEARTBEAT_SENT]         = 30 SECS,
+> +       [SCTP_CONNTRACK_CLOSED]                 = secs_to_jiffies(10),
+> +       [SCTP_CONNTRACK_COOKIE_WAIT]            = secs_to_jiffies(3),
+> +       [SCTP_CONNTRACK_COOKIE_ECHOED]          = secs_to_jiffies(3),
+> +       [SCTP_CONNTRACK_ESTABLISHED]            = secs_to_jiffies(210),
+> +       [SCTP_CONNTRACK_SHUTDOWN_SENT]          = secs_to_jiffies(3),
+> +       [SCTP_CONNTRACK_SHUTDOWN_RECD]          = secs_to_jiffies(3),
+> +       [SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]      = secs_to_jiffies(3),
+> +       [SCTP_CONNTRACK_HEARTBEAT_SENT]         = secs_to_jiffies(3),
 
-Comments in this file are all /* */.
-Why introduce // in many places?
+Was 30 before, if you think it must be changed to 3 you must explain it 
+in the commit message, or maybe do another patch for that change.
 
-CJ
+>   };
+> 
+>   #define        SCTP_FLAG_HEARTBEAT_VTAG_FAILED 1
+> 
+> --
+> 2.34.1
+> 
 
-> +	if (!strncmp(sub, TAS2781_ASUS_ID, strlen(TAS2781_ASUS_ID))) {
-> +		ret = devm_acpi_dev_add_driver_gpios(p->dev,
-> +			tas2781_speaker_id_gpios);
-> +		if (ret < 0)
-> +			dev_err(p->dev, "Failed to add driver gpio %d.\n",
-> +			ret);
+Christophe
 
-ret should be indented below the ( to ease reading.
-
-> +		p->speaker_id = devm_gpiod_get(p->dev, "speakerid", GPIOD_IN);
-> +		if (IS_ERR(p->speaker_id)) {
-> +			dev_err(p->dev, "Failed to get Speaker id.\n");
-> +			ret = PTR_ERR(p->speaker_id);
-> +			goto err;
-> +		}
-> +	} else {
-> +		p->speaker_id = NULL;
-> +	}
-
-...
