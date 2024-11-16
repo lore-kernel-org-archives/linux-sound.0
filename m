@@ -1,98 +1,194 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.14])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B232663D;
-	Sat, 16 Nov 2024 06:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.14
+Received: from smtp.smtpout.orange.fr (smtp-17.smtpout.orange.fr [80.12.242.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4802E18D625;
+	Sat, 16 Nov 2024 06:06:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731737022; cv=none; b=qTw0vMu1+rO9vR4/ypxZXnljbIRZ/fd8Xx9Sn58XZD5w3YtKG8xw5uyKCmoI6uB7PUB0YOFvp5ht4u3uhksVGYxfKQsVDzy4uOuGXOlHLrRanzvRsKF6xED8vX48dAVXf7LE3k0+iYOndtOQZCEjnV6aXVoc9LAWkUCjU/eXYiY=
+	t=1731737173; cv=none; b=MhxAwLJ2c1bpXvkXFyPUWLWbMk5H5y/haIGtdEYd4iQbAknb+GSEMQYasmbp78A3RjR1TsJS8jXUngAPyDURDY8Pk7ra7nm+Cs1Jz3ynDnGsIa5S5mYGkV7T2ivR44KEYdEB7TSMYVtTqMG0oQ2QpvNVj0t7nwxikF6VxcjDEl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731737022; c=relaxed/simple;
-	bh=r4vF8IrdFMgD08hcK4U30rLGVHmU114j0pb9IOhiAkw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=prkrAwJmcUR428t/MimZKDZYRes8+N7yT/XaNFHCv3bwWM+GuLd46NgvSWgPote5pVk7PSkshyGMAxr9AMo5n/ALPMUHO/a40lL57JSBRjdu03kqhyotp0cyPDH/zRs0GijH5kLgGY243nO+IU3RhdYwHb56gDfGAuDHpixW+RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=gpXgdBXa; arc=none smtp.client-ip=1.95.21.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	s=arc-20240116; t=1731737173; c=relaxed/simple;
+	bh=pH1vRRZ7ypbK8ig19ve8VTJ681CoPKnEt+e4Gii8zqE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U5Xy6Fwq6+crFGvk27H3N5sGM046RWmreh5emx+b7pPCAl9NcnhggLl1ZJYsnJ1/RX2LhebezU6rBNhL5H5fP1SKd7QcdIkgh92pGJWHDDXrb8SQMfX2dXOlvZI9bBre535hjVqQ7MomH0oCUDkGS+a8+FD6dG5vhxMEF8n5uZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=mL98MjzV; arc=none smtp.client-ip=80.12.242.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="gpXgdBXa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=8mPwbXqgnl9XrwzwWBl68KnzBBVTshHswhakrqB5B24=;
-	b=gpXgdBXa+f7hGWMWaNsXNRxZs8DVzasNtoJ5a/rJ9woAz0YHpql6I1dHQ00UZ/
-	vXvgNeddwMcR1yDUPqFSB8tpcsbKIACXJcG0jaSqdszBoXcG6QM4nPV96wdUMaRz
-	HQAW++oNfsyaaMxINUI/feX9m31UhnngyxesoiIVtZNM4=
-Received: from dragon (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id Ms8vCgAHL7rHEThnfPKpAg--.27117S3;
-	Sat, 16 Nov 2024 11:30:17 +0800 (CST)
-Date: Sat, 16 Nov 2024 11:30:15 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Arnd Bergmann <arnd@kernel.org>, Peng Fan <peng.fan@nxp.com>
-Cc: Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	arm-scmi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] firmware: arm_scmi: fix i.MX build dependency
-Message-ID: <ZzgRx5BdYI3yzAGb@dragon>
-References: <20241115230555.2435004-1-arnd@kernel.org>
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="mL98MjzV"
+Received: from localhost.localdomain ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id CBwItlkEVyQmhCBwItrt0n; Sat, 16 Nov 2024 07:06:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1731737162;
+	bh=1GOO379j5kHelQgT13xeDCIW+pFPJCeiM7WSIuvag78=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=mL98MjzVZSShtzisX9zbjDjIb7KE72buAzIx9jorkgCEIlxacBGBiKDqnznYupede
+	 vEhaEvssP8Otw+abSwd4UipThVl5qw3v6w8RixuAXgrl/p9FBRiYmldRfZZljgK0OD
+	 FX0UB9px2S9OjhfpAHnQggpK1elWNH8UBNVIvO5x+AsAiYtyf4oGwInz8jFtqh7DDu
+	 OMNwG4GURPpChqfcVzLVhpacwz+NEqWf9xIvmwF/gxmCGy7nRrRkaf4TeGrlu6c0Ll
+	 o9NHONgP90fIf7c6ZsyFFLJ/v2i9NFywx5+jxHfxBiA3eBfpU5DKAu5obNXbrUQywu
+	 rI95zY+eQlUcg==
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 16 Nov 2024 07:06:02 +0100
+X-ME-IP: 90.11.132.44
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: eahariha@linux.microsoft.com
+Cc: James.Bottomley@HansenPartnership.com,
+	Julia.Lawall@inria.fr,
+	agordeev@linux.ibm.com,
+	airlied@gmail.com,
+	akpm@linux-foundation.org,
+	andrew+netdev@lunn.ch,
+	anna-maria@linutronix.de,
+	ath11k@lists.infradead.org,
+	axboe@kernel.dk,
+	bcm-kernel-feedback-list@broadcom.com,
+	borntraeger@linux.ibm.com,
+	catalin.marinas@arm.com,
+	ceph-devel@vger.kernel.org,
+	christian.gmeiner@gmail.com,
+	christophe.leroy@csgroup.eu,
+	cocci@inria.fr,
+	coreteam@netfilter.org,
+	daniel@zonque.org,
+	davem@davemloft.net,
+	dick.kennedy@broadcom.com,
+	dri-devel@lists.freedesktop.org,
+	edumazet@google.com,
+	etnaviv@lists.freedesktop.org,
+	florian.fainelli@broadcom.com,
+	gor@linux.ibm.com,
+	gregkh@linuxfoundation.org,
+	haojian.zhuang@gmail.com,
+	hca@linux.ibm.com,
+	horms@kernel.org,
+	idryomov@gmail.com,
+	intel-xe@lists.freedesktop.org,
+	james.smart@broadcom.com,
+	jeroendb@google.com,
+	jikos@kernel.org,
+	jinpu.wang@cloud.ionos.com,
+	jjohnson@kernel.org,
+	joe.lawrence@redhat.com,
+	johan.hedberg@gmail.com,
+	jpoimboe@kernel.org,
+	kadlec@netfilter.org,
+	kuba@kernel.org,
+	kvalo@kernel.org,
+	l.stach@pengutronix.de,
+	linux+etnaviv@armlinux.org.uk,
+	linux-arm-kernel@lists.infradead.org,
+	linux-block@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	linux@armlinux.org.uk,
+	linuxppc-dev@lists.ozlabs.org,
+	live-patching@vger.kernel.org,
+	louis.peens@corigine.com,
+	lucas.demarchi@intel.com,
+	luiz.dentz@gmail.com,
+	maarten.lankhorst@linux.intel.com,
+	maddy@linux.ibm.com,
+	marcel@holtmann.org,
+	martin.petersen@oracle.com,
+	mbenes@suse.cz,
+	mpe@ellerman.id.au,
+	mripard@kernel.org,
+	naveen@kernel.org,
+	netdev@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	nicolas.palix@imag.fr,
+	npiggin@gmail.com,
+	obitton@habana.ai,
+	ogabbay@kernel.org,
+	oss-drivers@corigine.com,
+	pabeni@redhat.com,
+	pablo@netfilter.org,
+	perex@perex.cz,
+	pkaligineedi@google.com,
+	pmladek@suse.com,
+	rjui@broadcom.com,
+	robert.jarzmik@free.fr,
+	rodrigo.vivi@intel.com,
+	roger.pau@citrix.com,
+	sbranden@broadcom.com,
+	shailend@google.com,
+	simona@ffwll.ch,
+	svens@linux.ibm.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.com,
+	tzimmermann@suse.de,
+	xen-devel@lists.xenproject.org,
+	xiubli@redhat.com
+Subject: Re: [PATCH v2 02/21] coccinelle: misc: Add secs_to_jiffies script
+Date: Sat, 16 Nov 2024 07:05:40 +0100
+Message-ID: <20241116060541.5798-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241115-converge-secs-to-jiffies-v2-2-911fb7595e79@linux.microsoft.com>
+References: <20241115-converge-secs-to-jiffies-v2-2-911fb7595e79@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241115230555.2435004-1-arnd@kernel.org>
-X-CM-TRANSID:Ms8vCgAHL7rHEThnfPKpAg--.27117S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AF47WFWUZFyxWw4UWr1ftFb_yoW8CF17pa
-	9a9FyDCFyDJr4rJF47Ar4xX3W09a9YkrWrJF4DG3y8Zrn8ZF4kKFyvgw15XFyku3savr10
-	9F48Xws8WFyqya7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jrhL8UUUUU=
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiEhaZZWc3+Cc7HAAAsQ
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 16, 2024 at 12:05:18AM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> The newly added SCMI vendor driver references functions in the
-> protocol driver but needs a Kconfig dependency to ensure it can link,
-> essentially the Kconfig dependency needs to be reversed to match the
-> link time dependency:
-> 
-> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
-> fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
-> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
-> fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
-> 
-> This however only works after changing the dependency in the SND_SOC_FSL_MQS
-> driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
-> driver it depends on. This is generally a bad idea, so the best solution
-> is to change that into a dependency.
-> 
-> To allow the ASoC driver to keep building with the SCMI support, this
-> needs to be an optional dependency that enforces the link-time
-> dependency if IMX_SCMI_MISC_DRV is a loadable module but not
-> depend on it if that is disabled.
-> 
-> Fixes: 61c9f03e22fc ("firmware: arm_scmi: Add initial support for i.MX MISC protocol")
-> Fixes: 101c9023594a ("ASoC: fsl_mqs: Support accessing registers by scmi interface")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Le 15/11/2024 à 22:26, Easwar Hariharan a écrit :
+> Suggested-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 > ---
-> I'm not sure this is the version we want to go with in the end, without
-> having read the code in detail, but the version in linux-next is clearly
-> wrong in multiple ways and this is the best I could come up with so far.
+>   scripts/coccinelle/misc/secs_to_jiffies.cocci | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
 > 
-> If we can agree on this approach, it needs to go through the ASoC tree
-> as that contains the 101c9023594a commit at the moment.
+> diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..af762b1c0aac8f044f21150bfaafd9efc834ee87
+> --- /dev/null
+> +++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +///
+> +/// Find usages of:
+> +/// - msecs_to_jiffies(value*1000)
+> +/// - msecs_to_jiffies(value*MSEC_PER_SEC)
+> +///
+> +// Confidence: High
+> +// Copyright: (C) 2024 Easwar Hariharan Microsoft
+> +//
+> +// Keywords: secs, seconds, jiffies
+> +//
+> +
+> +@@ constant C; @@
+> +
+> +- msecs_to_jiffies(C * 1000)
+> ++ secs_to_jiffies(C)
+> +
+> +@@ constant C; @@
+> +
+> +- msecs_to_jiffies(C * MSEC_PER_SEC)
+> ++ secs_to_jiffies(C)
+> 
+Hi,
 
-Thanks for spotting and fixing, Arnd!
+	@@ constant C =~ "000"; @@
 
-Unless Peng has objection to this change, I'm good with it.
+	* msecs_to_jiffies(C)
 
-Shawn
+also spots things like msecs_to_jiffies(1000)
 
+I'm not sure that coccinelle is enable to capture part of the regex to automate the removal of the 000 when converting from ms to s.
+
+Just my 2c,
+
+CJ
