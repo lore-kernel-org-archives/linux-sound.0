@@ -1,32 +1,24 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9962836D;
-	Sat, 16 Nov 2024 00:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815EE33EC;
+	Sat, 16 Nov 2024 02:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731715999; cv=none; b=RhCX1PeVwrCViUIDajk9kPIMn5HC9HgFJAYKZ+XyS3/lLxsf1zR5j0QmrvQaueNrBMFTWPpLQS5HV7hvyYN1dEDSRrz7VdJcspOcd3nQ3YQ8f5pragxzjIHnPGgr8mtPBwkQMUB3/skcnkL409izGUKZ1mJjfC0opobK7wG1xjM=
+	t=1731723025; cv=none; b=DbHm462GoCvdUG7NeqeP6S0yuKAPbB6uF4HDcQBHva7HbWMzNWgDyESCGKqFbiT6h/N1kk5LfC+ur+wyJ26zjtzYtGunfMBbBxCuCbjoPf4mBjAhh1GF2zgFL2XYvNsdSEkFzur5a9qjKnZWsssNk1lKz0eyqll6o/VY7lei83o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731715999; c=relaxed/simple;
-	bh=1QhmnzTq6YPc5SN9QYasNPOs7nsv4yjri266rgw+pOw=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=C/JuprPMQg8Nez/QxlmQdyUVWgptTZFjtxUDIlkLzC9DjXKM6XNdyiAuaCHC3JLFmZcPNjhP9sPorh5VoQi5UoxoiPPUa2Un+j4e8KvllWmJ8eBYfHp4Wt4LVLvjNtnum2LOGXv6UJaciR9WBOcf6BzcF/whRlUSMCJegR8vDfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=juHtZTV0; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="juHtZTV0"
-Received: from [192.168.35.166] (c-73-118-245-227.hsd1.wa.comcast.net [73.118.245.227])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 95E342064AF0;
-	Fri, 15 Nov 2024 16:13:13 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 95E342064AF0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1731715997;
-	bh=8aWsE6KsHqgZAR/UTPX2BOaIFAyMPoSLG9xpC4Hm8PA=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=juHtZTV0RDh+wTFwjvF/I5Cbue56gEXjd0kD3znUPuWXx2wtRwF3SiJZ6HWwI5inJ
-	 TBVBD9vnbAv41iOqcNYfHcjXy0Jo4vpPQnYC829Cp+vZARPfhAL4M9phLDROf5akb8
-	 KGqyHrYITaajwfOdtt56+uCdzgps3Ezs57MjrN0w=
-Message-ID: <0b4bbd38-f6aa-4091-b7db-8b87572ad83a@linux.microsoft.com>
-Date: Fri, 15 Nov 2024 16:13:13 -0800
+	s=arc-20240116; t=1731723025; c=relaxed/simple;
+	bh=5v8HwQRVQlq3aD3asA+KsArcbUCWwhUDpDFKqBUyJ4M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vzv7SETISRFggrLtfpfqPdYxE7TO1dofc9zL//ZPyDSxfv0jlNDm3qwXbOGoXfM/PzY2TvK2YoA4X3z0UB9EWNSC6FbkkOS9hr/58ppMn4/kyzzWyPKpLSIySz/mblLLESoL1tXEtuzZS4hrSBba9IzX3JM8DvuuYwvYEnY1cg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.101] (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 1D289223C812;
+	Fri, 15 Nov 2024 18:10:16 -0800 (PST)
+Message-ID: <50e6f713-0fdd-45bf-94c6-6241e008b683@cosmicgizmosystems.com>
+Date: Fri, 15 Nov 2024 18:10:15 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -34,104 +26,63 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com, Pablo Neira Ayuso <pablo@netfilter.org>,
- Jozsef Kadlecsik <kadlec@netfilter.org>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Russell King
- <linux@armlinux.org.uk>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev
- <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
- Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi
- <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- James Smart <james.smart@broadcom.com>,
- Dick Kennedy <dick.kennedy@broadcom.com>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
- Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
- Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
- Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann
- <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>,
- Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Jiri Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>,
- Petr Mladek <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Louis Peens <louis.peens@corigine.com>, Michael Ellerman
- <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
- etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
- linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH v2 01/21] netfilter: conntrack: Cleanup timeout
- definitions
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <20241115-converge-secs-to-jiffies-v2-1-911fb7595e79@linux.microsoft.com>
- <20241116093458.4aa19a0e@canb.auug.org.au>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix control names for Plantronics/Poly
+ Headsets
+To: Takashi Iwai <tiwai@suse.de>,
+ Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: Wade Wang <wade.wang@hp.com>, perex@perex.cz, tiwai@suse.com, kl@kl.wtf,
+ wangdicheng@kylinos.cn, k.kosik@outlook.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20241114061553.1699264-1-wade.wang@hp.com>
+ <87plmythnv.wl-tiwai@suse.de>
+ <4717b9c4-8d9f-40d8-903e-68be30ac7d82@cosmicgizmosystems.com>
+ <87jzd4syc2.wl-tiwai@suse.de>
 Content-Language: en-US
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <20241116093458.4aa19a0e@canb.auug.org.au>
+From: Terry Junge <linuxsound@cosmicgizmosystems.com>
+In-Reply-To: <87jzd4syc2.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/15/2024 2:34 PM, Stephen Rothwell wrote:
-> Hi Easwar,
-> 
-> On Fri, 15 Nov 2024 21:26:18 +0000 Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+On 11/15/24 12:19 AM, Takashi Iwai wrote:
+> On Thu, 14 Nov 2024 19:44:52 +0100,
+> Terry Junge wrote:
 >>
->>  static const unsigned int sctp_timeouts[SCTP_CONNTRACK_MAX] = {
->> -	[SCTP_CONNTRACK_CLOSED]			= 10 SECS,
->> -	[SCTP_CONNTRACK_COOKIE_WAIT]		= 3 SECS,
->> -	[SCTP_CONNTRACK_COOKIE_ECHOED]		= 3 SECS,
->> -	[SCTP_CONNTRACK_ESTABLISHED]		= 210 SECS,
->> -	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= 3 SECS,
->> -	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= 3 SECS,
->> -	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= 3 SECS,
->> -	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= 30 SECS,
->> +	[SCTP_CONNTRACK_CLOSED]			= secs_to_jiffies(10),
->> +	[SCTP_CONNTRACK_COOKIE_WAIT]		= secs_to_jiffies(3),
->> +	[SCTP_CONNTRACK_COOKIE_ECHOED]		= secs_to_jiffies(3),
->> +	[SCTP_CONNTRACK_ESTABLISHED]		= secs_to_jiffies(210),
->> +	[SCTP_CONNTRACK_SHUTDOWN_SENT]		= secs_to_jiffies(3),
->> +	[SCTP_CONNTRACK_SHUTDOWN_RECD]		= secs_to_jiffies(3),
->> +	[SCTP_CONNTRACK_SHUTDOWN_ACK_SENT]	= secs_to_jiffies(3),
->> +	[SCTP_CONNTRACK_HEARTBEAT_SENT]		= secs_to_jiffies(3),
+>> Thanks Takashi,
+>>
+>> On 11/13/24 11:10 PM, Takashi Iwai wrote:
+>>> On Thu, 14 Nov 2024 07:15:53 +0100,
+>>> Wade Wang wrote:
+>>>>
+>>>> Add a control name fixer for all headsets with VID 0x047F.
+>>>>
+>>>> Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+>>>> Signed-off-by: Wade Wang <wade.wang@hp.com>
+>>>
+>>> Thanks for the patch, but from the description, it's not clear what
+>>> this patch actually does.  What's the control name fixer and how it
+>>> behaves?
+>>
+>> It will be better described in the v2 patch.
+>>
+>> It modifies names like
+>>
+>> Headset Earphone Playback Volume
+>> Headset Microphone Capture Switch
+>> Receive Playback Volume
+>> Transmit Capture Switch
+>>
+>> to
+>>
+>> Headset Playback Volume
+>> Headset Capture Switch
+>>
+>> so user space will bind to the headset's audio controls.
 > 
-> You have changed this last timeout from 30 seconds to 3 (presumably
-> just a copy and paste error).
-> 
+> OK, that makes sense.  I suppose that both "Headset Earphone Playback
+> Volume" and "Receive Playback Volume" don't exist at the same time,
+> right?
 
-Will fix in v3.
+Yes, that is correct. No device will have both.
+
+Terry
+
