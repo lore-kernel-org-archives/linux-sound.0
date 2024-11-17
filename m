@@ -1,65 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7DD38C;
-	Sun, 17 Nov 2024 00:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFE538C;
+	Sun, 17 Nov 2024 10:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731801747; cv=none; b=daKNCdgxDlA7r92UNnk/uc18eOagMtgmyk+9/GX5VPvyWAt/Y/q4b3LMd5aquXzFHrUrlsVNjCUkZ5Zgnc5LuVdu9lueUJihyD9pILiUwvFSc4Vm44oeqw/EiGdvNEaYTV8+/0CsxKv7jzkx016UjDcnf/Zp/YMjVUEYCa8HieA=
+	t=1731837814; cv=none; b=cLPRgci0XhUJtqFXFtxqp6nJfmciXY1b5MAcFJKxXh5sIFSZtv4eOn8RiwLNRSCxuNVA4o1RytsIQJicrPEVErrub5FWhsNuxNpg3QTJZIEomv/s5P1LV6vvQeapX9hviMNYRdbugnO1jEF47b0uMBSAOqZKqgzvIYOHQ3VLuCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731801747; c=relaxed/simple;
-	bh=gxKgLgaDLjJze/Htyj3X1BttLL7u3v4J/jz7At2NUZ8=;
+	s=arc-20240116; t=1731837814; c=relaxed/simple;
+	bh=wLngz+w8R8ARLEGH+KooMXrrnp/v/UtKleyZ2Ad5FW0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bYD36t5zCkGsOKHAZR6AOSv+dTBrAj4XyTzoIGlInQoxR8lei4VJSzI3OokrLucTtdyEmfVFwHfTuAJRP3xg1YRDUn7L8nobJiAWXvAlKrFogklhaLMj/EaILjn56rFlvEQ/OOtmLE6G02JeYmJsCRwh1Kwk8kpmCbbdW47aUA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQZAVGRi; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQZAVGRi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731801745; x=1763337745;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gxKgLgaDLjJze/Htyj3X1BttLL7u3v4J/jz7At2NUZ8=;
-  b=YQZAVGRiwo/sA4Y1oF/GgLOdu78rJonr4PkSot1wrvYC9qIHMKzKO7Dj
-   Qcwm5j3mjnv4PJa9SJwA2SsKw2Xqz4Zjvrno8AlekssGTLO9iup1q+cAN
-   G6BBVTV4wEF82vgmG+l4v88BHuMC1g/dpBiJXxAlzscNKY2oWxShpcVCn
-   YR4uainE+3+UDD1J2o9Qu2J0ZAZNBT0+CH1lqSiVKb5lP56bJc/Sp2Kzp
-   0p3TN5XuFBwtJ2napaqJ6MSpBPWVg5gH5cBwVmeykMyc5neFos8eftYI6
-   cQwPsZu+zF9xd31HuWf+TV6cqh3NaOrO2iNkwCIwmQ/6iFzDQ5q5ckiG4
-   Q==;
-X-CSE-ConnectionGUID: unmLaqRrT8ux8Uvy7PNEsw==
-X-CSE-MsgGUID: UOysgSPKTySvl2ajmDeDbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="32027333"
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="32027333"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:02:25 -0800
-X-CSE-ConnectionGUID: AJMT17puQ4uybtOhMITHQQ==
-X-CSE-MsgGUID: 7wYf6vcVQbCNRNHNE56khQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="89289158"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Nov 2024 16:02:22 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tCSk7-0001Av-1I;
-	Sun, 17 Nov 2024 00:02:19 +0000
-Date: Sun, 17 Nov 2024 08:02:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>,
-	frattaroli.nicolas@gmail.com, linux-rockchip@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, heiko@sntech.de,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
-Subject: Re: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call
- issue
-Message-ID: <202411170713.FymmFfl3-lkp@intel.com>
-References: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NlfwuYPivf4RzOzVEfolmhhRB3mGJJxUtBOYOZAw1w8X8rw3tIs7eX1WUqdHWZIk5qCbjCz4nbiLmpSfbHuP6HOCbF37ElzolNzCRhs5zBDXoBiIahd8kD4ii+Tbus1oPBmzoHN2P93ie2rmEC/5maLAYGqdlM6tsk/dXQnuJuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5B76E1424;
+	Sun, 17 Nov 2024 02:03:54 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBAC33F6A8;
+	Sun, 17 Nov 2024 02:03:21 -0800 (PST)
+Date: Sun, 17 Nov 2024 10:03:11 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Sudeep Holla <sudeep.holla@arm.com>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Peng Fan <peng.fan@nxp.com>, arm-scmi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH] firmware: arm_scmi: fix i.MX build dependency
+Message-ID: <Zzm_X0o-TkkGQeAN@pluto>
+References: <20241115230555.2435004-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -68,69 +43,87 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
+In-Reply-To: <20241115230555.2435004-1-arnd@kernel.org>
 
-Hi Dheeraj,
+On Sat, Nov 16, 2024 at 12:05:18AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
 
-kernel test robot noticed the following build warnings:
+Hi Arnd,
 
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> The newly added SCMI vendor driver references functions in the
+> protocol driver but needs a Kconfig dependency to ensure it can link,
+> essentially the Kconfig dependency needs to be reversed to match the
+> link time dependency:
+> 
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_write':
+> fsl_mqs.c:(.text+0x1aa): undefined reference to `scmi_imx_misc_ctrl_set'
+> arm-linux-gnueabi-ld: sound/soc/fsl/fsl_mqs.o: in function `fsl_mqs_sm_read':
+> fsl_mqs.c:(.text+0x1ee): undefined reference to `scmi_imx_misc_ctrl_get'
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dheeraj-Reddy-Jonnalagadda/ASoC-rockchip-i2s-tdm-Fix-a-useless-call-issue/20241115-195011
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20241115114924.23843-1-dheeraj.linuxdev%40gmail.com
-patch subject: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call issue
-config: loongarch-randconfig-r054-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170713.FymmFfl3-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170713.FymmFfl3-lkp@intel.com/reproduce)
+The SCMI drivers, like the newly added IMX_SCMI_MISC_DRV, generally make
+ue of the related vendor protocol like IMX_SCMI_MISC_EXT, BUT the SCMI
+stack is designed in a way that NO symbols are needed to be exported by
+the protocol layer (to avoid a huge and growing number of symbols
+exports)...so usually the current DRV-->PROTO dependency is fine.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170713.FymmFfl3-lkp@intel.com/
+In this case, AFAIU, it is the SCMI driver that in turn exports a few
+helpers that are used by another driver fsl_mqs, which in turn could be
+compiled and work with or without the SCMI stack, so with this patch we
+are artificially reversing the DRV<--PROTO dependency to solve this
+scenario in all the compillation scenarios...
 
-All warnings (new ones prefixed by >>):
+....BUT given that the IMX_SCMI_MISC_DRV is the one that should export
+the missing symbols could NOT this solved in a cleaner way, without
+adding the fake reverse dependency, by instead modifying the header of
+the driver with something like the classic:
 
->> sound/soc/rockchip/rockchip_i2s_tdm.c:517:12: warning: 'rockchip_i2s_ch_to_io' defined but not used [-Wunused-function]
-     517 | static int rockchip_i2s_ch_to_io(unsigned int ch, bool substream_capture)
-         |            ^~~~~~~~~~~~~~~~~~~~~
+--->8-----
+diff --git a/include/linux/firmware/imx/sm.h b/include/linux/firmware/imx/sm.h
+index 9b85a3f028d1..3a7a3ec367c5 100644
+--- a/include/linux/firmware/imx/sm.h
++++ b/include/linux/firmware/imx/sm.h
+@@ -17,7 +17,19 @@
+ #define SCMI_IMX_CTRL_SAI4_MCLK                4       /* WAKE SAI4 MCLK */
+ #define SCMI_IMX_CTRL_SAI5_MCLK                5       /* WAKE SAI5 MCLK */
+ 
++#ifdef IMX_SCMI_MISC_DRV
+ int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val);
+ int scmi_imx_misc_ctrl_set(u32 id, u32 val);
++#else
++static inline int scmi_imx_misc_ctrl_get(u32 id, u32 *num, u32 *val)
++{
++       return 0;
++}
++
++static inline int scmi_imx_misc_ctrl_set(u32 id, u32 val)
++{
++       return 0;
++}
++#endif
+ 
+ #endif
+----->8-----------
 
+....to just support compilation in all the scenarios.
 
-vim +/rockchip_i2s_ch_to_io +517 sound/soc/rockchip/rockchip_i2s_tdm.c
+> This however only works after changing the dependency in the SND_SOC_FSL_MQS
+> driver as well, which uses 'select IMX_SCMI_MISC_DRV' to turn on a
+> driver it depends on. This is generally a bad idea, so the best solution
+> is to change that into a dependency.
+> 
+> To allow the ASoC driver to keep building with the SCMI support, this
+> needs to be an optional dependency that enforces the link-time
+> dependency if IMX_SCMI_MISC_DRV is a loadable module but not
+> depend on it if that is disabled.
+> 
 
-081068fd641403 Nicolas Frattaroli 2021-10-01  516  
-081068fd641403 Nicolas Frattaroli 2021-10-01 @517  static int rockchip_i2s_ch_to_io(unsigned int ch, bool substream_capture)
-081068fd641403 Nicolas Frattaroli 2021-10-01  518  {
-081068fd641403 Nicolas Frattaroli 2021-10-01  519  	if (substream_capture) {
-081068fd641403 Nicolas Frattaroli 2021-10-01  520  		switch (ch) {
-081068fd641403 Nicolas Frattaroli 2021-10-01  521  		case I2S_CHN_4:
-081068fd641403 Nicolas Frattaroli 2021-10-01  522  			return I2S_IO_6CH_OUT_4CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  523  		case I2S_CHN_6:
-081068fd641403 Nicolas Frattaroli 2021-10-01  524  			return I2S_IO_4CH_OUT_6CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  525  		case I2S_CHN_8:
-081068fd641403 Nicolas Frattaroli 2021-10-01  526  			return I2S_IO_2CH_OUT_8CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  527  		default:
-081068fd641403 Nicolas Frattaroli 2021-10-01  528  			return I2S_IO_8CH_OUT_2CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  529  		}
-081068fd641403 Nicolas Frattaroli 2021-10-01  530  	} else {
-081068fd641403 Nicolas Frattaroli 2021-10-01  531  		switch (ch) {
-081068fd641403 Nicolas Frattaroli 2021-10-01  532  		case I2S_CHN_4:
-081068fd641403 Nicolas Frattaroli 2021-10-01  533  			return I2S_IO_4CH_OUT_6CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  534  		case I2S_CHN_6:
-081068fd641403 Nicolas Frattaroli 2021-10-01  535  			return I2S_IO_6CH_OUT_4CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  536  		case I2S_CHN_8:
-081068fd641403 Nicolas Frattaroli 2021-10-01  537  			return I2S_IO_8CH_OUT_2CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  538  		default:
-081068fd641403 Nicolas Frattaroli 2021-10-01  539  			return I2S_IO_2CH_OUT_8CH_IN;
-081068fd641403 Nicolas Frattaroli 2021-10-01  540  		}
-081068fd641403 Nicolas Frattaroli 2021-10-01  541  	}
-081068fd641403 Nicolas Frattaroli 2021-10-01  542  }
-081068fd641403 Nicolas Frattaroli 2021-10-01  543  
+...and maybe with the above additions you could avoid also these other
+dep changes...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+...not sure if I am missing something and I have definitely not tested
+any of my babbling above...
+
+Thanks,
+Cristian
