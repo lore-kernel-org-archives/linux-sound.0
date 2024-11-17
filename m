@@ -1,172 +1,119 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A0971D1E78
-	for <linux-sound@vger.kernel.org>; Sun, 17 Nov 2024 14:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFA62E419;
+	Sun, 17 Nov 2024 20:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731852030; cv=none; b=lOYQrXg5/ReXffVGe7yHmsez9OG5lv71CWhPdmxXRy8bCxvfayZClvewgop3OS2ukXtf1S+BbcsAmbJ1PsmyzUS7Vu591otULg1kWqvXQmPz7WdumNjZtZiGTTwgK/iNgR3sA1byeVej57I8rTl48hTCHK/vLCyPv6A7bfUjkKg=
+	t=1731875125; cv=none; b=ubzQCSWAteRVxmGl5b3EfCPMi1i1uujWpNdG5n6sjEiOb4sHTeBnnq4fLXATIqrkQiosIUHCtScabovSFfFeHCF4bc1Q9rt6tXYn/fx3FVoRKYGngHSVk1usB+fky9CCBSJkEZ31fSz88YXbQX4wBiNaXr5F/cn5nInYiK1iH6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731852030; c=relaxed/simple;
-	bh=VsxmJmGA9GSRcwmca06SuS0sr94FqNuW4clXCIJiF1o=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=a7TJ1R4gdtIwwBOWZm87EqxE1dPqYuAgz+x2DW6qxUOnFY7rFPHNZovNwd5DI3LA23Z9SZhqvzaBWSBO3Ox88vbImYeMqfI3ZvWJW+2kg6jHG2/oaDm5ZtNjWWdY0hG4xt2/Imyvwnu3bJ3EonbpMdw0NIGAzVFPK+gOjJj2T7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=pow2Q7zh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=dJt+HbB7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RLjsXT6h; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vHbiUUyE; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1731875125; c=relaxed/simple;
+	bh=q/kGLB+qfi7wyEslp5V7sDFhlxrf/PadLPyCk/p8cD4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oLY8HH1pzOApGcF37D/tFVw5Km94LdGNZ+qE3OWL5eSHCdUnTJxUK0WFIa2xahBDHzOl17lghUbWt5xDWImpd/z0ADUxkeI1tdgahi/QkSfhRExYhga3QRDqcn5Toqs5gOkapylvcx7MaFeIY+Bi0PqMF7YdZ3HOTwfKaJEC91s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFlXwjzi; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="pow2Q7zh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="dJt+HbB7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RLjsXT6h";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vHbiUUyE"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7780721219;
-	Sun, 17 Nov 2024 14:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731852026; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=to3UbYadeu/k5CUI+M43gaUG90KB2T28gdxcVPNYenA=;
-	b=pow2Q7zh/sOtVLVneR3m/px8gGvku4Pv6Xn+LMKexK/jKJBEbWTFhQuZ4TQ3HDtAFVPCzY
-	XMVfzdImC6VURZTRulwDBPa2xNhhwgTpIe6dN2j0UXx5bov4Z6F7vKK3whpIhQZLriHLsI
-	vDWOPgm/RxvaC6tFyD0HYwRVUmimCOg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731852026;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=to3UbYadeu/k5CUI+M43gaUG90KB2T28gdxcVPNYenA=;
-	b=dJt+HbB7If4axKE/QQLQ2qtzKB3M9f0RxCVRDwRS8NIm9Qpt93QJzOummdleskF29OrVE8
-	u07tAyh4ryRVK8CQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1731852025; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=to3UbYadeu/k5CUI+M43gaUG90KB2T28gdxcVPNYenA=;
-	b=RLjsXT6hEPrtWR/SCq/X2Irr6CqmHJopBZEjpGT53M6K3nbGydIISSHrh2p1oj+I3BKlTW
-	9neaqcCSV5ifeDcnFCu4j7COHUOfwhvzzzNKn34+e0gfm79l0QO2SrdzwVYriWsxXVRHFc
-	WFdXQSClwIAN9r5aE7Yhfk0VVi08ov8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1731852025;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=to3UbYadeu/k5CUI+M43gaUG90KB2T28gdxcVPNYenA=;
-	b=vHbiUUyEmjz2lSt8DBYc0OQe2qBMsxY5BvOQm+8OSKZ7o6BS8D8/vMHwA/BZB08yJyH4gy
-	450SvLKxh5PmNqBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3D725136D9;
-	Sun, 17 Nov 2024 14:00:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eMeADfn2OWfidgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 17 Nov 2024 14:00:25 +0000
-Date: Sun, 17 Nov 2024 15:00:24 +0100
-Message-ID: <87h686q7t3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Benoit Sevens <bsevens@google.com>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Lianqin Hu <hulianqin@vivo.com>,
-	Manuel Barrio Linares <mbarriolinares@gmail.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	linux-sound@vger.kernel.org,
-	stable@kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy devices
-In-Reply-To: <20241115130833.1077260-1-bsevens@google.com>
-References: <20241115130833.1077260-1-bsevens@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFlXwjzi"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7246c8b89b4so2300670b3a.1;
+        Sun, 17 Nov 2024 12:25:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731875123; x=1732479923; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1IXNCYpKNgdmFrxDQ/AnKhcjV9mQM2l13Obks8uXGww=;
+        b=kFlXwjziqpYNTwf+5J5Ab0MLuJQQFp0bAt14vY5BtGD+ZvBuLzXc8hC27zoPyZYO2Q
+         QMqWEbO8OP4ZDZD+26ftkFnlFsyhL13HCV+3MyUEJ/9G2BB8OD/RgJJVftNFceZhIWwW
+         YmZMroMO/IbtHNm7iuw1RtTMOgreqL0KRsXZPlc2NNoIjrv6mBI08QYTCmI3xPKXgMlI
+         OoxWPr6w+3V0StACoRYI/2ebN9gcgFZ8qCk1JnFVFXdoj4gLcoF7gxy5UFqtz/w7nfsK
+         1U/vXE1wq70mpNqOFmnU+R6msMtXe+XAhDermtiozGXyDEBIZ6bOugEzopR9UHcd+6gY
+         NLOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731875123; x=1732479923;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1IXNCYpKNgdmFrxDQ/AnKhcjV9mQM2l13Obks8uXGww=;
+        b=kHXtS8iPUhCobUBg4eJB1XQmBQk5nvYiXfMPAXtoWG7zhQ4STvfIJOqRh6H1cEjwgw
+         HGN5zln4GT9te3gWdaYIDc2Hrr8Bc5H9ucNY9P0xKT806fnubo0cok1bLP7eHkQLrYyY
+         wdMlr2AQ4qgrHDEmlSBSdo+Zewsu2Np8EFIpUtJN8UlL/6CI3ajD/ntn2fs339Syy7ZF
+         cQGmYAmLHaROFVV8Zxn4naV5KriZaHhByDdYJOunpxp1u/+gUUGuNRoE1afiBW/5RC4M
+         5844U7bgK/lvjgjAG3SaHtDjZkdhjKcs/Xh/LVLgxPJr2Gojx3K30mA/mg79u5zc4w0G
+         ITFg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5pnvAtdVjMi+MiRExnRjwqW3LCmh3N5nMu/+u1TZeoCjl2rFCulOmRBYhEJjsInttfhfOF8KRDfI=@vger.kernel.org, AJvYcCV5fvNuWrq3v0ePTQZu6eGcq+jbyE5UhToafPcbMaKUhiROGasM7b/fHFJvCs3HYTONNeV7KJ6mxrUpy90k@vger.kernel.org, AJvYcCXBqDw7LxEcJ1pPxlYxn1lm2RfjIkmMlMvoX5FYRv1lmqNRYAo1VKoV1TjTbscpk2vDx+aRBNo5rIvKlxU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9PYyhpDLE7jsEs2hnUYsWwW9np7YMcJLcw2zeSC3QHbmvs2Ra
+	3rIZvhmc1ONwdjSWDP7aOCblCcm7n4WrV2YCFzQRIz9WHeQBFt1Cmz4Xm2hpXqcl2q3nowU+f6P
+	8L89s1D0+f37GMEjwpnUp2IN2Ig8=
+X-Google-Smtp-Source: AGHT+IESauqchq9PDYS2eN/NUPSZQIC5QBWQ/3DGshEXY0B0+CbLRHFdSpp+k0Au0xMSMcpEdjnIqHwBym5eQT+niCg=
+X-Received: by 2002:a17:90b:1e4b:b0:2ea:696d:732d with SMTP id
+ 98e67ed59e1d1-2ea696d739fmr2887150a91.13.1731875123370; Sun, 17 Nov 2024
+ 12:25:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vivo.com,gmail.com,kylinos.cn,vger.kernel.org,kernel.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
+ <20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com> <87iksmq8ho.wl-tiwai@suse.de>
+In-Reply-To: <87iksmq8ho.wl-tiwai@suse.de>
+From: Hridesh MG <hridesh699@gmail.com>
+Date: Mon, 18 Nov 2024 01:54:45 +0530
+Message-ID: <CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
+	Simon Trimmer <simont@opensource.cirrus.com>, Joshua Grisham <josh@joshuagrisham.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 15 Nov 2024 14:08:33 +0100,
-Benoit Sevens wrote:
-> 
-> A bogus devices can provide a bNumConfigurations value that exceeds the
-> initial value used in usb_get_configuration for allocating dev->config.
-> 
-> This can lead to out-of-bounds accesses later, e.g. in
-> usb_destroy_configuration.
+> > +     [ALC_287_FIXUP_ACER_NITRO_HEADSET_MIC_VERBS] =3D {
+> > +             .type =3D HDA_FIXUP_VERBS,
+> > +             .v.verbs =3D (const struct hda_verb[]) {
+> > +                     { 0x20, AC_VERB_SET_COEF_INDEX, 0x45 },
+> > +                     { 0x20, AC_VERB_SET_PROC_COEF, 0xD689 },
+>
+> This is a generic setup for the headset input in CTIA mode.
+> Do you really need this explicity?  Usually it's set up at
+> alc_headset_mode_ctia() when the iPhone type is connected.
+Yeah, the mic wont pick up input without it. I did have a feeling that
+it's supposed to be set up automatically rather than being set as a
+verb but I couldn't figure out which part of the code I'm supposed to
+modify to make that happen. I've tried running it with dynamic
+debugging turned on but I don't see the output of codec_dbg from
+alc_headset_mode_ctia() :(
 
-It'd be more helpful if you can elaborate how it can happen; the code
-you touched doesn't call much stuff, just send a boot sequence and
-reset the configuration.  Yet your patch tries to overwrite a
-usb_device field, which isn't really a task for the driver side.
+> >  static const struct snd2_pci_quirk alc269_fixup_tbl[] =3D {
+> > @@ -10201,6 +10220,7 @@ static const struct snd_pci_quirk alc269_fixup_=
+tbl[] =3D {
+> >       SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP=
+_ACER_HEADPHONE_AND_MIC),
+> >       SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FI=
+XUP_ACER_MIC_NO_PRESENCE),
+> >       SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_AC=
+ER_SFG16_MICMUTE_LED),
+> > +     SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC_287_FI=
+XUP_ACER_NITRO_HEADSET_MIC_PIN),
+>
+> The table is sorted in PCI SSID order.  Please put at the right
+> place.
+Will do, thanks.
 
-
-thanks,
-
-Takashi
-
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@kernel.org
-> Signed-off-by: Benoit Sevens <bsevens@google.com>
-> ---
->  sound/usb/quirks.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-> index c5fd180357d1..970d36d13ad8 100644
-> --- a/sound/usb/quirks.c
-> +++ b/sound/usb/quirks.c
-> @@ -555,6 +555,7 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
->  static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interface *intf)
->  {
->  	struct usb_host_config *config = dev->actconfig;
-> +	int num_configs;
->  	int err;
->  
->  	if (le16_to_cpu(get_cfg_desc(config)->wTotalLength) == EXTIGY_FIRMWARE_SIZE_OLD ||
-> @@ -565,8 +566,11 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
->  				      0x10, 0x43, 0x0001, 0x000a, NULL, 0);
->  		if (err < 0)
->  			dev_dbg(&dev->dev, "error sending boot message: %d\n", err);
-> +		num_configs = dev->descriptor.bNumConfigurations;
->  		err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
->  				&dev->descriptor, sizeof(dev->descriptor));
-> +		if (dev->descriptor.bNumConfigurations > num_configs)
-> +			dev->descriptor.bNumConfigurations = num_configs;
->  		config = dev->actconfig;
->  		if (err < 0)
->  			dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
-> -- 
-> 2.47.0.338.g60cca15819-goog
-> 
+> > +     {.id =3D ALC_287_FIXUP_ACER_NITRO_HEADSET_MIC_PIN, .name =3D "alc=
+287-fixup-acer-nitro-headset-mic"},
+>
+> Nowadays the less need for a new model name string.  You can specify
+> the model with an alias of SSID if any other device needs to apply the
+> same quirk, too.  So, unless it's mandatory, better to drop.
+I added the model name string to make debugging easier for users. When
+troubleshooting this issue, I followed many guides that recommended
+the 'Codec-Specific Models' document, but no entry existed for the
+ALC287. I thought that adding a model name would help users quickly
+identify and apply the correct quirk without needing kernel expertise.
+However, if this goes against the current standards, I=E2=80=99m happy to
+adjust.
