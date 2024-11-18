@@ -1,121 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1286618E76B;
-	Mon, 18 Nov 2024 09:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCF719259B
+	for <linux-sound@vger.kernel.org>; Mon, 18 Nov 2024 10:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731921305; cv=none; b=fq7HmuXPdg/AeVSI4AzZxvrm/fA45MW25F3yvHdf/UYsElq+BpYBGis1gibGPgZsG0nzNzT/N7iJysB/mqaTj7AWNrvEMqX+xlH3lpmbOKM9q2T+jRDcTBThDMsHLYS/uPWk4VVGgYXpzm2kZYVNAPR1G+n35yX+Y1tBOEgKvpA=
+	t=1731924489; cv=none; b=kGQL89BV+GSZBuPr47FXTfI1gNrY15Xyh2lhX4K4BXqNMSTbC9/RFEMpPG03KWDJxlPP3OPbL5qbHeV0aCknyyIiZyeaSexGOCW5/EKyq8yjc9uVw0e7teoY6oUtGAW73gaGrekT+OXd1/xhvOp1pWdqrIBxSCBlVImaix71gXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731921305; c=relaxed/simple;
-	bh=hsweLRtdxxlWEJfa0yOmEaDHWMTkfchfXAvVurz+B+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uKT3qUwPdFJc0jChQsI5cpJGItmM31G7AY8ypPCEYpCPYAUB76P7TVfLohE1ohBBPtoUfc7Tipw+ckRZDy6uS/ocLje9jrc/L4Z5ps+W53ShGnia5rNE6njFWLnrUjAweghfPn5pOtIl39/wjOadeLMcJPKYcJ6RUDTDSd5Amcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCAjbDPY; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1731924489; c=relaxed/simple;
+	bh=46FBQ9YilRkgukvDTFCIUv+jroGhUjtKv/1xcSI1Kw8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=leJiJYIwSIkZoktxL7s5D/WFRrsFA7PFobUfBApPiHOeisP8fcdIF+yXnFlBnwoyYf/urkWMHEh6/jwylJESV8hraSEqB+syv4UkDhWfWBYZ7LkDdlFKCO0bfzQKkGa3gubj8FR+gE03DyN9wbERKmuRjIT+Wj9RWpdgM+0B5aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B5Hqc0Z7; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCAjbDPY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731921304; x=1763457304;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hsweLRtdxxlWEJfa0yOmEaDHWMTkfchfXAvVurz+B+A=;
-  b=eCAjbDPYONekNAi5C7AMRSJycj0l6ULs3ofswaw+Tqbq1oNc9ecK9FYW
-   5dU/SF7IgdkH9Fley6RkANqggQ60nJ1WEeibmw2cN1olGGRkn7qnAoTe3
-   aB5iGRbAjf3a4HKZKyshEUvWOJPA9A4KW2TqyeeL1dvvOl6lz5agXb5U3
-   hCr1C0rssGfLqsZVgegkF/3DV6KWiSwQnvQpQDohFM+JS/n1CNv35ZHol
-   p2S2vCH3kvhtGO5I/OZX4pYhGmXUu0qBFvcNH+nerbnbO4WpgsbHtSUin
-   UNMv06irkJWENnxbxn9k5bpgDT0U5VWNsH+4M83SRqGr4XMPzkWdvx9x1
-   A==;
-X-CSE-ConnectionGUID: U0ABX8zgS0Ka6AWxd90ykw==
-X-CSE-MsgGUID: dKhAHaJ9RoqOvm9xWb4Ovg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31793109"
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="31793109"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 01:15:03 -0800
-X-CSE-ConnectionGUID: ZfxZ5HzjS1q3n7W+maWevw==
-X-CSE-MsgGUID: ZuEzSO1ZQdG4Zyh9tzXgmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="89596050"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 01:14:59 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tCxqS-0000000FwoO-2Ky0;
-	Mon, 18 Nov 2024 11:14:56 +0200
-Date: Mon, 18 Nov 2024 11:14:56 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: tiwai@suse.de, robh+dt@kernel.org, lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com, shenghao-ding@ti.com,
-	navada@ti.com, 13916275206@139.com, v-hampiholi@ti.com, v-po@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
-	broonie@kernel.org, antheas.dk@gmail.com, philm@manjaro.org
-Subject: Re: [PATCH v5] ALSA: hda/tas2781: Add speaker id check for ASUS
- projects
-Message-ID: <ZzsFkBruET6rXpup@smile.fi.intel.com>
-References: <20241116075006.11994-1-baojun.xu@ti.com>
- <ZzsFZnWeEAbIjgbN@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B5Hqc0Z7"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6d413def36cso18910686d6.3
+        for <linux-sound@vger.kernel.org>; Mon, 18 Nov 2024 02:08:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731924486; x=1732529286; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cDbGB4TmwOLd1WdZCgvlYswY84crRtJuB0qexEiL4sE=;
+        b=B5Hqc0Z7KEN8nDDnNvSiBolTXnrfPdWdY5NIKXkYZf8XoYCSslwro3dNv9tf2NZsgS
+         qas5iWJq1J6+Azs0ivcMCQ2rqvIOATD3cU/BWhU43UNunMgzxlnsQElhRxUZpDpBqmy7
+         0reoti7zKslRnbK39R+mHmZnM8inYyaDxdncNUjYf4SSoVpiTBNF9Wugq3dGqH4qq+Aq
+         xg1Xd0PmvASNdfLqUvGRJ2pKtvEm1i+ydBBwDdYhw32ARAdKnsfPnWCs57jakBSxtybj
+         wzX4apgAJSVZMEixdM7PHqnJw0qtLGL4w6keIksIzJEZ0As8sEIwdcpgbOtHDgUPZ8Vf
+         gkrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731924486; x=1732529286;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cDbGB4TmwOLd1WdZCgvlYswY84crRtJuB0qexEiL4sE=;
+        b=Lt0Cc9wIhLfOAZ74ZuRtyFkYFk0m9wVuYEMAExJffdWSlTKXlBW3b5dLqJbQgSe3QL
+         KgtL0WXKxzPLK7pRxkBWlOrapTTcBL/1/vSi1I6IYRo1NEYfoLcPwMqKnPMiua0V5FzG
+         JHLVYWO0JNIDFaAIWMjlycoK3Aado0larMLVM/c3o5YUiYDhhlhwhliJ6DshfUtnzGfq
+         bt6MrUVqu0LyKkArageQHshmyYL3JUdWV+9HDIvEBxCGa5gTKFol52/vL5VB0DKkitbc
+         aL4k/9tsdZchK+ZMSJgriO37NmsSQhTPW4i7doS40LHkFpkqezEF8RccdXGtF2xxxQIw
+         jXxw==
+X-Forwarded-Encrypted: i=1; AJvYcCXGQ1xVAbh0dA1Vwf0K4w5t0PDHS139kUArOsjISS2MTPWqAARQ+0BaCc9SMM+izUrZ2PGpBl+huSYoPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxwpMuyWaWP4FtG0jBufGs2/PQNYruz3a0AtUbVhcIFFVVdquz
+	dUllCMfZ9Mji9FsN/soVTb6DFbPZ0y5Oby0g6syBdEXD9CIrZEr8im0Mq2CJWXWPOpAUzmqtB73
+	JFIhYRDEN3I2+Gu3Wy7bfQXxUym+5NX0MvU45
+X-Google-Smtp-Source: AGHT+IHA2MPIwKa4zKtddEKeFNuR4HcOqJbPWHm/9ZQc/6T4hQjwDS7pdFUp1X4j0eQ9paSxKWPL73J2araWMP54VO4=
+X-Received: by 2002:a05:6214:570a:b0:6cc:378f:f7fb with SMTP id
+ 6a1803df08f44-6d3fb88beb2mr174785646d6.35.1731924486301; Mon, 18 Nov 2024
+ 02:08:06 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZzsFZnWeEAbIjgbN@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20241115130833.1077260-1-bsevens@google.com> <87h686q7t3.wl-tiwai@suse.de>
+In-Reply-To: <87h686q7t3.wl-tiwai@suse.de>
+From: =?UTF-8?Q?Beno=C3=AEt_Sevens?= <bsevens@google.com>
+Date: Mon, 18 Nov 2024 11:07:55 +0100
+Message-ID: <CAGCho0VT=ntX6ysJ-NvquTxK140fRAkL7kFu3sXLnUXOhVr5pA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix potential out-of-bound accesses for
+ Extigy devices
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Lianqin Hu <hulianqin@vivo.com>, 
+	Manuel Barrio Linares <mbarriolinares@gmail.com>, wangdicheng <wangdicheng@kylinos.cn>, 
+	linux-sound@vger.kernel.org, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 18, 2024 at 11:14:15AM +0200, Andy Shevchenko wrote:
-> On Sat, Nov 16, 2024 at 03:50:06PM +0800, Baojun Xu wrote:
-> > Add speaker id check by gpio in ACPI for ASUS projects.
-> > In other vendors, speaker id was checked by BIOS, and was applied in
-> > last bit of subsys id, so we can load corresponding firmware binary file
-> > for its speaker by subsys id.
-> > But in ASUS project, the firmware binary name will be appended an extra
-> > number to tell the speakers from different vendors. And this single digit
-> > come from gpio level of speaker id in BIOS.
+On Sun, 17 Nov 2024 at 15:00, Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Fri, 15 Nov 2024 14:08:33 +0100,
+> Benoit Sevens wrote:
+> >
+> > A bogus devices can provide a bNumConfigurations value that exceeds the
+> > initial value used in usb_get_configuration for allocating dev->config.
+> >
+> > This can lead to out-of-bounds accesses later, e.g. in
+> > usb_destroy_configuration.
+>
+> It'd be more helpful if you can elaborate how it can happen; the code
+> you touched doesn't call much stuff, just send a boot sequence and
+> reset the configuration.  Yet your patch tries to overwrite a
+> usb_device field, which isn't really a task for the driver side.
 
-...
+I am touching a field of the usb_device->descriptor, which the current
+code is already doing in usb_get_descriptor().
 
-> > +	// Speaker id was needed for ASUS projects.
-> > +	if (!strncmp(sub, TAS2781_ASUS_ID, strlen(TAS2781_ASUS_ID))) {
-> 
-> Better approach is
+A malicious device can use the  snd_usb_extigy_boot_quirk() quirk to
+provide a new device descriptor with an increased bNumConfigurations,
+after dev->config has already been allocated for a smaller
+bNumConfigurations. This will lead to out of bounds accesses later on,
+such as freeing out-of-bounds pointers in usb_destroy_configuration.
 
-	u16 vid, did;
+Actually, I noticed snd_usb_mbox2_boot_quirk and
+snd_usb_mbox3_boot_quirk can probably be abused in the same way, so
+I'll propose a new patch that also does a check there.
 
-> 	ret = sscanf(sub, "%04x%04x", &vid, &did);
-> 	if (ret == 2 && vid == ASUS_ID) {
-> 		... // matched to ASUS_ID
-> 	} else {
-> 		... // no match
-> 	}
-> 
-> Alternatively it can be
-> 
-> 	u32 subid;
-> 
-> 	ret = kstrtou32(sub, 16, &subid);
-> 	if (ret || upper_16_bits(subid) != ASUS_ID) {
-> 		... // no match (as in previous 'else')
-> 	} else {
-> 		... // matched to ASUS_ID
-> 	}
-> 
-> With it it will be clearer to see what's going on here.
-> 
-> With the above you can get rid of the custom constant and
-> use PCI_VENDOR_ID_ASUSTEK directly.
+Unless anyone knows of a better/cleaner way to fix this?
 
--- 
-With Best Regards,
-Andy Shevchenko
+>
+>
+> thanks,
+>
+> Takashi
+>
+> >
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Cc: stable@kernel.org
+> > Signed-off-by: Benoit Sevens <bsevens@google.com>
+> > ---
+> >  sound/usb/quirks.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> > index c5fd180357d1..970d36d13ad8 100644
+> > --- a/sound/usb/quirks.c
+> > +++ b/sound/usb/quirks.c
+> > @@ -555,6 +555,7 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
+> >  static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interface *intf)
+> >  {
+> >       struct usb_host_config *config = dev->actconfig;
+> > +     int num_configs;
+> >       int err;
+> >
+> >       if (le16_to_cpu(get_cfg_desc(config)->wTotalLength) == EXTIGY_FIRMWARE_SIZE_OLD ||
+> > @@ -565,8 +566,11 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
+> >                                     0x10, 0x43, 0x0001, 0x000a, NULL, 0);
+> >               if (err < 0)
+> >                       dev_dbg(&dev->dev, "error sending boot message: %d\n", err);
+> > +             num_configs = dev->descriptor.bNumConfigurations;
+> >               err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+> >                               &dev->descriptor, sizeof(dev->descriptor));
+> > +             if (dev->descriptor.bNumConfigurations > num_configs)
+> > +                     dev->descriptor.bNumConfigurations = num_configs;
+> >               config = dev->actconfig;
+> >               if (err < 0)
+> >                       dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
+> > --
+> > 2.47.0.338.g60cca15819-goog
+> >
 
+Thanks,
 
+Benoit
