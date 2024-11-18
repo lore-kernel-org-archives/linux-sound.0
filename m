@@ -1,119 +1,77 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DFA62E419;
-	Sun, 17 Nov 2024 20:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570A3282FD;
+	Mon, 18 Nov 2024 02:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731875125; cv=none; b=ubzQCSWAteRVxmGl5b3EfCPMi1i1uujWpNdG5n6sjEiOb4sHTeBnnq4fLXATIqrkQiosIUHCtScabovSFfFeHCF4bc1Q9rt6tXYn/fx3FVoRKYGngHSVk1usB+fky9CCBSJkEZ31fSz88YXbQX4wBiNaXr5F/cn5nInYiK1iH6Y=
+	t=1731898539; cv=none; b=Fr4qzrPdiZ7RRDsZDLlv5uQSX5jTPLkauYY7qqZz8ZnvsodTVXb8Rvgy0k1arviA9NnYCmQwIuYngbqqE6kS5jW0lz3RS6h04IpLgpU9TgcPajudXEnz2qU5p8k0lGmSeecQiZaICVSseIghRGKYZPQnKcX/JAyRmRSBF0vPPe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731875125; c=relaxed/simple;
-	bh=q/kGLB+qfi7wyEslp5V7sDFhlxrf/PadLPyCk/p8cD4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oLY8HH1pzOApGcF37D/tFVw5Km94LdGNZ+qE3OWL5eSHCdUnTJxUK0WFIa2xahBDHzOl17lghUbWt5xDWImpd/z0ADUxkeI1tdgahi/QkSfhRExYhga3QRDqcn5Toqs5gOkapylvcx7MaFeIY+Bi0PqMF7YdZ3HOTwfKaJEC91s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFlXwjzi; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1731898539; c=relaxed/simple;
+	bh=xycCTkPAMxVmEBCtJ3fKBhiomdxXuNBsMRlYWcVziKg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ndkptsFaazX74584U6cDHiVuLg1UJqAhmYlTyMfhryLG7/YUlcYkjXb0gQo0+vXLTG7r7qc5oEbUOuhO3oujDf6iMTEinK7aXKaGGZtu+09zpYB+GQN5pyyNDOo3FXaBebDL/cNxLzUACWFpGZerGEPVUDns+vc4nOUHxegEJ1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hi4h7hlV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFlXwjzi"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7246c8b89b4so2300670b3a.1;
-        Sun, 17 Nov 2024 12:25:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731875123; x=1732479923; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1IXNCYpKNgdmFrxDQ/AnKhcjV9mQM2l13Obks8uXGww=;
-        b=kFlXwjziqpYNTwf+5J5Ab0MLuJQQFp0bAt14vY5BtGD+ZvBuLzXc8hC27zoPyZYO2Q
-         QMqWEbO8OP4ZDZD+26ftkFnlFsyhL13HCV+3MyUEJ/9G2BB8OD/RgJJVftNFceZhIWwW
-         YmZMroMO/IbtHNm7iuw1RtTMOgreqL0KRsXZPlc2NNoIjrv6mBI08QYTCmI3xPKXgMlI
-         OoxWPr6w+3V0StACoRYI/2ebN9gcgFZ8qCk1JnFVFXdoj4gLcoF7gxy5UFqtz/w7nfsK
-         1U/vXE1wq70mpNqOFmnU+R6msMtXe+XAhDermtiozGXyDEBIZ6bOugEzopR9UHcd+6gY
-         NLOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731875123; x=1732479923;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1IXNCYpKNgdmFrxDQ/AnKhcjV9mQM2l13Obks8uXGww=;
-        b=kHXtS8iPUhCobUBg4eJB1XQmBQk5nvYiXfMPAXtoWG7zhQ4STvfIJOqRh6H1cEjwgw
-         HGN5zln4GT9te3gWdaYIDc2Hrr8Bc5H9ucNY9P0xKT806fnubo0cok1bLP7eHkQLrYyY
-         wdMlr2AQ4qgrHDEmlSBSdo+Zewsu2Np8EFIpUtJN8UlL/6CI3ajD/ntn2fs339Syy7ZF
-         cQGmYAmLHaROFVV8Zxn4naV5KriZaHhByDdYJOunpxp1u/+gUUGuNRoE1afiBW/5RC4M
-         5844U7bgK/lvjgjAG3SaHtDjZkdhjKcs/Xh/LVLgxPJr2Gojx3K30mA/mg79u5zc4w0G
-         ITFg==
-X-Forwarded-Encrypted: i=1; AJvYcCU5pnvAtdVjMi+MiRExnRjwqW3LCmh3N5nMu/+u1TZeoCjl2rFCulOmRBYhEJjsInttfhfOF8KRDfI=@vger.kernel.org, AJvYcCV5fvNuWrq3v0ePTQZu6eGcq+jbyE5UhToafPcbMaKUhiROGasM7b/fHFJvCs3HYTONNeV7KJ6mxrUpy90k@vger.kernel.org, AJvYcCXBqDw7LxEcJ1pPxlYxn1lm2RfjIkmMlMvoX5FYRv1lmqNRYAo1VKoV1TjTbscpk2vDx+aRBNo5rIvKlxU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9PYyhpDLE7jsEs2hnUYsWwW9np7YMcJLcw2zeSC3QHbmvs2Ra
-	3rIZvhmc1ONwdjSWDP7aOCblCcm7n4WrV2YCFzQRIz9WHeQBFt1Cmz4Xm2hpXqcl2q3nowU+f6P
-	8L89s1D0+f37GMEjwpnUp2IN2Ig8=
-X-Google-Smtp-Source: AGHT+IESauqchq9PDYS2eN/NUPSZQIC5QBWQ/3DGshEXY0B0+CbLRHFdSpp+k0Au0xMSMcpEdjnIqHwBym5eQT+niCg=
-X-Received: by 2002:a17:90b:1e4b:b0:2ea:696d:732d with SMTP id
- 98e67ed59e1d1-2ea696d739fmr2887150a91.13.1731875123370; Sun, 17 Nov 2024
- 12:25:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hi4h7hlV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E43CC4CECD;
+	Mon, 18 Nov 2024 02:55:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731898539;
+	bh=xycCTkPAMxVmEBCtJ3fKBhiomdxXuNBsMRlYWcVziKg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hi4h7hlVvcqoqlSMmHL5AdL/6NBtbnqLUstPSmPODFEMFS8h9XEN0rXvEp9lyM/YT
+	 PTYM1FJ7zvG+uKbwhmVnhwpNMxT+v2RfjDy587hDfEjWoIcv5IOwJuFXMaLIEMFdvj
+	 lx7HsLadUGMofZOZ2EoEgPld2QePx91sAj3BgvDhxRI1tIWW5855s7RjiGYmDmkwRL
+	 HQVdSm9qRTjRZ07G8oo0FT5wYQWrTgloXKsuLFxcGQRz6OTLb4/XdB6/XOGwGW6WxG
+	 jXlMMIdXP5dtm0cvbt3MDE9jTXS0Igv3+jHibdKgOQO55iA9AANiUtjudapPQpzI6M
+	 kNHvM4BhpcFmg==
+From: Mario Limonciello <superm1@kernel.org>
+To: Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+Cc: linux-sound@vger.kernel.org (open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM...),
+	linux-kernel@vger.kernel.org (open list),
+	Mario Limonciello <mario.limonciello@amd.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] ASoC: amd: Fix build dependencies for `SND_SOC_AMD_PS`
+Date: Sun, 17 Nov 2024 20:55:27 -0600
+Message-ID: <20241118025527.3318493-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
- <20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com> <87iksmq8ho.wl-tiwai@suse.de>
-In-Reply-To: <87iksmq8ho.wl-tiwai@suse.de>
-From: Hridesh MG <hridesh699@gmail.com>
-Date: Mon, 18 Nov 2024 01:54:45 +0530
-Message-ID: <CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
-	Simon Trimmer <simont@opensource.cirrus.com>, Joshua Grisham <josh@joshuagrisham.com>, 
-	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> > +     [ALC_287_FIXUP_ACER_NITRO_HEADSET_MIC_VERBS] =3D {
-> > +             .type =3D HDA_FIXUP_VERBS,
-> > +             .v.verbs =3D (const struct hda_verb[]) {
-> > +                     { 0x20, AC_VERB_SET_COEF_INDEX, 0x45 },
-> > +                     { 0x20, AC_VERB_SET_PROC_COEF, 0xD689 },
->
-> This is a generic setup for the headset input in CTIA mode.
-> Do you really need this explicity?  Usually it's set up at
-> alc_headset_mode_ctia() when the iPhone type is connected.
-Yeah, the mic wont pick up input without it. I did have a feeling that
-it's supposed to be set up automatically rather than being set as a
-verb but I couldn't figure out which part of the code I'm supposed to
-modify to make that happen. I've tried running it with dynamic
-debugging turned on but I don't see the output of codec_dbg from
-alc_headset_mode_ctia() :(
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-> >  static const struct snd2_pci_quirk alc269_fixup_tbl[] =3D {
-> > @@ -10201,6 +10220,7 @@ static const struct snd_pci_quirk alc269_fixup_=
-tbl[] =3D {
-> >       SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP=
-_ACER_HEADPHONE_AND_MIC),
-> >       SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FI=
-XUP_ACER_MIC_NO_PRESENCE),
-> >       SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_AC=
-ER_SFG16_MICMUTE_LED),
-> > +     SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC_287_FI=
-XUP_ACER_NITRO_HEADSET_MIC_PIN),
->
-> The table is sorted in PCI SSID order.  Please put at the right
-> place.
-Will do, thanks.
+The pci-ps module now must have `SND_SOC_ACPI_AMD_MATCH` selected
+to reference the `snd_soc_acpi_amd_acp63_sdw_machines` symbol.
 
-> > +     {.id =3D ALC_287_FIXUP_ACER_NITRO_HEADSET_MIC_PIN, .name =3D "alc=
-287-fixup-acer-nitro-headset-mic"},
->
-> Nowadays the less need for a new model name string.  You can specify
-> the model with an alias of SSID if any other device needs to apply the
-> same quirk, too.  So, unless it's mandatory, better to drop.
-I added the model name string to make debugging easier for users. When
-troubleshooting this issue, I followed many guides that recommended
-the 'Codec-Specific Models' document, but no entry existed for the
-ALC287. I thought that adding a model name would help users quickly
-identify and apply the correct quirk without needing kernel expertise.
-However, if this goes against the current standards, I=E2=80=99m happy to
-adjust.
+Fixes: 56d540befd59 ("ASoC: amd: ps: add soundwire machines for acp6.3 platform")
+Cc: Vijendar.Mukunda@amd.com
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202411180658.mIeWje2V-lkp@intel.com/
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ sound/soc/amd/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/amd/Kconfig b/sound/soc/amd/Kconfig
+index 6dec44f516c13..c7590d4989bba 100644
+--- a/sound/soc/amd/Kconfig
++++ b/sound/soc/amd/Kconfig
+@@ -163,6 +163,7 @@ config SND_SOC_AMD_SOUNDWIRE
+ config SND_SOC_AMD_PS
+         tristate "AMD Audio Coprocessor-v6.3 Pink Sardine support"
+ 	select SND_SOC_AMD_SOUNDWIRE_LINK_BASELINE
++	select SND_SOC_ACPI_AMD_MATCH
+         depends on X86 && PCI && ACPI
+         help
+           This option enables Audio Coprocessor i.e ACP v6.3 support on
+-- 
+2.43.0
+
