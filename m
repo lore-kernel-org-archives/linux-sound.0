@@ -1,78 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955B81B393F;
-	Mon, 18 Nov 2024 16:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99EFB1A00F8;
+	Mon, 18 Nov 2024 16:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731947511; cv=none; b=U7puTHp37XdRo1IhpRtwSILq76mGFkO4/gCtHVsLLqXgVCLaeuQqM6w3b9XqixYuFFnNSJwz+qVXm2XqfArY9EdpMoZnAiu0yC+KQVr1Bo+WCUAdJUkcGa3JynvKzAyX1CWHAH7CdBRHhEHof1MIfHTnwMTy2BhC/xg3DsXZwNA=
+	t=1731948970; cv=none; b=n1oubT3TaNSjPc9M4Evu6yxjLKJ+QOz+jBnBQV3hy5q76sq68QaSHLvW8rRQ2gL6LtpTkWJlFx7JTV00Nex4VWBJn55tKr9jhrcJkGl8Yi3IkGmeelsLByYsAYgD0zLgu3TXHt2FyDYPUrul15SOpUUjXuju1pGQPAjwruXPZkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731947511; c=relaxed/simple;
-	bh=x31hXLbjYV3wi9biP4K+7rZS3e6ndOZvglcnzxylZHY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NZrHMQyqtpyhacw+kBLs/1dK96GBN43m1Z9A0YjaWxMrLoShKJBpcsn19sYMgK67hppSGY4JPvHIBYDXCSVy4mZbQ3ERftvom4JdsQO1iH6zeQy2nGj+C3QiVoynub58a9ebV7qN783/0BG9OoPizzLedHBoKb7KrOnSqiCedoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpARf6cA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731948970; c=relaxed/simple;
+	bh=/0Pkzh2eJ9T0ocM+1U2ygIK45IBE3fmm+j4EMF+QzAA=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ZN0yT24+u+n/N8kipNCuF/ZTtMj9MgWs+orUy6L+0J07VjVU+CUw4fy0AG2W12RIaUYTD9Jmq9xH77n71PD9/2vu9wPB5pRNLpgg2k+i+sMJkiVGVs7xUQW8bWsjNzmBk5urxqiIdNUEJr6wi25QjnlAJ618lJf/3Pf9sZS+TbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2XTscyC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpARf6cA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 543C8C4CED6;
-	Mon, 18 Nov 2024 16:31:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2XTscyC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7DDC4CECC;
+	Mon, 18 Nov 2024 16:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731947511;
-	bh=x31hXLbjYV3wi9biP4K+7rZS3e6ndOZvglcnzxylZHY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=NpARf6cAiEWNNEMmssyDT9yyHlXJeFhtN4Xmp+owA4i7fHuykWm9E3qAfQBmvDTTt
-	 LOduWA3XtvjqgXlS8PB+7jHGRVazuJRsbZlLeBQHwhytZ10K95AGh2LtgwbbXi9hT5
-	 kyw3hAF1gR+UA8ahCNwB/1OeXFLb+UsM6I3HLkia/SoZC7WEQTa4LWVpWVPqlysrpV
-	 0nAD3NmiczhhcJn/O7JtIQ7KPHGPesZZegZZF5ZL1GwfOEVv8m9x2j5Xx1tg9QmWO4
-	 ThsmdnJKn9TLiGKlTgP0pNRq8IVzP6BhDCcys7q61L5gRkMaSNyarzz7LnR2Zi886U
-	 +dt1SMTyG2c9Q==
-Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e388d8850d3so1359675276.3;
-        Mon, 18 Nov 2024 08:31:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVBClIwaugA5+Mmk6Xx0uttn9DgL5lW5AxbiUuY3bvX0b9VX2vepPCIGE+rlsD9SXfmuthURKoJXHqs@vger.kernel.org, AJvYcCVzUYRp7PUpmEC9J/DIvFeWR6Ntfjf8D0rwqNd7NIlOP42McviC6ie5AUR7PZ0KBgip31MdzrVeAUNur6Z1@vger.kernel.org, AJvYcCXi/WSs+K85wFFAER+SEQnsT2IvdrLTUTQ0OJdnJSHlQS4DPse3kw0+Um8f8mRH17iAewp49wb1CAzGsMs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1gWWUOn6yu2arppSaUrWwaXfdDZLmLn16lRa8CE0SCzgrXC+p
-	z6yCIlkj9XTe+0K4rXgDRfcWZfJq8ycSwQS2ExU7wFYU60WFJUPhlBMIYBYQMo1AuW3ByGFlKYV
-	BVBkNfvCE3QB6eaUlq6Q1sWwI0w==
-X-Google-Smtp-Source: AGHT+IHgWFGBpHakcpgOPIljqoMGrStpMMrXYqwxsjF16duHhASCw+zuAKS78YVpDNsXsy2xlxtfkrziGx+PnoDYKfU=
-X-Received: by 2002:a05:690c:604:b0:6ee:381b:eb74 with SMTP id
- 00721157ae682-6ee55c2bad7mr122627077b3.22.1731947510541; Mon, 18 Nov 2024
- 08:31:50 -0800 (PST)
+	s=k20201202; t=1731948970;
+	bh=/0Pkzh2eJ9T0ocM+1U2ygIK45IBE3fmm+j4EMF+QzAA=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=S2XTscyCwxFISPZnLeIfrr3AKwzy8gO6CrfzAhPYq5/fF0AVIZrKQODmFdkxQ0tgt
+	 /+whQ7e2Ap4c1WLNOfBzcJXlurZw2fUuwU3Z1Q3Rk0MY9RchyfpNpD2Srr004T4dQb
+	 FywxLPGgVAOHBeFtnojlBFZPOChxu1Ap+ZpgWUndC21QKYLXIGkPYypFuJn7QquvdM
+	 QxoDCvo2oFt31oKE3t6Ltdc3QLPke6pyULKWEfHfzVTV3fCmqpMEmvg3DbsLvuGu7U
+	 QrzyQsRlMyhEAjnx1eJifl0wSbzosrbJ68Hts1ajIgMvGsoKsdzhPUQJLvf5Zs7kTk
+	 HRt9kosaT5bBw==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>, 
+ "end.to.start" <end.to.start@mail.ru>, Jiawei Wang <me@jwang.link>, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alex Far <anf1980@gmail.com>
+In-Reply-To: <ZzjrZY3sImcqTtGx@RedmiG>
+References: <ZzjrZY3sImcqTtGx@RedmiG>
+Subject: Re: [PATCH] ASoC: amd: yc: fix internal mic on Redmi G 2022
+Message-Id: <173194896823.56205.158411490065653084.b4-ty@kernel.org>
+Date: Mon, 18 Nov 2024 16:56:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241028-esai_fix-v1-0-3c1432a5613c@nxp.com> <20241028-esai_fix-v1-2-3c1432a5613c@nxp.com>
-In-Reply-To: <20241028-esai_fix-v1-2-3c1432a5613c@nxp.com>
-From: Rob Herring <robh@kernel.org>
-Date: Mon, 18 Nov 2024 10:31:39 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJY5RHnfo9TWFLWBcj5h+FuvbkTYSg+gwN1L_r2ysSMgw@mail.gmail.com>
-Message-ID: <CAL_JsqJY5RHnfo9TWFLWBcj5h+FuvbkTYSg+gwN1L_r2ysSMgw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: imx8-ss-audio: add fallback compatible
- string fsl,imx6ull-esai for esai
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shengjiu Wang <shengjiu.wang@nxp.com>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Mon, Oct 28, 2024 at 2:49=E2=80=AFPM Frank Li <Frank.Li@nxp.com> wrote:
->
-> The ESAI of i.MX8QM is the same as i.MX6ULL. So add fsl,imx6ull-esai for
-> esai.
->
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8-ss-audio.dtsi   | 2 +-
->  arch/arm64/boot/dts/freescale/imx8qm-ss-audio.dtsi | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+On Sat, 16 Nov 2024 21:58:45 +0300, Alex Far wrote:
+> This laptop model requires an additional detection quirk to enable the
+> internal microphone
+> 
+> 
 
-Shawn, please pick this up for 6.13. The binding change landed
-introducing new warnings.
+Applied to
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: amd: yc: fix internal mic on Redmi G 2022
+      commit: 67a0463d339059eeeead9cd015afa594659cfdaf
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
