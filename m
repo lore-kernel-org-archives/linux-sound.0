@@ -1,103 +1,89 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FBF18035
-	for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 07:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55525848C;
+	Wed, 20 Nov 2024 07:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732086263; cv=none; b=Hs+ec7AwAw0q3uXgnUSaf4O2tGFjdyaALeqRud8KbD9tLaTw39wCcQk4k2yFza24cMgXvJnQecMl6mVPuA3IK5JPRJcDyrPnUdA+ErSRsvatR9igNzV4lw/3vSDBPvHgFZoPRuNBNLUcb32FKF1FJcmLaR9Lj7xo+NaFrDoS2zA=
+	t=1732087909; cv=none; b=rG+a/NLrI6QNk11SKKeCmRUZHD7EFR04mY6m4CeVGrd/8jsnjsZz2VoWZyLAEKuYvEUAF+bEJNipOQxcer0RvFFQTvO5Ell3fBmw68ctAKVh35qlMUH0DRKdNZQX6XbgeWOcViErpTSIjV0LjEmOWgAFVsQ9H1g7jKCpDXY8rsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732086263; c=relaxed/simple;
-	bh=djMbS80n47dM1exAqRUrWCtiyNsf8/AePmdVHcWHTFA=;
+	s=arc-20240116; t=1732087909; c=relaxed/simple;
+	bh=UKn6BU/IKhz2dw85zcvYMCFZLSglRHKWiCyia9tFSIw=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ahcFDb7AjfsVUJCRKHOi4n7KDafaw9Ci6lJ61DBN92xf470/5qch1CShJV6CCmiTQKC08f3cKYmhvYT6XIfu2fx8hm9o0UPv5so2PbQwmfN/4tuA8/VWtEggW5t/MQ3FIDnJJtRJ207XDvpHx/ug7/pGfrOIEolLmA5ggMqqnlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jZZM9vb4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eEI9RP0Z; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jZZM9vb4; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=eEI9RP0Z; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=IM96egUNBQ71i6Utcz7HWFNcU8ZsaZamTCGipqTsc9aBluf2lM9BkOY6ZoAXPNfeTJKGGEjMjWjVvNiMJlp1AGrgorv71t9R5+39dWjsItKOToi04HPyIB/RJt8MLAFszTSveQSuc5iZnolYvkh4KRgIPioS3/cKjdgZikcnsnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XqdbHcay; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VDqKZwzK; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XqdbHcay; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=VDqKZwzK; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jZZM9vb4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eEI9RP0Z";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jZZM9vb4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="eEI9RP0Z"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XqdbHcay";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VDqKZwzK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XqdbHcay";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="VDqKZwzK"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1FF4E2174C;
-	Wed, 20 Nov 2024 07:04:20 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6A0FE1F795;
+	Wed, 20 Nov 2024 07:31:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732086260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732087905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/TxSSIAKtGUS1f3YR94BcTz+KRHtZBFPxCcdkGM1Y9I=;
-	b=jZZM9vb4TVLXOJPtGFlMOOsZaY5J+n3d20YlSIAF2/3tcak7YBcyi2mEIV8lIWLJUEnLFt
-	bUUniWBwe2WnmnEISagSlvSNKLIpCPRK5wixCmF/vESYa8Vsbcoi3gC6dgJ5I6ZNEs0dMA
-	NqnLsKyGD+Zhj2m/pMcba5YeVLp2nrM=
+	bh=yaRz7nFJONUOYqe7kp7yYdh09C5DFs2nDVKqQd9JhPs=;
+	b=XqdbHcayW3PJ0ZvGF5H3yhr21Jb4IXE90dCMnUbS5iBU3X4k/jqUUrlt9QHVgf+hGktrCZ
+	R3c0yNh0Hd891CCIEkvFsBqBH/NXAEAQB9jcQH0S9fcgGr6NPi33O5RdqDY3F+jFB4a2Kj
+	j1Uod4lJEo4jJJLi1DQCtW/V0h+lGoY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732086260;
+	s=susede2_ed25519; t=1732087905;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/TxSSIAKtGUS1f3YR94BcTz+KRHtZBFPxCcdkGM1Y9I=;
-	b=eEI9RP0ZH6ejSxBXCblLyKQDV3LkafTtYp0E1/SPG3+PBDqr2BFVa0IQTPD+c6zfucgD4u
-	FzGMXUVfD6v2qnBA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jZZM9vb4;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=eEI9RP0Z
+	bh=yaRz7nFJONUOYqe7kp7yYdh09C5DFs2nDVKqQd9JhPs=;
+	b=VDqKZwzK5jsEShpj0Kkb2Ar7ZG4B4X71Xmy/kITnebm1zZ+sizXgXG8VbIcd0BtNc9kw1v
+	0SqOWqiklRV5HjAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732086260; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732087905; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/TxSSIAKtGUS1f3YR94BcTz+KRHtZBFPxCcdkGM1Y9I=;
-	b=jZZM9vb4TVLXOJPtGFlMOOsZaY5J+n3d20YlSIAF2/3tcak7YBcyi2mEIV8lIWLJUEnLFt
-	bUUniWBwe2WnmnEISagSlvSNKLIpCPRK5wixCmF/vESYa8Vsbcoi3gC6dgJ5I6ZNEs0dMA
-	NqnLsKyGD+Zhj2m/pMcba5YeVLp2nrM=
+	bh=yaRz7nFJONUOYqe7kp7yYdh09C5DFs2nDVKqQd9JhPs=;
+	b=XqdbHcayW3PJ0ZvGF5H3yhr21Jb4IXE90dCMnUbS5iBU3X4k/jqUUrlt9QHVgf+hGktrCZ
+	R3c0yNh0Hd891CCIEkvFsBqBH/NXAEAQB9jcQH0S9fcgGr6NPi33O5RdqDY3F+jFB4a2Kj
+	j1Uod4lJEo4jJJLi1DQCtW/V0h+lGoY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732086260;
+	s=susede2_ed25519; t=1732087905;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/TxSSIAKtGUS1f3YR94BcTz+KRHtZBFPxCcdkGM1Y9I=;
-	b=eEI9RP0ZH6ejSxBXCblLyKQDV3LkafTtYp0E1/SPG3+PBDqr2BFVa0IQTPD+c6zfucgD4u
-	FzGMXUVfD6v2qnBA==
+	bh=yaRz7nFJONUOYqe7kp7yYdh09C5DFs2nDVKqQd9JhPs=;
+	b=VDqKZwzK5jsEShpj0Kkb2Ar7ZG4B4X71Xmy/kITnebm1zZ+sizXgXG8VbIcd0BtNc9kw1v
+	0SqOWqiklRV5HjAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D857E13297;
-	Wed, 20 Nov 2024 07:04:19 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E19713297;
+	Wed, 20 Nov 2024 07:31:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id TBQBM/OJPWc2JAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 07:04:19 +0000
-Date: Wed, 20 Nov 2024 08:04:19 +0100
-Message-ID: <875xoi5qto.wl-tiwai@suse.de>
+	id oRrfDWGQPWcWLAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 07:31:45 +0000
+Date: Wed, 20 Nov 2024 08:31:44 +0100
+Message-ID: <874j425pjz.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: =?ISO-8859-2?Q?Jaros=B3aw?= Janik <jaroslaw.janik@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
-In-Reply-To: <13b257a1-8336-4286-b801-bb09082bd316@gmail.com>
-References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
-	<87r07wws4j.wl-tiwai@suse.de>
-	<5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
-	<87o730uttl.wl-tiwai@suse.de>
-	<5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
-	<87ikt7v028.wl-tiwai@suse.de>
-	<74e49336-4552-4224-9b14-204d4264d647@gmail.com>
-	<871pzuujkc.wl-tiwai@suse.de>
-	<18c74a03-ca32-4eec-9771-bfbd37d315a4@gmail.com>
-	<87a5e9g68w.wl-tiwai@suse.de>
-	<e1ce4d0b-23ad-46a8-9f46-c38194376f76@gmail.com>
-	<877c96szig.wl-tiwai@suse.de>
-	<98af4276-927d-474e-a78f-7c6f0bae3090@gmail.com>
-	<87jzcz5jww.wl-tiwai@suse.de>
-	<13b257a1-8336-4286-b801-bb09082bd316@gmail.com>
+To: Leonard Crestez <cdleonard@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC] ALSA: usb-audio: Fix missing xrun report in lowlatency mode
+In-Reply-To: <25d5b0d8-4efd-4630-9d33-7a9e3fa9dc2b@gmail.com>
+References: <25d5b0d8-4efd-4630-9d33-7a9e3fa9dc2b@gmail.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -105,73 +91,113 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-2
+Content-Type: text/plain; charset=ISO-8859-7
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1FF4E2174C
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_TLS_ALL(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
 	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 20 Nov 2024 02:29:59 +0100,
-Jaros³aw Janik wrote:
+On Tue, 19 Nov 2024 22:54:19 +0100,
+Leonard Crestez wrote:
 > 
-> On 19.11.2024 16:21, Takashi Iwai wrote:
-> > I'm not sure whether I already asked it: did you try to turn on/off
-> > "Beep Playback Switch" (i.e. mute/unute "Beep" mixer element)?
-> > It should control the digital beep of HD-audio's own beep input
-> > device, but this might be also related with the internal beep from the
-> > Lenovo firmware (and the output of pcspkr input device).
+> Hello,
 > 
-> Both "Beep" mixer and mute switch don't affect beeps generated by ACPI
-> firmware (and pcspkr module for that matter)
+> I¢m investigating an issue where USB Audio does not properly send
+> XRUN notifications.
 > 
-> > And, judging from the fact that "Master" volume influences on the beep
-> > sound, it also means that the sound is routed to DACs -- for Conexant
-> > codecs, Master is a virtual control just changes both Speaker and
-> > Headphone volumes/switches, and both Speaker and Headphone controls
-> > are tied with the Audio Output widgets.  You can check whether the
-> > beep tone volume from pcspkr or Thinkpad ACPI is also controlled via
-> > Speaker and Headphone mixer volume and switch.
+> The issue can be reproduced with aplay: enable xrun_debug, aplay -D
+> plughw:0 and CTRL-Z - no XRUN message is seen
 > 
-> The volume of beeps from firmware and pcspkr is fixed, it's not changed
-> by any available mixer setting; the only thing that affects those beeps
-> is Master Mute Switch, which mutes them both on the speakers and on the
-> headphones.
->
-> And one more thing - both beep types are audible on the headphones even
-> if Headphones mixer is set minimum and Headphones Mute Switch is set to
-> mute (if Master is unmuted, obviously)
+> Disabling lowlatency_playback via modprobe parameter does make this
+> issue go away - XRUNs are reported correctly without any changes.
+> 
+> 
+> After a lot of tracing the following seems to be happening:
+> 
+> - prepare_playback_urb find avail=48, meaning 48 bytes still to-be-played
+> - snd_usb_endpoint_next_packet_size decides that 48 is too little and
+> returns -EAGAIN. Specifically -EAGAIN is returned from
+> next_packet_size
+> - The return value of prepare_playback_urb is propagated through
+> prepare_outbound_urb back to snd_usb_queue_pending_output_urbs
+> - snd_usb_queue_pending_output_urbs receives -EAGAIN from
+> prepare_outbound_urb
+> - since err is -EAGAIN the ctx is pushed back to the ready list and
+> transmission is aborted but notify_xrun is skipped
+> - no more playback?
+> 
+> It is possible to make XRUNs happen by caling notify_xrun even on
+> -EAGAIN, diff looks like this:
+> 
+> diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+> index 568099467dbb..da64ee0cf60a 100644
+> --- a/sound/usb/endpoint.c
+> +++ b/sound/usb/endpoint.c
+> @@ -495,10 +495,11 @@ int snd_usb_queue_pending_output_urbs(struct
+> snd_usb_endpoint *ep,
+>                         break;
+>                 if (err < 0) {
+>                         /* push back to ready list again for -EAGAIN */
+>                         if (err == -EAGAIN) {
+>                                 push_back_to_ready_list(ep, ctx);
+> +                               notify_xrun(ep);
+>                                 break;
+>                         }
+> 
+>                         if (!in_stream_lock)
+>                                 notify_xrun(ep);
+> 
+> 
+> This mail was not formatted as proper patch because this seems very
+> likely incorrect, it undoes an explicit check. What would a correct
+> solution look like?
 
-Hm, that's odd.  At this moment, do you hear from the speaker?  Or
-Speaker Playback Switch is off?
+The -EAGAIN there itself doesn't mean the crucial xrun yet.  There may
+be still pending URBS to be processed.  The real XRUN happens only
+when there is no URBs pending, hence nothing will be taken further --
+at least for low-latency operation.  (In the case of implicit feedback
+mode, it can be driven by the feedback from the capture stream, and
+the empty URB check might be wrong.)
 
+Could you check the change below?  (totally untested)
+
+
+thanks,
 
 Takashi
+
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -562,7 +562,10 @@ static void snd_complete_urb(struct urb *urb)
+ 			push_back_to_ready_list(ep, ctx);
+ 			clear_bit(ctx->index, &ep->active_mask);
+ 			snd_usb_queue_pending_output_urbs(ep, false);
+-			atomic_dec(&ep->submitted_urbs); /* decrement at last */
++			/* decrement at last, and check xrun */
++			if (atomic_dec_and_test(&ep->submitted_urbs) &&
++			    !snd_usb_endpoint_implicit_feedback_sink(ep))
++				notify_xrun(ep);
+ 			return;
+ 		}
+ 
