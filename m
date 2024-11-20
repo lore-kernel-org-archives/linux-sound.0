@@ -1,59 +1,48 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E16F1946CA;
-	Wed, 20 Nov 2024 21:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A51033998;
+	Wed, 20 Nov 2024 22:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732136571; cv=none; b=gjAL9D4bUp/drtd/JGZa/p14OxMD5WRcbZth1JPwbancP546RWNM6y61NaOklem1QfUUAxVRSOSWfpQRCgeAHf5RTHBruCftB5LNBZDwBGKGnGorXpYuBjIkTMfLhcz0rODF26PV80ZzAqOi9wxJNYWqK3ZZ8P1qsRFVuxhHvsk=
+	t=1732140672; cv=none; b=fCPdOp1SscCgTGGP916l7v9wp/DoAY4b85YCpxH+aVke46KSXOJpYmRRnfgDAAf7DV4U77VRHWzUaSO7MDmZ8CkKgt6G31GS0ipq4NXXjigppbKMdk0aHcmlvPgObMtS4OmZpPjQiJJw6Z+ZLbbQNpieANHP7Rrsoj9bqPZp/Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732136571; c=relaxed/simple;
-	bh=l+1UWZE/FneQaNmor7t7VOQyW1K40sQUIogRLrdtxu8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bbiyK4EFNwX1Bf/Oni6U3HXA995ON9ZCIUMVImSiEtm+BStFC+Gd6pcvU++mNN3PRJA6uzKQSuke3Qfa7PSgUi5qnUFmluLBzh1JJXVL9FuIMWofU8lrQXulcIB2LLzedmfgc43eOlvRfZktqRC1PrmSQu3/QKMtLSOytF2hzXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjRuotsC; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732140672; c=relaxed/simple;
+	bh=L5tP8KlSGwbEMKtPo0BIQ19ibNImt9zTesZ+r2Jqpkw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GuL0nd28sdR3q27OCx3Cpjean5meaYPATbarrttGgpzadyNy+4551xvpDpZgsx7JUj9Vs7M3mL2iFp1fEkLarfRykus+cGkQzdrKdFVw686xFSu/yUqt50knWpADYi9kKgpkcPigsgk54uLNg1feAm0wyx0fnQu4ZFS8geBQQuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VBk01SS+; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjRuotsC"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43161c0068bso1192225e9.1;
-        Wed, 20 Nov 2024 13:02:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732136568; x=1732741368; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0W86VFjt+Quipz5Nb0iH8DglZM9vyXbtWOfKsYcoOVE=;
-        b=PjRuotsClifEuIVSxAk9JmqftVpHTilkZLsZhttg+jdQ/WNEB2eQxPmor/kOufWIuD
-         iBUoKSqJK1U89CtVifXUGF30KISCLpIELjc0CwsWBuAdqa2/3lTM6nkhP7ZQrcRzfQdl
-         a6BQb3h1LbVLvk/I6wC3KZq7fLBaVFGHfwNFhkZE6+YDUXX2RXgHDcoejPyjZgq426L9
-         zLox+czfY3Uo02rGkDM4BgczlK1SX3na75b9Hekuk68UEWjLJfBCeW2BU6myqWbdMDLR
-         ElB+lLzs8p/OwW3erpF3rgoG+lWjpGmb/ICTqtp4pYfmrA/sjV5LmtkA+EGFdl6Rnzno
-         SA1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732136568; x=1732741368;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0W86VFjt+Quipz5Nb0iH8DglZM9vyXbtWOfKsYcoOVE=;
-        b=olKF4MB+fc9gbOU1ebiX2ppfuHa7gBfbcWBJjuFW3nk+9zqH+BTJZEAXVa+mtFES3s
-         VWd1+F67oCaE+rmKW2WayaOgObPUs6fxGeELqHV1N7o+cRa7sWDQdWuqgX0RoLBdHukd
-         RtViN4OsJNgL5GAhqnVuf++vYGmqmHSdZl9jUkc6hcFuji9qQUWcmCA9GQFtzLHfY0CY
-         8l44bydvFbQblJy7gLArGoJmwE6N5bdg0JNxr7h/zJ7xdD7rAuD/nJzse6xJc4lIm2/M
-         JOExTqgF6dVt8i9BGd2YgCq+c4IVKiTAjPoLKvzlQ0FAlTsX6gL14Hb2mWTKp70Po80N
-         GhTw==
-X-Forwarded-Encrypted: i=1; AJvYcCUP9eGz3p43tI4rYmRcr3Nx0+lzSEeJ4BLC4/1N/FyaUguf2v0YobbbaBPJ0O766Y4rc2N7/YtGSsWo6dk=@vger.kernel.org, AJvYcCW3tt+JHomupY66xdykhob609tjORqNk1XAGZ0jsXFXDQMP0+Q1Z6ShLlqHVFupPXQfTykX/IklUi9cbbc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxP5Jsiom6q/1778PtauazBPSr1EhdDzHV/MCSfXcBjw9hKnXf7
-	R5YP+yA6Y7CrH+Qq27DiOHbhjesf0jdP7G1bQDD/tgw7qN9bhi5OZ1lsB6b1
-X-Google-Smtp-Source: AGHT+IF+WGkTBr+0IZp/PelvWY5A1KaHqBiRh2Q9FUd5skJu6MnEGMlSt6tBYeUgrbDBapVo2LRhVw==
-X-Received: by 2002:a05:600c:310b:b0:431:3b53:105e with SMTP id 5b1f17b1804b1-433489b4d16mr37864135e9.9.1732136568157;
-        Wed, 20 Nov 2024 13:02:48 -0800 (PST)
-Received: from [192.168.199.20] ([95.76.0.181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433b463ad1fsm31501395e9.38.2024.11.20.13.02.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2024 13:02:47 -0800 (PST)
-Message-ID: <57a3a34c-261d-44ec-b96e-05fecb0b7cab@gmail.com>
-Date: Wed, 20 Nov 2024 23:02:45 +0200
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VBk01SS+"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AKK4oaU007627;
+	Wed, 20 Nov 2024 22:10:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UQu7P2JYDEqUsF2aSxycP2rjhSh+gLySilOD0KF9FX8=; b=VBk01SS+ZmRV36Wv
+	ymHBeTwhghONm9LSpX1A47aZ7dU4uw0bhu31uO5uXctQ2U1eAwLe2BbknP2lOBKq
+	MISW4HAQhyw8RyHMiEuTS5eueoy3xADurSQTLE7Y4qQGK6BsMj+Re3shqhEqVoqt
+	LJFPj9yF2iBHIV6Mm2qPjHwVgbrLjRQklBGJaG0qTOCJpFSNLAYxKANPBTtB44cn
+	rts99amScaNlJm7Eo+EIL4Ayxy1/hp6ddUwGxkIkq9FC0in43jsPmmzb/ejKibgT
+	E2W3FExfhwN8DK6YCbRCI7N7vQlC1/65m30TJXX3JXu+xIHLTb8NsaDY0ngkSkiB
+	PT9B+g==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4318uvjgvm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Nov 2024 22:10:37 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AKMAaxt018284
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Nov 2024 22:10:36 GMT
+Received: from [10.110.30.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 20 Nov
+ 2024 14:10:35 -0800
+Message-ID: <cd2dca5b-af57-43c7-b960-3908e1501f44@quicinc.com>
+Date: Wed, 20 Nov 2024 14:10:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,127 +50,65 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] ALSA: usb-audio: Fix missing xrun report in lowlatency mode
+Subject: Re: [PATCH v30 26/30] ALSA: usb-audio: qcom: Introduce QC USB SND
+ offloading support
 To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org
-References: <25d5b0d8-4efd-4630-9d33-7a9e3fa9dc2b@gmail.com>
- <874j425pjz.wl-tiwai@suse.de> <87v7wi484f.wl-tiwai@suse.de>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-27-quic_wcheng@quicinc.com>
+ <87a5du3xu1.wl-tiwai@suse.de>
 Content-Language: en-US
-From: Leonard Crestez <cdleonard@gmail.com>
-In-Reply-To: <87v7wi484f.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <87a5du3xu1.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: -QF0dtBBuWLRgt7o-foW6ycNAeDLIeYV
+X-Proofpoint-GUID: -QF0dtBBuWLRgt7o-foW6ycNAeDLIeYV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ lowpriorityscore=0 mlxlogscore=737 spamscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411200157
 
-On 11/20/24 10:33, Takashi Iwai wrote:
-> On Wed, 20 Nov 2024 08:31:44 +0100,
-> Takashi Iwai wrote:
->>
->> On Tue, 19 Nov 2024 22:54:19 +0100,
->> Leonard Crestez wrote:
->>>
->>> Hello,
->>>
->>> I’m investigating an issue where USB Audio does not properly send
->>> XRUN notifications.
->>>
->>> The issue can be reproduced with aplay: enable xrun_debug, aplay -D
->>> plughw:0 and CTRL-Z - no XRUN message is seen
->>>
->>> Disabling lowlatency_playback via modprobe parameter does make this
->>> issue go away - XRUNs are reported correctly without any changes.
->>>
->>>
->>> After a lot of tracing the following seems to be happening:
->>>
->>> - prepare_playback_urb find avail=48, meaning 48 bytes still to-be-played
->>> - snd_usb_endpoint_next_packet_size decides that 48 is too little and
->>> returns -EAGAIN. Specifically -EAGAIN is returned from
->>> next_packet_size
->>> - The return value of prepare_playback_urb is propagated through
->>> prepare_outbound_urb back to snd_usb_queue_pending_output_urbs
->>> - snd_usb_queue_pending_output_urbs receives -EAGAIN from
->>> prepare_outbound_urb
->>> - since err is -EAGAIN the ctx is pushed back to the ready list and
->>> transmission is aborted but notify_xrun is skipped
->>> - no more playback?
->>>
->>> It is possible to make XRUNs happen by caling notify_xrun even on
->>> -EAGAIN, diff looks like this:
->>>
->>> diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
->>> index 568099467dbb..da64ee0cf60a 100644
->>> --- a/sound/usb/endpoint.c
->>> +++ b/sound/usb/endpoint.c
->>> @@ -495,10 +495,11 @@ int snd_usb_queue_pending_output_urbs(struct
->>> snd_usb_endpoint *ep,
->>>                          break;
->>>                  if (err < 0) {
->>>                          /* push back to ready list again for -EAGAIN */
->>>                          if (err == -EAGAIN) {
->>>                                  push_back_to_ready_list(ep, ctx);
->>> +                               notify_xrun(ep);
->>>                                  break;
->>>                          }
->>>
->>>                          if (!in_stream_lock)
->>>                                  notify_xrun(ep);
->>>
->>>
->>> This mail was not formatted as proper patch because this seems very
->>> likely incorrect, it undoes an explicit check. What would a correct
->>> solution look like?
->>
->> The -EAGAIN there itself doesn't mean the crucial xrun yet.  There may
->> be still pending URBS to be processed.  The real XRUN happens only
->> when there is no URBs pending, hence nothing will be taken further --
->> at least for low-latency operation.  (In the case of implicit feedback
->> mode, it can be driven by the feedback from the capture stream, and
->> the empty URB check might be wrong.)
->>
->> Could you check the change below?  (totally untested)
-> 
-> A bit more change would be needed because it can lead to a false xrun
-> at draining.  At stopping, it shouldn't reach to that code path.
-> The revised patch is below.
+Hi Takashi,
 
-> --- a/sound/usb/endpoint.c
-> +++ b/sound/usb/endpoint.c
-> @@ -403,10 +403,15 @@ static int prepare_inbound_urb(struct snd_usb_endpoint *ep,
->   static void notify_xrun(struct snd_usb_endpoint *ep)
->   {
->   	struct snd_usb_substream *data_subs;
-> +	struct snd_pcm_substream *psubs;
->   
->   	data_subs = READ_ONCE(ep->data_subs);
-> -	if (data_subs && data_subs->pcm_substream)
-> -		snd_pcm_stop_xrun(data_subs->pcm_substream);
-> +	if (!data_subs)
-> +		return;
-> +	psubs = data_subs->pcm_substream;
-> +	if (psubs && psubs->runtime &&
-> +	    psubs->runtime->state == SNDRV_PCM_STATE_RUNNING)
-> +		snd_pcm_stop_xrun(psubs);
->   }
->   
->   static struct snd_usb_packet_info *
-> @@ -562,7 +567,10 @@ static void snd_complete_urb(struct urb *urb)
->   			push_back_to_ready_list(ep, ctx);
->   			clear_bit(ctx->index, &ep->active_mask);
->   			snd_usb_queue_pending_output_urbs(ep, false);
-> -			atomic_dec(&ep->submitted_urbs); /* decrement at last */
-> +			/* decrement at last, and check xrun */
-> +			if (atomic_dec_and_test(&ep->submitted_urbs) &&
-> +			    !snd_usb_endpoint_implicit_feedback_sink(ep))
-> +				notify_xrun(ep);
->   			return;
->   		}
+On 11/20/2024 4:15 AM, Takashi Iwai wrote:
+> On Wed, 06 Nov 2024 20:34:09 +0100,
+> Wesley Cheng wrote:
+>> +config SND_USB_AUDIO_QMI
+>> +	tristate "Qualcomm Audio Offload driver"
+>> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SEC_INTR && SND_SOC_USB
+>> +	select SND_PCM
+> This select is superfluous as it already depends on
+> CONFIG_SND_USB_AUDIO that does select it.
+ACK.
+>> diff --git a/sound/usb/qcom/Makefile b/sound/usb/qcom/Makefile
+>> new file mode 100644
+>> index 000000000000..a81c9b28d484
+>> --- /dev/null
+>> +++ b/sound/usb/qcom/Makefile
+>> @@ -0,0 +1,2 @@
+>> +snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
+> Use snd-usb-audio-qmi-y instead of *-objs.
+>
+Will change this.
 
-This makes more sense than what I hacked to together and seems to work 
-well in initial testing.
+Thanks
 
-I'll report back if issues are found.
+Wesley Cheng
 
---
-Thanks,
-Leonard
