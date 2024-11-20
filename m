@@ -1,99 +1,95 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB514AD3D;
-	Wed, 20 Nov 2024 15:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D113487BE;
+	Wed, 20 Nov 2024 17:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732118163; cv=none; b=Mt96DHERUJXmTxlWd53xs7kqUq3w3zInccOg/iQamOdfhTLRRb/XKsT7pWsGTN4pTf5FyvaZ6AL7l7/jRtuwZ2E89OwK+Hn0LJoHUkBjLCuqP2lvrrf0d9K2qRofnh5m++sTW2ZOfo1G2bTHL+Thq1+Q0gg2Bf8m7iTqorrMMmc=
+	t=1732123972; cv=none; b=gIB4JYtaIchGW4+BKdCbgIrlKtuE8c2yyN+I3pof/bgnZs8CxQ9pFvr75TeFZhn7bNR9sYQIxwkFdyquV/zuSoZxyN4+My+h1LovDNL6KeDa4yyC0C7NbZ8z5rtZ7A/y85i4N7lqsgOo1Y+rhgIQpf7yH9VTeltFJLDPtbgzeJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732118163; c=relaxed/simple;
-	bh=Ou//29Ar9qWIEg2uWs4icTwUqoiHtGhD2hyQZSTq5Ps=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PY/MjSHPgiETA/Fk7ndOr4SGAGITjxbTikWkIWvwQqZLK3ox5uBAIpnTUekEef6DGwQOtzIOobMVWPqeJbTwbAIZsESNXSpz9ByEvgLka4yS21v26vwry5dwRFIERWjgU+ijwM+7sIVtJCUpDjrF9SIlb4PXob60wK/0NBSLgKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBfsEzMw; arc=none smtp.client-ip=209.85.210.42
+	s=arc-20240116; t=1732123972; c=relaxed/simple;
+	bh=Ydm7LuOScxlb4wHp+uTbMha1SN4b3rRxDoJYfVZYrLo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h9JEUhqIBYdMDD+pNmG8Dr8xUzDDoeabQfSH2utjmCenNJCx11MrC8trQH4LK9ukBV4W3JQgYQ29dJ2zKxOUcNpoaPg4Lw3ulBUNboqdDSEN4//53uWS/RQhGOJI21DMUq56a9vHpr8SNovk2ib5C8CiUo3I7VeYmK1lDxaVE1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RwksfhdM; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBfsEzMw"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7181eb9ad46so1265636a34.1;
-        Wed, 20 Nov 2024 07:56:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RwksfhdM"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e56750bb0dso44104a91.0;
+        Wed, 20 Nov 2024 09:32:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732118161; x=1732722961; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUjcMIPq9FUNVmO7WhCAuDNGDpLobM76UY/aeCnpGLE=;
-        b=SBfsEzMwDGdQp8C5HjQIa0wd/9MVOTKt5Tb7QvGYXoSFFl5DfQ3UE0R19VA71Kb3lH
-         AV0yx+f42mX9Sj20xuojWs22bDzpLkncCHetzZ5eP27dWWAtWpFbZyUsjRs02yaLwpvK
-         QFYyQyuYVQawavjfqEv1XeijXwEhkbC+yaL/Tm1+0VznV6JsPA0Pwq3CS98SqmdSNiPm
-         WKaapuVtw6HanqwNveVAZYE7Zb/k/RiXsAvPNsvGzewfZpMxr58DqQuOPT11LNonSHqO
-         qv1uxKOvB+8p2T8/NDsXdzq1cROFsQ9KxIcFPu3XAcTUXbtZ+2O4la4RoCfGu0NneOpb
-         LyAQ==
+        d=gmail.com; s=20230601; t=1732123971; x=1732728771; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G/2Lytn1vm/IYW/jhQDWAPmSMmgq3z2ocN64hCXLvjs=;
+        b=RwksfhdM98kf5mm83DW4JWdg+ol+pnFgrbQBE6EXT4RPSlmIA+lvnCnM5zyo9nKzrN
+         QLhHusoJbesFQmnBAeYXEzb0LXaAQb1+1101m0xWLThh0cOe2iZrLdFwPNB9d8Gagjun
+         hpVmQJ1re9aOeQQvy1pM/f7OtCS8IvEKgQx4foPFm83fOJXUaaX3aen4LY8ESIcWOLz5
+         s0bV+qzjcpA0tznvfiNfXZDL6HhKdB4qMC8y1dD+8mrBCHg7eYnUOTK48xE/LWXbB8Pv
+         BqQdyxgy13VmV+zQ6fuucYXNu1dL2/M4RLt1aIZh5ri0bMQw32YuZrUeBfWJXYN9YyZm
+         2zFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732118161; x=1732722961;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1732123971; x=1732728771;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xUjcMIPq9FUNVmO7WhCAuDNGDpLobM76UY/aeCnpGLE=;
-        b=cTslLx5rB1TG/+X/o1xUZp33ShXni0GuFrD/R8xv0O6BofX+QpvDOrTdpgOPNvAndf
-         2UukcGAWj4WbEyX33ttsHZmZidHmhkFZvgc7c3qQBX6vaMTk+H3HtYUBE7HOA15zO6u6
-         K4dQFwSZhixsyGcuyZE2DA/S3w7JmI1lwyeUCNCYN3HRoV/xglPsOyG63VB8M8RZud4l
-         mkwSKWyMsQo2FA6y5phY7x7uIvidnbir97jtcOkT/fIubkLU+IQoSQXFb3aiyv9GBeLM
-         RSFk1oyK12KHEsHXenSRtdC32s8ptzmauv3Pd12Kxpg0WdBnJUp5UaVgVsKYQ1Lb8pg4
-         kzBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVH2hOcwY//HkY6riF0WMn3kcEzl7Dd71GSYM2ZUh+apdHRCk6q13hZphIAU7AKdHiQXOB2uLrd+E8=@vger.kernel.org, AJvYcCWl0ZBPQqZLnhYhM/R8O/cUs7269xnKZvSpS7k1qTzouwgWx1pm2/eDvVz64Fu9sCtCBGb1GV9OIGgb4CO2@vger.kernel.org
-X-Gm-Message-State: AOJu0YyeeJ2h/eAxX5cSl7CVrbasRdh9kiJWxyCNRt2HVQPNX750SPde
-	2pX7jITZXgpKgQVqBmxaac9luHihr9ZikdIH7zZCBK/TyCTewAYX7Ys3xDHmye4=
-X-Google-Smtp-Source: AGHT+IHcKZrbaTU2tT7qkMh4am5/XKechOdGa9HHi0r8HWAUblV0ghefdWN5br52HmalYy6jvHJHuw==
-X-Received: by 2002:a05:6830:e10:b0:718:6cc:b5a2 with SMTP id 46e09a7af769-71ab31f993emr2699568a34.20.1732118160932;
-        Wed, 20 Nov 2024 07:56:00 -0800 (PST)
-Received: from Hridesh-ArchLinux.am.students.amrita.edu ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1c13354sm9691844a12.10.2024.11.20.07.55.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 07:56:00 -0800 (PST)
-From: Hridesh MG <hridesh699@gmail.com>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Abhinav Saxena <xandfury@gmail.com>,
-	Hridesh MG <hridesh699@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: docs: fix dead hyperlink to Intel HD-Audio spec
-Date: Wed, 20 Nov 2024 21:25:51 +0530
-Message-ID: <20241120155553.21099-1-hridesh699@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        bh=G/2Lytn1vm/IYW/jhQDWAPmSMmgq3z2ocN64hCXLvjs=;
+        b=IAnqPyiVHU2u7QQBNgGXQgftygoLjB7sVe6YxwOkfJZF/fV9mK7yAwnab8t2bR4zxl
+         4U60jljgDNELxmAEvwX2+Kgrmdzf/+YaQjV26Rk+5t4XH/VBz7b+HuJl+rQJp6rkf71J
+         c3rxPCq+2u0WbzwtYg4sn+KTGDFQVuygC17xwneoaXwNVHidi2Q4iPhkjepu8Jemw6Ns
+         Jm1krMT4STPM34ooJbB2Vm6bnxdOu3S4T4314Gt+P36X+Ug2K6dA634OnQyEf4U4zk7l
+         3eXezCgNXCA9ZoqqusUxVYjpYwPBoVqMzBMwDL7cgVNWyk3505h5pZ2iox00/nV2KzPu
+         FwJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOQyIVWFuWSFojKc3o6XblqVaOQifxsxFsJ5UCNp71qKssSjGV0+mIHMqS4m2MWIU430p6WmbZU59qjTqk@vger.kernel.org, AJvYcCVhoGdTsmBAg/u8hJUhZMR9780wRveqD7yySFk+huXbpZiHinxbMD2uULufpmzvHDmL4MERdmGYYvhNcJ8=@vger.kernel.org, AJvYcCXp0VjBa9r3l0SFeaHrtIlq3ywLjpp76r3ZHS/agSnuhLuef+BMnPM2brvif/XUCs+xIb5HswM5ess=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6NHai9rzCqj2qE0b+O+bVo3Qg1ZsNenUbGqqK8CFXsZ1SYPrJ
+	aLxo/AAKhqqo9psNPMPR5cO8jWRwEa/QKgQvZuL72k1cV/dplZWSwqSiu9r0SjyceftCOw264Tx
+	owWhclgO77SBiQt+FRyHcPsCwJDU=
+X-Google-Smtp-Source: AGHT+IHerz1Iuc8dyH4PpuZqIVt7KpLCTN71uXCQnZYztGGh+ZSbOJc6m8Z9MNLoR0+cjQLmDOeC84yAM1gSlvybWL0=
+X-Received: by 2002:a17:90b:4d88:b0:2ea:6f19:1804 with SMTP id
+ 98e67ed59e1d1-2eaca7d0bedmr3911138a91.25.1732123970570; Wed, 20 Nov 2024
+ 09:32:50 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
+ <20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com> <87iksmq8ho.wl-tiwai@suse.de>
+ <CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com> <87ed387ioq.wl-tiwai@suse.de>
+In-Reply-To: <87ed387ioq.wl-tiwai@suse.de>
+From: Hridesh MG <hridesh699@gmail.com>
+Date: Wed, 20 Nov 2024 23:02:13 +0530
+Message-ID: <CALiyAo=awTsGQnGH5UPB7dF5QsZ2AFkKv5LcJkJRXV9sv51iqQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
+	Simon Trimmer <simont@opensource.cirrus.com>, Joshua Grisham <josh@joshuagrisham.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Update the hyperlink as it currently redirects to a generic site
-instead of the actual specification.
+> Is alc_fixup_headset_mode() called by the quirk chain?
+> When this is set up via quirks, alc_update_headset_mode() gets called
+> at initialization and this should detect the headset type.  At that
+> point, alc_headset_mode_ctia() would be called if the proper type gets
+> detected.
 
-Signed-off-by: Hridesh MG <hridesh699@gmail.com>
----
-I encountered the outdated link while debugging a codec issue and
-thought it might be useful to update.
----
- Documentation/sound/hd-audio/notes.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for pointing me in the right direction, I believe I've managed
+to find the root problem. I've set it up via quirks to call
+alc_update_headset_mode(), when I plug in any earphone,
+alc_determine_headset_type() incorrectly determines that the type is
+OMTP despite it being CTIA (I've confirmed this on a friend's laptop).
+Adding my codec to a case in alc_determine_headset_type() for my codec
+seems to fix this issue.
+After the headset is detected as CTIA, I also had to add my codec to a
+case in alc_headset_mode_ctia() to set the process coefficient to
+0xD689 (as written in my original patch) to finally pick up the mic
+input.
 
-diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-index e199131bf5ab..f81e94d8f145 100644
---- a/Documentation/sound/hd-audio/notes.rst
-+++ b/Documentation/sound/hd-audio/notes.rst
-@@ -42,7 +42,7 @@ If you are interested in the deep debugging of HD-audio, read the
- HD-audio specification at first.  The specification is found on
- Intel's web page, for example:
- 
--* https://www.intel.com/standards/hdaudio/
-+* https://www.intel.com/content/www/us/en/standards/high-definition-audio-specification.html
- 
- 
- HD-Audio Controller
--- 
-2.47.0
+I hope this is a satisfactory approach, if it is not, please let me
+know. I'll make an attempt to understand the cases and process
+coefficients before sending v2.
