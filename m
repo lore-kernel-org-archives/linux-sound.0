@@ -1,238 +1,126 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DB616EBEE;
-	Wed, 20 Nov 2024 08:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4C9136A
+	for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 09:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732091621; cv=none; b=QKqUlERtTxvnnzWIWEcBWrAcfZ0m+iaAFgG2VDYLuThQFFkeYb4Uv8FCR4KyvXYoyJ/byxVRoUW6P+aES84qpPgBipHpwu1GkKHcj6ZC7thMkTx4opCBYM2S6VWSyT8c8hxY+X2+ATHi6QErG4LulD5hKkcqtNvfYE4ZnchFOHA=
+	t=1732093677; cv=none; b=sD5OP2Q8XIMpCIQsphj2i6Q2I5PegTD1cgK58TUHck3HzQIkmDyrL7dvA1290awsM5UdPi5ZFaVCOMjLJGAKYSr5Qv4M0pq3V2vohyL/AJxe3PRQIYkYK38WHOIPlV//ZxWZ7pIhXWaDa/ldxrVYgRR2YFBQtlvWq2q518cBps4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732091621; c=relaxed/simple;
-	bh=7Dy3WK0ZggVyQDQeNuJn80H9ug9Qv0xcTRXatgyVWq4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OJywqUt7aPaqPkiQfqhQmPmhDx3JKoH6Kdvq7P62JDg4D8vGOghKGb8P1soUA4jcXfn/v2UF3YrxHNtxkY3c9JRefZ+J77mm1cODUYKNpwjGmeI488c5z9vW8gWVtH9veSw972LcYYOl3C0A5UsQRVxRUqmiB/RrGFyLIc9Hui0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xg6UR4JN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nl+bOH05; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xg6UR4JN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nl+bOH05; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732093677; c=relaxed/simple;
+	bh=GzDpos2oTak5EG8IyS770pl3D40s6N3y4PbDDT7n+2g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IkZ/4Ulr2GTf8/c6pL2h70LORCGo1Hb/EhPmORwTXFI9Gmk+RpjqN24H6L4mbu+lPJl1LkL2aY9zmcA6vcaDRGrDfsqtjMHTxM1THybpZ0cktwFsk0KhcJK+76mTUNkgyCz6akXShjAa+bEi0ftS5P+vC8fs+3wKonW3S/GS2Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qqtmkTvK; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xg6UR4JN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nl+bOH05";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xg6UR4JN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nl+bOH05"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 72B83219D5;
-	Wed, 20 Nov 2024 08:33:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732091617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WwsJrgxBJQh+/WmDtUMdBFe9Y/Vayl+M/pYgDG1mhRE=;
-	b=xg6UR4JNCSj/nj3ILldDDh2aqzYgqvKX/djeFz5EVFELNtXqF+GEVvExmWwLIutmCj1ETd
-	qLtrQIBsABcUDd1zkj6jdGFhRA5BLutnDfKLUsS/9P4Jk4CxpysG6Ms74UUm1J2BEnKHmA
-	Z3tj7TOLId3UFEj+gOjhx6aJ5Mp2a/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732091617;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WwsJrgxBJQh+/WmDtUMdBFe9Y/Vayl+M/pYgDG1mhRE=;
-	b=nl+bOH05r1B7poIw7tqbAYNOwEG8+sxZ49TGtGdKu9Mzy6MyemfRiwrNoo7g7pt/7rI7Cw
-	ZQSqWIKSlO+jHiAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xg6UR4JN;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=nl+bOH05
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732091617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WwsJrgxBJQh+/WmDtUMdBFe9Y/Vayl+M/pYgDG1mhRE=;
-	b=xg6UR4JNCSj/nj3ILldDDh2aqzYgqvKX/djeFz5EVFELNtXqF+GEVvExmWwLIutmCj1ETd
-	qLtrQIBsABcUDd1zkj6jdGFhRA5BLutnDfKLUsS/9P4Jk4CxpysG6Ms74UUm1J2BEnKHmA
-	Z3tj7TOLId3UFEj+gOjhx6aJ5Mp2a/s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732091617;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WwsJrgxBJQh+/WmDtUMdBFe9Y/Vayl+M/pYgDG1mhRE=;
-	b=nl+bOH05r1B7poIw7tqbAYNOwEG8+sxZ49TGtGdKu9Mzy6MyemfRiwrNoo7g7pt/7rI7Cw
-	ZQSqWIKSlO+jHiAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3FC0A137CF;
-	Wed, 20 Nov 2024 08:33:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6wlSDuGePWdHPwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 08:33:37 +0000
-Date: Wed, 20 Nov 2024 09:33:36 +0100
-Message-ID: <87v7wi484f.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Leonard Crestez <cdleonard@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC] ALSA: usb-audio: Fix missing xrun report in lowlatency mode
-In-Reply-To: <874j425pjz.wl-tiwai@suse.de>
-References: <25d5b0d8-4efd-4630-9d33-7a9e3fa9dc2b@gmail.com>
-	<874j425pjz.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qqtmkTvK"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6d4035f2d18so11887926d6.1
+        for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 01:07:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732093674; x=1732698474; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q2WwekQUFr0BvAwRNGQmepwGXwE9UlR1YoNyav/1R1M=;
+        b=qqtmkTvKCP4RTN8dVi1998cJ0T47Z1CazXFpoQEFh650g0lJKvZZwYCNfq0Z3rWTyE
+         Og2Hg16G1U1A0Sc7cY7sM3/+ZmehJyCYW5oVr4tG8D0IIjglA3dFA6rH9lZjB2PUfXyh
+         7YPGi8yiM6XOnhwGE2yf6a8wd8tGt69lpdHFuA7hgZOSiWfDa5viSMXbwptPRSU1o3Qi
+         EnDuAgDQ7S5dDDtWTBUB8FFX4A/W84ggJ1nMyKGcc3dLDdB7DhCrSCkIAC5hZLP0Lg7m
+         d816yFHT3CrGxF3gb49M6Xuz4VL/BE8RHIHkt0cpaZK03H53RJt9PK9tHC+iLUo5ojZz
+         ddXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732093674; x=1732698474;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Q2WwekQUFr0BvAwRNGQmepwGXwE9UlR1YoNyav/1R1M=;
+        b=UAG4cHHDiSC3anNDnKJ9Fdhf3Avgf24W1AKTICcuY4lChe3p/Vw/Yyyqpep0nYTzC2
+         dN4sto59D2oPorZ5kuMDnKWKGqh5B4wM+OvjasUsGoVhBK5ds9EzhuqEdEHAWl3vDXzj
+         QxUUSTF1u2f1AQODnW0HAiAbZR22EAXgCSzBg9DQHCN6dX2zlRgBqTsjQVfFdlaUGTy1
+         +ja/MTY1ANtxKigRc6+jV5VE7Tj/+syPjLsRSZs8WhtjpqgJUP/XYslYQ8B3IOf04m/z
+         bRzaVICRzVrPZ0yHxYu6abMB94rS+oZ5rJR0JpnnnH/HyRQp9ULIHcXQkuQKCwRRNzIJ
+         zrvw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmYiv097txYzkJpxOkYTpqAeGZbZYBd7tfIUjmj3qkB6mOFbXqVIlZt3DqYJNyum7G0Uzi17MNtoUpWw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5iaoUAO2peMla2NVv2qf3l3FWghy13unfnlykfo4+a5hSX4Ah
+	KCezTMFbuExX0Gqmr2nUEVH43gaar/ynbBMAOT4j5RTj7ByXx3p5fpgkdzpvhXOPO0XvnwjJ825
+	ZfK5Xk1CL0ueOVH6iheGN1ziKGhtbz9ibtmhS
+X-Google-Smtp-Source: AGHT+IGSk12PvmdBPB0uCNXrddUUrGooFWDFFmyiH72FjUWqdT5rfdTRQl47SUAxiUMeimg52XjO3rPupBIH9pRUSJI=
+X-Received: by 2002:ad4:5c49:0:b0:6d4:2616:60c1 with SMTP id
+ 6a1803df08f44-6d43780f3f2mr27515496d6.29.1732093674284; Wed, 20 Nov 2024
+ 01:07:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 72B83219D5
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20241119142813.3528722-1-bsevens@google.com> <87mshv5lna.wl-tiwai@suse.de>
+In-Reply-To: <87mshv5lna.wl-tiwai@suse.de>
+From: =?UTF-8?Q?Beno=C3=AEt_Sevens?= <bsevens@google.com>
+Date: Wed, 20 Nov 2024 10:07:43 +0100
+Message-ID: <CAGCho0V4xhCPNODRvtaJBYDkDwuyqhNo1vJK3u1bDJQyUJF6WA@mail.gmail.com>
+Subject: Re: [PATCH v2] ALSA: usb-audio: Fix potential out-of-bound accesses
+ for Extigy devices
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 20 Nov 2024 08:31:44 +0100,
-Takashi Iwai wrote:
-> 
-> On Tue, 19 Nov 2024 22:54:19 +0100,
-> Leonard Crestez wrote:
-> > 
-> > Hello,
-> > 
-> > I¢m investigating an issue where USB Audio does not properly send
-> > XRUN notifications.
-> > 
-> > The issue can be reproduced with aplay: enable xrun_debug, aplay -D
-> > plughw:0 and CTRL-Z - no XRUN message is seen
-> > 
-> > Disabling lowlatency_playback via modprobe parameter does make this
-> > issue go away - XRUNs are reported correctly without any changes.
-> > 
-> > 
-> > After a lot of tracing the following seems to be happening:
-> > 
-> > - prepare_playback_urb find avail=48, meaning 48 bytes still to-be-played
-> > - snd_usb_endpoint_next_packet_size decides that 48 is too little and
-> > returns -EAGAIN. Specifically -EAGAIN is returned from
-> > next_packet_size
-> > - The return value of prepare_playback_urb is propagated through
-> > prepare_outbound_urb back to snd_usb_queue_pending_output_urbs
-> > - snd_usb_queue_pending_output_urbs receives -EAGAIN from
-> > prepare_outbound_urb
-> > - since err is -EAGAIN the ctx is pushed back to the ready list and
-> > transmission is aborted but notify_xrun is skipped
-> > - no more playback?
-> > 
-> > It is possible to make XRUNs happen by caling notify_xrun even on
-> > -EAGAIN, diff looks like this:
-> > 
-> > diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-> > index 568099467dbb..da64ee0cf60a 100644
-> > --- a/sound/usb/endpoint.c
-> > +++ b/sound/usb/endpoint.c
-> > @@ -495,10 +495,11 @@ int snd_usb_queue_pending_output_urbs(struct
-> > snd_usb_endpoint *ep,
-> >                         break;
-> >                 if (err < 0) {
-> >                         /* push back to ready list again for -EAGAIN */
-> >                         if (err == -EAGAIN) {
-> >                                 push_back_to_ready_list(ep, ctx);
-> > +                               notify_xrun(ep);
-> >                                 break;
-> >                         }
-> > 
-> >                         if (!in_stream_lock)
-> >                                 notify_xrun(ep);
-> > 
-> > 
-> > This mail was not formatted as proper patch because this seems very
-> > likely incorrect, it undoes an explicit check. What would a correct
-> > solution look like?
-> 
-> The -EAGAIN there itself doesn't mean the crucial xrun yet.  There may
-> be still pending URBS to be processed.  The real XRUN happens only
-> when there is no URBs pending, hence nothing will be taken further --
-> at least for low-latency operation.  (In the case of implicit feedback
-> mode, it can be driven by the feedback from the capture stream, and
-> the empty URB check might be wrong.)
-> 
-> Could you check the change below?  (totally untested)
+Hi Takashi,
 
-A bit more change would be needed because it can lead to a false xrun
-at draining.  At stopping, it shouldn't reach to that code path.
-The revised patch is below.
+On Tue, 19 Nov 2024 at 15:43, Takashi Iwai <tiwai@suse.de> wrote:
+>
+> On Tue, 19 Nov 2024 15:28:13 +0100,
+> Beno=C3=AEt Sevens wrote:
+> >
+> > A bogus devices can provide a bNumConfigurations value that exceeds the
+> > initial value used in usb_get_configuration for allocating dev->config.
+> >
+> > This can lead to out-of-bounds accesses later, e.g. in
+> > usb_destroy_configuration.
+> >
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Cc: stable@kernel.org
+> > Signed-off-by: Beno=C3=AEt Sevens <bsevens@google.com>
+> > ---
+> > v2:
+> >  - Also add sanity checks to snd_usb_mbox2_boot_quirk and
+> >    snd_usb_mbox3_boot_quirk
+>
+> Thanks for the revised patch.
+>
+> Although we should fix better in a long term, a duct-tape fix like
+> this wouldn't hurt.
+>
+> But one thing I'm considering is...
+>
+> > @@ -565,8 +566,11 @@ static int snd_usb_extigy_boot_quirk(struct usb_de=
+vice *dev, struct usb_interfac
+> >                                     0x10, 0x43, 0x0001, 0x000a, NULL, 0=
+);
+> >               if (err < 0)
+> >                       dev_dbg(&dev->dev, "error sending boot message: %=
+d\n", err);
+> > +             num_configs =3D dev->descriptor.bNumConfigurations;
+> >               err =3D usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+> >                               &dev->descriptor, sizeof(dev->descriptor)=
+);
+> > +             if (dev->descriptor.bNumConfigurations > num_configs)
+> > +                     dev->descriptor.bNumConfigurations =3D num_config=
+s;
+>
+> IMO, we can get the new descriptor locally, then do
+> compare-and-store.  If bNumConfiguration is unexpectedly large, it can
+> return an error without modifying the original descriptor.
+>
 
+That sounds like a good idea. I'll send a revised patch.
 
-Takashi
+>
+> Takashi
 
+Thank you,
 
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -403,10 +403,15 @@ static int prepare_inbound_urb(struct snd_usb_endpoint *ep,
- static void notify_xrun(struct snd_usb_endpoint *ep)
- {
- 	struct snd_usb_substream *data_subs;
-+	struct snd_pcm_substream *psubs;
- 
- 	data_subs = READ_ONCE(ep->data_subs);
--	if (data_subs && data_subs->pcm_substream)
--		snd_pcm_stop_xrun(data_subs->pcm_substream);
-+	if (!data_subs)
-+		return;
-+	psubs = data_subs->pcm_substream;
-+	if (psubs && psubs->runtime &&
-+	    psubs->runtime->state == SNDRV_PCM_STATE_RUNNING)
-+		snd_pcm_stop_xrun(psubs);
- }
- 
- static struct snd_usb_packet_info *
-@@ -562,7 +567,10 @@ static void snd_complete_urb(struct urb *urb)
- 			push_back_to_ready_list(ep, ctx);
- 			clear_bit(ctx->index, &ep->active_mask);
- 			snd_usb_queue_pending_output_urbs(ep, false);
--			atomic_dec(&ep->submitted_urbs); /* decrement at last */
-+			/* decrement at last, and check xrun */
-+			if (atomic_dec_and_test(&ep->submitted_urbs) &&
-+			    !snd_usb_endpoint_implicit_feedback_sink(ep))
-+				notify_xrun(ep);
- 			return;
- 		}
- 
+Benoit
