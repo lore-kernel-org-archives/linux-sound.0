@@ -1,50 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA6F1BD9CC;
-	Wed, 20 Nov 2024 14:06:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CAA1AB537;
+	Wed, 20 Nov 2024 14:06:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111581; cv=none; b=VI0qnVxAD7rXVPlcxAaZaZElzGuWr8hbjd062cW0DPu1Xssq2zN5CAWPuYzHU3OkyHTx2lqzaW4rshBrZKOX+lH3eoEL4Duaf19fLMI2lQOhd7w3fD5yW0d/9tvZ+j+qzDsAv5340OaXGuMXKAX8lCp8IjsTQKuUNu3Q+rXZlds=
+	t=1732111610; cv=none; b=G7fsctv+gNBoCZX9+EW3JldwZSfwWkJiwMeqQIYh5TcDr7OeMFLzeWNpGp7Uc6uAu4Ec30al64j5kBi2QAGX7gF2Hz7FxYLb6UlxNbwErhQw90dwSTNJAqeJ4tRY6brKN/fVk5sROWhQGPQzrKR9kAVME5XQx5OPOdGKefKWVPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111581; c=relaxed/simple;
-	bh=b2KMYcgaePsFT9lMEfCAsjP86DjVhP2wLMv3z3GDTF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aF9kuBdZfhK7E7ZJulbSqewDb7RRdy93L6szAc7ItFtA81XMuAPsLPz2dN822qR5UMj3KGDAQUhpcfvawkTH0IPU8VY3b1XT//Wl8MOu1J2lfD5mTt5DHu6PzrIbDChBd209UhfXU8WXlrmcsvr7MbzTJQ8clkOcJDpHlNOPg7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCc9t9eA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732111610; c=relaxed/simple;
+	bh=HUV36OgjxW0lmpNUuMDqEWIzPdX1PmYizO/IW/fPj80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qaeBuUh4eTor5fYmbgEtSscOQtqDkZpTbNSDUPGhuWNbT78Pu0IrQU6+xk+2podM49KrRStCQeuar1fP5DDPoRT8E5YZFDTskkIXsTmu/I987fJLW+94nt3WIHXTuaP+DdFNzjGKQe9C1cHIOoUUmmvkSHY69jnG4ulyylmf0vY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/MpBRbY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCc9t9eA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C660DC4CECE;
-	Wed, 20 Nov 2024 14:06:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/MpBRbY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E042C4CECD;
+	Wed, 20 Nov 2024 14:06:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732111581;
-	bh=b2KMYcgaePsFT9lMEfCAsjP86DjVhP2wLMv3z3GDTF8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QCc9t9eA8TKfa+yL5dkyBlWXo6FE0eoVFPDzdQs2Lt3+gQN+YxDhJD8y7PlVSscWU
-	 uJIlDDShEsULv79iMWHWZQqReu4HgMJGyQAHlB1kAKfWoPpoxm8Zu8RlcOUM1fh57N
-	 7hcTxauJXiyiGc1/vxR9HMNA1hXjj1tx4L5LaMlihQqLBCGAtAvRCtLYwZ8j8o2AHg
-	 8zhpJwwmVu2YX5Obogyj72ciebi4HoRZUy6B7RD/rXw1BTOL9wArj4awAcnzv9TV8Q
-	 LApwfYfYVOqBBi2XO7xDoXd0a7BTXdwUwZqYrRdBblOvFLAIsFIBZFa/7TKPXHtCWO
-	 Wj/CRhjqo0o6Q==
+	s=k20201202; t=1732111610;
+	bh=HUV36OgjxW0lmpNUuMDqEWIzPdX1PmYizO/IW/fPj80=;
+	h=From:To:Cc:Subject:Date:From;
+	b=p/MpBRbYcK8SwT1AZLPB22GniHbUWM5CC/lXn6/MLlLhhtVdrNb5OQYayq393rr+R
+	 oX5KCiPcY4xdpBICbm5gUdJWML8Fj4ONFj5v5kc6ODAXeD1aLJ9wWnlbVHlGugk2wB
+	 ud3i7AbRurRRpxz5egXwZusIrlyPECadARqkXBFMt7MNAB4QsuzApAohroaB8A8UZ/
+	 O9lmO6sz5dMZ3PUIYXvvlAnGBGfE1PpHn9fxAE23hps1XveJ9Ff3Q+Mu9o/V8MC3fz
+	 yCGx+5uj6imKpBn6mrvwJLUg7iSdAfy918DLGoFZvpo3felPdxOmDT0zG6GQtTgcQe
+	 PUbN6zJFMI42w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Eryk Zagorski <erykzagorski@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
+Cc: John Watts <contact@jookia.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	lina@asahilina.net,
-	soyjuanarbol@gmail.com,
-	cyan.vtb@gmail.com,
-	mbarriolinares@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 06/10] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
-Date: Wed, 20 Nov 2024 09:05:31 -0500
-Message-ID: <20241120140556.1768511-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 1/6] ASoC: audio-graph-card2: Purge absent supplies for device tree nodes
+Date: Wed, 20 Nov 2024 09:06:31 -0500
+Message-ID: <20241120140647.1768984-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241120140556.1768511-1-sashal@kernel.org>
-References: <20241120140556.1768511-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -53,57 +48,55 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.11.9
+X-stable-base: Linux 6.6.62
 Content-Transfer-Encoding: 8bit
 
-From: Eryk Zagorski <erykzagorski@gmail.com>
+From: John Watts <contact@jookia.org>
 
-[ Upstream commit 6f891ca15b017707840c9e7f5afd9fc6cfd7d8b1 ]
+[ Upstream commit f8da001ae7af0abd9f6250c02c01a1121074ca60 ]
 
-This patch switches the P-125 quirk entry to use a composite quirk as the
-P-125 supplies both MIDI and Audio like many of the other Yamaha
-keyboards
+The audio graph card doesn't mark its subnodes such as multi {}, dpcm {}
+and c2c {} as not requiring any suppliers. This causes a hang as Linux
+waits for these phantom suppliers to show up on boot.
+Make it clear these nodes have no suppliers.
 
-Signed-off-by: Eryk Zagorski <erykzagorski@gmail.com>
-Link: https://patch.msgid.link/20241111164520.9079-2-erykzagorski@gmail.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Example error message:
+[   15.208558] platform 2034000.i2s: deferred probe pending: platform: wait for supplier /sound/multi
+[   15.208584] platform sound: deferred probe pending: asoc-audio-graph-card2: parse error
+
+Signed-off-by: John Watts <contact@jookia.org>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://patch.msgid.link/20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/quirks-table.h | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ sound/soc/generic/audio-graph-card2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index 24c981c9b2405..199d0603cf8e5 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -324,7 +324,6 @@ YAMAHA_DEVICE(0x105a, NULL),
- YAMAHA_DEVICE(0x105b, NULL),
- YAMAHA_DEVICE(0x105c, NULL),
- YAMAHA_DEVICE(0x105d, NULL),
--YAMAHA_DEVICE(0x1718, "P-125"),
- {
- 	USB_DEVICE(0x0499, 0x1503),
- 	QUIRK_DRIVER_INFO {
-@@ -391,6 +390,19 @@ YAMAHA_DEVICE(0x1718, "P-125"),
- 		}
+diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
+index b1c675c6b6db6..686e0dea2bc75 100644
+--- a/sound/soc/generic/audio-graph-card2.c
++++ b/sound/soc/generic/audio-graph-card2.c
+@@ -261,16 +261,19 @@ static enum graph_type __graph_get_type(struct device_node *lnk)
+ 
+ 	if (of_node_name_eq(np, GRAPH_NODENAME_MULTI)) {
+ 		ret = GRAPH_MULTI;
++		fw_devlink_purge_absent_suppliers(&np->fwnode);
+ 		goto out_put;
  	}
- },
-+{
-+	USB_DEVICE(0x0499, 0x1718),
-+	QUIRK_DRIVER_INFO {
-+		/* .vendor_name = "Yamaha", */
-+		/* .product_name = "P-125", */
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_MIDI_YAMAHA(3) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- YAMAHA_DEVICE(0x2000, "DGP-7"),
- YAMAHA_DEVICE(0x2001, "DGP-5"),
- YAMAHA_DEVICE(0x2002, NULL),
+ 
+ 	if (of_node_name_eq(np, GRAPH_NODENAME_DPCM)) {
+ 		ret = GRAPH_DPCM;
++		fw_devlink_purge_absent_suppliers(&np->fwnode);
+ 		goto out_put;
+ 	}
+ 
+ 	if (of_node_name_eq(np, GRAPH_NODENAME_C2C)) {
+ 		ret = GRAPH_C2C;
++		fw_devlink_purge_absent_suppliers(&np->fwnode);
+ 		goto out_put;
+ 	}
+ 
 -- 
 2.43.0
 
