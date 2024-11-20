@@ -1,139 +1,130 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC8019D8A3;
-	Wed, 20 Nov 2024 11:42:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62C81865E1;
+	Wed, 20 Nov 2024 11:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732102951; cv=none; b=dDcg3JtiOAcdGA/t8DbxVp/Mnb9P+rSo8FKCLbSVbnXDFcuzuklM/OVOFVF1ds7X9vfqUNO1QksBs8PXTkfncln+xoJ2fuetGoryP7tH33oZ5haj32CXUXjB16li3b4ZvQgkp2CkD7mRG/TfmvtixcGft9ZJA8xhm2ylaWkkEPk=
+	t=1732103153; cv=none; b=cgBMd+St7KMq74sUlT5z7i2jj2XAzC1W+Eprfi2HamrPXE0bpYquCgbHK8l7fb3hj0OQbd0gAlXJ49pWNqHnRLZhVKh7rzTA2Zf2HYnwfGagNMlKldqZpBjEREEW2whsT5QcvavGSu5j8+cwGl5yRRyIfakmzSsatAbyekScOXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732102951; c=relaxed/simple;
-	bh=y4NLLTWyYXjyYGqPxXpWnwEh2JfHBgxN148ZNc6DGc4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mKuFvf2S2SNp513lTWSm8yui3x0N3mnIZpZWWc8PLSFsVtvQz1deNdCh/lXPiE0ckOXG82EV4BUzGn5Ue8DpaMjFLqtEIxmzGf7MA1QldrokN6s8joHz1C86CfE9PDlZZF0DI4EEW7KRhkXdZDoYq0DLyVqkhDmDLa1Dx6xCVjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JoN8oZ07; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YcWg6uAk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=JoN8oZ07; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YcWg6uAk; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732103153; c=relaxed/simple;
+	bh=2/whBXtLl01qHsz9y/HxzllZz/4ll8CgpqYA7gqJMyU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MERRJDQginbAYQ1Bg/aPFQjCdOf5ZsX/cOBpJdbyq9Gif3J/xOdNSrLEk0FqjUmVNIzQRqnnidptAB7dmwDHwgORnfDUCRavk5a5ImoSrrodgA7ytVG3EB7pgBb3aKeEN1GI9fg8ld+qFIHqS3xiQxps9NQTb6VVnQxITekqo78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJ5w4NSY; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JoN8oZ07";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YcWg6uAk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JoN8oZ07";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YcWg6uAk"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E25BC1F76E;
-	Wed, 20 Nov 2024 11:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732102947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSJHqq17lovBmeACeob9g+ohEW03fo5ZEFf0G9GBxmU=;
-	b=JoN8oZ07TeRcdLQwtEK5WRHi8Rao7iIHxMsjnW5Vtrp/F248OXC0zvMOXJcQp+fqW+Mhyv
-	ze5yMPj2Hhr8VUdYG5OCWZjqsHHCUxsetNg9DIr729NFhWfy1vAWvgjBIjwXHBhOFex7y0
-	3sBSA9iUxphlk00UQIDcJ0agPeeY62M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732102947;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSJHqq17lovBmeACeob9g+ohEW03fo5ZEFf0G9GBxmU=;
-	b=YcWg6uAkmJPZR4uc/UxsMTeqGsOGpM6kwRsygYljsl7KIufTPpqnGWsIYpVRchojDpqfom
-	9e9N1EGHn6hFGmDg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732102947; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSJHqq17lovBmeACeob9g+ohEW03fo5ZEFf0G9GBxmU=;
-	b=JoN8oZ07TeRcdLQwtEK5WRHi8Rao7iIHxMsjnW5Vtrp/F248OXC0zvMOXJcQp+fqW+Mhyv
-	ze5yMPj2Hhr8VUdYG5OCWZjqsHHCUxsetNg9DIr729NFhWfy1vAWvgjBIjwXHBhOFex7y0
-	3sBSA9iUxphlk00UQIDcJ0agPeeY62M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732102947;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSJHqq17lovBmeACeob9g+ohEW03fo5ZEFf0G9GBxmU=;
-	b=YcWg6uAkmJPZR4uc/UxsMTeqGsOGpM6kwRsygYljsl7KIufTPpqnGWsIYpVRchojDpqfom
-	9e9N1EGHn6hFGmDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5B0E13297;
-	Wed, 20 Nov 2024 11:42:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id S4pPKyPLPWfffAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 11:42:27 +0000
-Date: Wed, 20 Nov 2024 12:42:27 +0100
-Message-ID: <87h6823zdo.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Pei Xiao <xiaopei01@kylinos.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	broonie@kernel.org,
-	arnd@arndb.de,
-	xiaopeitux@foxmail.com
-Subject: Re: [PATCH] ALSA: ac97: bus: Fix the mistake in the comment
-In-Reply-To: <3990bfc8cd47637908eaa179802c1d91459d829b.1732083924.git.xiaopei01@kylinos.cn>
-References: <202411180804.FUfdymYO-lkp@intel.com>
-	<3990bfc8cd47637908eaa179802c1d91459d829b.1732083924.git.xiaopei01@kylinos.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJ5w4NSY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732103152; x=1763639152;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2/whBXtLl01qHsz9y/HxzllZz/4ll8CgpqYA7gqJMyU=;
+  b=fJ5w4NSYw10c4vdmghBrzhsW/WtoJKoeUCkcAur+2y/IcyFhwWaPJIXS
+   WHDx5M87CW/2jH0BdbhkE9JbVmm0LcjXz5Fz19d6cW9aWlezPfEX8FdWE
+   Vp5HJUbQjB3Cv5HCx4PXG0OgB1Jb5RbDe3hSv/NDUYuO8brXa3ci9a8o1
+   y186YCceTbrsb83nWHKAHp9Q2cIi1pH0Lg1dHJUoiqyfLIcjwKHJKI7Sm
+   twaesEpUWo0inuFRYp/8zRSkq9cyYRhLmC1wMLPn91BEOpdzsqOip8qYI
+   slKQik8o7mJ0I+GYarbn+DXHSZMHWBnrnn3/dNI+g/s8+Jugk+Tb6AeP5
+   Q==;
+X-CSE-ConnectionGUID: MQEqo+9NTtWYgnysDaly1g==
+X-CSE-MsgGUID: 6n+hzpAlT5SJejW7ydmgCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="43222780"
+X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
+   d="scan'208";a="43222780"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 03:45:52 -0800
+X-CSE-ConnectionGUID: na3r3SMiQFqhaD8+hnDfIg==
+X-CSE-MsgGUID: 7KWy1XxYSUaTmmSzIbNcAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
+   d="scan'208";a="90701180"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa008.jf.intel.com with ESMTP; 20 Nov 2024 03:45:45 -0800
+Message-ID: <18a691df-e7b6-42fc-8dbc-c10c2608cd9c@linux.intel.com>
+Date: Wed, 20 Nov 2024 13:48:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[foxmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,vger.kernel.org,intel.com,kernel.org,arndb.de,foxmail.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,kylinos.cn:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 01/30] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, krzk+dt@kernel.org,
+ pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+ tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-2-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20241106193413.1730413-2-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, 20 Nov 2024 07:30:19 +0100,
-Pei Xiao wrote:
+On 6.11.2024 21.33, Wesley Cheng wrote:
+> Depending on the interrupter use case, the OS may only be used to handle
+> the interrupter event ring clean up.  In these scenarios, event TRBs don't
+> need to be handled by the OS, so introduce an xhci interrupter flag to tag
+> if the events from an interrupter needs to be handled or not.
 > 
-> Fix mistake in the comment.
-> sound/ac97/bus.c:192: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_register'
-> sound/ac97/bus.c:192: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_register'
-> sound/ac97/bus.c:205: warning: Function parameter or member 'drv' not described in 'snd_ac97_codec_driver_unregister'
-> sound/ac97/bus.c:205: warning: Excess function parameter 'dev' description in 'snd_ac97_codec_driver_unregister'
-> sound/ac97/bus.c:351: warning: Function parameter or member 'codecs_pdata' not described in 'snd_ac97_controller_register'
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
+>   drivers/usb/host/xhci.h      |  1 +
+>   2 files changed, 14 insertions(+), 4 deletions(-)
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202411180804.FUfdymYO-lkp@intel.com/
-> Fixes: 74426fbff66e ("ALSA: ac97: add an ac97 bus")
-> Signed-off-by: Pei Xiao <xiaopei01@kylinos.cn>
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index 9f1e150a1c76..b8f6983b7369 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -2931,14 +2931,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+>   }
+>   
+>   /*
+> - * This function handles one OS-owned event on the event ring. It may drop
+> - * xhci->lock between event processing (e.g. to pass up port status changes).
+> + * This function handles one OS-owned event on the event ring, or ignores one event
+> + * on interrupters which are non-OS owned. It may drop xhci->lock between event
+> + * processing (e.g. to pass up port status changes).
+>    */
+>   static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+>   				 union xhci_trb *event)
+>   {
+>   	u32 trb_type;
+>   
+> +	/*
+> +	 * Some interrupters do not need to handle event TRBs, as they may be
+> +	 * managed by another entity, but rely on the OS to clean up.
+> +	 */
+> +	if (ir->skip_events)
+> +		return 0;
 
-Thanks, applied now.
+This works for your special case but is a small step sideways from other possible xhci
+secondary interrupter usecases.
 
+We currently support just one event handler function even if we support several secondary
+interrupters. Idea was to add support to pass dedicated handlers for each secondary interrupter,
+set when the secondary interrupter is requested.
 
-Takashi
+In your case this dedicated handler wouldn't do anything.
+
+This patch again has a different approach, it keeps the default handler, and instead adds
+flags to it, preventing it from handling the event trb.
+
+Not sure if we should take the time and implement dedicated handlers now, even if we don't
+have any real users yet, or just take this quick change and rework it later when needed.
+
+Thanks
+Mathias
+
