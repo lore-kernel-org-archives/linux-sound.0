@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2141A4F1B;
-	Wed, 20 Nov 2024 14:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEC71A0AF5;
+	Wed, 20 Nov 2024 14:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111682; cv=none; b=G/xC/gZpJmfrqG0YuYwWKxQGNZtKUcHDTT9ixmjAA2sd7qlKMXKBBHButBEriTuK8mOEpbYlS9nzY7tG5Jsn5H5a8nRdzlcW6uDhQHA/PJekUBMF/XyyUXry9riL4jfSFL7Pht1VttFT5Y/LYeDsyRVrfnuUPiS0oRsJ53rzIn0=
+	t=1732111702; cv=none; b=QHW03DFXyypbcQ7B1phgXTeTnDYNj+Mwv6pJiyqcow6+njymmQLZjvZaFt8qunuuidbd0vSWmeTeyS2gGZ3xgrx854Leq0nydtc3jzUFmd2QFuBCSdcQCOV3tVG0vOKIbDpg19/UYXk9oMb5WaEpFKh7uJ7pChYU/8mnGk71KqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111682; c=relaxed/simple;
-	bh=5tirlQc/hnOU3dP9O95i4Ihq5j3Nj4ozZzupoTOod6U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l8Of9CSh8hrjBNOwB48qeW0BCFpbLkua/8z/qFJ9Eq06ro0I+9F8t3jmKFIcFl/ZwuZXb+s/YTTYdnx03t9z+rzv+7/Y5Tpk8G10CjRIp1VZTlxjybMMwNo62MeMfhsBUpPvFS6d4jd8heoU1fDyjJHIAqDbzQtkU/Uva6SqjC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F85Rqb+U; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732111702; c=relaxed/simple;
+	bh=VstkH05uqdS4tFT/JcIuoivGt2q90EsE9V2hlAMjfdo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFQOyE782WPp7xDknhOkKcGfDWQ0RBX391BPeB8ZpRGEgwgok3dhRcH05eNEt/4vdQhnQLmq2/u8JriFx/+WHMpdzgGgcgkK0l/7KiyusOOoc7L7eVRtqxqUJwMytAX0Dv05F3n6lRDdU264mywn6wM7A3KVApf3zm3iZf8p948=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTwssYdD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F85Rqb+U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52AF1C4CECD;
-	Wed, 20 Nov 2024 14:08:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTwssYdD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77841C4CECD;
+	Wed, 20 Nov 2024 14:08:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732111681;
-	bh=5tirlQc/hnOU3dP9O95i4Ihq5j3Nj4ozZzupoTOod6U=;
+	s=k20201202; t=1732111701;
+	bh=VstkH05uqdS4tFT/JcIuoivGt2q90EsE9V2hlAMjfdo=;
 	h=From:To:Cc:Subject:Date:From;
-	b=F85Rqb+UkL19209YsRHjz6jZ5w4qqPmYQpW2mGDr8XdIMVL20NyE46CM7rwe3bnvU
-	 kh5gknfgUMOQMpbq41cTjpauMbQE/0FkedCbOY0lwTI/nc4COu7WJS9txhGn5VprLv
-	 HcuIxxKdqfK5HtkIc5IJtLtdM6Fr8XXfl5gfTvTmxK01Oe5NBHqK3qJU2yjGxsUn5/
-	 7Zh9bRYU4lLP4ZEP/hL1mQzRuVo6tNFgMDu8NrMxbhxyCj39p7A0P8oeAFUoGY7bvM
-	 0sGUWYaCHtg31k1Hhc8kfHxt0JSPKxGhbYlLfqL2B93kfG95yqfCP1KJ+5knISZGVo
-	 Qo2qmyx3ItL1w==
+	b=LTwssYdDov6qATfHJIMXQRu28WgNhPRbFtLBsMEpRcfZYEmQmO4CTbYsXvKM8dJQL
+	 RqnTHkvszijV+PZZg91fgLSS5Dp8IQocWwVvyeyK5ZcknUnT1gVoCT21UFzG5Vq99q
+	 mWb7Z6FHXUoJDRWIN3h8NKBr7llb3NfgBQg8hE3aU/YbW/rh9b9rwUxQbl2H0jI/mz
+	 Lkr/Hewv3WxtXhdWW6Cbf3Gxy1TewwvOizl3vhzo15o+YHhNA0Nfcev/Yy5C0u8kjE
+	 G0IO6wprfHLgSW7W+zJrj/utEO45oI7fBiGstkQYxBDxQjz+wMtohCpBf+JRYt8m1H
+	 /An+mhn1gWx+A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,9 +38,9 @@ Cc: Eryk Zagorski <erykzagorski@gmail.com>,
 	cyan.vtb@gmail.com,
 	soyjuanarbol@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 1/4] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
-Date: Wed, 20 Nov 2024 09:07:44 -0500
-Message-ID: <20241120140758.1769473-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/3] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
+Date: Wed, 20 Nov 2024 09:08:11 -0500
+Message-ID: <20241120140819.1769699-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.173
+X-stable-base: Linux 5.10.230
 Content-Transfer-Encoding: 8bit
 
 From: Eryk Zagorski <erykzagorski@gmail.com>
@@ -70,7 +70,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index dd98b4e13edac..4690b44987c05 100644
+index c6104523dd79c..119c0bde74464 100644
 --- a/sound/usb/quirks-table.h
 +++ b/sound/usb/quirks-table.h
 @@ -350,7 +350,6 @@ YAMAHA_DEVICE(0x105a, NULL),
