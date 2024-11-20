@@ -1,58 +1,59 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9E119340E;
-	Tue, 19 Nov 2024 21:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97B518E1F
+	for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 01:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732053266; cv=none; b=FjUfNOXRy3u1Z3HjBrDTstsE+ZFoCrPMKsAjzrcdUTQEaRcFckj0kTiJqUG/rFRgkc7PCk2ZNIZjcc7U/e8OBdLnDCAqwXhHaHK3XbPdpx2z4HiXfUSxS8+Xiqjfklx7wkpl+XB3H9THb1e5sBTYEa5GqmRgpLnIJkNEI3MXyKw=
+	t=1732066204; cv=none; b=HNTew8s08rsJGtXlE23+S7Zy1LQfaMKJ0S5WnvNWVuiHy6OzLRhC3+Xhjc3h35Z0qLK7CZuefzqaSH0YrTP0m1SGv+2xX30ul4jgv+X8YFzaCWAxtsiosEKHYq6tGQFssdy1GWM6+PFi0QClzze/29GKUKKWsvzpD+wBgZ8w5Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732053266; c=relaxed/simple;
-	bh=LR6RtMiCLf62/FPIbKk3ZuNT9EAYt1ABSfyQCNPw5eE=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=tojj0OkSk2PsnwP5oRikYLmM7TSA1/zuqi2n1nPuHM/bqpo6CS7+rPUWrhJluw71ooFHq1jZUKd1JRFmDerxOVJTdKaaLGu7ei0/yO7PTo1E4tFzHhmvFQd76rDBzzU7vFd7xv9I7fT1PzwPkZTYLxVustOWgQrqMT/NvCICIPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W0cnJTTL; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1732066204; c=relaxed/simple;
+	bh=WbxO4jLPapS/2iAZNXRI7FltxQspczqI8mZJEw7zfsk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IZDwXwEzb6Tk2tTHMSSYBuZmG/izo1LnZLpZOWFRzvcW8t0iEtuZNuQvAJRJ7/0mpfCT1IP/XJUUQgVFVw4DB71xdcyPar9TJf40Mgca5BaSi/pCpP0dRyNzM1vlcI4IdZfIPnYBJt0gwiVF5zs3VXdbmpNgxq3GXzqxIoA2RYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLrTNvwM; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W0cnJTTL"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so40999955e9.0;
-        Tue, 19 Nov 2024 13:54:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLrTNvwM"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb587d0436so36163831fa.2
+        for <linux-sound@vger.kernel.org>; Tue, 19 Nov 2024 17:30:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732053262; x=1732658062; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5rcpbtm7aUHGqx2bVM0iKGOigGKjaryXW48lA24pdOU=;
-        b=W0cnJTTLqXt+VvrCZpflweXY5Q2799pcMlaI0osmMIu5Y2DZodUC4sN5Vvb18uwIKU
-         q4UPZQtet6KEzqD/j9YUEi7vcVPUWdqQ1z6Bpszda4aAFhmRaw8EfOM1Lt1EbQAuaxXg
-         weInZtUWaQ3ojwJkkpislMS2gtS6NG77GTmVGNKP6Na0Vf9BoqBQmOCJ079MIOigR//c
-         dFa9AOP8fpXl+V+LW1ayUPNWlAd8bYZDHzkWC4qJssX5JC349rybyeecrB/3nBmK76mB
-         tu1c8wm4XQhhiFyL49vBdkTrI492iNUdZoOkXAEk4fo73kGm8yac6gIbL2LMJEyZ01xv
-         bL6w==
+        d=gmail.com; s=20230601; t=1732066201; x=1732671001; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6EPb7BzM5sFoAzxgHdc/VGIzhDScmhbcy0lynlu0CVk=;
+        b=OLrTNvwM+FFpzPVLWnij7hUXOMWZDj79zfWNwCgb5ULRiEbHFqd3wIm19fnUDWiEwS
+         PV/g/pLw20NmzgZmLxktsWR8ScVjHlT6qQWwWAoq6I78pzYqQMzlQ49EJQ3Led35p/hT
+         cCtSkEXAvYy4JitTdtJi0pK4nIDW6oTp/y9NwD/l3NaZKBUxjyfXuy7quliWFgP0uiQs
+         Tc/Hdisy0/yY4vNsL9h5UkElQ+0Cq2h2UvFxwhLQBguEJuJORBQPZSi4RaEVkUhS/5xx
+         kg6lUzao7t62q4kG9V4AYXdF/brusqbgumil14CtYeppscozloS0KHMkCAXirPWQddJX
+         vcEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732053262; x=1732658062;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5rcpbtm7aUHGqx2bVM0iKGOigGKjaryXW48lA24pdOU=;
-        b=maE1ugLy5qEl2xKrRScz+IoRG5TYCudrtQiYL6/VgmuRzEJGClVtbSr00qwgZt4Nlz
-         fHjVByZw8sLH/eIVYre0WxMMEs9KYFRF5YkuKzIT0H+0GWSpf1V0AbuwO27h6xa7uVdQ
-         id7bby9xYBTClO9e0k9qx3/YT4pMRdaT+DEWVES/hzlmFG4QHUqCZaJORprUnuOgq+4a
-         jdDcCEzuzjiUGVUlh5EIF+E/jcNInHdq9I1wknn5a/mX3Np+hlfLR/vKTej5jiXw9wVB
-         R2PBo/96jft0/d3KmF8U4KQ4eNFZrKzhXzwurBUPGeDmmQwstZfXiL0m1z96F3H20zZ5
-         0ruA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEeyerPbVru4aN0O56P8c4/bYNioVKZ1cSUTzkkzCPknawH2FUJfXRixtQRSNN6TSrz92WsFginsIh9KI=@vger.kernel.org, AJvYcCXxP06EFfGVqnlm9MKfG0GDBR+S7OH/zNM2m96pC+cutIcifZoZSPLxY278ni0nMWbWYhu/0J0ud8dve+Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5Wg0OV1/iwrGZ0x2+hy9MefspKRa+ikWcfTz29Rri4fUrlpt/
-	j7U5iPkz8obZoO6pBFpTQFcjtncPKYWHO5BdaCDuOI4cXiqci81J
-X-Google-Smtp-Source: AGHT+IFTV0yGBotQfy7ZT3VUJcU92aUwm1o86+KKHyT7DbD8nR3qVC/44UXJ9MVt/dWXlmYpNUeAfg==
-X-Received: by 2002:a05:6000:178e:b0:382:3527:a162 with SMTP id ffacd0b85a97d-38254adeec5mr266447f8f.8.1732053262339;
-        Tue, 19 Nov 2024 13:54:22 -0800 (PST)
-Received: from ?IPV6:2a04:241e:501:580:1cd5:f4bd:17fc:6eff? ([2a04:241e:501:580:1cd5:f4bd:17fc:6eff])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cff454f78asm118209a12.81.2024.11.19.13.54.20
+        d=1e100.net; s=20230601; t=1732066201; x=1732671001;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6EPb7BzM5sFoAzxgHdc/VGIzhDScmhbcy0lynlu0CVk=;
+        b=g5FgIwzmL1XeV/4cGC+T93mTxz2zSx4jx70UbAne47+WmKBrXt4d+uyampUBW1qcPc
+         pvcsbS4f/x9C2WI90IZgMucRBO1MFnuE990KkoVlDrmXC5qAb1g8+meZH/Nz2o0Vcqit
+         /yDm5LB7mkUPEK/XYdqCKOcaqF6I+JZAeS1lBxlD1DGm32hoGRLF+/FMPZeO9wYxjxDm
+         X8rMkmi++IOnUXz37WGCXQU82xJl/ZYDoEyPM1UuwZksC0uvsm85DWlYsSPi9QxOBS83
+         LwHnD/sXXIRB8h3XAeKwwhaIqmf1oZ+54qjWTYY+njA8fTeg+DEqCFxpSZAfXVU1kZKi
+         H6wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUbVxDHKUbvAio7o/L3KcNYi6OfGXcOx3KXPDa11oU58eG+yUf7fdzoiEPyDDF4GMFB1GserrFAYfkUQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4bH7WxG4VYP1h4nEctzOcsGSOpLt/vWCUyL9ZirFjpin3scig
+	A0RUtrXKhvqPQGN3hIG9VUSu1D9EHA9HmHf6NDHZri3b0kHsR7ag
+X-Google-Smtp-Source: AGHT+IFPLX6XE3Ijp+fzxghO+t9NaCvtCvTqiGEbk575cCGIyzvJjzDeDiMSrAqhLft86n9AuCsbcQ==
+X-Received: by 2002:a05:651c:985:b0:2fc:ba7a:c97a with SMTP id 38308e7fff4ca-2ff8dd44496mr3628881fa.39.1732066200564;
+        Tue, 19 Nov 2024 17:30:00 -0800 (PST)
+Received: from [172.24.224.254] (admh162.neoplus.adsl.tpnet.pl. [79.185.37.162])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff69ae7f80sm13455261fa.90.2024.11.19.17.29.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Nov 2024 13:54:20 -0800 (PST)
-Message-ID: <25d5b0d8-4efd-4630-9d33-7a9e3fa9dc2b@gmail.com>
-Date: Tue, 19 Nov 2024 23:54:19 +0200
+        Tue, 19 Nov 2024 17:29:59 -0800 (PST)
+Message-ID: <13b257a1-8336-4286-b801-bb09082bd316@gmail.com>
+Date: Wed, 20 Nov 2024 02:29:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -60,95 +61,56 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Leonard Crestez <cdleonard@gmail.com>
-Subject: [RFC] ALSA: usb-audio: Fix missing xrun report in lowlatency mode
-To: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-kernel@vger.kernel.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+ <87r07wws4j.wl-tiwai@suse.de>
+ <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+ <87o730uttl.wl-tiwai@suse.de>
+ <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+ <87ikt7v028.wl-tiwai@suse.de>
+ <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+ <871pzuujkc.wl-tiwai@suse.de>
+ <18c74a03-ca32-4eec-9771-bfbd37d315a4@gmail.com>
+ <87a5e9g68w.wl-tiwai@suse.de>
+ <e1ce4d0b-23ad-46a8-9f46-c38194376f76@gmail.com>
+ <877c96szig.wl-tiwai@suse.de>
+ <98af4276-927d-474e-a78f-7c6f0bae3090@gmail.com>
+ <87jzcz5jww.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
+In-Reply-To: <87jzcz5jww.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+On 19.11.2024 16:21, Takashi Iwai wrote:
+> I'm not sure whether I already asked it: did you try to turn on/off
+> "Beep Playback Switch" (i.e. mute/unute "Beep" mixer element)?
+> It should control the digital beep of HD-audio's own beep input
+> device, but this might be also related with the internal beep from the
+> Lenovo firmware (and the output of pcspkr input device).
 
-I’m investigating an issue where USB Audio does not properly send XRUN 
-notifications.
+Both "Beep" mixer and mute switch don't affect beeps generated by ACPI
+firmware (and pcspkr module for that matter)
 
-The issue can be reproduced with aplay: enable xrun_debug, aplay -D 
-plughw:0 and CTRL-Z - no XRUN message is seen
+> And, judging from the fact that "Master" volume influences on the beep
+> sound, it also means that the sound is routed to DACs -- for Conexant
+> codecs, Master is a virtual control just changes both Speaker and
+> Headphone volumes/switches, and both Speaker and Headphone controls
+> are tied with the Audio Output widgets.  You can check whether the
+> beep tone volume from pcspkr or Thinkpad ACPI is also controlled via
+> Speaker and Headphone mixer volume and switch.
 
-Disabling lowlatency_playback via modprobe parameter does make this 
-issue go away - XRUNs are reported correctly without any changes.
+The volume of beeps from firmware and pcspkr is fixed, it's not changed
+by any available mixer setting; the only thing that affects those beeps
+is Master Mute Switch, which mutes them both on the speakers and on the
+headphones.
 
+And one more thing - both beep types are audible on the headphones even
+if Headphones mixer is set minimum and Headphones Mute Switch is set to
+mute (if Master is unmuted, obviously)
 
-After a lot of tracing the following seems to be happening:
-
-- prepare_playback_urb find avail=48, meaning 48 bytes still to-be-played
-- snd_usb_endpoint_next_packet_size decides that 48 is too little and 
-returns -EAGAIN. Specifically -EAGAIN is returned from next_packet_size
-- The return value of prepare_playback_urb is propagated through 
-prepare_outbound_urb back to snd_usb_queue_pending_output_urbs
-- snd_usb_queue_pending_output_urbs receives -EAGAIN from 
-prepare_outbound_urb
-- since err is -EAGAIN the ctx is pushed back to the ready list and 
-transmission is aborted but notify_xrun is skipped
-- no more playback?
-
-It is possible to make XRUNs happen by caling notify_xrun even on 
--EAGAIN, diff looks like this:
-
-diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
-index 568099467dbb..da64ee0cf60a 100644
---- a/sound/usb/endpoint.c
-+++ b/sound/usb/endpoint.c
-@@ -495,10 +495,11 @@ int snd_usb_queue_pending_output_urbs(struct 
-snd_usb_endpoint *ep,
-                         break;
-                 if (err < 0) {
-                         /* push back to ready list again for -EAGAIN */
-                         if (err == -EAGAIN) {
-                                 push_back_to_ready_list(ep, ctx);
-+                               notify_xrun(ep);
-                                 break;
-                         }
-
-                         if (!in_stream_lock)
-                                 notify_xrun(ep);
-
-
-This mail was not formatted as proper patch because this seems very 
-likely incorrect, it undoes an explicit check. What would a correct 
-solution look like?
-
-There could be a scenario where -EAGAIN from prepare_outbound_urb can 
-happen without an actual XRUN, but I don’t understand the code enough.
-
-The fact that usb-audio halts playback with a non-zero amount of bytes 
-that can still be played prevents the XRUN checks inside 
-`snd_pcm_update_state` from triggering. This means that the driver 
-always takes responsibility for reporting xrun, correct?
-
-It seems dubious to me that unplayed bytes are kept around - shouldn’t 
-fragments either be played or dropped? Perhaps the last fragment should 
-just be padded with some silence and sent anyway, then core sound code 
-should report xrun anyway.
-
-USB Audio has many parameters. In my particular case:
-
-- lowlatency_playback = true
-- channels=2, rate=48000, format=S16_LE, period_bytes=960, periods=3, 
-implicit_fb=0
-- nurbs = 3
-
-This was originally found in a complex application which checks 
-snd_pcm_state regularly and does not find the SND_PCM_STATE_XRUN state 
-but audio gaps are seen in a physical line capture.
-
-This was seen in Linux 5.19.139 but also affects 6.6.y and latest 
-sound/master branch. There are very few relevant changes in this area 
-that are not already in stable branches.
-
-Hardware is a conexant audio codec, USB VID:PID 0572:1410.
-
---
-Regards,
-Leonard
+-- 
+Regards
+Jarosław Janik
