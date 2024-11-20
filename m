@@ -1,46 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEC71A0AF5;
-	Wed, 20 Nov 2024 14:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95EA1AE843
+	for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 14:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111702; cv=none; b=QHW03DFXyypbcQ7B1phgXTeTnDYNj+Mwv6pJiyqcow6+njymmQLZjvZaFt8qunuuidbd0vSWmeTeyS2gGZ3xgrx854Leq0nydtc3jzUFmd2QFuBCSdcQCOV3tVG0vOKIbDpg19/UYXk9oMb5WaEpFKh7uJ7pChYU/8mnGk71KqY=
+	t=1732111873; cv=none; b=YFOvEBhhNPbA/xuGsUohTHYoKCvR6nfuV7qI5XvleVfwWJlUVsdlZJ6SbLSJqIb+nY6h1Z/a7Se9TX0r/C4K044UKnPvHl/nPJLW8FcalPwY21OFacJAAhRoPl1MZxPClA90UYmb1D5XKY+T5DS9Xvuvb675Uo4XhI2PjwNaZPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111702; c=relaxed/simple;
-	bh=VstkH05uqdS4tFT/JcIuoivGt2q90EsE9V2hlAMjfdo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFQOyE782WPp7xDknhOkKcGfDWQ0RBX391BPeB8ZpRGEgwgok3dhRcH05eNEt/4vdQhnQLmq2/u8JriFx/+WHMpdzgGgcgkK0l/7KiyusOOoc7L7eVRtqxqUJwMytAX0Dv05F3n6lRDdU264mywn6wM7A3KVApf3zm3iZf8p948=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LTwssYdD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732111873; c=relaxed/simple;
+	bh=OfTI8dK3uIizdbthLH8Luh6iIFq/1jHlqfFQ+tsCi7c=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=QTX7iwqiLxQulV9EVOJmnYiqRxLz7GRA2ZGPlDb+9shV77X++cz90MOaMuLgRA+yfm0+aVFIVEzch3TwjMZeyzxQ08Hfd/eKSf4fozlXuEX3bpKganoae6TlFgeAqfmKxTxviRykbMw+0v+6RF6H/ZTHAVzw5/Nn30uHWzWGyVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s8TgF2s5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Rsf0PBD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=s8TgF2s5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5Rsf0PBD; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LTwssYdD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77841C4CECD;
-	Wed, 20 Nov 2024 14:08:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732111701;
-	bh=VstkH05uqdS4tFT/JcIuoivGt2q90EsE9V2hlAMjfdo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=LTwssYdDov6qATfHJIMXQRu28WgNhPRbFtLBsMEpRcfZYEmQmO4CTbYsXvKM8dJQL
-	 RqnTHkvszijV+PZZg91fgLSS5Dp8IQocWwVvyeyK5ZcknUnT1gVoCT21UFzG5Vq99q
-	 mWb7Z6FHXUoJDRWIN3h8NKBr7llb3NfgBQg8hE3aU/YbW/rh9b9rwUxQbl2H0jI/mz
-	 Lkr/Hewv3WxtXhdWW6Cbf3Gxy1TewwvOizl3vhzo15o+YHhNA0Nfcev/Yy5C0u8kjE
-	 G0IO6wprfHLgSW7W+zJrj/utEO45oI7fBiGstkQYxBDxQjz+wMtohCpBf+JRYt8m1H
-	 /An+mhn1gWx+A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Eryk Zagorski <erykzagorski@gmail.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	lina@asahilina.net,
-	mbarriolinares@gmail.com,
-	cyan.vtb@gmail.com,
-	soyjuanarbol@gmail.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 1/3] ALSA: usb-audio: Fix Yamaha P-125 Quirk Entry
-Date: Wed, 20 Nov 2024 09:08:11 -0500
-Message-ID: <20241120140819.1769699-1-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s8TgF2s5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Rsf0PBD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="s8TgF2s5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5Rsf0PBD"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 17DDC1F79C;
+	Wed, 20 Nov 2024 14:11:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732111870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8B+D06eLE9/VC4rYHFk3cGfzs151/Wonbq9cT29mDnw=;
+	b=s8TgF2s5JEos1yauzmcuibn54+xPqWbDkrM+qxpY84lKnzvc62ceEdnA59q0zqORmXu6PO
+	qwF4uS/nBVZOykwQoXDFbVfJh1LkpshZt9HTSYCcR2Tjh6Ldqpfvis6c3Xe869IcMFmJ3y
+	cLU4V4LnnqQOnA2RQlRS7+W+DhOgJo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732111870;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8B+D06eLE9/VC4rYHFk3cGfzs151/Wonbq9cT29mDnw=;
+	b=5Rsf0PBDibQuRukX7bBCbbjpfJfEv82it+16q8QPT2sYjn0CTyeoB4nP8Db1sD7AiPG+0e
+	s63gq6K13CgKzgDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=s8TgF2s5;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5Rsf0PBD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732111870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8B+D06eLE9/VC4rYHFk3cGfzs151/Wonbq9cT29mDnw=;
+	b=s8TgF2s5JEos1yauzmcuibn54+xPqWbDkrM+qxpY84lKnzvc62ceEdnA59q0zqORmXu6PO
+	qwF4uS/nBVZOykwQoXDFbVfJh1LkpshZt9HTSYCcR2Tjh6Ldqpfvis6c3Xe869IcMFmJ3y
+	cLU4V4LnnqQOnA2RQlRS7+W+DhOgJo0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732111870;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=8B+D06eLE9/VC4rYHFk3cGfzs151/Wonbq9cT29mDnw=;
+	b=5Rsf0PBDibQuRukX7bBCbbjpfJfEv82it+16q8QPT2sYjn0CTyeoB4nP8Db1sD7AiPG+0e
+	s63gq6K13CgKzgDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 09DF6137CF;
+	Wed, 20 Nov 2024 14:11:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id jgbGAf7tPWdOLQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 20 Nov 2024 14:11:10 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: pcm: Add sanity NULL check for the default mmap fault handler
+Date: Wed, 20 Nov 2024 15:11:02 +0100
+Message-ID: <20241120141104.7060-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -48,59 +77,67 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.230
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 17DDC1F79C
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_NONE(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:mid,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Eryk Zagorski <erykzagorski@gmail.com>
+A driver might allow the mmap access before initializing its
+runtime->dma_area properly.  Add a proper NULL check before passing to
+virt_to_page() for avoiding a panic.
 
-[ Upstream commit 6f891ca15b017707840c9e7f5afd9fc6cfd7d8b1 ]
-
-This patch switches the P-125 quirk entry to use a composite quirk as the
-P-125 supplies both MIDI and Audio like many of the other Yamaha
-keyboards
-
-Signed-off-by: Eryk Zagorski <erykzagorski@gmail.com>
-Link: https://patch.msgid.link/20241111164520.9079-2-erykzagorski@gmail.com
+Reported-by: syzbot+4bf62a7b1d0f4fdb7ae2@syzkaller.appspotmail.com
+Cc: <stable@vger.kernel.org>
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/quirks-table.h | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ sound/core/pcm_native.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/sound/usb/quirks-table.h b/sound/usb/quirks-table.h
-index c6104523dd79c..119c0bde74464 100644
---- a/sound/usb/quirks-table.h
-+++ b/sound/usb/quirks-table.h
-@@ -350,7 +350,6 @@ YAMAHA_DEVICE(0x105a, NULL),
- YAMAHA_DEVICE(0x105b, NULL),
- YAMAHA_DEVICE(0x105c, NULL),
- YAMAHA_DEVICE(0x105d, NULL),
--YAMAHA_DEVICE(0x1718, "P-125"),
- {
- 	USB_DEVICE(0x0499, 0x1503),
- 	.driver_info = (unsigned long) & (const struct snd_usb_audio_quirk) {
-@@ -485,6 +484,19 @@ YAMAHA_DEVICE(0x1718, "P-125"),
- 		}
- 	}
- },
-+{
-+	USB_DEVICE(0x0499, 0x1718),
-+	QUIRK_DRIVER_INFO {
-+		/* .vendor_name = "Yamaha", */
-+		/* .product_name = "P-125", */
-+		QUIRK_DATA_COMPOSITE {
-+			{ QUIRK_DATA_STANDARD_AUDIO(1) },
-+			{ QUIRK_DATA_STANDARD_AUDIO(2) },
-+			{ QUIRK_DATA_MIDI_YAMAHA(3) },
-+			QUIRK_COMPOSITE_END
-+		}
-+	}
-+},
- YAMAHA_DEVICE(0x2000, "DGP-7"),
- YAMAHA_DEVICE(0x2001, "DGP-5"),
- YAMAHA_DEVICE(0x2002, NULL),
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 47027fa4eb28..381a476a1045 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -3813,9 +3813,11 @@ static vm_fault_t snd_pcm_mmap_data_fault(struct vm_fault *vmf)
+ 		return VM_FAULT_SIGBUS;
+ 	if (substream->ops->page)
+ 		page = substream->ops->page(substream, offset);
+-	else if (!snd_pcm_get_dma_buf(substream))
++	else if (!snd_pcm_get_dma_buf(substream)) {
++		if (WARN_ON_ONCE(!runtime->dma_area))
++			return VM_FAULT_SIGBUS;
+ 		page = virt_to_page(runtime->dma_area + offset);
+-	else
++	} else
+ 		page = snd_sgbuf_get_page(snd_pcm_get_dma_buf(substream), offset);
+ 	if (!page)
+ 		return VM_FAULT_SIGBUS;
 -- 
 2.43.0
 
