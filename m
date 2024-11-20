@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA041AAE31;
-	Wed, 20 Nov 2024 14:06:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E281A4F1B;
+	Wed, 20 Nov 2024 14:06:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111561; cv=none; b=pGw8+Rzj4VHcf+ZBLFUoBTzndKOUu+FBb3sCX5w6tChD6mXKImmN21CIy6fSpMCj2UGD2d0ptOzqxgYMhQLa6/ksYXGo1wY1FQQCRtmhEk5TZ7hG/k3jqi3VQ7y2OwXWdg1eN3+zFz7MC+FESM3gm3mneH73raKYVyrvHMMu0ng=
+	t=1732111580; cv=none; b=WMZSQckB2bprDaXH/9Ja0ONOCJggj54tiOLBU1ezL1QJw8fUZtI4xUhT7W28PiiDuTiM+dEFg9+HogUtL5Rb5et+5TNHPMheUhyEPZJRl0r/unj9JqyFF5Fyv7UJ8LumRZKj21abmKzHziFzr7NpRbZhuFX+tWUVHLdHoNWAUWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111561; c=relaxed/simple;
-	bh=V7RyWEwUV+VacJNIxd3b1TT4O4dL85UAFNy8W0PHDkY=;
+	s=arc-20240116; t=1732111580; c=relaxed/simple;
+	bh=q1jZB0Y3D3QaQ6qJhaPFxFesXLoLz4odukHwSav9Imw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ls+jiAT1d//UP3UFSaBZBIDofVq610AkwSOt/Mdb3DcBo2+XVoJYxS8WjBejsqujSKTnUipHcV5zHEhx4u4j0hIBq1GHpADtpZuldjAK+M7nEtGVyGcrhOs2XfrY65qT0YrN3dR+mHq2MfDXx93t49XPFrM+betYVg7/7uDkdmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QubNXRpY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=CSD4mhBGlNDAsSvN3nEgNh5RfEMna6Aogis0S2QyTSgXu3aZa8dubnlGhD4ZkhnXxk7EKupvYHNErVRuNF6G1Itw1UcbMS4QJMv5PllFqOQ+Ux/w7A1KykgX0Q4Sv5xNbcG4PSwiwDPQGv7X32mvuE8gFU1FZQ9HGMyWih6NJiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nxmp+UEl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QubNXRpY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 255D8C4CECE;
-	Wed, 20 Nov 2024 14:06:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nxmp+UEl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98161C4CECD;
+	Wed, 20 Nov 2024 14:06:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732111561;
-	bh=V7RyWEwUV+VacJNIxd3b1TT4O4dL85UAFNy8W0PHDkY=;
+	s=k20201202; t=1732111577;
+	bh=q1jZB0Y3D3QaQ6qJhaPFxFesXLoLz4odukHwSav9Imw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QubNXRpY0ev9VXsH5TlThDR2qhHxugzvRpK0ByHDpnepGD7WW0rVKcoUZuFz648k8
-	 HFEw9QDCuCgnXKEOzC7IkAd0hCcXgpPqAPfKxVGP/CXSZZNpUz1rV1z9hGhBioGzJE
-	 0tes8Xa4hGZBHXCDWXnalZUbRiBrzMCy+ZDCIwrtSmnU8ibRm6xqsDcKio8yyxG30c
-	 Lr7vb1kR39IRUirQGuvTnq2WzGBaZG9a1NbIROkreqb7MrBFpoZ24BQP6G/wWOceUu
-	 Hk11Jgh1crDu0YLgvvMqRm76BrVXEEbTdsDobDynFYvKdDPPFtlcwu5NyzSMYjhPJK
-	 3nMI16XlPbpFQ==
+	b=Nxmp+UEld1aimjR0eSLdpdeincNpWmbmUVwIvI/9I7VboFaHrZdHFoPvIb2Y7TC54
+	 8pZtDuVx3nayn5RRfColFBWFXxLT39E0VXySYaJ2ivNmXR0qzjbG4YsdIqtWoH/2/T
+	 45p7LLtGifLjav+ycuWYOu0wPXL4aKA3EKqSqkYCn8UL/DMTZk+L1b16ipM4n1cYdd
+	 eQ1IspiAE3DHyLpUjRfcTFdPFri+M7SxwBZwlQhhgYIlrzdsdUy/Jp07XvBqXONLuC
+	 /OJXbojt8/5/9TM5lFkG3yU+qahOJkgz2BZ3Myn9TnEio2S9KuM9xl30c85YZJG9Hs
+	 j1CTH94fVkxDQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: John Watts <contact@jookia.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
+	andy.shevchenko@gmail.com,
+	u.kleine-koenig@pengutronix.de,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.11 02/10] ASoC: audio-graph-card2: Purge absent supplies for device tree nodes
-Date: Wed, 20 Nov 2024 09:05:27 -0500
-Message-ID: <20241120140556.1768511-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.11 05/10] ASoC: max9768: Fix event generation for playback mute
+Date: Wed, 20 Nov 2024 09:05:30 -0500
+Message-ID: <20241120140556.1768511-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241120140556.1768511-1-sashal@kernel.org>
 References: <20241120140556.1768511-1-sashal@kernel.org>
@@ -54,52 +54,47 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.11.9
 Content-Transfer-Encoding: 8bit
 
-From: John Watts <contact@jookia.org>
+From: Mark Brown <broonie@kernel.org>
 
-[ Upstream commit f8da001ae7af0abd9f6250c02c01a1121074ca60 ]
+[ Upstream commit 2ae6da569e34e1d26c5275442d17ffd75fd343b3 ]
 
-The audio graph card doesn't mark its subnodes such as multi {}, dpcm {}
-and c2c {} as not requiring any suppliers. This causes a hang as Linux
-waits for these phantom suppliers to show up on boot.
-Make it clear these nodes have no suppliers.
+The max9768 has a custom control for playback mute which unconditionally
+returns 0 from the put() operation, rather than returning 1 on change to
+ensure notifications are generated to userspace. Check to see if the value
+has changed and return appropriately.
 
-Example error message:
-[   15.208558] platform 2034000.i2s: deferred probe pending: platform: wait for supplier /sound/multi
-[   15.208584] platform sound: deferred probe pending: asoc-audio-graph-card2: parse error
-
-Signed-off-by: John Watts <contact@jookia.org>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/20241108-graph_dt_fix-v1-1-173e2f9603d6@jookia.org
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20241112-asoc-max9768-event-v1-1-ba5d50599787@kernel.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/generic/audio-graph-card2.c | 3 +++
- 1 file changed, 3 insertions(+)
+ sound/soc/codecs/max9768.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 56f7f946882e8..68f1da6931af2 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -270,16 +270,19 @@ static enum graph_type __graph_get_type(struct device_node *lnk)
+diff --git a/sound/soc/codecs/max9768.c b/sound/soc/codecs/max9768.c
+index e4793a5d179ef..8af3c7e5317fb 100644
+--- a/sound/soc/codecs/max9768.c
++++ b/sound/soc/codecs/max9768.c
+@@ -54,10 +54,17 @@ static int max9768_set_gpio(struct snd_kcontrol *kcontrol,
+ {
+ 	struct snd_soc_component *c = snd_soc_kcontrol_component(kcontrol);
+ 	struct max9768 *max9768 = snd_soc_component_get_drvdata(c);
++	bool val = !ucontrol->value.integer.value[0];
++	int ret;
  
- 	if (of_node_name_eq(np, GRAPH_NODENAME_MULTI)) {
- 		ret = GRAPH_MULTI;
-+		fw_devlink_purge_absent_suppliers(&np->fwnode);
- 		goto out_put;
- 	}
+-	gpiod_set_value_cansleep(max9768->mute, !ucontrol->value.integer.value[0]);
++	if (val != gpiod_get_value_cansleep(max9768->mute))
++		ret = 1;
++	else
++		ret = 0;
  
- 	if (of_node_name_eq(np, GRAPH_NODENAME_DPCM)) {
- 		ret = GRAPH_DPCM;
-+		fw_devlink_purge_absent_suppliers(&np->fwnode);
- 		goto out_put;
- 	}
+-	return 0;
++	gpiod_set_value_cansleep(max9768->mute, val);
++
++	return ret;
+ }
  
- 	if (of_node_name_eq(np, GRAPH_NODENAME_C2C)) {
- 		ret = GRAPH_C2C;
-+		fw_devlink_purge_absent_suppliers(&np->fwnode);
- 		goto out_put;
- 	}
- 
+ static const DECLARE_TLV_DB_RANGE(volume_tlv,
 -- 
 2.43.0
 
