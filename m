@@ -1,183 +1,114 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981D81BF58;
-	Thu, 21 Nov 2024 20:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D221DE3D2;
+	Thu, 21 Nov 2024 23:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732220717; cv=none; b=RkwBtGpeyvI24yqnVzmsDB6ZcSwl8K2swhWt5I0w9t2oLm0qw+uGtYn73LZEnAx0FX5hQHUWDFcZD3LDE2JRu+/BMtqPE7RVCSxk8AQnPrK3/iuNok6lBy5jU044HjBWjCOruLw59DznXimrF6V8Et7qENf1ouCHaBriaTwNx1w=
+	t=1732231807; cv=none; b=pcbS4IDMPw+seCeOTIUxWoeR1BOgbZF8aKIQ/fNdWB7BzlyCorNpORRuqj2aY7pY/LKbjwYrW3XdRLZvrasFV1MdDn77fmA07/8Lo+fN+18QXP4t1bJ8NAlKa0C5/rI+UIiy5Kiet+uvhT/Nlmc4ad67xjyOnGpv7MSJ6d85DQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732220717; c=relaxed/simple;
-	bh=xt/N1u7xQDP3nA0PEqU+LzyDhnsawogKcVfQNRe9l4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WYkp2iqHioGreijgFzWKaG+CVRmLk31nTPLer00QIa+49x0dXxnzmtMuhuSXMJoBk7jo7iP1N5hcZXJICFeijctnDySLCoW9VL9AGy10MfVlHt16tLT8rUKVetfwwEV5HJ3B3EdHtTxsk3BMSw2fMmv6sRHOrEizkx2omBQytKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E+qGCi6h; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1732231807; c=relaxed/simple;
+	bh=PmJ6lkn58ZxljyegMVGGcxmPXHfrDsgippaoYUGBR7k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W3jxks1fYOBegFVXOqhqPoQ7CWWeNpPd5hJRq+/MmvdAaBZ92gO6a+8Pyif9r/cC4OGgr8gpKYMT9oZP4H8FRgp4K+2b/PFzRLOvoXq9mj17p2hchHg8WECwaQ65om3HVQx2STsxo7dY6tC89JomuqiZRPKLgqiXLXUuEkgNnbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZGXMj+SI; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E+qGCi6h"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ALH7B7C015590;
-	Thu, 21 Nov 2024 20:24:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xt/N1u7xQDP3nA0PEqU+LzyDhnsawogKcVfQNRe9l4s=; b=E+qGCi6hCsvn9XAL
-	RCJDDuwVGYHi4vOG4kOhtX3FVFQvm3WGpZTf8BLzXF7uPla8i9Oxef8F63heXXnZ
-	cUUQ+fOy8VTsMfbQuU2LmEJy9T7va/7o3Q8SFCn2t1CE8gi/2s3xzmiAS8j0gUP/
-	XjrNwS+GPR7//F9SXMaf3OvVt/44LoW7ROyGnvsIYcueT+s7VCcNT84eeFMX4awS
-	vTpMFeSPJZjVEwe/BgBUUrfkxCjxdp3QTu/6ju/SpzPALE5DQlC0nZrmOtAP9aiQ
-	iREOo/p/kg/O4U8n+0zEeoiu9d8FmaIR+leSPGXZ8Qfzl9ipnTs4KdxiKk3S4XRj
-	wIUrXA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4320y9j1jt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 20:24:56 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ALKOtkf018777
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 21 Nov 2024 20:24:55 GMT
-Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 21 Nov
- 2024 12:24:54 -0800
-Message-ID: <c30b77dc-0a34-4ea7-a4c0-37a5d3065ee7@quicinc.com>
-Date: Thu, 21 Nov 2024 12:24:54 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZGXMj+SI"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-71a6b13bbceso679163a34.1;
+        Thu, 21 Nov 2024 15:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732231804; x=1732836604; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=owV7zU087L6xjLTYOiWTs2oqbkasPds8d3oh4BtDm/Y=;
+        b=ZGXMj+SIdC9qq7S5i1AoOy3vce22WBN6BrlfdBQp1Zu472Jv14CZ6c43SBkidOmxqQ
+         wyeFjEK8CGtOcGIm+IdpRmI56kVymw/BDcJzM6WPzle4JXLiUorSdKzDr9910PcWG8VF
+         T/R5BBU8pQmKQvSzcsJwscS1woOhxnV1qwNLGDhYps94PjT7NnjMQxKaH5X9YF6fpmmP
+         0B+at3skNdNtyzkS0TH91aKpof4kzBjpJc4H92BpCPNF9geShP6sN5I9vcpcK/9bztzi
+         4r+V86imeEbfA7e6LWehx8QX4lNu4inPaAVF6lR4q7BVkK918zN1ZOtfsIZxRYBr4364
+         JllA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732231804; x=1732836604;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=owV7zU087L6xjLTYOiWTs2oqbkasPds8d3oh4BtDm/Y=;
+        b=t1QYNoMr4V21tnWwbxc/Wi/1ut2TtOsGHwLCylp1P4bEGdo4qxYfnBmWqJW7nJ9B2w
+         Wbmn0Ho6if6eRPCn7M8BWiUBiwpU/9bXMxJPlW8Ajqg5/l47T2jSSIchlE7Hyg4AIKK3
+         sgjmtaUhsG9jaWmIF6tzEiefW6TuwkloW9JenW1Okj4oIWATtbau2HeupoDBrx3+ovhX
+         1aAzLsDeodVQTX2IeOIucLaP6QdMimBVNGSVJWkEO6IThkg0Iz/MpTfjfPKShJEY4D2N
+         RfGmw49Pub08t9ffU4ydfozDTjjUGLaKzVdM6l78UjqHYjkyITmTSXXeqB5CmCHvUHCY
+         KL3A==
+X-Forwarded-Encrypted: i=1; AJvYcCW73gilPIbEzh9aUeocod75pp2zkvmM427Y4R7wps3xL+CIY6dNYV3OFmpEIwXtek5WZ6DhOIEcp1GbEGw=@vger.kernel.org, AJvYcCWAXdqfa5no7VGNRtZyJGvFqzR90AsUTRSP24/6TogvzdehTFXaS8MZ0LxQGlIsXyKiieNpcdKsSWk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4vNPt+U5fHDV5CIlf59o5f7D07Dh/Kq5y5dsIs/lOnvpmEQ3M
+	3cKDJsyLbOFAuFBiM7yMn7ejuwRUsGAwzXTqXRdLifOUDCdJJ9cP
+X-Gm-Gg: ASbGnculsPduiDl7yw8UnF1Zg0tzxpiughYgSnO06whCxJyzN+DuRM3npfQw3s9mpSL
+	oj8MslE7tFptWjHMLQzyHsFPUg2A6VlX51JYje6LaUSyRWeyNafAwXVe/GYMcNXIvTQvJMMw0IL
+	v5aYj90bFcIHL5ADg6E7dnwMI5Pxsd1fMks3sn12m/hJR/Cm0l/SvHTVgjc2K/i/8Hh7kIt9ORU
+	gMrzEsuJZJbnhmW9Z8/ggniSbwMNi/LRVO7KigcGeFB6m68QJjSOQ1LcvxeIeHxr+87yoS3fTe7
+	H08MCqceHKHLlY0=
+X-Google-Smtp-Source: AGHT+IEnnsRZ0NHjbTx3fdggf1Enpi2OR06QodDPxiOAf44oUcTuRYP905po760JgbDKEKa1p+KlTQ==
+X-Received: by 2002:a9d:7306:0:b0:718:615:462d with SMTP id 46e09a7af769-71c04b9a0e6mr585586a34.13.1732231804217;
+        Thu, 21 Nov 2024 15:30:04 -0800 (PST)
+Received: from anishs-Air.attlocal.net ([2600:1700:3bdc:8c10:8925:1c80:f24e:ec0c])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71c03793533sm174284a34.37.2024.11.21.15.30.01
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 21 Nov 2024 15:30:03 -0800 (PST)
+From: anish kumar <yesanishhere@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	anish kumar <yesanishhere@gmail.com>
+Subject: [PATCH] ASoC: doc: dapm: Add location information for dapm-graph tool
+Date: Thu, 21 Nov 2024 15:29:58 -0800
+Message-Id: <20241121232958.46179-1-yesanishhere@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 02/30] xhci: sec-intr: add initial api to register a
- secondary interrupter entity
-To: Mathias Nyman <mathias.nyman@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-3-quic_wcheng@quicinc.com>
- <9b86a2c9-de7f-46b7-b63d-451ebc9c87dd@linux.intel.com>
- <2384956c-7aae-4890-8dca-f12e9874709f@quicinc.com>
- <17890837-f74f-483f-bbfe-658b3e8176d6@linux.intel.com>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <17890837-f74f-483f-bbfe-658b3e8176d6@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 7bB-EHy_Uf1hGCZKbwD638GxX6IKNyiW
-X-Proofpoint-ORIG-GUID: 7bB-EHy_Uf1hGCZKbwD638GxX6IKNyiW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 clxscore=1015
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411210153
 
-Hi Mathias,
+To help developers debug DAPM issues and visualize widget connectivity,
+the dapm-graph tool provides a graphical representation of how widgets
+and routes are connected. This commit adds the location information for
+the tool to the documentation, making it easier for users to find and
+use it for troubleshooting DAPM-related problems.
 
-On 11/21/2024 11:15 AM, Mathias Nyman wrote:
-> On 21.11.2024 3.34, Wesley Cheng wrote:
->> Hi Mathias,
->>
->> On 11/20/2024 6:36 AM, Mathias Nyman wrote:
->>> On 6.11.2024 21.33, Wesley Cheng wrote:
->>>> From: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>>
->>>> Introduce XHCI sec intr, which manages the USB endpoints being requested by
->>>> a client driver.  This is used for when client drivers are attempting to
->>>> offload USB endpoints to another entity for handling USB transfers.  XHCI
->>>> sec intr will allow for drivers to fetch the required information about the
->>>> transfer ring, so the user can submit transfers independently.  Expose the
->>>> required APIs for drivers to register and request for a USB endpoint and to
->>>> manage XHCI secondary interrupters.
->>>>
->>>> Driver renaming, multiple ring segment page linking, proper endpoint clean
->>>> up, and allowing module compilation added by Wesley Cheng to complete
->>>> original concept code by Mathias Nyman.
->>>>
->>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
->>>> Co-developed-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>> ---
->>>>    drivers/usb/host/Kconfig          |  11 +
->>>>    drivers/usb/host/Makefile         |   2 +
->>>>    drivers/usb/host/xhci-sec-intr.c  | 438 ++++++++++++++++++++++++++++++
->>>>    drivers/usb/host/xhci.h           |   4 +
->>>>    include/linux/usb/xhci-sec-intr.h |  70 +++++
->>>>    5 files changed, 525 insertions(+)
->>>>    create mode 100644 drivers/usb/host/xhci-sec-intr.c
->>>>    create mode 100644 include/linux/usb/xhci-sec-intr.h
->>>>
->>>> diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
->>>> index d011d6c753ed..a2d549e3e076 100644
->>>> --- a/drivers/usb/host/Kconfig
->>>> +++ b/drivers/usb/host/Kconfig
->>>> @@ -104,6 +104,17 @@ config USB_XHCI_RZV2M
->>>>          Say 'Y' to enable the support for the xHCI host controller
->>>>          found in Renesas RZ/V2M SoC.
->>>>    +config USB_XHCI_SEC_INTR
->>>> +    tristate "xHCI support for secondary interrupter management"
->>>> +    help
->>>> +      Say 'Y' to enable the support for the xHCI secondary management.
->>>> +      Provide a mechanism for a sideband datapath for payload associated
->>>> +      with audio class endpoints. This allows for an audio DSP to use
->>>> +      xHCI USB endpoints directly, allowing CPU to sleep while playing
->>>> +      audio.  This is not the same feature as the audio sideband
->>>> +      capability mentioned within the xHCI specification, and continues
->>>> +      to utilize main system memory for data transfers.
->>>
->>> This same API should be used for the hardware xHCI sideband capability.
->>> We should add a function that checks which types of xHC sideband capability xHC
->>> hardware can support, and pick and pass a type to xhci xhci_sec_intr_register()
->>> when registering a sideband/sec_intr
->>
->> Just to make sure we're on the same page, when you mention the term sideband capability, are you referring to section 7.9 xHCI Audio Sideband Capability in the xHCI spec?  If so, I'm not entirely sure if that capability relies much on secondary interrupters.  From reading the material, it just seems like its a way to map audio endpoints directly to another USB device connected to the controller? (I might be wrong, couldn't find much about potential use cases)
->
-> Yes, that is the one, 7.9 xHCI Audio Sideband Capability.
->
-> I had that in mind when I started writing the sideband API.
-> This is why registering a sideband and requesting a secondary interrupter
-> are done in separate functions.
-> The concept if still similar even if '7.9 Audio Sideband Capability' doesn't
-> need a secondary interrupter, we want to tell xhci driver/xHC hardware that
-> one connected usb device/endpoint handling is offloaded somewhere else.
->
+Signed-off-by: anish kumar <yesanishhere@gmail.com>
+---
+This patch was generated as a result of recent problem I was
+debugging with dapm widgets, where I was looking for a way
+to visualize as was shown in the documentation, I had to
+do a lot of google searches to figure out this tool. So,
+just adding the information here so that future developers
+doesn't need to look around.
 
-Ah, ok...now I understand a bit more on what you were trying to do.  When you do eventually introduce the audio sideband capability, you'd need to modify the endpoint APIs to also issue the 'Set Resource Assignment' command with the proper device/endpoint being offloaded.  Initially, when Thinh brought up this section in the xHCI spec, I couldn't find any use cases that utilized that capability, so it was a bit unclear to me what it was meant for.  Now you've explained it a bit more, I think I can get the gist of it.
+ Documentation/sound/soc/dapm.rst | 3 +++
+ 1 file changed, 3 insertions(+)
 
-
-> I don't think we should write another API for that one just because more is
-> done by firmware than by xhci driver.
->
-> The only change for now would be to add some "sideband_type" parameter to
-> xhci_sec_intr_register(struct usb_device *udev, enum sideband_type), fail the
-> registration if isn't "software", and save the type in struct xhci_sec_intr
->
-> I'll add hardware sideband support (7.9 Audio Sideband) later, but it would be
-> nice to not change the API then.
->
-> The name change from sideband to sec-intr is a bit unfortunate with this in
-> mind. Was there some reason for it?
->
-
-This was because I wasn't too sure how the audio sideband and this driver was related, but I get what you are trying to do now.  I can change it back to the original xhci-sideband, as the name change was something that happened on this revision.  I will fix the corner case I mentioned WRT the xhci_discover_or_reset_device() scenario, add the basic sideband type handling and rename this back to xhci-sideband in the next rev.
-
-Thanks
-
-Wesley Cheng
+diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
+index 14c4dc026e6b..73a42d5a9f30 100644
+--- a/Documentation/sound/soc/dapm.rst
++++ b/Documentation/sound/soc/dapm.rst
+@@ -35,6 +35,9 @@ The graph for the STM32MP1-DK1 sound card is shown in picture:
+     :alt:   Example DAPM graph
+     :align: center
+ 
++You can also generate compatible graph for your sound card using
++`tools/sound/dapm-graph` utility.
++
+ DAPM power domains
+ ==================
+ 
+-- 
+2.39.5 (Apple Git-154)
 
