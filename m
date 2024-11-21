@@ -1,48 +1,59 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C8A27447;
-	Wed, 20 Nov 2024 23:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2451BF58
+	for <linux-sound@vger.kernel.org>; Thu, 21 Nov 2024 01:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732144713; cv=none; b=gPr9HY+Da8Fou/QGFI645me1XutXYSIw+/15TuV1MrLy9cnivl6u9XuHMPY38mdBGyJPUgBzZDjqmxCQumj/oKEfccHsfkABd35EeBBF/jrGy678EgJwTyktW00L9aH5tTkvAf8er2uyZV7/ot7cdr4IXu9WzcgyS9ddCwWbwI4=
+	t=1732151748; cv=none; b=M2PnX2Ve20wCOaphF6gAqqZv4mmk3u01BaIQXgqom5Yuhur4jmZJVgr0Es3FYTGrMMmu8bz+IK7arB5TpXsywy7Z4TliepD9dmLEzmILEIDWcEah1fRA14J8S2SgyQbhNmuJZomaqjlp6J0GkfQwRxxGQfeooU1MrW33pZMZpqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732144713; c=relaxed/simple;
-	bh=SVAHyeGTzoghoI1kXDg2gcjhAZXFJM9LY16aIDIrBCA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=sL5Y5h0jro62tOD2eyMgSafR0Cua6pUTKTyU4oKiff3B244h5OWWCDBSf/aMJBuMMvpiRuYfKW7ANLuwQn6a2YN+xb8A5mjNozFN6CFTsYTjNaLrxqTErWCUhp6WWcVrWXrrW5HObKgVVNPwOkPcT6xEWziEbqOwDJIKrP5JS8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ibo4fAAD; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1732151748; c=relaxed/simple;
+	bh=9GeMk2VsdT30TPBjdckuAvJCL1XA29NP/k6IfUjtmds=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mKi8DtKkWTaadzpUwfAMIY6G+ulg4JkoJrruM3uwBM+lUSsm2ovFPYPd3x7W6GZ2huHq2vHBSZONfgQ6Q4G68aNNBAkDBoRjHJveaIQXfP+AJkKzUO9ap+cMIKf8Jz31i6ByQgZOsqCUXu4EXOdweJvJzROVVAgSFbf/rKgmXAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O9swbS6g; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ibo4fAAD"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AKLNB3d003945;
-	Wed, 20 Nov 2024 23:18:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lanws6Yx3ikB7msfjQOOsmduMmYwECqYx43uI2TK1no=; b=Ibo4fAADwmwti8Rd
-	dqa17jA8omDgxnj3+QoHhRaVx5TIpePypG0rZNAchheHpXLd+ATN/13qsYvwROqc
-	6YFzfzUXBqhscSNc7rfbxlOjVfaOYhuw18ix5s4AWZ8V6VPmtTHRPGWH6CF26BCw
-	O6fqCBqG04155VJG4B9pYMaQfg+9vdA3eZgbyklYy8a5RqJhy19f+mjitzuzXj/5
-	m8OnhXYIwGbVOVPp9JpGFeuIjB247Zx89l+oNQhoE/l7qiNv+mB9sQXlwJzjWLaI
-	fSBRw9k1miT7nRD0IZ7YqFLSYW4YyaElCvfHI1RfXAHlSHsmeGqLQ3n58mea3MH9
-	c/BzMQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 431ce3a42s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Nov 2024 23:18:09 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AKNI9I4029347
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 20 Nov 2024 23:18:09 GMT
-Received: from [10.110.30.192] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 20 Nov
- 2024 15:18:08 -0800
-Message-ID: <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
-Date: Wed, 20 Nov 2024 15:18:07 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O9swbS6g"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53d9ff92edaso353847e87.1
+        for <linux-sound@vger.kernel.org>; Wed, 20 Nov 2024 17:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732151745; x=1732756545; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9+dVmQ15qDl7EDwsnnit36rYkCOxTBypee/ateMECgM=;
+        b=O9swbS6gSY9f3mjwhkNui0h4a7nTU8WC4hcN9Cfps1anmN/+xc9lu/Y1Nb/8ENpeqp
+         MbR8dObF7qO71hUMC8069CjzGtcNRuQsYaqG6skruQAOQ6EY0fGY6SfHvTXcndImRvwn
+         Ufnh35NPb93Z+ev8cZqmYzk83Xum1Lg40xIhNhd4B7QLJACGYZNvKKvCMz1zLaxEWu/1
+         ato4H7rqG4HftDHh64uNE39NvME1vatQutqSfKtF3FqfbMV7ZsjEPgfqR1U9ho+x8QJ9
+         MZOSGzu62xhTFLDOuVhiDV97V2eJ+FsigcGRVH0T9ngtX3kf0lPxr8UVHfTpb3YshmeS
+         NJLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732151745; x=1732756545;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9+dVmQ15qDl7EDwsnnit36rYkCOxTBypee/ateMECgM=;
+        b=QN2Fp5B3tbjpuBFGL161WCZS9Y4INj0gP3w6RNI+lemQAhNIkgUZOHKFpWfzK5C+rs
+         JJFzgIMZGoDEugJzkEhVUvrn6zljqxrjHa0hAmCdOnVnrU+AQl0iO+a4ZgVv+k7GIs5Z
+         Jz/JB7r8nDpdFXgZRDB7g4qaCJ0/xOdR/+/PFH5ue3prNAsX/b26LwWtBCDXqeI6AVJr
+         7/tL8/lZedoQ6eIxF7ovE74B9pz4ntU9xM7tSH8awQWUMz25enG2gNO6CL9xR/inz4N+
+         GWzLcenGZWoQ93RY0AsGfXlcS8hU4LsFpbpqB87Clr6/nWtRZpjkR9aGOgd15Cb6Gphj
+         j4ew==
+X-Forwarded-Encrypted: i=1; AJvYcCV3JKORp4ZAkzO4hn4lDcfpq+2GfT1mMLmGBAe8U6NKctNf0AYYzbJftPx1tpaqr3QW2+juoUoPCYM5RQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYOqDqKLXMDsSFCxwKW2rw5xzZ1Zb/HO+oLIFQgNtoM8riDh0m
+	ItGw4eREOkwsV/PMsLccRZafs9CELQU4XbScVHoSXPNICusgutPz
+X-Google-Smtp-Source: AGHT+IGSK+rQhUAzJmmbIJfe0YFaQmetAXUAH8QAjYwH+ThkcjRgC82R9hn9krusZcHkspDB+uE94g==
+X-Received: by 2002:a05:6512:10cd:b0:53c:74dc:2252 with SMTP id 2adb3069b0e04-53dc1373e4fmr2396803e87.49.1732151745031;
+        Wed, 20 Nov 2024 17:15:45 -0800 (PST)
+Received: from [172.24.224.254] (admh162.neoplus.adsl.tpnet.pl. [79.185.37.162])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dbd4670e6sm798481e87.159.2024.11.20.17.15.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2024 17:15:44 -0800 (PST)
+Message-ID: <4ca8fe7a-a81c-4a46-8795-60f7f5d1771d@gmail.com>
+Date: Thu, 21 Nov 2024 02:15:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,86 +61,52 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
+Subject: Re: [PATCH 0/2] Fix beep notifications by Thinkpad's ACPI firmware
 To: Takashi Iwai <tiwai@suse.de>
-CC: Greg KH <gregkh@linuxfoundation.org>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
-        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <pierre-louis.bossart@linux.dev>, <Thinh.Nguyen@synopsys.com>,
-        <tiwai@suse.com>, <robh@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <875xoi3wqw.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+References: <20241030171813.18941-1-jaroslaw.janik@gmail.com>
+ <87r07wws4j.wl-tiwai@suse.de>
+ <5683a485-5a5e-473c-a82c-d5c8817742bf@gmail.com>
+ <87o730uttl.wl-tiwai@suse.de>
+ <5a5c8b8f-13da-4024-895b-25a1b9040a5f@gmail.com>
+ <87ikt7v028.wl-tiwai@suse.de>
+ <74e49336-4552-4224-9b14-204d4264d647@gmail.com>
+ <871pzuujkc.wl-tiwai@suse.de>
+ <18c74a03-ca32-4eec-9771-bfbd37d315a4@gmail.com>
+ <87a5e9g68w.wl-tiwai@suse.de>
+ <e1ce4d0b-23ad-46a8-9f46-c38194376f76@gmail.com>
+ <877c96szig.wl-tiwai@suse.de>
+ <98af4276-927d-474e-a78f-7c6f0bae3090@gmail.com>
+ <87jzcz5jww.wl-tiwai@suse.de>
+ <13b257a1-8336-4286-b801-bb09082bd316@gmail.com>
+ <875xoi5qto.wl-tiwai@suse.de>
+ <af71370b-e68b-4dad-ae04-8b9f5742568e@gmail.com>
+ <878qtec56p.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: =?UTF-8?Q?Jaros=C5=82aw_Janik?= <jaroslaw.janik@gmail.com>
+In-Reply-To: <878qtec56p.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: CyBvhwumMXz5hdJs_nJXfcoj34E6y-gX
-X-Proofpoint-ORIG-GUID: CyBvhwumMXz5hdJs_nJXfcoj34E6y-gX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 clxscore=1011 priorityscore=1501 impostorscore=0
- bulkscore=0 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411200162
 
+On 20.11.2024 16:09, Takashi Iwai wrote:
+>> The speakers are completely silent once you connect headphones,
+>> regardless of Speakers Volume / Mute Switch settings.
+> 
+> Even if you turn off "Auto-Mute Mode"...?  If yes, check the widget
+> NID 0x10 and 0x1f in the codec proc file
+> (/proc/asound/card*/codec#*).  The former should have the output amp
+> value like 0x40, and the latter should be pinctl 0x40 (output).
+> You can override the values directly via hda-verb, too.
 
-On 11/20/2024 4:39 AM, Takashi Iwai wrote:
-> On Tue, 19 Nov 2024 18:50:52 +0100,
-> Wesley Cheng wrote:
->>
->> On 11/15/2024 11:42 PM, Greg KH wrote:
->>> On Fri, Nov 15, 2024 at 02:42:47PM -0800, Wesley Cheng wrote:
->>>> Hi,
->>>>
->>>> On 11/6/2024 11:33 AM, Wesley Cheng wrote:
->>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
->>>> Are there any more clarifications that I can help with to get this
->>>> series going?  I know its been a long time coming, so folks may have
->>>> lost context, but if there are any points that might be blocking the
->>>> series from getting merged, please let me know.
->>> I would like others to review this (xhci maintainer for one), to give
->>> their blessing before I even consider this.
->> Thanks, Greg...Yes, I was hoping to see if I could clarify any points for Mathias and Takashi if they had any concerns.  Just so folks are also aware, we did deploy a portion of the series (specifically the XHCI sec interrupter and USB SND core changes) into devices on the market, if that adds any confidence into those changes.  For the most part, there were no major issues within those drivers, and the single minor bug (in the XHCI sec intr) that we did catch was fixed in previous submissions, and should be highlighted in the change revision list.
-> Well, from the sound subsystem side, the only concerns are the design
-> issues: namely, whether the implementations with two cards are
-> acceptable, and whether the current control of PCM mapping is OK from
-> the user POV.  IIRC, there were discussions with Intel people and
-> others, and I haven't followed whether we got consensus.
-> If we reached some agreement, it'd be appreciated if you can put acks
-> from them in the patches, too.
+Yes, speakers are always silent when headphones are connected,
+regardless of Auto-Mute Mode and even if Speaker Mixer is set to max and
+unmuted (which translates to 0x40 for NID 0x10 in my
+/proc/asound/card0/codec#0).
+When it comes to Pin-ctl of 0x1f - it is "0x40: OUT" as you said it
+should be, unless Auto-Mute is enabled and headphones are connected
+(it's 0x00 then); but it doesn't change anything - if you plug
+headphones - speakers are quiet.
 
-I believe Amadeusz was still against having the two card design, and wants the routing to automatically happen when playback happens on the sound card created by the USB SND layer.  However, even with that kind of implementation, the major pieces brought in by this series should still be relevant, ie soc-usb and the vendor offload driver.  The only thing that would really change is adding a path from the USB SND PCM ops to interact with the ASoC entities.  Complexity-wise, this would obviously have a good amount of changes to the USB SND/ASoC core drivers.  Some things I can think of that we'd need to introduce:
-
-1.  Exposing some of the ASoC PCM (soc-pcm) APIs to be able to be called by soc-usb (to mimic a FE open from ASoC), so we can trigger ASoC DAI ops when USB SND FE is opened.
-
-2.  Proper fallback mechanism in case offload path enablement fails to the legacy USB SND path.
-
-3.  Master kcontrol to disable offload logic for each USB SND device.
-
-IMO, both the points you mentioned correspond to the same topic.  If we go with having offload being operated on one FE, then there is no need for the kcontrol of PCM mapping.  If we have two cards, then we will need the control for offload device mapping.  Can't speak for Pierre, but at least with my discussions with him, I don't think he's against the two card design, just as long as we have the proper kcontrol that notifies userspace of how to utilize the offload path.
-
-> The internal implementation details can be adjusted later, but those
-> two must be set in stone after merging the stuff to the upstream.
->
-> (BTW, the mail address of Pierre changed; I corrected in this mail.)
->
-Thanks for updating the email address.
-
-Thanks
-
-Wesley Cheng
-
+-- 
+Regards
+Jarosław Janik
