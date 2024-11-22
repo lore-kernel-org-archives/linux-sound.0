@@ -1,84 +1,90 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34811166F31;
-	Fri, 22 Nov 2024 01:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732240372; cv=none; b=uIVP5ITOJjh+WfNXoc1ur6/MnAY+eISbbaDsZKZkeEj3Aq5bmcKq3eTX5s1HkrJumiMBSpclIXCIKYC8Pbr7xlzWTCGXILCP8HVlcCOvEBGO5GvXRktj6gPY3jrbL0kf0zzvZwaiWlF3F0IuyuVNl4GEO6iadVqIlal2qHBcM1o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732240372; c=relaxed/simple;
-	bh=mbFaO9tez8qpqQxYtfq9BotE31cLqD95Co6agCJWCiE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hamt3lcDcs6IONkNyaVdtg2i5RbJ9IJmjn3iv8C288iJqrNsxkSmR2CicAyhdajShNk5M1aU6wE2gDEPmU0PJ/GitLOhbVdz2S2wJSj7qQWMqbToDZwxfqEf3pjgk2iZM7952+ns0oA/Mv6WJAx8MWxjoWU0aUjYVxorgN6uhbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wj5FJ8IK; arc=none smtp.client-ip=209.85.167.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689932309A3;
+	Fri, 22 Nov 2024 04:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=136.143.188.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732250726; cv=fail; b=q6V2tmORxJv9R7nIphjYv+sRhu9M67//oOnr/IFwmBz32dZJDm4Rt7+LopSQhShBhZhcusFVAZtsqro2cDK8OPq0unecJG9MFj2F4grFY+9Afi8wY8NmE8m75hi46ORFLWE24DBWoVm3we80TVADmmf7xzLYWP17/rh81LmH/5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732250726; c=relaxed/simple;
+	bh=JUcA1bOHvmnjxCTM53VB17ECRxLFSgxf9W89YDNqZq0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y8W0ECl7nPw2ftWkuKDCINBIQZS4tzAffYuZKrRS8i7WJRpBWlJcSwKz/JbkIHfpyPb1XQ2UqrxbjlzXO26/ONk17VTW/D7wL2/5wPDGhuzVd3Vgu+m4MUb1sVz/SsSfsEVvOsiIg5xE1Gb5Yr6w7xm0OnKb5aYi9F/87leC84g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nicho1as.wang; spf=pass smtp.mailfrom=nicho1as.wang; dkim=pass (1024-bit key) header.d=nicho1as.wang header.i=me@nicho1as.wang header.b=Lu9CpxVg; arc=fail smtp.client-ip=136.143.188.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nicho1as.wang
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nicho1as.wang
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wj5FJ8IK"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f8490856so1679486e87.2;
-        Thu, 21 Nov 2024 17:52:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732240369; x=1732845169; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mbFaO9tez8qpqQxYtfq9BotE31cLqD95Co6agCJWCiE=;
-        b=Wj5FJ8IKozc1z2ZCGQXEjEmqhQzyy1Ta5kK6IdIxYkj8LASIqZoahVBM9my96iNuBW
-         gekLv71TBhu0I9ovc8IzY1OMBYB5JtlcYPTXuUIPcaf8Mnj7G5ISa+NXdEIO0dNfYWEP
-         vt/nLwG4jqFOs1txgtBOCrH3MlQQpP/SsNU6jK1bIDaA1qrXSDwLCekNjhmlhv282nGC
-         uNE5If3Nik//yQWcssdpn0Kmv7gTjnLQvKkR8NdjI+o7jRMrMKWCbx5aofqO0J+/XQDF
-         NJaEq8uo6vS4icoEfKSOIek2LWXjceZcG0QgGbei4F9DxiEss38SzMF3WlayvTlXjJPg
-         7kXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732240369; x=1732845169;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mbFaO9tez8qpqQxYtfq9BotE31cLqD95Co6agCJWCiE=;
-        b=gVdPfDQUPgbijLMBsCpR7hS8Mak+dlcBF2jBX11OYKOsbLM2An3QLxPavANLZ987a4
-         U7TM9UzysKPJZuUwyeKKlPuSv85AwE9HwiticKQ+uBEvN5ZUxxLL10DdWMlXf8l29Yhm
-         ihKCOYDKO1M3Y3v9rfrnb3NQw2KTe71pvofzh5/DKtDKWYpmy1MDJwxnfCUrAjVPPj7s
-         XwRA+AEIf127ZrHlZ4rcT6SZz1bh0gDELhJvqCdX9Bn+ZeuzTfPMGTJmsEfPHqw6DVL/
-         T4W71XQgP8s26bt24Bbdq8iPOkaCe6Q2vlcrDqJcaELonljmsc535nFkh5HBA7VAx6p+
-         NfJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/7N6Kaqwrqaw3FMHrSFzL5UxkaX6wipbg/rGq78CVXaPIZMhX2YwgpNuKJtfLcTlIIH1lI5R8eyvMEMM=@vger.kernel.org, AJvYcCWhCnxoSlkPrRH4UScoBxZ/Bxw4NOM2l1VICKFFR3xoqzntQ8d9l6wSGYoHNmELNrt9ZCNjXaYDRLknKNc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8GTSF+t8UMCHjz9cNwhkzrVUXys6GT3Fs+TEk8c5VarAOJSNe
-	xy16f8cAOq9Ozoo2ZOWSnx3xjpzpgBXLkkRy2ch9PtY7Rr0VEuzTt7o7FZYha/1TnkbvvrRojFX
-	qLrvbkz4eeSBr+l0HGuTGL3NH39Q=
-X-Gm-Gg: ASbGncvruy6dpeyP2PW9A0S7/lVe+rtKFq3hCaYX3NTtBC+55K8JxGShFGnjvyjtI1x
-	VBEAEMpG1S0dwolgFng6z+BhxUDTQXs7Xt0rCWxuvHyPhce1F4mw/OSOT/iPFpQ==
-X-Google-Smtp-Source: AGHT+IHM9SYHUS840AKyk8frq7eVMfvYJ/7a2ZIQ4e3JhKBpwblqqJvz+6okd9WeuY9ETsGuSmUNrbjg33EZCqp2Vos=
-X-Received: by 2002:a05:6512:3d28:b0:539:ea49:d163 with SMTP id
- 2adb3069b0e04-53dd35aa4b4mr363247e87.21.1732240369055; Thu, 21 Nov 2024
- 17:52:49 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=nicho1as.wang header.i=me@nicho1as.wang header.b="Lu9CpxVg"
+ARC-Seal: i=1; a=rsa-sha256; t=1732250710; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MQePpJv34rjDABlajgoPa4g3Vyh99KtXy+QQUm9/ZAQdCtUOBmxaI8kmAS2KMTpXTlktoS1k3ashr/pDsPTgMA3N+OlXQTIGO64rTHe9XxhevTPCx9eUEmAArxnktLcoX/4H9ZidCsd//3FGpGyiWNd3o9dLG2owD6RZ8fboq6c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1732250710; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:Message-Id:Reply-To:To; 
+	bh=l6oCEtHqP/NOgK6DqPuGbdGaj2Iw5tZNALBVL95StJ4=; 
+	b=HU4IJeCy5yMNr1hdn6jtHq11rlsVGNjx/YFPTJ/sprZwgm7H5789fhWgBSrruXO4MC9CUiP17iLNtIO40UCsDtH2MYjEj7ECWYG7BOgNo7gAX79bN+MLHQF0v1mhNtnIzAOBTAMND+Nu5ZBnKnYwpW2G30EdlWtESHXGxLUmN50=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=nicho1as.wang;
+	spf=pass  smtp.mailfrom=me@nicho1as.wang;
+	dmarc=pass header.from=<me@nicho1as.wang>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732250710;
+	s=zoho; d=nicho1as.wang; i=me@nicho1as.wang;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=l6oCEtHqP/NOgK6DqPuGbdGaj2Iw5tZNALBVL95StJ4=;
+	b=Lu9CpxVgN2RcigGNm3PulZzQYJZgeXLSr79v0BV6pFkHOcGj6lupMLHPlKQvSqaN
+	19D79isPQ/3P+HPTbQWEIO9CD/8U5Ew7HqH2yJCfN2nG4zyEHDoBqQiypZc4NGcUD0x
+	N8l/neB7yV1J6+sI/zqIgkakMOQsxn4XqImoEypM=
+Received: by mx.zohomail.com with SMTPS id 1732250707256147.57707776680536;
+	Thu, 21 Nov 2024 20:45:07 -0800 (PST)
+From: Nicholas Wang <me@nicho1as.wang>
+To: 
+Cc: Nicholas Wang <me@nicho1as.wang>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: hda: cs35l41: Support HP Elite Dragonfly 13.5 inch G4
+Date: Thu, 21 Nov 2024 22:44:25 -0600
+Message-ID: <20241122044435.28061-1-me@nicho1as.wang>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241122014941.503789-1-shengjiu.wang@nxp.com> <20241122014941.503789-2-shengjiu.wang@nxp.com>
-In-Reply-To: <20241122014941.503789-2-shengjiu.wang@nxp.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 21 Nov 2024 22:52:37 -0300
-Message-ID: <CAOMZO5CwCLZAM62CtNrLrCAFfQFvKuTArV3auR1WcE0+s0BnMg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: fsl_xcvr: change IFACE_PCM to IFACE_MIXER
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Thu, Nov 21, 2024 at 10:50=E2=80=AFPM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
->
-> As the snd_soc_card_get_kcontrol() is updated to use
-> snd_ctl_find_id_mixer() in
-> commit 897cc72b0837 ("ASoC: soc-card: Use
-> snd_ctl_find_id_mixer() instead of open-coding")
-> which make the iface fix to be IFACE_MIXER.
+This laptop needs to be supported via the configuration table.
 
-Should this have a Fixes tag?
+Signed-off-by: Nicholas Wang <me@nicho1as.wang>
+---
+ sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
+index 61d231483..c97b8f808 100644
+--- a/sound/pci/hda/cs35l41_hda_property.c
++++ b/sound/pci/hda/cs35l41_hda_property.c
+@@ -52,6 +52,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
+ 	{ "103C8A30", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8A31", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8A6E", 4, EXTERNAL, { CS35L41_LEFT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_RIGHT }, 0, -1, -1, 0, 0, 0 },
++	{ "103C8B63", 4, EXTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT }, 0, -1, -1, 0, 0, 0 },
+ 	{ "103C8BB3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8BB4", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+ 	{ "103C8BDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
+@@ -467,6 +468,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
+ 	{ "CSC3551", "103C8A30", generic_dsd_config },
+ 	{ "CSC3551", "103C8A31", generic_dsd_config },
+ 	{ "CSC3551", "103C8A6E", generic_dsd_config },
++	{ "CSC3551", "103C8B63", generic_dsd_config },
+ 	{ "CSC3551", "103C8BB3", generic_dsd_config },
+ 	{ "CSC3551", "103C8BB4", generic_dsd_config },
+ 	{ "CSC3551", "103C8BDD", generic_dsd_config },
+-- 
+2.47.0
+
