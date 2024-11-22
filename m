@@ -1,90 +1,70 @@
-Received: from sender4-of-o54.zoho.com (sender4-of-o54.zoho.com [136.143.188.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689932309A3;
-	Fri, 22 Nov 2024 04:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=136.143.188.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732250726; cv=fail; b=q6V2tmORxJv9R7nIphjYv+sRhu9M67//oOnr/IFwmBz32dZJDm4Rt7+LopSQhShBhZhcusFVAZtsqro2cDK8OPq0unecJG9MFj2F4grFY+9Afi8wY8NmE8m75hi46ORFLWE24DBWoVm3we80TVADmmf7xzLYWP17/rh81LmH/5w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732250726; c=relaxed/simple;
-	bh=JUcA1bOHvmnjxCTM53VB17ECRxLFSgxf9W89YDNqZq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y8W0ECl7nPw2ftWkuKDCINBIQZS4tzAffYuZKrRS8i7WJRpBWlJcSwKz/JbkIHfpyPb1XQ2UqrxbjlzXO26/ONk17VTW/D7wL2/5wPDGhuzVd3Vgu+m4MUb1sVz/SsSfsEVvOsiIg5xE1Gb5Yr6w7xm0OnKb5aYi9F/87leC84g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nicho1as.wang; spf=pass smtp.mailfrom=nicho1as.wang; dkim=pass (1024-bit key) header.d=nicho1as.wang header.i=me@nicho1as.wang header.b=Lu9CpxVg; arc=fail smtp.client-ip=136.143.188.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nicho1as.wang
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nicho1as.wang
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nicho1as.wang header.i=me@nicho1as.wang header.b="Lu9CpxVg"
-ARC-Seal: i=1; a=rsa-sha256; t=1732250710; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MQePpJv34rjDABlajgoPa4g3Vyh99KtXy+QQUm9/ZAQdCtUOBmxaI8kmAS2KMTpXTlktoS1k3ashr/pDsPTgMA3N+OlXQTIGO64rTHe9XxhevTPCx9eUEmAArxnktLcoX/4H9ZidCsd//3FGpGyiWNd3o9dLG2owD6RZ8fboq6c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1732250710; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:Message-Id:Reply-To:To; 
-	bh=l6oCEtHqP/NOgK6DqPuGbdGaj2Iw5tZNALBVL95StJ4=; 
-	b=HU4IJeCy5yMNr1hdn6jtHq11rlsVGNjx/YFPTJ/sprZwgm7H5789fhWgBSrruXO4MC9CUiP17iLNtIO40UCsDtH2MYjEj7ECWYG7BOgNo7gAX79bN+MLHQF0v1mhNtnIzAOBTAMND+Nu5ZBnKnYwpW2G30EdlWtESHXGxLUmN50=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=nicho1as.wang;
-	spf=pass  smtp.mailfrom=me@nicho1as.wang;
-	dmarc=pass header.from=<me@nicho1as.wang>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1732250710;
-	s=zoho; d=nicho1as.wang; i=me@nicho1as.wang;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=l6oCEtHqP/NOgK6DqPuGbdGaj2Iw5tZNALBVL95StJ4=;
-	b=Lu9CpxVgN2RcigGNm3PulZzQYJZgeXLSr79v0BV6pFkHOcGj6lupMLHPlKQvSqaN
-	19D79isPQ/3P+HPTbQWEIO9CD/8U5Ew7HqH2yJCfN2nG4zyEHDoBqQiypZc4NGcUD0x
-	N8l/neB7yV1J6+sI/zqIgkakMOQsxn4XqImoEypM=
-Received: by mx.zohomail.com with SMTPS id 1732250707256147.57707776680536;
-	Thu, 21 Nov 2024 20:45:07 -0800 (PST)
-From: Nicholas Wang <me@nicho1as.wang>
-To: 
-Cc: Nicholas Wang <me@nicho1as.wang>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+Received: from cmccmta1.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0066713C3D6;
+	Fri, 22 Nov 2024 05:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732254761; cv=none; b=j5ILUos+/3vXHpge/oqnOhwKYnTunkgbXR60TrtG8yQ50fdR4ZQ7LFKXGOW0gwC38GWlIW3Ta/YKAhaCkcNPdg+BWoKEbZG8CqDnBQThcDwuXn0wLoCaXoouNxS0BojG1E/nlKxWn+3eSfrbU77Eh5daUNFyabvm9TQRUJFTRiI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732254761; c=relaxed/simple;
+	bh=JkMMvhwlWANYEkhQn0GPQX8LNWu49vJYTg1Lc2+aSwQ=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=hkLWBxBHL3mR6zr1CLCS8aRADE/08QLWd+wX7Znzp6rK6S6tY5O2psT0mD5Vm/cX4K4DGi7C47JMfxMlMPTYNLC7tA9ULFHJe+gP+/YneqJleq4ghxdE87+XPmJfBBtB3JG6Rqgajms+jxiNwqssp8aN9p6yeDU94rd/mS5pstg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app03-12003 (RichMail) with SMTP id 2ee367401c1e1a2-339ca;
+	Fri, 22 Nov 2024 13:52:32 +0800 (CST)
+X-RM-TRANSID:2ee367401c1e1a2-339ca
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from ubuntu.localdomain (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr05-12005 (RichMail) with SMTP id 2ee567401c1f003-2914e;
+	Fri, 22 Nov 2024 13:52:32 +0800 (CST)
+X-RM-TRANSID:2ee567401c1f003-2914e
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
+	matthias.bgg@gmail.com,
+	zhujun2@cmss.chinamobile.com,
 	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda: cs35l41: Support HP Elite Dragonfly 13.5 inch G4
-Date: Thu, 21 Nov 2024 22:44:25 -0600
-Message-ID: <20241122044435.28061-1-me@nicho1as.wang>
-X-Mailer: git-send-email 2.47.0
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH] ASoC: mediatek: mt8188: Add error handling in mtk_dai_etdm_enable_mclk
+Date: Thu, 21 Nov 2024 21:52:31 -0800
+Message-Id: <20241122055231.3463-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-This laptop needs to be supported via the configuration table.
+Introduce error handling in mtk_dai_etdm_enable_mclk to ensure that
+the function returns immediately if mt8188_afe_set_clk_rate fails.
 
-Signed-off-by: Nicholas Wang <me@nicho1as.wang>
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
- sound/pci/hda/cs35l41_hda_property.c | 2 ++
+ sound/soc/mediatek/mt8188/mt8188-dai-etdm.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/sound/pci/hda/cs35l41_hda_property.c b/sound/pci/hda/cs35l41_hda_property.c
-index 61d231483..c97b8f808 100644
---- a/sound/pci/hda/cs35l41_hda_property.c
-+++ b/sound/pci/hda/cs35l41_hda_property.c
-@@ -52,6 +52,7 @@ static const struct cs35l41_config cs35l41_config_table[] = {
- 	{ "103C8A30", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8A31", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8A6E", 4, EXTERNAL, { CS35L41_LEFT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_RIGHT }, 0, -1, -1, 0, 0, 0 },
-+	{ "103C8B63", 4, EXTERNAL, { CS35L41_RIGHT, CS35L41_LEFT, CS35L41_RIGHT, CS35L41_LEFT }, 0, -1, -1, 0, 0, 0 },
- 	{ "103C8BB3", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8BB4", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
- 	{ "103C8BDD", 2, INTERNAL, { CS35L41_LEFT, CS35L41_RIGHT, 0, 0 }, 0, 1, -1, 1000, 4100, 24 },
-@@ -467,6 +468,7 @@ static const struct cs35l41_prop_model cs35l41_prop_model_table[] = {
- 	{ "CSC3551", "103C8A30", generic_dsd_config },
- 	{ "CSC3551", "103C8A31", generic_dsd_config },
- 	{ "CSC3551", "103C8A6E", generic_dsd_config },
-+	{ "CSC3551", "103C8B63", generic_dsd_config },
- 	{ "CSC3551", "103C8BB3", generic_dsd_config },
- 	{ "CSC3551", "103C8BB4", generic_dsd_config },
- 	{ "CSC3551", "103C8BDD", generic_dsd_config },
+diff --git a/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c b/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
+index 69a091dad..bd325dc71 100644
+--- a/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
++++ b/sound/soc/mediatek/mt8188/mt8188-dai-etdm.c
+@@ -430,6 +430,8 @@ static int mtk_dai_etdm_enable_mclk(struct mtk_base_afe *afe, int dai_id)
+ 	/* set rate */
+ 	ret = mt8188_afe_set_clk_rate(afe, afe_priv->clk[clkdiv_id],
+ 				      etdm_data->mclk_freq);
++	if (ret)
++		return ret;
+ 
+ 	mt8188_afe_enable_clk(afe, afe_priv->clk[clkdiv_id]);
+ 
 -- 
-2.47.0
+2.17.1
+
+
 
