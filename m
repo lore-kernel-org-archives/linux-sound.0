@@ -1,40 +1,40 @@
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EE910A3E;
-	Fri, 22 Nov 2024 10:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25414A84;
+	Fri, 22 Nov 2024 11:05:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732272786; cv=none; b=QJivWIMt/DOCwk3GQJzvQXpmQNW8qJXenPqr6j7LdAQjEzKZOGGD2AvK6cDP3qdMB+nDdekcna1OOTPagXxMpJzPi/acIv9qvQaqMiNfxWkjb3JSPiFRi8NLdvoE6urm6uSiwXrOTupLDSE+XLplGQ2fc9zBzCz0aEmdAhUnqOQ=
+	t=1732273550; cv=none; b=glfsWhZvh8Z0h1hRYXASxm8lYQPTvG4O25GKIQFx3DIKCALWcdx1VfB5AgVqdhE/EAq1UdbWvukMK58MMXSN0QPhQDoEkrr/90bdIOe8UBfutaX5uYPGGtOv3QjXJD+5yFUnXkezUqhl2bRdUpipP7V4LAHRyQ8fKwylIdEiUko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732272786; c=relaxed/simple;
-	bh=Opm0Uag6Tn/qHtwFCeuktHeQ5SSHWP8iUyMZ0AXIaHw=;
+	s=arc-20240116; t=1732273550; c=relaxed/simple;
+	bh=2LhxpixEryIOYw8r1gg7oz6iH9Pzn3cVsVOZpnngAqs=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=kelsGpCqLUwGDkq2RL5AFz0K7Gh/dhcjvOrrPhoRiVxz/DlugqZEr7+5kYPhPbiuTTmukMsyNJulC5yCRTPiFtAWyFEOKWqRFNEtKJE6Aaxi+KkQMCcxA6u6/YrpMDkdF3MwzdtHeTC4KlEDrLW8ifEXxIElsLgufII7XtXyWdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=bUZEEQse; arc=none smtp.client-ip=212.227.15.3
+	 In-Reply-To:Content-Type; b=h8xUJ7X17ERp0RhUMNv0E83FeI4HCjOtAK9VKLuGFMS+iLtl4zfCQRCD/CkFb+G3kp8ONFwdslna9RVwVffxFD1J4py5/dAu+YRItNYhzu+0HpeU3r4DjWPD4xf1mv3AyXGzhPjPJEg62Ldpxrkjo7+2Lz15krjS+6rTVy1G6k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=X3hFTbq1; arc=none smtp.client-ip=212.227.15.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="bUZEEQse"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="X3hFTbq1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1732272765; x=1732877565; i=markus.elfring@web.de;
-	bh=61ry4edPNxCuNRBy1IwrZKEtdY25zzE8aRAKjDIlzek=;
+	s=s29768273; t=1732273534; x=1732878334; i=markus.elfring@web.de;
+	bh=xqBLSHkLYHHmnFl7KvLPb0WxJGPtnhHm3e8o5bsIYAk=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
 	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=bUZEEQseerSEZWaPJwWTIDOlfNrOCV3Br06vAdhWk8Ahince6V3c8HeN7M7zCr8d
-	 oIMIY8qr5LHOjyAJzAq/9SmX+KamYKYDmXliRT2Nsxo/d1sgYG8yWcIib9Pvsak03
-	 Sp4r9Hz+pNnwlp8Lh0SIL2V3Uf+Drfy9izBTnPowU0JZVWg7aCBCJVipSqzJviqbF
-	 sEXC9flSFQ2gsUxy8V8ZIoPqQSUONV4Pat6rZVAH0ZQt+rSrBZC1l3r672AhrYfXo
-	 IKZEz6jJpm659neg4DfvkenC7yPfF/kVsXBjHLygKRqS4sFW/z9zbPHvDQkwNQs9m
-	 rIGvfCznSFBoQlP8Cw==
+	b=X3hFTbq1EIIvNCX0PwuZu2CIphNiaUfOuuOTaIeJNCAR4/Nt1CWB15PhoFeko372
+	 W0KnTUDDmD15wtKNQ54G2wmgB+1BszhnI11+lDA+5wVzL4L1NO3xy1HCYff0+Wn7e
+	 4gEH4JVZ4VYU55jRGGWAmA3ZAf1qX1r6Zv68qK0c1m39taCRV9RmViA5Hl6e6NTzD
+	 F3GAVtZXv7AkiMy9CkCdaL4rgyt0VVqKYAT9C7aONHGv2Ls/IhGwfwYeMjkScarhz
+	 kbQE0m0pEx45zVODZEqPNW2OI4gdwUQ0joJfhXjkau5h3Ev/a6kbQEjg43gNlWaZ+
+	 Fe8CaX9TSdrEdzVQqQ==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.21] ([94.31.88.95]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MBB86-1tR43H2250-00DcBn; Fri, 22
- Nov 2024 11:52:45 +0100
-Message-ID: <ac730eec-e447-495b-8637-9c11a268e371@web.de>
-Date: Fri, 22 Nov 2024 11:52:44 +0100
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MT7WN-1t9fYg3TP5-00V0Um; Fri, 22
+ Nov 2024 12:05:33 +0100
+Message-ID: <fdcf685f-16c0-42fd-a4ab-886ce5fc21f5@web.de>
+Date: Fri, 22 Nov 2024 12:05:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -43,45 +43,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 To: Zhu Jun <zhujun2@cmss.chinamobile.com>, linux-sound@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Matthias Brugger <matthias.bgg@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: LKML <linux-kernel@vger.kernel.org>
-References: <20241122055231.3463-1-zhujun2@cmss.chinamobile.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8188: Add error handling in
- mtk_dai_etdm_enable_mclk
+References: <20241122063257.4419-1-zhujun2@cmss.chinamobile.com>
+Subject: Re: [PATCH] ASoC: Intel: avs: Add error handling in
+ avs_tplg_parse_initial_configs
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20241122055231.3463-1-zhujun2@cmss.chinamobile.com>
+In-Reply-To: <20241122063257.4419-1-zhujun2@cmss.chinamobile.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:GmQzr0ZnmJWTazBDBy9rLexiwHSkJuYvSOIIwQYIV1b4dUiK32W
- 0lZqoDO/cwLrprsNuikXcVG8dtpPZ6s4woy2SO5ZD+mEKkX/IreYmNW80TTBlV/7ZNRZKDD
- KijEbz77zkmaHzk+moXi/fWVvT4mEOH9G6OvvwT2KlIx8jR7lFSSDN+4KSikVpdtYsFkGIV
- LGsx96eadnHg8MlkQ8bhw==
+X-Provags-ID: V03:K1:9ywa6fyg/LpRxtTr/Eq/27yvtE5EIDrcAgPNVWbxkpirPTCz16A
+ SlZOU9bD1QNXI5LQQBUiScz59pbS10aSWs84pHqXD30Wgx1WgS//eOvGaoAQcT0+5QoDfz3
+ VCnYHwNy0yP6Br0mtz/LfRv5WcVOzkun/nWR2SzkpF74qBOIgKtZR+SKXoMY02bKwSS4+9b
+ Xw6Eblff6tzs2bA+LvUQw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aPeuCtx77M4=;/kQ1N/2tkJDzcS7IbzBA/UrOpng
- zlnmRmyp1ExMEhtEoZ8JfKGRZB+BTgjqexBpEfRDZTVlACb/pY4+2QTsfymAKC+f9koPc0CT+
- 5lelUS5DZc4GS6mntxa9sRYpPJELdd46FbcsRqly3erV8VR8TPLj6ha+UwpWaLJGWpNIigM4o
- YDOzk8ryFn9xg39MCr/XCc2DslRk0vMExmZaHRMe6wMp4ETnyHj1eOe+RRkcC2eDk04CvV8do
- LDZWhaqfHKJKUSaZ0J3JyZ7bGKIbKMiVzZod84WXTN1EWP9DKjyKtjOGAfiqW8AjLFHU9w8de
- 3w+9Z5jHXnxS8ybNtvRmsK/pGUHz2J0d2xTbzVFBHoFjg08Cd2akMUuQD5uY66zEM/yjUrenN
- mmSDC19dQUw+sZ5WJxejvduMEXOAnFFqgkkDJzaA91rfn3JRqu18Zxy491NG9VZH2S65LjeoS
- B4Ej/pk5xvR59d5VxL7wKiEa4fLB0npL8aKs+LQWg0eLnEGHROHLjGxWuw2+8YoMALGOzFTmy
- Lzdpbka274mgYEinuaby9RmcWr32YpCueWokCNIOBQ0rGHFuNT/XMRYwrXPQHWisPMrya21aV
- o/znJOZrjSAZRFk2YfgGGqRa+tlUSRl3EcpAZs3xDduFMZzpfJbPqDSlPrGYOIcZdS5FcqrxP
- trQIXskPY4KD1GB8szZcok4XjhBcHKE8epikn+NWk5h8W65eu7g56mr3Ywp/4CflpwCPwI/lD
- 2mrAW+rWvLb45d3/KeviOtbfzePk346/r5Lp9UBwskkc+qsTl44SGEwjAbZ0ta1PNU4utVlgM
- UPZfvTz9qYBEPbw6UxVylwxF7oULqPVAREOF9Jzo7cy+qrfi9qzad/TCsq9Jm0u4ivC2yoZBC
- UBYqzU+ukc9YZfx2M+/8uVO5mugeDInuGat36F3WWPHPO3Xr7OrDfK+HJCfm7yhIb5SFo8H6H
- LhFxz4QEEd/Z5xCi57g9JbogIeiDI+xyDeppl2g90k7LmUWIYOZZi/cvPc36YYpEiZ615EvvZ
- odibG/HhU9bUHGsJ3yzKJmF7FWQ5MJxKKALNYZ+Wc4DzUKK056LGHfIEmiUKKESvWLbSxFq1m
- P483EiiAc=
+UI-OutboundReport: notjunk:1;M01:P0:KBP3J5fPg3U=;OmdofGCHLk43YYqfyfrmN1xVIW6
+ ojUfo2iTja3qNX28rgNVm7cn2gc74gCfFpw36DaVtLfpZo4lJZFPFshzUak/Tw9yI+miy5x+P
+ vz//E6oEwXd5nyLEJxuQZUXuiTKK5L6UrzZAwsKShEg3Ell1Gke1G8o1cjozDbMweCZopz2qO
+ cv/Narm25sS3+JPkM5cXiGWaIFKRBLNOhLgqv06/5BYGmEMK9i5MzZ4e3BYB3bJQjQeu2W80c
+ /VkAxyQLF2rjD5BxS32uBDMdrjEW0rt2rD6KVoJEn2GN82G/2C/MBOW+U2rTmirXpXJecF1o5
+ GktaZRnlEoBWCeuhQcBq9TWJFY1XnOIVPXt6IRIF9YM3SB5SsGNI04HcQ/EaaGUSUn9l+Trl1
+ fzTRinpCEKdI+TO5IwUOFEFtGebejYsVOD3BcINlfovyqDfSHFuH+w9jTB/7Us8taB/n7wrzx
+ sXpWEFy4mYN0pF7IUZ7DHZuxsVP4nStcySQBnANaxKZk6tp6tB44An4jRT3C4ydQdr74CvOsh
+ SDzsDFg4ZCjfSYiFZFoh/aK3KZH1btzXW5jGVgaOEtzLryJDdY59KLvRvirl+O/XEQZzx2K6E
+ mS57i3zeIhed43W0mEQnjH82hm2JHjraucXGOVCodPkojlriqhIygAJx7KuHRx7bHQfhs+8dD
+ qqrNqUTl2gmw0t8LeQMgpvh9hMLVVr0EuJSajKEJzcqGsHl/WJtSvFlj4klgcP18KZl7q71X/
+ iO5akx9o7qdwMPXemwCSu/1EVBPmbKemFJr5A2qz09ATPn8MfbSy0awsFY4K5jcMFOn0A9YAU
+ OX8FsWFQcmxnmc7XafRNhKw8Hc9f13KNtWmEmnXUj9oqjcItxgn8Lm5IkjqgXdCzW/JvnsCoh
+ nI9VsEPME1NEZxEbZZmCzARz0fa5IjzdLYzf8t/gNsUoWMtRc21jEODJE
 
-> Introduce error handling in mtk_dai_etdm_enable_mclk to ensure that
-> the function returns immediately if mt8188_afe_set_clk_rate fails.
+> Introduce error handling in avs_tplg_parse_initial_configs to ensure tha=
+t
+> the function returns immediately if parse_dictionary_entries fails.
 
-* I suggest to append parentheses to function names.
+* I propose to append parentheses to function names.
 
 * How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and=
  =E2=80=9CCc=E2=80=9D) accordingly?
