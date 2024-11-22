@@ -1,125 +1,264 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E908B1DDC2C
-	for <linux-sound@vger.kernel.org>; Fri, 22 Nov 2024 11:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720D24500E
+	for <linux-sound@vger.kernel.org>; Fri, 22 Nov 2024 12:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732275326; cv=none; b=CZ8g4ukgl3wTmtXZSq9rfXVt880wjKSDBVxanL575sisK2hrkMpx+iRym0Y6Rnv91LYaKe3wapu8v1PXgCd5jXH0h0OkZZ72hVzSt8e43u8o5I1jn87GmvcNw43PYtWF4nQqnIgv1bVzKPpsZ1yTBFHXrEAAs+2dX+M4ozAOsKs=
+	t=1732277379; cv=none; b=mRJvzLpdyUni5Z8y4mbl6qR5Z8+3ak7JLSjp9LYmsr974G1jPn7kguSVux8MK7AlsLC9ghfGyzvTFAtRfBM+Qt0a+ociUptpEPmYumKGHHRfNVT0TfGdXUJVAq1MCT6/tG7k3skonNzHA90qqVrCd7pTXDz1NpbbYJZ44qL9ZK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732275326; c=relaxed/simple;
-	bh=6Xd7rJOb08RMaqyYb/dd6a9HoYlps8DyV1OZBY6cLOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YohLo4zc1kzNH7oOFw+wRDP32flh6IUNgcPo4oV8Ht0ELauES2WEbz/Whr2UUA6YmLCKniFC8hSSCQp4HesTO4NifkKbMVVGeuOvm0DUbLoUB+YenG4LiB+pTyOM9hHwXf3ZaL16l8nfe10R6bGPTSCQU46fcjVvFkKFhC2GeVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rGooyY9r; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732277379; c=relaxed/simple;
+	bh=AgrMGtDEVNAMO4WGPw2r8cs9r+ngUe8ADqIe96ugll0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nHzudc3yJ9MiW+zWCjv5Mx2Ufd9whZlkgL0mfMHLjtkd3sS+esw3XGNvSEsQjp/TeDT8NTeLs4n8GQ2X4lvbbeEO9ktUusb0dND5PXWwHbzbIjx+PArhHfmbvmitv6bCMW/ajOAlExK0ud0Ugvfr5AJQaEuZuyzhgLtw75bK9xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YNPEVB3D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gsTI0ahb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YNPEVB3D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gsTI0ahb; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rGooyY9r"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53da353eb2eso3413609e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 22 Nov 2024 03:35:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732275323; x=1732880123; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=krxMhaTOFP6KQfuRozKR1NNs6wdGoTjqof+u9BiFDsk=;
-        b=rGooyY9rZyj2FYZ0mDfR0hvGn5g/BsiydIW6qk1ixiCTewn6or268/rpKR7n4XwRrr
-         GUY7fVFUHcvJWyeJg7HJBeI0mKxx63yVSELWcWt09g23PHMS12qOIwm7bkkRGTBg3o68
-         aBdxu0xsGW0NAo1mjcqtnPl/zGj12G06DQbEdXPMN2jYF+brA7krc9NE/VV7wosVstIz
-         GF2hIIDV+jfJL1a9cQfK6pWxz5j3kKIMZ8ASHMDqOCBEM2504eXDjy2XwomWRZza8lrc
-         jZalEHiPTEMP+CMf5kx4dnHCH5CHW/bfAMab4iJGdLmHcqcFAIs3f6wnP2Kdlyt0yK7F
-         iFRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732275323; x=1732880123;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=krxMhaTOFP6KQfuRozKR1NNs6wdGoTjqof+u9BiFDsk=;
-        b=qelSv9WafAJtBiUg7FQ4fmDW+zDgsdhPR60pOMtfKhH8ULkPwCPiS2TNYdeeZViDx7
-         VJ/zNURNa4DR0EiqDijmpUHmzahq/7etySHI6qzCiW9UoR9jhEszgaScUolXbQVg76I1
-         /iw/B1/GDXWBZzn8KqtZNOQj4V8+V35jRu0jPyf7bkKhR3vTWVYabi87JEHAV7xQo+/r
-         HfFoysIylBriPqNNQ/eyd3/f3EfSG/1AsNsGuvMTUG8nOkA/yGVG4qqQm7u1LqSOO5zy
-         6QoSgnUKT6Zsy0RJ+fWae4IH4egqtQJ5G+HLQGUD4sG8xeZmiDI9ULL1ESheL8P9AUFw
-         GjAw==
-X-Forwarded-Encrypted: i=1; AJvYcCViwJFvuoY0gPOZNwlr5jaB7o/O9s0YqYyJTz2q6Cw1e4zLR1VZZDxnNIRLTl6w3844LPVm0uwcaBT1NQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhivswiGyhfx5cxQ92vBtr5CVxImZ137OdZRxGq4hgtCRg/iUA
-	6479hMcseq+yH1xVfkc0ghF78oX4Ix8w+OqnVMAQg+ZMfyB8zcHJsaJnqkc/dIE=
-X-Gm-Gg: ASbGncs5zuhqeknZ1+qqEzAvkSr++iqm77yr28Y47uRmJYx2/XZtmhTyzwLUTWrVOzv
-	wUQS8xkmnHYUwVm6j692XGaDAzcyXOJNtrGjpB5dvy4H7WDAkjaGp+sfG4Op9RlX3fFqbWqWRWZ
-	JTVLZp7PqGmuc2ntby3OwbvZRPBGYs+3QVg0mYXCY+NlZ7+DOKrmjw/ik+gd4uJYGRa9raplA0m
-	ayTz6tmaxbmYZxSLf7NF9MZA8uHBeoAs7KCNhCVEbmJnucPOZRsRCG0OidJjt9XNUUGLZZVxHZh
-	fcrVln3FhgxDV+hLKlwcPNzkwhDE2w==
-X-Google-Smtp-Source: AGHT+IHcS5D0tQAmLEPHu7UajYtNpfZvhiuBwDM25QDIUqbvD9w+ge3SD7yoJlUUHrhodq7JCz8ehA==
-X-Received: by 2002:ac2:5eda:0:b0:53d:d3ff:7874 with SMTP id 2adb3069b0e04-53dd3ff78e0mr1407682e87.29.1732275323001;
-        Fri, 22 Nov 2024 03:35:23 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dd3f12809sm270502e87.38.2024.11.22.03.35.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 03:35:21 -0800 (PST)
-Date: Fri, 22 Nov 2024 13:35:19 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 3/7] drm/connector: implement generic HDMI codec
- helpers
-Message-ID: <altuhp26ntnpltvfdmikggdmibyizdwnrmwshte7sa2btmbgvj@mbhlvwb4xrzj>
-References: <20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org>
- <20241122-drm-bridge-hdmi-connector-v4-3-b4d69d6e3bd9@linaro.org>
- <87ed33zf5e.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YNPEVB3D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gsTI0ahb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YNPEVB3D";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gsTI0ahb"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7EBAB1F396;
+	Fri, 22 Nov 2024 12:09:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732277375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2Quh3j/8bkF3f+01yFkmWz1/le3qT2iXjoKgD8rODc=;
+	b=YNPEVB3DfHqouXyHKsFv+D912wLRGP0Z9ivfVRC7SSIJaPgAjXLZ+CvomapNTYOFA1rVeo
+	URsyin4SWMRLT96YT+SFeG6e0aoU/oCWL5RoVXOHflt1ZyicWE1bl4i9kqvwBOkDmFM/bI
+	JnIyRVP/wjPXX1q+J0WBcpBvzxWVrCg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732277375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2Quh3j/8bkF3f+01yFkmWz1/le3qT2iXjoKgD8rODc=;
+	b=gsTI0ahbfp4XAY+y51aNa8FQ3iQCVRAzsOOOVM/ZZnl2UlteGu5bQuex6WSVWsqq65AoUk
+	qIWOJtX2VqSMD0CQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=YNPEVB3D;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=gsTI0ahb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732277375; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2Quh3j/8bkF3f+01yFkmWz1/le3qT2iXjoKgD8rODc=;
+	b=YNPEVB3DfHqouXyHKsFv+D912wLRGP0Z9ivfVRC7SSIJaPgAjXLZ+CvomapNTYOFA1rVeo
+	URsyin4SWMRLT96YT+SFeG6e0aoU/oCWL5RoVXOHflt1ZyicWE1bl4i9kqvwBOkDmFM/bI
+	JnIyRVP/wjPXX1q+J0WBcpBvzxWVrCg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732277375;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I2Quh3j/8bkF3f+01yFkmWz1/le3qT2iXjoKgD8rODc=;
+	b=gsTI0ahbfp4XAY+y51aNa8FQ3iQCVRAzsOOOVM/ZZnl2UlteGu5bQuex6WSVWsqq65AoUk
+	qIWOJtX2VqSMD0CQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5661A138A7;
+	Fri, 22 Nov 2024 12:09:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xnPPE390QGfKPwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 22 Nov 2024 12:09:35 +0000
+Date: Fri, 22 Nov 2024 13:09:34 +0100
+Message-ID: <87frnj1ncx.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Beno=EEt?= Sevens <bsevens@google.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	stable@kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix out of bounds reads when finding clock sources
+In-Reply-To: <CAGCho0Ueh4cVZy+nUrzCiXZm1VoHNXRya8oU-F2Q7k0ggUEnsA@mail.gmail.com>
+References: <20241121140613.3651-1-bsevens@google.com>
+	<877c8w3aez.wl-tiwai@suse.de>
+	<CAGCho0Ueh4cVZy+nUrzCiXZm1VoHNXRya8oU-F2Q7k0ggUEnsA@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ed33zf5e.fsf@intel.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 7EBAB1F396
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Fri, Nov 22, 2024 at 01:22:53PM +0200, Jani Nikula wrote:
-> On Fri, 22 Nov 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> > diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> > index b2b6a8e49dda46f1cb3b048ef7b28356dd3aaa4e..8ed58e482fac4662b659276e8bc17690e1fdb9b7 100644
-> > --- a/drivers/gpu/drm/drm_internal.h
-> > +++ b/drivers/gpu/drm/drm_internal.h
-> > @@ -280,4 +280,9 @@ void drm_framebuffer_print_info(struct drm_printer *p, unsigned int indent,
-> >  				const struct drm_framebuffer *fb);
-> >  void drm_framebuffer_debugfs_init(struct drm_device *dev);
-> >  
-> > +/* drm_connector_hdmi_codec.c */
-> > +
-> > +int drm_connector_hdmi_codec_init(struct drm_connector *connector);
-> > +void drm_connector_hdmi_codec_cleanup(struct drm_connector *connector);
-> > +
-> >  #endif /* __DRM_INTERNAL_H__ */
+On Fri, 22 Nov 2024 11:06:57 +0100,
+Benoît Sevens wrote:
 > 
-> Better fit in drm_crtc_internal.h or drm_crtc_helper_internal.h?
+> Hi Takashi,
 > 
-> Maybe we could use an internal header inside display/. Or just 1:1
-> drm_foo_internal.h for every drm_foo.c to keep things simple and have
-> fewer interdependencies.
+> Thank you for the review. Except for one question below, this patch
+> looks good to me. Would you like me to send your patch as a revised
+> patch to this mailing list?
 
-Sounds like drm_connector_hdmi_codec_internal.h. Most likely we should
-also split or rename drm_crtc_*_internal.h, but that's a separate topic.
+I'm going to submit the proper patch if the fix works for you.
 
+> On Thu, 21 Nov 2024 at 15:53, Takashi Iwai <tiwai@suse.de> wrote:
+> > @@ -65,13 +73,23 @@ static bool validate_clock_selector(void *p, int id, int proto)
+> >  {
+> >         union uac23_clock_selector_desc *cs = p;
+> >
+> > -       return GET_VAL(cs, proto, bClockID) == id;
+> > +       if (!DESC_LENGTH_CHECK(cs, proto))
+> > +               return false;
+> > +       if (GET_VAL(cs, proto, bClockID) != id)
+> > +               return false;
+> > +       /* additional length check for baCSourceID, bmControls and iClockSelector */
+> > +       if (proto == UAC_VERSION_3)
+> > +               return cs->v3.bLength >= sizeof(cs->v3.bLength) + cs->v3.bNrInPins + 6;
+> 
+> Why can't we just do this here?
+> 
+>  return cs->v3.bLength >= sizeof(cs->v3) + cs->v3.bNrInPins;
+
+Argh, it was just a wrong check.
+
+But the clock selector descriptor must have two more fields in
+addition to baCSourceID array.  Those two are 6 bytes (= 4 bytes for
+bmControls + 2 bytes for wCSelectorDescrStr) for UAC3, while...
+
+> > +       else
+> > +               return cs->v2.bLength >= sizeof(cs->v2.bLength) + cs->v2.bNrInPins + 2;
+> 
+> And same question here, why not:
+> 
+>  return cs->v2.bLength >= sizeof(cs->v2) + cs->v2.bNrInPins;
+
+... for UAC2, they are 2 bytes (= 1 byte for bmControls + 1 byte for
+iClockSelector).  So those numbers appeared in the patch.
+
+Below is the revised patch.  Let me know if this works for you.
+
+
+thanks,
+
+Takashi
+
+-- 8< --
+From: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ALSA: usb-audio: Fix out of bounds reads when finding clock sources
+
+The current USB-audio driver code doesn't check bLength of each
+descriptor at traversing for clock descriptors.  That is, when a
+device provides a bogus descriptor with a shorter bLength, the driver
+might hit out-of-bounds reads.
+
+For addressing it, this patch adds sanity checks to the validator
+functions for the clock descriptor traversal.  When the descriptor
+length is shorter than expected, it's skipped in the loop.
+
+For the clock source and clock multiplier descriptors, we can just
+check bLength against the sizeof() of each descriptor type.
+OTOH, the clock selector descriptor of UAC2 and UAC3 has an array
+of bNrInPins elements and two more fields at its tail, hence those
+have to be checked in addition to the sizeof() check.
+
+Reported-by: Benoît Sevens <bsevens@google.com>
+Link: https://lore.kernel.org/20241121140613.3651-1-bsevens@google.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/usb/clock.c | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/sound/usb/clock.c b/sound/usb/clock.c
+index 8f85200292f3..842ba5b801ea 100644
+--- a/sound/usb/clock.c
++++ b/sound/usb/clock.c
+@@ -36,6 +36,12 @@ union uac23_clock_multiplier_desc {
+ 	struct uac_clock_multiplier_descriptor v3;
+ };
+ 
++/* check whether the descriptor bLength has the minimal length */
++#define DESC_LENGTH_CHECK(p, proto) \
++	((proto) == UAC_VERSION_3 ? \
++	 ((p)->v3.bLength >= sizeof((p)->v3)) :	\
++	 ((p)->v2.bLength >= sizeof((p)->v2)))
++
+ #define GET_VAL(p, proto, field) \
+ 	((proto) == UAC_VERSION_3 ? (p)->v3.field : (p)->v2.field)
+ 
+@@ -58,6 +64,8 @@ static bool validate_clock_source(void *p, int id, int proto)
+ {
+ 	union uac23_clock_source_desc *cs = p;
+ 
++	if (!DESC_LENGTH_CHECK(cs, proto))
++		return false;
+ 	return GET_VAL(cs, proto, bClockID) == id;
+ }
+ 
+@@ -65,13 +73,27 @@ static bool validate_clock_selector(void *p, int id, int proto)
+ {
+ 	union uac23_clock_selector_desc *cs = p;
+ 
+-	return GET_VAL(cs, proto, bClockID) == id;
++	if (!DESC_LENGTH_CHECK(cs, proto))
++		return false;
++	if (GET_VAL(cs, proto, bClockID) != id)
++		return false;
++	/* additional length check for baCSourceID array (in bNrInPins size)
++	 * and two more fields (which sizes depend on the protocol)
++	 */
++	if (proto == UAC_VERSION_3)
++		return cs->v3.bLength >= sizeof(cs->v3) + cs->v3.bNrInPins +
++			4 /* bmControls */ + 2 /* wCSelectorDescrStr */;
++	else
++		return cs->v2.bLength >= sizeof(cs->v2) + cs->v2.bNrInPins +
++			1 /* bmControls */ + 1 /* iClockSelector */;
+ }
+ 
+ static bool validate_clock_multiplier(void *p, int id, int proto)
+ {
+ 	union uac23_clock_multiplier_desc *cs = p;
+ 
++	if (!DESC_LENGTH_CHECK(cs, proto))
++		return false;
+ 	return GET_VAL(cs, proto, bClockID) == id;
+ }
+ 
 -- 
-With best wishes
-Dmitry
+2.43.0
+
