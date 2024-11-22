@@ -1,75 +1,128 @@
-Received: from cmccmta1.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A8E230999;
-	Fri, 22 Nov 2024 06:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
+Received: from esa7.hc1455-7.c3s2.iphmx.com (esa7.hc1455-7.c3s2.iphmx.com [139.138.61.252])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3841465A0;
+	Fri, 22 Nov 2024 07:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=139.138.61.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732257186; cv=none; b=pkhMvKQrlzwGJv2Nunqyo25w3zvaU7QY1rXBPEo3Bit0EEG4NumSG/4BbSsZrlosWuJbmNKkDEUcj4GtV2DmT3sofrjiin4FbJ7BPKu4fskLjI2ZFhonN0+Vo3o2TmX5F6w/PkBqPxXkVGqRq4MvFz6JNiJMipPeA+yBnc+9kFc=
+	t=1732260989; cv=none; b=qGRAFe6esh17UMa/3rJAFeVC6LwZzc2AuNtlq4EFPPlacvutsjZzgnWvnQf+4kKIfbl/w67R9jfyG2m5FnZmcjORK0FB5DbE6OAVLHTt7z3lg3gLEKod/w4kXG25ZzW9m3PJBIN9zTYTghA1KZrpRROY0VFOprRwMXlrfypbxpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732257186; c=relaxed/simple;
-	bh=x9sJ6Zy7CIz3xBtjnogNNjy+1a9J/7TjsTTMQ/ALwDE=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=ZSJWM/Wk1ml5paFEvOfUZGhYsldfLZIM11Rm8HwcBZwt/PICNF4bVIHkjA9NpPD6ZZM1zlF8nst6QKswfwR4BO+vHpU8Za/Au+2iKFrX+feYa6lkNbJvBmip5Zrav98DrJ7diJ2f8rj4KgrG8eiTzhCxO1ZssepDIPeRb0vG1M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16740259b45c-35d73;
-	Fri, 22 Nov 2024 14:32:59 +0800 (CST)
-X-RM-TRANSID:2ee16740259b45c-35d73
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from ubuntu.localdomain (unknown[10.55.1.70])
-	by rmsmtp-syy-appsvr02-12002 (RichMail) with SMTP id 2ee26740259a242-2a36e;
-	Fri, 22 Nov 2024 14:32:59 +0800 (CST)
-X-RM-TRANSID:2ee26740259a242-2a36e
-From: Zhu Jun <zhujun2@cmss.chinamobile.com>
-To: perex@perex.cz
-Cc: tiwai@suse.com,
-	zhujun2@cmss.chinamobile.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Intel: avs: Add error handling in avs_tplg_parse_initial_configs
-Date: Thu, 21 Nov 2024 22:32:57 -0800
-Message-Id: <20241122063257.4419-1-zhujun2@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.17.1
+	s=arc-20240116; t=1732260989; c=relaxed/simple;
+	bh=afEEONp3WUMXgx5tCS+iTInKTEV3C339Fvgnza8HBtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PrYWyvz2w0hrtK3XgWUR2k6g9BVLxJScYlZOn8HGcyoKnPhgaWkXiMeVeggu3d2ys5PmG7u13tYnubjQzMfKIxx7rxKOA+kvYrTmqYwf0yxAoXj07NHXMhoa8EUdv7qUnRmdiISVjcZF0Y+TG2/sykI61Bfrb+qwMhSkfbeZ8ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=ahsCNbN9; arc=none smtp.client-ip=139.138.61.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="ahsCNbN9"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1732260987; x=1763796987;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=afEEONp3WUMXgx5tCS+iTInKTEV3C339Fvgnza8HBtM=;
+  b=ahsCNbN9YQX+XUcyX3m1+Ur2xAMArUBjgVLsr7TYmqE0+K844TddWSSm
+   anwfrYN7oivQtL8TAWoWN3t8fBgZgv9ConpkfTl17NGHIAzfC2is0YTsF
+   7PcCplCCFD1y7HgI2idUck5c16gIVYVkBspMlUeBCRHDCvmKH1rEkf6CZ
+   BbK5Qs2oUxkqjiUADxxSCvDXtixdBaoTnproaEmBmbp9CTYwRQcjqgd5U
+   eIz1TJDN1Zz71g0YuMfx/7HTt/0FKRdG3nf0dJF+Z6HFelIcHtv2YN1kq
+   iyWO1L94Byy55ajoCFuiu6u9Y/z/SiX4f2Jjm8UG7sLg7Utg9CBwqunXM
+   g==;
+X-CSE-ConnectionGUID: /u7FMuAhQC+9fznjTiWJ8g==
+X-CSE-MsgGUID: anH2+uNkRm2Od/tPChsOIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="160180652"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728918000"; 
+   d="scan'208";a="160180652"
+Received: from unknown (HELO yto-r3.gw.nic.fujitsu.com) ([218.44.52.219])
+  by esa7.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 16:35:15 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8EE23E428A;
+	Fri, 22 Nov 2024 16:35:13 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 239C8370C6;
+	Fri, 22 Nov 2024 16:35:13 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 9C7152007C3F7;
+	Fri, 22 Nov 2024 16:35:12 +0900 (JST)
+Received: from iaas-rdma.. (unknown [10.167.135.44])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id AA61C1A006C;
+	Fri, 22 Nov 2024 15:35:11 +0800 (CST)
+From: Li Zhijian <lizhijian@fujitsu.com>
+To: linux-kselftest@vger.kernel.org
+Cc: shuah@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Li Zhijian <lizhijian@fujitsu.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: [PATCH for-next v3] selftests/alsa: Add a few missing gitignore files
+Date: Fri, 22 Nov 2024 15:36:00 +0800
+Message-ID: <20241122073600.1530791-1-lizhijian@fujitsu.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28812.003
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28812.003
+X-TMASE-Result: 10--1.651200-10.000000
+X-TMASE-MatchedRID: /+von0vPuFEhiKpapiFQUqoXHZz/dXlxTJDl9FKHbrnBsf5qt44jZ0/m
+	RGqrA8qmt51G676eQJPtDFjbdjEntA8rYO92b9Nm4aN9Pi1E3hczNsXWBvGVBswHSQ+yXjTDfrL
+	Hs4UTbxBQ2Im6/SeK+BFBD6+ejtliL/tBTZzO5Q12jSf4k8Vwmn0tCKdnhB58I/9UW5M5dRNp7q
+	EhmmPgy46HM5rqDwqtwY6RPb/G8ENQfGCSa8nJAT5G2ItfuwCdDTuad3CT3vE5UQkLD/tqk6jTV
+	fEW1WMaazCZYocv8d3ZJNuEPMGhCmDD1rcdOe5eFcG3+ZRETICP9kUX1Z+buE3LumkbQiNwVCqT
+	SPu8tVR7AxIEOt4h2Q==
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 
-Introduce error handling in avs_tplg_parse_initial_configs to ensure that
-the function returns immediately if parse_dictionary_entries fails.
+Compiled binary files should be added to .gitignore
 
-Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+'git status' complains:
+Untracked files:
+(use "git add <file>..." to include in what will be committed)
+     alsa/global-timer
+     alsa/utimer-test
+
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
 ---
- sound/soc/intel/avs/topology.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Cc: linux-sound@vger.kernel.org
+---
+Hello,
+Cover letter is here.
 
-diff --git a/sound/soc/intel/avs/topology.c b/sound/soc/intel/avs/topology.c
-index 5cda52702..3f76581af 100644
---- a/sound/soc/intel/avs/topology.c
-+++ b/sound/soc/intel/avs/topology.c
-@@ -1500,7 +1500,6 @@ static int avs_tplg_parse_initial_configs(struct snd_soc_component *comp,
- 				      AVS_TKN_MANIFEST_NUM_INIT_CONFIGS_U32);
- 	if (ret)
- 		return ret;
--
- 	block_size -= le32_to_cpu(tuples->size);
- 	/* With header parsed, move on to parsing entries. */
- 	tuples = avs_tplg_vendor_array_next(tuples);
-@@ -1522,6 +1521,8 @@ static int avs_tplg_parse_initial_configs(struct snd_soc_component *comp,
- 					       AVS_TKN_MOD_INIT_CONFIG_ID_U32,
- 					       mod_init_config_parsers,
- 					       ARRAY_SIZE(mod_init_config_parsers));
-+		if (ret)
-+			return ret;
- 
- 		block_size -= esize;
- 
+This patch set aims to make 'git status' clear after 'make' and 'make
+run_tests' for kselftests.
+---
+V3:
+  sorted the ignore files
+V2:
+   split as a separate patch from a small one [0]
+   [0] https://lore.kernel.org/linux-kselftest/20241015010817.453539-1-lizhijian@fujitsu.com/
+
+Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
+---
+ tools/testing/selftests/alsa/.gitignore | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tools/testing/selftests/alsa/.gitignore b/tools/testing/selftests/alsa/.gitignore
+index 12dc3fcd3456..3dd8e1176b89 100644
+--- a/tools/testing/selftests/alsa/.gitignore
++++ b/tools/testing/selftests/alsa/.gitignore
+@@ -1,3 +1,5 @@
++global-timer
+ mixer-test
+ pcm-test
+ test-pcmtest-driver
++utimer-test
 -- 
-2.17.1
-
-
+2.44.0
 
