@@ -1,205 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A3B1A3047;
-	Sat, 23 Nov 2024 20:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF1A2905;
+	Sat, 23 Nov 2024 22:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732392372; cv=none; b=VlXALqQknh5wHXVU3b14WFgrUagDvxUCOeznXYZpwlpHAyx3TX1msyXojptTV0yhWEnygXIYbe4V7hGcylCqpRwPRrIXhuxw9Ra/zmEn3KuuSuqsMErAOXUBbxyvUTiq5knUR73L24NSv5KXcawzAViXJIXxr/KazoiMiG5CCM4=
+	t=1732399766; cv=none; b=qAm4Lhe3NT7GjADFAo06dTHX1s05zbfuvohL7DlSsybHDjS2mTA0jIDlNx+vweTH+DQ54YcSoHOIx1gPIp1CDYR0yFljdyP7xHVF+W6BDU0+kIhNaVIiblqzcU13QfTILZRdH8y4IizZwi9PU01i/7PtnDhtDpa4lcaREInJx6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732392372; c=relaxed/simple;
-	bh=++FE/7iFKI7NjgLLAi5nkL/mj98q5NwZkvRUtGH5+AI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=UyDBPO5/MuoTQOKKfvz1HxO4QwFL5ED/lM2Q0BtFAK2oG5DCF15vp2MgkLxr5HQ7ijqW6bnKVAZby2ft050q8BZ5YpwDxq5zkXw9Rj60wQDJHe8LBfc6mPBNLD5LmsKAb/HM0baLKsw6Lgki3xQ21MmiYj01M/JF2YfWtqQxz6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=none smtp.mailfrom=ecsmtp.iind.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YZWzLDo4; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ecsmtp.iind.intel.com
+	s=arc-20240116; t=1732399766; c=relaxed/simple;
+	bh=ly8oeaIOAg6lQzNJz3++JQOR8O7rdaXLBJTqDo2MTiA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LOGJcsBn60lZHXDZ0TWaA7XgtZ0ISNQZxkb+TdEbhpzxHcuMswo13yW7DGjSlqKsi3P/kpy1tv+yRW2valpJmIirdOO3oNyih5ZS2ghjC31OaQuW7/T5TobA5xuODoBtYygnvK7KANKpTUhGQHY+G53CX/GgJKyJ0BTtbCZ0EfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=mrheDw3f; arc=none smtp.client-ip=193.68.50.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YZWzLDo4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732392371; x=1763928371;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=++FE/7iFKI7NjgLLAi5nkL/mj98q5NwZkvRUtGH5+AI=;
-  b=YZWzLDo4uznLcATZqS+bKSNvfmTF9y9dqC1W5P5c8QRX12qx2wa99toT
-   DfVvHqer4npjxll+SMWo5StTcyQhkIR5ER06Ic4eU2lKRrnFiiRN8H+Ab
-   9a3Ho3JwWjCQxWa6afBINO2sGGRQnMD59ZBnwVD93zCgSDdkD9WWv0FRh
-   Zsv2WekRt8X3RBMrXwaCacelSp2R9CY7PQMBs85J8ZOB3l2miLoNIK8xN
-   68+gBMjMXoyKByThd9Y/HBSDXF59XltRZYt04Hbku9DcRB6jwpVKxvoQa
-   GWS4/E8V3OmxiQYB1/IOtZ6+zL7EmS+UZqRJUurE3rmfXoHHZiB9XepEY
-   g==;
-X-CSE-ConnectionGUID: jSn91T7fSdyScDwBrtcbCw==
-X-CSE-MsgGUID: PGmtXOudRT6nLqxOI3T0rA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11265"; a="32678557"
-X-IronPort-AV: E=Sophos;i="6.12,179,1728975600"; 
-   d="scan'208";a="32678557"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2024 12:06:08 -0800
-X-CSE-ConnectionGUID: fhU+mkJvQ5CJ+KPPPODyZw==
-X-CSE-MsgGUID: kOVrtAkcT9erutaGHfsrNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,179,1728975600"; 
-   d="scan'208";a="121737998"
-Received: from inesxmail01.iind.intel.com ([10.223.57.40])
-  by orviesa002.jf.intel.com with ESMTP; 23 Nov 2024 12:06:04 -0800
-Received: from inlubt0316.iind.intel.com (inlubt0316.iind.intel.com [10.191.20.213])
-	by inesxmail01.iind.intel.com (Postfix) with ESMTP id 2428D1CADC;
-	Sun, 24 Nov 2024 01:36:03 +0530 (IST)
-Received: by inlubt0316.iind.intel.com (Postfix, from userid 12101951)
-	id 098431600112; Sun, 24 Nov 2024 01:36:03 +0530 (IST)
-From: Raag Jadav <raag.jadav@intel.com>
-To: gregkh@linuxfoundation.org,
-	linus.walleij@linaro.org,
-	mika.westerberg@linux.intel.com,
-	andriy.shevchenko@linux.intel.com,
-	dmitry.torokhov@gmail.com,
-	broonie@kernel.org,
-	pierre-louis.bossart@linux.dev
-Cc: linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	Raag Jadav <raag.jadav@intel.com>
-Subject: [PATCH v1 5/5] ASoC: Intel: avs: use devm_kmemdup_array()
-Date: Sun, 24 Nov 2024 01:35:27 +0530
-Message-Id: <20241123200527.7830-6-raag.jadav@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20241123200527.7830-1-raag.jadav@intel.com>
-References: <20241123200527.7830-1-raag.jadav@intel.com>
+	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="mrheDw3f"
+Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
+	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 23AC3A037C;
+	Sat, 23 Nov 2024 23:09:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:from:from:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=mail; bh=ggcfDzy4T2wd6OE/Z3K6
+	o9nCDGY9SIX9C7Zth5qGkkw=; b=mrheDw3f9/c1M7uWYdSdjXZfspL54nuwPSA9
+	kwVUd78i8gy+792IM4dEZ/atzbyV3kg2iMPD5d00RenG5xkdYl8h6xGJq+Wo8m7O
+	tT4T34BCbLSC76luZhkGS6feezabh2pVoBdZawsTApjGI7FuWbf6ldS1garKQD7N
+	IDEfkrsDNg9UnaM/jjMOoc4Aph7eU93iBLB1nptj+oRrDTDAQZv/j3nGLFrt3zuB
+	74jY6EVfjBmm5NSUCgJbgxF9nGjjLKGRnhVlLVjNBOo5tYYz/3BVVkkDnnuo+fJK
+	3Cl6dXDOi+LOea+NXBaEBi4bx6pse5vDC1LUfjFvOuIFSn1xh07ul/hBvKmoeAmC
+	bfBjuQXB+OZYVT5RrCdIqrlGqC6hFo2IflskErKu2y8Cf/zSutPki9Cz5W84x8Yd
+	thpGg1uzT0Rwi+rLA0PyIcDNLOXXLljPowOxLa4ugzyfdgfmtgSKhEYlWRRJlH/J
+	8lra0RngSM8VIu1KwSs2U3tROUV+NzLiffS97CHf9k7NC5gQKgBsITbfrHU0NfnY
+	geAgpFHg67fBDpvHhOeN8AfCruIBapj8MJRrs5xtitJDYmDyv14QkG3J08YHgtwH
+	XHPkS3BYsUo1snyytbl3NHTpI1J04nZZIrJmdJVg2RiH84QU16rmZsqw2yeBAFnO
+	D4Sk4Vw=
+Message-ID: <f5f4be27-4d8c-4832-998f-8477030a21cb@prolan.hu>
+Date: Sat, 23 Nov 2024 23:09:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+	<linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, "Mark
+ Brown" <broonie@kernel.org>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-3-csokas.bence@prolan.hu>
+ <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
+Content-Language: en-US
+From: =?UTF-8?B?Q3PDs2vDoXMgQmVuY2U=?= <csokas.bence@prolan.hu>
+In-Reply-To: <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ATLAS.intranet.prolan.hu (10.254.0.229) To
+ ATLAS.intranet.prolan.hu (10.254.0.229)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A2980D94855607D61
 
-Convert to use devm_kmemdup_array() which is more robust.
+Hi,
 
-Signed-off-by: Raag Jadav <raag.jadav@intel.com>
----
- sound/soc/intel/avs/boards/da7219.c  | 3 ++-
- sound/soc/intel/avs/boards/es8336.c  | 3 ++-
- sound/soc/intel/avs/boards/nau8825.c | 3 ++-
- sound/soc/intel/avs/boards/rt274.c   | 3 ++-
- sound/soc/intel/avs/boards/rt286.c   | 3 ++-
- sound/soc/intel/avs/boards/rt298.c   | 3 ++-
- sound/soc/intel/avs/boards/rt5663.c  | 3 ++-
- sound/soc/intel/avs/boards/rt5682.c  | 2 +-
- 8 files changed, 15 insertions(+), 8 deletions(-)
+On 2024. 11. 23. 17:22, Krzysztof Kozlowski wrote:
+> On Sat, Nov 23, 2024 at 01:39:00PM +0100, Csókás, Bence wrote:
+>> Add compatible string for Allwinner suniv F1C100s audio codec.
+>>
+>> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+>> Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
+>> ---
+>>   .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
+>>
+> 
+> Missing changelog - what happened here? If no changes, why ignoring
+> received tag?
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 80c0a1a95654..1b8f58b611a4 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -113,7 +113,8 @@ static int avs_da7219_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	}
- 
- 	num_pins = ARRAY_SIZE(card_headset_pins);
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/es8336.c b/sound/soc/intel/avs/boards/es8336.c
-index c8522e2430f8..8103e539e08a 100644
---- a/sound/soc/intel/avs/boards/es8336.c
-+++ b/sound/soc/intel/avs/boards/es8336.c
-@@ -109,7 +109,8 @@ static int avs_es8336_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	data = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/nau8825.c b/sound/soc/intel/avs/boards/nau8825.c
-index 6ea9058fdb2a..0945a539b364 100644
---- a/sound/soc/intel/avs/boards/nau8825.c
-+++ b/sound/soc/intel/avs/boards/nau8825.c
-@@ -88,7 +88,8 @@ static int avs_nau8825_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt274.c b/sound/soc/intel/avs/boards/rt274.c
-index 9fcce86c6eb4..bdf36c7c744a 100644
---- a/sound/soc/intel/avs/boards/rt274.c
-+++ b/sound/soc/intel/avs/boards/rt274.c
-@@ -98,7 +98,8 @@ static int avs_rt274_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt286.c b/sound/soc/intel/avs/boards/rt286.c
-index f157f2d19efb..f94382389430 100644
---- a/sound/soc/intel/avs/boards/rt286.c
-+++ b/sound/soc/intel/avs/boards/rt286.c
-@@ -59,7 +59,8 @@ static int avs_rt286_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt298.c b/sound/soc/intel/avs/boards/rt298.c
-index 1e85242c8dd2..985bfa977edb 100644
---- a/sound/soc/intel/avs/boards/rt298.c
-+++ b/sound/soc/intel/avs/boards/rt298.c
-@@ -70,7 +70,8 @@ static int avs_rt298_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt5663.c b/sound/soc/intel/avs/boards/rt5663.c
-index 44f857e90969..fd8b0c915efa 100644
---- a/sound/soc/intel/avs/boards/rt5663.c
-+++ b/sound/soc/intel/avs/boards/rt5663.c
-@@ -65,7 +65,8 @@ static int avs_rt5663_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = &priv->jack;
- 	num_pins = ARRAY_SIZE(card_headset_pins);
- 
--	pins = devm_kmemdup(card->dev, card_headset_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_headset_pins, num_pins,
-+				  sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
-diff --git a/sound/soc/intel/avs/boards/rt5682.c b/sound/soc/intel/avs/boards/rt5682.c
-index 0dcc6392a0cc..6d7022707ca7 100644
---- a/sound/soc/intel/avs/boards/rt5682.c
-+++ b/sound/soc/intel/avs/boards/rt5682.c
-@@ -102,7 +102,7 @@ static int avs_rt5682_codec_init(struct snd_soc_pcm_runtime *runtime)
- 	jack = snd_soc_card_get_drvdata(card);
- 	num_pins = ARRAY_SIZE(card_jack_pins);
- 
--	pins = devm_kmemdup(card->dev, card_jack_pins, sizeof(*pins) * num_pins, GFP_KERNEL);
-+	pins = devm_kmemdup_array(card->dev, card_jack_pins, num_pins, sizeof(*pins), GFP_KERNEL);
- 	if (!pins)
- 		return -ENOMEM;
- 
--- 
-2.35.3
+Sorry, I just forgot to collect it, that's all.
+
+> <form letter>
+> This is a friendly reminder during the review process.
+> 
+> It looks like you received a tag and forgot to add it.
+> 
+> If you do not know the process, here is a short explanation: Please add
+> Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
+> or above your Signed-off-by tag. Tag is "received", when provided
+> in a message replied to you on the mailing list. Tools like b4 can help
+> here. However, there's no need to repost patches *only* to add the tags.
+> The upstream maintainer will do that for tags received on the version
+> they apply.
+> 
+> https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/submitting-patches.rst#L577
+> 
+> If a tag was not added on purpose, please state why and what changed.
+> </form letter>
+> 
+> Best regards,
+> Krzysztof
+
+Bence
 
