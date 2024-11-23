@@ -1,88 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C763917C2;
-	Sat, 23 Nov 2024 16:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E580EADC;
+	Sat, 23 Nov 2024 20:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732378930; cv=none; b=Sxh/mA1gxequI1gplVGtmvalDZgGlSHNY4ByzEoWY8Y/Dpj4AikYr2HWHsRSL4kL5jLdlM9O1Ttrnv6fXT7GXpHVSzarkSfNx4pq4vACr9/X+0pZm6r8DZgsC+Ak10pr+LohG/IQ7Xl5sjdJ3s+S7GtrRBqIY5OM5j8aotU7BCI=
+	t=1732392368; cv=none; b=O5Ry7xXHU2mvhCSiglDzrAc/1xehr00WurxhfaQAbm27LdNGw1eoLLe0614Vv7Z6CdUSLrF6RQTier53StK9+aBufF4P6ez8bYyb2HPIaUz2jZAQx/Kl5fTeS4r+/CHue63dmNV0+KCHhWTq3hRHhZ+wlUbCZ4xK6GuyO3dztXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732378930; c=relaxed/simple;
-	bh=rqrZ3vjyZhrxtWn4EFzMu1EVgsI53q7sNaMFgE9p/0M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=inz7Fk4UXbasBs1KOFhizYDseuhWUA/3nRRAaxh5PAM4Pr3CkEIqIAcar/5EzhYCZ62IPpV2mbZoAnYsH4sbOyaMjmsXTap7EA58F1vHq/WApy63a3YEGgUOCj4WE2207HaHB/2cZLQZIxh+ngFnw9BOGTOa7Tp4PoL2lPonwuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5hiMYu6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732392368; c=relaxed/simple;
+	bh=GAVRYml17ZCCg2g/TqAnTGzAqhZE9Ak/JKtz3LbjUIM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=qFjoPs9ns+LF6SqB3V4ny/8FZ4uGb3I0agGoWtsS6QxO1+QSjLEfurXuDiFI4N+c1wcrfr+Fi/DHDQhQoL+xb5Y4uwyaCoWV6johsSBpTPBMNIKgDPbMCmjOB45Tphm8QyuRZDyQfrzVAXt2EEkLDjNYiX6/YaEY5j8I8K4Tm1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=none smtp.mailfrom=ecsmtp.iind.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gu1woTtP; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ecsmtp.iind.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5hiMYu6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7ADC4CECD;
-	Sat, 23 Nov 2024 16:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732378930;
-	bh=rqrZ3vjyZhrxtWn4EFzMu1EVgsI53q7sNaMFgE9p/0M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M5hiMYu6E+Hf3BM+fN1iB3dHoPal/EV/V5lel/OfMXeL3mndSaoGXxkoiQmRNpVd0
-	 ThMRz38hrfgwelJ9y74Pe8STfKB3mMj4RsLXrcFf4BoL+fvnbeCw0LPxKrpLFtoBLU
-	 wx/1SLV39pofXw77R6KmJDqZacOCtI7SNv8L0+KrDVpuVJ0u3v9Qf1mzTdSf7OTRnN
-	 2xVMJMDozrK+WlAg0AKb8lopUSocby4LzGnd3DfzXyCbLVr48CB09Y4YWL+h1c0OWI
-	 uDf/jz/+qkWblxhPCiDG57hFpjJU6vK6oMxlXBQw+ep03CVOkL2c5fl+bmqCHbuZiI
-	 CptND575uG3FQ==
-Date: Sat, 23 Nov 2024 17:22:07 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: =?utf-8?B?Q3PDs2vDoXMs?= Bence <csokas.bence@prolan.hu>
-Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, 
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
- Audio Codec
-Message-ID: <juzxtwlr5ayvjrrqem2hr3nbyem6oajwrvveio5brlzazdafov@r2aehknf4shv>
-References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
- <20241123123900.2656837-3-csokas.bence@prolan.hu>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gu1woTtP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732392368; x=1763928368;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GAVRYml17ZCCg2g/TqAnTGzAqhZE9Ak/JKtz3LbjUIM=;
+  b=gu1woTtPHUUACHYyz2OhodXXZNhApq3G8bnxPdncV1aRSw4Yv4v1o3e2
+   0wR0ZHxailJ4AChuYMUw0+vUjK1ydaIkrqD55aZ0YLs6ytXM/EkWHYEhs
+   +fCDXe7DfBG6rMkyuG6/x1cHDArwzLHG8OESAgg1OpBEmKTMji8Hf5n4Q
+   rS5aqohgmvx8INms8a1kuqvvtUK0dQFmJn8u8ZIOxvy62xeNbQIjWqbLF
+   F4CowKVtCrYJwM6htLxsczuRUSOc47qPmW8exssonhppRljK+H8Ou6Lp4
+   QVaG2uevdQG3qbopgIZ7GsUEkvyvHMoXRvMasOzyD3asQiE/h8oQCof03
+   g==;
+X-CSE-ConnectionGUID: zgcox2U0Tb+b+nBOs4uqbg==
+X-CSE-MsgGUID: NNvXVSc8S8OmEnjTpe1mmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11265"; a="32678533"
+X-IronPort-AV: E=Sophos;i="6.12,179,1728975600"; 
+   d="scan'208";a="32678533"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2024 12:06:07 -0800
+X-CSE-ConnectionGUID: zBITnaUiQJmn8IRYzPjQhw==
+X-CSE-MsgGUID: 5h/8vyTRTrqbkDar/CjIZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,179,1728975600"; 
+   d="scan'208";a="121737991"
+Received: from inesxmail01.iind.intel.com ([10.223.57.40])
+  by orviesa002.jf.intel.com with ESMTP; 23 Nov 2024 12:06:04 -0800
+Received: from inlubt0316.iind.intel.com (inlubt0316.iind.intel.com [10.191.20.213])
+	by inesxmail01.iind.intel.com (Postfix) with ESMTP id 0CB611CAD1;
+	Sun, 24 Nov 2024 01:36:03 +0530 (IST)
+Received: by inlubt0316.iind.intel.com (Postfix, from userid 12101951)
+	id F18BD160010E; Sun, 24 Nov 2024 01:36:02 +0530 (IST)
+From: Raag Jadav <raag.jadav@intel.com>
+To: gregkh@linuxfoundation.org,
+	linus.walleij@linaro.org,
+	mika.westerberg@linux.intel.com,
+	andriy.shevchenko@linux.intel.com,
+	dmitry.torokhov@gmail.com,
+	broonie@kernel.org,
+	pierre-louis.bossart@linux.dev
+Cc: linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Raag Jadav <raag.jadav@intel.com>
+Subject: [PATCH v1 1/5] devres: Introduce devm_kmemdup_array()
+Date: Sun, 24 Nov 2024 01:35:23 +0530
+Message-Id: <20241123200527.7830-2-raag.jadav@intel.com>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20241123200527.7830-1-raag.jadav@intel.com>
+References: <20241123200527.7830-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20241123123900.2656837-3-csokas.bence@prolan.hu>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 23, 2024 at 01:39:00PM +0100, Cs=C3=B3k=C3=A1s, Bence wrote:
-> Add compatible string for Allwinner suniv F1C100s audio codec.
->=20
-> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
-> Signed-off-by: Cs=C3=B3k=C3=A1s, Bence <csokas.bence@prolan.hu>
-> ---
->  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
->
+Introduce '_array' variant of devm_kmemdup() for the users which lack
+multiplication overflow check.
 
-Missing changelog - what happened here? If no changes, why ignoring
-received tag?
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Raag Jadav <raag.jadav@intel.com>
+---
+ include/linux/device.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-<form letter>
-This is a friendly reminder during the review process.
-
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation: Please add
-Acked-by/Reviewed-by/Tested-by tags when posting new versions, under
-or above your Signed-off-by tag. Tag is "received", when provided
-in a message replied to you on the mailing list. Tools like b4 can help
-here. However, there's no need to repost patches *only* to add the tags.
-The upstream maintainer will do that for tags received on the version
-they apply.
-
-https://elixir.bootlin.com/linux/v6.5-rc3/source/Documentation/process/subm=
-itting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
-
-Best regards,
-Krzysztof
+diff --git a/include/linux/device.h b/include/linux/device.h
+index b4bde8d22697..c31f48d0dde0 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -358,6 +358,16 @@ char *devm_kstrdup(struct device *dev, const char *s, gfp_t gfp) __malloc;
+ const char *devm_kstrdup_const(struct device *dev, const char *s, gfp_t gfp);
+ void *devm_kmemdup(struct device *dev, const void *src, size_t len, gfp_t gfp)
+ 	__realloc_size(3);
++static inline void *devm_kmemdup_array(struct device *dev, const void *src,
++				       size_t n, size_t size, gfp_t flags)
++{
++	size_t bytes;
++
++	if (unlikely(check_mul_overflow(n, size, &bytes)))
++		return NULL;
++
++	return devm_kmemdup(dev, src, bytes, flags);
++}
+ 
+ unsigned long devm_get_free_pages(struct device *dev,
+ 				  gfp_t gfp_mask, unsigned int order);
+-- 
+2.35.3
 
