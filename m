@@ -1,52 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60D91AF0D5;
-	Sun, 24 Nov 2024 13:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 257E91B652B;
+	Sun, 24 Nov 2024 13:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732455420; cv=none; b=hYPcqiPiqUITSyiQ/Bm9z3aLPyCUMe6Owv6TdlmijaTXrtlCNnGuGGH2xDcHMTprFPK0wRK0/ACRbltMGAoQ4exuEYR2TaRt1/TXK9WVjaYvn6F/UbLC2Omh5HBL6k9T3pSGcEMcleOrbhxsvXcWeX4b9y+AejUUDSMze5Y/qNQ=
+	t=1732455496; cv=none; b=tUai2uV487/5dsPca0hs5URxvy1NlVko+bc847VqxwF25ds9sNAxuPRu4qCSJZ8SteTb1/Yv6djSF/Agm6iEsbVp6fY8PciR6dpPerdWPCahIAni1r8/jGVUMFuI1AoZY7s3XcPzQkXp+FjW8yDKlBkN7nYNT7fqla5zY8VkGBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732455420; c=relaxed/simple;
-	bh=yqDjVU4Mc9UjQOvy1RKjsPrMOtf35mTuH1VH1QdP/ZE=;
+	s=arc-20240116; t=1732455496; c=relaxed/simple;
+	bh=g1NcHty0CrHKJ47XiClGFabcUFOh4JLfQb+81GpNJkM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H/KoslarXA1/PNzHvMC7vuDYoiQD1vPlpTrOxEGfcMI7KEOMwYIT0iZHMFvNpp44tNC4pPvuJjVwKDevzzYxVSeq/HKTXC+jzUE9ykaseke1lNaLQRTRpCYxa3S9IAtfBPeRFw1pFpW+8xJYnGXNWoLw2ji7gj4H1lv/NAvUZ5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EhS9k7sh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=k0gzb8+UlwDkt51HbQyljynXMhlPme8b6oGGu5WHqiqgrEQBRWvkxtZ5HV/v5c037FwoESVLkCNCvua2tfxCsuBluAl8QRbsYOjaJZLRWmzqoVeSwkvRWfumMae0WyYxCGyllCxO0vz7Jz3cFZg/AvI2P92vRyTL6SkqPNeBpwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d05qqKhV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EhS9k7sh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72DADC4CED1;
-	Sun, 24 Nov 2024 13:36:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d05qqKhV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C624C4CECC;
+	Sun, 24 Nov 2024 13:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732455420;
-	bh=yqDjVU4Mc9UjQOvy1RKjsPrMOtf35mTuH1VH1QdP/ZE=;
+	s=k20201202; t=1732455496;
+	bh=g1NcHty0CrHKJ47XiClGFabcUFOh4JLfQb+81GpNJkM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EhS9k7shwD/e4BzAeKaMnrTE0Mtti1jaruvb/YFEUBv2nx5SzJwjiZQdQvrjNy/JZ
-	 tGPTooXukRNOhOy52TKF0tKdvzIBLttD05l27npGhg8/qGNOA8it93Cm+unCIX0HXr
-	 rtHeYedXSSGfd/3MYmBkPst1JqzfYKB6CoPkV8wBcBzkuN8BgFehRcc1gy4nRQRvhR
-	 UJtqxG+oZP5KcQqkWmmlGRUasAma06ArcOUsfxGaJuZem0venmUjiCJCNM7Lg1y76B
-	 uaJCe7pqcp2RyYA9PIaH63JERYHhlJwvvjkdO3htKeLqtV0v9HNVMpqw24ygCWManQ
-	 Ubt74/snjbpPg==
+	b=d05qqKhVEd93+fkmEP7CUejrauvOBhWaIyHlXMIZG1F2QLfmq4X+wWmEGl5hcwomu
+	 rKEVyjVKC8PAJWIX4pFLZO0wATEL6n8whVAMyyQgjmgSGGZwl8HKVXvjv/NXbFqEDa
+	 d2BJ01OAqtt80p+nT9IW3vAQkjqiJOHbC5rJfzXSmK71+lh7TCITuKEZ6CdWybciIg
+	 Hq4F/WV4MyMWoZUBpX6y6AlFOoSKEPm+8egyGs47JAPy/Z7OonBcIAahnWAUp1uYUW
+	 K23i5MztCZDurjhBAC+Qhb1tLME2hNl6eVLwhAnj7O+wJL8eoRTexuxMtITlskIOZv
+	 cPTpqdNQtYMdQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mac Chiang <mac.chiang@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	pierre-louis.bossart@linux.dev,
-	balamurugan.c@intel.com,
-	ckeepax@opensource.cirrus.com,
+	k.kosik@outlook.com,
+	wangdicheng@kylinos.cn,
+	kl@kl.wtf,
+	zhujun2@cmss.chinamobile.com,
+	hulianqin@vivo.com,
+	mbarriolinares@gmail.com,
+	knuesel@gmail.com,
+	cyan.vtb@gmail.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 066/107] ASoC: Intel: soc-acpi-intel-arl-match: Add rt722 and rt1320 support
-Date: Sun, 24 Nov 2024 08:29:26 -0500
-Message-ID: <20241124133301.3341829-66-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 085/107] ALSA: usb-audio: Make mic volume workarounds globally applicable
+Date: Sun, 24 Nov 2024 08:29:45 -0500
+Message-ID: <20241124133301.3341829-85-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -61,123 +59,195 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.1
 Content-Transfer-Encoding: 8bit
 
-From: Mac Chiang <mac.chiang@intel.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit f193fb888d1da45365daa7d0ff7a964c8305d407 ]
+[ Upstream commit d6e6b9218ced5249b9136833ef5ec3f554ec7fde ]
 
-This patch adds support for the rt722 multi-function codec and the
-rt1320 amplifier in the ARL board configuration.
+It seems that many webcams have buggy firmware and don't expose the
+mic capture volume with the proper resolution.  We have workarounds in
+mixer.c, but judging from the numbers, those can be better managed as
+global quirk flags.
 
-Link 0: RT722 codec with three endpoints: Headset, Speaker, and DMIC.
-Link 2: RT1320 amplifier.
-
-Note:
-The Speaker endpoint on the RT722 codec is not used.
-
-Signed-off-by: Mac Chiang <mac.chiang@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://patch.msgid.link/20241028072631.15536-4-yung-chuan.liao@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
+Link: https://patch.msgid.link/20241105120220.5740-2-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../intel/common/soc-acpi-intel-arl-match.c   | 63 +++++++++++++++++++
- 1 file changed, 63 insertions(+)
+ sound/usb/mixer.c    | 58 ++++++++++++--------------------------------
+ sound/usb/quirks.c   | 31 +++++++++++++++++++----
+ sound/usb/usbaudio.h |  4 +++
+ 3 files changed, 45 insertions(+), 48 deletions(-)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index 072b8486d0727..24d850df77ca8 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -44,6 +44,31 @@ static const struct snd_soc_acpi_endpoint spk_3_endpoint = {
- 	.group_id = 1,
- };
- 
-+/*
-+ * RT722 is a multi-function codec, three endpoints are created for
-+ * its headset, amp and dmic functions.
-+ */
-+static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
+diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
+index bd67027c76775..0591da2839269 100644
+--- a/sound/usb/mixer.c
++++ b/sound/usb/mixer.c
+@@ -1084,6 +1084,21 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
+ 				  struct snd_kcontrol *kctl)
+ {
+ 	struct snd_usb_audio *chip = cval->head.mixer->chip;
 +
- static const struct snd_soc_acpi_adr_device cs35l56_2_lr_adr[] = {
- 	{
- 		.adr = 0x00023001FA355601ull,
-@@ -185,6 +210,24 @@ static const struct snd_soc_acpi_adr_device rt711_sdca_0_adr[] = {
++	if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_384) {
++		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
++			usb_audio_info(chip,
++				"set resolution quirk: cval->res = 384\n");
++			cval->res = 384;
++		}
++	} else if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_16) {
++		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
++			usb_audio_info(chip,
++				"set resolution quirk: cval->res = 16\n");
++			cval->res = 16;
++		}
++	}
++
+ 	switch (chip->usb_id) {
+ 	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
+ 	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C600 */
+@@ -1168,27 +1183,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
+ 		}
+ 		break;
+ 
+-	case USB_ID(0x046d, 0x0807): /* Logitech Webcam C500 */
+-	case USB_ID(0x046d, 0x0808):
+-	case USB_ID(0x046d, 0x0809):
+-	case USB_ID(0x046d, 0x0819): /* Logitech Webcam C210 */
+-	case USB_ID(0x046d, 0x081b): /* HD Webcam c310 */
+-	case USB_ID(0x046d, 0x081d): /* HD Webcam c510 */
+-	case USB_ID(0x046d, 0x0825): /* HD Webcam c270 */
+-	case USB_ID(0x046d, 0x0826): /* HD Webcam c525 */
+-	case USB_ID(0x046d, 0x08ca): /* Logitech Quickcam Fusion */
+-	case USB_ID(0x046d, 0x0991):
+-	case USB_ID(0x046d, 0x09a2): /* QuickCam Communicate Deluxe/S7500 */
+-	/* Most audio usb devices lie about volume resolution.
+-	 * Most Logitech webcams have res = 384.
+-	 * Probably there is some logitech magic behind this number --fishor
+-	 */
+-		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
+-			usb_audio_info(chip,
+-				"set resolution quirk: cval->res = 384\n");
+-			cval->res = 384;
+-		}
+-		break;
+ 	case USB_ID(0x0495, 0x3042): /* ESS Technology Asus USB DAC */
+ 		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
+ 			strstr(kctl->id.name, "Capture Volume") != NULL) {
+@@ -1197,28 +1191,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
+ 			cval->res = 1;
+ 		}
+ 		break;
+-	case USB_ID(0x1224, 0x2a25): /* Jieli Technology USB PHY 2.0 */
+-		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
+-			usb_audio_info(chip,
+-				"set resolution quirk: cval->res = 16\n");
+-			cval->res = 16;
+-		}
+-		break;
+-	case USB_ID(0x1bcf, 0x2283): /* NexiGo N930AF FHD Webcam */
+-	case USB_ID(0x03f0, 0x654a): /* HP 320 FHD Webcam */
+-		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
+-			usb_audio_info(chip,
+-				"set resolution quirk: cval->res = 16\n");
+-			cval->res = 16;
+-		}
+-		break;
+-	case USB_ID(0x1bcf, 0x2281): /* HD Webcam */
+-		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
+-			usb_audio_info(chip,
+-				"set resolution quirk: cval->res = 16\n");
+-			cval->res = 16;
+-		}
+-		break;
  	}
- };
+ }
  
-+static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
-+	{
-+		.adr = 0x000030025D072201ull,
-+		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
-+		.endpoints = rt722_endpoints,
-+		.name_prefix = "rt722"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt1320_2_single_adr[] = {
-+	{
-+		.adr = 0x000230025D132001ull,
-+		.num_endpoints = 1,
-+		.endpoints = &single_endpoint,
-+		.name_prefix = "rt1320-1"
-+	}
-+};
-+
- static const struct snd_soc_acpi_link_adr arl_cs42l43_l0[] = {
- 	{
- 		.mask = BIT(0),
-@@ -287,6 +330,20 @@ static const struct snd_soc_acpi_link_adr arl_sdca_rvp[] = {
- 	{}
- };
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c5fd180357d1e..cbfbb064a9c23 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2115,7 +2115,7 @@ struct usb_audio_quirk_flags_table {
+ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	/* Device matches */
+ 	DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
+-		   QUIRK_FLAG_GET_SAMPLE_RATE),
++		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
+ 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
+@@ -2123,10 +2123,31 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY |
+ 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
++	DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x0809,
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x0819, /* Logitech Webcam C210 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x081b, /* HD Webcam c310 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x081d, /* HD Webcam c510 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x0825, /* HD Webcam c270 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x0826, /* HD Webcam c525 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x084c, /* Logitech ConferenceCam Connect */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY_1M),
++	DEVICE_FLG(0x046d, 0x08ca, /* Logitech Quickcam Fusion */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x0991, /* Logitech QuickCam Pro */
+-		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR |
++		   QUIRK_FLAG_MIC_RES_384),
++	DEVICE_FLG(0x046d, 0x09a2, /* QuickCam Communicate Deluxe/S7500 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
+ 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
+@@ -2194,7 +2215,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
+-		   QUIRK_FLAG_GET_SAMPLE_RATE),
++		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x1397, 0x0507, /* Behringer UMC202HD */
+@@ -2232,9 +2253,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
+ 		   QUIRK_FLAG_GET_SAMPLE_RATE),
+ 	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
+-		   QUIRK_FLAG_GET_SAMPLE_RATE),
++		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
+-		   QUIRK_FLAG_GET_SAMPLE_RATE),
++		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
+ 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
+ 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
+ 	DEVICE_FLG(0x2040, 0x7201, /* Hauppauge HVR-950Q-MXL */
+diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
+index b0f042c996087..158ec053dc44d 100644
+--- a/sound/usb/usbaudio.h
++++ b/sound/usb/usbaudio.h
+@@ -194,6 +194,8 @@ extern bool snd_usb_skip_validation;
+  * QUIRK_FLAG_FIXED_RATE
+  *  Do not set PCM rate (frequency) when only one rate is available
+  *  for the given endpoint.
++ * QUIRK_FLAG_MIC_RES_16 and QUIRK_FLAG_MIC_RES_384
++ *  Set the fixed resolution for Mic Capture Volume (mostly for webcams)
+  */
  
-+static const struct snd_soc_acpi_link_adr arl_rt722_l0_rt1320_l2[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt722_0_single_adr),
-+		.adr_d = rt722_0_single_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(rt1320_2_single_adr),
-+		.adr_d = rt1320_2_single_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_codecs arl_essx_83x6 = {
- 	.num_codecs = 3,
- 	.codecs = { "ESSX8316", "ESSX8326", "ESSX8336"},
-@@ -385,6 +442,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-rt711-l0.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(2),
-+		.links = arl_rt722_l0_rt1320_l2,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-arl-rt722-l0_rt1320-l2.tplg",
-+	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_arl_sdw_machines);
+ #define QUIRK_FLAG_GET_SAMPLE_RATE	(1U << 0)
+@@ -218,5 +220,7 @@ extern bool snd_usb_skip_validation;
+ #define QUIRK_FLAG_IFACE_SKIP_CLOSE	(1U << 19)
+ #define QUIRK_FLAG_FORCE_IFACE_RESET	(1U << 20)
+ #define QUIRK_FLAG_FIXED_RATE		(1U << 21)
++#define QUIRK_FLAG_MIC_RES_16		(1U << 22)
++#define QUIRK_FLAG_MIC_RES_384		(1U << 23)
+ 
+ #endif /* __USBAUDIO_H */
 -- 
 2.43.0
 
