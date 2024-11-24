@@ -1,52 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156F51AA7B4;
-	Sun, 24 Nov 2024 13:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C047C1AF0DD;
+	Sun, 24 Nov 2024 13:36:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732455359; cv=none; b=KFv2CErUdu5gu9I/gfxK7SHOgNKsMBDtBhA401IoGjYp481wVkjlxIsunI+0LP8RVoqlT2RGJqswwVOMOnUky7ND6+ub9MO5V+dlqgSWzuinXo4M6YhNvU5GR30WwYLDQbyjd8Z+98XadvsH8KXR8Qqucl4xDeRrhc04/osD+f4=
+	t=1732455416; cv=none; b=M2Gv3FOtgYWqRi7ASy6Z5PcCCuNJzU2BDt9IA2ppzOY7TC268z0R3xUu3Gy4g3ePkUcAhIpUlHYvE7BdcdkEEDcqKoCtBTqX+G3/EQ4jZKeOR3LFl2Z/CN/MgrmI/P8VoXVhSo6au04BqWrRWNkongRetyzLfk7u2daiFWThmKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732455359; c=relaxed/simple;
-	bh=I54OsNFDBAW38NdX5RSVWH9Z1fPn986JRBuIhmFnsMA=;
+	s=arc-20240116; t=1732455416; c=relaxed/simple;
+	bh=jlYImcx9wO2XluO1gIR1709Evon4tIC0qHQxrNv6DEU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q9g6SYJpS5EvzJi3VOftZQaWNgkCpF58N2vvJ9YK34Tew303srw0IoaiI7KuaP/78uUVYd5ckZ9Snbn7LyNAvatUzVAxm7dSCPdHyCNEUdFzThXTiO4MOd1A9TVmIh8PlXrUIgp5h1o4Bzg11n/NDjEbJ/d4k17pK+KLH/iq25A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SaeOV72X; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=BXnvctRX8URbA4Kq9c5ulFyLF53mLIxUIGc4zxBBY6gcjMwY7+NQ9tJDwBamFWRbiOlhdn2t6cyfxKXr3Np3d3sVtv8NYAKqSVB1pRV3aI//Dy61Px5Aw+58+MO6L7oT+EEVDz0hXMPikxGidnCMBH5hrhU5dyYv+C4AxWED2ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nm2zmiWB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SaeOV72X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD4FBC4CECC;
-	Sun, 24 Nov 2024 13:35:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nm2zmiWB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11A52C4CED3;
+	Sun, 24 Nov 2024 13:36:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732455358;
-	bh=I54OsNFDBAW38NdX5RSVWH9Z1fPn986JRBuIhmFnsMA=;
+	s=k20201202; t=1732455416;
+	bh=jlYImcx9wO2XluO1gIR1709Evon4tIC0qHQxrNv6DEU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=SaeOV72XNDJTTF3pOCCFFctS6gjIfL3DEr3rQqdWCCTp6XcCMdzVkK20ohmLwYRZz
-	 0UMLmM7jow8ma3vT5Cvs+7BUHrIECirwdJnHr39ViuOPxEEJO1arsWawyYOrUORn5g
-	 2uNaidYwm1ptEabqFG3v/I/NkgCfKK2nxYYtUJXR/QlKzcdra+PwU0RgoKOSSrSV/4
-	 QXTQmFzDC03NIZRLYXvr/oFVy8jLuwsjEPvs4h5u5VDHJXs49q5sVos6HjrsUSNeCh
-	 1b0QtRb5eHAljgNF6xEoagCdJf5ZEtXlvg4wxdJ8FT26Dh+uuvCfZf5eRJLqf1PGZi
-	 hxs+UWDX6/Mrg==
+	b=Nm2zmiWBJIyZxgK9Kc9XuBw7iMIm6mvAU46AL1htYCMhsRJh6rx4r6L2pgnXYiy6s
+	 I8kgp64Y7z9QLILzRGR313asXEr96ah/B+Kv0W16t/NpnUeEuk7GmSSLN8sy79OjcC
+	 sLPSOSOUsqsMH+ZT+1KDqxwIS6H6gFNDsKXwiFlAp4TnOMLxpwHy2o8JyT1OzuYu6j
+	 +PxXisdd+tMNRGRDHtZLhwgNowUmW1SumdGEWUq6Na92yb4+iec1qV+JR2ivHZ/y0E
+	 PG4ytWO8HDGGVXrWQYtbnulU50ib8JxZB0h1cQVkEgg3UblLmHuSzU2KwZHF5jTy1z
+	 z7QkDffsnLXzw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Liam Girdwood <liam.r.girdwood@intel.com>,
+Cc: Mac Chiang <mac.chiang@intel.com>,
 	Bard Liao <yung-chuan.liao@linux.intel.com>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	cezary.rojewski@intel.com,
-	liam.r.girdwood@linux.intel.com,
-	peter.ujfalusi@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	kai.vehmanen@linux.intel.com,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	pierre-louis.bossart@linux.dev,
 	Vijendar.Mukunda@amd.com,
+	naveen.m@intel.com,
+	ckeepax@opensource.cirrus.com,
+	kuninori.morimoto.gx@renesas.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 053/107] ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops
-Date: Sun, 24 Nov 2024 08:29:13 -0500
-Message-ID: <20241124133301.3341829-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 065/107] ASoC: sdw_utils: Add quirk to exclude amplifier function
+Date: Sun, 24 Nov 2024 08:29:25 -0500
+Message-ID: <20241124133301.3341829-65-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124133301.3341829-1-sashal@kernel.org>
 References: <20241124133301.3341829-1-sashal@kernel.org>
@@ -61,72 +59,39 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.12.1
 Content-Transfer-Encoding: 8bit
 
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
+From: Mac Chiang <mac.chiang@intel.com>
 
-[ Upstream commit 83c062ae81e89f73e3ab85953111a8b3daaaf98e ]
+[ Upstream commit 358ee2c1493e5d2c59820ffd8087eb0e367be4c6 ]
 
-Add some more sidecar amplifier quirks.
+When SKUs use the multi-function codec, which integrates
+Headset, Amplifier and DMIC. The corresponding quirks provide
+options to support internal amplifier/DMIC or not.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+In the case of RT722, this SKU excludes the internal amplifier and
+use an additional amplifier instead.
+
+Signed-off-by: Mac Chiang <mac.chiang@intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Link: https://patch.msgid.link/20241016030344.13535-5-yung-chuan.liao@linux.intel.com
+Link: https://patch.msgid.link/20241028072631.15536-2-yung-chuan.liao@linux.intel.com
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/intel/boards/sof_sdw.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ sound/soc/sdw_utils/soc_sdw_utils.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index fa937cc4d8cd1..a58842a8c8a64 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -580,6 +580,30 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(SOC_SDW_CODEC_SPKR),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "3838")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "3832")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "380E")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
-@@ -589,6 +613,14 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		/* Note this quirk excludes the CODEC mic */
- 		.driver_data = (void *)(SOC_SDW_CODEC_MIC),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "233B")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+	},
- 
- 	/* ArrowLake devices */
- 	{
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index c06963ac7fafa..e6ac5c0fd3bec 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -363,6 +363,8 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.num_controls = ARRAY_SIZE(generic_spk_controls),
+ 				.widgets = generic_spk_widgets,
+ 				.num_widgets = ARRAY_SIZE(generic_spk_widgets),
++				.quirk = SOC_SDW_CODEC_SPKR,
++				.quirk_exclude = true,
+ 			},
+ 			{
+ 				.direction = {false, true},
 -- 
 2.43.0
 
