@@ -1,264 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B90F24F865;
-	Sun, 24 Nov 2024 13:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FB42500D3
+	for <linux-sound@vger.kernel.org>; Sun, 24 Nov 2024 15:48:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732456673; cv=none; b=lAmJzang35bKLeJqwTMei8inYdJ+enxaMMaN1yGU+2iHvGDv9OdR17IVyApUjsdZdAziazZhb9UfWXrUoLN7fPjP9MF2q0uz+zTkqKAeOnICixnS9H56uqdrjcP7GIhZYvdQKcBxXj6KTuZqqtSPoxHFLmCvCualSg3Snx3okM0=
+	t=1732463291; cv=none; b=enSnKHpc0x1a8yL+cEGmXO7AEoY5O4+mFC4vL0rj4BbRj+BKWAAQLN+PS1k3hCVGJdat6bLR0Ylu94ppOtGCC7kEFQtFCJqFgjWrXhp6ZIxUApyAhvqSWs2DLxftCCaw9DTjWI/LniqI9U1NGfSHN5k9On/zt1MZMrBWJ4huLhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732456673; c=relaxed/simple;
-	bh=BFeR1cWFnvSicGeL2bpHwm1RKoo9wNWqA25Kn7GBg54=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fOgaQ8MzOjeo2bR+MC0ghnMd605IRAfmBLoIj2j/HRXAfVXZwZZrWBLwQ08LIb88VvBGYhqXo+BHIWtltH7Nu5tm28pgIJUSIIhR9oU0JOulDiul+Y9HdNCyuYoPOb56PNBqpseicKnxBl7R7Krc/p9PH8XAfLcFxAMGmF5QJL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sh0GrsQ6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732463291; c=relaxed/simple;
+	bh=WoFBI2ToOQXM18m7nwByx6gUqArVMwR9rHho2Ig1tFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ty2HSeAsaUNvEbpu3+Akf0Dur6yfzl2+t5xxv3AMK289UrXjGMe4H74ZHfupNZ0v0k7YlQb1ndO9mceaJ3p6GVaqQkSMMgMcG6mQX27C/2HYP3dFcA31qi6vIOaPVO/KbN0Uqo1FyExg6n9BoBH5oMJjUw9JsuhPgA2TuexdTjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YUuHn+6F; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sh0GrsQ6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5135AC4CECC;
-	Sun, 24 Nov 2024 13:57:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732456672;
-	bh=BFeR1cWFnvSicGeL2bpHwm1RKoo9wNWqA25Kn7GBg54=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sh0GrsQ6VuHiIzidpDYecrR6DCtJWDOYSamCTB+114U2WdUBLgE2EKFi0uD7okLmT
-	 gu5c/N8+tUreWGky4cOXmXw+B3homMu3tajxGfcBB29wIgbShNZvxDJIh9o7OdXeIJ
-	 eSnw7usRO63vPvJtXLUu3oZMYg7gBkWHbICSKvABiI/GIVXr2AxjA4ADSrSJl8T8I1
-	 SytvNmpVUaSiuCK8Hl3OwElL+uIVak0CdLutaE0p6cuZOq3+S7ulJzrgP+Q+g7erlm
-	 lOlM5Ic5iJJFeCk9V41rp1pIz5M8IrJzxETANUTQkvdTZtMTft1Xo0TlGx3ULxRouP
-	 vPazgzz2Kk8yg==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jonas Karlman <jonas@kwiboo.se>,
-	Christian Hewitt <christianshewitt@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jbrunet@baylibre.com,
-	herve.codina@bootlin.com,
-	krzysztof.kozlowski@linaro.org,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YUuHn+6F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=sbtF
+	E1waGuD11+ugS/3CU0fMlhVVs+uUSBlR7CO+Y9Y=; b=YUuHn+6FJxzuYhkGX7Cs
+	L/cD1wsmQ2paL0oTh6Z44pbyxRq4nEpdQYSDxTIg8Z8Uphl8IdYNxM6ZIuCP7i+4
+	nyengqxooHb4SsLliz6XxwTLXflhNGg7oixGIzXP7WtwsDfGxD4Z/i/IwF+hCB/a
+	QqvxhPoPnIpEPKXJqVW+gaRk3iJEtqnDjlp9By94+i9DN22ULhreWZ84ifi3a6HW
+	vo4GQwOmvhSAZytcGyL14o4gOozpbam+sTp+WdSluLL3/1j+G9jXAqwY5yC1a326
+	trMMjj8xDkc7ihwWUUW2eXqsE9IhF8HMzwSmIMGkOMf+hdqLgiHz8Qw3MCTbXL6R
+	2Q==
+Received: (qmail 2191022 invoked from network); 24 Nov 2024 16:48:07 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Nov 2024 16:48:07 +0100
+X-UD-Smtp-Session: l3s3148p1@B7jNiqon9uhehhYY
+Date: Sun, 24 Nov 2024 16:48:06 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 19/21] ASoC: hdmi-codec: reorder channel allocation list
-Date: Sun, 24 Nov 2024 08:56:52 -0500
-Message-ID: <20241124135709.3351371-19-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124135709.3351371-1-sashal@kernel.org>
-References: <20241124135709.3351371-1-sashal@kernel.org>
+Subject: Re: [PATCH v3 0/4] i2c: Replace lists of special clients with
+ flagging of such clients
+Message-ID: <Z0NKtrqtJA-vo17k@ninjato>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	linux-sound@vger.kernel.org
+References: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 4.19.324
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lqMR+TZvDAePcz1I"
+Content-Disposition: inline
+In-Reply-To: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
 
-From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit 82ff5abc2edcfba0c0f1a1be807795e2876f46e9 ]
+--lqMR+TZvDAePcz1I
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The ordering in hdmi_codec_get_ch_alloc_table_idx() results in
-wrong channel allocation for a number of cases, e.g. when ELD
-reports FL|FR|LFE|FC|RL|RR or FL|FR|LFE|FC|RL|RR|RC|RLC|RRC:
+Hi Heiner,
 
-ca_id 0x01 with speaker mask FL|FR|LFE is selected instead of
-ca_id 0x03 with speaker mask FL|FR|LFE|FC for 4 channels
+On Fri, Nov 01, 2024 at 11:05:53PM +0100, Heiner Kallweit wrote:
 
-and
+> So far lists are used to track special clients, i.e. auto-detected and
+> userspace-created clients. The same functionality can be achieved much
+> simpler by flagging such clients.
 
-ca_id 0x04 with speaker mask FL|FR|RC gets selected instead of
-ca_id 0x0b with speaker mask FL|FR|LFE|FC|RL|RR for 6 channels
+Sorry for not having the time to review it in time for 6.13. As we found
+with the last version, this really needs in-depth thinking. We will try
+again for 6.14.
 
-Fix this by reordering the channel allocation list with most
-specific speaker masks at the top.
+Thanks and happy hacking,
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-Link: https://patch.msgid.link/20241115044344.3510979-1-christianshewitt@gmail.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/codecs/hdmi-codec.c | 140 +++++++++++++++++++---------------
- 1 file changed, 77 insertions(+), 63 deletions(-)
+   Wolfram
 
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 7994e8ddc7d21..e7f483611513f 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -196,84 +196,97 @@ static const struct snd_pcm_chmap_elem hdmi_codec_8ch_chmaps[] = {
- /*
-  * hdmi_codec_channel_alloc: speaker configuration available for CEA
-  *
-- * This is an ordered list that must match with hdmi_codec_8ch_chmaps struct
-+ * This is an ordered list where ca_id must exist in hdmi_codec_8ch_chmaps
-  * The preceding ones have better chances to be selected by
-  * hdmi_codec_get_ch_alloc_table_idx().
-  */
- static const struct hdmi_codec_cea_spk_alloc hdmi_codec_channel_alloc[] = {
- 	{ .ca_id = 0x00, .n_ch = 2,
--	  .mask = FL | FR},
--	/* 2.1 */
--	{ .ca_id = 0x01, .n_ch = 4,
--	  .mask = FL | FR | LFE},
--	/* Dolby Surround */
-+	  .mask = FL | FR },
-+	{ .ca_id = 0x03, .n_ch = 4,
-+	  .mask = FL | FR | LFE | FC },
- 	{ .ca_id = 0x02, .n_ch = 4,
- 	  .mask = FL | FR | FC },
--	/* surround51 */
-+	{ .ca_id = 0x01, .n_ch = 4,
-+	  .mask = FL | FR | LFE },
- 	{ .ca_id = 0x0b, .n_ch = 6,
--	  .mask = FL | FR | LFE | FC | RL | RR},
--	/* surround40 */
--	{ .ca_id = 0x08, .n_ch = 6,
--	  .mask = FL | FR | RL | RR },
--	/* surround41 */
--	{ .ca_id = 0x09, .n_ch = 6,
--	  .mask = FL | FR | LFE | RL | RR },
--	/* surround50 */
-+	  .mask = FL | FR | LFE | FC | RL | RR },
- 	{ .ca_id = 0x0a, .n_ch = 6,
- 	  .mask = FL | FR | FC | RL | RR },
--	/* 6.1 */
--	{ .ca_id = 0x0f, .n_ch = 8,
--	  .mask = FL | FR | LFE | FC | RL | RR | RC },
--	/* surround71 */
-+	{ .ca_id = 0x09, .n_ch = 6,
-+	  .mask = FL | FR | LFE | RL | RR },
-+	{ .ca_id = 0x08, .n_ch = 6,
-+	  .mask = FL | FR | RL | RR },
-+	{ .ca_id = 0x07, .n_ch = 6,
-+	  .mask = FL | FR | LFE | FC | RC },
-+	{ .ca_id = 0x06, .n_ch = 6,
-+	  .mask = FL | FR | FC | RC },
-+	{ .ca_id = 0x05, .n_ch = 6,
-+	  .mask = FL | FR | LFE | RC },
-+	{ .ca_id = 0x04, .n_ch = 6,
-+	  .mask = FL | FR | RC },
- 	{ .ca_id = 0x13, .n_ch = 8,
- 	  .mask = FL | FR | LFE | FC | RL | RR | RLC | RRC },
--	/* others */
--	{ .ca_id = 0x03, .n_ch = 8,
--	  .mask = FL | FR | LFE | FC },
--	{ .ca_id = 0x04, .n_ch = 8,
--	  .mask = FL | FR | RC},
--	{ .ca_id = 0x05, .n_ch = 8,
--	  .mask = FL | FR | LFE | RC },
--	{ .ca_id = 0x06, .n_ch = 8,
--	  .mask = FL | FR | FC | RC },
--	{ .ca_id = 0x07, .n_ch = 8,
--	  .mask = FL | FR | LFE | FC | RC },
--	{ .ca_id = 0x0c, .n_ch = 8,
--	  .mask = FL | FR | RC | RL | RR },
--	{ .ca_id = 0x0d, .n_ch = 8,
--	  .mask = FL | FR | LFE | RL | RR | RC },
--	{ .ca_id = 0x0e, .n_ch = 8,
--	  .mask = FL | FR | FC | RL | RR | RC },
--	{ .ca_id = 0x10, .n_ch = 8,
--	  .mask = FL | FR | RL | RR | RLC | RRC },
--	{ .ca_id = 0x11, .n_ch = 8,
--	  .mask = FL | FR | LFE | RL | RR | RLC | RRC },
-+	{ .ca_id = 0x1f, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC | RL | RR | FLC | FRC },
- 	{ .ca_id = 0x12, .n_ch = 8,
- 	  .mask = FL | FR | FC | RL | RR | RLC | RRC },
--	{ .ca_id = 0x14, .n_ch = 8,
--	  .mask = FL | FR | FLC | FRC },
--	{ .ca_id = 0x15, .n_ch = 8,
--	  .mask = FL | FR | LFE | FLC | FRC },
--	{ .ca_id = 0x16, .n_ch = 8,
--	  .mask = FL | FR | FC | FLC | FRC },
--	{ .ca_id = 0x17, .n_ch = 8,
--	  .mask = FL | FR | LFE | FC | FLC | FRC },
--	{ .ca_id = 0x18, .n_ch = 8,
--	  .mask = FL | FR | RC | FLC | FRC },
--	{ .ca_id = 0x19, .n_ch = 8,
--	  .mask = FL | FR | LFE | RC | FLC | FRC },
--	{ .ca_id = 0x1a, .n_ch = 8,
--	  .mask = FL | FR | RC | FC | FLC | FRC },
--	{ .ca_id = 0x1b, .n_ch = 8,
--	  .mask = FL | FR | LFE | RC | FC | FLC | FRC },
--	{ .ca_id = 0x1c, .n_ch = 8,
--	  .mask = FL | FR | RL | RR | FLC | FRC },
--	{ .ca_id = 0x1d, .n_ch = 8,
--	  .mask = FL | FR | LFE | RL | RR | FLC | FRC },
- 	{ .ca_id = 0x1e, .n_ch = 8,
- 	  .mask = FL | FR | FC | RL | RR | FLC | FRC },
--	{ .ca_id = 0x1f, .n_ch = 8,
--	  .mask = FL | FR | LFE | FC | RL | RR | FLC | FRC },
-+	{ .ca_id = 0x11, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RL | RR | RLC | RRC },
-+	{ .ca_id = 0x1d, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RL | RR | FLC | FRC },
-+	{ .ca_id = 0x10, .n_ch = 8,
-+	  .mask = FL | FR | RL | RR | RLC | RRC },
-+	{ .ca_id = 0x1c, .n_ch = 8,
-+	  .mask = FL | FR | RL | RR | FLC | FRC },
-+	{ .ca_id = 0x0f, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC | RL | RR | RC },
-+	{ .ca_id = 0x1b, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RC | FC | FLC | FRC },
-+	{ .ca_id = 0x0e, .n_ch = 8,
-+	  .mask = FL | FR | FC | RL | RR | RC },
-+	{ .ca_id = 0x1a, .n_ch = 8,
-+	  .mask = FL | FR | RC | FC | FLC | FRC },
-+	{ .ca_id = 0x0d, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RL | RR | RC },
-+	{ .ca_id = 0x19, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RC | FLC | FRC },
-+	{ .ca_id = 0x0c, .n_ch = 8,
-+	  .mask = FL | FR | RC | RL | RR },
-+	{ .ca_id = 0x18, .n_ch = 8,
-+	  .mask = FL | FR | RC | FLC | FRC },
-+	{ .ca_id = 0x17, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC | FLC | FRC },
-+	{ .ca_id = 0x16, .n_ch = 8,
-+	  .mask = FL | FR | FC | FLC | FRC },
-+	{ .ca_id = 0x15, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FLC | FRC },
-+	{ .ca_id = 0x14, .n_ch = 8,
-+	  .mask = FL | FR | FLC | FRC },
-+	{ .ca_id = 0x0b, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC | RL | RR },
-+	{ .ca_id = 0x0a, .n_ch = 8,
-+	  .mask = FL | FR | FC | RL | RR },
-+	{ .ca_id = 0x09, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RL | RR },
-+	{ .ca_id = 0x08, .n_ch = 8,
-+	  .mask = FL | FR | RL | RR },
-+	{ .ca_id = 0x07, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC | RC },
-+	{ .ca_id = 0x06, .n_ch = 8,
-+	  .mask = FL | FR | FC | RC },
-+	{ .ca_id = 0x05, .n_ch = 8,
-+	  .mask = FL | FR | LFE | RC },
-+	{ .ca_id = 0x04, .n_ch = 8,
-+	  .mask = FL | FR | RC },
-+	{ .ca_id = 0x03, .n_ch = 8,
-+	  .mask = FL | FR | LFE | FC },
-+	{ .ca_id = 0x02, .n_ch = 8,
-+	  .mask = FL | FR | FC },
-+	{ .ca_id = 0x01, .n_ch = 8,
-+	  .mask = FL | FR | LFE },
- };
- 
- struct hdmi_codec_priv {
-@@ -380,7 +393,8 @@ static int hdmi_codec_chmap_ctl_get(struct snd_kcontrol *kcontrol,
- 	struct snd_pcm_chmap *info = snd_kcontrol_chip(kcontrol);
- 	struct hdmi_codec_priv *hcp = info->private_data;
- 
--	map = info->chmap[hcp->chmap_idx].map;
-+	if (hcp->chmap_idx != HDMI_CODEC_CHMAP_IDX_UNKNOWN)
-+		map = info->chmap[hcp->chmap_idx].map;
- 
- 	for (i = 0; i < info->max_channels; i++) {
- 		if (hcp->chmap_idx == HDMI_CODEC_CHMAP_IDX_UNKNOWN)
--- 
-2.43.0
 
+--lqMR+TZvDAePcz1I
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdDSrYACgkQFA3kzBSg
+KbZ4xw//ZJZSf3S+3WClB8PBHVZjPh0Gio4kYGJHKtPJ9JzOOcXu3BlpxfPvbIUQ
+QY+olR1EqAtHGYqv8Xg4fcgVRsSUwyWpJNuP9x0dc3H4tvFcDW5nktV7WCz8k7BI
+3X9+cSWlKS7b+TxP5YwCZjCbi2qdqoKqgQZhWBGUWtrVckIak6CTM7De/szLY50T
+zTjWqjOyiJRYxf0SV1ae1VFrv7Njm5QMkuuGhJtG/zTPS7Q0NQd2rmJycJ3/UVxo
+oVNEh0p9m2+RYt1o5Av00khkd/p+XaAjI/cREPJZRaRc3uS1GP4VZdWKk/EBa1Bi
+Gy6NwLVBIN4QxhNHKU9lBzEvEwJyZZ8H9AaBcSim2KA1UpKdM5phX8OPuT0RApDi
+3Bo28HyrplLWl0jpP6UqdmkKjvwfkOZMFE57hIa7EZaWfk/o1QzDdxWrSZ6S/nmX
+GZhK06CfhG8PCw4VeAjOkJwbMLzBPCSiwtahTLvz1qmUiKv74qOyUBExOWS8//gR
+Lwzn8sPme3kKgAm2JfLTQOaqNid7L+VkYaGBDmRGyxuNIbXK5vm3A/G6J6q37Gbx
+zURY0rLvB/hGuf1V4y6WMwiAi1YljQ+hfskh/MtmLHccoasw3fuwUV4YpXpTw1wI
+NsD16moUNTN2rZ3uwRqh8FE5oMoDpNr4EcUluG21PVG8d1Vf3+A=
+=qotN
+-----END PGP SIGNATURE-----
+
+--lqMR+TZvDAePcz1I--
