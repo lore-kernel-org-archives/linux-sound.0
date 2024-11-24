@@ -1,102 +1,297 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosgizsys.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FB42500D3
-	for <linux-sound@vger.kernel.org>; Sun, 24 Nov 2024 15:48:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06B538DDB;
+	Sun, 24 Nov 2024 20:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732463291; cv=none; b=enSnKHpc0x1a8yL+cEGmXO7AEoY5O4+mFC4vL0rj4BbRj+BKWAAQLN+PS1k3hCVGJdat6bLR0Ylu94ppOtGCC7kEFQtFCJqFgjWrXhp6ZIxUApyAhvqSWs2DLxftCCaw9DTjWI/LniqI9U1NGfSHN5k9On/zt1MZMrBWJ4huLhE=
+	t=1732480435; cv=none; b=UErNh3c/JfwjekKldjUb4xlv0JqsxFTgfE7ijLCpzzAb5JdMdlVEWTpJwEjksD8IA0iBRAII3aIjU43XE2PW+1zpcr0rLt27LZ7GFr2qf7o4ExCxbYNSVDQaDWQgsN/Xy3l/24CzFN9UqI6EJ3MjonNDD0PBtrFQbFrshoPjOZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732463291; c=relaxed/simple;
-	bh=WoFBI2ToOQXM18m7nwByx6gUqArVMwR9rHho2Ig1tFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ty2HSeAsaUNvEbpu3+Akf0Dur6yfzl2+t5xxv3AMK289UrXjGMe4H74ZHfupNZ0v0k7YlQb1ndO9mceaJ3p6GVaqQkSMMgMcG6mQX27C/2HYP3dFcA31qi6vIOaPVO/KbN0Uqo1FyExg6n9BoBH5oMJjUw9JsuhPgA2TuexdTjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YUuHn+6F; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YUuHn+6F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=sbtF
-	E1waGuD11+ugS/3CU0fMlhVVs+uUSBlR7CO+Y9Y=; b=YUuHn+6FJxzuYhkGX7Cs
-	L/cD1wsmQ2paL0oTh6Z44pbyxRq4nEpdQYSDxTIg8Z8Uphl8IdYNxM6ZIuCP7i+4
-	nyengqxooHb4SsLliz6XxwTLXflhNGg7oixGIzXP7WtwsDfGxD4Z/i/IwF+hCB/a
-	QqvxhPoPnIpEPKXJqVW+gaRk3iJEtqnDjlp9By94+i9DN22ULhreWZ84ifi3a6HW
-	vo4GQwOmvhSAZytcGyL14o4gOozpbam+sTp+WdSluLL3/1j+G9jXAqwY5yC1a326
-	trMMjj8xDkc7ihwWUUW2eXqsE9IhF8HMzwSmIMGkOMf+hdqLgiHz8Qw3MCTbXL6R
-	2Q==
-Received: (qmail 2191022 invoked from network); 24 Nov 2024 16:48:07 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 24 Nov 2024 16:48:07 +0100
-X-UD-Smtp-Session: l3s3148p1@B7jNiqon9uhehhYY
-Date: Sun, 24 Nov 2024 16:48:06 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>
-Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	s=arc-20240116; t=1732480435; c=relaxed/simple;
+	bh=XeMBTLgjU3ggDbdTqqDt7m6PRmLjUNm9VnwdTGLe31s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mVaspvty36NpVpSUnqacJgaSa+hoAj8/YBUtNvb0afOqbK5pfokrqo1gQjOgznntMBL9+IGAYbSDX25duuLd+I/ZWKVZA6OFjL2T2Lp+Qm+SToy5/9AnqA4zIMV0xFJIPxwwPB+6jNRIzFLfihNmunMA+tZBGhsqeiD3mp97+xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from terrys-Precision-M4600.hsd1.wa.comcast.net (c-73-190-111-195.hsd1.wa.comcast.net [73.190.111.195])
+	by host11.cruzio.com (Postfix) with ESMTPSA id 5579F24246F4;
+	Sun, 24 Nov 2024 12:33:52 -0800 (PST)
+From: Terry Junge <linuxhid@cosmicgizmosystems.com>
+To: Jiri Kosina <jikos@kernel.org>,
 	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+	Wade Wang <wade.wang@hp.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>
+Cc: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+	linux-input@vger.kernel.org,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] i2c: Replace lists of special clients with
- flagging of such clients
-Message-ID: <Z0NKtrqtJA-vo17k@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-References: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
+Subject: [PATCH 1/2] HID: hid-plantronics: Add mic mute mapping and generalize quirks
+Date: Sun, 24 Nov 2024 12:32:40 -0800
+Message-ID: <20241124203252.28701-2-linuxhid@cosmicgizmosystems.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241124203252.28701-1-linuxhid@cosmicgizmosystems.com>
+References: <20241124203252.28701-1-linuxhid@cosmicgizmosystems.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lqMR+TZvDAePcz1I"
-Content-Disposition: inline
-In-Reply-To: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Added mapping for headset mute key events.
 
---lqMR+TZvDAePcz1I
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Removed PLT_QUIRK_DOUBLE_VOLUME_KEYS quirk and made it generic.
+The quirk logic did not keep track of the actual previous key
+so any key event occurring in less than or equal to 5ms was ignored.
 
-Hi Heiner,
+Removed PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS quirk.
+It had the same logic issue as the double key quirk and was actually
+masking the as designed behavior of most of the headsets.
+It's occurrence should be minimized with the ALSA control naming
+quirk that is part of the patch set.
 
-On Fri, Nov 01, 2024 at 11:05:53PM +0100, Heiner Kallweit wrote:
+Signed-off-by: Terry Junge <linuxhid@cosmicgizmosystems.com>
+---
+ drivers/hid/hid-plantronics.c | 135 ++++++++++++++++------------------
+ 1 file changed, 65 insertions(+), 70 deletions(-)
 
-> So far lists are used to track special clients, i.e. auto-detected and
-> userspace-created clients. The same functionality can be achieved much
-> simpler by flagging such clients.
+diff --git a/drivers/hid/hid-plantronics.c b/drivers/hid/hid-plantronics.c
+index 25cfd964dc25..06f9f3eef61c 100644
+--- a/drivers/hid/hid-plantronics.c
++++ b/drivers/hid/hid-plantronics.c
+@@ -23,30 +23,34 @@
+ 
+ #define PLT_VOL_UP		0x00b1
+ #define PLT_VOL_DOWN		0x00b2
++#define PLT_MIC_MUTE		0x00b5
+ 
+ #define PLT1_VOL_UP		(PLT_HID_1_0_PAGE | PLT_VOL_UP)
+ #define PLT1_VOL_DOWN		(PLT_HID_1_0_PAGE | PLT_VOL_DOWN)
++#define PLT1_MIC_MUTE		(PLT_HID_1_0_PAGE | PLT_MIC_MUTE)
+ #define PLT2_VOL_UP		(PLT_HID_2_0_PAGE | PLT_VOL_UP)
+ #define PLT2_VOL_DOWN		(PLT_HID_2_0_PAGE | PLT_VOL_DOWN)
++#define PLT2_MIC_MUTE		(PLT_HID_2_0_PAGE | PLT_MIC_MUTE)
++#define HID_TELEPHONY_MUTE	(HID_UP_TELEPHONY | 0x2f)
++#define HID_CONSUMER_MUTE	(HID_UP_CONSUMER | 0xe2)
+ 
+ #define PLT_DA60		0xda60
+ #define PLT_BT300_MIN		0x0413
+ #define PLT_BT300_MAX		0x0418
+ 
+-
+ #define PLT_ALLOW_CONSUMER (field->application == HID_CP_CONSUMERCONTROL && \
+-			    (usage->hid & HID_USAGE_PAGE) == HID_UP_CONSUMER)
++			   (usage->hid & HID_USAGE_PAGE) == HID_UP_CONSUMER && \
++			   usage->hid != HID_CONSUMER_MUTE)
+ 
+-#define PLT_QUIRK_DOUBLE_VOLUME_KEYS BIT(0)
+-#define PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS BIT(1)
++#define PLT_ALLOW_MUTE (usage->hid == HID_TELEPHONY_MUTE)
+ 
+ #define PLT_DOUBLE_KEY_TIMEOUT 5 /* ms */
+-#define PLT_FOLLOWED_OPPOSITE_KEY_TIMEOUT 220 /* ms */
+ 
+ struct plt_drv_data {
+ 	unsigned long device_type;
+-	unsigned long last_volume_key_ts;
+-	u32 quirks;
++	unsigned long last_key_ts;
++	unsigned long double_key_to;
++	__u16 last_key;
+ };
+ 
+ static int plantronics_input_mapping(struct hid_device *hdev,
+@@ -63,29 +67,34 @@ static int plantronics_input_mapping(struct hid_device *hdev,
+ 	if (field->application == HID_GD_JOYSTICK)
+ 		goto defaulted;
+ 
+-	/* handle volume up/down mapping */
+ 	/* non-standard types or multi-HID interfaces - plt_type is PID */
+ 	if (!(plt_type & HID_USAGE_PAGE)) {
+ 		switch (plt_type) {
+ 		case PLT_DA60:
+ 			if (PLT_ALLOW_CONSUMER)
+ 				goto defaulted;
+-			goto ignored;
++			if (usage->hid == HID_CONSUMER_MUTE) {
++				mapped_key = KEY_MICMUTE;
++				goto mapped;
++			}
++			break;
+ 		default:
+-			if (PLT_ALLOW_CONSUMER)
++			if (PLT_ALLOW_CONSUMER || PLT_ALLOW_MUTE)
+ 				goto defaulted;
+ 		}
++		goto ignored;
+ 	}
+-	/* handle standard types - plt_type is 0xffa0uuuu or 0xffa2uuuu */
+-	/* 'basic telephony compliant' - allow default consumer page map */
+-	else if ((plt_type & HID_USAGE) >= PLT_BASIC_TELEPHONY &&
+-		 (plt_type & HID_USAGE) != PLT_BASIC_EXCEPTION) {
+-		if (PLT_ALLOW_CONSUMER)
+-			goto defaulted;
+-	}
+-	/* not 'basic telephony' - apply legacy mapping */
+-	/* only map if the field is in the device's primary vendor page */
+-	else if (!((field->application ^ plt_type) & HID_USAGE_PAGE)) {
++
++	/* handle standard consumer control mapping */
++	/* and standard telephony mic mute mapping */
++	if (PLT_ALLOW_CONSUMER || PLT_ALLOW_MUTE)
++		goto defaulted;
++
++	/* handle vendor unique types - plt_type is 0xffa0uuuu or 0xffa2uuuu */
++	/* if not 'basic telephony compliant' - map vendor unique controls */
++	if (!((plt_type & HID_USAGE) >= PLT_BASIC_TELEPHONY &&
++	      (plt_type & HID_USAGE) != PLT_BASIC_EXCEPTION) &&
++	      !((field->application ^ plt_type) & HID_USAGE_PAGE))
+ 		switch (usage->hid) {
+ 		case PLT1_VOL_UP:
+ 		case PLT2_VOL_UP:
+@@ -95,8 +104,11 @@ static int plantronics_input_mapping(struct hid_device *hdev,
+ 		case PLT2_VOL_DOWN:
+ 			mapped_key = KEY_VOLUMEDOWN;
+ 			goto mapped;
++		case PLT1_MIC_MUTE:
++		case PLT2_MIC_MUTE:
++			mapped_key = KEY_MICMUTE;
++			goto mapped;
+ 		}
+-	}
+ 
+ /*
+  * Future mapping of call control or other usages,
+@@ -105,6 +117,8 @@ static int plantronics_input_mapping(struct hid_device *hdev,
+  */
+ 
+ ignored:
++	hid_dbg(hdev, "usage: %08x (appl: %08x) - ignored\n",
++		usage->hid, field->application);
+ 	return -1;
+ 
+ defaulted:
+@@ -123,38 +137,26 @@ static int plantronics_event(struct hid_device *hdev, struct hid_field *field,
+ 			     struct hid_usage *usage, __s32 value)
+ {
+ 	struct plt_drv_data *drv_data = hid_get_drvdata(hdev);
++	unsigned long prev_tsto, cur_ts;
++	__u16 prev_key, cur_key;
+ 
+-	if (drv_data->quirks & PLT_QUIRK_DOUBLE_VOLUME_KEYS) {
+-		unsigned long prev_ts, cur_ts;
+-
+-		/* Usages are filtered in plantronics_usages. */
++	/* Usages are filtered in plantronics_usages. */
+ 
+-		if (!value) /* Handle key presses only. */
+-			return 0;
++	/* HZ too low for ms resolution - double key detection disabled */
++	/* or it is a key release - handle key presses only. */
++	if (!drv_data->double_key_to || !value)
++		return 0;
+ 
+-		prev_ts = drv_data->last_volume_key_ts;
+-		cur_ts = jiffies;
+-		if (jiffies_to_msecs(cur_ts - prev_ts) <= PLT_DOUBLE_KEY_TIMEOUT)
+-			return 1; /* Ignore the repeated key. */
++	prev_tsto = drv_data->last_key_ts + drv_data->double_key_to;
++	cur_ts = drv_data->last_key_ts = jiffies;
++	prev_key = drv_data->last_key;
++	cur_key = drv_data->last_key = usage->code;
+ 
+-		drv_data->last_volume_key_ts = cur_ts;
++	/* If the same key occurs in <= double_key_to -- ignore it */
++	if (prev_key == cur_key && time_before_eq(cur_ts, prev_tsto)) {
++		hid_dbg(hdev, "double key %d ignored\n", cur_key);
++		return 1; /* Ignore the repeated key. */
+ 	}
+-	if (drv_data->quirks & PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS) {
+-		unsigned long prev_ts, cur_ts;
+-
+-		/* Usages are filtered in plantronics_usages. */
+-
+-		if (!value) /* Handle key presses only. */
+-			return 0;
+-
+-		prev_ts = drv_data->last_volume_key_ts;
+-		cur_ts = jiffies;
+-		if (jiffies_to_msecs(cur_ts - prev_ts) <= PLT_FOLLOWED_OPPOSITE_KEY_TIMEOUT)
+-			return 1; /* Ignore the followed opposite volume key. */
+-
+-		drv_data->last_volume_key_ts = cur_ts;
+-	}
+-
+ 	return 0;
+ }
+ 
+@@ -196,12 +198,16 @@ static int plantronics_probe(struct hid_device *hdev,
+ 	ret = hid_parse(hdev);
+ 	if (ret) {
+ 		hid_err(hdev, "parse failed\n");
+-		goto err;
++		return ret;
+ 	}
+ 
+ 	drv_data->device_type = plantronics_device_type(hdev);
+-	drv_data->quirks = id->driver_data;
+-	drv_data->last_volume_key_ts = jiffies - msecs_to_jiffies(PLT_DOUBLE_KEY_TIMEOUT);
++	drv_data->double_key_to = msecs_to_jiffies(PLT_DOUBLE_KEY_TIMEOUT);
++	drv_data->last_key_ts = jiffies - drv_data->double_key_to;
++
++	/* if HZ does not allow ms resolution - disable double key detection */
++	if (drv_data->double_key_to < PLT_DOUBLE_KEY_TIMEOUT)
++		drv_data->double_key_to = 0;
+ 
+ 	hid_set_drvdata(hdev, drv_data);
+ 
+@@ -210,29 +216,10 @@ static int plantronics_probe(struct hid_device *hdev,
+ 	if (ret)
+ 		hid_err(hdev, "hw start failed\n");
+ 
+-err:
+ 	return ret;
+ }
+ 
+ static const struct hid_device_id plantronics_devices[] = {
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3210_SERIES),
+-		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3220_SERIES),
+-		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3215_SERIES),
+-		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3225_SERIES),
+-		.driver_data = PLT_QUIRK_DOUBLE_VOLUME_KEYS },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_BLACKWIRE_3325_SERIES),
+-		.driver_data = PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS },
+-	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS,
+-					 USB_DEVICE_ID_PLANTRONICS_ENCOREPRO_500_SERIES),
+-		.driver_data = PLT_QUIRK_FOLLOWED_OPPOSITE_VOLUME_KEYS },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_PLANTRONICS, HID_ANY_ID) },
+ 	{ }
+ };
+@@ -241,6 +228,14 @@ MODULE_DEVICE_TABLE(hid, plantronics_devices);
+ static const struct hid_usage_id plantronics_usages[] = {
+ 	{ HID_CP_VOLUMEUP, EV_KEY, HID_ANY_ID },
+ 	{ HID_CP_VOLUMEDOWN, EV_KEY, HID_ANY_ID },
++	{ HID_TELEPHONY_MUTE, EV_KEY, HID_ANY_ID },
++	{ HID_CONSUMER_MUTE, EV_KEY, HID_ANY_ID },
++	{ PLT2_VOL_UP, EV_KEY, HID_ANY_ID },
++	{ PLT2_VOL_DOWN, EV_KEY, HID_ANY_ID },
++	{ PLT2_MIC_MUTE, EV_KEY, HID_ANY_ID },
++	{ PLT1_VOL_UP, EV_KEY, HID_ANY_ID },
++	{ PLT1_VOL_DOWN, EV_KEY, HID_ANY_ID },
++	{ PLT1_MIC_MUTE, EV_KEY, HID_ANY_ID },
+ 	{ HID_TERMINATOR, HID_TERMINATOR, HID_TERMINATOR }
+ };
+ 
+-- 
+2.43.0
 
-Sorry for not having the time to review it in time for 6.13. As we found
-with the last version, this really needs in-depth thinking. We will try
-again for 6.14.
-
-Thanks and happy hacking,
-
-   Wolfram
-
-
---lqMR+TZvDAePcz1I
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmdDSrYACgkQFA3kzBSg
-KbZ4xw//ZJZSf3S+3WClB8PBHVZjPh0Gio4kYGJHKtPJ9JzOOcXu3BlpxfPvbIUQ
-QY+olR1EqAtHGYqv8Xg4fcgVRsSUwyWpJNuP9x0dc3H4tvFcDW5nktV7WCz8k7BI
-3X9+cSWlKS7b+TxP5YwCZjCbi2qdqoKqgQZhWBGUWtrVckIak6CTM7De/szLY50T
-zTjWqjOyiJRYxf0SV1ae1VFrv7Njm5QMkuuGhJtG/zTPS7Q0NQd2rmJycJ3/UVxo
-oVNEh0p9m2+RYt1o5Av00khkd/p+XaAjI/cREPJZRaRc3uS1GP4VZdWKk/EBa1Bi
-Gy6NwLVBIN4QxhNHKU9lBzEvEwJyZZ8H9AaBcSim2KA1UpKdM5phX8OPuT0RApDi
-3Bo28HyrplLWl0jpP6UqdmkKjvwfkOZMFE57hIa7EZaWfk/o1QzDdxWrSZ6S/nmX
-GZhK06CfhG8PCw4VeAjOkJwbMLzBPCSiwtahTLvz1qmUiKv74qOyUBExOWS8//gR
-Lwzn8sPme3kKgAm2JfLTQOaqNid7L+VkYaGBDmRGyxuNIbXK5vm3A/G6J6q37Gbx
-zURY0rLvB/hGuf1V4y6WMwiAi1YljQ+hfskh/MtmLHccoasw3fuwUV4YpXpTw1wI
-NsD16moUNTN2rZ3uwRqh8FE5oMoDpNr4EcUluG21PVG8d1Vf3+A=
-=qotN
------END PGP SIGNATURE-----
-
---lqMR+TZvDAePcz1I--
