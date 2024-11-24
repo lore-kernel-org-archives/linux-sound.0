@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D862389EC;
-	Sun, 24 Nov 2024 13:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29451E3DCD;
+	Sun, 24 Nov 2024 13:53:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732456301; cv=none; b=elIaK8MhLyeeInq8+1KHjQ/VN30mzLcqiNsAYfMhZV0AdHPekKtqjlTEGuRPC4XuVNd9xhw/cge8LIsk8nBNElk+n7FihhlhS4oMhd4za5q2kkkbvJZ0dpFQSWPKimhnCRy97onoVtOKt7jTmdjqSXfMLlbRN9w5v/3ysFNPvW4=
+	t=1732456417; cv=none; b=XFlnk5LEzZdkqMtNsic746pSI2njnrL949fH+KwFhOxsq7OUmuTKX+PWRWXzSW5G/o20+dr8Mf3rFniyOYdtlY3K4uOA37J12UcxQRb1HJ7MAWuhWCZdnIWKRxwB0gctfOhQ2827W2YTQ+888JDWBqg8wysj9N5arw13udAs2oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732456301; c=relaxed/simple;
-	bh=yPqhGbUlevJqu8XkmWxUXCdyXb3OAKGnnz11gM4lZFI=;
+	s=arc-20240116; t=1732456417; c=relaxed/simple;
+	bh=xWTYsdzzTF4J9CtGxZ5oXQDJ+2krL2xGfim8B//VxfY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P26k2NHPwxB9PltulnReoB2zTCd3xBJxBkz5iRJgpr93q60Ezy9S6Vc8yF4Or9BKl2WuuHn4p7E+IhBg3kM0mMDU0aV1r0ar/BBAGwYDUGpP94EXTSwtxDEqGUTITV4eFRTHmkE74MQqB8jEBxFg/6GfETMGjk97EfqJi0+6n28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzfZxCWo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=QElr6zJ/KTYzFwA6+maoLLnmduhcYeIunSUoX7XhMfuG7MTRCkOfU1d48u61Uq+YXlQK1SylWqHYJ830OGFmgx+RM/Qr5cajD4OuX+NGaQh3m+lSxbhkR1w78z6LS3gqeRVNaC9wx6yzk49vQSgTffSnczpSkr+rAKGAYtw/bFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MzpuLabK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzfZxCWo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0E0C4CED1;
-	Sun, 24 Nov 2024 13:51:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MzpuLabK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7395C4CECC;
+	Sun, 24 Nov 2024 13:53:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732456301;
-	bh=yPqhGbUlevJqu8XkmWxUXCdyXb3OAKGnnz11gM4lZFI=;
+	s=k20201202; t=1732456417;
+	bh=xWTYsdzzTF4J9CtGxZ5oXQDJ+2krL2xGfim8B//VxfY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OzfZxCWo1IDe+q2JeNf0zYxL/0mTxraAA9pKbGmWUZbGSelmtByD+UKf18V5Sv7y/
-	 DXjV9T5X3TtrWsqo0duJ7m97LxBJX2qIpf0EQZ1bJACLvzNV3e1Lm20cGQ5hKKdf5h
-	 TpRJIMxccqEX6w3nxmCdn1mKX360RNFGavQm3UoBPiY/GfgPV63geIeqnpruvIZxqq
-	 rsUU+985EyMLyDQA+IVHiNiolsCJqB7VT2aH4+s6JVKGpnw0gkPJRsC9/L+IAh4ZDX
-	 SU0x/ZLE5js5/XymvxiviVrAtZPn/SuIA/R2HIvzkV+55ljLmHXAVuJPkjDj9h1yHx
-	 JsptGVfTtTjqg==
+	b=MzpuLabKzQRL0d6bbG1KAvAfyXZlm0sF0GiFED5EJPEyPi9MGbDOwfWOyi6wtH0ph
+	 7qKTlfK61Bim6FKRcyETjWByFN8aSU0wueWianBD+aTLtMpYy+GIhKBbZr5+Cn8dgu
+	 We3OPzAL6GcAlu31ufTsj1Pc8Uj3GQKDghen+WrTsdUOdF1NUz/wqYv/FVUZvYc1+p
+	 25ZRiz8P76OqkgjMP0IX+lKocJ3LuUyX6HVfYLEmq2vieS5ybcmh6ZuRhX2vfUWjLO
+	 HQj/xbXqPm6DbuF1c81ikFtEQyO44FoBZSvGjcw9uusNTW3n9UaeQVJHW+Uyue7eGx
+	 PtvW8rZvaeE+w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -36,16 +36,16 @@ Cc: Jonas Karlman <jonas@kwiboo.se>,
 	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	herve.codina@bootlin.com,
 	krzysztof.kozlowski@linaro.org,
 	jbrunet@baylibre.com,
+	herve.codina@bootlin.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 45/48] ASoC: hdmi-codec: reorder channel allocation list
-Date: Sun, 24 Nov 2024 08:49:08 -0500
-Message-ID: <20241124134950.3348099-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 33/36] ASoC: hdmi-codec: reorder channel allocation list
+Date: Sun, 24 Nov 2024 08:51:47 -0500
+Message-ID: <20241124135219.3349183-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241124134950.3348099-1-sashal@kernel.org>
-References: <20241124134950.3348099-1-sashal@kernel.org>
+In-Reply-To: <20241124135219.3349183-1-sashal@kernel.org>
+References: <20241124135219.3349183-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
+X-stable-base: Linux 5.15.173
 Content-Transfer-Encoding: 8bit
 
 From: Jonas Karlman <jonas@kwiboo.se>
@@ -86,10 +86,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 77 insertions(+), 63 deletions(-)
 
 diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index d8259afc60b08..cb664d3d02dd0 100644
+index 410fb59807f1b..5e326ae3b57ea 100644
 --- a/sound/soc/codecs/hdmi-codec.c
 +++ b/sound/soc/codecs/hdmi-codec.c
-@@ -184,84 +184,97 @@ static const struct snd_pcm_chmap_elem hdmi_codec_8ch_chmaps[] = {
+@@ -188,84 +188,97 @@ static const struct snd_pcm_chmap_elem hdmi_codec_8ch_chmaps[] = {
  /*
   * hdmi_codec_channel_alloc: speaker configuration available for CEA
   *
@@ -249,7 +249,7 @@ index d8259afc60b08..cb664d3d02dd0 100644
  };
  
  struct hdmi_codec_priv {
-@@ -370,7 +383,8 @@ static int hdmi_codec_chmap_ctl_get(struct snd_kcontrol *kcontrol,
+@@ -374,7 +387,8 @@ static int hdmi_codec_chmap_ctl_get(struct snd_kcontrol *kcontrol,
  	struct snd_pcm_chmap *info = snd_kcontrol_chip(kcontrol);
  	struct hdmi_codec_priv *hcp = info->private_data;
  
