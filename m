@@ -1,51 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F8523792A;
-	Sun, 24 Nov 2024 13:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D862389EC;
+	Sun, 24 Nov 2024 13:51:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732456282; cv=none; b=cp8uxwZgM1cJjQ6L7gHhOEJtKMtEfb6Hc4pf3wjuBuWrPQAFQozgQ3RBT/3rmqJtKMNFGrUsI2A6/4WAryJZY1rBG2qxF/Z+OsREcNYxq+GgXAv2eW4QsyN3pn7q+4jUnU5gH258E5B1LuTdCd3TiLRJqRIuZbo2l87bi4vmIeM=
+	t=1732456301; cv=none; b=elIaK8MhLyeeInq8+1KHjQ/VN30mzLcqiNsAYfMhZV0AdHPekKtqjlTEGuRPC4XuVNd9xhw/cge8LIsk8nBNElk+n7FihhlhS4oMhd4za5q2kkkbvJZ0dpFQSWPKimhnCRy97onoVtOKt7jTmdjqSXfMLlbRN9w5v/3ysFNPvW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732456282; c=relaxed/simple;
-	bh=kQeLv9Iho4ASp2qpEIMgYbbNsnLE8gMbxQSkKsDZR5c=;
+	s=arc-20240116; t=1732456301; c=relaxed/simple;
+	bh=yPqhGbUlevJqu8XkmWxUXCdyXb3OAKGnnz11gM4lZFI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O5Jhffj6TZCfxu81nQ9iwU+Eg+m9/fqPzkj0OhnXTEKYcmvRI6W/kRzOX9nD5c4U2Eb7Cw1nsYCk5jNwLl50dD8v+Bn0jEJqklgvfFh8qrBoKvZeyWUdgfjxhTTfH3u0BH1no4GtwAMaYVPdIygvtmtCY9lFmZ7W1BUITcyekQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qXGj5004; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=P26k2NHPwxB9PltulnReoB2zTCd3xBJxBkz5iRJgpr93q60Ezy9S6Vc8yF4Or9BKl2WuuHn4p7E+IhBg3kM0mMDU0aV1r0ar/BBAGwYDUGpP94EXTSwtxDEqGUTITV4eFRTHmkE74MQqB8jEBxFg/6GfETMGjk97EfqJi0+6n28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzfZxCWo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qXGj5004"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 054B4C4CECC;
-	Sun, 24 Nov 2024 13:51:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzfZxCWo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA0E0C4CED1;
+	Sun, 24 Nov 2024 13:51:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732456281;
-	bh=kQeLv9Iho4ASp2qpEIMgYbbNsnLE8gMbxQSkKsDZR5c=;
+	s=k20201202; t=1732456301;
+	bh=yPqhGbUlevJqu8XkmWxUXCdyXb3OAKGnnz11gM4lZFI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qXGj50049sAhKdv9Z52lPkCHPQFbeO1hVTjZKX/g4wARRRRkUBg/Twp0tVjZIN92k
-	 JIq5/HK96nS0322HXMW+JuKUbUxhztG3TbP3gOpUpqnuy0kK5b0SvFjecCbrHBV0Gw
-	 gyDNZH1aKeYtjVcAKQhroTBiHg7RqxfwnMQpnT8oxi/2fO8BiOaAqi2evqLsBt5UdL
-	 yAYAOOo+WIUOnVRHtfES32tqJyGBKi7TF3OWnBylOZ3IwRL99HIQtPK0mskpWGRuC2
-	 uGhCis4jXO+iobQffAQp4lAd9acH7tQ+25s/cVYhQMkK8N3R+JV4AA6H8OLIiulxRx
-	 YsWABj5RJb+Ug==
+	b=OzfZxCWo1IDe+q2JeNf0zYxL/0mTxraAA9pKbGmWUZbGSelmtByD+UKf18V5Sv7y/
+	 DXjV9T5X3TtrWsqo0duJ7m97LxBJX2qIpf0EQZ1bJACLvzNV3e1Lm20cGQ5hKKdf5h
+	 TpRJIMxccqEX6w3nxmCdn1mKX360RNFGavQm3UoBPiY/GfgPV63geIeqnpruvIZxqq
+	 rsUU+985EyMLyDQA+IVHiNiolsCJqB7VT2aH4+s6JVKGpnw0gkPJRsC9/L+IAh4ZDX
+	 SU0x/ZLE5js5/XymvxiviVrAtZPn/SuIA/R2HIvzkV+55ljLmHXAVuJPkjDj9h1yHx
+	 JsptGVfTtTjqg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+	Christian Hewitt <christianshewitt@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
-	zhujun2@cmss.chinamobile.com,
-	kl@kl.wtf,
-	wangdicheng@kylinos.cn,
-	k.kosik@outlook.com,
-	hulianqin@vivo.com,
-	mbarriolinares@gmail.com,
-	shenlichuan@vivo.com,
-	lalinsky@c4.cz,
-	cyan.vtb@gmail.com,
+	herve.codina@bootlin.com,
+	krzysztof.kozlowski@linaro.org,
+	jbrunet@baylibre.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 38/48] ALSA: usb-audio: Make mic volume workarounds globally applicable
-Date: Sun, 24 Nov 2024 08:49:01 -0500
-Message-ID: <20241124134950.3348099-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 45/48] ASoC: hdmi-codec: reorder channel allocation list
+Date: Sun, 24 Nov 2024 08:49:08 -0500
+Message-ID: <20241124134950.3348099-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241124134950.3348099-1-sashal@kernel.org>
 References: <20241124134950.3348099-1-sashal@kernel.org>
@@ -60,195 +57,208 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.119
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Jonas Karlman <jonas@kwiboo.se>
 
-[ Upstream commit d6e6b9218ced5249b9136833ef5ec3f554ec7fde ]
+[ Upstream commit 82ff5abc2edcfba0c0f1a1be807795e2876f46e9 ]
 
-It seems that many webcams have buggy firmware and don't expose the
-mic capture volume with the proper resolution.  We have workarounds in
-mixer.c, but judging from the numbers, those can be better managed as
-global quirk flags.
+The ordering in hdmi_codec_get_ch_alloc_table_idx() results in
+wrong channel allocation for a number of cases, e.g. when ELD
+reports FL|FR|LFE|FC|RL|RR or FL|FR|LFE|FC|RL|RR|RC|RLC|RRC:
 
-Link: https://patch.msgid.link/20241105120220.5740-2-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+ca_id 0x01 with speaker mask FL|FR|LFE is selected instead of
+ca_id 0x03 with speaker mask FL|FR|LFE|FC for 4 channels
+
+and
+
+ca_id 0x04 with speaker mask FL|FR|RC gets selected instead of
+ca_id 0x0b with speaker mask FL|FR|LFE|FC|RL|RR for 6 channels
+
+Fix this by reordering the channel allocation list with most
+specific speaker masks at the top.
+
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+Link: https://patch.msgid.link/20241115044344.3510979-1-christianshewitt@gmail.com
+Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/mixer.c    | 58 ++++++++++++--------------------------------
- sound/usb/quirks.c   | 31 +++++++++++++++++++----
- sound/usb/usbaudio.h |  4 +++
- 3 files changed, 45 insertions(+), 48 deletions(-)
+ sound/soc/codecs/hdmi-codec.c | 140 +++++++++++++++++++---------------
+ 1 file changed, 77 insertions(+), 63 deletions(-)
 
-diff --git a/sound/usb/mixer.c b/sound/usb/mixer.c
-index 102a9b3ba3bef..4cded91d22a8d 100644
---- a/sound/usb/mixer.c
-+++ b/sound/usb/mixer.c
-@@ -1084,6 +1084,21 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 				  struct snd_kcontrol *kctl)
- {
- 	struct snd_usb_audio *chip = cval->head.mixer->chip;
-+
-+	if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_384) {
-+		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
-+			usb_audio_info(chip,
-+				"set resolution quirk: cval->res = 384\n");
-+			cval->res = 384;
-+		}
-+	} else if (chip->quirk_flags & QUIRK_FLAG_MIC_RES_16) {
-+		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
-+			usb_audio_info(chip,
-+				"set resolution quirk: cval->res = 16\n");
-+			cval->res = 16;
-+		}
-+	}
-+
- 	switch (chip->usb_id) {
- 	case USB_ID(0x0763, 0x2030): /* M-Audio Fast Track C400 */
- 	case USB_ID(0x0763, 0x2031): /* M-Audio Fast Track C600 */
-@@ -1168,27 +1183,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 		}
- 		break;
- 
--	case USB_ID(0x046d, 0x0807): /* Logitech Webcam C500 */
--	case USB_ID(0x046d, 0x0808):
--	case USB_ID(0x046d, 0x0809):
--	case USB_ID(0x046d, 0x0819): /* Logitech Webcam C210 */
--	case USB_ID(0x046d, 0x081b): /* HD Webcam c310 */
--	case USB_ID(0x046d, 0x081d): /* HD Webcam c510 */
--	case USB_ID(0x046d, 0x0825): /* HD Webcam c270 */
--	case USB_ID(0x046d, 0x0826): /* HD Webcam c525 */
--	case USB_ID(0x046d, 0x08ca): /* Logitech Quickcam Fusion */
--	case USB_ID(0x046d, 0x0991):
--	case USB_ID(0x046d, 0x09a2): /* QuickCam Communicate Deluxe/S7500 */
--	/* Most audio usb devices lie about volume resolution.
--	 * Most Logitech webcams have res = 384.
--	 * Probably there is some logitech magic behind this number --fishor
--	 */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 384\n");
--			cval->res = 384;
--		}
--		break;
- 	case USB_ID(0x0495, 0x3042): /* ESS Technology Asus USB DAC */
- 		if ((strstr(kctl->id.name, "Playback Volume") != NULL) ||
- 			strstr(kctl->id.name, "Capture Volume") != NULL) {
-@@ -1197,28 +1191,6 @@ static void volume_control_quirks(struct usb_mixer_elem_info *cval,
- 			cval->res = 1;
- 		}
- 		break;
--	case USB_ID(0x1224, 0x2a25): /* Jieli Technology USB PHY 2.0 */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
--	case USB_ID(0x1bcf, 0x2283): /* NexiGo N930AF FHD Webcam */
--	case USB_ID(0x03f0, 0x654a): /* HP 320 FHD Webcam */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
--	case USB_ID(0x1bcf, 0x2281): /* HD Webcam */
--		if (!strcmp(kctl->id.name, "Mic Capture Volume")) {
--			usb_audio_info(chip,
--				"set resolution quirk: cval->res = 16\n");
--			cval->res = 16;
--		}
--		break;
- 	}
- }
- 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index e96f5361e762f..2d6d0a660269b 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2015,7 +2015,7 @@ struct usb_audio_quirk_flags_table {
- static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	/* Device matches */
- 	DEVICE_FLG(0x03f0, 0x654a, /* HP 320 FHD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x041e, 0x3000, /* Creative SB Extigy */
- 		   QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x041e, 0x4080, /* Creative Live Cam VF0610 */
-@@ -2023,10 +2023,31 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x045e, 0x083c, /* MS USB Link headset */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY |
- 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
-+	DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0809,
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0819, /* Logitech Webcam C210 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x081b, /* HD Webcam c310 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x081d, /* HD Webcam c510 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0825, /* HD Webcam c270 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x0826, /* HD Webcam c525 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x084c, /* Logitech ConferenceCam Connect */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_CTL_MSG_DELAY_1M),
-+	DEVICE_FLG(0x046d, 0x08ca, /* Logitech Quickcam Fusion */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x0991, /* Logitech QuickCam Pro */
--		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR |
-+		   QUIRK_FLAG_MIC_RES_384),
-+	DEVICE_FLG(0x046d, 0x09a2, /* QuickCam Communicate Deluxe/S7500 */
-+		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
-@@ -2094,7 +2115,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x0fd9, 0x0008, /* Hauppauge HVR-950Q */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x1224, 0x2a25, /* Jieli Technology USB PHY 2.0 */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1395, 0x740a, /* Sennheiser DECT */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1397, 0x0507, /* Behringer UMC202HD */
-@@ -2132,9 +2153,9 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 	DEVICE_FLG(0x19f7, 0x0035, /* RODE NT-USB+ */
- 		   QUIRK_FLAG_GET_SAMPLE_RATE),
- 	DEVICE_FLG(0x1bcf, 0x2281, /* HD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x1bcf, 0x2283, /* NexiGo N930AF FHD Webcam */
--		   QUIRK_FLAG_GET_SAMPLE_RATE),
-+		   QUIRK_FLAG_GET_SAMPLE_RATE | QUIRK_FLAG_MIC_RES_16),
- 	DEVICE_FLG(0x2040, 0x7200, /* Hauppauge HVR-950Q */
- 		   QUIRK_FLAG_SHARE_MEDIA_DEVICE | QUIRK_FLAG_ALIGN_TRANSFER),
- 	DEVICE_FLG(0x2040, 0x7201, /* Hauppauge HVR-950Q-MXL */
-diff --git a/sound/usb/usbaudio.h b/sound/usb/usbaudio.h
-index f5a8dca66457f..65dcb1a02e976 100644
---- a/sound/usb/usbaudio.h
-+++ b/sound/usb/usbaudio.h
-@@ -178,6 +178,8 @@ extern bool snd_usb_skip_validation;
-  * QUIRK_FLAG_FIXED_RATE
-  *  Do not set PCM rate (frequency) when only one rate is available
-  *  for the given endpoint.
-+ * QUIRK_FLAG_MIC_RES_16 and QUIRK_FLAG_MIC_RES_384
-+ *  Set the fixed resolution for Mic Capture Volume (mostly for webcams)
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index d8259afc60b08..cb664d3d02dd0 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -184,84 +184,97 @@ static const struct snd_pcm_chmap_elem hdmi_codec_8ch_chmaps[] = {
+ /*
+  * hdmi_codec_channel_alloc: speaker configuration available for CEA
+  *
+- * This is an ordered list that must match with hdmi_codec_8ch_chmaps struct
++ * This is an ordered list where ca_id must exist in hdmi_codec_8ch_chmaps
+  * The preceding ones have better chances to be selected by
+  * hdmi_codec_get_ch_alloc_table_idx().
   */
+ static const struct hdmi_codec_cea_spk_alloc hdmi_codec_channel_alloc[] = {
+ 	{ .ca_id = 0x00, .n_ch = 2,
+-	  .mask = FL | FR},
+-	/* 2.1 */
+-	{ .ca_id = 0x01, .n_ch = 4,
+-	  .mask = FL | FR | LFE},
+-	/* Dolby Surround */
++	  .mask = FL | FR },
++	{ .ca_id = 0x03, .n_ch = 4,
++	  .mask = FL | FR | LFE | FC },
+ 	{ .ca_id = 0x02, .n_ch = 4,
+ 	  .mask = FL | FR | FC },
+-	/* surround51 */
++	{ .ca_id = 0x01, .n_ch = 4,
++	  .mask = FL | FR | LFE },
+ 	{ .ca_id = 0x0b, .n_ch = 6,
+-	  .mask = FL | FR | LFE | FC | RL | RR},
+-	/* surround40 */
+-	{ .ca_id = 0x08, .n_ch = 6,
+-	  .mask = FL | FR | RL | RR },
+-	/* surround41 */
+-	{ .ca_id = 0x09, .n_ch = 6,
+-	  .mask = FL | FR | LFE | RL | RR },
+-	/* surround50 */
++	  .mask = FL | FR | LFE | FC | RL | RR },
+ 	{ .ca_id = 0x0a, .n_ch = 6,
+ 	  .mask = FL | FR | FC | RL | RR },
+-	/* 6.1 */
+-	{ .ca_id = 0x0f, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FC | RL | RR | RC },
+-	/* surround71 */
++	{ .ca_id = 0x09, .n_ch = 6,
++	  .mask = FL | FR | LFE | RL | RR },
++	{ .ca_id = 0x08, .n_ch = 6,
++	  .mask = FL | FR | RL | RR },
++	{ .ca_id = 0x07, .n_ch = 6,
++	  .mask = FL | FR | LFE | FC | RC },
++	{ .ca_id = 0x06, .n_ch = 6,
++	  .mask = FL | FR | FC | RC },
++	{ .ca_id = 0x05, .n_ch = 6,
++	  .mask = FL | FR | LFE | RC },
++	{ .ca_id = 0x04, .n_ch = 6,
++	  .mask = FL | FR | RC },
+ 	{ .ca_id = 0x13, .n_ch = 8,
+ 	  .mask = FL | FR | LFE | FC | RL | RR | RLC | RRC },
+-	/* others */
+-	{ .ca_id = 0x03, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FC },
+-	{ .ca_id = 0x04, .n_ch = 8,
+-	  .mask = FL | FR | RC},
+-	{ .ca_id = 0x05, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RC },
+-	{ .ca_id = 0x06, .n_ch = 8,
+-	  .mask = FL | FR | FC | RC },
+-	{ .ca_id = 0x07, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FC | RC },
+-	{ .ca_id = 0x0c, .n_ch = 8,
+-	  .mask = FL | FR | RC | RL | RR },
+-	{ .ca_id = 0x0d, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RL | RR | RC },
+-	{ .ca_id = 0x0e, .n_ch = 8,
+-	  .mask = FL | FR | FC | RL | RR | RC },
+-	{ .ca_id = 0x10, .n_ch = 8,
+-	  .mask = FL | FR | RL | RR | RLC | RRC },
+-	{ .ca_id = 0x11, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RL | RR | RLC | RRC },
++	{ .ca_id = 0x1f, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC | RL | RR | FLC | FRC },
+ 	{ .ca_id = 0x12, .n_ch = 8,
+ 	  .mask = FL | FR | FC | RL | RR | RLC | RRC },
+-	{ .ca_id = 0x14, .n_ch = 8,
+-	  .mask = FL | FR | FLC | FRC },
+-	{ .ca_id = 0x15, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FLC | FRC },
+-	{ .ca_id = 0x16, .n_ch = 8,
+-	  .mask = FL | FR | FC | FLC | FRC },
+-	{ .ca_id = 0x17, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FC | FLC | FRC },
+-	{ .ca_id = 0x18, .n_ch = 8,
+-	  .mask = FL | FR | RC | FLC | FRC },
+-	{ .ca_id = 0x19, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RC | FLC | FRC },
+-	{ .ca_id = 0x1a, .n_ch = 8,
+-	  .mask = FL | FR | RC | FC | FLC | FRC },
+-	{ .ca_id = 0x1b, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RC | FC | FLC | FRC },
+-	{ .ca_id = 0x1c, .n_ch = 8,
+-	  .mask = FL | FR | RL | RR | FLC | FRC },
+-	{ .ca_id = 0x1d, .n_ch = 8,
+-	  .mask = FL | FR | LFE | RL | RR | FLC | FRC },
+ 	{ .ca_id = 0x1e, .n_ch = 8,
+ 	  .mask = FL | FR | FC | RL | RR | FLC | FRC },
+-	{ .ca_id = 0x1f, .n_ch = 8,
+-	  .mask = FL | FR | LFE | FC | RL | RR | FLC | FRC },
++	{ .ca_id = 0x11, .n_ch = 8,
++	  .mask = FL | FR | LFE | RL | RR | RLC | RRC },
++	{ .ca_id = 0x1d, .n_ch = 8,
++	  .mask = FL | FR | LFE | RL | RR | FLC | FRC },
++	{ .ca_id = 0x10, .n_ch = 8,
++	  .mask = FL | FR | RL | RR | RLC | RRC },
++	{ .ca_id = 0x1c, .n_ch = 8,
++	  .mask = FL | FR | RL | RR | FLC | FRC },
++	{ .ca_id = 0x0f, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC | RL | RR | RC },
++	{ .ca_id = 0x1b, .n_ch = 8,
++	  .mask = FL | FR | LFE | RC | FC | FLC | FRC },
++	{ .ca_id = 0x0e, .n_ch = 8,
++	  .mask = FL | FR | FC | RL | RR | RC },
++	{ .ca_id = 0x1a, .n_ch = 8,
++	  .mask = FL | FR | RC | FC | FLC | FRC },
++	{ .ca_id = 0x0d, .n_ch = 8,
++	  .mask = FL | FR | LFE | RL | RR | RC },
++	{ .ca_id = 0x19, .n_ch = 8,
++	  .mask = FL | FR | LFE | RC | FLC | FRC },
++	{ .ca_id = 0x0c, .n_ch = 8,
++	  .mask = FL | FR | RC | RL | RR },
++	{ .ca_id = 0x18, .n_ch = 8,
++	  .mask = FL | FR | RC | FLC | FRC },
++	{ .ca_id = 0x17, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC | FLC | FRC },
++	{ .ca_id = 0x16, .n_ch = 8,
++	  .mask = FL | FR | FC | FLC | FRC },
++	{ .ca_id = 0x15, .n_ch = 8,
++	  .mask = FL | FR | LFE | FLC | FRC },
++	{ .ca_id = 0x14, .n_ch = 8,
++	  .mask = FL | FR | FLC | FRC },
++	{ .ca_id = 0x0b, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC | RL | RR },
++	{ .ca_id = 0x0a, .n_ch = 8,
++	  .mask = FL | FR | FC | RL | RR },
++	{ .ca_id = 0x09, .n_ch = 8,
++	  .mask = FL | FR | LFE | RL | RR },
++	{ .ca_id = 0x08, .n_ch = 8,
++	  .mask = FL | FR | RL | RR },
++	{ .ca_id = 0x07, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC | RC },
++	{ .ca_id = 0x06, .n_ch = 8,
++	  .mask = FL | FR | FC | RC },
++	{ .ca_id = 0x05, .n_ch = 8,
++	  .mask = FL | FR | LFE | RC },
++	{ .ca_id = 0x04, .n_ch = 8,
++	  .mask = FL | FR | RC },
++	{ .ca_id = 0x03, .n_ch = 8,
++	  .mask = FL | FR | LFE | FC },
++	{ .ca_id = 0x02, .n_ch = 8,
++	  .mask = FL | FR | FC },
++	{ .ca_id = 0x01, .n_ch = 8,
++	  .mask = FL | FR | LFE },
+ };
  
- #define QUIRK_FLAG_GET_SAMPLE_RATE	(1U << 0)
-@@ -202,5 +204,7 @@ extern bool snd_usb_skip_validation;
- #define QUIRK_FLAG_IFACE_SKIP_CLOSE	(1U << 19)
- #define QUIRK_FLAG_FORCE_IFACE_RESET	(1U << 20)
- #define QUIRK_FLAG_FIXED_RATE		(1U << 21)
-+#define QUIRK_FLAG_MIC_RES_16		(1U << 22)
-+#define QUIRK_FLAG_MIC_RES_384		(1U << 23)
+ struct hdmi_codec_priv {
+@@ -370,7 +383,8 @@ static int hdmi_codec_chmap_ctl_get(struct snd_kcontrol *kcontrol,
+ 	struct snd_pcm_chmap *info = snd_kcontrol_chip(kcontrol);
+ 	struct hdmi_codec_priv *hcp = info->private_data;
  
- #endif /* __USBAUDIO_H */
+-	map = info->chmap[hcp->chmap_idx].map;
++	if (hcp->chmap_idx != HDMI_CODEC_CHMAP_IDX_UNKNOWN)
++		map = info->chmap[hcp->chmap_idx].map;
+ 
+ 	for (i = 0; i < info->max_channels; i++) {
+ 		if (hcp->chmap_idx == HDMI_CODEC_CHMAP_IDX_UNKNOWN)
 -- 
 2.43.0
 
