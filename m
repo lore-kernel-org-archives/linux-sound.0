@@ -1,43 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD301B85FD
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 853191B0F26;
+	Mon, 25 Nov 2024 14:14:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732544060; cv=none; b=I1HzY4dRE67s8W16SY12kGh3yZ6O2LMZslca+7RkIQnU+bBBLSARdK3t97zoi2GQ6pRTDv4mmfzx8xYqp7cQKtK0on56tqmRFzk8bQ9TRb/YwXoexAvfnk1tJb9AMo2nqM9V8gxQRvKoDZni+BFEQEHv76GhZHHPFkr954qTRwA=
+	t=1732544062; cv=none; b=TKJ35bB6GfPsEj+OiRWlcdpoULYT1JeGjzl5wz18iIl5h41JdI1lbLrgyQMeAGCywjaQbEsxaaW63NkEO/SZ4rtfMTuPdHbJe7FS8IW3gyazmiCvtc+37jue7UX+1Wl8hao2tbfmWe3/aXBJg/kBtptzzisxqbLeXi/wKP7MEHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732544060; c=relaxed/simple;
-	bh=REtjjII8xDAfKDCpj5PHwsEYKtioLq32UlMmvuxkxGM=;
+	s=arc-20240116; t=1732544062; c=relaxed/simple;
+	bh=c1AaJIkC5ANteto4EmoCZndiq49Malo4c5lEUbHKku4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=eC/ksaPMlYaxa/cFQ6ts5UN7AtLrCJuM5BTR93OZwBE3rN6/k7uHQt9MsDomdh6XQ/u9mqztbX/pAbjeCPIGaS2pLr2FlNlPbn3e4oavGQuJekbfZgAse194/Gxt1hN52eTwppH41J0QZ5Kp5Xxz95xkjRUa1bgiB8+vglv7Pfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISff9Pv9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e8ZD//IPruPYTk8HqPtU+TiTcLdfwVafGp6dy9ypDUaVHK5lvuPS9pK6kioRGsJbeYElZVpURmGDsecPa+GU8co+9hxJBvOmFs0LK1u0f9L02XsZjKB4gN7E8VLgjGzu9fAg3D/gSqIeEG5DA9nYZ3ZtW7yBo4nTEx4oroMdiyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HxW45hCk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISff9Pv9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2CACC4CECE;
-	Mon, 25 Nov 2024 14:14:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HxW45hCk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2918C4CECF;
+	Mon, 25 Nov 2024 14:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732544060;
-	bh=REtjjII8xDAfKDCpj5PHwsEYKtioLq32UlMmvuxkxGM=;
+	s=k20201202; t=1732544062;
+	bh=c1AaJIkC5ANteto4EmoCZndiq49Malo4c5lEUbHKku4=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=ISff9Pv9hCRGSN4vz39HhvVLqz4SJUBjYHS6PH3eqF+/SiXu7YhOMPyM3hCt7hX8I
-	 EFqXhHD0F4DdO+st/pSpfEonOQpbxFlrzenrCpjKvTKHeo88FXR3ac6ORbyFohLwAR
-	 4OBQ+eelLsMmSjvZRLY1ujiBPcjnenkLQpwZdUFdMq/aDDk74zRjaUJcckAiNNTia0
-	 LWCqC+PzSdsq/VxGO9cx23C4ws5DspXminUJL0kLAsKcGG/EPeOhm17z5ClBcyXbcL
-	 9Rd5ilvmZlr0ddQxAd9SNAprBY4E4UdRSAO83P196JkK6GAPiSXFpRl/q3f5XMbIOp
-	 bErc2om414+jA==
+	b=HxW45hCkVzQ8R8r544s4eAYLSN3QZ4zejuTcTRZpo0ON5SVh4r68qzvtZ2YIgst7K
+	 WwBo/3Yrq92F8Mu8RFx0SZ1o3tPBb33yjhvN5z4m7U6pBd/HCFGcNnIjpf+Faalv90
+	 Zbj9sp4Rb0f5G/VNFDvNRetZkZjZonynrCJrldJ+svVpCRYwX4Qg1skuA7o7Vez3//
+	 cEGBme5jcV4u4An0m+3+ExcBKbPzzqFnNEKM0LfyumHm5dwvJlCUcDuCetZ9PudjW+
+	 p2q4/4ruK8WHGz0MmaoICHfIde4E6YF3W+qvThAQ5T3knJyv1qRFXndXkuxh0zRxwD
+	 D+hYFus2F2DEQ==
 From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, 
- =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@debian.org>
-Cc: 1087673@bugs.debian.org, Tova <blueaddagio@laposte.net>, 
- Mario Limonciello <mario.limonciello@amd.com>, Jiawei Wang <me@jwang.link>, 
+To: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, corbet@lwn.net, 
+ anish kumar <yesanishhere@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-sound@vger.kernel.org
-In-Reply-To: <20241122075606.213132-2-ukleinek@debian.org>
-References: <20241122075606.213132-2-ukleinek@debian.org>
-Subject: Re: [PATCH] ASoC: amd: yc: Add quirk for microphone on Lenovo
- Thinkpad T14s Gen 6 21M1CTO1WW
-Message-Id: <173254405872.44664.4835104843913013897.b4-ty@kernel.org>
-Date: Mon, 25 Nov 2024 14:14:18 +0000
+In-Reply-To: <20241121232958.46179-1-yesanishhere@gmail.com>
+References: <20241121232958.46179-1-yesanishhere@gmail.com>
+Subject: Re: [PATCH] ASoC: doc: dapm: Add location information for
+ dapm-graph tool
+Message-Id: <173254406059.44664.4605735086287465083.b4-ty@kernel.org>
+Date: Mon, 25 Nov 2024 14:14:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,13 +44,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 22 Nov 2024 08:56:05 +0100, Uwe Kleine-König wrote:
-> Add a quirk for Tova's Lenovo Thinkpad T14s with product name 21M1.
+On Thu, 21 Nov 2024 15:29:58 -0800, anish kumar wrote:
+> To help developers debug DAPM issues and visualize widget connectivity,
+> the dapm-graph tool provides a graphical representation of how widgets
+> and routes are connected. This commit adds the location information for
+> the tool to the documentation, making it easier for users to find and
+> use it for troubleshooting DAPM-related problems.
 > 
 > 
+> [...]
 
 Applied to
 
@@ -59,8 +63,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: yc: Add quirk for microphone on Lenovo Thinkpad T14s Gen 6 21M1CTO1WW
-      commit: cbc86dd0a4fe9f8c41075328c2e740b68419d639
+[1/1] ASoC: doc: dapm: Add location information for dapm-graph tool
+      commit: 8697ecc3274214c65ff271a58e7abb601216f2a8
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
