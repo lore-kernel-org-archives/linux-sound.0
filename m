@@ -1,151 +1,80 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2ED192B7F
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181F5184520;
+	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732544448; cv=none; b=aACh/ssfC/Q5ZHB2CLLFp2a/BjtlZwlifYAmxYQUAML4ghJzKUgi+iEZGFHwD8pPrLzhtldx26VxRQP/E8mgAL0CsL43k7twCmLiCGSp3ahuCmvAkYpgYRjs+3K1sOjQ+fAD3BipoddVRgylhRE25z9VpLB0bc+MLvzJBpIiisg=
+	t=1732544460; cv=none; b=dPt5Ou0w6U1Cwul3nklo1KIJ1SCskg9miDbjNboNg+L0dNWUnY0UL5oNL/eP+p85fuR9kZZwLYztX6SCBGj18MLhKViLKL5AU8Kn8JQAS4pg3mziAUtkIo2blfskH9G08zLU9jUob0+Nh5/S27n+5MztNQZAG0pxrRyd8ebkVXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732544448; c=relaxed/simple;
-	bh=Z8Z4Tpc5yyO6wdNg1Y8y+6pFPlQEDXb9FfcnoGYM+ho=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dlsa2YC424Og6EKhgV99KHPf/a2dcMRglU2aglCUuY9Da5SszsC+hqNXrD/kaUyZBhZG8swR+1ndp+M4GPgQoTgGoNqk/wBtfMB7ZcAdJs7Se2jICcEcXGz2yFefMsbk4gm+pvClKDFy/7U+pxqVmicmoOcT1UHhC2Hc8jqXc3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WWhvsf0D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cDMPLLfI; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WWhvsf0D; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=cDMPLLfI; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732544460; c=relaxed/simple;
+	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jVPwWIg3i01bZWSzLcJoj3CAWcg1wi8hFKYNNvtIMk5DsWeV5jg5RSBefHv17JLVuPeouFF+9pj7mFS9fhwHZ0Q529h+0oElnaurRDRMajqa70gTgYl/osv1lGRDNf86Le9n4fqIl/tnSj3IigoEKtk4zv3K+SfEAe/qnXOu3PA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXonjeSb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WWhvsf0D";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cDMPLLfI";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WWhvsf0D";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="cDMPLLfI"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8ED6621181;
-	Mon, 25 Nov 2024 14:20:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732544444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TQBI/WxSnms/YYDOMRjcN90T/ApOvQuEokn1JQE2IhM=;
-	b=WWhvsf0DGlnNYalAEtkVwBMjfZY6qgtigdOTzy5sE+Z8ezbHVQQ5M6hnlT8Lhn3musDX99
-	uxGmWC9f6lrJIhjJ0ETuYBPqRoOwYJNgUN9UGV/bsOHHqVCjymeX1leSXZd7cfD4sFQWud
-	QICR/Xfyta8q1upSlcju5M1ySvJVLz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732544444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TQBI/WxSnms/YYDOMRjcN90T/ApOvQuEokn1JQE2IhM=;
-	b=cDMPLLfIaLRQ8r2DdIXfD8fT8A6hiYw6ZLBqlTmPHW6S3bHzmPUs8wPmh+SBCGtMRerXQj
-	U4ASAn2QV+w+OKCQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732544444; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TQBI/WxSnms/YYDOMRjcN90T/ApOvQuEokn1JQE2IhM=;
-	b=WWhvsf0DGlnNYalAEtkVwBMjfZY6qgtigdOTzy5sE+Z8ezbHVQQ5M6hnlT8Lhn3musDX99
-	uxGmWC9f6lrJIhjJ0ETuYBPqRoOwYJNgUN9UGV/bsOHHqVCjymeX1leSXZd7cfD4sFQWud
-	QICR/Xfyta8q1upSlcju5M1ySvJVLz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732544444;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=TQBI/WxSnms/YYDOMRjcN90T/ApOvQuEokn1JQE2IhM=;
-	b=cDMPLLfIaLRQ8r2DdIXfD8fT8A6hiYw6ZLBqlTmPHW6S3bHzmPUs8wPmh+SBCGtMRerXQj
-	U4ASAn2QV+w+OKCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6782413890;
-	Mon, 25 Nov 2024 14:20:44 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id lM70F7yHRGfNRQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 Nov 2024 14:20:44 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Cc: Eric Dumazet <eric.dumazet@gmail.com>
-Subject: [PATCH] ALSA: rawmidi: Fix kvfree() call in spinlock
-Date: Mon, 25 Nov 2024 15:20:25 +0100
-Message-ID: <20241125142041.16578-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXonjeSb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81285C4CECE;
+	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732544459;
+	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lXonjeSbIogq7Uq/RghIOWPdWN8cjsFRN2ihUVNV8/bk/P143kThC1A9GVr6KeWcf
+	 KqZChTETZ1o0zy6DffOnTQPmN7qtnfOeeOgwghrp83BgP8XUYAgkyo1sf7CyISsMVm
+	 zito8LvVZfMXFPol4R6tqGwviWexBKIdmzShqSKTCexDZGP0944/MdvJ7BUbsxlsq0
+	 EtufmCYr5lgilXi3ITkGqHiYz7oleh70Y2+woevEEP+wogwSNgbZfFE7h7HFtmLBu1
+	 k00RiqAphCsVBBJ2jsZ/R1c4w7vPLZLsWOwqf0YIY5BCqJPsoWjJ+6k/z6ttt04JSr
+	 tH6a6lJZH5wfg==
+Date: Mon, 25 Nov 2024 08:20:57 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
+Cc: linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <mripard@kernel.org>, Mark Brown <broonie@kernel.org>,
+	linux-sunxi@lists.linux.dev,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
+ Audio Codec
+Message-ID: <173254426800.1714666.14026732187475007449.robh@kernel.org>
+References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
+ <20241123123900.2656837-3-csokas.bence@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Flag: NO
-X-Spam-Level: 
+In-Reply-To: <20241123123900.2656837-3-csokas.bence@prolan.hu>
 
-At the conversion of locking with guard(), I overlooked that kvfree()
-must not be called inside the spinlock unlike kfree(), and this was
-caught by syzkaller now.
 
-This patch reverts the conversion partially for restoring the kvfree()
-call outside the spinlock.  It's not trivial to use guard() in this
-context, unfortunately.
+On Sat, 23 Nov 2024 13:39:00 +0100, Csókás, Bence wrote:
+> Add compatible string for Allwinner suniv F1C100s audio codec.
+> 
+> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
+> Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
+> ---
+>  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
 
-Fixes: 84bb065b316e ("ALSA: rawmidi: Use guard() for locking")
-Reported-by: syzbot+351f8764833934c68836@syzkaller.appspotmail.com
-Reported-by: Eric Dumazet <eric.dumazet@gmail.com>
-Closes: https://lore.kernel.org/6744737b.050a0220.1cc393.007e.GAE@google.com
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/rawmidi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/sound/core/rawmidi.c b/sound/core/rawmidi.c
-index 03306be5fa02..348ce1b7725e 100644
---- a/sound/core/rawmidi.c
-+++ b/sound/core/rawmidi.c
-@@ -724,8 +724,9 @@ static int resize_runtime_buffer(struct snd_rawmidi_substream *substream,
- 		newbuf = kvzalloc(params->buffer_size, GFP_KERNEL);
- 		if (!newbuf)
- 			return -ENOMEM;
--		guard(spinlock_irq)(&substream->lock);
-+		spin_lock_irq(&substream->lock);
- 		if (runtime->buffer_ref) {
-+			spin_unlock_irq(&substream->lock);
- 			kvfree(newbuf);
- 			return -EBUSY;
- 		}
-@@ -733,6 +734,7 @@ static int resize_runtime_buffer(struct snd_rawmidi_substream *substream,
- 		runtime->buffer = newbuf;
- 		runtime->buffer_size = params->buffer_size;
- 		__reset_runtime_ptrs(runtime, is_input);
-+		spin_unlock_irq(&substream->lock);
- 		kvfree(oldbuf);
- 	}
- 	runtime->avail_min = params->avail_min;
--- 
-2.43.0
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
+Missing tags:
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
+
 
