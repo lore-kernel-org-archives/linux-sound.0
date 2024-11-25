@@ -1,106 +1,106 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DCD17C21E
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 11:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2207F376E0;
+	Mon, 25 Nov 2024 11:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732534338; cv=none; b=fbpEID+HoGwPPTxq9ySEsr7Zq7apk+tQwGvoSehXxpFEkI4ddw45vNa1hZyv275BaxWLRUhbMCX/JEvJ6++c8KuvMriJsI2bEVl/zCpWdPLJ1NymdU1Syd4I6jKLhLg/R9fjKVKbrcNXyVaqG9kplgTL1fPsi703TuuZOeEW9WA=
+	t=1732535411; cv=none; b=GrIkAOfqecBeUGvdb6iUGzWFfoUaEsX1yEW25fLzjrET44IoFGri2hWXQ7BkZRePZwsSke8M9jj31+1+cqDKIHgnRBJuHOl4u+Xfku20TNyuTWLnXGUuXkNnyBE7Fr8OUEMSgct38ekmuyjFJZ3BFj89rws4+Ax+YQRaOQG1uTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732534338; c=relaxed/simple;
-	bh=IJyZfLY2s0yZ6rO7Oz9oDF9No5CuXyzpVy8AxSjRid0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p+3EG2Z7Icdbrxa28M+6HGSCEON/tNx+5oe0dYsBJhBudVzasB3x9pJYsfY87XE+v2xA4cadacDxcjAk3Zm6+pOKK7aYeigpHzyjDjp/Z/9eeqdEn5UgzgKU/ve4OErXQf7KAlUN8aaoRqAK3WS3Mqe73sM7/sID8cIAc21eoOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lFr5KN1U; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1732535411; c=relaxed/simple;
+	bh=kSYSImDUvkzfXkaqiB+cnw9SCsDTqsyLlK3fME3dMxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JlZJJF8/gNZiUtU5IraM2Pwl1t5vW+NgohoKB2+tK7SDj7+KLcatjW6zq/E46T3ffxAJrzoyZlsfe2rG0LpWOP8CIcR5bwn1SWBTBEgyQE3+fln0/aSe4/XrfbbV2txnlYtew3s3rcYc6YgXKZ7uzRCVKTn925Oxih5jRRv7yFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bM8LmYuf; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lFr5KN1U"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316f3d3c21so37947215e9.3
-        for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 03:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732534335; x=1733139135; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QMIy+2ZGZlYbGjuPDyKFDMT/8RFkHAkPW/l+lHB1Ssg=;
-        b=lFr5KN1UdVXhHkhMlT9Tlqyx6ePt1XfonltvvRjPt8ax6KdEWWA3APdhv1Q5z4ympZ
-         SXwaeilxH1spLvtZQMLx2MqW200UyjqzLaRj3yVr6+Rsb66xcKrXNUoGB+Hf1WYyrBbz
-         /V5OewHHwFEMH0QTkjVT4YtcJv85d46derB9/fqHXE3+B/YBPdUkwrUF89qNbXHjqHz6
-         DzwZNxHZPaJg5ySSeYi6mmIqtFN9eA9ee5uVq1VVev9RXwbnC71kxJlcqy+8LA9G+OSO
-         mP08Aq+Aq5gXVTgKK2LhYwrgfoIxDocjRwdHe0tY7NmKUdSPqLEkhwCpokIVCsT89eB9
-         AN2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732534335; x=1733139135;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QMIy+2ZGZlYbGjuPDyKFDMT/8RFkHAkPW/l+lHB1Ssg=;
-        b=SpzBHD1/gJ0+NsoZ8IptwF9y6TILVY0slV/miVXSK6i9g7n4yeMIYgaAAc7ApIL2H+
-         NSyrfmZ0EIBi3W58ROiO28Uk+lmW/cXyMXwzmbVx1JtY7iDNly+GNeLXjGoC40HoYj9K
-         EqN4A5r0Il1w2Nuoj2jfAH2vxz9o+MMXFBnOUYCUuUqKSUUIF28udwERETwV4U32hmnh
-         CuvLXOd0Kjl8Ii1GRjiuY9O0BauuAqZvLYA+VOXEClHPyNzRksD/Q/QVKB506jCC2Lyp
-         9fLb3/1lc4H8PmrTxqVoYqCZS5lSaushk0gt7k3ck3dCT/+jN9szJsDA9LETnSLPm2fC
-         omlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWifPUZcTrkTHezDDFrIKh+O1/T2KFS6Lx/+g8f2Hxt8xCmEUfMYwRUTx7nONPUaOBaeJs+YbY6dWXIig==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2V1wkx9BRKNs3Tj9SQwUFUWi0Nq8UtdIKt4oFHhGdoPgM05Ob
-	JWWSAtFqzJkA/DAsq349pU3TSX/EQqOStGcXm+XejogU2kE2Fe4BInL6BpwKS4o=
-X-Gm-Gg: ASbGncu+hGVNJXR7UG72o6fZBzM9ZcoEvB5paGsDBks4hGNSWLaxJn3M3v0pMY+QrAn
-	qRyHM17jRD8jvLVbRi5WsqtOySym3yE24GQI2w/1AQaZJCe8fpFi2xjAFUCYgtSBz8Mmm28Fs+b
-	1P74ukjuhwbQF+xK08fABgCvm8mkv9ENvAz99dlZRQdJWhFRtzIwe8dTpl4HNm0xd0Kza6+pqmX
-	tKxELLzwfbHLAx7vYK8j9zi/oJknFwSJfyV0S1S/BfLedORo+q/osOJU8JrKduMPaD9k/GvZkVo
-	pE7thiSKAazWOw==
-X-Google-Smtp-Source: AGHT+IFS+7K0lEJaKeykwcJTAWzQZ4yXS8JJlRIPKoQmKX+XT9czJ5uZIfuXu4QgSvNX8SY83S/kkw==
-X-Received: by 2002:a7b:c7da:0:b0:434:9499:9e87 with SMTP id 5b1f17b1804b1-4349499a073mr49405845e9.25.1732534335055;
-        Mon, 25 Nov 2024 03:32:15 -0800 (PST)
-Received: from [192.168.0.172] (88-127-185-239.subs.proxad.net. [88.127.185.239])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbc3dfasm10487119f8f.76.2024.11.25.03.32.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Nov 2024 03:32:14 -0800 (PST)
-Message-ID: <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
-Date: Mon, 25 Nov 2024 12:32:13 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bM8LmYuf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732535409; x=1764071409;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kSYSImDUvkzfXkaqiB+cnw9SCsDTqsyLlK3fME3dMxw=;
+  b=bM8LmYufjsZTbsS1tysY/ttm6jBLJrVZxPu8tiAq/Mh4i1cZtH8k2eaU
+   4rDqcQs/G2pTCtFMdB1n89mBwBseiBUO4rsIGKjmwYbaoORNgXCg7UZv9
+   bjeRGmJd+8S1yjNacS8Nb0coSgkUee0UDPdFh6LmSvAH49Go088E7j/jY
+   qb6EDoLS7r9o7L0eox9JIv0Ohh7b3wcUVqNptHxD+Jkh90SNzgLyyfoxK
+   jCIaIMXA4HUS8ieO6sHxIJQH0nRd8Ejul25bJFlSAYw8XCyndKnt2Yjc5
+   SjFeTLLHBD5wk0MMIDlrEnwfUvpo1BNUfFJvbx35ahhpEf6Uv9IOPWW8A
+   A==;
+X-CSE-ConnectionGUID: rhQKMbmWTxa8Ql/x9J9oJA==
+X-CSE-MsgGUID: zOGUX84DTyyJpsRs0TBc1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="44017392"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="44017392"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 03:50:08 -0800
+X-CSE-ConnectionGUID: mhL5UBfPSYuWDQnQLKUlgw==
+X-CSE-MsgGUID: 6j3M5iBBQp6hsk0gnibVaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="91589894"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 03:50:05 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tFXbO-00000000joT-27qB;
+	Mon, 25 Nov 2024 13:50:02 +0200
+Date: Mon, 25 Nov 2024 13:50:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Nicolas Belin <nbelin@baylibre.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
+Message-ID: <Z0RkaqfID9v0age_@smile.fi.intel.com>
+References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
+ <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
+ <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
+ <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
-To: Mark Brown <broonie@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Nicolas Belin <nbelin@baylibre.com>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
- <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
- <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
-Content-Language: en-US
-From: Alexandre Mergnat <amergnat@baylibre.com>
-In-Reply-To: <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hello Andy.
-
-Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
-
-That mean all added include in this patch aren't required.
-
-
-On 04/11/2024 22:12, Mark Brown wrote:
-> On Mon, Nov 04, 2024 at 09:06:26PM +0200, Andy Shevchenko wrote:
->> On Thu, Oct 31, 2024 at 12:27:25PM +0200, Andy Shevchenko wrote:
->>> Update header inclusions to follow IWYU (Include What You Use)
->>> principle.
+On Mon, Nov 25, 2024 at 12:32:13PM +0100, Alexandre Mergnat wrote:
+> Hello Andy.
 > 
->> Hmm... I think we are waiting for somebody to Ack / review this change?
+> Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
 > 
-> Yes.
+> That mean all added include in this patch aren't required.
+
+Do you mean the driver doesn't not use types from types.h or dev_*() macros
+from dev_printk.h? I don't believe this, sorry.
+
+Basically what you are trying to say is "let's move of_gpio.h implicit
+includes to become something else's problem". It's not what this patch
+intended to do.
+
+> On 04/11/2024 22:12, Mark Brown wrote:
+> > On Mon, Nov 04, 2024 at 09:06:26PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Oct 31, 2024 at 12:27:25PM +0200, Andy Shevchenko wrote:
+> > > > Update header inclusions to follow IWYU (Include What You Use)
+> > > > principle.
+> > 
+> > > Hmm... I think we are waiting for somebody to Ack / review this change?
+> > 
+> > Yes.
 
 -- 
-Regards,
-Alexandre
+With Best Regards,
+Andy Shevchenko
+
+
