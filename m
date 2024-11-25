@@ -1,135 +1,90 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0282A1B2193
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FD61B3930;
+	Mon, 25 Nov 2024 15:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732546682; cv=none; b=puXu6a8L7z+OTftLk+P2KeKKdUKyArqE9doQMvwS6sHTFz6hLbuAYY2yqmYRzJcKQ7G5S/Xhda0CgUFRJukwyNtM+bXSysemWsdVYLR1Lq65GwxawLs11RIrPzMyFL199/fP6kdZcEEwEcpkPG/u+NTNGCzZNtM08kUOi6YM4kk=
+	t=1732547303; cv=none; b=qJkQR67i7aEyyYrephesRVQD1UuQpZ+AykQKSGRSkCu0VDmzLHOG/3Xuzv7GMVSV4c3E8wR81r2fgVErVX5RoAuPqFRAuiZ0w0vSQmpDz7m1/CWhUGWJmhfyjjIQMYeZL7nAQeJh/8XHkljIVvm6oz62ak+8dIhUm5SyzkMFD6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732546682; c=relaxed/simple;
-	bh=hwKGyVzMfDkCSCTaw96Ja4FXqpTJJYQSkbzoUukLWiQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=spNQRfF7KrpuKFybL39jY6PO3PwL6C+I6yMJ3R6R2glv/D3Wy5y74PU2X+N/82ZHyljdeDdSLe/EChWQLhA1z7pH1NclsBWpbebHxoKJJ/pbubzxOcK2vs6mQpeP5x5HlXPAwwVwT6wf23ZNgWqTSIsdLVeKQvEO8xXMTQ5CyXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RBbgGbZp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L2hXrEkR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RBbgGbZp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L2hXrEkR; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732547303; c=relaxed/simple;
+	bh=FzM84hsNZv04YOWDXQU7QdBBwm6izRYFHYgNHaUEgR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F+gXFkCjLk+RaP77GG4/m+ZaWDSF3y9bTbQE38HHKtRpHGsTdMHUtV0E4/rMrNHCMbO8Tm/Pbtq718192mSzgelVmpxAzVpPwKX4cHCNcRMlaAk1DEXm2JSZJNtMG4gNbh98FXyBzHvJDyLSagbNFGVLHV9dIGbpS/+sLHzPV/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtMkDSqk; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBbgGbZp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L2hXrEkR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBbgGbZp";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L2hXrEkR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 248591F396;
-	Mon, 25 Nov 2024 14:57:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732546679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
-	b=RBbgGbZpOs+KtWMmzXYWQyKpirUf0JAYF2vnhYDxxwjrakSYhWck62e8JNC/WRHUaNbX8l
-	YIZnFepPHxAtGtqLTsnwUDKrrcPUM22sdlh2sN0ogdYhFCyghgb9ZqjtPzXOu8Ta/+Q2ww
-	ui/qfBs8uHfz7RhIAr4z0OIAQqTyIzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732546679;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
-	b=L2hXrEkRRuP7LuMB0mTmktyAxPrSK783sHvhdOFh9CeIHQsOFbl3MlpTgRj8ICbFEVkXL3
-	sGSp4CSbIXszqeDA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732546679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
-	b=RBbgGbZpOs+KtWMmzXYWQyKpirUf0JAYF2vnhYDxxwjrakSYhWck62e8JNC/WRHUaNbX8l
-	YIZnFepPHxAtGtqLTsnwUDKrrcPUM22sdlh2sN0ogdYhFCyghgb9ZqjtPzXOu8Ta/+Q2ww
-	ui/qfBs8uHfz7RhIAr4z0OIAQqTyIzg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732546679;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
-	b=L2hXrEkRRuP7LuMB0mTmktyAxPrSK783sHvhdOFh9CeIHQsOFbl3MlpTgRj8ICbFEVkXL3
-	sGSp4CSbIXszqeDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C2BF137D4;
-	Mon, 25 Nov 2024 14:57:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YqvKAXeQRGdeUgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 Nov 2024 14:57:59 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: pcm: Don't issue XRUN during draining
-Date: Mon, 25 Nov 2024 15:57:55 +0100
-Message-ID: <20241125145757.22891-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtMkDSqk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732547303; x=1764083303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FzM84hsNZv04YOWDXQU7QdBBwm6izRYFHYgNHaUEgR4=;
+  b=gtMkDSqkjLw29X1jb6zMqqp7UVHsi9/nA8ugAic0QUv+0AeV1aBIUVIM
+   8CecDtRZyXIRXaS2x923E4XYWTapcapzXeU+H4QWpyP1u6oF8mFPzS0gl
+   7WRHwfW64HQ47tuQwwtCySqMf1HxcLDt77SnWvsIlL5zXF8ZvIcZedZL8
+   04KfHtJV3f8qDhLF6euYptvlwoYv0vWJHy0uh9kGFEUIkZYdEz4hrbFf0
+   aX0KtyWXWou/9H+Q/O5B6Yk3y8xNphkbWpUQ/+8RhHzS56VTtqvhYE0n2
+   5M8B5Ly9u/rx5Vu/iw6wsucyyEzHCLFlGNxNcCStJZLp4++bOFdvzmXi5
+   Q==;
+X-CSE-ConnectionGUID: q4zbeE97R/uFe0YdiM+IMQ==
+X-CSE-MsgGUID: FvVY1aLITUWDIIg6JbMb/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32597365"
+X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
+   d="scan'208";a="32597365"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 07:08:20 -0800
+X-CSE-ConnectionGUID: lGq2BJWVRjaTLbllt2dAYw==
+X-CSE-MsgGUID: Sb6jJuhaRk2VIvsOPWiynA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
+   d="scan'208";a="91426783"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 07:08:17 -0800
+Date: Mon, 25 Nov 2024 17:08:13 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, gregkh@linuxfoundation.org,
+	linus.walleij@linaro.org, mika.westerberg@linux.intel.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v1 1/5] devres: Introduce devm_kmemdup_array()
+Message-ID: <Z0SS3cO4acfgz0iQ@black.fi.intel.com>
+References: <20241123200527.7830-1-raag.jadav@intel.com>
+ <20241123200527.7830-2-raag.jadav@intel.com>
+ <Z0LPyMed-4a8cajD@google.com>
+ <Z0QsAm3FdZDJ8kY0@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_NONE(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Score: -2.80
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z0QsAm3FdZDJ8kY0@smile.fi.intel.com>
 
-snd_pcm_stop_xrun() checks the stream status with snd_pcm_running()
-helper, but this isn't really correct; namely, snd_pcm_running()
-returns true also when the stream is in draining, but in principle,
-the xrun at draining means nothing but the draining finished.  Hence,
-we shouldn't issue XRUN when it happens during draining.
+On Mon, Nov 25, 2024 at 09:49:22AM +0200, Andy Shevchenko wrote:
+> On Sun, Nov 24, 2024 at 07:03:36AM +0000, Dmitry Torokhov wrote:
+> > On Sun, Nov 24, 2024 at 01:35:23AM +0530, Raag Jadav wrote:
+> > > Introduce '_array' variant of devm_kmemdup() for the users which lack
+> > > multiplication overflow check.
+> > 
+> > I am not sure that this new helper is needed. Unlike allocators for
+> > brand new objects, such as kmalloc_array(), devm_kmemdup() makes a copy
+> > of already existing object, which is supposed to be a valid object and
+> > therefore will have a reasonable size. So there should be no chance for
+> > hitting this overflow unless the caller is completely confused and calls
+> > devm_kmemdup() with random arguments (in which case all bets are off).
+> 
+> Don't we want to have a code more robust even if all what you say applies?
+> Also this makes the call consistent with zillions of others from the alloc
+> family of calls in the Linux kernel.
 
-That is, for a proper state check, we should check the state only for
-SNDRV_PCM_STATE_RUNNING, instead.
+Agree. Although shooting in the foot is never the expectation, it is
+atleast better than having to debug such unexpected cases.
 
-Fixes: 1fb8510cdb5b ("ALSA: pcm: Add snd_pcm_stop_xrun() helper")
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/pcm_native.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
-index 381a476a1045..7bcca443e333 100644
---- a/sound/core/pcm_native.c
-+++ b/sound/core/pcm_native.c
-@@ -1577,7 +1577,8 @@ int snd_pcm_drain_done(struct snd_pcm_substream *substream)
- int snd_pcm_stop_xrun(struct snd_pcm_substream *substream)
- {
- 	guard(pcm_stream_lock_irqsave)(substream);
--	if (substream->runtime && snd_pcm_running(substream))
-+	if (substream->runtime &&
-+	    substream->runtime->state == SNDRV_PCM_STATE_RUNNING)
- 		__snd_pcm_xrun(substream);
- 	return 0;
- }
--- 
-2.43.0
-
+Raag
