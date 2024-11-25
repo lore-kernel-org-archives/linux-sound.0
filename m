@@ -1,106 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2207F376E0;
-	Mon, 25 Nov 2024 11:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886FB199947
+	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 12:54:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732535411; cv=none; b=GrIkAOfqecBeUGvdb6iUGzWFfoUaEsX1yEW25fLzjrET44IoFGri2hWXQ7BkZRePZwsSke8M9jj31+1+cqDKIHgnRBJuHOl4u+Xfku20TNyuTWLnXGUuXkNnyBE7Fr8OUEMSgct38ekmuyjFJZ3BFj89rws4+Ax+YQRaOQG1uTM=
+	t=1732539262; cv=none; b=hCYEczfo3XX3OxGhr9Bdm5BZfEOQEXUrKSirLTwfygv2czaTC3sS4MfN2oKqz9rYD9DDURboRPCPPKrT/QFL/hEkclUA7QX34H8wzQIGlH4MNj/b8lR6+oZmO1e0ozY3qwaCzkE/c7+lN3l2poVnHt35rdt7PXY3dV3PFwTuV8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732535411; c=relaxed/simple;
-	bh=kSYSImDUvkzfXkaqiB+cnw9SCsDTqsyLlK3fME3dMxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JlZJJF8/gNZiUtU5IraM2Pwl1t5vW+NgohoKB2+tK7SDj7+KLcatjW6zq/E46T3ffxAJrzoyZlsfe2rG0LpWOP8CIcR5bwn1SWBTBEgyQE3+fln0/aSe4/XrfbbV2txnlYtew3s3rcYc6YgXKZ7uzRCVKTn925Oxih5jRRv7yFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bM8LmYuf; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bM8LmYuf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732535409; x=1764071409;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kSYSImDUvkzfXkaqiB+cnw9SCsDTqsyLlK3fME3dMxw=;
-  b=bM8LmYufjsZTbsS1tysY/ttm6jBLJrVZxPu8tiAq/Mh4i1cZtH8k2eaU
-   4rDqcQs/G2pTCtFMdB1n89mBwBseiBUO4rsIGKjmwYbaoORNgXCg7UZv9
-   bjeRGmJd+8S1yjNacS8Nb0coSgkUee0UDPdFh6LmSvAH49Go088E7j/jY
-   qb6EDoLS7r9o7L0eox9JIv0Ohh7b3wcUVqNptHxD+Jkh90SNzgLyyfoxK
-   jCIaIMXA4HUS8ieO6sHxIJQH0nRd8Ejul25bJFlSAYw8XCyndKnt2Yjc5
-   SjFeTLLHBD5wk0MMIDlrEnwfUvpo1BNUfFJvbx35ahhpEf6Uv9IOPWW8A
-   A==;
-X-CSE-ConnectionGUID: rhQKMbmWTxa8Ql/x9J9oJA==
-X-CSE-MsgGUID: zOGUX84DTyyJpsRs0TBc1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="44017392"
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="44017392"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 03:50:08 -0800
-X-CSE-ConnectionGUID: mhL5UBfPSYuWDQnQLKUlgw==
-X-CSE-MsgGUID: 6j3M5iBBQp6hsk0gnibVaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="91589894"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 03:50:05 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tFXbO-00000000joT-27qB;
-	Mon, 25 Nov 2024 13:50:02 +0200
-Date: Mon, 25 Nov 2024 13:50:02 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Nicolas Belin <nbelin@baylibre.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
-Message-ID: <Z0RkaqfID9v0age_@smile.fi.intel.com>
-References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
- <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
- <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
- <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
+	s=arc-20240116; t=1732539262; c=relaxed/simple;
+	bh=Zfu+M2soj0eRt7qwnTvAaxlshzzixxJ27NNrtx8XKi4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=FQ+3fZqqcvb9Jm3gE/1XYkcOOyNvSx6TKNQ5Uf6BV3HnVMicSroC8c1oAIdPxTPw59upydlJ5MwKS5IMejQGW359GOAsSfiLjaUWq7VCqwIoUR7RFWpiFd6+tx4jVfxzGstZ2loW3Ldh0JiEBFAwr8BdQqpX5XvqwUmbxFzYLPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-83abb901672so534040739f.3
+        for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 04:54:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732539259; x=1733144059;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KTOSBgDWeg+euICH9qGrAyGFT0qAPpHeyv7sBqgLfsM=;
+        b=rHQ8zly50ZPUhNw4Bv76sRt026S3RVuN2kc6BstzSNLAg57ZVEx3wvlJuQ/qk1Cojz
+         kVpbFeCMsMDV2GICddNvixXuNaGF64yZJMnWFcoPYXDeQNzYbqA+3khQVKA7c8s1z6rv
+         5ohN+ugnrwFbnpNGA4nrBlZw60XSj2C9ReIipX4v3EJZa2NI2pGw/rBKeOsM4WA1zCyy
+         89P//xqcVKMIrgL/VLzdnBk7Gb47XzRJgb5yihzAyI3ewrXXBjVc+zbKI0cCIs1Vzcne
+         dtHe6L4sedYFKc3kh6weCnpZ70xVXLDiwWPEUDdeBiylu+DHZZ4NtbJWNzvZZKaTeO5J
+         yJnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/kPxZHMjLgXFjAXDQYlH2frh+8c6kHyHH11CQnHQd+6eNe32F492B82rvL6tFDupcWsMLJCP3PsJvgQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQMlkvBQa6OCEayo62L+eoUFkaHTRPDEKU2umH4vPXnZKyog7J
+	nTuchbBDd2YxjyNccLsRnFdCoK8pN2Wam3wN3wVlNdC8UXVChdb5vRTDY+U4w4RO9b8NhgQt6w/
+	vzVXH6uoEdAY/zIW9jaHSUii5GTkcd2JsugtAjyBvqlAsRXeRNNQA2lw=
+X-Google-Smtp-Source: AGHT+IFUYJcRzPEFzVBqTbOYrFz/H/VP499IrKfYBNVykhHW/8LfqdJNg6yrakmIza5rc1XCTL2icqBH3mlznM5LyRHaCOO9UrEf
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Received: by 2002:a05:6e02:3421:b0:3a7:ab43:24aa with SMTP id
+ e9e14a558f8ab-3a7ab43256bmr64855455ab.7.1732539259799; Mon, 25 Nov 2024
+ 04:54:19 -0800 (PST)
+Date: Mon, 25 Nov 2024 04:54:19 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6744737b.050a0220.1cc393.007e.GAE@google.com>
+Subject: [syzbot] [sound?] BUG: sleeping function called from invalid context
+ in vfree
+From: syzbot <syzbot+351f8764833934c68836@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 25, 2024 at 12:32:13PM +0100, Alexandre Mergnat wrote:
-> Hello Andy.
-> 
-> Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
-> 
-> That mean all added include in this patch aren't required.
+Hello,
 
-Do you mean the driver doesn't not use types from types.h or dev_*() macros
-from dev_printk.h? I don't believe this, sorry.
+syzbot found the following issue on:
 
-Basically what you are trying to say is "let's move of_gpio.h implicit
-includes to become something else's problem". It's not what this patch
-intended to do.
+HEAD commit:    9f16d5e6f220 Merge tag 'for-linus' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=154bc778580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=47cc5fc1922531f
+dashboard link: https://syzkaller.appspot.com/bug?extid=351f8764833934c68836
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+userspace arch: i386
 
-> On 04/11/2024 22:12, Mark Brown wrote:
-> > On Mon, Nov 04, 2024 at 09:06:26PM +0200, Andy Shevchenko wrote:
-> > > On Thu, Oct 31, 2024 at 12:27:25PM +0200, Andy Shevchenko wrote:
-> > > > Update header inclusions to follow IWYU (Include What You Use)
-> > > > principle.
-> > 
-> > > Hmm... I think we are waiting for somebody to Ack / review this change?
-> > 
-> > Yes.
+Unfortunately, I don't have any reproducer for this issue yet.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-9f16d5e6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/dddd5525a287/vmlinux-9f16d5e6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/7c9e082ba50b/bzImage-9f16d5e6.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+351f8764833934c68836@syzkaller.appspotmail.com
+
+BUG: sleeping function called from invalid context at mm/vmalloc.c:3359
+in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 6938, name: syz.1.230
+preempt_count: 1, expected: 0
+RCU nest depth: 0, expected: 0
+2 locks held by syz.1.230/6938:
+ #0: ffff88804a2d2968 (&rmidi->open_mutex){+.+.}-{4:4}, at: class_mutex_constructor include/linux/mutex.h:201 [inline]
+ #0: ffff88804a2d2968 (&rmidi->open_mutex){+.+.}-{4:4}, at: snd_rawmidi_output_params+0x51/0x1c0 sound/core/rawmidi.c:748
+ #1: ffff888045e5ed48 (&substream->lock){....}-{3:3}, at: spin_lock_irq include/linux/spinlock.h:376 [inline]
+ #1: ffff888045e5ed48 (&substream->lock){....}-{3:3}, at: class_spinlock_irq_constructor include/linux/spinlock.h:565 [inline]
+ #1: ffff888045e5ed48 (&substream->lock){....}-{3:3}, at: resize_runtime_buffer+0x243/0x530 sound/core/rawmidi.c:727
+irq event stamp: 1218
+hardirqs last  enabled at (1217): [<ffffffff8b189e32>] __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:151 [inline]
+hardirqs last  enabled at (1217): [<ffffffff8b189e32>] _raw_spin_unlock_irqrestore+0x52/0x80 kernel/locking/spinlock.c:194
+hardirqs last disabled at (1218): [<ffffffff8b189ad5>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (1218): [<ffffffff8b189ad5>] _raw_spin_lock_irq+0x45/0x50 kernel/locking/spinlock.c:170
+softirqs last  enabled at (0): [<ffffffff814e57ac>] copy_process+0x1e9c/0x6f20 kernel/fork.c:2321
+softirqs last disabled at (0): [<0000000000000000>] 0x0
+Preemption disabled at:
+[<0000000000000000>] 0x0
+CPU: 1 UID: 0 PID: 6938 Comm: syz.1.230 Not tainted 6.12.0-syzkaller-09073-g9f16d5e6f220 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
+ __might_resched+0x3c0/0x5e0 kernel/sched/core.c:8758
+ vfree+0x75/0x890 mm/vmalloc.c:3359
+ kvfree+0x33/0x50 mm/util.c:699
+ resize_runtime_buffer+0x3a7/0x530 sound/core/rawmidi.c:736
+ snd_rawmidi_output_params+0xeb/0x1c0 sound/core/rawmidi.c:751
+ snd_rawmidi_ioctl_params_compat sound/core/rawmidi_compat.c:37 [inline]
+ snd_rawmidi_ioctl_compat+0x3ac/0x3e0 sound/core/rawmidi_compat.c:120
+ __do_compat_sys_ioctl+0x1cb/0x2c0 fs/ioctl.c:1004
+ do_syscall_32_irqs_on arch/x86/entry/common.c:165 [inline]
+ __do_fast_syscall_32+0x73/0x120 arch/x86/entry/common.c:386
+ do_fast_syscall_32+0x32/0x80 arch/x86/entry/common.c:411
+ entry_SYSENTER_compat_after_hwframe+0x84/0x8e
+RIP: 0023:0xf7f01579
+Code: b8 01 10 06 03 74 b4 01 10 07 03 74 b0 01 10 08 03 74 d8 01 00 00 00 00 00 00 00 00 00 00 00 00 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 8d b4 26 00 00 00 00 8d b4 26 00 00 00 00
+RSP: 002b:00000000f506555c EFLAGS: 00000296 ORIG_RAX: 0000000000000036
+RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 00000000c0205710
+RDX: 0000000020000100 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000296 R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ </TASK>
+----------------
+Code disassembly (best guess), 2 bytes skipped:
+   0:	10 06                	adc    %al,(%rsi)
+   2:	03 74 b4 01          	add    0x1(%rsp,%rsi,4),%esi
+   6:	10 07                	adc    %al,(%rdi)
+   8:	03 74 b0 01          	add    0x1(%rax,%rsi,4),%esi
+   c:	10 08                	adc    %cl,(%rax)
+   e:	03 74 d8 01          	add    0x1(%rax,%rbx,8),%esi
+  1e:	00 51 52             	add    %dl,0x52(%rcx)
+  21:	55                   	push   %rbp
+  22:	89 e5                	mov    %esp,%ebp
+  24:	0f 34                	sysenter
+  26:	cd 80                	int    $0x80
+* 28:	5d                   	pop    %rbp <-- trapping instruction
+  29:	5a                   	pop    %rdx
+  2a:	59                   	pop    %rcx
+  2b:	c3                   	ret
+  2c:	90                   	nop
+  2d:	90                   	nop
+  2e:	90                   	nop
+  2f:	90                   	nop
+  30:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  37:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
