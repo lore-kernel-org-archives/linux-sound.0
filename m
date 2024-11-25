@@ -1,80 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181F5184520;
-	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E814916419
+	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732544460; cv=none; b=dPt5Ou0w6U1Cwul3nklo1KIJ1SCskg9miDbjNboNg+L0dNWUnY0UL5oNL/eP+p85fuR9kZZwLYztX6SCBGj18MLhKViLKL5AU8Kn8JQAS4pg3mziAUtkIo2blfskH9G08zLU9jUob0+Nh5/S27n+5MztNQZAG0pxrRyd8ebkVXw=
+	t=1732545748; cv=none; b=gHKOdIIEj2iXF6wj44qmdw0tL1zuj8OHb1pSWQ3jXUNdsAdLYrXsjCdtKzzLf1yRXcO93k7s6zb9e7DdfcNMfs4dRwEa2xOV4bPYWBGEiX5UzrLtoQTXi9h5j/HbE/6uP2Egd4qB8YtZlb4S3qIpn67kOwoLagu1b1rUr6H61wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732544460; c=relaxed/simple;
-	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jVPwWIg3i01bZWSzLcJoj3CAWcg1wi8hFKYNNvtIMk5DsWeV5jg5RSBefHv17JLVuPeouFF+9pj7mFS9fhwHZ0Q529h+0oElnaurRDRMajqa70gTgYl/osv1lGRDNf86Le9n4fqIl/tnSj3IigoEKtk4zv3K+SfEAe/qnXOu3PA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lXonjeSb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1732545748; c=relaxed/simple;
+	bh=m9T4IGlvQhm/+F0IKlw4XckrYCPgWa9ebpjwlQFm/Dk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RKR5bCvyDVOkVxwIUn2NWakcyjcKtuEkzdYaiRK0fJE6tll4TJNvkMjtEZg76HHvYR9nnhtPNR09r8yc02P6tzTPzK6NodnJ+aRm+CJAyE1YNN7zY7Zb/uG1V0yo5BcDLvm5vhJXIT4UkiZVSr5qG7PB7zeimlDAY+dKNcgfpis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RUquDLtW; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4zMySE9c; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=sQfkw85V; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CAGwhglr; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lXonjeSb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81285C4CECE;
-	Mon, 25 Nov 2024 14:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732544459;
-	bh=BJFiZKZUiXJdE7BCJYHoYsMcMtEgwgFeoIpU0YaHwZg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lXonjeSbIogq7Uq/RghIOWPdWN8cjsFRN2ihUVNV8/bk/P143kThC1A9GVr6KeWcf
-	 KqZChTETZ1o0zy6DffOnTQPmN7qtnfOeeOgwghrp83BgP8XUYAgkyo1sf7CyISsMVm
-	 zito8LvVZfMXFPol4R6tqGwviWexBKIdmzShqSKTCexDZGP0944/MdvJ7BUbsxlsq0
-	 EtufmCYr5lgilXi3ITkGqHiYz7oleh70Y2+woevEEP+wogwSNgbZfFE7h7HFtmLBu1
-	 k00RiqAphCsVBBJ2jsZ/R1c4w7vPLZLsWOwqf0YIY5BCqJPsoWjJ+6k/z6ttt04JSr
-	 tH6a6lJZH5wfg==
-Date: Mon, 25 Nov 2024 08:20:57 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: =?iso-8859-1?B?Q3Pza+FzLA==?= Bence <csokas.bence@prolan.hu>
-Cc: linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>, Mark Brown <broonie@kernel.org>,
-	linux-sunxi@lists.linux.dev,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v6 2/5] dt-bindings: sound: Add Allwinner suniv F1C100s
- Audio Codec
-Message-ID: <173254426800.1714666.14026732187475007449.robh@kernel.org>
-References: <20241123123900.2656837-1-csokas.bence@prolan.hu>
- <20241123123900.2656837-3-csokas.bence@prolan.hu>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RUquDLtW";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4zMySE9c";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="sQfkw85V";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CAGwhglr"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id CDBCB21114;
+	Mon, 25 Nov 2024 14:42:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732545744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cK6vybVGWCHGFcuj3X2kfymgXLxTqeKt9NKsWibrygk=;
+	b=RUquDLtWULIFsaMQMAIHERLnDrqOa3iRxPp1eVD+hHT8/cYzwP3gwBw7xXUuRw2YzY50FY
+	6/ruwoEd3iD4xMZaadpiUucwqk8jb1bW18gFNoFpQeqz1FFuCkhMrhS+pUZqzaoKAu9uVM
+	Qjv/8/f24JnVoQUbycgLsGTO7ju/Z2Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732545744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cK6vybVGWCHGFcuj3X2kfymgXLxTqeKt9NKsWibrygk=;
+	b=4zMySE9cTRVEbIcHj+m+cBUF74SfEp1jpf+SGEHemoRoppDAmGYDHKPBPTpL/LEGfpioic
+	pPfdv0V7clbtBxBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=sQfkw85V;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CAGwhglr
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732545743; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cK6vybVGWCHGFcuj3X2kfymgXLxTqeKt9NKsWibrygk=;
+	b=sQfkw85Vi8wuwuxNRFaMMergg8JdK88Ibn3S+mm8rb63a8/VA57ayMXbAY0xeo8x5aaZOD
+	WVY0il7lf1ffgGru7i0I+T+PLogqfs9qc7Cbv9+KJF+d8NGjpHaAVWg/t/rIANsUFnstEI
+	rh0dLtd8Z6E5uSUSjKpDn9cuFKa+sIY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732545743;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cK6vybVGWCHGFcuj3X2kfymgXLxTqeKt9NKsWibrygk=;
+	b=CAGwhglruz/vuezMkmmFQmt/W4kVf6B9DKCi/GZ+zlgcTHv5f4aa0MjyhMfu90SHQfR+Si
+	p1hsspT1TUGUxSCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AFA70137D4;
+	Mon, 25 Nov 2024 14:42:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id DAWmKc+MRGf+TAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 Nov 2024 14:42:23 +0000
+Date: Mon, 25 Nov 2024 15:42:23 +0100
+Message-ID: <87wmgrxtm8.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dinesh Kumar <desikumar81@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com
+Subject: Re: [PATCH] ALSA: hda/realtek: Fix Internal Speaker and Mic boost of Infinix Y4 Max
+In-Reply-To: <20241125092842.13208-1-desikumar81@gmail.com>
+References: <20241125092842.13208-1-desikumar81@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241123123900.2656837-3-csokas.bence@prolan.hu>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: CDBCB21114
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.50 / 50.00];
+	BAYES_HAM(-2.99)[99.97%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.50
+X-Spam-Flag: NO
 
-
-On Sat, 23 Nov 2024 13:39:00 +0100, Csókás, Bence wrote:
-> Add compatible string for Allwinner suniv F1C100s audio codec.
+On Mon, 25 Nov 2024 10:28:42 +0100,
+Dinesh Kumar wrote:
 > 
-> [ csokas.bence: Reimplement Mesih Kilinc's binding in YAML ]
-> Signed-off-by: Csókás, Bence <csokas.bence@prolan.hu>
-> ---
->  .../sound/allwinner,sun4i-a10-codec.yaml      | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> Internal Speaker of Infinix Y4 Max remains muted due to incorrect
+> Pin configuration, and the Internal Mic records high noise. This patch
+> corrects the Pin configuration for the Internal Speaker and limits
+> the Internal Mic boost.
+> HW Probe for device: https://linux-hardware.org/?probe=6d4386c347
+> Test: Internal Speaker works fine, Mic has low noise.
 > 
+> Signed-off-by: Dinesh Kumar <desikumar81@gmail.com>
+
+Applied now.  Thanks.
 
 
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
-
-If a tag was not added on purpose, please state why and what changed.
-
-Missing tags:
-
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-
-
-
+Takashi
