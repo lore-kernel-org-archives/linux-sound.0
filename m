@@ -1,79 +1,74 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39BC184527
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0282A1B2193
+	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 14:58:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732545996; cv=none; b=jz81UKN2qupixDowwrCTDmgzv7oxsN8n8lWBbm/fq/KmudL7+fgIcE2kxV1mKdp8GVPaJLNNFEIBxThGkiC4/vPIleJuJL3a2NsLGMfPWaX1OkhLy83dNgwdUtRj7+0r3Z0lsFeYeEjrvtHPgGGZY5rstdADzevOYN4L3R8Q45Y=
+	t=1732546682; cv=none; b=puXu6a8L7z+OTftLk+P2KeKKdUKyArqE9doQMvwS6sHTFz6hLbuAYY2yqmYRzJcKQ7G5S/Xhda0CgUFRJukwyNtM+bXSysemWsdVYLR1Lq65GwxawLs11RIrPzMyFL199/fP6kdZcEEwEcpkPG/u+NTNGCzZNtM08kUOi6YM4kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732545996; c=relaxed/simple;
-	bh=2ScGa+JA5d8OS/bw//Nu3VJVYCHuNJA/I/B47SA894Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Whp6Vtfwc8y43YxDAhm7tn1fqaYQhvfJU1Xm4DJSos2PHp7CA0Ivm0AMW32tUWZ5a9RNjE9d7nzNl1Va42O6/8ea3k8lOZLBWTUcNuMgSbBvSU9IzO96US8Bk6SKAfaJ209UgGbhgMWQ6r7Coj79fxzO9d9EsTDBO0N5NSETGD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaKMm8jP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ge6l0NDV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EaKMm8jP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ge6l0NDV; arc=none smtp.client-ip=195.135.223.130
+	s=arc-20240116; t=1732546682; c=relaxed/simple;
+	bh=hwKGyVzMfDkCSCTaw96Ja4FXqpTJJYQSkbzoUukLWiQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=spNQRfF7KrpuKFybL39jY6PO3PwL6C+I6yMJ3R6R2glv/D3Wy5y74PU2X+N/82ZHyljdeDdSLe/EChWQLhA1z7pH1NclsBWpbebHxoKJJ/pbubzxOcK2vs6mQpeP5x5HlXPAwwVwT6wf23ZNgWqTSIsdLVeKQvEO8xXMTQ5CyXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RBbgGbZp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L2hXrEkR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RBbgGbZp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=L2hXrEkR; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaKMm8jP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ge6l0NDV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EaKMm8jP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ge6l0NDV"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBbgGbZp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L2hXrEkR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RBbgGbZp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="L2hXrEkR"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3699721120;
-	Mon, 25 Nov 2024 14:46:33 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 248591F396;
+	Mon, 25 Nov 2024 14:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732545993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LlnTbOU2J41zXytx2BYcef0NhCBkXPOmBrnyCqfz72s=;
-	b=EaKMm8jPYcYiPab//D8wWDmHhU6oCky9QonV+TALjUrzIpeeCJoSy1svQ89cazJpWWstPP
-	nnn6ZT9WfeuH2NJR4995eR6mV0Is7I7HsokVyXr47aZg8XjtmmyFVMiPttVveV0SFOHinf
-	ZY+m1ZRc5GpRQhB5vCsFO1dvIe3TD8M=
+	t=1732546679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
+	b=RBbgGbZpOs+KtWMmzXYWQyKpirUf0JAYF2vnhYDxxwjrakSYhWck62e8JNC/WRHUaNbX8l
+	YIZnFepPHxAtGtqLTsnwUDKrrcPUM22sdlh2sN0ogdYhFCyghgb9ZqjtPzXOu8Ta/+Q2ww
+	ui/qfBs8uHfz7RhIAr4z0OIAQqTyIzg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732545993;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LlnTbOU2J41zXytx2BYcef0NhCBkXPOmBrnyCqfz72s=;
-	b=ge6l0NDV6sXXQ08/WO6fqjmdzg3HlsDd3gDMjYor0/mavEHKJoGm2VNsGib2xHnNIV4dLk
-	6kAEzCTdSq+4w2Cw==
-Authentication-Results: smtp-out1.suse.de;
+	s=susede2_ed25519; t=1732546679;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
+	b=L2hXrEkRRuP7LuMB0mTmktyAxPrSK783sHvhdOFh9CeIHQsOFbl3MlpTgRj8ICbFEVkXL3
+	sGSp4CSbIXszqeDA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732545993; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LlnTbOU2J41zXytx2BYcef0NhCBkXPOmBrnyCqfz72s=;
-	b=EaKMm8jPYcYiPab//D8wWDmHhU6oCky9QonV+TALjUrzIpeeCJoSy1svQ89cazJpWWstPP
-	nnn6ZT9WfeuH2NJR4995eR6mV0Is7I7HsokVyXr47aZg8XjtmmyFVMiPttVveV0SFOHinf
-	ZY+m1ZRc5GpRQhB5vCsFO1dvIe3TD8M=
+	t=1732546679; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
+	b=RBbgGbZpOs+KtWMmzXYWQyKpirUf0JAYF2vnhYDxxwjrakSYhWck62e8JNC/WRHUaNbX8l
+	YIZnFepPHxAtGtqLTsnwUDKrrcPUM22sdlh2sN0ogdYhFCyghgb9ZqjtPzXOu8Ta/+Q2ww
+	ui/qfBs8uHfz7RhIAr4z0OIAQqTyIzg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732545993;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LlnTbOU2J41zXytx2BYcef0NhCBkXPOmBrnyCqfz72s=;
-	b=ge6l0NDV6sXXQ08/WO6fqjmdzg3HlsDd3gDMjYor0/mavEHKJoGm2VNsGib2xHnNIV4dLk
-	6kAEzCTdSq+4w2Cw==
+	s=susede2_ed25519; t=1732546679;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=XUnt8Bt8AwYiybMiuWtmZXMy8DkgIC0qSexb1p1XFR8=;
+	b=L2hXrEkRRuP7LuMB0mTmktyAxPrSK783sHvhdOFh9CeIHQsOFbl3MlpTgRj8ICbFEVkXL3
+	sGSp4CSbIXszqeDA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 17858137D4;
-	Mon, 25 Nov 2024 14:46:33 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C2BF137D4;
+	Mon, 25 Nov 2024 14:57:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kQmLBMmNRGdnTgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 25 Nov 2024 14:46:33 +0000
+	id YqvKAXeQRGdeUgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 25 Nov 2024 14:57:59 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Cc: =?UTF-8?q?Beno=C3=AEt=20Sevens?= <bsevens@google.com>
-Subject: [PATCH] ALSA: usb-audio: Fix out of bounds reads when finding clock sources
-Date: Mon, 25 Nov 2024 15:46:16 +0100
-Message-ID: <20241125144629.20757-1-tiwai@suse.de>
+Subject: [PATCH] ALSA: pcm: Don't issue XRUN during draining
+Date: Mon, 25 Nov 2024 15:57:55 +0100
+Message-ID: <20241125145757.22891-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -81,109 +76,60 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-The current USB-audio driver code doesn't check bLength of each
-descriptor at traversing for clock descriptors.  That is, when a
-device provides a bogus descriptor with a shorter bLength, the driver
-might hit out-of-bounds reads.
+snd_pcm_stop_xrun() checks the stream status with snd_pcm_running()
+helper, but this isn't really correct; namely, snd_pcm_running()
+returns true also when the stream is in draining, but in principle,
+the xrun at draining means nothing but the draining finished.  Hence,
+we shouldn't issue XRUN when it happens during draining.
 
-For addressing it, this patch adds sanity checks to the validator
-functions for the clock descriptor traversal.  When the descriptor
-length is shorter than expected, it's skipped in the loop.
+That is, for a proper state check, we should check the state only for
+SNDRV_PCM_STATE_RUNNING, instead.
 
-For the clock source and clock multiplier descriptors, we can just
-check bLength against the sizeof() of each descriptor type.
-OTOH, the clock selector descriptor of UAC2 and UAC3 has an array
-of bNrInPins elements and two more fields at its tail, hence those
-have to be checked in addition to the sizeof() check.
-
-Reported-by: Benoît Sevens <bsevens@google.com>
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/20241121140613.3651-1-bsevens@google.com
+Fixes: 1fb8510cdb5b ("ALSA: pcm: Add snd_pcm_stop_xrun() helper")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/usb/clock.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ sound/core/pcm_native.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/usb/clock.c b/sound/usb/clock.c
-index 8f85200292f3..842ba5b801ea 100644
---- a/sound/usb/clock.c
-+++ b/sound/usb/clock.c
-@@ -36,6 +36,12 @@ union uac23_clock_multiplier_desc {
- 	struct uac_clock_multiplier_descriptor v3;
- };
- 
-+/* check whether the descriptor bLength has the minimal length */
-+#define DESC_LENGTH_CHECK(p, proto) \
-+	((proto) == UAC_VERSION_3 ? \
-+	 ((p)->v3.bLength >= sizeof((p)->v3)) :	\
-+	 ((p)->v2.bLength >= sizeof((p)->v2)))
-+
- #define GET_VAL(p, proto, field) \
- 	((proto) == UAC_VERSION_3 ? (p)->v3.field : (p)->v2.field)
- 
-@@ -58,6 +64,8 @@ static bool validate_clock_source(void *p, int id, int proto)
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+index 381a476a1045..7bcca443e333 100644
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -1577,7 +1577,8 @@ int snd_pcm_drain_done(struct snd_pcm_substream *substream)
+ int snd_pcm_stop_xrun(struct snd_pcm_substream *substream)
  {
- 	union uac23_clock_source_desc *cs = p;
- 
-+	if (!DESC_LENGTH_CHECK(cs, proto))
-+		return false;
- 	return GET_VAL(cs, proto, bClockID) == id;
+ 	guard(pcm_stream_lock_irqsave)(substream);
+-	if (substream->runtime && snd_pcm_running(substream))
++	if (substream->runtime &&
++	    substream->runtime->state == SNDRV_PCM_STATE_RUNNING)
+ 		__snd_pcm_xrun(substream);
+ 	return 0;
  }
- 
-@@ -65,13 +73,27 @@ static bool validate_clock_selector(void *p, int id, int proto)
- {
- 	union uac23_clock_selector_desc *cs = p;
- 
--	return GET_VAL(cs, proto, bClockID) == id;
-+	if (!DESC_LENGTH_CHECK(cs, proto))
-+		return false;
-+	if (GET_VAL(cs, proto, bClockID) != id)
-+		return false;
-+	/* additional length check for baCSourceID array (in bNrInPins size)
-+	 * and two more fields (which sizes depend on the protocol)
-+	 */
-+	if (proto == UAC_VERSION_3)
-+		return cs->v3.bLength >= sizeof(cs->v3) + cs->v3.bNrInPins +
-+			4 /* bmControls */ + 2 /* wCSelectorDescrStr */;
-+	else
-+		return cs->v2.bLength >= sizeof(cs->v2) + cs->v2.bNrInPins +
-+			1 /* bmControls */ + 1 /* iClockSelector */;
- }
- 
- static bool validate_clock_multiplier(void *p, int id, int proto)
- {
- 	union uac23_clock_multiplier_desc *cs = p;
- 
-+	if (!DESC_LENGTH_CHECK(cs, proto))
-+		return false;
- 	return GET_VAL(cs, proto, bClockID) == id;
- }
- 
 -- 
 2.43.0
 
