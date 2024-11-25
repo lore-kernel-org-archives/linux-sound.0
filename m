@@ -1,122 +1,106 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5057E190662
-	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 09:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DCD17C21E
+	for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 11:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732526943; cv=none; b=lPFPrUjL4uOiO9snfcLIZjU8hQ2/blw4DD1IIW7H5tEDPhUwLmUs2cQKoy3P8vDLOyOyFCLWpz9dBAh+1UnvGjAIVHkHFoM5I4avWpIvqElsllgntdzwQ8hDty+gClgFiOXfa3ocMUQjB3+4Ov5AXpcEOq5nQYOTtbDh4I+MZW0=
+	t=1732534338; cv=none; b=fbpEID+HoGwPPTxq9ySEsr7Zq7apk+tQwGvoSehXxpFEkI4ddw45vNa1hZyv275BaxWLRUhbMCX/JEvJ6++c8KuvMriJsI2bEVl/zCpWdPLJ1NymdU1Syd4I6jKLhLg/R9fjKVKbrcNXyVaqG9kplgTL1fPsi703TuuZOeEW9WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732526943; c=relaxed/simple;
-	bh=F10KJxR7PNSnEdwKCwfKJp/4Tba8ymx79+xfnqgKopY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HfcWRYNH++uK+TJ6Kbbn4cb/kkNAqC/FkGBHc4eh3hRMxVOyYE98BfODzTJmWJGdfzzH/O2iuatFxUggSf22a3rWL1vcxzz1/RXuODaCPLxXA42N5na6XuJd0UptptWwct1PSOsFi6dZQMndzYWe45GwT4DdB2ux/NhsvRefjdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N5Dmk3kC; arc=none smtp.client-ip=209.85.167.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732534338; c=relaxed/simple;
+	bh=IJyZfLY2s0yZ6rO7Oz9oDF9No5CuXyzpVy8AxSjRid0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p+3EG2Z7Icdbrxa28M+6HGSCEON/tNx+5oe0dYsBJhBudVzasB3x9pJYsfY87XE+v2xA4cadacDxcjAk3Zm6+pOKK7aYeigpHzyjDjp/Z/9eeqdEn5UgzgKU/ve4OErXQf7KAlUN8aaoRqAK3WS3Mqe73sM7/sID8cIAc21eoOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=lFr5KN1U; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N5Dmk3kC"
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3e601b6a33aso2494030b6e.0
-        for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 01:29:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="lFr5KN1U"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4316f3d3c21so37947215e9.3
+        for <linux-sound@vger.kernel.org>; Mon, 25 Nov 2024 03:32:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732526940; x=1733131740; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pT4XmQomNYhjwiddS/lwEk7pr9pCeB8cg9bUhzAkJII=;
-        b=N5Dmk3kCWwmzpNhbP93FZsypP6624kJ8E5geWf70X8ZbPgm7SDRWz/mMkcBZyhOeP1
-         oEbdmilpyoc3yk1SDy+z2VYVOUA2gJLSzFq3rqKk8Gk5XPlF3VMJUQyTUcZ+UKQaQiYM
-         +5jhHedBN3u+qXvE8BCg6QV+eTAkGPJ4ZqE1Fj1mVDjz2yJMD/mbbOTUr3+KauwQFvrn
-         72+JaL9msp048HS2Wxh6faG9dUM1wn7W+wSY7z2PIJgNqutoACzyqbHCAWQC09nKGPtR
-         hHFjIcET/02Ik/CrvcSxP7vQEjBWoHrwM50iwcZm6J3rJ10zRGz6q7lshvm+xEC24r6A
-         tqVw==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732534335; x=1733139135; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QMIy+2ZGZlYbGjuPDyKFDMT/8RFkHAkPW/l+lHB1Ssg=;
+        b=lFr5KN1UdVXhHkhMlT9Tlqyx6ePt1XfonltvvRjPt8ax6KdEWWA3APdhv1Q5z4ympZ
+         SXwaeilxH1spLvtZQMLx2MqW200UyjqzLaRj3yVr6+Rsb66xcKrXNUoGB+Hf1WYyrBbz
+         /V5OewHHwFEMH0QTkjVT4YtcJv85d46derB9/fqHXE3+B/YBPdUkwrUF89qNbXHjqHz6
+         DzwZNxHZPaJg5ySSeYi6mmIqtFN9eA9ee5uVq1VVev9RXwbnC71kxJlcqy+8LA9G+OSO
+         mP08Aq+Aq5gXVTgKK2LhYwrgfoIxDocjRwdHe0tY7NmKUdSPqLEkhwCpokIVCsT89eB9
+         AN2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732526940; x=1733131740;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pT4XmQomNYhjwiddS/lwEk7pr9pCeB8cg9bUhzAkJII=;
-        b=RnOtCXLNXFl67MheHV0pQvnYMkGoAhrZu1DDaE7heQBUO0rgcVRz4rBriVCFpQv8Lp
-         ZMySCzQFn1nspkopGfD544mbLAc56c5txuzafqAF6vU7rj3pzHm4yfeLYO/NdfJQjEfQ
-         90cDR9nE68mdJfCvU+gsyHbRHSkay1hFiHTnl8IL2zhPZzioXRl/x47lKNXnDnLAepcC
-         t13AKkip0cunfJ+1J8ADWSGg8zmxcDoS0Bz3RcwgF9QHagiEStbTjccVmAommFlAJ4Qq
-         nVy4f2O1XAwj+P2WZeVnZz3GUh0NGm5dBVemlQrzMiUXuMaLQ9yB7htJOqKAtLgpZu48
-         ABMA==
-X-Gm-Message-State: AOJu0Yw+N94XWkiItuniVAJto6/pa2t8cqsXy66Rvoo4n3Azbsctf7UF
-	5mab2DKcfHqELn6+qByzawGkZGCzw+N10d72FK/QMTY9yc7+E9IRFA1bZQ==
-X-Gm-Gg: ASbGncsRGlEQMIrWc6ZJ4ODobrJJYLdWS8pWax3dkLBtRRsoQL9w0Aez1aH5iJJ3Y4k
-	+X7dejLlNQBEUvFIcjD/2/ZvvUWu+bUQqYt7z0AyrEC45V7DYpdAvaOJJu9Dv/9SiXMGMBTof5q
-	ZVAnCNMv72HPP2DUPkhnTTe+F6GeytfW0FnppFcDaYwE00sZ/4+xZgE/Dyb2Hm5OG/o83GvnTje
-	ulqCaD2yYs/ULmZ8ZNssd69kPwtN+6TV+y/WyRszNj+IuevyL/+gwOowY9sj3uJxF++
-X-Google-Smtp-Source: AGHT+IFD0C07RXIGcF4podhbMF3YvdveDvY5+10JiONjivfTkum0ypg8KP+KEteNfpg8OpGFesaXKQ==
-X-Received: by 2002:a05:6808:1524:b0:3e6:14a6:4288 with SMTP id 5614622812f47-3e91581ce1emr10559930b6e.11.1732526939971;
-        Mon, 25 Nov 2024 01:28:59 -0800 (PST)
-Received: from localhost.localdomain ([2409:40c4:139:aa08:e516:150a:9bde:d151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcc218012sm6157331a12.37.2024.11.25.01.28.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 01:28:59 -0800 (PST)
-From: Dinesh Kumar <desikumar81@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	Dinesh Kumar <desikumar81@gmail.com>
-Subject: [PATCH] ALSA: hda/realtek: Fix Internal Speaker and Mic boost of Infinix Y4 Max
-Date: Mon, 25 Nov 2024 14:58:42 +0530
-Message-ID: <20241125092842.13208-1-desikumar81@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        d=1e100.net; s=20230601; t=1732534335; x=1733139135;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QMIy+2ZGZlYbGjuPDyKFDMT/8RFkHAkPW/l+lHB1Ssg=;
+        b=SpzBHD1/gJ0+NsoZ8IptwF9y6TILVY0slV/miVXSK6i9g7n4yeMIYgaAAc7ApIL2H+
+         NSyrfmZ0EIBi3W58ROiO28Uk+lmW/cXyMXwzmbVx1JtY7iDNly+GNeLXjGoC40HoYj9K
+         EqN4A5r0Il1w2Nuoj2jfAH2vxz9o+MMXFBnOUYCUuUqKSUUIF28udwERETwV4U32hmnh
+         CuvLXOd0Kjl8Ii1GRjiuY9O0BauuAqZvLYA+VOXEClHPyNzRksD/Q/QVKB506jCC2Lyp
+         9fLb3/1lc4H8PmrTxqVoYqCZS5lSaushk0gt7k3ck3dCT/+jN9szJsDA9LETnSLPm2fC
+         omlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWifPUZcTrkTHezDDFrIKh+O1/T2KFS6Lx/+g8f2Hxt8xCmEUfMYwRUTx7nONPUaOBaeJs+YbY6dWXIig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2V1wkx9BRKNs3Tj9SQwUFUWi0Nq8UtdIKt4oFHhGdoPgM05Ob
+	JWWSAtFqzJkA/DAsq349pU3TSX/EQqOStGcXm+XejogU2kE2Fe4BInL6BpwKS4o=
+X-Gm-Gg: ASbGncu+hGVNJXR7UG72o6fZBzM9ZcoEvB5paGsDBks4hGNSWLaxJn3M3v0pMY+QrAn
+	qRyHM17jRD8jvLVbRi5WsqtOySym3yE24GQI2w/1AQaZJCe8fpFi2xjAFUCYgtSBz8Mmm28Fs+b
+	1P74ukjuhwbQF+xK08fABgCvm8mkv9ENvAz99dlZRQdJWhFRtzIwe8dTpl4HNm0xd0Kza6+pqmX
+	tKxELLzwfbHLAx7vYK8j9zi/oJknFwSJfyV0S1S/BfLedORo+q/osOJU8JrKduMPaD9k/GvZkVo
+	pE7thiSKAazWOw==
+X-Google-Smtp-Source: AGHT+IFS+7K0lEJaKeykwcJTAWzQZ4yXS8JJlRIPKoQmKX+XT9czJ5uZIfuXu4QgSvNX8SY83S/kkw==
+X-Received: by 2002:a7b:c7da:0:b0:434:9499:9e87 with SMTP id 5b1f17b1804b1-4349499a073mr49405845e9.25.1732534335055;
+        Mon, 25 Nov 2024 03:32:15 -0800 (PST)
+Received: from [192.168.0.172] (88-127-185-239.subs.proxad.net. [88.127.185.239])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbc3dfasm10487119f8f.76.2024.11.25.03.32.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 Nov 2024 03:32:14 -0800 (PST)
+Message-ID: <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
+Date: Mon, 25 Nov 2024 12:32:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
+To: Mark Brown <broonie@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Nicolas Belin <nbelin@baylibre.com>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, Liam Girdwood <lgirdwood@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
+ <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
+ <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
+Content-Language: en-US
+From: Alexandre Mergnat <amergnat@baylibre.com>
+In-Reply-To: <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Internal Speaker of Infinix Y4 Max remains muted due to incorrect
-Pin configuration, and the Internal Mic records high noise. This patch
-corrects the Pin configuration for the Internal Speaker and limits
-the Internal Mic boost.
-HW Probe for device: https://linux-hardware.org/?probe=6d4386c347
-Test: Internal Speaker works fine, Mic has low noise.
+Hello Andy.
 
-Signed-off-by: Dinesh Kumar <desikumar81@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 56a3622ca2c1..82c537bbd64c 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -7559,6 +7559,7 @@ enum {
- 	ALC269_FIXUP_THINKPAD_ACPI,
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
- 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
-+	ALC269VC_FIXUP_INFINIX_Y4_MAX,
- 	ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO,
- 	ALC255_FIXUP_ACER_MIC_NO_PRESENCE,
- 	ALC255_FIXUP_ASUS_MIC_NO_PRESENCE,
-@@ -7945,6 +7946,15 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
- 	},
-+	[ALC269VC_FIXUP_INFINIX_Y4_MAX] = {
-+		.type = HDA_FIXUP_PINS,
-+		.v.pins = (const struct hda_pintbl[]) {
-+			{ 0x1b, 0x90170150 }, /* use as internal speaker */
-+			{ }
-+		},
-+		.chained = true,
-+		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
-+	},
- 	[ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO] = {
- 		.type = HDA_FIXUP_PINS,
- 		.v.pins = (const struct hda_pintbl[]) {
-@@ -10943,6 +10953,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x2782, 0x0214, "VAIO VJFE-CL", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
- 	SND_PCI_QUIRK(0x2782, 0x0228, "Infinix ZERO BOOK 13", ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13),
- 	SND_PCI_QUIRK(0x2782, 0x0232, "CHUWI CoreBook XPro", ALC269VB_FIXUP_CHUWI_COREBOOK_XPRO),
-+	SND_PCI_QUIRK(0x2782, 0x1701, "Infinix Y4 Max", ALC269VC_FIXUP_INFINIX_Y4_MAX),
- 	SND_PCI_QUIRK(0x2782, 0x1707, "Vaio VJFE-ADL", ALC298_FIXUP_SPK_VOLUME),
- 	SND_PCI_QUIRK(0x8086, 0x2074, "Intel NUC 8", ALC233_FIXUP_INTEL_NUC8_DMIC),
- 	SND_PCI_QUIRK(0x8086, 0x2080, "Intel NUC 8 Rugged", ALC256_FIXUP_INTEL_NUC8_RUGGED),
+That mean all added include in this patch aren't required.
+
+
+On 04/11/2024 22:12, Mark Brown wrote:
+> On Mon, Nov 04, 2024 at 09:06:26PM +0200, Andy Shevchenko wrote:
+>> On Thu, Oct 31, 2024 at 12:27:25PM +0200, Andy Shevchenko wrote:
+>>> Update header inclusions to follow IWYU (Include What You Use)
+>>> principle.
+> 
+>> Hmm... I think we are waiting for somebody to Ack / review this change?
+> 
+> Yes.
+
 -- 
-2.47.0
-
+Regards,
+Alexandre
