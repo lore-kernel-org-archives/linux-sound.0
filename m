@@ -1,150 +1,165 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB4817C208;
-	Tue, 26 Nov 2024 07:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D09A1AA1C7
+	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 08:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732607759; cv=none; b=XlhV7nYCv4XqHGjarGdEBMMdn9TqNDfWZrsOrC8mHtB6TErzRdH4dRKh5jxV/mxfVSOMm7wSzUtpjbExKAJfWhnaV1VbUt4b7/RWgP36ps8Dnq/sPtuy++OREwH3mvNIk/mq4xTxSA19wEiYkAH/4aiQOFymOQBMJP4tuZN3O2U=
+	t=1732608358; cv=none; b=bqe4HRc8sSHEsdynSc+Bx+SHUVNJmpwTYuiHsmJWT2snNk6b6KgQjZsEw440RW44fsv89uSmrsyRy8qJDJrYBN9B17u3shi0PrY6jbeouAnByZiy5YdU7TNMg7PFugfKWWlfbaYWS9BP+J1lHcukAh6V2/xyM7W3PJl8vk6K1ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732607759; c=relaxed/simple;
-	bh=pCgORDrA+ZsMpaSR6+BYPqHZw8AuwuBYPuaU5j7g8MQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kV7pIuk4YbODEdtOjMMIk58pHLUQVxFG7sQA/bGUIvfwSYDS1J9gXrPDjZqnYFuZypH4apa8dXYheCCqoyD9Vi/wez4dZm78V3x5GUUZCVnyCitDePNOFCV/B+wuSlvAPZ+4csRLGSESGaaSG1aozZ/bOC9ZuC2iPpjt9msu2Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oL9BDsRQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WBrV+50C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oL9BDsRQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WBrV+50C; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732608358; c=relaxed/simple;
+	bh=6jf8nTYlhFbfM8tgJ1WU/jAB0zb7dAR+RwPeGIBacbo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
+	 MIME-Version; b=YizQDboFKuMz3uFXBBogabb8uGvmNxogC6xOebLDz3xWJzbPQVtj3kfGzUrbvrF579S0yjUKfFrz1uanzUOeEZO6+4Y0fS+vq23h+s5hCgwPk18Rf0elE/kvYF3EzWt0UlFOu82ERtrp6KOAejg0sfYmJKTNdJH93sdoi4NKMuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=pP5ONFyo; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oL9BDsRQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WBrV+50C";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oL9BDsRQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WBrV+50C"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 7AE102115C;
-	Tue, 26 Nov 2024 07:55:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732607755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
-	b=oL9BDsRQ489MqEyj0sD5vTZh4JlBLFbkVevAPPixJ1nLgloro7lsR6Ic+QsGps36VaYC15
-	vJbVERIPfPE6d5Q32Tw02dWWTIXYdnRwiQ1JDrNKyilip5OBwYzhWY+nR1QYDJGmMvOoTs
-	kQF+0L1N/hyGwLPSWUSGp1etX7pIQcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732607755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
-	b=WBrV+50Cumiw4r4TCc/Qq4Nx3Il1rO+vR7yjEEqOTmv7QepxOVUPzBK0DgGINblxZm5E77
-	vK8CvQi8AdmIQOAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732607755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
-	b=oL9BDsRQ489MqEyj0sD5vTZh4JlBLFbkVevAPPixJ1nLgloro7lsR6Ic+QsGps36VaYC15
-	vJbVERIPfPE6d5Q32Tw02dWWTIXYdnRwiQ1JDrNKyilip5OBwYzhWY+nR1QYDJGmMvOoTs
-	kQF+0L1N/hyGwLPSWUSGp1etX7pIQcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732607755;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
-	b=WBrV+50Cumiw4r4TCc/Qq4Nx3Il1rO+vR7yjEEqOTmv7QepxOVUPzBK0DgGINblxZm5E77
-	vK8CvQi8AdmIQOAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1DC2139AA;
-	Tue, 26 Nov 2024 07:55:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GSpIOQp/RWcuaAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 07:55:54 +0000
-Date: Tue, 26 Nov 2024 08:55:54 +0100
-Message-ID: <87v7wajunp.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Baojun Xu <baojun.xu@ti.com>
-Cc: <tiwai@suse.de>,
-	<robh+dt@kernel.org>,
-	<andriy.shevchenko@linux.intel.com>,
-	<lgirdwood@gmail.com>,
-	<perex@perex.cz>,
-	<shenghao-ding@ti.com>,
-	<navada@ti.com>,
-	<13916275206@139.com>,
-	<v-hampiholi@ti.com>,
-	<v-po@ti.com>,
-	<linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>,
-	<liam.r.girdwood@intel.com>,
-	<yung-chuan.liao@linux.intel.com>,
-	<broonie@kernel.org>,
-	<antheas.dk@gmail.com>,
-	<philm@manjaro.org>
-Subject: Re: [PATCH v6] ALSA: hda/tas2781: Add speaker id check for ASUS projects
-In-Reply-To: <20241123073718.475-1-baojun.xu@ti.com>
-References: <20241123073718.475-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="pP5ONFyo"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4AQ85cxD6737558, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1732608338; bh=6jf8nTYlhFbfM8tgJ1WU/jAB0zb7dAR+RwPeGIBacbo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:Content-Type:
+	 MIME-Version;
+	b=pP5ONFyoGvfhgMWro5kqKCBX4xZaNWeaKY4sMU/xAHxm1iSrMJZGR6klA41avhMGz
+	 g9y7bHMAvTwWfCJMCdUWUBnC3oDA57y4mXyKwT7a4AzhKEraPp1GzjWRQwPKKaU7an
+	 awqTDL5OByy43M2MC8GA/XCa/rZAR4GMdB7irGw95b8RQrRUIC+TQu9Kxtlz4QG+sm
+	 js/xJuaxE3avokNGhA6X/9DiRFE3kvBLSzbJjpge4GWRzlgACHbBoTR/M/tRcnc1Pa
+	 TXfsEP5eNTEiJVUKwAHAnMA3b1S9Gp9mZMNOUQD/mye/DmcQLUS+Jxbpu/ometUKq/
+	 cfLkITwMDk9Ag==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4AQ85cxD6737558
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 26 Nov 2024 16:05:38 +0800
+Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 26 Nov 2024 16:05:38 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Nov 2024 16:05:38 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
+ RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
+ 15.01.2507.035; Tue, 26 Nov 2024 16:05:38 +0800
+From: Kailang <kailang@realtek.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: RE: Set pcbeep to default value
+Thread-Topic: Set pcbeep to default value
+Thread-Index: Ads8sBHNzM+TirlYQ/mnHXgYWQoEn///nRkA//tCZACACctvgP/+tDQA//0LycA=
+Date: Tue, 26 Nov 2024 08:05:37 +0000
+Message-ID: <2721bb57e20a44c3826c473e933f9105@realtek.com>
+References: <a76a10fc88e740f2b157375d44f167c7@realtek.com>
+	<87r0731uk1.wl-tiwai@suse.de>	<cb9caa0e01f34e3b881bad24701c741f@realtek.com>
+ <87v7wbxti2.wl-tiwai@suse.de> 
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: multipart/mixed;
+	boundary="_002_2721bb57e20a44c3826c473e933f9105realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[dt];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,manjaro.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
-X-Spam-Flag: NO
+MIME-Version: 1.0
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-On Sat, 23 Nov 2024 08:37:18 +0100,
-Baojun Xu wrote:
-> 
-> Add speaker id check by gpio in ACPI for ASUS projects.
-> In other vendors, speaker id was checked by BIOS, and was applied in
-> last bit of subsys id, so we can load corresponding firmware binary file
-> for its speaker by subsys id.
-> But in ASUS project, the firmware binary name will be appended an extra
-> number to tell the speakers from different vendors. And this single digit
-> come from gpio level of speaker id in BIOS.
-> 
-> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
+--_002_2721bb57e20a44c3826c473e933f9105realtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-I applied this now, as it's been cooked for long time and we don't
-want miss 6.12 merge.   If any issue is found, let's fix on the top.
+Sorry! Attach again.
 
+Add ALSA: hda/realtek: to Title.
 
-thanks,
+> -----Original Message-----
+> From: Kailang
+> Sent: Tuesday, November 26, 2024 10:36 AM
+> To: 'Takashi Iwai' <tiwai@suse.de>
+> Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>;
+> 'linux-sound@vger.kernel.org' <linux-sound@vger.kernel.org>
+> Subject: RE: Set pcbeep to default value
+>=20
+> OK.
+>=20
+> > -----Original Message-----
+> > From: Takashi Iwai <tiwai@suse.de>
+> > Sent: Monday, November 25, 2024 10:45 PM
+> > To: Kailang <kailang@realtek.com>
+> > Cc: Takashi Iwai <tiwai@suse.de>
+> > Subject: Re: Set pcbeep to default value
+> >
+> >
+> > External mail.
+> >
+> >
+> >
+> > On Mon, 25 Nov 2024 03:00:26 +0100,
+> > Kailang wrote:
+> > >
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Takashi Iwai <tiwai@suse.de>
+> > > > Sent: Friday, November 22, 2024 5:34 PM
+> > > > To: Kailang <kailang@realtek.com>
+> > > > Cc: (alsa-devel@alsa-project.org) <alsa-devel@alsa-project.org>
+> > > > Subject: Re: Set pcbeep to default value
+> > > >
+> > > >
+> > > > External mail.
+> > > >
+> > > >
+> > > >
+> > > > On Fri, 22 Nov 2024 08:29:56 +0100, Kailang wrote:
+> > > > >
+> > > > > Hi Takashi,
+> > > > >
+> > > > > Attach patch will set pcbeep to default value for ALC274.
+> > > >
+> > > > Could you resubmit with your Signed-off-by tag?
+> > >
+> > > Sorry! Attach again.
+> >
+> > You seem to have dropped Cc to alsa-devel ML.
+> > Also, nowadays we use linux-sound@vger.kernel.org for the main ML for
+> > kernel patches.  Care to resubmit to there?
+> >
+> >
+> > thanks,
+> >
+> > Takashi
 
-Takashi
+--_002_2721bb57e20a44c3826c473e933f9105realtekcom_
+Content-Type: application/octet-stream;
+	name="0000-dell-alc274-beep-default.patch"
+Content-Description: 0000-dell-alc274-beep-default.patch
+Content-Disposition: attachment;
+	filename="0000-dell-alc274-beep-default.patch"; size=831;
+	creation-date="Thu, 21 Nov 2024 08:17:27 GMT";
+	modification-date="Tue, 26 Nov 2024 08:03:37 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSA1OTA5ODc4MzZmNWY4ZTU2NWU3ZmVkMzcyNTYxODVmNTUwNGQ2ZGE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFRodSwgMjEgTm92IDIwMjQgMTY6MTY6MjYgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
+OiBoZGEvcmVhbHRlazogU2V0IFBDQmVlcCB0byBkZWZhdWx0IHZhbHVlIGZvciBBTEMyNzQKCkJJ
+T1MgRW5hYmxlIFBDIGJlZXAgcGF0aCBjYXVzZSBwb3Agbm9pc2UgdmlhIHNwZWFrZXIgZHVyaW5n
+IGJvb3QgdGltZS4KU2V0IHRvIGRlZmF1bHQgdmFsdWUgZnJvbSBkcml2ZXIgd2lsbCBzb2x2ZSB0
+aGUgaXNzdWUuCgpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5j
+b20+CmRpZmYgLS1naXQgYS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYyBiL3NvdW5kL3Bj
+aS9oZGEvcGF0Y2hfcmVhbHRlay5jCmluZGV4IDU2YTM2MjJjYTJjMS4uNjcwMzZmZTZjNmNjIDEw
+MDY0NAotLS0gYS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYworKysgYi9zb3VuZC9wY2kv
+aGRhL3BhdGNoX3JlYWx0ZWsuYwpAQCAtNDczLDYgKzQ3Myw4IEBAIHN0YXRpYyB2b2lkIGFsY19m
+aWxsX2VhcGRfY29lZihzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIAkJYnJlYWs7CiAJY2FzZSAw
+eDEwZWMwMjM0OgogCWNhc2UgMHgxMGVjMDI3NDoKKwkJYWxjX3dyaXRlX2NvZWZfaWR4KGNvZGVj
+LCAweDZlLCAweDBjMjUpOworCQlmYWxsdGhyb3VnaDsKIAljYXNlIDB4MTBlYzAyOTQ6CiAJY2Fz
+ZSAweDEwZWMwNzAwOgogCWNhc2UgMHgxMGVjMDcwMToK
+
+--_002_2721bb57e20a44c3826c473e933f9105realtekcom_--
