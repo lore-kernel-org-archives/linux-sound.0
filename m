@@ -1,172 +1,130 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D92F17CA17
-	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 06:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2C44964E;
+	Tue, 26 Nov 2024 07:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732602673; cv=none; b=Jzvgi20r26AqIsP/f+FPnh1/oqP/bboDlPZDkgP18OACG9t0lGmPe1Blcyqpp72F87jcLGudVq57oEqlR47n8Cg53uvUY75mG77etXU0m0ur0guHz180snILqy5v/GnAA8pllDKMTsjQAPRwKMtHxt4nF5Wy4FOLLbfYbOPRock=
+	t=1732607219; cv=none; b=hz2SM8+xUQPaAIAnNpPT7Y4uJPiLr7lvH+tzYwHTnmJmY70v64AfKuysuxkSphf265IeRRXtGhaBd5kQpmA4+gAgS8uZWOxDFsLT2Xw8KPezzsDLC89RPvTI+Vut6cJA3BT3xNQDJyAPgzImo6gOljWg1ablbgtcHJXLZRLfYWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732602673; c=relaxed/simple;
-	bh=lLrvae2yPLxYrBtL1IhsFwGFugsHypudm13mioeFq8s=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=TqhDeI2BDPOcFjuZbxwqvsJVlm6YQSRua4sWKVcjcX6lCzncVRJurUoa+18Y1KeuB8RN1n2k5djtz2uOS/WJfgInk+gUBWmRqryK26S74I89mvtG9M2S2Y6aQAE9a+z7VL4z2qLNYRck0nt5K2UwmRZrAcAm8E1HfsSbZUDZmpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=RwLDbBdO; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1732607219; c=relaxed/simple;
+	bh=rGxIdHssWJLlPvfwSObL7KV2i8SJ0MtYYUio/uZNJfI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RiHZHNGEM1Tv36iEXcf3spIWEr/c3DdlhdRfyPpQZtLl/Dhpv8uhBz1w2h9zbQHrlZh9MxVrqZbJ9lYwsCi8H0CgDIge5+RfpOFBg/eyFDcl+IPo3zr101GzB47IWP1ZgWfUc6ACuj1/+EMgw9mQ/plL4B4bgAvyNNhq4tcGEWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YjQqgCpc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Fm5cGiDL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YjQqgCpc; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Fm5cGiDL; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="RwLDbBdO"
-X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4AQ6UvHC2608646, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
-	t=1732602657; bh=lLrvae2yPLxYrBtL1IhsFwGFugsHypudm13mioeFq8s=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
-	b=RwLDbBdOjLyicCbYnXj52TgtViMaE/TrEyU+NuCqCy1yWlWskV0O2f4AWz1OmJEnm
-	 tud/DJt5A7sT2gOOYpV66grtHP7Vc7/TlCfMaW7U6sHGvXLGUkhQOIJmQycJ1HgRhy
-	 eF+jKw44yeSWSL44EOGzcUr5oElKVhvbcJtElkwsqNO9K2Dl5MXiC9Fu57YZVFBEri
-	 Dh0yFXcSC3dROk6K3ByZm00izq1crbyuLF9lcNirmSngS+/bauN6y2CSv7u2bh9zce
-	 irOXisRZKF0T8n0KJbEw7aZytm5ItZbdXWcMjiKHP0IfXgxifYvP1xOtxpG/JYM/Ti
-	 hKVaTJt49D4Hg==
-Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
-	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4AQ6UvHC2608646
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 26 Nov 2024 14:30:57 +0800
-Received: from RTEXMBS03.realtek.com.tw (172.21.6.96) by
- RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 26 Nov 2024 14:30:57 +0800
-Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
- RTEXMBS03.realtek.com.tw (172.21.6.96) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 26 Nov 2024 14:30:57 +0800
-Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
- RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
- 15.01.2507.035; Tue, 26 Nov 2024 14:30:57 +0800
-From: Kailang <kailang@realtek.com>
-To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
-CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: ALC225 update depop procedure
-Thread-Topic: ALC225 update depop procedure
-Thread-Index: Ads/zJKsGyG8ZKEzRvKSATmkS917pQ==
-Date: Tue, 26 Nov 2024 06:30:57 +0000
-Message-ID: <5a27b016ba9d42b4a4e6dadce50a3ba4@realtek.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: yes
-x-kse-serverinfo: RTEXMBS03.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: multipart/mixed;
-	boundary="_002_5a27b016ba9d42b4a4e6dadce50a3ba4realtekcom_"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YjQqgCpc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fm5cGiDL";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YjQqgCpc";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fm5cGiDL"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 91D9D2115E;
+	Tue, 26 Nov 2024 07:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732607215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48nfOpDY6B+c9KfYgZwoNHkDV5BTUzCGiztMlmdTkwI=;
+	b=YjQqgCpcJ+0o2d3XMqQzidsH9TTNaoBTfvinix+7N3q8sq6r/KVbg7D1H8GDebOeRE5m4N
+	Ropfer2Evk5IQd3fakcHl7+YtgxkxIk0YFxqQkB5SNco6NSfE03DhqUyt3DEkuRDfpgvGv
+	BKz08L8Rh8ZG7WLc879JewrkjKrTch8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732607215;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48nfOpDY6B+c9KfYgZwoNHkDV5BTUzCGiztMlmdTkwI=;
+	b=Fm5cGiDLYCwAbOdHSgAYOKvhEEiotHqgksRMoMNs0ZqN07TovEUEwCZHNPEiG5lmvPWSbd
+	xqrqPeYOl6loAXBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732607215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48nfOpDY6B+c9KfYgZwoNHkDV5BTUzCGiztMlmdTkwI=;
+	b=YjQqgCpcJ+0o2d3XMqQzidsH9TTNaoBTfvinix+7N3q8sq6r/KVbg7D1H8GDebOeRE5m4N
+	Ropfer2Evk5IQd3fakcHl7+YtgxkxIk0YFxqQkB5SNco6NSfE03DhqUyt3DEkuRDfpgvGv
+	BKz08L8Rh8ZG7WLc879JewrkjKrTch8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732607215;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48nfOpDY6B+c9KfYgZwoNHkDV5BTUzCGiztMlmdTkwI=;
+	b=Fm5cGiDLYCwAbOdHSgAYOKvhEEiotHqgksRMoMNs0ZqN07TovEUEwCZHNPEiG5lmvPWSbd
+	xqrqPeYOl6loAXBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4264913890;
+	Tue, 26 Nov 2024 07:46:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ofPxDu98RWe3ZQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 07:46:55 +0000
+Date: Tue, 26 Nov 2024 08:46:54 +0100
+Message-ID: <871pyyl9n5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dirk Su <dirk.su@canonical.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for EliteBook X G1i
+In-Reply-To: <20241126060531.22759-1-dirk.su@canonical.com>
+References: <20241126060531.22759-1-dirk.su@canonical.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
---_002_5a27b016ba9d42b4a4e6dadce50a3ba4realtekcom_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 26 Nov 2024 07:05:24 +0100,
+Dirk Su wrote:
+> 
+> HP EliteBook X G1i needs ALC285_FIXUP_HP_GPIO_LED quirk to
+> make mic-mute/audio-mute working.
+> 
+> Signed-off-by: Dirk Su <dirk.su@canonical.com>
 
-Hi Takashi,
+Thanks, applied now.
 
-ALC225 update depop procedure.
-Many Thanks.
 
-BR,
-Kailang
-
---_002_5a27b016ba9d42b4a4e6dadce50a3ba4realtekcom_
-Content-Type: application/octet-stream;
-	name="0000-alc225-hp-depop-update.patch"
-Content-Description: 0000-alc225-hp-depop-update.patch
-Content-Disposition: attachment;
-	filename="0000-alc225-hp-depop-update.patch"; size=4604;
-	creation-date="Thu, 14 Nov 2024 07:22:42 GMT";
-	modification-date="Tue, 26 Nov 2024 06:15:40 GMT"
-Content-Transfer-Encoding: base64
-
-RnJvbSA3OGZmY2M1ZGIzZDc2ZDgzMmNmODZjNGI0YWUwMDdiMGVkZDMxM2FjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
-dGU6IFRodSwgMTQgTm92IDIwMjQgMTU6MDg6MDcgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
-OiBoZGEvcmVhbHRlazogVXBkYXRlIEFMQzIyNSBkZXBvcCBwcm9jZWR1cmUKCk9sZCBwcm9jZWR1
-cmUgaGFzIGEgY2hhbmNlIHRvIG1lZXQgSGVhZHBob25lIG5vIG91dHB1dC4KCkZpeGVzOiBkYTkx
-MWIxZjVlOTggKCJBTFNBOiBoZGEvcmVhbHRlayAtIHVwZGF0ZSBBTEMyMjUgZGVwb3Agb3B0aW1p
-emUiKQpTaWduZWQtb2ZmLWJ5OiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CmRp
-ZmYgLS1naXQgYS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYyBiL3NvdW5kL3BjaS9oZGEv
-cGF0Y2hfcmVhbHRlay5jCmluZGV4IDU2YTM2MjJjYTJjMS4uMDJlZjYyNzIwMTU5IDEwMDY0NAot
-LS0gYS9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYworKysgYi9zb3VuZC9wY2kvaGRhL3Bh
-dGNoX3JlYWx0ZWsuYwpAQCAtMzc3MiwzMyArMzc3MiwyOCBAQCBzdGF0aWMgdm9pZCBhbGMyMjVf
-aW5pdChzdHJ1Y3QgaGRhX2NvZGVjICpjb2RlYykKIAlocDFfcGluX3NlbnNlID0gc25kX2hkYV9q
-YWNrX2RldGVjdChjb2RlYywgaHBfcGluKTsKIAlocDJfcGluX3NlbnNlID0gc25kX2hkYV9qYWNr
-X2RldGVjdChjb2RlYywgMHgxNik7CiAKLQlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3Nl
-bnNlKQorCWlmIChocDFfcGluX3NlbnNlIHx8IGhwMl9waW5fc2Vuc2UpIHsKIAkJbXNsZWVwKDIp
-OworCQlhbGNfdXBkYXRlX2NvZWZleF9pZHgoY29kZWMsIDB4NTcsIDB4MDQsIDB4MDAwNywgMHgx
-KTsgLyogTG93IHBvd2VyICovCiAKLQlhbGNfdXBkYXRlX2NvZWZleF9pZHgoY29kZWMsIDB4NTcs
-IDB4MDQsIDB4MDAwNywgMHgxKTsgLyogTG93IHBvd2VyICovCi0KLQlpZiAoaHAxX3Bpbl9zZW5z
-ZSB8fCBzcGVjLT51bHRyYV9sb3dfcG93ZXIpCi0JCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMs
-IGhwX3BpbiwgMCwKLQkJCSAgICBBQ19WRVJCX1NFVF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX01V
-VEUpOwotCWlmIChocDJfcGluX3NlbnNlKQotCQlzbmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCAw
-eDE2LCAwLAotCQkJICAgIEFDX1ZFUkJfU0VUX0FNUF9HQUlOX01VVEUsIEFNUF9PVVRfTVVURSk7
-Ci0KLQlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlIHx8IHNwZWMtPnVsdHJhX2xv
-d19wb3dlcikKLQkJbXNsZWVwKDg1KTsKLQotCWlmIChocDFfcGluX3NlbnNlIHx8IHNwZWMtPnVs
-dHJhX2xvd19wb3dlcikKLQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAot
-CQkJICAgIEFDX1ZFUkJfU0VUX1BJTl9XSURHRVRfQ09OVFJPTCwgUElOX09VVCk7Ci0JaWYgKGhw
-Ml9waW5fc2Vuc2UpCi0JCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIDB4MTYsIDAsCi0JCQkg
-ICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05UUk9MLCBQSU5fT1VUKTsKKwkJaWYgKGhwMV9w
-aW5fc2Vuc2UpCisJCQlzbmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCBocF9waW4sIDAsCisJCQkJ
-ICAgIEFDX1ZFUkJfU0VUX1BJTl9XSURHRVRfQ09OVFJPTCwgUElOX09VVCk7CisJCWlmIChocDJf
-cGluX3NlbnNlKQorCQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgMHgxNiwgMCwKKwkJCQkg
-ICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05UUk9MLCBQSU5fT1VUKTsKKwkJbXNsZWVwKDc1
-KTsKIAotCWlmIChocDFfcGluX3NlbnNlIHx8IGhwMl9waW5fc2Vuc2UgfHwgc3BlYy0+dWx0cmFf
-bG93X3Bvd2VyKQotCQltc2xlZXAoMTAwKTsKKwkJaWYgKGhwMV9waW5fc2Vuc2UpCisJCQlzbmRf
-aGRhX2NvZGVjX3dyaXRlKGNvZGVjLCBocF9waW4sIDAsCisJCQkJICAgIEFDX1ZFUkJfU0VUX0FN
-UF9HQUlOX01VVEUsIEFNUF9PVVRfVU5NVVRFKTsKKwkJaWYgKGhwMl9waW5fc2Vuc2UpCisJCQlz
-bmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCAweDE2LCAwLAorCQkJCSAgICBBQ19WRVJCX1NFVF9B
-TVBfR0FJTl9NVVRFLCBBTVBfT1VUX1VOTVVURSk7CiAKLQlhbGNfdXBkYXRlX2NvZWZfaWR4KGNv
-ZGVjLCAweDRhLCAzIDw8IDEwLCAwKTsKLQlhbGNfdXBkYXRlX2NvZWZleF9pZHgoY29kZWMsIDB4
-NTcsIDB4MDQsIDB4MDAwNywgMHg0KTsgLyogSGlnaHQgcG93ZXIgKi8KKwkJbXNsZWVwKDc1KTsK
-KwkJYWxjX3VwZGF0ZV9jb2VmZXhfaWR4KGNvZGVjLCAweDU3LCAweDA0LCAweDAwMDcsIDB4NCk7
-IC8qIEhpZ2h0IHBvd2VyICovCisJfQogfQogCiBzdGF0aWMgdm9pZCBhbGMyMjVfc2h1dHVwKHN0
-cnVjdCBoZGFfY29kZWMgKmNvZGVjKQpAQCAtMzgxMCwzNiArMzgwNSwzNSBAQCBzdGF0aWMgdm9p
-ZCBhbGMyMjVfc2h1dHVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQogCWlmICghaHBfcGluKQog
-CQlocF9waW4gPSAweDIxOwogCi0JYWxjX2Rpc2FibGVfaGVhZHNldF9qYWNrX2tleShjb2RlYyk7
-Ci0JLyogM2sgcHVsbCBsb3cgY29udHJvbCBmb3IgSGVhZHNldCBqYWNrLiAqLwotCWFsY191cGRh
-dGVfY29lZl9pZHgoY29kZWMsIDB4NGEsIDAsIDMgPDwgMTApOwotCiAJaHAxX3Bpbl9zZW5zZSA9
-IHNuZF9oZGFfamFja19kZXRlY3QoY29kZWMsIGhwX3Bpbik7CiAJaHAyX3Bpbl9zZW5zZSA9IHNu
-ZF9oZGFfamFja19kZXRlY3QoY29kZWMsIDB4MTYpOwogCi0JaWYgKGhwMV9waW5fc2Vuc2UgfHwg
-aHAyX3Bpbl9zZW5zZSkKKwlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlKSB7CisJ
-CWFsY19kaXNhYmxlX2hlYWRzZXRfamFja19rZXkoY29kZWMpOworCQkvKiAzayBwdWxsIGxvdyBj
-b250cm9sIGZvciBIZWFkc2V0IGphY2suICovCisJCWFsY191cGRhdGVfY29lZl9pZHgoY29kZWMs
-IDB4NGEsIDAsIDMgPDwgMTApOwogCQltc2xlZXAoMik7CiAKLQlpZiAoaHAxX3Bpbl9zZW5zZSB8
-fCBzcGVjLT51bHRyYV9sb3dfcG93ZXIpCi0JCXNuZF9oZGFfY29kZWNfd3JpdGUoY29kZWMsIGhw
-X3BpbiwgMCwKLQkJCSAgICBBQ19WRVJCX1NFVF9BTVBfR0FJTl9NVVRFLCBBTVBfT1VUX01VVEUp
-OwotCWlmIChocDJfcGluX3NlbnNlKQotCQlzbmRfaGRhX2NvZGVjX3dyaXRlKGNvZGVjLCAweDE2
-LCAwLAotCQkJICAgIEFDX1ZFUkJfU0VUX0FNUF9HQUlOX01VVEUsIEFNUF9PVVRfTVVURSk7Ci0K
-LQlpZiAoaHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlIHx8IHNwZWMtPnVsdHJhX2xvd19w
-b3dlcikKLQkJbXNsZWVwKDg1KTsKKwkJaWYgKGhwMV9waW5fc2Vuc2UpCisJCQlzbmRfaGRhX2Nv
-ZGVjX3dyaXRlKGNvZGVjLCBocF9waW4sIDAsCisJCQkJICAgIEFDX1ZFUkJfU0VUX0FNUF9HQUlO
-X01VVEUsIEFNUF9PVVRfTVVURSk7CisJCWlmIChocDJfcGluX3NlbnNlKQorCQkJc25kX2hkYV9j
-b2RlY193cml0ZShjb2RlYywgMHgxNiwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfQU1QX0dBSU5f
-TVVURSwgQU1QX09VVF9NVVRFKTsKIAotCWlmIChocDFfcGluX3NlbnNlIHx8IHNwZWMtPnVsdHJh
-X2xvd19wb3dlcikKLQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgaHBfcGluLCAwLAotCQkJ
-ICAgIEFDX1ZFUkJfU0VUX1BJTl9XSURHRVRfQ09OVFJPTCwgMHgwKTsKLQlpZiAoaHAyX3Bpbl9z
-ZW5zZSkKLQkJc25kX2hkYV9jb2RlY193cml0ZShjb2RlYywgMHgxNiwgMCwKLQkJCSAgICBBQ19W
-RVJCX1NFVF9QSU5fV0lER0VUX0NPTlRST0wsIDB4MCk7CisJCW1zbGVlcCg3NSk7CiAKLQlpZiAo
-aHAxX3Bpbl9zZW5zZSB8fCBocDJfcGluX3NlbnNlIHx8IHNwZWMtPnVsdHJhX2xvd19wb3dlcikK
-LQkJbXNsZWVwKDEwMCk7CisJCWlmIChocDFfcGluX3NlbnNlKQorCQkJc25kX2hkYV9jb2RlY193
-cml0ZShjb2RlYywgaHBfcGluLCAwLAorCQkJCSAgICBBQ19WRVJCX1NFVF9QSU5fV0lER0VUX0NP
-TlRST0wsIDB4MCk7CisJCWlmIChocDJfcGluX3NlbnNlKQorCQkJc25kX2hkYV9jb2RlY193cml0
-ZShjb2RlYywgMHgxNiwgMCwKKwkJCQkgICAgQUNfVkVSQl9TRVRfUElOX1dJREdFVF9DT05UUk9M
-LCAweDApOwogCisJCW1zbGVlcCg3NSk7CisJCWFsY191cGRhdGVfY29lZl9pZHgoY29kZWMsIDB4
-NGEsIDMgPDwgMTAsIDApOworCQlhbGNfZW5hYmxlX2hlYWRzZXRfamFja19rZXkoY29kZWMpOwor
-CX0KIAlhbGNfYXV0b19zZXR1cF9lYXBkKGNvZGVjLCBmYWxzZSk7CiAJYWxjX3NodXR1cF9waW5z
-KGNvZGVjKTsKIAlpZiAoc3BlYy0+dWx0cmFfbG93X3Bvd2VyKSB7CkBAIC0zODUwLDkgKzM4NDQs
-NiBAQCBzdGF0aWMgdm9pZCBhbGMyMjVfc2h1dHVwKHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQog
-CQlhbGNfdXBkYXRlX2NvZWZfaWR4KGNvZGVjLCAweDRhLCAzPDw0LCAyPDw0KTsKIAkJbXNsZWVw
-KDMwKTsKIAl9Ci0KLQlhbGNfdXBkYXRlX2NvZWZfaWR4KGNvZGVjLCAweDRhLCAzIDw8IDEwLCAw
-KTsKLQlhbGNfZW5hYmxlX2hlYWRzZXRfamFja19rZXkoY29kZWMpOwogfQogCiBzdGF0aWMgdm9p
-ZCBhbGNfZGVmYXVsdF9pbml0KHN0cnVjdCBoZGFfY29kZWMgKmNvZGVjKQo=
-
---_002_5a27b016ba9d42b4a4e6dadce50a3ba4realtekcom_--
+Takashi
