@@ -1,123 +1,114 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BDA1D4613;
-	Tue, 26 Nov 2024 14:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA27A1D5ABD
+	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 14:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732631136; cv=none; b=ET6ZPtxS1FXODKVnkjcviJGaG3b8a0rLEXKLyB6O0058L5cAP7iAl9le2Ll3alFgBRvocgCj8AMNWOziMoFr3e27uvZFH4K1hxl2I4Xyw1V4Uq5I2buakYTrhnHfOGNeN5qHDoTlTVl0xuBaZzcrVGBK8EFHdddtbpFH6kmQ3aE=
+	t=1732632166; cv=none; b=DhrU1S9VV/pjEo0RQ5hgdZI9Zxx5UWT03PzUnmC85haib06UoY+F8EZdy9EFZyaiNDIrTU3wIBosvJLECMqfJ8h3ruEIYiASFwdfR48JuMa7NpxBZrr5AUtc+MhkM7ULG2rkC+SqHgG/juH9Y4NWdNiRm6Ct6P+hMkpdd+H5W5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732631136; c=relaxed/simple;
-	bh=LCJwEdebs/Wgp6PyBm4ogPVQlFU9GBzhKFRxPyeQTac=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eisXAwrYlIzqKldfNeEFPD051NDuRA5qTzU/ENgBY3k7pJ9MEvbXaYQA+kWHFZeai2os5XKOMS0ST0q+KFUGz95K7uGqJb7JWfuak+y0s48deYrCNkr3MuEa/LiW9So2LAR236QbJQLNhqpB5gi9r+BvNCFVaY0qlt0JfHTT3C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Tow8kry; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C3mTA9W+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Tow8kry; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=C3mTA9W+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732632166; c=relaxed/simple;
+	bh=4U+RbTjv/1IMjKTIYKTLn4fKyd2E5uzbDW7GxkmMkgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UYqAg26tqHJMrpyoBfLRs/6e6HGGRjGz8X8572h7judzuCgEJXjDcaEj02mr+KSbzEQ43Kk5WLuLQjeEFbcftOSzUDtpiPy+UKY0WQR0NDQ+a3T/iuLJWZTd6azqRLz0yGP8fFCQxfm774PFkKhaYbMDqoQT8vbpTKLTvKvCfYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=Dd0bAtxS; arc=none smtp.client-ip=178.154.239.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Tow8kry";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C3mTA9W+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Tow8kry";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="C3mTA9W+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 110BA2116E;
-	Tue, 26 Nov 2024 14:25:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732631132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=59tyn3Ay1zIV9EvoMe0QOwMNIHWHtmydlw+Xs7xpc7Y=;
-	b=1Tow8krySiJe+rWWlgfq7sSuNQ9uDdpC+Kn7ipurGcVHacANLs4txDPgw5Zoj9SiZtGWD6
-	ZyMWrUMQj6d18DkWUde0kwHxdnUIkQnxvSZLsJdOn/QpD3UcYgSCywR4MPhG04HVIoYW4h
-	xqV4a+Vu4s/Tf+iJg2dW7Hi6nhxcqs0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732631132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=59tyn3Ay1zIV9EvoMe0QOwMNIHWHtmydlw+Xs7xpc7Y=;
-	b=C3mTA9W+N9/XrHM7NTRSGHoR4jBVuL4NRrAOAmAL4bUbA84agS+6aLx6ILqxQ760/mM3Vd
-	TpHvpoioNKPIfcDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732631132; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=59tyn3Ay1zIV9EvoMe0QOwMNIHWHtmydlw+Xs7xpc7Y=;
-	b=1Tow8krySiJe+rWWlgfq7sSuNQ9uDdpC+Kn7ipurGcVHacANLs4txDPgw5Zoj9SiZtGWD6
-	ZyMWrUMQj6d18DkWUde0kwHxdnUIkQnxvSZLsJdOn/QpD3UcYgSCywR4MPhG04HVIoYW4h
-	xqV4a+Vu4s/Tf+iJg2dW7Hi6nhxcqs0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732631132;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=59tyn3Ay1zIV9EvoMe0QOwMNIHWHtmydlw+Xs7xpc7Y=;
-	b=C3mTA9W+N9/XrHM7NTRSGHoR4jBVuL4NRrAOAmAL4bUbA84agS+6aLx6ILqxQ760/mM3Vd
-	TpHvpoioNKPIfcDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E65BE139AA;
-	Tue, 26 Nov 2024 14:25:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id CWG5N1vaRWf+dgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 14:25:31 +0000
-Date: Tue, 26 Nov 2024 15:25:31 +0100
-Message-ID: <87a5dmax7o.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: asihpi: Remove unused variable
-In-Reply-To: <20241126093245.3228-1-zhujun2@cmss.chinamobile.com>
-References: <20241126093245.3228-1-zhujun2@cmss.chinamobile.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="Dd0bAtxS"
+Received: from mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net [IPv6:2a02:6b8:c07:179a:0:640:3367:0])
+	by forward101b.mail.yandex.net (Yandex) with ESMTPS id 5B7A760E40;
+	Tue, 26 Nov 2024 17:42:34 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id XgZIvsrOeW20-Mw75RNhj;
+	Tue, 26 Nov 2024 17:42:33 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1732632153; bh=FYaL6aOUdRz3cVSgi1N298jEKsnDAct7nhDE9pvtzek=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=Dd0bAtxSPKa0aZXDrbrXOrnA4U8n53ocyry29OyOa/STPtTL3+gpRWuo3nkGLtPBU
+	 nK4J1tcIiunKWpDTwFrswYmQh9JAA8DuuSKtGU+PR2P4ovRwN1tdehRGsCU819uE8C
+	 /e2A3hNtVdb1S0OfJd/58EKt7lZkWiHCoi4FtZbw=
+Authentication-Results: mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Brent Lu <brent.lu@intel.com>
+Cc: linux-sound@vger.kernel.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH] SOF: Intel: hda: fix memory leak in hda_machine_select()
+Date: Tue, 26 Nov 2024 17:41:45 +0300
+Message-ID: <20241126144145.4442-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 26 Nov 2024 10:32:45 +0100,
-Zhu Jun wrote:
-> 
-> the variable is never referenced in the code, just remove it.
-> 
-> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+Kernel memory leak detector has reported the following leak:
 
-Thanks, applied now.
+unreferenced object 0xffff88810f54bed0 (size 16):
+  comm "kworker/18:1", pid 162, jiffies 4294754593
+  hex dump (first 16 bytes):
+    73 6f 66 2d 68 64 61 2d 67 65 6e 65 72 69 63 00  sof-hda-generic.
+  backtrace (crc 4bf1675c):
+    [<00000000c0f2b5a4>] __kmalloc_node_track_caller_noprof+0x349/0x610
+    [<000000008c0a621c>] kstrdup+0x3d/0x70
+    [<0000000036666329>] hda_machine_select+0xbe0/0x1e60 [snd_sof_intel_hda_generic]
+    [<00000000f9312d18>] sof_probe_work+0x192/0x1bc0 [snd_sof]
+    [<00000000e86720cf>] process_scheduled_works+0x7ab/0xe80
+    [<000000006ac5a4f7>] worker_thread+0x9b2/0xda0
+    [<00000000bb5178a6>] kthread+0x260/0x310
+    [<0000000045bf5f63>] ret_from_fork+0x45/0x80
+    [<0000000064567ca7>] ret_from_fork_asm+0x1a/0x30
 
+This happens when kstrdup()'ed area returned by 'remove_file_ext()' becomes
+unreferenced after assigning new value to 'sof_pdata->tplg_filename'. Since
+an explicit management of this area with 'kfree()' may be annoying and
+error-prone, tweak 'remove_file_ext()' to use 'devm_kmalloc()' (and so
+use memory which is automatically freed on driver detach).
 
-Takashi
+Fixes: 85b66359c5a7 ("ASoC: SOF: Intel: hda: refactoring topology name fixup for SDW mach")
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ sound/soc/sof/intel/hda.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
+index 01b135068b1f..a72f62f4e6cf 100644
+--- a/sound/soc/sof/intel/hda.c
++++ b/sound/soc/sof/intel/hda.c
+@@ -1197,16 +1197,17 @@ static int check_tplg_quirk_mask(struct snd_soc_acpi_mach *mach)
+ 	return 0;
+ }
+ 
+-static char *remove_file_ext(const char *tplg_filename)
++static char *remove_file_ext(struct device *dev, const char *tplg_filename)
+ {
+ 	char *filename, *tmp;
++	size_t len = strlen(tplg_filename);
+ 
+-	filename = kstrdup(tplg_filename, GFP_KERNEL);
++	filename = devm_kmalloc(dev, len + 1, GFP_KERNEL);
+ 	if (!filename)
+ 		return NULL;
+ 
+ 	/* remove file extension if exist */
+-	tmp = filename;
++	tmp = memcpy(filename, tplg_filename, len + 1);
+ 	return strsep(&tmp, ".");
+ }
+ 
+@@ -1285,7 +1286,7 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
+ 		 */
+ 		if (!sof_pdata->tplg_filename) {
+ 			/* remove file extension if it exists */
+-			tplg_filename = remove_file_ext(mach->sof_tplg_filename);
++			tplg_filename = remove_file_ext(sdev->dev, mach->sof_tplg_filename);
+ 			if (!tplg_filename)
+ 				return NULL;
+ 
+-- 
+2.47.0
+
