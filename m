@@ -1,120 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6440D1D54CF;
-	Tue, 26 Nov 2024 15:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348011D8DE4;
+	Tue, 26 Nov 2024 16:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732634590; cv=none; b=AeCKPAWQVON93XjXGO078rynogHz+lxC1UqHTCyINL2F45INo5b4JWuJmztgz1KfYw1KzAINPGx7+AO/kf1h19YjtqsxTrFINkYPbjfCBpXs4qgYKa4qMlArrrTF5TzYP9sQlc2tCoTibuqVjcUTKzSMUnSCLodlKyCkG0Dbc9Y=
+	t=1732639501; cv=none; b=UeX9AoPQrxyRcnsjRMHKaQALgF5ZxCE3ALShWhETt19wsPoNLnLb6n4EAUF1za4wP46Q2w7aura1imUBsS7MALAjbWT2EXojU771GcOKpAnbPZdTVU2jOBpwtc4Qmtt0Z/9ioMZZrXZV5B/h6z4fq+q0oS70vNpnK9QkHBmidHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732634590; c=relaxed/simple;
-	bh=BRSfxCCbOwhi2VADRh6D9j6oW5F0hLtYWnvHVw2D4Ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GMmExANA/m+ZZYofEwSLhCBiYWK23eLRZ/Qwdbjzn8s/Uz05NMCMqEMFcEagbEHM76Y5QDTanmBjaj8Fzo34Zc8ou/WWw4Znz7fPXAXSjPlBttc8NKHbRRk4iJAcOx1NiJrV0HklJOoqsCdr6JH6Q6TdTvLnn1Cm9xnN6RyX6ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dx+nGmh8; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1732639501; c=relaxed/simple;
+	bh=diuuyXhplyrEbr8scX5wzkrvkgLDNoK92z8t+TQ8Nk0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ELWMTc0HNmU9SSRQGzTWIKjmY6fq4Fm3bBhf1QXCnsjWkWC4I4PC2myzEG2HWZeu5Hh7JWDOuVr8Jj4vsX6vn/I4lI4rvO5iscd7O7APfB4ljDD/7RU9w/QKpYlIkvcl3mteMTT7zQ+UEoQMyIeqD60NkWhPE/0IWpCquXdg4z8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=l563hpIZ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dx+nGmh8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732634588; x=1764170588;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BRSfxCCbOwhi2VADRh6D9j6oW5F0hLtYWnvHVw2D4Ok=;
-  b=dx+nGmh866NMJ10Tg1nsKlLBgD3mDDZzwdoWfw/kZhdxYzIpG2tadKTz
-   afUGkC9SUjB+yg3FbweK70maJyKCz1l5G3m0OCILxELlr2oMkGzLG+MXf
-   I2YSlZkSQ5xcmtSDJ7rtfHUI7uEMkwTvDiEq5V/aA7idOTbvSO726/Ldy
-   912qZVQx2InkEDrH0uMdhzgB2ljuCi69sVXjPzhiD1wbAiTMh+LpIBMp4
-   RWgiCXITUoyLs4ecIyWULgI8VjwUFvywVNzScsPfpvQ4dZLmw76ayD5eC
-   KlJh4F46wzSeMleBE60Yu4HRTJmideCgcGO+/T9YYZjX5TzD3itFc58/x
-   w==;
-X-CSE-ConnectionGUID: SVCN5uZATneZegSmZm0V/Q==
-X-CSE-MsgGUID: avPopEO0RbWgX59trlVKxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="32859266"
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
-   d="scan'208";a="32859266"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 07:23:07 -0800
-X-CSE-ConnectionGUID: uzI9OrRkRESc0LNpJIAMGg==
-X-CSE-MsgGUID: QH5wPg5HS+SufPvb1ivXHw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
-   d="scan'208";a="122496182"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 07:23:04 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tFxP3-00000001JiU-3m2Z;
-	Tue, 26 Nov 2024 17:23:01 +0200
-Date: Tue, 26 Nov 2024 17:23:01 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Alexandre Mergnat <amergnat@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Nicolas Belin <nbelin@baylibre.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
-Message-ID: <Z0Xn1fMvuwR4KQbb@smile.fi.intel.com>
-References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
- <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
- <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
- <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
- <Z0RkaqfID9v0age_@smile.fi.intel.com>
- <ed50c130-076c-4697-9f11-fe602c7ca03d@baylibre.com>
- <49fa1677-db35-497b-afae-caa5dccf3747@baylibre.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="l563hpIZ"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ9AYrH031015;
+	Tue, 26 Nov 2024 16:44:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=FHpbuFNYn2ybWZo0VvNrOJ
+	WA65p0oT/c9DSOTVRC5J4=; b=l563hpIZTT8G/wP25jC52mdKnKZFAfI1DPJdVF
+	m1+TVqccZEKq4oX04cEDOov8aEaaUkjCGpcu1cwHZEMtShf/OU10QpXuu9DSpllS
+	GuwBX7ni7pqGiWH2Y0WzpZT3c8w7/AEh/rss/LB6lcgT9NUhJH60a7F+2K/MxLfo
+	UI+DGex51HS1oXjYAAgjtXMvhLHfIPWWS61wp67364MLfmqS0whoFCZgzMzzzQxV
+	oIboIK/m1prYV5P4zbUvlss6gDceUCKL1gfFbwWrEgWdnuhgdalZQBKIUE0ZU3mU
+	xF7Ztah2HreEzEgC98k54/1ZohLNco84dEZqw0pDMVqI6Qfg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435bf5h75u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Nov 2024 16:44:33 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AQGiXGc006195
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 26 Nov 2024 16:44:33 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 26 Nov 2024 08:44:25 -0800
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_rohkumar@quicinc.com>, <kernel@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v3 0/5] Add static channel mapping between soundwire master and slave
+Date: Tue, 26 Nov 2024 22:12:55 +0530
+Message-ID: <20241126164300.3305903-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49fa1677-db35-497b-afae-caa5dccf3747@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: eyytTXnGwdnBlzbcxL5kDKnUGdcLANV9
+X-Proofpoint-GUID: eyytTXnGwdnBlzbcxL5kDKnUGdcLANV9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
+ suspectscore=0 clxscore=1015 mlxlogscore=999 spamscore=0 malwarescore=0
+ adultscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411260134
 
-On Tue, Nov 26, 2024 at 11:37:26AM +0100, Alexandre Mergnat wrote:
-> On 26/11/2024 11:29, Alexandre Mergnat wrote:
-> > On 25/11/2024 12:50, Andy Shevchenko wrote:
-> > > On Mon, Nov 25, 2024 at 12:32:13PM +0100, Alexandre Mergnat wrote:
+Add static channel map support between soundwire master and slave.
 
-...
+Currently, the channel value for each soundwire port is hardcoded in the
+wcd937x-sdw driver and the same channel  value is configured in the
+soundwire master.
 
-> > > > Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
-> > > > 
-> > > > That mean all added include in this patch aren't required.
-> > > Do you mean the driver doesn't not use types from types.h or dev_*() macros
-> > > from dev_printk.h? I don't believe this, sorry.
-> > 
-> > > 
-> > > Basically what you are trying to say is "let's move of_gpio.h implicit
-> > > includes to become something else's problem". It's not what this patch
-> > > intended to do.
-> > 
-> > I'm just saying that I've test a build/boot with "linux/of_gpio.h" removed and without all
-> > include added in you patch. My understand is "linux/of_gpio.h" act as proxy
-> > for the includes added in your patch, my first idea was "if I remove it, build should fail cause
-> > of lack of other includes". I can understand these missing includes are mandatory, that
-> > probably means there is another proxy header ?
-> > Maybe my test isn't consistent because it isn't possible to clear all proxy ?
-> > 
-> > If that's the case, consider my review-by.
+The Qualcomm board like the QCM6490-IDP require static channel map
+settings for the soundwire master and slave ports.
 
-> Reviewed-by: Alexandre Mergnat <amergnat@baylibre.com>
+If another boards which are using enable wcd937x, the channel mapping
+index values between master and slave may be different depending on the
+board hw design and requirements. If the above properties are not used
+in a SoC specific device tree, the channel mapping index values are set
+to default.
 
-Thank you!
-Mark, would be enough to apply the change?
+With the introduction of the following channel mapping properties, it is
+now possible to configure the master channel mapping directly from the
+device tree.
 
-> > I've validated some include manually. Are you using a script to parse
-> > the file and raise all necessary "linux/*" include ?
+Added qcom_swrm_set_channel_map api to set the master channel values
+which allows more flexible to configure channel values in runtime for
+specific active soundwire ports.
+
+Add get and set channel maps support from codec to cpu dais in common
+Qualcomm sdw driver.
+
+Changes since v2:
+ - Rephrase commit description v2-0001 dt-bindings patch as suggested by Krzysztof.
+
+Changes since v1:
+ - Modified the design and followed new approach to setting the master channel mask.
+ - Used existing set_channel_map api as suggested by Pierre-Louis
+ - Fixed the typo mistake in v1-0001 dt-bindings patch.
+ - Rephrase the commit description for all v1 patches.
+
+Mohammad Rafi Shaik (5):
+  ASoC: dt-bindings: Add bindings for wcd937x static channel mapping
+  ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+  ASoC: codecs: wcd937x: Add static channel mapping support in
+    wcd937x-sdw
+  soundwire: qcom: Add set_channel_map api support
+  ASoC: qcom: sdw: Add get and set channel maps support from codec to
+    cpu dais
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 48 +++++++++++++++++
+ drivers/soundwire/qcom.c                      | 26 +++++++++
+ include/dt-bindings/sound/qcom,wcd93xx.h      | 13 +++++
+ sound/soc/codecs/wcd937x-sdw.c                | 38 +++++++++++--
+ sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+ sound/soc/codecs/wcd937x.h                    |  6 ++-
+ sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+ 7 files changed, 208 insertions(+), 10 deletions(-)
+ create mode 100644 include/dt-bindings/sound/qcom,wcd93xx.h
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.1
 
