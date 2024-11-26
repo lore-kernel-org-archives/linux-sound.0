@@ -1,83 +1,98 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19CA1991D9
-	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 07:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB4817C208;
+	Tue, 26 Nov 2024 07:55:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732607372; cv=none; b=G0wOqMJFylE137U4LedNMKfnkvly23ZjvSvlu/fO6aQXn6Tvq4nCEN2YNVSkWDt0RMgsAwWjfj6EOV3ENEnrAkcA2vPZQKekL7AK6LlxYvLEjViOgn59oJs+Aw+CrDHmrGuWYh46TbTC8JTrl/wv/nW7NY6u6ATiHyoAcUi7dH0=
+	t=1732607759; cv=none; b=XlhV7nYCv4XqHGjarGdEBMMdn9TqNDfWZrsOrC8mHtB6TErzRdH4dRKh5jxV/mxfVSOMm7wSzUtpjbExKAJfWhnaV1VbUt4b7/RWgP36ps8Dnq/sPtuy++OREwH3mvNIk/mq4xTxSA19wEiYkAH/4aiQOFymOQBMJP4tuZN3O2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732607372; c=relaxed/simple;
-	bh=Zy3aoV2lOS+V2/w9p1/dqpSEHMnh19TZAfUink2F8DM=;
+	s=arc-20240116; t=1732607759; c=relaxed/simple;
+	bh=pCgORDrA+ZsMpaSR6+BYPqHZw8AuwuBYPuaU5j7g8MQ=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lpTD3HmsTj7kc4+AAxMow+xUkBbXerrkcHdJtmZ1kA4chdqH32Y0cCJ7KY/mCQQsmBWHt5oda/6bM//6DAaDq4EKTtFVhgl0DRS8B0O/cQqMECPblo+zOUXqAieChTWxHwZq5hCR3DS9+ZkXjUnl/af9Qny116XK+a3lmMsyvZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KLetT29u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RGhdWO/G; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KLetT29u; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RGhdWO/G; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=kV7pIuk4YbODEdtOjMMIk58pHLUQVxFG7sQA/bGUIvfwSYDS1J9gXrPDjZqnYFuZypH4apa8dXYheCCqoyD9Vi/wez4dZm78V3x5GUUZCVnyCitDePNOFCV/B+wuSlvAPZ+4csRLGSESGaaSG1aozZ/bOC9ZuC2iPpjt9msu2Kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oL9BDsRQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WBrV+50C; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oL9BDsRQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WBrV+50C; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KLetT29u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RGhdWO/G";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KLetT29u";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RGhdWO/G"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oL9BDsRQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WBrV+50C";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oL9BDsRQ";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WBrV+50C"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4B09D21158;
-	Tue, 26 Nov 2024 07:49:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7AE102115C;
+	Tue, 26 Nov 2024 07:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732607369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732607755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6DaMHX20blofpomovnv7qmKQNzHmqHmKfJA5IZMHdgk=;
-	b=KLetT29uf/6XiZikihyaGVvvRzTgUgUhGg6BopL1oMlGgDjHik7sxh2lzk444FPl9JcjJj
-	el7M8SpmREOQkaYOjbh1xDJd0e8pUzaBV64jadtNvBYCAZAtoTtYQcDn5wG7EtVrnJuK+x
-	AVJ68TLAdAv2E+ANW9ixmeSsrIH4ugA=
+	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
+	b=oL9BDsRQ489MqEyj0sD5vTZh4JlBLFbkVevAPPixJ1nLgloro7lsR6Ic+QsGps36VaYC15
+	vJbVERIPfPE6d5Q32Tw02dWWTIXYdnRwiQ1JDrNKyilip5OBwYzhWY+nR1QYDJGmMvOoTs
+	kQF+0L1N/hyGwLPSWUSGp1etX7pIQcQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732607369;
+	s=susede2_ed25519; t=1732607755;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6DaMHX20blofpomovnv7qmKQNzHmqHmKfJA5IZMHdgk=;
-	b=RGhdWO/GLD3WxQhe68k5PSVbj33p/SnVNtZOlQ2un6uq4u4b+lwUFfqmJ+iBTrJQeRnDSC
-	lajt98Xb3SlX1LDw==
+	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
+	b=WBrV+50Cumiw4r4TCc/Qq4Nx3Il1rO+vR7yjEEqOTmv7QepxOVUPzBK0DgGINblxZm5E77
+	vK8CvQi8AdmIQOAg==
 Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732607369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1732607755; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6DaMHX20blofpomovnv7qmKQNzHmqHmKfJA5IZMHdgk=;
-	b=KLetT29uf/6XiZikihyaGVvvRzTgUgUhGg6BopL1oMlGgDjHik7sxh2lzk444FPl9JcjJj
-	el7M8SpmREOQkaYOjbh1xDJd0e8pUzaBV64jadtNvBYCAZAtoTtYQcDn5wG7EtVrnJuK+x
-	AVJ68TLAdAv2E+ANW9ixmeSsrIH4ugA=
+	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
+	b=oL9BDsRQ489MqEyj0sD5vTZh4JlBLFbkVevAPPixJ1nLgloro7lsR6Ic+QsGps36VaYC15
+	vJbVERIPfPE6d5Q32Tw02dWWTIXYdnRwiQ1JDrNKyilip5OBwYzhWY+nR1QYDJGmMvOoTs
+	kQF+0L1N/hyGwLPSWUSGp1etX7pIQcQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732607369;
+	s=susede2_ed25519; t=1732607755;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=6DaMHX20blofpomovnv7qmKQNzHmqHmKfJA5IZMHdgk=;
-	b=RGhdWO/GLD3WxQhe68k5PSVbj33p/SnVNtZOlQ2un6uq4u4b+lwUFfqmJ+iBTrJQeRnDSC
-	lajt98Xb3SlX1LDw==
+	bh=7dtF3+jSPP5KVlzpwrbNuBsU/vRIuH+ihMnUmxyEKIA=;
+	b=WBrV+50Cumiw4r4TCc/Qq4Nx3Il1rO+vR7yjEEqOTmv7QepxOVUPzBK0DgGINblxZm5E77
+	vK8CvQi8AdmIQOAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2058713890;
-	Tue, 26 Nov 2024 07:49:29 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F1DC2139AA;
+	Tue, 26 Nov 2024 07:55:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OgqKBol9RWeGZgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 07:49:29 +0000
-Date: Tue, 26 Nov 2024 08:49:28 +0100
-Message-ID: <87y116juyf.wl-tiwai@suse.de>
+	id GSpIOQp/RWcuaAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 26 Nov 2024 07:55:54 +0000
+Date: Tue, 26 Nov 2024 08:55:54 +0100
+Message-ID: <87v7wajunp.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Kailang <kailang@realtek.com>
-Cc: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-Subject: Re: ALC225 update depop procedure
-In-Reply-To: <5a27b016ba9d42b4a4e6dadce50a3ba4@realtek.com>
-References: <5a27b016ba9d42b4a4e6dadce50a3ba4@realtek.com>
+To: Baojun Xu <baojun.xu@ti.com>
+Cc: <tiwai@suse.de>,
+	<robh+dt@kernel.org>,
+	<andriy.shevchenko@linux.intel.com>,
+	<lgirdwood@gmail.com>,
+	<perex@perex.cz>,
+	<shenghao-ding@ti.com>,
+	<navada@ti.com>,
+	<13916275206@139.com>,
+	<v-hampiholi@ti.com>,
+	<v-po@ti.com>,
+	<linux-sound@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>,
+	<liam.r.girdwood@intel.com>,
+	<yung-chuan.liao@linux.intel.com>,
+	<broonie@kernel.org>,
+	<antheas.dk@gmail.com>,
+	<philm@manjaro.org>
+Subject: Re: [PATCH v6] ALSA: hda/tas2781: Add speaker id check for ASUS projects
+In-Reply-To: <20241123073718.475-1-baojun.xu@ti.com>
+References: <20241123073718.475-1-baojun.xu@ti.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -87,40 +102,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
 X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Spamd-Result: default: False [-1.80 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[dt];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,manjaro.org];
+	TO_DN_SOME(0.00)[];
 	FROM_EQ_ENVFROM(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -3.30
+X-Spam-Score: -1.80
 X-Spam-Flag: NO
 
-On Tue, 26 Nov 2024 07:30:57 +0100,
-Kailang wrote:
+On Sat, 23 Nov 2024 08:37:18 +0100,
+Baojun Xu wrote:
 > 
-> Hi Takashi,
+> Add speaker id check by gpio in ACPI for ASUS projects.
+> In other vendors, speaker id was checked by BIOS, and was applied in
+> last bit of subsys id, so we can load corresponding firmware binary file
+> for its speaker by subsys id.
+> But in ASUS project, the firmware binary name will be appended an extra
+> number to tell the speakers from different vendors. And this single digit
+> come from gpio level of speaker id in BIOS.
 > 
-> ALC225 update depop procedure.
-> Many Thanks.
-> 
-> BR,
-> Kailang
+> Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 
-Applied now.  Thanks.
+I applied this now, as it's been cooked for long time and we don't
+want miss 6.12 merge.   If any issue is found, let's fix on the top.
 
+
+thanks,
 
 Takashi
