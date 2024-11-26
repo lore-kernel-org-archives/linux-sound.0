@@ -1,176 +1,80 @@
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (mail-vi1eur02on2055.outbound.protection.outlook.com [40.107.241.55])
+Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6371898FC;
-	Tue, 26 Nov 2024 05:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.241.55
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732599225; cv=fail; b=etiCwPTM1YnzMc9AREgAtCkwuyJC1AmIgy7nSLwXM3g2iUnMuMLAFIKfTHuSQQpxg5t6PS5qzvxSyQH2bvoIiLDwvFVXBk1VPH8B1vq31RsZHX9SvbH8ndzR5diYOPdv1+mezFMUIAgbntOqKNQ2Hrl1DdRlMWTtE36cg2vhUew=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732599225; c=relaxed/simple;
-	bh=GdBoQCiU+qB1I3CkoQR6o9m0TReSt/L8KV9Kh4Ky7KM=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fv+s7WslrhuATHdv8M9Gxu2PQdh745QAw3WSskns7GngOvFcAEAsiFdPkxC41UmULX7yP8kJO7MJc/3xPMSdOodeS0ZQNX8g84AWOv3eXuCHrgtgIbb2jhyse5X9f1t+aOUFLPr+Dn8C+bjlZWCT2b2YM7suSejrpX+UlusjAws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=muW2Waco; arc=fail smtp.client-ip=40.107.241.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01141885A5;
+	Tue, 26 Nov 2024 06:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732601706; cv=none; b=RcTfMiaRyAOw+M+CtMDidTcRM9K/orNI7XnI080FmiaucgtbgILOZieBWfAUZNzAJ5Bh8DrH+HR7Nylg2MiXQpY7KaW1+DhhUE45cYFcp/kcTTkIBUZGm5cIVMCICe8DqoZ7bMxNn7iSpCbAEItOje2ypmf84SnsBBRJ5qu4qX4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732601706; c=relaxed/simple;
+	bh=4XbqV31OPGftT8IxLHnIsqNA+uKfAt7UAn9oXqq5FWE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ewtXQV5LpxelwcaJyUXeFMFmMK/rVyuCm2opx5uj7czzC5SRGUIHup3xIlQRZdU0Lx/MZecrwbwR/OstmmLhtZXFFGks5cO2hlkxkdDkwu3GcBNvaWG6fS8VJ4enYGMSQjFC39OemjTgHumXJx0VDV2WF0YTWNgXnQE8iLUyKEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=r4DWmtKr; arc=none smtp.client-ip=185.125.188.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="muW2Waco"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mf28WQY351+jziJ+U8X/f8xRbgOTAR2bRyibyNKaIT0V5zBMVL3fAapsx9kFc7VEB/0iBskqDPu/IpnI1t5TwQVuRcNwBIyn2RXpSbsRv1ui13iU39+5pTTx8RMha/qe2fZXNEY6Vm8H7C9AALEYPzSSz/QeNjqDYyZIpfi+SZsuUpwkN9CzIOEc28lS48Z7SzHsoHXkgpXQ0Hy3hcGn6oPe0bY3E/h94kZ99luJnebjOowXmEwK60cOunonAkr5LbHm6MMCkZLm/BQh+AVV+nGITGx7hhckH8CLzoEO0keeCF0HV8zIrcFEjHOhbogNDyk/hbCEgzNCWKi+4UBl1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fKlp7jfKZr0CIv++v35q0PqUfQNFbhf0EeU8Viv7P1Y=;
- b=zHoiOIdDtvjssEv8d6hAWlEXYJkWcrBBFNEBWKynuufdDn9MtatL7LdGjzXfecliW/1dA4kGoGujrgXFwzb978HLFauEIHptUNWKP7BboxkEz0nnppSlJ4VVhoApBkQbpI2mk02I91jb1Y3Qk7zSCNsxorKm+1Ae9hxn+9CBH7LI5f5EjjWOC+hTbuCVVhZbZtCq0ujyO4oYDiUixRnXn0YUnA5zB4dNPZtkRd5eSZKwDVZpbDE20gHzMa/ezsk5EwEV24AcpyDN6MqVl6e7u2boAo9oXZIex09WIrODrFPr7O06VlBp++9ZGrVKJYMERMrKnMYQ3ETIid0x6VPFvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKlp7jfKZr0CIv++v35q0PqUfQNFbhf0EeU8Viv7P1Y=;
- b=muW2WacoQ8dn27T5+gTK6Pbk1enEx/+/ug8Y5krHgKzBjaeDSMxVSQ718QiIHkJL4/T2gLmmk3rparZMXUGd2c36HWo1a0pO8rConzeUrBD91UbhsLpf99NK5qQyaWGHtv5PpTuxsyYajLFLi/0YYL3bPHIL3HXVjPZeKQbR3TscFjHHbyp9Q17TsBOQ1olU9/4XOxDUHm3mmB7ayChMKKxE0h4WKoca/U5lWQD27W5XLH8tOztbHKGlJqthE904YcNBR9C0SrPRNHTxjWEWOcEn0nloIrgMqeKW/xWr9fw8UAM9is5RCO7P1+l/mETERhXJnS0v7+eJbwOaKMgpeQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
- by VI0PR04MB11071.eurprd04.prod.outlook.com (2603:10a6:800:262::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.19; Tue, 26 Nov
- 2024 05:33:40 +0000
-Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
- ([fe80::7be0:296:768c:e891%6]) with mapi id 15.20.8182.019; Tue, 26 Nov 2024
- 05:33:40 +0000
-From: Shengjiu Wang <shengjiu.wang@nxp.com>
-To: shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com,
-	festevam@gmail.com,
-	nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linuxppc-dev@lists.ozlabs.org,
+	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="r4DWmtKr"
+Received: from localhost.localdomain (unknown [10.101.197.103])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 827EE3F18A;
+	Tue, 26 Nov 2024 06:05:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1732601159;
+	bh=HDPw2OCPc8l2LrpPCiCl3FFtQBb2/GnhjP/3mVlswE8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
+	b=r4DWmtKrNAQvSc3sUFqIDRmVSKhlbOGE4J/NKJCntOs8rwUjj9DlPof5Wl4R9vx6C
+	 ZPIg/Xcl38BFoCv1jf3QFmUj/buJAKO/H48VklZ3sXyaC6GKHk/YlVQCXD4RQSd4jP
+	 LThwZWPaeJ7Rs9ymOE+DNk89e7a1wKv2b53pW8cTtKg3lvnDp0lxu6weENfL53hRf4
+	 AdoaMApD/0zQ0YpfIveQZEXqLnAJ+XRfyhoRw5M1oHREHlPTJ6pM58mn35w9O3jrZ4
+	 Tw9OcAPV5YlhcbjoF/fjfS9BN5RxqOJD6AZ9nkZx6DuovFI7wWlhzpmeYp/G4qevqZ
+	 YpjFqVOf8cvwA==
+From: Dirk Su <dirk.su@canonical.com>
+To: 
+Cc: dirk.su@canonical.com,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] ASoC: fsl_spdif: change IFACE_PCM to IFACE_MIXER
-Date: Tue, 26 Nov 2024 13:32:54 +0800
-Message-Id: <20241126053254.3657344-3-shengjiu.wang@nxp.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20241126053254.3657344-1-shengjiu.wang@nxp.com>
-References: <20241126053254.3657344-1-shengjiu.wang@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0011.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::14) To AM0PR04MB7044.eurprd04.prod.outlook.com
- (2603:10a6:208:191::20)
+Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for EliteBook X G1i
+Date: Tue, 26 Nov 2024 14:05:24 +0800
+Message-ID: <20241126060531.22759-1-dirk.su@canonical.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|VI0PR04MB11071:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c5e77a8-3052-4f60-29e1-08dd0ddbe26c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tbgONFerfsLKsf5O91xyvVg1Q1Dryld5s6bPjRAEXnz1jcsFrH6NpqLo0SJV?=
- =?us-ascii?Q?NLWnWZOuuaXh9AswrBBZPCDWllMlfOLCCLramjSvGdtPW0NxwZhoiYNp+NjG?=
- =?us-ascii?Q?eb4ye2v5Cn7Xit3kWLDK0yEpbgmy31LmWHkVQ9kBm7uUvGZZXQTwCTbl4Vh8?=
- =?us-ascii?Q?VoNGPa+UNPEOOF/kX3rMCHy2FI1EWZvpQzJ7jYx77OvsR/ipeeyglkakihiB?=
- =?us-ascii?Q?ywj+Gzk9uzSqmhDz0miB+qUheSeR55MlInAmqkEtKSNG3FAZNGrAbPsFdSv4?=
- =?us-ascii?Q?5TeBvw4MfEisCgypcwqdV/oduikzgFF3Ev0uQMreJtY2LbaZYcl4r9RDeYsX?=
- =?us-ascii?Q?plAKhRwHgeYMN8b52kxsPPSHlzKF/fxPagqrguY+fHrfERRDrYs+u2C8BbtV?=
- =?us-ascii?Q?nxQWNE5A3SlP2Dk1pEoaToUHmcz+1FxoYMw9RLSoYi0uE2wgcjE7ZpQbpyvi?=
- =?us-ascii?Q?/3KX7FqM78dS3G/tuUKwockTKZQ59JulqbHqT429V2irqj0MiXRSz5yJ/b30?=
- =?us-ascii?Q?M8y6QfSnDtEcQoTwR/EfY0zWk+/XrmlnYu4DiaNfgXxDFfmKZA9qYU8WIKev?=
- =?us-ascii?Q?EA9oWc+ASmtxV+gwFBJUFz0xfnHl9jCGZGMgek3X9CgTQuhpDtxkhiofsy+S?=
- =?us-ascii?Q?QJOkUhH5KNy+mF79caiYVeOk9cVVB0tcAUG6iiywQdE2320FM/MI43p6zP+c?=
- =?us-ascii?Q?OnLztMZThU+LIqxNczEDMM6bQSghymjJ8vUi2druTyZnEmBaEkERGQVajtd5?=
- =?us-ascii?Q?XJHyJjqVUDuxEFQGXyw44h6PNogOTBtExf6i+7S0fntpJ6H9vcPIfhSfwgsS?=
- =?us-ascii?Q?0aRvEr5IIcITFm38Yzmqeeb4hMnrHPp2rReDhOVTewj1QDw1gTqJSugLF0ma?=
- =?us-ascii?Q?Yc3NaCMv1pBoKDj++9JCQvH9s47vpJB79X/cHG2SdWnhMDY+3wSsKPNdUFvG?=
- =?us-ascii?Q?a1XD5I2d/9kX+SoVe6dm+35jMIDU2jcgA8G2eHfTMTJeXhhSJfmTW2Ur/OO3?=
- =?us-ascii?Q?MhXfKsyT7yac4+r+jfQ90ICk34JhBbp0XQT/S4yZLUd39aq8ft9SH1N/frA/?=
- =?us-ascii?Q?MVpv/4IQNnjZ4+i9eJcoqLo/ZW8wVC+xRu6UZBaljjXc4TMn1np28lfnyXUo?=
- =?us-ascii?Q?RW+wBWpqjeSDgnQuUc1Z/pfc4SMXyYeXLz2UTwy433+3OW7vgErANiquwJMh?=
- =?us-ascii?Q?IqNinS1DI94Foh+l3BSxHz1ht10vHj454wezqZ71JjQp6YIGpIgqKqPmBvSd?=
- =?us-ascii?Q?H6yNaZFJZ/9TmXm83WIturDm7U6R7ee3+L5eoGHbW2tj3pgFf+6auPgtQcLX?=
- =?us-ascii?Q?82ngq22IFhATFr23McmI+MZM+8u3OaXOVP6rDgUkqZnu+DVz5VMlms/7tsg3?=
- =?us-ascii?Q?hMXaoKxOxdFOXNAV7mXKJp69GyLfjrHZ7pyvq2NcVWfxUi06DBa+BnotDP/p?=
- =?us-ascii?Q?Ia+zf0P6FcA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(921020)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?vuO24OLpRnar9+fy7ALX8Z1if0hOI+QQdI+pwEUQaptecuHmEEmrBmBgycVJ?=
- =?us-ascii?Q?kovrucSd3dlyy8RRi4AAhhZTj9a6gLA9TqmQ7PZXHbt+aaGYC8Yp7IKEbyIq?=
- =?us-ascii?Q?djLMJ1m3UwLc0wJJhVMbovphCiUmjtcTBcVovqthQK5uOiRkxzcxDI9eJfpL?=
- =?us-ascii?Q?vhWsoegIXzovGZP1ZWS939RrTtTT0s5b+R0aMQHcEYnkldrZjrGf552i0gg8?=
- =?us-ascii?Q?PhRFTCPGmp2ebP1nX14zEiFzEOWUHJ9FsByJjiYN7TkCDsjUnlIMAOv3ILea?=
- =?us-ascii?Q?cSl40RoqCwwAQHDaBfM0MZZ4q1k20XQUpAruIR3wefHbDxo6nqrIbEsMVc/5?=
- =?us-ascii?Q?3QV+kwNv374kf7j1r7YlKzN9WuYD/gs3WMuy39XVeyHDYlNHhTYaIcqzziR/?=
- =?us-ascii?Q?ZPcCWHnziHR7aIJV0/5DnGuF0HPnYZStYXiWkiOS29eJ85VmUkZICLhs1zPb?=
- =?us-ascii?Q?1FLnNfWxM4qh7IilMY+fbC4/KzRaZYOeOGPtXxq68MRbU3DdH1ZO2s/pTbds?=
- =?us-ascii?Q?6i17fMlM2+yep+MRrerJwDNzX6Q2vC45XIDjmk0UeqLlAsRNz89udgv0KDkH?=
- =?us-ascii?Q?F890mkGqcxM/OSlxpTf8Ogg3nwdoc4zM1d7ZSa7Su/CGYoHs17KaqvKgJAD9?=
- =?us-ascii?Q?Tut0Tu2nmvFpvNpUoOa4lXq2gcwWpZWso5zVejN2qHIC9AbVWPS2uajQvWGK?=
- =?us-ascii?Q?OeGNkS9PMkcsjITxYgoCRMNxjDKoJbc+cRgBXgSVdlMCoHilBdCdAi4DRBi6?=
- =?us-ascii?Q?r60SmoAyOQZnNTWrqSH52305g1LIjnKj9Jts65qcHSdV1TmqNRuSMqove0yw?=
- =?us-ascii?Q?DX9sXnz3tYBg+f67vn+DgA754GSJVGzpXcsephj3xxjTkr9f167D0BHCoHru?=
- =?us-ascii?Q?zPwAJvSWjXYw0MWkpJ03rVOPQXsFgNd9zWM1EuoVfwGYQkExfjiq+5d520h2?=
- =?us-ascii?Q?uPX+Z2Pi1ecNhqu6yAm+QKUczuHmF4RAo459fwUa0CIdBgXUBipa1w24jSEo?=
- =?us-ascii?Q?+oXetlnvNUSXkTUFx1f2S8F85810FLP2yJRnqN1z9sQ7fMfiWlOmbQVqXdbl?=
- =?us-ascii?Q?MEzAnSR7vyge9NmFCIdomq3tlb7pQ9ouA/tyD0KRsf8du6W/9HvbIG+0R0St?=
- =?us-ascii?Q?UWTbx4c0nmHGMoWlMq3KsMr3FIykjcDygKBjuayd0x8INRK8RAnTnzRQh0+d?=
- =?us-ascii?Q?MFspfsHCQdFkA2nffUrn+z9tSJ/9P/fNAdws6P+JJJBxs9RYh+HZVrNerWVS?=
- =?us-ascii?Q?Olgf6rhzM9Z38IdhdSQJ6k9pYzGl4vWW+xxlMm/FlN/Eq1V4dWgkxfvWw5su?=
- =?us-ascii?Q?50QxiZWkBD4xTybQGUbBOL1IEjLBSUPAQZa9kHzPD7TwTtsaO/N1noEgBHC1?=
- =?us-ascii?Q?ISiEi2759FVF9uLJ7CrCbL56LN6oYSUiF3vZ3clBIzeKrATECGQiqGeCVAvT?=
- =?us-ascii?Q?ae1w0E3RDdBjRklp6qZnpAFZrwdSIJ+jdwnm1aJximlC/2xvSx9rtDAhiV4m?=
- =?us-ascii?Q?K5PR8xBKjvucdBOMIGQAuUbMEsg8L829Fwi4C9WK1O0iF1fvKpOWiarbTdcL?=
- =?us-ascii?Q?sOXGJT9H3iU2qBJFsMDYDOxSZ6lqQtFG8J1HivbF?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c5e77a8-3052-4f60-29e1-08dd0ddbe26c
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2024 05:33:40.5439
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WOTx0e/4IE6faME1ig5ziBROVQx+4C8/CVlaggmEu8e/KWob+FzQEMRh5iUAsGrNFz6kAkA6D3URFeCmQenj/A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11071
+Content-Transfer-Encoding: 8bit
 
-As the snd_soc_card_get_kcontrol() is updated to use
-snd_ctl_find_id_mixer() in
-commit 897cc72b0837 ("ASoC: soc-card: Use
-snd_ctl_find_id_mixer() instead of open-coding")
-which make the iface fix to be IFACE_MIXER.
+HP EliteBook X G1i needs ALC285_FIXUP_HP_GPIO_LED quirk to
+make mic-mute/audio-mute working.
 
-Fixes: 897cc72b0837 ("ASoC: soc-card: Use snd_ctl_find_id_mixer() instead of open-coding")
-Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+Signed-off-by: Dirk Su <dirk.su@canonical.com>
 ---
- sound/soc/fsl/fsl_spdif.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/soc/fsl/fsl_spdif.c b/sound/soc/fsl/fsl_spdif.c
-index b6ff04f7138a..ee946e0d3f49 100644
---- a/sound/soc/fsl/fsl_spdif.c
-+++ b/sound/soc/fsl/fsl_spdif.c
-@@ -1204,7 +1204,7 @@ static struct snd_kcontrol_new fsl_spdif_ctrls[] = {
- 	},
- 	/* DPLL lock info get controller */
- 	{
--		.iface = SNDRV_CTL_ELEM_IFACE_PCM,
-+		.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
- 		.name = RX_SAMPLE_RATE_KCONTROL,
- 		.access = SNDRV_CTL_ELEM_ACCESS_READ |
- 			SNDRV_CTL_ELEM_ACCESS_VOLATILE,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 2831f056984e..f486a0042e50 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10505,6 +10505,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8cdf, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
++	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
+ 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
+ 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
+ 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
 -- 
-2.34.1
+2.43.0
 
