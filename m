@@ -1,114 +1,132 @@
-Received: from forward101b.mail.yandex.net (forward101b.mail.yandex.net [178.154.239.148])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA27A1D5ABD
-	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 14:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E5417591;
+	Tue, 26 Nov 2024 15:22:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732632166; cv=none; b=DhrU1S9VV/pjEo0RQ5hgdZI9Zxx5UWT03PzUnmC85haib06UoY+F8EZdy9EFZyaiNDIrTU3wIBosvJLECMqfJ8h3ruEIYiASFwdfR48JuMa7NpxBZrr5AUtc+MhkM7ULG2rkC+SqHgG/juH9Y4NWdNiRm6Ct6P+hMkpdd+H5W5I=
+	t=1732634538; cv=none; b=uKwH0wcgDk9RCAKncw1zJT/C5MMR5KlfYn697zifiE4usrBnsf911EWNC7PcufcVAUPHu214aYMN+V2Hc0W/3p75j38KO46V/A4I9uOlPtU8Am+zyjGoskMwYPlDo4R5U4YhojsDPcVE2Y4UxJCJl6+l6I2FESkxuqJd+kucgLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732632166; c=relaxed/simple;
-	bh=4U+RbTjv/1IMjKTIYKTLn4fKyd2E5uzbDW7GxkmMkgQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UYqAg26tqHJMrpyoBfLRs/6e6HGGRjGz8X8572h7judzuCgEJXjDcaEj02mr+KSbzEQ43Kk5WLuLQjeEFbcftOSzUDtpiPy+UKY0WQR0NDQ+a3T/iuLJWZTd6azqRLz0yGP8fFCQxfm774PFkKhaYbMDqoQT8vbpTKLTvKvCfYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=Dd0bAtxS; arc=none smtp.client-ip=178.154.239.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
+	s=arc-20240116; t=1732634538; c=relaxed/simple;
+	bh=769bkhalWPrlCV5hGTXjnG0wp9G7hdn+3+311XvR27I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gqbzLRrsrkZPdlzWIxUI0KN0LlMVdN2CAYBIOIfa19u9mDBUZNLqVBDkS4EQWjY/szST3qr/A4IQACh2TdbFooFRTZmpTxggQH42eLDmza2xW7FqAJMnaTs7XzL3wuMxhC2Uaj9Xfrpwjim1QJErE7IHR3XlqxONLTx9VqZrI14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PF344+5B; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="Dd0bAtxS"
-Received: from mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net [IPv6:2a02:6b8:c07:179a:0:640:3367:0])
-	by forward101b.mail.yandex.net (Yandex) with ESMTPS id 5B7A760E40;
-	Tue, 26 Nov 2024 17:42:34 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id XgZIvsrOeW20-Mw75RNhj;
-	Tue, 26 Nov 2024 17:42:33 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
-	t=1732632153; bh=FYaL6aOUdRz3cVSgi1N298jEKsnDAct7nhDE9pvtzek=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=Dd0bAtxSPKa0aZXDrbrXOrnA4U8n53ocyry29OyOa/STPtTL3+gpRWuo3nkGLtPBU
-	 nK4J1tcIiunKWpDTwFrswYmQh9JAA8DuuSKtGU+PR2P4ovRwN1tdehRGsCU819uE8C
-	 /e2A3hNtVdb1S0OfJd/58EKt7lZkWiHCoi4FtZbw=
-Authentication-Results: mail-nwsmtp-smtp-production-main-45.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
-From: Dmitry Antipov <dmantipov@yandex.ru>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Brent Lu <brent.lu@intel.com>
-Cc: linux-sound@vger.kernel.org,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: [PATCH] SOF: Intel: hda: fix memory leak in hda_machine_select()
-Date: Tue, 26 Nov 2024 17:41:45 +0300
-Message-ID: <20241126144145.4442-1-dmantipov@yandex.ru>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PF344+5B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732634537; x=1764170537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=769bkhalWPrlCV5hGTXjnG0wp9G7hdn+3+311XvR27I=;
+  b=PF344+5BJzrwjojNggW+/GOivO3XNO1g1+zCmwXfAiTuSgBAXSIMkbBm
+   CdklEnt2ryHeo8aeo4RRT/yL+m9TBbRsdgGkSUQApxt8T6Fskqh/lpHS+
+   YHtegXtc+bTDH01D/pyIYiWVKZB4BHOSzLyUvQJUpuI8F7lyQ1sgL3Bok
+   j2rVy0JNE9oslXIk59G79U5e461X9BeEDtiMysjUEUQKcthp28pBhz4iS
+   GumGPUzAo6D47plYSnuWACfV8vPKyqTUikmu2PwJbPogcfcXI8saQj2bP
+   Vs26lBd6jKKoWpGt/MhidzWYkxe478v7MKn27i11AomxhNpGs8A40lyhS
+   Q==;
+X-CSE-ConnectionGUID: b9DQaLr9Rguh5mlLj+r5TQ==
+X-CSE-MsgGUID: 2U1fovowR72RZ+yVwyYSmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44187798"
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
+   d="scan'208";a="44187798"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 07:22:16 -0800
+X-CSE-ConnectionGUID: QrTNqsCbTraNCx0G5LvIlQ==
+X-CSE-MsgGUID: 67t1Dgv4SeaAZjdYw1di1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
+   d="scan'208";a="91757434"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 07:22:13 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tFxOD-00000001Jh2-3PzD;
+	Tue, 26 Nov 2024 17:22:09 +0200
+Date: Tue, 26 Nov 2024 17:22:09 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alexandre Mergnat <amergnat@baylibre.com>
+Cc: Mark Brown <broonie@kernel.org>, Nicolas Belin <nbelin@baylibre.com>,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v1 1/1] ASoc: mediatek: mt8365: Don't use "proxy" headers
+Message-ID: <Z0XnoQQlsDwFh58h@smile.fi.intel.com>
+References: <20241031102725.2447711-1-andriy.shevchenko@linux.intel.com>
+ <ZykbMlshvlwCaeGJ@smile.fi.intel.com>
+ <d7bf7863-fd24-4f8e-8cd0-d84867a997bb@sirena.org.uk>
+ <dad2ecb7-e624-49c2-a7d5-0ff53b6a1686@baylibre.com>
+ <Z0RkaqfID9v0age_@smile.fi.intel.com>
+ <ed50c130-076c-4697-9f11-fe602c7ca03d@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ed50c130-076c-4697-9f11-fe602c7ca03d@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Kernel memory leak detector has reported the following leak:
+On Tue, Nov 26, 2024 at 11:29:28AM +0100, Alexandre Mergnat wrote:
+> On 25/11/2024 12:50, Andy Shevchenko wrote:
+> > On Mon, Nov 25, 2024 at 12:32:13PM +0100, Alexandre Mergnat wrote:
 
-unreferenced object 0xffff88810f54bed0 (size 16):
-  comm "kworker/18:1", pid 162, jiffies 4294754593
-  hex dump (first 16 bytes):
-    73 6f 66 2d 68 64 61 2d 67 65 6e 65 72 69 63 00  sof-hda-generic.
-  backtrace (crc 4bf1675c):
-    [<00000000c0f2b5a4>] __kmalloc_node_track_caller_noprof+0x349/0x610
-    [<000000008c0a621c>] kstrdup+0x3d/0x70
-    [<0000000036666329>] hda_machine_select+0xbe0/0x1e60 [snd_sof_intel_hda_generic]
-    [<00000000f9312d18>] sof_probe_work+0x192/0x1bc0 [snd_sof]
-    [<00000000e86720cf>] process_scheduled_works+0x7ab/0xe80
-    [<000000006ac5a4f7>] worker_thread+0x9b2/0xda0
-    [<00000000bb5178a6>] kthread+0x260/0x310
-    [<0000000045bf5f63>] ret_from_fork+0x45/0x80
-    [<0000000064567ca7>] ret_from_fork_asm+0x1a/0x30
+...
 
-This happens when kstrdup()'ed area returned by 'remove_file_ext()' becomes
-unreferenced after assigning new value to 'sof_pdata->tplg_filename'. Since
-an explicit management of this area with 'kfree()' may be annoying and
-error-prone, tweak 'remove_file_ext()' to use 'devm_kmalloc()' (and so
-use memory which is automatically freed on driver detach).
+> > > Actually, after test it, "linux/of_gpio.h" isn't needed at all anymore.
+> > > 
+> > > That mean all added include in this patch aren't required.
+> > Do you mean the driver doesn't not use types from types.h or dev_*() macros
+> > from dev_printk.h? I don't believe this, sorry.
+> 
+> > Basically what you are trying to say is "let's move of_gpio.h implicit
+> > includes to become something else's problem". It's not what this patch
+> > intended to do.
+> 
+> I'm just saying that I've test a build/boot with "linux/of_gpio.h" removed and without all
+> include added in you patch. My understand is "linux/of_gpio.h" act as proxy
+> for the includes added in your patch, my first idea was "if I remove it, build should fail cause
+> of lack of other includes". I can understand these missing includes are mandatory, that
+> probably means there is another proxy header ?
 
-Fixes: 85b66359c5a7 ("ASoC: SOF: Intel: hda: refactoring topology name fixup for SDW mach")
-Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
----
- sound/soc/sof/intel/hda.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Exactly. The compilation can't be done without respective headers to be included,
+so one way or another they are somehow got included, meaning that other(s) header(s)
+are "proxying" them.
 
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 01b135068b1f..a72f62f4e6cf 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -1197,16 +1197,17 @@ static int check_tplg_quirk_mask(struct snd_soc_acpi_mach *mach)
- 	return 0;
- }
- 
--static char *remove_file_ext(const char *tplg_filename)
-+static char *remove_file_ext(struct device *dev, const char *tplg_filename)
- {
- 	char *filename, *tmp;
-+	size_t len = strlen(tplg_filename);
- 
--	filename = kstrdup(tplg_filename, GFP_KERNEL);
-+	filename = devm_kmalloc(dev, len + 1, GFP_KERNEL);
- 	if (!filename)
- 		return NULL;
- 
- 	/* remove file extension if exist */
--	tmp = filename;
-+	tmp = memcpy(filename, tplg_filename, len + 1);
- 	return strsep(&tmp, ".");
- }
- 
-@@ -1285,7 +1286,7 @@ struct snd_soc_acpi_mach *hda_machine_select(struct snd_sof_dev *sdev)
- 		 */
- 		if (!sof_pdata->tplg_filename) {
- 			/* remove file extension if it exists */
--			tplg_filename = remove_file_ext(mach->sof_tplg_filename);
-+			tplg_filename = remove_file_ext(sdev->dev, mach->sof_tplg_filename);
- 			if (!tplg_filename)
- 				return NULL;
- 
+The idea is to have less of the dependency hell (you may find this term used
+many times in the relation to Linux Kernel project), so the (leaf)
+modules/drivers should follow the IWYU principle (Include What You Use). With
+that in place it's much better to clean up the headers in order to decrease
+the hellish dependency tree.
+
+> Maybe my test isn't consistent because it isn't possible to clear all proxy ?
+
+Theoretically it's possible and even practically, just requires a lot of time.
+(Or a lot of resources to make a flag day or so, but seems not many are interested
+ to take the job)
+
+> If that's the case, consider my review-by.
+
+Thank you!
+
+> I've validated some include manually. Are you using a script to parse the
+> file and raise all necessary "linux/*" include ?
+
+Nope, it comes just from my experience in the project, but I love to see
+such a tool to exist!
+
 -- 
-2.47.0
+With Best Regards,
+Andy Shevchenko
+
 
