@@ -1,80 +1,116 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01141885A5;
-	Tue, 26 Nov 2024 06:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86E93208
+	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 06:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732601706; cv=none; b=RcTfMiaRyAOw+M+CtMDidTcRM9K/orNI7XnI080FmiaucgtbgILOZieBWfAUZNzAJ5Bh8DrH+HR7Nylg2MiXQpY7KaW1+DhhUE45cYFcp/kcTTkIBUZGm5cIVMCICe8DqoZ7bMxNn7iSpCbAEItOje2ypmf84SnsBBRJ5qu4qX4=
+	t=1732602539; cv=none; b=CAhvEknAqjXDdGHn/tsGDPm3aimK36Ljg4mK75qAzfSYCCo7H0nH85aY2xwBkogZRtDBrCjk6CbB2Ve6dV9wgmELuDKLjBBmxrBIBwaLF19QSLjdL0s7/cKbqOq3IivE54pVXsrnq2monNR2iHxLEMtjA9BTQmbFNfCXYpnCkpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732601706; c=relaxed/simple;
-	bh=4XbqV31OPGftT8IxLHnIsqNA+uKfAt7UAn9oXqq5FWE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ewtXQV5LpxelwcaJyUXeFMFmMK/rVyuCm2opx5uj7czzC5SRGUIHup3xIlQRZdU0Lx/MZecrwbwR/OstmmLhtZXFFGks5cO2hlkxkdDkwu3GcBNvaWG6fS8VJ4enYGMSQjFC39OemjTgHumXJx0VDV2WF0YTWNgXnQE8iLUyKEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=r4DWmtKr; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1732602539; c=relaxed/simple;
+	bh=WQ1djCbSmgdQz5J+QHJI/63TGSfZ5Irw4/imoQJy/SY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Y8Z+kU3QF+oMBQBIftg6SZrYKCojyaHGBRFbkiPXfZBrEgPTPjKfbhFZaaqH0CMMrq/Hs4tx7dyC8Pbc2coTQjr0QKLEOvrSAUMW1MuX0JCsotCXg3Yj8gL2UWHJdoGLXsuqlqnrVSyeBz3aQhquzxwtNry/mI4pIP+hVPt8h5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=uYog9soL; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="r4DWmtKr"
-Received: from localhost.localdomain (unknown [10.101.197.103])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 827EE3F18A;
-	Tue, 26 Nov 2024 06:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1732601159;
-	bh=HDPw2OCPc8l2LrpPCiCl3FFtQBb2/GnhjP/3mVlswE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version;
-	b=r4DWmtKrNAQvSc3sUFqIDRmVSKhlbOGE4J/NKJCntOs8rwUjj9DlPof5Wl4R9vx6C
-	 ZPIg/Xcl38BFoCv1jf3QFmUj/buJAKO/H48VklZ3sXyaC6GKHk/YlVQCXD4RQSd4jP
-	 LThwZWPaeJ7Rs9ymOE+DNk89e7a1wKv2b53pW8cTtKg3lvnDp0lxu6weENfL53hRf4
-	 AdoaMApD/0zQ0YpfIveQZEXqLnAJ+XRfyhoRw5M1oHREHlPTJ6pM58mn35w9O3jrZ4
-	 Tw9OcAPV5YlhcbjoF/fjfS9BN5RxqOJD6AZ9nkZx6DuovFI7wWlhzpmeYp/G4qevqZ
-	 YpjFqVOf8cvwA==
-From: Dirk Su <dirk.su@canonical.com>
-To: 
-Cc: dirk.su@canonical.com,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kailang Yang <kailang@realtek.com>,
-	Stefan Binding <sbinding@opensource.cirrus.com>,
-	Simon Trimmer <simont@opensource.cirrus.com>,
-	Joshua Grisham <josh@joshuagrisham.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: fix mute/micmute LEDs don't work for EliteBook X G1i
-Date: Tue, 26 Nov 2024 14:05:24 +0800
-Message-ID: <20241126060531.22759-1-dirk.su@canonical.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="uYog9soL"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4AQ6SbyK6606260, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1732602517; bh=WQ1djCbSmgdQz5J+QHJI/63TGSfZ5Irw4/imoQJy/SY=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version;
+	b=uYog9soLtU6GybJ9eIBtPq8qqr6Zl30Gh4GCjvVy/Elf8sgVygKzUREzLCAajd8Af
+	 EG8+i/GgdOd1rxnynjedh7BAgNJrFbwNUSBGpZoF7XNaBvjRnCbdoGguwPwi1O7VsP
+	 zjIepPQYF7GdnEO6gyR7TWVz5XHMfDUnVdivt3VoUHp77J8CQv5g1Fp8Te58+xipsD
+	 z/mE6KCv90Orm5e38tiTVV/+qj+YYaytzY8POz+cHvf5r9LvSzg54HiM00aGbS/P+O
+	 s+WeN/TrxdDzSEk/knTsaHh+6zXOt0TWBCarzkT6IQ+laUcl0jBe67qZkB0JHd54Zd
+	 7jONwxRE3yt9A==
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4AQ6SbyK6606260
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 26 Nov 2024 14:28:37 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 26 Nov 2024 14:28:38 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 26 Nov 2024 14:28:37 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
+ RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
+ 15.01.2507.035; Tue, 26 Nov 2024 14:28:37 +0800
+From: Kailang <kailang@realtek.com>
+To: "Takashi Iwai (tiwai@suse.de)" <tiwai@suse.de>
+CC: " (alsa-devel@alsa-project.org)" <alsa-devel@alsa-project.org>,
+        "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Enable speaker pins for Medion E15443 platform
+Thread-Topic: Enable speaker pins for Medion E15443 platform
+Thread-Index: Ads/zDkykRd/mxBOScOdKw+MmvNq/w==
+Date: Tue, 26 Nov 2024 06:28:37 +0000
+Message-ID: <eac4f3aca2ab45e59ccd207a90ee60e9@realtek.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_eac4f3aca2ab45e59ccd207a90ee60e9realtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-HP EliteBook X G1i needs ALC285_FIXUP_HP_GPIO_LED quirk to
-make mic-mute/audio-mute working.
+--_002_eac4f3aca2ab45e59ccd207a90ee60e9realtekcom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Dirk Su <dirk.su@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Hi Takashi,
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 2831f056984e..f486a0042e50 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10505,6 +10505,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8cdf, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
- 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
--- 
-2.43.0
+Attach was fixed speaker no sound issue.
 
+BR,
+Kailang
+
+--_002_eac4f3aca2ab45e59ccd207a90ee60e9realtekcom_
+Content-Type: application/octet-stream; name="0000-medion-e15443-spk.patch"
+Content-Description: 0000-medion-e15443-spk.patch
+Content-Disposition: attachment; filename="0000-medion-e15443-spk.patch";
+	size=1806; creation-date="Thu, 21 Nov 2024 06:43:24 GMT";
+	modification-date="Tue, 26 Nov 2024 06:26:53 GMT"
+Content-Transfer-Encoding: base64
+
+RnJvbSBmYjE2YWQ0Yzc2NTIzMWQ2MTBmNWYyNmExYTA1MmZhZGViY2MwYzJmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBLYWlsYW5nIFlhbmcgPGthaWxhbmdAcmVhbHRlay5jb20+CkRh
+dGU6IFRodSwgMjEgTm92IDIwMjQgMTY6MTA6NDIgKzA4MDAKU3ViamVjdDogW1BBVENIXSBBTFNB
+OiBoZGEvcmVhbHRlazogRW5hYmxlIHNwZWFrZXIgcGlucyBmb3IgTWVkaW9uIEUxNTQ0MyBwbGF0
+Zm9ybQoKU3BlYWtlciBoYXMgbm8gc291bmQgZm9yIE1lZGlvbiBFMTU0NDMuCkFkZGVkIGFub3Ro
+ZXIgc3BlYWtlciBwaW5zIGZvciBNZWRpb24gRTE1NDQzIHBsYXRmb3JtLgoKU2lnbmVkLW9mZi1i
+eTogS2FpbGFuZyBZYW5nIDxrYWlsYW5nQHJlYWx0ZWsuY29tPgpkaWZmIC0tZ2l0IGEvc291bmQv
+cGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMgYi9zb3VuZC9wY2kvaGRhL3BhdGNoX3JlYWx0ZWsuYwpp
+bmRleCA1NmEzNjIyY2EyYzEuLjMwNWRmMzFiY2NiOCAxMDA2NDQKLS0tIGEvc291bmQvcGNpL2hk
+YS9wYXRjaF9yZWFsdGVrLmMKKysrIGIvc291bmQvcGNpL2hkYS9wYXRjaF9yZWFsdGVrLmMKQEAg
+LTc3ODIsNiArNzc4Miw3IEBAIGVudW0gewogCUFMQzI1Nl9GSVhVUF9DSFJPTUVfQk9PSywKIAlB
+TEMyNDVfRklYVVBfQ0xFVk9fTk9JU1lfTUlDLAogCUFMQzI2OV9GSVhVUF9WQUlPX1ZKRkg1Ml9N
+SUNfTk9fUFJFU0VOQ0UsCisJQUxDMjMzX0ZJWFVQX01FRElPTl9NVExfU1BLLAogfTsKIAogLyog
+QSBzcGVjaWFsIGZpeHVwIGZvciBMZW5vdm8gQzk0MCBhbmQgWW9nYSBEdWV0IDc7CkBAIC0xMDA3
+NCw2ICsxMDA3NSwxMyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGhkYV9maXh1cCBhbGMyNjlfZml4
+dXBzW10gPSB7CiAJCS5jaGFpbmVkID0gdHJ1ZSwKIAkJLmNoYWluX2lkID0gQUxDMjY5X0ZJWFVQ
+X0xJTUlUX0lOVF9NSUNfQk9PU1QKIAl9LAorCVtBTEMyMzNfRklYVVBfTUVESU9OX01UTF9TUEtd
+ID0geworCQkudHlwZSA9IEhEQV9GSVhVUF9QSU5TLAorCQkudi5waW5zID0gKGNvbnN0IHN0cnVj
+dCBoZGFfcGludGJsW10pIHsKKwkJCXsgMHgxYiwgMHg5MDE3MDExMCB9LAorCQkJeyB9CisJCX0s
+CisJfSwKIH07CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90
+YmxbXSA9IHsKQEAgLTEwOTQ0LDYgKzEwOTUyLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBoZGFf
+cXVpcmsgYWxjMjY5X2ZpeHVwX3RibFtdID0gewogCVNORF9QQ0lfUVVJUksoMHgyNzgyLCAweDAy
+MjgsICJJbmZpbml4IFpFUk8gQk9PSyAxMyIsIEFMQzI2OVZCX0ZJWFVQX0lORklOSVhfWkVST19C
+T09LXzEzKSwKIAlTTkRfUENJX1FVSVJLKDB4Mjc4MiwgMHgwMjMyLCAiQ0hVV0kgQ29yZUJvb2sg
+WFBybyIsIEFMQzI2OVZCX0ZJWFVQX0NIVVdJX0NPUkVCT09LX1hQUk8pLAogCVNORF9QQ0lfUVVJ
+UksoMHgyNzgyLCAweDE3MDcsICJWYWlvIFZKRkUtQURMIiwgQUxDMjk4X0ZJWFVQX1NQS19WT0xV
+TUUpLAorCVNORF9QQ0lfUVVJUksoMHgyNzgyLCAweDQ5MDAsICJNRURJT04gRTE1NDQzIiwgQUxD
+MjMzX0ZJWFVQX01FRElPTl9NVExfU1BLKSwKIAlTTkRfUENJX1FVSVJLKDB4ODA4NiwgMHgyMDc0
+LCAiSW50ZWwgTlVDIDgiLCBBTEMyMzNfRklYVVBfSU5URUxfTlVDOF9ETUlDKSwKIAlTTkRfUENJ
+X1FVSVJLKDB4ODA4NiwgMHgyMDgwLCAiSW50ZWwgTlVDIDggUnVnZ2VkIiwgQUxDMjU2X0ZJWFVQ
+X0lOVEVMX05VQzhfUlVHR0VEKSwKIAlTTkRfUENJX1FVSVJLKDB4ODA4NiwgMHgyMDgxLCAiSW50
+ZWwgTlVDIDEwIiwgQUxDMjU2X0ZJWFVQX0lOVEVMX05VQzEwKSwK
+
+--_002_eac4f3aca2ab45e59ccd207a90ee60e9realtekcom_--
