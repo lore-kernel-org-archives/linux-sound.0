@@ -1,144 +1,188 @@
-Received: from mail-yw1-f196.google.com (mail-yw1-f196.google.com [209.85.128.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D69A1DE3B8
-	for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 19:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F861AAD7;
+	Tue, 26 Nov 2024 20:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732649100; cv=none; b=UzxH5Z9dMr9BhS80N7mWrvljRBwwdnyRu7bM/e7lfK/D616JW++w1Zc8naG2Br2T9udBuaDqCoD3L7XLRyEeuVylcAoy+qzeqBFB5OrQuBgtNQcRvA76EL4QU3H1FHPLYi9s2B+RKRnVqQ0IYTBumQozWpNIb0weNz3WAlU2KQY=
+	t=1732651793; cv=none; b=OVBWYemKsxWE7ojKWPZSN8vOC2N/jJx+PtikuSPyduT7R0Hq1URTRZUFIYUrHo9JdCSK7EbcUQBOqp6ZSNkXvroN+j1EFk71XfduFw13RhIsLNfWj0gk24O0Xz62mJI1NqdlX/QihkHJSjXnV7OkxaT/gS/CJ3XkP4r/nRxIkvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732649100; c=relaxed/simple;
-	bh=k3fobman9RCUJ8q+NxNaBx5ExbA8tqMHhg/CMDorQeM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=o4nDQDAPH2uxKQSYxuwnHCgdE/y4uZpx/afNiGLB3vIB7KStSuerJoZvAhNR/X5HG6fdNAcMjfQraFg+tccNf8bmpSFuFkyBZ12hNQAz5J4D7eFX13ThggE2G+EW5bn5nfyzK66hQ9fe1zAS8Do2XPQB3z5qmU/qbvlHTY3+NpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dk9fMKKG; arc=none smtp.client-ip=209.85.128.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1732651793; c=relaxed/simple;
+	bh=Ft7Hps8cVn5oFfsG0zN5jTRhSDFJ4zRVat3qnNXJlmw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=jH+Uug8s0XEYB5flqC5QFhP66Bm2SCZvKHb579n6MkzHWrW56sEa38Hb0BjncMUorK79pTHyukwXlj0iZ6Vn1LNlL8vHp46L3bZVFIEmKcrO1qGe3TWx3QVXHd9rGC4xfLCqZZ5bu53og0J8vA+nJ5quavP76Uh+amVi261tBdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TMmFxRvJ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dk9fMKKG"
-Received: by mail-yw1-f196.google.com with SMTP id 00721157ae682-6eeffdff41dso26428007b3.3
-        for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 11:24:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732649098; x=1733253898; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YXJ2T12ycNGogx+9pEU4WVH8OafXH0tiAXc8PkauIY0=;
-        b=Dk9fMKKGtGXzLNsUzh3VEblEYWCQVin9YvxMJcNZ7iPXdr4lzntBUqp3cga/EqPk1R
-         5u0sJ4fvk9VoSMhP/SY08TKey2K6CgMeOfYsNpKNKUN0Kcf1UokMHNS8iumkhtqrwh5N
-         dG2iQaDUTUMBEdTvdHOTrMKuqmchtvs5owhgJSBl1OpSJGRFylaPTWMk9m3iyTl2/G8s
-         KHlNerg3KDjZ58d/EystQX5uUdTRj5H5t2RB2LpZw7Q13Yu6wzZNAwKvB/CmBmgfMBiE
-         PSDbUJrc6gQ1iA4lV/72oIIemJ2SDWKJNpvrdazfKlc+Er9A/2SQW0/5VersL8A+BUPZ
-         iiWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732649098; x=1733253898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YXJ2T12ycNGogx+9pEU4WVH8OafXH0tiAXc8PkauIY0=;
-        b=kUQjk3ubtxyJ6UxGTHxA4RMnO2KxchK2eRPA3NmZ3ucbtP+Aa0ndPlCUP2uXwsZFZC
-         nVLQyUKNSwNYJ33GnN9ZG05ePN5zQfHmxYTrPXE7u3FwgyN3fkd5FeSXKyrpq1F2M+WM
-         Ovu10R9YigHKnuP7gEAR1m0Xzt9qf4jMF5pwXA8mE5SIruNdOb7PwZ/YD1YvbCJIeurc
-         eD0xEwDzYnvtEeWsbs7o5WH0/W62tUDK66gWymqZHQcGsKZKR37C6+bBXHBZTIXXP/CJ
-         OI0xxfFuyhD4p4fmbPa44W4JXdxw4DYAOoHkweb7yG+OJ+oOaqvF8EhMav+CPJndE2tw
-         vTyg==
-X-Gm-Message-State: AOJu0YzKwa0Iyj1g7HwPKJcd3wJeYHNEnxt0TWDa2FVFRzlYqOapth3G
-	N4IOaIqIXFbVXOW0tdin3dWR5/G6LYThuhWQ2SNzDRT1p0Y3q7nFJ/wFxJsl
-X-Gm-Gg: ASbGnctk4rJc3FTWYeEZJ4qb1hyGKq85qo9FfiX2ApIlRNXIMkG/yOMdTBIZTXdbv9c
-	pEsHJbNY+ufXVYBMuqVCZsUwB82HcM2ItO5FcXvBSh7bfXO6y0GYanfvp1naF53dfJgoh544FR9
-	Ip4TkicQG2/D8UI20QDk6ZE+jM/HNrSjjB83+Quiau38TvrP0ihVnrYcTxupB8FhNdL80O+CXsW
-	A5o8k2suUGJiEa46+7XqLoDm9I9PwLNjegj+WoWpIzVeMfPhFj5TldwnvU+dfgMWucnEXLWgXVC
-	OghInqqWbsXRE+OfZ0Om/FHY5stiIdJHDqr1
-X-Google-Smtp-Source: AGHT+IEShgF5O+pkYOpCoRhbipEx/TUwZ3MEuufTSsEbccTVEBVfJaHm3+RyygwPapRecAcZIJU2Mw==
-X-Received: by 2002:a05:690c:61c1:b0:6ec:b74d:a013 with SMTP id 00721157ae682-6ef372337d7mr4488087b3.19.1732649097988;
-        Tue, 26 Nov 2024 11:24:57 -0800 (PST)
-Received: from localhost.localdomain (mobile-130-126-255-54.near.illinois.edu. [130.126.255.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451b23e9asm59144906d6.73.2024.11.26.11.24.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 11:24:57 -0800 (PST)
-From: Gax-c <zichenxie0106@gmail.com>
-To: ivan.orlov0322@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	chenyuan0y@gmail.com,
-	zzjas98@gmail.com,
-	Zichen Xie <zichenxie0106@gmail.com>
-Subject: [PATCH] ALSA: core: Fix possible NULL dereference caused by kunit_kzalloc()
-Date: Tue, 26 Nov 2024 13:24:49 -0600
-Message-Id: <20241126192448.12645-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TMmFxRvJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1732651789;
+	bh=Ft7Hps8cVn5oFfsG0zN5jTRhSDFJ4zRVat3qnNXJlmw=;
+	h=From:Date:Subject:To:Cc:From;
+	b=TMmFxRvJXsflouuAgDPUFIqGHGGSMonQR72pyt4rQ7Khxzp7poIjBv3M64aWSVhai
+	 +QQcjDWCsHcCEbBO9iszt6Ej6eOZC4RbO5CUKPV8RVINvYzMMPx9YSSlnmetYowMDz
+	 Ihf4nOcvYNxwA9pPDE+Zn91vopOjik1qRkG4Yp3TWpLMb5cBnGQgl8bzvlhSLXwUdl
+	 n0gpXRZcHRWFF1XLW6apg1hEFvKjVv/wHXMIJ0VM4UubbovywvqHVKlonrsQdDbjvw
+	 Zy0oDlrIB8whALsU+dtSAYrJrGiIqCeieZdL1SGQLZ9WXNS/ol532LPmjCFkpi+T+b
+	 VGDHv1XCQsacQ==
+Received: from [192.168.1.63] (pool-100-2-116-133.nycmny.fios.verizon.net [100.2.116.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 65AB717E37B1;
+	Tue, 26 Nov 2024 21:09:48 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Date: Tue, 26 Nov 2024 15:09:43 -0500
+Subject: [PATCH] ASoC: mediatek: Check num_codecs is not zero to avoid
+ panic during probe
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAAYrRmcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxNDQyMz3cTi/GTd3JJs3ZTS3NxK3YLEvMxkXcM0c0szw7Tk1OSUJCWg1oK
+ i1LTMCrCx0bG1tQBJs4MhZgAAAA==
+X-Change-ID: 20241126-asoc-mtk-dummy-panic-1f7961fcecdb
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.14.2
 
-From: Zichen Xie <zichenxie0106@gmail.com>
+Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
+Component via COMP_DUMMY()"), COMP_DUMMY() became an array with zero
+length, and only gets populated with the dummy struct after the card is
+registered. Since the sound card driver's probe happens before the card
+registration, accessing any of the members of a dummy component during
+probe will result in undefined behavior.
 
-kunit_kzalloc() may return a NULL pointer, dereferencing it without
-NULL check may lead to NULL dereference.
-Add NULL checks for all the kunit_kzalloc() in sound_kunit.c
+This can be observed in the mt8188 and mt8195 machine sound drivers. By
+omitting a dai link subnode in the sound card's node in the Devicetree,
+the default uninitialized dummy codec is used, and when its dai_name
+pointer gets passed to strcmp() it results in a null pointer dereference
+and a kernel panic.
 
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
+In addition to that, set_card_codec_info() in the generic helpers file,
+mtk-soundcard-driver.c, will populate a dai link with a dummy codec when
+a dai link node is present in DT but with no codec property.
+
+The result is that at probe time, a dummy codec can either be
+uninitialized with num_codecs = 0, or be an initialized dummy codec,
+with num_codecs = 1 and dai_name = "snd-soc-dummy-dai". In order to
+accommodate for both situations, check that num_codecs is not zero
+before accessing the codecs' fields but still check for the codec's dai
+name against "snd-soc-dummy-dai" as needed.
+
+While at it, also drop the check that dai_name is not null in the mt8192
+driver, introduced in commit 4d4e1b6319e5 ("ASoC: mediatek: mt8192:
+Check existence of dai_name before dereferencing"), as it is actually
+redundant given the preceding num_codecs != 0 check.
+
+Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY()")
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- sound/core/sound_kunit.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c               | 9 +++++++--
+ sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c | 4 ++--
+ sound/soc/mediatek/mt8195/mt8195-mt6359.c               | 9 +++++++--
+ 3 files changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-index bfed1a25fc8f..84e337ecbddd 100644
---- a/sound/core/sound_kunit.c
-+++ b/sound/core/sound_kunit.c
-@@ -172,6 +172,7 @@ static void test_format_fill_silence(struct kunit *test)
- 	u32 i, j;
+diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+index 08ae962afeb92965109b303439419bc6e7c2a896..4eed90d13a53262f0df99384494c6992b0341471 100644
+--- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
++++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+@@ -1279,10 +1279,12 @@ static int mt8188_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
  
- 	buffer = kunit_kzalloc(test, SILENCE_BUFFER_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buffer);
- 
- 	for (i = 0; i < ARRAY_SIZE(buf_samples); i++) {
- 		for (j = 0; j < ARRAY_SIZE(valid_fmt); j++)
-@@ -208,8 +209,12 @@ static void test_playback_avail(struct kunit *test)
- 	struct snd_pcm_runtime *r = kunit_kzalloc(test, sizeof(*r), GFP_KERNEL);
- 	u32 i;
- 
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r);
+ 	for_each_card_prelinks(card, i, dai_link) {
+ 		if (strcmp(dai_link->name, "DPTX_BE") == 0) {
+-			if (strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
++			if (dai_link->num_codecs &&
++			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
+ 				dai_link->init = mt8188_dptx_codec_init;
+ 		} else if (strcmp(dai_link->name, "ETDM3_OUT_BE") == 0) {
+-			if (strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
++			if (dai_link->num_codecs &&
++			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
+ 				dai_link->init = mt8188_hdmi_codec_init;
+ 		} else if (strcmp(dai_link->name, "DL_SRC_BE") == 0 ||
+ 			   strcmp(dai_link->name, "UL_SRC_BE") == 0) {
+@@ -1294,6 +1296,9 @@ static int mt8188_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
+ 			   strcmp(dai_link->name, "ETDM2_OUT_BE") == 0 ||
+ 			   strcmp(dai_link->name, "ETDM1_IN_BE") == 0 ||
+ 			   strcmp(dai_link->name, "ETDM2_IN_BE") == 0) {
++			if (!dai_link->num_codecs)
++				continue;
 +
- 	r->status = kunit_kzalloc(test, sizeof(*r->status), GFP_KERNEL);
- 	r->control = kunit_kzalloc(test, sizeof(*r->control), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->status);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->control);
+ 			if (!strcmp(dai_link->codecs->dai_name, MAX98390_CODEC_DAI)) {
+ 				/*
+ 				 * The TDM protocol settings with fixed 4 slots are defined in
+diff --git a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
+index db00704e206d6d3f500a5c8533e0159f16cf77b4..943f8116840373a563f5f10a7bd0f5870c331b67 100644
+--- a/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
++++ b/sound/soc/mediatek/mt8192/mt8192-mt6359-rt1015-rt5682.c
+@@ -1099,7 +1099,7 @@ static int mt8192_mt6359_legacy_probe(struct mtk_soc_card_data *soc_card_data)
+ 			dai_link->ignore = 0;
+ 		}
  
- 	for (i = 0; i < ARRAY_SIZE(p_avail_data); i++) {
- 		r->buffer_size = p_avail_data[i].buffer_size;
-@@ -232,8 +237,12 @@ static void test_capture_avail(struct kunit *test)
- 	struct snd_pcm_runtime *r = kunit_kzalloc(test, sizeof(*r), GFP_KERNEL);
- 	u32 i;
+-		if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
++		if (dai_link->num_codecs &&
+ 		    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
+ 			dai_link->ops = &mt8192_rt1015_i2s_ops;
+ 	}
+@@ -1127,7 +1127,7 @@ static int mt8192_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
+ 		int i;
  
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r);
+ 		for_each_card_prelinks(card, i, dai_link)
+-			if (dai_link->num_codecs && dai_link->codecs[0].dai_name &&
++			if (dai_link->num_codecs &&
+ 			    strcmp(dai_link->codecs[0].dai_name, RT1015_CODEC_DAI) == 0)
+ 				dai_link->ops = &mt8192_rt1015_i2s_ops;
+ 	}
+diff --git a/sound/soc/mediatek/mt8195/mt8195-mt6359.c b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+index 2832ef78eaed7283eaad822931ce0b515fa44d0a..8ebf6c7502aa3dedd213471b8968e2958f28c4a3 100644
+--- a/sound/soc/mediatek/mt8195/mt8195-mt6359.c
++++ b/sound/soc/mediatek/mt8195/mt8195-mt6359.c
+@@ -1380,10 +1380,12 @@ static int mt8195_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
+ 
+ 	for_each_card_prelinks(card, i, dai_link) {
+ 		if (strcmp(dai_link->name, "DPTX_BE") == 0) {
+-			if (strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
++			if (dai_link->num_codecs &&
++			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
+ 				dai_link->init = mt8195_dptx_codec_init;
+ 		} else if (strcmp(dai_link->name, "ETDM3_OUT_BE") == 0) {
+-			if (strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
++			if (dai_link->num_codecs &&
++			    strcmp(dai_link->codecs->dai_name, "snd-soc-dummy-dai"))
+ 				dai_link->init = mt8195_hdmi_codec_init;
+ 		} else if (strcmp(dai_link->name, "DL_SRC_BE") == 0 ||
+ 			   strcmp(dai_link->name, "UL_SRC1_BE") == 0 ||
+@@ -1396,6 +1398,9 @@ static int mt8195_mt6359_soc_card_probe(struct mtk_soc_card_data *soc_card_data,
+ 			   strcmp(dai_link->name, "ETDM2_OUT_BE") == 0 ||
+ 			   strcmp(dai_link->name, "ETDM1_IN_BE") == 0 ||
+ 			   strcmp(dai_link->name, "ETDM2_IN_BE") == 0) {
++			if (!dai_link->num_codecs)
++				continue;
 +
- 	r->status = kunit_kzalloc(test, sizeof(*r->status), GFP_KERNEL);
- 	r->control = kunit_kzalloc(test, sizeof(*r->control), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->status);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->control);
- 
- 	for (i = 0; i < ARRAY_SIZE(c_avail_data); i++) {
- 		r->buffer_size = c_avail_data[i].buffer_size;
-@@ -247,6 +256,7 @@ static void test_capture_avail(struct kunit *test)
- static void test_card_set_id(struct kunit *test)
- {
- 	struct snd_card *card = kunit_kzalloc(test, sizeof(*card), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, card);
- 
- 	snd_card_set_id(card, VALID_NAME);
- 	KUNIT_EXPECT_STREQ(test, card->id, VALID_NAME);
-@@ -280,6 +290,7 @@ static void test_pcm_format_name(struct kunit *test)
- static void test_card_add_component(struct kunit *test)
- {
- 	struct snd_card *card = kunit_kzalloc(test, sizeof(*card), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, card);
- 
- 	snd_component_add(card, TEST_FIRST_COMPONENT);
- 	KUNIT_ASSERT_STREQ(test, card->components, TEST_FIRST_COMPONENT);
+ 			if (!strcmp(dai_link->codecs->dai_name, MAX98390_CODEC_DAI)) {
+ 				if (!(codec_init & MAX98390_CODEC_INIT)) {
+ 					dai_link->init = mt8195_max98390_init;
+
+---
+base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
+change-id: 20241126-asoc-mtk-dummy-panic-1f7961fcecdb
+
+Best regards,
 -- 
-2.34.1
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
