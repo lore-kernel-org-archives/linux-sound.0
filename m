@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A30FF9DD;
-	Wed, 27 Nov 2024 08:08:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 242DB178395;
+	Wed, 27 Nov 2024 08:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732694896; cv=none; b=HzeNVEVkMG8H5ALe+c80Jhpy0AY7rffCPtVTRNtUu2LxuDVCyrpHjPrXpapebRvOTR87p+/GWo6glC2TfpoAkcSsDvTvHJWCkulXI0I29kzNdqYpBuKDx+T6EmMal2OwgTKTW812MXEoL7MM3oBoAvDC9PIa8yWy1aIZZISafyA=
+	t=1732694984; cv=none; b=uwReJLTA2yurofxhp9qcgfiWn1UnHq9HnRWLKDckpQ9aJS29fwvPQ38MaVM9wBY1rPJ5dPK2ditXSblyh6slFrZNshLoGCepE45wrCzwK+nKIzBaM/l5SQ1Cp84RIKwn1lrGY7Ws9qQ4chima8IJ8H3as4VGA0ipLbVYuoQgV/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732694896; c=relaxed/simple;
-	bh=NF28kIDMQwUhDdPuzlAAIZpmVkGZfzIskrkhwP6SS1o=;
+	s=arc-20240116; t=1732694984; c=relaxed/simple;
+	bh=FiLFgWhS7qHFTVJeYc1GPLjCNhxBLSaMnTEsiqhbqc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TCjVJPG52pk83hYxm/M0+ugZO5jWsffrzLg51+R8rLkdSwRXCbD65pGXgHcdgaQ/vHRpsi4f3sKY8BR/ZTlMO5pSVUhG633z9c8OPp/UHAfZMxLbzkMMMJlpbjmUWIumnrgyVaZ2btikST9P8pXY1arI+le8okFbIPzQCzGrWlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H0nD7hyo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fzbL9kx/sVL3h3nlENx+ZUgE04GvgJvT9VgqArIUTzKIbw1NfWjQfg9FWThcMkjeD4Q7r0oXB89nHUUb5NUEDLFo0H9qtEPwYUi2EdPxKYeD/vnZ8hick5bPDcZjbGGVl3K+zNoywOVzjbutys1XxxlNEdK21vXnXTtLroutrBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LBuKCeac; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H0nD7hyo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 550A2C4CECC;
-	Wed, 27 Nov 2024 08:08:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LBuKCeac"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F240C4CECC;
+	Wed, 27 Nov 2024 08:09:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1732694896;
-	bh=NF28kIDMQwUhDdPuzlAAIZpmVkGZfzIskrkhwP6SS1o=;
+	s=k20201202; t=1732694983;
+	bh=FiLFgWhS7qHFTVJeYc1GPLjCNhxBLSaMnTEsiqhbqc4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H0nD7hyowBqigFW5yKF06MgdnaRYC2G4KNmt1r5NhZM7AQPsnnQHuTQmezHnHhZj4
-	 ysDPX7tj2opnyph35Oe3s5wPj8IZnUFppYc4xsRNjiskTJv8ZWymuRwZmwcPtoXQu2
-	 zjNs+9D9qEuYee8fY5aWYBpFlqSFYxOYOV7dvYE3XZTGjqMx9WMvoVFOKqNhD9gVwP
-	 Y1AabvC7rxbHe4d7WNecTHDhz+s7vZ0NT8ZFzO3ErP3lY7GmCY9s26BN63QttdT/cD
-	 ZtTYfe9vERGhkUmtxCzKsYQb0yMDebCSi+y2R+JESz+8vJsdnSlXPjd8ntdF6xo+Cf
-	 tl+Qrq7dspj2w==
-Date: Wed, 27 Nov 2024 09:08:12 +0100
+	b=LBuKCeacZqAo1xyN0QdNdcSjLajcHo0omCcnEywlleAMR9r3+LUwiRSgctJOrBxvt
+	 e9y1D8bsncGqLkoG73fDKHvfh7gAmZUIb+Uz3UBmDrvTIZfDgs7b2lgzFzUePAYHIC
+	 MKrGcri6OQvBTtO3DcwWC0HulAT3GWQ5aYKJJT7YI++0Q2htyaTO074FEaYRtff8/R
+	 ew+YRZNhkehSS1inhk9eXbjBVgnFR+WbB8iJw7ALd8uBD87q7lInP5q+HKhw6PAf3W
+	 4pjhy5u7g3wRqJmWHlTDORTziG17uYZOd3TYzyy/iY331jsRJ/oHtdDTQmptwwigGz
+	 n4uOiLi+9W/vQ==
+Date: Wed, 27 Nov 2024 09:09:40 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
@@ -37,11 +37,11 @@ Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
 	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Sanyog Kale <sanyog.r.kale@intel.com>, 
 	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com, kernel@quicinc.com
-Subject: Re: [PATCH v3 2/5] ASoC: dt-bindings: wcd937x-sdw: Add static
- channel mapping support
-Message-ID: <jnetmj5ibmmoiputq52vsvfqjz2auwjeqwt36g7sg4kjrrxyso@nrugsa6px4h7>
+Subject: Re: [PATCH v3 3/5] ASoC: codecs: wcd937x: Add static channel mapping
+ support in wcd937x-sdw
+Message-ID: <y2dllg7ie475xvowbqtmh7rgdmcyqr6tinik2o66rru3ccuvqv@7d6v7l64lnh7>
 References: <20241126164300.3305903-1-quic_mohs@quicinc.com>
- <20241126164300.3305903-3-quic_mohs@quicinc.com>
+ <20241126164300.3305903-4-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,40 +50,46 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241126164300.3305903-3-quic_mohs@quicinc.com>
+In-Reply-To: <20241126164300.3305903-4-quic_mohs@quicinc.com>
 
-On Tue, Nov 26, 2024 at 10:12:57PM +0530, Mohammad Rafi Shaik wrote:
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> index d3cf8f59cb23..7893b1c1f80b 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> @@ -58,6 +58,44 @@ properties:
->      items:
->        enum: [1, 2, 3, 4, 5]
+On Tue, Nov 26, 2024 at 10:12:58PM +0530, Mohammad Rafi Shaik wrote:
+> Add static channel mapping between master and slave ports in
+> wcd937x-sdw driver.
+> 
+> Currently, the channel mask for each soundwire port is hardcoded in the
+> wcd937x-sdw driver, and the same channel mask value is configured in the
+> soundwire master.
+> 
+> The Qualcomm boards like the QCM6490-IDP require different channel mask
+> settings for the soundwire master and slave ports.
+> 
+> Implemented logic to read TX/RX channel mappings from device tree
+> properties (qcom,tx-channel-mapping and qcom,rx-channel-mapping).
+> 
+> Modified the wcd937x_connect_port to handle master channel masks during
+> port enable/disable operations.
+> 
+> Added wcd937x_get_channel_map api to retrieve the current master
+> channel map for TX and RX paths.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> ---
+>  sound/soc/codecs/wcd937x-sdw.c | 38 +++++++++++++++++++++---
+>  sound/soc/codecs/wcd937x.c     | 53 ++++++++++++++++++++++++++++++++--
+>  sound/soc/codecs/wcd937x.h     |  6 +++-
+>  3 files changed, 90 insertions(+), 7 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/wcd937x-sdw.c b/sound/soc/codecs/wcd937x-sdw.c
+> index 0c33f7f3dc25..3263bdf25d86 100644
+> --- a/sound/soc/codecs/wcd937x-sdw.c
+> +++ b/sound/soc/codecs/wcd937x-sdw.c
+> @@ -19,7 +19,7 @@
+>  #include <sound/soc.h>
+>  #include "wcd937x.h"
 >  
-> +  qcom,tx-channel-mapping:
-> +    description: |
-> +      Specifies static channel mapping between slave and master tx port
-> +      channels.
-> +      In the order of slave port channels which is adc1, adc2, adc3,
-> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
-> +      The channel map index values are fixed values.
-> +      SWRM_CH1 ==> 1
-> +      SWRM_CH2 ==> 2
-> +      SWRM_CH3 ==> 4
-> +      SWRM_CH4 ==> 8
 
-I am surprised to see here again 1/2/4/8. My comments were not
-addressed. I think we agreed during our off-list talk that you will use
-1, 2, 3 and 4.
-
-> +
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 12
-> +    maxItems: 12
-> +    additionalItems: false
-> +    items:
-> +      enum: [1, 2, 4, 8]
+I don't see the bindings header being used here, so this is a proof for
+you that these are not bindings constants.
 
 Best regards,
 Krzysztof
