@@ -1,133 +1,98 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D57225D6
-	for <linux-sound@vger.kernel.org>; Wed, 27 Nov 2024 17:22:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED42914EC73;
+	Wed, 27 Nov 2024 17:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732728157; cv=none; b=CwAF1xMIOnZfossYekyCGXXopjwJGBFscO1cOyeTeqwwk0bJYXcDunQGGSCo5JJkli94m8BVeEDdWR6/7SOiygnTod6EGFWSoAmaARXLjv1BvVGzNeRrs2+ivfuiz3lt6KvSnXQ0GotzvLg+YEUt+ehSNrw1/B4E0YYKzABtjn0=
+	t=1732728800; cv=none; b=Wag60qVGJkaFhX1GII7FOJUu7FEuzoHjW13Nv72M66IgIOwfvWYuDH3RFCamCpr+2t4F1Lot+VruQbUO13Ke5B/fzu1jZMIrBastxVbtRnkFg6q9d4amJux06RMLxInkHH2bChCfyF5EwH9qKvRQuVRaZLPA7JV8OnvK6r3RAGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732728157; c=relaxed/simple;
-	bh=+vUOed904fqCM56GvdT6y2ZFeUnRxD9XR7KdTjK+tA4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bv5YqBvL3f0XtoblSpDOyV6JGO62ndNAXFPCRWUrkT9lPUpOcF67lrSs4W+LSz6z6zHDx1Uu5KtzbLysYFibqQV91zSp23cr9ooKTIOV6Yy1uuKzQMdsHmiiDBND2rHrzoUkbywYpEq3sX1yFEBsnvZwi2GGno6UkRHrP3kB0FE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev; spf=pass smtp.mailfrom=tuxon.dev; dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b=JLkdulyq; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuxon.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxon.dev
+	s=arc-20240116; t=1732728800; c=relaxed/simple;
+	bh=BQh27LKzhiRLJMzOoMEdsd1yUoXl8z0wlylntXevl3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cjhOU+MUQvdWpEqlOiyc1jTa9Bb+QTCUZWMG817j589MqIz2FykeC+a6DC29JwmKeN1pxiTnekRDk5r2cxg/BSbTHSXugw6s5Wx7QNZw0oC7mpFQY1dnGV8fXsEUAhdLFPlfz5IJmfVUttE93VVOBuh/fRHtnhGm4+CznDzW62Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TxmS0+WO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tuxon.dev header.i=@tuxon.dev header.b="JLkdulyq"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-434a8640763so16383875e9.1
-        for <linux-sound@vger.kernel.org>; Wed, 27 Nov 2024 09:22:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tuxon.dev; s=google; t=1732728155; x=1733332955; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zos3ZSR+4jZZkxC82FlxJ002wxj7wv8nR00Fq/bmK6A=;
-        b=JLkdulyqxb43c14uPF8uuI26xrNrGsYlfXxllhrWCnD1RAhPMGrnv8YdW+0Uvspf5B
-         Ftk0/TLpJhYwwT6oQ48h8DEglzYrDyrNGnAvfkgUs6Owg5mpXWVR6y42D3L8BjyprAvU
-         xgh6hnA5r0d7gCH/ADoOe9h69Om8aAx8RFGaJpjmyuDL49nZvXtMTQqRNLGozR2DfJX2
-         YEiH5+2TYQBI/hMby14P1Wdy7akV3SIAAcON5P0a86ett9HcAUBTazMMblg5fDRSBY1e
-         Sz9/uQTRzu7b2dSWJ95bz3iZ4frM7Zoqtd3g+lBI3Rct2+QbXEf87lfYB2+cWkTsVu2Q
-         MLqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732728155; x=1733332955;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zos3ZSR+4jZZkxC82FlxJ002wxj7wv8nR00Fq/bmK6A=;
-        b=bsCcQ2byWq7aB26tnf0vf+sdYrpyYys1qR8lWrEHCEs89DyED7d328klPk4Rwy/7YN
-         fA4bBSJaeJS3BpZmM8LrOzhmRd188ONLbqoqASXolk1kDWE3V77eGbHBcD75uFJ+XZeI
-         Tqn95JKb2tL15Vbb/MYUKlqmInHkFbDPERkzSCKgzJtxfdylaNHWMT9ziE2IWN7Ngjql
-         eIBpmXZm4E16hzBjLnfQg42NWqzk0mQzCkRG4pkwTcBeOyMD0eSHpmNZCtDWpVpND+Sr
-         VhUPOhGstJKXja+iMY5xBt1+K6KKkBOfUt0eG/uRtJcy1kO3k5vVgO/4HWAInTSEv9AO
-         TdBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXASla/+iis1ntPeDpit0z3bU0gM6gNlW9gK1ZrV4j4RxHKUpTMUBWE5INOicTvYN5O2GLurE88w4xYyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUcJAvwE2oU/l2Tm8qbvvcOVBxErcxQFrFWhQV+cZN8QMJuJKg
-	SH28QWpvs63X2fqDR+srL0y4Pvv8p8PAb2wVrH6yM1UUWjdf7UaDwBuCLvtZH2s=
-X-Gm-Gg: ASbGnctYbX67NGeSqm/0cFOAbsf4kFwyIivjlLqEeenWBkwRmHx09krGEoXApxM9U4u
-	U+uW6+oTIwRgQow5i0C2pHZKur5q7xsqV5rsC1zVwkPsc7a7Rzo+3/4Wf/Q9FAItToHkI8kxTKy
-	wKF31odD1Ku4bz9t1Z1g+WkGNgxHmajub9ojYAOdBB0/1W0pGza/+Ac/WQJhVEnzs/SelqUHLIW
-	R6AhkwqTlBgomvPsIbbDfJAVDyCOLwcwNK25q/nSRXggDalJ5zhB47pXA==
-X-Google-Smtp-Source: AGHT+IFFWYbsBo99dq8o9ql/MRkTvADPckRvRFXRTZc5M9tvoTbk1c17SeAXZA4rqQw9msf2bDKKIA==
-X-Received: by 2002:a05:600c:1d9d:b0:434:9c1b:b36a with SMTP id 5b1f17b1804b1-434a9dbf226mr36685565e9.13.1732728153104;
-        Wed, 27 Nov 2024 09:22:33 -0800 (PST)
-Received: from [192.168.50.4] ([82.78.167.46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fafe3cbsm16741588f8f.38.2024.11.27.09.22.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2024 09:22:32 -0800 (PST)
-Message-ID: <9bc52590-3f68-423e-8eb6-4a9a06426709@tuxon.dev>
-Date: Wed, 27 Nov 2024 19:22:31 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TxmS0+WO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F8B8C4CED4;
+	Wed, 27 Nov 2024 17:33:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732728799;
+	bh=BQh27LKzhiRLJMzOoMEdsd1yUoXl8z0wlylntXevl3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TxmS0+WOLVHY5eS64570cFiWbtecRgJKcin7yobRxnJX/a580Kqw0Atd/lZmjAJc2
+	 YXnJSpvUADMnz38GxD9HTv8ou1DLwPO26w43Q8PPJS+3WL0P1PNjztaRjAo+AOJxza
+	 vBPqNIbijVuuLwk+v+hU8XzE44wEQvr/CaB2i4hHCZsYUIeJ2Mc+Gb1WfNlGOjcdqr
+	 HcZJpxU69De7uK4o7AzfpwgHVPwZ7Ga6BpP3VgaRuLFGzqi62E8QGk/B8aPb9lffvM
+	 tozY/K7Fq85i6mjOl61dPRkM67QXfUmTXksD/K0V7XBTBLCCIqautEtJaH2pWVjmKl
+	 C/j6Y1lmxTMOQ==
+Date: Wed, 27 Nov 2024 17:33:13 +0000
+From: Mark Brown <broonie@kernel.org>
+To: potturu venkata prasad <venkataprasad.potturu@amd.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
+	Vijendar.Mukunda@amd.com, Basavaraj.Hiregoudar@amd.com,
+	Sunil-kumar.Dommati@amd.com, syed.sabakareem@amd.com,
+	mario.limonciello@amd.com, Liam Girdwood <lgirdwood@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Tim Crawford <tcrawford@system76.com>,
+	Attila =?utf-8?B?VMWRa8Opcw==?= <attitokes@gmail.com>,
+	Techno Mooney <techno.mooney@gmail.com>,
+	Jeremy Soller <jeremy@system76.com>,
+	Malcolm Hart <malcolm@5harts.com>,
+	"open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: amd: yc: Fix for enabling DMIC on acp6x via _DSD
+ entry
+Message-ID: <7291d216-59a9-4a99-af74-8789b9426916@sirena.org.uk>
+References: <20241127112227.227106-1-venkataprasad.potturu@amd.com>
+ <a6036171-2dfd-4296-9fe4-242c306e5449@perex.cz>
+ <021436ab-8035-4c56-99d5-c478075e6add@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/25] pinctrl: renesas: rzg2l: Add audio clock pins
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com,
- broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org,
- perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de,
- linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org,
- Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
- <20241113133540.2005850-6-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdWhBUwWB=8T3TW8osEG+=MaW5bykqZ77V40MVf9GKeCgw@mail.gmail.com>
-From: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-In-Reply-To: <CAMuHMdWhBUwWB=8T3TW8osEG+=MaW5bykqZ77V40MVf9GKeCgw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lQFgnXmO0PqXf7EH"
+Content-Disposition: inline
+In-Reply-To: <021436ab-8035-4c56-99d5-c478075e6add@amd.com>
+X-Cookie: Every path has its puddle.
 
-Hi, Geert,
 
-On 27.11.2024 16:32, Geert Uytterhoeven wrote:
-> Hi Claudiu,
-> 
-> On Wed, Nov 13, 2024 at 2:35 PM Claudiu <claudiu.beznea@tuxon.dev> wrote:
->> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->>
->> Add audio clock pins. These are used by audio IPs as input pins to feed
->> them with audio clocks.
->>
->> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
->> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->> ---
->>
->> Changes in v3:
->> - collected tags
-> 
-> Thanks for the update!
-> 
->> --- a/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> +++ b/drivers/pinctrl/renesas/pinctrl-rzg2l.c
->> @@ -2086,6 +2086,8 @@ static const struct rzg2l_dedicated_configs rzg3s_dedicated_pins[] = {
->>                                                       PIN_CFG_SOFT_PS)) },
->>         { "TDO", RZG2L_SINGLE_PIN_PACK(0x1, 1, (PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS)) },
->>         { "WDTOVF_PERROUT#", RZG2L_SINGLE_PIN_PACK(0x6, 0, PIN_CFG_IOLH_A | PIN_CFG_SOFT_PS) },
->> +       { "AUDIO_CLK1", RZG2L_SINGLE_PIN_PACK(0x2, 0, PIN_CFG_IEN) },
->> +       { "AUDIO_CLK2", RZG2L_SINGLE_PIN_PACK(0x2, 1, PIN_CFG_IEN) },
-> 
-> I'll move these before WDTOVF_PERROUT# while applying, to preserve
-> sort order (by port/pin number).
+--lQFgnXmO0PqXf7EH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-OK, thank you!
+On Wed, Nov 27, 2024 at 10:34:32PM +0530, potturu venkata prasad wrote:
+> On 11/27/24 18:06, Jaroslav Kysela wrote:
 
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> i.e. will queue in renesas-pinctrl for v6.14.
-> 
->>         { "SD0_CLK", RZG2L_SINGLE_PIN_PACK(0x10, 0, (PIN_CFG_IOLH_B | PIN_CFG_IO_VMC_SD0)) },
->>         { "SD0_CMD", RZG2L_SINGLE_PIN_PACK(0x10, 1, (PIN_CFG_IOLH_B | PIN_CFG_IEN |
->>                                                      PIN_CFG_IO_VMC_SD0)) },
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+> > The logic seems wrong. The overrides code bellow won't be executed when
+> > ACPI _WOV data are not set. I think that it may cause regressions for
+> > some BIOS versions.
+
+> > Also, the return code should be probably -ENODEV.
+
+> Okay Jaroslav,
+
+> We will correct it and resend v2 patch.
+
+Given that I applied this before Jaroslav's review please send an
+incremental patch that fixes the issue.
+
+--lQFgnXmO0PqXf7EH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdHV9gACgkQJNaLcl1U
+h9ArZAf+N5l4lAUmsCWhAQ0BxUbpe3RrQEtejxCILmg0QFcir8MVPxlmCMGDbNxX
+eoGwEbxjJJcTILesjLHUEYH4lcwvd6qKQLdqQ9lFRcUyaJrjooalfrhoHYt4O+0F
+3YgMfWlyMpbPi3E3QsGIj752IcNxEyn5a+s5Y/NMWAVWeVO3dB9nfi6A5FIkmFAQ
+Za6VtF3rlmfpxo8MDpbGZvukz9f5ak4XCsfFBsJjDGqJfalYqJqi/R7XV+FsXDvH
+hGaq5iSHviLu75d5U/gH+Lq+3mGqpYZbaQPsiYFCgisAn0260Ip+dJs157hs76l4
+d8Gw9Yu1kJbKmF06Q4qK6kTVeB0KBQ==
+=OBSP
+-----END PGP SIGNATURE-----
+
+--lQFgnXmO0PqXf7EH--
