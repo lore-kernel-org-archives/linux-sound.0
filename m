@@ -1,132 +1,161 @@
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com [209.85.222.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2041.outbound.protection.outlook.com [40.107.249.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC73126AD4
-	for <linux-sound@vger.kernel.org>; Wed, 27 Nov 2024 03:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732676433; cv=none; b=BByqLqGxgXuRJFpzI3bWxwbQK2NxRgdSiowV4leW1Nney+Y+F/O1DIZggwgSWN0qOOZesX3mxeWFwCBGbo+y0e1ClL4EwvjlnKdjZ/hKS6saAdupNOdGMGxAQS5gbvw5aR8zQ3ehSz0B72qVGjET+hXyX8srP9KoqL9+kRiiZ8c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732676433; c=relaxed/simple;
-	bh=BwexJOM8Lt6eGEeXs/wFnXLrXF44Ff0XiaeHC8NyObQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JfIMOsz141PyrX0TUtgz9nLjn1koW/S+Xs5WjWTvJA7UPsYLiI3Hmo6ww5di3IGc5jkFkmRwacpBGuqzMuqTnX707VovUr3A3/RP1wdFCTVLYb9vhcPKywSTL6W4Vhymcd8Lwt0r6gXbOuskfjGDKs60UkErC+I0Qf1U0DmkUgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XJW+66fD; arc=none smtp.client-ip=209.85.222.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF951946B;
+	Wed, 27 Nov 2024 03:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.249.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732676476; cv=fail; b=F9ri5EUktZ1dHq1E2klhrGkkjBJbH3XCVlW8L5vsBX+VNTgfO0NzZWSJLuL1vu27i4XE+DVIyK65ST6jQvyezbr/1rlErKhSqLDHaohIqwzMnvXcfcbeH/35j7I7NEcGzfowjjdWrcp8Kxa15qWNJnE6aEMxZT7wIRNIzU84X74=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732676476; c=relaxed/simple;
+	bh=03zPlS//KyW+BrSI9a0uJxeBWDE6pIq27GlXgb9/Cis=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=EG512PR1NOZXyzSw96X22DhM1pAJQamZLBddp5sNg7xnx7NSBSFXFOP6jpAuu7ZrjuOmDHxyKTnzFJV1Ob7oHcq0aP7nyyMjfWspNrEthvicxJ3G4ivMQVqwkruZn8UL/tNURUut7AfjcqOENyteL9fs7HALGMfIcnu0nENRVkU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=evSwU4e1; arc=fail smtp.client-ip=40.107.249.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XJW+66fD"
-Received: by mail-ua1-f50.google.com with SMTP id a1e0cc1a2514c-856fd9237e7so1359394241.2
-        for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 19:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1732676430; x=1733281230; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BwexJOM8Lt6eGEeXs/wFnXLrXF44Ff0XiaeHC8NyObQ=;
-        b=XJW+66fDCf6xM0EhlKD1eLDYaV1+SZt4gVPoBJe6Qz9bL9hWbUMLoVlu2Y3p+OVerX
-         TWld0xZm7X7y4OngtZsGHrwG3ptL1ElhP6l6YsaM7GmAc9ZmcbLVUdwmPmCl7W6TGcri
-         ingaNtx42aDaD0EFbmDgMyNJwwUv4T13oGQXo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732676430; x=1733281230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BwexJOM8Lt6eGEeXs/wFnXLrXF44Ff0XiaeHC8NyObQ=;
-        b=Ch7No3+VjjQGkJ4+VTkXtAr3j3Qr+fXjTZaeTTQwbZiLsX4ZCIWk15JrNw7H54ZI42
-         D5yKnVEqH5Nq12G/Fkkp7nueogCmeJGd2t8I4b0BlMiHCH6CDgy9KqqIxGOHDLh5nWsV
-         knEvru3CGJE6kyQQpNao0CRFuRoB3N71N4sWIK0BsRoOhvSMn0eLYgMdhdWr8QbzeWQ/
-         6N+orlqhxnXCDQQMZUaks4jPHscZhTzFg5DJvCx9tA/h10+3frFJaybOYjcVqoaExbJY
-         yQ6+IaSJHZ/5sQsEHRXjAVditwqLTR3aTPGtLjTKiB3FzOi7YXLJkM6AuoYkx5ETV2Gj
-         sFWw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+bcMF4gI0dmlVZJpgeRVqHZlH4aNFdz6m4zKcamHgixv+HQoJ32JphgLVaxDWPjX98xWWkTRh0ULvww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWW0jGwNoFXRemjLNb2kF/cLZygJM8qO5sMZORVdi0JszNOgim
-	N7tct7Y5ZGDpPUtHFF6wSani4HuNOv4dGhl3pAJ30MZUqYIkLltVEjVW3NyKX69s4h7MBzprdrA
-	=
-X-Gm-Gg: ASbGnctK0wH8IYNh4sWoPeNHnZPK/hXEA14vBGySLHZZq2Iy1VAavgg0jwsE9Ql/XmQ
-	G/MUAPx2Sry5OZn6aCZ9fET69tjEYZKVgygRU+aJXm5cEzKCN3wb64uKnVUw0Z/yM516kTjSGaQ
-	FDoNBJqlXj3HLO+7nutwpiNc+dAwx1DZ0b8N3MpMs8/P1tV3vLxSqQD2LOMe5Oib8S/Vk+VbMeU
-	h9ckOIcz3IKu0tWWzEpDpVAMu5zXvOp1YBjj9195Xv5bv464q/rwlE3aVFPwx39WJClOdLZX9Au
-	ItxIKKXqOw==
-X-Google-Smtp-Source: AGHT+IEFf8vHVAJCv8VjrNdj12f7S/OEQNLBvQmsQ5YJJDRGCejU4iFcTHV2/JU3Ed3Vzb17o/jTXw==
-X-Received: by 2002:a05:6102:dcd:b0:4af:3fa2:2bed with SMTP id ada2fe7eead31-4af447f7f26mr2626638137.12.1732676430685;
-        Tue, 26 Nov 2024 19:00:30 -0800 (PST)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85b4e8205fdsm538615241.1.2024.11.26.19.00.29
-        for <linux-sound@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Nov 2024 19:00:29 -0800 (PST)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-856f083f1cfso1428935241.3
-        for <linux-sound@vger.kernel.org>; Tue, 26 Nov 2024 19:00:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVz73W9s2+s920L//beicxD/Isr3c9edy+3HKgPYkBEI1IYQwW1htdYbAbIA2h/exHTs/SHA91XjEqS2w==@vger.kernel.org
-X-Received: by 2002:a05:6102:c03:b0:4af:4b03:4b8 with SMTP id
- ada2fe7eead31-4af4b0306b9mr275735137.7.1732676429255; Tue, 26 Nov 2024
- 19:00:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="evSwU4e1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=L+mzDQEEUc5cStvCUAx0JppftkQSuR1PijvsXO/9MHmMlkg02XRtwOGy8VC9ib9KU34raNCNbPR6vrinj2XbF0I2F8p9wUKCnt2CHpw38YJIpzuX4UokdZmiX+h3vdCjgmOM686aHfCHzC1QsXRmqFJ+NTUrPztymB5WlX+Eg8QgOhmyF9wgduKmHJhAmMwnuxw4IPaD7W2uiZvqQPyqc3Nq7nUG5mvlaXOIxxcmGNolqczDhgqLMCxtpbA7Kf7ca4QcSiu0TO5HDPsXgPT9TnfrFsPgASpPxZ6grQMsvZHJyPdbMhEaG+qIh2VpZbxyo14NIjMWgjlCF7dIMifb5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KPJQSL8hlxZ3bXXls9T5Rwu1cuQ4BGhFWlnH7UolnYU=;
+ b=WE0cdw8u8f1rE7r2hY5Oxsq9L9ha2yg6Tf55d3Rx0NlRxbXc+dcobo4abLF+L4BzVmFH/wHPWdK3LvFKpwzLToN3PiMOCvo1RzwQI2LIJEfikGJbCi8ydLAu/SHcPswTYFr3rtsGWHFrt1ax54UWhDLWaa2xSEZGGNJwSPGuRwDncjnLGQ1pW5HmKmBhi+PE2qJVIK3z63Ta28Ks53S375OD4KQiLBXA+ENgvWcSo50rvDwZhHsElnu8lhelVtPEK+HU+be2Ka0wgerRquci8RskbLQpgjwmJJpRZAKisOxwevFZqFCptSkOh5F/aAYR4b9mVQ4QfozeOm4MWOXRqQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KPJQSL8hlxZ3bXXls9T5Rwu1cuQ4BGhFWlnH7UolnYU=;
+ b=evSwU4e1G6/Lf8YVYImgeDczrBeIerfeAWkhffqFxbccpGeWP3/UZWOW5ilsvZUJXwhzCsxfKRDXZm6wPgoTkvIZP97Gvi6+46XbyWCvXDqbGcATUsNNSvjxHvf9UHnaXqcVHgxiCYjN9d+8Nd2LOoxcJu5gcCeGbsE6cNvTdBWhKWn7i4NQivXTKvCPpl8Th+MY14zrCyaVwemsmOlMaVoiuf9axEBWptJzzVATGjuJPGxptN/NSs31c4MsVpxvw5Wu4LqFnmn22+7Dbigmzt11WvW3C3I5yOjZWnXttjCV0EoqLQayQtloOtOp0Y213bXgmyHvjfp8qfCR6gzPdQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com (2603:10a6:208:191::20)
+ by DBBPR04MB7771.eurprd04.prod.outlook.com (2603:10a6:10:1e6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Wed, 27 Nov
+ 2024 03:01:12 +0000
+Received: from AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891]) by AM0PR04MB7044.eurprd04.prod.outlook.com
+ ([fe80::7be0:296:768c:e891%6]) with mapi id 15.20.8182.019; Wed, 27 Nov 2024
+ 03:01:11 +0000
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] ASoC: fsl_xcvr: Add suspend and resume support
+Date: Wed, 27 Nov 2024 11:00:33 +0800
+Message-Id: <20241127030035.649219-1-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.37.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR02CA0012.apcprd02.prod.outlook.com
+ (2603:1096:3:17::24) To AM0PR04MB7044.eurprd04.prod.outlook.com
+ (2603:10a6:208:191::20)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
-In-Reply-To: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Wed, 27 Nov 2024 10:59:53 +0800
-X-Gmail-Original-Message-ID: <CAC=S1nh6nE1+whLEUcAVG7LyoJ=o7oakR_k6=rjoYYoMSnfS2Q@mail.gmail.com>
-Message-ID: <CAC=S1nh6nE1+whLEUcAVG7LyoJ=o7oakR_k6=rjoYYoMSnfS2Q@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: Check num_codecs is not zero to avoid
- panic during probe
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, kernel@collabora.com, 
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM0PR04MB7044:EE_|DBBPR04MB7771:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4c0d1ea-6671-4bc8-47ec-08dd0e8fbfb5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|7416014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?jJ3R3uMwkRf0ZglqNiYEfGaSob67m3s71a7iPK7CYDuY9+wRdvED3bHYFEyp?=
+ =?us-ascii?Q?51VL8QFCvIPh7VO4QwuBcN2wesRUOsyq4jnup6LzEG3XKpj6h3bXYWM7AiNF?=
+ =?us-ascii?Q?xoBmvgNTWAJHi+z3iHdB+KiCWSYR1JXjQvekHCLktEmjvYiMKMQD8ONB67TH?=
+ =?us-ascii?Q?KyT2cw/3wBmBsFXtPDY/4GwS+8SDNDE28+ynRbBhScf5EI4vJVKrFf76hK/P?=
+ =?us-ascii?Q?weSWd9AaQBhj+GtSkqPu3cprQpDLaExEF1MvOLNkw4Zka6651N8mrUuWbCrE?=
+ =?us-ascii?Q?NMBVGlND9mJLTi9h6X9Aspvr29ThXzxkfY0Kk8gca1idIylkZ/jsvFCfCNsb?=
+ =?us-ascii?Q?vsxynjqOI/u65RBv7tMd7SEqhwseukLxRZt0K3elyA9bLjh8swkyS2gHoyDK?=
+ =?us-ascii?Q?Le/LSITNnAVoR5vIfYXzJm9I/himVxiyUmhF8+qT1e+3d5Ml8RESQxTLO2Vm?=
+ =?us-ascii?Q?NyZfrUFHOb3IzI9yLX2E9wyAoaS0ifg22tfSgLYV2l+E3+TyTA1GuZlWaAif?=
+ =?us-ascii?Q?KsLnpHFkhAD6PzQf6JqZOR4Klv7Al4SxH0fizZjnKUYaO4AC6xzdXc7/2trV?=
+ =?us-ascii?Q?JxD+A5aKq1v5S63GTisrA7P0wF8amTzf4rQ+UBSULNn0twEs1zgQu0d6ZxaB?=
+ =?us-ascii?Q?/Azl2F3R2S6x5KjocXb40M/JHMbxZLacnnBvHG2pb1s9gvhjyciLaMJ2jmxI?=
+ =?us-ascii?Q?H3lA62GruM00/lF1+V++XoZYCQORAoyKfffXZnWKDUV1UJDxqwkAhUY1hoD5?=
+ =?us-ascii?Q?I/cCXF3/RLqGl3w5/VfLH11RuBmt0ole7tbqojqNU+PiWeFL25P2bzR3mBLx?=
+ =?us-ascii?Q?+s+cGSzLDbmiF+KAUJCXjnOZHAfeFlaMDfSvlXbRVlGaW1G+Wg/zb1TOAiwn?=
+ =?us-ascii?Q?U7pJqwuWrI8a3QjcrBnCpDzxiAKDzlmRx00LpGwnabO/wYlVvfo9b+Gw/RDs?=
+ =?us-ascii?Q?LC59MJ4/1NidDly9r29ERKYgwCN1qhmCuCVHF1aHlb9YoWZlfyHGAKH2KS8X?=
+ =?us-ascii?Q?SXmpK+rgrvXGf9mYJcv7/VIrzqBaYn3NhN96+R1ypfTstgMpekoWnaVmxnfL?=
+ =?us-ascii?Q?nuhagMLaGtvbZxJQ+ZKyNYgaLyMv7r32NZugOh2xM/XLZxnRl6w8w1g1xJoT?=
+ =?us-ascii?Q?8Cs5MAPbm2mpovdDXYuIvuDaJwt2XRqQ6vUf0O6kLN+1Dyi9dZJmAINo2/6C?=
+ =?us-ascii?Q?fBLqOWhslENaqvtwxY2qI9GVqcpM/p8C+/IS1lZlThrnQUefd0PhT0vv+4hW?=
+ =?us-ascii?Q?b5F/QWout0aVie7VEDB9FvXKpbQMjL6bqOSeAGaEwWKwcsrinaocwdy8kV2i?=
+ =?us-ascii?Q?6a8r9vEB9fZqfpKvDej43ddUfQipwY49PDhq5ykBKGGeo3GHAr5qGruN1Rdh?=
+ =?us-ascii?Q?RLpHJnMEEpZLZYfeErDdjl6M9+ufYb3x0YHbayGKg+Q31zDEybAXewYLy2ED?=
+ =?us-ascii?Q?XdtSY/Y8E+M=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB7044.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(7416014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?S2iTHPR5LvBEI9vHm5i+disGgdBvW6li9ddQF2szRY8JU8QXYG2W0lhSBGn1?=
+ =?us-ascii?Q?9UTzVnDZ93lpRh01JtEbXGfkgL7GWBLGOSxTakshN4RqszSjvEZTI6paf3PI?=
+ =?us-ascii?Q?9d0b6uGor0dLB0WrYsXeaJcsWn7DI0bdEEa9BkgbdraL2YIiaoS+s36NLweU?=
+ =?us-ascii?Q?HtMZU1MmzC/r5d40vl6dKsAmLrxsmXDddNRd+ZXKFMEakERhKMd9L5lrUWdi?=
+ =?us-ascii?Q?UGua4k+5MpQw5SAHUk7uo6fkjy+DdAcex9eG2mi6IdRK2qxhDpO27GLbIlTK?=
+ =?us-ascii?Q?Z+Q4ROBoUhTGdZLBHj+QI2pXagDzuO3PGWzGITT8d+JPFsQPg1uiZmk5MVw6?=
+ =?us-ascii?Q?hM3Mfn3mhoAxx4o8A67ERhYm3spMaiEQxUYaV46r2LBi011kBAbKwkIssfpV?=
+ =?us-ascii?Q?ddtSogAu9NPxqNvjhVZj5g9xt5V5RvWgFlyn1asA5vyle+HaBfQnzQAcm0YV?=
+ =?us-ascii?Q?uWy0k7kctu8ORWZaEjzXKBRJcpWo5Brj4KA/z+Qmtq3+9SEneXmLUMJi46Fd?=
+ =?us-ascii?Q?4grp86AJZqkKEwL93PZF59HwLVC2lQUO0sEWPzL0+dryoA9ouBqBFHFd5kGo?=
+ =?us-ascii?Q?aT74QVzeIzKGEPcJMLrzIaCksr4YxZR/lty2tpE2eKbI7nZyVoJzObsOuprU?=
+ =?us-ascii?Q?C8bniGFCnliLbWdxC/NgyKBZRLvSjf/hA4RWk4jSQvLZaJ6ITA7ToM38S37n?=
+ =?us-ascii?Q?BCwGSbra2MW5iC6f6iQuCD5kXQlssDqBXACPLncz/ojitlyr2H9hBJlpA7Sz?=
+ =?us-ascii?Q?v2VX9jKz7mbs5idzPLGdK4p1X7iYuo4QqblDxf7fPuNjFF5iJqYmWxSSbcuC?=
+ =?us-ascii?Q?pE1l9Lg6D/QtqXOn8zXjbGQw1X0CY592IRESLcqI8f4eHVvg2rYxp3JQUkSk?=
+ =?us-ascii?Q?xBvShBardAy0NCyXLmr63D5+wOeEDP+RC8H9wjgsTWHxxFF/AISZNt9+T3N/?=
+ =?us-ascii?Q?9ksdHDltsGh2mRfTDvPMoA6ZiV17MbywYjVpkvLg3jt7IKxPO0wGMIbcfsbb?=
+ =?us-ascii?Q?06YG4NN44PtIWSvhQsjQyHWi9ELaDSlbH4ZWQz7qPHyvyFmJW8v3qRpVXH54?=
+ =?us-ascii?Q?lYQE7bsHaGn2iz9IWdFXq9LhpqtaoI7vOfiYy9G0djtFpUkUN20W2bl2mqQJ?=
+ =?us-ascii?Q?PZe4YyI1UicOXHgIgvczQPv15q/vzikyWEmmo6h+dWXv1q1m9LCspwtZaVm9?=
+ =?us-ascii?Q?JDa9NtKjl/vReVesA9EPPgcMqf7G+6y7Rgw0ImXxeoXvQ03h9LL4xZnWQn+n?=
+ =?us-ascii?Q?7lA01Iz95bFn7RUeIAuJX7P1oj97nv4C0n5WJkELmgzXAKn0uu249mMGsA2t?=
+ =?us-ascii?Q?+R9pdNQb1RHf3PEO02NerAOnxdfcShgxgNL0xeWwlG2Czl/jS55HDuWDUluX?=
+ =?us-ascii?Q?UN9+uwxkpWJcxmO+9OUXWmT84UNUJkvnuuL8ZPyEFlx+AIYyuYbohJKpWeN8?=
+ =?us-ascii?Q?xy9iWH6H9eOT4dZ+ZOhzYhonCfnNSsJSBep49SHn049gW1qJOLuB31VrfY6S?=
+ =?us-ascii?Q?CcXJ2srKblDxAbDrFKbnnkDmNcG/pAE6yypEhlWaxG1iVJGPOfvFXpNh4y3O?=
+ =?us-ascii?Q?MNeZ1I3mKl5vqazOeEA6jjGFHHsmjrCJE4C2Jl26?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4c0d1ea-6671-4bc8-47ec-08dd0e8fbfb5
+X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB7044.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 03:01:11.9220
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +jslXWkiZXSdd3JjRUMeHneBh9FtJKcgFni6kUwI06ASfByJwfK0sIYH2Pg8sBq09CmRLboyO5EbxItm6zHX/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7771
 
-On Wed, Nov 27, 2024 at 4:10=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
-> Component via COMP_DUMMY()"), COMP_DUMMY() became an array with zero
-> length, and only gets populated with the dummy struct after the card is
-> registered. Since the sound card driver's probe happens before the card
-> registration, accessing any of the members of a dummy component during
-> probe will result in undefined behavior.
->
-> This can be observed in the mt8188 and mt8195 machine sound drivers. By
-> omitting a dai link subnode in the sound card's node in the Devicetree,
-> the default uninitialized dummy codec is used, and when its dai_name
-> pointer gets passed to strcmp() it results in a null pointer dereference
-> and a kernel panic.
->
-> In addition to that, set_card_codec_info() in the generic helpers file,
-> mtk-soundcard-driver.c, will populate a dai link with a dummy codec when
-> a dai link node is present in DT but with no codec property.
->
-> The result is that at probe time, a dummy codec can either be
-> uninitialized with num_codecs =3D 0, or be an initialized dummy codec,
-> with num_codecs =3D 1 and dai_name =3D "snd-soc-dummy-dai". In order to
-> accommodate for both situations, check that num_codecs is not zero
-> before accessing the codecs' fields but still check for the codec's dai
-> name against "snd-soc-dummy-dai" as needed.
->
-> While at it, also drop the check that dai_name is not null in the mt8192
-> driver, introduced in commit 4d4e1b6319e5 ("ASoC: mediatek: mt8192:
-> Check existence of dai_name before dereferencing"), as it is actually
-> redundant given the preceding num_codecs !=3D 0 check.
->
-> Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_=
-DUMMY()")
-> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+Define regmap for PHY and PLL registers, the PHY and PLL
+registers are accessed by AI interface in controller.
+Then  driver can use regcache to recover registers
+after suspend and resume.
 
-Reviewed-by: Fei Shao <fshao@chromium.org>
+Shengjiu Wang (2):
+  ASoC: fsl_xcvr: Use regmap for PHY and PLL registers
+  ASoC: fsl_xcvr: Add suspend and resume support
 
-I noticed the same issue on MT8188, so it's really nice to see this
-fix. Many thanks!
+ sound/soc/fsl/fsl_xcvr.c | 384 ++++++++++++++++++++++++++++++---------
+ sound/soc/fsl/fsl_xcvr.h |  13 ++
+ 2 files changed, 309 insertions(+), 88 deletions(-)
 
-Regards,
-Fei
+-- 
+2.34.1
+
