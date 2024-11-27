@@ -1,241 +1,195 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010012.outbound.protection.outlook.com [52.101.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D2A1DA23;
-	Tue, 26 Nov 2024 23:20:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732663217; cv=none; b=PgHudHFcFLR6zxr4PiOlAUwXsEUjqh39482POcsuRdUpgOUW6wft1b5W8zOTqmQGljqebUbFOeoTTwuvT/O843jxD71a+DHnK7HvbBpM8KltE/WWzPFIikyJzU0o44bRwpRYg2JBsmjMIj3SlRcY8TWfFkjOFRejNQR5AYcCTH8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732663217; c=relaxed/simple;
-	bh=uYz1fIPEEUSYGIPG3S07I/kURabcIlSMz61S+iMi4fg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Fji7JU1DOCzfdoGT3luHzLCGe55iEbQaGtZOqfknFYGZ6YhdGMqNU/JiS0ZQAX+uUXDUMzDPVzt3eUS3qPlO+o238A57LiMkQsbVFYqrTDontrUdiB+TctoFxefMeyYaiTcWiDrqiofOSRuP7Xp02IHq0GRdvg/MtabDxgORjhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NwKd34f+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73CD81E;
+	Wed, 27 Nov 2024 00:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732666525; cv=fail; b=TI2CL1tjca5NPs+/N8is4+0MWf7DdJPMDiY4xK5yOCzC0QEV7icU0f6L3XwIPKdoepq/BAMDG590JP0KMknsacTSaQ8A8WTYLTXbgbbCKdj3TYkpiVmS5J4P72BFDBy2FQkSqYzFMxaUKVkqPUSI0UVAosLB4LS2auoSSg/DHNM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732666525; c=relaxed/simple;
+	bh=HI2HHZsuo102X4gz6YFbcmL7c5N31VPCF2XnPIu6WaE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=gnzWsmjiqN1ZzDM0WkFyWMKf8CcDRDt8XX6bzH2nozT58VQMzjmq+bOOdFYEu3LcU7WSF/JcpaQCRKMwdWypbb2EVxRT75WZlvo+6AEgXP+P7oFtqDjp7GJxQL9Lcza6uxI7xVyGR06P7FsNabTvzpNGkXjoG3AHlsfLWonbTa4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=T/MHZgce; arc=fail smtp.client-ip=52.101.228.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NwKd34f+"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQKLKLp003917;
-	Tue, 26 Nov 2024 23:19:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JXOj1uo6qRGb0YQzjEwm+4KOBZcNIhIGsYVmiWDab6k=; b=NwKd34f+BNxW/8TT
-	6k+dBzD5ef11xfSeFzze0MoMvTTxXmyzIemzgsjfB85VroZ6inezQqOqp5gvVANn
-	7/kRbk2NmBm443erBdfdz4tTgeBdl9l1sPcd68mJRG/ck6FhZVVl47izLSLjnM4G
-	ksTILhNF77c4TgCTas8j2JK2h3bRBBVMXPgKq57hr/qkcFPB3cskrrhNHmkaDXar
-	VtERgnFMTnlOExjBkowSltYS0N8ZhhQRBRHgLj1b5k8PY8JTOe1lTraAYo1L5H3d
-	txi4+ZtE12zBPmF28EH9Wkqj0KoqnJS7LdpfSd15afuF6uG0MTtCwOX5juMKQq5E
-	5I2S3g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 435839aqrr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Nov 2024 23:19:57 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4AQNJtaX020705
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 26 Nov 2024 23:19:56 GMT
-Received: from [10.110.73.239] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 26 Nov
- 2024 15:19:55 -0800
-Message-ID: <d4d94c91-5b40-4ed3-9895-8f8c85fd0a29@quicinc.com>
-Date: Tue, 26 Nov 2024 15:19:54 -0800
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="T/MHZgce"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aGQDm6oGeqmQB2l7lwfVseu73QYjhyEYCmZ6S1zq+Kv4KQzi8f2ObZKtEfixcjIrEb553IBA0OHvwZEVQjcOMOEbtLPhIVaieDXBeEEBUuyC/f7540SPZUOBHE/D+aLETbu4p2X+Py1lGGwtoFbnVHDM7vtFJ9hT6T4Pqb8ei8zceGj+RKF4ivYtVziWLfcDFKdGzyTyI1NP7LhR7qiYT++Mz0SIDlLrtHVrrMTpdkkoK8PSoGMx+AaGxt4bMele3BQManK41UwArR9S72mHVfmQ7N5fnSxog/umcxJ6yxwWGg1zFwJhPaWiFvnXa4MpD/J0re783XomE3bm7/jzLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HI2HHZsuo102X4gz6YFbcmL7c5N31VPCF2XnPIu6WaE=;
+ b=B1/fu0hK/0S4Py9xl1vbdJqnyDXC42vAv0/n2dPcOhYGQ39ZOh5YnNW317w8pw3ZNZCvkwE/FU/hdYhLRbpbuu0EeHVDe71BtNqNRGX74jl2B3FfgGXHKhqkUI05HHDRH9pI/Vi4plciNFyJwEwcpkKK91u96ktr3UqztomiDBUBflV9iHqkxoYGaNY6AhexNxgdpERznfhNobOH3RcP0iqy2uoL+k6o/zgizt31JteaOurcI/ma2TAhhHDcgm/efSqBZkiEWeU1Bp6ZfnOYdCiFt6QJOk0vMuBRP/5u8nO9rEFqSIwnedtln1B4TIWpRHzKFnPOF/xmQ2qw0RAE3g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HI2HHZsuo102X4gz6YFbcmL7c5N31VPCF2XnPIu6WaE=;
+ b=T/MHZgceyPGuB4UXc8ABnRHzRo6g1nbUgMb9XzrTIYZP6plUrqb8awT20GV+gPilNyWrRSmecYcPte/gPS3zb+uiVlBAQ5RhBLjxerE7tLlVsswP9KflQNGlmABPllARxmRsXWyxFNUN5gjyvi+3ani28QdGNdR6xE8wi7rtHmQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYYPR01MB13184.jpnprd01.prod.outlook.com
+ (2603:1096:405:163::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.19; Wed, 27 Nov
+ 2024 00:15:19 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8207.010; Wed, 27 Nov 2024
+ 00:15:19 +0000
+Message-ID: <87cyihwmzs.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado <nfraprado@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	kernel@collabora.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] ASoC: mediatek: Check num_codecs is not zero to avoid panic during probe
+In-Reply-To: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
+References: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 27 Nov 2024 00:15:19 +0000
+X-ClientProxiedBy: TYCP301CA0048.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:400:384::17) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
-To: Takashi Iwai <tiwai@suse.de>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.dev>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <20241106193413.1730413-29-quic_wcheng@quicinc.com>
- <87bjya3xzw.wl-tiwai@suse.de>
- <02c20b06-34ef-459b-9cd1-2d2735eb1352@quicinc.com>
- <87zfls1t7x.wl-tiwai@suse.de>
- <8fc53dd9-0c26-410c-b1b1-3d6df7894a44@quicinc.com>
- <87cyiiaxpc.wl-tiwai@suse.de>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <87cyiiaxpc.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pZrM1Xsvu6nZrHsg37EGUg7jbpgwR8Gp
-X-Proofpoint-ORIG-GUID: pZrM1Xsvu6nZrHsg37EGUg7jbpgwR8Gp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- phishscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
- priorityscore=1501 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2411260187
-
-Hi Takashi,
-
-On 11/26/2024 6:14 AM, Takashi Iwai wrote:
-> On Mon, 25 Nov 2024 21:33:03 +0100,
-> Wesley Cheng wrote:
->> Hi Takashi,
->>
->> On 11/21/2024 7:50 AM, Takashi Iwai wrote:
->>> On Wed, 20 Nov 2024 20:13:34 +0100,
->>> Wesley Cheng wrote:
->>>> Hi Takashi,
->>>>
->>>> On 11/20/2024 4:12 AM, Takashi Iwai wrote:
->>>>> On Wed, 06 Nov 2024 20:34:11 +0100,
->>>>> Wesley Cheng wrote:
->>>>>> In order to allow userspace/applications know about USB offloading status,
->>>>>> expose a sound kcontrol that fetches information about which sound card
->>>>>> and PCM index the USB device is mapped to for supporting offloading.  In
->>>>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
->>>>>> responsible for registering to the SOC USB layer.
->>>>>>
->>>>>> It is expected for the USB SND offloading driver to add the kcontrol to the
->>>>>> sound card associated with the USB audio device.  An example output would
->>>>>> look like:
->>>>>>
->>>>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->>>>>> -1, -1 (range -1->255)
->>>>>>
->>>>>> This example signifies that there is no mapped ASoC path available for the
->>>>>> USB SND device.
->>>>>>
->>>>>> tinymix -D 1 get 'USB Offload Playback Route PCM#0'
->>>>>> 0, 0 (range -1->255)
->>>>>>
->>>>>> This example signifies that the offload path is available over ASoC sound
->>>>>> card index#0 and PCM device#0.
->>>>>>
->>>>>> The USB offload kcontrol will be added in addition to the existing
->>>>>> kcontrols identified by the USB SND mixer.  The kcontrols used to modify
->>>>>> the USB audio device specific parameters are still valid and expected to be
->>>>>> used.  These parameters are not mirrored to the ASoC subsystem.
->>>>>>
->>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>>> IIRC, this representation of kcontrol was one argued issue; Pierre
->>>>> expressed the concern about the complexity of the kcontrol.
->>>>> I didn't follow exactly, but did we get consensus?
->>>> So the part that Pierre had concerns on was that previously, the
->>>>> implementation was placing offload kcontrols to the ASoC platform
->>>>> card, and had some additional controls that complicated the
->>>>> offload implementation about the offload status for each USB audio
->>>>> device.  This was discussed here:
->>>> https://lore.kernel.org/linux-usb/957b3c13-e4ba-45e3-b880-7a313e48c33f@quicinc.com/
->>>>
->>>> To summarize, I made the decision to move the offload status
->>>> kcontrols from ASoC --> USB SND and limited it to only one kcontrol
->>>> (mapped offload device).  So now, there exists a kcontrol for every
->>>> USB SND device (if the offload mixer is enabled), where it tells
->>>> userspace the mapped ASoC platform card and pcm device that handles
->>>> USB offloading, else you'll see the "-1, -1" pair, which means
->>>> offload is not possible for that USB audio device.
->>> OK, the simplification is good.  But I wonder whether the current
->>> representation is the best.  Why not just providing two controls per
->>> PCM, one for card and one for device, instead of two integer array?
->>> It would look more intuitive to me.
->>>
->> I could separate it, but we would have to have a pair of controls
->> for each available USB PCM playback stream supported by the device.
->> However, before I get into making that change, I think the decision
->> for either two or one FE needs to be decided. Again, I think the 2
->> FE approach is much less invasive to the USB SND/ASoC core files,
->> and ensures the legacy USB SND path still works through the
->> non-offloaded data path.
-> Sure, the decision about the 2 FEs is the most significant one, and
-> those controls depend on that.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYYPR01MB13184:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7bc931c9-a85d-4387-6376-08dd0e7893be
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|52116014|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?oAmK0PmZKY+WY+rgLl0Avytmt/8QlSvDN8YSXZyKPWp37FHQLQMuYfsXLn?=
+ =?iso-8859-1?Q?ACBKb2SHjfRmQjc3hVfGduih8hb2DBUSRTtnH5Rt8VHKPyaSF7BB24aqqI?=
+ =?iso-8859-1?Q?hdTfYutjKA7MvWqCSdToYlAYrnYdxA28kEgNugiPTjw4aMXn3VzqOSgF20?=
+ =?iso-8859-1?Q?QcThXVmaJ8rEBpXjE4SQXWfY9jQSyfrKhKU6XxMme2VEPyQjR01bzqVPYI?=
+ =?iso-8859-1?Q?MneQo8t6oam0If5EHoDV6By1523U/W58sYHwKm22LDXhNlx/dfvxDvfMZd?=
+ =?iso-8859-1?Q?B126OleonqiqyQBxJbaaZ48nkESbZANWIhx2L/CwhlyaB4AG0wCs8DfF2Q?=
+ =?iso-8859-1?Q?VTEU97DsFd7b3CtmZmc/X5cmZA++yaBjus++cROoIHaXVbTl7q8+8pu7Kk?=
+ =?iso-8859-1?Q?NmOBc5sdyaK5vXhW5paj4gL+VuYS+4JzYri/aYjthIP2SZz8w7vkhSAjfS?=
+ =?iso-8859-1?Q?BXpsxGeBVRwlq5aRkjAavLYjW1JEaTtbQtgJuqTDcgDOtU0UcXKaG7e+5L?=
+ =?iso-8859-1?Q?hOFEetnECmz7ajYlf1vQEuuQqBGwU52DA1jNHkWodyR7a1LkGGNFCTFrnK?=
+ =?iso-8859-1?Q?kVpj+G/USuo6Uzs4way8OAvTE3yeozGM3r1EQPiIthlcktjGL8roJVIrDk?=
+ =?iso-8859-1?Q?1b+bR7/pAptU6QxnQOz3lDL9cMe1+NJF+sdV5XbpY9vaq8S8en2x2o3HyG?=
+ =?iso-8859-1?Q?PqegN24V+fFYFaXk8Jj8xG3JwLp5QWcN/dvCnOtE+4A/1pEj8DKa+/2dE4?=
+ =?iso-8859-1?Q?nkvpUfMRc6YEbnSET6117Ayx3nK3i7CGhfYdfwgIBA+VDEnbTRkHlhmLjw?=
+ =?iso-8859-1?Q?y/kTgxsmXElLrxtfmruYx1M4CxjpWG/QER1pl7kLOLG+m13hSosc0XnSht?=
+ =?iso-8859-1?Q?NEZpbtINGPl28izY0HyEE08GvKG5D1YKMmRh8GVMg6zGffWaYxm1q6r3F+?=
+ =?iso-8859-1?Q?kF07l99PtHgrr0SfWKZFAjbC4nmb1iKBogMd5Z3JEeEDiK9nv5bdB5E7Q8?=
+ =?iso-8859-1?Q?7R8n9c+XQhkz3xppz6boA/9OU2oqNf90CpzjU1Ghb5Ry89K/QdCQFGNHUy?=
+ =?iso-8859-1?Q?rJKsTsM2TNRNPedvy1xONYhhT3b54XP9htR0JtKGWF3NKRKT9hLbDcw4k+?=
+ =?iso-8859-1?Q?yC/Vtjy34pj9/ESI6icqwKEi5htT1AdHVX0uEz2U+A638uYZYjxoPSLN4U?=
+ =?iso-8859-1?Q?pSv0wRsSv0c4NYgh0Ch46ngyx1U9C91gyZ+uOtauae2RWfXwNjYwKM1t2N?=
+ =?iso-8859-1?Q?fmODUEYjvDPZoHVL7thpy6Yni2pwmiR+hgEkLO2HGmC3shNa81vBeGk0lp?=
+ =?iso-8859-1?Q?lezo3n2C42Fvx7xcBe9Uj4OvHSTuJUcrTpfuVh/brbYLRMNbEOoxfvF/8U?=
+ =?iso-8859-1?Q?lsNK9gG/0u3dI8LbDAchMWVA4TODt1PqLhnEI6mKYNbZSZ6aSLB6QcN6sJ?=
+ =?iso-8859-1?Q?Ca8VmNEH7ieq9eRuXa2yTdujt3lsaUjUOLlAWw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(52116014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?ZjAIdelJ9Xru1HzgjdDsMamY7lNqOj4NDmNYn9/Z3le2+u4AjEti6fYmIp?=
+ =?iso-8859-1?Q?wP3jICncs4p39tnTmVfD69FD+/A1/7TRAfrXmGbI9T1FW5VC41T57/HTfB?=
+ =?iso-8859-1?Q?wprKGQHGRH3eEzX+NMMQw2BwlEvy79aMvphXVA3Xw0iqkT5BINP7QU0tAN?=
+ =?iso-8859-1?Q?SIb5zdq0U+D8GfhEGcLp7QKtv/CN6CQiiOqlp6xEmNuz10eWzo8UEV/TdN?=
+ =?iso-8859-1?Q?g8Yy0OVt0y3ytvhBzq7M+z8V8q+DtclwThn8tnIUjYuRnw2NW+OCkmhxGN?=
+ =?iso-8859-1?Q?68mc6Uh0BPqbJ04DuI1xlOMdxWzgMeiCnMIANEJcdfbrBaKKvStlO5niSg?=
+ =?iso-8859-1?Q?jBMou3MExAbmec/FI+AK11YPe0zNZ/GK83XXix0hN1dlrM1R0TrajbD89h?=
+ =?iso-8859-1?Q?06X4yvUK3jqkuWkupl2GDbb54pqyI20dkZCLp6rvelgvg4OjPThx+YA+nB?=
+ =?iso-8859-1?Q?vMPaMYteuTDqnBc6KcEIF8OtgJJttefDJKiduyHPdzoGfZNs/+hZ83xkWJ?=
+ =?iso-8859-1?Q?nmAkN+jADyDv9E5nTVuLaZBHYiRyJlzDx1K7x51/koOHcTVJLgCupPHcbC?=
+ =?iso-8859-1?Q?5JvaVhcjl4kP9N8fZSl9k4joYWWmq6umVX/CTGY8NkaVyPlWpxxXyWxZZ2?=
+ =?iso-8859-1?Q?9K1lxxW9LeCKzF7pppMTB7/28xpQ90Q6SUaA2wrtTOkzomkhhLqEjKkw53?=
+ =?iso-8859-1?Q?OYDuArs/odEU7uXz6ltS6vYWQd5S3U5T5DJkp0sXmeSO4O2v8c+9dMaSMS?=
+ =?iso-8859-1?Q?3PYbuZjbHAHlO2tT7wMFYKL2vgSVMS8sPbLVru2NBh2HGmoGdXLzPB5U4/?=
+ =?iso-8859-1?Q?sM3PbQpMYvtUEr87XeTHoZgjbio+1h/s2/6wo7citmsMhVoIN2uLeyPcq2?=
+ =?iso-8859-1?Q?NGbo21DL3Zr1Mq4pcNoXQFM/g1azltc1D6Zo0OM1J5N6Zrp3ARTctEezx7?=
+ =?iso-8859-1?Q?b+/mqSanpSMHz6Z3ARqrR6ZVo27qgEULJubL4wx5dCwLoCBtbEw0O6gA0L?=
+ =?iso-8859-1?Q?YvscbSyBnKwZtutNhcgf9o2xcompV4+ll1trcr3pRShEjakYCKEfwuln0h?=
+ =?iso-8859-1?Q?7yVKPhPzUyNMelpZIt5BpNpiHYxYwx7fciPKSck/31WfPDDM/+/2V2o9//?=
+ =?iso-8859-1?Q?otUWbTBok0+uLhy67QJFel3gHadCzzD2mbNK3Y/0/r1AKtn7vOcBd0H+gF?=
+ =?iso-8859-1?Q?wglvr09/tm0QsODMXlsRVzurJ0qnw/4zmqsUctCCJ70lTlj0wlZiDXJXV5?=
+ =?iso-8859-1?Q?szIzpi+RLdv0m1y7r/DvKxjnHe9MuSm3OIFCEg/RfSF3swKS+Iq7LvAhre?=
+ =?iso-8859-1?Q?7k62MYM7LWFtY+0LIvOZiKRvqTMmiIOZFtYOeteO0N6nTzvhvHVpru1xS1?=
+ =?iso-8859-1?Q?QrcUw8x5nYUBR9VSkKx2wLqgobv7ltXZbheHcsBHW1F3g01NIRzaQsk0gX?=
+ =?iso-8859-1?Q?d9Fuh+igO4HtG5gzLfJJUgWZ0ioGI32OXvs0A66CD2wOyeuIpfPgu8M2tI?=
+ =?iso-8859-1?Q?gstreDgMJEJjNX2t2ZNJYF7zmOGzkmDP47R9WlrIAvtLPuFpofcNZm7j1x?=
+ =?iso-8859-1?Q?WiKHUBeG8CRkHfRBzwGiNPAR2b8ayoXBP70cKfXIK1ciwn0A/PWN82TisU?=
+ =?iso-8859-1?Q?6q5KF1pQPgl8kpQxblrwmcFrT23RfFDoVeL6meNqvVZMxBXgv/WEahM84i?=
+ =?iso-8859-1?Q?5uEMHY5n+hFEE+w6L88=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bc931c9-a85d-4387-6376-08dd0e7893be
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 00:15:19.5422
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 81+T20i7Wu9ZCHDlIhLJoN+eTp15XGz1NhQQ0xu6fSokGSmrG5GNZ+EsAVAslAic7beKBPuUj5GzO6zqhlg3hxPpdCrOgOfDT/sc2xlCPtqbEWX1qUEfvRt5KKOCtdCT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYPR01MB13184
 
 
-Would like to get closure on that here... (1 vs 2 FEs)  My stance is that the 2 FE approach can be the initial one we can take as it still incorporates the significant blocks that would apply to both situations.  From the userspace perspective, since audio offloading doesn't exist yet, applications should be working off the USB SND device and the SW path.  For those, without changes to look for the offload kcontrol, they can continue to operate off the USB SND PCM devices directly.  If enhancements are made to look for the offload kcontrol, then applications would first refer to the kcontrol of the USB SND device and look for existence of the offload controls.  If present they can then open the ASoC PCM devices.
+Hi
 
-If we then decided to move to the 1 FE approach in the future, this doesn't affect the userspace entities that added support during the 2 FE stages, because we are always first referring to the USB SND device to query for offload support.  The idea for the 1 FE design is that the userspace doesn't need to check for offload support, it just behaves as if it was opening the USB SND devices. (which should be the base of all applications working with USB SND)
+> Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
+> Component via COMP_DUMMY()"), COMP_DUMMY() became an array with zero
+> length, and only gets populated with the dummy struct after the card is
+> registered. Since the sound card driver's probe happens before the card
+> registration, accessing any of the members of a dummy component during
+> probe will result in undefined behavior.
+>=20
+> This can be observed in the mt8188 and mt8195 machine sound drivers. By
+> omitting a dai link subnode in the sound card's node in the Devicetree,
+> the default uninitialized dummy codec is used, and when its dai_name
+> pointer gets passed to strcmp() it results in a null pointer dereference
+> and a kernel panic.
+>=20
+> In addition to that, set_card_codec_info() in the generic helpers file,
+> mtk-soundcard-driver.c, will populate a dai link with a dummy codec when
+> a dai link node is present in DT but with no codec property.
+>=20
+> The result is that at probe time, a dummy codec can either be
+> uninitialized with num_codecs =3D 0, or be an initialized dummy codec,
+> with num_codecs =3D 1 and dai_name =3D "snd-soc-dummy-dai". In order to
+> accommodate for both situations, check that num_codecs is not zero
+> before accessing the codecs' fields but still check for the codec's dai
+> name against "snd-soc-dummy-dai" as needed.
+>=20
+> While at it, also drop the check that dai_name is not null in the mt8192
+> driver, introduced in commit 4d4e1b6319e5 ("ASoC: mediatek: mt8192:
+> Check existence of dai_name before dereferencing"), as it is actually
+> redundant given the preceding num_codecs !=3D 0 check.
+>=20
+> Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_=
+DUMMY()")
+> Signed-off-by: N=EDcolas F. R. A. Prado <nfraprado@collabora.com>
 
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-> So my comment assumes that, and if that applied, we need to consider
-> which kcontrol representation is better for users.  I don't mind too
-> much about that, but generally speaking, simpler representation is
-> better in the end, even if it leads to more elements.  e.g. sysfs
-> allows basically only one value per file principle, too.
->
->
->>>>> Apart from that: the Kconfig defition below ...
->>>>>
->>>>>> +config SND_USB_OFFLOAD_MIXER
->>>>>> +	tristate "USB Audio Offload mixer control"
->>>>>> +	help
->>>>>> +	 Say Y to enable the USB audio offloading mixer controls.  This
->>>>>> +	 exposes an USB offload capable kcontrol to signal to applications
->>>>>> +	 about which platform sound card can support USB audio offload.
->>>>>> +	 The returning values specify the mapped ASoC card and PCM device
->>>>>> +	 the USB audio device is associated to.
->>>>> ... and Makefile addition below ...
->>>>>
->>>>>> --- a/sound/usb/Makefile
->>>>>> +++ b/sound/usb/Makefile
->>>>>> @@ -36,3 +36,5 @@ obj-$(CONFIG_SND_USB_US122L) += snd-usbmidi-lib.o
->>>>>>  
->>>>>>  obj-$(CONFIG_SND) += misc/ usx2y/ caiaq/ 6fire/ hiface/ bcd2000/ qcom/
->>>>>>  obj-$(CONFIG_SND_USB_LINE6)	+= line6/
->>>>>> +
->>>>>> +obj-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
->>>>> ... indicates that this code will be an individual module, although
->>>>> it's solely used from snd-usb-audio-qmi driver.  This should be rather
->>>>> a boolean and moved to sound/usb/qcom/, and linked to
->>>>> snd-usb-audio-qmi driver itself, e.g.
->>>>>
->>>>> --- a/sound/usb/qcom/Makefile
->>>>> +++ b/sound/usb/qcom/Makefile
->>>>> @@ -1,2 +1,3 @@
->>>>>  snd-usb-audio-qmi-objs := usb_audio_qmi_v01.o qc_audio_offload.o
->>>>> +snd-usb-audio-qmi-$(CONFIG_SND_USB_OFFLOAD_MIXER) += mixer_usb_offload.o
->>>>>  obj-$(CONFIG_SND_USB_AUDIO_QMI) += snd-usb-audio-qmi.o
->>>>>
->>>>> Then you can drop EXPORT_SYMBOL_GPL(), too.
->>>> Had a discussion with Pierre on this too below.
->>>>
->>>> https://lore.kernel.org/linux-usb/f507a228-4865-4df5-9215-bc59e330a82f@linux.intel.com/
->>>>
->>>> I remember you commenting to place it in this vendor offload module,
->>>> which is what I did on v24.
->>> I assume that my early comment was based on your old implementations,
->>> and I guess it was because the mixer part didn't belong to the qcom
->>> stuff.  Now it belongs solely to qcom, the situation changed; it makes
->>> no sense to make it an individual module at all.
->>>
->>>
->> I guess Pierre's feedback was that he believed this should be vendor
->> agnostic, because any vendor that could potentially support USB
->> audio offload should have the same kcontrol within the USB SND
->> device.  Hence the reason for keeping it within generic code.  Since
->> QC is the only user of this now.  Do you prefer to make this part of
->> the vendor module for now, until another user comes along and
->> introduces offload support?
-> Yes, less module is preferred for now.  If the stuff is agnostic and
-> really used by multiple instances, we can factor out to an individual
-> module again.
->
+Thank you for your help !!
 
-OK, sounds good.  I will make it as part of our package then.
-
-Thanks
-
-Wesley Cheng
-
+Best regards
+---
+Kuninori Morimoto
