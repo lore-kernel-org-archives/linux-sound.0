@@ -1,97 +1,187 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822711514CE;
-	Wed, 27 Nov 2024 10:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732702359; cv=none; b=KGBIp2VKoJXT4v/BfUsduuODRGaXr3oP5+W+J2bzDyCuDIkPI7bZKrz8h5KznAWltbeu6BdwyXavMfpnLKZBJcojsezKidpUYnHHxb47MfvudKpwsuUkabwqQJe3CG1xi6TbIwB035E6w7eBf69bBe6k9l6HI8UUmBKRNA8V+Pk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732702359; c=relaxed/simple;
-	bh=IaiHuo4scdpLUjxAuqxQCLHP5S3VKQOFoLobuMRfDP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KDDvEMXS48Dx+p8kE/Y3PngShAJCnmuR+Z2+jBUKi8uN6XZOo/HC2LpB1wIOK11M0HcAbej+lPSIFTMvNOpnKVRd4eja5YHeeSXF5vpM/YXMAR3gqa3/qz0vgBQKD1EqQiaoGCYB+NvqnzIbo8wK4fa38361JJ/CbKVWjyN/h5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Qfpy63VR; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8D81F6677;
+	Wed, 27 Nov 2024 11:22:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732706561; cv=fail; b=PkpDKzzFPO3apBQDqIPIJbmM4SGcmEsq64GCFyUlHWTW9QAEWd2pnn63PQo0twAi6sgkTt0mr5lg0mIyThYoJc0MhA6uy1gQ7I0GB7R9Ma6jgzVAm8XnI9z0/NrcCVXZL9lpTo9Dquoup5x1MPKpGC0jbPcBWgBu6kIuBnGjoLM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732706561; c=relaxed/simple;
+	bh=TYuDefE5o6JsD4jXbjI5zpjxEc0j0tNQDw/WSbjab38=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PKXMSVuVsCGXYyfOvqEwBgAuqUKQW1rUS1b4zwLORiFvSKnCZVyW7fH6qY5wPiYEuOoW+QE6kv1wCGooOjH+wwKbWEYliOqmPdVsZarw4gNwYytOWrXmWAYZnNQHGMMQLgTZjx4wYGVcCV6MLclTUYJjOoHPEbgp+oTH5WIfOvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sWmTV4GG; arc=fail smtp.client-ip=40.107.220.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Qfpy63VR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1732702349;
-	bh=IaiHuo4scdpLUjxAuqxQCLHP5S3VKQOFoLobuMRfDP0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qfpy63VRp+Uzmit3asBeOPNHHgjSk3bdV1jEs4Jb1m48XeD00Q3O78HQ/EG0GJWnp
-	 WNdOWe6jzdj5T3Wbtvi4B8/dvg5s2RggxQ5dOjrvFFmIOJjk3CafjCRHrQ6vQnjCU9
-	 IPmPdv8L6Q1X8eyet3hg2zryrTvaO6UL2l6Es127XCoCSU2HdS+qPP6FQK+lDwmGuM
-	 t1fsdCJ4WFzxeYdjihlZd/840DeGzMyGZZEQzisYJ8YnASUpVk86jTQUmJEM/znADK
-	 oCQnzBw9As4EnwZpuPfgnOmWvj3HBXSO7vKHvSiGB12n0J7pZgOjd1/mKshPitnIUC
-	 JsqHS+pNcP90A==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0B98B17E35DC;
-	Wed, 27 Nov 2024 11:12:29 +0100 (CET)
-Message-ID: <20bc569f-273d-44c2-b725-250a974730d3@collabora.com>
-Date: Wed, 27 Nov 2024 11:12:28 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sWmTV4GG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TUYNFUhwbPcfBv/sBtstSUoICJRkbwBtvWNTYcgcUYVRI0Zzc3KRm8E6hkH8JHON+uBZM5EOORpSq0DwvIrdXIvkAF3FEWHnX9Sh+71Hk0VpsWxXdjDZrBgzEy/GZdc/x7HKYFiIVLuAYgYUVyS3gIG4B+FByZ0w418Vo8noid6+sWz6J9WqbvINRc8tzVkKI8d0vOW8vLt3IiJzxoVJ4lKk11lTAmLP8ibMctHmfTm911LsZfuFaresgUxRlJOzI5tqr6Ko4sfXO4JEImzTIPOe2RY7IX/oU0SgleSJJMRAPzZ6IpJ+IVlLa5AkNLqLVMhaaBw4jyvuQ/eWlo5w0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4tCOncg/iDILytUeVCgGrsZHuksKz3nVtd9URHAQS7I=;
+ b=KBbbHeAgE7whqJDdycrf4EsUf21B6rMISDhaGFj6SyjakCjidMkV7vRew7CEmE6pPdLbCCKi6rp2fQ3K0VexLzYCoSIGtj5/vQo5zNQu02dZMhLa44Lzgu/6XLuZW0hgNMLbRTYyAKxVFmtf7Y4bhkW9m77uRQ17Sq5hdHm4Ck+E/stju6FyBGf4xsch5tisuISzSH0lh+2neD+IwPTbMGsDx6+pH4xFj6fwBo+F/j6JGDdQ7cB4QSwTTtB86c7jKKDAWyZVBjyqSE/cJASYch6sH46VhqnVpSh18o1JUoHLtPZ0TssnLE/byiZpzJTJ/g2Bwfuc0zGOi7dPU2ytmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4tCOncg/iDILytUeVCgGrsZHuksKz3nVtd9URHAQS7I=;
+ b=sWmTV4GG92FwWzwzF/39Qx43IXt3X4LJ/yB048t4uyVhn26D4pLBHDanrDG5hZIeHe5gFtBqOeEFACCISB323BvxAUTZ1EgiRFuXkLLQE8LS8S4OncRVPPMwzjxRqORfiH/X0wrXueZg4fDfk8XIuIZ6RttTEJ3RdfNeefNAJI4=
+Received: from BN0PR03CA0035.namprd03.prod.outlook.com (2603:10b6:408:e7::10)
+ by DM4PR12MB6133.namprd12.prod.outlook.com (2603:10b6:8:ae::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8182.21; Wed, 27 Nov 2024 11:22:35 +0000
+Received: from BN2PEPF0000449D.namprd02.prod.outlook.com
+ (2603:10b6:408:e7:cafe::35) by BN0PR03CA0035.outlook.office365.com
+ (2603:10b6:408:e7::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.12 via Frontend Transport; Wed,
+ 27 Nov 2024 11:22:34 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF0000449D.mail.protection.outlook.com (10.167.243.148) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8207.12 via Frontend Transport; Wed, 27 Nov 2024 11:22:34 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 27 Nov
+ 2024 05:22:33 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 27 Nov
+ 2024 05:22:32 -0600
+Received: from prasad-lnx-mach.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 27 Nov 2024 05:22:28 -0600
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <syed.sabakareem@amd.com>,
+	<mario.limonciello@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Tim Crawford
+	<tcrawford@system76.com>, =?UTF-8?q?Attila=20T=C5=91k=C3=A9s?=
+	<attitokes@gmail.com>, Techno Mooney <techno.mooney@gmail.com>, Jeremy Soller
+	<jeremy@system76.com>, Malcolm Hart <malcolm@5harts.com>, "open list:SOUND -
+ SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: amd: yc: Fix for enabling DMIC on acp6x via _DSD entry
+Date: Wed, 27 Nov 2024 16:52:25 +0530
+Message-ID: <20241127112227.227106-1-venkataprasad.potturu@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ASoC: mediatek: Check num_codecs is not zero to avoid
- panic during probe
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org
-References: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20241126-asoc-mtk-dummy-panic-v1-1-42d53e168d2e@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF0000449D:EE_|DM4PR12MB6133:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f4f97fc-e354-4368-b775-08dd0ed5ca7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|1800799024|7416014|376014|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?zWCzOVHEd9BUIHL0+NjwF19g0FvASduhx9l+mrIuSho/Ko3zb56p55aIYMlw?=
+ =?us-ascii?Q?t0TWAfRKxpUU3VSI3M7PiDZMtkYwjjHowjAhafgOgqoT9QB4r4JK39ZfHqnk?=
+ =?us-ascii?Q?LhOORMGcJtpJc+uUP5UEfgy7PIFW0a9EIHCYlwc7YZqSimRE9yxE+H9ts2Bw?=
+ =?us-ascii?Q?c7X8fatmLWHr+jt4zAw/UFRgovCWSr1NPE/Qn2vKGRQ/l9pmF+gZjn8knE6o?=
+ =?us-ascii?Q?iSB1RrwBHaK2yup1sh97ffZmHg1UjaHeOJmhQGyZ9+pUcJWFcddCraJqOzFk?=
+ =?us-ascii?Q?CVLPwvIU9w6Pz359RDHpwtypY/1q7/pfvVZvPV8V4r5C5XpmZNqtca9egp/V?=
+ =?us-ascii?Q?kC9m2nA2QNIQc9KIRB9mmon1qeTTQAFuglU8xBjvB1wYEDyJOZUxyXB+6k+T?=
+ =?us-ascii?Q?kDBob2EPqsex0fpNN9eN1Q04E7eGI7er2CWsSbpgSED7/MkljwD6IY4d6F8r?=
+ =?us-ascii?Q?BGh17Pv9dP3i505MQsDfe86C9sJQgqrFq44TJOGrVDqgh/jUsQhyphAu/aA5?=
+ =?us-ascii?Q?r4RuYS5Fq8RTgzB3lnUm3NH3T/zTLeNeVwpXUoBQ6hbqFrsZn92g94oiqbo9?=
+ =?us-ascii?Q?KGkcmLFsk6liyWFoH2uVjAh58wR5EG2QMt8UcNoog2kMMGTTe1nlgCGL368j?=
+ =?us-ascii?Q?OqqubYgzXdPtHGT5+sna+XzstjRz+eLRG3F6e6BKVkrhi8XtgaQFEYaYjuY8?=
+ =?us-ascii?Q?1fpC1Gu81KbiG6LZklpk1LW3rt1dCpdYg3G0xVQ/ZtpW79tByufah7jrU3d2?=
+ =?us-ascii?Q?atlpaR1zGQ8cR9kb8jmI++t6kZ4Hfs8LCttROG8q/OS7mBHIQgQwPPIzCFho?=
+ =?us-ascii?Q?icby5E/xE44u9R1HQao7JEFh1LG3lgFZEjQHawUKYUrQzPDik0Y5H6zAn56D?=
+ =?us-ascii?Q?r0MiYk/TpVm0hhyrp0PqYzBZMZSAOx+tX/glGVLzYLnK+9ZSCQ59FsRjUq3c?=
+ =?us-ascii?Q?1qMy0NZk4qqEaVo0s4uunvtXiozDekWunshiXdvPtaTV3MxuLAu/7z5Q4Zn+?=
+ =?us-ascii?Q?ALPhUso0Kl+xKwSs8IzYPG2hXwTYWHj4qxDEvlqeGPF05NRoayv1ZjgOert4?=
+ =?us-ascii?Q?jAuRn0L07oAmTk0rJO6XwK52s7jzY1uBFqHuNcNRGuk8GO898BBkr3OEJtti?=
+ =?us-ascii?Q?YVhkQ8MU7q2v5hcLAtVWVHQd/Q5D1WJg7gfaf5Y8aeXHObU9B002HCVD9T5O?=
+ =?us-ascii?Q?xfe7ICloPrp05B9p9lSudNZkDCGi8woly8T8lHpIfkK8or7sNkydfJvY7ChV?=
+ =?us-ascii?Q?wlT1fwEg2zIeZyhtgBG45G9Az1Y04lRqzeR25+rrqKMHj7TqY0InwfgCWdzY?=
+ =?us-ascii?Q?U6b+H7/KhIznGB2bY+ep99QBJ+RP51o81eryTxrm2U3H3kpAGLw9mKnsIJsI?=
+ =?us-ascii?Q?r0HzhV9QVMWpIfmCoFvMs3Q0dzd+nhlesuRdVxZPSEimKUaeu/GDK4u34Mn4?=
+ =?us-ascii?Q?2u9lUiRh/K0EO/2mT11nGBwaBbpTWZXw?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(7416014)(376014)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2024 11:22:34.3847
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4f97fc-e354-4368-b775-08dd0ed5ca7c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF0000449D.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6133
 
-Il 26/11/24 21:09, Nícolas F. R. A. Prado ha scritto:
-> Following commit 13f58267cda3 ("ASoC: soc.h: don't create dummy
-> Component via COMP_DUMMY()"), COMP_DUMMY() became an array with zero
-> length, and only gets populated with the dummy struct after the card is
-> registered. Since the sound card driver's probe happens before the card
-> registration, accessing any of the members of a dummy component during
-> probe will result in undefined behavior.
-> 
-> This can be observed in the mt8188 and mt8195 machine sound drivers. By
-> omitting a dai link subnode in the sound card's node in the Devicetree,
-> the default uninitialized dummy codec is used, and when its dai_name
-> pointer gets passed to strcmp() it results in a null pointer dereference
-> and a kernel panic.
-> 
-> In addition to that, set_card_codec_info() in the generic helpers file,
-> mtk-soundcard-driver.c, will populate a dai link with a dummy codec when
-> a dai link node is present in DT but with no codec property.
-> 
-> The result is that at probe time, a dummy codec can either be
-> uninitialized with num_codecs = 0, or be an initialized dummy codec,
-> with num_codecs = 1 and dai_name = "snd-soc-dummy-dai". In order to
-> accommodate for both situations, check that num_codecs is not zero
-> before accessing the codecs' fields but still check for the codec's dai
-> name against "snd-soc-dummy-dai" as needed.
-> 
-> While at it, also drop the check that dai_name is not null in the mt8192
-> driver, introduced in commit 4d4e1b6319e5 ("ASoC: mediatek: mt8192:
-> Check existence of dai_name before dereferencing"), as it is actually
-> redundant given the preceding num_codecs != 0 check.
-> 
-> Fixes: 13f58267cda3 ("ASoC: soc.h: don't create dummy Component via COMP_DUMMY()")
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+Add condition check to register ACP PDM sound card by reading
+_WOV acpi entry.
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Fixes: 5426f506b584 ("ASoC: amd: Add support for enabling DMIC on acp6x via _DSD")
 
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index 438865d5e376..c301dac8b979 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -523,8 +523,14 @@ static int acp6x_probe(struct platform_device *pdev)
+ 	struct acp6x_pdm *machine = NULL;
+ 	struct snd_soc_card *card;
+ 	struct acpi_device *adev;
++	acpi_handle handle;
++	acpi_integer dmic_status;
+ 	int ret;
++	bool is_dmic_enable, wov_en;
+ 
++	/* IF WOV entry not found, enable dmic based on AcpDmicConnected entry*/
++	is_dmic_enable = false;
++	wov_en = true;
+ 	/* check the parent device's firmware node has _DSD or not */
+ 	adev = ACPI_COMPANION(pdev->dev.parent);
+ 	if (adev) {
+@@ -532,9 +538,19 @@ static int acp6x_probe(struct platform_device *pdev)
+ 
+ 		if (!acpi_dev_get_property(adev, "AcpDmicConnected", ACPI_TYPE_INTEGER, &obj) &&
+ 		    obj->integer.value == 1)
+-			platform_set_drvdata(pdev, &acp6x_card);
++			is_dmic_enable = true;
+ 	}
+ 
++	handle = ACPI_HANDLE(pdev->dev.parent);
++	ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
++	if (!ACPI_FAILURE(ret))
++		wov_en = dmic_status;
++
++	if (is_dmic_enable && wov_en)
++		platform_set_drvdata(pdev, &acp6x_card);
++	else
++		return 0;
++
+ 	/* check for any DMI overrides */
+ 	dmi_id = dmi_first_match(yc_acp_quirk_table);
+ 	if (dmi_id)
+-- 
+2.39.2
 
