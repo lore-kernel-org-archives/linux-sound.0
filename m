@@ -1,131 +1,163 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A521D29406
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 16:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5916C9463
+	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 17:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732809627; cv=none; b=JplGH7pSMIb46zcOuX6Ioa98AvP6SpyL4hJlKmvCk77V6vEkabndEjVKzv9D1cJfqV5AYJ4O+F7Jw+d2b3YsIUV+VVvaUGDn5IZETJPGtXMws07eZJoULtsdIBOINAiu+O0y3YXLmzM/IDD7Fa6OUIbrPJ3pL1YDcwh7/xhcjrA=
+	t=1732813469; cv=none; b=pZ5dmtclDB8SP/GpXnK3dT3o+mQDKsNOcdWQSiD4YqReIdrLTzR6cBMMj+pSII9lz4nrAd3gAw0JGWYckRT0/ssdh3Q53Ruy57WfDgCUFNZXQlstqxWlyh/5HbK1RCJ3wbVAo9wSqpykaEFmW8pLByATZmULOXxaCDTSbZOviFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732809627; c=relaxed/simple;
-	bh=CEPCLyGcP+5TlVcrY9sskKx8WTDeCpweS8+NStxhbuw=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=BbAmXbrOY3k8F4qajelnlfpPgAjn6x+sXicqTC7cA/s30ZYN6DiPmQroIyIyOp3uKyy+S3odiBEA7hFXAOgdd1deynL9Z1dX9eqauy5EhEvYKWzcgf15mGLgBDWJ1L92C/pEzGB6qOc7YvgsZgXlC+lut0k55rsospBoS6qIIvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VjrDBsu4; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
+	s=arc-20240116; t=1732813469; c=relaxed/simple;
+	bh=AXvgM5t6cwbs1QrH/jHvgT9/5DrsmYib5rXZS56HR7I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=rTACFYGMT9XsGPStcXBSusmczppuLJmQzRNKIvoMl6yWjzmWfz6yRlsRPTyehT5KIzFBtLCvy5PBiRrLjNNLhMeGXUsapxhDFYElWgHs0jOEausf5QuNaVox6+tZZBHwuODqwgXtWgeQs+WmNkjORvuLKec/FwwHvSFN6IxvrfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FnkeuKaD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fWk0Lx0D; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FnkeuKaD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=fWk0Lx0D; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VjrDBsu4"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-5cfae4d1f2cso674799a12.1
-        for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 08:00:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732809624; x=1733414424; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HCg1Km73Sbp4/xSTNme8D+2Uw46vaSy0dpia+RIb3WE=;
-        b=VjrDBsu4UMXfwI2w7VJHCPDTNjl2Isq9XJYFX6K/ZOygu8fXUTkYwMSyIXdcAaqe5I
-         TXUxJGcDGxU/D08eatGJDMp0UxD29VHKDi4qBrNvfc97k76XEajBOTO8ENTRaQY3x9PO
-         LmbCybEVz8j6fe7wrC3V5uHgkLW0JcaWYUIyXDkRCOhkg1IDFxfZKD33Tc+KNKDMfJrx
-         6jFZZFAVuPDYk6BOuhR5fSmS3mdF4+92+XAJ/ES4SE86PLDW/7svqq0aGA04o2zW/GBv
-         NUKcY2yXx9z6JOU6EJYLjuBbUZ0fgW3c4daHfFfOHNwF6I4RbYDmgfJ2ut+Pz2n6LxP+
-         o5iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732809624; x=1733414424;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HCg1Km73Sbp4/xSTNme8D+2Uw46vaSy0dpia+RIb3WE=;
-        b=mlt6Zyep7mDp3TiooLw+zK+CAymPwaRXyuoJOd7l1tWaR/ns0zgFjXE3uZuHb2jUTN
-         NezjrM9TmV3dhs1XkQ7eg1RbncwmcAy4/PBwuHb2yRnqKYI31mpt9XiymAoov1G6k3jF
-         S4n8x2AEDsG2A2ddxDn0GXdIDAHXYeZW1CwLZIVl6P5/xGr0Fvyy5m+pFIQIVnO3mhk6
-         t/S4zeSr5L981E1kLfaDV318T9PwBNe/NpJJxRruWP+7lTL3lhcJSLOHrGugFTtGDMLR
-         PEOFlYvFfvgu4yDPQ/PvIr55S6aGR99HwnMILtQr7eidJhM/D68nuaPNjjB7vdzxd6bJ
-         EtYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXN5LecqornYLVYykRDtZt1JFYMYg7FwohoHGPAOdNsw1JJnxu5HJ7KI+8MQB0jK0l78mHbPpg6Qg/3QA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsGwdG1PcgXOH9A6YVu25AN85BEYgermIJQgZiKwCdlIjT1pCi
-	BpD8C5YflDyVOlSDoujhFK7bbFFSNJwXc0NquVimLb2faxAKBKPbRS94On1I3iV7hGm3V60heVH
-	E9lbSCNLcMA9dcQ==
-X-Google-Smtp-Source: AGHT+IH7O2F88sy1YkGak+ZTUuWwKlxn8SdhOmaY7RlKSth26WNlQQxcOCfxKgSD/+8oTPB23XqZRw9oivubtks=
-X-Received: from edal21.prod.google.com ([2002:a05:6402:2315:b0:5d0:83b1:b8ab])
- (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:1e93:b0:5d0:8f29:73b9 with SMTP id 4fb4d7f45d1cf-5d08f2974b0mr4346712a12.28.1732809624031;
- Thu, 28 Nov 2024 08:00:24 -0800 (PST)
-Date: Thu, 28 Nov 2024 15:59:20 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FnkeuKaD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fWk0Lx0D";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FnkeuKaD";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fWk0Lx0D"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 6A2C41F441;
+	Thu, 28 Nov 2024 17:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732813465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fVUslh5PwAe9xHSv2y1D2i/+4wBDM2Vwqhz+Ga0yGjw=;
+	b=FnkeuKaDhVZRin9g7mmm3QlTLonr01/KnQ3G0gMK8Qk8mx8dkmPvgL4qmOWPGGMkdw7bek
+	YpLHgoe/WbjKzYcKEmsLxKGPoBlhno9LutMwjW47+CYqQ6vTjG+8lr+wnLfHMpklFxnyGE
+	kZiZtgyFYUhvDehdWHmRWGiwD8083kE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732813465;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fVUslh5PwAe9xHSv2y1D2i/+4wBDM2Vwqhz+Ga0yGjw=;
+	b=fWk0Lx0DQN0X3G8pIVLZyGSmfXWxhL5PCxAj6K3hfE42efPvTCyz4paTW5VJmK+iqHlaIO
+	J2KJrwxAuC99dvAw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=FnkeuKaD;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=fWk0Lx0D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1732813465; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fVUslh5PwAe9xHSv2y1D2i/+4wBDM2Vwqhz+Ga0yGjw=;
+	b=FnkeuKaDhVZRin9g7mmm3QlTLonr01/KnQ3G0gMK8Qk8mx8dkmPvgL4qmOWPGGMkdw7bek
+	YpLHgoe/WbjKzYcKEmsLxKGPoBlhno9LutMwjW47+CYqQ6vTjG+8lr+wnLfHMpklFxnyGE
+	kZiZtgyFYUhvDehdWHmRWGiwD8083kE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1732813465;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=fVUslh5PwAe9xHSv2y1D2i/+4wBDM2Vwqhz+Ga0yGjw=;
+	b=fWk0Lx0DQN0X3G8pIVLZyGSmfXWxhL5PCxAj6K3hfE42efPvTCyz4paTW5VJmK+iqHlaIO
+	J2KJrwxAuC99dvAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CB7713690;
+	Thu, 28 Nov 2024 17:04:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id gsp8EJmiSGcCSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 28 Nov 2024 17:04:25 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: [PATCH] ALSA: seq: ump: Fix seq port updates per FB info notify
+Date: Thu, 28 Nov 2024 18:04:22 +0100
+Message-ID: <20241128170423.23351-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241128155926.1774625-1-mmaslanka@google.com>
-Subject: [PATCH v3] ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
-From: Marek Maslanka <mmaslanka@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Marek Maslanka <mmaslanka@google.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?=" <amadeuszx.slawinski@linux.intel.com>, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6A2C41F441
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-The presence of a plugged jack is not detected after resuming the device
-if the jack was plugged before the device was suspended. This problem is
- caused by calling the
- sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function on resume,
- which forces the jack insertion state to be unplugged.
+update_port_infos() is called when a UMP FB Info update notification
+is received, and this function is supposed to update the attributes of
+the corresponding sequencer port.  However, the function had a few
+issues and it brought to the incorrect states.  Namely:
 
-Signed-off-by: Marek Maslanka <mmaslanka@google.com>
----
-Changes in v3:
- - Fix line breaks in commit message
- - Link to v2: https://lore.kernel.org/all/20241128151239.1666582-1-mmaslanka@google.com/
-Changes in v2:
- - Rephrase commit title and message as suggested in v1
- - Link to v1: https://lore.kernel.org/all/20241128122732.1205732-1-mmaslanka@google.com/
----
----
- sound/soc/intel/avs/boards/da7219.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+- It tried to get a wrong sequencer info for the update without
+  correcting the port number with the group-offset 1
+- The loop exited immediately when a sequencer port isn't present;
+  this ended up with the truncation if a sequencer port in the middle
+  goes away
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 80c0a1a956542..daf53ca490a14 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -211,21 +211,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	return 0;
- }
+This patch addresses those bugs.
+
+Fixes: 4a16a3af0571 ("ALSA: seq: ump: Handle FB info update")
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/seq/seq_ump_client.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
+index e5d3f4d206bf..e956f17f3792 100644
+--- a/sound/core/seq/seq_ump_client.c
++++ b/sound/core/seq/seq_ump_client.c
+@@ -257,12 +257,12 @@ static void update_port_infos(struct seq_ump_client *client)
+ 			continue;
  
--static int avs_card_suspend_pre(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--
--	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
--}
--
--static int avs_card_resume_post(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
--
--	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
--}
--
- static int avs_da7219_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_dai_link *dai_link;
-@@ -257,8 +242,6 @@ static int avs_da7219_probe(struct platform_device *pdev)
- 	card->name = "avs_da7219";
- 	card->dev = dev;
- 	card->owner = THIS_MODULE;
--	card->suspend_pre = avs_card_suspend_pre;
--	card->resume_post = avs_card_resume_post;
- 	card->dai_link = dai_link;
- 	card->num_links = 1;
- 	card->controls = card_controls;
+ 		old->addr.client = client->seq_client;
+-		old->addr.port = i;
++		old->addr.port = ump_group_to_seq_port(i);
+ 		err = snd_seq_kernel_client_ctl(client->seq_client,
+ 						SNDRV_SEQ_IOCTL_GET_PORT_INFO,
+ 						old);
+ 		if (err < 0)
+-			return;
++			continue;
+ 		fill_port_info(new, client, &client->ump->groups[i]);
+ 		if (old->capability == new->capability &&
+ 		    !strcmp(old->name, new->name))
+@@ -271,7 +271,7 @@ static void update_port_infos(struct seq_ump_client *client)
+ 						SNDRV_SEQ_IOCTL_SET_PORT_INFO,
+ 						new);
+ 		if (err < 0)
+-			return;
++			continue;
+ 		/* notify to system port */
+ 		snd_seq_system_client_ev_port_change(client->seq_client, i);
+ 	}
 -- 
-2.47.0.338.g60cca15819-goog
+2.43.0
 
