@@ -1,114 +1,123 @@
-Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f201.google.com (mail-lj1-f201.google.com [209.85.208.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ABA13A868
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 11:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD2391991DA
+	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 12:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732792930; cv=none; b=U1lufEMkW5UW1qzqMe0pbLNn5VpSSMtOZylfbaOJ2FNHiQCcqo71hJQfD7qJq82Yh8xH60E5PdUz+cF8neM/IK/8qeE8MsUpg+uEW4GuyLOJQk+bX53szKQGbq3d+1Fb1X1b0yzhJxTpV5z8LKEAlzZH/prCytW3w1802691DMo=
+	t=1732796861; cv=none; b=lap6CgrPiOtWFdzR4VTYXSsyg8BOg/OOvAIhYXJ3Togs66oAAnZ0YSfiln7GD/C94CFX8OCpRGkvOT1CdBOYLobbamqugLT3HiyWYMqhDro9QbogItzs2pS3ah8wDBSrL9e/20HfTr7DTQdazhWSpcjZ7cDwvoRzgfByDq0NWuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732792930; c=relaxed/simple;
-	bh=VgFy2b77LrZjXObi9xVO+OEfcfgIfyXX4jAZRF9vbXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PC74fj4WaMwRyYRVAlVuVPYZQiE9Y+YZ7WLKGYKONYXf4MhHBQ0zFOn1jk2jvSaOryuYVhWgi+pvflZJ2Z4zYUwg3JIoVJC5mktY94FSXuMeG1Esj3+7DKmbIkOSAZk9wirGTwmYYKzUha6qBAhSl1C7R0Mpx7HVG0+lTlgKtRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=fGDgsnQZ; arc=none smtp.client-ip=77.48.224.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
+	s=arc-20240116; t=1732796861; c=relaxed/simple;
+	bh=rnOC0uH0wL+DXjz2H6rqda5uQT4oyuQ5UJk1N1XxOts=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=tXi9O/pfzEWxF1TatkDdrrkeWIE/DTRKSN5gaso2kbSDZBK092xdJdkTGBAa8jNFWTAk9EFPAR9dwW1OVVjYecgsJP2MxJk4ckzbmuaYbQf8b9MycfjE9uoBEQUX5QpPpDNdpeS9buIP7UgkQSJoI5ClKiFefQgw2nEDlaxaI00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=00I8nUBl; arc=none smtp.client-ip=209.85.208.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="fGDgsnQZ"
-Received: from mail1.perex.cz (localhost [127.0.0.1])
-	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 5FAE23A3AC;
-	Thu, 28 Nov 2024 12:22:02 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 5FAE23A3AC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
-	t=1732792922; bh=KkAjyup3pKZ0i1zFDSmDqcEzhu5/46NfQhEbE2vFK6w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fGDgsnQZFvLPpv388WSYnj/2AXdrAn0hrFo0cbg7xVQ9lTQxn2rKQahPVQ4UTAGUp
-	 798tlxA9EOImDKdS23gA0PnwUWB+G4mlCbEMmVRf/WOkkU8ioeN+Vfk8NGuaI3xQ0j
-	 x5bfE0tzWhu0UMLE8r/40Btk6/NiQzjzHPiP9W+M=
-Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: perex)
-	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
-	Thu, 28 Nov 2024 12:21:59 +0100 (CET)
-From: Jaroslav Kysela <perex@perex.cz>
-To: Linux Sound ML <linux-sound@vger.kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [PATCH] ALSA: hda: improve bass speaker support for ASUS Zenbook UM5606WA
-Date: Thu, 28 Nov 2024 12:21:45 +0100
-Message-ID: <20241128112145.3409492-1-perex@perex.cz>
-X-Mailer: git-send-email 2.47.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="00I8nUBl"
+Received: by mail-lj1-f201.google.com with SMTP id 38308e7fff4ca-2ffc7fe1b6dso3035261fa.0
+        for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 04:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732796858; x=1733401658; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hHScKB5wW3lYyaHNo3U+czR+30FvC0SvhNqkl2ETsUM=;
+        b=00I8nUBlWoCUS7ZdgnWeqUs+/nrJcN5JIuFNuVuXLJGpsitE/38wQ1CWxv6Cs2yjly
+         XVhizOh5qVpxE86fDIipu8Sst+NwfpCukGKA7aNK6lcfYLZ1rADbY9/ve0MfadnTVSuu
+         0h45v8h6tr/UX4oHFvzrrZtZbRbFAw/E2RgEYXQgRA91hNw/SIXvE8/Z4r3kw8PYDiat
+         hWI8FmaoqLqqFWx5t9FAxH/o3XVt0vcUKYR8aeegvvqnpF13YHKj+Zsh15MZWStpkx3A
+         XPGM2RJsDYAtkCAX5zqY8d0IlGo+M3VL5CGqtUD2NKmSG8f29z7lBaevwLMNldtlnllm
+         5qMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732796858; x=1733401658;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hHScKB5wW3lYyaHNo3U+czR+30FvC0SvhNqkl2ETsUM=;
+        b=eL1P7J80+U/+VxlvGl6E9U0tB+plPhgIuOMKyGELiK8WQD6blveh2SpNUTLfinTqv8
+         wldhSLoY+ojyVYx6wGZkbC4k3HusnRG/ZqTL3SkYiy1BHG6V0TXvBAD1Cv2PEdjMRtl2
+         AkOPxS3GeADlQPDy2r7bvJ7/o7cWT6LrCcjAHC1kIpOhmHYcMt+EzKZonWv3S+K1hQCr
+         Yr8KdlPSAoOaConkq5DhYH2Is313+c/QnOTAEZVZrD/7KuqEOUCIuCskbMeoo57ZmAno
+         IwTQxDQ5Nwq36JEu3jNHwIGY/GzBJd5w7DowVnnPQeZrc9vPodvsaPP3ExP65kv10YVN
+         dMtg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgnYW9buMP/Ce4ff+44kNo60IMXFrZqA8Y2gBWrlbyPTJ+SXRyQb3zGrrnUSAwl4HDbZM09VgoQ5bc1A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyYpX5sNLmt+5K1wxuho7VwV8Aopvx18UxtEUNX7FTqqs2fhzAH
+	3GkHh9FTHCCFQ3CorGFfXHLQdyJHdNtKhZgTl0vfv00+/fqgPnJDZLV1lxDmBa6iwWVSehrWO75
+	YC6QGZJ+k2T8Uxw==
+X-Google-Smtp-Source: AGHT+IG386o/8+zflhUeB+C04ILmkl0WNRST1JorMAgcHdNp8s7vWtrSpAiv3PMxUfmbfhdDnCwCZO5eIeiScQ4=
+X-Received: from ljqn20.prod.google.com ([2002:a2e:bd14:0:b0:2fb:48a0:ba68])
+ (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a2e:bc22:0:b0:2f9:cc40:6afe with SMTP id 38308e7fff4ca-2ffd6043995mr41060741fa.14.1732796857921;
+ Thu, 28 Nov 2024 04:27:37 -0800 (PST)
+Date: Thu, 28 Nov 2024 12:27:26 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241128122732.1205732-1-mmaslanka@google.com>
+Subject: [PATCH] ASoC: Intel: avs: Remove component->set_jack() on suspend/resume
+From: Marek Maslanka <mmaslanka@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Marek Maslanka <mmaslanka@google.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	"=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?=" <amadeuszx.slawinski@linux.intel.com>, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-This hardware has ALC294 codec with speaker NID 0x17 and bass speaker
-NID 0x15.
+Removed calls to component->set_jack() during suspend/resume to fix an issue where an inserted jack
+is not detected after resuming from suspend if the jack was inserted before suspend. This problem is
+caused by calls to the sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function during resume,
+which forces the jack insertion state to be unplugged.
 
-This patch removes DAC NID 0x06 (without volume control) from
-the connection list for bass speaker NID 0x15. Both speaker PINs
-are routed to DAC NID 0x03 with this change.
+Signed-off-by: Marek Maslanka <mmaslanka@google.com>
 
-Link: https://github.com/alsa-project/alsa-ucm-conf/issues/467
-Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 ---
- sound/pci/hda/patch_realtek.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ sound/soc/intel/avs/boards/da7219.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 56a3622ca2c1..c10a803b98db 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6502,6 +6502,16 @@ static void alc285_fixup_speaker2_to_dac1(struct hda_codec *codec,
- 	}
+diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
+index 80c0a1a956542..daf53ca490a14 100644
+--- a/sound/soc/intel/avs/boards/da7219.c
++++ b/sound/soc/intel/avs/boards/da7219.c
+@@ -211,21 +211,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
+ 	return 0;
  }
  
-+/* disable DAC3 (0x06) selection on NID 0x15 - share Speaker/Bass Speaker DAC 0x03 */
-+static void alc294_fixup_bass_speaker_15(struct hda_codec *codec,
-+					 const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		static const hda_nid_t conn[] = { 0x02, 0x03 };
-+		snd_hda_override_conn_list(codec, 0x15, ARRAY_SIZE(conn), conn);
-+	}
-+}
-+
- /* Hook to update amp GPIO4 for automute */
- static void alc280_hp_gpio4_automute_hook(struct hda_codec *codec,
- 					  struct hda_jack_callback *jack)
-@@ -7782,6 +7792,7 @@ enum {
- 	ALC256_FIXUP_CHROME_BOOK,
- 	ALC245_FIXUP_CLEVO_NOISY_MIC,
- 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
-+	ALC294_FIXUP_BASS_SPEAKER_15,
- };
- 
- /* A special fixup for Lenovo C940 and Yoga Duet 7;
-@@ -10074,6 +10085,10 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
- 	},
-+	[ALC294_FIXUP_BASS_SPEAKER_15] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc294_fixup_bass_speaker_15,
-+	},
- };
- 
- static const struct hda_quirk alc269_fixup_tbl[] = {
-@@ -10582,6 +10597,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x1043, 0x1d42, "ASUS Zephyrus G14 2022", ALC289_FIXUP_ASUS_GA401),
- 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
- 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
-+	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606WA", ALC294_FIXUP_BASS_SPEAKER_15),
- 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
- 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
- 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
+-static int avs_card_suspend_pre(struct snd_soc_card *card)
+-{
+-	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
+-
+-	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
+-}
+-
+-static int avs_card_resume_post(struct snd_soc_card *card)
+-{
+-	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
+-	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
+-
+-	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
+-}
+-
+ static int avs_da7219_probe(struct platform_device *pdev)
+ {
+ 	struct snd_soc_dai_link *dai_link;
+@@ -257,8 +242,6 @@ static int avs_da7219_probe(struct platform_device *pdev)
+ 	card->name = "avs_da7219";
+ 	card->dev = dev;
+ 	card->owner = THIS_MODULE;
+-	card->suspend_pre = avs_card_suspend_pre;
+-	card->resume_post = avs_card_resume_post;
+ 	card->dai_link = dai_link;
+ 	card->num_links = 1;
+ 	card->controls = card_controls;
 -- 
-2.47.0
+2.47.0.338.g60cca15819-goog
 
