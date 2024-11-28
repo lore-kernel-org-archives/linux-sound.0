@@ -1,72 +1,32 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49245.qiye.163.com (mail-m49245.qiye.163.com [45.254.49.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF96B125D5;
-	Thu, 28 Nov 2024 01:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A4B941C94;
+	Thu, 28 Nov 2024 06:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732755823; cv=none; b=BBQpx1Bq6Rt4nKvvh6sOwR8X4ufb6JWd858N/HPxuu7nLDOZZZ3vvgO4y0xBdQnrQ59nho+FHjKHtYPqGXnlYrQA6m8VOtidoty8fdCGM4X4JClcCXJLn6IX1gUrS1tl6Wsnk4z5vga6aQntENPPooPgbtOQYn/sTTMCRYRPFHQ=
+	t=1732776253; cv=none; b=sO8n27p6XapZGTe6ijB+WTbgZ/VXiokncp4prkAu1zu6N2wsLGwfz+p2AgDmuUFcQo5zzdlKJPgeq7vVyNz6SK+FP5lp6mhMlj72gDAj2Uva9iDknQ4+4JSSiHkuSAsWc/QpQp28YOKGuPL8g07igSws3ntMrEOrqamNsXTJifc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732755823; c=relaxed/simple;
-	bh=iOHE+N2VXbUCTw3j2RUyc1JZuBkRRyVqP0ClvvkWdmY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pwouNlqf5FGlJzb+NGMGuonLPUdnjB3Xmfmr4QbJjP4F/S+w+RkyvL5QRn0pn/Tm0K+HNTZLc7TrdJmZQCz5dcfX0NBLti9/bbjSwErXXYPhc/7WXCFwkB5/m/qxixVpq0OcUrnKnBVUj9C3MddeCMlLPDOPlAOWozdIKtA0Tt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MlG1c5gg; arc=none smtp.client-ip=209.85.222.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MlG1c5gg"
-Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-7b67441cf32so19492185a.0;
-        Wed, 27 Nov 2024 17:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732755821; x=1733360621; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5rQZ0lW5GxiG9M0cwURB0oYzpqAC0EZ6gbLq3UDMs4Q=;
-        b=MlG1c5ggCT2XFzF5To5OVCy2NGtYl31GIL9ifh2EymOH3gRbHsYKKmibH9IAq5/lAk
-         lKM41SYbxxL/Xu8cVJRe/r4ALU5Wk2HBG+HcQT2cCnvEaaaEBmwtGJs3VsbXNtFiHOtP
-         /aDUQx0prbXkJezhgp8SXruRzeTAsPKxyUA0tbVQefPqQUWJB4bLoSvLdRXaIh787Zbh
-         YshXbJYUiAZ2q2iI6Fxe2LiNQWsHIfSmXC2mMgUUJTmEIcM6lq0mxf2vadS5VfPwAu+D
-         dihUjBwhr6akDePsRKVozG7CxBcmzwf/L+9ahMyYGFc5xvuMEQDnkfCLpujO0uk3wOc3
-         CfDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732755821; x=1733360621;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5rQZ0lW5GxiG9M0cwURB0oYzpqAC0EZ6gbLq3UDMs4Q=;
-        b=ehBqvX5EKMcdFbriyIgstkJex+kUsiYs96wE2kwsjbm4tg9tY84GoTkRBi1UMWDDg/
-         FDJBekIXwQmUgbdQgqnqqhggiTpUkEmwlKh/gjyo5F1Nk3D91jxkykUycaI0OZWKC+3k
-         Aitq7J0lFYko9VXYOmSWOMMel1XZv8ets4xd0ZdhFCKNGTqhCUrOuF+qB2SsI51le6nc
-         YEtMppy49pcEAvk7ouq9yFcuW2NOzWfTO+L+uUcbCzxAOJQ0P4g1GvGvkg6ebFKp/6D9
-         8TCvRIN26c1o0hUAtEJFEqTHwmgwyc86cBMRv3bojgxygk9gGvwouwVE7WH4OHHQeAuc
-         VOrg==
-X-Forwarded-Encrypted: i=1; AJvYcCXCr0x0FrS3XBTQSsHtA1gVGjbC8LL0TOAvGBb67oH+a3acUDRhjqSso+EZaOWQjhbgTCpn/Q8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2A+nBxoCUXdjvL35I3qPvK/wmFy1QlXZv2ah6f5kjGAbjnX1Q
-	P/YyLKaXIES3XsaHLOD0clQ7pwoAvxKBHxdc0YCKp6JZxIAGqwI8ZrkdT+HT
-X-Gm-Gg: ASbGncv/wnH+GzokcYnAKxJij+Akizh4VQu30upph08WQ8D3KoO7VkFpCCQQh7te89S
-	BqNljnehdPF9nEgxdMQBLGT1EO83aakA6mYyyG8LtZGUajrorRIDbAnELKnCBtJt3LetsncO+iA
-	yhjDubp7obNSnil8ziYOHW+d4vSa/lMwQplNrcd7208UoySgEiNtgMPqcAQIwe6vVYEmYQqkeXv
-	PRYOVTIetmnXrZ0ovhORnMGDRhaK6ZmpXkHIe2VbMWRbm59juqNEcUJX+6apY2Tz+4=
-X-Google-Smtp-Source: AGHT+IEp3abbG2Upl4tmPIxBi0/ZD0nXcGUDumhnjhhgm5TtRt12nKaBVlVq0aGdXg64gZf3ol6F8w==
-X-Received: by 2002:a05:620a:838f:b0:7b6:6701:7a4d with SMTP id af79cd13be357-7b67c48df37mr578186685a.56.1732755820730;
-        Wed, 27 Nov 2024 17:03:40 -0800 (PST)
-Received: from localhost.localdomain ([50.217.163.18])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b684946bc8sm14294285a.56.2024.11.27.17.03.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 17:03:39 -0800 (PST)
-From: Gax-c <zichenxie0106@gmail.com>
-To: ivan.orlov0322@gmail.com,
-	perex@perex.cz,
+	s=arc-20240116; t=1732776253; c=relaxed/simple;
+	bh=1a0pCWz0vr9O9ZcRJsSe/fsu8yC8dixfeSg84zIwXbM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j1gXVYDXQrbnZXHH00llVmrdsErwwKYva3elnZmnvrpI3wSPMJWapyLunZmtl1UzqoxhVrlozuW8/o31pKTrS6Qsw3I9W9OD0AC8PKjlnj0jqnklalfcobbU7jOR+0R89nYSUaHotzW/ntgl0hdR4fnKE9i6QXHDde5oHIXE2gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=45.254.49.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 413d48b4;
+	Thu, 28 Nov 2024 14:08:34 +0800 (GMT+08:00)
+From: bo liu <bo.liu@senarytech.com>
+To: perex@perex.cz,
 	tiwai@suse.com
 Cc: linux-sound@vger.kernel.org,
-	chenyuan0y@gmail.com,
-	zzjas98@gmail.com,
-	Zichen Xie <zichenxie0106@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] ALSA: core: Fix possible NULL dereference caused by kunit_kzalloc()
-Date: Wed, 27 Nov 2024 19:03:14 -0600
-Message-Id: <20241128010313.7929-1-zichenxie0106@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org,
+	feng.liu@senarytech.com,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH V2] ALSA: hda/conexant: fix Z60MR100 startup pop issue
+Date: Thu, 28 Nov 2024 14:08:12 +0800
+Message-Id: <20241128060812.433362-1-bo.liu@senarytech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,76 +34,113 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaGB0dVh1JHR8eGBgfGRkdTFYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlNSlVKQ0hVSk9IVUxDWVdZFhoPEhUdFFlBWU9LSFVKS0lIQkhDVUpLS1
+	VKQktLWQY+
+X-HM-Tid: 0a937162b63009d9kunm413d48b4
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nhw6Myo6MTIuESxJThwTOhMT
+	Ei4aFB1VSlVKTEhJTExPSkpOTUJLVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
+	WU1KVUpDSFVKT0hVTENZV1kIAVlBSE1JTzcG
 
-From: Zichen Xie <zichenxie0106@gmail.com>
+When Z60MR100 startup, speaker will output a pop. To fix this issue,
+we mute codec by init verbs in bios when system startup, and set GPIO
+to low to unmute codec in codec driver when it loaded .
 
-kunit_kzalloc() may return a NULL pointer, dereferencing it without
-NULL check may lead to NULL dereference.
-Add NULL checks for all the kunit_kzalloc() in sound_kunit.c
-
-Fixes: 3e39acf56ede ("ALSA: core: Add sound core KUnit test")
-Signed-off-by: Zichen Xie <zichenxie0106@gmail.com>
-Cc: stable@vger.kernel.org
+Signed-off-by: bo liu <bo.liu@senarytech.com>
 ---
-v2: Add Fixes tag.
----
- sound/core/sound_kunit.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ sound/pci/hda/patch_conexant.c | 35 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/sound/core/sound_kunit.c b/sound/core/sound_kunit.c
-index bfed1a25fc8f..84e337ecbddd 100644
---- a/sound/core/sound_kunit.c
-+++ b/sound/core/sound_kunit.c
-@@ -172,6 +172,7 @@ static void test_format_fill_silence(struct kunit *test)
- 	u32 i, j;
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index e851785ff058..62c53e64bcad 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -42,6 +42,7 @@ struct conexant_spec {
+ 	unsigned int gpio_led;
+ 	unsigned int gpio_mute_led_mask;
+ 	unsigned int gpio_mic_led_mask;
++	unsigned int gpio_unmute_bit_mask;
+ 	bool is_cx8070_sn6140;
+ };
  
- 	buffer = kunit_kzalloc(test, SILENCE_BUFFER_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, buffer);
+@@ -308,6 +309,7 @@ enum {
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
++	CXT_FIXUP_HP_A_U,
+ };
  
- 	for (i = 0; i < ARRAY_SIZE(buf_samples); i++) {
- 		for (j = 0; j < ARRAY_SIZE(valid_fmt); j++)
-@@ -208,8 +209,12 @@ static void test_playback_avail(struct kunit *test)
- 	struct snd_pcm_runtime *r = kunit_kzalloc(test, sizeof(*r), GFP_KERNEL);
- 	u32 i;
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -762,6 +764,24 @@ static void cxt_setup_mute_led(struct hda_codec *codec,
+ 	}
+ }
  
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r);
++static void cxt_setup_mute_gpio_and_unmute(struct hda_codec *codec,
++				unsigned int gpio_mute_mask)
++{
++	struct conexant_spec *spec = codec->spec;
 +
- 	r->status = kunit_kzalloc(test, sizeof(*r->status), GFP_KERNEL);
- 	r->control = kunit_kzalloc(test, sizeof(*r->control), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->status);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->control);
- 
- 	for (i = 0; i < ARRAY_SIZE(p_avail_data); i++) {
- 		r->buffer_size = p_avail_data[i].buffer_size;
-@@ -232,8 +237,12 @@ static void test_capture_avail(struct kunit *test)
- 	struct snd_pcm_runtime *r = kunit_kzalloc(test, sizeof(*r), GFP_KERNEL);
- 	u32 i;
- 
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r);
++	if (gpio_mute_mask) {
++		spec->gpio_unmute_bit_mask = gpio_mute_mask;
 +
- 	r->status = kunit_kzalloc(test, sizeof(*r->status), GFP_KERNEL);
- 	r->control = kunit_kzalloc(test, sizeof(*r->control), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->status);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, r->control);
- 
- 	for (i = 0; i < ARRAY_SIZE(c_avail_data); i++) {
- 		r->buffer_size = c_avail_data[i].buffer_size;
-@@ -247,6 +256,7 @@ static void test_capture_avail(struct kunit *test)
- static void test_card_set_id(struct kunit *test)
++		//set gpio data to 0.
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK,
++					spec->gpio_unmute_bit_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION,
++					spec->gpio_unmute_bit_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
++	}
++}
++
+ static void cxt_fixup_mute_led_gpio(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
  {
- 	struct snd_card *card = kunit_kzalloc(test, sizeof(*card), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, card);
+@@ -776,6 +796,15 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
+ 		cxt_setup_mute_led(codec, 0x10, 0x20);
+ }
  
- 	snd_card_set_id(card, VALID_NAME);
- 	KUNIT_EXPECT_STREQ(test, card->id, VALID_NAME);
-@@ -280,6 +290,7 @@ static void test_pcm_format_name(struct kunit *test)
- static void test_card_add_component(struct kunit *test)
- {
- 	struct snd_card *card = kunit_kzalloc(test, sizeof(*card), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, card);
++static void cxt_fixup_hp_a_u(struct hda_codec *codec,
++			const struct hda_fixup *fix, int action)
++{
++	//Init vers in BIOS mute the spk/hp by set gpio high to avoid pop noise,
++	//so need to unmute once by clearing the gpio data when runs into the system.
++	if (action == HDA_FIXUP_ACT_INIT)
++		cxt_setup_mute_gpio_and_unmute(codec, 0x2);
++}
++
+ /* ThinkPad X200 & co with cxt5051 */
+ static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
+ 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
+@@ -982,6 +1011,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[CXT_FIXUP_HP_A_U] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_hp_a_u,
++	},
+ };
  
- 	snd_component_add(card, TEST_FIRST_COMPONENT);
- 	KUNIT_ASSERT_STREQ(test, card->components, TEST_FIRST_COMPONENT);
+ static const struct snd_pci_quirk cxt5045_fixups[] = {
+@@ -1055,6 +1088,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
++	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
+ 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
+ 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
+ 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
+@@ -1100,6 +1134,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+ 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
+ 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
+ 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
++	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
+ 	{}
+ };
+ 
 -- 
 2.34.1
 
