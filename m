@@ -1,76 +1,45 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A220E152E0C
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 10:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ABA13A868
+	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 11:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732790985; cv=none; b=uxgCd1wATOrrX2Yd3sZXT2uHHY8PQ0/Heq9oxPGqnzsqh7okd2svR+mquDWtaa9KfDG388oEuLDrsxjw+Wg+4cEitMy6iYDN/xh8onNbvOH8Cd4R+dHmlwgg0OOyNEiS6Iuy5B6m06Fb6Q+bndILYkUoHLlOMNypRRuYh0t7SZY=
+	t=1732792930; cv=none; b=U1lufEMkW5UW1qzqMe0pbLNn5VpSSMtOZylfbaOJ2FNHiQCcqo71hJQfD7qJq82Yh8xH60E5PdUz+cF8neM/IK/8qeE8MsUpg+uEW4GuyLOJQk+bX53szKQGbq3d+1Fb1X1b0yzhJxTpV5z8LKEAlzZH/prCytW3w1802691DMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732790985; c=relaxed/simple;
-	bh=1jn4xDvGgaEUB5L/dwocIX1KhnJyAuuVoCS2ryCgXSs=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=r32IY3E6N33+Q6pWUoFCu/8wF/Ct36cK3bFnlj0hTRg2hpX8pKP95HsuC1SuKbF1xLR1vMJWlzLc/3OWN21x+ZLJrncMOzs6vBjAkSyeiYlxYcour6+fh6vSXBQedelKikV1Z/kORnvELtsAfwddKYBjKLHfC/9iJBhAxaWlGiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qfBUNTPs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pFdh206S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qfBUNTPs; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pFdh206S; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732792930; c=relaxed/simple;
+	bh=VgFy2b77LrZjXObi9xVO+OEfcfgIfyXX4jAZRF9vbXM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PC74fj4WaMwRyYRVAlVuVPYZQiE9Y+YZ7WLKGYKONYXf4MhHBQ0zFOn1jk2jvSaOryuYVhWgi+pvflZJ2Z4zYUwg3JIoVJC5mktY94FSXuMeG1Esj3+7DKmbIkOSAZk9wirGTwmYYKzUha6qBAhSl1C7R0Mpx7HVG0+lTlgKtRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=fGDgsnQZ; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qfBUNTPs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pFdh206S";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qfBUNTPs";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pFdh206S"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="fGDgsnQZ"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 5FAE23A3AC;
+	Thu, 28 Nov 2024 12:22:02 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 5FAE23A3AC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1732792922; bh=KkAjyup3pKZ0i1zFDSmDqcEzhu5/46NfQhEbE2vFK6w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fGDgsnQZFvLPpv388WSYnj/2AXdrAn0hrFo0cbg7xVQ9lTQxn2rKQahPVQ4UTAGUp
+	 798tlxA9EOImDKdS23gA0PnwUWB+G4mlCbEMmVRf/WOkkU8ioeN+Vfk8NGuaI3xQ0j
+	 x5bfE0tzWhu0UMLE8r/40Btk6/NiQzjzHPiP9W+M=
+Received: from p1gen4.perex-int.cz (unknown [192.168.100.98])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9203F21101;
-	Thu, 28 Nov 2024 10:49:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732790981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=KwMhn+zrd1O6YFS2iHx9hUjrX5c00Fz7MfRKAssZcdM=;
-	b=qfBUNTPsHm3Eyoo5fEwfAJ9oQBmHUe7m8Ij/e+pyQ4OXJN/iYnWkQp07qVBIY/4iJJGypR
-	igWHIlZNYgXSoeyoA38dv5JylBQLF2By2Wb6mVB52PDx75qHQ2jaWt7yXPuUoY2ZOAL7Me
-	rrNST5HYCVKuVjwZxnL/mz04EoOG4lk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732790981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=KwMhn+zrd1O6YFS2iHx9hUjrX5c00Fz7MfRKAssZcdM=;
-	b=pFdh206SNUUgFKw8zXZUiuJ7nu83zYvIMn325lM6LpwrtAXNQMSn3CYTkANuuj9o64W/XG
-	4tfDsI15Ojd3SlBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=qfBUNTPs;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pFdh206S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732790981; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=KwMhn+zrd1O6YFS2iHx9hUjrX5c00Fz7MfRKAssZcdM=;
-	b=qfBUNTPsHm3Eyoo5fEwfAJ9oQBmHUe7m8Ij/e+pyQ4OXJN/iYnWkQp07qVBIY/4iJJGypR
-	igWHIlZNYgXSoeyoA38dv5JylBQLF2By2Wb6mVB52PDx75qHQ2jaWt7yXPuUoY2ZOAL7Me
-	rrNST5HYCVKuVjwZxnL/mz04EoOG4lk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732790981;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=KwMhn+zrd1O6YFS2iHx9hUjrX5c00Fz7MfRKAssZcdM=;
-	b=pFdh206SNUUgFKw8zXZUiuJ7nu83zYvIMn325lM6LpwrtAXNQMSn3CYTkANuuj9o64W/XG
-	4tfDsI15Ojd3SlBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 67BEC13974;
-	Thu, 28 Nov 2024 10:49:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id h6iHF8VKSGe9TAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 28 Nov 2024 10:49:41 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: sh: Use standard helper for buffer accesses
-Date: Thu, 28 Nov 2024 11:49:38 +0100
-Message-ID: <20241128104939.13755-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Thu, 28 Nov 2024 12:21:59 +0100 (CET)
+From: Jaroslav Kysela <perex@perex.cz>
+To: Linux Sound ML <linux-sound@vger.kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>
+Subject: [PATCH] ALSA: hda: improve bass speaker support for ASUS Zenbook UM5606WA
+Date: Thu, 28 Nov 2024 12:21:45 +0100
+Message-ID: <20241128112145.3409492-1-perex@perex.cz>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,91 +47,68 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9203F21101
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_NONE(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,intel.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
 
-The SH DAC audio driver uses the kmalloc'ed buffer as the main PCM
-buffer, and the data is transferred via hrtimer callbacks manually
-from there to the hardware.  Meanwhile, some of its code are written
-as if the buffer is on iomem and use the special helpers for the iomem
-(e.g. copy_from_iter_toio() or memset_io()).  Those are rather useless
-and the standard helpers should be used.
+This hardware has ALC294 codec with speaker NID 0x17 and bass speaker
+NID 0x15.
 
-Similarly, the PCM mmap callback is set to a special one with
-snd_pcm_lib_mmap_iomem, but this is also nonsense, because SH
-architecture doesn't support this function, hence it leads just to
-NULL -- the fallback to the standard helper.
+This patch removes DAC NID 0x06 (without volume control) from
+the connection list for bass speaker NID 0x15. Both speaker PINs
+are routed to DAC NID 0x03 with this change.
 
-This patch replaces those special setups with the standard ones.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411281337.I4M07b7i-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Link: https://github.com/alsa-project/alsa-ucm-conf/issues/467
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 ---
- sound/sh/sh_dac_audio.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_realtek.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/sound/sh/sh_dac_audio.c b/sound/sh/sh_dac_audio.c
-index e7b80328f0ef..a4d07438ad64 100644
---- a/sound/sh/sh_dac_audio.c
-+++ b/sound/sh/sh_dac_audio.c
-@@ -163,7 +163,7 @@ static int snd_sh_dac_pcm_copy(struct snd_pcm_substream *substream,
- 	/* channel is not used (interleaved data) */
- 	struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 56a3622ca2c1..c10a803b98db 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6502,6 +6502,16 @@ static void alc285_fixup_speaker2_to_dac1(struct hda_codec *codec,
+ 	}
+ }
  
--	if (copy_from_iter_toio(chip->data_buffer + pos, src, count))
-+	if (copy_from_iter(chip->data_buffer + pos, src, count) != count)
- 		return -EFAULT;
- 	chip->buffer_end = chip->data_buffer + pos + count;
- 
-@@ -182,7 +182,7 @@ static int snd_sh_dac_pcm_silence(struct snd_pcm_substream *substream,
- 	/* channel is not used (interleaved data) */
- 	struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
- 
--	memset_io(chip->data_buffer + pos, 0, count);
-+	memset(chip->data_buffer + pos, 0, count);
- 	chip->buffer_end = chip->data_buffer + pos + count;
- 
- 	if (chip->empty) {
-@@ -211,7 +211,6 @@ static const struct snd_pcm_ops snd_sh_dac_pcm_ops = {
- 	.pointer	= snd_sh_dac_pcm_pointer,
- 	.copy		= snd_sh_dac_pcm_copy,
- 	.fill_silence	= snd_sh_dac_pcm_silence,
--	.mmap		= snd_pcm_lib_mmap_iomem,
++/* disable DAC3 (0x06) selection on NID 0x15 - share Speaker/Bass Speaker DAC 0x03 */
++static void alc294_fixup_bass_speaker_15(struct hda_codec *codec,
++					 const struct hda_fixup *fix, int action)
++{
++	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
++		static const hda_nid_t conn[] = { 0x02, 0x03 };
++		snd_hda_override_conn_list(codec, 0x15, ARRAY_SIZE(conn), conn);
++	}
++}
++
+ /* Hook to update amp GPIO4 for automute */
+ static void alc280_hp_gpio4_automute_hook(struct hda_codec *codec,
+ 					  struct hda_jack_callback *jack)
+@@ -7782,6 +7792,7 @@ enum {
+ 	ALC256_FIXUP_CHROME_BOOK,
+ 	ALC245_FIXUP_CLEVO_NOISY_MIC,
+ 	ALC269_FIXUP_VAIO_VJFH52_MIC_NO_PRESENCE,
++	ALC294_FIXUP_BASS_SPEAKER_15,
  };
  
- static int snd_sh_dac_pcm(struct snd_sh_dac *chip, int device)
+ /* A special fixup for Lenovo C940 and Yoga Duet 7;
+@@ -10074,6 +10085,10 @@ static const struct hda_fixup alc269_fixups[] = {
+ 		.chained = true,
+ 		.chain_id = ALC269_FIXUP_LIMIT_INT_MIC_BOOST
+ 	},
++	[ALC294_FIXUP_BASS_SPEAKER_15] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = alc294_fixup_bass_speaker_15,
++	},
+ };
+ 
+ static const struct hda_quirk alc269_fixup_tbl[] = {
+@@ -10582,6 +10597,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1043, 0x1d42, "ASUS Zephyrus G14 2022", ALC289_FIXUP_ASUS_GA401),
+ 	SND_PCI_QUIRK(0x1043, 0x1d4e, "ASUS TM420", ALC256_FIXUP_ASUS_HPE),
+ 	SND_PCI_QUIRK(0x1043, 0x1da2, "ASUS UP6502ZA/ZD", ALC245_FIXUP_CS35L41_SPI_2),
++	SND_PCI_QUIRK(0x1043, 0x1df3, "ASUS UM5606WA", ALC294_FIXUP_BASS_SPEAKER_15),
+ 	SND_PCI_QUIRK(0x1043, 0x1e02, "ASUS UX3402ZA", ALC245_FIXUP_CS35L41_SPI_2),
+ 	SND_PCI_QUIRK(0x1043, 0x1e11, "ASUS Zephyrus G15", ALC289_FIXUP_ASUS_GA502),
+ 	SND_PCI_QUIRK(0x1043, 0x1e12, "ASUS UM3402", ALC287_FIXUP_CS35L41_I2C_2),
 -- 
-2.43.0
+2.47.0
 
