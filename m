@@ -1,128 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9103D19CC02
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 13:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95011B2EFB
+	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 15:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732802018; cv=none; b=ZAYaKX1lF9DKam7dgafNmzDbM7nglSiAzW2T4Tzh0cT0bJtcYl9bB0diPcfwjuLnsGGJ17I8ACXqwE09I+y9R/luUpylw7I0kUAJKewVaJiHliCyKjtZ/ClhTsNGBWLPUUm74fVL1X28n9VnhIBMP6diybqJPNPTsG24Rj4Mj0I=
+	t=1732806782; cv=none; b=bmvH7m401aZrMKceSvdq7N4VIw4y4weg4j9qbMvSjrQj3Z/6rPylB9tipYwmPsKDNIml2g9vEsqxVC2vaTW9OMoN/LNd8UXUtYsrLmhQzvmVNCEAXl3uW8wIPnYITLH+5wt+tQ7N1hJ9INQ0YU2DbYI26THsj/grA2oTb6Q3UQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732802018; c=relaxed/simple;
-	bh=rtCbeOJjeUaqMOfoXfsJsNtAK2sJwFZrZnYnj2E4Hiw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JLwcRPAijUVl4pvQqFT0fQFvqowwTlYstIS8lMNXXlpI59vv7gk2gRY68akyDoVEOqq8MmBHPlVEGr5Mqe2k/cTFdEfTfws8a7MuO3tkPdMaf6/jL4w/NQWOW8zgXqTdBdSnUjOhBcynCI4LhFuH4yLFXcMzM8dWrO+ktYcGkFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CjE6Bu0t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=It+rS1eR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CjE6Bu0t; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=It+rS1eR; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732806782; c=relaxed/simple;
+	bh=jZaFTESlQqgjM5/g0OhUkZlvRLk9iLWdZ26ik6OqKKA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=GKwnotSje0UeOaq8zqGUzIOSzWx8fqJLurFjXJERvrKtWirH7vAom0mkkBDIKc9i8PliNU5yiuJfOSGL+F2mCiM1N23zfZNHptrhpVZH9jvJ7/u1F+49mtoLTP6tiNakgQgIKH7F8tSb1F4UzUXhb2Hd/LuUITxgv4US5opX98U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XF4reawt; arc=none smtp.client-ip=209.85.208.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CjE6Bu0t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="It+rS1eR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CjE6Bu0t";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="It+rS1eR"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A685F21177;
-	Thu, 28 Nov 2024 13:53:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732802014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYQzlAaj6JhrTYITDl6yUPsfi1VYN5xBVnwvlkTFnf8=;
-	b=CjE6Bu0tR5ceK0zqbmY0BuWi836byhAiJG/jbvy1YZq2t0kRRWsME8aRqswt5PGcCK62Ox
-	UZ84qYvZgOACkL0negKr0laOheVFa7iW89OB/Gnli3L3+loecxZ8Q8V/lsUKKARC9J7nG9
-	M4BNd7ZnFY6v7EgFKroI6LdkTtvhw1I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732802014;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYQzlAaj6JhrTYITDl6yUPsfi1VYN5xBVnwvlkTFnf8=;
-	b=It+rS1eR35BrMKx0dT/IW9Dxq5wXOBAUOXQb3OFyimbLQ5DI5yBJ1i9+3rgckHwxeXXEMB
-	XjaQtgfk7Ixn6UDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732802014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYQzlAaj6JhrTYITDl6yUPsfi1VYN5xBVnwvlkTFnf8=;
-	b=CjE6Bu0tR5ceK0zqbmY0BuWi836byhAiJG/jbvy1YZq2t0kRRWsME8aRqswt5PGcCK62Ox
-	UZ84qYvZgOACkL0negKr0laOheVFa7iW89OB/Gnli3L3+loecxZ8Q8V/lsUKKARC9J7nG9
-	M4BNd7ZnFY6v7EgFKroI6LdkTtvhw1I=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732802014;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AYQzlAaj6JhrTYITDl6yUPsfi1VYN5xBVnwvlkTFnf8=;
-	b=It+rS1eR35BrMKx0dT/IW9Dxq5wXOBAUOXQb3OFyimbLQ5DI5yBJ1i9+3rgckHwxeXXEMB
-	XjaQtgfk7Ixn6UDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8317C13690;
-	Thu, 28 Nov 2024 13:53:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id N31RHt51SGd2BgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 28 Nov 2024 13:53:34 +0000
-Date: Thu, 28 Nov 2024 14:53:34 +0100
-Message-ID: <8734jb4g81.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: Linux Sound ML <linux-sound@vger.kernel.org>,
-	Takashi Iwai <tiwai@suse.de>
-Subject: Re: [PATCH] ALSA: hda: improve bass speaker support for ASUS Zenbook UM5606WA
-In-Reply-To: <20241128112145.3409492-1-perex@perex.cz>
-References: <20241128112145.3409492-1-perex@perex.cz>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XF4reawt"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-5cfc0df81easo1036435a12.0
+        for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 07:13:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1732806779; x=1733411579; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nSh6QnXu4JErwCzUbAtARbKC+82Ed2BaKiOEpcdsIeA=;
+        b=XF4reawtiXCPTmMVT/lYMnk9pn9ThaxuNV0qg5WHnauWCJd1cYd8YoQkFX1c58owPJ
+         R842aUommUSCJ+v5x+idcTSLTe4Jlfcsl99jXFL+yWjW+egqbHWLly7lEpeScyfHYH0V
+         fKK4Tov3/BTuilNttqh2gTbCPZ+hmfTZPlilXOO22YwvhV6nlTiGOuE4FLXMjDk5ukMX
+         +kEJK5RMLtXmYovfy2WsUfyayyXYUNqwpITaPVMejd9KXGMbVP6WJIaIr6fCVjnCsEaa
+         ymshp1fnscMb+5APVey63tKzj+U1lfEZYynD2Y3rdzefv90E4gXtswTmkf9Pdxbdum99
+         Iw8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732806779; x=1733411579;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nSh6QnXu4JErwCzUbAtARbKC+82Ed2BaKiOEpcdsIeA=;
+        b=nEgMO5sGjkf2h/lJhwtTWsT5wUMvBgXZzrZlRQC1eQ8hfOPX78wvgY5nLjK8Hk0VpG
+         wc5SPryxsbt0rJvT7Jt3SKl8imyafapJp6XUoCazy6EDv8MdSqYu44sIxGzwESmHYGKO
+         ZFqHUWxD/wI9aGNK7C07tPm3oTnIUw07vcXbvfnMz6se6IiuXuJ1mY2AXFxLbj+EbkJQ
+         amux9fkcpCoqfnV0G4CWap0lrApEzALvjG1yyfFhOxOMmwjZWMlawSD/nLPx9mUSs4we
+         TW3FqD6N5jAWmJG3UmH9ISt4and6Aowc0dxD0+Io1Ochd/+ZgZN3epSl2lkwfpVSITDG
+         J3DA==
+X-Forwarded-Encrypted: i=1; AJvYcCW0j3doCGqCWIOK1BscN0/lA0OTJlpSlKfn4d1qnTZgftpTmL+MB/cjJL9cbazbPfj0JvQhHXabHqQWMg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo8vf40KZeqS4zYHOb+2DI6J1aoXuNGpuoOqIfyQNeLixrWoTQ
+	zABX2RBpQWBhLrqGw5VQ3iGHKXBbTTzYhCWavDGHUCYS+MUSAOfj1SKfBuuLYTwkGIQFm9aLqM8
+	YWYVnhVcxyRP0wA==
+X-Google-Smtp-Source: AGHT+IHq0l2qnpUzY5y+BAxA1IUd+Zn8AezLj6NB6ygY7wGAKaYgh5TGRFSFknDmKi+RWi9rn7z1x+pjDOUKr1o=
+X-Received: from edfb72.prod.google.com ([2002:a50:9f4e:0:b0:5cf:8596:18aa])
+ (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:1ed4:b0:5d0:975:b1c0 with SMTP id 4fb4d7f45d1cf-5d09516035amr4028779a12.11.1732806779218;
+ Thu, 28 Nov 2024 07:12:59 -0800 (PST)
+Date: Thu, 28 Nov 2024 15:12:32 +0000
+In-Reply-To: <10062d09-34c8-4e53-b5d7-f96a5b19f6f8@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+Mime-Version: 1.0
+References: <10062d09-34c8-4e53-b5d7-f96a5b19f6f8@intel.com>
+X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
+Message-ID: <20241128151239.1666582-1-mmaslanka@google.com>
+Subject: [PATCH v2] ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
+From: Marek Maslanka <mmaslanka@google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Marek Maslanka <mmaslanka@google.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	"=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?=" <amadeuszx.slawinski@linux.intel.com>, alsa-devel@alsa-project.org, 
+	linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 28 Nov 2024 12:21:45 +0100,
-Jaroslav Kysela wrote:
-> 
-> This hardware has ALC294 codec with speaker NID 0x17 and bass speaker
-> NID 0x15.
-> 
-> This patch removes DAC NID 0x06 (without volume control) from
-> the connection list for bass speaker NID 0x15. Both speaker PINs
-> are routed to DAC NID 0x03 with this change.
-> 
-> Link: https://github.com/alsa-project/alsa-ucm-conf/issues/467
-> Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+The presence of a plugged jack is not detected after resuming the device if the jack was plugged
+before the device was suspended. This problem is caused by calling the
+sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function on resume, which forces the jack
+insertion state to be unplugged.
 
-Applied now.  Thanks.
+Signed-off-by: Marek Maslanka <mmaslanka@google.com>
 
+---
+Changes in v2:
+ - Rephrase commit title and message as suggested in v1
+ - Link to v1: https://lore.kernel.org/all/20241128122732.1205732-1-mmaslanka@google.com/
+---
+ sound/soc/intel/avs/boards/da7219.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-Takashi
+diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
+index 80c0a1a956542..daf53ca490a14 100644
+--- a/sound/soc/intel/avs/boards/da7219.c
++++ b/sound/soc/intel/avs/boards/da7219.c
+@@ -211,21 +211,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
+ 	return 0;
+ }
+ 
+-static int avs_card_suspend_pre(struct snd_soc_card *card)
+-{
+-	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
+-
+-	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
+-}
+-
+-static int avs_card_resume_post(struct snd_soc_card *card)
+-{
+-	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
+-	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
+-
+-	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
+-}
+-
+ static int avs_da7219_probe(struct platform_device *pdev)
+ {
+ 	struct snd_soc_dai_link *dai_link;
+@@ -257,8 +242,6 @@ static int avs_da7219_probe(struct platform_device *pdev)
+ 	card->name = "avs_da7219";
+ 	card->dev = dev;
+ 	card->owner = THIS_MODULE;
+-	card->suspend_pre = avs_card_suspend_pre;
+-	card->resume_post = avs_card_resume_post;
+ 	card->dai_link = dai_link;
+ 	card->num_links = 1;
+ 	card->controls = card_controls;
+-- 
+2.47.0.338.g60cca15819-goog
+
