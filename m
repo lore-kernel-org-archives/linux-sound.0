@@ -1,130 +1,91 @@
-Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95011B2EFB
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 15:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A890C6F06A;
+	Thu, 28 Nov 2024 15:31:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732806782; cv=none; b=bmvH7m401aZrMKceSvdq7N4VIw4y4weg4j9qbMvSjrQj3Z/6rPylB9tipYwmPsKDNIml2g9vEsqxVC2vaTW9OMoN/LNd8UXUtYsrLmhQzvmVNCEAXl3uW8wIPnYITLH+5wt+tQ7N1hJ9INQ0YU2DbYI26THsj/grA2oTb6Q3UQU=
+	t=1732807867; cv=none; b=YtT2/dPp+orFEnE8wIIQGuNER8O0A1zQrbwvJC00UzIAYSRp/n9rdGiJvyzEHDgAMdFaeR0t/Z5UaSEaiuAvelYIJXtiALSv3CdYSWE8KBRkQC1ljR5Phlr3pDcIFVXxOhvARKG01A3E/ZMErczi7g+/FKYSHH/6ck09dCCiPMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732806782; c=relaxed/simple;
-	bh=jZaFTESlQqgjM5/g0OhUkZlvRLk9iLWdZ26ik6OqKKA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GKwnotSje0UeOaq8zqGUzIOSzWx8fqJLurFjXJERvrKtWirH7vAom0mkkBDIKc9i8PliNU5yiuJfOSGL+F2mCiM1N23zfZNHptrhpVZH9jvJ7/u1F+49mtoLTP6tiNakgQgIKH7F8tSb1F4UzUXhb2Hd/LuUITxgv4US5opX98U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XF4reawt; arc=none smtp.client-ip=209.85.208.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
+	s=arc-20240116; t=1732807867; c=relaxed/simple;
+	bh=caA69x6QUAyZ/eXBBtCJk6xQcdI5mH/IcuVdWXMQYkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C5HneB4rTjipipLdh7envFrkzmBgLYfQU/LxfahEjJuZSbZFCD8MZyeKsJSEL8Lxdsi72p2G9Zs4cM3NcM3itV+2zYF75ebYNrCVpp56c2JWOjcyOKF8RZqh2Fqh3jTICNrLdaunCEC8wvPjJXy+lsVeUJohsTU7bkLInoVrzoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h46E8anA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XF4reawt"
-Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-5cfc0df81easo1036435a12.0
-        for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 07:13:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732806779; x=1733411579; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nSh6QnXu4JErwCzUbAtARbKC+82Ed2BaKiOEpcdsIeA=;
-        b=XF4reawtiXCPTmMVT/lYMnk9pn9ThaxuNV0qg5WHnauWCJd1cYd8YoQkFX1c58owPJ
-         R842aUommUSCJ+v5x+idcTSLTe4Jlfcsl99jXFL+yWjW+egqbHWLly7lEpeScyfHYH0V
-         fKK4Tov3/BTuilNttqh2gTbCPZ+hmfTZPlilXOO22YwvhV6nlTiGOuE4FLXMjDk5ukMX
-         +kEJK5RMLtXmYovfy2WsUfyayyXYUNqwpITaPVMejd9KXGMbVP6WJIaIr6fCVjnCsEaa
-         ymshp1fnscMb+5APVey63tKzj+U1lfEZYynD2Y3rdzefv90E4gXtswTmkf9Pdxbdum99
-         Iw8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732806779; x=1733411579;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nSh6QnXu4JErwCzUbAtARbKC+82Ed2BaKiOEpcdsIeA=;
-        b=nEgMO5sGjkf2h/lJhwtTWsT5wUMvBgXZzrZlRQC1eQ8hfOPX78wvgY5nLjK8Hk0VpG
-         wc5SPryxsbt0rJvT7Jt3SKl8imyafapJp6XUoCazy6EDv8MdSqYu44sIxGzwESmHYGKO
-         ZFqHUWxD/wI9aGNK7C07tPm3oTnIUw07vcXbvfnMz6se6IiuXuJ1mY2AXFxLbj+EbkJQ
-         amux9fkcpCoqfnV0G4CWap0lrApEzALvjG1yyfFhOxOMmwjZWMlawSD/nLPx9mUSs4we
-         TW3FqD6N5jAWmJG3UmH9ISt4and6Aowc0dxD0+Io1Ochd/+ZgZN3epSl2lkwfpVSITDG
-         J3DA==
-X-Forwarded-Encrypted: i=1; AJvYcCW0j3doCGqCWIOK1BscN0/lA0OTJlpSlKfn4d1qnTZgftpTmL+MB/cjJL9cbazbPfj0JvQhHXabHqQWMg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzo8vf40KZeqS4zYHOb+2DI6J1aoXuNGpuoOqIfyQNeLixrWoTQ
-	zABX2RBpQWBhLrqGw5VQ3iGHKXBbTTzYhCWavDGHUCYS+MUSAOfj1SKfBuuLYTwkGIQFm9aLqM8
-	YWYVnhVcxyRP0wA==
-X-Google-Smtp-Source: AGHT+IHq0l2qnpUzY5y+BAxA1IUd+Zn8AezLj6NB6ygY7wGAKaYgh5TGRFSFknDmKi+RWi9rn7z1x+pjDOUKr1o=
-X-Received: from edfb72.prod.google.com ([2002:a50:9f4e:0:b0:5cf:8596:18aa])
- (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:1ed4:b0:5d0:975:b1c0 with SMTP id 4fb4d7f45d1cf-5d09516035amr4028779a12.11.1732806779218;
- Thu, 28 Nov 2024 07:12:59 -0800 (PST)
-Date: Thu, 28 Nov 2024 15:12:32 +0000
-In-Reply-To: <10062d09-34c8-4e53-b5d7-f96a5b19f6f8@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h46E8anA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C638BC4CECE;
+	Thu, 28 Nov 2024 15:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732807867;
+	bh=caA69x6QUAyZ/eXBBtCJk6xQcdI5mH/IcuVdWXMQYkM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h46E8anAEw7U0AhUKZLSPRPhPXoPIHKcbr0aE426YXbEUtfCyIVigLu0d2QuXacHL
+	 kaBxieGJaDGQLT6fPBQf2ufblekZezR7O9Lx/GYHpRNvfhN62Qvqu79A+8gz4xHhdZ
+	 iGZPTz3IXoxTYZrTPc1twemDUFcISigMk0R1zC7eeB6sqOG5fjKyWhh/b+PfBXJ0ne
+	 oseVvlbyvLF/R1r4RrUhCbD7NDcpeDx4bDvP34PpkDtYCRVolh8uI1Y6mI/FwxU0Xn
+	 I1QsGQBuU+JzLUjmO69lTWe1K4zu6U4sMHU8TEyGsq9A2GKRbL9n4SZm9269DbfLOY
+	 prl53gNNxLvbQ==
+Date: Thu, 28 Nov 2024 15:31:00 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Marek Maslanka <mmaslanka@google.com>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Liam Girdwood <liam.r.girdwood@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: Intel: avs: da7219: Remove suspend_pre() and
+ resume_post()
+Message-ID: <444630f5-1f0c-47ea-83c7-f267473be115@sirena.org.uk>
+References: <10062d09-34c8-4e53-b5d7-f96a5b19f6f8@intel.com>
+ <20241128151239.1666582-1-mmaslanka@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <10062d09-34c8-4e53-b5d7-f96a5b19f6f8@intel.com>
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241128151239.1666582-1-mmaslanka@google.com>
-Subject: [PATCH v2] ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
-From: Marek Maslanka <mmaslanka@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Marek Maslanka <mmaslanka@google.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?=" <amadeuszx.slawinski@linux.intel.com>, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9qTyXkEkKJ2cvz5U"
+Content-Disposition: inline
+In-Reply-To: <20241128151239.1666582-1-mmaslanka@google.com>
+X-Cookie: Close cover before striking.
 
-The presence of a plugged jack is not detected after resuming the device if the jack was plugged
-before the device was suspended. This problem is caused by calling the
-sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function on resume, which forces the jack
-insertion state to be unplugged.
 
-Signed-off-by: Marek Maslanka <mmaslanka@google.com>
+--9qTyXkEkKJ2cvz5U
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
----
-Changes in v2:
- - Rephrase commit title and message as suggested in v1
- - Link to v1: https://lore.kernel.org/all/20241128122732.1205732-1-mmaslanka@google.com/
----
- sound/soc/intel/avs/boards/da7219.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+On Thu, Nov 28, 2024 at 03:12:32PM +0000, Marek Maslanka wrote:
+> The presence of a plugged jack is not detected after resuming the device if the jack was plugged
+> before the device was suspended. This problem is caused by calling the
+> sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function on resume, which forces the jack
+> insertion state to be unplugged.
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 80c0a1a956542..daf53ca490a14 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -211,21 +211,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	return 0;
- }
- 
--static int avs_card_suspend_pre(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--
--	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
--}
--
--static int avs_card_resume_post(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
--
--	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
--}
--
- static int avs_da7219_probe(struct platform_device *pdev)
- {
- 	struct snd_soc_dai_link *dai_link;
-@@ -257,8 +242,6 @@ static int avs_da7219_probe(struct platform_device *pdev)
- 	card->name = "avs_da7219";
- 	card->dev = dev;
- 	card->owner = THIS_MODULE;
--	card->suspend_pre = avs_card_suspend_pre;
--	card->resume_post = avs_card_resume_post;
- 	card->dai_link = dai_link;
- 	card->num_links = 1;
- 	card->controls = card_controls;
--- 
-2.47.0.338.g60cca15819-goog
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
 
+--9qTyXkEkKJ2cvz5U
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdIjLQACgkQJNaLcl1U
+h9CAoQf+MYRy+uhu/IADACa8/W5qZIcsxp8SOSlPDPS/oN7yYvI+TnXlTmEmUTuz
+UIiJbgg7O1SZmFKyM5jR1jHGpDXlN9N1+5q7oxvFcaWR7XmgYpGhzFMkT238DPyq
+538hghLgOAgcPDp2kD4gf2bwzGK8cHrh/tsppjGLsGc6Vila/AdN+dl1z/RN1wRK
+OYuoIrMDdDOv+YT56Um6PBZfhFMKt226WA2bdvF+rjaQpAwude5auNBpR8VWl8Mb
+O37HpDBj5/4A1oH+/RWNmbzRAd0wblAhkWA8Ji5VdgDx1dezudkn0wS/cppi58/K
+UMmlY9EjtFmzrl/KyhHs+BiS5L0omw==
+=B0Zs
+-----END PGP SIGNATURE-----
+
+--9qTyXkEkKJ2cvz5U--
