@@ -1,134 +1,133 @@
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m104.netease.com (mail-m104.netease.com [154.81.10.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611281C2432
-	for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 20:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A731E1B960;
+	Fri, 29 Nov 2024 04:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=154.81.10.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732827170; cv=none; b=aVKTzdJekYTmppZnztLWDCu1Ckg8ItnAvJgdv2U292l2X3Pc60kePaWVgqJ+nChme7RMzi8A/sm2hxGhR0eY4x3ZvJkc2oq+SfEEQuKrMjCB/nOWbgbLfi/tQ2m6c8Rda91ZUR1M+Jas6WjAbi8zdftYTCK/75/pzhcBTHlytpc=
+	t=1732853246; cv=none; b=sCsSOdsvBPchyBKGseIUxEMF++xZr06SHTzlQvRp9TOvZpgWqeDlxlWCB6VaICCTO5dRw+g31nyzQ0w7ICvncsCDgCf5cnSGpkymaAivmbeWc8oPkcjPFsbawWlN4ddvs7zHivqUi4d5SR5IfrmAhXHVzewLgspoLY0WdPr0m3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732827170; c=relaxed/simple;
-	bh=I5YCLO6EscYmRHuFv26CuhdZFgeTmhHZGaOy61Yx4H4=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=CcfjF+Z/Ft8wTRnTGLQKezlKyX5cnez92lI3lt+sNi7YBLuk9Xl0ciioxgQvv+CMqVAhHir0Uf8FEw0zDQszE4B7wfboP6Pqwxd+ZuBF8AaeS0iPud9gqH40b8e3t0xctoS/n5agGjIzOiUojaKSvhVxBXY5qnKWO3yDHbxT1kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=d6mqlZ5w; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mmaslanka.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d6mqlZ5w"
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-aa52ec07bcbso62002066b.2
-        for <linux-sound@vger.kernel.org>; Thu, 28 Nov 2024 12:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1732827165; x=1733431965; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Qob0FBpsUU/sx2eCBfCzGQ8cEgowX6VKZMzDfM9xuIE=;
-        b=d6mqlZ5w4+yY9RWcRKAtZnx1M5s3HumL0HXiZuI/4QZbUkVSG8MU53OgCwJr5R3eJL
-         nZ5zQzLqRrh/i8rYa1hiHYLnyI1OTOrGMdDTc3BUGzeWQM7jBsMgnnsrIH5HsnMBmi3h
-         0TMSPjctG2AMD7i5FAC+VUqZPE4RE70tP5egjKb0uay1xZEL0QGLMAfVHHr7W4Wlheb8
-         Xm50xlwt2uuQ2Q2iR3KAgUDHfFs5+4ZhZniDYI1hp9RdSPBXtGJMPiP6E1PmoinJptMj
-         gzQKoAK/6xx3LVrLkh1j0HangPrOqzcFuFrdgTTjbm6MYvB+qdUhirtvWeDm24qz67BU
-         /ZQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732827165; x=1733431965;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Qob0FBpsUU/sx2eCBfCzGQ8cEgowX6VKZMzDfM9xuIE=;
-        b=pyW6/LVyT4A80Tr+mFdz/BxBoHjG9zJyyPGDkkXgckF4O1r0HbLrdAGzvmleg3ruxh
-         EEPTkYR5KsjJg1vy4sF4QPRngpf/qL8lQDsmGSbaMqedNaafp9glnzVZyxL859uQ7fY+
-         Pua9QiEl9jQK/qz8YqewdTSPk5w3pjtyrbyO3HaaR+pqQS2LFGx3G0hccKXzG++WzIbP
-         UzatJxwPT546IDCGyMTC/HHJ83wUf3aL1s5qoLFf0iu07+lnSPWqWzbGVfluDqwGtuFz
-         6NdZeSL//9Ze5qUY4KnftUfIBycJ05snVSIXVJBMIojDJcUkZzNfJK2gorpZHVwoBInn
-         C/lg==
-X-Forwarded-Encrypted: i=1; AJvYcCXUygUHOaMMxzlRQgoOlZsnGJTG2MMxmz8EtIlxPyaXeXHvh38fz1hoe2BPgSvS+7JN4nYftNHDa9eODg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6RLV0WJyDS1n3WEg25f63ZFBT5cvqPBLA5zpoz2pVzAp551LS
-	ZKXe6vbABoafbEWnhPTFNm7Ya3fTUc6ZzHvqWSVmwXU59irHnZQKsSwZAzbeTkZLqjAqGaxd7Zd
-	z1mSLRry3Z7KBBQ==
-X-Google-Smtp-Source: AGHT+IHBgsLr3pLJH/ACZefffdWeb80QzhCBRqY4vhCfqkMxxEok2tAWW+nYrVbcV0Ijh3nfSJvgonr+4y2YvgM=
-X-Received: from ejct1.prod.google.com ([2002:a17:906:2681:b0:a9a:bf43:6c33])
- (user=mmaslanka job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:906:b392:b0:a9a:f82:7712 with SMTP id a640c23a62f3a-aa5810664dfmr643677466b.52.1732827165635;
- Thu, 28 Nov 2024 12:52:45 -0800 (PST)
-Date: Thu, 28 Nov 2024 20:52:09 +0000
+	s=arc-20240116; t=1732853246; c=relaxed/simple;
+	bh=kjp7gSMMg6OxEX6Lz04y8I/e7NxImJNRioU1K8UzebI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FF30iZvge4RVfvBgZGJU9X8pI6Br2qjzPxtQpoC3U3lSbqREUWwhQx2jahu4KVD6ctCpugzqa1Pzu1UAnSTuFKkqSUU4OnCsclxKm+5XquSgcq+8ght8yL+9u1v1f3AxgVsStMu8IZc/fPalB69Rm2CteJMLyvjau6Lb8k4jQWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com; spf=pass smtp.mailfrom=senarytech.com; arc=none smtp.client-ip=154.81.10.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senarytech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=senarytech.com
+Received: from book-ThinkStation-P328.. (unknown [61.183.143.78])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 4291aca3;
+	Fri, 29 Nov 2024 09:44:46 +0800 (GMT+08:00)
+From: bo liu <bo.liu@senarytech.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	feng.liu@senarytech.com,
+	bo liu <bo.liu@senarytech.com>
+Subject: [PATCH V2] ALSA: hda/conexant: fix Z60MR100 startup pop issue
+Date: Fri, 29 Nov 2024 09:44:41 +0800
+Message-Id: <20241129014441.437205-1-bo.liu@senarytech.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241128205215.2435485-1-mmaslanka@google.com>
-Subject: [PATCH v4] ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
-From: Marek Maslanka <mmaslanka@google.com>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: Marek Maslanka <mmaslanka@google.com>, Cezary Rojewski <cezary.rojewski@intel.com>, 
-	Liam Girdwood <liam.r.girdwood@linux.intel.com>, 
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	"=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?=" <amadeuszx.slawinski@linux.intel.com>, alsa-devel@alsa-project.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkaTxkYVkMfSUxJQhlCHkwYQlYVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlNSlVKQ0hVSk9IVUxDWVdZFhoPEhUdFFlBWUtVS1VLVUtZBg++
+X-HM-Tid: 0a9375978ce709d9kunm4291aca3
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NC46NTo6TDIvIyENIjE#TxpL
+	NStPCwNVSlVKTEhJQ09PTUNMTEpJVTMWGhIXVRkUVRcSDjsIHhUaCQIPHhgTVRgUFkVZV1kSC1lB
+	WU1KVUpDSFVKT0hVTENZV1kIAVlBSEhLSTcG
 
-The presence of a plugged jack is not detected after resuming the device
-if the jack was plugged before the device was suspended. This problem is
-caused by calling the
-sound/soc/codecs/da7219-aad.c:da7219_aad_jack_det() function on resume,
-which forces the jack insertion state to be unplugged.
+When Z60MR100 startup, speaker will output a pop. To fix this issue,
+we mute codec by init verbs in bios when system startup, and set GPIO
+to low to unmute codec in codec driver when it loaded .
 
-Signed-off-by: Marek Maslanka <mmaslanka@google.com>
+Signed-off-by: bo liu <bo.liu@senarytech.com>
 ---
-Changes in v4:
- - Remove redundant spaces from the commit message
- - Link to v3: https://lore.kernel.org/all/20241128155926.1774625-1-mmaslanka@google.com/
-Changes in v3:
- - Fix line breaks in commit message
- - Link to v2: https://lore.kernel.org/all/20241128151239.1666582-1-mmaslanka@google.com/
-Changes in v2:
- - Rephrase commit title and message as suggested in v1
- - Link to v1: https://lore.kernel.org/all/20241128122732.1205732-1-mmaslanka@google.com/
----
----
- sound/soc/intel/avs/boards/da7219.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+ sound/pci/hda/patch_conexant.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/sound/soc/intel/avs/boards/da7219.c b/sound/soc/intel/avs/boards/da7219.c
-index 80c0a1a956542..daf53ca490a14 100644
---- a/sound/soc/intel/avs/boards/da7219.c
-+++ b/sound/soc/intel/avs/boards/da7219.c
-@@ -211,21 +211,6 @@ static int avs_create_dai_link(struct device *dev, const char *platform_name, in
- 	return 0;
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index e851785ff058..29c5c9fa55d3 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -308,6 +308,7 @@ enum {
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
++	CXT_FIXUP_HP_A_U,
+ };
+ 
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -762,6 +763,20 @@ static void cxt_setup_mute_led(struct hda_codec *codec,
+ 	}
  }
  
--static int avs_card_suspend_pre(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--
--	return snd_soc_component_set_jack(codec_dai->component, NULL, NULL);
--}
--
--static int avs_card_resume_post(struct snd_soc_card *card)
--{
--	struct snd_soc_dai *codec_dai = snd_soc_card_get_codec_dai(card, DA7219_DAI_NAME);
--	struct snd_soc_jack *jack = snd_soc_card_get_drvdata(card);
--
--	return snd_soc_component_set_jack(codec_dai->component, jack, NULL);
--}
--
- static int avs_da7219_probe(struct platform_device *pdev)
++static void cxt_setup_gpio_unmute(struct hda_codec *codec,
++				unsigned int gpio_mute_mask)
++{
++	struct conexant_spec *spec = codec->spec;
++
++	if (gpio_mute_mask) {
++		// set gpio data to 0.
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK, gpio_mute_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION, gpio_mute_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
++	}
++}
++
+ static void cxt_fixup_mute_led_gpio(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
  {
- 	struct snd_soc_dai_link *dai_link;
-@@ -257,8 +242,6 @@ static int avs_da7219_probe(struct platform_device *pdev)
- 	card->name = "avs_da7219";
- 	card->dev = dev;
- 	card->owner = THIS_MODULE;
--	card->suspend_pre = avs_card_suspend_pre;
--	card->resume_post = avs_card_resume_post;
- 	card->dai_link = dai_link;
- 	card->num_links = 1;
- 	card->controls = card_controls;
+@@ -776,6 +791,15 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
+ 		cxt_setup_mute_led(codec, 0x10, 0x20);
+ }
+ 
++static void cxt_fixup_hp_a_u(struct hda_codec *codec,
++			const struct hda_fixup *fix, int action)
++{
++	//Init vers in BIOS mute the spk/hp by set gpio high to avoid pop noise,
++	//so need to unmute once by clearing the gpio data when runs into the system.
++	if (action == HDA_FIXUP_ACT_INIT)
++		cxt_setup_gpio_unmute(codec, 0x2);
++}
++
+ /* ThinkPad X200 & co with cxt5051 */
+ static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
+ 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
+@@ -982,6 +1006,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 			{ }
+ 		},
+ 	},
++	[CXT_FIXUP_HP_A_U] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_hp_a_u,
++	},
+ };
+ 
+ static const struct snd_pci_quirk cxt5045_fixups[] = {
+@@ -1055,6 +1083,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
++	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
+ 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
+ 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
+ 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
+@@ -1100,6 +1129,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+ 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
+ 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
+ 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
++	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
+ 	{}
+ };
+ 
 -- 
-2.47.0.338.g60cca15819-goog
+2.34.1
 
