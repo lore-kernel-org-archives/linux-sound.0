@@ -1,137 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D0614C5B0;
-	Fri, 29 Nov 2024 10:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14232AD23
+	for <linux-sound@vger.kernel.org>; Fri, 29 Nov 2024 10:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732874776; cv=none; b=kcWCV7ERYbRFNueYbR2uyDuE4VPisHU0AFhouazKGGt9O+dmHSinqt+KzkLJqcFsQFACbpgrYi7DL+Ezxf9XrN+bTB7Mn2IoQf/r1PPMjR6LdHJq0Z8vOQ6LACogCHQreN7cfulpy71NKaG0IceV4yMZJQkk8dOCCPRaI4FJd38=
+	t=1732875438; cv=none; b=DnAxpOlLZCIWS0eN3TJdIp0GXS+Bf2tbyK6/8BcYbwxSvt7PPQla+54WqcJ2EkYLjl7RDXEIQz8RKsV/vBb84JCvsgqLnbcnH7E+WvUuL+Ka5gvHsAhfjPLvbj8XIqGKl4dhIJDXXBcatL/DeRhLH2btDSnaKaJ4nRO4Gu/0Ou4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732874776; c=relaxed/simple;
-	bh=Hl00BjCfhciezHzis82v2nRi92k9UMOvV3Faam5pOTQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IbbZGP1j/1IE5ENrcyESD4BjHzrVAt9b7UcmjrXnvOu1jrme93Hh7YaTJ0gBVw+/3z+Q7CHpm/wtCPZi+YvE9Lbl73Fr3diNZ5LUXLvdn2st8rDgIsJH8WLnm+mnX+bj8EXRkIIH+IA/ieG2Jjsky6cX+9xqZUTDK5byRiDBw44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NwNgrWnh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zF4kRas2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ngvX9RxB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BiSx415H; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732875438; c=relaxed/simple;
+	bh=M71k6fppN6xV463i5xMitlihv2EHMbPQd8qlsiqHBYg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FwDitA5NqHwvX3bLrA+fO/6jIWlnK80Brq0y+f/g6pnO16bf1zF67zjxDwOqwABXj+sOyc19qQHJApA8gV0InjGbQr+VSimSdNvWq3uKHTX748CpahXqIr3qTNNxEyPZXAG2EVyFt80Mh5W5iYxqUlHPS7no0I6D+dPt5cXNXgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=B0XRLVeq; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NwNgrWnh";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zF4kRas2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ngvX9RxB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BiSx415H"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id D847621177;
-	Fri, 29 Nov 2024 10:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732874773; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+IwV0x9dYzcu5k7ay/kKo733CnYrSOVULCe8y3xhN4=;
-	b=NwNgrWnhhZF2kAxwl1xiC8X7cHxevc2Z9DzNG/10v1LNiFxXhvTnu9QImc+rAjXoaQ/pDX
-	TX0jNyaLXWXGt0wFKZ4ABOe4LAXFU7rHwWkEmkhNKbr6bkVqz/Wf+aLfEeGc33A4b1iOdD
-	TVsesujBxiJGs8lFHXt1fn8IsnGqR3w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732874773;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+IwV0x9dYzcu5k7ay/kKo733CnYrSOVULCe8y3xhN4=;
-	b=zF4kRas2vqASLwupo9EwIDgMCKwLKAEOH7YxSGItRoDLwBeahIOEhUk6/A0Y9NKnQ4LpiQ
-	1KeQ7nCZDBd11+BA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ngvX9RxB;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BiSx415H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732874772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+IwV0x9dYzcu5k7ay/kKo733CnYrSOVULCe8y3xhN4=;
-	b=ngvX9RxBtFZrUuW+6tXdAHaHIc6lxQrVw/2t22LLObMKikZonjdvLKYuJ7LA8OtgXky9IU
-	TcEdm1W0is7601rL7whBzB6k6P0VX29DKrIDszVANmatKQz0TMdoknLCU5BUIHNEBfEhet
-	1gSbCmybVSgaWSHhW9CeGF9Qs80O9Hk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732874772;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Q+IwV0x9dYzcu5k7ay/kKo733CnYrSOVULCe8y3xhN4=;
-	b=BiSx415Hzw9eVTBTKdGLyPw/4s+kjWCoDQnFSrKY24JWin5qhaLGGLH6z7B1MfsyXnvne9
-	quUpkSgRE4GxxCDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A7553133F3;
-	Fri, 29 Nov 2024 10:06:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id AyigJxSSSWdoXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Nov 2024 10:06:12 +0000
-Date: Fri, 29 Nov 2024 11:06:12 +0100
-Message-ID: <87o71y5p7v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: bo liu <bo.liu@senarytech.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	feng.liu@senarytech.com
-Subject: Re: [PATCH V2] ALSA: hda/conexant: fix Z60MR100 startup pop issue
-In-Reply-To: <20241129014441.437205-1-bo.liu@senarytech.com>
-References: <20241129014441.437205-1-bo.liu@senarytech.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B0XRLVeq"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53de852a287so1737325e87.2
+        for <linux-sound@vger.kernel.org>; Fri, 29 Nov 2024 02:17:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732875433; x=1733480233; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=M71k6fppN6xV463i5xMitlihv2EHMbPQd8qlsiqHBYg=;
+        b=B0XRLVequSnqWRjkWtcLtPf1NdDFbNIWNT/55UQ/mER/7wt2cGSVQfpPGop3zCqyCy
+         TMKxx7U7EUordvMkq8zPHiW3lUmGHc2qWOT/DVLOl/5SNQ+j4INfT/TPKSJIEn8zQitp
+         azgcRHscyizQBPsXmqb9f8lHWGo2UKtUuJLwLOer5cn67PO+7oTS8pPiFhFs8TeCP1tk
+         +vTmjphQbUuGJsml6P1LBDwpCFTwj4Nq0T8+P3di1jFYZRTUKmtGUnFAgHmimk8G9IdI
+         HY0ptc45dQAFS8iff/KAHNqfJZYycuIpV7HMg7LSIcz75sckk4dDzceV100N0ewo/qio
+         1znQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732875433; x=1733480233;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=M71k6fppN6xV463i5xMitlihv2EHMbPQd8qlsiqHBYg=;
+        b=SwgXoV27bsI3BfQVc7kZUKqgwU2fBThxVPf/Od+ZruJtpz0tsM9e0RNuA3iA2PHtnr
+         ALvm6u6sBMBIRGrKLhr2M/e1boVjBRaSK7D9vOiUmzYvoRbyvjmsf0dNX9+alV43X1QF
+         u1p3GX4Qi4Tmr6+5B7qxf+QO/krusJoHzkIfQz3YhDkiu/MyObyw6JQx9/BDGBy2qAis
+         KCmtuJP0FlNtSE3UuRuuYKAbyvzyN3SoEOxAfDmKWEzjRXWU7yJXVj57rsrdS/Vd0YxC
+         QbGAAC8QnUjV6X7qKxEMar9PSyl8/E+KIgfBe673qk8jPxHEW4HbB0SM0BqhltpppPJf
+         uFTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdWyQU40jq6uRxVw+Je7Nt0kyHORD4pRN06IyFAEyDvZutO+k2ome4Nzw/HlgGOAI8qWFI+ZGCT9vHhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAEPW0G+dJ/P0qEvcCyfAiSWz1hWOw4tf8BM4670SCFSNVhCIV
+	gR00j8REIpIvG2QCAJBQS/iVMsd/lKWPNq9PQUNeP7RZR0aW/qtKqdW5ZAFN4NtxL2bIpzZf+gM
+	xuvYRsAp8Ii979920mmM4zBPGRBhlfNIHabNHOw==
+X-Gm-Gg: ASbGncu+lghvuStz4130ozjUtMqAkoQVWM7BvE84w63UgRLBPFjDOd1czx6Uyx2ug3y
+	CbIRje5dAZtPIHBGSoNX65Jf6MURD3N0=
+X-Google-Smtp-Source: AGHT+IHsgFbzClrBYfEFLufjcHJSY9BVx1yMAHpzLueAWoM1d4Mtai5958T8vHB4BDFRgLnlbKD/8tkWebNyM9HrsEE=
+X-Received: by 2002:a05:6512:3d88:b0:53d:ed6d:71cc with SMTP id
+ 2adb3069b0e04-53df00c645cmr3259605e87.8.1732875433264; Fri, 29 Nov 2024
+ 02:17:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: D847621177
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_TLS_ALL(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+MIME-Version: 1.0
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+In-Reply-To: <20241126172240.6044-1-raag.jadav@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Fri, 29 Nov 2024 11:17:02 +0100
+Message-ID: <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com, 
+	andriy.shevchenko@linux.intel.com, dmitry.torokhov@gmail.com, 
+	broonie@kernel.org, pierre-louis.bossart@linux.dev, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 29 Nov 2024 02:44:41 +0100,
-bo liu wrote:
-> 
-> When Z60MR100 startup, speaker will output a pop. To fix this issue,
-> we mute codec by init verbs in bios when system startup, and set GPIO
-> to low to unmute codec in codec driver when it loaded .
-> 
-> Signed-off-by: bo liu <bo.liu@senarytech.com>
+On Tue, Nov 26, 2024 at 6:22=E2=80=AFPM Raag Jadav <raag.jadav@intel.com> w=
+rote:
 
-Applied with minor white-space fixes now.  Thanks.
+> This series introduces a more robust and cleaner devm_kmemdup_array()
+> helper and uses it across drivers.
 
+For the series:
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-Takashi
+It seems like Andy will push it to me which is excellent.
+
+Yours,
+Linus Walleij
