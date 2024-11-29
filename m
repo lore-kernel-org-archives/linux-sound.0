@@ -1,75 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D46175D47
-	for <linux-sound@vger.kernel.org>; Fri, 29 Nov 2024 09:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1161865E1
+	for <linux-sound@vger.kernel.org>; Fri, 29 Nov 2024 09:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732873556; cv=none; b=nSgFugbnWBcdwiGjr4RKgB5TA98qtjgsTd/LlKtz2D91pdB85YqUhd3YGjGAYRo9TH3wBfh2r3rQiYCzSdO4mxX3Js8ygZH+oj8UT/2rxcUZBSjEhKeR7zjT8rg+Zott0z2+LGl0onYaCMjbNh8LijLdYjbOhsOZBusZ7hW+Yws=
+	t=1732873557; cv=none; b=byOW/POZkL/Vsp3RvKRBotnJ6K60Fa32EqJzgUd3KsfdvkVr/2ov/7/Vz8wlES2B+grzK9WfbY0w2+7Tq/FRXicSchNv16OyqRKdCF/loU/ZCH1yeLcHoWgpoTjafkkKM4GJxM/klf0UFi9k8HCTBARPLklpPP54H3MmgVA+RT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732873556; c=relaxed/simple;
-	bh=QUxQphdr64d1YKK7NqleAEVcSxrGjXC8/GyqMLa6ybI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=kDMytBR723Ys+k+4k/7+rzdB1r5C+eB6O6Wi0QMvYXl4eKnqckrEORN15DdRjO46+sW783fw2Za7k+ZWZwwX/Vhg0oqCHkfXBBeiK65KgGfRMD+rdonCFQ1j8BIQXxM5yLPndV0yJ+XXi+HxXJi1IzC1dMelDez4RcEmcQWrYb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xkHEfTt5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pvQZ3Xc2; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xkHEfTt5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pvQZ3Xc2; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1732873557; c=relaxed/simple;
+	bh=CNBxd/wdtPpQ28DVwTA5yo9WFndtjMBL3WEybJ+xwC0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Xi/CCDkNPb2zvOm4HVc5//vauC9ZeuRgYHvdfmCDUcRAZZAszmX9rI4m4Uf03hWvZWe4fRrnHdmjaJ2xDtkPVXxqUoMSXGPdIo1Jd755AYbFF4op7Mw5mH2y2IaXxxwewlJrXwDeFn0vgkIcpE6F5hjLCuqrddK5HHMfYRmmYcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x2lGD+rj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k8FQWrTz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=x2lGD+rj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=k8FQWrTz; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xkHEfTt5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pvQZ3Xc2";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xkHEfTt5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pvQZ3Xc2"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x2lGD+rj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k8FQWrTz";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="x2lGD+rj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="k8FQWrTz"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B5121F390;
-	Fri, 29 Nov 2024 09:45:52 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 950B821194;
+	Fri, 29 Nov 2024 09:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732873552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0mfk9JRxl5xQXN3TlkdGagEx2P7W3QQdKZOWfjIfZFc=;
-	b=xkHEfTt5hE3XaBpzFcElOq46RRBY1gRIHDwEfzuwg4nAGNkX63a2V3TyrJboL5Uo9HrxI6
-	obQB+o/WMAatEpw3Gzc5bXNBwoY0gvnfptFO+7EliBGGpe6jkFUMnmeOk/CgEZBQ8qmYps
-	Y7AM9xF9gctXFYmnZ5mNaHzhdP04emc=
+	t=1732873553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tyj4WT1TTMFZfxKuf63vbbqOeKSh2+XP43iBrvH5hX4=;
+	b=x2lGD+rjnnVtoUbjm1uCOMUPQVhPY40v5OiUzmbPqh+5kxjE+HJXF5Dm0h9bbVvTtYSaJt
+	FmUXx1N3BNpk74vnk7tfugELy/4WdjkPs4gSHNu7noqavW63+fFkMrqeatpKHlhx8JMdOt
+	HO05JHeNld3N1pCSpY6o2Dhs5KbBaIE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732873552;
+	s=susede2_ed25519; t=1732873553;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0mfk9JRxl5xQXN3TlkdGagEx2P7W3QQdKZOWfjIfZFc=;
-	b=pvQZ3Xc2cl8tY6BvrRX2/5Rt8XIQzc3Sbtu0U8cvKB4Jqgc0Sq4f1ifqZ+S8p51sVpsZOs
-	Y2vvis0varJCeIDg==
-Authentication-Results: smtp-out2.suse.de;
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tyj4WT1TTMFZfxKuf63vbbqOeKSh2+XP43iBrvH5hX4=;
+	b=k8FQWrTzOWJLlagubC092ZAqm93oV+FNCDb+lFyc3JLjNkMsWuiIJ1A6c8P/sdIIphBc8i
+	+D4u0OAvsLfRE5DA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732873552; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0mfk9JRxl5xQXN3TlkdGagEx2P7W3QQdKZOWfjIfZFc=;
-	b=xkHEfTt5hE3XaBpzFcElOq46RRBY1gRIHDwEfzuwg4nAGNkX63a2V3TyrJboL5Uo9HrxI6
-	obQB+o/WMAatEpw3Gzc5bXNBwoY0gvnfptFO+7EliBGGpe6jkFUMnmeOk/CgEZBQ8qmYps
-	Y7AM9xF9gctXFYmnZ5mNaHzhdP04emc=
+	t=1732873553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tyj4WT1TTMFZfxKuf63vbbqOeKSh2+XP43iBrvH5hX4=;
+	b=x2lGD+rjnnVtoUbjm1uCOMUPQVhPY40v5OiUzmbPqh+5kxjE+HJXF5Dm0h9bbVvTtYSaJt
+	FmUXx1N3BNpk74vnk7tfugELy/4WdjkPs4gSHNu7noqavW63+fFkMrqeatpKHlhx8JMdOt
+	HO05JHeNld3N1pCSpY6o2Dhs5KbBaIE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732873552;
+	s=susede2_ed25519; t=1732873553;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=0mfk9JRxl5xQXN3TlkdGagEx2P7W3QQdKZOWfjIfZFc=;
-	b=pvQZ3Xc2cl8tY6BvrRX2/5Rt8XIQzc3Sbtu0U8cvKB4Jqgc0Sq4f1ifqZ+S8p51sVpsZOs
-	Y2vvis0varJCeIDg==
+	 mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Tyj4WT1TTMFZfxKuf63vbbqOeKSh2+XP43iBrvH5hX4=;
+	b=k8FQWrTzOWJLlagubC092ZAqm93oV+FNCDb+lFyc3JLjNkMsWuiIJ1A6c8P/sdIIphBc8i
+	+D4u0OAvsLfRE5DA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45BFA13AA5;
-	Fri, 29 Nov 2024 09:45:52 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6F57813AA5;
+	Fri, 29 Nov 2024 09:45:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Tk9YD1CNSWd5VgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 29 Nov 2024 09:45:52 +0000
+	id WOXpGVGNSWd5VgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 29 Nov 2024 09:45:53 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
-Subject: [PATCH 0/3] ALSA: ump: Fixes for legacy rawmidi handling
-Date: Fri, 29 Nov 2024 10:45:41 +0100
-Message-ID: <20241129094546.32119-1-tiwai@suse.de>
+Subject: [PATCH 1/3] ALSA: ump: Don't open legacy substream for an inactive group
+Date: Fri, 29 Nov 2024 10:45:42 +0100
+Message-ID: <20241129094546.32119-2-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241129094546.32119-1-tiwai@suse.de>
+References: <20241129094546.32119-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -90,7 +101,7 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 	RCPT_COUNT_ONE(0.00)[1];
 	ARC_NA(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -101,24 +112,28 @@ X-Spamd-Result: default: False [-2.80 / 50.00];
 X-Spam-Flag: NO
 X-Spam-Level: 
 
-This is a small collection of fixes for the UMP legacy rawmidi.
-Now the access to an inactive UMP Group is restricted, the substream
-names show the inactive UMP Groups, and the names are updated properly
-via FB Info / Nmae notifications.
+When a UMP Group is inactive, we shouldn't allow users to access it
+via the legacy MIDI access.  Add the group active flag check and
+return -ENODEV if it's inactive.
 
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ sound/core/ump.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Takashi
-
-===
-
-Takashi Iwai (3):
-  ALSA: ump: Don't open legacy substream for an inactive group
-  ALSA: ump: Indicate the inactive group in legacy substream names
-  ALSA: ump: Update legacy substream names upon FB info update
-
- sound/core/ump.c | 26 ++++++++++++++++++++------
- 1 file changed, 20 insertions(+), 6 deletions(-)
-
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index 6d0aac6c763f..9f9ad106107f 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1087,6 +1087,8 @@ static int snd_ump_legacy_open(struct snd_rawmidi_substream *substream)
+ 	guard(mutex)(&ump->open_mutex);
+ 	if (ump->legacy_substreams[dir][group])
+ 		return -EBUSY;
++	if (!ump->groups[group].active)
++		return -ENODEV;
+ 	if (dir == SNDRV_RAWMIDI_STREAM_OUTPUT) {
+ 		if (!ump->legacy_out_opens) {
+ 			err = snd_rawmidi_kernel_open(&ump->core, 0,
 -- 
 2.43.0
 
