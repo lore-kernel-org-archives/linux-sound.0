@@ -1,91 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C3F1DA23;
-	Fri, 29 Nov 2024 14:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE6D3224;
+	Fri, 29 Nov 2024 21:33:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732890022; cv=none; b=AH6ua8IJnQr/DYVZR1+QsW+gbQmtPYpCE3GnZ547fCmnEWz05olOVpu0n6Kn/KWskcq6C7BPTsX5sgnxctrkx8VtCU9AdHXlj6YmL/27WFdEQe++lwHDKPkBI+nK4IZKozhZFWYJqz98Zf6lWO0lecqNgFJ4zGYG6TL3gV+Hh10=
+	t=1732915999; cv=none; b=vFB9rfFMo1kzvvIiewZBqOISN9YZF6DFMeUdQ8MpYGHFUMHVFs3Q870ooU9W+81ElBxcN/PtUSsj0tPbDUzpCj1la6yUGMxLuKSpu/jXrMO3EsmsDW+qMoNHyecDbHw+iSiuDJAh+Tb7yBMqPjYdwFzPAvxmW/nyAyyMUtJBzfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732890022; c=relaxed/simple;
-	bh=w2C7AMm2XJxhaGZh98+ZDzegMpHXnTHBvBTfwUUgzQo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fv3Sl4rQ9HL7jdiQM3yDuxk+xXAEwCAPVND/4dX9nt5dZOSXu1wY0ijkgbQPl+PwmPJPh4qhfezdJMI8m1dF/19TuqbKNBV08xBZoOjJ5LCM/b8XqcxEMvYpRNX/muG0LX+TmftA/7goJBCYVxH2Ao5w95osnvMSbeF2/dUQsko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOMqAl2f; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1732915999; c=relaxed/simple;
+	bh=8RjqcbgMeeduYMYgvMVxAbtjiJr3JpdN6nK72DOBozI=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=WVKuCrWZ4Ys5zZjnCSM4GvGuZcBvjK0fMF/IsuTNb/kstDFOu929SnUwPyhB8COYs+xMocR+k2wsUmCGKoMHzegi5SJpjOUBrGIyHbMH2iGaemZMZewlwQFLaUuw7LMf/kbQUFxCRSqU9uyKHnCHZlYcH0SH56D56mJmOkKgVPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UR8f/bnA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOMqAl2f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732890020; x=1764426020;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=w2C7AMm2XJxhaGZh98+ZDzegMpHXnTHBvBTfwUUgzQo=;
-  b=JOMqAl2fERkXIdLFenwfOdsXYvEa76TooH6s7eFBqYCQc33agPpuLt+c
-   yjbBormKpG0NoiKROX6FCLYP69/SZK80NDORVVg5DzogEfcKgzpihfvdX
-   xEl7cnz11NBF9WeVsLSvghq7VHR+HoAsz+FsP8FVmjHS0DVyY2um6p3AK
-   zyLf3Tl4nTbF4ArE+oBwhkVLDHR/d7H5k+ijcXU40dKjJrwwFrsn1hOYZ
-   mhlA3b/7xcZEKFteQ6HORml2ZnBZ74ZGsU+wmCX1UvSKafqCfdvhYTMCE
-   p4YzE9OOxsfs/T+EqBFb2WGf/pWDLoU4ZPtSlgvSV8lbmrkt8sdG2NQH6
-   Q==;
-X-CSE-ConnectionGUID: YvFGfsV1SVGZz4MHRPNxPw==
-X-CSE-MsgGUID: rrBndm2BQAm6StbIUnZTNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44509317"
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="44509317"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 06:20:19 -0800
-X-CSE-ConnectionGUID: XqT4cv0EQga54wfI/T5UMg==
-X-CSE-MsgGUID: wE5/+BkeTb28hl7pJ0eRzA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="92306652"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 06:20:17 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tH1qw-00000002G7V-1LHj;
-	Fri, 29 Nov 2024 16:20:14 +0200
-Date: Fri, 29 Nov 2024 16:20:14 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Raag Jadav <raag.jadav@intel.com>, gregkh@linuxfoundation.org,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
-Message-ID: <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
- <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UR8f/bnA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B16C4CECF;
+	Fri, 29 Nov 2024 21:33:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732915999;
+	bh=8RjqcbgMeeduYMYgvMVxAbtjiJr3JpdN6nK72DOBozI=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=UR8f/bnAluOVWVKdbX4uZWaNQHpNP1c2qBjDBRIKfcJ4v0V2b2lXrbmwUvm3fiI/4
+	 BX3tZz0cBYrDFzf/1e/llga2ncuQTzcEz4GnUdCQbh8LIN/BtMz9KLNo6uw/tpq+0J
+	 daEx5Hi7mIgVeOk440LKxRSZPdVfo6tITLP7o0/GQNV+PyyUHkswzxiL8eTf/4GQGt
+	 XMe/s59eHHWS86+86HN+/zfKJyfeBWljEAd3TwrjQdaTPXxeQtBkWTxj4xivoNpscn
+	 eUGcpQCo/urnStEzm4j+kOGsSz6aefoj97VAdwXT/xDoKLULHLKCvR6E+1OJJr+pF5
+	 Pa9oSjnQDDTfw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33E2B380A944;
+	Fri, 29 Nov 2024 21:33:34 +0000 (UTC)
+Subject: Re: [GIT PULL] sound fixes for 6.13-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <87sera5pdt.wl-tiwai@suse.de>
+References: <87sera5pdt.wl-tiwai@suse.de>
+X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87sera5pdt.wl-tiwai@suse.de>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.13-rc1
+X-PR-Tracked-Commit-Id: 2e5bf5b6d2617aff3bd6577bbc8e024cca436d76
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 517363b4949e4442dfe54b281ef5a8bbfafa3bbb
+Message-Id: <173291601272.2191389.18307558525290674641.pr-tracker-bot@kernel.org>
+Date: Fri, 29 Nov 2024 21:33:32 +0000
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
-> On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
-> 
-> > This series introduces a more robust and cleaner devm_kmemdup_array()
-> > helper and uses it across drivers.
-> 
-> For the series:
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> 
-> It seems like Andy will push it to me which is excellent.
+The pull request you sent on Fri, 29 Nov 2024 11:02:38 +0100:
 
-Yep, that's the plan after we get all necessary ACKs.
+> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-fix-6.13-rc1
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/517363b4949e4442dfe54b281ef5a8bbfafa3bbb
+
+Thank you!
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
