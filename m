@@ -1,143 +1,130 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884CA12B93
-	for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 09:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EC014D28C
+	for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 10:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732957222; cv=none; b=Ir4Mt0VB3YfTvR9R153mtzCxiSmljbBblbPZEpKBxLBEzzkt/BE+6TDRfm0mcifEt9fHbjp4PCeiRUEetm+hS8OntVNbpc0hklBc3QcC9/nt6Pa/6swEo3D9KGKkdHm0I5jk1zeknwIi8q9qDd0nJPnzaYqrop1w/lvswNb7g7U=
+	t=1732960916; cv=none; b=uUHNDAiXBymDSX8PqYcCvq79ZA5m6Pag9wf/8HhKsNMGvG//x6zRxvu0RGYIEbXdTVVEuVp7mLNVkJOCQxp/d4tmYrMMHHFHKb+gfNMKo4cI1pEmA1N1IyTBMFvOa0FCfWeGzKmZwsVhvkZCpebNrO1Tll3winEgg4Gv+Ex/2p4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732957222; c=relaxed/simple;
-	bh=qy3XWszO/HvVzBxHygARM6ao5Fk8IQCgjHxOYCZ6Edo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=AeCnHsT9xx+nZL3BvsU2hNI8I76GUGffB+6h6N3Qrc63sZM0QGsE2BEOb7i/4Gdc4sEWM5lF1rmUfqsLxYAOb97eDCDt6kDwRFQXmA9vmmbP4FpZ3vR//M+glvwt3YpUkbGeHk/gUEGqnfZ53gkR5SiWHRZHd0f3tPvUoJWL27g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xj5MXH3f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UHZmDlT1; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xj5MXH3f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=UHZmDlT1; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1732960916; c=relaxed/simple;
+	bh=J0PGfzHtc8eDImvBZL8pINDxhAaMXF7m1ba4kc4UTfE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XTD1xbAwU0wizjbLVBJHGuzWiJYH/YtMwLV4eifPhBYZJOCEfdcvRV4RMZZ0dCql88aAGYGZ32JEvlV/hTFrBcZfVYIvnVZyoxDblU0P3U7NjWFfuQF016MzTs04WtmFX38lnwUr0uQgo0UC4th+60GcYMgSER8oWSS/FHc/Ipc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fjbkAzmL; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xj5MXH3f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UHZmDlT1";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xj5MXH3f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="UHZmDlT1"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6D83621173;
-	Sat, 30 Nov 2024 09:00:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732957211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DSUkOfr4ht+5TGXOuMwjBHckN//fLdhk6RDvT0yD90g=;
-	b=Xj5MXH3fwihhe1UByepRxpFGd/5ZiPKDi+NKEaERszSdDQgC9iu4vIvNyTeHO7BRBvwuSL
-	whiGB4rpj7trzk+ZFM6vVo+md4ldDnHFh6nRIRTgP+qu2AI5AbCYj74qjt7veLVNU+g33l
-	uOg5eVr+fVFdGyox5bG8XU8aysGBYXQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732957211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DSUkOfr4ht+5TGXOuMwjBHckN//fLdhk6RDvT0yD90g=;
-	b=UHZmDlT11eahAIJrIWTwXJw0WD1iFZS3MZghlECBsdPYow+tEQPfopZWjr8Oube10YmPHG
-	LU4KNOOHi9hy8nDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xj5MXH3f;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=UHZmDlT1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1732957211; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DSUkOfr4ht+5TGXOuMwjBHckN//fLdhk6RDvT0yD90g=;
-	b=Xj5MXH3fwihhe1UByepRxpFGd/5ZiPKDi+NKEaERszSdDQgC9iu4vIvNyTeHO7BRBvwuSL
-	whiGB4rpj7trzk+ZFM6vVo+md4ldDnHFh6nRIRTgP+qu2AI5AbCYj74qjt7veLVNU+g33l
-	uOg5eVr+fVFdGyox5bG8XU8aysGBYXQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1732957211;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=DSUkOfr4ht+5TGXOuMwjBHckN//fLdhk6RDvT0yD90g=;
-	b=UHZmDlT11eahAIJrIWTwXJw0WD1iFZS3MZghlECBsdPYow+tEQPfopZWjr8Oube10YmPHG
-	LU4KNOOHi9hy8nDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4ECB9139C2;
-	Sat, 30 Nov 2024 09:00:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 10j6ERvUSmfVcgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 30 Nov 2024 09:00:11 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: ump: Shut up truncated string warning
-Date: Sat, 30 Nov 2024 10:00:08 +0100
-Message-ID: <20241130090009.19849-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fjbkAzmL"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-aa55da18f89so393012166b.0
+        for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 02:01:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732960913; x=1733565713; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eoQ54HwTU1p1rSg91wlPuaN8FZ/aS4BbzVLuUyxC+Ls=;
+        b=fjbkAzmLuIPqm5jR+X1thWK007N001o/jdPeE9Ft9cuIw0GKQYsC23eCstoZWafxPC
+         3T7v3aYHRE0mJ7fecZhJg36mfJ2GrwfxOe80pXGqTZXZmLOtqLS20BHuvlsp57ld1OqE
+         N1K2LTOuWTKSOQllX1PNiAHjV9DUIevpdt4H6s9XMABIb42rGw6yZRbmbQcqKRLXQtzK
+         fVlTRDOWfRHXIGqqwOQTIyh4N3w6rd11pxYgIwWtX1k5orCBiWUF1Ds0ikWrLuTO7qy5
+         /BYuscqvJMja6R+LgLUyoiTewsspyoGcv1Znm+wDZjcLNt05WtdRsKrp6eKU8v3W1gI8
+         LuXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732960913; x=1733565713;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eoQ54HwTU1p1rSg91wlPuaN8FZ/aS4BbzVLuUyxC+Ls=;
+        b=mmaqqg3x19h42IsjptY3d/x+GbQAJwSlgITwkFdLEd7a+aLc50qkuh1Te5RpeOi6kc
+         o8KXBPsTE6mEcRd5i8+ZuHtsEHmXoHrSe4n4VGKqc5c/QbTiWeAABq7LErH7uepyv/+p
+         iX3a8g+virmBLyb1zLr6aOoTbytPnSepWLmTu2+oNb3jMp2Wh+ZdZ+DL/AUHfAtev2MT
+         fIloCST6KdMkc/8f1k6hyln0e4lxRIpyN3LuS+owDYya0L2Hg7xzIvkVRkszjDVQomZ6
+         HQ7ZVbPriXu3zX+L1qKcFx9DtBDtcg+KQIMGPfzWcdH4y5WPyuVbVKsH6EG3WzGjgkvO
+         lPUg==
+X-Gm-Message-State: AOJu0YwBni0V6XOkFUrhQDPJl4qfZ9OEDjMuN7dW8J2JUtSjxU+mVkgz
+	f4rtPSuS1GZps11OFgEBzPXwcDuQQj6L/lw3mkmcWPx3uwvjwrVg6EgH7ypv0UoNBJjOpiPKOOw
+	56oh/MQ==
+X-Gm-Gg: ASbGncsOmQ7ves/HOdFkN2whREXti31/lMuJJfzryrprQr6ZA0UeCTa5gDavRps+a+n
+	3lLsAsk4hy/T0zMoPxHF8rg08d83PKb/X9RYets99ZqGz/qBoAfOFHWLhRdcYYpbVNUWJlgageg
+	S/BPxAOVI7e4W1NT8E7jnIQK2Purwrdb/pIZ12eIOVqo7wvXrmw1seBbU/TgSIOPzLZ+FyBH7AH
+	BadmICu+nnPw1nP+MEcighIHhmpf+/lkpPd8/UwoDHARF6BEjGrhorCL5rTPDuLhZhANVBo
+X-Google-Smtp-Source: AGHT+IEurzfGjdGLcibSSEULoQDw6DMviCDNo4pG/j74LwiiwS72Xu3K6D6uUUEpUPBufgrMpznlvA==
+X-Received: by 2002:a17:906:3199:b0:aa5:3999:4ac9 with SMTP id a640c23a62f3a-aa580ed052amr1143774466b.2.1732960912826;
+        Sat, 30 Nov 2024 02:01:52 -0800 (PST)
+Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8db19sm2656851a12.61.2024.11.30.02.01.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 02:01:52 -0800 (PST)
+Date: Sat, 30 Nov 2024 13:01:49 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Conner Knox <connerknoxpublic@gmail.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [bug report] ALSA: usb-audio: Add quirk to enable Avid Mbox 3 support
+Message-ID: <b53bc77b-6677-4dfc-b21b-77e725dc7541@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6D83621173
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_NONE(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCPT_COUNT_ONE(0.00)[1];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The recent change for the legacy substream name update brought a
-compile warning for some compilers due to the nature of snprintf().
-Use scnprintf() to shut up the warning since the truncation is
-intentional.
+Hello Conner Knox,
 
-Fixes: e29e504e7890 ("ALSA: ump: Indicate the inactive group in legacy substream names")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411300103.FrGuTAYp-lkp@intel.com/
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/core/ump.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Commit b01104fc62b6 ("ALSA: usb-audio: Add quirk to enable Avid Mbox
+3 support") from Aug 18, 2022 (linux-next), leads to the following
+Smatch static checker warning:
 
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index d2b810eb84bc..fe4d39ae1159 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -1262,9 +1262,9 @@ static void fill_substream_names(struct snd_ump_endpoint *ump,
- 		name = ump->groups[idx].name;
- 		if (!*name)
- 			name = ump->info.name;
--		snprintf(s->name, sizeof(s->name), "Group %d (%.16s)%s",
--			 idx + 1, name,
--			 ump->groups[idx].active ? "" : " [Inactive]");
-+		scnprintf(s->name, sizeof(s->name), "Group %d (%.16s)%s",
-+			  idx + 1, name,
-+			  ump->groups[idx].active ? "" : " [Inactive]");
- 	}
- }
- 
--- 
-2.43.0
+sound/usb/quirks.c:1275 snd_usb_mbox3_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
+sound/usb/quirks.c:569 snd_usb_extigy_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
+sound/usb/quirks.c:944 snd_usb_mbox2_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
 
+sound/usb/quirks.c
+    1259 static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
+    1260 {
+    1261         struct usb_host_config *config = dev->actconfig;
+    1262         struct usb_device_descriptor new_device_descriptor;
+                                              ^^^^^^^^^^^^^^^^^^^^^^
+    1263         int err;
+    1264         int descriptor_size;
+    1265 
+    1266         descriptor_size = le16_to_cpu(get_cfg_desc(config)->wTotalLength);
+    1267 
+    1268         if (descriptor_size != MBOX3_DESCRIPTOR_SIZE) {
+    1269                 dev_err(&dev->dev, "MBOX3: Invalid descriptor size=%d.\n", descriptor_size);
+    1270                 return -ENODEV;
+    1271         }
+    1272 
+    1273         dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
+    1274 
+--> 1275         err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+    1276                 &new_device_descriptor, sizeof(new_device_descriptor));
+                         ^^^^^^^^^^^^^^^^^^^^^^
+The comments in usb_fill_control_urb() say this has to be "suitable for DMA"
+but this is stack data.  It has to be allocated with kmalloc() to be suitable.
+
+I don't know why I'm only seeing this warning now two years later...
+
+    1277         if (err < 0)
+    1278                 dev_dbg(&dev->dev, "MBOX3: error usb_get_descriptor: %d\n", err);
+    1279         if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
+    1280                 dev_dbg(&dev->dev, "MBOX3: error too large bNumConfigurations: %d\n",
+    1281                         new_device_descriptor.bNumConfigurations);
+    1282         else
+    1283                 memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
+    1284 
+    1285         err = usb_reset_configuration(dev);
+    1286         if (err < 0)
+    1287                 dev_dbg(&dev->dev, "MBOX3: error usb_reset_configuration: %d\n", err);
+    1288 
+    1289         dev_dbg(&dev->dev, "MBOX3: new boot length = %d\n",
+    1290                 le16_to_cpu(get_cfg_desc(config)->wTotalLength));
+    1291 
+    1292         mbox3_setup_defaults(dev);
+    1293         dev_info(&dev->dev, "MBOX3: Initialized.");
+    1294 
+    1295         return 0; /* Successful boot */
+    1296 }
+
+regards,
+dan carpenter
