@@ -1,124 +1,92 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [217.72.192.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1509F4087C
-	for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 10:09:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B49013C695;
+	Sat, 30 Nov 2024 11:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732961353; cv=none; b=rhERmycYl4OzgbC4TIgTF6j2FD9JF6d6YN5LE2l66CI3plXzc0Jl/z0Jihgn17D7xpocI2vvcpCfpsenVexDLqhLBcsgU4UpC9fQnHhMAOmq4yoFTq665YNdLgDQEqLJMzbkGpn9XJUp4ChJtRtFOcjMMIqRCoVfkp8soKPtsRU=
+	t=1732965816; cv=none; b=i4P2LnPoH9Dru654P1ufyefPLf+Zepsz9d0a7DYVx+9FCiAlx3JMftHbXO4+PQnSlA3/yeScke0gzuY8PVMxfEFCfPtQ48gvtpHZo4cB+ZmhXe9SAIwtrNgcTmyqeQRcVJ9u5ePFF8vs7a9n5+EByuy2dDojy7qlIOrCB6e28r4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732961353; c=relaxed/simple;
-	bh=Weo2a5ax1Dgd3G4tabJuyboWF8oq3jSpkgDF05+i5rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=REI63WmmlWyQ3Nv4/MePGO9h59cM0L97oAUV5samVDWiWtx9a5asoXlaeUa57Qli9FX7frqbi+ejsdTFpKS2HM+UMowyEJj2H3G3WnG/Pgb4xwoRsfBMZ22ZjV8yTxsJ1OeG+g5affCW+6DUUQ1EqdjxJT5QZOWJDpLjDD9UIAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=shwjXy2o; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732965816; c=relaxed/simple;
+	bh=knzIZJGI/ka2HQESpgpY1s9ew3sLGgzZogYqUV0m55E=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=tJ661O3aooVJEmJf5uMMnQFrh+RgeOn1J5sdkh/BQLqPgP9IwvtRBWY2nIOn6NkS4SpG4bxLfnRPA7QgUq9XBW203w73/HaUMigHVRmS8cuQEbDGvYQpHMroCBBE9g9FUHJU0ubSnnc2u3A0bZyT3AIi8Dnu2V70Br51+1BIYMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=un4w9fyQ; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="shwjXy2o"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aa549d9dffdso378390766b.2
-        for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 02:09:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732961350; x=1733566150; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zAH9/uMjrIge6JK5bCm30pjNTYCTeIEEafsvRP3s6t4=;
-        b=shwjXy2oDhi5ItM6msESdX0ad+mtnsrYYEClv+EUxN9xo5eexZ7M418iqbcbuaKRzY
-         9x3/HHIeMVtQeNXZgocpOZR6D9RYUB8HC6A93t1n9Px9dCZ+ylXVRWTyHU0xKz/MLtl/
-         8c31TOOgRX0xiMn+ZQQADJ+I4mSRP+yHt5O5hPw512AWqx/5k4U8r7AZk8ksVIIZgCU1
-         Kq93SqCGiJhMhhhA3wO8GSVH4G8KKzetwcOsfRUQhRSiUGGI8kMcVhme0ugVJSY5Jfgw
-         DAb1qC709n7aYgQC+ffdjG5LrrzZ6/mnkxSGV9qT30pgtAqeiM7qqcJFEVatR+p706hU
-         64pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732961350; x=1733566150;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zAH9/uMjrIge6JK5bCm30pjNTYCTeIEEafsvRP3s6t4=;
-        b=mxkhXptyMBVsAtKGInaCU+TEVbZFtYxPcbAlyFdEtnYxeSsxQKELV4Loxnc/8IJjJQ
-         ItST2l5cXP/lcABIuR8ymhJJaBzbi5tyRTyzi7ZvTdGr36DxkzyH+gz01Bm4e+AgwyY0
-         +OaH48p746cNugGJSomU2iygi6iPh7k5Fcj7HlRxQxD3mIzfh9OFZ3K1jcn7ga3OzMkE
-         LiF6SjhSzRJMduTkPuUdXaz5Y1uYJq1xJx5kQQhuldTMj4USmegSEcysho0pTxpC4Xsz
-         QqpV6WnDRYs9wyvQbJUCtDty/VJPDq9RObo7ib1duOQQ0jxIjHlZ8/yUOqa1rcZWMmxg
-         NYMw==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ7Ey8ut71gOnVWtryL1Qh3G11+XkkPdHM3o4chQbNAk1NrFeWcOi6smCFUDcP5BJGvCZbH+CFtdEFXw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaK9gg2eRxijX2TQO/4vx1z3kSRKnLnBLK4qky3STykE/rWtZB
-	+J8GZxDkTr32Vc6TmzIc3cvtnQy8w16QNungkRv0g4XVMbgY7r9Of6+o2DscxSo=
-X-Gm-Gg: ASbGncu0pqI9udYeQ+fyqMdHJyvfoKIjn76RaSr+0APrpYhadM76fu8XifA9SZlAvmw
-	wMHEgDED6x0f+kfbjyC8/1pQ5EkxvzVx/E4kyolas7+9WtfCDSm1b/ZbpNVrgrA+iQBf+KfbtRQ
-	vlfnpvxqOLQPEV4/yiyvdyvNehOgh/FzbTGSWi0qk+jl4r++zxHEXZb4NIUaKX5H+5e/PO/ZbM9
-	pbbK9KGBBE3kCu9ZNAQiKhz9347IIuZPLxtfihETnVErZlfN+CAhROOuw1yoyh36M1rCNZJ
-X-Google-Smtp-Source: AGHT+IEPDZM1flLC7d6h2HgZwNLzFPMq58Jh4oKHV3DLxZuKAwi6yH0/K5kWtWvk0GadwpADW8Y4kw==
-X-Received: by 2002:a17:906:3091:b0:aa5:4b7f:e70c with SMTP id a640c23a62f3a-aa580ef2b2fmr1196125466b.6.1732961350575;
-        Sat, 30 Nov 2024 02:09:10 -0800 (PST)
-Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59990a9dfsm264657366b.157.2024.11.30.02.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 02:09:10 -0800 (PST)
-Date: Sat, 30 Nov 2024 13:09:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, sound-open-firmware@alsa-project.org,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: SOF: ipc3-topology: fix resource leaks in
- sof_ipc3_widget_setup_comp_dai()
-Message-ID: <67d185cf-d139-4f8c-970a-dbf0542246a8@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="un4w9fyQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1732965788; x=1733570588; i=markus.elfring@web.de;
+	bh=knzIZJGI/ka2HQESpgpY1s9ew3sLGgzZogYqUV0m55E=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=un4w9fyQn707HCAS+/OpHumpmCjQAjgXooZg4+3sHRB5DqhD/8aekJ0cDG6llmht
+	 SzAnEBnGkARWe9GK42UyVMWNjfZ5dHD8j3AGeJXBQUae1xggkV8AY5V5wBikz3uzc
+	 LhfVho7uJ+SEd3Y/PjbHB+kDTgiLHYm9L1qwmSlxPsWjrGeVVoEkcEti56MZ0EVi7
+	 zlLe13s4fXw/9HBtHBieDWnWEaakNmQACD0GvuhOgAMP4S6dn6U2YfOQp8pL/IL+h
+	 6Lru/wLU7G+dWJZPjslQY6Cny44r3IW29j7N9HW3rJG4SprFE2I2qh+rb7Hv7SZo6
+	 jxl+i1XurwMMuF/qLg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.91.95]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M1aHx-1tEsit1LFT-002xZ4; Sat, 30
+ Nov 2024 12:23:08 +0100
+Message-ID: <55392b68-1159-4b95-b107-6aa050f45c11@web.de>
+Date: Sat, 30 Nov 2024 12:23:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+User-Agent: Mozilla Thunderbird
+To: Dan Carpenter <dan.carpenter@linaro.org>, linux-sound@vger.kernel.org,
+ sound-open-firmware@alsa-project.org,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Cc: kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Jaroslav Kysela <perex@perex.cz>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Takashi Iwai <tiwai@suse.com>
+References: <67d185cf-d139-4f8c-970a-dbf0542246a8@stanley.mountain>
+Subject: Re: [PATCH] ASoC: SOF: ipc3-topology: fix resource leaks in
+ sof_ipc3_widget_setup_comp_dai()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <67d185cf-d139-4f8c-970a-dbf0542246a8@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:9oJrICSvB3vXxBaiRmuxR0PPz98NoJQ2znt/ji/AqoCtWaw+xqd
+ TgkFCMkbf1h79bPaRjrPgBqoRTybbWTJarYHtD1Brf+u3RvaXJ8Nr7F/BuFJkoZU1uR69pk
+ /SDJb/cjUzSFJLQpJqYzBSnWueuw6MKviWoxIFDRF7MC7+t3MsQiJBEQx2QO4RhE8HaJ2r0
+ 8JV+1Ge1qamLsY7Y9aimw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:vTjTXEZz9Vk=;T6qK9UwbxJYOp7SjCirLjKhpnSA
+ rgqJ10PUWDlYpMKXmsQ/Q5vDDU9KF0H5u7T+6dymutBrfxXq7E6oqqC6qxYCD1hFG/fa1Fh1J
+ WRTxtplrmnTFul7f3Ip3/PrVlkP4ko92+QO+FumuwByxSCqSaJdwE9Q5i4IcRrDsgt6RXkl0w
+ 4c3dY9GTTotKstjBDbc5sruyIOson93TCAjABVaY74eYCTFRMCZPVn7M3qjyZNUZXqg+ttOFI
+ eHv1h9yW31hvcu3Uq8u+rX0gakiCRkXl2zE7NgWwEISos3/9cFdIXUZVwFXRNjK7zbJhHpJGO
+ d18juXO/IMKcNoPzpcxjjWK08K/dgHww2eZf4BxOwUigyH8H2g0IW+tux3wnHre7Meyy3ZwTE
+ ecJcL+Ekbq7QPPLpNCNUrX4CbV8HGHat0TaORTYqmZGtlcLL4IA1YjqT/gE6PEqrYBd7p57WT
+ niA+Pifgazh/UFKKG0Bo4Ri6h2WgUYW66IdMQ5rO1792Ew+3SIgn3nbP4w0OUe5PsDsV+tP5B
+ /Uwl4hCJ2TAqPVT/dkDzOY17f0GIXHdSnTlywNZgkORRRSoidciDdRgSd1BGtctYCFmt7tlet
+ y/H8KPa0DCa7Hb0xaHMG+titvot+Y8jneL+8yJuEmKsIo59dQOKlEWwp5Yk5XlSwFukmcys9e
+ Kezdxdo5x/1uHjsAhgm3tu53Ny9JiwWkhedIQvfz0dD68+FY1NFS3AspBvbUUGPXMOO9pr6sk
+ ZGAHsMVSey8PF0rXcVCJyU5nniPHe9HuLmRb0mU6Prcy14Ito98VBThgzPR8qgEdb3LAsJG1x
+ N1owPRMpZgw8wd4Rkv87IdDT8geoiwa/AV3ARhV9SSH0Z6I4OBOCyU1lmmPiDuST1wur/oSOp
+ Ny+OVywvyEnu15OctpzhfayiVJinEufDZ8VKAG6gfhnetYsBhN3zCCCe8duoSJu6uGbhEmuQ1
+ rOYdoHHbAzOrgEFphCzCwPJwzzlkyFFWqiU7W4B40Ru9ZuCd7EwRr+b5N0jIlE+xLY1IafKl4
+ x72qXYVWI3Xp/T3SGWZmuD59JtuW24oRsS4XuU1EK/rlAKFIOHM2m2yU7xBuBAZjlDFkQniGz
+ olh1nv7Lw=
 
-These error paths should free comp_dai before returning.
+> These error paths should free comp_dai before returning.
 
-Fixes: 909dadf21aae ("ASoC: SOF: topology: Make DAI widget parsing IPC agnostic")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/sof/ipc3-topology.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+I hope that such a change description can become better.
 
-diff --git a/sound/soc/sof/ipc3-topology.c b/sound/soc/sof/ipc3-topology.c
-index c2fce554a674..e98b53b67d12 100644
---- a/sound/soc/sof/ipc3-topology.c
-+++ b/sound/soc/sof/ipc3-topology.c
-@@ -1588,14 +1588,14 @@ static int sof_ipc3_widget_setup_comp_dai(struct snd_sof_widget *swidget)
- 	ret = sof_update_ipc_object(scomp, comp_dai, SOF_DAI_TOKENS, swidget->tuples,
- 				    swidget->num_tuples, sizeof(*comp_dai), 1);
- 	if (ret < 0)
--		goto free;
-+		goto free_comp;
- 
- 	/* update comp_tokens */
- 	ret = sof_update_ipc_object(scomp, &comp_dai->config, SOF_COMP_TOKENS,
- 				    swidget->tuples, swidget->num_tuples,
- 				    sizeof(comp_dai->config), 1);
- 	if (ret < 0)
--		goto free;
-+		goto free_comp;
- 
- 	/* Subtract the base to match the FW dai index. */
- 	if (comp_dai->type == SOF_DAI_INTEL_ALH) {
-@@ -1603,7 +1603,8 @@ static int sof_ipc3_widget_setup_comp_dai(struct snd_sof_widget *swidget)
- 			dev_err(sdev->dev,
- 				"Invalid ALH dai index %d, only Pin numbers >= %d can be used\n",
- 				comp_dai->dai_index, INTEL_ALH_DAI_INDEX_BASE);
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto free_comp;
- 		}
- 		comp_dai->dai_index -= INTEL_ALH_DAI_INDEX_BASE;
- 	}
--- 
-2.45.2
-
+Regards,
+Markus
