@@ -1,95 +1,90 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E207B1922F1;
-	Sat, 30 Nov 2024 16:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918D417BD3;
+	Sat, 30 Nov 2024 18:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732985604; cv=none; b=G30IavPnzoCvdcPhrkt4f+e9W/sTcxKzkl265oGTiwIPwKqBBYUiLSNqNiicktocviGlgr7VaD29BbPPkRuzygYmdseITUgbM5AE6TUOzyDQPkBXOHeme6ZzNA8T3HDjRfi63IY8a3eyb/E0zg569xd33UmoBUXPw5yWEMQPznE=
+	t=1732993145; cv=none; b=nLo/ISx+kuMM+zU27y7r1+Em+enOqKrgm4jh6slA4LRMsKzGLfaN8ALSK21/Km0e268fMSymhpiW9O6ZlfS3CZ6tlKlJ1xQBwzV+qBowMc9CbRjmFsC/r8yc0y1M6Sd18MIOjNCihhoXjwnXXdJV0dDKUJR9h+xHD3uI6+Uzy80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732985604; c=relaxed/simple;
-	bh=X5Y43j/YUvAaJH0RdMgAo9oujFLSXM0w+f41Fr/W2uM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eoSDwlofL5dlNC1ZFwGafy4A5idJtUqbyGJb1yDs/atRxq9rzIYyf/NOMtvwDolsnrfQZceMqMnIhF7dQ7K4k4Y8jZ1h7lyZVCelRyEJimHEEVSsejC1Rc5cWYCbw8+MS2CIFB2OK89jEm2v40OV/lydQ9oFzpC93fZJsLVK5dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=nycode.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=nycode.dev
+	s=arc-20240116; t=1732993145; c=relaxed/simple;
+	bh=psXK7nwI7pWzYjyTuJLkhhZPKh/LpnW5SK2nngdFs/I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TMNr2Gn6NDoZa6ia7QiyWBXRev6l0xpFNgJ3tHsxa2N88aBsQlefmfC8eEdD3rl9taZbe+BpuFCgRYAhGLfLBdAvCQqLOlHcoarn2juKFBNQJiQUonSlAdI0hF6BS2Wlyu9WgdR2DoHdt30OcHQQVi1IXuZG9zWAk7aTByZYzmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nqaX9nAI; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434ab938e37so17818995e9.0;
-        Sat, 30 Nov 2024 08:53:22 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nqaX9nAI"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2e59746062fso2237547a91.2;
+        Sat, 30 Nov 2024 10:59:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732993143; x=1733597943; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=psXK7nwI7pWzYjyTuJLkhhZPKh/LpnW5SK2nngdFs/I=;
+        b=nqaX9nAIMHHpso2NBiwCFNKllgajR58wb3UTylm14R5PTreC01sQAy52lsaOEeZDYG
+         sSs8kJZPnLYlAjvvjBcZU1YNTyNqsMolQlDh9cDV1yXDzhPVC4+Zc+ku9PFfG2ETjxjr
+         1iS+lrK0HdGJgCd44c5M6Vzp1MXFh5uP/oInZ2LkoS0OCHyUMWFzIkyMYV/W+0qwjOMP
+         DkxYHNR9HeyAhPwm871dD3lOmaN5CCAz8rUGXwRPtlfDOTKCbvgeQ4BGAbSnFaFu9qqA
+         cjKBj+aeu5bujDkdvzWwEutLh8lSpv0kySq4w9/NlnZ4f8EGUWhdfBjFd99pW9Ix9Mrq
+         5XRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732985601; x=1733590401;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1732993143; x=1733597943;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1x0C6tj/aARPaW2gO9/yZtfHDLpoDu+dP4O2r8oZlgc=;
-        b=t81f9wSx/Yoq/gBbiSI3trRirvtIMebuTdfJNnlRF1/JryrrF0JawXl3uojlrP0jaU
-         iIvnSjTteYznhCShWS0btIWAugzuPqJD+awqzfeVjWTjiex5YaYx8N8Fi8//h6DT0U7Z
-         w56UoEQhnoOOaKmCu4P3Ha/bT+SnhKkJhby8wfBVJYMLerQnxpLeAM0T2x1XW856PvLt
-         GW+3DVQtqxn5zQj4IId2PmBwv9BRTymy4OOcifG/OleAdB7xasMj9zDK54+UQnrISTUk
-         hVsZXjViy98i6nhbF3h0ac8jhPa12Wt3iIP4kjV09Xza/0A052hc/QZmjyFT6NqdMbbd
-         ncSw==
-X-Forwarded-Encrypted: i=1; AJvYcCW6ZecuPTsgLOqPsf5tIlt/F3BwEFC5o9r4s0XkmBTgHf4w5WrsepGDjLMJNrmAnu8DWs3yqakuodzf6wg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLI1UN4t16J0ytNIdyUq3fL+ipiMk1Hw0KMHVlgMzxnc40D8bN
-	ispb3HqCNnaH8KfDlAbbEXjv8cuh8EDD2vLFfSsR57kTEapRyWivdnHrAc/n
-X-Gm-Gg: ASbGnctyBPShJOSKGm/tMLgk4FCGsEyFrz6iI8jItw02iYDTuqzL1VvhrWv6/WZ03Ws
-	ZvFJkv56QNdzArm0IDZP86myDvZxjAYAZYiL6sX9GB2ahSHtnzA5KGLoPn9xS81oozUs7pvDbRQ
-	XscUbuqScuadLENNxCIzXAYKHqAW/5siZNXmbu5luJFi5qhGcPfDMc10ZEAMfIaLH/zE5MfyjIn
-	XmNCMc6ss+UQmKKl2H8l0y3a034QprXeWqgKLi4+0h3m/VY3Bzo1mbcNqju8xMpL6L5V0l+7A==
-X-Google-Smtp-Source: AGHT+IE3Wa72eOF83vB3yMxG2sgsVP7WAAuC3Kxik9MMp+Sv2vJ+IUgiYKvdLejUJ4e8Z+sIGPujpg==
-X-Received: by 2002:a05:600c:b87:b0:434:a1e7:27b0 with SMTP id 5b1f17b1804b1-434a9dc3d08mr149616495e9.11.1732985600964;
-        Sat, 30 Nov 2024 08:53:20 -0800 (PST)
-Received: from marie-desktop.fritz.box (artemis.marie.cologne. [89.58.10.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385dc715a74sm5708085f8f.82.2024.11.30.08.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 08:53:20 -0800 (PST)
-From: Marie Ramlow <me@nycode.dev>
-To: Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: add mixer mapping for Corsair HS80
-Date: Sat, 30 Nov 2024 17:52:40 +0100
-Message-ID: <20241130165240.17838-1-me@nycode.dev>
-X-Mailer: git-send-email 2.47.0
+        bh=psXK7nwI7pWzYjyTuJLkhhZPKh/LpnW5SK2nngdFs/I=;
+        b=h9r2zMNAvb4ww0S5XLp/wo/2OJd0rHyd1GE2xAoTkxLWqGKVe74EvDHoMrcIBnVQrR
+         zltVbcMYtUQZtULDIS0MQjvFLorBXVDv9lGfBKMu+ZLkTCQnKJsUKAmsjHu528oc5SsZ
+         K0AHd8K5heoT9NEqz72Fb5fZjgMvuBJ/yn41V2IGMpkxRzoH9F+XiuOsG8q2wl6CoGOS
+         X1uWCUTs6FHbWQv3mGOf0sgoTaT4TsQVfGeulFT6+padXtGhqGlL3Vr6OFqE2NVlzt1d
+         RO7IMdy1lii14zs/7RjPEaIvMLE3rHo5AG+0Ew3Rz6WYqHB/gHOMhJ+PM23HUCK7a0BU
+         NhFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUDGHpiHDsCYl0ENCuFmPnhjJGPfBeG+bnlmk8QzC1YqURnHjwgK08VMR27Zd2vYvRIVGh9mIENhmbsOtWD@vger.kernel.org, AJvYcCUZAqmLZVJgrql2B3eLHaMjT3pwSp0kIlFdflwWkz47C166r9Ug8Z3kFOAcnzk8AsjTpNknH9IB6/Y=@vger.kernel.org, AJvYcCVc1GHnx9qlvDRDekuDOJ+2u46llXZ4RPE+ZwjwqgszTw+OePO/J6gNktL1k3O4OwZ0MWaq2j0KywVwOJA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhdBTSbo8L0A+zOo8d/Sq+lnZDf8U5MWYrWbFXQaiAq7rb7wNB
+	zRsIVopAFly9HQ1AB344d4U8dZRVK8adXvXH6JGjZwPIA+Tg1stZnCG+Qn+T+1lWj/R2oajOgOm
+	bJkQZvna2mfDL8kjHK2y0MvpgMiI=
+X-Gm-Gg: ASbGncvkrFBNQ0IK/rANuzvec4rLG/NqjuHM1+pyFVT/6wYZLBVA31tdMIWW6w3VAIG
+	A20+0ryuhyZKDLSkIjr/ZpT330X4FDwHlizEahZiOG6fFvlgFMpWQge+taQxLBXwhAA==
+X-Google-Smtp-Source: AGHT+IEg2zNwEI69Sc3gdOMX6xw7rks/I8M6+9dH3BdFI1LeVgyON6Y/WXekD6MY0taVS1ULiyFjcck9sLJdD2WTgfo=
+X-Received: by 2002:a17:90b:3c12:b0:2ea:8c5c:ff6c with SMTP id
+ 98e67ed59e1d1-2ee097bf2damr18485432a91.23.1732993142752; Sat, 30 Nov 2024
+ 10:59:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241114-alc287-nitro5-v1-0-72e5bf2275c3@gmail.com>
+ <20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com> <87iksmq8ho.wl-tiwai@suse.de>
+ <CALiyAo=5aLbYEyRWWw7QscTk6cXy5qckHToiPL6h4fKM9=skLg@mail.gmail.com>
+ <87ed387ioq.wl-tiwai@suse.de> <CALiyAo=awTsGQnGH5UPB7dF5QsZ2AFkKv5LcJkJRXV9sv51iqQ@mail.gmail.com>
+In-Reply-To: <CALiyAo=awTsGQnGH5UPB7dF5QsZ2AFkKv5LcJkJRXV9sv51iqQ@mail.gmail.com>
+From: Hridesh MG <hridesh699@gmail.com>
+Date: Sun, 1 Dec 2024 00:28:26 +0530
+Message-ID: <CALiyAokt1zY4a6F0DTpyYAmu38D1Fk0k0QvsFtXYHzQ7suS38A@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Stefan Binding <sbinding@opensource.cirrus.com>, Kailang Yang <kailang@realtek.com>, 
+	Simon Trimmer <simont@opensource.cirrus.com>, Joshua Grisham <josh@joshuagrisham.com>, 
+	Richard Fitzgerald <rf@opensource.cirrus.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The Corsair HS80 RGB Wireless is a USB headset with a mic and a sidetone
-feature. It has the same quirk as the Virtuoso series.
-This labels the mixers appropriately, so applications don't
-move the sidetone volume when they actually intend to move the main
-headset volume.
+> know. I'll make an attempt to understand the cases and process
+> coefficients before sending v2.
+I did a deep dive into the code and frankly I'm a bit stumped right
+now since it appears that the code for the headset type detection was
+written by Kailang Yang from Realtek and i could not understand it
+since I'm not sure where to look for documentation on realtek codec
+processing coefficients.
 
-Signed-off-by: Marie Ramlow <me@nycode.dev>
----
- sound/usb/mixer_maps.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/sound/usb/mixer_maps.c b/sound/usb/mixer_maps.c
-index 23260aa1919d..0e9b5431a47f 100644
---- a/sound/usb/mixer_maps.c
-+++ b/sound/usb/mixer_maps.c
-@@ -621,6 +621,16 @@ static const struct usbmix_ctl_map usbmix_ctl_maps[] = {
- 		.id = USB_ID(0x1b1c, 0x0a42),
- 		.map = corsair_virtuoso_map,
- 	},
-+	{
-+		/* Corsair HS80 RGB Wireless (wired mode) */
-+		.id = USB_ID(0x1b1c, 0x0a6a),
-+		.map = corsair_virtuoso_map,
-+	},
-+	{
-+		/* Corsair HS80 RGB Wireless (wireless mode) */
-+		.id = USB_ID(0x1b1c, 0x0a6b),
-+		.map = corsair_virtuoso_map,
-+	},
- 	{	/* Gigabyte TRX40 Aorus Master (rear panel + front mic) */
- 		.id = USB_ID(0x0414, 0xa001),
- 		.map = aorus_master_alc1220vb_map,
--- 
-2.47.0
-
+To rephrase what I had meant earlier, type detection for the ALC287 is
+currently not supported. I made an educated guess and added the codec
+to an existing block of code, which detected it as CTIA. However, I
+have no way of verifying if this guess is correct. Do you have any
+advice on what my next steps should be?
