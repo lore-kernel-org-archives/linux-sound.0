@@ -1,163 +1,138 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7587080F
-	for <linux-sound@vger.kernel.org>; Sun,  1 Dec 2024 00:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1577514A84;
+	Sun,  1 Dec 2024 03:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733013885; cv=none; b=a0DkzvNKc+Cv8mRgvsLuQPnVemG2UkGMgut6Dc7B+/KKQ5id19YwtfGCpwta+fZxOK5mnZynvM7ikDWrowcMnMrikcjVqvLPPg5+WtsL+ae9VloYpfXd7RNwmw1sATTnAzjgSzQ5LJukvqwVQ/umsW0VJqjRRv1p2RxzBxD9FLc=
+	t=1733022888; cv=none; b=mVS/Wt/2em3KTvR/twgnzBf0q2kibu9FOw1ugv3Llu6qNC+35Z7ZxKfgn6/S516/1pXTNOtBcuHmU9siGxuboWHpdxsyGKVeR6yC7xtJbIrLS1KeV94Fe+brZKAsJES3XegIavfgPhFrKWlpCMmHmT8caB4YKWrOToe/XAnu1Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733013885; c=relaxed/simple;
-	bh=m9cAK5FN1NFJb6UQkn9k+gemX+2/diBeTweGL7F7R7w=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=a15yIuUbP+HmGHQpZzyyp3bs1rGhCrRagrLr/5Ip372DZ1cqk9fldu4lPhnfH4ty6xCf+phur+MT/2Xrife05XX25W+FYALGKt/WRvPF5FMq/+IkP80AbfzAWMNnxFHWv6RX3afsTj5Zh73EqD0GOsNvjPpQcMIvLTJfmKa5dxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=atE602nR; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733022888; c=relaxed/simple;
+	bh=/c9nDbTyDnsTU/IXGr9Y3UwKa6KDl4HSGz7JUK5GUh0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=rD1ZCQPjyrhfNzFTs9C9SBqXCJdT15mdgJf+T99hUBNvY6zzvN88NOJSLHRpElr/dZuIw02L4jKJtsu6CJVIRNWsUVbRGJdRY56cnn++8DaPwlTMEDS7gMp7b42Eu8FnJ2HqGpEV9RFfxJhbvE4cI/Ue0qkNJvh15CiysS7PlTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DsCRGPtz; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="atE602nR"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5d0cfb9fecaso1017592a12.2
-        for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 16:44:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733013882; x=1733618682; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YDP6TwU0/tWdPmghJyb5pX8fLQAMwFaK6bFPGzZBnzs=;
-        b=atE602nROzQ6JDfkjK+qFsGSRTR6UQRSLr46LU+aPuOb+5NjKV7o1V9O7tNzHJOBmr
-         Zkz4uxypCZklDkEgUOnhPcF/bP9SrvPUavuZT7n/5qIR2bZAcmVPs5PJwnAc/Nx5Xrju
-         7gon2W19qcMaqQ53NapmdCfduBQZCL8UT4j2phPg3gzRCPp8GJF/hppFOX20Vpo/Ztdp
-         482UmEXmaVYiajbfpqCrvDiBGgwU7z3WYH+3wq8BWtrAEcU2GwIfITCCo2M4PXAWCz4J
-         BeEKT2fSOOKUfVQk7IFuzwqRu9BxyUk8MvNs46W8FD6nybVBDxfhmB64GZFRY6ugPNNJ
-         5XIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733013882; x=1733618682;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YDP6TwU0/tWdPmghJyb5pX8fLQAMwFaK6bFPGzZBnzs=;
-        b=JsWK72ZOIST9ZOiysVd26Pl0zdDx6jnH6ZZuoRQb9OSKSL1hHn8RAaNaqM3W7m5DxN
-         N7OwU8NNlqYsK9DeFs5kR3TLCEG43Cly7qjHjMtNQpwm3pNy7RZgzqlalUM7A94Y45cj
-         WRXnf5Aeln+JypxO5SKByaoUCFPgcnSX6qaTYxQKGe4eI5R7pttDqL2Znqnt4o1lfsFV
-         JOawbZmi93oolI1rP6lJxMD5sWlJP4kAFz5eTmizwx8k2GDTvx66d0jGYtlWxkdNltAI
-         yCNAiRGdP9XJ/ZkWC2LLcS73Wmu+eZVGk999sgr/o9slIl+KQLt+8NgqAWLgOxWxzRhG
-         ib1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVlmroVKNxyrj/h3kPW3rJyCQlowq+rQJM3AIXaD8oY1wfFv+ny/HUqI2EqBuafTLgfMaSdC9Tg2zkRhg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzT55LF/Hzmz6v2zIBtM3WmePsORLZyuWvz1K9sX/UMxH1yVQtI
-	kUEOjf3ASoWyNzmrlEh6As/jlKjh8OOpayvELP6GEsbVEu2Y56lCX9g5fjxYo7Q=
-X-Gm-Gg: ASbGncsEQkz1hqzNIogIqBy8hfmPp51Ecg2ueBXjI5XXNs+M3gI7GFq2jwpFLidff+K
-	rz27fOv/R+BEyMTeHDVyd0/8e2/n0FKCDdSeRwBYAD8T6R6bGnb7F0VjqNXB2bcAzndOVZP18Hf
-	6Plt9icEbCQv82QnX+Kq2EyN+dELVwHibwWfsQAqoXiaiFDEw23LzCiGb/adDfdcUi34hunABTJ
-	tBtxzD1K9CWkPdiSyUlAJ3rUHGPw9VFWRHzIGebWAJUfz66ZnxguCGeXg==
-X-Google-Smtp-Source: AGHT+IE5Iodta2UQP6qjtd0G2oZywxiR+z/FGF+U8cJWDKR8GZEI1K1wlfh9Q8JImD1VouVwulpc4Q==
-X-Received: by 2002:a05:6402:26cf:b0:5d0:8f25:24ff with SMTP id 4fb4d7f45d1cf-5d08f252625mr12479352a12.14.1733013882366;
-        Sat, 30 Nov 2024 16:44:42 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8d817sm3400359a12.63.2024.11.30.16.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 16:44:41 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 01 Dec 2024 02:44:13 +0200
-Subject: [PATCH v5 9/9] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_update_edid()
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DsCRGPtz"
+Content-Type: text/plain;
+	charset=utf-8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1733022883;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M7DCEiN8KnkC92T6ACDy+l0PONNF1zjnEOfw/bgxVvw=;
+	b=DsCRGPtzEiV7AGKx/3/wcfaJWCWJGKJvdtIaXAb43y7pFpK14Hu4M1LD6Q8ViiMdHRxcCW
+	sQuemTLgHRXhY96+OU12ViF7TGwr74055sLMU/Qpub/VclCIkPtPHbIvlKufGzikqQ+Yzc
+	1fi7qvIOHd/ht+XlQUyxN3qBv6JFUQo=
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241201-drm-bridge-hdmi-connector-v5-9-b5316e82f61a@linaro.org>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
-In-Reply-To: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1798;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=m9cAK5FN1NFJb6UQkn9k+gemX+2/diBeTweGL7F7R7w=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS7FZMmMFV20DgQUuh8v5FF4nWRo8BcSipooZa
- EIAyUUoJziJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0uxWQAKCRCLPIo+Aiko
- 1dDwB/wJfW4xZABPDcU/eL/SukBx0cSr5TyqsC+NOU/8rIY3SPpHoNzt2tfD+tYhv2vKAqVGaT+
- Y0Pd3xmibwzv12VUOjFt+1ZbNthzF8qyG6keOs747UGZJQ69PhRds6t4Rw0KD2DFD1qgLnoX/w3
- NmWud73M/PrrwTQ2hUm3HuLVNhUfXRhEp/60uu1faJkCzG0RKUK8ibOREThgoBWt/fKvWDG+Ohf
- Vsyc20q84GR6TrucJQRzobBfpKYBr77Vpb3pn0XZ9hGN3YwhCtLPDipCwnoXnmPkM17bSL8dJW4
- kP1LucL4uQp1AahjZxJZFLIhzCNDNlresD4ccZFTjoNzadBW
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.15\))
+Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
+Date: Sat, 30 Nov 2024 21:14:36 -0600
+Cc: Takashi Iwai <tiwai@suse.de>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com,
+ perex@perex.cz,
+ conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com,
+ corbet@lwn.net,
+ broonie@kernel.org,
+ lgirdwood@gmail.com,
+ krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com,
+ tiwai@suse.com,
+ robh@kernel.org,
+ linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org,
+ linux-input@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
+ <2024111655-approve-throwback-e7df@gregkh>
+ <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
+ <875xoi3wqw.wl-tiwai@suse.de>
+ <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+X-Migadu-Flow: FLOW_OUT
 
-Use the helper function to update the connector's information. This
-makes sure that HDMI-related events are handled in a generic way.
-Currently it is limited to the HDMI state reporting to the sound system.
+Sorry to chime in late, I only look at email occasionally.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+>> Well, from the sound subsystem side, the only concerns are the design
+>> issues: namely, whether the implementations with two cards are
+>> acceptable, and whether the current control of PCM mapping is OK from
+>> the user POV.  IIRC, there were discussions with Intel people and
+>> others, and I haven't followed whether we got consensus.
+>> If we reached some agreement, it'd be appreciated if you can put acks
+>> from them in the patches, too.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index d0a9aff7ad43016647493263c00d593296a1e3ad..d83f587ab69f4b8f7d5c37a00777f11da8301bc1 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -401,13 +401,16 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 	 */
- 
- 	if (status == connector_status_disconnected) {
-+		drm_atomic_helper_connector_hdmi_update_edid(connector, NULL);
- 		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
- 		return;
- 	}
- 
- 	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
- 
--	drm_edid_connector_update(connector, drm_edid);
-+	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
-+	// CEC support
-+	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
- 
-@@ -487,7 +490,9 @@ static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- 	 */
- 
- 	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
--	drm_edid_connector_update(connector, drm_edid);
-+	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
-+	// CEC support
-+	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
- 	if (!drm_edid)
+My Reviewed-by tags were added in the last updates. I am not sure if =
+anyone else at Intel had the time to review this large patchset.
 
--- 
-2.39.5
+> I believe Amadeusz was still against having the two card design, and =
+wants the routing to automatically happen when playback happens on the =
+sound card created by the USB SND layer.  However, even with that kind =
+of implementation, the major pieces brought in by this series should =
+still be relevant, ie soc-usb and the vendor offload driver.  The only =
+thing that would really change is adding a path from the USB SND PCM ops =
+to interact with the ASoC entities.  Complexity-wise, this would =
+obviously have a good amount of changes to the USB SND/ASoC core =
+drivers.  Some things I can think of that we'd need to introduce:
 
+The notion of two cards was agreed inside Intel as far back as 2018, =
+when Rakesh first looked at USB offload.=20
+
+Having a single USB card in IMHO more complicated:  what happens for =
+example if you plug-in two or more USB devices? Which of the USB cards =
+will expose an optimized path? The design with an ASoC-based card which =
+exposes as many PCM devices as the SOC can support is simpler =
+conceptually and scales well. This would allow e.g. to allocate these =
+PCM devices with different policies (last plugged, preferred, etc).
+
+Conceptually for the simple case with a single USB device, it does not =
+really matter if there are two cards or not. What matters is that there =
+is a clear mapping visible to userspace so that application can decide =
+to use the optimized PCM device, when enabled, instead of the legacy =
+one. And in the end, the application is *always* in control in terms of =
+routing. It=E2=80=99s really similar to the compress offload path, some =
+application changes will be required.=20
+
+>=20
+> 1.  Exposing some of the ASoC PCM (soc-pcm) APIs to be able to be =
+called by soc-usb (to mimic a FE open from ASoC), so we can trigger ASoC =
+DAI ops when USB SND FE is opened.
+>=20
+> 2.  Proper fallback mechanism in case offload path enablement fails to =
+the legacy USB SND path.
+>=20
+> 3.  Master kcontrol to disable offload logic for each USB SND device.
+>=20
+> IMO, both the points you mentioned correspond to the same topic.  If =
+we go with having offload being operated on one FE, then there is no =
+need for the kcontrol of PCM mapping.  If we have two cards, then we =
+will need the control for offload device mapping.  Can't speak for =
+Pierre, but at least with my discussions with him, I don't think he's =
+against the two card design, just as long as we have the proper kcontrol =
+that notifies userspace of how to utilize the offload path.
+
+Even if there=E2=80=99s a single card you need to have a mapping between =
+a =E2=80=98legacy=E2=80=99 PCM device and an =E2=80=98optimized=E2=80=99 =
+one. This would be a scalar mapping instead of a (card, device) pair, =
+but it=E2=80=99s a minor change.
+
+-Pierre=
