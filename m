@@ -1,64 +1,65 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6CD79FD
-	for <linux-sound@vger.kernel.org>; Sun,  1 Dec 2024 00:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637DB101C8
+	for <linux-sound@vger.kernel.org>; Sun,  1 Dec 2024 00:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733013859; cv=none; b=Fu7Sxoq86hriMi9K61k99kniRXjJNv73PcD0tfjkooF1EXlarfzlq9nTKUdT2Igz2Rw7uCSiAzPZKcIn0KpY39j4eBT/K7uBrHZNNwV7Z4ik1C3iT5YuXh5XLJMhefN7YD7o4PxINRGs4Jmhv5kz4g0NkaqvTQp3G/ton9Q0S7A=
+	t=1733013863; cv=none; b=hB74jRNDNJAnhp4wP0la/rkHSob/Gi5vRvLTh0tjhzihXieyeTYNZ1LCc/bTTk8F//wMZGWfdIphcF9xZ+NExgOHu7aqJdzSpu+3ED4lqARD78Ozv+cphSaxmZh6Jowwr8bPVceYoqWjH3L7JCWEva15WN8iRUBVMZX3vS4sWXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733013859; c=relaxed/simple;
-	bh=xKXgCzbJKZ6UUdReZlG7GRuNQSsdN/VrnC+8Pdwptd4=;
+	s=arc-20240116; t=1733013863; c=relaxed/simple;
+	bh=GgZmg9MqPZOF1H9RA7tVYBfYZFDXD90Iw4dmoWJkqzQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T28ogN/vLmMYYNAL+QEjOKAYJJat/Ma22Q4fFvcF/gnOSS3WPZ5IpnW1BNpDs1ul/s6YYqvNEKS/0QfR/fn5pmw9bp02hWVTnxHKafL61VJjjV/pEcYqn4jh99qY3HMBx1jdSzW2L75G52F/9UUORVlaPyK9jIl7Jkms0SJu3ZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Lnk+pp+s; arc=none smtp.client-ip=209.85.208.44
+	 In-Reply-To:To:Cc; b=o+YXbFIBu8sRzs1gdv9dOKJ6Tlq2KZZub+xgLcFopElsIO+aVAoJwXg2dl8R6uApAcPhyaa2Yc+58R+NoROebDmC7yNR3apRCV/yLv0gA8UPGziQ9MQSxeOGjDNpMzSKdRxvnMiM1+zX2i9YyRFcZLfAcZ7YnopdzX/J5Ez1DMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=e5qsNUjU; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Lnk+pp+s"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5cf6f804233so3525821a12.2
-        for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 16:44:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e5qsNUjU"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5d0cd67766aso1158478a12.2
+        for <linux-sound@vger.kernel.org>; Sat, 30 Nov 2024 16:44:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733013856; x=1733618656; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1733013860; x=1733618660; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Knx2vF/XV6x3WtvG+CxxtwnkZCT4oFDg0nDSk74X/xk=;
-        b=Lnk+pp+s6JHCc2ixXh44HhEbRSnHBgepaETKYA7HkV4Ab5LvokLmeYAP1cO3BZs61O
-         jvy+2+pvvhNGSd1ajN7GOUGRzGZ59JYVmlvPnXfF2CYopLIr7CCUz8qwfUz9QvTvaRxb
-         Ce1lOWkhoDbO9ok+IMIBTUgk2MOqije1psIWdaRB7tqC1tLJZoFl8hcAgUYGFl8Rrb6U
-         H9DAERhpECVEqIv+vHyl3FsUzJSv3piQ2lN0zRrKKH9uIwS342W6/8KQRNDnZP+gAeBQ
-         xn4G6Y74roP1Ye6fKlqZoRfbKRJK7fGotLYOnFIEU89di6BQDD/8suWNaqAOSNU9aepl
-         CN2A==
+        bh=ZqueKcgyNswTziHbQ2yrsyViQPPC8DFTblEFEVIf7Cw=;
+        b=e5qsNUjUOclIY+Vj0+j3EVwOa8J4EWL2IdjuwHNUE5HDJ0MhWrVBkfFTMoG2/S5KHR
+         7WO0dKmBn9/fhbIDiWYSJr4/CrHvr3QsngoAepvA9Pe4PMcdJHDiVGGuxS6rAbNmnFqz
+         wrKGWuuUsAuBd2q6ztNlBiUhvtmTrwNGnL2DDJAUHE517Hs5ADGFOIN7ehxbwQKIiTQI
+         eG/opRFaa0BhYHEsPhjXxFd7G6rAjkXg4oxZTv/ZZer5ohgtRYUqEH5TTaRhMD5v/Bsp
+         HsRPHabDutzqyftPK6e/qAcHk1Jbw4x8TJ7SwN1Mg+nkvwXIij6jh4I/0wn9Wal3epf/
+         iGfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733013856; x=1733618656;
+        d=1e100.net; s=20230601; t=1733013860; x=1733618660;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Knx2vF/XV6x3WtvG+CxxtwnkZCT4oFDg0nDSk74X/xk=;
-        b=kjnRc6bE/BWLIwPKs9dJi63+84PE5jQg/JmwXw/QAm7D+HKkQySro60A7Qj39LnpuH
-         hCs1JYftn8rcD7w9Wvqlm7CHQbi1yaoHY7y1WtEmwcNK4uA+tx9ZKyDrFNKYvg0KLiUb
-         6GAKHza+awakqbnFedfs6uWTlY9Z61ghaqAUqp0OntRjogeYV0EP+C4nMfNRJsJy/G0p
-         vOqtDKeTXkQ1FXoPbMZxvlxycBmQNAmfiItg7IWogkqHyGo8pz5Wp4r0oBWXf/P8F7ez
-         1BzPyYXVdNxc8+tjGBU5kw5tVzDrXnCgWPk69wtojMIGTbexc6KjIVqy2qq+h2wz2th2
-         +niA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhUfUCHzgPsafwg5hIv7/ozRSYnusmVRm0hUAa7NwyHBaH6RdvMPdZGxvNwC0b9ROh9QyhOrlKOGefQA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YznwPnbD5grv3mStZANUH0BZewew6XY7Z9Wppmime/VfSB0Cogi
-	uSV4jfd2TJ9n5Z4lOu09ZySkQ+O2OGC44d4oPznadyHXz5LpS/8B1GxyIhCPU+I=
-X-Gm-Gg: ASbGncvFGFjBvIg8Ng1+bXj3LutVa0axqDZRVJ7PTXs78CAzgMkApYBqaDk9NxX5Jmc
-	O8G09mwqaHE5GL2bdSt9fXrKsLTwV4chyJkygnh3lPuoYI/a4DycrYlQF7SY3Gfm+QCOeHIE4aK
-	Qg8gklf6sJjCl3H2ICqRNoVMIAY1OxfbKE/ZjweapV/goS1jYiNbmYU2bx9GMZ7/VU96bq5Of+l
-	Bsj7rW+lUwzaYwrRHk8VuprOuW7PqrwVu7xY3HxhvL5zn1UV9A9AeSTUw==
-X-Google-Smtp-Source: AGHT+IG2vkfheouE1mPbocWXKym9yPXudTpq4FYXRE1GdSbbteSVJqBbXoSoXaZUoVfFrUgKdHkWWQ==
-X-Received: by 2002:a05:6402:51ca:b0:5d0:8606:9b92 with SMTP id 4fb4d7f45d1cf-5d08606cd3amr13223060a12.5.1733013856266;
-        Sat, 30 Nov 2024 16:44:16 -0800 (PST)
+        bh=ZqueKcgyNswTziHbQ2yrsyViQPPC8DFTblEFEVIf7Cw=;
+        b=J1ZrzoEBLUBBlauIL893nvoNZowsXKriHc+BsFuKyp5loiE5MhiWK/IUoYmQ9fKK6+
+         PekajQRylvT7Yp7XxeFFP/YNa4k2mCIX5aF7GTk51VSsgVvgf7fOoVHOIcuuYhlWuyW1
+         IGTUWAX71J7c33cOm9p43GAFmigNSLy9IWlZHnOPpf/TvhAJt0hF+2HcVAiCSFzY8Jh4
+         MAismLcuBb71P1OVGxX+l+daUpTPloGh0KtoKbC9wSj6PXRexe7+kx8+EHqo/vVyw+fJ
+         LMqERwICgCYn9uqiebMluER5dv1PstAh34ROZPzihhqKdZoc5vnzOuA/ft8XcZ5quY1w
+         qhoA==
+X-Forwarded-Encrypted: i=1; AJvYcCVhES9i3JbqAMnikVpsn9+hWwfUwLDIIIAzQTfDfOc6/cdTiCLornDYIFWPzE88JTQaPDuRt8+qGxXdqg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxizEFG7TRDaeW7tczqPCru1i9P/yMBtjdtd8gDtAMGGawOSKlQ
+	GftdGH9HVhktb5K0U7zNGisKACOLlysS8aq3ehVrqcGjqcjV76G/lp3NleFwsEY=
+X-Gm-Gg: ASbGncs1BZ26WOvBbxEBFGLQzvmliiovDmCoEzxs01s1X4GINTzCUCt/vIVU3z5XuK4
+	G4Dj5gDo7oBZ7YCf26jddrdQFp+lqArlxn/GQUPlz7myP7CbzX4O0dW1G7Knfewxo8G6KYvb8gY
+	OSKCd56EA8ej/jalciHNRsc+cnPQkpoW8u43OXQpWqkmyTpDkadOqmkqfME9I6/7MMsdteWfbCI
+	291DacqAaGGnKwQAgHyzmGf7ELaXnU3KVQ2cWOGNuS6EjXvM4djSuqKMQ==
+X-Google-Smtp-Source: AGHT+IGQn3Vggbv47BeY3P7L3bGMLGDo96KaWw0kx/irv9/s50D8Lhw4r4oNgC2J/dFLxmNc9Xz+Zw==
+X-Received: by 2002:a05:6402:2794:b0:5d0:c9e6:30b9 with SMTP id 4fb4d7f45d1cf-5d0c9e6331fmr5270758a12.3.1733013859695;
+        Sat, 30 Nov 2024 16:44:19 -0800 (PST)
 Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8d817sm3400359a12.63.2024.11.30.16.44.12
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d097e8d817sm3400359a12.63.2024.11.30.16.44.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 16:44:15 -0800 (PST)
+        Sat, 30 Nov 2024 16:44:18 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Sun, 01 Dec 2024 02:44:05 +0200
-Subject: [PATCH v5 1/9] ASoC: hdmi-codec: pass data to get_dai_id too
+Date: Sun, 01 Dec 2024 02:44:06 +0200
+Subject: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
+ hdmi_codec_pdata
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241201-drm-bridge-hdmi-connector-v5-1-b5316e82f61a@linaro.org>
+Message-Id: <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
 References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
 In-Reply-To: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -101,147 +102,234 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
  linux-rockchip@lists.infradead.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5692;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8709;
  i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=xKXgCzbJKZ6UUdReZlG7GRuNQSsdN/VrnC+8Pdwptd4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS7FXH/RpG/BjQasdBLhNln9hjEHbp3mQ9vf3t
- EW2Nf56OKuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0uxVwAKCRCLPIo+Aiko
- 1QCuCACR5F9ArBiXX9UAqJoDRn+pFNJYOtdo3Ix28zrT5Ot32SBfkj+oBkksDinkFfP9qDcghsF
- +9DrlANcyvHqQxPLRZDGCbdW/ozVyJJxp6SVHq5eUZ/BNr2hdTx63IvJ9ULYZW1sUlQy7lA+qX8
- DtWJ0KLYNtJK7Q6OJ/wruc+tH1Ps/gRkpeYMLzfeyufJhuLnE9ZIgvsQuJrH+cnHqeqJ2j1rn+D
- BYpByJ8Xo2Mi6oN6B9Dn2juhhYluEZrxH4gc7+4kINUTvRKBN1+/f9comTbBgr4RDwV/w62HfyS
- 8ka5Cv33H7fZ/JZLnCljjcGlVgs6klKVpgAsUIio7qvbFQZm
+ bh=GgZmg9MqPZOF1H9RA7tVYBfYZFDXD90Iw4dmoWJkqzQ=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnS7FYnGqeL0tXUiZn/sWjH+Sl2qkrccgGZlrUF
+ Ezfpr3YkWuJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ0uxWAAKCRCLPIo+Aiko
+ 1X0TCACdIdJrIxG1PHQe5cjaTU8C118nKTYHgMdG1trHiCK5NtQrlgkdIS9f4VDGQfQB3q11oGK
+ iu+JZk68laEvWeZfnrM5LzjbN5JR3ea+AxAN+swiylu8oZnd7euOUDDp+HPxJF7xmhm2ILbm1jY
+ t9gShbN/TgehwahCACSDobNpSuwlsC5PYmGB0UVLCnCuy0TqRx3hQGPxRcb4iZuSiFumS+roVkP
+ le2YBfs1C0Au/A8SzeSdijCU1TtZRygn1YMxtXrLgOmelGtGwvzzTb3iIBwPsmhA3bgwuhPDb44
+ oTE5ZmHJqYM/KtrWrGFRYiX4/p0pNa8/G30LGykZYa0A+/f2
 X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-The upcoming DRM connector HDMI codec implementation is going to use
-codec-specific data in the .get_dai_id to get drm_connector. Pass data
-to the callback, as it is done with other hdmi_codec_ops callbacks.
+The no_capture_mute flag might differ from platform to platform,
+especially in the case of the wrapping implementations, like the
+upcoming DRM HDMI Codec framework. Move the flag next to all other flags
+in struct hdmi_codec_pdata.
 
 Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c      | 3 ++-
- drivers/gpu/drm/bridge/analogix/anx7625.c           | 3 ++-
- drivers/gpu/drm/bridge/lontium-lt9611.c             | 3 ++-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c          | 3 ++-
- drivers/gpu/drm/bridge/sii902x.c                    | 3 ++-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c | 3 ++-
- include/sound/hdmi-codec.h                          | 3 ++-
- sound/soc/codecs/hdmi-codec.c                       | 2 +-
- 8 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/ite-it66121.c   | 2 +-
+ drivers/gpu/drm/bridge/sii902x.c       | 2 +-
+ drivers/gpu/drm/exynos/exynos_hdmi.c   | 2 +-
+ drivers/gpu/drm/i2c/tda998x_drv.c      | 2 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c      | 2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c    | 2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 +-
+ drivers/gpu/drm/sti/sti_hdmi.c         | 2 +-
+ include/sound/hdmi-codec.h             | 4 +---
+ sound/soc/codecs/hdmi-codec.c          | 2 +-
+ 10 files changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-index 61f4a38e7d2bf6905683cbc9e762b28ecc999d05..51fb9a574b4e28450b2598a92e2930ace5128b71 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-@@ -204,7 +204,8 @@ static void audio_shutdown(struct device *dev, void *data)
- }
+diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
+index 940083e5d2ddbfc56f14e2bdc6ddd0b9dd50b1f8..7734e389ca7692f7880aa9b8650e45aab228c7fd 100644
+--- a/drivers/gpu/drm/bridge/ite-it66121.c
++++ b/drivers/gpu/drm/bridge/ite-it66121.c
+@@ -1466,7 +1466,6 @@ static const struct hdmi_codec_ops it66121_audio_codec_ops = {
+ 	.audio_shutdown = it66121_audio_shutdown,
+ 	.mute_stream = it66121_audio_mute,
+ 	.get_eld = it66121_audio_get_eld,
+-	.no_capture_mute = 1,
+ };
  
- static int adv7511_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--					struct device_node *endpoint)
-+					struct device_node *endpoint,
-+					void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index c036bbc92ba96ec4663c55cca091cd5da9f6d271..943dd3cf57738d8c232d57d793756eb2e3bf1c5a 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -1952,7 +1952,8 @@ static void anx7625_audio_shutdown(struct device *dev, void *data)
- }
+ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
+@@ -1476,6 +1475,7 @@ static int it66121_audio_codec_init(struct it66121_ctx *ctx, struct device *dev)
+ 		.i2s = 1, /* Only i2s support for now */
+ 		.spdif = 0,
+ 		.max_i2s_channels = 8,
++		.no_capture_mute = 1,
+ 	};
  
- static int anx7625_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--				       struct device_node *endpoint)
-+				       struct device_node *endpoint,
-+				       void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index 8f25b338a8d8f95dc0691735ac6343675098f7f7..6bc1b2476847c3bccbbf9874bb384c1f60674da6 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -1059,7 +1059,8 @@ static void lt9611_audio_shutdown(struct device *dev, void *data)
- }
- 
- static int lt9611_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--				      struct device_node *endpoint)
-+				      struct device_node *endpoint,
-+				      void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index f89af8203c9d67cb05b629b27f66cf996baedd16..77bc09b875323d88f7346db9d24ea89a355c99b1 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -522,7 +522,8 @@ static void lt9611uxc_audio_shutdown(struct device *dev, void *data)
- }
- 
- static int lt9611uxc_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--					 struct device_node *endpoint)
-+					 struct device_node *endpoint,
-+					 void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
+ 	dev_dbg(dev, "%s\n", __func__);
 diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 9be9cc5b902594ebe6e1ac29ab8684623e336796..f0be803cc2274ca2199ed7661cf752b0a91434b6 100644
+index f0be803cc2274ca2199ed7661cf752b0a91434b6..5248676b0036a7e8f2142bd2f099c36efb529471 100644
 --- a/drivers/gpu/drm/bridge/sii902x.c
 +++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -815,7 +815,8 @@ static int sii902x_audio_get_eld(struct device *dev, void *data,
- }
+@@ -841,7 +841,6 @@ static const struct hdmi_codec_ops sii902x_audio_codec_ops = {
+ 	.mute_stream = sii902x_audio_mute,
+ 	.get_eld = sii902x_audio_get_eld,
+ 	.get_dai_id = sii902x_audio_get_dai_id,
+-	.no_capture_mute = 1,
+ };
  
- static int sii902x_audio_get_dai_id(struct snd_soc_component *component,
--				    struct device_node *endpoint)
-+				    struct device_node *endpoint,
-+				    void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-index 26c187d20d973dc65801a3baa59ecf57d20072eb..86c412e9cbc80bb82bad5db3aa0263a7acd9c2d7 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c
-@@ -148,7 +148,8 @@ static int dw_hdmi_i2s_get_eld(struct device *dev, void *data, uint8_t *buf,
- }
+ static int sii902x_audio_codec_init(struct sii902x *sii902x,
+@@ -864,6 +863,7 @@ static int sii902x_audio_codec_init(struct sii902x *sii902x,
+ 		.i2s = 1, /* Only i2s support for now. */
+ 		.spdif = 0,
+ 		.max_i2s_channels = 0,
++		.no_capture_mute = 1,
+ 	};
+ 	u8 lanes[4];
+ 	int num_lanes, i;
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 6fc537c9048f5c8e57e30f083121c9aea6b99a5f..5130e96acc34c28fb7a509b8b2a858ad465137a2 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -1660,7 +1660,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
+ 	.audio_shutdown = hdmi_audio_shutdown,
+ 	.mute_stream = hdmi_audio_mute,
+ 	.get_eld = hdmi_audio_get_eld,
+-	.no_capture_mute = 1,
+ };
  
- static int dw_hdmi_i2s_get_dai_id(struct snd_soc_component *component,
--				  struct device_node *endpoint)
-+				  struct device_node *endpoint,
-+				  void *data)
- {
- 	struct of_endpoint of_ep;
- 	int ret;
+ static int hdmi_register_audio_device(struct hdmi_context *hdata)
+@@ -1669,6 +1668,7 @@ static int hdmi_register_audio_device(struct hdmi_context *hdata)
+ 		.ops = &audio_codec_ops,
+ 		.max_i2s_channels = 6,
+ 		.i2s = 1,
++		.no_capture_mute = 1,
+ 	};
+ 
+ 	hdata->audio.pdev = platform_device_register_data(
+diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+index 2160f05bbd16d2346e27365e5549b75ad26fdcb9..10a4195d667ff577183788f8fc7ca806660e2b9c 100644
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1165,7 +1165,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
+ 	.audio_shutdown = tda998x_audio_shutdown,
+ 	.mute_stream = tda998x_audio_mute_stream,
+ 	.get_eld = tda998x_audio_get_eld,
+-	.no_capture_mute = 1,
+ };
+ 
+ static int tda998x_audio_codec_init(struct tda998x_priv *priv,
+@@ -1176,6 +1175,7 @@ static int tda998x_audio_codec_init(struct tda998x_priv *priv,
+ 		.max_i2s_channels = 2,
+ 		.no_i2s_capture = 1,
+ 		.no_spdif_capture = 1,
++		.no_capture_mute = 1,
+ 	};
+ 
+ 	if (priv->audio_port_enable[AUDIO_ROUTE_I2S])
+diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
+index 1cc916b164713d71461a0b2ad370032a14604be6..6a42459792ec75692fadb45a75b138fc43cc37a2 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dp.c
++++ b/drivers/gpu/drm/mediatek/mtk_dp.c
+@@ -2615,7 +2615,6 @@ static const struct hdmi_codec_ops mtk_dp_audio_codec_ops = {
+ 	.audio_shutdown = mtk_dp_audio_shutdown,
+ 	.get_eld = mtk_dp_audio_get_eld,
+ 	.hook_plugged_cb = mtk_dp_audio_hook_plugged_cb,
+-	.no_capture_mute = 1,
+ };
+ 
+ static int mtk_dp_register_audio_driver(struct device *dev)
+@@ -2626,6 +2625,7 @@ static int mtk_dp_register_audio_driver(struct device *dev)
+ 		.max_i2s_channels = 8,
+ 		.i2s = 1,
+ 		.data = mtk_dp,
++		.no_capture_mute = 1,
+ 	};
+ 
+ 	mtk_dp->audio_pdev = platform_device_register_data(dev,
+diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+index 7687f673964ec7df0d76328a43ed76d71b192350..a4b144b3bda8362a6c6c303723c6d3eef9ca338e 100644
+--- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
++++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
+@@ -1660,7 +1660,6 @@ static const struct hdmi_codec_ops mtk_hdmi_audio_codec_ops = {
+ 	.mute_stream = mtk_hdmi_audio_mute,
+ 	.get_eld = mtk_hdmi_audio_get_eld,
+ 	.hook_plugged_cb = mtk_hdmi_audio_hook_plugged_cb,
+-	.no_capture_mute = 1,
+ };
+ 
+ static int mtk_hdmi_register_audio_driver(struct device *dev)
+@@ -1671,6 +1670,7 @@ static int mtk_hdmi_register_audio_driver(struct device *dev)
+ 		.max_i2s_channels = 2,
+ 		.i2s = 1,
+ 		.data = hdmi,
++		.no_capture_mute = 1,
+ 	};
+ 	struct platform_device *pdev;
+ 
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index f576b1aa86d1434d75b3770e08d91537aca4f5c4..5c2c124a7a38fbadaec554f08797020260e29045 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -885,7 +885,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
+ 	.mute_stream = cdn_dp_audio_mute_stream,
+ 	.get_eld = cdn_dp_audio_get_eld,
+ 	.hook_plugged_cb = cdn_dp_audio_hook_plugged_cb,
+-	.no_capture_mute = 1,
+ };
+ 
+ static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
+@@ -896,6 +895,7 @@ static int cdn_dp_audio_codec_init(struct cdn_dp_device *dp,
+ 		.spdif = 1,
+ 		.ops = &audio_codec_ops,
+ 		.max_i2s_channels = 8,
++		.no_capture_mute = 1,
+ 	};
+ 
+ 	dp->audio_pdev = platform_device_register_data(
+diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
+index 3c8f3532c79723e7b1a720c855c90e40584cc6ca..6dbe3d0b7004e6d587bd868907d45e7f75c345d9 100644
+--- a/drivers/gpu/drm/sti/sti_hdmi.c
++++ b/drivers/gpu/drm/sti/sti_hdmi.c
+@@ -1237,7 +1237,6 @@ static const struct hdmi_codec_ops audio_codec_ops = {
+ 	.audio_shutdown = hdmi_audio_shutdown,
+ 	.mute_stream = hdmi_audio_mute,
+ 	.get_eld = hdmi_audio_get_eld,
+-	.no_capture_mute = 1,
+ };
+ 
+ static int sti_hdmi_register_audio_driver(struct device *dev,
+@@ -1247,6 +1246,7 @@ static int sti_hdmi_register_audio_driver(struct device *dev,
+ 		.ops = &audio_codec_ops,
+ 		.max_i2s_channels = 8,
+ 		.i2s = 1,
++		.no_capture_mute = 1,
+ 	};
+ 
+ 	DRM_DEBUG_DRIVER("\n");
 diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
-index 5e1a9eafd10f5d4f831abbb6f4c0fff661909584..b3407b47b4a7878532ecf3b08eeecd443d6fdb07 100644
+index b3407b47b4a7878532ecf3b08eeecd443d6fdb07..b220072cfa1baf503efbe2d530d7e8392dc16603 100644
 --- a/include/sound/hdmi-codec.h
 +++ b/include/sound/hdmi-codec.h
-@@ -105,7 +105,8 @@ struct hdmi_codec_ops {
- 	 * Optional
- 	 */
- 	int (*get_dai_id)(struct snd_soc_component *comment,
--			  struct device_node *endpoint);
-+			  struct device_node *endpoint,
-+			  void *data);
+@@ -115,9 +115,6 @@ struct hdmi_codec_ops {
+ 	int (*hook_plugged_cb)(struct device *dev, void *data,
+ 			       hdmi_codec_plugged_cb fn,
+ 			       struct device *codec_dev);
+-
+-	/* bit field */
+-	unsigned int no_capture_mute:1;
+ };
  
- 	/*
- 	 * Hook callback function to handle connector plug event.
+ /* HDMI codec initalization data */
+@@ -129,6 +126,7 @@ struct hdmi_codec_pdata {
+ 	uint spdif:1;
+ 	uint no_spdif_playback:1;
+ 	uint no_spdif_capture:1;
++	uint no_capture_mute:1;
+ 	int max_i2s_channels;
+ 	void *data;
+ };
 diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 74caae52e1273fda45ab8dd079ae800827f0231f..abd7c9b0fda9ee6fa6c4efde1f583af667716611 100644
+index abd7c9b0fda9ee6fa6c4efde1f583af667716611..e8aac8069587785bcd2bd09b5f9e0140304fb8fb 100644
 --- a/sound/soc/codecs/hdmi-codec.c
 +++ b/sound/soc/codecs/hdmi-codec.c
-@@ -981,7 +981,7 @@ static int hdmi_of_xlate_dai_id(struct snd_soc_component *component,
- 	int ret = -ENOTSUPP; /* see snd_soc_get_dai_id() */
- 
- 	if (hcp->hcd.ops->get_dai_id)
--		ret = hcp->hcd.ops->get_dai_id(component, endpoint);
-+		ret = hcp->hcd.ops->get_dai_id(component, endpoint, hcp->hcd.data);
- 
- 	return ret;
- }
+@@ -700,7 +700,7 @@ static int hdmi_codec_mute(struct snd_soc_dai *dai, int mute, int direction)
+ 	 */
+ 	if (hcp->hcd.ops->mute_stream &&
+ 	    (direction == SNDRV_PCM_STREAM_PLAYBACK ||
+-	     !hcp->hcd.ops->no_capture_mute))
++	     !hcp->hcd.no_capture_mute))
+ 		return hcp->hcd.ops->mute_stream(dai->dev->parent,
+ 						 hcp->hcd.data,
+ 						 mute, direction);
 
 -- 
 2.39.5
