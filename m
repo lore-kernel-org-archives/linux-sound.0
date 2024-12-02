@@ -1,196 +1,119 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2A31FECCE
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 12:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B034F1FF7A0;
+	Mon,  2 Dec 2024 12:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733144283; cv=none; b=VH2FV/onoSMtrwEKqXVfpOaAKN2qXScPjjMUCJvuPXXo/OfL+TqAfyObE7uI0WKsTr5xrsMjtMLU+upGFGQEOrqMlkdqBw7fyTPm9kGbfjyFrNAIifWwsGz/snCLM6JwaVRDxVsqbfMR6VWqmr3YsGsDHhpKxDRwPmP4c1rpyEI=
+	t=1733144373; cv=none; b=stHtJKaif1U3NnMalJ+e1yMzKma5Jj8dHQKveGwgCgNctPwJftF0Q0cur5gJI6amZZa3uHRNyMW1zh+25Ce1dFHoRcOUV+hVLoUSsK8LK/BYs2m0sAlQrZOrhohTtMGMlsdL2BneOyLJ4Hg+EIXFIvQvPALxrzTig8qJePziky0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733144283; c=relaxed/simple;
-	bh=GEQTVkp0q7S6wbPvLRUNqVr9Oj8O3XKdaZNNO+BsE7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fJLSaePq/ZjyTqxm+YwBIV2XLVWEYVyvyLbWVfquVhMG0+1c3iSNpmwYW7txQwRj2z+12docBhjIutmNmQTS7Hlkgkg9X6pDqFKbz44N7TiS7ZrqLEKJZnzE5fd7RKJybEhu1HkLJ2geTUYuOwwviuYIAlAeJ2FiRDsbtrLGdPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q6ZL0xRI; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733144373; c=relaxed/simple;
+	bh=VkSc1OtoaIn5i9sUO8D5w8KXAZHM0RoZXTyJeEmffRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bL0SsrOC25eQbjtgvS/azDPqw0ocb4NMLXVhKHpSJ5AHEa0VIK13M1k/ppo+PHQk3wAfZf+teL6uAwJeQUBhDXyQBlQV3/9UsizS7nwSM2AabRYf1HYI/8N0C/BPKfpis3T9Jm3EOdnF+tKFeOXiECuFf/+OOPdJJnMB0sJzMzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuPBiKxE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q6ZL0xRI"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385e1721716so1340476f8f.3
-        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 04:58:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733144279; x=1733749079; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LZEzOmy1c1zMqWMX7Wa3GA2/fvlPtEiXHjsYcmo7LSw=;
-        b=q6ZL0xRIu3aL2KyRhkSIo0cPAs4T9/ZGXOMmadRsXoW/3S7lcYEvw/fuy1oFiaB0LL
-         hSQzAWjNInzf05PZhRkA1fbEIRXaElY8iwURlelf8iXWY/Y07XyLCXYC85Fc7E3CI5c5
-         ExU8vekbT/oOX1lrQ3qc/HR9r2/xjylOosUSxT04SXayGoaxvhpUHjh+kH3ECXUa7ab8
-         wzzuhow3DD20QVu2d3zdWs286p18yDP2rOXUxNbLowuyFY5CM0/alk9Ldi8FQ5s2xWUh
-         sTLXO5oNFz8mzOElU+YxMI1LE5rVak1aRAw/C0l8wI251ZqVJMkNLXUi47iq+n1/Fhrf
-         T3JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733144279; x=1733749079;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZEzOmy1c1zMqWMX7Wa3GA2/fvlPtEiXHjsYcmo7LSw=;
-        b=BwuNa+KZXIkSm9nCUVvuCRKAoy5i4Ji6ClRYa96vH4amDl8VPeC21Eo5ju8UtstejQ
-         TKQN+t1iGjpbYb5Ykxiszb1Kj3om07vwRjdr/qNmv44emTs+OeU28hkhjBdpduCPdyk0
-         BLAXlIQ8/B2KmE8zP5s/Y/jf6PCkhvOdoTuurhhg3MUiHDNazbs0jazTW1aD0IR0XUR5
-         32/F+yByutfb7Y290Q0ZedJMNyQ55rIeFqfDa/QVZHNtPDKbq8tz8j61ooR8kCd4JfHu
-         gJlHLjuecPRiNTCcA+ewPCWdqknwtMb2nLwPaWoFC8TXhsUOpn/ei1T5jyjbqubdbxLs
-         brlg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrdvfkdkwS55G01M+Lu/IFGCLdMZuEv2G8UjzE7cSFj4JT720PXJH8UpFJsrTXM+gC2ThUW/Ua4KH5cg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmD9SvwSxuyVh8TpAEFKKF2oxSPlDX3TiHLzM+JWkHcWXLKFqp
-	KKszni+MP0FQwm7q0c/ru0pM6NykWI+ApB1sn6c1hxPw7brCrkz2ty8FtGCrt9s=
-X-Gm-Gg: ASbGnct5DJY8nrOkl4X/XIygnjvq8KHIzm5L0fUSzLt1W0AY+uIOtHslzhmsOUxcOOf
-	Q66x16RJyVE6PWX1yilYvPQizoSCohXGajufL9KrSTOEgmwCiszxuPGxo7QjOco6k/8PbKaIA5l
-	lp7+WYClyrl56oD4iaM5IhekcGciWLW2AhqwIAloEIIR95FQCiMU1IY0LPT1VExxvUGvxVa+mzo
-	SEOoUYlyt0P/eG4dg9xyQidzAYSTO6fENM+Fjl4FRuFmaMM/dk7JJM=
-X-Google-Smtp-Source: AGHT+IE6fYWnBhMoQgAuqEUuYRVJcRW1Ua9iOjCZrmiZOy42mMa37ZKinsmWcYvq0V848TnBhQipiA==
-X-Received: by 2002:a05:6000:2b12:b0:385:df43:223c with SMTP id ffacd0b85a97d-385df432391mr8837794f8f.13.1733144278635;
-        Mon, 02 Dec 2024 04:57:58 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa74f18bsm187503585e9.4.2024.12.02.04.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 04:57:58 -0800 (PST)
-Date: Mon, 2 Dec 2024 15:57:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: =?iso-8859-1?Q?Beno=EEt?= Sevens <bsevens@google.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	wangdicheng <wangdicheng@kylinos.cn>,
-	Manuel Barrio Linares <mbarriolinares@gmail.com>,
-	Lianqin Hu <hulianqin@vivo.com>,
-	Shen Lichuan <shenlichuan@vivo.com>, Cyan Nyan <cyan.vtb@gmail.com>,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ALSA: usb-audio: Fix a DMA to stack memory bug
-Message-ID: <60e3aa09-039d-46d2-934c-6f123026c2eb@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuPBiKxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B027C4CED1;
+	Mon,  2 Dec 2024 12:59:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733144373;
+	bh=VkSc1OtoaIn5i9sUO8D5w8KXAZHM0RoZXTyJeEmffRA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DuPBiKxEPZ8hNvu7XY/JeqC22rHjoWHz8J4L9ZjAqJtP/ZLUdfnH0N2+6JuEuZYNS
+	 gjprWPIBrGlbdvouN6ch2AhZJMsdRbpxm/XHYH7Ho2mFhiflGP5NqBIWRyRQr63KY2
+	 dyNZ68wkucnwrhDO/niHJsWMeQYK/FBimmPHVagPS++j3LqGQLD84gN2MFTKCcmPvF
+	 SULgGPyKftHpxm0Puw/mC6m8e4zYDC68fIdm+wmU0/Zy+PXryK15FE7G1HF7Mzv9Dr
+	 DsaxcNzS0UEF+9JnnxJwAPupFgzMBwuSdklY8POOK9d0BHjmTUZCn3XBYh6+RBj7nK
+	 kPkHTUy0duybg==
+Date: Mon, 2 Dec 2024 12:59:22 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
+ hdmi_codec_pdata
+Message-ID: <0d4dfb60-e2e6-484a-993a-41d1229c62fb@sirena.org.uk>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
+ <20241202-bald-just-guan-c5d41b@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="26+IIHuKp7C8Awjo"
+Content-Disposition: inline
+In-Reply-To: <20241202-bald-just-guan-c5d41b@houat>
+X-Cookie: (null cookie
+
+
+--26+IIHuKp7C8Awjo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
 
-The usb_get_descriptor() function does DMA so we're not allowed
-to use a stack buffer for that.  Doing DMA to the stack is not portable
-all architectures.  Move the "new_device_descriptor" from being stored
-on the stack and allocate it with kmalloc() instead.
+On Mon, Dec 02, 2024 at 01:06:09PM +0100, Maxime Ripard wrote:
+> On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
 
-Fixes: b909df18ce2a ("ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy and Mbox devices")
-Cc: stable@kernel.org
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/usb/quirks.c | 42 +++++++++++++++++++++++++++---------------
- 1 file changed, 27 insertions(+), 15 deletions(-)
+> > The no_capture_mute flag might differ from platform to platform,
+> > especially in the case of the wrapping implementations, like the
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 8bc959b60be3..7c9d352864da 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -555,7 +555,7 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
- static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interface *intf)
- {
- 	struct usb_host_config *config = dev->actconfig;
--	struct usb_device_descriptor new_device_descriptor;
-+	struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
- 	int err;
- 
- 	if (le16_to_cpu(get_cfg_desc(config)->wTotalLength) == EXTIGY_FIRMWARE_SIZE_OLD ||
-@@ -566,15 +566,19 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
- 				      0x10, 0x43, 0x0001, 0x000a, NULL, 0);
- 		if (err < 0)
- 			dev_dbg(&dev->dev, "error sending boot message: %d\n", err);
-+
-+		new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
-+		if (!new_device_descriptor)
-+			return -ENOMEM;
- 		err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
--				&new_device_descriptor, sizeof(new_device_descriptor));
-+				new_device_descriptor, sizeof(*new_device_descriptor));
- 		if (err < 0)
- 			dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
--		if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
-+		if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
- 			dev_dbg(&dev->dev, "error too large bNumConfigurations: %d\n",
--				new_device_descriptor.bNumConfigurations);
-+				new_device_descriptor->bNumConfigurations);
- 		else
--			memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
-+			memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
- 		err = usb_reset_configuration(dev);
- 		if (err < 0)
- 			dev_dbg(&dev->dev, "error usb_reset_configuration: %d\n", err);
-@@ -906,7 +910,7 @@ static void mbox2_setup_48_24_magic(struct usb_device *dev)
- static int snd_usb_mbox2_boot_quirk(struct usb_device *dev)
- {
- 	struct usb_host_config *config = dev->actconfig;
--	struct usb_device_descriptor new_device_descriptor;
-+	struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
- 	int err;
- 	u8 bootresponse[0x12];
- 	int fwsize;
-@@ -941,15 +945,19 @@ static int snd_usb_mbox2_boot_quirk(struct usb_device *dev)
- 
- 	dev_dbg(&dev->dev, "device initialised!\n");
- 
-+	new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
-+	if (!new_device_descriptor)
-+		return -ENOMEM;
-+
- 	err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
--		&new_device_descriptor, sizeof(new_device_descriptor));
-+		new_device_descriptor, sizeof(*new_device_descriptor));
- 	if (err < 0)
- 		dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
--	if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
-+	if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
- 		dev_dbg(&dev->dev, "error too large bNumConfigurations: %d\n",
--			new_device_descriptor.bNumConfigurations);
-+			new_device_descriptor->bNumConfigurations);
- 	else
--		memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
-+		memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
- 
- 	err = usb_reset_configuration(dev);
- 	if (err < 0)
-@@ -1259,7 +1267,7 @@ static void mbox3_setup_defaults(struct usb_device *dev)
- static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
- {
- 	struct usb_host_config *config = dev->actconfig;
--	struct usb_device_descriptor new_device_descriptor;
-+	struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
- 	int err;
- 	int descriptor_size;
- 
-@@ -1272,15 +1280,19 @@ static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
- 
- 	dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
- 
-+	new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
-+	if (!new_device_descriptor)
-+		return -ENOMEM;
-+
- 	err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
--		&new_device_descriptor, sizeof(new_device_descriptor));
-+		new_device_descriptor, sizeof(*new_device_descriptor));
- 	if (err < 0)
- 		dev_dbg(&dev->dev, "MBOX3: error usb_get_descriptor: %d\n", err);
--	if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
-+	if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
- 		dev_dbg(&dev->dev, "MBOX3: error too large bNumConfigurations: %d\n",
--			new_device_descriptor.bNumConfigurations);
-+			new_device_descriptor->bNumConfigurations);
- 	else
--		memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
-+		memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
- 
- 	err = usb_reset_configuration(dev);
- 	if (err < 0)
--- 
-2.45.2
+> I appreciate it might be a dumb question, but I never really understood
+> what no_capture_mute was all about. And in that context, why some
+> drivers would need / use it, and some won't.
 
+It's just what it says, it's a flag saying the device doesn't support
+muting the capture side.
+
+--26+IIHuKp7C8Awjo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdNrykACgkQJNaLcl1U
+h9BXlAf/b2RCOldUO9D2uv21dvLwptK8t/qpPmm6L0SGtwbwCyejExyCcRcXDK2J
+6VM6BCDUGEH5VIKVo2XFEHzhQi8F4jLnCmdzgwi2kI4Lca8lWjQq/4OwiLPalaeg
+0TNUGBy91LjyXlGGoUoweRt8oc0VbsYIr0gEQayLOLfYujv4RiiWYEyIcw1OPDf1
+9MigRjCV1msQQXnBP2qTdZ1FrZQlZGD+syITQuFbYrmy+sqwEPxbY9/RYtHo4HBV
+A8CBOIE2YuK7W8Dk9VXSPQsN1sSwT3Hj8xvMO0Ka3mK/WjSVva2P8/K3wnBXj9nC
+6yKMam1wXDa8AU52tCUq2bS1snS2yA==
+=5ZI+
+-----END PGP SIGNATURE-----
+
+--26+IIHuKp7C8Awjo--
