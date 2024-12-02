@@ -1,116 +1,126 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269D12040BB
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 14:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67035208969
+	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 14:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733150865; cv=none; b=DG547/2/fTa1BA8QJTrEtD4wMmKG3ENYSGnUpVjNOhuDF2MQf/6mQ0HDqc+B16IfOMb/awbFs1ywFgSSfDzrG0DY/QLT3OMVFm7etPhAVmxwlDLAy3jGZnBUomT4ZLQwyaI36orPhPktR5s9UyAgy+6ov5ygQSCJxdl65ooWdGA=
+	t=1733151553; cv=none; b=MWrzdiB1l2PicHqR01LHibSTN7P36DFpjmzDpYt4LFWpDjIe1kmpvzImSY7V+0XqfNDeFe6vQBEtYvX04AACOYm0f8u0i6domb81lyDNjWDgHIae9yXy82VbY/ZUO99KdV1hLz9NaZbK60tGgnGkfVuJSKs9u1pWxGYWD65ZU5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733150865; c=relaxed/simple;
-	bh=RL/E8p/vq14VYyGWfXE7LLz7N5+AUAggoi1gcwblUtk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PykspL+9UY01Djc53Zo0ChBNOCz0n+YE/oPDqE0WwnzYM4VK3XyFvd+b8NpB5pxhwq8LpUNJ4Zv6RxTtopWHjRKKi08GAC8CbHJEPz3ekgBD4lZoc2OYe5KOyzJnxpjyEb3eiW8vEe6ocA93RHPsn/52GE9LC4qkky6vmuIOoxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=XGscWNE7; arc=none smtp.client-ip=185.125.188.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	s=arc-20240116; t=1733151553; c=relaxed/simple;
+	bh=vorR0NUgMIxpLB6XnGO1J1hmkZxBZip3sa3UgLPBo2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hwhTIeDHllpY4+Uf3uC0AOFA3875H9vgO9Zeqem63ye6jyst3SH5n/Z81xiVcfyOH/Rj15kacsiqq4tbCIC2lZNkT+goRQ1B5giiGCj6NC/7Gs8cc9lJjOqBDd84SSq0yK4LYctgOXXFER/GZ8kAEG7Eb+SvlkTxr95ulKznSx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAr0pe+x; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="XGscWNE7"
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B76A93F233
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 14:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1733150859;
-	bh=6P3Fdo+///gJH/BN3CJ3yDbZwPHYCyVUVVf4gRdUcys=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
-	b=XGscWNE7gMj99nuB5DEcm6QBfHRMkoBc378onht9mkN4gwo8crnXnJr9xkNNLKeKj
-	 vhUJM5xo5g+Q1k+cMGihTLK4OkQ+Kknrd92Yg5wiFshiVxHBGBwDcal7v0/ZsoEuDb
-	 s24ClsimPqGSNoPMGj4H8E7FVL0GdPV57xTItS3KvkTw2P4A0pCwiR1fbdhZ88al3Q
-	 intHn+5EEbShReJuOEObeZtElm0BNuknig7LTZ8ZKZ5U+catlHbwj3mps+WPzvc9LO
-	 SF+/G0q6M66+ofIkNYWpsgbIvtsq8Aqn8yYM1gCF9Yk59ETqDm3lHNKYz9KBo2/qFa
-	 61g8/FUzX2IIA==
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-724e7c48678so3605156b3a.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 06:47:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAr0pe+x"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53de5ec22adso5357743e87.3
+        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 06:59:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733151549; x=1733756349; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
+        b=YAr0pe+xAUndygXKR8wcvyjPgw6c+Z9XNrMtfghZaWt4OyjOLPtWUXN9z+V+yVPnrE
+         vsPfDskivzysC0sD3fljGfR1kAfsXIP32eIEheL1lkJaHEYDj4nzPfrNQuOc0zk4zGg4
+         VlnTE0BvEyw4cpRuc9rOof13zW0fbeCB0mUBfPIrpVzqlqkB+jE2mytkbzz5ccqTTdXl
+         67/G04S3AT4DnbWpm6/FFTwHHOeDnAz0yfU049qyK6UlNNe/6SkzVe88ezWhvpyrklI/
+         PR1/VvQ5VmlOtHW5R/dvu2VbW5YGKw8wsgQyw3pLsaHkZLrugE68NKjNufacGiPLP7EY
+         ozRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733150858; x=1733755658;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6P3Fdo+///gJH/BN3CJ3yDbZwPHYCyVUVVf4gRdUcys=;
-        b=rGn75CfXEe7GKxlsKMAGRc9RLPH2gROIp9Cp2b7ifUmntY0JtCHVWxtbAsUgWL4Xku
-         xdLEVLplyYQd+TqI1Rn8B74zAYZIBk0e4UP82jBavEc70oo7ySujtnzOGjjxl9HiJg41
-         asG83d9tQRnkLeWIwMs1ctmLepSaEo/0cEisd1aerkb+UsDRJZa7mP7g5f3UpVHLXglo
-         OvQ6OwusMtGNAPJA/IqTNWygvKSmsi3YiFZnsYDdvEERjL4/UbS3ZTALWtSMkuyk2MOb
-         eFCYf8Rk3hcDXsIqDwJRNntebAyyQtoahq2ca57m2JLBmE9NB6hkqOtrrVpK/vulfamD
-         POXg==
-X-Gm-Message-State: AOJu0Yx8790gh4A1iEF1GLquFQV6KcFkcTYMXW+6lNM7qKS+tYpgRv63
-	oc+6Kely0Qo/R+9i+5p61+3lQroZiVhKwXsGutoNYmQxjo14bdlrBvjzaXTXY2znPeSqzhh5kdu
-	6EY4iPcmgRLfiYZQqXHGPVA8+t2Hzyrj6vmci7ZIHZGHiJWWKCq+A5ViEOB2o+YN3y0rn6gkulK
-	y3
-X-Gm-Gg: ASbGncv9Eyh3G+tZwvhxKMVImUHkOiPQ7wgCpKwrqCX3yZoBvWY2k/eWq2iw+EKMQUq
-	naG1g5ERZbwOBMDA9b0x+Q0d7xylP79HPsC4Qj63ckO8KA/abM3xZz5Docu0od4Npgfivv0boPy
-	1ctpGoQbpaY4Hh1ELUdu18IZnigDK8vu/1k+4xdfLgQkyexbTOKwUieRzXPXhs4yk6FUwssKqdm
-	YLY1nILpb7XNPAC2WwiJBBolpoYM879Unk5I4TnA4U/5jA+cgsRlC2B1LjUAsZJ95xLlGyVMf0s
-	tI7ViG/TtkCd6kjIifbJ
-X-Received: by 2002:a05:6a00:2e0f:b0:725:4915:c10 with SMTP id d2e1a72fcca58-72549151038mr24880424b3a.10.1733150858356;
-        Mon, 02 Dec 2024 06:47:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFlatQFoykXyD2ayOlog4ehRSY8QHZGUqutjYhJUxA+LmQiaeuzp3+GFfSR8BBU6VE7UVtLPg==
-X-Received: by 2002:a05:6a00:2e0f:b0:725:4915:c10 with SMTP id d2e1a72fcca58-72549151038mr24880391b3a.10.1733150857946;
-        Mon, 02 Dec 2024 06:47:37 -0800 (PST)
-Received: from u-XPS-9320.. (114-36-208-180.dynamic-ip.hinet.net. [114.36.208.180])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176145esm8566321b3a.8.2024.12.02.06.47.36
+        d=1e100.net; s=20230601; t=1733151549; x=1733756349;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
+        b=B8weg5jP2bK8o/fq/dQCJybXkhAgAiCf+FYs4FmTVJPQ7Ov5GAw+1jjdOAIVjV468t
+         ZuKMYiqT8tsN3Z7VJZnlbeAfqDWnRNxx9TtS3P/P4zYzBV/kgSpaGLY9BzUgWEGYQ/Xs
+         SDuFrIi/rFjVlDePAljf71zQTzV/4wCsUAWYm9ej5iirhQH07mHRZvISNsP642nB8Vsu
+         44UZOGVl/Z+DxTOzLQbTE5oalM8IFrecFp6Hr92/L7EbRzxlfsNzjoQl6e2tmhGWJzO7
+         RoMoBvqD+J60uU68suNmiCAMiO9k4x+kTveR82Sr3m9YIEEcydx+DWtu3/wiIg+XOsB1
+         9cIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKpL/U6n+s6WieEZILk++zrHYYz5RlNXKWZPCAF1OowHYi2ofHaapkVmirlot3y6hn4+Ff0kE2C3qfBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHpHJWBFPbhlIXAzoKyI45MCLAWz7bw8oKIMgWB0qnlzZTNWY2
+	6CHpWZUVBknTzatNLdA8b/9dA5EdT6/jhy90IZvWNGEmnHOKWkob1zzQPXOAxGk=
+X-Gm-Gg: ASbGncukYFfuZuuZhnh/NfUsr1eCZGK+XkdAMLrXHG5GvmOFm4r7uX9H0w+wOjb8n5i
+	IAzYpPqYEihMyvJ7NyxJ4KW8j0CBd4jP9dUh3+nKWueRPP0uoIirzJn1nAk5NhDpIco0F1vVTKq
+	0Wslw0D/r5uedbnpTmDz6rh0Yn1Nzs1tcbv6UuDy/8kOqe5CdezhdUdNQ7/XYmEElPTDWrSy9kk
+	N8rASMNFSrU2mscUpM5yTiTXtXNRLQ+Hzh5pIly/leZOT7sQqJ6yvcyu39HzETVv381yAs4HSvE
+	hcNaUQy/GyV7SzZ++JcTipzp8H8+Sg==
+X-Google-Smtp-Source: AGHT+IFqUZg6UxbmPBpmmNDChC/PhM5ksog1SlPE5I3zx5OIy0xNoMEVpgKx1uItUxOnsjp3icE8UQ==
+X-Received: by 2002:a05:6512:b26:b0:53d:edba:d40b with SMTP id 2adb3069b0e04-53df00dc8d7mr12039335e87.33.1733151549347;
+        Mon, 02 Dec 2024 06:59:09 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df646f2c3sm1480384e87.126.2024.12.02.06.59.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 06:47:37 -0800 (PST)
-From: Chris Chiu <chris.chiu@canonical.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Chris Chiu <chris.chiu@canonical.com>
-Subject: [PATCH] ALSA: hda/realtek: fix micmute LEDs don't work on HP Laptops
-Date: Mon,  2 Dec 2024 22:46:59 +0800
-Message-Id: <20241202144659.1553504-1-chris.chiu@canonical.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 02 Dec 2024 06:59:07 -0800 (PST)
+Date: Mon, 2 Dec 2024 16:59:06 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
+ hdmi_codec_pdata
+Message-ID: <onq2djvtvxvr3a52s6sin3dstwdctyyz2lxpx47lk7ndxtza33@odldgvhryw4d>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
+ <20241202-bald-just-guan-c5d41b@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202-bald-just-guan-c5d41b@houat>
 
-These HP laptops use Realtek HDA codec ALC3315 combined CS35L56
-Amplifiers. They need the quirk ALC285_FIXUP_HP_GPIO_LED to get
-the micmute LED working.
+On Mon, Dec 02, 2024 at 01:06:09PM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
+> > The no_capture_mute flag might differ from platform to platform,
+> > especially in the case of the wrapping implementations, like the
+> > upcoming DRM HDMI Codec framework. Move the flag next to all other flags
+> > in struct hdmi_codec_pdata.
+> > 
+> > Acked-by: Mark Brown <broonie@kernel.org>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> I appreciate it might be a dumb question, but I never really understood
+> what no_capture_mute was all about. And in that context, why some
+> drivers would need / use it, and some won't.
 
-Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
----
- sound/pci/hda/patch_realtek.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Some platforms can not mute the HDMI capture (ARC?) path. See the
+following patches:
+- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
+- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 2bf5c512ebaf..237e0c17083b 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10521,7 +10521,13 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8cdf, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite", ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16", ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d01, "HP ZBook Power 14 G12", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d91, "HP ZBook Firefly 14 G12", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8d92, "HP ZBook Firefly 16 G12", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8e18, "HP ZBook Firefly 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8e19, "HP ZBook Firelfy 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8e1a, "HP ZBook Firefly 14 G12A", ALC285_FIXUP_HP_GPIO_LED),
- 	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA", ALC256_FIXUP_ASUS_MIC),
- 	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300", ALC282_FIXUP_ASUS_TX300),
- 	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE", ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
+Russell added a way to disable capture / playback support, but only TDA
+driver uses those. I think generally we should change those flags to be
+opt-in for capture, but that requires carefully reviewing all the
+platforms (and is a separate topic anyway).
+
 -- 
-2.34.1
-
+With best wishes
+Dmitry
