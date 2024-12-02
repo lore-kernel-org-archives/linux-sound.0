@@ -1,99 +1,107 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981F51FE45D
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 11:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E28F1D95A9;
+	Mon,  2 Dec 2024 12:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733140368; cv=none; b=RRBpvHjTHkExzUQ+ZQ2TDMxtNV5s9/dzGf1Fh6rT7Pinge9vu9z8wYRKUmWjKlqjt7J/zt/nIcHzmOCEX8t062w33Y+URLVgZ/uf3ke0ZDxXur87vs4m1pjQPCixZVkCAmRnmfpy8oOAp15lt33bvgSnKtafIxy7jQW1yX5tkh0=
+	t=1733140877; cv=none; b=PzxcUhcv+c7KTV2BEtzQ+PilyKMpioxQm5knVYiLFCifZvlXJgRn6Pujia52Lin248LrDSd4SzEc9djRb5RaoB9wxhgtpNVxECSWBhKeadFD26yz8d8Gf53u5oje1E2SEhTeDgWDHa3vPpbEngi2EYjsgvpdvu7QmPqVFqkI6U4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733140368; c=relaxed/simple;
-	bh=cfl/exN6c0gUcy+DFliH2JqTC/Neo5JvUUKULKHzl4w=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=se25Npzm92xzGJjlvxT81AgzsbnOwqc1hsxdPutgFN8qxOtBj6b/AIoILcSdEIUQ1t/CPwgVvVPQf+U0rHBldrQRhAnyJFhTKD4Weco/SinxVwKI2KyNEsB5/tvWxxb9/38O7+hw6pt4DWgtyprZUrww0RFHHmA39uik0E81VSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=starfoxfs@gmx.net header.b=p/eMoPbp; arc=none smtp.client-ip=212.227.17.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=starfoxfs@gmx.net header.b="p/eMoPbp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1733140364; x=1733745164; i=starfoxfs@gmx.net;
-	bh=cfl/exN6c0gUcy+DFliH2JqTC/Neo5JvUUKULKHzl4w=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
-	 Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=p/eMoPbppjnk8ChcFKxPVLgtmzHggyWE5hgbAJZeH3ML3f0msDPetEOgRObJvG+C
-	 FxCO5W8XY3m1n3dDmjX+/DVeVN/3I+/4NiJxvVXAqrmg+1nJmRRJF+qx8QIDkRMMc
-	 s9fp6jZZPMmdh+JwVT7hhECVG/sj4qE0kBxHZQ9Sme/R6FlVAA3AjjRcnNGHxioKi
-	 e0YdK5D3b19+/A9pBefpfMDFSLFwLy3bVjfVanAIRvh2i4wTopgnoGTxavwKUT8Mq
-	 R/Xw9WQUuS4PVM0KgaEYorScv79V/CuBpgQeVTgiZVV+dqaKs0jMjbYnbOjELFuVg
-	 itXExof5ldqN0+qSJQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.47.38] ([109.250.79.249]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N95eJ-1tlzdz2LmJ-014lTn for
- <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 12:52:44 +0100
-Message-ID: <2101e9aa-7675-4619-8f1e-3960f4e4bae1@gmx.net>
-Date: Mon, 2 Dec 2024 12:52:44 +0100
+	s=arc-20240116; t=1733140877; c=relaxed/simple;
+	bh=qN7zSp52L2v1SA9YKpv1TumbOqlVeIrH+RB98EjRP+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KirvsyIVzcLS3MEnA0Qg9+OP06q8TzMZQLA2Cb9E/LCw5nPCqOF8DSjVAEuMVJM1QlsOefdSE3iW/PzsjcVI23TCHhTGoAFbuWCX8geRPFFdeDogKfEFA3kTxI5F9iI3CXLcmCi6+BWu/oJmIEPUV2D4NqcniEh2Mmg9JCMvwPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de; spf=fail smtp.mailfrom=denx.de; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=denx.de
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 18A7A1C00A0; Mon,  2 Dec 2024 13:01:12 +0100 (CET)
+Date: Mon, 2 Dec 2024 13:01:11 +0100
+From: Pavel Machek <pavel@denx.de>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Luo Yifan <luoyifan@cmss.chinamobile.com>,
+	Mark Brown <broonie@kernel.org>, olivier.moysan@foss.st.com,
+	arnaud.pouliquen@foss.st.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, alsa-devel@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH AUTOSEL 5.10 4/6] ASoC: stm: Prevent potential division
+ by zero in stm32_sai_mclk_round_rate()
+Message-ID: <Z02hh/K7okT4fvOc@duo.ucw.cz>
+References: <20241112103803.1654174-1-sashal@kernel.org>
+ <20241112103803.1654174-4-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-sound@vger.kernel.org
-Content-Language: en-US
-From: Starfox <Starfoxfs@gmx.net>
-Subject: Support for Creative Soundblaster AE-9 ?
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3fawmNHJI3c1oRFq"
+Content-Disposition: inline
+In-Reply-To: <20241112103803.1654174-4-sashal@kernel.org>
+
+
+--3fawmNHJI3c1oRFq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:xMAvzxkkZR/ake+20eE3IWUhWejzhklpfToHwYeywJLDBDzyjT2
- YqdQuYqLro3nWkXVlUa047I5Xkg0OoJhX62f3Tvkq2YCGNfunzhHgCs3xggobGxZoNpUkKz
- pQHfKqGDPkumV+iwyyvcOdR5kw+Cef1DvvIxe7X5sO93YVqPc6RHNLCs2coZ23wkSKwgOXN
- dqwjGIFei3dLT6lK1l7Iw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aD2vexbEMzc=;8EUJnGyhe9Gx49cWVSFKBWRClhD
- Ff56NaTUe6UVu3A1R1iFbNJn8QCo+8QoLIlWhtm+rW310ZwpjoynkhVzTin9Ry2DUuUCRJ54w
- 5fG2PocCC4AkcyMaXPmlooWkJiy4/XtAutGNv4oMGSWzj4w/I5lnH2hC3/HfL4tbpoIR/ZiCy
- G0WXO1Rtv4c6XQItaRdBiide6RlMfUy+O6fv5w8a2oJrm/odPoypWkid/7wCDdn8J4nYfzqaX
- QZ2pK1UkmsjotFK/Nkf1TrQqWT7TLoJ+OAx954QFttYKWsLGaqkTyKEtsPTOfSknqN+HR8i3W
- fpIQ/W8qAyM2eSoUBtawDKXKciHFwbFij1hKGyyBXu0q9FXDLb1dQZ02R8VvIIG8M1W0jtghr
- zkduOn3h0srMRkQBmHJyhYl5fHjL3//7CmL1ap0G+eh/eueD75+qul38AVFYUQ9SO4+VKIujC
- iIgzkXaK0vzUIbUdMjajBgGu0NhGkVxHVo7E8lLvp8zgVZB+jUNTfpboGdodTQMH8UhzeczEV
- sXvnqfMLiO68sVTs3TFgjSf1TVVqHq/TIYdCZXWgYHfbd2rxH170wNQ1YIZnK0XHlzqJxbCNS
- GscqvGdCg8QFeo13S2vSPc0NjkojZC7Of7kjV6+cEmEoQJyVB+17K/117LVfZM7cYp/5p4pLX
- LTs147oMopoKe49n0x6EY4TeJU4U8FxMjSHqf2DL5kKLwFuEnBaMLLFvMrpEOr96+naY6gQsB
- dd8Rny9/xGrAf5VyjSnIPdUBAzqAROa/ITExxPh8XItrqQhcSsCBmDa223a8o1dU2gPLfyRNp
- bFsE/M0O0MQ/EOxvp5MbgY1gZ+oXqxOEolzNeIGQQy9QzXsiKbRexr1empYNc+EOJJ11QcnVN
- MpKBoz1YHcQDDnU7fUZIlnR+tp2nkQUtmqE4KXbeaj8okXIQlKzJ0Po/uPs5Xlj5MFSEr6jTh
- 0G43DZx3fPrNG1S/Hb843kkdQRbQFNc6XXCLVjJy3zYRkoYyJSlRMBEkLFQ4VFFYKOk0CU4fP
- 3VdDP99PVDjFPAdSbaq0IwnixUPw3bf0sNhC0hq+UcuGgamvvY8LLNzf8WKYS+kqpS0NTH8Pb
- AtLb4VKJj360CQq3b0bo9avWVwUXOk
 
-Hi Linux Sound Team,
+Hi!
 
-i have switched from Win11 24H2 to Linux Mint 22 Cinnamon Kernel
-6.8.0-49-generic
+> [ Upstream commit 63c1c87993e0e5bb11bced3d8224446a2bc62338 ]
+>=20
+> This patch checks if div is less than or equal to zero (div <=3D 0). If
+> div is zero or negative, the function returns -EINVAL, ensuring the
+> division operation (*prate / div) is safe to perform.
 
-My Hardware Creative Soundblaster AE-9 is not working in Linux Mint, no
-sound.
+Well, previous version propagated error code, now it is eaten. Is
+stm32_sai_get_clk_div returning 0?
 
-The Creative Card uses the snd_hda_intel driver and the Codec CA0132 and
-Creative Generic, i cant get any sound out of the Soundcard nothing
-through SPDIF and nothing through Analog Connections.
+BR,
+								Pavel
 
-The ACM Audio Controll Module of this Card wouldn=C2=B4t initialize too.
+> Signed-off-by: Luo Yifan <luoyifan@cmss.chinamobile.com>
+> Link: https://patch.msgid.link/20241106014654.206860-1-luoyifan@cmss.chin=
+amobile.com
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  sound/soc/stm/stm32_sai_sub.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/sound/soc/stm/stm32_sai_sub.c b/sound/soc/stm/stm32_sai_sub.c
+> index 3aa1cf2624020..3a7f0102b4c5c 100644
+> --- a/sound/soc/stm/stm32_sai_sub.c
+> +++ b/sound/soc/stm/stm32_sai_sub.c
+> @@ -380,8 +380,8 @@ static long stm32_sai_mclk_round_rate(struct clk_hw *=
+hw, unsigned long rate,
+>  	int div;
+> =20
+>  	div =3D stm32_sai_get_clk_div(sai, *prate, rate);
+> -	if (div < 0)
+> -		return div;
+> +	if (div <=3D 0)
+> +		return -EINVAL;
+> =20
+>  	mclk->freq =3D *prate / div;
+> =20
 
-I have tested around with "PavuControl" Digital Output IEC958 Output set
-to SPDIF (no sound and no Digital Data from Soundcard) and Analog Output
-Stereo IEC958 -> Output set to Speaker (no sound)
+--=20
+DENX Software Engineering GmbH,        Managing Director: Erika Unter
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
 
-I hope for support because Creative doesn=C2=B4t add any Linux Drivers.
+--3fawmNHJI3c1oRFq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Thomas
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZ02hhwAKCRAw5/Bqldv6
+8hAkAKC0b/Oh8ldKHa90Tlm10HU7ITeWowCgxMxATUX7/rKamYpZAx5Mk1HHjC8=
+=I7ba
+-----END PGP SIGNATURE-----
 
-
-
-
+--3fawmNHJI3c1oRFq--
