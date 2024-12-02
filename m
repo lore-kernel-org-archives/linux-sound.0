@@ -1,205 +1,99 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38981C6F56
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 11:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981F51FE45D
+	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 11:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733139420; cv=none; b=r59ew9hOto8oU7iedJpdCnSX8u8fscz6uKnKSnBFoDtcVzZ5lxkbEE8uMll5TVEeNsWOdlFBU9pst0I4x8TcAlZqynZClh8ptp8XFBaMcFqo+qJ3Ryp7J1whwfCrZiVaXyhtfeRynNIhkM9E+eFMfxEULm+fWijkWxAeRGZJuOQ=
+	t=1733140368; cv=none; b=RRBpvHjTHkExzUQ+ZQ2TDMxtNV5s9/dzGf1Fh6rT7Pinge9vu9z8wYRKUmWjKlqjt7J/zt/nIcHzmOCEX8t062w33Y+URLVgZ/uf3ke0ZDxXur87vs4m1pjQPCixZVkCAmRnmfpy8oOAp15lt33bvgSnKtafIxy7jQW1yX5tkh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733139420; c=relaxed/simple;
-	bh=Bswv2ShtZ15EuEQneXOzrttn0rUwfA/DlAUnJf4MQAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F1ckjHNMKIQDj5dRqE08GkxoNTP6bLGH1t7L1H6bXoNRDhT6+jCXMkoIZGnqI+xLw2RsaePiZLTMAUUUiehGmV1PuEduccgMHvhJw7oKlfcAtGlDvX2rtwKeCUAr66kgW5XUHvfEHsqXbaZGaDYofMAv1HU7AFqVnMNHpoXcbZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zsRCuEzY; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1733140368; c=relaxed/simple;
+	bh=cfl/exN6c0gUcy+DFliH2JqTC/Neo5JvUUKULKHzl4w=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=se25Npzm92xzGJjlvxT81AgzsbnOwqc1hsxdPutgFN8qxOtBj6b/AIoILcSdEIUQ1t/CPwgVvVPQf+U0rHBldrQRhAnyJFhTKD4Weco/SinxVwKI2KyNEsB5/tvWxxb9/38O7+hw6pt4DWgtyprZUrww0RFHHmA39uik0E81VSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=starfoxfs@gmx.net header.b=p/eMoPbp; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zsRCuEzY"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434a10588f3so25641945e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 03:36:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733139415; x=1733744215; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L6QzxVLWRzRH/qOa9cOwOHFOV2Etnv6DT+rOyPz2/6k=;
-        b=zsRCuEzYCSbDoJbFivfq6TxhcKcJqpW0gIhNMpnknMK72R0VObN/6hUFHcL33yGeBq
-         J6+Z+4tha/pl9hL11LJC+Dfr2TECknKnXTohPJlnzBiNOA2AD7B7SLaNNdRB0uzCiYiE
-         xXOFo2TcsAyPzDXd/NsPwqrfExYRovDFhlLOaB+lQ2g8fB1CgrF1oM+Y4JI19T9vgdNm
-         sXEVAD3DoGwQ/+CLDYM4jjcgCbIFVxP38eWbTFqS8+L7enCG5yVL4ws2gGsZzSY08ILi
-         FO8wSBBwxnZ9zV74cPNn8EcocFuhEQUEKOtfHUCIjig9beuNICEzxyaTRS7agi3iHv1t
-         82sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733139415; x=1733744215;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L6QzxVLWRzRH/qOa9cOwOHFOV2Etnv6DT+rOyPz2/6k=;
-        b=p2iY01Sadf9KRLEH4Eh/fhc2j15x209dniIoCCrM1s+y3nFf10jonKvv23BgjZxZ2S
-         i2ZkzQyY64XIBaI/DuPRnQAELQWELFvln2qA2yrfC3m4vPbr/KOjwRnJCkJ8VXoucpLL
-         7jJhsnDPrO/ZS/E++hUDrggkY8c1sqxRUb9DQYCj13UWbLBiPb8goibczUg0rCkzwRB7
-         Q84rinWKX5G4/Xp3D9DrP3fZc7y38Zss7qZ/ypbQcF03exnO8OI/ucp+2L5vLfOKIhdq
-         5pOny24mGmF12qwEu7ofKRK3cp9bNfOMXD9VHUXFSC4xBxYB89ShB4yTOs6tiZLJTGsI
-         mJEA==
-X-Forwarded-Encrypted: i=1; AJvYcCWHDuHVRyN/4yyigJfcAeJzr8FcrfW0+SgcvI/B5grN8MPIcfIAA1n/POZ6Bo4y0BVTHqo20wRQBFysPw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqjQBlm0A4Dkx4KHvESh1hdsFSGGI3i1OnqR496vO375xNKhU3
-	Mmh3l7fSiCGQ0xy8DYbm4L0ia9/Mz/FfQ0wWNyqkyexUOtXgxJsAm/vWsGOK8Yc=
-X-Gm-Gg: ASbGncscN2idJytCRJdD2QoQ0k53GriQLMb0KwXyKTrY7+lXZRW4ZLqLfe/ibtLGscA
-	sIC/wIKCEGXdEkjt4ZMnrY6G0hTOy0CWmWZWdgb7sWEADEI33GICKjCNJ0HcTXOMBMaqJa8mQ8I
-	iOpFdJgFfaReOLe8az9qNPNztenDtbBdMNigQNBFK97nuYoJYHZ3WbDUVqZ0TWviOV4nBgDEy1q
-	Es+jgzsz+MNFHtApYzJFtW+tQYNFWgS6VdFnCUCz/lJ9a4iCNa8+sLZJozMA/9TFtRCcDRuJZ+0
-	Ztf6
-X-Google-Smtp-Source: AGHT+IHDatiBRoIWwmUQ8rVBdMNdL4Mcz8nzQA/dLpj0wUKVfFU1d2TbucDXr8tjCjv/lds2UQqKAg==
-X-Received: by 2002:a05:600c:3546:b0:431:5044:e388 with SMTP id 5b1f17b1804b1-434a9de78d0mr187356325e9.22.1733139415315;
-        Mon, 02 Dec 2024 03:36:55 -0800 (PST)
-Received: from localhost (p5dc6838f.dip0.t-ipconnect.de. [93.198.131.143])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385dd99504csm10275406f8f.85.2024.12.02.03.36.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 03:36:54 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: David Rhodes <david.rhodes@cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	=?utf-8?q?Martin_Povi=C5=A1er?= <povik+lin@cutebit.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Kiseok Jo <kiseok.jo@irondevice.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Tang Bin <tangbin@cmss.chinamobile.com>,
-	Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	Igor Prusov <ivprusov@salutedevices.com>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	asahi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: Drop explicit initialization of struct i2c_device_id::driver_data to 0
-Date: Mon,  2 Dec 2024 12:36:41 +0100
-Message-ID: <20241202113641.1003836-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=starfoxfs@gmx.net header.b="p/eMoPbp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1733140364; x=1733745164; i=starfoxfs@gmx.net;
+	bh=cfl/exN6c0gUcy+DFliH2JqTC/Neo5JvUUKULKHzl4w=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
+	 Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=p/eMoPbppjnk8ChcFKxPVLgtmzHggyWE5hgbAJZeH3ML3f0msDPetEOgRObJvG+C
+	 FxCO5W8XY3m1n3dDmjX+/DVeVN/3I+/4NiJxvVXAqrmg+1nJmRRJF+qx8QIDkRMMc
+	 s9fp6jZZPMmdh+JwVT7hhECVG/sj4qE0kBxHZQ9Sme/R6FlVAA3AjjRcnNGHxioKi
+	 e0YdK5D3b19+/A9pBefpfMDFSLFwLy3bVjfVanAIRvh2i4wTopgnoGTxavwKUT8Mq
+	 R/Xw9WQUuS4PVM0KgaEYorScv79V/CuBpgQeVTgiZVV+dqaKs0jMjbYnbOjELFuVg
+	 itXExof5ldqN0+qSJQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.47.38] ([109.250.79.249]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N95eJ-1tlzdz2LmJ-014lTn for
+ <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 12:52:44 +0100
+Message-ID: <2101e9aa-7675-4619-8f1e-3960f4e4bae1@gmx.net>
+Date: Mon, 2 Dec 2024 12:52:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3641; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=Bswv2ShtZ15EuEQneXOzrttn0rUwfA/DlAUnJf4MQAQ=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBnTZvJNx/F0I5Qb9qkzsGuYkyoo72y5wqfySfJ5 7IJSHQeUR2JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZ02byQAKCRCPgPtYfRL+ TnClB/9XFZJTTFfAaG9fQkpSBU9HElltsdBYGA7AOiTCGNvpZR1ZwTeF+imbmJ4GKZqQl9xq6qg 4Q/rfLb8DPw7o95P6hG9TxWRJ36Cgr2xR2Ox8kKe+M/Bu8AxVTOQTYeiWURC91JCJKmpSVY4fK9 7XBPHeQJJKHyHQ0DgqDV5QdVTwncw5l0nhDcWicsGKQdwcpfaDHlICCpDbaK+zjWohRTpcCb0jY bf16wDBqXGRwOJFDEbi91nCfEL4YV1WbjX54pA9u78NuU+zjvAGKcyaGjfe4Wzxe0tT2LYoUTUS GeRPMD7CtJ0R4t4QvZ1zVID44/6vQywEuTf2RY8AYFeWR5nD
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: linux-sound@vger.kernel.org
+Content-Language: en-US
+From: Starfox <Starfoxfs@gmx.net>
+Subject: Support for Creative Soundblaster AE-9 ?
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:xMAvzxkkZR/ake+20eE3IWUhWejzhklpfToHwYeywJLDBDzyjT2
+ YqdQuYqLro3nWkXVlUa047I5Xkg0OoJhX62f3Tvkq2YCGNfunzhHgCs3xggobGxZoNpUkKz
+ pQHfKqGDPkumV+iwyyvcOdR5kw+Cef1DvvIxe7X5sO93YVqPc6RHNLCs2coZ23wkSKwgOXN
+ dqwjGIFei3dLT6lK1l7Iw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:aD2vexbEMzc=;8EUJnGyhe9Gx49cWVSFKBWRClhD
+ Ff56NaTUe6UVu3A1R1iFbNJn8QCo+8QoLIlWhtm+rW310ZwpjoynkhVzTin9Ry2DUuUCRJ54w
+ 5fG2PocCC4AkcyMaXPmlooWkJiy4/XtAutGNv4oMGSWzj4w/I5lnH2hC3/HfL4tbpoIR/ZiCy
+ G0WXO1Rtv4c6XQItaRdBiide6RlMfUy+O6fv5w8a2oJrm/odPoypWkid/7wCDdn8J4nYfzqaX
+ QZ2pK1UkmsjotFK/Nkf1TrQqWT7TLoJ+OAx954QFttYKWsLGaqkTyKEtsPTOfSknqN+HR8i3W
+ fpIQ/W8qAyM2eSoUBtawDKXKciHFwbFij1hKGyyBXu0q9FXDLb1dQZ02R8VvIIG8M1W0jtghr
+ zkduOn3h0srMRkQBmHJyhYl5fHjL3//7CmL1ap0G+eh/eueD75+qul38AVFYUQ9SO4+VKIujC
+ iIgzkXaK0vzUIbUdMjajBgGu0NhGkVxHVo7E8lLvp8zgVZB+jUNTfpboGdodTQMH8UhzeczEV
+ sXvnqfMLiO68sVTs3TFgjSf1TVVqHq/TIYdCZXWgYHfbd2rxH170wNQ1YIZnK0XHlzqJxbCNS
+ GscqvGdCg8QFeo13S2vSPc0NjkojZC7Of7kjV6+cEmEoQJyVB+17K/117LVfZM7cYp/5p4pLX
+ LTs147oMopoKe49n0x6EY4TeJU4U8FxMjSHqf2DL5kKLwFuEnBaMLLFvMrpEOr96+naY6gQsB
+ dd8Rny9/xGrAf5VyjSnIPdUBAzqAROa/ITExxPh8XItrqQhcSsCBmDa223a8o1dU2gPLfyRNp
+ bFsE/M0O0MQ/EOxvp5MbgY1gZ+oXqxOEolzNeIGQQy9QzXsiKbRexr1empYNc+EOJJ11QcnVN
+ MpKBoz1YHcQDDnU7fUZIlnR+tp2nkQUtmqE4KXbeaj8okXIQlKzJ0Po/uPs5Xlj5MFSEr6jTh
+ 0G43DZx3fPrNG1S/Hb843kkdQRbQFNc6XXCLVjJy3zYRkoYyJSlRMBEkLFQ4VFFYKOk0CU4fP
+ 3VdDP99PVDjFPAdSbaq0IwnixUPw3bf0sNhC0hq+UcuGgamvvY8LLNzf8WKYS+kqpS0NTH8Pb
+ AtLb4VKJj360CQq3b0bo9avWVwUXOk
 
-These drivers don't use the driver_data member of struct i2c_device_id,
-so don't explicitly initialize this member.
+Hi Linux Sound Team,
 
-This prepares putting driver_data in an anonymous union which requires
-either no initialization or named designators. But it's also a nice
-cleanup on its own.
+i have switched from Win11 24H2 to Linux Mint 22 Cinnamon Kernel
+6.8.0-49-generic
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello,
+My Hardware Creative Soundblaster AE-9 is not working in Linux Mint, no
+sound.
 
-this is the third iteration of this patch (after
+The Creative Card uses the snd_hda_intel driver and the Codec CA0132 and
+Creative Generic, i cant get any sound out of the Soundcard nothing
+through SPDIF and nothing through Analog Connections.
 
-ba2a2c378ada ("ASoC: codecs: Drop explicit initialization of struct i2c_device_id::driver_data to 0")
-6f9faf1410fe ("ASoC: codecs: Drop explicit initialization of struct i2c_device_id::driver_data to 0")
+The ACM Audio Controll Module of this Card wouldn=C2=B4t initialize too.
 
-these unused zeros seem to repopup even though in the mean time most
-templates should be fine.
+I have tested around with "PavuControl" Digital Output IEC958 Output set
+to SPDIF (no sound and no Digital Data from Soundcard) and Analog Output
+Stereo IEC958 -> Output set to Speaker (no sound)
 
-Best regards
-Uwe
+I hope for support because Creative doesn=C2=B4t add any Linux Drivers.
 
- sound/soc/codecs/cs42l84.c | 2 +-
- sound/soc/codecs/es8323.c  | 2 +-
- sound/soc/codecs/ntp8835.c | 2 +-
- sound/soc/codecs/ntp8918.c | 2 +-
- sound/soc/codecs/sma1307.c | 4 ++--
- sound/soc/codecs/uda1342.c | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+Best Regards,
 
-diff --git a/sound/soc/codecs/cs42l84.c b/sound/soc/codecs/cs42l84.c
-index 17d5c96e334d..88cf3c03986e 100644
---- a/sound/soc/codecs/cs42l84.c
-+++ b/sound/soc/codecs/cs42l84.c
-@@ -1087,7 +1087,7 @@ static const struct of_device_id cs42l84_of_match[] = {
- MODULE_DEVICE_TABLE(of, cs42l84_of_match);
- 
- static const struct i2c_device_id cs42l84_id[] = {
--	{"cs42l84", 0},
-+	{ "cs42l84" },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, cs42l84_id);
-diff --git a/sound/soc/codecs/es8323.c b/sound/soc/codecs/es8323.c
-index 6f4fa36ea34d..a9822998199f 100644
---- a/sound/soc/codecs/es8323.c
-+++ b/sound/soc/codecs/es8323.c
-@@ -758,7 +758,7 @@ static int es8323_i2c_probe(struct i2c_client *i2c_client)
- }
- 
- static const struct i2c_device_id es8323_i2c_id[] = {
--	{ "es8323", 0 },
-+	{ "es8323" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, es8323_i2c_id);
-diff --git a/sound/soc/codecs/ntp8835.c b/sound/soc/codecs/ntp8835.c
-index 796e1410496f..2cc4c6395f55 100644
---- a/sound/soc/codecs/ntp8835.c
-+++ b/sound/soc/codecs/ntp8835.c
-@@ -454,7 +454,7 @@ static int ntp8835_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id ntp8835_i2c_id[] = {
--	{ "ntp8835", 0 },
-+	{ "ntp8835" },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, ntp8835_i2c_id);
-diff --git a/sound/soc/codecs/ntp8918.c b/sound/soc/codecs/ntp8918.c
-index 0493ab6acbe4..a332893fc51d 100644
---- a/sound/soc/codecs/ntp8918.c
-+++ b/sound/soc/codecs/ntp8918.c
-@@ -371,7 +371,7 @@ static int ntp8918_i2c_probe(struct i2c_client *i2c)
- }
- 
- static const struct i2c_device_id ntp8918_i2c_id[] = {
--	{ "ntp8918", 0 },
-+	{ "ntp8918" },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, ntp8918_i2c_id);
-diff --git a/sound/soc/codecs/sma1307.c b/sound/soc/codecs/sma1307.c
-index f2cea6186d98..480bcea48541 100644
---- a/sound/soc/codecs/sma1307.c
-+++ b/sound/soc/codecs/sma1307.c
-@@ -2011,8 +2011,8 @@ static void sma1307_i2c_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id sma1307_i2c_id[] = {
--	{ "sma1307a", 0 },
--	{ "sma1307aq", 0 },
-+	{ "sma1307a" },
-+	{ "sma1307aq" },
- 	{ }
- };
- 
-diff --git a/sound/soc/codecs/uda1342.c b/sound/soc/codecs/uda1342.c
-index 3d49a7869948..b0b29012842d 100644
---- a/sound/soc/codecs/uda1342.c
-+++ b/sound/soc/codecs/uda1342.c
-@@ -319,7 +319,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(uda1342_pm_ops,
- 				 uda1342_suspend, uda1342_resume, NULL);
- 
- static const struct i2c_device_id uda1342_i2c_id[] = {
--	 { "uda1342", 0 },
-+	 { "uda1342" },
- 	 { }
- };
- MODULE_DEVICE_TABLE(i2c, uda1342_i2c_id);
+Thomas
 
-base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
--- 
-2.45.2
+
+
 
