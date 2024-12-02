@@ -1,136 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8293200108;
-	Mon,  2 Dec 2024 13:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F81F1FECA1;
+	Mon,  2 Dec 2024 13:24:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733145607; cv=none; b=h1+rzhiIso8ZzT+HKMraNW77CBZVBbKcXG4/zFbIdWE756kqcESD5o5mAXAIiWbPCGgJbrqpUZDxCbwfV1A/2k5jhRIHlpUlsf66tqBaEayPtWClHwkh2/wcTKiOdj1OkgKR+jR645+ybtP6W7BLZQUIiPicfhKvdX/EFjaKe08=
+	t=1733145842; cv=none; b=PP++oAX0hPaWo1hR7y/aJGn4orxP4QZ7JgQC17ffAvJItp9ywYpJGK1a7rrP1utW8n8p40jPru7YDKzl/FWMQQYe3lSgG9njgo2Ha2AfB5OP2ltFBUIsftFzXj7CsZDK+EZMeTzOSBA7lHQ2FrZQnpvFejz/oEatap2BQdX0AeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733145607; c=relaxed/simple;
-	bh=cuZbfqLYHQS/1GAYDtMRKOLhWIMgYEMtvry7OBgUlJE=;
+	s=arc-20240116; t=1733145842; c=relaxed/simple;
+	bh=qu1R/kK1qfP1c9hhleo/yXfnQOWc2/8uzcTJyQ0tTSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BNmXJ9wIM5pb067gtvgfZT3cNQVg1D277WdjavpfMllCJcDdbmaS7FYjns+GzUoFm8cvGC7q+fUA7tJHw+5Bf1quwZdGFTtXCKm2j9jl5T048FeXm+3azIR1db/oDnKk8qLwYNb1j3mUJ1IuMwb67Zvf8fScEvLugWBTZxYR4qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ja5YJfKE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cR9rgyRPNtHBaFhc6OlrjytsvYVq/J8IqSNfYIqq6KwfCuW4OHkksIj9qY8eKKHojpPYEZTyWcLA/zf67A3jZ6CS7fyNCGMmU/9pVTNEvQZ8yg3Lnl7KybGvM1tLkT+pk5AEBsrnnQYPftSuVlqS1ZtYuTHDDZf2vBt2AmfivzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=calzYjdH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ja5YJfKE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1A8C4CED1;
-	Mon,  2 Dec 2024 13:20:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="calzYjdH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39B96C4CED1;
+	Mon,  2 Dec 2024 13:23:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733145607;
-	bh=cuZbfqLYHQS/1GAYDtMRKOLhWIMgYEMtvry7OBgUlJE=;
+	s=k20201202; t=1733145841;
+	bh=qu1R/kK1qfP1c9hhleo/yXfnQOWc2/8uzcTJyQ0tTSI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ja5YJfKEpMZVqAcOsS9VwFVxwUPlCtxVzQl7ZDIXMcG5Uy68wX2q1TO2zHiwZoQFL
-	 sRrfDQnF5zYJ0gHNjVcRFjWI/RnxfDTcpDBBmQLctpbWmYRKw8ULXNPvoUg3Oqb0kU
-	 6hDfNE4K9dlvEMuybzZuqcYUB0zUguLdKl1WYSw8JqR4KE3ddWPCyk6yn8CvNEUJG7
-	 IX2wJi4MAwL6VD0MV7GUCkuK6LCHXZnVHQqt/gV5E8fyfqojj0Q65QrLyTFYK5SCC0
-	 mwuj+l01dIHDSqYN3IDMM+mXb0cZibWBU9+v3hRepcooVifZKL5QSpm2Aaa38U5TVb
-	 sNdiloTWDun/g==
-Date: Mon, 2 Dec 2024 14:20:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 8/9] drm/vc4: hdmi: switch to using generic HDMI Codec
- infrastructure
-Message-ID: <20241202-industrious-unnatural-beagle-7da5d4@houat>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-8-b5316e82f61a@linaro.org>
+	b=calzYjdHtzyKjS6MKp04EUDD1P6auKh3QqnwpOwOQRMmMm2+lbdpsnBugzXskk9Pf
+	 c+tbr1T6AHkJsUbGx/F8rSNXXNdSPn6QZIJOZSPwNiDoI6YuYyvUGEbaZ4GQYOFwJk
+	 lFx7mBecy+YtXN+t5939kVaRjFsJ2jZuEzEFXWoGSzAjWDjt38IpQ3fbgp1OdmHoAr
+	 ZQUMYqN1pWyeOAJUJ/O9Xv0nlfduSG3IXJg3NjsZkilKJZwa/0ObRSJF1mf8LWrJlX
+	 KXwcjqSoOqbK9iMICfGR4dRk17jyCsiY5fRTRIfBWbraY71ZVkyxbhp8JTaKY+vc67
+	 sYJrK2+wWeH+g==
+Date: Mon, 2 Dec 2024 13:23:56 +0000
+From: Mark Brown <broonie@kernel.org>
+To: =?iso-8859-1?B?Q3Pza+Fz?= Bence <csokas.bence@prolan.hu>
+Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v5 1/3] ASoC: sun4i-codec: Add DMA Max Burst field
+Message-ID: <a59c5425-4401-480f-bf26-a7d607071f75@sirena.org.uk>
+References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
+ <20241102125712.2647325-2-csokas.bence@prolan.hu>
+ <fe02df7f-16ae-4128-9af8-7de7f76734bc@sirena.org.uk>
+ <47344634-9681-43a0-995a-f7dc025d1d09@prolan.hu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="vbtgu33lsjanu5xg"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="TUCIIvv8937S6Tht"
 Content-Disposition: inline
-In-Reply-To: <20241201-drm-bridge-hdmi-connector-v5-8-b5316e82f61a@linaro.org>
+In-Reply-To: <47344634-9681-43a0-995a-f7dc025d1d09@prolan.hu>
+X-Cookie: (null cookie
 
 
---vbtgu33lsjanu5xg
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--TUCIIvv8937S6Tht
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 8/9] drm/vc4: hdmi: switch to using generic HDMI Codec
- infrastructure
-MIME-Version: 1.0
 
-Hi,
+On Mon, Dec 02, 2024 at 02:19:51PM +0100, Cs=F3k=E1s Bence wrote:
 
-Sorry, I've been drowning under work and couldn't review that series before.
+> Try v6: https://lore.kernel.org/linux-kernel/20241123123900.2656837-1-cso=
+kas.bence@prolan.hu/
 
-I'll review the driver API for now, and we can focus on the exact
-implementation later on.
+> If that doesn't apply either, then I'll look into it, but it seems we
+> already missed the MW for 6.13... :(
 
-On Sun, Dec 01, 2024 at 02:44:12AM +0200, Dmitry Baryshkov wrote:
-> Drop driver-specific implementation and use the generic HDMI Codec
-> framework in order to implement the HDMI audio support.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 68 ++++++++++--------------------------=
-------
->  drivers/gpu/drm/vc4/vc4_hdmi.h |  2 --
->  2 files changed, 15 insertions(+), 55 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index 7295834e75fb1ab0cd241ed274e675567e66870b..d0a9aff7ad43016647493263c=
-00d593296a1e3ad 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -595,6 +595,9 @@ static int vc4_hdmi_connector_init(struct drm_device =
-*dev,
->  	if (vc4_hdmi->variant->supports_hdr)
->  		max_bpc =3D 12;
-> =20
-> +	connector->hdmi_codec.max_i2s_channels =3D 8;
-> +	connector->hdmi_codec.i2s =3D 1;
-> +
+That was sent the day before the merge window opened...
 
-I guess it's a similar discussion than we had with HDMI2.0+ earlier
-today, but I don't really like initializing by structs. Struct fields
-are easy to miss, and can be easily uninitialized by mistake.
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-I think I'd prefer to have them as argument to the init function. And if
-they are optional, we can explicitly mark them as unused.
-
-Like, it looks like the get_dai_id implementation relies on it being set
-to < 0 for it to be ignored, but it's not here, so I'd assume it's used
-with an ID of 0, even though the driver didn't support get_dai_id so
-far?
-
-Maxime
-
---vbtgu33lsjanu5xg
+--TUCIIvv8937S6Tht
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ02z/QAKCRAnX84Zoj2+
-dpzbAYDixtv7TbkB/8hZMKjc8sAQyzE2ixGhzfLm1/mizfxI+p8zsxyz2xkCmeAU
-CvjfI6UBgKALmNU3qiLez7ENeyLRh+cvBGhV2M7F3LMKGHgUca3NdOUGKZ2Ss9j2
-Qw//3ctIIw==
-=RzH8
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdNtOsACgkQJNaLcl1U
+h9BxDgf/QXzdQ7mVZv9iRdQN5uXStSZy2H6trQtrAXTzaKsW7xWcEkqwPJ4EnnUk
+wT+JiD6BWilmxjLtmCsaLWiZw3X7OxTaJjtGA0ySTfaIgpzRuRB5WWZr9xKipDXW
+9F/Gs8yMot5PpUMVW1Ho6S3Ic9jktf3N95FstgEJo5GyyFM/UiFzxvunbk/zGjJY
+wT0C9PkeCYTcG7bEoe20NY4whJu3MN1solOeO1F9xW8gwCYFdPBqfavB+cIdTjCf
+alflkk1+6YqqnLbfzN0tHhEqNioVzlFg2qMGOXLC7cUg39DRh6A7FuC+0XxUqQUZ
+hKItXmC9FyLoMhnP9wCZ3FvZ9qGn2A==
+=DN0z
 -----END PGP SIGNATURE-----
 
---vbtgu33lsjanu5xg--
+--TUCIIvv8937S6Tht--
