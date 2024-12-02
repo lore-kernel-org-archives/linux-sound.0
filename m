@@ -1,120 +1,136 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CC11F8AEE
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 09:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0E611F943E
+	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 09:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733130289; cv=none; b=PSuYeoT73X8uQ3xjgJd1tRcbI90F4Ctk1vDVX1aNiFEYR2Tq9gQjPsS6ISPhqE9seKF87cznDLmDP9zSnNdAH7CI/VMWQEx7ek9nAJrVGorZpXZNk82Uig4k6aO4rSl8Ei+30VJaomtbjELFflM6cDsRr09OCN0yYVQNopWZ1xk=
+	t=1733131387; cv=none; b=LS3BgJG5+kuqDgbNbSG1Cqzfw1Q0mMklPGOxPv5qFHMEbDhxz+0iRjlTnWG7O5VxR8SFCzF0Aof8BeEmxFjZ0GqLgWKBLVTLUDavvmNlrmF6pwiBF53h73y55DnqwPDvT4czIgMJFk+Y7u8uTVd+Pp4nx8E+cFAJjFVI+84uPA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733130289; c=relaxed/simple;
-	bh=pCoUNa2kT0AWoGP/1OCIwJg6AWvTWHfuekATG+8YA+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDEl/fOby4yFRDrioaG365oOyAl75gu8exw2UmFllla3T1ykQ0PVVXTXKuKE+QduaTof1HghWx4n3dS1Dek/7K2ym5ajxKe8Cd2P1jXRIz14r4r/te6udWwP9iDT/ZnPQZXKJ+JqoxEBK17efyPfuG9Tb8wwlTDgNDOqmxF6hTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=M87IMzlk; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733131387; c=relaxed/simple;
+	bh=nxKFPOm9vf1EPmKxWxocgPbOiireAQbnt6ArYZf7B/I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qIA4XgofeBTKCDZPwPlgUnzu43y/0ci1a/f7LmZaA0y756seQfYSe0pVOmXYgqNwoOgz0226mLjTHU7R9SV5AcNlQ0omhee/OCNpLYetcYpkEoKK8PFV/abebQWjOrKJ3e7b/48kQ/bLODTTR3vKJOd+pGFMEO49L+AzMZCIdpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bLOTOkiR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MO0Xg8aN; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=bLOTOkiR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MO0Xg8aN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="M87IMzlk"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385eaecc213so593308f8f.1
-        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 01:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733130286; x=1733735086; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vlQh15A+lHadlghSFnXQFTF4Tzu6Jw+lWivtdkBo4Kk=;
-        b=M87IMzlkSSw3D4PI/S5SuUlLgXEmdMfDO89c1KOJEYUbEnBULCoRuX+MBdRTosWBGn
-         qAEPFyB5z3+DjwVkZ0PMztXjkoi0Z928Mx+WzfvpFPvo6P9xsrjcYFDfJOQSu5sfcCod
-         j8E5XVhkafDtpyLfNPLD/q4pO9t6jNfZNFUVPOYwTKJRvrT6bk+rDYXs1+g7XEdSKnab
-         BodvFr4GhjO05ZY9xk2jkqfE2QhQOgLlKKDQujWesQLlOkjN8OLP9+ar9pheuGQ6TK1Q
-         oD10OQn0IUpxjEwTIbuheZEi99uqLlmRh4BYE72hSn/dq6mFFu92geV4ToQcr7DZ8Uyg
-         1PUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733130286; x=1733735086;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vlQh15A+lHadlghSFnXQFTF4Tzu6Jw+lWivtdkBo4Kk=;
-        b=ArW88HnAfIn+h43W2pndgzi1Fp2fcb2qEzAr+OfTlP/yMjOfvTtLCuE8lIpykA1LkP
-         rGB84F1r1jil+43980/u5vNqY9hABqMy4dybK2P3QMLpFlicxsm36g07t1C2Fws6y+FT
-         jHdcWKsNvQm7fSSsVOFpD64YfEurgkU9IC8Uxt0ONV7+JGA1GHpgpV58iIHkMpWCb9oa
-         RABkEgxYSMeGU+AThU2s//jDQNeyWEXx24b+JbxJtPVODY7kdfUqs4syDp+H+7z6T4Pf
-         eXv6aHbFuj60GoBwoEFFDPkwhvqqrd42E+GFnmMNvORF1Y5OM3KQ/c4JtRM8KDpAvDap
-         tnQw==
-X-Gm-Message-State: AOJu0YyWL9s1BLlWtMbWBl1xeZkYB6XxZg5FgPBGd/+03p9yD/RGf7+I
-	tAu/ik+itYDCnE8dsAqN6cU/AypTB/p2X88lvUsGMNKch/zKMseJAET+5Kio8ZA=
-X-Gm-Gg: ASbGncvsz258vuXPAeLTlhVrz1CHGNuP+eB9iVhQFH5aiSyCNg81ouiG0yh7hx+LQLD
-	KmQa8cNcDF54oK2E40Y2kjbNgf8LQpl4oqoyVmY7Ic9yz3HHzt0jwarP+GL4qm8l4yyArFvtiWJ
-	cUR78O2XWsde6xOXWbFNFN1HgsdHWiUxwh/nBmZc2ReVff4PWQ0TeeOT3LSa7K+iFuCIOGe81hB
-	77+KST3yh9Ep1+91NCpFbVMbxSze8Y5OfxShomLv+FhRKBH+DYoI2g=
-X-Google-Smtp-Source: AGHT+IGcdcQVUiEsHkpBeQzoFKgoyN22HR2GKTMM618wangxZOVkE3Y/BakJ8maxl2VxISuTePmQsQ==
-X-Received: by 2002:a05:6000:1fac:b0:382:3211:6b7e with SMTP id ffacd0b85a97d-385cbd981a4mr14752945f8f.31.1733130286356;
-        Mon, 02 Dec 2024 01:04:46 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385dea1e4ebsm9589689f8f.1.2024.12.02.01.04.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 01:04:45 -0800 (PST)
-Date: Mon, 2 Dec 2024 12:04:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Conner Knox <connerknoxpublic@gmail.com>
-Cc: linux-sound@vger.kernel.org
-Subject: Re: [bug report] ALSA: usb-audio: Add quirk to enable Avid Mbox 3
- support
-Message-ID: <47c421ab-f50a-486f-a7d9-da4df8afde1b@stanley.mountain>
-References: <b53bc77b-6677-4dfc-b21b-77e725dc7541@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bLOTOkiR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MO0Xg8aN";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bLOTOkiR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MO0Xg8aN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A5C85211D2;
+	Mon,  2 Dec 2024 09:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733131383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xnp4p1heortn4sHHcaalsFAi3loJ5yCMZQgayFN9tHI=;
+	b=bLOTOkiRUukAaFPurod1f7acadzh5q6fWK49L5ugnR3Uf3QjIM0SGoOqiD429mcOKYF27Z
+	hdYCNNCUYH17vZjjNSSu/gGx/TYK9I8OkQVTZZ7oFYeEx6fY3Ekz3fCJwjDmeP7rPeHXjv
+	FqdSiKOMfwH/7DyxNeroTdkagHVJTAo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733131383;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xnp4p1heortn4sHHcaalsFAi3loJ5yCMZQgayFN9tHI=;
+	b=MO0Xg8aNLsmPg3mnYrovT4pnxNZxCWy0yV62Qfovr6t2veYN91Ddi4l04HELc8YxWeGHfl
+	TX2ePvWe8BpbKhDA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=bLOTOkiR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MO0Xg8aN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733131383; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xnp4p1heortn4sHHcaalsFAi3loJ5yCMZQgayFN9tHI=;
+	b=bLOTOkiRUukAaFPurod1f7acadzh5q6fWK49L5ugnR3Uf3QjIM0SGoOqiD429mcOKYF27Z
+	hdYCNNCUYH17vZjjNSSu/gGx/TYK9I8OkQVTZZ7oFYeEx6fY3Ekz3fCJwjDmeP7rPeHXjv
+	FqdSiKOMfwH/7DyxNeroTdkagHVJTAo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733131383;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xnp4p1heortn4sHHcaalsFAi3loJ5yCMZQgayFN9tHI=;
+	b=MO0Xg8aNLsmPg3mnYrovT4pnxNZxCWy0yV62Qfovr6t2veYN91Ddi4l04HELc8YxWeGHfl
+	TX2ePvWe8BpbKhDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 813C2139C2;
+	Mon,  2 Dec 2024 09:23:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id aew4Hnd8TWeEOgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Dec 2024 09:23:03 +0000
+Date: Mon, 02 Dec 2024 10:23:03 +0100
+Message-ID: <871pyqzbew.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Sahas Leelodharry <sahas.leelodharry@mail.mcgill.ca>
+Cc: "tiwai@suse.com" <tiwai@suse.com>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH] ALSA: hda/realtek: Add support for Samsung Galaxy Book3 360 (NP730QFG)
+In-Reply-To: <QB1PR01MB40047D4CC1282DB7F1333124CC352@QB1PR01MB4004.CANPRD01.PROD.OUTLOOK.COM>
+References: <QB1PR01MB40047D4CC1282DB7F1333124CC352@QB1PR01MB4004.CANPRD01.PROD.OUTLOOK.COM>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b53bc77b-6677-4dfc-b21b-77e725dc7541@stanley.mountain>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: A5C85211D2
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On Sat, Nov 30, 2024 at 01:01:49PM +0300, Dan Carpenter wrote:
-> Hello Conner Knox,
+On Mon, 02 Dec 2024 04:28:33 +0100,
+Sahas Leelodharry wrote:
 > 
-> Commit b01104fc62b6 ("ALSA: usb-audio: Add quirk to enable Avid Mbox
-> 3 support") from Aug 18, 2022 (linux-next), leads to the following
-> Smatch static checker warning:
+> Fixes the 3.5mm headphone jack on the Samsung Galaxy Book 3 360 NP730QFG laptop.
+> Unlike the other Galaxy Book3 series devices, this device only needs the ALC298_FIXUP_SAMSUNG_HEADPHONE_VERY_QUIET quirk. 
+> Verified changes on the device and compared with codec state in Windows.
 > 
-> sound/usb/quirks.c:1275 snd_usb_mbox3_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
-> sound/usb/quirks.c:569 snd_usb_extigy_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
-> sound/usb/quirks.c:944 snd_usb_mbox2_boot_quirk() error: doing dma on the stack (&new_device_descriptor)
-> 
-> sound/usb/quirks.c
->     1259 static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
->     1260 {
->     1261         struct usb_host_config *config = dev->actconfig;
->     1262         struct usb_device_descriptor new_device_descriptor;
->                                               ^^^^^^^^^^^^^^^^^^^^^^
->     1263         int err;
->     1264         int descriptor_size;
->     1265 
->     1266         descriptor_size = le16_to_cpu(get_cfg_desc(config)->wTotalLength);
->     1267 
->     1268         if (descriptor_size != MBOX3_DESCRIPTOR_SIZE) {
->     1269                 dev_err(&dev->dev, "MBOX3: Invalid descriptor size=%d.\n", descriptor_size);
->     1270                 return -ENODEV;
->     1271         }
->     1272 
->     1273         dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
->     1274 
-> --> 1275         err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
->     1276                 &new_device_descriptor, sizeof(new_device_descriptor));
->                          ^^^^^^^^^^^^^^^^^^^^^^
-> The comments in usb_fill_control_urb() say this has to be "suitable for DMA"
-> but this is stack data.  It has to be allocated with kmalloc() to be suitable.
-> 
-> I don't know why I'm only seeing this warning now two years later...
-> 
+> Signed-off-by: Sahas Leelodharry <sahas.leelodharry@mail.mcgill.ca>
 
-My script looks at the line number for the function and not for the buffer so it
-blamed the wrong patch.
+Applied with white-space fixes.  Thanks.
 
-Don't stress about this, I'll send a fix in a few hours.
 
-regards,
-dan carpenter
-
+Takashi
