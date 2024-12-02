@@ -1,120 +1,157 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23179481C4;
-	Mon,  2 Dec 2024 15:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438D6205E32;
+	Mon,  2 Dec 2024 15:31:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733152334; cv=none; b=fVVQEWrvvfH+Oco1gGmoWYOXTKcd/4oqf9q/2u3UFatsDw68ijuCRchkrlgUWGqcJEwoELUTzEp2KzZ+Ovi/CyxROfu78tIFaTXH65dczQrxz2XDVZBDtbLaZo6XDbjC7VcAR7GN2fUIsPQDSCK7REj9roxdU9qp4zJ0/BP+LFY=
+	t=1733153488; cv=none; b=j2Xvt2v+GoWrZ5t2nnjPRLCnF/w6LH8BTmBxsizN7d56SOcchS+qExZrh4yO+AKFF80vajT4l5Pq7t+/skw4ECfK1uaXrPG2ql5wpeWCY9sjcFCqmyV+T6EGevjrFCpMftQM7M1FaY67BPR3ASYVKn6ov6tjOLhOocBnCqYuPNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733152334; c=relaxed/simple;
-	bh=jw2fskYGUron3qj25KaqYQcHClRWEji01kCqyPVAHnQ=;
-	h=From:To:CC:References:In-Reply-To:Subject:Date:Message-ID:
-	 MIME-Version:Content-Type; b=X/cYxNbooJf6Tt+DzED4akZPpvs4qG1/vGRGaGwiiz4yHbkldqY8bRzdEgEODn/SCXK24afKE01QZ6kcq78RzqJXTRkdVS1JNu54Eb91gSAbOv+UtDJfD1nGWBZvPO0iClAIjA/887MtxU6Jn345Ob5ij9dXgkjX20aPi10A49Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PLqODWOF; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1733153488; c=relaxed/simple;
+	bh=NtP10/e5geCHRKEgdqJZgBe7TDm0YtMc3aT7kVcEZvw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jkoIxiXwNAP6yusYEYlEmyVf6zpSd/aIRmsNyrv/AphM8aHDiiwdCGnbIoU2YTgKo6Dhzxrh09B8p/e8+LZjukhyh6JqCecLSuVx4ueCLePVdBxb9tQUT7FNTh4iFlvAcsNhgqF1GFRo6aqj2sbNhGJf5C8sHMAug4lNvx/H3VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D0jvy1c2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=9Y23Ihkb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=FmMKpYdF; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bxTR1NC/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PLqODWOF"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2FAhIE016220;
-	Mon, 2 Dec 2024 09:11:57 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=Nks5Vx2Hrhdfj3UbxVEHBLq+NEob4f8KJ225M6QG1aw=; b=
-	PLqODWOFMc4B5b/bchPn07Xa7vlYIomaW+dGcX6NVE9xq9x+g2VkyErpJWJOM/Lc
-	BqqlwiKBsCAQw6W+7tTZO3rwplAZ/AzHz0HLm21CwM+jErxFjL6RJcHT9PXjfqqy
-	uFvTxmWnpGP+har/umFIJoBrAHgwGp116R49yxWON6UiKQvKL/eF0m0glTbfw5Le
-	hur5dNRSQc48yNyZn2am6wOH44kJidotBTtO0w3WcqO2IfhBurCVh9nB/cRrvn6u
-	PNTVNSKtQy2ize/ur3NZx2tKy5k24pDP5S6NC6rZevOz9CtCgFZWXkQ9Nzlh7IME
-	kIEuPN1ygwHJhy2+2pK+ZA==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43800nwwrn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 02 Dec 2024 09:11:57 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Mon, 2 Dec
- 2024 15:11:56 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Mon, 2 Dec 2024 15:11:56 +0000
-Received: from EDIN6ZZ2FY3 (EDIN6ZZ2FY3.ad.cirrus.com [198.90.188.28])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id E980B822542;
-	Mon,  2 Dec 2024 15:11:55 +0000 (UTC)
-From: Simon Trimmer <simont@opensource.cirrus.com>
-To: 'Chris Chiu' <chris.chiu@canonical.com>, <perex@perex.cz>,
-        <tiwai@suse.com>, <kailang@realtek.com>,
-        <sbinding@opensource.cirrus.com>
-CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20241202144659.1553504-1-chris.chiu@canonical.com>
-In-Reply-To: <20241202144659.1553504-1-chris.chiu@canonical.com>
-Subject: RE: [PATCH] ALSA: hda/realtek: fix micmute LEDs don't work on HP Laptops
-Date: Mon, 2 Dec 2024 15:11:55 +0000
-Message-ID: <003a01db44cc$86afb1c0$940f1540$@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D0jvy1c2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9Y23Ihkb";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="FmMKpYdF";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bxTR1NC/"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 63B2C1F396;
+	Mon,  2 Dec 2024 15:31:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733153485; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5rPQTidteaJ5EWqLwUG18Q2x2ScbpqASwTGZ9DnuiA=;
+	b=D0jvy1c2PRFYWtbKz3tQHCgW3p/unGVU8a8bygB/yjAeM/VGA/R5VIlsQg584nurDbm9VD
+	JzN67YE6JAkmoGRUBwfc77d3IR6lXs+YI59jLOAJ3FHu3JadRq5daqXJzlvPBAmPWp0/d/
+	tRhNUwsSQhreZWxxMEySBPhw7xNdLTk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733153485;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5rPQTidteaJ5EWqLwUG18Q2x2ScbpqASwTGZ9DnuiA=;
+	b=9Y23Ihkb54BWE5scAlIoIySZa+wstvsZbL2o/VAURbHht1AQnYESZ2aEyOUIH8G2Pl17xD
+	Om1rtZarT2ubrxDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733153484; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5rPQTidteaJ5EWqLwUG18Q2x2ScbpqASwTGZ9DnuiA=;
+	b=FmMKpYdFY634sLCfvhg+ejJlEcPekRxjC+sITsM05POpwGZab577kwtUtOdSnEfTPxVaI6
+	l4aFDhSBvHtOzG+W5XbW78pxgHNx0T5wRmgUvtcsVzsaTUHLFBr25GCAYoDQRN0PgVx+T+
+	YAToLBZM34EITMc1xly0FAsY+jAHFCM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733153484;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5rPQTidteaJ5EWqLwUG18Q2x2ScbpqASwTGZ9DnuiA=;
+	b=bxTR1NC/tk8U0FHJSVgGbmWXR2LCGVqklYJK5Trx9pr+YHxUHZlSEHItMhw/DuEAB8gKP4
+	25AZInupl3EJ/lBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0705B139C2;
+	Mon,  2 Dec 2024 15:31:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id g6SIAMzSTWfEMgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Dec 2024 15:31:24 +0000
+Date: Mon, 02 Dec 2024 16:31:23 +0100
+Message-ID: <87frn6umno.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Beno=EEt?= Sevens <bsevens@google.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	wangdicheng <wangdicheng@kylinos.cn>,
+	Manuel Barrio Linares <mbarriolinares@gmail.com>,
+	Lianqin Hu <hulianqin@vivo.com>,
+	Shen Lichuan <shenlichuan@vivo.com>,
+	Cyan Nyan <cyan.vtb@gmail.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ALSA: usb-audio: Fix a DMA to stack memory bug
+In-Reply-To: <CAGCho0Xe-jGcanAxehP+ENmrG0Otq5DzQO-yKHx7Ot_UzSRXWQ@mail.gmail.com>
+References: <60e3aa09-039d-46d2-934c-6f123026c2eb@stanley.mountain>
+	<CAGCho0Xe-jGcanAxehP+ENmrG0Otq5DzQO-yKHx7Ot_UzSRXWQ@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-gb
-Thread-Index: AQKILYej/XnujusHUFG8gFpSUi0H6LF5PROQ
-X-Proofpoint-GUID: cpGoji_CFhX-cHeosU837bRT2zlr2O9Z
-X-Proofpoint-ORIG-GUID: cpGoji_CFhX-cHeosU837bRT2zlr2O9Z
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.80 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linaro.org,perex.cz,suse.com,kylinos.cn,gmail.com,vivo.com,vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -1.80
+X-Spam-Flag: NO
 
-On Mon, 2 Dec 2024 14:47:00 +0000, Chris Chiu wrote:
-> These HP laptops use Realtek HDA codec ALC3315 combined CS35L56
-> Amplifiers. They need the quirk ALC285_FIXUP_HP_GPIO_LED to get
-> the micmute LED working.
+On Mon, 02 Dec 2024 16:05:01 +0100,
+Benoît Sevens wrote:
 > 
-> Signed-off-by: Chris Chiu <chris.chiu@canonical.com>
-
-Reviewed-by: Simon Trimmer <simont@opensource.cirrus.com>
-
-> ---
->  sound/pci/hda/patch_realtek.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+> Hi Dan,
 > 
-> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-> index 2bf5c512ebaf..237e0c17083b 100644
-> --- a/sound/pci/hda/patch_realtek.c
-> +++ b/sound/pci/hda/patch_realtek.c
-> @@ -10521,7 +10521,13 @@ static const struct hda_quirk
-> alc269_fixup_tbl[] = {
->  	SND_PCI_QUIRK(0x103c, 0x8cdf, "HP SnowWhite",
-> ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8ce0, "HP SnowWhite",
-> ALC287_FIXUP_CS35L41_I2C_2_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8cf5, "HP ZBook Studio 16",
-> ALC245_FIXUP_CS35L41_SPI_4_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8d01, "HP ZBook Power 14 G12",
-> ALC285_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x103c, 0x8d84, "HP EliteBook X G1i",
-> ALC285_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8d91, "HP ZBook Firefly 14 G12",
-> ALC285_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8d92, "HP ZBook Firefly 16 G12",
-> ALC285_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8e18, "HP ZBook Firefly 14 G12A",
-> ALC285_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8e19, "HP ZBook Firelfy 14 G12A",
-> ALC285_FIXUP_HP_GPIO_LED),
-> +	SND_PCI_QUIRK(0x103c, 0x8e1a, "HP ZBook Firefly 14 G12A",
-> ALC285_FIXUP_HP_GPIO_LED),
->  	SND_PCI_QUIRK(0x1043, 0x103e, "ASUS X540SA",
-> ALC256_FIXUP_ASUS_MIC),
->  	SND_PCI_QUIRK(0x1043, 0x103f, "ASUS TX300",
-> ALC282_FIXUP_ASUS_TX300),
->  	SND_PCI_QUIRK(0x1043, 0x106d, "Asus K53BE",
-> ALC269_FIXUP_LIMIT_INT_MIC_BOOST),
-> --
-> 2.34.1
+> On Mon, 2 Dec 2024 at 13:57, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> >
+> > The usb_get_descriptor() function does DMA so we're not allowed
+> > to use a stack buffer for that.  Doing DMA to the stack is not portable
+> > all architectures.  Move the "new_device_descriptor" from being stored
+> > on the stack and allocate it with kmalloc() instead.
+> >
 > 
+> Thanks for fixing this. It looks good to me.
+> 
+> Note that the commit that is being fixed is already queued for
+> backporting, so I don't know how this usually goes then.
+
+We just follow the same pattern as the Linus upstream, applying the
+fix on top of the previous fix.
+
+In anyway, now I merged it.  Will be included in the next PR for rc2.
+
+Thanks!
 
 
+Takashi
