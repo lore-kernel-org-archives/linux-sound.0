@@ -1,126 +1,200 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67035208969
-	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 14:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750EE204093
+	for <linux-sound@vger.kernel.org>; Mon,  2 Dec 2024 15:05:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733151553; cv=none; b=MWrzdiB1l2PicHqR01LHibSTN7P36DFpjmzDpYt4LFWpDjIe1kmpvzImSY7V+0XqfNDeFe6vQBEtYvX04AACOYm0f8u0i6domb81lyDNjWDgHIae9yXy82VbY/ZUO99KdV1hLz9NaZbK60tGgnGkfVuJSKs9u1pWxGYWD65ZU5k=
+	t=1733151916; cv=none; b=u/uTIszuknP88Wsfo50eWqYGA9jWKo3ym5DZ3atDq0PO4q0scXIPSqhBEfDev7wlw9koZxzi5agieyghZlAslcwci9sxpnBngLIydvqorTrMtOvRDXry0kq+jLdoTQyN9ibl6kbY6pThHhQiaANTjH24+OuRaOoeUYKAU3+/7aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733151553; c=relaxed/simple;
-	bh=vorR0NUgMIxpLB6XnGO1J1hmkZxBZip3sa3UgLPBo2Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hwhTIeDHllpY4+Uf3uC0AOFA3875H9vgO9Zeqem63ye6jyst3SH5n/Z81xiVcfyOH/Rj15kacsiqq4tbCIC2lZNkT+goRQ1B5giiGCj6NC/7Gs8cc9lJjOqBDd84SSq0yK4LYctgOXXFER/GZ8kAEG7Eb+SvlkTxr95ulKznSx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAr0pe+x; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733151916; c=relaxed/simple;
+	bh=kNGiCZdzIlXUf/Hf8biWZP3yf+DnBInMTrMFp3DPZ0M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bcsUuC1xVgcMpkuCm2gY5BYQKcdBd6eO0uSd/38UrjJDIEeyTTHGwRU9mDR+ou5y1wad62u3x+DALE4s43WWoWOT4BWNNugOTvkeJbEhLzRduIM0sQKN6nzUDW4nKsGaaW7uRKbV28Yq7ae1oNJosYeiqvz25s6fSF5YKtHkmu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3J9x6Vea; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAr0pe+x"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53de5ec22adso5357743e87.3
-        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 06:59:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3J9x6Vea"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6d891ec719bso19266716d6.1
+        for <linux-sound@vger.kernel.org>; Mon, 02 Dec 2024 07:05:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733151549; x=1733756349; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
-        b=YAr0pe+xAUndygXKR8wcvyjPgw6c+Z9XNrMtfghZaWt4OyjOLPtWUXN9z+V+yVPnrE
-         vsPfDskivzysC0sD3fljGfR1kAfsXIP32eIEheL1lkJaHEYDj4nzPfrNQuOc0zk4zGg4
-         VlnTE0BvEyw4cpRuc9rOof13zW0fbeCB0mUBfPIrpVzqlqkB+jE2mytkbzz5ccqTTdXl
-         67/G04S3AT4DnbWpm6/FFTwHHOeDnAz0yfU049qyK6UlNNe/6SkzVe88ezWhvpyrklI/
-         PR1/VvQ5VmlOtHW5R/dvu2VbW5YGKw8wsgQyw3pLsaHkZLrugE68NKjNufacGiPLP7EY
-         ozRQ==
+        d=google.com; s=20230601; t=1733151912; x=1733756712; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=bfBZkGGwd+WXNqsHeftulIPKfKwX0tDqU4K/BD6pObg=;
+        b=3J9x6VeanEqZqOkRoR5c0ePE5rO03WvfeReZmDAQkzwoSk5YeqG5kcsqTbXuQurDgf
+         bo70t4MW/JZA/rDFCnY427wsxhAbSGXUNuWPfLTsT2FkOBHqfRsWm7UulCK9pY18Uz15
+         jBFV2rHgrukvGrZZYw6eN8wdrfgy2pVPRJzlmFO3ddOcvw/aQGuTFGwU2xOgHIMV4myQ
+         JTshWDZcydkE5P1sE97Fd9qCOkC5vFcQW0Dxx44ze61pInVa9HkFvBV6/vpNbnuPpo5H
+         9e66cVPq0bUkJVxc2ZNLZc29lswYYQRroUxWrroeaydpVJyfDzJ/sq1Um5zSD5EAi6Os
+         xQSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733151549; x=1733756349;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rju8sEpE6sdROgx04VbEZEe0Z4Dqml8d9fp2hAHZz1Q=;
-        b=B8weg5jP2bK8o/fq/dQCJybXkhAgAiCf+FYs4FmTVJPQ7Ov5GAw+1jjdOAIVjV468t
-         ZuKMYiqT8tsN3Z7VJZnlbeAfqDWnRNxx9TtS3P/P4zYzBV/kgSpaGLY9BzUgWEGYQ/Xs
-         SDuFrIi/rFjVlDePAljf71zQTzV/4wCsUAWYm9ej5iirhQH07mHRZvISNsP642nB8Vsu
-         44UZOGVl/Z+DxTOzLQbTE5oalM8IFrecFp6Hr92/L7EbRzxlfsNzjoQl6e2tmhGWJzO7
-         RoMoBvqD+J60uU68suNmiCAMiO9k4x+kTveR82Sr3m9YIEEcydx+DWtu3/wiIg+XOsB1
-         9cIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXKpL/U6n+s6WieEZILk++zrHYYz5RlNXKWZPCAF1OowHYi2ofHaapkVmirlot3y6hn4+Ff0kE2C3qfBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHpHJWBFPbhlIXAzoKyI45MCLAWz7bw8oKIMgWB0qnlzZTNWY2
-	6CHpWZUVBknTzatNLdA8b/9dA5EdT6/jhy90IZvWNGEmnHOKWkob1zzQPXOAxGk=
-X-Gm-Gg: ASbGncukYFfuZuuZhnh/NfUsr1eCZGK+XkdAMLrXHG5GvmOFm4r7uX9H0w+wOjb8n5i
-	IAzYpPqYEihMyvJ7NyxJ4KW8j0CBd4jP9dUh3+nKWueRPP0uoIirzJn1nAk5NhDpIco0F1vVTKq
-	0Wslw0D/r5uedbnpTmDz6rh0Yn1Nzs1tcbv6UuDy/8kOqe5CdezhdUdNQ7/XYmEElPTDWrSy9kk
-	N8rASMNFSrU2mscUpM5yTiTXtXNRLQ+Hzh5pIly/leZOT7sQqJ6yvcyu39HzETVv381yAs4HSvE
-	hcNaUQy/GyV7SzZ++JcTipzp8H8+Sg==
-X-Google-Smtp-Source: AGHT+IFqUZg6UxbmPBpmmNDChC/PhM5ksog1SlPE5I3zx5OIy0xNoMEVpgKx1uItUxOnsjp3icE8UQ==
-X-Received: by 2002:a05:6512:b26:b0:53d:edba:d40b with SMTP id 2adb3069b0e04-53df00dc8d7mr12039335e87.33.1733151549347;
-        Mon, 02 Dec 2024 06:59:09 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df646f2c3sm1480384e87.126.2024.12.02.06.59.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 06:59:07 -0800 (PST)
-Date: Mon, 2 Dec 2024 16:59:06 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 2/9] ASoC: hdmi-codec: move no_capture_mute to struct
- hdmi_codec_pdata
-Message-ID: <onq2djvtvxvr3a52s6sin3dstwdctyyz2lxpx47lk7ndxtza33@odldgvhryw4d>
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-2-b5316e82f61a@linaro.org>
- <20241202-bald-just-guan-c5d41b@houat>
+        d=1e100.net; s=20230601; t=1733151912; x=1733756712;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bfBZkGGwd+WXNqsHeftulIPKfKwX0tDqU4K/BD6pObg=;
+        b=uyRdWNFXiNMZSM5sycsTxutxGhqm+4YXPA9m7ovjK2rHs5MDpCmB1RdMj7YhSgxnR5
+         CNhJ+TnDYel/VnmnfmqSBWavqfggTvlYek/byXZtelrSVveDmzYFNYi5DHMADNbEw2Rl
+         f1YnwBrg+A0mkI1BVr0lAmagFGIuW43YaNk1Nr3kZTwCiacewgQ17ep7X1UzePHJ9c+I
+         +LpjzxhMtfplaIvEOUkfb3vqfctuj1alL/7Gnv6yOWLKzBWUXpmzOcLvPzXk38tbx6R9
+         J7VSpd03fTDA66NALLvpX50+LwM4RIVs69ZbP2uqbBnw5To4taD4/xNAgRtwhZPEt+ur
+         7yfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXx9Kraid0UAnna3e0BBro3xY3myL96QGTWzE7LA9KQrSHQBpblMuKUdOnHy0cEwqxUsKoLRpnoIZrX+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzutrcczKlpkrbouaymzOh7NvBjIWYC0xSvO+ndbmt96ja1zgcq
+	82FXEKACN3awb23byhctCKdrFza1Ygkx4ZYEEgUz2VZl5WQ0vJMBsm6OoqHUkX0hpin0jYu32/s
+	BvvajPr4+MwOrFwZ3Ww0CWAPwbNFCSSBdDT+p
+X-Gm-Gg: ASbGncvqrl31RSXWKVKibXWQbuQ51Z2j+xOpoB3xF0vd9HHccINYEq+HoKkn6OuucfU
+	5LgQJDWnDeHnXNp0rq4ZnCSuEaZnLog==
+X-Google-Smtp-Source: AGHT+IG9Nz7EUYJBmLwTEZx7xuhK780YVC2j26Mdb+DOgr27uTLe/GvC8A8DFrnSF1rOzPtzTKtw+7qHiQR+ULbiPac=
+X-Received: by 2002:a0c:eec9:0:b0:6d8:9124:8795 with SMTP id
+ 6a1803df08f44-6d891248a01mr148347966d6.1.1733151912026; Mon, 02 Dec 2024
+ 07:05:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202-bald-just-guan-c5d41b@houat>
+References: <60e3aa09-039d-46d2-934c-6f123026c2eb@stanley.mountain>
+In-Reply-To: <60e3aa09-039d-46d2-934c-6f123026c2eb@stanley.mountain>
+From: =?UTF-8?Q?Beno=C3=AEt_Sevens?= <bsevens@google.com>
+Date: Mon, 2 Dec 2024 16:05:01 +0100
+Message-ID: <CAGCho0Xe-jGcanAxehP+ENmrG0Otq5DzQO-yKHx7Ot_UzSRXWQ@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: usb-audio: Fix a DMA to stack memory bug
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, wangdicheng <wangdicheng@kylinos.cn>, 
+	Manuel Barrio Linares <mbarriolinares@gmail.com>, Lianqin Hu <hulianqin@vivo.com>, 
+	Shen Lichuan <shenlichuan@vivo.com>, Cyan Nyan <cyan.vtb@gmail.com>, linux-sound@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Dec 02, 2024 at 01:06:09PM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, Dec 01, 2024 at 02:44:06AM +0200, Dmitry Baryshkov wrote:
-> > The no_capture_mute flag might differ from platform to platform,
-> > especially in the case of the wrapping implementations, like the
-> > upcoming DRM HDMI Codec framework. Move the flag next to all other flags
-> > in struct hdmi_codec_pdata.
-> > 
-> > Acked-by: Mark Brown <broonie@kernel.org>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> 
-> I appreciate it might be a dumb question, but I never really understood
-> what no_capture_mute was all about. And in that context, why some
-> drivers would need / use it, and some won't.
+Hi Dan,
 
-Some platforms can not mute the HDMI capture (ARC?) path. See the
-following patches:
-- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
-- https://lore.kernel.org/all/1606372608-2329-1-git-send-email-shengjiu.wang@nxp.com/
+On Mon, 2 Dec 2024 at 13:57, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> The usb_get_descriptor() function does DMA so we're not allowed
+> to use a stack buffer for that.  Doing DMA to the stack is not portable
+> all architectures.  Move the "new_device_descriptor" from being stored
+> on the stack and allocate it with kmalloc() instead.
+>
 
-Russell added a way to disable capture / playback support, but only TDA
-driver uses those. I think generally we should change those flags to be
-opt-in for capture, but that requires carefully reviewing all the
-platforms (and is a separate topic anyway).
+Thanks for fixing this. It looks good to me.
 
--- 
-With best wishes
-Dmitry
+Note that the commit that is being fixed is already queued for
+backporting, so I don't know how this usually goes then.
+
+> Fixes: b909df18ce2a ("ALSA: usb-audio: Fix potential out-of-bound accesses for Extigy and Mbox devices")
+> Cc: stable@kernel.org
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  sound/usb/quirks.c | 42 +++++++++++++++++++++++++++---------------
+>  1 file changed, 27 insertions(+), 15 deletions(-)
+>
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index 8bc959b60be3..7c9d352864da 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -555,7 +555,7 @@ int snd_usb_create_quirk(struct snd_usb_audio *chip,
+>  static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interface *intf)
+>  {
+>         struct usb_host_config *config = dev->actconfig;
+> -       struct usb_device_descriptor new_device_descriptor;
+> +       struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
+>         int err;
+>
+>         if (le16_to_cpu(get_cfg_desc(config)->wTotalLength) == EXTIGY_FIRMWARE_SIZE_OLD ||
+> @@ -566,15 +566,19 @@ static int snd_usb_extigy_boot_quirk(struct usb_device *dev, struct usb_interfac
+>                                       0x10, 0x43, 0x0001, 0x000a, NULL, 0);
+>                 if (err < 0)
+>                         dev_dbg(&dev->dev, "error sending boot message: %d\n", err);
+> +
+> +               new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
+> +               if (!new_device_descriptor)
+> +                       return -ENOMEM;
+>                 err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+> -                               &new_device_descriptor, sizeof(new_device_descriptor));
+> +                               new_device_descriptor, sizeof(*new_device_descriptor));
+>                 if (err < 0)
+>                         dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
+> -               if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
+> +               if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
+>                         dev_dbg(&dev->dev, "error too large bNumConfigurations: %d\n",
+> -                               new_device_descriptor.bNumConfigurations);
+> +                               new_device_descriptor->bNumConfigurations);
+>                 else
+> -                       memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
+> +                       memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
+>                 err = usb_reset_configuration(dev);
+>                 if (err < 0)
+>                         dev_dbg(&dev->dev, "error usb_reset_configuration: %d\n", err);
+> @@ -906,7 +910,7 @@ static void mbox2_setup_48_24_magic(struct usb_device *dev)
+>  static int snd_usb_mbox2_boot_quirk(struct usb_device *dev)
+>  {
+>         struct usb_host_config *config = dev->actconfig;
+> -       struct usb_device_descriptor new_device_descriptor;
+> +       struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
+>         int err;
+>         u8 bootresponse[0x12];
+>         int fwsize;
+> @@ -941,15 +945,19 @@ static int snd_usb_mbox2_boot_quirk(struct usb_device *dev)
+>
+>         dev_dbg(&dev->dev, "device initialised!\n");
+>
+> +       new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
+> +       if (!new_device_descriptor)
+> +               return -ENOMEM;
+> +
+>         err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+> -               &new_device_descriptor, sizeof(new_device_descriptor));
+> +               new_device_descriptor, sizeof(*new_device_descriptor));
+>         if (err < 0)
+>                 dev_dbg(&dev->dev, "error usb_get_descriptor: %d\n", err);
+> -       if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
+> +       if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
+>                 dev_dbg(&dev->dev, "error too large bNumConfigurations: %d\n",
+> -                       new_device_descriptor.bNumConfigurations);
+> +                       new_device_descriptor->bNumConfigurations);
+>         else
+> -               memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
+> +               memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
+>
+>         err = usb_reset_configuration(dev);
+>         if (err < 0)
+> @@ -1259,7 +1267,7 @@ static void mbox3_setup_defaults(struct usb_device *dev)
+>  static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
+>  {
+>         struct usb_host_config *config = dev->actconfig;
+> -       struct usb_device_descriptor new_device_descriptor;
+> +       struct usb_device_descriptor *new_device_descriptor __free(kfree) = NULL;
+>         int err;
+>         int descriptor_size;
+>
+> @@ -1272,15 +1280,19 @@ static int snd_usb_mbox3_boot_quirk(struct usb_device *dev)
+>
+>         dev_dbg(&dev->dev, "MBOX3: device initialised!\n");
+>
+> +       new_device_descriptor = kmalloc(sizeof(*new_device_descriptor), GFP_KERNEL);
+> +       if (!new_device_descriptor)
+> +               return -ENOMEM;
+> +
+>         err = usb_get_descriptor(dev, USB_DT_DEVICE, 0,
+> -               &new_device_descriptor, sizeof(new_device_descriptor));
+> +               new_device_descriptor, sizeof(*new_device_descriptor));
+>         if (err < 0)
+>                 dev_dbg(&dev->dev, "MBOX3: error usb_get_descriptor: %d\n", err);
+> -       if (new_device_descriptor.bNumConfigurations > dev->descriptor.bNumConfigurations)
+> +       if (new_device_descriptor->bNumConfigurations > dev->descriptor.bNumConfigurations)
+>                 dev_dbg(&dev->dev, "MBOX3: error too large bNumConfigurations: %d\n",
+> -                       new_device_descriptor.bNumConfigurations);
+> +                       new_device_descriptor->bNumConfigurations);
+>         else
+> -               memcpy(&dev->descriptor, &new_device_descriptor, sizeof(dev->descriptor));
+> +               memcpy(&dev->descriptor, new_device_descriptor, sizeof(dev->descriptor));
+>
+>         err = usb_reset_configuration(dev);
+>         if (err < 0)
+> --
+> 2.45.2
+>
