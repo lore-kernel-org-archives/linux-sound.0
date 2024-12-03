@@ -1,47 +1,46 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0CB1AA1EB;
-	Tue,  3 Dec 2024 20:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B307418FC91;
+	Tue,  3 Dec 2024 20:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733256042; cv=none; b=gVfewD9NZmS3yZlkOyVu8UhHAvG+enAIbjJWvZ3zTJR3qqbRJNI4L/WSwtsfB9yibGQ2FP6hkIcSBqw1msxFcGDgjwu5caL63kmk5wvK6kH6K82bYyTSwIXtNOmDlboS/swg8p8y8+m43LNogjdTTlaFlk9ozhQTDdC0W+5/q50=
+	t=1733256042; cv=none; b=RYqCxfI0B5Jwcx20/ncTuBtBTNIoEmaCE23FGJuRtrB0oYsHSYEvBs0YbtZITPhORPiaMtDBk8d/JJP0q50nHXQGI9iTQ3C/C8g7IN/9Kl1VLw73CkYXEvCXnl5nndflHG7KP1S3KarQ76p5LvVtjXf2Prc18MVHnMtJeHJ25D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733256042; c=relaxed/simple;
-	bh=98S2N3DF4Ab00/pba4PqgYqXoJdQl74CzABJgc0IIbk=;
+	bh=4C3/OEvhnC35KoVHeykoD3L+vw3BLbZSJonpse2YmR4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ffVPd0a/3quUpLBq7SZVphCW85bo+iD++Jwi6avl8n/YadY9ACn8Cpi5QQeawnuowhB53ikT2ycJmzVpWcqptPm6SEhnQ/4XIgZm9eaTf1S9g4Docl2PhVKdzv1MYhsieCOXm4hmD+9FLb28Lybrtk3I03RAX0+0sQImmsitQB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CVNo+qMf; arc=none smtp.client-ip=198.47.19.246
+	 MIME-Version:Content-Type; b=NtJejpuq0cQcMxKkkJlMAbZf03qXZWzdk4C0KJ53Rv0rsybXYNm5SuMYN3aLuKaHiv6+fKrvXkwvoV/v2cHo03QnlDYVeWoII2nU5xNtmEMbaFgmq+xjZWTgJdKfeoBRWLCfMjSSWWM/gtPZx1GrL555QZmhyXW+0jKCryefT2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Dx9CyQRg; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CVNo+qMf"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 4B3K061W1663511
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 3 Dec 2024 14:00:06 -0600
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Dx9CyQRg"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 4B3K08X11933806
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 3 Dec 2024 14:00:08 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1733256006;
-	bh=reeFBcyckW+uWyXmE2/gFSmabe/vxaEIFPgDH+bFf2s=;
+	s=ti-com-17Q1; t=1733256008;
+	bh=qIpNvcwb6jGE4JnEYwnRpJQr4L5g98mEzuVOATTEvz8=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=CVNo+qMfjJauDET1PIHp7LY+oRXrWCIYjX3PyieQl/cNJgrWTkw2X19GWna8pMvTO
-	 A3lpClfHXG3NtOt6a54c1Ni2c1Cuvu5HQ8rYuxr061XEshJEuDLDjv2eT+DgJgsWZy
-	 sveXlNZVjHGhVnLnIk9dpOrrxXCK6fQsn8c6I/Ts=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4B3K05xh031113
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 3 Dec 2024 14:00:05 -0600
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+	b=Dx9CyQRgo6ZSXaoJuz4g34QRfWdOUULbtr5adzg3AjLI1kXQdtIp6wrVlKM6h1vA6
+	 purdIMCl2/trKEUyeG9CR+S2j7UKN4Wn8A7O2JSUNTfawlpYNvKdRJelBUe4OjO/Ve
+	 E2XieHrq47FAmFG0WTsI3PQUDKrbZpBGAPsrFFjs=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B3K07b0029168;
+	Tue, 3 Dec 2024 14:00:07 -0600
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 3
- Dec 2024 14:00:05 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2024 14:00:07 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 3 Dec 2024 14:00:05 -0600
+ Frontend Transport; Tue, 3 Dec 2024 14:00:07 -0600
 Received: from lelvsmtp6.itg.ti.com ([10.249.42.149])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B3K02Jc122616;
-	Tue, 3 Dec 2024 14:00:05 -0600
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B3K02Ji122616;
+	Tue, 3 Dec 2024 14:00:07 -0600
 From: Andrew Davis <afd@ti.com>
 To: Lars-Peter Clausen <lars@metafoo.de>,
         =?UTF-8?q?Nuno=20S=C3=A1?=
@@ -51,9 +50,9 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
         Marek Vasut <marex@denx.de>
 CC: <patches@opensource.cirrus.com>, <linux-sound@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Andrew Davis <afd@ti.com>
-Subject: [PATCH 08/21] ASoC: max98090: Remove use of i2c_match_id()
-Date: Tue, 3 Dec 2024 13:59:48 -0600
-Message-ID: <20241203200001.197295-8-afd@ti.com>
+Subject: [PATCH 14/21] ASoC: tas2781: Remove use of i2c_match_id()
+Date: Tue, 3 Dec 2024 13:59:54 -0600
+Message-ID: <20241203200001.197295-14-afd@ti.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20241203200001.197295-1-afd@ti.com>
 References: <20241203200001.197295-1-afd@ti.com>
@@ -83,44 +82,29 @@ This helper has a couple other benefits:
 
 Signed-off-by: Andrew Davis <afd@ti.com>
 ---
- sound/soc/codecs/max98090.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ sound/soc/codecs/tas2781-i2c.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/max98090.c b/sound/soc/codecs/max98090.c
-index 2adf744c65263..790e2ae6dc182 100644
---- a/sound/soc/codecs/max98090.c
-+++ b/sound/soc/codecs/max98090.c
-@@ -2543,8 +2543,6 @@ MODULE_DEVICE_TABLE(i2c, max98090_i2c_id);
- static int max98090_i2c_probe(struct i2c_client *i2c)
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2c.c
+index e41f81eb8d16c..5e59b80fe0082 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -1663,7 +1663,6 @@ static void tasdevice_parse_dt(struct tasdevice_priv *tas_priv)
+ 
+ static int tasdevice_i2c_probe(struct i2c_client *i2c)
  {
- 	struct max98090_priv *max98090;
--	const struct acpi_device_id *acpi_id;
--	kernel_ulong_t driver_data = 0;
+-	const struct i2c_device_id *id = i2c_match_id(tasdevice_id, i2c);
+ 	const struct acpi_device_id *acpi_id;
+ 	struct tasdevice_priv *tas_priv;
  	int ret;
- 
- 	pr_debug("max98090_i2c_probe\n");
-@@ -2554,21 +2552,7 @@ static int max98090_i2c_probe(struct i2c_client *i2c)
- 	if (max98090 == NULL)
- 		return -ENOMEM;
- 
--	if (ACPI_HANDLE(&i2c->dev)) {
--		acpi_id = acpi_match_device(i2c->dev.driver->acpi_match_table,
--					    &i2c->dev);
--		if (!acpi_id) {
--			dev_err(&i2c->dev, "No driver data\n");
--			return -EINVAL;
--		}
--		driver_data = acpi_id->driver_data;
--	} else {
--		const struct i2c_device_id *i2c_id =
--			i2c_match_id(max98090_i2c_id, i2c);
--		driver_data = i2c_id->driver_data;
--	}
--
--	max98090->devtype = driver_data;
-+	max98090->devtype = (uintptr_t)i2c_get_match_data(i2c);
- 	i2c_set_clientdata(i2c, max98090);
- 	max98090->pdata = i2c->dev.platform_data;
+@@ -1685,7 +1684,7 @@ static int tasdevice_i2c_probe(struct i2c_client *i2c)
+ 		tas_priv->chip_id = acpi_id->driver_data;
+ 		tas_priv->isacpi = true;
+ 	} else {
+-		tas_priv->chip_id = id ? id->driver_data : 0;
++		tas_priv->chip_id = (uintptr_t)i2c_get_match_data(i2c);
+ 		tas_priv->isacpi = false;
+ 	}
  
 -- 
 2.39.2
