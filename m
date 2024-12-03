@@ -1,166 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E26B3398B;
-	Tue,  3 Dec 2024 12:01:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499351E4929
+	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 12:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733227262; cv=none; b=FzO7zdcCbOGmFYMs76UesdXZ0Fc7Nl77VPhE/Ky8oPsmxh/+t/NuBngY4P11WQjiQKcoLXZUEeL+oLyj6J/lIYtd2avhg8Q37+X7gzST0DfTkg1ND5XKKKL2m2xNT2XRxgIuOqLRSGQZaCkfxUqnU/RvX7tcXDXl2ecIS5xu6yE=
+	t=1733227307; cv=none; b=rg+te8pK5/qfsHLIIuU/7pPMvalWLqL0v3a7hgexCJBFBzdtQeiq/6OtR24i84Yw4XEIVLpNlrbzfBJu9x4oFybNHGRIQf1ojHxrsBJkRDK3BIYLEA9AS35DUD2+dr5VGV5UEc2gWGE7a1msE9FtrbeL31C5Cr7OEvCvgYdVOps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733227262; c=relaxed/simple;
-	bh=rlz53vWDp5E/pYVOEj1URbYGt1AREB4Xo9ogjRjCu50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rKPWitPTPIjPGJJtxcIdmX9tRnFLzlNuAIpWz2zE5F6v0tYsKpF7koC+Eb9bnpcfT39KKfLnppZUfH1YZHoE/zenBBuGQYVTNY9OhPRt+8L0D+bhGfVOiUWog413yWrdxB93lVnyAt02SIsC/sAreWOlPPF9/n13xvOgo4IWFA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdDeCtLV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733227307; c=relaxed/simple;
+	bh=dST8VrQazrnkchOWuMVpU7cZ3DR81rw+cDhZEndYGI8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=sj07iLussOedUt/d3etaLafuM7KM6jq0Wjfp8ajxDzLxUpQFBR/dhvkhWlOPKXDCFVBQ0g4juBNw4wCDBkxyym8/yrcEYWXEk+hHQafdT8IHuNq6qxDxLxGoX3sORSuT0GW8nPEMIfUcyOfVwrxfm9KiQgXITe0A69NhvLqP2bQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=Swlz0KSB; arc=none smtp.client-ip=103.150.252.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdDeCtLV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBAF4C4CECF;
-	Tue,  3 Dec 2024 12:01:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733227261;
-	bh=rlz53vWDp5E/pYVOEj1URbYGt1AREB4Xo9ogjRjCu50=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fdDeCtLVqECfRfNoqbCzzD0S2R+ze8fu4xgXlPdQFJQ+STayO+czgml6vxR6gAr9u
-	 SfvYrgXRdRmOjMEDiUcIg8Ywi35riI0nUxeZrJIGAla7/uurms7YmN220IRsCbVxR6
-	 0RLGXO472a27O/MHnrmTkWCsCE1MnHGszPPpy+ATOMh/r4ZUNj1XVz+G2aEnELC83Q
-	 5zXc30+JHwj5J8xXpxDpdRcwIa3kank2REKqd9CMrbu3SZA6RQSEQqgx6shuUaL3BU
-	 er9sxGEV01E1uZex0+a/6+JDYf3SqBVZ3ELFg7wS+IFimmHwT30DsHPjPlqmlPz8Tg
-	 GqLyWYoqGameA==
-Date: Tue, 3 Dec 2024 13:00:58 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Martin Tuma <martin.tuma@digiteqautomotive.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, 
-	Michael Jamet <michael.jamet@intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
-	Yehezkel Bernat <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, 
-	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>, 
-	Mike Christie <michael.christie@oracle.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
-	Manish Rangankar <mrangankar@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
-	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Alison Schofield <alison.schofield@intel.com>, Andreas Larsson <andreas@gaisler.com>, 
-	Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, 
-	Jens Axboe <axboe@kernel.dk>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Cristian Marussi <cristian.marussi@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, linux-pwm@vger.kernel.org, 
-	nvdimm@lists.linux.dev, linux1394-devel@lists.sourceforge.net, 
-	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
-	linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-block@vger.kernel.org, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-Message-ID: <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="Swlz0KSB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=Content-Type:Subject:From:To:MIME-Version:Date:
+	Message-ID; bh=4711xJ66FxhpDzaiQ9GZcTtkAqP9f+3Ccu6zo05/sxk=; b=Swlz0KSBfMwycr
+	ODToIy0Ss3hxpPyAFSD/93poikcwm4/FYPjurg69FKJB3OAu+4coqUzt+tpFo+BoOEmfbsBMVHO6i
+	drI1Pv5IXcPp4hSSYW/gQJ2swwHu/D//67zeEqOnNp44/gPvRSFilvtj6+kTZx69JoSfn34Z/W/ob
+	PgfjjdBhR5F1yst1gxE/zA2Euhrr711+JKF+C7wkOu6d/s/D3tnARIRtSsFH0t+arht9GRbiD+h1E
+	ulm0QwIBDeifhSTPnA/RyQmkMjOjHECreBWJ7LG6HHO4TvFvxA/2Lq+uP3m6MqrrsBee8dHYIB5Oa
+	TEUD/LDKtqKOsj46ottg==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-0b90e6e05a7b179c7) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tIRax-000000006bA-0VCi ;
+	Tue, 03 Dec 2024 12:01:35 +0000
+Received: from [220.233.184.101] (helo=[192.168.20.106])
+	 by CMR-KAKADU03.i-0b90e6e05a7b179c7 with esmtpa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tIRaw-000000000qe-34VX;
+	Tue, 03 Dec 2024 12:01:34 +0000
+Message-ID: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
+Date: Tue, 3 Dec 2024 23:01:31 +1100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="35h4iyqfzzpzpkno"
-Content-Disposition: inline
-In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>
+Cc: linux-sound@vger.kernel.org, alsa-devel@vger.kernel.org
+From: Stephen Gordon <gordoste@iinet.net.au>
+Subject: [PATCH] ASoC: pcm3168a: Add option to force clock consumer
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=SanxdORu c=1 sm=1 tr=0 ts=674ef31e a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=PA-jjX1Vhq5T2YEptLMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Cm-Envelope: MS4xfLdjdtfLs99pk1efUxIHVn0VMWqWkPMgKEprIOxM2Rqer7T9nUadZLO2DiGmm1xe83XsLSwlkPU347tmy/HdtgxcUGl7PnFN5FM29CB5z+4hKoaZccVH rlTqzTI8JEoujONBnhEJpNHJPA+TZ9aK3AjJD926AotbxWy5Ed+Ab5qaOYMR5zeudgZv0x1Hs+ChRw==
+X-atmailcloud-route: unknown
 
 
---35h4iyqfzzpzpkno
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-MIME-Version: 1.0
+Scenario is that DAC's clock pins are tied to ADC's clock pins, with
+codec acting as clock producer for the I2S bus, and the CPU has a single
+pair of I2S clock pins used for both playback and capture.
 
-Hello,
+Both DAI links will have codec acting as a clock producer, but we need
+to configure the codec so that only one of ADC/DAC drives the lines.
 
-On Tue, Dec 03, 2024 at 08:33:22AM +0800, Zijun Hu wrote:
-> This patch series is to constify the following API:
-> struct device *device_find_child(struct device *dev, void *data,
-> 		int (*match)(struct device *dev, void *data));
-> To :
-> struct device *device_find_child(struct device *dev, const void *data,
-> 				 device_match_t match);
-> typedef int (*device_match_t)(struct device *dev, const void *data);
+Add DT options to support this configuration. adc-force-cons/dac-force-cons
+cause MSAD/MSDA to be set to 0b000.
 
-This series isn't bisectible. With only the first two patches applied I
-hit:
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index 9d6431338..5e3590f2d 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -61,6 +61,7 @@ struct pcm3168a_priv {
+         struct clk *scki;
+         struct gpio_desc *gpio_rst;
+         unsigned long sysclk;
++       bool adc_fc, dac_fc; // Force clock consumer mode
 
-  CC      drivers/pwm/core.o
-drivers/pwm/core.c: In function =E2=80=98pwm_unexport_child=E2=80=99:
-drivers/pwm/core.c:1292:55: error: passing argument 3 of =E2=80=98device_fi=
-nd_child=E2=80=99 from incompatible pointer type [-Wincompatible-pointer-ty=
-pes]
- 1292 |         pwm_dev =3D device_find_child(pwmchip_dev, pwm, pwm_unexpor=
-t_match);
-      |                                                       ^~~~~~~~~~~~~=
-~~~~~
-      |                                                       |
-      |                                                       int (*)(struc=
-t device *, void *)
-In file included from include/linux/acpi.h:14,
-                 from drivers/pwm/core.c:11:
-include/linux/device.h:1085:49: note: expected =E2=80=98device_match_t=E2=
-=80=99 {aka =E2=80=98int (*)(struct device *, const void *)=E2=80=99} but a=
-rgument is of type =E2=80=98int (*)(struct device *, void *)=E2=80=99
- 1085 |                                  device_match_t match);
-      |                                  ~~~~~~~~~~~~~~~^~~~~
-drivers/pwm/core.c: In function =E2=80=98pwm_class_get_state=E2=80=99:
-drivers/pwm/core.c:1386:55: error: passing argument 3 of =E2=80=98device_fi=
-nd_child=E2=80=99 from incompatible pointer type [-Wincompatible-pointer-ty=
-pes]
- 1386 |         pwm_dev =3D device_find_child(pwmchip_dev, pwm, pwm_unexpor=
-t_match);
-      |                                                       ^~~~~~~~~~~~~=
-~~~~~
-      |                                                       |
-      |                                                       int (*)(struc=
-t device *, void *)
-include/linux/device.h:1085:49: note: expected =E2=80=98device_match_t=E2=
-=80=99 {aka =E2=80=98int (*)(struct device *, const void *)=E2=80=99} but a=
-rgument is of type =E2=80=98int (*)(struct device *, void *)=E2=80=99
- 1085 |                                  device_match_t match);
-      |                                  ~~~~~~~~~~~~~~~^~~~~
-make[5]: *** [scripts/Makefile.build:194: drivers/pwm/core.o] Error 1
-make[4]: *** [scripts/Makefile.build:440: drivers/pwm] Error 2
-make[3]: *** [scripts/Makefile.build:440: drivers] Error 2
-make[2]: *** [Makefile:1989: .] Error 2
-make[1]: *** [Makefile:372: __build_one_by_one] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
+         struct pcm3168a_io_params io_params[2];
+         struct snd_soc_dai_driver dai_drv[2];
+@@ -479,6 +480,12 @@ static int pcm3168a_hw_params(struct 
+snd_pcm_substream *substream,
+                 ms = 0;
+         }
 
-Best regards
-Uwe
++       // Force clock consumer mode if needed
++       if (pcm3168a->adc_fc && dai->id == PCM3168A_DAI_ADC)
++               ms = 0;
++       if (pcm3168a->dac_fc && dai->id == PCM3168A_DAI_DAC)
++               ms = 0;
++
+         format = io_params->format;
 
---35h4iyqfzzpzpkno
-Content-Type: application/pgp-signature; name="signature.asc"
+         if (io_params->slot_width)
+@@ -757,6 +764,13 @@ int pcm3168a_probe(struct device *dev, struct 
+regmap *regmap)
 
------BEGIN PGP SIGNATURE-----
+         pcm3168a->sysclk = clk_get_rate(pcm3168a->scki);
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdO8vgACgkQj4D7WH0S
-/k5hrwgAmMfv4tgQM/zHhRunXZer+6rbqIrp5LbiXSYngMgHSWkkF/Aqcp/Uejmb
-FQwdlGB47gyVlHT5SP4HCDeST+PhX0lg3vHxP2lg0HaHp7/vgJRZAI65iOfy7DY7
-xqXQ+U2+YvtY+lwSneGFeXo9VZZtuu/YfpP8Qg6jH8dGaIojaU57rB+uJCpdvZmt
-VJhc51IAA6eHPcPMGf5mvS8/A7M8uPDwyEgWBDP/MRE0z6oKEjVLPWYFzXjUaVnZ
-MMOmGyzIfvhHTMxlkisgCC+PwmjrO2lZFsM1jD6SVNzMp6XeT2jiGa7lbfXaK9Rk
-7TvM1d7dwtqa42JTuIjTWWBR7AfmBA==
-=Sef0
------END PGP SIGNATURE-----
++       if (dev->of_node) {
++               pcm3168a->adc_fc = of_property_read_bool(dev->of_node,
++                               "adc-force-cons");
++               pcm3168a->dac_fc = of_property_read_bool(dev->of_node,
++                               "dac-force-cons");
++       }
++
+         for (i = 0; i < ARRAY_SIZE(pcm3168a->supplies); i++)
+                 pcm3168a->supplies[i].supply = pcm3168a_supply_names[i];
 
---35h4iyqfzzpzpkno--
+
+
+Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
