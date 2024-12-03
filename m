@@ -1,76 +1,105 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EF41EE01F
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 13:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464131E501B;
+	Tue,  3 Dec 2024 13:58:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733233977; cv=none; b=lQ9I9TGqqgfaFaWK12FYkgjaeMUKMBIr2Fiosl/DPQup/u9tRy+p8FpMrZkljjFchNJcOhWN07daF0ptKUOyzbFS/KhK0rrtqNNZzr2reQFxp5GL7oyuHQxSvqywAILN2wnLu2YFZwSzUTwyogzIDsf5BWwZCbLcrBeZk7p8zUM=
+	t=1733234324; cv=none; b=Fr11qB9Oylpl2vP4C2qzOVJJR8SWzHo0jQn6fdRnzKYiwvekrN7hukbzXNL7/O8K57QaA1Ikq0ecTWFdwnTI1p+0Xwm3pJ9wx4+PYudJZ0K4zEUjMULZ683GBbtY7jPjcf053nTbkv8YBHEj6uKxcDWXbTVh4piNNOWXPuiLmi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733233977; c=relaxed/simple;
-	bh=mSMHsV6JtOaztdeI7o0MGz0TDS9p3QG1+Tmr1e+EwBM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=b+WILIcCTg4yp7ES8W4rC0oQrdC2O0xSxziXPXXGZFebZtB8TMPRWMZnmsVG2mx0NuFc94C/36jfm5IBWo9bXrR9OXz8poqFioy86iJYWI4xInFal/RA7S1YFB70npgvLfEixg6LylUPx4UJ7VK1sVcVFbD6zUUe1HkNpmQ532U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oXM3iCyM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bOe42vGY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=oXM3iCyM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=bOe42vGY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1733234324; c=relaxed/simple;
+	bh=7NNwpckgQb/l67lVPPgzzJ1thEv5O/hEE7t3+p7Tpdo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Lp2nRC4Y8eXMMxGDYFkxze2wZLA4wJAWrY0cTzisEYaX79ONgWgM8A+TNATC/+jGmVNTfIId2y9TJdE8GaYJnnK5XIxoM7v+fS+NgGW8zb9TzGEdtb4hFCPmUBAMaknZFtpc5ToRSeK3YWxBM28o34vYpHNqs3hud4PEXg3tjYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=HLHxETwe; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=HLHxETwe; arc=none smtp.client-ip=96.44.175.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oXM3iCyM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bOe42vGY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oXM3iCyM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bOe42vGY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="HLHxETwe";
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="HLHxETwe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733234313;
+	bh=7NNwpckgQb/l67lVPPgzzJ1thEv5O/hEE7t3+p7Tpdo=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=HLHxETwehA3Cu0w4lwkW4nLObpF8Giff37u3+xj5dkxb4nBTSHgrTtWMnR+w58SOE
+	 yEYBvXR2CCr/Kc1wmc35T5+9wQoejSmzftZx9/tmvGj615/rjVQ8eb6mbyvYpjuerz
+	 gvQLnlkjlWO9gVzyf/ZR5y3X9FcM7fRyWzEozQGI=
+Received: from localhost (localhost [127.0.0.1])
+	by bedivere.hansenpartnership.com (Postfix) with ESMTP id F07C11287999;
+	Tue, 03 Dec 2024 08:58:33 -0500 (EST)
+Received: from bedivere.hansenpartnership.com ([127.0.0.1])
+ by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id 07HDiK-xPmbk; Tue,  3 Dec 2024 08:58:33 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1733234313;
+	bh=7NNwpckgQb/l67lVPPgzzJ1thEv5O/hEE7t3+p7Tpdo=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=HLHxETwehA3Cu0w4lwkW4nLObpF8Giff37u3+xj5dkxb4nBTSHgrTtWMnR+w58SOE
+	 yEYBvXR2CCr/Kc1wmc35T5+9wQoejSmzftZx9/tmvGj615/rjVQ8eb6mbyvYpjuerz
+	 gvQLnlkjlWO9gVzyf/ZR5y3X9FcM7fRyWzEozQGI=
+Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 595A421166;
-	Tue,  3 Dec 2024 13:52:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733233973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wvHHyn8ON0Y2l5hKXpxTfZwUgZD+saC4XsYe9Rb5J8k=;
-	b=oXM3iCyMC75Y0cUklhUPaPQFu8pMwlIFLCCMlR8nztYEZE5m9IQ7/I48fzHveM+oNS2G1Q
-	8A68ojRDbRwYCD8yUT1VM0arMs3giNzOpdc7iSkVQYR0recrZvNOzBlL5W3gB/DXOWv95i
-	5S3TWb0Aox+Y8ti3OrMz1bqHcpCtFWo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733233973;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wvHHyn8ON0Y2l5hKXpxTfZwUgZD+saC4XsYe9Rb5J8k=;
-	b=bOe42vGY6rBpuQTApS94xkZ6fvbWfszVoW466K2Xl5kQQuDkED+KDJtT+RYPtH9gDLue6H
-	7XuGm2ADRX5T+CAw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oXM3iCyM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bOe42vGY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733233973; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wvHHyn8ON0Y2l5hKXpxTfZwUgZD+saC4XsYe9Rb5J8k=;
-	b=oXM3iCyMC75Y0cUklhUPaPQFu8pMwlIFLCCMlR8nztYEZE5m9IQ7/I48fzHveM+oNS2G1Q
-	8A68ojRDbRwYCD8yUT1VM0arMs3giNzOpdc7iSkVQYR0recrZvNOzBlL5W3gB/DXOWv95i
-	5S3TWb0Aox+Y8ti3OrMz1bqHcpCtFWo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733233973;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=wvHHyn8ON0Y2l5hKXpxTfZwUgZD+saC4XsYe9Rb5J8k=;
-	b=bOe42vGY6rBpuQTApS94xkZ6fvbWfszVoW466K2Xl5kQQuDkED+KDJtT+RYPtH9gDLue6H
-	7XuGm2ADRX5T+CAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4AFB213A15;
-	Tue,  3 Dec 2024 13:52:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id YQy5ETUNT2cnKAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Dec 2024 13:52:53 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: hda: Always check capability at opening a hwdep
-Date: Tue,  3 Dec 2024 14:52:47 +0100
-Message-ID: <20241203135248.19840-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.43.0
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id 2A12D1287986;
+	Tue, 03 Dec 2024 08:58:28 -0500 (EST)
+Message-ID: <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Zijun Hu <zijun_hu@icloud.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J.
+ Wysocki" <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
+ Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,  Martin
+ Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
+ Jamet <michael.jamet@intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>,
+  Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,  Vladimir Oltean
+ <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
+ <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
+ Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,  Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
+ Leech <cleech@redhat.com>,  Mike Christie <michael.christie@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
+ <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>, 
+ GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
+ <dave@stgolabs.net>,  Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>, Andreas Larsson
+ <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
+ <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
+ <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
+ Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, linux-kernel@vger.kernel.org,
+  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-pwm@vger.kernel.org,  nvdimm@lists.linux.dev,
+ linux1394-devel@lists.sourceforge.net,  linux-serial@vger.kernel.org,
+ linux-sound@vger.kernel.org,  open-iscsi@googlegroups.com,
+ linux-scsi@vger.kernel.org,  linux-cxl@vger.kernel.org,
+ sparclinux@vger.kernel.org,  linux-block@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+ linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Date: Tue, 03 Dec 2024 08:58:26 -0500
+In-Reply-To: <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+	 <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
+	 <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+	 <2024120320-manual-jockey-dfd1@gregkh>
+	 <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -78,62 +107,31 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 595A421166
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	URIBL_BLOCKED(0.00)[suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCPT_COUNT_ONE(0.00)[1];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
-X-Spam-Flag: NO
 
-We have a capability check at hda_hwdep_open(), but it's applied only
-conditionally and the check is skipped when CONFIG_SND_DEBUG_VERBOSE
-is set.  This is rather inconsistent behavior, and we should apply the
-check always no matter which config is chosen.
+On Tue, 2024-12-03 at 21:02 +0800, Zijun Hu wrote:
+> On 2024/12/3 20:41, Greg Kroah-Hartman wrote:
+> > On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
+[...]
+> > > or squash such patch series into a single patch ?
+> > > 
+> > > various subsystem maintainers may not like squashing way.
+> > 
+> > Agreed, so look into either doing it in a bisectable way if at all
+> > possible.  As I don't see a full series here, I can't suggest how
+> > it needs to happen :(
+> > 
+> 
+> let me send you a full series later and discuss how to solve this
+> issue.
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- sound/pci/hda/hda_hwdep.c | 2 --
- 1 file changed, 2 deletions(-)
+It's only slightly more complex than what we normally do: modify all
+instances and then change the API.  In this case you have an additional
+problem because the prototype "const void *" will cause a mismatch if a
+function has "void *".  The easiest way to solve this is probably to
+make device_find_child a macro that coerces its function argument to
+having a non const "void *" and then passes off to the real function. 
+If you do that in the first patch, then you can constify all the
+consumers and finally remove the macro coercion in the last patch.
 
-diff --git a/sound/pci/hda/hda_hwdep.c b/sound/pci/hda/hda_hwdep.c
-index 727f39acedfc..9325e5c3cbe6 100644
---- a/sound/pci/hda/hda_hwdep.c
-+++ b/sound/pci/hda/hda_hwdep.c
-@@ -84,10 +84,8 @@ static int hda_hwdep_ioctl_compat(struct snd_hwdep *hw, struct file *file,
- 
- static int hda_hwdep_open(struct snd_hwdep *hw, struct file *file)
- {
--#ifndef CONFIG_SND_DEBUG_VERBOSE
- 	if (!capable(CAP_SYS_RAWIO))
- 		return -EACCES;
--#endif
- 	return 0;
- }
- 
--- 
-2.43.0
+James
 
