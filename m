@@ -1,128 +1,166 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094D1DDA37
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 10:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E26B3398B;
+	Tue,  3 Dec 2024 12:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733222944; cv=none; b=eKEXfH16sdVr0mz3IdrpGZFF/ACnyCf6W+09HoRiPZZYZfDKuZK0cEUmLiOI6dSOe0vy3pUbw/Cg/ewlZ7Q94FI9U+BP2+hqLaUaNc/on0S0gHQ1C3+uhbFvPh2CuW8yEesDgSluj4vEuCaGHYzcAEWGQwo+GCIglNBH2nQbYC8=
+	t=1733227262; cv=none; b=FzO7zdcCbOGmFYMs76UesdXZ0Fc7Nl77VPhE/Ky8oPsmxh/+t/NuBngY4P11WQjiQKcoLXZUEeL+oLyj6J/lIYtd2avhg8Q37+X7gzST0DfTkg1ND5XKKKL2m2xNT2XRxgIuOqLRSGQZaCkfxUqnU/RvX7tcXDXl2ecIS5xu6yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733222944; c=relaxed/simple;
-	bh=ez7q/384kweZQ7tgITZfNHIwzvcxxI0WszoP5l9SPAk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Xzdu6gwClkG3rbYhQOy+Nj0MkpDrtkCzmASEAccO0tAayTdAmEOs2evWXZHTI+IW/QUU67sbcB1AhvZ1oK1HeOBKg23S3xli2QUyckR4u1oqB8LbSbSSksZi2BtHvdQRZMpthZ65WLvkcnjofd7cyIAaQ9v0JL5Sq5ghIJA6Yxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8Mzu9ny; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1733227262; c=relaxed/simple;
+	bh=rlz53vWDp5E/pYVOEj1URbYGt1AREB4Xo9ogjRjCu50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rKPWitPTPIjPGJJtxcIdmX9tRnFLzlNuAIpWz2zE5F6v0tYsKpF7koC+Eb9bnpcfT39KKfLnppZUfH1YZHoE/zenBBuGQYVTNY9OhPRt+8L0D+bhGfVOiUWog413yWrdxB93lVnyAt02SIsC/sAreWOlPPF9/n13xvOgo4IWFA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdDeCtLV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8Mzu9ny"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733222943; x=1764758943;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ez7q/384kweZQ7tgITZfNHIwzvcxxI0WszoP5l9SPAk=;
-  b=J8Mzu9nymM3/08ouxtKL84oxR7/dqhqYglUvquWZMBrtik3GvgQ76i5j
-   IdfrSygAovAbDaoosORuFe1fBR1GmHQXdpvLEOiHay6cKIK2FM/4gMadd
-   8HBhp5Butns34nSQrscYLf0JBgH2oHuVQsOub8WSq9g+3jbahM2awPXJw
-   WYpv2ls8HXXlTq4+RElYrkecDyX7DGPaT2UQw6KugTd5Wn5gmYsiw4IrF
-   mbcBTzh/zTJ3w4Qnhy8n1YAggnFOiiaKxufTqub2R219ZjX3NnzCsLjHW
-   gIuVtmM6Xvp0pchxgkLPCf7DsGDLKE2PU0rD9WzlRLN9IwHAkviMhn17h
-   w==;
-X-CSE-ConnectionGUID: +k5q0iVmSoG2gv75mKus+g==
-X-CSE-MsgGUID: HBjolrfaQLK6Es057+hdQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33681086"
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="33681086"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:49:02 -0800
-X-CSE-ConnectionGUID: 3nMM2JzzS/OnXuj6Kz/hlg==
-X-CSE-MsgGUID: mJGnqiG3RsGZ4AQxqoepWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="93599428"
-Received: from ccbilbre-mobl3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.75])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:49:00 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH] ASoC: SOF: Intel: hda-dai: Ensure DAI widget is valid during params
-Date: Tue,  3 Dec 2024 18:48:53 +0800
-Message-ID: <20241203104853.56956-1-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdDeCtLV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBAF4C4CECF;
+	Tue,  3 Dec 2024 12:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733227261;
+	bh=rlz53vWDp5E/pYVOEj1URbYGt1AREB4Xo9ogjRjCu50=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fdDeCtLVqECfRfNoqbCzzD0S2R+ze8fu4xgXlPdQFJQ+STayO+czgml6vxR6gAr9u
+	 SfvYrgXRdRmOjMEDiUcIg8Ywi35riI0nUxeZrJIGAla7/uurms7YmN220IRsCbVxR6
+	 0RLGXO472a27O/MHnrmTkWCsCE1MnHGszPPpy+ATOMh/r4ZUNj1XVz+G2aEnELC83Q
+	 5zXc30+JHwj5J8xXpxDpdRcwIa3kank2REKqd9CMrbu3SZA6RQSEQqgx6shuUaL3BU
+	 er9sxGEV01E1uZex0+a/6+JDYf3SqBVZ3ELFg7wS+IFimmHwT30DsHPjPlqmlPz8Tg
+	 GqLyWYoqGameA==
+Date: Tue, 3 Dec 2024 13:00:58 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Martin Tuma <martin.tuma@digiteqautomotive.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, 
+	Michael Jamet <michael.jamet@intel.com>, Mika Westerberg <mika.westerberg@linux.intel.com>, 
+	Yehezkel Bernat <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, 
+	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>, 
+	Mike Christie <michael.christie@oracle.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali <njavali@marvell.com>, 
+	Manish Rangankar <mrangankar@marvell.com>, GR-QLogic-Storage-Upstream@marvell.com, 
+	Davidlohr Bueso <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Alison Schofield <alison.schofield@intel.com>, Andreas Larsson <andreas@gaisler.com>, 
+	Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor <laurentiu.tudor@nxp.com>, 
+	Jens Axboe <axboe@kernel.dk>, Sudeep Holla <sudeep.holla@arm.com>, 
+	Cristian Marussi <cristian.marussi@arm.com>, Ard Biesheuvel <ardb@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, netdev@vger.kernel.org, linux-pwm@vger.kernel.org, 
+	nvdimm@lists.linux.dev, linux1394-devel@lists.sourceforge.net, 
+	linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
+	linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-block@vger.kernel.org, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+Message-ID: <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="35h4iyqfzzpzpkno"
+Content-Disposition: inline
+In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
 
-Each cpu DAI should associate with a widget. However, the topology might
-not create the right number of DAI widgets for aggregated amps. And it
-will cause NULL pointer deference.
-Check that the DAI widget associated with the CPU DAI is valid to prevent
-NULL pointer deference due to missing DAI widgets in topologies with
-aggregated amps.
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
----
- sound/soc/sof/intel/hda-dai.c | 12 ++++++++++++
- sound/soc/sof/intel/hda.c     |  5 +++++
- 2 files changed, 17 insertions(+)
+--35h4iyqfzzpzpkno
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+MIME-Version: 1.0
 
-diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
-index ee274d445515..2a6f821c9e14 100644
---- a/sound/soc/sof/intel/hda-dai.c
-+++ b/sound/soc/sof/intel/hda-dai.c
-@@ -489,6 +489,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	int ret;
- 	int i;
- 
-+	if (!w) {
-+		dev_err(cpu_dai->dev, "%s widget not found, check amp link num in the topology\n",
-+			cpu_dai->name);
-+		return -EINVAL;
-+	}
-+
- 	ops = hda_dai_get_ops(substream, cpu_dai);
- 	if (!ops) {
- 		dev_err(cpu_dai->dev, "DAI widget ops not set\n");
-@@ -568,6 +574,12 @@ int sdw_hda_dai_hw_params(struct snd_pcm_substream *substream,
- 	 */
- 	for_each_rtd_cpu_dais(rtd, i, dai) {
- 		w = snd_soc_dai_get_widget(dai, substream->stream);
-+		if (!w) {
-+			dev_err(cpu_dai->dev,
-+				"%s widget not found, check amp link num in the topology\n",
-+				dai->name);
-+			return -EINVAL;
-+		}
- 		ipc4_copier = widget_to_copier(w);
- 		memcpy(&ipc4_copier->dma_config_tlv[cpu_dai_id], dma_config_tlv,
- 		       sizeof(*dma_config_tlv));
-diff --git a/sound/soc/sof/intel/hda.c b/sound/soc/sof/intel/hda.c
-index 01b135068b1f..0a481575bc54 100644
---- a/sound/soc/sof/intel/hda.c
-+++ b/sound/soc/sof/intel/hda.c
-@@ -63,6 +63,11 @@ static int sdw_params_stream(struct device *dev,
- 	struct snd_soc_dapm_widget *w = snd_soc_dai_get_widget(d, params_data->substream->stream);
- 	struct snd_sof_dai_config_data data = { 0 };
- 
-+	if (!w) {
-+		dev_err(dev, "%s widget not found, check amp link num in the topology\n",
-+			d->name);
-+		return -EINVAL;
-+	}
- 	data.dai_index = (params_data->link_id << 8) | d->id;
- 	data.dai_data = params_data->alh_stream_id;
- 	data.dai_node_id = data.dai_data;
--- 
-2.43.0
+Hello,
 
+On Tue, Dec 03, 2024 at 08:33:22AM +0800, Zijun Hu wrote:
+> This patch series is to constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+> 				 device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+
+This series isn't bisectible. With only the first two patches applied I
+hit:
+
+  CC      drivers/pwm/core.o
+drivers/pwm/core.c: In function =E2=80=98pwm_unexport_child=E2=80=99:
+drivers/pwm/core.c:1292:55: error: passing argument 3 of =E2=80=98device_fi=
+nd_child=E2=80=99 from incompatible pointer type [-Wincompatible-pointer-ty=
+pes]
+ 1292 |         pwm_dev =3D device_find_child(pwmchip_dev, pwm, pwm_unexpor=
+t_match);
+      |                                                       ^~~~~~~~~~~~~=
+~~~~~
+      |                                                       |
+      |                                                       int (*)(struc=
+t device *, void *)
+In file included from include/linux/acpi.h:14,
+                 from drivers/pwm/core.c:11:
+include/linux/device.h:1085:49: note: expected =E2=80=98device_match_t=E2=
+=80=99 {aka =E2=80=98int (*)(struct device *, const void *)=E2=80=99} but a=
+rgument is of type =E2=80=98int (*)(struct device *, void *)=E2=80=99
+ 1085 |                                  device_match_t match);
+      |                                  ~~~~~~~~~~~~~~~^~~~~
+drivers/pwm/core.c: In function =E2=80=98pwm_class_get_state=E2=80=99:
+drivers/pwm/core.c:1386:55: error: passing argument 3 of =E2=80=98device_fi=
+nd_child=E2=80=99 from incompatible pointer type [-Wincompatible-pointer-ty=
+pes]
+ 1386 |         pwm_dev =3D device_find_child(pwmchip_dev, pwm, pwm_unexpor=
+t_match);
+      |                                                       ^~~~~~~~~~~~~=
+~~~~~
+      |                                                       |
+      |                                                       int (*)(struc=
+t device *, void *)
+include/linux/device.h:1085:49: note: expected =E2=80=98device_match_t=E2=
+=80=99 {aka =E2=80=98int (*)(struct device *, const void *)=E2=80=99} but a=
+rgument is of type =E2=80=98int (*)(struct device *, void *)=E2=80=99
+ 1085 |                                  device_match_t match);
+      |                                  ~~~~~~~~~~~~~~~^~~~~
+make[5]: *** [scripts/Makefile.build:194: drivers/pwm/core.o] Error 1
+make[4]: *** [scripts/Makefile.build:440: drivers/pwm] Error 2
+make[3]: *** [scripts/Makefile.build:440: drivers] Error 2
+make[2]: *** [Makefile:1989: .] Error 2
+make[1]: *** [Makefile:372: __build_one_by_one] Error 2
+make: *** [Makefile:251: __sub-make] Error 2
+
+Best regards
+Uwe
+
+--35h4iyqfzzpzpkno
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdO8vgACgkQj4D7WH0S
+/k5hrwgAmMfv4tgQM/zHhRunXZer+6rbqIrp5LbiXSYngMgHSWkkF/Aqcp/Uejmb
+FQwdlGB47gyVlHT5SP4HCDeST+PhX0lg3vHxP2lg0HaHp7/vgJRZAI65iOfy7DY7
+xqXQ+U2+YvtY+lwSneGFeXo9VZZtuu/YfpP8Qg6jH8dGaIojaU57rB+uJCpdvZmt
+VJhc51IAA6eHPcPMGf5mvS8/A7M8uPDwyEgWBDP/MRE0z6oKEjVLPWYFzXjUaVnZ
+MMOmGyzIfvhHTMxlkisgCC+PwmjrO2lZFsM1jD6SVNzMp6XeT2jiGa7lbfXaK9Rk
+7TvM1d7dwtqa42JTuIjTWWBR7AfmBA==
+=Sef0
+-----END PGP SIGNATURE-----
+
+--35h4iyqfzzpzpkno--
