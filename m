@@ -1,214 +1,237 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011062.outbound.protection.outlook.com [52.101.125.62])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDCC7126C16
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 02:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733191837; cv=fail; b=r++gPRe9Bm7JoHgX8BQhR1HOG4Mdti4+WOlCEnyKnI/hAEFxuz4X2lYOO9zVI+CoRDDluprVTfk/AR31Ft+tLICtLDd31TTY1uKDcwyqo/RLTNucrMa6cB3XD2LiSAkbyCn1LVblpx4nKzK9q7XARjPw1t5pYWQqSsv0AgM/TSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733191837; c=relaxed/simple;
-	bh=Zen84/cWsFr2aNgHwBZrT5PR9aS8iPW/b0BhqwRibGg=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=Ki+9gmXOPAZQocwKtGwIJlx6XnZTWL6Uz0dW3fTKTRMsC3PIL+WyiDvfvqhqEyUF8Q3VRcyESLGFTIKONK+p4L+dsBoGwIeTuC9+bbZAHSThk5+61QFUCVnl550L3U52UfPctJ0wpDUBT5zdFZ1k6PYqog9EUUsi2t29ls5+lX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=LCYSJOvk; arc=fail smtp.client-ip=52.101.125.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A6A10E3;
+	Tue,  3 Dec 2024 02:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733193045; cv=none; b=G1W25i7/xbWAD0An+FCidiOfLR1T5DfqN6OicrvpFNguRJjScKq0QFzcj+4HB8u1cBFQpTL1DSzvYBsRjn/90fS2IUgYPCu5Qyh8tdtnjJN8kIu0/N3wFsNMPbCI+R1ZfS9sCUZTFxlgTL+oQO1i8nF1p2mTxO7h0n3hcetC09s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733193045; c=relaxed/simple;
+	bh=J6kCfI3+mWerd7aq/zsBLPHGDZ8UEOfEIHFUtwzbGYI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=THvaf7nkKNs5jwVRSsgjadtwflQxKiCvIkPiPPApeum0jne3H3cWuxL4Q8ZM3tw0qWLNuwMeFbzbtQMWO8ndAofffOJ8kS5MqF2PA+mn3RNGKYWeecAI4PwP73o7eL6XrTwjhFKRq+d4ApfV/8qSq+ioTGX2JY2OQ/Q2mhRAIJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RRde32nS; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="LCYSJOvk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ex3PymQnJX+jylcsvbonohbBThftn9p/GD/FVM32IHcIG7E6ugmYme7kZaY6VB1Dsq/10V7O1HnkCbxctR47zMDyPB+GVCkHZ+1dJJNmDtH0bcF9TdVyHdSVCverUwnBB8P2gby/OljCs/DfAITDM0fBeWBGSY2Q1JzdpX5ifVCMSvoad9I949yUxiKLbixjn+L+1ao+GKiAF3rTG7Y/WMvNyQ1QGEPCV3rzqRutk9rS8s8+Lygh0vxofU7qYKqWKrGXEsUH9IvjFIbpzcp3sSuZqIHW3PaEl0lLpx3VvhA3X8Lc/boGmeKg+kSogLolSIle1+Q/5ZzS+2yTJfqtNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ftbDbBMxfzhNs4aqJ4+HazyW/PeW9B7DfWlraZopxPk=;
- b=qzMsZRycLjtEsxZyWWwxieEd7bq+N5/V80jdPq7/nPLrdO7BawwqBW8VfpzCwbqUtlO1J1NOV1/7OMAKFHdbw7utsxKY1Z9++t0u/tjhVKId9XysTY1+kGbLDcbEzPrJSCAGyoLmR2XavnurClMfI/1QVGR1kc4sm41S1LNUR6J5IhO0yGm/9tQqKoaXr8t/uHqtFNn+4yJ3/SP5zYRWhEY2/3Pyr5D+SVZ30eJ48xgZHsIYfNxYbcXJ5Kth4TT+f0I4yfygVifDeMKg0bJIFE7sigkXRFT8pkvSLXzJoBSndj516ZYVDbRDTusZpt04vzZlbiRv9b3O/CNkWSBO8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ftbDbBMxfzhNs4aqJ4+HazyW/PeW9B7DfWlraZopxPk=;
- b=LCYSJOvkR+IjNkbW5qmqkC8n/sKz0DTK2vtqlpatWiaKBXF2VwQ86hJk788ZJBHE6H1QC5BakFGkCsn5eqE2HMicQR6Uj2h8LmZ/AidTFypT0HgOX2hbEe/HyVabahs26fRoBPvidWlp8ekeixxn8Z9DwhC34iT7FutC38cEPkQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYRPR01MB13047.jpnprd01.prod.outlook.com
- (2603:1096:405:1cf::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.19; Tue, 3 Dec
- 2024 02:10:33 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8207.017; Tue, 3 Dec 2024
- 02:10:33 +0000
-Message-ID: <87o71tfrdz.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH 3/3] ASoC: simple-card-utils: use for_each_of_graph_port() on graph_get_dai_id()
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87ser5frep.wl-kuninori.morimoto.gx@renesas.com>
-References: <87ser5frep.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 3 Dec 2024 02:10:32 +0000
-X-ClientProxiedBy: TYCP286CA0241.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:456::6) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RRde32nS"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2JiNhx002455;
+	Tue, 3 Dec 2024 02:29:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	NIaI2elXEkKBTIlhVG0Yzqw6Bciw63poFYlLyhXrzLk=; b=RRde32nSzcRxMrSK
+	3YY48p5GhAm/mS3vg+lg0D3FxoLRUoXHl6L6mFOiaFQ0NUs64z4qP9NXbiSaNwuW
+	UPDyDFwFPQRU0EmYGW3R+htK2LnFtwBpcL9NYc0cTlJz6+KZ7RnCcKlcHFXgdSBs
+	4hOmhReGBmYd+L5FIw+NNGPXBf4XxY1kh1YFOaRQ5bgqAurrXjKPjHQqP8meWo1S
+	FxVJCDc7TPr9tPzg/n2iO1FNFr5TavnqdSHOfxEULmMuF/LuNqWO63aXcR4VMQ/m
+	y/SzLtMKr0fs+aWdYnMz7AWmptfUSpVYKhOKRFY2AAOYWY0RgRGpiI0Fn4re0YZO
+	4VrQfg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437ufe6ers-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Dec 2024 02:29:30 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B32TTh9004144
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 3 Dec 2024 02:29:29 GMT
+Received: from [10.253.34.13] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 2 Dec 2024
+ 18:29:13 -0800
+Message-ID: <e14311a5-6461-4834-9770-e74314d11f44@quicinc.com>
+Date: Tue, 3 Dec 2024 10:29:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYRPR01MB13047:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a4a18d9-20b4-4e36-0c41-08dd133faafe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nfwMUuDivA4yuSSbGn96MA9WRHPJbZqMZZnucARrnM0r0QI2lHhMNl091+W0?=
- =?us-ascii?Q?TD74M6K7Dr6/9E272JLBdhktGg4xgw+IIvjVp2E4uQ6o+u7AcByrcR89Xcbj?=
- =?us-ascii?Q?+gGkvzPk5HYi4v2sJWH/Mj9vx4hIeGJKEeEmm8t5U/6NvzVP/FEohMFDGvTW?=
- =?us-ascii?Q?cs8tTJ4GeSAWLY5BTHvIz1rZ095WTwm0NqNWAajoHyjrEPCr1fyXKW/CuTTe?=
- =?us-ascii?Q?DO1pia+0UPQgYPRI7brB4XmvSjKWK9s78A8bxwPzbP7MsL7OW+Gu7caE2pdG?=
- =?us-ascii?Q?XP6t60cJVDu/RwlC/hHSPmgz+oMrmTHl0ZlDXLvbLxQ7CUtk6cmsolu5zHTI?=
- =?us-ascii?Q?g78h5mJNJIFstSIB5X7r4IcM0CulL7ewEw+YmOcjUogYRiF2MTROgAOiYdFC?=
- =?us-ascii?Q?IrQCTmcGeygSRzP+eC8ZD9vxUkl+/d8emlMWZtYHV83obKnIkKd5SBhGSoKi?=
- =?us-ascii?Q?aCWE2Aj/OW0J1rRu3WtDkvyYkptiecGs1ezTHzvqIqyvmlY17ouGDr3x6jd+?=
- =?us-ascii?Q?UiksO5JKeEVo2uan1cC/uDC3QDraMD+vbF/EBY3ZW8hcTFuo6lFbZ2gV0VQC?=
- =?us-ascii?Q?iMeWrZTfX0ZVdqoMicuzHTYeNqsQygYJVrykj87uFMMt8WRZ5Rkb92Ch9CEF?=
- =?us-ascii?Q?7f7Q07RtmtCpdpzt6yPnMPspCJfEJzsvLfb7IPV219H2vANGTkyNpBchZKoi?=
- =?us-ascii?Q?F8uZ7ciBsRDLmLjIqkHa5O4WV747uQKoc7ht7kW2W+HYAGL7AsfFkN3i2dtL?=
- =?us-ascii?Q?AaFT6BBIqij7ffh1D7B5ESmVsjpsHkIPk3lQ7BumLcKa0jlHX2E9Okvi5pJk?=
- =?us-ascii?Q?6ozbuxIVTGkC2Lzw0cATJfnH7yjS6GR5PsoT2fktoSExkDwlmz6h6hYXC3Gd?=
- =?us-ascii?Q?IjDkbyuNrnHSpBxQmbWXLM4brnFu6OSiB7jYoOxh6s/oetyxhA2urwo0OwhF?=
- =?us-ascii?Q?dTQRcliRCLhh8m8AtXpHbt7JzaZsjszWXROBcHK61ookdn6zG2AghjwvHXMN?=
- =?us-ascii?Q?6Z/B4leObsCZqyIY8Fri8XY3DNrOE0YCQ212G+ZyhSS0vICkTv/nWjaYaeXa?=
- =?us-ascii?Q?Fi6Zvmq/TsWjY1U6xxPuPpoid9O9sH4W0yAOb+VRnbWvZHqrU9Nn9aEPL74S?=
- =?us-ascii?Q?ddehS8s0EQcsSQ+SoSEFWSZXUwqx7I7hzSU1nP6r6HfF9/d0zn6m14e/reJv?=
- =?us-ascii?Q?SX8d1PLYkEraJYb/VB8njQzGd11vscILQxnvGu9nqb0nwcDtCOezhhS7qZmZ?=
- =?us-ascii?Q?b680uOUqcJZ256AQ8zzqPWzJ3vJa8HH3KtLeOtICKh73SPsVUZdOG1oXiYIY?=
- =?us-ascii?Q?uyfIRYyfLl+dZcIIahMS602ZEfZqWVztrXkMVBfbGExT27iyuW3zEb4Z+M+q?=
- =?us-ascii?Q?MFl4CsYuT6YeRznvwN8lE2pShHRoSWlqgNDT1vLRzBlVSXjH4g=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?LTVo7VdZPb8FvqsbQU2ksCtBCF4UtC65oFvvVy6oxeLtM0RL/En1w80niaWl?=
- =?us-ascii?Q?oDkoYRdTPiy7Mkc+uzO21K/B7i6jU9rY5wNwq8nFt3pBtr9juPNhDH1xE2yz?=
- =?us-ascii?Q?vgRhnyf59jOO0cEKFOGe45FtdbVbdYuGjyb8c+oDcQ28hmlCArTaPB473VaE?=
- =?us-ascii?Q?ggfHswIj8PN6WN/wsctYy/MU7zrHI9xBq9DBAT3AiOcnCb/Dt7pvHYCtkJOe?=
- =?us-ascii?Q?23HWTbOF5kQcYpoiDXXBZDWsnP0BKfOi5wW0mBQR/OYq1qXtnBTDsmiKF38C?=
- =?us-ascii?Q?oNhBwy0xN82VwaC86uH3jhqVgp8VXL+cK6o69ptULCS9hSHIpQQp/QBWCSOS?=
- =?us-ascii?Q?Vomd4df2Lb20/ATWcj/viPT20vJf9Du6nfQYkhLBx3XbvmBJS7+VPxA/+uXu?=
- =?us-ascii?Q?q04JgGJx3HgBD2+mxVzpmf2mYMwxQBqQFXxzRdvXwyM9YD6y3LX8KtAqxjQt?=
- =?us-ascii?Q?xoMz8XCcQbGcgz7l8vL0y8tbF+HcEXWwlbZRlgSkJNhZ2W8Ke6GjmvtYQEUB?=
- =?us-ascii?Q?N9l3cDjzGhbLURUWWB5vO+T0iZ2UZoq3TqdrQOrrLspPnC0zVOoksx4USTCq?=
- =?us-ascii?Q?Nh7SZUffuZU44Di7PSgkeG31P5qCj3g7PtJeIvwTEPG4Xm5ReDfo0tGQbI1k?=
- =?us-ascii?Q?r9PQq7EKeiA0twxpLtTBkPk5q2o+Err475qNAsvDEvdlrm+Gk4IJQ0CC65x9?=
- =?us-ascii?Q?4+C0vT4+V33kfeyp8Kg7ZZNH+nb1rkLMXfTNi2vSXr2wNkKgzBskkLgMS3FE?=
- =?us-ascii?Q?l0eODuWkYc9TpmD+17dq37EQcdMYF4+us6rfO5B9A0eDmXthLWzej9yGs2Zt?=
- =?us-ascii?Q?OUbzMilEZFIvNFAcEJ//5mSJrDd8BvLLBzkBDvJL+XOIcepjnnzudupXV0lg?=
- =?us-ascii?Q?cThcFkdwQSOZPPpKWM+b+QQcE9k20KfWWBgVLS9o4Lmp/zxgHWZ7fHxafY63?=
- =?us-ascii?Q?xasdSeMEruTdMJFGN14X13DjQxPEg3VkNCwSs7UQUweMcWZmnKoN0oplLk/i?=
- =?us-ascii?Q?ztqHAtuMl1LGvmJKNmku32Gxu5UwmStNkHlcSIBhI7FGBpZKG0rwMsr4CMSz?=
- =?us-ascii?Q?ifOiojCtt5UNXWdNqqXtM3Ru2gSv+yRSpLDgxeFo5QyAj/IqWwx7GNhlkvti?=
- =?us-ascii?Q?hoHEKukb8t3hQOaxBwM+eVMh6x9ZGlJYkecvKxcZoRqhXKJx7kT4ax3x19Vn?=
- =?us-ascii?Q?DZEp8LZno5yxWdH/QjhROw0CRCCP6723sAchGRPFt/JA2re3phlHJRzY26mB?=
- =?us-ascii?Q?pYzzw3WXJHp81Yh0a4Fjv9M982LQHwl96IxVaCaA+zFrvTuy69oosPxXcM20?=
- =?us-ascii?Q?3AufW5xbasl+TnBiAloPTXH3ZzaImPT/Vcxipy5P4qqiazXNVvzWoKhtnzHZ?=
- =?us-ascii?Q?FJ2uH87nCYSVByHups0QWg7ylx1OvJylKl0blM1Lnner4bLU3FWAEn9NNkG6?=
- =?us-ascii?Q?W2TVvXP59GHMngnMf+jyiG3jvO6L1xQSjUBZ2/mwVuYLZwU/GAjoqv5Jg2s7?=
- =?us-ascii?Q?h/nm3pMqhHGt5CAEF5HnTa95Ar88d4vvPLlROOYjCQL8ePhG1iUwSB+8Ioih?=
- =?us-ascii?Q?aBru1d3UqzteuSpO32TSlpNMvPzjI74JwxQItPBUgX+pWyXPWkTXtgZFtu71?=
- =?us-ascii?Q?t7RKPwclXTFgTC0kh1/NqQg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a4a18d9-20b4-4e36-0c41-08dd133faafe
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 02:10:33.0413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9qUg06GfCpXS9woUqNHGaOol1d4kb51p33Ju0O4Y9OMgAJWOYNgF3k9QhaEbama6wPAsNAaZRpEZ6M7+umIM/wwqRXgVSmPgNMTDV0tjh7Py7diF3cT1uIVxFEgp51fv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13047
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+To: Zijun Hu <zijun_hu@icloud.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel
+	<p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter
+	<simona@ffwll.ch>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Jean
+ Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+        Martin Tuma
+	<martin.tuma@digiteqautomotive.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Michael
+ Jamet <michael.jamet@intel.com>,
+        Mika Westerberg
+	<mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski
+	<brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,
+        Vladimir Oltean
+	<olteanv@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet
+	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+        Dan Williams
+	<dan.j.williams@intel.com>,
+        Vishal Verma <vishal.l.verma@intel.com>,
+        Dave
+ Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
+        Takashi
+ Sakamoto <o-takashi@sakamocchi.jp>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Heikki
+ Krogerus <heikki.krogerus@linux.intel.com>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Lee Duncan <lduncan@suse.com>, Chris Leech
+	<cleech@redhat.com>,
+        Mike Christie <michael.christie@oracle.com>,
+        "James E.J.
+ Bottomley" <James.Bottomley@HansenPartnership.com>,
+        "Martin K. Petersen"
+	<martin.petersen@oracle.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        Manish
+ Rangankar <mrangankar@marvell.com>,
+        <GR-QLogic-Storage-Upstream@marvell.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Jonathan Cameron
+	<jonathan.cameron@huawei.com>,
+        Alison Schofield <alison.schofield@intel.com>,
+        Andreas Larsson <andreas@gaisler.com>,
+        Stuart Yoder <stuyoder@gmail.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Jens Axboe <axboe@kernel.dk>, Sudeep Holla <sudeep.holla@arm.com>,
+        Cristian Marussi
+	<cristian.marussi@arm.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-gpio@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+        <linux1394-devel@lists.sourceforge.net>,
+        <linux-serial@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <open-iscsi@googlegroups.com>, <linux-scsi@vger.kernel.org>,
+        <linux-cxl@vger.kernel.org>, <sparclinux@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <arm-scmi@vger.kernel.org>,
+        <linux-efi@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+Content-Language: en-US
+From: quic_zijuhu <quic_zijuhu@quicinc.com>
+In-Reply-To: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: lKi-wmQMsP51n4Wn2N7vwhZDjLiVDpwn
+X-Proofpoint-GUID: lKi-wmQMsP51n4Wn2N7vwhZDjLiVDpwn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ mlxlogscore=999 clxscore=1011 adultscore=0 bulkscore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412030019
 
-Because DT check when compiling become very strict in these days,
-we need to add reg = <x> if it has multi port/endpoint, otherwise
-it will get error or warning. But it was not so strict and/or
-mandatry before.
+On 12/3/2024 8:33 AM, Zijun Hu wrote:
+> This patch series is to constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+> 				 device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+> 
+> Why to constify the API?
+> 
+> - Protect caller's match data @*data which is for comparison and lookup
+>   and the API does not actually need to modify @*data.
+> 
+> - Make the API's parameters (@match)() and @data have the same type as
+>   all of other device finding APIs (bus|class|driver)_find_device().
+> 
+> - All kinds of existing device matching functions can be directly taken
+>   as the API's argument, they were exported by driver core.
+> 
+> How to constify the API?
+> 
+> - Now, no (@match)() argument of the API usages is modifying its match
+>   data @*data after previous cleanup, so it is easy and safe to make its
+>   parameter @data take const void * as type.
+> 
+> - Simplify involved codes further if it is possbile with benefits
+>   brought by constifying the API.
+> 
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+> Changes in v2:
+> - Series v1 have no code review comments and are posted a long time ago, so may ignore differences.
+> - Link to v1: https://lore.kernel.org/r/20240811-const_dfc_done-
+> v1-0-9d85e3f943cb@quicinc.com
+> - Motivation link: https://lore.kernel.org/lkml/917359cc-a421-41dd-93f4-d28937fe2325@icloud.com
+> 
+> ---
+> Zijun Hu (32):
+>       driver core: Constify API device_find_child()
+>       driver core: Introduce device_match_type() to match device with a device type
+>       drm/mediatek: Adapt for constified device_find_child()
+>       hwmon: Adapt for constified device_find_child()
+>       media: pci: mgb4: Adapt for constified device_find_child()
+>       thunderbolt: Adapt for constified device_find_child()
+>       gpio: sim: Remove gpio_sim_dev_match_fwnode()
+>       net: dsa: Adapt for constified device_find_child()
+>       pwm: Adapt for constified device_find_child()
+>       nvdimm: Adapt for constified device_find_child()
+>       libnvdimm: Simplify nd_namespace_store() implementation
+>       firewire: core: Adapt for constified device_find_child()
+>       serial: core: Adapt for constified device_find_child()
+>       usb: typec: class: Remove both cable_match() and partner_match()
+>       usb: typec: class: Adapt for constified device_find_child()
+>       slimbus: core: Simplify of_find_slim_device() implementation
+>       slimbus: core: Constify slim_eaddr_equal()
+>       slimbus: core: Adapt for constified device_find_child()
+>       scsi: iscsi: Constify API iscsi_find_flashnode_sess()
+>       scsi: qla4xxx: Adapt for constified iscsi_find_flashnode_sess()
+>       scsi: iscsi: Adapt for constified device_find_child()
+>       cxl/region: Adapt for constified device_find_child()
+>       cxl/pmem: Remove match_nvdimm_bridge()
+>       cxl/core/pci: Adapt for constified device_find_child()
+>       cxl/test: Adapt for constified device_find_child()
+>       sparc: vio: Adapt for constified device_find_child()
+>       bus: fsl-mc: Adapt for constified device_find_child()
+>       block: sunvdc: Adapt for constified device_find_child()
+>       firmware: arm_scmi: Adapt for constified device_find_child()
+>       efi: dev-path-parser: Adapt for constified device_find_child()
+>       rpmsg: core: Adapt for constified device_find_child()
+>       driver core: Simplify API device_find_child_by_name() implementation
 
-Current code is counting "endpoint" to get DAI ID, but it should count
-"port" instead, otherwise strange ID will be used for DAI if it was multi
-connected case (A). There is no issue if it was not multi connected (B).
+sorry for that only part of this series [0/32, 11/32] were sent out due
+to mail account capability limitation.
 
-One note is that this code will be used if neither port/endpoint doesn't
-have reg = <x> property on DT.
+will solve the limitation and send out whole patch series as v3.
 
-case (A)
-
-	/* This should be handled as DAI-0 */
-	port@0 {
-		endpoint@0 {  }	/* It will be DAI-0 by endpoint count */
-		endpoint@1 {  }	/* It will be DAI-1 by endpoint count */
-	};
-	/* This should be handled as DAI-1 */
-	port@1 {
-		endpoint {  }	/* It will be DAI-2 by endpoint count */
-	};
-
-case (B)
-	/* both endpoint cound and port count are same */
-	port@0 {
-		endpoint { ... }
-	};
-	port@1 {
-		endpoint { ... }
-	};
-
-It will be issue if Audio-Graph-Card is used with Multi Connection.
-No issue will be happen with Audio-Graph-Card2 / Simple-Card.
-
-This patch uses for_each_of_graph_port() instead of
-for_each_endpoint_of_node(), and thus, we can use "break" to quit
-from loop. Because for_each_of_graph_port() uses __free(device_node)
-inside.
-
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- sound/soc/generic/simple-card-utils.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index f67a1e58e821c..6c5a1c5a6b3b2 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -1026,7 +1026,6 @@ static int graph_get_dai_id(struct device_node *ep)
- {
- 	struct device_node *node __free(device_node) = of_graph_get_port_parent(ep);
- 	struct device_node *port __free(device_node) = of_get_parent(ep);
--	struct device_node *endpoint;
- 	struct of_endpoint info;
- 	int i, id;
- 	int ret;
-@@ -1062,9 +1061,11 @@ static int graph_get_dai_id(struct device_node *ep)
- 	 */
- 	i = 0;
- 	id = -1;
--	for_each_endpoint_of_node(node, endpoint) {
--		if (endpoint == ep)
-+	for_each_of_graph_port(node, p) {
-+		if (port == p) {
- 			id = i;
-+			break;
-+		}
- 		i++;
- 	}
- 
--- 
-2.43.0
+thanks (^^)
 
