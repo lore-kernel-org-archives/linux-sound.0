@@ -1,170 +1,170 @@
-Received: from pv50p00im-hyfv10011601.me.com (pv50p00im-hyfv10011601.me.com [17.58.6.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F541E47D3
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 12:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9440E3398B
+	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 12:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733228656; cv=none; b=GeFUW6PyxLx4/omxERlTv4WF6dUSe02N3aBUAO1LWpbr/lKeSyHzFTPEEbPnqDC3b23AhHN5cNIhDhBcqpOiDvvsws+zjpi2oz0Jj2lPsDUVIGdq3dwsaibeTjk9CEH8+4kidtd0ngxUJfUmUg2GPRKFrSVNQtUYp/0FIpZ7Iq0=
+	t=1733228872; cv=none; b=aJbc91N9Vr/h/fiIpL911pWeY62+UmJ2UoQNvz72UJO7E78Xiv07zNrmqyVAcZElhiTQLYw+XO71oGtpQg+HH/JAAZmySYdYwuuFJ1NPCHAHC6Ul9mvLbrA9jyEHV6IrIhJ6E4fd7GB0A2QO+1X7yXM6qOtSyeQSXHJE6D6Qxjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733228656; c=relaxed/simple;
-	bh=mCIHbMTp8TXOIpl1+nubIptrAHWq3pU6doVeMEipNVc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N0FvRf6BCbWJ9+AObBMf2GFq6YGYe9pU9VpHFHX3faqu7OvKK1CSMHtTn+jdv0h0LO0Y2Cqwa7TN/fR0QZecsaVdMQilmwPIAT6Abr70lt83//BZY85tELJhgCs4xxHt+oqt8fm2goqoShE7bUi1fIKl2A1z3DIOH7cG1cHQ/9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=PgY5nn9U; arc=none smtp.client-ip=17.58.6.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1733228872; c=relaxed/simple;
+	bh=6RnywpFg91GD9e9AaGXdnmWR1etUR0dSB8zjuPzV61I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k9Gf7vjCEWy6aiT7f8GxrebbXTVurlRrJTSJKr0OKqO/efHZBQfecCEj2zV3c4MwkScsbJAl013Z/YbkiL3X4dupIlOUB+RPLHHdbuqS6u/7X8xjvKihKRX9sTuEnGyNEVvjNeMx4MQ1qVqGepSyND40XbWn6b7QUywO+JUCf/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=djY/WER5; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="PgY5nn9U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733228654;
-	bh=CgCScBX/+fgZ0roCuYsgonJhaxWB8rsl1yCC6V0WM+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-	 x-icloud-hme;
-	b=PgY5nn9UjaNQNnW4ZpJ9WuRQx6im5psJe58NOrhuMYaP81TCjCoqg7OOKUTCf/GiQ
-	 U5NzWhh2P25K5ajpXMvRXYX0Q0QlkR8pgL3oTItbqVZutGKevLmlI66ZBGBcrDMdzZ
-	 tMmlV2WZ2o8x16WpoGlJ/JnV1zI3oqt06fGl4I8/qI7wYj0KQ1QQr5n3xLSgizk9fw
-	 TQ9xaKi2nZyOPqodk3YoZL2QcRqFeCLp3CsTqDDtllnMk1q4GHXKVq7SsECnBkg8jm
-	 H9mCDktUr1zn+c+7ek7cGPeMoLhQxufGfyCDPYAJQXskQd4pXIE2C7c2QiBSj9B4RB
-	 vRrMl0+rr+jVw==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-hyfv10011601.me.com (Postfix) with ESMTPSA id 675CEC8010E;
-	Tue,  3 Dec 2024 12:23:51 +0000 (UTC)
-Message-ID: <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
-Date: Tue, 3 Dec 2024 20:23:45 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="djY/WER5"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-53de5ec22adso6877175e87.3
+        for <linux-sound@vger.kernel.org>; Tue, 03 Dec 2024 04:27:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733228868; x=1733833668; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4tMW5BgK0yNLwCH6utYoQVhW0P2uh6V2gFL0Ya9nckg=;
+        b=djY/WER5Rdu2jIlYxehbxDg/hlYaf361fF+3QnGzzUVRDumY5QD0FrO8+1CpEgWs+c
+         f3dW2UiSQnk7eJu/RhipkmoPi7FQIPpXix8rGgack7fCJRvlGrCw1BGXSoDDRxTKicJQ
+         IMUUuXlH2zOXbFm9GJLuykS1UsvBk5RSTaGyliJmG1x8cS6IZaEBgvcDhXH6yvafLQX3
+         s49uIxIcXNLt+8salXrxOWUhLKvCDCAkhYbtQfRSE7AqBjxNgV6kyl4Br6igAGdMLREJ
+         srgwR3oYPVVsvNJhOUdOwthKqw+HayL2AYYKPQAZBNE/3exPp1irghjYnI+ix380KhPm
+         NO/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733228868; x=1733833668;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4tMW5BgK0yNLwCH6utYoQVhW0P2uh6V2gFL0Ya9nckg=;
+        b=lELcxmY0nfWOYQoalaLb+DqElc5svI5+8LxkW56p9qG0AY8s48z2O2ODTz/Sii2rlX
+         Ojf72irNsH6bl8liYAnr5ko0BuPBfJHnDqIW66zonJJPFnC0KuYhzNysmDT72au/h3WJ
+         hj5Z9feZIQKacjEG/axdNt99ZLGIjgpjR3GyvjLKpTNLEIjQtGayT4Wv9CTJMsxqMsP5
+         mUXlW8L3wCWv5fOfFLt13tbA2Se2G0u3yZgYhlXZdsNMSawGjXyeClXlkbK90eSXT8JN
+         LX2mZSNqInKTcMCiYTjPYcfaa9GPNNE7GIPQLtfrb9DQU3qKWXFWEJQbGv4qNQiFsR6Z
+         nH/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWNe0+nViLZTXRvbyt+G16Syq2TCa3rrSkPTNcLKcv2swMxeeyrxSoGDaR39y2P5EORHbWxtKBzegTd8g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGHOAtWrpxbgxVAZ7d/75SFWryi8NbaaHPm6+QoJHUMU+sQvlf
+	xyK04C9wknv4cLkvt28xgy4XzUDv9iGRQVFeykkQOEuygb11mTMqPziArBNLtrU=
+X-Gm-Gg: ASbGncutSgWRQdc5HAOQUQl9YH23tvN1M642yXmk1dfXe25Wsw77p6Ohg04itgbuz6s
+	jAWnI8jPuoJDG6mjJXZo1fSOIUvcq3C7sIEISHEWfNn7qPxyMTChuSbz/8xG9OkzCkQc0uIeBlj
+	ozTsO9rxizkmDzxw+GLeqGrAXsJQAKHL4iWoP0ayzHyVBiK5veigQjt5qi5JyhkWzBlS54HasQt
+	U7n76W0d9ThmUbk3KgH/iD3Q2DvxXoxEB4U5v2CJ5XGMdRUo2iKuYWXWWrhpz44czUXkyZ+/TFq
+	1pnDYwBjr5mJ93tlNLZ+5A28nTgqVg==
+X-Google-Smtp-Source: AGHT+IG0HmZ8YSlH3L/g4YitdlPm2st4Okvau8mZpJCNyynGj3Z9KtsKcqo/MMABonQgOnqb21PQhQ==
+X-Received: by 2002:a05:6512:1089:b0:53d:d3ff:7309 with SMTP id 2adb3069b0e04-53e12a01ee6mr1387104e87.32.1733228867624;
+        Tue, 03 Dec 2024 04:27:47 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df649f6f2sm1810134e87.246.2024.12.03.04.27.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 04:27:46 -0800 (PST)
+Date: Tue, 3 Dec 2024 14:27:44 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 9/9] drm/vc4: hdmi: use
+ drm_atomic_helper_connector_hdmi_update_edid()
+Message-ID: <ae24x2bo736jpzi77l34hybejawwe4rp47v2idedga344ye6zr@bxsxz34dwrd2>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-9-b5316e82f61a@linaro.org>
+ <20241202-married-bald-raven-7acd83@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Andreas Noever <andreas.noever@gmail.com>,
- Michael Jamet <michael.jamet@intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Yehezkel Bernat <YehezkelShB@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,
- Vladimir Oltean <olteanv@gmail.com>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
- Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
- Mike Christie <michael.christie@oracle.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Nilesh Javali <njavali@marvell.com>,
- Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso <dave@stgolabs.net>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Alison Schofield <alison.schofield@intel.com>,
- Andreas Larsson <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>,
- Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>, Ard Biesheuvel
- <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
- linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
- linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
- linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org,
- linux-sound@vger.kernel.org, open-iscsi@googlegroups.com,
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org,
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
- <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
-Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: HfN3ugOwn0RD4lT0NgRrMbrQZDyUcr0J
-X-Proofpoint-ORIG-GUID: HfN3ugOwn0RD4lT0NgRrMbrQZDyUcr0J
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-03_01,2024-12-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 phishscore=0 suspectscore=0
- clxscore=1015 adultscore=0 malwarescore=0 mlxlogscore=903 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2412030107
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202-married-bald-raven-7acd83@houat>
 
-On 2024/12/3 20:00, Uwe Kleine-König wrote:
-> Hello,
+On Mon, Dec 02, 2024 at 02:27:49PM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> On Tue, Dec 03, 2024 at 08:33:22AM +0800, Zijun Hu wrote:
->> This patch series is to constify the following API:
->> struct device *device_find_child(struct device *dev, void *data,
->> 		int (*match)(struct device *dev, void *data));
->> To :
->> struct device *device_find_child(struct device *dev, const void *data,
->> 				 device_match_t match);
->> typedef int (*device_match_t)(struct device *dev, const void *data);
+> On Sun, Dec 01, 2024 at 02:44:13AM +0200, Dmitry Baryshkov wrote:
+> > Use the helper function to update the connector's information. This
+> > makes sure that HDMI-related events are handled in a generic way.
+> > Currently it is limited to the HDMI state reporting to the sound system.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++++++--
+> >  1 file changed, 7 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index d0a9aff7ad43016647493263c00d593296a1e3ad..d83f587ab69f4b8f7d5c37a00777f11da8301bc1 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -401,13 +401,16 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
+> >  	 */
+> >  
+> >  	if (status == connector_status_disconnected) {
+> > +		drm_atomic_helper_connector_hdmi_update_edid(connector, NULL);
+> >  		cec_phys_addr_invalidate(vc4_hdmi->cec_adap);
+> >  		return;
+> >  	}
+> >  
+> >  	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
+> >  
+> > -	drm_edid_connector_update(connector, drm_edid);
+> > +	// TODO: use drm_atomic_helper_connector_hdmi_update() once it gains
+> > +	// CEC support
+> > +	drm_atomic_helper_connector_hdmi_update_edid(connector, drm_edid);
 > 
-> This series isn't bisectible. With only the first two patches applied I
-> hit:
+> So, it's not just about EDID, and I think we shouldn't really focus on
+> that either.
+> 
+> As that patch points out, even if we only consider EDID's, we have
+> different path depending on the connector status. It shouldn't be up to
+> the drivers to get this right.
+> 
+> What I had in mind was something like a
+> drm_atomic_helper_connector_hdmi_hotplug function that would obviously
+> deal with EDID only here, but would expand to CEC, scrambling, etc.
+> later on.
 
-yes. such patch series needs to be merge as atomic way.
+I thought about it, after our discussion, but in the end I had to
+implement the EDID-specific function, using edid == NULL as
+"disconnected" event. The issue is pretty simple: there is no standard
+way to get EDID from the connector. The devices can call
+drm_edid_read(), drm_edid_read_ddc(connector->ddc) or (especially
+embedded bridges) use drm_edid_read_custom().
 
-Hi Greg,
+Of course we can go with the functional way and add the
+.read_edid(drm_connector) callback to the HDMI funcs. Then the
+drm_atomic_helper_connector_hdmi_hotplug() function can read EDID on its
+own.
 
-is it possible to ONLY merge such patch series by atomic way into your
-driver-core tree?
-
-or squash such patch series into a single patch ?
-
-various subsystem maintainers may not like squashing way.
+Also the function that you proposed perfectly fits the HPD notification
+callbacks, but which function should be called from the .get_modes()?
+The _hdmi_hotplug() doesn't fit there. Do we still end up with both
+drm_atomic_helper_connector_hdmi_hotplug() and
+drm_atomic_helper_connector_hdmi_update_edid()?
 
 > 
->   CC      drivers/pwm/core.o
-> drivers/pwm/core.c: In function ‘pwm_unexport_child’:
-> drivers/pwm/core.c:1292:55: error: passing argument 3 of ‘device_find_child’ from incompatible pointer type [-Wincompatible-pointer-types]
->  1292 |         pwm_dev = device_find_child(pwmchip_dev, pwm, pwm_unexport_match);
->       |                                                       ^~~~~~~~~~~~~~~~~~
->       |                                                       |
->       |                                                       int (*)(struct device *, void *)
-> In file included from include/linux/acpi.h:14,
->                  from drivers/pwm/core.c:11:
-> include/linux/device.h:1085:49: note: expected ‘device_match_t’ {aka ‘int (*)(struct device *, const void *)’} but argument is of type ‘int (*)(struct device *, void *)’
->  1085 |                                  device_match_t match);
->       |                                  ~~~~~~~~~~~~~~~^~~~~
-> drivers/pwm/core.c: In function ‘pwm_class_get_state’:
-> drivers/pwm/core.c:1386:55: error: passing argument 3 of ‘device_find_child’ from incompatible pointer type [-Wincompatible-pointer-types]
->  1386 |         pwm_dev = device_find_child(pwmchip_dev, pwm, pwm_unexport_match);
->       |                                                       ^~~~~~~~~~~~~~~~~~
->       |                                                       |
->       |                                                       int (*)(struct device *, void *)
-> include/linux/device.h:1085:49: note: expected ‘device_match_t’ {aka ‘int (*)(struct device *, const void *)’} but argument is of type ‘int (*)(struct device *, void *)’
->  1085 |                                  device_match_t match);
->       |                                  ~~~~~~~~~~~~~~~^~~~~
-> make[5]: *** [scripts/Makefile.build:194: drivers/pwm/core.o] Error 1
-> make[4]: *** [scripts/Makefile.build:440: drivers/pwm] Error 2
-> make[3]: *** [scripts/Makefile.build:440: drivers] Error 2
-> make[2]: *** [Makefile:1989: .] Error 2
-> make[1]: *** [Makefile:372: __build_one_by_one] Error 2
-> make: *** [Makefile:251: __sub-make] Error 2
+> And would cover both the connected/disconnected cases.
 > 
-> Best regards
-> Uwe
+> Maxime
 
+
+
+-- 
+With best wishes
+Dmitry
