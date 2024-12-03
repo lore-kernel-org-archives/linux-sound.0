@@ -1,109 +1,38 @@
-Received: from bedivere.hansenpartnership.com (bedivere.hansenpartnership.com [96.44.175.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0F820B7F2;
-	Tue,  3 Dec 2024 15:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=96.44.175.130
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323A181ADA;
+	Tue,  3 Dec 2024 15:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733240099; cv=none; b=LtsNsGvhJHeu81DybNV1Tnad3qIu185S17gjtYYMfeIrQgzLqokNR79DHho68oaMlUZb+lWlwVDODEDmeZQaPwV2CYF2wnfaUadLjEyHfsKQ5H3Jvd5/2zqZXM/yjgQL6zuVBNE6C5qTr8tmjuqNDsY/jYvS3CR50e9S54tAQJ8=
+	t=1733240809; cv=none; b=b4CLHu2hisc9xIbE3c/dp4vxTTuVZMTVlBF4frXmWIpa03c+hoO1ulLADDQP1z3x3wZy1vGvJw7+TsOKq+Fu9OZ5/Sg3isieoCg9TQCNumcNqBj2DGHCClnj6ckZiIlbBdJuGbZeIUObQKD8q7Dq6m+2sqIoBmq8MuO+UMKQYHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733240099; c=relaxed/simple;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cmgqloiInue402+/BJHVxQP5t0EI7sL5NRa4fqage/DVyh26AaN6TKl97ZPjT0dlmrn+HEGkp2zFri/+e8Yo5AWz3H/ZvbDnt//uVq19D38t8ZdlC28HxIWRWzuVt2dtSjEABCNQBZOftMpJ3zXsa2H+pxD8rxU6B+G6ok+KLwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=eZ4U4tRU; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=eZ4U4tRU; arc=none smtp.client-ip=96.44.175.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="eZ4U4tRU";
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="eZ4U4tRU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733240096;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=eZ4U4tRU1qIWP3lhCG1NFGqdlkJwbCoeHoXmlbwbm0xojoL7yxF2OmBDrwRg5sJZD
-	 yUR1Ufh9cMTmWMSk/QfvKgX3lU1FOQtEkMYCzG5HJRGBhs9c6tkPAgFURJTLia4EJE
-	 fFgUsJsyCn7Ieybkh2Zt2C6KjPseMR4k9lZkDFPA=
-Received: from localhost (localhost [127.0.0.1])
-	by bedivere.hansenpartnership.com (Postfix) with ESMTP id A95511286A94;
-	Tue, 03 Dec 2024 10:34:56 -0500 (EST)
-Received: from bedivere.hansenpartnership.com ([127.0.0.1])
- by localhost (bedivere.hansenpartnership.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id Nouo1dbPKzw4; Tue,  3 Dec 2024 10:34:56 -0500 (EST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1733240096;
-	bh=L/QXZvHG42gthQ6VgZcE1FVgbBCT68wm3yek2sYu4mw=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=eZ4U4tRU1qIWP3lhCG1NFGqdlkJwbCoeHoXmlbwbm0xojoL7yxF2OmBDrwRg5sJZD
-	 yUR1Ufh9cMTmWMSk/QfvKgX3lU1FOQtEkMYCzG5HJRGBhs9c6tkPAgFURJTLia4EJE
-	 fFgUsJsyCn7Ieybkh2Zt2C6KjPseMR4k9lZkDFPA=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by bedivere.hansenpartnership.com (Postfix) with ESMTPSA id F32C01286A7D;
-	Tue, 03 Dec 2024 10:34:50 -0500 (EST)
-Message-ID: <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
- and adapt for various existing usages
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Zijun Hu <zijun_hu@icloud.com>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
-	 <thomas@t-8ch.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Jean
- Delvare <jdelvare@suse.com>,  Guenter Roeck <linux@roeck-us.net>, Martin
- Tuma <martin.tuma@digiteqautomotive.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>,  Yehezkel Bernat
- <YehezkelShB@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean
- <olteanv@gmail.com>,  "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Dave
- Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, Takashi
- Sakamoto <o-takashi@sakamocchi.jp>, Jiri Slaby <jirislaby@kernel.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Lee Duncan <lduncan@suse.com>, Chris
- Leech <cleech@redhat.com>, Mike Christie <michael.christie@oracle.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>, Nilesh Javali
- <njavali@marvell.com>, Manish Rangankar <mrangankar@marvell.com>,
- GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso
- <dave@stgolabs.net>, Jonathan Cameron <jonathan.cameron@huawei.com>, Alison
- Schofield <alison.schofield@intel.com>, Andreas Larsson
- <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>, Laurentiu Tudor
- <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>, Sudeep Holla
- <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, Ard
- Biesheuvel <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org,
- netdev@vger.kernel.org,  linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
-  linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org, 
- linux-sound@vger.kernel.org, open-iscsi@googlegroups.com, 
- linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org, 
- sparclinux@vger.kernel.org, linux-block@vger.kernel.org, 
- arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
- linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Date: Tue, 03 Dec 2024 10:34:49 -0500
-In-Reply-To: <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
-References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
-	 <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
-	 <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
-	 <2024120320-manual-jockey-dfd1@gregkh>
-	 <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
-	 <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
-	 <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
-	 <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 
+	s=arc-20240116; t=1733240809; c=relaxed/simple;
+	bh=fNJQGCTKbol4fTSpgRRQmJ/M2VyJW5hTHZ3s71zsNy4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fy0f+N0dSIzof6VH9nCbA+YKqSkIMfpI2o/0TdDlAuHTPB0eS6ayxRSBHqsg/L1OoNjvu7e1+29W1O6z5WvITvIdlUr3OroFYtxT85U4fFA+j/dIcIwWl0aVMGGzzglc0SDEjzm2kpKj5EYa7G4OVWWgTzJrTUKBMrbqzIs4t6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee7674f27dc2ff-c431e;
+	Tue, 03 Dec 2024 23:46:37 +0800 (CST)
+X-RM-TRANSID:2ee7674f27dc2ff-c431e
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from 192.168.28.197 (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee8674f27dc84b-351fb;
+	Tue, 03 Dec 2024 23:46:36 +0800 (CST)
+X-RM-TRANSID:2ee8674f27dc84b-351fb
+From: liujing <liujing@cmss.chinamobile.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	liujing <liujing@cmss.chinamobile.com>
+Subject: [PATCH] ALSA: asihpi: Delete redundant judgments
+Date: Tue,  3 Dec 2024 23:46:35 +0800
+Message-Id: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.27.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -112,84 +41,78 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2024-12-03 at 22:56 +0800, Zijun Hu wrote:
-> On 2024/12/3 22:07, Thomas Weißschuh wrote:
-> > On 2024-12-03 08:58:26-0500, James Bottomley wrote:
-> > > On Tue, 2024-12-03 at 21:02 +0800, Zijun Hu wrote:
-> > > > On 2024/12/3 20:41, Greg Kroah-Hartman wrote:
-> > > > > On Tue, Dec 03, 2024 at 08:23:45PM +0800, Zijun Hu wrote:
-> > > [...]
-> > > > > > or squash such patch series into a single patch ?
-> > > > > > 
-> > > > > > various subsystem maintainers may not like squashing way.
-> > > > > 
-> > > > > Agreed, so look into either doing it in a bisectable way if
-> > > > > at all possible.  As I don't see a full series here, I can't
-> > > > > suggest how it needs to happen :(
-> > > > > 
-> > > > 
-> > > > let me send you a full series later and discuss how to solve
-> > > > this issue.
-> > > 
-> > > It's only slightly more complex than what we normally do: modify
-> > > all instances and then change the API.  In this case you have an
-> > > additional problem because the prototype "const void *" will
-> > > cause a mismatch if a function has "void *".  The easiest way to
-> > > solve this is probably to make device_find_child a macro that
-> > > coerces its function argument to having a non const "void *" and
-> > > then passes off to the real function.  If you do that in the
-> > > first patch, then you can constify all the consumers and finally
-> > > remove the macro coercion in the last patch.
-> > 
-> > Casting function pointers like that should be detected and trapped
-> > by control flow integrity checking (KCFI).
-> > 
-> > Another possibility would be to use a macro and _Generic to
-> > dispatch to two different backing functions. See __BIN_ATTR() in
-> > include/linux/sysfs.h for an inspiration.
+Since HPI6205_TIMEOUT is a constant, time_out is always true,
+so unneeded judgments are removed.
 
-That's way over complicated for this conversion: done properly there
-should be no need for _Generic() compile time type matching at all.
+Signed-off-by: liujing <liujing@cmss.chinamobile.com>
 
-> this way may fix building error issue but does not achieve our
-> purpose. our purpose is that there are only constified
-> device_find_child().
-> 
-> 
-> > This also enables an incremental migration.
-> 
-> change the API prototype from:
-> device_find_child(..., void *data_0, int (*match)(struct device *dev,
-> void *data));
-> 
-> to:
-> device_find_child(..., const void *data_0, int (*match)(struct device
-> *dev, const void *data));
-> 
-> For @data_0,  void * -> const void * is okay.
-> but for @match, the problem is function pointer type incompatibility.
-> 
-> there are two solutions base on discussions.
-> 
-> 1) squashing likewise Greg mentioned.
->    Do all of the "prep work" first, and then
->    do the const change at the very end, all at once.
-> 
-> 2)  as changing platform_driver's remove() prototype.
-> Commit: e70140ba0d2b ("Get rid of 'remove_new' relic from platform
-> driver struct")
-> 
->  introduce extra device_find_child_new() which is constified  -> use
-> *_new() replace ALL device_find_child() instances one by one -> 
-> remove device_find_child() -> rename *_new() to device_find_child()
-> once.
+diff --git a/sound/pci/asihpi/hpi6205.c b/sound/pci/asihpi/hpi6205.c
+index c7d7eff86727..391cce428a11 100644
+--- a/sound/pci/asihpi/hpi6205.c
++++ b/sound/pci/asihpi/hpi6205.c
+@@ -2127,22 +2127,20 @@ static u16 message_response_sequence(struct hpi_adapter_obj *pao,
+ 	time_out = HPI6205_TIMEOUT;
+ 
+ 	/* read the result */
+-	if (time_out) {
+-		if (interface->u.response_buffer.response.size <= phr->size)
+-			memcpy(phr, &interface->u.response_buffer,
+-				interface->u.response_buffer.response.size);
+-		else {
+-			HPI_DEBUG_LOG(ERROR,
++	if (interface->u.response_buffer.response.size <= phr->size)
++		memcpy(phr, &interface->u.response_buffer,
++			interface->u.response_buffer.response.size);
++	else {
++		HPI_DEBUG_LOG(ERROR,
+ 				"response len %d too big for buffer %d\n",
+ 				interface->u.response_buffer.response.size,
+ 				phr->size);
+-			memcpy(phr, &interface->u.response_buffer,
++		memcpy(phr, &interface->u.response_buffer,
+ 				sizeof(struct hpi_response_header));
+-			phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
+-			phr->specific_error =
+-				interface->u.response_buffer.response.size;
+-			phr->size = sizeof(struct hpi_response_header);
+-		}
++		phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
++		phr->specific_error =
++			interface->u.response_buffer.response.size;
++		phr->size = sizeof(struct hpi_response_header);
+ 	}
+ 	/* set interface back to idle */
+ 	send_dsp_command(phw, H620_HIF_IDLE);
+diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
+index 7ceaf6a7a77e..cac5fcaef08b 100644
+--- a/sound/pci/mixart/mixart.c
++++ b/sound/pci/mixart/mixart.c
+@@ -1320,12 +1320,12 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 			idx = index[dev];
+ 		else
+ 			idx = index[dev] + i;
+-		snprintf(tmpid, sizeof(tmpid), "%s-%d", id[dev] ? id[dev] : "MIXART", i);
++		snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+ 		err = snd_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
+ 				   0, &card);
+ 
+ 		if (err < 0) {
+-			dev_err(&pci->dev, "cannot allocate the card %d\n", i);
++			dev_err(&pci->dev, "cannot allocate the card %u\n", i);
+ 			snd_mixart_free(mgr);
+ 			return err;
+ 		}
+@@ -1334,7 +1334,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+ 		snprintf(card->shortname, sizeof(card->shortname),
+ 			 "Digigram miXart [PCM #%d]", i);
+ 		snprintf(card->longname, sizeof(card->longname),
+-			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%d]",
++			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%u]",
+ 			mgr->mem[0].phys, mgr->mem[1].phys, mgr->irq, i);
+ 
+ 		err = snd_mixart_create(mgr, card, i);
+-- 
+2.27.0
 
-Why bother with the last step, which churns the entire code base again?
-Why not call the new function device_find_child_const() and simply keep
-it (it's descriptive of its function).  That way you can have a patch
-series without merging and at the end simply remove the old function.
 
-Regards,
-
-James
 
