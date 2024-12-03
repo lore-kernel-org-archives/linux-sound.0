@@ -1,113 +1,164 @@
-Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499351E4929
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 12:01:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6400952F76
+	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 12:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733227307; cv=none; b=rg+te8pK5/qfsHLIIuU/7pPMvalWLqL0v3a7hgexCJBFBzdtQeiq/6OtR24i84Yw4XEIVLpNlrbzfBJu9x4oFybNHGRIQf1ojHxrsBJkRDK3BIYLEA9AS35DUD2+dr5VGV5UEc2gWGE7a1msE9FtrbeL31C5Cr7OEvCvgYdVOps=
+	t=1733228388; cv=none; b=ffwOGZAsNQeE1Y97oGfTFbbOLXPE3kaHIHntNzjG4tw/273TNfjBlBkkHUZOf41RD9uoaknR2XqO3INHHJH5r18ZN8BepVEybCnOCJZbcJohceJ+HSUT3y4jSRFA/zAaWrlBVpP46xRkPbaS5F3p/3+w5YvHMQPobD5uxGSIvlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733227307; c=relaxed/simple;
-	bh=dST8VrQazrnkchOWuMVpU7cZ3DR81rw+cDhZEndYGI8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=sj07iLussOedUt/d3etaLafuM7KM6jq0Wjfp8ajxDzLxUpQFBR/dhvkhWlOPKXDCFVBQ0g4juBNw4wCDBkxyym8/yrcEYWXEk+hHQafdT8IHuNq6qxDxLxGoX3sORSuT0GW8nPEMIfUcyOfVwrxfm9KiQgXITe0A69NhvLqP2bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=Swlz0KSB; arc=none smtp.client-ip=103.150.252.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1733228388; c=relaxed/simple;
+	bh=kpQG97neEOTfmw8LT50c3EPenmcddI5a2M0V4jVWKmc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y9PazRzGOvLhmPUc69ttWLGaOImppJhZktDAs5efYT4EvhpjPHrGLXYAUTQUOoh2EpaBtjrKJMlF0S37ROj3BwOM2DoJMXglmIJZ68T+IoX01IVBBdJXyn4/OK7YHG6QsZAFJkI6nPtiihZo3ITdzo70X40CGNKnWF2lKKNEaU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zAWKXfM2; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="Swlz0KSB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=Content-Type:Subject:From:To:MIME-Version:Date:
-	Message-ID; bh=4711xJ66FxhpDzaiQ9GZcTtkAqP9f+3Ccu6zo05/sxk=; b=Swlz0KSBfMwycr
-	ODToIy0Ss3hxpPyAFSD/93poikcwm4/FYPjurg69FKJB3OAu+4coqUzt+tpFo+BoOEmfbsBMVHO6i
-	drI1Pv5IXcPp4hSSYW/gQJ2swwHu/D//67zeEqOnNp44/gPvRSFilvtj6+kTZx69JoSfn34Z/W/ob
-	PgfjjdBhR5F1yst1gxE/zA2Euhrr711+JKF+C7wkOu6d/s/D3tnARIRtSsFH0t+arht9GRbiD+h1E
-	ulm0QwIBDeifhSTPnA/RyQmkMjOjHECreBWJ7LG6HHO4TvFvxA/2Lq+uP3m6MqrrsBee8dHYIB5Oa
-	TEUD/LDKtqKOsj46ottg==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-0b90e6e05a7b179c7) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tIRax-000000006bA-0VCi ;
-	Tue, 03 Dec 2024 12:01:35 +0000
-Received: from [220.233.184.101] (helo=[192.168.20.106])
-	 by CMR-KAKADU03.i-0b90e6e05a7b179c7 with esmtpa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tIRaw-000000000qe-34VX;
-	Tue, 03 Dec 2024 12:01:34 +0000
-Message-ID: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
-Date: Tue, 3 Dec 2024 23:01:31 +1100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zAWKXfM2"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53de035ea13so5660685e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 03 Dec 2024 04:19:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733228384; x=1733833184; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5n+OPgKd4OeVfRcOdyszAmWQAYwYUA33KJvbyrKBpj8=;
+        b=zAWKXfM2peg7BAHmz8T3EWRad4/q7t5dNAlCsWR8UImR7RMKl8lhDFFCQ70vqKCvPM
+         1bEvuoHJ9lXpecjAcIrTfe3CUtzHoAXWkLQ/9YPNS2213Qiip6900QwCViM4ll1x5GoP
+         IW/OgzPXeEQqZGeSWWHVhL81W2vRVn1u9EYhIMOsJ6/Npi6fhe7ubnWKwyoC9veWfSpK
+         8ROMFxJcn0DgmLxuqayM+3Yn18zndg8l1UEJLthcXgtVomwqVwx/m28+rXyZ7tr/Wxh5
+         UWAw3kDBNjb4h3zmX/hJP8rdwkcSxg92wFn7tZCiBStKPGXU6xlYQFR47eV6VvL33BkM
+         Q+9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733228384; x=1733833184;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5n+OPgKd4OeVfRcOdyszAmWQAYwYUA33KJvbyrKBpj8=;
+        b=mqxpCYF0LIG76YT565FKrKjAaFocRf3Rdl9cFMIP5o386YfRmulqmjFj7/tcKX5ue6
+         bV4b/SXONZsigT9q+hWPEPs0O1fpNiPFHbY+oKgIyUTrSbiAAayZm9bxlkfGlTPmkfx0
+         AMwIjWw/Kch00BnAqHOt9lyhgRbGu9WFKDD3Z/jkSxi+p8EUCWDEykZOzqcv4uNEBtLM
+         Ou70/6ZYhjt0ibqgxk/1I8KoamH/eX4bzWY1KHy/2aZ21j7gsijeJqvxrTe9sXHKEnnr
+         eowpKpH71ggx0KZJQ1b8tLi/D/sjAp9TBgz2FdIoUXD07WnzLnDCsoerVpHLqYrKccQ3
+         LF5A==
+X-Forwarded-Encrypted: i=1; AJvYcCVw5Znb6sU6CahYsAonzEndFQrMUYLtpUjifLxIzajVLquf9nH/fyzVi3UFxq9zY+yF8ZI1/e2wgCgEHQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YymD2C5Qg/b20ZHaGeQibZvdEfHqHXOPYVmjv1Xxe4ZNDHsARhI
+	hRm5S6IEAe6rHgzgdmbHRe1FtH7Bk5BwDVDDfXBYVRALl7mzLDUqMRyVI7rvbGM=
+X-Gm-Gg: ASbGnctopo3u+EA/06It5mvmO9Xq6e8DV4yjeSAnKxIVzkRRBN8qrizYZGxVIYrmXxS
+	E2o+m3H1JP9xmluGFUSdWZ9HIQXcDGMNFN1j+rMDkMFF8rmwIScT4EwAvrZVO8krl3S79Xt4HzG
+	fFoG3x8y5hmgovq+CyEcQOQMxvP28+piWsavlN3hmV9Vlv1p2IsRq+TARoFjMcvECoJDvwy4mgT
+	qFFrMtfx0CAdOVNnl0wjWQnRJn5Noog+F88N2FtXl/r1gglSAFHQ33AV0THM2xamlXz1Pqos12t
+	/751YUFprxFRKeQyys5msgasahITpQ==
+X-Google-Smtp-Source: AGHT+IGqrNK3/JV3p7HUHgNYWUEc9ZkYpw0A4baw1aq7D6bW6M82dv1dR6gPJHjyZhTW0XLXbh3VUg==
+X-Received: by 2002:a05:6512:32c9:b0:53d:e43c:9c5d with SMTP id 2adb3069b0e04-53e12a06a29mr1124957e87.27.1733228384467;
+        Tue, 03 Dec 2024 04:19:44 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53df643149asm1854312e87.37.2024.12.03.04.19.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 04:19:43 -0800 (PST)
+Date: Tue, 3 Dec 2024 14:19:41 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 8/9] drm/vc4: hdmi: switch to using generic HDMI Codec
+ infrastructure
+Message-ID: <e7jngrc4nljdsksekinbkir2h76ztsth2xj4yqcyapfv43uryh@356yrxv3j4x6>
+References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
+ <20241201-drm-bridge-hdmi-connector-v5-8-b5316e82f61a@linaro.org>
+ <20241202-industrious-unnatural-beagle-7da5d4@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>
-Cc: linux-sound@vger.kernel.org, alsa-devel@vger.kernel.org
-From: Stephen Gordon <gordoste@iinet.net.au>
-Subject: [PATCH] ASoC: pcm3168a: Add option to force clock consumer
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=SanxdORu c=1 sm=1 tr=0 ts=674ef31e a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=PA-jjX1Vhq5T2YEptLMA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Cm-Envelope: MS4xfLdjdtfLs99pk1efUxIHVn0VMWqWkPMgKEprIOxM2Rqer7T9nUadZLO2DiGmm1xe83XsLSwlkPU347tmy/HdtgxcUGl7PnFN5FM29CB5z+4hKoaZccVH rlTqzTI8JEoujONBnhEJpNHJPA+TZ9aK3AjJD926AotbxWy5Ed+Ab5qaOYMR5zeudgZv0x1Hs+ChRw==
-X-atmailcloud-route: unknown
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241202-industrious-unnatural-beagle-7da5d4@houat>
+
+On Mon, Dec 02, 2024 at 02:20:04PM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> Sorry, I've been drowning under work and couldn't review that series before.
+
+No worries, at this point I'm more concerned about my IGT series rather
+than this one.
+
+> 
+> I'll review the driver API for now, and we can focus on the exact
+> implementation later on.
+> 
+> On Sun, Dec 01, 2024 at 02:44:12AM +0200, Dmitry Baryshkov wrote:
+> > Drop driver-specific implementation and use the generic HDMI Codec
+> > framework in order to implement the HDMI audio support.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/vc4/vc4_hdmi.c | 68 ++++++++++--------------------------------
+> >  drivers/gpu/drm/vc4/vc4_hdmi.h |  2 --
+> >  2 files changed, 15 insertions(+), 55 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > index 7295834e75fb1ab0cd241ed274e675567e66870b..d0a9aff7ad43016647493263c00d593296a1e3ad 100644
+> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > @@ -595,6 +595,9 @@ static int vc4_hdmi_connector_init(struct drm_device *dev,
+> >  	if (vc4_hdmi->variant->supports_hdr)
+> >  		max_bpc = 12;
+> >  
+> > +	connector->hdmi_codec.max_i2s_channels = 8;
+> > +	connector->hdmi_codec.i2s = 1;
+> > +
+> 
+> I guess it's a similar discussion than we had with HDMI2.0+ earlier
+> today, but I don't really like initializing by structs. Struct fields
+> are easy to miss, and can be easily uninitialized by mistake.
+> 
+> I think I'd prefer to have them as argument to the init function. And if
+> they are optional, we can explicitly mark them as unused.
+
+Do you mean drm_connector_hdmi_init()? I think it's overloaded already,
+but I defintely can think about:
+
+drmm_connector_hdmi_init(..., max_bpc, HDMI_CODEC_I2S_PLAYBACK(8) |
+HDMI_CODEC_NO_CAPTURE | HDMI_CODEC_DAI_ID(4));
+
+or
+
+... | HDMI_CODEC_NO_DAI_ID)
+
+The default (0) being equivalent to:
+
+HDMI_CODEC_NO_I2S | HDMI_CODEC_NO_SPDIF | HDMI_CODEC_NO_CAPTURE | HDMI_CODEC_NO_DAI_ID
+
+WDYT?
+
+> 
+> Like, it looks like the get_dai_id implementation relies on it being set
+> to < 0 for it to be ignored, but it's not here, so I'd assume it's used
+> with an ID of 0, even though the driver didn't support get_dai_id so
+> far?
 
 
-Scenario is that DAC's clock pins are tied to ADC's clock pins, with
-codec acting as clock producer for the I2S bus, and the CPU has a single
-pair of I2S clock pins used for both playback and capture.
-
-Both DAI links will have codec acting as a clock producer, but we need
-to configure the codec so that only one of ADC/DAC drives the lines.
-
-Add DT options to support this configuration. adc-force-cons/dac-force-cons
-cause MSAD/MSDA to be set to 0b000.
-
-diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
-index 9d6431338..5e3590f2d 100644
---- a/sound/soc/codecs/pcm3168a.c
-+++ b/sound/soc/codecs/pcm3168a.c
-@@ -61,6 +61,7 @@ struct pcm3168a_priv {
-         struct clk *scki;
-         struct gpio_desc *gpio_rst;
-         unsigned long sysclk;
-+       bool adc_fc, dac_fc; // Force clock consumer mode
-
-         struct pcm3168a_io_params io_params[2];
-         struct snd_soc_dai_driver dai_drv[2];
-@@ -479,6 +480,12 @@ static int pcm3168a_hw_params(struct 
-snd_pcm_substream *substream,
-                 ms = 0;
-         }
-
-+       // Force clock consumer mode if needed
-+       if (pcm3168a->adc_fc && dai->id == PCM3168A_DAI_ADC)
-+               ms = 0;
-+       if (pcm3168a->dac_fc && dai->id == PCM3168A_DAI_DAC)
-+               ms = 0;
-+
-         format = io_params->format;
-
-         if (io_params->slot_width)
-@@ -757,6 +764,13 @@ int pcm3168a_probe(struct device *dev, struct 
-regmap *regmap)
-
-         pcm3168a->sysclk = clk_get_rate(pcm3168a->scki);
-
-+       if (dev->of_node) {
-+               pcm3168a->adc_fc = of_property_read_bool(dev->of_node,
-+                               "adc-force-cons");
-+               pcm3168a->dac_fc = of_property_read_bool(dev->of_node,
-+                               "dac-force-cons");
-+       }
-+
-         for (i = 0; i < ARRAY_SIZE(pcm3168a->supplies); i++)
-                 pcm3168a->supplies[i].supply = pcm3168a_supply_names[i];
-
-
-
-Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
+-- 
+With best wishes
+Dmitry
