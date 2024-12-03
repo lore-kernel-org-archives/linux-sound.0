@@ -1,57 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0227C1E25E6
-	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 10:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0C31E2613
+	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 10:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733222746; cv=none; b=IQJKIwKlC243+geXkz3fwsAAGXhmFazShUCbRi11ICJ0LjNhIuOkgbbalbMTb4CO80/VfjrF/CYmSYhO2H+zn4+6gAcFKA0KDY3HVD4FneqnEZAoWF+q6chk0/qWspT67EySs0nSOXBkrAa1vFGsRbx9dKU1doWl+vwitw90aIo=
+	t=1733222748; cv=none; b=mMGRm28VOUZnwYe/KTKO6aEmHOlEaDFdT3lSp5uq88Yoomh3BpFRpjTxpCuAuBAZSJGkaPzZlO0pdkl/toX3vHwryV2xhbGoIPAgN39jSYYvd0eKEq0lXo8Pm6WRLUoJy/rwy9Qs49YnbKrLL9D+AMDNPH5OqGF5JadK7jM98eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733222746; c=relaxed/simple;
-	bh=QIU0KGfyc/+xX/ldqFinfjeEEzrQ4jSpIJcyofoHUqQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b1/LsLAy04LszInE0LduwM+dJod62Y7lazMNdaHx9G1KqSTRv2I2oLH/Y+Zn8+pWZf0OKih3RIwGM3+feCv8siooOuyq1J7laKOTeJ91LXDQ+x63XF3WTk+wGXNwXtTJWpNshBZHw+Ro84G6YXyHU20+akrX4IgX+IU+Cz+5p8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7Qsmfqm; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1733222748; c=relaxed/simple;
+	bh=ydxWpsFIEMLCVj8Yv3+ULe/k7foKRIkwNbYvys6GlmA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jeK7XlOq3fgVzRmt0TQzLSrPUk1aYNe472NFmGzZtlKmF7NokkzaYYtUm7DxE2zytSraq/u15xxKn8a/aief/J7fqo07g7THl1NZx06sDCW3mq85AkwiPwDylbAzeJoJ9YSM6c4SQeboPSiZT7UNepEOh+AP8+LC1vPkWsIVh9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gSg4KjBr; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7Qsmfqm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gSg4KjBr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733222745; x=1764758745;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=QIU0KGfyc/+xX/ldqFinfjeEEzrQ4jSpIJcyofoHUqQ=;
-  b=M7QsmfqmR349gGJY8x1sDarAfQBrVSEKPP5T94cIOn03cH1Deg33X9qo
-   OAq5d3pI+agXD/TYQ0m5A5XTzwZikk3DEVHKz4+xodFhSibkDr6nBI856
-   kEYn9lfaZA35iCUvkXzecvo4+mMBqhYd2KE8obf6fI/AGxfW77XCgop7Z
-   Resy6eZcX15YqguFoUYzGnj60eQ2p+nnlnHi4CuGJMVxcEw/cUl8YYNjr
-   8JGKxDCb9Oy1CwvjUHyAsEWAyD7W0hO2T37vGI1q/pfvTKGobG3OTZICz
-   dnu4Pc04zh//MM673PrSy6w0ysf5gyjlal02WlJ8ghCepSnHBig8SzsS+
-   Q==;
-X-CSE-ConnectionGUID: 9P3f9f8GS4+ylLHC75VWZA==
-X-CSE-MsgGUID: f5Z1Fp6LRuiLUP2jkbmleQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33559897"
+  t=1733222747; x=1764758747;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ydxWpsFIEMLCVj8Yv3+ULe/k7foKRIkwNbYvys6GlmA=;
+  b=gSg4KjBrid4Q3gS5O0pXxrhR4jeCNSr3+H8U9sv1Ny6pIBLnvXYH4BGl
+   Nfx6zvyDlzGGbJFqAQ2FerEa8UvOnSURu7SdPR0zXwams6J3dqaV3Cx6D
+   BmNPhR0g4DdTwM8Uur04xZY4XPwZP58Fs/jZ1/elQaqlRLir12nXoluj3
+   I6Prq+nWHXV0ozKz2HLzKSalH6hga47dkYqlZvRAqRpqqqn3BMsIexNO6
+   HaDgYSuOstQlzaAEmVCKYhieGw+srriOFPPUFtGGx6nrPZRfAo96bn//p
+   dfnZ1BGLolZNCGns83eUGiG/Wd2R1fz1kWQsKeZ9H8ivp4OLTop0CWMWz
+   w==;
+X-CSE-ConnectionGUID: 3QQV1t4JSBmIJOHSJ32K8Q==
+X-CSE-MsgGUID: f1PInMIeTSys8ncK6AjKfA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33559909"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="33559897"
+   d="scan'208";a="33559909"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:45 -0800
-X-CSE-ConnectionGUID: yQX0PL02RDKHPk0ov3pABg==
-X-CSE-MsgGUID: 9nDJgEtkSBmsvhVQU65yCg==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:46 -0800
+X-CSE-ConnectionGUID: Dn+3BqrnT6qEkgcOCz/QMQ==
+X-CSE-MsgGUID: PubUczJyQa6NwCKB98sOYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="93799171"
+   d="scan'208";a="93799198"
 Received: from ccbilbre-mobl3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.75])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:42 -0800
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:45 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 0/2] ASoC: Splitting cs35l56 SoundWire DAI into separate playback and capture DAIs
-Date: Tue,  3 Dec 2024 18:45:32 +0800
-Message-ID: <20241203104534.56719-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 2/2] ASoC: sdw_utils: cs_amp: Assign non-overlapping TDM masks for each codec on a bus
+Date: Tue,  3 Dec 2024 18:45:34 +0800
+Message-ID: <20241203104534.56719-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241203104534.56719-1-yung-chuan.liao@linux.intel.com>
+References: <20241203104534.56719-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -61,26 +64,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series prepares for dissimilar aggregation of CS42L43 + CS35L56
-speaker playback. The CS35L56 SoundWire DAI is split into separate
-DAIs for playback and capture so they can be routed and aggregated
-differently.
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-The cs_amp driver is also updated to enable different TX (capture)
-slots on each CS35L56 on a bus, so that the captures can be aggregated.
+Use snd_soc_dai_set_tdm_slot() on capture DAIs to prevent multiple
+aggregated amps from trying to send data at the same time.
 
-Richard Fitzgerald (2):
-  ASoC: cs35l56: Split SoundWire DAI into separate playback and capture
-  ASoC: sdw_utils: cs_amp: Assign non-overlapping TDM masks for each
-    codec on a bus
+When the capture DAIs of multiple amps on a bus are aggregated they will
+all be sharing the same bit slots for transmitted audio. This would lead
+to bus errors if all channels on all amps were enabled, because multiple
+amps would be trying to send data at the same time.
 
- include/sound/soc_sdw_utils.h                 |  2 +
- sound/soc/codecs/cs35l56.c                    |  8 +-
- .../intel/common/soc-acpi-intel-mtl-match.c   | 76 +++++++++++++++++--
- sound/soc/sdw_utils/soc_sdw_cs_amp.c          | 46 +++++++++++
- sound/soc/sdw_utils/soc_sdw_utils.c           | 13 +++-
- 5 files changed, 133 insertions(+), 12 deletions(-)
+To prevent this, the available channels are divided between the amps on a
+bus so that only one amp will be sending data for each channel position.
 
+A CS35L56 has 4 TX channels, which must be split between all the amps on a
+bus so that no two amps are using the same channel. This is done simply by
+dividing by the number of amps on the bus, so that 1 amp can use all
+4 channels, 2 amps can use 2 channels each, and 3 or 4 amps can only use
+1 channel each.
+
+The amps are usually aggregated across multiple SoundWire buses. In this
+case there will be multiple cpu DAIs in the dailink. The channel mapping
+is used to determine which amps are on each bus. The allocation of the
+4 channels is done separately for each bus (only amps on the same bus can
+interfere with each other).
+
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ include/sound/soc_sdw_utils.h        |  2 ++
+ sound/soc/sdw_utils/soc_sdw_cs_amp.c | 46 ++++++++++++++++++++++++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c  |  1 +
+ 3 files changed, 49 insertions(+)
+
+diff --git a/include/sound/soc_sdw_utils.h b/include/sound/soc_sdw_utils.h
+index 0e82598e10af..36a4a1e1d8ca 100644
+--- a/include/sound/soc_sdw_utils.h
++++ b/include/sound/soc_sdw_utils.h
+@@ -224,6 +224,8 @@ int asoc_sdw_cs_amp_init(struct snd_soc_card *card,
+ 			 struct snd_soc_dai_link *dai_links,
+ 			 struct asoc_sdw_codec_info *info,
+ 			 bool playback);
++int asoc_sdw_cs_spk_feedback_rtd_init(struct snd_soc_pcm_runtime *rtd,
++				      struct snd_soc_dai *dai);
+ 
+ /* MAXIM codec support */
+ int asoc_sdw_maxim_init(struct snd_soc_card *card,
+diff --git a/sound/soc/sdw_utils/soc_sdw_cs_amp.c b/sound/soc/sdw_utils/soc_sdw_cs_amp.c
+index 58b059b68016..9146a421e02c 100644
+--- a/sound/soc/sdw_utils/soc_sdw_cs_amp.c
++++ b/sound/soc/sdw_utils/soc_sdw_cs_amp.c
+@@ -15,6 +15,7 @@
+ #include <sound/soc_sdw_utils.h>
+ 
+ #define CODEC_NAME_SIZE	8
++#define CS_AMP_CHANNELS_PER_AMP	4
+ 
+ int asoc_sdw_cs_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
+ {
+@@ -48,6 +49,51 @@ int asoc_sdw_cs_spk_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai
+ }
+ EXPORT_SYMBOL_NS(asoc_sdw_cs_spk_rtd_init, SND_SOC_SDW_UTILS);
+ 
++int asoc_sdw_cs_spk_feedback_rtd_init(struct snd_soc_pcm_runtime *rtd, struct snd_soc_dai *dai)
++{
++	const struct snd_soc_dai_link *dai_link = rtd->dai_link;
++	const struct snd_soc_dai_link_ch_map *ch_map;
++	const struct snd_soc_dai_link_component *codec_dlc;
++	struct snd_soc_dai *codec_dai;
++	u8 ch_slot[8] = {};
++	unsigned int amps_per_bus, ch_per_amp, mask;
++	int i, ret;
++
++	WARN_ON(dai_link->num_cpus > ARRAY_SIZE(ch_slot));
++
++	/*
++	 * CS35L56 has 4 TX channels. When the capture is aggregated the
++	 * same bus slots will be allocated to all the amps on a bus. Only
++	 * one amp on that bus can be transmitting in each slot so divide
++	 * the available 4 slots between all the amps on a bus.
++	 */
++	amps_per_bus = dai_link->num_codecs / dai_link->num_cpus;
++	if ((amps_per_bus == 0) || (amps_per_bus > CS_AMP_CHANNELS_PER_AMP)) {
++		dev_err(rtd->card->dev, "Illegal num_codecs:%u / num_cpus:%u\n",
++			dai_link->num_codecs, dai_link->num_cpus);
++		return -EINVAL;
++	}
++
++	ch_per_amp = CS_AMP_CHANNELS_PER_AMP / amps_per_bus;
++
++	for_each_rtd_ch_maps(rtd, i, ch_map) {
++		codec_dlc = snd_soc_link_to_codec(rtd->dai_link, i);
++		codec_dai = snd_soc_find_dai(codec_dlc);
++		mask = GENMASK(ch_per_amp - 1, 0) << ch_slot[ch_map->cpu];
++
++		ret = snd_soc_dai_set_tdm_slot(codec_dai, 0, mask, 4, 32);
++		if (ret < 0) {
++			dev_err(rtd->card->dev, "Failed to set TDM slot:%d\n", ret);
++			return ret;
++		}
++
++		ch_slot[ch_map->cpu] += ch_per_amp;
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_NS(asoc_sdw_cs_spk_feedback_rtd_init, SND_SOC_SDW_UTILS);
++
+ int asoc_sdw_cs_amp_init(struct snd_soc_card *card,
+ 			 struct snd_soc_dai_link *dai_links,
+ 			 struct asoc_sdw_codec_info *info,
+diff --git a/sound/soc/sdw_utils/soc_sdw_utils.c b/sound/soc/sdw_utils/soc_sdw_utils.c
+index 111e00e916c5..375b46c5b429 100644
+--- a/sound/soc/sdw_utils/soc_sdw_utils.c
++++ b/sound/soc/sdw_utils/soc_sdw_utils.c
+@@ -504,6 +504,7 @@ struct asoc_sdw_codec_info codec_info_list[] = {
+ 				.dai_name = "cs35l56-sdw1c",
+ 				.dai_type = SOC_SDW_DAI_TYPE_AMP,
+ 				.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
++				.rtd_init = asoc_sdw_cs_spk_feedback_rtd_init,
+ 			},
+ 		},
+ 		.dai_num = 2,
 -- 
 2.43.0
 
