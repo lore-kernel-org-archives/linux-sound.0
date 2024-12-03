@@ -1,106 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581E01F7578;
-	Tue,  3 Dec 2024 13:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542D62AD02;
+	Tue,  3 Dec 2024 13:51:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733231930; cv=none; b=j1IRLB17kwhWRdIUSnFHulTal3q0iYvckjxbvvsQ4cWNpCs983Y6bIelHG6zkvE6DoATJG8hV8+mqpXSYJu+LDe2NR9jELA4DGc3R4vurUaUKRYTX7ztH6QoXSmvEUmLZ0vf6jPV77AcNBdMtAhKs8+apS2WjKJVlXS2qCsHOX8=
+	t=1733233918; cv=none; b=dUlSQzO072npB+3FbcblRWa1w2FZeXFYEksl4nFLLTy/kxWtnaGreg1qTeqfSF0op1k+YCY61RopcFnKHDJVSdboMCWxnPaK4400sQv0DRSPpbVGrubHRBnerPAxF2jYeAJUrcKguzBgRZbS8axssRAGjKxRAs/YD73KYCfq6z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733231930; c=relaxed/simple;
-	bh=IWIIWEXMP+HgRrUppmGaLdX5pqFywKT4BBaDK/Fe0tk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sAXJ2D014DYMcbNEap8ZUwUcS9ykXiKimsjiFnpOERUhqc5L7Z8Xaoo7P5/CRjhDikWWB/o+xKlb95z/I4QEdbG8WtbGAtrd4NYZE4LwbnGdpaVN4czxwzbB+fJOekTDZzjGvMmn/6ebEJfDgoIEs/hbxDVBY5GWs/2ft4xxQfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKVMfjU/; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1733233918; c=relaxed/simple;
+	bh=1/cnLiX0o5UtztRH+o1E5t6mBRSHSOJfAqw2q5NSJdI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HP8eAdxUNCYv8vRBOlsUx9hJ6+6cE+T8UboO/Ml+DI8DGPTJ545pSiKF6zGKTbG6RLAXUf2o2tCoqBqewAjubrt7IUyJ/bovqg8OkTPcHtMWwQFlJlFJsypfLipzJzLN6fl8FkgtwCDiWkXLCuIgwDkCnY7QKNsxxsqzmODHJtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=HOb+ZO/K; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKVMfjU/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733231929; x=1764767929;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=IWIIWEXMP+HgRrUppmGaLdX5pqFywKT4BBaDK/Fe0tk=;
-  b=QKVMfjU/mQle6f3uxKhguruAYVt3m2T55OnX2TJ+hKOCA07r2FRDwNbd
-   bJLfVAaQfAbXU1J2JZwuePnXspJiITovklP5sbHwM5u90dZkDCVdtQOIv
-   iWB5uxEAe09sl+hmsLQYfSCay9eqIO0YbvQAZQSFks5azAkbiJcmIztno
-   0xhFVBLcbexL5vT4xl+OkVA3IDfxP2ZpKGnb6etxF5ANDol9COu7eowIO
-   5sji8IBjHu1mt7KCCX6ANWz6wV7ZFf2id/2jA8u8UQbJh61szO9SIBe5X
-   XmFhpcqKIqsf7oDswbmNg+vLYbDW/fC/4FtY3PXyVmFSNPlK7uoA9ybIN
-   w==;
-X-CSE-ConnectionGUID: ChhYF89SQnmGxBbRSgoZGA==
-X-CSE-MsgGUID: grSIBw6yRrir8X7wiL75fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33500796"
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="33500796"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 05:18:49 -0800
-X-CSE-ConnectionGUID: ssiUt1JoQb2bPjqbgyZdMA==
-X-CSE-MsgGUID: EzzhuerLRhWW1D6QHlYndA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
-   d="scan'208";a="130896155"
-Received: from ccbilbre-mobl3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.75])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 05:18:48 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: linux-sound@vger.kernel.org,
-	vkoul@kernel.org
-Cc: vinod.koul@linaro.org,
-	linux-kernel@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH v2 14/14] soundwire: generic_bandwidth_allocation: count the bandwidth of active streams only
-Date: Tue,  3 Dec 2024 21:18:13 +0800
-Message-ID: <20241203131813.58454-15-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241203131813.58454-1-yung-chuan.liao@linux.intel.com>
-References: <20241203131813.58454-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="HOb+ZO/K"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B35Sa7w019986;
+	Tue, 3 Dec 2024 07:51:39 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=xi6Bd1pHOXM6sXoTOE1RkVnj3Q7HyyEWw7hIRRnc7Eo=; b=
+	HOb+ZO/KtmvmGP9hQNH8kjaqgHG2Jv70xNU6wlVGx4DdZOTWbUZyp/DRMYjuGXkw
+	lWevyfJiHKZVSj9rIkrN9239kUWVCPhy7/Sdh8jGwzx2hHziZbq2f573yYU5RA53
+	VK/x8UgHbKQW7Ii+6TQ4T4VAW0oyu+gdtHEDXMP4kC2t8fG3dUFjUvPWVxZZSeW0
+	o0m2wuGgWtEhyVFVJUdXjG7cg6H8CRcHlowdEOjB7DFnKt7dD5qFhH8fybwLi7Aa
+	m0daWCBt6HdD9Q0wTxE+bKrZO/j728y0G5Vtp147lGPBm3pt66pbQwUyrtXBGCPm
+	KhOBKPCOYdQZ1AZ2g9jWWQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43800nycjk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 03 Dec 2024 07:51:39 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 3 Dec
+ 2024 13:51:37 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Tue, 3 Dec 2024 13:51:37 +0000
+Received: from [198.61.68.170] (EDIN4L06LR3.ad.cirrus.com [198.61.68.170])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 44B4F820247;
+	Tue,  3 Dec 2024 13:51:37 +0000 (UTC)
+Message-ID: <e888ffb4-90a6-41d4-b081-e084b09b3780@opensource.cirrus.com>
+Date: Tue, 3 Dec 2024 13:51:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/14] Soundwire: stream: program BUSCLOCK_SCALE
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, <linux-sound@vger.kernel.org>,
+        <vkoul@kernel.org>
+CC: <vinod.koul@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <pierre-louis.bossart@linux.dev>, <bard.liao@intel.com>
+References: <20241203131813.58454-1-yung-chuan.liao@linux.intel.com>
+ <20241203131813.58454-8-yung-chuan.liao@linux.intel.com>
+Content-Language: en-US
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+In-Reply-To: <20241203131813.58454-8-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: woPU4XfMAGJAsuqOI32Muo-zkm4eUzDl
+X-Proofpoint-ORIG-GUID: woPU4XfMAGJAsuqOI32Muo-zkm4eUzDl
+X-Proofpoint-Spam-Reason: safe
 
-sdw_compute_group_params() should only count payload bandwidth of the
-active streams which is in the ENABLED and DISABLED state in the bus.
-And add the payload bandwidth of the stream that calls
-sdw_compute_group_params() in sdw_prepare_stream().
+On 3/12/24 13:18, Bard Liao wrote:
+> We need to program bus clock scale to adjust the bus clock if current
+> bus clock doesn't fit the bandwidth.
+> 
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> ---
+>   drivers/soundwire/bus.c       | 10 ++++++++++
+>   drivers/soundwire/stream.c    | 32 ++++++++++++++++++++++++++++++++
+>   include/linux/soundwire/sdw.h |  1 +
+>   3 files changed, 43 insertions(+)
+> 
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
----
- drivers/soundwire/generic_bandwidth_allocation.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Does this still have the bug I reported here that breaks on systems
+that have peripherals listed in ACPI that don't really exist?
 
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index 062e7488b226..59965f43c2fb 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -188,6 +188,19 @@ static int sdw_compute_group_params(struct sdw_bus *bus,
- 	}
- 
- 	list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
-+		if (m_rt->stream == stream) {
-+			/* Only runtime during prepare should be added */
-+			if (stream->state != SDW_STREAM_CONFIGURED)
-+				continue;
-+		} else {
-+			/*
-+			 * Include runtimes with running (ENABLED state) and paused (DISABLED state)
-+			 * streams
-+			 */
-+			if (m_rt->stream->state != SDW_STREAM_ENABLED &&
-+			    m_rt->stream->state != SDW_STREAM_DISABLED)
-+				continue;
-+		}
- 		list_for_each_entry(p_rt, &m_rt->port_list, port_node) {
- 			rate = m_rt->stream->params.rate;
- 			bps = m_rt->stream->params.bps;
--- 
-2.43.0
+https://github.com/thesofproject/linux/issues/5257
 
