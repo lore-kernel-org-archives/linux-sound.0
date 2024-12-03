@@ -1,154 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C4418FC90;
-	Tue,  3 Dec 2024 07:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631F5184523;
+	Tue,  3 Dec 2024 07:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733210746; cv=none; b=LvCzCh7lVKue59ZM4RR5ANCsgozPkkVSOtizdN/cHrjlq/id/tMlBJlL+0tEVpvQLI8OUkBZQDPs3evAbSwS85WwqAyEBYehQina7LtCNNS8oyuuLgpyRc/11o2VhWnrrhAr637FtMO2DJG3GMoPIARu2tnReIa+ww6pX/7aIWY=
+	t=1733211139; cv=none; b=dXVZFiP6inaO6yKOTPeLsN+5r+LcCDQNajGkbwhVzDxoBL4U5F7d1fb65jTKldu4fG0JGpkQVckYpYOZswqQir5NE39Y07gGfZqwyLRyQt1x2lXfFh/kXaa7Og8u3IcBoAKI2ROHAlgSUxGx4ZaFWyYaic/bTXPFx7trmy71BFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733210746; c=relaxed/simple;
-	bh=Dowwf5vOCbH6Ot1zhsb+tcWHaPLxDB1jAvKz9HFlY4w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wc3HNIjspQstTWYFHk+hE1bG3XkUu9gpcZwu32kRZ8UrqbgY+Apsd5FSDZOHdC/ZV70sMk6hnbuKHiBs8wtAa+nrGlA1N/yXXhfVzZ4SrxauF4W90pEVEZDTDRFAD5h3eqv8AShegf0MLPU4S+jt+xQVvCfPHnKQNxE157qo2cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oKfUSdsB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733211139; c=relaxed/simple;
+	bh=udYLqrYjuh2kacEBtUeniMwzqFUcQY3ID3ufmc94kEE=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TZbX34NxSLYC5UlXfcTjaPgiu4YsfWkEOl9nOM+g+JMJdSUBSSNcjis7bPTa7k3RVsV9KvPmE0bXvK6/zajmMJmyVl3IJ0xHd6MLtRVaYbq6/6mAw75RsqpWDrjMY5ZMPwTtDN+jYPjH2/XArKuc4QrxYkXYCEhTK98plW5/u4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MZogqkDf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BLwiM9td; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MZogqkDf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BLwiM9td; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKfUSdsB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA524C4CECF;
-	Tue,  3 Dec 2024 07:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733210746;
-	bh=Dowwf5vOCbH6Ot1zhsb+tcWHaPLxDB1jAvKz9HFlY4w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oKfUSdsBIJwlO6rUdfy6UFCBfTvSJmL/AhzIRHJQpr9YRCJp1kdT4SUuujrHGgfl+
-	 4tNS5JWFvcPNuLraiIuGAqPQOMkYfH624sC4A5fm/I5VC/23cpztI0Y3QGeKQ1hR4b
-	 rYYLPaRuquO6GPkNhWe4kDXn1PIYIcEj1sPzQ+YWL8eSFjA8D4wU8Q9pRlhZOtUo/B
-	 9F+GKEfpDP1zycQ2TiOnoLIhr+UNHw/7V6DYPsLpmGe50LfUQsNvCx1e4zxQWRM6Cp
-	 O1OfolnUfu5AwKFl6Le4czkOInYHXNVvI6cF8q5weXjcyyH/5J5iq89iedwUShzMRl
-	 A+d+MsMQR54AQ==
-Message-ID: <1b5ebd38-1f2c-42fe-b863-e93916252e8c@kernel.org>
-Date: Tue, 3 Dec 2024 08:25:37 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MZogqkDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BLwiM9td";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MZogqkDf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BLwiM9td"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 757762117F;
+	Tue,  3 Dec 2024 07:32:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733211135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3F2qk4aItgPbYyM0+CFq3XI15x8JbIdS9V/LWbUrSY=;
+	b=MZogqkDfVkCTmfCmSeZMM0QHOC3dR9E3dXoJqCFEZUeqQ45Kno3ExgFxDiR/H8F3NP65CG
+	gNvafl4GRmS3kxq5eQ/BwtoHqufUb2etjeNjmCwiJmmVPY+WFylTM6UaaiAt2oyJqoB02s
+	9/XLtvucgmLiGFF2vwkbnRyT8ovsWxw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733211135;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3F2qk4aItgPbYyM0+CFq3XI15x8JbIdS9V/LWbUrSY=;
+	b=BLwiM9tdPQ7Xj/piJ2RHGV1SPjfWaqfgEQVGbdMjKQvfr4MpMjGaKWpXrhDPUMRPOBri2k
+	ZMAYgLLMXn8+2BDg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MZogqkDf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=BLwiM9td
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733211135; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3F2qk4aItgPbYyM0+CFq3XI15x8JbIdS9V/LWbUrSY=;
+	b=MZogqkDfVkCTmfCmSeZMM0QHOC3dR9E3dXoJqCFEZUeqQ45Kno3ExgFxDiR/H8F3NP65CG
+	gNvafl4GRmS3kxq5eQ/BwtoHqufUb2etjeNjmCwiJmmVPY+WFylTM6UaaiAt2oyJqoB02s
+	9/XLtvucgmLiGFF2vwkbnRyT8ovsWxw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733211135;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+3F2qk4aItgPbYyM0+CFq3XI15x8JbIdS9V/LWbUrSY=;
+	b=BLwiM9tdPQ7Xj/piJ2RHGV1SPjfWaqfgEQVGbdMjKQvfr4MpMjGaKWpXrhDPUMRPOBri2k
+	ZMAYgLLMXn8+2BDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30BCB13A15;
+	Tue,  3 Dec 2024 07:32:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8g+ICv+zTmfwKwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 03 Dec 2024 07:32:15 +0000
+Date: Tue, 03 Dec 2024 08:32:14 +0100
+Message-ID: <87jzchz0g1.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jiri Kosina <jikos@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Wade Wang <wade.wang@hp.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/2] Introduce Poly/Plantronics mute event support
+In-Reply-To: <dc2bef93-9d74-4700-82e4-575e462dbc16@cosmicgizmosystems.com>
+References: <20241124203252.28701-1-linuxhid@cosmicgizmosystems.com>
+	<87h67vzo8z.wl-tiwai@suse.de>
+	<dc2bef93-9d74-4700-82e4-575e462dbc16@cosmicgizmosystems.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] ASoC: dt-bindings: Add bindings for wcd937x static
- channel mapping
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com, kernel@quicinc.com
-References: <20241126164300.3305903-1-quic_mohs@quicinc.com>
- <20241126164300.3305903-2-quic_mohs@quicinc.com>
- <br4vo2iygjc6p5zezss6wccuakodthej4cut3cpw76ltxyxkpb@pjalqvpszxvo>
- <ab9d5e1c-ffb6-88df-80e6-243bfae8cf59@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ab9d5e1c-ffb6-88df-80e6-243bfae8cf59@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 757762117F
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-On 03/12/2024 05:52, Mohammad Rafi Shaik wrote:
-> On 11/27/2024 1:35 PM, Krzysztof Kozlowski wrote:
->> On Tue, Nov 26, 2024 at 10:12:56PM +0530, Mohammad Rafi Shaik wrote:
->>> Add wcd937x static channel mapping values to avoid
->>> having to use unclear number indices in device trees.
->>>
->>> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
->>> ---
->>>   include/dt-bindings/sound/qcom,wcd93xx.h | 13 +++++++++++++
->>>   1 file changed, 13 insertions(+)
->>>   create mode 100644 include/dt-bindings/sound/qcom,wcd93xx.h
->>>
->>> diff --git a/include/dt-bindings/sound/qcom,wcd93xx.h b/include/dt-bindings/sound/qcom,wcd93xx.h
->>> new file mode 100644
->>> index 000000000000..45bcc30d0393
->>> --- /dev/null
->>> +++ b/include/dt-bindings/sound/qcom,wcd93xx.h
->>
->> Filename matching compatible, always.
->>
->>> @@ -0,0 +1,13 @@
->>> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> + * Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>> + */
->>> +
->>> +#ifndef __DT_SOUND_QCOM_WCD93xx_H
->>> +#define __DT_SOUND_QCOM_WCD93xx_H
->>> +
->>> +#define SWRM_CH1 1
->>> +#define SWRM_CH2 2
->>> +#define SWRM_CH3 4
->>> +#define SWRM_CH4 8
->>
->> Bindings define interface between driver and DTS. The values are
->> abstract, so alwys start from 0 or 1 and are incremented by 1, not by
->> power of 2. Also missing some sort of prefix, w.g. WCD9390_xxx
->>
->> Anyway, this does not look like binding.
->>
+On Mon, 02 Dec 2024 23:35:51 +0100,
+Terry Junge wrote:
 > 
-> Ack,
+> On 11/25/24 12:55 AM, Takashi Iwai wrote:
+> > On Sun, 24 Nov 2024 21:32:39 +0100,
+> > Terry Junge wrote:
+> >>
+> >> Hi Jiri and Takashi,
+> >>
+> >> I'm not sure how it works with two different maintained trees
+> >> but this patch set needs to be applied and flow upstream together.
+> >>
+> >> If the HID patch is applied without the ALSA patch then mute sync
+> >> issues will occur with multiple Poly/Plantronics product families.
+> > 
+> > Both patches can be applied individually, and even if only one of them
+> > is applied, it won't hurt.  So I guess both subsystems can take the
+> > corresponding one at any time.
+> > 
 > 
-> Will add the Prefix WCD9370_SWRM_CH1,
+> Hi Takashi,
+> 
+> I've tested out the behavior with each patch individually applied and
+> have found that, IMHO, the mute functionality and synchronization is
+> worse than the current behavior with neither patch. However, with both
+> patches applied the mixer UI microphone mute control and the headset
+> mute button are fully synchronized.
+
+That's odd.  How can it worsen?  As far as I understand from the patch
+descriptions, the USB-audio patch corrects only the mixer volume
+control names, while the HID patch changes the quirk to be generalized
+(to be dropped the next key in a short period).  If only USB audio
+patch is applied, it doesn't matter as the volume binding didn't
+happen before the patch.  OTOH, ditto, if only HID patch is applied.
+Am I missing anything here?
+
+> There must be a way that both patches can be tied together and be
+> applied simultaneously.
+> 
+> If it would help, and be allowed, I can submit a single patch that
+> contains both changes.
+
+Applying both from the single tree is possible, sure.  One of two
+needs an ack from the subsystem maintainers.
 
 
-No, this is not a binding, so drop. You skipped my entire reply
-explaining why this is not a binding.
+thanks,
 
+Takashi
 
-Best regards,
-Krzysztof
+> 
+> Thanks,
+> Terry
+> 
+> > 
+> > thanks,
+> > 
+> > Takashi
+> > 
+> >>
+> >> This patch set was tested by Wade and myself with multiple
+> >> Poly/Plantronics product family headsets.
+> >>
+> >> Hi Wade,
+> >>
+> >> Please feel free to add your Signed-off-by: and/or Tested-by: tags,
+> >> as you see fit.
+> >>
+> >> Thanks,
+> >> Terry
+> >>
+> >> Terry Junge (2):
+> >>   HID: hid-plantronics: Add mic mute mapping and generalize quirks
+> >>   ALSA: usb-audio: Add quirk for Plantronics headsets to fix control
+> >>     names
+> >>
+> >>  drivers/hid/hid-plantronics.c | 135 ++++++++++++++++------------------
+> >>  sound/usb/mixer_quirks.c      |  35 +++++++++
+> >>  2 files changed, 100 insertions(+), 70 deletions(-)
+> >>
+> >>
+> >> base-commit: 28eb75e178d389d325f1666e422bc13bbbb9804c
+> >> -- 
+> >> 2.43.0
+> >>
+> 
