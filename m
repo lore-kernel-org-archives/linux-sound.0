@@ -1,123 +1,86 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AAC41E0DE9;
-	Tue,  3 Dec 2024 10:10:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0227C1E25E6
+	for <linux-sound@vger.kernel.org>; Tue,  3 Dec 2024 10:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733220632; cv=none; b=J15BwJKgfgW5P4dSgN6XpBVUWFkXQzKU5uxfUp1ZydruaiUWdmSPDIyqvfBBRyHxD4b8iWHeeIX+EIxipaAoG+59Bgnq0AM6fnWCgHpLx8p0F/OOqyttbK3673b35nLuBRs0s1nmAdCetH4K7DtTz1tB6J6EPb6uwi6lSXTSPD0=
+	t=1733222746; cv=none; b=IQJKIwKlC243+geXkz3fwsAAGXhmFazShUCbRi11ICJ0LjNhIuOkgbbalbMTb4CO80/VfjrF/CYmSYhO2H+zn4+6gAcFKA0KDY3HVD4FneqnEZAoWF+q6chk0/qWspT67EySs0nSOXBkrAa1vFGsRbx9dKU1doWl+vwitw90aIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733220632; c=relaxed/simple;
-	bh=kl9IXqQtfUNMolIZ4nsl5x6MLsUPrqnZTxsGkW20ibg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TDrUm3M+wsG0GzM7pM9AFH0FnJfAbYoPH+mXsxelqpKldzy/bdzlN3ElBa5DmsRehMAUC0UoL8ad6RJTPp0QJhmcHaWECAi+riY+TzthCMgp5hue3GbMRmI21KscWv6SFU3QB8AvgOXpz7iMnoLwZiHeK6TVIGLMVa/7uiZL9mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rjsCm3QQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q6VuBIcD; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=rjsCm3QQ; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q6VuBIcD; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1733222746; c=relaxed/simple;
+	bh=QIU0KGfyc/+xX/ldqFinfjeEEzrQ4jSpIJcyofoHUqQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b1/LsLAy04LszInE0LduwM+dJod62Y7lazMNdaHx9G1KqSTRv2I2oLH/Y+Zn8+pWZf0OKih3RIwGM3+feCv8siooOuyq1J7laKOTeJ91LXDQ+x63XF3WTk+wGXNwXtTJWpNshBZHw+Ro84G6YXyHU20+akrX4IgX+IU+Cz+5p8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M7Qsmfqm; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rjsCm3QQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6VuBIcD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="rjsCm3QQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6VuBIcD"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7BC011F451;
-	Tue,  3 Dec 2024 10:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733220628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LGOtYroFEEmWBohtSYm6T7wP7eFGiEBQnJJHoGI4RDM=;
-	b=rjsCm3QQVlHu8eqFLvR+yeDoL8UbVm9ZVg7iwN+WwGP5a8apJ7TkbCHqXtm151o3c862wE
-	TGWwxrLYTTXAv5yj48BmITGTL4C/WeIpOmHh1aeqiib/NWylsd2EpuaheRZ6UIU3HL232t
-	BVpxR06gLWJXtSg0xTdK+EBI5DydQGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733220628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LGOtYroFEEmWBohtSYm6T7wP7eFGiEBQnJJHoGI4RDM=;
-	b=Q6VuBIcDzqJQIXEjDfpO5Sg0ZccVvn2FQmY+FZ4mUlrM00jmKnffm38Ma5ijPDJS8+lqZs
-	bebnitd9hzHS7iCw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733220628; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LGOtYroFEEmWBohtSYm6T7wP7eFGiEBQnJJHoGI4RDM=;
-	b=rjsCm3QQVlHu8eqFLvR+yeDoL8UbVm9ZVg7iwN+WwGP5a8apJ7TkbCHqXtm151o3c862wE
-	TGWwxrLYTTXAv5yj48BmITGTL4C/WeIpOmHh1aeqiib/NWylsd2EpuaheRZ6UIU3HL232t
-	BVpxR06gLWJXtSg0xTdK+EBI5DydQGg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733220628;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LGOtYroFEEmWBohtSYm6T7wP7eFGiEBQnJJHoGI4RDM=;
-	b=Q6VuBIcDzqJQIXEjDfpO5Sg0ZccVvn2FQmY+FZ4mUlrM00jmKnffm38Ma5ijPDJS8+lqZs
-	bebnitd9hzHS7iCw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5D12113A15;
-	Tue,  3 Dec 2024 10:10:28 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X+coFhTZTmdJXQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Dec 2024 10:10:28 +0000
-Date: Tue, 03 Dec 2024 11:10:28 +0100
-Message-ID: <87bjxtyt4b.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Zhu Jun <zhujun2@cmss.chinamobile.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda: Fix typo in hda_sysfs.h
-In-Reply-To: <20241203094250.8312-1-zhujun2@cmss.chinamobile.com>
-References: <20241203094250.8312-1-zhujun2@cmss.chinamobile.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M7Qsmfqm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733222745; x=1764758745;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QIU0KGfyc/+xX/ldqFinfjeEEzrQ4jSpIJcyofoHUqQ=;
+  b=M7QsmfqmR349gGJY8x1sDarAfQBrVSEKPP5T94cIOn03cH1Deg33X9qo
+   OAq5d3pI+agXD/TYQ0m5A5XTzwZikk3DEVHKz4+xodFhSibkDr6nBI856
+   kEYn9lfaZA35iCUvkXzecvo4+mMBqhYd2KE8obf6fI/AGxfW77XCgop7Z
+   Resy6eZcX15YqguFoUYzGnj60eQ2p+nnlnHi4CuGJMVxcEw/cUl8YYNjr
+   8JGKxDCb9Oy1CwvjUHyAsEWAyD7W0hO2T37vGI1q/pfvTKGobG3OTZICz
+   dnu4Pc04zh//MM673PrSy6w0ysf5gyjlal02WlJ8ghCepSnHBig8SzsS+
+   Q==;
+X-CSE-ConnectionGUID: 9P3f9f8GS4+ylLHC75VWZA==
+X-CSE-MsgGUID: f5Z1Fp6LRuiLUP2jkbmleQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33559897"
+X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
+   d="scan'208";a="33559897"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:45 -0800
+X-CSE-ConnectionGUID: yQX0PL02RDKHPk0ov3pABg==
+X-CSE-MsgGUID: 9nDJgEtkSBmsvhVQU65yCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,205,1728975600"; 
+   d="scan'208";a="93799171"
+Received: from ccbilbre-mobl3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.75])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 02:45:42 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 0/2] ASoC: Splitting cs35l56 SoundWire DAI into separate playback and capture DAIs
+Date: Tue,  3 Dec 2024 18:45:32 +0800
+Message-ID: <20241203104534.56719-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chinamobile.com:email,suse.de:mid]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 03 Dec 2024 10:42:50 +0100,
-Zhu Jun wrote:
-> 
-> The word 'accodingly' is wrong, so fix it.
-> 
-> Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
+This series prepares for dissimilar aggregation of CS42L43 + CS35L56
+speaker playback. The CS35L56 SoundWire DAI is split into separate
+DAIs for playback and capture so they can be routed and aggregated
+differently.
 
-Thanks, applied now.
+The cs_amp driver is also updated to enable different TX (capture)
+slots on each CS35L56 on a bus, so that the captures can be aggregated.
 
+Richard Fitzgerald (2):
+  ASoC: cs35l56: Split SoundWire DAI into separate playback and capture
+  ASoC: sdw_utils: cs_amp: Assign non-overlapping TDM masks for each
+    codec on a bus
 
-Takashi
+ include/sound/soc_sdw_utils.h                 |  2 +
+ sound/soc/codecs/cs35l56.c                    |  8 +-
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 76 +++++++++++++++++--
+ sound/soc/sdw_utils/soc_sdw_cs_amp.c          | 46 +++++++++++
+ sound/soc/sdw_utils/soc_sdw_utils.c           | 13 +++-
+ 5 files changed, 133 insertions(+), 12 deletions(-)
+
+-- 
+2.43.0
+
