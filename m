@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8F01F891C;
-	Tue,  3 Dec 2024 17:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B8E1FC0FD;
+	Tue,  3 Dec 2024 17:50:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733248258; cv=none; b=PsF7pjqAhNSbkJlcqEEWwKTasbrHje5aTWBruD1zL6F0omV2rowsWQNG2+rgO+8Oi3yS29ptDy9soZ/HaEq5Y/gNWJM/wV9y9urZP/JXxFTcp+Oj/eaYwZMtSz5hXxAof7uu9qDfUL9IFMZ5CrS6tT7seRZyGvJBSLlC/2Amvhk=
+	t=1733248259; cv=none; b=jJEFyW4eGWMQNGIwyCHW/Rs/wEg97FCoqBv9Rze8Ib/n5dpjeU1yrMlSWpkYX0/2+hsOQ1+F7vRXLd5mv4b2HCA7CTKD7qaDP2WKWj7cA5I7Znb8GVDTAFF/HqFho1q0GAswJe/+3r1+yBMUFpEJDCJbDuGIu6uSv4oTWrLMbG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733248258; c=relaxed/simple;
-	bh=OSrO/elSn5qIF+zISWp/GORkYyBZhWFrJkT400xtaug=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HQgYJyZqfFyR6MkcrfAKh4yio6gtuwMaLiod0E7KfYCg83+ceLQ7e8Xiu8MoWVA9iLhFemv8v6XkQgtL76O5/t+AihDNDcolo+Og4ssT2p8QZzESbfrvoP9+UBAPKORZb4PWEXvK8XD01d139sPBmPt6sn6XccFi0ew3U9BzO7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qQj1QnVa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733248259; c=relaxed/simple;
+	bh=YJ511IzmxEx1Uc7jnWrD+86VGyWywPsi35FQg9sTMLc=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=rIl3FXBF1NBrHA9EsSWtKEWBbGmby+1f2nhrZP1F0Bf5LOy7LOYSsd1gZyh+q2EsTv+ra/igvwk0ScrR6ugMbSS/FmLVN/cLIjQzcTeAnoYkHTwUD2RwrNDCXwT39IoGxSQcGvWJCn9EVsNI5S4euTjXy/Lj1Wa4znVkVrjnks8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZaKw8/c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qQj1QnVa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2826AC4CECF;
-	Tue,  3 Dec 2024 17:50:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZaKw8/c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B243C4CED6;
+	Tue,  3 Dec 2024 17:50:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733248257;
-	bh=OSrO/elSn5qIF+zISWp/GORkYyBZhWFrJkT400xtaug=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=qQj1QnVapS8uBGnl89xNEjYNhkPYsYeAz7sgRrEIqcUwbU2NWG8gcPe6OVlzWb8V9
-	 cY3jARPjtO/dFw9hnJpa8XHGtPQaJAzBTj7ecfwaCE2f+Pw/EH8jd6o9K8z/p2Xq1h
-	 XEPWwWPfodOOZLq4i2wGlJSsAw030tB+0yC398aO76SskILKk2oRv/ZPfl6rHPE4KT
-	 dMfRmqrUEU61RL2jbb8yp8n4FNq09qpoDb+7ujD/I7S6QeurnIBfNBXlsXHR1LSeeW
-	 uDJTmlzsZW68yujhGWIS30PWg/DBaUEdqjr/az7SmHheZiV1pn4Kk2Vn2oYkRNOSmd
-	 iMrOoHevVofLA==
+	s=k20201202; t=1733248259;
+	bh=YJ511IzmxEx1Uc7jnWrD+86VGyWywPsi35FQg9sTMLc=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=OZaKw8/c/LLTsLjErPsytZFVwE8X0k6XxNzWOecHfhy+t9iG2KINkTGUERrTTuQaB
+	 SWwBoziIoXBgUc4vpDzQ4QmbmXdLcCFMb2sQokqI97O61SiaHW4ryNaeP3P9GfVe/T
+	 tGipqSL9o8n1bPal9rXw2R7/2p688An+8bOCUn1m0jfCu5YO4V0ldwYulfzTLwmoZl
+	 biTGFB99Jd3HYXRmzOFEhPiikcwRWJ8zqPSHMaBA0Ww7STuhmcnPpNIP/wNnIBnP2p
+	 XvNmCc82b6tV8ajw3Hz0uPrj1+kUJ7uOX32Bdw8Kg3e0bRjR31v4dwPpo/I3caCo7u
+	 tBP/G4+nQU23Q==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Cs=C3=B3k=C3=A1s=2C_Bence?= <csokas.bence@prolan.hu>
-Cc: Mesih Kilinc <mesihkilinc@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20241102125712.2647325-1-csokas.bence@prolan.hu>
-References: <20241102125712.2647325-1-csokas.bence@prolan.hu>
-Subject: Re: [PATCH v5 0/3] Add support for codec of F1C100s
-Message-Id: <173324825387.459040.17438717506518048504.b4-ty@kernel.org>
-Date: Tue, 03 Dec 2024 17:50:53 +0000
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20241127030035.649219-1-shengjiu.wang@nxp.com>
+References: <20241127030035.649219-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH 0/2] ASoC: fsl_xcvr: Add suspend and resume support
+Message-Id: <173324825736.459040.7211694275678808457.b4-ty@kernel.org>
+Date: Tue, 03 Dec 2024 17:50:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,17 +43,18 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Sat, 02 Nov 2024 13:57:09 +0100, Csókás, Bence wrote:
-> Support for Allwinner F1C100s/200s series audio was
-> submitted in 2018 as an RFC series, but was not merged,
-> despite having only minor errors. However, this is
-> essential for having audio on these SoCs.
-> This series was forward-ported/rebased to the best of
-> my abilities, on top of Linus' tree as of now:
-> commit c2ee9f594da8 ("KVM: selftests: Fix build on on non-x86 architectures")
+On Wed, 27 Nov 2024 11:00:33 +0800, Shengjiu Wang wrote:
+> Define regmap for PHY and PLL registers, the PHY and PLL
+> registers are accessed by AI interface in controller.
+> Then  driver can use regcache to recover registers
+> after suspend and resume.
+> 
+> Shengjiu Wang (2):
+>   ASoC: fsl_xcvr: Use regmap for PHY and PLL registers
+>   ASoC: fsl_xcvr: Add suspend and resume support
 > 
 > [...]
 
@@ -69,12 +64,10 @@ Applied to
 
 Thanks!
 
-[1/3] ASoC: sun4i-codec: Add DMA Max Burst field
-      commit: cabd4ac290a6ceb87c8dbfb5a3251750e24529e7
-[2/3] dt-bindings: sound: Add Allwinner suniv F1C100s Audio Codec
-      (no commit info)
-[3/3] ASoC: sun4i-codec: Add support for Allwinner suniv F1C100s
-      commit: 2198deb823a6ebe110b737614421a4687d3327f4
+[1/2] ASoC: fsl_xcvr: Use regmap for PHY and PLL registers
+      commit: 5a8b4785cddabfad348a96ca38eb0c3d735202df
+[2/2] ASoC: fsl_xcvr: Add suspend and resume support
+      commit: 297711ba0282abef38824b1e08c0ad6dcb6c4a53
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
