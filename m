@@ -1,58 +1,60 @@
 Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55BE1F7099
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76DF1F7559
 	for <linux-sound@vger.kernel.org>; Wed,  4 Dec 2024 14:00:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733320834; cv=none; b=YOIafZ3C4TgFOVLLKmhTSr/+kh13HVwf290HTuhKAyEY5z0HQN8rdY9kOSersFyO+tE4J1FXpHcVSZ6bBpGR5XVyM3UFx31gGxnIxBaTzYD2I69Yk+dqTgTv3BE42JHmBC/jWXMrg6NiCOPU5Ff2lZj1VFf7BvFc9XC+yVuRl6U=
+	t=1733320834; cv=none; b=WQ4Njrea5r2OYhDEGEvK/7nAX/50T/R20jw6aJFsD/FnCtD8XvsF8trHFiroxzNwMfq+tGRBJhx3RmtupREgHgkjBP1Xn3Le9KNhd+72SPz/Vc1zXBmcqSkR+cbrTwO2CdFYMO2ogo/f5r1vOEX7894qEIo6ei0oWCO1SsR27Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733320834; c=relaxed/simple;
-	bh=H95Tmerwf6ocgqV3ped1L/uCM+XW/SsZT8LrQqWk1rY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wq4U1AH8/QzpgvL6AtfY5rHBrTWP1w4LiZLgSHnzgIa1KEUn8VRwNIQpPFGNdeRnsYj6NjA8X/ZrdFaRCKmJ1RU2wX3anjUto1dDFRUcNECRDQTtNxSvE9rCenjCxf2UvJVW7OjbWQwP8tnktBQthvkizImR77OD+pfWntSnAfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Nmk0FaYr; arc=none smtp.client-ip=209.85.221.51
+	bh=Y88dxKTEB84Sy5sor9WVb8Lb3Eunx49GPWiCvst3MDw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Vu9bZ2sEbI1E0BljR8uzrTi7Uyp4IlC4KUF4MMVInAjdGCWXgxE+vG/w0IB69Raj2hDHkwzfcqi1UFWXxEk1vQitLNOJjnK/zdCWmkttkckd2SavPdmIRdekAJL7i1ZohLxlnoDJo+c8/jjvn8zErgfiejuQID5p/YV6evbQQrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CzVk7SSB; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Nmk0FaYr"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385e06af753so2871162f8f.2
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CzVk7SSB"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385de59c1a0so5086342f8f.2
         for <linux-sound@vger.kernel.org>; Wed, 04 Dec 2024 06:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google; t=1733320831; x=1733925631; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bV8QY5eukfrq2lN4tsY/+E6/ZMZn3nftpYsTU/xeZxU=;
-        b=Nmk0FaYrPQV8A9JmNGvpL2rDFDNf/+2O/YO83w5WYDnnnnj0DlxHrSTyAejK5aV0Nz
-         g125rnY6aat4CZBhtYYj7HYL3LRcEHzxaYFJUA0szyeV3hCzrRSJ14O9XK/4ZQ7Z9Ev6
-         1sYVSZfHzwWHHep0IyDghd6cNwVoSFLQico2mfK6icHWBaObnz4bjyLvun+2CdFe+u8n
-         Eo8Yh7ul853RMPrNO5SepJW2cJCXQWT0p6KlNH/GreozGIG1cypXjr/GGNDCpsq0bv7+
-         ob+i+2DUhCWB+4WWWgb+WQCgs7F0m546N3nmWziIhkIMSzGBQp90jS2PE/65VJ1Eum/2
-         4hyA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FNkMnvZSHVbHckJCKRyiqgolyEylIkwRfPR/FWi1wBE=;
+        b=CzVk7SSBmlUhWOo6Uu1wiMPaqBawFLry0OzsNUKhGvddJUhkXZAMIvDCGAC1AIfD46
+         0Jdu9CpMHFyUJJ7dHxNiFEHonYSC9Z1IyddIMkHKmEwc7I51n/pDxCgCQeHFozia/HJL
+         Sp557ummHYc5A7sW1CkNIEt11TK3Hq5Gr37ubLN5inxFslunsF6qtOGdgLgyBWEPtxZl
+         WKq26G7vL4PVPWd2MSxw5Dt71S0k44i1znshb2Xg8eZAaGFqI5Aj8kK4cb+zl+KFQ+g4
+         i7vRXGmGIIX6R2Y5UcizmyaRHq5nm5LhfAuU0TmQEUVCigDVhaeGNM82LZZNKvIqkj8V
+         /MVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1733320831; x=1733925631;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bV8QY5eukfrq2lN4tsY/+E6/ZMZn3nftpYsTU/xeZxU=;
-        b=MF9cIDREIWt12W0eIsSiBbGYiczXz0Ob8ZRSaK1fCAeLXHJXFv+nS7t1mjUEmjZ/45
-         n/M9AEgxvMIVaoUVpSgist1/0FeHqgrS7GNKSzQI5vDTZoJ1WakULazczYpDVDA3itDY
-         1H9Kef+65uqDLPTHY/6g4Ko/8KV6fWNXSa4iKzZ50PiIn+Ssixnx7K6kP9aBh1Upt3f9
-         xoxMovpA5JVQRM7uwVPopr4qPmk55tZhDF6jZMm9hEHaHl4QBxq6r6VvxqzxpAR/sF9R
-         av+tQVzF6iwyNdXrCvn6djXDX6uX6TGSigNgV0swEqh39OdWxsWsIzGE4Th/lyHKHw/y
-         W7Nw==
-X-Gm-Message-State: AOJu0YyPm8MyZ9aK9lwCw8Ei8dxwbzYvSr4wIeIDPRNUDQZyKJy3Btk3
-	4gTl7M7tDHRVTS1/EXdytAnI3bw5kIwSfq9mikA/ji0AT76DocTfAS/pZjdp8ic=
-X-Gm-Gg: ASbGncuhOW43QGUDTnFEG+rhnoAJ9PCWvecIF12pVaSDIkbWt9CFzWUpIQHDq/XLWY1
-	1RH+aK+dp6pVi6LWimz8/rGveynTebmeinjRsRsi/oN9v4nP6olyihFhL59xshQwx4h+iZGt2b+
-	5XwofvNyoCYc4i4g64CMlm6qmci7YRjT0/3hrHlLOzjsHyt17TwyBTLLW4niIfkfOz3T/8wr3n7
-	ed5jzMHmGjeEonXUbW94XOXzen7K3emgeMVVMMmr9RBtYKxLO9Wgha5njtjFG4T0N9gFII=
-X-Google-Smtp-Source: AGHT+IEwNi9zQ3A7BISJyLzoaI8unrHh3ncETKsF78rBfn5vGpXEDRRpfEKjoscYnK+ZRjyytNSKlA==
-X-Received: by 2002:a5d:598c:0:b0:382:4110:ecb with SMTP id ffacd0b85a97d-385fd3e905amr6274200f8f.26.1733320829865;
-        Wed, 04 Dec 2024 06:00:29 -0800 (PST)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FNkMnvZSHVbHckJCKRyiqgolyEylIkwRfPR/FWi1wBE=;
+        b=BEPaqAnAp/GG3RtTun4yGrUTi0/E7yiQ+pBuZVRyEcldwiUWeKhYNhUVsxMpw2VJC7
+         pr/x93jqENWuFwk2BuYfP8zEe1lagiML0Vr9cOpCH4ug9PMrXh+LNzpiCYU9vc9l6w/t
+         XEaXTrHyd3kv6R9chvqPrdktHsDVqQ0bDvUENkBL4++rvSf8oHYXLi46F9w9ccGq3th3
+         O2d2EO835w/ZPJu9p8RsPQrSirAkeokXiajhVSdjA/+6t/0dmFIM4bS7ivY/gYDcrdMd
+         FDRIKg4vWf7yvnX5zLeZ4cJzqWfvH6sB8sJ9nmtgcL12JhWcTYwujwINHKS2MWrxdsAS
+         ZTvg==
+X-Gm-Message-State: AOJu0YzXuVEli6r8vBW8wVz+XNUz4rrNUFWf9g2RY6EWraxu3PFqCUnW
+	jrWonvQPGOVYaC6DCylwPn4wSdIN6V0J1wOGofbuA7E2S6lzfuZCaSFfZIIQkOY=
+X-Gm-Gg: ASbGncswTr99AzqNjMfV7qZCELn6sohP8c3/i5whOpxE914/cQ58zmWIZQ1KwlreKTA
+	u0u6CnvFldZ8jlh1HgjikpoolNO4jMYmkIj/wZp9ELZIkYx6nFdZks4PfTUk2admzNJpL9eTSqC
+	3QfslM3IAa9E8J7c76H8++epJTCE6ph9G0I1HDgH9v9C6obtE0T+5FtQbH0HKbPjz4NZgs4stS0
+	2doVkzvTJIQCOHe+1bKib47EIzAm7huCnD08oQq/Otuyat3o8zlvkk2/W9bAIy9RKMCmZY=
+X-Google-Smtp-Source: AGHT+IFLm3mAtpQU8RqFuHUpb0/Y6Czk2iuRyOThmoKrp6zlYXL4Adntsv9jCROsNU0P1ZXKV67r/w==
+X-Received: by 2002:a05:6000:2aa:b0:385:f349:fffb with SMTP id ffacd0b85a97d-385fd42a35fmr5359588f8f.45.1733320830981;
+        Wed, 04 Dec 2024 06:00:30 -0800 (PST)
 Received: from localhost.localdomain ([2a00:2381:fd67:101:8e2:966d:36c4:3579])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e2c84d52sm13689978f8f.49.2024.12.04.06.00.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385e2c84d52sm13689978f8f.49.2024.12.04.06.00.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 06:00:29 -0800 (PST)
+        Wed, 04 Dec 2024 06:00:30 -0800 (PST)
 From: Alexey Klimov <alexey.klimov@linaro.org>
 To: andersson@kernel.org,
 	konradybcio@kernel.org,
@@ -69,10 +71,12 @@ Cc: linux-sound@vger.kernel.org,
 	a39.skl@gmail.com,
 	konrad.dybcio@oss.qualcomm.com,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/4] qrb4210-rb2: add HDMI/I2S audio playback support
-Date: Wed,  4 Dec 2024 14:00:23 +0000
-Message-ID: <20241204140027.2198763-1-alexey.klimov@linaro.org>
+Subject: [PATCH v6 1/4] arm64: dts: qcom: sm6115: add apr and its services
+Date: Wed,  4 Dec 2024 14:00:24 +0000
+Message-ID: <20241204140027.2198763-2-alexey.klimov@linaro.org>
 X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20241204140027.2198763-1-alexey.klimov@linaro.org>
+References: <20241204140027.2198763-1-alexey.klimov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -81,64 +85,107 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rebased, re-tested.
+Add apr (asynchronous packet router) node and its associated services
+required to enable audio on QRB4210 RB2 platform.
 
-Changes in v6:
--- updated tags;
--- corrected dai reg number in q6afedai;
--- changed dai link name to hdmi-i2s and updated commit message to reflect
-that HDMI playback can be used as i2s playback;
--- removed excessive dai-link from sound node (it should be a part of
-another patchset).
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+---
+ arch/arm64/boot/dts/qcom/sm6115.dtsi | 72 ++++++++++++++++++++++++++++
+ 1 file changed, 72 insertions(+)
 
-URL to previous series:
-https://lore.kernel.org/linux-arm-msm/20241112025306.712122-1-alexey.klimov@linaro.org/
-
-Changes in v5:
--- drop MI2S clock in sm8250 patch (seems to be merged);
--- fix gpio-ranges in lpass_tlmm (Dmitry);
--- added reviewed-by tags from Konrad and Dmitry.
-
-Changes in v4 (or since v3):
--- cleaned doubled spaces in the last patch as suggested by Konrad;
--- added Reviewed-by tag to patch 4.
-
-Changes since v2:
--- added tags, updated commit messages, added Cc;
--- updated LT9611 -> LT9611UXC comment in qrb4210-rb2.dts;
--- updated addresses in DT to 8 hex digits as requested by Dmitry;
--- added lpass pinctrl to sm6115.dtsi as suggested by Dmitry;
--- added lpass pinctrl override and pins description to sm4250.dtsi,
-pins are the property of sm4250;
--- verified with make dtbs_check as suggested by Krzysztof and Rob's bot.
--- dropped two patches (they seem to be merged):
-[PATCH v2 1/7] ASoC: dt-bindings: qcom,sm8250: add qrb4210-rb2-sndcard
-[PATCH v2 2/7] ASoC: qcom: sm8250: add qrb4210-rb2-sndcard compatible string
--- stopped Cc-ing out-of-date emails.
-
-Changes since v1:
--- removed handling of MI2S clock in sm2450_snd_shutdown(): setting clock rate
-   and disabling it causes audio delay on playback start;
--- removed empty sound { } node from sm6115.dtsi as suggested by Krzysztof;
--- moved lpi_i2s2_active pins description to qrb423310 board-specific file
-   as suggested by Dmitry Baryshkov;
--- moved q6asmdai DAIs to apr soc node as suggested by Konrad Dybcio;
--- lpass_tlmm is not disabled;
--- lpass_tlmm node moved to sm4250.dtsi;
--- kept MultiMedia DAIs as is, without them the sound card driver doesn't initialise;
--- added some reviewed-by tags.
-
-Alexey Klimov (4):
-  arm64: dts: qcom: sm6115: add apr and its services
-  arm64: dts: qcom: sm6115: add LPASS LPI pin controller
-  arm64: dts: qcom: sm4250: add LPASS LPI pin controller
-  arm64: dts: qcom: qrb4210-rb2: add HDMI/I2S audio playback support
-
- arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 51 ++++++++++++++
- arch/arm64/boot/dts/qcom/sm4250.dtsi     | 39 +++++++++++
- arch/arm64/boot/dts/qcom/sm6115.dtsi     | 87 ++++++++++++++++++++++++
- 3 files changed, 177 insertions(+)
-
+diff --git a/arch/arm64/boot/dts/qcom/sm6115.dtsi b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+index 9b23534c456b..816b8331933d 100644
+--- a/arch/arm64/boot/dts/qcom/sm6115.dtsi
++++ b/arch/arm64/boot/dts/qcom/sm6115.dtsi
+@@ -14,6 +14,8 @@
+ #include <dt-bindings/interconnect/qcom,sm6115.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
+ #include <dt-bindings/power/qcom-rpmpd.h>
++#include <dt-bindings/soc/qcom,apr.h>
++#include <dt-bindings/sound/qcom,q6asm.h>
+ #include <dt-bindings/thermal/thermal.h>
+ 
+ / {
+@@ -2701,6 +2703,76 @@ glink-edge {
+ 				qcom,remote-pid = <2>;
+ 				mboxes = <&apcs_glb 8>;
+ 
++				apr {
++					compatible = "qcom,apr-v2";
++					qcom,glink-channels = "apr_audio_svc";
++					qcom,domain = <APR_DOMAIN_ADSP>;
++					#address-cells = <1>;
++					#size-cells = <0>;
++
++					service@3 {
++						reg = <APR_SVC_ADSP_CORE>;
++						compatible = "qcom,q6core";
++						qcom,protection-domain = "avs/audio",
++									 "msm/adsp/audio_pd";
++					};
++
++					q6afe: service@4 {
++						compatible = "qcom,q6afe";
++						reg = <APR_SVC_AFE>;
++						qcom,protection-domain = "avs/audio",
++									 "msm/adsp/audio_pd";
++						q6afedai: dais {
++							compatible = "qcom,q6afe-dais";
++							#address-cells = <1>;
++							#size-cells = <0>;
++							#sound-dai-cells = <1>;
++						};
++
++						q6afecc: clock-controller {
++							compatible = "qcom,q6afe-clocks";
++							#clock-cells = <2>;
++						};
++					};
++
++					q6asm: service@7 {
++						compatible = "qcom,q6asm";
++						reg = <APR_SVC_ASM>;
++						qcom,protection-domain = "avs/audio",
++									 "msm/adsp/audio_pd";
++						q6asmdai: dais {
++							compatible = "qcom,q6asm-dais";
++							#address-cells = <1>;
++							#size-cells = <0>;
++							#sound-dai-cells = <1>;
++							iommus = <&apps_smmu 0x1c1 0x0>;
++
++							dai@0 {
++								reg = <MSM_FRONTEND_DAI_MULTIMEDIA1>;
++							};
++
++							dai@1 {
++								reg = <MSM_FRONTEND_DAI_MULTIMEDIA2>;
++							};
++
++							dai@2 {
++								reg = <MSM_FRONTEND_DAI_MULTIMEDIA3>;
++							};
++						};
++					};
++
++					q6adm: service@8 {
++						compatible = "qcom,q6adm";
++						reg = <APR_SVC_ADM>;
++						qcom,protection-domain = "avs/audio",
++									 "msm/adsp/audio_pd";
++						q6routing: routing {
++							compatible = "qcom,q6adm-routing";
++							#sound-dai-cells = <0>;
++						};
++					};
++				};
++
+ 				fastrpc {
+ 					compatible = "qcom,fastrpc";
+ 					qcom,glink-channels = "fastrpcglink-apps-dsp";
 -- 
 2.45.2
 
