@@ -1,89 +1,151 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5291AC448
-	for <linux-sound@vger.kernel.org>; Wed,  4 Dec 2024 09:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C7B1B414B
+	for <linux-sound@vger.kernel.org>; Wed,  4 Dec 2024 09:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733305193; cv=none; b=rF2Of1uiwtgpWPIMYWJ+eisTq+02n48llA3fMCZXVGcSAuU/jfbLLtTnwQZFQ6s7F11e5SZo9wMMMEWMmUutR0ThqCE1218c+SrHBM3ixZllX1b52qXyh+K43oidf0TE4knI3nd8fvQaBFIPdc1ek1oqTe0lVWtervSZC6FbVSE=
+	t=1733305416; cv=none; b=u/KjqR/yVGoMMOTZ2gLznnxTFd3jKC5aYIlQl4RFEavcqWtvJH3wGsSliR0vF1UpPuvhJ0LWIOFqMj8fub6nlRSvZraF/XdoHmYzPK5c2zBsjOmYFOuGzU+2P1ysJBuOy4gmYAgqCZ7MFCps4BhHTJCobouLHAVktvPmuK6x0H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733305193; c=relaxed/simple;
-	bh=Dm16XVVEigJwf7RyR+5cJtOa6A2HDAbSRh1JQdhsGqI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pehSq2j2x34yFUqd+12QYCc0aBgIJGylyKOTM8OuDx1dxZjQn2whVVKR5m7RArS0ync9WJPtWbnBhcyFEBwvHf1MrgjPNHJPKNO+ixF7OSND1nyinR0DwuaYMWfU7inLy7yCJJyYD63yTs3AfwURNS4s4Saix2923W/UKMDOZok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: aefcfab0b22311efa216b1d71e6e1362-20241204
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
-	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
-	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED, SN_EXISTED
-	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD
-	CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
-	ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.38,REQID:56927f85-b9e8-4e62-bcc9-f2133bdb509c,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-INFO: VERSION:1.1.38,REQID:56927f85-b9e8-4e62-bcc9-f2133bdb509c,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:0
-X-CID-META: VersionHash:82c5f88,CLOUDID:f782ea7772729237b0d2d7bcee8cfdde,BulkI
-	D:2412041739416CL3I22D,BulkQuantity:0,Recheck:0,SF:19|24|38|44|66|72|102,T
-	C:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
-	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FSD
-X-UUID: aefcfab0b22311efa216b1d71e6e1362-20241204
-X-User: zhangyongzhen@kylinos.cn
-Received: from zyz-t480.. [(223.70.160.239)] by mailgw.kylinos.cn
-	(envelope-from <zhangyongzhen@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1914892917; Wed, 04 Dec 2024 17:39:40 +0800
-From: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
-To: perex@perex.cz,
+	s=arc-20240116; t=1733305416; c=relaxed/simple;
+	bh=av4tYX65gLAXkc1bE6kW2Zz7MIVZdQg7kqRJ6NtuB4I=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oMlr8qVEUf215+YjDImt7zLybb3xdp0q64c3BKoJVawb97+KTsZmSNlbuIKjWHeA2klIZVxq6nLY2IHltqQScnTptVZcujzKf97f9lodRxPFInPja095BO+XQMa6R9SMorDIkXOsGLvq6zGacRyA160sxaJdY/Vmm61/PsHfSUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HqBWdOfB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KykWytqH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HqBWdOfB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KykWytqH; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HqBWdOfB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KykWytqH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HqBWdOfB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KykWytqH"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8EACE2110A;
+	Wed,  4 Dec 2024 09:43:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733305412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tQKq5NIS3sM6mIDlvaQbJ5oE8WmrwB2aRTKPLrtM8Jk=;
+	b=HqBWdOfBMZTrLbJ5mzi50w+cOKQUzdOfGcH6MwYmyxVvLVyeiBs+yrlq5sXXNhk9ijl4kD
+	SFTWr/Tvhp/uu3I+kciBewsFHuI57kKY/aKJzWorUCU3YqIF3n/5FYVkxfEXehXRzN8k7j
+	jWOwOiBrVuIMNc3aaZU43akIxi/NJJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733305412;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tQKq5NIS3sM6mIDlvaQbJ5oE8WmrwB2aRTKPLrtM8Jk=;
+	b=KykWytqHm4jP3r3DGu0eLGKDAFHzQYRW+6BNzAUvUrcty++WLHTLONz7py8dEHLqM2EFBJ
+	SZrE6qHlqcbkM0Dg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733305412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tQKq5NIS3sM6mIDlvaQbJ5oE8WmrwB2aRTKPLrtM8Jk=;
+	b=HqBWdOfBMZTrLbJ5mzi50w+cOKQUzdOfGcH6MwYmyxVvLVyeiBs+yrlq5sXXNhk9ijl4kD
+	SFTWr/Tvhp/uu3I+kciBewsFHuI57kKY/aKJzWorUCU3YqIF3n/5FYVkxfEXehXRzN8k7j
+	jWOwOiBrVuIMNc3aaZU43akIxi/NJJE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733305412;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tQKq5NIS3sM6mIDlvaQbJ5oE8WmrwB2aRTKPLrtM8Jk=;
+	b=KykWytqHm4jP3r3DGu0eLGKDAFHzQYRW+6BNzAUvUrcty++WLHTLONz7py8dEHLqM2EFBJ
+	SZrE6qHlqcbkM0Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 62AA4139C2;
+	Wed,  4 Dec 2024 09:43:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id cSPSFkQkUGdScQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Dec 2024 09:43:32 +0000
+Date: Wed, 04 Dec 2024 10:43:32 +0100
+Message-ID: <87plm7wzp7.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+Cc: perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org
-Cc: kailang@realtek.com,
-	Yongzhen Zhang <zhangyongzhen@kylinos.cn>
-Subject: [PATCH] ALSA: hda/realtek: Remove needless comment lines
-Date: Wed,  4 Dec 2024 17:39:28 +0800
-Message-Id: <20241204093928.15988-1-zhangyongzhen@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	linux-sound@vger.kernel.org,
+	kailang@realtek.com
+Subject: Re: [PATCH] ALSA: hda/realtek: Remove needless comment lines
+In-Reply-To: <20241204093928.15988-1-zhangyongzhen@kylinos.cn>
+References: <20241204093928.15988-1-zhangyongzhen@kylinos.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_FIVE(0.00)[5]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
--/*
-- */
--
+On Wed, 04 Dec 2024 10:39:28 +0100,
+Yongzhen Zhang wrote:
+> 
+> -/*
+> - */
+> -
 
-Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
----
- sound/pci/hda/patch_realtek.c | 3 ---
- 1 file changed, 3 deletions(-)
+Too cryptic description :)
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 4ba9e647250b..b73b1a51a23d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -890,9 +890,6 @@ static void alc_ssid_check(struct hda_codec *codec, const hda_nid_t *ports)
- 	}
- }
- 
--/*
-- */
--
- static void alc_fixup_inv_dmic(struct hda_codec *codec,
- 			       const struct hda_fixup *fix, int action)
- {
--- 
-2.34.1
+And, instead of removing, better to put proper comment instead.
 
+
+thanks,
+
+Takashi
+
+> 
+> Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+> ---
+>  sound/pci/hda/patch_realtek.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 4ba9e647250b..b73b1a51a23d 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -890,9 +890,6 @@ static void alc_ssid_check(struct hda_codec *codec, const hda_nid_t *ports)
+>  	}
+>  }
+>  
+> -/*
+> - */
+> -
+>  static void alc_fixup_inv_dmic(struct hda_codec *codec,
+>  			       const struct hda_fixup *fix, int action)
+>  {
+> -- 
+> 2.34.1
+> 
