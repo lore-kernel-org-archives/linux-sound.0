@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14817218820;
-	Wed,  4 Dec 2024 23:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FBE218EAE;
+	Wed,  4 Dec 2024 23:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733355005; cv=none; b=Q29B+lnEaFycEmELwgljHW2ez5TsnhfUJ6BdOs0aiPqQfbrMFBsh7Vu+R8RMJBT31e0dfhmiCCNrom/6G51dgydp1VWafaUnL0NRpdtgqWZrs6CrQZqOli83NRFnsoKM0NuK+7+xrZ9lrXKnQWuOxRH3F/AwpyqGPkzBu/Hnz8w=
+	t=1733355036; cv=none; b=SWLdLr2u1/fZXCBztPzjbS0xJmdsuPau5CS1T4GT5K5MQShomBu8Zs1Oz1C3eOTT8bJ4LUEfpKFFMzVIKs8g/4ehmHzuPx5xJK8LTRdu3gv4lP/cFnMIOrO2QkGztvPewYIV7dDHy5h7rX9s0CWU0vHB/0Eqf2VnEuMV4HRyFU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733355005; c=relaxed/simple;
-	bh=mmK9+h4dECffnmjJN4de6/rK1ndlXYUDT0C55JvoVAo=;
+	s=arc-20240116; t=1733355036; c=relaxed/simple;
+	bh=iOzsphW00Lfj5DBJiTRvU5jwovvXRQIQwiLwndUtijc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=axKUcR84rluRb2Rd2H2rhZeE5FB38SN3MMtnsqoRcCk+o2lfxC9LFGdeAJXnxBmRNJkIEnYxFjyDFf/kHQVR0/Pl1eHzmL4StbCQFrcSaKgvAA47Vv7DnJcpWGMcbHlLx9Uhz5/VHZZYyMe1dsqoeagEPER7mhuR22FoduNSzzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSP0p+LC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=cAz9s8dYdSyphGAY8rQ0IMeCT3c6pvtheksdk97F9i7EkpVoTTuA8ob//rJcsfJCcB3ObRg35Co5LZSSKzf/vdi+mdEvT4VJ4tq+spAIR3mGbV/knaz4P5e53xEDf0nEvH5x3aSZZsyvceR9ty3ixKKMFG6ojP4JUW6+dworVcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXZF3AL0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSP0p+LC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDADC4CED2;
-	Wed,  4 Dec 2024 23:30:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXZF3AL0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF080C4CECD;
+	Wed,  4 Dec 2024 23:30:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733355004;
-	bh=mmK9+h4dECffnmjJN4de6/rK1ndlXYUDT0C55JvoVAo=;
+	s=k20201202; t=1733355036;
+	bh=iOzsphW00Lfj5DBJiTRvU5jwovvXRQIQwiLwndUtijc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QSP0p+LCeTiihnhfyYI21PQSJ4E1c9Vbd50nB8fU/5HmV6+MMmeJ4jdsmT3vmWgSO
-	 ZXExrhlL0OApfHkbeH/JmjXXr92BiQBzSMjw4JIOi2JWzRKJnPdFR1WxiBf4BRP9PG
-	 HEX8SMiHqlC3/21GMB3Cfp9itrJDIJEcTgLi1+qT4SuVRyaReI6vlfrhV3osDkaMw7
-	 /hTpb3djUfEbZppMQIMXjfzHl6MQW2ysamyTozcJ0UdHoZG/t7d5tdRf2kVS09Id16
-	 8nQX9r9PwHz+rHJQYKobB2iIeL47J23Cym/Ir9RXYQLkxcnI9+sdb6NoIFHdUQLsDH
-	 06wW+LsCAyNxQ==
+	b=NXZF3AL0lt1fekNuYSwKpFM5VGMaaTWVHTyx2p9MB9P9mIhoKmaRHf8LqKSCteHiT
+	 Ww3xWDcUQAnBqV1uFQlzLU5sqdwD8RJXa16592kGSLRP7QFzHSN3Rl3ov23A60fHLC
+	 o5Nq0FENV11j0yuvZNGPmb4/nUIB6cC5te9ULBkvEFA/OtTSGIx/3NjeKDXihr1DLw
+	 gABYuW+nwQwKVyyNNycI8NRBD0E6Y2taN1UrfUKbLNxOgtSG34DVgCOUAUNDS12QIm
+	 CHXLeWoooLb/JhaSjAISXNUvVY9OVy0+Ih9AwB8gpYTqJUrwcShMusLpHKCm8tS7H2
+	 yYATQh+/zJbGw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,16 +37,16 @@ Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@debian.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	mario.limonciello@amd.com,
-	me@jwang.link,
 	end.to.start@mail.ru,
+	me@jwang.link,
 	venkataprasad.potturu@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 09/10] ASoC: amd: yc: Add quirk for microphone on Lenovo Thinkpad T14s Gen 6 21M1CTO1WW
-Date: Wed,  4 Dec 2024 17:18:07 -0500
-Message-ID: <20241204221820.2248367-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 7/8] ASoC: amd: yc: Add quirk for microphone on Lenovo Thinkpad T14s Gen 6 21M1CTO1WW
+Date: Wed,  4 Dec 2024 17:18:49 -0500
+Message-ID: <20241204221859.2248634-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221820.2248367-1-sashal@kernel.org>
-References: <20241204221820.2248367-1-sashal@kernel.org>
+In-Reply-To: <20241204221859.2248634-1-sashal@kernel.org>
+References: <20241204221859.2248634-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -56,7 +56,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.63
+X-stable-base: Linux 6.1.119
 Content-Transfer-Encoding: 8bit
 
 From: Uwe Kleine-König <ukleinek@debian.org>
@@ -76,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index f87333cb82e06..369a8618b705a 100644
+index c18549759eab1..4272d6812512e 100644
 --- a/sound/soc/amd/yc/acp6x-mach.c
 +++ b/sound/soc/amd/yc/acp6x-mach.c
 @@ -220,6 +220,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
