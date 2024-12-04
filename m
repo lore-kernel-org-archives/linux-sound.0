@@ -1,121 +1,207 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097BB18C018;
-	Wed,  4 Dec 2024 07:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63951AC43A;
+	Wed,  4 Dec 2024 09:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733298151; cv=none; b=qiemF0TQmyUvIVk6xjT5P3ZhZ3Nbo9mP4AKWnkqz8/JMOZ4mATZvvHLFdQTdVSxTOcHF+74uiLKdWHBwaN8LPJeOrMNUhTpUCZ14mKeldEb7XuBSNxPaqAPX77vWoW6cN+dTfIy9KXJd0tP1TzgkRYWnzN8DmrNvyX0KPAXWX4E=
+	t=1733304723; cv=none; b=WsRZkyIT2ICaZASIDP/UJBXZ+KHMO35BX22o7g6VzpSleCKmsoZCb1+ZcYZshJlrmmSAlau6L1vRoKK+S6d99NOqT53tZhoZJN5xwKNgss5zA8gesvEU/s3jsHsmntnEzQfBhKMe4Uct2A8tIGtXZHqI8QbY7Re2Bcb21P93ESs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733298151; c=relaxed/simple;
-	bh=gK06+f1C0mBtgYKTZ09XhG1sOVFjumSjIgGeM6ZwmU0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GZClMp0tx6sIPHEQcBs8F153OVyjIMwwV1NU6uPAAuFDJnLn+eNUFWkaUyIRPWqVdAfD2FBs9Nvs2K0Gd5D1EfGLp5t+og0NagWCi9pMnZwnrsLDNNxTsiGoWp6k96fYwAd3LE1Q5QNbCPjibCtXss3XcaYfrZ7/4WGYSWMCMMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYXYyHz8; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1733304723; c=relaxed/simple;
+	bh=JrJuyLzuA97RnzKWyuOh7ow+3Xx7AvY6TWUxL8wm9/4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NtRGEL5CnrPmGQSHP1fegtNL6GnJ7U/fLHTMb9uTfb17UYtQyRkDNBIXWm7rgqAvH7nhIog6JOuR5n3S6aN744ELKWc1pQn3I1bdNwFJG16Alt2ga6cpBJnz59PWuyyku3wSaxAt6SY05YXbYK1hXPi6m4EgIE4LHWOX8/rvqag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q/Zx6J0P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lTihsWB3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q/Zx6J0P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lTihsWB3; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYXYyHz8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733298149; x=1764834149;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=gK06+f1C0mBtgYKTZ09XhG1sOVFjumSjIgGeM6ZwmU0=;
-  b=WYXYyHz84iIAWp+m5AF+h6hqgYlBcYtnR3lhBO8Svs2Gy7FRIZX1pUxV
-   U+8KT8bQZjrv243Mc+MeV4WgWomtPVnmQond4UfuJtJAfcfnFKhM4RrED
-   3Pl5snha1HBn9MJZ54K076ikIAN+S4081km3jOoWE0zVZTY5sAY/IRYft
-   FaJeFJyw/h6DfHRD1GCYy57ZvPmF5ZMi09cxwZ9tygwTuhqO3zLTx+q6x
-   bcCx9iwxkhN8RELFM+ziN3pytCJGCrpoLMUdFsZcqeA5MLDx4ngUF+Xby
-   eaQcPEXd3gubhUn/v6zC+JB77dWWbHNuqumfr5UL0O5vPZ4+JYKxvhkde
-   w==;
-X-CSE-ConnectionGUID: pyF0pVkGRp+r4bkz/8RDpw==
-X-CSE-MsgGUID: rGb5/4BoQLuTKXHR/equxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="21132182"
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="21132182"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:42:27 -0800
-X-CSE-ConnectionGUID: ztyXjIeiR26vOG8EeEOB9Q==
-X-CSE-MsgGUID: MiRNI+71Qr6pKR5u1cWLig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
-   d="scan'208";a="131139278"
-Received: from mwiniars-desk2.ger.corp.intel.com (HELO localhost) ([10.245.246.205])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 23:42:14 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jaroslav
- Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE
- <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim
- <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
- <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?=
- <heiko@sntech.de>, Andy
- Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
- <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 7/9] drm/bridge_connector: hook
- drm_atomic_helper_connector_hdmi_update_edid()
-In-Reply-To: <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org>
- <20241201-drm-bridge-hdmi-connector-v5-7-b5316e82f61a@linaro.org>
- <87a5dc4zd5.fsf@intel.com>
- <txzri7x4pdeakx4juandk3hfhsbx3dhlulxfuehqlmrr7b3wpw@jaunqktsro6x>
-Date: Wed, 04 Dec 2024 09:42:11 +0200
-Message-ID: <87v7vz3ne4.fsf@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q/Zx6J0P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lTihsWB3";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q/Zx6J0P";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lTihsWB3"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id BE1FD1F365;
+	Wed,  4 Dec 2024 09:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733304719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
+	b=Q/Zx6J0POyWyBv/xg/b1y6Y/vPj+6HCGsx5CAnly2KYRlTkby3v79us9B9s4nNfoDUuKAP
+	HGcgurVs2daX4qfs/dYJwnHfTJ8tcHoivRExQ9Pa29vNJOSEKFm1lNRQa71ZXG+9qyArQB
+	9vtIgdHSsh2J7fsOF8RgC4cr9VHnkHY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733304719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
+	b=lTihsWB35+IWboTJM30qxwXaX0VccJN+70TzFwmidQK2cCiSv+PeBrTz6WrBA4d4X06+Ll
+	Ki+nxSlGrfVakHBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733304719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
+	b=Q/Zx6J0POyWyBv/xg/b1y6Y/vPj+6HCGsx5CAnly2KYRlTkby3v79us9B9s4nNfoDUuKAP
+	HGcgurVs2daX4qfs/dYJwnHfTJ8tcHoivRExQ9Pa29vNJOSEKFm1lNRQa71ZXG+9qyArQB
+	9vtIgdHSsh2J7fsOF8RgC4cr9VHnkHY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733304719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
+	b=lTihsWB35+IWboTJM30qxwXaX0VccJN+70TzFwmidQK2cCiSv+PeBrTz6WrBA4d4X06+Ll
+	Ki+nxSlGrfVakHBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 949BD139C2;
+	Wed,  4 Dec 2024 09:31:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9sUEI48hUGcXbgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 04 Dec 2024 09:31:59 +0000
+Date: Wed, 04 Dec 2024 10:31:59 +0100
+Message-ID: <87ttbjx08g.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: liujing <liujing@cmss.chinamobile.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: asihpi: Delete redundant judgments
+In-Reply-To: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
+References: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 04 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
-> On Tue, Dec 03, 2024 at 04:25:58PM +0200, Jani Nikula wrote:
->> On Sun, 01 Dec 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> wrote:
->> > +	drm_edid = drm_bridge_edid_read(bridge, connector);
->> > +	if (!drm_edid_valid(drm_edid)) {
->> 
->> What's the case this check is for?
->> 
->> My preference would be that bridge->funcs->edid_read() uses
->> drm_edid_read*() family of functions that do the checks and return the
->> EDID.
->> 
->> There are some cases that just allocate a blob and return it. Would be
->> nice if they could be converted, but in the mean time could use
->> drm_edid_valid() right there. Additional validity checks are redundant.
->
-> This was c&p from drm_bridge_connector_get_modes_edid(). If you think
-> that the check is redundant, could you please send a patch dropping the
-> check?
+On Tue, 03 Dec 2024 16:46:35 +0100,
+liujing wrote:
+> 
+> Since HPI6205_TIMEOUT is a constant, time_out is always true,
+> so unneeded judgments are removed.
+> 
+> Signed-off-by: liujing <liujing@cmss.chinamobile.com>
 
-Mmmh. It's just scary to *remove* them, and that's the reason I didn't
-want you to add one in the first place! :)
+Keeping it allows to remove the time_out for experiments, and compiler
+would optimize things in anyway, so there must be no code difference
+in the end.
 
-BR,
-Jani.
+Since this doesn't improve things so significantly, I'd rather leave
+as is.
+
+And you mixed different fixes (the conversion of printf format) in a
+single patch without explanation, too.  Please split, if any.
 
 
--- 
-Jani Nikula, Intel
+thanks,
+
+Takashi
+
+> 
+> diff --git a/sound/pci/asihpi/hpi6205.c b/sound/pci/asihpi/hpi6205.c
+> index c7d7eff86727..391cce428a11 100644
+> --- a/sound/pci/asihpi/hpi6205.c
+> +++ b/sound/pci/asihpi/hpi6205.c
+> @@ -2127,22 +2127,20 @@ static u16 message_response_sequence(struct hpi_adapter_obj *pao,
+>  	time_out = HPI6205_TIMEOUT;
+>  
+>  	/* read the result */
+> -	if (time_out) {
+> -		if (interface->u.response_buffer.response.size <= phr->size)
+> -			memcpy(phr, &interface->u.response_buffer,
+> -				interface->u.response_buffer.response.size);
+> -		else {
+> -			HPI_DEBUG_LOG(ERROR,
+> +	if (interface->u.response_buffer.response.size <= phr->size)
+> +		memcpy(phr, &interface->u.response_buffer,
+> +			interface->u.response_buffer.response.size);
+> +	else {
+> +		HPI_DEBUG_LOG(ERROR,
+>  				"response len %d too big for buffer %d\n",
+>  				interface->u.response_buffer.response.size,
+>  				phr->size);
+> -			memcpy(phr, &interface->u.response_buffer,
+> +		memcpy(phr, &interface->u.response_buffer,
+>  				sizeof(struct hpi_response_header));
+> -			phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
+> -			phr->specific_error =
+> -				interface->u.response_buffer.response.size;
+> -			phr->size = sizeof(struct hpi_response_header);
+> -		}
+> +		phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
+> +		phr->specific_error =
+> +			interface->u.response_buffer.response.size;
+> +		phr->size = sizeof(struct hpi_response_header);
+>  	}
+>  	/* set interface back to idle */
+>  	send_dsp_command(phw, H620_HIF_IDLE);
+> diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
+> index 7ceaf6a7a77e..cac5fcaef08b 100644
+> --- a/sound/pci/mixart/mixart.c
+> +++ b/sound/pci/mixart/mixart.c
+> @@ -1320,12 +1320,12 @@ static int snd_mixart_probe(struct pci_dev *pci,
+>  			idx = index[dev];
+>  		else
+>  			idx = index[dev] + i;
+> -		snprintf(tmpid, sizeof(tmpid), "%s-%d", id[dev] ? id[dev] : "MIXART", i);
+> +		snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+>  		err = snd_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
+>  				   0, &card);
+>  
+>  		if (err < 0) {
+> -			dev_err(&pci->dev, "cannot allocate the card %d\n", i);
+> +			dev_err(&pci->dev, "cannot allocate the card %u\n", i);
+>  			snd_mixart_free(mgr);
+>  			return err;
+>  		}
+> @@ -1334,7 +1334,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
+>  		snprintf(card->shortname, sizeof(card->shortname),
+>  			 "Digigram miXart [PCM #%d]", i);
+>  		snprintf(card->longname, sizeof(card->longname),
+> -			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%d]",
+> +			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%u]",
+>  			mgr->mem[0].phys, mgr->mem[1].phys, mgr->irq, i);
+>  
+>  		err = snd_mixart_create(mgr, card, i);
+> -- 
+> 2.27.0
+> 
+> 
+> 
