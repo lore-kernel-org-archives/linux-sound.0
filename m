@@ -1,382 +1,282 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA211AAE1D
-	for <linux-sound@vger.kernel.org>; Wed,  4 Dec 2024 10:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D481B392F;
+	Wed,  4 Dec 2024 11:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733309560; cv=none; b=XjgoWUC6yUuEtsbneRgxmJLSkjh/ug7lu08SA5SoGtcmPsF+203Ac6zP9vKFpRVpBDpnMYx8uY34tFoXGp/dMR3goUduBHSSGdms+XZNRC/BfB3h0E4iTe+EoSnlq1AXUxJXSgYPxm3029o9Xenh67zWijMESIW1QHtrZixRR6w=
+	t=1733312692; cv=none; b=aG9mSoZeCbrV8srCjTyU98hIGXFTQ8O9oXurQNnM7of6BpNt32GOUsIj7BPX7pH+rxpOunWcYmeMke8K3Syu+Bnoc0bnYmdTjF6VC3t4qgAZkjSoR8NEZGEYjFT14Cjg+4UIgzOmkaG9Y8gkzSDn7EG1+SrTouYrTN+1fBR5+Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733309560; c=relaxed/simple;
-	bh=6H5W7vAAX4baxa4CotaWl12QMr7Ura2yQ4snDOf/5R8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c/3emQhVXFiaMsb6jK0TmNWzHYuESrL/km3dz14igRPfnlIsQ6Qyk0PmxJgBIDmZSobSo3KlzYZL/sSrjLL2VzCS/JQXh2H3dyCBtfmP6a4v3SRf5er3E62NUrhD8kdNcG4P/awi+YolLuj5IyjKHEBgG/kfkgG3P+QhecPzE8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XKPTU44p; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733312692; c=relaxed/simple;
+	bh=fxbdvqMYfwSBWcfcSetPXC8gA/4i+2W1r+6OqxxH+0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LGcBlV1cxYZ8woLVO1DDsO7wCHPn9U+/7fmswUSFbK9l7qXMewP8CsSogl3VGOlCzkUvdmgdBSteA1KrUvKzieK0Lq429lSfXwnm75g++WU4ZOm/Ne1vcVPgomLJO1B02ghu4j0R/ej8DC6vTGy028OtfJPwGKb/w6c7kqTVUpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1B27By4; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XKPTU44p"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385e87b25f0so441201f8f.0
-        for <linux-sound@vger.kernel.org>; Wed, 04 Dec 2024 02:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733309556; x=1733914356; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NXlDq4NvanBdqWQ55WzKXWR/WSc5CjZr7sBnyCK5s3Q=;
-        b=XKPTU44px35Up96aluQmGC9i6fQWlma3g8Pqztel9hhZQk8DSl1cj3bk8SloyGZ+hu
-         XP84zLPFbPKgZ02A7FGq3Wun+oKyM9jo3Q9ZlcWmnwR2NJBoFBOM5xxwPWyE3PuSqRsf
-         16asuOr8dUZoDmA02Mv+nJ3kA9AuofO8oqTEM+L+0tWREPdXXzH6JlxA3flGPi/IdjWJ
-         lO6rdcNY1XbHca0X5NOqeZ1B511NlGkdxl+oCgFp1IDZgCJalr952O/djX7YOCi96H7n
-         q5P5wL1GZzzCTtjSSsRx892ImOlS0HynQLMwCZMOLveq0p+x7Fe55e8UAqTLY1sGCQPm
-         K4iA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733309556; x=1733914356;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NXlDq4NvanBdqWQ55WzKXWR/WSc5CjZr7sBnyCK5s3Q=;
-        b=WrZ7V9teJ/VssIpq+gRZSIYsVxBGTQEE9cUtaVxzvT8/D+lAXqv7UoKY5JoP77TCYA
-         JLQdQdZzWQoPRi7Vf5aY/LOOH/wXmv19A8fHiCeQrhy8yaZYDj8eyf6QUjvkshyfgwNN
-         no09ExPC8A7u8wvRVjwRqD2X/oE1nefeXZSgW93vxiumUkHxoMFnnWWaRgLbrMty9qAD
-         rp8+n9iwkUCNZ2X7k+OThZbXuZxVLjNMo2U+4frCUGknKzRAIcXSaLEq09GPUf68LMdR
-         vCihU0N89gzshSiWp3MacPFn0h7Cc/UQtEP7E4ane/itliDjezfclgrsSMQI26FOOfDD
-         Xj/A==
-X-Gm-Message-State: AOJu0YyVMmZn5ZKu8by/56YyyTVc50/4bOzRpHHT4KRQx/CSZt+czwqb
-	pISPX12lWMag0crZXQ9rXgE2V8ALpXXitBF6vNr3Pt2nviCZ5KVmNYIDuiiKCGw=
-X-Gm-Gg: ASbGnctByCpG8qi7RmP7KYKi1m3HY9jGIsrsH6H98FSjRH1MjF6lZkabolKhgWcB820
-	SJyf3wl1/pskL+KImqOajYTkk/IqOOafVJx+Xu/gbU7K2pL4h7bDEZi6wjLmOb4bLnOMM6ZbPBt
-	a977VOK5lRx4ww6LMJyOY6rg1/B5MR3fhicG8vG8D/kGYGwWiCrwtaiYLzaN2J4wVfdvkipknBn
-	nD5iMk+hQOlfcN/XsQrddLDmkCq/sjJoZxSmyIn6klA4mMZUnnyODebhQfEICwWS3lK1+Q=
-X-Google-Smtp-Source: AGHT+IFa3MLi99jt932u5A5Rth8o5r7ss/fYn5G3nVmix+wk3iyI7dVavu27cAhibMfyDlXErkHjnQ==
-X-Received: by 2002:a05:6000:4707:b0:385:d72b:98 with SMTP id ffacd0b85a97d-385d72b0115mr18248841f8f.5.1733309556106;
-        Wed, 04 Dec 2024 02:52:36 -0800 (PST)
-Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d5273882sm20090935e9.16.2024.12.04.02.52.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 02:52:35 -0800 (PST)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Wed, 04 Dec 2024 11:52:34 +0100
-Subject: [PATCH] ASoC: dt-bindings: convert rt5682.txt to dt-schema
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1B27By4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733312691; x=1764848691;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fxbdvqMYfwSBWcfcSetPXC8gA/4i+2W1r+6OqxxH+0w=;
+  b=I1B27By4a8JWvogh6KGoa1fqR95m+GjVCNfgT4GSUGtROSsHUENtR1FN
+   6TacZJihXhmTkoqigKk4rjQ19eQIjBh/Xg2FUiNKJrKMOcNA6CM7u7Wbc
+   6mCSOb7TYze86gHbgpFHzpCcm/bmrf2yMvwbju+t6lomjD/hx9iVDLTOb
+   SOSBsPpdkjj4Pjv7BJPuCUdm6DZP402ug4bgE1uCByCuVCCrRnRCqKpI7
+   K32s4WDXd3mbad9FvTt/7JPebnGL+VBD/kNO3jQGi8ghQKgvPfL3j5Lgb
+   INZk9HDq9p7FS92hCsFghirLbOAkKRZKTBZYs5DGID+0YKu9t4FX5Z3vC
+   w==;
+X-CSE-ConnectionGUID: zNnLKMs/QbiJsROLJ0V3Ig==
+X-CSE-MsgGUID: y2bYg6MxT2Ghppfmm7xyPA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11275"; a="44966367"
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
+   d="scan'208";a="44966367"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 03:44:50 -0800
+X-CSE-ConnectionGUID: YK36riJKRhK3tYgnZYa1UA==
+X-CSE-MsgGUID: fAo7aOSxRZefVU+SiESCDA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,207,1728975600"; 
+   d="scan'208";a="124670340"
+Received: from lkp-server02.sh.intel.com (HELO 1f5a171d57e2) ([10.239.97.151])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Dec 2024 03:44:48 -0800
+Received: from kbuild by 1f5a171d57e2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tInoE-0002yT-0M;
+	Wed, 04 Dec 2024 11:44:46 +0000
+Date: Wed, 4 Dec 2024 19:43:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: liujing <liujing@cmss.chinamobile.com>, perex@perex.cz, tiwai@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	liujing <liujing@cmss.chinamobile.com>
+Subject: Re: [PATCH] ALSA: asihpi: Delete redundant judgments
+Message-ID: <202412041936.OygWNCmW-lkp@intel.com>
+References: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241204-topic-misc-rt5682-convert-v1-1-0fedc4ab15e8@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAHE0UGcC/x3MTQqEMAxA4atI1hNI488Mc5XBhdaoWUwraRFBv
- LvF5bd474QkppLgW51gsmvSGArcqwK/DmER1KkYmLhxTA3muKnHvyaPltvuw+hj2MUy1iPVTOK
- GNxGUfjOZ9Xjev/66bgnQ7K9rAAAA
-X-Change-ID: 20241204-topic-misc-rt5682-convert-3b0320e1a700
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8373;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=6H5W7vAAX4baxa4CotaWl12QMr7Ura2yQ4snDOf/5R8=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnUDRybKcTTI3Tkt9kAoX5afSCwBY+LQ50RC5t8msk
- PVb97S6JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ1A0cgAKCRB33NvayMhJ0YWrEA
- CjbPgcmp6kfaypnx+Os0OQfRqsexNA3LNhz3wDMNWZsXSAfF+evHfFgKuOnb4KGV8nL6vxWbe0NslV
- 39uIY29UvEbmKP6vlgu3t/NF7van2yQMYIiLcWCa9mA7QDrDWyysw6Ctxstqg7O7uI9XMXeZqZKEq3
- w87QLnaX5Zmw4iMvNUT+Jua64FbFVYC5rmfSS1yMWMVsUSTVcTYJxv0zRE5gcyhENJsJUioHyQf4hB
- pIhTbyswHhVV0fTqE+cLhS7QHm8n1Hd/wl65lc2zrgGB9qCHlumyvT1q65lUyK+9wiwwOeIgNACmKe
- REasV/D3oNYDlIg418ezm7EroIMaFif+4wgeIBfzMzYwfJ/dTTqJYmehv12rCA1QQ/+wcPDfCABw/L
- ruZ69jEUW4n59FzMEID6mhg8Ig23MZ/ICN9LkFPNEIUmkjUcxrmc7tUo5jKNS56uq+ZzB85NgPKF6t
- neEkSxlSHC29ZarKnuc+aMsbGv2kCPL/8ueHZGlgw6jMtNa1JIvx+QDdfLIulRhbIg5iMQHYWfcerR
- m9jCzeIH+GPrfALVHZlp4IxaMf9UmRgImPqk2qILdJYViX6rk0A0Q2V2Wnpyo3kyTXPBmeWAlVKi51
- e9+RopR0ZK6hb8iaZCSfSEnxn8gqF+d/MDMCz4Nk5awM8Me9SrUoXKItffoA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
 
-Convert the text bindings for the Realtek rt5682 and
-rt5682i codecs to dt-schema.
+Hi liujing,
 
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../devicetree/bindings/sound/realtek,rt5682.yaml  | 160 +++++++++++++++++++++
- Documentation/devicetree/bindings/sound/rt5682.txt |  98 -------------
- 2 files changed, 160 insertions(+), 98 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..2fd5065551c473dce829155135b4cffb645bbf02
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml
-@@ -0,0 +1,160 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Realtek rt5682 and rt5682i codecs
-+
-+maintainers:
-+  - Bard Liao <bardliao@realtek.com>
-+
-+allOf:
-+  - $ref: dai-common.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - realtek,rt5682
-+      - realtek,rt5682i
-+
-+  reg:
-+    maxItems: 1
-+    description: I2C address of the device.
-+
-+  interrupts:
-+    maxItems: 1
-+    description: The CODEC's interrupt output.
-+
-+  realtek,dmic1-data-pin:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # dmic1 data is not used
-+      - 1 # using GPIO2 pin as dmic1 data pin
-+      - 2 # using GPIO5 pin as dmic1 data pin
-+    description:
-+      Specify which GPIO pin be used as DMIC1 data pin.
-+
-+  realtek,dmic1-clk-pin:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # using GPIO1 pin as dmic1 clock pin
-+      - 1 # using GPIO3 pin as dmic1 clock pin
-+    description:
-+      Specify which GPIO pin be used as DMIC1 clk pin.
-+
-+  realtek,jd-src:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    enum:
-+      - 0 # No JD is used
-+      - 1 # using JD1 as JD source
-+    description:
-+      Specify which JD source be used.
-+
-+  realtek,ldo1-en-gpios:
-+    description:
-+      The GPIO that controls the CODEC's LDO1_EN pin.
-+
-+  realtek,btndet-delay:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      The debounce delay for push button.
-+      The delay time is realtek,btndet-delay value multiple of 8.192 ms.
-+      If absent, the default is 16.
-+
-+  realtek,dmic-clk-rate-hz:
-+    description:
-+      Set the clock rate (hz) for the requirement of the particular DMIC.
-+
-+  realtek,dmic-delay-ms:
-+    description:
-+      Set the delay time (ms) for the requirement of the particular DMIC.
-+
-+  realtek,amic-delay-ms:
-+    description:
-+      Set the delay time (ms) for the requirement of the particular platform or AMIC.
-+
-+  realtek,dmic-clk-driving-high:
-+    type: boolean
-+    description:
-+      Set the high driving of the DMIC clock out.
-+
-+  clocks:
-+    items:
-+      - description: phandle and clock specifier for codec MCLK.
-+
-+  clock-names:
-+    items:
-+      - const: mclk
-+
-+  "#clock-cells":
-+    const: 1
-+
-+  clock-output-names:
-+    minItems: 2
-+    maxItems: 2
-+    description: Name given for DAI word clock and bit clock outputs.
-+
-+  "#sound-dai-cells":
-+    const: 1
-+
-+  AVDD-supply:
-+    description: Regulator supplying analog power through the AVDD pin.
-+
-+  MICVDD-supply:
-+    description: Regulator supplying power for the microphone bias through the
-+      MICVDD pin.
-+
-+  VBAT-supply:
-+    description: Regulator supplying battery power through the VBAT pin.
-+
-+  DBVDD-supply:
-+    description: Regulator supplying I/O power through the DBVDD pin.
-+
-+  LDO1-IN-supply:
-+    description: Regulator supplying power to the digital core and charge pump
-+      through the LDO1_IN pin.
-+
-+unevaluatedProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - AVDD-supply
-+  - VBAT-supply
-+  - MICVDD-supply
-+  - DBVDD-supply
-+  - LDO1-IN-supply
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        codec@1a {
-+            compatible = "realtek,rt5682";
-+            reg = <0x1a>;
-+            interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
-+            realtek,ldo1-en-gpios =
-+                <&gpio 2 GPIO_ACTIVE_HIGH>;
-+            realtek,dmic1-data-pin = <1>;
-+            realtek,dmic1-clk-pin = <1>;
-+            realtek,jd-src = <1>;
-+
-+            #clock-cells = <1>;
-+            clock-output-names = "rt5682-dai-wclk", "rt5682-dai-bclk";
-+
-+            clocks = <&osc>;
-+            clock-names = "mclk";
-+
-+            AVDD-supply = <&avdd_reg>;
-+            VBAT-supply = <&vbat_reg>;
-+            MICVDD-supply = <&micvdd_reg>;
-+            DBVDD-supply = <&dbvdd_reg>;
-+            LDO1-IN-supply = <&ldo1_in_reg>;
-+        };
-+    };
-diff --git a/Documentation/devicetree/bindings/sound/rt5682.txt b/Documentation/devicetree/bindings/sound/rt5682.txt
-deleted file mode 100644
-index 5e1d08de18a52021619bee9329d1f1cd693ca7cb..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/sound/rt5682.txt
-+++ /dev/null
-@@ -1,98 +0,0 @@
--RT5682 audio CODEC
--
--This device supports I2C only.
--
--Required properties:
--
--- compatible : "realtek,rt5682" or "realtek,rt5682i"
--
--- reg : The I2C address of the device.
--
--- AVDD-supply: phandle to the regulator supplying analog power through the
--  AVDD pin
--
--- MICVDD-supply: phandle to the regulator supplying power for the microphone
--  bias through the MICVDD pin. Either MICVDD or VBAT should be present.
--
--- VBAT-supply: phandle to the regulator supplying battery power through the
--  VBAT pin. Either MICVDD or VBAT should be present.
--
--- DBVDD-supply: phandle to the regulator supplying I/O power through the DBVDD
--  pin.
--
--- LDO1-IN-supply: phandle to the regulator supplying power to the digital core
--  and charge pump through the LDO1_IN pin.
--
--Optional properties:
--
--- interrupts : The CODEC's interrupt output.
--
--- realtek,dmic1-data-pin
--  0: dmic1 is not used
--  1: using GPIO2 pin as dmic1 data pin
--  2: using GPIO5 pin as dmic1 data pin
--
--- realtek,dmic1-clk-pin
--  0: using GPIO1 pin as dmic1 clock pin
--  1: using GPIO3 pin as dmic1 clock pin
--
--- realtek,jd-src
--  0: No JD is used
--  1: using JD1 as JD source
--
--- realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
--
--- realtek,btndet-delay
--  The debounce delay for push button.
--  The delay time is realtek,btndet-delay value multiple of 8.192 ms.
--  If absent, the default is 16.
--
--- #clock-cells : Should be set to '<1>',  wclk and bclk sources provided.
--- clock-output-names : Name given for DAI clocks output.
--
--- clocks : phandle and clock specifier for codec MCLK.
--- clock-names : Clock name string for 'clocks' attribute, should be "mclk".
--
--- realtek,dmic-clk-rate-hz : Set the clock rate (hz) for the requirement of
--  the particular DMIC.
--
--- realtek,dmic-delay-ms : Set the delay time (ms) for the requirement of
--  the particular DMIC.
--
--- realtek,dmic-clk-driving-high : Set the high driving of the DMIC clock out.
--
--- #sound-dai-cells: Should be set to '<1>'.
--
--Pins on the device (for linking into audio routes) for RT5682:
--
--  * DMIC L1
--  * DMIC R1
--  * IN1P
--  * HPOL
--  * HPOR
--
--Example:
--
--rt5682 {
--	compatible = "realtek,rt5682i";
--	reg = <0x1a>;
--	interrupt-parent = <&gpio>;
--	interrupts = <TEGRA_GPIO(U, 6) IRQ_TYPE_LEVEL_HIGH>;
--	realtek,ldo1-en-gpios =
--		<&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_HIGH>;
--	realtek,dmic1-data-pin = <1>;
--	realtek,dmic1-clk-pin = <1>;
--	realtek,jd-src = <1>;
--	realtek,btndet-delay = <16>;
--
--	#clock-cells = <1>;
--	clock-output-names = "rt5682-dai-wclk", "rt5682-dai-bclk";
--
--	clocks = <&osc>;
--	clock-names = "mclk";
--
--	AVDD-supply = <&avdd_reg>;
--	MICVDD-supply = <&micvdd_reg>;
--	DBVDD-supply = <&dbvdd_reg>;
--	LDO1-IN-supply = <&ldo1_in_reg>;
--};
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.13-rc1 next-20241203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
----
-base-commit: 695ead81c12bf5430239b43e9d862d6d790e12ce
-change-id: 20241204-topic-misc-rt5682-convert-3b0320e1a700
+url:    https://github.com/intel-lab-lkp/linux/commits/liujing/ALSA-asihpi-Delete-redundant-judgments/20241204-113552
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20241203154635.2512-1-liujing%40cmss.chinamobile.com
+patch subject: [PATCH] ALSA: asihpi: Delete redundant judgments
+config: x86_64-randconfig-161 (https://download.01.org/0day-ci/archive/20241204/202412041936.OygWNCmW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241204/202412041936.OygWNCmW-lkp@intel.com/reproduce)
 
-Best regards,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412041936.OygWNCmW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   sound/pci/mixart/mixart.c: In function 'snd_mixart_probe':
+>> sound/pci/mixart/mixart.c:1323:52: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size between 9 and 15 [-Wformat-truncation=]
+    1323 |                 snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+         |                                                    ^~
+   sound/pci/mixart/mixart.c:1323:48: note: directive argument in the range [0, 4294967294]
+    1323 |                 snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+         |                                                ^~~~~~~
+   sound/pci/mixart/mixart.c:1323:17: note: 'snprintf' output 3 or more bytes (assuming 18) into a destination of size 16
+    1323 |                 snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +1323 sound/pci/mixart/mixart.c
+
+  1225	
+  1226	
+  1227	/*
+  1228	 *    probe function - creates the card manager
+  1229	 */
+  1230	static int snd_mixart_probe(struct pci_dev *pci,
+  1231				    const struct pci_device_id *pci_id)
+  1232	{
+  1233		static int dev;
+  1234		struct mixart_mgr *mgr;
+  1235		unsigned int i;
+  1236		int err;
+  1237		size_t size;
+  1238	
+  1239		/*
+  1240		 */
+  1241		if (dev >= SNDRV_CARDS)
+  1242			return -ENODEV;
+  1243		if (! enable[dev]) {
+  1244			dev++;
+  1245			return -ENOENT;
+  1246		}
+  1247	
+  1248		/* enable PCI device */
+  1249		err = pci_enable_device(pci);
+  1250		if (err < 0)
+  1251			return err;
+  1252		pci_set_master(pci);
+  1253	
+  1254		/* check if we can restrict PCI DMA transfers to 32 bits */
+  1255		if (dma_set_mask(&pci->dev, DMA_BIT_MASK(32)) < 0) {
+  1256			dev_err(&pci->dev,
+  1257				"architecture does not support 32bit PCI busmaster DMA\n");
+  1258			pci_disable_device(pci);
+  1259			return -ENXIO;
+  1260		}
+  1261	
+  1262		/*
+  1263		 */
+  1264		mgr = kzalloc(sizeof(*mgr), GFP_KERNEL);
+  1265		if (! mgr) {
+  1266			pci_disable_device(pci);
+  1267			return -ENOMEM;
+  1268		}
+  1269	
+  1270		mgr->pci = pci;
+  1271		mgr->irq = -1;
+  1272	
+  1273		/* resource assignment */
+  1274		err = pci_request_regions(pci, CARD_NAME);
+  1275		if (err < 0) {
+  1276			kfree(mgr);
+  1277			pci_disable_device(pci);
+  1278			return err;
+  1279		}
+  1280		for (i = 0; i < 2; i++) {
+  1281			mgr->mem[i].phys = pci_resource_start(pci, i);
+  1282			mgr->mem[i].virt = pci_ioremap_bar(pci, i);
+  1283			if (!mgr->mem[i].virt) {
+  1284				dev_err(&pci->dev, "unable to remap resource 0x%lx\n",
+  1285				       mgr->mem[i].phys);
+  1286				snd_mixart_free(mgr);
+  1287				return -EBUSY;
+  1288			}
+  1289		}
+  1290	
+  1291		if (request_threaded_irq(pci->irq, snd_mixart_interrupt,
+  1292					 snd_mixart_threaded_irq, IRQF_SHARED,
+  1293					 KBUILD_MODNAME, mgr)) {
+  1294			dev_err(&pci->dev, "unable to grab IRQ %d\n", pci->irq);
+  1295			snd_mixart_free(mgr);
+  1296			return -EBUSY;
+  1297		}
+  1298		mgr->irq = pci->irq;
+  1299	
+  1300		/* init mailbox  */
+  1301		mgr->msg_fifo_readptr = 0;
+  1302		mgr->msg_fifo_writeptr = 0;
+  1303	
+  1304		mutex_init(&mgr->lock);
+  1305		mutex_init(&mgr->msg_lock);
+  1306		init_waitqueue_head(&mgr->msg_sleep);
+  1307		atomic_set(&mgr->msg_processed, 0);
+  1308	
+  1309		/* init setup mutex*/
+  1310		mutex_init(&mgr->setup_mutex);
+  1311	
+  1312		/* card assignment */
+  1313		mgr->num_cards = MIXART_MAX_CARDS; /* 4  FIXME: configurable? */
+  1314		for (i = 0; i < mgr->num_cards; i++) {
+  1315			struct snd_card *card;
+  1316			char tmpid[16];
+  1317			int idx;
+  1318	
+  1319			if (index[dev] < 0)
+  1320				idx = index[dev];
+  1321			else
+  1322				idx = index[dev] + i;
+> 1323			snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
+  1324			err = snd_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
+  1325					   0, &card);
+  1326	
+  1327			if (err < 0) {
+  1328				dev_err(&pci->dev, "cannot allocate the card %u\n", i);
+  1329				snd_mixart_free(mgr);
+  1330				return err;
+  1331			}
+  1332	
+  1333			strcpy(card->driver, CARD_NAME);
+  1334			snprintf(card->shortname, sizeof(card->shortname),
+  1335				 "Digigram miXart [PCM #%d]", i);
+  1336			snprintf(card->longname, sizeof(card->longname),
+  1337				"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%u]",
+  1338				mgr->mem[0].phys, mgr->mem[1].phys, mgr->irq, i);
+  1339	
+  1340			err = snd_mixart_create(mgr, card, i);
+  1341			if (err < 0) {
+  1342				snd_card_free(card);
+  1343				snd_mixart_free(mgr);
+  1344				return err;
+  1345			}
+  1346	
+  1347			if(i==0) {
+  1348				/* init proc interface only for chip0 */
+  1349				snd_mixart_proc_init(mgr->chip[i]);
+  1350			}
+  1351	
+  1352			err = snd_card_register(card);
+  1353			if (err < 0) {
+  1354				snd_mixart_free(mgr);
+  1355				return err;
+  1356			}
+  1357		}
+  1358	
+  1359		/* init firmware status (mgr->dsp_loaded reset in hwdep_new) */
+  1360		mgr->board_type = MIXART_DAUGHTER_TYPE_NONE;
+  1361	
+  1362		/* create array of streaminfo */
+  1363		size = PAGE_ALIGN( (MIXART_MAX_STREAM_PER_CARD * MIXART_MAX_CARDS *
+  1364				    sizeof(struct mixart_flowinfo)) );
+  1365		if (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, &pci->dev,
+  1366					size, &mgr->flowinfo) < 0) {
+  1367			snd_mixart_free(mgr);
+  1368			return -ENOMEM;
+  1369		}
+  1370		/* init streaminfo_array */
+  1371		memset(mgr->flowinfo.area, 0, size);
+  1372	
+  1373		/* create array of bufferinfo */
+  1374		size = PAGE_ALIGN( (MIXART_MAX_STREAM_PER_CARD * MIXART_MAX_CARDS *
+  1375				    sizeof(struct mixart_bufferinfo)) );
+  1376		if (snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV, &pci->dev,
+  1377					size, &mgr->bufferinfo) < 0) {
+  1378			snd_mixart_free(mgr);
+  1379			return -ENOMEM;
+  1380		}
+  1381		/* init bufferinfo_array */
+  1382		memset(mgr->bufferinfo.area, 0, size);
+  1383	
+  1384		/* set up firmware */
+  1385		err = snd_mixart_setup_firmware(mgr);
+  1386		if (err < 0) {
+  1387			snd_mixart_free(mgr);
+  1388			return err;
+  1389		}
+  1390	
+  1391		pci_set_drvdata(pci, mgr);
+  1392		dev++;
+  1393		return 0;
+  1394	}
+  1395	
+
 -- 
-Neil Armstrong <neil.armstrong@linaro.org>
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
