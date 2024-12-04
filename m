@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0B7217F43;
-	Wed,  4 Dec 2024 23:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14817218820;
+	Wed,  4 Dec 2024 23:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733354994; cv=none; b=HAekSIFA77T0BVcpCh+rK3Rk3EgoAanF0+FKb/nS3R8Ph6x8fmv7aps5iMMS99OF4Kt6uaPI5eWnT7xPQtyX/pcgRGOfEE1Fm07obAHAUAtB4HfFyMMUQS3MyxupXNpCKhTCUcXScFCuGHHiwJvuXgnJNGuqYpvXoIBk2w7hXa0=
+	t=1733355005; cv=none; b=Q29B+lnEaFycEmELwgljHW2ez5TsnhfUJ6BdOs0aiPqQfbrMFBsh7Vu+R8RMJBT31e0dfhmiCCNrom/6G51dgydp1VWafaUnL0NRpdtgqWZrs6CrQZqOli83NRFnsoKM0NuK+7+xrZ9lrXKnQWuOxRH3F/AwpyqGPkzBu/Hnz8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733354994; c=relaxed/simple;
-	bh=xVthd2Efv+euOfB3JB7vBx75vkvCuLDFLtjmimVvwWc=;
+	s=arc-20240116; t=1733355005; c=relaxed/simple;
+	bh=mmK9+h4dECffnmjJN4de6/rK1ndlXYUDT0C55JvoVAo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ARHqWrs50jyeFA691u0hHFKwndCK5nPnk/GlzV08L6AD2uGUycArNxgM70mxxTHIl1aBahi/bmN7yPTnJNd4I3cI0COyvynmdhehlWE18O+GIC5bEARO5AO3LVoGmobbamYX29G5w2qLjxyub0STdH8uTZuCRGY3iNomUtggwUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7zDz8z+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=axKUcR84rluRb2Rd2H2rhZeE5FB38SN3MMtnsqoRcCk+o2lfxC9LFGdeAJXnxBmRNJkIEnYxFjyDFf/kHQVR0/Pl1eHzmL4StbCQFrcSaKgvAA47Vv7DnJcpWGMcbHlLx9Uhz5/VHZZYyMe1dsqoeagEPER7mhuR22FoduNSzzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QSP0p+LC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7zDz8z+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6158C4CED2;
-	Wed,  4 Dec 2024 23:29:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QSP0p+LC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DDADC4CED2;
+	Wed,  4 Dec 2024 23:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733354994;
-	bh=xVthd2Efv+euOfB3JB7vBx75vkvCuLDFLtjmimVvwWc=;
+	s=k20201202; t=1733355004;
+	bh=mmK9+h4dECffnmjJN4de6/rK1ndlXYUDT0C55JvoVAo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i7zDz8z+2OcBzQZkL4es9Fkth1cc3iuqwvtgsHaMfZptHu5KsBFuwQHXRlBcRlMs8
-	 jL3UMKKY4ZziJqhUKacm2tTOjDnqFjNPxPfQRdE3ovoka0j1w902C6jKSsGeXGLnvj
-	 A6HJz9hk7X0ncTSmIKQjPLwtQAxZzybWvrJqf8pDJQBlhNJfwSXWeASVhIacqKzS9v
-	 n0xxd1dpSClO7lVYkW/hVc6Xu2yJ1Lfor0Anw4n5NFhZ80X/IVN4raupf69soaFulv
-	 6YevKWK7wWn7viY43rcJ4sPr8oojRJAejgCmnw5Ns8Dn6VrTWK/D26IA1x083UK+G7
-	 rMk9i5BgTrt5w==
+	b=QSP0p+LCeTiihnhfyYI21PQSJ4E1c9Vbd50nB8fU/5HmV6+MMmeJ4jdsmT3vmWgSO
+	 ZXExrhlL0OApfHkbeH/JmjXXr92BiQBzSMjw4JIOi2JWzRKJnPdFR1WxiBf4BRP9PG
+	 HEX8SMiHqlC3/21GMB3Cfp9itrJDIJEcTgLi1+qT4SuVRyaReI6vlfrhV3osDkaMw7
+	 /hTpb3djUfEbZppMQIMXjfzHl6MQW2ysamyTozcJ0UdHoZG/t7d5tdRf2kVS09Id16
+	 8nQX9r9PwHz+rHJQYKobB2iIeL47J23Cym/Ir9RXYQLkxcnI9+sdb6NoIFHdUQLsDH
+	 06wW+LsCAyNxQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Alex Far <anf1980@gmail.com>,
+Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@debian.org>,
+	Tova <blueaddagio@laposte.net>,
 	Mark Brown <broonie@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	lgirdwood@gmail.com,
@@ -40,9 +41,9 @@ Cc: Alex Far <anf1980@gmail.com>,
 	end.to.start@mail.ru,
 	venkataprasad.potturu@amd.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 06/10] ASoC: amd: yc: fix internal mic on Redmi G 2022
-Date: Wed,  4 Dec 2024 17:18:04 -0500
-Message-ID: <20241204221820.2248367-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 09/10] ASoC: amd: yc: Add quirk for microphone on Lenovo Thinkpad T14s Gen 6 21M1CTO1WW
+Date: Wed,  4 Dec 2024 17:18:07 -0500
+Message-ID: <20241204221820.2248367-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241204221820.2248367-1-sashal@kernel.org>
 References: <20241204221820.2248367-1-sashal@kernel.org>
@@ -52,20 +53,22 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.6.63
 Content-Transfer-Encoding: 8bit
 
-From: Alex Far <anf1980@gmail.com>
+From: Uwe Kleine-König <ukleinek@debian.org>
 
-[ Upstream commit 67a0463d339059eeeead9cd015afa594659cfdaf ]
+[ Upstream commit cbc86dd0a4fe9f8c41075328c2e740b68419d639 ]
 
-This laptop model requires an additional detection quirk to enable the
-internal microphone
+Add a quirk for Tova's Lenovo Thinkpad T14s with product name 21M1.
 
-Signed-off-by: Alex Far <anf1980@gmail.com>
-Link: https://patch.msgid.link/ZzjrZY3sImcqTtGx@RedmiG
+Suggested-by: Tova <blueaddagio@laposte.net>
+Link: https://bugs.debian.org/1087673
+Signed-off-by: Uwe Kleine-König <ukleinek@debian.org>
+Link: https://patch.msgid.link/20241122075606.213132-2-ukleinek@debian.org
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -73,18 +76,18 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index 08f823cd88699..f87333cb82e06 100644
+index f87333cb82e06..369a8618b705a 100644
 --- a/sound/soc/amd/yc/acp6x-mach.c
 +++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -402,6 +402,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "Xiaomi Book Pro 14 2022"),
+@@ -220,6 +220,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
  		}
  	},
 +	{
 +		.driver_data = &acp6x_card,
 +		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "TIMI"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "Redmi G 2022"),
++			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "21M1"),
 +		}
 +	},
  	{
