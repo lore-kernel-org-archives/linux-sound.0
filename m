@@ -1,236 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E2618E368;
-	Wed,  4 Dec 2024 21:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733346856; cv=fail; b=gakUHVr1976GrTN1P8fH56IOJLsk4t83neg3ZT/L9VHJOyx4UdYlYiT8jkQERP0IwPDzPllRH2ZB1VOD8yz5JdGQ9rNaoTy5bv0BfItsPi1m5w6+QVH7hD0KMTaRnd2il2v1ra/a7FXnz6P2deWlBzvW2Aga070hIx/l4vKRL5k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733346856; c=relaxed/simple;
-	bh=TYmlI/wsSGarfLEk+6TL0/RlCxS2RokfmH56Zzcowhc=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jC6FkHDbh9s53EIILjQ/G2SOI9E7hsNvbWfTpJP1c1SEzl/oiCW/MUVXe8Xx/s25sOT0hoDEMEG4FFzaxXfpCJy0mNfgf6UMjl/0Zn5EvbtYL0KyDt4pPH/lP9FNCKlGfgLfJsuZxEbA3IVVg4iV7YTqvd7Qo9WeLqC5yHRqeaQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YqIh8fIe; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1078191494;
+	Wed,  4 Dec 2024 21:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733348109; cv=none; b=H4wVcGBAs+lH+OqLRC4XuKBeMHDK8HD8utvLf1onXuTsyvvXG5pjTUVyai5KQ8lzGbe5a+BqFMo4nanCc+F5j5v+E4IShsqhPFwzaQ2J2gcKg/DUJJPl4kVPXungHzK4STMcxfO/IPALhmX+cfhnqTJJTwOlfKIEmacUHAltsOY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733348109; c=relaxed/simple;
+	bh=j11y54dCZCbFkalvbnwQmWmMrPmWnAYOlLynn8WgUAQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YCu1YqvoBaQB4hWcQgxYvWQG3OHZ9DF14PZajqekbifVySGUI+ygZyFmgyc0I01PcSd9f5MsR2RYK8tmtAMzWr/Yy5EQ1kD7KI4kxJ4LCB7X03cZy4vIv+J+52qW+dVopxn+5baJhM4xLX8GakuZY7qqRC/RbltEF88E5p+1J3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O8v2Bg7x; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YqIh8fIe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733346854; x=1764882854;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=TYmlI/wsSGarfLEk+6TL0/RlCxS2RokfmH56Zzcowhc=;
-  b=YqIh8fIegamJOYB3DuXZTp4wvYwEOGiplEu1Q2lmuNFQ3uWft4DPwPzy
-   iUCJGgignLtKwTWtr7AkQTijjnscCuqmKGrPeHZhQEHFybug9ElngbjyE
-   fua/hwqL/EzevWl9EW9NuHCtKngZGMJV1Gac7WLv9TfqcRMumfg1cs4uf
-   mmoe1bSIVvYOdjK6/bW0QDcduJkjLPaBA8llzH8ryGcvslANkll37RTXN
-   O/uXduiwcwKoG+wOr5CHOHxz+JJxeUsNN42X7YCldr6PMYp13ViEL5cmK
-   ofnFhd4LcRuJLLheGo1qgiiUDQDFv4wjhAUhVSTAO5s6Firi8rQgXv89r
-   Q==;
-X-CSE-ConnectionGUID: pItiDJmRQH2txN2Q5is30w==
-X-CSE-MsgGUID: GJU825YQQgeGtbT6nNwrew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11276"; a="44304161"
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="44304161"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2024 13:14:13 -0800
-X-CSE-ConnectionGUID: tZPVI4qXQIGkRUeBRGXU0g==
-X-CSE-MsgGUID: ZaJirgFwRZyJ1eAOs71IdQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,208,1728975600"; 
-   d="scan'208";a="94315645"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Dec 2024 13:14:13 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 4 Dec 2024 13:14:12 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 4 Dec 2024 13:14:12 -0800
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 4 Dec 2024 13:14:12 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OksjmAhMczmIhvzGI6h3ScJgvIfAcNw3fnne99ijExqtE5UE5yTRcpgpDUm51kfX79rqnqPMFSer8SwapFEXaybnbUsGc/NB2sIeD66Yyt109Ss1c0ojIvE5Kjk1ik7iccvQ6GD22Y4lYRgJDP1NoSkRqxxMOVa/CX8NenLy/71wWV08QQz14cGs35lecbCupUvTZXPxsfBNTFxoUzQOQUIjEaOqyXG8SUEAidc8IYW1qkniBbO0uuSEKDM/4mH3bq5PbepRDk+Wv0HsuADLsvRv6S8BjjCfwtVZXFJk5jqnhJePhyhHE+1Mj9BEnQThrO5AVFNGUxGvv9gQQm6Ppg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fDwiCQ3QfcREe4/87kbMRllxVTnj662qdr7c2f/c/u0=;
- b=F55enzdsVv3i/CJAFoNzHF0O8tsJSCqctafrMZVvlfZOye28jxjNcNOtpAj5eB3wTBS5cLCV5bI1Ht1mbFTck/bDC2gITdvVRK+yENdZBvl5WGLX+dvZ5huhYgKmCorZk9NhofdAzD0/wqgtxCJBoP0WJxHWm7dTmR66ex2F/VttsCuTs5gd+j8zuHIiKfQqeXHuBy4B1mmg99OJ7IvIBiOFklQUAhKuZThc9oZWdfVhTCJv/yxRLIOweh7u9k7FtRPngckfLD+oD5zALdAaHegGnnphPMhsMa9IWrKuOzyTLT6z6JM9P3tUoLYHf5bIPvAfPzr9zk4Ee1hmVFHYig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
- DM4PR11MB6019.namprd11.prod.outlook.com (2603:10b6:8:60::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8207.19; Wed, 4 Dec 2024 21:14:09 +0000
-Received: from DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
- ([fe80::cd01:59f6:b0f8:c832%4]) with mapi id 15.20.8207.017; Wed, 4 Dec 2024
- 21:14:08 +0000
-Message-ID: <58a561d6-dc10-484e-8214-5e03c4aef66d@intel.com>
-Date: Wed, 4 Dec 2024 22:14:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Wesley Cheng
-	<quic_wcheng@quicinc.com>, Takashi Iwai <tiwai@suse.de>,
-	<srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-	<perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-	<corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-	<krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>,
-	<robh@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <2024120320-recant-tameness-6c81@gregkh>
-Content-Language: en-US
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-In-Reply-To: <2024120320-recant-tameness-6c81@gregkh>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA0P291CA0010.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1::12) To DS0PR11MB6375.namprd11.prod.outlook.com
- (2603:10b6:8:c9::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O8v2Bg7x"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-aa53ebdf3caso33371766b.2;
+        Wed, 04 Dec 2024 13:35:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733348106; x=1733952906; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iuzgzWysi0xQzASXR1mXKdirnIu+N1nfSNmw2B7P4bM=;
+        b=O8v2Bg7xWP1ocJl9XklhOnaTske+d8aT+FFt2OOvBEGiWvsCaZHPqc0A2Amh9vTnoT
+         NCf7ptsDwPz92opurumtoUQu/a34+J+ihLH78G23iIxmx4vkiZ+dyzH72BhgONjYSljf
+         3bZUTd3Kc6PqF6UrMqJJTlN5AQGORMk1+zU2NVWI2OCGi4N4ESC+bHnTso6lFao0t2Db
+         +I74YB+3mrcFf+fwWPlUQ1n/+BKCB3127THmnq3m99MJNN/Z61PxKfhCL4ckdxW9ZgPf
+         Y/RBnHkCPjpFFdMIgNWDWHDKRs7QNc7+ytBvhBjJ5GLP7K5JRrdUV3vN3VvkksNXckAf
+         tqiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733348106; x=1733952906;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iuzgzWysi0xQzASXR1mXKdirnIu+N1nfSNmw2B7P4bM=;
+        b=l/sCJW2tbXz//LXHzn8DWXw4Hjhk1RP4igFEM2uY4L7x03d0I/IZawiqOaOX8XAg/q
+         TauV+6rjLaGa3e/Pv3iK5XEKBz7dfVVlHw1QfTVGV31DmxSZQ4l+nI607W6yV+1pxSjx
+         YfVrvuKOwtTBjzx9J7tp303Jv76TYn7TRlTkNez86oJUT5WvQK2Qs61wwadky1R7nByW
+         PhGhYuuB/TQKOj4Lf6leFSs9TPesuqvRWm6iX1aYBksDnPcODF2ZiWvV0kP4b3WW24w+
+         Uh3rKLE8yV39W/Af6V1vv+SbmyKTExVQOCWMIeGv+WwrjHSvLDuj/no+NIUCfjJEhyia
+         quRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUXadKLw+u/fdQsf0ZjGVVFUNOiSnh4a0zPR/7VS4P2y+cJGy+grbgZY6zpSSm+J5cNjOXWXt9XmI+LJ0E=@vger.kernel.org, AJvYcCWR+xm1PDGT6e1o7vsEoT1GDpH+S7xO463RCwTiVyA4gZnW8JJbmzuic8u3VPpRW0l2c30YUKjYIX8r@vger.kernel.org, AJvYcCWyLTtExNym9UN+Dz1Q0+PU23DykYiWevwvPBvix4q00+pocbDh3MRnBoW8JM6Exa9ILGpaoYN2y+iofcBm@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEVG5uoBfHn5bc8072Pc01BN4T21IeTwrw0F2BnJ3b8B7eSSws
+	CDX8plEi+ibnRX+lFLv8ieWN348Df80sLvv0m5DZMMczP5yaIb2qz3aceg==
+X-Gm-Gg: ASbGncujpaWTcDuIZSVJIdeLlEguKvnxq7q6JbUB1NpzKUdPY73LQEn219o2ufNIC2r
+	n5yvZeGl7UN3qznut3+woPB2U9eJcs0dSzR/9zzhCbHqd1Q22A/MEmpB5lzVjr0Utb2kR+UYblH
+	6ickEss4bVzBPoDi0hhxxM1reLCeAyT8ON5jlqt1AcK5fIrufdNeenjJYh6ouPVgj4S3HbOMDlF
+	F7DBQr7JIjRuID8u2mFO5JaUzLqlJkuzLescUZSbBshLwHu
+X-Google-Smtp-Source: AGHT+IH94DTTb6JBzC+xl94joLcq6YqmJKaT/CSiPoOiMfuR5FbCs9GAnQs2fNf2GB6snwIXQeTqUw==
+X-Received: by 2002:a17:906:ee88:b0:aa5:199f:2bf2 with SMTP id a640c23a62f3a-aa601819730mr701152466b.29.1733348105711;
+        Wed, 04 Dec 2024 13:35:05 -0800 (PST)
+Received: from [127.0.1.1] ([46.53.242.72])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-aa62601b5ddsm4506966b.118.2024.12.04.13.35.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2024 13:35:05 -0800 (PST)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH v7 00/14] This is continued work on Samsung S9(SM-9600)
+ starqltechn
+Date: Thu, 05 Dec 2024 00:34:47 +0300
+Message-Id: <20241205-starqltechn_integration_upstream-v7-0-84f9a3547803@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|DM4PR11MB6019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 523f13f1-10ab-48b1-2101-08dd14a896f7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YjRndjVWaDJ0TmVSWHJNOUl6S1BqRUYvNjY5Y3k1K09mYi9pUkRJbENhakRJ?=
- =?utf-8?B?blhHcmt0MndDRDhmZS9WRVZGSDBNRS9ST0hzWWpqOEcvWlMvUkQxVE1VNTAy?=
- =?utf-8?B?aUg1KzFOV0VFQnBta0hneGN1RnhNRDgwbmJVbmJibjNKUGNNamVTZmh6R3Mw?=
- =?utf-8?B?bWlXSkdDNWRUWDlMMytwOHlaOUw2R09hTHhBSmorcDZ2STlJODJjQnd2NFRG?=
- =?utf-8?B?d1NCbFlEVjRTTWlFbkJWTTNtaU5JK0xnWFQrMW90MmF1MW84L2IrcXJrNzhx?=
- =?utf-8?B?QmZzRnNpQ3lVRHdIUkozQnRtQzZzc3k0NUllRFExK3pBaWdqcGpwNVBYbjc0?=
- =?utf-8?B?NW52blN6ZkJ1NmYrTHA3eDZsdDRwWlROQlN1UlFFYlEzWFFvNjlrcnNWNnBy?=
- =?utf-8?B?MmJxMUtSNUtMTFdEejl6RHRrTm4xS1BkVEpBcUZjRDhZb2tlR21zRUZDNWN2?=
- =?utf-8?B?cXV2Q0ZweE5ZYXk2VVdTTEVUdytjNWlKNVQ5ODZscmlwVWRtSEJ2Y2lPUUMr?=
- =?utf-8?B?Y2VsekhCRzFmSWdaNStYUVhWS2Z1Z0duTlU1VUdPd3VOM25BblllQkJSTnVM?=
- =?utf-8?B?UTlqSnV6akI0UVFacHZObUwrckRvWVRmT2pqOFEwbU5DekoyTWVPQ1lvUUdk?=
- =?utf-8?B?bE1Da3I4ZUNkQ042TEFMNVRVNk1OUFZLZHZFRkFTaHNrcldiRk85TXFpR0ZV?=
- =?utf-8?B?eWFtWUpzYURvNU1kTThadnRrREFQZTBvcG52ZFkyQ0hiK0lIdmJLNE9wZEpv?=
- =?utf-8?B?RGNSVDl2RmdWdUxVcnpzREVQbEpQTk5nLzM2Q2ZrTWdCakQ2TzEwY3pGMC9N?=
- =?utf-8?B?aVFSZm8wRUpXWmJ5K1ZnaUpJSjVPRVRyZWRmeXlOdElLYU5pT0ZKaTRxcjFy?=
- =?utf-8?B?UkNRTklHSkVkdjM1MDExMlBjcXpCNHE1NW90akw0WUVrK3pGbjFiWWR6Vm1Y?=
- =?utf-8?B?dGxLc1FlU2RTSkIvbC9jVkZmNWQzTnd3eCtpa2NlaE4zbDJGN1R0ZE9yMHNt?=
- =?utf-8?B?L05iTm41Y25GWXZyUFVrWjRXTkpFRFF0dGxVaFVGaXhCSHljN0h2VGk1ZzBF?=
- =?utf-8?B?MktDOHphMGxobm50SjdRcnZCMmxqUkM3b1V0L2I4M0kzKzFlQ1c0R25aOXA5?=
- =?utf-8?B?MXQvRDV3UVVkOUtRc0lWZ1dkMG5yU2x6eWxDRkJzQTB5NEdlMlZzQUVTSVVC?=
- =?utf-8?B?b2k0MnVuSWtBVVMwdXB6ZXQ2YWE4bVo2dFJ3NjE1WTVkaytRV0tiUVRWd1JF?=
- =?utf-8?B?QWhDYXlZSEV1ckFLdkJnNXZTdHJ5elRaU2wyc3ozeVc4YVJtVkpKZHlLTDg2?=
- =?utf-8?B?bCtpOTk3VnlHK1A1MnM1YXNheWE4ZERUa3BFbDZsdDdRY2IwdVVmNGNLVWNE?=
- =?utf-8?B?YkdlMFB4RkdIVTUzMmFuQzYwSW5SZUdqcEIzMTNsaFd1cmxuSXROYmZPeGpv?=
- =?utf-8?B?Q2RocDRDMEZhVHRnSWJJY0xNSVY5UFVrbnVNZWhrMU1YU2kySGxsL1RKMkhG?=
- =?utf-8?B?cWhxb2VjUUNRcDZyRVlHdVhmUWJ1T0ZxV0NMcWRnYUNLeVgya090L0dtWWhp?=
- =?utf-8?B?Z1NhMk5EdkxSWXRIUlVGdVprSTRiUCtVU2lSVTRySS81ZzZCOG5sNUtrV21C?=
- =?utf-8?B?TkdXQW1pRlcrZmFRV2gvbHIyTUVoQWtISXJvYXRvb0dsdDkzS0kwcFU3TUl4?=
- =?utf-8?B?RzVWQWJEWXg0SjhzS1VIQUl1MExRTDc1M0VVOTNHU1Z1QUl1NmVMZ0FHTG8r?=
- =?utf-8?Q?u1OB3tKwxXbrmGgmCI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U1VIdWNrZURRWXVUSWpPUEszQjZ4TUQwRXhCbVJINW10anpYRmRZTFRKY2lJ?=
- =?utf-8?B?emJVZEZiRnNuSXZWcXFCUEk2ZEhXN1NyQXN6djZwMGVwTTBGSTNyRTgwNWx3?=
- =?utf-8?B?WFh3RnZwVnVJdHV2SDY3QlJHekNCNURZamdnOFE3WTBZQlR1Y3NzaUpGR2tm?=
- =?utf-8?B?NUpNTnJFdk02Z0F0N2hHMUpzWXVkZFZvZ0JZR0swTlI5amRIWldNNGk5anA0?=
- =?utf-8?B?NEloWmxMSjNGc2RjdVhaL25CMFhOcXJtYm5PM01EeGVVd2VDa052SElPaHpE?=
- =?utf-8?B?Y0tYQVhhdFhBdzRWZzhrclFVdjBLcTJwMWdod1dCRDhNVHFmVitrS3ZHU0xo?=
- =?utf-8?B?L05GLzFCR1craDhTejhNajZabjBpNVNPRDV2YlpkTkEybUpSUE10Q2QzWFFR?=
- =?utf-8?B?VFRFdFdFZWtNMi9Edll2SHk4TXlpemtWOFJyaUVlbC95eHlmOTBnQTlxVWdI?=
- =?utf-8?B?dkNreURQLzEwVXN1UHArMjJxdE1ld21ZREtSUkdEVnJLR0piQVA4Umd2cGow?=
- =?utf-8?B?dGdTM3RTa2hyWitFTkNnNjBxN2JWUUlrWjlYYnFqRVdFV000ZUNTbDYwUXBX?=
- =?utf-8?B?SWhWR3NDbXZ2cmg2SVg4NTFtaDBnbWQreGZXMi95dXpFMFlPb0w3WFB2dUlo?=
- =?utf-8?B?dXRaUkRMbFVvMzJlbnRoblU2Mk5TRE1iK3AxVHR1SUU2aG1XRkRvNXc3MVZF?=
- =?utf-8?B?QU9lOW9EWXh3QnFoc1JQU2loazBUVyt2ZGNwWE5JYkxnME56Ry85am5wUHg2?=
- =?utf-8?B?bW0ycDUyWmV0Tm9WVWpBampkUzJraitrMUIvSVhIZnFMZVJnaXBsVVNqUWlW?=
- =?utf-8?B?MXpqVmpTbUpOWG8yR1NyU1hEdUhWTnBid0MxRTJwU0JibFE0U2p2bGVPZHp5?=
- =?utf-8?B?VnVnd3ltemhxVUpRUTl1SDJZOVRCVkZqOHhLMGJEQm5taUJBWEt2T3N0ZXJN?=
- =?utf-8?B?aFJLZmlueVU5OEpDUGFPYUV6ZHN5bjd4NGRjWW5ra2szbmZyV3Q0bXN2bVpN?=
- =?utf-8?B?dHBaa0liSmFLL2xFU0FCelpTQkRqVENESGRURGw2QlVIeUxjR1VieTFVa3Vv?=
- =?utf-8?B?RmVkY3RtSzhqRFBTUFRvamV1SjdYdk9EMmExN09mTEcvRmRZL2ZKT0pYZHZt?=
- =?utf-8?B?TTEwRVYyRmM3aWt2eDhKUFpIYytvaElLUnZuV3h3Z1pnZllwdTVpTjJSTnhR?=
- =?utf-8?B?TlJ3WTlVejdnU1M4dW83YzhpZ0VaZ3VTajBkaU5TSjRmU01nQzJWWWIzejd4?=
- =?utf-8?B?TEVMMHVBQmxDeXlIaDFQRDczK05oYjZBMzRvejlGamZVK3YvdUtFUHVzdVl5?=
- =?utf-8?B?SmlFZDFIUUpLZmlkRGdvd0IxUDdNcCtaRlcrS0VwMkx6YmQ5N0FWTDJlK204?=
- =?utf-8?B?ekoyRGp2NmZRUHhqakhIY2RqR1BWbyt6TWZHNWsrbW5aVkNNQnZaamtOL0py?=
- =?utf-8?B?dDNpcjIrYk1DWVZJM3p3OWphc29JTE5oVlZXRWpkdFJQclhNTFJGSTNZMEo4?=
- =?utf-8?B?WjFKeUQ0OTNjUzMrNTRDUHYwRkErSkhxb3hQNzRsdTJ1V3VoSW9QaFI1RHYv?=
- =?utf-8?B?K0liNVRXL3RlTGxSbTM3WnZxdUJmMTUwNjJKWlF6ZU5LdTVudE4zVEJ3NmN4?=
- =?utf-8?B?QUl2MUVPaVpHUXl2QmFrOUpsZlNoVkFNcldNeE1vUDQ4MGJwOTJiZW42bC9z?=
- =?utf-8?B?by9NS3V4TlQ4b0ZLZkVvOFFCbjJUQkdnbkF5K3VvL2lBRk1MY3B3OWF1VHhp?=
- =?utf-8?B?eE4vVFErOWRGaUxQQ0VmQWc4bTRGWHhCRlpDaXk0UEpJbDlhN2ZiYitCeEJl?=
- =?utf-8?B?V0pJckM3TDF0ZUxuRlNaczNGMStxdVZoWDZBbEpFVUkvbVNNTlF5TEhKTmt5?=
- =?utf-8?B?WnV3UTgxRHRURjZ3U3N5VkZyU0xjSHNzZXg4MFhTSTFkZUFsSkJJTU5CbzZX?=
- =?utf-8?B?RFZFdWYybnU0cXp5azNrZ3VDNXVJbjFXRHEwRVZvK2x4K1NJUDErSGI1SHlV?=
- =?utf-8?B?QUl6amM2TUppSkRobU0vYnZBUnZNYnROT0hFbHpFTTNDR2krL2g4SWlCZGF3?=
- =?utf-8?B?eXZxK0pWT3o3ZVlLZndNdkk2QnBRRiswdnV3TG5IWjlPUmdhcllQaG9jQ3E0?=
- =?utf-8?B?SWVac2ZOMzg2cjNRbjdzRjBBQ0h6engxV2dTdjFmVUlEMnVtVlRleDc2VzdL?=
- =?utf-8?B?cWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 523f13f1-10ab-48b1-2101-08dd14a896f7
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2024 21:14:07.9195
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3/zxRHOl/ecrmXfWX3sdbR4DetJU71+m7kcOlkzTx6bfH193anvgLcGk2jtXAZHHkRsJ8GDMtFRoDXsLGu8+NFCsoZwqwLsnZ2pgMJ/KFRo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6019
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAPfKUGcC/43Ry27DIBAF0F+JWJcK83S76n9UVYTxYCPZOAFsJ
+ Yr8752kryibenlH4lwYLiRDCpDJ6+5CEiwhhyliME874nobO6ChxUw445LpytBcbDoOBVwf9yE
+ W6JIteGY/H3JJYEfauFrXijXcgyDINDYDbZKNrkcozsOAw0MCH0633vcPzH3IZUrn2zUWcZ3+N
+ Nb/Ny6CMgrCa605q4x1b91ow/DsppFc8UX+gS+V2ABKBHnLwbfKqdqYR1DdgVxvABWCLWe11IZ
+ 7z/0jqH/BirEtT9YIKimV0KoVTPF7cP1acILjjP9Zvre8rp/3GCd97QEAAA==
+To: cros-qcom-dts-watchers@chromium.org, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1733348104; l=4756;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=j11y54dCZCbFkalvbnwQmWmMrPmWnAYOlLynn8WgUAQ=;
+ b=B2NOnTc/DVa3ITWuGbNOhjmSDA/2ebQErwgCaVr0czPJy86l52pPk541dJQu1uV7W85wocSHY
+ OhvIGPZSnyBCr4UG5rLZSbOU3xeLio2zwT3YWsAOXWLo/drYgUqP5mY
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-On 2024-12-03 5:57 PM, Greg KH wrote:
-> On Tue, Dec 03, 2024 at 05:17:48PM +0100, Cezary Rojewski wrote:
->> On 2024-12-01 4:14 AM, Pierre-Louis Bossart wrote:
->>> Sorry to chime in late, I only look at email occasionally.
+Contains starqltechn device tree changes.
+Add support for new features:
+- sound (headphones and mics only)
+- gpu
+- panel
+- buttons
+- MAX77705 MFD:
+  - charger
+  - fuelgauge
+  - haptic
+  - led
 
-...
+Binding Dependencies:
+- s2dos05: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-264309aa66de@gmail.com
+  - This series was applied to krzk/linux.git (for-next)
+- max77705: https://lore.kernel.org/r/20241204-starqltechn_integration_upstream-v10-0-7de85e48e562@gmail.com
+- s6e3ha8 panel: https://lore.kernel.org/r/20241006-starqltechn_integration_upstream-v6-0-8336b9cd6c34@gmail.com
+  - applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
->>>> I believe Amadeusz was still against having the two card design, and wants the routing to automatically happen when playback happens on the sound card created by the USB SND layer.  However, even with that kind of implementation, the major pieces brought in by this series should still be relevant, ie soc-usb and the vendor offload driver.  The only thing that would really change is adding a path from the USB SND PCM ops to interact with the ASoC entities.  Complexity-wise, this would obviously have a good amount of changes to the USB SND/ASoC core drivers.  Some things I can think of that we'd need to introduce:
->>>
->>> The notion of two cards was agreed inside Intel as far back as 2018, when Rakesh first looked at USB offload.
->>
->>
->> Well, I believe a lot has changed since then, not sure if USB Audio Offload
->> (UAOL) was even stable on the Windows solution back then. Obviously we want
->> to incorporate what we have learned during all that time into our solution
->> before it lands on upstream.
-> 
-> Great, can you help review this series please?
+Runtime Dependencies:
+- gcc845 gp clock: https://lore.kernel.org/r/20241007-starqltechn_integration_upstream-v6-0-dd75c06c708d@gmail.com
 
-Hi Greg,
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Changes in v7:
+- review fixes.
+- new patch with dt-binding header for wcd934x
+- Link to v6: https://lore.kernel.org/r/20241008-starqltechn_integration_upstream-v6-0-5445365d3052@gmail.com
 
-This series is large and I'd suggest to split it up, what I touched on 
-in my recent reply [1]. Please correct me if I'm wrong, but you mostly 
-care about drivers/usb/* part. If so, the existing set could be split 
-into USB-changes series, ALSA/ASoC-framework series and a third, holding 
-bulk of QCOM-specific patches. Me and my team care mostly about the 
-sound/* part and we don't hold much expertise in USB. I believe Mathias 
-covers this part well though.
+Changes in v6:
+- refactor: no space between tags in commit message
+- rename starqltechn to sdm845-starqltechn in commit summaries
+- Link to v5: https://lore.kernel.org/r/20240926-starqltechn_integration_upstream-v5-0-d2084672ff2f@gmail.com
 
+Changes in v5:
+- Split patchset per subsystem
+- Add links to subsystem patchsets in description
+- Link to v4: https://lore.kernel.org/r/20240913-starqltechn_integration_upstream-v4-0-2d2efd5c5877@gmail.com
 
-[1]: 
-https://lore.kernel.org/linux-sound/a8ece816-3d4c-4d60-b7c1-a7f7919325f3@intel.com/
+Changes in v4:
+- Rewrite max77705, max77705_charger, max77705_fuel_gauge from scratch
+- Reorder patches:
+  - squash max77705 subdevice bindings in core file because
+    no resources there
+  - split device tree changes
+- Use _ as space for filenames in power/supply like the majority
+- Replace gcc-845 freq_tbl frequencies patch with new approach,
+  based on automatic m/n/pre_div value generation
+- Link to v3: https://lore.kernel.org/r/20240618-starqltechn_integration_upstream-v3-0-e3f6662017ac@gmail.com
 
-Czarek
+Changes in version 3:
+- disable crypto patch removed(disabled on distro level)
+- dts framebuffer node along with related patches removed,
+because panel driver added
+- fix 'make O=.output_arm64 CHECK_DTBS=y qcom/sdm845-samsung-starqltechn.dtb'
+errors, but it still complains on 'monitored-battery' and
+'power-supplies' though I have 'power-supply.yaml' link in charger
+and fuel gauge bindings.
+
+---
+Dzmitry Sankouski (14):
+      ASoC: dt-bindings: Add bindings for WCD934x DAIs
+      ASoC: codecs: wcd934x: use wcd934x binding header
+      arm64: dts: qcom: sdm845: enable gmu
+      arm64: dts: qcom: sdm845-starqltechn: remove wifi
+      arm64: dts: qcom: sdm845-starqltechn: fix usb regulator mistake
+      arm64: dts: qcom: sdm845-starqltechn: refactor node order
+      arm64: dts: qcom: sdm845-starqltechn: remove excess reserved gpios
+      arm64: dts: qcom: sdm845-starqltechn: add gpio keys
+      arm64: dts: qcom: sdm845-starqltechn: add max77705 PMIC
+      arm64: dts: qcom: sdm845-starqltechn: add display PMIC
+      arm64: dts: qcom: sdm845-starqltechn: add touchscreen support
+      arm64: dts: qcom: sdm845-starqltechn: add initial sound support
+      arm64: dts: qcom: sdm845-starqltechn: add graphics support
+      arm64: dts: qcom: sdm845-starqltechn: add modem support
+
+ MAINTAINERS                                                  |   1 +
+ arch/arm64/boot/dts/qcom/sdm845-cheza.dtsi                   |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-db845c.dts                   |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-mtp.dts                      |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi          |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts      | 596 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts            |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-sony-xperia-tama.dtsi        |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-common.dtsi |   4 -
+ arch/arm64/boot/dts/qcom/sdm845-xiaomi-polaris.dts           |   4 -
+ arch/arm64/boot/dts/qcom/sdm845.dtsi                         |   2 -
+ arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts         |   4 -
+ include/dt-bindings/sound/qcom,wcd934x.h                     |  17 ++++
+ sound/soc/codecs/wcd934x.c                                   |  15 +--
+ 14 files changed, 607 insertions(+), 60 deletions(-)
+---
+base-commit: f486c8aa16b8172f63bddc70116a0c897a7f3f02
+change-id: 20240617-starqltechn_integration_upstream-bc86850b2fe3
+
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
+
