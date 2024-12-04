@@ -1,207 +1,89 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63951AC43A;
-	Wed,  4 Dec 2024 09:32:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5291AC448
+	for <linux-sound@vger.kernel.org>; Wed,  4 Dec 2024 09:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733304723; cv=none; b=WsRZkyIT2ICaZASIDP/UJBXZ+KHMO35BX22o7g6VzpSleCKmsoZCb1+ZcYZshJlrmmSAlau6L1vRoKK+S6d99NOqT53tZhoZJN5xwKNgss5zA8gesvEU/s3jsHsmntnEzQfBhKMe4Uct2A8tIGtXZHqI8QbY7Re2Bcb21P93ESs=
+	t=1733305193; cv=none; b=rF2Of1uiwtgpWPIMYWJ+eisTq+02n48llA3fMCZXVGcSAuU/jfbLLtTnwQZFQ6s7F11e5SZo9wMMMEWMmUutR0ThqCE1218c+SrHBM3ixZllX1b52qXyh+K43oidf0TE4knI3nd8fvQaBFIPdc1ek1oqTe0lVWtervSZC6FbVSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733304723; c=relaxed/simple;
-	bh=JrJuyLzuA97RnzKWyuOh7ow+3Xx7AvY6TWUxL8wm9/4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NtRGEL5CnrPmGQSHP1fegtNL6GnJ7U/fLHTMb9uTfb17UYtQyRkDNBIXWm7rgqAvH7nhIog6JOuR5n3S6aN744ELKWc1pQn3I1bdNwFJG16Alt2ga6cpBJnz59PWuyyku3wSaxAt6SY05YXbYK1hXPi6m4EgIE4LHWOX8/rvqag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q/Zx6J0P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lTihsWB3; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q/Zx6J0P; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lTihsWB3; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q/Zx6J0P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lTihsWB3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q/Zx6J0P";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lTihsWB3"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BE1FD1F365;
-	Wed,  4 Dec 2024 09:31:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733304719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
-	b=Q/Zx6J0POyWyBv/xg/b1y6Y/vPj+6HCGsx5CAnly2KYRlTkby3v79us9B9s4nNfoDUuKAP
-	HGcgurVs2daX4qfs/dYJwnHfTJ8tcHoivRExQ9Pa29vNJOSEKFm1lNRQa71ZXG+9qyArQB
-	9vtIgdHSsh2J7fsOF8RgC4cr9VHnkHY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733304719;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
-	b=lTihsWB35+IWboTJM30qxwXaX0VccJN+70TzFwmidQK2cCiSv+PeBrTz6WrBA4d4X06+Ll
-	Ki+nxSlGrfVakHBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733304719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
-	b=Q/Zx6J0POyWyBv/xg/b1y6Y/vPj+6HCGsx5CAnly2KYRlTkby3v79us9B9s4nNfoDUuKAP
-	HGcgurVs2daX4qfs/dYJwnHfTJ8tcHoivRExQ9Pa29vNJOSEKFm1lNRQa71ZXG+9qyArQB
-	9vtIgdHSsh2J7fsOF8RgC4cr9VHnkHY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733304719;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z0+yNJvxiUtgTb8b5gEnOI/DFtHXBiV88LZiuL4b5AE=;
-	b=lTihsWB35+IWboTJM30qxwXaX0VccJN+70TzFwmidQK2cCiSv+PeBrTz6WrBA4d4X06+Ll
-	Ki+nxSlGrfVakHBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 949BD139C2;
-	Wed,  4 Dec 2024 09:31:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9sUEI48hUGcXbgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Dec 2024 09:31:59 +0000
-Date: Wed, 04 Dec 2024 10:31:59 +0100
-Message-ID: <87ttbjx08g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: liujing <liujing@cmss.chinamobile.com>
-Cc: perex@perex.cz,
+	s=arc-20240116; t=1733305193; c=relaxed/simple;
+	bh=Dm16XVVEigJwf7RyR+5cJtOa6A2HDAbSRh1JQdhsGqI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pehSq2j2x34yFUqd+12QYCc0aBgIJGylyKOTM8OuDx1dxZjQn2whVVKR5m7RArS0ync9WJPtWbnBhcyFEBwvHf1MrgjPNHJPKNO+ixF7OSND1nyinR0DwuaYMWfU7inLy7yCJJyYD63yTs3AfwURNS4s4Saix2923W/UKMDOZok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: aefcfab0b22311efa216b1d71e6e1362-20241204
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD
+	CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
+	ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.38,REQID:56927f85-b9e8-4e62-bcc9-f2133bdb509c,IP:10,
+	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:0
+X-CID-INFO: VERSION:1.1.38,REQID:56927f85-b9e8-4e62-bcc9-f2133bdb509c,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:0
+X-CID-META: VersionHash:82c5f88,CLOUDID:f782ea7772729237b0d2d7bcee8cfdde,BulkI
+	D:2412041739416CL3I22D,BulkQuantity:0,Recheck:0,SF:19|24|38|44|66|72|102,T
+	C:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil
+	,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FSD
+X-UUID: aefcfab0b22311efa216b1d71e6e1362-20241204
+X-User: zhangyongzhen@kylinos.cn
+Received: from zyz-t480.. [(223.70.160.239)] by mailgw.kylinos.cn
+	(envelope-from <zhangyongzhen@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1914892917; Wed, 04 Dec 2024 17:39:40 +0800
+From: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+To: perex@perex.cz,
 	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: asihpi: Delete redundant judgments
-In-Reply-To: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
-References: <20241203154635.2512-1-liujing@cmss.chinamobile.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	linux-sound@vger.kernel.org
+Cc: kailang@realtek.com,
+	Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+Subject: [PATCH] ALSA: hda/realtek: Remove needless comment lines
+Date: Wed,  4 Dec 2024 17:39:28 +0800
+Message-Id: <20241204093928.15988-1-zhangyongzhen@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 03 Dec 2024 16:46:35 +0100,
-liujing wrote:
-> 
-> Since HPI6205_TIMEOUT is a constant, time_out is always true,
-> so unneeded judgments are removed.
-> 
-> Signed-off-by: liujing <liujing@cmss.chinamobile.com>
+-/*
+- */
+-
 
-Keeping it allows to remove the time_out for experiments, and compiler
-would optimize things in anyway, so there must be no code difference
-in the end.
+Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+---
+ sound/pci/hda/patch_realtek.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Since this doesn't improve things so significantly, I'd rather leave
-as is.
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 4ba9e647250b..b73b1a51a23d 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -890,9 +890,6 @@ static void alc_ssid_check(struct hda_codec *codec, const hda_nid_t *ports)
+ 	}
+ }
+ 
+-/*
+- */
+-
+ static void alc_fixup_inv_dmic(struct hda_codec *codec,
+ 			       const struct hda_fixup *fix, int action)
+ {
+-- 
+2.34.1
 
-And you mixed different fixes (the conversion of printf format) in a
-single patch without explanation, too.  Please split, if any.
-
-
-thanks,
-
-Takashi
-
-> 
-> diff --git a/sound/pci/asihpi/hpi6205.c b/sound/pci/asihpi/hpi6205.c
-> index c7d7eff86727..391cce428a11 100644
-> --- a/sound/pci/asihpi/hpi6205.c
-> +++ b/sound/pci/asihpi/hpi6205.c
-> @@ -2127,22 +2127,20 @@ static u16 message_response_sequence(struct hpi_adapter_obj *pao,
->  	time_out = HPI6205_TIMEOUT;
->  
->  	/* read the result */
-> -	if (time_out) {
-> -		if (interface->u.response_buffer.response.size <= phr->size)
-> -			memcpy(phr, &interface->u.response_buffer,
-> -				interface->u.response_buffer.response.size);
-> -		else {
-> -			HPI_DEBUG_LOG(ERROR,
-> +	if (interface->u.response_buffer.response.size <= phr->size)
-> +		memcpy(phr, &interface->u.response_buffer,
-> +			interface->u.response_buffer.response.size);
-> +	else {
-> +		HPI_DEBUG_LOG(ERROR,
->  				"response len %d too big for buffer %d\n",
->  				interface->u.response_buffer.response.size,
->  				phr->size);
-> -			memcpy(phr, &interface->u.response_buffer,
-> +		memcpy(phr, &interface->u.response_buffer,
->  				sizeof(struct hpi_response_header));
-> -			phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
-> -			phr->specific_error =
-> -				interface->u.response_buffer.response.size;
-> -			phr->size = sizeof(struct hpi_response_header);
-> -		}
-> +		phr->error = HPI_ERROR_RESPONSE_BUFFER_TOO_SMALL;
-> +		phr->specific_error =
-> +			interface->u.response_buffer.response.size;
-> +		phr->size = sizeof(struct hpi_response_header);
->  	}
->  	/* set interface back to idle */
->  	send_dsp_command(phw, H620_HIF_IDLE);
-> diff --git a/sound/pci/mixart/mixart.c b/sound/pci/mixart/mixart.c
-> index 7ceaf6a7a77e..cac5fcaef08b 100644
-> --- a/sound/pci/mixart/mixart.c
-> +++ b/sound/pci/mixart/mixart.c
-> @@ -1320,12 +1320,12 @@ static int snd_mixart_probe(struct pci_dev *pci,
->  			idx = index[dev];
->  		else
->  			idx = index[dev] + i;
-> -		snprintf(tmpid, sizeof(tmpid), "%s-%d", id[dev] ? id[dev] : "MIXART", i);
-> +		snprintf(tmpid, sizeof(tmpid), "%s-%u", id[dev] ? id[dev] : "MIXART", i);
->  		err = snd_card_new(&pci->dev, idx, tmpid, THIS_MODULE,
->  				   0, &card);
->  
->  		if (err < 0) {
-> -			dev_err(&pci->dev, "cannot allocate the card %d\n", i);
-> +			dev_err(&pci->dev, "cannot allocate the card %u\n", i);
->  			snd_mixart_free(mgr);
->  			return err;
->  		}
-> @@ -1334,7 +1334,7 @@ static int snd_mixart_probe(struct pci_dev *pci,
->  		snprintf(card->shortname, sizeof(card->shortname),
->  			 "Digigram miXart [PCM #%d]", i);
->  		snprintf(card->longname, sizeof(card->longname),
-> -			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%d]",
-> +			"Digigram miXart at 0x%lx & 0x%lx, irq %i [PCM #%u]",
->  			mgr->mem[0].phys, mgr->mem[1].phys, mgr->irq, i);
->  
->  		err = snd_mixart_create(mgr, card, i);
-> -- 
-> 2.27.0
-> 
-> 
-> 
