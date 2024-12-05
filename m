@@ -1,95 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2021D9A7E;
-	Thu,  5 Dec 2024 12:33:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797D921884B
+	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 12:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733402020; cv=none; b=WGPHQEbps0MeQVyTBGejtuQWKR6qrxlL/Wp9kEprm0CSU03s7VuOJcJjZqA/toTF/WPc4ijqs9FI3QPbFxDlvUTI/iHK0U0XXgFiiqTNX3QEyXtbp79oqRsWYIU8BLFyJE2VCU5GGH2uo/P/WlVpzYEKo/kQgsA0yqkFJ9W4CNQ=
+	t=1733402440; cv=none; b=XukzSUOAboE71wfApmhe9iFhC+ZxvTGOZPHcSV6d2N06aGDvg8iL3szV3PyegtcxfxgLI6esg3hwntb7O4J7bAVXJcNIZNVeto710nCC6SNrYQCXO1/ptA1DtmluhB03DKyOEGKz0UXsAfCeD0NnBziZthj3nlR6G7F5iuf7Iek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733402020; c=relaxed/simple;
-	bh=DPWF0QzJrvS7JQpnkmlzj4hwnHS8dY44UCJdxS0wVkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O6kPVE4IMHX9mdcCyduOANyz4QPfXVVVjra8LxtvU3JrraTA64iO4qwnubfbLxs2BS5mjz2L3A5wtDAKok6uNLpKJluX2VV7a61iIUp93+DoihsZBjLdcN95H5WOTop0DoxmIExNcKooL3rb454B5Ppq2jgCgb5hscgN3Es+kaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olSZGDcB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733402440; c=relaxed/simple;
+	bh=/eOgEfxOouU7/NsexcFArdA9e/HQU31dCSo6rXafGRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nCz4brKWSIgGdWE0Kt9kWcPfFGT6jW2yiD8zEd7jE9ES/ZNMkhJSkfcJfu7Z5gjXtJAuMQgOhVPghq952hTD/Ytbld/Uz9ijb8JVJmEXkSALLja83V/5Illnq0U+lUlC3xLb4HZztaEX3GeTkXJsBBOqdHemolyq6z298irEHcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aABsUvef; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olSZGDcB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08E4EC4CED1;
-	Thu,  5 Dec 2024 12:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733402019;
-	bh=DPWF0QzJrvS7JQpnkmlzj4hwnHS8dY44UCJdxS0wVkQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=olSZGDcBNNrdtuuBMIVzRRQyIfM7IG88RLi+5isbjipCJC9UgMejzOst6a96SGdBd
-	 DsoliPFcMwV50SudXtcFjyqlAOrcPNBszzKt01dcnHES9NnEMi91U+OKaeq0ZECGUh
-	 7LYdddhWdRzA9BybIAUhS1kZQmkAlujDGaHQjlYca/YlSMRu8+Tz4AF4ZqoOmk57Y5
-	 PvCEr6pUpebyghKSPvCEv4P6ffChRpH/vy+jpQM2mo/zCdSmsSb/HFhyZ7rFMdQ2wh
-	 QMQNXXBIPwAOxiB5HdBTL86Pfm8Jr3BsvVYr4yvwGUjGWjsVn9hSncWwwCrUC7hWU+
-	 PdbGXSmaFlgJA==
-Date: Thu, 5 Dec 2024 12:33:34 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH 1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
-Message-ID: <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk>
-References: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aABsUvef"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-385e0d47720so28917f8f.0
+        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 04:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733402437; x=1734007237; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AHOhf3fLL/x/+hQTBcTCJ5bZoM08MJO5O0xcjIvEorE=;
+        b=aABsUvefCMy/AKasS5GqeSY1YvaR4ydhkVLWxHTmxuHG8uIUWs8Su3wFWv5txHAmTM
+         O+r6vAfURwoSb7RHLWaqItOSy48ODcr7DJDQHf6cEWs7MJQeFDxVwcw+AU3GPhATXOF3
+         odXQxzvPLsm/1p5iBoyG1DiqXIptk5Dcb9HdOkBQ3G1p1bvzUsPBkZIlbTbXKNsHtJOW
+         Eu9beKA8LAieYmdVqb15h5YDYFa1xTKy2K9fZlBRHO46rFe2y3Rht2RjiEm+26CwbtbH
+         JvBlvmfSlE7+e80vKolBDwZh4p7q981iQTC1c/roSdgsJJBsD2ZogcYjWAhwm663dX8U
+         ySRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733402437; x=1734007237;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AHOhf3fLL/x/+hQTBcTCJ5bZoM08MJO5O0xcjIvEorE=;
+        b=sXz+K2mrV56xSprwSv1ZsFAGuj9vhox4FXCsa2GgMzjbPB2rC3oJh3OHhB+93QpuwY
+         2CaXkcczJjsIovblEGSxHMmr+7vPgXW/aEASL+erkh54gpgO3PJ8UlxsKgcxRGW8bXxs
+         JX6JQLs1cOqyBn3qBJ4Y9NedYMXUCejYg/hfMOw+yKY4mIqC5SpSVOboQ8tgR7iPLKzG
+         BUOfM/6LGs2N1VuC+v4D/xqd6f7I46R/Hn5x9aaWZyfM7N3DOHxxSDyCYslXY2nr5BS+
+         dZWOYjV0ahJlys66AF/+07BVj/twWfzS7pU8xMT/uuN1949DpMbNZjp1y33RIqTIfrRB
+         53mg==
+X-Forwarded-Encrypted: i=1; AJvYcCWy2gB4+ZpwmlwIpae06+MMffHf8uXipyUbYso/ov9qfxEfNxpH7ZBIkIa3l1Wnu48tVpIKvtgvEK2/Fw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/PFO8QzkZiPFVHr0zuAssYhDD1q/cSP2JHJAW4s1bnuB3F7Hv
+	pKwUtqaHTgkqDrZwPcu5pLafWTCxPjJvtaFIpUkLyl+GNv6cZbpXmQMUYxrvQns=
+X-Gm-Gg: ASbGncugdHqLCr/sqnr/Mm9kceYr713pYjDLNVPtXerwSg+AA+XvHAwacKRevy/AScr
+	R3MrKQYCcwnxRRmCYDfn3gTf2SvaEPDRxLfZsi6+uTcR6ONjGxso1E3/RIcjZUqy9v4UVDxy259
+	boIagoj6ciyHR0O74Fh62uls/gBg1vUwOVVeFCbjA9/q1cZjNJqcjUNnjof44UEm4ZgU5pN9XG5
+	D7arYsi8vGrOFpSemAk3ANMBbq47zXNYpgbKhtrss0f029l3YxgnkU5zRTvkxw5SndRag==
+X-Google-Smtp-Source: AGHT+IHIwSY6gV3NERJ/H6TR3OuZZd7LtFCV9IfPTUtZJbD8qsdt3fcL8obWJJGvX184KgtY2y+W1w==
+X-Received: by 2002:a05:6000:1541:b0:382:4e71:1a0f with SMTP id ffacd0b85a97d-385fde04982mr3122263f8f.7.1733402436777;
+        Thu, 05 Dec 2024 04:40:36 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-386219096cdsm1878466f8f.81.2024.12.05.04.40.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Dec 2024 04:40:36 -0800 (PST)
+Message-ID: <9d6b4865-1bf5-45d8-876f-5ec336700e10@linaro.org>
+Date: Thu, 5 Dec 2024 13:40:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gWl0fQ2wqvAOxyCX"
-Content-Disposition: inline
-In-Reply-To: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
-X-Cookie: You can't push on a string.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
+To: Mark Brown <broonie@kernel.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+References: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
+ <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Content-Language: en-US
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 05/12/2024 13:33, Mark Brown wrote:
+> On Thu, Dec 05, 2024 at 09:40:20AM +0100, Krzysztof Kozlowski wrote:
+>> Number of DAIs in the codec is not really a binding, because it could
+>> grow, e.g. when we implement missing features.  Add the define to the
+>> driver, which will replace the one in the binding header.
+> 
+> This breaks an allmodconfig build:
+> 
+> /build/stage/linux/sound/soc/codecs/wcd9335.c:162: error: "NUM_CODEC_DAIS" redef
+> ined [-Werror]
+>   162 | #define NUM_CODEC_DAIS          (AIF4_PB + 1)
+>       | 
+> In file included from /build/stage/linux/sound/soc/codecs/wcd9335.c:28:
+> /build/stage/linux/include/dt-bindings/sound/qcom,wcd9335.h:13: note: this is th
+> e location of the previous definition
+>    13 | #define NUM_CODEC_DAIS          7
+>       | 
 
---gWl0fQ2wqvAOxyCX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Apologies, last minute change hoping 6+1 equals 7, but obviously it does
+not.
 
-On Thu, Dec 05, 2024 at 09:40:20AM +0100, Krzysztof Kozlowski wrote:
-> Number of DAIs in the codec is not really a binding, because it could
-> grow, e.g. when we implement missing features.  Add the define to the
-> driver, which will replace the one in the binding header.
-
-This breaks an allmodconfig build:
-
-/build/stage/linux/sound/soc/codecs/wcd9335.c:162: error: "NUM_CODEC_DAIS" =
-redef
-ined [-Werror]
-  162 | #define NUM_CODEC_DAIS          (AIF4_PB + 1)
-      |=20
-In file included from /build/stage/linux/sound/soc/codecs/wcd9335.c:28:
-/build/stage/linux/include/dt-bindings/sound/qcom,wcd9335.h:13: note: this =
-is th
-e location of the previous definition
-   13 | #define NUM_CODEC_DAIS          7
-      |=20
-
---gWl0fQ2wqvAOxyCX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdRnZ0ACgkQJNaLcl1U
-h9DfXwf+NRemZpBZfSFc/oGs/hewnY39uNjSyfHgecrP0VUv5ov02TPnnEF06vPj
-lX1lzz+3bYKOoCLOAllUwiSCLYUd75OaZqHbbURkitAcoxeoxX8HEJzZ04aJcZAk
-cbiMag390on78R/GRWQng+lTzPxSmw7vgmInHdG0J7u1Watm1B6cw05gvzMYs4qg
-Eer95W9TC2+f1damedi9nURt6HcqkWfQssYv5R4Q4VhcATq8fgWaJG8w42DWBuUf
-Z25LmCwucpVvYsTnirx3GYae2+8HJUS61yyYbJPTT4uT9oNcHU7ZQj4i1krt/p67
-V6vuGUnlSznppy/FoR9/ElVpHz7yjg==
-=XNkr
------END PGP SIGNATURE-----
-
---gWl0fQ2wqvAOxyCX--
+Best regards,
+Krzysztof
