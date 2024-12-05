@@ -1,96 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8290A19645D;
-	Thu,  5 Dec 2024 08:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC31B1B219B;
+	Thu,  5 Dec 2024 08:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733386229; cv=none; b=Q0C3uIbdHa90lrx7uDALFG5WrGe3826jY5SIwyYlC0lv8v40nqQSkfCnnNDbnR9hE7iP9KFkx/VoC37KI9EK5U/TkNz7tny2PAgEBMqsFGefV9Lhh4PZP6TkoRDIFm1H+6hGz1xXgCUAFkXeiTKR3S/Njz8wGudLR2CODozd044=
+	t=1733387333; cv=none; b=eg5zIOrFVuGTroqXld1GYpf7UIOe+g80ippf7iN15nBrLhOneBsB/QcleORBI0hSM71QBAiYLmnxYKoebr3LZVn4c4M2SLbQRtlNFHHsb49aGxeo4XfVAZuJDuJZfCrVKT+lXd/HBELX7rXHMpiR5Iq+q3oG2WNPDApwxNEISNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733386229; c=relaxed/simple;
-	bh=dm+XaarJmRd4PNMM8493FEpsyQu1VayQlRTan4XCkBA=;
+	s=arc-20240116; t=1733387333; c=relaxed/simple;
+	bh=LKRcOHfP3Les8K2W2lfWxUIwy4IjqF0urRjh+fBOZL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pLdZXHgoEBmit39Ln2LBdxYBUkhf1ffVUZbDQEmM8/TZfYQnYcUjp8kH160b8YGvLY9m7oAHS8HkLQlp8WkZvO0pzqscwkbl+iF1ri9ne5VHqD2lQUwehh+LBsCUvEowJuidvPi5Zj+/z7Wg5fn/E5ZN2AW61EarJ8o4fTWzTc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FpPs2GWb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajX5eJMAqFzB6HJpARyMPSMiNxmKZwS/UI0sXDjbIINUUtT4JClyxq4TRPlMGQxmYLfoqX1vMeE2/HTFu6HbiG4PtOtSdITE5NLs5nyEvmJ1DqGq9mtn/tvEviXWxHypSW4lPFJvwBNV1nNiiwbPVWvPSL98XKfQBXYtEMqD/pA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBqAl58U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpPs2GWb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BB7C4CED1;
-	Thu,  5 Dec 2024 08:10:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IBqAl58U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65B93C4CED1;
+	Thu,  5 Dec 2024 08:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733386229;
-	bh=dm+XaarJmRd4PNMM8493FEpsyQu1VayQlRTan4XCkBA=;
+	s=k20201202; t=1733387333;
+	bh=LKRcOHfP3Les8K2W2lfWxUIwy4IjqF0urRjh+fBOZL0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FpPs2GWbGgUz5ytJZ+QuBg7XSizF7MBLb5wQ47CrA74Do8i70h2t2SfmkVVxQxJwp
-	 RFeHBA6N+1cKlVI8Shsh2lySUArR5RSI6914U1xBrr+bvhH7rr7cEdzsA4Rgi1d66U
-	 zkLJI2jbu5xXvGwGUD8mz6V+6eqzicBTjawuRRljctphJ44a5cfQaamr4YGrDaX/zh
-	 IbgvB4IO9782E6ZkMrskDL8DfFasy49Ius/Vc5afr1384a7Ak3SKFeTCK94J8odFfT
-	 MaHtfcFW9mpHPKOXqE35SDPO05JukSUMC0SYTE1DD/M4FAoBDI7at285cpbtMDTdO+
-	 RFuFFL23OJDcA==
-Date: Thu, 5 Dec 2024 09:10:25 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	open-iscsi@googlegroups.com, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
-Message-ID: <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
+	b=IBqAl58Uc4znJyPuxT7tnuYNRE0tZMYibiv84nw/uWFqBof6qIo6omNekiRkHShLZ
+	 UDPr2yF/Dj4KqS7jVUYMUMRo4zLYn+csmoF4Kp0K6rWdENVIXGDauwBH+gnzeC4fqb
+	 x0DWSNzTmm/Vs2r4oEU+KtIUZxuPGEd0gMCOoxB7YHNIZnQQIoAVGy/gv12MoInHyf
+	 QvjxWQPzy7E2xeBwwWDD0nxBE0Xhwc2voBS3ZLhBZm78jwpxxnbeLsM1FHJdGT9oq1
+	 Qp9zjgVfaLVqqstQn3Z4SULnJN0viRXZXf5ck+/uX0F7trwE1vuov41iKaA43xOn5d
+	 wLKeKKw7oDAbg==
+Date: Thu, 5 Dec 2024 09:28:49 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dzmitry Sankouski <dsankouski@gmail.com>
+Cc: cros-qcom-dts-watchers@chromium.org, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v7 01/14] ASoC: dt-bindings: Add bindings for WCD934x DAIs
+Message-ID: <rmsmdoysg7irwagwjhuj2mggs2laqznmy52f3a2k2w43m6kggc@qgw25bnora44>
+References: <20241205-starqltechn_integration_upstream-v7-0-84f9a3547803@gmail.com>
+ <20241205-starqltechn_integration_upstream-v7-1-84f9a3547803@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ya6wyfjwhlqhd5wu"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
+In-Reply-To: <20241205-starqltechn_integration_upstream-v7-1-84f9a3547803@gmail.com>
 
+On Thu, Dec 05, 2024 at 12:34:48AM +0300, Dzmitry Sankouski wrote:
+> +#define AIF1_PB                 0
+> +#define AIF1_CAP                1
+> +#define AIF2_PB                 2
+> +#define AIF2_CAP                3
+> +#define AIF3_PB                 4
+> +#define AIF3_CAP                5
+> +#define AIF4_PB                 6
+> +#define	AIF4_VIFEED             7
+> +#define	AIF4_MAD_TX             8
 
---ya6wyfjwhlqhd5wu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
-MIME-Version: 1.0
+Some odd indent appeared after #define
 
-On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
->=20
-> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
-> Remvoe the unnecessary wrapper.
->=20
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-> ---
->  drivers/gpio/gpio-sim.c | 7 +------
+> +#define NUM_CODEC_DAIS          9
 
-I think if you move this patch before patch #4 in your series, you only
-have to touch this file once.
+Drop, not a binding.
 
-Best regards
-Uwe
+Best regards,
+Krzysztof
 
---ya6wyfjwhlqhd5wu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRX+8ACgkQj4D7WH0S
-/k6rewf+KsN2Irmv5Td5FMMxi+83vZgDfjxwj+eoLUlf72jMXWx89mPqbHAWyq2W
-DVJONM/HQoPhG9ILJDxvkaVLetBPRY7QPBSVY8bMUaDT9ljXmnbxed/NGNngiATy
-r1JyYMzf3dqlGSgJl6LhRpugodssXbGiDv8oVNRtLIHFd5MLH+xlUr0CFu0KsPSd
-E4NADLSFAkpDIDer3BYt19RGkXNgCrbqzP8rfGN50Q9t+xuS58qoK2oY5+jzT11a
-qccGFlDCzdaHWCVsLHVwXYWN2L5mxrrm09Dv8aS/0TcFMueK4nsasVRpUAplw+Gd
-j791qtNhdb4QQUhbiOamc5BP/g6LvQ==
-=1ED3
------END PGP SIGNATURE-----
-
---ya6wyfjwhlqhd5wu--
