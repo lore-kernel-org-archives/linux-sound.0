@@ -1,98 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pv50p00im-tydg10011801.me.com (pv50p00im-tydg10011801.me.com [17.58.6.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FBE218EAE;
-	Wed,  4 Dec 2024 23:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A3810E9
+	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 00:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733355036; cv=none; b=SWLdLr2u1/fZXCBztPzjbS0xJmdsuPau5CS1T4GT5K5MQShomBu8Zs1Oz1C3eOTT8bJ4LUEfpKFFMzVIKs8g/4ehmHzuPx5xJK8LTRdu3gv4lP/cFnMIOrO2QkGztvPewYIV7dDHy5h7rX9s0CWU0vHB/0Eqf2VnEuMV4HRyFU4=
+	t=1733357278; cv=none; b=CgHx3wvnewAcCae13Yth4l8dbGsd7JmP7p0nmhZ3QsFThL5TSwtTgreIDrke5S5vxZkqXlbBKu+S1OGw9jYNA+elz2OFrnDzJiUvvfpNtW1kP+86IQQDW3prKz0tp7LdYi+w9MMfOfDaqS6BQ2ZeAYnfC0BhqksPU40j3tgTZk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733355036; c=relaxed/simple;
-	bh=iOzsphW00Lfj5DBJiTRvU5jwovvXRQIQwiLwndUtijc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cAz9s8dYdSyphGAY8rQ0IMeCT3c6pvtheksdk97F9i7EkpVoTTuA8ob//rJcsfJCcB3ObRg35Co5LZSSKzf/vdi+mdEvT4VJ4tq+spAIR3mGbV/knaz4P5e53xEDf0nEvH5x3aSZZsyvceR9ty3ixKKMFG6ojP4JUW6+dworVcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NXZF3AL0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733357278; c=relaxed/simple;
+	bh=jXDu8pWjhuYPdMP7VqE1gBu4NrjerabEKnAlH0ltUtc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ka/GDZR5STnUm7xk67NmWWDUU3Lduypw1gYZSicxIwbFd4N2z2W8OfM+zbHnh5K/Wf9s9AYyx7tdt++5OaM6sdnxrmmDwhaNZ+OOecsw7XxDnifoifvFzvi46wFOhfkztZ61pB+R1uzMIvZqBOd49OFrl8Q04ClkM+BqnOvrYQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=viUyMPDu; arc=none smtp.client-ip=17.58.6.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NXZF3AL0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF080C4CECD;
-	Wed,  4 Dec 2024 23:30:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733355036;
-	bh=iOzsphW00Lfj5DBJiTRvU5jwovvXRQIQwiLwndUtijc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NXZF3AL0lt1fekNuYSwKpFM5VGMaaTWVHTyx2p9MB9P9mIhoKmaRHf8LqKSCteHiT
-	 Ww3xWDcUQAnBqV1uFQlzLU5sqdwD8RJXa16592kGSLRP7QFzHSN3Rl3ov23A60fHLC
-	 o5Nq0FENV11j0yuvZNGPmb4/nUIB6cC5te9ULBkvEFA/OtTSGIx/3NjeKDXihr1DLw
-	 gABYuW+nwQwKVyyNNycI8NRBD0E6Y2taN1UrfUKbLNxOgtSG34DVgCOUAUNDS12QIm
-	 CHXLeWoooLb/JhaSjAISXNUvVY9OVy0+Ih9AwB8gpYTqJUrwcShMusLpHKCm8tS7H2
-	 yYATQh+/zJbGw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@debian.org>,
-	Tova <blueaddagio@laposte.net>,
-	Mark Brown <broonie@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	mario.limonciello@amd.com,
-	end.to.start@mail.ru,
-	me@jwang.link,
-	venkataprasad.potturu@amd.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 7/8] ASoC: amd: yc: Add quirk for microphone on Lenovo Thinkpad T14s Gen 6 21M1CTO1WW
-Date: Wed,  4 Dec 2024 17:18:49 -0500
-Message-ID: <20241204221859.2248634-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241204221859.2248634-1-sashal@kernel.org>
-References: <20241204221859.2248634-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="viUyMPDu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; t=1733357275;
+	bh=T0i1UIwZu179fqDDvM1SaMgHe4/s268Ao/wTXHvJFpU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
+	 x-icloud-hme;
+	b=viUyMPDupWXi4CsrMrPO0pTZeZeGxPoM+enltzZDnkb+kI0qdByPZT5LU1xBetse2
+	 NtaWPzW2mnfiL0cDcb5AxsMAlW09DyzC74O6RR3cBb+ZzhEN7re48DHO1hdcod+aXb
+	 zbl3rMYxZGrv7wQqdRJsrWCp9PSwtE6uiLaNWgjCRsBT8D1ZUgFnCeCL+arYkrJDex
+	 wriQVWYopBjYxrWk6ouKFvfzOLXBz2VSyl6NuyevHO9GGv1V4cTmquonLgabfDNxjR
+	 5eSkEUOnbtt2Et4RjPSCmjNRxtqblo8cbQN/o+14zsvC0nuehSg5FcL9uofh/yy5ZC
+	 z6tN/Ugl8ZG4Q==
+Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
+	by pv50p00im-tydg10011801.me.com (Postfix) with ESMTPSA id 9CBA68001C9;
+	Thu,  5 Dec 2024 00:07:24 +0000 (UTC)
+Message-ID: <3a4de1bb-3eb2-469a-8ff7-ff706804f5bb@icloud.com>
+Date: Thu, 5 Dec 2024 08:07:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/32] driver core: Constify API device_find_child()
+ and adapt for various existing usages
+To: James Bottomley <James.Bottomley@HansenPartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Martin Tuma <martin.tuma@digiteqautomotive.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Andreas Noever <andreas.noever@gmail.com>,
+ Michael Jamet <michael.jamet@intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Yehezkel Bernat <YehezkelShB@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>,
+ Vladimir Oltean <olteanv@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Lee Duncan <lduncan@suse.com>, Chris Leech <cleech@redhat.com>,
+ Mike Christie <michael.christie@oracle.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Nilesh Javali <njavali@marvell.com>,
+ Manish Rangankar <mrangankar@marvell.com>,
+ GR-QLogic-Storage-Upstream@marvell.com, Davidlohr Bueso <dave@stgolabs.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Alison Schofield <alison.schofield@intel.com>,
+ Andreas Larsson <andreas@gaisler.com>, Stuart Yoder <stuyoder@gmail.com>,
+ Laurentiu Tudor <laurentiu.tudor@nxp.com>, Jens Axboe <axboe@kernel.dk>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>, Ard Biesheuvel
+ <ardb@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-pwm@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux1394-devel@lists.sourceforge.net, linux-serial@vger.kernel.org,
+ linux-sound@vger.kernel.org, open-iscsi@googlegroups.com,
+ linux-scsi@vger.kernel.org, linux-cxl@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-block@vger.kernel.org,
+ arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241203-const_dfc_done-v2-0-7436a98c497f@quicinc.com>
+ <g32cigmktmj4egkq2tof27el2yss4liccfxgebkgqvkil32mlb@e3ta4ezv7y4m>
+ <9d34bd6f-b120-428a-837b-5a5813e14618@icloud.com>
+ <2024120320-manual-jockey-dfd1@gregkh>
+ <b9885785-d4d4-4c72-b425-3dc552651d7e@icloud.com>
+ <8eb7c0c54b280b8eb72f82032ede802c001ab087.camel@HansenPartnership.com>
+ <8fb887a0-3634-4e07-9f0d-d8d7c72ca802@t-8ch.de>
+ <f5ea7e17-5550-4658-8f4c-1c51827c7627@icloud.com>
+ <108c63c753f2f637a72c2e105ac138f80d4b0859.camel@HansenPartnership.com>
+ <235ce0a9-1db1-4558-817b-6f92f22be5ab@icloud.com>
+ <5c905df49a332b1136787a524955b46b6153c012.camel@HansenPartnership.com>
+Content-Language: en-US
+From: Zijun Hu <zijun_hu@icloud.com>
+In-Reply-To: <5c905df49a332b1136787a524955b46b6153c012.camel@HansenPartnership.com>
 Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: SnhSPaefh2SqVr4UPg8Q8Npi4W-Py9Af
+X-Proofpoint-ORIG-GUID: SnhSPaefh2SqVr4UPg8Q8Npi4W-Py9Af
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-04_19,2024-12-04_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
+ phishscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2412040186
 
-From: Uwe Kleine-König <ukleinek@debian.org>
+On 2024/12/5 00:42, James Bottomley wrote:
+>>>>  introduce extra device_find_child_new() which is constified  ->
+>>>> use *_new() replace ALL device_find_child() instances one by one
+>>>> -> remove device_find_child() -> rename *_new() to
+>>>> device_find_child() once.
+>>> Why bother with the last step, which churns the entire code base
+>>> again?
+>> keep the good API name device_find_child().
+> Well, I think it's a good opportunity to rename the API better, but if
+> that's the goal, you can still do it with _Generic() without churning
+> the code base a second time.  The example is in
+> slab.h:kmem_cache_create
+> 
 
-[ Upstream commit cbc86dd0a4fe9f8c41075328c2e740b68419d639 ]
+i understand these solutions _Generic()/_new/squashing.
+every solutions have its advantages and disadvantages.
 
-Add a quirk for Tova's Lenovo Thinkpad T14s with product name 21M1.
+i decide to use squashing solution for this concrete scenario after some
+considerations since:
 
-Suggested-by: Tova <blueaddagio@laposte.net>
-Link: https://bugs.debian.org/1087673
-Signed-off-by: Uwe Kleine-König <ukleinek@debian.org>
-Link: https://patch.msgid.link/20241122075606.213132-2-ukleinek@debian.org
-Signed-off-by: Mark Brown <broonie@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/soc/amd/yc/acp6x-mach.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+1) it has the minimal patch count to achieve target.
+2) every patch is valuable, but other solutions needs to undo beginning
+  patch finally.
+3) for the squashing patch, i will only make the least and simplest
+changes for various match functions, that will compensate its
+disadvantages.
 
-diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
-index c18549759eab1..4272d6812512e 100644
---- a/sound/soc/amd/yc/acp6x-mach.c
-+++ b/sound/soc/amd/yc/acp6x-mach.c
-@@ -220,6 +220,13 @@ static const struct dmi_system_id yc_acp_quirk_table[] = {
- 			DMI_MATCH(DMI_PRODUCT_NAME, "21J6"),
- 		}
- 	},
-+	{
-+		.driver_data = &acp6x_card,
-+		.matches = {
-+			DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21M1"),
-+		}
-+	},
- 	{
- 		.driver_data = &acp6x_card,
- 		.matches = {
--- 
-2.43.0
+>>> Why not call the new function device_find_child_const() and simply
+>>> keep it (it's descriptive of its function).  That way you can have
+>>> a patch series without merging and at the end simply remove the old
+>>> function.
+>> device_find_child is a good name for the API, 'find' already means
+>> const.
+> Not to me it doesn't, but that's actually not what I think is wrong
+> with the API name: it actually only returns the first match, so I'd
+> marginally prefer it to be called device_find_first_child() ... not
+> enough to churn the code to change it, but since you're doing that
+> anyway it might make sense as an update.
+
+name device_find_child appeared 18 years ago, it is good to keep this
+name developers known about.
+
+the API only return one device *, it should be obvious that it is the
+first device which meet matching condition.
+
+Other device finding APIs (bus|class|driver)_find_device() does not have
+concern about 'first'
+
+So, IMO, current name is good.
 
