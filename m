@@ -1,200 +1,147 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA32D1AF0CA;
-	Thu,  5 Dec 2024 07:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EBB17CA17;
+	Thu,  5 Dec 2024 07:22:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733383077; cv=none; b=ajdW6hT2hZ9+DjYxgeMz2RRqYZl53f0sf0HH/4NjtcDU9mQ8DMx9KYFMgjw7ff49B9v+5ctMbFLX0csE3CfkgatWxlCiyfXFo++gAM09uQXJC0aAalfiyVOImn/ThsmAskU4jIUWAcrAKfxah4aWX6Zl3SodcUjUaD1WH8dcg3I=
+	t=1733383369; cv=none; b=cXRrlk/PzBV8AyzT2GnqGeH4+cq3Dc5DEhW23XKQjROrNviU2VK/a4R6MVz1rs8E7+qy0aC3djDLeNnVXxHPdbztORQMQWL0nqXHfsJduXb5jFcOLN/ylI/5Wl4F351Wr4ui3JHnLVS8unPxEsZjMGDQ7tgyn2ZEGb0/M3pk/1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733383077; c=relaxed/simple;
-	bh=SsPbjv/HRX3XeUDyRp3ofVV+M7CM3ragOxDLii5KcVc=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rW91Q7YNrEAr+hdw6fwwpoJpnuYav9xSFfh+SJ5beurxers1FH0boEvozx1gRJ8BZw07xXBH6ZEWyWzJ7Rr2uBpn+VH1ZYx99flm3o9QV66SSmPGi4KcOUM0qI78UyYkRamL/Vpjo7ZPLvuyQUdMNmKW7vm/Sdw0xHYtQIuBuzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WZmXwyDx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1RzOLloa; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WZmXwyDx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=1RzOLloa; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1733383369; c=relaxed/simple;
+	bh=yF1f57k9A+hujmFThFOhTBMVCV93i6o7rVGRB0bp+ZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Msn2FJOR7j20HcHKDi+o7vTr/qVwLaZmaks/Rnb+qFJ7BFMq+B9UDUiFF6u6zmLbLSN9j0gfw/zT+VQJSaSRcVcoS7WtpIs/tPhk4dpQiGB7XYbmTRo5fUE5V3dJ3hBpeAwIRMhOEfiOTDa3nvnuF2k4yJbPw5tZbsd9NtwjKUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dpI1q1VN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WZmXwyDx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1RzOLloa";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WZmXwyDx";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="1RzOLloa"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A67FB211F1;
-	Thu,  5 Dec 2024 07:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733383073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kzmBtrH8k11Y2CuCacfEPHHm1/ayZwA9S2/UcgigXpw=;
-	b=WZmXwyDxko0FGSOl4PZkeSWZIs3QSfGxIZjrPCeZTnYTOVOcXHJroI4pvrzXycMLBOrsfy
-	9Yvn4gSSLRhLnTbRX3pgkhJ3kaZy1qd0ujrFBKE2n7lKjCVHrGIbTG604T2ZZuEd/PPOES
-	WHa7fMYBDUeHWfZWuvpkutyoPJbTuwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733383073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kzmBtrH8k11Y2CuCacfEPHHm1/ayZwA9S2/UcgigXpw=;
-	b=1RzOLloamMWeZx52/0jUJJj98XuOThho8G6bStvXw42LYlc0eCGTz+DvUuVc28UellOerd
-	apju6X2xI9WAshAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733383073; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kzmBtrH8k11Y2CuCacfEPHHm1/ayZwA9S2/UcgigXpw=;
-	b=WZmXwyDxko0FGSOl4PZkeSWZIs3QSfGxIZjrPCeZTnYTOVOcXHJroI4pvrzXycMLBOrsfy
-	9Yvn4gSSLRhLnTbRX3pgkhJ3kaZy1qd0ujrFBKE2n7lKjCVHrGIbTG604T2ZZuEd/PPOES
-	WHa7fMYBDUeHWfZWuvpkutyoPJbTuwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733383073;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kzmBtrH8k11Y2CuCacfEPHHm1/ayZwA9S2/UcgigXpw=;
-	b=1RzOLloamMWeZx52/0jUJJj98XuOThho8G6bStvXw42LYlc0eCGTz+DvUuVc28UellOerd
-	apju6X2xI9WAshAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6D6D2132EB;
-	Thu,  5 Dec 2024 07:17:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7eJhGaFTUWeRWgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Dec 2024 07:17:53 +0000
-Date: Thu, 05 Dec 2024 08:17:53 +0100
-Message-ID: <87plm6vbry.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel@collabora.com
-Subject: Re: [PATCH 2/2] sound: usb: format: don't warn that raw DSD is unsupported
-In-Reply-To: <20241204151954.658897-2-adrian.ratiu@collabora.com>
-References: <20241204151954.658897-1-adrian.ratiu@collabora.com>
-	<20241204151954.658897-2-adrian.ratiu@collabora.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dpI1q1VN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DC3C4CED1;
+	Thu,  5 Dec 2024 07:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733383368;
+	bh=yF1f57k9A+hujmFThFOhTBMVCV93i6o7rVGRB0bp+ZU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dpI1q1VNezzvola/nf/Uai9FeKQTrwuzthVW5m24cPEyd/224wswmBHoOD//345L9
+	 lftN6KRbNLiCs8e8jw23n/DFCle/s3+e6tLOm8MtEOtlAWEFbBXtdcBY1/3dcA4oHt
+	 JyjorgCzy6cgabVdhzjq8AcQEn9HGp1XY9yFS6iQl1lhj7gTyk6W2Fm4NR6r2ZeIA/
+	 y/RbwhnEiVUOPBJEZqONIE+1I68hYz3zfQ2cvTwJcPqW9vn11obJglk1Gzhdmna2c+
+	 Jkxj3nCtflmb2PszICplrlP2GJsq7da3y0WK0N2iaRahBmOX/mjajeWDK2HhdeuDp7
+	 k0LRF+UBmz3WQ==
+Message-ID: <2517ef0e-4d13-4c51-b479-863229783223@kernel.org>
+Date: Thu, 5 Dec 2024 08:22:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/5] ASoC: dt-bindings: wcd937x-sdw: Add static channel
+ mapping support
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+ Sanyog Kale <sanyog.r.kale@intel.com>, linux-arm-msm@vger.kernel.org,
+ linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_rohkumar@quicinc.com, kernel@quicinc.com
+References: <20241126164300.3305903-1-quic_mohs@quicinc.com>
+ <20241126164300.3305903-3-quic_mohs@quicinc.com>
+ <jnetmj5ibmmoiputq52vsvfqjz2auwjeqwt36g7sg4kjrrxyso@nrugsa6px4h7>
+ <6bb8fe59-a1fc-9813-4623-d27e74a1b882@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <6bb8fe59-a1fc-9813-4623-d27e74a1b882@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 04 Dec 2024 16:19:54 +0100,
-Adrian Ratiu wrote:
+On 05/12/2024 04:56, Mohammad Rafi Shaik wrote:
+> On 11/27/2024 1:38 PM, Krzysztof Kozlowski wrote:
+>> On Tue, Nov 26, 2024 at 10:12:57PM +0530, Mohammad Rafi Shaik wrote:
+>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> index d3cf8f59cb23..7893b1c1f80b 100644
+>>> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+>>> @@ -58,6 +58,44 @@ properties:
+>>>       items:
+>>>         enum: [1, 2, 3, 4, 5]
+>>>   
+>>> +  qcom,tx-channel-mapping:
+>>> +    description: |
+>>> +      Specifies static channel mapping between slave and master tx port
+>>> +      channels.
+>>> +      In the order of slave port channels which is adc1, adc2, adc3,
+>>> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+>>> +      The channel map index values are fixed values.
+>>> +      SWRM_CH1 ==> 1
+>>> +      SWRM_CH2 ==> 2
+>>> +      SWRM_CH3 ==> 4
+>>> +      SWRM_CH4 ==> 8
+>>
+>> I am surprised to see here again 1/2/4/8. My comments were not
+>> addressed. I think we agreed during our off-list talk that you will use
+>> 1, 2, 3 and 4.
+>>
+> Ack,
 > 
-> UAC 2 & 3 DAC's set bit 31 of the format to signal support for a
-> RAW_DATA type, typically used for DSD playback.
+> Yes right,
 > 
-> This is correctly tested by (format & UAC*_FORMAT_TYPE_I_RAW_DATA),
-> fp->dsd_raw = true; and call snd_usb_interface_dsd_format_quirks(),
-> however a confusing and unnecessary message gets printed because
-> the bit is not properly tested in the last "unsupported" if test.
+> Will add the change in next patch set.
 > 
-> For example:
+> will add the channel map values starting from 0 based on order of slave 
+> port channels which are starting from 0.
 > 
-> usb 7-1: new high-speed USB device number 5 using xhci_hcd
-> usb 7-1: New USB device found, idVendor=262a, idProduct=9302, bcdDevice=0.01
-> usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
-> usb 7-1: Product: TC44C
-> usb 7-1: Manufacturer: TC44C
-> usb 7-1: SerialNumber: 5000000001
-> hid-generic 0003:262A:9302.001E: No inputs registered, leaving
-> hid-generic 0003:262A:9302.001E: hidraw6: USB HID v1.00 Device [DDHIFI TC44C] on usb-0000:08:00.3-1/input0
-> usb 7-1: 2:4 : unsupported format bits 0x100000000
-> 
-> This last "unsupported format" is actually wrong: we know the
-> format is a RAW_DATA which we assume is DSD, so there is no need
-> to print the confusing message.
-> 
-> Thus we update the condition to take into account bit 31 for DSD
-> (notice the "format <<= 1;" line above).
-> 
-> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> SWRM_CH1 ==> 0
+> SWRM_CH2 ==> 1
+> SWRM_CH3 ==> 2
+> SWRM_CH4 ==> 3
+These are supposed to be channels, so 1=1, 2=2 not 1=0.
 
-IMO, it's better to clear the already checked format bit instead, as
-there are two distinct bits depending on the protocol.
-That is, something like:
-
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -54,6 +54,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 
- 		if (format & UAC2_FORMAT_TYPE_I_RAW_DATA) {
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
-+			format &= ~UAC2_FORMAT_TYPE_I_RAW_DATA;
- 			/* flag potentially raw DSD capable altsettings */
- 			fp->dsd_raw = true;
- 		}
-@@ -67,8 +68,10 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 		sample_width = as->bBitResolution;
- 		sample_bytes = as->bSubslotSize;
- 
--		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA)
-+		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA) {
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
-+			format &= ~UAC3_FORMAT_TYPE_I_RAW_DATA;
-+		}
- 
- 		format <<= 1;
- 		break;
-
-
-thanks,
-
-Takashi
-
-
-> ---
->  sound/usb/format.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/sound/usb/format.c b/sound/usb/format.c
-> index 0cbf1d4fbe6e..fe2e0580e296 100644
-> --- a/sound/usb/format.c
-> +++ b/sound/usb/format.c
-> @@ -142,7 +142,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
->  		pcm_formats |= SNDRV_PCM_FMTBIT_A_LAW;
->  	if (format & BIT(UAC_FORMAT_TYPE_I_MULAW))
->  		pcm_formats |= SNDRV_PCM_FMTBIT_MU_LAW;
-> -	if (format & ~0x3f) {
-> +	if (format & ~0x10000003F) {
->  		usb_audio_info(chip,
->  			 "%u:%d : unsupported format bits %#llx\n",
->  			 fp->iface, fp->altsetting, format);
-> -- 
-> 2.45.2
-> 
+Best regards,
+Krzysztof
