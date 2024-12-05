@@ -1,69 +1,96 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60271D1724;
-	Thu,  5 Dec 2024 07:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733384008; cv=pass; b=XUD2pEdpOfQgafDbFx/BtAfjTEmKjqszrnnGfzCGjjBbEwu3hnvOerCeSyuQa8TYCZDOMha3JduxT6aYyc7vt4yHyLSxHNCHh/A1bTRsF47g/5OR7X+4z0CU27djgsYxRaXel9FqfGZBt4LMJYskewXbrNHVuuYZu5WoDxooWg4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733384008; c=relaxed/simple;
-	bh=DG6UE/gC1ebVtzQSV2zD0p576fRbTBXtDaEaPdZpuuY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tmO4YlQ3EcqAfTqvd8HUwM6p5pwU3RacX7XGvIhHBKs7dpoiQv9HfEzeAWvE8rpN/JNoZaEZ0e5GHL9SpjMWbFA6nAcP8scEemRffJ2oK1GwQ+5JTG58SgzVWoGjpy/+sp+lVSlDZirqklG1D6qC2wVQX6RV4LdLywgGrpPZyZc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.ratiu@collabora.com header.b=Z9Jjj9cy; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8290A19645D;
+	Thu,  5 Dec 2024 08:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733386229; cv=none; b=Q0C3uIbdHa90lrx7uDALFG5WrGe3826jY5SIwyYlC0lv8v40nqQSkfCnnNDbnR9hE7iP9KFkx/VoC37KI9EK5U/TkNz7tny2PAgEBMqsFGefV9Lhh4PZP6TkoRDIFm1H+6hGz1xXgCUAFkXeiTKR3S/Njz8wGudLR2CODozd044=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733386229; c=relaxed/simple;
+	bh=dm+XaarJmRd4PNMM8493FEpsyQu1VayQlRTan4XCkBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pLdZXHgoEBmit39Ln2LBdxYBUkhf1ffVUZbDQEmM8/TZfYQnYcUjp8kH160b8YGvLY9m7oAHS8HkLQlp8WkZvO0pzqscwkbl+iF1ri9ne5VHqD2lQUwehh+LBsCUvEowJuidvPi5Zj+/z7Wg5fn/E5ZN2AW61EarJ8o4fTWzTc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FpPs2GWb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.ratiu@collabora.com header.b="Z9Jjj9cy"
-ARC-Seal: i=1; a=rsa-sha256; t=1733383990; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=WCxow8QQy/43Cu9PqFBCwWkHQ+UTPCTYpehfiXbHbNBwU6t56VJapipvCcZl3jE5vENlm76Hg4u2pP5gowmQdm6IL8KrWrAe30nDpj7cvFQTRaxEdGmpZxw7//U8P02IW7BQbniidIfWg8wgAL+WWzctGx56dmgoMUbUL7bt6F0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1733383990; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=h/pDqEVxTbTjkrM/rQ97OwV3RB8PyztZXJIn2FQGkVc=; 
-	b=E7K9/WULCpcoHsgh0nPwQ6WfqyFfKkzGodD0E6SbgQzuzf7hNhfHlXvMofgMjDv1L/xvbMLyPi6hlpclDZ893clE3U3gNbXntzgU15X9zpz66OLFrJp5rELnt/ssq0Mb88Ubb9Fh7aJXi0qcNTAY8a6CUhLjbAwdTr7TLIqV4aI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.ratiu@collabora.com;
-	dmarc=pass header.from=<adrian.ratiu@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1733383990;
-	s=zohomail; d=collabora.com; i=adrian.ratiu@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:References:Date:Date:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To;
-	bh=h/pDqEVxTbTjkrM/rQ97OwV3RB8PyztZXJIn2FQGkVc=;
-	b=Z9Jjj9cypuMjGM2BUc7Sr3zKbTecvn1OFuOuIx9CiwMsAjo45huH7ija4oLBevhI
-	Hfh0ppHHegxIwoMUehZ6o3bFBNX4gw9cx0Z4yi7xZj/mg+FWHvj2g0Ov8+C3Y9tN2Ob
-	IkkApSBm47DMwJBbgz5kfhQ7q083bwqpt9tsGoMI=
-Received: by mx.zohomail.com with SMTPS id 1733383987370489.0252559578878;
-	Wed, 4 Dec 2024 23:33:07 -0800 (PST)
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH 1/2] sound: usb: enable DSD output for ddHiFi TC44C
-In-Reply-To: <87r06mvc1t.wl-tiwai@suse.de>
-References: <20241204151954.658897-1-adrian.ratiu@collabora.com>
- <87r06mvc1t.wl-tiwai@suse.de>
-Date: Thu, 05 Dec 2024 09:32:59 +0200
-Message-ID: <87v7vyh9ec.fsf@gentoo.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FpPs2GWb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39BB7C4CED1;
+	Thu,  5 Dec 2024 08:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733386229;
+	bh=dm+XaarJmRd4PNMM8493FEpsyQu1VayQlRTan4XCkBA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FpPs2GWbGgUz5ytJZ+QuBg7XSizF7MBLb5wQ47CrA74Do8i70h2t2SfmkVVxQxJwp
+	 RFeHBA6N+1cKlVI8Shsh2lySUArR5RSI6914U1xBrr+bvhH7rr7cEdzsA4Rgi1d66U
+	 zkLJI2jbu5xXvGwGUD8mz6V+6eqzicBTjawuRRljctphJ44a5cfQaamr4YGrDaX/zh
+	 IbgvB4IO9782E6ZkMrskDL8DfFasy49Ius/Vc5afr1384a7Ak3SKFeTCK94J8odFfT
+	 MaHtfcFW9mpHPKOXqE35SDPO05JukSUMC0SYTE1DD/M4FAoBDI7at285cpbtMDTdO+
+	 RFuFFL23OJDcA==
+Date: Thu, 5 Dec 2024 09:10:25 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	open-iscsi@googlegroups.com, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+Message-ID: <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ya6wyfjwhlqhd5wu"
+Content-Disposition: inline
+In-Reply-To: <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
 
-On Thu, 05 Dec 2024, Takashi Iwai <tiwai@suse.de> wrote:
-> The table is sorted in the ID number order.  Could you put it at 
-> the right position? 
- 
-Yes and I will also clear the format bit as you suggested
-for the other patch.
 
-Will wait a few days in case others have more feedback
-then I will send a v2.
+--ya6wyfjwhlqhd5wu
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+MIME-Version: 1.0
 
-Many thanks,
-Adrian
+On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>=20
+> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
+> Remvoe the unnecessary wrapper.
+>=20
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+>  drivers/gpio/gpio-sim.c | 7 +------
+
+I think if you move this patch before patch #4 in your series, you only
+have to touch this file once.
+
+Best regards
+Uwe
+
+--ya6wyfjwhlqhd5wu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRX+8ACgkQj4D7WH0S
+/k6rewf+KsN2Irmv5Td5FMMxi+83vZgDfjxwj+eoLUlf72jMXWx89mPqbHAWyq2W
+DVJONM/HQoPhG9ILJDxvkaVLetBPRY7QPBSVY8bMUaDT9ljXmnbxed/NGNngiATy
+r1JyYMzf3dqlGSgJl6LhRpugodssXbGiDv8oVNRtLIHFd5MLH+xlUr0CFu0KsPSd
+E4NADLSFAkpDIDer3BYt19RGkXNgCrbqzP8rfGN50Q9t+xuS58qoK2oY5+jzT11a
+qccGFlDCzdaHWCVsLHVwXYWN2L5mxrrm09Dv8aS/0TcFMueK4nsasVRpUAplw+Gd
+j791qtNhdb4QQUhbiOamc5BP/g6LvQ==
+=1ED3
+-----END PGP SIGNATURE-----
+
+--ya6wyfjwhlqhd5wu--
