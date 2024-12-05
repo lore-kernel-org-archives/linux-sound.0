@@ -1,114 +1,66 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B0A11187
-	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 08:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+Received: from cmccmta3.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56344202C20;
+	Thu,  5 Dec 2024 09:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=111.22.67.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733388033; cv=none; b=ucBeVXqTiPJJ4tyttG+mUPfE6Sfq1d7u4RbZXK37Bv0IJz4OwpEcpUr3VhfLzZBv14fzSEYo9HxK65QL7AAPyOW/MwLQ08b34qivq/0afjA6h18Gmgo+gtWlXBAiZ1+9E1D3YaT8lq0+MsP/C5nP0iqdRKeWDo8Ezj5+P/hpuUQ=
+	t=1733392539; cv=none; b=Uzf1DSiSaaq1HC4z7FN/3l/BaWkl5qoRxthNxdCXKHsGPgWQ2y2ndg1zUxcGP8kQmgY4nOTBU99FVaNeA7aC5BejhkxvvD32nB2BAqZj3PbGrQjOPwBwjeZicy6mzz6Akuc9MlnUglNB4tWFGfIA0vXjY1qKqZmI5E7MYE+RApU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733388033; c=relaxed/simple;
-	bh=VXAHZgsFwE3gVMNHVJ2Z6U10+Ur4Mnaa+RQ8u3Z94VM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YH6EY5WdmmGKlvcd/WL04XXjxHLJVFx5qXjnNtmfe/zbL94kyMQNKnbpWq26haC7colbY+d2cW5Qxe041AQPp/VqCCxAD2h/3ckhMWbATfAueXA4HII1PQY05co4hxCW4yYhSoRTD30AmJOy7lWi88Z7NtG7j28EwhE7b4qVGvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qoSi1QZ4; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qoSi1QZ4"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43499332f7aso904925e9.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 00:40:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733388029; x=1733992829; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+OmUztXtNWohIcewPdYnom5QGJ43Ux3+mIBMeP3r1+s=;
-        b=qoSi1QZ4WxgekJpcOJsJ6ILzm0WtBdDpLJqcDA4ZAPMN50JLwdtYNz0mR7fSnwkEwk
-         ibfd7aG+qh3MOrmI2TiaeKSTKpmOV7KBVt7acaUSno3IV2Q+NT2qqbVs9mxMPFv98UAd
-         3nnUXSnEBzvGawHet/SgEipOgGbbenVWwmOzAd48dTR2MP5TolLucl4KoXmmIMgwsqOV
-         QU+LtzKbW68CQwqrpfQBF3+cQ8zD3dwfJcI3J5RQmg0wnumViv67FcHnl+C32Oo9pkqY
-         Rri7gRWAZJAoLUB6sNyyYURpdh/XPAEzSKUeLxCVUj8RXNfcb2PZrystVTKE02HwK6UY
-         46BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733388029; x=1733992829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+OmUztXtNWohIcewPdYnom5QGJ43Ux3+mIBMeP3r1+s=;
-        b=AW+njrP281dd2kFrQd88heIB9qjCxkeZsTHEApAp3mN3avup41JyhYKPbUxyFqMeit
-         0aykUAQiD3oBBfp0/jNa0IRWG/oCza7rVFNVn7P/A73K4A6NZKE8f2/JysgMoKAR21vB
-         w+sukT8w7sPt0YbvgT283V2h4GxXv9DAESlU1+FnqG+sQBGL0rDWiN4ZUXyLnD08pvhx
-         nb6lqVvDoaF8WWXQTsNFjhfOTO8e7WmAj9mSnfoazflnd7sd3QTGtSKeYWyWPYWRrXXw
-         gcz8qUUAFRtSY1LXTp4/f4Xb9wyGJoeVh4TsiaUysMt7hPxAVQ059FlfBm/VRCL5KgP8
-         PkFw==
-X-Forwarded-Encrypted: i=1; AJvYcCVd9MaDn57pxfkFtZj+skU3LQ7PcgR/y00MObLUZLg8YaspMzewZx0zQVpWXuX6hBAh9d0xKyoa83f50w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+xfDG+Sv2YTmrT7g+DaFMayqdsaBRcB8wsNoyIUMjhjnmL8/V
-	Z3IG0Dq7LD0kA+YM/Vjn9PETg9l0WsseB5YDaD+FZTQhN/ympWd2KlCsuHZDnDv9cFVUiwxa+Bo
-	ILDU=
-X-Gm-Gg: ASbGnctfU0f1lRKDbDzrOeHewa/GDrecKgJ1CeErx2ebGV7uoVHvdS/OMljnEw1gCqj
-	5BmowaAKR5Eip8rf6T02qkHM50c70Z2sbWoBU7BAqMVgxTBm9bGfZkZg26nPXbSSVEZXSZtCiZ/
-	0CKLHOApBrpTkM2xDCtRRaCbtuHn4/owuJGKuH68kxRXRzf9RF6psf1TPTW8oeeR859PlIGAx5K
-	r6Ll9hTXQcycIynfPLWliG9FKd8KQ27xjL516BtrjXme9mFXLIIpQMXwJEcoLE8
-X-Google-Smtp-Source: AGHT+IGSkYgvAgwhu7WSyQqH3Y+yt4UQ2jGt9iuwru2727ErGBAZvYMWIUUnfNAP+kzH0fju4MoCbQ==
-X-Received: by 2002:a05:600c:a07:b0:42c:aeee:80a with SMTP id 5b1f17b1804b1-434d11c7b9dmr31086225e9.7.1733388029090;
-        Thu, 05 Dec 2024 00:40:29 -0800 (PST)
-Received: from krzk-bin.. ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0dab9esm15935965e9.22.2024.12.05.00.40.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 00:40:28 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
+	s=arc-20240116; t=1733392539; c=relaxed/simple;
+	bh=iRjDAgRpjerTWwbcREdXfoOcXRzk3JFsd6ZpFcFRZ2c=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=u32k+Jr2AyUcNMQG90KA04gVb8m+VdBxsgSYi2kN/PJLlaN4bB2kCGSFGiSzntN/1z1VUFa27RCsrZ/OLjk77yLosN2HLl0ClIuxhNHw5NuD3iN447VhGHgbwdMk/fSsU9pBFSQcmy3esR3ixiC9BKZCRiel5Rglqy0ldANwIqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com; spf=pass smtp.mailfrom=cmss.chinamobile.com; arc=none smtp.client-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app09-12009 (RichMail) with SMTP id 2ee9675177bc2f7-dc30f;
+	Thu, 05 Dec 2024 17:51:58 +0800 (CST)
+X-RM-TRANSID:2ee9675177bc2f7-dc30f
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from ubuntu.localdomain (unknown[10.55.1.70])
+	by rmsmtp-syy-appsvr09-12009 (RichMail) with SMTP id 2ee9675177bd835-9f8b7;
+	Thu, 05 Dec 2024 17:51:58 +0800 (CST)
+X-RM-TRANSID:2ee9675177bd835-9f8b7
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
+	zhujun2@cmss.chinamobile.com,
 	linux-sound@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: [PATCH 2/2] ASoC: codecs: wcd9335: Drop number of DAIs from the header
-Date: Thu,  5 Dec 2024 09:40:21 +0100
-Message-ID: <20241205084021.35610-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
-References: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] ALSA: lola: Fix typo in lola_clock.c
+Date: Thu,  5 Dec 2024 01:51:56 -0800
+Message-Id: <20241205095156.17837-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Number of DAIs in the codec is not really a binding constant, because it
-could grow, e.g. when we implement missing features.
+The word 'ajustement' is wrong, so fix it.
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
+ sound/pci/lola/lola_clock.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>
----
- include/dt-bindings/sound/qcom,wcd9335.h | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/include/dt-bindings/sound/qcom,wcd9335.h b/include/dt-bindings/sound/qcom,wcd9335.h
-index f5e9f1db091e..4fc68aeb9e04 100644
---- a/include/dt-bindings/sound/qcom,wcd9335.h
-+++ b/include/dt-bindings/sound/qcom,wcd9335.h
-@@ -10,6 +10,5 @@
- #define AIF3_PB                 4
- #define AIF3_CAP                5
- #define AIF4_PB                 6
--#define NUM_CODEC_DAIS          7
+diff --git a/sound/pci/lola/lola_clock.c b/sound/pci/lola/lola_clock.c
+index cafd30e30..2e73fbf33 100644
+--- a/sound/pci/lola/lola_clock.c
++++ b/sound/pci/lola/lola_clock.c
+@@ -35,7 +35,7 @@ unsigned int lola_sample_rate_convert(unsigned int coded)
+ 	default:        return 0;   /* error */
+ 	}
  
- #endif
+-	/* ajustement */
++	/* adjustement */
+ 	switch (coded & 0x60) {
+ 	case (0 << 5):    break;
+ 	case (1 << 5):    freq = (freq * 999) / 1000; break;
 -- 
-2.43.0
+2.17.1
+
+
 
