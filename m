@@ -1,93 +1,135 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E827D218852;
-	Thu,  5 Dec 2024 13:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1827218852;
+	Thu,  5 Dec 2024 13:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733406019; cv=none; b=EsXgpFbn96LxA02Sg8E4vs/UTzJCjiHnV3jQztlxQ4AKgNebbTD2XAHlED3scTYlPfZongzL7BnU8PRIrbgZ7Fo8HNYe4YT9ePnn8+LjC90CIoBDrx7QJBe32uoAOJDpM6dqNccMLngApzxmyyAMF3xXmIXasjq7TReLOybHn0Y=
+	t=1733406032; cv=none; b=QTjGe6lBqts+W9Z1NLRf7LuWPaYG3/Kf0GBsFbWRzbFMi6NPqVQIgQe+QyEPlGCHRmGyMx8grIzXbVF1V4IOcLWogsY0TAA95iSwXNaOmQHoY8IqezsFmOGCF0otDdQcaITijIYR8DodJHSSJ3pP9iDir13btAgF8oi3l8xpIWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733406019; c=relaxed/simple;
-	bh=cnq3gp7YX1P7Bynt0s2lNzZknHh7JdWJnkN+5mfVzog=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sACYdjYL+0aLZWKYiVWy+W1GBxoX2EZ2N+iUoecUPy1ZFMeLewFNj4t9DDhlyMT6+mVpcKrKLJECSKP6r708ZHChrGcHMqDqDuPBH8IN5n+kVHnWTRnP8IFvo5plNkBlqVCxQdVLLyHm4e+s+0rFAhuiIX1gqJyxj4ehUxr5A3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CNIzS7nX; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1733406032; c=relaxed/simple;
+	bh=ZGvXMjW88upxx0fPmx36SeRsaX1DIzCQfcIrjGdk4ZM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CZ+Qsf/x6E8hvCDey/y25qwf6C7iHxyDbP/BsHYKScw9JCSTcEqbvX3ETmSx4Kxh3lJ0uryNY5SCwl7ieGYvE7cigY9S5d8v37S9C2rAGd+jia4E8lIK9qfQ/M3J/j4B9Q1ChNRlY6RyaVk06/x4NeTj26L+1IR5pM3EPA7XvPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QgKfpS75; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GCoWUgHg; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QgKfpS75; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GCoWUgHg; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CNIzS7nX"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B570Hl5016009;
-	Thu, 5 Dec 2024 07:39:58 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=1uz8aCNvQqAbJ7vo9y
-	V65KiEmDTUBsdcZ7iQRZ0H5H0=; b=CNIzS7nXO8FAChiIB0E+7d/iLvPAupUh6w
-	Vp6kmgMiDVpMmvmpzulZu2Mh14C8ErExJGkddHdT5z82nfPQeuMXYfT8xOvku1bC
-	xwfVXdhOlGOYM+vTsF9TeXaOs2peuQ5jM/Tgi3qYYa0DE5FR4REv4sJeCZVTU83Z
-	4JkZeT4XOR7gNL6LjhAZiqgu4vsFU7OPghWjqCcpzmmS290B53FDomCMWdR3Fsrm
-	dCI0Xj/T9goq6S4ythHGQcnNxqffZYbSEcdDJffVRoL37VLcdOvhJQVaoBqlXphI
-	ucPDbvM71mWXoU4qgDIOlbwDjwiueohoRWXVeaAw8FohYE+LWS2g==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4381022fun-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 07:39:58 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 5 Dec
- 2024 13:39:56 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Thu, 5 Dec 2024 13:39:56 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 3B94E820247;
-	Thu,  5 Dec 2024 13:39:56 +0000 (UTC)
-Date: Thu, 5 Dec 2024 13:39:55 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Andrew Davis <afd@ti.com>
-CC: Lars-Peter Clausen <lars@metafoo.de>,
-        Nuno =?iso-8859-1?Q?S=E1?=
-	<nuno.sa@analog.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>,
-        Marek Vasut <marex@denx.de>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 21/21] ASoC: wm8985: Remove use of i2c_match_id()
-Message-ID: <Z1GtKyYLneBoaKOO@opensource.cirrus.com>
-References: <20241203200001.197295-1-afd@ti.com>
- <20241203200001.197295-21-afd@ti.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QgKfpS75";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GCoWUgHg";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QgKfpS75";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GCoWUgHg"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1E2D91F38C;
+	Thu,  5 Dec 2024 13:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733406029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nU4zye91tjThTyXwrSipPttrgEtAJSfGaC89apsk4hE=;
+	b=QgKfpS75omFkpHfkQaP5YtnQp8Bv+5otu5KCSFmxb2rsZjbJ85hIOs6ti34XkU8lXD5JKp
+	1OozwiCADaX82qgWuB0Cmv/njXZEt2jH4Mje6+Pic4mS5T4UdDxxXyI7QezvQxDVdZ3SBh
+	fa6Cq6h/73l7z9thi60ozaUHofLjemk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733406029;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nU4zye91tjThTyXwrSipPttrgEtAJSfGaC89apsk4hE=;
+	b=GCoWUgHgvn2vsuYsbuZm0pjtasstKBobaPSgijy1AfVCqVr4PlIFZLA4ugubBXwsbPV6tI
+	SoQqt0JmBPQhdbCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733406029; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nU4zye91tjThTyXwrSipPttrgEtAJSfGaC89apsk4hE=;
+	b=QgKfpS75omFkpHfkQaP5YtnQp8Bv+5otu5KCSFmxb2rsZjbJ85hIOs6ti34XkU8lXD5JKp
+	1OozwiCADaX82qgWuB0Cmv/njXZEt2jH4Mje6+Pic4mS5T4UdDxxXyI7QezvQxDVdZ3SBh
+	fa6Cq6h/73l7z9thi60ozaUHofLjemk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733406029;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nU4zye91tjThTyXwrSipPttrgEtAJSfGaC89apsk4hE=;
+	b=GCoWUgHgvn2vsuYsbuZm0pjtasstKBobaPSgijy1AfVCqVr4PlIFZLA4ugubBXwsbPV6tI
+	SoQqt0JmBPQhdbCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C83B5138A5;
+	Thu,  5 Dec 2024 13:40:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id QdcFL0ytUWfTTAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 05 Dec 2024 13:40:28 +0000
+Date: Thu, 05 Dec 2024 14:40:28 +0100
+Message-ID: <87plm6tfhv.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Colin Ian King <colin.i.king@gmail.com>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	linux-sound@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] ALSA: hda/realtek: Fix spelling mistake "Firelfy" -> "Firefly"
+In-Reply-To: <20241205102833.476190-1-colin.i.king@gmail.com>
+References: <20241205102833.476190-1-colin.i.king@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241203200001.197295-21-afd@ti.com>
-X-Proofpoint-GUID: kIHI8rp5YJNdP-uJW8WjKyZAsOX8hcK0
-X-Proofpoint-ORIG-GUID: kIHI8rp5YJNdP-uJW8WjKyZAsOX8hcK0
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -1.79
+X-Spamd-Result: default: False [-1.79 / 50.00];
+	BAYES_HAM(-2.99)[99.96%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, Dec 03, 2024 at 02:00:01PM -0600, Andrew Davis wrote:
-> The function i2c_match_id() is used to fetch the matching ID from
-> the i2c_device_id table. This is often used to then retrieve the
-> matching driver_data. This can be done in one step with the helper
-> i2c_get_match_data().
+On Thu, 05 Dec 2024 11:28:33 +0100,
+Colin Ian King wrote:
 > 
-> This helper has a couple other benefits:
->  * It doesn't need the i2c_device_id passed in so we do not need
->    to have that forward declared, allowing us to remove those or
->    move the i2c_device_id table down to its more natural spot
->    with the other module info.
->  * It also checks for device match data, which allows for OF and
->    ACPI based probing. That means we do not have to manually check
->    those first and can remove those checks.
+> There is a spelling mistake in a literal string in the alc269_fixup_tbl
+> quirk table. Fix it.
 > 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
+> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
 
-Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Thanks, applied now.
 
-Thanks,
-Charles
+
+Takashi
