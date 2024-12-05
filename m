@@ -1,100 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE9219342D;
-	Thu,  5 Dec 2024 06:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450852F56;
+	Thu,  5 Dec 2024 07:12:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733381428; cv=none; b=tpoJTRVE1HhhUle2RtM4BVxfirXyD3VBk8jnsa3Th75EuQE447N7MfHcU7PrGEhqIWFuMDVpzDn4v4O59VFrfvZfSLPO6hYdxENEhL9oh9sTGs3d4ztYVBnZ09SY/Z56jJ+PgMuY7afIrk9Ywj7gsIZaqjICtbY4G5GH8YTw7nk=
+	t=1733382723; cv=none; b=kkw9BEJyoUpUIZMh2jHQu1j6Sr4V1NvGWashOmNcYZBi8Z9AXRJ2fZW0q8HfYphl0X3Y7zRvVZKlRcJkgjkh7Do2KBSxKDI7d3Pw/gL3QhAUkCHHjKHFPxlBwpuus9EndMleEbZ/ScHnAyIRN6NJu6lM3nGZigyc2t99LTzb9WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733381428; c=relaxed/simple;
-	bh=Iubyq5JqGvti2YlpRaXKl08KsIDXsA26DuLrgdawilg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EbIqyJgB+A0uGVtDHMdKHIuR5CX5Fu6q4Q6JReAcvd+sqioU7eaoUOOxDGjL+d7m/Umi5vzhpaux2dEE23agLVmfKf4Hd2HLZ53QvC26uUgrtgRZrOY/Ga+P2m0OJHRBVDUkRBv/g/VWq2dL2y5ol474nsdn1sYnWenW/Xwn/58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2ZdYOfbI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733382723; c=relaxed/simple;
+	bh=0bpD33XRjFRne0V6W5YWFwG6BOmSOn0iyQQ+B3LQJmw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bCpgz8MEETKGqU3Z4C48gR22udVDh3qMD3MzLn3QwFMroXe8b0rWSZAmlm5FZeunhPMBeXDXyF99gGnv0MBnmnR3Odyn3Y3WjKt5qcor5rujFm0b4pug3EggdjS9+snenrQBjBLZ5VunLjlmcyPXqubNVqFWYc7doVeGtFOO3v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=WBOcK7kV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iXQxUYbR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=15Wsd5K5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=p5Nhgzku; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2ZdYOfbI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3754FC4CED6;
-	Thu,  5 Dec 2024 06:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1733381427;
-	bh=Iubyq5JqGvti2YlpRaXKl08KsIDXsA26DuLrgdawilg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2ZdYOfbIhdDKBQk9TjllzwXIBvFJgoJtROg8BMzElHezZ88u0b8q4zu+2GnMKvjFz
-	 kSdeUgbR9bskivnLAGx1LeG1lZZCDsaQW2vsleUCfhMdvV71QElhmv289xjm9GG7R7
-	 o/nX161nVerBvtePEZTkaTkAnxZMPhl2J9hRmTDM=
-Date: Thu, 5 Dec 2024 07:50:24 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Takashi Iwai <tiwai@suse.de>, srinivas.kandagatla@linaro.org,
-	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
-	lgirdwood@gmail.com, krzk+dt@kernel.org, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-Message-ID: <2024120523-rifling-skipping-234c@gregkh>
-References: <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <2024120320-recant-tameness-6c81@gregkh>
- <58a561d6-dc10-484e-8214-5e03c4aef66d@intel.com>
- <f9eb5aa5-0741-4198-aeee-beec3ca270f3@quicinc.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="WBOcK7kV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iXQxUYbR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="15Wsd5K5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="p5Nhgzku"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id E361B1F7A3;
+	Thu,  5 Dec 2024 07:11:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733382719; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzmsmkeW9wwzcRCDWmqz9BsmyNkQRIT1C9+PvHmpY6I=;
+	b=WBOcK7kVC5I2v2s3zWem/vpjihVz363aIPUUj/i7P9zZyQAhn1j9dhH/HffLgC0e11g1GD
+	gD0BaioOH/GCbkJ3kk4b35mSe8IFi79ZNf+x0XvdgvvUA0pKwij3GMym/CcdyWdauxqv1C
+	jByaBUGpUydL0YO8W5ti7CZISWx/LjA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733382719;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzmsmkeW9wwzcRCDWmqz9BsmyNkQRIT1C9+PvHmpY6I=;
+	b=iXQxUYbRpBYq61M1AT0UosCTTjTmN0UFDQBNAtlIzED9CalfaCpvJwpKOowzl9uqMs8UNJ
+	wTFu+HDuntMKg+Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733382718; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzmsmkeW9wwzcRCDWmqz9BsmyNkQRIT1C9+PvHmpY6I=;
+	b=15Wsd5K55gTDbT1HTgQk1imYIhO8CbcOldnshLZodIBb68fy/MbPLwcJuMmzoyRSLbJ60C
+	YD2qFVgVVF7cbLBv07rNbArXLJJBaMN9hSqiz24Z4DA1iDgx3suN78EXn1gByfAntvW3ts
+	nNay33wXp0PV3x9T+IHguODfgJQZzpM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733382718;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dzmsmkeW9wwzcRCDWmqz9BsmyNkQRIT1C9+PvHmpY6I=;
+	b=p5NhgzkuwqsTQUGsacNoGwup+CkUotaHIT2hDTQsgf77ruT30tJxCUL3iOV3Fc2IDOV9Gu
+	1/pCR9OOtQI6xMBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2FE5132EB;
+	Thu,  5 Dec 2024 07:11:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LjRqKj5SUWcWWQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 05 Dec 2024 07:11:58 +0000
+Date: Thu, 05 Dec 2024 08:11:58 +0100
+Message-ID: <87r06mvc1t.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 1/2] sound: usb: enable DSD output for ddHiFi TC44C
+In-Reply-To: <20241204151954.658897-1-adrian.ratiu@collabora.com>
+References: <20241204151954.658897-1-adrian.ratiu@collabora.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f9eb5aa5-0741-4198-aeee-beec3ca270f3@quicinc.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Wed, Dec 04, 2024 at 05:15:02PM -0800, Wesley Cheng wrote:
+On Wed, 04 Dec 2024 16:19:53 +0100,
+Adrian Ratiu wrote:
 > 
-> On 12/4/2024 1:14 PM, Cezary Rojewski wrote:
-> > On 2024-12-03 5:57 PM, Greg KH wrote:
-> >> On Tue, Dec 03, 2024 at 05:17:48PM +0100, Cezary Rojewski wrote:
-> >>> On 2024-12-01 4:14 AM, Pierre-Louis Bossart wrote:
-> >>>> Sorry to chime in late, I only look at email occasionally.
-> >
-> > ...
-> >
-> >>>>> I believe Amadeusz was still against having the two card design, and wants the routing to automatically happen when playback happens on the sound card created by the USB SND layer.  However, even with that kind of implementation, the major pieces brought in by this series should still be relevant, ie soc-usb and the vendor offload driver.  The only thing that would really change is adding a path from the USB SND PCM ops to interact with the ASoC entities.  Complexity-wise, this would obviously have a good amount of changes to the USB SND/ASoC core drivers.  Some things I can think of that we'd need to introduce:
-> >>>>
-> >>>> The notion of two cards was agreed inside Intel as far back as 2018, when Rakesh first looked at USB offload.
-> >>>
-> >>>
-> >>> Well, I believe a lot has changed since then, not sure if USB Audio Offload
-> >>> (UAOL) was even stable on the Windows solution back then. Obviously we want
-> >>> to incorporate what we have learned during all that time into our solution
-> >>> before it lands on upstream.
-> >>
-> >> Great, can you help review this series please?
-> >
-> > Hi Greg,
-> >
-> > This series is large and I'd suggest to split it up, what I touched on in my recent reply [1]. Please correct me if I'm wrong, but you mostly care about drivers/usb/* part. If so, the existing set could be split into USB-changes series, ALSA/ASoC-framework series and a third, holding bulk of QCOM-specific patches. Me and my team care mostly about the sound/* part and we don't hold much expertise in USB. I believe Mathias covers this part well though.
-> >
+> This is a UAC 2 DAC capable of raw DSD on intf 2 alt 4:
 > 
-> I'm fine to split this into 3 different series if that helps with the reviews.  I was always under the impression that when we upstream things, we need to have an end to end use case within the same series, so that folks get the full picture.  I've gotten feedback where people were confused they couldn't find/follow the code flow, albeit those series were much much smaller.  If Greg is ok with it, I can split it up and have a link reference to the other series.
+> Bus 007 Device 004: ID 262a:9302 SAVITECH Corp. TC44C
+> Device Descriptor:
+>   bLength                18
+>   bDescriptorType         1
+>   bcdUSB               2.00
+>   bDeviceClass          239 Miscellaneous Device
+>   bDeviceSubClass         2 [unknown]
+>   bDeviceProtocol         1 Interface Association
+>   bMaxPacketSize0        64
+>   idVendor           0x262a SAVITECH Corp.
+>   idProduct          0x9302 TC44C
+>   bcdDevice            0.01
+>   iManufacturer           1 DDHIFI
+>   iProduct                2 TC44C
+>   iSerial                 6 5000000001
+> .......
+>     Interface Descriptor:
+>       bLength                 9
+>       bDescriptorType         4
+>       bInterfaceNumber        2
+>       bAlternateSetting       4
+>       bNumEndpoints           2
+>       bInterfaceClass         1 Audio
+>       bInterfaceSubClass      2 Streaming
+>       bInterfaceProtocol      32
+>       iInterface              0
+> 	AudioStreaming Interface Descriptor:
+>           bLength                16
+>           bDescriptorType        36
+>           bDescriptorSubtype     1 (AS_GENERAL)
+>           bTerminalLink          3
+>           bmControls             0x00
+>           bFormatType            1
+>           bmFormats              0x80000000
+>           bNrChannels            2
+>           bmChannelConfig        0x00000000
+>           iChannelNames          0
+> .......
+> 
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+>  sound/usb/quirks.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index 00101875d9a8..4897d7de7529 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -2265,6 +2265,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+>  		   QUIRK_FLAG_ITF_USB_DSD_DAC | QUIRK_FLAG_CTL_MSG_DELAY),
+>  	DEVICE_FLG(0x154e, 0x300b, /* Marantz SA-KI RUBY / SA-12 */
+>  		   QUIRK_FLAG_DSD_RAW),
+> +	DEVICE_FLG(0x262a, 0x9302, /* ddHiFi TC44C */
+> +		   QUIRK_FLAG_DSD_RAW),
+>  	DEVICE_FLG(0x154e, 0x500e, /* Denon DN-X1600 */
+>  		   QUIRK_FLAG_IGNORE_CLOCK_SOURCE),
+>  	DEVICE_FLG(0x1686, 0x00dd, /* Zoom R16/24 */
 
-Yes, a full patch series is best as adding infrastructure in a
-stand-alone series that no one uses isn't going to work well.
+The table is sorted in the ID number order.
+Could you put it at the right position?
 
-> I was able to reorganize the list a bit to what you recommended.  So the current layout is xHCI changes first, followed by the USB ALSA and ASoC changes, and lastly the QCOM/vendor specific modifications.
-
-That sounds reasonable, hopefully it lets others review it easier.
 
 thanks,
 
-greg k-h
+Takashi
