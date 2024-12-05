@@ -1,112 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC7E81D63C7;
-	Thu,  5 Dec 2024 10:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857D6206F1B
+	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 10:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733395320; cv=none; b=Q+bdYvbVHfK5izp5vVwzXUbLwdp206/jX08VmwRn1JljuzKBzAby/0d3rOe9gDEUJtW7pkCYr/3nfq1j4spwfYmrfgTy9o27twMsPuDkggzVRuKjjIZA9/xEO5IPZ/NOF0PhqqpCF4RD+x/CNitcKj+9QM/JfgPtsN+AuN3n8Wo=
+	t=1733395333; cv=none; b=F/bLU5yNNrouAykIuHofPmiidQinZMZY5CQUgz4ASE1W0il3oPIaFGkCOnNTOtvqA+lnDeelibdIkKqwsWz14s1X8KDJVi9M1R/nqaRKIxYtXswJ6QXMepIW5pI3d2N9QUjMGotN9ZMD44fFnurAmfacd681vV8gMIOdtGGIEgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733395320; c=relaxed/simple;
-	bh=NZpLIj+aF6yV18wyiV+hZZsvH1NLZeOx7bLmfti8dgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCI9FrCK1VolvGDDZF4jeniyUIGQJAs2fyqalzv26BVCawgEzBN9F3DsziPVUT5euLx1agvK+uiPgDTVVwnZ29k/wvMXcShqas862dywiD+B9FtuQyO+2ttuWcKzTBadFdtqHkmga2CqUnXArfKX713jAIfxJWoEEBY2Xx0ko5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VnMLmm3t; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733395333; c=relaxed/simple;
+	bh=lBjSO4XZQcFnEk/bAzX1s58M9esiJswkbspXoeJzI6s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OQwjewiixgU9EqkDbQNIxGjDgaM3irvKtZyg8znj7/9tE6Db2gf39oPojIDdHzEFLoUQVp6C1sxtJ023RshGtV/sollmG7QQQHmVlyp9fKDesQUIwOo1xh4B6oIIUCJ5r4wVG0tUFFuhQQZwruxuV7I3WkuBxJolYttOHlWkiBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L7j8QVgD; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VnMLmm3t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73D7C4CED1;
-	Thu,  5 Dec 2024 10:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733395319;
-	bh=NZpLIj+aF6yV18wyiV+hZZsvH1NLZeOx7bLmfti8dgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VnMLmm3tlYwB1Ys4r5Vn/PjbwurVtHQJbu2Sp9+upCl8vyYMiKZJtRNZi9p41s3dd
-	 +QwXcCDWaVNsFDd7tYDQKJycBt3wIkC592WOq5c2OCWOox4WrIqAu/bKBeyRsi9N93
-	 T1aLVwyzqHihZ94hruw1akFGxr+cDy3yHC2zrIbMFU3LuOjZrbl8eYf2Xf9teq8jxz
-	 2r20V8p90hvV6R/o7HM9bEiRQkiL/bJUld2qbg2DALga5ZVfRhhR8QSVihRYtnbPZN
-	 Wqeewe7ZalHOUg6pZrwnuZb9WoFgbLJW6wGDJL2UxBTqsu9BZIZAp8fWpe9+R5mTX7
-	 45eztKwfLgngQ==
-Date: Thu, 5 Dec 2024 11:41:56 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	open-iscsi@googlegroups.com, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-Message-ID: <h4pndknfwvck5yjnbs5rdmrxkqeksfxldwj4qbjqyvdzs5cjbf@i4afsjsg3obw>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L7j8QVgD"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385e0dadaaaso25134f8f.2
+        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 02:42:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733395330; x=1734000130; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FnoZGxzHG6LZDyvVjX+CssXgRHCJAKynJ1wSQcpNHJ0=;
+        b=L7j8QVgD4ePArRob4XZ4StNT6RNHNYc2feivBhj+XBFzzGbkDnbHBju+nZNkc9U7uc
+         5SuthXhG2KGt/HIRqRzaFb25EySmrsU2F+v5PiwEiuBo2OMhkAv+1iydzsLLrTQZkqyS
+         M8dMKMopfh6Xb5fFKHNqOmkG2Vz0UatQidUOha3Yr8fEmtPr8iCTU7FxYBum7K7La3mN
+         MAf5qGYyxQQ8HDQ8WEEvvxDDBSxiQx6k2+R/xJOWK0D5L/Iz9Ps06d2Y/zwsG9UXceLN
+         d19kNgmfVUFkCQ3U9KH2MmjtKmce/EKuYOtaZsxgiqknMoyChAzlNBOch9Itj1VaydyQ
+         WT1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733395330; x=1734000130;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FnoZGxzHG6LZDyvVjX+CssXgRHCJAKynJ1wSQcpNHJ0=;
+        b=sspZm+ykNIOD65do3oDdWGhyiL2e7DcgEzg35Lzjv8TFFAT8ymUPvfEKRcKf5rpvai
+         LHJGTbqJ3JlyIUh2hLxzBGMNunZcDRwyyQ+AojPt0+3+Nmk4kjX0Fhyow1EFbE44LgWq
+         iLf3HDl0HO6tgt3zibGwZE9Ad/WrSR1S2euYgY17En56AijQ7zUADJOBNg8ej09kEolc
+         XJssNdFy6Gpim4J6NZjvQQRON5VbWZMHkj6Frb15OQR+ChLzqn+9o15HjYVwGVAGOPwy
+         9hU6cvd+btz0C9R0agQMA6SK2gC8l/nwOSBWog9RNlJhYX+RuTbKs5wDgQcw9IRSU4qV
+         tLpw==
+X-Gm-Message-State: AOJu0Yyr0IIaOWzkG0vvuAO+KE+GZ08E7LiEbBvRKBF7BuQGrmDgrWSd
+	+6melBUR/Tj8hfHMralPSNt2QsiD2BEKfOtvq1iWS3BB39nqVt33zSMXP4kDAOA=
+X-Gm-Gg: ASbGncvkI60JAoZ7laIDaw9H1yMDBWvh0s+0gbHciIHUlkVyEdPLvAc7ZaexNLrEIiT
+	sYX8Mz+PG6LyYHS0VNry27YfSsfasbh4ZfFfQ65bmnqb8ytKtvd+bgCjIZ+DhCrC0YZvxBbFL/a
+	XvKL3956h8H0RSMOm+9pXQVrG1BzjY1gco4C2Cy1mNJ3PWGZRM0KKDnzarbfh7kcw6z7NTpbpzF
+	oEFDO4b2AckJ6OcfrtmqtpEAMgggQyg7nyLt44T13Cf6xsQKY3qh9sAUgI2LLPhKA==
+X-Google-Smtp-Source: AGHT+IGz3GjcyfBhQ5HlqLVmhmG7Qtmhnbj9BaPJEz/QzVaC6xVbnrbhQALk4UuX4nKmsjVBEJ+aKg==
+X-Received: by 2002:a5d:6d82:0:b0:385:e8e7:d0ac with SMTP id ffacd0b85a97d-385fde34d9bmr2947632f8f.13.1733395329824;
+        Thu, 05 Dec 2024 02:42:09 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861ecf406csm1662701f8f.3.2024.12.05.02.42.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 02:42:09 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Magnus Damm <magnus.damm@gmail.com>, 
+ Heiko Stuebner <heiko@sntech.de>, 
+ Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
+ Nicolin Chen <nicoleotsuka@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, 
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, Adam Ford <aford173@gmail.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-mips@vger.kernel.org, alsa-devel@alsa-project.org, 
+ linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org
+In-Reply-To: <cover.1727438777.git.geert+renesas@glider.be>
+References: <cover.1727438777.git.geert+renesas@glider.be>
+Subject: Re: (subset) [PATCH treewide 00/11] ASoC: Clean up
+ {hp,mic}-det-gpio handling
+Message-Id: <173339532775.70936.4554643874403091214.b4-ty@linaro.org>
+Date: Thu, 05 Dec 2024 11:42:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7cmlxza5fdv22slz"
-Content-Disposition: inline
-In-Reply-To: <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
 
---7cmlxza5fdv22slz
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-MIME-Version: 1.0
+On Fri, 27 Sep 2024 14:42:15 +0200, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> The "gpio" suffix for GPIO consumers was deprecated a while ago, in
+> favor of the "gpios" suffix.  However, there are still several users of
+> the "hp-det-gpio" and "mic-det-gpio" properties, in DT bindings,
+> drivers, and DT source files.
+> 
+> [...]
 
-On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
-> diff --git a/arch/sparc/kernel/vio.c b/arch/sparc/kernel/vio.c
-> index 07933d75ac815160a2580dce39fde7653a9502e1..1a1a9d6b8f2e8dfedefafde84=
-6315a06a167fbfb 100644
-> --- a/arch/sparc/kernel/vio.c
-> +++ b/arch/sparc/kernel/vio.c
-> @@ -419,13 +419,13 @@ struct vio_remove_node_data {
->  	u64 node;
->  };
-> =20
-> -static int vio_md_node_match(struct device *dev, void *arg)
-> +static int vio_md_node_match(struct device *dev, const void *arg)
->  {
->  	struct vio_dev *vdev =3D to_vio_dev(dev);
-> -	struct vio_remove_node_data *node_data;
-> +	const struct vio_remove_node_data *node_data;
->  	u64 node;
-> =20
-> -	node_data =3D (struct vio_remove_node_data *)arg;
-> +	node_data =3D (const struct vio_remove_node_data *)arg;
+Applied, thanks!
 
-You can just drop the cast here. But maybe that is better be done i a
-separate change.
+[03/11] ARM: dts: marvell: mmp2-olpc-xo-1-75: Switch to {hp,mic}-det-gpios
+        https://git.kernel.org/krzk/linux-dt/c/62f95d8a4920706e94759a8f5e34677528530cf1
+[08/11] arm64: dts: uniphier: Switch to hp-det-gpios
+        https://git.kernel.org/krzk/linux-dt/c/751df73d825b3f7e6cad42ed333c28096635784d
 
->  	node =3D vio_vdev_node(node_data->hp, vdev);
-> =20
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Best regards
-Uwe
-
---7cmlxza5fdv22slz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdRg3IACgkQj4D7WH0S
-/k6XGAf6Av8yk2DAhSYXPrLn/Ud4m0Je4HKR7wDERTkoucUo/owwlaJH19v3/SEN
-BoXiIS4oqDNVJbzYsEPr2ZJQLZUTvBMyzKLJ4oNU1RzaivgdSipCPyK6I0OAHNui
-CtQI8qTG+gSxHLhoEeFCl2kcnUCtV4nGeXk44by5/Mu3CkC/pXRfbRn7iLrDX34F
-XHQ9MMrA6tMoRuStbxo3xHkRI7CkjOJVO6hWgv6PPAoKdFb63QX7jdTrZQTIoNtP
-2SMqVunbF87nTNTOQZWDCN1E3vELVsVjs6YsrlJeMYI9Gs7tcbVD4OHKUvrtSf86
-UHoREl5N4LOf8l+HqvTaxQnH6pb+QQ==
-=qufa
------END PGP SIGNATURE-----
-
---7cmlxza5fdv22slz--
