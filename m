@@ -1,135 +1,106 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394D0224AFB
-	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 16:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1887422259A;
+	Thu,  5 Dec 2024 17:19:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733417115; cv=none; b=inKJdpySACfGLfXC+3ukBOE/zhYJ7OVZOaheMMvuYtCa5/4Kp8LiKEFKGC1QiYZFk+aCTMje7vtptl1hRE0026fLFrGrKURFkghF9m4ctJXGEQHYLdAORPN8n+SW5A29VgacvE0/TAkTls9SaOLss6ukq3UxCmFhhbskPakqmJs=
+	t=1733419197; cv=none; b=TMn6YAQHR36HFdu61u+WPUp+xihxY0L5RULVPU+dyb2TpOtqFY/LFhxINMjahg0waqjTmeD1OFjgX4hh0ni8GLILlh2yNODxV8tzptUX2EA/3S0m40jxtqhGw/cLerpTOkH+yUPZIy2CvbWdqfdjZxvwUNAeeJ4qZ1sHi0qkUfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733417115; c=relaxed/simple;
-	bh=pZ172ATfsfJ2BQ37XPU3FqEzURxmxw/78IvOUTlorVQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h0DuMd7K2QJu1qCoGr8EMgowIr9Bl7GRdtBWeWJ/rvk/AUGYIS3RsW+O3aqjko3g48k4NbcwK0L1BcIQ8jjo36BZHCsKLzVdQDDNFZ7CElwh65q1F46p4gU7iHztmtyksRv+0ej6jxPStNPmJJ5+JMCY0O95uigVnaYwtfPQiSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j0M1OxOo; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1733419197; c=relaxed/simple;
+	bh=t/wBNcHC9SYSckp9Xl5qfb+MZAnQUAFym4KWBLEcmR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Imqt+Naop+HLl+tw4BoiCam1x1cbbrL+crRKsn8YgY2rBIeLOtITHISsM1oPyshDMR7WdK470/fo7bY61XcikahYtS8KLi4yME/eR7wAIXJdGCs6zRUR3lZ3AtHGG5uXN2hmU0MvyasY5pB516fELjRlqLgMCpGTr1LHmnzlt44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Of16J4oi; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="j0M1OxOo"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B5AOL5J029778
-	for <linux-sound@vger.kernel.org>; Thu, 5 Dec 2024 16:45:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/C/FWedH2R8A8Hc+9FjqXWKobRD7gLjrdaMMk5hTAQg=; b=j0M1OxOonQqe955M
-	gmabG0U73860SAAdv3XU7eEwgSgPhIwHGS7HQZTA5SQw6TQT5/rTFvgUZpV7j9tK
-	nVZN60vdwWL8iwTp9oVKdI0drxX+j7IcuoszPJrlaapQ+kWvnVPD2v885HpgwrnJ
-	78zKYuOAg/2GUDnAnJC7KW1FCPJucqYM5EemYAWNRDdlUkS5m/y6uXBp5H6aE0fT
-	JI3xI0weJ6RtFpI7UQi9I4fa1OwcQQGQ3MaeKaO71qPGpkc0nbh13aOI/suwIniv
-	jR6ZULQweDZdh5uaoRdeerVwvwysnZ1x0nazzLHN8oq41CYP6dU5/7CG69jZH2jV
-	N7Us1Q==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43ayemap25-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 16:45:13 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6d885b3003cso3282676d6.1
-        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 08:45:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Of16J4oi"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-215ac560292so12041065ad.2;
+        Thu, 05 Dec 2024 09:19:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733419195; x=1734023995; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qs+bdC7fmuLJY/Z7Szzgzwh7fG5FZFm9oQK+ZbxckvU=;
+        b=Of16J4oiAdZ+8ofN3xebmRiSbU5aD9eGsir9sTiUmNfz9wGcq8f1lZ9K4e0V3Gvw2Y
+         5vFk/oK77cGqt1RMq+rS138UGrMKOz4lJazeER0rz7e6d7KGZDlpRyUikhcfuap7LOeT
+         RdraJu8RrFyMhYZVe49os+PJPDVYer6hduASQd740NGY68UBSV9iOfTdn9b0gcSe6IHj
+         fh5A4/PMP+ayav5MyfwCVKNDnJYnGcmgfX4CjoDJo+mSjdO50/yAFsUAtzuK5sEnGaEI
+         w2iAjnBmiHq9CWBaaOrZy7QG4JSauVqyLFJKxpSjDk9MZWB4lNaL74JG2eThio6kKprC
+         BY3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733417112; x=1734021912;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/C/FWedH2R8A8Hc+9FjqXWKobRD7gLjrdaMMk5hTAQg=;
-        b=ms8IL1IFt6/BMl26la3oLZuAwgBVrf67+enIqmb1+0jEXOwELK1pyfnPFIGPBLa9L0
-         fOM0NWhkrOBsV4EMgSVKdZaDmsmot9X2kNlmn5xHUSs2IhCuFR+XGeYCf3WfUZlEXnPV
-         jLVi4vxBMboy6ku2iGYQSonZL51IH0tulFMf8wofXSYfkv12QnuivHT6bPLxCkLQsyuY
-         6mN2ao8GBg16GkVBF+VqgMfn55YbNqTEDomfUvb+tBRasCkkfUR8uwufjqu/Q6i0mKqu
-         +f4SLcpgkrAB7EepWoViv4lB9jlL3Z9Ld5tplhavuAg5Zz7ybejIMP98UAInWEZdqFsO
-         AdXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWFMTE15KpWSFKRBYGlwqWX6EfVwwqw183wHGFoT1RxqHwRjtyWjv1QDvJ4lyVMhj3zbqEgcP6t9dEmnA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl+1I+59SWZkRU2+3wzq8IwfxSE3mRkOY/0ByNYwqX9OBh2mIv
-	l+qSXtkXJB/9NXkGvr7k6mPUm/iavKcbg1JAb1134VJTmjn8CVr3+fOGceCCmGjD6BFmsoXDTmg
-	btNWymkjs4+w1QWOoC9pB904NV2P5aUTHPxqYn83/59lThYX+lv3cjovBETLJ0Q==
-X-Gm-Gg: ASbGnctxULVjEa9ags1e07jZn9HFjMKs3xCrT8tx/Z7D1uL7rheueQK/a/VliPFyOv1
-	cr/5cVhKwL7Y0FF+OFwR/2M2WerRTuGGcfBfhUysZsRY2ZfdNHrgpdrDAtx7FIwwETWtumGDCA1
-	7jdsRHpSY+Z1TGipq/DtYg8HjyrBFtjC2ZWIxwQeW3JxeUbPpvJJjUmuxws4riZma5uZ/fzAwqH
-	/J6jhHzTYkPaSDnbbZJ4YHajYmP+6V4fuUodx2aUmsRnhEmda4QK5n8pfZiiOWdIJfdnaHksPmL
-	/K8ItVMsq+FCKxapZk8+39FKl8prsE4=
-X-Received: by 2002:ad4:5fca:0:b0:6d8:a5a1:b14b with SMTP id 6a1803df08f44-6d8b72eec6bmr65772156d6.3.1733417111852;
-        Thu, 05 Dec 2024 08:45:11 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHm0uGog8HsgJ3rIQBC9bvmmITCftd+KZF3JVpTwKemdKnbxp9/YQCrIOez+txCW3LKU/3shA==
-X-Received: by 2002:ad4:5fca:0:b0:6d8:a5a1:b14b with SMTP id 6a1803df08f44-6d8b72eec6bmr65771926d6.3.1733417111373;
-        Thu, 05 Dec 2024 08:45:11 -0800 (PST)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa62601b5d2sm115958266b.93.2024.12.05.08.45.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Dec 2024 08:45:10 -0800 (PST)
-Message-ID: <c703e70a-c705-4010-8f12-bb55d67f2255@oss.qualcomm.com>
-Date: Thu, 5 Dec 2024 17:45:08 +0100
+        d=1e100.net; s=20230601; t=1733419195; x=1734023995;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Qs+bdC7fmuLJY/Z7Szzgzwh7fG5FZFm9oQK+ZbxckvU=;
+        b=qg2BFzgzSfATHKtIvzKJ2I/K+bDtjOIrHaDZi5OZTyubmNdAaXYZP1jlqGgMPeMvI1
+         tn7H7D9+yGjfQuL7pZDJQyXBElA7A6/JNqbN9QeTL1LUdBu0y+zTFR77o7Ld4vQ+Zkzr
+         oYv0JhBY5Rve4mu88ACVRhiWFLFn7+NrigFUcaH+uprUN1d/wAOC6yWVzUi4HDd12S2x
+         VdB3PsHvg1OTEV756tEfGYtE+/bl+lIhmsx5jdREo/WrtFo2r3E116s7pTJuNpbhTJLx
+         TGNUejB6GSWi4b6F6/7aeuSTKVcOT5Fjs2PaW9JZ9VpTUi0bzSmZKWwh5F7ROoqYXRA1
+         28XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8zLaA/CFIawVpehKQv8oNEScrpy5Gu5kndNmzNiQ/k+hTCx3IFT/43QSaZWVrReFYJIURCgzF3Nk0a9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaUjvvfqquPwmptdduD4vcc/oZZ2FZ3bkpwZ9WdVIMvKw3xjJC
+	Q5X8MRBAspNQ9xrDlRzVJD84jzPvXtRRneCXRra+jR4qk0skDIZ7xgvfLI0lNjQ=
+X-Gm-Gg: ASbGncsR9l3HaSB+DPMMu2zUMA9kDJW7peTYxJSeVZCUX8nO6/NUTcH8KejS+LYtK9S
+	ayOHeuFtdcd0oVH6evdKEYDhZckFL5hmaiE54gWDZXm81Z8eNep+HQSWnd3+qWKdTtC1l9HBMBb
+	mcEA3aciQF2udLFZTGQ479GMdejL9COekOVyQjQrPG1rovjhgSDCtRqNI0Xpm5gP4eQOm1/1Zjj
+	an4/zd0TKgJFhm7s2s5G2vBSnpr4NjaHIy/cOKYbATce2rPEP6DEkm1+irgKbMgUmA8CP7tQuM2
+	X57f2eJb
+X-Google-Smtp-Source: AGHT+IEmmmT1mNJBcxgt+hNGHjTQC+qdD5JEpbkVGF6VqQO6Obj+gNIfFuf8xv0agL865HsArRyriQ==
+X-Received: by 2002:a17:903:189:b0:211:6b21:5a88 with SMTP id d9443c01a7336-215bcfbe4f4mr140871855ad.20.1733419194995;
+        Thu, 05 Dec 2024 09:19:54 -0800 (PST)
+Received: from Hridesh-ArchLinux.am.students.amrita.edu ([123.63.2.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-215f8f0a886sm14588505ad.208.2024.12.05.09.19.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 09:19:54 -0800 (PST)
+From: Hridesh MG <hridesh699@gmail.com>
+To: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Hridesh MG <hridesh699@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Kailang Yang <kailang@realtek.com>,
+	Stefan Binding <sbinding@opensource.cirrus.com>,
+	Simon Trimmer <simont@opensource.cirrus.com>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>
+Subject: [PATCH v2] ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
+Date: Thu,  5 Dec 2024 22:48:42 +0530
+Message-ID: <20241205171843.7787-1-hridesh699@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 12/14] arm64: dts: qcom: sdm845-starqltechn: add
- initial sound support
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-        cros-qcom-dts-watchers@chromium.org,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20241205-starqltechn_integration_upstream-v7-0-84f9a3547803@gmail.com>
- <20241205-starqltechn_integration_upstream-v7-12-84f9a3547803@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20241205-starqltechn_integration_upstream-v7-12-84f9a3547803@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: b74gGMfJ7lyBIQ97MYT97PBQAv-8xKA9
-X-Proofpoint-ORIG-GUID: b74gGMfJ7lyBIQ97MYT97PBQAv-8xKA9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 mlxlogscore=941 phishscore=0 malwarescore=0 mlxscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412050121
+Content-Transfer-Encoding: 8bit
 
-On 4.12.2024 10:34 PM, Dzmitry Sankouski wrote:
-> Add support for sound (headphones and mics only)
-> Also redefine slpi reserved memory, because adsp_mem overlaps with
-> slpi_mem inherited from sdm845.dtsi.
-> 
-> Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
-> 
-> ---
+Add a PCI quirk to enable microphone input on the headphone jack on
+the Acer Nitro 5 AN515-58 laptop.
 
-[...]
+Signed-off-by: Hridesh MG <hridesh699@gmail.com>
+---
+Changes from v1: https://lore.kernel.org/all/20241114-alc287-nitro5-v1-1-72e5bf2275c3@gmail.com/
+	Replaced the custom verbs and pin configs with a fixup model
+---
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index e675f09aa795..2b9b118afde9 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10142,6 +10142,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x1025, 0x1430, "Acer TravelMate B311R-31", ALC256_FIXUP_ACER_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1025, 0x1466, "Acer Aspire A515-56", ALC255_FIXUP_ACER_HEADPHONE_AND_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x1534, "Acer Predator PH315-54", ALC255_FIXUP_ACER_MIC_NO_PRESENCE),
++	SND_PCI_QUIRK(0x1025, 0x159c, "Acer Nitro 5 AN515-58", ALC2XX_FIXUP_HEADSET_MIC),
+ 	SND_PCI_QUIRK(0x1025, 0x169a, "Acer Swift SFG16", ALC256_FIXUP_ACER_SFG16_MICMUTE_LED),
+ 	SND_PCI_QUIRK(0x1028, 0x0470, "Dell M101z", ALC269_FIXUP_DELL_M101Z),
+ 	SND_PCI_QUIRK(0x1028, 0x053c, "Dell Latitude E5430", ALC292_FIXUP_DELL_E7X),
+-- 
+2.47.1
 
-> +	audio-routing =	"RX_BIAS", "MCLK",
-> +			"AMIC2", "MIC BIAS2",	/* Headset Mic */
-> +			"AMIC3", "MIC BIAS2",	/* FMLeft Tx */
-> +			"AMIC4", "MIC BIAS2",	/* FMRight Tx */
-
-FM - FM radio, or "Front Mic" / earpiece?
-
-> +			"DMIC0", "MCLK",	/* Bottom Mic */
-> +			"DMIC0", "MIC BIAS1",
-> +			"DMIC2", "MCLK",	/* Top Mic */
-
-Looking at some pictures, I'm guessing these two are the little holes
-in the top/bottom edges of the device?
-
-Konrad
