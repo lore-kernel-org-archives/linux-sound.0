@@ -1,109 +1,100 @@
-Received: from pv50p00im-tydg10021701.me.com (pv50p00im-tydg10021701.me.com [17.58.6.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A34F217F33
-	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 13:19:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77D92217F36;
+	Thu,  5 Dec 2024 13:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733404770; cv=none; b=TIxJqkw8ALWOR6HmHgfm2cJJtrxgJrPccLXhrSDlxN/V/C9Z5Qyugl8jVRqLg1/uZhKNc7dq7/mcG/fGhYVNR3+FOwHpPdcgftraRTM/7lLxoN1Gq/v/9Odblc54ZP4t6OmUjGA9ZmN0QusVyFED5DDxsNdAAp63gM+buIBSLtE=
+	t=1733405399; cv=none; b=qzaJAKjh6BzcTCKUqNXga6rXYa+aMUEfc4vWJ1cewcHAbVxC53kQ8NTsdQfe/KFjzKuOTOP7l/pm/YgphVO/I+rKkNQtI3+lTSoE7LcK8DyqPgy2KFGB5yEpDTSZ0/tOFw2mYLo23vBaJmhrhMToYIsZciM16+3VpYK/BPdvRqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733404770; c=relaxed/simple;
-	bh=Y8SH9YRW4Y+tbLnxz2fC5g3ZDI0vc4mItkQNyvm6VZk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zerx/feZlLf5oLxE9CQdOXXh2nqUl4cG5RilVWZ4Z/PVjvth9b2BkLWiwFl32Qp3jUcEGrxHpEB52Rtcz5ZFvEQqYvb/E/vUjFGRHEnv2RnLlVPYWxBXSPA/y03+qVdzUeMp3KdKYwCJ8jbcRjR3SMHWSaBL+fY9AbAg3vXLPDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=IN6sqLn/; arc=none smtp.client-ip=17.58.6.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1733405399; c=relaxed/simple;
+	bh=YR4GHueAOAhwFTammZfWOuuRJ4yKoeZUyRqZFAURMSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S0TReahUXNMh5p5FlyFH0GAC/fol4k8kC49tE0oiuVj5WtYKrAykVTH5raCIk2+8xWk0Fh4OzGII7zWhYjRPnDvKF8nyXGaZu9II6jpRN3RQqTsgfCcSCIr78ZPDXEIYHIijFfjnKGkaPRkNHK0fUn5tzgFp+ViHhY5Wk40BYl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RODxSZ7w; arc=none smtp.client-ip=209.85.217.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="IN6sqLn/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733404763;
-	bh=DeIIq7By5hb3j6D6u79xafAimRNm6W+G83In10fjfT4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-	 x-icloud-hme;
-	b=IN6sqLn/x5OCaqJO4vF5gn/fcjmZc3fZlyeytDMJnKp7XQ3de7PoFnmqSe0zeC9a5
-	 vUwI0Tptt7E+4Q3DWUqdgUpD0xOI9lBpQ4RQvwZlnJGvBh2ctgzycf7q159ExifH7K
-	 a8AIRvkTNSgebMbC7lLYAk5B4kjmGYrIRQclMfECHJrJ1+KGG+jAbVUk+xSHPoDbnh
-	 1e9j8QEBXLJX5ZxwWzRD/5Q41qX+s8eZZmLJoAKcnBcHGPNxbbfWDhHq6Q/v1949Vm
-	 rVciEGx0K4GT+eFIHW+pi7hnAXPVyGUzlxkEJ6XEG1lJhoSlPxkPp1AOo8we43GZSE
-	 xVpU9Q2Rr6i5g==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-tydg10021701.me.com (Postfix) with ESMTPSA id C58AC3A1052;
-	Thu,  5 Dec 2024 13:19:06 +0000 (UTC)
-Message-ID: <f150fd45-7f84-4036-aa0e-32bd04fbeb67@icloud.com>
-Date: Thu, 5 Dec 2024 21:19:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RODxSZ7w"
+Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-4afa753c6d6so277601137.2;
+        Thu, 05 Dec 2024 05:29:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733405397; x=1734010197; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ylDjEClI/7mIIYwF0dNr8g22hgKRAkTcMUiNYa8gpm4=;
+        b=RODxSZ7wl7vOhEFFDMu8dfsyzr4z+O0tBYMPk2VRjroBU+n52WpLXFtZ0qG+sJzrOB
+         lOz3veWywe7EswhzwEZrfJ20K1B1n7xTlm4piJKOlsUOkOYbm7hkocJ/J7G9mPZXOR+s
+         zSRoezZ0mYCpV2BJtd2+GmpLgtB3vEX3p7bMI7AEyOhcu/2uhPcJdAE5Kj7hvb/sJGLo
+         JIkXBTMZCDjoyyfDTocVIP5xFT4TeTzTXaZbG/3peFZ+Gv+K2NYRe/YTFrKM/rfznpji
+         8qpfiK7+QLF1MPFAxHpF+YJ8B9jJlyFxqslnR3ZNA71PzFcrsywuYfih8/hLbd212xt3
+         m/sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733405397; x=1734010197;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ylDjEClI/7mIIYwF0dNr8g22hgKRAkTcMUiNYa8gpm4=;
+        b=vxoGLthzWGDNzB4py8SMZiDCb2CHdtjM7mcaESOFoGdcO79k3MMA1MjNlILU2cYkow
+         kUoOYyvBArX+tuTFNm6E0mHvqq8flTWFvaX/4zCml27z+d6Qz1odeI7GwbBvPqvuTAYb
+         PZl6FzR9uEJ3QJ8GttU7EdV2lwPIMm8nlodPu5xkuhQ+WBeFFND3mHYzPyVqPFg/9Zpf
+         tUgE+CSyhyRN/4bpdvLySC4s5ycJfLfqOUdUF1rqtM6ZRQ1Iy0IRGt2rsKGZjOA7tDRM
+         tiev4a2LdR2cUnYmGXqBV+ntXH1jQN2WJqvjkHeU8Oi1R3VxGn8AckDtuH4o7uzd0yfb
+         ovbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNeuCxPwFCkWqkq7S3YGP5pYU5mQ6YV2WMrL1k1XWpg9t4g5Rt+QVFNKzaGbKlvOGwedijnp8EeiDcWf1Q@vger.kernel.org, AJvYcCVg5RLQdgB8Fs1oCDb8gtAMXfOUdg3ihA7ldB/ngNciZTAkA9hX2DNzJcPSSrab8soxMJBmDJJxoDc+@vger.kernel.org, AJvYcCVxk+Rn05RzLzQB+CEh8kOIS7Ydv5iTeM93KBnXJdRoE7wL03yhJAmJdx6mpDTMtZwqf0Cbp9arT/uWV+R/2g==@vger.kernel.org, AJvYcCWVC+ui7oYf40ZJPjBkRqIFozmgBvBB4ooFHcS5fAFPEi575pF0mzzjV7VKwkTBD3KA5nEX+gWRz6VuQxA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHksNOwPYqFvl1ZcRPQ7m2vkHISuR2u5wJG8UAwujAxoc7JrjP
+	8IsVkj1GS35TpUdBo6j80BzSAUwfwv/VLw07XFwpOurGAgVciq45QQflmepUWNQnamcBWi1qOm3
+	4m8ycRv2LZjLZ00hUVb5FMKaPQ1k=
+X-Gm-Gg: ASbGnctsRu3on2AO7NHXBhuSRkYH2W/o9/kLPtrq4g/88AIsxjYdRXMZG9AWqqRYKea
+	n8I4ClOiDFnuF6AgCH16I98WWE0y1ow==
+X-Google-Smtp-Source: AGHT+IHqdLVTw7LFCNcWIGfl2YvVPTopD9vaTRve5kiiNTKeEKy6ZWYdof0NETgFtIQlaLA+8jnKb0p9z2BoZJK09to=
+X-Received: by 2002:a05:6102:3908:b0:4af:bda1:8109 with SMTP id
+ ada2fe7eead31-4afbda188bfmr1660076137.21.1733405397371; Thu, 05 Dec 2024
+ 05:29:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- quic_zijuhu <quic_zijuhu@quicinc.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, netdev@vger.kernel.org
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
- <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
- <ac42e652-4128-44ea-976e-5234360d8183@quicinc.com>
- <eyu7nm5hvwfqxgysnrzsvianzf7abvlovpxfo7snsxowmuuhpj@tah3gkqm5ldj>
-Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <eyu7nm5hvwfqxgysnrzsvianzf7abvlovpxfo7snsxowmuuhpj@tah3gkqm5ldj>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 2qHgOEYCHFJo6csSrQf0NeEl1TvG8_uZ
-X-Proofpoint-ORIG-GUID: 2qHgOEYCHFJo6csSrQf0NeEl1TvG8_uZ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-05_11,2024-12-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=736 spamscore=0
- phishscore=0 clxscore=1011 suspectscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2412050096
+References: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org> <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk>
+In-Reply-To: <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Thu, 5 Dec 2024 16:29:45 +0300
+Message-ID: <CABTCjFA9DyRzca93qoS5_+sfc2RLfNVNqN14WVfKODjHykwGJQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
+To: Mark Brown <broonie@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2024/12/5 18:37, Uwe Kleine-König wrote:
-> On Thu, Dec 05, 2024 at 04:37:08PM +0800, quic_zijuhu wrote:
->> On 12/5/2024 4:10 PM, Uwe Kleine-König wrote:
->>> On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
->>>> From: Zijun Hu <quic_zijuhu@quicinc.com>
->>>>
->>>> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
->>>> Remvoe the unnecessary wrapper.
-> 
-> Just spotted: s/Remvoe/Remove/
-> 
+=D1=87=D1=82, 5 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 15:33, Mark=
+ Brown <broonie@kernel.org>:
+>
+> On Thu, Dec 05, 2024 at 09:40:20AM +0100, Krzysztof Kozlowski wrote:
+> > Number of DAIs in the codec is not really a binding, because it could
+> > grow, e.g. when we implement missing features.  Add the define to the
+> > driver, which will replace the one in the binding header.
+>
+> This breaks an allmodconfig build:
+>
+> /build/stage/linux/sound/soc/codecs/wcd9335.c:162: error: "NUM_CODEC_DAIS=
+" redef
+> ined [-Werror]
+>   162 | #define NUM_CODEC_DAIS          (AIF4_PB + 1)
+>       |
+> In file included from /build/stage/linux/sound/soc/codecs/wcd9335.c:28:
+> /build/stage/linux/include/dt-bindings/sound/qcom,wcd9335.h:13: note: thi=
+s is th
+> e location of the previous definition
+>    13 | #define NUM_CODEC_DAIS          7
+>       |
 
-this typo error is my mistake, will correct it.
-
->>>> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
->>>> ---
->>>>  drivers/gpio/gpio-sim.c | 7 +------
->>>
->>> I think if you move this patch before patch #4 in your series, you only
->>> have to touch this file once.
->>
->> the precondition of this change is patch #4, it will have building error
->> if moving it before #4.
->>
->> actually, we can only do simplifications with benefits brought by #4.
-> 
-> Ah I see. I thought that device_match_fwnode only got the const for the
-> 2nd parameter in patch #4.
-> 
-> Best regards
-> Uwe
-
+This is the 1st patch in series, and NUM_CODEC_DAIS redefine from bindings
+is deleted in the 2nd one.
