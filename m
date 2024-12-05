@@ -1,98 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E231B59A;
-	Thu,  5 Dec 2024 16:05:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B1818B483
+	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 16:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733414725; cv=none; b=G1VPNvUOIRI485g2LEPF0MxIj9hDavhjHyG0cN2Iehl+k0pD/2NwhovBEKxRaL7VkA1kdm1nJSg+4rg1k3Ozqzrb0KAAxBZLNugi3oQZyNiQhhRLjVTKUDyesT7w6UblmD3Q6XBImXfDnIHkKrx/yFluHaZuUAy9tpUVT1iXUJo=
+	t=1733415901; cv=none; b=dtZp8GgZyytXdk6yyC+4Lfhe5JA3RlNN5e4YWimUSGOiyQL+l4kzzHyq3iosaU+GNDI6P5UIhaCxmxnX4fcgsXD2COoELscey6/fALXmZzQlqAZhGP+sHyFtnudoV8vvQcef9qHpXp3brpVZ4DKzri6RnoTabGwSWcYb4Crs5rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733414725; c=relaxed/simple;
-	bh=EFE2AZL6QW6AXMyxjHx2rd1oTU99m7QnJG1VGZzGKKo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=XM2QFAnp8QLWYM2KRfDTCYSaYm5TyjKUaZFhjFjf5ZgEd3Fmd2tOKyL9PN7TErJjCBMwoSEoBuu6qjhfNR6oDqKYC2OIG+HFujpx8a6aanuGxtknBZuCzu2JsSWqX7YJHD55WA/1BEx3y1YovP7vkXbdsGr+qMGycrh3XRWMeMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=df8V0ztk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733415901; c=relaxed/simple;
+	bh=R7CVb9LI65y/3Qu32CYYXvSxOe5U0ZYewJNDLJ5FwCc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fz5t12GII9iwnkpRFeggaQ/aUYBKxi4zXLqucg20/yX3o/MC3AG1DaTaOueWkW1lF+Hu5u76xn5wFX1lJqGHLyIuDu47t8mKhC0Yu5zVG6CwLR4cH7A9JDteeTiKL8+p4H2kCRtvRO7W7HxWO0HGNyz21L0wFLlZNQ8liZh4KTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=3ZpoIMZn; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="df8V0ztk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74CE7C4CEDC;
-	Thu,  5 Dec 2024 16:05:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733414724;
-	bh=EFE2AZL6QW6AXMyxjHx2rd1oTU99m7QnJG1VGZzGKKo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=df8V0ztkwUKYdcjL//LhZEfRE54JUuQr2rUvlNDiSEM9JqaQNsNbzMaxwUjx0VpAI
-	 T2rr5J1htHk/GHAgb/mzA5AqWOdK8G9JrLb8hqHpuEa+E2ytLP2FFqbbwxk23I175h
-	 etYsU/UY2xOfXWVd7cxLnbKLmsIElcHEgL/Wruf/XORf+Z3a6zsop5b01pgJ3s1y5i
-	 8jEZs0JcGud02E/zZFa+du47l5AUKBq/uRHttEfjBam17S80XY30bPKZ3nWkDNvJdn
-	 SMSsPEHeCQ0S8tsRwMe+igY2VNPSU7bcBUZibbaWZiwgpIUzENrDeFNQV43596wgsR
-	 Qbm2bJE3+Rurg==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Trevor Wu <trevor.wu@mediatek.com>, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Cc: kernel@collabora.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
- Aary Patil <aary.patil@mediatek.com>, 
- Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>, 
- parkeryang <Parker.Yang@mediatek.com>
-In-Reply-To: <20241205-genio700-audio-output-v1-0-0e955c78c29e@collabora.com>
-References: <20241205-genio700-audio-output-v1-0-0e955c78c29e@collabora.com>
-Subject: Re: (subset) [PATCH 0/5] Enable audio output for Genio 700 EVK
- board
-Message-Id: <173341472111.145991.1986411780939561969.b4-ty@kernel.org>
-Date: Thu, 05 Dec 2024 16:05:21 +0000
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="3ZpoIMZn"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53dd668c5easo1268525e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 08:24:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1733415897; x=1734020697; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ItHEVA7I8S1EP8oyTKl1F93KEEHRVDFUauUtw/1Acb0=;
+        b=3ZpoIMZnwjCl4Vv5bu6PGSXVdDmY7k4Cj1zgHc6F/cvtw8CM1rNR1LTJDsCfgmd0g2
+         BceSlvbQiLyYiwl1rdWJ3jv2Ns4UxCWRnsrFu4TQEusFPgx7FkT2UIodCH6L3llBjvZX
+         XNAHzd6Taqadu0P2fGi/yUIsqcbc2LJaCMf0KU5YlqUl8Ra8J04m6hedyjqo7k0PtBfa
+         YzZpvhommBUg5ON/+IUYW1PeMHGPsGOGeDu3G435iCu3IM89jIWqEOC9Hd0bT3dOemUj
+         +5wiSeoDLmTU2wBbs3vqgyCGSboeppp2+z3qZoXORDMgU0UpKaORWbQqfQFXw+JpXtdd
+         NE3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733415897; x=1734020697;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ItHEVA7I8S1EP8oyTKl1F93KEEHRVDFUauUtw/1Acb0=;
+        b=L8V+liwadb6PY1e007+TF+YdQFH8Ca/09wOlAOj7zAxjq1UXUIig4uKHAjmrLKxGi4
+         LkOK7u5eOCxkz8PR+P9haxk51bTrHyJTtylaPrBw2WPnPPm8b6LcXep+AwEunqfO7+MX
+         V4RVpk3DxueotVgQTECVSUfV6p2iPMvjAurwdL1ZdvSBy5sRFgXYliXQFYxLUq9v47dT
+         t4vdMHP5+ufRofIwNoXDfRQoDDMdED6uPKBM6V/1fnw6iaueMYtb7XZH1kyYHxEzLb9s
+         mpWoGm3s5LPHPf8V5ap8dTGDIE9h02dOxOsmDwXbU1Gx8TQFCQZBzrEhtneahAhLRDEE
+         zFug==
+X-Forwarded-Encrypted: i=1; AJvYcCW0NaHDC4KPbVHpXdsXqVcC3OM4PnWWhnwy80PZY/QPQhX3tGT7+OHQFyv+lpPORWjtPUAggGX/UdPACA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxArH1MsJxlP7V4ZXxBrqRtzTKA1z5m1tbd49L1N7hh51OU6lIR
+	6GK8u+4qQPPb0HUjNhDkvsooz/A3gHT8Tp0/xzBs68dedn79btqClOnQv/LavugejySZ6xHma0X
+	oMWf3/yl7B6/t+8Cn6CjlhllHpHxf37eHG+npgQ==
+X-Gm-Gg: ASbGncvZ1M+rZqKtOOR6Gq5vXi/BGWxjJJhFYNAY7TiCqTZ3jxp2mZi1rUrqT2EC8Sf
+	ZbMlvfL9wXwisNUnPV1NXJzvox18cHJRgFW7AGr4NaEhFPxIQ+qF4yetPWla2DA==
+X-Google-Smtp-Source: AGHT+IErYJU9bnmgh/S4XgU0jcrMWfkUEiJSX94XfyJ1xliCjLlWQwaDM6P30GxT6teJ6fjjXCYzQKweIZQ1ynm3Yi8=
+X-Received: by 2002:a05:6512:4006:b0:53d:f6bc:23ec with SMTP id
+ 2adb3069b0e04-53e216f74ecmr1077273e87.5.1733415897149; Thu, 05 Dec 2024
+ 08:24:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-9b746
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com> <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
+In-Reply-To: <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 5 Dec 2024 17:24:46 +0100
+Message-ID: <CAMRc=Mf--vRm15N2au-zvP89obcxRuk+3OOLqFtrjgg61_LotA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, 
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com, 
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 05 Dec 2024 09:13:53 -0300, Nícolas F. R. A. Prado wrote:
-> This series enables audio output support for the Genio 700 EVK board.
-> Patches 1-4 do the required binding and DT changes, and patch 5
-> describes the audio DT nodes to get audio output working on the two
-> audio jacks, Earphone and Speaker, present on the board.
-> 
-> The standalone fix in [1] is required in addition to this series in
-> order to get the sound card probing.
-> 
-> [...]
+On Thu, Dec 5, 2024 at 1:15=E2=80=AFAM Zijun Hu <zijun_hu@icloud.com> wrote=
+:
+>
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+>
+> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
+> Remvoe the unnecessary wrapper.
+>
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+>  drivers/gpio/gpio-sim.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
+> index 370b71513bdb529112e157fa22a5451e02502a17..b1f33cbaaaa78aca324f99c45=
+a868e7e79a9d672 100644
+> --- a/drivers/gpio/gpio-sim.c
+> +++ b/drivers/gpio/gpio-sim.c
+> @@ -413,11 +413,6 @@ static int gpio_sim_setup_sysfs(struct gpio_sim_chip=
+ *chip)
+>         return devm_add_action_or_reset(dev, gpio_sim_sysfs_remove, chip)=
+;
+>  }
+>
+> -static int gpio_sim_dev_match_fwnode(struct device *dev, const void *dat=
+a)
+> -{
+> -       return device_match_fwnode(dev, data);
+> -}
+> -
+>  static int gpio_sim_add_bank(struct fwnode_handle *swnode, struct device=
+ *dev)
+>  {
+>         struct gpio_sim_chip *chip;
+> @@ -503,7 +498,7 @@ static int gpio_sim_add_bank(struct fwnode_handle *sw=
+node, struct device *dev)
+>         if (ret)
+>                 return ret;
+>
+> -       chip->dev =3D device_find_child(dev, swnode, gpio_sim_dev_match_f=
+wnode);
+> +       chip->dev =3D device_find_child(dev, swnode, device_match_fwnode)=
+;
+>         if (!chip->dev)
+>                 return -ENODEV;
+>
+>
+> --
+> 2.34.1
+>
+>
 
-Applied to
+Please use get_maintainers.pl to get the complete list of addresses to Cc.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[2/5] ASoC: dt-bindings: mediatek,mt8188-mt6359: Add compatible for mt8390 evk
-      commit: 8e22ea5fb8498c52fcc20bbe2070c3aef1a3dff2
-[4/5] ASoC: dt-bindings: mediatek,mt8188-mt6359: Allow DL_SRC/UL_SRC dai-links
-      commit: 5a56323a54b7febcfe82cc5eda840a176647b7cd
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Bartosz
