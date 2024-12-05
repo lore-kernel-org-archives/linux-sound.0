@@ -1,117 +1,112 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DACA1CFEDB;
-	Thu,  5 Dec 2024 08:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C72E1D433C
+	for <linux-sound@vger.kernel.org>; Thu,  5 Dec 2024 08:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733387873; cv=none; b=YY0MnwC1aUeaQGD88PMHN0tLq81LyITaZiZ6ERmzuJMMvm1ak6uxEz3LMD0RD7DnRgcPl9Vh3Q2WgREp+ZFNQoItaZcSrBq+aEx851r5wGr2P+fWmjxTGwkq1bB1ATL9+Jsn9D2ayTEw2jOy+KJdBAhgFWmOQdz4SuGU76070Sk=
+	t=1733388030; cv=none; b=hzIhoe1vWMRdJGaKo4v6VpgLlps5K4/0vr89SepkLV/CGRyOJXSqTYeM5ExtA3c7OIaBNtmMvCwkK9WQeYyf4yp5/aJSmU5BvUr9UW96RX+l2XFcy3l7JHZaRtNJ6PFkDIGsLDJMeHwEpvN14s3HQMT3ZlPBfFVcnogXEtv0T2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733387873; c=relaxed/simple;
-	bh=mctLKh1HBPvhJPCxL0haUfZI9CQS/hI5kanVx+wEyjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=p5hks9hxJlt7uisceyqa3nYFVtZslAvIyA8CdM4nAwji5VhmEmcoQEYhl6qWjaD5ARJbtPrw1M3h1OeZfyQDNr0rfGAq+PDREJtVFK9V9gEUUQKAe+6/ypBUxde10rSm/sbWnqRIgEk7TLtq/TGrdgsps3qWH2vKD2awvXP929U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dK0lvjtG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733388030; c=relaxed/simple;
+	bh=xjXR+zk+M/gbXTMjCLEiAICwQMABoaPIj5xLhMiEpGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YoBAFjI9/g2PMn1KLKuFZPuBAbNRER1CRQBhFTJXqN+CBKPe1BfVByxRde3AVSZpFd6j6BlFHi5lFJF1hqFTQL2SR5CK4mCPXvNpPVlyM7fqKtZ5XBew59Hc+tNuOUIb1g/D9q/usTV9UwKjI4k68Ev8d1by8Ul23EXmRgnvO3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XLvQM6vG; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dK0lvjtG"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4LxkhO025995;
-	Thu, 5 Dec 2024 08:37:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	213mBrUk+y/1ibPAKpU6OsCBJaEAPIxeYJYRsyQLYbY=; b=dK0lvjtG6ep82U6v
-	O+DX8WlahlhTpWMVNB2lo+NaMThOr8266xF5D94B18Jjh3fUzFp7FpUnauq1R7qz
-	LA2EdZRmGKTNNOjLBeUwG/L4a9Iw2AMF2060yI9R8I0EcrgfMjT5lftee8FnlNfR
-	mKJGN13l8WqW83s5jJYKj/976i7VEnMaZiJ40tifxpS329tNJllJU4lrHllbarQZ
-	WsLqA0+c8NEJm9HU7WG3rEgmlryRT+/I1N/+5xKTy8CHgdyfdZ2nUDzwKnuaC+rn
-	3wdFKra2MGDmGsgg+FEITJ1AmKb9Wg0ZePiYrJxRQiJmtSmiqSLTsvCPYmyKD1UG
-	EzXezQ==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 439yr9pbau-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Dec 2024 08:37:17 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B58bGIs027939
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Dec 2024 08:37:16 GMT
-Received: from [10.253.36.87] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 5 Dec 2024
- 00:37:10 -0800
-Message-ID: <ac42e652-4128-44ea-976e-5234360d8183@quicinc.com>
-Date: Thu, 5 Dec 2024 16:37:08 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XLvQM6vG"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-434941aac88so185765e9.3
+        for <linux-sound@vger.kernel.org>; Thu, 05 Dec 2024 00:40:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733388027; x=1733992827; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DH+J2UQA3VOyjrU/P16pyU+YqVrTV2zl0tHrALJVR1E=;
+        b=XLvQM6vGdICz/PvnTSce5Qqrors0BfOzfkuVAwKLamHvQ6+JWBS4ICkJpob+HeU327
+         VQ9BcAA7gg9dhqkima6HTs+A3HrCbRu2ul4gJdW7u3kqMbwTJq3IDsl9NnkJWKGdKpIy
+         ZgTHPTfyq0oRPn/Jo4puZ6P28Z0S3gLmzJWejK5k8g+ROP75oqn6n9je1cq9PgeBoKW7
+         5CQ6NSWLheJdMTDV8mTXejJ67sbEfX0CqERc+6AaczTfpjfLW9XyN2rfYkWiHcGL3XP2
+         9WKEoB36/4QqhcjHb7Sp6icO1H86lE1/1vzdzQo6j888k8lOPZfIOf1U3MmFClH4B7ar
+         jxQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733388027; x=1733992827;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DH+J2UQA3VOyjrU/P16pyU+YqVrTV2zl0tHrALJVR1E=;
+        b=AIAMr6yrnARYFX9fpfeZyJcEVHkG/yAc8xdIsj3vkpXzpVXoYmSfKBf8jiQxs0aiUE
+         Wk028+wH31tMmYiIiVgwl1TDWXbBy4Zf6MpY1Sd7ipWwFFO1vpFQ5NDW67rzM1F20cUF
+         vSfaZb8nDeUgsV8U/BUyTAk3uQ3UHqtYbtkPTcBLgxfglkjUSg0MkeyxeCZAPApEJujd
+         vjZOj6/gKI9x8KHo2yQ6QRYY///g/Bs25BWM2iYtZXRDzNUL2HEqh8isFf7FxDLvFKeA
+         aDgl1iMtKjiLdi/1XfNFUbWIjz+aHcwtSCEvTEUye7Hn8fGD0BVWrMjflUbfBsGrt7bU
+         FJUA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/LJ+9JC5nokZRB463KOzbiT+vJM2wqi12AspbIYGbtcQ0+dt2DoG44Ur7LJtoZFGZZ4+DYtUZ+0BJcA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwvcKXGgb0FEJ0yuZLXc26LowzzC7LeRhW3OXPN9AjSiD9QXLk
+	q3agnjuAb/hjY81KDmIJ0DMzZNEfJKsrE9rntT0li/LX6H3p7RmWO/skNxrqYvY=
+X-Gm-Gg: ASbGncvobtU0Qe5PfYAvHadCut2lhkgzbrqvYvwlBSVoNHxAr9ZWHtbAvB7h+oomPx0
+	zw9dUSSPD0lIimdptQB02YmAMfva39ZLZLtAjWMSV8n9VLuMZwNDxB+D0WJEbLnq8W+iKzj2o4j
+	a5Tng5ryN9YpVJq6ZdXSNydltlCudNUC1XWjBynTVdHr8FtYadtOxl1oZp6AISKC0RdRpJd/Oj7
+	i6EB0FDOwKJWPLw/Pz6NpXQQ9Cvi5bK6HpwZBSKMF3gusOUmp6F0Xa2biSnhnFq
+X-Google-Smtp-Source: AGHT+IH5z3TSEXxivD/BkQB0gvwva92E/y7Ua/n01z4CyjTb5eBwOSqHS1jSJiEwgXjn4T4axoxYhw==
+X-Received: by 2002:a05:600c:3594:b0:434:a1e4:d32d with SMTP id 5b1f17b1804b1-434d08eef18mr32429525e9.0.1733388027475;
+        Thu, 05 Dec 2024 00:40:27 -0800 (PST)
+Received: from krzk-bin.. ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0dab9esm15935965e9.22.2024.12.05.00.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 00:40:26 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: [PATCH 1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
+Date: Thu,  5 Dec 2024 09:40:20 +0100
+Message-ID: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/11] gpio: sim: Remove gpio_sim_dev_match_fwnode()
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
-        Zijun Hu
-	<zijun_hu@icloud.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        James Bottomley
-	<James.Bottomley@hansenpartnership.com>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?=
-	<thomas@t-8ch.de>,
-        <linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-        <linux-sound@vger.kernel.org>, <sparclinux@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-        <linux1394-devel@lists.sourceforge.net>, <arm-scmi@vger.kernel.org>,
-        <linux-efi@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-        <open-iscsi@googlegroups.com>, <linux-usb@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <netdev@vger.kernel.org>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-8-1611f1486b5a@quicinc.com>
- <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
-Content-Language: en-US
-From: quic_zijuhu <quic_zijuhu@quicinc.com>
-In-Reply-To: <7ugfaj2h3sy77jpaadco5xtjalnten3gmvozowcle3g7zcdqs4@sqf5l47onbsi>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: bJlz_v1qF-bCF6eUa5_F4ikzt3TVpUVI
-X-Proofpoint-GUID: bJlz_v1qF-bCF6eUa5_F4ikzt3TVpUVI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- clxscore=1011 priorityscore=1501 mlxlogscore=575 phishscore=0
- lowpriorityscore=0 malwarescore=0 mlxscore=0 suspectscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412050062
 
-On 12/5/2024 4:10 PM, Uwe Kleine-König wrote:
-> On Thu, Dec 05, 2024 at 08:10:17AM +0800, Zijun Hu wrote:
->> From: Zijun Hu <quic_zijuhu@quicinc.com>
->>
->> gpio_sim_dev_match_fwnode() is a simple wrapper of device_match_fwnode()
->> Remvoe the unnecessary wrapper.
->>
->> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
->> ---
->>  drivers/gpio/gpio-sim.c | 7 +------
-> 
-> I think if you move this patch before patch #4 in your series, you only
-> have to touch this file once.
+Number of DAIs in the codec is not really a binding, because it could
+grow, e.g. when we implement missing features.  Add the define to the
+driver, which will replace the one in the binding header.
 
-the precondition of this change is patch #4, it will have building error
-if moving it before #4.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-actually, we can only do simplifications with benefits brought by #4.
-> 
-> Best regards
-> Uwe
+---
+
+Cc: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+ sound/soc/codecs/wcd9335.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/soc/codecs/wcd9335.c b/sound/soc/codecs/wcd9335.c
+index a2521e16c099..d2604da619f6 100644
+--- a/sound/soc/codecs/wcd9335.c
++++ b/sound/soc/codecs/wcd9335.c
+@@ -159,6 +159,8 @@
+ 	{"AMIC MUX" #id, "ADC5", "ADC5"},		\
+ 	{"AMIC MUX" #id, "ADC6", "ADC6"}
+ 
++#define NUM_CODEC_DAIS          (AIF4_PB + 1)
++
+ enum {
+ 	WCD9335_RX0 = 0,
+ 	WCD9335_RX1,
+-- 
+2.43.0
 
