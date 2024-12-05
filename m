@@ -1,40 +1,40 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1AF41FA179;
-	Thu,  5 Dec 2024 12:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1727D207DE4;
+	Thu,  5 Dec 2024 12:44:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733402530; cv=none; b=QyjOICK8fGyugtRjjnIMhsH9L2xWvvf0qdAWGZt/10IEtsErVE02Otx1k6VqRfeSn60bzWZLP6dyJU+q8O+scfe01wKLWZaO//BNUI78+ePI1r9z/ICwKpvjBvP82Dw0OgRmoKFOHJdM3jqin6OxdG/5E/8/dPDuhNz6ua1f/MY=
+	t=1733402643; cv=none; b=pzTJpvi04dZFltnX75GCzWCOi1jNoETqS0zi+goycdZw9YHZaXdEC+kMrr0dK3i+xaKM4W0Y1nND21B/1ZAJaEz1xpsofNn93zBypP5Q74SHDxBSIo1GYOCmVS7/6crdjffAaPTeGK19wHdPF1kRBjrNCi/U5c4cbdypnXW3tAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733402530; c=relaxed/simple;
-	bh=LM2gUsX/c1KVTYV3HmF0p9792S12iewI4CRKDypr+as=;
+	s=arc-20240116; t=1733402643; c=relaxed/simple;
+	bh=4yG90mzCMTRJtqSIZIR4ro8J6ULc6OoY5vicTfwZNck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J48/6+Hul8xGBu5wxLYYR8eoZ2JsyZEN02fKVpV8U4FHKIrYbaRQQf0IHwSBFCf8P49DxNeplah2+0nqWULZM+N5fFEdXyvUD1vf5X2kRvehGrGnj4fGu7XFXytVvGBRfctG5EFuYFJ0K63UV51M8MlJIeTX2OCDSMk8gS6ie1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=e0zKmW/e; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=GLfY+cM3xyLgB1Y/hf5AwhhPTeLGBKA68n93XZRyzyINcDNIKxd5c6OjsI9NbU6wWR/RKk3VnyDX8hij66dsO3N3GwhzP1+r6TJ2NsWEUzyF76RkdbiK8rswGmApXXPCLXAN2GrYRvWwI/+rqb0Meko4JGPcng/RY4IfpVvez28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JC7DJuZa; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="e0zKmW/e"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JC7DJuZa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1733402527;
-	bh=LM2gUsX/c1KVTYV3HmF0p9792S12iewI4CRKDypr+as=;
+	s=mail; t=1733402640;
+	bh=4yG90mzCMTRJtqSIZIR4ro8J6ULc6OoY5vicTfwZNck=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=e0zKmW/eBTcWod3x01BANWCi2/KHwDjSdRb9jaCq0pv8j2puM8OFQ8CY4ZbUboONF
-	 xcIfdySa4bT4UbJviXFc7XTv/0D1LRrt2gnhO6qfPWT1DcTgNEna/uXvC76kvZ/sqn
-	 LzTRf89s8zrcVzPUJQvSdZVtMLNiU92WI/yfuF7BBbZDXoCPqtdk7otxuk08laXnT9
-	 m9buhbyjhHqkAnsaF+N5PG6MVkiTqwUTX0d13GnshiMbjcnYB0PZaJEa+1dPKswzlk
-	 1Nq+ReaDNS6SW0qlGisTH0CvdFO0k6y91n4BNNcTjwv+6vMPkY7RZZnGoWEe3k9iz6
-	 ovUvEzRTUb+7g==
+	b=JC7DJuZayYQk5WzBa7maDyO+HbiB042fPe9CFFxXJAWuwuZYH46w9Dih6rKt0esj9
+	 Ua0S482ICB7DcU/ti+gjyhYlbhRoFTH31ZuynUoapBZA5kfILJOGQvtZCC2m3XuL4f
+	 C+USkfwohlbzbvQNJvWfPzJS5cG5zCKSkq53T20ifbGXp7l/TcMM3sHT4hZcLdEgJf
+	 +x6u7RvqBasD47D3sfB1PUSPSfhWeEKTdudboIEzvArHdn85H8HhyQIWpWb5bXrfO4
+	 2QRiKeO8/ErLRZvczyFU050DgrUDdbY3B5dTI6C/XtOlMbsBck0lLm2Td2ukEcSylf
+	 IqvWFPl1UknnA==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8852C17E367E;
-	Thu,  5 Dec 2024 13:42:06 +0100 (CET)
-Message-ID: <ce2f6f07-0276-4a8b-ae3f-4188c707c6e7@collabora.com>
-Date: Thu, 5 Dec 2024 13:42:06 +0100
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id ABEF417E3684;
+	Thu,  5 Dec 2024 13:43:59 +0100 (CET)
+Message-ID: <d95fcdb2-6519-4950-803b-20a60051cf3c@collabora.com>
+Date: Thu, 5 Dec 2024 13:43:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -42,109 +42,35 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] arm64: dts: mediatek: mt8390-genio-700-evk: Add sound
- output support
+Subject: Re: [PATCH] ASoC: mediatek: mt8188-mt6359: Remove hardcoded dmic
+ codec
 To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>
-Cc: kernel@collabora.com, devicetree@vger.kernel.org,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Trevor Wu <trevor.wu@mediatek.com>
+Cc: kernel@collabora.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- Aary Patil <aary.patil@mediatek.com>,
- Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>,
- parkeryang <Parker.Yang@mediatek.com>
-References: <20241205-genio700-audio-output-v1-0-0e955c78c29e@collabora.com>
- <20241205-genio700-audio-output-v1-5-0e955c78c29e@collabora.com>
+ linux-mediatek@lists.infradead.org
+References: <20241203-mt8188-6359-unhardcode-dmic-v1-1-346e3e5cbe6d@collabora.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20241205-genio700-audio-output-v1-5-0e955c78c29e@collabora.com>
+In-Reply-To: <20241203-mt8188-6359-unhardcode-dmic-v1-1-346e3e5cbe6d@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Il 05/12/24 13:13, Nícolas F. R. A. Prado ha scritto:
-> Describe all the components to get sound output working on the two audio
-> jacks, Earphone and Speaker, present on the Genio 700 EVK board with the
-> audio DSP enabled.
+Il 03/12/24 20:20, Nícolas F. R. A. Prado ha scritto:
+> Remove hardcoded dmic codec from the UL_SRC dai link to avoid requiring
+> a dmic codec to be present for the driver to probe, as not every
+> MT8188-based platform might need a dmic codec. The codec can be assigned
+> to the dai link through the dai-link property in Devicetree on the
+> platforms where it is needed.
 > 
-> Co-developed-by: Aary Patil <aary.patil@mediatek.com>
-> Signed-off-by: Aary Patil <aary.patil@mediatek.com>
-> Co-developed-by: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
-> Signed-off-by: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
-> Co-developed-by: parkeryang <Parker.Yang@mediatek.com>
-> Signed-off-by: parkeryang <Parker.Yang@mediatek.com>
+> No Devicetree currently relies on it so it is safe to remove without
+> worrying about backward compatibility.
+> 
+> Fixes: 9f08dcbddeb3 ("ASoC: mediatek: mt8188-mt6359: support new board with nau88255")
 > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
->   .../boot/dts/mediatek/mt8390-genio-700-evk.dts     | 50 ++++++++++++++++++++++
->   1 file changed, 50 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dts b/arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dts
-> index bb68665f0b2da80397b833db0241a06648a322a0..2fded39078773e81d8e0313d6b118b3064be308d 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dts
-> @@ -92,6 +92,24 @@ vpu_mem: memory@57000000 {
->   			compatible = "shared-dma-pool";
->   			reg = <0 0x57000000 0 0x1400000>; /* 20 MB */
->   		};
-> +
-> +		adsp_mem: memory@60000000 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0 0x60000000 0 0xf00000>;
-> +			no-map;
-> +		};
-> +
-> +		afe_dma_mem: memory@60f00000 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0 0x60f00000 0 0x100000>;
-> +			no-map;
-> +		};
-> +
-> +		adsp_dma_mem: memory@61000000 {
-> +			compatible = "shared-dma-pool";
-> +			reg = <0 0x61000000 0 0x100000>;
-> +			no-map;
-> +		};
->   	};
->   
->   	common_fixed_5v: regulator-0 {
-> @@ -209,6 +227,16 @@ usb_p2_vbus: regulator-9 {
->   	};
->   };
->   
-> +&adsp {
-> +	memory-region = <&adsp_dma_mem>, <&adsp_mem>;
-> +	status = "okay";
-> +};
-> +
-> +&afe {
-> +	memory-region = <&afe_dma_mem>;
-> +	status = "okay";
-> +};
-> +
->   &gpu {
->   	mali-supply = <&mt6359_vproc2_buck_reg>;
->   	status = "okay";
-> @@ -912,6 +940,28 @@ &scp {
->   	status = "okay";
->   };
->   
-> +&sound {
-> +	compatible = "mediatek,mt8390-mt6359-evk", "mediatek,mt8188-mt6359-evb";
-> +	model = "mt8390-evk";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&audio_default_pins>;
-> +	audio-routing =
-> +		"Headphone", "Headphone L",
-> +		"Headphone", "Headphone R";
-> +	mediatek,adsp = <&adsp>;
-> +	mediatek,dai-link = "DL_SRC_BE", "UL_SRC_BE", "AFE_SOF_DL2",
-> +		"AFE_SOF_DL3", "AFE_SOF_UL4", "AFE_SOF_UL5";
 
-Are you really, really, really, extremely sure that you need mediatek,dai-link?
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-I say you don't... :-)
-
-Cheers,
-Angelo
 
