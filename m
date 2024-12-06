@@ -1,32 +1,48 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EADF1F236B;
-	Fri,  6 Dec 2024 20:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2006C1EBFFC;
+	Fri,  6 Dec 2024 23:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733518706; cv=none; b=Y1RwqErzoq6ACEd300/kcYN3oX4EV5lZ9B8De2uIPS4LgjuYgwDRaFZnzklNFrK+KbfurHan5GJVEya2SDUSzvO2Cj6o3jbtAcrZAQP81ZPaXqc+BmjlIq7Z+pkJ5vfl+yMvH4PGkY6m+0W6qTSMCVFYiqXtslZa4KvuT/fso3w=
+	t=1733528153; cv=none; b=Bc5VpaIF1+PG3XVkw77UW7QGCxA2sMmjsYCzAxoXufyQs1pJ7l+E16WUD49zWnaW2kNqzhnR6GIdP4hr/HR3RDVLcpcz3CW99Yu2sFjZvKCJlqzpPO56fWnrK85t9xoaDJ9RIJQBCBrgLU7yQF0TbVm7u3z2m2p2nZWPzofNGWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733518706; c=relaxed/simple;
-	bh=AoYJEduDKAfmUXw66punVqpLvMHGpz/t+LVYPT/z7pE=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PTE0LzgcEYhomE5+EfGy48xWLh+cLZxNq/uwTh6WHo6tb9XM1IEmlg6u+0XGOJLMFhShkwNNrnNwypY5CtJyUJCH1WfybwbICchqnIEwswWtdePDXwWQzRero4wKc5NeTVo0coPRFPDKgTxf35um/u/bVOhntIbNICecjFd5/s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=opdIpAAC; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1733528153; c=relaxed/simple;
+	bh=MXIwrQewAajDh1gfesHB1c2CKu8WD9CnQN3aFCayvec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AuQyzrGmN7ILsc/KLFH8AhozKtj1wls/tx366B51iOzK7PgPrx+ZEv+Ahz+6Z1lwvRhWaRfvjtUS+suaNuyqk/ysnjg9edHb1zJfAge8fnBF4FgRX7ie+oDTmXC8H3/ZuExBiyfs0eUz4jDARrE/3q25xtM0NPgVFPvHQes476E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dQhUjTPS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="opdIpAAC"
-Received: from [100.65.128.154] (unknown [20.236.11.102])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 8B63620ACD7A;
-	Fri,  6 Dec 2024 12:58:18 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 8B63620ACD7A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733518699;
-	bh=M9PuEUd7fHK0twjnpmT4sQ2WiGKSyXN5nPrU+06sRxI=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=opdIpAACnQeStJ33oACe6p52ZM8f0Sws7Fv8oVZEtnJ34oxYkj2Ifncn0UBE7+8VM
-	 /Rer5IHWNKL+Om4cBhthsawIs+kQdevr3ykVw21CBvfVnNLhAZ1lcWLQbVr0aJDoH2
-	 0Lv+tHrW7mbf2ysXMzyMfTT7x/zNVB+cEVkkvmJU=
-Message-ID: <dab77729-682f-4182-9fb2-cd522ac29b5f@linux.microsoft.com>
-Date: Fri, 6 Dec 2024 12:58:17 -0800
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dQhUjTPS"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B6LL67m016383;
+	Fri, 6 Dec 2024 23:35:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	MXIwrQewAajDh1gfesHB1c2CKu8WD9CnQN3aFCayvec=; b=dQhUjTPS9V+2stxc
+	mVLD8Jp5EnNTj/zTKUCu53bYpzWqePP8noc68BiHhuoRt0S71NhtCVubHR2UbDPr
+	dk9dKmmrH7Axh+a7YEe9HDgEl+GFFQS2Jj0cffkha2km113gm84zSuqTfu1W30hq
+	5qXhNlbP3gRYykDfJHpWGfBmX2wRLB4sVZt2bO2VSm+1jcDyqJSPvqhfTYHVOMsW
+	sJC6xj8q3iMCxnujrvYLJPVNUJMOvmMpB+2JgYzumiYBLzNcto234wgSMAXQ1l91
+	Mjku0wFdMJ6JIImHRWDMoSMdilo8r8cvfvzFZ7OfqiJC4i/0M1fjkKel+eDvpCkY
+	Xleq8g==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43bxnya034-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Dec 2024 23:35:27 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B6NZQ6x018811
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 6 Dec 2024 23:35:26 GMT
+Received: from [10.71.112.120] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 6 Dec 2024
+ 15:35:25 -0800
+Message-ID: <33afcc55-1597-4aff-a20c-7a0df4b23236@quicinc.com>
+Date: Fri, 6 Dec 2024 15:35:23 -0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -34,69 +50,87 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, cocci@inria.fr,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
- etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
- linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-Subject: Re: [PATCH v2 00/21] Converge on using secs_to_jiffies()
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
- <b9fcb12a-b7a4-4c33-836e-67109ce07deb@intel.com>
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+To: Cezary Rojewski <cezary.rojewski@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+        <dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+        <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+        Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-29-quic_wcheng@quicinc.com>
+ <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
+ <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
+ <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
 Content-Language: en-US
-In-Reply-To: <b9fcb12a-b7a4-4c33-836e-67109ce07deb@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: GLu9OkWF2xnRrV0lI092seNdox1_pfiG
+X-Proofpoint-ORIG-GUID: GLu9OkWF2xnRrV0lI092seNdox1_pfiG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ phishscore=0 spamscore=0 bulkscore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412060179
 
-On 11/29/2024 4:57 AM, Przemek Kitszel wrote:
-> 
-> [removed most non-list recipients, it's just too much]
-> 
-> On 11/15/24 10:26 PM, Easwar Hariharan wrote:
-<snip>
+
+On 12/6/2024 1:09 AM, Cezary Rojewski wrote:
+> On 2024-12-04 12:15 AM, Wesley Cheng wrote:
 >>
->> ---
->> Changes in v2:
->> - EDITME: describe what is new in this series revision.
->> - EDITME: use bulletpoints and terse descriptions.
->> - Link to v1: https://lore.kernel.org/r/20241115-converge-secs-to-
->> jiffies-v1-0-19aadc34941b@linux.microsoft.com
-> 
-> that is not a proper changelog, you were supposed to edit those
-> placeholder entries; please look around for examples
-> 
-> There is also just too much recipients. Please split up your patches
-> into smaller pieces. You will also learn the process on a smaller
-> sample.
-> 
-> And definitively please wait for 48h before reposting such big series.
+>> On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
+>>> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
+>>>> In order to allow userspace/applications know about USB offloading status,
+>>>> expose a sound kcontrol that fetches information about which sound card
+>>>> and PCM index the USB device is mapped to for supporting offloading.  In
+>>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+>>>> responsible for registering to the SOC USB layer.
+>
+> ...
+>
+>>> R) += mixer_usb_offload.o
+>>>> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
+>>>> new file mode 100644
+>>>> index 000000000000..e0689a3b9b86
+>>>> --- /dev/null
+>>>> +++ b/sound/usb/mixer_usb_offload.c
+>>>> @@ -0,0 +1,102 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0
+>>>> +/*
+>>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>>> + */
+>>>> +
+>>>> +#include <linux/usb.h>
+>>>> +
+>>>> +#include <sound/core.h>
+>>>> +#include <sound/control.h>
+>>>> +#include <sound/soc-usb.h>
+>>>
+>>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
+>>>
+>>
+>> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
+>
+> I'm not asking _why_ you need soc-usb.h header, your reasoning is probably perfectly fine. The code hierarchy is not though. If a sound module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of sound/soc/ space.
 
-Yes, sorry, I sent out a v2 in a moment of panic on including the
-already accepted patch in v1. I failed to edit the changelog in that
-same panic. I'll try to not panic and do better in the future.
 
-> 
-> Regarding code - you could also convert msecs_to_jiffies(const * HZ),
-> there are 10 that are greppable.
-> 
+I'm still reviewing the HDAudio flow a bit, so please correct me if I'm wrong.  During module initialization, it looks like there will be some overall platform card that will call snd_hdac_ext_bus_init() to create the HDA bus.  I referred to the Intel AVS core.  How do you ensure that the ALSA entities are loaded before this call goes out?  I think once the bus is created dynamic creation/removal of HDA devices is fine, and the hdev_attach/detach is executed. 
 
-Those seem to be mistakes. const*HZ is a seconds-denominated timeout,
-being passed to msecs_to_jiffies() which will treat it as a
-millisecond-denominated timeout resulting in an excessively long
-timeout. I suppose that's better than a too-short timeout, and
-apparently it's been working fine all along since hardware responds
-before the too-long timeout expires. Half of them are in
-drivers/scsi/arcmsr/arcmsr_hba.c and the pattern has apparently been
-there since 2010.
+Thanks
 
-Thanks,
-Easwar
+Wesley Cheng
+
