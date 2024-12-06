@@ -1,110 +1,133 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363761DF978;
-	Fri,  6 Dec 2024 10:35:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DDA155C94;
+	Fri,  6 Dec 2024 10:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733481322; cv=none; b=pVaEbcZTaWJ2qIwLYByxK4VCs8T2lDfxcI39g7lK6aEZDuB6ftHadToxi+3RJiWr5mnBLFUnEl6NcEAR6jLnLYW0/lXzCB8nmdt0ydtQjB+VWe+lHkWw69vgGZwbpoXm9ph9fMmNGyBoFXCICZXGb/ylD4k8wrm78k0zo/l2wsc=
+	t=1733482688; cv=none; b=jwWjho+cMxz9QstjvW4+/GbO1u3Wa2qqeWMU56qKWkH2g4AnU+oa5tgMj29D7bgWxMyEHmkCrKxA0Hmug2jpVHTaDaxUVbgtk1oCUX1Vha9FOeQ5B5oOw2jyEwZJYmSdVdBk+Qhl0iky/lmTjEMiffCOW2r/whqXQ7KVohPbxMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733481322; c=relaxed/simple;
-	bh=UxJXuWJ5ThYOM2wpxglSc61Ze5uMCy/3edaG4WVImTk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XUvJwwB9G/itToMmgy3PKHNkAkJMyqS6lmKccheDmA/LJ1QgNvmJ7UIxiGZ0LPJuLTCkZ5Sw56edPwfGK1DaZCjL1JFmYLt+AZY+t7cmK4UpVzCBifbeb/PRmoDGB6Z8hfMzNa0UpMwf6qgHLY4LZK5QmfDns2SIm0ayDqPH7bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OvlaLO0/; arc=none smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1733482688; c=relaxed/simple;
+	bh=v6kyc1i3SuTZvC4nieWiq0GNXtwkIvYMeml68Vhjgnk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JweOV1qrTSSjW5lRnmuSYs2FratLbQgevx1xPF28RDmdGH5itn43inROFnkE0WuXveK820iMXbM/pVHdvSeHKm20B1Gy+IHo57Mph3Sw5TLpIgmzw9U+2j0U/m3ryEmHxuJ1l7wbq8EJmg+sBcmUu0eiLo9opQRW+HdgKu3fdhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=WshrjyWF; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OvlaLO0/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B66Wwmt028165;
-	Fri, 6 Dec 2024 04:34:59 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="WshrjyWF"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B63bf0t012353;
+	Fri, 6 Dec 2024 04:57:59 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=3MHHGhnK5Y2zsDYRkZ
-	EK/nJzMDB2uZ4a8qkD9C1qxiU=; b=OvlaLO0/aAijFVHYpTQv3C0zr5re80k0iV
-	g7k3HaTiXMRYsdJkwrv/BybEiwXXTJ5MdI0XQb6zl9AFCNNzmUamHp6aJ1kIN8By
-	/cCC1vUwc3z8EWQOOR3wIbs+p22msKJx/w5EVQyE0VVPvdgqQ2XimRZYxe4qJpDa
-	H5AzIsjjyoUXvajR2+G9cypkjRg63JVI5VK7yw1FBkC8rFzpt/rpWDictWEzCxXW
-	SKNVRMiCtxUAx68ETcu/hKPf8iAxLcoIjoB+Ap67oY76XQN5zabrMSiOLa+E7tql
-	n6FNYejCjRQwgR0jNGqFZMRbwiV2xlcU7Ckw0twy69IkFwS6EPVg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43ap2bb2xx-1
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=3umCSMyiQYvQvu6S
+	NzA7dpiB28Hwzv3v+BntoK8JoEM=; b=WshrjyWFULGBFpuUXE7x3ZWJQ9AmsBbN
+	ygCkt7qxhN9V9qtgiiRM9TYMFytjHm22q3isI4J7wq7bRb8cfVye5TWujFI0dr8E
+	l+Oy1p0uutl2PoRjxYOM8Fp9ZUs+f5zQu0guT16NTCj5dFCX8aGpxwIFsBpr/exA
+	Ulj+7eP6Ykk+EnVmW5HPjwzCMoZF5gXESEnPlhBXMkRuBXmZE+XuAHE3sltG1Wv0
+	kue+9dy+9TGoasBVPwPo5EvmiCI85R/FiDPrqMfRMENISxPpWpLjDCkHhBi9QhRH
+	9Sv0Hs3kQLhBTt2gPqmqowe07hHmf7U1xMq8ANtNx16tone5RHVzYg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 4381023ruy-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Dec 2024 04:34:59 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+	Fri, 06 Dec 2024 04:57:59 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Fri, 6 Dec
- 2024 10:34:58 +0000
+ 2024 10:57:57 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Fri, 6 Dec 2024 10:34:58 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id EA88E820248;
-	Fri,  6 Dec 2024 10:34:57 +0000 (UTC)
-Date: Fri, 6 Dec 2024 10:34:56 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: anish kumar <yesanishhere@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH V4] Docs/sound: Update codec-to-codec documentation
-Message-ID: <Z1LTUDDJZyg1+OOz@opensource.cirrus.com>
-References: <20241031211411.58726-1-yesanishhere@gmail.com>
+ 15.2.1544.13 via Frontend Transport; Fri, 6 Dec 2024 10:57:57 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1714F820248;
+	Fri,  6 Dec 2024 10:57:57 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <tiwai@suse.com>
+CC: <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>,
+        Simon Trimmer <simont@opensource.cirrus.com>
+Subject: [PATCH] ALSA: hda: cs35l56: Remove calls to cs35l56_force_sync_asp1_registers_from_cache()
+Date: Fri, 6 Dec 2024 10:57:57 +0000
+Message-ID: <20241206105757.718750-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241031211411.58726-1-yesanishhere@gmail.com>
-X-Proofpoint-GUID: z4wo7ClzZH60Ie0gro7wEM0F7YTSxSHB
-X-Proofpoint-ORIG-GUID: z4wo7ClzZH60Ie0gro7wEM0F7YTSxSHB
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: YmLTGcjI8ycBP1KZuNiLeSkEGi2vY-1p
+X-Proofpoint-ORIG-GUID: YmLTGcjI8ycBP1KZuNiLeSkEGi2vY-1p
 X-Proofpoint-Spam-Reason: safe
 
-On Thu, Oct 31, 2024 at 02:14:11PM -0700, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection especially around
-> the scenarios and DAPM core details for C2C
-> creation.
-> 
-> Signed-off-by: anish kumar <yesanishhere@gmail.com>
-> ---
-> +Boot-up logs will display message similar to:
-> +
-> +.. code-block:: text
-> +
-> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> +
-> +To trigger this DAI link, a control interface is established by the
+From: Simon Trimmer <simont@opensource.cirrus.com>
 
-Probably better to describe this as a widget rather than a
-control interface. This widget may have a control to switch the
-params but really the key point is the widget here.
+Commit 5d7e328e20b3 ("ASoC: cs35l56: Revert support for dual-ownership
+of ASP registers")
+replaced cs35l56_force_sync_asp1_registers_from_cache() with a dummy
+implementation so that the HDA driver would continue to build.
 
-> +DAPM core during internal DAI creation. This interface links to
-> +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> +path connects in the DAPM core. A mixer must be created to trigger
-> +the connection, prompting the DAPM core to evaluate path
+Remove the calls from HDA and remove the stub function.
 
-I am not 100% sure what we are going for here with "A mixer must
-be created", I think we are saying that the DAPM graph must route
-into the C2C link to power it up. I would be inclined to drop
-this and just mention the callbacks that get called.
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+ include/sound/cs35l56.h     | 6 ------
+ sound/pci/hda/cs35l56_hda.c | 8 --------
+ 2 files changed, 14 deletions(-)
 
-> +connections and call the ``snd_soc_dai_link_event`` callback with
-> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> +
-> +It is important to note that not all operations defined in
-> +``snd_soc_dai_ops`` are invoked as C2C connections offer
-> +limited control over DAI configuration. The operations typically
-> +executed in C2C setups include startup, ``hw_params``, ``hw_free``,
-> +digital mute, and shutdown from the ``snd_soc_dai_ops`` struct.
-> +
+diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
+index 94e8185c4795..3dc7a1551ac3 100644
+--- a/include/sound/cs35l56.h
++++ b/include/sound/cs35l56.h
+@@ -271,12 +271,6 @@ struct cs35l56_base {
+ 	struct gpio_desc *reset_gpio;
+ };
+ 
+-/* Temporary to avoid a build break with the HDA driver */
+-static inline int cs35l56_force_sync_asp1_registers_from_cache(struct cs35l56_base *cs35l56_base)
+-{
+-	return 0;
+-}
+-
+ static inline bool cs35l56_is_otp_register(unsigned int reg)
+ {
+ 	return (reg >> 16) == 3;
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index e3ac0e23ae32..7baf3b506eef 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -151,10 +151,6 @@ static int cs35l56_hda_runtime_resume(struct device *dev)
+ 		}
+ 	}
+ 
+-	ret = cs35l56_force_sync_asp1_registers_from_cache(&cs35l56->base);
+-	if (ret)
+-		goto err;
+-
+ 	return 0;
+ 
+ err:
+@@ -1059,9 +1055,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+ 
+ 	regmap_multi_reg_write(cs35l56->base.regmap, cs35l56_hda_dai_config,
+ 			       ARRAY_SIZE(cs35l56_hda_dai_config));
+-	ret = cs35l56_force_sync_asp1_registers_from_cache(&cs35l56->base);
+-	if (ret)
+-		goto dsp_err;
+ 
+ 	/*
+ 	 * By default only enable one ASP1TXn, where n=amplifier index,
+@@ -1087,7 +1080,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+ 
+ pm_err:
+ 	pm_runtime_disable(cs35l56->base.dev);
+-dsp_err:
+ 	cs_dsp_remove(&cs35l56->cs_dsp);
+ err:
+ 	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
+-- 
+2.39.5
 
-But I think those are my only remaining comments.
-
-Thanks,
-Charles
