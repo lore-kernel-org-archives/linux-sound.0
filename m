@@ -1,37 +1,41 @@
-Received: from pv50p00im-ztdg10011301.me.com (pv50p00im-ztdg10011301.me.com [17.58.6.40])
+Received: from omr011.pc5.atmailcloud.com (omr011.pc5.atmailcloud.com [103.150.252.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A4F189912
-	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 11:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.6.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424A01FF7A1
+	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 11:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733483333; cv=none; b=VH3z14kodM5H/CFIHhHbZ2MWXGVhke0omDe6P4mdBN9gmWmtZ+vIHl3QkHHML1NT+aVx7nb3VhD1GZZ1hH8Q1tgsTm87fn8L7Jxccsh3nEfdQXLgBtz4BVLSwRRYfiCh3ZUDeDzowroR+WD+uByAzAZ++Nf4SGMK/utRaORgVMo=
+	t=1733486102; cv=none; b=a+BDj4mo1Ly+d0UPoDcnYjJdsDactMiVBj/YaCQsfDzancOs0qLKg/K1NNJSQIy8r6SEPYrt3GuSt++t/KioxPl7VLIKlcivlTnTjR7jKRyi55hdTv0pAPY+NEz0jSWhMOcInLoOd4+wDJvZ2kyE/4uncqX9Q8ZYeTDzd1uifv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733483333; c=relaxed/simple;
-	bh=W4VuhT+Jm07xuaoOKTSneZ6zXj4xO3p37XsQxo6QhR4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NmcrlLNHC+kNug5KOAa2BbqNEbU6zGLgQKiMH7X9woqCjtGQQDpCDC6P7+Do5KFYF74vszzos3jxBVqmZ4v5szhKI3s7RoZyPMx97aRffZh64IysAE2EzmaX8mkSXXbJd6oEd2F/F8w7/Jpxi2ZmQRGB78+69sEn7o4EVOM2ieU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=MgjiqdzZ; arc=none smtp.client-ip=17.58.6.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1733486102; c=relaxed/simple;
+	bh=TSgIWRweqC5T+74Y7kPqPy3XlpjS0OdZOWqBCDegLWk=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:Cc:
+	 In-Reply-To:Content-Type; b=hlVQL5nxZBNTYr59VaKO8d0/WaecRF0WU5OnNWI3BwlK5KkYYWRpZy5SEmphE58iqdlVcxmXdhliGNHQJYbl+2UsW/GkLe1YFCyD5sIB3nhIMeRo57eGaHkstKdUrV1pQ5QGyMwBbzcgg+1MbWYL6PMtuIU6WrmqquISwOh/GfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=m+9ZWafc; arc=none smtp.client-ip=103.150.252.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="MgjiqdzZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; t=1733483330;
-	bh=NhyG+EmDBcuL7ITc5tFv2+rP51hoW90ADGxMFzERI+c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:
-	 x-icloud-hme;
-	b=MgjiqdzZfTmb/mVFTbzsypOWruuPXKPmqalwnrapBSSPRX9ZBXWuKx/rXEQNHK2pa
-	 Owdt0fT/DfIcknjmrc9RiPQm03DTgyCIfZaA0Ct84DRgRPn41GH/9ATt9WarD4oB7Z
-	 kp1tye/lvFsVtcUt9wEaRY3KIi4c4XR2lvGXACZO95dn1BzrfkmojzfeVy6LNqPP4n
-	 cuKwE61BSO3ibR5Zaj2OZLFYfkZ3aOGDENNFUeS+do+P7PcdFzPCx3SylOoxqhlQzu
-	 3vBrnTd0dnstMjHvqU/2HZ8ig8tIq43Kbs7RsrkBBEg+Xa3q76Kaj+3nG3pAqDsniz
-	 8LIg8qyWiAoMg==
-Received: from [192.168.1.26] (pv50p00im-dlb-asmtp-mailmevip.me.com [17.56.9.10])
-	by pv50p00im-ztdg10011301.me.com (Postfix) with ESMTPSA id 604B31801BD;
-	Fri,  6 Dec 2024 11:08:42 +0000 (UTC)
-Message-ID: <71d9c99f-aa7d-4697-8561-17b54cfe97c6@icloud.com>
-Date: Fri, 6 Dec 2024 19:08:37 +0800
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="m+9ZWafc"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=Content-Type:To:Subject:From:MIME-Version:Date:
+	Message-ID; bh=84H7hIW6+jX3uQhnJx1hqUDS5cEH5f4pqeOv+JAyuB4=; b=m+9ZWafcdwsj5H
+	ybw8NMO8pmVXzcBV/eb+OD0wrBjwLDrU5pRbnb8AnWK1/XE6KliOYxticnhJJ7JlsrDloA6pdp5ZA
+	drSYdSYw+wIkn3wGQIUqy9M8t3Pb+eVym0ZrNyi2Zplt/iZbx71Pb82QTpKij3c3pJqGYZtts2ryF
+	OnEB84Tp2IZ0Wz3FlDUJ9sGKcXsRb1MmbeYFy8g0LonnND6bQje7OYXVTPVoKhg0gM9ZsYioazpbI
+	pv0g4onf4BvQH5lunKxTMR8MmgurbzEX4np23emJFsx4hUKWK2DmPUFjltY/5unpWES9T/jaKz5wJ
+	Mq9f8y1s2v8k1fW+/wqQ==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-0e9f9ba0eb9e9598e) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tJWv4-000000006uX-221t ;
+	Fri, 06 Dec 2024 11:54:50 +0000
+Received: from [220.233.184.101] (helo=[192.168.20.106])
+	 by CMR-KAKADU03.i-0e9f9ba0eb9e9598e with esmtpa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tJWv4-000000001CX-08DO;
+	Fri, 06 Dec 2024 11:54:50 +0000
+Message-ID: <5011ceef-5100-441d-b169-dabba135d27f@iinet.net.au>
+Date: Fri, 6 Dec 2024 22:54:43 +1100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -39,89 +43,101 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas@t-8ch.de>,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
- netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
- <7ylfj462lf6g3ej6d2cmsxadawsmajogbimi7cl4pjemb7df4h@snr73pd7vaid>
+From: Stephen Gordon <gordoste@iinet.net.au>
+Subject: [PATCH v2] ASoC: pcm3168a: Add option to force clock consumer
+To: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
+ Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>
+References: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
 Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <7ylfj462lf6g3ej6d2cmsxadawsmajogbimi7cl4pjemb7df4h@snr73pd7vaid>
-Content-Type: text/plain; charset=UTF-8
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: UViy4Z1HSo-8jLvn8-7u7fwR8c_nYln5
-X-Proofpoint-GUID: UViy4Z1HSo-8jLvn8-7u7fwR8c_nYln5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-06_07,2024-12-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 suspectscore=0
- spamscore=0 mlxscore=0 bulkscore=0 malwarescore=0 phishscore=0
- adultscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2308100000 definitions=main-2412060082
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Envelope: MS4xfO8gTLXVnKZK35xsBnkpQV/g/fToUgWgraMHTeTsBTEDtyG4GrxksDLkqW62oqe+G7hq6eHXQfyR3X4CTZM6P2l6FEaNQFYijCvCGHXXqYRk9Q2hKrrD o01hNLi1JdiKBHDYFAov4Wb1Ow2ffLlnfcA3oCM1llo+3XcTo3WflClLkVIjbMj/5S/q++QhZX/+MQ==
+X-Cm-Analysis: v=2.4 cv=FeMxxo+6 c=1 sm=1 tr=0 ts=6752e60a a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=Z0YmYDo3DvnjE13v2BIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-atmailcloud-route: unknown
 
-On 2024/12/6 15:21, Uwe Kleine-König wrote:
-> Hello,
-> 
-> On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
->> From: Zijun Hu <quic_zijuhu@quicinc.com>
->>
->> Constify the following API:
->> struct device *device_find_child(struct device *dev, void *data,
->> 		int (*match)(struct device *dev, void *data));
->> To :
->> struct device *device_find_child(struct device *dev, const void *data,
->>                                  device_match_t match);
->> typedef int (*device_match_t)(struct device *dev, const void *data);
->> with the following reasons:
->>
->> - Protect caller's match data @*data which is for comparison and lookup
->>   and the API does not actually need to modify @*data.
->>
->> - Make the API's parameters (@match)() and @data have the same type as
->>   all of other device finding APIs (bus|class|driver)_find_device().
->>
->> - All kinds of existing device match functions can be directly taken
->>   as the API's argument, they were exported by driver core.
->>
->> Constify the API and adapt for various existing usages by simply making
->> various match functions take 'const void *' as type of match data @data.
-> 
-> With the discussion that a new name would ease the conversion, maybe
-> consider device_find_child_device() to also align the name (somewhat) to
-> the above mentioned (bus|class|driver)_find_device()?
-> i finally select this squashing method after considerations as shown by
-link below:
-https://lore.kernel.org/all/3a4de1bb-3eb2-469a-8ff7-ff706804f5bb@icloud.com
+Hi,
 
-device_find_child() is consist with existing device_find_child_by_name()
-and device_find_any_child, device's child is also a device, so we may
-not need the tail _device().
+Resending with signoff tag and including linux-sound on CC.
 
-> Do you have a merge plan already? I guess this patch will go through
-> Greg's driver core tree?
-> 
+Scenario is that DAC's clock pins are tied to ADC's clock pins, with
+codec acting as clock producer for the I2S bus, and the CPU has a single
+pair of I2S clock pins used for both playback and capture.
 
-this patch series is already squashing solution.
 
-yes. hope it move toward mainline by Greg's driver core tree.
+                                  ,-------------------
+---------            ------------| LRCK     DAC
+      LRCK|-------+--/     -------| BCK   (producer)  C
+CPU      |       |       /       |                   O
+       BCK|-------|---+--/        | ----------------  D
+consumer |       \   |           |                   E
+---------         ---------------| LRCK     ADC      C
+                      `-----------| BCK    (consumer)
+                                  `--------------------
 
-(^^)(^^)
+Both DAI links will have codec acting as a clock producer, but we need
 
-> Best regards
-> Uwe
+to configure the codec so that only one of ADC/DAC drives the lines.
+
+
+Add DT options to support this configuration. adc-force-cons/dac-force-cons
+
+cause the corresponding component to be configured in consumer mode.
+
+
+Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
+
+
+
+
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index 9d6431338..1a4cf8d63 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -61,6 +61,7 @@ struct pcm3168a_priv {
+         struct clk *scki;
+         struct gpio_desc *gpio_rst;
+         unsigned long sysclk;
++       bool adc_fc, dac_fc; // Force clock consumer mode
+
+         struct pcm3168a_io_params io_params[2];
+         struct snd_soc_dai_driver dai_drv[2];
+@@ -479,6 +480,12 @@ static int pcm3168a_hw_params(struct 
+snd_pcm_substream *substream,
+                 ms = 0;
+         }
+
++       // Force clock consumer mode if needed
++       if (pcm3168a->adc_fc && dai->id == PCM3168A_DAI_ADC)
++               ms = 0;
++       if (pcm3168a->dac_fc && dai->id == PCM3168A_DAI_DAC)
++               ms = 0;
++
+         format = io_params->format;
+
+         if (io_params->slot_width)
+@@ -757,6 +764,15 @@ int pcm3168a_probe(struct device *dev, struct 
+regmap *regmap)
+
+         pcm3168a->sysclk = clk_get_rate(pcm3168a->scki);
+
++       adc_fc = false;
++       dac_fc = false;
++       if (dev->of_node) {
++               pcm3168a->adc_fc = of_property_read_bool(dev->of_node,
++                               "adc-force-cons");
++               pcm3168a->dac_fc = of_property_read_bool(dev->of_node,
++                               "dac-force-cons");
++       }
++
+         for (i = 0; i < ARRAY_SIZE(pcm3168a->supplies); i++)
+                 pcm3168a->supplies[i].supply = pcm3168a_supply_names[i];
+
+
+
+
 
