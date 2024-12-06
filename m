@@ -1,118 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990E71D63D1;
-	Fri,  6 Dec 2024 07:21:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD711DE2B1
+	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 07:59:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733469664; cv=none; b=QfeDiMMWc5Bs0wkk3k2iDmPs19vJFOuy5uQQ10oBSpu8l7bjqNFQCzslVL3uoN3tB3AMQXox7aQT0Djm7ImF8noAnb/ha8N4HYiP7Xi3EndSDIc6DIHd/ei1msZ8pmds4X4iGn3wKdKZKmYD0GUwOGNEkR+LvDnRHBMhRASU7PA=
+	t=1733471956; cv=none; b=L2lW5nWaZq/fDuu4jJmgvln/7CgTAapXtx6utESFxRxHyKiRbEAvV9/TMTTgHMfh690P+cSFeekXmj6ZS+AqoQnInV2L75XBYDQafGtc/DiHZPE5Vhr5y4xYpqheuVqFxVIWLaNBFDjJANAl1rnq4V5E0nT6ee7P8JDTOo7FZjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733469664; c=relaxed/simple;
-	bh=eXgkPnSuV1DLMSpxicSxCmpRMc11qSId1Ps39ZgC62E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DgGs0eLziaCw/VfWhS12larD8OcwilOKczfSyb5h9dRhYsRfc0T5NRgHEbWMkf4493OE9qUZo90pxQUTG26Pw4MyydRR2weEyiRXY0jX8tUnaDB6EPNvf/kXqmEoLglnFBpZQuvUrJnhLMeLIlzwnpql6qdp6rMooeRPbcGKHWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o+wG9rcY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733471956; c=relaxed/simple;
+	bh=cTY5BqZovdXrEpWaq04ige/W7mSCjNxsuPa8V90kGDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gtGhpumJPQtTqKqw/JyQk6t3PFCrYRDZxeM1DqDeFJq+SXMBLtAiyXzjLVklZg6y/Mcp9C8Wfsb8Ex8z+w4qZLvJRzAlvleSiXABgyW8MMDa6kf2AUqWYL+AYZcXGvFNxrw7IDIbg7rM0nkf0KxMOltUIFNm32C401pX9x0eai8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bixTMoQU; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o+wG9rcY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F657C4CED1;
-	Fri,  6 Dec 2024 07:21:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733469664;
-	bh=eXgkPnSuV1DLMSpxicSxCmpRMc11qSId1Ps39ZgC62E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o+wG9rcYnotlrUeuc0PL7wpQWKlXXxbgXtHgvJy7YCCwHVZ9BkccRLmauWqsz+ZV/
-	 iY49BGCvaEwufLj74wUd4KOO2j4hv4jUIw8urqblrYMJBpAv6CgCbIU/8R6GyV73VK
-	 9c58t+wda7Myy5qJF2WzOXzK3/BQJ0i/AkjHXsZFMr7s3vepRv5asoxKqYToTl/hYB
-	 VNEio9U05OacRjqjaygqmLG9eUZQ17GF0aovEsH5OsM54NY9ccCb7HeNz79C2xEmMj
-	 yLXMkRkJbjJNx0ViCQboZDxE2VKg3DG3+oa6CDnctzD5D0J8giHgftdS96ghXZOqUx
-	 A94yQD2wKTalw==
-Date: Fri, 6 Dec 2024 08:21:01 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	open-iscsi@googlegroups.com, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-Message-ID: <7ylfj462lf6g3ej6d2cmsxadawsmajogbimi7cl4pjemb7df4h@snr73pd7vaid>
-References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
- <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bixTMoQU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733471955; x=1765007955;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cTY5BqZovdXrEpWaq04ige/W7mSCjNxsuPa8V90kGDM=;
+  b=bixTMoQUCmlk2U797q8ATAryEl5KyAbwzXkxKjpfgW/pdABrPM6jEKin
+   GRibkwAOWzNONS3ANeHS0Ly39xippJrgLn3RSn4alnLWgjMwmjuU/tC3E
+   ToCdmErr9hmijd+EI05dv8N3NfwRAYrYv8/Q94h7hHGpnzp0dfxs7u58S
+   BAYghRnvsnGjdIGLFHNuRbvz/VkkUfZahwAuh+Fq6TN4dFVfil4YrxU6F
+   UNV4PyW9Wvc14V1TrHcHSRm51VW4gs42c1Dyk7G9QYGOsZAViBpna4fc2
+   CqLoK6WZMGy3xiWSXkjcFGibO63ifRsKU+dGLbOpiUihEIaHECd27I/lB
+   g==;
+X-CSE-ConnectionGUID: 6wG0b/gsRMOLgWRS8KbzaA==
+X-CSE-MsgGUID: h2YpnO7oRyirc49+GwMLAA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="45192765"
+X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
+   d="scan'208";a="45192765"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:14 -0800
+X-CSE-ConnectionGUID: E9WLJ808Tbe1h5mLIb4QRQ==
+X-CSE-MsgGUID: 2Cly4PSvR/Ghrefiy39CMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
+   d="scan'208";a="94144357"
+Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.179])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:13 -0800
+From: Bard Liao <yung-chuan.liao@linux.intel.com>
+To: broonie@kernel.org,
+	tiwai@suse.de
+Cc: linux-sound@vger.kernel.org,
+	pierre-louis.bossart@linux.dev,
+	bard.liao@intel.com
+Subject: [PATCH 00/10] ASoC: Intel: boards: updates for 6.14
+Date: Fri,  6 Dec 2024 15:58:53 +0800
+Message-ID: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="owd7bvwanf7sxd4s"
-Content-Disposition: inline
-In-Reply-To: <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+1. Fix the incorrect cfg-mics value in card->components string.
+2. New codec match entries supports.
 
---owd7bvwanf7sxd4s
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-MIME-Version: 1.0
+Bard Liao (6):
+  ASoC: Intel: sof_sdw: correct mach_params->dmic_num
+  ASoC: Intel: sof_sdw: reduce log level for not using internal dmic
+  ASoC: Intel: sof_sdw: improve the log of DAI link numbers
+  ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb + rt1320 support
+  ASoC: Intel: soc-acpi-intel-lnl-match: add rt713_vb_l2_rt1320_l13
+    support
+  ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13
+    support
 
-Hello,
+Simon Trimmer (4):
+  ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
+  ASoC: Intel: sof_sdw: Add a dev_dbg message for the SOC_SDW_CODEC_MIC
+    quirk
+  ASoC: Intel: soc-acpi: arl: Correct naming of a cs35l56 address struct
+  ASoC: Intel: soc-acpi: arl: Add match entries for new cs42l43 laptops
 
-On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
->=20
-> Constify the following API:
-> struct device *device_find_child(struct device *dev, void *data,
-> 		int (*match)(struct device *dev, void *data));
-> To :
-> struct device *device_find_child(struct device *dev, const void *data,
->                                  device_match_t match);
-> typedef int (*device_match_t)(struct device *dev, const void *data);
-> with the following reasons:
->=20
-> - Protect caller's match data @*data which is for comparison and lookup
->   and the API does not actually need to modify @*data.
->=20
-> - Make the API's parameters (@match)() and @data have the same type as
->   all of other device finding APIs (bus|class|driver)_find_device().
->=20
-> - All kinds of existing device match functions can be directly taken
->   as the API's argument, they were exported by driver core.
->=20
-> Constify the API and adapt for various existing usages by simply making
-> various match functions take 'const void *' as type of match data @data.
+ sound/soc/intel/boards/sof_sdw.c              |  33 ++--
+ .../intel/common/soc-acpi-intel-arl-match.c   |  45 +++++-
+ .../intel/common/soc-acpi-intel-lnl-match.c   |  70 +++++++++
+ .../intel/common/soc-acpi-intel-ptl-match.c   | 148 ++++++++++++++++++
+ 4 files changed, 282 insertions(+), 14 deletions(-)
 
-With the discussion that a new name would ease the conversion, maybe
-consider device_find_child_device() to also align the name (somewhat) to
-the above mentioned (bus|class|driver)_find_device()?
+-- 
+2.43.0
 
-Do you have a merge plan already? I guess this patch will go through
-Greg's driver core tree?
-
-Best regards
-Uwe
-
---owd7bvwanf7sxd4s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdSpdoACgkQj4D7WH0S
-/k4dIQf/Zne0n0ncNUTb3GbDwFv4sf3wAVH368SbrNYMV23ZdWpNl4KZPovf5L1+
-5nMlPkc2I/CBZGE2OJcZWUhHI7cZ2ZYDHBBAf/TYhsY9f0+6wXgdi2cc+bbbQpo1
-JdabxMtgPX9tQ1Rbtv6jNu1AUvx8pONwQvUe5vmIBeLFDx5+wEwm4LppEVU+x9zB
-dApq6D2VfLguHwMf8HDycoa0nd0GL3R4KIJF4+taiSmhz9q+yjewqiXD2ag3fYrF
-1IeZ6pnyXoaq0aTwLmXXhI6se14Q+IZIVQPRXVQ5i9A8kbsWN0Fj2LfXnnNWhmHl
-YR8uP+UVLcfagxTg7ascr+SuV4OlCw==
-=cpdm
------END PGP SIGNATURE-----
-
---owd7bvwanf7sxd4s--
