@@ -1,86 +1,89 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C04196DA2;
-	Fri,  6 Dec 2024 12:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8774E201006;
+	Fri,  6 Dec 2024 12:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733489342; cv=none; b=k9R+VlWqRf2QDYZ+Th1tkerzSHrjyhDNHcOrDLb/17rwHDHoxVrQ8ra2y1BTVVFwh3dnZYzQxMzvPIgmvjMVnbQmCSJnoqZJEkGniCKtyuLd/DD149kVOYVpAIYndizDAqUsIpcjvYhXw5OOd3zmnFDNqpLC5LY8/nEweptKaLE=
+	t=1733489554; cv=none; b=VOrDgV5j5yAbjAoP38nZ4mVG/Or4sLoTy7SZBFVaW6386UpSLBHGsv3uG9NlC5dgvtuoD+/GyVLyh+wCLG0/rBOshzw2BXOhwbBVfoxmj2Vwl2hKBnNZl898W+FDTnoU/E8Ln2MkJX1pwxCbKaDDsg7gwczo1Cs7oT4djjJCPA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733489342; c=relaxed/simple;
-	bh=b6WgRv8rtiB7pTTMcphIGsOMKRIsXI5qMlLnrXGHB1c=;
+	s=arc-20240116; t=1733489554; c=relaxed/simple;
+	bh=IiDFzbtUC6tGJvkfabA6g8PDJfQlwY9sHpir1X28Rro=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=th5ALGE/BfW2r9QjPUHqwtkD3qSTX3FcFBlgoCCfAVc82NYI07x5lQKOQMqAdN1NUr5WgRlcub78zovymJ12w5c7FuLydhdyKdx3IeHekgl9Uz5vxVvQqrPZPlmfP9gsdIlylJtK9Pe5/DYRIp/AZuRIgZnuvxRGTQnndVT3WYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kkesa0FX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l+ltgAvX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=kkesa0FX; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=l+ltgAvX; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=OG8k4xAYtddBNAWgaelTJluCSnuiH1rePgF4rPPTLzJIJ46EH7Laxm6YacsIT3ibjWHq2CJjyHunMGbfghnkXlF4jurNAPxcw1xuiFl+SXgENSZhf2/G0LWrINmwhVqX3fiYuRUiQdJaPdfOhqoSvyN1Lelzy61zoyxZjc0xwEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u37M/cNI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oe4CIw8r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u37M/cNI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oe4CIw8r; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kkesa0FX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l+ltgAvX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kkesa0FX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="l+ltgAvX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u37M/cNI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oe4CIw8r";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u37M/cNI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oe4CIw8r"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 06E8421191;
-	Fri,  6 Dec 2024 12:48:53 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 92281210F8;
+	Fri,  6 Dec 2024 12:52:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733489333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1733489549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5K5CGsSKu551hYd3WzWHJ25z8Kb3GEXEqTT48JAUn1A=;
-	b=kkesa0FXkOz6ZdgLYCQCBz5vHsRKao4X5p29Ju5cqRkljWjRMnbAmpTfpr5X+MuuJO/8ff
-	8eSioNdx4TRs6PtUPnYyJkTV7B7aEw6DcUwNlyP3865UQ9o4jUzUJVIcH5jtB3vSq3261P
-	j1u4HXj7QglTSEF5hbz1Ryc4K0fe3Cw=
+	bh=N2OuCvqgVh+5HH+wLZzsP2rOaALcuPL4ok2eCIQtx9c=;
+	b=u37M/cNIuCsbZvPny3Cd7bJsPyl0Lj2wZIGr/FF+WwDni6s2Zw9gUVKruEiCc+QmPp4T5D
+	GUK+kWMQKM/GtrIbwKLe7/MJY+PBZbJ1BDonNFc4mRT4XGAbB5CRC03LdiLTbHsc6jXb7E
+	5VKzikOC6igzzWMgEgdMHIjiuNWuBPQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733489333;
+	s=susede2_ed25519; t=1733489549;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5K5CGsSKu551hYd3WzWHJ25z8Kb3GEXEqTT48JAUn1A=;
-	b=l+ltgAvXi/mJgaVMo1aKyd2vtMX/lug/UFu4YW6oqr5bxb7K+aqWsCQx85PcnMVC5uimLd
-	Gfimvo2njLYHYkDA==
+	bh=N2OuCvqgVh+5HH+wLZzsP2rOaALcuPL4ok2eCIQtx9c=;
+	b=oe4CIw8rNktj08pcThDxJZOTx2S5qwx/KrdynssCnzSHxnlL3FPh8J2KhYTLsHDMi+u8aF
+	pB+YKrvjKGpcGQCA==
 Authentication-Results: smtp-out1.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="u37M/cNI";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oe4CIw8r
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733489333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1733489549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5K5CGsSKu551hYd3WzWHJ25z8Kb3GEXEqTT48JAUn1A=;
-	b=kkesa0FXkOz6ZdgLYCQCBz5vHsRKao4X5p29Ju5cqRkljWjRMnbAmpTfpr5X+MuuJO/8ff
-	8eSioNdx4TRs6PtUPnYyJkTV7B7aEw6DcUwNlyP3865UQ9o4jUzUJVIcH5jtB3vSq3261P
-	j1u4HXj7QglTSEF5hbz1Ryc4K0fe3Cw=
+	bh=N2OuCvqgVh+5HH+wLZzsP2rOaALcuPL4ok2eCIQtx9c=;
+	b=u37M/cNIuCsbZvPny3Cd7bJsPyl0Lj2wZIGr/FF+WwDni6s2Zw9gUVKruEiCc+QmPp4T5D
+	GUK+kWMQKM/GtrIbwKLe7/MJY+PBZbJ1BDonNFc4mRT4XGAbB5CRC03LdiLTbHsc6jXb7E
+	5VKzikOC6igzzWMgEgdMHIjiuNWuBPQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733489333;
+	s=susede2_ed25519; t=1733489549;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5K5CGsSKu551hYd3WzWHJ25z8Kb3GEXEqTT48JAUn1A=;
-	b=l+ltgAvXi/mJgaVMo1aKyd2vtMX/lug/UFu4YW6oqr5bxb7K+aqWsCQx85PcnMVC5uimLd
-	Gfimvo2njLYHYkDA==
+	bh=N2OuCvqgVh+5HH+wLZzsP2rOaALcuPL4ok2eCIQtx9c=;
+	b=oe4CIw8rNktj08pcThDxJZOTx2S5qwx/KrdynssCnzSHxnlL3FPh8J2KhYTLsHDMi+u8aF
+	pB+YKrvjKGpcGQCA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CAD8C138A7;
-	Fri,  6 Dec 2024 12:48:52 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 584CB138A7;
+	Fri,  6 Dec 2024 12:52:29 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2Vc6MLTyUmdhSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Dec 2024 12:48:52 +0000
-Date: Fri, 06 Dec 2024 13:48:52 +0100
-Message-ID: <87r06lrn7v.wl-tiwai@suse.de>
+	id ehdEFI3zUmeFSwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Dec 2024 12:52:29 +0000
+Date: Fri, 06 Dec 2024 13:52:28 +0100
+Message-ID: <87plm5rn1v.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: liujing <liujing@cmss.chinamobile.com>
 Cc: perex@perex.cz,
 	tiwai@suse.com,
-	ghanshyam1898@gmail.com,
+	drhodes@opensource.cirrus.com,
+	jbrunet@baylibre.com,
+	broonie@kernel.org,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: au88x0: Modify the incorrect format specifier
-In-Reply-To: <20241206020543.2153-1-liujing@cmss.chinamobile.com>
-References: <20241206020543.2153-1-liujing@cmss.chinamobile.com>
+Subject: Re: [PATCH] ALSA: cmipci: Modify the incorrect format specifier
+In-Reply-To: <20241206021647.2343-1-liujing@cmss.chinamobile.com>
+References: <20241206021647.2343-1-liujing@cmss.chinamobile.com>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,65 +92,55 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
+X-Rspamd-Queue-Id: 92281210F8
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
 	ARC_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[6];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 X-Spam-Flag: NO
-X-Spam-Level: 
 
-On Fri, 06 Dec 2024 03:05:43 +0100,
+On Fri, 06 Dec 2024 03:16:47 +0100,
 liujing wrote:
 > 
-> Make a minor change to eliminate a static checker warning. The type
-> of chip->irq is unsigned int, so the correct format specifier should be
-> %u instead of %i.
+> Replace %d with %u in snprintf() because it is "unsigned int".
 > 
 > Signed-off-by: liujing <liujing@cmss.chinamobile.com>
 
-In this particular case, it's better to correct snd_vortex.irq to be
-normal signed int.  The validity check is with a negative value, as
-it's initialized with -1.
+I applied this one, but please keep in mind that we don't have to
+convert all those cases blindly.  The code there is correct even with
+"%d", as the value can't be a negative value.
+
+That said, if you keep working on a similar case, you'd better study
+the code more closely and judge whether it really "fixes" any real
+bug or not, before submitting patches at the next time.
 
 
 thanks,
 
 Takashi
-
-> 
-> diff --git a/sound/pci/au88x0/au88x0.c b/sound/pci/au88x0/au88x0.c
-> index 62b10b0e07b1..e3b1d7116110 100644
-> --- a/sound/pci/au88x0/au88x0.c
-> +++ b/sound/pci/au88x0/au88x0.c
-> @@ -223,7 +223,7 @@ __snd_vortex_probe(struct pci_dev *pci, const struct pci_device_id *pci_id)
->  	// Card details needed in snd_vortex_midi
->  	strcpy(card->driver, CARD_NAME_SHORT);
->  	sprintf(card->shortname, "Aureal Vortex %s", CARD_NAME_SHORT);
-> -	sprintf(card->longname, "%s at 0x%lx irq %i",
-> +	sprintf(card->longname, "%s at 0x%lx irq %u",
->  		card->shortname, chip->io, chip->irq);
->  
->  	// (4) Alloc components.
-> -- 
-> 2.27.0
-> 
-> 
-> 
