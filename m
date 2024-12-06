@@ -1,63 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70801C5482;
-	Fri,  6 Dec 2024 20:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271A11C549F;
+	Fri,  6 Dec 2024 20:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733515447; cv=none; b=K5s+TmKDAxceTsAM4mxMmoRDU3+mGdRY2r5/5yRRMS10cJHdXHCH+5LYWVAKN7PYiaPVOsroeNhSeGBou9eOJXhsYKR/2NbtEvqY5Bj7a8XOZnpzIGwckaZEMIb/+GUdD0qS7wO6wQxg6CZg9s0oXYurGqYnDLu6f6eX3NsOfsI=
+	t=1733517757; cv=none; b=NJiIMHGVIgQN4Y4hY0c6Q2ZGP5RNb0u4a9aBOF5nK5L509Je41tWLJzJnOAP4NPWn2tuUcBw9mhFJrHPHUYyrgF03Hp0+XRwpWDGiGuIpm98mgxuVv3maTenxKNOiWbDucMzroNkTZaQesuuXbRH/St0EZOk6bzohCNgNSfYqfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733515447; c=relaxed/simple;
-	bh=TWgkL3SKgYVdnsfgt+BwppG6Xb1QES6qU8WP62YsGCU=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=Tt9PJcNP5+3ZFr+m6YPCqG4Fp2RNi6EXM0YoncvMNHtuWThjCNU5ILRgUn8TddF/xoUNYsm5ZlWnlAW9VXeRZjHqyNPaffhgMH+tMa3OjXnUhzAK7K3ug00osJ7DuRY6DWoMJesJBAUdRT4NfPG2YpILU8AdnUnpxfze56bJago=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W5eh8fKn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733517757; c=relaxed/simple;
+	bh=7FMBJvtBDWTo+KIE2Hy4+YE3DFqzJBO80QHhIdJI0Bg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PM+qw6UYkG1cpmy6z+5r+vTPP/VxrsO/6a7inXcQP/+yPQVS5fl+TQhJ8qHeJhG4QduSdw29ptOgBjB0a+/UhJi/LL/gvUZI45RPu9EtcxKwBsk5TMtpswagTteKkLz2G0XeGDstgdMHFNj/6UdU74gDHzh1DWwBaQdgAYBjUnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBi9HbMl; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W5eh8fKn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 813EDC4CED1;
-	Fri,  6 Dec 2024 20:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733515447;
-	bh=TWgkL3SKgYVdnsfgt+BwppG6Xb1QES6qU8WP62YsGCU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=W5eh8fKnujZaw/DHIA9wciQWRmuLGhP/2JjJ+LToA5eiC7ggPXNqgvKVHS3hAEXbi
-	 U1SLP6QW4gLKxQ6k6Vmi8lKht3nJRuPSatBGdb70cQ7qKVxT7LZc+XGjxosVZ9eRQM
-	 wVyYNitSc9jUEod1L3B2vzKB18V9NjM0b4wIuazSqfBuA2Hys+iOPVmZo0nGP5oLUA
-	 WCcadJ6xzZ4w2iH/y6XUoJd7cRz3YntSB0SXDFkcespXccLexalHpD6B1NXG0DXox+
-	 Su5jjK3NMLOM0QV10Yy1ASUjRGttLVkhrms6PT3cVwbzT91Ve1+DLiDeiqVCSBAtak
-	 Mt2qK6BcRhSFQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id AE0DB380A95C;
-	Fri,  6 Dec 2024 20:04:23 +0000 (UTC)
-Subject: Re: Re: [GIT PULL] sound fixes for 6.13-rc2
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <8734j1tc89.wl-tiwai@suse.de>
-References: <8734j1tc89.wl-tiwai@suse.de>
-X-PR-Tracked-List-Id: <linux-sound.vger.kernel.org>
-X-PR-Tracked-Message-Id: <8734j1tc89.wl-tiwai@suse.de>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc2
-X-PR-Tracked-Commit-Id: c34e9ab9a612ee8b18273398ef75c207b01f516d
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 2b90dcd599b62ccaaa367947037235de8e6bc3a7
-Message-Id: <173351546217.2778953.1392539592085467699.pr-tracker-bot@kernel.org>
-Date: Fri, 06 Dec 2024 20:04:22 +0000
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBi9HbMl"
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-4afdfefc6c1so7093137.0;
+        Fri, 06 Dec 2024 12:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733517755; x=1734122555; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7FMBJvtBDWTo+KIE2Hy4+YE3DFqzJBO80QHhIdJI0Bg=;
+        b=mBi9HbMlrIToGwKFVNW4TDkXqCV+HWlg6rulpEDqy6AINH+6YOVRjq9IZx6pUQAJWk
+         LbPn+1If+MxMxxIQlU3vu86X1CcZV9Vuwqr+n2HirmXgWryWEkPn/dliMSjPpPdj2ZG3
+         zKHIs7pRprMYnyGDkJkDfnQELDrDbvR8ypkt6n91HIlwj1ukaPxPY4kWzTYUvWXzHCFr
+         Nv4Jhg6E5ZjPaahuoxHnfCgDMz8sZ7eFlqZaBPT2J3GgtC0Vyghx9Hva22m1UPUya9E6
+         ikMJ40mxaTpMkHeR2YJcswFwbPKROlJmAEaSjLV3OpZ+Z6iDCsTye3KUWf5gVzKUykcJ
+         atbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733517755; x=1734122555;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7FMBJvtBDWTo+KIE2Hy4+YE3DFqzJBO80QHhIdJI0Bg=;
+        b=A1j6qJevO6CLgxDUSUCady/1hVC/6EI+rdquHD4c2ZyxP77fuk0yiPyjUlF/4FXcbz
+         VXTwAsnU53SLAMN5DCqgt+PMIC7vRbyaKVEARwafnMXLedmD481Iu3M0mnzhnxgxdusP
+         j4yTRIg+XATtk5LXUHjbk+S/1QNfZXeVmFPEZF4jN3wC+nLqco2sOpjpIBSl0txxAD5l
+         i8oV1bsTVu0673TpIN0I+NXdPhibNM/RU0tt71Jv8RMfHcx8dmQuXMMwT/d2DdT915V3
+         3+pzX27LxVB0xSrZHcIwsva3gWOfHxrnRP3KU5ruv1qrm/2cxKpSZNV9ZZUpRe9ucRaU
+         GyCg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7EPJX20VC6wHX/K2ldGleCEvRnRjQsvNQNEbr6ehbFcbcpNsOcAaZGmAN+nRr+WvNehNi5SZ0hCAPyojb@vger.kernel.org, AJvYcCVXKsnC/O9a2xdteEGGcbVIUW9NaLVUzPvvwBF02Wta7Q+T4LS7M6oP2KA8Zok+9MdSG35Pf/8DhO84@vger.kernel.org, AJvYcCWKvwKGuDEJrMjFpOA5EQ2fuEOWhT3WRybPGVW0yxNEW+SPwdrY1S4kOv+mOaykH7KI1eRKf+rCfST+wxWeeQ==@vger.kernel.org, AJvYcCXG8E/I03EZ+bHMRgv4ed43mlN6YRzwX8aqAdct+peV2AModXgQNWCICWGOFD91oeuhVT6MgntmXp4I+Kk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoHBTlfj0M7HbqEMvkIbgaJPMk+eAaNUIJkTa1p7j/PvGolWRP
+	6xXrOG/7qbHyIFiXnjz6s4D7e9PJ0gWXfeCI+vWieiT9zvsJs/ESjQKMEnQWzyJTZ/vH3yoBJ0T
+	8ehpgl5UmFtjP0aohNCxlYcWsyg57shCd
+X-Gm-Gg: ASbGncsEY3jM0luCaLUco+JukiFkplKUyvFlSwrqZtbrndNS89xmdBUQUbqMLWsamZn
+	bfjSHFdpGiGw6ZO8Hdx3tsbbATiflGA==
+X-Google-Smtp-Source: AGHT+IFAc0eiukV4w2HsnxXwh119RzhcP435O4SRLXGkUh5TImPlsVPMnvFdkUldt52feLqWQVqNzSjYSdXVodDyWuk=
+X-Received: by 2002:a05:6102:3909:b0:4af:4974:a489 with SMTP id
+ ada2fe7eead31-4afcaaecdb6mr5723337137.20.1733517755127; Fri, 06 Dec 2024
+ 12:42:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20241205084021.35610-1-krzysztof.kozlowski@linaro.org>
+ <c3d2477b-f12a-47dd-bf95-927e6c0d8fd5@sirena.org.uk> <CABTCjFA9DyRzca93qoS5_+sfc2RLfNVNqN14WVfKODjHykwGJQ@mail.gmail.com>
+ <08e07421-8a9b-4535-9cd5-9383ca9024b3@sirena.org.uk>
+In-Reply-To: <08e07421-8a9b-4535-9cd5-9383ca9024b3@sirena.org.uk>
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Fri, 6 Dec 2024 23:42:24 +0300
+Message-ID: <CABTCjFB7XiR6_+r375h0fJipA+OC2i94ruTG-sWB=s=0qYRReQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
+To: Mark Brown <broonie@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The pull request you sent on Fri, 06 Dec 2024 10:03:18 +0100:
+=D1=87=D1=82, 5 =D0=B4=D0=B5=D0=BA. 2024=E2=80=AF=D0=B3. =D0=B2 16:31, Mark=
+ Brown <broonie@kernel.org>:
+>
+> On Thu, Dec 05, 2024 at 04:29:45PM +0300, Dzmitry Sankouski wrote:
+>
+> > This is the 1st patch in series, and NUM_CODEC_DAIS redefine from bindi=
+ngs
+> > is deleted in the 2nd one.
+>
+> I know, that still means this change is broken.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc2
+How to avoid broken change, when moving constant from dt-binding to*.c
+file, given we have constraint of separate patch for bindings?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/2b90dcd599b62ccaaa367947037235de8e6bc3a7
-
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+--=20
+Best regards,
+Dzmitry
