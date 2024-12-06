@@ -1,148 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7303D32C8B;
-	Fri,  6 Dec 2024 14:34:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354BE1F3D2D
+	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 16:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733495695; cv=none; b=aGbt+ngDTAW0xkEeA11TTRy69EmQQKzSscjMV1eMuacL2CMdxXZV71T0RT1sUVaBNrM11Vdydx2b+/aKDmUzvHJG/kLA0+/HIrKf5nvWJl0E45NJt37uScEAs1vl+3wN1EDCABMsBDGxSopHLN2lMacM2EQgFkGoJ2TgGRSOKg4=
+	t=1733503580; cv=none; b=R/2FlbcWkaXNwrf+WqQbarmP4t4cZna3DPEsJXgynv+jYpzVqNoG5Bl70Tmm67ve0x/VhOkicQlP6YK9hZH7cJSRqq8MbuFKDCGTHDFjXmkRGVB/fJlr8tJJOFjHk5GyxKPyzRRR0feCgvs9SI3eS5yGk8b8kZJtiRQxFl4BEO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733495695; c=relaxed/simple;
-	bh=nF5LxKv8T81leJMO/CuStFlxQDPRXw0NlSd9f5JANYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s32gfombTyxsi+AEsnb+9OU9R4yIcMfNazXDYijIofvMKcCMtrpjm6cQLL6/KJ84THIwNtei7TW0RXrgjCMvHBjpyBVbbiQiDEVYAVvk5foooNyVLGaiY3Q/KiYSh1IX4Q3xEQZUTVU8EUVV4JyzUDoH0jwbUQ6V9q2qs2oyGjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WgHxdjMu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733503580; c=relaxed/simple;
+	bh=ZK5a4FVY/CFjU9OB0zks1RHIFGTLqjPA9cx97FsFi28=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BHLLIRBGJe0Qrqx07RmZOkxOWqzlM/dmRaylzI5GEo5zL0fbIaWH6KC88xIRqowwY71U+Y3uoOAyCk3C7xuWOFw3Jyscjb8xViiTIAfcbCONAbCJTW8HpZg+68DiBWA/aw8MubhZoAvc/3BnOY/m6qycOS8SZ1slEPU8EeesXoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TS75cJ55; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WgHxdjMu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A50DC4CED1;
-	Fri,  6 Dec 2024 14:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733495695;
-	bh=nF5LxKv8T81leJMO/CuStFlxQDPRXw0NlSd9f5JANYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WgHxdjMuh7TGdSDG78OQk4528JQqnx5KRlevVafqybA+nndhgJb7Q70hQ36QphC7m
-	 5J5HKk9E6TZ9duXn4GHfgApO3OHuIlAXffiDZU129EnvSz9FhND87VGhejelBxsIvq
-	 sBLNi5O3GT4ArsiTXb+a95mquANa9oVe/eoZ27dirHsZm5LDxjFWrLYgljpvRikiYq
-	 MmlKV31TVnfvcurjE5rt1OKQoZIgxIH/EK+7WsaTtS1YWbu9imqs3Y+eKs3FPMTZX8
-	 Jx9N7bJkAiOxjE4cCX1Ke6WmOWBeRNiKX9xzpl/XzHbUaojbajwdOG+z2tSb05GFEz
-	 EBCHb6D1nP7SA==
-Date: Fri, 6 Dec 2024 15:34:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
- get_modes()
-Message-ID: <20241206-caped-proficient-rattlesnake-c882f3@houat>
-References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
- <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS75cJ55"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ffb5b131d0so22419271fa.2
+        for <linux-sound@vger.kernel.org>; Fri, 06 Dec 2024 08:46:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733503577; x=1734108377; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ol2yKbkMPN+HC8dU4rXIBYY4RipgoOn6OkqD37L6yoU=;
+        b=TS75cJ55lAYpNpdzzE26WTZN8OK/fTQxaardYLKtmgBad2XnWZh0XBg/MLwsWkXnwh
+         ewYMUrI2EIUqz8VuUejPPGoQymS4EzPYuvYjHyg3c9xQovUkV3kk+bvk3vnfmx1eSUbV
+         qzwysqLR4kNXlrXzFwmB8QGpVKaBYvQL+wTycFMDgnqQvYs0zfSiZGidKbu9POmocDVo
+         aOXCmP01UUt6vn5EqpVH2dTM2g7l6MkxowkmR5lLlxQHek+wl3pxa0tQWXSYJDiD7lhs
+         563nMrkBadbNMXF5gbs/R88TGKeRL4lglDWJydVLcO6+ZA6cHiKwNbWsn+iJBL+OQpaD
+         DW2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733503577; x=1734108377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ol2yKbkMPN+HC8dU4rXIBYY4RipgoOn6OkqD37L6yoU=;
+        b=b1W33+d94x3DKJdehUnjpQDPdmLL+6j64xGU91Hfn4DONL3neav4KNZBCsGnAq5Atz
+         DJ68FTLPtToqbUnfMcGQ+kfeqxO5t54KTaAbwH0FjmMYVlDhF+W+EXgaopPfZAnlTBuz
+         59V6vV4/C2B2D4vS6ThWhy271Wip9drUIoeIfCr2q4WFSbQyUVfyMNglWXQDMnWBdR3q
+         5rMoZy+dJh8uV3eKM8GGTdmER4dbBlK/VElaHy+FgLHk9zRfeZjnSOsludy4CDp0WLDo
+         7c+cvZkdS0rprJO3fXCckZUwrvpi/dI6l0sfeClpbSHBh8M/qhWKIyA/ZwlDfyZIw3Ni
+         NlEA==
+X-Gm-Message-State: AOJu0Yz3d0D29f5jZS8zXaOFfn9WE+n5wfurrFZslGqTLJs1qm+12+ZN
+	Q5v0eHsvU78byKdy+Bk8NrascG2e1vKi/jlL7ZfF9HlFEGvCpls2oMHqIjSuGMs=
+X-Gm-Gg: ASbGnctRrJjy1GBI3sfIxTg+V/l0FpVjWNEfjn4jXjBWvY1IhxgrA2Ix0S+LT6Mk3wi
+	C2lf10sRM86ZpNLA00KnF7uUJ6i1icO2wQnOpj8cmt6f8ScSj2H1JjIZ2+3RT8dPSAD2mghzWSh
+	cfKh0hIHWRMqi2QN5Zuj9WR+PUJXFc8tko9lrT5+UCI6F+pLd0FsDIe0cvyZaID0MIix8jE9iEz
+	ddarlDJfpBpd0f8E4O25PR4XKlZEqJ6zZcaZSGJ/LqMd1VHbwRDMT9TSmFzSZQEDSpZECWyHwbv
+	i/81WOLJ
+X-Google-Smtp-Source: AGHT+IFzciOKfyx4GI9fJD0KY49r407LYZsv2/+b/qcheqid5qZYupSaiPHJuPvhXBKh+RLbL2MF0g==
+X-Received: by 2002:a2e:bcc1:0:b0:300:38ff:f8cd with SMTP id 38308e7fff4ca-30038fffa34mr7366341fa.9.1733503576789;
+        Fri, 06 Dec 2024 08:46:16 -0800 (PST)
+Received: from nomad.sjv.fi (88-112-63-228.elisa-laajakaista.fi. [88.112.63.228])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020da0729sm5179071fa.28.2024.12.06.08.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Dec 2024 08:46:16 -0800 (PST)
+From: Jaakko Salo <jaakkos@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	Jaakko Salo <jaakkos@gmail.com>
+Subject: [PATCH] ALSA: usb-audio: Add implicit feedback quirk for Yamaha THR5
+Date: Fri,  6 Dec 2024 18:44:48 +0200
+Message-ID: <20241206164448.8136-1-jaakkos@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="6occl6gdwf4rqri7"
-Content-Disposition: inline
-In-Reply-To: <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
+Content-Transfer-Encoding: 8bit
 
+Use implicit feedback from the capture endpoint to fix popping
+sounds during playback.
 
---6occl6gdwf4rqri7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
- get_modes()
-MIME-Version: 1.0
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=219567
+Signed-off-by: Jaakko Salo <jaakkos@gmail.com>
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hi,
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 00101875d9a8..a0767de7f1b7 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2179,6 +2179,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
++	DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
++		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
+ 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
+ 	DEVICE_FLG(0x0499, 0x3108, /* Yamaha YIT-W12TX */
+-- 
+2.43.0
 
-On Fri, Dec 06, 2024 at 12:16:03PM +0200, Dmitry Baryshkov wrote:
-> The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
-> already reads EDID and propagates it to the drm_connector. Stop
-> rereading EDID as a part of the .get_modes() callback and just update
-> the list of modes. This matches the behaviour of the i915 driver.
->=20
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->  drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
->  1 file changed, 21 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdm=
-i.c
-> index e5ab42f72f618b90f956482db6c9c8074c1e3bf1..3364ef90968dad3074800f029=
-26300ffceb75c69 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm=
-_connector *connector,
-> =20
->  static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
->  {
-> -	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
->  	struct vc4_dev *vc4 =3D to_vc4_dev(connector->dev);
-> -	const struct drm_edid *drm_edid;
->  	int ret =3D 0;
-> =20
-> -	/*
-> -	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
-> -	 * results in reentrancy issues since cec_s_phys_addr() might call
-> -	 * .adap_enable, which leads to that funtion being called with our mutex
-> -	 * held.
-> -	 *
-> -	 * Concurrency isn't an issue at the moment since we don't share
-> -	 * any state with any of the other frameworks so we can ignore
-> -	 * the lock for now.
-> -	 */
-> -
-> -	drm_edid =3D drm_edid_read_ddc(connector, vc4_hdmi->ddc);
-> -	drm_edid_connector_update(connector, drm_edid);
-> -	cec_s_phys_addr(vc4_hdmi->cec_adap,
-> -			connector->display_info.source_physical_address, false);
-> -	if (!drm_edid)
-> -		return 0;
-> -
->  	ret =3D drm_edid_connector_add_modes(connector);
-> -	drm_edid_free(drm_edid);
-
-I don't think that works though, for mostly two reasons:
-
- 1) We're not sure we'll even have an hotplug interrupt if the system
-    boots with the connector plugged in for example.
-
- 2) afaik, the get_modes ioctl directly calls get_modes too.
-
-Maxime
-
---6occl6gdwf4rqri7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ1MLiwAKCRAnX84Zoj2+
-dtSXAX4hYRG+Z6tKfkagtuQh3eXutsb5V7CXdnzsxAuDpcnlgOGnrNWvE/pOo221
-IbNrcU0BgKUK8Zc+sRgjwT4hMHCUzqNxA3vJPT21KIFeOFWVKptImryaMUOS4zgh
-qNsNOpDWOQ==
-=07j8
------END PGP SIGNATURE-----
-
---6occl6gdwf4rqri7--
