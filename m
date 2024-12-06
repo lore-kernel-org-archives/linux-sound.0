@@ -1,212 +1,237 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C511EF09B;
-	Fri,  6 Dec 2024 09:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733475939; cv=none; b=ScLS9PM6a5JkA9niYH0PvdpCMbXRJ3o2sHaLApUkJZyVB5iGus4+l4+2ssjCbVDo5R4VFVE0n9ZV9m8j60eip3O0uvLgKvdlSGE/gjNiry99gb3zWB7gpy6roZxFw+XvOXR3Hkm3BrrpRH8RZEXiyvksOj8VY9Z1AMwYD7CV3sA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733475939; c=relaxed/simple;
-	bh=DijnDZaaq+IA5AVo93RJHgyN/7M9vEhB5ux34VJTULA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bw87wv50b0LS1dVWUFsnI1e7QQe/A0DopYN425fzNbadwYaRDxVPFaOtDt82jVkR7rmAcmxTuRT/1U5rCR0bE+2AmOO6A+vY1fYqWmD0zteY3DOPkKz3vnI82Hnn4ek021iaMEyahNm6BwzSsZkqhRhWgA1z6h9Nz00lSFsdne4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ghKyi8Mq; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4z2ZDDZk; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dkZGVp0f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=09tGQeq2; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27D1DF978;
+	Fri,  6 Dec 2024 09:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733476198; cv=fail; b=LHhGHN7G3imb+5f6v7PBiVczNzSjURBmq3AkHW4vSVIc1Occh1j6FqgfVE/51kKNp4FOoR7mC5h0xDeWzSV0xtqWB49UrEwSigfQyDjtyiY+8HW30WttYjogSvFwkXX0IYVfA2kvv2z+0W2GiqthvMTRKp5EuPwcK3kcs1j35xg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733476198; c=relaxed/simple;
+	bh=0mqoS8tjvJf+Pphvjhp2oWZiX4BjLanH6gSHBBLRJlQ=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=eDko0smQFOeXN254BL2YqWYUZ7yl45A+mB2CqzG2KW7Aaib2l97S1kHgGLs5IgRt4G4jX0X/wUXKuhmO/A5cpBZgz3+OjvvUSHCpm0BYxpXHS4I2z7GT4Ho91esiUE+O7WD2q/EqWSmvceNz3nfR+Yev/5ZNScxUED3+PUaLvA4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jv6LOqbq; arc=fail smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ghKyi8Mq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4z2ZDDZk";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dkZGVp0f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="09tGQeq2"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EF0EE1F394;
-	Fri,  6 Dec 2024 09:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733475936; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNupd75CdGILE2+T7ZCRahYJXHLurz69gTGUk4nOHeI=;
-	b=ghKyi8MqvbzlakkVuWI+bJv3G/LPE4NjJNY+UeySy5vddM96u0arFD1N0gugdxBGambuYe
-	boKv8dm1eD7sSJJR8q9aYDDM84eHwop5+4feZKL6WeB6d+D13twRQdsC/rlmyNJ6mCXJc+
-	X61ktA9yv09awxWSUtsrXK1EZuBZxrI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733475936;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNupd75CdGILE2+T7ZCRahYJXHLurz69gTGUk4nOHeI=;
-	b=4z2ZDDZkNxZB1YTKI70tKKzEI9wm0b8kwmmAQbuzXL0X4Jt9ZpuZ2NdHzItZfskI5TXLSk
-	zqCtX+bRe6Xp45Dg==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1733475935; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNupd75CdGILE2+T7ZCRahYJXHLurz69gTGUk4nOHeI=;
-	b=dkZGVp0fw+cHSd9VOx9G5HhwJZGwjAJ5Sy1lv9h3I9saJNUEQ/gBymYEKAzQg7jhUwEx30
-	+PyWyY6pk+617OWBK0zToGuOHRHZXWfggczsb/zr9eQypIjwL1MC/M2vvPLgy13ghiN+Sb
-	Mg/q2WvH4VwwikQr21oGzr46hjXgdWU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1733475935;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NNupd75CdGILE2+T7ZCRahYJXHLurz69gTGUk4nOHeI=;
-	b=09tGQeq2fUvuF/Qp1bbsmwzy6atHypoDyvxhCBTN9y2k731hDUu6ywczBdwPNaTI6sLt7E
-	gz6506PBFlfdKwBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD23A13647;
-	Fri,  6 Dec 2024 09:05:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SW5nLF++UmcjBgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 06 Dec 2024 09:05:35 +0000
-Date: Fri, 06 Dec 2024 10:05:35 +0100
-Message-ID: <871pyltc4g.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Linux Sound Mailing List <linux-sound@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL] sound fixes for 6.13-rc2
-In-Reply-To: <8734j1tc89.wl-tiwai@suse.de>
-References: <8734j1tc89.wl-tiwai@suse.de>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jv6LOqbq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733476197; x=1765012197;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=0mqoS8tjvJf+Pphvjhp2oWZiX4BjLanH6gSHBBLRJlQ=;
+  b=jv6LOqbqRZ20Ga3U9nzRnDMnFNe2hUmmgXcEN+v8jPv/qOVnUkZM37lT
+   HoxjYaDIXpLzstY0S/yzORVD+cIPdnJLS3J1EtX3CHAnphetlyOULjijI
+   yzivPoERdO4ShJmMxAkG4BHWPhPYq6wpAqW3cbOVk5NaUoPDFOvHWZ3DH
+   HjTPTym90+i+iF6PCpBmpg/O27NfY5YmsOrVizlXGC9/hJXWN25rR0H8H
+   VtZP1tl5cHRQQSxaz5nDW5sAgB2dHc++AUY0wq5GjyML5Q7PSsi5pbpEB
+   /hkS9qBCSWQHCOiOKtaG8KyNmBOrT9DZVNUcxrDf++8SvYkwM/aF2DpuK
+   w==;
+X-CSE-ConnectionGUID: wAnBTlVlQzyBP6sTLpZsjw==
+X-CSE-MsgGUID: E0padCOOQqCS6bljnDlryA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="37756081"
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="37756081"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2024 01:09:54 -0800
+X-CSE-ConnectionGUID: wuhqapj3QL+3hAqJxQ07Cg==
+X-CSE-MsgGUID: fJpGCB7uQRao5/4MoRjjnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,213,1728975600"; 
+   d="scan'208";a="94033627"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 06 Dec 2024 01:09:39 -0800
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 6 Dec 2024 01:09:39 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Fri, 6 Dec 2024 01:09:39 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 6 Dec 2024 01:09:38 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SQGF1qFwt9nP0k/eNQ5CsI+Y/gH8LU2eAa4AcI2lyNof2XAayHurmNFbyv4gnjSjlINIgLyLZ8SBYuiS8IaY+Yq9KZDt87NwszdcAPfvhsLmccTu/rpmDnxbTzzmIxZoeUStiUNYWIb6g1tdMhFIcaeKJ4CoL2j0fKpxs491gWYvgWoNx67Tch9ObAddSxgYzHtDnlTmewpotZisGLRWeNBx+wYiWXdJXnqESVIF83YoD7vGNs5yPNYPgsau+8lND5QqK+swNfkns7SleBd/vKZINL8OIqQ4ndiIUGxMa6p7EAi3bMwOmdhzwtxKHQ/ULCkRJX4xIj320ul93hEm1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9Kksa3W+mYefdJN0B5WTVSgaYTcE2zLzl/jYyb82J3I=;
+ b=uc7JAgQ1PxaKzEpl7Ncs4/6yiL52H2hfpv2Xn7uHqmDTCmYlLf6tcIAHpksrgmFLqQZAmgw5dLfsdcKp/jOcf3CkvJXs0y/nwd+FkyiEI37zmnKcbjfdAwuEtqsUeBGsE0vKOejAiuLz9LEo2BGCEiIKuZtBRHrYnKWsLsCPNcZr31pX3G26L32paIu65ryvp2NEhdS7vFrZlSTUcR/hlXaS9DYXSrDI4nrgs7ODTGqZ9JttnXu5JM+aQswVM2fFOFUtMyr3jW0ZrmO1ZtBi9+saSs9VYrLB1wrVY5nKjjmhRuSXGZgweffg8rWDnAD3r2rZBh/Rox6I51o9OGHfSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com (2603:10b6:8:c9::21) by
+ MN0PR11MB6158.namprd11.prod.outlook.com (2603:10b6:208:3ca::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.12; Fri, 6 Dec
+ 2024 09:09:36 +0000
+Received: from DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cd01:59f6:b0f8:c832]) by DS0PR11MB6375.namprd11.prod.outlook.com
+ ([fe80::cd01:59f6:b0f8:c832%4]) with mapi id 15.20.8207.017; Fri, 6 Dec 2024
+ 09:09:36 +0000
+Message-ID: <1644aa6b-a4e0-4dbd-a361-276cb95eb534@intel.com>
+Date: Fri, 6 Dec 2024 10:09:25 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v30 28/30] ALSA: usb-audio: Add USB offload route kcontrol
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+	<mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
+	<dmitry.torokhov@gmail.com>, <corbet@lwn.net>, <broonie@kernel.org>,
+	<lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
+	<pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+	<tiwai@suse.com>, <robh@kernel.org>, <gregkh@linuxfoundation.org>
+References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
+ <20241106193413.1730413-29-quic_wcheng@quicinc.com>
+ <1a361446-7a18-4f49-9eeb-d60d1adaa088@intel.com>
+ <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
+Content-Language: en-US
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+In-Reply-To: <28023a83-04a5-4c62-85a9-ca41be0ba9e1@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MI1P293CA0005.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:2::12) To DS0PR11MB6375.namprd11.prod.outlook.com
+ (2603:10b6:8:c9::21)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6375:EE_|MN0PR11MB6158:EE_
+X-MS-Office365-Filtering-Correlation-Id: ab750199-d82e-44a6-af8f-08dd15d5b500
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?djhnUVRtdGVOY21Xc1ZNaGNqdXI1YnBZeTczY2IwbGJvVTI5SGJENmNIY0U2?=
+ =?utf-8?B?Nlp1VmtzaG5HOWpyUXozQjNodUJnNUNtWE5NakxOSXh0d3lZUU0vNCt0blNH?=
+ =?utf-8?B?WEdhcmRFc0x1RmtncWFNOXhkakNMMURGaVpjY0loczV3R295MTgzRVRjaUdq?=
+ =?utf-8?B?eElsY0RnbUxMZnhoZE9Lc3lXbHdwMVg5ZVI1cTZTSHMvNUNWRHFGT1RFSGNB?=
+ =?utf-8?B?L3NiNFRORHhVNVlKYjVqd05rLzN0STZNTXo5eDR6TnUyUjc2azZ0VWNWelh6?=
+ =?utf-8?B?VEtnSFI2U3Z0Tlk0SGJZYlFlTnEyTHBmM2dFWUtYUkRLZnJrVzZRcGtTMWpU?=
+ =?utf-8?B?SngweUp1Slp0dFdyaFp3TVZRdVVmcDI2SXljeDVnWjhwN1ZFM1BIUks0UHNN?=
+ =?utf-8?B?cU9nN29qdmhCalJYazkrUWtLNEl4RnI0QXpScXFtSmpDMDBIc0V5ci9HcWNu?=
+ =?utf-8?B?SFk0clM4aUl4bmF3dmNhcEVKeld4MUNyN3hkQm4ydGlRUnBvQkRFQmRQRXV0?=
+ =?utf-8?B?cmJjSy9YSFlMb0xzWkxyMGFuc1lHMzg4TUwwYlBGQklobTFWb3BQdnBYOHFN?=
+ =?utf-8?B?NGF6dW8vd3Z4UlVJZUJNR0p1VDhMeS9zUWdlYkh3clhKaTM3eDNCMDZXa0dQ?=
+ =?utf-8?B?bFhJYk9qN003a1VxNDJBZUdPc05iUDRwa2ZHNklrZ0dTZ3psOFJGbUYvWEdx?=
+ =?utf-8?B?UDZVbGE2Q0g3NG5UeVR0ckkzM0hMdDM2SXNpOWtOODZjTGZXSTNEQ2ZzK20r?=
+ =?utf-8?B?SFhwNzZnOW5vbDRKOVlvMXBPbW0vWjNqUVZaNklDbHR5TWthaWQ0K1VVb0Nn?=
+ =?utf-8?B?QWc4R3FiKzA4NDRacFl0NzNsejdlb2U5VFhKUFVLZm1LV0JySCtVdDIrNWp5?=
+ =?utf-8?B?b0pLK0RxU1RrbmtEcnlSTks4MzdFeWFWRkJCcHk5UHU3bVBudUQ1ZXhzNHdz?=
+ =?utf-8?B?YjBMTGxsUmdFVG4zcTRsdWNBdU5jRXAzRnc0WDVWMjUzalFHSk1WNGdtakNO?=
+ =?utf-8?B?a2lvRllQeDZtOVVvTm1RQzRDYmoyMmlxZ1R2MEp6WEw0Sjc0NWZlUjBieUIr?=
+ =?utf-8?B?aTJaSitzVzYyWGJFUHgrRk80azRXY2c5ZGo3aEhlblFXMFhFeEU4RnFkNVQw?=
+ =?utf-8?B?VXBvaWdoaWxmcFV4M0FVZDhxWVgwWE1EOTZDMFFYTHk3cFN1SVhkWXJCcSsw?=
+ =?utf-8?B?UDZxN2xNRHMyMWdhOGtNbU43aXFQY2xGTEZaODdnYTJkdkR6SXV0MnMzNUxD?=
+ =?utf-8?B?WHpacjQ0N2lrS3JBUEFKUjFOZC9iMGVrVFZSS2RUUjlLaW5sd0RtNGxUbGdv?=
+ =?utf-8?B?R01LdVhhWHhmc3JsNkxHVzh5UHhhZHV5YVBrcmVkS2dFeVh4a290aUVMdE5t?=
+ =?utf-8?B?ZmZBZWZYVDVSUmJHY1RBOUkwbWFUT1ZHNG8vd2x1L3BaVm1DVE1Ud3NyaThP?=
+ =?utf-8?B?RzdEMWZrWE5sTkNHV291SURoYndsRWRwV0JHQ2llZlNYVkhCMkVmeG1lMjRF?=
+ =?utf-8?B?S2NQVU1OWGpvWDFUN1VyTCs0eFRNejdjcS9yWktsTnByZkMyS2R3ZENoN0lq?=
+ =?utf-8?B?SkVBQWpkQTV1NU9KK2NYZm0wd0NpclZkM3dHU3VWL0ZyK1NHRWtialZDaTBp?=
+ =?utf-8?B?OXpLb08wRG9YeVZ2dU04dmNlb2dGMnJOd1p5TVozSDJlbmxWWVZSeTY2T2dw?=
+ =?utf-8?B?b2dHczkxeVcwM0J1UmRBajFMRlZoQUJ1NGdzUzVaaENFTTBnbXNFVWRkU1Iw?=
+ =?utf-8?B?OTZRSlBVeEJ4eEVEUTBaeDBWSndhWk9qdlJXZWJIVEtieDR6aTRaNXVVMEEv?=
+ =?utf-8?B?VEVyK3JvZnh1U00yS21Kdz09?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6375.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2g5c2F3UHdScStYaUlubGd6N1hmSUU2dTZZK2RoQkNxaU5OSVl0VnpOenpL?=
+ =?utf-8?B?OVp3QnpBK2RhbTNsQWlOVUFHMnN0cS9Lb2dvMkpVU0UvUnZjR2V5NWlhdWtC?=
+ =?utf-8?B?bncxaTA2dWxsWUlOdG9JY2R6TFNjUVZ4Q3VZR0hRSjJwTDIweUxmSzFaUHY5?=
+ =?utf-8?B?L0xQd0Rrc3UrY3hwQ2ZFOWJZOGtzOXpHWWh1SEZBZnQzNE9CdDFvR2xvYXZT?=
+ =?utf-8?B?Wmg3T3BQc283SmRKaDRZVTZWSklrU3I3dW15TytGbWVIcHl6b21OUHlqMHFz?=
+ =?utf-8?B?N3lUYXFob2diU1YveGFFUHRMVEUyL3pmZWdSZTRuZUQ2UzF6blJNUTlKMWRy?=
+ =?utf-8?B?T2xZYkw0QVlLT3ZFWmcyUnlJQlprM0M4aStDeUpWY0NRcTVLRExtVWMxOHlO?=
+ =?utf-8?B?TkdsdDBFWWlFb2h1NlNkaFE1ZUxkSGVCVjN3cGFlMGpoVi9Rem8vekttd2J2?=
+ =?utf-8?B?aEJ6YmVINHlHZVFMaHdzRStaMEM1OGxZT3lmMmYxVmlFNURneXdlQ0oyM2do?=
+ =?utf-8?B?dHFlcXBORDMyNEVBR3FFaW03cjZrWlpoT0VFQy91bENNYjZCd1hzSEIwaGI1?=
+ =?utf-8?B?Nlc5a2c3azBFblJJQXQ2ZWdpRy84U0phcVJpelZJNkhYdlZsWWlrU3pyTjFh?=
+ =?utf-8?B?NWQ5eUlqS3V3OXpLN1pSaVFqeGs5S2phejZaYjVJU2h6UWlYbGxwa1U4MjB6?=
+ =?utf-8?B?dkxRTXcxMHdmV0ljVTJ4Y0Y4czJTcFZLeXlXT0h6aUVvNmVoMERNT05nVkhu?=
+ =?utf-8?B?TEluMVdacnB4WXRvdGZhaldXVGFzRENvRDZxalRHMGI5OVpRellJbFdBMnRZ?=
+ =?utf-8?B?YUplWHA0WnFVSXEwQlgwdFpuUEhZdC93ZHZRQ3ppVERXeU9qZEdLTWdSbWdW?=
+ =?utf-8?B?T0RQeFpUUkZ4cWFCZWIxUFhSaHRueEdZTHpXek1FS3N5R1U0R1VzTE85TVRv?=
+ =?utf-8?B?U3FXQyswTklkdGFBQVhSaUJ3b0tpRkNKcVF3U0JKOEs1Zk0zaEVJMnIzTmtB?=
+ =?utf-8?B?VFY3aURvVjh1SFIwU0xSMmlWeXIzNXNVNndmUGk3RXVCVEhjb2c2QTF6L053?=
+ =?utf-8?B?Z210aUwydGtmNjk2QlJEUVg2aXAxRTFFTjJuRkg1R0lwTTlESWVvUG1pR3h4?=
+ =?utf-8?B?WDBSc245U2lhRzBSOVdWMUM2Ri9FN1BycXJCd2YvejFyYTFGeDdvU0tkbXoz?=
+ =?utf-8?B?cTc2R0M2cUFyMzZaRFRVNDFMMW8wWjhIS0xjUnEwVW1uWlY3NHNqOXltRDJm?=
+ =?utf-8?B?OCtsV0F6bHhUUjFON1pJQTZXbXlxdmFnOW9MWXU4VjQyTHF4dEJ6RU52cDhq?=
+ =?utf-8?B?Tmw5TCtDR2h1Rll1TmxOUFdBOUNKUHZ2bFcyV1RyWVVGNlRYQWtqckNEcW9C?=
+ =?utf-8?B?dHFLUFpyNkROVVNndjlPSC9LMjJlN3k1akxnT0tMSWk5WkhIMTZxNkM4QmVE?=
+ =?utf-8?B?L0Z1L2hIMmx1M0JGTjU5RHJhWkNqQUExRkJycGk3cG10WHkyY1FnbHQwRGN2?=
+ =?utf-8?B?dGtWWTYvcWh4STR2Z2ViMmdwYTZMOGt5NHg3M1ZEcTNLd1pWNHdzTHN1VDcv?=
+ =?utf-8?B?RmRrL1VNVG5PR2YzR1lxQktZMDNyUUZzUUQvQ1A1NVFIT2Z0UllGNjVEUzN4?=
+ =?utf-8?B?eWtubWJ4NnBlcURwcnBXQmpQdzBxQ3FLbm1LcTRDYnR3UU5UeE9MVmJNMWJt?=
+ =?utf-8?B?SXp5SXRXUzMrVGRpc2JZZnVBdTFaOEMycHZ6bXlQS0x6c21ZTWk3RGxnUWpZ?=
+ =?utf-8?B?TnZXbTRqRGQwTnRTOTZXTkwrL3E4TzZPTkZjOEtlSVRCcExST1FlWHVDZmdx?=
+ =?utf-8?B?VGxzTzBraGYxSTBzVkFmMCtkTi9Xekg3ZUFVdkVsdEZFUmM4OTJyQXJ6MGhM?=
+ =?utf-8?B?WWhDWGt3V05ZQmpZSVVzM3JiTmFKKy9IZXdBK1U2N2taR3BZMDF1Y2U3NTVI?=
+ =?utf-8?B?eWZNeEErQlBYYjExaC9ybnV1dnR0V3AzR2xxczlxTDFnMW02VWtPVFl1c0Ru?=
+ =?utf-8?B?MmtPYVZwY0hmRHZXOXk1aGNyUTJMWHdFdGVOaHBQOVZOdUJCZXdJQmZmNDUv?=
+ =?utf-8?B?WnFQV1ZkZWM4ald5TXBnNlJJSXVWdHNHVWtwMmZmaXV1cXdlRVFDUmJ5R0pX?=
+ =?utf-8?B?ZnliYllhUE95WE9ZRkpvZ1hXRHhoZEpiaHJ2ZEQrTTZGNkwwRlBqTDNwajAv?=
+ =?utf-8?B?bnc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab750199-d82e-44a6-af8f-08dd15d5b500
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6375.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Dec 2024 09:09:36.6853
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: H7uUGhjn0jzQGzEBdjV7m4Wp3QI7apiiPmYmNWsrmneQAfE55Qe4TW2z7As2+0x0i6+wB2FHdF58/3xB5i7VsXkPOPN7KFpbACGd8GaphH4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6158
+X-OriginatorOrg: intel.com
 
-On Fri, 06 Dec 2024 10:03:18 +0100,
-Takashi Iwai wrote:
+On 2024-12-04 12:15 AM, Wesley Cheng wrote:
 > 
-> Linus,
-> 
-> please pull sound fixes for v6.13-rc2 from:
+> On 12/3/2024 8:13 AM, Cezary Rojewski wrote:
+>> On 2024-11-06 8:34 PM, Wesley Cheng wrote:
+>>> In order to allow userspace/applications know about USB offloading status,
+>>> expose a sound kcontrol that fetches information about which sound card
+>>> and PCM index the USB device is mapped to for supporting offloading.  In
+>>> the USB audio offloading framework, the ASoC BE DAI link is the entity
+>>> responsible for registering to the SOC USB layer.
 
-Please don't mind about the wrong subject prefix, the PR itself is
-correct.  It slipped in a rush morning action, sorry.
+...
 
+>> R) += mixer_usb_offload.o
+>>> diff --git a/sound/usb/mixer_usb_offload.c b/sound/usb/mixer_usb_offload.c
+>>> new file mode 100644
+>>> index 000000000000..e0689a3b9b86
+>>> --- /dev/null
+>>> +++ b/sound/usb/mixer_usb_offload.c
+>>> @@ -0,0 +1,102 @@
+>>> +// SPDX-License-Identifier: GPL-2.0
+>>> +/*
+>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>> + */
+>>> +
+>>> +#include <linux/usb.h>
+>>> +
+>>> +#include <sound/core.h>
+>>> +#include <sound/control.h>
+>>> +#include <sound/soc-usb.h>
+>>
+>> ALSA-components should not be dependent on ASoC ones. It should be done the other way around: ALSA <- ASoC.
+>>
+> 
+> At least for this kcontrol, we need to know the status of the ASoC state, so that we can communicate the proper path to userspace.  If the ASoC path is not probed or ready, then this module isn't blocked.  It will just communicate that there isn't a valid offload path.
 
-Takashi
-
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc2
-> 
-> The topmost commit is c34e9ab9a612ee8b18273398ef75c207b01f516d
-> 
-> ----------------------------------------------------------------
-> 
-> sound fixes for 6.13-rc2
-> 
-> A collection of small fixes that have been gathered in the week.
-> 
-> - Fix the missing XRUN handling in USB-audio low latency mode
-> - Fix regression by the previous USB-audio hadening change
-> - Clean up old SH sound driver to use the standard helpers
-> - A few further fixes for MIDI 2.0 UMP handling
-> - Various HD-audio and USB-audio quirks
-> - Fix jack handling at PM on ASoC Intel AVS
-> - Misc small fixes for ASoC SOF and Mediatek
-> 
-> ----------------------------------------------------------------
-> 
-> Asahi Lina (1):
->       ALSA: usb-audio: Add extra PID for RME Digiface USB
-> 
-> Chris Chiu (1):
->       ALSA: hda/realtek: fix micmute LEDs don't work on HP Laptops
-> 
-> Colin Ian King (1):
->       ALSA: hda/realtek: Fix spelling mistake "Firelfy" -> "Firefly"
-> 
-> Dan Carpenter (3):
->       ALSA: hda/tas2781: Fix error code tas2781_read_acpi()
->       ASoC: SOF: ipc3-topology: fix resource leaks in sof_ipc3_widget_setup_comp_dai()
->       ALSA: usb-audio: Fix a DMA to stack memory bug
-> 
-> Marek Maslanka (1):
->       ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
-> 
-> Marie Ramlow (1):
->       ALSA: usb-audio: add mixer mapping for Corsair HS80
-> 
-> Nazar Bilinskyi (1):
->       ALSA: hda/realtek: Enable mute and micmute LED on HP ProBook 430 G8
-> 
-> N�colas F. R. A. Prado (1):
->       ASoC: mediatek: mt8188-mt6359: Remove hardcoded dmic codec
-> 
-> Sahas Leelodharry (1):
->       ALSA: hda/realtek: Add support for Samsung Galaxy Book3 360 (NP730QFG)
-> 
-> Takashi Iwai (7):
->       ALSA: seq: ump: Fix seq port updates per FB info notify
->       ALSA: ump: Don't open legacy substream for an inactive group
->       ALSA: ump: Indicate the inactive group in legacy substream names
->       ALSA: ump: Update legacy substream names upon FB info update
->       ALSA: usb-audio: Notify xrun for low-latency mode
->       ALSA: sh: Use standard helper for buffer accesses
->       ALSA: ump: Shut up truncated string warning
-> 
-> bo liu (1):
->       ALSA: hda/conexant: fix Z60MR100 startup pop issue
-> 
-> ---
->  sound/core/seq/seq_ump_client.c           |   6 +-
->  sound/core/ump.c                          |  26 ++-
->  sound/pci/hda/patch_conexant.c            |  28 +++
->  sound/pci/hda/patch_realtek.c             |   8 +
->  sound/pci/hda/tas2781_hda_i2c.c           |   1 +
->  sound/sh/sh_dac_audio.c                   |   5 +-
->  sound/soc/intel/avs/boards/da7219.c       |  17 --
->  sound/soc/mediatek/mt8188/mt8188-mt6359.c |   4 +-
->  sound/soc/sof/ipc3-topology.c             |   7 +-
->  sound/usb/endpoint.c                      |  14 +-
->  sound/usb/mixer_maps.c                    |  10 +
->  sound/usb/mixer_quirks.c                  |   1 +
->  sound/usb/quirks-table.h                  | 341 +++++++++++++++---------------
->  sound/usb/quirks.c                        |  44 ++--
->  14 files changed, 291 insertions(+), 221 deletions(-)
-> 
+I'm not asking _why_ you need soc-usb.h header, your reasoning is 
+probably perfectly fine. The code hierarchy is not though. If a sound 
+module is dependent on soc-xxx.h i.e. ASoC symbols, it shall be part of 
+sound/soc/ space.
