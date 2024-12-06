@@ -1,150 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D22A1DE4C7
-	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 07:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF0718E050;
+	Fri,  6 Dec 2024 09:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733471969; cv=none; b=HvHmdh3NyRD+uYs9tLzzQgRiH+TjKA4yrLAaNyvzjG1DURWdRWjINgkPj5YvCjVJXKVcVcpTGLQ5abHoitW7QJvVXr7DBKDRTl0rJLamZ9rGZ4JCBrzPlojwJ9M51LkVG1iTUzoQ/nKx7ASfUkwklH7phKfn6sy67tX97I5n/08=
+	t=1733475802; cv=none; b=ogbs8KyzHV+tmqo+TwPTSW8g0WX68Sw2NqCTP89wvGnfQp42mkcYex3LgQskTsy2acXnLxA+8adxPRuNwJuoxJn4LOmPnOoi7G1NE0Gyr0fpfjWBjMlrxfKs3yYO1thS+0HsMn6VaJKCulowhZA+UrsYtcaJZYTt/JLFZNHct8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733471969; c=relaxed/simple;
-	bh=NQlOQCmZyfSUGMAGVnPqEb0LMuivFMfkmw/wY6hJVI4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GMZwbSZfsDdfiQhNLW7tM9f/ebTIWrH96Kakca0Op6m9ZlOq9in/HOG3BzP6+gufSLaMnQgcbsXBKnfYGdPu8T4CG3RRw4z9RZlV0wXfpxHWLVZh2mU+dS+jFzvb8q+Zf7fYIGjv2wted6QabF7Y9Veq4WAuMKbnWm5VdkhC82A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9r9UEIi; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1733475802; c=relaxed/simple;
+	bh=PZebbAYCSWxSiPPRSvS5Vy7sEYZALfxiV6+N1A0uqlU=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=o3+0X5GWCSFAvD09Vm7ObOpuwiyE+DVuow7oZdG0aDjOAmYgor5eDCcB3N9f0K8k+K+CJkwxbPKZNkVRF5zAZiKBxLzoqc+wzxRoS7Oy6Xs87s05HeMCyyDYESYqIhHFUxnc5AoVi1Uv7aLT8sNictqjKTJewIeY5m1eX27eGY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q98OhgMN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ND8n3Y10; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=q98OhgMN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ND8n3Y10; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9r9UEIi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733471968; x=1765007968;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NQlOQCmZyfSUGMAGVnPqEb0LMuivFMfkmw/wY6hJVI4=;
-  b=X9r9UEIiwaEbpZgMxkkABhG6Cv3tPS8jIGl7cL3YVknSMbsPlXsAbnmn
-   dhKylurwYXRM36Un/n8xeEdXBCleTYrgDweM0oMfsXbnlmcj7SiklbZLs
-   tE5h3XateXbHrBI3585dkbh3g+86OZATjJrdb6v1B+KolB9JvZhDkgayF
-   ynyzI2w1xxFGQfLEGaz9RLBrwDz/pGw4iQMjKOns3W3RgLvyDh4GzwzPK
-   igXarrMgQZLLm7aRCp1B6W8Fm9c1WBcRR2OV63neInYnUXzC0v/z0BIyY
-   LCwa5cHX8/t86m73qMHbo3ol99XB0xjgz0OLxmnvC05FLjp8sT3Pi9P02
-   A==;
-X-CSE-ConnectionGUID: DGbc1GYFSvqi0WZfHE7xjw==
-X-CSE-MsgGUID: sTcsxTJpRLSfYN9Om4oeqg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="45192813"
-X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="45192813"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:28 -0800
-X-CSE-ConnectionGUID: 7m9yN0jWQNS1aTlx5aTd1g==
-X-CSE-MsgGUID: L9+ok9H8Qy2NyjEo7uIJ6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="94144494"
-Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.179])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:26 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 10/10] ASoC: Intel: soc-acpi: arl: Add match entries for new cs42l43 laptops
-Date: Fri,  6 Dec 2024 15:59:03 +0800
-Message-ID: <20241206075903.195730-11-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
-References: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q98OhgMN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ND8n3Y10";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="q98OhgMN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ND8n3Y10"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B4EE61F38E;
+	Fri,  6 Dec 2024 09:03:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733475798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=haYiRBuJD6qVdfpMmGceiz+yupXQb2bFsDT9UXN9G98=;
+	b=q98OhgMNN6zvBZANl7gQNQC19/Vp8nQ9Pm2FdnsGjnYrbgt9QW+J7/S1C+r6D97tPi603q
+	R7RL/7HL+EYxfvCcovXJxkQleIM/c5ZpWCqLniiiCcP6dhZew8X+P0XKDlwbh/qZVRRmqN
+	8gEPn8AK1oPy1idHSD6+uWBxnle/65E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733475798;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=haYiRBuJD6qVdfpMmGceiz+yupXQb2bFsDT9UXN9G98=;
+	b=ND8n3Y10bhuJyq93PSC3I4z+cEVyTZ0O/FRuRjm02oz2ylYFut9C/Wqr9n/aFFfY/WVVQm
+	1tQLJcedouq9AEBQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=q98OhgMN;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ND8n3Y10
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733475798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=haYiRBuJD6qVdfpMmGceiz+yupXQb2bFsDT9UXN9G98=;
+	b=q98OhgMNN6zvBZANl7gQNQC19/Vp8nQ9Pm2FdnsGjnYrbgt9QW+J7/S1C+r6D97tPi603q
+	R7RL/7HL+EYxfvCcovXJxkQleIM/c5ZpWCqLniiiCcP6dhZew8X+P0XKDlwbh/qZVRRmqN
+	8gEPn8AK1oPy1idHSD6+uWBxnle/65E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733475798;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=haYiRBuJD6qVdfpMmGceiz+yupXQb2bFsDT9UXN9G98=;
+	b=ND8n3Y10bhuJyq93PSC3I4z+cEVyTZ0O/FRuRjm02oz2ylYFut9C/Wqr9n/aFFfY/WVVQm
+	1tQLJcedouq9AEBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 815F613647;
+	Fri,  6 Dec 2024 09:03:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A9NVHta9UmeBBQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 06 Dec 2024 09:03:18 +0000
+Date: Fri, 06 Dec 2024 10:03:18 +0100
+Message-ID: <8734j1tc89.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [GIT PULL] sound fixes for 6.13-rc2
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B4EE61F38E
+X-Spam-Score: -2.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	FAKE_REPLY(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_DN_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+Linus,
 
-Add some new match table entries on Arrowlake for some coming cs42l43
-laptops.
+please pull sound fixes for v6.13-rc2 from:
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Reviewed-by: PÃ©ter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc2
+
+The topmost commit is c34e9ab9a612ee8b18273398ef75c207b01f516d
+
+----------------------------------------------------------------
+
+sound fixes for 6.13-rc2
+
+A collection of small fixes that have been gathered in the week.
+
+- Fix the missing XRUN handling in USB-audio low latency mode
+- Fix regression by the previous USB-audio hadening change
+- Clean up old SH sound driver to use the standard helpers
+- A few further fixes for MIDI 2.0 UMP handling
+- Various HD-audio and USB-audio quirks
+- Fix jack handling at PM on ASoC Intel AVS
+- Misc small fixes for ASoC SOF and Mediatek
+
+----------------------------------------------------------------
+
+Asahi Lina (1):
+      ALSA: usb-audio: Add extra PID for RME Digiface USB
+
+Chris Chiu (1):
+      ALSA: hda/realtek: fix micmute LEDs don't work on HP Laptops
+
+Colin Ian King (1):
+      ALSA: hda/realtek: Fix spelling mistake "Firelfy" -> "Firefly"
+
+Dan Carpenter (3):
+      ALSA: hda/tas2781: Fix error code tas2781_read_acpi()
+      ASoC: SOF: ipc3-topology: fix resource leaks in sof_ipc3_widget_setup_comp_dai()
+      ALSA: usb-audio: Fix a DMA to stack memory bug
+
+Marek Maslanka (1):
+      ASoC: Intel: avs: da7219: Remove suspend_pre() and resume_post()
+
+Marie Ramlow (1):
+      ALSA: usb-audio: add mixer mapping for Corsair HS80
+
+Nazar Bilinskyi (1):
+      ALSA: hda/realtek: Enable mute and micmute LED on HP ProBook 430 G8
+
+Nícolas F. R. A. Prado (1):
+      ASoC: mediatek: mt8188-mt6359: Remove hardcoded dmic codec
+
+Sahas Leelodharry (1):
+      ALSA: hda/realtek: Add support for Samsung Galaxy Book3 360 (NP730QFG)
+
+Takashi Iwai (7):
+      ALSA: seq: ump: Fix seq port updates per FB info notify
+      ALSA: ump: Don't open legacy substream for an inactive group
+      ALSA: ump: Indicate the inactive group in legacy substream names
+      ALSA: ump: Update legacy substream names upon FB info update
+      ALSA: usb-audio: Notify xrun for low-latency mode
+      ALSA: sh: Use standard helper for buffer accesses
+      ALSA: ump: Shut up truncated string warning
+
+bo liu (1):
+      ALSA: hda/conexant: fix Z60MR100 startup pop issue
+
 ---
- .../intel/common/soc-acpi-intel-arl-match.c   | 43 +++++++++++++++++++
- 1 file changed, 43 insertions(+)
-
-diff --git a/sound/soc/intel/common/soc-acpi-intel-arl-match.c b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-index d7dfb23277d0..32147dc9d2d6 100644
---- a/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-arl-match.c
-@@ -147,6 +147,24 @@ static const struct snd_soc_acpi_adr_device cs35l56_3_l3_adr[] = {
- 	},
- };
- 
-+static const struct snd_soc_acpi_adr_device cs35l56_2_r3_adr[] = {
-+	{
-+		.adr = 0x00023301fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_r_endpoint,
-+		.name_prefix = "AMP2"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_3_l1_adr[] = {
-+	{
-+		.adr = 0x00033101fa355601ull,
-+		.num_endpoints = 1,
-+		.endpoints = &spk_l_endpoint,
-+		.name_prefix = "AMP1"
-+	},
-+};
-+
- static const struct snd_soc_acpi_endpoint cs42l43_endpoints[] = {
- 	{ /* Jack Playback Endpoint */
- 		.num = 0,
-@@ -312,6 +330,25 @@ static const struct snd_soc_acpi_link_adr arl_cs42l43_l0_cs35l56_2_l23[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_link_adr arl_cs42l43_l0_cs35l56_3_l23[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs42l43_0_adr),
-+		.adr_d = cs42l43_0_adr,
-+	},
-+	{
-+		.mask = BIT(2),
-+		.num_adr = ARRAY_SIZE(cs35l56_2_r3_adr),
-+		.adr_d = cs35l56_2_r3_adr,
-+	},
-+	{
-+		.mask = BIT(3),
-+		.num_adr = ARRAY_SIZE(cs35l56_3_l1_adr),
-+		.adr_d = cs35l56_3_l1_adr,
-+	},
-+	{}
-+};
-+
- static const struct snd_soc_acpi_link_adr arl_rvp[] = {
- 	{
- 		.mask = BIT(0),
-@@ -406,6 +443,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_arl_sdw_machines[] = {
- 		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l23.tplg",
- 	},
-+	{
-+		.link_mask = BIT(0) | BIT(2) | BIT(3),
-+		.links = arl_cs42l43_l0_cs35l56_3_l23,
-+		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-arl-cs42l43-l0-cs35l56-l23.tplg",
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(2),
- 		.links = arl_cs42l43_l0_cs35l56_l2,
--- 
-2.43.0
+ sound/core/seq/seq_ump_client.c           |   6 +-
+ sound/core/ump.c                          |  26 ++-
+ sound/pci/hda/patch_conexant.c            |  28 +++
+ sound/pci/hda/patch_realtek.c             |   8 +
+ sound/pci/hda/tas2781_hda_i2c.c           |   1 +
+ sound/sh/sh_dac_audio.c                   |   5 +-
+ sound/soc/intel/avs/boards/da7219.c       |  17 --
+ sound/soc/mediatek/mt8188/mt8188-mt6359.c |   4 +-
+ sound/soc/sof/ipc3-topology.c             |   7 +-
+ sound/usb/endpoint.c                      |  14 +-
+ sound/usb/mixer_maps.c                    |  10 +
+ sound/usb/mixer_quirks.c                  |   1 +
+ sound/usb/quirks-table.h                  | 341 +++++++++++++++---------------
+ sound/usb/quirks.c                        |  44 ++--
+ 14 files changed, 291 insertions(+), 221 deletions(-)
 
