@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6C11DE3C5
-	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 07:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458A01DD88F
+	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 07:59:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733471960; cv=none; b=Qo0Egh738Q6vfew+g89wwh2rg24J3om3jHijbhIxlBWF9ZQuMLXl0YovR+pCnm62cWsbztUvXgCKPQTgcWBlgGLI7CDJqybTrL2Pskm+PNpnaZDNWcfgj/wP535zEAq7S5Zyt6HIj8iseTWA+Mhk87t3RfQLvl5bjBeLdUJNJjU=
+	t=1733471961; cv=none; b=XVs/00oLvpi2b+KeCsrut5N5UsIClWEXd3jC8LM+caGFLF/RNayj/gq7o39aCW/ujNGOrW9U7Ofu6D6IFVPWGLM5L3layfvr7Um/AZxtie/5b+pVHdAsntWWCw1s1TgNPxYBZJB/dGtbTHlFkWmpnkJRNP1DQfrqnilcUOX6ceg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733471960; c=relaxed/simple;
-	bh=m9NHyVEOFo9N/rKLpd0mFTn6tzVKqK4cZrmmf+LBGwk=;
+	s=arc-20240116; t=1733471961; c=relaxed/simple;
+	bh=tWlEkTC7hVmXFjXHGZAXfarADBOlET5wmKiHLfXaNEU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t8R0mcm+rtfsn1f0YDqj6u/PuVuH4NWZAW0HTCrGZL9QV59N7nPEWfc6oXZemjTgO2uMnnOeTdD5ARcX2pANuotUhvybpO3RUF7on/phX1NV9edB8G+Q8OPLYjucxH6VeB0H9wXBOEq/Tz8X+qVIMZOFWotScrUvMo3nooPt46s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsxcjUhj; arc=none smtp.client-ip=198.175.65.12
+	 MIME-Version; b=KwSAMsjR30SlFdEOO1rMljBTIf7nmLBVP43xnEFCi4Nyg5/VC9iUprShdSPwgk5urwV+pF87+teW2y/rqUjr4DOZwHy39LAz3A9L1AHEUuVpmpOh+Dnr8mqgpGqfQDDf3+T2XFMJ1SRnYlNtBqSIRFfmL7pXCSy69vPq4RhHaT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dd1JrZdm; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsxcjUhj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dd1JrZdm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733471959; x=1765007959;
+  t=1733471960; x=1765007960;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=m9NHyVEOFo9N/rKLpd0mFTn6tzVKqK4cZrmmf+LBGwk=;
-  b=IsxcjUhjcdk4MJjNpHSfJu+teY1nrOfgMPRLQLoDQYj28JZsqmqlF217
-   cEhBRktM0Y/sCCFWJj3Gx5fyEl5l+1seMdSefs+Ih5zrrNlKdy1Rpld7X
-   CnEwrkMNQw0mlzMzGR5DJVJ1srKO/Hq++ssWhoWZjKZD+G887+rmXmiYE
-   GQOPk5/A/UICcWVz3rTG8IZulWaOsDxvby2UKH49OnzVaXwheTkrLtpXr
-   986seOi99sZ3wU2QQ/I1WRL3mURfMorx1wpGCLl4k7lEFBiukwLH+LHdg
-   eLrqrJzTDybaA/3Pw30a+I4CLn/3VRTdxk6sX6xpa/uqnK9D8h95FEO1v
-   g==;
-X-CSE-ConnectionGUID: 9keOlNpaRDu35go046LKZw==
-X-CSE-MsgGUID: /wJWc62NTXSh5tVVDUF8hQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="45192780"
+  bh=tWlEkTC7hVmXFjXHGZAXfarADBOlET5wmKiHLfXaNEU=;
+  b=dd1JrZdmOx7OKvULSw19FCftX0TcmYwjLbc4XvKoKUvL7tbUJvDycw9D
+   KadwdVYXoIN8tQhGciltC5wsoWr+y7Q1aBmX1lZlhQHnTjy18XomQCIl4
+   tZ/Dt8LAwbzwKV5pD8u2Ti4W4FDVL7Iem47MuwLiCJMxlFdvlfM8VsoBQ
+   XAiwWyfw7UQBa8rwbbvEwHXdlfMz3Vd30d9o2fB1ZRAq/v3kEBoXFJClJ
+   ux5MZcq5MZROUB0zClw0aHmnQ3jVYlibrZjyzMSVzXVeiKdvTZgL/qvQX
+   mWyAgn3mlgnzKZY3b6mz0FArX2V4+mmGVms/sSK8FO9WyNqYuep2hUQLG
+   Q==;
+X-CSE-ConnectionGUID: uMfODzzTStmJGIZQ6wBY8w==
+X-CSE-MsgGUID: OCjQs+8nT3O/8bGHcbZjkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11277"; a="45192786"
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="45192780"
+   d="scan'208";a="45192786"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:18 -0800
-X-CSE-ConnectionGUID: yatpaaO6S92+hIATdeL4rg==
-X-CSE-MsgGUID: oqEazSQqTy6Bbm1/uOJ0UA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:20 -0800
+X-CSE-ConnectionGUID: +jMIpKSsRYy3k9miTdZSsg==
+X-CSE-MsgGUID: J57B39YlQzKAN8XMAi1nrg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,212,1728975600"; 
-   d="scan'208";a="94144391"
+   d="scan'208";a="94144404"
 Received: from ssimmeri-mobl2.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.179])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:17 -0800
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2024 23:59:18 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 03/10] ASoC: Intel: sof_sdw: improve the log of DAI link numbers
-Date: Fri,  6 Dec 2024 15:58:56 +0800
-Message-ID: <20241206075903.195730-4-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 04/10] ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
+Date: Fri,  6 Dec 2024 15:58:57 +0800
+Message-ID: <20241206075903.195730-5-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
 References: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
@@ -61,34 +61,38 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The log shows the number for different type of DAIs. Add "DAI link
-numbers:" to make the log be more explicit.
+From: Simon Trimmer <simont@opensource.cirrus.com>
 
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+In addition to changing the DMI match to examine the product name rather
+than the SKU, this adds the quirk to inform the machine driver to not
+bind in the cs42l43 microphone DAI link.
+
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/intel/boards/sof_sdw.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index d9fdd17a9650..8b220df8ebc1 100644
+index 8b220df8ebc1..70a1d1620e06 100644
 --- a/sound/soc/intel/boards/sof_sdw.c
 +++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1125,7 +1125,7 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 	if (sof_sdw_quirk & SOF_SSP_BT_OFFLOAD_PRESENT)
- 		bt_num = 1;
- 
--	dev_dbg(dev, "sdw %d, ssp %d, dmic %d, hdmi %d, bt: %d\n",
-+	dev_dbg(dev, "DAI link numbers: sdw %d, ssp %d, dmic %d, hdmi %d, bt: %d\n",
- 		sdw_be_num, ssp_num, dmic_num,
- 		intel_ctx->hdmi.idisp_codec ? hdmi_num : 0, bt_num);
- 
+@@ -626,9 +626,10 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+ 		.callback = sof_sdw_quirk_cb,
+ 		.matches = {
+ 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+-			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "380E")
++			DMI_MATCH(DMI_PRODUCT_NAME, "83HM")
+ 		},
+-		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
++		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS |
++					SOC_SDW_CODEC_MIC),
+ 	},
+ 	{
+ 		.callback = sof_sdw_quirk_cb,
 -- 
 2.43.0
 
