@@ -1,97 +1,120 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354BE1F3D2D
-	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 16:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A7A1FFC67;
+	Fri,  6 Dec 2024 18:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733503580; cv=none; b=R/2FlbcWkaXNwrf+WqQbarmP4t4cZna3DPEsJXgynv+jYpzVqNoG5Bl70Tmm67ve0x/VhOkicQlP6YK9hZH7cJSRqq8MbuFKDCGTHDFjXmkRGVB/fJlr8tJJOFjHk5GyxKPyzRRR0feCgvs9SI3eS5yGk8b8kZJtiRQxFl4BEO8=
+	t=1733509031; cv=none; b=fBxnhp43cBi3/q4RKDtI1r9cy+paHQRVL1QtYprQNdtgcWtmV1tkNBjIasWMFejMwA5Kyi2mSjO79PICGZko6+CcJat96lpaZj39CzHcqiIk+Xwla701igLhkG+puc14vo3pZ6bxrejCmi2kx5YZjFQLcSEy/QaBgA8bm0Ehf4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733503580; c=relaxed/simple;
-	bh=ZK5a4FVY/CFjU9OB0zks1RHIFGTLqjPA9cx97FsFi28=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BHLLIRBGJe0Qrqx07RmZOkxOWqzlM/dmRaylzI5GEo5zL0fbIaWH6KC88xIRqowwY71U+Y3uoOAyCk3C7xuWOFw3Jyscjb8xViiTIAfcbCONAbCJTW8HpZg+68DiBWA/aw8MubhZoAvc/3BnOY/m6qycOS8SZ1slEPU8EeesXoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TS75cJ55; arc=none smtp.client-ip=209.85.208.178
+	s=arc-20240116; t=1733509031; c=relaxed/simple;
+	bh=F9RJBsAgeYHEnkBkzcTxH6KpY9seHzyzKH6LHKSwmpI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AtJgbNYzPjqAKMlL24nQZYQa2iC3e6eq9iIbC04Vfou142lmn0zrVCjPm+gt6j7v6/zevFuMUUupJTLbGS+4nHDJZCJR18wrET+VTd7rGWF5zW3Ct/Yb43z3W5/eXWrso/fhFxq+wjHTSJts5UFH9H/aj+4TvM4XzGGbY1+p2cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXcmj+uw; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TS75cJ55"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ffb5b131d0so22419271fa.2
-        for <linux-sound@vger.kernel.org>; Fri, 06 Dec 2024 08:46:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXcmj+uw"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3004028c714so138481fa.2;
+        Fri, 06 Dec 2024 10:17:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733503577; x=1734108377; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ol2yKbkMPN+HC8dU4rXIBYY4RipgoOn6OkqD37L6yoU=;
-        b=TS75cJ55lAYpNpdzzE26WTZN8OK/fTQxaardYLKtmgBad2XnWZh0XBg/MLwsWkXnwh
-         ewYMUrI2EIUqz8VuUejPPGoQymS4EzPYuvYjHyg3c9xQovUkV3kk+bvk3vnfmx1eSUbV
-         qzwysqLR4kNXlrXzFwmB8QGpVKaBYvQL+wTycFMDgnqQvYs0zfSiZGidKbu9POmocDVo
-         aOXCmP01UUt6vn5EqpVH2dTM2g7l6MkxowkmR5lLlxQHek+wl3pxa0tQWXSYJDiD7lhs
-         563nMrkBadbNMXF5gbs/R88TGKeRL4lglDWJydVLcO6+ZA6cHiKwNbWsn+iJBL+OQpaD
-         DW2A==
+        d=gmail.com; s=20230601; t=1733509027; x=1734113827; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
+        b=lXcmj+uwVtuXnzxE7eJMg1X9bNs+RC5RMgt0QOr8E1v30IY8MW0WIYgI1RFBaMSkND
+         JRqcXKfCEcDFOMuXhjJ36ev8vmBaqvQGWrWgqJ1r81QD4ua3Vg4zeQJM2H9jeB/cXaCs
+         nkWva3V3no1Bc+yAmErYpNdvMp5+sMp72HQS5Tuc3c/HmAKZq2oyemlaESmbSCArVOLo
+         hV3MjffNpA08p1yie64snDmVZ/6FDhGVtS/D9qnaNb4OGCJT2SvuaBFYRmkjLjbBFwdm
+         2FddmtjJ367bk8C5KZhxAjsCJToLmxyyuGkRnGFvmQTbMkcIishEjQgvuquQM0Ro83h3
+         wLHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733503577; x=1734108377;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ol2yKbkMPN+HC8dU4rXIBYY4RipgoOn6OkqD37L6yoU=;
-        b=b1W33+d94x3DKJdehUnjpQDPdmLL+6j64xGU91Hfn4DONL3neav4KNZBCsGnAq5Atz
-         DJ68FTLPtToqbUnfMcGQ+kfeqxO5t54KTaAbwH0FjmMYVlDhF+W+EXgaopPfZAnlTBuz
-         59V6vV4/C2B2D4vS6ThWhy271Wip9drUIoeIfCr2q4WFSbQyUVfyMNglWXQDMnWBdR3q
-         5rMoZy+dJh8uV3eKM8GGTdmER4dbBlK/VElaHy+FgLHk9zRfeZjnSOsludy4CDp0WLDo
-         7c+cvZkdS0rprJO3fXCckZUwrvpi/dI6l0sfeClpbSHBh8M/qhWKIyA/ZwlDfyZIw3Ni
-         NlEA==
-X-Gm-Message-State: AOJu0Yz3d0D29f5jZS8zXaOFfn9WE+n5wfurrFZslGqTLJs1qm+12+ZN
-	Q5v0eHsvU78byKdy+Bk8NrascG2e1vKi/jlL7ZfF9HlFEGvCpls2oMHqIjSuGMs=
-X-Gm-Gg: ASbGnctRrJjy1GBI3sfIxTg+V/l0FpVjWNEfjn4jXjBWvY1IhxgrA2Ix0S+LT6Mk3wi
-	C2lf10sRM86ZpNLA00KnF7uUJ6i1icO2wQnOpj8cmt6f8ScSj2H1JjIZ2+3RT8dPSAD2mghzWSh
-	cfKh0hIHWRMqi2QN5Zuj9WR+PUJXFc8tko9lrT5+UCI6F+pLd0FsDIe0cvyZaID0MIix8jE9iEz
-	ddarlDJfpBpd0f8E4O25PR4XKlZEqJ6zZcaZSGJ/LqMd1VHbwRDMT9TSmFzSZQEDSpZECWyHwbv
-	i/81WOLJ
-X-Google-Smtp-Source: AGHT+IFzciOKfyx4GI9fJD0KY49r407LYZsv2/+b/qcheqid5qZYupSaiPHJuPvhXBKh+RLbL2MF0g==
-X-Received: by 2002:a2e:bcc1:0:b0:300:38ff:f8cd with SMTP id 38308e7fff4ca-30038fffa34mr7366341fa.9.1733503576789;
-        Fri, 06 Dec 2024 08:46:16 -0800 (PST)
-Received: from nomad.sjv.fi (88-112-63-228.elisa-laajakaista.fi. [88.112.63.228])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020da0729sm5179071fa.28.2024.12.06.08.46.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 08:46:16 -0800 (PST)
-From: Jaakko Salo <jaakkos@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	Jaakko Salo <jaakkos@gmail.com>
-Subject: [PATCH] ALSA: usb-audio: Add implicit feedback quirk for Yamaha THR5
-Date: Fri,  6 Dec 2024 18:44:48 +0200
-Message-ID: <20241206164448.8136-1-jaakkos@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1733509027; x=1734113827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qlej7UHUsoeR+yZIvzIoLbF8ISp1uA7IpBE5oPajwGQ=;
+        b=pG9kd9JxkTekT4QW+/sySSrZtBx9PEn4yISKTcxEIk3T2SGYJGZhjl2Lz6p2E4PFdz
+         q0ug0abULzCMO1h7bqh7DosA4uljPiOWSNMRBZXWsuydSiz70mVncysyhWeUq/VgTv55
+         hwvWtQkG0mnSsG4U6HpIyP/H2Cg655AJnPHqsniUc9YzpERABdLmMhJ9U3DrruRZedP/
+         +VoRKdcq4Pq/rf1DwjFo3AvQj0ikmjVn17UAKegfY6YykWmWTfjVxC6rptYVsTmKPmZg
+         uNc3f3pBHgT4zOQS85N+JgSpV3LuAL4M/GPWBJBCvHZtDUT9+AvY8VPkATildJrNE0bP
+         AVfg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOdOWK5wfb6a0CdNlUwEZMlZbQoTwKCs1PLsmvsMshKfa7X2OsCmUMfTjCx8z/WHACDq2qPnppIN5xXBF3@vger.kernel.org, AJvYcCVynQ9lAmVfx4/DKf8WkoccmeWqkLTKFaN4ORKhA0zOcGltMxVA+yHhCO/JKcxniQEzpf6Bh1fg2Iw=@vger.kernel.org, AJvYcCWfRn57C0nrUJIQPS9susaQMQT9s6DH8CTs5afVnCwtP+z0FejrNPCtWA5szKg2RYc8qdJc9y2du5VMwCQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxW0pxKQGlWzaoBMehxzN4sKqqzZU9t7hLE39d+oSK0A+ThEK/I
+	kf+DridJSkm/E6mIcfmt98qbvKztPsoatW5Z+CGuz5LMVlLRLtXUlxA41bV7FEhRl1awJejKj+p
+	0ThlBcpmxtWuGaI3b/x+W88q2o0A=
+X-Gm-Gg: ASbGncshasYVUlADhSsRSy1YY/ei+VN8C//JdNkSug5GJB84Sbm5gYYGRC0kGMI5Kmp
+	y9iwfRmux014/7wloqiKJRY9/GHhyHg9y
+X-Google-Smtp-Source: AGHT+IFHdBprXTF/2XrgM8L9yFe2mpFgxWqG2GYDHruD27KoBjCURXLHgF7Yxsf+IoNcubV0lKMSH6eSrfm9m0Ynnvo=
+X-Received: by 2002:a2e:bcd0:0:b0:2ff:a928:a23e with SMTP id
+ 38308e7fff4ca-3002fc68b7cmr15919451fa.25.1733509027170; Fri, 06 Dec 2024
+ 10:17:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241107200835.3033-1-yesanishhere@gmail.com> <87cyj622oc.fsf@trenco.lwn.net>
+ <274400c3-fd64-4e45-bbd2-319634a09d61@infradead.org> <874j4i205j.fsf@trenco.lwn.net>
+ <70a27fe2-cc85-4f35-b24a-8e3425e447d0@infradead.org> <87v7wyznow.fsf@trenco.lwn.net>
+ <109984d7-98f7-4b2a-8fee-1f7b30230a44@infradead.org> <87wmh8p5ag.fsf@trenco.lwn.net>
+In-Reply-To: <87wmh8p5ag.fsf@trenco.lwn.net>
+From: anish kumar <yesanishhere@gmail.com>
+Date: Fri, 6 Dec 2024 10:16:55 -0800
+Message-ID: <CABCoZhAmsXN2e1RoAudUzYDNa6dU-orUPojp0S4jixqUtEt4ew@mail.gmail.com>
+Subject: Re: [RFC PATCH] ALSA: Add debugging guide for audio issues
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use implicit feedback from the capture endpoint to fix popping
-sounds during playback.
+On Tue, Nov 12, 2024 at 12:26=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> w=
+rote:
+>
+> Randy Dunlap <rdunlap@infradead.org> writes:
+>
+> > On 11/7/24 2:25 PM, Jonathan Corbet wrote:
+>
+> >> If we really want to separate the mechanics of kernel development from
+> >> the associated process information - not always an easy separation, IM=
+O
+> >> - we could make a top-level "development" directory, put a lot of the
+> >> other relevant stuff there, and include the debugging stuff.  It seems
+> >> really weird to put debugging by itself, though; it's only part of the
+> >> picture.
+> >
+> > I could go with that.
+> >
+> >>
+> >> Why is Documentation/process so bad?
+> >
+> > Documentation/process/ is meta-documentation about kernel social "stand=
+ards"
+> > among other things. It is "soft" documentation, whereas debugging (IMHO=
+) is
+> > "hard" documentation.
+> >
+> > But hey, it's all your baby. Do whatever pleases you. :)
+>
+> Hopefully not all mine...:)
+>
+> My suggestion is to put it under process for now just to not block
+> forward progress on this work.  We can surely relocate it if we want to
+> make a proper development-processes top-level directory in the future.
+>
+> Thanks,
+>
+> jon
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=219567
-Signed-off-by: Jaakko Salo <jaakkos@gmail.com>
----
- sound/usb/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
+Hi Jonathan,
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 00101875d9a8..a0767de7f1b7 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2179,6 +2179,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
- 	DEVICE_FLG(0x046d, 0x09a4, /* Logitech QuickCam E 3500 */
- 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_IGNORE_CTL_ERROR),
-+	DEVICE_FLG(0x0499, 0x1506, /* Yamaha THR5 */
-+		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x1509, /* Steinberg UR22 */
- 		   QUIRK_FLAG_GENERIC_IMPLICIT_FB),
- 	DEVICE_FLG(0x0499, 0x3108, /* Yamaha YIT-W12TX */
--- 
-2.43.0
-
+I wanted to check with you regarding the timing for sending the patch.
+Should I go ahead and submit an updated version after relocating it
+under the process/debugging section?
