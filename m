@@ -1,140 +1,192 @@
-Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
+Received: from flow-b5-smtp.messagingengine.com (flow-b5-smtp.messagingengine.com [202.12.124.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6761D20765C
-	for <linux-sound@vger.kernel.org>; Fri,  6 Dec 2024 13:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A22066DE;
+	Fri,  6 Dec 2024 13:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733491007; cv=none; b=fwqJOIJ7tUNqzU8ncMJ39xM4ka+ZbNnowCr3kqOTsyM8tObQpXR1ehrtfCtz4WcQ8xSv0u5WzoVHSEnDEYLuGW/zeOU8iMwdTtQ/KrR40KrOYG88iiek9Flj+ADG3mp2mP09yy+tZN5c6W/GCjtcloMxALwoHzpwj6HZqthO0nI=
+	t=1733493144; cv=none; b=kb6VoE3kG/l1xrjhHQtLqz3djb+/svPwYng5Y2OJ4GzYMul0oFBNsv4Jyftq+lymRmMZXbaAygMkkzH43alovKusm/Jdt18WpuRsr3hKbGJjvyja5YJ3NU1lj272Q0OE4ARnI0udsAadi/m48JTkaaAuPEh3CATOnFyaQPWZF8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733491007; c=relaxed/simple;
-	bh=Mtd/MNGnf5OiPp2L1Icdqrct+/D+/0W5XuHnvOmsBpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WOWZe6A0KoAYnNhG58Od5hLLt56nOljZofmuL9UymC92Be1J6dtbtSXcAJmI/H3NgCj/szXhpvUvuC+L4wqF3sJkF/cCA4GG3t4wJ41//h+Ef9PrEZgkrINSedKlKweU3HmUty9VsTpfPElBsw1lC1SFybvyiymDSPBjmkn+raY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=P0S/EXGI; arc=none smtp.client-ip=103.150.252.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1733493144; c=relaxed/simple;
+	bh=Qg6Ce5uSEcP+55XWYkwP9vkeQ++48Pfctd6qXinl3Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IlmuNeRnFgnW5J1zg2XC3ao5yvtDYNznys+fiJ2wPRjdPDLXeGMvPYRpIvHXdUMz71qZWGRlZWQPIigUWD/JgvMp67SBeahMpfMF4f3y/FC/NIRZoCJeDAl0HC6yBDdcNe60/+8ONja747ZJSWVdJA1yJKfpVPd6Stks6tIh1lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=MSj7guEp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=xDNgtnHy; arc=none smtp.client-ip=202.12.124.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="P0S/EXGI"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=Content-Type:From:To:Subject:MIME-Version:Date:
-	Message-ID; bh=lNGurj19k5n/YpS2tRk9EcaT5/wSTrzxFPHa6tbogRM=; b=P0S/EXGIgRWDV7
-	SB9rfld5lSne6hYM41dJGzt/6qNSk+NTBkwmwlfqcowBnB1Xcx/xws0Vs/SpbeEfILE6qEx4ClTuo
-	E4b1J9juHVYcYzBMLHXRkrUX+Ah6kSQidRT9V6Aixpe0wLX5MJQdKOk7eE93aaZRPZDSasDfWInwW
-	nAmI/KAMGDI4x5MNBOSDWUYIOd5e3AOi17SUZMJzvMohbpTXVQuTCItu07xWMNyF6qPVhG90ZQZ1+
-	vKNU8JxZHvU4/kuVan4Q6QaEy13BXkc9OMsyh+eZiu4x+7kuY7XBvKyS8UVRx3GwsTxK54fKSCeF6
-	J8es1CbWzYv8opMblTyg==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-08bfa4c5bdedaf3a1) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJYCB-000000001S4-3YH1 ;
-	Fri, 06 Dec 2024 13:16:35 +0000
-Received: from [220.233.184.101] (helo=[192.168.20.106])
-	 by CMR-KAKADU03.i-08bfa4c5bdedaf3a1 with esmtpa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJYCB-000000004Zj-1fX6;
-	Fri, 06 Dec 2024 13:16:35 +0000
-Message-ID: <c2b9ae73-6a94-4184-9aab-8c95bd242b60@iinet.net.au>
-Date: Sat, 7 Dec 2024 00:16:28 +1100
+	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="MSj7guEp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="xDNgtnHy"
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailflow.stl.internal (Postfix) with ESMTP id 158141D40557;
+	Fri,  6 Dec 2024 08:52:19 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Fri, 06 Dec 2024 08:52:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1733493138; x=
+	1733500338; bh=F/P5NvV/oPgyLOVDdO9jbE313zKQetWBog6B0EvuLEA=; b=M
+	Sj7guEpfYyfJVeSxZkmsMh0zyS2W2XOGFWxV1S085lP0oWUiSQf+HQv4B/im8Smb
+	A/50JTK4DLLh18J9Sjqs2aNhk6S2yarJ+EHcouloSh/oqCB7hArt2q3ZuIFbkj/I
+	fFgU9Qg9R5ZGGvT47CzpDp1KUbo7nK9HO2ae1NPXsXP/wl5BchFWD0yg/JCYjsr9
+	fXIJRALKFsKvFqe71MneVTz8jaGQLkP6wUACGnoi/5zIDs6FZV9i4SCRlzylZIdL
+	JEk2HHQSDWp63JDjM2qb1hil4JrLTf5nQRDL1cyESz6dFceNZAlsmT22L0W8F1gH
+	86D9/srMF3PNNTLIIkUqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1733493138; x=1733500338; bh=F/P5NvV/oPgyLOVDdO9jbE313zKQetWBog6
+	B0EvuLEA=; b=xDNgtnHy1tK7puhnLX5+esK/IgziPC4HzD0yPzyaPgVs8BauerX
+	5Gh9QHIIwI9c+CUD9aR7FksVyc+wiv9c8kDcmUBxhh3LvOEfxlVik7VuxrqmuwTf
+	XafAHjl0THPYXeq+RMCHSq+xyRbTf81BcpKLtm5vGNbxwyK3XhqSKKD0/eNEBIEs
+	ifGsiqyf80HwoUEiHyMx99sbVBdhIbumQXWTwZBPE4uZQkwcPkqT1sz1khwQ5fKP
+	5LvTH20FG+Z0W6OgHmIRX0xxkcJ4AsJgifC3XCJZIrNaVdO1xmRRG8EZSEdZAiGB
+	55jZB+7jQTMglESe+lwBG7aRRXR4qQbb60A==
+X-ME-Sender: <xms:kgFTZ9eRxZgsQ_HyW0NQeyBhAa8qrP-js82jZsEnrc73rIKbqI5cQg>
+    <xme:kgFTZ7NeULk2V4bgBoKUbD2I9wnDfcKDJoG1qVHeHqzZoP8DCptzP2hkGxpDbhB_u
+    HTxZFgGNz0vK71z6CA>
+X-ME-Received: <xmr:kgFTZ2h8sZq6o250A96V6I672leVJ0PaesW6z8yf8EHC8ehGiJXlNNIQaY-eGODpBFung7qO_vhuMVEX_XB2I8ZKk7sWPvGZxo8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrieelgdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecu
+    hfhrohhmpefvrghkrghshhhiucfurghkrghmohhtohcuoehoqdhtrghkrghshhhisehsrg
+    hkrghmohgttghhihdrjhhpqeenucggtffrrghtthgvrhhnpeehhffhteetgfekvdeiueff
+    veevueeftdelhfejieeitedvleeftdfgfeeuudekueenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhisehsrghkrghmohgt
+    tghhihdrjhhppdhnsggprhgtphhtthhopedvjedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepiihijhhunhgphhhusehitghlohhuugdrtghomhdprhgtphhtthhopehgrhgv
+    ghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehukhhlvg
+    hinhgvkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrmhgvshdrsghothhtohhm
+    lhgvhieshhgrnhhsvghnphgrrhhtnhgvrhhshhhiphdrtghomhdprhgtphhtthhopehthh
+    homhgrshesthdqkegthhdruggvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhvughimhhmsehlihhsthhsrd
+    hlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqshhouhhnugesvhhgvghrrdhk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehsphgrrhgtlhhinhhugiesvhhgvghrrdhkvg
+    hrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:kgFTZ2_UGngVtygK4_p0LKXvJr2g0v9oePYeEVcrzT0gkzTro-YK0g>
+    <xmx:kgFTZ5vx35KJMQHqHYcHa0QjhtFrNmuU_ZD5-UGD0krqFfoJC4mPyQ>
+    <xmx:kgFTZ1G9NWKiaU4m6BL1Na5OaZRNRdHCaRGEc0E-ttIN_XuEHc32wg>
+    <xmx:kgFTZwPzQVAELvWI33zBnvWj1s6ncPtql6n1UYpP22HdnXi_-3k-FA>
+    <xmx:kgFTZ4-yVlVkD3Q8ajGh0oXdOkDvMdTtHW1-CAta77ld53oKIK-nLbK0>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Dec 2024 08:52:12 -0500 (EST)
+Date: Fri, 6 Dec 2024 22:52:09 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+Subject: Re: [PATCH v3 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <20241206135209.GA133715@workstation.local>
+Mail-Followup-To: Zijun Hu <zijun_hu@icloud.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas@t-8ch.de>,
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-sound@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-cxl@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-gpio@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-scsi@vger.kernel.org, open-iscsi@googlegroups.com,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	netdev@vger.kernel.org, Zijun Hu <quic_zijuhu@quicinc.com>
+References: <20241205-const_dfc_done-v3-0-1611f1486b5a@quicinc.com>
+ <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] ASoC: pcm3168a: Add option to force clock consumer
-To: Mark Brown <broonie@kernel.org>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>,
- Baojun Xu <baojun.xu@ti.com>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-sound@vger.kernel.org
-References: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
- <5011ceef-5100-441d-b169-dabba135d27f@iinet.net.au>
- <cec27c80-ca7d-43a1-90e2-ce014e56e295@sirena.org.uk>
-Content-Language: en-US
-From: Stephen Gordon <gordoste@iinet.net.au>
-In-Reply-To: <cec27c80-ca7d-43a1-90e2-ce014e56e295@sirena.org.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=AvHo3v9P c=1 sm=1 tr=0 ts=6752f933 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=VwQbUJbxAAAA:8 a=4jraHwQkAAAA:8 a=NEAV23lmAAAA:8 a=YP79KAbe-ZoriZxZNwIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Cm-Envelope: MS4xfDr1W7v5wjUMNbiQQuSckdwnxPRIiJ+7sggJ9w8dGBYX2Y9B+hr9lP8Pd8E/hwmO5PkWHugTSVqkkA9buvKzuYPS4LqTgp9W/9fmJ0cjzjw5QPqclXTE h2EdRdzk9j/V0Y0R6XmkR3khC6Iqa3gyVP25MFKfGhNUzZsRuj1sjG/heVk8sPW68PHlfLWOVgB7Aw==
-X-atmailcloud-route: unknown
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241205-const_dfc_done-v3-4-1611f1486b5a@quicinc.com>
+
+Hi,
+
+On Thu, Dec 05, 2024 at 08:10:13AM +0800, Zijun Hu wrote:
+> From: Zijun Hu <quic_zijuhu@quicinc.com>
+> 
+> Constify the following API:
+> struct device *device_find_child(struct device *dev, void *data,
+> 		int (*match)(struct device *dev, void *data));
+> To :
+> struct device *device_find_child(struct device *dev, const void *data,
+>                                  device_match_t match);
+> typedef int (*device_match_t)(struct device *dev, const void *data);
+> with the following reasons:
+> 
+> - Protect caller's match data @*data which is for comparison and lookup
+>   and the API does not actually need to modify @*data.
+> 
+> - Make the API's parameters (@match)() and @data have the same type as
+>   all of other device finding APIs (bus|class|driver)_find_device().
+> 
+> - All kinds of existing device match functions can be directly taken
+>   as the API's argument, they were exported by driver core.
+> 
+> Constify the API and adapt for various existing usages by simply making
+> various match functions take 'const void *' as type of match data @data.
+> 
+> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+> ---
+>  arch/sparc/kernel/vio.c                |  6 +++---
+>  drivers/base/core.c                    |  6 +++---
+>  drivers/block/sunvdc.c                 |  6 +++---
+>  drivers/bus/fsl-mc/dprc-driver.c       |  4 ++--
+>  drivers/cxl/core/pci.c                 |  4 ++--
+>  drivers/cxl/core/pmem.c                |  2 +-
+>  drivers/cxl/core/region.c              | 21 ++++++++++++---------
+>  drivers/firewire/core-device.c         |  4 ++--
+>  drivers/firmware/arm_scmi/bus.c        |  4 ++--
+>  drivers/firmware/efi/dev-path-parser.c |  4 ++--
+>  drivers/gpio/gpio-sim.c                |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c |  2 +-
+>  drivers/hwmon/hwmon.c                  |  2 +-
+>  drivers/media/pci/mgb4/mgb4_core.c     |  4 ++--
+>  drivers/nvdimm/bus.c                   |  2 +-
+>  drivers/pwm/core.c                     |  2 +-
+>  drivers/rpmsg/rpmsg_core.c             |  4 ++--
+>  drivers/scsi/qla4xxx/ql4_os.c          |  3 ++-
+>  drivers/scsi/scsi_transport_iscsi.c    | 10 +++++-----
+>  drivers/slimbus/core.c                 |  8 ++++----
+>  drivers/thunderbolt/retimer.c          |  2 +-
+>  drivers/thunderbolt/xdomain.c          |  2 +-
+>  drivers/tty/serial/serial_core.c       |  4 ++--
+>  drivers/usb/typec/class.c              |  8 ++++----
+>  include/linux/device.h                 |  4 ++--
+>  include/scsi/scsi_transport_iscsi.h    |  4 ++--
+>  net/dsa/dsa.c                          |  2 +-
+>  tools/testing/cxl/test/cxl.c           |  2 +-
+>  28 files changed, 66 insertions(+), 62 deletions(-)
+
+For the changes in FireWire subsystem:
+
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
 
+Thanks
 
-On 6/12/2024 11:22 pm, Mark Brown wrote:
-> On Fri, Dec 06, 2024 at 10:54:43PM +1100, Stephen Gordon wrote:
->
->> Scenario is that DAC's clock pins are tied to ADC's clock pins, with
->> codec acting as clock producer for the I2S bus, and the CPU has a single
->> pair of I2S clock pins used for both playback and capture.
->>                                   ,-------------------
->> ---------            ------------| LRCK     DAC
->>       LRCK|-------+--/     -------| BCK   (producer)  C
->> CPU      |       |       /       |                   O
->>        BCK|-------|---+--/        | ----------------  D
->> consumer |       \   |           |                   E
->> ---------         ---------------| LRCK     ADC      C
->>                       `-----------| BCK    (consumer)
->>                                   `--------------------
->> Both DAI links will have codec acting as a clock producer, but we need
->>
->> to configure the codec so that only one of ADC/DAC drives the lines.
-> This looks like something that should be done in the board
-> configuration, not hard coded in the CODEC driver.
->
->> Add DT options to support this configuration. adc-force-cons/dac-force-cons
->>
->> cause the corresponding component to be configured in consumer mode.
-> Any DT bindings should documented which should be done in a separate
-> patch.
-
-I will most certainly do this in v3 if I convince you that the DT 
-bindings should be
-
-added in the first place :)
-
->
->
->> +       // Force clock consumer mode if needed
->> +       if (pcm3168a->adc_fc && dai->id == PCM3168A_DAI_ADC)
->> +               ms = 0;
->> +       if (pcm3168a->dac_fc && dai->id == PCM3168A_DAI_DAC)
->> +               ms = 0;
-> The clock consumer mode should just be configured via the standard
-> set_dai_fmt() operation.
-
-I did try to do this using simple_card and I documented my attempt and 
-why it seems to
-
-fail in this message:
-
-https://lore.kernel.org/linux-sound/b64a630f-d71f-49ee-a5e7-ea1e3a7f8de5@iinet.net.au/
-
-Basically, simple_card appears to set the CPU as producer if you don't 
-specify a
-
-producer. I am not sure whether this is a bug.
-
-Also, there aren't any examples I could find in the documentation of DAI 
-links with
-
-clock consumer on both ends, so I was wondering if it is even valid.
-
-There is some SoC code that seems like it might not work properly in 
-this scenario:
-
-https://github.com/torvalds/linux/blob/b8f52214c61a5b99a54168145378e91b40d10c90/sound/soc/soc-core.c#L1465
-
-
->> +       if (dev->of_node) {
->> +               pcm3168a->adc_fc = of_property_read_bool(dev->of_node,
->> +                               "adc-force-cons");
->> +               pcm3168a->dac_fc = of_property_read_bool(dev->of_node,
->> +                               "dac-force-cons");
->> +       }
-> These properties are not documented, and you don't need to query to see
-> if there's an OF node to query if a property is present.
-
+Takashi Sakamoto
