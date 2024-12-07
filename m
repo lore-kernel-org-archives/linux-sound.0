@@ -1,38 +1,38 @@
-Received: from omr012.pc5.atmailcloud.com (omr012.pc5.atmailcloud.com [103.150.252.12])
+Received: from omr011.pc5.atmailcloud.com (omr011.pc5.atmailcloud.com [103.150.252.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A475C17C7C;
-	Sat,  7 Dec 2024 03:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D510E0;
+	Sat,  7 Dec 2024 12:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733542793; cv=none; b=M6uNDESvNf69NjNVYhru4QjlnBqYWOXBImHuxbFsFCyoZTtpyuifAoi+bs5fzHYOtbKEfrz5um1Bm5Ye3JSsAJVX2d+q/1yehhMtX0fIH2tN3MwReYjvdFbt03G4xn5j+wDAwEg0MYV8BxsAe9ggkIN2qsoWWnhzdbQlRQOM+So=
+	t=1733574205; cv=none; b=bJ4z34LClvCcR5y0rNOoCiW7YCQWYxEEPzwlokrSUho6FhgukBnwcHeYoO2GIld/FlDaWyWTPh5F056NrD4LZq2UvWlbcIz5xXr0UA2jZMqOn0s9pnf1fwIGXXXDaeJpGvxWfVXFOGZz3AOEtVw0X+wuhUU7BQ8aR22JSSKZd8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733542793; c=relaxed/simple;
-	bh=T+A3OvEiIKRd9miAv8Q1Y6ZrLhAo2qahZkhgFwF3iUs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TthI0YroO7FBJT+CNMSxYlNN38jwk4EeCPW9p/+feyzhCdnU8rejCeA+vNWpqDeFPuYufwsqcdms1V6hBdU32zJshkrteuEMAGMZ9QquY24Nt548cHuAcDZHHUp0AyTMneoznG6NO99QPYG5gARPm1vmGkhB3qn9yiDwClaOwcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=injSqMSb; arc=none smtp.client-ip=103.150.252.12
+	s=arc-20240116; t=1733574205; c=relaxed/simple;
+	bh=9XuAjMOa4DQbaba+Yjt5Ge9W5m0QcoJ1cRWOdV6Nwy4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JzGij1tAvC6NWZp2b7fy0cPghNthUVpN1THsynBqiaxHeh4y6isfH6e8GC0PZGMmHswvkvqW9zF4pfco0gOn8MgtdkX2T9KXS3fFHgjbhJtNUreeZOMdOgSMHFQGiq18smHiD4pnjx6+Fji7UFSKgMUqetMBiDbuTKBCLUNqyKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=oh2EeuDt; arc=none smtp.client-ip=103.150.252.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="injSqMSb"
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="oh2EeuDt"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=iinet.net.au; s=202309; h=MIME-Version:Message-Id:Date:Subject:To:From:
-	content-type; bh=CXN0570aOiwMChVwhQkv6hbbsoUm8XIHFR6HkMe7bo8=; b=injSqMSbHCX7
-	7bBHa6Mqt8fb3oHK/w9FBKtoowtq8XIexCyTYD665yW5GGCVHtFXCnzdTKJf+FMxJV5gf17+5R3wH
-	0QbKMeBUzsOAPfZAWXSJw+ZNsEA5NuQMlXVaqV0slQPwGZN0wiH+MMtBs2Hd77im2frkSQ+YxKN4M
-	Yv2CZ8faNYQ1u/L2JyClTrWDWKdsnzWuieL9mURY6xL/D+6TCwvIp+qWGAGpBfUKgLll3iE1KpdOz
-	scH1a48L4Zb373r/9irJxBVDnMATecu2rqwAQ6JRLy/bSOlRFxKm6zZoybbnwQY+JUBSkhWoFLsp2
-	9uMuoR/pjHdYWMyqE6wsig==;
+	content-type; bh=ktDARhdLniN1l9piKvBpErS2QEpaNg0umPELwf6t5ro=; b=oh2EeuDtyED0
+	d2XZjG1W8HcuyH7suh6CqP7vq1VtU/dt19k7qdFOAjutatLdgXKDrxZobd71hj7tr6hq9unpU4HA9
+	cwb3aP9NhhNWxlbKNN/5qAe9+N8f7lwRP5TaK7N601iTFkdF7ZdxVcBXzSHlE0FVfun4BQauL70I5
+	AiiCmVnVRgjagTMBOjY+3izLRCtkZPWSXXQn06nqeqdlpm/R4u0AryK/+X4zq1rAleKza30NgBaom
+	dQcqbXYOpanH/l1gfZQhuujEiA5j/gjsewmZYa0USYc3WcNv/7GS1jPilBldz7MN+T/PymYoc57wO
+	FfKfBxRHEnZNoC9VeDPAEg==;
 Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-0b90e6e05a7b179c7) with ESMTPS
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-01aafa3d57eedb868) with ESMTPS
 	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJlfW-000000005qg-1zvf ;
-	Sat, 07 Dec 2024 03:39:46 +0000
+	id 1tJtq4-000000005oC-47Lz ;
+	Sat, 07 Dec 2024 12:23:12 +0000
 Received: from [220.233.184.101] (helo=localhost)
-	 by CMR-KAKADU03.i-0b90e6e05a7b179c7 with esmtpsa
+	 by CMR-KAKADU03.i-01aafa3d57eedb868 with esmtpsa
 	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJlfV-000000007lO-3dwF;
-	Sat, 07 Dec 2024 03:39:46 +0000
+	id 1tJtq4-000000003wf-1K83;
+	Sat, 07 Dec 2024 12:23:12 +0000
 From: Stephen Gordon <gordoste@iinet.net.au>
 To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 	Liam Girdwood <lgirdwood@gmail.com>,
@@ -42,9 +42,9 @@ To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
 Cc: Stephen Gordon <gordoste@iinet.net.au>,
 	linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] Decrement refcount on correct pointer
-Date: Sat,  7 Dec 2024 14:39:12 +1100
-Message-Id: <20241207033912.68475-1-gordoste@iinet.net.au>
+Subject: [PATCH v2] ASoC: audio-graph-card: Call of_node_put() on correct node
+Date: Sat,  7 Dec 2024 23:22:56 +1100
+Message-Id: <20241207122257.165096-1-gordoste@iinet.net.au>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -55,9 +55,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Atmail-Id: gordoste@iinet.net.au
 X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=SanxdORu c=1 sm=1 tr=0 ts=6753c382 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=HVOBkmTHOsy81tmx7DYA:9
-X-Cm-Envelope: MS4xfEIIihYa21+f0Bi5lsN4bFSkeGOk3CDP/6Wtnru6/W8mnFdFYJ8dP+hepVPwq3QgGdmwm1jXDXkXLUYdG2yDTldZPp53o/PG+K8qaVe7G+8p53ND98T0 5XCZ9LBHbOKEqqozzGwjjTzv5iH+Y9PR/mqDrPCzGfKfPsQ5zVgGz1Jk3QgV5sfGirbhvZxddc1HMJeVsKOlr1Dp7ss4NiISdtA=
+X-Cm-Analysis: v=2.4 cv=V9V70/ni c=1 sm=1 tr=0 ts=67543e30 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=HVOBkmTHOsy81tmx7DYA:9
+X-Cm-Envelope: MS4xfEHN2qmahQ2S5q2GtZ74TTTA8DAr+KCC6e+jfLoxYvrRp/3HNaI5PaXriy1U9MmQqC/S3xlexQM5yFbMumHJoJBOlUTNG4d9mrB24XHQbQxOQMpvZN8R /dYQmJ8kx++KjQ4xWqfim9IKU3GzXoCMrlvKexmdCeeaxsadnBoiU85pDFxvjYLbDpVHkwwSMgzjh1urZkKPzXhqMo+VmJKa9yw=
 X-atmailcloud-route: unknown
+
+V2: Adjust commit message
 
 Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
 ---
