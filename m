@@ -1,84 +1,137 @@
-Received: from omr011.pc5.atmailcloud.com (omr011.pc5.atmailcloud.com [103.150.252.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D510E0;
-	Sat,  7 Dec 2024 12:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B94C256D
+	for <linux-sound@vger.kernel.org>; Sat,  7 Dec 2024 13:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733574205; cv=none; b=bJ4z34LClvCcR5y0rNOoCiW7YCQWYxEEPzwlokrSUho6FhgukBnwcHeYoO2GIld/FlDaWyWTPh5F056NrD4LZq2UvWlbcIz5xXr0UA2jZMqOn0s9pnf1fwIGXXXDaeJpGvxWfVXFOGZz3AOEtVw0X+wuhUU7BQ8aR22JSSKZd8A=
+	t=1733576650; cv=none; b=pUXkbxzU9EoBt4DxLcS+Tq83pN333kb8lgYP6bfiKQ9Nx19UXbEyuesSXhqRnU4adlCJVhNf8Wh/Y1zw0h9NUeycEwHTgzj/i2elL6DrK3MnpPpm1zJy/QDFBTU/xXJIeQqx0d06gZAbHPnz8xsHn6AzuQNEJzL0gSrg6s/ilBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733574205; c=relaxed/simple;
-	bh=9XuAjMOa4DQbaba+Yjt5Ge9W5m0QcoJ1cRWOdV6Nwy4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JzGij1tAvC6NWZp2b7fy0cPghNthUVpN1THsynBqiaxHeh4y6isfH6e8GC0PZGMmHswvkvqW9zF4pfco0gOn8MgtdkX2T9KXS3fFHgjbhJtNUreeZOMdOgSMHFQGiq18smHiD4pnjx6+Fji7UFSKgMUqetMBiDbuTKBCLUNqyKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=oh2EeuDt; arc=none smtp.client-ip=103.150.252.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1733576650; c=relaxed/simple;
+	bh=WFXPVtY9w4kltCBC3H2hR+M92fVApU8OJpxfx66qj0w=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QJDdLLb+/BvN1SvIpyXfB8GJ9w9Bx+/jNiTGn9HlnmSmd59ZBUQawpZeFZU18Z1ejrZLb4twPo6JxWVM6NcUAsFjJlX+I21YZGfTceuoqWU0TqAQvivkVQFqDibJteAwxwrhrlIIr5S+hEi27HBdqEGXZVjGMcwohhJmaU/Eh0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0cYwIZFo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MIw5fLvv; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0cYwIZFo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MIw5fLvv; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="oh2EeuDt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=MIME-Version:Message-Id:Date:Subject:To:From:
-	content-type; bh=ktDARhdLniN1l9piKvBpErS2QEpaNg0umPELwf6t5ro=; b=oh2EeuDtyED0
-	d2XZjG1W8HcuyH7suh6CqP7vq1VtU/dt19k7qdFOAjutatLdgXKDrxZobd71hj7tr6hq9unpU4HA9
-	cwb3aP9NhhNWxlbKNN/5qAe9+N8f7lwRP5TaK7N601iTFkdF7ZdxVcBXzSHlE0FVfun4BQauL70I5
-	AiiCmVnVRgjagTMBOjY+3izLRCtkZPWSXXQn06nqeqdlpm/R4u0AryK/+X4zq1rAleKza30NgBaom
-	dQcqbXYOpanH/l1gfZQhuujEiA5j/gjsewmZYa0USYc3WcNv/7GS1jPilBldz7MN+T/PymYoc57wO
-	FfKfBxRHEnZNoC9VeDPAEg==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-01aafa3d57eedb868) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJtq4-000000005oC-47Lz ;
-	Sat, 07 Dec 2024 12:23:12 +0000
-Received: from [220.233.184.101] (helo=localhost)
-	 by CMR-KAKADU03.i-01aafa3d57eedb868 with esmtpsa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tJtq4-000000003wf-1K83;
-	Sat, 07 Dec 2024 12:23:12 +0000
-From: Stephen Gordon <gordoste@iinet.net.au>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Stephen Gordon <gordoste@iinet.net.au>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] ASoC: audio-graph-card: Call of_node_put() on correct node
-Date: Sat,  7 Dec 2024 23:22:56 +1100
-Message-Id: <20241207122257.165096-1-gordoste@iinet.net.au>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0cYwIZFo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MIw5fLvv";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0cYwIZFo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MIw5fLvv"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1617C1F394;
+	Sat,  7 Dec 2024 13:04:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733576640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lDSFYATpn0W78pJ/kXb6Hw3/cDeVaqenCq1M4kEUJjg=;
+	b=0cYwIZFoTGm+k0y+vvu33LI0vUVeTo/3VJ6X7SymPo/wpOdl6bHM2gWagUazcgdBbE/sxL
+	aTGDRdrYzW50qUwi4WtVwu8cBtNNVWZ806AJdT6OEOJmAz2zhIxE9Kca2fZy3o7nvgZXAD
+	iIBoc8E2jQ/AIV1uNAvzdU/E4M98OVY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733576640;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lDSFYATpn0W78pJ/kXb6Hw3/cDeVaqenCq1M4kEUJjg=;
+	b=MIw5fLvv7DCoB7Rok7gVzif2jg0VQec0TRD2w4ySgyYTUmsI/TdxO83UAdYnB4E4oW85Ez
+	gKPq49xZhfQtrcDQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=0cYwIZFo;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MIw5fLvv
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733576640; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lDSFYATpn0W78pJ/kXb6Hw3/cDeVaqenCq1M4kEUJjg=;
+	b=0cYwIZFoTGm+k0y+vvu33LI0vUVeTo/3VJ6X7SymPo/wpOdl6bHM2gWagUazcgdBbE/sxL
+	aTGDRdrYzW50qUwi4WtVwu8cBtNNVWZ806AJdT6OEOJmAz2zhIxE9Kca2fZy3o7nvgZXAD
+	iIBoc8E2jQ/AIV1uNAvzdU/E4M98OVY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733576640;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lDSFYATpn0W78pJ/kXb6Hw3/cDeVaqenCq1M4kEUJjg=;
+	b=MIw5fLvv7DCoB7Rok7gVzif2jg0VQec0TRD2w4ySgyYTUmsI/TdxO83UAdYnB4E4oW85Ez
+	gKPq49xZhfQtrcDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D900A138A7;
+	Sat,  7 Dec 2024 13:03:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9t5ZM79HVGdNOQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 07 Dec 2024 13:03:59 +0000
+Date: Sat, 07 Dec 2024 14:03:59 +0100
+Message-ID: <8734izr6f4.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaakko Salo <jaakkos@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.de
+Subject: Re: [PATCH] ALSA: usb-audio: Add implicit feedback quirk for Yamaha THR5
+In-Reply-To: <20241206164448.8136-1-jaakkos@gmail.com>
+References: <20241206164448.8136-1-jaakkos@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=V9V70/ni c=1 sm=1 tr=0 ts=67543e30 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=HVOBkmTHOsy81tmx7DYA:9
-X-Cm-Envelope: MS4xfEHN2qmahQ2S5q2GtZ74TTTA8DAr+KCC6e+jfLoxYvrRp/3HNaI5PaXriy1U9MmQqC/S3xlexQM5yFbMumHJoJBOlUTNG4d9mrB24XHQbQxOQMpvZN8R /dYQmJ8kx++KjQ4xWqfim9IKU3GzXoCMrlvKexmdCeeaxsadnBoiU85pDFxvjYLbDpVHkwwSMgzjh1urZkKPzXhqMo+VmJKa9yw=
-X-atmailcloud-route: unknown
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 1617C1F394
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_DN_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCPT_COUNT_THREE(0.00)[3];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-V2: Adjust commit message
+On Fri, 06 Dec 2024 17:44:48 +0100,
+Jaakko Salo wrote:
+> 
+> Use implicit feedback from the capture endpoint to fix popping
+> sounds during playback.
+> 
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=219567
+> Signed-off-by: Jaakko Salo <jaakkos@gmail.com>
 
-Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
----
- sound/soc/generic/audio-graph-card2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks, applied now.
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 5280c1b20..1f5c4e8ff 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -771,7 +771,7 @@ static void graph_link_init(struct simple_util_priv *priv,
- 	of_node_get(port_codec);
- 	if (graph_lnk_is_multi(port_codec)) {
- 		ep_codec = graph_get_next_multi_ep(&port_codec);
--		of_node_put(port_cpu);
-+		of_node_put(port_codec);
- 		port_codec = ep_to_port(ep_codec);
- 	} else {
- 		ep_codec = of_graph_get_next_port_endpoint(port_codec, NULL);
--- 
-2.39.5
 
+Takashi
