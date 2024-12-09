@@ -1,243 +1,99 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BC8184556;
-	Mon,  9 Dec 2024 20:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AECD19F11B
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 22:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733774836; cv=none; b=mMRSTZBrr2Eq82KVMzQmZ3tGXM8eGjGvxHidf3h1pQ4K1YXUgkB3TaG4fzUoj/X5zSzZ6NONCgYBRWiXnbUCtqJh2mcuS/X8A8BttHtXNn0JGjSBLJbZP2LiYCjuFAg2pCWxwMKthrYliYbFV8U9gpxDE0H8gpZsCBhwQ24/5Ns=
+	t=1733784372; cv=none; b=jhoEX/nx1TWIuu/KwdQ5yoh2v/gz1kJRRsXsEHi0uxFVuumnVcBYYvKZBm8QS/tlCCqOn6AkokWJ65pl3DRZJf9uQX3g6VOmjf0s3w3hXW5eMJnOY5sjH/CUhm2TYuPO5RphL6mDbUBnMq/Ji8yJADit7BjhREfHV/2BrHB+6mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733774836; c=relaxed/simple;
-	bh=XHeeybhj5u2b8BHEtLKC3hKJSOqzRrrU3o97MCDUjaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Omd/SPynFxBSvUJp70650clIZi1pzwfANexJeML5XgD2+8pdt+k/Eh2BYZtuP0LWyj+JAK68CR2aHYy72zMmOFks2WdAI9K/5T8Y9LRsM/pS73H/RLNkcBsu/Qrx7dicC4TfoBZ/tmKWrFjbSiOsTexVJKG2pnQH3KqvtprCgIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nyw7V+wJ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1733784372; c=relaxed/simple;
+	bh=YvS7IlcHII7Ec1Ap2hjO6zIeRNlxDIEarM6QhxpvSmc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CMYv/VnKO4oGIyp2ksQTSQiOldhqLCrWyJk1DSo1N5YumfwScIJS7sYKs7veDN0yVY2uwhcuw9uC3xmdRRRR8A9wzAEF12bBtgfnuObG+SuxyAeFOFjDJ2I2Rxyhpa8qCqRX3FQQnkU3nMeWp0i6KHrDicV1T/bKE25i9LoW/5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Vo39HsVG; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nyw7V+wJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1733774832;
-	bh=XHeeybhj5u2b8BHEtLKC3hKJSOqzRrrU3o97MCDUjaY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nyw7V+wJ6jSPe9lIbRvVSihwC0AUWedhKPy2iBGsL6d971k2Cv/6CqVfA/rn9pXks
-	 GBLlqwLP+A+/gTn2Jlcep+CcN23rMmWU59KIeTpaDotz36jkfIzLUCetGU3u8pbAkH
-	 qEbiY/V9XJzWNyRKgF7flBQzbgxX0IVSycXr8NuBSqy5s4Nu+Ckud/8es/Fo2XZXrj
-	 FdHnxO72b+zm+J0v+pY7g8efUsCJqg2IIL+B56F5EvmlqmviWYfnvXIk+M9ZdJ+sMx
-	 JohnjPIyfrrjjCdyMglpioyR3Cjm4axQZ0pNNoXvTV/A7WkaW7ua0Uo20pFpZfkUDx
-	 XIBVs/9OzxmpQ==
-Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1002])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E0F5A17E3780;
-	Mon,  9 Dec 2024 21:07:09 +0100 (CET)
-Date: Mon, 9 Dec 2024 17:07:07 -0300
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Trevor Wu =?utf-8?B?KOWQs+aWh+iJryk=?= <Trevor.Wu@mediatek.com>
-Cc: "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	"broonie@kernel.org" <broonie@kernel.org>,
-	"tiwai@suse.com" <tiwai@suse.com>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"kernel@collabora.com" <kernel@collabora.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH] ASoC: mediatek: mt8188: Enable apll1 clock during reg rw
- to prevent hang
-Message-ID: <108d4187-26af-43f6-8b1e-0e48516524a4@notapiano>
-References: <20241203-mt8188-afe-fix-hang-disabled-apll1-clk-v1-1-07cdd7760834@collabora.com>
- <a10dbdf265194e77a69b6e40afa3df9636b3ab14.camel@mediatek.com>
- <a70a0521-985d-43a4-a1fa-36eb733d5ca9@collabora.com>
- <1d2ee55dde84bcab6f777525042c6789b9f2c1fc.camel@mediatek.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Vo39HsVG"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1733784368;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PgE/DJOCaLAqXOezkuTQtuZKY8OjvgD1FJlU8+ERQyw=;
+	b=Vo39HsVGSBVL3vs6jFvqdT4e4mmeLAwmDrv1llJ1nzrgviYskf2+tHxu+mn9xsPEZ1yveT
+	qsdAAW1Mf2SWPTfiufc8A0bLROtNdwRinlXHqfeTgWsWMXb4EGRTRYiFCPIMt0IMYg+k3w
+	/+jplCvxXa5GoNfLPeppWyjPYgBud8E=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: SOF: Intel: Use str_yes_no() helper in atom_dump()
+Date: Mon,  9 Dec 2024 23:45:18 +0100
+Message-ID: <20241209224521.100450-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1d2ee55dde84bcab6f777525042c6789b9f2c1fc.camel@mediatek.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Dec 06, 2024 at 06:57:00AM +0000, Trevor Wu (吳文良) wrote:
-> On Thu, 2024-12-05 at 13:51 +0100, AngeloGioacchino Del Regno wrote:
-> > 
-> > 
-> > Il 04/12/24 13:17, Trevor Wu (吳文良) ha scritto:
-> > > On Tue, 2024-12-03 at 17:07 -0300, Nícolas F. R. A. Prado wrote:
-> > > 
-> > > > 
-> > > > Currently, booting the Genio 700 EVK board with the MT8188 sound
-> > > > platform driver configured as a module (CONFIG_SND_SOC_MT8188=m)
-> > > > results
-> > > > in a system hang right when the HW registers for the audio
-> > > > controller
-> > > > are read:
-> > > > 
-> > > >    mt8188-audio 10b10000.audio-controller: No cache defaults,
-> > > > reading
-> > > > back from HW
-> > > > 
-> > > > The hang doesn't occur with the driver configured as builtin as
-> > > > then
-> > > > the
-> > > > unused clocks are still enabled.
-> > > > 
-> > > > Enable the apll1 clock during register read/write to prevent the
-> > > > hang.
-> > > > 
-> > > > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > > > ---
-> > > >   sound/soc/mediatek/mt8188/mt8188-afe-clk.c | 4 ++++
-> > > >   1 file changed, 4 insertions(+)
-> > > > 
-> > > > diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > index
-> > > > e69c1bb2cb239596dee50b166c20192d5408be10..fb8cf286df3f02ac076528b
-> > > > 898f
-> > > > d0d7a708ec1ea 100644
-> > > > --- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > +++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > @@ -587,6 +587,8 @@ int mt8188_afe_enable_reg_rw_clk(struct
-> > > > mtk_base_afe *afe)
-> > > >          mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
-> > > > 
-> > > >          mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_AUD_A1SYS]);
-> > > > 
-> > > > +       mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_APMIXED_APLL1]);
-> > > > 
-> > > > +
-> > > >          return 0;
-> > > >   }
-> > > 
-> > > Hi Nicolas,
-> > > 
-> > > If I understand correctly, APLL1 should be the parent clock of
-> > > AUD_A1SYS_HP and AUD_A1SYS, so it should be enabled automatically
-> > > by
-> > > CCF.
-> > > 
-> > > I'm not sure why you resolved the hang issue after enabling APLL1.
-> > > Could you share more details about the solution?
-> > > 
-> > 
-> > Hmm. Now I see what's happening here...
-> > 
-> > Nicolas, Trevor,
-> > 
-> > Possible parents for top_a1sys_hp are:
-> >   - clk26m
-> >   - apll1_d4
-> > 
-> > ...what's happening here most probably is that after the clock gets
-> > disabled as
-> > unused, it gets parented to clk26m by default as that is parent index
-> > 0... and
-> > something else in AFE needs APLL1 to feed a clock to .. something ..
-> > to allow
-> > register access.
-> > 
-> > Trevor, do you know why is this IP unaccessible when A1SYS is
-> > parented to clk26m?
-> 
-> Hi Angelo,
-> 
-> As far as I know, it should work even though the clock is parented to
-> clk26m.
-> 
-> Unfortunately, I have no idea about why APLL1 enabling can resolve the
-> hang issue. I'm also curious about how Nicolas found the solution to
-> resolve the problem.
-> 
-> From the description, it seems that the problem is related to register
-> r/w hang. If I remembered correctly, when the mtcmos of ADSP_INFRA is
-> ON, register r/w won't cause the cpu to hang. However, ADSP_INFRA has
-> been configured as ALWAYS_ON in the driver. I'm not sure if it doesn't
-> work correctly when the driver is configured as a module. Maybe Nicolas
-> can also check this.
+Remove hard-coded strings by using the str_yes_no() helper function.
 
-Indeed, as suggested by Angelo, adding 
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/sof/intel/atom.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-  assigned-clocks = <&topckgen CLK_TOP_A1SYS_HP>;
-  assigned-clock-parents = <&topckgen CLK_TOP_APLL1_D4>;
+diff --git a/sound/soc/sof/intel/atom.c b/sound/soc/sof/intel/atom.c
+index 30e981c558c6..0d364bcdcfa9 100644
+--- a/sound/soc/sof/intel/atom.c
++++ b/sound/soc/sof/intel/atom.c
+@@ -78,20 +78,20 @@ void atom_dump(struct snd_sof_dev *sdev, u32 flags)
+ 	imrd = snd_sof_dsp_read64(sdev, DSP_BAR, SHIM_IMRD);
+ 	dev_err(sdev->dev,
+ 		"error: ipc host -> DSP: pending %s complete %s raw 0x%llx\n",
+-		(panic & SHIM_IPCX_BUSY) ? "yes" : "no",
+-		(panic & SHIM_IPCX_DONE) ? "yes" : "no", panic);
++		str_yes_no(panic & SHIM_IPCX_BUSY),
++		str_yes_no(panic & SHIM_IPCX_DONE), panic);
+ 	dev_err(sdev->dev,
+ 		"error: mask host: pending %s complete %s raw 0x%llx\n",
+-		(imrx & SHIM_IMRX_BUSY) ? "yes" : "no",
+-		(imrx & SHIM_IMRX_DONE) ? "yes" : "no", imrx);
++		str_yes_no(imrx & SHIM_IMRX_BUSY),
++		str_yes_no(imrx & SHIM_IMRX_DONE), imrx);
+ 	dev_err(sdev->dev,
+ 		"error: ipc DSP -> host: pending %s complete %s raw 0x%llx\n",
+-		(status & SHIM_IPCD_BUSY) ? "yes" : "no",
+-		(status & SHIM_IPCD_DONE) ? "yes" : "no", status);
++		str_yes_no(status & SHIM_IPCD_BUSY),
++		str_yes_no(status & SHIM_IPCD_DONE), status);
+ 	dev_err(sdev->dev,
+ 		"error: mask DSP: pending %s complete %s raw 0x%llx\n",
+-		(imrd & SHIM_IMRD_BUSY) ? "yes" : "no",
+-		(imrd & SHIM_IMRD_DONE) ? "yes" : "no", imrd);
++		str_yes_no(imrd & SHIM_IMRD_BUSY),
++		str_yes_no(imrd & SHIM_IMRD_DONE), imrd);
+ 
+ }
+ EXPORT_SYMBOL_NS(atom_dump, "SND_SOC_SOF_INTEL_ATOM_HIFI_EP");
+-- 
+2.47.1
 
-to the afe node also fixes this issue. 
-
-In mt8188.dtsi, we currently have
-
-  afe: audio-controller@10b10000 {
-  	...
-  	assigned-clocks = <&topckgen CLK_TOP_A1SYS_HP>;
-  	assigned-clock-parents =  <&clk26m>;
-
-So the question is, do other MT8188 platforms need clk26m to be the parent of
-a1sys_hp? Depending on that I can either update the parent on the common
-mt8188.dtsi or on the genio700-evk.dts, which is where I observed the issue. I
-don't have access to other mt8188 platforms. Trevor, do you know?
-
-As for how I identified this issue, I noticed that when booting with the
-platform driver as a module the system would hang, and that passing
-clk_ignore_unused avoided the issue. Then I selectively ignored some unused
-clocks until I narrowed down to ignoring unused only the apll1 clock, meaning
-the apll1 clock needed to be left on during the platform driver probe for the
-system to not hang.
-
-Thanks,
-Nícolas
-
-> 
-> Thanks,
-> Trevor
-> 
-> > 
-> > That might give Nicolas a definitive hint about how to resolve this
-> > issue.
-> > 
-> > Cheers,
-> > Angelo
-> > 
-> > > Thanks,
-> > > Trevor
-> > > 
-> > > > 
-> > > > @@ -594,6 +596,8 @@ int mt8188_afe_disable_reg_rw_clk(struct
-> > > > mtk_base_afe *afe)
-> > > >   {
-> > > >          struct mt8188_afe_private *afe_priv = afe-
-> > > > >platform_priv;
-> > > > 
-> > > > +       mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_APMIXED_APLL1]);
-> > > > 
-> > > > +
-> > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_AUD_A1SYS]);
-> > > > 
-> > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
-> > > > 
-> > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > clk[MT8188_CLK_AUD_AFE]);
-> > > > 
-> > > > ---
-> > > > base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
-> > > > change-id: 20241203-mt8188-afe-fix-hang-disabled-apll1-clk-
-> > > > b3c11782cbaf
-> > > > 
-> > > > Best regards,
-> > > > --
-> > > > Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> > > > 
-> > > > 
-> > 
-> > 
