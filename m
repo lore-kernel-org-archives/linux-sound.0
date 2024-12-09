@@ -1,46 +1,46 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F49190685;
-	Mon,  9 Dec 2024 04:57:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAD98190685;
+	Mon,  9 Dec 2024 04:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733720243; cv=none; b=bAeOF1LnQ5s/auy8EHwOL3lJOVIcTPUJ+cHMqYoC2eCsFDM+E+zRA97mM764Jin2sdzsYt9KYgI7DNzAyJlmJO+e4J1jkeB573odHjqDuPT8fVR3z3n+OQEEVVTzqMyfEAUpXp+VA0UuNzkas0lZvji05/FW92RVGhGxrv405+M=
+	t=1733720253; cv=none; b=jsFI2tsrlxJJAj3o0qCmTsVGyNeXrrQ83Gp7Z9HnaIIG69G/cnFkgItBBrE25tjdOTs2L7s/KzzL80Lm54bu4b1oe917VvotTgA2fWRgVaILGBcdCxCdP08EAk7WHOro7QV2tfxsUKHF5icN7qWu0w0vTeHbQf71A3ypznahPTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733720243; c=relaxed/simple;
-	bh=GV8GSyJ1Q+igxyLWYQT8zoJW6HJh3Dd1dbbOQNj7Veg=;
+	s=arc-20240116; t=1733720253; c=relaxed/simple;
+	bh=EtJNdqCdLTqmX6ETg4G+YzbTDImEI58wItIPOtzsPmA=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OKIqH4PGkhrXzdm5Gv4bpsJgQMOjOmigHVNQyY62OHlYTIvj2tIcFTx/FPVM6RXOqq9efiz/NyOw1I54WWBdZ4rbjXOW84sj9iwCD22SUz2iqmRaqPlYgQE2ppRnpbGP/LUzRFXunSHLaf/vKlVwpcYSauDYRq5pC88M8AJc1Co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SgPzWjTS; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=fV437lmi8KYr+KUNtP8MnaQxjm9Oy5mZHPk8vd56LbI1ncFs1zlwLV/IAV43oG1nY1TFxVT9ifSRX+CMl/wBBT8Bvh8uemtnv/sArkKrLUIkcWxMcO8Yz2iurpZQt64dsHwIUQkxsbzYqg/LUisjGAi3TXZJ3c05VOLCqEaVosE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YMZ1q3bm; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SgPzWjTS"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B8NRLBH006771;
-	Mon, 9 Dec 2024 04:57:00 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YMZ1q3bm"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B8Mll6N008468;
+	Mon, 9 Dec 2024 04:57:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	8ttlirHfeBo5QW1AzNKYNJ8gVgL1TQObQp3CJkY+VvU=; b=SgPzWjTSYmA+3G+V
-	2nfYMf/G+M/DfMbNEAFexTIaflZEIlKkDPSu+9t4R5/RR5/RIxLSdrpD2XIHeSQx
-	wkkQH3Fi4YcpcpWm9s29nKOOanifbxcw7x0ZW0a2xdcQEeTk+mVJQhhPma3cPISO
-	k28n62akPgkG3rOsdy55WQxHL7iWIRWSILo2Md8ZAxF0f83rgqEz7YjTHpdH+vVx
-	YcYTWEvoZx6tn+5d8zaymEnD8GetcidQ2AKgKDOKym0c8+mdRH8/SVXLiN9F5RFb
-	N/cVjurVvXhhrogd0+NYvi6QUlg2IxoMBat8FI/nmiJ9es+xr16Trf8MKEovOlNL
-	ry+3Zg==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cdpgkdma-1
+	h3cSWte3E1Zdsl62b8vd86GiM+roAILAjl583zt0Ek0=; b=YMZ1q3bm28WePEje
+	ZFnFGxIjylMEBP+pDFYibsdEPaqrNnNDQFw8FlM+79ozHDxRkhnmTBRmOe7WOYY8
+	1kDMEWwu0VSOYkg6qxt+B6/2BLYaMc3IqDrYFkdMyQaBPW/s9g0EcouVu/vj9df4
+	v0MXGpzKyHsv6nwuIjIZHSCnlKqLaqehY0TL1/F5CCWFrJMPPzjB20guPJC5OrI5
+	zHp/SGuiHbkTsg0UcHO7aTs/Aun/wve8/chiPUIz/npwBfbFZ6TeZ/CU9788rdn4
+	sThNgyEkWAjVl/casu9WnibPngNA4g8CFLqVHde6DFJcvghkfcM2tBOgJ6LQNi3K
+	5ylx/A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cdxxbbvb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 04:57:00 +0000 (GMT)
+	Mon, 09 Dec 2024 04:57:11 +0000 (GMT)
 Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B94uxbO002047
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B94vANR014754
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 9 Dec 2024 04:56:59 GMT
+	Mon, 9 Dec 2024 04:57:10 GMT
 Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
  nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 8 Dec 2024 20:56:51 -0800
+ 15.2.1544.9; Sun, 8 Dec 2024 20:57:02 -0800
 From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
         Liam Girdwood
@@ -61,9 +61,9 @@ CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
         Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Subject: [PATCH v4 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
-Date: Mon, 9 Dec 2024 10:25:48 +0530
-Message-ID: <20241209045551.1404782-2-quic_mohs@quicinc.com>
+Subject: [PATCH v4 3/4] soundwire: qcom: Add set_channel_map api support
+Date: Mon, 9 Dec 2024 10:25:50 +0530
+Message-ID: <20241209045551.1404782-4-quic_mohs@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241209045551.1404782-1-quic_mohs@quicinc.com>
 References: <20241209045551.1404782-1-quic_mohs@quicinc.com>
@@ -79,112 +79,96 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: -fNT8KSJ_keURgPWshZYXc0DxdAsEfvG
-X-Proofpoint-ORIG-GUID: -fNT8KSJ_keURgPWshZYXc0DxdAsEfvG
+X-Proofpoint-ORIG-GUID: 91ByS-CQ6tnYBn4ND33JryHT0bj5IIAK
+X-Proofpoint-GUID: 91ByS-CQ6tnYBn4ND33JryHT0bj5IIAK
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 clxscore=1015 suspectscore=0 mlxscore=0 priorityscore=1501
- phishscore=0 mlxlogscore=999 spamscore=0 malwarescore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412090037
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090038
 
-Add static channel mapping between master and slave rx/tx ports for
-Qualcomm wcd937x soundwire codec.
+Added qcom_swrm_set_channel_map api to set the master channel mask for
+TX and RX paths based on the provided slots.
 
-Currently, the channel map index value for each soundwire port is
-hardcoded in the wcd937x-sdw driver, and the same channel map index
-value is configured in the soundwire master.
+Added a new field ch_mask to the qcom_swrm_port_config structure.
+This field is used to store the master channel mask, which allows more
+flexible to configure channel mask in runtime for specific active
+soundwire ports.
 
-The Qualcomm board like the QCM6490-IDP require static channel map
-settings for the soundwire master and slave ports.
-
-If another boards which are using enable wcd937x, the channel mapping
-index values between master and slave may be different depending on the
-board hw design and requirements. If the above properties are not used
-in a SoC specific device tree, the channel mapping index values are set
-to default.
-
-With the introduction of the following channel mapping properties, it is
-now possible to configure the master channel mapping directly from the
-device tree.
-
-The qcom,tx-channel-mapping property specifies the static channel mapping
-between the slave and master tx ports in the order of slave port channels
-which is adc1, adc2, adc3, adc4, dmic0, dmic1, mbhc, dmic2, dmic3, dmci4,
-dmic5, dmic6, dmic7.
-
-The qcom,rx-channel-mapping property specifies the static channel mapping
-between the slave and master rx ports in the order of slave port channels
-which is hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
+Modified the qcom_swrm_port_enable function to configure master
+channel mask. If the ch_mask is set to SWR_INVALID_PARAM or is zero,
+the function will use the default channel mask.
 
 Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
 ---
- .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/soundwire/qcom.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-index d3cf8f59cb23..9209667044ba 100644
---- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-+++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-@@ -58,6 +58,40 @@ properties:
-     items:
-       enum: [1, 2, 3, 4, 5]
+diff --git a/drivers/soundwire/qcom.c b/drivers/soundwire/qcom.c
+index e00c5ac496a6..86763ba3a3b2 100644
+--- a/drivers/soundwire/qcom.c
++++ b/drivers/soundwire/qcom.c
+@@ -156,6 +156,7 @@ struct qcom_swrm_port_config {
+ 	u8 word_length;
+ 	u8 blk_group_count;
+ 	u8 lane_control;
++	u8 ch_mask;
+ };
  
-+  qcom,tx-channel-mapping:
-+    description: |
-+      Specifies static channel mapping between slave and master tx port
-+      channels.
-+      In the order of slave port channels which is adc1, adc2, adc3,
-+      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
-+    $ref: /schemas/types.yaml#/definitions/uint8-array
-+    minItems: 12
-+    maxItems: 12
-+    additionalItems: false
-+    items:
-+      enum:
-+        - 0  # WCD9370_SWRM_CH1
-+        - 1  # WCD9370_SWRM_CH2
-+        - 2  # WCD9370_SWRM_CH3
-+        - 3  # WCD9370_SWRM_CH4
+ /*
+@@ -1048,9 +1049,13 @@ static int qcom_swrm_port_enable(struct sdw_bus *bus,
+ {
+ 	u32 reg = SWRM_DP_PORT_CTRL_BANK(enable_ch->port_num, bank);
+ 	struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
++	struct qcom_swrm_port_config *pcfg;
+ 	u32 val;
+ 
++	pcfg = &ctrl->pconfig[enable_ch->port_num];
+ 	ctrl->reg_read(ctrl, reg, &val);
++	if (pcfg->ch_mask != SWR_INVALID_PARAM && pcfg->ch_mask != 0)
++		enable_ch->ch_mask = pcfg->ch_mask;
+ 
+ 	if (enable_ch->enable)
+ 		val |= (enable_ch->ch_mask << SWRM_DP_PORT_CTRL_EN_CHAN_SHFT);
+@@ -1270,6 +1275,27 @@ static void *qcom_swrm_get_sdw_stream(struct snd_soc_dai *dai, int direction)
+ 	return ctrl->sruntime[dai->id];
+ }
+ 
++static int qcom_swrm_set_channel_map(struct snd_soc_dai *dai,
++				     unsigned int tx_num, unsigned int *tx_slot,
++				     unsigned int rx_num, unsigned int *rx_slot)
++{
++	struct qcom_swrm_ctrl *ctrl = dev_get_drvdata(dai->dev);
++	struct sdw_stream_runtime *sruntime = ctrl->sruntime[dai->id];
++	int i;
 +
-+  qcom,rx-channel-mapping:
-+    description: |
-+      Specifies static channels mapping between slave and master rx port
-+      channels.
-+      In the order of slave port channels, which is
-+      hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
-+    $ref: /schemas/types.yaml#/definitions/uint8-array
-+    minItems: 8
-+    maxItems: 8
-+    additionalItems: false
-+    items:
-+      enum:
-+        - 0  # WCD9370_SWRM_CH1
-+        - 1  # WCD9370_SWRM_CH2
-+        - 2  # WCD9370_SWRM_CH3
-+        - 3  # WCD9370_SWRM_CH4
++	if (tx_slot) {
++		for (i = 0; i < tx_num; i++)
++			ctrl->pconfig[i].ch_mask = tx_slot[i];
++	}
 +
- required:
-   - compatible
-   - reg
-@@ -74,6 +108,7 @@ examples:
-             compatible = "sdw20217010a00";
-             reg = <0 4>;
-             qcom,rx-port-mapping = <1 2 3 4 5>;
-+            qcom,rx-channel-mapping = /bits/ 8 <0 1 0 0 1 0 0 1>;
-         };
-     };
++	if (rx_slot) {
++		for (i = 0; i < rx_num; i++)
++			ctrl->pconfig[i].ch_mask = rx_slot[i];
++	}
++
++	return 0;
++}
++
+ static int qcom_swrm_startup(struct snd_pcm_substream *substream,
+ 			     struct snd_soc_dai *dai)
+ {
+@@ -1306,6 +1332,7 @@ static const struct snd_soc_dai_ops qcom_swrm_pdm_dai_ops = {
+ 	.shutdown = qcom_swrm_shutdown,
+ 	.set_stream = qcom_swrm_set_sdw_stream,
+ 	.get_stream = qcom_swrm_get_sdw_stream,
++	.set_channel_map = qcom_swrm_set_channel_map,
+ };
  
-@@ -85,6 +120,7 @@ examples:
-             compatible = "sdw20217010a00";
-             reg = <0 3>;
-             qcom,tx-port-mapping = <2 2 3 4>;
-+            qcom,tx-channel-mapping = /bits/ 8 <0 1 0 0 1 2 2 3 0 1 2 3>;
-         };
-     };
- 
+ static const struct snd_soc_component_driver qcom_swrm_dai_component = {
 -- 
 2.34.1
 
