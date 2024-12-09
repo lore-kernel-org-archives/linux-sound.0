@@ -1,101 +1,243 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED7578C9C;
-	Mon,  9 Dec 2024 15:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BC8184556;
+	Mon,  9 Dec 2024 20:07:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733759731; cv=none; b=MAgtggmlkD4Dw0UX8HWFnEYMK8uvQraG7pEbOAoCla3uiDBLrbcLfbfClG4BiMDVZJYafF6sUA4E88acm9BrS/foFoO1i6WAATTWWXliutRcMJMsYPw3cEZ3ibo5XlWgaVLQnvGqrl7nPhhLtp5va0MwYBm1vUP3qfh6ssA3BA4=
+	t=1733774836; cv=none; b=mMRSTZBrr2Eq82KVMzQmZ3tGXM8eGjGvxHidf3h1pQ4K1YXUgkB3TaG4fzUoj/X5zSzZ6NONCgYBRWiXnbUCtqJh2mcuS/X8A8BttHtXNn0JGjSBLJbZP2LiYCjuFAg2pCWxwMKthrYliYbFV8U9gpxDE0H8gpZsCBhwQ24/5Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733759731; c=relaxed/simple;
-	bh=XswTRhc2FgsKGapPraVnaq5t3FsVcVZuNOD29axiOxs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rfn1eyeXwquhTVLimTLYejlGocHwmLrMCWrpu6ZQ8OwK4E7hxcEFhi4ybMT1C3XuQOWnsczxS6TuMAq1w6zrjDUCFVF6ER4xOkMUeHyKHqs9R6D09y5YlYUmGJNhImiJw9JUU0SlxTwsNQlsY67S0IFcmTMOMZFOusMM+Dw070g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-517ae9ff6e8so348912e0c.3;
-        Mon, 09 Dec 2024 07:55:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733759728; x=1734364528;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j5iSM4ixQflBoS0B8PVVLYzHGyv6dQ39nvBtZwQMiCA=;
-        b=YybBHg0fMsYDi2NanqK/AjO1ywrpMnIHuo2GWpykaJm7lT+rPmSLK8wqT6yuvEoW1c
-         SleEhtKe2YqVmRCM8pyR/QjYB7jyYAHkmtoGWaBapNYLLeizrW2y4dLO5QtoqdezvkBB
-         MSfXMlgrbrlsQOU42QSFAwMeynEtbpZaGx+Nvh+B6vUL8+DyqoHDZe25jioHu9hwo1nH
-         tMPm4Tnmqn/ic+Tp5XWdQOaw2HwYue5ht0wsU+wckNkgIDerlb0zlw+Y3VlIhIIk/R5t
-         vJIa0ZMLn7DvATifasZSh4B5iCQwpimBsxHMRjJvKg9mlMAtBi7iqWuDTAc7T6b9JX9O
-         RcuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUXpJ70HiNQMxWKpL+h9L7iBmRpSasN5mgLOk3y49kE+YJwvhMWAPUipVCXVEIzIWOVgyqpDOzKWrfC@vger.kernel.org, AJvYcCUo2ClH2ztmEbnnYfGvw1XV4GCE0Gswwd97scA1F3ppE00jvObNNgImOgybIQnkKQuAxXPtmXSd7fag3w==@vger.kernel.org, AJvYcCVSgu/Gohv630YRPLqkbNhh7CkJj/u3q+fxbe8CUpmahOGPEM2CEbeHzfqrEP5OXrrvHLs5tjohXxJKVRDR@vger.kernel.org, AJvYcCVzRIJ2cg4nhWqnuGVRo91nWj0AzvgML/HtfvDvv3j2ippz2igMdCbcFIZBoiiY/HhxcukDbrwJkJHz@vger.kernel.org, AJvYcCXCBaip20g7noiEFWS5yicn1ZsCfYWKBLSHsSIcHX+Bu7ZDhIeJ1KFcZGd78y1LEyOgq7UwPoE6+LB6Sh4=@vger.kernel.org, AJvYcCXU8yJ9opNfXz/zH9zLDJ3fu8pHlSJHEqxPr0i6yJfBbYUkMSH4ZaQ+DbygemeynYgmdr03MOaDljWtjyv9doQfpBE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPpzKWhe1F72990pydvi3ZK72h1fVVhqMQwgWPt32125n4lsR/
-	ZZCxwrVHBvBP9iIUmSJoGC5dCNvPD1Zl8HhOZO3/MNcPUQHSC+mNUiBa0HzP4g8=
-X-Gm-Gg: ASbGncuyB6eGkN1ABdrGE2gQL3xa6DS15w9Kc+RyGKB2wNqXZ3hrLEglaV1DU2TfK+n
-	F2x6zksmNFQQezKPDYXX/Vn95RUyQskbODCz3nkWR9wX0iyRNHMLezcQEKA5NPgyAa8OmBit/9w
-	gyd7uq1RXwlYwpS06FXICf8qPEvHCoLUkZ4zRE1wbQJgBenYBMkxLjgX/7ifAZBFq+G+0k8FpXg
-	l1lgNTbQUMx/dM30mu2aHgFQShJnTCO/5Vi4wSQJgxKX1Io6CDnJh4OQ4KgmLOnHOS0lbsfQOzh
-	/C0VJQzrOZigVvVV
-X-Google-Smtp-Source: AGHT+IGauaD9zmQKDL9wEafyogWUEnj70oQrlvS72K1x5VCEWXrwcrqyy+mpdsUDr6XIUPrK1adpbQ==
-X-Received: by 2002:a05:6122:3981:b0:50c:4efb:835a with SMTP id 71dfb90a1353d-515fc9e20c0mr12225599e0c.1.1733759728089;
-        Mon, 09 Dec 2024 07:55:28 -0800 (PST)
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com. [209.85.221.171])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-515eae3edfcsm751157e0c.12.2024.12.09.07.55.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 07:55:27 -0800 (PST)
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-515fc723d3eso880287e0c.0;
-        Mon, 09 Dec 2024 07:55:27 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUw/RhNAp/AYkBQEpwdNkUgpY1DZGhn2L/3/C6TLIvHFUN8RTFmWWNcd1p4qK497QWZg3sTKMtiF6Go7sDR@vger.kernel.org, AJvYcCW8MPpHfPgnAYxnIcMqD7KnRnJsc13yqPLHqRi6A1X2BS/YLqVKnjFmqDBgUtmZ62E+mhNMNvFv/WigOscd5Z6y+yk=@vger.kernel.org, AJvYcCWgU16gopZJK1UYBH0RlprdPqWqT1Lsyf5u8v9QWkz3tGDY4avgiU1XNIjRJlCg5YrB/Lih/Ize/9/d6g==@vger.kernel.org, AJvYcCXEt+NdAlGSPCtgOnKWGh6PviiW5tkmQ0k5HNBAnCJ/xE/Tt/AqVohkgabtlqmya/ZlFtWPH5rVx5vj@vger.kernel.org, AJvYcCXJRgndOYF/ypOS+S06kt9WMO0C2+qgb+2vB3hAzMYRlOxpKUvGoovldDUGx9uc/OuYRBnNie3xv41WOdU=@vger.kernel.org, AJvYcCXxpt6wC8FSqidmNxeTW6H/MkC4RPiByOPzsuCy6UN7V/kA8U4c80LiA0BpgyLU39ZYND2rbAqjdqB4@vger.kernel.org
-X-Received: by 2002:a05:6122:308e:b0:517:83d1:d438 with SMTP id
- 71dfb90a1353d-51783d1d7d7mr3556407e0c.3.1733759727639; Mon, 09 Dec 2024
- 07:55:27 -0800 (PST)
+	s=arc-20240116; t=1733774836; c=relaxed/simple;
+	bh=XHeeybhj5u2b8BHEtLKC3hKJSOqzRrrU3o97MCDUjaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Omd/SPynFxBSvUJp70650clIZi1pzwfANexJeML5XgD2+8pdt+k/Eh2BYZtuP0LWyj+JAK68CR2aHYy72zMmOFks2WdAI9K/5T8Y9LRsM/pS73H/RLNkcBsu/Qrx7dicC4TfoBZ/tmKWrFjbSiOsTexVJKG2pnQH3KqvtprCgIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nyw7V+wJ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nyw7V+wJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1733774832;
+	bh=XHeeybhj5u2b8BHEtLKC3hKJSOqzRrrU3o97MCDUjaY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nyw7V+wJ6jSPe9lIbRvVSihwC0AUWedhKPy2iBGsL6d971k2Cv/6CqVfA/rn9pXks
+	 GBLlqwLP+A+/gTn2Jlcep+CcN23rMmWU59KIeTpaDotz36jkfIzLUCetGU3u8pbAkH
+	 qEbiY/V9XJzWNyRKgF7flBQzbgxX0IVSycXr8NuBSqy5s4Nu+Ckud/8es/Fo2XZXrj
+	 FdHnxO72b+zm+J0v+pY7g8efUsCJqg2IIL+B56F5EvmlqmviWYfnvXIk+M9ZdJ+sMx
+	 JohnjPIyfrrjjCdyMglpioyR3Cjm4axQZ0pNNoXvTV/A7WkaW7ua0Uo20pFpZfkUDx
+	 XIBVs/9OzxmpQ==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1002])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E0F5A17E3780;
+	Mon,  9 Dec 2024 21:07:09 +0100 (CET)
+Date: Mon, 9 Dec 2024 17:07:07 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Trevor Wu =?utf-8?B?KOWQs+aWh+iJryk=?= <Trevor.Wu@mediatek.com>
+Cc: "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	"broonie@kernel.org" <broonie@kernel.org>,
+	"tiwai@suse.com" <tiwai@suse.com>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"kernel@collabora.com" <kernel@collabora.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
+Subject: Re: [PATCH] ASoC: mediatek: mt8188: Enable apll1 clock during reg rw
+ to prevent hang
+Message-ID: <108d4187-26af-43f6-8b1e-0e48516524a4@notapiano>
+References: <20241203-mt8188-afe-fix-hang-disabled-apll1-clk-v1-1-07cdd7760834@collabora.com>
+ <a10dbdf265194e77a69b6e40afa3df9636b3ab14.camel@mediatek.com>
+ <a70a0521-985d-43a4-a1fa-36eb733d5ca9@collabora.com>
+ <1d2ee55dde84bcab6f777525042c6789b9f2c1fc.camel@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com> <20241113133540.2005850-26-claudiu.beznea.uj@bp.renesas.com>
-In-Reply-To: <20241113133540.2005850-26-claudiu.beznea.uj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Dec 2024 16:55:16 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdW0Rg9J+cqoeP_z5Xr5RYCbNG++4o6gRunEhQ3WfSqx=A@mail.gmail.com>
-Message-ID: <CAMuHMdW0Rg9J+cqoeP_z5Xr5RYCbNG++4o6gRunEhQ3WfSqx=A@mail.gmail.com>
-Subject: Re: [PATCH v3 25/25] arm64: dts: renesas: rzg3s-smarc: Add sound card
-To: Claudiu <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
-	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
-	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1d2ee55dde84bcab6f777525042c6789b9f2c1fc.camel@mediatek.com>
 
-On Wed, Nov 13, 2024 at 2:36=E2=80=AFPM Claudiu <claudiu.beznea@tuxon.dev> =
-wrote:
-> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
->
-> Add sound card with SSI3 as CPU DAI and DA7212 as codec DAI.
->
-> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
+On Fri, Dec 06, 2024 at 06:57:00AM +0000, Trevor Wu (吳文良) wrote:
+> On Thu, 2024-12-05 at 13:51 +0100, AngeloGioacchino Del Regno wrote:
+> > 
+> > 
+> > Il 04/12/24 13:17, Trevor Wu (吳文良) ha scritto:
+> > > On Tue, 2024-12-03 at 17:07 -0300, Nícolas F. R. A. Prado wrote:
+> > > 
+> > > > 
+> > > > Currently, booting the Genio 700 EVK board with the MT8188 sound
+> > > > platform driver configured as a module (CONFIG_SND_SOC_MT8188=m)
+> > > > results
+> > > > in a system hang right when the HW registers for the audio
+> > > > controller
+> > > > are read:
+> > > > 
+> > > >    mt8188-audio 10b10000.audio-controller: No cache defaults,
+> > > > reading
+> > > > back from HW
+> > > > 
+> > > > The hang doesn't occur with the driver configured as builtin as
+> > > > then
+> > > > the
+> > > > unused clocks are still enabled.
+> > > > 
+> > > > Enable the apll1 clock during register read/write to prevent the
+> > > > hang.
+> > > > 
+> > > > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > > > ---
+> > > >   sound/soc/mediatek/mt8188/mt8188-afe-clk.c | 4 ++++
+> > > >   1 file changed, 4 insertions(+)
+> > > > 
+> > > > diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> > > > b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> > > > index
+> > > > e69c1bb2cb239596dee50b166c20192d5408be10..fb8cf286df3f02ac076528b
+> > > > 898f
+> > > > d0d7a708ec1ea 100644
+> > > > --- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> > > > +++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
+> > > > @@ -587,6 +587,8 @@ int mt8188_afe_enable_reg_rw_clk(struct
+> > > > mtk_base_afe *afe)
+> > > >          mt8188_afe_enable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
+> > > > 
+> > > >          mt8188_afe_enable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_AUD_A1SYS]);
+> > > > 
+> > > > +       mt8188_afe_enable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_APMIXED_APLL1]);
+> > > > 
+> > > > +
+> > > >          return 0;
+> > > >   }
+> > > 
+> > > Hi Nicolas,
+> > > 
+> > > If I understand correctly, APLL1 should be the parent clock of
+> > > AUD_A1SYS_HP and AUD_A1SYS, so it should be enabled automatically
+> > > by
+> > > CCF.
+> > > 
+> > > I'm not sure why you resolved the hang issue after enabling APLL1.
+> > > Could you share more details about the solution?
+> > > 
+> > 
+> > Hmm. Now I see what's happening here...
+> > 
+> > Nicolas, Trevor,
+> > 
+> > Possible parents for top_a1sys_hp are:
+> >   - clk26m
+> >   - apll1_d4
+> > 
+> > ...what's happening here most probably is that after the clock gets
+> > disabled as
+> > unused, it gets parented to clk26m by default as that is parent index
+> > 0... and
+> > something else in AFE needs APLL1 to feed a clock to .. something ..
+> > to allow
+> > register access.
+> > 
+> > Trevor, do you know why is this IP unaccessible when A1SYS is
+> > parented to clk26m?
+> 
+> Hi Angelo,
+> 
+> As far as I know, it should work even though the clock is parented to
+> clk26m.
+> 
+> Unfortunately, I have no idea about why APLL1 enabling can resolve the
+> hang issue. I'm also curious about how Nicolas found the solution to
+> resolve the problem.
+> 
+> From the description, it seems that the problem is related to register
+> r/w hang. If I remembered correctly, when the mtcmos of ADSP_INFRA is
+> ON, register r/w won't cause the cpu to hang. However, ADSP_INFRA has
+> been configured as ALWAYS_ON in the driver. I'm not sure if it doesn't
+> work correctly when the driver is configured as a module. Maybe Nicolas
+> can also check this.
 
-LGTM, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Indeed, as suggested by Angelo, adding 
 
-Gr{oetje,eeting}s,
+  assigned-clocks = <&topckgen CLK_TOP_A1SYS_HP>;
+  assigned-clock-parents = <&topckgen CLK_TOP_APLL1_D4>;
 
-                        Geert
+to the afe node also fixes this issue. 
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+In mt8188.dtsi, we currently have
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+  afe: audio-controller@10b10000 {
+  	...
+  	assigned-clocks = <&topckgen CLK_TOP_A1SYS_HP>;
+  	assigned-clock-parents =  <&clk26m>;
+
+So the question is, do other MT8188 platforms need clk26m to be the parent of
+a1sys_hp? Depending on that I can either update the parent on the common
+mt8188.dtsi or on the genio700-evk.dts, which is where I observed the issue. I
+don't have access to other mt8188 platforms. Trevor, do you know?
+
+As for how I identified this issue, I noticed that when booting with the
+platform driver as a module the system would hang, and that passing
+clk_ignore_unused avoided the issue. Then I selectively ignored some unused
+clocks until I narrowed down to ignoring unused only the apll1 clock, meaning
+the apll1 clock needed to be left on during the platform driver probe for the
+system to not hang.
+
+Thanks,
+Nícolas
+
+> 
+> Thanks,
+> Trevor
+> 
+> > 
+> > That might give Nicolas a definitive hint about how to resolve this
+> > issue.
+> > 
+> > Cheers,
+> > Angelo
+> > 
+> > > Thanks,
+> > > Trevor
+> > > 
+> > > > 
+> > > > @@ -594,6 +596,8 @@ int mt8188_afe_disable_reg_rw_clk(struct
+> > > > mtk_base_afe *afe)
+> > > >   {
+> > > >          struct mt8188_afe_private *afe_priv = afe-
+> > > > >platform_priv;
+> > > > 
+> > > > +       mt8188_afe_disable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_APMIXED_APLL1]);
+> > > > 
+> > > > +
+> > > >          mt8188_afe_disable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_AUD_A1SYS]);
+> > > > 
+> > > >          mt8188_afe_disable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
+> > > > 
+> > > >          mt8188_afe_disable_clk(afe, afe_priv-
+> > > > > clk[MT8188_CLK_AUD_AFE]);
+> > > > 
+> > > > ---
+> > > > base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
+> > > > change-id: 20241203-mt8188-afe-fix-hang-disabled-apll1-clk-
+> > > > b3c11782cbaf
+> > > > 
+> > > > Best regards,
+> > > > --
+> > > > Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > > > 
+> > > > 
+> > 
+> > 
