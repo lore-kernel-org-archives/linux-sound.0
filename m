@@ -1,183 +1,115 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDDA21D008;
-	Mon,  9 Dec 2024 12:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB8E221D86;
+	Mon,  9 Dec 2024 12:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733747038; cv=none; b=LeUx1NiFWwvwgarraFXINJbEZiv9WQLMoLVqnf+YfAVGJp17BfStS27vG91I18w15bZCPjOQX+EBIpyfo+2dPMGsGaWvHU6TWD0op0a+WUFZQlJQFkMjRs8znbsbqed/LCCVDHgfkKCyXEJQaaeyzB4wPfbja71uGb46tu6bSsA=
+	t=1733748322; cv=none; b=TAHtoVwD4vAR5+UBe9t0NrBgiiBeB6T/W63ZzpT/MIBiA2dLXWHQtWP8VXtzN6RD64W6KXkp7K2feKndl2GK3QMTkoeE/rwkK4Ma/+6pqXRn/E3RQys5y+IKBL/2+ojqZjspO+L772nCFuzSwmiDxmu35DQzm/EIxoFTgL+Iruk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733747038; c=relaxed/simple;
-	bh=nJWsB2IKS0EcKbW6Pme62FOLn+NLxCo9ZDwpU8lvMuA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U7zeSmea+/rjUGDK5zpnOfDmOYjT2tUnh1W0smqtRE8qwc9g0NXwmrL4NzF2OUu3n6NnipDnGnRowRP47551tpSJFKIdQoFHAGFSj/x7xvWZNG3R/Wu6AhbW2p42QA7SrxEFJUzoCarQclB6m5Hw8z9Fmn2NJIx7ItQADWaMJUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-51882c83065so207528e0c.0;
-        Mon, 09 Dec 2024 04:23:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733747033; x=1734351833;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8BZxzxSlX/poqaet0n5zcusvxow0QtKoWGJb3xa8Qns=;
-        b=irHdrpjsxZWpCMAwbTpcV+cMnQFAKEs2M3OpPabPVFx0VehovqrMbyK5ewuhI4xbeh
-         UDd8AVw1/w5JVgASje4De2Yug8js5od4+hPrY4BpOdznQAocZzKzRrWfj+02SDrv6qd8
-         qpcZ4LY0qygum4Az2cXNghFHnnhJryrF9GeZJfhZ4mCPE+y4ZAfSkANK3Uwyg2hQSJrz
-         LYUCNGW2Vp/xxjMwF61attBxwk8Mjk4A3ii04Ba1Lr18AlnCdGbT/EwqmMdKEkMYWRJ+
-         nqsCrAn6ttgn3H/uYjtsSifwa4Jb2efXfF2guGteEdUibXvS7kiS1qd6h23M1qRwEU2/
-         Oqfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUGpeFRNqb+a3kpYsLdjnRD3Pz5TWfLW5k5Ezv4aVBPSYaeI9OZ8qkH4FceOu9kq6F8rL87aJ+xRmzWL0M=@vger.kernel.org, AJvYcCUNx0v6zQ9836hVbGY+zhhb6+jvwo2NAMiGvrO33x46x8smR7rRI2ELP/r0fzcYQ/7JDsYOiFaTFO/MWg==@vger.kernel.org, AJvYcCV6I5EX39iOOi5YTK7y/PF8tCa+p/gx5ZMYKB0eropWV4Mj7lhKOh0951KwNhr7Q8rocdpg6Byv2Uby@vger.kernel.org, AJvYcCWCvRXDIuEaYn6i2zAM3VDXwb7tC/3afzGt855uLu4tdAQttzzDbTAnYM6wI2bvVOraBvgudE8rYquW@vger.kernel.org, AJvYcCX/HKYuNkep/cx3iATkHz8hJukCzwwJsNEaEE/9+GeBrf5V4JWILUhvIEHd3IBBR4CybLvWge5ecApx5SZjrvMPUts=@vger.kernel.org, AJvYcCXvGqzpwyNwCwHHT7yfJXaF4c+KOPwYFfNi/gN0I3dQdrmlxx0X+GHhRII1CxAK6h9EvJZY1dMLA0bssrYo@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiVfAKUYkj3hUKGADyv/Uw95LwdPIAe1nYS4/Qg4ZD+N7KhBHd
-	8TvgSHeVgu8VbP4XEFibyveLX6ArVFr58+IqAuwgzzVU8xHbftstRCihyddxsxM=
-X-Gm-Gg: ASbGncs0F+kWarH1LJCLe643kkvZ0+eGRHr4MzMCbM32B6j5kadi6YTwc0tIfqG0ceM
-	xD6nO1vnUAM2F+ZCAmaS36LqgzZDPQfU5tR7hoTTERGMnL45ShW+Xda/kB7vdjwBvk4i47Ec4fv
-	C5RbgTDl8t155ap9AF8SWs8UDFNVNL5tRW92TlkaSVrxtxt6+gTPYZavj4t9Ov3tO6ZBsdpjQna
-	+MfR9sGMjkzVmtMy/eTGkeD9SUZN8SWJwdlh4smcnSOgYJZxmOejCmMTg5ANYiNSnbRFwXZZLbU
-	ILOF9IHkAl4V
-X-Google-Smtp-Source: AGHT+IEO20GkTs2CycQBAGmUXZj+6oDD9ikGyapwN8cPxFSZ6eobYvT8YbQbdxsr4LGygu2lo1VIqA==
-X-Received: by 2002:a05:6122:885:b0:517:4fca:86df with SMTP id 71dfb90a1353d-51888360b17mr269778e0c.6.1733747033325;
-        Mon, 09 Dec 2024 04:23:53 -0800 (PST)
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85c2b9669a5sm1164138241.3.2024.12.09.04.23.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Dec 2024 04:23:52 -0800 (PST)
-Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-85bc7d126b2so1859306241.1;
-        Mon, 09 Dec 2024 04:23:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUF25LH1oXM0vpCUwLkm5DVIp3ZccCm3kFL4p1/zNQbAbA3sFzXVo0HWr3HYCByUlzpYiSl7ftPeSCliKtY@vger.kernel.org, AJvYcCUl8ats+VgCrlQCfUGZoOjpq4qlwJGRfjM7n2JwH2urWjE/jg65ILQqJBD8iB/+PvjWE77jD0rIgFiN@vger.kernel.org, AJvYcCUpqR6oEzJ1GMTRXr6IiHPIxHFoUa/dfdzTY+TvHJCQS0PEXyknCjxw+tXSI192xUh9jZdO1k6/LZh0mjWi2xa+l7Y=@vger.kernel.org, AJvYcCVSsHRVjXdlmu5b9JNQ/tteLcT219q/QqWTy+st01BIEvaAq5bTva3fnpMtLnWdXmDh/1F1f8YNQ3R7mw==@vger.kernel.org, AJvYcCVZWhrnDGIEJpHzuf6OcGC6V0PZ4NCRxIc5qmyNduKWyebn8DSTM9GSXfZOid9uUS/zMPHn+0uIx7lTFOU=@vger.kernel.org, AJvYcCXpQgmC3YhcsppqyN+k/UVdZ0QaR01PNj0e5KbVpqotMJkpApNPJI2GSKNfQeKcfDXiYcNdmpH7s41N@vger.kernel.org
-X-Received: by 2002:a05:6102:38d2:b0:4af:e4fb:2f26 with SMTP id
- ada2fe7eead31-4b1161e5287mr246769137.24.1733747032476; Mon, 09 Dec 2024
- 04:23:52 -0800 (PST)
+	s=arc-20240116; t=1733748322; c=relaxed/simple;
+	bh=A5ejJ/BX/PS60+9iiR3WDF+uIu660h9qKllHzZGc5G4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aja6EPjtZHUpZZmSplvcLsW0eIEjuh1rJTC6a/b8nIUMdqAY/pAmZexUdHl+LDK+4rEX7PDTSn1KPfbY+5Jxnl3hi4nsl4AK4UMu9cjwAxR7BBGP/CY+6Jb/8MQbmEvKa5M2RlTWoTYIqLyfbw3UjdLwwzGu0HYYxyvOCdFKUk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Y6M5p179vz9tBf;
+	Mon,  9 Dec 2024 13:45:18 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id ad8aC7rBW98b; Mon,  9 Dec 2024 13:45:18 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Y6M5p0DxHz9tBd;
+	Mon,  9 Dec 2024 13:45:18 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id E8A068B766;
+	Mon,  9 Dec 2024 13:45:17 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id OUa8UHFVNS_8; Mon,  9 Dec 2024 13:45:17 +0100 (CET)
+Received: from [10.25.209.139] (unknown [10.25.209.139])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id A70C18B763;
+	Mon,  9 Dec 2024 13:45:17 +0100 (CET)
+Message-ID: <95a461ca-3ed6-4380-ad1a-da12e1109675@csgroup.eu>
+Date: Mon, 9 Dec 2024 13:45:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
- <20241113133540.2005850-3-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdVv+2tEQ5hf+sbihbJMo3+=8kJaWy0YNU_spxQnmWF-bA@mail.gmail.com>
- <d65354a0-c4b8-4379-b824-f4541718a3c2@tuxon.dev> <CAMuHMdV8M49m3h3NshzK+KRbT1G7U8hc09T9xUH0Gz1GefUcMg@mail.gmail.com>
- <91c80c8e-729d-46ac-bb05-2cdcdb95ba1e@tuxon.dev>
-In-Reply-To: <91c80c8e-729d-46ac-bb05-2cdcdb95ba1e@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 9 Dec 2024 13:23:40 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUyYuWkUjT2-MuALKxkeNfBCx06tHSjEFxG8_aEZAoC8w@mail.gmail.com>
-Message-ID: <CAMuHMdUyYuWkUjT2-MuALKxkeNfBCx06tHSjEFxG8_aEZAoC8w@mail.gmail.com>
-Subject: Re: [PATCH v3 02/25] clk: versaclock3: Prepare for the addition of
- 5L35023 device
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
-	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
-	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/21] Converge on using secs_to_jiffies()
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
+ linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+ linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+ ath11k@lists.infradead.org, linux-mm@kvack.org,
+ linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+ live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, oss-drivers@corigine.com,
+ linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
+References: <20241115-converge-secs-to-jiffies-v2-0-911fb7595e79@linux.microsoft.com>
+ <b9fcb12a-b7a4-4c33-836e-67109ce07deb@intel.com>
+ <dab77729-682f-4182-9fb2-cd522ac29b5f@linux.microsoft.com>
+ <72c8eb66-eb67-4f8b-b0c0-13f1aa001698@intel.com>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <72c8eb66-eb67-4f8b-b0c0-13f1aa001698@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Claudiu,
 
-On Mon, Dec 9, 2024 at 1:22=E2=80=AFPM Claudiu Beznea <claudiu.beznea@tuxon=
-.dev> wrote:
-> On 09.12.2024 14:16, Geert Uytterhoeven wrote:
-> > On Mon, Dec 9, 2024 at 12:14=E2=80=AFPM Claudiu Beznea <claudiu.beznea@=
-tuxon.dev> wrote:
-> >> On 09.12.2024 12:57, Geert Uytterhoeven wrote:
-> >>> On Wed, Nov 13, 2024 at 2:35=E2=80=AFPM Claudiu <claudiu.beznea@tuxon=
-.dev> wrote:
-> >>>> From: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>>
-> >>>> The 5P35023 and 5L35035 Versa 3 clock generator variants are differe=
-nt but
-> >>>> the versaclock3 driver could be used with small adjustments. The fea=
-tures
-> >>>> that are implemented in driver and differs b/w variants are the PLL2=
- Fvco
-> >>>> and clock sel bit for SE2 clock. Adjust the driver to prepare for th=
-e
-> >>>> addition of 5L35023 device.
-> >>>>
-> >>>> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> >>>> Signed-off-by: Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-> >>>
-> >>> Thanks for your patch!
-> >>>
-> >>>> --- a/drivers/clk/clk-versaclock3.c
-> >>>> +++ b/drivers/clk/clk-versaclock3.c
-> >>>> @@ -166,12 +167,17 @@ struct vc3_div_data {
-> >>>>  struct vc3_hw_data {
-> >>>>         struct clk_hw hw;
-> >>>>         struct regmap *regmap;
-> >>>> -       const void *data;
-> >>>> +       void *data;
-> >>>>
-> >>>>         u32 div_int;
-> >>>>         u32 div_frc;
-> >>>>  };
-> >>>
-> >>>> @@ -698,8 +706,6 @@ static struct vc3_hw_data clk_pll[] =3D {
-> >>>>                         .num =3D VC3_PLL2,
-> >>>>                         .int_div_msb_offs =3D VC3_PLL2_FB_INT_DIV_MS=
-B,
-> >>>>                         .int_div_lsb_offs =3D VC3_PLL2_FB_INT_DIV_LS=
-B,
-> >>>> -                       .vco_min =3D VC3_PLL2_VCO_MIN,
-> >>>> -                       .vco_max =3D VC3_PLL2_VCO_MAX
-> >>>>                 },
-> >>>>                 .hw.init =3D &(struct clk_init_data) {
-> >>>>                         .name =3D "pll2",
-> >>>
-> >>>> @@ -1029,9 +1037,16 @@ static int vc3_probe(struct i2c_client *clien=
-t)
-> >>>>                                              clk_pfd[i].hw.init->nam=
-e);
-> >>>>         }
-> >>>>
-> >>>> +       data =3D i2c_get_match_data(client);
-> >>>> +
-> >>>>         /* Register pll's */
-> >>>>         for (i =3D 0; i < ARRAY_SIZE(clk_pll); i++) {
-> >>>>                 clk_pll[i].regmap =3D regmap;
-> >>>> +               if (i =3D=3D VC3_PLL2) {
-> >>>> +                       struct vc3_pll_data *pll_data =3D clk_pll[i]=
-.data;
-> >>>> +
-> >>>> +                       pll_data->vco =3D data->pll2_vco;
-> >>>
-> >>> You cannot modify the global clk_pll[] data, as it is shared when
-> >>> there are multiple instances.
-> >>
-> >> By "multiple instances" do you mean, multiple versa3 devices using thi=
-s
-> >> driver? Do you know if we have such a board integrated, ATM?
-> >
-> > Exactly.
-> > Currently there are no such (upstream) users for 5p35023,
-> > but e.g. the Beacon RZ/G2M kit has two 5p49v6965 instances.
->
-> Are you OK with keeping it as is for the RZ/G3S SSIF support and returnin=
-g
-> back later with a solution for the scenario you pointed out? Although, AT=
-M,
-> I don't have a board to test it.
 
-Fine for me, as multiple instances were already broken before.
+Le 09/12/2024 à 13:01, Przemek Kitszel a écrit :
+> On 12/6/24 9:58 PM, Easwar Hariharan wrote:
+>> On 11/29/2024 4:57 AM, Przemek Kitszel wrote:
+>>>
+>>> [removed most non-list recipients, it's just too much]
+>>>
+>>> On 11/15/24 10:26 PM, Easwar Hariharan wrote:
+>> <snip>
+> 
+>>>
+>>> Regarding code - you could also convert msecs_to_jiffies(const * HZ),
+>>> there are 10 that are greppable.
+>>>
+>>
+>> Those seem to be mistakes. const*HZ is a seconds-denominated timeout,
+>> being passed to msecs_to_jiffies() which will treat it as a
+>> millisecond-denominated timeout resulting in an excessively long
+>> timeout. I suppose that's better than a too-short timeout, and
+>> apparently it's been working fine all along since hardware responds
+>> before the too-long timeout expires. Half of them are in
+>> drivers/scsi/arcmsr/arcmsr_hba.c and the pattern has apparently been
+>> there since 2010.
+> 
+> my point was that, the default value of HZ is 1000, and most of the code
+> that is just `$value*HZ` was meant as "$value seconds, in ms unit".
 
-Gr{oetje,eeting}s,
+I can't follow you here. The default value of HZ is 250 as far as I can see.
 
-                        Geert
+Regardless, HZ is the number of jiffies per second, nothing else.
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+> 
+> Same for HZ/const, HZ/2 being 500ms.
+> 
+> HZ is awful in that it is not 1s but 1/s, but it was easy to abuse the
+> value in simple context.
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Why is that awful ?
+
+HZ is a nice macro that gives you the number of ticks per second, so 
+that you are able to easily calculate the number of ticks for a given 
+duration, regardless of the configured number of ticks per second.
+
+Christophe
