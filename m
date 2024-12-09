@@ -1,183 +1,236 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omr012.pc5.atmailcloud.com (omr012.pc5.atmailcloud.com [103.150.252.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A658D22B8D4;
-	Mon,  9 Dec 2024 12:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D991223709
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733746199; cv=none; b=Q++PO4eFt0SvZqbRL3xci+iJjYJYNtxWQYLuV+p9+n2tN5VqAPOYKg27DaFyGbPs7/JTOdtUp7Wv/M1OSXo5mMAkis7qgIUr83fPo7SGJK+6vPWAWAsm78QvVKJ/dAhGkUipdScrvhXktPYZCy/V59qfPCTf90cwJ85kGSzUo6g=
+	t=1733746393; cv=none; b=qWGARMPFjUBEDQ+pZVWTpd33v5Tzd6gGFr1/nzW6eigh+vr273A9crhV6hDfSNMfYgUef/wVF3RsEOByF1xZvOMiSRgDAP7XGjGeq3I2KjhT+vEsz1QCFL0uHRQXMZ7G2GmptbhLTyrcCRD+CLs1c/kB7lEQofvWAud9lxlg3ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733746199; c=relaxed/simple;
-	bh=ZjJj7jdZ9xsYB3boPqxYaoqch47tPC3g35dATAfAPZw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HtGIWEz+9Oyey992XtQvewojYHA90qYZMJUJjG9cgwW7xsukTr0PIwguz5lR9nHEkDpDtOPPfI19peDUF1pXEmDUA8bgtl/ivw9r1hoq266ticTmLqVW4hh5t5UdX2Yd01fqXSZWvvbKOA1gJg+KQQ7pEu51kXUoAPDB9Nt5WgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XIG7MBwS; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733746393; c=relaxed/simple;
+	bh=ibk9xsLr57aNUrNUX4WCqnf94EjUyNZEylDf8xp8B98=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aX9eSPwYteExpsIwThghYEkcmPzuakhvJKSuxvtdlVgOj6nAaQ20Ie7zzT/NwiP+qJJoTz1p5NFDeHx2ZMXNT4uKp0y1EBvCzbdOndu/DJ0Oqm+MbHwaRqLvICgWLbdGX706sMIJsMhqBMXQm0gQAwWpXHb6afFKgMCkSHpJSI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=RRf9hzEM; arc=none smtp.client-ip=103.150.252.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XIG7MBwS"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434aa222d96so46551855e9.0;
-        Mon, 09 Dec 2024 04:09:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733746196; x=1734350996; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DxtIc8zpHQVSLKJgH3nmYP7x2JqOOyKitx+8aCZ1kjA=;
-        b=XIG7MBwSqMfh/kRzs8gj89Di7L1xt6hViJARrJKds000m55F5mcSaYTj+sQeTkJE74
-         kMnHGtxuKVB7Cyen3A3BhC4nsDRJrit7kbTd8CxgZqfV7rVUdyCW59ak7sIKUJkKgAOW
-         aZPgbRwJ/j6BORTxwAnVy9Q+xz+fGVN7AXLJ8Kt6MNXASxuh2JswMwL0dk8MHWTmvt32
-         WB1WPD+LH1rhgdl13QaIbxGMd2HMv5V7vGn0WcnFr4+s77GeVbHFTPVgv0PbTtkg5rYW
-         S9nacG8ihAXpCc016O8+X5GP8cbqMxHAvMFY5XYXgGB33nE8KiQJbj8MAzP/aJiIkT6O
-         fwFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733746196; x=1734350996;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DxtIc8zpHQVSLKJgH3nmYP7x2JqOOyKitx+8aCZ1kjA=;
-        b=kyF9LkgAi1nLqve/6gThmYB5XG46U0JbUlYzSqh1v6YeL9Rf2PX+YGmdziqrqumHJq
-         iw/nYbQ6edMNjczYlR++zPdf66beczizuKMfX9lHcW9uxias0IuboDA4HP994Z1wOlq2
-         o3Stn9KJKvkxVlIAB40EZ+LqN9mbXkx1Nh1oDDWY+/HitIRjlfDb6G0C/rqcxOgpyJVn
-         vCjk8RNsejj+R3sVsw9WoQaeQDOVBywzX9RvBMPbA0APpOb7/n8TxZzsWeIlMU1QBh7h
-         VQij3m8j3gLckxAdNuRi59bQeWT9pK6R4MmfFW3vznIef83P5AYDArf7jj7oGx4dPDYF
-         /ezw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYGhg6fv8PajdbPwAGtHF9jgQyhjQK8qNW/3oQEgkjJEOiapg0TBIaKt6OJDADwZ5QCfHLgZ1r/XJMxNAM@vger.kernel.org, AJvYcCWDY2LXvpqlv1HZ/W4TJOh5XwMS9nFLYeLc7ExO4wbGOwuzoWOl/GxZkjSW+5pzKnQjjX2XgWuGi/5zX8g=@vger.kernel.org, AJvYcCX+QdIC4Cim5Ope61ysZUFdkVoXHf+IeJBWYGDMe/AlgcEKnHxno04N9SsaXPRWiWED0ZNvri/2xTkd@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFqNvHlmDDWXQYpEQj91bgChY3l/qAaiwTXCDnbhPO/7j+nVcM
-	TM3KyLs2B99i5yhKCVyt70p1jnK7wpu8SQ4B8K202Hf86Ih2p3HC
-X-Gm-Gg: ASbGncviZGCdVMTFPIg8El/kQVeVtK49bDe+y602UnSbrz2JH5YbusHiUD3+/UOs+FS
-	7xdY/sQO27KpWBL9S/Kmr5PszNqMxvBC8eGAqmYgQE1e65b5gMw9jmW/7Dv+DQr0SjImlWeq2H0
-	scgsEbck25ywblGREv/RYyyl/hl4MN92WXfNLFfFPXZp3CIhr6+JXLZtKs/wyTGU1QXLxWsr2vL
-	7+iQcIhanj6RrJTFxcE4RlHlb4lqSGwcEeOMORIqDBPsU9u
-X-Google-Smtp-Source: AGHT+IEsIeX/C7P14AsCS9a4ebjG0rhnbGmPWRK+QJ1UfF3XV/goprpR9W9TfpYIysldiMwDJA/KxQ==
-X-Received: by 2002:a05:600c:1909:b0:434:f871:1b9e with SMTP id 5b1f17b1804b1-434fff54c84mr2387835e9.19.1733746195847;
-        Mon, 09 Dec 2024 04:09:55 -0800 (PST)
-Received: from [127.0.1.1] ([46.53.242.72])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-aa69964876csm37308766b.49.2024.12.09.04.09.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 04:09:55 -0800 (PST)
-From: Dzmitry Sankouski <dsankouski@gmail.com>
-Date: Mon, 09 Dec 2024 15:09:18 +0300
-Subject: [PATCH v8 14/14] arm64: dts: qcom: sdm845-starqltechn: add modem
- support
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="RRf9hzEM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=Content-Type:MIME-Version:Message-ID:Subject:To:
+	From:Date; bh=P2d+3+4XSXi6hRRtK1C6t71SFkOTrYbkAQZz26kIPWQ=; b=RRf9hzEMVChekhJ
+	sNf3UaafNy798y65EwDngvDtvCJ2ZnxDmRbgvwWafoupo5Sd2AT/w5KzrqIFTiZTXBPdTL9vVnvYs
+	e61dx2biki4SFvccuJYPgPbNkGWi7ivD4flfs+W+kY1vIF5NctO3qzr4Su2dFBtSmYmDsbKlaUtS+
+	IP2QvxpJXodfbyoxJ1cVBAjKL0A9M7+p24yiWcob0l7lvM0q2b7KPFqLmk2uKSr2hInvU6mlRTiYm
+	ik4jW3TM5GS01AbPPmp9Pd7yR9swYi7jSGtwtYAFvsr6Epk6+m0dvNDuvMNktmHglymsDBWOgshPy
+	xTbIQqH02YIKUxqz9dQ==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-01a0b56912a406c78) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tKcdJ-000000006ra-3S5g ;
+	Mon, 09 Dec 2024 12:13:01 +0000
+Received: from [220.233.184.101] (helo=rpi5)
+	 by CMR-KAKADU03.i-01a0b56912a406c78 with esmtpa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tKcdJ-000000002Gw-19ZV;
+	Mon, 09 Dec 2024 12:13:01 +0000
+Date: Mon, 9 Dec 2024 23:12:58 +1100
+From: Stephen Gordon <gordoste@iinet.net.au>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, Shenghao Ding <shenghao-ding@ti.com>,
+ Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, Liam Girdwood
+ <lgirdwood@gmail.com>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2] ASoC: pcm3168a: Add option to force clock consumer
+Message-ID: <20241209231258.22f3902f@rpi5>
+In-Reply-To: <878qspobvg.wl-kuninori.morimoto.gx@renesas.com>
+References: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
+ <5011ceef-5100-441d-b169-dabba135d27f@iinet.net.au>
+ <cec27c80-ca7d-43a1-90e2-ce014e56e295@sirena.org.uk>
+ <c2b9ae73-6a94-4184-9aab-8c95bd242b60@iinet.net.au>
+ <3c39e10d-0d39-4343-bdec-fe3041361cc8@sirena.org.uk>
+ <20241207125222.7aeedbf6@rpi5>
+ <878qspobvg.wl-kuninori.morimoto.gx@renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: multipart/mixed; boundary="MP_/NVXqywoLNyuaRi19.r8cxcI"
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=WPh5XGsR c=1 sm=1 tr=0 ts=6756decd a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=yC-0_ovQAAAA:8 a=8SAdY0oZuShKuPaM7AUA:9 a=CjuIK1q_8ugA:10 a=dOE6bjodWPtpq46irDwA:9 a=K434X8yMGOQHct7TzScA:9
+X-Cm-Envelope: MS4xfBdPLBegNPMCRusxHtCT/YRttdmJtgtFqdbmzdH9fUnbUibQbl3Sn4eckuC13rpO2Wo5gT5xlMt07cLUzP3UoSQMgQLhgsZGFLHIf06rB7kyVptD4LMT kXNFff25yqMlroBjmYRW7srBlYbmGwCYu7P0R9HeiyjoCt42eT+E3WXl9yXqKziJ2ZOoRUUrnr4C5XUURKZDky0Z3dZ4wFZTjrI=
+X-atmailcloud-route: unknown
+
+--MP_/NVXqywoLNyuaRi19.r8cxcI
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241209-starqltechn_integration_upstream-v8-14-ec604481d691@gmail.com>
-References: <20241209-starqltechn_integration_upstream-v8-0-ec604481d691@gmail.com>
-In-Reply-To: <20241209-starqltechn_integration_upstream-v8-0-ec604481d691@gmail.com>
-To: cros-qcom-dts-watchers@chromium.org, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-X-Mailer: b4 0.14.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1733746173; l=2190;
- i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
- bh=ZjJj7jdZ9xsYB3boPqxYaoqch47tPC3g35dATAfAPZw=;
- b=hLEXZL4A5Qguvh9tEnGlnKRyGQ8oKlJX4fhqIDSRJ7I/R2pHVyq6lROD3RWkbBAMF3Oluvbd3
- adc6Uu77HpeAvr5sMUiydxYPqO+pPEEeUllco1vSaOIbLOKNr8Nduab
-X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
- pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
+Content-Disposition: inline
 
-Add support for modem and ipa(IP Accelerator).
-Add spss reserved memory node.
+On Mon, 9 Dec 2024 01:58:59 +0000
+Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
----
-Changes in v6:
-- refactor: s/starqltechn/sdm845-starqltechn in subject.
----
- arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+> Hi Stephen
+> 
+> > > You should use one of the audio-graph-card bindings for anything
+> > > new.  
+> 
+> Using audio-graph-card is good idea, but all
+> simple_card/audio-graph-card/audio-graph-card2 are using same logic
+> around here. So, you will have same issue on audio-graph-card too.
+> 
+> > > > Basically, simple_card appears to set the CPU as producer if you
+> > > > don't specify a producer. I am not sure whether this is a bug.
+> > > >   
+> > > 
+> > > Well, if nothing is configured it's got to pick a default?  
+> 
+> If my understand was correct, your issue can be solved...
+> 
+> 	dailink_out_master: simple-audio-card,dai-link@0 {
+> 		...
+> =>		pcm3168_playback: codec {  
+> 			...
+> 		};
+> 	};
+> 	dailink_in_slave: simple-audio-card,dai-link@1 {
+> =>		bitclock-master = <&pcm3168_playback>;
+> =>		frame-master    = <&pcm3168_playback>;  
+> 		...
+> 	};
+> 
+> asoc_simple_parse_daifmt() is just checking where the node was codec
+> node or not. So, if bitclock-master/frame-master were produced, but
+> was not codec, both CPU/Codec can be consumer ?
+> 
+> # Clock producer/consumer settings is very confusable, because it was
+> # Codec base, and has flip, etc...
+> 
+> Thank you for your help !!
+> 
+> Best regards
+> ---
+> Kuninori Morimoto
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts b/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
-index e709b2062152..0d80599e893d 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-samsung-starqltechn.dts
-@@ -19,6 +19,8 @@
- #include "pm8998.dtsi"
- #include "sdm845-wcd9340.dtsi"
- 
-+/delete-node/ &rmtfs_mem;
-+/delete-node/ &spss_mem;
- /delete-node/ &adsp_mem;
- /delete-node/ &slpi_mem;
- 
-@@ -106,15 +108,39 @@ memory@a1300000 {
- 			pmsg-size = <0x40000>;
- 		};
- 
-+		/*
-+		 * It seems like reserving the old rmtfs_mem region is also needed to prevent
-+		 * random crashes which are most likely modem related, more testing needed.
-+		 */
-+		removed_region: removed-region@88f00000 {
-+			reg = <0 0x88f00000 0 0x1c00000>;
-+			no-map;
-+		};
-+
- 		slpi_mem: slpi@96700000 {
- 			reg = <0 0x96700000 0 0xf00000>;
- 			no-map;
- 		};
- 
-+		spss_mem: spss@97700000 {
-+			reg = <0 0x97700000 0 0x100000>;
-+			no-map;
-+		};
-+
- 		adsp_mem: memory@97800000 {
- 			reg = <0 0x97800000 0 0x2000000>;
- 			no-map;
- 		};
-+
-+		rmtfs_mem: rmtfs-mem@fde00000 {
-+			compatible = "qcom,rmtfs-mem";
-+			reg = <0 0xfde00000 0 0x202000>;
-+			qcom,use-guard-pages;
-+			no-map;
-+
-+			qcom,client-id = <1>;
-+			qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
-+		};
- 	};
- 
- 	i2c21 {
-@@ -859,6 +885,19 @@ dai@5 {
- 	};
- };
- 
-+&mss_pil {
-+	firmware-name = "qcom/sdm845/starqltechn/mba.mbn",
-+			"qcom/sdm845/starqltechn/modem.mbn";
-+	status = "okay";
-+};
-+
-+&ipa {
-+	qcom,gsi-loader = "self";
-+	memory-region = <&ipa_fw_mem>;
-+	firmware-name = "qcom/sdm845/starqltechn/ipa_fws.mbn";
-+	status = "okay";
-+};
-+
- &usb_1 {
- 	status = "okay";
- };
+Hi Morimoto-san,
 
--- 
-2.39.5
+This is one of the things I tried initially, but I wasn't sure if it
+was a valid configuration. 
 
+I just tried it again with debug enabled (see dt_snippet.txt) and I get
+the attached (see dbgout.txt) in dmesg.
+
+It is trying to set the CPU end as producer. I think it's because
+asoc_simple_parse_daifmt() checks whether the bit/frame phandles passed
+match the codec phandle - since it doesn't (it's a different codec),
+it sets the DAI link as "consumer mode" (i.e. clocks come from CPU).
+Therefore, the CPU side gets configured as producer.
+
+I am using the  version from 6.12.3 as that is the latest I can
+build.
+
+Regards
+Stephen
+
+
+
+
+
+
+
+--MP_/NVXqywoLNyuaRi19.r8cxcI
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=dbgout.txt
+
+[  688.239375] asoc-simple-card soc@107c000000:sound: link 2, dais 4, ccnf 0
+[  688.239394] asoc-simple-card soc@107c000000:sound: link_of (/soc@107c000000/sound/simple-audio-card,dai-link@1)
+[  688.267041] asoc-simple-card soc@107c000000:sound: link 2, dais 4, ccnf 0
+[  688.267057] asoc-simple-card soc@107c000000:sound: link_of (/soc@107c000000/sound/simple-audio-card,dai-link@1)
+[  688.267103] asoc-simple-card soc@107c000000:sound: link_of (/soc@107c000000/sound/simple-audio-card,dai-link@0)
+[  688.267128] asoc-simple-card soc@107c000000:sound: Card Name: i2smulti
+[  688.267131] asoc-simple-card soc@107c000000:sound: DAI0
+[  688.267133] asoc-simple-card soc@107c000000:sound: cpu num = 1
+[  688.267136] asoc-simple-card soc@107c000000:sound: cpu slots = 2
+[  688.267138] asoc-simple-card soc@107c000000:sound: cpu slot width = 32
+[  688.267141] asoc-simple-card soc@107c000000:sound: cpu sysclk = 50000000Hz
+[  688.267143] asoc-simple-card soc@107c000000:sound: cpu direction = IN
+[  688.267145] asoc-simple-card soc@107c000000:sound: codec num = 1
+[  688.267147] asoc-simple-card soc@107c000000:sound: codec slots = 2
+[  688.267149] asoc-simple-card soc@107c000000:sound: codec slot width = 32
+[  688.267151] asoc-simple-card soc@107c000000:sound: codec sysclk = 24576000Hz
+[  688.267153] asoc-simple-card soc@107c000000:sound: codec direction = IN
+[  688.267155] asoc-simple-card soc@107c000000:sound: dai name = 1f000a4000.i2s-pcm3168a-adc
+[  688.267157] asoc-simple-card soc@107c000000:sound: dai format = 4001
+[  688.267160] asoc-simple-card soc@107c000000:sound: DAI1
+[  688.267162] asoc-simple-card soc@107c000000:sound: cpu num = 1
+[  688.267164] asoc-simple-card soc@107c000000:sound: cpu slots = 2
+[  688.267166] asoc-simple-card soc@107c000000:sound: cpu slot width = 32
+[  688.267168] asoc-simple-card soc@107c000000:sound: cpu sysclk = 50000000Hz
+[  688.267170] asoc-simple-card soc@107c000000:sound: cpu direction = IN
+[  688.267172] asoc-simple-card soc@107c000000:sound: codec num = 1
+[  688.267174] asoc-simple-card soc@107c000000:sound: codec slots = 2
+[  688.267175] asoc-simple-card soc@107c000000:sound: codec slot width = 32
+[  688.267177] asoc-simple-card soc@107c000000:sound: codec sysclk = 24576000Hz
+[  688.267179] asoc-simple-card soc@107c000000:sound: codec direction = IN
+[  688.267181] asoc-simple-card soc@107c000000:sound: dai name = 1f000a4000.i2s-pcm3168a-dac
+[  688.267183] asoc-simple-card soc@107c000000:sound: dai format = 1001
+[  688.267424] designware-i2s 1f000a4000.i2s: ASoC: error at snd_soc_dai_set_fmt on 1f000a4000.i2s: -22
+[  688.267596] asoc-simple-card soc@107c000000:sound: probe with driver asoc-simple-card failed with error -22
+
+--MP_/NVXqywoLNyuaRi19.r8cxcI
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=dt_snippet.txt
+
+    fragment@2 {
+        target = <&sound>;
+        __overlay__ {
+            compatible = "simple-audio-card";
+            #address-cells = <1>;
+            #size-cells = <0>;
+            i2s-controller = <&i2s_clk_consumer>;
+            status="okay";
+
+            simple-audio-card,name = "i2smulti";
+            simple-audio-card,format = "i2s";
+
+            dailink_out_master: simple-audio-card,dai-link@0 {
+                reg = <0>;
+                format = "i2s";
+                bitclock-master = <&pcm3168_playback>;
+                frame-master = <&pcm3168_playback>;
+                cpu  {
+                    sound-dai = <&i2s_clk_consumer>;
+                    dai-tdm-slot-num = <2>;
+                    dai-tdm-slot-width = <32>;
+                };
+                pcm3168_playback: codec {
+                    sound-dai = <&pcm3168a 0>;
+                    dai-tdm-slot-num = <2>;
+                    dai-tdm-slot-width = <32>;
+                };
+            };
+            dailink_in_slave: simple-audio-card,dai-link@1 {
+                reg = <1>;
+                format = "i2s";
+                bitclock-master = <&pcm3168_playback>;
+                frame-master = <&pcm3168_playback>;
+                cpu  {
+                    sound-dai = <&i2s_clk_consumer>;
+                    dai-tdm-slot-num = <2>;
+                    dai-tdm-slot-width = <32>;
+                };
+                pcm3168_capture: codec {
+                    sound-dai = <&pcm3168a 1>;
+                    dai-tdm-slot-num = <2>;
+                    dai-tdm-slot-width = <32>;
+                };
+             };
+        };
+    };
+
+
+--MP_/NVXqywoLNyuaRi19.r8cxcI--
