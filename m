@@ -1,63 +1,63 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265761EB2E
-	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D4721B91F
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733745645; cv=none; b=fkaJYbTzXoLyzRwrFVDUnxtVkuHXvsxABf5PwpGGavsJGyGVzrf/72uIVFj+S0+j+xdmtRwCkmjkNMs3Ask5OoNGbrRUJl49rw1p+I7YFlpMSGBCw8dI2BcZLaCfJ6IhSrHL1NAOEs5qkpoyk2sGbP01jSg/9QofFmdtZEeJ5rQ=
+	t=1733745646; cv=none; b=sRieG7QX5yVL84QgMdPPHvAKEaUqsj4Y6qH6l1WFrnp+rq1zwMZTcoITKy/b0LuccoQ7rkYjI+FnKcA2sXnNLNTZNw5fBKltI+fngDX0Y+iBO+26lepguvomev2brhnDaVJaNINlL7jRhmW2WJUw74zHEffhkyf8kT1NPM9WMU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733745645; c=relaxed/simple;
-	bh=AfvDk3kCBindu1M/SPA1g+/8ocBf4bQNvfgLlw3/usE=;
+	s=arc-20240116; t=1733745646; c=relaxed/simple;
+	bh=9sRQt+fEILRzDTNPp4NsJSUXPScp1R8Q7XAPeUZ+iqY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qeMcB7/11kRr6QoUvCzrk1IqzeGGCGZslrzyyROUH/yqLn38h9OHW5Dl3vxa7gJiL5WLMRXpyCI5VMl+ELyM26KJiLGOmMXJ8vQbVAvKGg7csC4SsimTl6QvK08st2+tHcj9JLber6QOh4/59uGy0jxzd20HINURdo7GpwztQfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ee0eaGBH; arc=none smtp.client-ip=209.85.218.42
+	 In-Reply-To:To:Cc; b=t9zRYVOi1J85SEgeD5Omb+Kh3Z1AMHmE4wxlEXFDA9GLpItcmVMOq8iuV41xrshJAGKn+KejJ3SdrAjSCAo6lj0DTMP1daNrR/SL1qQ+wSUFNN7pKsOOnGMx/4ntlHhuxQYF6ELG2g7BKiQXPTBingDEq+fQ6kDY/tsA+AOz2ZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K4KQCnq/; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ee0eaGBH"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa659775dd5so21673666b.0
-        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 04:00:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K4KQCnq/"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-aa69599b4b0so8204666b.3
+        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 04:00:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733745641; x=1734350441; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1733745643; x=1734350443; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EglX5AVeuOK1iJau5AtpYy/rgxr+Cdktyzw1epur3aY=;
-        b=Ee0eaGBHKL2LSQknTU0PLicajGKmvbA+96cV1pZ1oZUJ96ok9gik74+kUB444bCpBp
-         JsuSjSHu10T/xFO64cttn4v8MdGbjzxZkRS2dvTgUSTGR4phH88cg6jl968wlO+R5EVR
-         0YPJ8CvvgkSLEK68JJfNGt65QC9Xo2Dj5ZG+06VF2GDK1FCNENo/GxehBjuZLq0NaJv/
-         /9CAtrIvVEgu5aLgp65OA3WJjSFCiiVljoCUYrpKhFJFqNAfZtsCuED5P27n4gjTHEPC
-         LVtUjnR3mBsdjj9+RjjhxHvilCYPsELlDDSTCVoTcDhKYk231g7K+mJkpSxceWsAjlBH
-         +Zdw==
+        bh=dvMgTCziUbKV8Sn4Rfvx0RhbjGii00C0EWsPPIrd18s=;
+        b=K4KQCnq/hfqhtgHsnUP45TFxjl2Bri2zKrTzaXOtWDFYlpRSEmL4C8iM4FUUQPeuRj
+         is+3ndJO1cM96gBPSQkghKYGv4exQwWzk7ZcfPr818shHKEGAOCwm7nxsr3/63DKy1Ao
+         P7RT4tKVa/gyp7FUiwR+fEEX2djEMJOsGnhG4JHnpy9iV22dl/pCuCSANHfceOLW0+Ga
+         dpEq72O8GmixvniS8lXFWcOWhauj3YCD/tybXPSt6/wZdq5NcgyizNx9/GCkK+Y1qnX2
+         +00Ol30jq8lBDW7wo6V9CnyarG0jHjUNKrAmvsRe7gi9T8C6O9IGuULIvOfl0ZBiQkVy
+         LrGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733745641; x=1734350441;
+        d=1e100.net; s=20230601; t=1733745643; x=1734350443;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EglX5AVeuOK1iJau5AtpYy/rgxr+Cdktyzw1epur3aY=;
-        b=ROljI8du9ejFV/0miJDiAPc++fJU/K96P9VLb8Zb7KO17vJ45QacNs0xENU+6kmbrM
-         NSusWXiWEf/4wCIiRwlZsJQ7yjScORX1l7pTkdoG0W0YxXhM2tlYrdPu1/NLY8BtpUVC
-         9869Uh09jhbE1rNyxZwiQP7+pmOxTj4z0X/CXiujgP2lI1qqyOxiLawW/dY0fWIIdKqA
-         1jVFKwNGUHFbxxJRU0SqhyxFaVJW86+8K/BHhAoCVPIOOjpxKFoBhDmmTPSAnN/xcZeG
-         NWyB81AzeoXLVEG4grym0ShuNV/VyGMDtN9PHtC5VANM6xKGNtaKDNvUO9QJehIfKIK/
-         xdzw==
-X-Gm-Message-State: AOJu0YxeSZeDXj1EIOW+Qr+ON/XhJhXWF/zFu3s0vSka6Xctiivl+pr7
-	3KJoCUepih/ekZw7/Qpszvp9c9YXLWBH/eOc4pDM4FfLPSyYNLH9Dt0cWxeF7tA=
-X-Gm-Gg: ASbGncuVLwdIZYeJ2AbCvZ49T/jv8QSHVu3INCRUTSBB/GxM6/9CaV8WP4SOz6TmYAI
-	Sa34lWScqXuDDZz+klfxRC9UC+aoLwYkGF0RkhSGs5cCYX3VeaN2ZRjPlFUt1Y2R7kf/RbY3DOS
-	VNxNZBKQtjlA2NuJbApIYAA0ZLUB3cRaMltuwWm4gEv7BoIrLDGvKEtKw+E/lci0gmUhl+s4Zsz
-	MjVkxixkO4WRYU2QFOF+woOkgeqNtPd1yNkCGK99fQWS7QZaCzc1IeUhevmowy11Q==
-X-Google-Smtp-Source: AGHT+IFQz+sHrhTNPQ93WvH87tO0/6WQElPlihSk/tcyEOGbqPjda/XE16U0+c3VXKI1+eO+KbJDyg==
-X-Received: by 2002:a17:907:3d94:b0:aa6:227b:d821 with SMTP id a640c23a62f3a-aa63a2d24aamr502007866b.11.1733745641516;
-        Mon, 09 Dec 2024 04:00:41 -0800 (PST)
+        bh=dvMgTCziUbKV8Sn4Rfvx0RhbjGii00C0EWsPPIrd18s=;
+        b=l2PklGkogicN625k4NDLwSQ7H6j+u9kfkXcClcYXldeXETBFeNcT9Pf1SzjKie/v49
+         WNp4itISATnxtm0Mh1gX8y1n2LwpfkhuRmloUprY4S+JILbHhAFUvXiqgT1bj37cGClf
+         gPkA8erCQryy8zrWdtzzt2y0wqbW8W5mlD7KqEj8wFLYBdK+l2UzqwOjpiPW4Q7cK62u
+         Jbu8jIFt6QYfeEcxiRqPYtsbn6/0dnLPSwljSQ1Xyn6S+D8PJD8PAbOZUzgFhXeL0qio
+         KGJySZZDp6trjX552YxstuP5FbxdADJoDJN0FyB0fsXEgo9fZtqm/byuohtIRXZ2jt9A
+         4aBA==
+X-Gm-Message-State: AOJu0YwtvA9M/BeCuI34Z6dJ0+B8xi4CTOdI8cTVR/J0kC+o19xwuN1J
+	8Fa0huwPCqDbDe8cr3DwXWH1ZZXRR8IEi8xIi+QCENWriU458mbh22ZawLwS6oE=
+X-Gm-Gg: ASbGncukGaTczCjqdHVEEkqRHZzCKFwt3NJSsKjAM5EsXo3F50jaYLdvfWDoIfN82wz
+	Wafrx2Ay6CTVxziebMIuqDt91KH0dh9uzAYHnmKC5+3dzmcDtv2PR7BwlNcYhOgr21o9JqXhwuB
+	Hgn7NFWI2BdkBFEY1rDVlB4zaTJPHUiiIePFjX1xGxj6TEOHRBpMM2IMPrSgWZNseQ+IdGrf8ig
+	CDi9b+0PMQRw4gYHGvYdB+XhTmt5QJns1np9B4Dc13aF+8Hnrz2q394bu9wx369zQ==
+X-Google-Smtp-Source: AGHT+IEqH1oaArwnV6wNm6opfU9J8wUrT7nB0JecmzXsIpT8ziyNbaP+FOzBH6K4aWnkqgODWjFUnA==
+X-Received: by 2002:a17:907:3e1d:b0:aa5:3e81:5abc with SMTP id a640c23a62f3a-aa63a025e12mr529837266b.1.1733745642780;
+        Mon, 09 Dec 2024 04:00:42 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm678589466b.183.2024.12.09.04.00.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm678589466b.183.2024.12.09.04.00.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 04:00:40 -0800 (PST)
+        Mon, 09 Dec 2024 04:00:42 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Date: Mon, 09 Dec 2024 13:00:28 +0100
-Subject: [PATCH RESEND 1/3] ASoC: codecs: wcd937x: Simplify locking with
+Date: Mon, 09 Dec 2024 13:00:29 +0100
+Subject: [PATCH RESEND 2/3] ASoC: codecs: wcd938x: Simplify locking with
  guard()
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241209-cleanup-h-guard-of-node-asoc-v1-1-397f6385e4a5@linaro.org>
+Message-Id: <20241209-cleanup-h-guard-of-node-asoc-v1-2-397f6385e4a5@linaro.org>
 References: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
 In-Reply-To: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
@@ -75,21 +75,21 @@ To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2424;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2420;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=AfvDk3kCBindu1M/SPA1g+/8ocBf4bQNvfgLlw3/usE=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnVtvkzZBmR2PooyNA+BCY/u9Ie6qgnsWOoxo8u
- nYzUrYVz2KJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ1bb5AAKCRDBN2bmhouD
- 1/jKD/9auacR6d7c3PeOsT6ExgOSLR4E+xafo5iH+maYepzSK5CNhhvW3w7W9V++wZGcsc21l1z
- wS7cYpCttuCmJQ8WDsax4eAqMbWdeAiOCFDZzYT+Rgp/Us0MF6NvNKSU2hY8tUY65lQstuQ3/gc
- NxU0Q45edcfd0I4uLUA53ZRWJli3Ri38KL3ObIrGZJqDShx5HAjM/MuCaEsrygz8Hfo9lyVhkmZ
- igte+tL41Bl7obatzr+jT0ThA5rAvW83m416HxWb+piBcHdt3MSN6pJKX7sMdSWhv9IkqIoK9ms
- w4mQ20MTawpUtAoN5ShFqzwXHfb/Qvfo/RYMowybn7Yd3fFZCxSTz2xAYOEfEomOl0sH1QDPxDl
- 8xIc+AJc/+10C50ddXjOIv7jcUsI/Rl/UoLPYIha+9LJ0zl99VD0MEZFionnUqLLZ+zKFnMTDKV
- CunkAkdAa+5xgFXSr12fmWqHVp+3huwnLOOEljxC9z3CuCxKBXS4C00XxLFs5VI6JWSCooVtJyM
- yFw/FvUsokT2B84vtmNZto2gGY5afBAdkTNfKAm1LEGy6FORBKiTr3Ovbl/HPoZx/GECNdoAeXh
- v6GTQjBvR/6viVRSroKgL50NfCeJKLX5bxXAubJc7A65VQN+C/+HBYffLY+GL+578hX8MxACRyw
- 4hCy4RLMEUaaz7A==
+ bh=9sRQt+fEILRzDTNPp4NsJSUXPScp1R8Q7XAPeUZ+iqY=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnVtvlv9laKURklc50GyvU7ApINZFdb6iPHFHM3
+ IGn+qUM5uuJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ1bb5QAKCRDBN2bmhouD
+ 10g5D/0WnXxailydX0vc5hIzAjuDVC2J93gYT7B3iaw0AD+lI0E1RdPIuu/k+tW7vMfUimqH4LY
+ ZEAaes7CDLoN/zcjv6/1Jogl5pDfoYarlXyV3GqPxNa+/e9TNohSr5FVXl6g5jwLppL7mfjGY4p
+ DRuwO/LMFQ/7gVGHRfveij54gk0HHmnnOjTVjdnJsxfoMqf75Awh0HvG70Br3c9v60eTzMaxaoq
+ 3M/vgtmG580MYG56wpD61wpkNTrmXkpkedLv6W9Cv2LgJ2R13sVJlXXW4Lc5meMyTq/nqmK9BLt
+ Bw9tPTv11txl8pRAa//pWM5z51A13bsnxvKGG80OrKeHJg7xvYzzmLzDKPND2UJILjUGnwN72TC
+ s3GGfjvrdov8rxt7sHD6i59rYxEKadqyq/3pbUYscKQAzQX1nIybw3z1P6tqn2W+5zcmeq6EwQD
+ QllkjqAGpT7jEBvjlhuAGflmBNglf3bSN9vkh6NoKZP5oCESFlUc4izbuZAqTacSbHSXcpFP78F
+ OcLiB7dgp6KNAlxJaLhatv7fqDDUMr9Igc/G/4Nuum1400zcTX7acUTEmMfJbCdOToiO9V94z3R
+ Ni41kLDvmSZ5BoKyM/VjpM0Gpymve8uVNPQa/GRDRu4WpaU39vPRlXQMJkSooZ20onVswGC+vcy
+ 8oIzSBX2cCtVVgQ==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
@@ -98,45 +98,45 @@ Simplify error handling with guard(mutex), which allows to drop local
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- sound/soc/codecs/wcd937x.c | 24 +++++++++++-------------
+ sound/soc/codecs/wcd938x.c | 24 +++++++++++-------------
  1 file changed, 11 insertions(+), 13 deletions(-)
 
-diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
-index c9d5e67bf66e4e8e21a76cfd563c75bac6555513..7d8f995d2daff50708e361fa446b52898c0faa81 100644
---- a/sound/soc/codecs/wcd937x.c
-+++ b/sound/soc/codecs/wcd937x.c
+diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
+index f2a4f3262bdbc5f828628464bba9ae07ef99af56..0c1377eee5697f79b5075a29190c39d5195da65a 100644
+--- a/sound/soc/codecs/wcd938x.c
++++ b/sound/soc/codecs/wcd938x.c
 @@ -1,6 +1,7 @@
  // SPDX-License-Identifier: GPL-2.0-only
- // Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ // Copyright (c) 2018-2020, The Linux Foundation. All rights reserved.
  
 +#include <linux/cleanup.h>
- #include <linux/component.h>
- #include <linux/delay.h>
- #include <linux/device.h>
-@@ -1445,7 +1446,7 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ #include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/platform_device.h>
+@@ -1992,7 +1993,7 @@ static int wcd938x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  					    int req_volt, int micb_num)
  {
- 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
+ 	struct wcd938x_priv *wcd938x =  snd_soc_component_get_drvdata(component);
 -	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en, ret = 0;
 +	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en;
  
  	switch (micb_num) {
  	case MIC_BIAS_1:
-@@ -1460,7 +1461,9 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+@@ -2010,7 +2011,9 @@ static int wcd938x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  	default:
  		return -EINVAL;
  	}
--	mutex_lock(&wcd937x->micb_lock);
+-	mutex_lock(&wcd938x->micb_lock);
 +
-+	guard(mutex)(&wcd937x->micb_lock);
++	guard(mutex)(&wcd938x->micb_lock);
 +
  	/*
  	 * If requested micbias voltage is same as current micbias
  	 * voltage, then just return. Otherwise, adjust voltage as
-@@ -1475,15 +1478,11 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
- 						    WCD937X_MICB_VOUT_MASK);
+@@ -2025,15 +2028,11 @@ static int wcd938x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 						    WCD938X_MICB_VOUT_MASK);
  
- 	req_vout_ctl = wcd937x_get_micb_vout_ctl_val(req_volt);
+ 	req_vout_ctl = wcd938x_get_micb_vout_ctl_val(req_volt);
 -	if (req_vout_ctl < 0) {
 -		ret = -EINVAL;
 -		goto exit;
@@ -151,20 +151,20 @@ index c9d5e67bf66e4e8e21a76cfd563c75bac6555513..7d8f995d2daff50708e361fa446b5289
 +	if (cur_vout_ctl == req_vout_ctl)
 +		return 0;
  
- 	if (micb_en == WCD937X_MICB_ENABLE)
+ 	if (micb_en == WCD938X_MICB_ENABLE)
  		snd_soc_component_write_field(component, micb_reg,
-@@ -1504,9 +1503,8 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+@@ -2054,9 +2053,8 @@ static int wcd938x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
  		 */
  		usleep_range(2000, 2100);
  	}
 -exit:
--	mutex_unlock(&wcd937x->micb_lock);
+-	mutex_unlock(&wcd938x->micb_lock);
 -	return ret;
 +
 +	return 0;
  }
  
- static int wcd937x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+ static int wcd938x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
 
 -- 
 2.43.0
