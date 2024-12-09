@@ -1,98 +1,128 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D62A21571F
-	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 09:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2322163A1
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 09:56:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733738039; cv=none; b=kvhWq9Ts4Ccf76mUKbc3Yqbz2wAFR7Q8gKGFKtUNT5zC8HyYQ1sMhH+bCydvmDQE2jXw2+R0BbyQlnSElUvH25wCgN+sY7DJhUFnejD2XfxaRwKymgE+vKv5rdP3CmAzPSIatg4UAW1WGUGqx5Sum74VPc00cA0VQ1FaRXDxpdQ=
+	t=1733738168; cv=none; b=CSewMHG8QJo/gWQoIOjnLV1HIPD+JOZFK98v6SFwqb6c1+CVPX897lqXnN7jfE25c7aeyEJwNBL1BN4Nq0TI3dolz30R6RVU8JPK7s3yfGG5+yvW+/m9+Zpk+NaeVKiotOdskai+WLJm1cbG3iHsJhZx2Jd733ShlhUUSZSnOeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733738039; c=relaxed/simple;
-	bh=G7P4WFySdM9J6B3gL7v7zq13XcU+IF+zjj7ttGGoZSk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tBlnJnnjTg3AJdYTWouc8p9BUe5wVqzVhBD3hW69b0dYuApYtwv1k7wT6fLxpEP2O0JFX+EHJZmLR5tT+opRLd1p6SwS/s03jvFjGkR107s0i1ktNfKMSN90c/kfQOljfgU0/0OtZQiDjUxGdOXNTRcf5e54HELkMmmqhHC3VIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=Y+NzqaSn; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1733738168; c=relaxed/simple;
+	bh=HoQLK/JuIV850LSUmTXCMCIPBEILUvjDCBpnxrf/qV4=;
+	h=Date:Message-ID:From:To:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VveNjuNz/foLYEiPtv50BV2oSYvp569l9rPcxdD0D96MD5Nkht6nR6lP84VbtRcs/y2WTOxME5URMBgrfYTcRIz8N46U04oQKkQ7diryd3syylzwBXk/RfQbyN9ARah7+8Gm2mJLMUehgAbVeFPs+Hka6ZHvgJ4A62k6aOvWJ4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HTHw6IJ7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=INOTFQfB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=qDVa6AMz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=t4yUZJsp; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="Y+NzqaSn"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B97SI8a010517;
-	Mon, 9 Dec 2024 03:52:55 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=Ut6LcVsTIG0oZHILjN
-	iw4Y5NRvtVX4JYmOtGu6tel8w=; b=Y+NzqaSnCn1hSJqEGDNt0snTrcrGE1RT3T
-	8flZij+Jcn5ehw4PL96FJTG7FTPmibGaIiXVk9FtR7h1Ne0ACfqsUFG4fHW8Cg9U
-	iPFJL7rRU0vhK7yAaoEyPJNPZc5uDba1jCnUZaBTprgvvaYxQL+pDN9UZ/i7+YFs
-	aVYKt/l5FE60PEIecIZm7QPkyGSnRK5uRhQR1vcM1fQY/c63ibCkwDSNuEFLXXe9
-	CCHETHwl1N7UYNbBUYtTdeH8oTP3lNPGwKuns28Hh6HnaKPgOt+UHxbBi+n6InzL
-	sZYmXna/XDh/rSYWqbtnIUCUf46gmoHy5t6UqU77Xb8BMROs0M/w==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknk9v33-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 03:52:54 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Mon, 9 Dec
- 2024 09:52:53 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Mon, 9 Dec 2024 09:52:53 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 337D6820248;
-	Mon,  9 Dec 2024 09:52:53 +0000 (UTC)
-Date: Mon, 9 Dec 2024 09:52:52 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC: =?iso-8859-1?B?Ik51bm8gU+Ei?= <nuno.sa@analog.com>,
-        =?iso-8859-1?Q?=22Uwe_Kleine-K=F6nig=22?= <u.kleine-koenig@baylibre.com>,
-        Daniel Mack <daniel@zonque.org>,
-        David Rhodes <david.rhodes@cirrus.com>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Lars-Peter Clausen <lars@metafoo.de>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Mark Brown <broonie@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Richard Fitzgerald
-	<rf@opensource.cirrus.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        "Takashi
- Iwai" <tiwai@suse.com>, <alsa-devel@alsa-project.org>,
-        <linux-rpi-kernel@lists.infradead.org>, <linux-sound@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>
-Subject: Re: [PATCH 00/17] ASoC: remove snd_soc_dai_set_tristate()
-Message-ID: <Z1a99HJuL04nWuqx@opensource.cirrus.com>
-References: <87wmg9mhkk.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HTHw6IJ7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="INOTFQfB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="qDVa6AMz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="t4yUZJsp"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2FA8A21161
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 09:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733738164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yWLxVZRNBT1GPlQpoZmtkVRwWv7d/CrPzg/7/4Vqpy8=;
+	b=HTHw6IJ7KrGwjCbwijT0Oz0ZE8oC57wo66wu+mpspcTwyKPdr2U6ZYqrkbAoxgMESBwa+h
+	fHg/jKgoAV2h6MJoFoNBpTqafz3T9Gvu+9DG+CwwNHcWrUJr0MGIrATXdBV5/Ptjxs/MFT
+	/PjN3EMImaX7gRZJO6MtslZKIEm3wcY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733738164;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yWLxVZRNBT1GPlQpoZmtkVRwWv7d/CrPzg/7/4Vqpy8=;
+	b=INOTFQfBipDZwya0Ocy2pZHv26iFLFqB1xFUWFzwoTz9u5DQ4pXGiFHdUJVFo5wppjDOAi
+	C6R1W/e3MK2fQmBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733738163; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yWLxVZRNBT1GPlQpoZmtkVRwWv7d/CrPzg/7/4Vqpy8=;
+	b=qDVa6AMzCfNG2OKsWZpuBPj1sNab5Ksr/H7FDIHEUzRwGDY3Mo4OboLGbqc++lP8RESK8O
+	YDL+wlwbwIVK6OWyQufEp/zGFhIVKBaKY/VoIU0FXgIIkZ0lFYCySuUVh6xftGNcFzHAn6
+	PmsSNumXiMRpOkHeXYRpstujlYH2gg4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733738163;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yWLxVZRNBT1GPlQpoZmtkVRwWv7d/CrPzg/7/4Vqpy8=;
+	b=t4yUZJspue9/2j/7VQqTORXx/CElLNjqlu53l2A9LI05PApszbQKt/JWHrZBFkgTwrHFcX
+	SPow+0iaslR2doBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F717138D2
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 09:56:03 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Tl2yAbO+VmfUKQAAD6G6ig
+	(envelope-from <tiwai@suse.de>)
+	for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 09:56:03 +0000
+Date: Mon, 09 Dec 2024 10:56:02 +0100
+Message-ID: <87wmg95gel.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Subject: Re: [PATCH] ALSA: control: Avoid WARN() for symlink errors
+In-Reply-To: <20241209083928.30941-1-tiwai@suse.de>
+References: <20241209083928.30941-1-tiwai@suse.de>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <87wmg9mhkk.wl-kuninori.morimoto.gx@renesas.com>
-X-Proofpoint-ORIG-GUID: 6sC2AuF3yPVyGwHQRs2Fhx6Ba-fI5Urq
-X-Proofpoint-GUID: 6sC2AuF3yPVyGwHQRs2Fhx6Ba-fI5Urq
-X-Proofpoint-Spam-Reason: safe
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	PREVIOUSLY_DELIVERED(0.00)[linux-sound@vger.kernel.org];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_NONE(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Mon, Dec 09, 2024 at 07:38:52AM +0000, Kuninori Morimoto wrote:
-> Hi Mark
+On Mon, 09 Dec 2024 09:39:25 +0100,
+Takashi Iwai wrote:
 > 
-> snd_soc_dai_set_tristate() has added in v2.6.27 (2008/Oct) by this commit
+> Using WARN() for showing the error of symlink creations don't give
+> more information than telling that something goes wrong, since the
+> usual code path is a lregister callback from each control element
+> creation.  More badly, the use of WARN() rather confuses fuzzer as if
+> it were serious issues.
 > 
-> 	8c6529dbf881303920a415c2d14a500218661949
-> 	("ALSA: asoc: core - add Digital Audio Interface (DAI) control functions.")
-> 
-> But it has never been used during this 16 years.
-> Let's remove it.
+> This patch downgrades the warning messages to use the normal pr_warn()
+> instead of WARN().
 
-We have definitely used it in out of tree code for some phones in
-our times. Whilst I don't feel super strongly, I would say it seems
-like fairly reasonable functionality and it does no harm, so I
-would vote to keep it.
+There is no reason to stick with the warning level.  It'd be better
+with the normal dev_err().  Will resubmit v2.
 
-Thanks,
-Charles
+
+Takashi
