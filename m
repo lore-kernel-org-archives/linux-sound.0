@@ -1,63 +1,64 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A831215168
-	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265761EB2E
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733745643; cv=none; b=ShCPV79PYuJkhIXq/MK31CLTo4KICNCNRJmwIcnI3oagc0UTBg9a+l6drNGxwORy/j9NYO4BY0tW+Ynj1qU4PJSzy14Ki8oXgCZpJLek3whCtUM6HSxWYekzQVpEtnGYoZOFZNEfUKdasLpqMSghCVOYg098Wy98dGuPu1uSa8o=
+	t=1733745645; cv=none; b=fkaJYbTzXoLyzRwrFVDUnxtVkuHXvsxABf5PwpGGavsJGyGVzrf/72uIVFj+S0+j+xdmtRwCkmjkNMs3Ask5OoNGbrRUJl49rw1p+I7YFlpMSGBCw8dI2BcZLaCfJ6IhSrHL1NAOEs5qkpoyk2sGbP01jSg/9QofFmdtZEeJ5rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733745643; c=relaxed/simple;
-	bh=pKQFOgVvHvF8uRLGx48niqw4WYJuJEP0QbflMT7oLXc=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IirFIK9ZucZWunvZl7hsHs4veID3OnKBbCGhYUVTlwsZGM33C+B8OC97+5hUMayx2iS5vSWoyoWgD6O3tBNSDdAAOZ4EAZ+K69Ciicpp1cTAQqJd/0FnKddg4cEY+QVKlQfe5znukirb60Q6/lo2GrgyB2d0UtrlnVOS25XGYWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y+P+mljN; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1733745645; c=relaxed/simple;
+	bh=AfvDk3kCBindu1M/SPA1g+/8ocBf4bQNvfgLlw3/usE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qeMcB7/11kRr6QoUvCzrk1IqzeGGCGZslrzyyROUH/yqLn38h9OHW5Dl3vxa7gJiL5WLMRXpyCI5VMl+ELyM26KJiLGOmMXJ8vQbVAvKGg7csC4SsimTl6QvK08st2+tHcj9JLber6QOh4/59uGy0jxzd20HINURdo7GpwztQfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ee0eaGBH; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y+P+mljN"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aa67bc91f87so20013966b.1
-        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 04:00:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ee0eaGBH"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aa659775dd5so21673666b.0
+        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 04:00:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733745640; x=1734350440; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eF65SP8yB+gSSGZtE3l7QFu2YELZzCe75eNTRt9jHx8=;
-        b=Y+P+mljNjLxnpwahK70kkdSffmGkEt/6dxtswdFI2j9kkNh77bacJMm8P/eukGXhQg
-         Xpk/eBXEVUQMCeobPw1smFWnWfD/Kw4ygKj2hNYDVaGxub8pfseeDCMNTE0DJZUnFBOT
-         5iTAUX5ur9/kHY7KJIUpidy8k5d6LeIRvFoAQ7dBNMBfYIbBuTL3eJc0JBKFedEqKeBq
-         SMxlQGOYktbzftby+96UY8IwP9EnP4NikWabLM+UmR9lrlz3VNLSiIO89CcnOZu257JZ
-         2vHr9xitbhJHD/FHMsyKC4Eo+s65IgNtyoTR0p7YIbg6l9PERDh+sljowHm4yU2xtyWt
-         qaew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733745640; x=1734350440;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1733745641; x=1734350441; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eF65SP8yB+gSSGZtE3l7QFu2YELZzCe75eNTRt9jHx8=;
-        b=X+3o9besYwZ9x5pBB1i9kDDRIxe0KHOIT1C3tHgygdtAxA+Ux+wUNhFqlgs3dnNHdE
-         fzgf82I3ThQ1Xnr/8GefmJnT9k8A5xyfbtgGuziz1jQ8X70mbthb6TJXEHZxN4faRoEe
-         tUT9dHhCZE2agG7bSRwbKDGfJ8hW67d8v2Hcau+Z0+5j967jMnNvPep7EiuDznNGRabQ
-         XXsCLBef14Me56DqNY//AEjCZieTfBCCLQgy0DZ8qQ4DMdyMPLULOWATNgDi1cOFPGPI
-         0erXRcIDgNMV3Fo3MJ5CMFIZDzOlF6BxrxQpYUyHx/uUIpx60zBT18FAMQu/nOSNBZZ5
-         F3LQ==
-X-Gm-Message-State: AOJu0Yz2fyS38k24qix88e9DdqBzzDpqfH8AvGN3ClWUpyUScHb7oM/V
-	Z9kCo6bI5uhZ6PmHrcm+d9BLcbgRMmIffCvtFgf1/LFwXBGT+x/4Io8FpbTYLi8=
-X-Gm-Gg: ASbGncsAYV/FkXWGm/e2lfzOpMaiNOSpHqXe6BcDd/aDyZxsMWC6oZ1tQZmiQqWE+Qu
-	ReMH3aWlitEnHSdB/DzSFlD+sNzj5lrvgA1Z8xQ18nMuWrUPxtNDtF/FPh1U4vXoZjXj6PuhhTH
-	3iE8WCOi9wijdn8yYnjC9cJZehqNO4/v+niRORwKy0ZgyXPJ6A2E+dLXEaeaeBPikkpUbx0f/1w
-	cCJFGYsipMo/5iHU5T8gBkKq17o8Jf66I7bT8pzcYmLHLcQKlw28a1RkF8yTW/1dQ==
-X-Google-Smtp-Source: AGHT+IF+WpItAHMZCkCObJQJIUQLG8YPpxFC9UNwLpAHwB0jPg4phO2uDPMZqJ8G6UoW8qNnR6UVkA==
-X-Received: by 2002:a17:907:874a:b0:aa6:35b1:5c02 with SMTP id a640c23a62f3a-aa63a207324mr463930666b.9.1733745639874;
-        Mon, 09 Dec 2024 04:00:39 -0800 (PST)
+        bh=EglX5AVeuOK1iJau5AtpYy/rgxr+Cdktyzw1epur3aY=;
+        b=Ee0eaGBHKL2LSQknTU0PLicajGKmvbA+96cV1pZ1oZUJ96ok9gik74+kUB444bCpBp
+         JsuSjSHu10T/xFO64cttn4v8MdGbjzxZkRS2dvTgUSTGR4phH88cg6jl968wlO+R5EVR
+         0YPJ8CvvgkSLEK68JJfNGt65QC9Xo2Dj5ZG+06VF2GDK1FCNENo/GxehBjuZLq0NaJv/
+         /9CAtrIvVEgu5aLgp65OA3WJjSFCiiVljoCUYrpKhFJFqNAfZtsCuED5P27n4gjTHEPC
+         LVtUjnR3mBsdjj9+RjjhxHvilCYPsELlDDSTCVoTcDhKYk231g7K+mJkpSxceWsAjlBH
+         +Zdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733745641; x=1734350441;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EglX5AVeuOK1iJau5AtpYy/rgxr+Cdktyzw1epur3aY=;
+        b=ROljI8du9ejFV/0miJDiAPc++fJU/K96P9VLb8Zb7KO17vJ45QacNs0xENU+6kmbrM
+         NSusWXiWEf/4wCIiRwlZsJQ7yjScORX1l7pTkdoG0W0YxXhM2tlYrdPu1/NLY8BtpUVC
+         9869Uh09jhbE1rNyxZwiQP7+pmOxTj4z0X/CXiujgP2lI1qqyOxiLawW/dY0fWIIdKqA
+         1jVFKwNGUHFbxxJRU0SqhyxFaVJW86+8K/BHhAoCVPIOOjpxKFoBhDmmTPSAnN/xcZeG
+         NWyB81AzeoXLVEG4grym0ShuNV/VyGMDtN9PHtC5VANM6xKGNtaKDNvUO9QJehIfKIK/
+         xdzw==
+X-Gm-Message-State: AOJu0YxeSZeDXj1EIOW+Qr+ON/XhJhXWF/zFu3s0vSka6Xctiivl+pr7
+	3KJoCUepih/ekZw7/Qpszvp9c9YXLWBH/eOc4pDM4FfLPSyYNLH9Dt0cWxeF7tA=
+X-Gm-Gg: ASbGncuVLwdIZYeJ2AbCvZ49T/jv8QSHVu3INCRUTSBB/GxM6/9CaV8WP4SOz6TmYAI
+	Sa34lWScqXuDDZz+klfxRC9UC+aoLwYkGF0RkhSGs5cCYX3VeaN2ZRjPlFUt1Y2R7kf/RbY3DOS
+	VNxNZBKQtjlA2NuJbApIYAA0ZLUB3cRaMltuwWm4gEv7BoIrLDGvKEtKw+E/lci0gmUhl+s4Zsz
+	MjVkxixkO4WRYU2QFOF+woOkgeqNtPd1yNkCGK99fQWS7QZaCzc1IeUhevmowy11Q==
+X-Google-Smtp-Source: AGHT+IFQz+sHrhTNPQ93WvH87tO0/6WQElPlihSk/tcyEOGbqPjda/XE16U0+c3VXKI1+eO+KbJDyg==
+X-Received: by 2002:a17:907:3d94:b0:aa6:227b:d821 with SMTP id a640c23a62f3a-aa63a2d24aamr502007866b.11.1733745641516;
+        Mon, 09 Dec 2024 04:00:41 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm678589466b.183.2024.12.09.04.00.38
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm678589466b.183.2024.12.09.04.00.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 04:00:39 -0800 (PST)
+        Mon, 09 Dec 2024 04:00:40 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH RESEND 0/3] ASoC: codecs: wcd93xx: Simplify locking with
+Date: Mon, 09 Dec 2024 13:00:28 +0100
+Subject: [PATCH RESEND 1/3] ASoC: codecs: wcd937x: Simplify locking with
  guard()
-Date: Mon, 09 Dec 2024 13:00:27 +0100
-Message-Id: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,58 +67,105 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANvbVmcC/42NsQ6CMBRFf8W82WfagoJODrI66GgYCn2Fl5CWt
- EI0hH+34Qscz73JOQtECkwRLrsFAs0c2bsEcr+DtteuI2STGJRQuShVhu1A2k0j9thNOhj0Fp0
- 3hDr6FqlsBJ3oaGVBkBRjIMufTf+CR/Ws7jeo095zfPvw3aqz3N7/ArNEgSrLz40pbFPY/Dqw0
- 8EffOigXtf1B5kqpWzRAAAA
-X-Change-ID: 20240823-cleanup-h-guard-of-node-asoc-e8b0e6e5f17e
+Message-Id: <20241209-cleanup-h-guard-of-node-asoc-v1-1-397f6385e4a5@linaro.org>
+References: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
+In-Reply-To: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
 To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
 Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=915;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2424;
  i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
- bh=pKQFOgVvHvF8uRLGx48niqw4WYJuJEP0QbflMT7oLXc=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnVtvjbwJgnPu6xyFntGnwH6PN4A/jgSTLBwwn7
- SiSkqIQd++JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ1bb4wAKCRDBN2bmhouD
- 13sMD/9XTivHVWPlGJKUfe6Nqb6WDJFokIWNiYlxlnrcJXqXpgfe8jKCKlWERvRcIu/0p75JQFz
- kMD2FVYaMLCGCDIpjL3NdTMxko2iKVnhPNQ1li3tVLt2G8TSMIGNMToc7iN/mwnMQvPwTrzClUg
- +Xq/vmY1s5UVDKlhd9Imw/1phgspQKBdG5rdj69TKEnWiwYMfuw+CUzgi2awY5cyYLQQqNHR8TP
- v60NwIPhJjHtqsWUoN5/6wd98Y+iwfveb+HVsndgebg87BKTta142oDNZvvDGgvZOtt0eTg+Kgc
- Yv/KUlA5Wopj7KeSaWuh/j2BHnWa19wz9C/eIWTeMP1FOVvbpujk0u/lowwpfXHymyUMNNv11By
- bXTj0QHemM/6rITgc05LQc+6AjReGILAcaQxIQhZNczHIu4agikfXDaBYnFsDCrzu64v2Vuxuq2
- lfQelMybv8Cvpw5nQ2rMTIdq4xkkSlkl3yt2sDn4oz/+qSEIwlXCDCUmB6ADQq+GLIg+RE8CNDh
- gMA3BjEX9vupVjl0gFinn1rsbKYiW2h+kftWC9CqEQv6j0TZ9G0DpGGdag0dhe8R7LvFP4t/van
- iyOLCftsEhOpjrQveISVZrAtzUYThCI5/Z73WvAbpCn/l7/tP+3ozRpN50JdvNEYdzykf46301p
- pSBomVRuQ3kbZdQ==
+ bh=AfvDk3kCBindu1M/SPA1g+/8ocBf4bQNvfgLlw3/usE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnVtvkzZBmR2PooyNA+BCY/u9Ie6qgnsWOoxo8u
+ nYzUrYVz2KJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ1bb5AAKCRDBN2bmhouD
+ 1/jKD/9auacR6d7c3PeOsT6ExgOSLR4E+xafo5iH+maYepzSK5CNhhvW3w7W9V++wZGcsc21l1z
+ wS7cYpCttuCmJQ8WDsax4eAqMbWdeAiOCFDZzYT+Rgp/Us0MF6NvNKSU2hY8tUY65lQstuQ3/gc
+ NxU0Q45edcfd0I4uLUA53ZRWJli3Ri38KL3ObIrGZJqDShx5HAjM/MuCaEsrygz8Hfo9lyVhkmZ
+ igte+tL41Bl7obatzr+jT0ThA5rAvW83m416HxWb+piBcHdt3MSN6pJKX7sMdSWhv9IkqIoK9ms
+ w4mQ20MTawpUtAoN5ShFqzwXHfb/Qvfo/RYMowybn7Yd3fFZCxSTz2xAYOEfEomOl0sH1QDPxDl
+ 8xIc+AJc/+10C50ddXjOIv7jcUsI/Rl/UoLPYIha+9LJ0zl99VD0MEZFionnUqLLZ+zKFnMTDKV
+ CunkAkdAa+5xgFXSr12fmWqHVp+3huwnLOOEljxC9z3CuCxKBXS4C00XxLFs5VI6JWSCooVtJyM
+ yFw/FvUsokT2B84vtmNZto2gGY5afBAdkTNfKAm1LEGy6FORBKiTr3Ovbl/HPoZx/GECNdoAeXh
+ v6GTQjBvR/6viVRSroKgL50NfCeJKLX5bxXAubJc7A65VQN+C/+HBYffLY+GL+578hX8MxACRyw
+ 4hCy4RLMEUaaz7A==
 X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Resending, no feedback. Previous:
-- Link to v1: https://lore.kernel.org/r/20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org
+Simplify error handling with guard(mutex), which allows to drop local
+'ret' variable and to directly return instead of jumping.
 
-Simplify error handling around locks with guard().  Less gotos needed,
-drop local 'ret' variable..
-
-Best regards,
-Krzysztof
-
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
-Krzysztof Kozlowski (3):
-      ASoC: codecs: wcd937x: Simplify locking with guard()
-      ASoC: codecs: wcd938x: Simplify locking with guard()
-      ASoC: codecs: wcd939x: Simplify locking with guard()
-
  sound/soc/codecs/wcd937x.c | 24 +++++++++++-------------
- sound/soc/codecs/wcd938x.c | 24 +++++++++++-------------
- sound/soc/codecs/wcd939x.c | 21 ++++++++-------------
- 3 files changed, 30 insertions(+), 39 deletions(-)
----
-base-commit: 0dd030fe5c2e08b61920b0e6e86214ec9a5442cb
-change-id: 20240823-cleanup-h-guard-of-node-asoc-e8b0e6e5f17e
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
-Best regards,
+diff --git a/sound/soc/codecs/wcd937x.c b/sound/soc/codecs/wcd937x.c
+index c9d5e67bf66e4e8e21a76cfd563c75bac6555513..7d8f995d2daff50708e361fa446b52898c0faa81 100644
+--- a/sound/soc/codecs/wcd937x.c
++++ b/sound/soc/codecs/wcd937x.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ // Copyright (c) 2023-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+ 
++#include <linux/cleanup.h>
+ #include <linux/component.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+@@ -1445,7 +1446,7 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 					    int req_volt, int micb_num)
+ {
+ 	struct wcd937x_priv *wcd937x = snd_soc_component_get_drvdata(component);
+-	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en, ret = 0;
++	int cur_vout_ctl, req_vout_ctl, micb_reg, micb_en;
+ 
+ 	switch (micb_num) {
+ 	case MIC_BIAS_1:
+@@ -1460,7 +1461,9 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 	default:
+ 		return -EINVAL;
+ 	}
+-	mutex_lock(&wcd937x->micb_lock);
++
++	guard(mutex)(&wcd937x->micb_lock);
++
+ 	/*
+ 	 * If requested micbias voltage is same as current micbias
+ 	 * voltage, then just return. Otherwise, adjust voltage as
+@@ -1475,15 +1478,11 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 						    WCD937X_MICB_VOUT_MASK);
+ 
+ 	req_vout_ctl = wcd937x_get_micb_vout_ctl_val(req_volt);
+-	if (req_vout_ctl < 0) {
+-		ret = -EINVAL;
+-		goto exit;
+-	}
++	if (req_vout_ctl < 0)
++		return -EINVAL;
+ 
+-	if (cur_vout_ctl == req_vout_ctl) {
+-		ret = 0;
+-		goto exit;
+-	}
++	if (cur_vout_ctl == req_vout_ctl)
++		return 0;
+ 
+ 	if (micb_en == WCD937X_MICB_ENABLE)
+ 		snd_soc_component_write_field(component, micb_reg,
+@@ -1504,9 +1503,8 @@ static int wcd937x_mbhc_micb_adjust_voltage(struct snd_soc_component *component,
+ 		 */
+ 		usleep_range(2000, 2100);
+ 	}
+-exit:
+-	mutex_unlock(&wcd937x->micb_lock);
+-	return ret;
++
++	return 0;
+ }
+ 
+ static int wcd937x_mbhc_micb_ctrl_threshold_mic(struct snd_soc_component *component,
+
 -- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+2.43.0
 
