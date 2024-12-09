@@ -1,82 +1,117 @@
-Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62D0A214800;
-	Mon,  9 Dec 2024 07:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.17
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E1015573D;
+	Mon,  9 Dec 2024 07:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733730107; cv=none; b=aAOvva7ccSG/mSBwWTW4HAJe4zeS+rzk0TtWwGrQXledcqIluGfXXmuYw03erym/693EBeBalsE6UdiTjLE63f0usdHCnfmsJxfBJ82SXNQ6OoE+WxKRA6xieDF+cNw12rP4JHLzVqqp5RBNB0IyMLF4XyqzYxLAtLlYL4B+ejg=
+	t=1733730545; cv=none; b=iZt89Wz2O/dTFiziV8zhkwS1SksSCtfNmCC5o0V7Idn1jKgeMdeipfU5648G1TYkairybNgAri5mGaseh7tv/m4x3a34AM0t7K/dwUbE5IjdWVUpEL6AB+VIoZTAoMt+TR/zdqjJKuwbawO+MkpIIrgToluPGBw9jgYvXU9yeog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733730107; c=relaxed/simple;
-	bh=uC1pem2t1qTf2SJaJq5zueNwLm5ploeyLdhhQKMf7KE=;
+	s=arc-20240116; t=1733730545; c=relaxed/simple;
+	bh=Ke4oSiaavD5rXW7RJFQ7IuRw5WXv3v1QivxyYpX0rdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NIwrtHBK6xGKHzCh07aoUaOcg5+axg1eID2YxZ0lOq6Dk2jYUvP52Cpy0jGIwjQWP92JwqGzzt8bItRtG93aMYfeDmGXXk7MfXGLXWi0e82xOGNfT59TgOBS6Ryad9/KeD3ktZsEaUgM/AKJ+vT4XAdlIR+8sRaFOPV60UgL71s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=m0B7CQyj; arc=none smtp.client-ip=1.95.21.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=HwW8njsWKMJGQWRoIY+d8q9LUtPomvckvkCI/6EQt1L/ASsZVnCnV6FD7kU0f57izAosUWSNwbJ2w2lcYMvyxLFZmOXEaQc2nZwzeU4IlFCKkTyZKqDZfxDprfGiZCxQeAuFtx63P6ieoE3SRDbcwI89qewm1C5GmhcPpBrIAdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c7ya8ngT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="m0B7CQyj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
-	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
-	Content-Type; bh=F+/1F5usZGU4xwFJCSgL70wM6kK3SGbjvRaZHVo0Zx0=;
-	b=m0B7CQyjdSflcO4FEyoQ1bz1xXtz2aaBneveM0wWc38aRp5vbeDz7ctDwIsbGo
-	UpqW1iwusxzg7XkDGBClLBth7ICBRKhCwevETCuxrhblIgjkao37+jwTiBu7SfBf
-	aC9mJ7KN6axnCTQ6cuhvoNhlZUkd9iCPaxh/9g5n3Ctew=
-Received: from dragon (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id Mc8vCgA3fxoBnFZnkeV5BA--.46779S3;
-	Mon, 09 Dec 2024 15:28:03 +0800 (CST)
-Date: Mon, 9 Dec 2024 15:28:00 +0800
-From: Shawn Guo <shawnguo2@yeah.net>
-To: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Adrien Grassein <adrien.grassein@gmail.com>,
-	Adam Ford <aford173@gmail.com>, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-mips@vger.kernel.org,
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH treewide 10/11] ARM: dts: nxp: imx: Switch to
- {hp,mic}-det-gpios
-Message-ID: <Z1acAA7gbxH7QfhT@dragon>
-References: <cover.1727438777.git.geert+renesas@glider.be>
- <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c7ya8ngT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0830C4CED1;
+	Mon,  9 Dec 2024 07:49:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733730544;
+	bh=Ke4oSiaavD5rXW7RJFQ7IuRw5WXv3v1QivxyYpX0rdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c7ya8ngT4sTuA0b6osceBibkaIV9znLSOOi+jrBvMeld1/frUi8zu2W8iSt7cUtwy
+	 AFaP6DRxzrWn8n7IwYNKO56oIOdXGjKc1wQYJNCMyvdHtalHHtG1oqBt+G6KxMDX/U
+	 OLm4Ht1XEJuUMrKtx7SrSPuZjXzuhs/NuhVUmrg8BqG3POl4BLHFaTdG/vyWYonkPY
+	 Ct/2+txCu2bwx+3RouA1ZRqDhD6KC6vfgELsLO+S2SolwQQnsGAkNiw403lFnzgRsi
+	 qAYJ7N9bJjPIffEcVOD0utfsD2V8uq680mBNSwrkXo2hbC5s9OD4bjjq56Nr7VJVl7
+	 Gy9eZlbBiD8SA==
+Date: Mon, 9 Dec 2024 08:49:00 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Sanyog Kale <sanyog.r.kale@intel.com>, 
+	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, quic_pkumpatl@quicinc.com, kernel@quicinc.com
+Subject: Re: [PATCH v4 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static
+ channel mapping support
+Message-ID: <fq5p4ubdpv3dc5jzqgakvnqzpcrhkfqar2dbcvclqlvbmbegfc@llq3kzkzegl3>
+References: <20241209045551.1404782-1-quic_mohs@quicinc.com>
+ <20241209045551.1404782-2-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7ff1bfb73a6d6fc71f3d751dbb7133b045853f64.1727438777.git.geert+renesas@glider.be>
-X-CM-TRANSID:Mc8vCgA3fxoBnFZnkeV5BA--.46779S3
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUoGQ6UUUUU
-X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiCQ6wZWdWeNqUcwAAsm
+In-Reply-To: <20241209045551.1404782-2-quic_mohs@quicinc.com>
 
-On Fri, Sep 27, 2024 at 02:42:25PM +0200, Geert Uytterhoeven wrote:
-> Replace the deprecated "hp-det-gpio" and "mic-det-gpio" properties by
-> "hp-det-gpios" resp. "mic-det-gpios" in Freescale Generic ASoC Sound
-> Card device nodes.
+On Mon, Dec 09, 2024 at 10:25:48AM +0530, Mohammad Rafi Shaik wrote:
+> Add static channel mapping between master and slave rx/tx ports for
+> Qualcomm wcd937x soundwire codec.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Currently, the channel map index value for each soundwire port is
+> hardcoded in the wcd937x-sdw driver, and the same channel map index
+> value is configured in the soundwire master.
+> 
+> The Qualcomm board like the QCM6490-IDP require static channel map
+> settings for the soundwire master and slave ports.
+> 
+> If another boards which are using enable wcd937x, the channel mapping
+> index values between master and slave may be different depending on the
+> board hw design and requirements. If the above properties are not used
+> in a SoC specific device tree, the channel mapping index values are set
+> to default.
+> 
+> With the introduction of the following channel mapping properties, it is
+> now possible to configure the master channel mapping directly from the
+> device tree.
+> 
+> The qcom,tx-channel-mapping property specifies the static channel mapping
+> between the slave and master tx ports in the order of slave port channels
+> which is adc1, adc2, adc3, adc4, dmic0, dmic1, mbhc, dmic2, dmic3, dmci4,
+> dmic5, dmic6, dmic7.
+> 
+> The qcom,rx-channel-mapping property specifies the static channel mapping
+> between the slave and master rx ports in the order of slave port channels
+> which is hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
+> 
+> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+> ---
+>  .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+> index d3cf8f59cb23..9209667044ba 100644
+> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+> @@ -58,6 +58,40 @@ properties:
+>      items:
+>        enum: [1, 2, 3, 4, 5]
+>  
+> +  qcom,tx-channel-mapping:
+> +    description: |
+> +      Specifies static channel mapping between slave and master tx port
+> +      channels.
+> +      In the order of slave port channels which is adc1, adc2, adc3,
+> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
+> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+> +    minItems: 12
+> +    maxItems: 12
+> +    additionalItems: false
+> +    items:
+> +      enum:
+> +        - 0  # WCD9370_SWRM_CH1
 
-Applied, thanks!
+Drop the comments. This does not implement my feedback and you sent it
+four days after I replied to you.
+
+Best regards,
+Krzysztof
 
