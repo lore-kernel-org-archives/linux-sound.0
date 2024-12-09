@@ -1,164 +1,202 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010044.outbound.protection.outlook.com [52.101.229.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33DFB66E;
-	Mon,  9 Dec 2024 02:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733710765; cv=fail; b=u+X5uHMR59PzOmF9/aXbrPDDzl333d1mYTsuiJkGG2mMK753oRzyjrMlOTv0fEyOzlUfyV7/EfEyPostRYQdQ3nD2gqdJPZAM2LXsjO6BSEyMOlmuAipIx2ol47bd2e4Ea1KivKGw6YKJslQNOR1NcoAZbpn82npRforRNx+SMY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733710765; c=relaxed/simple;
-	bh=2MfQ8sUEiM8lrWCrgJT69cIfF9E1J4+a79tYedi7yqY=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=PKfjxU23cKw+FRT3PXlp/VMBIA4msX/uPJzvxS6unD28kiMQE6bARp/GpwGATO3y1OFdJIMkzuC4ekghSDZ7b/96Os86dLkPS3gQu0fcYOxylKJEMH5DyWwsNe+fb+aMLv13p/RxKMQSXnf5gl+Vud6fXekXVJ/9Gp/7MvbyDTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=UoB/Bi0J; arc=fail smtp.client-ip=52.101.229.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="UoB/Bi0J"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UuRk3unk2A3HqgU7QUNlwavPqykwQPua25bHb5a9T4EMfW2YrB/dWGdlX2LiGRg061c4N98kfBo/PU707pGhUugB7lEi77pOR84F+gniDaH3P69ArvXKwY95v/Zj6Rid4YLDRIhAOQVYKggRp1hdLsCCxDHnh4+hBjtpXGwLAxA6dwfsA7zjx2qaTNK++Jw+/CtBNUtSvYSUtglfbKAB3dY5aWfAkgx5VXDPtmFIZVRk7HlRYZ1P/4oYLs9PR4sLJ4V9KTQJtI46dEgVUU0ydHcW33Q78uaENgzpUQ1kKZ5UGpXt7vFNOz2X2N+kQLkMkAdQhegCS4T9heEHwHpq8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kr7ho4A+12jJgtbKfH6Zd3j3xhQUqGYKO4aranx4X9A=;
- b=IwfARympibF6jXI8I1QmKQic1MmV6SWUxGGE2dtzJCKGfp5GRlXlLgboU1pOkxwEBwSjDVfS++FKw2stweeeDE8D7ADpCxhzWA2RH2BzD3E+UtLcDKIAyRWdkHLI5bzv1boPNymXIc37uPpJ8Kc29PRqhqjARmeosjPj01RNF0cDukVyxPrRw52jAb/vupCY5Mr8e8JoyTfCBKfHRzUW42IHffI/bHBuRXwROXXW1Dxj0/fvvF+k6xQPAp57lPhG4ZKys6KKh9/VElLHK61M+4IKg6zxGvyI4JAQMWUID5aA6NXMsQFABF1WxYTOSt/Cu/fMGOROhbaKYZYDFmx9og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kr7ho4A+12jJgtbKfH6Zd3j3xhQUqGYKO4aranx4X9A=;
- b=UoB/Bi0J98HxhgY+AtoLqS4enS/1spbukv5qyphFY12C8p7u86y3KQ0fKMRtoRxFrfkLEL3om+5GWqugHz5FobleTPABcQ0G34LccpRktAjaiYAn+supewhAUqueYHFB3tqibwHYxwVNadKvz/iHZp11pS/H5vhuHQe0Iw7xCks=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYCPR01MB7026.jpnprd01.prod.outlook.com
- (2603:1096:400:bd::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.18; Mon, 9 Dec
- 2024 02:19:19 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8230.010; Mon, 9 Dec 2024
- 02:19:19 +0000
-Message-ID: <877c89oaxl.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Stephen Gordon <gordoste@iinet.net.au>
-Cc: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: audio-graph-card: Call of_node_put() on correct node
-In-Reply-To: <20241207122257.165096-1-gordoste@iinet.net.au>
-References: <20241207122257.165096-1-gordoste@iinet.net.au>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 9 Dec 2024 02:19:19 +0000
-X-ClientProxiedBy: TY2PR04CA0016.apcprd04.prod.outlook.com
- (2603:1096:404:f6::28) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9818E14A4D6
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 03:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733715146; cv=none; b=qSLVVWdRsptLIoubG+sw22LDDi9cDkZ9bw3JrlPBJsmPe9wgfqmP85/iCndcht+vHOm3J2XL1dRftBO7NZBuXniw4gCs5uLR0IyCj70NpWsiuf5yL+DQMAQPjdJbEoOvF09lypOxlclavH1zh/ux+zHtQrg2iMh0KQyrRdhAWmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733715146; c=relaxed/simple;
+	bh=/Q5cdUi3WQix6Y9InGstQ7/7AXRI2R063qfAgEYNq+4=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=N+h1c3KQm4jTdM9ATV0ExbsGCY3hkwzcbtfWrTqMlluebUYdlYrLTTJ5gFuRdbuddM+TZZHv8SYwuNaK/CfqoqFplUhQOQeS+fdrcMrB3s5BQZgmIxIpftMqVzHiDkAwgWeF+ZzYZrJdyo8tyf2ztaw/M5KQxvSIe2A9tNuGtVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-843eb4505e7so729098139f.0
+        for <linux-sound@vger.kernel.org>; Sun, 08 Dec 2024 19:32:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733715143; x=1734319943;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NeWZ1nDjK+1bPDNgbcwdmwgciUCjZI5S1RGJZlH8H+8=;
+        b=eT5iLeZ09LnP0x8sexkiYF0EfTxBQEz25WJWVQDb1xfiGpZZlVLv6r2oRPhcL/i1Pa
+         aD9JvOeSnHj2YdoJJ0ZpgA/BoENZwDq5ISfJwN4u0r25kPiUDkGQHPEbySI3tFuHAjf8
+         /qFrt8xvoE1b2D/Yno7N96lql0/nKuumNlS8iUeF4tcp8BJrGetAhRMxfgLqIg0TmX8v
+         HuEsi1WXJKZD6FBrnQdfRIp5Pu3RYmqZ0yD5DBKJ2ot+zbdr9Tm6wDaPp3ciU3l3xBUa
+         bPS0/8bsSGPguyaonQWRo0hgGFMcrQxtECpPKl+WgkJCrc33xP4kYdWPq+3RS+7GorkM
+         Z3Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCU1pzUl0NsKnPhLdScFc6wzkL6e7lWXj5Vg7gU9jzDq5QKL6y83Etndgcwt6aUKT43g8v0hvETZsK0aIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw93VnvTHprhleE6kPu2vQWvT89NhFrnE7YKQ/uUiAiV0vXrnLZ
+	pjFgkrjIexH1tksoBEi7OS+fPTxt5mBZvsgKR1w9OyWnaTQfFugW84rI5hL1+1n2XccySKWrF9U
+	H09tjXVM29tmPBMtI6NSdekmtW1SUsvAfl8hYfsU5jVYljHhpxyhVYQY=
+X-Google-Smtp-Source: AGHT+IHhqUjSs8ASGBIgF76f9/MxAyMoE6Kte++sPVRKs+DwErSprh3W4s6DNiz3xvt2bAU8hn4gi4x+eM+hXI88DZGrggFuVi6T
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB7026:EE_
-X-MS-Office365-Filtering-Correlation-Id: 39c4d126-e27c-4700-e21a-08dd17f7e323
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|366016|1800799024|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?bzoP9REQ12Nl04TY39ZNzu+fwe6vqkv95MTiF9Q3+xfru7VDDuNwPrJmaPAZ?=
- =?us-ascii?Q?o7/WDXxZZkzpD5DCIQN6+fBLMc3ty45uTtC0Opo9A5Kcb5NhB1IFsdhh1d4r?=
- =?us-ascii?Q?cz5AKvSgEVAViEwFy95DAIqcI8mpXaWDasPmY5UL2ozGn/md11SBGGsCS2o0?=
- =?us-ascii?Q?uuKlpLbUHeM54AC0Yw6YFsxVddTsPopZnE/EZhe263m5G2ig00QiZFwWmAz1?=
- =?us-ascii?Q?N+swdM4WuFhT36WtRSD/ifd06mzm7dYrwP44VEeiTpTkYgiGhZAkUGaKQzP6?=
- =?us-ascii?Q?byAetoi4Il8fWylwVqREzC6dnVbx+4HGBF0wRjWwjz/9UPCcUxref4Y7IG+e?=
- =?us-ascii?Q?iftlyBPVk4CKKt+YsRDSGiySablx6UyqRHzxHsvQ6ucZ1DuPRNHw5FvCCPo2?=
- =?us-ascii?Q?WunR4r8kdH0uWCnAobjkpI8imzUdRi3ZZfjwc0boR7+UaWJciI0sH/uXvMV/?=
- =?us-ascii?Q?WSTL8uyKu11kJy4ADJkIw0BvccYk0cE5Gz8SLZzXYh6i7aUifMDOBVZjZ1VE?=
- =?us-ascii?Q?m9PyPNyHTvgQRUvIf8QDuUGHGf8ARLSc3JhOzCgZ3DgVzXSPNeueBxDU5gz9?=
- =?us-ascii?Q?uS5NZAxcJbE3qxitvhJfPtMnAkiplA9BlABOlyzYqjv2/ILxrnNOeqd7ZMpN?=
- =?us-ascii?Q?HgW7riKyydU4ZHxq1NppnklykFf0fXd2eu21SW+TiJ/W3K1b/QnsWSf/aMRa?=
- =?us-ascii?Q?cwUrFtiXvkTugME3z+2chmaEDIAc9f/3j1O4LkomzHkkz7l4vhqmqaQjXhQr?=
- =?us-ascii?Q?VBzyMywRWDcPRCg/rVqvCPJKjyQnQf1vM6lOTN730/b9osFJ6pWUcWWmGWxR?=
- =?us-ascii?Q?JWjz6966mYGXRsJCbm18CJTvj9H/jqJa88KeCTKRZrrAucB5lclcNf81RPcj?=
- =?us-ascii?Q?5UqQJhacJR34PKg860P/4MQ137CAqIv83Q7oBuOzOL8Cqmk3vOZYNH053QwA?=
- =?us-ascii?Q?bsw9PpewvlqeED6tYX2A9ia6X3LrsdrQB6v/nNVu8yArta14aX7qHxmAm/mT?=
- =?us-ascii?Q?TWUL52akJB615AuGDTpXcHudm+C1qIhKozBit0nQSAY1xBCQfJQIc34DnKI9?=
- =?us-ascii?Q?9qMgas85zK+mSEOjiS8Dh7zmcmv93Jz/JSFhQAllGR0rnyvXx+t8KCCGzalI?=
- =?us-ascii?Q?5iW9EhbE2ycngPYDAH++YbW58nznyajJ6eG5OhiVXwk1bffTpKnme4j2fEck?=
- =?us-ascii?Q?F5lvWK7bK8W3doFAbl3V+2BHimWhZHNIz+73/ttM2ms+kC25DJ9mwMT0nrVh?=
- =?us-ascii?Q?e5e/9b91Emjob4MV5y7+YGvvF7evsR1MvYnzZD36B7Zq0QYQs9vQliIjQdwU?=
- =?us-ascii?Q?t5TUsOBKHLcmEbYc0GS0hwhM/3vtSgFMogtQY4elPPd4u0GgWqDEJ6lL1+KC?=
- =?us-ascii?Q?F0grphBcPIT9Nr8w6RnR2P7jSmT8i7kaDhGrj55eQ6XP+DgSFg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(366016)(1800799024)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hlLuAPTU53UwSm9OIylTzn4DAe8AEEBPD4aW8xzgew2alF7TxtdFuLl8uwGW?=
- =?us-ascii?Q?STKy40FvkrbsupvP7OtmRaxxDqkCB2wOJp9zBKudlVz28tlQ4jkbd2sorT3S?=
- =?us-ascii?Q?ecZ7LfpbbDOQHdX99I6fbkzsDKiWa72OgxJWGMPr4HVy9hulj33tJyoxmtDQ?=
- =?us-ascii?Q?qy6s6od+SQxVsOXHNNkv+fhJsyul84T0A4BmfeaOtAJugWtO9lh3ORcyWdE4?=
- =?us-ascii?Q?IEFkilY8veSHjHwcp5E5NjY2sex2biunPjJH760+K9E9mAs6wCOSdIi70jUx?=
- =?us-ascii?Q?v9W9BUlQZuDnR0OcqPKtN1bVi4OsYfJCLS2SAzTDnVFbKBNQD+OkRYahLb0F?=
- =?us-ascii?Q?UtK9mVhM4i6cVexfVtRmZNzR8jBxMpdayZ81rv3FK1Xbrcr4DoPR4fz1E/Ea?=
- =?us-ascii?Q?FfOUWeyz2YMeDYeUWLStw4LKzCz12WAC5NYCmC3dDbtobdSDwmnqJs24r5yX?=
- =?us-ascii?Q?tF67758tLgZeAHQnMW7DwL+Rjh8EBFb9vE1Qv1esOGEtjxn5Dkscq0BCuWU4?=
- =?us-ascii?Q?11vfMvmtQOb+iNqBJYbi49XcypekM5OhGc3/O8utcV0pSrIanu8raR8bFEkQ?=
- =?us-ascii?Q?Uc8isHdtA/2r6Jyx6QkWWkFn5zPqLCertYYS2wCuKM+KHO+P4B/O+o0TSfcU?=
- =?us-ascii?Q?9JlIOxDUM+BZm/4DXcyyRJAO4memSamFAUibn3KDPsgTiR3Dppl2GXaBvzqW?=
- =?us-ascii?Q?BFFFj1pXFYwQiRJ76rDRtUJJ813RIrmSWi6InEpMPYDZmM2TDz3lGY9br5MY?=
- =?us-ascii?Q?br/K2s1aw+D6qdKvD6YUQRK9/W+sotUgkPW4Hk9I1DoPF7m+lVXLNNmt10Kt?=
- =?us-ascii?Q?6yRD6Y72O5kX6c/ZcJQtfwobWrsuiNekkRVUSWB/vpfnVCqSqfSY6srLbiuB?=
- =?us-ascii?Q?vjpvA45BJL4rLsXTgJMJVsozHqOpCkJwU55t1xS26QA8Azcqs4fZY1NGSQB/?=
- =?us-ascii?Q?uhXVQaEtpDDK/uzv4LxheBg82q/P+96ynyVuGYdNKxwXJfpi4Pt4yhhcto+i?=
- =?us-ascii?Q?g/YIQByqRa+y9UvWW3sbq0sGE/G4FtoJ7sjMmUbW+Nqgso/JoZcYKDJ3qNio?=
- =?us-ascii?Q?+oFCgk7o0/hVh5jo5n4sY7ckb7mV6TrPWu//46iT0YLbxt01ZxyzUrDzgtYp?=
- =?us-ascii?Q?aoH0mluPHpGIwYcz4EPyR+vFpOrxxvKBk1DXpl/Imb98Blwi1/w7irgc8Dip?=
- =?us-ascii?Q?9C7fsfi0dgz8xdRm2YxyngQSjvF9uCm4BVuXAHFQKvVQDc3YuRI5m8OMxLL6?=
- =?us-ascii?Q?cQ+YjjRi5bGimKeJttjD4PPkDK2oU4sjeF3OaIyqXz6uHdug5E+137enCMi7?=
- =?us-ascii?Q?0wsreBEBsMlX/Mbqt8l7rVcMJmJjuFjY+oQwGN2P8C0GCA1LqfpU3EGnef7e?=
- =?us-ascii?Q?LeoZvFABp27ehwF6YnKUwhewgxwQx44f9BuX5Jz0oJfq1LiHmotU26BwfVpc?=
- =?us-ascii?Q?v884X3+7HQbd8XBwbnLeu+028j5rJzCSR7OEl47LI4lzr0Wg7EEVNtqW41V2?=
- =?us-ascii?Q?SDBk+q7/6JItc6W1uLERbou6+bnwiNZBuBxAG9OhO0ex2bnV5bhsXgPHp91u?=
- =?us-ascii?Q?Eigzf5naZRPXUJeo4urLjN6QB+WaOCd8MN0xkIVNjyYwAV5DGBnZX+qHigRY?=
- =?us-ascii?Q?KzNZ543sU76h2sT4QfX7Y38=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39c4d126-e27c-4700-e21a-08dd17f7e323
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Dec 2024 02:19:19.2886
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OXbNEy6mAUdJHvHh/P8zkgl5hpwByftLoceqK1cWFs4E2heNQOqLI7QHe3oS/UFam1Iavhdrhldji8aPAbQQbjnft0d+2pu3FFnWQEw1eVZ8zzJLhVV8QqeaU2OgeIce
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7026
+X-Received: by 2002:a05:6e02:1386:b0:3a7:956c:61a4 with SMTP id
+ e9e14a558f8ab-3a811db6322mr98193835ab.10.1733715143675; Sun, 08 Dec 2024
+ 19:32:23 -0800 (PST)
+Date: Sun, 08 Dec 2024 19:32:23 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <675664c7.050a0220.a30f1.018c.GAE@google.com>
+Subject: [syzbot] [sound?] WARNING in snd_ctl_led_register
+From: syzbot <syzbot+4e7919b09c67ffd198ae@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
+	syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"
+
+Hello,
+
+syzbot found the following issue on:
+
+HEAD commit:    feffde684ac2 Merge tag 'for-6.13-rc1-tag' of git://git.ker..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ffe0f8580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=50c7a61469ce77e7
+dashboard link: https://syzkaller.appspot.com/bug?extid=4e7919b09c67ffd198ae
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-feffde68.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6135c7297e8e/vmlinux-feffde68.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6c154fdcc9cb/bzImage-feffde68.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+4e7919b09c67ffd198ae@syzkaller.appspotmail.com
+
+usb 5-1: Quirk or no altset; falling back to MIDI 1.0
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 1
+CPU: 0 UID: 0 PID: 5314 Comm: syz.0.0 Not tainted 6.13.0-rc1-syzkaller-00025-gfeffde684ac2 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
+ fail_dump lib/fault-inject.c:53 [inline]
+ should_fail_ex+0x3b0/0x4e0 lib/fault-inject.c:154
+ should_failslab+0xac/0x100 mm/failslab.c:46
+ slab_pre_alloc_hook mm/slub.c:4057 [inline]
+ slab_alloc_node mm/slub.c:4133 [inline]
+ __do_kmalloc_node mm/slub.c:4282 [inline]
+ __kmalloc_node_track_caller_noprof+0xdc/0x4c0 mm/slub.c:4302
+ __kmemdup_nul mm/util.c:61 [inline]
+ kstrdup+0x39/0xb0 mm/util.c:81
+ __kernfs_new_node+0x9d/0x870 fs/kernfs/dir.c:620
+ kernfs_new_node+0x137/0x240 fs/kernfs/dir.c:700
+ kernfs_create_link+0xa5/0x1f0 fs/kernfs/symlink.c:39
+ sysfs_do_create_link_sd+0x85/0x110 fs/sysfs/symlink.c:44
+ snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
+ snd_ctl_led_register+0x5a2/0x8c0 sound/core/control_led.c:347
+ snd_ctl_dev_register+0xcb/0x140 sound/core/control.c:2300
+ __snd_device_register sound/core/device.c:149 [inline]
+ snd_device_register_all+0xc9/0x1a0 sound/core/device.c:197
+ snd_card_register+0x1d9/0x6e0 sound/core/init.c:895
+ try_to_register_card+0x2f9/0x3d0 sound/usb/card.c:766
+ usb_audio_probe+0x1ae2/0x2100 sound/usb/card.c:931
+ usb_probe_interface+0x641/0xbb0 drivers/usb/core/driver.c:396
+ really_probe+0x2b8/0xad0 drivers/base/dd.c:658
+ __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
+ bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
+ __device_attach+0x333/0x520 drivers/base/dd.c:1030
+ proc_ioctl+0x463/0x650 drivers/usb/core/devio.c:2368
+ usbdev_ioctl+0x2cf8/0x6120 drivers/usb/core/devio.c:2827
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8215d7ff19
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f8216ad8058 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f8215f45fa0 RCX: 00007f8215d7ff19
+RDX: 0000000020000200 RSI: 00000000c0105512 RDI: 0000000000000004
+RBP: 00007f8216ad80a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 0000000000000000 R14: 00007f8215f45fa0 R15: 00007fff8889e228
+ </TASK>
+------------[ cut here ]------------
+can't create symlink to controlC3 device
+WARNING: CPU: 0 PID: 5314 at sound/core/control_led.c:672 snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
+WARNING: CPU: 0 PID: 5314 at sound/core/control_led.c:672 snd_ctl_led_register+0x6b6/0x8c0 sound/core/control_led.c:347
+Modules linked in:
+CPU: 0 UID: 0 PID: 5314 Comm: syz.0.0 Not tainted 6.13.0-rc1-syzkaller-00025-gfeffde684ac2 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+RIP: 0010:snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
+RIP: 0010:snd_ctl_led_register+0x6b6/0x8c0 sound/core/control_led.c:347
+Code: b8 00 00 00 00 00 fc ff df 48 8b 4c 24 28 0f b6 04 01 84 c0 0f 85 01 01 00 00 41 8b 37 48 c7 c7 c0 76 00 8d e8 3b fc 0e f8 90 <0f> 0b 90 90 e9 fb fe ff ff e8 dc 54 4e f8 90 48 b8 00 00 00 00 00
+RSP: 0018:ffffc9000d506ec0 EFLAGS: 00010246
+RAX: 65b6d429077b2500 RBX: 00000000fffffff4 RCX: ffff888000a64880
+RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: ffffc9000d506fd0 R08: ffffffff81601c02 R09: fffffbfff1cfa210
+R10: dffffc0000000000 R11: fffffbfff1cfa210 R12: ffff88801e30c1b0
+R13: ffff888012157000 R14: 0000000000000001 R15: ffff88801e30c000
+FS:  00007f8216ad86c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000557104264490 CR3: 0000000043c40000 CR4: 0000000000352ef0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ snd_ctl_dev_register+0xcb/0x140 sound/core/control.c:2300
+ __snd_device_register sound/core/device.c:149 [inline]
+ snd_device_register_all+0xc9/0x1a0 sound/core/device.c:197
+ snd_card_register+0x1d9/0x6e0 sound/core/init.c:895
+ try_to_register_card+0x2f9/0x3d0 sound/usb/card.c:766
+ usb_audio_probe+0x1ae2/0x2100 sound/usb/card.c:931
+ usb_probe_interface+0x641/0xbb0 drivers/usb/core/driver.c:396
+ really_probe+0x2b8/0xad0 drivers/base/dd.c:658
+ __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
+ driver_probe_device+0x50/0x430 drivers/base/dd.c:830
+ __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
+ bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
+ __device_attach+0x333/0x520 drivers/base/dd.c:1030
+ proc_ioctl+0x463/0x650 drivers/usb/core/devio.c:2368
+ usbdev_ioctl+0x2cf8/0x6120 drivers/usb/core/devio.c:2827
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:906 [inline]
+ __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f8215d7ff19
+Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f8216ad8058 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f8215f45fa0 RCX: 00007f8215d7ff19
+RDX: 0000000020000200 RSI: 00000000c0105512 RDI: 0000000000000004
+RBP: 00007f8216ad80a0 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
+R13: 0000000000000000 R14: 00007f8215f45fa0 R15: 00007fff8889e228
+ </TASK>
 
 
-Hi Stephen
-
-> V2: Adjust commit message
-> 
-> Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
-> ---
-
-Thank you for pointing it.
-
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-
-But I think git-log comment is strange (you want to indicate it under --- line)
-
-
-Thank you for your help !!
-
-Best regards
 ---
-Kuninori Morimoto
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
