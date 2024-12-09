@@ -1,202 +1,148 @@
-Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9818E14A4D6
-	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 03:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4805718A6B2;
+	Mon,  9 Dec 2024 04:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733715146; cv=none; b=qSLVVWdRsptLIoubG+sw22LDDi9cDkZ9bw3JrlPBJsmPe9wgfqmP85/iCndcht+vHOm3J2XL1dRftBO7NZBuXniw4gCs5uLR0IyCj70NpWsiuf5yL+DQMAQPjdJbEoOvF09lypOxlclavH1zh/ux+zHtQrg2iMh0KQyrRdhAWmU=
+	t=1733720242; cv=none; b=UoKbZtBE+rLitZGw2l0vgnctr4EuhPxh8oZV+mLdsI+m2/nv7/PENix5Uplk8ol6OJnxZDkX271EwUl05lHA/nRbhg2CaE/DLg0iGl/lzQndoeqDEYhKe5cU2G/kK3NPy24v1wr/1tYIDw3/NKX3KUltaOCm+h5uQ9s8VJWR9l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733715146; c=relaxed/simple;
-	bh=/Q5cdUi3WQix6Y9InGstQ7/7AXRI2R063qfAgEYNq+4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=N+h1c3KQm4jTdM9ATV0ExbsGCY3hkwzcbtfWrTqMlluebUYdlYrLTTJ5gFuRdbuddM+TZZHv8SYwuNaK/CfqoqFplUhQOQeS+fdrcMrB3s5BQZgmIxIpftMqVzHiDkAwgWeF+ZzYZrJdyo8tyf2ztaw/M5KQxvSIe2A9tNuGtVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-843eb4505e7so729098139f.0
-        for <linux-sound@vger.kernel.org>; Sun, 08 Dec 2024 19:32:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733715143; x=1734319943;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NeWZ1nDjK+1bPDNgbcwdmwgciUCjZI5S1RGJZlH8H+8=;
-        b=eT5iLeZ09LnP0x8sexkiYF0EfTxBQEz25WJWVQDb1xfiGpZZlVLv6r2oRPhcL/i1Pa
-         aD9JvOeSnHj2YdoJJ0ZpgA/BoENZwDq5ISfJwN4u0r25kPiUDkGQHPEbySI3tFuHAjf8
-         /qFrt8xvoE1b2D/Yno7N96lql0/nKuumNlS8iUeF4tcp8BJrGetAhRMxfgLqIg0TmX8v
-         HuEsi1WXJKZD6FBrnQdfRIp5Pu3RYmqZ0yD5DBKJ2ot+zbdr9Tm6wDaPp3ciU3l3xBUa
-         bPS0/8bsSGPguyaonQWRo0hgGFMcrQxtECpPKl+WgkJCrc33xP4kYdWPq+3RS+7GorkM
-         Z3Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCU1pzUl0NsKnPhLdScFc6wzkL6e7lWXj5Vg7gU9jzDq5QKL6y83Etndgcwt6aUKT43g8v0hvETZsK0aIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw93VnvTHprhleE6kPu2vQWvT89NhFrnE7YKQ/uUiAiV0vXrnLZ
-	pjFgkrjIexH1tksoBEi7OS+fPTxt5mBZvsgKR1w9OyWnaTQfFugW84rI5hL1+1n2XccySKWrF9U
-	H09tjXVM29tmPBMtI6NSdekmtW1SUsvAfl8hYfsU5jVYljHhpxyhVYQY=
-X-Google-Smtp-Source: AGHT+IHhqUjSs8ASGBIgF76f9/MxAyMoE6Kte++sPVRKs+DwErSprh3W4s6DNiz3xvt2bAU8hn4gi4x+eM+hXI88DZGrggFuVi6T
+	s=arc-20240116; t=1733720242; c=relaxed/simple;
+	bh=40f8Mpjqjnnn+2Sqs45WGG0rf4OxTbfWtCqf3+2eGC8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AsBaoc3ipDA39af77gQBGh6aPMQD93N078iyDhdjVKpAJSPEqsKo8AKaAGxZX3rebamtcDsM7ngQsYYb/Nj7DZsuZvUaHovDFVS6nRSbu0hhEugqXO+oL/crS5vm6TIWVY5CcVRvfmKcqRn3Q9q2xw0GvuHrOpOJ6Ek9DvdeEWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=cy2C5jjq; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cy2C5jjq"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B90P27q025498;
+	Mon, 9 Dec 2024 04:56:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=5P0utX0lbp1cGNpeci+Sic
+	e5+XFvyOdJHldIHVSG4wc=; b=cy2C5jjqpVQHj6tAzq2y89Jhlm66/IhyBbwpmS
+	BHFJk5LpNcLvDYTTyVGeY+PP3Pv6XhUFCGEhG0efXAF1a4GnCZmoqDfxtlLeVB5Z
+	0ONGDblYnjQEFPDKozYB0tkPWm0I9odETPSI5NwBxnQiuaxyynqrTUYCyuTFDG/8
+	uZ8OTSUSla8uUKJRGJfyEdMHkNxJSSzKlfrtKKiZFz3F5z+77a9MRhhMfpjTiYOi
+	98A7EhK7HK5WqA+Y7nojj7ksdYcJxYbrCDd70FLt5a8+Ktl9r+cgRabEgwI8qyQ6
+	h3800eTXUjC8lhZwdMvfXm9eNmesSblFpmRgiVQUgoxlLE7A==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cbqn3k2g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Dec 2024 04:56:55 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B94usGX012471
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 9 Dec 2024 04:56:54 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Sun, 8 Dec 2024 20:56:46 -0800
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v4 0/4]  Add static channel mapping between soundwire master and slave
+Date: Mon, 9 Dec 2024 10:25:47 +0530
+Message-ID: <20241209045551.1404782-1-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1386:b0:3a7:956c:61a4 with SMTP id
- e9e14a558f8ab-3a811db6322mr98193835ab.10.1733715143675; Sun, 08 Dec 2024
- 19:32:23 -0800 (PST)
-Date: Sun, 08 Dec 2024 19:32:23 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <675664c7.050a0220.a30f1.018c.GAE@google.com>
-Subject: [syzbot] [sound?] WARNING in snd_ctl_led_register
-From: syzbot <syzbot+4e7919b09c67ffd198ae@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, perex@perex.cz, 
-	syzkaller-bugs@googlegroups.com, tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tnNu3hqleiKvLSlhWg9xGKk3QW18TzIZ
+X-Proofpoint-GUID: tnNu3hqleiKvLSlhWg9xGKk3QW18TzIZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ spamscore=0 bulkscore=0 adultscore=0 clxscore=1015 mlxlogscore=999
+ malwarescore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412090038
 
-Hello,
+Add static channel map support between soundwire master and slave.
 
-syzbot found the following issue on:
+Currently, the channel value for each soundwire port is hardcoded in the
+wcd937x-sdw driver and the same channel  value is configured in the
+soundwire master.
 
-HEAD commit:    feffde684ac2 Merge tag 'for-6.13-rc1-tag' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15ffe0f8580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=50c7a61469ce77e7
-dashboard link: https://syzkaller.appspot.com/bug?extid=4e7919b09c67ffd198ae
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+The Qualcomm board like the QCM6490-IDP require static channel map
+settings for the soundwire master and slave ports.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+If another boards which are using enable wcd937x, the channel mapping
+index values between master and slave may be different depending on the
+board hw design and requirements. If the above properties are not used
+in a SoC specific device tree, the channel mapping index values are set
+to default.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7feb34a89c2a/non_bootable_disk-feffde68.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/6135c7297e8e/vmlinux-feffde68.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/6c154fdcc9cb/bzImage-feffde68.xz
+With the introduction of the following channel mapping properties, it is
+now possible to configure the master channel mapping directly from the
+device tree.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4e7919b09c67ffd198ae@syzkaller.appspotmail.com
+Added qcom_swrm_set_channel_map api to set the master channel values
+which allows more flexible to configure channel values in runtime for
+specific active soundwire ports.
 
-usb 5-1: Quirk or no altset; falling back to MIDI 1.0
-FAULT_INJECTION: forcing a failure.
-name failslab, interval 1, probability 0, space 0, times 1
-CPU: 0 UID: 0 PID: 5314 Comm: syz.0.0 Not tainted 6.13.0-rc1-syzkaller-00025-gfeffde684ac2 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- fail_dump lib/fault-inject.c:53 [inline]
- should_fail_ex+0x3b0/0x4e0 lib/fault-inject.c:154
- should_failslab+0xac/0x100 mm/failslab.c:46
- slab_pre_alloc_hook mm/slub.c:4057 [inline]
- slab_alloc_node mm/slub.c:4133 [inline]
- __do_kmalloc_node mm/slub.c:4282 [inline]
- __kmalloc_node_track_caller_noprof+0xdc/0x4c0 mm/slub.c:4302
- __kmemdup_nul mm/util.c:61 [inline]
- kstrdup+0x39/0xb0 mm/util.c:81
- __kernfs_new_node+0x9d/0x870 fs/kernfs/dir.c:620
- kernfs_new_node+0x137/0x240 fs/kernfs/dir.c:700
- kernfs_create_link+0xa5/0x1f0 fs/kernfs/symlink.c:39
- sysfs_do_create_link_sd+0x85/0x110 fs/sysfs/symlink.c:44
- snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
- snd_ctl_led_register+0x5a2/0x8c0 sound/core/control_led.c:347
- snd_ctl_dev_register+0xcb/0x140 sound/core/control.c:2300
- __snd_device_register sound/core/device.c:149 [inline]
- snd_device_register_all+0xc9/0x1a0 sound/core/device.c:197
- snd_card_register+0x1d9/0x6e0 sound/core/init.c:895
- try_to_register_card+0x2f9/0x3d0 sound/usb/card.c:766
- usb_audio_probe+0x1ae2/0x2100 sound/usb/card.c:931
- usb_probe_interface+0x641/0xbb0 drivers/usb/core/driver.c:396
- really_probe+0x2b8/0xad0 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- proc_ioctl+0x463/0x650 drivers/usb/core/devio.c:2368
- usbdev_ioctl+0x2cf8/0x6120 drivers/usb/core/devio.c:2827
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8215d7ff19
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f8216ad8058 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f8215f45fa0 RCX: 00007f8215d7ff19
-RDX: 0000000020000200 RSI: 00000000c0105512 RDI: 0000000000000004
-RBP: 00007f8216ad80a0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 0000000000000000 R14: 00007f8215f45fa0 R15: 00007fff8889e228
- </TASK>
-------------[ cut here ]------------
-can't create symlink to controlC3 device
-WARNING: CPU: 0 PID: 5314 at sound/core/control_led.c:672 snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
-WARNING: CPU: 0 PID: 5314 at sound/core/control_led.c:672 snd_ctl_led_register+0x6b6/0x8c0 sound/core/control_led.c:347
-Modules linked in:
-CPU: 0 UID: 0 PID: 5314 Comm: syz.0.0 Not tainted 6.13.0-rc1-syzkaller-00025-gfeffde684ac2 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:snd_ctl_led_sysfs_add sound/core/control_led.c:671 [inline]
-RIP: 0010:snd_ctl_led_register+0x6b6/0x8c0 sound/core/control_led.c:347
-Code: b8 00 00 00 00 00 fc ff df 48 8b 4c 24 28 0f b6 04 01 84 c0 0f 85 01 01 00 00 41 8b 37 48 c7 c7 c0 76 00 8d e8 3b fc 0e f8 90 <0f> 0b 90 90 e9 fb fe ff ff e8 dc 54 4e f8 90 48 b8 00 00 00 00 00
-RSP: 0018:ffffc9000d506ec0 EFLAGS: 00010246
-RAX: 65b6d429077b2500 RBX: 00000000fffffff4 RCX: ffff888000a64880
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: ffffc9000d506fd0 R08: ffffffff81601c02 R09: fffffbfff1cfa210
-R10: dffffc0000000000 R11: fffffbfff1cfa210 R12: ffff88801e30c1b0
-R13: ffff888012157000 R14: 0000000000000001 R15: ffff88801e30c000
-FS:  00007f8216ad86c0(0000) GS:ffff88801fc00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000557104264490 CR3: 0000000043c40000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- snd_ctl_dev_register+0xcb/0x140 sound/core/control.c:2300
- __snd_device_register sound/core/device.c:149 [inline]
- snd_device_register_all+0xc9/0x1a0 sound/core/device.c:197
- snd_card_register+0x1d9/0x6e0 sound/core/init.c:895
- try_to_register_card+0x2f9/0x3d0 sound/usb/card.c:766
- usb_audio_probe+0x1ae2/0x2100 sound/usb/card.c:931
- usb_probe_interface+0x641/0xbb0 drivers/usb/core/driver.c:396
- really_probe+0x2b8/0xad0 drivers/base/dd.c:658
- __driver_probe_device+0x1a2/0x390 drivers/base/dd.c:800
- driver_probe_device+0x50/0x430 drivers/base/dd.c:830
- __device_attach_driver+0x2d6/0x530 drivers/base/dd.c:958
- bus_for_each_drv+0x24e/0x2e0 drivers/base/bus.c:459
- __device_attach+0x333/0x520 drivers/base/dd.c:1030
- proc_ioctl+0x463/0x650 drivers/usb/core/devio.c:2368
- usbdev_ioctl+0x2cf8/0x6120 drivers/usb/core/devio.c:2827
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f8215d7ff19
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f8216ad8058 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f8215f45fa0 RCX: 00007f8215d7ff19
-RDX: 0000000020000200 RSI: 00000000c0105512 RDI: 0000000000000004
-RBP: 00007f8216ad80a0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000002
-R13: 0000000000000000 R14: 00007f8215f45fa0 R15: 00007fff8889e228
- </TASK>
+Add get and set channel maps support from codec to cpu dais in common
+Qualcomm sdw driver.
+
+Changes since v3:
+ - Change the order of channel map index values in v3-0002 dt-bindings patch as suggested by Krzysztof.
+ - Dropped V3-0001 patch which is not required.
+
+Changes since v2:
+ - Rephrase commit description v2-0001 dt-bindings patch as suggested by Krzysztof.
+
+Changes since v1:
+ - Modified the design and followed new approach to setting the master channel mask.
+ - Used existing set_channel_map api as suggested by Pierre-Louis
+ - Fixed the typo mistake in v1-0001 dt-bindings patch.
+ - Rephrase the commit description for all v1 patches.
+
+Mohammad Rafi Shaik (2):
+  ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+  ASoC: codecs: wcd937x: Add static channel mapping support in
+    wcd937x-sdw
+  soundwire: qcom: Add set_channel_map api support
+  ASoC: qcom: sdw: Add get and set channel maps support from codec to
+    cpu dais
+
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++
+ drivers/soundwire/qcom.c                      | 26 +++++++++
+ sound/soc/codecs/wcd937x-sdw.c                | 39 ++++++++++++--
+ sound/soc/codecs/wcd937x.c                    | 53 ++++++++++++++++++-
+ sound/soc/codecs/wcd937x.h                    |  7 ++-
+ sound/soc/qcom/sdw.c                          | 34 ++++++++++--
+ 6 files changed, 185 insertions(+), 10 deletions(-)
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: ebe1b11614e079c5e366ce9bd3c8f44ca0fbcc1b
+-- 
+2.34.1
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
