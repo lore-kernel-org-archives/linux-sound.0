@@ -1,157 +1,123 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891321F931;
-	Mon,  9 Dec 2024 11:47:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A831215168
+	for <linux-sound@vger.kernel.org>; Mon,  9 Dec 2024 12:00:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733744832; cv=none; b=r9PAOVLy3kQDOT7l6Beq7F+wIBXkzYEVhQ+nPgFjtRZaK67zU9ANrlTqU/9gMe7rHhth263ID7vW0x2Kui8ea59TlmUq3uHyCeEMTrm1CitfUAdmbjjsnzuIUP+1FN5gHNa5OJohy1UynLLEfrNedo1G2f2ZUzkUtYNyeGPbu08=
+	t=1733745643; cv=none; b=ShCPV79PYuJkhIXq/MK31CLTo4KICNCNRJmwIcnI3oagc0UTBg9a+l6drNGxwORy/j9NYO4BY0tW+Ynj1qU4PJSzy14Ki8oXgCZpJLek3whCtUM6HSxWYekzQVpEtnGYoZOFZNEfUKdasLpqMSghCVOYg098Wy98dGuPu1uSa8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733744832; c=relaxed/simple;
-	bh=UIjErGmqfqU1Sd/W91SEMmcgWCt4YKrvAVeLp7upHjY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dvmOo5+QWDiXrYcAGGfseHaBRlc8MCzdzxOnA+Yk3JslplNrhWmgbdEf0aLpi8EHojWPO3KSPWlYPSxfGnW7cCssD4KCiVtSUai2MKBAVh/BMltSTAt+aU65XIdyljcFdiz60cVir/KerKBBPKwKMP4npDi9salVXD9k8v6QH5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=EKQoQe/M; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1733745643; c=relaxed/simple;
+	bh=pKQFOgVvHvF8uRLGx48niqw4WYJuJEP0QbflMT7oLXc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IirFIK9ZucZWunvZl7hsHs4veID3OnKBbCGhYUVTlwsZGM33C+B8OC97+5hUMayx2iS5vSWoyoWgD6O3tBNSDdAAOZ4EAZ+K69Ciicpp1cTAQqJd/0FnKddg4cEY+QVKlQfe5znukirb60Q6/lo2GrgyB2d0UtrlnVOS25XGYWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y+P+mljN; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="EKQoQe/M"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B9ADOe5007595;
-	Mon, 9 Dec 2024 11:46:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qdPw/W6LeGcWVMLio8NyLtLxoHG6Pis1h/7WcJzxaDY=; b=EKQoQe/MEmgVmKbS
-	+wUtB/96D8F476YM3nv39zqIPRlcDSO+MgNaWMVOdC8LY7garhyaGhBhXQzJmoqb
-	QdEjlgRqmT/axpuOritaDCipl/j6JLAC9sF6/lVzTpPiL0xW42XHPxLswt9R5Iv1
-	3ZB7tuB2hUwh7vAyl5AVCGlXttvgaSpUgFVI3FLA9C5bKQTU7NZW9rqOFoAdCEKN
-	Hd18LbPScFuUpaoST7EjGq/rv1M7YG1DojPsNr/hxBCRPKRpQYp4NXQtTBeSyb+l
-	fqdON4lp2QCrAeIjPEo0JmnGyTbYHHAsVX0EQTtF4IsY2M9AeBhZqGE13AazZMcU
-	DCi9CA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43cdc6cpue-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 09 Dec 2024 11:46:56 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4B9Bkt9E027017
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 9 Dec 2024 11:46:55 GMT
-Received: from [10.216.1.80] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 9 Dec 2024
- 03:46:48 -0800
-Message-ID: <44496510-0dfc-aa14-7793-93abd614fc37@quicinc.com>
-Date: Mon, 9 Dec 2024 17:16:45 +0530
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y+P+mljN"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-aa67bc91f87so20013966b.1
+        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 04:00:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733745640; x=1734350440; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eF65SP8yB+gSSGZtE3l7QFu2YELZzCe75eNTRt9jHx8=;
+        b=Y+P+mljNjLxnpwahK70kkdSffmGkEt/6dxtswdFI2j9kkNh77bacJMm8P/eukGXhQg
+         Xpk/eBXEVUQMCeobPw1smFWnWfD/Kw4ygKj2hNYDVaGxub8pfseeDCMNTE0DJZUnFBOT
+         5iTAUX5ur9/kHY7KJIUpidy8k5d6LeIRvFoAQ7dBNMBfYIbBuTL3eJc0JBKFedEqKeBq
+         SMxlQGOYktbzftby+96UY8IwP9EnP4NikWabLM+UmR9lrlz3VNLSiIO89CcnOZu257JZ
+         2vHr9xitbhJHD/FHMsyKC4Eo+s65IgNtyoTR0p7YIbg6l9PERDh+sljowHm4yU2xtyWt
+         qaew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733745640; x=1734350440;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eF65SP8yB+gSSGZtE3l7QFu2YELZzCe75eNTRt9jHx8=;
+        b=X+3o9besYwZ9x5pBB1i9kDDRIxe0KHOIT1C3tHgygdtAxA+Ux+wUNhFqlgs3dnNHdE
+         fzgf82I3ThQ1Xnr/8GefmJnT9k8A5xyfbtgGuziz1jQ8X70mbthb6TJXEHZxN4faRoEe
+         tUT9dHhCZE2agG7bSRwbKDGfJ8hW67d8v2Hcau+Z0+5j967jMnNvPep7EiuDznNGRabQ
+         XXsCLBef14Me56DqNY//AEjCZieTfBCCLQgy0DZ8qQ4DMdyMPLULOWATNgDi1cOFPGPI
+         0erXRcIDgNMV3Fo3MJ5CMFIZDzOlF6BxrxQpYUyHx/uUIpx60zBT18FAMQu/nOSNBZZ5
+         F3LQ==
+X-Gm-Message-State: AOJu0Yz2fyS38k24qix88e9DdqBzzDpqfH8AvGN3ClWUpyUScHb7oM/V
+	Z9kCo6bI5uhZ6PmHrcm+d9BLcbgRMmIffCvtFgf1/LFwXBGT+x/4Io8FpbTYLi8=
+X-Gm-Gg: ASbGncsAYV/FkXWGm/e2lfzOpMaiNOSpHqXe6BcDd/aDyZxsMWC6oZ1tQZmiQqWE+Qu
+	ReMH3aWlitEnHSdB/DzSFlD+sNzj5lrvgA1Z8xQ18nMuWrUPxtNDtF/FPh1U4vXoZjXj6PuhhTH
+	3iE8WCOi9wijdn8yYnjC9cJZehqNO4/v+niRORwKy0ZgyXPJ6A2E+dLXEaeaeBPikkpUbx0f/1w
+	cCJFGYsipMo/5iHU5T8gBkKq17o8Jf66I7bT8pzcYmLHLcQKlw28a1RkF8yTW/1dQ==
+X-Google-Smtp-Source: AGHT+IF+WpItAHMZCkCObJQJIUQLG8YPpxFC9UNwLpAHwB0jPg4phO2uDPMZqJ8G6UoW8qNnR6UVkA==
+X-Received: by 2002:a17:907:874a:b0:aa6:35b1:5c02 with SMTP id a640c23a62f3a-aa63a207324mr463930666b.9.1733745639874;
+        Mon, 09 Dec 2024 04:00:39 -0800 (PST)
+Received: from [127.0.1.1] ([178.197.223.165])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6260e33f7sm678589466b.183.2024.12.09.04.00.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Dec 2024 04:00:39 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: [PATCH RESEND 0/3] ASoC: codecs: wcd93xx: Simplify locking with
+ guard()
+Date: Mon, 09 Dec 2024 13:00:27 +0100
+Message-Id: <20241209-cleanup-h-guard-of-node-asoc-v1-0-397f6385e4a5@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 2/5] ASoC: dt-bindings: wcd937x-sdw: Add static channel
- mapping support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Liam Girdwood
-	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-        Bard Liao
-	<yung-chuan.liao@linux.intel.com>,
-        Jaroslav Kysela <perex@perex.cz>, "Takashi
- Iwai" <tiwai@suse.com>,
-        Pierre-Louis Bossart
-	<pierre-louis.bossart@linux.dev>,
-        Sanyog Kale <sanyog.r.kale@intel.com>, <linux-arm-msm@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_rohkumar@quicinc.com>,
-        <kernel@quicinc.com>
-References: <20241126164300.3305903-1-quic_mohs@quicinc.com>
- <20241126164300.3305903-3-quic_mohs@quicinc.com>
- <jnetmj5ibmmoiputq52vsvfqjz2auwjeqwt36g7sg4kjrrxyso@nrugsa6px4h7>
- <6bb8fe59-a1fc-9813-4623-d27e74a1b882@quicinc.com>
- <2517ef0e-4d13-4c51-b479-863229783223@kernel.org>
-From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-In-Reply-To: <2517ef0e-4d13-4c51-b479-863229783223@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 2vVXxcrrBXQAvSz_CVtLjVu91yy0-gYM
-X-Proofpoint-GUID: 2vVXxcrrBXQAvSz_CVtLjVu91yy0-gYM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 spamscore=0 phishscore=0 priorityscore=1501
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412090093
+X-B4-Tracking: v=1; b=H4sIANvbVmcC/42NsQ6CMBRFf8W82WfagoJODrI66GgYCn2Fl5CWt
+ EI0hH+34Qscz73JOQtECkwRLrsFAs0c2bsEcr+DtteuI2STGJRQuShVhu1A2k0j9thNOhj0Fp0
+ 3hDr6FqlsBJ3oaGVBkBRjIMufTf+CR/Ws7jeo095zfPvw3aqz3N7/ArNEgSrLz40pbFPY/Dqw0
+ 8EffOigXtf1B5kqpWzRAAAA
+X-Change-ID: 20240823-cleanup-h-guard-of-node-asoc-e8b0e6e5f17e
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=915;
+ i=krzysztof.kozlowski@linaro.org; h=from:subject:message-id;
+ bh=pKQFOgVvHvF8uRLGx48niqw4WYJuJEP0QbflMT7oLXc=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBnVtvjbwJgnPu6xyFntGnwH6PN4A/jgSTLBwwn7
+ SiSkqIQd++JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCZ1bb4wAKCRDBN2bmhouD
+ 13sMD/9XTivHVWPlGJKUfe6Nqb6WDJFokIWNiYlxlnrcJXqXpgfe8jKCKlWERvRcIu/0p75JQFz
+ kMD2FVYaMLCGCDIpjL3NdTMxko2iKVnhPNQ1li3tVLt2G8TSMIGNMToc7iN/mwnMQvPwTrzClUg
+ +Xq/vmY1s5UVDKlhd9Imw/1phgspQKBdG5rdj69TKEnWiwYMfuw+CUzgi2awY5cyYLQQqNHR8TP
+ v60NwIPhJjHtqsWUoN5/6wd98Y+iwfveb+HVsndgebg87BKTta142oDNZvvDGgvZOtt0eTg+Kgc
+ Yv/KUlA5Wopj7KeSaWuh/j2BHnWa19wz9C/eIWTeMP1FOVvbpujk0u/lowwpfXHymyUMNNv11By
+ bXTj0QHemM/6rITgc05LQc+6AjReGILAcaQxIQhZNczHIu4agikfXDaBYnFsDCrzu64v2Vuxuq2
+ lfQelMybv8Cvpw5nQ2rMTIdq4xkkSlkl3yt2sDn4oz/+qSEIwlXCDCUmB6ADQq+GLIg+RE8CNDh
+ gMA3BjEX9vupVjl0gFinn1rsbKYiW2h+kftWC9CqEQv6j0TZ9G0DpGGdag0dhe8R7LvFP4t/van
+ iyOLCftsEhOpjrQveISVZrAtzUYThCI5/Z73WvAbpCn/l7/tP+3ozRpN50JdvNEYdzykf46301p
+ pSBomVRuQ3kbZdQ==
+X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-On 12/5/2024 12:52 PM, Krzysztof Kozlowski wrote:
-> On 05/12/2024 04:56, Mohammad Rafi Shaik wrote:
->> On 11/27/2024 1:38 PM, Krzysztof Kozlowski wrote:
->>> On Tue, Nov 26, 2024 at 10:12:57PM +0530, Mohammad Rafi Shaik wrote:
->>>> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->>>> index d3cf8f59cb23..7893b1c1f80b 100644
->>>> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->>>> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
->>>> @@ -58,6 +58,44 @@ properties:
->>>>        items:
->>>>          enum: [1, 2, 3, 4, 5]
->>>>    
->>>> +  qcom,tx-channel-mapping:
->>>> +    description: |
->>>> +      Specifies static channel mapping between slave and master tx port
->>>> +      channels.
->>>> +      In the order of slave port channels which is adc1, adc2, adc3,
->>>> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
->>>> +      The channel map index values are fixed values.
->>>> +      SWRM_CH1 ==> 1
->>>> +      SWRM_CH2 ==> 2
->>>> +      SWRM_CH3 ==> 4
->>>> +      SWRM_CH4 ==> 8
->>>
->>> I am surprised to see here again 1/2/4/8. My comments were not
->>> addressed. I think we agreed during our off-list talk that you will use
->>> 1, 2, 3 and 4.
->>>
->> Ack,
->>
->> Yes right,
->>
->> Will add the change in next patch set.
->>
->> will add the channel map values starting from 0 based on order of slave
->> port channels which are starting from 0.
->>
->> SWRM_CH1 ==> 0
->> SWRM_CH2 ==> 1
->> SWRM_CH3 ==> 2
->> SWRM_CH4 ==> 3
-> These are supposed to be channels, so 1=1, 2=2 not 1=0.
-> 
+Resending, no feedback. Previous:
+- Link to v1: https://lore.kernel.org/r/20240823-cleanup-h-guard-of-node-asoc-v1-0-2349bd7fb7f4@linaro.org
 
-Thanks for comment.
+Simplify error handling around locks with guard().  Less gotos needed,
+drop local 'ret' variable..
 
-Ack,
+Best regards,
+Krzysztof
 
-i somehow missed this V3 patch mail comment and posted V4 patch set.
+---
+Krzysztof Kozlowski (3):
+      ASoC: codecs: wcd937x: Simplify locking with guard()
+      ASoC: codecs: wcd938x: Simplify locking with guard()
+      ASoC: codecs: wcd939x: Simplify locking with guard()
 
-will address the comment and update change in v5 patch set
+ sound/soc/codecs/wcd937x.c | 24 +++++++++++-------------
+ sound/soc/codecs/wcd938x.c | 24 +++++++++++-------------
+ sound/soc/codecs/wcd939x.c | 21 ++++++++-------------
+ 3 files changed, 30 insertions(+), 39 deletions(-)
+---
+base-commit: 0dd030fe5c2e08b61920b0e6e86214ec9a5442cb
+change-id: 20240823-cleanup-h-guard-of-node-asoc-e8b0e6e5f17e
 
-Thanks & Regards,
-Rafi.
-
-> Best regards,
-> Krzysztof
+Best regards,
+-- 
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
