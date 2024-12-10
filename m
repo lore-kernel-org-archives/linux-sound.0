@@ -1,107 +1,91 @@
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D335674D;
-	Tue, 10 Dec 2024 13:47:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5011BD4F1
+	for <linux-sound@vger.kernel.org>; Tue, 10 Dec 2024 14:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733838454; cv=none; b=msp2/1y2iIXjrL1A8YYdKHsvRmoOSh+L3KektijHslGsr5E4cdM5IHvYdffcxnVghE5G7iU6aGZpveEpuSdtNz/UW/z+cc3x44cZS6Yi+J6ruh/mijkpbVaNIJucBO6OqvLVOLdVU17De8OLif8tEPwSqSvNX8hGltl16qikTdU=
+	t=1733842277; cv=none; b=cK7E07X7JZz0bR7vNpax0ufkTvCV/y6U4MOD88zysv12h3+6nsmHsXFvZb/oSA1W2f8Gg8G9eeGqdoPX661kbIXq9cx792+OHhsm6Xt9LGt3fL7zf1BmpDnKo1f5tRDEkQ+mv8IY/itZeUbkOG5/mHXAmBHGn5kXH7WogvKvpU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733838454; c=relaxed/simple;
-	bh=K7sk1vkQi/GqD74GV5HPjfBdvvJbVKJiJD1JRJoC/UU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a7nDbJgqlhhvRWa60GOvcs2vzp+p+xyCOSDMGMDy0hpjZJvgszLv4GUHL6cDdxNxwjWn5/t1Mb505+7AYUKXso6DvsAGEGt+dmXWmaJCeToKtiWPwC6R87fkXYdpB2ohsRxSb8ME7xwzKICSxphHPjzC+uKKNTu7nB535d+KVUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=467cU4cV; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1733842277; c=relaxed/simple;
+	bh=4M47lHboXJvksRI+8r0rbo+xpoD0LUwvMb/ZgM6US00=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Y4WFRhoEZ1YDDMQSxv4qqZjv7pxjsugbUbw+pjjxyht3QDMN1wSae9b4j3PxWrlD+IY62E8mDPkP/nGMejckEowTI3DtSbDjyF3NQ2Spu0b0/lGKejagIvEnEN2UtxjYwqAhdi3vz2Tl+Pt2JHOOzb3FppLv1p75F2YxBhV9ha4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AE1I9c71; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="467cU4cV"
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA9RBJX019832;
-	Tue, 10 Dec 2024 14:47:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=DQ1nTIBSftquwVYBQvoMKW
-	HK26DZ8j8jxi/28l/0eEY=; b=467cU4cVsZlGtR9yEG9BYm4eiBhH1IsFCd/+oJ
-	l7KFFQKsEgkujfFSIxl5yuW8A/lGF0aWqgKQFWPKS22mXCGmdW0z7aBrr6isTqAj
-	sudyFjIPSpDQb4O4AgkA9ulojWqNOxaKaVz8k6pJbnCm8W10/RPge93ogWZR1jqf
-	TL9ZYSlt4J7mH08SmNyxST/kK3jZV+Dy69Tx5g/tMoyEynK8QdmREP4Ub6DmL8jQ
-	CdgKCf53Ym+j/HV09WrL9HqW2UU3FmcXxIvcQUhKQk8T/BYv8cj3rjCF003ZAZto
-	ZCEd9eqUwgOtHxgBNzQRs2hetdZZLjM0U0s1zetUsILJYFGA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43cek1vwt2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 14:47:11 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 268394004D;
-	Tue, 10 Dec 2024 14:45:27 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 56EB925853D;
-	Tue, 10 Dec 2024 14:44:07 +0100 (CET)
-Received: from localhost (10.252.12.81) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Dec
- 2024 14:44:07 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart
-	<Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej
- Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>
-CC: Olivier Moysan <olivier.moysan@foss.st.com>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH 0/3] drm: bridge: adv7511: refine actual capabilities
-Date: Tue, 10 Dec 2024 14:42:51 +0100
-Message-ID: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AE1I9c71"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F254C4CED6;
+	Tue, 10 Dec 2024 14:51:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733842277;
+	bh=4M47lHboXJvksRI+8r0rbo+xpoD0LUwvMb/ZgM6US00=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=AE1I9c71gmYhkhysYUl7QSMpoddG8qbXOCxPb6Vw9ZsCQLUhia3Uzex8TCBw1dQdp
+	 8jN6P/TybzoZNRVy7MpViOXyZg79ljplIlmOhxQV89BvDYrsHm4OLN3BTOGBrn2d2D
+	 jKBe9j60H0nb4qX2gRXtLt3c/wPeQ/OHlWPQgq10fD9bqYSE4axK4vJz551K9pjhTg
+	 vanLUrGlFngS7n12qPGl+6b1BbZjtD2pNri0mdkSmE+wquYBmskRXre3lxqUZD2hHw
+	 0ROejBUlPV4MlaBt1IkIcotsuHwEmgCkwhOVBa4+s920vGNpEdYuIZQVULVNZWbHnz
+	 fKMuwWzqiYPqg==
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87ser5frep.wl-kuninori.morimoto.gx@renesas.com>
+References: <87ser5frep.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH 0/3] ASoC: simple-card-utils: tidyup for Multi
+ connection
+Message-Id: <173384227596.64342.5958119638201451755.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 14:51:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-The STM32MP257F DK board features an ADV7535 HDMI bridge,
-which belongs to the ADV7511 bridges family.
-At startup the Pipewire audio framework parses the audio devices to
-discover their capabilities. The capabilities reported by the ADV7511
-driver are not accurate enough, which results in warning messages from
-Pipewire.
-Adjust the capabilities reported by the ADV7511 driver, to more
-accurately reflect its actual capabilities.
+On Tue, 03 Dec 2024 02:10:06 +0000, Kuninori Morimoto wrote:
+> These patches tidyup simple-card-utils for Multi connection of
+> Audio Graph Card, Because of DT node parsing, it should check port
+> 1st instead of endpoint. Otherwise, it can't handle DAI correctly.
+> 
+> Kuninori Morimoto (3):
+>   ASoC: simple-card-utils: use __free(device_node) for device node
+>   ASoC: simple-card-utils: check port reg first on graph_get_dai_id()
+>   ASoC: simple-card-utils: use for_each_of_graph_port() on graph_get_dai_id()
+> 
+> [...]
 
-Olivier Moysan (3):
-  drm: bridge: adv7511: fill i2s stream capabilities
-  drm: bridge: adv7511: remove s32 format from i2s capabilities
-  ASoC: hdmi-codec: allow to refine formats actually supported
+Applied to
 
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 4 ++++
- include/sound/hdmi-codec.h                     | 1 +
- sound/soc/codecs/hdmi-codec.c                  | 4 ++++
- 3 files changed, 9 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
 
-base-commit: 40384c840ea1944d7c5a392e8975ed088ecf0b37
--- 
-2.25.1
+[1/3] ASoC: simple-card-utils: use __free(device_node) for device node
+      commit: 419d1918105e5d9926ab02f1f834bb416dc76f65
+[2/3] ASoC: simple-card-utils: check port reg first on graph_get_dai_id()
+      commit: 76deee29153b8313cc9629d3db45e56024b3dd26
+[3/3] ASoC: simple-card-utils: use for_each_of_graph_port() on graph_get_dai_id()
+      commit: bd4a5c8d5356fa42a1d63b684d34cf58a21eb8f7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
