@@ -1,41 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8C71A42C4;
-	Tue, 10 Dec 2024 13:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01031AA783
+	for <linux-sound@vger.kernel.org>; Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733837759; cv=none; b=dqfLqTW1dn95Um4ZtPAX59OyVUaAi9hm329UJo5F9wmuasllH/BQpm83MHDRKbY6K8HTk2tGszvta0F0dyKmNSOjTVR6SNqAYOLhhLxN8wtYD3AThGgMsyIM0G1hM7De0KbRYhU7GR9AfPNSVFhc+EfL+AA9pdCEMBRNWAKycl8=
+	t=1733837760; cv=none; b=rpMMeQHnwegYQtuGGWFz+xirT5jDJHnQKhpDaxzDCELPHZJqE/s311ojHBeOMs0Lz8721yPqNOVmPJ6xc7qvICkzMVuBuRpKITWPNSYMZdtHJOwTFeWp1BXMo/HozIkYfjxkLBPP9C2IvQpIv0ZBDMNTTJToyQ0SKeR8BcngzlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733837759; c=relaxed/simple;
-	bh=b2I0+eKk4iK9OnVnulSzlYA0NLcSmfUjvE0er6c4iww=;
-	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OODo/nCYLBdVeY1qEUb5wiVxNX7hRiSirbgGy4Tk6ze6mET2fWWVc1dGWxg8q1K9k2RYrqeSwlth2N5fDJ7fM4TWHzT3Zzcs2VmkN8hY3cTDLDk1DDPO+xeuaBwO1sArjjlPkBwaYmXxyBxdHWVFPO/G1kix730g4IAhbs/j4gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nt6Lu3/d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733837760; c=relaxed/simple;
+	bh=fhyyYmJR1RE4/z1ffQQoh+UOhBQdaReAMtO6Muq0Jow=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=PQiy9ESgdE3oPTZClLdRe/+7fgz1NrpVmtbPqTYUI+eUbGmYSS0Av609Z6BaQzF8EnkTl5+4obwipwVVhTQZf2gWjsQjXjiI6K1DJ+Rimc4915Zd4DBMkO+o7hvvHkPtaF40olKRR9hdEuoGqswW18/LCx4Yc4WIfYVtelDmYqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aP38xwdL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nt6Lu3/d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD34EC4CED6;
-	Tue, 10 Dec 2024 13:35:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aP38xwdL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD3BC4CEDE;
+	Tue, 10 Dec 2024 13:35:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733837758;
-	bh=b2I0+eKk4iK9OnVnulSzlYA0NLcSmfUjvE0er6c4iww=;
-	h=From:To:In-Reply-To:References:Subject:Date:From;
-	b=nt6Lu3/dIXv//XgupGVTniobw37MR1F2itWDNVH8bY13QPrlj9SUF0qTMBS/3GRav
-	 WBV+isYER+30vTCC4Gtt3lRAFjlpJROLjV0ZCtaFY1SS+PK/pAN9oLC7eUnJwEhP+W
-	 iLBvCFRpArPQzIWjymSS1xunV3pXjD3VeWbOg7PBzALqbJIg2nB7tyyF4y2+PPGsO4
-	 MOxcO3EmsqRAqEjiwbDH78Gwk6CGDUULRaKZptjFQPipQZRwcXHnRrMMjFBPynWe86
-	 lhMJKb2q0h6G8WtoZJAwERUnHRTGRnxqhDToi8DmsgSbg8fyOCerbcgmZKaZdky/yk
-	 3Jzazp9hkDi4g==
+	s=k20201202; t=1733837760;
+	bh=fhyyYmJR1RE4/z1ffQQoh+UOhBQdaReAMtO6Muq0Jow=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=aP38xwdLAGwONsGnxW5PFmRmJ7PhnGil0fbNQM2KW0D01ZsxuCBG9pn3Ei9TqVDwL
+	 yg1rAfYXx7cvmkdsDKk6adKn6ClQAvgbtGQvTLbDAZlSqGc89D3fZKNPXZ1rLq8bQQ
+	 uQcsBMugu4dNvC3M2XCdK9Q9rvRjQyAEWqWnt4W2LPDbmbFnGGYxO2Px0/37lrHqaR
+	 PKgwrGdXcJRmSWCJ3mrxVXQ0EFypOl5UtObbqCZ+n4nWsZwKpss0JgNTYA4aFDeKtm
+	 Kq5OROcw6HyVredVh95NALPUcLN405VulOrp9DVkjASU8bBynNjj+IHWuiiavYVbue
+	 USgoOteVWD/Pw==
 From: Mark Brown <broonie@kernel.org>
-To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-sound@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
-In-Reply-To: <20241126115440.3929061-1-chancel.liu@nxp.com>
-References: <20241126115440.3929061-1-chancel.liu@nxp.com>
-Subject: Re: [PATCH 0/4] Add function to constrain rates
-Message-Id: <173383775650.46965.9428255940556546352.b4-ty@kernel.org>
-Date: Tue, 10 Dec 2024 13:35:56 +0000
+To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
+ bard.liao@intel.com
+In-Reply-To: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
+References: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 00/10] ASoC: Intel: boards: updates for 6.14
+Message-Id: <173383775898.46965.15311345569707612423.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 13:35:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -46,13 +45,19 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Tue, 26 Nov 2024 20:54:36 +0900, Chancel Liu wrote:
-> Platforms like i.MX93/91 only have one audio PLL. Some sample rates are
-> not supported. If the PLL source is used for 8kHz series rates, then
-> 11kHz series rates can't be supported. Add common function to constrain
-> rates according to different clock sources.
+On Fri, 06 Dec 2024 15:58:53 +0800, Bard Liao wrote:
+> 1. Fix the incorrect cfg-mics value in card->components string.
+> 2. New codec match entries supports.
 > 
-> In ASoC drivers switch to this new function.
+> Bard Liao (6):
+>   ASoC: Intel: sof_sdw: correct mach_params->dmic_num
+>   ASoC: Intel: sof_sdw: reduce log level for not using internal dmic
+>   ASoC: Intel: sof_sdw: improve the log of DAI link numbers
+>   ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb + rt1320 support
+>   ASoC: Intel: soc-acpi-intel-lnl-match: add rt713_vb_l2_rt1320_l13
+>     support
+>   ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13
+>     support
 > 
 > [...]
 
@@ -62,14 +67,26 @@ Applied to
 
 Thanks!
 
-[1/4] ASoC: fsl_utils: Add function to constrain rates
-      commit: 820bcaeb1ff5705ba907563e554f17d0deecc3fa
-[2/4] ASoC: fsl_micfil: Switch to common sample rate constraint function
-      commit: daf7a173fc7c4b652f3fe69d3b5aa520976a7d63
-[3/4] ASoC: fsl_xcvr: Add sample rate constraint
-      commit: b622b677d255b41cbfce20b66535723933a6b640
-[4/4] ASoC: fsl_sai: Add sample rate constraint
-      commit: 4edc98598be43634f87af5d3876ebec6c274d2cb
+[01/10] ASoC: Intel: sof_sdw: correct mach_params->dmic_num
+        commit: 4ab80a2961c75562ffbac1f80de151a978c31659
+[02/10] ASoC: Intel: sof_sdw: reduce log level for not using internal dmic
+        commit: 90a73807fd8a6c044cc971e53c2cc602f3841ef6
+[03/10] ASoC: Intel: sof_sdw: improve the log of DAI link numbers
+        commit: 41f91a884f9e5d9fda73fcb30d87b72fb7526216
+[04/10] ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
+        commit: 7662f0e5d55728a009229112ec820e963ed0e21c
+[05/10] ASoC: Intel: sof_sdw: Add a dev_dbg message for the SOC_SDW_CODEC_MIC quirk
+        commit: 558d516e4b0f886f15ea04c83bf3ab0bbe62e474
+[06/10] ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb + rt1320 support
+        commit: bd40d912728fc306e0861c82af4a359d8691ee16
+[07/10] ASoC: Intel: soc-acpi-intel-lnl-match: add rt713_vb_l2_rt1320_l13 support
+        commit: 124d534c581cda93aae06b37351ed76af7b98d5c
+[08/10] ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13 support
+        commit: a7ebb0255188a7a2f1c9edd5660346bd5b17fb7b
+[09/10] ASoC: Intel: soc-acpi: arl: Correct naming of a cs35l56 address struct
+        commit: a3003af649efb6f3d86d379d1e9a966ea6d5f5ab
+[10/10] ASoC: Intel: soc-acpi: arl: Add match entries for new cs42l43 laptops
+        commit: d7f671b2f566379f275c13e25a29fa7001bb278f
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
