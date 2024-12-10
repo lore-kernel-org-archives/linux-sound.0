@@ -1,110 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out198-20.us.a.mail.aliyun.com (out198-20.us.a.mail.aliyun.com [47.90.198.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCCD22756D;
-	Tue, 10 Dec 2024 09:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77AF22CBE5;
+	Tue, 10 Dec 2024 09:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733822627; cv=none; b=OlypAvE/z04I/WcY5h7SVvQdeba+Uv0vYVSQLXgW4brHbBHhW+sMpv/YQjS2Sbh1CbYsX4MpN45do+l0218GeGsFGF4qm7bYwNtERb/Wh0ngFkR1f5Pg6i0NlAnTge+NhdKhY7cnG7MlBhCDvpuDzwIC00lWJiz0ZXjndleWSHM=
+	t=1733822836; cv=none; b=nuBPHQcfH5jSIKKrvAMOz37aERrlEQ1UfXfVWmu0iAD+pol3YHxmuQTsHBRUgh5Q81s+s/PDMN/PZZ/elgCsbWqUoUDp3+zBtVBkl2WIP7cSs+1K0CJjtboI6lojpZOvfGELtBhfkyewVtFoz446AYbsM9mPh312k32p6gvtFzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733822627; c=relaxed/simple;
-	bh=OdPkZKRxS9w54vXjesm3XgUA6+R7fcnjzAuePfh5u1w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=syXMx1ysIMDnQwn8+HqRR9sUfmerEzcX73rcBUbvS2FkqjfbPHVe0gZR0UCjmXdmtZNcmmpJOrEZYsAY5YeakXX1UF20wwpFPJ+F3zVGYuGInJJnaqEzwz0w6bdl00bpHtef//wh6dPGz3LKWOjXg4CPZhrBRVJedykjFBnntHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MbZcwxVJ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MbZcwxVJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4A32C4CED6;
-	Tue, 10 Dec 2024 09:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733822627;
-	bh=OdPkZKRxS9w54vXjesm3XgUA6+R7fcnjzAuePfh5u1w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=MbZcwxVJ0LZn01l9icAdKjgzEhJBcnBCL9PyAsXxOIxgWkiaYezMGqJ9DkmJSRz0s
-	 LKdja3kZflwcMtSzqLDSNsWuIEVFwveJ7u4W4hiylyRivI7/cdRq4c0c4poBgtgAMC
-	 o3/xz4/rgmWage9jogRKpoFNaYfXGxHTMGOolzvTAEixLXak70TQqf8m8ZA5Oi9oD/
-	 OvU5dRsmkmWJC0MUWDC8CJ+YAwRUfg+em+ClZo7C/x7N8UrVvjxRc5WPfs3dg8Vd+J
-	 wKa8w0RxeI+jugelTnSnebKiyyDJGlxtxDDRvUQ0pRdKXXnu+CLpPh5FKGPRUAvEIY
-	 sv+zvcFMW78Aw==
-Message-ID: <f1e3cc94-3a29-4d1d-85dc-ea3270b0838e@kernel.org>
-Date: Tue, 10 Dec 2024 10:23:38 +0100
+	s=arc-20240116; t=1733822836; c=relaxed/simple;
+	bh=r6oSj83dD7x4l3sylY832J7bgOw+MsHJdO7sBgm1K1s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UkI/Lt7h0LbJxkKv586wqMe+klsmatuEyn09jeJefS0hP8MllcVzttsFpoWZwW913o7a4zdjwNnU2XoHGLbzGSpZkMBjnHHtylvOGDeHNvBChSWmU7M3m+X3H5Ye57WnyIHcQmI7Rac2qURQ3rIexnym9F8f1fCKtuqkPSuvhCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
+Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.aaFUBsZ_1733821864 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Tue, 10 Dec 2024 17:11:10 +0800
+From: wangweidong.a@awinic.com
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	rf@opensource.cirrus.com,
+	jack.yu@realtek.com,
+	neil.armstrong@linaro.org,
+	ivprusov@salutedevices.com,
+	zhoubinbin@loongson.cn,
+	wangweidong.a@awinic.com,
+	quic_pkumpatl@quicinc.com,
+	herve.codina@bootlin.com,
+	masahiroy@kernel.org,
+	nuno.sa@analog.com,
+	yesanishhere@gmail.com,
+	linux-sound@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: yijiangtao@awinic.com
+Subject: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88083"
+Date: Tue, 10 Dec 2024 17:10:53 +0800
+Message-ID: <20241210091054.88779-2-wangweidong.a@awinic.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241210091054.88779-1-wangweidong.a@awinic.com>
+References: <20241210091054.88779-1-wangweidong.a@awinic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88083"
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, perex@perex.cz,
- tiwai@suse.com, rf@opensource.cirrus.com, jack.yu@realtek.com,
- neil.armstrong@linaro.org, ivprusov@salutedevices.com,
- zhoubinbin@loongson.cn, quic_pkumpatl@quicinc.com, herve.codina@bootlin.com,
- masahiroy@kernel.org, nuno.sa@analog.com, yesanishhere@gmail.com,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-References: <20241210091054.88779-1-wangweidong.a@awinic.com>
- <20241210091054.88779-2-wangweidong.a@awinic.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241210091054.88779-2-wangweidong.a@awinic.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/12/2024 10:10, wangweidong.a@awinic.com wrote:
-> From: Weidong Wang <wangweidong.a@awinic.com>
-> 
-> Add the awinic,aw88083 property to support the aw88083 chip.
-> 
-> Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
-> ---
+From: Weidong Wang <wangweidong.a@awinic.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Add the awinic,aw88083 property to support the aw88083 chip.
 
-Best regards,
-Krzysztof
+Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
+---
+ Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+index 3b0b743e49c4..6676406bf2de 100644
+--- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
++++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
+@@ -18,6 +18,7 @@ properties:
+   compatible:
+     enum:
+       - awinic,aw88081
++      - awinic,aw88083
+       - awinic,aw88261
+       - awinic,aw88395
+       - awinic,aw88399
+@@ -58,6 +59,7 @@ allOf:
+           contains:
+             enum:
+               - awinic,aw88081
++              - awinic,aw88083
+               - awinic,aw88261
+     then:
+       properties:
+-- 
+2.47.0
+
