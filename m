@@ -1,94 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94E519DF4B;
-	Tue, 10 Dec 2024 13:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B7F5474C;
+	Tue, 10 Dec 2024 13:46:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733837763; cv=none; b=Gd4Jhr9idVe0MWGDjTcPILFgXoht7bJ0McWnJaUvOT5jh5VaJk6e5qULqSHmpzeu8PxGU6DAvvDbeldzK61JCxktuzJl02nSWwSM7wWDWbaqhCqXyjxK8DY7iefIGKMXuoyUkWl2b9R1YA4Be39qC6Fu7PmEwL9muSvCiJB6jSI=
+	t=1733838400; cv=none; b=n4bB2kkl+mD6I23oPLo/Rt3FAt01CwyAfnw7vHzVWsa+uQB9YYWpmM/Wam9fSP6tXRlKzliBeEDJXcdq4jZqTgzcqZP+FTQ04kDwwRyqSVIesgMprEFTb7XUdds/+NzdDMGkMRPKHcJ1C0bdDUdn4FdjcPKjXV/W+oDUVxHr2pM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733837763; c=relaxed/simple;
-	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=jN1x5m5u0tFc6GSaiM7GEuaJ2tOTNRChmzGc4zIK4p2nTociLqqNZd5GlXr+EEM3aZu8RJmtbBMJ5BlbwVm9aAIyd+pRuS0hctMncceMZNIM4+Ji446pmD4pEhLNKdF4avO3ynfcGy2iNruTjV/mTp4OKADXgKwc251bzPgiX40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0j65nno; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733838400; c=relaxed/simple;
+	bh=K8BKEsPwZfVtQ1cYfoZqbIL5ZMAioRFKM4YuvfrG6Oc=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QdXxfdyFMs1aKN7PKBoNqsnfAJp51n1Z0qwOBOwa8E8+mTuDGgQ2jXZ2KvwhWvy4ql8DzQKGKwq6RvAs5n2OiVUnBnhwdAWBzASJloULHpXTh5O+hAZRJGkIYEvLpA2xiPPJXOPzI/8tyxsVOIE96zcx4wmxzexTtnhC9wQUSOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=dTmqX/2y; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0j65nno"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A8DC4CED6;
-	Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733837763;
-	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=N0j65nnoW5difpZWYNUr+Cs8NT76udNun7Mq+hRCK7fBs3RaOnrmGvKj9jsuJawip
-	 6VdcTLjsJS2bPYHl6LMtRxjRC0D5fc17SglMOrggFOp8rYnnQQDlLv3QXrbzC0+ua6
-	 G8D4d04M2HTmXcmvcDm295mN3PCrxGXNnLg8hBHRqSuEgEf4OriR72gQIX+GYPA/+b
-	 Gs/7EmvB2kEXskSCunigRkIRYfZ9JEE78BEUlqgrK5OBoRGWLC9OWhcDQb288zZo2+
-	 QMpcib7tHY3jVLMG7aMAHBBj3L5GpDxq9Kdga2Ij5JU7iF9dFFOmmYdaTnzZExrKmj
-	 tWmeG3wRW+T2A==
-From: Mark Brown <broonie@kernel.org>
-To: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org, 
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, 
- linux-sound@vger.kernel.org, lander@jagmn.com, codekipper@gmail.com
-Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
- jernej.skrabec@gmail.com, samuel@sholland.org, andre.przywara@arm.com, 
- wens@csie.org, u.kleine-koenig@baylibre.com
-In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
-References: <20241111165600.57219-1-codekipper@gmail.com>
-Subject: Re: [PATCH 0/3] ASoC: sun4i-spdif: Add 24bit support
-Message-Id: <173383776048.46965.5173929465030260982.b4-ty@kernel.org>
-Date: Tue, 10 Dec 2024 13:36:00 +0000
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="dTmqX/2y"
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA9RBJK019832;
+	Tue, 10 Dec 2024 14:46:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	1xH1hRPovKqSjZCOM05XbpqMkFeQvHRRRSV7ye98WJk=; b=dTmqX/2yxaM92omG
+	amKHH4saqd8K5qM4vp/lGUry64V4q/DRMPl+mNuHYTE8MD7kHlpEOVM1caVEuX9Z
+	bCDKVZL/VUGkeTKhxOK3UZtsdiJda16fu4xu3EIBY15nU4oVGvv8U8Rq73WosxOo
+	rxNXI05hylGaahES/Tdo7IN96WdWLan5mIYtddR3KaUPth47Sr55DS1rvSvjiz1b
+	2RQyOEU+i+oSGM9NhBCWUanTiO8gBNkGe1+wlL+tFj+IpiW58W70hCXNxTjYGbKd
+	5NC2kBY/lVWT+W3efjEVWWEyhu2oKhYecbi6qbrqhGGONqF52ivxKX0mXm1Xuj0l
+	DkZfPA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 43cek1vwnw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 14:46:27 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4593740053;
+	Tue, 10 Dec 2024 14:45:35 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9283C2591FE;
+	Tue, 10 Dec 2024 14:45:10 +0100 (CET)
+Received: from localhost (10.252.12.81) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 10 Dec
+ 2024 14:45:10 +0100
+From: Olivier Moysan <olivier.moysan@foss.st.com>
+To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+CC: Olivier Moysan <olivier.moysan@foss.st.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 3/3] ASoC: hdmi-codec: allow to refine formats actually supported
+Date: Tue, 10 Dec 2024 14:42:54 +0100
+Message-ID: <20241210134254.2967524-4-olivier.moysan@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
+References: <20241210134254.2967524-1-olivier.moysan@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
 
-On Mon, 11 Nov 2024 17:55:28 +0100, codekipper@gmail.com wrote:
-> I've tested this patch series on the Allwinner H3, A64, H6 and H313 SoCs
-> up to 192KHz.
-> 24bit support is working on my H313 board but 16bit plays a bit slow and
-> I suspect that there is an issue with the clock setups. This is even
-> present without this patch stack. I would look to address this asap,
-> but for now can you please review what's here.
-> BR,
-> CK
-> 
-> [...]
+Currently the hdmi-codec driver registers all the formats that are
+allowed on the I2S bus. Add i2s_formats field to codec data, to allow
+the hdmi codec client to refine the list of the audio I2S formats
+actually supported.
 
-Applied to
+Signed-off-by: Olivier Moysan <olivier.moysan@foss.st.com>
+---
+ include/sound/hdmi-codec.h    | 1 +
+ sound/soc/codecs/hdmi-codec.c | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/3] ASoC: sun4i-spdif: Add clock multiplier settings
-      commit: 0a2319308de88b9e819c0b43d0fccd857123eb31
-[2/3] ASoC: sun4i-spdif: Always set the valid data to be the MSB
-      commit: 80ac12ffb3a9e19a2f11eb1975ed31c9a39183c8
-[3/3] ASoC: sun4i-spdif: Add working 24bit audio support
-      commit: 6e750d3ec7410c8d3aa6a006d37142eb837b3c03
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/include/sound/hdmi-codec.h b/include/sound/hdmi-codec.h
+index 5e1a9eafd10f..a65da989dab1 100644
+--- a/include/sound/hdmi-codec.h
++++ b/include/sound/hdmi-codec.h
+@@ -122,6 +122,7 @@ struct hdmi_codec_ops {
+ /* HDMI codec initalization data */
+ struct hdmi_codec_pdata {
+ 	const struct hdmi_codec_ops *ops;
++	u64 i2s_formats;
+ 	uint i2s:1;
+ 	uint no_i2s_playback:1;
+ 	uint no_i2s_capture:1;
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index d9df29a26f4f..3f9dfdbc693e 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -1077,6 +1077,10 @@ static int hdmi_codec_probe(struct platform_device *pdev)
+ 	if (hcd->i2s) {
+ 		daidrv[i] = hdmi_i2s_dai;
+ 		daidrv[i].playback.channels_max = hcd->max_i2s_channels;
++		if (hcd->i2s_formats) {
++			daidrv[i].playback.formats = hcd->i2s_formats;
++			daidrv[i].capture.formats = hcd->i2s_formats;
++		}
+ 		if (hcd->no_i2s_playback)
+ 			memset(&daidrv[i].playback, 0,
+ 			       sizeof(daidrv[i].playback));
+-- 
+2.25.1
 
