@@ -1,47 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D238C1AA78C;
-	Tue, 10 Dec 2024 13:00:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8C71A42C4;
+	Tue, 10 Dec 2024 13:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733835628; cv=none; b=Ei4OvTfQQShpupSLFkwQMXGgJ+Ajv/yaE6eFA6P6q9gGsZisKNKlXs3IhA60m6Rli13cs17wQ0YPRDv6boRO6lUAPbVYfNkDip9qF4eRC2RtDY4JeiUdoBa7Rx3NvoUtEPcyudtf84DG9n7zzsFBFTHcG6w4c8ZA0/rnYk6cxaI=
+	t=1733837759; cv=none; b=dqfLqTW1dn95Um4ZtPAX59OyVUaAi9hm329UJo5F9wmuasllH/BQpm83MHDRKbY6K8HTk2tGszvta0F0dyKmNSOjTVR6SNqAYOLhhLxN8wtYD3AThGgMsyIM0G1hM7De0KbRYhU7GR9AfPNSVFhc+EfL+AA9pdCEMBRNWAKycl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733835628; c=relaxed/simple;
-	bh=1bMa4RwxSGLHT6yZdYAi4CzytNOmSpdDawd9zxd0lT0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HWaZxK0DfSwOlVswcyCPXS9J0gO9hEGsf7oKH3jbDdcruMB+mLzxRHZKwC8DZ4bAEe2nndBsEyi90jXi+6smim+vAfKCuPzZSTGQZ0/WBpnBgfhOxK4UFk+6RTdxId3AcThJY5NlE+/6YyWSfMXbugGD0ihyuMwzXMgjja/CWQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDSk6Ptz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733837759; c=relaxed/simple;
+	bh=b2I0+eKk4iK9OnVnulSzlYA0NLcSmfUjvE0er6c4iww=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OODo/nCYLBdVeY1qEUb5wiVxNX7hRiSirbgGy4Tk6ze6mET2fWWVc1dGWxg8q1K9k2RYrqeSwlth2N5fDJ7fM4TWHzT3Zzcs2VmkN8hY3cTDLDk1DDPO+xeuaBwO1sArjjlPkBwaYmXxyBxdHWVFPO/G1kix730g4IAhbs/j4gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nt6Lu3/d; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDSk6Ptz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F0C6C4CEDF;
-	Tue, 10 Dec 2024 13:00:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nt6Lu3/d"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD34EC4CED6;
+	Tue, 10 Dec 2024 13:35:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733835628;
-	bh=1bMa4RwxSGLHT6yZdYAi4CzytNOmSpdDawd9zxd0lT0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=UDSk6PtzIE3aVE3METwdz5z1S7ap+TxjzQUTNcogBP/qi4cz2sp4ZgWWq25OL5gyl
-	 jgATczp4uTxgwfiBwTHriylMmF3CSxYtrgtzCkgdfygm6FNnCMGrFvjMwBKh+/5WjG
-	 tW4a4IL1pFQIJrDPmtgKvHQ+AsQKYe85qsAUyqY/7VUkxKA79gNvhITK61JVteQvoK
-	 i4YQNO5PIyY/dux9i4Ex0Gx8LdgGEN3o/e6YvMbw+QKgB8L6thW1zxJp7lQ9CFpSIj
-	 oKrrxZ9lwnIX2ik89PFi75HGfZwIDhzAVbzBciG5L2GL9Tapidh4UI0d2ARWMKpJsI
-	 93MLagddlzgpA==
+	s=k20201202; t=1733837758;
+	bh=b2I0+eKk4iK9OnVnulSzlYA0NLcSmfUjvE0er6c4iww=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=nt6Lu3/dIXv//XgupGVTniobw37MR1F2itWDNVH8bY13QPrlj9SUF0qTMBS/3GRav
+	 WBV+isYER+30vTCC4Gtt3lRAFjlpJROLjV0ZCtaFY1SS+PK/pAN9oLC7eUnJwEhP+W
+	 iLBvCFRpArPQzIWjymSS1xunV3pXjD3VeWbOg7PBzALqbJIg2nB7tyyF4y2+PPGsO4
+	 MOxcO3EmsqRAqEjiwbDH78Gwk6CGDUULRaKZptjFQPipQZRwcXHnRrMMjFBPynWe86
+	 lhMJKb2q0h6G8WtoZJAwERUnHRTGRnxqhDToi8DmsgSbg8fyOCerbcgmZKaZdky/yk
+	 3Jzazp9hkDi4g==
 From: Mark Brown <broonie@kernel.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-arm-msm@vger.kernel.org, 
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Dzmitry Sankouski <dsankouski@gmail.com>
-In-Reply-To: <20241209094442.38900-1-krzysztof.kozlowski@linaro.org>
-References: <20241209094442.38900-1-krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 1/2] ASoC: codecs: wcd9335: Add define for number of
- DAIs
-Message-Id: <173383562586.33694.2386567230568830171.b4-ty@kernel.org>
-Date: Tue, 10 Dec 2024 13:00:25 +0000
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-sound@vger.kernel.org, Chancel Liu <chancel.liu@nxp.com>
+In-Reply-To: <20241126115440.3929061-1-chancel.liu@nxp.com>
+References: <20241126115440.3929061-1-chancel.liu@nxp.com>
+Subject: Re: [PATCH 0/4] Add function to constrain rates
+Message-Id: <173383775650.46965.9428255940556546352.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 13:35:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -52,12 +46,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Mon, 09 Dec 2024 10:44:41 +0100, Krzysztof Kozlowski wrote:
-> Number of DAIs in the codec is not really a binding, because it could
-> grow, e.g. when we implement missing features.  Add the define to the
-> driver, which will replace the one in the binding header.
+On Tue, 26 Nov 2024 20:54:36 +0900, Chancel Liu wrote:
+> Platforms like i.MX93/91 only have one audio PLL. Some sample rates are
+> not supported. If the PLL source is used for 8kHz series rates, then
+> 11kHz series rates can't be supported. Add common function to constrain
+> rates according to different clock sources.
 > 
+> In ASoC drivers switch to this new function.
 > 
+> [...]
 
 Applied to
 
@@ -65,10 +62,14 @@ Applied to
 
 Thanks!
 
-[1/2] ASoC: codecs: wcd9335: Add define for number of DAIs
-      commit: 76c29db042e4f0fdea75c76cd4ad5f36080cd1c9
-[2/2] ASoC: dt-bindings: qcom,wcd9335: Drop number of DAIs from the header
-      commit: e9705da8472f306b44cbe1992ea2161bb96ece6e
+[1/4] ASoC: fsl_utils: Add function to constrain rates
+      commit: 820bcaeb1ff5705ba907563e554f17d0deecc3fa
+[2/4] ASoC: fsl_micfil: Switch to common sample rate constraint function
+      commit: daf7a173fc7c4b652f3fe69d3b5aa520976a7d63
+[3/4] ASoC: fsl_xcvr: Add sample rate constraint
+      commit: b622b677d255b41cbfce20b66535723933a6b640
+[4/4] ASoC: fsl_sai: Add sample rate constraint
+      commit: 4edc98598be43634f87af5d3876ebec6c274d2cb
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
