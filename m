@@ -1,88 +1,101 @@
-Received: from out198-20.us.a.mail.aliyun.com (out198-20.us.a.mail.aliyun.com [47.90.198.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77AF22CBE5;
-	Tue, 10 Dec 2024 09:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64396226549;
+	Tue, 10 Dec 2024 09:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733822836; cv=none; b=nuBPHQcfH5jSIKKrvAMOz37aERrlEQ1UfXfVWmu0iAD+pol3YHxmuQTsHBRUgh5Q81s+s/PDMN/PZZ/elgCsbWqUoUDp3+zBtVBkl2WIP7cSs+1K0CJjtboI6lojpZOvfGELtBhfkyewVtFoz446AYbsM9mPh312k32p6gvtFzg=
+	t=1733822983; cv=none; b=KdslbSY/AsNJHOFiUsY7tMOZl6pjVkLXeQwof6BA15vAqXSJSpgpEy9MTzdwMlBuSJ/RqTpraXRf6a8+3TM+lM8N09F4ekEom+XKNzdiDJD5BsSiY+UxrZwYCwXK3C2ROxTpa9yEzCkewspZLDXAIt1LEnYpb3cry7e/aAimMbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733822836; c=relaxed/simple;
-	bh=r6oSj83dD7x4l3sylY832J7bgOw+MsHJdO7sBgm1K1s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UkI/Lt7h0LbJxkKv586wqMe+klsmatuEyn09jeJefS0hP8MllcVzttsFpoWZwW913o7a4zdjwNnU2XoHGLbzGSpZkMBjnHHtylvOGDeHNvBChSWmU7M3m+X3H5Ye57WnyIHcQmI7Rac2qURQ3rIexnym9F8f1fCKtuqkPSuvhCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.aaFUBsZ_1733821864 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 10 Dec 2024 17:11:10 +0800
-From: wangweidong.a@awinic.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	rf@opensource.cirrus.com,
-	jack.yu@realtek.com,
-	neil.armstrong@linaro.org,
-	ivprusov@salutedevices.com,
-	zhoubinbin@loongson.cn,
-	wangweidong.a@awinic.com,
-	quic_pkumpatl@quicinc.com,
-	herve.codina@bootlin.com,
-	masahiroy@kernel.org,
-	nuno.sa@analog.com,
-	yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-Subject: [PATCH V1 1/2] ASoC: dt-bindings: Add schema for "awinic,aw88083"
-Date: Tue, 10 Dec 2024 17:10:53 +0800
-Message-ID: <20241210091054.88779-2-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241210091054.88779-1-wangweidong.a@awinic.com>
-References: <20241210091054.88779-1-wangweidong.a@awinic.com>
+	s=arc-20240116; t=1733822983; c=relaxed/simple;
+	bh=nSnXU+fg189Nx6ZOb9wZiFIXD0OOIZENaWUmLYaSdiw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hcRsG+HNySdP2wcxEeVzHnGF0C9ii1PFkUQRusCw7nYGy9RyFpPijhzPqfONzVZa8hWnES1Gk8W/9ITRWo/mcIne7ENtEhoANfQPM/E0C0aYAVYy8LjdgKGghULG5+GmfQ/cOJTnEnpj4coVSV75MXe0pkjOJM1e30pio6aDFYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ly0DlkXZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ly0DlkXZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B182C4CED6;
+	Tue, 10 Dec 2024 09:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733822982;
+	bh=nSnXU+fg189Nx6ZOb9wZiFIXD0OOIZENaWUmLYaSdiw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ly0DlkXZB+SZBuuH/xP9VZyp1sgOaP90LccakGQzXKIM2NT1M/7Sh3Cx9WucnC0K+
+	 S0WRp0tj1L1Qau9Troi4kqhdNqbd2wSUysrGZI/ojuCAUrNJKYgUDpgc5uNM6IWnr8
+	 NmViTaNlYR7F5jtRv+krxr1XtK/sp1p/E2oAdg8GQNvU1NjPVkF83PbEe75kJz6YW5
+	 31MwOF78QR0hTHjD0xse7kwJnAH1ixn2mVXwflI3x/cmGTb+GxBOcKXyu2ciiQZXig
+	 suByIpc0arlkOPX7ZaTzNhqqKilx01RflLqnhd8m8cODqWGYJWAxhx6e/iaVnT+QqE
+	 NU3PChTo8vXeA==
+Date: Tue, 10 Dec 2024 10:29:39 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ASoC: dt-bindings: convert rt5682.txt to dt-schema
+Message-ID: <uedkwiuuwi3tfqvi3zzcnays4ytl7l2phg5g6wqwire6ywc2ce@goouwpzb5hi6>
+References: <20241204-topic-misc-rt5682-convert-v1-1-0fedc4ab15e8@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241204-topic-misc-rt5682-convert-v1-1-0fedc4ab15e8@linaro.org>
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+On Wed, Dec 04, 2024 at 11:52:34AM +0100, Neil Armstrong wrote:
+> +  realtek,dmic-delay-ms:
+> +    description:
+> +      Set the delay time (ms) for the requirement of the particular DMIC.
+> +
+> +  realtek,amic-delay-ms:
+> +    description:
+> +      Set the delay time (ms) for the requirement of the particular platform or AMIC.
 
-Add the awinic,aw88083 property to support the aw88083 chip.
+Please wrap at 80.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
----
- Documentation/devicetree/bindings/sound/awinic,aw88395.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+This wasn't present in the old binding, so mention reason of adding it
+in the commit msg.
 
-diff --git a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-index 3b0b743e49c4..6676406bf2de 100644
---- a/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-+++ b/Documentation/devicetree/bindings/sound/awinic,aw88395.yaml
-@@ -18,6 +18,7 @@ properties:
-   compatible:
-     enum:
-       - awinic,aw88081
-+      - awinic,aw88083
-       - awinic,aw88261
-       - awinic,aw88395
-       - awinic,aw88399
-@@ -58,6 +59,7 @@ allOf:
-           contains:
-             enum:
-               - awinic,aw88081
-+              - awinic,aw88083
-               - awinic,aw88261
-     then:
-       properties:
--- 
-2.47.0
+> +
+> +  realtek,dmic-clk-driving-high:
+> +    type: boolean
+> +    description:
+> +      Set the high driving of the DMIC clock out.
+> +
+> +  clocks:
+> +    items:
+> +      - description: phandle and clock specifier for codec MCLK.
+
+...
+
+> +
+> +  DBVDD-supply:
+> +    description: Regulator supplying I/O power through the DBVDD pin.
+> +
+> +  LDO1-IN-supply:
+> +    description: Regulator supplying power to the digital core and charge pump
+> +      through the LDO1_IN pin.
+> +
+> +unevaluatedProperties: false
+
+And since I expect a new version: please move unevaluatedProps after
+required: block.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - AVDD-supply
+> +  - VBAT-supply
+> +  - MICVDD-supply
+> +  - DBVDD-supply
+> +  - LDO1-IN-supply
+
+
+Best regards,
+Krzysztof
 
