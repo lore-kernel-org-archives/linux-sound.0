@@ -1,40 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01031AA783
-	for <linux-sound@vger.kernel.org>; Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94E519DF4B;
+	Tue, 10 Dec 2024 13:36:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733837760; cv=none; b=rpMMeQHnwegYQtuGGWFz+xirT5jDJHnQKhpDaxzDCELPHZJqE/s311ojHBeOMs0Lz8721yPqNOVmPJ6xc7qvICkzMVuBuRpKITWPNSYMZdtHJOwTFeWp1BXMo/HozIkYfjxkLBPP9C2IvQpIv0ZBDMNTTJToyQ0SKeR8BcngzlQ=
+	t=1733837763; cv=none; b=Gd4Jhr9idVe0MWGDjTcPILFgXoht7bJ0McWnJaUvOT5jh5VaJk6e5qULqSHmpzeu8PxGU6DAvvDbeldzK61JCxktuzJl02nSWwSM7wWDWbaqhCqXyjxK8DY7iefIGKMXuoyUkWl2b9R1YA4Be39qC6Fu7PmEwL9muSvCiJB6jSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733837760; c=relaxed/simple;
-	bh=fhyyYmJR1RE4/z1ffQQoh+UOhBQdaReAMtO6Muq0Jow=;
+	s=arc-20240116; t=1733837763; c=relaxed/simple;
+	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=PQiy9ESgdE3oPTZClLdRe/+7fgz1NrpVmtbPqTYUI+eUbGmYSS0Av609Z6BaQzF8EnkTl5+4obwipwVVhTQZf2gWjsQjXjiI6K1DJ+Rimc4915Zd4DBMkO+o7hvvHkPtaF40olKRR9hdEuoGqswW18/LCx4Yc4WIfYVtelDmYqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aP38xwdL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=jN1x5m5u0tFc6GSaiM7GEuaJ2tOTNRChmzGc4zIK4p2nTociLqqNZd5GlXr+EEM3aZu8RJmtbBMJ5BlbwVm9aAIyd+pRuS0hctMncceMZNIM4+Ji446pmD4pEhLNKdF4avO3ynfcGy2iNruTjV/mTp4OKADXgKwc251bzPgiX40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0j65nno; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aP38xwdL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD3BC4CEDE;
-	Tue, 10 Dec 2024 13:35:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0j65nno"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9A8DC4CED6;
+	Tue, 10 Dec 2024 13:36:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733837760;
-	bh=fhyyYmJR1RE4/z1ffQQoh+UOhBQdaReAMtO6Muq0Jow=;
+	s=k20201202; t=1733837763;
+	bh=s2tWExV+CNbckvtXA8OAEn8h1cvGzaeoygyrproyKQA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=aP38xwdLAGwONsGnxW5PFmRmJ7PhnGil0fbNQM2KW0D01ZsxuCBG9pn3Ei9TqVDwL
-	 yg1rAfYXx7cvmkdsDKk6adKn6ClQAvgbtGQvTLbDAZlSqGc89D3fZKNPXZ1rLq8bQQ
-	 uQcsBMugu4dNvC3M2XCdK9Q9rvRjQyAEWqWnt4W2LPDbmbFnGGYxO2Px0/37lrHqaR
-	 PKgwrGdXcJRmSWCJ3mrxVXQ0EFypOl5UtObbqCZ+n4nWsZwKpss0JgNTYA4aFDeKtm
-	 Kq5OROcw6HyVredVh95NALPUcLN405VulOrp9DVkjASU8bBynNjj+IHWuiiavYVbue
-	 USgoOteVWD/Pw==
+	b=N0j65nnoW5difpZWYNUr+Cs8NT76udNun7Mq+hRCK7fBs3RaOnrmGvKj9jsuJawip
+	 6VdcTLjsJS2bPYHl6LMtRxjRC0D5fc17SglMOrggFOp8rYnnQQDlLv3QXrbzC0+ua6
+	 G8D4d04M2HTmXcmvcDm295mN3PCrxGXNnLg8hBHRqSuEgEf4OriR72gQIX+GYPA/+b
+	 Gs/7EmvB2kEXskSCunigRkIRYfZ9JEE78BEUlqgrK5OBoRGWLC9OWhcDQb288zZo2+
+	 QMpcib7tHY3jVLMG7aMAHBBj3L5GpDxq9Kdga2Ij5JU7iF9dFFOmmYdaTnzZExrKmj
+	 tWmeG3wRW+T2A==
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
-References: <20241206075903.195730-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 00/10] ASoC: Intel: boards: updates for 6.14
-Message-Id: <173383775898.46965.15311345569707612423.b4-ty@kernel.org>
-Date: Tue, 10 Dec 2024 13:35:58 +0000
+To: linux-kernel@vger.kernel.org, linux-arm-kernel@vger.kernel.org, 
+ linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, 
+ linux-sound@vger.kernel.org, lander@jagmn.com, codekipper@gmail.com
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ jernej.skrabec@gmail.com, samuel@sholland.org, andre.przywara@arm.com, 
+ wens@csie.org, u.kleine-koenig@baylibre.com
+In-Reply-To: <20241111165600.57219-1-codekipper@gmail.com>
+References: <20241111165600.57219-1-codekipper@gmail.com>
+Subject: Re: [PATCH 0/3] ASoC: sun4i-spdif: Add 24bit support
+Message-Id: <173383776048.46965.5173929465030260982.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 13:36:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,19 +48,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 06 Dec 2024 15:58:53 +0800, Bard Liao wrote:
-> 1. Fix the incorrect cfg-mics value in card->components string.
-> 2. New codec match entries supports.
-> 
-> Bard Liao (6):
->   ASoC: Intel: sof_sdw: correct mach_params->dmic_num
->   ASoC: Intel: sof_sdw: reduce log level for not using internal dmic
->   ASoC: Intel: sof_sdw: improve the log of DAI link numbers
->   ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb + rt1320 support
->   ASoC: Intel: soc-acpi-intel-lnl-match: add rt713_vb_l2_rt1320_l13
->     support
->   ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13
->     support
+On Mon, 11 Nov 2024 17:55:28 +0100, codekipper@gmail.com wrote:
+> I've tested this patch series on the Allwinner H3, A64, H6 and H313 SoCs
+> up to 192KHz.
+> 24bit support is working on my H313 board but 16bit plays a bit slow and
+> I suspect that there is an issue with the clock setups. This is even
+> present without this patch stack. I would look to address this asap,
+> but for now can you please review what's here.
+> BR,
+> CK
 > 
 > [...]
 
@@ -67,26 +66,12 @@ Applied to
 
 Thanks!
 
-[01/10] ASoC: Intel: sof_sdw: correct mach_params->dmic_num
-        commit: 4ab80a2961c75562ffbac1f80de151a978c31659
-[02/10] ASoC: Intel: sof_sdw: reduce log level for not using internal dmic
-        commit: 90a73807fd8a6c044cc971e53c2cc602f3841ef6
-[03/10] ASoC: Intel: sof_sdw: improve the log of DAI link numbers
-        commit: 41f91a884f9e5d9fda73fcb30d87b72fb7526216
-[04/10] ASoC: Intel: sof_sdw: Correct quirk for Lenovo Yoga Slim 7
-        commit: 7662f0e5d55728a009229112ec820e963ed0e21c
-[05/10] ASoC: Intel: sof_sdw: Add a dev_dbg message for the SOC_SDW_CODEC_MIC quirk
-        commit: 558d516e4b0f886f15ea04c83bf3ab0bbe62e474
-[06/10] ASoC: Intel: soc-acpi-intel-ptl-match: add rt712_vb + rt1320 support
-        commit: bd40d912728fc306e0861c82af4a359d8691ee16
-[07/10] ASoC: Intel: soc-acpi-intel-lnl-match: add rt713_vb_l2_rt1320_l13 support
-        commit: 124d534c581cda93aae06b37351ed76af7b98d5c
-[08/10] ASoC: Intel: soc-acpi-intel-ptl-match: add rt713_vb_l2_rt1320_l13 support
-        commit: a7ebb0255188a7a2f1c9edd5660346bd5b17fb7b
-[09/10] ASoC: Intel: soc-acpi: arl: Correct naming of a cs35l56 address struct
-        commit: a3003af649efb6f3d86d379d1e9a966ea6d5f5ab
-[10/10] ASoC: Intel: soc-acpi: arl: Add match entries for new cs42l43 laptops
-        commit: d7f671b2f566379f275c13e25a29fa7001bb278f
+[1/3] ASoC: sun4i-spdif: Add clock multiplier settings
+      commit: 0a2319308de88b9e819c0b43d0fccd857123eb31
+[2/3] ASoC: sun4i-spdif: Always set the valid data to be the MSB
+      commit: 80ac12ffb3a9e19a2f11eb1975ed31c9a39183c8
+[3/3] ASoC: sun4i-spdif: Add working 24bit audio support
+      commit: 6e750d3ec7410c8d3aa6a006d37142eb837b3c03
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
