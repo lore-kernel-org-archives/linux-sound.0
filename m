@@ -1,82 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0990B1A3AB8;
-	Tue, 10 Dec 2024 12:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 453C41A0BC0;
+	Tue, 10 Dec 2024 13:00:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733835285; cv=none; b=guNkhjTdRqsAOlBNo1auEdM2YE5ywcFr0u+e0obOUdtQc1iF9hm/TnVMgFscW9WLTC7RApxBy7AimIiR83SFfUQ6eGXdmvOdKh/OnqOXBpywKgolTwHJPC9Iwq3CQpxf5LQoqlkaNboql5YaRuq7PJM+VXWW31I5ksFfnLmVALU=
+	t=1733835623; cv=none; b=ap1WjUDKr1jst5rPZ10rS7PUO8ftehBU336T9/0E75Yiu2NFB4ICx7yY1EgSvrtbfNUqqadU7G7Sd4AcYjDTI+L/o9PmZRfF82MAM30fEhYt7b4+i9pk5h1nlnVoXzRMCpnFwwCkIuy8cfauFnIYyc5Kjliw6fPTZTJb1DjECN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733835285; c=relaxed/simple;
-	bh=CPp3kxBq4AszQqqvCIkOXMQnJT5LAeqC4Snv1FDwMr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uNXknjhBenhifNKbKj8XYsoCx7XeEIYlGd0lK8CFkIPcXKHsCTIxIUaZEjRasbrahs/yQ6S+o1z+g5jUvJfw7snrWfjREb29Nmh2bTt9sNO7rS38Lrqsq7Kj082WofcgBFSRkm4ulUFe8d/E69SzEqT2CDIm39yroaqADbkhjWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MPHhLSEW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733835623; c=relaxed/simple;
+	bh=p9Ww/rO7ZyXsPFuMy9KT1BeDWK1Ezu+jV9hVjPJEsD4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=uUn49vUk+5RvJy/ouXpO5EjQn2E+tSLGfPqhPXc14UF5vys6Z5aDHewTBfzWheg/TnBe4q05IA+h1gi5XduA9Mb+3SUuVMSVygBGzpq/iSSwLwNUCaED6hz3ckUI4VapcqgT3r89mDgJl3WCp+VAB33AGpuZ7MikUSzHlBkFjXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rAxlVYaY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPHhLSEW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31EFC4CED6;
-	Tue, 10 Dec 2024 12:54:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rAxlVYaY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42864C4CED6;
+	Tue, 10 Dec 2024 13:00:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733835284;
-	bh=CPp3kxBq4AszQqqvCIkOXMQnJT5LAeqC4Snv1FDwMr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPHhLSEW6WV7DXYU3ifKQD8pgmllav1Cx94qOQ1MZ5TEaFUyeLan/E+2Tf1JX0Gck
-	 kC3BZb58b1+En4kXBwGDArUnNiZGktDvYlY/8oNCdD4mlg/TQzsnudvtikpaPELhcW
-	 Yf0VY1MQUFVWIlvJ20NM05J6/F1tunkRU3I6BnGMAxQ+9tqAL5jrLwUL0vi2SEZllF
-	 y7GI76IfJf/7m3jFQZtefPXz6Dwi5FAGHmYckrSHV6FAtWGnWjHctMVIE/VWips7iy
-	 E3JOQUw0urGMYUjjpDtKXo8YE5k66YCTcLaaQxIJIgwAjvH4krLIhdytWBoAVzDwFW
-	 +9pGJepMUH28A==
-Date: Tue, 10 Dec 2024 12:54:40 +0000
+	s=k20201202; t=1733835622;
+	bh=p9Ww/rO7ZyXsPFuMy9KT1BeDWK1Ezu+jV9hVjPJEsD4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=rAxlVYaY65ty604W3LIhqPvaUjzu9kw/TCslECiIBllIgrlvtxMk5QWw29vCQ+GEN
+	 hMlL6F4XOsSQ3joeSPAEb3orXtCK79Er5wKePT/spXpI3ulyYQzLcVAQPxyoNLHdVM
+	 YRbIWYqEu+UFfuw1R+vIYI8HPYM0qoeUSQ+ZSc9kC2VadhF1YfMScsJ6Fg83ygA80a
+	 lYmiw+8hc6dcOb9uuYzojaojM38+X9r3x0DB/kQPD1TU9fglAEkSLK+/zW5WyAySSZ
+	 nt+C51xPCUCazPwUPQf5HyFYYKkRq9/HOWUUBYLqOzFliD5tbUcWTQAZtWCRF9uI8T
+	 SR3JUYd3fTVrQ==
 From: Mark Brown <broonie@kernel.org>
-To: anish kumar <yesanishhere@gmail.com>
-Cc: ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
-	tiwai@suse.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-Message-ID: <d7cb771e-9389-41f1-a9db-b72fd907cce3@sirena.org.uk>
-References: <20241207193441.15767-1-yesanishhere@gmail.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Marek Vasut <marex@denx.de>, 
+ Andrew Davis <afd@ti.com>
+Cc: patches@opensource.cirrus.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241203200001.197295-1-afd@ti.com>
+References: <20241203200001.197295-1-afd@ti.com>
+Subject: Re: [PATCH 01/21] ASoC: ad193x: Remove use of i2c_match_id()
+Message-Id: <173383562098.33694.17429584672866095878.b4-ty@kernel.org>
+Date: Tue, 10 Dec 2024 13:00:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="YN7N9+7H2hBoG3Xc"
-Content-Disposition: inline
-In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
-X-Cookie: Leave no stone unturned.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
+On Tue, 03 Dec 2024 13:59:41 -0600, Andrew Davis wrote:
+> The function i2c_match_id() is used to fetch the matching ID from
+> the i2c_device_id table. This is often used to then retrieve the
+> matching driver_data. This can be done in one step with the helper
+> i2c_get_match_data().
+> 
+> This helper has a couple other benefits:
+>  * It doesn't need the i2c_device_id passed in so we do not need
+>    to have that forward declared, allowing us to remove those or
+>    move the i2c_device_id table down to its more natural spot
+>    with the other module info.
+>  * It also checks for device match data, which allows for OF and
+>    ACPI based probing. That means we do not have to manually check
+>    those first and can remove those checks.
+> 
+> [...]
 
---YN7N9+7H2hBoG3Xc
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> Updated documentation to provide more details
-> for codec-to-codec connection especially around
-> the scenarios and DAPM core details for C2C
-> creation.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Please submit patches using subject lines reflecting the style for the
-subsystem, this makes it easier for people to identify relevant patches.
-Look at what existing commits in the area you're changing are doing and
-make sure your subject lines visually resemble what they're doing.
-There's no need to resubmit to fix this alone.
+Thanks!
 
---YN7N9+7H2hBoG3Xc
-Content-Type: application/pgp-signature; name="signature.asc"
+[01/21] ASoC: ad193x: Remove use of i2c_match_id()
+        commit: 8c491103c946fb760005044a74c82d7cf6c6f6b4
+[02/21] ASoC: adau1761: Remove use of i2c_match_id()
+        commit: 56731c80fc3b17850e49913cec262c2bcaa88dcb
+[03/21] ASoC: adau1781: Remove use of i2c_match_id()
+        commit: f9812846ffdb1f5686154cae18ca8cc765232967
+[04/21] ASoC: adau1977: Remove use of i2c_match_id()
+        commit: d6ba6f50fae4170a8b7058da81dc2644913a5216
+[05/21] ASoC: alc5623: Remove use of i2c_match_id()
+        commit: b5e8f7abbb73d0f71ec8742c990c7e1ffa44a554
+[06/21] ASoC: alc5632: Remove use of i2c_match_id()
+        commit: 99816f3fa964380a50ccc898b08cc7d9dd58c764
+[07/21] ASoC: max98088: Remove use of i2c_match_id()
+        commit: ebf572bfefcd27584e1b32b0dd51ba71f3fe33d6
+[08/21] ASoC: max98090: Remove use of i2c_match_id()
+        commit: db2aaa0943803fbba606e3b59b5cf900eced2a5c
+[09/21] ASoC: max98095: Remove use of i2c_match_id()
+        commit: a8bb9855de4c5ca5b586814b7f8cc4a77d9e8b9c
+[10/21] ASoC: pcm186x: Remove use of i2c_match_id()
+        commit: b9f99efcc59ae86bcf238719e29427e9519b3878
+[11/21] ASoc: pcm6240: Remove use of i2c_match_id()
+        commit: 0a7bd3dba60a967032ce8c05b4d81350f01ecc8a
+[12/21] ASoC: ssm2602: Remove use of i2c_match_id()
+        commit: 6c978c1baeb8449114e8cb35c68832e903f713d8
+[13/21] ASoC: tas2562: Remove use of i2c_match_id()
+        commit: eb4b5da0ecf61135533574285bacb9dab4fc4703
+[14/21] ASoC: tas2781: Remove use of i2c_match_id()
+        commit: af4cffb250ec9e26a76c90cf753f1a6630811eed
+[15/21] ASoC: tas5720: Remove use of i2c_match_id()
+        commit: 06c61070173803a5341be31ff5281d15cc133e5d
+[16/21] ASoC: tlv320adc3xxx: Remove use of i2c_match_id()
+        commit: 55cf63cc8d951246ec35195ae5a1628beb9c9da3
+[17/21] ASoC: tlv320aic31xx: Remove use of i2c_match_id()
+        commit: f742875ee2534473ca4bf5ce1e120bebdf8d624d
+[18/21] ASoC: tlv320aic3x: Remove use of i2c_match_id()
+        commit: 2a169c459d9614dd6edebd8d34ab096b09f134ac
+[19/21] ASoC: tpa6130a2: Remove use of i2c_match_id()
+        commit: cb47dcedef8dee9e9e64598612b2a301f70a7fdb
+[20/21] ASoC: wm8904: Remove use of i2c_match_id()
+        commit: 77f3bfeacb939b47e1ffcda000cdf3c52af70e0f
+[21/21] ASoC: wm8985: Remove use of i2c_match_id()
+        commit: 7d57d1ce9398bb59fa0b251aa2ffa6eafef5cff4
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdYOg8ACgkQJNaLcl1U
-h9Bc9gf/U+GG/1lhwjVsTqGNudPe7gKxxxe571RfLNqtdyuOWis7bm7VqDEobphF
-K1+86R22yVQH3mdNI+OcbIiV8JBajr6dkLZdTABZnKqKkBLG9hvZUlE5CFmyaRT8
-yZhCHmC3OZJPZQcOlw0vRPo/02p5ghafNmo3umyej5WgMxhwNs3cu8ziTUVjKK9I
-yBtDIxZ9k5gBcEd1EfCNeKru3Vg++pBJGMca+0/fHmK6CS9GR3EzfMpu/vh5FI4G
-Eb2+fPj5Kb8pK2C2K8Pr9T6wxOs5BQMm5HtFkwD63JaNIQImzphFBUApeM1ZnXVw
-2MLBAL8HEbGGMeXDAazUev9vWyq9qg==
-=8uBf
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---YN7N9+7H2hBoG3Xc--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
