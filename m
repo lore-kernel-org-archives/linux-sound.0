@@ -1,72 +1,95 @@
-Received: from out-176.mta0.migadu.com (out-176.mta0.migadu.com [91.218.175.176])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388BD23ED4B;
-	Tue, 10 Dec 2024 17:24:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B2922B5BA;
+	Tue, 10 Dec 2024 20:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733851499; cv=none; b=DhtDP2By+56Ig1TSuCUr8ansY4khCeksiQtAUvzmq6wD3sE4udTp58MthWuCMC1imEy2fFpV6hMyfWCbC94wP6aJyDF9fpOiiRpVgMOWy1bfciYCQTQs5x50AfT2B8nvvtSeOBPN3oNl0AIGlaZy/FhWQm4hsE76P0/MHF5PzDw=
+	t=1733864091; cv=none; b=S60HozQkGzroxRHNS3VdObd1fJ3tvbq63SCzi8DtJQP5YculTK+kjj27E2QwHm2QAEDMXNzGm1CbQwxrfGkLQungk4PmYjzOSJIRghAuDVP1desp/J8i0Cv4h14K2M8AsO+seIhH7Q857Q7HpQqMerxWRPuzu9p0JLCtN4MCq5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733851499; c=relaxed/simple;
-	bh=n0Z7l1Jd4l0M1C2cLK2HeH8LXbnGjaIWPiewPs5BCHM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YlL7mb4z3HpCr0D6BnDqlY7dxDXrIdfS8RdebAi/hLds+KkXFwY+O73Zh0eHy6zrIoAh73R3vutb3oXEphTDFA4i8ZCr7mRaTS/m0F2jMaqgxxwqSdf+AJegLuVXslZPvMHtNG6aOSvef5s6Nju8SqGf3ttFGGvwVMht/a9VC6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=CnkOwIZ0; arc=none smtp.client-ip=91.218.175.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1733864091; c=relaxed/simple;
+	bh=NDN0SnBLoWNiGYnla0Xah/O39AF4IpvBlJqD83Budgg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O9UhpKXRi/RO4MPfLqgwUTPtB6iBRAZT5MJ3LfCkcMFMtpiiBSVSLodSiXJl8ljeNs5sQpqOWzxxeo00CEuVICyJHlqVTyXGMu9yVfhSQwxmkdbAEsGlXWAO28WQH9K54HRY9jz9qhE1kHo4AW9KCFwlyUiqEUimQ+TTVU67yd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=X55KkPeF; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="CnkOwIZ0"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1733851493;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2v0vkAYCBTmjMlAsGd8RWJgd2gkd+NjGVC+nKnAfYsQ=;
-	b=CnkOwIZ0WSeO1sVaVUfcGCmQjtUIBO4uCIuPkGmTriPtV3zJmoEpBKd10qPfnd1/a5R+wh
-	4QuLmMzxYWPgKwoVrB4UzIIO0XRJ193EAZIs+D9PiGNAQKxd5u+Rtqv1InxDwnuS61CvTC
-	SJ384I/9RNI5UFN1JBizoTnqeAt8+D0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: sonicvibes: Use str_on_off() helper in snd_sonicvibes_proc_read()
-Date: Tue, 10 Dec 2024 18:24:26 +0100
-Message-ID: <20241210172428.139643-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="X55KkPeF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1733864087;
+	bh=NDN0SnBLoWNiGYnla0Xah/O39AF4IpvBlJqD83Budgg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=X55KkPeFFbbC1PUtd8IqdC6yhu9RZlxMgJdIe5Gnb0ee9wLreXlu1HVHk6JqNxsAX
+	 OoFPQF7vhBVfG1TNLa15E3Z4YOaSdikSybexOAogUTaIpPphzgaLB0mrE0SbygcssL
+	 ZM++8Z9PXzFY7jf3qhS9Kc+hBrKRWlSOkMGIAw7AEQ8EA2U0AKdVJ7kp8BwzPwJ1lf
+	 PzeVxxTaRo2J5NZMJKQfaetDeHKPvJvEHI1sjD9jVh9pLMcHdrH7RewJYIwZLN3bfA
+	 Eq6bMJ/nRTzK2isBk+hUdaq1/VvCYmbK693akW0fngbtBUPQfUEUc/fPuqE9rbTRRl
+	 aFtXlQ/d9HIdw==
+Received: from [192.168.0.47] (unknown [IPv6:2804:14c:1a9:53ee::1001])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1976417E3802;
+	Tue, 10 Dec 2024 21:54:42 +0100 (CET)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Subject: [PATCH v2 0/2] Enable audio output for Genio 700 EVK board
+Date: Tue, 10 Dec 2024 17:54:27 -0300
+Message-Id: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-B4-Tracking: v=1; b=H4sIAIOqWGcC/3WNQQqDMBBFryKz7pQkKGpXvUdxEeOoA9aRJEqLe
+ PemQpddvgf//R0CeaYAt2wHTxsHljmBuWTgRjsPhNwlBqNMro3KcaCZpVQK7dqxoKxxWSP2ra1
+ 6Q63ttIK0XTz1/Dq7jybxyCGKf583m/7aX7H4U9w0KlRUF4UrK2dqujuZJtuKt1cnT2iO4/gAM
+ dKh6L4AAAA=
+X-Change-ID: 20241204-genio700-audio-output-fba8f2ebad10
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Trevor Wu <trevor.wu@mediatek.com>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>, 
+ Aary Patil <aary.patil@mediatek.com>, 
+ Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>, 
+ parkeryang <Parker.Yang@mediatek.com>
+X-Mailer: b4 0.14.2
 
-Remove hard-coded strings by using the str_on_off() helper function.
+This series enables audio output support for the Genio 700 EVK board.
+Patch 1 adds the missing #sound-dai-cells property in the MT6359 node as
+a prerequisite, and patch 2 describes the audio DT nodes to get audio
+output working on the two audio jacks, Earphone and Speaker, present on
+the board.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
- sound/pci/sonicvibes.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes in v2:
+- Dropped merged/unnecessary patches (2, 3, 4)
+- Removed unnecessary mediatek,dai-link property
+- Link to v1: https://lore.kernel.org/r/20241205-genio700-audio-output-v1-0-0e955c78c29e@collabora.com
 
-diff --git a/sound/pci/sonicvibes.c b/sound/pci/sonicvibes.c
-index f91cbf6eeca0..e510715a6c95 100644
---- a/sound/pci/sonicvibes.c
-+++ b/sound/pci/sonicvibes.c
-@@ -1135,9 +1135,9 @@ static void snd_sonicvibes_proc_read(struct snd_info_entry *entry,
- 		    tmp == 0x00 ? "on-board ROM" :
- 		    tmp == 0x01 ? "PCI bus" : "on-board ROM + PCI bus");
- 	tmp = sonic->mpu_switch;
--	snd_iprintf(buffer, "Onboard synth    : %s\n", tmp & 0x01 ? "on" : "off");
--	snd_iprintf(buffer, "Ext. Rx to synth : %s\n", tmp & 0x02 ? "on" : "off");
--	snd_iprintf(buffer, "MIDI to ext. Tx  : %s\n", tmp & 0x04 ? "on" : "off");
-+	snd_iprintf(buffer, "Onboard synth    : %s\n", str_on_off(tmp & 0x01));
-+	snd_iprintf(buffer, "Ext. Rx to synth : %s\n", str_on_off(tmp & 0x02));
-+	snd_iprintf(buffer, "MIDI to ext. Tx  : %s\n", str_on_off(tmp & 0x04));
- }
- 
- static void snd_sonicvibes_proc_init(struct sonicvibes *sonic)
+---
+Nícolas F. R. A. Prado (2):
+      arm64: dts: mt6359: Add #sound-dai-cells property
+      arm64: dts: mediatek: mt8390-genio-700-evk: Add sound output support
+
+ arch/arm64/boot/dts/mediatek/mt6359.dtsi           |  1 +
+ .../boot/dts/mediatek/mt8390-genio-700-evk.dts     | 48 ++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+---
+base-commit: d1486dca38afd08ca279ae94eb3a397f10737824
+change-id: 20241204-genio700-audio-output-fba8f2ebad10
+
+Best regards,
 -- 
-2.47.1
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
