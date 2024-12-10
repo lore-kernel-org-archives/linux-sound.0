@@ -1,285 +1,200 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A752423312C
-	for <linux-sound@vger.kernel.org>; Tue, 10 Dec 2024 04:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733804188; cv=none; b=YbvpIwK7+56VMylRpCxbDsUe7HBHZCFEJpyNNERapOpipvNM+mlXdKKzXD8tIaIt1ExLUDmAj8Q6+3oTP8r8jIIkoAzqy53/nQ2QHDN6N64QS6i8PcLyfGKUYj+JjyeYCKTwUm3HS72sV9ZiOWY34fMm7N9LST3WDMTqSYAexTg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733804188; c=relaxed/simple;
-	bh=ZIY/w4m8Ra3CLU290svg1elEYBPkVlp9m+9/xmJTBo8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fEBBqaWraKwiOp1tPFhvg4+eCvLa5Iz5elUwbMb8DCwHXkqcZhRKNKQfGBt5u3IcTafbOEswk0/T9ZeAgs3T+dmuWmajcbj78KwJ0KHxCrfxOZnsS8fNIZhWwM+386iUep9BSEIG6/n5/czbcyYbSnKac+jHQiTllYw14NsQ2tw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BgfU6gTr; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA9522616F;
+	Tue, 10 Dec 2024 06:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733811895; cv=fail; b=Hd3B8QbpGOvtFAtm2IhNLJlr/D0jmQX0EdUvu+qqFjcfJwS9CAZAr9HguAPFu4e7C9Dp6NBfhy9A6oknI4OZgPHnKkpR44VMHVHlnmCTnTUDtKhvSwKSleOUFit+zp3Jtw10/MVQYOXSA53da5/nSkuE7s6gmE+qGNNNTl8ZrUI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733811895; c=relaxed/simple;
+	bh=SbN6zqRb82OxavBrcKuXo1/N4HDkwCILSS8Wn7tE+Fg=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=V7xoy5NqqFMhSTfYEN/5n56U4lqpR0WH+OvHWSiOgpcD+u7rNkGuVcx4uaRwsCW1ZVHxqkuzECRGfLfg7nZlKWTftLvk211MnkpDNFHLPh6oM6JnBLu2ysNWMfYQ+pC6b06yp9Ydm2FAD//cUAtTBFqLyXVvJNxL/JaEcr8B2fw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jMGi7PWQ; arc=fail smtp.client-ip=40.107.92.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BgfU6gTr"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5401bd6cdb4so2044056e87.2
-        for <linux-sound@vger.kernel.org>; Mon, 09 Dec 2024 20:16:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1733804185; x=1734408985; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kVjyzJNZzUOHZ4xph7lTSEABYq06yQKkLnmVu5Ncc7M=;
-        b=BgfU6gTrIfCzSbzUp6DKjQpyoKqvawqmRuRfE0lrUfRU2XaOqWxmSLh1WqBzcut/PR
-         Vw5JQXFF6Cvv1pwIeJnVUYHuS8M8MpRljcWGWhjCjGQoj/LTwWB0kV0JPW2qRZQjZ7S3
-         fJ4nyaZ2SjFKfgbrzI3/paZ5HTHUPOnypfY+0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733804185; x=1734408985;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kVjyzJNZzUOHZ4xph7lTSEABYq06yQKkLnmVu5Ncc7M=;
-        b=RGBmTs05S0OFXcMMst3LklYwPUwKEWRarrCZ/u+beSD0HWjjcPug0K3g1ZdMYPPzNp
-         NgrSGNG2PSqJBxmQ8TiDDh2ZEWsc3oDHrS7akzBh3ta2uMULehggi5CCfj4WVV6+Vmao
-         alkVrWVjFOsJ+KJevu5hU3i8fWVvO8R8bDejuKOSqTnWtXlf3yr9AmoyP6R0klN7GrWT
-         lUaemx9QTLcM+UoRiUgFp8QnoCgmeCBB0EbLMCFzBRpbyiyJhRXsM6eBeBEaytUAZ7ya
-         5VKubWbdpjSSdo4Wj3PU6emmp8thrIgYaVIFJdm+C6/Ec3/sjF5/gVqVc3T6ZI0SDPeH
-         rxIw==
-X-Forwarded-Encrypted: i=1; AJvYcCUgYfmHPCLeAejXUczlCbXolNb8Zp0tZW3Fb/rwlSTbebroVy/Km8XInfZx5057b7+LgVpHgA1tTh0SMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9JaB7wEBsAwHuDMQO8fGIw06EI7ehaKbBn1RFl3XfM3urbXlz
-	fs2Bney6eUYSu3T9PsOAq4L9Z+a9QDEIy4u03Vtc4oK+uS7ZGfIk64LDDgHlGjUqhtLTv+wNyrt
-	qq1oUj6sQ2Ovx3hCxxeGprVcsw+GUafXm3wqVToXRGFI40ezEFw==
-X-Gm-Gg: ASbGncuwaLHNSRuJ1mJwNffIM4ZA9KhTtUa28Pr6Y8v2LHH2CuJUa+Yatytah2+vQPy
-	JYz6WfQX0Ztiz+jMp+qf/Dgb6fchMVhh0nne+YgiAucg6rImbsMkaKXTKsf/TUWk=
-X-Google-Smtp-Source: AGHT+IFLm7BUs8MAU7wTXsZF4FUsJzFdNX0LJUGWf1hGpJQa8BMT4iC8QeVgWREJrgR+EdOW4ukZF7ZP90wiDT03Nq4=
-X-Received: by 2002:a05:6512:6cc:b0:53e:391c:e96c with SMTP id
- 2adb3069b0e04-540240b0ff8mr1052794e87.8.1733804184782; Mon, 09 Dec 2024
- 20:16:24 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jMGi7PWQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AugIHzOq7d+ijRFn+7NjnV7z6vq8q4XTb5GVwR4q64AaWtdGRSM9p4pqOiS7kdQV7dgy4W/Z8q99UJ8MK0O8tmQob93ywvIa1o+ZDtrichGWiotiG3TCw1ncsJ323y8tZzEIqS76ORnN1nT0fdAWZh5p4f6L72AHgURnFSc1HscVKEjcYs1b5gZtBfNtGvQaLp/q/ZmzStHMWQzRrkMMajQaECd/LX3JQqT6TZC8RrdXoYNxQ7o4imMLmsUtec+w/+WQ4M+tuEPmsB9lGS3YLXINwXAFlDuxrI9S+tzTjgFGakBV1YSsL5buGd1Hc8snyj00gjBQXW2XF+lHXJ+sQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5MvUteckYXfYuIrrSrQ9XvcVKi2N56mQmbt7l8XzyTM=;
+ b=lSUQUwmgI6hMcQooiU5qMEyo3ZoJmaEroTvFuiPIw7DSpyjgivCUNebeYDh1sXE7CMb1/1NNEnmdhDqHnn/nxyuo8/z4UCyifqjZuIh5MDW8hNGpt844zXn7DcG3Q+Q+vaC73X9Lf6Q9SxcbabcLytKVb0f8JMDdLv2RzrCGOaDBFgkPmdl9wh72k+WsZUnCm+0SYv7wJQjekuhGW83QcJ+LKY/2I8JzS7oPFp26gOf3zLBHO6oYE/ofWy75I+GeDWfyLDW++BqfypZN5q9Zd8mjI1MZXsiQj8CRjjCiBlS2fzEwDEFX+WVsiwREaRc/y9x6CdvI1vqyCtRC5R6Gyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5MvUteckYXfYuIrrSrQ9XvcVKi2N56mQmbt7l8XzyTM=;
+ b=jMGi7PWQSVpcv6UpXW/RfBHMfJ9PJj7gwKzMV1vlRokZElBBD4Fi4gWNwq3HkZnFeMkKKUZorxYHI01V+29p2nb/Gtf5GAt/4CNYGw3VGuHASNd33KtprnKzTrVrab46krlPyzlxLvgcjw+/agPqSKXf1q6ksYWNYj/VZUsoQx8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com (2603:10b6:510:1da::16)
+ by MW4PR12MB6730.namprd12.prod.outlook.com (2603:10b6:303:1ec::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.17; Tue, 10 Dec
+ 2024 06:24:48 +0000
+Received: from PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::df88:d99:3cf3:dec0]) by PH7PR12MB5951.namprd12.prod.outlook.com
+ ([fe80::df88:d99:3cf3:dec0%4]) with mapi id 15.20.8230.010; Tue, 10 Dec 2024
+ 06:24:48 +0000
+Message-ID: <21c58803-a8ed-44de-9211-7c8742cf5eb3@amd.com>
+Date: Tue, 10 Dec 2024 11:54:28 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ASoC: amd: yc: Fix the wrong return value
+Content-Language: en-US
+To: Markus Elfring <Markus.Elfring@web.de>, alsa-devel@alsa-project.org,
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Basavaraj Hiregoudar <Basavaraj.Hiregoudar@amd.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jiawei Wang <me@jwang.link>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Sunil-kumar Dommati <Sunil-kumar.Dommati@amd.com>,
+ Syed Saba Kareem <Syed.SabaKareem@amd.com>, Takashi Iwai <tiwai@suse.com>,
+ Vijendar Mukunda <Vijendar.Mukunda@amd.com>, end.to.start@mail.ru
+References: <20241209101320.970571-1-venkataprasad.potturu@amd.com>
+ <cabca893-74f3-441a-ad27-9589819cb1f4@web.de>
+From: potturu venkata prasad <venkataprasad.potturu@amd.com>
+In-Reply-To: <cabca893-74f3-441a-ad27-9589819cb1f4@web.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN2PR01CA0218.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:ea::10) To PH7PR12MB5951.namprd12.prod.outlook.com
+ (2603:10b6:510:1da::16)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241203-mt8188-afe-fix-hang-disabled-apll1-clk-v1-1-07cdd7760834@collabora.com>
- <a10dbdf265194e77a69b6e40afa3df9636b3ab14.camel@mediatek.com>
- <a70a0521-985d-43a4-a1fa-36eb733d5ca9@collabora.com> <1d2ee55dde84bcab6f777525042c6789b9f2c1fc.camel@mediatek.com>
- <108d4187-26af-43f6-8b1e-0e48516524a4@notapiano>
-In-Reply-To: <108d4187-26af-43f6-8b1e-0e48516524a4@notapiano>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Tue, 10 Dec 2024 12:16:13 +0800
-Message-ID: <CAGXv+5Gi30-GSy_D+DHS_wz-A3F4qxuc7-6KpfBQ-iJwr3POtQ@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: mediatek: mt8188: Enable apll1 clock during reg rw
- to prevent hang
-To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>
-Cc: =?UTF-8?B?VHJldm9yIFd1ICjlkLPmlofoia8p?= <Trevor.Wu@mediatek.com>, 
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>, "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	"broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.com" <tiwai@suse.com>, "perex@perex.cz" <perex@perex.cz>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kernel@collabora.com" <kernel@collabora.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Dec 10, 2024 at 4:08=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
-<nfraprado@collabora.com> wrote:
->
-> On Fri, Dec 06, 2024 at 06:57:00AM +0000, Trevor Wu (=E5=90=B3=E6=96=87=
-=E8=89=AF) wrote:
-> > On Thu, 2024-12-05 at 13:51 +0100, AngeloGioacchino Del Regno wrote:
-> > >
-> > >
-> > > Il 04/12/24 13:17, Trevor Wu (=E5=90=B3=E6=96=87=E8=89=AF) ha scritto=
-:
-> > > > On Tue, 2024-12-03 at 17:07 -0300, N=C3=ADcolas F. R. A. Prado wrot=
-e:
-> > > >
-> > > > >
-> > > > > Currently, booting the Genio 700 EVK board with the MT8188 sound
-> > > > > platform driver configured as a module (CONFIG_SND_SOC_MT8188=3Dm=
-)
-> > > > > results
-> > > > > in a system hang right when the HW registers for the audio
-> > > > > controller
-> > > > > are read:
-> > > > >
-> > > > >    mt8188-audio 10b10000.audio-controller: No cache defaults,
-> > > > > reading
-> > > > > back from HW
-> > > > >
-> > > > > The hang doesn't occur with the driver configured as builtin as
-> > > > > then
-> > > > > the
-> > > > > unused clocks are still enabled.
-> > > > >
-> > > > > Enable the apll1 clock during register read/write to prevent the
-> > > > > hang.
-> > > > >
-> > > > > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.c=
-om>
-> > > > > ---
-> > > > >   sound/soc/mediatek/mt8188/mt8188-afe-clk.c | 4 ++++
-> > > > >   1 file changed, 4 insertions(+)
-> > > > >
-> > > > > diff --git a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > > b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > > index
-> > > > > e69c1bb2cb239596dee50b166c20192d5408be10..fb8cf286df3f02ac076528b
-> > > > > 898f
-> > > > > d0d7a708ec1ea 100644
-> > > > > --- a/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > > +++ b/sound/soc/mediatek/mt8188/mt8188-afe-clk.c
-> > > > > @@ -587,6 +587,8 @@ int mt8188_afe_enable_reg_rw_clk(struct
-> > > > > mtk_base_afe *afe)
-> > > > >          mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
-> > > > >
-> > > > >          mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_AUD_A1SYS]);
-> > > > >
-> > > > > +       mt8188_afe_enable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_APMIXED_APLL1]);
-> > > > >
-> > > > > +
-> > > > >          return 0;
-> > > > >   }
-> > > >
-> > > > Hi Nicolas,
-> > > >
-> > > > If I understand correctly, APLL1 should be the parent clock of
-> > > > AUD_A1SYS_HP and AUD_A1SYS, so it should be enabled automatically
-> > > > by
-> > > > CCF.
-> > > >
-> > > > I'm not sure why you resolved the hang issue after enabling APLL1.
-> > > > Could you share more details about the solution?
-> > > >
-> > >
-> > > Hmm. Now I see what's happening here...
-> > >
-> > > Nicolas, Trevor,
-> > >
-> > > Possible parents for top_a1sys_hp are:
-> > >   - clk26m
-> > >   - apll1_d4
-> > >
-> > > ...what's happening here most probably is that after the clock gets
-> > > disabled as
-> > > unused, it gets parented to clk26m by default as that is parent index
-> > > 0... and
-> > > something else in AFE needs APLL1 to feed a clock to .. something ..
-> > > to allow
-> > > register access.
-> > >
-> > > Trevor, do you know why is this IP unaccessible when A1SYS is
-> > > parented to clk26m?
-> >
-> > Hi Angelo,
-> >
-> > As far as I know, it should work even though the clock is parented to
-> > clk26m.
-> >
-> > Unfortunately, I have no idea about why APLL1 enabling can resolve the
-> > hang issue. I'm also curious about how Nicolas found the solution to
-> > resolve the problem.
-> >
-> > From the description, it seems that the problem is related to register
-> > r/w hang. If I remembered correctly, when the mtcmos of ADSP_INFRA is
-> > ON, register r/w won't cause the cpu to hang. However, ADSP_INFRA has
-> > been configured as ALWAYS_ON in the driver. I'm not sure if it doesn't
-> > work correctly when the driver is configured as a module. Maybe Nicolas
-> > can also check this.
->
-> Indeed, as suggested by Angelo, adding
->
->   assigned-clocks =3D <&topckgen CLK_TOP_A1SYS_HP>;
->   assigned-clock-parents =3D <&topckgen CLK_TOP_APLL1_D4>;
->
-> to the afe node also fixes this issue.
->
-> In mt8188.dtsi, we currently have
->
->   afe: audio-controller@10b10000 {
->         ...
->         assigned-clocks =3D <&topckgen CLK_TOP_A1SYS_HP>;
->         assigned-clock-parents =3D  <&clk26m>;
->
-> So the question is, do other MT8188 platforms need clk26m to be the paren=
-t of
-> a1sys_hp? Depending on that I can either update the parent on the common
-> mt8188.dtsi or on the genio700-evk.dts, which is where I observed the iss=
-ue. I
-> don't have access to other mt8188 platforms. Trevor, do you know?
->
-> As for how I identified this issue, I noticed that when booting with the
-> platform driver as a module the system would hang, and that passing
-> clk_ignore_unused avoided the issue. Then I selectively ignored some unus=
-ed
-> clocks until I narrowed down to ignoring unused only the apll1 clock, mea=
-ning
-> the apll1 clock needed to be left on during the platform driver probe for=
- the
-> system to not hang.
-
-I don't know. The AFE driver supposedly enables all clocks that are
-required for register access on runtime PM resume using
-mt8188_afe_enable_reg_rw_clk().
-
-Maybe try enabling debug printk in sound/soc/mediatek/mt8188/mt8188-afe-clk=
-.c
-and see what that gives you? There are already debug messages around the
-clk enable/disable calls.
-
-Either there's a bug or incorrect description of the clock tree,
-or the AFE device node is referencing the wrong clocks.
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5951:EE_|MW4PR12MB6730:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5fae0798-1a08-4d08-1804-08dd18e35858
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aWFsd2ZNaFBBTUtNSlpkZ1B5ZyttSUpYdjJZYkFENzBUWkxjbVhCZjVsOTdO?=
+ =?utf-8?B?KytGUit1TjFEelVHcnp6TGNpZUp2eGVkeU9GZ2I4alZnL2V5azltY1d0dUNH?=
+ =?utf-8?B?SXIzdCtiWFhyMmloVkx2MWxneUhja2ZISlViTExoTGlFSWhlK3UxMzVCYXRS?=
+ =?utf-8?B?b0NsemVGclRVT1cyM2NFY0EzQzhsdTRCUTU4VXNSOHpIQXJTNUU3Tmg4SDA0?=
+ =?utf-8?B?WmVycEUvTit1aWtiMkpEdUI4NXZJYnViODNwM0EvdlNiRFEycU9tdXVVdG4z?=
+ =?utf-8?B?ZmpmVFBRRE9ONGhRNCtkcmdFYXJtdExSZXMvanhQTk1UVHp6a0I5aXVXdTNF?=
+ =?utf-8?B?ZFVNYk1YVTVzODFCMk1pZENUVmhqTCtjbVZCVC80RnM5YXRVdEFvd2hJSGRL?=
+ =?utf-8?B?YzNvV3g1TVBrdWZyV1Q5Q0dpSXFBZVM3VCtOU3BUTUxtZ0tXa2pQcDNKUnBt?=
+ =?utf-8?B?OUFudENEVTczWUZrcGliN1NkRzdUSXNXVmZVSzBJYm9CeDVBSEthb2FZWVhu?=
+ =?utf-8?B?eXAwM1lId1Fmek14UGx4bE0vOHN2Z29zS0kvZ1QzUzRqVnlKcW44VG5HY3Rn?=
+ =?utf-8?B?dHNHV0gza0NWREU5cUV3RUgvcjV5Y0luWk9FbWh4ZE56dHViMXFSRTFDMzBI?=
+ =?utf-8?B?WThHYVU5M241SFBRdzM0MUNvWlZ6WE9aM20xclN1bW5nNFVzV0pqY0gwT25Y?=
+ =?utf-8?B?UlVVRnNSTk8yWkNYN1lGeUNUTlNReVNOWnlDYmV4VFNORXhpUTVwYUM5cFF5?=
+ =?utf-8?B?dml2U0laOEkzVU1nUFFFZWxLWFdubjRjTW1qbGVUb1F0dmRjR0dGSXcvOW9B?=
+ =?utf-8?B?aW1pek5UZ2czdXlBR1k3K3phdnhnNWdLRHNGcjRtWXYxT3V1dkx5QWhhME1r?=
+ =?utf-8?B?SFYzVWdYVy9DeENKYVZ2SElqYStBdml1ek83MkpDOXBHKzQ5emZMbDE5YldE?=
+ =?utf-8?B?TDQ3VmFSbEVNM2xMejZobkNRS2hQd2ZlOWczTkdGSGhob0R2RjN1VFFFN0Iv?=
+ =?utf-8?B?OGlPNmcrQzJZSlgvOERIT3FDTmFtazhYSmVTVmdZMW5PZkZZNGkrTmZ1WG1t?=
+ =?utf-8?B?alYzVEFOcGRYd1hydEx3UU80MnZWRTR4V0h3ckpVblNnN2hNUnJUMWkrRjVL?=
+ =?utf-8?B?aTU3a3NhUlhrTVAyY09EREl4a212ZE5nMm5kelFLcVBaUGszRzdwNmE5QWw1?=
+ =?utf-8?B?ZmNYRnQ3SUNVc0dNUGVuRzRESkFWN1Ewc2Nmd3cwcFNNblUyR29FblN0Y1ZV?=
+ =?utf-8?B?dU8zWmNLVGQxNTBlRTBEUkQrenlpeFlmZXErbFhqVkdWS1J6SE1iZW1zY0d5?=
+ =?utf-8?B?Tkp6Mys3U0xLQWYyNTltNXlwOXUrM3hWbEN0ZmplR05DN0FublN5WFVnSndv?=
+ =?utf-8?B?SnFpZjNwcGl6anpncHFpTDgrM2JacmgyTU43dzVjVTAvWkJIRjd4VjdZUDJi?=
+ =?utf-8?B?UlVjM2c3MHlTa1cwd0h0SW5lQ1pRTWZDVkJhak9oRzJkVVV6U3FWK3pLdFJH?=
+ =?utf-8?B?ajQ4ajhnYkY5dVBvdzh4NWMrNUJFZWFwK1pINU9FbkEyYU1sQ0w0Wm1xZzF3?=
+ =?utf-8?B?S1ZGT3NTZGpBak9ZOUF3OHRCaUJXbHZ3Y2dSS2dPTzBEbTJRcHZDazBzVnFj?=
+ =?utf-8?B?cjV3RFdQaitLMyt1REJpYjJiL1FrTTFkcEszcDZ3bnZlL0p0cnlQQ3ZQUlNT?=
+ =?utf-8?B?QkhtZm9KN3ZoZlh2cW5iNWY5dTRLQzQwcjNCNVJQZlNYb2Z2bUFJdENOTXMx?=
+ =?utf-8?B?RWFzL3M3UFBxMnBSaHhOSllRd2E3Z1JtZGlhbEU3YjFBREdNNy9Oa1djNEYv?=
+ =?utf-8?B?S0lEM2JnSzlSMkdvNC95QT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5951.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L04xZG1WaUFrQXBMQzZxWFo0YXZjZWkzSEVPZ2ZvRzJMQkNpMkY3RUVEYll3?=
+ =?utf-8?B?NTlnek5sQlQzN1pqOVRKYWlnNVliSUpLODYyKzVuaXFTbXdkRFRSTnNWQmt0?=
+ =?utf-8?B?b3RWMXNmSHRYSzMxMGdFMlZBYmR0cXpMTzlINDdaVGNudFJXaGY1SDlRWXFv?=
+ =?utf-8?B?K3Evay9uK094d0JYaFZlMS9DWlRoMDNuTy9vanNBaGxmMUJ2ZjBTYmovRW1T?=
+ =?utf-8?B?UDFTL0Y4SElvbHJGaGRRN2lSQ0Q3d3lGMFMyQ2cvcERpNnRHc2k1MHlSbjFB?=
+ =?utf-8?B?RnRuSjhhcG9jMisvZk1VczNTQjg5enFMOGxLMy95RUxvWmxNZi91Z2cxRjgz?=
+ =?utf-8?B?RkcvZWRKMkgzN1ptc204L2hyZis4dW5FTW5UaUtnUzJHR3UxMnZFVTIwUVIx?=
+ =?utf-8?B?R21nMlQ4L08xZTlFNXhOTS9oZUt2c0JySUhiMnVWY1Y5Rlhya3FEY0NobmRR?=
+ =?utf-8?B?c3Z3eVJhU0c4RHFqZG5ybkhNZTRPdi92TkZTQmZ4K2hBMXpndWdxT0lkVDhz?=
+ =?utf-8?B?TEFvUFZNblp5QlpYZExoSWg2VHZwYWZxd1VKZGtUdmNVQ1EzTlZBVENWZjBu?=
+ =?utf-8?B?UXpzMXZremo5VUVRY2dHNUYvbjRseUZoY2lMNUNUNXFIZldsY1RSeWJ4UDhx?=
+ =?utf-8?B?NThJTWpXVStVTFdmdFF2NDl0a21DdEU1T0I1T1hvcmhFa3kvNmRVOUNWUk81?=
+ =?utf-8?B?T3NCamV5NjBXU2plZWtHRXhISVI0am5wNEIxcnRzOHppRkZrQ0pWd2xsSkFH?=
+ =?utf-8?B?WVdoSm5leGFLa3hWd1A1YytRYW0wZ3Q3WncyYkVNV2Mvd0hicHZROElHRlVy?=
+ =?utf-8?B?dFBvdkQ3OHhqMm1iWmhUc1NwVys3RDlWNkFXeW1nYWV1Q2pKME1jM3g3L2dk?=
+ =?utf-8?B?SG9DL1VuZjdSMGt2U2dhRVhYMzdEL1FTUU1oRFdLT0NkZmpBOVRYdzNQd3FH?=
+ =?utf-8?B?bXN2bkJGcGg5Tm01VFhlandsbDRZUnhyN1h0TFA4bmpIdG1ONTBPU0I1UWtF?=
+ =?utf-8?B?UFVzSFdFVXVXcWZkNE9FVXRraTl5bmFPWHpVU0NrNlg4TVY2NFJJTG9GcFNO?=
+ =?utf-8?B?S0RrdkVDN0pRRkRzRWd2d3BOOGJmemZqSlJ2QWdvT2NQRFBsWUhXNUhNNVVN?=
+ =?utf-8?B?MmdLY1RaS2NEWmljNXVCR0hERHRnRzNzOUl6YjdzTXdYLy9LOFpXWXhzNVp1?=
+ =?utf-8?B?SE1GNFh0VEprUk5ZeHIza2dXYXUyOVpjVWtSeFRvOVlPcTBnUnRmWGtLdDN2?=
+ =?utf-8?B?YkEvTHc5MktUTGNLcTF4c1BVWmc0T0w5dGx0NTRzdVNsdEw5OEFTaVZWZ3V2?=
+ =?utf-8?B?QkNEK3NPWTF5OTlQR1I4SkNTQ1NCenJHOGt6K2pTZlNEUWR3UGJLY1RseEdJ?=
+ =?utf-8?B?Qk0wd2ZUS3dDaHByQUp5NGpPZmoyajBSRmM5Z1d2eWYwRGRjbHc3Y1hpUDZn?=
+ =?utf-8?B?dmIyYmxKU0wxaUN2ZXBjQW1acFlIRmg3RzFkVTRuVW5Bbms4WXpTZ0ZFeFBE?=
+ =?utf-8?B?LzJxNVNZZnUwS25SY2owajh5Z3BOSjkzV2d4c082NnZFeE9FZm5zMG1rNmt2?=
+ =?utf-8?B?aEM3ZSthMUpMbWl6YjFyRTliVC9yd2oydC84VnVZYW5HZHJMVGsyS0xIMXR2?=
+ =?utf-8?B?VHFTN0llNU1iVmE5cytCUTFnNDR3MDNXbGNUb01NQVZYdEdIQ1VKbTZDVWxR?=
+ =?utf-8?B?cmlJUXNzUHBXVmd2RytITWpidXpYRDJQWFhOTHlmOEdIRVdpWHpGa3FUUytn?=
+ =?utf-8?B?TXBubElNSXV1dXhCSytyZGN0Z3NQR0Z5SGdxemxiWnI1MXpLRnJINS9BQmdn?=
+ =?utf-8?B?bHpLTG1MSEYxMUtRdGZ3cDNhT200a245OS9HeUpKZUVQZTdlZEZ2T0lydWRK?=
+ =?utf-8?B?bjdydUFtRlRBMVFLclFlUEpOT2hhemlGVTdLZ3RJU3lTeEtxc1BMTk8vNDha?=
+ =?utf-8?B?empvcjBEV1IzN1V6ZkQ3YnlIM2JvNEVmWjNGRWQrTWF1YUZiUlhFN1hVK3g0?=
+ =?utf-8?B?SStYT2Y4UGJqaXk0Ny90ZjVLYmd2YXpoKzIvNFRoWnRlckRVNjJvRDl4bjd3?=
+ =?utf-8?B?WUNpMTRhbS9IMGJMN0RlV1RBNmQwV05jcXJ5VHo1OXFTS3NoaWNoa3g2YVAy?=
+ =?utf-8?Q?NZUyNnU/iHfYPBB7FacLmqOXD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fae0798-1a08-4d08-1804-08dd18e35858
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5951.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2024 06:24:47.9330
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uZyhnfbeEbAXmyeM3p0QDX7ZSRQFF/xGtZ1FCs5rv5sSX4mH5up+JlCDbx+G6QCCaKMXogezYCgXgaHWqhMFrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6730
 
 
-ChenYu
-
-> Thanks,
-> N=C3=ADcolas
+On 12/9/24 19:16, Markus Elfring wrote:
+Hi Markus,
+> …
+>> Add a condition check to jump to check the DMI entries
+>> incase of ACP driver fail to read ACPI _WOV method.
+>    in case?             failure?
+It's a continuous statement.
+"Added a condition check to jump into check_dmi_entry when ACP driver 
+fail to read ACPI _WOV method".
 >
-> >
-> > Thanks,
-> > Trevor
-> >
-> > >
-> > > That might give Nicolas a definitive hint about how to resolve this
-> > > issue.
-> > >
-> > > Cheers,
-> > > Angelo
-> > >
-> > > > Thanks,
-> > > > Trevor
-> > > >
-> > > > >
-> > > > > @@ -594,6 +596,8 @@ int mt8188_afe_disable_reg_rw_clk(struct
-> > > > > mtk_base_afe *afe)
-> > > > >   {
-> > > > >          struct mt8188_afe_private *afe_priv =3D afe-
-> > > > > >platform_priv;
-> > > > >
-> > > > > +       mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_APMIXED_APLL1]);
-> > > > >
-> > > > > +
-> > > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_AUD_A1SYS]);
-> > > > >
-> > > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_AUD_A1SYS_HP]);
-> > > > >
-> > > > >          mt8188_afe_disable_clk(afe, afe_priv-
-> > > > > > clk[MT8188_CLK_AUD_AFE]);
-> > > > >
-> > > > > ---
-> > > > > base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
-> > > > > change-id: 20241203-mt8188-afe-fix-hang-disabled-apll1-clk-
-> > > > > b3c11782cbaf
-> > > > >
-> > > > > Best regards,
-> > > > > --
-> > > > > N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
-> > > > >
-> > > > >
-> > >
-> > >
 >
+> …
+>> +++ b/sound/soc/amd/yc/acp6x-mach.c
+>> @@ -578,14 +578,19 @@ static int acp6x_probe(struct platform_device *pdev)
+>>
+>>   	handle = ACPI_HANDLE(pdev->dev.parent);
+>>   	ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
+>> -	if (!ACPI_FAILURE(ret))
+>> +	if (!ACPI_FAILURE(ret)) {
+>>   		wov_en = dmic_status;
+>> +		if (!wov_en)
+>> +			return -ENODEV;
+>> +	} else {
+>> +		/* Incase of ACPI method read failure then jump to check_dmi_entry */
+>> +		goto check_dmi_entry;
+>> +	}
+>>
+>>   	if (is_dmic_enable && wov_en)
+>>   		platform_set_drvdata(pdev, &acp6x_card);
+> …
+>
+> Is there a need to adjust another condition check accordingly?
+No Markus, not required.
+>
+> Regards,
+> Markus
