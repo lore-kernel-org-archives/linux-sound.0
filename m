@@ -1,47 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6C21A08A8;
-	Tue, 10 Dec 2024 12:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0990B1A3AB8;
+	Tue, 10 Dec 2024 12:54:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733835083; cv=none; b=ATc6LgIySC28UTq0soJ2LJgZYyB9vnXcnm++1okXO3mmKejffXGd0m/DfLFgUyS+DgZ+9o7d9vBjQV4O6VNt9q1Xu2w2iOpKqNb784o3jNRxlhmot1QDxDJqYB3jTTXb9XUm8g5egHruablsrttjBTb7NiAG2RHA/q4aJV9a0C0=
+	t=1733835285; cv=none; b=guNkhjTdRqsAOlBNo1auEdM2YE5ywcFr0u+e0obOUdtQc1iF9hm/TnVMgFscW9WLTC7RApxBy7AimIiR83SFfUQ6eGXdmvOdKh/OnqOXBpywKgolTwHJPC9Iwq3CQpxf5LQoqlkaNboql5YaRuq7PJM+VXWW31I5ksFfnLmVALU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733835083; c=relaxed/simple;
-	bh=3Rsh6xFVdXHonSSiiPX02wsrJdpKnfeJXXUWbBhqxXc=;
+	s=arc-20240116; t=1733835285; c=relaxed/simple;
+	bh=CPp3kxBq4AszQqqvCIkOXMQnJT5LAeqC4Snv1FDwMr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fbvSwrT5rQZy9R83totkpAnibKVJ2wwVdO7yqz24pes15d0mALMPO6WhZFQn9bveEDryxLT/GA6lq/MLBtf1PLBx3Zr6SrzFby0OGfDlnErRDQr8aljKcpjTCxpXxp9sUtC1Sri1DsRyCggVlRkJkX7R0d0bQ8ttV5+sOTMdapk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upUUZI/h; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=uNXknjhBenhifNKbKj8XYsoCx7XeEIYlGd0lK8CFkIPcXKHsCTIxIUaZEjRasbrahs/yQ6S+o1z+g5jUvJfw7snrWfjREb29Nmh2bTt9sNO7rS38Lrqsq7Kj082WofcgBFSRkm4ulUFe8d/E69SzEqT2CDIm39yroaqADbkhjWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MPHhLSEW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upUUZI/h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F230C4CED6;
-	Tue, 10 Dec 2024 12:51:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MPHhLSEW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B31EFC4CED6;
+	Tue, 10 Dec 2024 12:54:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733835082;
-	bh=3Rsh6xFVdXHonSSiiPX02wsrJdpKnfeJXXUWbBhqxXc=;
+	s=k20201202; t=1733835284;
+	bh=CPp3kxBq4AszQqqvCIkOXMQnJT5LAeqC4Snv1FDwMr4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=upUUZI/hYB+bTZo33EpXNJMM36yaJDkwlw9b/AT9iHEM1xEU/97+oIbhm5a+oH6N0
-	 GTY5tzVu/nO9w49rle21UOjWFfpBJmV4f4yrq6QN98PJUuEBw2DkPJelxUDHND8xet
-	 kknHFro8mMVPaMc9EgIQTJW5rNkF3rklCpl9U0R8ljcArwsfiOozjA+r3Ouxwehvtm
-	 eLYyFWdN5/91sZgcwoKpnteZ7W3bbSNqxotiCDxtGN0TtDvnMsgbavK1ejwkQk+unH
-	 2Nie1Xhsux+FjBzOqCKANWGrQhZyLtbu/PsEmEdtCOqoiybLymUzZPlFE7wKr9Dl4Q
-	 R/uvJ3q4CGA3Q==
-Date: Tue, 10 Dec 2024 12:51:13 +0000
+	b=MPHhLSEW6WV7DXYU3ifKQD8pgmllav1Cx94qOQ1MZ5TEaFUyeLan/E+2Tf1JX0Gck
+	 kC3BZb58b1+En4kXBwGDArUnNiZGktDvYlY/8oNCdD4mlg/TQzsnudvtikpaPELhcW
+	 Yf0VY1MQUFVWIlvJ20NM05J6/F1tunkRU3I6BnGMAxQ+9tqAL5jrLwUL0vi2SEZllF
+	 y7GI76IfJf/7m3jFQZtefPXz6Dwi5FAGHmYckrSHV6FAtWGnWjHctMVIE/VWips7iy
+	 E3JOQUw0urGMYUjjpDtKXo8YE5k66YCTcLaaQxIJIgwAjvH4krLIhdytWBoAVzDwFW
+	 +9pGJepMUH28A==
+Date: Tue, 10 Dec 2024 12:54:40 +0000
 From: Mark Brown <broonie@kernel.org>
-To: wangweidong.a@awinic.com
-Cc: lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, perex@perex.cz, tiwai@suse.com,
-	rf@opensource.cirrus.com, jack.yu@realtek.com,
-	neil.armstrong@linaro.org, ivprusov@salutedevices.com,
-	zhoubinbin@loongson.cn, quic_pkumpatl@quicinc.com,
-	herve.codina@bootlin.com, masahiroy@kernel.org, nuno.sa@analog.com,
-	yesanishhere@gmail.com, linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	yijiangtao@awinic.com
-Subject: Re: [PATCH V1 2/2] ASoC: codecs: Add aw88083 amplifier driver
-Message-ID: <152595a2-2216-4c6c-935d-9c58939bffe0@sirena.org.uk>
-References: <20241210091054.88779-1-wangweidong.a@awinic.com>
- <20241210091054.88779-3-wangweidong.a@awinic.com>
+To: anish kumar <yesanishhere@gmail.com>
+Cc: ckeepax@opensource.cirrus.com, lgirdwood@gmail.com, perex@perex.cz,
+	tiwai@suse.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
+Message-ID: <d7cb771e-9389-41f1-a9db-b72fd907cce3@sirena.org.uk>
+References: <20241207193441.15767-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,42 +42,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Q36hzlD+9c1+gXCv"
+	protocol="application/pgp-signature"; boundary="YN7N9+7H2hBoG3Xc"
 Content-Disposition: inline
-In-Reply-To: <20241210091054.88779-3-wangweidong.a@awinic.com>
+In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
 X-Cookie: Leave no stone unturned.
 
 
---Q36hzlD+9c1+gXCv
+--YN7N9+7H2hBoG3Xc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Dec 10, 2024 at 05:10:54PM +0800, wangweidong.a@awinic.com wrote:
+On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
+> Updated documentation to provide more details
+> for codec-to-codec connection especially around
+> the scenarios and DAPM core details for C2C
+> creation.
 
-> -	aw88081_dev_clear_int_status(aw_dev);
-> +	if (aw88081->devtype == AW88081)
-> +		/* clear inturrupt */
-> +		aw88081_dev_clear_int_status(aw_dev);
-> +
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-These if (devtype) statements will get hard to maintain as more device
-types are added (and the diff here is already pretty confusing).  It's
-better to use a switch statement with cases for the devices that need
-specific handling, that way more devices can easily slot in.
-
---Q36hzlD+9c1+gXCv
+--YN7N9+7H2hBoG3Xc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdYOUAACgkQJNaLcl1U
-h9BiCwf/cRLfKoyKaljJFQk61yjyXDCGGbPIeoRxi2FAt9wvPmapd4upREiw8tkU
-R9BedelQEcGzYxTvWmwPV1PjavIfx6/B7UexJoVJhOg39/OpoXok76ZnvtXeOmdi
-9PXzOnAhNwn3vFvwRS0FKHwzYjJPXrU3fKydYY5o7hYdXGY60NoDU+EktVFv9SQ6
-8Mt8NMNgWCeRmifrrRJ8VwbZ2MmtesmrkdLCFZbufLRVT5LNbDAPZeQkIhpaKwM1
-lVfzsAlW23jq/EhlMhRHbDqTeJBiie2aDP9xE1KxXtKtOl8Rf7qQL38CZOD3Etxk
-Bx6EfpfNv01+FpB1kJxjnSAq2oL4FQ==
-=TcvG
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdYOg8ACgkQJNaLcl1U
+h9Bc9gf/U+GG/1lhwjVsTqGNudPe7gKxxxe571RfLNqtdyuOWis7bm7VqDEobphF
+K1+86R22yVQH3mdNI+OcbIiV8JBajr6dkLZdTABZnKqKkBLG9hvZUlE5CFmyaRT8
+yZhCHmC3OZJPZQcOlw0vRPo/02p5ghafNmo3umyej5WgMxhwNs3cu8ziTUVjKK9I
+yBtDIxZ9k5gBcEd1EfCNeKru3Vg++pBJGMca+0/fHmK6CS9GR3EzfMpu/vh5FI4G
+Eb2+fPj5Kb8pK2C2K8Pr9T6wxOs5BQMm5HtFkwD63JaNIQImzphFBUApeM1ZnXVw
+2MLBAL8HEbGGMeXDAazUev9vWyq9qg==
+=8uBf
 -----END PGP SIGNATURE-----
 
---Q36hzlD+9c1+gXCv--
+--YN7N9+7H2hBoG3Xc--
