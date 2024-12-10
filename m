@@ -1,114 +1,98 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B3D23DEA8;
-	Tue, 10 Dec 2024 10:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C88212D98;
+	Tue, 10 Dec 2024 11:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733824920; cv=none; b=mZed0Tfi//vJQMWbvIN1EaMa3EBVAibmusifrSTbyiCLv2rWoux0akpHYmnm5wv0ZU+0x8b5B6XQs0X0Jq6AXf9zcg2mKzPRVrc7IfaaC9neV5GyklYJsr71O+NW2ZXGLMR4SpjP5D3PPUZc6HG7wEJxUd/Hft3W6hncHOBOaHM=
+	t=1733828828; cv=none; b=iWmQtVbK7S/oPv5vzGKz2Ea8/RaNzWrflY64ouqFm3nTOpv1vOoxaXjJ0mvlo1+TT+TX/7J7VRkAwhm43tLzQB0nH6KS879e7hxS2zGQLzaf7p6cBN5Dt8Zx0YZYFzQbew7XwtHESFwOtBu3/RIgfiS3DRWsKE/UdZ6yIztmD2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733824920; c=relaxed/simple;
-	bh=MIvthA4Nl0uIya4VAI4zbquPEcUw0r+hPY8+Sk51arQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WccFUJrwFQyuCdYk89J7R71s9y9+cLt4qDbkRfyHK4U01kA85VnayIk53NUH7cf0DbcP8PFc9FiHrn3LfyPCl8kPYheAN1HkqpeoiM6pv1Hy/jVjRuLrfaaamrh7GjSf9eJ1juhLRyiNQ4N89DS7F+ugWJefgPEA8JlFDA33ZQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-85c5316f15cso699238241.1;
-        Tue, 10 Dec 2024 02:01:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733824913; x=1734429713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bU21a0wFb5B0tExmN7JfphqZemuXjOPWEnAeMmariLg=;
-        b=wFPIMgITgcRb5gzRmyaLljITo9sWyBzcuIT9SsDDY5nuYu4/Xm6KtGKMP4JLEjSELO
-         LlpNZpG+d/IfWM6TxFQHw3JRFGttErbWVXaUHBKjC4phWXTmSnhY2bMSx7jayVtQeMyB
-         ivRYIdZhsrJbbFyTING173fREpJy6pjcb6qSeoZeSsIBnNDNwHdEfP8/+ezMlw5lq17+
-         mwvMC87NQM1QYLGZf+qEmfrn/SkqUIYBNdobZ30rCcV/1nPsnsParG6rZ7wAPZD8Q50i
-         4D3FBBYBtqLFjzwebTO9CuDnXjXO9EJOh2LcKnA2WS7ndhIoph8m8bPxOOJAhFEakK/E
-         5Fmw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Da3G7PUS2Dv/c3CJL2IRdyHZbY9zVfC4AQuwNm2LSY8pPhH0bEccrb2dTq6ohtAbuN7Htxvo5y5PhgWjtBREWYM=@vger.kernel.org, AJvYcCV6nRchI8llXITmFM0ljTxORpGbebGuxsosWyvBe8Uj/BzvqL9/akAFkoE2ZflVTwYef2U8nxN5hqhj@vger.kernel.org, AJvYcCVH8EFS8f+n8yp7300J6kt9VpShioElidRiZcow4xOEPYmeAqYPzrLGokpOVx1MvlqSZ3DODQm/q1ejeA==@vger.kernel.org, AJvYcCVR4PoBYLTJZMd33LW9tCZg+zLxotMyolw0APTJezQPNhCWFERGYyWLBq2vnUieJThgMEtSfHP1S93f@vger.kernel.org, AJvYcCXABWJv2wwOWoWEIf5mcVx7ghZ8HYo5DQ2wo5is1XgSaHgPbjGcVjwT6Zf1Hs/azO8jelkAME6kw2kHLh4=@vger.kernel.org, AJvYcCXC1/cAIqFMQd18hlnWIYb8HB+Uszz2YYXocClK8Qn/JriEYAOyx+yJEKWAYklOwasRo+IW7REtu5FioNLp@vger.kernel.org
-X-Gm-Message-State: AOJu0YyS+0lCLKZY/DbRYeT9FJkTSZimqzB+kay3FTSSRPplOG2IjdAV
-	i+TWw4oAlyCCtMpW6cEhj5b0UszYNoDJSz1YydyAZfIn7Vl+6hi3wLUrKL0Q
-X-Gm-Gg: ASbGnctXvSMDRp7ZUBy4pALvSIez3kvMp2XY9WFTiF/W7UyKQYXj8aXACqXFTyGBzU6
-	i64H9ppolW5fPbzA4/gXOvubFLJ00WBpatAQD5GQbM1fmbee5mqbz++Mbk3TJs1TYnGmwyK5kCN
-	W6ynkMeFtPRD+aJH0pbeF2c66S3Kl9oxwG/MXGNEA8EskaJ+ZoKV9qRcPajbuxk7NjUGT/0jkX3
-	/YSrI9ELr2W/dCvqRK/F5da9K4t6VnztJeA7OuvUMdBdZ4VMHgH3tRlswMm42zf+9niGaABCPow
-	14jZk/le6TGmCLiY
-X-Google-Smtp-Source: AGHT+IE2glzDbFQ8/qA586D6GHtukx1rNvayEpcjtXdeyGqmrc8YCt3NYo6N4RmpUILzbkpad1Uckw==
-X-Received: by 2002:a05:6122:a04:b0:517:167a:5cc6 with SMTP id 71dfb90a1353d-517167a7947mr6532784e0c.6.1733824913077;
-        Tue, 10 Dec 2024 02:01:53 -0800 (PST)
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com. [209.85.217.43])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-51886b8c3dasm175951e0c.30.2024.12.10.02.01.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2024 02:01:51 -0800 (PST)
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-4afdd15db60so971174137.1;
-        Tue, 10 Dec 2024 02:01:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUIG9w9g45XGa068q/dp9pxwsteGkeZ2exItFUpf5CglM3ShM5r2kCTad9ZJ+Ttp9b8hNl80SS6uy1Odwu3@vger.kernel.org, AJvYcCV+2R42JPFPY+Dehwjze5xEyYM4qNb5TA8EzMHHkYx4crWn7UYyE+Wi1on8AI2y+xj+gvLG52AUbHqxKCX1uwG8JFA=@vger.kernel.org, AJvYcCWP6k7ChKg7gsGcefJuG/yBn9xa+0dzexZAH4Mg1xVDLx8gkvejv+4SbApkLICw3Hkb8k0LxG0dwR6u@vger.kernel.org, AJvYcCWSj3CRb7IDn/AByrb+4e5L7SRfxVmoqkRqHKZKGmI8gz8vh8Nw00JdkRcjvmiGrHM/XtbT7ibBSOIf@vger.kernel.org, AJvYcCWiQT8FkXpNUuJY3J4sQdtXI17FjEOVeCkc9bRibNxsRzOBJJHi0A9vv+ao8il1/N/cuuiC2n5PetQxHw==@vger.kernel.org, AJvYcCXOxsheMAYI7/tl3zyhD+yP3p8eSk/sgQG2FMUE3d/8zvNYVBC5eXYo8xsL3Y3Ici5uLlhOQou1f8FQZIA=@vger.kernel.org
-X-Received: by 2002:a05:6102:3583:b0:4af:aaa4:dd9a with SMTP id
- ada2fe7eead31-4afcaa18834mr13656547137.10.1733824911603; Tue, 10 Dec 2024
- 02:01:51 -0800 (PST)
+	s=arc-20240116; t=1733828828; c=relaxed/simple;
+	bh=suGVnewTTw4T8anGYzAeJv/H2X+j5F3hcGtPHrjmOe8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vk+REoI+10vklr/U+2blNcNX2YmooKjw/4/ABnXGfKJAiBuy8BuFjTqio2hwp2vG/d1gPCntj0EDMsfsz0BRu0vWaWnkg6T7102r3F2DZYwOIORhw+pv9gpmkfWSfr3X9DPRFwehGRL3j7NbsZqpG9VO3m/WorJflOiDkKvVMLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EmtBrXw/; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EmtBrXw/"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA7xOZk007371;
+	Tue, 10 Dec 2024 05:06:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=lVzLNj3rXAH+GU2UEU
+	4TH+gttJpUh7a6maPob5Gu8Do=; b=EmtBrXw/AKoXGEDQvRmATBMEihecisE6rm
+	69aQR8T0flW6MCvO2QVxf9nlkS/B5lOjV6Rxl6NxUXK0fz+XGJnTWDk/rp2vFYDH
+	/f5T6tuBYt2UHhc7kOY2D3VgV9rucCSI+hJsX0CRraZCxXKEdtgScVNXp5764/yE
+	Y2yZbZ2M5ee51B+0FaHtmKMqUPQtW0PKYQt1mSD+gED9CQpc92V3xP3oJjAPDV2Y
+	TjE7Y5/0rOK/ZeCjADTOlXoZFEBKMALZ9u6SubiiaItli5V2YlDS3PRIzW9rlgSn
+	D3pESVmfl0xqX+7nTgSZw/SoJN6l1p+iUzdgkanfW+/QtEx5VDZQ==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkbddu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 10 Dec 2024 05:06:43 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 10 Dec
+ 2024 11:06:42 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Tue, 10 Dec 2024 11:06:42 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4FCA7820248;
+	Tue, 10 Dec 2024 11:06:42 +0000 (UTC)
+Date: Tue, 10 Dec 2024 11:06:41 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: anish kumar <yesanishhere@gmail.com>
+CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
+        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
+Message-ID: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
+References: <20241207193441.15767-1-yesanishhere@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241113133540.2005850-1-claudiu.beznea.uj@bp.renesas.com>
- <20241113133540.2005850-15-claudiu.beznea.uj@bp.renesas.com>
- <CAMuHMdU+_NuLp2FuwwcLfJRe2ssMtp=z7fqcsANgYfFehTNJGg@mail.gmail.com> <ed0f6c49-8e39-4cc6-ba93-35a9372bb532@tuxon.dev>
-In-Reply-To: <ed0f6c49-8e39-4cc6-ba93-35a9372bb532@tuxon.dev>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Dec 2024 11:01:39 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdXgakz=bBrqaUgniLJdOMULBG++zcOJ=U-fizToVv5b6w@mail.gmail.com>
-Message-ID: <CAMuHMdXgakz=bBrqaUgniLJdOMULBG++zcOJ=U-fizToVv5b6w@mail.gmail.com>
-Subject: Re: [PATCH v3 14/25] ASoC: renesas: rz-ssi: Use goto label names that
- specify their actions
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, biju.das.jz@bp.renesas.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, lgirdwood@gmail.com, 
-	broonie@kernel.org, magnus.damm@gmail.com, linus.walleij@linaro.org, 
-	perex@perex.cz, tiwai@suse.com, p.zabel@pengutronix.de, 
-	linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Claudiu Beznea <claudiu.beznea.uj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
+X-Proofpoint-ORIG-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
+X-Proofpoint-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
+X-Proofpoint-Spam-Reason: safe
 
-Hi Claudiu,
+On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
+> +Boot-up logs will display message similar to:
+> +
+> +.. code-block:: text
+> +
+> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
+> +
+> +To trigger this DAI link, a control interface is established by the
+> +DAPM core during internal DAI creation. This interface links to
+> +the ``snd_soc_dai_link_event`` function, which is invoked when a
+> +path connects in the DAPM core. A mixer must be created to trigger
+> +the connection, prompting the DAPM core to evaluate path
+> +connections and call the ``snd_soc_dai_link_event`` callback with
+> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
+> +
 
-On Tue, Dec 10, 2024 at 10:56=E2=80=AFAM Claudiu Beznea
-<claudiu.beznea@tuxon.dev> wrote:
-> On 09.12.2024 15:51, Geert Uytterhoeven wrote:
-> > Inside this block there are several return statements.
-> > As we know DMA is not available when we get here, these do not
-> > need to call rz_ssi_release_dma_channels() hence do not use
-> > "goto err_release_dma_chs".
-> > However, this may be missed when making future changes.
-> > So perhaps it may be prudent to make this safer, by moving this inside
-> > the failure branch of the rz_ssi_dma_request() check above?
->
-> I agree! As this series is already big enough I would prefer to handle it
-> after it is integrated. Keeping it like this doesn't impact the RZ/G3S su=
-pport.
->
-> Are you OK with this approach?
+I am still not really following this, what are we trying to
+convey in this paragraph?
 
-Fine for me!
+What do we mean by a "control interface" here, is that referring
+to the kcontrol that is created to select the rate in the case
+of multiple rates? Or is it simply refering to the fact we call
+snd_soc_dapm_new_control_unlocked? But really that function is
+adding widgets, as I noted in my last email.
 
-Gr{oetje,eeting}s,
+Also what do we mean by a "A mixer must be created", I am not
+aware of any requirement for a mixer? The DAI link needs to be on
+a valid DAPM path, but I don't see any requirements other than
+that.
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks,
+Charles
