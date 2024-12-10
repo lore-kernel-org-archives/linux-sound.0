@@ -1,98 +1,137 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C88212D98;
-	Tue, 10 Dec 2024 11:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3F11A2398;
+	Tue, 10 Dec 2024 12:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733828828; cv=none; b=iWmQtVbK7S/oPv5vzGKz2Ea8/RaNzWrflY64ouqFm3nTOpv1vOoxaXjJ0mvlo1+TT+TX/7J7VRkAwhm43tLzQB0nH6KS879e7hxS2zGQLzaf7p6cBN5Dt8Zx0YZYFzQbew7XwtHESFwOtBu3/RIgfiS3DRWsKE/UdZ6yIztmD2I=
+	t=1733832694; cv=none; b=ly0qk9VqptnUzg/ohUg2CKxhUcUOxoOSpgVf1Iz4lo64WLCQSWM+tLuibuywohOKZGcykS4vI8NE6kQjQgoLuOw0H9Jfi5NoY+YU9WY7eCpCpDLqLNK7BjlQbk4G+SYhbFyxxksDc9uPnr82ud3XLZnSH7m4syuXKtb/hDSWyGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733828828; c=relaxed/simple;
-	bh=suGVnewTTw4T8anGYzAeJv/H2X+j5F3hcGtPHrjmOe8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vk+REoI+10vklr/U+2blNcNX2YmooKjw/4/ABnXGfKJAiBuy8BuFjTqio2hwp2vG/d1gPCntj0EDMsfsz0BRu0vWaWnkg6T7102r3F2DZYwOIORhw+pv9gpmkfWSfr3X9DPRFwehGRL3j7NbsZqpG9VO3m/WorJflOiDkKvVMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=EmtBrXw/; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1733832694; c=relaxed/simple;
+	bh=5QcZLHny0olE30ytkp4MH8IjgwzPeDI6yCw7Kv0u32s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u8sxigPmc+bqXptxRFUV4gvTlBnxNozZeq8V3VDof9XDlQO78I0uopLFdhNlb3GvMkAsJjf8y3BCkLz2zrfcXtiRoH21Y5imyZ9ZvmW4higRjVviBrYINW3xA6MLEd9NdYGgIgz7R7DCNDdAaGT2kcX83+YOndW1iUHOzgOC7uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nOHM7UND; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="EmtBrXw/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BA7xOZk007371;
-	Tue, 10 Dec 2024 05:06:44 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=lVzLNj3rXAH+GU2UEU
-	4TH+gttJpUh7a6maPob5Gu8Do=; b=EmtBrXw/AKoXGEDQvRmATBMEihecisE6rm
-	69aQR8T0flW6MCvO2QVxf9nlkS/B5lOjV6Rxl6NxUXK0fz+XGJnTWDk/rp2vFYDH
-	/f5T6tuBYt2UHhc7kOY2D3VgV9rucCSI+hJsX0CRraZCxXKEdtgScVNXp5764/yE
-	Y2yZbZ2M5ee51B+0FaHtmKMqUPQtW0PKYQt1mSD+gED9CQpc92V3xP3oJjAPDV2Y
-	TjE7Y5/0rOK/ZeCjADTOlXoZFEBKMALZ9u6SubiiaItli5V2YlDS3PRIzW9rlgSn
-	D3pESVmfl0xqX+7nTgSZw/SoJN6l1p+iUzdgkanfW+/QtEx5VDZQ==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkbddu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Dec 2024 05:06:43 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 10 Dec
- 2024 11:06:42 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Tue, 10 Dec 2024 11:06:42 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4FCA7820248;
-	Tue, 10 Dec 2024 11:06:42 +0000 (UTC)
-Date: Tue, 10 Dec 2024 11:06:41 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: anish kumar <yesanishhere@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-Message-ID: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-References: <20241207193441.15767-1-yesanishhere@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nOHM7UND"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-728ea1573c0so66946b3a.0;
+        Tue, 10 Dec 2024 04:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733832692; x=1734437492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2SbFr1LH1Hb+rihMpff4bIPu/Em9rs2b4NG+Lm1rqxg=;
+        b=nOHM7UND3K4apnh7qaoWYrwsqJy4XkVa6Dc5qRRgpti7yMRqNOdC0dwbf3gFczwQBR
+         pbBvZfWtcefDpsumDtHTAhK0ZQCMOq6XoC4oBEwaDtrzl8P/ymOC7NHBLMohYOMdL4Hl
+         8C4XpFiFOc7qXtP+ZvmwKt9oNG/AcSLhhrAG5BVXz6zzRF1Lyr0u4MFPIzuw4UxBo2Bn
+         qU4Ym4jCuvLtA2lnU4clUYijhrnm4qTSC/EotvVQWi8MpfFf7xSn+hUiflFon/LIzgxx
+         unAdJcU+hhG5OHYHEzd/7ucdtPFKbLYuRjRlnhpJpco8kXzJ3VOTk3u9vQ4f5SVH8EHt
+         f3Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733832692; x=1734437492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2SbFr1LH1Hb+rihMpff4bIPu/Em9rs2b4NG+Lm1rqxg=;
+        b=XVraU5rvTs1fKeW4C1vxKdP2CKTJ8ouxAm9208Nndm1V4d+DF/KCK0X8lB1AfpqQq0
+         w6m8rX3O57s4tL0Zlm8stW5VUoaPOmALwu9A10J5mKfdTQ3Cvad5oQ53nyMDRWh+768X
+         XM6TCZuAr68GHFIUrNJONpOMk/01NrWjWliKVfrM/fxwj63eKT2Z7QX2N0B9Y72uGW0S
+         YBIR4Dw98ssKfomlb+zv8i3I2rhdGEdDNJsm7rkyY7tqkZd+CW1IjpD7abrzoM9FFbZe
+         RX5T3pl7vs1896rFbthtP8ONd+ul3RdICqedsgq5Gf8yXCk47nlPqNbZXagzNfOwoVvd
+         zlCg==
+X-Forwarded-Encrypted: i=1; AJvYcCU3UC0rilfqvJGQHqzr1xAeQHVLJpaKdjgXrX9ahVi7E1uC3Md9Qd6xB0Rbiwtl9ZWvoMCZwwUv7Y0izCE=@vger.kernel.org, AJvYcCUocE1yGVmyFbm3SsPI70Ng3W7t2HorbsgUTy8BKAOc4uCxc/Fd0RqEAf9gYZ/LiiU5uvwc3ZPL4XOSD4U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdD3jI7Q8j17hrVTURsu0Lr9+Af2aPKM9H13qQnG6RDo1FtfUR
+	oRjHZsHlfTfF28EiXHNK4AVjQIHACTHpujFbBXcn640v72FBmpZc
+X-Gm-Gg: ASbGncvMbl21sez4TBGsHzknmg5h1tGRrFiO2IQ/i14f+12ezprBRe5EpsFZSf/8gvG
+	Y753lhtUIjdf2WYxgcuwsrIpYeXkQZ0xF8r6vq54aIM02e7W2/KANaFdIx6JCzTm6Oms+naf45D
+	F8HXompVaCJkGeYBGjtetfiVrjv+F9WVo7MhJl710w8E7UlNN9o3zbeq3lYzHP6Y1zgpPfaaaXZ
+	dsTEf0EcgKd23Sr3gM//z9tnZLcPfEhnzu3HxohrkCnO5iHrgfLS5SRPrwBTtHYriQ=
+X-Google-Smtp-Source: AGHT+IH+CqGieM7HRhOP1D3Ye7Ty1n33UunTr12BrSks4jwDDtU29vqdMfAogEVH/6S/6l/Zcv19Zg==
+X-Received: by 2002:a05:6a00:3027:b0:725:df1a:285 with SMTP id d2e1a72fcca58-725df1a17a1mr15934686b3a.12.1733832692014;
+        Tue, 10 Dec 2024 04:11:32 -0800 (PST)
+Received: from localhost.localdomain ([221.221.237.217])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725f1fba027sm3065316b3a.3.2024.12.10.04.11.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2024 04:11:31 -0800 (PST)
+From: Yang Zhao <etoyz688@gmail.com>
+To: 
+Cc: Yang Zhao <etoyz688@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Jiawei Wang <me@jwang.link>,
+	"end.to.start" <end.to.start@mail.ru>,
+	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: amd: yc: Fix bug where quirks code was skipped due to early return.
+Date: Tue, 10 Dec 2024 20:11:02 +0800
+Message-ID: <20241210121106.497223-1-etoyz688@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20241207193441.15767-1-yesanishhere@gmail.com>
-X-Proofpoint-ORIG-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
-X-Proofpoint-GUID: zCs7qdWlZtgdbJwj1Ze5H-CzHxXoNLnf
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: 8bit
 
-On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> +Boot-up logs will display message similar to:
-> +
-> +.. code-block:: text
-> +
-> +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> +
-> +To trigger this DAI link, a control interface is established by the
-> +DAPM core during internal DAI creation. This interface links to
-> +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> +path connects in the DAPM core. A mixer must be created to trigger
-> +the connection, prompting the DAPM core to evaluate path
-> +connections and call the ``snd_soc_dai_link_event`` callback with
-> +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> +
+Replaced the early return with DMI quirks code.
+This ensures that DMI quirks are executed.
 
-I am still not really following this, what are we trying to
-convey in this paragraph?
+Fixes: 4095cf872084 ("ASoC: amd: yc: Fix for enabling DMIC on acp6x via _DSD entry")
+Signed-off-by: Yang Zhao <etoyz688@gmail.com>
+---
+ sound/soc/amd/yc/acp6x-mach.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-What do we mean by a "control interface" here, is that referring
-to the kcontrol that is created to select the rate in the case
-of multiple rates? Or is it simply refering to the fact we call
-snd_soc_dapm_new_control_unlocked? But really that function is
-adding widgets, as I noted in my last email.
+diff --git a/sound/soc/amd/yc/acp6x-mach.c b/sound/soc/amd/yc/acp6x-mach.c
+index e38c5885dadf..9dfbcd00b897 100644
+--- a/sound/soc/amd/yc/acp6x-mach.c
++++ b/sound/soc/amd/yc/acp6x-mach.c
+@@ -23,7 +23,7 @@ SND_SOC_DAILINK_DEF(acp6x_pdm,
+ 
+ SND_SOC_DAILINK_DEF(dmic_codec,
+ 		    DAILINK_COMP_ARRAY(COMP_CODEC("dmic-codec.0",
+-						  "dmic-hifi")));
++							      "dmic-hifi")));
+ 
+ SND_SOC_DAILINK_DEF(pdm_platform,
+ 		    DAILINK_COMP_ARRAY(COMP_PLATFORM("acp_yc_pdm_dma.0")));
+@@ -583,13 +583,12 @@ static int acp6x_probe(struct platform_device *pdev)
+ 
+ 	if (is_dmic_enable && wov_en)
+ 		platform_set_drvdata(pdev, &acp6x_card);
+-	else
+-		return 0;
+-
+-	/* check for any DMI overrides */
+-	dmi_id = dmi_first_match(yc_acp_quirk_table);
+-	if (dmi_id)
+-		platform_set_drvdata(pdev, dmi_id->driver_data);
++	else {
++		/* check for any DMI overrides */
++		dmi_id = dmi_first_match(yc_acp_quirk_table);
++		if (dmi_id)
++			platform_set_drvdata(pdev, dmi_id->driver_data);
++	}
+ 
+ 	card = platform_get_drvdata(pdev);
+ 	if (!card)
+@@ -601,8 +600,8 @@ static int acp6x_probe(struct platform_device *pdev)
+ 	ret = devm_snd_soc_register_card(&pdev->dev, card);
+ 	if (ret) {
+ 		return dev_err_probe(&pdev->dev, ret,
+-				"snd_soc_register_card(%s) failed\n",
+-				card->name);
++				     "snd_soc_register_card(%s) failed\n",
++				     card->name);
+ 	}
+ 	return 0;
+ }
+-- 
+2.47.1
 
-Also what do we mean by a "A mixer must be created", I am not
-aware of any requirement for a mixer? The DAI link needs to be on
-a valid DAPM path, but I don't see any requirements other than
-that.
-
-Thanks,
-Charles
