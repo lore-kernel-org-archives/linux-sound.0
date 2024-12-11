@@ -1,158 +1,87 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4FB1FF1D1
-	for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 17:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8488D211A14;
+	Wed, 11 Dec 2024 18:50:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733939216; cv=none; b=jEuYHEUGBKbVh7ioar6zfLfs/oiVEJcymFzlpl11plVSiDat14PRaqxhTzlk8NuvUQBfE2vfkj0YPe+JtxUVV9X1EEYKhozJQjYi7e68B3W746GNHaHsjAHQucxe74VeDv7jyXbUBxYJrHe2U89HN3ZkpD2k10ZOXMmjEpfdPqc=
+	t=1733943047; cv=none; b=pwdz4GNYfR4zxDkHKkedXfenSSDxmcPXXFsEiHAnsvBQ124eLLxzxD4I85oYDMzFkES4hVsP2CEquJH37jSJiEv+m7fltFunJ6Fi2g4Bj1pfKGRx+rlxj/3j6n5hPSwfyGUtsa2MTKWQhtrxmx/phFrsLHANRL/hNeGFHn0h49I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733939216; c=relaxed/simple;
-	bh=xKfttj73jG1uTZpJNN82RMi2jpdXNIkxOf7nv7eMMZ0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jk45757A95dpf14EWvaQHx0kJZTlhsSJ77btMgbwRChMK1Z7oNrcmvDKTvv4DvdC8iugTPLNB1IEsoQiP/SQfXWjk5NI0TN+R1h1e3oc8rlHYc2RAfatBlufOhOtHgl21a+zcf7twBqbRKQhMWX1zc51qSnqMRn3dXy4Z461CWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=iJ1Rv1gP; arc=none smtp.client-ip=209.85.219.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	s=arc-20240116; t=1733943047; c=relaxed/simple;
+	bh=DrVZCtgLMVC9cL/ZKhC3Nq42lW4JPYLsrddLkDtJXxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VB+6KHWGtAk6Jj1AiEZcPVPXsLvCHyX5vM6eoH6jw6odp27269f3X0C5a7ASCFkKtfthdv4gc011LlcyYSD+V3ofrjyYGLSbo3uZAitJrorOPjqIirpuyZhESf7Sl8RlSYBhcDcKuSpVMW1BL+ZO6C7rqvV3zXKWV9iCEIyNEfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Il/pQ6uE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="iJ1Rv1gP"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e3982e9278bso5948866276.2
-        for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 09:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1733939211; x=1734544011; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XX4yF9JMGXX3II/VI0ICz4h+LN+8Yz44eu6TfJ04Ugk=;
-        b=iJ1Rv1gPyVXZinfE2j1hskrQVtwOTmifZx892vfPVXmW+A4luks2PdH2B2Tl4HOqN6
-         U9LqS7pYhhesWy/EGPUEEaXNixUTWci5GU5iiVALQSIcaGNrrwa3KRwiY7NIu2Xm5M9O
-         b3bR1JInOlALvNN3xwW/FiAhOLXRWEdfW4VOahL/Xlyp3XRxMh8RsYIj5yDvN6DZJ7Ul
-         iOh4z0HBbsY9FYf1yBBSENjuPtqUFQzg036S66WXVQnVehFi4bWC3djajWjWbKhxsi1b
-         JZ7nHrGpMISaEuXqGNuZ52zlgMmrRhLWgeS7Sg8Hjg+/P5uGHHslF0Tnhj90FCLu3x1z
-         uF0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733939211; x=1734544011;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XX4yF9JMGXX3II/VI0ICz4h+LN+8Yz44eu6TfJ04Ugk=;
-        b=riulzphg4jg2rQLd8E/FaP5sNMi3PAAhr4BaZsotRAWtHdmOBga/HMNOQ6sje7R7Z8
-         fJaIMsAlQ/TU5Rr4CVDGDHWV9Alec/zz0Z5fsk8e/RpnXxm2HHiY+TTZOOrWSa4J+TBv
-         a0XEDTs7l6aWYCl3D++QbVGIp290rorPVE5ZjkwxYRGRS4etc/TYdVa4ulnAvBaH9Mft
-         9AJO46YemW7/VVBf8DlQOcXH9QXd9sR/KYcF+8lb/ippKuS+/9XkPZvakjLMr9MT4djS
-         PlsNKDGa5545T86+zJK3iNbNtHj3nQ6WNVv4hfMNqrZrBc5XEtkmO710tKeVtIpZcIUZ
-         1GdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUNrP6spi0P5WirJ9gV8XOi4XFhpwcHQM/RPCFXW0XxgClQNff2MVbjpLglJhxshvwSpcWeFlkXkjlBsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi9NSwRcAY5VvTIcDe2NO0+djlBpHB+jZ8/peOkBiQRoWFBhNC
-	78//nRiJtEnIESyaqYLgF38HkF69c3V4923vKapfSRfiDaaiYDrIAI0ZbHO1IV/NHLbuWBDJRse
-	X4puQjRGbR4nlWLaBY6weC3bOub7eM1M7aPnhng==
-X-Gm-Gg: ASbGncuapdynUnxVjepCKH/uFNy+ZsaV0o34SnQ8PAAeefLQEZdHteTtMy63Gy9xXC7
-	YAaIDfk88AS7iY0tG0u6+WHs9EK1rwZlzd5w=
-X-Google-Smtp-Source: AGHT+IG3lDp6pcc8WpN9DOxtNpymp29steFnShZFR78LeXrDU2v7lqz7zSz8oGrhbnT8m3jrCYcj2LxsZTVFVNmSQds=
-X-Received: by 2002:a05:6902:230d:b0:e39:8a36:5771 with SMTP id
- 3f1490d57ef6-e3da3158089mr228005276.34.1733939211006; Wed, 11 Dec 2024
- 09:46:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Il/pQ6uE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF4B5C4CED2;
+	Wed, 11 Dec 2024 18:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733943047;
+	bh=DrVZCtgLMVC9cL/ZKhC3Nq42lW4JPYLsrddLkDtJXxM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Il/pQ6uEZPgzlba68mKpTJw9a7WlCPs2BnrVqFBWlE/TrwRk/5k7f09DGtRVM4bcr
+	 dFmQINk5VA36Ir1eOa6oRNogBUyXqlXwLm2AC/IabFaymM2OyOkm5fpWsNALf+PGXR
+	 Za4N6bpgdWw6bNzzUIdn+e97lE9Ngh97fUm7Mw++zSd1nFMWUXCGGyHmbuJbXPHKVp
+	 Nc27LFjnHFVJ/d/6PzE6Wz+LDM4Uj3hdRyWYpmTmeIUzszK9YvfAVBU1Qa/J2KWXsF
+	 s6hev4xAzyTfoPIhpZSIj6cB9yo6sKxscEE4qobzQh/F9uz7AzCY5hPLTE0Y/nd6bc
+	 IczRVMpZPbwgA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	zhangjiao2@cmss.chinamobile.com,
+	andriy.shevchenko@linux.intel.com,
+	luoyifan@cmss.chinamobile.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 10/36] ALSA: ump: Don't open legacy substream for an inactive group
+Date: Wed, 11 Dec 2024 13:49:26 -0500
+Message-ID: <20241211185028.3841047-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241211185028.3841047-1-sashal@kernel.org>
+References: <20241211185028.3841047-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
- <20241210-converge-secs-to-jiffies-v3-16-ddfefd7e9f2a@linux.microsoft.com>
-In-Reply-To: <20241210-converge-secs-to-jiffies-v3-16-ddfefd7e9f2a@linux.microsoft.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 11 Dec 2024 17:46:32 +0000
-Message-ID: <CAPY8ntDHcGpsaNytY2up_54e03twqZ2fj1=JTnb8x7LLo3uGDQ@mail.gmail.com>
-Subject: Re: [PATCH v3 16/19] staging: vc04_services: Convert timeouts to secs_to_jiffies()
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik <kadlec@netfilter.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Julia Lawall <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>, 
-	Oded Gabbay <ogabbay@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	James Smart <james.smart@broadcom.com>, Dick Kennedy <dick.kennedy@broadcom.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>, 
-	Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel Holtmann <marcel@holtmann.org>, 
-	Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz <luiz.dentz@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>, 
-	Ilya Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>, 
-	Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Louis Peens <louis.peens@corigine.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org, 
-	coreteam@netfilter.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	cocci@inria.fr, linux-arm-kernel@lists.infradead.org, 
-	linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-scsi@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, linux-block@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, ath11k@lists.infradead.org, 
-	linux-mm@kvack.org, linux-bluetooth@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
-	ceph-devel@vger.kernel.org, live-patching@vger.kernel.org, 
-	linux-sound@vger.kernel.org, oss-drivers@corigine.com, 
-	linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen <anna-maria@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.4
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Dec 2024 at 22:02, Easwar Hariharan
-<eahariha@linux.microsoft.com> wrote:
->
-> Commit b35108a51cf7 ("jiffies: Define secs_to_jiffies()") introduced
-> secs_to_jiffies(). As the value here is a multiple of 1000, use
-> secs_to_jiffies() instead of msecs_to_jiffies to avoid the multiplication.
->
-> This is converted using scripts/coccinelle/misc/secs_to_jiffies.cocci with
-> the following Coccinelle rules:
->
-> @@ constant C; @@
->
-> - msecs_to_jiffies(C * 1000)
-> + secs_to_jiffies(C)
->
-> @@ constant C; @@
->
-> - msecs_to_jiffies(C * MSEC_PER_SEC)
-> + secs_to_jiffies(C)
->
-> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+[ Upstream commit 3978d53df7236f0a517c2abeb43ddf6ac162cdd8 ]
 
-> ---
->  drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-> index dc0d715ed97078ad0f0a41db78428db4f4135a76..0dbe76ee557032d7861acfc002cc203ff2e6971d 100644
-> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
-> @@ -59,7 +59,7 @@ static int bcm2835_audio_send_msg_locked(struct bcm2835_audio_instance *instance
->
->         if (wait) {
->                 if (!wait_for_completion_timeout(&instance->msg_avail_comp,
-> -                                                msecs_to_jiffies(10 * 1000))) {
-> +                                                secs_to_jiffies(10))) {
->                         dev_err(instance->dev,
->                                 "vchi message timeout, msg=%d\n", m->type);
->                         return -ETIMEDOUT;
->
-> --
-> 2.43.0
->
+When a UMP Group is inactive, we shouldn't allow users to access it
+via the legacy MIDI access.  Add the group active flag check and
+return -ENODEV if it's inactive.
+
+Link: https://patch.msgid.link/20241129094546.32119-2-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/core/ump.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index 8d37f237f83b2..0ade67d6b0896 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1087,6 +1087,8 @@ static int snd_ump_legacy_open(struct snd_rawmidi_substream *substream)
+ 	guard(mutex)(&ump->open_mutex);
+ 	if (ump->legacy_substreams[dir][group])
+ 		return -EBUSY;
++	if (!ump->groups[group].active)
++		return -ENODEV;
+ 	if (dir == SNDRV_RAWMIDI_STREAM_OUTPUT) {
+ 		if (!ump->legacy_out_opens) {
+ 			err = snd_rawmidi_kernel_open(&ump->core, 0,
+-- 
+2.43.0
+
