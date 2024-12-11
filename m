@@ -1,182 +1,126 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35EB1A841F;
-	Wed, 11 Dec 2024 22:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A088F1DE880
+	for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 23:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733955736; cv=none; b=MVg3ObkC97WEfXdaVxsABmiWXPOmbSGMi2DRnjcwLtZ65asYo8VqmGFVm3UpUTAU+CanUMw5gy2GpkWP6GuBXTpRaQibsIg1erfpuWqBE/lfVo3lwkgd0ejTefqr1L4IMsz98DhObjM8nnLVvNMCdSxB7xnSC8QGmnm1kQNAu5s=
+	t=1733959122; cv=none; b=Lq7iIUFHM0gQKRO/bZHl7TlHfn8t3soHFIjITtXLoYZLeGNaP9WpAUEOiqJoQWuCmnGQ2p3nzjT3oKa1S3EAAaN3mX5H+0lPip2GBTpvy2wAf9KtMA9e9Fk5z/x2wJh0ZURIXZMB8aO3jLqArc0wsKbMD9+17/g9Fu4+0nl/v6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733955736; c=relaxed/simple;
-	bh=GWtWUSQZPiNLXSEnknV2wpkOsZJTI15wEinuB1XcrCk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=W8dqV7CBZBDcfMJ3G3lIVIS4LOhIcVJ5jadhfFD606lchyBpHHlGEHtdoj8CT9cvNzCCJwFF9GAGt6VskrWZG9hAfGcaZ3YbAH2x7mhsJsKf488ru8DtqMX1Hx8HdCauLqdHmEKKwmMuyYuQ0WouwGcbYi8oB+f8aYt1Y7nM2Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=K5XQ3o/f; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1733959122; c=relaxed/simple;
+	bh=Vw0Rd6A8CkPce9mRpc49aoMHEVtyn7wqJ1+SvBkbGsU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=heb48NNgRwyooeikEGVkTpRx5pfGJoFuZ9/azlJSrC8sOv6Vd6EVLvFsOZ+joWif42n9NDw/ziXFov4ZH7ishLHMSFd3Tseu9dNl5z2QwpTzaL0f/6ck7h8bqLlG8ap81f4u1z4n+ClzECuCRSgLlgptQUfK5kgaJBYQ9RZLyHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MWbAuH7t; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="K5XQ3o/f"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 240E3A03B8;
-	Wed, 11 Dec 2024 23:22:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=nz4TyTapXzMqxCqKapCIOkriVuwdNpBfQogyQAqNO5U=; b=
-	K5XQ3o/flOfsIMGkB0/xwZWBo0yU57mh6R0LLA5a9Kps0ubENp2mRsdi0DKUl2Hv
-	w75bGzwlvDSMj4dlKoQUKXmkujGO6ehbsVPsdnfzxh9q1xgftI3dShXSH0H+CZWt
-	6Ext/LxKqOkxFhRHE2ZEIveAojinCCKqzuxzq5MmDrlNWR10cOJ3N/XAi0CVS+KS
-	Gi+1JaLD37SzTDJC4jl8YHiB34hohS8g5sWsEi7CWHcs7wwVahBDu8ChVkcv00xm
-	n06I/jVIUJ8Pd2douQcv0P/h0oVpGIgDB6A+rK2+y5hE7QxbgaS5/MuYSfdvnVpm
-	gJleH+K30yGqKJ8oSYA1lhzmUYHCxw8A8wqMvLK3+9uLnajr3dYFndyQtUheJmXO
-	Ztnl4pbF5HnxkC5A9dSsbZq9ReaBqoHHq8Q47W90heGN/9hU1dctTIHxZtNMz8CH
-	JoElni/DlBxEbj2i1saW3UomxRjYePDrH7IDzH0WA5f5+wCX/BUiJAebht5juJia
-	29nfIBUPU45KUvcBYuzjK7c+ensyzAdxPef+q9DZE9pxqwUOU9MK1vQ8vNucUOl4
-	DYb2ayR7KDgPYyQZjtbPasiEI9PaCRglUuz7uPEo18/k3pJ9wgfe6wywAvP49no5
-	1eSVKByaUcCBu7+p0inCp16dOhfP5g6I4adBbLBjXas=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH] ASoC: sun4i-codec: Use new devm clk and reset APIs
-Date: Wed, 11 Dec 2024 23:22:05 +0100
-Message-ID: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MWbAuH7t"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-434f30ba149so11025e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 15:18:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733959119; x=1734563919; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rRHUZTWrw/enXmUg5HJUc+kp5QUA2QAYg8TadYFylJU=;
+        b=MWbAuH7ta3ztE4lKmo1WnN7lPC2b8xNu5vZtA4i+UH0PjfVviZz3NA4W4JifwCVm6F
+         /2XLeSkAc4cj7+Gal2NjL0Qu8Vi+mdTgoSSM3DSPOe8hsl6g2xFrQ06yBxj/U6DXtjc+
+         3AHGvrsoSKQpRlwqWgPmmKOUAi3cpeEj4QAzPcM2/dYYgl2j061tfDsMXVVDLG/E4L1H
+         JvuMpf0p7xz7Y6wbi/8q6nJuapyPvaFKxYoM/wUG9PvZ7FxlifEBkPE86g7SzczeOUUA
+         SvaaAWUxG9D/1+DhRggYpiIzY53s28VkGsZgbTpAHottubI055oPD7pWiHv9Q8rLfyRm
+         sDXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733959119; x=1734563919;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=rRHUZTWrw/enXmUg5HJUc+kp5QUA2QAYg8TadYFylJU=;
+        b=pVGeCzqwsAjWrctBW7xTsofPdgTw9yD7q2gOjhhXAJw/y7GcTPmruzUKXfrPqjsesC
+         VL0SHrl4xekJFeMmZkBi7jlr1b79VFsdXevoDuSW+Nl1MhJtGuFtnCzYHEBSfrwgfP6l
+         Vk5opXSbBIypOi+KR8DGr+WPgBR08hAmBuOEHmCbpmrffkhKvsV0bb/0OgjB6jFnz5Lg
+         4xAXHWV+Vho5y98XFppVmLqwcLO/5MEZJqJ1KcXrG46gGZixLPy6FN7PcV0ik/rckjBl
+         GTVVV1u8OydXvD9oi6oFlNzOoSA3ons+s/b3uY7QUx6wmuVzNi/ybAsOM5qSX8u7EWeZ
+         fR7A==
+X-Forwarded-Encrypted: i=1; AJvYcCUajb7VHlwHgiyELBa2g2nkkEPUvMnT2M8TivoCZ58DuU9nGQkNhu15PVBT2rmHaTvm0vVCCJuXnqd7Hw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNNpZ9ze6zArbnP9Rdb6RO+CJWdSOWI0B6uL0NO8UeHZqlPhRu
+	ztQUXLyD9nkfcgLZZUb/MazrhboLXtBS95f+0W1I/GLgSkvZFT+R4FlMGejQt90=
+X-Gm-Gg: ASbGncsI0BNVdGZ5x5jpEKrz538rAWizTZktl7fG1Dy9V4Rj0hgHWzBNerxV1l7OEdf
+	9u9MESZq8K4fUaggvoheFSqksDO/+CFKVHHZeyFHsFFKI+5SpbPgO1gq3Xm+DIzjByAHCR4ZweJ
+	cbcKy+gZN98n4sO0s/H5//ieObltg3NG3DFJMDB+j1Vkk8ZDDAQyFIDEMZ57yzmRorY3xKvKF5P
+	2Oc15244+AtVQsnytr8/zsMZPr6ys73aqz1hUGkolfTzhJlGopDTcZB
+X-Google-Smtp-Source: AGHT+IHm4dUrixa2oAB3OPqhfx0NrTgK9S/ClAQ/+/CAsZLq77t7Elt6vMKKQ3p5VLAN/iyTfeDFTg==
+X-Received: by 2002:a05:600c:3acf:b0:434:a802:e99a with SMTP id 5b1f17b1804b1-4361c346253mr39230375e9.4.1733959118933;
+        Wed, 11 Dec 2024 15:18:38 -0800 (PST)
+Received: from localhost ([2.222.231.247])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52c0be4sm273741395e9.28.2024.12.11.15.18.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2024 15:18:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1733955729;VERSION=7982;MC=3794370839;ID=394182;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D9485562726B
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Dec 2024 23:18:37 +0000
+Message-Id: <D6997HYLIQ6L.3FN664SYBLTXM@linaro.org>
+Cc: <tiwai@suse.com>, <lgirdwood@gmail.com>, <perex@perex.cz>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <dmitry.baryshkov@linaro.org>, <linux-sound@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 08/10] arm64: dts: qcom: qrb4210-rb2: enable wsa881x
+ amplifier
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Konrad Dybcio" <konrad.dybcio@oss.qualcomm.com>, <broonie@kernel.org>,
+ <konradybcio@kernel.org>, <andersson@kernel.org>,
+ <srinivas.kandagatla@linaro.org>
+X-Mailer: aerc 0.18.2
+References: <20241101053154.497550-1-alexey.klimov@linaro.org>
+ <20241101053154.497550-9-alexey.klimov@linaro.org>
+ <8078589d-d724-422e-a5f0-f5b6c67deafe@oss.qualcomm.com>
+In-Reply-To: <8078589d-d724-422e-a5f0-f5b6c67deafe@oss.qualcomm.com>
 
-Clean up error handling by using the new devm_
-clock and reset functions. This should make it
-easier to add new code, as we can eliminate the
-"goto ladder" in probe().
+On Sat Nov 2, 2024 at 9:30 AM GMT, Konrad Dybcio wrote:
+> On 1.11.2024 6:31 AM, Alexey Klimov wrote:
+> > One WSA881X amplifier is connected on QRB4210 RB2 board
+> > hence only mono speaker is supported. This amplifier is set
+> > to work in analog mode only. Also add required powerdown
+> > pins/gpios.
+> >=20
+> > Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> > Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> > ---
+> >  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 45 ++++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> >=20
+> > diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot=
+/dts/qcom/qrb4210-rb2.dts
+> > index fc71f5930688..76b9ae1b0ebc 100644
+> > --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> > +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> > @@ -63,6 +63,16 @@ hdmi_con: endpoint {
+> >  		};
+> >  	};
+> > =20
+> > +	i2c0_gpio: i2c0 {
+> > +		compatible =3D "i2c-gpio";
+> > +
+> > +		sda-gpios =3D <&tlmm 4 GPIO_ACTIVE_HIGH>;
+> > +		scl-gpios =3D <&tlmm 5 GPIO_ACTIVE_HIGH>;
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <0>;
+> > +		status =3D "disabled";
+>
+> Does it not work with &i2c1?
 
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
----
- sound/soc/sunxi/sun4i-codec.c | 41 ++++++-----------------------------
- 1 file changed, 7 insertions(+), 34 deletions(-)
+Actually it does work with i2c1 (non-gpio version).
+I am going to use that and will see how it behaves.
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 3d6156fefe75..b0ca293979d7 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -2273,7 +2273,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Get the clocks from the DT */
--	scodec->clk_apb = devm_clk_get(&pdev->dev, "apb");
-+	scodec->clk_apb = devm_clk_get_enabled(&pdev->dev, "apb");
- 	if (IS_ERR(scodec->clk_apb)) {
- 		dev_err(&pdev->dev, "Failed to get the APB clock\n");
- 		return PTR_ERR(scodec->clk_apb);
-@@ -2286,8 +2286,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	if (quirks->has_reset) {
--		scodec->rst = devm_reset_control_get_exclusive(&pdev->dev,
--							       NULL);
-+		scodec->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
- 		if (IS_ERR(scodec->rst)) {
- 			dev_err(&pdev->dev, "Failed to get reset control\n");
- 			return PTR_ERR(scodec->rst);
-@@ -2323,22 +2322,6 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	/* Enable the bus clock */
--	if (clk_prepare_enable(scodec->clk_apb)) {
--		dev_err(&pdev->dev, "Failed to enable the APB clock\n");
--		return -EINVAL;
--	}
--
--	/* Deassert the reset control */
--	if (scodec->rst) {
--		ret = reset_control_deassert(scodec->rst);
--		if (ret) {
--			dev_err(&pdev->dev,
--				"Failed to deassert the reset control\n");
--			goto err_clk_disable;
--		}
--	}
--
- 	/* DMA configuration for TX FIFO */
- 	scodec->playback_dma_data.addr = res->start + quirks->reg_dac_txdata;
- 	scodec->playback_dma_data.maxburst = quirks->dma_max_burst;
-@@ -2356,7 +2339,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 				     &sun4i_codec_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our codec\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev,
-@@ -2364,20 +2347,20 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 					      &dummy_cpu_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our DAI\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register against DMAEngine\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	card = quirks->create_card(&pdev->dev);
- 	if (IS_ERR(card)) {
- 		ret = PTR_ERR(card);
- 		dev_err(&pdev->dev, "Failed to create our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	snd_soc_card_set_drvdata(card, scodec);
-@@ -2385,17 +2368,10 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
- 		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_assert_reset:
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--err_clk_disable:
--	clk_disable_unprepare(scodec->clk_apb);
--	return ret;
- }
- 
- static void sun4i_codec_remove(struct platform_device *pdev)
-@@ -2404,9 +2380,6 @@ static void sun4i_codec_remove(struct platform_device *pdev)
- 	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
- 
- 	snd_soc_unregister_card(card);
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--	clk_disable_unprepare(scodec->clk_apb);
- }
- 
- static struct platform_driver sun4i_codec_driver = {
--- 
-2.34.1
+Thanks!
 
+Best regards,
+Alexey
 
