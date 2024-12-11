@@ -1,155 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79560256AA0;
-	Wed, 11 Dec 2024 18:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7F41DDC29
+	for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 20:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733943269; cv=none; b=Cmp5AQ5S9Y4QXslVlvaz++CNHXa5sSuQg9gjj062wvk7+Ot0zK0HVaNsjmC0XOC3TJfeQ1Ql3khVpFlg4owvvSZg7BDWSnAyXMSkbaV89aI5hwbkMmdplox5/4L/Dq97Lbza8ubRNB+d4YL7na8lGDoeYbQIa+D/kR+20yz4jG8=
+	t=1733947960; cv=none; b=FLUiexz+grybTdi4Vs3SC6ByHkQGvYRSwq+AidkBKmnnGsvyWMG8ZDmnWlCA2wt3R0jnFU74BFnFAheMlQ7QcPPqvsgWtzhr28Ti00nQpfe/EneuOKe0aDu/w4cjBTH295fFCERGFpZ438V7s+tYtF17wrLn9tVckbm882dazTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733943269; c=relaxed/simple;
-	bh=z+TpmQgMLMYduv4l/1NzZ6nIhg46S4NTM6DsCPBzbbo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VkKwkD9/lDOUVs9070SF+r9AnVUFt5q9jAx+e3gjTRSUMppsdJ3EjJOjaD7fjWPDvhj0cgg7pHCpM9h7N8eHnOGXazqx6IXGrbYcsH1pErLCWyFUruVgdDkNamTyrXzxXOf1pFsKcOdyw5gmu4z6IqLMqrFQ2vYQ8Ttktyo6sOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kT/2aAKx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733947960; c=relaxed/simple;
+	bh=/fVcvfI/nJgq0KL9QHFEEc3B//jpEClgu6sMbVc2hJE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=ij/OydOoOz4khqG0+CIEks2lxwX2mS+/LseV1yN0rBtqbiMBRZr9PwCXBWen+xbkexxJj024Nr81pIgx+zEAi/m+ewF6b7HdvaHQHu2lO70T0YrHnuOKDHphqOwSQDQvBSStj/jptGerp/fEMrWFX2w33F9NoyJKq/5Lv+1kk30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FATNfFS1; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kT/2aAKx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50E42C4CED2;
-	Wed, 11 Dec 2024 18:54:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733943268;
-	bh=z+TpmQgMLMYduv4l/1NzZ6nIhg46S4NTM6DsCPBzbbo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kT/2aAKxRoqQEA0vYh/rgcOYm1LqTruzjYQcsWZYMyax7yMN1VzzKloiX1QzQh8Rz
-	 jd7zwtpxqhyKbdacF28MfoAZ3DEjSCanUs9+VXb3pq3T6ITwTlivne7+ciolzTSi0B
-	 FqLG0AVyp1TV2Nr1O9LUSa98sp6KDFPHsdHB4T1Xl3qG0tWO+BAWUc+MQ9RS3RJsPZ
-	 eUaF5sEXcxU4p06sBZ68VnK1BKBtdK8Ae1hWmnMcZsGMwuNW7r/dnFFTCKk6JvBB6g
-	 M9BWzVImTbSJU6unv/6shXGBrJIAoIUCbUlfckwspMe0jyS6y88SlZDuRas6cFNn2t
-	 DJ+uVNZf6k7DA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: bo liu <bo.liu@senarytech.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	kovalev@altlinux.org,
-	wse@tuxedocomputers.com,
-	me@oldherl.one,
-	jaroslaw.janik@gmail.com,
-	cs@tuxedo.de,
-	songxiebing@kylinos.cn,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 04/10] ALSA: hda/conexant: fix Z60MR100 startup pop issue
-Date: Wed, 11 Dec 2024 13:54:10 -0500
-Message-ID: <20241211185419.3843138-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241211185419.3843138-1-sashal@kernel.org>
-References: <20241211185419.3843138-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FATNfFS1"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-385d7f19f20so3434168f8f.1
+        for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 12:12:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733947957; x=1734552757; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TPN2+AhDq4P0SWNYP6pOLiBUFHEUMd0r1OKMpQRaBeY=;
+        b=FATNfFS18kvqaKIJKr/FAXZZq8pJ/DSe7M5/JRLICn/BMsu08fL3+FZjtQ8m4JgnMf
+         opTGKwMkj/aDAc5KoTV90802yFTRaaKVvfbnhqPtKXQcL5MgSBA0K4cNb08RJlVWMur9
+         Bo8EH0L1D0ez1LbfxXYS3zE78TJPNRw/CE5xVP/OvqtBTk4l2iHy0Qhmj2wGGnY1Jt9T
+         kMa9GWTIFfpM9YOnu4B5+7EbpePIh5tJ9DDb35Zes1aVxb4i4T0t3tQ51N1LKWXNMHi2
+         CKdhHQUxhz35Vckk+VlLIMgNUiQKrHd4oHbwGxjgBmYanNhAwg0skyxrGtZEWHBrVCe2
+         QhdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733947957; x=1734552757;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TPN2+AhDq4P0SWNYP6pOLiBUFHEUMd0r1OKMpQRaBeY=;
+        b=wGOPATCOG7+cMOyZDl6zF6M8/+MMRXcBiFJw5vm5NF53F9d57WmRJ+QvDq6HRooLJY
+         OqX4mDgYUzFjkyiMIigEQWz/wLXjS9sHYIKPB5ZUNj0dO17FG9P0vci1kiwwdGZOqZ+h
+         CvlnkuhU32/Y5txjo5FoGCIgPgla+G2PSEqUhM4IjFAB+8FpGAq1JN/4DN8Mtgt1lQCY
+         KABJFMq7VCWOWopHFulvNxSc0ZmLFmovqus9cnQQkbML+7UbzLKgHy6FrlevtVWXXZi/
+         08HJq7xZ8WpkXORWCUcnx0q7ZgUMAzwGSg+tszOd1ewMZMFJMZy9oaOQyY6VNOGXb0G9
+         tjpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVftOgQS6VQgUhiO/i+VIdW4Bm4dMJ+rnTcZBCGvqll2Vk3RSB+UuZacEWpKD8LTzXg8J3dBedVc0Jxg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKBphLbzd7bfYjFioc30jf/ogBa3JY1uucOdOgGUQrBbB4Lzkd
+	aGtcRhtRX7YOikwPW1PTC5FwyoAyKldSqvkfN9Smow0YEHJoEEVQr1sid4z6MjE=
+X-Gm-Gg: ASbGnctyG7hc5MJXRylQxuyqSEmm43H9oDl8BG3wZP2/g+1s4I4qBo9duyZAxD6AxuN
+	RR92r/dCKTlfneFPgDQTk+Nh1OzgogVNERrp/ygBYRcwKxZ5nvHGNZ1EaG+btld0vVMKooxiXHa
+	KiC0Rm/YfBhXUFKCK32jJqO5uPNiFxqMsM36DpMOvuZl6LWzWbNQ/MrCT37e6cG/nedfzgMXMnR
+	Y7+SnGXpjpioHQVg3mgytbxqwn+oxfs240WF1Y/v2slh5F4772zJbwD
+X-Google-Smtp-Source: AGHT+IGhKdHf66Trsg0Xay3Wa/RqDWr8rS+2Oi6F9OIapryWlc50G8eqxXs0nor3X97sj8+KlZI9gA==
+X-Received: by 2002:a5d:5984:0:b0:385:edd1:2245 with SMTP id ffacd0b85a97d-3864cea45bbmr3619738f8f.30.1733947957412;
+        Wed, 11 Dec 2024 12:12:37 -0800 (PST)
+Received: from localhost ([2.222.231.247])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4361ee54736sm23968785e9.41.2024.12.11.12.12.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2024 12:12:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.230
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Dec 2024 20:12:36 +0000
+Message-Id: <D69592H3JKB6.21HDMPXX9Q6OF@linaro.org>
+Cc: <broonie@kernel.org>, <konradybcio@kernel.org>,
+ <konrad.dybcio@oss.qualcomm.com>, <andersson@kernel.org>,
+ <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>, <lgirdwood@gmail.com>,
+ <perex@perex.cz>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v1 05/10] dt-bindings: arm: qcom-soc: extend pattern
+ matching for QRB4210/QRB2210 SoCs
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+X-Mailer: aerc 0.18.2
+References: <20241101053154.497550-1-alexey.klimov@linaro.org>
+ <20241101053154.497550-6-alexey.klimov@linaro.org>
+ <ghlkqehfs5sagxrcvyywixfkt6ie3pwwtqm2j3n3c3xytjl3sb@d435kwmo3nki>
+In-Reply-To: <ghlkqehfs5sagxrcvyywixfkt6ie3pwwtqm2j3n3c3xytjl3sb@d435kwmo3nki>
 
-From: bo liu <bo.liu@senarytech.com>
+On Fri Nov 1, 2024 at 7:54 AM GMT, Krzysztof Kozlowski wrote:
+> On Fri, Nov 01, 2024 at 05:31:49AM +0000, Alexey Klimov wrote:
+> > Add missing QRB platform name to the pattern matching Qualcomm compatib=
+les.
+> >=20
+> > Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> > ---
+> >  Documentation/devicetree/bindings/arm/qcom-soc.yaml | 4 ++--
+>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-[ Upstream commit 947c4012f8f03a8bb946beb6e5294d5e32817d67 ]
-
-When Z60MR100 startup, speaker will output a pop. To fix this issue,
-we mute codec by init verbs in bios when system startup, and set GPIO
-to low to unmute codec in codec driver when it loaded .
-
-[ white space fixes and compile warning fix by tiwai ]
-
-Signed-off-by: bo liu <bo.liu@senarytech.com>
-Link: https://patch.msgid.link/20241129014441.437205-1-bo.liu@senarytech.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/pci/hda/patch_conexant.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 30025716164a0..40853b26a1c3f 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -238,6 +238,7 @@ enum {
- 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
- 	CXT_PINCFG_SWS_JS201D,
- 	CXT_PINCFG_TOP_SPEAKER,
-+	CXT_FIXUP_HP_A_U,
- };
- 
- /* for hda_fixup_thinkpad_acpi() */
-@@ -705,6 +706,18 @@ static void cxt_setup_mute_led(struct hda_codec *codec,
- 	}
- }
- 
-+static void cxt_setup_gpio_unmute(struct hda_codec *codec,
-+				  unsigned int gpio_mute_mask)
-+{
-+	if (gpio_mute_mask) {
-+		// set gpio data to 0.
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK, gpio_mute_mask);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION, gpio_mute_mask);
-+		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
-+	}
-+}
-+
- static void cxt_fixup_mute_led_gpio(struct hda_codec *codec,
- 				const struct hda_fixup *fix, int action)
- {
-@@ -719,6 +732,15 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
- 		cxt_setup_mute_led(codec, 0x10, 0x20);
- }
- 
-+static void cxt_fixup_hp_a_u(struct hda_codec *codec,
-+			     const struct hda_fixup *fix, int action)
-+{
-+	// Init vers in BIOS mute the spk/hp by set gpio high to avoid pop noise,
-+	// so need to unmute once by clearing the gpio data when runs into the system.
-+	if (action == HDA_FIXUP_ACT_INIT)
-+		cxt_setup_gpio_unmute(codec, 0x2);
-+}
-+
- /* ThinkPad X200 & co with cxt5051 */
- static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
- 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
-@@ -943,6 +965,10 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cxt_fixup_sirius_top_speaker,
- 	},
-+	[CXT_FIXUP_HP_A_U] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = cxt_fixup_hp_a_u,
-+	},
- };
- 
- static const struct snd_pci_quirk cxt5045_fixups[] = {
-@@ -1017,6 +1043,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
- 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
-+	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
- 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
- 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
- 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
-@@ -1062,6 +1089,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
- 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
- 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
- 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
-+	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
- 	{}
- };
- 
--- 
-2.43.0
+Since I am not going to use "qrb" in this patches, should I resend
+it as a separate patch? Because we have platforms qrb4210 and etc.?
 
