@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BCA24BFAF;
-	Wed, 11 Dec 2024 18:53:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E72545E5;
+	Wed, 11 Dec 2024 18:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733943206; cv=none; b=JZLpsL4hQFloZhM7NrDGbDP7K6d/xVY9gikbAgiRbRw6cLui0zt5nuNSWtwyl+NUlU3jm0lN6ORgqNBvOOjacfNUWLoB2L+KVpI4rSb7yAyWRat/0ANd4JvLVybACa2f9o3WGUVXvErO2hqzRdOKnErJn9gI7psJEey+51Wl+u8=
+	t=1733943245; cv=none; b=ne3FUz6I23l8EQ2TjwLYJR9wBxh/Fsycmxrc4AOelYZ/HcUMxsPCIMQ88i2fpDmxRFKeDeV2+VxCx3Ax1r1D0a7w2LYGwSPBAaK8RG7tbTsbQA5COSwlKFlR6NGR/zFuMYEWxd7ADiP+vIsug9acSFO9QlgX63i3lF3XNh0Lscc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733943206; c=relaxed/simple;
-	bh=EgoCqeABvBYx4WAtiE1pFmAsUG6fptY0af98AbMpEws=;
+	s=arc-20240116; t=1733943245; c=relaxed/simple;
+	bh=2qNI2CcBrnSA6MORUT8L/otlVLgvHsaV4dJGOyPOOeY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TTjxFL6fvO4xCh1sxnZpr/LDKxRk9U4C4+JHaor0KuxRO7aJwriTC7M4NF1NulgimjiN6Slv1BbZ1W9BVteaL6VZwTklMHZjefS1nQw23BLABURJ067belt1lzLYBUR/sUh7ETUsYC4k3XHn6B+jV6bz4fI7S/vFmwHTz4M0es4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hdb86YLb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=flsWdAua9mJUDvnUXxvog1QYKQxGHC9feU5Vh6gOrc9RQGbckvCKleHF8uNs9o38/YuPJZ9+CCYuJ0lKyW1X0jmE0441F4Q/IBeOvQYv1n6eObCOae6gPOGWCC3NsCT11T23EZhE8El8wAwFYOiK9uYNQyfxdu9it3XOibNVp/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+Qwi6UK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hdb86YLb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A156C4CED2;
-	Wed, 11 Dec 2024 18:53:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+Qwi6UK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EF4C4CED2;
+	Wed, 11 Dec 2024 18:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733943205;
-	bh=EgoCqeABvBYx4WAtiE1pFmAsUG6fptY0af98AbMpEws=;
+	s=k20201202; t=1733943244;
+	bh=2qNI2CcBrnSA6MORUT8L/otlVLgvHsaV4dJGOyPOOeY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Hdb86YLb84gGeO/Bm+wEvBEiwUoenws80cxV4Wz5FN2EmqPRyx3M6fOWKcbU+uB0/
-	 Wn9547embS5kbZACkymWF8u6IAyImBzRocZOA88Sz1NnkPbpagZcOMULEh0AdbbOak
-	 TJ4qN61lGJtx6vsVUQ1EU1e1VXLaF8W0oydvuMw0ehW7XCf4cOM7PpxLyUziiQOTpO
-	 jFqtXOp2g/9k4odUCDin4a0ap/cbum3tjofWS5k0UEbFqAn+wMJ2BBKpdxXa41GFa5
-	 tnxeMzET+f9Uv3BszIlmGWxQB9CKUIvDRWeqOuKvcVZnUJ5CJQnCpdRkwbwdZvJ1kK
-	 OZYCR0t/3AOmg==
+	b=R+Qwi6UKuUYHEKWZ6BUjI0NX6dWPWfIcP7BdFEHfWK92OYqc7vwW/JWeoXFAO1Of5
+	 CLjS7IVZGlu8C9LoiAkjmL4qZGV4xvA2i2r1bRU1k1nxWcAFE3tBkITX01HCdiQ/gR
+	 k2AmiPJNYumntF7CizQwSJC9XH6taAvg9GMhe6XPzOmqh8I1xMKCZmmOsiEicD3Wrv
+	 WtjHosNZleTGUsqszi7gerb1XCwMbXbUquohq4tFvxMdOBUPUcR1s3b0tRUrVRvrVe
+	 Ygb3ndZZWAVqv6afXEyXK23i4uUV/yU4mPITuUP+vaJv9J9xsoEE3kJj1kv01RX6OE
+	 RGVlBF596qTDQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,18 +35,17 @@ Cc: bo liu <bo.liu@senarytech.com>,
 	perex@perex.cz,
 	tiwai@suse.com,
 	kovalev@altlinux.org,
-	cs@tuxedo.de,
-	wse@tuxedocomputers.com,
-	me@oldherl.one,
 	jaroslaw.janik@gmail.com,
 	songxiebing@kylinos.cn,
+	me@oldherl.one,
+	cs@tuxedo.de,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 04/15] ALSA: hda/conexant: fix Z60MR100 startup pop issue
-Date: Wed, 11 Dec 2024 13:52:56 -0500
-Message-ID: <20241211185316.3842543-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 04/10] ALSA: hda/conexant: fix Z60MR100 startup pop issue
+Date: Wed, 11 Dec 2024 13:53:45 -0500
+Message-ID: <20241211185355.3842902-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241211185316.3842543-1-sashal@kernel.org>
-References: <20241211185316.3842543-1-sashal@kernel.org>
+In-Reply-To: <20241211185355.3842902-1-sashal@kernel.org>
+References: <20241211185355.3842902-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -55,7 +54,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.119
+X-stable-base: Linux 5.15.173
 Content-Transfer-Encoding: 8bit
 
 From: bo liu <bo.liu@senarytech.com>
@@ -77,7 +76,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 28 insertions(+)
 
 diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index a14b9cb48f69a..7edb029f08a36 100644
+index 8bc0dce59263e..520144df01744 100644
 --- a/sound/pci/hda/patch_conexant.c
 +++ b/sound/pci/hda/patch_conexant.c
 @@ -311,6 +311,7 @@ enum {
