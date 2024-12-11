@@ -1,97 +1,135 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9285F238E2A;
-	Wed, 11 Dec 2024 12:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5467223FD06;
+	Wed, 11 Dec 2024 13:24:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733918699; cv=none; b=mFpkOQZVPsavfYZJoiJq2B5ThHfwYdzqMcj4OEPIi517jRO16wNo71OArFHC6nkiTvsceS98TBBL/YE5t2AXl6yc9kOJpfv0H3VbQ3puzPMd6DjzTJFO1YBQwuLa9DpthyTHA4CBuZpgixLhSej6N8WOtlfOWebxDX3ubfIQasA=
+	t=1733923497; cv=none; b=q/onTB0xPYLcEPtYnd2YgqFC+sSV0czthOtWiHR2WfpJEcyyBvSNBMpVCJG6JYlA+ZBCNGj699SPThSQWYechZJniQ3svjf5pI4ntdXfiGje3oBmU8iquOc5LOxcSInQxhZ/UhZcu0af8FvYylFkYr2FMx6rhDKgNwH2w/rUL5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733918699; c=relaxed/simple;
-	bh=1Yd5D9BJyOtyfIb8dJrBUAsYwwwWUWP+TpbR9XJzO0A=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VK2mT07T1sozj7iUNjfBZMsz8+UU67BKBPva2WO4Unv8BjXEDA2WqVyNErhdM6km0JFN8kRRfZXbOwGvTplRy7xh0N1MeIugGxbSp0dKWyrolKGw01rU2mdGduCNAaqHZ16in4HSQr3C57PKxCc6VYXEn4UsPkmohPba/TQjmyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=z+m6LVNC; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1733923497; c=relaxed/simple;
+	bh=/G0epAGa2I4eS7VibmqWScj9bycsGNh6b10XOlNoZVI=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qeDlAaCw2iMTQd1cVYx7AaiY8/Y1o8Bo9DLgSsZHny8LTipcMgEO1Zd5EUgwfjLOhITfYilru5sWJjycLtfUfl/DkAsl0HD3RciEIGUhFQiBONez3EUtG2FxMZnt9LPC6bT64UYWouUKQg8Rru63PCyJ7eOVk75CH+sPdyLJSxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFUYik6k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/rI/mNGe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dFUYik6k; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/rI/mNGe; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="z+m6LVNC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1733918697; x=1765454697;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1Yd5D9BJyOtyfIb8dJrBUAsYwwwWUWP+TpbR9XJzO0A=;
-  b=z+m6LVNCl/Ad2Gup/EXr01DmMGjsicJoeEmAEjNvXjag4KZliKl2s84U
-   Ek7ju0+XRFxnRMmeQvC8nx2pE8caMWas3N2MvSB91cT7urJ/l2LEyAM46
-   ADMM/AHElYSu1Z2G6+Xxfi/4u0+SP/P+9MRiDNcrsByhQ0GHEhkAV49mJ
-   j8OstjBi7izithstgdBE7qYWiJGpEqdwJdqJ+Y3orLbg9jmks2j8tJFeB
-   38a6JN4Xi4nxiELKetH5qzxNZXkEaPVfFRGOT2gOd5lvLtjKleBobg8ME
-   GKnQUwmLYPCfiFAmyfNtSorsdjUzY1tkOi1f1+QK4S9X0bWFHRDGHSy5r
-   A==;
-X-CSE-ConnectionGUID: Ptjd/tA+SRiWFGe/ObcJTg==
-X-CSE-MsgGUID: v4RVO+SvRWyQH0g/1OUQug==
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="39094712"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Dec 2024 05:04:56 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 11 Dec 2024 05:04:16 -0700
-Received: from ROB-ULT-M76677.microchip.com (10.10.85.11) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Wed, 11 Dec 2024 05:04:13 -0700
-From: Andrei Simion <andrei.simion@microchip.com>
-To: <balakrishnan.s@microchip.com>
-CC: <alexandre.belloni@bootlin.com>, <andrei.simion@microchip.com>,
-	<broonie@kernel.org>, <claudiu.beznea@tuxon.dev>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>, <nicolas.ferre@microchip.com>,
-	<robh@kernel.org>
-Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: atmel-at91sam9g20ek: convert to json-schema
-Date: Wed, 11 Dec 2024 14:03:17 +0200
-Message-ID: <20241211120316.22494-1-andrei.simion@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com>
-References: <20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFUYik6k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/rI/mNGe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dFUYik6k";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/rI/mNGe"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3CF8D1F38C;
+	Wed, 11 Dec 2024 13:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733923493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SguABdKfnUIGO2u23hE0MzTCimieiDIf1ANX09Bwk8=;
+	b=dFUYik6kb1+7E4zk8A/LCGc7oVxic5aOvwK43pyVHWVc5xk4Hu16Lu52/OetSvlLajLrQA
+	UNqjFqdFE90aUTRXijtAnQE0BgcUBCtikkJI6ciOosSoswuknSeyVxsnRB/HAjROtAVk8v
+	FQNuo7NuFifklQPIpDjgRy8Phl/aLf0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733923493;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SguABdKfnUIGO2u23hE0MzTCimieiDIf1ANX09Bwk8=;
+	b=/rI/mNGeaI1ebPXdqzigSJC0oVlJGm3doxrlTuwsXZ5hUZxbKxI7qjwyOFuuMVoAKUCVIH
+	X4p5fZaOOv0tuPCw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dFUYik6k;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="/rI/mNGe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733923493; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SguABdKfnUIGO2u23hE0MzTCimieiDIf1ANX09Bwk8=;
+	b=dFUYik6kb1+7E4zk8A/LCGc7oVxic5aOvwK43pyVHWVc5xk4Hu16Lu52/OetSvlLajLrQA
+	UNqjFqdFE90aUTRXijtAnQE0BgcUBCtikkJI6ciOosSoswuknSeyVxsnRB/HAjROtAVk8v
+	FQNuo7NuFifklQPIpDjgRy8Phl/aLf0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733923493;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2SguABdKfnUIGO2u23hE0MzTCimieiDIf1ANX09Bwk8=;
+	b=/rI/mNGeaI1ebPXdqzigSJC0oVlJGm3doxrlTuwsXZ5hUZxbKxI7qjwyOFuuMVoAKUCVIH
+	X4p5fZaOOv0tuPCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 13BEC13983;
+	Wed, 11 Dec 2024 13:24:53 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id UQWFA6WSWWdpGAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 11 Dec 2024 13:24:53 +0000
+Date: Wed, 11 Dec 2024 14:24:52 +0100
+Message-ID: <87zfl21hej.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: sonicvibes: Use str_on_off() helper in snd_sonicvibes_proc_read()
+In-Reply-To: <20241210172428.139643-2-thorsten.blum@linux.dev>
+References: <20241210172428.139643-2-thorsten.blum@linux.dev>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 3CF8D1F38C
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi,
-
-On 11.12.2024 11:46, Balakrishnan Sambath wrote:
-> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
-> based json-schema.Change file name to match json-scheme naming.
+On Tue, 10 Dec 2024 18:24:26 +0100,
+Thorsten Blum wrote:
 > 
-> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-> ---
-> Changes in v2:
-> - Add missing CODEC pin options to 'atmel,audio-routing' items.
-> - Drop 'minItems' from 'atmel,audio-routing' since enum defines valid connections.
-> - Add subsystem tag to subject.
-> - Add blank line between properties and fix typo.
-> - Add audio complex description.
-> - Link to v1: https://lore.kernel.org/lkml/20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com
-> ---
->  .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 70 ++++++++++++++++++++++
->  .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 --------
->  2 files changed, 70 insertions(+), 26 deletions(-)
+> Remove hard-coded strings by using the str_on_off() helper function.
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-I recommend you to remove from title the word 'sound'.
-You can check the commit history of the Documentation/devicetree/bindings/sound/
-before you write the commit title.
-
-Best Regards,
-Andrei Simion
+Thanks, applied now.
 
 
-
+Takashi
