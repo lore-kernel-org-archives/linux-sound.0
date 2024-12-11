@@ -1,177 +1,385 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ABA1C9DD7
-	for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 08:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29851C5F03
+	for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 08:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733904347; cv=none; b=dvqskLD6EKewXt5ve9Dc3XWeLWEu5Jqbl7tCBL6LaWQmZL7qfq7ohZRayrEQhDItun479g6mkubCmyab5jNUuINVseQrZRadnGmtUfcJC5z1GUDinZyOpbS9TSSM87vlK317XZhtS6lSEmB9JOy204tGQZqIsNwqNe2z8hjv0Uw=
+	t=1733904602; cv=none; b=HGzye+e37kR26tuqWOAw9FXjyX5XLBhNJpNHlD9AaS5iMLWGuUmEKph3TcYamgMd040UUqKvXxVccPIvSW34WBxI9BSkpgjmiaomTBaAbuSya4PpQ9UXhR3bdwkNcTuecRT/7WeWruonajRhFTCJlqqnaoSk/DbVSbJXAqsj5uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733904347; c=relaxed/simple;
-	bh=QEnmwPzDIU9jUJzJuSb2O4yK2OABfg/wIta/6X8xM1A=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pvn9Y0UcTY+O/7BoD4JqXKJyZ+7LGxLYHO15muf9SPSYdssmjnUkYCYHLMNq8/GOQCplOMHfXuSDYhM29/KsTDM0dZajb9yF1QIqS2TgoAPZNeNip0WBPfYXn7hPzstyMEHa9K8dm3ejJ8lidXikUCzx17tIwBNa7YsJFKOc/JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=McQNHNRG; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1733904602; c=relaxed/simple;
+	bh=RH//MulYZ0V6ypWAVLtGpoGdelLi5q8AYpWYWQE3/vQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AaNnlMA+Y5HK5L8+5AkHBcqYdI7FfkyE9oJ4K+gp0c6NjiL4EsSOE3DIPCl0/amf4OfgSdDrxlkM3v5ryPjoSpEunD0B5+ZWUSk6Dj37Is8O4GyWhHVFFLn1flflIzZTff/Tn0FH574kX4oHppFZO3IFuJ4aFl7TkVi0Szx5qQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=frutIhu1; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="McQNHNRG"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-434f30ba149so22000925e9.0
-        for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 00:05:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="frutIhu1"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-434f80457a4so2031895e9.0
+        for <linux-sound@vger.kernel.org>; Wed, 11 Dec 2024 00:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733904344; x=1734509144; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5N9xpUoPzddmqIW9avhJXi0QOz8vquWORsydYTeL5sw=;
-        b=McQNHNRGfKbzk7OiEcCEFWK2Jd8aFzcTlUwODJpR5/GpnrhNVW5WbwW4P4UAjd9dNT
-         0WCuPDGp+PE35ce+rEvoVbWEk/xDHLrNaeRhgfM6MtQJLx6IKLm5sA8g2MHW7duFqlxG
-         z1XLOWQuEA2AnTX7eYFfBCi3WvsZKGMzhYsMfNcaIEIHgicgVZj8PMLyP9NRXSAquiXw
-         LFYDbSVKCnESiz9JkiKbfe1FFq18V6CRN1cbbitNFjyEpn47wxlRjLdCD9FNzmBCO2Gu
-         JdeHYPU3kfXr0ska9ilXsk5ozaGs29a+6DGQ/J7589yr9qJlTTArGWP+SHuVRuANxG6+
-         wOFA==
+        d=linaro.org; s=google; t=1733904598; x=1734509398; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=z296GYrd1d21ehSrliJM4dHOXHD72h2we/P7rpidchI=;
+        b=frutIhu1UGWAmA3KpVoEkmJ3pJ6BQbVdkzXP4TpR0qsB3aiXSD7gr3JGxZKoa8+5LJ
+         6E+AxFU8v0+xeSjJBIzbu6FXixJwM5AhAWXVI84oquVzFJjMlF7D8ksc6PW37XeEtBDn
+         UifvQCTEKz8HVw73SLg+Sa8vQMdfLvBbzwKf1Ep+b4/RhQG+9/QMFbGK4ju/dibqjTwn
+         4IHme/KFsfDbWv60F366KfhbnyTZeNb8AVT9qWflekMSjg54Y3jM+6ejVMpfnRCsHpqy
+         mbNImMuQZ1ZS/VHL0FgQDI/kop0sQKBknoFaaw6xWvZliZAWAhsIVFm2YSw/ZLE1n0+K
+         UjLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733904344; x=1734509144;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=5N9xpUoPzddmqIW9avhJXi0QOz8vquWORsydYTeL5sw=;
-        b=HV/aX+2de2eOv7e8WHFtmxDyTvABwC1JCdClSF2Uh5BHmh+GHJ/o3lHGSQD/5Aag76
-         hZ/Vi8i7SFCv4rJcHFCrvt9hySCpV2u85Rw7vhu7w8OnNDvWcWU6t8MsxOXoAfu8RlNc
-         LF6CbTFUruIqCHO7GDYYvZe3fDI33mLwUMeJ7hHAW2OeD8a1RphqwGZcktopNkA5RCnO
-         VaRsDdX2v6veuGqdBoolEeh4bqj76DSjSrMue82zoRUHpofHOvv8XfEHZwDKeph631ZP
-         uTO6vagrL/eQ4YjU5FeBMW/1TJsc81p2vAW8/G6R1dYdZ1CkvNmuVQd0yW0BgKDgZKrj
-         D3aA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTNXZSS2lt1zCEeO1DnGPf/lIrxZ5CM0uHXjLO26xF+50xZrcxg7CHQH2AxEak+zoCSjRq74hfWdaIBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3JodjxjZbARaEDtuMW3RgJF8oXGDutBb8XVyeTUQc4UGrSq9F
-	6caTfhkpMa8eWcOlLCOTSkzOCNsN3vK2WbutatnGRdr5jkz6IB6pbbGd3LuulhQ=
-X-Gm-Gg: ASbGnctmXw6slHqFOcZ5EhUb+hkZVIHOliz9IT6lHsO3eLY/0Bu/XFjNor8YhXXlKYM
-	YtgFjYkX2AaWCUQHVeqfWXO/Xk3RDRIz9bHjTs94kZJVNYoViaQY1K0Ji106q+qz2S20fz7v3j4
-	txIWF6m05+De1ptzjATagRrY/KoPGYxTak6/GGp4cnBU67ELvxqorcP//hM7ppFFXw/vPwSMrFb
-	Bu3OfgTKUJJyCTcAZ/vfBGmupJ6rrolLuJmmnGImnOd2lvIgSvr3aiOcjMuHzP2bM0hUYI7yCtO
-	i3qO7LwvcWXzAoT8McgK5KEiZA2xmls=
-X-Google-Smtp-Source: AGHT+IGfxf3QyybU4llNiNYfro4m4NrGy3ofkLiXxs/p70O11DK7pxZUAEgJGIVzqUbAraWoEhvpag==
-X-Received: by 2002:a05:600c:468c:b0:434:9936:c823 with SMTP id 5b1f17b1804b1-4361c387b63mr12481535e9.18.1733904343934;
-        Wed, 11 Dec 2024 00:05:43 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:982:cbb0:d426:8f10:1673:5657? ([2a01:e0a:982:cbb0:d426:8f10:1673:5657])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d526ac03sm259127205e9.4.2024.12.11.00.05.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 00:05:43 -0800 (PST)
-Message-ID: <7ec587ac-0c3d-4228-83ee-964ff4e37a80@linaro.org>
-Date: Wed, 11 Dec 2024 09:05:42 +0100
+        d=1e100.net; s=20230601; t=1733904598; x=1734509398;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=z296GYrd1d21ehSrliJM4dHOXHD72h2we/P7rpidchI=;
+        b=GaBzKYVljGpvaKF7aXqriEw34Ev/lPcYt17hSMJ8I5pzy5aANWQauA3pZ9Q7UTh4Sx
+         WANM9EhoO+ad1V9VYpHdOzQfVZq4qeSbCtUzQA24wQbvYgK+xvCiHJCkpgWEnd585HzW
+         7LTgEQlhz/fwDSIOKxsFR15zlujl+F+7ngNQrS4h9ZnbVHvlPxHv/mrE5188BAoGWGNn
+         +DdarvZSmxbGYpcXpR34wmpl6liRoEDEx9WDnJXz1iOq/+eduAr/aJTG9p/B47LjTtde
+         j7jN0Dnov3/roWoIsS+OR2JEAnOMFYQ4CRDXEgKx46obKVjxCCahr+CMUyYzA+R+zUBJ
+         qPbQ==
+X-Gm-Message-State: AOJu0YxDWn6YNhhM9JzDSXfLl+aJzTuH+rbpVczw0gV2LS3otAllb1Sq
+	oOgaO4RxVaSC7zf3f8jVqrz48A3y5yV2Py+D7MrgkebOIrtzfG1I81zURjgNbrc=
+X-Gm-Gg: ASbGncvgTMc9VYsthLZxlE/h1Vf7wrcO/znHYP9lrMaTRVQbQudpCw57iI7rZIfBFYP
+	eHdaGS/lrEc+2nnPVcpEfYcUUf9tk20bs0Dul6Bl5JFvXOEQ/lSRM3jSWo3i7NEfWkzCCTxWLL7
+	0IZpW8jdNUScoQ5u8r4ieXCLl1ucZRXlKpXQDKDM+OnL0O6BtF/vP0npMTJLzA9fD5Q3VhhxdMe
+	IYrtUdqSeBOXKTY2stLlt3HwN3zq/hg1gEQ43ngGvdLkRkMQB+/omfEH46sN8MuGcoiqkDoYFk=
+X-Google-Smtp-Source: AGHT+IGIzi/vhDOiSag3pTcDOZBNeb+ENTT562jYKShfshG2UGZ3Bv0RQwmR4BXMfok61tXXWn9rtA==
+X-Received: by 2002:a05:600c:5904:b0:436:1b77:b5aa with SMTP id 5b1f17b1804b1-4361c5b184dmr10641825e9.8.1733904598221;
+        Wed, 11 Dec 2024 00:09:58 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434fe3cc773sm70266965e9.29.2024.12.11.00.09.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 00:09:57 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Wed, 11 Dec 2024 09:09:55 +0100
+Subject: [PATCH v2] ASoC: dt-bindings: convert rt5682.txt to dt-schema
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH] ASoC: dt-bindings: convert rt5682.txt to dt-schema
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>,
- linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241204-topic-misc-rt5682-convert-v1-1-0fedc4ab15e8@linaro.org>
- <uedkwiuuwi3tfqvi3zzcnays4ytl7l2phg5g6wqwire6ywc2ce@goouwpzb5hi6>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <uedkwiuuwi3tfqvi3zzcnays4ytl7l2phg5g6wqwire6ywc2ce@goouwpzb5hi6>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20241211-topic-misc-rt5682-convert-v2-1-9e1dd4ff7093@linaro.org>
+X-B4-Tracking: v=1; b=H4sIANJIWWcC/42NQQ6CMBBFr0Jm7Zi2gBJX3sOwKGWASbQl06bRE
+ O5u5QQu30v++xtEEqYIt2oDocyRgy9gThW4xfqZkMfCYJRptFENprCywxdHh5LaS2fQBZ9JEta
+ Dqo0iba9KQdmvQhO/j/ajL7xwTEE+x1XWP/tPNWvUqCYaXWMH3VJ3f7K3Es5BZuj3ff8C2prJ1
+ MMAAAA=
+X-Change-ID: 20241204-topic-misc-rt5682-convert-3b0320e1a700
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bard Liao <bardliao@realtek.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=8473;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=RH//MulYZ0V6ypWAVLtGpoGdelLi5q8AYpWYWQE3/vQ=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnWUjU9R3Qrj6JNQS7ZEC3YayzqcrTRHCSHSI8Qed8
+ 9csIimGJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ1lI1AAKCRB33NvayMhJ0YpfD/
+ 0XKsqWl+b7XmG+Oao795rwNYjBmj73QxEQUKruaGL5yxNovTgs8HFkywPvZl5ppSe34VKTSs2xZ3vF
+ 9A4Z9Y2oyl1do4vB7IysOvB8e6Mo0HRtFr8o6Af1A5GRrGisOouY9PwiC3oZCbXJIXPvv40dTk2D+E
+ hejgIdTMwkZk6gTzk9hmGXUgSLKl75hC33BhVzeOOmlqHHZzy5Ss5sx23ug9LwczgkVVYAtx/a2hAp
+ HIOiatX4+QjkqHPNzpLDXfFBWxjCLAN+1olbLZTWBDbWwCGJTsb4S/bJChxCDLORdiVWn4sqREbDVp
+ 0GdpmQVmxLNJZ9wzgDAOsr0ZxWacVo0UMLoX+yziwgoaeYQ4EsLg0taqAD0/Vbt0RmFFo03f2Ite2W
+ 1528gk1BdTH1Nbs9SrVZ5ARGRVVX2IwwqUOsYPhlYOpFIb4z+km+a+U6S2R7PsDmuh5/xEPyptDD0h
+ NG+gAEiRm0Dhc7UK6ujKUmu+Wi1mvhLzypPhya5vfGvA02K1hnRtmPlI18MgSz7PzHh4RHuAaRqTvq
+ 7IZ80+otjN5oxvgQcseDVSIr35AtQafwdqdQkkjbgMHfFgv0g+CAt0t2zxhXcUdsGLzAirVBMI0N0t
+ V8zmveNDauBDWQQQtUAGmIvGt6pOXrP9FeUmA8yF0I3jF4IntXbPerwDJPGg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 10/12/2024 10:29, Krzysztof Kozlowski wrote:
-> On Wed, Dec 04, 2024 at 11:52:34AM +0100, Neil Armstrong wrote:
->> +  realtek,dmic-delay-ms:
->> +    description:
->> +      Set the delay time (ms) for the requirement of the particular DMIC.
->> +
->> +  realtek,amic-delay-ms:
->> +    description:
->> +      Set the delay time (ms) for the requirement of the particular platform or AMIC.
-> 
-> Please wrap at 80.
+Convert the text bindings for the Realtek rt5682 and
+rt5682i codecs to dt-schema.
 
-Ack
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Dropped invalid realtek,amic-delay-ms
+- Wrapped descriptions
+- Moved unevaluatedProperties after required
+- Link to v1: https://lore.kernel.org/r/20241204-topic-misc-rt5682-convert-v1-1-0fedc4ab15e8@linaro.org
+---
+ .../devicetree/bindings/sound/realtek,rt5682.yaml  | 156 +++++++++++++++++++++
+ Documentation/devicetree/bindings/sound/rt5682.txt |  98 -------------
+ 2 files changed, 156 insertions(+), 98 deletions(-)
 
-> 
-> This wasn't present in the old binding, so mention reason of adding it
-> in the commit msg.
+diff --git a/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml b/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..39333ea05646fe743711500c1e8bd4888e4c5de0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/realtek,rt5682.yaml
+@@ -0,0 +1,156 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/realtek,rt5682.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek rt5682 and rt5682i codecs
++
++maintainers:
++  - Bard Liao <bardliao@realtek.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    enum:
++      - realtek,rt5682
++      - realtek,rt5682i
++
++  reg:
++    maxItems: 1
++    description: I2C address of the device.
++
++  interrupts:
++    maxItems: 1
++    description: The CODEC's interrupt output.
++
++  realtek,dmic1-data-pin:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # dmic1 data is not used
++      - 1 # using GPIO2 pin as dmic1 data pin
++      - 2 # using GPIO5 pin as dmic1 data pin
++    description:
++      Specify which GPIO pin be used as DMIC1 data pin.
++
++  realtek,dmic1-clk-pin:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # using GPIO1 pin as dmic1 clock pin
++      - 1 # using GPIO3 pin as dmic1 clock pin
++    description:
++      Specify which GPIO pin be used as DMIC1 clk pin.
++
++  realtek,jd-src:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum:
++      - 0 # No JD is used
++      - 1 # using JD1 as JD source
++    description:
++      Specify which JD source be used.
++
++  realtek,ldo1-en-gpios:
++    description:
++      The GPIO that controls the CODEC's LDO1_EN pin.
++
++  realtek,btndet-delay:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      The debounce delay for push button.
++      The delay time is realtek,btndet-delay value multiple of 8.192 ms.
++      If absent, the default is 16.
++
++  realtek,dmic-clk-rate-hz:
++    description:
++      Set the clock rate (hz) for the requirement of the particular DMIC.
++
++  realtek,dmic-delay-ms:
++    description:
++      Set the delay time (ms) for the requirement of the particular DMIC.
++
++  realtek,dmic-clk-driving-high:
++    type: boolean
++    description:
++      Set the high driving of the DMIC clock out.
++
++  clocks:
++    items:
++      - description: phandle and clock specifier for codec MCLK.
++
++  clock-names:
++    items:
++      - const: mclk
++
++  "#clock-cells":
++    const: 1
++
++  clock-output-names:
++    minItems: 2
++    maxItems: 2
++    description: Name given for DAI word clock and bit clock outputs.
++
++  "#sound-dai-cells":
++    const: 1
++
++  AVDD-supply:
++    description: Regulator supplying analog power through the AVDD pin.
++
++  MICVDD-supply:
++    description: Regulator supplying power for the microphone bias through
++      the MICVDD pin.
++
++  VBAT-supply:
++    description: Regulator supplying battery power through the VBAT pin.
++
++  DBVDD-supply:
++    description: Regulator supplying I/O power through the DBVDD pin.
++
++  LDO1-IN-supply:
++    description: Regulator supplying power to the digital core and charge
++      pump through the LDO1_IN pin.
++
++required:
++  - compatible
++  - reg
++  - AVDD-supply
++  - VBAT-supply
++  - MICVDD-supply
++  - DBVDD-supply
++  - LDO1-IN-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        codec@1a {
++            compatible = "realtek,rt5682";
++            reg = <0x1a>;
++            interrupts = <6 IRQ_TYPE_LEVEL_HIGH>;
++            realtek,ldo1-en-gpios =
++                <&gpio 2 GPIO_ACTIVE_HIGH>;
++            realtek,dmic1-data-pin = <1>;
++            realtek,dmic1-clk-pin = <1>;
++            realtek,jd-src = <1>;
++
++            #clock-cells = <1>;
++            clock-output-names = "rt5682-dai-wclk", "rt5682-dai-bclk";
++
++            clocks = <&osc>;
++            clock-names = "mclk";
++
++            AVDD-supply = <&avdd_reg>;
++            VBAT-supply = <&vbat_reg>;
++            MICVDD-supply = <&micvdd_reg>;
++            DBVDD-supply = <&dbvdd_reg>;
++            LDO1-IN-supply = <&ldo1_in_reg>;
++        };
++    };
+diff --git a/Documentation/devicetree/bindings/sound/rt5682.txt b/Documentation/devicetree/bindings/sound/rt5682.txt
+deleted file mode 100644
+index 5e1d08de18a52021619bee9329d1f1cd693ca7cb..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/sound/rt5682.txt
++++ /dev/null
+@@ -1,98 +0,0 @@
+-RT5682 audio CODEC
+-
+-This device supports I2C only.
+-
+-Required properties:
+-
+-- compatible : "realtek,rt5682" or "realtek,rt5682i"
+-
+-- reg : The I2C address of the device.
+-
+-- AVDD-supply: phandle to the regulator supplying analog power through the
+-  AVDD pin
+-
+-- MICVDD-supply: phandle to the regulator supplying power for the microphone
+-  bias through the MICVDD pin. Either MICVDD or VBAT should be present.
+-
+-- VBAT-supply: phandle to the regulator supplying battery power through the
+-  VBAT pin. Either MICVDD or VBAT should be present.
+-
+-- DBVDD-supply: phandle to the regulator supplying I/O power through the DBVDD
+-  pin.
+-
+-- LDO1-IN-supply: phandle to the regulator supplying power to the digital core
+-  and charge pump through the LDO1_IN pin.
+-
+-Optional properties:
+-
+-- interrupts : The CODEC's interrupt output.
+-
+-- realtek,dmic1-data-pin
+-  0: dmic1 is not used
+-  1: using GPIO2 pin as dmic1 data pin
+-  2: using GPIO5 pin as dmic1 data pin
+-
+-- realtek,dmic1-clk-pin
+-  0: using GPIO1 pin as dmic1 clock pin
+-  1: using GPIO3 pin as dmic1 clock pin
+-
+-- realtek,jd-src
+-  0: No JD is used
+-  1: using JD1 as JD source
+-
+-- realtek,ldo1-en-gpios : The GPIO that controls the CODEC's LDO1_EN pin.
+-
+-- realtek,btndet-delay
+-  The debounce delay for push button.
+-  The delay time is realtek,btndet-delay value multiple of 8.192 ms.
+-  If absent, the default is 16.
+-
+-- #clock-cells : Should be set to '<1>',  wclk and bclk sources provided.
+-- clock-output-names : Name given for DAI clocks output.
+-
+-- clocks : phandle and clock specifier for codec MCLK.
+-- clock-names : Clock name string for 'clocks' attribute, should be "mclk".
+-
+-- realtek,dmic-clk-rate-hz : Set the clock rate (hz) for the requirement of
+-  the particular DMIC.
+-
+-- realtek,dmic-delay-ms : Set the delay time (ms) for the requirement of
+-  the particular DMIC.
+-
+-- realtek,dmic-clk-driving-high : Set the high driving of the DMIC clock out.
+-
+-- #sound-dai-cells: Should be set to '<1>'.
+-
+-Pins on the device (for linking into audio routes) for RT5682:
+-
+-  * DMIC L1
+-  * DMIC R1
+-  * IN1P
+-  * HPOL
+-  * HPOR
+-
+-Example:
+-
+-rt5682 {
+-	compatible = "realtek,rt5682i";
+-	reg = <0x1a>;
+-	interrupt-parent = <&gpio>;
+-	interrupts = <TEGRA_GPIO(U, 6) IRQ_TYPE_LEVEL_HIGH>;
+-	realtek,ldo1-en-gpios =
+-		<&gpio TEGRA_GPIO(R, 2) GPIO_ACTIVE_HIGH>;
+-	realtek,dmic1-data-pin = <1>;
+-	realtek,dmic1-clk-pin = <1>;
+-	realtek,jd-src = <1>;
+-	realtek,btndet-delay = <16>;
+-
+-	#clock-cells = <1>;
+-	clock-output-names = "rt5682-dai-wclk", "rt5682-dai-bclk";
+-
+-	clocks = <&osc>;
+-	clock-names = "mclk";
+-
+-	AVDD-supply = <&avdd_reg>;
+-	MICVDD-supply = <&micvdd_reg>;
+-	DBVDD-supply = <&dbvdd_reg>;
+-	LDO1-IN-supply = <&ldo1_in_reg>;
+-};
 
-Indeed, bad copy paste, will remove
+---
+base-commit: 695ead81c12bf5430239b43e9d862d6d790e12ce
+change-id: 20241204-topic-misc-rt5682-convert-3b0320e1a700
 
-> 
->> +
->> +  realtek,dmic-clk-driving-high:
->> +    type: boolean
->> +    description:
->> +      Set the high driving of the DMIC clock out.
->> +
->> +  clocks:
->> +    items:
->> +      - description: phandle and clock specifier for codec MCLK.
-> 
-> ...
-> 
->> +
->> +  DBVDD-supply:
->> +    description: Regulator supplying I/O power through the DBVDD pin.
->> +
->> +  LDO1-IN-supply:
->> +    description: Regulator supplying power to the digital core and charge pump
->> +      through the LDO1_IN pin.
->> +
->> +unevaluatedProperties: false
-> 
-> And since I expect a new version: please move unevaluatedProps after
-> required: block.
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
-Ack
-
-> 
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - AVDD-supply
->> +  - VBAT-supply
->> +  - MICVDD-supply
->> +  - DBVDD-supply
->> +  - LDO1-IN-supply
-> 
-> 
-> Best regards,
-> Krzysztof
-> 
-
-Thanks,
-Neil
