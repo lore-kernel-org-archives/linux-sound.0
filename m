@@ -1,47 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE98C239BB3;
-	Wed, 11 Dec 2024 18:50:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AC5248801;
+	Wed, 11 Dec 2024 18:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733943060; cv=none; b=r1ofNT6TONyMCzv3Aft3kc5ehUvwHA9GttAX5OJwcOHzaZsnMcMHU7i8EWLno7VJR4HkL67ZC06X9PjF8wVrIL7LljTbxND2OlKayx9eoN4gODmmElyGTxb6Y7EQcyC6VwNm1hYDmp6gUjgI5f3aVhD9zrvMbJO9os7T/ev1Dj0=
+	t=1733943147; cv=none; b=qE3PY4U5F/K9HLSIo+slAO9OMpHy6zzZu2bJbc/lTyfMknBOxIuufwWAmIycy2KGifrX0qWUeZ35wRZBvJ8KCjMGzbeT+zsq1W6gGml7rIvW/q9syLapw0/BmJOTxC9r2SVqF7aaERNjFXLv6MyqS3IJiEN1ApLTYqZyhWlq7bs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733943060; c=relaxed/simple;
-	bh=zOSeGU4H+i7RSqaaHl8BsDlAjnT0qNXTMMi396+RqqE=;
+	s=arc-20240116; t=1733943147; c=relaxed/simple;
+	bh=EgoCqeABvBYx4WAtiE1pFmAsUG6fptY0af98AbMpEws=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PuiDFsu47KK3rbQz9UsYf4ul9IUoc0uILz3ahN2BKIy1SpzLMgX9TJiXmJetn8vufCEl6pzm+L84Afv9PNOcfKNCchMeu0cXkZ0HJv62yZigk27x0nPZ825iC0wLU8sMwawJFAKpzoSGOFDsspdjfeQhIeEjt+FuOBqlkouln/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ll2xSNGs; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=uw9z2zKoMlSmdZsEyG2NlzhedRi2vSGjG9jfrU9JmVO7lf5z5IF1H/25NOIzbYyVRwT4LgYHAwhYwjXo1j6dSJs+OSg/pFfThTOlWZpOh8PxHmoPV5LysKfPytET2VjX5wPMce32D9gUMrZs3bP47HmlAzj8nk+O3wEzVHgWxLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqLXxAoH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ll2xSNGs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D6A2C4CED2;
-	Wed, 11 Dec 2024 18:50:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqLXxAoH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75327C4CED2;
+	Wed, 11 Dec 2024 18:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733943059;
-	bh=zOSeGU4H+i7RSqaaHl8BsDlAjnT0qNXTMMi396+RqqE=;
+	s=k20201202; t=1733943147;
+	bh=EgoCqeABvBYx4WAtiE1pFmAsUG6fptY0af98AbMpEws=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ll2xSNGssehhP0BQKqYqVTOnqsthmKFdMtVlrC+fM22EsSFM97SryZ25OA6bN2Lsn
-	 q4EweU5XLuXFYUw4vBEbq+HyJQFFBN/1xg+bPgQVb7HbrT7+r0Phkg6zfzhYn1tHQF
-	 /iYTpBMBjoGZq584i0lULFrDuTwM/XC4oXmITlLSrMSi1PHwC4d5SdMa301GfYKVcz
-	 1wQ/VDK2FWy/YSWnYzA+D2g4kVTJuNpR/sKKGskwGgpalLm2IGwQWE0A3KfSJCSA1v
-	 2E5LWWuI37dZTJhryI6owA6joD7k2snA7ZQgiYxL8tMF/lWbDcJOhWubKJRq4FZHap
-	 WOPxk8rGvhz/g==
+	b=hqLXxAoHLqInoPE/yg6qn98mWziArDwwhAyXmPo318NtVii+ceGDUeZBWVr+L3DX5
+	 On9sFFFARCUsniqpCnmAuR8ka9gfMb84IQltlgQewFf67wVN2VhCUZV0J7En4hUxPb
+	 RnFsR7mhpl1VieuAH6QX/hj8uliFqXYciDkxarzOcIk8PQOehELmeJBIWOIZCfCmsC
+	 VAFl8BVSOupVUwCsCUeyB9JfaeYRx94NzWTcvmlDR61Qt3vJrdOLCa7HFX3c+URdNy
+	 cofpSyVZfXBMWjcf9JCunQsTnjGgXEMeTJKJkNLvRox/131QujV5P2ez2a/ip0fw+U
+	 69n9As4Yy/5cg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	kernel test robot <lkp@intel.com>,
+Cc: bo liu <bo.liu@senarytech.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
 	tiwai@suse.com,
-	u.kleine-koenig@baylibre.com,
+	kovalev@altlinux.org,
+	cs@tuxedo.de,
+	jaroslaw.janik@gmail.com,
+	songxiebing@kylinos.cn,
+	me@oldherl.one,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 14/36] ALSA: sh: Use standard helper for buffer accesses
-Date: Wed, 11 Dec 2024 13:49:30 -0500
-Message-ID: <20241211185028.3841047-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 06/23] ALSA: hda/conexant: fix Z60MR100 startup pop issue
+Date: Wed, 11 Dec 2024 13:51:43 -0500
+Message-ID: <20241211185214.3841978-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241211185028.3841047-1-sashal@kernel.org>
-References: <20241211185028.3841047-1-sashal@kernel.org>
+In-Reply-To: <20241211185214.3841978-1-sashal@kernel.org>
+References: <20241211185214.3841978-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,66 +54,101 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.4
+X-stable-base: Linux 6.6.65
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: bo liu <bo.liu@senarytech.com>
 
-[ Upstream commit 9b5f8ee43e48c25fbe1a10163ec04343d750acd0 ]
+[ Upstream commit 947c4012f8f03a8bb946beb6e5294d5e32817d67 ]
 
-The SH DAC audio driver uses the kmalloc'ed buffer as the main PCM
-buffer, and the data is transferred via hrtimer callbacks manually
-from there to the hardware.  Meanwhile, some of its code are written
-as if the buffer is on iomem and use the special helpers for the iomem
-(e.g. copy_from_iter_toio() or memset_io()).  Those are rather useless
-and the standard helpers should be used.
+When Z60MR100 startup, speaker will output a pop. To fix this issue,
+we mute codec by init verbs in bios when system startup, and set GPIO
+to low to unmute codec in codec driver when it loaded .
 
-Similarly, the PCM mmap callback is set to a special one with
-snd_pcm_lib_mmap_iomem, but this is also nonsense, because SH
-architecture doesn't support this function, hence it leads just to
-NULL -- the fallback to the standard helper.
+[ white space fixes and compile warning fix by tiwai ]
 
-This patch replaces those special setups with the standard ones.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411281337.I4M07b7i-lkp@intel.com/
-Link: https://patch.msgid.link/20241128104939.13755-1-tiwai@suse.de
+Signed-off-by: bo liu <bo.liu@senarytech.com>
+Link: https://patch.msgid.link/20241129014441.437205-1-bo.liu@senarytech.com
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/sh/sh_dac_audio.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ sound/pci/hda/patch_conexant.c | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/sound/sh/sh_dac_audio.c b/sound/sh/sh_dac_audio.c
-index e7b6ce7bd086b..5a9f77908a3d2 100644
---- a/sound/sh/sh_dac_audio.c
-+++ b/sound/sh/sh_dac_audio.c
-@@ -163,7 +163,7 @@ static int snd_sh_dac_pcm_copy(struct snd_pcm_substream *substream,
- 	/* channel is not used (interleaved data) */
- 	struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
- 
--	if (copy_from_iter_toio(chip->data_buffer + pos, src, count))
-+	if (copy_from_iter(chip->data_buffer + pos, src, count) != count)
- 		return -EFAULT;
- 	chip->buffer_end = chip->data_buffer + pos + count;
- 
-@@ -182,7 +182,7 @@ static int snd_sh_dac_pcm_silence(struct snd_pcm_substream *substream,
- 	/* channel is not used (interleaved data) */
- 	struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
- 
--	memset_io(chip->data_buffer + pos, 0, count);
-+	memset(chip->data_buffer + pos, 0, count);
- 	chip->buffer_end = chip->data_buffer + pos + count;
- 
- 	if (chip->empty) {
-@@ -211,7 +211,6 @@ static const struct snd_pcm_ops snd_sh_dac_pcm_ops = {
- 	.pointer	= snd_sh_dac_pcm_pointer,
- 	.copy		= snd_sh_dac_pcm_copy,
- 	.fill_silence	= snd_sh_dac_pcm_silence,
--	.mmap		= snd_pcm_lib_mmap_iomem,
+diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+index a14b9cb48f69a..7edb029f08a36 100644
+--- a/sound/pci/hda/patch_conexant.c
++++ b/sound/pci/hda/patch_conexant.c
+@@ -311,6 +311,7 @@ enum {
+ 	CXT_FIXUP_HP_MIC_NO_PRESENCE,
+ 	CXT_PINCFG_SWS_JS201D,
+ 	CXT_PINCFG_TOP_SPEAKER,
++	CXT_FIXUP_HP_A_U,
  };
  
- static int snd_sh_dac_pcm(struct snd_sh_dac *chip, int device)
+ /* for hda_fixup_thinkpad_acpi() */
+@@ -778,6 +779,18 @@ static void cxt_setup_mute_led(struct hda_codec *codec,
+ 	}
+ }
+ 
++static void cxt_setup_gpio_unmute(struct hda_codec *codec,
++				  unsigned int gpio_mute_mask)
++{
++	if (gpio_mute_mask) {
++		// set gpio data to 0.
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DATA, 0);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_MASK, gpio_mute_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_DIRECTION, gpio_mute_mask);
++		snd_hda_codec_write(codec, 0x01, 0, AC_VERB_SET_GPIO_STICKY_MASK, 0);
++	}
++}
++
+ static void cxt_fixup_mute_led_gpio(struct hda_codec *codec,
+ 				const struct hda_fixup *fix, int action)
+ {
+@@ -792,6 +805,15 @@ static void cxt_fixup_hp_zbook_mute_led(struct hda_codec *codec,
+ 		cxt_setup_mute_led(codec, 0x10, 0x20);
+ }
+ 
++static void cxt_fixup_hp_a_u(struct hda_codec *codec,
++			     const struct hda_fixup *fix, int action)
++{
++	// Init vers in BIOS mute the spk/hp by set gpio high to avoid pop noise,
++	// so need to unmute once by clearing the gpio data when runs into the system.
++	if (action == HDA_FIXUP_ACT_INIT)
++		cxt_setup_gpio_unmute(codec, 0x2);
++}
++
+ /* ThinkPad X200 & co with cxt5051 */
+ static const struct hda_pintbl cxt_pincfg_lenovo_x200[] = {
+ 	{ 0x16, 0x042140ff }, /* HP (seq# overridden) */
+@@ -1016,6 +1038,10 @@ static const struct hda_fixup cxt_fixups[] = {
+ 		.type = HDA_FIXUP_FUNC,
+ 		.v.func = cxt_fixup_sirius_top_speaker,
+ 	},
++	[CXT_FIXUP_HP_A_U] = {
++		.type = HDA_FIXUP_FUNC,
++		.v.func = cxt_fixup_hp_a_u,
++	},
+ };
+ 
+ static const struct snd_pci_quirk cxt5045_fixups[] = {
+@@ -1090,6 +1116,7 @@ static const struct snd_pci_quirk cxt5066_fixups[] = {
+ 	SND_PCI_QUIRK(0x103c, 0x8457, "HP Z2 G4 mini", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x103c, 0x8458, "HP Z2 G4 mini premium", CXT_FIXUP_HP_MIC_NO_PRESENCE),
+ 	SND_PCI_QUIRK(0x1043, 0x138d, "Asus", CXT_FIXUP_HEADPHONE_MIC_PIN),
++	SND_PCI_QUIRK(0x14f1, 0x0252, "MBX-Z60MR100", CXT_FIXUP_HP_A_U),
+ 	SND_PCI_QUIRK(0x14f1, 0x0265, "SWS JS201D", CXT_PINCFG_SWS_JS201D),
+ 	SND_PCI_QUIRK(0x152d, 0x0833, "OLPC XO-1.5", CXT_FIXUP_OLPC_XO),
+ 	SND_PCI_QUIRK(0x17aa, 0x20f2, "Lenovo T400", CXT_PINCFG_LENOVO_TP410),
+@@ -1135,6 +1162,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+ 	{ .id = CXT_PINCFG_LENOVO_NOTEBOOK, .name = "lenovo-20149" },
+ 	{ .id = CXT_PINCFG_SWS_JS201D, .name = "sws-js201d" },
+ 	{ .id = CXT_PINCFG_TOP_SPEAKER, .name = "sirius-top-speaker" },
++	{ .id = CXT_FIXUP_HP_A_U, .name = "HP-U-support" },
+ 	{}
+ };
+ 
 -- 
 2.43.0
 
