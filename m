@@ -1,90 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF401AA1C4;
-	Wed, 11 Dec 2024 15:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0C24634E;
+	Wed, 11 Dec 2024 15:54:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733930884; cv=none; b=l6DYbSfGmJPUsSfU6XBezEDmGUHIlPjgGG/QgdSzLn2od99bHxcsJud0Nzpcq9kJk9Twx4Rnq0uFuxgkpJXxUy+YI5Q8qvDVz026LHdfDHuKHwrRxTZhXCn9FVuFn9U4G587TQdUDP8qqChE72426oaJHACz05ip83lkouhQO5U=
+	t=1733932482; cv=none; b=txFWonbrUYIbojkyRDtGXU4UUxNQzS8Dke767Nanx+uGJ8zgVT+8B7UlWvnnPqfRmV7OyBnTbf8+sTCjRlgzEoVIBaCf8SGD7x/Md2PMdDcuEIruJ+aAihGmRYGhX1KvYhSSsYlLg7Kc2ZlLmXVdPJuLsAyAQXkuXVT7ttPWARU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733930884; c=relaxed/simple;
-	bh=C0GNp9Q5CJP3PA31brfFlWgYTr9l+yrCN9pnsPK+4nI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8E80MKn6FXYsQIeCKTo2eVz8akCg0tXxfCrp6AEYegr5/tCfxB6+Y/ZERbTG6GHn6FkbFB6sr3v3JNI16MFqQ4Ez9A+e758/AwUF3ALgn9cpawTDx6exNS5xAHD0Pm51AYAFM2YTZhKp6yBscPu/x8YRG21nRTXSRs2cBq0Osc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncS3ZbwM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733932482; c=relaxed/simple;
+	bh=Z/nbk/8Kb/p1U+kHAubTcn5qOKR0MEKHfLVov/7+cCE=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=J91M9onD6Oo0Xgf1zXjCh2HfOWk0CXFjqLdfWqwkhVt5wI1F4tIDQWsGSfnlLZofNRPj9/6BucofMYMV+Dpi1Dma5XfJAQATXcbmRb06w3JWZCbSlsIpSOhVtIKWbvuJPezuqe6y6QC/hjJWTPtxCtxGH3VwRCuj3hhoWauxIf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJyw/KlC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncS3ZbwM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9130AC4CED2;
-	Wed, 11 Dec 2024 15:28:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJyw/KlC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E53FC4CED4;
+	Wed, 11 Dec 2024 15:54:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733930884;
-	bh=C0GNp9Q5CJP3PA31brfFlWgYTr9l+yrCN9pnsPK+4nI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ncS3ZbwMzN6t8NO4sAUvIIapwpBnXSKuBDiRH5BmeXWSvdfhQ9qhp4brp36ZtI2Hp
-	 3D5lLwh8tU1UvcHtR9RvspQhLPQWk0upAW/SmaoGjoQDoX7ObLK9MahyHq/EZDwM/y
-	 tlQSiAp+iEhrMQXo8I6omKeAQG5bwYaOMXWK82EV5Dhz9qTu+Pt5rv1uRg9YqzetdR
-	 a3sh56SaQHPK3u5hGWK2WWsGiGWdeZELE+2w4Xd0wDfAy/8lK/EbZhj56Kfw0f41BH
-	 t3jCV45GUj5qcpsO+WMWj5KeQBc3ckUawBLc+af9rtfFPD2rDTfJAZoLTFOerd2ffi
-	 uIstMcqoY8Xyg==
-Date: Wed, 11 Dec 2024 15:27:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v6 4/6] ASoC: fsl_asrc_m2m: Add memory to memory function
-Message-ID: <dc52c945-b292-4cd8-97ae-369a45f5a4ad@sirena.org.uk>
-References: <20241211030849.1834450-1-shengjiu.wang@nxp.com>
- <20241211030849.1834450-5-shengjiu.wang@nxp.com>
+	s=k20201202; t=1733932481;
+	bh=Z/nbk/8Kb/p1U+kHAubTcn5qOKR0MEKHfLVov/7+cCE=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=MJyw/KlC9PsR8A7QmwQl+ECfyQDa36GtAov7ute6Lb2pDzGHI5s/CwO+Tjxcj9RBV
+	 Udh7zF5KgAcRYZgQWVLyZmx1JcBUuZluIh8ocAWasByBGAN41rh1Rm3f9hOXj3NXvZ
+	 8al3tAu6BklmNPMeIAeiizXMaMqtPnH13o0j7Nk2vtvVw89epNoshB+UmLQYR89W4B
+	 5t26PWGXLee/eytjtQHHRutRJoWxTP8TQHCRCuink5FyoU+Zm7ifMAV/jFBxQRLxuS
+	 HgunMtvv8bIqCzO5OLNeEDpGpPti3RzSWDElNMWyi7+owwUELExnEV5/wcZtVyLuld
+	 m/UKl145tSb4w==
+Date: Wed, 11 Dec 2024 09:54:39 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="PSvSBnM/m4qXTD+T"
-Content-Disposition: inline
-In-Reply-To: <20241211030849.1834450-5-shengjiu.wang@nxp.com>
-X-Cookie: Microwaves frizz your heir.
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: kernel@collabora.com, Aary Patil <aary.patil@mediatek.com>, 
+ Conor Dooley <conor+dt@kernel.org>, parkeryang <Parker.Yang@mediatek.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Trevor Wu <trevor.wu@mediatek.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>, linux-mediatek@lists.infradead.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sound@vger.kernel.org, 
+ Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>
+To: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+In-Reply-To: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
+References: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
+Message-Id: <173393224281.3090994.9490420905071029981.robh@kernel.org>
+Subject: Re: [PATCH v2 0/2] Enable audio output for Genio 700 EVK board
 
 
---PSvSBnM/m4qXTD+T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 10 Dec 2024 17:54:27 -0300, Nícolas F. R. A. Prado wrote:
+> This series enables audio output support for the Genio 700 EVK board.
+> Patch 1 adds the missing #sound-dai-cells property in the MT6359 node as
+> a prerequisite, and patch 2 describes the audio DT nodes to get audio
+> output working on the two audio jacks, Earphone and Speaker, present on
+> the board.
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+> Changes in v2:
+> - Dropped merged/unnecessary patches (2, 3, 4)
+> - Removed unnecessary mediatek,dai-link property
+> - Link to v1: https://lore.kernel.org/r/20241205-genio700-audio-output-v1-0-0e955c78c29e@collabora.com
+> 
+> ---
+> Nícolas F. R. A. Prado (2):
+>       arm64: dts: mt6359: Add #sound-dai-cells property
+>       arm64: dts: mediatek: mt8390-genio-700-evk: Add sound output support
+> 
+>  arch/arm64/boot/dts/mediatek/mt6359.dtsi           |  1 +
+>  .../boot/dts/mediatek/mt8390-genio-700-evk.dts     | 48 ++++++++++++++++++++++
+>  2 files changed, 49 insertions(+)
+> ---
+> base-commit: d1486dca38afd08ca279ae94eb3a397f10737824
+> change-id: 20241204-genio700-audio-output-fba8f2ebad10
+> 
+> Best regards,
+> --
+> Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> 
+> 
 
-On Wed, Dec 11, 2024 at 11:08:47AM +0800, Shengjiu Wang wrote:
-> Implement the ASRC memory to memory function using
-> the compress framework, user can use this function with
-> compress ioctl interface.
->=20
-> This feature can be shared by ASRC and EASRC drivers
 
-This breaks an imx_v6_v7_defconfig build:
+My bot found new DTB warnings on the .dts files added or changed in this
+series.
 
-arm-linux-gnueabihf-ld: sound/soc/fsl/fsl_asrc_m2m.o: in function `fsl_asrc=
-_m2m_
-init':
-fsl_asrc_m2m.c:(.text+0x7ac): undefined reference to `snd_compress_new'
+Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
+are fixed by another series. Ultimately, it is up to the platform
+maintainer whether these warnings are acceptable or not. No need to reply
+unless the platform maintainer has comments.
 
-Looks like we're missing some select statements.
+If you already ran DT checks and didn't see these error(s), then
+make sure dt-schema is up to date:
 
---PSvSBnM/m4qXTD+T
-Content-Type: application/pgp-signature; name="signature.asc"
+  pip3 install dtschema --upgrade
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdZr34ACgkQJNaLcl1U
-h9Dozwf/ZXFjHCknME94gJQ0D4c6sF3h+89y+jvyuYZ1PTJGUJQGbmlRQ4DrUINM
-4tpKj2CjV4r8Iy8nwMYGQMhzhLdKHk+nJtN3Vc5vBRe7FJxM1S5L/HclGIUn1xjN
-PzdxhFVpvf2/hHCjecOpmpE6rPvTh+joSYKT+6Lkgp54AgbELvLyxghqjZlKvOvL
-goQaYml9aksvbkO4XmeuqgpANRPCsbqwrzwYHIiVQ40k9gQrj3YEEe2qAEx4pYGb
-jiY/qblhfm1kAkrnNgslLG71y0X7Y2VqZjsxVHcLyf67dH6tBuMwbdiJQCXQnZO8
-4a1L5qnK2IuPaaZ909B9hRN7sETagQ==
-=ePCa
------END PGP SIGNATURE-----
+New warnings running 'make CHECK_DTBS=y mediatek/mt8390-genio-700-evk.dtb' for 20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com:
 
---PSvSBnM/m4qXTD+T--
+arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: pmic: '#sound-dai-cells', 'mt6359codec', 'mt6359rtc' do not match any of the regexes: 'pinctrl-[0-9]+'
+	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: jpeg-decoder@1a040000: iommus: [[124, 685], [124, 686], [124, 690], [124, 691], [124, 692], [124, 693]] is too long
+	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-decoder.yaml#
+
+
+
+
+
