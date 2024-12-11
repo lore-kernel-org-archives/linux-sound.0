@@ -1,115 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78367211A0A;
-	Wed, 11 Dec 2024 11:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08622187872;
+	Wed, 11 Dec 2024 11:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733915369; cv=none; b=i6lbd/ofxU3HeJG4yaV+8gTmE/GDwyIDkxMT7qFWrgA/QF9qqcqmiS/tse/CAuVjSNykDgrWWdyWpBRAIbGYM788tKm1ZpqW1Kw9OdXiHGllvOVR/jX2bVdbZCbzUquO5BynkMvrrpuylGbKHiJ6yQmXrgyzvoTRv1waIW7udtc=
+	t=1733916098; cv=none; b=LLC+8b5uFi6vKeUt62avxoW3p0pL5cIpwHSTU0F9ZNDZz40iY8kA1nQZy+tHXdC87sBTACmEoXH2y/qNhMZHe0DH8PmcCiLAhOqjFcy3LEkVgxtMVgi0FIw44buMI6ozTitCQmjotGuONzjcn8JFcFrzpaWDIJmuvGnnUV2IG5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733915369; c=relaxed/simple;
-	bh=bDgWz1MVeXMv9PDk9q82fqFPvxQ3Bd8kwrxb7p7Mohw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aKQnoPuTup8ZRutertA6XXR5BDvowPq3dbGdzcFv2ZweOR4pasdQu3AVAZFEzMOEG5zTTA67r5mhKfhLz2iPJwAXFJ5X1VMZFkddpceJMQAzClknNBcBE4K1qNuG/R8FDymmyl3U9lj8kyVuX5slrU9fqyXPwgrh0QrJyYJkWWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n8XKzB5Z; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1733916098; c=relaxed/simple;
+	bh=DgftItvKwlAqV6VUxDwhJgPamO/iGIKYe2fBSGOS2dQ=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=QbFOVOMzi1z+1LKb9DmS6xKb/FELMP02uy6jmyT5kRodp26yVenSvmgSEVR4/DSQNRwJjXLKvHdXAJ8C1mIZUTf3Wu5dFXq1Yrv1+GL4LVlw9c7q1+kZ6eGa3zUSQt96j8SJukTT3DzCjd09g9oq/WGcWjNU1Pt5OVEQXBy+4yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S+kRs9zS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n8XKzB5Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733915368; x=1765451368;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bDgWz1MVeXMv9PDk9q82fqFPvxQ3Bd8kwrxb7p7Mohw=;
-  b=n8XKzB5ZgMbYJoUwtrX+zKmQLnVcdJk8DkqSTC++/+taTTBO8u9WfOOa
-   GP0Ku1d7LeC1v8XEcgxfPQ5xj3LqZELe9zX2OtkJjxWrppQw1UIK00CB5
-   h/AqncYkIrkbolaUZ6WQMDdabABB9IaX/1drVDiDQlaWeo/5KWOzMaom9
-   MVFaolO+f6xIiMyc5Q+SAmZiR40Lt0bWBAZAWtN4/IDbMhs09afy2cA9L
-   ofiZ1JMXzx9YSfs0zbXJzlxVa+yLuDmP8T9qUcwgn+v0F9/HD4PFSpv8l
-   NKfYcA4CT+xhtEb/cBhGOfZkKS8kBfeo4c7Bs1nwf4Cni6D1Omz+I4xen
-   g==;
-X-CSE-ConnectionGUID: lU4/OFfmRCy1qqGnb3oJDw==
-X-CSE-MsgGUID: dK+anhrAQxm8qs2crV/DoA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="59682791"
-X-IronPort-AV: E=Sophos;i="6.12,225,1728975600"; 
-   d="scan'208";a="59682791"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2024 03:09:27 -0800
-X-CSE-ConnectionGUID: npfScrdLRiy5PImrDjLIpw==
-X-CSE-MsgGUID: SoEfcApnTT+5QyjMU8vxZQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133147006"
-Received: from dev2 (HELO DEV2.igk.intel.com) ([10.237.148.94])
-  by orviesa001.jf.intel.com with ESMTP; 11 Dec 2024 03:09:24 -0800
-From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Cc: Linux kernel regressions list <regressions@lists.linux.dev>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Mark Brown <broonie@kernel.org>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	=?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amadeuszx.slawinski@linux.intel.com>
-Subject: [PATCH 1/1] ASoC: Intel: avs: Fix return status of avs_pcm_hw_constraints_init()
-Date: Wed, 11 Dec 2024 12:10:10 +0100
-Message-Id: <20241211111011.3560836-2-amadeuszx.slawinski@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241211111011.3560836-1-amadeuszx.slawinski@linux.intel.com>
-References: <20241211111011.3560836-1-amadeuszx.slawinski@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S+kRs9zS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 699FFC4CED2;
+	Wed, 11 Dec 2024 11:21:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1733916097;
+	bh=DgftItvKwlAqV6VUxDwhJgPamO/iGIKYe2fBSGOS2dQ=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=S+kRs9zSROEKEbuf6pQXp6LKyYNbAyiEMMZeR6T/IukOtp0WJTxya8pmJRrBkU/hi
+	 2lH22ehLWYRh4Rsj3/gsS2NMFEM9yPi1QlYwwYRe+PRP+8L2UOb2Kh9TP7TGKsBtmp
+	 NxaDphjfl/zlxLraM34B2C+YcI8T29Pq4ha3IOXKS+NBgyyulYz0TO3LbNbdUpSc5O
+	 aQGQPRYru60pQkeCjqkECmgTuvYte+ovXbs43B5/8aJdhqusyPPeuLiIViQNpInzaJ
+	 ugJ0e99xDBPASPvYEaj5slqOQ2yBuvJM6EtmKW4uZU6qnNpyJlZdeaY6p7eMAeUSEh
+	 nicQ5MB2EUedA==
+Date: Wed, 11 Dec 2024 05:21:35 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ linux-sound@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Mark Brown <broonie@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Andrei Simion <andrei.simion@microchip.com>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
+To: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+In-Reply-To: <20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com>
+References: <20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com>
+Message-Id: <173391609559.2340929.13321693035546295768.robh@kernel.org>
+Subject: Re: [PATCH v2] ASoC: dt-bindings: sound: atmel-at91sam9g20ek:
+ convert to json-schema
 
-[ Upstream commit a0aae96be5ffc5b456ca07bfe1385b721c20e184 ]
 
-Check for return code from avs_pcm_hw_constraints_init() in
-avs_dai_fe_startup() only checks if value is different from 0. Currently
-function can return positive value, change it to return 0 on success.
+On Wed, 11 Dec 2024 15:16:15 +0530, Balakrishnan Sambath wrote:
+> Convert atmel-at91sam9g20ek-wm8731-audio DT binding to yaml
+> based json-schema.Change file name to match json-scheme naming.
+> 
+> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+> ---
+> Changes in v2:
+> - Add missing CODEC pin options to 'atmel,audio-routing' items.
+> - Drop 'minItems' from 'atmel,audio-routing' since enum defines valid connections.
+> - Add subsystem tag to subject.
+> - Add blank line between properties and fix typo.
+> - Add audio complex description.
+> - Link to v1: https://lore.kernel.org/lkml/20240214-at91sam9g20ek-wm8731-yaml-v1-1-33333e17383b@microchip.com
+> ---
+>  .../bindings/sound/atmel,at91sam9g20ek-wm8731.yaml | 70 ++++++++++++++++++++++
+>  .../sound/atmel-at91sam9g20ek-wm8731-audio.txt     | 26 --------
+>  2 files changed, 70 insertions(+), 26 deletions(-)
+> 
 
-Reviewed-by: Cezary Rojewski <cezary.rojewski@intel.com>
-Signed-off-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
---
+My bot found errors running 'make dt_binding_check' on your patch:
 
-I've observed KASAN on our setups and while patch itself is correct
-regardless. Problem seems to be caused by recent changes to rates, as
-this started happening after recent patchsets and doesn't reproduce with
-those reverted
-https://lore.kernel.org/linux-sound/20240905-alsa-12-24-128-v1-0-8371948d3921@baylibre.com/
-https://lore.kernel.org/linux-sound/20240911135756.24434-1-tiwai@suse.de/
-I've tested using Mark tree, where they are both applied and for some
-reason snd_pcm_hw_constraint_minmax() started returning positive value,
-while previously it returned 0. I'm bit worried if it signals some
-potential deeper problem regarding constraints with above changes.
+yamllint warnings/errors:
 
-Link: https://patch.msgid.link/20241010112008.545526-1-amadeuszx.slawinski@linux.intel.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/intel/avs/pcm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/sound/atmel,at91sam9g20ek-wm8731.example.dtb: sound: atmel,audio-routing:2: 'Int MIC' is not one of ['Ext Spk', 'Int Mic', 'LOUT', 'ROUT', 'LHPOUT', 'RHPOUT', 'LLINEIN', 'RLINEIN', 'MICIN']
+	from schema $id: http://devicetree.org/schemas/sound/atmel,at91sam9g20ek-wm8731.yaml#
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 4af8115803568..945f9c0a6a545 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -509,7 +509,7 @@ static int avs_pcm_hw_constraints_init(struct snd_pcm_substream *substream)
- 			    SNDRV_PCM_HW_PARAM_FORMAT, SNDRV_PCM_HW_PARAM_CHANNELS,
- 			    SNDRV_PCM_HW_PARAM_RATE, -1);
- 
--	return ret;
-+	return 0;
- }
- 
- static int avs_dai_fe_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *dai)
--- 
-2.34.1
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20241211-sound-atmel-at91sam9g20ek-v2-1-86a0e31e6af9@microchip.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
