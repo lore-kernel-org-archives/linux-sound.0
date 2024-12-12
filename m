@@ -1,115 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E90A2288CD;
-	Thu, 12 Dec 2024 16:25:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6733C229677;
+	Thu, 12 Dec 2024 16:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734020724; cv=none; b=An1s9TrX6716RinQBroT38gkdnorw4JQXkMJgNyY6PXEmBA2xyGTSuWq7KVt+L3plLQaHhsQZbZHmEffqeUv2BySYeK9NTMPcN/eK+xNQ9aOL2Y+8pwsI7D+L9XhXp7YLxpF7CXe42YDTfBiH0nPNABERxyvfq9kyPgovaC1mNQ=
+	t=1734020732; cv=none; b=uF51nW3X4/Af9IkhsBrQ5CtDDIdU+EURiF/G+6aqW43wMRgB+OlOTicAYmCss6ljByjS+vJPeUgQG1pvlU8tytxBHttRiKLl3hBeNPtRc1cQ0EemWdicO2Tr/LxuN6nxyp8brUdSp4BACgEKHOmENz0BEFkufWn0xAUEPQ68l7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734020724; c=relaxed/simple;
-	bh=jmircCLNqfQBhuh2VCOQbpQ4E46VLkw0Jv1d0IeEevU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWxOpMmaWIjXmn/1Of0Si6BWTgTiBrrPvbbVhFPdKp6l4j4nFGpFXeWB6Cw2EnAu1ohWNE9jsvJbRVZkg7Dz8Tyn920IjuozIDDY45ifQnKzDpWtWMeWzzJCB1+LDaxHti2Fg6JkQdTIpEMrnnGyGdYPt+RRPxyO66nDm+5ucNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8a8uezA; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734020732; c=relaxed/simple;
+	bh=1PmanKAbttgy7WXONNAJYFRm4u5BOpVDKYclud3+weM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=klOlXKksZidpaJWU7rLPs5/qLKTvRKuQIwIEogTKJVXgo+LLUR87Ydki9HqtkclhZkDKlnZkWXP3YO43WI34VlnV0khTJM6zcHz/Gp9ULVlPZqVHByldhcLBN5xPBxZ4ZUWnwFMr0aKcJFFhErOfVGP9XfRQyouxc+KZxwpsvIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SDrlk88K; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8a8uezA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734020723; x=1765556723;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jmircCLNqfQBhuh2VCOQbpQ4E46VLkw0Jv1d0IeEevU=;
-  b=M8a8uezA0QeUDBHdtGWLJYrrs96aH4C1lkKscpE7ioapkn0GwKWj99Ut
-   63obqdxGzo3V1nkYoPAMYVLPXUXCFlNQA8wFUt19ZxctniOkf3PL+tXCV
-   cOehs3xJxjIaIArw16sKEHZ3ztIxIQo35uaF0B2/d56lMiEGMi6MJDTr/
-   RX56CDwCVNBwsyLH1eUARCL564nlWOlkqU6myygmKVbp9dmKh+AJEUdjH
-   xjNwbAL3HJTo9p2d+Fw9Pyk3YissF7FGPWauTRAc5bCaLOTwvQpSnGX+r
-   VRlhUcQ3seQ/yojw4NDNmWl75mqs9p70qC5NToJKKU36HyFgoIh4u7wlI
-   w==;
-X-CSE-ConnectionGUID: f7w2L+EiTVOcDzDIJGhbaw==
-X-CSE-MsgGUID: bT7KFElVSuqdBFlF86eX+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="34368149"
-X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; 
-   d="scan'208";a="34368149"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 08:25:22 -0800
-X-CSE-ConnectionGUID: 2x7poQK9TiiSPVbNWMCpWQ==
-X-CSE-MsgGUID: Nvb/8M3pTEaYxgnQxD2u7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,229,1728975600"; 
-   d="scan'208";a="96163080"
-Received: from smile.fi.intel.com ([10.237.72.154])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 08:25:20 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tLm04-00000006xxb-3o8b;
-	Thu, 12 Dec 2024 18:25:16 +0200
-Date: Thu, 12 Dec 2024 18:25:16 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Raag Jadav <raag.jadav@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
-	broonie@kernel.org, pierre-louis.bossart@linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
-Message-ID: <Z1sObNubEnsFwzOD@smile.fi.intel.com>
-References: <20241126172240.6044-1-raag.jadav@intel.com>
- <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
- <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
- <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
- <Z1r0EPC9gumruFKU@smile.fi.intel.com>
- <2024121242-saturday-aqua-9ac6@gregkh>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SDrlk88K"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BCG3w4w030333;
+	Thu, 12 Dec 2024 16:25:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	EL+iRkasT8sPgpIyWSKAJq/UDhi9cBgtQ7Eob0RrxBA=; b=SDrlk88KVGMzyJLd
+	HsSdjqz+z25Ps1IERkuOjHK1Oa+p43kHysXnBep/7xI9YluD3uLgZLL/QAf+ZMY3
+	8djW436KnowDIUfSSi4pVpsxjLrMv4Hfo+0e0yT2TEgAeXqvoV1RnzxF8CNS2tE/
+	ok3bh0szwvsTll0K9xuVRFTI0tDbucNIW41wQOP9mBp+fkAWFXSH5M3IuIAyBhPO
+	SQ4RUU6Q56QwVxtnkwU5q/N5hwrNs6q1ygUA13cpbm63EPxJHkE8oGhVvCVGOuUo
+	Hyuesx/R7ZtTzp/Xbao86wEHNGxc5xY+h0axdv7hqmSj+cd5gUdFLknOm+UlRdPE
+	gye4+A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43dxw4byxq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 16:25:13 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BCGPCDB004989
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 16:25:12 GMT
+Received: from hu-mohs-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 12 Dec 2024 08:25:04 -0800
+From: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+        Bard Liao
+	<yung-chuan.liao@linux.intel.com>,
+        Jaroslav Kysela <perex@perex.cz>, "Takashi
+ Iwai" <tiwai@suse.com>
+CC: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+        Sanyog Kale
+	<sanyog.r.kale@intel.com>,
+        <linux-arm-msm@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <quic_pkumpatl@quicinc.com>, <kernel@quicinc.com>,
+        Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+Subject: [PATCH v5 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static channel mapping support
+Date: Thu, 12 Dec 2024 21:53:31 +0530
+Message-ID: <20241212162334.36739-2-quic_mohs@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241212162334.36739-1-quic_mohs@quicinc.com>
+References: <20241212162334.36739-1-quic_mohs@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2024121242-saturday-aqua-9ac6@gregkh>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: u-ErnftGSZvHhEL_G89M08whKkuzilF4
+X-Proofpoint-GUID: u-ErnftGSZvHhEL_G89M08whKkuzilF4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
+ clxscore=1011 spamscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412120118
 
-On Thu, Dec 12, 2024 at 03:39:57PM +0100, Greg KH wrote:
-> On Thu, Dec 12, 2024 at 04:32:48PM +0200, Andy Shevchenko wrote:
-> > On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
-> > > On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
-> > > > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
-> > > > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
-> > > > > 
-> > > > > > This series introduces a more robust and cleaner devm_kmemdup_array()
-> > > > > > helper and uses it across drivers.
-> > > > > 
-> > > > > For the series:
-> > > > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> > > > > 
-> > > > > It seems like Andy will push it to me which is excellent.
-> > > > 
-> > > > Yep, that's the plan after we get all necessary ACKs.
-> > > 
-> > > Greg, anything I can do to move this forward?
-> > 
-> > Greg, is it possible to give your Ack or comment or guidance of the preferences
-> > with the first patch?
-> 
-> $ mdfrm -c ~/mail/todo/
-> 2293 messages in /home/gregkh/mail/todo/
+Add static channel mapping between master and slave rx/tx ports for
+Qualcomm wcd937x soundwire codec.
 
-Oh my...
+Currently, the channel map index value for each soundwire port is
+hardcoded in the wcd937x-sdw driver, and the same channel map index
+value is configured in the soundwire master.
 
-> Please be patient.
+The Qualcomm board like the QCM6490-IDP require static channel map
+settings for the soundwire master and slave ports.
 
-Sure!
+If another boards which are using enable wcd937x, the channel mapping
+index values between master and slave may be different depending on the
+board hw design and requirements. If the above properties are not used
+in a SoC specific device tree, the channel mapping index values are set
+to default.
 
+With the introduction of the following channel mapping properties, it is
+now possible to configure the master channel mapping directly from the
+device tree.
 
+The qcom,tx-channel-mapping property specifies the static channel mapping
+between the slave and master tx ports in the order of slave port channels
+which is adc1, adc2, adc3, adc4, dmic0, dmic1, mbhc, dmic2, dmic3, dmci4,
+dmic5, dmic6, dmic7.
+
+The qcom,rx-channel-mapping property specifies the static channel mapping
+between the slave and master rx ports in the order of slave port channels
+which is hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
+
+Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
+---
+ .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+index d3cf8f59cb23..c8543f969ebb 100644
+--- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
++++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
+@@ -58,6 +58,40 @@ properties:
+     items:
+       enum: [1, 2, 3, 4, 5]
+ 
++  qcom,tx-channel-mapping:
++    description: |
++      Specifies static channel mapping between slave and master tx port
++      channels.
++      In the order of slave port channels which is adc1, adc2, adc3,
++      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    minItems: 12
++    maxItems: 12
++    additionalItems: false
++    items:
++      enum:
++        - 1  # WCD9370_SWRM_CH1
++        - 2  # WCD9370_SWRM_CH2
++        - 3  # WCD9370_SWRM_CH3
++        - 4  # WCD9370_SWRM_CH4
++
++  qcom,rx-channel-mapping:
++    description: |
++      Specifies static channels mapping between slave and master rx port
++      channels.
++      In the order of slave port channels, which is
++      hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
++    $ref: /schemas/types.yaml#/definitions/uint8-array
++    minItems: 8
++    maxItems: 8
++    additionalItems: false
++    items:
++      enum:
++        - 1  # WCD9370_SWRM_CH1
++        - 2  # WCD9370_SWRM_CH2
++        - 3  # WCD9370_SWRM_CH3
++        - 4  # WCD9370_SWRM_CH4
++
+ required:
+   - compatible
+   - reg
+@@ -74,6 +108,7 @@ examples:
+             compatible = "sdw20217010a00";
+             reg = <0 4>;
+             qcom,rx-port-mapping = <1 2 3 4 5>;
++            qcom,rx-channel-mapping = /bits/ 8 <1 2 1 1 2 1 1 2>;
+         };
+     };
+ 
+@@ -85,6 +120,7 @@ examples:
+             compatible = "sdw20217010a00";
+             reg = <0 3>;
+             qcom,tx-port-mapping = <2 2 3 4>;
++            qcom,tx-channel-mapping = /bits/ 8 <1 2 1 1 2 3 3 4 1 2 3 4>;
+         };
+     };
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
