@@ -1,118 +1,195 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2066.outbound.protection.outlook.com [40.107.92.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590701CEAAC;
-	Thu, 12 Dec 2024 21:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734039337; cv=none; b=U7UufisBECdSALF4fPzIhczZaVJ1SMwMn8WeSTGEXivZAEELKPxG9D1Ol3JpN/S5jstNaySeeRGrmanaPX+OctnKRTtY/PN5lF3R/5Njz9ZcezyaRIIzf2K9taWKObBD0CUL/Pw8uffYUqgt6rOF7+rYuyn4R7ku4wvotLiocO0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734039337; c=relaxed/simple;
-	bh=KJeEqh9P+D5wKwY133jjVp/f7MLpthcGlZboaBFR+VU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R+Go+6lWCU9WEeBtLS1RlXpJOV1x7OPN1F39AhefJY/28QxOROvkRxXjAr1607evUnP9GJH6t7XoAknS45ws5eKldrv4IvdIIDJNiOUpAQM0nbq0g4AX7FOtVvQsqWK8x8QZQd9XDjVWIX0FgCv++iJZZYvJcXYvn1P1nZn2iyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E6nsrmso; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE6F1DACB8;
+	Thu, 12 Dec 2024 22:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734042669; cv=fail; b=LjTZPRe90WsBGsjnldE3JyIpdOdeh2aekHgYbRw59Kz7GosW+Sjo8HudmfgVEyOyxlOTzlgoec3cZqrURjktyT509afQn06sUpUNP4sVzvPM0MJZP3ZFffwsN4FrH1NVEGeNHFpRVodzjCTmpqYeryFJccRNilnn35KAwLyyjCs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734042669; c=relaxed/simple;
+	bh=Xz4iR4W8LrDne8p/govhOt0XYNGwYFRJxOuBBSKpaE4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=MVOeWhWT2QjBOmKFsm7DPL//5HzGOL2wqJtQSlMsI9GXgpVh9Klg4r7GXZXVg4VXBHPOtLsC0knqObvCfYJEwgWmmHdG3+3sAxqsJuXHxLiWOGvxidLNveK/LxUU3ObgMFoDLvzN2szQIq3eRMxkBvu3mOoMxnZtXwJyTD9DJJU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wNVC1mFU; arc=fail smtp.client-ip=40.107.92.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E6nsrmso"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-53e384e3481so944719e87.2;
-        Thu, 12 Dec 2024 13:35:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734039333; x=1734644133; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xnXmfYEr9PT7Is83CX8z0wrAPwuQ/xSME7IAcOpGTK8=;
-        b=E6nsrmsopZdizVghZ8DyrtZxVc5Edbp/5huZuFyXpgzRbZC5Y66m4eZKWv+4ljZRVc
-         v3ce7JrCVOc8dUf7Gu82WIFwA5gC+nAj0Q/jE0UfOV1kzrYEBX8e2nThBVIQGDc6RCSv
-         W7w7i0g6ErL4hvnnzo3MjkPSn8Mnh6MWi/rJfsN1HQLx3LsDxuj33cgudl1Oh6LEEWk+
-         Hz4QDTyww+IvO80wNO6AtoMLL2gMn2jtdTj8T+fYOE/3Sx+uZcLSqqz4JizPK8wh4PAl
-         s+0oaifoEb8jrQXcNJKTwQFVdpW63p1L7LW9S7Pyskt5Y7D80s4KbwyM3NS6jhsdqfyr
-         9DFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734039333; x=1734644133;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xnXmfYEr9PT7Is83CX8z0wrAPwuQ/xSME7IAcOpGTK8=;
-        b=k3HPYLhu87H0jrXoUKj4lq66uysq9spM3yEsQlO6oI8q5FRzePDu7oKRWM36ZDmY8V
-         HeWvchupGgfRrqvbbw3rfMzs/+MJM8/XDtZ8aU20St2FM4lv+cNAXJHD0X+MK2tXIrfJ
-         zvnsVI31PeapVmntnM6K2yxr9D6oVXovAGz4pdu7iaoJGoj7DqkMTVLPRa09HSgQ37Ak
-         q60H2DFefabcluSn/64Xhu0wXBjBCc1bluYe/gy5VlcyO+ZG804Tk5OKpf+LFI+adfKO
-         anjQ5jbQSDt2lZwAzUPCfkoK+2ofyvXSEmGlA/HCm5NV1/22uhmiQxv1Iifj/9q9G8Rn
-         41NA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVHTbqlFCIoEAhkYdmXMTW7MlK6TNFFLcDo3oN9Q//7nIDeyLxaNG8yRNPpaRJ8QuzQEKu0FJxrWWI+Drp@vger.kernel.org, AJvYcCWCw3ruoqsLZs2M8hk+nn+RIuaA0Pl0Gi18b1MlM8ZyAhdSAHk/T98EHjYfSAmDrrzhO2Zf7n9d+LM=@vger.kernel.org, AJvYcCWpJ9tSVQuJw3e4S6AmxCEl/zCdJHG9xmqUHy52x5C143eqqXNUx95DqmDjfUXPRPYTeffyWnLou5k/aC8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxljCZEtlm9QMerAJav+r4Fu3zcGwDotm9veQ2dcZIDZLFhdHvV
-	g11uPykN583N0BGoIYH9qH3M3ouMcI+rsMMIgXp6UUl2ivUXkXVYMBjSOEzVdtVGQKuXm8U2sGO
-	+UJI4TY/8gfeHH6vhN44jLqcIYdc=
-X-Gm-Gg: ASbGnctdxAVqqzzSBrjo8a/rXJIVDJ57DEIiL2ey+QtPX3XzPD9zrjbwNdn4fmG4y3w
-	CRoJOS6ThKJt1h+tq2WcEgKNgG7Yw7TTYb4SS+NxsU3PGBWVLU8aUaEdEDU+gEM+3aVlSIZV6
-X-Google-Smtp-Source: AGHT+IFqXLVOS6tetzuIiVC1SeKpDz1DktGwGndsy0tvCJCIuFH/K0ZN4npwCq78ugCyZ4wrTGVLSvr3HOZXiLYW++E=
-X-Received: by 2002:a05:6512:39d0:b0:540:1e5e:3876 with SMTP id
- 2adb3069b0e04-54034134873mr713024e87.52.1734039333186; Thu, 12 Dec 2024
- 13:35:33 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wNVC1mFU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KdLzQlkiCUgNqm+yMIRU4IxOa99ncn+aOyogOeF02STNd1vFIU/fLSStIW5zRaZp9x6gLX2Wu8bhkLGlxq6Vxizf/Gnzll5rxbLeZWAvrNfA1N/yY2XkZtYIrzAhIebguqQCJt+7HgFkVRxPDtmjRSJhDDIf1XBGRE5Lx3n+emRH6VqCj/cvesW0NDUqP2cEZQJiqH4dEl/uXC5uGBx5/fhm61yICv6NvqwfJxNF1RxQ5oeG5wOnlHZUWQjakCln8QpKHpF2tlGlhCg239iolz0Si16WCVOcVvF7+HWo6xb9y1tsie4ux8eS0ekT11x8brtLXaP5GIq80x82Cva18g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jiN+01x8eQWxKs9PaEiH916ewfyRGLyV+JdMiiIwstg=;
+ b=rAiMHx3SqRLqf1VRUIKcZbxzYIQXaMHoZc93K935U2Wubboo+Ov0+oYAPi0M2jtobKo7GUMKmrb+U8hscT8FXRRREH/trEHt1RQfoiswwDfjFwDoCT8XB8FUXWN5vG4F0JAvG2Ib8ef8Owjw8MkLirEgSC7Y3/VZfkHF/Y9AEPxYhIWyhC2XU+PnTB9xST8LrXcduWT3Gx+dSS5BQvaP9eRWOlJA0cGGqBfPokpwfGWW0n4/0GjFiJ9dDVepN3Ej3vXPc4hj4gCPCX2EGWwtQeq2yRURWQj56fMk9+oWk2hS56bs69oAgb7LzWJl3Cj1r5RhzzR5qMHVOVLD98PQsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jiN+01x8eQWxKs9PaEiH916ewfyRGLyV+JdMiiIwstg=;
+ b=wNVC1mFUsjspgs7bZRDvZ+zq2cv2/zJkFTKtu2muc2m+rRtzJdmgmROdb1vCupsQpFSiCqynVnI/D7VfLcIR3ZJ446DE9FeNCoDgBxonvwh6ZRGzRbnXrb3Em0VGpZegUKmtQ0NF8ZsXKhbSy/yGRwON/whH7T5rgbS1dPxN7yQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by SJ2PR12MB8063.namprd12.prod.outlook.com (2603:10b6:a03:4d1::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.16; Thu, 12 Dec
+ 2024 22:31:02 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::37ee:a763:6d04:81ca%4]) with mapi id 15.20.8251.008; Thu, 12 Dec 2024
+ 22:31:02 +0000
+Message-ID: <47f9ccce-1946-4586-b918-3de203b5c712@amd.com>
+Date: Thu, 12 Dec 2024 16:30:59 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND] soundwire: amd: clear wake enable register for
+ power off mode
+To: vkoul@kernel.org, Mark Brown <broonie@kernel.org>
+Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
+ sanyog.r.kale@intel.com, Basavaraj.Hiregoudar@amd.com,
+ Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ alsa-devel@alsa-project.org, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+References: <20241203092144.4096986-1-Vijendar.Mukunda@amd.com>
+Content-Language: en-US
+From: Mario Limonciello <mario.limonciello@amd.com>
+In-Reply-To: <20241203092144.4096986-1-Vijendar.Mukunda@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SA1PR03CA0007.namprd03.prod.outlook.com
+ (2603:10b6:806:2d3::16) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241207193441.15767-1-yesanishhere@gmail.com> <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-In-Reply-To: <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
-From: anish kumar <yesanishhere@gmail.com>
-Date: Thu, 12 Dec 2024 13:35:22 -0800
-Message-ID: <CABCoZhA1g4McaLtsQqZv=Y1UrEg4kmyMVjdJJTfDow0ho-WdCA@mail.gmail.com>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|SJ2PR12MB8063:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c793021-cda1-4474-01c3-08dd1afca890
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cXY5VElJbHhjRnpFb21YYUtOVmdHY3BBb01uK0htb25NME4wdU96L3BBZ3VW?=
+ =?utf-8?B?c3Fic1htVEUwMDFOdlZXQWhjSVh6NWV5eFVmME5sMXNtWnB4NTM0b05uZy94?=
+ =?utf-8?B?bmtORysycEZidTFIbWNHNVI5NmRnVGlHdmRFMWhzZi8yMzhSTno2VDJaOEFC?=
+ =?utf-8?B?MTllWWErQUhTNlVkTTZBSkxEU2hDaEVKVitZL1FXajFzdDFkaXJocGZGd01n?=
+ =?utf-8?B?NFkrY2FURUxPSVVuSFdTVm9sdWpqTFg3ekltMktOL1UrWFdjRnFaL21UZ0Vo?=
+ =?utf-8?B?RTRVamtaS2VxeDhRTEh2N3gyeXZ4NDNnUUtDR2N2b2dHRW8vNzVoenlVNjdQ?=
+ =?utf-8?B?d00vcitTRmphblB1czh6UHFneVhOeUxsL3E2Q0RWa2UyNjFMQk1Ra3lMdWRL?=
+ =?utf-8?B?TXpiaXc3SC92V3pyakt4cTNBUHIzM0t0WUExOWtkc2VIa3JzRWJJR2hVZHJH?=
+ =?utf-8?B?MnNpMlIwUkp6V0R4dm5YOWJEZkdZSzhKb2REUkV1WjF3bjFjM3hMUjNWVTc0?=
+ =?utf-8?B?NHI4ZjJoc0Y1cnppQ1pxSlVLRnQvYm52c1d5Q28reDhLMnd1dmN5YkU0NG1p?=
+ =?utf-8?B?VzEycUlUK0tmVUVYbjRtZFB1Y2J6bDNvWmZEQUhrSEdiTWxNUlc3RW95SzMr?=
+ =?utf-8?B?bUFSSU1sNmNTQ2oyTmUyQmE2aThqMmdJeWJNWVUvSk5tNDBQN083dENJZ01F?=
+ =?utf-8?B?ZGg3Zm1QbmthYXkrZFVaWFZZMUhGS1pFLzJVemVkeWVYQ2Z3OE0zNUdOenl4?=
+ =?utf-8?B?ckZwcko3VnNHanhtNVlCcHBMcUNETUpPVjlSSDUwd1VRTHo2U3lHSG9IWjJl?=
+ =?utf-8?B?YldVa0FQam1IZGU3azBvalMyaTR0M1ZtVjFsVzNpL1MrdGVuUWtpNXAwcTlo?=
+ =?utf-8?B?eTlNQU9kUzRxekFTMmcyejJwdEVPN1pQWk1yQnU4T2lhN29Jb21JZUpqc3Nh?=
+ =?utf-8?B?ZExrMTQvd3RqVUM2VnNscERuQVNJTHpRT01Sb0ZoVHliZDhpN3YwdjRUdmlp?=
+ =?utf-8?B?c3lielRGY2w5dWNRQUs0ODVyc3ZORnNPQ3Q2ZTQvdGd2REx0QksyV2tiUWZu?=
+ =?utf-8?B?TVFwVlNYdUxJSzlYMm02czI3RVRkS3l2Vk1IdGdYdTNCLzQzVVRoZWFRNjgw?=
+ =?utf-8?B?eDVTQTdvTUxPc3UwZGZyTUs5M2ZSWVBVQ2ZCVVJUSnRUaDcrUGdxUnl0d2JK?=
+ =?utf-8?B?WWYvOTUvTDRlVjZ6OVNHZWJML3g4TzFsamtLVmRNRDcxeTdjWk5veE5UMkZh?=
+ =?utf-8?B?ODVybEtnSmIvbEF2eFEvdzBUSE0wdVNrbEIrNS9sTGJRdEcrWWhRTW92d1FO?=
+ =?utf-8?B?K1JvM3FHZHNXNmgxM2FjK242Z0RXZVVuNm1za25LNVJvditucjM0QitlTGtv?=
+ =?utf-8?B?RWE3N1BzNUN3RW1NY2d4bUUxNkZIbDdoU1FLbi9IY3FnVmJGSkxuYi9UMEZC?=
+ =?utf-8?B?dm9IMk9laGJpamlPWFMrbWpEVGxKRU9YalBJcTYvRUJYNUZHVFBFNC9TbHJ4?=
+ =?utf-8?B?eGxYMFIvWkZtWmxjM3ZmN1IzeW00TWlsUThMZndmZUJMQkVYdU5mbVNFU1N3?=
+ =?utf-8?B?R1Uya0k3TkhQaHF0K0R5STZNWk5UenNHVUI1U3gwWC9CakhCZjRTU25FUURT?=
+ =?utf-8?B?NjVQQXVNclVRanI0cmxzWTgyZVV1NzUyQ1AvNWtkbWo0Z202MGh6NmMzbEps?=
+ =?utf-8?B?SktSTHB3eVhncnR2QlFYZ1JUblN3dTlyazhkUGdYNnBFV0M0ak5pbDU4Q05C?=
+ =?utf-8?B?Smg5cEFMSFIrVGNFREVOZWQ5ajhXOGZhM1QyMUw2c1NmWjE5TzJpNGR2c3po?=
+ =?utf-8?Q?fEt0Z2R9LElQOZUR8UqzhQEZew+0FKWLYOKBE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dVRlU0dvQ1kzbkkwN24yVi9pTERVUUFxS3EwVWM2aWo5THB4dVEwdWNudk5j?=
+ =?utf-8?B?aHlvbnI5NnRKRFQ4V21USnpnUmt2bmFFYk1UQmhFYVZVYzFFd3FwS1ZMc1FW?=
+ =?utf-8?B?aVJ1aTNrSGlPOVptYm00OTdjVWdPZ1lBc0RYT09jY2dHY3F5Rlc1aVRWRyth?=
+ =?utf-8?B?V3kyQ3VZNElWZ0g5T3NVeHRhc0l2NEM5NElYQ3lxeTIyeE15SjcwY1FaVC90?=
+ =?utf-8?B?TGkrc3gwZzNyOWVwNVQzbWloT0JqSDljcW1FTTM1a3N4T0QvcS9vVDJTTitm?=
+ =?utf-8?B?MGpTZHllYVhSS0gvaUN0WVQrTCtEeGJvU0pJMGNIejhXVEp2V2VuTEVKaHdB?=
+ =?utf-8?B?S0RsN1Eybm83VmVaV1I2dTRGcFFiU3lyWkV1VE1HM1FwMXB6ZUxIS3RJQjJY?=
+ =?utf-8?B?SlhuMVNLQjVaYUlmMDdmdUlvajdJY2hUbFFVZS9yTlBITDdHbytjZnY0TEN3?=
+ =?utf-8?B?aFZ3ME9kcmlkc2taVjFTc0ZaS21COG13QlhJa2c4eTlvSllYUDlBNjFvSXJY?=
+ =?utf-8?B?VTNkdkg2bzdJRGZFL2x3Y1ZXdVFXK3N5aGpNREIwdTZCaXJKaDZVZk9jL3Zp?=
+ =?utf-8?B?RFV1MERHY1pLTlg1cjhCVXF5Y1ZPOTlyVW1rZEp3enNXNVNGNGlLZzA3U25V?=
+ =?utf-8?B?UWVGYWhWUlVLdXRJOXFKcnRGdTkxemRISjRmZWhpOUN5WTZHUHRjeThsRTNJ?=
+ =?utf-8?B?ajFLYVdPY3dINndLdE50cWR5blpKVEtNemtTbWRDcWNNMjc1cHVYSk9JRGNB?=
+ =?utf-8?B?aUxkOXFNWTBDUUJjaGl3YnBqcHltWEZ1N2orWE9PcFNBa1JJTGF2YWI0MXdG?=
+ =?utf-8?B?b3A2VzlPcTJVVFY2d0JuSWtxUDIvcE00NXNwdkRlc3V2aWZtWitXME14bTV5?=
+ =?utf-8?B?YjJ4dnZ5YmN6ZFhZRXROVXVBM0phbTJFcHlmSzVzakhQYlkrR0ErREdHSWJK?=
+ =?utf-8?B?TlZwaElsQm4wRDBPTzE3MDhhWVZocEVGL3l5OGg1UUk1cG1ueGlKMWlHR3VK?=
+ =?utf-8?B?VU84Z08zcU10bWpLS0lrVWpkKzY3ckgzVGpFWW52blB1cmxPMHhUYUNoM2l3?=
+ =?utf-8?B?Mk1xS29PWUMvR3JYdklMY1FMeVRxNUlYV3ozWWxyOGJhcE5UN3ZHZFNmVGFU?=
+ =?utf-8?B?TElyZ2p6ZVMvdFBwczJFWmZHbGVLaWNiYzNNRnVKTHZmZXRDNnBCTzdraHZE?=
+ =?utf-8?B?UVJISENjQjZtZFJYRGIraDdYTWNaUmx4Q2doWkswWng4Unlkdmd1U3A3TUpY?=
+ =?utf-8?B?cCtoWWFZM2xPTXVjbEZ1ODE1YzJvdThUNXozQ2M3bUlvdVoweXB3K2lydHM4?=
+ =?utf-8?B?c0tEL3VrVUR4Mm9oaTg1Z1I4TTE1eDJ6bjFWVnpTQmw2RGY3VzF0ZVIxUDFV?=
+ =?utf-8?B?ZUlXL0c1SkZQemVtRHA4STBEQ253S3prSlpUaWhUeUh2ZUpsVzF1SmlNVEx5?=
+ =?utf-8?B?eTNES1U5bkwycWRGTDR0SXBDaTRyUngyblM4T1k1ZHJHUzA3QS9vMklhNldK?=
+ =?utf-8?B?elluNzZWdkJsYkRUdElqY0RoNDZUN3lLWHExT21ZS3I4MTM2NnQzUTZNUytG?=
+ =?utf-8?B?cGlqTWhad2pGRDYvTnE3QzhZYWR6cW5NMERCbXJuZTRJRHlHUlpIS3R0VlBN?=
+ =?utf-8?B?NGtmZ3JHRWVQY2xmY2kxK0JqcjN6RmY1cmM2UWdCaVgyVW1mRDNLOXUvemwx?=
+ =?utf-8?B?MTVlWE1ZWFF4a0ErdUtvNVlVZ1VaSVFHN2Jhc3dNOFUvYmJXTVdMUVZ4Mmg0?=
+ =?utf-8?B?emVWNVFCS1cwOWVnZm1uTkpjMzhsWlptT3orMXdHOFpuNzZyZmxxVGpQQ05F?=
+ =?utf-8?B?Tm9NQWRySzNqV0gwUmhpdFJjMzIvN094ZTJFcithWDZCM1ZPWk5HVk9CUVRW?=
+ =?utf-8?B?OHNsdlRDbkN1RDN0Qm1mWjl5cDVNak1sWjY1M1FjS295Q2M0OUpZRVFPOGU4?=
+ =?utf-8?B?aDRvNFBRb1ZKNHRPUVIyZ2UxWkVOQ2xZTnhVcVh0dm92NFBMYVhxN1pyZWpN?=
+ =?utf-8?B?My9KdjcxOWdmYUUrRGdaVlJvMy9EY2QrSTdLS2hUS24rcUtmeE1NSnVKc1ZP?=
+ =?utf-8?B?eDZsdlh5TE9EZHgrMHZlRThtNmRYNGJGNGtubGZlSFdsUkplbitwa2lpTHpq?=
+ =?utf-8?Q?lUY9ltAqPkqY+Ux+i0Ca+MgmZ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c793021-cda1-4474-01c3-08dd1afca890
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2024 22:31:02.0363
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bS73mZ4kW3Gekb+uyFS11ao8oCcKPedt3mKRExK/7qORP1kFKzRinx4bLxjv0sp3yKpAYvgX1RA8q/sqblFMlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8063
 
-On Tue, Dec 10, 2024 at 3:06=E2=80=AFAM Charles Keepax
-<ckeepax@opensource.cirrus.com> wrote:
->
-> On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> > +Boot-up logs will display message similar to:
-> > +
-> > +.. code-block:: text
-> > +
-> > +   ASoC: registered pcm #0 codec2codec(Playback Codec)
-> > +
-> > +To trigger this DAI link, a control interface is established by the
-> > +DAPM core during internal DAI creation. This interface links to
-> > +the ``snd_soc_dai_link_event`` function, which is invoked when a
-> > +path connects in the DAPM core. A mixer must be created to trigger
-> > +the connection, prompting the DAPM core to evaluate path
-> > +connections and call the ``snd_soc_dai_link_event`` callback with
-> > +SND_SOC_DAPM_*_PMU and SND_SOC_DAPM_*_PMD events.
-> > +
->
-> I am still not really following this, what are we trying to
-> convey in this paragraph?
->
-> What do we mean by a "control interface" here, is that referring
-> to the kcontrol that is created to select the rate in the case
-> of multiple rates? Or is it simply refering to the fact we call
-> snd_soc_dapm_new_control_unlocked? But really that function is
-> adding widgets, as I noted in my last email.
+On 12/3/2024 03:21, Vijendar Mukunda wrote:
+> As per design for power off mode, clear the wake enable register during
+> resume sequence.
+> 
+> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
 
-I mean snd_soc_dapm_new_control_unlocked gets called to
-create the widget which gets triggered as part of DAPM path
-enablement.
+Hi Vinod,
 
->
-> Also what do we mean by a "A mixer must be created", I am not
-> aware of any requirement for a mixer? The DAI link needs to be on
-> a valid DAPM path, but I don't see any requirements other than
-> that.
+Can you please pick up this patch?  There is other work that needs to 
+build on it that is currently blocked.  It's been on the list for nearly 
+a month [1] along with a resend [2] with no feedback.
 
-In my case, I was implementing a mixer widget that users could
-trigger to enable the entire DAPM path. However, I believe it's
-sufficient to simply state that there should be a mechanism to
-trigger the codec-to-codec widget, enabling the full DAPM path.
->
-> Thanks,
-> Charles
+[1] 
+https://lore.kernel.org/alsa-devel/20241112185138.3235375-1-Vijendar.Mukunda@amd.com/
+[2] 
+https://lore.kernel.org/alsa-devel/20241203092144.4096986-1-Vijendar.Mukunda@amd.com/
+
+Thanks,
+
+> ---
+>   drivers/soundwire/amd_manager.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+> index 5a4bfaef65fb..96a3aa6da711 100644
+> --- a/drivers/soundwire/amd_manager.c
+> +++ b/drivers/soundwire/amd_manager.c
+> @@ -1190,6 +1190,7 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+>   	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+>   		return amd_sdw_clock_stop_exit(amd_manager);
+>   	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
+> +		writel(0x00, amd_manager->acp_mmio + ACP_SW_WAKE_EN(amd_manager->instance));
+>   		val = readl(amd_manager->mmio + ACP_SW_CLK_RESUME_CTRL);
+>   		if (val) {
+>   			val |= AMD_SDW_CLK_RESUME_REQ;
+
