@@ -1,84 +1,102 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E72C210F6A;
-	Thu, 12 Dec 2024 10:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20D8211471
+	for <linux-sound@vger.kernel.org>; Thu, 12 Dec 2024 10:58:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733997898; cv=none; b=RBfFMIV9jzH4MmzvCY+dUgKXdWiy86mLwJh+2NajXRJ9N9Hp/TxxH005smiNQehYpe/cFOWE4Obg2SNbF89rfN/6n86w4aWI814wWnoLUKFt0F7Dq4LQkAlsw3zjIkNCpz/YfCQaR/hd8tPwfr/Pel+LqTyFMXwSBEqvHb+ix7M=
+	t=1734001093; cv=none; b=AKm5IHmvgCEdvY+d++zIL5J3ji6WbBSUpFSOQ7S8lBOTFZrh7UcrPujcNiO4STfmA6efe9ZivawjDAYNL/WXojzVvcFfk/CN+sCZ2ZT1VWeyk2YiRc8ERE891P/FTaRH0WKUTZ3Gem6HH+mZvtuqe7kIpxQ3MIsWN16WwaJUT6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733997898; c=relaxed/simple;
-	bh=BJAKUmR3xWQ9qzG9ppN4jAGJ2iMpKpc+JdEgddk4Bxc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nJNwz6uLsDLLG3LbzWzltIDtyzx5K8f4n4kLsCsRSiFcFLD+OWMO5fLrtl8g1OM/ZZGbBGilq6Zr5IXsYvyV46Cu0X8V2cI8+w5sXG6WdPXoKrr9Tf2jGg4XNRyoEKTYFHq2Emhz/EbM/bsUvPXxOfJpnkVR1P7qIF0ZjHO2GgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CMNjt9Kr; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1734001093; c=relaxed/simple;
+	bh=pJZG5b57VUIZ29v8N70t0eK1UWgPiXa/H6k73QqPLqc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q9rrOv+PDWc1mGpg6gwGUs7NmeMpIi+HC8ciOyPOVx7XSZe+81hfBBXc4EsY6dzuz3Z1XNMA46fsfTDaXQ1xe2xfWN7f/387c565iJ0CQxszH/bjPoA7fPtwf3UQQXnteo2t/r/L1EanpLiUp945Y4ivPyCfEf3fZ+7gaTAyh/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gI/p69FE; arc=none smtp.client-ip=67.231.152.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CMNjt9Kr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1733997894;
-	bh=BJAKUmR3xWQ9qzG9ppN4jAGJ2iMpKpc+JdEgddk4Bxc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CMNjt9KrL72tAJutKI5akwTGiPtV6M1Dw//IwYzpHNQ+Bpu+qBxRkFNBlhPrveAYa
-	 rBReguwRxy/uMP6x3OxHNW1bh5QK1Yyv9GTx/OlqSaFcw36N/sYEJPFJFSuWbVqwWQ
-	 m5J0utModagdtptTLzcd4OUwddtYjuqJWpOjE22FND305Zgabj/g/Dt7w+E2Oft6bX
-	 wGSn5T78mWTQCPop8xryfvmYMOR02cAMaID28/TxBw8HypbfxZVuSqiStMFHdILvm4
-	 dYCoo/EmQdb4uO41W6Zn+SV+9lnvEijtKbQN6uzirXuEVILHCNhU3++Em5kbNNzGCe
-	 ypTIMmExhTaOA==
-Received: from IcarusMOD.eternityproject.eu (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id BDEF517E35FA;
-	Thu, 12 Dec 2024 11:04:53 +0100 (CET)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Trevor Wu <trevor.wu@mediatek.com>, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Cc: kernel@collabora.com, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org, 
- Aary Patil <aary.patil@mediatek.com>, 
- Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>, 
- parkeryang <Parker.Yang@mediatek.com>
-In-Reply-To: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
-References: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
-Subject: Re: [PATCH v2 0/2] Enable audio output for Genio 700 EVK board
-Message-Id: <173399789370.41280.16875335834079584278.b4-ty@collabora.com>
-Date: Thu, 12 Dec 2024 11:04:53 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gI/p69FE"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5o3UG029256;
+	Thu, 12 Dec 2024 04:57:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=t2U7R+JHsq3jN1Ag
+	ThgP/HnwOGwJoNMjDlGqGBohPpE=; b=gI/p69FEWDzKpCr6ToDCck8A1qRoBEkK
+	L8Z94psPbX9XEbEVpne0K3Om45+dRcjBqwBWQGHXFCmkHs5gWZemv3wM2q071Oqk
+	2ZeklH0gRUrosjJV/Ia0GHPIcGnLU6lCCOHb66GcUGgWidtRyoa46U4h5DNnASSf
+	YEQinLKeQuWK6Pr1J15hcKZf9OXvRWh8Q0roYmWbXoyJl9bkGZWB72k3rL+OKXkj
+	4mhhBeOYHRXSvljcqzQj+oja63WAS+ZRRon/GEYRDAzrlIEXAfCdlJJJVEL2G4g1
+	WSwDb1FYNrdOwYgoA9IGKJNof+cv+L3ubrJmDYihxA+JUHyc3HCiKg==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkep31-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Dec 2024 04:57:44 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 12 Dec
+ 2024 10:57:42 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Thu, 12 Dec 2024 10:57:42 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D5A70822548;
+	Thu, 12 Dec 2024 10:57:42 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <cezary.rojewski@intel.com>, <liam.r.girdwood@linux.intel.com>,
+        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
+        <pierre-louis.bossart@linux.dev>, <linux-sound@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH] ASoC: Intel: sof_sdw: Add space for a terminator into DAIs array
+Date: Thu, 12 Dec 2024 10:57:42 +0000
+Message-ID: <20241212105742.1508574-1-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.14.2
+X-Proofpoint-ORIG-GUID: OdCmvvXaKz1RmAO2e8HlUfr-5N5F-i4o
+X-Proofpoint-GUID: OdCmvvXaKz1RmAO2e8HlUfr-5N5F-i4o
+X-Proofpoint-Spam-Reason: safe
 
-On Tue, 10 Dec 2024 17:54:27 -0300, Nícolas F. R. A. Prado wrote:
-> This series enables audio output support for the Genio 700 EVK board.
-> Patch 1 adds the missing #sound-dai-cells property in the MT6359 node as
-> a prerequisite, and patch 2 describes the audio DT nodes to get audio
-> output working on the two audio jacks, Earphone and Speaker, present on
-> the board.
-> 
-> 
-> [...]
+The code uses the initialised member of the asoc_sdw_dailink struct to
+determine if a member of the array is in use. However in the case the
+array is completely full this will lead to an access 1 past the end of
+the array, expand the array by one entry to include a space for a
+terminator.
 
-Applied to v6.13-next/dts64, thanks!
+Fixes: 27fd36aefa00 ("ASoC: Intel: sof-sdw: Add new code for parsing the snd_soc_acpi structs")
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/intel/boards/sof_sdw.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-[1/2] arm64: dts: mt6359: Add #sound-dai-cells property
-      commit: 9bc8353be720ca1f9cb6e03825929bc172e1157d
-[2/2] arm64: dts: mediatek: mt8390-genio-700-evk: Add sound output support
-      commit: b8457716eeee45ed5cb6b8fdc5a5b459f7ebe819
-
-Cheers,
-Angelo
-
+diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+index 0652d17a81ddc..53410fb446736 100644
+--- a/sound/soc/intel/boards/sof_sdw.c
++++ b/sound/soc/intel/boards/sof_sdw.c
+@@ -1072,8 +1072,12 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
+ 		return ret;
+ 	}
+ 
+-	/* One per DAI link, worst case is a DAI link for every endpoint */
+-	sof_dais = kcalloc(num_ends, sizeof(*sof_dais), GFP_KERNEL);
++	/*
++	 * One per DAI link, worst case is a DAI link for every endpoint, also
++	 * add one additional to act as a terminator such that code can iterate
++	 * until it hits an uninitialised DAI.
++	 */
++	sof_dais = kcalloc(num_ends + 1, sizeof(*sof_dais), GFP_KERNEL);
+ 	if (!sof_dais)
+ 		return -ENOMEM;
+ 
+-- 
+2.39.5
 
