@@ -1,56 +1,55 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20D8211471
-	for <linux-sound@vger.kernel.org>; Thu, 12 Dec 2024 10:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83CA11EC4D2;
+	Thu, 12 Dec 2024 11:02:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734001093; cv=none; b=AKm5IHmvgCEdvY+d++zIL5J3ji6WbBSUpFSOQ7S8lBOTFZrh7UcrPujcNiO4STfmA6efe9ZivawjDAYNL/WXojzVvcFfk/CN+sCZ2ZT1VWeyk2YiRc8ERE891P/FTaRH0WKUTZ3Gem6HH+mZvtuqe7kIpxQ3MIsWN16WwaJUT6w=
+	t=1734001362; cv=none; b=XVg0ZbYda1otwE7jtrvK/6bgc6BoXcjjFIqjg1ar0rHHM4eRbv7FmkFl3ilqdOE04vqLEozLEiRpwycbVz/Yo6a6ULtH3USl0pTiKfIo1DmjVjJ3eBiGzZC65kW3eIO0REPmG0rQkDGkhYxNQTZHggmEJHHB1REJzF7usNCWmPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734001093; c=relaxed/simple;
-	bh=pJZG5b57VUIZ29v8N70t0eK1UWgPiXa/H6k73QqPLqc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q9rrOv+PDWc1mGpg6gwGUs7NmeMpIi+HC8ciOyPOVx7XSZe+81hfBBXc4EsY6dzuz3Z1XNMA46fsfTDaXQ1xe2xfWN7f/387c565iJ0CQxszH/bjPoA7fPtwf3UQQXnteo2t/r/L1EanpLiUp945Y4ivPyCfEf3fZ+7gaTAyh/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=gI/p69FE; arc=none smtp.client-ip=67.231.152.168
+	s=arc-20240116; t=1734001362; c=relaxed/simple;
+	bh=L6fYlSa0pWcWtejpf6QX6Y/+ZaZXu2ZEOObJx1BoVKM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iOgqjq3wt5Nf+hL0LDHWK5hM678vA2T2mRruAe9cWoCb4VioqRUmiyeZhin4IU8BzxUSVed30Jv/GV30PU9RxFfclwKlHc/CpKFzfkiA5fDEHNzz2sbiLkKA+iqioAT/S7VWZFGnLMnhhC/pQyrkTfhzYP+WuylkP4RWILTJ2w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pfjgu2/m; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="gI/p69FE"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pfjgu2/m"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5o3UG029256;
-	Thu, 12 Dec 2024 04:57:44 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5LAc7019383;
+	Thu, 12 Dec 2024 05:02:23 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=t2U7R+JHsq3jN1Ag
-	ThgP/HnwOGwJoNMjDlGqGBohPpE=; b=gI/p69FEWDzKpCr6ToDCck8A1qRoBEkK
-	L8Z94psPbX9XEbEVpne0K3Om45+dRcjBqwBWQGHXFCmkHs5gWZemv3wM2q071Oqk
-	2ZeklH0gRUrosjJV/Ia0GHPIcGnLU6lCCOHb66GcUGgWidtRyoa46U4h5DNnASSf
-	YEQinLKeQuWK6Pr1J15hcKZf9OXvRWh8Q0roYmWbXoyJl9bkGZWB72k3rL+OKXkj
-	4mhhBeOYHRXSvljcqzQj+oja63WAS+ZRRon/GEYRDAzrlIEXAfCdlJJJVEL2G4g1
-	WSwDb1FYNrdOwYgoA9IGKJNof+cv+L3ubrJmDYihxA+JUHyc3HCiKg==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkep31-1
+	:mime-version:subject:to; s=PODMain02222019; bh=g8zyB4C4ilx5HyG9
+	sMBfAEz2Jle8HIXNcBSrgsEN9/E=; b=pfjgu2/mrUWU9UUUXuT08Js11DM8KElI
+	bIzn/byQ4eRk3ilDLmnyGG6IalpLy4nF2DgVYL0wRkjaVhbjuzNLLx8XNNGGJu7v
+	8C3WaNkVDGhu+RfMfMuNNFkm2PLV4siOQo3CBG2v8xtW8ChX55iVrXbSsy7WgX2M
+	z7BG4MQYbcZuDFO6ntcmtC1/dYa0jxa9kqiJbxfHMHz+yZ5dvdI7kywHhBjsTXu4
+	dR38HH2p7w2Rwnns4CCZKSY+P//V9N8D2uZ7LqlNBMB3Sbs/BhYZMBKjXy1xl1ie
+	R0xIBEXLcQSMUem7Yk+4Qz2XU29iXErgyvqjC82PjoN/Jbq9uNTYRQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkep8d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 04:57:44 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 12 Dec 2024 05:02:23 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 12 Dec
- 2024 10:57:42 +0000
+ 2024 11:02:21 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Thu, 12 Dec 2024 10:57:42 +0000
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Thu, 12 Dec 2024 11:02:21 +0000
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id D5A70822548;
-	Thu, 12 Dec 2024 10:57:42 +0000 (UTC)
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 8F73F822548;
+	Thu, 12 Dec 2024 11:02:21 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <cezary.rojewski@intel.com>, <liam.r.girdwood@linux.intel.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <ranjani.sridharan@linux.intel.com>, <kai.vehmanen@linux.intel.com>,
-        <pierre-louis.bossart@linux.dev>, <linux-sound@vger.kernel.org>,
+To: <vkoul@kernel.org>
+CC: <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <sanyog.r.kale@intel.com>, <pierre-louis.bossart@linux.dev>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <patches@opensource.cirrus.com>
-Subject: [PATCH] ASoC: Intel: sof_sdw: Add space for a terminator into DAIs array
-Date: Thu, 12 Dec 2024 10:57:42 +0000
-Message-ID: <20241212105742.1508574-1-ckeepax@opensource.cirrus.com>
+Subject: [PATCH] soundwire: intel_auxdevice: Don't disable IRQs before removing children
+Date: Thu, 12 Dec 2024 11:02:21 +0000
+Message-ID: <20241212110221.1509163-1-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,43 +59,137 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: OdCmvvXaKz1RmAO2e8HlUfr-5N5F-i4o
-X-Proofpoint-GUID: OdCmvvXaKz1RmAO2e8HlUfr-5N5F-i4o
+X-Proofpoint-ORIG-GUID: rh8HDNArKBzX-BhhXBgB880wG-QzCIPA
+X-Proofpoint-GUID: rh8HDNArKBzX-BhhXBgB880wG-QzCIPA
 X-Proofpoint-Spam-Reason: safe
 
-The code uses the initialised member of the asoc_sdw_dailink struct to
-determine if a member of the array is in use. However in the case the
-array is completely full this will lead to an access 1 past the end of
-the array, expand the array by one entry to include a space for a
-terminator.
+Currently the auxiliary device for the link disables IRQs before it
+calls sdw_bus_master_delete(). This has the side effect that
+none of the devices on the link can access their own registers whilst
+their remove functions run, because the IRQs are required for bus
+transactions to function. Obviously, devices should be able to access
+their own registers during disable to park the device suitably.
 
-Fixes: 27fd36aefa00 ("ASoC: Intel: sof-sdw: Add new code for parsing the snd_soc_acpi structs")
+It would appear the reason for the disabling of the IRQs is that the IRQ
+handler iterates through a linked list of all the links, once a link is
+removed the memory pointed at by this linked list is freed, but not
+removed from the linked_list itself. Add a list_del() for the linked
+list item, note whilst the list itself is contained in the intel_init
+portion of the code, the list remove needs to be attached to the
+auxiliary device for the link, since that owns the memory that the list
+points at. Locking is also required to ensure the IRQ handler runs
+before or after any additions/removals from the list.
+
 Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Péter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/soundwire/intel.h           |  1 +
+ drivers/soundwire/intel_auxdevice.c |  5 ++++-
+ drivers/soundwire/intel_init.c      | 16 ++++++++++++++++
+ include/linux/soundwire/sdw_intel.h |  1 +
+ 4 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 0652d17a81ddc..53410fb446736 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -1072,8 +1072,12 @@ static int sof_card_dai_links_create(struct snd_soc_card *card)
- 		return ret;
+diff --git a/drivers/soundwire/intel.h b/drivers/soundwire/intel.h
+index dddd293814418..4df582ceaed1a 100644
+--- a/drivers/soundwire/intel.h
++++ b/drivers/soundwire/intel.h
+@@ -45,6 +45,7 @@ struct sdw_intel_link_res {
+ 	u32 link_mask;
+ 	struct sdw_cdns *cdns;
+ 	struct list_head list;
++	struct mutex *link_lock; /* lock protecting list */
+ 	struct hdac_bus *hbus;
+ };
+ 
+diff --git a/drivers/soundwire/intel_auxdevice.c b/drivers/soundwire/intel_auxdevice.c
+index 599954d927529..5b2bbafef1ac0 100644
+--- a/drivers/soundwire/intel_auxdevice.c
++++ b/drivers/soundwire/intel_auxdevice.c
+@@ -498,9 +498,12 @@ static void intel_link_remove(struct auxiliary_device *auxdev)
+ 	if (!bus->prop.hw_disabled) {
+ 		sdw_intel_debugfs_exit(sdw);
+ 		cancel_delayed_work_sync(&cdns->attach_dwork);
+-		sdw_cdns_enable_interrupt(cdns, false);
  	}
++
+ 	sdw_bus_master_delete(bus);
++
++	if (!bus->prop.hw_disabled)
++		sdw_cdns_enable_interrupt(cdns, false);
+ }
  
--	/* One per DAI link, worst case is a DAI link for every endpoint */
--	sof_dais = kcalloc(num_ends, sizeof(*sof_dais), GFP_KERNEL);
-+	/*
-+	 * One per DAI link, worst case is a DAI link for every endpoint, also
-+	 * add one additional to act as a terminator such that code can iterate
-+	 * until it hits an uninitialised DAI.
-+	 */
-+	sof_dais = kcalloc(num_ends + 1, sizeof(*sof_dais), GFP_KERNEL);
- 	if (!sof_dais)
- 		return -ENOMEM;
+ int intel_link_process_wakeen_event(struct auxiliary_device *auxdev)
+diff --git a/drivers/soundwire/intel_init.c b/drivers/soundwire/intel_init.c
+index 12e7a98f319f8..db49ee3808151 100644
+--- a/drivers/soundwire/intel_init.c
++++ b/drivers/soundwire/intel_init.c
+@@ -28,6 +28,15 @@ static void intel_link_dev_release(struct device *dev)
+ 	kfree(ldev);
+ }
  
++static void intel_link_list_del(void *data)
++{
++	struct sdw_intel_link_res *link = data;
++
++	mutex_lock(link->link_lock);
++	list_del(&link->list);
++	mutex_unlock(link->link_lock);
++}
++
+ /* alloc, init and add link devices */
+ static struct sdw_intel_link_dev *intel_link_dev_register(struct sdw_intel_res *res,
+ 							  struct sdw_intel_ctx *ctx,
+@@ -78,6 +87,7 @@ static struct sdw_intel_link_dev *intel_link_dev_register(struct sdw_intel_res *
+ 		link->shim_vs = res->mmio_base + SDW_SHIM2_VS_BASE(link_id);
+ 		link->shim_lock = res->eml_lock;
+ 	}
++	link->link_lock = &ctx->link_lock;
+ 
+ 	link->ops = res->ops;
+ 	link->dev = res->dev;
+@@ -144,8 +154,10 @@ irqreturn_t sdw_intel_thread(int irq, void *dev_id)
+ 	struct sdw_intel_ctx *ctx = dev_id;
+ 	struct sdw_intel_link_res *link;
+ 
++	mutex_lock(&ctx->link_lock);
+ 	list_for_each_entry(link, &ctx->link_list, list)
+ 		sdw_cdns_irq(irq, link->cdns);
++	mutex_unlock(&ctx->link_lock);
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -209,6 +221,7 @@ static struct sdw_intel_ctx
+ 	ctx->link_mask = res->link_mask;
+ 	ctx->handle = res->handle;
+ 	mutex_init(&ctx->shim_lock);
++	mutex_init(&ctx->link_lock);
+ 
+ 	link_mask = ctx->link_mask;
+ 
+@@ -245,7 +258,10 @@ static struct sdw_intel_ctx
+ 			i++;
+ 			goto err;
+ 		}
++		mutex_lock(&ctx->link_lock);
+ 		list_add_tail(&link->list, &ctx->link_list);
++		mutex_unlock(&ctx->link_lock);
++		devm_add_action_or_reset(&ldev->auxdev.dev, intel_link_list_del, link);
+ 		bus = &link->cdns->bus;
+ 		/* Calculate number of slaves */
+ 		list_for_each(node, &bus->slaves)
+diff --git a/include/linux/soundwire/sdw_intel.h b/include/linux/soundwire/sdw_intel.h
+index 580086417e4b0..4444c99aead5f 100644
+--- a/include/linux/soundwire/sdw_intel.h
++++ b/include/linux/soundwire/sdw_intel.h
+@@ -304,6 +304,7 @@ struct sdw_intel_ctx {
+ 	acpi_handle handle;
+ 	struct sdw_intel_link_dev **ldev;
+ 	struct list_head link_list;
++	struct mutex link_lock; /* lock protecting link_list */
+ 	struct mutex shim_lock; /* lock for access to shared SHIM registers */
+ 	u32 shim_mask;
+ 	u32 shim_base;
 -- 
 2.39.5
 
