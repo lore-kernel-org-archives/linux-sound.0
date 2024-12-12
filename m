@@ -1,89 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9048A2101A0
-	for <linux-sound@vger.kernel.org>; Thu, 12 Dec 2024 12:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B635A8837;
+	Thu, 12 Dec 2024 14:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734006615; cv=none; b=XqO7D09Z3FD4iyGAFnsGZkyWMl+7jwjg17rlzSR9nVORKDs+Fx1DsRHPTuhQ7WiNuCtY3vgqFkeA16UiQrAGnlfBHvOqzOiDR0Xc/m8gBuU3cTYz69+8x6PWAFGx9f305SpPN4cda5IzMhbC9PECClYQRiTR57SGB6sUqU00iqg=
+	t=1734013987; cv=none; b=HFcDShlA2ksEOgoXx/qZyiX6oU1ReOW9fg8vOlCsz9xjr24W1QBl4Iay5KXkgTz8+MeWXGIgFE7sUdFXcPLnaQru2wM2HqTNd7yY/aM8AnpUdKY9CzMJ6FZE36R4ifceiZx0RYGOX4CfnSSoaRl/1DV307DF6hjHOy7gb0KpqJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734006615; c=relaxed/simple;
-	bh=SD3PVEglaGxG59Rb+v0JXpSqYZUXMQS9XnsrLeH1sBY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=d0CDd/bVJ+Xtkg8ZjAjqbCexrSYy/g+AJEsKZ/NsDW9I2jDQrwNOmJkVJl1WlWxAkOjC5Q5ww7/EhHClHyVWjFfXbyu3wN1mjjQ9V0P5Aem69ec7KdxwPgnjX8RbJxcZH/Fb2zNOPBjIqkHmGPuE0XK5rUe9tFafMfGwInsIvsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bmKTNLj/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734013987; c=relaxed/simple;
+	bh=d8IYpiVfpeymjC/aJgakUmWE7prVO4zr6IEzNLCH2J4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m44BR3TgigPGyUruVERdturtUOHpbgpRGi128YcVs2ctZKgw4GU1iffYAkSoS+XCfDvkIFMEjzLY8eK50iP0Keyl9w1i7IfeeV0xi6hEc68fLZF9IYbQXtWkGqSq2j/y2nK/TXEcgXyz99r9nr6gDuGYV07NiSRA8pOOac9bZxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXyZe+Pa; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bmKTNLj/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2B2AC4CECE;
-	Thu, 12 Dec 2024 12:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734006615;
-	bh=SD3PVEglaGxG59Rb+v0JXpSqYZUXMQS9XnsrLeH1sBY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=bmKTNLj/arz46eMUTNQCUcOEtMfsSYQ1wVRQO2aSZW8vCE8gnpLUPjevLbyQ2qvss
-	 WN4w9/Ezz9NecXrhj0WFxBDynhxcHwHiUjkiVRNLrQQkVVHhrCzaMWe3tlKJdtZOgR
-	 KzOG2YZx+mJZ3NEgAhmnzsXeS8fWp5nxHxHanSjmRnUzjWGrjGIU9dfOf+XPz4UtMc
-	 fJgDcLhcp5nE9lxMN+vww6uvfRDqiRffbUhXW9NWlTGWKGZo8VIyJgvApR0V25WHVL
-	 HHk6bFXj1clniZpgp8BnYHmRL0TJmDFb0DZSAZ+TivQWhCVv7ShWvUAR1mlY+2Rp/S
-	 IzzHJwwYgCgIQ==
-From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: cezary.rojewski@intel.com, liam.r.girdwood@linux.intel.com, 
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, kai.vehmanen@linux.intel.com, 
- pierre-louis.bossart@linux.dev, linux-sound@vger.kernel.org, 
- patches@opensource.cirrus.com
-In-Reply-To: <20241212105742.1508574-1-ckeepax@opensource.cirrus.com>
-References: <20241212105742.1508574-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH] ASoC: Intel: sof_sdw: Add space for a terminator into
- DAIs array
-Message-Id: <173400661246.40234.12662545621891223111.b4-ty@kernel.org>
-Date: Thu, 12 Dec 2024 12:30:12 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXyZe+Pa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734013986; x=1765549986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=d8IYpiVfpeymjC/aJgakUmWE7prVO4zr6IEzNLCH2J4=;
+  b=bXyZe+PaMGbrGITAwdMnuIzyx/H0HqlvAewatnZHDSB+LnBV0EEeR/IO
+   5c35THQwVEplsWBo2FOy5YQeIq9RWetg+a1fukzkT/P53sHlKkrQdI2uR
+   JpJj+hSWhHynqWjdIK0TEXIfQhNajsKxUE/IRUXKOcQq1VE42e0O2npfL
+   tFfvkrizpHZ4BCOjOrooOZLs5IWSedw3xXzUi26QrZ4dCCaXD9/7c9RNS
+   lmp2OzbBqTMEbEN4WcWBdCvb+hND1+8EBvbqUhmXltWhWZwbe83M8+r1H
+   bokwaeXZa21Ti+6KkZPHLaflBkYkK2z1/K/81klVikhaUAm1kOGapdu8p
+   A==;
+X-CSE-ConnectionGUID: rW3FKeuRRvOuYCawWyUtfA==
+X-CSE-MsgGUID: zHA8f+plQruUT1BWqy0xpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="45113452"
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="45113452"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:32:56 -0800
+X-CSE-ConnectionGUID: mSB4RwXeQgCxf9FsOJVn/g==
+X-CSE-MsgGUID: +PkYQM5aRdq23a7grLhiqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,228,1728975600"; 
+   d="scan'208";a="96786531"
+Received: from smile.fi.intel.com ([10.237.72.154])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2024 06:32:51 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tLkFE-00000006vHG-28xo;
+	Thu, 12 Dec 2024 16:32:48 +0200
+Date: Thu, 12 Dec 2024 16:32:48 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Raag Jadav <raag.jadav@intel.com>
+Cc: gregkh@linuxfoundation.org, Linus Walleij <linus.walleij@linaro.org>,
+	mika.westerberg@linux.intel.com, dmitry.torokhov@gmail.com,
+	broonie@kernel.org, pierre-louis.bossart@linux.dev,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/6] Introduce devm_kmemdup_array() helper
+Message-ID: <Z1r0EPC9gumruFKU@smile.fi.intel.com>
+References: <20241126172240.6044-1-raag.jadav@intel.com>
+ <CACRpkdZqdE8gQCre=zR2cN17oKfwBSnWuVwzQsbRO7-ENVnPNg@mail.gmail.com>
+ <Z0nNnsmYIil0OZpy@smile.fi.intel.com>
+ <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z1Rfuo3jq7rO0cqb@black.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, 12 Dec 2024 10:57:42 +0000, Charles Keepax wrote:
-> The code uses the initialised member of the asoc_sdw_dailink struct to
-> determine if a member of the array is in use. However in the case the
-> array is completely full this will lead to an access 1 past the end of
-> the array, expand the array by one entry to include a space for a
-> terminator.
+On Sat, Dec 07, 2024 at 04:46:18PM +0200, Raag Jadav wrote:
+> On Fri, Nov 29, 2024 at 04:20:14PM +0200, Andy Shevchenko wrote:
+> > On Fri, Nov 29, 2024 at 11:17:02AM +0100, Linus Walleij wrote:
+> > > On Tue, Nov 26, 2024 at 6:22 PM Raag Jadav <raag.jadav@intel.com> wrote:
+> > > 
+> > > > This series introduces a more robust and cleaner devm_kmemdup_array()
+> > > > helper and uses it across drivers.
+> > > 
+> > > For the series:
+> > > Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> > > 
+> > > It seems like Andy will push it to me which is excellent.
+> > 
+> > Yep, that's the plan after we get all necessary ACKs.
 > 
-> 
-> [...]
+> Greg, anything I can do to move this forward?
 
-Applied to
+Greg, is it possible to give your Ack or comment or guidance of the preferences
+with the first patch?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Thanks!
-
-[1/1] ASoC: Intel: sof_sdw: Add space for a terminator into DAIs array
-      commit: 255cc582e6e16191a20d54bcdbca6c91d3e90c5e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
 
