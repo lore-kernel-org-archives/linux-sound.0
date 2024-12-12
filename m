@@ -1,55 +1,55 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 601B4215178;
-	Thu, 12 Dec 2024 14:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895562210FE;
+	Thu, 12 Dec 2024 14:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734014270; cv=none; b=GleV0MnLVAXHs3TJyw/pS7XJGrgBsvLGM7b2luLWL77OC8igE01xqjG8XtTLKxP6/FWb6CXjmMUABK358vRJPhpMnHBYs/fbYcx+ruUwY3L60zSOqDAUi2Mw5apt4xpc0uAMA+S56BgY4XkcrQYOTt5hIj1e2ekstrCOnkByOog=
+	t=1734014273; cv=none; b=N3Q3FIaisvMq2JBsl297eHl1o/PuJpzkTtggv5pKs3DaHOtiWvSOqJ6dKYixuauDrej1OkS8aQsEL4OVbi/PgO8vVnJ/79YW8ML8PNUeO+x2QGZBRKTFuO8HWY1fzYehOZF01D8LSF/BbWcaWWB01KZ2pyFXMqG1v9DP5FSjdeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734014270; c=relaxed/simple;
-	bh=CSLZB67fHH1An2++1VrjAnPJMk2tj2QsQ3X7d/tuygg=;
+	s=arc-20240116; t=1734014273; c=relaxed/simple;
+	bh=3fB5vo3cKuTxXU9gnPBPdRkIuD6elIO1ISV/OIMdx94=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Mrq/HeKo3+cOaeZpYmo/6PiFR5uxne80D1cdo8uoARmx3sG3csStt84bIjl/84/GIGpTnFHnfwCzgfKxjlQSOSUVDmRRiq4F0LKiJdfMsAjBYymsX7JVS0pPH9LOUQuSAyuOIjOW47hMRYFUaek0qVc9ZntVvuI5t1AoaYZgvCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=PQ8Oa/Io; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=NeB5Vupj7vFNRo3VnKsc8S7g+RXQADUxXOh6mVfjD6WDmjac2jKBPsNyhjCV2WkK269uytGY1V0PSdcZIu/JWkt+X8vQ7739LTB+MoYPavFJIDR6khKbLronnLIs7NDO1AjRhAJJCZjfYtvaogQWGcgiypXWrbiagim6hovsjp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=R49BestI; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="PQ8Oa/Io"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="R49BestI"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5o3e6029256;
-	Thu, 12 Dec 2024 08:37:28 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5LAlq019383;
+	Thu, 12 Dec 2024 08:37:30 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=kkD1FitS/Sa863m/S9ScTn0VpGVEThQ+Rq131XFY7WY=; b=
-	PQ8Oa/IoFgya8KKbLVSPsPyOEihnvNDp7vZaTwiRJkvvilseAR+TcPg/GcjghKNn
-	gh6TbML/6FHXNcM75yO2649OGORFx4tTB1GdWX5hC9LAFP4sexiFzJdt6irwZwEO
-	ZErB0qWf5LA0y1XN59pqhLAg4x5EEYlu6blCayng5Xq/Pqprg+B+LyGc2O/VS+GS
-	JAIX7QObN9ZByEXqQPGY/Suw8b+dRVmMXHnYQ4iOcbcCursdTXAZfL4o7rU+mJ0d
-	3moXCGmM/5p245XhXrRT1fb4zwPpWZpLPTBtlat2VPdtl+n1XyQ5ADEJLTJU9aso
-	TMJned5dMAbUNLM+Rv2yJA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkexdq-3
+	PODMain02222019; bh=q6pm1vhUNXUpTGZeWG+CEMvAMS58AXWb99QUtaku3Ds=; b=
+	R49BestI5CtSE5twbI3GJK1C01vjzwr8VC7pBRWo/exCpsvBr/WlkEMVZWwqKD/P
+	rmHaV9mvVlvxFxDUrQidVyqawIQPY9tnEMKoy3rkriLCJU10qu9kk0NSPHjazjyD
+	2HRAV3AE9dphGtqEjXtFF1j/l0oInCY7LU58U9KZ4oUIs5ZKVv97/6uvklgx1PFY
+	/bwL04Obd8UYRDNq2m7jtdFuPn/n0BZcBSM42XOg5iCA9rU2rS1uAJbIaXzlIvNn
+	o1SpbYdsSNl62XtTdcaatj9+wHpYYi+oOFcjmXtGHnWfHDvwtLO4OMlWG6We4pEu
+	BumWx65F17vUPvwW8NK2eg==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkexdp-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 08:37:28 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 12 Dec 2024 08:37:30 -0600 (CST)
+Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 12 Dec
  2024 14:37:25 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
  15.2.1544.13 via Frontend Transport; Thu, 12 Dec 2024 14:37:25 +0000
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 4650E82254C;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2ED35822547;
 	Thu, 12 Dec 2024 14:37:25 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         <linux-sound@vger.kernel.org>
-Subject: [PATCH 11/12] firmware: cs_dsp: Add KUnit testing of wmfw error cases
-Date: Thu, 12 Dec 2024 14:37:24 +0000
-Message-ID: <20241212143725.1381013-12-rf@opensource.cirrus.com>
+Subject: [PATCH 06/12] firmware: cs_dsp: Add KUnit testing of wmfw download
+Date: Thu, 12 Dec 2024 14:37:19 +0000
+Message-ID: <20241212143725.1381013-7-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241212143725.1381013-1-rf@opensource.cirrus.com>
 References: <20241212143725.1381013-1-rf@opensource.cirrus.com>
@@ -61,56 +61,69 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 8-KbR8DXN9Rb_37ORnXawSDv6fPVKkF7
-X-Proofpoint-GUID: 8-KbR8DXN9Rb_37ORnXawSDv6fPVKkF7
+X-Proofpoint-ORIG-GUID: Bv1DC7hnR5EEvDMuYgbuPWbeQBRDZtgB
+X-Proofpoint-GUID: Bv1DC7hnR5EEvDMuYgbuPWbeQBRDZtgB
 X-Proofpoint-Spam-Reason: safe
 
-Add tests for various types of errors and illegal values in
-wmfw files. This covers buffer overflows as well as general
-unsupported field values.
+This adds a KUnit test suite to test downloading wmfw files.
 
-There are several sets of test cases to cover various different
-versions of the wmfw file format.
+The general technique is
+1. Create mock wmfw file content
+2. Tell cs_dsp to download the wmfw file
+3. Check in the emulated regmap registers that the correct values have
+   been written to DSP memory
+4. Drop the regmap cache for the expected written registers and then do a
+   regcache_sync() to check for unexpected writes to other registers.
 
-V0 format was only used on the earlier ADSP2 devices. It does
-not have algorithm blocks.
+The test covers ADSP2 v1 and v2, and HALO Core DSPs. (ADSP1 is very
+obsolete so isn't tested).
 
-V1 format is used on all ADSP2 versions. It added algorithm
-blocks and firmware coefficient descriptor blocks. Strings
-are stored in fixed-length arrays.
+There is a large number of test cases and parameterized variants of tests
+because of the many different addressing schemes supported by the Cirrus
+devices. The DSP has 2 or 3 memory spaces: XM, YM and ZM. The DSP sees
+these using its native addressing, which is word-addressed (not
+byte-addressed). The host sees these through one of several register
+mappings (depending on the DSP type and parent codec family). The
+registers have three different addressing schemes: 16-bit registers
+addressed by register number, 32-bit registers addressed by register
+number, or 32-bit registers addressed by byte (with a stride of 4). In
+addition to these multiple addressing schemes, the Halo Core DSPs have a
+"packed" register mapping that maps 4 DSP words into 3 registers. In
+addition to this there are 4 versions of the wmfw file format to be
+tested.
 
-V2 format is used on all ADSP2 versions. It is similar to V1
-but space for strings is variable-length with either an 8-bit
-or 16-bit length field.
-
-V3 format is used on Halo Core DSPs and is mostly identical to
-the V3 format.
+The test cases intentionally have relatively little factoring-out of
+similar code. This makes it much easier to visually verify that a test
+case is testing correctly, and what exactly it is testing. Factoring out
+large amounts of code into helper functions tends to obscure what the
+actual test procedure is, so increasing the chance of hidden errors where
+test cases don't actually test as intended.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
  drivers/firmware/cirrus/test/Makefile         |    1 +
- .../cirrus/test/cs_dsp_test_wmfw_error.c      | 1347 +++++++++++++++++
- 2 files changed, 1348 insertions(+)
- create mode 100644 drivers/firmware/cirrus/test/cs_dsp_test_wmfw_error.c
+ .../firmware/cirrus/test/cs_dsp_test_wmfw.c   | 2211 +++++++++++++++++
+ 2 files changed, 2212 insertions(+)
+ create mode 100644 drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c
 
 diff --git a/drivers/firmware/cirrus/test/Makefile b/drivers/firmware/cirrus/test/Makefile
-index ef3ac727f169..63247c6f5111 100644
+index d61e73bb2a41..ec287ce59270 100644
 --- a/drivers/firmware/cirrus/test/Makefile
 +++ b/drivers/firmware/cirrus/test/Makefile
-@@ -15,6 +15,7 @@ cs_dsp_test-objs :=	\
- 		cs_dsp_test_control_cache.o \
- 		cs_dsp_test_control_rw.o \
- 		cs_dsp_test_wmfw.o \
-+		cs_dsp_test_wmfw_error.o \
+@@ -10,6 +10,7 @@ cs_dsp_test_utils-objs :=	\
+ 
+ cs_dsp_test-objs :=	\
+ 		cs_dsp_test_bin.o \
++		cs_dsp_test_wmfw.o \
  		cs_dsp_tests.o
  
  obj-$(CONFIG_FW_CS_DSP_KUNIT_TEST_UTILS) += cs_dsp_test_utils.o
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_wmfw_error.c b/drivers/firmware/cirrus/test/cs_dsp_test_wmfw_error.c
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c b/drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c
 new file mode 100644
-index 000000000000..c309843261d7
+index 000000000000..9e997c4ee2d6
 --- /dev/null
-+++ b/drivers/firmware/cirrus/test/cs_dsp_test_wmfw_error.c
-@@ -0,0 +1,1347 @@
++++ b/drivers/firmware/cirrus/test/cs_dsp_test_wmfw.c
+@@ -0,0 +1,2211 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +//
 +// KUnit tests for cs_dsp.
@@ -131,8 +144,22 @@ index 000000000000..c309843261d7
 +#include <linux/string.h>
 +#include <linux/vmalloc.h>
 +
-+KUNIT_DEFINE_ACTION_WRAPPER(_put_device_wrapper, put_device, struct device *);
-+KUNIT_DEFINE_ACTION_WRAPPER(_cs_dsp_remove_wrapper, cs_dsp_remove, struct cs_dsp *);
++/*
++ * Test method is:
++ *
++ * 1) Create a mock regmap in cache-only mode so that all writes will be cached.
++ * 2) Create dummy wmfw file.
++ * 3) Call cs_dsp_power_up() with the bin file.
++ * 4) Readback the cached value of registers that should have been written and
++ *    check they have the correct value.
++ * 5) All the registers that are expected to have been written are dropped from
++ *    the cache. This should leave the cache clean.
++ * 6) If the cache is still dirty there have been unexpected writes.
++ */
++
++KUNIT_DEFINE_ACTION_WRAPPER(_put_device_wrapper, put_device, struct device *)
++KUNIT_DEFINE_ACTION_WRAPPER(_vfree_wrapper, vfree, void *)
++KUNIT_DEFINE_ACTION_WRAPPER(_cs_dsp_remove_wrapper, cs_dsp_remove, struct cs_dsp *)
 +
 +struct cs_dsp_test_local {
 +	struct cs_dsp_mock_xm_header *xm_header;
@@ -141,10 +168,11 @@ index 000000000000..c309843261d7
 +};
 +
 +struct cs_dsp_wmfw_test_param {
-+	int block_type;
++	unsigned int num_blocks;
++	int mem_type;
 +};
 +
-+static const struct cs_dsp_mock_alg_def cs_dsp_wmfw_err_test_mock_algs[] = {
++static const struct cs_dsp_mock_alg_def cs_dsp_wmfw_test_mock_algs[] = {
 +	{
 +		.id = 0xfafa,
 +		.ver = 0x100000,
@@ -154,30 +182,60 @@ index 000000000000..c309843261d7
 +	},
 +};
 +
-+static const struct cs_dsp_mock_coeff_def mock_coeff_template = {
-+	.shortname = "Dummy Coeff",
-+	.type = WMFW_CTL_TYPE_BYTES,
-+	.mem_type = WMFW_ADSP2_YM,
-+	.flags = WMFW_CTL_FLAG_VOLATILE,
-+	.length_bytes = 4,
-+};
-+
-+/* Load a wmfw containing unknown blocks. They should be skipped. */
-+static void wmfw_load_with_unknown_blocks(struct kunit *test)
++/*
++ * wmfw that writes the XM header.
++ * cs_dsp always reads this back from unpacked XM.
++ */
++static void wmfw_write_xm_header_unpacked(struct kunit *test)
 +{
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	unsigned int reg_addr;
++	u8 *readback;
++
++	/* XM header payload was added to wmfw by test case init function */
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	/* Read raw so endianness and register width don't matter */
++	readback = kunit_kzalloc(test, local->xm_header->blob_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, WMFW_ADSP2_XM);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					local->xm_header->blob_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, local->xm_header->blob_data,
++			   local->xm_header->blob_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/* Write one payload of length param->num_blocks */
++static void wmfw_write_one_payload(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
 +	struct cs_dsp_test *priv = test->priv;
 +	struct cs_dsp_test_local *local = priv->local;
 +	struct firmware *wmfw;
 +	unsigned int reg_addr;
 +	u8 *payload_data, *readback;
-+	u8 random_data[8];
-+	const unsigned int payload_size_bytes = 64;
++	unsigned int mem_offset_dsp_words = 0;
++	unsigned int payload_size_bytes;
 +
-+	/* Add dummy XM header payload to wmfw */
-+	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
-+					WMFW_ADSP2_XM, 0,
-+					local->xm_header->blob_data,
-+					local->xm_header->blob_size_bytes);
++	payload_size_bytes = param->num_blocks *
++			     cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++
++	/* payloads must be a multiple of 4 bytes and a whole number of DSP registers */
++	do {
++		payload_size_bytes += cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++	} while (payload_size_bytes % 4);
 +
 +	payload_data = kunit_kmalloc(test, payload_size_bytes, GFP_KERNEL);
 +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
@@ -186,931 +244,1663 @@ index 000000000000..c309843261d7
 +	readback = kunit_kzalloc(test, payload_size_bytes, GFP_KERNEL);
 +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
 +
-+	/* Add some unknown blocks at the start of the wmfw */
-+	get_random_bytes(random_data, sizeof(random_data));
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, 0xf5, 0,
-+				       random_data, sizeof(random_data));
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, 0xc0, 0, random_data,
-+				       sizeof(random_data));
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, 0x33, 0, NULL, 0);
++	/* Tests on XM must be after the XM header */
++	if (param->mem_type == WMFW_ADSP2_XM)
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
 +
-+	/* Add a single payload to be written to DSP memory */
++	/* Add a single payload */
 +	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
-+					WMFW_ADSP2_YM, 0,
++					param->mem_type, mem_offset_dsp_words,
 +					payload_data, payload_size_bytes);
 +
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
 +
 +	KUNIT_EXPECT_EQ(test,
 +			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
 +			0);
 +
-+	/* Check that the payload was written to memory */
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, param->mem_type);
++	reg_addr += cs_dsp_mock_reg_addr_inc_per_unpacked_word(priv) * mem_offset_dsp_words;
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/* Write several smallest possible payloads for the given memory type */
++static void wmfw_write_multiple_oneblock_payloads(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	unsigned int mem_offset_dsp_words = 0;
++	unsigned int payload_size_bytes, payload_size_dsp_words;
++	const unsigned int num_payloads = param->num_blocks;
++	int i;
++
++	/* payloads must be a multiple of 4 bytes and a whole number of DSP registers */
++	payload_size_dsp_words = 0;
++	payload_size_bytes = 0;
++	do {
++		payload_size_dsp_words += cs_dsp_mock_reg_block_length_dsp_words(priv,
++										 param->mem_type);
++		payload_size_bytes += cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++	} while (payload_size_bytes % 4);
++
++	payload_data = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++
++	readback = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++	get_random_bytes(payload_data, num_payloads * payload_size_bytes);
++
++	/* Tests on XM must be after the XM header */
++	if (param->mem_type == WMFW_ADSP2_XM)
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / payload_size_bytes;
++
++	/* Add multiple payloads of one block each */
++	for (i = 0; i < num_payloads; ++i) {
++		cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++						param->mem_type,
++						mem_offset_dsp_words + (i * payload_size_dsp_words),
++						&payload_data[i * payload_size_bytes],
++						payload_size_bytes);
++	}
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, param->mem_type);
++	reg_addr += cs_dsp_mock_reg_addr_inc_per_unpacked_word(priv) * mem_offset_dsp_words;
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					num_payloads * payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, num_payloads * payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, num_payloads * payload_size_bytes);
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write several smallest possible payloads of the given memory type
++ * in reverse address order
++ */
++static void wmfw_write_multiple_oneblock_payloads_reverse(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	unsigned int mem_offset_dsp_words = 0;
++	unsigned int payload_size_bytes, payload_size_dsp_words;
++	const unsigned int num_payloads = param->num_blocks;
++	int i;
++
++	/* payloads must be a multiple of 4 bytes and a whole number of DSP registers */
++	payload_size_dsp_words = 0;
++	payload_size_bytes = 0;
++	do {
++		payload_size_dsp_words += cs_dsp_mock_reg_block_length_dsp_words(priv,
++										 param->mem_type);
++		payload_size_bytes += cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++	} while (payload_size_bytes % 4);
++
++	payload_data = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++
++	readback = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++	get_random_bytes(payload_data, num_payloads * payload_size_bytes);
++
++	/* Tests on XM must be after the XM header */
++	if (param->mem_type == WMFW_ADSP2_XM)
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / payload_size_bytes;
++
++	/* Add multiple payloads of one block each */
++	for (i = num_payloads - 1; i >= 0; --i) {
++		cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++						param->mem_type,
++						mem_offset_dsp_words + (i * payload_size_dsp_words),
++						&payload_data[i * payload_size_bytes],
++						payload_size_bytes);
++	}
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, param->mem_type);
++	reg_addr += cs_dsp_mock_reg_addr_inc_per_unpacked_word(priv) * mem_offset_dsp_words;
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					num_payloads * payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, num_payloads * payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, num_payloads * payload_size_bytes);
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write multiple payloads of length param->num_blocks.
++ * The payloads are not in address order and collectively do not patch
++ * a contiguous block of memory.
++ */
++static void wmfw_write_multiple_payloads_sparse_unordered(struct kunit *test)
++{
++	static const unsigned int random_offsets[] = {
++		11, 69, 59, 61, 32, 75, 4, 38, 70, 13, 79, 47, 46, 53, 18, 44,
++		54, 35, 51, 21, 26, 45, 27, 41, 66, 2, 17, 56, 40, 9, 8, 20,
++		29, 19, 63, 42, 12, 16, 43, 3, 5, 55, 52, 22
++	};
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	unsigned int mem_offset_dsp_words = 0;
++	unsigned int payload_size_bytes, payload_size_dsp_words;
++	const int num_payloads = ARRAY_SIZE(random_offsets);
++	int i;
++
++	payload_size_bytes = param->num_blocks *
++			     cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++	payload_size_dsp_words = param->num_blocks *
++				 cs_dsp_mock_reg_block_length_dsp_words(priv, param->mem_type);
++
++	/* payloads must be a multiple of 4 bytes and a whole number of DSP registers */
++	do {
++		payload_size_dsp_words += cs_dsp_mock_reg_block_length_dsp_words(priv,
++										 param->mem_type);
++		payload_size_bytes += cs_dsp_mock_reg_block_length_bytes(priv, param->mem_type);
++	} while (payload_size_bytes % 4);
++
++	payload_data = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++	get_random_bytes(payload_data, payload_size_bytes);
++
++	readback = kunit_kcalloc(test, num_payloads, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++	/* Tests on XM must be after the XM header */
++	if (param->mem_type == WMFW_ADSP2_XM)
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / payload_size_bytes;
++
++	/* Add multiple payloads of one block each at "random" locations */
++	for (i = 0; i < num_payloads; ++i) {
++		unsigned int offset = random_offsets[i] * payload_size_dsp_words;
++
++		cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++						param->mem_type,
++						mem_offset_dsp_words + offset,
++						&payload_data[i * payload_size_bytes],
++						payload_size_bytes);
++	}
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	for (i = 0; i < num_payloads; ++i) {
++		unsigned int offset_num_regs = (random_offsets[i] * payload_size_bytes) /
++						regmap_get_val_bytes(priv->dsp->regmap);
++		reg_addr = cs_dsp_mock_base_addr_for_mem(priv, param->mem_type);
++		reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++		reg_addr += cs_dsp_mock_reg_addr_inc_per_unpacked_word(priv) * mem_offset_dsp_words;
++		KUNIT_EXPECT_EQ(test,
++				regmap_raw_read(priv->dsp->regmap, reg_addr,
++						&readback[i * payload_size_bytes],
++						payload_size_bytes),
++				0);
++
++		cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	}
++
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/* Write the whole of PM in a single unpacked payload */
++static void wmfw_write_all_unpacked_pm(struct kunit *test)
++{
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	unsigned int payload_size_bytes;
++
++	payload_size_bytes = cs_dsp_mock_size_of_region(priv->dsp, WMFW_ADSP2_PM);
++	payload_data = vmalloc(payload_size_bytes);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++	kunit_add_action_or_reset(priv->test, _vfree_wrapper, payload_data);
++
++	readback = vmalloc(payload_size_bytes);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++	kunit_add_action_or_reset(priv->test, _vfree_wrapper, readback);
++	memset(readback, 0, payload_size_bytes);
++
++	/* Add a single PM payload */
++	get_random_bytes(payload_data, payload_size_bytes);
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					WMFW_ADSP2_PM, 0,
++					payload_data, payload_size_bytes);
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, WMFW_ADSP2_PM);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/* Write the whole of PM in a single packed payload */
++static void wmfw_write_all_packed_pm(struct kunit *test)
++{
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	unsigned int payload_size_bytes;
++
++	payload_size_bytes = cs_dsp_mock_size_of_region(priv->dsp, WMFW_HALO_PM_PACKED);
++	payload_data = vmalloc(payload_size_bytes);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++	kunit_add_action_or_reset(priv->test, _vfree_wrapper, payload_data);
++
++	readback = vmalloc(payload_size_bytes);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++	kunit_add_action_or_reset(priv->test, _vfree_wrapper, readback);
++	memset(readback, 0, payload_size_bytes);
++
++	/* Add a single PM payload */
++	get_random_bytes(payload_data, payload_size_bytes);
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					WMFW_HALO_PM_PACKED, 0,
++					payload_data, payload_size_bytes);
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, WMFW_HALO_PM_PACKED);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write a series of payloads to various unpacked memory regions.
++ * The payloads are of various lengths and offsets, driven by the
++ * payload_defs table. The offset and length are both given as a
++ * number of minimum-sized register blocks to keep the maths simpler.
++ * (Where a minimum-sized register block is the smallest number of
++ * registers that contain a whole number of DSP words.)
++ */
++static void wmfw_write_multiple_unpacked_mem(struct kunit *test)
++{
++	static const struct {
++		int mem_type;
++		unsigned int offset_num_blocks;
++		unsigned int num_blocks;
++	} payload_defs[] = {
++		{ WMFW_ADSP2_PM, 11, 60 },
++		{ WMFW_ADSP2_ZM, 69, 8 },
++		{ WMFW_ADSP2_YM, 32, 74 },
++		{ WMFW_ADSP2_XM, 70, 38 },
++		{ WMFW_ADSP2_PM, 84, 48 },
++		{ WMFW_ADSP2_XM, 46, 18 },
++		{ WMFW_ADSP2_PM, 0,  8 },
++		{ WMFW_ADSP2_YM, 0, 30 },
++		{ WMFW_ADSP2_PM, 160, 50 },
++		{ WMFW_ADSP2_ZM, 21, 26 },
++	};
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int payload_size_bytes, offset_num_dsp_words;
++	unsigned int reg_addr, offset_bytes, offset_num_regs;
++	void **payload_data;
++	void *readback;
++	int i, ret;
++
++	payload_data = kunit_kcalloc(test, ARRAY_SIZE(payload_defs), sizeof(*payload_data),
++				     GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++
++	for (i = 0; i < ARRAY_SIZE(payload_defs); ++i) {
++		payload_size_bytes = payload_defs[i].num_blocks *
++				     cs_dsp_mock_reg_block_length_bytes(priv,
++									payload_defs[i].mem_type);
++
++		payload_data[i] = kunit_kmalloc(test, payload_size_bytes, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data[i]);
++		get_random_bytes(payload_data[i], payload_size_bytes);
++
++		offset_num_dsp_words = payload_defs[i].offset_num_blocks *
++				       cs_dsp_mock_reg_block_length_dsp_words(priv,
++									 payload_defs[i].mem_type);
++		cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++						payload_defs[i].mem_type,
++						offset_num_dsp_words,
++						payload_data[i],
++						payload_size_bytes);
++	}
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	for (i = 0; i < ARRAY_SIZE(payload_defs); ++i) {
++		payload_size_bytes = payload_defs[i].num_blocks *
++				     cs_dsp_mock_reg_block_length_bytes(priv,
++									payload_defs[i].mem_type);
++
++		readback = kunit_kzalloc(test, payload_size_bytes, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++		offset_bytes = payload_defs[i].offset_num_blocks *
++			       cs_dsp_mock_reg_block_length_bytes(priv, payload_defs[i].mem_type);
++		offset_num_regs = offset_bytes / regmap_get_val_bytes(priv->dsp->regmap);
++		reg_addr = cs_dsp_mock_base_addr_for_mem(priv, payload_defs[i].mem_type);
++		reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++		ret = regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes);
++		KUNIT_EXPECT_EQ_MSG(test, ret, 0, "%s @%u num:%u\n",
++				    cs_dsp_mem_region_name(payload_defs[i].mem_type),
++				    payload_defs[i].offset_num_blocks, payload_defs[i].num_blocks);
++		KUNIT_EXPECT_MEMEQ_MSG(test, readback, payload_data[i], payload_size_bytes,
++				       "%s @%u num:%u\n",
++				       cs_dsp_mem_region_name(payload_defs[i].mem_type),
++				       payload_defs[i].offset_num_blocks,
++				       payload_defs[i].num_blocks);
++
++		kunit_kfree(test, readback);
++
++		cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	}
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write a series of payloads to various packed and unpacked memory regions.
++ * The payloads are of various lengths and offsets, driven by the
++ * payload_defs table. The offset and length are both given as a
++ * number of minimum-sized register blocks to keep the maths simpler.
++ * (Where a minimum-sized register block is the smallest number of
++ * registers that contain a whole number of DSP words.)
++ */
++static void wmfw_write_multiple_packed_unpacked_mem(struct kunit *test)
++{
++	static const struct {
++		int mem_type;
++		unsigned int offset_num_blocks;
++		unsigned int num_blocks;
++	} payload_defs[] = {
++		{ WMFW_HALO_PM_PACKED,	11, 60 },
++		{ WMFW_ADSP2_YM,	69, 8 },
++		{ WMFW_HALO_YM_PACKED,	32, 74 },
++		{ WMFW_HALO_XM_PACKED,	70, 38 },
++		{ WMFW_HALO_PM_PACKED,	84, 48 },
++		{ WMFW_HALO_XM_PACKED,	46, 18 },
++		{ WMFW_HALO_PM_PACKED,	0,  8 },
++		{ WMFW_HALO_YM_PACKED,	0, 30 },
++		{ WMFW_HALO_PM_PACKED,	160, 50 },
++		{ WMFW_ADSP2_XM,	21, 26 },
++	};
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int payload_size_bytes, offset_num_dsp_words;
++	unsigned int reg_addr, offset_bytes, offset_num_regs;
++	void **payload_data;
++	void *readback;
++	int i, ret;
++
++	payload_data = kunit_kcalloc(test, ARRAY_SIZE(payload_defs), sizeof(*payload_data),
++				     GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++
++	for (i = 0; i < ARRAY_SIZE(payload_defs); ++i) {
++		payload_size_bytes = payload_defs[i].num_blocks *
++				     cs_dsp_mock_reg_block_length_bytes(priv,
++									payload_defs[i].mem_type);
++
++		payload_data[i] = kunit_kmalloc(test, payload_size_bytes, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data[i]);
++		get_random_bytes(payload_data[i], payload_size_bytes);
++
++		offset_num_dsp_words = payload_defs[i].offset_num_blocks *
++				       cs_dsp_mock_reg_block_length_dsp_words(priv,
++									 payload_defs[i].mem_type);
++		cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++						payload_defs[i].mem_type,
++						offset_num_dsp_words,
++						payload_data[i],
++						payload_size_bytes);
++	}
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	for (i = 0; i < ARRAY_SIZE(payload_defs); ++i) {
++		payload_size_bytes = payload_defs[i].num_blocks *
++				     cs_dsp_mock_reg_block_length_bytes(priv,
++									payload_defs[i].mem_type);
++
++		readback = kunit_kzalloc(test, payload_size_bytes, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++		offset_bytes = payload_defs[i].offset_num_blocks *
++			       cs_dsp_mock_reg_block_length_bytes(priv, payload_defs[i].mem_type);
++		offset_num_regs = offset_bytes / regmap_get_val_bytes(priv->dsp->regmap);
++		reg_addr = cs_dsp_mock_base_addr_for_mem(priv, payload_defs[i].mem_type);
++		reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++		ret = regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes);
++		KUNIT_EXPECT_EQ_MSG(test, ret, 0, "%s @%u num:%u\n",
++				    cs_dsp_mem_region_name(payload_defs[i].mem_type),
++				    payload_defs[i].offset_num_blocks,
++				    payload_defs[i].num_blocks);
++		KUNIT_EXPECT_MEMEQ_MSG(test, readback, payload_data[i], payload_size_bytes,
++				       "%s @%u num:%u\n",
++				       cs_dsp_mem_region_name(payload_defs[i].mem_type),
++				       payload_defs[i].offset_num_blocks,
++				       payload_defs[i].num_blocks);
++
++		kunit_kfree(test, readback);
++
++		cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, payload_size_bytes);
++	}
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is one word longer than a packed block multiple,
++ * using one packed payload followed by one unpacked word.
++ */
++static void wmfw_write_packed_1_unpacked_trailing(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int mem_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[1];
++	unsigned int packed_payload_size_bytes, packed_payload_size_dsp_words;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++	packed_payload_size_dsp_words = param->num_blocks * dsp_words_per_packed_block;
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM) {
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
++
++		/* Round up to multiple of packed block length */
++		mem_offset_dsp_words = roundup(mem_offset_dsp_words, dsp_words_per_packed_block);
++	}
++
++	/* Add a single packed payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type, mem_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++	/*
++	 * Add payload of one unpacked word to DSP memory right after
++	 * the packed payload words.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked word was written correctly and drop
++	 * it from the regmap cache. The unpacked payload is offset within
++	 * unpacked register space by the number of DSP words that were
++	 * written in the packed payload.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	offset_num_regs += (packed_payload_size_dsp_words / dsp_words_per_unpacked_block) *
++			   cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is two words longer than a packed block multiple,
++ * using one packed payload followed by one payload of two unpacked words.
++ */
++static void wmfw_write_packed_2_unpacked_trailing(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int mem_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[2];
++	unsigned int packed_payload_size_bytes, packed_payload_size_dsp_words;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++	packed_payload_size_dsp_words = param->num_blocks * dsp_words_per_packed_block;
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM) {
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
++
++		/* Round up to multiple of packed block length */
++		mem_offset_dsp_words = roundup(mem_offset_dsp_words, dsp_words_per_packed_block);
++	}
++
++	/* Add a single packed payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type, mem_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++	/*
++	 * Add payload of two unpacked words to DSP memory right after
++	 * the packed payload words.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache. The unpacked payload is offset
++	 * within unpacked register space by the number of DSP words
++	 * that were written in the packed payload.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	offset_num_regs += (packed_payload_size_dsp_words / dsp_words_per_unpacked_block) *
++			   cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is three words longer than a packed block multiple,
++ * using one packed payload followed by one payload of three unpacked words.
++ */
++static void wmfw_write_packed_3_unpacked_trailing(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int mem_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[3];
++	unsigned int packed_payload_size_bytes, packed_payload_size_dsp_words;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++	packed_payload_size_dsp_words = param->num_blocks * dsp_words_per_packed_block;
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM) {
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
++
++		/* Round up to multiple of packed block length */
++		mem_offset_dsp_words = roundup(mem_offset_dsp_words, dsp_words_per_packed_block);
++	}
++
++	/* Add a single packed payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type, mem_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++	/*
++	 * Add payload of three unpacked words to DSP memory right after
++	 * the packed payload words.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache. The unpacked payload is offset
++	 * within unpacked register space by the number of DSP words
++	 * that were written in the packed payload.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	offset_num_regs += (packed_payload_size_dsp_words / dsp_words_per_unpacked_block) *
++			   cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is two words longer than a packed block multiple,
++ * using one packed payload followed by two payloads of one unpacked word each.
++ */
++static void wmfw_write_packed_2_single_unpacked_trailing(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int mem_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[2];
++	unsigned int packed_payload_size_bytes, packed_payload_size_dsp_words;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++	packed_payload_size_dsp_words = param->num_blocks * dsp_words_per_packed_block;
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM) {
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
++
++		/* Round up to multiple of packed block length */
++		mem_offset_dsp_words = roundup(mem_offset_dsp_words, dsp_words_per_packed_block);
++	}
++
++	/* Add a single packed payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type, mem_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++	/*
++	 * Add two unpacked words to DSP memory right after the packed
++	 * payload words. Each unpacked word in its own payload.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words,
++					&unpacked_payload_data[0],
++					sizeof(unpacked_payload_data[0]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words + 1,
++					&unpacked_payload_data[1],
++					sizeof(unpacked_payload_data[1]));
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache. The unpacked words are offset
++	 * within unpacked register space by the number of DSP words
++	 * that were written in the packed payload.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	offset_num_regs += (packed_payload_size_dsp_words / dsp_words_per_unpacked_block) *
++			   cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is three words longer than a packed block multiple,
++ * using one packed payload followed by three payloads of one unpacked word each.
++ */
++static void wmfw_write_packed_3_single_unpacked_trailing(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int mem_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[3];
++	unsigned int packed_payload_size_bytes, packed_payload_size_dsp_words;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				 cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++	packed_payload_size_dsp_words = param->num_blocks * dsp_words_per_packed_block;
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM) {
++		mem_offset_dsp_words += local->xm_header->blob_size_bytes / sizeof(u32);
++
++		/* Round up to multiple of packed block length */
++		mem_offset_dsp_words = roundup(mem_offset_dsp_words, dsp_words_per_packed_block);
++	}
++
++	/* Add a single packed payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type, mem_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++	/*
++	 * Add three unpacked words to DSP memory right after the packed
++	 * payload words. Each unpacked word in its own payload.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words,
++					&unpacked_payload_data[0],
++					sizeof(unpacked_payload_data[0]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words + 1,
++					&unpacked_payload_data[1],
++					sizeof(unpacked_payload_data[1]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					mem_offset_dsp_words + packed_payload_size_dsp_words + 2,
++					&unpacked_payload_data[2],
++					sizeof(unpacked_payload_data[2]));
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache. The unpacked words are offset
++	 * within unpacked register space by the number of DSP words
++	 * that were written in the packed payload.
++	 */
++	offset_num_regs = (mem_offset_dsp_words / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	offset_num_regs += (packed_payload_size_dsp_words / dsp_words_per_unpacked_block) *
++			   cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is one word longer than a packed block multiple,
++ * and does not start on a packed alignment. Use one unpacked word
++ * followed by a packed payload.
++ */
++static void wmfw_write_packed_1_unpacked_leading(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int packed_payload_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[1];
++	unsigned int packed_payload_size_bytes;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM)
++		packed_payload_offset_dsp_words += local->xm_header->blob_size_bytes /
++						   sizeof(u32);
++	/*
++	 * Leave space for an unaligned word before the packed block and
++	 * round the packed block start to multiple of packed block length.
++	 */
++	packed_payload_offset_dsp_words += 1;
++	packed_payload_offset_dsp_words = roundup(packed_payload_offset_dsp_words,
++						  dsp_words_per_packed_block);
++
++	/* Add a single unpacked word right before the first word of packed data */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 1,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Add payload of packed data to the DSP memory after the unpacked word. */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type,
++					packed_payload_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (packed_payload_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked word was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = ((packed_payload_offset_dsp_words - 1) / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is two words longer than a packed block multiple,
++ * and does not start on a packed alignment. Use one payload of two unpacked
++ * words followed by a packed payload.
++ */
++static void wmfw_write_packed_2_unpacked_leading(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int packed_payload_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[2];
++	unsigned int packed_payload_size_bytes;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM)
++		packed_payload_offset_dsp_words += local->xm_header->blob_size_bytes /
++						   sizeof(u32);
++	/*
++	 * Leave space for two unaligned words before the packed block and
++	 * round the packed block start to multiple of packed block length.
++	 */
++	packed_payload_offset_dsp_words += 2;
++	packed_payload_offset_dsp_words = roundup(packed_payload_offset_dsp_words,
++						  dsp_words_per_packed_block);
++
++	/*
++	 * Add two unpacked words as a single payload right before the
++	 * first word of packed data
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 2,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Add payload of packed data to the DSP memory after the unpacked words. */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type,
++					packed_payload_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (packed_payload_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache.
++	 */
++	offset_num_regs = ((packed_payload_offset_dsp_words - 2) / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is three words longer than a packed block multiple,
++ * and does not start on a packed alignment. Use one payload of three unpacked
++ * words followed by a packed payload.
++ */
++static void wmfw_write_packed_3_unpacked_leading(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int packed_payload_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[3];
++	unsigned int packed_payload_size_bytes;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM)
++		packed_payload_offset_dsp_words += local->xm_header->blob_size_bytes /
++						   sizeof(u32);
++	/*
++	 * Leave space for three unaligned words before the packed block and
++	 * round the packed block start to multiple of packed block length.
++	 */
++	packed_payload_offset_dsp_words += 3;
++	packed_payload_offset_dsp_words = roundup(packed_payload_offset_dsp_words,
++						  dsp_words_per_packed_block);
++
++	/*
++	 * Add three unpacked words as a single payload right before the
++	 * first word of packed data
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 3,
++					unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	/* Add payload of packed data to the DSP memory after the unpacked words. */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type,
++					packed_payload_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (packed_payload_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache.
++	 */
++	offset_num_regs = ((packed_payload_offset_dsp_words - 3) / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is two words longer than a packed block multiple,
++ * and does not start on a packed alignment. Use two payloads of one unpacked
++ * word each, followed by a packed payload.
++ */
++static void wmfw_write_packed_2_single_unpacked_leading(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int packed_payload_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[2];
++	unsigned int packed_payload_size_bytes;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM)
++		packed_payload_offset_dsp_words += local->xm_header->blob_size_bytes /
++						   sizeof(u32);
++	/*
++	 * Leave space for two unaligned words before the packed block and
++	 * round the packed block start to multiple of packed block length.
++	 */
++	packed_payload_offset_dsp_words += 2;
++	packed_payload_offset_dsp_words = roundup(packed_payload_offset_dsp_words,
++						  dsp_words_per_packed_block);
++
++	/*
++	 * Add two unpacked words as two payloads each containing a single
++	 * unpacked word.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 2,
++					&unpacked_payload_data[0],
++					sizeof(unpacked_payload_data[0]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 1,
++					&unpacked_payload_data[1],
++					sizeof(unpacked_payload_data[1]));
++
++	/* Add payload of packed data to the DSP memory after the unpacked words. */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type,
++					packed_payload_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (packed_payload_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache.
++	 */
++	offset_num_regs = ((packed_payload_offset_dsp_words - 2) / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/*
++ * Write XM/YM data that is three words longer than a packed block multiple,
++ * and does not start on a packed alignment. Use three payloads of one unpacked
++ * word each, followed by a packed payload.
++ */
++static void wmfw_write_packed_3_single_unpacked_leading(struct kunit *test)
++{
++	const struct cs_dsp_wmfw_test_param *param = test->param_value;
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	int packed_mem_type = param->mem_type;
++	int unpacked_mem_type = cs_dsp_mock_packed_to_unpacked_mem_type(param->mem_type);
++	unsigned int dsp_words_per_packed_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, packed_mem_type);
++	unsigned int dsp_words_per_unpacked_block =
++		cs_dsp_mock_reg_block_length_dsp_words(priv, unpacked_mem_type);
++	unsigned int packed_payload_offset_dsp_words = 0;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	void *packed_payload_data, *readback;
++	u32 unpacked_payload_data[3];
++	unsigned int packed_payload_size_bytes;
++	unsigned int offset_num_regs;
++
++	packed_payload_size_bytes = param->num_blocks *
++				    cs_dsp_mock_reg_block_length_bytes(priv, packed_mem_type);
++
++	packed_payload_data = kunit_kmalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, packed_payload_data);
++	get_random_bytes(packed_payload_data, packed_payload_size_bytes);
++
++	get_random_bytes(unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	readback = kunit_kzalloc(test, packed_payload_size_bytes, GFP_KERNEL);
++
++	/* Tests on XM must be after the XM header */
++	if (unpacked_mem_type == WMFW_ADSP2_XM)
++		packed_payload_offset_dsp_words += local->xm_header->blob_size_bytes /
++						   sizeof(u32);
++	/*
++	 * Leave space for two unaligned words before the packed block and
++	 * round the packed block start to multiple of packed block length.
++	 */
++	packed_payload_offset_dsp_words += 3;
++	packed_payload_offset_dsp_words = roundup(packed_payload_offset_dsp_words,
++						  dsp_words_per_packed_block);
++
++	/*
++	 * Add three unpacked words as three payloads each containing a single
++	 * unpacked word.
++	 */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 3,
++					&unpacked_payload_data[0],
++					sizeof(unpacked_payload_data[0]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 2,
++					&unpacked_payload_data[1],
++					sizeof(unpacked_payload_data[1]));
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					unpacked_mem_type,
++					packed_payload_offset_dsp_words - 1,
++					&unpacked_payload_data[2],
++					sizeof(unpacked_payload_data[2]));
++
++	/* Add payload of packed data to the DSP memory after the unpacked words. */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					packed_mem_type,
++					packed_payload_offset_dsp_words,
++					packed_payload_data, packed_payload_size_bytes);
++
++	/* Download the wmfw */
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++	KUNIT_EXPECT_EQ(test,
++			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
++			0);
++	/*
++	 * Check that the packed payload was written correctly and drop
++	 * it from the regmap cache.
++	 */
++	offset_num_regs = (packed_payload_offset_dsp_words / dsp_words_per_packed_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, packed_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, packed_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					packed_payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, packed_payload_data, packed_payload_size_bytes);
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, packed_payload_size_bytes);
++
++	/*
++	 * Check that the unpacked words were written correctly and drop
++	 * them from the regmap cache.
++	 */
++	offset_num_regs = ((packed_payload_offset_dsp_words - 3) / dsp_words_per_unpacked_block) *
++			  cs_dsp_mock_reg_block_length_registers(priv, unpacked_mem_type);
++	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, unpacked_mem_type);
++	reg_addr += offset_num_regs * regmap_get_reg_stride(priv->dsp->regmap);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback,
++					sizeof(unpacked_payload_data)),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, unpacked_payload_data, sizeof(unpacked_payload_data));
++
++	cs_dsp_mock_regmap_drop_bytes(priv, reg_addr, sizeof(unpacked_payload_data));
++
++	/* Drop expected writes and the cache should then be clean */
++	cs_dsp_mock_xm_header_drop_from_regmap_cache(priv);
++	KUNIT_EXPECT_FALSE(test, cs_dsp_mock_regmap_is_dirty(priv, true));
++}
++
++/* Load a wmfw containing multiple info blocks */
++static void wmfw_load_with_info(struct kunit *test)
++{
++	struct cs_dsp_test *priv = test->priv;
++	struct cs_dsp_test_local *local = priv->local;
++	struct firmware *wmfw;
++	unsigned int reg_addr;
++	u8 *payload_data, *readback;
++	char *infobuf;
++	const unsigned int payload_size_bytes = 48;
++	int ret;
++
++	payload_data = kunit_kmalloc(test, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, payload_data);
++	get_random_bytes(payload_data, payload_size_bytes);
++
++	readback = kunit_kzalloc(test, payload_size_bytes, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, readback);
++
++	/* Add a couple of info blocks at the start of the wmfw */
++	cs_dsp_mock_wmfw_add_info(local->wmfw_builder, "This is a timestamp");
++	cs_dsp_mock_wmfw_add_info(local->wmfw_builder, "This is some more info");
++
++	/* Add a single payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					WMFW_ADSP2_YM, 0,
++					payload_data, payload_size_bytes);
++
++	/* Add a bigger info block then another small one*/
++	infobuf = kunit_kzalloc(test, 512, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, infobuf);
++
++	for (; strlcat(infobuf, "Waffle{Blah}\n", 512) < 512;)
++		;
++
++	cs_dsp_mock_wmfw_add_info(local->wmfw_builder, infobuf);
++	cs_dsp_mock_wmfw_add_info(local->wmfw_builder, "Another block of info");
++
++	/* Add another payload */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					WMFW_ADSP2_YM, 64,
++					payload_data, payload_size_bytes);
++
++	wmfw = cs_dsp_mock_wmfw_get_firmware(priv->local->wmfw_builder);
++
++	ret = cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc");
++	KUNIT_EXPECT_EQ_MSG(test, ret, 0, "cs_dsp_power_up failed: %d\n", ret);
++
++	/* Check first payload was written */
 +	reg_addr = cs_dsp_mock_base_addr_for_mem(priv, WMFW_ADSP2_YM);
++	KUNIT_EXPECT_EQ(test,
++			regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes),
++			0);
++	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
++
++	/* Check second payload was written */
++	reg_addr += cs_dsp_mock_reg_addr_inc_per_unpacked_word(priv) * 64;
 +	KUNIT_EXPECT_EQ(test,
 +			regmap_raw_read(priv->dsp->regmap, reg_addr, readback, payload_size_bytes),
 +			0);
 +	KUNIT_EXPECT_MEMEQ(test, readback, payload_data, payload_size_bytes);
 +}
 +
-+/* Load a wmfw that doesn't have a valid magic marker. */
-+static void wmfw_err_wrong_magic(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	memcpy((void *)wmfw->data, "WMDR", 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	memcpy((void *)wmfw->data, "xMFW", 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	memcpy((void *)wmfw->data, "WxFW", 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	memcpy((void *)wmfw->data, "WMxW", 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	memcpy((void *)wmfw->data, "WMFx", 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	memset((void *)wmfw->data, 0, 4);
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+}
-+
-+/* Load a wmfw that is too short for a valid header. */
-+static void wmfw_err_too_short_for_header(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	do {
-+		wmfw->size--;
-+
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	} while (wmfw->size > 0);
-+}
-+
-+/* Header length field isn't a valid header length. */
-+static void wmfw_err_bad_header_length(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	unsigned int real_len, len;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	real_len = le32_to_cpu(header->len);
-+
-+	for (len = 0; len < real_len; len++) {
-+		header->len = cpu_to_le32(len);
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	}
-+
-+	for (len = real_len + 1; len < real_len + 7; len++) {
-+		header->len = cpu_to_le32(len);
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	}
-+
-+	header->len = cpu_to_le32(0xffffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	header->len = cpu_to_le32(0x80000000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	header->len = cpu_to_le32(0x7fffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* Wrong core type in header. */
-+static void wmfw_err_bad_core_type(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+
-+	header->core = 0;
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	header->core = 1;
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	header->core = priv->dsp->type + 1;
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+
-+	header->core = 0xff;
-+	KUNIT_EXPECT_LT(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+}
-+
-+/* File too short to contain a full block header */
-+static void wmfw_too_short_for_block_header(struct kunit *test)
-+{
-+	const struct cs_dsp_wmfw_test_param *param = test->param_value;
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	unsigned int header_length;
-+	u32 dummy_payload = 0;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+	header_length = wmfw->size;
-+	kunit_kfree(test, wmfw);
-+
-+	/* Add the block. A block must have at least 4 bytes of payload */
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, param->block_type, 0,
-+				       &dummy_payload, sizeof(dummy_payload));
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+	KUNIT_ASSERT_GT(test, wmfw->size, header_length);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	for (wmfw->size--; wmfw->size > header_length; wmfw->size--) {
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	}
-+}
-+
-+/* File too short to contain the block payload */
-+static void wmfw_too_short_for_block_payload(struct kunit *test)
-+{
-+	const struct cs_dsp_wmfw_test_param *param = test->param_value;
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	static const u8 payload[256] = { };
-+	int i;
-+
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, param->block_type, 0,
-+				       payload, sizeof(payload));
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	for (i = 0; i < sizeof(payload); i++) {
-+		wmfw->size--;
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	}
-+}
-+
-+/* Block payload length is a garbage value */
-+static void wmfw_block_payload_len_garbage(struct kunit *test)
-+{
-+	const struct cs_dsp_wmfw_test_param *param = test->param_value;
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	u32 payload = 0;
-+
-+
-+	cs_dsp_mock_wmfw_add_raw_block(local->wmfw_builder, param->block_type, 0,
-+				       &payload, sizeof(payload));
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+
-+	/* Sanity check that we're looking at the correct part of the wmfw */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(region->offset) >> 24, param->block_type);
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(region->len), sizeof(payload));
-+
-+	region->len = cpu_to_le32(0x8000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	region->len = cpu_to_le32(0xffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	region->len = cpu_to_le32(0x7fffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	region->len = cpu_to_le32(0x80000000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	region->len = cpu_to_le32(0xffffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* File too short to contain an algorithm header */
-+static void wmfw_too_short_for_alg_header(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	unsigned int header_length;
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+	header_length = wmfw->size;
-+	kunit_kfree(test, wmfw);
-+
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      NULL, NULL);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+	KUNIT_ASSERT_GT(test, wmfw->size, header_length);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	for (wmfw->size--; wmfw->size > header_length; wmfw->size--) {
-+		KUNIT_EXPECT_EQ(test,
-+				cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+				-EOVERFLOW);
-+	}
-+}
-+
-+/* V1 algorithm name does not have NUL terminator */
-+static void wmfw_v1_alg_name_unterminated(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	struct wmfw_adsp_alg_data *alg_data;
-+	struct cs_dsp_coeff_ctl *ctl;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (struct wmfw_adsp_alg_data *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data->id), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Write a string to the alg name that overflows the array */
-+	memset(alg_data->descr, 0, sizeof(alg_data->descr));
-+	memset(alg_data->name, 'A', sizeof(alg_data->name));
-+	memset(alg_data->descr, 'A', sizeof(alg_data->descr) - 1);
-+
-+	/*
-+	 * Sanity-check that a strlen would overflow alg_data->name.
-+	 * FORTIFY_STRING obstructs testing what strlen() would actually
-+	 * return, so instead verify that a strnlen() returns
-+	 * sizeof(alg_data->name[]), therefore it doesn't have a NUL.
-+	 */
-+	KUNIT_ASSERT_EQ(test, strnlen(alg_data->name, sizeof(alg_data->name)),
-+			sizeof(alg_data->name));
-+
-+	/*
-+	 * The alg name isn't stored, but cs_dsp parses the name field.
-+	 * It should load the file successfully and create the control.
-+	 * If FORTIFY_STRING is enabled it will detect a buffer overflow
-+	 * if cs_dsp string length walks past end of alg name array.
-+	 */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+	ctl = list_first_entry_or_null(&priv->dsp->ctl_list, struct cs_dsp_coeff_ctl, list);
-+	KUNIT_ASSERT_NOT_NULL(test, ctl);
-+	KUNIT_EXPECT_EQ(test, ctl->subname_len, 0);
-+}
-+
-+/* V2+ algorithm name exceeds length of containing block */
-+static void wmfw_v2_alg_name_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data;
-+
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", NULL);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/*
-+	 * Sanity check we're pointing at the alg header of
-+	 *   [     alg_id       ][name_len]abc
-+	 */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[1]), 3 | ('a' << 8) | ('b' << 16) | ('c' << 24));
-+	KUNIT_ASSERT_EQ(test, *(u8 *)&alg_data[1], 3);
-+
-+	/* Set name string length longer than available space */
-+	*(u8 *)&alg_data[1] = 4;
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(u8 *)&alg_data[1] = 7;
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(u8 *)&alg_data[1] = 0x80;
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(u8 *)&alg_data[1] = 0xff;
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V2+ algorithm description exceeds length of containing block */
-+static void wmfw_v2_alg_description_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data;
-+
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/*
-+	 * Sanity check we're pointing at the alg header of
-+	 *   [     alg_id       ][name_len]abc[desc_len]de
-+	 */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[2]), 2 | ('d' << 16) | ('e' << 24));
-+	KUNIT_ASSERT_EQ(test, le16_to_cpu(*(__le16 *)&alg_data[2]), 2);
-+
-+	/* Set name string length longer than available space */
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(4);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(7);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(0x80);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(0xff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(0x8000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*(__le16 *)&alg_data[2] = cpu_to_le16(0xffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V1 coefficient count exceeds length of containing block */
-+static void wmfw_v1_coeff_count_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	struct wmfw_adsp_alg_data *alg_data;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (struct wmfw_adsp_alg_data *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data->id), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Add one to the coefficient count */
-+	alg_data->ncoeff = cpu_to_le32(le32_to_cpu(alg_data->ncoeff) + 1);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Make the coefficient count garbage */
-+	alg_data->ncoeff = cpu_to_le32(0xffffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	alg_data->ncoeff = cpu_to_le32(0x7fffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	alg_data->ncoeff = cpu_to_le32(0x80000000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V2+ coefficient count exceeds length of containing block */
-+static void wmfw_v2_coeff_count_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data, *ncoeff;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	ncoeff = (__force __le32 *)&alg_data[3];
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(*ncoeff), 1);
-+
-+	/* Add one to the coefficient count */
-+	*ncoeff = cpu_to_le32(2);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Make the coefficient count garbage */
-+	*ncoeff = cpu_to_le32(0xffffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*ncoeff = cpu_to_le32(0x7fffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	*ncoeff = cpu_to_le32(0x80000000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V2+ coefficient block size exceeds length of containing block */
-+static void wmfw_v2_coeff_block_size_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data, *coeff;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Sanity check we're pointing at the coeff block */
-+	coeff = (__force __le32 *)&alg_data[4];
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(coeff[0]), mock_coeff_template.mem_type << 16);
-+
-+	/* Add one to the block size */
-+	coeff[1] = cpu_to_le32(le32_to_cpu(coeff[1]) + 1);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Make the block size garbage */
-+	coeff[1] = cpu_to_le32(0xffffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	coeff[1] = cpu_to_le32(0x7fffffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	coeff[1] = cpu_to_le32(0x80000000);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V1 coeff name does not have NUL terminator */
-+static void wmfw_v1_coeff_name_unterminated(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	struct wmfw_adsp_alg_data *alg_data;
-+	struct wmfw_adsp_coeff_data *coeff;
-+	struct cs_dsp_coeff_ctl *ctl;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (struct wmfw_adsp_alg_data *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data->id), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data->ncoeff), 1);
-+
-+	coeff = (void *)alg_data->data;
-+
-+	/* Write a string to the coeff name that overflows the array */
-+	memset(coeff->descr, 0, sizeof(coeff->descr));
-+	memset(coeff->name, 'A', sizeof(coeff->name));
-+	memset(coeff->descr, 'A', sizeof(coeff->descr) - 1);
-+
-+	/*
-+	 * Sanity-check that a strlen would overflow coeff->name.
-+	 * FORTIFY_STRING obstructs testing what strlen() would actually
-+	 * return, so instead verify that a strnlen() returns
-+	 * sizeof(coeff->name[]), therefore it doesn't have a NUL.
-+	 */
-+	KUNIT_ASSERT_EQ(test, strnlen(coeff->name, sizeof(coeff->name)),
-+			sizeof(coeff->name));
-+
-+	/*
-+	 * V1 controls do not have names, but cs_dsp parses the name
-+	 * field. It should load the file successfully and create the
-+	 * control.
-+	 * If FORTIFY_STRING is enabled it will detect a buffer overflow
-+	 * if cs_dsp string length walks past end of coeff name array.
-+	 */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			0);
-+	ctl = list_first_entry_or_null(&priv->dsp->ctl_list, struct cs_dsp_coeff_ctl, list);
-+	KUNIT_ASSERT_NOT_NULL(test, ctl);
-+	KUNIT_EXPECT_EQ(test, ctl->subname_len, 0);
-+}
-+
-+/* V2+ coefficient shortname exceeds length of coeff block */
-+static void wmfw_v2_coeff_shortname_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data, *coeff;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Sanity check we're pointing at the coeff block */
-+	coeff = (__force __le32 *)&alg_data[4];
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(coeff[0]), mock_coeff_template.mem_type << 16);
-+
-+	/* Add one to the shortname length */
-+	coeff[2] = cpu_to_le32(le32_to_cpu(coeff[2]) + 1);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Maximum shortname length */
-+	coeff[2] = cpu_to_le32(255);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V2+ coefficient fullname exceeds length of coeff block */
-+static void wmfw_v2_coeff_fullname_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data, *coeff, *fullname;
-+	size_t shortlen;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Sanity check we're pointing at the coeff block */
-+	coeff = (__force __le32 *)&alg_data[4];
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(coeff[0]), mock_coeff_template.mem_type << 16);
-+
-+	/* Fullname follows the shortname rounded up to a __le32 boundary */
-+	shortlen = round_up(le32_to_cpu(coeff[2]) & 0xff, sizeof(__le32));
-+	fullname = &coeff[2] + (shortlen / sizeof(*coeff));
-+
-+	/* Fullname increases in blocks of __le32 so increase past the current __le32 */
-+	fullname[0] = cpu_to_le32(round_up(le32_to_cpu(fullname[0]) + 1, sizeof(__le32)));
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Maximum fullname length */
-+	fullname[0] = cpu_to_le32(255);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+/* V2+ coefficient description exceeds length of coeff block */
-+static void wmfw_v2_coeff_description_exceeds_block(struct kunit *test)
-+{
-+	struct cs_dsp_test *priv = test->priv;
-+	struct cs_dsp_test_local *local = priv->local;
-+	struct firmware *wmfw;
-+	struct wmfw_header *header;
-+	struct wmfw_region *region;
-+	__le32 *alg_data, *coeff, *fullname, *description;
-+	size_t namelen;
-+
-+	/* Create alg info block with a coefficient */
-+	cs_dsp_mock_wmfw_start_alg_info_block(local->wmfw_builder,
-+					      cs_dsp_wmfw_err_test_mock_algs[0].id,
-+					      "abc", "de");
-+	cs_dsp_mock_wmfw_add_coeff_desc(local->wmfw_builder, &mock_coeff_template);
-+	cs_dsp_mock_wmfw_end_alg_info_block(local->wmfw_builder);
-+
-+	wmfw = cs_dsp_mock_wmfw_get_firmware(local->wmfw_builder);
-+
-+	/* Sanity-check that the good wmfw loads ok */
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "wmfw", NULL, NULL, "misc"),
-+			0);
-+	cs_dsp_power_down(priv->dsp);
-+
-+	header = (struct wmfw_header *)wmfw->data;
-+	region = (struct wmfw_region *)&wmfw->data[le32_to_cpu(header->len)];
-+	alg_data = (__force __le32 *)region->data;
-+
-+	/* Sanity check we're pointing at the alg header */
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(alg_data[0]), cs_dsp_wmfw_err_test_mock_algs[0].id);
-+
-+	/* Sanity check we're pointing at the coeff block */
-+	coeff = (__force __le32 *)&alg_data[4];
-+	KUNIT_ASSERT_EQ(test, le32_to_cpu(coeff[0]), mock_coeff_template.mem_type << 16);
-+
-+	/* Description follows the shortname and fullname rounded up to __le32 boundaries */
-+	namelen = round_up(le32_to_cpu(coeff[2]) & 0xff, sizeof(__le32));
-+	fullname = &coeff[2] + (namelen / sizeof(*coeff));
-+	namelen = round_up(le32_to_cpu(fullname[0]) & 0xff, sizeof(__le32));
-+	description = fullname + (namelen / sizeof(*fullname));
-+
-+	/* Description increases in blocks of __le32 so increase past the current __le32 */
-+	description[0] = cpu_to_le32(round_up(le32_to_cpu(fullname[0]) + 1, sizeof(__le32)));
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+
-+	/* Maximum description length */
-+	fullname[0] = cpu_to_le32(0xffff);
-+	KUNIT_EXPECT_EQ(test,
-+			cs_dsp_power_up(priv->dsp, wmfw, "mock_wmfw", NULL, NULL, "misc"),
-+			-EOVERFLOW);
-+}
-+
-+static void cs_dsp_wmfw_err_test_exit(struct kunit *test)
-+{
-+	/*
-+	 * Testing error conditions can produce a lot of log output
-+	 * from cs_dsp error messages, so rate limit the test cases.
-+	 */
-+	usleep_range(200, 500);
-+}
-+
-+static int cs_dsp_wmfw_err_test_common_init(struct kunit *test, struct cs_dsp *dsp,
-+					    int wmfw_version)
++static int cs_dsp_wmfw_test_common_init(struct kunit *test, struct cs_dsp *dsp,
++					int wmfw_version)
 +{
 +	struct cs_dsp_test *priv;
 +	struct cs_dsp_test_local *local;
@@ -1129,7 +1919,7 @@ index 000000000000..c309843261d7
 +	priv->dsp = dsp;
 +	test->priv = priv;
 +	priv->local = local;
-+	local->wmfw_version = wmfw_version;
++	priv->local->wmfw_version = wmfw_version;
 +
 +	/* Create dummy struct device */
 +	test_dev = kunit_device_register(test, "cs_dsp_test_drv");
@@ -1152,18 +1942,22 @@ index 000000000000..c309843261d7
 +		return ret;
 +
 +	/*
-+	 * There must always be a XM header with at least 1 algorithm,
-+	 * so create a dummy one and pre-populate XM so the wmfw doesn't
-+	 * have to contain an XM blob.
++	 * There must always be a XM header with at least 1 algorithm, so create
++	 * a dummy one that tests can use and extract it to a data payload.
 +	 */
 +	local->xm_header = cs_dsp_create_mock_xm_header(priv,
-+							cs_dsp_wmfw_err_test_mock_algs,
-+							ARRAY_SIZE(cs_dsp_wmfw_err_test_mock_algs));
++							cs_dsp_wmfw_test_mock_algs,
++							ARRAY_SIZE(cs_dsp_wmfw_test_mock_algs));
 +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, local->xm_header);
-+	cs_dsp_mock_xm_header_write_to_regmap(local->xm_header);
 +
-+	local->wmfw_builder = cs_dsp_mock_wmfw_init(priv, local->wmfw_version);
++	local->wmfw_builder = cs_dsp_mock_wmfw_init(priv, priv->local->wmfw_version);
 +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, local->wmfw_builder);
++
++	/* Add dummy XM header payload to wmfw */
++	cs_dsp_mock_wmfw_add_data_block(local->wmfw_builder,
++					WMFW_ADSP2_XM, 0,
++					local->xm_header->blob_data,
++					local->xm_header->blob_size_bytes);
 +
 +	/* Init cs_dsp */
 +	dsp->client_ops = kunit_kzalloc(test, sizeof(*dsp->client_ops), GFP_KERNEL);
@@ -1188,7 +1982,7 @@ index 000000000000..c309843261d7
 +	return kunit_add_action_or_reset(priv->test, _cs_dsp_remove_wrapper, dsp);
 +}
 +
-+static int cs_dsp_wmfw_err_test_halo_init(struct kunit *test)
++static int cs_dsp_wmfw_test_halo_init(struct kunit *test)
 +{
 +	struct cs_dsp *dsp;
 +
@@ -1204,10 +1998,10 @@ index 000000000000..c309843261d7
 +	dsp->base = cs_dsp_mock_halo_core_base;
 +	dsp->base_sysinfo = cs_dsp_mock_halo_sysinfo_base;
 +
-+	return cs_dsp_wmfw_err_test_common_init(test, dsp, 3);
++	return cs_dsp_wmfw_test_common_init(test, dsp, 3);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_32bit_init(struct kunit *test, int wmfw_ver)
++static int cs_dsp_wmfw_test_adsp2_32bit_init(struct kunit *test, int wmfw_ver)
 +{
 +	struct cs_dsp *dsp;
 +
@@ -1223,25 +2017,25 @@ index 000000000000..c309843261d7
 +	dsp->num_mems = cs_dsp_mock_count_regions(cs_dsp_mock_adsp2_32bit_dsp1_region_sizes);
 +	dsp->base = cs_dsp_mock_adsp2_32bit_sysbase;
 +
-+	return cs_dsp_wmfw_err_test_common_init(test, dsp, wmfw_ver);
++	return cs_dsp_wmfw_test_common_init(test, dsp, wmfw_ver);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_32bit_wmfw0_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_32bit_wmfw0_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_32bit_init(test, 0);
++	return cs_dsp_wmfw_test_adsp2_32bit_init(test, 0);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_32bit_wmfw1_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_32bit_wmfw1_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_32bit_init(test, 1);
++	return cs_dsp_wmfw_test_adsp2_32bit_init(test, 1);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_32bit_wmfw2_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_32bit_wmfw2_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_32bit_init(test, 2);
++	return cs_dsp_wmfw_test_adsp2_32bit_init(test, 2);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_16bit_init(struct kunit *test, int wmfw_ver)
++static int cs_dsp_wmfw_test_adsp2_16bit_init(struct kunit *test, int wmfw_ver)
 +{
 +	struct cs_dsp *dsp;
 +
@@ -1257,207 +2051,290 @@ index 000000000000..c309843261d7
 +	dsp->num_mems = cs_dsp_mock_count_regions(cs_dsp_mock_adsp2_16bit_dsp1_region_sizes);
 +	dsp->base = cs_dsp_mock_adsp2_16bit_sysbase;
 +
-+	return cs_dsp_wmfw_err_test_common_init(test, dsp, wmfw_ver);
++	return cs_dsp_wmfw_test_common_init(test, dsp, wmfw_ver);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_16bit_wmfw0_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_16bit_wmfw0_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_16bit_init(test, 0);
++	return cs_dsp_wmfw_test_adsp2_16bit_init(test, 0);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_16bit_wmfw1_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_16bit_wmfw1_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_16bit_init(test, 1);
++	return cs_dsp_wmfw_test_adsp2_16bit_init(test, 1);
 +}
 +
-+static int cs_dsp_wmfw_err_test_adsp2_16bit_wmfw2_init(struct kunit *test)
++static int cs_dsp_wmfw_test_adsp2_16bit_wmfw2_init(struct kunit *test)
 +{
-+	return cs_dsp_wmfw_err_test_adsp2_16bit_init(test, 2);
++	return cs_dsp_wmfw_test_adsp2_16bit_init(test, 2);
 +}
 +
-+static void cs_dsp_wmfw_err_block_types_desc(const struct cs_dsp_wmfw_test_param *param,
-+					     char *desc)
++static void cs_dsp_mem_param_desc(const struct cs_dsp_wmfw_test_param *param, char *desc)
 +{
-+	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "block_type:%#x", param->block_type);
++	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s num_blocks:%u",
++		 cs_dsp_mem_region_name(param->mem_type),
++		 param->num_blocks);
 +}
 +
-+static const struct cs_dsp_wmfw_test_param wmfw_valid_block_types_adsp2_cases[] = {
-+	{ .block_type = WMFW_INFO_TEXT },
-+	{ .block_type = WMFW_ADSP2_PM },
-+	{ .block_type = WMFW_ADSP2_YM },
++static const struct cs_dsp_wmfw_test_param adsp2_all_num_blocks_param_cases[] = {
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_PM, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_ZM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 16 },
 +};
 +
-+KUNIT_ARRAY_PARAM(wmfw_valid_block_types_adsp2,
-+		  wmfw_valid_block_types_adsp2_cases,
-+		  cs_dsp_wmfw_err_block_types_desc);
++KUNIT_ARRAY_PARAM(adsp2_all_num_blocks,
++		  adsp2_all_num_blocks_param_cases,
++		  cs_dsp_mem_param_desc);
 +
-+static const struct cs_dsp_wmfw_test_param wmfw_valid_block_types_halo_cases[] = {
-+	{ .block_type = WMFW_INFO_TEXT },
-+	{ .block_type = WMFW_HALO_PM_PACKED },
-+	{ .block_type = WMFW_ADSP2_YM },
++static const struct cs_dsp_wmfw_test_param halo_all_num_blocks_param_cases[] = {
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 1 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 2 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 3 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 4 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 5 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 6 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 12 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 13 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 14 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 15 },
++	{ .mem_type = WMFW_HALO_PM_PACKED, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 1 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 2 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 3 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 4 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 5 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 6 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 12 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 13 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 14 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 15 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 1 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 2 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 3 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 4 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 5 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 6 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 12 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 13 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 14 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 15 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_XM, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 1 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 2 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 3 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 4 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 5 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 6 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 12 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 13 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 14 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 15 },
++	{ .mem_type = WMFW_ADSP2_YM, .num_blocks = 16 },
 +};
 +
-+KUNIT_ARRAY_PARAM(wmfw_valid_block_types_halo,
-+		  wmfw_valid_block_types_halo_cases,
-+		  cs_dsp_wmfw_err_block_types_desc);
++KUNIT_ARRAY_PARAM(halo_all_num_blocks,
++		  halo_all_num_blocks_param_cases,
++		  cs_dsp_mem_param_desc);
 +
-+static const struct cs_dsp_wmfw_test_param wmfw_invalid_block_types_cases[] = {
-+	{ .block_type = 0x33 },
-+	{ .block_type = 0xf5 },
-+	{ .block_type = 0xc0 },
++static const struct cs_dsp_wmfw_test_param packed_xy_num_blocks_param_cases[] = {
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 1 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 2 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 3 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 4 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 5 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 6 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 12 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 13 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 14 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 15 },
++	{ .mem_type = WMFW_HALO_XM_PACKED, .num_blocks = 16 },
++
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 1 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 2 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 3 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 4 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 5 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 6 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 12 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 13 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 14 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 15 },
++	{ .mem_type = WMFW_HALO_YM_PACKED, .num_blocks = 16 },
 +};
 +
-+KUNIT_ARRAY_PARAM(wmfw_invalid_block_types,
-+		  wmfw_invalid_block_types_cases,
-+		  cs_dsp_wmfw_err_block_types_desc);
++KUNIT_ARRAY_PARAM(packed_xy_num_blocks,
++		  packed_xy_num_blocks_param_cases,
++		  cs_dsp_mem_param_desc);
 +
-+static struct kunit_case cs_dsp_wmfw_err_test_cases_v0[] = {
-+	KUNIT_CASE(wmfw_load_with_unknown_blocks),
-+	KUNIT_CASE(wmfw_err_wrong_magic),
-+	KUNIT_CASE(wmfw_err_too_short_for_header),
-+	KUNIT_CASE(wmfw_err_bad_header_length),
-+	KUNIT_CASE(wmfw_err_bad_core_type),
++static struct kunit_case cs_dsp_wmfw_test_cases_halo[] = {
++	KUNIT_CASE(wmfw_write_xm_header_unpacked),
 +
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_payload, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_block_payload_len_garbage, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_one_payload,
++			 halo_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_oneblock_payloads,
++			 halo_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_oneblock_payloads_reverse,
++			 halo_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_payloads_sparse_unordered,
++			 halo_all_num_blocks_gen_params),
++
++	KUNIT_CASE(wmfw_write_all_packed_pm),
++	KUNIT_CASE(wmfw_write_multiple_packed_unpacked_mem),
++
++	KUNIT_CASE_PARAM(wmfw_write_packed_1_unpacked_trailing,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_2_unpacked_trailing,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_3_unpacked_trailing,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_2_single_unpacked_trailing,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_3_single_unpacked_trailing,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_1_unpacked_leading,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_2_unpacked_leading,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_3_unpacked_leading,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_2_single_unpacked_leading,
++			 packed_xy_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_packed_3_single_unpacked_leading,
++			 packed_xy_num_blocks_gen_params),
++
++	KUNIT_CASE(wmfw_load_with_info),
 +
 +	{ } /* terminator */
 +};
 +
-+static struct kunit_case cs_dsp_wmfw_err_test_cases_v1[] = {
-+	KUNIT_CASE(wmfw_load_with_unknown_blocks),
-+	KUNIT_CASE(wmfw_err_wrong_magic),
-+	KUNIT_CASE(wmfw_err_too_short_for_header),
-+	KUNIT_CASE(wmfw_err_bad_header_length),
-+	KUNIT_CASE(wmfw_err_bad_core_type),
++static struct kunit_case cs_dsp_wmfw_test_cases_adsp2[] = {
++	KUNIT_CASE(wmfw_write_xm_header_unpacked),
++	KUNIT_CASE_PARAM(wmfw_write_one_payload,
++			 adsp2_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_oneblock_payloads,
++			 adsp2_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_oneblock_payloads_reverse,
++			 adsp2_all_num_blocks_gen_params),
++	KUNIT_CASE_PARAM(wmfw_write_multiple_payloads_sparse_unordered,
++			 adsp2_all_num_blocks_gen_params),
 +
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_payload, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_block_payload_len_garbage, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
++	KUNIT_CASE(wmfw_write_all_unpacked_pm),
++	KUNIT_CASE(wmfw_write_multiple_unpacked_mem),
 +
-+	KUNIT_CASE(wmfw_too_short_for_alg_header),
-+	KUNIT_CASE(wmfw_v1_alg_name_unterminated),
-+	KUNIT_CASE(wmfw_v1_coeff_count_exceeds_block),
-+	KUNIT_CASE(wmfw_v1_coeff_name_unterminated),
++	KUNIT_CASE(wmfw_load_with_info),
 +
 +	{ } /* terminator */
 +};
 +
-+static struct kunit_case cs_dsp_wmfw_err_test_cases_v2[] = {
-+	KUNIT_CASE(wmfw_load_with_unknown_blocks),
-+	KUNIT_CASE(wmfw_err_wrong_magic),
-+	KUNIT_CASE(wmfw_err_too_short_for_header),
-+	KUNIT_CASE(wmfw_err_bad_header_length),
-+	KUNIT_CASE(wmfw_err_bad_core_type),
-+
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_payload, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_block_payload_len_garbage, wmfw_valid_block_types_adsp2_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+
-+	KUNIT_CASE(wmfw_too_short_for_alg_header),
-+	KUNIT_CASE(wmfw_v2_alg_name_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_alg_description_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_count_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_block_size_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_shortname_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_fullname_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_description_exceeds_block),
-+
-+	{ } /* terminator */
++static struct kunit_suite cs_dsp_wmfw_test_halo = {
++	.name = "cs_dsp_wmfwV3_halo",
++	.init = cs_dsp_wmfw_test_halo_init,
++	.test_cases = cs_dsp_wmfw_test_cases_halo,
 +};
 +
-+static struct kunit_case cs_dsp_wmfw_err_test_cases_v3[] = {
-+	KUNIT_CASE(wmfw_load_with_unknown_blocks),
-+	KUNIT_CASE(wmfw_err_wrong_magic),
-+	KUNIT_CASE(wmfw_err_too_short_for_header),
-+	KUNIT_CASE(wmfw_err_bad_header_length),
-+	KUNIT_CASE(wmfw_err_bad_core_type),
-+
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_valid_block_types_halo_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_payload, wmfw_valid_block_types_halo_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_block_payload_len_garbage, wmfw_valid_block_types_halo_gen_params),
-+	KUNIT_CASE_PARAM(wmfw_too_short_for_block_header, wmfw_invalid_block_types_gen_params),
-+
-+	KUNIT_CASE(wmfw_too_short_for_alg_header),
-+	KUNIT_CASE(wmfw_v2_alg_name_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_alg_description_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_count_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_block_size_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_shortname_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_fullname_exceeds_block),
-+	KUNIT_CASE(wmfw_v2_coeff_description_exceeds_block),
-+
-+	{ } /* terminator */
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_32bit_wmfw0 = {
++	.name = "cs_dsp_wmfwV0_adsp2_32bit",
++	.init = cs_dsp_wmfw_test_adsp2_32bit_wmfw0_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_halo = {
-+	.name = "cs_dsp_wmfwV3_err_halo",
-+	.init = cs_dsp_wmfw_err_test_halo_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v3,
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_32bit_wmfw1 = {
++	.name = "cs_dsp_wmfwV1_adsp2_32bit",
++	.init = cs_dsp_wmfw_test_adsp2_32bit_wmfw1_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_32bit_wmfw0 = {
-+	.name = "cs_dsp_wmfwV0_err_adsp2_32bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_32bit_wmfw0_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v0,
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_32bit_wmfw2 = {
++	.name = "cs_dsp_wmfwV2_adsp2_32bit",
++	.init = cs_dsp_wmfw_test_adsp2_32bit_wmfw2_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_32bit_wmfw1 = {
-+	.name = "cs_dsp_wmfwV1_err_adsp2_32bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_32bit_wmfw1_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v1,
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_16bit_wmfw0 = {
++	.name = "cs_dsp_wmfwV0_adsp2_16bit",
++	.init = cs_dsp_wmfw_test_adsp2_16bit_wmfw0_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_32bit_wmfw2 = {
-+	.name = "cs_dsp_wmfwV2_err_adsp2_32bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_32bit_wmfw2_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v2,
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_16bit_wmfw1 = {
++	.name = "cs_dsp_wmfwV1_adsp2_16bit",
++	.init = cs_dsp_wmfw_test_adsp2_16bit_wmfw1_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_16bit_wmfw0 = {
-+	.name = "cs_dsp_wmfwV0_err_adsp2_16bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_16bit_wmfw0_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v0,
++static struct kunit_suite cs_dsp_wmfw_test_adsp2_16bit_wmfw2 = {
++	.name = "cs_dsp_wmfwV2_adsp2_16bit",
++	.init = cs_dsp_wmfw_test_adsp2_16bit_wmfw2_init,
++	.test_cases = cs_dsp_wmfw_test_cases_adsp2,
 +};
 +
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_16bit_wmfw1 = {
-+	.name = "cs_dsp_wmfwV1_err_adsp2_16bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_16bit_wmfw1_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v1,
-+};
-+
-+static struct kunit_suite cs_dsp_wmfw_err_test_adsp2_16bit_wmfw2 = {
-+	.name = "cs_dsp_wmfwV2_err_adsp2_16bit",
-+	.init = cs_dsp_wmfw_err_test_adsp2_16bit_wmfw2_init,
-+	.exit = cs_dsp_wmfw_err_test_exit,
-+	.test_cases = cs_dsp_wmfw_err_test_cases_v2,
-+};
-+
-+kunit_test_suites(&cs_dsp_wmfw_err_test_halo,
-+		  &cs_dsp_wmfw_err_test_adsp2_32bit_wmfw0,
-+		  &cs_dsp_wmfw_err_test_adsp2_32bit_wmfw1,
-+		  &cs_dsp_wmfw_err_test_adsp2_32bit_wmfw2,
-+		  &cs_dsp_wmfw_err_test_adsp2_16bit_wmfw0,
-+		  &cs_dsp_wmfw_err_test_adsp2_16bit_wmfw1,
-+		  &cs_dsp_wmfw_err_test_adsp2_16bit_wmfw2);
++kunit_test_suites(&cs_dsp_wmfw_test_halo,
++		  &cs_dsp_wmfw_test_adsp2_32bit_wmfw0,
++		  &cs_dsp_wmfw_test_adsp2_32bit_wmfw1,
++		  &cs_dsp_wmfw_test_adsp2_32bit_wmfw2,
++		  &cs_dsp_wmfw_test_adsp2_16bit_wmfw0,
++		  &cs_dsp_wmfw_test_adsp2_16bit_wmfw1,
++		  &cs_dsp_wmfw_test_adsp2_16bit_wmfw2);
 -- 
 2.39.5
 
