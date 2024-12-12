@@ -1,64 +1,40 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA91420E715;
-	Thu, 12 Dec 2024 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A580220ADFF;
+	Thu, 12 Dec 2024 10:01:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733997566; cv=none; b=SzDQ5SsKcUqVBovfNES99UYut1zfZ/9jpNjdRa41x/v6Z8kRO5DjUHwrliXilbKKWrj0yvuamT2PV0dOFcO759mC5LBW0MNTJbHk3O2kKPvi83QBc8Ret3ReGxmfi59dqqsNjjPnMnja7UI8sRDTjb1duiS8Q5xvsYgNjHDQpCA=
+	t=1733997679; cv=none; b=U47kXx/tToxcqA78W3yFsBya3V313pi/c0PAVWzNEPA8xxOj813aUaAAg0C9jKNz0duR5WkRIhoxjiO6m9/FFut0Id3JQqilShrO0HjLeON4ZFt5T2sQgthVnZriCf388JBRPSmbyPWbJNd56q5RKMAepUub9Oq5NNs/sBWuLqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733997566; c=relaxed/simple;
-	bh=f9AA/A46t2LgZraALppz0qz31Q51GoBAgTAWwcSzbKo=;
+	s=arc-20240116; t=1733997679; c=relaxed/simple;
+	bh=OWSgiEhJaL+pZfcPCTTqqXIPHvYHJbsF2A/UC232kCM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cuKfHY04krZ10GKpBA4Zv+Yt4OL1B5CWcL2aC7fVPm04itsPrbTRZBrq30UHEI+po1MQtCMeHPNAFjrjny2fyLQE6fEzB37HYIINtosu2g7SEHjhoZ4igI2Rl6nk/StFp726W7FxsfPIZ/D1hqOFwZm0UExusEJI/C8+xCPiKTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D4UlWKG/; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=meJ3KELogKHm3D89agzOnPRYTq8a6k2lYCzAcj7cWlVlJzP8axOIma/KNj/swgiYoGe2Bcov/5I6Y256WQug7MQ09AiYOb+8CLO8Hrr53doYSGI7IQPlQG8BL8MXy95EfL3Q0P+NDpwW8FCiTpxmtABT8deO7t3Yos6V78OxXYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KR1COHTi; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D4UlWKG/"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9f1c590ecdso70590066b.1;
-        Thu, 12 Dec 2024 01:59:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733997563; x=1734602363; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zk4a8zDUNM2R0E4snQBxkDhcU3anJgMWX77nhsVAD+0=;
-        b=D4UlWKG/OCUHtx+xpIByAVUpF0C4JnatsAc8JyRd7C805um7mpLxhffGwNeJgZp27v
-         zNpsG/+ECmB/7BBDJ2L21GO49OIfshUnzH4dlTE5UjLNtjGSd/FHHcUjtx97OCVAaZkG
-         BbWs2Y7RyQ2NQkgU9V1TJhJbmzNVYSoOi5s1LKk6XOGobqO6TH1f7PdU6z585vX95q+S
-         +U2yTP8ExneEnbcFuSagp//6tpRNfbmJ4fEt30FADVwIE4QZrtw3Kipxnom4X+Zp7iy/
-         Kwdoqmz0gnM8p/yYQQMWm5Ma/ejdgVw79hZI+LtjetYW4T/iIWphS6JDXCu6xBD5EgYI
-         412w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733997563; x=1734602363;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zk4a8zDUNM2R0E4snQBxkDhcU3anJgMWX77nhsVAD+0=;
-        b=A7u80hAt+IenwnOwPRzZ0N5Df1DhpiQnBWFzKw+kC4FelROk4LErlFaUS3blItCipG
-         AnaI+ffCzw3YIrZMJsIRtewwAmAWk43NGKo6XwpWyv9iLsEgNXISVGthscdjxkePhTZy
-         VhS2L+qPG1h6RZiJ9Wf+w+nr2rjkakHFWoJk8oDzC0Mxn2X34Fyc6CewzO8NhZAFWhD7
-         8zjoYGm+50J6OFiQp+4YfOWxK+AhGGHf0ckpmuZ6MAKE1hlsh1nE1DNfI1OaQ+cvdwpd
-         aXwkKALpRUMGisd1VUvwWBbCrsltQ2cYr1dzCogSNqpk39jZbViERMavrJdE+NpYm/Ho
-         rWvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVG3rttFqAzCAKTTd6lWGGQXWxWjDz6sr/yowQTF5bTrkv5UFHOGAkLrwMduvcYqMDDAmqxlBCwFag1@vger.kernel.org, AJvYcCVd25qv1AKDDqF6EuhizdELkd2fMwMqFQTodJIV7FQqgV+xeQDxr0fnL5k33dp0gtGcIjVoXhcqF3fe1hLf@vger.kernel.org, AJvYcCWVbo5JvuqZeuoGSNuAD4WY9NeoAOpecqJlVpqWWc11eb3XdlpaIu3/PGl06q4KD3ljtfqWMSlrSTga+dE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2c8nl1vXboYOPRezb050qwuBp0cerzfl9xH4nZvIyr63dsi9v
-	jFe5NshfBE9SiTc7lz+LZdRT6hFnKBd4ZGZQHeOViq2rt946feCi
-X-Gm-Gg: ASbGncuXffUun9IHulEW9lwLCvfzzr8zWtLvtXrobvyEMeN8D/v8IG64v3TQHi9qi6q
-	sYZIR6jbNIpomM5+cD/NSqVNTQTWWa5uq4G6dD1pt5i+nJZ+hX5doTgwdutTbsJim0weqTq58YK
-	BxTxhcz7c6NfaW2HLLGjTRKkpNwTqaUu0gnvawc+5NVsTr74KWNeuV1UUxZWCPckeC63arytldZ
-	ZkSnDUgO+CsxBGsYVXljoqFamUMYrCKkHVZXpLjDYz2zL3Zw/2m2u6Xqq0j1XAqWRRqqr0DdWKS
-	DQkVew==
-X-Google-Smtp-Source: AGHT+IHsoB7ECXZa+537Kblyf0Pjp2NQCDzrPJy9QJIErcCrbfwLPbPLg6bypSTjvP8hBq30GN5Gpw==
-X-Received: by 2002:a17:907:920d:b0:aa6:73ae:b3b3 with SMTP id a640c23a62f3a-aa6b11e5531mr571613466b.32.1733997562783;
-        Thu, 12 Dec 2024 01:59:22 -0800 (PST)
-Received: from [192.168.7.105] ([92.120.5.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa674a112c7sm683296666b.147.2024.12.12.01.59.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Dec 2024 01:59:22 -0800 (PST)
-Message-ID: <1fc1f1ae-766d-4266-84ec-11dbd67a608a@gmail.com>
-Date: Thu, 12 Dec 2024 11:59:19 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KR1COHTi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1733997674;
+	bh=OWSgiEhJaL+pZfcPCTTqqXIPHvYHJbsF2A/UC232kCM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KR1COHTirNAVAEP+sJvz3kUWoahJNZ4x8TIuQ2oIXEMRbWzRnJNlJIo2zX87IAd9D
+	 O29iQLQIX2Any5WF2Q5PCcuwMiN1AocR4UBHcBT3rzzTKx3bRNvi/F/7KdK/5N6Wib
+	 cpmcZGhrSh8L+O2HrkFRTYRT292NGyU/35+4O7sH2Gf5wMdx6VDiAdchYYQllFH1iO
+	 WLO9cLT/pfazH1jGiMaMV3asT8tUQIDhRDi83RXHXIj1+KDx47GoRZACtVC7nC8YwS
+	 0MWT4kiK7yx2Lk5CAKWLP2C75v0KVutoddBiXq41FXevGYqs2mL6J9rlqJRLldEDrg
+	 koBG75WZ821/A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DCE7617E35F2;
+	Thu, 12 Dec 2024 11:01:13 +0100 (CET)
+Message-ID: <ba964eb1-324f-40f2-a5e3-7acd441cd218@collabora.com>
+Date: Thu, 12 Dec 2024 11:01:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -66,64 +42,40 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] ASoC: dt-bindings: audio-graph-card2: add widgets
- and hp-det-gpios support
+Subject: Re: [PATCH v2 2/2] arm64: dts: mediatek: mt8390-genio-700-evk: Add
+ sound output support
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Trevor Wu <trevor.wu@mediatek.com>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ Aary Patil <aary.patil@mediatek.com>,
+ Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>,
+ parkeryang <Parker.Yang@mediatek.com>
+References: <20241210-genio700-audio-output-v2-0-c50886ae0be2@collabora.com>
+ <20241210-genio700-audio-output-v2-2-c50886ae0be2@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-To: Frank Li <Frank.li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Daniel Baluta <daniel.baluta@nxp.com>,
- Mark Brown <broonie@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Jaroslav Kysela <perex@perex.cz>, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
- imx@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
- <20241113195240.3699-4-laurentiumihalcea111@gmail.com>
- <ZzUH3n50Vw6RhmNJ@lizhi-Precision-Tower-5810>
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-In-Reply-To: <ZzUH3n50Vw6RhmNJ@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20241210-genio700-audio-output-v2-2-c50886ae0be2@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Il 10/12/24 21:54, Nícolas F. R. A. Prado ha scritto:
+> Describe all the components to get sound output working on the two audio
+> jacks, Earphone and Speaker, present on the Genio 700 EVK board with the
+> audio DSP enabled.
+> 
+> Co-developed-by: Aary Patil <aary.patil@mediatek.com>
+> Signed-off-by: Aary Patil <aary.patil@mediatek.com>
+> Co-developed-by: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
+> Signed-off-by: Suhrid Subramaniam <suhrid.subramaniam@mediatek.com>
+> Co-developed-by: parkeryang <Parker.Yang@mediatek.com>
+> Signed-off-by: parkeryang <Parker.Yang@mediatek.com>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-On 11/13/2024 10:11 PM, Frank Li wrote:
-> On Wed, Nov 13, 2024 at 02:52:38PM -0500, Laurentiu Mihalcea wrote:
->> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
->>
->> Introduce the 'widgets' property, allowing the creation of widgets from
->> 4 template widgets: Microphone, Line, Headphone, and Speaker. Also
->> introduce the 'hp-det-gpios' property, which allows using headphone
->> detection using the specified GPIO.
->>
->> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
->> ---
->>  .../devicetree/bindings/sound/audio-graph-card2.yaml          | 4 ++++
->>  1 file changed, 4 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
->> index f943f90d8b15..94588353f852 100644
->> --- a/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
->> +++ b/Documentation/devicetree/bindings/sound/audio-graph-card2.yaml
->> @@ -37,6 +37,10 @@ properties:
->>    codec2codec:
->>      type: object
->>      description: Codec to Codec node
->> +  hp-det-gpios:
->> +    $ref: audio-graph.yaml#/properties/hp-det-gpios
->> +  widgets:
->> +    $ref: audio-graph.yaml#/properties/widgets
-> why not direct ref Documentation/devicetree/bindings/sound/audio-graph.yaml
-> and define these again here.
-We don't actually want all the properties from 'audio-graph.yaml' (for the moment at least). Also ref-ing 'audio-graph.yaml' will make the 'dais' property required, which is not targeted in this patch. Maybe Kuninori Morimoto can comment more on this.
->
-> Frank
->
->>  required:
->>    - compatible
->> --
->> 2.34.1
->>
 
