@@ -1,185 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3400259483;
-	Thu, 12 Dec 2024 07:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4575B20B7FE;
+	Thu, 12 Dec 2024 08:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733989759; cv=none; b=ZcQeyTXCPFNtjQCSdjVsy6HOtO5BORwU8Z0VgDZ7vZ/RWo7b9PrXlbZRFnymSt74ahXvcV0eMXWZrHsmlrDlAck0eNAPofFRyOW2pEJkLmmhhVGaQIVIa7v8n/2oL12E9sBPSQwdlkXJbb0cK5VOMgwcd2B9HAPnlVy18hkhu9c=
+	t=1733990579; cv=none; b=XWUow0T/+W+Aw6fjW/AkatVD+Rq5Qod0TpEPG6gxBexvXBmRLBpFl0jyz4XsVgwTHgT4/MrDolglkB6LrD0R+HrFWnEfYI1uLl5VivFRPu99P6LmhvSMFuoKEX9G4q5iijllInzBHkEIVB0fh/vYwgPIKKbNwsvfLiVtqic/CdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733989759; c=relaxed/simple;
-	bh=p3mVkGTYYw4PGCqBGsvh1X6A+H2Tkmbmuy1fUcgCET0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyAzvS92zQa99PG3DXp0cja0UIGJVitv9NE8KC28wDsO+QgjNv3xEXx5ai2jBtdTZbfY4XH7UOdHqaP7zLvvD7FH9SCWi3DqT5klZiZOmjS1L/UR5YtikUTlxPchO4h9j6dbLuTgktbwDOfOCnapoMUB6Zzc0HqHifE2VYRxyG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jeeJEh7H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1733990579; c=relaxed/simple;
+	bh=CWtn5BgZ5HrUO9L8nYeYqhWgqcEGi3rQP9EHOkI4FZ8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CBf1NH4sm3xzPufhEQWq8jmXJtLirEd7J1CquT/ceHnWy7USq5obvx/7NVbEUq/ElIsn/itH9NgOCHERAOajs/7KKnLu8jLMqPG73dSW3/0+bv+4PgdKoWote/YbOe+QW4VE5Cdo88QAljDtUaEb59WxhygSjdVZHgV4fE0LwOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dhLw/e/9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jeeJEh7H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26C0EC4CECE;
-	Thu, 12 Dec 2024 07:49:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dhLw/e/9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8CAC4CECE;
+	Thu, 12 Dec 2024 08:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1733989759;
-	bh=p3mVkGTYYw4PGCqBGsvh1X6A+H2Tkmbmuy1fUcgCET0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jeeJEh7H7efSdzzC+/3xdEAK5nrtYFU9Tw/8EPLZp1fF/HOTT7xgNmrCMxy8LULbz
-	 /46JCmmXw5RNBddL1TOS80LGAsECHDBHRfvAC1kiYL8h1Kv3nfrAXe4hjgpSJY5y4p
-	 Sq0pZ7whW9w5heMvGOmSfUXNYDP8AuNoX8HwFDun5E/VabsTugJTvw19D/qMO9zhmR
-	 gheLC7DbiIShjJK87hAunhKT8TJJi4IVpKL2Ryeb2KH8J87d06BgU40almAvzHbosT
-	 GYtxtY52CNXZ5Va1gdLDKWCq8PrDVhvyGXjKwjzds/eyV0URGKKrmfG/PzYr9gG0Wu
-	 w2/ItbKqxkPTw==
-Date: Thu, 12 Dec 2024 08:49:15 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Alexey Klimov <alexey.klimov@linaro.org>
-Cc: broonie@kernel.org, konradybcio@kernel.org, 
-	konrad.dybcio@oss.qualcomm.com, andersson@kernel.org, srinivas.kandagatla@linaro.org, 
-	tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org, 
-	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/14] ASoC: dt-bindings: qcom,wsa881x: extend
- description to analog mode
-Message-ID: <gzsjlaqdkn3ztc5mpfbdidr2vqxllnkdizzzfyy7t5z7vu3o3i@izzpix77yxik>
-References: <20241212004727.2903846-1-alexey.klimov@linaro.org>
- <20241212004727.2903846-10-alexey.klimov@linaro.org>
+	s=k20201202; t=1733990578;
+	bh=CWtn5BgZ5HrUO9L8nYeYqhWgqcEGi3rQP9EHOkI4FZ8=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=dhLw/e/9Dq7Y06SuIyoUGloAFUNDYcQO9pmLyicGhAtEq26OuTP1POl7jSjG2amzU
+	 GxvxRNrS32iQ6o/ZNiuOp8+OOOCX/CLWRlYeYwUioTnxtZ4zyqS5GqiReL/1nJNwE8
+	 +2cNgIMwqOwdM6UL4JlOvohFxoQbQyKGS3oH2fiojJ8JDmOkNWDnEzFw6WuTG9VTSt
+	 6giJIuXbtK2eFiN8jZs23lKIrw2/AgzABJ32MfPNMAVbz4BuWZnVHHmSRkgwRl0wJ7
+	 HC2YmFGIOOtxQVWQBsCjh37+MGWziohhAAvAWVhg7b5tZ8mhnZkADgsDx7umgaenP8
+	 PRb+K1+qbudyg==
+Message-ID: <6573e429-69a3-4f42-81e9-bd305e0d7c25@kernel.org>
+Date: Thu, 12 Dec 2024 09:02:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241212004727.2903846-10-alexey.klimov@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 08/14] dt-bindings: arm: qcom-soc: extend pattern
+ matching to support qcom,wsa881x
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: broonie@kernel.org, konradybcio@kernel.org,
+ konrad.dybcio@oss.qualcomm.com, andersson@kernel.org,
+ srinivas.kandagatla@linaro.org, tiwai@suse.com, lgirdwood@gmail.com,
+ perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ dmitry.baryshkov@linaro.org, linux-sound@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241212004727.2903846-1-alexey.klimov@linaro.org>
+ <20241212004727.2903846-9-alexey.klimov@linaro.org>
+ <uafwpjsclos7tcykjgbru32yu34ncr7stn6v74jmyu65auszik@viadthjz6cm3>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <uafwpjsclos7tcykjgbru32yu34ncr7stn6v74jmyu65auszik@viadthjz6cm3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 12, 2024 at 12:47:22AM +0000, Alexey Klimov wrote:
-> WSA881X also supports analog mode when device is configured via i2c
-> only. Document it, add properties, new compatibles and example.
+On 12/12/2024 08:46, Krzysztof Kozlowski wrote:
+> On Thu, Dec 12, 2024 at 12:47:21AM +0000, Alexey Klimov wrote:
+>> Add support for qcom,wsa8815 and qcom,wsa8810 names to be recognised
 > 
-> While at this, also adjust quotes.
+> What is WSA8815 that?
+
+I guess I had some longer thought:
+"What is WSA8815 that it should be here?"
+
 > 
-> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
-> ---
->  .../bindings/sound/qcom,wsa881x.yaml          | 75 +++++++++++++++++--
->  1 file changed, 67 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-> index ac03672ebf6d..e482d9dc0de2 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,wsa881x.yaml
-> @@ -12,15 +12,17 @@ maintainers:
->  description: |
->    WSA8810 is a class-D smart speaker amplifier and WSA8815
->    is a high-output power class-D smart speaker amplifier.
-> -  Their primary operating mode uses a SoundWire digital audio
-> -  interface. This binding is for SoundWire interface.
-> -
-> -allOf:
-> -  - $ref: dai-common.yaml#
-> +  This family of amplifiers support two operating modes:
-> +  SoundWire digital audio interface which is a primary mode
-> +  and analog mode when device is configured via i2c only.
-> +  This binding describes both modes.
->  
->  properties:
->    compatible:
-> -    const: sdw10217201000
-> +    enum:
-> +      - qcom,wsa8810
-> +      - qcom,wsa8815
+>> as a valid compatibles.
 
-You implement only one compatible, so does it mean they are compatible?
-If so, make them compatible.
-
-> +      - sdw10217201000
->  
->    reg:
->      maxItems: 1
-> @@ -35,17 +37,60 @@ properties:
->    '#sound-dai-cells':
->      const: 0
->  
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  mclk-gpios:
-> +    description: GPIO spec for mclk
-
-Do not repeat property name as description. Say something useful. "GPIO
-spec for" is redundant, it cannot be anything else, so basically your
-description saod "mclk" which is the same as in property name.
-
-Usually clocks are not GPIOs, so description could explain that.
-
-> +    maxItems: 1
-> +
->  required:
->    - compatible
->    - reg
->    - powerdown-gpios
-> -  - "#thermal-sensor-cells"
-> -  - "#sound-dai-cells"
-> +  - '#thermal-sensor-cells'
-> +  - '#sound-dai-cells'
-> +
-> +allOf:
-> +  - $ref: dai-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,wsa8810
-> +            const: qcom,wsa8815
-
-That's not a valid syntax. Either enum or const.
-
-This was never tested.
-
-> +    then:
-> +      properties:
-> +        reg:
-> +          description:
-> +            In case of analog mode this should be I2C address of the digital
-> +            part of the device. The I2C address of analog part of an amplifier
-> +            is expected to be located at the fixed offset.
-> +          maxItems: 1
-> +          items:
-> +            minimum: 0x0e
-> +            maximum: 0x0f
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - qcom,wsa8810
-> +            const: qcom,wsa8815
-
-Why are you repeating the if?
-
-> +    then:
-> +      required:
-> +        - clocks
-> +        - mclk-gpios
->  
->  unevaluatedProperties: false
->  
->  examples:
->    - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/sound/qcom,q6afe.h>
-> +
->      soundwire@c2d0000 {
->          #address-cells = <2>;
->          #size-cells = <0>;
-> @@ -68,4 +113,18 @@ examples:
->          };
->      };
->  
-> +    i2c0 {
-
-i2c
 
 Best regards,
 Krzysztof
-
