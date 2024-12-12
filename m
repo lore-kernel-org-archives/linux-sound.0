@@ -1,55 +1,55 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108AC2153E4;
-	Thu, 12 Dec 2024 14:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F7C2153F0;
+	Thu, 12 Dec 2024 14:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734014258; cv=none; b=Cd7ZZJMnKeLApMqT5BHN4wSPSu5z8hNbksZCNbHZUsdh9WhQeuFqESpHet6TsGG69NgjMqTV1bI8lP4i3UmtGGU/B9DW8SVQdM9ijJ7WM+XYpXEZ5EoQGIiIr0PgPHnxfeKpUPs4dgxyvK/53Ffob5Jw64s5Bedlxjk4S4SH08c=
+	t=1734014260; cv=none; b=RA4xVUXbLI8NG/2gCaWFbheiq0TBO0iMW61lmtWGKXjXSjzLF9/V6OxXCee6GwGV44hiVDkOP7A4Y9arY8n0dP/5cSyXYqAL7w2rmPctiG6GrW8P/AFpbP/e1O9Ssp791LUByvf60YrmcIJ3xcxYB07T5kJMAuPlgX3/Pzc1TRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734014258; c=relaxed/simple;
-	bh=0WuKxAehQyNmJpSZXLJURMlwybulK1zaTEwVeVWx2dE=;
+	s=arc-20240116; t=1734014260; c=relaxed/simple;
+	bh=LHJDzE7VsITleXeKXDF07zRos+HxNWUg3BhTT9Y+fn0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sdcyJD4F87YgryXpegVUFeDBwuYe0j2KiFNS+cm75jAISohP9QShWek7K8DwfrlOiF+lMqXdpBXAqTL35eetgHCndBFB8+OTpOsThlOfYOMpvJkPso4cLIVgiB6PjooKov8hxsHr673zT4MaFnD0R7Gz/x5gLrf2/0LQaJqDRW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=AeTzwyoS; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=JIRY6QG0VRP56px0/sm/wni9HNt3pPQ8WWao14ggn4BG31FaJUwjSifBvEe55hPs0m5ujZhg0f3KOw+3cve+NtQRphtTNj4/BBhaiJMfYHdnEkOST+/8VT/EvAD/HZGqjwJKdvdvhCuBd5PWeLdi5uovwPiwOzZM46Ngj9UQUlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pkB/0c9m; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="AeTzwyoS"
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pkB/0c9m"
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5o3e4029256;
-	Thu, 12 Dec 2024 08:37:27 -0600
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BC5LAlp019383;
+	Thu, 12 Dec 2024 08:37:29 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=MtNPjL+CVjS1kLiDDHYlrzU3AuFbQ44PQ8e7Kn9DKls=; b=
-	AeTzwyoSddZJEheN4V+T1K/XFJRgujqpVJsfjzmaH/9jDdA3t3VEaj5wzG7L650/
-	9gMMviDAfLGzcrDZoQeVXU5vlzhxSgTwYqyaq3Mooi6DXH7l6uV10ODf7b1Ym/8c
-	CcwDpqOR9JXlc9mriD6m+k40Z0z1k3YJyIOm2htBxc3CgByXygTKb8bzMRXgDrEq
-	JdF0sYWj8c+e92Y7h2n9mRCuL4HDcXYZ9OFxZiYA0sIlBiLMzxw72186RyHKu08W
-	5LPtgyU3K/EE4fUOVh0bnugjgCBqUOCa1228r09Tnu4jvnU11U47KzQHQ3X9E9zp
-	TraV9JK4RDfPL1FDV7AQfw==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkexdq-1
+	PODMain02222019; bh=PQJcLv+2aIpltGBm62hVDtzjutvtNT1lwPNCE8UZ1/4=; b=
+	pkB/0c9mTNnBN2Fp33zxcPTa65C0JuC3jwDTASQxVBCQfj1v4gf1CYArlVyuMhE4
+	0xFDTSVMFtv5Ed1neBSkBvUcWilEP4liPHQ8RVZDPdi0lQOdxkEjawI+2SRCsboH
+	Zlkaf+xahIdszH/KSnaVxNdezJA3foUWYyuS9gI722JWIXlX8uuYFmmpUeCctHbS
+	vKmXLO51Kux+JPoZvgDMRQdyXe3NfACo7h14njsXqWM0GFqo2gEu/Ax9uEa4Wjei
+	Tf+/MOSHUH6t1pQWyOFaafKjtRpkgWkGjMqe256hUKlQs3zbC6nAfmBTOc/nIfKR
+	8wwLddE9WjtMY5Ql3AMVtw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43cknkexdp-4
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Dec 2024 08:37:26 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 12 Dec 2024 08:37:29 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Thu, 12 Dec
  2024 14:37:25 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
  15.2.1544.13 via Frontend Transport; Thu, 12 Dec 2024 14:37:25 +0000
 Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1C41A822542;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 238FA822544;
 	Thu, 12 Dec 2024 14:37:25 +0000 (UTC)
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
         <linux-sound@vger.kernel.org>
-Subject: [PATCH 01/12] firmware: cs_dsp: Add mock regmap for KUnit testing
-Date: Thu, 12 Dec 2024 14:37:14 +0000
-Message-ID: <20241212143725.1381013-2-rf@opensource.cirrus.com>
+Subject: [PATCH 03/12] firmware: cs_dsp: Add mock wmfw file generator for KUnit testing
+Date: Thu, 12 Dec 2024 14:37:16 +0000
+Message-ID: <20241212143725.1381013-4-rf@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241212143725.1381013-1-rf@opensource.cirrus.com>
 References: <20241212143725.1381013-1-rf@opensource.cirrus.com>
@@ -61,545 +61,569 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 6OK4_qHvUsUUgMIYw2-xeeIRFRDVgLtz
-X-Proofpoint-GUID: 6OK4_qHvUsUUgMIYw2-xeeIRFRDVgLtz
+X-Proofpoint-ORIG-GUID: ELC7cu95fmtaIuU9K7r_edlBwZpKEeHC
+X-Proofpoint-GUID: ELC7cu95fmtaIuU9K7r_edlBwZpKEeHC
 X-Proofpoint-Spam-Reason: safe
 
-Add a mock regmap implementation to act as a simulated DSP for KUnit
-testing. This is built as a utility module so that it could be used by
-clients of cs_dsp to create a mock "DSP" for their own testing.
-
-cs_dsp interacts with the DSP only through registers. Most of the
-register space of the DSP is RAM. ADSP cores have a small set of control
-registers. HALO Core DSPs have a much larger set of control registers but
-only a small subset are used.
-
-Most writes are "blind" in the sense that cs_dsp does not expect to
-receive any sort of response from the DSP. So there isn't any need to
-emulate a "DSP", only a set of registers that can be written and read
-back.
-
-The idea of the mock regmap is to use the cache to accumulate writes
-which can then be tested against the values that are expected to be in
-the registers.
-
-Stray writes can be detected by dropping the cache entries for all
-addresses that should have been written and then issuing a regcache_sync().
-If this causes bus writes it means there were writes to unexpected
-registers.
+Add a mock firmware file that emulates what the firmware build tools
+would normally create. This will be used by KUnit tests to generate a
+test wmfw file.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 ---
- MAINTAINERS                                   |   4 +-
- drivers/firmware/cirrus/Kconfig               |   6 +
- drivers/firmware/cirrus/Makefile              |   2 +
- drivers/firmware/cirrus/test/Makefile         |   8 +
- .../firmware/cirrus/test/cs_dsp_mock_regmap.c | 367 ++++++++++++++++++
- .../firmware/cirrus/test/cs_dsp_mock_utils.c  |  13 +
- .../linux/firmware/cirrus/cs_dsp_test_utils.h |  46 +++
- 7 files changed, 444 insertions(+), 2 deletions(-)
- create mode 100644 drivers/firmware/cirrus/test/Makefile
- create mode 100644 drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
- create mode 100644 drivers/firmware/cirrus/test/cs_dsp_mock_utils.c
- create mode 100644 include/linux/firmware/cirrus/cs_dsp_test_utils.h
+ drivers/firmware/cirrus/test/Makefile         |   3 +-
+ .../firmware/cirrus/test/cs_dsp_mock_wmfw.c   | 473 ++++++++++++++++++
+ .../linux/firmware/cirrus/cs_dsp_test_utils.h |  33 ++
+ 3 files changed, 508 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/firmware/cirrus/test/cs_dsp_mock_wmfw.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 17daa9ee9384..91bcdf21e7ba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5501,8 +5501,8 @@ L:	patches@opensource.cirrus.com
- S:	Supported
- W:	https://github.com/CirrusLogic/linux-drivers/wiki
- T:	git https://github.com/CirrusLogic/linux-drivers.git
--F:	drivers/firmware/cirrus/*
--F:	include/linux/firmware/cirrus/*
-+F:	drivers/firmware/cirrus/
-+F:	include/linux/firmware/cirrus/
- 
- CIRRUS LOGIC EP93XX ETHERNET DRIVER
- M:	Hartley Sweeten <hsweeten@visionengravers.com>
-diff --git a/drivers/firmware/cirrus/Kconfig b/drivers/firmware/cirrus/Kconfig
-index 3ccbe14e4b0c..35de3e490d98 100644
---- a/drivers/firmware/cirrus/Kconfig
-+++ b/drivers/firmware/cirrus/Kconfig
-@@ -3,3 +3,9 @@
- config FW_CS_DSP
- 	tristate
- 	default n
-+
-+config FW_CS_DSP_KUNIT_TEST_UTILS
-+	tristate
-+	depends on KUNIT
-+	select REGMAP
-+	select FW_CS_DSP
-diff --git a/drivers/firmware/cirrus/Makefile b/drivers/firmware/cirrus/Makefile
-index b91318ca0ff4..b32dfa869491 100644
---- a/drivers/firmware/cirrus/Makefile
-+++ b/drivers/firmware/cirrus/Makefile
-@@ -1,3 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- #
- obj-$(CONFIG_FW_CS_DSP)		+= cs_dsp.o
-+
-+obj-y				+= test/
 diff --git a/drivers/firmware/cirrus/test/Makefile b/drivers/firmware/cirrus/test/Makefile
-new file mode 100644
-index 000000000000..373d8844c085
---- /dev/null
+index 8d4f2eb7e5aa..a67010cb6d66 100644
+--- a/drivers/firmware/cirrus/test/Makefile
 +++ b/drivers/firmware/cirrus/test/Makefile
-@@ -0,0 +1,8 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+
-+cs_dsp_test_utils-objs :=	\
-+		cs_dsp_mock_regmap.o \
-+		cs_dsp_mock_utils.o
-+
-+obj-$(CONFIG_FW_CS_DSP_KUNIT_TEST_UTILS) += cs_dsp_test_utils.o
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c b/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
+@@ -4,6 +4,7 @@
+ cs_dsp_test_utils-objs :=	\
+ 		cs_dsp_mock_mem_maps.o \
+ 		cs_dsp_mock_regmap.o \
+-		cs_dsp_mock_utils.o
++		cs_dsp_mock_utils.o \
++		cs_dsp_mock_wmfw.o
+ 
+ obj-$(CONFIG_FW_CS_DSP_KUNIT_TEST_UTILS) += cs_dsp_test_utils.o
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_wmfw.c b/drivers/firmware/cirrus/test/cs_dsp_mock_wmfw.c
 new file mode 100644
-index 000000000000..fb8e4a5d189a
+index 000000000000..d3d84da239a3
 --- /dev/null
-+++ b/drivers/firmware/cirrus/test/cs_dsp_mock_regmap.c
-@@ -0,0 +1,367 @@
++++ b/drivers/firmware/cirrus/test/cs_dsp_mock_wmfw.c
+@@ -0,0 +1,473 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +//
-+// Mock regmap for cs_dsp KUnit tests.
++// wmfw file builder for cs_dsp KUnit tests.
 +//
 +// Copyright (C) 2024 Cirrus Logic, Inc. and
 +//                    Cirrus Logic International Semiconductor Ltd.
 +
++#include <kunit/resource.h>
 +#include <kunit/test.h>
 +#include <linux/firmware/cirrus/cs_dsp.h>
 +#include <linux/firmware/cirrus/cs_dsp_test_utils.h>
 +#include <linux/firmware/cirrus/wmfw.h>
-+#include <linux/regmap.h>
++#include <linux/firmware.h>
++#include <linux/math.h>
++#include <linux/overflow.h>
++#include <linux/string.h>
++#include <linux/vmalloc.h>
 +
-+static int cs_dsp_mock_regmap_read(void *context, const void *reg_buf,
-+				   const size_t reg_size, void *val_buf,
-+				   size_t val_size)
-+{
-+	struct cs_dsp_test *priv = context;
++/* Buffer large enough for bin file content */
++#define CS_DSP_MOCK_WMFW_BUF_SIZE	131072
 +
-+	/* Should never get here because the regmap is cache-only */
-+	KUNIT_FAIL(priv->test, "Unexpected bus read @%#x", *(u32 *)reg_buf);
++struct cs_dsp_mock_wmfw_builder {
++	struct cs_dsp_test *test_priv;
++	int format_version;
++	void *buf;
++	size_t buf_size_bytes;
++	void *write_p;
++	size_t bytes_used;
 +
-+	return -EIO;
-+}
-+
-+static int cs_dsp_mock_regmap_gather_write(void *context,
-+					   const void *reg_buf, size_t reg_size,
-+					   const void *val_buf, size_t val_size)
-+{
-+	struct cs_dsp_test *priv = context;
-+
-+	priv->saw_bus_write = true;
-+
-+	/* Should never get here because the regmap is cache-only */
-+	KUNIT_FAIL(priv->test, "Unexpected bus gather_write @%#x", *(u32 *)reg_buf);
-+
-+	return -EIO;
-+}
-+
-+static int cs_dsp_mock_regmap_write(void *context, const void *val_buf, size_t val_size)
-+{
-+	struct cs_dsp_test *priv = context;
-+
-+	priv->saw_bus_write = true;
-+
-+	/* Should never get here because the regmap is cache-only */
-+	KUNIT_FAIL(priv->test, "Unexpected bus write @%#x", *(u32 *)val_buf);
-+
-+	return -EIO;
-+}
-+
-+static const struct regmap_bus cs_dsp_mock_regmap_bus = {
-+	.read = cs_dsp_mock_regmap_read,
-+	.write = cs_dsp_mock_regmap_write,
-+	.gather_write = cs_dsp_mock_regmap_gather_write,
-+	.reg_format_endian_default = REGMAP_ENDIAN_LITTLE,
-+	.val_format_endian_default = REGMAP_ENDIAN_LITTLE,
++	void *alg_data_header;
++	unsigned int num_coeffs;
 +};
 +
-+static const struct reg_default adsp2_32bit_register_defaults[] = {
-+	{ 0xffe00, 0x0000 }, /* CONTROL */
-+	{ 0xffe02, 0x0000 }, /* CLOCKING */
-+	{ 0xffe04, 0x0001 }, /* STATUS1: RAM_RDY=1 */
-+	{ 0xffe30, 0x0000 }, /* WDMW_CONFIG_1 */
-+	{ 0xffe32, 0x0000 }, /* WDMA_CONFIG_2 */
-+	{ 0xffe34, 0x0000 }, /* RDMA_CONFIG_1 */
-+	{ 0xffe40, 0x0000 }, /* SCRATCH_0_1 */
-+	{ 0xffe42, 0x0000 }, /* SCRATCH_2_3 */
-+};
++struct wmfw_adsp2_halo_header {
++	struct wmfw_header header;
++	struct wmfw_adsp2_sizes sizes;
++	struct wmfw_footer footer;
++} __packed;
 +
-+static const struct regmap_range adsp2_32bit_registers[] = {
-+	regmap_reg_range(0x80000, 0x88ffe), /* PM */
-+	regmap_reg_range(0xa0000, 0xa9ffe), /* XM */
-+	regmap_reg_range(0xc0000, 0xc1ffe), /* YM */
-+	regmap_reg_range(0xe0000, 0xe1ffe), /* ZM */
-+	regmap_reg_range(0xffe00, 0xffe7c), /* CORE CTRL */
-+};
++struct wmfw_long_string {
++	__le16 len;
++	u8 data[] __nonstring __counted_by(len);
++} __packed;
 +
-+const unsigned int cs_dsp_mock_adsp2_32bit_sysbase = 0xffe00;
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_adsp2_32bit_sysbase, "FW_CS_DSP_KUNIT_TEST_UTILS");
++struct wmfw_short_string {
++	u8 len;
++	u8 data[] __nonstring __counted_by(len);
++} __packed;
 +
-+static const struct regmap_access_table adsp2_32bit_rw = {
-+	.yes_ranges = adsp2_32bit_registers,
-+	.n_yes_ranges = ARRAY_SIZE(adsp2_32bit_registers),
-+};
-+
-+static const struct regmap_config cs_dsp_mock_regmap_adsp2_32bit = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 2,
-+	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+	.wr_table = &adsp2_32bit_rw,
-+	.rd_table = &adsp2_32bit_rw,
-+	.max_register = 0xffe7c,
-+	.reg_defaults = adsp2_32bit_register_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(adsp2_32bit_register_defaults),
-+	.cache_type = REGCACHE_MAPLE,
-+};
-+
-+static const struct reg_default adsp2_16bit_register_defaults[] = {
-+	{ 0x1100, 0x0000 }, /* CONTROL */
-+	{ 0x1101, 0x0000 }, /* CLOCKING */
-+	{ 0x1104, 0x0001 }, /* STATUS1: RAM_RDY=1 */
-+	{ 0x1130, 0x0000 }, /* WDMW_CONFIG_1 */
-+	{ 0x1131, 0x0000 }, /* WDMA_CONFIG_2 */
-+	{ 0x1134, 0x0000 }, /* RDMA_CONFIG_1 */
-+	{ 0x1140, 0x0000 }, /* SCRATCH_0 */
-+	{ 0x1141, 0x0000 }, /* SCRATCH_1 */
-+	{ 0x1142, 0x0000 }, /* SCRATCH_2 */
-+	{ 0x1143, 0x0000 }, /* SCRATCH_3 */
-+};
-+
-+static const struct regmap_range adsp2_16bit_registers[] = {
-+	regmap_reg_range(0x001100, 0x001143), /* CORE CTRL */
-+	regmap_reg_range(0x100000, 0x105fff), /* PM */
-+	regmap_reg_range(0x180000, 0x1807ff), /* ZM */
-+	regmap_reg_range(0x190000, 0x1947ff), /* XM */
-+	regmap_reg_range(0x1a8000, 0x1a97ff), /* YM */
-+};
-+
-+const unsigned int cs_dsp_mock_adsp2_16bit_sysbase = 0x001100;
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_adsp2_16bit_sysbase, "FW_CS_DSP_KUNIT_TEST_UTILS");
-+
-+static const struct regmap_access_table adsp2_16bit_rw = {
-+	.yes_ranges = adsp2_16bit_registers,
-+	.n_yes_ranges = ARRAY_SIZE(adsp2_16bit_registers),
-+};
-+
-+static const struct regmap_config cs_dsp_mock_regmap_adsp2_16bit = {
-+	.reg_bits = 32,
-+	.val_bits = 16,
-+	.reg_stride = 1,
-+	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+	.wr_table = &adsp2_16bit_rw,
-+	.rd_table = &adsp2_16bit_rw,
-+	.max_register = 0x1a97ff,
-+	.reg_defaults = adsp2_16bit_register_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(adsp2_16bit_register_defaults),
-+	.cache_type = REGCACHE_MAPLE,
-+};
-+
-+static const struct reg_default halo_register_defaults[] = {
-+	/* CORE */
-+	{ 0x2b80010, 0 },	/* HALO_CORE_SOFT_RESET */
-+	{ 0x2b805c0, 0 },	/* HALO_SCRATCH1 */
-+	{ 0x2b805c8, 0 },	/* HALO_SCRATCH2 */
-+	{ 0x2b805d0, 0 },	/* HALO_SCRATCH3 */
-+	{ 0x2b805c8, 0 },	/* HALO_SCRATCH4 */
-+	{ 0x2bc1000, 0 },	/* HALO_CCM_CORE_CONTROL */
-+	{ 0x2bc7000, 0 },	/* HALO_WDT_CONTROL */
-+
-+	/* SYSINFO */
-+	{ 0x25e2040, 0 },	/* HALO_AHBM_WINDOW_DEBUG_0 */
-+	{ 0x25e2044, 0 },	/* HALO_AHBM_WINDOW_DEBUG_1 */
-+};
-+
-+static const struct regmap_range halo_readable_registers[] = {
-+	regmap_reg_range(0x2000000, 0x2005fff), /* XM_PACKED */
-+	regmap_reg_range(0x25e0000, 0x25e004f), /* SYSINFO */
-+	regmap_reg_range(0x25e2000, 0x25e2047), /* SYSINFO */
-+	regmap_reg_range(0x2800000, 0x2807fff), /* XM */
-+	regmap_reg_range(0x2b80000, 0x2bc700b), /* CORE CTRL */
-+	regmap_reg_range(0x2c00000, 0x2c047f3), /* YM_PACKED */
-+	regmap_reg_range(0x3400000, 0x3405ff7), /* YM */
-+	regmap_reg_range(0x3800000, 0x3804fff), /* PM_PACKED */
-+};
-+
-+static const struct regmap_range halo_writeable_registers[] = {
-+	regmap_reg_range(0x2000000, 0x2005fff), /* XM_PACKED */
-+	regmap_reg_range(0x2800000, 0x2807fff), /* XM */
-+	regmap_reg_range(0x2b80000, 0x2bc700b), /* CORE CTRL */
-+	regmap_reg_range(0x2c00000, 0x2c047f3), /* YM_PACKED */
-+	regmap_reg_range(0x3400000, 0x3405ff7), /* YM */
-+	regmap_reg_range(0x3800000, 0x3804fff), /* PM_PACKED */
-+};
-+
-+const unsigned int cs_dsp_mock_halo_core_base = 0x2b80000;
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_halo_core_base, "FW_CS_DSP_KUNIT_TEST_UTILS");
-+
-+const unsigned int cs_dsp_mock_halo_sysinfo_base = 0x25e0000;
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_halo_sysinfo_base, "FW_CS_DSP_KUNIT_TEST_UTILS");
-+
-+static const struct regmap_access_table halo_readable = {
-+	.yes_ranges = halo_readable_registers,
-+	.n_yes_ranges = ARRAY_SIZE(halo_readable_registers),
-+};
-+
-+static const struct regmap_access_table halo_writeable = {
-+	.yes_ranges = halo_writeable_registers,
-+	.n_yes_ranges = ARRAY_SIZE(halo_writeable_registers),
-+};
-+
-+static const struct regmap_config cs_dsp_mock_regmap_halo = {
-+	.reg_bits = 32,
-+	.val_bits = 32,
-+	.reg_stride = 4,
-+	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+	.wr_table = &halo_writeable,
-+	.rd_table = &halo_readable,
-+	.max_register = 0x3804ffc,
-+	.reg_defaults = halo_register_defaults,
-+	.num_reg_defaults = ARRAY_SIZE(halo_register_defaults),
-+	.cache_type = REGCACHE_MAPLE,
-+};
++KUNIT_DEFINE_ACTION_WRAPPER(vfree_action_wrapper, vfree, void *)
 +
 +/**
-+ * cs_dsp_mock_regmap_drop_range() - drop a range of registers from the cache.
++ * cs_dsp_mock_wmfw_format_version() - Return format version.
 + *
-+ * @priv:	Pointer to struct cs_dsp_test object.
-+ * @first_reg:	Address of first register to drop.
-+ * @last_reg:	Address of last register to drop.
++ * @builder:	Pointer to struct cs_dsp_mock_wmfw_builder.
++ *
++ * Return: Format version.
 + */
-+void cs_dsp_mock_regmap_drop_range(struct cs_dsp_test *priv,
-+				   unsigned int first_reg, unsigned int last_reg)
++int cs_dsp_mock_wmfw_format_version(struct cs_dsp_mock_wmfw_builder *builder)
 +{
-+	regcache_drop_region(priv->dsp->regmap, first_reg, last_reg);
++	return builder->format_version;
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_drop_range, "FW_CS_DSP_KUNIT_TEST_UTILS");
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_format_version, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
 +/**
-+ * cs_dsp_mock_regmap_drop_regs() - drop a number of registers from the cache.
++ * cs_dsp_mock_wmfw_get_firmware() - Get struct firmware wrapper for data.
 + *
-+ * @priv:	Pointer to struct cs_dsp_test object.
-+ * @first_reg:	Address of first register to drop.
-+ * @num_regs:	Number of registers to drop.
++ * @builder:	Pointer to struct cs_dsp_mock_wmfw_builder.
++ *
++ * Return: Pointer to a struct firmware wrapper for the data.
 + */
-+void cs_dsp_mock_regmap_drop_regs(struct cs_dsp_test *priv,
-+				  unsigned int first_reg, size_t num_regs)
++struct firmware *cs_dsp_mock_wmfw_get_firmware(struct cs_dsp_mock_wmfw_builder *builder)
 +{
-+	int stride = regmap_get_reg_stride(priv->dsp->regmap);
-+	unsigned int last = first_reg + (stride * (num_regs - 1));
++	struct firmware *fw;
 +
-+	cs_dsp_mock_regmap_drop_range(priv, first_reg, last);
++	if (!builder)
++		return NULL;
++
++	fw = kunit_kzalloc(builder->test_priv->test, sizeof(*fw), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(builder->test_priv->test, fw);
++
++	fw->data = builder->buf;
++	fw->size = builder->bytes_used;
++
++	return fw;
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_drop_regs, "FW_CS_DSP_KUNIT_TEST_UTILS");
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_get_firmware, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
 +/**
-+ * cs_dsp_mock_regmap_drop_bytes() - drop a number of bytes from the cache.
++ * cs_dsp_mock_wmfw_add_raw_block() - Add a block to the wmfw file.
 + *
-+ * @priv:	Pointer to struct cs_dsp_test object.
-+ * @first_reg:	Address of first register to drop.
-+ * @num_bytes:	Number of bytes to drop from the cache. Will be rounded
-+ *		down to a whole number of registers. Trailing bytes that
-+ *		are not a multiple of the register size will not be dropped.
-+ *		(This is intended to help detect math errors in test code.)
++ * @builder:		Pointer to struct cs_dsp_mock_bin_builder.
++ * @block_type:		Block type.
++ * @offset:		Offset.
++ * @payload_data:	Pointer to buffer containing the payload data,
++ *			or NULL if no data.
++ * @payload_len_bytes:	Length of payload data in bytes, or zero.
 + */
-+void cs_dsp_mock_regmap_drop_bytes(struct cs_dsp_test *priv,
-+				   unsigned int first_reg, size_t num_bytes)
++void cs_dsp_mock_wmfw_add_raw_block(struct cs_dsp_mock_wmfw_builder *builder,
++				    int block_type, unsigned int offset,
++				    const void *payload_data, size_t payload_len_bytes)
 +{
-+	size_t num_regs = num_bytes / regmap_get_val_bytes(priv->dsp->regmap);
++	struct wmfw_region *header = builder->write_p;
++	unsigned int bytes_needed = struct_size_t(struct wmfw_region, data, payload_len_bytes);
 +
-+	cs_dsp_mock_regmap_drop_regs(priv, first_reg, num_regs);
++	KUNIT_ASSERT_TRUE(builder->test_priv->test,
++			  (builder->write_p + bytes_needed) <
++			  (builder->buf + CS_DSP_MOCK_WMFW_BUF_SIZE));
++
++	header->offset = cpu_to_le32(offset | (block_type << 24));
++	header->len = cpu_to_le32(payload_len_bytes);
++	if (payload_len_bytes > 0)
++		memcpy(header->data, payload_data, payload_len_bytes);
++
++	builder->write_p += bytes_needed;
++	builder->bytes_used += bytes_needed;
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_drop_bytes, "FW_CS_DSP_KUNIT_TEST_UTILS");
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_add_raw_block, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
 +/**
-+ * cs_dsp_mock_regmap_drop_system_regs() - Drop DSP system registers from the cache.
++ * cs_dsp_mock_wmfw_add_info() - Add an info block to the wmfw file.
 + *
-+ * @priv:	Pointer to struct cs_dsp_test object.
++ * @builder:	Pointer to struct cs_dsp_mock_bin_builder.
++ * @info:	Pointer to info string to be copied into the file.
 + *
-+ * Drops all DSP system registers from the regmap cache.
++ * The string will be padded to a length that is a multiple of 4 bytes.
 + */
-+void cs_dsp_mock_regmap_drop_system_regs(struct cs_dsp_test *priv)
++void cs_dsp_mock_wmfw_add_info(struct cs_dsp_mock_wmfw_builder *builder,
++			       const char *info)
 +{
-+	switch (priv->dsp->type) {
-+	case WMFW_ADSP2:
-+		if (priv->dsp->base) {
-+			regcache_drop_region(priv->dsp->regmap,
-+					     priv->dsp->base,
-+					     priv->dsp->base + 0x7c);
-+		}
-+		return;
-+	case WMFW_HALO:
-+		if (priv->dsp->base) {
-+			regcache_drop_region(priv->dsp->regmap,
-+					     priv->dsp->base,
-+					     priv->dsp->base + 0x47000);
-+		}
++	size_t info_len = strlen(info);
++	char *tmp = NULL;
 +
-+		/* sysinfo registers are read-only so don't drop them */
-+		return;
-+	default:
-+		return;
++	if (info_len % 4) {
++		/* Create a padded string with length a multiple of 4 */
++		info_len = round_up(info_len, 4);
++		tmp = kunit_kzalloc(builder->test_priv->test, info_len, GFP_KERNEL);
++		KUNIT_ASSERT_NOT_ERR_OR_NULL(builder->test_priv->test, tmp);
++		memcpy(tmp, info, info_len);
++		info = tmp;
 +	}
++
++	cs_dsp_mock_wmfw_add_raw_block(builder, WMFW_INFO_TEXT, 0, info, info_len);
++	kunit_kfree(builder->test_priv->test, tmp);
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_drop_system_regs, "FW_CS_DSP_KUNIT_TEST_UTILS");
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_add_info, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
 +/**
-+ * cs_dsp_mock_regmap_is_dirty() - Test for dirty registers in the cache.
++ * cs_dsp_mock_wmfw_add_data_block() - Add a data block to the wmfw file.
 + *
-+ * @priv:		Pointer to struct cs_dsp_test object.
-+ * @drop_system_regs:	If true the DSP system regs will be dropped from
-+ *			the cache before checking for dirty.
-+ *
-+ * All registers that are expected to be written must have been dropped
-+ * from the cache (DSP system registers can be dropped by passing
-+ * drop_system_regs == true). If any unexpected registers were written
-+ * there will still be dirty entries in the cache and a cache sync will
-+ * cause a write.
-+ *
-+ * Returns: true if there were dirty entries, false if not.
++ * @builder:		  Pointer to struct cs_dsp_mock_bin_builder.
++ * @mem_region:		  Memory region for the block.
++ * @mem_offset_dsp_words: Offset to start of destination in DSP words.
++ * @payload_data:	  Pointer to buffer containing the payload data.
++ * @payload_len_bytes:	  Length of payload data in bytes.
 + */
-+bool cs_dsp_mock_regmap_is_dirty(struct cs_dsp_test *priv, bool drop_system_regs)
++void cs_dsp_mock_wmfw_add_data_block(struct cs_dsp_mock_wmfw_builder *builder,
++				     int mem_region, unsigned int mem_offset_dsp_words,
++				     const void *payload_data, size_t payload_len_bytes)
 +{
-+	if (drop_system_regs)
-+		cs_dsp_mock_regmap_drop_system_regs(priv);
++	/* Blob payload length must be a multiple of 4 */
++	KUNIT_ASSERT_EQ(builder->test_priv->test, payload_len_bytes % 4, 0);
 +
-+	priv->saw_bus_write = false;
-+	regcache_cache_only(priv->dsp->regmap, false);
-+	regcache_sync(priv->dsp->regmap);
-+	regcache_cache_only(priv->dsp->regmap, true);
-+
-+	return priv->saw_bus_write;
++	cs_dsp_mock_wmfw_add_raw_block(builder, mem_region, mem_offset_dsp_words,
++				       payload_data, payload_len_bytes);
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_is_dirty, "FW_CS_DSP_KUNIT_TEST_UTILS");
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_add_data_block, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
-+/**
-+ * cs_dsp_mock_regmap_init() - Initialize a mock regmap.
-+ *
-+ * @priv:	Pointer to struct cs_dsp_test object. This must have a
-+ *		valid pointer to a struct cs_dsp in which the type and
-+ *		rev fields are set to the type of DSP to be simulated.
-+ *
-+ * On success the priv->dsp->regmap will point to the created
-+ * regmap instance.
-+ *
-+ * Return: zero on success, else negative error code.
-+ */
-+int cs_dsp_mock_regmap_init(struct cs_dsp_test *priv)
++void cs_dsp_mock_wmfw_start_alg_info_block(struct cs_dsp_mock_wmfw_builder *builder,
++					   unsigned int alg_id,
++					   const char *name,
++					   const char *description)
 +{
-+	const struct regmap_config *config;
-+	int ret;
++	struct wmfw_region *rgn = builder->write_p;
++	struct wmfw_adsp_alg_data *v1;
++	struct wmfw_short_string *shortstring;
++	struct wmfw_long_string *longstring;
++	size_t bytes_needed, name_len, description_len;
++	int offset;
 +
-+	switch (priv->dsp->type) {
-+	case WMFW_HALO:
-+		config = &cs_dsp_mock_regmap_halo;
-+		break;
-+	case WMFW_ADSP2:
-+		if (priv->dsp->rev == 0)
-+			config = &cs_dsp_mock_regmap_adsp2_16bit;
-+		else
-+			config = &cs_dsp_mock_regmap_adsp2_32bit;
++	/* Bytes needed for region header */
++	bytes_needed = offsetof(struct wmfw_region, data);
++
++	builder->alg_data_header = builder->write_p;
++	builder->num_coeffs = 0;
++
++	switch (builder->format_version) {
++	case 0:
++		KUNIT_FAIL(builder->test_priv->test, "wmfwV0 does not have alg blocks\n");
++		return;
++	case 1:
++		bytes_needed += offsetof(struct wmfw_adsp_alg_data, data);
++		KUNIT_ASSERT_TRUE(builder->test_priv->test,
++				  (builder->write_p + bytes_needed) <
++				  (builder->buf + CS_DSP_MOCK_WMFW_BUF_SIZE));
++
++		memset(builder->write_p, 0, bytes_needed);
++
++		/* Create region header */
++		rgn->offset = cpu_to_le32(WMFW_ALGORITHM_DATA << 24);
++
++		/* Create algorithm entry */
++		v1 = (struct wmfw_adsp_alg_data *)&rgn->data[0];
++		v1->id = cpu_to_le32(alg_id);
++		if (name)
++			strscpy(v1->name, name, sizeof(v1->name));
++
++		if (description)
++			strscpy(v1->descr, description, sizeof(v1->descr));
 +		break;
 +	default:
-+		config = NULL;
++		name_len = 0;
++		description_len = 0;
++
++		if (name)
++			name_len = strlen(name);
++
++		if (description)
++			description_len = strlen(description);
++
++		bytes_needed += sizeof(__le32); /* alg id */
++		bytes_needed += round_up(name_len + sizeof(u8), sizeof(__le32));
++		bytes_needed += round_up(description_len + sizeof(__le16), sizeof(__le32));
++		bytes_needed += sizeof(__le32); /* coeff count */
++
++		KUNIT_ASSERT_TRUE(builder->test_priv->test,
++				  (builder->write_p + bytes_needed) <
++				  (builder->buf + CS_DSP_MOCK_WMFW_BUF_SIZE));
++
++		memset(builder->write_p, 0, bytes_needed);
++
++		/* Create region header */
++		rgn->offset = cpu_to_le32(WMFW_ALGORITHM_DATA << 24);
++
++		/* Create algorithm entry */
++		*(__force __le32 *)&rgn->data[0] = cpu_to_le32(alg_id);
++
++		shortstring = (struct wmfw_short_string *)&rgn->data[4];
++		shortstring->len = name_len;
++
++		if (name_len)
++			memcpy(shortstring->data, name, name_len);
++
++		/* Round up to next __le32 */
++		offset = round_up(4 + struct_size_t(struct wmfw_short_string, data, name_len),
++				  sizeof(__le32));
++
++		longstring = (struct wmfw_long_string *)&rgn->data[offset];
++		longstring->len = cpu_to_le16(description_len);
++
++		if (description_len)
++			memcpy(longstring->data, description, description_len);
 +		break;
 +	}
 +
-+	priv->dsp->regmap = devm_regmap_init(priv->dsp->dev,
-+					     &cs_dsp_mock_regmap_bus,
-+					     priv,
-+					     config);
-+	if (IS_ERR(priv->dsp->regmap)) {
-+		ret = PTR_ERR(priv->dsp->regmap);
-+		kunit_err(priv->test, "Failed to allocate register map: %d\n", ret);
-+		return ret;
++	builder->write_p += bytes_needed;
++	builder->bytes_used += bytes_needed;
++}
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_start_alg_info_block, "FW_CS_DSP_KUNIT_TEST_UTILS");
++
++void cs_dsp_mock_wmfw_add_coeff_desc(struct cs_dsp_mock_wmfw_builder *builder,
++				     const struct cs_dsp_mock_coeff_def *def)
++{
++	struct wmfw_adsp_coeff_data *v1;
++	struct wmfw_short_string *shortstring;
++	struct wmfw_long_string *longstring;
++	size_t bytes_needed, shortname_len, fullname_len, description_len;
++	__le32 *ple32;
++
++	KUNIT_ASSERT_NOT_NULL(builder->test_priv->test, builder->alg_data_header);
++
++	switch (builder->format_version) {
++	case 0:
++		return;
++	case 1:
++		bytes_needed = offsetof(struct wmfw_adsp_coeff_data, data);
++		KUNIT_ASSERT_TRUE(builder->test_priv->test,
++				  (builder->write_p + bytes_needed) <
++				  (builder->buf + CS_DSP_MOCK_WMFW_BUF_SIZE));
++
++		v1 = (struct wmfw_adsp_coeff_data *)builder->write_p;
++		memset(v1, 0, sizeof(*v1));
++		v1->hdr.offset = cpu_to_le16(def->offset_dsp_words);
++		v1->hdr.type = cpu_to_le16(def->mem_type);
++		v1->hdr.size = cpu_to_le32(bytes_needed - sizeof(v1->hdr));
++		v1->ctl_type = cpu_to_le16(def->type);
++		v1->flags = cpu_to_le16(def->flags);
++		v1->len = cpu_to_le32(def->length_bytes);
++
++		if (def->fullname)
++			strscpy(v1->name, def->fullname, sizeof(v1->name));
++
++		if (def->description)
++			strscpy(v1->descr, def->description, sizeof(v1->descr));
++		break;
++	default:
++		fullname_len = 0;
++		description_len = 0;
++		shortname_len = strlen(def->shortname);
++
++		if (def->fullname)
++			fullname_len = strlen(def->fullname);
++
++		if (def->description)
++			description_len = strlen(def->description);
++
++		bytes_needed = sizeof(__le32) * 2; /* type, offset and size */
++		bytes_needed += round_up(shortname_len + sizeof(u8), sizeof(__le32));
++		bytes_needed += round_up(fullname_len + sizeof(u8), sizeof(__le32));
++		bytes_needed += round_up(description_len + sizeof(__le16), sizeof(__le32));
++		bytes_needed += sizeof(__le32) * 2; /* flags, type and length */
++		KUNIT_ASSERT_TRUE(builder->test_priv->test,
++				  (builder->write_p + bytes_needed) <
++				  (builder->buf + CS_DSP_MOCK_WMFW_BUF_SIZE));
++
++		ple32 = (__force __le32 *)builder->write_p;
++		*ple32++ = cpu_to_le32(def->offset_dsp_words | (def->mem_type << 16));
++		*ple32++ = cpu_to_le32(bytes_needed - sizeof(__le32) - sizeof(__le32));
++
++		shortstring = (__force struct wmfw_short_string *)ple32;
++		shortstring->len = shortname_len;
++		memcpy(shortstring->data, def->shortname, shortname_len);
++
++		/* Round up to next __le32 multiple */
++		ple32 += round_up(struct_size_t(struct wmfw_short_string, data, shortname_len),
++				  sizeof(*ple32)) / sizeof(*ple32);
++
++		shortstring = (__force struct wmfw_short_string *)ple32;
++		shortstring->len = fullname_len;
++		memcpy(shortstring->data, def->fullname, fullname_len);
++
++		/* Round up to next __le32 multiple */
++		ple32 += round_up(struct_size_t(struct wmfw_short_string, data, fullname_len),
++				  sizeof(*ple32)) / sizeof(*ple32);
++
++		longstring = (__force struct wmfw_long_string *)ple32;
++		longstring->len = description_len;
++		memcpy(longstring->data, def->description, description_len);
++
++		/* Round up to next __le32 multiple */
++		ple32 += round_up(struct_size_t(struct wmfw_long_string, data, description_len),
++				  sizeof(*ple32)) / sizeof(*ple32);
++
++		*ple32++ = cpu_to_le32(def->type | (def->flags << 16));
++		*ple32 = cpu_to_le32(def->length_bytes);
++		break;
 +	}
 +
-+	/* Put regmap in cache-only so it accumulates the writes done by cs_dsp */
-+	regcache_cache_only(priv->dsp->regmap, true);
-+
-+	return 0;
++	builder->write_p += bytes_needed;
++	builder->bytes_used += bytes_needed;
++	builder->num_coeffs++;
 +}
-+EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_regmap_init, "FW_CS_DSP_KUNIT_TEST_UTILS");
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_utils.c b/drivers/firmware/cirrus/test/cs_dsp_mock_utils.c
-new file mode 100644
-index 000000000000..cbd0bf72b7de
---- /dev/null
-+++ b/drivers/firmware/cirrus/test/cs_dsp_mock_utils.c
-@@ -0,0 +1,13 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// Utility module for cs_dsp KUnit testing.
-+//
-+// Copyright (C) 2024 Cirrus Logic, Inc. and
-+//                    Cirrus Logic International Semiconductor Ltd.
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_add_coeff_desc, "FW_CS_DSP_KUNIT_TEST_UTILS");
 +
-+#include <linux/module.h>
++void cs_dsp_mock_wmfw_end_alg_info_block(struct cs_dsp_mock_wmfw_builder *builder)
++{
++	struct wmfw_region *rgn = builder->alg_data_header;
++	struct wmfw_adsp_alg_data *v1;
++	const struct wmfw_short_string *shortstring;
++	const struct wmfw_long_string *longstring;
++	size_t offset;
 +
-+MODULE_DESCRIPTION("Utilities for Cirrus Logic DSP driver testing");
-+MODULE_AUTHOR("Richard Fitzgerald <rf@opensource.cirrus.com>");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("FW_CS_DSP");
++	KUNIT_ASSERT_NOT_NULL(builder->test_priv->test, rgn);
++
++	/* Fill in data size */
++	rgn->len = cpu_to_le32((u8 *)builder->write_p - (u8 *)rgn->data);
++
++	/* Fill in coefficient count */
++	switch (builder->format_version) {
++	case 0:
++		return;
++	case 1:
++		v1 = (struct wmfw_adsp_alg_data *)&rgn->data[0];
++		v1->ncoeff = cpu_to_le32(builder->num_coeffs);
++		break;
++	default:
++		offset = 4; /* skip alg id */
++
++		/* Get name length and round up to __le32 multiple */
++		shortstring = (const struct wmfw_short_string *)&rgn->data[offset];
++		offset += round_up(struct_size_t(struct wmfw_short_string, data, shortstring->len),
++				   sizeof(__le32));
++
++		/* Get description length and round up to __le32 multiple */
++		longstring = (const struct wmfw_long_string *)&rgn->data[offset];
++		offset += round_up(struct_size_t(struct wmfw_long_string, data,
++				   le16_to_cpu(longstring->len)),
++				   sizeof(__le32));
++
++		*(__force __le32 *)&rgn->data[offset] = cpu_to_le32(builder->num_coeffs);
++		break;
++	}
++
++	builder->alg_data_header = NULL;
++}
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_end_alg_info_block, "FW_CS_DSP_KUNIT_TEST_UTILS");
++
++static void cs_dsp_init_adsp2_halo_wmfw(struct cs_dsp_mock_wmfw_builder *builder)
++{
++	struct wmfw_adsp2_halo_header *hdr = builder->buf;
++	const struct cs_dsp *dsp = builder->test_priv->dsp;
++
++	memcpy(hdr->header.magic, "WMFW", sizeof(hdr->header.magic));
++	hdr->header.len = cpu_to_le32(sizeof(*hdr));
++	hdr->header.ver = builder->format_version;
++	hdr->header.core = dsp->type;
++	hdr->header.rev = cpu_to_le16(dsp->rev);
++
++	hdr->sizes.pm = cpu_to_le32(cs_dsp_mock_size_of_region(dsp, WMFW_ADSP2_PM));
++	hdr->sizes.xm = cpu_to_le32(cs_dsp_mock_size_of_region(dsp, WMFW_ADSP2_XM));
++	hdr->sizes.ym = cpu_to_le32(cs_dsp_mock_size_of_region(dsp, WMFW_ADSP2_YM));
++
++	switch (dsp->type) {
++	case WMFW_ADSP2:
++		hdr->sizes.zm = cpu_to_le32(cs_dsp_mock_size_of_region(dsp, WMFW_ADSP2_ZM));
++		break;
++	default:
++		break;
++	}
++
++	builder->write_p = &hdr[1];
++	builder->bytes_used += sizeof(*hdr);
++}
++
++/**
++ * cs_dsp_mock_wmfw_init() - Initialize a struct cs_dsp_mock_wmfw_builder.
++ *
++ * @priv:		Pointer to struct cs_dsp_test.
++ * @format_version:	Required wmfw format version.
++ *
++ * Return: Pointer to created struct cs_dsp_mock_wmfw_builder.
++ */
++struct cs_dsp_mock_wmfw_builder *cs_dsp_mock_wmfw_init(struct cs_dsp_test *priv,
++						       int format_version)
++{
++	struct cs_dsp_mock_wmfw_builder *builder;
++
++	/* If format version isn't given use the default for the target core */
++	if (format_version < 0) {
++		switch (priv->dsp->type) {
++		case WMFW_ADSP2:
++			format_version = 2;
++			break;
++		default:
++			format_version = 3;
++			break;
++		}
++	}
++
++	builder = kunit_kzalloc(priv->test, sizeof(*builder), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(priv->test, builder);
++
++	builder->test_priv = priv;
++	builder->format_version = format_version;
++
++	builder->buf = vmalloc(CS_DSP_MOCK_WMFW_BUF_SIZE);
++	KUNIT_ASSERT_NOT_NULL(priv->test, builder->buf);
++	kunit_add_action_or_reset(priv->test, vfree_action_wrapper, builder->buf);
++
++	builder->buf_size_bytes = CS_DSP_MOCK_WMFW_BUF_SIZE;
++
++	switch (priv->dsp->type) {
++	case WMFW_ADSP2:
++	case WMFW_HALO:
++		cs_dsp_init_adsp2_halo_wmfw(builder);
++		break;
++	default:
++		break;
++	}
++
++	return builder;
++}
++EXPORT_SYMBOL_NS_GPL(cs_dsp_mock_wmfw_init, "FW_CS_DSP_KUNIT_TEST_UTILS");
 diff --git a/include/linux/firmware/cirrus/cs_dsp_test_utils.h b/include/linux/firmware/cirrus/cs_dsp_test_utils.h
-new file mode 100644
-index 000000000000..ac6b03f4c084
---- /dev/null
+index 899ae94198aa..fde7e95a33e9 100644
+--- a/include/linux/firmware/cirrus/cs_dsp_test_utils.h
 +++ b/include/linux/firmware/cirrus/cs_dsp_test_utils.h
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Support utilities for cs_dsp testing.
-+ *
-+ * Copyright (C) 2024 Cirrus Logic, Inc. and
-+ *                    Cirrus Logic International Semiconductor Ltd.
-+ */
-+
-+#include <linux/regmap.h>
-+#include <linux/firmware/cirrus/wmfw.h>
-+
-+struct kunit;
-+struct cs_dsp_test;
-+struct cs_dsp_test_local;
-+
-+/**
-+ * struct cs_dsp_test - base class for test utilities
-+ *
-+ * @test:	Pointer to struct kunit instance.
-+ * @dsp:	Pointer to struct cs_dsp instance.
-+ * @local:	Private data for each test suite.
-+ */
-+struct cs_dsp_test {
-+	struct kunit *test;
-+	struct cs_dsp *dsp;
-+
-+	struct cs_dsp_test_local *local;
-+
-+	/* Following members are private */
-+	bool saw_bus_write;
+@@ -53,6 +53,17 @@ struct cs_dsp_mock_alg_def {
+ 	unsigned int zm_size_words;
+ };
+ 
++struct cs_dsp_mock_coeff_def {
++	const char *shortname;
++	const char *fullname;
++	const char *description;
++	u16 type;
++	u16 flags;
++	u16 mem_type;
++	unsigned int offset_dsp_words;
++	unsigned int length_bytes;
 +};
 +
-+extern const unsigned int cs_dsp_mock_adsp2_32bit_sysbase;
-+extern const unsigned int cs_dsp_mock_adsp2_16bit_sysbase;
-+extern const unsigned int cs_dsp_mock_halo_core_base;
-+extern const unsigned int cs_dsp_mock_halo_sysinfo_base;
+ /**
+  * struct cs_dsp_mock_xm_header - XM header builder
+  *
+@@ -66,6 +77,8 @@ struct cs_dsp_mock_xm_header {
+ 	size_t blob_size_bytes;
+ };
+ 
++struct cs_dsp_mock_wmfw_builder;
 +
-+int cs_dsp_mock_regmap_init(struct cs_dsp_test *priv);
-+void cs_dsp_mock_regmap_drop_range(struct cs_dsp_test *priv,
-+				   unsigned int first_reg, unsigned int last_reg);
-+void cs_dsp_mock_regmap_drop_regs(struct cs_dsp_test *priv,
-+				  unsigned int first_reg, size_t num_regs);
-+void cs_dsp_mock_regmap_drop_bytes(struct cs_dsp_test *priv,
-+				   unsigned int first_reg, size_t num_bytes);
-+void cs_dsp_mock_regmap_drop_system_regs(struct cs_dsp_test *priv);
-+bool cs_dsp_mock_regmap_is_dirty(struct cs_dsp_test *priv, bool drop_system_regs);
+ extern const unsigned int cs_dsp_mock_adsp2_32bit_sysbase;
+ extern const unsigned int cs_dsp_mock_adsp2_16bit_sysbase;
+ extern const unsigned int cs_dsp_mock_halo_core_base;
+@@ -107,3 +120,23 @@ void cs_dsp_mock_regmap_drop_bytes(struct cs_dsp_test *priv,
+ 				   unsigned int first_reg, size_t num_bytes);
+ void cs_dsp_mock_regmap_drop_system_regs(struct cs_dsp_test *priv);
+ bool cs_dsp_mock_regmap_is_dirty(struct cs_dsp_test *priv, bool drop_system_regs);
++
++struct cs_dsp_mock_wmfw_builder *cs_dsp_mock_wmfw_init(struct cs_dsp_test *priv,
++						       int format_version);
++void cs_dsp_mock_wmfw_add_raw_block(struct cs_dsp_mock_wmfw_builder *builder,
++				    int mem_region, unsigned int mem_offset_dsp_words,
++				    const void *payload_data, size_t payload_len_bytes);
++void cs_dsp_mock_wmfw_add_info(struct cs_dsp_mock_wmfw_builder *builder,
++			       const char *info);
++void cs_dsp_mock_wmfw_add_data_block(struct cs_dsp_mock_wmfw_builder *builder,
++				     int mem_region, unsigned int mem_offset_dsp_words,
++				     const void *payload_data, size_t payload_len_bytes);
++void cs_dsp_mock_wmfw_start_alg_info_block(struct cs_dsp_mock_wmfw_builder *builder,
++					   unsigned int alg_id,
++					   const char *name,
++					   const char *description);
++void cs_dsp_mock_wmfw_add_coeff_desc(struct cs_dsp_mock_wmfw_builder *builder,
++				     const struct cs_dsp_mock_coeff_def *def);
++void cs_dsp_mock_wmfw_end_alg_info_block(struct cs_dsp_mock_wmfw_builder *builder);
++struct firmware *cs_dsp_mock_wmfw_get_firmware(struct cs_dsp_mock_wmfw_builder *builder);
++int cs_dsp_mock_wmfw_format_version(struct cs_dsp_mock_wmfw_builder *builder);
 -- 
 2.39.5
 
