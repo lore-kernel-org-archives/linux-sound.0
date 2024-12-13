@@ -1,186 +1,129 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C001B413D;
-	Fri, 13 Dec 2024 09:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D2B18BBAC;
+	Fri, 13 Dec 2024 10:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734083550; cv=none; b=GgvaxP6KAekqsGfUj8ZMdwO4He6a/DqwCeJ91ySKANECKHNCkXnW8Qlnw3kW8I68LYgp2LoEzLK/6XTGiJ7NuVo2a+Dw1eTVbcFji9wnKp+izSZnqz2ImvGgGQ+sz3oaL76sG+WMN5TXnZ/WEdacIG8QjrN+ysnRBa9tS7Wi9MY=
+	t=1734084099; cv=none; b=IQ76geFjsceEpweP/Q4j4F/bE69C2GvwBqUByrCv9t5yTSk29queVGzXjTR5V/aCW4+wOjI4RhM/IAJlCAO4y/7sfRmwZy35HX4qglP5PktZ8c/qmQLLCF1G41XicOu/uPuzueM/jQgISMCKVf+os/K34mmRm0XCwUFvupTIN7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734083550; c=relaxed/simple;
-	bh=u6vG6kCoxMmg9EkDe9k70uLIOs9bjxxQohQyTs65CLg=;
-	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=utuaHKrQM7X5wDPX+RdoVVPJ1DIDh5NYHdjJY803C6b1LxAvGfHc1C/FyxBrOMCWOzEmJqK3unCAQH+p/+9iWMOZS5Ao2MumUV2bwkXWkLxc2CV7CGf5wManUhs5X48xyRsP+9hwqz1hy0mLEttJj0Yzcmrn5bYRpIiwqDRR4dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=hAty4y7W; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=uEoMGMfc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=p3D7/bAD; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ng5bItiK; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1734084099; c=relaxed/simple;
+	bh=qw9oW3iPsnh4OzlwvVyc5+L7+eMkhfq/GjLyGWsqTLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DstBUssNbheqAc8riBzMhwUZFZfZeYcx5duLwRZPzCKTYvp2tyko65neS/ybMHfJ30Y7rsxvLDjdHSLo0wxxbYlYO7bCu3C/t+gCEncnPanorGR9eEqcgZFFbs4kzE8Wm85ogbbPTtUu+mZVwD6ZmuCvh0bdOCbgx2rC0l/p4c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bXpJ51Iy; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="hAty4y7W";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="uEoMGMfc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="p3D7/bAD";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ng5bItiK"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E1BE21FC26;
-	Fri, 13 Dec 2024 09:52:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734083547; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=QkBzAipk+7/WTp/O2Q5RAsm9VxPwF20e1XHfMY17s8o=;
-	b=hAty4y7WqZ7iNZXNf9GsnXXT+R6paLg1Lluwh0fnaouVzFX0T3KB7PfFHKC9oYHF2HyaEV
-	wgr7BXl8g4qyK0JxP1HrussKxaGRpqgVyBYT2gO08HG38E1GKOVeiAVNrUuw0YGnkhvIBV
-	Bzsb/dlXh1218ZSQ7m4Yg3r7xBaCWmM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734083547;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=QkBzAipk+7/WTp/O2Q5RAsm9VxPwF20e1XHfMY17s8o=;
-	b=uEoMGMfciKflndq/IquiFSf5MZlLj/YMI0hK5RZwd98uhVkiM5ArabMXvwGt+h86Y/KM2T
-	OG+soPHzQ7jkawBQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="p3D7/bAD";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ng5bItiK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734083546; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=QkBzAipk+7/WTp/O2Q5RAsm9VxPwF20e1XHfMY17s8o=;
-	b=p3D7/bADSO8PmZNZ6nyuJRLiaq/h2GXuN1fi+kMcdXKe1iZWy5yyH26v7un6dq/v8Q6nPo
-	t2asMPubf00q8jvJGh0kQovwsl/d5x82uTixzPa5s9Oe0JjP3nP9NpSbxuVF/tQYkqZw/S
-	EjxY/FWsp6o/eOzumDXK6oFAq+pHnn4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734083546;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type;
-	bh=QkBzAipk+7/WTp/O2Q5RAsm9VxPwF20e1XHfMY17s8o=;
-	b=Ng5bItiKHcO/fsMkUxfbPlRRQqGsx4iNVSyXXQXzUvIaUlx87qIBuUMyNbV6Zl2pM4bO9b
-	BdNKnfds9fH3nUAQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96C01137CF;
-	Fri, 13 Dec 2024 09:52:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /OKAItoDXGc6PQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 13 Dec 2024 09:52:26 +0000
-Date: Fri, 13 Dec 2024 10:52:26 +0100
-Message-ID: <87pllvyko5.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL] sound fixes for 6.13-rc3
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bXpJ51Iy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734084097; x=1765620097;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qw9oW3iPsnh4OzlwvVyc5+L7+eMkhfq/GjLyGWsqTLc=;
+  b=bXpJ51IyUI2IierU8W+vFUCmYHqsKZX4RyCoo52c9WHjoj3bzfaSkPmg
+   5oaOwU2OrEHYCOjq9d9tAYvE+5nnODxZ0AbGTE5QYw2A/wZKQ3fW3N8TD
+   EAlpBbxhR4ogBMTfx8Z0r932kY9ZPazD8A3DPHbvu3CVgVX6KGs244rn6
+   c0RFp38jiHoi3QgIg8CE0vDJ3XfWGY1vz/jp7AsvKcW3Lh7pTZ2z/tVZy
+   ID9vLHsVFgbhtCGQHi7pzdoEJid3DZ4Nuh/QAnF7gEC4DGtVI7lv1c0zg
+   u1UnI8O+ZGxL1F5esj3hEf+WosJC7Wlhhyv6seuQaPWn9clwuY2QJT/S1
+   Q==;
+X-CSE-ConnectionGUID: jLd5O/wmR7COQ3xussGT1A==
+X-CSE-MsgGUID: F+Ady5ypQG6+pVBxoLYI2g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11284"; a="38209505"
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="38209505"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 02:01:35 -0800
+X-CSE-ConnectionGUID: abSzvcv5Qze85sJWkxnjHw==
+X-CSE-MsgGUID: hZi4RbQXQuaQc7ryzXgvsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,230,1728975600"; 
+   d="scan'208";a="101346226"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.190])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 02:01:32 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	stable@vger.kernel.org,
+	liam.r.girdwood@intel.com
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Harden loops for looking up ALH copiers
+Date: Fri, 13 Dec 2024 12:01:46 +0200
+Message-ID: <20241213100146.19224-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: E1BE21FC26
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Linus,
+Other, non DAI copier widgets could have the same stream name (sname) as
+the ALH copier and in that case the copier->data is NULL, no alh_data is
+attached, which could lead to NULL pointer dereference.
+We could check for this NULL pointer in sof_ipc4_prepare_copier_module()
+and avoid the crash, but a similar loop in sof_ipc4_widget_setup_comp_dai()
+will miscalculate the ALH device count, causing broken audio.
 
-please pull sound fixes for v6.13-rc3 from:
+The correct fix is to harden the matching logic by making sure that the
+1. widget is a DAI widget - so dai = w->private is valid
+2. the dai (and thus the copier) is ALH copier
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc3
-
-The topmost commit is 7b26bc6582b13a52a42a4a9765e8f30d58a81198
-
-----------------------------------------------------------------
-
-sound fixes for 6.13-rc3
-
-A collection of fixes; all look small, device-specific and boring.
-
-----------------------------------------------------------------
-
-Adrian Ratiu (2):
-      sound: usb: enable DSD output for ddHiFi TC44C
-      sound: usb: format: don't warn that raw DSD is unsupported
-
-Charles Keepax (1):
-      ASoC: Intel: sof_sdw: Add space for a terminator into DAIs array
-
-Hridesh MG (1):
-      ALSA: hda/realtek: Fix headset mic on Acer Nitro 5
-
-Jaakko Salo (1):
-      ALSA: usb-audio: Add implicit feedback quirk for Yamaha THR5
-
-Shenghao Ding (1):
-      ASoC: tas2781: Fix calibration issue in stress test
-
-Shengjiu Wang (2):
-      ASoC: fsl_xcvr: change IFACE_PCM to IFACE_MIXER
-      ASoC: fsl_spdif: change IFACE_PCM to IFACE_MIXER
-
-Simon Trimmer (1):
-      ALSA: hda: cs35l56: Remove calls to cs35l56_force_sync_asp1_registers_from_cache()
-
-Stephen Gordon (1):
-      ASoC: audio-graph-card: Call of_node_put() on correct node
-
-Takashi Iwai (2):
-      ALSA: hda/ca0132: Use standard HD-audio quirk matching helpers
-      ALSA: control: Avoid WARN() for symlink errors
-
-Vasiliy Kovalev (2):
-      ALSA: hda/realtek - Add support for ASUS Zen AIO 27 Z272SD_A272SD audio
-      ALSA: hda/realtek: Add new alc2xx-fixup-headset-mic model
-
-Venkata Prasad Potturu (1):
-      ASoC: amd: yc: Fix the wrong return value
-
+Fixes: 0e357b529053 ("ASoC: SOF: ipc4-topology: add SoundWire/ALH aggregation support")
+Cc: stable@vger.kernel.org
+Reported-by: Seppo Ingalsuo <seppo.ingalsuo@linux.intel.com>
+Link: https://github.com/thesofproject/sof/pull/9652
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- include/sound/cs35l56.h               |  6 ------
- sound/core/control_led.c              | 14 +++++++++----
- sound/pci/hda/cs35l56_hda.c           |  8 --------
- sound/pci/hda/patch_ca0132.c          | 37 ++++++++++++++++++++---------------
- sound/pci/hda/patch_realtek.c         | 24 +++++++++++++++++++++++
- sound/soc/amd/yc/acp6x-mach.c         | 13 ++++++++----
- sound/soc/codecs/tas2781-i2c.c        |  2 +-
- sound/soc/fsl/fsl_spdif.c             |  2 +-
- sound/soc/fsl/fsl_xcvr.c              |  2 +-
- sound/soc/generic/audio-graph-card2.c |  2 +-
- sound/soc/intel/boards/sof_sdw.c      |  8 ++++++--
- sound/usb/format.c                    |  7 ++++++-
- sound/usb/quirks.c                    |  4 ++++
- 13 files changed, 84 insertions(+), 45 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index b55eb977e443..70b7bfb080f4 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -765,10 +765,16 @@ static int sof_ipc4_widget_setup_comp_dai(struct snd_sof_widget *swidget)
+ 		}
+ 
+ 		list_for_each_entry(w, &sdev->widget_list, list) {
+-			if (w->widget->sname &&
++			struct snd_sof_dai *alh_dai;
++
++			if (!WIDGET_IS_DAI(w->id) || !w->widget->sname ||
+ 			    strcmp(w->widget->sname, swidget->widget->sname))
+ 				continue;
+ 
++			alh_dai = w->private;
++			if (alh_dai->type != SOF_DAI_INTEL_ALH)
++				continue;
++
+ 			blob->alh_cfg.device_count++;
+ 		}
+ 
+@@ -2061,11 +2067,13 @@ sof_ipc4_prepare_copier_module(struct snd_sof_widget *swidget,
+ 			list_for_each_entry(w, &sdev->widget_list, list) {
+ 				u32 node_type;
+ 
+-				if (w->widget->sname &&
++				if (!WIDGET_IS_DAI(w->id) || !w->widget->sname ||
+ 				    strcmp(w->widget->sname, swidget->widget->sname))
+ 					continue;
+ 
+ 				dai = w->private;
++				if (dai->type != SOF_DAI_INTEL_ALH)
++					continue;
+ 				alh_copier = (struct sof_ipc4_copier *)dai->private;
+ 				alh_data = &alh_copier->data;
+ 				node_type = SOF_IPC4_GET_NODE_TYPE(alh_data->gtw_cfg.node_id);
+-- 
+2.47.1
 
