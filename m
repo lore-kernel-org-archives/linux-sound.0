@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AAC632
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 17:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0D918A6AF
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 17:32:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734111167; cv=none; b=PXDjg7liqnGc6dRkU9SYLlQU/Q60YfjDqF0lzFIzsZf1LrJC28f/bLSf+M/vphpmD29t9n4Dd0g8N+9s3VfvXMkAgBTOdPOoZ8YJZKDVNqIcIla+zLZY/crC+TxUlgm1cABylnLDhuLKW7W/liwbq7on1djYv7clzKQbNmsjo0g=
+	t=1734111169; cv=none; b=lMDxtAFj/+iklT0yt7vZ1fIcP+gnVmVc8Z5GOJet3k8/4lYW7I+jZtztlxXk974Nvxb2lLWrJ5UPC9Yw3slBdMDlMO1W3Xqe4PN1+BOFXuEfP6n+bBOvk0d8/W8nkcEgRJZwJIOjjyIqheBm3hZJj/HR0rryigCYo2LZqz5SJjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734111167; c=relaxed/simple;
-	bh=oMdOmI4oR0C1aTtRTC4tyzSV0IIHyU1JLhVcMMriIRE=;
+	s=arc-20240116; t=1734111169; c=relaxed/simple;
+	bh=zVdSZwdE8eGUZjKb3vIq2wuVOXi2kvhnaZpTpec/IdY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=OA4tUwJvOkb8vAexjFnexJzYJrcP68MDwveUI8OAk8xk1Hyt758UmYDEmDcN5CKQwBkCaCZFeo9Ndi60V45szy7yh6ZY9Ush4z0i0ENP8v7XAttRVQ6GLTYuZs+zwIJ0PqpbPmbV7ubySVUb8vQ+qwDn+mN6WWqkgBUtp1NgVSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS/U1ALo; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Xvutohw+d3QbBRf7Xr0WlHLPC0n1ubEGDQoCYL8JFwWCGipR88ZonE3+qXVbxirU8vCW8/s0g/ofseNLO+HSz4p1UbQOl/wLD6CZwJR7Ka52NCgVHGFxSOe9Xo0QeavRsQ1HYyUTeJsB6RzLU0KX87wwNvcAzNASAuXfqUB3cfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZYMH2QA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS/U1ALo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE362C4CED0;
-	Fri, 13 Dec 2024 17:32:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZYMH2QA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4894C4CED1;
+	Fri, 13 Dec 2024 17:32:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734111167;
-	bh=oMdOmI4oR0C1aTtRTC4tyzSV0IIHyU1JLhVcMMriIRE=;
+	s=k20201202; t=1734111169;
+	bh=zVdSZwdE8eGUZjKb3vIq2wuVOXi2kvhnaZpTpec/IdY=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oS/U1ALoyvPsgNDNiNkDzh7jbL+tcEy7I+hUK05ipV97er17EaWfz3N01dV4Gz3cU
-	 +wGQI81wO+f3i1cx0VR5r+NRaIKY1o8c4R07cIgUuSOxiiMLwfZnCVswoLc0O5DWmG
-	 S0NAe2nS873OfJM9xdgXGIGNJ7nIGhebmhXaHR1Vb/ZseDeDyzrm0vGBgXLFTiKDCP
-	 DwdnLNPA7rsK6t8s3BawUV5QdwXDHmJnhwpgzeh/cGqDoDNoNMqQw+Sdh5jA26eUy/
-	 ccEXJC9ENWNKVRXA7H6XdWRaMY7PeGQvXyprjyiAlv9OwIwUi9kmM8lUv5fC6A+xMt
-	 w+TBFBTFPymMg==
+	b=gZYMH2QADa+6f+sZmZXj24kipI5MdZ0lM7SRHHC1ihbIOsolJ11wmPRhidYR5JhR1
+	 +8eVAdRqhr9VWeqCnz2By2ZduxX8z+fGhk9/GuCtyA4I4YBZj3U45gPdC5R+UK3f8U
+	 vg585OT6mMk8e0/o8+qwNINOvJgq5U51IZmr6HiMuZVL8mhsMhRhCZC8U6/KScIE1d
+	 9iFT8MrKcOb2eCCitm08xqrae/vZYVtc2cFozxEKCOeKJ/PMfVL9qZxWKHXSA9RFqv
+	 Vqe5Dtsiv2INtkt/0hVQ2iJjtcgXTDeQTZqBO9jj56h57INGxcR52/bi8S70m2ISel
+	 N6lssRqyXg/lg==
 From: Mark Brown <broonie@kernel.org>
 To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
  ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
  pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
-In-Reply-To: <20241213131717.24071-1-peter.ujfalusi@linux.intel.com>
-References: <20241213131717.24071-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH] ASoC: SOF: sof-priv: Remove unused SOF_DAI_STREAM()
- and SOF_FORMATS
-Message-Id: <173411116544.268962.8404901494554440726.b4-ty@kernel.org>
-Date: Fri, 13 Dec 2024 17:32:45 +0000
+In-Reply-To: <20241213132110.27800-1-peter.ujfalusi@linux.intel.com>
+References: <20241213132110.27800-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: ipc4-topology: Use macro to set the
+ EXT_PARAM_SIZE in widget setup
+Message-Id: <173411116741.268962.5771733513498536678.b4-ty@kernel.org>
+Date: Fri, 13 Dec 2024 17:32:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,9 +47,11 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 13 Dec 2024 15:17:17 +0200, Peter Ujfalusi wrote:
-> The following definitions have no users: SOF_DAI_STREAM() and SOF_FORMATS,
-> they can be dropped from the header file.
+On Fri, 13 Dec 2024 15:21:10 +0200, Peter Ujfalusi wrote:
+> Use the SOF_IPC4_MOD_EXT_PARAM_SIZE() macro to set the param size in the
+> extension part of the IPC message for clarity.
+> 
+> No Functional change as the PARMA_SIZE offset is at 0.
 > 
 > 
 
@@ -59,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: SOF: sof-priv: Remove unused SOF_DAI_STREAM() and SOF_FORMATS
-      commit: f851b987f39121bb73d110c8508cac5ea60cfdc5
+[1/1] ASoC: SOF: ipc4-topology: Use macro to set the EXT_PARAM_SIZE in widget setup
+      commit: e4b3a8456447f0e10223ebaca81efabe8a71f3f2
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
