@@ -1,94 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C6D383
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 13:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AAC632
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 17:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734096061; cv=none; b=iKn70mh8hAe4J3qdO6aH9s5oAJ1kVhHU9QKtHcswgS9yaDB3uD7e2HeYVd9tXaz3NOj0fvoRLss7sRxdaPnUQQ8Gx5frxdQ+dVK5BmNPL9FdEBfhRLz5QEB4zmQtiMBfy6KPyzTdh/n6gIOWY61ut0jwqljEB6HipYQ6RzK/iP8=
+	t=1734111167; cv=none; b=PXDjg7liqnGc6dRkU9SYLlQU/Q60YfjDqF0lzFIzsZf1LrJC28f/bLSf+M/vphpmD29t9n4Dd0g8N+9s3VfvXMkAgBTOdPOoZ8YJZKDVNqIcIla+zLZY/crC+TxUlgm1cABylnLDhuLKW7W/liwbq7on1djYv7clzKQbNmsjo0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734096061; c=relaxed/simple;
-	bh=C9Y46S4AfEk1gM98jjPJ9bTjuY0uBt9aC2kbpqODics=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OJeRpKMJiYde5+mWbfiyfeJD5qNimEBo7MGZy7vuz8pABz6854li4BBKW92RUSUPHlYRGT9RadoCVkzYiA/zl96Tk8i62ZYokqQ6hxvmFLoK7+Dsi7ExBRnVj5mFPJmK+99e2XloCWjYBvhmxtapPTQsQOXMM6iE7K7WyYzKdYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqR4SOsR; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734111167; c=relaxed/simple;
+	bh=oMdOmI4oR0C1aTtRTC4tyzSV0IIHyU1JLhVcMMriIRE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=OA4tUwJvOkb8vAexjFnexJzYJrcP68MDwveUI8OAk8xk1Hyt758UmYDEmDcN5CKQwBkCaCZFeo9Ndi60V45szy7yh6ZY9Ush4z0i0ENP8v7XAttRVQ6GLTYuZs+zwIJ0PqpbPmbV7ubySVUb8vQ+qwDn+mN6WWqkgBUtp1NgVSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oS/U1ALo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqR4SOsR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734096060; x=1765632060;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=C9Y46S4AfEk1gM98jjPJ9bTjuY0uBt9aC2kbpqODics=;
-  b=UqR4SOsRuCu4Wvp3kEfd5tHy1LPRonML/fRgv822bvQUn2n/1WTaumGj
-   hi8tBJ6EWiuPAofBThvUa7KYsVWD8JWG5jZvVDoXeQPUfIvYStFS0R/8m
-   KXzemA4elZyToaRv6OMFYf93Ewgaz4eqMqjzM0fhdMCuYqcum8+TLUQxM
-   cj+ZZLhKVSK8SW6QMOFU+el9U2/EWbalb2Ec/GT57EQZACMWjvFrOd7tl
-   NG0+7aGJ8ANYyI7sy5Zy9WML/sPvAkNtXQ3S0/K4Kk/Wgq1aQxyCl+l9R
-   duw8GEFHD27AQwrBe+3/7tRQ61ijX3Vb1u+EhoTmQm6VwFIPxPMVz6ZgC
-   Q==;
-X-CSE-ConnectionGUID: TDElYmEHQ5eUggdC4R+UnA==
-X-CSE-MsgGUID: uYxOMJC8QVmIuAZXjp7KpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38323902"
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="38323902"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:20:59 -0800
-X-CSE-ConnectionGUID: 3KhxPhV0R+Wvba25e/P1gg==
-X-CSE-MsgGUID: 8kgUoaWjSo6CRsf22ekBMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
-   d="scan'208";a="96426500"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.190])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:20:56 -0800
-From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-sound@vger.kernel.org,
-	kai.vehmanen@linux.intel.com,
-	ranjani.sridharan@linux.intel.com,
-	yung-chuan.liao@linux.intel.com,
-	pierre-louis.bossart@linux.dev,
-	liam.r.girdwood@intel.com
-Subject: [PATCH] ASoC: SOF: ipc4-topology: Use macro to set the EXT_PARAM_SIZE in widget setup
-Date: Fri, 13 Dec 2024 15:21:10 +0200
-Message-ID: <20241213132110.27800-1-peter.ujfalusi@linux.intel.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oS/U1ALo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE362C4CED0;
+	Fri, 13 Dec 2024 17:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734111167;
+	bh=oMdOmI4oR0C1aTtRTC4tyzSV0IIHyU1JLhVcMMriIRE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oS/U1ALoyvPsgNDNiNkDzh7jbL+tcEy7I+hUK05ipV97er17EaWfz3N01dV4Gz3cU
+	 +wGQI81wO+f3i1cx0VR5r+NRaIKY1o8c4R07cIgUuSOxiiMLwfZnCVswoLc0O5DWmG
+	 S0NAe2nS873OfJM9xdgXGIGNJ7nIGhebmhXaHR1Vb/ZseDeDyzrm0vGBgXLFTiKDCP
+	 DwdnLNPA7rsK6t8s3BawUV5QdwXDHmJnhwpgzeh/cGqDoDNoNMqQw+Sdh5jA26eUy/
+	 ccEXJC9ENWNKVRXA7H6XdWRaMY7PeGQvXyprjyiAlv9OwIwUi9kmM8lUv5fC6A+xMt
+	 w+TBFBTFPymMg==
+From: Mark Brown <broonie@kernel.org>
+To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
+ ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
+ pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com
+In-Reply-To: <20241213131717.24071-1-peter.ujfalusi@linux.intel.com>
+References: <20241213131717.24071-1-peter.ujfalusi@linux.intel.com>
+Subject: Re: [PATCH] ASoC: SOF: sof-priv: Remove unused SOF_DAI_STREAM()
+ and SOF_FORMATS
+Message-Id: <173411116544.268962.8404901494554440726.b4-ty@kernel.org>
+Date: Fri, 13 Dec 2024 17:32:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-Use the SOF_IPC4_MOD_EXT_PARAM_SIZE() macro to set the param size in the
-extension part of the IPC message for clarity.
+On Fri, 13 Dec 2024 15:17:17 +0200, Peter Ujfalusi wrote:
+> The following definitions have no users: SOF_DAI_STREAM() and SOF_FORMATS,
+> they can be dropped from the header file.
+> 
+> 
 
-No Functional change as the PARMA_SIZE offset is at 0.
+Applied to
 
-Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
----
- sound/soc/sof/ipc4-topology.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
-index b55eb977e443..c04c62478827 100644
---- a/sound/soc/sof/ipc4-topology.c
-+++ b/sound/soc/sof/ipc4-topology.c
-@@ -2827,7 +2827,7 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
- 		msg->primary |= SOF_IPC4_MOD_INSTANCE(swidget->instance_id);
- 
- 		msg->extension &= ~SOF_IPC4_MOD_EXT_PARAM_SIZE_MASK;
--		msg->extension |= ipc_size >> 2;
-+		msg->extension |= SOF_IPC4_MOD_EXT_PARAM_SIZE(ipc_size >> 2);
- 
- 		msg->extension &= ~SOF_IPC4_MOD_EXT_PPL_ID_MASK;
- 		msg->extension |= SOF_IPC4_MOD_EXT_PPL_ID(pipe_widget->instance_id);
--- 
-2.47.1
+Thanks!
+
+[1/1] ASoC: SOF: sof-priv: Remove unused SOF_DAI_STREAM() and SOF_FORMATS
+      commit: f851b987f39121bb73d110c8508cac5ea60cfdc5
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
