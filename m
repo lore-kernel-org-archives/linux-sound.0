@@ -1,72 +1,72 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5D81DF265
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 11:57:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC301B87E8
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 12:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734091070; cv=none; b=IvzjF7PTrhItZZ9nZGS3RU74/vq3qcUostijodgWZrm649xY0QjsgY5zePW0HxWjTZdMXhz4IWt4rZeeLcC6Le2PzcRMxcO9IG503bD4lXK4A9E6HU/+wnqBi/i4Fb1rQ6NVj9TwlXQDb+q16BS34vZV3ObFL0JI7wCwekiUXks=
+	t=1734093687; cv=none; b=TeORWI5EHJjrxAMbHYro+nn39iA3ddOP6Vf/OMkzuCSAQuW3DgXwdqo43JtcXCgeeC11ykqjkXUXfMd89eUL19CjDADbgPXf7RVP9hzBatzSuUD6eMb18A6FGUUG9Cexc5jVT1n9f7aQKe05OZVpfMmBUyB/1uTYIHlZJ7C+U/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734091070; c=relaxed/simple;
-	bh=hWxxhi/Ocb9YuWh9rCtFliyfqv/yGxNZXEi4SC0mxU8=;
+	s=arc-20240116; t=1734093687; c=relaxed/simple;
+	bh=NWqQTnku2IFewnQ0l271ypTAiqVof9cxtyCXjtDznm8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p0UWja+MSd6h1j/DGlfJ9bH2GN50mbBP85Ypg9iFw4mJDDGIMcbAc9uvus3fsWPGU3Js45rUZJ3ozY24Aao8/A8o2OKuN+DHrXHUvS/gii2MVflqwOCpSGN14972MwFiLfGvtnw/WUMiWFBeuQkCEgfd1LehoU4dmnT3DUbCDr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=U5Ych2/y; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=LcG3HSrJaVybuCZFkznSaTH1ljW2tbdRCtwqQkHVaaHJZk5Ud9ZKO6OpkGt1dC3e4+HZZ5axuRbokz0bCd6z5z36RqTCbo6sBuSOLLL9WTaCLdyobxHIIzkEqN5Yn0/Zk8tv3GOK0VGSPKP2YU39scDzLI30sAD2qg5/oRyUuQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jmmiJN6+; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="U5Ych2/y"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD9fZuw030100
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 11:57:48 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jmmiJN6+"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BD7rD4k027780
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 12:41:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	aV2tOvQFCHEHOQ3Ctr/HQDJboIVm3LzcOhrYk8KNUTw=; b=U5Ych2/yWxlumiaj
-	RDnF3haOepVeZGKt8Ek8P0eOYJx7I5eCYAGfbFB01S7m9KF6w3EOYNB9QVYzPXfa
-	1QM+Q//DIUJ7Vgkmmp6QkO9aDmTZBQMIKdtipd1EJPQq8g5ffFYd4eKJL0UQD/hc
-	PodHoed8HS8LbDYoaqld2rxtEPMOM+nwCkXoSmwVzzYpsjnw2taCEcqHTHZeZTza
-	jSbf/mDT+IAQ3wVSs5kycduiuFiekJQ66N53JQDi/y4V39Kki+NQ6z1ULlZ074BE
-	a1xjuclsombDccAiSa+a5ZB8LW63cfIXCm3GA5wP/gLej9LhsArk+Bn2ou3UmE8a
-	WxPrKw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43fwgekqxv-1
+	yenE09Qp1TRoV+p0D59Cwj/cworX8HYkWewV+iHsfWI=; b=jmmiJN6+lnb1z3FU
+	cT1RN+NKkmiVknqaBZAFwv3BxjPZqELQSygeVaENs9RdhpjIexuNIAywVUfJVU0f
+	o4BdQvQZqhSe2QtYVrNopdz9DnAvfparxh4g8dUWtybBWkv8PYYMn0ZjvD86oSYl
+	L0MzhakU+TuovDpN3HPoD/hpME8G3KEKY0TKzkHHwx5Pxh5Ve6Fm1aK+XR42tirg
+	5kVvDB6JMsd7o00yzY1NKRkNZWKaO4JU/A+hzJDbGyrXDShaOb0zvbEbpyV/mX/+
+	PFwR/70J+O0b7nt4qYbMzQrGB/M0YmIBwKGUT5FmCVS4x0vbYEuHRlqxdJ+bL9H/
+	xGEn/A==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43fd40pcs3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 11:57:48 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7b6f134dac1so20547185a.3
-        for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 03:57:48 -0800 (PST)
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 12:41:25 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-4679ef4565aso3196081cf.2
+        for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 04:41:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734091067; x=1734695867;
+        d=1e100.net; s=20230601; t=1734093674; x=1734698474;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aV2tOvQFCHEHOQ3Ctr/HQDJboIVm3LzcOhrYk8KNUTw=;
-        b=L2w9xyFUHoGJndcrpHf+DcWhkPsIyYfO5a6Wu9+4wptI7B2LxsKkjab8fJ1NhLGLkn
-         QDK9tbRmkRsSn6/OqGhla+9XgpLVL9ZygtYFnMwEwr+H7KBvpWiu62Iefyga8iM0f0XB
-         BQ7YWD2rcjHasQxZPv98Nn/SZSM5aWNlYA2NsfNo7ANmFzoIF3kBIt1xR+5j6r+774yH
-         8H6i1jjDXaDAaiw2OodPbXFKJInn183s5AVGoAAIQ/FPZnvkB6JvunSDBzbUXs29coTN
-         dUqvyT4LUIDFXVVwgmF7uXI+oGuPMyYvD2c7jZgVRm/KXpppC3alK7WoBw/wBQ9YctHX
-         BYDg==
-X-Forwarded-Encrypted: i=1; AJvYcCW4k8wX0cb0CgVp4epwc0QxT0vyhJfyTaET1QByv7viXjcq2+nePvh6osBb+0dvHWVuZOM4pBZAYBUewA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdIoTKz/b9oLwKdoU/CeebeGEI57daVJh+IEGl3q8E991Ie1EP
-	Uj1Nl6BmV+vtzbp56YpiY/AevKErkip7KZPnq23AdIh9L7OS78MMpSpOTKsLTJRH8VNrZ/ZCMTv
-	JVl0YjgEOc4qT9+eW7ZIIUAqkHAfiKo3O9k6xJ4lG+oDjBQjP6HQ1a6uK5wdvCA==
-X-Gm-Gg: ASbGncumLVJz7CCJ4gYyiNRkrO8LATFljCkatsLoWYMkWT+lkTb7XpXpvs1ED9m/Qm4
-	Ox2TkRMBcBRIrF7GkiSMg+2b5dq4cE1c4sic8UgqEn84ClT9UIzqDpoJp/ezg5lXt6bjj7pHOsL
-	0YW0xZKer6rHrOqIUnhRrbTggyWhTEbftL2QEAZ9fTCGuQ1xqOFZF42+46XqtDNMkpZEjPkXg9/
-	uqNoaRieDTPUQugBSObgVlIjdJl6lr/pDCjOc8xKihDQ/wwDjPe3N2+MBMnOjP4Gn4+OtdKZ8k4
-	SxQoWer5rwpeIjPwab+q067SGsIgUAtcRvQv
-X-Received: by 2002:a05:620a:191c:b0:7b6:c405:b586 with SMTP id af79cd13be357-7b6fbf19210mr116124185a.8.1734091067122;
-        Fri, 13 Dec 2024 03:57:47 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGQprqSgLBubKgdWWbYTqCPgecNMsXyZimyUAw2EWk/tIKfoQvRq4J7ARIOzuIal/zHJt59kA==
-X-Received: by 2002:a05:620a:191c:b0:7b6:c405:b586 with SMTP id af79cd13be357-7b6fbf19210mr116121885a.8.1734091066667;
-        Fri, 13 Dec 2024 03:57:46 -0800 (PST)
+        bh=yenE09Qp1TRoV+p0D59Cwj/cworX8HYkWewV+iHsfWI=;
+        b=CRW0wefrBAdipOLYHBl1hReNMIcOmUe3MVvApeQBnIJNqe9NMF8bvDhWXq8M0cItfa
+         FfNODrKCQVlpYiuCuuBxGN7wRQhJHpZY7b6341o1fOKMFmhnPfPq+eGyHKADzEh+f4Wy
+         7g2XpuRzPgukKZr2jjLJfnWIunq7QauVgQqZBVO91v9q5EhuJC9RTsxfSjdK+u17PVd7
+         YXd1VYc5dEexO5djFgRGbuJyyKL0qKV2i/v61MbGddHPrJpmZyzNtOknqaL3oIT5RbTt
+         Puz3CzUy7ZFfJfDcmxcULbHTAABGHot0dCfWBECCNOYQf5Y/e0mKlAEj08f98+Rzx+pi
+         925A==
+X-Forwarded-Encrypted: i=1; AJvYcCVi4HLOYn7oBskMjbnFrD+7T0sohDxDmVKQQIQOHnWZBwKl5iCriA7wf9Mn6VO2KGtRGRIbNdnAa0wEMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5kbzOUGNhc8xkZog4ijow9rZkMR0PgFH6yGkbB+BCSJNY/GAi
+	v6H5Jc1cet704Br3ESceDOz0Zu6iE/30m2Zo3y6OW4yeoFZ6ZxSKdUGNaPR4HFMc/acaqgIM/nA
+	iFqgnxz0Do9T8oX8EqOJmeRh9+q4znkQ1XWsG3G+00Ca6SOWtoOFI1uozBBlN7A==
+X-Gm-Gg: ASbGncuVQF+g0Tj8pkWGsmx0dNwDsfP8RU08h/0brqlg0WMmsyLUsXozYj5obT04Pw/
+	H7+9sfBhwCOjv99fwQHJFMG8EkE9dDqZ0r95S3KglFHEj0RpyBURj1ALTG+cPYNNznSz/DAtRHd
+	OQvkD+aF+EqSMbbtkGJgoZNcnECX4PW3TOC14JVK3V7/ChGER5ImpEcl8lwxwyj8ebs7PlccptI
+	Cng7+ZS+bFWEeJA4AtGPKfa38mPY6KyuX3HHJ/Tekt2IlAtwdNhrgxmuAEWWab44hT8mW7EWZc0
+	g/4VN3LvMar/goowlZBYiLi6eHJIAWI4WjLT
+X-Received: by 2002:ac8:5d0e:0:b0:466:92d8:737f with SMTP id d75a77b69052e-467a578b90dmr14355871cf.8.1734093674084;
+        Fri, 13 Dec 2024 04:41:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IG1IHSeIv2Brdx5RvV0G26ngkWwAvpQUxQLtvdE3yXcXS+13NNnafO8QCrJMN1uf6O8p0bICA==
+X-Received: by 2002:ac8:5d0e:0:b0:466:92d8:737f with SMTP id d75a77b69052e-467a578b90dmr14355631cf.8.1734093673746;
+        Fri, 13 Dec 2024 04:41:13 -0800 (PST)
 Received: from [192.168.58.241] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa6a59f7bf6sm471226166b.93.2024.12.13.03.57.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa673474d96sm820844966b.96.2024.12.13.04.41.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Dec 2024 03:57:46 -0800 (PST)
-Message-ID: <58fefb90-a28b-4460-8837-14186d44ec1a@oss.qualcomm.com>
-Date: Fri, 13 Dec 2024 12:57:44 +0100
+        Fri, 13 Dec 2024 04:41:13 -0800 (PST)
+Message-ID: <e2fba6e9-6548-44fe-a15c-cd29f5650b74@oss.qualcomm.com>
+Date: Fri, 13 Dec 2024 13:41:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -74,53 +74,96 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 14/14] ASoC: qcom: sm8250: force single channel via
- RX_1 output for qrb4210
-To: Alexey Klimov <alexey.klimov@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, broonie@kernel.org,
-        konradybcio@kernel.org, andersson@kernel.org,
-        srinivas.kandagatla@linaro.org
+Subject: Re: [PATCH v2 12/14] arm64: dts: qcom: qrb4210-rb2: add WSA audio
+ playback support
+To: Alexey Klimov <alexey.klimov@linaro.org>, broonie@kernel.org,
+        konradybcio@kernel.org, konrad.dybcio@oss.qualcomm.com,
+        andersson@kernel.org, srinivas.kandagatla@linaro.org
 Cc: tiwai@suse.com, lgirdwood@gmail.com, perex@perex.cz, robh@kernel.org,
         krzk+dt@kernel.org, conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
         linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20241212004727.2903846-1-alexey.klimov@linaro.org>
- <20241212004727.2903846-15-alexey.klimov@linaro.org>
- <ae57068c-5d73-459d-b319-46a582ed7f3e@oss.qualcomm.com>
- <D6AJWNO2P6MR.1ZSDAC71W3SS2@linaro.org>
+ <20241212004727.2903846-13-alexey.klimov@linaro.org>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <D6AJWNO2P6MR.1ZSDAC71W3SS2@linaro.org>
+In-Reply-To: <20241212004727.2903846-13-alexey.klimov@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: CAIkOb0s2JsTDMC0FiJVCfyJWLUyCBhN
-X-Proofpoint-ORIG-GUID: CAIkOb0s2JsTDMC0FiJVCfyJWLUyCBhN
+X-Proofpoint-GUID: eQrEBmQfVClIlcRQ7JyXBBa9A27k2X7R
+X-Proofpoint-ORIG-GUID: eQrEBmQfVClIlcRQ7JyXBBa9A27k2X7R
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 bulkscore=0 mlxlogscore=628 spamscore=0 clxscore=1015
- impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412130083
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ suspectscore=0 impostorscore=0 phishscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412130089
 
-On 13.12.2024 12:54 PM, Alexey Klimov wrote:
-> On Thu Dec 12, 2024 at 5:22 PM GMT, Konrad Dybcio wrote:
->> On 12.12.2024 1:47 AM, Alexey Klimov wrote:
->>> In case of mono configurations we need to enforce single channel
->>> output. This is required for audio playback on QRB4210 RB2 board
->>> since it has only one WSA8815 amplifier.
->>> Implement data variant for qrb4210-rb2-sndcard with
->>> sm8250_qrb4210_fixup_params() that does that.
->>>
->>> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
->>> ---
->>
->> Would it not be enough to set channels->min = 1?
+On 12.12.2024 1:47 AM, Alexey Klimov wrote:
+> Add support for audio playback via WCD937X/WSA881X. From DSP
+> and rxmacro the sound stream goes into AUX port of wcd codec.
+> wcd codec decodes digital audio into analog and outputs it to
+> single wsa amplifier hence only the mono configuration.
 > 
-> Enough for what or to do what exactly?
+> The audio playback is verified using the following commands:
+> 
+> amixer -c0 cset iface=MIXER,name='AUX_RDAC Switch' 1
+> amixer -c0 cset iface=MIXER,name='RX_RX2 Digital Volume' 80
+> amixer -c0 cset iface=MIXER,name='RX INT2_1 MIX1 INP0' 'RX2'
+> amixer -c0 cset iface=MIXER,name='RX_CODEC_DMA_RX_1 Audio Mixer MultiMedia1' 1
+> amixer -c0 cset iface=MIXER,name='RX_MACRO RX2 MUX' 'AIF2_PB'
+> amixer -c0 cset iface=MIXER,name='SpkrMono WSA_RDAC' 1
+> amixer -c0 cset iface=MIXER,name='LO Switch' 1
+> amixer -c0 cset iface=MIXER,name='RX HPH Mode' 4
+> 
+> aplay -D hw:0,0 /usr/share/sounds/alsa/Front_Center.wav
+> 
+> Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> Signed-off-by: Alexey Klimov <alexey.klimov@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/qrb4210-rb2.dts | 20 +++++++++++++++++++-
+>  1 file changed, 19 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> index 827ce5f7adfb..34ba563d0d07 100644
+> --- a/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> +++ b/arch/arm64/boot/dts/qcom/qrb4210-rb2.dts
+> @@ -111,7 +111,9 @@ sound {
+>  		pinctrl-0 = <&lpi_i2s2_active>;
+>  		pinctrl-names = "default";
+>  		model = "Qualcomm-RB2-WSA8815-Speakers-DMIC0";
+> -		audio-routing = "MM_DL1", "MultiMedia1 Playback",
+> +		audio-routing = "IN3_AUX", "AUX_OUT",
+> +				"SpkrMono WSA_IN", "AUX",
+> +				"MM_DL1", "MultiMedia1 Playback",
+>  				"MM_DL2", "MultiMedia2 Playback";
+>  
+>  		mm1-dai-link {
+> @@ -145,6 +147,22 @@ codec {
+>  				sound-dai = <&lt9611_codec 0>;
+>  			};
+>  		};
+> +
+> +		wsa-dai-link {
+> +			link-name = "WSA Playback";
+> +
+> +			cpu {
+> +				sound-dai = <&q6afedai RX_CODEC_DMA_RX_1>;
+> +			};
+> +
+> +			platform {
+> +				sound-dai = <&q6routing>;
+> +			};
+> +
+> +			codec {
+> +				sound-dai = <&wsa881x>, <&wcd937x 0>, <&swr1 3>, <&rxmacro 1>;
+> +			};
 
-Enough to make the rest of this patch unnecessary
+Please sort these subnodes alphabetically - and yes I realize
+we managed to overlook that for 10 years
+
+lgtm otherwise
 
 Konrad
