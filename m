@@ -1,47 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31CBD1DFE1B
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 13:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C6D383
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 13:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734095828; cv=none; b=DMb6p369EMqMrpO7ZeGfeF0dgk79GxPeEuaQxjrPdV9OQIWK9PvxYQ8lmZ6q+zq476FRqvP5EUSmA4dyUx+CJMlkaVezZ4D015o16aBW8XTPVDw+jMFGW3q4/9ndC3ifyKVlEqNKJGhEk92PDOHKF+2IQg13r4F7B2u/KUl1fjo=
+	t=1734096061; cv=none; b=iKn70mh8hAe4J3qdO6aH9s5oAJ1kVhHU9QKtHcswgS9yaDB3uD7e2HeYVd9tXaz3NOj0fvoRLss7sRxdaPnUQQ8Gx5frxdQ+dVK5BmNPL9FdEBfhRLz5QEB4zmQtiMBfy6KPyzTdh/n6gIOWY61ut0jwqljEB6HipYQ6RzK/iP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734095828; c=relaxed/simple;
-	bh=zSfN68ZdNXgLVPbtlmhUNbDpOXKn91KKmPJPPehx+UE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xac+nQPifk191tv+18peKOEnGjC2/EEY3dZ3RDpMqdQNd/QysErHNmUAa6IuWu0Nj9pfqozSaukwm8ymz+sy3oJlxPYWWAbiCD3DE3IKLF2Bny9sb+1WfDBWi0227tLkXfTn3fnPTwu5rhWNR/t0u/R1zvKMcFLOvMzfbr4RpBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GMQWPnx+; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1734096061; c=relaxed/simple;
+	bh=C9Y46S4AfEk1gM98jjPJ9bTjuY0uBt9aC2kbpqODics=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OJeRpKMJiYde5+mWbfiyfeJD5qNimEBo7MGZy7vuz8pABz6854li4BBKW92RUSUPHlYRGT9RadoCVkzYiA/zl96Tk8i62ZYokqQ6hxvmFLoK7+Dsi7ExBRnVj5mFPJmK+99e2XloCWjYBvhmxtapPTQsQOXMM6iE7K7WyYzKdYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqR4SOsR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GMQWPnx+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqR4SOsR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734095827; x=1765631827;
+  t=1734096060; x=1765632060;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=zSfN68ZdNXgLVPbtlmhUNbDpOXKn91KKmPJPPehx+UE=;
-  b=GMQWPnx+YaX3zPSSsPz1fkACm254sgCYltcmPrqohkXutk5XO4JZmGu8
-   frSaqIFxWTlvs5Gs1zrYEkFO1hVKZi2nuctCSydrE9ye9de55W+4t60T7
-   WhyNwhE9jCl9oVqk5bu09RbgAdN74SkFDB3P+zstRPJuXip1iL22QlmDx
-   9VLX+v2u1ont50niSYb4ZkJq9nZi3pCp8lovKsmCKpStIhxIIXAtV6/Qq
-   U8Yy/Kk4XiDMGZtpY42wU6vuQCDwR3nACPfK6e+FbPUkA1unuo6ZfJJMk
-   +Ntb1GXLd4bt93fxQumXius12ROHKlWvJLOOe2kGt3NtUwm6wdNvUwmXj
+  bh=C9Y46S4AfEk1gM98jjPJ9bTjuY0uBt9aC2kbpqODics=;
+  b=UqR4SOsRuCu4Wvp3kEfd5tHy1LPRonML/fRgv822bvQUn2n/1WTaumGj
+   hi8tBJ6EWiuPAofBThvUa7KYsVWD8JWG5jZvVDoXeQPUfIvYStFS0R/8m
+   KXzemA4elZyToaRv6OMFYf93Ewgaz4eqMqjzM0fhdMCuYqcum8+TLUQxM
+   cj+ZZLhKVSK8SW6QMOFU+el9U2/EWbalb2Ec/GT57EQZACMWjvFrOd7tl
+   NG0+7aGJ8ANYyI7sy5Zy9WML/sPvAkNtXQ3S0/K4Kk/Wgq1aQxyCl+l9R
+   duw8GEFHD27AQwrBe+3/7tRQ61ijX3Vb1u+EhoTmQm6VwFIPxPMVz6ZgC
    Q==;
-X-CSE-ConnectionGUID: oVcm+uctR6+nr9SaMwEGvw==
-X-CSE-MsgGUID: 3GVG4v4oTgO0ECgSoPT6bQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11282"; a="45019945"
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="45019945"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:17:07 -0800
-X-CSE-ConnectionGUID: +AJT9sK0Rs2PtFd2D7Z1ew==
-X-CSE-MsgGUID: B2TyM/YyRwmdW0ecrDtUVw==
+X-CSE-ConnectionGUID: TDElYmEHQ5eUggdC4R+UnA==
+X-CSE-MsgGUID: uYxOMJC8QVmIuAZXjp7KpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11285"; a="38323902"
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
+   d="scan'208";a="38323902"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:20:59 -0800
+X-CSE-ConnectionGUID: 3KhxPhV0R+Wvba25e/P1gg==
+X-CSE-MsgGUID: 8kgUoaWjSo6CRsf22ekBMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="133908831"
+X-IronPort-AV: E=Sophos;i="6.12,231,1728975600"; 
+   d="scan'208";a="96426500"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.190])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:17:04 -0800
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2024 05:20:56 -0800
 From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org
@@ -51,9 +51,9 @@ Cc: linux-sound@vger.kernel.org,
 	yung-chuan.liao@linux.intel.com,
 	pierre-louis.bossart@linux.dev,
 	liam.r.girdwood@intel.com
-Subject: [PATCH] ASoC: SOF: sof-priv: Remove unused SOF_DAI_STREAM() and SOF_FORMATS
-Date: Fri, 13 Dec 2024 15:17:17 +0200
-Message-ID: <20241213131717.24071-1-peter.ujfalusi@linux.intel.com>
+Subject: [PATCH] ASoC: SOF: ipc4-topology: Use macro to set the EXT_PARAM_SIZE in widget setup
+Date: Fri, 13 Dec 2024 15:21:10 +0200
+Message-ID: <20241213132110.27800-1-peter.ujfalusi@linux.intel.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -63,35 +63,32 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The following definitions have no users: SOF_DAI_STREAM() and SOF_FORMATS,
-they can be dropped from the header file.
+Use the SOF_IPC4_MOD_EXT_PARAM_SIZE() macro to set the param size in the
+extension part of the IPC message for clarity.
+
+No Functional change as the PARMA_SIZE offset is at 0.
 
 Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- sound/soc/sof/sof-priv.h | 8 --------
- 1 file changed, 8 deletions(-)
+ sound/soc/sof/ipc4-topology.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/sof/sof-priv.h b/sound/soc/sof/sof-priv.h
-index 843be3b6415d..abbb5ee7e08c 100644
---- a/sound/soc/sof/sof-priv.h
-+++ b/sound/soc/sof/sof-priv.h
-@@ -76,14 +76,6 @@ bool sof_debug_check_flag(int mask);
- #define SOF_IPC_DSP_REPLY		0
- #define SOF_IPC_HOST_REPLY		1
+diff --git a/sound/soc/sof/ipc4-topology.c b/sound/soc/sof/ipc4-topology.c
+index b55eb977e443..c04c62478827 100644
+--- a/sound/soc/sof/ipc4-topology.c
++++ b/sound/soc/sof/ipc4-topology.c
+@@ -2827,7 +2827,7 @@ static int sof_ipc4_widget_setup(struct snd_sof_dev *sdev, struct snd_sof_widget
+ 		msg->primary |= SOF_IPC4_MOD_INSTANCE(swidget->instance_id);
  
--/* convenience constructor for DAI driver streams */
--#define SOF_DAI_STREAM(sname, scmin, scmax, srates, sfmt) \
--	{.stream_name = sname, .channels_min = scmin, .channels_max = scmax, \
--	 .rates = srates, .formats = sfmt}
--
--#define SOF_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | \
--	SNDRV_PCM_FMTBIT_S32_LE | SNDRV_PCM_FMTBIT_FLOAT)
--
- /* So far the primary core on all DSPs has ID 0 */
- #define SOF_DSP_PRIMARY_CORE 0
+ 		msg->extension &= ~SOF_IPC4_MOD_EXT_PARAM_SIZE_MASK;
+-		msg->extension |= ipc_size >> 2;
++		msg->extension |= SOF_IPC4_MOD_EXT_PARAM_SIZE(ipc_size >> 2);
  
+ 		msg->extension &= ~SOF_IPC4_MOD_EXT_PPL_ID_MASK;
+ 		msg->extension |= SOF_IPC4_MOD_EXT_PPL_ID(pipe_widget->instance_id);
 -- 
 2.47.1
 
