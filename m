@@ -1,109 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03931E8854;
-	Fri, 13 Dec 2024 18:27:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABC6190696;
+	Fri, 13 Dec 2024 23:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734114422; cv=none; b=KLB0jZs8juJFIwGm8noth6o3TGXMTdBrlNow30vDDs43PdbNmWSoygxKiPrM9BssJocFP6/3WSZ0sZd277jfiZnf9oMIRbtkSiOzLyWRxcGeQ5l6tW5m3pWkU/7jSK3VAS8/axEogRDCSHpbxKUwvs9yCt+D9HRldDqFdwWAuq0=
+	t=1734134074; cv=none; b=QQfVaCprPrth1o7m67sjgC0vcYe0lwqK1e9d1h1hGQ3xaLCYF7zI6/yPN+zfa4e9xZh3hjlH1aSuXqZBe0Vmg9jGyd3HUcURvRszHx+dP42LnVmvmCYYloogTFgTtted7oal4wVVzIZDkONyveTjsyMeCOJ4EYndnXwg2xiUV1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734114422; c=relaxed/simple;
-	bh=7AAUZKyfh+KLhyvfagEsdYx8zOxg/y4yOyh46bXqvKU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=dtMGm9QBlOn+lTX0eJOWiWs0qba/uQK5TukPZbcFT+RmfaWI5bfofhbY/qZNnLU9xQHEEm8ctlUzP8NHwNUVrdsHeCyQbKH8EJGrgYKhTKf4CJoK6oGU6yIoCcQ52NZtmeFlhqAZ1KbwhdVRiBiD2d1585k3LRzFb6xHeXE+Yy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dXBH/ey6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734134074; c=relaxed/simple;
+	bh=lGR3S5do7QnlQ2T0IEOx9drM03jcXj3fEWJcvYNl5nI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=huAlrDsduOXmZxHIw2udhzNADBiQQIUnU3GhX0X2F/j4sjHFTZNdthQd8FX3oexmvjTiOMDlaO8I2Z0beX4op7dU32Fzq5t+Q1ZA8wi0UemFKoCaJPYQzG+18M16MiCz/QtsoQlNzquefeuU/oxEA61su292CZAoSHJCKun+Nhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=THr88bep; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dXBH/ey6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7494AC4CED0;
-	Fri, 13 Dec 2024 18:27:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734114422;
-	bh=7AAUZKyfh+KLhyvfagEsdYx8zOxg/y4yOyh46bXqvKU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=dXBH/ey6GFQy2ykbdjWUb1XVXJmvbb35Vxf9SYxxi3Sv3UYlbLixugmaLtHMsyHdF
-	 b7Db8y88prTS1ccQFkHf2+P+7wErcOeaZR3IrDk5oJyFuQ1ClbRXn/+a43srOGFsFA
-	 fGr6wYNDQ+JDtx7MVL+CW4ocekHu+87TZCdAnHD5G+FAlHtzoKjWTM74u/8dlq764W
-	 yXC3myW/IJP3KsxWd8B4noMQFnB3Kp+kqYEWzwUOQoVpeBN9RZTLbnwEvGU65KJbZl
-	 6q4gWybb/HwlYZM5jmHhXsZVWBSmYbvTSvhtribbcU1eXrXvpmJ4BQlvgkLnA8dNCH
-	 dct7nL1k9jMIg==
-From: Mark Brown <broonie@kernel.org>
-To: Richard Fitzgerald <rf@opensource.cirrus.com>
-Cc: linux-kernel@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-sound@vger.kernel.org
-In-Reply-To: <20241212143725.1381013-1-rf@opensource.cirrus.com>
-References: <20241212143725.1381013-1-rf@opensource.cirrus.com>
-Subject: Re: [PATCH 00/12] firmware: cirrus: Add KUnit tests for cs_dsp
-Message-Id: <173411442121.280424.13197221049139843918.b4-ty@kernel.org>
-Date: Fri, 13 Dec 2024 18:27:01 +0000
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="THr88bep"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BDK4EEH024961;
+	Fri, 13 Dec 2024 23:54:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	TYFbkgRRQav0AyDDq2dkiZS1Z0oWxjoyevUIjsT84xk=; b=THr88bepCtZs3il4
+	mbMVffI53tOWPiHGw6jHaGnbAUfzFw1vUmf/KuQMEFwkjCIafnbm6WwN7vQ2uo+x
+	8/J3a05hyRPrYy9bd3UV6tyQ6X/nyu09Mjxszsw5G/tFozOJAhVMol5vGn/8XSCv
+	CZss/Nm5+Sdeqzh/cK4BkpJGqKg8yAvZ8OsoGPOfpc+Nr4HaU00sCOnXV8d4d7lC
+	EjG3xczs5cbiNNv8OTD0sSN5Sj7oucZNhIOOh1mqtI8SsjGPLNJ27g4+DbXSBj66
+	1gFl7R2tSqDR0HBSypyDawQXst5ZQl47uLhv3bd6z5fxvYuED8GfDmMoqbKEYT6l
+	kAYfzQ==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43g4wnbw1h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Dec 2024 23:54:15 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4BDNsECn023056
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 13 Dec 2024 23:54:14 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 13 Dec 2024 15:54:14 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <tiwai@suse.com>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.dev>, <Thinh.Nguyen@synopsys.com>,
+        <robh@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v31 03/32] usb: host: xhci-mem: Cleanup pending secondary event ring events
+Date: Fri, 13 Dec 2024 15:53:34 -0800
+Message-ID: <20241213235403.4109199-4-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
+References: <20241213235403.4109199-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: dv8LqmB6YElecZRZc98u4f_mRXqF1NLf
+X-Proofpoint-GUID: dv8LqmB6YElecZRZc98u4f_mRXqF1NLf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 mlxlogscore=970 spamscore=0
+ mlxscore=0 clxscore=1015 adultscore=0 phishscore=0 suspectscore=0
+ bulkscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2411120000 definitions=main-2412130170
 
-On Thu, 12 Dec 2024 14:37:13 +0000, Richard Fitzgerald wrote:
-> This series adds KUnit tests for the cs_dsp module.
-> 
-> Most of the functionality in cs_dsp is for downloading firmware to
-> DSP memory and interacting with "control" words defined in that
-> memory. This doesn't require any emulation of running firmware,
-> because it is only reading and writing registers. So the testing can
-> be done using a dummy regmap. The way this is used to perform testing
-> is described in more detail in the commit message for each test.
-> 
-> [...]
+As part of xHCI bus suspend, the xHCI is halted.  However, if there are
+pending events in the secondary event ring, it is observed that the xHCI
+controller stops responding to further commands upon host or device
+initiated bus resume.  Iterate through all pending events and update the
+dequeue pointer to the beginning of the event ring.
 
-Applied to
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ drivers/usb/host/xhci-mem.c  |  7 ++++++-
+ drivers/usb/host/xhci-ring.c | 37 +++++++++++++++++++++++++++++++++---
+ drivers/usb/host/xhci.c      |  2 +-
+ drivers/usb/host/xhci.h      |  7 +++++++
+ 4 files changed, 48 insertions(+), 5 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[01/12] firmware: cs_dsp: Add mock regmap for KUnit testing
-        commit: d54a3fc6bf3db0db0e16cfdf7f48a8bbb803f6b0
-[02/12] firmware: cs_dsp: Add mock DSP memory map for KUnit testing
-        commit: 41e78c0f44f97c958afcda3f82b23f4f4a05b968
-[03/12] firmware: cs_dsp: Add mock wmfw file generator for KUnit testing
-        commit: 5cf1b7b471803f7cc654a29ee16cb085ad69c097
-[04/12] firmware: cs_dsp: Add mock bin file generator for KUnit testing
-        commit: 7c052c6615297ff32032105130cd5f02059f7ae4
-[05/12] firmware: cs_dsp: Add KUnit testing of bin file download
-        commit: dd0b6b1f29b92202d03a6d2dd7d65ecead27941a
-[06/12] firmware: cs_dsp: Add KUnit testing of wmfw download
-        commit: a2b2f2c1cd2a8b21c23bd1ec33131d2266c7568a
-[07/12] firmware: cs_dsp: Add KUnit testing of control parsing
-        commit: 83baecd92e7c2a44ac963fab8fd4476c71e19ddd
-[08/12] firmware: cs_dsp: Add KUnit testing of control cache
-        commit: 9b33a4fc500cedc1adc9c0ee01e30ffd50e5887a
-[09/12] firmware: cs_dsp: Add KUnit testing of control read/write
-        commit: fe54fd5474f746f07f2b587f2f5e3311bf611970
-[10/12] firmware: cs_dsp: Add KUnit testing of bin error cases
-        commit: cd8c058499b65e8605cd3c387bb1f76e2954870e
-[11/12] firmware: cs_dsp: Add KUnit testing of wmfw error cases
-        commit: feb5fb0615f321ab514f4fbbab777f3591f7e4b5
-[12/12] firmware: cs_dsp: Add KUnit testing of client callbacks
-        commit: 75a4a6ef615e2f4e9458051641f185498273ce02
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 15db90c54a45..84eb3b0f5f8d 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1805,7 +1805,7 @@ xhci_remove_interrupter(struct xhci_hcd *xhci, struct xhci_interrupter *ir)
+ 		tmp &= ERST_SIZE_MASK;
+ 		writel(tmp, &ir->ir_set->erst_size);
+ 
+-		xhci_write_64(xhci, ERST_EHB, &ir->ir_set->erst_dequeue);
++		xhci_update_erst_dequeue(xhci, ir, true);
+ 	}
+ }
+ 
+@@ -1848,6 +1848,11 @@ void xhci_remove_secondary_interrupter(struct usb_hcd *hcd, struct xhci_interrup
+ 		return;
+ 	}
+ 
++	/*
++	 * Cleanup secondary interrupter to ensure there are no pending events.
++	 * This also updates event ring dequeue pointer back to the start.
++	 */
++	xhci_skip_sec_intr_events(xhci, ir->event_ring, ir);
+ 	intr_num = ir->intr_num;
+ 
+ 	xhci_remove_interrupter(xhci, ir);
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 9f0bc301c7a0..34cc828f22a7 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3031,9 +3031,9 @@ static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter
+  * - When all events have finished
+  * - To avoid "Event Ring Full Error" condition
+  */
+-static void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
+-				     struct xhci_interrupter *ir,
+-				     bool clear_ehb)
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++			      struct xhci_interrupter *ir,
++			      bool clear_ehb)
+ {
+ 	u64 temp_64;
+ 	dma_addr_t deq;
+@@ -3130,6 +3130,37 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
+ 	return 0;
+ }
+ 
++/*
++ * Move the event ring dequeue pointer to skip events kept in the secondary
++ * event ring.  This is used to ensure that pending events in the ring are
++ * acknowledged, so the xHCI HCD can properly enter suspend/resume.  The
++ * secondary ring is typically maintained by an external component.
++ */
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++			       struct xhci_ring *ring,	struct xhci_interrupter *ir)
++{
++	union xhci_trb *current_trb;
++	u64 erdp_reg;
++	dma_addr_t deq;
++
++	/* disable irq, ack pending interrupt and ack all pending events */
++	xhci_disable_interrupter(ir);
++
++	/* last acked event trb is in erdp reg  */
++	erdp_reg = xhci_read_64(xhci, &ir->ir_set->erst_dequeue);
++	deq = (dma_addr_t)(erdp_reg & ERST_PTR_MASK);
++	if (!deq) {
++		xhci_err(xhci, "event ring handling not required\n");
++		return;
++	}
++
++	current_trb = ir->event_ring->dequeue;
++	/* read cycle state of the last acked trb to find out CCS */
++	ring->cycle_state = le32_to_cpu(current_trb->event_cmd.flags) & TRB_CYCLE;
++
++	xhci_handle_events(xhci, ir);
++}
++
+ /*
+  * xHCI spec says we can get an interrupt, and if the HC has an error condition,
+  * we might get bad data out of the event ring.  Section 4.10.2.7 has a list of
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 5ebde8cae4fc..514a36914ed9 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -334,7 +334,7 @@ static int xhci_enable_interrupter(struct xhci_interrupter *ir)
+ 	return 0;
+ }
+ 
+-static int xhci_disable_interrupter(struct xhci_interrupter *ir)
++int xhci_disable_interrupter(struct xhci_interrupter *ir)
+ {
+ 	u32 iman;
+ 
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index e78648c39b1e..3791a6c6408c 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1843,6 +1843,9 @@ xhci_create_secondary_interrupter(struct usb_hcd *hcd, unsigned int segs,
+ 				  u32 imod_interval);
+ void xhci_remove_secondary_interrupter(struct usb_hcd
+ 				       *hcd, struct xhci_interrupter *ir);
++void xhci_skip_sec_intr_events(struct xhci_hcd *xhci,
++			       struct xhci_ring *ring,
++			       struct xhci_interrupter *ir);
+ 
+ /* xHCI host controller glue */
+ typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
+@@ -1882,6 +1885,7 @@ int xhci_alloc_tt_info(struct xhci_hcd *xhci,
+ 		struct usb_tt *tt, gfp_t mem_flags);
+ int xhci_set_interrupter_moderation(struct xhci_interrupter *ir,
+ 				    u32 imod_interval);
++int xhci_disable_interrupter(struct xhci_interrupter *ir);
+ 
+ /* xHCI ring, segment, TRB, and TD functions */
+ dma_addr_t xhci_trb_virt_to_dma(struct xhci_segment *seg, union xhci_trb *trb);
+@@ -1928,6 +1932,9 @@ unsigned int count_trbs(u64 addr, u64 len);
+ int xhci_stop_endpoint_sync(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 			    int suspend, gfp_t gfp_flags);
+ void xhci_process_cancelled_tds(struct xhci_virt_ep *ep);
++void xhci_update_erst_dequeue(struct xhci_hcd *xhci,
++			      struct xhci_interrupter *ir,
++			      bool clear_ehb);
+ 
+ /* xHCI roothub code */
+ void xhci_set_link_state(struct xhci_hcd *xhci, struct xhci_port *port,
