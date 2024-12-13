@@ -1,125 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3A11AB6FF;
-	Fri, 13 Dec 2024 08:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3D61AD3F6
+	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 09:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734080040; cv=none; b=jZk7Lpv+ifhSUMeGuDAJlB0pIeTrztmR5s8m6NpW5WoUYISOfSidLHrkC84Fvht8LGBARp6evmCYxjIOyYOxbzi6+9v6nHOEneq8YQCH8w+Zu1ypncs/x1/IOvM+Qfyj4zdnBG7FbgFp5dFGo6htHg/BwHfx1w9WsboTCGBHftA=
+	t=1734081023; cv=none; b=UphPsuVKe1lkgOi574D6HD8UCYGgZ9zODeNB19M+sCwqaEdkBIWxhpDE0igOU98n0Henjaez/1npGlfmy5swKkSghe22Hur2hCV5Sb2TUpixO+jbGKOgV8wQBR6ajkucF+vDC7sP//deG1gtJfP8baYvQzA2smKMpFWeh4X7R/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734080040; c=relaxed/simple;
-	bh=xx1YCCc7x74d5prYar4rNsVjFMi0KmmH2/WshxrFgFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rLGO+7TzOksW8KsNxZ0p9O9+QVvovqSK7dBLJ1ts62u9LWTnv0PhhZ06DpsXqTjqr4Wc6b0Ea4FQznOtSNFofLzxicWNZchqeh5DnG98V5iUIeV8Myc1AgMjRA5262WapfvSV9/Qm3fhUdBiPd4nDIEX0vrUqjca9zwHl08/nlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hYGQdt7g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734081023; c=relaxed/simple;
+	bh=4GoxPHziDL8jynynpc6II9XKQmKHxtY3WLim+EY8Rn8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FwcUvgO+kIWvyY+vhUCg3Us0m7XZNPtT+Qix2Fg8rD6qg+fp72xn8w+xWFHxDLzxBbUriA11LJYk+wutS+1u8eJB2o3vEcezWbBfqRyKiW5+XFBhklksTWZB44EwbkJsRoQtUs7LS7eY3Qxp7yoRuBffAAEqq/AOgYpYBtOxGLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0TyhOYCO; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hYGQdt7g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25961C4CED0;
-	Fri, 13 Dec 2024 08:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734080038;
-	bh=xx1YCCc7x74d5prYar4rNsVjFMi0KmmH2/WshxrFgFA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hYGQdt7gMOzrSpI2pNvkeXUp63YP6uhlskMyBMkZVNFKgWgsVIyWBme/cUxadA0P2
-	 QwQJMAxd353bmBC1yYj2NNPg3aY1RTUH5JekxE2QK6vlVDVO6s6d4mHnXQOUZgw5zH
-	 kWoeHYjZCxVVeRlSyM0vPJ7zdRiuRFKKZNzJ3UdakMoJk8TZKJQEPYefhLwJdErvxC
-	 S3Ghxtu7ICi/SOuCiNHjO/JPe/uFAYnLewlvKXgqadhEsynLJp+ifi0glwr3Z7jpuQ
-	 zjHnT4xACKJrovXHjHG1m/6wTW7tcqySsI7Vvu+TUbvLTLKyYzEKBFzbdKnUPo48lJ
-	 uEozC60hv/zTw==
-Date: Fri, 13 Dec 2024 09:53:55 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Vinod Koul <vkoul@kernel.org>, Bard Liao <yung-chuan.liao@linux.intel.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Sanyog Kale <sanyog.r.kale@intel.com>, 
-	linux-arm-msm@vger.kernel.org, linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, quic_pkumpatl@quicinc.com, kernel@quicinc.com
-Subject: Re: [PATCH v5 1/4] ASoC: dt-bindings: wcd937x-sdw: Add static
- channel mapping support
-Message-ID: <iuuxejlzes23ju4oy2m27oen2bhrenyuouq37ktvmiheoy7ow6@w6oqzh4bj4v6>
-References: <20241212162334.36739-1-quic_mohs@quicinc.com>
- <20241212162334.36739-2-quic_mohs@quicinc.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0TyhOYCO"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2165433e229so14817655ad.1
+        for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 01:10:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1734081020; x=1734685820; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UZMjcDhc1h3P2X9Fu0YyDkAQOlnsU6jYEmSS6gnAML4=;
+        b=0TyhOYCOvIo5/MoX5rWM13KVpbScFj33pmm+/NclfFcYB1R+JX6bgF31Gh776qQvSO
+         w1LuHug2EETtMZvhUW7B0PIO5JRjErvYeheDxIJKXuwo52javjty8BFIVR5FTP47Z0su
+         dSfNz1/EMc3/HcEeAt4oIlvY1Uz8ghXLc2+5hdwkr6Fo7aMywbUQOVs51moVfZ8qhHFm
+         oQovRIwPCjrBFm2D4WIJv/V0di/Kcq+oklWF/1z7YDuob7UAiF3pjIsLMrAUwhR11kfH
+         C5llTkrnAkgmtvRRjlY9crPP1g8fsfGJYnz2YfCApBEYsnr6nQDPJPnZyA67Uac84rRG
+         1myQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734081020; x=1734685820;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UZMjcDhc1h3P2X9Fu0YyDkAQOlnsU6jYEmSS6gnAML4=;
+        b=rMrxQ3Yf3Djpo1ZpdkJoFQZ3eI3MpqHVUMdRjDFmYKYSVxiXuXkMSWekF+d309dJzc
+         AdZ6A3Emlon4LZpuXbGvk9AFG2XVh5/yCKZ6VufjYEK8inO23VbTOBUwB57WHa4zxPHT
+         PZtWz1MPiVpYhh24X6qklDNWWHa1+pImSqyn8gkUOpQJw1UGuvEfjk+8nBS5J3Q+w3r1
+         5SgZjbHDIL/qU2ICv9ObsEY1EgIzjYOnduIXn/0GKXF3iM1ZS8aFTl2YyN1ApCfK/VyI
+         t7igJpBKPjNj5mnYLGnkP77rw9HVYc1b8s8xheTixNXYlPla97jXKVgPpsZsPIOiXCKt
+         ktnw==
+X-Forwarded-Encrypted: i=1; AJvYcCW/ZtxRQOTp9Z1th0rZ/zzxDnG6sUiDnaISRAk74g7lAYVXBWexHmNOw/h9CLP4Ho3R1okldQXZekTE7g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6RrUV/9H0mDClL+i/Hhf8J5jSlCQM0wNJWhoNjGwp7V0AGW/t
+	pKY1GKcm6ZdpiHYBxdAOnSxjKmoFPIHJwPw1nTqmC+94Dfdgc1K71HYRrZJhezX3YUDBu33xhgJ
+	XlJbdwB6zXN86ZQ==
+X-Google-Smtp-Source: AGHT+IEWGF+x01YrzH8Zqz6DDD7saIEVhbAUPTAJ8Q7hrcR+RUbndbMM9vtqiuEmG36O/LrpFgJSqohpUP+Lnmw=
+X-Received: from plti1.prod.google.com ([2002:a17:902:6ac1:b0:212:5134:8485])
+ (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:d510:b0:215:7446:2151 with SMTP id d9443c01a7336-2189298205amr23588125ad.4.1734081020572;
+ Fri, 13 Dec 2024 01:10:20 -0800 (PST)
+Date: Fri, 13 Dec 2024 09:10:08 +0000
+In-Reply-To: <03c79eca-f79b-4008-9037-ea96e18f093f@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241212162334.36739-2-quic_mohs@quicinc.com>
+Mime-Version: 1.0
+References: <03c79eca-f79b-4008-9037-ea96e18f093f@quicinc.com>
+X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
+Message-ID: <20241213091016.2058740-1-guanyulin@google.com>
+Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
+From: Guan-Yu Lin <guanyulin@google.com>
+To: quic_wcheng@quicinc.com
+Cc: Thinh.Nguyen@synopsys.com, broonie@kernel.org, cezary.rojewski@intel.com, 
+	conor+dt@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org, 
+	dmitry.torokhov@gmail.com, gregkh@linuxfoundation.org, krzk+dt@kernel.org, 
+	lgirdwood@gmail.com, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org, 
+	mathias.nyman@intel.com, perex@perex.cz, pierre-louis.bossart@linux.dev, 
+	robh@kernel.org, srinivas.kandagatla@linaro.org, tiwai@suse.com, 
+	tiwai@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 12, 2024 at 09:53:31PM +0530, Mohammad Rafi Shaik wrote:
-> Add static channel mapping between master and slave rx/tx ports for
-> Qualcomm wcd937x soundwire codec.
-> 
-> Currently, the channel map index value for each soundwire port is
-> hardcoded in the wcd937x-sdw driver, and the same channel map index
-> value is configured in the soundwire master.
-> 
-> The Qualcomm board like the QCM6490-IDP require static channel map
-> settings for the soundwire master and slave ports.
-> 
-> If another boards which are using enable wcd937x, the channel mapping
-> index values between master and slave may be different depending on the
-> board hw design and requirements. If the above properties are not used
-> in a SoC specific device tree, the channel mapping index values are set
-> to default.
-> 
-> With the introduction of the following channel mapping properties, it is
-> now possible to configure the master channel mapping directly from the
-> device tree.
-> 
-> The qcom,tx-channel-mapping property specifies the static channel mapping
-> between the slave and master tx ports in the order of slave port channels
-> which is adc1, adc2, adc3, adc4, dmic0, dmic1, mbhc, dmic2, dmic3, dmci4,
-> dmic5, dmic6, dmic7.
-> 
-> The qcom,rx-channel-mapping property specifies the static channel mapping
-> between the slave and master rx ports in the order of slave port channels
-> which is hph_l, hph_r, clsh, comp_l, comp_r, lo, dsd_r, dsd_l.
-> 
-> Signed-off-by: Mohammad Rafi Shaik <quic_mohs@quicinc.com>
-> ---
->  .../bindings/sound/qcom,wcd937x-sdw.yaml      | 36 +++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> index d3cf8f59cb23..c8543f969ebb 100644
-> --- a/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> +++ b/Documentation/devicetree/bindings/sound/qcom,wcd937x-sdw.yaml
-> @@ -58,6 +58,40 @@ properties:
->      items:
->        enum: [1, 2, 3, 4, 5]
->  
-> +  qcom,tx-channel-mapping:
-> +    description: |
-> +      Specifies static channel mapping between slave and master tx port
-> +      channels.
-> +      In the order of slave port channels which is adc1, adc2, adc3,
-> +      dmic0, dmic1, mbhc, dmic2, dmic3, dmci4, dmic5, dmic6, dmic7.
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 12
-> +    maxItems: 12
-> +    additionalItems: false
-> +    items:
-> +      enum:
-> +        - 1  # WCD9370_SWRM_CH1
-> +        - 2  # WCD9370_SWRM_CH2
-> +        - 3  # WCD9370_SWRM_CH3
-> +        - 4  # WCD9370_SWRM_CH4
+> On 12/10/2024 8:40 AM, Takashi Iwai wrote:
+>> On Tue, 10 Dec 2024 01:59:10 +0100,
+>> Wesley Cheng wrote:
+>>> On 12/5/2024 4:53 PM, Wesley Cheng wrote:
+>>> Hi Takashi,
+>>>
+>>> Could you possibly help share some direction on what you think of the c=
+urrent design, and if you think its detrimental that we make modifications =
+mentioned by Cezary?  I have the next revision ready for review, but I want=
+ed to get a better sense on the likeliness of this landing upstream w/o the=
+ major modifications.
+>>
+>> Honestly speaking, I have no big preference about that design
+>> question.  The most important thing is rather what's visible change to
+>> users.  An advantage of the current design (sort of add-on to the
+>> existing USB-audio driver) is that it's merely a few card controls
+>> that are added and visible, and the rest is just as of now.  The
+>> remaining design issue (two cards or single card) is rather
+>> kernel-internal, and has nothing to do with users.  So I'm fine with
+>> the current design.
+>>
+>> OTOH, if we follow the pattern of HD-audio, at least there will be
+>> more preliminary changes in USB-audio driver side like we've done for
+>> HD-audio.  That is, make most of USB-audio code to be usable as (a
+>> kind of) library code.  It's more work, but certainly doable.  And if
+>> that can be achieved and there other similar use cases of this stuff
+>> not only from Qualcomm, it might make sense to go in that way, too.
+>> That said, it's rather a question about what's extended in future.
+>> If Intel will need / want to move on that direction, too, that's a
+>> good reason to reconsider the basic design.
+>>
+>
+> So to clarify, what Cezary and I are proposing are actually two different=
+ concepts to achieve some sort of offloading for audio data.  In my use cas=
+e, we're trying to leverage as much of the USB SND implementation as possib=
+le, and only offloading the handling of audio transfers.  Everything else i=
+s still handled by USB SND, hence the reason for it being an add-on since m=
+ost of it stays the same.  Unfortunately, I don't have any details about th=
+e full HW offload design, as public material on it is fairly minimal.  So i=
+t would be difficult for me to rework my series to something I don't have a=
+ line of sight into.  Personally (and as you can probably tell :)), I would=
+ prefer if we could do the refactoring in stages (if actually required), si=
+nce I've been pushing this method for awhile now, and I'm not sure if I can=
+ take up that effort to do that on my next submission.  At least from the Q=
+C perspective if we did move to the HDaudio-type implementation, I think I'=
+d need to also
+> change up the ASoC design we have currently implemented as well, so it wo=
+uldn't be a trivial change.
+>
+>
+> Thanks
+>
+> Wesley Cheng
+>
 
-I asked to drop the comments, because now they are obvious. 1 is channel
-1, obviously. Your description should say what are the values here:
-channels on the WCD9370 or Soundwire master device side.
+Given that the series has already undergone extensive review, I prefer Wesl=
+ey's
+design. We've begun leveraging the design in our local environment with
+positive results. Furthermore, we've proposed an additional feature to enab=
+le
+USB audio offload during system suspend [1]. In brief, by combining these t=
+wo
+points, we can identify use cases where other vendors could also benefit fr=
+om
+Wesley's design.
 
-Anyway, if it is understable to Mark, then I am happy as well:
+[1] https://patchwork.kernel.org/project/linux-usb/cover/20241106083501.408=
+074-1-guanyulin@google.com/=20
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+Regards,
+Guan-Yu
