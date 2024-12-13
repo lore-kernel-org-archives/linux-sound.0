@@ -1,206 +1,191 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010056.outbound.protection.outlook.com [52.101.228.56])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED36291E
-	for <linux-sound@vger.kernel.org>; Fri, 13 Dec 2024 05:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E0B1547CC;
+	Fri, 13 Dec 2024 06:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734066640; cv=fail; b=AYcPkoXmDxty8Zi1zYw4HxV/sCcHZ5td1dmWjIXjZ2+QC3AOBtV1pdhQNPz50bxiciAkr42u206te7wWx+OVGKcbBLoO8ycUG5+kyOWU7v6FrBV6+CvB6PzMRacExEs3HpI1QPmEuEVx4LzdJIn2xBx6eVRb7byTrTkHbX8lChA=
+	t=1734070318; cv=fail; b=KCbCn+CC/L+ugUFov9xfJOX3mERMSpbP4Exp3CXE/0zOfwTab4baTWslwYYfMSODjXp/MvT75KiA5DmwSOmzFuWC/nraZh4SIW94XMCRqXayZ+QK1LNI2obUdKUKf49Gp7UKNSsOY2VB4fxXSmLW66fgHIIUSgiDz6JWPyYLUM0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734066640; c=relaxed/simple;
-	bh=qWw5F9mlUgQXv+QkmU5zyhhJUSvvxfb7Kx0+J3CUTTA=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=t4JUvQHTxXLx/K1N1onTUOcBJa8aS5i5G2Ljk9ykpVm8NWho6fEsUcRGhoy2Zm6rMCJX68/uQPdQe5Bj6J/agsqxSlnbSVro1osRB6BJy91fCFo9TbKGw0DXj56dQ6yuon4N3ElDU1C5pmpxyqfEEji+CK1eNwTW8MFaArch44U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Uhe08pVu; arc=fail smtp.client-ip=52.101.228.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	s=arc-20240116; t=1734070318; c=relaxed/simple;
+	bh=0BlJ1MLrGAoh+EplO+Qa5A8YtvcQly4RhZfw3jEp4WU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WTUOviHhWHz1m1ZLQ5+AMs19FuVkCO34jq3RxZWjr3b0+MpdwD9A4YJ62X0vYx/2NbOf4/wM2U7xrYxY0AbUajmYYV6jnFY+reW3VndYuTVcg+O/hqRqKesAmmS69MDmUHi2R3dL4WPxrlmvakk4LWjiHK/45fO6g33hYuw98uU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0C0rF3iG; arc=fail smtp.client-ip=40.107.223.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Uhe08pVu"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0C0rF3iG"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hT8SujPQ64+rXOBWiqmFnymXSxnV5VcrWJSVUzLxUm0hj5otl9cZfInTcBmBYdrz8SZZNRTwh3dzEM8Rid/RDoMbBcjT4NY9hpdD7YALMwL5WmKejZq2X21+2qK/N3kTZBbk5z7F2sgWHz7WiBxjXb/DDb/J5CB464wjG7mGEamABPi14DnXLbiE+2GwU3tsaCP99Ky/nIwa8DKjVfzUBWcZ6sFoH2Q1+tILX5Qpe6UJyPnqQpyBSHbCKjlDPlwGBBioJuzD37Hq2suQf5LzD6FOOM/kV7j45qtjw66oiElrlm8NikvOxDCitguCZiDfCu3bFMWCDU8JNJBywHRuuw==
+ b=y8AJh8qibnR1GbHOgMC+BOoD2UORgBMdeDoVEeP6MSMJ46EZ2s/4vBaM66ktodSsSSWT/Z64ZDWYEeGfrEsEm7C0mvNhQHV+JWwm/IHCM45X6Lth7FzO5EwYjGCESpu0S9dcA/nyDRezps/jJFPeU58oBWye2EVDM30Uh5Hn3suQ0FaOoncywQe7CF8oDOVDd4lelcSWJPbScp8aAoLrhAbu26igIaz4j8gNyWZaq/xCQSXJg/mIt8kbyBN8GKXHp8SX8pj/6/nYUio1PG0UgEyPhgNKmSfpffM6o2o2QrIkgUCLm+F91l0v+bE8oSLVOKm4NkvC5UuQH95gYH1B9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/sqJB3acKeCRmchcdsZh9NiPV+d8a61MbC9M+ZKvZdw=;
- b=B0FwYNq62FCICkU0dsdCHOUHCLxdzYFeyyW3C3HSKKy0OYrvh6eouRvteaV6Z8+PSxOfskQgaw9J0hS93P5dLQkFtCfXri45C/oOJ6XP3bdVeAkXha6IuvZizMLhgH0poLppsNKlv9pZdTI0PVo3OS8n/jtcspQbToE8e5WFATrSHrfHd/LjyipCLZofCk0XVb2uXAFhyKv1BI5cOEYsv5BB6X4Kl2LNKsMSRmMxHvwUgvhj6Y3c8zn63LJvHI7T3sV1LKm/460mKWeUIDCOeotSmEaazbW91tdJ+vs29fw7Mwx6x0CTl1CwvQfB/lKJw0WDZQTNxXCH7eJKHnX75A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
+ bh=iojgeCIrd8Fb2m2rXVr3FYC8X3NT3dmkZsZ4UJ67bto=;
+ b=S4FjNlJHrJj6cax4mJHYcEEpCGAy7y3rh8W4swMyC85+bYtZtiEbfD7iOcnt31VxfB2s6t0IE9TLC7gcuYWWj9WAw1lIZOyuqNHOCxsMt+uk0u3IOgqETw/tNzDXGhboy6DT381yE21g/14zRqfDKWwAoPyR166YRGheOlM9R1vg1hhJLg1DP0auzZjSlBsCuW42J6WcqT7qSFzjIedcWmRfHDnMiiGkhpH3Rgh5Ha1G2ryAjZ4OjK5puVs5lYVVeR9vA8xFyIqk5Sr3qtfpfUorRm/BpQ6f39p2V7xKYaq+2vClX6iFIpX+pSn7Wsuxo/7JHvt+ebzc4fhnVGRt0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/sqJB3acKeCRmchcdsZh9NiPV+d8a61MbC9M+ZKvZdw=;
- b=Uhe08pVuwkM6v3WFNeWA0NrcocanVzHz5S5RJVuTK4MxZcmgWuix5ffhPE3dNWAbmOhsS2coAjln/xveqNiDI/Ff/FHBDcxZy6yhKZMukEUxNVKkwMO0KWFP3veHjDcCVywzHg4Qo0cJpIDZ7FWDmo4Ds+YQmQ7ct//60VwwkkI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS7PR01MB11518.jpnprd01.prod.outlook.com
- (2603:1096:604:243::8) with Microsoft SMTP Server (version=TLS1_2,
+ bh=iojgeCIrd8Fb2m2rXVr3FYC8X3NT3dmkZsZ4UJ67bto=;
+ b=0C0rF3iGLIV6NY/zDM7kJ5Fb3qvBdf0LGQTqy31oAz+fWDXj0C/IR6sIXWqt+0JSZoglBD3+GqahZC3+djnU+m3INnYfXtk/WF45O2pdLrYpjoS8mfNiXN6GGCvK4MpUb2kJ7OlYUHNATnx0BFIuNeYGXzTH+uiItRQxL9gtMzU=
+Received: from BN9PR03CA0534.namprd03.prod.outlook.com (2603:10b6:408:131::29)
+ by MN2PR12MB4061.namprd12.prod.outlook.com (2603:10b6:208:19a::18) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.18; Fri, 13 Dec
- 2024 05:10:29 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8251.015; Fri, 13 Dec 2024
- 05:10:29 +0000
-Message-ID: <8734is88xn.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Stephen Gordon <gordoste@iinet.net.au>
-Cc: Mark Brown <broonie@kernel.org>,
-	Shenghao Ding <shenghao-ding@ti.com>,
-	Kevin Lu <kevin-lu@ti.com>,
-	Baojun Xu <baojun.xu@ti.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2] ASoC: pcm3168a: Add option to force clock consumer
-In-Reply-To: <e17b11ac-bd78-42e0-8fd9-272fb5a41bbe@iinet.net.au>
-References: <ea504848-eeb1-4e8e-bbf2-394114802c20@iinet.net.au>
-	<5011ceef-5100-441d-b169-dabba135d27f@iinet.net.au>
-	<cec27c80-ca7d-43a1-90e2-ce014e56e295@sirena.org.uk>
-	<c2b9ae73-6a94-4184-9aab-8c95bd242b60@iinet.net.au>
-	<3c39e10d-0d39-4343-bdec-fe3041361cc8@sirena.org.uk>
-	<20241207125222.7aeedbf6@rpi5>
-	<878qspobvg.wl-kuninori.morimoto.gx@renesas.com>
-	<20241209231258.22f3902f@rpi5>
-	<87o71kjm66.wl-kuninori.morimoto.gx@renesas.com>
-	<e17b11ac-bd78-42e0-8fd9-272fb5a41bbe@iinet.net.au>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Fri, 13 Dec 2024 05:10:28 +0000
-X-ClientProxiedBy: TYBP286CA0037.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:404:10a::25) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+ 2024 06:11:53 +0000
+Received: from BN2PEPF00004FBD.namprd04.prod.outlook.com
+ (2603:10b6:408:131:cafe::23) by BN9PR03CA0534.outlook.office365.com
+ (2603:10b6:408:131::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.15 via Frontend Transport; Fri,
+ 13 Dec 2024 06:11:52 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN2PEPF00004FBD.mail.protection.outlook.com (10.167.243.183) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8251.15 via Frontend Transport; Fri, 13 Dec 2024 06:11:52 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 13 Dec
+ 2024 00:11:52 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 13 Dec
+ 2024 00:11:51 -0600
+Received: from prasad-lnx-mach.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Fri, 13 Dec 2024 00:11:47 -0600
+From: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
+To: <broonie@kernel.org>, <alsa-devel@alsa-project.org>
+CC: <Vijendar.Mukunda@amd.com>, <mario.limonciello@amd.com>,
+	<Basavaraj.Hiregoudar@amd.com>, <Sunil-kumar.Dommati@amd.com>,
+	<syed.sabakareem@amd.com>, Venkata Prasad Potturu
+	<venkataprasad.potturu@amd.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Bard Liao
+	<yung-chuan.liao@linux.intel.com>, =?UTF-8?q?P=C3=A9ter=20Ujfalusi?=
+	<peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+	<pierre-louis.bossart@linux.dev>, "open list:SOUND - SOC LAYER / DYNAMIC
+ AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] ASoC: amd: ps: Fix for enabling DMIC on acp63 platform via _DSD entry
+Date: Fri, 13 Dec 2024 11:41:46 +0530
+Message-ID: <20241213061147.1060451-1-venkataprasad.potturu@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB11518:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd567e7b-ab71-4754-b955-08dd1b34761c
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBD:EE_|MN2PR12MB4061:EE_
+X-MS-Office365-Filtering-Correlation-Id: f58d2468-3271-483b-2399-08dd1b3d09dc
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+	BCL:0;ARA:13230040|7416014|36860700013|376014|1800799024|82310400026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?DgziIArXAfi9yd+0LOqBue8eQ7XBJFyEmQQIV0k56e1nqz7w+6FvHAAps/2f?=
- =?us-ascii?Q?aTF0u0qTK19Oi+6Teh0lmtQivS2YmOxWf9O+7uByNF8rNxcdIqd8noLcL64P?=
- =?us-ascii?Q?B9nOKeQcjfDvAPNzNvyQjSzEEZS4hh8CgCRwoumpn7jsB58vmXFmhZMenwhQ?=
- =?us-ascii?Q?zefQD9eiI68Ie1yqg9HI0OS//+AFMWE03CBcF19OvXWdTOWf82WGUrHsKCQB?=
- =?us-ascii?Q?2qDx6aTQ97dkdjvfu7WjNZCNnoZPbOCeThCZnLPFgzSErcV8BXuo5f3M5OaQ?=
- =?us-ascii?Q?bMhs07xve2FO2b/zWEHYLwGgqaw3xNyCVOD/qKMOkB9R75jXKYDZCXI5I/6O?=
- =?us-ascii?Q?1LD/KwymMU/whzdANWzHl+wMIVYKm8mclihRfPqadXK1Y8QlEcMGAQ3CJRZ+?=
- =?us-ascii?Q?2UPDWWK3rdfeqkehV4PIKCdVq0CFusb2g6vHpNR27S+Ju0AeHTgplRdg+j3i?=
- =?us-ascii?Q?c0CQdyNgVi903S0ZBVGxGotoUiZdrKLCQ9vFiwpWYv0iuD+Emx8QXYNevdip?=
- =?us-ascii?Q?XJSlRRHR/LdV02fjnfoGAadSO4uNGC1TPrQqt3c792z1pj/dJWZdgyFvqmtK?=
- =?us-ascii?Q?P6OVDfXk1cT5I4Mj5FyNDg5OyuxTOYTiiGw44j43UquqxlDNXsGht0yQXtcj?=
- =?us-ascii?Q?PCOWvAZ2ya7kF6UOA1PUQ3Y8wkd+te3IdQzU+Vp594EZnVP9oFyODbPYsXoW?=
- =?us-ascii?Q?+s1JvRJqxtxVPKcoR1sT8jYv8vRz/021QWuLPL6tNKD9VAoaz0b4/ubD5y9i?=
- =?us-ascii?Q?0H5MOBlaHmMkdxVSBRVyCGZPkmWNMNA1QWCJgQl3houZ13rfy3je14DGX1Mv?=
- =?us-ascii?Q?G7HgSA5aNDNZdbzLjxkaoK3xa38zR6T4jxEZIZeb4/pMso8VrSGoyys4bwHl?=
- =?us-ascii?Q?d4H2E2lfruvobJ1DoZYVAczgv1XwPEK74rBti6NXnKSf64uALLs8AMXf7myb?=
- =?us-ascii?Q?xJU7/SZ4RIIjuw3SGdY9r0NF7WJYRTO+pGMiYRJ/HMqJtAKPzJTRdN3CJTDa?=
- =?us-ascii?Q?ZrRnGtOgXf7hpe6ZLvHuVv4peTO2p9rz6wOT2OScisSAFSddCc1SHjJtTSmr?=
- =?us-ascii?Q?0TEFXDiFVBRO0dCdieyRbC/+47aKkls0PGBB3gOFBseG0PdXkzXSz3rcycgb?=
- =?us-ascii?Q?cRiara/QnQ/CZ4E3o0rwnVE956gAZeODR+2NDM8LgEICKgZ+I0YE9u3xCsui?=
- =?us-ascii?Q?vIAq3SOb0dMhtKyRbeHwgSqya9myhVtuUBzx1B8nYmoc+41aUuvSdyCsfy2i?=
- =?us-ascii?Q?Dg9ikEH9vtYhJ46NasSK+NIUy8A1MQdj8IVJ74xkvCAeqhcXf3wUgD6PKZ1f?=
- =?us-ascii?Q?tDvrBABsYm98TyYRlCQ4Ej9o2FlEs8a45rdMokscW0xKjMZ86M+GMn+AfQ30?=
- =?us-ascii?Q?NBeXKvXXnZDO/pap5KrGGMsY8IxIlsR9A/TgfBkQeKKU274i3g=3D=3D?=
+	=?us-ascii?Q?IQMly5ChsgniHtstsBAnVazIk7GjETsBNvdQXxJwGEv+L/84DLvhcGJ4LfJJ?=
+ =?us-ascii?Q?nZab8qBCU7tAfvx5RvcZEt0r/k2hV/R637U+k/3RoOrT6xOHoad3LDYhihLn?=
+ =?us-ascii?Q?kLmmpjVIZ8QmR9sBae3dQIZK55re9m3jzVc9dNic7qZAQUXE3a23WOIb+ckD?=
+ =?us-ascii?Q?t3hU8XjSFrLmJShCl+ad4TF1xCp6klyNMbKFWJ6dya4Qg97oTfJVlcCqc0RM?=
+ =?us-ascii?Q?4hRnJJK/yWftqpLqZpG5TfZ11O3nGDRalzyKEVLd89ybvaVeTBgkHi9YlJMg?=
+ =?us-ascii?Q?vKkvFWoCGCpoVdiAqgQ81td9R7y7C4V7e+dvqGY9how/sUdCDm3QgdY6LUVu?=
+ =?us-ascii?Q?TZaDrsbKD8uiramb9bmSQ/Qwe/jfgtXgBrv/4Hl3qPARWzViPt/epzl839wO?=
+ =?us-ascii?Q?h4EAlgXBpd7LC3pRyb43nlHqSDrsMdrwTApL5hrCfQ76p6thpQvoIc4T5irD?=
+ =?us-ascii?Q?OmQvs13FnnalUyITRHr3o/GR2hUnz8SpwX9630ydTfE6RqsWuLOY9bt9ihWw?=
+ =?us-ascii?Q?XZEahb9ozVx3JQQ2TmaTK6QJhc/UCkj3bBuwOQ1BfyPqb+zl2yuYAFGh0WGG?=
+ =?us-ascii?Q?ieNQcPp3mzw4HEPis/EWAxnzqg0L6ciK8AOq+W+zcDrYY9/RJz7HHaFeFF3m?=
+ =?us-ascii?Q?uO62MUC0jIgRfsnqmeEXNftlEuObyPYhfdj2fwgf9YJWv20lKGTHWbIxyVzW?=
+ =?us-ascii?Q?9yChA1ACssI/UVuL69tsaoaA97XZ/D9wMFIbxyH2ffCiLEsJBLFifQ5usyi8?=
+ =?us-ascii?Q?YD6qWFDpW6ow76N4jcJBXg+ZAHbCyi/rM/z32rsV9bJ0bWMVo3DCLpwYKGQ1?=
+ =?us-ascii?Q?j3H+sM0oFmCslyrIr36LbIsm6R5T9VzeOfWe7qQF8ggm8mMESZrwPRyehAvd?=
+ =?us-ascii?Q?ZKsTQQViIteyN70885TxrOi1aUPKXNjGlWJ1RUWqBbkXYFWdvvEVuMO/4Kc9?=
+ =?us-ascii?Q?ygQaNQ/xp0znNHimpBHZVmaSY83WjD5zeVFS3YKDJkwys4pcy1naN4/pudg1?=
+ =?us-ascii?Q?FQwOmpUgCr94Z9Ij6jCi4KlBEESf6IVUKFjk7HzwTVdoFOmpQYW+m+UwtF3C?=
+ =?us-ascii?Q?g3GFt/3mLKEEpzuDyOGxTGiWc0c4hIGM5ej0B5yS4Z/2m7stLRsMxEWTqntQ?=
+ =?us-ascii?Q?1sHZgzFQiKoKPDfN2AGpsDhV51h3PnX1vGhbeqjMHB99h3kL/WOOlLYb1Eii?=
+ =?us-ascii?Q?bXikus1P952qdAuxwQCGYMDAuICHwtjjx3Yhha49haAIF/E2LL5ZS/FBl9sS?=
+ =?us-ascii?Q?RDCrOcpak96/8qwLTj4n/I1qXyiJqjYf0ugT0RKY/w/Hq8UC7xslpS1DfNhN?=
+ =?us-ascii?Q?A/4IcK73/r57Y5VLdlz1oroxFcy8fzUuEr3CZoYMaz1jLVBflUbO1126JIMT?=
+ =?us-ascii?Q?SH7//7m2EV4LHDhxMlxFEZAaB0RHeIZ183+et1A6wIGEqfGDL/HUFAYC1DGK?=
+ =?us-ascii?Q?VUAZUzn0h8/mOHsOdGo12avxjy3Mfam0?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?PjaVoBUjDFkS7JFaWEWAFuEKgxnayXihfCBU89fYXe3aQ6vY9zNCe5R1Q44J?=
- =?us-ascii?Q?+oIp4i3jqhixOsDCb9+iYxV3eoCu2dZ/eF9LSMppiJFDUI8uXlwaYHJyOSiZ?=
- =?us-ascii?Q?4K0+4B8f6J9/i4145axkfn2b5MrJuEL3BkHEZgU5EyRfZUfgXcfRek/CFPkZ?=
- =?us-ascii?Q?IgHOi1iCMOPHer9jwsyrRnfoNvSvFrRAfFFP0jfZFjnbjGhfaCD7rm/pudRL?=
- =?us-ascii?Q?VTwiz0NKgkzzOOw8DJOsX93uGZCG7etJ+Kahmifzb/pqSNN5i+w4v0Nhzo2E?=
- =?us-ascii?Q?BSiFrjVn9NVngmCKeG81d7QlUwYEnF5H8/J5lC5fOJ4aHCTuRaT9kTgd84qO?=
- =?us-ascii?Q?mpBaQsmERlc9Rp5knPEnc7YCDbI3qJXInr3oXWvxl7uhaazDaCvVmoKt11wI?=
- =?us-ascii?Q?0OMWc+PobupUPTyzUgL7IIrNc2MVxMlKGVA9npz2uYYhwibr+tlj3FpOyZtR?=
- =?us-ascii?Q?XHP234/CL9qzIJJSPXjq0X27vnWq0fsfw2vVFtqEAS2ssGx4ugfL3vfjNyaX?=
- =?us-ascii?Q?kriHASQnuxHRESb+wGoPQCaad046n+XmGxweyDbtmqhOTDDJam/6kNQS0dA+?=
- =?us-ascii?Q?YEBNkY1gjf+QsGwZr9OMqHJoY6orTtHuLe6dG8LzJy3847aOKhen1eU7LQpc?=
- =?us-ascii?Q?O+RNCdJUeGKesqW7XOaonyz7QuxCHQsN9NYdOPTNcVQuDebl7h9ZQeuM99AF?=
- =?us-ascii?Q?aNIffutN8An1TlpljTAoj6L9dKkToILqtJwQkKtWpNetH6CiV3hcmJaJbMkR?=
- =?us-ascii?Q?8EqbWZd90i4B7neA0jQzt4/mP2futV5whrNzjPCruyWKHVo8EHnwHtYkLa3B?=
- =?us-ascii?Q?R+mx7NKfO3Hm19UuL/oiwMpFGPHORUBsxpP34BauPCJDYEe6TH9kCjgrI0jH?=
- =?us-ascii?Q?Hf8TYhkSghVyGcu4JQwohV53cbjX7zjYPfw1m+ufMXavikXClAhh8cOp5sGT?=
- =?us-ascii?Q?O4eqrUBzKcv84jsCdkL7woghGiad78pUI7ItKIlGoYNx1QZQ2r1+kIDRe3A/?=
- =?us-ascii?Q?hIPtto2BfG8dOUp+SH3jiYfMYziaz6Na6VoEl9bHN3EMkpIVZWceBYfgnSpd?=
- =?us-ascii?Q?6FQliUUj7Xu+Zvfj0dMEKMCJb/T+20S/wqEPFszEaellx95jlfhvVTgMdmOo?=
- =?us-ascii?Q?Ql3Q3zxVqAGP72LG3uoKMvV0jVa+4lLLfT6WTImUMTO9TGLXYjfw4QSh6nvu?=
- =?us-ascii?Q?Fg7ZMRDBQYW+MU2BaUAzuxxcyIPRJGiDh/TkzcRfxey1nBHuCF5Pb4RG1vsQ?=
- =?us-ascii?Q?U1kOjgbu4KL99g54aro91Ds/7C6uf5iEXM+ggAqMCiQW0G6NtGSuRWDAMoRr?=
- =?us-ascii?Q?GUMvH1zgGzMM99ARAiOFwZIJ/S7SxQsMoZbE/oydGFqdVWRx9eBvBJWPJys+?=
- =?us-ascii?Q?zQhOEOx3apx8ypJY9YDaSW4QYF4F8+s7FO3koWeJl+ZyLQXEqWf+37eY5GvL?=
- =?us-ascii?Q?u3YujWuMl80eCNFv3YqhRzPZiJzc1JeWgtSxvh2TKLzLmuBj2su8iKAZ57kM?=
- =?us-ascii?Q?f12NcfDouL6jXkT+xzK5hU0SgYrDDJ52TAGM1y1qJGU5wx+e6843NuCVvmME?=
- =?us-ascii?Q?VbsTx3dKw82MeZopSterWssDuv1oZNviU0KQkGbS5f9Zo++abA0pKLLk31VX?=
- =?us-ascii?Q?jWmDXZ+qWe/33r/M6wlZpes=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd567e7b-ab71-4754-b955-08dd1b34761c
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 05:10:29.3159
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(376014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2024 06:11:52.8074
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jO+s9TBzoTNieG6EmWVVkx30GzcwtuzCQ/1+EgWhrQVefeCfWf7C/nlwtG1uagx8rGwS8cgBPTNOzUq4byi+0va5HqqTnuJj1NdDfDGd5GtVRnMh5TT25ZzAEpW2amfO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11518
+X-MS-Exchange-CrossTenant-Network-Message-Id: f58d2468-3271-483b-2399-08dd1b3d09dc
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF00004FBD.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4061
 
+Add condition check to register ACP PDM sound card by reading
+_WOV acpi entry.
 
-Hi Stephen, Mark
+Fixes: 0386d765f27a ("ASoC: amd: ps: refactor acp device configuration read logic")
 
-> >  From "Sound Card" point of view, setup directly Bx_Fx base instead of
-> > CBx_CFx base is not a big deal. But if we do it, we need to have such
-> > setting for each DAI, instead of common dai_link.
-> > 
-> > Now dai_link->dai_fmt is including 4 type of info
-> > 
-> > 	1. DAI hardware audio formats
-> > 	2. DAI Clock gating
-> > 	3. DAI hardware signal polarity
-> > 	4. DAI hardware clock providers/consumers
-> > 
-> > I think we want to separate 4 (and maybe 2 too ?) from it to support
-> > more flexible system ?
-> > 
-> > Legacy system
-> > 	dai_link->dai_fmt		// include all 1, 2, 3, 4
-> > 
-> > New system
-> > 	dai_link->dai_fmt		// include 1, 2, 3 (or 1, 3)
-> > 	dai_link->cpus[idx].fmt		// include 4       (or 2, 4)
-> > 
-> > 	fmt = dai_link->dai_fmt | dai_link->cpus[i].fmt
-> > 
-> > "flip" has effect to 4 only, so New system has no issue with flipping
-> > on dai_link->dai_fmt.
-> 
-> Hi Morimoto-san,
-> 
-> This is a great idea. I'd add that #4 could still be in 
-> dai_link->dai_fmt, but the new field in CPU/codec 
-> (snd_soc_dai_link_component.fmt) should override the setting (not a 
-> simple OR). This would preserve backward compatibility (I think). It 
-> greatly improves support for multiple codecs sharing clock lines, where 
-> 1 codec is the producer and others are consumers. The bit/frame logic in 
-> simple/graph cards should be able to be changed to handle this properly too.
-> 
-> Without this type of override, the original patch is needed (or the card 
-> driver needs to write registers directly, which seems bad).
-> 
-> I will wait to hear Mark's opinion.
-
-I'm now preparing the patch for it.
-I want to more test it. I think I can post it next week if Mark is OK for it.
-
-
-Thank you for your help !!
-
-Best regards
+Signed-off-by: Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
 ---
-Kuninori Morimoto
+ sound/soc/amd/ps/pci-ps.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/sound/soc/amd/ps/pci-ps.c b/sound/soc/amd/ps/pci-ps.c
+index a7583844f5b4..983d7fa13938 100644
+--- a/sound/soc/amd/ps/pci-ps.c
++++ b/sound/soc/amd/ps/pci-ps.c
+@@ -374,11 +374,18 @@ static int get_acp63_device_config(struct pci_dev *pci, struct acp63_dev_data *a
+ {
+ 	struct acpi_device *pdm_dev;
+ 	const union acpi_object *obj;
++	acpi_handle handle;
++	acpi_integer dmic_status;
+ 	u32 config;
+ 	bool is_dmic_dev = false;
+ 	bool is_sdw_dev = false;
++	bool wov_en, dmic_en;
+ 	int ret;
+ 
++	/* IF WOV entry not found, enable dmic based on acp-audio-device-type entry*/
++	wov_en = true;
++	dmic_en = false;
++
+ 	config = readl(acp_data->acp63_base + ACP_PIN_CONFIG);
+ 	switch (config) {
+ 	case ACP_CONFIG_4:
+@@ -411,10 +418,18 @@ static int get_acp63_device_config(struct pci_dev *pci, struct acp63_dev_data *a
+ 			if (!acpi_dev_get_property(pdm_dev, "acp-audio-device-type",
+ 						   ACPI_TYPE_INTEGER, &obj) &&
+ 						   obj->integer.value == ACP_DMIC_DEV)
+-				is_dmic_dev = true;
++				dmic_en = true;
+ 		}
++
++		handle = ACPI_HANDLE(&pci->dev);
++		ret = acpi_evaluate_integer(handle, "_WOV", NULL, &dmic_status);
++		if (!ACPI_FAILURE(ret))
++			wov_en = dmic_status;
+ 	}
+ 
++	if (dmic_en && wov_en)
++		is_dmic_dev = true;
++
+ 	if (acp_data->is_sdw_config) {
+ 		ret = acp_scan_sdw_devices(&pci->dev, ACP63_SDW_ADDR);
+ 		if (!ret && acp_data->info.link_mask)
+-- 
+2.25.1
+
