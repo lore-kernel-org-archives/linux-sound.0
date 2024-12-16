@@ -1,43 +1,46 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7691FF7BE
-	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 12:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760B729CA;
+	Mon, 16 Dec 2024 13:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734352489; cv=none; b=a5FwEfiYBUfJ5MyiGrZBy/CUXM0fO2ZvB0yd5njT3riG+qEHOOrMG3vaLMq0vi54hXukbegn343So3wDEqf3YvDiLCdxyl7vGRgx5MG7qjnbEL+goXYhK8VbrcotflA6KzrucbL4k2KCJ2EHNPWEK52OO4Dp8VX/AFHKn2Q9M5s=
+	t=1734357088; cv=none; b=b/fxsoNhKpz4VngBDOCuk1oGggB/mAQOh827Q8iYl8aeML9HU8J29oTtEJQj9Ul0gVsB6RUip3wRUDzNmE14g2zF2D70H2LTvaoV8e/k/Uq5orELbwnQ1shf5GXG4mj35jeBN7Fn1+tFbykXxGhxGnVOdC7Dr6L5hfm26lVqrbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734352489; c=relaxed/simple;
-	bh=bGY5vGOduknawaVXI+p963aaIAk6ZBySeihaKTMiDOg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GmOHvCEgUHzJql0848Cud+LqeY7fBCba4FYV7ROBVJ4wloGn7EcpoPPR0RHOgenUlcp6fwKsBPzLHkWOr532sSeMSDl9HsSa7CsUjyjDOxGawuz8nq66jPfu7/lv1MJ5sD4eleCTA3alH9L70DJP4cRL/S2UnHlDJ/AHilCvCiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rl1ekae4; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1734357088; c=relaxed/simple;
+	bh=XzzoNb1ESFopZWcFseLs3MATF//u+lQ8bipQcHAFmn0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UQ+qNMJvNQ8MJosXPVwKfkB2ZvwNEVP123d2nhW+uBlJJ7Cm9t3GSW75xMs883RlV9RmDJnkICwS5oF44VuSw2Pr+UbSqxY7rZSutZP/ehZUgMHP3bdekMdBGbEisD3Bj5320ysFpTjf1qNLA8YA817bN47Xl8mXxAIhn7u4xoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=WE6GlMRh; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rl1ekae4"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1734352482;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ecCUV64E3I9yoNIZtKRMVYS+tTxWlY0Y+hDUV07hbeg=;
-	b=rl1ekae4Qq4lZ6X8FVkWsZRTql/roCyrH1SpebesobcrGtTD9YdUwA/6mrUuP7XbsCp+GH
-	0O5M9Z9kz11ZXTNQn7RCBjM3QkF5Q2pMFAmx2ru3EKEU5Ix47SBCXAdfdMrElP5tt8Jz0Y
-	J2rBzQUzYFBhtgMEBcceqKY2dq1xjz0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Rhodes <drhodes@opensource.cirrus.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hdsp: Use str_on_off() and str_yes_no() helper functions
-Date: Mon, 16 Dec 2024 13:34:11 +0100
-Message-ID: <20241216123412.64691-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="WE6GlMRh"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=VvnIJ+8KBuKAzppK5VoGNaMAd+gil9Q97KXAPCROgYc=; b=WE6GlMRhIwO0fGWj
+	QRLnNUG5SOEjdKp8DS7wskYo18ENn1IQGeFvq6q65QX3S0oJwsJW9EJD8EUgGnQe4jVWX5hny4McV
+	SFZU2L6YBjAU8ZmGrE0esJuISEqE7P9AoXjl25edp3ID5NefK4InEAQBjoz+M6ve8ZM1yd246lNao
+	k2Tm0B5Mp64v7Y/fTiAr7DP+PbUGyLojASUT0oEiCSoeLjgnFVKvz2gpQFSadDnnpWtSy46gwBGot
+	l4nZRxGqtmVyYR69rVRXu0Rd6n+AOkWdBLDbddtt6krYVd889IOcK04gvEjb6uIocmULUfE1gua04
+	VnuQOkxk3yRAZRkwVQ==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tNBV9-005cKY-1j;
+	Mon, 16 Dec 2024 13:51:11 +0000
+From: linux@treblig.org
+To: oder_chiou@realtek.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] ASoC: rt715: Remove unused hda_to_sdw
+Date: Mon, 16 Dec 2024 13:51:10 +0000
+Message-ID: <20241216135110.53426-1-linux@treblig.org>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -45,51 +48,85 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Remove hard-coded strings by using the str_on_off() and str_yes_no()
-helper functions.
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+hda_to_sdw() has been unused since it was added in 2020 as part of the
+commit d1ede0641b05 ("ASoC: rt715: add RT715 codec driver")
+
+Remove it.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- sound/pci/rme9652/hdsp.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ sound/soc/codecs/rt715-sdw.c | 41 ------------------------------------
+ sound/soc/codecs/rt715.h     |  3 ---
+ 2 files changed, 44 deletions(-)
 
-diff --git a/sound/pci/rme9652/hdsp.c b/sound/pci/rme9652/hdsp.c
-index 1c504a591948..fd3dfbad397a 100644
---- a/sound/pci/rme9652/hdsp.c
-+++ b/sound/pci/rme9652/hdsp.c
-@@ -3444,7 +3444,7 @@ snd_hdsp_proc_read(struct snd_info_entry *entry, struct snd_info_buffer *buffer)
- 	snd_iprintf(buffer, "MIDI1 Input status: 0x%x\n", hdsp_read(hdsp, HDSP_midiStatusIn0));
- 	snd_iprintf(buffer, "MIDI2 Output status: 0x%x\n", hdsp_read(hdsp, HDSP_midiStatusOut1));
- 	snd_iprintf(buffer, "MIDI2 Input status: 0x%x\n", hdsp_read(hdsp, HDSP_midiStatusIn1));
--	snd_iprintf(buffer, "Use Midi Tasklet: %s\n", hdsp->use_midi_work ? "on" : "off");
-+	snd_iprintf(buffer, "Use Midi Tasklet: %s\n", str_on_off(hdsp->use_midi_work));
+diff --git a/sound/soc/codecs/rt715-sdw.c b/sound/soc/codecs/rt715-sdw.c
+index ec255ada44e0..cd702574c84b 100644
+--- a/sound/soc/codecs/rt715-sdw.c
++++ b/sound/soc/codecs/rt715-sdw.c
+@@ -372,47 +372,6 @@ static const struct regmap_config rt715_sdw_regmap = {
+ 	.use_single_write = true,
+ };
  
- 	snd_iprintf(buffer, "\n");
+-int hda_to_sdw(unsigned int nid, unsigned int verb, unsigned int payload,
+-	       unsigned int *sdw_addr_h, unsigned int *sdw_data_h,
+-	       unsigned int *sdw_addr_l, unsigned int *sdw_data_l)
+-{
+-	unsigned int offset_h, offset_l, e_verb;
+-
+-	if (((verb & 0xff) != 0) || verb == 0xf00) { /* 12 bits command */
+-		if (verb == 0x7ff) /* special case */
+-			offset_h = 0;
+-		else
+-			offset_h = 0x3000;
+-
+-		if (verb & 0x800) /* get command */
+-			e_verb = (verb - 0xf00) | 0x80;
+-		else /* set command */
+-			e_verb = (verb - 0x700);
+-
+-		*sdw_data_h = payload; /* 7 bits payload */
+-		*sdw_addr_l = *sdw_data_l = 0;
+-	} else { /* 4 bits command */
+-		if ((verb & 0x800) == 0x800) { /* read */
+-			offset_h = 0x9000;
+-			offset_l = 0xa000;
+-		} else { /* write */
+-			offset_h = 0x7000;
+-			offset_l = 0x8000;
+-		}
+-		e_verb = verb >> 8;
+-		*sdw_data_h = (payload >> 8); /* 16 bits payload [15:8] */
+-		*sdw_addr_l = (e_verb << 8) | nid | 0x80; /* 0x80: valid bit */
+-		*sdw_addr_l += offset_l;
+-		*sdw_data_l = payload & 0xff;
+-	}
+-
+-	*sdw_addr_h = (e_verb << 8) | nid;
+-	*sdw_addr_h += offset_h;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(hda_to_sdw);
+-
+ static int rt715_update_status(struct sdw_slave *slave,
+ 				enum sdw_slave_status status)
+ {
+diff --git a/sound/soc/codecs/rt715.h b/sound/soc/codecs/rt715.h
+index 6e37bf64e12f..a0c56aa1003a 100644
+--- a/sound/soc/codecs/rt715.h
++++ b/sound/soc/codecs/rt715.h
+@@ -220,8 +220,5 @@ int rt715_io_init(struct device *dev, struct sdw_slave *slave);
+ int rt715_init(struct device *dev, struct regmap *sdw_regmap,
+ 	struct regmap *regmap, struct sdw_slave *slave);
  
-@@ -3452,8 +3452,8 @@ snd_hdsp_proc_read(struct snd_info_entry *entry, struct snd_info_buffer *buffer)
- 
- 	snd_iprintf(buffer, "Buffer Size (Latency): %d samples (2 periods of %lu bytes)\n", x, (unsigned long) hdsp->period_bytes);
- 	snd_iprintf(buffer, "Hardware pointer (frames): %ld\n", hdsp_hw_pointer(hdsp));
--	snd_iprintf(buffer, "Precise pointer: %s\n", hdsp->precise_ptr ? "on" : "off");
--	snd_iprintf(buffer, "Line out: %s\n", (hdsp->control_register & HDSP_LineOut) ? "on" : "off");
-+	snd_iprintf(buffer, "Precise pointer: %s\n", str_on_off(hdsp->precise_ptr));
-+	snd_iprintf(buffer, "Line out: %s\n", str_on_off(hdsp->control_register & HDSP_LineOut));
- 
- 	snd_iprintf(buffer, "Firmware version: %d\n", (status2&HDSP_version0)|(status2&HDSP_version1)<<1|(status2&HDSP_version2)<<2);
- 
-@@ -3750,8 +3750,8 @@ snd_hdsp_proc_read(struct snd_info_entry *entry, struct snd_info_buffer *buffer)
- 		snd_iprintf(buffer, "Phones Gain : %s\n", tmp);
- 
- 		snd_iprintf(buffer, "XLR Breakout Cable : %s\n",
--			hdsp_toggle_setting(hdsp, HDSP_XLRBreakoutCable) ?
--			"yes" : "no");
-+			str_yes_no(hdsp_toggle_setting(hdsp,
-+						       HDSP_XLRBreakoutCable)));
- 
- 		if (hdsp->control_register & HDSP_AnalogExtensionBoard)
- 			snd_iprintf(buffer, "AEB : on (ADAT1 internal)\n");
+-int hda_to_sdw(unsigned int nid, unsigned int verb, unsigned int payload,
+-	       unsigned int *sdw_addr_h, unsigned int *sdw_data_h,
+-	       unsigned int *sdw_addr_l, unsigned int *sdw_data_l);
+ int rt715_clock_config(struct device *dev);
+ #endif /* __RT715_H__ */
 -- 
 2.47.1
 
