@@ -1,49 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA466145FFF;
-	Mon, 16 Dec 2024 15:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A086145FE8
+	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 15:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734361947; cv=none; b=DWZuAZHyIZ/QdTdXBaUVHX7gr4uwTarkaUTVXVyILiBCc/W8couE55HVCWvCmml+Zm5p4cKaQLRGVMKyfGgJEBS6kaV0exsOkK4botI3XnK0eNw1fP93JfqITfcbtkJljQylb/5NuVM6m6WL03IDKqAv5XAx9A/ttoapX0EeR3Y=
+	t=1734361949; cv=none; b=LTLM0JB26AeWWEbpsbnDsEipYguaKbPQ3f6v9dDrQeDuJNeIE5xOumTTAhDkxriS7XBM5swsvIZuF4txZS00lf2KlHAQZVJ98U4g0sAB8jwzKyCrewKukP+znUCkqPXvUVHLxX2b5exCIRgGmqWM+sgiJVmQgIedL5sg4K1qmrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734361947; c=relaxed/simple;
-	bh=q7zy400uagPLKS9PRJpxOSiIFghsPRdYPTkFfB41EDk=;
+	s=arc-20240116; t=1734361949; c=relaxed/simple;
+	bh=/rCZp7EGsD07FIEwqiBFCjMKmRa4Xwu/p3ZMes/fc5I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=iNSf1KjNIzk0HWPA25XT8NzteJzebrhe3hzjrGyXjN9wwvBshTe0579DW6KDzh0kkJPJs3nAXcbxOcFEMA0LGDjvx6rmQKONG2aYmypfbs8juEag+kUnBKR8Wp1SLbghCeRN0u7r+IIvUXyfvi9y4oXNzol6CWVY521oSW3rn0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uCQMQdk1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=K0gUMXLV/QvSNAHqyhgMed2bwYuqGEM2wRB/nyjcRcqg3pva+nvt+3QslM1hvPYSOyzOrlE+Yc/XrVxIVLwNRaq1pNS2fxLjH0NUmybVNWlesEf+tHJuKhh8ThSgg5u6HpEpIga3lkILNAuKTet2XLBZ6w5BVBbpmMegEsgylXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oUdHSjNh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uCQMQdk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0932C4CED0;
-	Mon, 16 Dec 2024 15:12:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oUdHSjNh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DCCAC4CED0;
+	Mon, 16 Dec 2024 15:12:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734361947;
-	bh=q7zy400uagPLKS9PRJpxOSiIFghsPRdYPTkFfB41EDk=;
+	s=k20201202; t=1734361948;
+	bh=/rCZp7EGsD07FIEwqiBFCjMKmRa4Xwu/p3ZMes/fc5I=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=uCQMQdk1SPY1D9l+ivTDmzVk0cAnPmuGO7jH2V2OTCwKCb54sQijkTdGLRzFm89uI
-	 F3MMjBPqydYJrrGzDF6yl+Y51xq0fXbTGQRY7DFnKNvISE6hP2BeMZh3sRiGEUkcgV
-	 vvs1jhFx8fk8TirQ4PUdTlJ3Glp3KFvK8WzxNS2zJIUVH6zrV7mMtp7aiIaYjWrp9G
-	 Q3o/vY5CuhFot7eRryD/i4xizC4LfElzT7rY1QuE/Mt0G3wZcGQUNyPhHawjMNm34y
-	 jwjzHCMN1N6kXMuW/Mp7yMyimuFzlfP0wT4J0EnnpbLS+7vBTn80oBvLiVtnbSvOWO
-	 3DuCrQ8AUO+sQ==
+	b=oUdHSjNhiLLMgrYXboVG+da3SOpjjaxD2nVo+QYs5OkOhbwzEfNFEkeQGgTydblXM
+	 QJ91TwPCPk4PdQN5RlBDoEJknKvEdGoLMAhDqjllo5Xx7PmWNFRBkUzRO0FPDzn0gV
+	 LgohUnvg3Uio5X5vXapAhcL8lUTqfOfAvWp6F9bjBpBRAZjaqz67JaJ22WFDbAdCjw
+	 KbQIDLAGKtiQHDqmPyL6IFYjjwzUMKmZpZnek5QOX9uR1vE/jwONlyRdGzNlvsRISN
+	 Z5Moml6wBXOBlJAG24YKKjbXTohzthZwbl3lfGtBkq3h4B1HdQ6B94pi44nsp3L3vJ
+	 rFAbFvQYSUXrw==
 From: Mark Brown <broonie@kernel.org>
-To: alsa-devel@alsa-project.org, 
- Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Cc: Vijendar.Mukunda@amd.com, mario.limonciello@amd.com, 
- Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com, 
- syed.sabakareem@amd.com, Liam Girdwood <lgirdwood@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- =?utf-8?q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- "open list:SOUND - SOC LAYER / DYNAMIC AUDIO POWER MANAGEM..." <linux-sound@vger.kernel.org>, 
- open list <linux-kernel@vger.kernel.org>
-In-Reply-To: <20241213061147.1060451-1-venkataprasad.potturu@amd.com>
-References: <20241213061147.1060451-1-venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH] ASoC: amd: ps: Fix for enabling DMIC on acp63 platform
- via _DSD entry
-Message-Id: <173436194432.77772.11451411947563731348.b4-ty@kernel.org>
-Date: Mon, 16 Dec 2024 15:12:24 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org
+In-Reply-To: <87y10lu0gx.wl-kuninori.morimoto.gx@renesas.com>
+References: <87y10lu0gx.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: simple-card-utils: Unify clock direction by
+ clk_direction
+Message-Id: <173436194773.77772.16922765031960774103.b4-ty@kernel.org>
+Date: Mon, 16 Dec 2024 15:12:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,13 +45,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-9b746
 
-On Fri, 13 Dec 2024 11:41:46 +0530, Venkata Prasad Potturu wrote:
-> Add condition check to register ACP PDM sound card by reading
-> _WOV acpi entry.
+On Thu, 12 Dec 2024 01:57:55 +0000, Kuninori Morimoto wrote:
+> Original sample-card assumes SND_SOC_CLOCK_IN is used for
+> snd_soc_dai_set_sysclk(), but someday, Codec uses SND_SOC_CLOCK_IN
+> and CPU uses SND_SOC_CLOCK_OUT at hw_params(), and dai->clk_direction
+> is used at simple_init_dai().
 > 
-> Fixes: 0386d765f27a ("ASoC: amd: ps: refactor acp device configuration read logic")
+> There is no uniformity today. Let's use dai->clk_direction for all cases.
 > 
-> 
+> [...]
 
 Applied to
 
@@ -68,8 +61,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: amd: ps: Fix for enabling DMIC on acp63 platform via _DSD entry
-      commit: 88438444fdddd0244c8b2697713adcca3e71599e
+[1/1] ASoC: simple-card-utils: Unify clock direction by clk_direction
+      commit: 5725bce709db1c001140d79398581e067e28c031
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
