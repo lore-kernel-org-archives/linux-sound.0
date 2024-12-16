@@ -1,87 +1,152 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77681C54A6;
-	Mon, 16 Dec 2024 17:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079B9175BF;
+	Mon, 16 Dec 2024 17:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734369029; cv=none; b=Bosj8tEa6r8f1OmnePrMJnd3Z3EMLRN5iq+0tr70sa8J+6LzzYlVx0yK4d0G9zh2TiaxsqWfyz4UdkV13Mj0u5c5wGSnYHQ0bPXhwJjdydzoRtYtAZfdxQkgTpEldO5O9d8/BAfkVSsmyMs1EuARs8D7Wi7sz3QtkbnALmblAmQ=
+	t=1734369286; cv=none; b=bbOHjvp1CDtwr1TMyJRDFR6D6j5uft3PkMbcJxHXnIDHePc62OXRYDECZYG9/6z8iQttt0nl6+B2EQtMmKFuFYuMCx0c6Ay72i0Gcx2fN70fKQKWRI0fHSsGNNN0EkS8DnXkCMCrgbsidMoTj3WRUhoGOxBf6wNDNT5DLwlrV2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734369029; c=relaxed/simple;
-	bh=hk/orhlZtPRCVTAY/48OB6VRHvzYZsvOKapCSPu1XBo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Yf1QC5agi6UdFozb9X4TfzVGDCX2LNjoRJ0J+J4eyeSJEMstRhwUkzOO75PqlRlup7V6tJSIswzIsEgcUUQSOUoONUjpU4nQWeuV4A2Vqa9lZx2i5UeHFKc2MTBARn4N8MqeL7cueL3JbRUnNktb4+vAj2bRwXvXQS/dFHAS4I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pD+qOXsh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734369286; c=relaxed/simple;
+	bh=gSmxdiZIDJu8BiwcPOPmdFwY35K+Q89CNQo+hWjcaBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l9Rm5jRj08iW8tM/7Bd22ruJ566XhDI8U284XxnkZwsboh048qkUYZGJv4SGF3yVblEhY2nPcav/Gw+/UHgLqgAY4ruO5v04h3LSfwxKwYskwtw32cJeFLZFqDj6bM761hiWPDgoOKeFAWOvTa+QU5Wtx8axYB1X4iaaNT5bK88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hQHCHQzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pD+qOXsh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61051C4CED0;
-	Mon, 16 Dec 2024 17:10:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hQHCHQzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C81C4CED0;
+	Mon, 16 Dec 2024 17:14:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734369029;
-	bh=hk/orhlZtPRCVTAY/48OB6VRHvzYZsvOKapCSPu1XBo=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=pD+qOXshhom9N5KPqwWseuhwVJJRBEeqDucT81yLYjinPiby6+TbL9sPC0RjEvXrG
-	 aUO2Cy1PN0vvt4mjftd59SwHz/BYgwSn22eQ9B+gmvwbzKjrGtoo4o3GO3a2vX2C1u
-	 QMF9jYCcApBJ1220Zo0jM9OxauBj3jFyR9NwUlSubLfPTF5Ai0u1Bp+KVRcQMyMAAZ
-	 3/6s+s+Dkh6hHtq64TCxZvw01RM5vFWbnT7TsGj6qBlsPFefcLjbJB32KGRzLPRjwl
-	 jfzxOWZtG4hatBsbxGYYFwWZLPV2FwjuH8PUBLfiR3hllmdVpFD0OItM5p5zD5yAkv
-	 eTTHbqZIl21kw==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Animesh Agarwal <animeshagarwal28@gmail.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20241211035403.4157760-1-wenst@chromium.org>
-References: <20241211035403.4157760-1-wenst@chromium.org>
-Subject: Re: [PATCH] ASoC: dt-bindings: realtek,rt5645: Fix CPVDD voltage
- comment
-Message-Id: <173436902708.158279.3911359979093567109.b4-ty@kernel.org>
-Date: Mon, 16 Dec 2024 17:10:27 +0000
+	s=k20201202; t=1734369285;
+	bh=gSmxdiZIDJu8BiwcPOPmdFwY35K+Q89CNQo+hWjcaBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hQHCHQzd7ZPIab39Ofnd+yXIC4ls5Sg800JevG7+xsIAlI5/TSS8iZD8gBLSm+9C2
+	 JYycOcmN5xNLB6YWaiULVIf49/1INTM9Yy3QYPrJ0f2XaiRWXOJtBeHR96T7ar1k9m
+	 MQTAKU0UkGhpNiwmODYRvxOxjF0c7YdtvUSpMtswW0Ap4N3E0Gb02OS0ftC986pvEM
+	 gT6r2hlcQQWyNBsLSkCXJMIsUlm7UEoD2d+l8a8zVS2NlhjBa0Tr087/RROUBQRtp6
+	 j8cO5tnt5lwpEAfKOGfC2QNiqlfdta5JMk/eS/+3crxOYye9wiuiNZ5M896vJYb1+M
+	 qumZBJPpZFwmA==
+Date: Mon, 16 Dec 2024 18:14:43 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 04/10] drm/bridge: connector: add support for HDMI
+ codec framework
+Message-ID: <20241216-benign-amiable-grebe-e0b3e1@houat>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-4-50dc145a9c06@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="h3bq7alicyplnrqd"
+Content-Disposition: inline
+In-Reply-To: <20241206-drm-bridge-hdmi-connector-v6-4-50dc145a9c06@linaro.org>
 
-On Wed, 11 Dec 2024 11:54:02 +0800, Chen-Yu Tsai wrote:
-> Both the ALC5645 and ALC5650 datasheets specify a recommended voltage of
-> 1.8V for CPVDD, not 3.5V.
-> 
-> Fix the comment.
-> 
-> 
 
-Applied to
+--h3bq7alicyplnrqd
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 04/10] drm/bridge: connector: add support for HDMI
+ codec framework
+MIME-Version: 1.0
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Fri, Dec 06, 2024 at 12:15:58PM +0200, Dmitry Baryshkov wrote:
+> Add necessary glue code to be able to use new HDMI codec framework from
+> the DRM bridge drivers. The drm_bridge implements a limited set of the
+> hdmi_codec_ops interface, with the functions accepting both
+> drm_connector and drm_bridge instead of just a generic void pointer.
+>=20
+> This framework is integrated with the DRM HDMI Connector framework, but
+> can also be used for DisplayPort connectors.
+>=20
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
+>  drivers/gpu/drm/display/drm_bridge_connector.c | 100 +++++++++++++++++++=
++++++-
+>  include/drm/drm_bridge.h                       |  38 ++++++++++
+>  2 files changed, 134 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
+/drm/display/drm_bridge_connector.c
+> index 512ced87ea18c74e182a558a686ddd83de891814..4fa1bb73d430d02d5b79a1a18=
+4c203ec9e9c66e7 100644
+> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
+> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
+> @@ -21,6 +21,8 @@
+>  #include <drm/display/drm_hdmi_helper.h>
+>  #include <drm/display/drm_hdmi_state_helper.h>
+> =20
+> +#include <sound/hdmi-codec.h>
+> +
+>  /**
+>   * DOC: overview
+>   *
+> @@ -368,10 +370,80 @@ static int drm_bridge_connector_write_infoframe(str=
+uct drm_connector *connector,
+>  	return bridge->funcs->hdmi_write_infoframe(bridge, type, buffer, len);
+>  }
+> =20
+> +static int drm_bridge_connector_audio_startup(struct drm_connector *conn=
+ector)
+> +{
+> +	struct drm_bridge_connector *bridge_connector =3D
+> +		to_drm_bridge_connector(connector);
+> +	struct drm_bridge *bridge;
+> +
+> +	bridge =3D bridge_connector->bridge_hdmi;
+> +	if (!bridge)
+> +		return -EINVAL;
+> +
+> +	if (bridge->funcs->hdmi_codec_audio_startup)
+> +		return bridge->funcs->hdmi_codec_audio_startup(connector, bridge);
+> +	else
+> +		return 0;
+> +}
 
-Thanks!
+Nit: it looks like you return in other cases, and there's no need for
+that else.
 
-[1/1] ASoC: dt-bindings: realtek,rt5645: Fix CPVDD voltage comment
-      commit: 6f4a0fd03ce856c6d9811429b9969b4f27e2eaee
+I'd remove the else.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Looks good otherwise, once fixed
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Maxime
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+--h3bq7alicyplnrqd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+-----BEGIN PGP SIGNATURE-----
 
-Thanks,
-Mark
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2BgAgAKCRAnX84Zoj2+
+diFoAYCKbrWMG5n+5jqP+LBnOpHQztpGr0fb/9SiSABc8x5qqhuNZ2mnrkin14cR
+DBnqLSoBgLO7VEPgbZZDR4NjbELbuh+1PGlUqiaaajox0mSG5OXJFXoEo+liaS9G
+zmiTmODHlw==
+=LiWN
+-----END PGP SIGNATURE-----
 
+--h3bq7alicyplnrqd--
