@@ -1,60 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494ED205ADE
-	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 14:08:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D2E812E1CD;
+	Mon, 16 Dec 2024 14:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734358117; cv=none; b=HTaI/U8OafQdnzFsvoo3yxXmit+XY3EFNUutDNOOOX4Yi/5wf0C+7aWHwbhy5VBkne0OuW4+pf6W3RekHfbMHgRlGneV9fAdQu4UTGtKqzElxxsggCccj6vmZxMZ3S5r4iAaiS50IU6fl/bh7m3JTfT2VCjla92DMaTw6cXQE14=
+	t=1734360675; cv=none; b=ksAiDE8CH4G0LWE97x7mUo9oizPQ1AB5d/y8s//IQS/Tvlh7SACouaCBXpxijihdGrps9hy54+nBM/nHc7KmJw+9nfWh2iyY9v7TUy5Bt8malDaMj2B1zK3IS6Jd3tJtgJNXrj40mV1e5bZjr1YuT0sB/NmxYM5EciHqV+iZJNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734358117; c=relaxed/simple;
-	bh=pdpUrexsVimiqdRPrbJnoEPjX3JXsFQFKaAqVtkXB7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k4HeHDXN/Ekp3Xo5sj82HXoSO0TnLr5j9+OYSacDXQA0UFzyT2KwyR4tXPKM0hbUL8bCJ74iWP+VviLnj+V22rCsC7OarMJXbqKYv5lMlHNqPQHsI3kNoqCOXuEy0tNRWDU0XYeXLxuVFnnqb6EZZ7r6Ls6v0jWLGRiaT0B9O2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ldqpV2Gx; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1734360675; c=relaxed/simple;
+	bh=ysrKQp2ttkXFu3hKElJL5pFgXA5DQVf+fUlliXUM1FA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TMJ0jFQRsT4swYeD6DT0LcwxvFoy+ScgSn5ICDcqSILJ4jFkFmqKaWMxFKrFPEP7aq2DRHpH7+k0wsRa75pVLCmXhoBlJw6/ETDJhRtDFPOEJ57sUGGsdzfoxcofwQ2lRlRgMX6vse+HxbPXCsgOo6uiOdiMeOv7JvF8jcErXtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DzwbVNYY; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ldqpV2Gx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734358115; x=1765894115;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=pdpUrexsVimiqdRPrbJnoEPjX3JXsFQFKaAqVtkXB7E=;
-  b=ldqpV2GxgPXYLwsAgPHFzPd1swjfk+ZO9LKaADfNKbPzKjy249ler+q5
-   xMA+AfY1QzRYdSaw43df/4m0i812GRQkKiaeh8EAawzp7NgHHg9Ys9oQ+
-   z1B9EtxGLOYI8ttRr0JGlDFcTXCsMsNf9c/dhXG+4PDMqBE06opF+VGXd
-   WKf1ZVIighi3aaCQKTXWmy/O7ln0716aV/Ryw3Nl6c00GsA+W/6pwaSnR
-   ew4MKtb+XEjz9p38kmwioxxPkilGP6dsa3zb3zITmx8TvJA32pk0I7mob
-   uTH1OUiRlZe4uU7oA2isfj9Kfo/jV8TwBOwfpgM1D8bjsgdl6Dj8LToUy
-   A==;
-X-CSE-ConnectionGUID: AqlzW5vPRLORwaTknoaU+w==
-X-CSE-MsgGUID: 07jAakieSkyuNnChCg8Fag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34063293"
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
-   d="scan'208";a="34063293"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 06:08:35 -0800
-X-CSE-ConnectionGUID: MMNZnNE1QWyiOE52glfozQ==
-X-CSE-MsgGUID: +0ej6XtqQguCY8SU373wQA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,238,1728975600"; 
-   d="scan'208";a="97446900"
-Received: from spandruv-mobl4.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.238])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 06:08:33 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH v2 2/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 21QA and 21QB
-Date: Mon, 16 Dec 2024 22:08:21 +0800
-Message-ID: <20241216140821.153670-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241216140821.153670-1-yung-chuan.liao@linux.intel.com>
-References: <20241216140821.153670-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzwbVNYY"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43622354a3eso29049635e9.1;
+        Mon, 16 Dec 2024 06:51:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734360672; x=1734965472; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uAsk9ZjNjG2Xsz4F0kxEND8XevJ5WxVcer/d+hZes7Q=;
+        b=DzwbVNYYdjzNMLZD8pODEU9vk7nu/kJ00KYDLy7JSCWsRdBe9vMbvHIM1I8x8roz8x
+         OiLvkyEnr29d5gECxQ8AImtYPrPCOF7IjIT/7fawBItfM2iXuGePBgQLv6jMc7Lp0JHT
+         T5KInQCDvCAR8CLtDrIs2Z93orZu5ZyPSeWu+f4FJElgX/K0l913Z78SRMF0Ux3m49bX
+         XRGMaKnH5jcpiPi2yGW3zibR7ehSs/ymwpQzanooB7vd8h5/mI0XS9LFHCyL46lIluV8
+         iCoYYUOvT+FwxfZCtVAwcNjq9i98xpcn+BMJFpUcMAeyou/asEzqlUf+0x1wxKaybpbx
+         fOxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734360672; x=1734965472;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uAsk9ZjNjG2Xsz4F0kxEND8XevJ5WxVcer/d+hZes7Q=;
+        b=Bqnnm2yM/6E6BGIpgepY3vkIFPXjcRzdyAwlrHr6aYLiiqqGpjUQXRRCFlu62XyocA
+         5Z2kUkTQQGPYuAA2NX/E3+p0x1DbJEZwbeP+xS4kB3pqbczmqmK8lNP/xLYXqAYM5c8N
+         6MLsqL63px+KdN83XeqeauPePufoT38oYo+7JbHbCoXtXXx8n2gifZcbPIz6be/mSYW+
+         QUFlP2pOhKWwozwDrwVy6GzZUghZCWivp61rKvja8pDBAZjV+DYpePMVkqXxOpCohd1X
+         L2X25mmFaIIylaR9WQ8SEPlFpbF8qM2DVqfHlGwCmlixieFooRFl+738Svnl8Ixk1L53
+         hE/w==
+X-Forwarded-Encrypted: i=1; AJvYcCUP+M3X5E6GVhCMgliOEzzaQ4diCFSprwVnGadvwqko7U8rolBSnRpP03iKFOxvFxhhegLvfBFXvbmUTCM=@vger.kernel.org, AJvYcCWDtBWqjIWPq+CBmegzW2YQmeROc+ucwbnnQs9K4pFsDgkc1DqBVGc5DppOxPt8YuKNycviOnuc4Rpw@vger.kernel.org, AJvYcCXnuKYoUdUdcEPrwHFHzy2e2Tl87c8E4x36E3yMaBMmeMu/wfO7V4iDGfTeC2rn2/uYdAkjGPqJVvOfxJzu@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzy2S/5do8LUEmZtvCwvkNexKjxnExyWWKRHCJ2xntjtEU/8tDu
+	KPFXW/WdkN3NM3ftScgmAtfciKArGggw6/IONWeIp/OYXUxsfZ1R
+X-Gm-Gg: ASbGnctIVR8wh/aSWD2UUNEy+5BgBJD0HJlEp5mAEYp816LVPalpfIVFCcHKFJXq1vO
+	qtzlx4uyVYBXUdrvwbkrT5e1TL6CQYhHrr1Zmc3Kuq0hVopcyaVzC9wsjulnc5wpL2gjRcCzrdw
+	LF3afyq6gYAmKLIvi3GjVbDK5gs0kzdtTL+A3pJvtEonoDq2LHmXf9dSw7Zks23OcgxIpRVwhfe
+	xZTAX8mmCM0nUtckPDABYTKVMusNnpwxoThn4lRXIZqGnJZ1sWDO9pQ2L+NsmNesgFhYnleaQgX
+	wKgmIlY6esefwc39
+X-Google-Smtp-Source: AGHT+IEEdMUhmjBce9trMWEaZmzDbJkRmOJV4eeE4OPNHba9b9GfzehogBrTvU3TQeHPPyjiEdm+kg==
+X-Received: by 2002:a05:600c:4ed4:b0:434:a734:d268 with SMTP id 5b1f17b1804b1-4362aa589f0mr119266575e9.14.1734360671467;
+        Mon, 16 Dec 2024 06:51:11 -0800 (PST)
+Received: from playground.localdomain ([92.120.5.10])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4362559ed6csm141616455e9.24.2024.12.16.06.51.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 06:51:10 -0800 (PST)
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Mark Brown <broonie@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Frank Li <Frank.li@nxp.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] add sof support on imx95
+Date: Mon, 16 Dec 2024 09:50:34 -0500
+Message-Id: <20241216145039.3074-1-laurentiumihalcea111@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -63,42 +84,60 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
+From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
 
-Update the DMI match for a Lenovo laptop to the new DMI identifier.
+Add sof support on imx95. This series also includes some changes to
+the audio-graph-card2 binding required for the support.
 
-This laptop ships with a different DMI identifier to what was expected,
-and now has two identifiers.
-
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
-Fixes: ea657f6b24e1 ("ASoC: Intel: sof_sdw: Add quirk for cs42l43 system using host DMICs")
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- sound/soc/intel/boards/sof_sdw.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Changes in v3:
+- Ordered DT nodes alphabetically
+- Removed 'cpu' and 'cpu_ep' labels from binding example
+- Some small changes to the binding commit messages/titles.
+- Link to v2: https://lore.kernel.org/lkml/20241113195240.3699-1-laurentiumihalcea111@gmail.com/
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index 139f4306dc87..9f721b88e606 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -637,7 +637,16 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "233C")
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21QB")
-+		},
-+		/* Note this quirk excludes the CODEC mic */
-+		.driver_data = (void *)(SOC_SDW_CODEC_MIC),
-+	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "21QA")
- 		},
- 		/* Note this quirk excludes the CODEC mic */
- 		.driver_data = (void *)(SOC_SDW_CODEC_MIC),
+Changes in v2:
+- Added new binding for 95's CM7 core with SOF. fsl,dsp.yaml is no longer used.
+- "hp-det-gpios" and "widgets" properties now reference the definitions from audio-graph.yaml
+- Removed extra empty spaces from DTS as suggested by Frank
+- Ordered 'edma2', 'sai3', 'wm8962' DT nodes alphabetically. The order of the nodes
+placed inside / is kept the same for readability
+- Ordered driver header files includes alphabetically as suggested by Frank
+- Removed "reg-names" and changed the maximum size of the "reg" property to 1 to align
+with the other NXP CPUs sharing the same programming model (i.e: audio processing with SOF).
+The region described in the DTS is the SRAM and the mailbox region is now hardcoded in the
+driver as an offset to the start of the SRAM region.
+- Added new binding with properties required by all NXP CPUs sharing the same programming
+model (i.e: audio processing with SOF).
+- Various driver adjustments made to accomodate the DT changes + some bug fixing related
+to the mboxes not being requested/free'd on resume/suspend.
+- Fixed value passed to "dma-channel-mask". A set bit means the channel is masked, not the
+other way around.
+- Link to v1: https://lore.kernel.org/lkml/20241023162114.3354-1-laurentiumihalcea111@gmail.com/
+---
+
+Laurentiu Mihalcea (5):
+  ASoC: dt-bindings: add common binding for NXP audio processors
+  ASoC: dt-bindings: support imx95's CM7 core
+  ASoC: dt-bindings: audio-graph-card2: add widgets and hp-det-gpios
+    support
+  ASoC: SOF: imx: add driver for imx95
+  arm64: dts: imx: add imx95 dts for sof
+
+ .../bindings/sound/audio-graph-card2.yaml     |   4 +
+ .../bindings/sound/fsl,imx95-cm7-sof.yaml     |  44 ++
+ .../bindings/sound/fsl,sof-cpu.yaml           |  35 ++
+ arch/arm64/boot/dts/freescale/Makefile        |   1 +
+ .../dts/freescale/imx95-19x19-evk-sof.dts     |  75 ++++
+ sound/soc/sof/imx/Kconfig                     |   8 +
+ sound/soc/sof/imx/Makefile                    |   2 +
+ sound/soc/sof/imx/imx95.c                     | 401 ++++++++++++++++++
+ 8 files changed, 570 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+ create mode 100644 Documentation/devicetree/bindings/sound/fsl,sof-cpu.yaml
+ create mode 100644 arch/arm64/boot/dts/freescale/imx95-19x19-evk-sof.dts
+ create mode 100644 sound/soc/sof/imx/imx95.c
+
 -- 
-2.43.0
+2.34.1
 
