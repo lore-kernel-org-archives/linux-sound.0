@@ -1,114 +1,114 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19CE20100C;
-	Mon, 16 Dec 2024 11:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7A420100C;
+	Mon, 16 Dec 2024 11:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734347882; cv=none; b=urQOQaFZRh6DMgYRuq9ECdrD9fDPkiSYS3oYiYBxWYmxjvg3FzjezidV/owuLowU1TjgCFoVuu0bDxRJ3ZgxrNkagXNtsxI3uk9hfnX755LBD8N3NqVGWDG2p2pQdQosKeO6Ps7TvXF0mUh2utQLcRlHxa1ltZsoGZQVjtYSxvk=
+	t=1734348038; cv=none; b=NfCxS5hn2OAKezs7LV6F9CzujNIPYT1zQfIgXJvMxB+11gbx7gXJL80ezZ+0GyLR6akzFGQhDAmoV+l8fsmysyBPvqAAdEgm8TWjyHgu/y8UYHtjcdKoOXRqJjRHNY5E4ePSnhTTsUmDXy1GLVfzHcR4brTKgPsta9jZ72Z/czo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734347882; c=relaxed/simple;
-	bh=wKjmhvKYD07EopEeQPjDLUkwhtYq/L/Vck46jr0VYDc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g95N5qiwdUdVAJMRFycgRa1l6zK4xmjx7JoNtk+T0urHZc6A8tMBNzMgoyeOahNVe7Lc2codXmtDBhayZSMpuUstvjUTyK41rf6lBHJ1Jm4LNYstUD3HGWoIIT7FpZbomMISiYUIdMpvK0cF9u0v5yUyZHylndf7nHt/E7hEgpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+c+WaX/; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734348038; c=relaxed/simple;
+	bh=TfZiNn/kBFDqt3Y7WGY496OtgczFUJlmmxSq1EkrI+w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nbouMUCMCvH3Kg1LJPfylJyiGgATPCfYU34879uYRKtSNQgyZCsCvIx0NWmNK/M3v0oMiuRrkDJnr/thxBGmPxOlAd5ENXxYes7bsCPb+H7Pv7Rl3CQG7gboxhOqKeWrzdcxI8RDe7GwnN/J2a7VuIEodqZ880jjFtww7DnZHUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OYcMGHKJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+c+WaX/"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30229d5b22fso42196251fa.2;
-        Mon, 16 Dec 2024 03:18:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734347879; x=1734952679; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4uDRPKicjyBVsF4oHmdLO3paC9eyCdN1Hcuw2KWmcs4=;
-        b=B+c+WaX/PdP5aE1hZfSVId5WuK7KUnNcWcvmUzu0B8fhLGEhSYK5AmW+WeJ9vrzG/r
-         TwkZYRSAzUGyxgQiti25mwtZF5Zp1sRIv6Dk1cnLz7l7bHxxOSGOR0o0Ou6+gI0GHb4L
-         4T1yhpEcMOf8uGOIsxucaq4c6azfuGoM+YJmEkWtl4BCWe+w7XMKXSw1RGQPK3BLE/L4
-         tJ6YaCF9RfHVXZ/hS74gmVdiZHU/UWgV150jz89CGWehwSvL1zfd4ijIOQd4lBVTvwbF
-         bNxdZNckniGawjd9RsP0fBf3G0+4XuT9VK3v2tYbSd7Tm0/SAlblJGlfBmikIy2Ln/ZG
-         D0WQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734347879; x=1734952679;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4uDRPKicjyBVsF4oHmdLO3paC9eyCdN1Hcuw2KWmcs4=;
-        b=a7wmaNyl5pFSk2SDZ6jqXWsgfrE8x5zzEqD5XzTIZT1LybiPqBSGmFnnXgI3nC1ihS
-         w2Z1K0kqouAB5hkdw69xOpPVm6PWh0TPKnzI376Pd1uU41QoxDP+pIhegGfUgbgBA/w8
-         fFL6Q3Bq+XxDRNkZMe1JulVuQ1gerG30MIOzl5kBBGykxvQjJBz29MvoVXW3CGq5QtNG
-         U+tDt1SorwZglat4LokYO2mKtSVHeDVUQMEhytEue8gxvLB4n6lMa3N31+21cE6nVi7t
-         d0Lb+0WHqN1rd8z4hJmCE1G14XrUxEtDg1swZzxWKOp8H28STKhQ88F75xr8L2YrLPVy
-         xq1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUMnDe/5L7liffuZCsV5o+aAhHrmz/m5r9pI8upTK3PwlnTy779tLCKaJeZdBozsaNsHw1F/etC/ZY7@vger.kernel.org, AJvYcCWxfIhzRsQuNSHZm/ilB3E7eN1J+6f45k15zE63kNPjO28QPjuGo7rMwcGuGinvhOw40nfiQbWPVQCCrBw=@vger.kernel.org, AJvYcCXz4a5iwfYVUZqNQrB9xLhDnhr1xxHTF7LgsYvFQSG0t4pjRJ9gum6OYdgs6UeNWDqAfj7Ov8uYoVg5XxJe@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVMLZmGQrc6WZzODK0XxToQN/TT8PTiJvrIvFp7hHMs6hb2tXE
-	s+paB1gbHu5e5BTCmyXyP1ObmlzG5TGgJOqKA3CFYyT6RUMubmLld75piwPu9Mo5J/S9JEL4jRR
-	pWgkWiwhcuki9tW7Hbdhr1B1XXHQ=
-X-Gm-Gg: ASbGncuEv4mB2NZsiOYIkIPgFi3l4YctZLUM4QpY54K7bsT2xzg2ifJY63YvzGP83HY
-	2JRBHaVEj4yjGdS+swmWykCcA9oBxCOJOpPvZ5B9+y3UFjV90dL/Ga4/Qf+6rR+J/kAKA
-X-Google-Smtp-Source: AGHT+IHBsS2PddzHPY0JrugNy6kUWAuwhdz0KaOXh0YDC+P4UW91f1Yu31DKnJnF4Ubc4Esc8DSwQoM13m9LUd/UzJE=
-X-Received: by 2002:a05:651c:154a:b0:302:1c90:58f5 with SMTP id
- 38308e7fff4ca-30254444ae7mr38625311fa.1.1734347878643; Mon, 16 Dec 2024
- 03:17:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OYcMGHKJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2B39C4CED0;
+	Mon, 16 Dec 2024 11:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734348038;
+	bh=TfZiNn/kBFDqt3Y7WGY496OtgczFUJlmmxSq1EkrI+w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OYcMGHKJC63ZqnSBvLa8udI6F9L723WK+2luRe3NL1VLMLiHWzDt9e4wNN1E7EtO9
+	 PlYLhrFdAYWcpfXJT1fOTMGGBugRjlay1YFiDCscVf3Rmf37xAm73TGRTqZd2bRwlI
+	 HIDcgMwYjUDT82GvHAbMwU6oLL2j+BqKLv3C4VD1eZQn/z1IXQ5NykeEP1MPHhjtwZ
+	 alxaB1YSE1SlWqRM+oRyGT3L4RmbBVerVE2p0ipJ0WQl7Ve6z4yLhfxqHDog2xAHob
+	 jcRYnxigBqDcQGIRitk5gzsOAviOggx5F41IFZv9jc83OeCU68dOzLZgoVHyWqqdjA
+	 Uu39aDEq7xMOA==
+Message-ID: <9bc048db-a4b9-42e5-ab66-261ef5b00e3a@kernel.org>
+Date: Mon, 16 Dec 2024 12:20:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241216110341.3707-1-quic_pkumpatl@quicinc.com> <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: Add support for master clock
+ frequency
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>,
+ Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_mohsquicinc.com@qualcomm.com,
+ kernel@quicinc.com
+References: <20241216110341.3707-1-quic_pkumpatl@quicinc.com>
+ <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
 In-Reply-To: <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Mon, 16 Dec 2024 08:17:46 -0300
-Message-ID: <CAOMZO5A6_8eygyEY-U2WNOKVtUcQTbBiVV56aX9ypkr1AmOW=g@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: Add support for master clock frequency
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	quic_mohsquicinc.com@qualcomm.com, kernel@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 16, 2024 at 8:04=E2=80=AFAM Prasad Kumpatla
-<quic_pkumpatl@quicinc.com> wrote:
->
+On 16/12/2024 12:03, Prasad Kumpatla wrote:
 > Introduce a property specifies the frequency of the master clock
+> provided to the codec slave. The slave has the capability to adjust
+> the frequency according to user needs in the defined range.
 
-"a property that specifies"
 
-> -    enum: [ 0, 2, 4, 8 ]
-> +    enum: [0, 2, 4, 8]
->
->    micbias-voltage-m-volts:
->      description: The bias voltage to be used in mVolts. The voltage can =
-take
->        values from 1.25V to 3V by 250mV steps. If this node is not mentio=
-ned
->        or the value is unknown, then the value is set to 1.25V.
->      $ref: /schemas/types.yaml#/definitions/uint32
-> -    enum: [ 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000 ]
-> +    enum: [1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
->
->    lrclk-strength:
->      description: |
-> @@ -64,7 +64,7 @@ properties:
->          2 =3D            3.33 mA         5.74 mA         8.03  mA
->          3 =3D            4.99 mA         8.61 mA         12.05 mA
->      $ref: /schemas/types.yaml#/definitions/uint32
-> -    enum: [ 0, 1, 2, 3 ]
-> +    enum: [0, 1, 2, 3]
->
->    sclk-strength:
->      description: |
-> @@ -77,12 +77,20 @@ properties:
->          2 =3D            3.33 mA         5.74 mA         8.03  mA
->          3 =3D            4.99 mA         8.61 mA         12.05 mA
->      $ref: /schemas/types.yaml#/definitions/uint32
-> -    enum: [ 0, 1, 2, 3 ]
-> +    enum: [0, 1, 2, 3]
+You are duplicating existing assigned-clocks properties.
 
-All these enum changes are unrelated.
+> 
+> Also fixed yamllint check errors.
+
+Which ones?
+
+Best regards,
+Krzysztof
