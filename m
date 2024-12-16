@@ -1,132 +1,186 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760B729CA;
-	Mon, 16 Dec 2024 13:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D831204C06;
+	Mon, 16 Dec 2024 13:51:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734357088; cv=none; b=b/fxsoNhKpz4VngBDOCuk1oGggB/mAQOh827Q8iYl8aeML9HU8J29oTtEJQj9Ul0gVsB6RUip3wRUDzNmE14g2zF2D70H2LTvaoV8e/k/Uq5orELbwnQ1shf5GXG4mj35jeBN7Fn1+tFbykXxGhxGnVOdC7Dr6L5hfm26lVqrbU=
+	t=1734357099; cv=none; b=ELZX96d7hNs4qGSek1/Dhz3hyS+vuGbwA2Dh5TGRqcMi5pbohWRNGmIrNGd3JfefF/ZmrKUhTAxQvy/TXdap8/3iNTNHAHrhnTqWDfe8MQ6BkNzOV921IPyrDTMFOi5/ihOXB1FULi2onloVPN4fvPUiUZWnu68G0zbKPZB8aps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734357088; c=relaxed/simple;
-	bh=XzzoNb1ESFopZWcFseLs3MATF//u+lQ8bipQcHAFmn0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UQ+qNMJvNQ8MJosXPVwKfkB2ZvwNEVP123d2nhW+uBlJJ7Cm9t3GSW75xMs883RlV9RmDJnkICwS5oF44VuSw2Pr+UbSqxY7rZSutZP/ehZUgMHP3bdekMdBGbEisD3Bj5320ysFpTjf1qNLA8YA817bN47Xl8mXxAIhn7u4xoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=WE6GlMRh; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="WE6GlMRh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=VvnIJ+8KBuKAzppK5VoGNaMAd+gil9Q97KXAPCROgYc=; b=WE6GlMRhIwO0fGWj
-	QRLnNUG5SOEjdKp8DS7wskYo18ENn1IQGeFvq6q65QX3S0oJwsJW9EJD8EUgGnQe4jVWX5hny4McV
-	SFZU2L6YBjAU8ZmGrE0esJuISEqE7P9AoXjl25edp3ID5NefK4InEAQBjoz+M6ve8ZM1yd246lNao
-	k2Tm0B5Mp64v7Y/fTiAr7DP+PbUGyLojASUT0oEiCSoeLjgnFVKvz2gpQFSadDnnpWtSy46gwBGot
-	l4nZRxGqtmVyYR69rVRXu0Rd6n+AOkWdBLDbddtt6krYVd889IOcK04gvEjb6uIocmULUfE1gua04
-	VnuQOkxk3yRAZRkwVQ==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1tNBV9-005cKY-1j;
-	Mon, 16 Dec 2024 13:51:11 +0000
-From: linux@treblig.org
-To: oder_chiou@realtek.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] ASoC: rt715: Remove unused hda_to_sdw
-Date: Mon, 16 Dec 2024 13:51:10 +0000
-Message-ID: <20241216135110.53426-1-linux@treblig.org>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1734357099; c=relaxed/simple;
+	bh=8x2L09lnocR+Uoe4fNo3fNuvBbW5Bk32u8o4EJ9xf6U=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=OAhyKZsics3zcnFEiiv76z7ifxYhusxYkCXYI4ALazDzg3yEpW9HnTltmqty2iT382lQr4Do8QOGarZKUpCuLN7+r7m7espFSwpL/XK9QoEnPFCv2haaR7f/asiDMaZl5tg904+yjKrOqbRmr1KzFDVps3sqqxs7/08EhT8QSh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5174f9c0e63so1095050e0c.1;
+        Mon, 16 Dec 2024 05:51:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734357096; x=1734961896;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZTDfWhCbHbVmOB07ibdDH37/ZARtk6zjlChlh/Lqxpw=;
+        b=MA11GjONxxUE76Wy+iuddtPOqNyoEc69vCeYsRgYu/BKJrtuUSaiLPPZUsHHampvB0
+         czSpVn1FoF7sAfGYzmON0ZouPW0rZinaEeuEEvpw+mjQT3KjtuzBC2fBkclfHm6OxfIn
+         9tbY0gXLeCgpz+eGmZCRKMdtWklocRqJHfaunfiOAe347rZxQCASTY5AP3Z8dNZpdawf
+         9YuTzwrp0jRawxK3zWMLWbzXH/wgbJOmhCulpbbyeA4mY9kCiF0ZDOcvQysvfk71acdn
+         adr0HhqX9oLYicIJoqATLvgz6TZ8yXyRT5MDcoNeFEAFoQvtO/6LFcqn6W08hUkSN4j8
+         9BjA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3qWy1+cPFtHHIg8RTtYVhGJmzReYQGX9HO5yTXp8bCVv+Uf81WDbCIMQJtzAMDLz9YI4c0PPjhTadFDWthLllxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdno8HJwyOymYz27phUZwRWgmj69pFZ5NF93FUVZcm5UcYvbal
+	0Au4RoLZoLSQGQa9nnV2MmJgzPNeU+NyNOStTy3mRCEaRs7u9oKvVjfblIsB
+X-Gm-Gg: ASbGncs+5ym7pXSbhDD6FGeHibcEN+lgLRuaOfessfyhoKJuVrl/5ya8QQYNj/xFFtJ
+	nGDO0k5Riqp/IpTqow8NOd2dotY3pwaBtAWZL87GbSkC2vzK50ohlHv2Z4su48cg913UifrSWX+
+	+NxUO8bvlDTPLo/y0Cz2hxVTt2cllaZZ/TLtEzEkPMuA3K0EwciwQE9HHtVajqksN9dtVkbQCTV
+	LeOEmN7d05CxLpwGPJddhjIRaln1nIHYF2106fYnfWpFdiy1sNToUgO0bd+GVxNDPOWppYiIsAn
+	ZjHCreSF0/BlvBGoh8c=
+X-Google-Smtp-Source: AGHT+IH48wzOuwxnqg2gdDOP/wNXnDmFiYLgvcmvp5e+39Pj0Yj2rpb00Xl1zaxMarh+lJ4qYtOL1w==
+X-Received: by 2002:a05:6102:1629:b0:4b1:2010:5cd7 with SMTP id ada2fe7eead31-4b25d9a33efmr11078782137.8.1734357095703;
+        Mon, 16 Dec 2024 05:51:35 -0800 (PST)
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com. [209.85.222.47])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b2701f9906sm836396137.3.2024.12.16.05.51.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2024 05:51:35 -0800 (PST)
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-85c4b4cf73aso735426241.2;
+        Mon, 16 Dec 2024 05:51:35 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW2tWP1i7QvhNoH8t9xREEGV5Czwdm98ClwKT4KVVBCOYT6LBHvBZwaL1s5zwk24DeQfO81XYZuj3judyIUOwu9KQ==@vger.kernel.org
+X-Received: by 2002:a05:6102:4b08:b0:4af:a216:c0d0 with SMTP id
+ ada2fe7eead31-4b25d73645dmr13627305137.0.1734357095233; Mon, 16 Dec 2024
+ 05:51:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 16 Dec 2024 14:51:23 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVUKpO2rsia+36BLFFwdMapE8LrYS0duyd0FmrxDvwEfg@mail.gmail.com>
+Message-ID: <CAMuHMdVUKpO2rsia+36BLFFwdMapE8LrYS0duyd0FmrxDvwEfg@mail.gmail.com>
+Subject: rsnd_adg_clk_control() sometimes disables already-disabled clock
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+Hi Morimoto-san,
 
-hda_to_sdw() has been unused since it was added in 2020 as part of the
-commit d1ede0641b05 ("ASoC: rt715: add RT715 codec driver")
+Once in a while, I see the following warning on Salvator-X(S) when entering
+s2idle[1]:
 
-Remove it.
+    ------------[ cut here ]------------
+    clk_multiplier already disabled
+    WARNING: CPU: 0 PID: 1084 at drivers/clk/clk.c:1194
+clk_core_disable+0xd0/0xd8
+    CPU: 0 UID: 0 PID: 1084 Comm: s2idle Not tainted
+6.13.0-rc3-arm64-renesas-01336-g13a53d27900d #2738
+    Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+    pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+    pc : clk_core_disable+0xd0/0xd8
+    lr : clk_core_disable+0xd0/0xd8
+    sp : ffff800083a8ba00
+    x29: ffff800083a8ba00 x28: ffff0004ca7e1a40 x27: ffff800081a0a968
+    x26: ffff8000825ee000 x25: ffff800081ae0090 x24: 0000000000000000
+    x23: ffff0004c0d64500 x22: 0000000000000000 x21: ffff0004c0d64480
+    x20: ffff0004c32c5800 x19: ffff0004c32c5800 x18: ffffffffffffffff
+    x17: 000000040044ffff x16: 00000034b5503510 x15: ffff800103a8b617
+    x14: 0000000000000000 x13: ffff8000818c66e0 x12: 00000000000007fe
+    x11: 00000000000002aa x10: ffff80008191e6e0 x9 : ffff8000818c66e0
+    x8 : 00000000ffffefff x7 : ffff80008191e6e0 x6 : 0000000000000000
+    x5 : ffff0006ff69a408 x4 : 0000000000000000 x3 : 0000000000000027
+    x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0004ca7e1a40
+    Call trace:
+     clk_core_disable+0xd0/0xd8 (P)
+     clk_disable+0x2c/0x44
+     rsnd_adg_clk_control+0x80/0xf4
+     rsnd_suspend+0x14/0x20
+     dpm_run_callback+0x4c/0x14c
+     device_suspend+0x11c/0x4dc
+     dpm_suspend+0xdc/0x214
+     dpm_suspend_start+0x48/0x60
+     suspend_devices_and_enter+0x124/0x574
+     pm_suspend+0x1ac/0x274
+     state_store+0x88/0x124
+     kobj_attr_store+0x14/0x24
+     sysfs_kf_write+0x48/0x6c
+     kernfs_fop_write_iter+0x118/0x1a8
+     vfs_write+0x280/0x37c
+    [...]
+    irq event stamp: 0
+    hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+    hardirqs last disabled at (0): [<ffff800080097c44>]
+copy_process+0x638/0x18f4
+    softirqs last  enabled at (0): [<ffff800080097c44>]
+copy_process+0x638/0x18f4
+    softirqs last disabled at (0): [<0000000000000000>] 0x0
+    ---[ end trace 0000000000000000 ]---
+    ------------[ cut here ]------------
+    clk_multiplier already unprepared
+    WARNING: CPU: 0 PID: 1084 at drivers/clk/clk.c:1053
+clk_core_unprepare+0x110/0x130
+    sd 0:0:0:0: [sda] Synchronizing SCSI cache
+    CPU: 0 UID: 0 PID: 1084 Comm: s2idle Tainted: G        W
+6.13.0-rc3-arm64-renesas-01336-g13a53d27900d #2738
+    Tainted: [W]=WARN
+    Hardware name: Renesas Salvator-X 2nd version board based on r8a77951 (DT)
+    pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+    pc : clk_core_unprepare+0x110/0x130
+    lr : clk_core_unprepare+0x110/0x130
+    sp : ffff800083a8ba00
+    x29: ffff800083a8ba00 x28: ffff0004ca7e1a40 x27: ffff800081a0a968
+    x26: ffff8000825ee000 x25: ffff800081ae0090 x24: 0000000000000000
+    x23: ffff0004c0d64500 x22: 0000000000000000 x21: ffff0004c0d64480
+    x20: 0000000000000001 x19: ffff0004c32c5800 x18: ffffffffffffffff
+    x17: 000000040044ffff x16: 00000034b5503510 x15: 000000000000027a
+    x14: 0000000000000000 x13: 000000000000b817 x12: 0000000000000000
+    x11: 0000000000000001 x10: 0000000000001410 x9 : ffff800083a8b870
+    x8 : ffff800083a8b798 x7 : ffff800083a8b850 x6 : ffff800083a8b7f0
+    x5 : ffff800083a8b7d8 x4 : ffff800083a8c000 x3 : 0000000000000000
+    x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff0004ca7e1a40
+    Call trace:
+     clk_core_unprepare+0x110/0x130 (P)
+     clk_unprepare+0x28/0x3c
+     rsnd_adg_clk_control+0x88/0xf4
+     rsnd_suspend+0x14/0x20
+     dpm_run_callback+0x4c/0x14c
+     device_suspend+0x11c/0x4dc
+     dpm_suspend+0xdc/0x214
+     dpm_suspend_start+0x48/0x60
+     suspend_devices_and_enter+0x124/0x574
+     pm_suspend+0x1ac/0x274
+     state_store+0x88/0x124
+     kobj_attr_store+0x14/0x24
+     sysfs_kf_write+0x48/0x6c
+     kernfs_fop_write_iter+0x118/0x1a8
+     vfs_write+0x280/0x37c
+    [...]
+    irq event stamp: 0
+    hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+    hardirqs last disabled at (0): [<ffff800080097c44>]
+copy_process+0x638/0x18f4
+    softirqs last  enabled at (0): [<ffff800080097c44>]
+copy_process+0x638/0x18f4
+    softirqs last disabled at (0): [<0000000000000000>] 0x0
+    ---[ end trace 0000000000000000 ]---
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- sound/soc/codecs/rt715-sdw.c | 41 ------------------------------------
- sound/soc/codecs/rt715.h     |  3 ---
- 2 files changed, 44 deletions(-)
+Unfortunately I cannot reproduce it at will.
+The above is from today's renesas-devel release, but my logs indicate
+it happens every few months since at least v6.1.
+So far I have seen it on all Salvator-X(S) variants, but not on any other
+SoCs or boards.
 
-diff --git a/sound/soc/codecs/rt715-sdw.c b/sound/soc/codecs/rt715-sdw.c
-index ec255ada44e0..cd702574c84b 100644
---- a/sound/soc/codecs/rt715-sdw.c
-+++ b/sound/soc/codecs/rt715-sdw.c
-@@ -372,47 +372,6 @@ static const struct regmap_config rt715_sdw_regmap = {
- 	.use_single_write = true,
- };
- 
--int hda_to_sdw(unsigned int nid, unsigned int verb, unsigned int payload,
--	       unsigned int *sdw_addr_h, unsigned int *sdw_data_h,
--	       unsigned int *sdw_addr_l, unsigned int *sdw_data_l)
--{
--	unsigned int offset_h, offset_l, e_verb;
--
--	if (((verb & 0xff) != 0) || verb == 0xf00) { /* 12 bits command */
--		if (verb == 0x7ff) /* special case */
--			offset_h = 0;
--		else
--			offset_h = 0x3000;
--
--		if (verb & 0x800) /* get command */
--			e_verb = (verb - 0xf00) | 0x80;
--		else /* set command */
--			e_verb = (verb - 0x700);
--
--		*sdw_data_h = payload; /* 7 bits payload */
--		*sdw_addr_l = *sdw_data_l = 0;
--	} else { /* 4 bits command */
--		if ((verb & 0x800) == 0x800) { /* read */
--			offset_h = 0x9000;
--			offset_l = 0xa000;
--		} else { /* write */
--			offset_h = 0x7000;
--			offset_l = 0x8000;
--		}
--		e_verb = verb >> 8;
--		*sdw_data_h = (payload >> 8); /* 16 bits payload [15:8] */
--		*sdw_addr_l = (e_verb << 8) | nid | 0x80; /* 0x80: valid bit */
--		*sdw_addr_l += offset_l;
--		*sdw_data_l = payload & 0xff;
--	}
--
--	*sdw_addr_h = (e_verb << 8) | nid;
--	*sdw_addr_h += offset_h;
--
--	return 0;
--}
--EXPORT_SYMBOL(hda_to_sdw);
--
- static int rt715_update_status(struct sdw_slave *slave,
- 				enum sdw_slave_status status)
- {
-diff --git a/sound/soc/codecs/rt715.h b/sound/soc/codecs/rt715.h
-index 6e37bf64e12f..a0c56aa1003a 100644
---- a/sound/soc/codecs/rt715.h
-+++ b/sound/soc/codecs/rt715.h
-@@ -220,8 +220,5 @@ int rt715_io_init(struct device *dev, struct sdw_slave *slave);
- int rt715_init(struct device *dev, struct regmap *sdw_regmap,
- 	struct regmap *regmap, struct sdw_slave *slave);
- 
--int hda_to_sdw(unsigned int nid, unsigned int verb, unsigned int payload,
--	       unsigned int *sdw_addr_h, unsigned int *sdw_data_h,
--	       unsigned int *sdw_addr_l, unsigned int *sdw_data_l);
- int rt715_clock_config(struct device *dev);
- #endif /* __RT715_H__ */
+Do you have a clue?
+Thanks!
+
+[1] echo freeze > /sys/power/state
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.47.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
