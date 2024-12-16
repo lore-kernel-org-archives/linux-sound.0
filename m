@@ -1,99 +1,114 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03DD203D46;
-	Mon, 16 Dec 2024 11:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19CE20100C;
+	Mon, 16 Dec 2024 11:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734347060; cv=none; b=uOo4e799A/RldXh/aZWquaTyCK3dwZJfXMMVMemgvkhOmq6jgEVPMoOBmvcRk8COLmpeUpzX8DdjGRxs9cWqKX/g+UYJm2A0C4XDlAOSGNtgrjroTpAfZR0nq+9DWLvpsmJyk3yHjbqD4r/1Piz/hQozMO1ss5Pa3r24xa3hLpQ=
+	t=1734347882; cv=none; b=urQOQaFZRh6DMgYRuq9ECdrD9fDPkiSYS3oYiYBxWYmxjvg3FzjezidV/owuLowU1TjgCFoVuu0bDxRJ3ZgxrNkagXNtsxI3uk9hfnX755LBD8N3NqVGWDG2p2pQdQosKeO6Ps7TvXF0mUh2utQLcRlHxa1ltZsoGZQVjtYSxvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734347060; c=relaxed/simple;
-	bh=Ep6BfWXQ0mWEw/aoKmfPQubW1X/Ku/4ClR9igDvt6YU=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=FSGYHJNCr1iEn4Sh+Snqm5qrfJkVjYAil0233GtBZZ0zE+IWKe97Kca/dSLwi7dM/EP0eTX2WPh5Z+FeVlEvTr/GO0MXJNM40B5i4XCXydpokXrRUIAc1ZFo3zX7krnJnJVH+i74ZkLXSEdgNuaNct4phDgQofdu2t52Z2T4ar8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q04egcso; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+	s=arc-20240116; t=1734347882; c=relaxed/simple;
+	bh=wKjmhvKYD07EopEeQPjDLUkwhtYq/L/Vck46jr0VYDc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g95N5qiwdUdVAJMRFycgRa1l6zK4xmjx7JoNtk+T0urHZc6A8tMBNzMgoyeOahNVe7Lc2codXmtDBhayZSMpuUstvjUTyK41rf6lBHJ1Jm4LNYstUD3HGWoIIT7FpZbomMISiYUIdMpvK0cF9u0v5yUyZHylndf7nHt/E7hEgpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B+c+WaX/; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q04egcso"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG6YC1q023472;
-	Mon, 16 Dec 2024 11:04:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:date:from:message-id:subject:to; s=qcppdkim1; bh=8PiEzheEavzz
-	E7dCdu3xhWm3MuqOMS7yXV2tZZ4F48k=; b=Q04egcsouFf3HHxBR5PP7SCpDh2y
-	PZMke3f5szgq+EvEw9Dzf3Zkp4Dz9fN7xCY2fOessFB8DcEOLZchM0VLxsct4j+r
-	8K20Uux3oA4jOP/GkmOtYS94UoF/znQkC00fYrtDLVoEmDiQqO7C+59luYM4kkqF
-	J4tUKt/wvsZX36zP9REfpIzANb894QLG1GULrU5cWs4LQnln61V0voWMCJQ5jde4
-	Pv66WVzJ/fzSY1czT8aI66DMcCUrXGlffbk6bUXXhWnooe+wirrvF5250I0jBQZv
-	G8MBIcoLbff7VHJng0SYQAdO/J3pqRYrn6kGI3fHoXUGw4sXtgzxTLVMOQ==
-Received: from apblrppmta02.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 43jf1w8ssu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 11:04:05 +0000 (GMT)
-Received: from pps.filterd (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BGB41HX011378;
-	Mon, 16 Dec 2024 11:04:01 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 43h33kna2y-1;
-	Mon, 16 Dec 2024 11:04:01 +0000
-Received: from APBLRPPMTA02.qualcomm.com (APBLRPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 4BGB41Uw011356;
-	Mon, 16 Dec 2024 11:04:01 GMT
-Received: from hu-maiyas-hyd.qualcomm.com (hu-pkumpatl-hyd.qualcomm.com [10.213.109.81])
-	by APBLRPPMTA02.qualcomm.com (PPS) with ESMTP id 4BGB41Fe011353;
-	Mon, 16 Dec 2024 11:04:01 +0000
-Received: by hu-maiyas-hyd.qualcomm.com (Postfix, from userid 3914174)
-	id A09315000A7; Mon, 16 Dec 2024 16:34:00 +0530 (+0530)
-From: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-To: Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, quic_mohsquicinc.com@qualcomm.com,
-        kernel@quicinc.com, Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Subject: [PATCH v1 0/2] ASoC: sgtl5000: Introduce "mclk-rate" Property for Device Tree Configuration
-Date: Mon, 16 Dec 2024 16:33:39 +0530
-Message-Id: <20241216110341.3707-1-quic_pkumpatl@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NwwY13TfEmrP_4csCfK-BxeN4R0LEHGd
-X-Proofpoint-ORIG-GUID: NwwY13TfEmrP_4csCfK-BxeN4R0LEHGd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 mlxscore=0
- impostorscore=0 suspectscore=0 phishscore=0 adultscore=0 bulkscore=0
- lowpriorityscore=0 spamscore=0 mlxlogscore=999 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160093
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B+c+WaX/"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30229d5b22fso42196251fa.2;
+        Mon, 16 Dec 2024 03:18:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734347879; x=1734952679; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4uDRPKicjyBVsF4oHmdLO3paC9eyCdN1Hcuw2KWmcs4=;
+        b=B+c+WaX/PdP5aE1hZfSVId5WuK7KUnNcWcvmUzu0B8fhLGEhSYK5AmW+WeJ9vrzG/r
+         TwkZYRSAzUGyxgQiti25mwtZF5Zp1sRIv6Dk1cnLz7l7bHxxOSGOR0o0Ou6+gI0GHb4L
+         4T1yhpEcMOf8uGOIsxucaq4c6azfuGoM+YJmEkWtl4BCWe+w7XMKXSw1RGQPK3BLE/L4
+         tJ6YaCF9RfHVXZ/hS74gmVdiZHU/UWgV150jz89CGWehwSvL1zfd4ijIOQd4lBVTvwbF
+         bNxdZNckniGawjd9RsP0fBf3G0+4XuT9VK3v2tYbSd7Tm0/SAlblJGlfBmikIy2Ln/ZG
+         D0WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734347879; x=1734952679;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4uDRPKicjyBVsF4oHmdLO3paC9eyCdN1Hcuw2KWmcs4=;
+        b=a7wmaNyl5pFSk2SDZ6jqXWsgfrE8x5zzEqD5XzTIZT1LybiPqBSGmFnnXgI3nC1ihS
+         w2Z1K0kqouAB5hkdw69xOpPVm6PWh0TPKnzI376Pd1uU41QoxDP+pIhegGfUgbgBA/w8
+         fFL6Q3Bq+XxDRNkZMe1JulVuQ1gerG30MIOzl5kBBGykxvQjJBz29MvoVXW3CGq5QtNG
+         U+tDt1SorwZglat4LokYO2mKtSVHeDVUQMEhytEue8gxvLB4n6lMa3N31+21cE6nVi7t
+         d0Lb+0WHqN1rd8z4hJmCE1G14XrUxEtDg1swZzxWKOp8H28STKhQ88F75xr8L2YrLPVy
+         xq1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUMnDe/5L7liffuZCsV5o+aAhHrmz/m5r9pI8upTK3PwlnTy779tLCKaJeZdBozsaNsHw1F/etC/ZY7@vger.kernel.org, AJvYcCWxfIhzRsQuNSHZm/ilB3E7eN1J+6f45k15zE63kNPjO28QPjuGo7rMwcGuGinvhOw40nfiQbWPVQCCrBw=@vger.kernel.org, AJvYcCXz4a5iwfYVUZqNQrB9xLhDnhr1xxHTF7LgsYvFQSG0t4pjRJ9gum6OYdgs6UeNWDqAfj7Ov8uYoVg5XxJe@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVMLZmGQrc6WZzODK0XxToQN/TT8PTiJvrIvFp7hHMs6hb2tXE
+	s+paB1gbHu5e5BTCmyXyP1ObmlzG5TGgJOqKA3CFYyT6RUMubmLld75piwPu9Mo5J/S9JEL4jRR
+	pWgkWiwhcuki9tW7Hbdhr1B1XXHQ=
+X-Gm-Gg: ASbGncuEv4mB2NZsiOYIkIPgFi3l4YctZLUM4QpY54K7bsT2xzg2ifJY63YvzGP83HY
+	2JRBHaVEj4yjGdS+swmWykCcA9oBxCOJOpPvZ5B9+y3UFjV90dL/Ga4/Qf+6rR+J/kAKA
+X-Google-Smtp-Source: AGHT+IHBsS2PddzHPY0JrugNy6kUWAuwhdz0KaOXh0YDC+P4UW91f1Yu31DKnJnF4Ubc4Esc8DSwQoM13m9LUd/UzJE=
+X-Received: by 2002:a05:651c:154a:b0:302:1c90:58f5 with SMTP id
+ 38308e7fff4ca-30254444ae7mr38625311fa.1.1734347878643; Mon, 16 Dec 2024
+ 03:17:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20241216110341.3707-1-quic_pkumpatl@quicinc.com> <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+In-Reply-To: <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Mon, 16 Dec 2024 08:17:46 -0300
+Message-ID: <CAOMZO5A6_8eygyEY-U2WNOKVtUcQTbBiVV56aX9ypkr1AmOW=g@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: Add support for master clock frequency
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	quic_mohsquicinc.com@qualcomm.com, kernel@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Introduce the "mclk-rate" property, enabling the configuration of the
-Master Clock (MCLK) via the device tree. The Codec Slave supports
-a defined range of frequencies, and users can request the desired rate
-from the Master using `clk_set_rate()`. If the property is not specified,
-the default MCLK frequency will be applied.
+On Mon, Dec 16, 2024 at 8:04=E2=80=AFAM Prasad Kumpatla
+<quic_pkumpatl@quicinc.com> wrote:
+>
+> Introduce a property specifies the frequency of the master clock
 
-Prasad Kumpatla (2):
-  ASoC: dt-bindings: Add support for master clock frequency
-  ASoC: sgtl5000: Introduce "mclk-rate" Property for Device Tree
-    Configuration
+"a property that specifies"
 
- .../devicetree/bindings/sound/fsl,sgtl5000.yaml | 17 +++++++++++++----
- sound/soc/codecs/sgtl5000.c                     | 10 ++++++++++
- 2 files changed, 23 insertions(+), 4 deletions(-)
+> -    enum: [ 0, 2, 4, 8 ]
+> +    enum: [0, 2, 4, 8]
+>
+>    micbias-voltage-m-volts:
+>      description: The bias voltage to be used in mVolts. The voltage can =
+take
+>        values from 1.25V to 3V by 250mV steps. If this node is not mentio=
+ned
+>        or the value is unknown, then the value is set to 1.25V.
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -    enum: [ 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000 ]
+> +    enum: [1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
+>
+>    lrclk-strength:
+>      description: |
+> @@ -64,7 +64,7 @@ properties:
+>          2 =3D            3.33 mA         5.74 mA         8.03  mA
+>          3 =3D            4.99 mA         8.61 mA         12.05 mA
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -    enum: [ 0, 1, 2, 3 ]
+> +    enum: [0, 1, 2, 3]
+>
+>    sclk-strength:
+>      description: |
+> @@ -77,12 +77,20 @@ properties:
+>          2 =3D            3.33 mA         5.74 mA         8.03  mA
+>          3 =3D            4.99 mA         8.61 mA         12.05 mA
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> -    enum: [ 0, 1, 2, 3 ]
+> +    enum: [0, 1, 2, 3]
 
-
-base-commit: 5757b31666277e2b177b406e48878dc48d587a46
--- 
-2.17.1
-
+All these enum changes are unrelated.
