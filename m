@@ -1,135 +1,117 @@
-Received: from fallback24.i.mail.ru (fallback24.i.mail.ru [79.137.243.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD941119A;
-	Mon, 16 Dec 2024 04:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.137.243.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCFF157469;
+	Mon, 16 Dec 2024 05:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734324717; cv=none; b=iogACbKmfHRJlrWbCJAFn2HOVCa8Pj5CbQT0upErtZ3ZdWAF6J6AQ2j9n/BOgg4JxUxutL9VK2zrG40bDD7nOua8EkcfLI4oK/jeHAJM7JFCcmqDsDTovLBGO0LU0j0QibuZUVxomB+1Nk3+TDmYZXI7cKPJ6+xYbQyB5kH1KFM=
+	t=1734328152; cv=none; b=KWpkcdSa+zuwjU+Dg8e3w/vlG4NLt06jTgMNfbhUxUUzukJHjHKmL++ubr/YBus+Ez9Zm1/O7aBjZHXvr6zlTYPKz9bUduh/pT4SQd03F5MaHz8biNDlecmtfuoi6lfY2QCE2K8CJK4HqSQkZTpHWB5HWHZ4BGbrJ6Ox9qUX2lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734324717; c=relaxed/simple;
-	bh=shcYUX5vatJQfnkia/P3R1pz3y5Ht8q6TdvZ6WAQp64=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RKwz+g1HqK6Lz4YdjE37EAHAp07iGcpL0/FKgDY6pHBFLlsJ93jCHzdc06QpPRSJfMxvPzTb73fT1sj0cmKGFBZUBRO7ClhLmkDKCPnxyNCRey4vfn/CqL+HuKRWGCXQ1pM7cKCUGCWWu5WtBDQgSueBN7tI4dknBTXozdr8mLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru; spf=pass smtp.mailfrom=inbox.ru; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=nBqrHoJc; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=MaJic+4/; dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b=Mb0luOlz; arc=none smtp.client-ip=79.137.243.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inbox.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inbox.ru
+	s=arc-20240116; t=1734328152; c=relaxed/simple;
+	bh=+7SWnvRblHwS5TQWVaHUdfqFrX68xW4BJLU83twOZlU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ecXAyZne4AohXSt+/qAWYcORFjOvq9yqUQNKvBNQ8F7fVxa0yFubsx/9zjTWordTH22MU8LP4OiHcGfVA2oHUWlkZ1I3yRSnZoRt9ZYrtJ403TE43p1SBABhaQoeokxArTRhnzY4Iot5TaNx+DqZUPE3FlEgaJAPUpmvtNnVWDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPdMIh3V; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="nBqrHoJc";
-	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="MaJic+4/";
-	dkim=pass (2048-bit key) header.d=inbox.ru header.i=@inbox.ru header.b="Mb0luOlz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru; s=mail4;
-	h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=pO4yI+snYhKbzwmv/rXlMitVU8ULe1kTb375+LWuOG8=;
-	t=1734324711;x=1734414711; 
-	b=nBqrHoJcqb3FKpQAGVaub7v5XuzaudNCPkJ9/3yFFF1mlgdy0l/IZt7Xuq3BGlf64Q62F3yhbpJTVabB7U992FcnCq2zz49qTTlJU0TO3uxwiELWaGtg9p6S5UAWcESYKTOes+NlIUHp7eZAbghlqyX1YyHBCynajzMg6fEUXw5XWYGFhM4QYnTp3M9QzQdJKLYVZb0wIRawI/P/M5TIbFX1dWHj+QSej8zqD5VgWv0ye0SirBScgw7kK+T5dVcSVE+gTbgVfDCKFN7s8dlttzO/uFNA2d1bfO9buNa11PAI4vTx6c+C96J2xvrZcD5UfjHUA6oZwQHmUW2nS/MKzA==;
-Received: from [10.113.163.86] (port=50316 helo=send55.i.mail.ru)
-	by fallback24.i.mail.ru with esmtp (envelope-from <fido_max@inbox.ru>)
-	id 1tN2tN-00Dz87-Rv; Mon, 16 Dec 2024 07:39:38 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
-	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive:X-Cloud-Ids;
-	bh=pO4yI+snYhKbzwmv/rXlMitVU8ULe1kTb375+LWuOG8=; t=1734323977; x=1734413977; 
-	b=MaJic+4/mzqWMe4ZXHuFnQMrKkVnxiz8e0LZ6hXDwLudoOHa1sqynsVacsDBpbVraBBLjeYv+5s
-	0pxL+e5U944hOODkLoCpegKiPpiBWRBDVnhbq5qB4JswgDqMkq/u2Hrsxn0nl+IgCw6xHQ0Yoll9r
-	ErKjlHqlv2vJfEx7szxQxvgkTT5U0Nu4EWkZY8l3ss0JL/4pGt6pPujJ0nm6lhHYMMTOu8Bch81Ur
-	31cHr0VVJpqZe43t2yExmWN3q+b3WUWaNAIOxkfKsXdncCN1XoGY6IwAKu4h8AFWEVcKCqQU5kNjZ
-	7ZU8TR0sKusE/0OLdvJeaBfuDwefpOiompLg==;
-Received: from [10.113.249.94] (port=39006 helo=send197.i.mail.ru)
-	by exim-fallback-5b68796bc4-d4c2d with esmtp (envelope-from <fido_max@inbox.ru>)
-	id 1tN2tF-00000000SF7-44sZ; Mon, 16 Dec 2024 07:39:30 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=inbox.ru;
-	s=mail4; h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:Cc:
-	To:From:From:Sender:Reply-To:To:Cc:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive:
-	X-Cloud-Ids:Disposition-Notification-To;
-	bh=pO4yI+snYhKbzwmv/rXlMitVU8ULe1kTb375+LWuOG8=; t=1734323969; x=1734413969; 
-	b=Mb0luOlzpxgY/PS2u1QlOgpjoMnm24R2XvljbsW3syI6zlnEZ3G4Zlzv59G9i5mcukf0HBvExcZ
-	iSSwfhiKIeRmKcmLP8HC98t07ZXga1yAoiMlcm7Harm26XnzHoG30M8DX0XgDnZGPq/Ex+txvB+74
-	vUfA1yA+D6xvZsK/nmOgiDZ6q2LHB5IyWcBSmc23fX2dVUuCL0Jxf+hoZhxz34LbCVWjlaBHYNSim
-	3VCJzk3zg+WFfj1r/DfpcouOlUGaMEQUaYNTr60b7nSGi9L1xEWZwqnKTFEZCqy5Rjx+RzPCnQCwx
-	G7/0WU+FGeqbFh6v78IbUjnACqzx8G1lpQfw==;
-Received: by exim-smtp-76d484c77c-sh75f with esmtpa (envelope-from <fido_max@inbox.ru>)
-	id 1tN2sz-00000000GrS-24Cb; Mon, 16 Dec 2024 07:39:13 +0300
-From: Maxim Kochetkov <fido_max@inbox.ru>
-To: linux-sound@vger.kernel.org
-Cc: andy.shevchenko@gmail.com,
-	u.kleine-koenig@pengutronix.de,
-	tiwai@suse.com,
-	perex@perex.cz,
-	broonie@kernel.org,
-	lgirdwood@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Maxim Kochetkov <fido_max@inbox.ru>
-Subject: [PATCH 1/1] ASoC: codecs: nau8824: fix max volume for Speaker output
-Date: Mon, 16 Dec 2024 07:39:10 +0300
-Message-ID: <20241216043910.11875-1-fido_max@inbox.ru>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPdMIh3V"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3a7d7db4d89so9977915ab.1;
+        Sun, 15 Dec 2024 21:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734328150; x=1734932950; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i3WCqawu51nGJtomHm2SdIwBLPezFP5ayk84KicveD0=;
+        b=JPdMIh3VKbH5HTX09b0GGTxCVl3wm2Q+XtIQlR+nOI/zrAcLJxAO39dPRVV7v2npzN
+         rZ3cX4Z+Eem5q4QRwvquCzJb+T5SYykcK6g5oDkiPKSLqscLxfuGC5v/RxXg4XUBA3HA
+         56j92pcV7B8saKZ/bxWtvUTND0mfiWZv+PGFeDf/poxRifjfd4bdvm24AYzmfusxrUDk
+         rJAl3P8VDN1/h5Qw894yvug90cSJRvhyKdq1ypMBVS+5EyH0rqhHTN+nwPsnNXt5H4RR
+         jbhoFLVE2DHdFdYymZRz4tF7b4Gq9Hb1brsZGcEkA23mTrWiZ/Yo8+xpbr6+4vcJz4TF
+         Xwag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734328150; x=1734932950;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=i3WCqawu51nGJtomHm2SdIwBLPezFP5ayk84KicveD0=;
+        b=nYKtC4J62zDPShbbglJslgjzRnbFPzb0tC8Kig6HjvA1FGTmkXL49E8JihOwN4Nut7
+         cI0bP6PkyBeNicAzLM2yWLMbBhYBIymxAd4w0k9VKoX7aV3iWHhLT4q5t3bSkDU9MTTX
+         FCfe177R0BTj6oJ+Kj6aIFe4OXHEdkx2tPLf+D6ZMa9J2EuuVTUED9sn9zbyCxzoVHpK
+         AIgwuCASicWRgG61zZXTND2N1uelxDxU12nQDiuQgmJAiBccAwm1C7af03I/FkpNjl56
+         UttUUatuae540P4gRp03JfSRTT4m22uuGvr0MpW09/b3iK6ZVhZ0248bYYm0vID15me8
+         Jcfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVo0HtsaOcgXAZ5AK50TDMXeqWOvp7njEz/iFizZAr6OSR6a1bJYcPfj3zHAwnLhkCOmAFW3ED1+ECHHyI=@vger.kernel.org, AJvYcCWjivOazkS5uIeKD8w9827tDK1W9pKhZz23aCfQjthqH/h6PSv4RLhS4gyGk2y+rw6b2ZE16zPTed6isAg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW3ZJrF+F9Ez8fP+tC/zMmJrfUkOEwpM5X1Z41TY/3bQEjwr4x
+	wk2+94EnBmp0ABDecs9Unf6nU+ZvQixfjIXU2wlbBpbOYFkK6XqplGp0fo7Px01HOdCXs/3COli
+	mwmbYCo8KTqDL263s0XnMl1Ux98Q=
+X-Gm-Gg: ASbGncs1yYuhqoqtAhqyHapB59XzH6ViaJqRAOQXy45meqxHiRYqV7oXRnHZgElRSU4
+	09Q0cruUAS6IQSG2aGX7z6l2YMwhh9utj4tCqHA==
+X-Google-Smtp-Source: AGHT+IFKdtm9Pk+1kLL8OCl2wd0nePq6kT1ViT+ZuzegrIP2U2gpQXMypljyuBaDo9Zc5NJGMWH1FusdlBlf6PGfjnM=
+X-Received: by 2002:a92:c249:0:b0:3a7:8270:4050 with SMTP id
+ e9e14a558f8ab-3aff800f116mr103020195ab.18.1734328149917; Sun, 15 Dec 2024
+ 21:49:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailru-Src: smtp
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD977EAE61095F37AC56DA83E944C60B7F01FF5E58BE572B7FA182A05F538085040BD0C86E1AD3B7D063DE06ABAFEAF6705D5F0C2CF49B4B19F649E9C764B8BC09689BD80B6B4489A2D
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE7BF0A1B3B6C8FCECEEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637835928C62272F24E8638F802B75D45FF36EB9D2243A4F8B5A6FCA7DBDB1FC311F39EFFDF887939037866D6147AF826D814F084CC3E29204B67B90F39F78F66207F9F65796329D85D20879F7C8C5043D14489FFFB0AA5F4BFA417C69337E82CC2CC7F00164DA146DAFE8445B8C89999728AA50765F790063773DCDF0198120BE8389733CBF5DBD5E9C8A9BA7A39EFB766F5D81C698A659EA7CC7F00164DA146DA9985D098DBDEAEC8062BEEFFB5F8EA3EF6B57BC7E6449061A352F6E88A58FB86F5D81C698A659EA7E827F84554CEF5019E625A9149C048EE9ECD01F8117BC8BEE2021AF6380DFAD18AA50765F7900637F09814068C508CC822CA9DD8327EE4930A3850AC1BE2E735F43AACC0BCEB2632C4224003CC83647689D4C264860C145E
-X-87b9d050: 1
-X-C1DE0DAB: 0D63561A33F958A5A96BCD13058A94565002B1117B3ED696FDA76B72DE525F0B361FAC1196A180DE823CB91A9FED034534781492E4B8EEAD85CCBA673D36D1A4C79554A2A72441328621D336A7BC284946AD531847A6065A535571D14F44ED41
-X-C8649E89: 1C3962B70DF3F0ADE00A9FD3E00BEEDF77DD89D51EBB7742D3581295AF09D3DF87807E0823442EA2ED31085941D9CD0AF7F820E7B07EA4CFA05FE97CB63ACDC69ABF3B9D12608F7DD31D766767CBC9D7D845F9C07C9BEAD9486D6DC23143AA0E0B0B9839AE4C716C9D5EDB214F0EF656FD90C06316E45D4A4921331E214CB506034D55ECCE8C67C6913E6812662D5F2A17D6C1CDD2003EB8E03787203701020945C72C348FB7EED3
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojaQ2NfKPcDQOjSG1gZoFBuQ==
-X-Mailru-Sender: 689FA8AB762F739381B31377CF4CA2194A6B45A044EF17C899FEC6F5DCFEC16E0A3D3B0499CDA6B490DE4A6105A3658D481B2AED7BCCC0A49AE3A01A4DD0D55C6C99E19F044156F45FEEDEB644C299C0ED14614B50AE0675
-X-Mras: Ok
-X-Mailru-Src: fallback
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B46EA299E95BC82A782122C14CBA0FEDEC285AF2326562DB2E68F3CF0E9FE49B69C79DC6EF635AF45EBD69C7A33469ECE14F250E37782E405A2040BC5B843AEA0B1EBAC62B62E91FCC
-X-7FA49CB5: 0D63561A33F958A51A978F18596FDABA5002B1117B3ED696B11B950DF3EC314CA92FD30A1C74D94802ED4CEA229C1FA827C277FBC8AE2E8B54F520D093A0DF28
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u6NqYXWMR0/V85CnFjCYTu9APdQH0PvpnP5qz8aO2mjTJzjHGC4ogvVuzB3zfVUBtENeZ6b5av1fnCBE34JUDkWdM6QxE+Ga5d8voMtmXfSpcfWZm7knnmrJdENjvzQK2
-X-Mras: Ok
-X-7564579A: 646B95376F6C166E
-X-77F55803: 6242723A09DB00B46EA299E95BC82A7890507F2CB992334917BBBC01B0F98AF368F3CF0E9FE49B69C79DC6EF635AF45EE00D1C991AB71C4A522FCA9EF5D3FCB0AC3C8A24A179AFC5
-X-7FA49CB5: 0D63561A33F958A541589099BEE628C387D2EFFC610A908BA7FA9F57725F2948CACD7DF95DA8FC8BD5E8D9A59859A8B6A096F61ED9298604
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u6NqYXWMR0/V85CnFjCYTu9APdQH0PvpnP5qz8aO2mjTJzjHGC4ogvVuzB3zfVUBtENeZ6b5av1fnCBE34JUDkWdM6QxE+Ga5d8voMtmXfSpcfWZm7knnmgD/ql6jfy+t
-X-Mailru-MI: 20000000000000800
-X-Mras: Ok
+References: <20241216021136.3763127-1-shengjiu.wang@nxp.com>
+In-Reply-To: <20241216021136.3763127-1-shengjiu.wang@nxp.com>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Mon, 16 Dec 2024 13:48:56 +0800
+Message-ID: <CAA+D8AOWPRU1gGco2CoTmPtosd1eS4qGnOdg=BEd=_HGQKUZuA@mail.gmail.com>
+Subject: Re: [PATCH] ALSA: compress_offload: import namespace DMA_BUF
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: vkoul@kernel.org, perex@perex.cz, tiwai@suse.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, broonie@kernel.org, 
+	lgirdwood@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There is no audio output if Speaker volume is set above 25.
-According to datasheet maximum allowed value for the Speaker
-output is 0b11001 (25).
-So adjust this value with datasheet.
+On Mon, Dec 16, 2024 at 10:12=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.c=
+om> wrote:
+>
+> Fix below warning:
+> WARNING: modpost: module snd-compress uses symbol dma_buf_put from namesp=
+ace DMA_BUF, but does not import it.
+> WARNING: modpost: module snd-compress uses symbol dma_buf_fd from namespa=
+ce DMA_BUF, but does not import it.
+> WARNING: modpost: module snd-compress uses symbol dma_buf_get from namesp=
+ace DMA_BUF, but does not import it.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202412150026.EMUdbO09-lkp@i=
+ntel.com/
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
 
-Signed-off-by: Maxim Kochetkov <fido_max@inbox.ru>
----
- sound/soc/codecs/nau8824.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+missed fixes tag, let me send v2.
 
-diff --git a/sound/soc/codecs/nau8824.c b/sound/soc/codecs/nau8824.c
-index 12540397fd4d..5aaf8c496300 100644
---- a/sound/soc/codecs/nau8824.c
-+++ b/sound/soc/codecs/nau8824.c
-@@ -368,13 +368,13 @@ static const struct snd_kcontrol_new nau8824_snd_controls[] = {
- 	SOC_ENUM("DAC Oversampling Rate", nau8824_dac_oversampl_enum),
- 
- 	SOC_SINGLE_TLV("Speaker Right DACR Volume",
--		NAU8824_REG_CLASSD_GAIN_1, 8, 0x1f, 0, spk_vol_tlv),
-+		NAU8824_REG_CLASSD_GAIN_1, 8, 0x19, 0, spk_vol_tlv),
- 	SOC_SINGLE_TLV("Speaker Left DACL Volume",
--		NAU8824_REG_CLASSD_GAIN_2, 0, 0x1f, 0, spk_vol_tlv),
-+		NAU8824_REG_CLASSD_GAIN_2, 0, 0x19, 0, spk_vol_tlv),
- 	SOC_SINGLE_TLV("Speaker Left DACR Volume",
--		NAU8824_REG_CLASSD_GAIN_1, 0, 0x1f, 0, spk_vol_tlv),
-+		NAU8824_REG_CLASSD_GAIN_1, 0, 0x19, 0, spk_vol_tlv),
- 	SOC_SINGLE_TLV("Speaker Right DACL Volume",
--		NAU8824_REG_CLASSD_GAIN_2, 8, 0x1f, 0, spk_vol_tlv),
-+		NAU8824_REG_CLASSD_GAIN_2, 8, 0x19, 0, spk_vol_tlv),
- 
- 	SOC_SINGLE_TLV("Headphone Right DACR Volume",
- 		NAU8824_REG_ATT_PORT0, 8, 0x1f, 0, hp_vol_tlv),
--- 
-2.45.2
+Best Regards
+Shengjiu Wang
 
+> ---
+>  sound/core/compress_offload.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.=
+c
+> index 86ed2fbee0c8..6f2d389abd04 100644
+> --- a/sound/core/compress_offload.c
+> +++ b/sound/core/compress_offload.c
+> @@ -993,6 +993,8 @@ static int snd_compr_partial_drain(struct snd_compr_s=
+tream *stream)
+>
+>  #if IS_ENABLED(CONFIG_SND_COMPRESS_ACCEL)
+>
+> +MODULE_IMPORT_NS("DMA_BUF");
+> +
+>  static struct snd_compr_task_runtime *
+>  snd_compr_find_task(struct snd_compr_stream *stream, __u64 seqno)
+>  {
+> --
+> 2.37.1
+>
+>
