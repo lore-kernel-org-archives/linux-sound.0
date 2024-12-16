@@ -1,57 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D1E450F2
-	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 03:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10B12F852
+	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 03:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734319654; cv=none; b=gbY7TkE0/cd17CnOM8Qs5/rOk5Uh0hFVQxe7fcBsCUpb5JPjmvSXxSI4F0Bubc1qKwwrhZmzTkWlTPq6vOed1fHLa+BGBmxwbaZVNght6cKzePzcfz/cR7OHeq2w8sE0HTfcbr7BOOcflAQ2q78cClO4blRwltGCPx1N02/DFeQ=
+	t=1734319655; cv=none; b=tNmw06ZJ9zhpAbQG/NlDQ9TlCKCB1DyLBcrWN2KtGSPNu4yv/Rd/v9S/L26ZrWMV1jT0/x4NcUICiTqSmSA8aiAu4hCQNE2khOpt3OaNo6vLcKD/P507ZrEYYLMf0U+JVpx2GxIOC53nGD/V1VGBzRbWQzGk6SFaeT1y28fKqBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734319654; c=relaxed/simple;
-	bh=s5ToiBj6ifoJ0p4+T746HBqXZ5naOwbL7H9kz1lH5go=;
+	s=arc-20240116; t=1734319655; c=relaxed/simple;
+	bh=1rNVNj9g5DFiwdX552uVYM48F8A2/jmjR2ozJTnEOi8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LW2BbjYJl+r0qwcDU8ZUq35qW3dejUt6FX225cYj961wP5mBSKBw9ysa9jlpgUQhNaY2v7PWOtunkSy3oUCMJvMIwXc8U+5Fg6ZGhcPutZDhsQ7g/UZIj8nNEI0z6Rig0ce+IXQXrmWl7E6SeX2Yxqm+CRzwQbEZKQlq03YSv6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hz7Igo/P; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=qw2egoN2Ez4wagEXd3iaqsfQZCCBVuxQnd5JNkFWFbMUD0Be3whIF2nt72MJGU95rbVVkPxgYqBdAI9cwkvIZybPTA6teaQJNIF86yYieL4Z7LdQiIN6MxMFQO5pCRfy1B49Yra7+lWSuMKqvIZX2eKzZhi8jQBtJ9EJVH3HOGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b7Qg4hLM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hz7Igo/P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b7Qg4hLM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734319653; x=1765855653;
+  t=1734319654; x=1765855654;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=s5ToiBj6ifoJ0p4+T746HBqXZ5naOwbL7H9kz1lH5go=;
-  b=hz7Igo/PO8GbUItC4mDLUPJ5F8a/ZpF/voRNTP6lt+xPZfOXswcrDkp4
-   pwiEbpWaHaBiGpfOGK695f8efNaDC7r+W5Kr1/pKVb3q7nYnzRLnn09KT
-   OEZ88fU3wFZ0rOuPr2/HNOVzbGZV1ACdhSAjUGHlM/ISoYI8LBdPeb47f
-   B0MHTyi773hSsqU0ZZDFvb5ub6g5sd/SWy0569CbaerkmJQl9TFaa/hBL
-   DPRVuBWencHCLVoqu4zYqOWDCWwAJsuXJ/wHjryrfDjlzALsttdyyo0+5
-   2wBfTZoXDAP42QXIZgPD/WM+k51S4v6gSTtG2ee2hwxTNL4ilAY8J+pYe
-   A==;
-X-CSE-ConnectionGUID: ibvshKd8SxyC2fWcy8VMpA==
-X-CSE-MsgGUID: Ov1IBwsWSVWaDPicXRwfzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34606096"
+  bh=1rNVNj9g5DFiwdX552uVYM48F8A2/jmjR2ozJTnEOi8=;
+  b=b7Qg4hLM1vYIz/GfCQ7gLCFlfpDeWAu6JnOg2mxBtkSwCFDLpjvua4R+
+   S5hwfdQPd3s3VC3MHxXYBeT9O0YHl+fSU7cqQgBNt7UOCQqHxFdcHkcrt
+   WVQZuFd3hPQzsHYEunC4GSM7CwrkvRVnVeOEyflBItVDsFPvLlE3OV3cj
+   KZ/rjz8w0t0mIN5OzdFsK9RxsjhHYWj5C4BT4/BSTmf58z9TRtj15xjzF
+   H046rvYxMbd9PWUoP7iTCYsibMbJa6chXFY6yBKrfCEnRn1y50UpIPtc3
+   fPd+XxD/6bvk8/6j5F3E8vT8t/KWrKyrdn+ZY8ZiXD/9iaBwBqaprVOU9
+   w==;
+X-CSE-ConnectionGUID: QCu4aX+QRhqHl1dMOB4frA==
+X-CSE-MsgGUID: MFXsj7buRcCzbFfk/fcLYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11287"; a="34606101"
 X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
-   d="scan'208";a="34606096"
+   d="scan'208";a="34606101"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 19:27:32 -0800
-X-CSE-ConnectionGUID: f7Gznn6ORpWgp3DLlljDLA==
-X-CSE-MsgGUID: 1PkroffcSBe9FxuTfvHR2g==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 19:27:34 -0800
+X-CSE-ConnectionGUID: rCSEbEwXQZi7OUlPCJJx8w==
+X-CSE-MsgGUID: 6Mf9aWsYSly3C+i3AOVd+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,237,1728975600"; 
-   d="scan'208";a="102100018"
+   d="scan'208";a="102100023"
 Received: from spandruv-mobl4.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.238])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 19:27:31 -0800
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Dec 2024 19:27:32 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: broonie@kernel.org,
 	tiwai@suse.de
 Cc: linux-sound@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH 1/3] ASoC: Intel: tgl-match: Add entries for CS35L56 on CDB35L56-EIGHT-C
-Date: Mon, 16 Dec 2024 11:27:19 +0800
-Message-ID: <20241216032721.131227-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH 2/3] ASoC: Intel: mtl-match: Add CDB35L56-EIGHT-C with aggregated speakers
+Date: Mon, 16 Dec 2024 11:27:20 +0800
+Message-ID: <20241216032721.131227-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241216032721.131227-1-yung-chuan.liao@linux.intel.com>
 References: <20241216032721.131227-1-yung-chuan.liao@linux.intel.com>
@@ -65,242 +65,137 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Fitzgerald <rf@opensource.cirrus.com>
 
-This adds match entries for the eight CS35L56 amps on the Cirrus Logic
-CDB35L56-EIGHT-C board. Speaker playback and amp feedback are aggregated
-across all amps on both SoundWire buses.
+This adds a match for the CDB35L56-EIGHT-C board with SmartCodec and
+SmartAmp speakers aggregated.
 
-The mapping of SoundWire addresses to AMPn numbers matches the actual
-order of amps on the EIGHT-C board. The SoundWire unique ID is in reverse
-order for amps 1..4 on these boards, and the amp resets are paired
-1+8, 2+7, 3+6, 4+5.
+The configuration is:
 
-This then makes the entries from cs35l56_sdw_eight_1_4_fb_adr and
-cs35l56_sdw_eight_5_8_fb_adr match the way the amp resets are paired on
-the EIGHT-C board.
+  SDW0: CS35L56 x2 (SmartAmp) using OUT1 and OUT2
+  SDW1: CS35L56 x2 (SmartAmp) using OUT7 and OUT8
+  SDW3: CS42L43 (SmartJack, SmartMic, SmartAmp)
 
-[0] = 1 + 8
-[1] = 2 + 7
-[3] = 3 + 6
-[4] = 4 + 5
+CS35L56 and CS42L43 Speaker playback is aggregated across all 3 buses.
+
+The device addresses and reset arrangements of the EIGHT-C board are
+quirky hence the use of non-contiguous outputs OUT1,2,7,8.
 
 Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- .../intel/common/soc-acpi-intel-tgl-match.c   | 194 ++++++++++++++++++
- 1 file changed, 194 insertions(+)
+ .../intel/common/soc-acpi-intel-mtl-match.c   | 79 +++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-diff --git a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-index 161ba532d270..6f8c06413665 100644
---- a/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-+++ b/sound/soc/intel/common/soc-acpi-intel-tgl-match.c
-@@ -536,6 +536,194 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_tgl_machines[] = {
+diff --git a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+index e78171ec0ca5..35a2cf85140a 100644
+--- a/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
++++ b/sound/soc/intel/common/soc-acpi-intel-mtl-match.c
+@@ -441,6 +441,44 @@ static const struct snd_soc_acpi_adr_device cs42l43_0_adr[] = {
+ 	}
  };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_tgl_machines);
  
-+static const struct snd_soc_acpi_endpoint cs35l56_l_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
++/* CS42L43 - speaker DAI aggregated with 4 amps */
++static const struct snd_soc_acpi_endpoint cs42l43_4amp_spkagg_endpoints[] = {
++	{ /* Jack Playback Endpoint */
 +		.num = 0,
-+		.aggregated = 1,
++		.aggregated = 0,
 +		.group_position = 0,
-+		.group_id = 1,
++		.group_id = 0,
 +	},
-+	{ /* Feedback Capture Endpoint */
++	{ /* DMIC Capture Endpoint */
 +		.num = 1,
-+		.aggregated = 1,
++		.aggregated = 0,
 +		.group_position = 0,
-+		.group_id = 2,
++		.group_id = 0,
 +	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_r_fb_endpoints[] = {
++	{ /* Jack Capture Endpoint */
++		.num = 2,
++		.aggregated = 0,
++		.group_position = 0,
++		.group_id = 0,
++	},
 +	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 1,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 1,
-+		.group_id = 2,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_2_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 2,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 2,
-+		.group_id = 2,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_3_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 3,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 3,
-+		.group_id = 2,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_4_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
++		.num = 3,
 +		.aggregated = 1,
 +		.group_position = 4,
 +		.group_id = 1,
 +	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 4,
-+		.group_id = 2,
-+	}
 +};
 +
-+static const struct snd_soc_acpi_endpoint cs35l56_5_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 5,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 5,
-+		.group_id = 2,
-+	}
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_6_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 6,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 6,
-+		.group_id = 2,
-+	}
-+};
-+
-+static const struct snd_soc_acpi_endpoint cs35l56_7_fb_endpoints[] = {
-+	{ /* Speaker Playback Endpoint */
-+		.num = 0,
-+		.aggregated = 1,
-+		.group_position = 7,
-+		.group_id = 1,
-+	},
-+	{ /* Feedback Capture Endpoint */
-+		.num = 1,
-+		.aggregated = 1,
-+		.group_position = 7,
-+		.group_id = 2,
-+	}
-+};
-+
-+static const struct snd_soc_acpi_adr_device cs35l56_sdw_eight_1_4_fb_adr[] = {
++/* CS42L43 on link3 aggregated with 4 amps */
++static const struct snd_soc_acpi_adr_device cs42l43_l3_4amp_spkagg_adr[] = {
 +	{
-+		.adr = 0x00003301fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_l_fb_endpoints),
-+		.endpoints = cs35l56_l_fb_endpoints,
++		.adr = 0x00033001FA424301ull,
++		.num_endpoints = ARRAY_SIZE(cs42l43_4amp_spkagg_endpoints),
++		.endpoints = cs42l43_4amp_spkagg_endpoints,
++		.name_prefix = "cs42l43"
++	}
++};
++
+ static const struct snd_soc_acpi_endpoint cs35l56_l_fb_endpoints[] = {
+ 	{ /* Speaker Playback Endpoint */
+ 		.num = 0,
+@@ -501,6 +539,21 @@ static const struct snd_soc_acpi_endpoint cs35l56_3_fb_endpoints[] = {
+ 	},
+ };
+ 
++static const struct snd_soc_acpi_adr_device cs35l56_0_adr[] = {
++	{
++		.adr = 0x00003301FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_l_endpoint,
 +		.name_prefix = "AMP1"
 +	},
 +	{
-+		.adr = 0x00003201fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_2_fb_endpoints),
-+		.endpoints = cs35l56_2_fb_endpoints,
++		.adr = 0x00003201FA355601ull,
++		.num_endpoints = 1,
++		.endpoints = &spk_2_endpoint,
 +		.name_prefix = "AMP2"
-+	},
-+	{
-+		.adr = 0x00003101fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_4_fb_endpoints),
-+		.endpoints = cs35l56_4_fb_endpoints,
-+		.name_prefix = "AMP3"
-+	},
-+	{
-+		.adr = 0x00003001fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_6_fb_endpoints),
-+		.endpoints = cs35l56_6_fb_endpoints,
-+		.name_prefix = "AMP4"
-+	},
++	}
 +};
 +
-+static const struct snd_soc_acpi_adr_device cs35l56_sdw_eight_5_8_fb_adr[] = {
+ static const struct snd_soc_acpi_adr_device cs35l56_1_adr[] = {
+ 	{
+ 		.adr = 0x00013701FA355601ull,
+@@ -825,6 +878,26 @@ static const struct snd_soc_acpi_link_adr cs42l43_link0_cs35l56_link2_link3[] =
+ 	{}
+ };
+ 
++static const struct snd_soc_acpi_link_adr cs42l43_link3_cs35l56_x4_link0_link1_spkagg[] = {
++	/* Expected order: jack -> amp */
 +	{
-+		.adr = 0x00013701fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_r_fb_endpoints),
-+		.endpoints = cs35l56_r_fb_endpoints,
-+		.name_prefix = "AMP8"
++		.mask = BIT(3),
++		.num_adr = ARRAY_SIZE(cs42l43_l3_4amp_spkagg_adr),
++		.adr_d = cs42l43_l3_4amp_spkagg_adr,
 +	},
-+	{
-+		.adr = 0x00013601fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_3_fb_endpoints),
-+		.endpoints = cs35l56_3_fb_endpoints,
-+		.name_prefix = "AMP7"
-+	},
-+	{
-+		.adr = 0x00013501fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_5_fb_endpoints),
-+		.endpoints = cs35l56_5_fb_endpoints,
-+		.name_prefix = "AMP6"
-+	},
-+	{
-+		.adr = 0x00013401fa355601,
-+		.num_endpoints = ARRAY_SIZE(cs35l56_7_fb_endpoints),
-+		.endpoints = cs35l56_7_fb_endpoints,
-+		.name_prefix = "AMP5"
-+	},
-+};
-+
-+static const struct snd_soc_acpi_link_adr up_extreme_cs35l56_sdw_eight[] = {
 +	{
 +		.mask = BIT(1),
-+		.num_adr = ARRAY_SIZE(cs35l56_sdw_eight_5_8_fb_adr),
-+		.adr_d = cs35l56_sdw_eight_5_8_fb_adr,
++		.num_adr = 2,
++		.adr_d = cs35l56_1_adr,
 +	},
 +	{
 +		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(cs35l56_sdw_eight_1_4_fb_adr),
-+		.adr_d = cs35l56_sdw_eight_1_4_fb_adr,
++		.num_adr = 2,
++		.adr_d = cs35l56_0_adr,
 +	},
 +	{}
 +};
 +
  /* this table is used when there is no I2S codec present */
- struct snd_soc_acpi_mach snd_soc_acpi_intel_tgl_sdw_machines[] = {
+ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
  	/* mockup tests need to be first */
-@@ -635,6 +823,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_tgl_sdw_machines[] = {
+@@ -901,6 +974,12 @@ struct snd_soc_acpi_mach snd_soc_acpi_intel_mtl_sdw_machines[] = {
  		.drv_name = "sof_sdw",
- 		.sof_tplg_filename = "sof-tgl-rt711.tplg",
+ 		.sof_tplg_filename = "sof-mtl-cs42l43-l0-cs35l56-l23.tplg",
  	},
 +	{
-+		.link_mask = BIT(0) | BIT(1),
-+		.links = up_extreme_cs35l56_sdw_eight,
++		.link_mask = BIT(0) | BIT(1) | BIT(3),
++		.links = cs42l43_link3_cs35l56_x4_link0_link1_spkagg,
 +		.drv_name = "sof_sdw",
-+		.sof_tplg_filename = "sof-tgl-cs35l56-l01-fb8.tplg"
++		.sof_tplg_filename = "sof-mtl-cs42l43-l3-cs35l56-l01-spkagg.tplg",
 +	},
- 	{},
- };
- EXPORT_SYMBOL_GPL(snd_soc_acpi_intel_tgl_sdw_machines);
+ 	{
+ 		.link_mask = GENMASK(2, 0),
+ 		.links = mtl_cs42l43_cs35l56,
 -- 
 2.43.0
 
