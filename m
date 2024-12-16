@@ -1,91 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF8D7E59A
-	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 17:53:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD86206281
+	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 17:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734371625; cv=none; b=efaxH+PKylY38qsFN+aE1LdkzHATU/+CcI6uPN6mbZIRe6/8/SyuHBVSmefP9hxB8slYNka7Oi/r9PesLaQrChKD6E0tjIv1yFisHBLP8tDvMbCsbvG8YzyN4u6Ltac1B8WYtMPgzZt763KbauO1CZ2GrKDDuunBf1plj9xcqq8=
+	t=1734371767; cv=none; b=td9UGUW0yEuUUM+eDfqfgbO4b7R0nfAX1bLxbQLCsA1mS6M0e7Lhsf7QcgoeHdPbMsVtaVbfa5U/6EJ+KiII21kaG0rGnp+tFYJ9g2rMtyfTjmWS8amctlwCnrhPR/Iyzq9a+2adHfCKdf4FPQ5+KdrdruvVMO9WDYbiSSmBXRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734371625; c=relaxed/simple;
-	bh=QagMwHDH8YFLVR3zgVZ33EMxphby644Pay8m3jtVkM4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=nDLcq8hiJn4ESkeT+y/XqtRn2NUIuzWW1pk8r+U7QJVXNayFwmjclym46uII7Kfj7223EK/QnJeUc7cTA0/bfIQwONeftBkeIr9CJJMavG5UXEBX/8+quuPuHqp8RhM6IrX2mM/DLpIW+tkfcHQBufEHx/3udB+0zXjUvFveBiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBsJryv6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734371767; c=relaxed/simple;
+	bh=jYOV+rLzJMIa5nPo8Ipdg7/NFKctvzV3MaiyusapoYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2Y+2B9zjsA3ZAffd/MBWiODerTLEof7OXPuJKwP+0tGDqMFV7Xx+2JvAe/HRyOcDYCkfepg0hZWpRSlTXem9LQAviUBLDHKuCXwdyATEn09GgRg1I8ZQZ08QqhZ/MmuyqHMwPMvIo1ebYYuN1SubBy05OFmt31vDMHuQJhGDKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lILPgTZ4; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NBsJryv6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3446EC4CED4;
-	Mon, 16 Dec 2024 17:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734371625;
-	bh=QagMwHDH8YFLVR3zgVZ33EMxphby644Pay8m3jtVkM4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=NBsJryv6+y7sxub6f4ITEvErrSHbRhFjYR/cCcEXbW2VovcK1Syzp04CsHvAH1U0Y
-	 k/LpGMvkG1Q7mhEPl7o1gZAxcp/VopIqDt+Xvwg1pjcOqT2CT40Nug9SPxwyDbHs9+
-	 IZw9qyYzGPqhme8XFhfhHoA/JP3urApBq3boi8n+E4rGUS9sbQYYki/+OmB3NaHj+E
-	 KV1XF1WnNj4x4GEbJnAVRcKGkLGCzmugO6lqm/fJRW8Xpk1UI0Zf+OCZwCK+BSuH4f
-	 d0l/riZ4C91ERgFKhdVvo4b+kk8pK5z8qU25EvwU0xV7la3PrPA4nkiyAb26sO8znC
-	 QzvoKjCWPb2Yg==
-From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241216140821.153670-1-yung-chuan.liao@linux.intel.com>
-References: <20241216140821.153670-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH v2 0/2] ASoC: Intel: sof_sdw: Update DMI matches for
- Lenovo models with SSIDs 233b, 233c
-Message-Id: <173437162394.168779.17377189410513763012.b4-ty@kernel.org>
-Date: Mon, 16 Dec 2024 17:53:43 +0000
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lILPgTZ4"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30229d5b21cso39058341fa.1
+        for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 09:56:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734371762; x=1734976562; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qwf0Q6wp6H/pRC8arADlqkyBJYwrH22sNYfvDfmEvNU=;
+        b=lILPgTZ4QjwhSdPEN9jDjUg1AwH7SOG4daJE8WEv+WXtM8QgakqabZwD4ZQ1usObj/
+         fzVH7IsQbOAtFjvDYMXwFB7dubC4R7TzrE6I80uZqn5vBCEQp+pYnWvRTaT9iWABVTZ2
+         Dc0R/H9dXXFcaLsVOM2IW8DhVNN+YpMeVjJ4T8ipTY0zJAadCR5bCpytednqWPLM9n44
+         3Oh8ufi7PSgHgzZ4kADQ621s5TgFAl6ReGRJilIq8H67BQfGVzY6yCDjqezyzu5UbRKZ
+         o4Kv5zh0DEbmcO1wHbchho6oGMXxgstp1cz9mR7/rgbI31aPh7xUsiFit9+/2sBu4JHm
+         bj8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734371762; x=1734976562;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qwf0Q6wp6H/pRC8arADlqkyBJYwrH22sNYfvDfmEvNU=;
+        b=F73nYmdzN5eB7g9NSxNzho5/ntQfu3QB+S9Ob3+qtI7mTa4DKm7ywSb/DLeuswLSfc
+         e+tC0iyVVUkfUXbp1pWhXD19M8zdLNwtDIxjiEh+HONeJmsbXz1P9AIJfdIk1nJkiXlz
+         VG3WGldHPAOWrv1VYwdNR+FKfZpyi+npTYWhAJnjL2qv1UmgdNtZwHgikQjHdkK44sIk
+         Bk/1SCsewgSqr++vDb+1/JZ7quH4BT2kw/rRG3RpuhZFL3LRfslD2nrDcAbwRibd3Rbm
+         0BgiPvrAMMhpD+Uuis/x8DxfSYhlH4KdEtCWPaKFmWYHP/Oah5ZqFNImwySHomnb97s3
+         lL+A==
+X-Forwarded-Encrypted: i=1; AJvYcCVIBLdB8OyS+0EHhIMcyKaPFcwQw3fEhaM8JR8VRTRSa+JB4upkZoN+W0p2/WmIEawclPNDgjb3d14eMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA70INOBdPAJdxhC5VRqYoe/s3MmdsT6Ua8PsnFt2vtyjs+Mbh
+	ZWkBoX1mNEMSY+yAU24/1Ceh45L+BTQtur1xF+d2wvJC5rvfWAvyK2R7wzUXqIQ=
+X-Gm-Gg: ASbGnctpUppaGjU+RV0QX1c+bri8RNa1NoMVDtrt9dbNUAQFkP2y40d/aPRfbrXBv6p
+	vZa3mV++tL4tnWn+rjuW2ZzFXOiRM7W2WJ59j6KLuvoKsdEtS+TbliwXT8U7DxRRqyAqEINuaKq
+	evpsY+hEepziYJR8UA1NofAPdgfo08lhLhiiNYTeiNiM2ukwjPyEVdLBttsgSACSYY912TvmbhS
+	VrGzc3OT+MsXUN5WhgpGPUteYg/kJZTFmQLeCQfa+jgcc5/us4FdNnGLn/PWoZpvXYCDWplblpI
+	3KMXwbghIcpYC9/rvPkd94je3xytIjcxLtsV
+X-Google-Smtp-Source: AGHT+IG29n5FlljcG2G5r78Pj66GgzI4srZEZjCTKnfT1NsJdZGIbQtNCeGwmhS44dO/GlUjtQdAug==
+X-Received: by 2002:a05:6512:280a:b0:540:5b5c:c181 with SMTP id 2adb3069b0e04-5408b800764mr4435678e87.6.1734371761893;
+        Mon, 16 Dec 2024 09:56:01 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120b9f4b8sm949454e87.13.2024.12.16.09.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 09:56:00 -0800 (PST)
+Date: Mon, 16 Dec 2024 19:55:57 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 06/10] drm/display/hdmi: implement hotplug functions
+Message-ID: <bapkgt2e33bhdmun4efcuaedshyyv7qvjgugu5y53ordw3gigl@n7zbfoga7qo7>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-6-50dc145a9c06@linaro.org>
+ <20241216-courageous-mysterious-pelican-5a8d2e@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241216-courageous-mysterious-pelican-5a8d2e@houat>
 
-On Mon, 16 Dec 2024 22:08:19 +0800, Bard Liao wrote:
-> The DMI match information for these models has changed so the match
-> entries need updates.
+On Mon, Dec 16, 2024 at 06:20:04PM +0100, Maxime Ripard wrote:
+> On Fri, Dec 06, 2024 at 12:16:00PM +0200, Dmitry Baryshkov wrote:
+> > The HDMI Connectors need to perform a variety of tasks when the HDMI
+> > connector state changes. Such tasks include setting or invalidating CEC
+> > address, notifying HDMI codec driver, updating scrambler data, etc.
+> > 
+> > Implementing such tasks in a driver-specific callbacks is error prone.
+> > Start implementing the generic helper function (currently handling only
+> > the HDMI Codec framework) to be used by drivers utilizing HDMI Connector
+> > framework.
+> > 
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 61 +++++++++++++++++++++++++
+> >  include/drm/display/drm_hdmi_state_helper.h     |  8 ++++
+> >  2 files changed, 69 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > index 80bf2829ba89b5f84fed4fa9eb1d6302e10a4f9e..4cdeb63688b9e48acd8e8ae87a45b6253f7dd12b 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > @@ -769,3 +769,64 @@ drm_atomic_helper_connector_hdmi_clear_audio_infoframe(struct drm_connector *con
+> >  	return ret;
+> >  }
+> >  EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_clear_audio_infoframe);
+> > +
+> > +/**
+> > + * drm_atomic_helper_connector_hdmi_hotplug_edid - Handle the hotplug event for the HDMI connector passing custom EDID
+> > + * @connector: A pointer to the HDMI connector
+> > + * @status: Connection status
+> > + * @drm_edid: EDID to process
+> > + *
+> > + * This function should be called as a part of the .detect() / .detect_ctx()
+> > + * and .force() callbacks, updating the HDMI-specific connector's data. Most
+> > + * drivers should be able to use @drm_atomic_helper_connector_hdmi_hotplug()
+> > + * instead.
+> > + *
+> > + * Returns:
+> > + * Zero on success, error code on failure.
+> > + */
+> > +int
+> > +drm_atomic_helper_connector_hdmi_hotplug_edid(struct drm_connector *connector,
+> > +					      enum drm_connector_status status,
+> > +					      const struct drm_edid *drm_edid)
+> > +{
+> > +	if (status == connector_status_disconnected) {
+> > +		// TODO: also handle CEC and scramber, HDMI sink disconnected.
+> > +		drm_connector_hdmi_codec_plugged_notify(connector, false);
+> > +	}
+> > +
+> > +	drm_edid_connector_update(connector, drm_edid);
+> > +
+> > +	if (status == connector_status_connected) {
+> > +		// TODO: also handle CEC and scramber, HDMI sink is now connected.
+> > +		drm_connector_hdmi_codec_plugged_notify(connector, true);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(drm_atomic_helper_connector_hdmi_hotplug_edid);
 > 
-> v2:
->  - Correct the commit id of the Fixes tag.
+> I think we discussed it in a previous version's thread after you sent
+> that one, but I'd rather have that helper call an edid retrieval
+> function than passing it edids.
+
+Ack, I forgot to add the hook. I'll do that for the next version. I'll
+add the .read_edid callback to the HDMI functions.
+
 > 
-> Richard Fitzgerald (2):
->   ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 21Q6 and 21Q7
->   ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 21QA and 21QB
+> Also, EDIDs are mandatory for HDMI, so I'd call the function
+> drm_atomic_helper_connector_hdmi_hotplug.
+
+See below.
+
 > 
-> [...]
+> > +/**
+> > + * drm_atomic_helper_connector_hdmi_hotplug - Handle the hotplug event for the HDMI connector
+> > + * @connector: A pointer to the HDMI connector
+> > + * @status: Connection status
+> > + *
+> > + * This function should be called as a part of the .detect() / .detect_ctx()
+> > + * and .force() callbacks, updating the HDMI-specific connector's data.
+> > + *
+> > + * Returns:
+> > + * Zero on success, error code on failure.
+> > + */
+> > +int
+> > +drm_atomic_helper_connector_hdmi_hotplug(struct drm_connector *connector,
+> > +					 enum drm_connector_status status)
+> > +{
+> > +	const struct drm_edid *drm_edid;
+> > +	int ret;
+> > +
+> > +	drm_edid = drm_edid_read(connector);
+> > +	ret = drm_atomic_helper_connector_hdmi_hotplug_edid(connector, status, drm_edid);
+> > +	drm_edid_free(drm_edid);
+> 
+> Oh. Why do we need the two variants? Or is it to deal with drivers that
+> don't set connector->ddc?
 
-Applied to
+Yes. There are enough HDMI bridge drivers that would provide the
+callback instead of the DDC bus. Adding callback should solve that.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 21Q6 and 21Q7
-      commit: 7c449ef0fdce540bfb235a2d93e7184864c3388b
-[2/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 21QA and 21QB
-      commit: ba7d47a54bf23a7201bdd2978e16b04fc1cb1f6e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+-- 
+With best wishes
+Dmitry
