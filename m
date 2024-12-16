@@ -1,92 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404BD207E17
-	for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 19:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17171D47AC;
+	Mon, 16 Dec 2024 21:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734376819; cv=none; b=tblSsC4Xho1Ilfh4MK84We/xKWy6ygjPMXd19DJ2er0KxaLqEEedcJdXK1LBLMghRUCINwN/pYJzQhp8cD9VCvvSmz/hWJvbhrcYRAqWtD7N6phFnJnRF6NVBnAG9XVJjtWPcqSmeccpR1SMHMPDHTkkNfKyC5CY6TzWyINUznQ=
+	t=1734385745; cv=none; b=WT7bXqimBwI+rpOmD1PX8pcSXJeHuQV1JWRqVpGZYq2ngJsxbb8gAaiZujr8lHBdYQul+YGJMh0YhS4TAEKoTIqYLXXNJX6evIwdXZU8RKlm5Cm0j4ZQE9m4uX8qgXYILjrXsIoTK8M6Y2fU2+hf+QvJBL46IWk4kdq6Ekudsnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734376819; c=relaxed/simple;
-	bh=9iNrrnVIaNBiDACjkCO0lV00cy4vsUuWRURqEHTw4tE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=a4wFDiUBvt/m6eTJLNFXyh3fX2WRocFEujLVavTZasTlNtc+mQO5GtuS459YhwB2FzMPgRI7L32CXjvRA4AmniQWLYYwfy6QxSpOl+edR8qsu2L8Cd84KPyEk6APkIKGB3nS+OMfja3hn6yvdfuoHxM+O+J60a6fybVGhyhiU7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nIAZgSRk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734385745; c=relaxed/simple;
+	bh=ZIoQPyeoC0d8HE8S51eRA47tNK9PF0M3hI/o0xDvkuQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJR6A+Sn3TeCe3HmfLnmV/EJ5I+QGowXjdS7bpu6rdD2aU6+ROffs7Fm1X2Lc//1lQDAp78R+rY8xvRGWx0LRAvfN30I4U1N07eDZrdfqCDcJaDGLM/o68ngRD4ghAS67v5vRQP7u7BwTcyXAmkLs+t7EkQQ1oQIC0weVx3Q9Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mllLAmIu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nIAZgSRk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1457C4CED0;
-	Mon, 16 Dec 2024 19:20:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mllLAmIu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E36FC4CED0;
+	Mon, 16 Dec 2024 21:49:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734376818;
-	bh=9iNrrnVIaNBiDACjkCO0lV00cy4vsUuWRURqEHTw4tE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=nIAZgSRkBAU0TNdwNTGewnyg96mcf3eUjDtuTOs2tSu4d3kH4in5ntJzwn4io+Dlt
-	 Sg0rUBcGPG615OYCXSlS0dBfzaRh6EsyDXS48YTqHAke00KbW+3seWMtyqnFNSj7aD
-	 MVEVUKBkoPQfmq6zXEm9f1UjncSkZBQUR7kJEjeIR0DOjrcAv5SIwM7pjpKkmOEusq
-	 oAnDwwowDuwrJz/ObRuW8jvPSlY41xbrqbOJ36y61TtYTeVmKVP5MIFqKmxuhhoCZd
-	 xEVdVA/YzMZFC0DA0A+g5hcU43mOc7bSzvHn0aAxVNiW3RrixO9m+drip7lOeYAyBV
-	 hNldUWcPzHfvg==
+	s=k20201202; t=1734385745;
+	bh=ZIoQPyeoC0d8HE8S51eRA47tNK9PF0M3hI/o0xDvkuQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mllLAmIuLztFviM/jMF1PGcbVVYcOhEbiOdziXUdlTU49nzlucu967paitTJX4jJL
+	 YU/qPyopTd46zDqAhhK3iSCI49CEFEDPH01AZBXCt3E4fgOXwH93yplxML0Q9396+w
+	 xHqmEeA6IcUW5RdYDPlf81650bFRVQ33o4HZkVAGuBMkROkcaQEyIbfuzaSB1+66VT
+	 3y1JhxN8hxBHKcsTMHUN98525WKbqN/5iyTlbMCGa+jIUTALUvorzzNYjeZRYDOqXw
+	 +orAVBro8R7ze7Dy8Rnw2v5E+fVRX1m5EDShKX4hjqHcNLo0s81/q6U3iM2eW/NDui
+	 N0q7iLje3EtwA==
+Date: Mon, 16 Dec 2024 21:48:59 +0000
 From: Mark Brown <broonie@kernel.org>
-To: tiwai@suse.de, Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, pierre-louis.bossart@linux.dev, 
- bard.liao@intel.com
-In-Reply-To: <20241216032721.131227-1-yung-chuan.liao@linux.intel.com>
-References: <20241216032721.131227-1-yung-chuan.liao@linux.intel.com>
-Subject: Re: [PATCH 0/3] ASoC: Intel: Add matches for Cirrus Logic CDB35L56
- boards
-Message-Id: <173437681752.201561.7447030675625198056.b4-ty@kernel.org>
-Date: Mon, 16 Dec 2024 19:20:17 +0000
+To: Alexey Klimov <alexey.klimov@linaro.org>
+Cc: konradybcio@kernel.org, andersson@kernel.org,
+	srinivas.kandagatla@linaro.org, tiwai@suse.com, lgirdwood@gmail.com,
+	perex@perex.cz, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, dmitry.baryshkov@linaro.org,
+	linux-sound@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/3] ASoC: qcom: common: set codecless link to be a
+ backend
+Message-ID: <4a85f858-5350-403f-a862-9966f542d3b6@sirena.org.uk>
+References: <20241205023344.2232529-1-alexey.klimov@linaro.org>
+ <20241205023344.2232529-2-alexey.klimov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JzRM4fzI72YszvM/"
+Content-Disposition: inline
+In-Reply-To: <20241205023344.2232529-2-alexey.klimov@linaro.org>
+X-Cookie: Be different: conform.
 
-On Mon, 16 Dec 2024 11:27:18 +0800, Bard Liao wrote:
-> This series adds TGL and MTL matches for configurations using the
-> Cirrus Logic CDB35L56-EIGHT-C board.
-> 
-> Richard Fitzgerald (3):
->   ASoC: Intel: tgl-match: Add entries for CS35L56 on CDB35L56-EIGHT-C
->   ASoC: Intel: mtl-match: Add CDB35L56-EIGHT-C with aggregated speakers
->   ASoC: Intel: mtl-match: Add CDB35L56-EIGHT-C 8x CS35L56 without
->     CS42L43
-> 
-> [...]
 
-Applied to
+--JzRM4fzI72YszvM/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On Thu, Dec 05, 2024 at 02:33:42AM +0000, Alexey Klimov wrote:
+> When codec subnode is missing in DAI link description in DT
+> the DAI link codec will be set to a dummy codec and link will be
+> recognised as front end. Any playback attempt will fail since it
+> will not be able to install hardware parameters. Fix this by
+> setting codecless link to be a back end.
 
-Thanks!
+This is intentional, the sound card should be properly described in the
+DT - if there's an expansion board used the description for that should
+say what sort of CODEC is there.
 
-[1/3] ASoC: Intel: tgl-match: Add entries for CS35L56 on CDB35L56-EIGHT-C
-      commit: bf4519f4b1e1fa6286af5d331146238ddc580ea6
-[2/3] ASoC: Intel: mtl-match: Add CDB35L56-EIGHT-C with aggregated speakers
-      commit: bc7bd5c335030858216581e7a591d02ebfdb53e7
-[3/3] ASoC: Intel: mtl-match: Add CDB35L56-EIGHT-C 8x CS35L56 without CS42L43
-      commit: 6dcc8e7f2bb7b748d75844631b2bae860648202a
+--JzRM4fzI72YszvM/
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+-----BEGIN PGP SIGNATURE-----
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdgoEoACgkQJNaLcl1U
+h9AXjgf+O24bBTPBqVTzzxYzWAYsuB9RcvwV1ZXSTC19I4g1/hPH/DeXUCQnXQJ4
+UoEaW4w6Xyxhjy0jcXeS/N05zmtfe4oVptsHreQiOlUvsKeCMlIPxw6mgzF+6ds7
+TYAoAUwxVEToGVEva5RXsCvnKPz4toKMLvkxSONvl1mQjgcEdijpC9ZwSf5nH4eI
+iqFB6K1h5WNFloJ+iR5V8L9D6ik23tEEQDQMJtzCPCQaf5NSIuYHdU0a/Cesbgf/
+1ZcURE8ezvzrpUBczRlQzVOdoipiigQY0UkO0Xx6cgOMy4jBOCgHY6hjB/RnO3JR
+5Gur2GfOq8jQ75JsEIHcSlCM0LN3aA==
+=0ibu
+-----END PGP SIGNATURE-----
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+--JzRM4fzI72YszvM/--
