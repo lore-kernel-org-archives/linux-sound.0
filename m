@@ -1,100 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2FD206F2D;
-	Mon, 16 Dec 2024 17:57:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFBC206F2B;
+	Mon, 16 Dec 2024 18:25:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734371824; cv=none; b=f/lCPVRCY3AOnsag0Sw1n8bXD2jJ2z/XhMys2qzGmLj5U8S/A3ZScMKl9HChMk8nxnFQsj0x0Mdg6RBRRXKyfz00FzM4nBWMovAz/zPEsxXsJx5cozV3j+0VkLEvpTPdthWugEY3k8Z4gQOrFXs3PVkbzSzTAptFeo7H4S8nNNI=
+	t=1734373544; cv=none; b=ZojVfdM0IHejBj7XAMeWHWh6XuKXyp69wlt8q6NpDOZZDLnWEqGIHHMkn1Xu0MZo5nwS1nhILQOvTJVGbuyHI2/Duob3gmkfB3/zNyN8lGqRjo+mmZ+12OeUV0p+dhj250yznCbZBnmP0K1WXDZnJZQu4RzEyFZY847btg0AtFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734371824; c=relaxed/simple;
-	bh=Z4tZ8fVofiGwAb7FaAn7u4Dk8NVUizwERM8FmNMH8MQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IuJl7aLUG90tkr835jmNOLqQvhboWW2CB9SnJ3cA3w8KV0HnsuVKhVHGRoEkURVbdkxw7+Z/3qPAcQq+F5IG/qRaQDoc9epYiD7Hk3Cxf4SqU2cx4J4fe/PPQSFZkmAuM52hb8X5LLbOpe5Q4FntO8iU/B/1tnmFo3M33RYWBho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JbQb5Yto; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734373544; c=relaxed/simple;
+	bh=/2v9/T4ndK3MUE94EmauvESCExwyZebpPrRhoptAt8s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DrWB3Z0e+AaqN784Nm/c5Rty03nRyQnaLugkuhu2DthNaqpstw7Ic52beyQlFdvOGFKJXBqoz+uL7s5KQ5y3f1ZSFiBexI8CMl1i1PkYXH0eCwbhhUtniwWMFNH5HstakDcQyoR0NU1PFuGI4eD2nmiKKeJBWJEVR+WE5chnAhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oTTGvBOL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JbQb5Yto"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8132BC4CED0;
-	Mon, 16 Dec 2024 17:57:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oTTGvBOL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B3AC4CEDE;
+	Mon, 16 Dec 2024 18:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734371823;
-	bh=Z4tZ8fVofiGwAb7FaAn7u4Dk8NVUizwERM8FmNMH8MQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JbQb5YtoHWIG2i81bmyykeMAQvNegaoDJWzvE7DlBZex3RyAfwAroe5bQGbRHlJby
-	 jjqQVAAkr8hl8Dvjtpke2QQz2r0Ad/7uEi+edK6j2lLcJoyLs70xjia11RD9bTH8Dq
-	 E3Jvt/ICN4SJjUxPtoq8GeF2toKeWTLVW2uDsDNfsZvAuGESM82qsyDGNtplv5ieGs
-	 s4kcPeGaKiDCeId0agBsQE/PlCv4C1v1aoXNADhWZn8A7+Oc8MBtKJJONGyClzTaba
-	 uY4aJE9xAyCgjoz77qfQYB/Cm4kHef8xCurK7C8gXvfvdrpKaWczWGX7XtHfT1xIwg
-	 YtZJ4kj/0G/Uw==
-Date: Mon, 16 Dec 2024 17:56:57 +0000
+	s=k20201202; t=1734373543;
+	bh=/2v9/T4ndK3MUE94EmauvESCExwyZebpPrRhoptAt8s=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=oTTGvBOLbmZkpV0Iv1vZUUngNEmyKZN2zuLZUAXdTvwkHJfj4fAyvzx2oGp5U887Y
+	 MyqhfpptyektCeWTFJh/Ng5xrOdZqANl4yF9j0MK6gJ0J5a83kbGPyg1fjsQNzE+Kn
+	 zzRvvHQexByQf8goYGi3wBNbBW6eWBxFtFa8reoGcD8MuvCbAaXyN6LoebK3FsOQP9
+	 ucowHOZuRys1ZxfqMR0Aax3DL85aAcamSxvT/gCh09wm9tgxnqX61eUCYte7MoQUH/
+	 wmkhwpl8I25IpaRO0Si6WBD6KpWGG1Q9lAffKwRaIFAmBRoxpLB7jZvaYGzF3FCAHY
+	 be9UG62jW+oCw==
 From: Mark Brown <broonie@kernel.org>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/5] ASoC: SOF: imx: add driver for imx95
-Message-ID: <03b0bcda-c351-4d76-accc-3d3e0ed9c335@sirena.org.uk>
-References: <20241216145039.3074-1-laurentiumihalcea111@gmail.com>
- <20241216145039.3074-5-laurentiumihalcea111@gmail.com>
- <Z2BZ+WUY6ecIwhEt@lizhi-Precision-Tower-5810>
+To: oder_chiou@realtek.com, lgirdwood@gmail.com, perex@perex.cz, 
+ tiwai@suse.com, linux@treblig.org
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241216135110.53426-1-linux@treblig.org>
+References: <20241216135110.53426-1-linux@treblig.org>
+Subject: Re: [PATCH] ASoC: rt715: Remove unused hda_to_sdw
+Message-Id: <173437354180.179097.7907664727883461744.b4-ty@kernel.org>
+Date: Mon, 16 Dec 2024 18:25:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1dCq6JFN4ecgzC7O"
-Content-Disposition: inline
-In-Reply-To: <Z2BZ+WUY6ecIwhEt@lizhi-Precision-Tower-5810>
-X-Cookie: Be different: conform.
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
+On Mon, 16 Dec 2024 13:51:10 +0000, linux@treblig.org wrote:
+> hda_to_sdw() has been unused since it was added in 2020 as part of the
+> commit d1ede0641b05 ("ASoC: rt715: add RT715 codec driver")
+> 
+> Remove it.
+> 
+> 
 
---1dCq6JFN4ecgzC7O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to
 
-On Mon, Dec 16, 2024 at 11:48:57AM -0500, Frank Li wrote:
-> On Mon, Dec 16, 2024 at 09:50:38AM -0500, Laurentiu Mihalcea wrote:
-> > From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> >
-> > Add SOF driver for imx95.
-> >
-> > Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> > ---
-> >  sound/soc/sof/imx/Kconfig  |   8 +
-> >  sound/soc/sof/imx/Makefile |   2 +
-> >  sound/soc/sof/imx/imx95.c  | 401 +++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 411 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
+Thanks!
 
---1dCq6JFN4ecgzC7O
-Content-Type: application/pgp-signature; name="signature.asc"
+[1/1] ASoC: rt715: Remove unused hda_to_sdw
+      commit: 37c42bde28f580ac5de4de838afd5eea72e40262
 
------BEGIN PGP SIGNATURE-----
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmdgaekACgkQJNaLcl1U
-h9Cl4Qf/Wqcio/gpAHtCYuQyA3wXb/0S4M/vlqazIEavGzTlUOYqnxsbU2AaeMEk
-zwpZ2+eQ/bxaq1ShK4qLnNmzrurodvT1vfHAZPzfx58S0dtVN5Y37lau53+IRyQA
-GIyaTH3CFhR1JJcXKXPfF6cl8VwHgniUTT+hlT40q8I/j7Jp5AJWqOcKfx9Zx8sd
-Rnpg5dGVAg8blZMM8ste4YKqkx2DRgtc/yIe19c2V3+hyTjmBnw8+PztkfW3hqKS
-g5i6JYX1BwjPexEl9apLPs8lhKaEn7p/sHIVz7uxUBwkKz7McqVAaXTTKGebi/KN
-RXz4I6ljBH8xC5MQ9DH0/EEnOkZgcA==
-=wqS7
------END PGP SIGNATURE-----
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
---1dCq6JFN4ecgzC7O--
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
