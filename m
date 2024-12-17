@@ -1,65 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91771F7570;
-	Tue, 17 Dec 2024 15:36:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0619E1F7096;
+	Tue, 17 Dec 2024 15:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734449765; cv=none; b=pkhENgUsJZS6DrtCZIupXV9/H5zmn+oODijF56q9OaABl39RcCc6A+8CvTIiE7sgqCtSMmRUo1BDyoBRLMu0GOjafNFCV8g6c1JIJ6x6tDFE/jQDfsDA5ypVLL5g46kkZKHIDI/iCE/ri2GmadhV64tJUElP2Q4f5pBzuKQvmH0=
+	t=1734450525; cv=none; b=GJBdUDKRN0MKBPToX5r9sSzHYLqXjYySHL0GTKZUCjupcWaTM9LqfKcPMAx5i2N/kP8aanhAK6DwzcTUzc6KblQG6lT/p5KMpyP6GkiGU8YGnJc8LHb8GSLxVrBin1rUEmsNjo7cNLwKNfEU7Y70P71AaMOH2uo48HccpYwZ6XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734449765; c=relaxed/simple;
-	bh=CZJa1lf0XxGXavdC8JLTJxpT9TC1vGySZ2P2ZodGIG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UM0GfHOsW0Hlp/NDyn33nK5wkSqn6pPVDKBIm1X8HURumRNu31dhE539mH6rGvSQFfvZO5HWONdkOCmcBE5yrvtwDaAVN/sZk2p8MldKBJmP7LZ7aHmwY8xJ3gLe9K0H5bpHVz9Ojs3WNuQDIn58EmkiO3PJJyZVKF7rlbihG0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8svMNpt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734450525; c=relaxed/simple;
+	bh=PAibtwA3w7SzUhGczgC8VqNx09UQ/7+KOrpqOnDpMmI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VnLfUoPm1gycIAhERhvrZxeDfKU/ECbs0cTPc6a61jSIPZmENTrZbC6FbSD2wXUCdZs6d7AiZa+SqE/RTICmMGS1/p60xDFx+Wp1Zy9n5ozhcfu2P2w8B+idqOsigjqNLb9FwsD8lroRYczY8BtkPOFSm0Ay1u3A/Xgd2U4aqak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sSbHXWdx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8svMNpt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C876C4CEE0;
-	Tue, 17 Dec 2024 15:36:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sSbHXWdx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB14C4CED3;
+	Tue, 17 Dec 2024 15:48:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734449765;
-	bh=CZJa1lf0XxGXavdC8JLTJxpT9TC1vGySZ2P2ZodGIG8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S8svMNptMqCVHSzi7cqLN6d/H+54ZPSh5lQOOAcxBnVQEkznpCJdKrqrn0rBhhB8X
-	 5eNfx4TotT/nDoO3wBDSslA14DK+ioEhkz3arEQIK3jZBuUUA295cAHT4jFT/8KzU1
-	 bFdkiXEaB7rO/GzCp//AeYvvAI8oioJ6cFNft9iJZsDxA6vswj4tGdK9KrDhrHBEay
-	 vwxXrkbg3ViKOu35HImvr/ec5UxJ8yJyUujmgOwBAyQu4KqvVsmOTTPAAtA09fAUNF
-	 PszCcio6lrqNQYky0el/9odb6yEn8g+auKuFBnsXufaVE6ChjTtKGuZXH7D+F5oF3x
-	 bttP+x+FyTqgg==
-Date: Tue, 17 Dec 2024 09:36:03 -0600
-From: Rob Herring <robh@kernel.org>
-To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
-Cc: Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, quic_mohsquicinc.com@qualcomm.com,
-	kernel@quicinc.com
-Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: Add support for master clock
- frequency
-Message-ID: <20241217153603.GA1832220-robh@kernel.org>
-References: <20241216110341.3707-1-quic_pkumpatl@quicinc.com>
- <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+	s=k20201202; t=1734450524;
+	bh=PAibtwA3w7SzUhGczgC8VqNx09UQ/7+KOrpqOnDpMmI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=sSbHXWdxjMYbp1LzE9z07wUvX4eCT1MT8uOHJe++Mzh6cbCUM3JqJf3IfEDnNL2E5
+	 i7950P/QjGz0gplOQBasVBIB+Fed9162SWI+Ka3/0fyaqD6xDUYiaFPgssww1INZqG
+	 36Kwk/m4wUaOZmrb7ZW0muSN7WEJhRx0AHV7H/pXPKDLeMfJ0HZh7dUrEynBTaIngF
+	 ANM0mLq6zaGFecMeLQ0T49vvbFaWnAqq8UEh1ODKSm+a2vTjHgt35uktv9r6/0Ne4y
+	 U5DUeXYgNZZxJFMEzn86e9o+6uS6DEQel8dKJ82R5Mw1DP2F5xdR2e/zCmvspchgmh
+	 gjhspVh+QjZJA==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org, 
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: David Rhodes <david.rhodes@cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20241217070545.2533-2-wsa+renesas@sang-engineering.com>
+References: <20241217070545.2533-2-wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] ASoC: cs42l43: don't include '<linux/find.h>' directly
+Message-Id: <173445052264.96598.2296647542527379530.b4-ty@kernel.org>
+Date: Tue, 17 Dec 2024 15:48:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Mon, Dec 16, 2024 at 04:33:40PM +0530, Prasad Kumpatla wrote:
-> Introduce a property specifies the frequency of the master clock
-> provided to the codec slave. The slave has the capability to adjust
-> the frequency according to user needs in the defined range.
+On Tue, 17 Dec 2024 08:05:45 +0100, Wolfram Sang wrote:
+> The header clearly states that it does not want to be included directly,
+> only via '<linux/bitmap.h>'. Replace the include accordingly.
 > 
-> Also fixed yamllint check errors.
+> 
 
-'Also' is the red flag for something that should be a separate commit.
+Applied to
 
-If you see errors with these, you are not using the right config which 
-is in Documentation/devicetree/bindings/.yamllint.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: cs42l43: don't include '<linux/find.h>' directly
+      commit: db8b9b12892f0528c3a78715243c22398ab3cb5d
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
