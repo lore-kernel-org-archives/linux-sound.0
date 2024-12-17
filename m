@@ -1,95 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4886018C008;
-	Tue, 17 Dec 2024 06:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08C416F858
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 07:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734418590; cv=none; b=LtId7rCDxGEriksJeKAKYAJqfA/hzm+YGQnvzeOEfElJ8IB7BBS6L+32WqX4UrEs/g23b0m+GAdHqeVWyQXaaDpeTrJ5teOnyy/TjS+E88PCO1SIuVqbsFUXkf0Hjg5296LeIRE68dVs3Q0Dzt+EC0DlBTRHvkI06seXNt483Gw=
+	t=1734419152; cv=none; b=BeRXCgv13BbJWNPcZcRiR3AWIsbPAp+FhUVhm7vyQBWOb9eGIsWZ2MTtkDQ9zYS/sGTWMcfLMDJl5cFDkO6Vzjf7HPkm1AZFKLBZ/rwEs5drZZiTqzMNSSzXRS5+Wk+zI5AEHT4cFjq4aVvBFq3BL2yEfkez1Mus78Jorj6Uvg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734418590; c=relaxed/simple;
-	bh=FCSExKI+sgfvXIQDvMbcaGs6YRB5dHmX79mWUjjc3eA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=osaPNcXG5b/JDH/oGnvwk/X0sOLTGqsI0Zu20m3kgoHkoBlFhkvFgm9R0+fztb2DIy7o6JWXU3pp8mmFa3Yvz3BCSYecDlczQogcgGi6f1JZfNEmmypv6TG+DqJ80LZlmGLc5ZEMr5HlfscWkW23bYKfwLSN55iNro3FA1wujaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFfO8JQg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734419152; c=relaxed/simple;
+	bh=zX2cFtcHCICYnLmShbz9S1nIR8E0jVMXhZVDQSSl+do=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tgnjvOKjQVxP2GEhcVMp7fSNj+akew95w5WBDLIsN5cNoog57mp9aqKKSOwQQrd6iEwHDxLwJnIYQVwLicDwQylz+kn5Jfubl0cCX/5G8cnKLxbEt/H13rvZMtYT96d6pndSkixceCeiI/IRleJd6/h0c43ETxPb6W0bSgkEMZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PjJPyk4i; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFfO8JQg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C729C4CED3;
-	Tue, 17 Dec 2024 06:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734418590;
-	bh=FCSExKI+sgfvXIQDvMbcaGs6YRB5dHmX79mWUjjc3eA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bFfO8JQg3wxopxrXFvL6Gw3ZPLinopI5zBctBetd4wKhWw4eaY+ogB5PbWvBlVwg7
-	 C+LjxWNxzudKW61+tD/qQ8wNTzA/bmYXcSRH1fSIl/FFtOsfEnQeYT2+fyyl56F+mu
-	 zAjaF91teEODc4HFMIzFCO2XgYn+AgG/C6QWao0JlVgeiDcmaswLwgA+f8soTbzMTG
-	 gr4E+DFIx56etk80NP/eZ5bVd+7XLvFzXmxpKgGidL8SWD+QRejrM2nVpoi47qVzf0
-	 kwZFYMyJnLlJIF7RK83pxjEDSP+caRx+8DrAKcTDN1VBMTng9RB94vt2vxwW3ACyaZ
-	 gXaGfW0W2eQuQ==
-Date: Tue, 17 Dec 2024 07:56:26 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Daniel Baluta <daniel.baluta@nxp.com>, Mark Brown <broonie@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Takashi Iwai <tiwai@suse.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Frank Li <Frank.li@nxp.com>, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-sound@vger.kernel.org, 
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] ASoC: dt-bindings: support imx95's CM7 core
-Message-ID: <jwhjz7a7spikaj3sgrpqqt5deygeedspz4iar7h6tofadk44nr@ytl7dnnbcrom>
-References: <20241216145039.3074-1-laurentiumihalcea111@gmail.com>
- <20241216145039.3074-3-laurentiumihalcea111@gmail.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PjJPyk4i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=cv19Q1wJnDXa6l
+	jWtXODVtaNwf0ZT2uRVQhVVv4kjrM=; b=PjJPyk4i9ytfFJBcSfUNF6Lvzf7ewX
+	CuZoDS9t6xM/dPQmfDlDvhuTwvYsw7lL/Ynnt4HuroTfEVAAUZeNOHSkEDIX7Dyk
+	DJ82/NtKDg0wT8PUSQqCfuYgn8NgjLMn58T+k1hA5X5HS9Mw4VyoOKh3U6YNYOkr
+	HBCesVfAa6O9Ad5E0F3sheG0P3UCYNjKe8vB4dLdwkF/ptmiZRDG15sDOOAvPNBu
+	PbU+Ex9EkUFqpTTDP3S7BDT+5tKR1Z5It0rk7jKUKKcKPoqh59yfCZtfhYO/pviS
+	o4v17/0rVbXy0QXU+/2jUqQbmXD66Pe9ViGNoL+/TRpga3pBqXz1jgAQ==
+Received: (qmail 3977869 invoked from network); 17 Dec 2024 08:05:46 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Dec 2024 08:05:46 +0100
+X-UD-Smtp-Session: l3s3148p1@THof7XEp3oJehhtS
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-kernel@vger.kernel.org
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH] ASoC: cs42l43: don't include '<linux/find.h>' directly
+Date: Tue, 17 Dec 2024 08:05:45 +0100
+Message-ID: <20241217070545.2533-2-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241216145039.3074-3-laurentiumihalcea111@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Dec 16, 2024 at 09:50:36AM -0500, Laurentiu Mihalcea wrote:
-> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> 
-> Add binding for imx95's CM7 core, used for audio processing.
+The header clearly states that it does not want to be included directly,
+only via '<linux/bitmap.h>'. Replace the include accordingly.
 
-Adding common binding and using it should be the same patch, for such
-relatively small bindings.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ sound/soc/codecs/cs42l43.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> 
-> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
-> ---
->  .../bindings/sound/fsl,imx95-cm7-sof.yaml     | 44 +++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/fsl,imx95-cm7-sof.yaml
+diff --git a/sound/soc/codecs/cs42l43.c b/sound/soc/codecs/cs42l43.c
+index 4236f78beec0..bee032c3ebbe 100644
+--- a/sound/soc/codecs/cs42l43.c
++++ b/sound/soc/codecs/cs42l43.c
+@@ -12,7 +12,7 @@
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/errno.h>
+-#include <linux/find.h>
++#include <linux/bitmap.h>
+ #include <linux/gcd.h>
+ #include <linux/irq.h>
+ #include <linux/irqdomain.h>
+-- 
+2.45.2
 
-...
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    cm7-cpu@80000000 {
-> +        compatible = "fsl,imx95-cm7-sof";
-> +        reg = <0x80000000 0x6100000>;
-> +        mboxes = <&mu7 2 0>, <&mu7 2 1>, <&mu7 3 0>, <&mu7 3 1>;
-> +        mbox-names = "txdb0", "txdb1", "rxdb0", "rxdb1";
-> +        memory-region = <&adma_res>;
-> +        port {
-> +          /* SAI3-WM8962 link */
-
-Keep consistent indentation.
-
-> +          endpoint { remote-endpoint = <&wm8962_ep>; };
-
-This should not be one line, but three lines.
-
-> +        };
-> +    };
-> -- 
-> 2.34.1
-> 
