@@ -1,116 +1,172 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B483B1DDA17
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 08:35:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE401DDA35;
+	Tue, 17 Dec 2024 09:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734424555; cv=none; b=OnwF/5houS+q5nTgSrNokMx4WW+asW9VZet2JNiaAeTD0ika8YDpoR4C+4NkSp0/r8YvzQwy/Y7QNVVoxx57hvyf2A/XXnSDbZQPF+GmQ2+WvmaLrfUAbg0HOjMU04WcRFtuBedRd5QuR9NgStCvJukVa8dm9vRenHEP0UMf8P0=
+	t=1734426609; cv=none; b=vFz494SGNHfUT+6+dfzl7BxUWLXSycvJFzuOfXMvBFAhEFhkWvg9FCxlFI+re2twQR0Qi4scXP8L6hWWXxXeO577pLXk3eFaAAQLSl73btBp9sWND+vouE+mA6ro7BvZAUmjwYjvP9JCWi08k/oUUV0z0H35AA6CLjMZZGpVzOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734424555; c=relaxed/simple;
-	bh=M1FONKwZ8Fc/UcnyGVedpCFcve/G5FPu3fxDUKLQ3xs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VRU1cSHTIFznmLCpMBAjSQp/IBTgK5ryZcF9U9pOeNzw/lYr4/f1UzqKDYnPQu5dxVPGsEmnWgzkZdRGhelbbWSdVDv+paIJ7prPN3Fw+5BkEiz73kKmc3PARAbkz/UT5SxrCIAasCax+3netq9yfsM2WoIpBFK81vZxVJQqT3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g+sE72KC; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1734426609; c=relaxed/simple;
+	bh=jlcwFC3JQLCv5lJgHAPOErV2JEPUxNk27bQ2DdZgO5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L52HMPWnHwzS7jcMJyL0sjyGU/BSa4KGPgYXkXNf6BkkHWqcHAlUh1GWs0CzkLuQvXb5+/H16iJYxgacGoR+jeMIgH/1esy5GRQAWDhQIv7SMNh3AvIUkDbteWsnmzi+p7ZJFZ3W5sDwxuGt2Pyx3GOodqgWS4zGl0EtEOoHNqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gsr9rvDN; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g+sE72KC"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d41848901bso8931941a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 00:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734424552; x=1735029352; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=V92mVpmKQ/0E2k4933aIN1ZEembCvs+f5SIz9RHIY20=;
-        b=g+sE72KCIPZjI81J9YwWSaLGX/h6UjhsYfI5bHa4S8S7P7ngVDlHwwkF+rJH1Auj1l
-         E8iVrtlTgUt7q4dYxEJMsC6Xz38jfEXsF8vTLtnBppP86VVadMUaDYVSbd32lXsk0r7u
-         YO3koVQYXuF9+d8W5GlORZ7ZZcwWxygdaCZmkbWVqqQdHFtcP3hy86ufr7adDWD6qPQt
-         hpyhnhLOp/hmOd+eqJOeaM8oEKA4ZG4iQzNzRFHb7meNB3aPqO53GB/Kys+q7iaOvFJn
-         GcrLsJgkd+7YuJuivLDGxADHVgnBqjA2H2h53kjRTf7mEwUFYkmYjXZ3bm30f4Rc546Y
-         wUMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734424552; x=1735029352;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V92mVpmKQ/0E2k4933aIN1ZEembCvs+f5SIz9RHIY20=;
-        b=J7ZoRBKehG/mgiEdQgq//5YvGH0inR+K+K2iwCLeaNhHdgP24rQ1VxPJnkcp8U5Wzk
-         5X/W9KbUx96eiLfimxUe7fbJJEkebkrEjWWpi/pa7HbSXUYS4CliuZS6slPAK5E/D3Y4
-         idPCBcKNaJpmhsuy4T6RuRG0kh4H9+SXEtvAuUohlHbOz8sHrJ7yzhtvJQZMXhsFhWt/
-         iRPo43jrGBcL9GLiu6Tbar5jbrghz6eOwRj2wavTLbnaJuWdxXoYaLQT9NbgbeQX78+N
-         tduOHj4nZLrtXraHSUz7JBsLNpGRNro6FiRMfy99LWMBG05brLiWDh8wynbet5xwUz83
-         lC5g==
-X-Gm-Message-State: AOJu0Yz5aYuoIzxKgSyhjXKV2lxUGS9NsJLjKcIDF0MTyj7l4UTLdN+d
-	+Qung5y9LEpnxT4TdUM37P2tC9UKqAns5yz+NispqiSVtDUU+ly6ZXbnAfMpLrw4thweN3Waz0d
-	T
-X-Gm-Gg: ASbGncvvd3hLKAnUd/157MxR7z38nNy+c7L47Q7KUTGY2Vl6kwDafk5TIcTBN9Bt1ga
-	Ijz76/JI/vXJmaU4zp7SZ+I/qn2mCacrpHTPM5sS5S+PJtHrdeNtqyRnk5nSMTYZC70ILjln0l6
-	y5Gz72h2xPngD8K52CT0KIMHCP7Mq7APKW4dQ/j5tHkSQdipgX8i95blUsqXEN91PGeQ97YOjLR
-	2kZl+KzlRtvEYed3VhzKhYsfFdl4HuyDKSlv7ZyrBlHrYdsS10AuSs4+E98zA==
-X-Google-Smtp-Source: AGHT+IEs86Nm/OTBOeV+JZMb6jxxlxalDLfIEcYhz/tHC564UOF5gCmtoXibfXLYwXO2hV52YK59Kg==
-X-Received: by 2002:a05:6402:354d:b0:5d0:7282:6f22 with SMTP id 4fb4d7f45d1cf-5d7d56175c1mr2327222a12.14.1734424552035;
-        Tue, 17 Dec 2024 00:35:52 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ab50e9sm4020540a12.1.2024.12.17.00.35.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 00:35:51 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:35:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-sound@vger.kernel.org
-Subject: [bug report] ALSA: compress_offload: introduce accel operation mode
-Message-ID: <f2769cff-6c7a-4092-a2d1-c33a5411a182@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gsr9rvDN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1734426608; x=1765962608;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jlcwFC3JQLCv5lJgHAPOErV2JEPUxNk27bQ2DdZgO5o=;
+  b=gsr9rvDN/MSf7gVESrAqMSv9Et9dIyXbpjkNnSycGbzARYFcff764JpF
+   sg6goO2w3Yedj4VqQN09L/A5MoKvrijQuwh/VoUnqIyz+dHMtIAyd8DJS
+   kZBM4PV7NZrxUNEmJesjT2OeVYUuwoJbcyh1yRWDPW4f/C7tfw6M3Y8f7
+   DO+WXY0V0hr4c5dk67wYNDTlSfSaibCdmwWFPGeD86Pjb8VVvH082ukTU
+   TcBuaitde15S3U0z2u1fHoe2wsTYZlecORUc9rPdWCRshyE+XxJXrkdMB
+   09obUq480n9iC4x5ElH3Xmwys9tEc2anDwaGAUgHVngSmhoN40rhkPE/F
+   Q==;
+X-CSE-ConnectionGUID: F/R4D69nQWyX12lbE7+tGA==
+X-CSE-MsgGUID: KjoCDxMOQ7Gg7OpJLoZ04w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="34721568"
+X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
+   d="scan'208";a="34721568"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 01:10:07 -0800
+X-CSE-ConnectionGUID: iVmXv1ZdRdSUNjKqNNC45Q==
+X-CSE-MsgGUID: RODoHek7Q06bYci/IUDXfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="128452466"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO pujfalus-desk.intel.com) ([10.245.245.115])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2024 01:10:04 -0800
+From: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: linux-sound@vger.kernel.org,
+	kai.vehmanen@linux.intel.com,
+	ranjani.sridharan@linux.intel.com,
+	yung-chuan.liao@linux.intel.com,
+	pierre-louis.bossart@linux.dev,
+	liam.r.girdwood@intel.com,
+	stable@vger.kernel.org
+Subject: [PATCH for v6.13-rc] ASoC: SOF: Intel: hda-dai: Do not release the link DMA on STOP
+Date: Tue, 17 Dec 2024 11:10:19 +0200
+Message-ID: <20241217091019.31798-1-peter.ujfalusi@linux.intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hello Jaroslav Kysela,
+The linkDMA should not be released on stop trigger since a stream re-start
+might happen without closing of the stream. This leaves a short time for
+other streams to 'steal' the linkDMA since it has been released.
 
-Commit 04177158cf98 ("ALSA: compress_offload: introduce accel
-operation mode") from Oct 2, 2024 (linux-next), leads to the
-following Smatch static checker warning:
+This issue is not easy to reproduce under normal conditions as usually
+after stop the stream is closed, or the same stream is restarted, but if
+another stream got in between the stop and start, like this:
+aplay -Dhw:0,3 -c2 -r48000 -fS32_LE /dev/zero -d 120
+CTRL+z
+aplay -Dhw:0,0 -c2 -r48000 -fS32_LE /dev/zero -d 120
 
-	sound/core/compress_offload.c:1188 snd_compr_task_seq()
-	error: dereferencing freed memory 'task' (line 1189)
+then the link DMA channels will be mixed up, resulting firmware error or
+crash.
 
-sound/core/compress_offload.c
-    1174 static int snd_compr_task_seq(struct snd_compr_stream *stream, unsigned long arg,
-    1175                                         snd_compr_seq_func_t fcn)
-    1176 {
-    1177         struct snd_compr_task_runtime *task;
-    1178         __u64 seqno;
-    1179         int retval;
-    1180 
-    1181         if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
-    1182                 return -EPERM;
-    1183         retval = get_user(seqno, (__u64 __user *)arg);
-    1184         if (retval < 0)
-    1185                 return retval;
-    1186         retval = 0;
-    1187         if (seqno == 0) {
---> 1188                 list_for_each_entry_reverse(task, &stream->runtime->tasks, list)
-    1189                         fcn(stream, task);
+Fixes: ab5593793e90 ("ASoC: SOF: Intel: hda: Always clean up link DMA during stop")
+Cc: stable@vger.kernel.org
+Closes: https://github.com/thesofproject/sof/issues/9695
+Signed-off-by: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+Reviewed-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ sound/soc/sof/intel/hda-dai.c | 25 +++++++++++++++++++------
+ sound/soc/sof/intel/hda.h     |  2 --
+ 2 files changed, 19 insertions(+), 8 deletions(-)
 
-fcn() can be snd_compr_task_free_one() so this should be
-list_for_each_entry_safe_reverse() but it also calls fput() on
-the fd from fd_install() so I'm really uncomfortable with that for the
-same reasons as before.
+diff --git a/sound/soc/sof/intel/hda-dai.c b/sound/soc/sof/intel/hda-dai.c
+index 1b218d77f292..da12aabc1bb8 100644
+--- a/sound/soc/sof/intel/hda-dai.c
++++ b/sound/soc/sof/intel/hda-dai.c
+@@ -103,8 +103,10 @@ hda_dai_get_ops(struct snd_pcm_substream *substream, struct snd_soc_dai *cpu_dai
+ 	return sdai->platform_private;
+ }
+ 
+-int hda_link_dma_cleanup(struct snd_pcm_substream *substream, struct hdac_ext_stream *hext_stream,
+-			 struct snd_soc_dai *cpu_dai)
++static int
++hda_link_dma_cleanup(struct snd_pcm_substream *substream,
++		     struct hdac_ext_stream *hext_stream,
++		     struct snd_soc_dai *cpu_dai, bool release)
+ {
+ 	const struct hda_dai_widget_dma_ops *ops = hda_dai_get_ops(substream, cpu_dai);
+ 	struct sof_intel_hda_stream *hda_stream;
+@@ -128,6 +130,17 @@ int hda_link_dma_cleanup(struct snd_pcm_substream *substream, struct hdac_ext_st
+ 		snd_hdac_ext_bus_link_clear_stream_id(hlink, stream_tag);
+ 	}
+ 
++	if (!release) {
++		/*
++		 * Force stream reconfiguration without releasing the channel on
++		 * subsequent stream restart (without free), including LinkDMA
++		 * reset.
++		 * The stream is released via hda_dai_hw_free()
++		 */
++		hext_stream->link_prepared = 0;
++		return 0;
++	}
++
+ 	if (ops->release_hext_stream)
+ 		ops->release_hext_stream(sdev, cpu_dai, substream);
+ 
+@@ -211,7 +224,7 @@ static int __maybe_unused hda_dai_hw_free(struct snd_pcm_substream *substream,
+ 	if (!hext_stream)
+ 		return 0;
+ 
+-	return hda_link_dma_cleanup(substream, hext_stream, cpu_dai);
++	return hda_link_dma_cleanup(substream, hext_stream, cpu_dai, true);
+ }
+ 
+ static int __maybe_unused hda_dai_hw_params_data(struct snd_pcm_substream *substream,
+@@ -304,7 +317,8 @@ static int __maybe_unused hda_dai_trigger(struct snd_pcm_substream *substream, i
+ 	switch (cmd) {
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+-		ret = hda_link_dma_cleanup(substream, hext_stream, dai);
++		ret = hda_link_dma_cleanup(substream, hext_stream, dai,
++					   cmd == SNDRV_PCM_TRIGGER_STOP ? false : true);
+ 		if (ret < 0) {
+ 			dev_err(sdev->dev, "%s: failed to clean up link DMA\n", __func__);
+ 			return ret;
+@@ -672,8 +686,7 @@ static int hda_dai_suspend(struct hdac_bus *bus)
+ 			}
+ 
+ 			ret = hda_link_dma_cleanup(hext_stream->link_substream,
+-						   hext_stream,
+-						   cpu_dai);
++						   hext_stream, cpu_dai, true);
+ 			if (ret < 0)
+ 				return ret;
+ 		}
+diff --git a/sound/soc/sof/intel/hda.h b/sound/soc/sof/intel/hda.h
+index 22bd9c3c8216..ee4ccc1a5490 100644
+--- a/sound/soc/sof/intel/hda.h
++++ b/sound/soc/sof/intel/hda.h
+@@ -1038,8 +1038,6 @@ const struct hda_dai_widget_dma_ops *
+ hda_select_dai_widget_ops(struct snd_sof_dev *sdev, struct snd_sof_widget *swidget);
+ int hda_dai_config(struct snd_soc_dapm_widget *w, unsigned int flags,
+ 		   struct snd_sof_dai_config_data *data);
+-int hda_link_dma_cleanup(struct snd_pcm_substream *substream, struct hdac_ext_stream *hext_stream,
+-			 struct snd_soc_dai *cpu_dai);
+ 
+ static inline struct snd_sof_dev *widget_to_sdev(struct snd_soc_dapm_widget *w)
+ {
+-- 
+2.47.1
 
-    1190         } else {
-    1191                 task = snd_compr_find_task(stream, seqno);
-    1192                 if (task == NULL) {
-    1193                         retval = -EINVAL;
-    1194                 } else {
-    1195                         fcn(stream, task);
-    1196                 }
-    1197         }
-    1198         return retval;
-    1199 }
-
-regards,
-dan carpenter
