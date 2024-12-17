@@ -1,143 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE04537F8;
-	Tue, 17 Dec 2024 07:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEA7126BF7;
+	Tue, 17 Dec 2024 08:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734421393; cv=none; b=q4Y5Xbbob3w8m8T4jxPMgU2fKDx/OPrdLsmlP1SjIghRJe6RrrsQImgi8yTxobqdDKsU9rTMneeV+3LNw4t4DwOrn7K/buO+orTLmZYf60+/NhPZYqpoFf4sXbacmBrHZz++Xr8Xz4abrB9ZYjm/MjYIeVcY6JYOFK4OuNx5MTM=
+	t=1734422997; cv=none; b=NIVijkRNfjmbE82RlVBC9r9NCfBuzlqAkZqaxuO9ICH34qVDMrcVjuOkSwGJem1UluB5QvbYlCaq2HoChohAz/xx5CcdoewZMDgCSTMBJVy/qPnUGeblerZzebjpcBeZubUA/xLyFh9BNRxexkF3BWmyCBckdDymNfixfcf9jGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734421393; c=relaxed/simple;
-	bh=SFEB+1CioxLc5lMZKoURIeOpaioyZPe04X8yK/3CHYY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mx0HlrovxHRuoaKNgrmNoljpVPAFP7zPqnWy80I0iGKwmeGGXCC+WMOB/sKarDUUmF9MaFwWs6CIQfRjh2bWqqG8vp0ItKpn82+48ZqwMcJBMMfz1NGu+Ccrr2R4yXiJg1FLtaICQ2fAlX2+jC+7Z6Ypn7smeaxHNYMuaq/LPo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qgygh1jB; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qgygh1jB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A648EC4CED3;
-	Tue, 17 Dec 2024 07:43:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734421393;
-	bh=SFEB+1CioxLc5lMZKoURIeOpaioyZPe04X8yK/3CHYY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qgygh1jBZx5lw8SjMJZ9Rn89E9kJt7oapQfMySMCzPSBHCgBuwR0KzOWAzB51uN3c
-	 DFJJcdWpUijv2S9WKbhoJTLFMnw/TcqLsu5f+u/7yuUVgx8eq6k1P3RVktd6ksDe9r
-	 3KznClF/Fti3bWkP8h+V0dhDiQ7Kmfn+uvsey1jDZE5nv2DuAeGCNztZP5D18mHk93
-	 EE6lfm4G8EkU3pUWUW93gmUoHmLrgxokZ7oLJWxRvx1PCwHnSvvTJa1WsGv2sBnKJ3
-	 Di+eL1PIokZY3FnyLKS0DJF1ewNV7svRLMJRIZn0urB0dqfOOOgE7vxYn2sCjTERi+
-	 5SngBCjqBp21A==
-Date: Tue, 17 Dec 2024 08:43:10 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v6 03/10] drm/connector: implement generic HDMI codec
- helpers
-Message-ID: <20241217-heretic-hopeful-jaguar-aeabec@houat>
-References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
- <20241206-drm-bridge-hdmi-connector-v6-3-50dc145a9c06@linaro.org>
- <20241216-heretic-mackerel-of-wholeness-fcfed7@houat>
- <exocd3b65cy6cy5w47cwx3ykn54ncf34hwyj7ffihs5jjzean5@y677uywnlah2>
+	s=arc-20240116; t=1734422997; c=relaxed/simple;
+	bh=+aXP5ePe8hupl3D7oAXUOt0ixFaQkhZ0CS3pn8nAcfA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KAtWwAk9RdmfFQCIJGHQYS7cvqF/nu/bcIbj40vkmpT8EVtmeuyRSFhIkg+qvd5gHzTZReTO0FMH0iW9v8tknWkXzEKo67XOPz4Y5cwlyuNe4OVnAzDQTjZ5mIDwW1AtVQiBtAlItLpYN6Qic6FEH5O2dhE1kGwMoTBwc+F5t1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-518957b0533so1487226e0c.1;
+        Tue, 17 Dec 2024 00:09:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734422993; x=1735027793;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5i6EzC9kL2QPRbSiXo+9+SMBweKbp3o9CbIrJPpag20=;
+        b=czuOO6ScmOoL5Bte5A3rY76Mrnr6vSKJIS5u3E72VY9czk/uu4bw1ibIyEpN00GGIN
+         NCpgFGQiHR+VvtrV/q3ebUIAMmQ39CudhAi+TELf4gZ8fvnn/W3hQ/AhO6xDLa9HmPio
+         li1rRyX19oLKguMJ+GQlBAnARw/t5pmnBKIrGhDqOgnxdW3WEFBy/1bjSHm9BUHwhd8p
+         Avg9oL4zFgvCu/HYWoeO/ZzORXuBLJzLl24iKM1iFM/5685xv+Eym/SM7VUeYpRNrEdN
+         ymkvEPk0TjiMaSvSnJHFDNeGqr5Jhc3g1DKm7trFxzEzn899ZBqNdv/BwIFTLGl04Gc4
+         ZSSA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2QHMNewYj9Z+WvmXhxN3HpLzfKek3EVNTcudR0mltiaWv8Ykj9/Cpshjkak1HvK2A2J9OFZWBIVgtxfLjrsRn3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxpyrtFuTLhZgtHkkBsdqtYoryCobnAidzefTyVxXC4SyBE9F2+
+	E/TLoFEydZhWRwHFFvLuCPcEID6JdZG5eavenjDMs4srFo6pkRE6r46MdyPy
+X-Gm-Gg: ASbGncvHGzmaicnPpaCIKipVCX5qHj9X+lcmQXpsl+5QwtsPWmETok9TcTc6gDr49Kx
+	bOpQqetx7m8aF4aAgNmxZULoZpzyl+HmtW9q2r15XoA0lpzGrzyrlip3yF74ZAN4DS7Xb4p4Zak
+	liDctNdCVK/ehQoPGMus59x88a4JjqKTs6otCH7YeFo9eskM/pZRZzUrxRqNWGmnsBdEQw08g4N
+	9my2/57CfsqESlX3IDJXZwZRfyQ1dj9ZW1OftPPdLg4Qq53PqaFtZEHO4Q74gfoP8iwdvfP3f/3
+	FHdvylz6ymtcH+euXQw=
+X-Google-Smtp-Source: AGHT+IEOIGNLOegfyJoDSSZtDFzKFHCL1JGuKtJLqdhDTp1D7hh1heZMxasd5xrLuNbYaqVaD97/Jg==
+X-Received: by 2002:a05:6122:1806:b0:518:859e:87ab with SMTP id 71dfb90a1353d-518ca468491mr13985767e0c.9.1734422993033;
+        Tue, 17 Dec 2024 00:09:53 -0800 (PST)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-519eb729ca4sm859860e0c.48.2024.12.17.00.09.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Dec 2024 00:09:52 -0800 (PST)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-85c4cd95885so905383241.1;
+        Tue, 17 Dec 2024 00:09:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWPu69Eql+BS4kGe8Oi62fzTa3ZfLfEtkixJNjGgVR6wcv/vBcErRfzMM9/Ddql4resyRo/ZY6jdKo7Do9WuCiPPg==@vger.kernel.org
+X-Received: by 2002:a05:6102:3e85:b0:4af:d487:45ed with SMTP id
+ ada2fe7eead31-4b25d9d5441mr11307534137.4.1734422992582; Tue, 17 Dec 2024
+ 00:09:52 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="c4s3lijvuloytprp"
-Content-Disposition: inline
-In-Reply-To: <exocd3b65cy6cy5w47cwx3ykn54ncf34hwyj7ffihs5jjzean5@y677uywnlah2>
-
-
---c4s3lijvuloytprp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <CAMuHMdVUKpO2rsia+36BLFFwdMapE8LrYS0duyd0FmrxDvwEfg@mail.gmail.com>
+ <87seqnm3u8.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87seqnm3u8.wl-kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Dec 2024 09:09:40 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX+Eozo1r=xY9PdVJ-Grxb=AzWnCHBF2XQ4eFOx13igaQ@mail.gmail.com>
+Message-ID: <CAMuHMdX+Eozo1r=xY9PdVJ-Grxb=AzWnCHBF2XQ4eFOx13igaQ@mail.gmail.com>
+Subject: Re: rsnd_adg_clk_control() sometimes disables already-disabled clock
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v6 03/10] drm/connector: implement generic HDMI codec
- helpers
-MIME-Version: 1.0
 
-Hi,
+Hi Morimoto-san,
 
-On Mon, Dec 16, 2024 at 07:47:32PM +0200, Dmitry Baryshkov wrote:
-> On Mon, Dec 16, 2024 at 06:04:41PM +0100, Maxime Ripard wrote:
-> > > +struct drm_connector_hdmi_codec_funcs {
-> > > +	/**
-> > > +	 * @audio_startup:
-> > > +	 *
-> > > +	 * Called when ASoC starts an audio stream setup. The
-> > > +	 * @hdmi_audio_startup is optional.
-> > > +	 *
-> > > +	 * Returns:
-> > > +	 * 0 on success, a negative error code otherwise
-> > > +	 */
-> > > +	int (*audio_startup)(struct drm_connector *connector);
-> > > +
-> > > +	/**
-> > > +	 * @prepare:
-> > > +	 * Configures HDMI-encoder for audio stream. Can be called
-> > > +	 * multiple times for each setup. Mandatory.
-> > > +	 *
-> > > +	 * Returns:
-> > > +	 * 0 on success, a negative error code otherwise
-> > > +	 */
-> > > +	int (*prepare)(struct drm_connector *connector,
-> > > +		       struct hdmi_codec_daifmt *fmt,
-> > > +		       struct hdmi_codec_params *hparms);
-> >=20
-> > Missing newline
-> >=20
-> > > +	/**
-> > > +	 * @audio_shutdown:
-> > > +	 *
-> > > +	 * Shut down the audio stream. Mandatory.
-> > > +	 *
-> > > +	 * Returns:
-> > > +	 * 0 on success, a negative error code otherwise
-> > > +	 */
-> > > +	void (*audio_shutdown)(struct drm_connector *connector);
-> >=20
-> > And thus we can probably just call that one shutdown?
->=20
-> It should be called automatically by the sound system. I'd rather not
-> call items directly that we are not supposed to call.
+On Tue, Dec 17, 2024 at 3:38=E2=80=AFAM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> >     ------------[ cut here ]------------
+> >     clk_multiplier already disabled
+> (snip)
+> >     ------------[ cut here ]------------
+> >     clk_multiplier already unprepared
+> (snip)
+> > Unfortunately I cannot reproduce it at will.
+> > The above is from today's renesas-devel release, but my logs indicate
+> > it happens every few months since at least v6.1.
+> > So far I have seen it on all Salvator-X(S) variants, but not on any oth=
+er
+> > SoCs or boards.
+>
+> Hmm... I'm not sure why, but according to the log, it seems it calls
+> clk_disable_unprepare() without calling clk_prepare_enable().
+> I think "clk_multiplier" means "cs2000" on Salvator-X(S).
+>
+> Basically, I don't think it can be happen. But current rsnd driver doesn'=
+t
+> check return value of clk_prepare_enable(). So if cs2000 failed clk_enabl=
+e()
+> for some reasons, indeed clk_disable_unprepare() might be called without
+> enabled (It is another issue, though...)
 
-I meant that with my suggestion to call the function
-drm_connector_hdmi_audio_init, that structure would be called
-drm_connector_hdmi_audio_funcs, and thus the audio prefix in
-audio_shutdown is redundant.
+That sounds plausible...
 
-Maxime
+> I'm not tesed, but can this patch improve situation ?
+>
+> If above assumption was correct, the clk WARNING issue itself can be solv=
+ed,
+> but sound driver itself will fail to probe...
 
---c4s3lijvuloytprp
-Content-Type: application/pgp-signature; name="signature.asc"
+I'm adding your patch to my local tree.
+Let's see what happens during the next few months...
 
------BEGIN PGP SIGNATURE-----
+> ------------------
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Date: Tue, 17 Dec 2024 11:30:46 +0900
+> Subject: [PATCH] ASoC: rsnd: check rsnd_adg_clk_enable() return value
+>
+> rsnd_adg_clk_enable() might be failed for some reasons. In such case,
+> we will get WARNING from clk.c when suspend was used that it try to
+> disable clk without enabled. Check rsnd_adg_clk_enable() return value.
+>
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> ---
+>  sound/soc/renesas/rcar/adg.c  | 30 ++++++++++++++++++++++++------
+>  sound/soc/renesas/rcar/core.c |  4 +---
+>  sound/soc/renesas/rcar/rsnd.h |  2 +-
+>  3 files changed, 26 insertions(+), 10 deletions(-)
+>
+> diff --git a/sound/soc/renesas/rcar/adg.c b/sound/soc/renesas/rcar/adg.c
+> index 0f190abf00e75..723dcc88af306 100644
+> --- a/sound/soc/renesas/rcar/adg.c
+> +++ b/sound/soc/renesas/rcar/adg.c
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2EriQAKCRAnX84Zoj2+
-dn+KAXsHF1Me3a69DjYay1zSH0/PHfBLCaIV8MGlbctx2pAUq5SnrvsJZ2avXBJl
-7I+LlxABewcJcOkSen/hN0RxUNmpQaMQSHXReIonARDyzvaXra1BL1nAga4/ubzn
-jeARugW3sQ==
-=pdll
------END PGP SIGNATURE-----
+> @@ -389,18 +389,33 @@ void rsnd_adg_clk_control(struct rsnd_priv *priv, i=
+nt enable)
+>
+>         for_each_rsnd_clkin(clk, adg, i) {
+>                 if (enable) {
+> -                       clk_prepare_enable(clk);
+> +                       ret =3D clk_prepare_enable(clk);
+>
+>                         /*
+>                          * We shouldn't use clk_get_rate() under
+>                          * atomic context. Let's keep it when
+>                          * rsnd_adg_clk_enable() was called
+>                          */
+> -                       adg->clkin_rate[i] =3D clk_get_rate(clk);
+> +                       if (ret < 0)
+> +                               break;
+> +                       else
 
---c4s3lijvuloytprp--
+No need for the else.
+
+> +                               adg->clkin_rate[i] =3D clk_get_rate(clk);
+>                 } else {
+> -                       clk_disable_unprepare(clk);
+> +                       if (adg->clkin_rate[i])
+> +                               clk_disable_unprepare(clk);
+> +
+> +                       adg->clkin_rate[i] =3D 0;
+>                 }
+>         }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
