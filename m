@@ -1,92 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22418148850;
-	Tue, 17 Dec 2024 15:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91771F7570;
+	Tue, 17 Dec 2024 15:36:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734449136; cv=none; b=R4Yslsy7OMyeX+K/apewiClpNzdkV1MnTMSuj9uK/4la0iY+XPP7OHLXVNfLPYmcm/nrHAbM4ywZWWMO0rhOgcccIt72uftCpCCmWWesSGeaZkznbKXV419Ev3CsFDnrdxvr/870xTvfF6EL01hEbotswCnis5ucECxEtLFE5lY=
+	t=1734449765; cv=none; b=pkhENgUsJZS6DrtCZIupXV9/H5zmn+oODijF56q9OaABl39RcCc6A+8CvTIiE7sgqCtSMmRUo1BDyoBRLMu0GOjafNFCV8g6c1JIJ6x6tDFE/jQDfsDA5ypVLL5g46kkZKHIDI/iCE/ri2GmadhV64tJUElP2Q4f5pBzuKQvmH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734449136; c=relaxed/simple;
-	bh=n59nbDdqjazWBSEs+6H0xYs7GJ7Na4HGlhRT4smb0+A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=WB23+nJ8t00C2ZO6/GCFcxYkkLLFJGE2jjphYCXohmyGD8LAhc8OcGZUMc+qz+frSNtITnDnMl1BUgTarQd9+p2+4pidRHAa4Dr85/3LzMR9T60aOs1kW063IXwHbzVOVTEN2Aujtb9UXeKRcnVjgsA2dfTd16GkicwS8E/iS+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MQvUqy9q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734449765; c=relaxed/simple;
+	bh=CZJa1lf0XxGXavdC8JLTJxpT9TC1vGySZ2P2ZodGIG8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UM0GfHOsW0Hlp/NDyn33nK5wkSqn6pPVDKBIm1X8HURumRNu31dhE539mH6rGvSQFfvZO5HWONdkOCmcBE5yrvtwDaAVN/sZk2p8MldKBJmP7LZ7aHmwY8xJ3gLe9K0H5bpHVz9Ojs3WNuQDIn58EmkiO3PJJyZVKF7rlbihG0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S8svMNpt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MQvUqy9q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9E2EC4CED3;
-	Tue, 17 Dec 2024 15:25:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S8svMNpt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C876C4CEE0;
+	Tue, 17 Dec 2024 15:36:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734449136;
-	bh=n59nbDdqjazWBSEs+6H0xYs7GJ7Na4HGlhRT4smb0+A=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=MQvUqy9q2HOh9O3oU7OjSHWlcI+o823pZYwBpBi7uH9bSAgGJLXY/krOYVOzkgBR/
-	 bqgwBvze5GYu4x9/+BGN+MuhYOP958bm+Xl7yKj4HJEvQVwGNkWQg7rDSz+7un60dr
-	 HglD3OhxEh2s3YHneDBZ3KIpLFt3GYUgp55vgvTxOF7+MwGkQd2vP2xdz3SNqz3F6N
-	 SckXLXmodBJNrf1ovOF5dF+t368p5AfC64s0YeT0gaOZqGv1KTQmQ1d7gACz1Q27Ik
-	 SloPEFZQs7q7Lum+UchXAI552LgmgyJpW34qKOza+QVABXXMs2KdamlI/wF1uDa3NB
-	 5ZcZBEtr99w/A==
-From: Mark Brown <broonie@kernel.org>
-To: lgirdwood@gmail.com, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
-Cc: linux-sound@vger.kernel.org, kai.vehmanen@linux.intel.com, 
- ranjani.sridharan@linux.intel.com, yung-chuan.liao@linux.intel.com, 
- pierre-louis.bossart@linux.dev, liam.r.girdwood@intel.com, 
- stable@vger.kernel.org
-In-Reply-To: <20241217091019.31798-1-peter.ujfalusi@linux.intel.com>
-References: <20241217091019.31798-1-peter.ujfalusi@linux.intel.com>
-Subject: Re: [PATCH for v6.13-rc] ASoC: SOF: Intel: hda-dai: Do not release
- the link DMA on STOP
-Message-Id: <173444913362.64908.13186494458287422900.b4-ty@kernel.org>
-Date: Tue, 17 Dec 2024 15:25:33 +0000
+	s=k20201202; t=1734449765;
+	bh=CZJa1lf0XxGXavdC8JLTJxpT9TC1vGySZ2P2ZodGIG8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=S8svMNptMqCVHSzi7cqLN6d/H+54ZPSh5lQOOAcxBnVQEkznpCJdKrqrn0rBhhB8X
+	 5eNfx4TotT/nDoO3wBDSslA14DK+ioEhkz3arEQIK3jZBuUUA295cAHT4jFT/8KzU1
+	 bFdkiXEaB7rO/GzCp//AeYvvAI8oioJ6cFNft9iJZsDxA6vswj4tGdK9KrDhrHBEay
+	 vwxXrkbg3ViKOu35HImvr/ec5UxJ8yJyUujmgOwBAyQu4KqvVsmOTTPAAtA09fAUNF
+	 PszCcio6lrqNQYky0el/9odb6yEn8g+auKuFBnsXufaVE6ChjTtKGuZXH7D+F5oF3x
+	 bttP+x+FyTqgg==
+Date: Tue, 17 Dec 2024 09:36:03 -0600
+From: Rob Herring <robh@kernel.org>
+To: Prasad Kumpatla <quic_pkumpatl@quicinc.com>
+Cc: Fabio Estevam <festevam@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, quic_mohsquicinc.com@qualcomm.com,
+	kernel@quicinc.com
+Subject: Re: [PATCH v1 1/2] ASoC: dt-bindings: Add support for master clock
+ frequency
+Message-ID: <20241217153603.GA1832220-robh@kernel.org>
+References: <20241216110341.3707-1-quic_pkumpatl@quicinc.com>
+ <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241216110341.3707-2-quic_pkumpatl@quicinc.com>
 
-On Tue, 17 Dec 2024 11:10:19 +0200, Peter Ujfalusi wrote:
-> The linkDMA should not be released on stop trigger since a stream re-start
-> might happen without closing of the stream. This leaves a short time for
-> other streams to 'steal' the linkDMA since it has been released.
+On Mon, Dec 16, 2024 at 04:33:40PM +0530, Prasad Kumpatla wrote:
+> Introduce a property specifies the frequency of the master clock
+> provided to the codec slave. The slave has the capability to adjust
+> the frequency according to user needs in the defined range.
 > 
-> This issue is not easy to reproduce under normal conditions as usually
-> after stop the stream is closed, or the same stream is restarted, but if
-> another stream got in between the stop and start, like this:
-> aplay -Dhw:0,3 -c2 -r48000 -fS32_LE /dev/zero -d 120
-> CTRL+z
-> aplay -Dhw:0,0 -c2 -r48000 -fS32_LE /dev/zero -d 120
-> 
-> [...]
+> Also fixed yamllint check errors.
 
-Applied to
+'Also' is the red flag for something that should be a separate commit.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: SOF: Intel: hda-dai: Do not release the link DMA on STOP
-      commit: e8d0ba147d901022bcb69da8d8fd817f84e9f3ca
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+If you see errors with these, you are not using the right config which 
+is in Documentation/devicetree/bindings/.yamllint.
