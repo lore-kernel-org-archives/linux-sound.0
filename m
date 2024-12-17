@@ -1,87 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC021629;
-	Tue, 17 Dec 2024 19:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D24B21D89EC;
+	Tue, 17 Dec 2024 20:52:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734462945; cv=none; b=bZwTWnI8TNN2G9JFQ+5cWJNg3vPAAokHuzAQh0eE/u0de9T7F7MDp61eIJ8TKDXzLFmg+abmbG04AzIhk58CwGzJ6gVz4vOTZ2WLZ5OoHpiUiM57qSgaXUj0CNyz9iHeCfh+/UXwL9MJsvOtkMsnmgAtOgAl0FfN9ekswN3QG4Q=
+	t=1734468776; cv=none; b=khXFKqLBDoyVBmGXNYeDt73OW5da0Rusnskm/N3vkn3aeuALaQVy+CqQhRAENTNomI8NmFnfXpgbPRgGSj55Sl+7LXQEj9EatukU/rPhKqdk2wdsARZYjOV1AUZyvEere6Xed1VG6g7RraiiS4/KsXzSWs7s6OfsHk17UzUaB5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734462945; c=relaxed/simple;
-	bh=y6GS3u5mmSve1hLodFE193rtDZ23mXknM3YOmd/lX5E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CXXnKGrtxSgNBwhw2E93HhZU1iFb+nHahViO98IF7eOzEr0bsrE0eLVRaNeyFQOUFRw3jNlKXDAElnAZgtJuA3boJAHYJ31HUp/8NuGhrq/HUQCL83M4qaEq1nphpqvWcvI81hl8HVQw0G9AcTkdbGqmRHVSsUFICc6oOrFdTrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TK4o7ZJB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734468776; c=relaxed/simple;
+	bh=NOgi4KqsXyLcK7GtFbxMpFylcjH9Zb2R4fGBxCWPk9o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=AwX5DNTyDqM5/kC/gLlsKml3iNHzezQdErnEzaITkWY/TdvDw5HLX/JI+rtpmW+AZghHZo1Ym1UX+hQ38EF05ky2e/3NvFHFD9k9hX59GZt8NlQwxcARFsgq+HlOWKsK21ZACaUBu9d2eJiYfk7nPKD6v78rfkdImCAaVVoUDac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SFMg1VRp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TK4o7ZJB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2584CC4CED3;
-	Tue, 17 Dec 2024 19:15:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SFMg1VRp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D58AC4CED3;
+	Tue, 17 Dec 2024 20:52:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734462945;
-	bh=y6GS3u5mmSve1hLodFE193rtDZ23mXknM3YOmd/lX5E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TK4o7ZJB2prkyLYo4lGmtQgi3V+IW/eRubKTjoPLrWg/402gLT5kvIYvCpmv8J3Ev
-	 9xomSIyS1aoZsvaZLT1ijz4Z9CzVfcKOLowt3lUyFndg2fSOiBkD68CmuMHZrIS1Cw
-	 xRucypAM2Fgti4i7fBHAEzNZALOcDLnsdQFpkD/7S4WbFzhB6mpwRPJKa00Gt/lkkb
-	 20N9AUcnflkbHUF4zA86Lj14DWNEDwtrGXs23rbOM9Z6YtAj/1FNred4gXNnULHA8B
-	 XJMwO3X7lVKNZd7GjTD59kIpVn0dd7RWZSRWFAYH/NxDeHiOx7lAoFioFXpUe+sh+e
-	 Yhgci1i/FhMFw==
-Date: Tue, 17 Dec 2024 14:15:43 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Takashi Iwai <tiwai@suse.de>,
-	syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com,
-	perex@perex.cz, tiwai@suse.com, kl@kl.wtf,
-	peter.ujfalusi@linux.intel.com, xristos.thes@gmail.com,
-	linux-sound@vger.kernel.org,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Subject: Re: [PATCH AUTOSEL 5.15 13/13] ALSA: usb: Fix UBSAN warning in
- parse_audio_unit()
-Message-ID: <Z2HN39E2yUoqtCGh@lappy>
-References: <20240728160907.2053634-1-sashal@kernel.org>
- <20240728160907.2053634-13-sashal@kernel.org>
- <92eb4af2-8a38-4075-9353-21afe34d57d9@oracle.com>
+	s=k20201202; t=1734468776;
+	bh=NOgi4KqsXyLcK7GtFbxMpFylcjH9Zb2R4fGBxCWPk9o=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=SFMg1VRpUwGfXxOJTsg1kaMEbyHT6CfGiMLffAU+Hog5B1gP6oVTqg500VKwVg0Zr
+	 yMpuBX/uQeub+rPNX0VZZFjMrlfb2JR8QknGS/LLDkx44sX9vvucIXAta72s5AYZU9
+	 u3qYWUegDRp2T3WzcDwnbwd50TP8WxfpwUI5ov9h3OYFSi2X85VknuoBHQYhFVZAG7
+	 yxML6XdjdYzwnG+SwniWXnHojD6Y6mcYbfKOPLz5+YDxXD2Ziq7onZJCKoQdBgMbit
+	 Jjnyw3ud8gU+roEFbJxo5o8ITVZnk6jwyoAkzCIfT1Q/tkEjTx/MeLxloufwqb2o65
+	 52XplhCvp8epA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ Colin Ian King <colin.i.king@gmail.com>
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20241217171151.354550-1-colin.i.king@gmail.com>
+References: <20241217171151.354550-1-colin.i.king@gmail.com>
+Subject: Re: [PATCH][next] ASoC: soc-core: remove redundant assignment to
+ variable ret
+Message-Id: <173446877495.182159.14408273032161993161.b4-ty@kernel.org>
+Date: Tue, 17 Dec 2024 20:52:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <92eb4af2-8a38-4075-9353-21afe34d57d9@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-9b746
 
-On Tue, Dec 17, 2024 at 11:54:49AM +0530, Harshit Mogalapalli wrote:
->Hi Sasha,
->
->On 28/07/24 21:38, Sasha Levin wrote:
->>From: Takashi Iwai <tiwai@suse.de>
->>
->>[ Upstream commit 2f38cf730caedaeacdefb7ff35b0a3c1168117f9 ]
->>
->>A malformed USB descriptor may pass the lengthy mixer description with
->>a lot of channels, and this may overflow the 32bit integer shift
->>size, as caught by syzbot UBSAN test.  Although this won't cause any
->>real trouble, it's better to address.
->>
->>This patch introduces a sanity check of the number of channels to bail
->>out the parsing when too many channels are found.
->>
->>Reported-by: syzbot+78d5b129a762182225aa@syzkaller.appspotmail.com
->>Closes: https://lore.kernel.org/0000000000000adac5061d3c7355@google.com
->>Link: https://patch.msgid.link/20240715123619.26612-1-tiwai@suse.de
->>Signed-off-by: Takashi Iwai <tiwai@suse.de>
->>Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->FYI: This 13 patch series and similar AUTOSEL sets for other stable 
->kernels didn't go into stable yet.
+On Tue, 17 Dec 2024 17:11:51 +0000, Colin Ian King wrote:
+> The variable ret is being assigned a zero value that is never read,
+> it is being re-assigned a new value from the return value from the
+> call to snd_soc_dapm_add_routes. The assignment is redundant and can
+> be removed.
+> 
+> 
 
-Huh, thanks for that.
+Applied to
 
-I've tried to look at the history, and I'm quite confused about what's
-happening. My scripts must have gone rogue at some point.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
--- 
+Thanks!
+
+[1/1] ASoC: soc-core: remove redundant assignment to variable ret
+      commit: d349fd151f1aeb0d8aea4a2f0fe9ba24309609ed
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
 Thanks,
-Sasha
+Mark
+
