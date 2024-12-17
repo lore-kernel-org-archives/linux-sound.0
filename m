@@ -1,104 +1,86 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936001D90AD
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 12:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF7B1EF097
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 13:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734439008; cv=none; b=dQ0QtsIZQrOeAxQmnOwkceq745uNpDyPaKgKM0JDeauI/wuA9NhhsStMZ/1M1Fv3velwf44poCVvoNbvRmiojk15EoR2PfdZLTu+YnHpJLxgtcGeZItT6yJZgEXVnofMqDWY5jxxV3hvAaw+Hc4HOu7SZbyy3DjJ6aDx0W2h6cM=
+	t=1734440825; cv=none; b=SU5z8fzAohmLwB+S8LZxp7YpWmpRDRGreAuNE69I1uKaU6S7kCfS2JRHwj7qEuWpDpW7MlC0be5EbrOeQB0hnPi68eKV3FUd+paeE+0Zsvs37fgyTKF40J1WxAnhRKDNIbGEhBfx4BY9gJB50UZlNveYKvQI2IjMK9zWM7KsfXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734439008; c=relaxed/simple;
-	bh=u6/Zz6ooEvuBsj6bZZEiSmQSxQQ5qYP/79uPENuplMM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=bFjEp7XxPQmhBsWr4RjzdGW7H1kWilLOxkun0jPUqfI1wmdfvxhvujcptkWmR4FpZ3AHwkao0y2em1F5GVsQ6XqWJ0pO01N90JrasPr+XIulTAAipJ0IXBYCdBvXFEVc9sKpuy1CRa2AxnHdtEKEM5DoMya2HYpYyGLJ9yDGb9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=WrnXm66o; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1734440825; c=relaxed/simple;
+	bh=7npDhfaeR4/b82Sa/vZhhIYsMb4TLXvfQSQTwdfyk5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uahegWIZ5/omHpukWO69JwUC0rrf5VnymF107emMjkMA26YEcxrOtgyJdjfFJslya3oQjxc507De3ATRtspcU0V1gv0jSRlc/wdL2737uW4/Lxu7+vfeCeoePNYDfrEvDqsPLpspU/CYPA6w1oNeJuhr+w+Rl0KRUupANz6Blaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=uPHpKlJy; arc=none smtp.client-ip=103.150.252.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="WrnXm66o"
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="uPHpKlJy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=Content-Type:MIME-Version:Message-ID:Subject:To:
+	From:Date; bh=aQq+WpRDl+QSuSjL9NZvuqk6zr5VIWauEzIfqf+CxKI=; b=uPHpKlJyICvJ0aL
+	qksX9/B7b3fs9/Vcu+KlGYAXk3PpcePrPiwwVSmEUd56uyoEUyWlX/DbnnILthVyB4g+3OYb+rf4L
+	Hp/N8aXE1eAfbGY1Q8hlTGDvbbCzU56BsP4LNxMlW9+BlOaR0ceELkxnlv9shCoo0dfYdsmaMRDNg
+	g7Fu4sJi5QXJepZyNrI5TkEiSKd5l8hfbT2+SjP2PCIMRgRV5UIDiMyQzsZjn+8Z96WidHjcBJHVz
+	q6FJL3WaMmdCjDYGJJc/NRMFfaSyLvR9nmeuy0h7wZ0Vvus8wMmzxAum5SyKZmI10v5fmxIs225MM
+	9H72qielLjt4tkG8sNw==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-041e245383aa0379b) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tNXHq-000000008W4-02U1 ;
+	Tue, 17 Dec 2024 13:06:54 +0000
+Received: from [220.233.184.101] (helo=rpi5)
+	 by CMR-KAKADU03.i-041e245383aa0379b with esmtpa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tNXHp-000000006Z3-2VII;
+	Tue, 17 Dec 2024 13:06:53 +0000
+Date: Wed, 18 Dec 2024 00:06:52 +1100
+From: Stephen Gordon <gordoste@iinet.net.au>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 6/6] ASoC: audio-graph-card2: Use extra format on each
+ DAI
+Message-ID: <20241218000652.197e8b7a@rpi5>
+In-Reply-To: <87v7vjm639.wl-kuninori.morimoto.gx@renesas.com>
+References: <8734innkpy.wl-kuninori.morimoto.gx@renesas.com>
+	<87v7vjm639.wl-kuninori.morimoto.gx@renesas.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1734439003;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RolKsme1G9Rjox6sw68grNTuofAMfeweMCbeaFaOjdE=;
-	b=WrnXm66oWyjzl5/KX5EDjjmy8k7gwxzTP0hDuvZDpj1vGd/1V7BBy61LdZaM5wSNYAjoXj
-	FnPekO+HSxOYXxOIIoW+7HgnRyQlCdmWs3uMcVxDzMYbEns3wmGenx0D2dzkfH6HdiiTxV
-	QtU7idQ6FjTQmrXHPWjFWO9yfp7MCANXq3Svn8ytWYeGIeiCMf3GYKb+i+J6nOqVHRgP/+
-	XIa2cUnJ8EppY4xpTSJQTwcrVpDLqGmSQHRChEs0mQvjWib/fprlCbFw7GlXcE1cLBKvId
-	84zo5MHicnENQIC+c1VQLKfyj2A0lXBQXWzen4IfKjBWGQMtbqrepa8h8eDALg==
-Content-Type: multipart/signed;
- boundary=213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Tue, 17 Dec 2024 13:36:29 +0100
-Message-Id: <D6DZB443IQ7A.3P1135M6DMF2S@cknow.org>
-To: "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Neil Armstrong" <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, "Laurent Pinchart"
- <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman" <jonas@kwiboo.se>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jaroslav Kysela"
- <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Liam Girdwood"
- <lgirdwood@gmail.com>, "Mark Brown" <broonie@kernel.org>, "Phong LE"
- <ple@baylibre.com>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Alim Akhtar"
- <alim.akhtar@samsung.com>, "Russell King" <linux@armlinux.org.uk>,
- "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Philipp Zabel"
- <p.zabel@pengutronix.de>, "Matthias Brugger" <matthias.bgg@gmail.com>,
- "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Alain Volmat"
- <alain.volmat@foss.st.com>, "Raphael Gallais-Pou" <rgallaispou@gmail.com>,
- "Dave Stevenson" <dave.stevenson@raspberrypi.com>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Raspberry Pi Kernel
- Maintenance" <kernel-list@raspberrypi.com>
-Cc: "Jani Nikula" <jani.nikula@linux.intel.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>
-Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
-In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=cLjmsEeN c=1 sm=1 tr=0 ts=6761776d a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=kj9zAlcOel0A:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=VwQbUJbxAAAA:8 a=yC-0_ovQAAAA:8 a=8UIr3vucC3dvTkvS2oIA:9 a=CjuIK1q_8ugA:10
+X-Cm-Envelope: MS4xfETo1HNkHxAe2ibtQI+PZdbS7sFVCoSSNc/QtEe+r2enVKRU59NoS82YFrOb/LKk5dubhPB/IcHPJywQ64Yzyv3QDyOrqTGXyTCVchCxyIQrWPNgqFbm G9qOii8kSBtZ4g8/vhfOx1pxxQFvI3pBxMiXliHiEHjpqe4CQIyxk+zJ3T55KWOdeVqEm7zmPq3FQ8bcjVXClqS6k7g9WOrp4hU=
+X-atmailcloud-route: unknown
 
---213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-On Tue Dec 17, 2024 at 1:40 AM CET, Dmitry Baryshkov wrote:
-> This series depends on the ELD mutex series [1]
->
-> [1] https://lore.kernel.org/r/20241201-drm-connector-eld-mutex-v1-0-ba56a=
-6545c03@linaro.org
+On Tue, 17 Dec 2024 01:49:30 +0000
+Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-There's a v2 of that patch series here:
-https://lore.kernel.org/all/20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8=
-bea@linaro.org/
+> Current ASoC is using dai_link->dai_fmt to set DAI format for both
+> CPU/Codec. But because it is using same settings, and
+> SND_SOC_DAIFMT_CLOCK_PROVIDER is flipped for CPU, we can't set both
+> CPU/Codec as clock consumer, for example.
+> 
 
-HTH,
-  Diederik
+Hi Morimoto-san,
 
---213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646
-Content-Type: application/pgp-signature; name="signature.asc"
+This patch (#6 of the set) was generated against a tree which didn't
+have the port_cpu -> port_codec correction applied
+(687630aa582acf674120c87350beb01d836c837c) and it fails when applied
+against HEAD of
+https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git/
 
------BEGIN PGP SIGNATURE-----
+Not sure if this is a problem...
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ2FwVAAKCRDXblvOeH7b
-btcgAQCrCEekrUY/E2pSYqYaHT6HKwkoEGuruBblZdydAr68eAEAsy2oRKKCWk/8
-hitjosySt34ZoKPme2E/QoeOAZUr1gA=
-=oJtw
------END PGP SIGNATURE-----
+Stephen
 
---213d8d12555ec1eb5ee8f786b8c3bbdacf37d77fd939badb04e2ddb33646--
+
+
+
