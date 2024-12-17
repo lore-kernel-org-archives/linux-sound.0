@@ -1,120 +1,170 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF85C149DFA;
-	Tue, 17 Dec 2024 17:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91951F8697;
+	Tue, 17 Dec 2024 17:13:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734455516; cv=none; b=QR2S2Ubwq19cR8p0wH2JiohSEm4y0xCo4kxlSYdhmxRd2mZJg6eOhrnNSAUsyhWzzFbsgo7iE7EslwQjIfuLf/43/Z3GMDpkg5FHCYih2BrpB3ZCGZW1JAgckTG/U7vA5DZ0nYi+HiKJy/GgiCnH97e9ELtBCcUHCfagccvO4Bg=
+	t=1734455611; cv=none; b=OEMZA3hUJTE81BHkkkuUIguvzu2XY/j+HtcJnm5Ah12sF44OPopiK4+pC87TrPlUcwPLaCH19bXVeSCp3jlD3a7oUh9mJDDefR73HU4J30KbVKPcse6kYoxMj3GKIeh7yE27zd13tnszO5DPKjPxOeUwmjvu78iBtjEP65V04+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734455516; c=relaxed/simple;
-	bh=5I2Fz+Zw+MQQod4tC46e0e80mrv/zcGvwwgYR+3lAG4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GIjbr/tzchA7cEbOQwLKWjgBrgYHL9Od5p3Ej3osPY4ncvKxEdeu8wcXRcRW2HWUAMRKewiVmLtT0r2lqCTwMdgqstAhEQh4R06YQe0NG5uPFw1dUbC7HVMOSA+HjImyJwhjI/J4/40ISEcI4gb05Rb8hxElYjvv60opJlH8fJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=luGFw+xh; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734455611; c=relaxed/simple;
+	bh=jLjXGQRuYhHX2FPYDCj3e7QwJ0rtcdIW6eV0G++iz2s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NoUZGUBAADjZBt0fa/GyzWjGfPJjC0EZ2S/nB9p7TpqkA4spg51/FM9GHwJQr3JQoU/00znMoTBSetS+UBCubIQXMCsJIpadB8WM7HnHNgZQ73F6qnNhcU7aNUaDQcS/ddeGBoIlGTY6zel1bIB2tkX90ZVgW+b5J62SyP2+vlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOzwMCZF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="luGFw+xh"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3862d161947so2688061f8f.3;
-        Tue, 17 Dec 2024 09:11:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734455513; x=1735060313; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wDe+OjYsEchyhWL3fZePRFw+ytkHRR5OcslzF4bh7Go=;
-        b=luGFw+xhaPBEMUvHVoKqgMENJhbNefJCHVxRRLS4YZ/XPuiewNXkEdLpuQcEZUVzKE
-         1POYtRrwtI4Pid3dF0Y+YP/ySW9JGipIqCUq+vjliiANek6tp0+F7bQ/xMmvP2r/HXsT
-         DUPVRKmOY4gWkcf33lF+pqkw7Ac0+Lxg421gPyKWQ6qGFwEcgmLjqUzTzP32fjiXS4qi
-         CyvF0qJMeNB8mGUop1o6Z5QFeNBZy7o5Lk7x32rFHJSoIO/0/AnY6LU29sf3+fzUXHNW
-         /gBjkrFtrlsrduRNXIB2yF3MVATQW5mfS3TJM2TWCaCJCId66UdUeQEiXokEHkPCop5/
-         OJPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734455513; x=1735060313;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wDe+OjYsEchyhWL3fZePRFw+ytkHRR5OcslzF4bh7Go=;
-        b=U5riV5nBTNB/FVvdHFy0yYo9mFpv6oVxw8+D+0a0Yapmz2d97PhobnDYB/abCURjqr
-         6H60krtg7+CdnEPTyEymNssaUGB/nBpCzCOQR6XokmXlN2r0OZobfiwUhc1bwtLfN4jE
-         9dJ6memhV1Gl5Wp6XLWLnonfCKNOd/ninO4ESDoTrRyplsgtdksZO7PXpVMHCFlos+Xu
-         Fmi3BCNqRxyDZNJ8B4XaVGrqFHC0jq4dyrm6NAr3cx3SNwiejDa+DjVu5qt2PTri0OU4
-         7892xggzJ+0gBdwSHtP6A+FH+VBzcBB6FGs96yLKbxV8hFQFYl9UnltamV/jMp2uBuNr
-         sE+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWu45BjE980w9kBoLOKbfxiPnxis9Uaqu/0s+KbKgH4Xe9BmdzKPGe13BDrK58w5O0Sd1yjCLi+wTU8Kso=@vger.kernel.org, AJvYcCXW9rZbh1SlcixfXWUY3b8Gt9YMuZcpPgoyj0FbkqBe1rh+43Wy5sojpnQ5fix2Y/LLjHEMI4qu4zMCdgc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzji7As887lCH350G/XwUGQ6DmeBrapVnT3BhIf8OuoBwGdEsYu
-	IPSCIcM+5yFKKsdMkocEMhhIL8zfqNMydvNaFHY4COZsZ7ZHDNY+DgmU7Q==
-X-Gm-Gg: ASbGncsfn00XSnHm5h5Dbtl3ebNyj6o9gY7lI6tZMTQeCgyCP+NF457iMt2EqxWKIXp
-	BY0UzCVI2r5qNERlusEZGprpXz6uVzexvIzmSMJ6HrB176bApIFZOW5C0FkL+bTnvAzfg5diZFD
-	VKDgF07t/FwW5TceFp4LnLCiYTFZYmZn7dL3bvGYJak4a3MqNrW92I1meq1LnPg43HDQQt0OIBx
-	XIWhyJb+rJ3eA+z7ReRnU3DCCSL72hpnNu3zrpcUv+DD9GN7gPZUKPUFw==
-X-Google-Smtp-Source: AGHT+IHEAuUoVlbNVbA7z8LHgDBOq8SuDDK7gMuVqYHCnWWTwXRtt81eXUzwttb7CKAHzFK2a2wCvw==
-X-Received: by 2002:a05:6000:695:b0:381:f443:21d3 with SMTP id ffacd0b85a97d-3888e0c0840mr16149664f8f.57.1734455512939;
-        Tue, 17 Dec 2024 09:11:52 -0800 (PST)
-Received: from localhost ([194.120.133.23])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-388c801211dsm11616848f8f.17.2024.12.17.09.11.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 09:11:52 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] ASoC: soc-core: remove redundant assignment to variable ret
-Date: Tue, 17 Dec 2024 17:11:51 +0000
-Message-ID: <20241217171151.354550-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.45.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOzwMCZF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E999BC4CED3;
+	Tue, 17 Dec 2024 17:13:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734455610;
+	bh=jLjXGQRuYhHX2FPYDCj3e7QwJ0rtcdIW6eV0G++iz2s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KOzwMCZFWUA2AqJ1WijKIDZ3FG9jWwCSzdAkuGZZk8CcgC3MyQihVL/tAVIiQAakk
+	 qyHscAgc8d66oucPc5BpPhk/KTUJ71yRFgZoX3tX7UkL4+zbh2hDnsSf/GHyjtNKSW
+	 RjOrc1ydi4UaaLqtcsRPq6vPcccmYLHTyP10s8zr1KbVVEGlKdA1f5DjB+yx2Wj4ei
+	 DfdAyXT08iOVVhOxzzrk7PBP3Jip+7BZAHqv+G3+oyIpMIa08Ye/iSu1kSKJYt840D
+	 i8Igg57Gubrn1nFnXYuUHv2WdInHj9fnqvBVbcvBArEHmirJx3HKuYIClQkXQtu753
+	 6iWHuWgzJcXvg==
+Date: Tue, 17 Dec 2024 18:13:27 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
+ get_modes()
+Message-ID: <20241217-curly-mauve-scallop-d84a3d@houat>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-9-50dc145a9c06@linaro.org>
+ <20241206-caped-proficient-rattlesnake-c882f3@houat>
+ <73xdxb575n4ncmadffkwqzczoewbadq3forpvqt4vp7zfln2nq@o2wmbbbepwgg>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="tibevjcmq2hqubs4"
+Content-Disposition: inline
+In-Reply-To: <73xdxb575n4ncmadffkwqzczoewbadq3forpvqt4vp7zfln2nq@o2wmbbbepwgg>
 
-The variable ret is being assigned a zero value that is never read,
-it is being re-assigned a new value from the return value from the
-call to snd_soc_dapm_add_routes. The assignment is redundant and can
-be removed.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- sound/soc/soc-core.c | 1 -
- 1 file changed, 1 deletion(-)
+--tibevjcmq2hqubs4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 09/10] drm/vc4: hdmi: stop rereading EDID in
+ get_modes()
+MIME-Version: 1.0
 
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index c8b7f78b02f0..710c278e4f36 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -2228,25 +2228,24 @@ static int snd_soc_bind_card(struct snd_soc_card *card)
- 	snd_soc_dapm_link_dai_widgets(card);
- 	snd_soc_dapm_connect_dai_link_widgets(card);
- 
- 	ret = snd_soc_add_card_controls(card, card->controls,
- 					card->num_controls);
- 	if (ret < 0)
- 		goto probe_end;
- 
- 	ret = snd_soc_dapm_add_routes(&card->dapm, card->dapm_routes,
- 				      card->num_dapm_routes);
- 	if (ret < 0) {
- 		if (card->disable_route_checks) {
--			ret = 0;
- 			dev_info(card->dev,
- 				 "%s: disable_route_checks set, ignoring errors on add_routes\n",
- 				 __func__);
- 		} else {
- 			dev_err(card->dev,
- 				 "%s: snd_soc_dapm_add_routes failed: %d\n",
- 				 __func__, ret);
- 			goto probe_end;
- 		}
- 	}
- 
- 	ret = snd_soc_dapm_add_routes(&card->dapm, card->of_dapm_routes,
--- 
-2.45.2
+On Sun, Dec 08, 2024 at 01:06:46PM +0200, Dmitry Baryshkov wrote:
+> On Fri, Dec 06, 2024 at 03:34:52PM +0100, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Fri, Dec 06, 2024 at 12:16:03PM +0200, Dmitry Baryshkov wrote:
+> > > The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
+> > > already reads EDID and propagates it to the drm_connector. Stop
+> > > rereading EDID as a part of the .get_modes() callback and just update
+> > > the list of modes. This matches the behaviour of the i915 driver.
+> > >=20
+> > > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> > > ---
+> > >  drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
+> > >  1 file changed, 21 deletions(-)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4=
+_hdmi.c
+> > > index e5ab42f72f618b90f956482db6c9c8074c1e3bf1..3364ef90968dad3074800=
+f02926300ffceb75c69 100644
+> > > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> > > @@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct=
+ drm_connector *connector,
+> > > =20
+> > >  static int vc4_hdmi_connector_get_modes(struct drm_connector *connec=
+tor)
+> > >  {
+> > > -	struct vc4_hdmi *vc4_hdmi =3D connector_to_vc4_hdmi(connector);
+> > >  	struct vc4_dev *vc4 =3D to_vc4_dev(connector->dev);
+> > > -	const struct drm_edid *drm_edid;
+> > >  	int ret =3D 0;
+> > > =20
+> > > -	/*
+> > > -	 * NOTE: This function should really take vc4_hdmi->mutex, but doin=
+g so
+> > > -	 * results in reentrancy issues since cec_s_phys_addr() might call
+> > > -	 * .adap_enable, which leads to that funtion being called with our =
+mutex
+> > > -	 * held.
+> > > -	 *
+> > > -	 * Concurrency isn't an issue at the moment since we don't share
+> > > -	 * any state with any of the other frameworks so we can ignore
+> > > -	 * the lock for now.
+> > > -	 */
+> > > -
+> > > -	drm_edid =3D drm_edid_read_ddc(connector, vc4_hdmi->ddc);
+> > > -	drm_edid_connector_update(connector, drm_edid);
+> > > -	cec_s_phys_addr(vc4_hdmi->cec_adap,
+> > > -			connector->display_info.source_physical_address, false);
+> > > -	if (!drm_edid)
+> > > -		return 0;
+> > > -
+> > >  	ret =3D drm_edid_connector_add_modes(connector);
+> > > -	drm_edid_free(drm_edid);
+> >=20
+> > I don't think that works though, for mostly two reasons:
+> >=20
+> >  1) We're not sure we'll even have an hotplug interrupt if the system
+> >     boots with the connector plugged in for example.
+> >=20
+> >  2) afaik, the get_modes ioctl directly calls get_modes too.
+>=20
+> I think both paths use .fill_modes, not get_modes.
 
+The standard fill_modes helper calls get_modes.
+
+> And fill_modes explicitly calls .detect / .detect_ctx. It would be
+> nice if somebody can verify the change on the acual hw. But as I
+> wrote, i915 driver does exactly the same: the EDID is read / updated
+> in .detect_ctx(), while .get_modes() only performs
+> drm_edid_connector_add_modes(). Okay, there is one significant
+> difference which we should probably patch out: the .force() is also
+> implemented to update EDID in the forced case. I should probably do
+> the same for the drivers being handled in this patchset.
+
+Ack. Worst case scenario we can fix it later on.
+
+Maxime
+
+--tibevjcmq2hqubs4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZ2GxNwAKCRAnX84Zoj2+
+dkQFAX0SszndvYXwUlXHlEuKUMjRu6IRXcqwYhtGDEU4Pa5CP+DEeeU2aVcCBV57
+8JlgY1EBgJoNXW3bl5jfa7bCf56cHn19NuMdQETCLtTWVjLm+TwQe7iYK5KnDYrP
+uvMZWYlUTg==
+=d8qr
+-----END PGP SIGNATURE-----
+
+--tibevjcmq2hqubs4--
