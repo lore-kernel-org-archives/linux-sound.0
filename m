@@ -1,101 +1,156 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C121EF0A1;
-	Tue, 17 Dec 2024 11:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C5441EB9E3
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 12:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734435094; cv=none; b=sDOuxZbFOM/Dr0XNguUy5iquxjVb7EHBjKGSzNV+9souV+2CWvQgnKBvaWU4npSMT8tjdFHnO+PR8fLcGqJKgVxF2miMLfH2IxkzfxqdneAhFwirPhyyJYhGtPIv4XWoj6Tt/fT6MxHC4CcL4bD8qZfY5mwciaJfGCJSNSkjlvI=
+	t=1734438714; cv=none; b=btN+zxRDSyXodIKpdZKSEmc2b/kGvXqzpQVHCwLXtPTlsbkgEWxmiNqfuGcU1Tak6w3z3RqEVxYvlVYA42tQHgCxkMHl8Hs+xAdQ5xMBWMdUECTIPP13F13e0/dcv+OxnpZZULXX8vSJ8eD9bJFqnPzhhDUWMgGe1sspPwY3azY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734435094; c=relaxed/simple;
-	bh=LVb5TPKRGE4rQfPY1t923yjgSTIPeFhHZBX2+8g/SyU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mGN9dm7s0EejAE5qjvn5DVGQH17qYFD4qxGR48vpU/VhGtRZDQmPjbXOGArYflh++0y00Wh1jd9IYu1PAMKfFmIE5L6ZkdreQYNWlaqYyx47+XMJapb95aMhoHmA+3lHnYef4bOzR7r76Xlt62zYmZ1/cw5clwMHGz1dsMJWnYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=lmgNnhfL; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1734438714; c=relaxed/simple;
+	bh=7N9XWsRRznkPFIWEExuMVt17UZ3nd7QjBaGJxD0x96k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BI6wKgCRegIQdOC2bvHRgCkbTOHtLqwKVdwGZp+gNuZELPppXiiWtDHFwXLSwznCoF8ZqatFPR/4va1WRjnagUrbQtOaPxXqV6O5J1kH0N47M26HvQvN5ePKu4GH6THE0gKfANHJtbF9A8VFTd8DaT2GAStHV6wr8C3i7iEOvMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XkG+fhJl; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lmgNnhfL"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH59KoI017522;
-	Tue, 17 Dec 2024 05:31:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=6g9QIbqx/y9tAqWn
-	LzPJDI6PAJxXqqi9jOxeTtD8CYw=; b=lmgNnhfL5QT71O6wO+jG5tFuf6/vhn6+
-	SBsoarkL0/t8Ew0fc9N/sA1EVGtWcbyJEkiZWDwd7QPSNAyZOZfSSCLQ+E4b4hO2
-	i665SL9aQ/StT6syEGqxVQIQokUb7ueqGZLJTJ069SYVVeiNmTwMfR+SrVbqVv57
-	573yJ39D8hVX/5fVW+0dZ14G9xRCvPQ7zPgFsIcco9/Adoj+0byyJk4k0GmeE3ph
-	Yt5g64kWKfA3FTo7aog2itNzL46PU/AbkjkdNWwBhLMrUVaNPzMQGmMpzFiLOLVy
-	1y3oJjN76p2yK1fL+UplV0miFwhXZpsPog0WZzVCSwSpKrjGJ2RikQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a239ga-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 05:31:29 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 17 Dec
- 2024 11:31:27 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Tue, 17 Dec 2024 11:31:27 +0000
-Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6443B820248;
-	Tue, 17 Dec 2024 11:31:27 +0000 (UTC)
-From: Richard Fitzgerald <rf@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH] firmware: cs_dsp: Avoid using a u32 as a __be32 in cs_dsp_mock_mem_maps.c
-Date: Tue, 17 Dec 2024 11:31:27 +0000
-Message-ID: <20241217113127.186736-1-rf@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XkG+fhJl"
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30225b2586cso65323751fa.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 04:31:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734438711; x=1735043511; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OD2airYmXEIM5XCQfXb6/TEVO/ZX203WR6AY+SunHbs=;
+        b=XkG+fhJl+eUSXWdZkTmsAlBgluEsHe0alVEhyTB74yQcx59zfSDfyQl+a908jfGkAO
+         ydDfBpbfYtMjDbiwzzYflqlKfaaCc5zb/WuOYS1Zf/KGGa/cQ1NPTk4NnrY0uaoWUCc2
+         +T4gFEB5Kvn8sJg0RYG8gnwULLKhniANWcMu9tgTDZg2AeO9iLGSsx47Ccv3u0O+OPTF
+         JXAhG5ttfjigvwNloQEnMf6shTMubp5LWGfjh8YOfAC8QLV6EnCa3FYDdwvz7FhswMxC
+         Ze7YRIT8EUhYEW6jlzPcdfKuQI0zSvhBlKxim65mwiXqFipPjSK7w6l6ltNErBteAsUD
+         RTZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734438711; x=1735043511;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OD2airYmXEIM5XCQfXb6/TEVO/ZX203WR6AY+SunHbs=;
+        b=X0WLf3QGTrRuTcV6DwYh3Zm0CigAbKf+snW4eELwfPFW0gBvGf8et9P43t0G22mFNj
+         3OHZafgGgsQRgUEDRFZ1OK4u3+IRJL6PT9MDdkHlLwRc9OZk8sBzCxC7SUTl+rgnDaGE
+         Bg9imlvPPHzp+BjL3Ev/M77ObEZPu/PyuPikL/xUC3bJFqNmGFSkRwKiOoxY7Z+azbwB
+         WIkt8bAo1tXaNtpwCbaye7hdIz9VFd/V26wxlpxevmxW/eUAKFdRI4OqnpC8wykUam5s
+         5PjYldBCC9tWXQAMsQDdqMCsL3Wvyh3lQj4tfbZ2h2bRSTHPJrJnkDrh2WyuCEY5F2yw
+         OMjg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpVn765AadnwVfhzzukGk1YqknVuOGk41y28jqHPRfwR8oSEuWBXPcbw8TPE9hNaFbGkQLoV1GY7W+pg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhbyNM00hS4LLbNrp9mWf/fxRqrErKYUOdVhRC3Xfh3uUhBI+Z
+	N6170RzykSiwYDTPm2rMCT6paAFTuio8qfk4tZv+rppbSqpy8x4u0n9PibBnjqI=
+X-Gm-Gg: ASbGnctDPjUTroA9cFGHZg2TFEOUUJO3+VHcwqyLN4REFiqN3U39UmCNIVsgo4L4fSn
+	XpjleTfzCEWIXoH9L5DFTD2d3xhdAYXSjoUoBs72OjfqFhiIbbEi+Ft8qiP2rurvA2Sj030fygK
+	CdI/fXr9VoPAXrH5IqhqIs1vfGUR31YiO/H2uQTdZnTCx9hWmesTbQjf1k6aJJIdl8FTCwlOvA8
+	GBvX4kJ5frYVBaZ1nWb2VJ77Hl3nLOmNa+BkwEQJfeUYdKJAlLKeJRUQOtYz9/YWah6Eaoh5lTl
+	IEGnei9MArR0YJsYZkbIPVjqcuUi73EehOdM
+X-Google-Smtp-Source: AGHT+IGLqNfuo6dVnZwB0IG9CYkUL75QpM9W/HERVzyQaVYoG4TeHcNOZSSbW2843k7yE5uyrSEtJA==
+X-Received: by 2002:a05:6512:3e0c:b0:540:1fec:f331 with SMTP id 2adb3069b0e04-541315ac7a5mr947299e87.27.1734438711130;
+        Tue, 17 Dec 2024 04:31:51 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120b9f3d0sm1145293e87.30.2024.12.17.04.31.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 04:31:49 -0800 (PST)
+Date: Tue, 17 Dec 2024 14:31:47 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v6 03/10] drm/connector: implement generic HDMI codec
+ helpers
+Message-ID: <buem3nnscnyh7latovvnsbhp2ci6pbjpckfmrft2267afzwdwq@2roahluiow7t>
+References: <20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org>
+ <20241206-drm-bridge-hdmi-connector-v6-3-50dc145a9c06@linaro.org>
+ <20241216-heretic-mackerel-of-wholeness-fcfed7@houat>
+ <exocd3b65cy6cy5w47cwx3ykn54ncf34hwyj7ffihs5jjzean5@y677uywnlah2>
+ <20241217-heretic-hopeful-jaguar-aeabec@houat>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: _VsQLcmRBp5Q0PJMkj1ZOVJC8ECxrdnR
-X-Proofpoint-GUID: _VsQLcmRBp5Q0PJMkj1ZOVJC8ECxrdnR
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241217-heretic-hopeful-jaguar-aeabec@houat>
 
-In cs_dsp_mock_xm_header_drop_from_regmap_cache() for the ADSP2 case read
-the big-endian firmware word into a dedicated __be32 variable instead of
-using the same u32 for both the big-endian and cpu-endian value.
+On Tue, Dec 17, 2024 at 08:43:10AM +0100, Maxime Ripard wrote:
+> Hi,
+> 
+> On Mon, Dec 16, 2024 at 07:47:32PM +0200, Dmitry Baryshkov wrote:
+> > On Mon, Dec 16, 2024 at 06:04:41PM +0100, Maxime Ripard wrote:
+> > > > +struct drm_connector_hdmi_codec_funcs {
+> > > > +	/**
+> > > > +	 * @audio_startup:
+> > > > +	 *
+> > > > +	 * Called when ASoC starts an audio stream setup. The
+> > > > +	 * @hdmi_audio_startup is optional.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	int (*audio_startup)(struct drm_connector *connector);
+> > > > +
+> > > > +	/**
+> > > > +	 * @prepare:
+> > > > +	 * Configures HDMI-encoder for audio stream. Can be called
+> > > > +	 * multiple times for each setup. Mandatory.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	int (*prepare)(struct drm_connector *connector,
+> > > > +		       struct hdmi_codec_daifmt *fmt,
+> > > > +		       struct hdmi_codec_params *hparms);
+> > > 
+> > > Missing newline
+> > > 
+> > > > +	/**
+> > > > +	 * @audio_shutdown:
+> > > > +	 *
+> > > > +	 * Shut down the audio stream. Mandatory.
+> > > > +	 *
+> > > > +	 * Returns:
+> > > > +	 * 0 on success, a negative error code otherwise
+> > > > +	 */
+> > > > +	void (*audio_shutdown)(struct drm_connector *connector);
+> > > 
+> > > And thus we can probably just call that one shutdown?
+> > 
+> > It should be called automatically by the sound system. I'd rather not
+> > call items directly that we are not supposed to call.
+> 
+> I meant that with my suggestion to call the function
+> drm_connector_hdmi_audio_init, that structure would be called
+> drm_connector_hdmi_audio_funcs, and thus the audio prefix in
+> audio_shutdown is redundant.
 
-Fixes: 41e78c0f44f9 ("firmware: cs_dsp: Add mock DSP memory map for KUnit testing")
-Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
----
- drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+I see. I posted the next iteration already, but I'll try to remember
+this change for the next iteration.
 
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
-index ae5d57bdcc2f..161272e47bda 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
-@@ -526,7 +526,8 @@ void cs_dsp_mock_xm_header_drop_from_regmap_cache(struct cs_dsp_test *priv)
- {
- 	unsigned int xm = cs_dsp_mock_base_addr_for_mem(priv, WMFW_ADSP2_XM);
- 	unsigned int bytes;
--	u32 num_algs;
-+	__be32 num_algs_be32;
-+	unsigned int num_algs;
- 
- 	switch (priv->dsp->type) {
- 	case WMFW_ADSP2:
-@@ -536,8 +537,8 @@ void cs_dsp_mock_xm_header_drop_from_regmap_cache(struct cs_dsp_test *priv)
- 		 */
- 		regmap_raw_read(priv->dsp->regmap,
- 				xm + (offsetof(struct wmfw_adsp2_id_hdr, n_algs) / 2),
--				&num_algs, sizeof(num_algs));
--		num_algs = be32_to_cpu(num_algs);
-+				&num_algs_be32, sizeof(num_algs_be32));
-+		num_algs = be32_to_cpu(num_algs_be32);
- 		bytes = sizeof(struct wmfw_adsp2_id_hdr) +
- 			(num_algs * sizeof(struct wmfw_adsp2_alg_hdr)) +
- 			4 /* terminator word */;
 -- 
-2.39.5
-
+With best wishes
+Dmitry
