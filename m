@@ -1,324 +1,111 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7795C1DA612;
-	Tue, 17 Dec 2024 14:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EC11F5410
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 14:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734444280; cv=none; b=MqePwAvFRxfruzM5CgOfiqq90dSlTJcFAO6KnBqL0U7nTUSkWCUUhkSSaLLVegXAL1tjMtEAlmEeLmx3okr5+a+VHpply3+G6A/oJNU3QxtdEmYKiY+k1CTFar9aIAmiuxOIAgWPG3MGWwlbIEU9y7Kv6vQff3DdFk8mzIZRfFo=
+	t=1734444598; cv=none; b=Qz9XuUv7NcXD37okLpS8bJiExc8rbiI36dA2njKt2HM8pPMzJmQwT9/8e2ROWf3jGWIDxYf0gY8KA2Yw9Udi4OGp6MGEBYEom+8I350h+Q82hAX/DtzDK+AgrNBPkXUgMQcxJf3DXcSvEXTXPTpkV3x1HyUuhQwuJcAaVF9hDEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734444280; c=relaxed/simple;
-	bh=5ozuiVQRs09PfEHw64LGV+mtN4bByDc0ZXdOVCKN50M=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C2mcaiRcV6rLv/YcXfz7pYgv7MZg+WdwWcMNyjfAFfSABszB6xaD+w4NGR8PrAG3oSN4//dhg4JEH1gCCufBZYVH1A76P58B4R2i+4cSXZpfYP2Xmtg9jQ/NcmS70oMpFSvkgX3or7UR0Wvsc2NgdJmeG8MeL1g2tmdFD/hE92I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=DDEbfjPB; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1734444598; c=relaxed/simple;
+	bh=DTVaSDi1vlTbB2vKF1jfNBqEXNtrKAZiazfohZg5+fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LNjY/LF2Fn9gmG2YU+KZdcTgkhQDYZezJtP+cc6XI8BLQ1o12z+/3ud5YjbNDcVfPmncC+uqLr64ojnoLHoJOThWbXMdNYVFbsabjLh3u7UBzZEiX2TfyB6HX8yQwiw3DnAgmhc3ex3KVOpinxMAuAp3PPl+pwRtZd4sLyl1+AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UQCTsnao; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="DDEbfjPB"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH47Faw011049;
-	Tue, 17 Dec 2024 07:59:23 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=2yRzMMdteGhqtHBDSV/LdH5f6fNg5wswEz4bMyRDcT8=; b=
-	DDEbfjPB5Tr7qOxXbHqBJrcaDbR09aP2RS6ykgtirqSylk3pZ7IUM4bu97y8gurL
-	5xJ9aC+geb+6Hl0PHGebUyGRzXDn1MUBVyNG0ww5Oo6XHNFtT/4maX1AikQKLDUu
-	TdlZhMAwnKQyMmCs2VkE0QXwhklUs+beUkGpcQVhfKZYM2Wtl3l0YSZGjkGfAlfW
-	Q9Ba0LjzhnEYC0SMjiilHOv9AE4yAPxn2rXs4DbvkmLGBN4W8AcSmV6n/YqQVJr2
-	fRcuuuxPdgIlz7O7P8xxjHh2J37LyxD2rhAcXhfnaCKy2IjxXn5ASbsJoShWj3sv
-	aKs0nzU/Zap0jaXNkHoSBg==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43h7akbb0q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 17 Dec 2024 07:59:23 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 17 Dec
- 2024 13:59:22 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Tue, 17 Dec 2024 13:59:22 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id DE02C822546;
-	Tue, 17 Dec 2024 13:59:21 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>, <vkoul@kernel.org>, <oder_chiou@realtek.com>
-CC: <jack.yu@realtek.com>, <shumingf@realtek.com>, <lgirdwood@gmail.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <sanyog.r.kale@intel.com>, <pierre-louis.bossart@linux.dev>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH 4/5] regmap: sdw-mbq: Add support for SDCA deferred controls
-Date: Tue, 17 Dec 2024 13:59:20 +0000
-Message-ID: <20241217135921.3572496-5-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241217135921.3572496-1-ckeepax@opensource.cirrus.com>
-References: <20241217135921.3572496-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UQCTsnao"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-53df6322ea7so7267829e87.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 06:09:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734444595; x=1735049395; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mV9n8rD9lCXVFxHRKSb6HxnIcMmuUp+M9EhLoSWf19Q=;
+        b=UQCTsnaoIPaghcR45Bn6jeRU4UIGXrAhQVeWxbySq/rKYvxCz4DHWGNLI56MnoIht7
+         VAy2umfmf1+pGUBgRrAYv3KM11db/AHKiFnc0QGM8AjnGaHZ0wLZ1qDIEsXkew4nlcwl
+         vvR2Llp+MqcunvR+fDAT+LfRQH1+zpmPzyaA4XHMrb7ysk/WKrU7QAcknFyo/OjEa8LV
+         mkPJ8NJE385KgNpDVvLenhqmCsmlUy+jaAGDm4GXD094UFAErm8h4a7fccEFsvEFwMvu
+         7ygZwwUSpAf36JhkK2X3TM8wxJR7I+F1vs0jWV+XtkdGX/FOl3bE2FNW9Tomk5Lwd/FK
+         iNHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734444595; x=1735049395;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mV9n8rD9lCXVFxHRKSb6HxnIcMmuUp+M9EhLoSWf19Q=;
+        b=CfahrYvxXRdlGfdLMvBT7Suh9AbzvLCvj5H4T0E2nJu1r7dhbJV7kXDWcM5V8HwFoC
+         5nlT4IHzOsDkjpVePBZdILPkggbP6Od9Pg+9iVXcdd/Du9MoWsgHVf9krq/lzqnm0V5V
+         dUa4mDQVWuegp+jPk//qiWacWXsOk6xegMkLdcjtysg2d8f5b1iA2Mraq84BWkyHlBsK
+         D/7Rnjllsk5NZ5hCSEGciIY5KxAthom1u5nFjexL5QXgF+IRimK9cqwV8WNb3jEiN284
+         MIT0mVFvkKOg26jzopkCcI0YkqUnCZZq77gkvBAEq8LIW5TnoO/h8YduMryR2KfFjJCg
+         AZHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvFsaybdC3oN1nqfbmxHPCirsV5SWPxxCZT1G6EgBkHvA80RUspMXAVJV4L8LehU65eCGhW/t5S0iXIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkrUjyWMBkZZp06CEK0uVeFKFr1zfytjGwESZGFLiALnz9AR0P
+	oQfMXYMsDjTjvMpy8mE74lpG9yWb2lfZGc2AsoBbS7jpw7Pk5BswPoXItqJ9VCY=
+X-Gm-Gg: ASbGncsjRg7XoPp/bHmxeQ2kvXtPD4C52TB4toQNRezBR9lvU8i8CvD/rKct3g8bSUJ
+	68Es1P8OZjfQ9e8iOHdckO2Th87ovYw+lTxI8fOeUWZer/ALLRThgscQllYD/Ljoy3dKBBAt6uh
+	kcGA0obYV8N/cuppkapLZeIsirKoQbrI7LVWK1xQEZGgb+JO3+lSyDU3GszpHL7qU0saoxHwyCG
+	YFuTetREsipSU41yqkT10EjKNmZ8gThbkERX4W25NA3IBsAZG6xZkL80HG30y2LtJeQAdTORgRF
+	SDlkO5ok86F2Sb0tWevNzLPFgdogTf9Gsurx
+X-Google-Smtp-Source: AGHT+IHTf5dvyD0mHW1jS/2vTroVhCSJd6opzQzzWVJuSVJWGrT5Dsv7wwpXGqTnNzyEJctFejbUSg==
+X-Received: by 2002:a05:6512:3189:b0:53e:3a01:cf4d with SMTP id 2adb3069b0e04-5409055dff5mr6856692e87.31.1734444594653;
+        Tue, 17 Dec 2024 06:09:54 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120ba9dcbsm1166017e87.73.2024.12.17.06.09.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Dec 2024 06:09:53 -0800 (PST)
+Date: Tue, 17 Dec 2024 16:09:50 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Diederik de Haas <didi.debian@cknow.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+Message-ID: <kyytu3nofrjkajwatmxdyav7oekkeigrhx5amddgjtlpsdl2m5@3moqad3gfds5>
+References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+ <D6DZB443IQ7A.3P1135M6DMF2S@cknow.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: m5Vg7-MBLTeMog7Es68S7sV3zELx9I-H
-X-Proofpoint-ORIG-GUID: m5Vg7-MBLTeMog7Es68S7sV3zELx9I-H
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D6DZB443IQ7A.3P1135M6DMF2S@cknow.org>
 
-The SDCA specification allows for controls to be deferred. In the case
-of a deferred control the device will return COMMAND_IGNORED to the
-8-bit operation that would cause the value to commit. Which is the
-final 8-bits on a write, or the first 8-bits on a read. In the case of
-receiving a defer, the regmap will poll the SDCA function busy bit,
-after which the transaction will be retried, returning an error if the
-function busy does not clear within a chip specific timeout. Since
-this is common SDCA functionality which is the 99% use-case for MBQs
-it makes sense to incorporate this functionality into the register
-map. If no MBQ configuration is specified, the behaviour will default
-to the existing behaviour.
+On Tue, Dec 17, 2024 at 01:36:29PM +0100, Diederik de Haas wrote:
+> On Tue Dec 17, 2024 at 1:40 AM CET, Dmitry Baryshkov wrote:
+> > This series depends on the ELD mutex series [1]
+> >
+> > [1] https://lore.kernel.org/r/20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org
+> 
+> There's a v2 of that patch series here:
+> https://lore.kernel.org/all/20241206-drm-connector-eld-mutex-v2-0-c9bce1ee8bea@linaro.org/
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- drivers/base/regmap/regmap-sdw-mbq.c | 129 ++++++++++++++++++++++++---
- include/linux/regmap.h               |  15 ++++
- 2 files changed, 130 insertions(+), 14 deletions(-)
+... and it's even merged to drm-misc-next. I dropped it from b4 deps,
+but I forgot to update the cover letter.
 
-diff --git a/drivers/base/regmap/regmap-sdw-mbq.c b/drivers/base/regmap/regmap-sdw-mbq.c
-index 1bd2773b11a4..4cf565f9205b 100644
---- a/drivers/base/regmap/regmap-sdw-mbq.c
-+++ b/drivers/base/regmap/regmap-sdw-mbq.c
-@@ -2,12 +2,15 @@
- // Copyright(c) 2020 Intel Corporation.
- 
- #include <linux/bits.h>
-+#include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/errno.h>
-+#include <linux/iopoll.h>
- #include <linux/module.h>
- #include <linux/regmap.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
-+#include <sound/sdca_function.h>
- #include "internal.h"
- 
- struct regmap_mbq_context {
-@@ -16,6 +19,7 @@ struct regmap_mbq_context {
- 	struct regmap_sdw_mbq_cfg cfg;
- 
- 	int val_size;
-+	bool (*readable_reg)(struct device *dev, unsigned int reg);
- };
- 
- static int regmap_sdw_mbq_size(struct regmap_mbq_context *ctx, unsigned int reg)
-@@ -31,18 +35,48 @@ static int regmap_sdw_mbq_size(struct regmap_mbq_context *ctx, unsigned int reg)
- 	return size;
- }
- 
--static int regmap_sdw_mbq_write(void *context, unsigned int reg, unsigned int val)
-+static bool regmap_sdw_mbq_deferrable(struct regmap_mbq_context *ctx, unsigned int reg)
-+{
-+	if (ctx->cfg.deferrable)
-+		return ctx->cfg.deferrable(ctx->dev, reg);
-+
-+	return false;
-+}
-+
-+static int regmap_sdw_mbq_poll_busy(struct sdw_slave *slave, unsigned int reg,
-+				    struct regmap_mbq_context *ctx)
-+{
-+	struct device *dev = &slave->dev;
-+	int val, ret;
-+
-+	dev_dbg(dev, "Deferring transaction for 0x%x\n", reg);
-+
-+	reg = SDW_SDCA_CTL(SDW_SDCA_CTL_FUNC(reg), 0,
-+			   SDCA_CTL_ENTITY_0_FUNCTION_STATUS, 0);
-+
-+	if (ctx->readable_reg(dev, reg)) {
-+		ret = read_poll_timeout(sdw_read_no_pm, val,
-+					val < 0 || !(val & SDCA_CTL_ENTITY_0_FUNCTION_BUSY),
-+					ctx->cfg.timeout_us, ctx->cfg.retry_us,
-+					false, slave, reg);
-+		if (val < 0)
-+			return val;
-+		if (ret)
-+			dev_err(dev, "Function busy timed out 0x%x: %d\n", reg, val);
-+	} else {
-+		fsleep(ctx->cfg.timeout_us);
-+	}
-+
-+	return ret;
-+}
-+
-+static int regmap_sdw_mbq_write_impl(struct sdw_slave *slave,
-+				     unsigned int reg, unsigned int val,
-+				     int mbq_size, bool deferrable)
- {
--	struct regmap_mbq_context *ctx = context;
--	struct device *dev = ctx->dev;
--	struct sdw_slave *slave = dev_to_sdw_dev(dev);
--	int mbq_size = regmap_sdw_mbq_size(ctx, reg);
- 	int shift = mbq_size * BITS_PER_BYTE;
- 	int ret;
- 
--	if (mbq_size < 0)
--		return mbq_size;
--
- 	while (--mbq_size > 0) {
- 		shift -= BITS_PER_BYTE;
- 
-@@ -52,24 +86,58 @@ static int regmap_sdw_mbq_write(void *context, unsigned int reg, unsigned int va
- 			return ret;
- 	}
- 
--	return sdw_write_no_pm(slave, reg, val & 0xff);
-+	ret = sdw_write_no_pm(slave, reg, val & 0xff);
-+	if (deferrable && ret == -ENODATA)
-+		return -EAGAIN;
-+
-+	return ret;
- }
- 
--static int regmap_sdw_mbq_read(void *context, unsigned int reg, unsigned int *val)
-+static int regmap_sdw_mbq_write(void *context, unsigned int reg, unsigned int val)
- {
- 	struct regmap_mbq_context *ctx = context;
- 	struct device *dev = ctx->dev;
- 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-+	bool deferrable = regmap_sdw_mbq_deferrable(ctx, reg);
- 	int mbq_size = regmap_sdw_mbq_size(ctx, reg);
--	int shift = BITS_PER_BYTE;
--	int read;
-+	int ret;
- 
- 	if (mbq_size < 0)
- 		return mbq_size;
- 
-+	/*
-+	 * Technically the spec does allow a device to set itself to busy for
-+	 * internal reasons, but since it doesn't provide any information on
-+	 * how to handle timeouts in that case, for now the code will only
-+	 * process a single wait/timeout on function busy and a single retry
-+	 * of the transaction.
-+	 */
-+	ret = regmap_sdw_mbq_write_impl(slave, reg, val, mbq_size, deferrable);
-+	if (ret == -EAGAIN) {
-+		ret = regmap_sdw_mbq_poll_busy(slave, reg, ctx);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_sdw_mbq_write_impl(slave, reg, val, mbq_size, false);
-+	}
-+
-+	return ret;
-+}
-+
-+static int regmap_sdw_mbq_read_impl(struct sdw_slave *slave,
-+				    unsigned int reg, unsigned int *val,
-+				    int mbq_size, bool deferrable)
-+{
-+	int shift = BITS_PER_BYTE;
-+	int read;
-+
- 	read = sdw_read_no_pm(slave, reg);
--	if (read < 0)
-+	if (read < 0) {
-+		if (deferrable && read == -ENODATA)
-+			return -EAGAIN;
-+
- 		return read;
-+	}
- 
- 	*val = read;
- 
-@@ -85,6 +153,37 @@ static int regmap_sdw_mbq_read(void *context, unsigned int reg, unsigned int *va
- 	return 0;
- }
- 
-+static int regmap_sdw_mbq_read(void *context, unsigned int reg, unsigned int *val)
-+{
-+	struct regmap_mbq_context *ctx = context;
-+	struct device *dev = ctx->dev;
-+	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-+	bool deferrable = regmap_sdw_mbq_deferrable(ctx, reg);
-+	int mbq_size = regmap_sdw_mbq_size(ctx, reg);
-+	int ret;
-+
-+	if (mbq_size < 0)
-+		return mbq_size;
-+
-+	/*
-+	 * Technically the spec does allow a device to set itself to busy for
-+	 * internal reasons, but since it doesn't provide any information on
-+	 * how to handle timeouts in that case, for now the code will only
-+	 * process a single wait/timeout on function busy and a single retry
-+	 * of the transaction.
-+	 */
-+	ret = regmap_sdw_mbq_read_impl(slave, reg, val, mbq_size, deferrable);
-+	if (ret == -EAGAIN) {
-+		ret = regmap_sdw_mbq_poll_busy(slave, reg, ctx);
-+		if (ret)
-+			return ret;
-+
-+		ret = regmap_sdw_mbq_read_impl(slave, reg, val, mbq_size, false);
-+	}
-+
-+	return ret;
-+}
-+
- static const struct regmap_bus regmap_sdw_mbq = {
- 	.reg_read = regmap_sdw_mbq_read,
- 	.reg_write = regmap_sdw_mbq_write,
-@@ -119,11 +218,13 @@ regmap_sdw_mbq_gen_context(struct device *dev,
- 		return ERR_PTR(-ENOMEM);
- 
- 	ctx->dev = dev;
--	ctx->val_size = config->val_bits / BITS_PER_BYTE;
- 
- 	if (mbq_config)
- 		ctx->cfg = *mbq_config;
- 
-+	ctx->val_size = config->val_bits / BITS_PER_BYTE;
-+	ctx->readable_reg = config->readable_reg;
-+
- 	return ctx;
- }
- 
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index dd96a22f5657..198067d3cf10 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -510,11 +510,26 @@ struct regmap_range_cfg {
-  * struct regmap_sdw_mbq_cfg - Configuration for Multi-Byte Quantities
-  *
-  * @mbq_size: Callback returning the actual size of the given register.
-+ * @deferrable: Callback returning true if the hardware can defer
-+ *              transactions to the given register. Deferral should
-+ *              only be used by SDCA parts and typically which controls
-+ *              are deferrable will be specified in either as a hard
-+ *              coded list or from the DisCo tables in the platform
-+ *              firmware.
-+ *
-+ * @timeout_us: The time in microseconds after which waiting for a deferred
-+ *              transaction should time out.
-+ * @retry_us: The time in microseconds between polls of the function busy
-+ *            status whilst waiting for an opportunity to retry a deferred
-+ *            transaction.
-  *
-  * Provides additional configuration required for SoundWire MBQ register maps.
-  */
- struct regmap_sdw_mbq_cfg {
- 	int (*mbq_size)(struct device *dev, unsigned int reg);
-+	bool (*deferrable)(struct device *dev, unsigned int reg);
-+	unsigned long timeout_us;
-+	unsigned long retry_us;
- };
- 
- struct regmap_async;
 -- 
-2.39.5
-
+With best wishes
+Dmitry
