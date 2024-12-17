@@ -1,170 +1,182 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010046.outbound.protection.outlook.com [52.101.229.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6727E14C5AA
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 00:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734396057; cv=none; b=bb1AboiS8tNG1i1hCbP1JeRGtaUk5Tzb3RGZvzzXhaHbRilCKMXVM9m09RRn3F4doF6xtK6XeXBY2ohu3GhD59AiF2lfC/7xXRE9pEShzStygQ5lJczb1ng2Jpqeb427Zh/GTFx1KDT1uDzcKKBeS4hkET6IeVZatvOCl5X66Ps=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734396057; c=relaxed/simple;
-	bh=7s/0WO/aTzEx9yhjto9LxdTyBBJwSv9ES82NKKPeNQ4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kaCRuwnEixvJXyPPWUeq6ue0qiv7yzbe5tocdd+f0+hMqoNqqNbW5qBzno5ylCwK/f7WQ7B5Vf2+zwASx9450vLZGWROfAbMI5mBuFG8NP7noqPvwHvRb+jJArrO9YpLWgcxyJWWQk5iUGIJTvYaVU4NcV+2K5PpMyIBgl25M+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WbM34vRs; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608E98467
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 01:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734398567; cv=fail; b=B7Lm+rmEixXQP2JsUVFm/z9J6Pz62gX7NEzNTQ/gfVJaLG/P1i6nhWYLB+GdU6n4HMHOO90Bs1y42DipqKyZXaXGGdSeODYHgumSsVPMyYpnoR+IebPQNdBXWOWdwVOpd0N4dJVofzfGId2zjUsaZH5C5iJo4ZA7iHb07g7uJhY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734398567; c=relaxed/simple;
+	bh=xbtbibIRoroRWiUydzl+7rGM2kAwEYhfrh0qAI6L17Y=;
+	h=Message-ID:From:Subject:To:Cc:Content-Type:Date:MIME-Version; b=Nj6TMyx57F6MsN6iSnXD+OteivuvI5vgeAoE4bVyxKSPVHeT0pwikH+d/msabl9dbklxJvQ/u1RHciuwkmsazFDXuwfUJ4zgeaQQuKA81Ut5YjF/7OVA0RBUEOJq05VsMSGZO0c3iGxDpV9N6vnKcbhThTmaJMQefFRXl5dzv+A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=Ql3UW9Ig; arc=fail smtp.client-ip=52.101.229.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WbM34vRs"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-53f22fd6832so4964660e87.1
-        for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 16:40:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734396053; x=1735000853; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Lunr+AM74GTPPfWmRn+AT8+K2i2rNeiOvxZLJo+1HHg=;
-        b=WbM34vRsZiuZvoEJ3e7ev7GcMetQlA8aot39c9HZdsttj1nyK1gAj2D6irlNeyQr82
-         VVZKaEfSF0QuEiaNIWTA0ED58M5kCYDTIpc0PJfGus7XumI130myxW/vjG9bioq7IzLt
-         cXHY8nNg5YBqR5cT8XgthtbgxFBulCbNILilXnMSRdhkouUq83hj2oyvvojVfSqYdJS7
-         2xTpkHWFkBFAnPxf5OdPDMzZqDiSwoNnRZL27dfAMnpRERFnaUxq9bPrFNV1BfjU63z1
-         7AWQjGJPZQkD2D+OlUQhJzTZ3axZOSwkHMQ8E9cStMxa8DIud9J3a4be3nm3w8XwyR4h
-         lpqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734396053; x=1735000853;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lunr+AM74GTPPfWmRn+AT8+K2i2rNeiOvxZLJo+1HHg=;
-        b=mP/P4GdnFAOr1a/UjxiWLT5TFLCJA8iK+xoD1VESTV4E7csKCLETqZVzyUEIqWCQVN
-         eaAmfnWzOhhc+DwAfnSBcl+vF8M8rBisuhW3oFJ7q4hT7HDQVIPQ29DbOTsmE6h57AjL
-         mchLfeRMdkDiz7gRO7HVUe+38x0itJ7/Dhdgy6bgU7EERxXFCb7K54SXT1GSQWUtjula
-         7U31zh8qGMgsZFrYuokIeTH5R81KHXOa4BeZnOcaZMtryaJJkwa0yxyzc++RUu8+eC5Y
-         xhRhgZzr2NbpJzX/DALNtdnAJL72FmuA3XvDMohra7CR1LKdgQL3efmVJ+eQJKAY0Yw6
-         FBAw==
-X-Forwarded-Encrypted: i=1; AJvYcCW+qqehAaHcC+KirYP5QLlno5KIpvYiBXwcaCGX+tJx314Xekvt6fOMjP5gWlAa+BghkWk4YgUc7iyxww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZKHWGKOuuZegtVeFSzduRpNzd9JhpeDUmtpH5FneY8wAw6x0q
-	1rFhD4X8H2PHaR478eSzoXAy2/yt0vAlp9BAv/o40uMxQexRr6xY3l51rFSk0bY=
-X-Gm-Gg: ASbGncvcgd0kir0BVTV0C08aGIu2SMVYowBzXnEe7DvJPxQ6MTxZZbxh7+Qd0rV9acL
-	Nj6U2gH8Tru6+J06PfGIZ1mB104M2QF4Fh2LsHD7T/yDYTEFomvR36E+HYKlJgxyBnI1KeWZXc0
-	DW/CWmPkaJGnvsLP4NCjwrA3piaBEAG8GvML5LMZRjXFdHe4APtjm4eyl4qF9A7jTg34cp1otBv
-	msY9Wk5BcH397u0cF5eQuU+9iEWgdIIkUM3zUGIV3nI7iwe01V8rIJ3MvTm76xC
-X-Google-Smtp-Source: AGHT+IGe0QdLZY73JsApHksPxAww/oxjVlJdjygOnTwbgrdsohY4NxxLR2cwt2MC32di//BAmFafkQ==
-X-Received: by 2002:a05:6512:b06:b0:540:17ac:b371 with SMTP id 2adb3069b0e04-54099b6ecdcmr4290758e87.56.1734396053589;
-        Mon, 16 Dec 2024 16:40:53 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120ba9ab2sm1009122e87.74.2024.12.16.16.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2024 16:40:52 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 17 Dec 2024 02:40:32 +0200
-Subject: [PATCH v7 10/10] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_hotplug_edid()
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="Ql3UW9Ig"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MV+Ivei4ma8Ya8uYfwg/yM7xm/61ijzi2WOBFroQY3CH9biJCURh4BmsFSHIfBasVYiBbDs+IMwj09sEfDDA5iqagfpIviZxvZlNw0MIrlWScrJpjxdEkUwkKpP2js3q1grc8OjQUYsaLYIB++TU5yMI8SmcrOldeNuL/lj7EZZtlR9d3yt5RBBpvTfheu5kYm4NDwMzV25pFFVsUmgTG1HHf929MTuOH3sta2s7CQ6dmurS3IaVAYSxraT523/0OtPWz83hT8uYx6WW3pYJ9tCmMCoExv6FS1j5bABN/pZXgArdx15LTZ0XNqofzE7QzXBQvMdFeuCcLK/sO8Vn8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9TDqrhfUBI7jFKJ98cm2pYIHfR/0xUQAhSFR+oRVFz0=;
+ b=uJ0dETN8e0MiiMWO4pi+Eul2Iqizbt8zUW6mTYcv5PS5nKFPlzlS/dSBsHnFZAbnydqECN8ZTCBEAh2D9msIz0nYab7sRJnd66212PwUfLWA/kfxRmM0X75Be2TWzjyGkoCYf4B+lYtrRfISTcf6YPHlmQqOAUsGutzkCf9Ja1BckHGJ7jm8+WI5sAABOnEparTlhEtGtiPKjs1sJBVWXtJjhXaxhexJhoTtEO5Bp7IINeo84c6d1IeXTlsBvXfJNtcy8bVrvtFN58TJrrEMIZAeLVmbrPcP/ZkZfbEi08U4i5Rcd77soie0vHdE4Iyw35RQWuP0UUZ/xQsCQRtvwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9TDqrhfUBI7jFKJ98cm2pYIHfR/0xUQAhSFR+oRVFz0=;
+ b=Ql3UW9Ig1kWUB3eHcI6+qeevWG3lD6SxlFTwLcQ5g8ZOcnUqoE28XAxH/6lL4rI3lmV5mfLZ9yp+OAxmHoeuRSKg043Vr9zX+hgP7c3ZoA71rIc/dY87Xkd8ByyiNlPo2gFnep5VdnQkeZo4bf4GEheelXhL8ABAg1ibvZ2wNlY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OSCPR01MB13698.jpnprd01.prod.outlook.com
+ (2603:1096:604:37f::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Tue, 17 Dec
+ 2024 01:22:41 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
+ 01:22:31 +0000
+Message-ID: <875xnjnlwp.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH] ASoC: soc-card: remove card check
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+To: Mark Brown <broonie@kernel.org>
+Cc: linux-sound@vger.kernel.org,  Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 17 Dec 2024 01:22:30 +0000
+X-ClientProxiedBy: TYCPR01CA0164.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b1::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241217-drm-bridge-hdmi-connector-v7-10-cb9df2b6a515@linaro.org>
-References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
-In-Reply-To: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1868;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=7s/0WO/aTzEx9yhjto9LxdTyBBJwSv9ES82NKKPeNQ4=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnYMh66KurD/so/4BhoqlDVPuK2xAohhbIWN/EG
- x67827EyE2JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2DIegAKCRCLPIo+Aiko
- 1ZsiCACZHuxK0m8L9MH1NhE2yPwWUTbzhXV2jMuyyQcJBcJKvwYMEAdKnau9ASgbjUyjrS0EqxK
- PG9HYh7v6OQuoktgWtwxcZgo8DyLPYPsH3ep2lhRl3cz3v19tta06Uegl+D5MxWNoOployl5pF4
- LYT81VevjzV55DOYBg/jYXMGpIZF+9d3Umz+KLMKQZ5DXC85lct2mD6XBUBijzLjKir8Yn92L2b
- o6p48mzqad3L+E2Mxe5QGYoLg5IvVV+ouFScCpgfmP28rZL9PzfgkdmP0ahbxw/xtzK1kfWSxSI
- 2DH1/dpfUzApuoHsTjp/y0HbjKkiH/BbrYduZ4L2RBFNDDAi
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSCPR01MB13698:EE_
+X-MS-Office365-Filtering-Correlation-Id: db46345a-34f9-46e5-342e-08dd1e3946f1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?DF1jJGC9tNWBac0soH5Q1Ns5yXE7c3qoMKQ05Uf4kG4ZQTW5AXz/KC38olqP?=
+ =?us-ascii?Q?RESMUXadiwZXZpuH+O0j75pbj11Gs3KgXh4TByp6C02QoPNjsGe+U5+I+sF1?=
+ =?us-ascii?Q?xMQWRGJ96/CtplD/b/UhgocBDnO/b6ckwnZphNmrYNgMijIYuJrZ8NvaBgNR?=
+ =?us-ascii?Q?fnljGnNaXfWIR/tJbb3lJ3FJ6TsRL9ySEA8Zr2CLCQ2uklTmLnETq+5o+LVT?=
+ =?us-ascii?Q?2eN4livpSsrSYcdheF9HcmCq8d1mS7qknluEGjxFp0TbQLTgClbQMEwsmw3+?=
+ =?us-ascii?Q?a5bxsBLZuogbg3fYpYDXik/vQelGYhQY9luEt4ZBfCom0DJXx2KXPWy9I32+?=
+ =?us-ascii?Q?aUrqZCfEkRjbS5K8EW6KaDzhk0+kyEEM0/u/9mMByDQh4ImbHNnWLh+c1Waw?=
+ =?us-ascii?Q?aT60oYfEeeFZlS5nR3S5HsaByH94NA6Boy6TIAysKPx1BUa3IYQjf6PmCl89?=
+ =?us-ascii?Q?Bk6fxm+ZwF2rKkHpavFyAFmDkfuv4/PWHEwinl0FNRPMY0RnNLgydAsEzPOb?=
+ =?us-ascii?Q?Zl/090Ta4LT+iI992y/J1wYSlqiMmhyAMCjCy2Ac7R75lqLanQdyuc/jwgPv?=
+ =?us-ascii?Q?JLRLiO/CBbNcZRsf40RzT2OcKsPxg1GGPFnrEEv6GehLQpape6yamfgz3J6g?=
+ =?us-ascii?Q?QqvHiJzL8YpZMZ55Z7pelCqXzVSkt5evX/j/435ZDk54sBNFuQ/ltmnCbRGd?=
+ =?us-ascii?Q?Aw0JkpXujg+eQ2LpY0/E7SDwK9iWV4A9dBwWtjAsmJ+059nv+6J6GXyZycnZ?=
+ =?us-ascii?Q?iCMHdBbBaceY6pPCNzeoN20WBckcEbGe5zLGjjCpvUrMk9jLJl4egu4FVWRm?=
+ =?us-ascii?Q?oqcHDXQvW6nxSr2jvYn0pXTe31jyXhCZaT5zjOPfQMVs7ZOAs4F0Kh4IEGdP?=
+ =?us-ascii?Q?Txni5HYPFBFp8DpJQtjOlRLAEPXw/gv+Gk6r/4PETGQk5B2Er1y2eQmPD8X/?=
+ =?us-ascii?Q?5EIH/oAjHZHelCZVuBpToBEryJzjRynOdBgbh1iTUOuS+zmITWohRoubWUdT?=
+ =?us-ascii?Q?VbF6NNRn9ApvdDUT60423yfaM6iaVegWLrKdtzqU4hVu484/aOqRbv2neVXY?=
+ =?us-ascii?Q?TV/6TrNiYEGdSCZzdJTrxcfZ+/xVSXhuCAhRc9GcEVPXP7mYtr7hcAMI8ePN?=
+ =?us-ascii?Q?6tN7kLK4fzBJKAQenFaTl3J4YIFGVmfqSaAuh8Nf276iAKk0fILIeREnUrFi?=
+ =?us-ascii?Q?AMwMMrEq2O66oX20bu6wx1eQJzGR5sAKQTJ27Bn2JrBjzw/I48NW+dXGr+5/?=
+ =?us-ascii?Q?2k5HkNOPGMvw8lnI/RJC6sOo/CF8Yq6wWNnR8fp/6RvocYriFJVUb4s6CtkE?=
+ =?us-ascii?Q?sb7zSoEhCP+gE8zl6Xrvjdk0M42Bqd14IS6trkux2zr7Y5m+LGV9IT5w8YiU?=
+ =?us-ascii?Q?e4uGNM8peT0gmREU6BYl6THdwD/v8qLY+ObB1Dzdn+DOZ9cSbNnQObcLGsbN?=
+ =?us-ascii?Q?tK+jpMblFWkR1f8GiMTwThoHHWiAMSbc?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?W2Ye5sUnNUImmjwFja5KBbuodOGk5x62qGf8R33dHsLsT2LF0ktaCHT/nff2?=
+ =?us-ascii?Q?a1RcFSp5Ppm3p2jRht9vHfOcYcLMqcw+crBqmcnMpibNQ79TGa1z1x9vdKHw?=
+ =?us-ascii?Q?ghlIzEnnf/xo6H51ZNChbEHw/fFnGKqrLO1+0f22QO3DywycLDFvaXxXm233?=
+ =?us-ascii?Q?PERyV+aR9uAtpyiYi77P9ghWRKq2fSpAMPFbQj++YAIz0MgVaEfvDUwb+eJb?=
+ =?us-ascii?Q?E+1FkhG5YCuZaPm993sDaA5KF9deuxcHAWi3LvGfYmVs+PGi6Qg3o/5oJO10?=
+ =?us-ascii?Q?7l59bAzw7aEQTsim9zApExpxHmrMgsYAe/hivwvQf+9ar7hwuj24Kym/qTBx?=
+ =?us-ascii?Q?N3HwVy+xZQrzygSK2/vqV2DAqxqMSUgHJg9C6Wn0bcttNyL9yOWnAhkOXr+X?=
+ =?us-ascii?Q?WBUi+1AsQT1Wydg2PE64BchlAFfM78vR2tt0RFQLlLw+L1YV3R5y4htsj+y/?=
+ =?us-ascii?Q?Pvlt69V4YTwrohtAlkUgxmzHi0hqOqBnrwK9V9TlA5JmWS0O1maPL28Ay1Cz?=
+ =?us-ascii?Q?6+Tsq4+yMsbXquf/Xlh3Q3NST+zR2oE4ly3mg3mFaHfNLov/BUqthq0sOhxH?=
+ =?us-ascii?Q?HlUYCNrpHMpHqZkweSoF4fENvVg3HGQ1BJ0UhLQzQgBvskUon3xsZ6fieCWi?=
+ =?us-ascii?Q?o6cK6FgVzLCx4mYfp4cGUV5pEQW1vRubXd0JrjitSzhTkTQsK3nbfXrCgV4n?=
+ =?us-ascii?Q?tG6zmb1DdZ3mWU9rJwjeP7bIJW9XWriStAZ7jcOMNe2uMHlmxeVR7XWv8rmZ?=
+ =?us-ascii?Q?z7n75blGxoBTlAwHiqbxTflPC+uQEGtdNx7ZFAKrAaTRbTC1ogq9rfFF85BX?=
+ =?us-ascii?Q?IsRvtvXqtm6Nfkn+pBUB2MNd3B0JsYbdAbPDy/s8s4l7GBJI9xs+3sLaaXvb?=
+ =?us-ascii?Q?MluoEOVDeUsCm+n5Q6GOq7LVE2wWi/NvHTJiUQtdeMNgQl6MxsUy1PL7Ago6?=
+ =?us-ascii?Q?zCPxPkMXGztaXHSY6tBH5B5vEv8wezLG2XAQ0dvTkQbWkIcZGoPnJOUBrqrg?=
+ =?us-ascii?Q?zax3VD+O+PURYhFM3VxQOhz3a/7KpdBZhmyqXpz3S8w0E92M1hf7NL2x/C69?=
+ =?us-ascii?Q?1StC0RyawStWRS+5BGWIttjhYkQYrONeeI7Cy++6QJlNJYrOtEmdSQaszPHg?=
+ =?us-ascii?Q?3rScTjr0we6NaOx8038ReilibOwNZg6BCNbXbMN5aTvTsPpyTqa3qnHyJOQG?=
+ =?us-ascii?Q?EFmgQGWVI+8Qir2KfQAfOttVWGJxKGUKb1EEcmr185KcFinmX0Z0gmMgPdri?=
+ =?us-ascii?Q?48/vhJnIDyYjuBWZzy8p0DV2DWBAcWIcGN/RVb8+brk6M4sAngzeMNOw7OvC?=
+ =?us-ascii?Q?Aipo+x7jqRcgGND2OMRYmQIxOpvt0bpkPUWdQN1Zp6NCgEY6CNfsM1+QmBJL?=
+ =?us-ascii?Q?XWRkh/+2mgfumeZnc3qWVXsJwtx1/P6ulbydklUaQRHXiyCigZ9A+pqv0/1q?=
+ =?us-ascii?Q?dYKJ1pIprSgPsagf8BTDTDkqEXUypJMjqRIPfxbIQMxA3Bg8HkNDSYnAvUx5?=
+ =?us-ascii?Q?4M0bmjfziUPplo5OWRFz3WEr7S4qByIWr/0kZtH6wQiQv4lSNbYibiQ+JUTe?=
+ =?us-ascii?Q?Bydsc+RQJX2LoCV1nJ83YKzxhDRHl1t/mU+gdYYqQ97KaSEkekC202Q666yR?=
+ =?us-ascii?Q?DRvgRBZlWRsNGajJIavdU9E=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db46345a-34f9-46e5-342e-08dd1e3946f1
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 01:22:31.0309
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +sJsdYPxXh4oLlGCtnJnwJ+TvHMnMFE9gU53i4urZCo6LTTI87KYk4WKMy9FLMmwuyO+TrT4+6IeldYdbN8vKVvw5KsJR3vkMP8RC85tUbVn1t0yKTZXJg40dmRFYTcR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSCPR01MB13698
 
-Use the helper function to update the connector's information. This
-makes sure that HDMI-related events are handled in a generic way.
-Currently it is limited to the HDMI state reporting to the sound system.
+only snd_soc_card_set_bias_level() and snd_soc_card_set_bias_level_post()
+are checking "card" in the function, like below
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+	int snd_soc_card_set_bias_level(...)
+	{
+		...
+=>		if (card && card->xxx)
+			ret = card->xxxx(...);
+		...
+	}
+
+But it should already have been an error if "card" was NULL.
+remove "card" NULL check here. Otherwise it will get waring on
+smatch without this patch.
+
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ sound/soc/soc-card.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index bb5e8738845c74d975c1e0e1262ced46e4ef8fde..328a845ce0c4168b5463d344b3ad1f77a5437cff 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -383,7 +383,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 				    enum drm_connector_status status)
+diff --git a/sound/soc/soc-card.c b/sound/soc/soc-card.c
+index 8e9546fe74281..e6eb71b3010a8 100644
+--- a/sound/soc/soc-card.c
++++ b/sound/soc/soc-card.c
+@@ -219,7 +219,7 @@ int snd_soc_card_set_bias_level(struct snd_soc_card *card,
  {
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	const struct drm_edid *drm_edid;
- 	int ret;
+ 	int ret = 0;
  
- 	/*
-@@ -405,17 +404,14 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 		return;
- 	}
+-	if (card && card->set_bias_level)
++	if (card->set_bias_level)
+ 		ret = card->set_bias_level(card, dapm, level);
  
--	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
-+	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
+ 	return soc_card_ret(card, ret);
+@@ -231,7 +231,7 @@ int snd_soc_card_set_bias_level_post(struct snd_soc_card *card,
+ {
+ 	int ret = 0;
  
--	drm_edid_connector_update(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
+-	if (card && card->set_bias_level_post)
++	if (card->set_bias_level_post)
+ 		ret = card->set_bias_level_post(card, dapm, level);
  
--	if (!drm_edid)
-+	if (status != connector_status_connected)
- 		return;
- 
--	drm_edid_free(drm_edid);
--
- 	for (;;) {
- 		ret = vc4_hdmi_reset_link(connector, ctx);
- 		if (ret == -EDEADLK) {
-@@ -549,6 +545,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
- }
- 
- static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
-+	.force = drm_atomic_helper_connector_hdmi_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.reset = vc4_hdmi_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-
+ 	return soc_card_ret(card, ret);
 -- 
-2.39.5
+2.43.0
 
