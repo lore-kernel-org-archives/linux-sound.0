@@ -1,173 +1,268 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010066.outbound.protection.outlook.com [52.101.228.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54F98467;
-	Tue, 17 Dec 2024 00:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734395787; cv=fail; b=sh7W2ABri0TiW9/mpPFDbzz/d3U3pxJaWZWah5PcqcAylXwWOMusLjXHqFD+VGQOfKiB8jZMqPKb7JJdbIfkfl8QY61aP8aMkXxodSRtz/Tb8bO8RXkjIyhqpXqhLbfreCAO2OSsWv6rbghtBo1acBUwzVxv58hD4B+LMhD2ZYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734395787; c=relaxed/simple;
-	bh=dz7tyHcj5QlLfeWSK4YB+1s60bNlPK8lZv8NLx1gl/U=;
-	h=Message-ID:From:To:Cc:Subject:Content-Type:Date:MIME-Version; b=aCmrJskwmefDUA5a9ST5swRuzOap/dbEu32KW76cKx7IIqk6XmF0eSxvr3NRsk9tKj54oNoLV2TzJ7BCdipT6kCWv+d/zZ1hLamD4hnGbZTAfR8LqohALNBED+K2x19p6uRA2Pf9l38SWgK8KD1pnoknWh8A0TeBE6zEvDAYe1E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=LBlNtHxh; arc=fail smtp.client-ip=52.101.228.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9C017C69
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 00:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734396033; cv=none; b=WZsjdnr+e4ru3K0QfuoGI+YaawmSWVPbphH24xzw4CB78jSSKmeyasDttZzSq4WT8EGVhV5AQoWPGGvynGmF0npJDgxCdMlkz41ap6lGjGnfum4W22syu/8GhZfDLysc9mIBiJ/KLUHJOeEIW79a2B9SG37tO2cU1t5ZfsTsPkE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734396033; c=relaxed/simple;
+	bh=mRS1w8SNa9F8msOnfuNbepVkyjcxKNCRov7QDV7keWU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=aoYcp5IOwu/dpVVXBXwHuXWX3gjVsnyirrKC4IzagUo5nF5We8JpCVOjPiz14hNdg1ZWCbTSUsJmZAqpo0acWkswyHEt44e6iHYt3GJOd03aBUIrucYpTjLk4J7i0LZbOpj61e29zrQkz6c6LIP4bU2eX7tZWhSOLo416kkxfRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TBT7zWE+; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="LBlNtHxh"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e7/NFhzHMVwlSZh2CapKI6uvxvgeLLXgx2lm4fkO3O6BmB7bZ6IeUM0GjlOmYmSq7cL+Fa5h7kGSYnPCWnZJXC3iViQrBaaB3+PCLLabKFei+avO7uIVRB4XUL/6lXuwU+TBbI2/0V95R7TjvHxtrdU21iEYEpFZ8Uyjy5yozWxECqadVSqK9w11Lo1BfpAnR3prswHCKuz3o04WrfdlJJOq+LjlKPMm8AWl03UkLHk5TtV53QrOiT8rdTx+XmA7iNARJGYhzLpGf49+5PhHAMuL5yKKiGnfw4OWMqkaSSq91exDfIsuEBnRyVCtUC2jCSfELOP4nZ8dpEdqXURbLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=q0taM9h9+Q7YV2GxobDv4bMAkwXGKT8qJngCu6qw6X0=;
- b=w8/vrIJSvkQpYjKe4QXHaUdc+WMptyQVOaU8J/2p2WSmf1t+vvKhQc9ptPFn/FUPkEQQAOVIN1oClmxUYHGquCxMTy1IlVEJthDxpBvTJWqj1UV1kGPW7dJIdMoWYIxD+cbSKlzPhycwE30cvvQKq9Vea7eE4hm0rs2FaX7Spc5L7USigxoNwS3mLHpMrAQsQMZHl9JH5s/Bc+2/QXPFWTtgjk2kjvACoA+eyl0kSCprpVSc/ReBYPtaRQc2K9iKPsMPXvU7Ys70GYgGccfZitT1cyPRY4nAXTlfVJd2zWOJ4H67+27s38FrtLo3EfL7qo1Q7MvTqm5civEF5tFZ/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=q0taM9h9+Q7YV2GxobDv4bMAkwXGKT8qJngCu6qw6X0=;
- b=LBlNtHxhZpCp4meMMVhpuSWxy/lErpfw1pZjau5RfLzf0h08VjeRiFX16/jCpwNZ+aQ1zAYbF4/4f6WbGfR/aShz8y2pxQVUmWJdkRw6C1Jjjs99Yne/2xLqObXQapB2eJ6NCY2rldXRNTCQH39YJ0P7FFwL8MBEPVoGLzRuHWI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TY7PR01MB13683.jpnprd01.prod.outlook.com
- (2603:1096:405:1ec::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.22; Tue, 17 Dec
- 2024 00:36:21 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8251.015; Tue, 17 Dec 2024
- 00:36:21 +0000
-Message-ID: <877c7zno1n.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v2] ASoC: dt-bindings: renesas,rsnd: remove post-init-providers property
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Tue, 17 Dec 2024 00:36:21 +0000
-X-ClientProxiedBy: TYCP286CA0018.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:263::9) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TBT7zWE+"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5401be44b58so4766663e87.0
+        for <linux-sound@vger.kernel.org>; Mon, 16 Dec 2024 16:40:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734396029; x=1735000829; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sgTKjvs5B9umQJDB9laJqcBxoXGDoUpyDIM3gP/T+70=;
+        b=TBT7zWE+7cs8o5S9tyhUoxbtQIZa964dbvQrwU4RXOMxyM52OoiiA5m89k23qqWufF
+         bQTQsTNCVnw/6lAvqRdd10Ji+awBHtNhNiVHmvq8UdKiIeJXocNlM4efRCtfV6RWZu/d
+         MMYaRyzclFr4SjaH7MDqS6gyxdz8YXsVrXuB9p4x8pIhkQLkdS8FQCQs1k/Ezp53Smhd
+         RoPBDZtcUrOSEDqXEuN1nMF54x0AcYEc4RM37oRdw9hOqmgpB7YQ/MYdhq2L0jXJ5VI8
+         tNauPNme96Nv1JfQgMn+3XakWSvYkP/5iJdSFqlLMx253ubXBnSo3a3P0egWlt9HRNit
+         8ung==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734396029; x=1735000829;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sgTKjvs5B9umQJDB9laJqcBxoXGDoUpyDIM3gP/T+70=;
+        b=MMYBRFB+KIYfuXPT/ANoQ4B+9G9jlLATisy4bkO9Vk7CyzF4HV14MbhR1SaYY+4qIy
+         F3tD1b4H1m5nJfFaYeT6HD6EgIGnkeDKn0B193IXJHHEDWXmIX2Ohw2reT9Mjv4hmMSN
+         0xV73V8NpT8wDB6Cmmsiq9ObP8wx8LDhdnnu3Xf5FiBvOxLZpRbKaniInI1h5pskoSG2
+         kKhwn6DxtDj6zqZ3pGpX22qoDBmXeogES+JW5dahOEo5illVQzlpR/0UsWO41M/rhUM3
+         1Uqht1TSDNESLDpNK0erTLHiF3/uR9aADhLqxs4E29IkD4J5IBjKn2ucdSkgETa+A6gd
+         3Ivg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6bIf145pEKdxJJJK4A0ZWyljmEU29bVKdrOJh14QvJDKXg2rUvT1mM1Pi0Il9D9Pk232mXqFhVOMXjg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDqiXmJZrcPRcJKbdRoVOXjxQizlB2wPjQc392+tyfjqvUqHgW
+	FRo6AwGYaCJPHuTpSCozuRD+50mgm1HSReRYbUYspsvrSgUnQ0BLK9mU+Mya4ac=
+X-Gm-Gg: ASbGncsZQNz9pi/9tVcdmF93l8Zg4r1aMJcPavgg4mYxx7PUH+qG3fxdLgXik9UtFU2
+	aU3g+yttLeH1BygLtXdug3hOIi0bIdQZaswUeIKRs95ZZOXgt3vrtP5sso2r8OC/bzSH78y7WoQ
+	eVDTJpkxOeZEJKquJ9y0pR3o3A/30jcHwi/yBLYMw1nlHjb0szU6stx+6MsfgVl+Az3rLwTd7Gn
+	OixzpOczSTo+JM6jN2Yi/L26bNoj0Qfm9VTWILMG2AvYqVVKj7uGR+LE5asCC3S
+X-Google-Smtp-Source: AGHT+IHgyssPUoD5TTHyYQK7cwkYSeC1SmeWaAD5CnHBBIgjrBsFSL/7oq0zvZWIwIxweshvE4C4MA==
+X-Received: by 2002:a05:6512:2356:b0:540:15b2:fd27 with SMTP id 2adb3069b0e04-5408cee91f9mr5298547e87.7.1734396028668;
+        Mon, 16 Dec 2024 16:40:28 -0800 (PST)
+Received: from umbar.lan ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54120ba9ab2sm1009122e87.74.2024.12.16.16.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2024 16:40:27 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+Date: Tue, 17 Dec 2024 02:40:22 +0200
+Message-Id: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY7PR01MB13683:EE_
-X-MS-Office365-Filtering-Correlation-Id: b74f42be-fa41-4050-e334-08dd1e32d407
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?fX7unpfVLnHd/qGfE5MGgYMBj2Sj5PBSj09VK6pprBYh1+fHmM+rpbQ9hVMa?=
- =?us-ascii?Q?BaGHxQFhy7DQciStvith6UXt2n7lIooZspA9yjBUgS7T3jPvAxxj49BwKPoL?=
- =?us-ascii?Q?aLJz6AJ4v90boW0a+jM5fybE2wkVBQbNQbGVum9+slLqtsJSG90cjpMPv60+?=
- =?us-ascii?Q?EVifdf5GTe5tUEBsEVRIr/5nq83Fix4yUMDNq/bG8ppsT13RIYw99cfZI8wf?=
- =?us-ascii?Q?qSMO1MVV15Jc1NLZvEKZ1N+sN45R4yS+FvwZ3fR3Z/zebH+Y7mmYndpOG78w?=
- =?us-ascii?Q?z5OKq4xK04iGrR7ia2Cins2SfxG6Nu4P/WmGmxgawmGFQEFVFjgau+08P8Hm?=
- =?us-ascii?Q?wdghrZ72tHQu8HzfhqdWTBoGv7wiEjWjLIC+k3+slTt0wBXjtfWNgaXtL22Q?=
- =?us-ascii?Q?aK6bmedtqO0QwhyceHgsSJwHFK8T2v9e7AVpBKRao0njKOFjfkleH7KlJXiK?=
- =?us-ascii?Q?sabVNG4/XQLvkW+/i5cd/Qu2yPZBMviwuVuZHVkiZt1KLmqx/bvthxz8s30X?=
- =?us-ascii?Q?yQh8Inz68RM2uiYLxd5LqauLRaXTbC3k5r9x3OsMnYYTmk+V7AVOhYqiSpRk?=
- =?us-ascii?Q?YdZrlxc92PHaE5VwQgBqhbxjQ1EqmXTui5avu8lgLFBRhKO0APIwsLPp2lKO?=
- =?us-ascii?Q?6XYCVKg7lHTxpfZrwTHZhDJw1ifhwB0MPW65BqNnUGfzXT0QD6WGgb4VZQ8y?=
- =?us-ascii?Q?4Jr/03VpHv3wn7qocNMLOQ4yW4Qxae4oUp4LVoz2+d5Rv03WUXOVfMQGw/1i?=
- =?us-ascii?Q?hopiOvPG3ua7ht4YdmzIuJX+KbBuX9Db3APW3RRTQgE1P49Nh2yf0yztZvd4?=
- =?us-ascii?Q?CLOM4ZsZcBrj055ZQAsS+cGKTkpuJ1MD29GkkMRmINBp8mNBNTSQ15EjaEvd?=
- =?us-ascii?Q?y4Vyn7DAHHvHIW8/m1z8igfLh/I1lo0M3oUmGXHkSRboV7L4K310jJ1Ob+4t?=
- =?us-ascii?Q?sQMcEsk71Sv/gte/eEtHjJdQkAFwg/zXgOUYXgYVMM6kxkxzY23GMXwt6RPn?=
- =?us-ascii?Q?LQAnFR0+t2R3t7vvFdGCMXF9UMEKoRJkkr2HhA8qWLd8wKcoWfSVSoWDoEfz?=
- =?us-ascii?Q?b5glhAsBOdFG4iIB6mdCNz1m8Aktscm7xG3S0c15bToC4SDfHA0hlaU0AKDo?=
- =?us-ascii?Q?aSbt+7JikIWcxUlePj4eowBVfbq/Ev0bfD4AyK5JWps7T4SZ4anMi1oOAZs0?=
- =?us-ascii?Q?V0tb/VprTQgzg3rqj1ANW5pXzgVgrQOAhzRnZmsHahs4C2A0xNzEv+0b1cHQ?=
- =?us-ascii?Q?XUn4KbIxcqP6UvGuim0IT5KlXo5WjWYJk1BNp7O5yC9A/Bp8qiwED/CyXYvU?=
- =?us-ascii?Q?6xHXPZRciiU+xqhmG6EXlJRO9ZU7RS8w3rz69JFngwRGalyqf8mcFgYY9OXp?=
- =?us-ascii?Q?wxd/5SOcqOlWkOkw1rL0lpaEeF0NF7SAc0PPJnXqsHG36fqP3EmPe0+U3xNY?=
- =?us-ascii?Q?GgjnCC3S4M3xFFlm9XCA9hXbDlQ+6+l5?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kbLhq6movk1O5aN/olwYj8irRxC1fuwlt1cTOx0oAmClY/y9cST5DWc+SO1U?=
- =?us-ascii?Q?4uFiz7kNNotlyA1n2DzOMmy/tyYtlxGNtO5NPk0NPVtFfNtJB1BM0e3xpwoi?=
- =?us-ascii?Q?oT5FgA3tKCqEzI5Lrj2fFspA1LHedW8R1k1v9FXBCl+/vLZuowQebmQnUu24?=
- =?us-ascii?Q?FuM1Y59spKW5zjFv+X6KPumNAWA7jdVQ30XKsofZmMfWSLjl5VrVYrn5rOzm?=
- =?us-ascii?Q?drwRjv4pl55fsbQodHwGauWc0CYH1JKH6X28+qkpEXqsQBcHfaYk/KLfW2Or?=
- =?us-ascii?Q?VCNNxzjQyM9vS61Go1GdwChNo3j4jaNxKph6RMjnjtaq4NJDe8szV9fjKCuH?=
- =?us-ascii?Q?tHBsIJmrTGtZrhyKN39r+vV9ASf/obm42iawT4RP8zy8l2a5tMUGKEOWcsee?=
- =?us-ascii?Q?g92jgH1KD++98he+bEAJlQQM+lw6VoQXfkErmGcZSOx8/6H7s9jL10jhjr1m?=
- =?us-ascii?Q?f7ZUKEZITRYE1GJB90oRTtdzpCDhWMS6Z+JIdPcb68Mpy/eqEXgUsDBV0kyv?=
- =?us-ascii?Q?aKk6gXgnC9wzfhHssbWneaf/bEmDDTZNNqHHS1G+vi0SiWaTZjP7XJqajXbX?=
- =?us-ascii?Q?wQwgvCJ6n6vOvAsIGdn5rm6Jp/99Gen6tWCDgYwmQ3TaLF4TN33lZn/vZmyi?=
- =?us-ascii?Q?rHfHLV+Cq/75F2eLf6XjZ6ZIFQFbtfmsYeJEISPKl2Es4k4CemiJszmOBOPb?=
- =?us-ascii?Q?+33sck/6gaN5uYRW81OKKvvf3iNN9WQ2td5J7SBAdNivtqoRRG4qePlTt5NN?=
- =?us-ascii?Q?11+I4WvXeobaOrxIMlx/C2KL/mG4X8Ho84F4xwdg0QyrR/TO3ES1++LORYsT?=
- =?us-ascii?Q?nCwP4TrJKj6logz11OFcbAgpthME4FGRtTHi5sUvse1j8BufHKDRt1VXCASU?=
- =?us-ascii?Q?6Y8S1WZwfOP71cMn88AMtuIFWMcW4TvtH/vXWKNPOC7PFuqpisKjRg/mvQkP?=
- =?us-ascii?Q?VNKiWFR8x4H8ZaZyozeiW2hFmdDuRNxV5IgrMixo3h3nvtkvdK9dwbNhzgEa?=
- =?us-ascii?Q?4YvYk+syHUzvyOhw9CJsb8OUGBqHfO0NcmZHgs4MLejoZlqCI9LjOSQjPu2b?=
- =?us-ascii?Q?xDUCqxzpwHTjfQl0ltQI2z5Lu2/kHzt0jVSmJxrJQTbpdmXJY7VUap37wZkb?=
- =?us-ascii?Q?ZEIfsLUQdklZ7ivu+AFRHYJEvWvpWTiLly/pqN/vp2NvGoIs4FuYh0V2Z7Fs?=
- =?us-ascii?Q?i/MES3hq6BSRUmcrNrsNlk2sJ9OQdK6Y/vuNcxyx/WgOJDYakKGcrVL4Uzw8?=
- =?us-ascii?Q?z586uKTKAWWG2YCN4btLPCMy3IY5jxd+NHmi4fCcWrhrVpCvORkw1pCCYzEf?=
- =?us-ascii?Q?gv7rjWHSUXOv+DO5mMxyFX9N9RfOK3ZFcIxivChy2YHBrpX5j0+eP45wiw3g?=
- =?us-ascii?Q?1uP6SUmebePXbuQCah5FghuszsOhpmKs5kD70VgSz48qol16eyM42ApDeWzM?=
- =?us-ascii?Q?uTVy7JTU+WcE6vS7GQVanxZJR//6500iZC/PaGEIXLvLf41sR+hPhPD99imM?=
- =?us-ascii?Q?3fX7Z/f98ff7PLFP1TZ+l0XrhLyKi4F9TpsYK5s2zncrpW4OPPhFa5P/KzC4?=
- =?us-ascii?Q?XJ7bjaJ4he5yIoMEIuxuTAeNqxMYX9lzQE+jv0e0DkkubblsT6E+shUGoBp0?=
- =?us-ascii?Q?cPhdPWj9pDN9DD1aDo3Wgxg=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b74f42be-fa41-4050-e334-08dd1e32d407
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2024 00:36:21.2253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U6W/37R95ambpynV/IqHD8z7NU8Nu6Y+fzt6m1vS4bcbGn8zuvxgZ07z8lan5CswBK2L/HqHFTxWSVQtbtIsQcC9yrSzQCozkfNMez2769cW+zt1YtLJjDsxH4YW37Zv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB13683
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHbIYGcC/33S207EIBAG4FdpuBblUGjZK9/DeMFh2JLYVmlt1
+ mz23Z1uo9Y04Y4fmG9ChiuZICeYyKm6kgxLmtI4YGgeKuI7O5yBpoCZCCZqpiSjIffU5RTwpAt
+ 9on4cBvDzmKlxLOpGKNNIIFj/niGmy91+ecXcpQmvfd1bLXzd3VTNVUFdOMWmykTftFpZJ57f0
+ mDz+DjmM1nZRfxSnDNeogRSjTQQjQ0hGjhQck+ZEiWR8lzZGLxVbVsfqHpHCVGiaqRcHbQJGqQ
+ L5kCpP0qUH6hWSkmuoRVRc3ug9J7SJUojpVjwvFbWeKb/UbdtvBk+PvHHzNuMibMTINH3aT5VK
+ 92nyT/9LOgAlxlLb9+JCdIOdAIAAA==
+X-Change-ID: 20240530-drm-bridge-hdmi-connector-9b0f6725973e
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7339;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=mRS1w8SNa9F8msOnfuNbepVkyjcxKNCRov7QDV7keWU=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnYMh483Vpm6YpzMX9dKJr9f3olvRFJHcdSD93X
+ zwWLjpOlJqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2DIeAAKCRCLPIo+Aiko
+ 1VGIB/4kMV7Jy1pqTM07yPePXEI6rxw63Q43UZOrElHr/cHnE8zoLmUAw6qrzAwhV64ZZglIrfy
+ nIKRz2ehx4CQ7xMgKNVPrVbAh1GjO5pMWZe+OaiTvfrfvyqpLe82GVCMG467y1S/ONPEi9RPSmr
+ 80rs6Rj0x8/zHjpcD4F85x90QvfXseTtr9Pk9CElxhpDDDb8Asghn+WA7Qt5L79HuhkcRJOslsL
+ /fj6LMAs7PVPCbR0luL4hTm/5e1UsYYBoc0Z9but23RgUvpkBDKcS844vyDO6ibCZ5UB5mRhpBu
+ g0bANhLq/8PqCOybErtIcH3/tenLUXuKvKPu7CVra1bd9q/u
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-commit f8da001ae7a ("ASoC: audio-graph-card2: Purge absent supplies for
-device tree nodes") marks multi/dpcm/c2c nodes as no suppliers. We no
-longer need to use post-init-providers property to break fw_devlink cycle
-(And no one is using it yet). Let's remove it.
+While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+framework, I stumbled upon an issue while handling the Audio InfoFrames.
+The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+there was no simple way to get the drm_connector that stayed at the end
+of the bridge chain. At the same point the drm_hdmi_connector functions
+expected to get drm_connector instance.
 
-Fixes: a2187d0dadf ("ASoC: dt-bindings: renesas,rsnd: add post-init-providers property")
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+While looking for a way to solve the issue, I stumbled upon several
+deficiencies in existing hdmi_codec_ops implementations. Only few of the
+implementations were able to handle codec's 'plugged' callback. One
+third of the drivers didn't implement the get_eld() callback.
+
+Most of the issues can be solved if drm_connector handles
+hdmi-audio-codec on its own, delegating functionality to the actual
+implementation, be it a driver that implements drm_connector or
+drm_bridge.
+
+Implement such high-level framework, adding proper support for Audio
+InfoFrame generation to the LT9611 driver.
+
+Several design decisions to be kept in mind:
+
+- drm_connector_hdmi_codec is kept as simple as possible. It implements
+  generic functionality (ELD, hotplug, registration).
+
+- drm_hdmi_connector sets up HDMI codec device if the connector
+  is setup correspondingly (either I2S or S/PDIF is marked as
+  supported).
+
+- drm_bridge_connector provides a way to link HDMI audio codec
+  funcionality in the drm_bridge with the drm_connector_hdmi_codec
+  framework.
+
+- It might be worth reverting the no_i2s_capture / no_spdif_capture
+  bits. Only TDA889x driver sets them, while it's safe to assume that
+  most of HDMI / DP devices do not support ARC / capture. I think the
+  drivers should opt-in capture support rather than having to opt-out of
+  it.
+
+This series depends on the ELD mutex series [1]
+
+[1] https://lore.kernel.org/r/20241201-drm-connector-eld-mutex-v1-0-ba56a6545c03@linaro.org
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
-v1 -> v2
-	- add missing DT maintainers
-	- Tidyup the git-log
+Changes in v7:
+- Renamed drm_connector_hdmi_codec_init() to
+  drm_connector_hdmi_audio_init() (Maxime)
+- Added extra empty line in struct drm_connector_hdmi_codec_funcs
+  (Maxime)
+- Dropped if/else from drm_bridge_connector_audio_startup() (Maxime)
+- Added optional .read_edid() callback and reworked
+  drm_atomic_helper_connector_hdmi_hotplug() to use that callback
+  instead of having an internal function which accepts EDID (Maxime)
+- Made VC4 and drm_bridge_connector use .force() in addition to
+  .detect() and .detect_ctx().
+- Moved HDMI codec functions out of struct drm_connector_hdmi_funcs.
+  Assign them from drm_connector_hdmi_audio_init().
+- Documented struct drm_connector_hdmi_codec and its fields.
+- Link to v6: https://lore.kernel.org/r/20241206-drm-bridge-hdmi-connector-v6-0-50dc145a9c06@linaro.org
 
- Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 6 ------
- 1 file changed, 6 deletions(-)
+Changes in v6:
+- Dropped extra checks on the EDID (Jani)
+- Reworked drmm_connector_hdmi_init(), splitting the codec init to a
+  separate optional function rather than passing arguments through
+  drm_connector (Maxime)
+- Reworked EDID update functions (Maxime, Jani)
+- No longer refresh the EDID in vc4_hdmi_connector_get_modes(), it is
+  redundant as vc4_hdmi_connector_detect_cxtx() already does that.
+- Link to v5: https://lore.kernel.org/r/20241201-drm-bridge-hdmi-connector-v5-0-b5316e82f61a@linaro.org
 
-diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-index 6d0d1514cd421..e8a2acb926460 100644
---- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-+++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
-@@ -112,12 +112,6 @@ properties:
-     description: List of necessary clock names.
-     # details are defined below
- 
--  post-init-providers:
--    description: At least if rsnd is using DPCM connection on Audio-Graph-Card2,
--      fw_devlink might doesn't have enough information to break the cycle. rsnd
--      driver will not be probed in such case. Same problem might occur with
--      Multi-CPU/Codec or Codec2Codec.
--
-   # ports is below
-   port:
-     $ref: audio-graph-port.yaml#/definitions/port-base
+Changes in v5:
+- Moved prototypes from drm_internal.h to
+  drm_connector_hdmi_codec_internal.h (Jani)
+- Rebased on top of ELD mutex series, resolving the long-standing FIXME
+- Converted the VC4 driver (compile-tested only)
+- Link to v4: https://lore.kernel.org/r/20241122-drm-bridge-hdmi-connector-v4-0-b4d69d6e3bd9@linaro.org
+
+Changes in v4:
+- Added forward declaration of struct drm_edid (LKP)
+- Fixed kerneldoc for drm_atomic_helper_connector_hdmi_update_edid().
+- Link to v3: https://lore.kernel.org/r/20241109-drm-bridge-hdmi-connector-v3-0-c15afdca5884@linaro.org
+
+Changes in v3:
+- Dropped RFC status
+- Fixed drm_connector_hdmi_codec_init() kerneldoc (LKP)
+- Dropped double underscore prefix from
+  __drm_atomic_helper_connector_hdmi_update_edid() (Jani)
+- Moved drm_edid_free() from
+  drm_atomic_helper_connector_hdmi_update_edid() to the caller's side
+  (Jani)
+- Link to v2: https://lore.kernel.org/r/20241101-drm-bridge-hdmi-connector-v2-0-739ef9addf9e@linaro.org
+
+Changes in v2:
+- Use drm_atomic_get_old_connector_for_encoder in atomic_disable() to
+  prevent it from crashing
+- Reworked HDMI codec init/exit, removing drmm_ calls (Maxime)
+- Drafted the helper to be called from .detect_ctx() that performs HDMI
+  Connector maintenance duties (Maxime)
+- Moved no_capture_mute to struct hdmi_codec_pdata
+- Link to v1: https://lore.kernel.org/r/20240615-drm-bridge-hdmi-connector-v1-0-d59fc7865ab2@linaro.org
+
+---
+Dmitry Baryshkov (10):
+      ASoC: hdmi-codec: pass data to get_dai_id too
+      ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
+      drm/connector: implement generic HDMI codec helpers
+      drm/bridge: connector: add support for HDMI codec framework
+      drm/bridge: lt9611: switch to using the DRM HDMI codec framework
+      drm/display/hdmi: implement hotplug functions
+      drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug()
+      drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
+      drm/vc4: hdmi: stop rereading EDID in get_modes()
+      drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug_edid()
+
+ drivers/gpu/drm/Makefile                           |   1 +
+ drivers/gpu/drm/bridge/adv7511/adv7511_audio.c     |   3 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |   3 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |   2 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            | 169 ++++++++----------
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c         |   3 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |   5 +-
+ .../gpu/drm/bridge/synopsys/dw-hdmi-i2s-audio.c    |   3 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     | 137 ++++++++++++++-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  56 ++++++
+ drivers/gpu/drm/drm_connector.c                    |   5 +
+ drivers/gpu/drm/drm_connector_hdmi_codec.c         | 189 +++++++++++++++++++++
+ drivers/gpu/drm/exynos/exynos_hdmi.c               |   2 +-
+ drivers/gpu/drm/i2c/tda998x_drv.c                  |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   2 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |   2 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +-
+ drivers/gpu/drm/sti/sti_hdmi.c                     |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  99 +++--------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   2 -
+ include/drm/display/drm_hdmi_state_helper.h        |   5 +
+ include/drm/drm_bridge.h                           |  38 +++++
+ include/drm/drm_connector.h                        | 141 +++++++++++++++
+ include/sound/hdmi-codec.h                         |   7 +-
+ sound/soc/codecs/hdmi-codec.c                      |   4 +-
+ 25 files changed, 678 insertions(+), 206 deletions(-)
+---
+base-commit: 81a9a93b169a273ccc4a9a1ee56f17e9981d3f98
+change-id: 20240530-drm-bridge-hdmi-connector-9b0f6725973e
+
+Best regards,
 -- 
-2.43.0
-
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
