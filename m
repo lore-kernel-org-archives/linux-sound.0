@@ -1,108 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9751E6311
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 11:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C121EF0A1;
+	Tue, 17 Dec 2024 11:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734434934; cv=none; b=W6mLH9WhpccyDJotFDYnLIBp2jDHEjqxhc4/KxfrN2QCACdZD/3EJxuRC1mojgAWqmipfOGc136GpeCx+rB6cpJTH8+wjNnlq8lvH7Ni5zQlWg0ddWNEIst61G/Cn+tnMwJHmScMvBgwhdFV//zkY9Rk0pLuNTwi8KKM+QoHmBg=
+	t=1734435094; cv=none; b=sDOuxZbFOM/Dr0XNguUy5iquxjVb7EHBjKGSzNV+9souV+2CWvQgnKBvaWU4npSMT8tjdFHnO+PR8fLcGqJKgVxF2miMLfH2IxkzfxqdneAhFwirPhyyJYhGtPIv4XWoj6Tt/fT6MxHC4CcL4bD8qZfY5mwciaJfGCJSNSkjlvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734434934; c=relaxed/simple;
-	bh=/AVhRaqlxHZHPDrWEYus9rXokBE30ruiyg/T4qExInY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mk12ZDmhdu7fbjy2fSB1W1jLKn2HbQerrBoPOsZyKITfx80NRsEcQGP/RHwr2TnPwlNCtK9eKXPxBzgJo2LHUI18MiSrzY5rpa6e0OsLCELFqrHqiYpfjJiSKn6qRZCOwIxpJXWBBQyRyJ/VOFNC08zdqla/f/HmDTZWiRZTpJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vzor79ow; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734435094; c=relaxed/simple;
+	bh=LVb5TPKRGE4rQfPY1t923yjgSTIPeFhHZBX2+8g/SyU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mGN9dm7s0EejAE5qjvn5DVGQH17qYFD4qxGR48vpU/VhGtRZDQmPjbXOGArYflh++0y00Wh1jd9IYu1PAMKfFmIE5L6ZkdreQYNWlaqYyx47+XMJapb95aMhoHmA+3lHnYef4bOzR7r76Xlt62zYmZ1/cw5clwMHGz1dsMJWnYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=lmgNnhfL; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vzor79ow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92CF1C4CED3;
-	Tue, 17 Dec 2024 11:28:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734434933;
-	bh=/AVhRaqlxHZHPDrWEYus9rXokBE30ruiyg/T4qExInY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Vzor79owZqbIVHACP6vwUQAkyVgdIrD7VaAE3SooYj3OAbNwSCUjKx5E+8DwHVZvc
-	 ZfPL/+0BNxxtJmBA4D2F9VCnkN8WdjyUYtcK+v2N9VKHmjSOeCcoMOS688mOi04q+v
-	 l2cWAUBDnM3lpVHUrcL/wHq+9Rw75myC025XdreO0YF+qILEZ57uZOgp/tvrKOUN/P
-	 tK8zADxKWZDdzLASYmnp2tr9sc/aJp2g71+6hWyTWWC5xqwLU7o3CRWQoSxuP/xYAI
-	 PobY4tZNUFVLATPDyQaxlB5rQEwuZLrP7Ja4A80WV6jB8SJCRn4+szTu0Eh1+LLS7r
-	 stocTLHT29L+A==
-Message-ID: <23768602-ed35-4d3c-bcd9-f58f7274a3cc@kernel.org>
-Date: Tue, 17 Dec 2024 12:28:49 +0100
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="lmgNnhfL"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BH59KoI017522;
+	Tue, 17 Dec 2024 05:31:30 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PODMain02222019; bh=6g9QIbqx/y9tAqWn
+	LzPJDI6PAJxXqqi9jOxeTtD8CYw=; b=lmgNnhfL5QT71O6wO+jG5tFuf6/vhn6+
+	SBsoarkL0/t8Ew0fc9N/sA1EVGtWcbyJEkiZWDwd7QPSNAyZOZfSSCLQ+E4b4hO2
+	i665SL9aQ/StT6syEGqxVQIQokUb7ueqGZLJTJ069SYVVeiNmTwMfR+SrVbqVv57
+	573yJ39D8hVX/5fVW+0dZ14G9xRCvPQ7zPgFsIcco9/Adoj+0byyJk4k0GmeE3ph
+	Yt5g64kWKfA3FTo7aog2itNzL46PU/AbkjkdNWwBhLMrUVaNPzMQGmMpzFiLOLVy
+	1y3oJjN76p2yK1fL+UplV0miFwhXZpsPog0WZzVCSwSpKrjGJ2RikQ==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a239ga-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 05:31:29 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Tue, 17 Dec
+ 2024 11:31:27 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Tue, 17 Dec 2024 11:31:27 +0000
+Received: from ediswws06.ad.cirrus.com (ediswws06.ad.cirrus.com [198.90.208.18])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 6443B820248;
+	Tue, 17 Dec 2024 11:31:27 +0000 (UTC)
+From: Richard Fitzgerald <rf@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <linux-sound@vger.kernel.org>
+Subject: [PATCH] firmware: cs_dsp: Avoid using a u32 as a __be32 in cs_dsp_mock_mem_maps.c
+Date: Tue, 17 Dec 2024 11:31:27 +0000
+Message-ID: <20241217113127.186736-1-rf@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] soundwire: slave: fix an OF node reference leak in
- soundwire slave device
-To: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>, vkoul@kernel.org,
- yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- sanyog.r.kale@intel.com
-Cc: linux-sound@vger.kernel.org
-References: <20241205034844.2784964-1-joe@pf.is.s.u-tokyo.ac.jp>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20241205034844.2784964-1-joe@pf.is.s.u-tokyo.ac.jp>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: _VsQLcmRBp5Q0PJMkj1ZOVJC8ECxrdnR
+X-Proofpoint-GUID: _VsQLcmRBp5Q0PJMkj1ZOVJC8ECxrdnR
+X-Proofpoint-Spam-Reason: safe
 
-On 05/12/2024 04:48, Joe Hattori wrote:
-> When initializing a soundwire slave device, an OF node is stored to the
-> device with refcount incremented. However, the refcount is not
-> decremented in .release(), thus call of_node_put() in
-> sdw_slave_release().
-> 
-> Fixes: a2e484585ad3 ("soundwire: core: add device tree support for slave devices")
-> Signed-off-by: Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>
-> ---
+In cs_dsp_mock_xm_header_drop_from_regmap_cache() for the ADSP2 case read
+the big-endian firmware word into a dedicated __be32 variable instead of
+using the same u32 for both the big-endian and cpu-endian value.
 
+Fixes: 41e78c0f44f9 ("firmware: cs_dsp: Add mock DSP memory map for KUnit testing")
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+---
+ drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
+index ae5d57bdcc2f..161272e47bda 100644
+--- a/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
++++ b/drivers/firmware/cirrus/test/cs_dsp_mock_mem_maps.c
+@@ -526,7 +526,8 @@ void cs_dsp_mock_xm_header_drop_from_regmap_cache(struct cs_dsp_test *priv)
+ {
+ 	unsigned int xm = cs_dsp_mock_base_addr_for_mem(priv, WMFW_ADSP2_XM);
+ 	unsigned int bytes;
+-	u32 num_algs;
++	__be32 num_algs_be32;
++	unsigned int num_algs;
+ 
+ 	switch (priv->dsp->type) {
+ 	case WMFW_ADSP2:
+@@ -536,8 +537,8 @@ void cs_dsp_mock_xm_header_drop_from_regmap_cache(struct cs_dsp_test *priv)
+ 		 */
+ 		regmap_raw_read(priv->dsp->regmap,
+ 				xm + (offsetof(struct wmfw_adsp2_id_hdr, n_algs) / 2),
+-				&num_algs, sizeof(num_algs));
+-		num_algs = be32_to_cpu(num_algs);
++				&num_algs_be32, sizeof(num_algs_be32));
++		num_algs = be32_to_cpu(num_algs_be32);
+ 		bytes = sizeof(struct wmfw_adsp2_id_hdr) +
+ 			(num_algs * sizeof(struct wmfw_adsp2_alg_hdr)) +
+ 			4 /* terminator word */;
+-- 
+2.39.5
 
-Best regards,
-Krzysztof
