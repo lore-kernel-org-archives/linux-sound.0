@@ -1,65 +1,65 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8803542AA1
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 08:30:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B483B1DDA17
+	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 08:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734424249; cv=none; b=Gm7yZtuART7qKBsK7Y+DlAlRp4U0L5Ybti0nzc07MHT6IPSYwZhtM2oAu5Xi9VFyae8/eiIHI5ffXwRp7bcNnRzzOMx5dEPFvziLlPLulwZblrU2H4HIEERyvazHOOTLiFOR7lmeHdQMtjO4tR5GLRd9hziqQN/C8mYSAmf1wGY=
+	t=1734424555; cv=none; b=OnwF/5houS+q5nTgSrNokMx4WW+asW9VZet2JNiaAeTD0ika8YDpoR4C+4NkSp0/r8YvzQwy/Y7QNVVoxx57hvyf2A/XXnSDbZQPF+GmQ2+WvmaLrfUAbg0HOjMU04WcRFtuBedRd5QuR9NgStCvJukVa8dm9vRenHEP0UMf8P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734424249; c=relaxed/simple;
-	bh=Ecbmgltbc6unao3L/VR+48dx5HG/JT5F2wVH8J05YvE=;
+	s=arc-20240116; t=1734424555; c=relaxed/simple;
+	bh=M1FONKwZ8Fc/UcnyGVedpCFcve/G5FPu3fxDUKLQ3xs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C8B21fq4bsrPQTfEyvxTIXC+NkrQUj3b3b1WW6gP+my6yBLDFCM22k8wyM938+6DnTvoXYKVa/HCnyDDN3Oi303kdl7Slfr7ppcqfUtRM2PmIfmpwfwl8nPkWxjuUvyl/0/tWUPOgotf8HLt3yQWht8azzxt/QVUFkig/akDpU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TZU0Y6mw; arc=none smtp.client-ip=209.85.208.49
+	 Content-Disposition; b=VRU1cSHTIFznmLCpMBAjSQp/IBTgK5ryZcF9U9pOeNzw/lYr4/f1UzqKDYnPQu5dxVPGsEmnWgzkZdRGhelbbWSdVDv+paIJ7prPN3Fw+5BkEiz73kKmc3PARAbkz/UT5SxrCIAasCax+3netq9yfsM2WoIpBFK81vZxVJQqT3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=g+sE72KC; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TZU0Y6mw"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5d3d14336f0so9095108a12.3
-        for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 00:30:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="g+sE72KC"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5d41848901bso8931941a12.0
+        for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 00:35:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734424246; x=1735029046; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1734424552; x=1735029352; darn=vger.kernel.org;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bGIF2eAaI52Oqa36MEOiZ4+3ozT9+nk3eXn+U3x/kAU=;
-        b=TZU0Y6mwpiMprYzL5NWtXfHOWnV7b6evkVx98xwX4A/Dzi+YRjHFk3W2gZVJg1K17b
-         5lEBOGDIOlE27ot5whGalY+f0Owrp1sNdEBP1QHpoW9vlSRUFWAlvlI28p4JYnovbPAP
-         k3S9M09Z7OORkO+wZQ/AnioucWQqewAYxOuRIb5xlJ6LVwzY8CeKOeEjQq/yflswNv57
-         007fDO2chRZu04sRijYi5RWqDR+OwW8GTHRNN4Z5YblF4HdMDUvJopdruJhu27rXG8y5
-         Oba47lAdiNoghTVa/S6n+l1T5P+JSUxI8V2CQlxACe6iKTZYa4YNcqM7D5dovVjO/wxK
-         jidA==
+        bh=V92mVpmKQ/0E2k4933aIN1ZEembCvs+f5SIz9RHIY20=;
+        b=g+sE72KCIPZjI81J9YwWSaLGX/h6UjhsYfI5bHa4S8S7P7ngVDlHwwkF+rJH1Auj1l
+         E8iVrtlTgUt7q4dYxEJMsC6Xz38jfEXsF8vTLtnBppP86VVadMUaDYVSbd32lXsk0r7u
+         YO3koVQYXuF9+d8W5GlORZ7ZZcwWxygdaCZmkbWVqqQdHFtcP3hy86ufr7adDWD6qPQt
+         hpyhnhLOp/hmOd+eqJOeaM8oEKA4ZG4iQzNzRFHb7meNB3aPqO53GB/Kys+q7iaOvFJn
+         GcrLsJgkd+7YuJuivLDGxADHVgnBqjA2H2h53kjRTf7mEwUFYkmYjXZ3bm30f4Rc546Y
+         wUMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734424246; x=1735029046;
+        d=1e100.net; s=20230601; t=1734424552; x=1735029352;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bGIF2eAaI52Oqa36MEOiZ4+3ozT9+nk3eXn+U3x/kAU=;
-        b=Z0bxXrCClJqDxMu+jMfWQAnMImjGu/HgHrgYf48dYRNb5D7W1Q6QLes59DsboSTnFv
-         52t3AxmO1iYrSI1cZ6fYymCnnpYzJ9iXx+QuplvSjHBOyGaAxpi9ERKXCLSlvxw8kPnN
-         ycLkBfTBILJqyPGFb/NmaO9Y0f9GY+El+5yuj4nPUnjq0r62vxfOu8BU0S9v4zJOe5on
-         +nyVAt+DqAlJ7ebJnvRmkD/KKma01V8ZyE/OdKaSrVFYTAW6RMcgmEUOT7MniVCcUSJZ
-         ZKhy6vMs7Q1Iiu/0ZkXbmK+VeIZnNjaSL4TY+AbA9Gn7beCpVs8XxuQcgaxbqUARj272
-         VhfA==
-X-Gm-Message-State: AOJu0YwAxJMjnuSQkt3EToWPwKBqt/YN5LfZRpb2aSS3OgtaMrYAiOFN
-	7lqlD9xxnoXlOgcQnr9Bkm9GWAqnYjhFNekClDEY4m8Gf5MYDlGV3sNWJ39JmiPT2wHU97bpqt2
-	O
-X-Gm-Gg: ASbGncsp0BED+p6+KNlATjnY7+G3dB0joq6bR9WK8TUl6vnkQxEIF3yiFEQ1FsXdJqs
-	AHMz1za0cxXrifavRN/lXo2ppIA4s28ztYLkftfbtvL26P8D3NoQv9tXaF2WR4HIGMyX2wwVV9T
-	+Fa6xcZzRpFW30jgNi6JHuTiGYnVwUv19JUa138nPNlPbfzU2GPrtPVrQxkGWTPlmBTUn//+HlZ
-	QSiAcWv7oT8AFD4RV3qx0azYyBJv9b+8QUD783Vn3LJCXMpGlz5Ue+oCPDQqA==
-X-Google-Smtp-Source: AGHT+IGPmj37uUDvWEGD4Ql5gWtGGCrsLuixAb9N9Ts+l8vzUia53CUXK1D1gNXByMi11uE7lLV5+Q==
-X-Received: by 2002:a17:907:6d12:b0:aa6:8096:2048 with SMTP id a640c23a62f3a-aab7790a02dmr1662970866b.17.1734424245669;
-        Tue, 17 Dec 2024 00:30:45 -0800 (PST)
+        bh=V92mVpmKQ/0E2k4933aIN1ZEembCvs+f5SIz9RHIY20=;
+        b=J7ZoRBKehG/mgiEdQgq//5YvGH0inR+K+K2iwCLeaNhHdgP24rQ1VxPJnkcp8U5Wzk
+         5X/W9KbUx96eiLfimxUe7fbJJEkebkrEjWWpi/pa7HbSXUYS4CliuZS6slPAK5E/D3Y4
+         idPCBcKNaJpmhsuy4T6RuRG0kh4H9+SXEtvAuUohlHbOz8sHrJ7yzhtvJQZMXhsFhWt/
+         iRPo43jrGBcL9GLiu6Tbar5jbrghz6eOwRj2wavTLbnaJuWdxXoYaLQT9NbgbeQX78+N
+         tduOHj4nZLrtXraHSUz7JBsLNpGRNro6FiRMfy99LWMBG05brLiWDh8wynbet5xwUz83
+         lC5g==
+X-Gm-Message-State: AOJu0Yz5aYuoIzxKgSyhjXKV2lxUGS9NsJLjKcIDF0MTyj7l4UTLdN+d
+	+Qung5y9LEpnxT4TdUM37P2tC9UKqAns5yz+NispqiSVtDUU+ly6ZXbnAfMpLrw4thweN3Waz0d
+	T
+X-Gm-Gg: ASbGncvvd3hLKAnUd/157MxR7z38nNy+c7L47Q7KUTGY2Vl6kwDafk5TIcTBN9Bt1ga
+	Ijz76/JI/vXJmaU4zp7SZ+I/qn2mCacrpHTPM5sS5S+PJtHrdeNtqyRnk5nSMTYZC70ILjln0l6
+	y5Gz72h2xPngD8K52CT0KIMHCP7Mq7APKW4dQ/j5tHkSQdipgX8i95blUsqXEN91PGeQ97YOjLR
+	2kZl+KzlRtvEYed3VhzKhYsfFdl4HuyDKSlv7ZyrBlHrYdsS10AuSs4+E98zA==
+X-Google-Smtp-Source: AGHT+IEs86Nm/OTBOeV+JZMb6jxxlxalDLfIEcYhz/tHC564UOF5gCmtoXibfXLYwXO2hV52YK59Kg==
+X-Received: by 2002:a05:6402:354d:b0:5d0:7282:6f22 with SMTP id 4fb4d7f45d1cf-5d7d56175c1mr2327222a12.14.1734424552035;
+        Tue, 17 Dec 2024 00:35:52 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aab963ce2f2sm416841766b.201.2024.12.17.00.30.44
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d652ab50e9sm4020540a12.1.2024.12.17.00.35.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Dec 2024 00:30:44 -0800 (PST)
-Date: Tue, 17 Dec 2024 11:30:41 +0300
+        Tue, 17 Dec 2024 00:35:51 -0800 (PST)
+Date: Tue, 17 Dec 2024 11:35:45 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Jaroslav Kysela <perex@perex.cz>
 Cc: linux-sound@vger.kernel.org
 Subject: [bug report] ALSA: compress_offload: introduce accel operation mode
-Message-ID: <6a923647-4495-4cff-a253-b73f48cfd0ea@stanley.mountain>
+Message-ID: <f2769cff-6c7a-4092-a2d1-c33a5411a182@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -75,62 +75,42 @@ Commit 04177158cf98 ("ALSA: compress_offload: introduce accel
 operation mode") from Oct 2, 2024 (linux-next), leads to the
 following Smatch static checker warning:
 
-	sound/core/compress_offload.c:1059 snd_compr_task_new()
-	warn: fd used after fd_install() 'task->input->file'
+	sound/core/compress_offload.c:1188 snd_compr_task_seq()
+	error: dereferencing freed memory 'task' (line 1189)
 
 sound/core/compress_offload.c
-    1025 static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_task *utask)
-    1026 {
-    1027         struct snd_compr_task_runtime *task;
-    1028         int retval;
-    1029 
-    1030         if (stream->runtime->total_tasks >= stream->runtime->fragments)
-    1031                 return -EBUSY;
-    1032         if (utask->origin_seqno != 0 || utask->input_size != 0)
-    1033                 return -EINVAL;
-    1034         task = kzalloc(sizeof(*task), GFP_KERNEL);
-    1035         if (task == NULL)
-    1036                 return -ENOMEM;
-    1037         task->seqno = utask->seqno = snd_compr_seqno_next(stream);
-    1038         task->input_size = utask->input_size;
-    1039         retval = stream->ops->task_create(stream, task);
-    1040         if (retval < 0)
-    1041                 goto cleanup;
-    1042         utask->input_fd = dma_buf_fd(task->input, O_WRONLY|O_CLOEXEC);
+    1174 static int snd_compr_task_seq(struct snd_compr_stream *stream, unsigned long arg,
+    1175                                         snd_compr_seq_func_t fcn)
+    1176 {
+    1177         struct snd_compr_task_runtime *task;
+    1178         __u64 seqno;
+    1179         int retval;
+    1180 
+    1181         if (stream->runtime->state != SNDRV_PCM_STATE_SETUP)
+    1182                 return -EPERM;
+    1183         retval = get_user(seqno, (__u64 __user *)arg);
+    1184         if (retval < 0)
+    1185                 return retval;
+    1186         retval = 0;
+    1187         if (seqno == 0) {
+--> 1188                 list_for_each_entry_reverse(task, &stream->runtime->tasks, list)
+    1189                         fcn(stream, task);
 
-dma_buf_fd() calls fd_install() on task->input->file.  That exposes the fd
-to userspace.
+fcn() can be snd_compr_task_free_one() so this should be
+list_for_each_entry_safe_reverse() but it also calls fput() on
+the fd from fd_install() so I'm really uncomfortable with that for the
+same reasons as before.
 
-    1043         if (utask->input_fd < 0) {
-    1044                 retval = utask->input_fd;
-    1045                 goto cleanup;
-    1046         }
-    1047         utask->output_fd = dma_buf_fd(task->output, O_RDONLY|O_CLOEXEC);
-    1048         if (utask->output_fd < 0) {
-    1049                 retval = utask->output_fd;
-    1050                 goto cleanup;
-
-Let's imagine this fails.
-
-    1051         }
-    1052         /* keep dmabuf reference until freed with task free ioctl */
-    1053         dma_buf_get(utask->input_fd);
-    1054         dma_buf_get(utask->output_fd);
-    1055         list_add_tail(&task->list, &stream->runtime->tasks);
-    1056         stream->runtime->total_tasks++;
-    1057         return 0;
-    1058 cleanup:
---> 1059         snd_compr_task_free(task);
-
-This calls fput() on task->input->file.  The user can mess with the fd
-and make it point to something else which leads to a use after free.
-I believe there are two options to deal with this.
-1) Don't call fd_install() until we know we're going to succeed.
-2) Just leak the fd on failure.  It will eventually get cleaned up
-   when the process ends.
-
-    1060         return retval;
-    1061 }
+    1190         } else {
+    1191                 task = snd_compr_find_task(stream, seqno);
+    1192                 if (task == NULL) {
+    1193                         retval = -EINVAL;
+    1194                 } else {
+    1195                         fcn(stream, task);
+    1196                 }
+    1197         }
+    1198         return retval;
+    1199 }
 
 regards,
 dan carpenter
