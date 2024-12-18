@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333AC155756;
-	Wed, 18 Dec 2024 08:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E125A15990C;
+	Wed, 18 Dec 2024 08:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508937; cv=none; b=GbAm/y6AhWfVzEcSsEXLA6GgCuY6kh1WqXnpBpDS3sngvYe/xJRhB4z7TM/ksTPwVzc8Lvj2lbEh3Mwsj5ZoYrjAx4JSD46/wxHAYjqNUZbhNTNtSlq6D0KZjr5R3B+MfebGH2Q/mYfL7d8KUcKOfkTHx0L04VpsmgCz/NVlj44=
+	t=1734508938; cv=none; b=BjCpQYYWgcw4N9QfINjZM1jH/GRB//ZrUWv7Rc2N/0ef5vo2LkBE9OXdR9Rl+2aWHAyhOwHyi3U4Rw95kxaY7ZfKBHqkF2jk3HJCwpx8JvIAY+WLRtDxTXH64AE1CyWaOpOvrl6jaGDxcjewRjc6e+WFFuwzKKXRtFphUN4ScAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734508937; c=relaxed/simple;
-	bh=jvAlNsj7PvV/k/Fe9dnzcN1U92u+RGexGn8RgE17u94=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Xjy2vevMBUrEPe6dk/p334hhSqDvo2z3hKLXgtHmwDVOqn0/Ni19mszypfitTOXUyA7r2tRipPei9ILdlE72kniwlmMM3MBchnSctotBLLp7rvlU01eOyv0nP6Yn9yGQcISc6YS2LHxvwAiK8ZP/H6TXg+q45aDypy3xrZRIZWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpy1kvVr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1734508938; c=relaxed/simple;
+	bh=i7szRebw6WQA5QpBUiel/GHy/A8mHrGYWbddHxs31ms=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=m6vWN8RTuzqxqQ5DD/CVpN6wNVwtFjVf2FRRyPU14sMSrn43jFaU4u914Mzz8cFPdv2urYF3kHwAq+8zVKgh3O9V+ylWWnB752X8ZlbXIZkrF/Z2TNuKl9vmlsFssvOJZKNMeZYkiDcOjrMTVjPsib15A3W7jssjTbj7HHT6Ilo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUsKWH1B; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpy1kvVr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUsKWH1B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734508935; x=1766044935;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jvAlNsj7PvV/k/Fe9dnzcN1U92u+RGexGn8RgE17u94=;
-  b=lpy1kvVrTJnrmQcnrBfFKJcWhPL5rlho/1XXl4HoceFrHCAW26cdMCFp
-   nbCKeRNX1I+Pp+iksariC+QtMaRNQM8iEHg65gOAMOFF1gP50Q+d9ryru
-   ImmtDlLz+U4kXb/4tY9QHtFGsoNk5Jq/bCGe5wtycaUbpXyCYgMnPoD9L
-   DD37mTfsAbvri4vZz89/GT7OIs7q6jI5Qv/JGm7rtjy5zHssiPbTu0txi
-   nlp5h7c6PuBkKI4pA78Ytw9Ng+TLKw71HLCDTJFLXKb9xUfOvM2nYjPqm
-   uGe3eCKqA/Hh1zmjl+SH9Tk0hboBhZme0+r+6NoH4aBPLSQDV0PLFI6KX
-   g==;
-X-CSE-ConnectionGUID: RAFAUs3qR6eAjRZ8uwaEAA==
-X-CSE-MsgGUID: hsvCoxCqQ2urCoY+LcTHiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978490"
+  t=1734508937; x=1766044937;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=i7szRebw6WQA5QpBUiel/GHy/A8mHrGYWbddHxs31ms=;
+  b=SUsKWH1BgsiwpziHkNSzy1EcfZqmIWCK0HlXajr2kO0n7QRoDBRbdqA1
+   66xO0gnBPAKX0HFeVhNtiOPsF8dT42KyQ1YHB8WAje4f8BLxxG5uMaXar
+   v0+CzCmyeHYosfaAVcO7HRtSi4nRxc2BA/8II8nKR4LwWOm9MNCLPKz4e
+   rdwB4ScZgRGQbW0D40sZWUiZGzkuvfCLriuGVC1ZtGO0K/jkE7C2HODzG
+   mu4vfs4qZcB6bS3jCHllNsGJq1nkOsjqsVDVEhU2iswbYocuZo3zR6cvb
+   i/of6DK+LiePBwGef8LY19c84QhxJCyasWhGx0n4RurnDFjLTpaFFf82o
+   Q==;
+X-CSE-ConnectionGUID: UrBxcpEYQ2iEmpwetSxeAw==
+X-CSE-MsgGUID: qf+OqH/aTM+bcfPA+5ez9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978495"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="45978490"
+   d="scan'208";a="45978495"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:06 -0800
-X-CSE-ConnectionGUID: b/dkARUzRNaCxDpPWk5CBw==
-X-CSE-MsgGUID: xSXgJLJAToWKtLTaWM0rlQ==
+X-CSE-ConnectionGUID: CCdszRhBROmA5smKA3nCiA==
+X-CSE-MsgGUID: AHKs6DyQQgOOi76oTmcryg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101914640"
+   d="scan'208";a="101914643"
 Received: from tfalcon-desk.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.206])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:03 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:05 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -49,60 +50,86 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH v3 00/14] soundwire: add multi-lane support
-Date: Wed, 18 Dec 2024 16:01:41 +0800
-Message-ID: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v3 01/14] soundwire: add lane field in sdw_port_runtime
+Date: Wed, 18 Dec 2024 16:01:42 +0800
+Message-ID: <20241218080155.102405-2-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
+References: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This series adds multi-lane support for SoundWire. We will get the lane
-connection information from ACPI and use multiple lanes if the bandwidth
-is not enough.
+Currently, lane_ctrl is always 0. Add a lane field in sdw_port_runtime
+to indicate the data lane of the data port.
+They are 0 by default.
 
-v2:
- - add 2 commits to fix the issue of starting streams simultaneously
-v3:
- - Preventing accessing the non-exist codecs in the "program
-   BUSCLOCK_SCALE" commit.
+Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+---
+ drivers/soundwire/amd_manager.c                  | 2 +-
+ drivers/soundwire/bus.h                          | 2 ++
+ drivers/soundwire/generic_bandwidth_allocation.c | 4 ++--
+ 3 files changed, 5 insertions(+), 3 deletions(-)
 
-Bard Liao (12):
-  soundwire: add lane field in sdw_port_runtime
-  soundwire: mipi_disco: read lane mapping properties from ACPI
-  soundwire: add lane_used_bandwidth in struct sdw_bus
-  Soundwire: add sdw_slave_get_scale_index helper
-  Soundwire: stream: program BUSCLOCK_SCALE
-  Soundwire: generic_bandwidth_allocation: set frame shape on fly
-  soundwire: generic_bandwidth_allocation: correct clk_freq check in
-    sdw_select_row_col
-  soundwire: generic_bandwidth_allocation: check required freq
-    accurately
-  soundwire: generic_bandwidth_allocation: select data lane
-  soundwire: generic_bandwidth_allocation: add lane in sdw_group_params
-  SoundWire: pass stream to compute_params()
-  soundwire: generic_bandwidth_allocation: count the bandwidth of active
-    streams only
-
-Pierre-Louis Bossart (2):
-  soundwire: stream: set DEPREPARED state earlier
-  soundwire: generic_bandwidth_allocation: skip DEPREPARED streams
-
- drivers/soundwire/amd_manager.c               |   4 +-
- drivers/soundwire/bus.c                       |  65 ++--
- drivers/soundwire/bus.h                       |   3 +
- .../soundwire/generic_bandwidth_allocation.c  | 316 +++++++++++++++---
- drivers/soundwire/mipi_disco.c                |  40 ++-
- drivers/soundwire/qcom.c                      |   2 +-
- drivers/soundwire/stream.c                    |  71 +++-
- include/linux/soundwire/sdw.h                 | 192 ++++++-----
- 8 files changed, 523 insertions(+), 170 deletions(-)
-
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 5a4bfaef65fb..f47d4cd656ae 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -410,7 +410,7 @@ static int amd_sdw_compute_params(struct sdw_bus *bus)
+ 			sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
+ 					      false, SDW_BLK_GRP_CNT_1, sample_int,
+ 					      port_bo, port_bo >> 8, hstart, hstop,
+-					      SDW_BLK_PKG_PER_PORT, 0x0);
++					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+ 
+ 			sdw_fill_port_params(&p_rt->port_params,
+ 					     p_rt->num, bps,
+diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
+index fda6b24ac2da..ff03b97f1d8b 100644
+--- a/drivers/soundwire/bus.h
++++ b/drivers/soundwire/bus.h
+@@ -90,6 +90,7 @@ int sdw_find_col_index(int col);
+  * @transport_params: Transport parameters
+  * @port_params: Port parameters
+  * @port_node: List node for Master or Slave port_list
++ * @lane: Which lane is used
+  *
+  * SoundWire spec has no mention of ports for Master interface but the
+  * concept is logically extended.
+@@ -100,6 +101,7 @@ struct sdw_port_runtime {
+ 	struct sdw_transport_params transport_params;
+ 	struct sdw_port_params port_params;
+ 	struct list_head port_node;
++	unsigned int lane;
+ };
+ 
+ /**
+diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
+index b9316207c3ab..abf9b85daa52 100644
+--- a/drivers/soundwire/generic_bandwidth_allocation.c
++++ b/drivers/soundwire/generic_bandwidth_allocation.c
+@@ -56,7 +56,7 @@ void sdw_compute_slave_ports(struct sdw_master_runtime *m_rt,
+ 					      sample_int, port_bo, port_bo >> 8,
+ 					      t_data->hstart,
+ 					      t_data->hstop,
+-					      SDW_BLK_PKG_PER_PORT, 0x0);
++					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+ 
+ 			sdw_fill_port_params(&p_rt->port_params,
+ 					     p_rt->num, bps,
+@@ -109,7 +109,7 @@ static void sdw_compute_master_ports(struct sdw_master_runtime *m_rt,
+ 		sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
+ 				      false, SDW_BLK_GRP_CNT_1, sample_int,
+ 				      *port_bo, (*port_bo) >> 8, hstart, hstop,
+-				      SDW_BLK_PKG_PER_PORT, 0x0);
++				      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+ 
+ 		sdw_fill_port_params(&p_rt->port_params,
+ 				     p_rt->num, bps,
 -- 
 2.43.0
 
