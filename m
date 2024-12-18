@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD3B177998;
-	Wed, 18 Dec 2024 08:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505D418660C;
+	Wed, 18 Dec 2024 08:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508940; cv=none; b=R+sOxrzVpjJaJoxxbhkwrLfB5OzB0+qWPffmHN8YfxMzYtL0KfoJFgrF+LD7AxemzBf1rGH51+YHR/W9yhv6exxlnrQWNDekeyjdPSqLwGVkcPG8F0cV4kCFN2AshQGx27mZBXg1J2Y0PaiJ/MtUnrGaL7I2iIoS9g8h6J6qTSs=
+	t=1734508940; cv=none; b=OjkV2p4zEjibNrE7tzpgr7L+PCLP80Jne6CGKWgU3BYSmV4NljIzhFNI4ZtFNWC9wbADhNFQ/PcZK0d4dYp/0HRG0A+/Fo+5xNpGjNwtcGZoqZBKO75TR814pMxp4sHf3xXP8Z474JdIEEY6X3o5wkuvaoXf4sUPl93AM65NERQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734508940; c=relaxed/simple;
-	bh=TQ4OdSboku4At/d1BlZVXBl4dZD0Phors9GgAM8qEm0=;
+	bh=6u7PhUAlKier/PDcu4sZdIS2Gaci7mkLuxFA68/A7yc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LqyTBUJu6/M8vQBLhwGrVoki4GSTvd7rwiagNMbofzQsmT/1sUhf72RHG5FiIPTi1SgyUOIcE1vykpn5XSedr2y6okC8opqLKoRDbkTUHxpLGCSxN7CYQo7fFj+qN130ff1i2ED+D8yC2JPWZkj/skW5ER7g+fU0xnyiPflnsFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ethk59Ai; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=dUh0+x6LtCP3PEqyU6plUEw3pM0EC1pPkjTdtjGospOp4WUk0Vg3465xzFjrAKkS6dqSXNluznyJRBb7z0bN/YRcY0Cbl/0+hXhsShA+IXFfKNJR4zS1c6qfSrlAQO9VABxCHZeVWj3+/RmYy+2USptDgInHPclp2zl2N7720B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJrMP9dp; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ethk59Ai"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJrMP9dp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1734508939; x=1766044939;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=TQ4OdSboku4At/d1BlZVXBl4dZD0Phors9GgAM8qEm0=;
-  b=ethk59AiaFJFgkzm6XaXwX1Pck8J7gWphU3pD9H1YLu4HaOkLUQfAxAt
-   TLzFCDdpgvd+16RCi2cNMKnRxUw1ymNwutX8HiD5fywMGGA8cKcOUwvu/
-   E+pafyO+g8sDSyD556iZNf1SPffIDmY7D5XxYm0An31EbfcQvtP6yyX7M
-   i+RfjdeoN5IHOSh3tToL7MymrDmZ5Bfng5zxm3nnlp63oQDapQ6Et79su
-   ylTLqee6CZVQDNFXr3UwQDvI2B0DFRVnyk+94G5dn+MDIj9bV5PnbAEIs
-   +GDNDc3dgABWnzunxOxL1Xi+VQ4WBS7/DydDgpGyxMUovBwnAGJCoHHN0
-   w==;
-X-CSE-ConnectionGUID: jvFb2bs9TKyd+Mblu3cSfw==
-X-CSE-MsgGUID: 9al9Yn79QcywANao80OG8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978531"
+  bh=6u7PhUAlKier/PDcu4sZdIS2Gaci7mkLuxFA68/A7yc=;
+  b=OJrMP9dpOkvvEdYerxcVTpCHZSqggVWAHGdGhYubc9+ZgAPQ4bAkWy1d
+   pLzRWaKlKb3szqTf2qj8G67e/sWAOA3WKzUnXwOkXsqyoTOKAvTeyAGyW
+   VZ+cnf9RkIQocxd4OYnSQxNEmwhNgkPsoNchwlU3Y/pGcrMj3b826Ya6i
+   bqHfwAk7vboiqfM2rM6eLIN7biN8YfmWBuaiXYzU7HWk6Qbh5QH32aFJ8
+   dOF3RJkug1yaHpaOmehQUxwpnhW2iSBgpYdWO+F7UGF6dWsEbVwN0o2Gy
+   3vhRTKQMZ/N7krZhOT6+oCiBEDp1+Ziaann/+p9hvT6BKKu6T4hVtg7o5
+   Q==;
+X-CSE-ConnectionGUID: ZI0zZY3zSbqsbov+L61W+A==
+X-CSE-MsgGUID: 1UtnK4CMRtGACS3rRx/vuw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978540"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="45978531"
+   d="scan'208";a="45978540"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:10 -0800
-X-CSE-ConnectionGUID: RMqMA+CGR2+yiySN7cn0+g==
-X-CSE-MsgGUID: nDmLBnZJQAOEnoiSDGFYBg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:12 -0800
+X-CSE-ConnectionGUID: u/eFJT/CQUi/Q6gXCI+xlg==
+X-CSE-MsgGUID: opaiiBmvRRW1QGqjnaFoAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101914657"
+   d="scan'208";a="101914661"
 Received: from tfalcon-desk.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.206])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:09 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:10 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -50,9 +50,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH v3 04/14] soundwire: stream: set DEPREPARED state earlier
-Date: Wed, 18 Dec 2024 16:01:45 +0800
-Message-ID: <20241218080155.102405-5-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v3 05/14] soundwire: generic_bandwidth_allocation: skip DEPREPARED streams
+Date: Wed, 18 Dec 2024 16:01:46 +0800
+Message-ID: <20241218080155.102405-6-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
 References: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
@@ -66,70 +66,36 @@ Content-Transfer-Encoding: 8bit
 
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 
-The existing logic is problematic in that we deprepare all the ports,
-but still take into account the stream for bit allocation by just
-walking through the bus->m_rt list.
+We should not blindly walk through all the m_rt list, since it will
+have the side effect of accounting for deprepared streams.
 
-This patch sets the state earlier, so that such DEPREPARED streams can
-be skipped in the bandwidth allocation (to be implemented in a
-follow-up patch).
+This behavior is the result of the split implementation where the
+dailink hw_free() handles the stream state change and the bit
+allocation, and the dai hw_free() modifies the m_rt list. The bit
+allocation ends-up using m_rt entries in zombie state, no longer
+relevant but still used.
 
 Signed-off-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
 ---
- drivers/soundwire/stream.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/soundwire/generic_bandwidth_allocation.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index 7aa4900dcf31..795017c8081a 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
-@@ -1643,8 +1643,15 @@ static int _sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- {
- 	struct sdw_master_runtime *m_rt;
- 	struct sdw_bus *bus;
-+	int state = stream->state;
- 	int ret = 0;
+diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
+index abf9b85daa52..2950a3d002ce 100644
+--- a/drivers/soundwire/generic_bandwidth_allocation.c
++++ b/drivers/soundwire/generic_bandwidth_allocation.c
+@@ -238,6 +238,9 @@ static int sdw_get_group_count(struct sdw_bus *bus,
+ 		return -ENOMEM;
  
-+	/*
-+	 * first mark the state as DEPREPARED so that it is not taken into account
-+	 * for bit allocation
-+	 */
-+	stream->state = SDW_STREAM_DEPREPARED;
+ 	list_for_each_entry(m_rt, &bus->m_rt_list, bus_node) {
++		if (m_rt->stream->state == SDW_STREAM_DEPREPARED)
++			continue;
 +
- 	list_for_each_entry(m_rt, &stream->master_list, stream_node) {
- 		bus = m_rt->bus;
- 		/* De-prepare port(s) */
-@@ -1652,6 +1659,7 @@ static int _sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 		if (ret < 0) {
- 			dev_err(bus->dev,
- 				"De-prepare port(s) failed: %d\n", ret);
-+			stream->state = state;
- 			return ret;
- 		}
- 
-@@ -1665,6 +1673,7 @@ static int _sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 			if (ret < 0) {
- 				dev_err(bus->dev, "Compute params failed: %d\n",
- 					ret);
-+				stream->state = state;
- 				return ret;
- 			}
- 		}
-@@ -1673,11 +1682,11 @@ static int _sdw_deprepare_stream(struct sdw_stream_runtime *stream)
- 		ret = sdw_program_params(bus, false);
- 		if (ret < 0) {
- 			dev_err(bus->dev, "%s: Program params failed: %d\n", __func__, ret);
-+			stream->state = state;
- 			return ret;
- 		}
- 	}
- 
--	stream->state = SDW_STREAM_DEPREPARED;
- 	return do_bank_switch(stream);
- }
- 
+ 		rate = m_rt->stream->params.rate;
+ 		if (m_rt == list_first_entry(&bus->m_rt_list,
+ 					     struct sdw_master_runtime,
 -- 
 2.43.0
 
