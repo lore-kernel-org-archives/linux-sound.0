@@ -1,150 +1,173 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010021.outbound.protection.outlook.com [52.101.229.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF6D1FAC53
-	for <linux-sound@vger.kernel.org>; Tue, 17 Dec 2024 23:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734479663; cv=none; b=Ef4xiGdn1SX33MeDE+aNWAMOafOPPhL0InNPwMbsySQ7n62TBMSPhv88a2zCaxkO/2Jnw2daMFgc4n/QU6a8yUZdpKGB1dYZ9foyot6FpExVS7oJYWTo42+TDQaRVSYm6YnzbDLpnXi5iCno/BaOJgnXrX31aY/+a5qXQBBN0XE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734479663; c=relaxed/simple;
-	bh=HoP1fsRzZzqsyElQl9cEKdqmIR33GjcpZFNUL3iDwRk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ogFEBkVQtMhhbF4Nt5N9sapbRioM/uCegqPhHn2Ek2cj+hWViHSZsJ7kuoGYFCmUzKfLyInoSJ+1ai6uIR3QdFCq0Bmn7kbQwLIsk7hMRrVH/5mXdbw4EYMyy+1c0Dm0o5b/zYMlnX05j+xaieuJMyrKcOqxVxDSdEMum67R1fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Pza1AoRc; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650D7849C;
+	Wed, 18 Dec 2024 00:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734481850; cv=fail; b=cvEGl9WGZrH9csmGiK7C3GXhpFIEkkQEIOamQy61zjmpKoXeTEnb8QwhVuib05jcdNJoPz3aD9DmkNNcUGxKdne4lgK2FfqBAPdRgFDahaPv1AykeVGnpgk/Yn2XFuZobuBBx3rF/+nNPxRiXuHN6IeK9Vu6b/SNVjkXsIaEG7g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734481850; c=relaxed/simple;
+	bh=9g33t2u0T2nbAVavyy04fpZRI8rKrcHonOe/4jO77uw=;
+	h=Message-ID:From:To:Subject:Content-Type:Date:MIME-Version; b=Baab9+yZNDrroarsF+vohiLWRVgAcnxfoGeniooLa7AZoJUj2H3Ppk+9FarkX2Lu05FC6aIJ28QeX4zmhrjhKC700drYLZkQ2pRrnhl9w7biP9n2bPLtKERoaiETuSZdDvAIkS5kp9QmcQNoqb5Ss7WOqqsfNyWsGd2Riy812qA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=I3xjbLnL; arc=fail smtp.client-ip=52.101.229.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Pza1AoRc"
-Message-ID: <51d07520-a60b-43d0-b7f2-7584c629caa0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1734479649;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/3irPPV2xZzk0hZTyS9bEZnS31ak7XYMG6B7SkGJ0gM=;
-	b=Pza1AoRciFPA9pyurLJ2KhpbmlRUAOOYTIvkbvQRo3SM16D8ntRINTZ//7ZCj6iKGEbmEh
-	fqen9C2y1tO5+UmkVRh6frpFENYQgjWpo8ALiD5/hcXewnzcIjxN8NWLXoNsyNeFD9crc4
-	rfc5Ke7Ju6nCpjRJE6EWyHVfSf88OQc=
-Date: Tue, 17 Dec 2024 17:20:13 -0600
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="I3xjbLnL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MR8ZShdeh/GIAH8rsdcE+Nx52iglXlq2gYlW1900RIxjy/DXXdoUijyU17inHPm/vxYRNVDiNSJBoOIcnxUmR5GtRTUqx4DHgy/26evQGcWfmoLqctqyav/ADeJm78Pj/EpSaiuTfYPPwAId3Rd6iEpdev3QhEPn+glc6QP86IYaFlkzR+UuudRVkXL7VQQ9QsILi3+sPoJV0S2pNQ27ak2W3gPq96ehJ/f2tFrifBLvI+So65mCctuoRZQXme5UdNY+zfo1ETUQ6NT9nRxFxI8wCv3w+R8J4Fnfyd46KY8qCugWZdTSR7N/L+k6ESEjOCEWsSXHCLTPkYu0+x1Rbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p1F9cbuws6hj+Vi4pJiN63W2iuV2akzNwTMOMgB3ClQ=;
+ b=F6vBOBSIpAhbOp4YgZh4SyILhPNWbPglZH3tIoXfsfMLYNiCyESxCBfOdUZxIaUdeywvJbYIQYZxJQzBjuDCkRwMlOIy5m5tzWvzfP4a3V/WXfU5n+acHv7wOeHSnuivD4ECV8ao6OXCe7ZidvtjSQs1Q+lDKj5soDTD3BqJXhtPmb9Zk965jMxdrd3zEUinNlvHCj3YQKnTgY20NDpw5mXlHpkZUyqVJdQR8rhp8YcgciSqADKBm5Zsjvh8EvisW3C0W8iAdd78Og9DTGSqEgGmIIGgB73xfVIH7lA9rsyxu2Hz4BIbYEIN2oinzFnARqUXfpvtbxtUtBDYDlkmGw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p1F9cbuws6hj+Vi4pJiN63W2iuV2akzNwTMOMgB3ClQ=;
+ b=I3xjbLnLwjiRSXpu9oxXAKfcrsZxinEyfMK+At4RNNWk+PIW57ewaeBszcxkw+4FOVl0csiKDYdhjFSfDLK9VEhd335DNvdFhkJJflJtf6dm4vxdz4tVFBE8V3jCPIKLK1P6QIZQsx3N1NkcgP9ex4IfPZ64GfGVSqEL6dhDZLA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TY7PR01MB13749.jpnprd01.prod.outlook.com
+ (2603:1096:405:201::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Wed, 18 Dec
+ 2024 00:30:44 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8272.005; Wed, 18 Dec 2024
+ 00:30:43 +0000
+Message-ID: <87ikrhrfws.wl-kuninori.morimoto.gx@renesas.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: [PATCH v3] ASoC: dt-bindings: renesas,rsnd: remove post-init-providers property
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Wed, 18 Dec 2024 00:30:43 +0000
+X-ClientProxiedBy: TYCP286CA0082.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::6) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v30 00/30] Introduce QC USB SND audio offloading support
-To: Cezary Rojewski <cezary.rojewski@intel.com>,
- Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Takashi Iwai <tiwai@suse.de>, Greg KH <gregkh@linuxfoundation.org>,
- srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
- conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
- broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, tiwai@suse.com, robh@kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20241106193413.1730413-1-quic_wcheng@quicinc.com>
- <edfeb642-297e-42bb-ad09-cbf74f995514@quicinc.com>
- <2024111655-approve-throwback-e7df@gregkh>
- <2f512d8d-e5f3-4bdd-8172-37114a382a69@quicinc.com>
- <875xoi3wqw.wl-tiwai@suse.de>
- <d0da6552-238a-41be-b596-58da6840efbb@quicinc.com>
- <CF49CA0A-4562-40BC-AA98-E550E39B366A@linux.dev>
- <65273bba-5ec1-44ea-865b-fb815afccc91@intel.com>
- <fbc04c06-c210-416b-9b77-a6bd8a71a637@quicinc.com>
- <9d95e6fa-afcb-4445-9fe3-e0eed95ec953@intel.com>
- <d7c52a11-bd2b-4cce-a0c2-6dc2dadfeaa3@quicinc.com>
- <3d9932fa-dbc3-4393-862f-92916e6e821c@intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <3d9932fa-dbc3-4393-862f-92916e6e821c@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TY7PR01MB13749:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d15f709-14cd-4924-6ca2-08dd1efb3557
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?F6pc7M9PI3LiEqx79oMUbgZLnw8ZfTssH0RPkI8/Ioy96TOwFh5BBmMMNeHc?=
+ =?us-ascii?Q?aYD89hYrq8yNVVkkCR7gdF08wIbiJtEtxj7wXp9NCpz098N9KXDD8Pl7bxgZ?=
+ =?us-ascii?Q?zENr49CDuat/dmxoeUXMAVukZSFM4Q7b9qYD6NIR5mqTRdiNimxjvQR9vFKN?=
+ =?us-ascii?Q?SkHfnOxslMf0Gr6XgkPPLEvP2SHmkulU6Wxax5Df2rZx58LV0SkU7OzoyR1l?=
+ =?us-ascii?Q?Nly4KZzUauzQhpWVnqxFDtaHzb1SESeNKT5nzI0Y3esXZ3jr6FHfRbswEvUK?=
+ =?us-ascii?Q?k0yKxQl4ZcMO3ecYOec4Wp0YXkERvBDUNBqwj2pXPUAH83ZVdWZCtxqt6s0B?=
+ =?us-ascii?Q?Mh+KXAta/gl3kQkeswIINWN8qnhcw3XLa1IE2wj/JoxsBUAX1j0GfFDJ7gH6?=
+ =?us-ascii?Q?JYR8wPDp68tZ0FxMCuyR91qBMW8H5k8pSuV2vAWRhTiepjA3Iww2XaPLDLQM?=
+ =?us-ascii?Q?x2otc++QEyaTVZ7C95uFlAAMqkwvgmsNBFqR4v1Ikuascqjo12LMXUNgH+vL?=
+ =?us-ascii?Q?D9vEqt2IVfvdJ0el4Eq7is+dMXzLIzuQKE92rfyhzFbLdKFsr2iotVVsYmyo?=
+ =?us-ascii?Q?YXNhpeVsQcEvvjLFD2xlC6ofDYOr4yNtXHQDc+uNQLid1j7Wyhj4Dl9YbItT?=
+ =?us-ascii?Q?ynjeOi+I34slyDayjtfNjhS2yM/sTJeINtmpY9cmJeTiwpGrTZzvNy9b3wSI?=
+ =?us-ascii?Q?1xWMhN1hBB8aVCVThS//ofUOmMbqT2wYl1VXYaQIod9Uk5JhfVIbzNSVZvQs?=
+ =?us-ascii?Q?XESdkAPl34GIpE1IuYWrVcNg1SlmAYzwwcIp3gacf/THOoDkFGjFNCJcABCr?=
+ =?us-ascii?Q?wlWv9xwFVLiZRMmbJK166n+4nA91nc+6MAfIP+B4RPuaE5nLSycQNGU1rNeG?=
+ =?us-ascii?Q?85pIvZT7Ihx3ulCg7d+ojVeSdZtyubGxtnp5sltLdWyjjHFXQZmZBdCip2Mc?=
+ =?us-ascii?Q?Cs7I3nvrwWgHNWg+sEZuk/rjhk82EPCok8BtoBT4ZY/M788uy8LUvfAtwueX?=
+ =?us-ascii?Q?QWTbxDAj7wn22jwymWnTb+DemtYXozsIbI/GV3bAfYC3IqcyyE0h0cVoWa5M?=
+ =?us-ascii?Q?+ozSvbndKKQPz3x4T0sjRq7ry64GjHFPTnCGC4oqWQFJSDRALQaH5XbHe8lZ?=
+ =?us-ascii?Q?DDuElZGEHT5ILTdXXHho7tSfeBr6GDIOrZnPut+hy5t47/ncXH7OHihqPLDK?=
+ =?us-ascii?Q?wXm6OWQTtaC8zOOCQtrQrhBIXH2NFwyRQhISZfaF+Y50pnNE5it1W35L4MkW?=
+ =?us-ascii?Q?yRscbV4eCuDPdwgwl6oUPBZgXgqGmTYF612TwRJXCrG930qyy6Jo0SANNBXa?=
+ =?us-ascii?Q?B5AM9akiuiCEiiu9UqKVs+aYnDcqpLSOSroSmiUFw/3k0/HCvodWBdBZidZP?=
+ =?us-ascii?Q?XUdmcny0BEzMxt9D4KM1ZO5zHOs5eCaMCdoSKaZQEgMRskoptY6sM2cPS6Hm?=
+ =?us-ascii?Q?KmgPj+tCfmBXs5ej1Uwg3Mqpb7bhuObv?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GbZy+Mx3OY1wvaBqSknrJr05FjXr1GPyMjV1sj/gRqDRD9PFJhq2hHuy61c8?=
+ =?us-ascii?Q?9tKVXscM4P7//74nUgyCChGfrVt9fn3y4n1lBvQpdw1kZ1pZ/1AWBVh6VkmI?=
+ =?us-ascii?Q?MghsHq1XJKCv9UHVYiTtTCpbTIKeojIEyVvRG4AB/8RKWaRc2oK2UYGOIKe0?=
+ =?us-ascii?Q?/E3jriSu8wL7XHIo9fpla1SNikkKsGru4b8KfU/9SvGAudeLWDnAsqje05Nb?=
+ =?us-ascii?Q?FWrg23vuT7tyL6TYn/ui9m9G+vT0+IJlH6PT8UUH0M04FR5fAudKCYmcPdCb?=
+ =?us-ascii?Q?f4BBWHONc2M7QlBRqj2OIzhplHNKunbJZiCIPb2pP8vQ7S3sNeCm7SCwbn8Y?=
+ =?us-ascii?Q?QJ7mfkXS2BIPtMvph45ZviYC2qCCKi74PoRwaTTCw3W6REjtarS+FbobtHH9?=
+ =?us-ascii?Q?vXk04nQi8FvlWqra5dN/v7EnFVAhiPighNxQXtLLQ6QqpEo2nowrKaoRjvx4?=
+ =?us-ascii?Q?z79XAXw1KeM893ZfXAENni6CvsNgXwPcHVIAwM8bWpNP/aczUW5wfa5gN3Wf?=
+ =?us-ascii?Q?s20Zi07Ybm59PCPecnMSibiGLD/KTMwuAAcfY9Zu7MQYtT+VYN6rSE5Cr/83?=
+ =?us-ascii?Q?VF26TJX7OLALN5ZZSM7aSSA0DQdnGaY6T0rfRRiTzF7PzM0KajrpgtsttElZ?=
+ =?us-ascii?Q?M5StNtoSBIYta9u3BO5Yzz5RuZK7c+6+knHg7nKmnc7paFSz9XYfNs4q84wd?=
+ =?us-ascii?Q?ivLqbW8IjaXfplaXXicgHK+/kZqIj30q69BcIcqlOmUa/v8oAYll2xD17ynm?=
+ =?us-ascii?Q?BKmF8FRfoXuQIzMk9D1lZXdeDVxcbXPiB7TUhwyhZv398Izs0iBpm8R19yMw?=
+ =?us-ascii?Q?I6QJ0ta/EtbLz8ZyqX7CzBwKOxgG8VVa80bZcBtJptITazYCgB32MAZJ5Utg?=
+ =?us-ascii?Q?c4t1nDyAyh1n6qqau7jI0I7SIMAxqZBvlEMgpgDYmh5RjxGH4bU0+fphsnOb?=
+ =?us-ascii?Q?0RP4LTtrdTUJouVyom3RYnt2ky8aZjOjkcCXdZ3ohFGbBJu63eKi0PuxcGJK?=
+ =?us-ascii?Q?YGk5S4JDe0ymTWpMXmtbY+uLF5yMa/kVcMbiYSgIXCLxH736w+4LUMtRKfZ5?=
+ =?us-ascii?Q?oGdr6LekFZIHIsDhgiUSzCXhPc+Z4kVWgUjeawQd2FzY37NNy/u3WGsu01+7?=
+ =?us-ascii?Q?+q6mnICRJXw00OPNoy/5C3/66Z2a68LadKd9lvEHAYX3ycjdH2mDjEeL9JbA?=
+ =?us-ascii?Q?2rFjlz+sRObThdTsxpPhKjaKDGEdRjzeGxP2Hz0qIWx2P+9Rbn0HF0l0M7NX?=
+ =?us-ascii?Q?7Bbh73CQwM4J8v+yN/SGU3qjqSfmHUbSWqXRlj2FZShFKvkyW1AoR6EYxjDA?=
+ =?us-ascii?Q?v5bOm/x44n/PLzKeC4tra/ltoQUy9uHQImpxL23OvZZ7WKrUHGEhqKYD5cNi?=
+ =?us-ascii?Q?T4ZsI1YpUe8c70s750l9bWxljXCv5epjqFAfLGWN6NQMktBCkfbx9sEe/Kyn?=
+ =?us-ascii?Q?w5hEeOPtl1yS3E9BbJmjNIphpqpQJF+HcS5Q79KPvhu3AV+zSUKTlDBzkfhd?=
+ =?us-ascii?Q?WjSZ4K1FMISXjjDKThmaVl0SZIZtzKpmjX3XoDNzH6rEH+2pUq+k91Hl9EQv?=
+ =?us-ascii?Q?IuYVZJrtXpjQV/6TN140UDlquERcnyOhHGsBWbGsb5asnoJZFyVMlA7H3ZlN?=
+ =?us-ascii?Q?Q50dotRE96VWXAXRT//kSdQ=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d15f709-14cd-4924-6ca2-08dd1efb3557
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2024 00:30:43.8623
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 80mBbgRuaK/E4L6LnDvXn9aAnDR6QGnMBXcMXZR1tydyZcXxaRCsKCAKYBmWWTk1SR9jBayIFJIqxJ0M/Lp/Fm50NwVm8zyg4YX41r1GBTcXeK0aj18sSSZRPnl89DbX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY7PR01MB13749
 
-On 12/10/24 9:18 AM, Cezary Rojewski wrote:
-> On 2024-12-06 1:28 AM, Wesley Cheng wrote:
->>
->> On 12/4/2024 2:01 PM, Cezary Rojewski wrote:
->>> On 2024-12-03 9:38 PM, Wesley Cheng wrote:
->>>> Hi Cezary,
->>>>
->>>> On 12/3/2024 8:17 AM, Cezary Rojewski wrote:
-> 
-> ...
-> 
->>>>> UAOL is one of our priorities right now and some (e.g.: me) prefer to not pollute their mind with another approaches until what they have in mind is crystalized. In short, I'd vote for a approach where USB device has a ASoC representative in sound/soc/codecs/ just like it is the case for HDAudio. Either that or at least a ASoC-component representative, a dependency for UAOL-capable card to enumerate.
->>>>>
->>>>
->>>> Just to clarify, "struct snd_soc_usb" does have some correlation with our "codec" entity within the QCOM ASoC design.  This would be the q6usb driver.
->>>>
->>>>
->>>>> Currently struct snd_soc_usb does not represent any component at all. Lack of codec representative, component representative and, given my current understanding, mixed dependency of sound/usb on sound/soc/soc-usb does lead to hard-to-understand ASoC solution.
->>>>
->>>>
->>>> IMO the dependency on USB SND is necessary, so that we can leverage all the pre-existing sequences used to identify USB audio devices, and have some ability to utilize USB HCD APIs as well within the offload driver.
->>>
->>> So, while I do not have patches in shape good enough to be shared, what we have in mind is closer to existing HDAudio solution and how it is covered in both ALSA and ASoC.
->>>
->>> A ASoC sound card is effectively a combination of instances of struct snd_soc_component. Think of it as an MFD device. Typically at least two components are needed:
->>>
->>> - platform component, e.g.: for representing DSP-capable device
->>> - codec component, e.g.: for representing the codec device
->>>
->>> USB could be represented by such a component, listed as a dependency of a sound card. By component I literally mean it extending the base struct:
->>>
->>> stuct snd_soc_usb {
->>>      struct snd_soc_component base;
->>>      (...)
->>> };
->>>
->>> In my opinion HDAudio is a good example of how to mesh existing ALSA-based implementation with ASoC. Full, well implemented behaviour of HDAudio codec device drivers is present at sound/pci/hda/patch_*.c and friends. That part of devoid of any ASoC members. At the same time, an ASoC wrapper is present at sound/soc/codecs/hda.c. It will represent each and every HDAudio codec device on the HDAudio bus as a ASoC-component. This follows the ASoC design and thus is easy understand for any daily ASoC user, at least in my opinion.
->>>
->>> Next, the USB Audio Offload streams are a limited resource but I do not see a reason to not treat it as a pool. Again, HDAudio comes into picture. The HDAudio streams are assigned and released with help of HDAudio library, code found in sound/hda/hdac_stream.c. In essence, as long as UAOL-capable streaming is allowed, a pcm->open() could approach a UAOL-lib (? component perhaps?) and perform ->assign(). If no resources available, fallback to the non-offloaded case.
->>>
->>> While I have not commented on the kcontrol part, the above means that our current design does go into a different direction. We'd like to avoid stream-assignment hardcoding i.e.: predefining who owns a UAOL-capable stream if possible.
->>>
->>>
->>
->> Thanks for sharing the implementation for HDA.  I did take a look to the best of my ability on how the HDAudio library was built, and I see the differences that are there with the current proposal.  However, I think modifying the current design to something like that would also require the QCOM ASoC side to change a bit too.  As mentioned by Pierre, I think its worthwhile to see if we can get the initial changes in, which is the major part of the challenge.  For the most part, I think we could eventually refactor soc-usb to behave similarly to what hda_bind.c is doing.  Both entities are the ones that handle linking (or creation in case of HDA) of ASoC components.  The one major factor I can see is that within the HDA implementation vs USB SND is that, for USB, hot plugging is a common practice, and that's a scenario that will probably need more discussion if we do make that shift.
->>
->>
->> Anyway, I just wanted to acknowledge the technical details that are utilized by HDAudio, and that we could potentially get there with USB SoC as well.
-> 
-> Hello,
-> 
-> 
-> After analyzing the USB for some time to get an even better understanding of what's present in this series, I arrived at a conclusion that indeed, the approach present here clearly differs from what I would call _by the book_ approach for hardware-based USB Audio offloading.
-> 
-> All sections below refer to the public xHCI spec [1].
-> A high-level bullets for the probing procedure:
-> 
-> 1. xHCI root and resources probe() as they do today
-> 2. xHCI reads HCCPARAMS2 (section 5.3.9) and checks GSC bit
-> 2a. If GSC==0, the UAOL enumeration halts
-> 
-> 3. xHCI sends GET_EXTPROP_TRB with ECI=1 to retrieve capabilities supported (section 4.6.17 and Table 4-3)
-> 3a. If AUDIO_SIDEBAND bit is not set, the UAOL enumeration halts
-> 
-> 4. Create a platform_device instance. This instance will act as a bridge between USB and ASoC world. For simplicity, let's call it usb-component, a representative of USB in struct snd_soc_component.
-> 
-> 5. On the platform_device->probe() the device requests information about resources available from xHCI (section 7.9.1.1), ECI=1, SubType=001
-> 6. Allocate a list of streams per device or list per endpoint supported based on the data retrieved with the followup TRB of SubType=010.
-> 
-> (things get more complicated here, stopping)
-> 
-> Now, any time a sound card with bound usb-component would begin PCM operation, starting with substream->open(), the component would first check if the device and/or the endpoint has resources necessary to support offloading. If not, it would fallback to the non-offloaded case.
+commit f8da001ae7a ("ASoC: audio-graph-card2: Purge absent supplies for
+device tree nodes") marks multi/dpcm/c2c nodes as no suppliers. We no
+longer need to use post-init-providers property to break fw_devlink cycle
+(And no one is using it yet). Let's remove it.
 
-It's not really a fallback in the mutually exclusion sense. Even if the resources are present, the non-offloaded path shall always be usable.
+Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+---
+v2 -> v3
+	- tidyup missing DT maintainers
+	- Remove Fixes: tag
+v1 -> v2
+	- add missing DT maintainers
+	- Tidyup the git-log
 
-> I do not see implementation for any TRBs I mentioned above here. The HCCPARAMS2 seem to be ignored too. At the same time, I'm unsure about the "interrupters" piece. I believe they make the approach present here somehow work, yet may not be required by the _by the book_ approach at all.
+ Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 6 ------
+ 1 file changed, 6 deletions(-)
 
-There are clearly platform-specific differences in the way the offloaded resources are exposed. The public xHCI spec may not be enough to describe all cases, and the interrupt mechanism is different as well. 
-
-The xHCI spec also only tells whether offloaded is possible at a high-level, but there are additional dependencies on DSP firmware/topology to expose those streams. In other words, when those extended bits are not set then offload if not possible, but if they are there's still a number of dependencies that need to be checked.
-
+diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+index 6d0d1514cd421..e8a2acb926460 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.yaml
+@@ -112,12 +112,6 @@ properties:
+     description: List of necessary clock names.
+     # details are defined below
+ 
+-  post-init-providers:
+-    description: At least if rsnd is using DPCM connection on Audio-Graph-Card2,
+-      fw_devlink might doesn't have enough information to break the cycle. rsnd
+-      driver will not be probed in such case. Same problem might occur with
+-      Multi-CPU/Codec or Codec2Codec.
+-
+   # ports is below
+   port:
+     $ref: audio-graph-port.yaml#/definitions/port-base
+-- 
+2.43.0
 
