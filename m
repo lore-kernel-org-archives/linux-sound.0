@@ -1,128 +1,119 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EF4156676;
-	Wed, 18 Dec 2024 09:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EAA19CD01;
+	Wed, 18 Dec 2024 12:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734515486; cv=none; b=CGQvs0gGOHzFnGTDcRZRWYWAdyLga4Szj5qrHFq+hfVd34kEXtfg6IxBQAJs3JXzUu3spfImu7PIfEVs4vKbxoweOeV+fG7MJwt3XgPcJaqBhssAvTsH+helonKJcLxzjrFEERYDHC9mH1U8+d2wcucsGva32aCJEOpY8lhNzbs=
+	t=1734526796; cv=none; b=SOU621tl5rXzmaUmmmb+lGpozZTIKtffpvIQLhAk/LnmZsJYxaCQooK+eqnvU9M409ZTeJ3D24dxcTPWaih92B2lHrgSd6mwLHWiDBGwFAPU+pKDDiPW2Gu8bi8m1wdEUqYekqD8/byTL2w9zJ18WUyIgOkBghPUpPi3GbDeXKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734515486; c=relaxed/simple;
-	bh=w83wjBj8qe873iMhxmJ9HFprzlBw/4WqJSexZhaDNvc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ee9JkdrvF+Exr2A/Hirq6YcVwVmP4dVHjvofjseDgHiKHxjYJcKovUYQlGJxLB3HWmgfLdcjD90EN9RlNA+ahj3/aL67NAHNI3niYZ7QOXFtlHW6beiDgh3hbbi2hxTbu6bx+jH1XXvVCvrYuLwvwMvwQthLsyYsFFVEkqWGRsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=oBaLbM4/; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1734526796; c=relaxed/simple;
+	bh=/qWCv9pXBNXlSLTUOgXh7xlzBdgLrJ6tkCgRkmuCAqU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BCJ84Eqa2djSeUlyRwnY8o9ZsQ8AAbCY5+BiFUO4TBIp8EAItoX5N76Kx8uC3Ap8qOyTxn3kvaZma8Af8PC3v8VcGY8X1RbKHjM4wu5ISa07tdBRVU4tSwVGCY3qpRi49rx7m8U0Scih/mucR1OioUQ/wCzu50adu/SIbenXxJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjhGsTXF; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="oBaLbM4/"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BI6hXFK000595;
-	Wed, 18 Dec 2024 03:51:15 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=JxSOF+VA27rTSKeb0r
-	X4CE1eDOu8ZTQcAn1fCDiw21I=; b=oBaLbM4/jvS2i1h2mqct38MDhL0tkadAyu
-	XqlEu8eW3JKjXdu+94Gw3UV36pzXTOCQmcTSZhUl82/f9qyEM8Lj6WUDSa5JUBCV
-	c65JzeH5wXRO2T4l5vWLrT540KbkmvJQmwdKVRYBPYNn4jevyvwMYw8aNYNEUfkH
-	Bldtox26hn4SsW2QRkmrP1WQLKVC8s4MKNNt35kWVTZQyU3/roU1ZhKQap4/KQaa
-	S8YQDXY4Wn6a9CEFXKnhSqOLaweh0zM9YtsFjhKoMCQEOzm91Eux6+ghFCVEdWNM
-	Mp8kMkEVNCK+8770QXYVXw9xYHzw1S41CU9d/DDiP+Dp450EQN9Q==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43h7akckqn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 18 Dec 2024 03:51:15 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Wed, 18 Dec
- 2024 09:51:13 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Wed, 18 Dec 2024 09:51:13 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id B727D820247;
-	Wed, 18 Dec 2024 09:51:13 +0000 (UTC)
-Date: Wed, 18 Dec 2024 09:51:12 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>, <vkoul@kernel.org>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <sanyog.r.kale@intel.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH] soundwire: intel_auxdevice: Don't disable IRQs before
- removing children
-Message-ID: <Z2KbELGGjeH3NQdY@opensource.cirrus.com>
-References: <20241212110221.1509163-1-ckeepax@opensource.cirrus.com>
- <3eb98099-75da-4464-97d1-9e8538375e34@linux.dev>
- <da4a16f1-0bf6-4597-b1de-55386db85254@opensource.cirrus.com>
- <e6dd9fc3-de55-47d2-a1b5-10884418a66d@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjhGsTXF"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fbbe0fb0b8so4297449a12.0;
+        Wed, 18 Dec 2024 04:59:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734526795; x=1735131595; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/qWCv9pXBNXlSLTUOgXh7xlzBdgLrJ6tkCgRkmuCAqU=;
+        b=gjhGsTXFiBuSB66b1MoFQMCQSQly+q90wEraNbnf1q98dDiUqObviFZtF7SjQo8jMq
+         nL7rQaxeUJJb1s3NDXn+Y2MT+b8HEw9YUK5w9Ii+HZ0/gz8vQQ6+oZVLgpwM0STeykyC
+         swRPQuLYsvz2J8NsrewX1/6vkZI379Bmaj9MqmAFFsoBs+0ZmYDG1f0NcZ9jb6aUapnz
+         gq8CRPKNp1CGRy8nYtchqd5XtEViRkvjtcn0GYH57BDns0v1lv+PIh1531OFKoNdr35B
+         F4lIIcetm/Hm3FLDij0JbKTVoj0eMUflIcEpf6o6WpWDm7pubqZEi4lKda1HNYe17n1F
+         bCWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734526795; x=1735131595;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/qWCv9pXBNXlSLTUOgXh7xlzBdgLrJ6tkCgRkmuCAqU=;
+        b=hfhpYR+80H8hAdUgDfxXQwkeZ5xnphkxbofkQI8emEEyhO1avxy6JGuvnNYuZUesmr
+         9sZ7vdqTWvUab+ZlfZNX69YfIW+sps/EG/H7jLawrP7QIBvrWYAs3o9+zz0WXcXk0wS8
+         ulB5ufaIKmYTv5UMdeeFzeBNsXjy0uHtsgeDIKO1ljV1wyjYbegArOSEAOQkAkBtT8H2
+         TzHBB5et/VsZFRBFb2x1Wo0Ag6rz1iWWP6369w6EbuRSiJE0iPJVZhG5ixUaniGMUt+h
+         RxhUDVoIvo+05R3DX4+huEVn5zxoGqfwyJthaNR8f9xJgELAgUUzfdc4kt7pFn20Kabv
+         fI7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUQZ1Fv5si1TLx8JHXC4u8/X0eMTksX6gx6SlB/t01ZREghKoFwQHV1bxUaeqxosa5Po5wEwDYAsC6lA6+8@vger.kernel.org, AJvYcCVUUJdJZDe2wECdl0IcqIBSCJ10PBpFHmTAhP2ox+uJvdVDshZsaS3uOGpBvSOSyaMQ1SXQvfAaXrTo@vger.kernel.org, AJvYcCX9WSNnvISvYDXJOFEpesP65xU3kDUFqk3MXq7+seT95eFTM3jP9dIC7gSSocUIG/n2ZmJkKLM6Hp2PWDs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxca+bAitVkVD6wHhrz2oJEEOrWSBbc0zALwGyXsAX/Iyg3+16d
+	chtQkdpEkUBeJWKSwi+1kruWKo+EHyyOMuoV8ZhMh66F5fNK8xZwpmEEejpfraaVkuU7Y8ZW6Pj
+	6ij00ZVqriqSKPkXceMmnkgPZ/Qc=
+X-Gm-Gg: ASbGncsyNpPNyOg8b6sujJxw5MgDEUibrXk/fral3PgdICmuBXqpKTcpnjj8/0Ox/WK
+	NzkZJTWuqwm2JKX4B9C+HijGIKvhflAUgPQ==
+X-Google-Smtp-Source: AGHT+IHrwBpS6CcQxAZmukcsGo476EQmoqWM2slhHPAXzThtNb2IK1NBH/tbUgYtw/82HwemO/owjrylht1ANbiMZYg=
+X-Received: by 2002:a17:90b:380e:b0:2ee:f22a:61dd with SMTP id
+ 98e67ed59e1d1-2f2e9374547mr3475436a91.32.1734526794842; Wed, 18 Dec 2024
+ 04:59:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <e6dd9fc3-de55-47d2-a1b5-10884418a66d@linux.dev>
-X-Proofpoint-GUID: KkXsdDT07BgSaFGBCmytYt1-7SqRMumb
-X-Proofpoint-ORIG-GUID: KkXsdDT07BgSaFGBCmytYt1-7SqRMumb
-X-Proofpoint-Spam-Reason: safe
+References: <20241113195240.3699-1-laurentiumihalcea111@gmail.com>
+ <20241113195240.3699-5-laurentiumihalcea111@gmail.com> <ZzUJQCeWclsrr/lr@lizhi-Precision-Tower-5810>
+ <c47710a5-7e53-48b1-bd6b-c0123865aee5@gmail.com> <Z1r9hWH1ioR5vI5H@lizhi-Precision-Tower-5810>
+ <c3c9389f-5116-4a5f-99f6-1b37c1e8c457@gmail.com>
+In-Reply-To: <c3c9389f-5116-4a5f-99f6-1b37c1e8c457@gmail.com>
+From: Daniel Baluta <daniel.baluta@gmail.com>
+Date: Wed, 18 Dec 2024 15:01:11 +0200
+Message-ID: <CAEnQRZArKSOtka46A_SOiV2=8bs9B36ubAJM3GqYJZkKyBt_4A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] ASoC: SOF: imx: add driver for imx95
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Daniel Baluta <daniel.baluta@nxp.com>, Mark Brown <broonie@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Takashi Iwai <tiwai@suse.com>, 
+	Bard Liao <yung-chuan.liao@linux.intel.com>, 
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Jaroslav Kysela <perex@perex.cz>, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-sound@vger.kernel.org, imx@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Dec 17, 2024 at 05:49:17PM -0600, Pierre-Louis Bossart wrote:
-> On 12/17/24 4:49 AM, Richard Fitzgerald wrote:
-> > On 16/12/2024 5:35 pm, Pierre-Louis Bossart wrote:
-> >> On 12/12/24 5:02 AM, Charles Keepax wrote:
-> > For example, if the bus driver module is unloaded, the kernel will call
-> > remove() on all the child drivers. The bus should remain functional
-> > while the child drivers deal with this unexpected unload. This could
-> > for example be writing some registers to put the peripheral into a
-> > low-power state. On ACPI systems the drivers don't have control of
-> > regulators so can't just pull power from the peripheral.
-> 
-> Answering to the two replies at once:
-> 
-> If the bus driver is unloaded, then the SoundWire clock will stop
-> toggling. That's a rather large piece of information for the device
-> to change states -
+> >>> Frank
+> >> the SOF drivers do indeed have some similarities, but each of them has=
+ their own quirks which IMO makes it a bit harder to add the 95 support. We=
+ need to figure out the common parts and then move them to imx-common, but =
+I believe this can be solved incrementally.
+> > You should create common part firstly, then implement equal function wi=
+th
+> > existed part. Finially add imx95 part.
+> >
+> > Frank
+>
+> Yes, I'm aware of how this _should_ be done, but, like I mentioned, the c=
+hange is not trivial and will
+> require tweaking the other drivers as well. As such, I'd like to get the =
+95 support in as-is firstly.
+>
+> Are there any other thoughts on this?
 
-The clock should only stop toggling after the drivers have been
-removed, anything else is a bug.
+Laurentiu, Frank please trim the emails and keep only the relevant
+part for discussion.
 
-> I am pretty sure the SDCA spec even mandates that
-> the state changes to at least PS_2.
+As for this matter I think we should go with the current version Laurentiu =
+sent.
 
-This code applies to more than just SDCA devices.
+It is inline with the implementation for imx8qxp, imx8qm, imx8mp and
+imx8ulp which we already have upstream.
 
-> But to some extent one could argue that a remove() should be more
-> aggressive than a suspend() and the driver could use PS_4 as the
-> lower power state - there is no real requirement to restart
-> interaction with the device with a simple procedure.
-> 
+There is always space for refactorization and improvements. The
+current version of the code
+is simple enough to go in as it is.
 
-Not really sure I follow this bit, none of this has anything to do
-with when one restarts interacting with the device. It is about
-leaving the device in a nice state when you stop interacting with
-it.
+With this,
 
-> The other problem I have with the notion of 'link_lock' is that
-> we already have a notion of 'bus_lock'. And in everything we did so
-> far the terms manager, link and bus are interoperable. So adding a
-> new concept that looks very similar to the existing one shouldn't
-> be done with an explanation of what lock is used for what.
+Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
 
-I don't see much confusion here, the two locks are at different
-levels in the stack. If is fairly normal for a framework to have
-a lock and drivers to have individual locks under that. And the
-comment with the lock states it is protecting the list.
-
-That said I am not attached to this way of solving the problem
-either, all I am attached to is allowing devices to communicate in
-their remove functions. I think perhaps the important questions
-here are do you object to my assertion that a device should be
-able to communicate in its remove function? Or do you object to
-the way I have solved that problem? I am certainly open to other
-solutions, if you have any suggestions?
-
-Thanks,
-Charles
+thanks,
+Daniel.
