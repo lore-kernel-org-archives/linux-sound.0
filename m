@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E125A15990C;
-	Wed, 18 Dec 2024 08:02:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 395A31662EF;
+	Wed, 18 Dec 2024 08:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734508938; cv=none; b=BjCpQYYWgcw4N9QfINjZM1jH/GRB//ZrUWv7Rc2N/0ef5vo2LkBE9OXdR9Rl+2aWHAyhOwHyi3U4Rw95kxaY7ZfKBHqkF2jk3HJCwpx8JvIAY+WLRtDxTXH64AE1CyWaOpOvrl6jaGDxcjewRjc6e+WFFuwzKKXRtFphUN4ScAM=
+	t=1734508938; cv=none; b=aEcnwdRtJx4g0RifoaOcHBMuyyijzdhTHJFEp+4wQOlBQkK2JM5Bx1ubdttgDdcMZU6LfsYjWizqLXeSIfMVNPmYk+fSOuteZGjbTH8I7k6KiGUhiGy5g6r0hWNpOFDcDoQK63BLCPZ6wupWVYrIFC1IKMl0w34kiXnZdLvUtEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1734508938; c=relaxed/simple;
-	bh=i7szRebw6WQA5QpBUiel/GHy/A8mHrGYWbddHxs31ms=;
+	bh=59bEtfRaVj423x64sYt038E3O0mYimIWQQSEY98Z8tE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m6vWN8RTuzqxqQ5DD/CVpN6wNVwtFjVf2FRRyPU14sMSrn43jFaU4u914Mzz8cFPdv2urYF3kHwAq+8zVKgh3O9V+ylWWnB752X8ZlbXIZkrF/Z2TNuKl9vmlsFssvOJZKNMeZYkiDcOjrMTVjPsib15A3W7jssjTbj7HHT6Ilo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUsKWH1B; arc=none smtp.client-ip=198.175.65.13
+	 MIME-Version; b=VoroPWbiFYWAQWsaep50bIqRuIGm/VO37esDdccbHM4j06TqGhyacf3h9DT0FZXniHgXTLW54sZyMvuuvR4IbzqA/mRf3lRi/9r/b7tNAumfgAaPTtNe5+XEgE1lFatojQe5yKJ/qRxzIzeSV55fBx5XEZ7j6ChgB9C+ULSVZn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSLPgdVz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUsKWH1B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSLPgdVz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1734508937; x=1766044937;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=i7szRebw6WQA5QpBUiel/GHy/A8mHrGYWbddHxs31ms=;
-  b=SUsKWH1BgsiwpziHkNSzy1EcfZqmIWCK0HlXajr2kO0n7QRoDBRbdqA1
-   66xO0gnBPAKX0HFeVhNtiOPsF8dT42KyQ1YHB8WAje4f8BLxxG5uMaXar
-   v0+CzCmyeHYosfaAVcO7HRtSi4nRxc2BA/8II8nKR4LwWOm9MNCLPKz4e
-   rdwB4ScZgRGQbW0D40sZWUiZGzkuvfCLriuGVC1ZtGO0K/jkE7C2HODzG
-   mu4vfs4qZcB6bS3jCHllNsGJq1nkOsjqsVDVEhU2iswbYocuZo3zR6cvb
-   i/of6DK+LiePBwGef8LY19c84QhxJCyasWhGx0n4RurnDFjLTpaFFf82o
-   Q==;
-X-CSE-ConnectionGUID: UrBxcpEYQ2iEmpwetSxeAw==
-X-CSE-MsgGUID: qf+OqH/aTM+bcfPA+5ez9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978495"
+  bh=59bEtfRaVj423x64sYt038E3O0mYimIWQQSEY98Z8tE=;
+  b=hSLPgdVzQHIXbjHMrhdyQ/j/aI3zmHXL5Nld8HeBOC9ysoUqsvB2es2h
+   /9FgQ6RalypKlLoRFojD5Zlwl2UIoFm2kOVq56ZZQ+uxFilc9tK1S4D/p
+   MDzPpw7ABR05fJ/VBgwzp8Bs3QdR9+vqO6yOeLwqEAXlEetoX3pN+TGbG
+   5Ebg+6Y8GqXcXcWz19Oil596IQpsVojrBh8QcMqW7eMaDx3IJU84inmDa
+   wPzGGdwdmmHuDf2sPpncZk73DqaqvAM++KvtA7NSAAPECx/ertb1qL102
+   Z8shLbwYbl+evFAo52LykUEO+q9BLFmsMUTeZnvaR6KhDFQKhC2Yx6p2c
+   w==;
+X-CSE-ConnectionGUID: mdEOtwH2TZy97i2MeSWfAQ==
+X-CSE-MsgGUID: 9MbgiWrfQcOYSa1QBUK9zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11289"; a="45978506"
 X-IronPort-AV: E=Sophos;i="6.12,244,1728975600"; 
-   d="scan'208";a="45978495"
+   d="scan'208";a="45978506"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:06 -0800
-X-CSE-ConnectionGUID: CCdszRhBROmA5smKA3nCiA==
-X-CSE-MsgGUID: AHKs6DyQQgOOi76oTmcryg==
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:07 -0800
+X-CSE-ConnectionGUID: 71/NoF0bQoORnrp0+22a9g==
+X-CSE-MsgGUID: J/QdeGJPRuSwWvL2GPK8Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="101914643"
+   d="scan'208";a="101914646"
 Received: from tfalcon-desk.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.220.206])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:05 -0800
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2024 00:02:06 -0800
 From: Bard Liao <yung-chuan.liao@linux.intel.com>
 To: linux-sound@vger.kernel.org,
 	vkoul@kernel.org
@@ -50,9 +50,9 @@ Cc: vinod.koul@linaro.org,
 	linux-kernel@vger.kernel.org,
 	pierre-louis.bossart@linux.dev,
 	bard.liao@intel.com
-Subject: [PATCH v3 01/14] soundwire: add lane field in sdw_port_runtime
-Date: Wed, 18 Dec 2024 16:01:42 +0800
-Message-ID: <20241218080155.102405-2-yung-chuan.liao@linux.intel.com>
+Subject: [PATCH v3 02/14] soundwire: mipi_disco: read lane mapping properties from ACPI
+Date: Wed, 18 Dec 2024 16:01:43 +0800
+Message-ID: <20241218080155.102405-3-yung-chuan.liao@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
 References: <20241218080155.102405-1-yung-chuan.liao@linux.intel.com>
@@ -64,72 +64,111 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, lane_ctrl is always 0. Add a lane field in sdw_port_runtime
-to indicate the data lane of the data port.
-They are 0 by default.
+The DisCo for SoundWire 2.0 added support for the
+'mipi-sdw-lane-<n>-mapping' property.
 
+Co-developed-by: Chao Song <chao.song@linux.intel.com>
+Signed-off-by: Chao Song <chao.song@linux.intel.com>
 Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 ---
- drivers/soundwire/amd_manager.c                  | 2 +-
- drivers/soundwire/bus.h                          | 2 ++
- drivers/soundwire/generic_bandwidth_allocation.c | 4 ++--
- 3 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/soundwire/mipi_disco.c | 40 +++++++++++++++++++++++++++++++++-
+ include/linux/soundwire/sdw.h  |  5 +++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 5a4bfaef65fb..f47d4cd656ae 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -410,7 +410,7 @@ static int amd_sdw_compute_params(struct sdw_bus *bus)
- 			sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
- 					      false, SDW_BLK_GRP_CNT_1, sample_int,
- 					      port_bo, port_bo >> 8, hstart, hstop,
--					      SDW_BLK_PKG_PER_PORT, 0x0);
-+					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+diff --git a/drivers/soundwire/mipi_disco.c b/drivers/soundwire/mipi_disco.c
+index 9d59f486edbe..65afb28ef8fa 100644
+--- a/drivers/soundwire/mipi_disco.c
++++ b/drivers/soundwire/mipi_disco.c
+@@ -366,6 +366,44 @@ static int sdw_slave_read_dpn(struct sdw_slave *slave,
+ 	return 0;
+ }
  
- 			sdw_fill_port_params(&p_rt->port_params,
- 					     p_rt->num, bps,
-diff --git a/drivers/soundwire/bus.h b/drivers/soundwire/bus.h
-index fda6b24ac2da..ff03b97f1d8b 100644
---- a/drivers/soundwire/bus.h
-+++ b/drivers/soundwire/bus.h
-@@ -90,6 +90,7 @@ int sdw_find_col_index(int col);
-  * @transport_params: Transport parameters
-  * @port_params: Port parameters
-  * @port_node: List node for Master or Slave port_list
-+ * @lane: Which lane is used
-  *
-  * SoundWire spec has no mention of ports for Master interface but the
-  * concept is logically extended.
-@@ -100,6 +101,7 @@ struct sdw_port_runtime {
- 	struct sdw_transport_params transport_params;
- 	struct sdw_port_params port_params;
- 	struct list_head port_node;
-+	unsigned int lane;
- };
- 
++/*
++ * In MIPI DisCo spec for SoundWire, lane mapping for a slave device is done with
++ * mipi-sdw-lane-x-mapping properties, where x is 1..7, and the values for those
++ * properties are mipi-sdw-manager-lane-x or mipi-sdw-peripheral-link-y, where x
++ * is an integer between 1 to 7 if the lane is connected to a manager lane, y is a
++ * character between A to E if the lane is connected to another peripheral lane.
++ */
++int sdw_slave_read_lane_mapping(struct sdw_slave *slave)
++{
++	struct sdw_slave_prop *prop = &slave->prop;
++	struct device *dev = &slave->dev;
++	char prop_name[30];
++	const char *prop_val;
++	size_t len;
++	int ret, i;
++	u8 lane;
++
++	for (i = 0; i < SDW_MAX_LANES; i++) {
++		snprintf(prop_name, sizeof(prop_name), "mipi-sdw-lane-%d-mapping", i);
++		ret = device_property_read_string(dev, prop_name, &prop_val);
++		if (ret)
++			continue;
++
++		len = strlen(prop_val);
++		if (len < 1)
++			return -EINVAL;
++
++		/* The last character is enough to identify the connection */
++		ret = kstrtou8(&prop_val[len - 1], 10, &lane);
++		if (ret)
++			return ret;
++		if (in_range(lane, 1, SDW_MAX_LANES - 1))
++			prop->lane_maps[i] = lane;
++	}
++	return 0;
++}
++EXPORT_SYMBOL(sdw_slave_read_lane_mapping);
++
  /**
-diff --git a/drivers/soundwire/generic_bandwidth_allocation.c b/drivers/soundwire/generic_bandwidth_allocation.c
-index b9316207c3ab..abf9b85daa52 100644
---- a/drivers/soundwire/generic_bandwidth_allocation.c
-+++ b/drivers/soundwire/generic_bandwidth_allocation.c
-@@ -56,7 +56,7 @@ void sdw_compute_slave_ports(struct sdw_master_runtime *m_rt,
- 					      sample_int, port_bo, port_bo >> 8,
- 					      t_data->hstart,
- 					      t_data->hstop,
--					      SDW_BLK_PKG_PER_PORT, 0x0);
-+					      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+  * sdw_slave_read_prop() - Read Slave properties
+  * @slave: SDW Slave
+@@ -486,6 +524,6 @@ int sdw_slave_read_prop(struct sdw_slave *slave)
+ 	sdw_slave_read_dpn(slave, prop->sink_dpn_prop, nval,
+ 			   prop->sink_ports, "sink");
  
- 			sdw_fill_port_params(&p_rt->port_params,
- 					     p_rt->num, bps,
-@@ -109,7 +109,7 @@ static void sdw_compute_master_ports(struct sdw_master_runtime *m_rt,
- 		sdw_fill_xport_params(&p_rt->transport_params, p_rt->num,
- 				      false, SDW_BLK_GRP_CNT_1, sample_int,
- 				      *port_bo, (*port_bo) >> 8, hstart, hstop,
--				      SDW_BLK_PKG_PER_PORT, 0x0);
-+				      SDW_BLK_PKG_PER_PORT, p_rt->lane);
+-	return 0;
++	return sdw_slave_read_lane_mapping(slave);
+ }
+ EXPORT_SYMBOL(sdw_slave_read_prop);
+diff --git a/include/linux/soundwire/sdw.h b/include/linux/soundwire/sdw.h
+index bd9836690da6..bb4e33a4db17 100644
+--- a/include/linux/soundwire/sdw.h
++++ b/include/linux/soundwire/sdw.h
+@@ -54,6 +54,8 @@ struct sdw_slave;
+ #define SDW_MAX_PORTS			15
+ #define SDW_VALID_PORT_RANGE(n)		((n) < SDW_MAX_PORTS && (n) >= 1)
  
- 		sdw_fill_port_params(&p_rt->port_params,
- 				     p_rt->num, bps,
++#define SDW_MAX_LANES		8
++
+ enum {
+ 	SDW_PORT_DIRN_SINK = 0,
+ 	SDW_PORT_DIRN_SOURCE,
+@@ -356,6 +358,7 @@ struct sdw_dpn_prop {
+  * and masks are supported
+  * @commit_register_supported: is PCP_Commit register supported
+  * @scp_int1_mask: SCP_INT1_MASK desired settings
++ * @lane_maps: Lane mapping for the slave, only valid if lane_control_support is set
+  * @clock_reg_supported: the Peripheral implements the clock base and scale
+  * registers introduced with the SoundWire 1.2 specification. SDCA devices
+  * do not need to set this boolean property as the registers are required.
+@@ -385,6 +388,7 @@ struct sdw_slave_prop {
+ 	u32 sdca_interrupt_register_list;
+ 	u8 commit_register_supported;
+ 	u8 scp_int1_mask;
++	u8 lane_maps[SDW_MAX_LANES];
+ 	bool clock_reg_supported;
+ 	bool use_domain_irq;
+ };
+@@ -450,6 +454,7 @@ struct sdw_master_prop {
+ 
+ int sdw_master_read_prop(struct sdw_bus *bus);
+ int sdw_slave_read_prop(struct sdw_slave *slave);
++int sdw_slave_read_lane_mapping(struct sdw_slave *slave);
+ 
+ /*
+  * SDW Slave Structures and APIs
 -- 
 2.43.0
 
