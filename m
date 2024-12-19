@@ -1,196 +1,187 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2053.outbound.protection.outlook.com [40.107.244.53])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346C4218AC8;
-	Thu, 19 Dec 2024 05:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734587524; cv=fail; b=KTbZX6L0ygCQTPE/ptAqmpiLH3bap55R0KcMEid8cUbwjlcqpUhMbJSxBk3cwAedUnJgG7I4fMi6CzzaL50p5pDwiSZkCnFPKa3MZlUbIo3PYEDJ2BrYmhR3lY9Hwyw2IMSo1wwN7s+roht0C45Cr2dxN+/2H5uYVwQJdpBlqEc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734587524; c=relaxed/simple;
-	bh=lqjIWZ+WJZcU8bKMLCcoJ/Hqz6Te8rCBswOU6/yglLo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dO73rIeu2TqoBDSPfIICsFUVnzyLkUj70uz4bYI6eK0uzgkN876TmXuV0BQdRtgSKJIdfE37/zlaUsyiMBpTPcLgoUIWXodqop56J+GB/bJhDv8kYyFb99tGJ6JsdBNDNAHj+7Kcvb6Axjaz6DZnva0bjgfWgpBFm6ucmbkGiwo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3iL9hJZ3; arc=fail smtp.client-ip=40.107.244.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D481FA8F2;
+	Thu, 19 Dec 2024 06:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734591526; cv=none; b=AYL7+VRz7T8xaBrFoD2Z3B3DLTgca4sOvDjqbAF8UHXmSu210vgcIfF93ysApPLG6WK6IHZj7jMmLCW0hsYUtYs1p1sD5iJH6C5u/M6+Y70DS6Gq8SxvZHFQuxHWtTLJTdjwes/DU25w/Jz5o+sQ+p70NWPpboIq2i7cVwiuJ6g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734591526; c=relaxed/simple;
+	bh=oYvwkLPY3pl8psiCXyXFb2nAdZ/3rnwiHOtmrJ5udAg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a/0CYbdQqGzKL6+DEU2gG7lomIzZoTB8HFLfsBQzLI7rsh5kBZ+5gdzyc8j15p2JZr6nOLzqvfdi4e+wKdayNlZyFVPRHKwd9w4J8Aw93FnTFRvN6cAqJ8SV/Va46AqVqm48RtqCMKkkOSE7y4dzDU7ZUYoHvQ5V2zPVvWFDJVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oN1G0bGx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3iL9hJZ3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Oi/3t4XgYXv73W/V4JtSmoctNY6Ep/W+lPEIhimPsy5lUFnJPgAElADzaFKBQooJwn1jFLxUTc9fDH5LlaZFYfZUeaERJoN/ov7cXpsEQ3qYx4kTcRplyL4jd/zYgWfN2SZ4VMLJQVpcku0DeujdG1Gtb8vNaOxim9WuM360t4GpVMuOfd0ddkphpDd6ZzEkBdpK/HY7YxyKanktTQtGV3uqC5wzpzqsvMiV5a27rGFfgd80GZ7mY6haoijmT0JIEVyxtP/v252zXJA2JV2+4L33yS5INmIhb7XfZ6LEvR0GSpmI0RMKkcdH4+FHcJu3nv/dTojAVsAyJaLso0d48A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hhnJuXfdhb5iveqaaBpOujpDVIlNkFwQ+T3wchTIrtU=;
- b=cCaFqf1yYey1Lj9H3TZORVmu62bNJpdlntYD7m6t3f5jljl0XQHHasNYsSy+iAgv+QDEN1BzzWa1wQ99MWERezShbEB+ie6GN0t94MRl832pL60lzRnbh9kKN9uz/Whl0QQTqXsbdDR0iwxK4D1+JfHIvOkkIssp2gR3yUpFiPxdLuHIiN9TyMy1EIidiyP64cZ8s89oxzLD/SoVpZgN17fGgDcFJVICCznmj2vyYNVY94tl7GKo8m6ztGzOKAXlG59VqL5mE/6Obbd4U35ipBCAmkS0i79ttmOIqHw0BV4K/c48bujJQ2RpDKBg6Pe0nwIPZL9rhaqBg3kIcopHkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhnJuXfdhb5iveqaaBpOujpDVIlNkFwQ+T3wchTIrtU=;
- b=3iL9hJZ3x7Nh9pxUW8wtLG8lB78XHRFANblFaQ8tGN29S1vcv2PFJfaXqyUal/nyuCq59CN4McGMIrwkOCLOZTa9zTlRIda+qJ78knTJjFAs0ljn+1Yz+zPA/X3V4NllwDfqifBEqj2FlxywIAY4Fm1FlMmndxD4DpkDjQ05Yi0=
-Received: from CH5P222CA0007.NAMP222.PROD.OUTLOOK.COM (2603:10b6:610:1ee::19)
- by LV3PR12MB9437.namprd12.prod.outlook.com (2603:10b6:408:21d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
- 2024 05:52:00 +0000
-Received: from CH1PEPF0000AD7D.namprd04.prod.outlook.com
- (2603:10b6:610:1ee:cafe::3c) by CH5P222CA0007.outlook.office365.com
- (2603:10b6:610:1ee::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8251.23 via Frontend Transport; Thu,
- 19 Dec 2024 05:52:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000AD7D.mail.protection.outlook.com (10.167.244.86) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8251.15 via Frontend Transport; Thu, 19 Dec 2024 05:52:00 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 18 Dec 2024 23:51:56 -0600
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <broonie@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <lgirdwood@gmail.com>, <perex@perex.cz>,
-	<tiwai@suse.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <venkataprasad.potturu@amd.com>,
-	<Mario.Limonciello@amd.com>, <linux-sound@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Subject: [PATCH 21/21] ASoC: amd: acp: amd-acp70-acpi-match: Add rt722 support
-Date: Thu, 19 Dec 2024 11:18:57 +0530
-Message-ID: <20241219054857.2070420-22-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241219054857.2070420-1-Vijendar.Mukunda@amd.com>
-References: <20241219054857.2070420-1-Vijendar.Mukunda@amd.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oN1G0bGx"
+Received: from [192.168.88.20] (91-157-155-49.elisa-laajakaista.fi [91.157.155.49])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82F2C415;
+	Thu, 19 Dec 2024 07:58:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1734591482;
+	bh=oYvwkLPY3pl8psiCXyXFb2nAdZ/3rnwiHOtmrJ5udAg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oN1G0bGx8SM1Kt3zfKF6OnnKgpx2MaTXrWASohdnPd4x0Rtonl8jMX59yl8b7lRap
+	 jKZD2z95LFOTVOx79ikX7W/pNDN6Q7vE7GZOydBLMxb8LOzvSSWmZpyhuZcsQ+6Vvu
+	 jjmPGDxXNSbkcgLLiY24sRNereZK8FmNygu5gg74=
+Message-ID: <008c6590-eeee-4721-85f8-1ccd861abaac@ideasonboard.com>
+Date: Thu, 19 Dec 2024 08:58:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] drm: xlnx: zynqmp: Add DP audio support
+To: Lars-Peter Clausen <lars@metafoo.de>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, Michal Simek <michal.simek@amd.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Vishal Sagar <vishal.sagar@amd.com>,
+ Anatoliy Klymenko <anatoliy.klymenko@amd.com>,
+ =?UTF-8?Q?P=C3=A9ter_Ujfalusi?= <peter.ujfalusi@gmail.com>,
+ Markus Elfring <Markus.Elfring@web.de>, "Rob Herring (Arm)" <robh@kernel.org>
+References: <20241023-xilinx-dp-audio-v4-0-5128881457be@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20241023-xilinx-dp-audio-v4-0-5128881457be@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD7D:EE_|LV3PR12MB9437:EE_
-X-MS-Office365-Filtering-Correlation-Id: a2f648df-0c0d-4cab-09e5-08dd1ff14175
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?7AE4hLxR+UmLZre5lAtUqldDHHumDRaT5wLMa95IDAePLREFhERYe/H53/yZ?=
- =?us-ascii?Q?BjCnoDkaulqc5ihsnj4JDNlSzTfJpRGU43EIEuXi4OVXI/lSW1jvZR5OgRz+?=
- =?us-ascii?Q?OwBCFTNif/2+CoghATBX6mK2qKUl6efaXDemeQx8DeIrSN0xwsOsEuYMRshL?=
- =?us-ascii?Q?HmpsL8fxuOKq6wM3oqZWRAXwb7LjOEtHS6ZFF09U8P8/At45RYN2Q5zCpXCc?=
- =?us-ascii?Q?g1zS2ggl9a+eY+zhmqGr4oOTfLcZWpnaCbWXvW8MLJEzRtw1aVnhovgvUJRh?=
- =?us-ascii?Q?VdaXKJtdxflzK5jdMnuMHZ6QMZfausxy0WqQAUWk4ZcXcM1jneNEhEejUuWc?=
- =?us-ascii?Q?5V+FAnWw4MMZ3dazCMp79Y4lbs4+hdCSsYn9v5Kptxn/PNxBwyFAuO2Mieow?=
- =?us-ascii?Q?1OtY41fefgzO7UzVIMjkHW/qItNpAYK5/zU20pWQvQY2+PRBud7yErmM6/if?=
- =?us-ascii?Q?dmYiwG4QIC/biWujikWxFVlX9jWiWFYms/bymSs9SlBt/wqQSO7QiU2eKV0w?=
- =?us-ascii?Q?Wv9LFng1M7D6oj/8Qih8wOyc/U4pSMMFvKrNxx2pqIqy9chv3sn5c/SU/tAn?=
- =?us-ascii?Q?+3uhTxsRkwX79XRuqf0GIXpBjZhVgGkz+HS6GnevlBSOGXgIlzymegBtiDA/?=
- =?us-ascii?Q?a1NHVS7t2BjPjpUC7HrAnsyJ0bHGFhee7g/WFz8mbPxX+A0yypWWdnqBX2NS?=
- =?us-ascii?Q?tUNi8J2TXcpPDGbC5qVK3UqOIYiD2K9NDS2u3BJAVT4vh1ao6Ii4SuAv/a/0?=
- =?us-ascii?Q?pGqoPZDsVzEjONClITgn9eJ8NjL+hjOru2Chy6Wq0csEHuCRI34jkeztwMam?=
- =?us-ascii?Q?5B3K91CLBXPdwLZopohr2E4GP2B5uityUXIqCqAKGw1ak7d3CQHY2Vg3s1Bt?=
- =?us-ascii?Q?q1tTaFhbjC88TmxWeTx11Gz6EmDFpfUs5XA3F9m8Uem005ytZgz6x+CV6bRg?=
- =?us-ascii?Q?pg6R+b/NxiZtg36pVdBfQAn4wWVcMQH0Qko0UFIJ5X3M3zcvfYyYGaCxYWFV?=
- =?us-ascii?Q?M1TIBSPSwDQOeoWi/71ftxaxWv6r8de90uPGKkNqsftMH02xls8JRX8MhDyk?=
- =?us-ascii?Q?RpWPjxCy3yK1SjcZ+NGD46KagrJfFw+ME9xQtTBJ6BqhNLDZ2zYtdLe9rDqZ?=
- =?us-ascii?Q?r+1l2E+6S4pM1dWgYJV0eB4+7tN+uqb7B2QyRenLVSdr1DxgkmMLXEVJeBHi?=
- =?us-ascii?Q?dAgjydYdWfMO2isLhgufhCCdIXxqujFu82Q0xRxR22SC1x5oMkyEYdK0vLOZ?=
- =?us-ascii?Q?UtoTVLBljaQi3CLtvXUQMb5OepGBBlllsK8T/t7HLapIM5dp4m/gCY+1jk2F?=
- =?us-ascii?Q?UIgNFKf+Uq59dvv05e4rX2loJmefegZR/guWqxw1sKDeBu5LlOztY5V0nRq6?=
- =?us-ascii?Q?W/6iYMAHPipKKIkyMrKI91gjYRAaPJ8VXnBCct9ZbvzpRbJReX3lcn4bAxwY?=
- =?us-ascii?Q?s97qhXXWNlECu4Wv4QyZfR1XNgd0LI9QsCKwvnQPPW5PHhyymqmuF8YOxPiC?=
- =?us-ascii?Q?8lo4U0O0rBOPFXY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 05:52:00.1309
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2f648df-0c0d-4cab-09e5-08dd1ff14175
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000AD7D.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9437
 
-Patch adds driver data and match table for rt722 multi-function codec on
-acp7.0 and acp7.1 platforms at sdw link0 for legacy(NO DSP) stack.
+Hi,
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
- sound/soc/amd/acp/amd-acp70-acpi-match.c | 44 ++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On 23/10/2024 14:52, Tomi Valkeinen wrote:
+> Add DisplayPort audio support for Xilinx ZynqMP platforms.
+> 
+> The current DT is, for some reason, missing the DMA channels for the
+> audio. This series adds that to the bindings and the dts file, but to
+> support older dtb files without the audio DMA, the driver will not fail
+> if the audio DMA is missing, but will just mark the audio support as
+> disabled.
+> 
+> To: Lars-Peter Clausen <lars@metafoo.de>
+> To: Jaroslav Kysela <perex@perex.cz>
+> To: Takashi Iwai <tiwai@suse.com>
+> To: Liam Girdwood <lgirdwood@gmail.com>
+> To: Mark Brown <broonie@kernel.org>
+> To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> To: Maxime Ripard <mripard@kernel.org>
+> To: Thomas Zimmermann <tzimmermann@suse.de>
+> To: David Airlie <airlied@gmail.com>
+> To: Daniel Vetter <daniel@ffwll.ch>
+> To: Rob Herring <robh+dt@kernel.org>
+> To: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> To: Conor Dooley <conor+dt@kernel.org>
+> To: Michal Simek <michal.simek@amd.com>
+> To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: linux-sound@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: Vishal Sagar <vishal.sagar@amd.com>
+> Cc: Anatoliy Klymenko <anatoliy.klymenko@amd.com>
+> Cc: Péter Ujfalusi <peter.ujfalusi@gmail.com>
+> Cc: Markus Elfring <Markus.Elfring@web.de>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> 
+> Changes in v4:
+> - Update copyright year
+> - Use guard(mutex) in the zynqmp_dp_audio.c
+> - Add Rb and Ab tags
+> - Link to v3: https://lore.kernel.org/r/20240910-xilinx-dp-audio-v3-0-75560793f4d0@ideasonboard.com
+> 
+> Changes in v3:
+> - Expand the description in "dt-bindings: display/xlnx/zynqmp-dpsub: Add
+>    audio DMAs" to be more clear about the DT binding change.
+> - Rebased on top of current upstream
+> - Link to v2: https://lore.kernel.org/r/20240319-xilinx-dp-audio-v2-0-92d6d3a7ca7e@ideasonboard.com
+> 
+> Changes in v2:
+> - Fix a missing double-quote in the DT binding
+> - Link to v1: https://lore.kernel.org/r/20240312-xilinx-dp-audio-v1-0-696c79facbb9@ideasonboard.com
+> 
+> ---
+> Tomi Valkeinen (3):
+>        dt-bindings: display/xlnx/zynqmp-dpsub: Add audio DMAs
+>        arm64: dts: zynqmp: Add DMA for DP audio
+>        drm: xlnx: zynqmp_dpsub: Add DP audio support
+> 
+>   .../bindings/display/xlnx/xlnx,zynqmp-dpsub.yaml   |  10 +-
+>   arch/arm64/boot/dts/xilinx/zynqmp.dtsi             |   7 +-
+>   drivers/gpu/drm/xlnx/Kconfig                       |   9 +
+>   drivers/gpu/drm/xlnx/Makefile                      |   1 +
+>   drivers/gpu/drm/xlnx/zynqmp_disp.c                 |  48 ---
+>   drivers/gpu/drm/xlnx/zynqmp_disp_regs.h            |   7 +-
+>   drivers/gpu/drm/xlnx/zynqmp_dp.c                   |  54 ++-
+>   drivers/gpu/drm/xlnx/zynqmp_dp.h                   |   7 +
+>   drivers/gpu/drm/xlnx/zynqmp_dp_audio.c             | 447 +++++++++++++++++++++
+>   drivers/gpu/drm/xlnx/zynqmp_dpsub.c                |  39 +-
+>   drivers/gpu/drm/xlnx/zynqmp_dpsub.h                |  15 +-
+>   11 files changed, 539 insertions(+), 105 deletions(-)
+> ---
+> base-commit: 42f7652d3eb527d03665b09edac47f85fb600924
+> change-id: 20240312-xilinx-dp-audio-468ad12f9f64
+> 
+> Best regards,
 
-diff --git a/sound/soc/amd/acp/amd-acp70-acpi-match.c b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-index 1f30adb6c02a..d31b681b19e2 100644
---- a/sound/soc/amd/acp/amd-acp70-acpi-match.c
-+++ b/sound/soc/amd/acp/amd-acp70-acpi-match.c
-@@ -73,7 +73,51 @@ static const struct snd_soc_acpi_link_adr acp70_4_in_1_sdca[] = {
- 	{}
- };
- 
-+static const struct snd_soc_acpi_endpoint rt722_endpoints[] = {
-+	{
-+		.num = 0,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 1,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+	{
-+		.num = 2,
-+		.aggregated = 0,
-+		.group_position = 0,
-+		.group_id = 0,
-+	},
-+};
-+
-+static const struct snd_soc_acpi_adr_device rt722_0_single_adr[] = {
-+	{
-+		.adr = 0x000030025d072201ull,
-+		.num_endpoints = ARRAY_SIZE(rt722_endpoints),
-+		.endpoints = rt722_endpoints,
-+		.name_prefix = "rt722"
-+	}
-+};
-+
-+static const struct snd_soc_acpi_link_adr acp70_rt722_only[] = {
-+	{
-+		.mask = BIT(0),
-+		.num_adr = ARRAY_SIZE(rt722_0_single_adr),
-+		.adr_d = rt722_0_single_adr,
-+	},
-+	{}
-+};
-+
- struct snd_soc_acpi_mach snd_soc_acpi_amd_acp70_sdw_machines[] = {
-+	{
-+		.link_mask = BIT(0),
-+		.links = acp70_rt722_only,
-+		.drv_name = "amd_sdw",
-+	},
- 	{
- 		.link_mask = BIT(0) | BIT(1),
- 		.links = acp70_4_in_1_sdca,
--- 
-2.34.1
+Pushed to drm-misc-next.
+
+  Tomi
 
