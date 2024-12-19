@@ -1,57 +1,57 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010013.outbound.protection.outlook.com [52.101.229.13])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010035.outbound.protection.outlook.com [52.101.228.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428D3320F
-	for <linux-sound@vger.kernel.org>; Thu, 19 Dec 2024 00:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343C3320F
+	for <linux-sound@vger.kernel.org>; Thu, 19 Dec 2024 00:35:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.35
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734568541; cv=fail; b=rMKDuo1AmEGb0RKAyVoe0lqymAu6ikwfLz9eBCtT2za6VkIOJkD7Fqw7WEERVvJu3WQvZ/NBFNRrE5ghT+0NQ5AFKAhDdlCZxiD0K2/Pijj3OGGFd2Lw3Nsc7R3r0GSyHTjzeKAAjRjb3I+mWVlhP3z1Wb5IH+wlJolVEvMoCVo=
+	t=1734568553; cv=fail; b=pidFm5/7xP0xnGD37AM2382WOSvIctZc+mSqqhW01IE13QHJviyqpGGy20x+Aqiw10QeJSvj9Pf06Hz4Yvp9+vNMHD9GeufqhaXWjDD9hkQIJLOTRCEVmaRaC3CSTZoIuXEJUm/ngBLjiadpbB8oQVxb7UjmnPreThKsU0ccEE8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734568541; c=relaxed/simple;
-	bh=P3lBIYceFZvtGODMe5E2CFfedsXcVN8l9R42YlMN/GY=;
+	s=arc-20240116; t=1734568553; c=relaxed/simple;
+	bh=G9kaKzuDafMKVegT1VF2G1sj+JLPn4enRMfBvdtQCes=;
 	h=Message-ID:In-Reply-To:References:To:From:Subject:Content-Type:
-	 Date:MIME-Version; b=iXi1OSN6u7YOB4wWnPtpQHLrra2K93V6T33Hf200/useS8sWhTRC+jYvfr9sJiO1cIGgGuGDbrks/WJBuMM8UoWJHFQYKhEXu+v3kQtYGZ7tadHr8nt54CgIG54Y87xepCBGbIyi8TGlcBnkpy/a3zrug8uNokXjvJVc5nyb6Y0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=FHh+mUFq; arc=fail smtp.client-ip=52.101.229.13
+	 Date:MIME-Version; b=EzIfJIlbGe76JDccN7VRGxTnxWXFufhcdYC8gFKYrQyLmYCM1jbtloN1LhGSdag4XM3jY/GRbOwa8NH2FmkpMgof9yRu128LVa4eH9ZbiVPwgZNQdOj5kSX3D6Zn5SAR572+gZ3EpmRNHxSZww6oTUqeOtSTOWVTRNqDmrE3dvc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=bab2Yj8t; arc=fail smtp.client-ip=52.101.228.35
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="FHh+mUFq"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="bab2Yj8t"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AWTrGp9ZeoRm3fjuVE8nktEBlBGvrwdD6/bCcfXBT/GWZupLSVVKYAOwrqliPntsHdzl6efeyh6dVHdZ41/Qy0SUoGuk3koss90iHSgXcJF/PkIvconHOG5eFu7lDw6BIFjNg8na0+DwrfsIWLW+iUEbso9fjU/X8KwRiRC8S4yV2g0WVmdsGyyEm447NfkGNtuXdXzN8P4u62GBLj7wZTXP0Pb42mFVHcj986axnhzdiSszroljB/943N5mSa6z/hpIna19ml1n5U+DeGepe4Zwmt4xkRi6bSlnRKsC0eP+/5q6VSav/2kJagd9X50Oo0LXeSDHRE6uT3j13oEPbQ==
+ b=TgfMsIsMlFaDJ3v4Zgy5Dj/A0TG5krm8AuwZ3xo7522oYz8S5UtnGiSC1g4CVzMViHBtbABSFr/aGGNUM13RIEHYbMHTuH1lXRchLNGisr3aon0T2pUKXxqKBzzFthUkvgrJPnT0gG9DBT+ETTPydsOykmH5ce04yKfIRC3BGYvYHrjqeEatRE8wTPgJdthJ2rvdtqeIq74+aDtC6b0JY7XpidhjFgf+r5Sb/OhdGEQNvXkwuwA8JL7COJCtKAin5fgzr1tWLh743+yQQRxXIT1FapeRfh2/nRxOLH6KJUKpGrD4VesbnddhPoPW6rv/cf4HoVzrpepLmqyRdIHmzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ptxx4KlXPLr54EzR49exvE5r06t9J/AL/yfOPW20bxc=;
- b=kuCgUJ7m8x4OJ5JOyR1yfTHr5Sq5ZMi3KEIz9qHS2lxi39bUIO1R4yhK8tMDQ+RNy9Bz8EaOMh/4YigS6b0Xcl4eraZLApOf+YnlArJrmbdCnl8apVCYkZnaTBif7imuNCON60V2QIOc6eBS/PEzKl8T25Z89eTyayULePbIkWJjbQF+tu9hYSc8yiA5cz4GlUs2/KI+7KjDrhJV1pARbYONm+hPYUeECuH3T7pLrxUsFbV3oGPpW01ZQ3FgdH9egFa1NjwEh8PnIMv4gxPeiYI6sWcUEDyYGSaVf67tE2yHHlsd65wpqYvUgUA9hm/Jy++t9DjaRr56w10MfV/Q4g==
+ bh=VWuUWjPiluTxqbXkK51L/VWZHbvqsuL4ztRIhfBst70=;
+ b=o/6GfhX1XeACBX1ooORJzmWjUn/H76W0m8lX0P1d8v6Y8ALEbo8jo1GNj74kqovIGJ+UDtj3V8sWdW5zej66NRun6Z3U9IosDGEPR6NWucnU3SohjjShjOhBdgtddA89lF15E8ExyTXmfFCemilCXqP6w7O0mbu6PbAS7+2XhP1Q6xsyvx0WPJVby0EjqJU/t4wwN/XqzlizPcsFm/uZI6YxNLI0/SKZuSVKmp1Of48LV3XDvWCNM028U6HfxncvGSYV/0biuj6Eo8y+D29RJX7kGQalinN5FB6rCYc/WhTZ21bfoxsJ9xpUOtH8HE19v8jOaLMoZvqPWN6OlZKj2Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ptxx4KlXPLr54EzR49exvE5r06t9J/AL/yfOPW20bxc=;
- b=FHh+mUFq//x2JZ7NjjZyGDWSPCn5ZHPONFHnR0Qhc3HemktRvf69Xy5GBM7yHsjmw/pHYAQJb42ACfxxEfkUWw45O8waS+U1AdnRGtZEqs4Fhsx4rM29U9q3I47R30Xin+i7PFxRsv+f761AB4+bO2QB0V4dVZuE3KQeWmuOKI8=
+ bh=VWuUWjPiluTxqbXkK51L/VWZHbvqsuL4ztRIhfBst70=;
+ b=bab2Yj8tkBCpo7cge8zFGIdXFf89eHneig+l9UyxXzH7zELP6NjceuPmCj0snx+ShBJ+SOvXWxKO13LTBLe3/e3nCc/jOyh7W9SsRaHBAOL+i4mbxviATUWpKq1TACMkcpCuyScxLMHg0DmN/9Y1L2LUVgiT669Qkqx0ggcLR/0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by TYRPR01MB14144.jpnprd01.prod.outlook.com
- (2603:1096:405:221::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
- 2024 00:35:37 +0000
+ (2603:1096:400:3a9::11) by OS7PR01MB13794.jpnprd01.prod.outlook.com
+ (2603:1096:604:36c::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.14; Thu, 19 Dec
+ 2024 00:35:44 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8272.005; Thu, 19 Dec 2024
- 00:35:37 +0000
-Message-ID: <87jzbwcxwm.wl-kuninori.morimoto.gx@renesas.com>
+ 00:35:43 +0000
+Message-ID: <87ikrgcxwg.wl-kuninori.morimoto.gx@renesas.com>
 In-Reply-To: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
 References: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
 To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 5/6] ASoC: soc-core: Enable to use extra format on each DAI
+Subject: [PATCH v2 6/6] ASoC: audio-graph-card2: Use extra format on each DAI
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 19 Dec 2024 00:35:37 +0000
-X-ClientProxiedBy: TYCPR01CA0043.jpnprd01.prod.outlook.com
- (2603:1096:405:1::31) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Thu, 19 Dec 2024 00:35:43 +0000
+X-ClientProxiedBy: TYCPR01CA0193.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b0::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -60,183 +60,248 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYRPR01MB14144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8916638e-b2aa-446e-1447-08dd1fc50ee0
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS7PR01MB13794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 447b0f76-4766-4e97-d8a7-08dd1fc51291
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
+	BCL:0;ARA:13230040|52116014|366016|376014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?//i2vttovlpssYj9Srd6XTGXzZZi/0YJGQgaXxd0g+SExtSSwZPpEGewIaIe?=
- =?us-ascii?Q?uvdzZHtco2L3zFxezhsIEMVCzeMz4kJy+x4pjIj037kT/A0PqfewSwmAr9d9?=
- =?us-ascii?Q?mgTS18vh1olPl00/E/UoyrxQMNdgXXPwRCS1mhpEKoqa5IC4Y+ULqt8ZRtg/?=
- =?us-ascii?Q?9ga0IHQFJ4bln4RbTkzyD4Bo/KDTXDp76IBKK60iCdqQrEB1ZCG+u8C5yu2j?=
- =?us-ascii?Q?6+e6l4D/c9BvBJKCe/0D2pfHVk8B2KawJpufIf4lBAzixUVLoVFq7jL63/jS?=
- =?us-ascii?Q?X6FehpZbzszMhNcCfyZxr0mHlRyIO1I9cOCJ+S220w9e6f69uT/V/fq6UMLB?=
- =?us-ascii?Q?LFH1M/NUmksnQUUAvUEix7q8dqBWSqlG3I9OPc4M9BFHCnsh3xr210sMjcus?=
- =?us-ascii?Q?xucoJ96aEshC9Mitm3u90yRlijLn/s00qmT72kAD6rUyNbqKdleh8lsl5pdx?=
- =?us-ascii?Q?j2inbq0K/WjQSa6n8BSLumk8/AYGmb8v/7CKx2KKkrRgwPpYjieZSzOh0ock?=
- =?us-ascii?Q?CwI5gkP7/Qpc3I7+LbxMlHyXsLJnj99HjyKQhL9BL3QP6+L/7QOMgXyxJnw4?=
- =?us-ascii?Q?FweNf2HHDKtyKdPZVq3xJtTJJ2FbCkcnmIMXxMBIOAcgN2neWvQiYg6mvcwZ?=
- =?us-ascii?Q?VbzKjoMCymKDGAHbKupRgFSu945bRyoPUHrT16YFyEiZtmJE5BPehQea2/Mm?=
- =?us-ascii?Q?5K0fcmhrNW2MDEpMC6iy0hwdsRFSzTOdyI8ABbAIgNK7X2Y/TaTvKh2ZEe08?=
- =?us-ascii?Q?6w/MU2C+8UZr0flCsc8S5BtzMeIelJtJZkntmUPB+BL8MbCDaBkzUUZkl8Xb?=
- =?us-ascii?Q?17L/fPoNYJ7n/0awp2haR95NfAifFARi9q18BRRaXaul4bmQjseHiij3gPS8?=
- =?us-ascii?Q?Tf9+ckRWeLAzWp7XA0ycZuPbA1E+pBUaca7QIhLTz5Nj9sZ1dM5SirP3qp6y?=
- =?us-ascii?Q?47gxwkVMM1v5CNTRHR6r1zXk0p3smAdpRJxGv77ZtUc2l5jpvsBZQyoFjqM+?=
- =?us-ascii?Q?/wRudd3Vi+nUBmrkYEhjKQecyTMmQeHMtRVmIQuEqidk6EtZE2RtH68cXkf3?=
- =?us-ascii?Q?P8yNPk9WqCEW5FA9xh3u9oiIhTvMkRLlm8NDUrryfu59FR/95AtR2o54gPUa?=
- =?us-ascii?Q?FJOoiADURO8CyiLMiWpihW1KFQOPcY7YFFoj3K/XF4RRbimxYrmhjFHsvO17?=
- =?us-ascii?Q?zJpys6zjqERI8u72uDQk9gAOamLoSGvB+pzQ1qAGGxa2YxDo/1L8IzfTQm0n?=
- =?us-ascii?Q?K4nHe2JsQLJiHquGv3xsdw24Kg0TUozJJM6AjVrnBmj4P/Qt1uHLU0xWcOYN?=
- =?us-ascii?Q?mq8fKYJvx/HktU/dT/siKoJ6j5tFlvyF7y+OpzXMdzHPt2p8ieQ9fy8yN3bg?=
- =?us-ascii?Q?nWekQdZGmPjsK7z78FutmOB+gDeMm7V3vSbx2PsW/kLze8rB2uhKh9c7ZXCl?=
- =?us-ascii?Q?F42SP4RkKFrbDF8E1ccMGvGYEE1rKnbA?=
+	=?us-ascii?Q?PWQd5g4PSxWN0go6AUF7MhubgHkY52nfrfCEmS/8xVdb0f2rtsTOLX1z3yoo?=
+ =?us-ascii?Q?37fAH4KNwWoloRWmDZLRJEn9o+uYJIPEqZq2iW5Ft5iUiPjsmm4q7q63EvUm?=
+ =?us-ascii?Q?DLnIIjjjxuQOxFy8phVRppZCLKshdoJxxHHyDJ2pdzmOC4Q7JVaBIBmxmhbJ?=
+ =?us-ascii?Q?UbTQgswX9uZxWgCAWRltnRov3bArrERBF6KjhNm2Rq25pdGZS9NUztY0hXYP?=
+ =?us-ascii?Q?z/ylPA8dsrr7EPfodJm3MSX1zEF+DUC/mIP3UQAgxi+THnViyvJypl21xrlO?=
+ =?us-ascii?Q?BD3r3aHIGNU6VJ7JrTVENO5GOopr8zyrCleOiKRgKQS0qAFq1wze7S66NTHC?=
+ =?us-ascii?Q?IvXSXIyXLgOnuubGhNMO8WbCcPsCzYle3+hUakO9SUm+hd2lTKUQouTz1wHQ?=
+ =?us-ascii?Q?Aft58wdR2GCRb4SIvPcgOgau+ohus4aEkNeAtbZy6vdO2v3tmNf3ddBkvbJy?=
+ =?us-ascii?Q?Hv4vILltwdhSEc1oe+33l7bOJEzvMGomiNHUbNd/UdHlC6itC/j7WFSGNTj+?=
+ =?us-ascii?Q?AgPu7uk9Ih+qs1YhjEyb0KRE+nvA+vgvxLomqbject527QB59Uyaxcla3p+u?=
+ =?us-ascii?Q?46m/T+srilfoky8mSMapCWg+Bbd9zu7UJy1H7atee79C3u3OQjx7L5YpHrSP?=
+ =?us-ascii?Q?VADuxO7/ywA/jIcete5awIgL0pwkq4M58i6wXgw2RuMK2ooc1z0O8Nuror40?=
+ =?us-ascii?Q?1n+UDmt4JXf8HOqfZ8A0oVLhTtLx3gEyBbk7NbBI10ll1LEhzQArBFDiCTkP?=
+ =?us-ascii?Q?SF7fa8/UpUx18kCNXK1t/V9M1yTvLbEocUQQMyI7yh5BUsd3XLI6UEhD7prp?=
+ =?us-ascii?Q?DffQNooDDruJxLgP/LvmKvfVU5YC6KQIONzkmT4PCRCIwC2Aq4mT4lqKfWvn?=
+ =?us-ascii?Q?z2pgIqAkDHuBk8zXEMYEmoLzqavoSR5tItY1gVyyfr99PkCzjZ+xH4ARFruY?=
+ =?us-ascii?Q?Jlm2N3KuGMxUqt24bZl6PCuGVvWCXADSWz1qEFoCgPaBPNelSLAh4Kkh1WD2?=
+ =?us-ascii?Q?LvjuGuRslineYR1DQtF+7g0lZsd8uVpzqCHjQxaEVwNiqzP+UJaBM1pqVLTv?=
+ =?us-ascii?Q?uI8LUpUsld0P4eZHPlAVUO0nAzKKmuJi/20+my3zz7Xkx25YHi6IKWls4wL/?=
+ =?us-ascii?Q?gp/gZTtF87QYWvLLIazn4anjoWBcVo6lWXuAt+tw5gh91c78lbM0PtWspjVg?=
+ =?us-ascii?Q?vgx3P/CaLq1E0xY1rrP1rTPrjy5RN73Ck3q0wzEOHW/hVk2+2glmrjVJYrv0?=
+ =?us-ascii?Q?B6dU8eZgd1opmfEL8laHGy/+FPhGYw96q/dNUqvlHh+b0CocUCQu3cwkDR7p?=
+ =?us-ascii?Q?mbW5eCF7eCls3XpxteuZm8bPZEP+hNjIai44lfXXtzekKbGUhR0bjCvxusfQ?=
+ =?us-ascii?Q?sGVBpzXUAjbJeXWsQpzdGSOOdSqiZG+Nf4rwwIeV0yZzhIVuwN+sTptAOZID?=
+ =?us-ascii?Q?tqhGmu6UQIg2+/sNst3yfwfzDsyIBIr3?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?NsoUFLb+GyTnIQ0lFuA6KNs+d9zWi66mRGA5FvqfYLwLZuaOzndbRnnR0W2j?=
- =?us-ascii?Q?pmoPu5AODeXc7uzR9KSPuHflusRtD9SyIJ2W5y/Dv6EEIORAPyzTiO1WagWr?=
- =?us-ascii?Q?NoFknrms0rTcjFCOTGbKbtDAFSNnLIYh5sPYUxoqQF+HYJiKQNo8/r5Mrpb2?=
- =?us-ascii?Q?FthyDCrULFCv4YeTURW8syNtyq0lAz278445RKJVYAdl/bHU8YBiHyPvvdiu?=
- =?us-ascii?Q?MkmS+iWs7KBNJwTXHri1ec5nBCDJSNiN+b+9a4wwec7tQti0C5/xPmaS9xvY?=
- =?us-ascii?Q?Fj02h405tRmBOjYVo+X8ONB/0v1BUCjEwsYDrdEd7jJ3sInP1pUkfNSKYZ+V?=
- =?us-ascii?Q?8u5w1Mxx/1tyZ4F5BXh9vOPxrjsTR2NqJHlxcXPZ8o7MVnPf51Ey202m0H9B?=
- =?us-ascii?Q?wvnMQU3y8z17e3p+elS5RThNRruKNyvfwpNyZk5Vtlmi2mmKnuA9fDdTX+V5?=
- =?us-ascii?Q?e3Gwj9C+l/KVKFUhH6BWoiiiQbnYhsNxTIBMrBNZV/vrUqSQonvSz2aeeCj6?=
- =?us-ascii?Q?SYBoTR4k8w/2lM9+J2sp4WmaIWNcwEI+pPxNMUM38MUaZSMRymAaJNlsHoml?=
- =?us-ascii?Q?kcxddFFMbFhwE9DPwEScbtqgJD3Kjyu3MRs4l//GOSpaDsvouTnxU/UmFYQ2?=
- =?us-ascii?Q?IBj0v7Q9AAYJLnCo8NgroKcB3rDIRDOJW31U/bIlLGFiq+yyy/mdUc1S1RjC?=
- =?us-ascii?Q?0QTn6Pj/rG8pjvXtJixVWxYT6tjU6JFrY8QOjn2PuQGA65N7dx/0wgkoDD+z?=
- =?us-ascii?Q?TTQBwEKtGXyAf4Up0JgBfLWCDoDnAuB5lM5VGeeS/la3Si45heJFLLYmreRD?=
- =?us-ascii?Q?poFi7AuLdQcPC4obVQ1QcbejHUGQRaxutGA6M03DIfstAiDauSxAe3YcPnJV?=
- =?us-ascii?Q?nyMKjfkwWBkhM75NykRo9O5TJY2/AN/ZUbOcuqyJ+6lETA+NTBnqctBVwpM+?=
- =?us-ascii?Q?8slQWhPtP/cFLo3KIojA9r57+ApaILrvYDYwS/Rw/5AP/Yq5NzD/xuCW1dwz?=
- =?us-ascii?Q?Irim+7BRdMAy0zCfLxUZ2wCn0wWm1OnaxlyYOf5i/ucvi/rpLUP38j79WecS?=
- =?us-ascii?Q?HJROcRdRzg0V3Hg6b3DS/y0FWXYERyLgPwm9sNv+2+o4gV0DJIT8wIMtT6sS?=
- =?us-ascii?Q?rIFJVfPEkpCForUUdzgGgQuUzUiUJH3x9BeTOkRFOKLi7w5P5MIQjEfkDXTT?=
- =?us-ascii?Q?byiC9CZsoV9t++h0irKEmccWKGfjyDh6oalrRNu/46lxS8LE587NOy0Nlejz?=
- =?us-ascii?Q?U1a2cNkSpPyYEVhK4gUUPldbAMszTiWoek38JxCh8He8i7WqYfe0sio5i7PM?=
- =?us-ascii?Q?KbBLMtSq2b4qkrSUnAx6HPIHj1T3msgsYRxK5ayydABD3cAo2KqC7x8zYy08?=
- =?us-ascii?Q?6xUumapOmD3syrLf4qCwF1OcX6Jx4z+Rvy+IZ5f98nRVhB4MlFl2d3+zkZ1k?=
- =?us-ascii?Q?7ZP2+Gq/xd4K4y/yPqQxLJJGCY9RczcMc9CkDgRMugFhcxZXrH6aT73/1Ccd?=
- =?us-ascii?Q?ex7lGDKb7ovnLXihiWC7mrBch/cI/AjAS1Jm2JgoD0t6x89EC/VlXXDHtkLT?=
- =?us-ascii?Q?w574wZAaw6zxOKqS54En7NzWW9jmwwf1BS0IKVb9DOqWOzMGVhVCkkjlboA+?=
- =?us-ascii?Q?2/SDO1uRIU3RPPVT2jGXRoA=3D?=
+	=?us-ascii?Q?dN5HQ2PG7tcr77lElJvb+sYrOrnQc6GKw4lVJqV3PZDqd++4LJGi8AjgVDIk?=
+ =?us-ascii?Q?R8FdqAZEMAnSaLNhnjsyFEeBCRtRyJp7Jz1zwYfBYM18sa3jYp04IsCmCcAw?=
+ =?us-ascii?Q?2bvdqj40AP7DQNNwG9GIC5eSaRZVI78r649XFaCmf7Jvrk7XQLu4eU/qAHdy?=
+ =?us-ascii?Q?6OPKLFeA7Drh9N94CJKHdBk1VK/MmVCm4OGgU+RxiwvKa0jWPy9QRt6O0T9u?=
+ =?us-ascii?Q?qiqk3qzYdilngRBe8XGoQc1tP2O6bEh+8+8knhJ+kqS88N59Bi+t1l8NnSW6?=
+ =?us-ascii?Q?cJOgsBD46C52PR0ghnewUUpLGCuujRiorrMT58S8WD0p6NUz3Ue6s08rmkg0?=
+ =?us-ascii?Q?WGZcTXAkhJOB26BfnMTkj2Z5S0pO9qQlPwqO0OJLwu0i1oadkEXF/TUTRGq9?=
+ =?us-ascii?Q?fnQKHfkw/SrXZqxgVaat7UcH7d2qmnigpH34bqrKnPQoYw2gAd2FEDnYndal?=
+ =?us-ascii?Q?7bh5PrhkMY5ZN98Y7ztrmux6dxOeEUr4UC3wAuwnaLVsUF3Mgqu/XayA8vUx?=
+ =?us-ascii?Q?vN2oRA9SckYxT+0cMaiiMAPRwO6YJdemjPN/GqPA8wXCifyspNXYhYcvyG9e?=
+ =?us-ascii?Q?4t70XgytbRpq5if5goqb/V6hIgvWqtmasxWfn1H2P3uaNp1E2nftNtrfOrgi?=
+ =?us-ascii?Q?kJ1pQJjt/ZeqYFCNdBu4uZt0bKkdQzE31odzcUAa6bzYRIUNqAN9dIuoPBhp?=
+ =?us-ascii?Q?+jI544zYwLbmMHxDwYFmJKvibFALc/DZ6DTiCgKLGV6ld/JBugPbOi7CU2lp?=
+ =?us-ascii?Q?UTNBDFyN2UhjB25ASVqlE5snX5Nbv9UQI2wB83xm7UGUSisvk7QV//ojPfti?=
+ =?us-ascii?Q?tc+dSTf9u6cw/zCUx0mSZ5yaqg3JYJmm2KnAGcBymX9LAd8s3UNsyP/jGGDL?=
+ =?us-ascii?Q?4qyGKyCw2S7Ivagk7Hy07OyVA9hOfdqHWvxzed9AXFBofTxPBbktWmhsRLAw?=
+ =?us-ascii?Q?phY1R7LssFQigNAcZZZKQCPIgM1fyAF/93DvljRfvkBmtFlpgjxzIcU7Df0h?=
+ =?us-ascii?Q?UoYLfNV5duo+9mObjhNjsg7l7EFbftZrPOSRlDUxfKHJeZOB3sbMv7Tsr7dB?=
+ =?us-ascii?Q?T7WQ595MKmox0uGJue4Y7hQqKIzt6iMrIlJ1A6lOX2gZv4wDE6T+j1LJiLeC?=
+ =?us-ascii?Q?Ik+CanYqVEyTkL+QtXXQrSZYpSTEWaUwUC4VVIS/dUppN35RqwSY6g30X3iM?=
+ =?us-ascii?Q?Ud/LfItHlw9mUpn0wXTDkriPMKPmA/vTjY93eTVmnAvevPJ2uQDmrrUQyIn8?=
+ =?us-ascii?Q?lssMV97Ey/oWiZlIwaWtJgHZD3PQ0IMgOaUBzGOwjs5aQXv6zhSSftbzs1p8?=
+ =?us-ascii?Q?n41SKq2GM3nkTuw09zVnoyBoxXc8PQMIH45v1xMrhdOyUEdNoI7fNNdLbpCt?=
+ =?us-ascii?Q?dq9Yubf0SeK9Yk4Dr373JeeWWH5yJGWwaXXBsLDi+zwqdhwtdzOKWMulgJVJ?=
+ =?us-ascii?Q?C8L/gzGBfPrUMvh6VxvEZ7kLPCispNaftNCeKg525Ej7nGiSu/mHkgUEdBNq?=
+ =?us-ascii?Q?4dFDqhRxYr0+8ymcOHLL5AaTi4+NhJQleph9soM3pb0mvvB221E6G/o1YfBj?=
+ =?us-ascii?Q?CqlSQb5/ZG60oHbKM7WAcuTUpFYbZCP9ygNgm+oTikfVBgSGVNQXNBhihus/?=
+ =?us-ascii?Q?8UBWR7xIDN1nQWKaB5IfIGc=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8916638e-b2aa-446e-1447-08dd1fc50ee0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 447b0f76-4766-4e97-d8a7-08dd1fc51291
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 00:35:37.5918
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 00:35:43.8023
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZBBhih3HuhmJxugKKqqguUCZlsxQG9j9/Bgqc9BW6TWVrLlZPIZdLmvJJ5MiJ/i9ULCsnGEidlefZbT5nkqNhFJarcwHEJedN1OX8rRAoUX75TvRV4seiZOnrBjJioFr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14144
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wug6iXurN/76uBo7IFvEGTLzA+upoKXrwg/XTN2yzQb/Jiub0h7p9F1UQ8icR848Yk0yppo9VzzV6tB8cPlylGoCrDG+fBOqICn7bwhREhvNOOGmgGabyWzWN3RnVJJf
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB13794
 
 Current ASoC is using dai_link->dai_fmt to set DAI format for both
 CPU/Codec. But because it is using same settings, and
 SND_SOC_DAIFMT_CLOCK_PROVIDER is flipped for CPU, we can't set both
 CPU/Codec as clock consumer, for example.
 
-To solve this issue, this patch enable to use extra format for each
-DAI which can keep compatibility with legacy system,
+To solve this issue, this patch uses extra format for each DAI which can
+keep compatibility with legacy system,
 
 	1. SND_SOC_DAIFMT_FORMAT_MASK
 	2. SND_SOC_DAIFMT_CLOCK
 	3. SND_SOC_DAIFMT_INV
 	4. SND_SOC_DAIFMT_CLOCK_PROVIDER
 
-	Legacy
-		dai_fmt  includes 1, 2, 3, 4
+Legacy
+	dai_fmt  includes 1, 2, 3, 4
 
-	New idea
-		dai_fmt  includes 1, 2, 3
-		ext_fmt  includes 4
+New idea
+	dai_fmt  includes 1, 2, 3
+	ext_fmt  includes 4
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- include/sound/soc.h  | 11 +++++++++++
- sound/soc/soc-core.c | 27 +++++++++++++++++++++++++--
- 2 files changed, 36 insertions(+), 2 deletions(-)
+ sound/soc/generic/audio-graph-card2.c | 75 +++++++++++++++------------
+ 1 file changed, 43 insertions(+), 32 deletions(-)
 
-diff --git a/include/sound/soc.h b/include/sound/soc.h
-index 4f5d411e3823f..61eee40da12ad 100644
---- a/include/sound/soc.h
-+++ b/include/sound/soc.h
-@@ -681,6 +681,17 @@ struct snd_soc_dai_link_component {
- 	struct device_node *of_node;
- 	const char *dai_name;
- 	const struct of_phandle_args *dai_args;
-+
-+	/*
-+	 * Extra format = SND_SOC_DAIFMT_Bx_Fx
-+	 *
-+	 * [Note] it is Bx_Fx base, not CBx_CFx
-+	 *
-+	 * It will be used with dai_link->dai_fmt
-+	 * see
-+	 *	snd_soc_runtime_set_dai_fmt()
-+	 */
-+	unsigned int ext_fmt;
- };
+diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
+index f4c825b56a7e1..2bf7b25e00ed2 100644
+--- a/sound/soc/generic/audio-graph-card2.c
++++ b/sound/soc/generic/audio-graph-card2.c
+@@ -658,8 +658,7 @@ static int graph_parse_node(struct simple_util_priv *priv,
+ 		return graph_parse_node_single(priv, gtype, port, li, is_cpu);
+ }
  
- /*
-diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
-index 31cf499e3e79d..bd16b3fe59c8f 100644
---- a/sound/soc/soc-core.c
-+++ b/sound/soc/soc-core.c
-@@ -1449,23 +1449,46 @@ int snd_soc_runtime_set_dai_fmt(struct snd_soc_pcm_runtime *rtd,
+-static void graph_parse_daifmt(struct device_node *node,
+-			       unsigned int *daifmt, unsigned int *bit_frame)
++static void graph_parse_daifmt(struct device_node *node, unsigned int *daifmt)
  {
- 	struct snd_soc_dai *cpu_dai;
- 	struct snd_soc_dai *codec_dai;
-+	unsigned int ext_fmt;
- 	unsigned int i;
- 	int ret;
+ 	unsigned int fmt;
  
- 	if (!dai_fmt)
- 		return 0;
+@@ -684,16 +683,6 @@ static void graph_parse_daifmt(struct device_node *node,
+ 	 * };
+ 	 */
  
-+	/*
-+	 * dai_fmt has 4 types
-+	 *	1. SND_SOC_DAIFMT_FORMAT_MASK
-+	 *	2. SND_SOC_DAIFMT_CLOCK
-+	 *	3. SND_SOC_DAIFMT_INV
-+	 *	4. SND_SOC_DAIFMT_CLOCK_PROVIDER
-+	 *
-+	 * 4. CLOCK_PROVIDER is set from Codec perspective in dai_fmt. So it will be flipped
-+	 * when this function calls set_fmt() for CPU (CBx_CFx -> Bx_Cx). see below.
-+	 * This mean, we can't set CPU/Codec both are clock consumer for example.
-+	 * New idea handles 4. in each dai->ext_fmt. It can keep compatibility.
-+	 *
-+	 * Legacy
-+	 *	dai_fmt  includes 1, 2, 3, 4
-+	 *
-+	 * New idea
-+	 *	dai_fmt  includes 1, 2, 3
-+	 *	ext_fmt  includes 4
-+	 */
- 	for_each_rtd_codec_dais(rtd, i, codec_dai) {
--		ret = snd_soc_dai_set_fmt(codec_dai, dai_fmt);
-+		ext_fmt = rtd->dai_link->codecs[i].ext_fmt;
-+		ret = snd_soc_dai_set_fmt(codec_dai, dai_fmt | ext_fmt);
- 		if (ret != 0 && ret != -ENOTSUPP)
- 			return ret;
+-	/*
+-	 * clock_provider:
+-	 *
+-	 * It can be judged it is provider
+-	 * if (A) or (B) or (C) has bitclock-master / frame-master flag.
+-	 *
+-	 * use "or"
+-	 */
+-	*bit_frame |= snd_soc_daifmt_parse_clock_provider_as_bitmap(node, NULL);
+-
+ #define update_daifmt(name)					\
+ 	if (!(*daifmt & SND_SOC_DAIFMT_##name##_MASK) &&	\
+ 		 (fmt & SND_SOC_DAIFMT_##name##_MASK))		\
+@@ -711,6 +700,17 @@ static void graph_parse_daifmt(struct device_node *node,
+ 	update_daifmt(INV);
+ }
+ 
++static unsigned int graph_parse_bitframe(struct device_node *ep)
++{
++	struct device_node *port  __free(device_node) = ep_to_port(ep);
++	struct device_node *ports __free(device_node) = port_to_ports(port);
++
++	return	snd_soc_daifmt_clock_provider_from_bitmap(
++			snd_soc_daifmt_parse_clock_provider_as_bitmap(ep,    NULL) |
++			snd_soc_daifmt_parse_clock_provider_as_bitmap(port,  NULL) |
++			snd_soc_daifmt_parse_clock_provider_as_bitmap(ports, NULL));
++}
++
+ static void graph_link_init(struct simple_util_priv *priv,
+ 			    struct device_node *lnk,
+ 			    struct device_node *port_cpu,
+@@ -721,15 +721,18 @@ static void graph_link_init(struct simple_util_priv *priv,
+ 	struct snd_soc_dai_link *dai_link = simple_priv_to_link(priv, li->link);
+ 	struct simple_dai_props *dai_props = simple_priv_to_props(priv, li->link);
+ 	struct device_node *ep_cpu, *ep_codec;
+-	unsigned int daifmt = 0, daiclk = 0;
++	struct device_node *multi_cpu_ports = NULL, *multi_codec_ports = NULL;
++	struct snd_soc_dai_link_component *dlc;
++	unsigned int daifmt = 0;
+ 	bool playback_only = 0, capture_only = 0;
+ 	enum snd_soc_trigger_order trigger_start = SND_SOC_TRIGGER_ORDER_DEFAULT;
+ 	enum snd_soc_trigger_order trigger_stop  = SND_SOC_TRIGGER_ORDER_DEFAULT;
+-	unsigned int bit_frame = 0;
++	int i;
+ 
+ 	of_node_get(port_cpu);
+ 	if (graph_lnk_is_multi(port_cpu)) {
+-		ep_cpu = graph_get_next_multi_ep(&port_cpu);
++		multi_cpu_ports = port_cpu;
++		ep_cpu = graph_get_next_multi_ep(&multi_cpu_ports);
+ 		of_node_put(port_cpu);
+ 		port_cpu = ep_to_port(ep_cpu);
+ 	} else {
+@@ -739,7 +742,8 @@ static void graph_link_init(struct simple_util_priv *priv,
+ 
+ 	of_node_get(port_codec);
+ 	if (graph_lnk_is_multi(port_codec)) {
+-		ep_codec = graph_get_next_multi_ep(&port_codec);
++		multi_codec_ports = port_codec;
++		ep_codec = graph_get_next_multi_ep(&multi_codec_ports);
+ 		of_node_put(port_codec);
+ 		port_codec = ep_to_port(ep_codec);
+ 	} else {
+@@ -747,13 +751,13 @@ static void graph_link_init(struct simple_util_priv *priv,
  	}
+ 	struct device_node *ports_codec __free(device_node) = port_to_ports(port_codec);
  
- 	/* Flip the polarity for the "CPU" end of link */
-+	/* Will effect only for 4. SND_SOC_DAIFMT_CLOCK_PROVIDER */
- 	dai_fmt = snd_soc_daifmt_clock_provider_flipped(dai_fmt);
+-	graph_parse_daifmt(ep_cpu,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(ep_codec,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(port_cpu,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(port_codec,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(ports_cpu,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(ports_codec,	&daifmt, &bit_frame);
+-	graph_parse_daifmt(lnk,		&daifmt, &bit_frame);
++	graph_parse_daifmt(ep_cpu,	&daifmt);
++	graph_parse_daifmt(ep_codec,	&daifmt);
++	graph_parse_daifmt(port_cpu,	&daifmt);
++	graph_parse_daifmt(port_codec,	&daifmt);
++	graph_parse_daifmt(ports_cpu,	&daifmt);
++	graph_parse_daifmt(ports_codec,	&daifmt);
++	graph_parse_daifmt(lnk,		&daifmt);
  
- 	for_each_rtd_cpu_dais(rtd, i, cpu_dai) {
--		ret = snd_soc_dai_set_fmt(cpu_dai, dai_fmt);
-+		ext_fmt = rtd->dai_link->cpus[i].ext_fmt;
-+		ret = snd_soc_dai_set_fmt(cpu_dai, dai_fmt | ext_fmt);
- 		if (ret != 0 && ret != -ENOTSUPP)
- 			return ret;
- 	}
+ 	graph_util_parse_link_direction(lnk,		&playback_only, &capture_only);
+ 	graph_util_parse_link_direction(ports_cpu,	&playback_only, &capture_only);
+@@ -779,14 +783,21 @@ static void graph_link_init(struct simple_util_priv *priv,
+ 	graph_util_parse_trigger_order(priv, ep_cpu,		&trigger_start, &trigger_stop);
+ 	graph_util_parse_trigger_order(priv, ep_codec,		&trigger_start, &trigger_stop);
+ 
+-	/*
+-	 * convert bit_frame
+-	 * We need to flip clock_provider if it was CPU node,
+-	 * because it is Codec base.
+-	 */
+-	daiclk = snd_soc_daifmt_clock_provider_from_bitmap(bit_frame);
+-	if (is_cpu_node)
+-		daiclk = snd_soc_daifmt_clock_provider_flipped(daiclk);
++	for_each_link_cpus(dai_link, i, dlc) {
++		dlc->ext_fmt = graph_parse_bitframe(ep_cpu);
++
++		if (multi_cpu_ports)
++			ep_cpu = graph_get_next_multi_ep(&multi_cpu_ports);
++	}
++
++	for_each_link_codecs(dai_link, i, dlc) {
++		dlc->ext_fmt = graph_parse_bitframe(ep_codec);
++
++		if (multi_codec_ports)
++			ep_codec = graph_get_next_multi_ep(&multi_codec_ports);
++	}
++
++	/*** Don't use port_cpu / port_codec after here ***/
+ 
+ 	dai_link->playback_only	= playback_only;
+ 	dai_link->capture_only	= capture_only;
+@@ -794,7 +805,7 @@ static void graph_link_init(struct simple_util_priv *priv,
+ 	dai_link->trigger_start	= trigger_start;
+ 	dai_link->trigger_stop	= trigger_stop;
+ 
+-	dai_link->dai_fmt	= daifmt | daiclk;
++	dai_link->dai_fmt	= daifmt;
+ 	dai_link->init		= simple_util_dai_init;
+ 	dai_link->ops		= &graph_ops;
+ 	if (priv->ops)
 -- 
 2.43.0
 
