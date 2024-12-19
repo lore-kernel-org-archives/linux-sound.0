@@ -1,57 +1,57 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010059.outbound.protection.outlook.com [52.101.228.59])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11010023.outbound.protection.outlook.com [52.101.228.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C07320F
-	for <linux-sound@vger.kernel.org>; Thu, 19 Dec 2024 00:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.59
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B9F7494
+	for <linux-sound@vger.kernel.org>; Thu, 19 Dec 2024 00:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734568523; cv=fail; b=exA0VZKxWaNIYPP+PNMKvMkIcM1DQnAhqzMgc1M5fPmzzeJ9OU9lLvuczPLoZsaPXyO8wvaua0argbPSj+9QTOChspzwrALav1yWxBT+1Z+YY5xQu6kXCoqlNzCWio/vpfzV1PFB69PJCaQ1IeADt3eqdrtsZMcmaNwLvD2McrU=
+	t=1734568532; cv=fail; b=nCKt7OALKyiCP7kORh06npcnauXBc42U+mwWAbJmzD72HMSEzlgNBg2UKHcED6sEnQXL4vSgRgVp8gKNEPO5oajxu3dmtIRi0EMoQqi4jD9uhPMbbAES19m5JkD28uaqashlKdaFQbzRqOEbGqExoez9V9sdTyNiMGG39MJe/ow=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734568523; c=relaxed/simple;
-	bh=tGcFxxdLtL9v/FocUqoOF+0WgyRgMs3IoGhbzcBshD4=;
+	s=arc-20240116; t=1734568532; c=relaxed/simple;
+	bh=dFfg5Ae/MoPJH2Ejeb8Iihqmn9ztw02wCYKV3a6BO08=;
 	h=Message-ID:In-Reply-To:References:To:From:Subject:Content-Type:
-	 Date:MIME-Version; b=qQIETqBB67CWqUhUDPakznicCQYdMIQHx2k9eDsLyl+rneXmJiEHOCyju1IX7Zr+IRJINaTNUOJhsM1x4vDNwm4WchaBOS5LNteH/9WfIak5ChTyT/f9lo0gzCYk3WIEV+96YmndypYtleAvX9vouEZAgKs6Een3QUyz8vcWpGY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=TbiFuoi0; arc=fail smtp.client-ip=52.101.228.59
+	 Date:MIME-Version; b=I55rUW35a2O2o21szXrYOyDeYSXmX4gfRg9FVMvmr9ZWIIxV30S18Umw9Vv6sGC67NOSguqK/z1CfJNRFYZopHvks+ReFEL37eNdCJOr9zrlEIl+oX6YaJOmXLj4nWLoGw/PZIWh/GeBRQt1KCMk81NJN5+nFbT9/nsTApRWyfU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=UNkApAdD; arc=fail smtp.client-ip=52.101.228.23
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="TbiFuoi0"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="UNkApAdD"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UL7vKhd/E+534fjky2yOmgiypT4sw3cJiXzWKFzzxXWYO7RthTjDKNMt/BzEyAp7qs57xeBVCpintyzknHkYOos31qDaFtHmOEXv/xBKPsWA0g23v4+poZVv8xjwE2n8rljvhSUZK5YDr0ZpBFevGGnHOoHAtDh+5nPnZhHBUQ9RKTL4W3s8BLIYekqaqyldsHNWmShinzNxWp+2rJIv5dRimgtTuBCmv7hkM38FDhldks8IlbhAhmVTjFwjKs8+7NZZEN+ese9zRwEk698pHvL60wMChk7glyz8fwjBM/7HlCU1nfzeozIAk6zDc94BJ3siNLeBUY/iIfm5fAkmMQ==
+ b=H9wWn3Q0TrZIJ0VKbpDHlS9MFWmE4xdR+6Rvcv6BOttieEswGd5s4cbgW+hLUifC9mDrj9hbKoas+7At+7zSSF8s95iRAs1MiKbUd9r/iOA98FcqshjNUD1R9WWzlAm0n0eEPAj4k0inHRN6vZ3Rx6P/MwWnI6rsBZAii8pWF8Xbm5QMjXfMUoWd9Eibx/yVmaVFL0zRoEE622x0oKyuaAraTfD5tNlXa9Zka8RQhg1NMRtG92g8Ej5qRfyijuf7IC6+ABUAVCoJJEi0GxpU8Fs3zwLvaem12UG44u1lAVKCtFqLCyHUeU5/7l5HE/nm3zrKeGu7SYAkrx19guGk+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0zUoAJeE3+6qnE+y8FzuZc7ykrl2IL9PBgyEkfxctoM=;
- b=WdMvEKBp8ZYoATK96D5Qb1E/7T/TmMO4A8YTB7dM0T8/JQNsJ2hLJlZ4bdSHWldr/sE0z67fFM6vwaCsU6SsrD5yH4+lWR3SEEQznB/3f6ZuPR2N+O4tC5rzMPmpl6vBCqn1bWw3NLzQ07HDmI7oDQjN0+3bF0zDCsMPii4yd1F1vU2iw+Hti1XNpLEWY6wo/CUeshVuizd1AnEnnl/eeuUYu+s/7PkqQ2GNqEm5b1WR/Ttl9TZR3e8P7NA4Cpn4GeN/sm5gsgvOC3znHdA9D/+Aeo8BvJmp+U9L/4iZnHaHLJ6lVz6yhyNtyQe7OxZjXd7pFmEH41YL7ylc+IcbRA==
+ bh=S3x994mu//c+VzG9sCnHiRUdAe/K89WyGbiEHnI/TXE=;
+ b=lMyYbOy2vifPwo8uiJlS4kAsBewafwUg8VM9qg8i8glyLJsg36gcbUZgQdcFaZkXhZSpDnQcqPQPaSI72M4vcasj3e4Dk+dWP4s+6yTsUjQadeCI8bVF4xx31z2ktR2oiuS+s9VSKiVIdoFOOtcQOWuTWdSx0546QZ8KosH0YximVUqKoDN2cy78TRdjqhvREyUgupCCXOAJI/KIRwLSAE0nKIet5oK+pb94rXlk0F5s0tIAVurzHScXpoZ5gLLGhH2qj4EfihMnZzo0lX9GlWQpOvD9R8YvTo7/sS9ZRtEwxQl5RsUSaghojLoT3PPO0kNA3bLlh3CLaTlg6ZDhhw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0zUoAJeE3+6qnE+y8FzuZc7ykrl2IL9PBgyEkfxctoM=;
- b=TbiFuoi0KB11MeHXD5D3mAEfg5pu+upXfi9ztUBGkOW+kB8UwzjIUIxElwoIVBIbltUdmX/dDyONaiaP6v9wf9i168MEzStcYQcknKDLVVuTwJMovpE/CwjBaSp6IKs3mNNeQ+66LwMREuEG9XmNrchimXgKTt1qYHMCCxhff4A=
+ bh=S3x994mu//c+VzG9sCnHiRUdAe/K89WyGbiEHnI/TXE=;
+ b=UNkApAdDCwQl0saMygztRPgdF7L9XJGL6aNtmu9xUEWkSVVrE3hApm2vFUpkib5gzjU85OyjUnWN7G1SFLurqjq37GLFkb7P6nPH49VBM+1KmFqZUaMA9HVUHbepa4B0wbQuCqKY7w5R1glVTu/9cq57dMyJFKsaNsNbEmpM2Ac=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=renesas.com;
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11) by TYRPR01MB14144.jpnprd01.prod.outlook.com
  (2603:1096:405:221::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.13; Thu, 19 Dec
- 2024 00:35:19 +0000
+ 2024 00:35:28 +0000
 Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
  ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.8272.005; Thu, 19 Dec 2024
- 00:35:19 +0000
-Message-ID: <87o718cxx5.wl-kuninori.morimoto.gx@renesas.com>
+ 00:35:28 +0000
+Message-ID: <87msgscxwv.wl-kuninori.morimoto.gx@renesas.com>
 In-Reply-To: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
 References: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
 To: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 2/6] ASoC: audio-graph-card: use __free(device_node) for device node
+Subject: [PATCH v2 3/6] ASoC: simple-card: use __free(device_node) for device node
 Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 19 Dec 2024 00:35:18 +0000
-X-ClientProxiedBy: TYCP286CA0359.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:7c::13) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+Date: Thu, 19 Dec 2024 00:35:28 +0000
+X-ClientProxiedBy: TYAPR01CA0238.jpnprd01.prod.outlook.com
+ (2603:1096:404:11e::34) To TYCPR01MB10914.jpnprd01.prod.outlook.com
  (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -61,212 +61,292 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYRPR01MB14144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57fa8661-1901-45a7-e3da-08dd1fc503c2
+X-MS-Office365-Filtering-Correlation-Id: 21d4b129-2811-4148-6508-08dd1fc50981
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|52116014|376014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?nVhsJZDNm3fZfEUlh3IqMDyGj3XXkydARSHoIY8NMDf8mAwEwpHIYDfs3AJQ?=
- =?us-ascii?Q?zRxWSgfBIgsy954GgTMOEf7DUWyhq0G47E1bNkoCUFgVPHWWwhNgPc2/Stct?=
- =?us-ascii?Q?ciqXWwupuepSwoybQIuxBvh44M/6I866OazdRRuSOIFEwesms8cXAt/eUC+p?=
- =?us-ascii?Q?d4E2VcjeR5q2hI8NQxInY0mXM+NfdEaHmmMXxO4MfoNLYWJSYOrP7UrHx2P0?=
- =?us-ascii?Q?JUOYnk5i8TJ3qgLPB0QELMsSTzomxb2OMbi4oWR4IIm+4a8fkrDeXn35+uOi?=
- =?us-ascii?Q?6Tn87+5oWLk2NfDkDw/yDovrEyMC9ptdKVSARNHNGC1hkvsvpP4ddpwyJWxu?=
- =?us-ascii?Q?sOnZVkvgoyzvTHz1fcTIdtPnUlfFYRVnyaCIIEgKCkpji21S6cnzjdPXiu9e?=
- =?us-ascii?Q?W10/nOguKJjvAWO5IXDn12f+JFm+vkyVScc2ydW6q7v9WlgaliCFWWqK4WHz?=
- =?us-ascii?Q?gJIZsYCmqhyS/8KjNOix35B8AuhEF5sEsOW5BMvlaiPsYj4sgwkCdbVCvt3P?=
- =?us-ascii?Q?nOcsi+WTYJ3Bk9e+0kfg0F28VQ21Q32G089b1rv0l2C1R5g1JUHucsKA1tgN?=
- =?us-ascii?Q?9IBvP1DFXUvnZkzMEVcsD8ayqBfGJ5DU39Y/PyYwEMg3vxNpeRXe9mkBl+nd?=
- =?us-ascii?Q?TiTf1+bOvI8eyIvTbB6CZqNtK7sm5V19FxDWCb6gP+r/n5wI3i++zpfp/0Pq?=
- =?us-ascii?Q?B8eThUa6ApYsUiDlATA1V37g/7o45W68kz9zMhm8wGpyvZfSkmk0CA1gHMFz?=
- =?us-ascii?Q?OGfWy8gUi8qgGUKGAYnCN13y60lSDLFCjS6QYoP54TyU1ubNB7Q3Tfi+CN13?=
- =?us-ascii?Q?S1ScAdqHHaBKriL2WnUp6dgrnfa1d+3PmttdvFjDbr/xDVRqHB6aT+mf5B7j?=
- =?us-ascii?Q?Blke0qo7KHqPrkvvVUmcjcHeZaGNaWv7UT2W4Eqd4qRzgbSxE8Q/6HQSn9jg?=
- =?us-ascii?Q?Mm+rwtCSEaaLLTrB6muuYynOgY6ORr3ug8V/B+ty9ljxGtGatD373Pa5ZJ3T?=
- =?us-ascii?Q?Kdn7Gt4lgPBeHl2Q7SFa1HsvITsVFHYueiJzZWNr3IIETkCbN3aFKXsf87Sa?=
- =?us-ascii?Q?3NnvJsApP3JjUXliDT7Z+/9IkzgzLgqZYvKYoA3sQNPNDYW6Jrrptjf0PHYB?=
- =?us-ascii?Q?f5GBTrEjjVr5GHzbFNaFwu4uETwRcJIHV18EMmDzULz5i6TcREwqC2o4Xd8l?=
- =?us-ascii?Q?B88Hb4ibcyKGP6xIpYJCA2kJh864Pv3llGoXZV9mzjT3YalYUS63W7Q0+I0Z?=
- =?us-ascii?Q?TGfAhapS+aLDFdez1ToaJRNI1gE61SYq2y3iH2bB2Ltt87VxJ3x5iMmaCb0I?=
- =?us-ascii?Q?gnLdYyNcXJnEcoBUS0V7p19WccV3/GRAnfY8XPRb4CKUSC7S0PmnjOGEJP18?=
- =?us-ascii?Q?jhJKrEYh6t6G6w76jS+4oruLg5cSypzTjynEVbIGXYQpFLJ+vLBVNOfUYAnE?=
- =?us-ascii?Q?tDjaui61YvmKy7GavnLloE4g2xtK8cVZ?=
+	=?us-ascii?Q?+LG0SuGNHxLKEQpvq0ixf78JWaYZL5Sm1niHupwZ4u5sxMUm85dguXE9LdXY?=
+ =?us-ascii?Q?Rru8bnMJTysYHe/ogQg+0I9rCt7G9wgs58cvKui7mgy5X/eOjAozrhIIh1fQ?=
+ =?us-ascii?Q?J6PtveidDQha7+FYjGij7BXQVJHSwP9JwDgVhHmhLray/jl4ZFF/nRaritZw?=
+ =?us-ascii?Q?vEXtU/gGyzJMFRcLrU910qEV3O+4MGMoeKB5zfy2jlj3fXO8utP4fUBQNNxC?=
+ =?us-ascii?Q?8uZEXn2vavRitBXqOcn5VcKq2QjlzCHYOmLes0RI8hX8fShzUTfQZoaFkCj4?=
+ =?us-ascii?Q?dFuhlpgzrk9fMl0ii2pINcvZYWUqFF8V5fn5I77PX7Fl5ynXh9BDEIDcBs6M?=
+ =?us-ascii?Q?9oeh5qoPDyq8ux0/GO/vw+PsErkQgxSXJQk6VkRhyZdH5bg2Jlkh92vViVu8?=
+ =?us-ascii?Q?75ien/uS2eJb4b4BTJ/ODb+6N6SnYLEgKTLigol5Plw3tIVcU1K2lg+FoIUR?=
+ =?us-ascii?Q?NdKYrJScwqUTYpWANp1ag20HkaHq2J1egKK9EZQmrg232aI3EhmjgqIzLVV7?=
+ =?us-ascii?Q?WkETF4zWSv92Kx0oT3N2BxqhGkByjGCrup6LQALSN0fpoBacF7lh2LuEbYrY?=
+ =?us-ascii?Q?lY63dWBxvll85+TXuRGHZGjCGkS3hVN3VseFIGBe1mMrx5NcrAVUB3/q5QnY?=
+ =?us-ascii?Q?2Jw+WAQ0AnP+6S5aQJyHxrH93C1vBWNrRw26v7wwirU5vBhC0bOEwEGQEAJF?=
+ =?us-ascii?Q?II+Z2VOgmAn8nb0fPYW1AK54AAkWZWYTaFQWu2zL/tKqJemrolLBTsMH7i1D?=
+ =?us-ascii?Q?9AyYYS/UcCLryrKtrJ7ucM6oCamWL830bX/u9rTU2QrRvhlKLY4qRvGNeGuH?=
+ =?us-ascii?Q?+xawEIgYVW0BJQYq8fqtiaPP0k138b9SHd+px/0xQXK9EotHHvZeXxOJ1cXd?=
+ =?us-ascii?Q?zX5byEHIdaxFgYFhB0snWVQ0szQaRYocNdMz2TvlypVYiRiAmLYfCxM7qavk?=
+ =?us-ascii?Q?YwZbulnIlt7rtjlyotx6rxSOsaKDOgE0umNNwFg7flLAB90aXtpLWqJWkL4h?=
+ =?us-ascii?Q?U0abgXzV/+v3jzcXg0fxK3t3XC65hwMEyUXP5671E51KTwgfxSW3IHVgW7u+?=
+ =?us-ascii?Q?HaXZCmPgN+nqsahaAwWhOqP1TUNxSPjxDMsXi2182txTqJ5hoJJZhnrUxLD1?=
+ =?us-ascii?Q?u0DFsvZrkuzNBh/mGuvePwq8CVmtdGy69Fk2KsaD3d3OufonT1spjnC25RSf?=
+ =?us-ascii?Q?NtOUkEZ7B2fwpxi1jKo7QoQdSXEFqk3JDYEYKgQ/4qckGMkDoprPCc/Pvxov?=
+ =?us-ascii?Q?00FOG2ml+iIRNVm2d9wZVQMkgFsrlbZraeXXZiobp5z0b11tj83yD6b07M4e?=
+ =?us-ascii?Q?GwdK2VC2jyt9VpK7RM6ogmIVQetj0l2yDgnYuPRuv6MdTqsmPt+srrPpMRzQ?=
+ =?us-ascii?Q?koZposwfRIDzeeYIOIvlx0AzjQ+3IChLEGLLh7fzPIQa4r9dYVFnuaTLQFb8?=
+ =?us-ascii?Q?8kK4EyI1N2Mpe/SJTGD0rgnzX8q79Dbv?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HoUwaK9hgvsgxuzR0XocaSA71DQl2cuI7qNyn2GVwLkbRCiAaOkYAc6K0V78?=
- =?us-ascii?Q?YI5sZ5dlg7SVHLaDuVzgUzhqggFuxzeBBc7JlpsKLsh59x6zkJPwg02nRxhz?=
- =?us-ascii?Q?IdvxpDFp8BFicOax1SFSkz9ypVXJireOCYh7isCj4v5c5kVmyVLqmdI6XSrK?=
- =?us-ascii?Q?IxHGEkALaNOjT5fdu6j9GLenu3glNlNKY6jpC8gKd6PFcHhd6+pwol3NV/hd?=
- =?us-ascii?Q?zHlZ2+IgZrZlIReB0SdHv4iRwEDnGhBGS4/iryY2bHwN7U80eM3LsmlTvFnU?=
- =?us-ascii?Q?8M5rAVRlXEBFne8gBUAt3z7AMZnfJMkcoQa0EOm05a3nBDyLPW3V4051k7gv?=
- =?us-ascii?Q?DqpGXAyDFFVOSynHi8fhXG5og+AM7Gnl7X7hh0r+UPPWqjysEZw/GQe42Bql?=
- =?us-ascii?Q?Wruszok3S040kk01tpo8C2wfmNK2iaU5vvAZ++N4dHK1IcvCgz8Xl3OKbym6?=
- =?us-ascii?Q?7l3gNabfM5e0aS1VPSFsMl5L3ixbWFH3bbB+HORb7UllsatuPcZGR1Z9tJgt?=
- =?us-ascii?Q?gPgNxSJZ0csIDnA+m47VbXUoQTlAgMrUH2ZqRWEj8ZS6OgnGJaiqWxY67D0v?=
- =?us-ascii?Q?QsrCYBkD8IJB42PxSo0m+pNGw57EUeS/aHPTQGHTvU+dYjZTPDdi42mcW3Rk?=
- =?us-ascii?Q?aLf34X1rbUxj0xAPBLslJ4un9c/QMs9ImrMWrQUBODNNMVPnMQMaIHOOY8Ub?=
- =?us-ascii?Q?RRVL1sTp+R4rIQ2Bqma5+upj+CHPVn2ZEtFiz+Xmh9XIOdGVd+6H27/FJP7q?=
- =?us-ascii?Q?CA59HJs+ZH+pqPNZD29nL9VfwGw0Yqa1wPH0+pfFf+VPRzR7uSEge+eW63yK?=
- =?us-ascii?Q?QluVpWxrYcYXy9W43WqQvxrEQH8j4Pf/3e/s87/hYWC483oB2tG6eWgnkYSr?=
- =?us-ascii?Q?rI7DLsslYOhsBgqqWdlgq73kT2vE96kslK9U3UWoo7qJteyi8HEDvYqNO3MW?=
- =?us-ascii?Q?zGqHzvtXnRJG6m6EBn4x6sXlA9CA95DsP9NpNdPeR0mCUYd7jXOWOJRi4Sfl?=
- =?us-ascii?Q?agJlfOp7G2MqPn9JZEuCJSoAHcFTQwV8LKorZi54KNYiHRoIWRiKnK24SdCd?=
- =?us-ascii?Q?8EMDDzTePfJmdsONeOMZn0NOl21niOOEia8qIijL11jAqz41VePO4Mt/Y9DH?=
- =?us-ascii?Q?ip5bF1On77MtWzJASbnne9LFxY89heJTLDLgRfoolrvqjw0LizVQigWwkPR6?=
- =?us-ascii?Q?38AH8lIqicNG0U6QmRk4FIh4Boe1y1AxZS1SVePtvQ7JYdQw0jImu9hWr4Lw?=
- =?us-ascii?Q?tXxBNqK+Oe+MPvRtmH4DcOI+92DjldsADomnGEpNrVPPw4J1kDqIG2hQzCeT?=
- =?us-ascii?Q?6vhdNZhftbLvLC/ibSfv8iZ0dbv2owOgYhHgldbLySMbMbb/SM2in6X9Pp/e?=
- =?us-ascii?Q?owP1TC5eUVwyN7QOLMESW6k/1ON7v49N3xv+XmYmB1G1cFZu0fr2cDHw/3sw?=
- =?us-ascii?Q?sWzh5dJmE08XcfJSybjaJuIvCIRqENiKjEkhFpU8UNqeVHbID9Ng15fx+KLg?=
- =?us-ascii?Q?Qo+eRQnwn7dnDYd6PB6fvXeYoK9BxIzTPoOdoJylqkrkvUS6fQ8/dfBn9vlK?=
- =?us-ascii?Q?vD3x3He9rnKNOH99rLlY54GRRlqcGAWG9ldBcVma2VQSJBTdPKWQJ5nATxFF?=
- =?us-ascii?Q?saCr1Du4jW4Ckr3UGcof9sY=3D?=
+	=?us-ascii?Q?a4qA4PHHEIAiVul5abyqzVYpfqxwBGUeSlSepiazc7u/UG8lyS3NDnqigpsv?=
+ =?us-ascii?Q?7nYpTephaaTBABo6RBe5vn+Nk0/IlSnB7MiSFcCfWvHS5Au6arPJR5OMbjiw?=
+ =?us-ascii?Q?lMQH+UAyL1coj2iXhp6vEXTdeB78bb0xPz9BD/bhemAk0Uw9+n0hVW/s/a1n?=
+ =?us-ascii?Q?yGBVobMeMyJQQsPG4tB8ubv7UOM7BEkOTXiMnuEuF0+0iEzupQduvaeRX3Mh?=
+ =?us-ascii?Q?Acph6tR69xPMHZLc1fi+AzkxLeogc4Cr04A9OuFhoP9Fpv+LvY/ofMtMYsLE?=
+ =?us-ascii?Q?iBtebfPN/wKoQH0OyWOwSRJB0yHc17EWnx6cXblIHgxL0GBNQDBj3QYUvUE7?=
+ =?us-ascii?Q?YDSa+Hd+YLUEthW3EtsaYs3+jmwoYXXsxeQYr9yINLb3ZA3TTrXo7+FjtWpK?=
+ =?us-ascii?Q?R7SvLAuJv+jv77Kg3xw0sGmLMYc1lwG81/jWn2RUXDbJEiIPkN37gekCwQ71?=
+ =?us-ascii?Q?PkrAI87mVmhViLi8JHdyrBRDBg2xhIvFNRu1+yq5kQkS9YPHlIx1RiAGR/0o?=
+ =?us-ascii?Q?9ZbWRbzTYgYguD18guPhVsWd0G6XW2Pta8ngosgnOZOZgLuCzWR0FrT1QFyW?=
+ =?us-ascii?Q?1I219Z5pGOvjLWRGuX1IjkkzH0+J+ohjatu3x8j1/iJCc13TpSf6SUCqpizY?=
+ =?us-ascii?Q?+70IIClIRtl95R+GoH0xMNPa00k2OEsdXKKRCN4D5O/xh4SD5BxbheV6+hqP?=
+ =?us-ascii?Q?e6/NPfMXqPnG6Uc92gIKxZ0yuz+L5sIAqM3nQHl06ALLnRqJ6UD0w5JQiP/K?=
+ =?us-ascii?Q?9uThSJEm3Da6JtQH2oosYNv/wfn1T/G+aTdgHUtaZy8auBkdE5mo2W7vqbVd?=
+ =?us-ascii?Q?ZjQteTKCfiAfX8F9NpYJItbALemb7ZZCrmF2q6kNuFD3nEqc76hpBm+GlgPl?=
+ =?us-ascii?Q?MhzLUN4/CUVJUkjjscU91to8TBaEFH84ndD24apLToLhoE8Z/+quS0N3QF3J?=
+ =?us-ascii?Q?02hxsE+GqcgjWEf3JQkN8vwAbqnLXtoXHMzw/ml2WO/baIBVyhw94nuezt2X?=
+ =?us-ascii?Q?QaxlWxWHIohs7DNYlluMEgZpeY6S7e9pjcYFOEf57R7rvHo1F3YS0IQJgw8m?=
+ =?us-ascii?Q?jVlye+hlp5H5/Rsxd4YvGQW23avZwfqw5Ar7GKRwvu12ubk7HNTZHdQzk+us?=
+ =?us-ascii?Q?Xf2yHGxOQp3okeX6tYY0oO8Duzbn3iBS5tYCrLxSH8fAFWlXjC24SVvcmOIQ?=
+ =?us-ascii?Q?lezVXWWden+VITciSDCMO2/EfgxKr6InH+CIsLbIm9t4hM8X5kTR6Bu8nQho?=
+ =?us-ascii?Q?z+qzCfOarnEzzoUXvLos1OLk8fW87XyL+9Zx4PNvlwgaO+3waiFDUmo6udI9?=
+ =?us-ascii?Q?3celCJOVssoFPX8trZWwcRZxLmpvZy+4JujPttw2JVHI5Dcxizqa0jJccM3G?=
+ =?us-ascii?Q?yc/CQtmisbxK1zvqoVZx/CXZtve5H5F1UMwdLGwTMp5SUxZ81gST4gmWuDr/?=
+ =?us-ascii?Q?ZuofqDgOhGuFxNOVezcJX4Z7jwTO3/JgnZhMlWS5+YLZOMtF3ErdPILKnMsU?=
+ =?us-ascii?Q?zz4Q+YDq6gGvb+IjCeSSEyF6h5dHplQuzYLV+mLsAQae8ZWGzP8Xuv96phss?=
+ =?us-ascii?Q?B8YRkCR8o/ejEpiiHr/LdYxGZfTHLwGg65ctSBI6l1RjH5AGdTN7nRxY1vKZ?=
+ =?us-ascii?Q?xIeGsrMKObmfhPuW63UClqQ=3D?=
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57fa8661-1901-45a7-e3da-08dd1fc503c2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21d4b129-2811-4148-6508-08dd1fc50981
 X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 00:35:18.9445
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Dec 2024 00:35:28.5864
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eH6EFKnRPkWhbxbcOOUL+yzPPTBtChr0KObGM8QLQ85mNGaAmeCWMVy9+1l/BSQ8xFV9d7xs5vyQa+fUOlZyC0hPHr/UBWHl/9hwzimEhknw1kzyZ+yjvsIbVFE8UUPZ
+X-MS-Exchange-CrossTenant-UserPrincipalName: EEqegav/1Zdh2M8FxsyFEBmZwdIaM51id4hh/SmphbWcUihzNvTUYLurUO3/hahLnRJmvP9nEwics4TUKW7hONMVpZrl6gofZ6kUbbsFVYFep4rB3seOwx0UlF0n7V5B
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB14144
 
-audio-graph-card handles many type of device_node, thus need to
+simple-card handles many type of device_node, thus need to
 use of_node_put() in many place. Let's use __free(device_node)
 and avoid it.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- sound/soc/generic/audio-graph-card.c | 48 ++++++++--------------------
- 1 file changed, 14 insertions(+), 34 deletions(-)
+ sound/soc/generic/simple-card.c | 58 ++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 41 deletions(-)
 
-diff --git a/sound/soc/generic/audio-graph-card.c b/sound/soc/generic/audio-graph-card.c
-index 7655425a3deb1..7c422535b01a2 100644
---- a/sound/soc/generic/audio-graph-card.c
-+++ b/sound/soc/generic/audio-graph-card.c
-@@ -81,18 +81,14 @@ static void graph_parse_convert(struct device *dev,
- 				struct simple_util_data *adata)
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index 76a1d05e2ebec..afe7e79ffdbdb 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -120,14 +120,12 @@ static void simple_parse_convert(struct device *dev,
+ 				 struct simple_util_data *adata)
  {
  	struct device_node *top = dev->of_node;
--	struct device_node *port = ep_to_port(ep);
--	struct device_node *ports = port_to_ports(port);
--	struct device_node *node = of_graph_get_port_parent(ep);
-+	struct device_node *port  __free(device_node) = ep_to_port(ep);
-+	struct device_node *ports __free(device_node) = port_to_ports(port);
-+	struct device_node *node  __free(device_node) = of_graph_get_port_parent(ep);
+-	struct device_node *node = of_get_parent(np);
++	struct device_node *node __free(device_node) = of_get_parent(np);
  
- 	simple_util_parse_convert(top,   NULL,   adata);
- 	simple_util_parse_convert(ports, NULL,   adata);
- 	simple_util_parse_convert(port,  NULL,   adata);
- 	simple_util_parse_convert(ep,    NULL,   adata);
+ 	simple_util_parse_convert(top,  PREFIX, adata);
+ 	simple_util_parse_convert(node, PREFIX, adata);
+ 	simple_util_parse_convert(node, NULL,   adata);
+ 	simple_util_parse_convert(np,   NULL,   adata);
 -
--	of_node_put(port);
--	of_node_put(ports);
 -	of_node_put(node);
  }
  
- static int graph_parse_node(struct simple_util_priv *priv,
-@@ -140,10 +136,10 @@ static int graph_link_init(struct simple_util_priv *priv,
+ static int simple_parse_node(struct simple_util_priv *priv,
+@@ -176,7 +174,7 @@ static int simple_link_init(struct simple_util_priv *priv,
  	struct device_node *top = dev->of_node;
  	struct snd_soc_dai_link *dai_link = simple_priv_to_link(priv, li->link);
  	struct simple_dai_props *dai_props = simple_priv_to_props(priv, li->link);
--	struct device_node *port_cpu = ep_to_port(ep_cpu);
--	struct device_node *port_codec = ep_to_port(ep_codec);
--	struct device_node *ports_cpu = port_to_ports(port_cpu);
--	struct device_node *ports_codec = port_to_ports(port_codec);
-+	struct device_node *port_cpu    __free(device_node) = ep_to_port(ep_cpu);
-+	struct device_node *port_codec  __free(device_node) = ep_to_port(ep_codec);
-+	struct device_node *ports_cpu   __free(device_node) = port_to_ports(port_cpu);
-+	struct device_node *ports_codec __free(device_node) = port_to_ports(port_codec);
+-	struct device_node *node = of_get_parent(cpu);
++	struct device_node *node __free(device_node) = of_get_parent(cpu);
  	enum snd_soc_trigger_order trigger_start = SND_SOC_TRIGGER_ORDER_DEFAULT;
  	enum snd_soc_trigger_order trigger_stop  = SND_SOC_TRIGGER_ORDER_DEFAULT;
  	bool playback_only = 0, capture_only = 0;
-@@ -152,7 +148,7 @@ static int graph_link_init(struct simple_util_priv *priv,
- 	ret = simple_util_parse_daifmt(dev, ep_cpu, ep_codec,
- 				       NULL, &dai_link->dai_fmt);
+@@ -185,7 +183,7 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	ret = simple_util_parse_daifmt(dev, node, codec,
+ 				       prefix, &dai_link->dai_fmt);
  	if (ret < 0)
 -		goto init_end;
 +		return ret;
  
- 	graph_util_parse_link_direction(top,		&playback_only, &capture_only);
- 	graph_util_parse_link_direction(port_cpu,	&playback_only, &capture_only);
-@@ -187,14 +183,7 @@ static int graph_link_init(struct simple_util_priv *priv,
- 	if (priv->ops)
- 		dai_link->ops	= priv->ops;
+ 	graph_util_parse_link_direction(top,	&playback_only, &capture_only);
+ 	graph_util_parse_link_direction(node,	&playback_only, &capture_only);
+@@ -215,11 +213,7 @@ static int simple_link_init(struct simple_util_priv *priv,
+ 	dai_link->init			= simple_util_dai_init;
+ 	dai_link->ops			= &simple_ops;
  
 -	ret = simple_util_set_dailink_name(dev, dai_link, name);
 -init_end:
--	of_node_put(ports_cpu);
--	of_node_put(ports_codec);
--	of_node_put(port_cpu);
--	of_node_put(port_codec);
+-	of_node_put(node);
 -
 -	return ret;
 +	return simple_util_set_dailink_name(dev, dai_link, name);
  }
  
- static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
-@@ -250,8 +239,6 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
- 	} else {
- 		struct snd_soc_codec_conf *cconf = simple_props_to_codec_conf(dai_props, 0);
- 		struct snd_soc_dai_link_component *codecs = snd_soc_link_to_codec(dai_link, 0);
--		struct device_node *port;
--		struct device_node *ports;
+ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
+@@ -232,7 +226,7 @@ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
+ 	struct snd_soc_dai_link *dai_link = simple_priv_to_link(priv, li->link);
+ 	struct simple_dai_props *dai_props = simple_priv_to_props(priv, li->link);
+ 	struct device_node *top = dev->of_node;
+-	struct device_node *node = of_get_parent(np);
++	struct device_node *node __free(device_node) = of_get_parent(np);
+ 	char *prefix = "";
+ 	char dai_name[64];
+ 	int ret;
+@@ -296,7 +290,6 @@ static int simple_dai_link_of_dpcm(struct simple_util_priv *priv,
+ out_put_node:
+ 	li->link++;
  
- 		/* CPU is dummy */
+-	of_node_put(node);
+ 	return ret;
+ }
  
-@@ -267,14 +254,12 @@ static int graph_dai_link_of_dpcm(struct simple_util_priv *priv,
- 			 "be.%pOFP.%s", codecs->of_node, codecs->dai_name);
+@@ -312,15 +305,13 @@ static int simple_dai_link_of(struct simple_util_priv *priv,
+ 	struct snd_soc_dai_link_component *codecs = snd_soc_link_to_codec(dai_link, 0);
+ 	struct snd_soc_dai_link_component *platforms = snd_soc_link_to_platform(dai_link, 0);
+ 	struct device_node *cpu = NULL;
+-	struct device_node *node = NULL;
+-	struct device_node *plat = NULL;
+ 	char dai_name[64];
+ 	char prop[128];
+ 	char *prefix = "";
+ 	int ret, single_cpu = 0;
  
- 		/* check "prefix" from top node */
--		port  = ep_to_port(ep);
--		ports = port_to_ports(port);
-+		struct device_node *port  __free(device_node) = ep_to_port(ep);
-+		struct device_node *ports __free(device_node) = port_to_ports(port);
-+
- 		snd_soc_of_parse_node_prefix(top,   cconf, codecs->of_node, "prefix");
- 		snd_soc_of_parse_node_prefix(ports, cconf, codecs->of_node, "prefix");
- 		snd_soc_of_parse_node_prefix(port,  cconf, codecs->of_node, "prefix");
+ 	cpu  = np;
+-	node = of_get_parent(np);
++	struct device_node *node __free(device_node) = of_get_parent(np);
+ 
+ 	dev_dbg(dev, "link_of (%pOF)\n", node);
+ 
+@@ -329,7 +320,7 @@ static int simple_dai_link_of(struct simple_util_priv *priv,
+ 		prefix = PREFIX;
+ 
+ 	snprintf(prop, sizeof(prop), "%splat", prefix);
+-	plat = of_get_child_by_name(node, prop);
++	struct device_node *plat __free(device_node)  = of_get_child_by_name(node, prop);
+ 
+ 	ret = simple_parse_node(priv, cpu, li, prefix, &single_cpu);
+ 	if (ret < 0)
+@@ -352,9 +343,6 @@ static int simple_dai_link_of(struct simple_util_priv *priv,
+ 	ret = simple_link_init(priv, cpu, codec, li, prefix, dai_name);
+ 
+ dai_link_of_err:
+-	of_node_put(plat);
+-	of_node_put(node);
 -
--		of_node_put(ports);
--		of_node_put(port);
+ 	li->link++;
+ 
+ 	return ret;
+@@ -374,7 +362,6 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 	struct device *dev = simple_priv_to_dev(priv);
+ 	struct device_node *top = dev->of_node;
+ 	struct device_node *node;
+-	struct device_node *add_devs;
+ 	uintptr_t dpcm_selectable = (uintptr_t)of_device_get_match_data(dev);
+ 	bool is_top = 0;
+ 	int ret = 0;
+@@ -386,14 +373,11 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 		is_top = 1;
  	}
  
- 	graph_parse_convert(dev, ep, &dai_props->adata);
-@@ -361,8 +346,6 @@ static int __graph_for_each_link(struct simple_util_priv *priv,
- 	struct device *dev = simple_priv_to_dev(priv);
- 	struct device_node *node = dev->of_node;
- 	struct device_node *cpu_port;
--	struct device_node *codec_ep;
--	struct device_node *codec_port;
- 	struct device_node *codec_port_old = NULL;
- 	struct simple_util_data adata;
- 	int rc, ret = 0;
-@@ -374,8 +357,8 @@ static int __graph_for_each_link(struct simple_util_priv *priv,
- 		/* loop for all CPU endpoint */
- 		for_each_of_graph_port_endpoint(cpu_port, cpu_ep) {
- 			/* get codec */
--			codec_ep = of_graph_get_remote_endpoint(cpu_ep);
--			codec_port = ep_to_port(codec_ep);
-+			struct device_node *codec_ep   __free(device_node) = of_graph_get_remote_endpoint(cpu_ep);
-+			struct device_node *codec_port __free(device_node) = ep_to_port(codec_ep);
+-	add_devs = of_get_child_by_name(top, PREFIX "additional-devs");
++	struct device_node *add_devs __free(device_node) = of_get_child_by_name(top, PREFIX "additional-devs");
  
- 			/* get convert-xxx property */
- 			memset(&adata, 0, sizeof(adata));
-@@ -399,9 +382,6 @@ static int __graph_for_each_link(struct simple_util_priv *priv,
- 					ret = func_noml(priv, cpu_ep, codec_ep, li);
+ 	/* loop for all dai-link */
+ 	do {
+ 		struct simple_util_data adata;
+-		struct device_node *codec;
+-		struct device_node *plat;
+-		struct device_node *np;
+ 		int num = of_get_child_count(node);
+ 
+ 		/* Skip additional-devs node */
+@@ -403,26 +387,26 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 		}
+ 
+ 		/* get codec */
+-		codec = of_get_child_by_name(node, is_top ?
+-					     PREFIX "codec" : "codec");
++		struct device_node *codec __free(device_node) =
++			of_get_child_by_name(node, is_top ? PREFIX "codec" : "codec");
+ 		if (!codec) {
+ 			ret = -ENODEV;
+ 			goto error;
+ 		}
+ 		/* get platform */
+-		plat = of_get_child_by_name(node, is_top ?
+-					    PREFIX "plat" : "plat");
++		struct device_node *plat __free(device_node) =
++			of_get_child_by_name(node, is_top ? PREFIX "plat" : "plat");
+ 
+ 		/* get convert-xxx property */
+ 		memset(&adata, 0, sizeof(adata));
+-		for_each_child_of_node(node, np) {
++		for_each_child_of_node_scoped(node, np) {
+ 			if (np == add_devs)
+ 				continue;
+ 			simple_parse_convert(dev, np, &adata);
+ 		}
+ 
+ 		/* loop for all CPU/Codec node */
+-		for_each_child_of_node(node, np) {
++		for_each_child_of_node_scoped(node, np) {
+ 			if (plat == np || add_devs == np)
+ 				continue;
+ 			/*
+@@ -452,22 +436,16 @@ static int __simple_for_each_link(struct simple_util_priv *priv,
+ 					ret = func_noml(priv, np, codec, li, is_top);
  			}
  
--			of_node_put(codec_ep);
--			of_node_put(codec_port);
--
- 			if (ret < 0)
- 				return ret;
+-			if (ret < 0) {
+-				of_node_put(codec);
+-				of_node_put(plat);
+-				of_node_put(np);
++			if (ret < 0)
+ 				goto error;
+-			}
+ 		}
+ 
+-		of_node_put(codec);
+-		of_node_put(plat);
+ 		node = of_get_next_child(top, node);
+ 	} while (!is_top && node);
+ 
+  error:
+-	of_node_put(add_devs);
+ 	of_node_put(node);
++
+ 	return ret;
+ }
+ 
+@@ -514,15 +492,13 @@ static void simple_depopulate_aux(void *data)
+ static int simple_populate_aux(struct simple_util_priv *priv)
+ {
+ 	struct device *dev = simple_priv_to_dev(priv);
+-	struct device_node *node;
++	struct device_node *node __free(device_node) = of_get_child_by_name(dev->of_node, PREFIX "additional-devs");
+ 	int ret;
+ 
+-	node = of_get_child_by_name(dev->of_node, PREFIX "additional-devs");
+ 	if (!node)
+ 		return 0;
+ 
+ 	ret = of_platform_populate(node, NULL, NULL, dev);
+-	of_node_put(node);
+ 	if (ret)
+ 		return ret;
  
 -- 
 2.43.0
