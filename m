@@ -1,93 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A983D3B8;
-	Thu, 19 Dec 2024 16:19:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4977F224B0C;
+	Thu, 19 Dec 2024 16:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734625148; cv=none; b=jLCWDJXE1AghQl0HGVhTusteVrlpXLwK7E+09R9dOj8WxDKstEhVUmcTAGR1Gt8C3jbE5MI/olS5vFmTw8/fOAy8Im0c5Sz8QZsZGnG/5oK83GrAvrkxaOQuNDoWAt1CnJF2X9Hds8lb7oNgb3B5dJCqZ+6+d7Yj64Wh5wKYak4=
+	t=1734626336; cv=none; b=iIG5YCRUGN4cRv4pJdg9KU/14Mo025dVwnqjjtInR5g9w8qAhcFdQ/VbKbf2uwI7tk8RS8WqQdU/I/9fcOxm2og3Y+dhY6IfWGeK9WmmkdYNHA5cR7uwpIbbqqfPY78CEDnQAM0JZuXjyceNpD5lozh+5yhy0hhiT/75ViT8G04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734625148; c=relaxed/simple;
-	bh=kJNcHPMbjFb6Aho2NUJcW41JRPmk0uJDYJqJ/w8xypI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=i0ElXAKIAI1q78L+ods6F8gT9IEDswMbeOrMq5xhAEMr0nzXCYmx4iM4YOJYdBVaKIND1ikJE5wYgWAnZD6uwB93Wje/Ea4+QGpBtWgCrN6LAKiDlJ9d5z8HTSQaXlvdfV+DzFc01r25hx0qWglIoFRSNjYuMsu7Yr34uvquDxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMZ/uyNq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734626336; c=relaxed/simple;
+	bh=EY8+TiDFs2YHmBMScnpOaFfGklarvNlKUhTgAj6vxJk=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L3Zr1i+K2VjBaKhbNWnD0B66AJEUCnibuuI/EfsG99nAVl6JXKxm6soJW6Z8xJH9gL+yX7yVAqSRv/vfKx7aXswf1tl3eaHQJGgRgnYekaa006LDKwPyMzd/Q8IKKYYMUUSMKNsPP7aMzA/aB16h1n2J7bnox/gg2GwZryMNjgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yulf3/Nl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IEqnc657; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Yulf3/Nl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=IEqnc657; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMZ/uyNq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E2BCC4CECE;
-	Thu, 19 Dec 2024 16:19:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734625148;
-	bh=kJNcHPMbjFb6Aho2NUJcW41JRPmk0uJDYJqJ/w8xypI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HMZ/uyNqe6wHTRjC2efrEjjesE6xxPGpiC7rPuiVPpjDuHcTuQ7jPXSi3x7M8Bk1r
-	 ZgJGLxwo6bDwT5dC+vjSsmQM0Pz8LNFlw6aD7CdKeoZaaqYHQCfzKl6PGvZ5Bz73Ri
-	 5Kx/zGdIHYDdxqaMM5Oxkax32cqJ//JRivyPTK8obX9X8s7nnF9Xh3MFhuzDM2XqBt
-	 zGLWOrmOl4wV337ixhmzKIvlCEAoZBi4ofrM+/6ca+ImEJIp0LqffmH0WHSyJbGmGe
-	 PrHhb7l1lbNehhM04u+WuwS83D6JE85gAohbKOPBOYIzIAX7iLgMX13WidMjgwcRLq
-	 nd3nnk3/g3nfQ==
-From: Mark Brown <broonie@kernel.org>
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: linux-sound@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- treapking@chromium.org, yuanhsinte@chromium.org
-In-Reply-To: <20241219105303.548437-1-wenst@chromium.org>
-References: <20241219105303.548437-1-wenst@chromium.org>
-Subject: Re: [PATCH] ASoC: mediatek: disable buffer pre-allocation
-Message-Id: <173462514608.189443.5339636221433842657.b4-ty@kernel.org>
-Date: Thu, 19 Dec 2024 16:19:06 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yulf3/Nl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IEqnc657";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Yulf3/Nl";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="IEqnc657"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4641E21163;
+	Thu, 19 Dec 2024 16:38:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734626328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ea6KjCB98JJt3pdQ6zxcR8KQ3qdMF42hqqNkPK++uTw=;
+	b=Yulf3/NlAEr+29JqZER5fx9MsUqWkd0B8d8MgZbCMx8eVT9EywmB8fAZrH6xpoRmgkc/bP
+	HKlJIiDoxKU1hdq3UQlE/mDszFxAWMl8cvrB4y+ndIiSNkkcZhxAi6kZyNCfb7UBrVAtKz
+	9l1IUV/WDMT853a+CxH6M8wsBlrxG9c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734626328;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ea6KjCB98JJt3pdQ6zxcR8KQ3qdMF42hqqNkPK++uTw=;
+	b=IEqnc657kTq//mqYBXs65x4NAaD2JSJM8c/dcCreNYKmA03gL42k2KdFhT8solNbxDusJZ
+	lA9JbxUV2Ry9JyCQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734626328; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ea6KjCB98JJt3pdQ6zxcR8KQ3qdMF42hqqNkPK++uTw=;
+	b=Yulf3/NlAEr+29JqZER5fx9MsUqWkd0B8d8MgZbCMx8eVT9EywmB8fAZrH6xpoRmgkc/bP
+	HKlJIiDoxKU1hdq3UQlE/mDszFxAWMl8cvrB4y+ndIiSNkkcZhxAi6kZyNCfb7UBrVAtKz
+	9l1IUV/WDMT853a+CxH6M8wsBlrxG9c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734626328;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ea6KjCB98JJt3pdQ6zxcR8KQ3qdMF42hqqNkPK++uTw=;
+	b=IEqnc657kTq//mqYBXs65x4NAaD2JSJM8c/dcCreNYKmA03gL42k2KdFhT8solNbxDusJZ
+	lA9JbxUV2Ry9JyCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B096C13A32;
+	Thu, 19 Dec 2024 16:38:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mhiTJxdMZGf2UAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 19 Dec 2024 16:38:47 +0000
+Date: Thu, 19 Dec 2024 17:38:42 +0100
+Message-ID: <8734ijwru5.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Evgeny Kapun <abacabadabacaba@gmail.com>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+	Kailang Yang <kailang@realtek.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Regressions Mailing List <regressions@lists.linux.dev>,
+	Linux Stable Mailing List <stable@vger.kernel.org>
+Subject: Re: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
+In-Reply-To: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
+References: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-9b746
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_DN_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Thu, 19 Dec 2024 18:53:02 +0800, Chen-Yu Tsai wrote:
-> On Chromebooks based on Mediatek MT8195 or MT8188, the audio frontend
-> (AFE) is limited to accessing a very small window (1 MiB) of memory,
-> which is described as a reserved memory region in the device tree.
+On Sun, 15 Dec 2024 14:06:38 +0100,
+Evgeny Kapun wrote:
 > 
-> On these two platforms, the maximum buffer size is given as 512 KiB.
-> The MediaTek common code uses the same value for preallocations. This
-> means that only the first two PCM substreams get preallocations, and
-> then the whole space is exhausted, barring any other substreams from
-> working. Since the substreams used are not always the first two, this
-> means audio won't work correctly.
+> I am using an Acer Aspire A115-31 laptop. When running newer kernel
+> versions, sound played through headphones is distorted, but when
+> running older versions, it is not.
 > 
-> [...]
+> Kernel version: Linux version 6.12.5 (user@hostname) (gcc (Debian
+> 14.2.0-8) 14.2.0, GNU ld (GNU Binutils for Debian) 2.43.50.20241210)
+> #1 SMP PREEMPT_DYNAMIC Sun Dec 15 05:09:16 IST 2024
+> Operating System: Debian GNU/Linux trixie/sid
+> 
+> No special actions are needed to reproduce the issue. The sound is
+> distorted all the time, and it doesn't depend on anything besides
+> using an affected kernel version.
+> 
+> It seems to be caused by commit
+> 34ab5bbc6e82214d7f7393eba26d164b303ebb4e (ALSA: hda/realtek - Add
+> Headset Mic supported Acer NB platform). Indeed, if I remove the entry
+> that this commit adds, the issue disappears.
+> 
+> lspci output for the device in question:
+> 
+> 00:0e.0 Multimedia audio controller [0401]: Intel Corporation
+> Celeron/Pentium Silver Processor High Definition Audio [8086:3198]
+> (rev 06)
+>     Subsystem: Acer Incorporated [ALI] Device [1025:1360]
+>     Flags: bus master, fast devsel, latency 0, IRQ 130
+>     Memory at a1214000 (64-bit, non-prefetchable) [size=16K]
+>     Memory at a1000000 (64-bit, non-prefetchable) [size=1M]
+>     Capabilities: [50] Power Management version 3
+>     Capabilities: [80] Vendor Specific Information: Len=14 <?>
+>     Capabilities: [60] MSI: Enable+ Count=1/1 Maskable- 64bit+
+>     Capabilities: [70] Express Root Complex Integrated Endpoint,
+> IntMsgNum 0
+>     Kernel driver in use: snd_hda_intel
+>     Kernel modules: snd_hda_intel, snd_soc_avs, snd_sof_pci_intel_apl
 
-Applied to
+Could you give alsa-info.sh output with broken and working (reverted)
+states?  Run the script with --no-upload option and attach the
+outputs.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Thanks!
+thanks,
 
-[1/1] ASoC: mediatek: disable buffer pre-allocation
-      commit: 32c9c06adb5b157ef259233775a063a43746d699
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Takashi
 
