@@ -1,135 +1,239 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EC81A01BD;
-	Fri, 20 Dec 2024 17:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A4721CFEA
+	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 19:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734717585; cv=none; b=mbKJ1UnqKHMGLogGRX56FeqlUWkRT/bcmA45NzdJ+tRKV3EyqRDbdKnepIhqQgxcOvQKvARbSG6r2XU0EtjxPXZ0xOxsa/BL9Kzc6zMmv3dF+Jxtuz6WWs34Bivtim8SgLfGmGv3Fky0qOD4H/LBeClzvpXdYtibB2lY2pzuzU8=
+	t=1734722163; cv=none; b=c8NCzeYq7H+jJAD6fBOjedU2J4rGuZ6eu5ixBpvctlXfQaKSKCooA6mThdZMeQ2vI29kyyeUF8wEwHyC7geyBVoDM0YRJbbHzjI/L8McH04ugoTaS9cnrTZUJnIJ1G1/TWiyK6nxeQIle28nt9CovF4yNx3Vg8TMWNTJMO131vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734717585; c=relaxed/simple;
-	bh=BZ9gPU1CEwQKTmIp7EajWMRUV319BXdBRT9QZOG9Pco=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LVNPqPkAEDqphgzBpe7LDdLEb7egBdbIjRjmEM3ctstPWDTzQbUauTbFj2stgyI9Xn08iOAw7ikxkoi+5yownyxDzHs9JiiN3Ic4oUkQpnqxibnB4dM4ejOPqwonmlON+NhsWHqBt80CyibEoCXfbqwhaROvITVX06KVvGJyHRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=djUfC+aR; arc=none smtp.client-ip=67.231.149.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1734722163; c=relaxed/simple;
+	bh=7rqVpk0Di0pIno1RmN/QKlYDaWFm5Pza8DueU297wT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TvbpIfPlLNrKJKj35SIAbc5NBlDJPMqsguHaPJfhzNnhpZpzhRcX2aos1831ak2y3s9flbbEwaAf95JSQzEOe6AeOf+CFvpGT1CTuL2UL0pxpdQZ0HsBHYTG+XXo40MKDzZtlhZcwCyfTSO+xzqYXY8sT1LgGYsz49gs3sWXf+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dk3tu/O+; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="djUfC+aR"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BKB0b2L025822;
-	Fri, 20 Dec 2024 11:59:23 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=BUMeKL1GjyKMsageed
-	wQb3QvCErh1A2q5UndvtGWerA=; b=djUfC+aRSFyvvb7NQscU8Q0m8OndDnQypN
-	2dGklhqIh+odQIRY6HfPr6sNMjZntgiFLrAFmQsGHksSbewkiuACUpGT8MHFdbth
-	AQAykjPtz9ABHA+hauQuZUGLY5hroy+jBUM4U76WoQKWUINR4KdptoFXnv2vy0lZ
-	xIAbuj7q5tHShPY8Obs+MK8fHWKFYsXrwVeesksxpTlJGl/YE3JOU6WV//ekFqJU
-	vsJLqrsSPykNgERpivfmH+30b49X84Q+8zT2MsBO+tvA4XzgvWPLBezRcL6gKxws
-	OWTs8vZkPuWkhJko/u1wv4ZJn2KNJMtfbuDLgkr+0/VFCo4iOXag==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a287n7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 20 Dec 2024 11:59:23 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Fri, 20 Dec
- 2024 17:59:20 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Fri, 20 Dec 2024 17:59:20 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id B2DBC820247;
-	Fri, 20 Dec 2024 17:59:20 +0000 (UTC)
-Date: Fri, 20 Dec 2024 17:59:19 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-CC: Richard Fitzgerald <rf@opensource.cirrus.com>, <vkoul@kernel.org>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <sanyog.r.kale@intel.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
-Subject: Re: [PATCH] soundwire: intel_auxdevice: Don't disable IRQs before
- removing children
-Message-ID: <Z2WwdxuPpnNZUBrC@opensource.cirrus.com>
-References: <20241212110221.1509163-1-ckeepax@opensource.cirrus.com>
- <3eb98099-75da-4464-97d1-9e8538375e34@linux.dev>
- <da4a16f1-0bf6-4597-b1de-55386db85254@opensource.cirrus.com>
- <e6dd9fc3-de55-47d2-a1b5-10884418a66d@linux.dev>
- <Z2KbELGGjeH3NQdY@opensource.cirrus.com>
- <7479a25e-6729-4aa0-b67e-7781bf8232da@linux.dev>
- <9b8ef4d2-e4bd-4336-8980-0fb59d672631@linux.dev>
- <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dk3tu/O+"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5401c68b89eso2537947e87.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 11:16:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734722160; x=1735326960; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LVhGdRV7+tmpOWeS9zvGkR7uXA0VR0Po2tyiFNSf/dY=;
+        b=Dk3tu/O+m1u/yFxY+06h82PjOhBI+73HlTGk/U6/6RnyLCACS+sWrhneSbP5fR00F/
+         D+qb7zUcwyPHC/Lrv15LQQuQTVZY9V+EIY/KkTefekzJv+6QcmtSGj01S8CtQ7KfT1Rm
+         Ch6+O3KB+2F7deQuAx/LGvqI3vSIUx7JzTJ9zDjQIQBDubzaV3+a8ULqwjKQ6ehtlQTZ
+         9R1Vp1l6fOAfgpr0ceS4RpqkeatX5CLtuUGN4QT7HjGvw3ZqTfbs92RNvDcLEcU2Mvfv
+         6ycpETYounMLuZsSaDimdyAuJTaazOdQl6sUdZ0QW1hB0Z6cO1KDYstI6zgq3M+/cOF3
+         oDBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734722160; x=1735326960;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LVhGdRV7+tmpOWeS9zvGkR7uXA0VR0Po2tyiFNSf/dY=;
+        b=nQZ3B1phSONjyThVDWhvtCbq8usOaTLYZWl3ohEYOXAFtEqwMw/dSQC3uDnX4YBLzc
+         8AeVr+qAVrrk7hhGPnnmocGot+zi1rPm/gVoEzDb/97fE8gXQJ4W8pMClLYV/lw/eqPE
+         PQ79sq7JKIkezKoj9SXh/S05jL1Jyo3vu//zvrWVpFpY6nSs3KUf48ICfJl/kVf0Vjpy
+         zJb8GhIriPxNnYDLuH5ofNtk9EISjfYZgYJ88wvzpLWfbWBAl5w+btiqZAT2OxBVBph2
+         DruOUs7dcvCELXH9KnK+NdSUoMZhHYgGPwaBUwJAm1g0eXxD1OJhO6fqsYrRK0YdT/MO
+         5u9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVeGXyG/Ta2PG8Z2fa6klqDWgDYw6kfTZFIcX30oi/C2/fgm9yH4cqSHtkBsfvT9xjDpJdvVA70j4HDCw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwVKMg9jj2bvAtE/8b+OtZWUT9ov8+4Fv7tViu+ltqxzcN8l5v
+	KFGiQhjKX1pxC1yF7AfboQhkT8NGAQj05TY2hHU/b5aXyre7Fe7erNwHFJWbM2g=
+X-Gm-Gg: ASbGnct6uLDcM6B+f8JNMyEChNaK1VxtNkHUvPb8r+amZr4PgFn61SctCmZMZ1v/30o
+	3jSPzQymA06scwF+P3sb+cEcVTiJs3Am8w82WOqpnr6j2RSpf1tCin2tT+ux5cKTOCZCw47c3ED
+	QwPytF1KcZQAq8jOk7ajOl+UX2X+UlBW8HXDjv9Z2RxkSTsQh8OsxA23EWfKLsQC8PyeSCS9xvy
+	n87vU6Jqqu3Q0OQ/Lph7NByatmIpszn+k/EDwCeDma6VUJpR3EX9oLs86gAiutJMCvoWwAqrr/W
+	DewdVmnxS6NriCjY8trcHTeukEwPgQxpJFXd
+X-Google-Smtp-Source: AGHT+IEURyWKTn2FJTwcAgejvV5qcX/pZ5aDO4aMQy2EhYkLh3O2M6VjdFgjz7JOFFtdAxgONBeT/Q==
+X-Received: by 2002:a05:6512:1242:b0:540:2122:faea with SMTP id 2adb3069b0e04-542212ef59emr2889028e87.14.1734722159575;
+        Fri, 20 Dec 2024 11:15:59 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5422382fb31sm544143e87.235.2024.12.20.11.15.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Dec 2024 11:15:58 -0800 (PST)
+Date: Fri, 20 Dec 2024 21:15:55 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+Message-ID: <2ut2qwy2geh7f2f75wq2ttlh4xbniwow24rtnzaikit7sd5smt@nrm5wiigrrha>
+References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+ <20241217-vivacious-chameleon-of-swiftness-f1edc4@houat>
+ <CAA8EJprjCyWBNkRrc4W24uCwPtf_kxZLqNeNP8EJffbutYQ21w@mail.gmail.com>
+ <20241218-wild-red-manatee-bb2a34@houat>
+ <CAPY8ntDdcOXuWVgx6+cbgX5ct_-MXcE7CWDKgGP57EX6bvBLaw@mail.gmail.com>
+ <CAPY8ntAnJ1YDQee=pFSDY3+EXHj4_RZ-M1NMp2C3ZDdD5DsCKA@mail.gmail.com>
+ <c7qyka3hsrggqevdwdlfcanzps3z63s4joryskijlbuztacmly@tadqjm2vkj24>
+ <CAPY8ntDUaFnvkjkqES4AkrzZ2z659h3w5MFSd8vW04Eh-iJ1FA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
-X-Proofpoint-ORIG-GUID: zgigsXu9puH0m61BGc48_FIGW-CeCnfc
-X-Proofpoint-GUID: zgigsXu9puH0m61BGc48_FIGW-CeCnfc
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <CAPY8ntDUaFnvkjkqES4AkrzZ2z659h3w5MFSd8vW04Eh-iJ1FA@mail.gmail.com>
 
-On Thu, Dec 19, 2024 at 10:27:53AM +0000, Charles Keepax wrote:
-> On Wed, Dec 18, 2024 at 04:40:22PM -0500, Pierre-Louis Bossart wrote:
-> > Having looked at the code in more details, I think there are other issues,
-> > see e.g. this part of the code called from snd_bus_master_delete().
-> > 
-> > static int sdw_delete_slave(struct device *dev, void *data)
-> > {
-> > 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
-> > 	struct sdw_bus *bus = slave->bus;
-> > 
-> > 	pm_runtime_disable(dev);
-> > 
-> > 	sdw_slave_debugfs_exit(slave);
-> > 
-> > 	mutex_lock(&bus->bus_lock);
-> > 
-> > 	if (slave->dev_num) { /* clear dev_num if assigned */
-> > 		clear_bit(slave->dev_num, bus->assigned);
-> > 		if (bus->ops && bus->ops->put_device_num)
-> > 			bus->ops->put_device_num(bus, slave);
-> > 	}
-> > 
-> > So at this point an interaction with the device is not longer possible, even
-> > if the Cadence interrupts are kept active, since there's no valid device
-> > number to use...
-> > 
-> > 	list_del_init(&slave->node);
-> > 	mutex_unlock(&bus->bus_lock);
-> > 
-> > ... but this is where the .remove() will take place.
-> > 
-> > 	device_unregister(dev);
-> > 	return 0;
-> > }
-> > 
-> > What am I missing?
+On Fri, Dec 20, 2024 at 03:00:47PM +0000, Dave Stevenson wrote:
+> On Fri, 20 Dec 2024 at 00:45, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > On Thu, Dec 19, 2024 at 04:16:37PM +0000, Dave Stevenson wrote:
+> > > On Wed, 18 Dec 2024 at 14:52, Dave Stevenson
+> > > <dave.stevenson@raspberrypi.com> wrote:
+> > > >
+> > > > Hi Maxime & Dmitry
+> > > >
+> > > > On Wed, 18 Dec 2024 at 07:59, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > >
+> > > > > On Wed, Dec 18, 2024 at 07:24:23AM +0200, Dmitry Baryshkov wrote:
+> > > > > > On Tue, 17 Dec 2024 at 19:21, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > > > On Tue, Dec 17, 2024 at 02:40:22AM +0200, Dmitry Baryshkov wrote:
+> > > > > > > > While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> > > > > > > > framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> > > > > > > > The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> > > > > > > > there was no simple way to get the drm_connector that stayed at the end
+> > > > > > > > of the bridge chain. At the same point the drm_hdmi_connector functions
+> > > > > > > > expected to get drm_connector instance.
+> > > > > > > >
+> > > > > > > > While looking for a way to solve the issue, I stumbled upon several
+> > > > > > > > deficiencies in existing hdmi_codec_ops implementations. Only few of the
+> > > > > > > > implementations were able to handle codec's 'plugged' callback. One
+> > > > > > > > third of the drivers didn't implement the get_eld() callback.
+> > > > > > > >
+> > > > > > > > Most of the issues can be solved if drm_connector handles
+> > > > > > > > hdmi-audio-codec on its own, delegating functionality to the actual
+> > > > > > > > implementation, be it a driver that implements drm_connector or
+> > > > > > > > drm_bridge.
+> > > > > > > >
+> > > > > > > > Implement such high-level framework, adding proper support for Audio
+> > > > > > > > InfoFrame generation to the LT9611 driver.
+> > > > > > > >
+> > > > > > > > Several design decisions to be kept in mind:
+> > > > > > > >
+> > > > > > > > - drm_connector_hdmi_codec is kept as simple as possible. It implements
+> > > > > > > >   generic functionality (ELD, hotplug, registration).
+> > > > > > > >
+> > > > > > > > - drm_hdmi_connector sets up HDMI codec device if the connector
+> > > > > > > >   is setup correspondingly (either I2S or S/PDIF is marked as
+> > > > > > > >   supported).
+> > > > > > > >
+> > > > > > > > - drm_bridge_connector provides a way to link HDMI audio codec
+> > > > > > > >   funcionality in the drm_bridge with the drm_connector_hdmi_codec
+> > > > > > > >   framework.
+> > > > > > > >
+> > > > > > > > - It might be worth reverting the no_i2s_capture / no_spdif_capture
+> > > > > > > >   bits. Only TDA889x driver sets them, while it's safe to assume that
+> > > > > > > >   most of HDMI / DP devices do not support ARC / capture. I think the
+> > > > > > > >   drivers should opt-in capture support rather than having to opt-out of
+> > > > > > > >   it.
+> > > > > > >
+> > > > > > > Sorry if this isn't clear to me and I'm quite late to the party, but did
+> > > > > > > you test this on vc4 with both a pi3 and pi4, or was it just compile
+> > > > > > > tested?
+> > > > > >
+> > > > > > LT9611 is actually tested, VC4 is only compile-tested. Should I put an RFT tag?
+> > > > >
+> > > > > Yeah, we definitely need to test it on the pi3 (polling-based) and the
+> > > > > pi4 (irq-based) at least.
+> > > > >
+> > > > > Dave, Maira, could you give it a try?
+> > > >
+> > > > I'm on it.
+> > >
+> > > Basic checks look OK.
+> > > Pi3 and Pi4 tested, including 4k60 on Pi4 (enables scrambling). Audio
+> > > works, and all the EDID parsing seems to be correct.
+> > >
+> > > Ideally I would like to do a couple more tests though as I had a
+> > > couple of spontaneous reboots on Pi4 whilst hotplugging.
+> > > Most likely it was just grounding issues, as I can't think of an
+> > > obvious way for the kernel to be triggering an automatic reboot. They
+> > > seemed to go away when I had enabled drm.debug=0x14, but more likely
+> > > I'd connected the serial port and therefore provided another ground.
+> > > Please don't hold the patches waiting on me though - I don't know when
+> > > I'll have time to do them.
+> >
+> > Tested-by?
 > 
-> Hmm... yes that is a good spot, I will investigate that further.
-> Certainly I do see these operations happening in the wrong order
-> but it doesn't seem to cause the register transactions to fail.
-> Most likely it is best to reverse these two, it makes sense
-> to not clear the device number until we are finished with the
-> device, but would be good to understand what is going on first.
+> I'd held off hoping to get the extra testing done today, but that
+> hasn't happened, and today is my last day before the Christmas break.
+> So based on what I've done so far:
+> 
+> Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Ok, so yeah nothing on the read/write path checks assigned. So yeah
-it has marked the device as not being assigned but that doesn't
-actually stop anything from communicating with the device, the
-dev_num is still the same one the hardware has. Assigned is only
-checked when handling slave status events.
+Thank you!
 
-So I think your point is valid this code should also be changed
-although the only way it can currently go wrong is if a new device
-registered on the bus at exactly this moment and was assigned the
-dev_num of the old device.
+> 
+> > >
+> > >
+> > > Also unrelated to this patch set, I have noted I'm getting
+> > > [   60.780897] WARNING: CPU: 3 PID: 501 at
+> > > drivers/gpu/drm/vc4/vc4_hvs.c:743 __vc4_hvs_stop_channel+0x148/0x164
+> > > [vc4]
+> > > ...
+> > > [   60.781192]  __vc4_hvs_stop_channel+0x148/0x164 [vc4] (P)
+> > > [   60.781212]  __vc4_hvs_stop_channel+0x40/0x164 [vc4] (L)
+> > > [   60.781230]  vc4_hvs_stop_channel+0x30/0x3c [vc4]
+> > > [   60.781248]  vc4_crtc_disable+0x140/0x1e8 [vc4]
+> > > [   60.781266]  vc4_crtc_atomic_disable+0x98/0xb8 [vc4]
+> > > [   60.781284]  disable_outputs+0x22c/0x33c [drm_kms_helper]
+> > > [   60.781326]  drm_atomic_helper_commit_modeset_disables+0x1c/0x4c
+> > > [drm_kms_helper]
+> > > [   60.781347]  vc4_atomic_commit_tail+0x10c/0x8e4 [vc4]
+> > > [   60.781364]  commit_tail+0xa0/0x188 [drm_kms_helper]
+> > > [   60.781385]  drm_atomic_helper_commit+0x16c/0x180 [drm_kms_helper]
+> > > [   60.781406]  drm_atomic_commit+0x88/0xc4 [drm]
+> > > [   60.781500]  drm_client_modeset_commit_atomic+0x204/0x264 [drm]
+> > > [   60.781553]  drm_client_modeset_commit_locked+0x5c/0x198 [drm]
+> > > [   60.781603]  drm_client_modeset_commit+0x30/0x58 [drm]
+> > > [   60.781652]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0xe8
+> > > [drm_kms_helper]
+> > > [   60.781674]  drm_fb_helper_hotplug_event+0x108/0x12c [drm_kms_helper]
+> > > [   60.781695]  drm_fbdev_client_hotplug+0x28/0xd4 [drm_client_lib]
+> > > [   60.781700]  drm_client_dev_hotplug+0xc8/0x12c [drm]
+> > > [   60.781750]  drm_connector_helper_hpd_irq_event+0x70/0xb0 [drm_kms_helper]
+> > > [   60.781771]  vc4_hdmi_hpd_irq_thread+0x2c/0x3c [vc4]
+> > > [   60.781790]  irq_thread_fn+0x2c/0xa8
+> > > [   60.781799]  irq_thread+0x16c/0x2f4
+> > > [   60.781805]  kthread+0x118/0x11c
+> > > [   60.781813]  ret_from_fork+0x10/0x20
+> > > On first plugging or unplugging a second monitor. I suspect that is
+> > > spurious though and I'll look into it, but probably not this side of
+> > > the Christmas break.
+> > >
+> > >   Dave
+> >
+> > --
+> > With best wishes
+> > Dmitry
 
-Likely will be the new year before I get the time to think
-through the details.
-
-Thanks,
-Charles
+-- 
+With best wishes
+Dmitry
