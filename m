@@ -1,48 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEAA225A37;
-	Fri, 20 Dec 2024 17:12:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C08B22C376;
+	Fri, 20 Dec 2024 17:12:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714731; cv=none; b=fMb5PnPXCd3y0ZadoHBiI3+eks81qBpxGvk1x0vMsBasBnQeoWr21q6jCk1L7uaR6iLjDh7ijBAPixgvTYJe8a7Rjn59E7m37PdMFrnlQHz2HnEL8hMXpQCgBewRLBe+B/Az3SICpVnbpTTr4ZLxnEtimtEYvC0EPv2Ebni1Ugc=
+	t=1734714771; cv=none; b=KU25KG4eknl31DasfrIDeapITYKgd7UnlUZi2OQ9htqbecR25w+twByaq1zCPg//97QxBBvLlvL/OVT5vu1fmmj63LWcv44Y5BzfvX94T+yEi7BcNnCLbbMAuroV5zuoyezv6xTvPVNFbmyMSbAeJvLnP1E+GBdK2kXZTZy9c1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714731; c=relaxed/simple;
-	bh=Cs8Fwbjm/+tdErIqsMWNv7TNq9GRR/CppRqJN9tMKJs=;
+	s=arc-20240116; t=1734714771; c=relaxed/simple;
+	bh=aGCXVi18iJz1OM5WIQHFpVr24HvsbxELPq6AT5NsiLo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=R84IblvELJdZ0WHg+WgpEGL6T1U4ZzCZf8O5+9Ic+vYGsG8jOzqEj88RERuW2dSlAicvIi0m+pNF1g9Xz8qCf6UQ31t01A3Gsf2Pty44fmLjG2MLXqWh4MCzqN9NnjD3TZbgupsSNv5e0sgaiNL76jI6DovlxOno83rX+7twSq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mI2fygnw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=PBVIx16+wF6hjKN7RiACRVAXZjUAqf1IhnGtyIOms9ep8JMFHGmYak/HrvEJrTpLsrkVTBriko5jXnwZ+wfOPP/5GzyeiRX982devCeIZUjfkHWptw5iiysufQ1vvO0K2i6LOp5el4NHukyHScCGS/0W9qSSsz9lbLVSjQeibBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UeNiFyjd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mI2fygnw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B7BC4CED7;
-	Fri, 20 Dec 2024 17:12:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UeNiFyjd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 451DBC4CED3;
+	Fri, 20 Dec 2024 17:12:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714731;
-	bh=Cs8Fwbjm/+tdErIqsMWNv7TNq9GRR/CppRqJN9tMKJs=;
+	s=k20201202; t=1734714771;
+	bh=aGCXVi18iJz1OM5WIQHFpVr24HvsbxELPq6AT5NsiLo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mI2fygnweTx6+NuH5TaGtTI7IxHJNL7mWiPjWos0eAQD2EHoCi12YZYa2OpkcfysN
-	 /wGKwpK8rvCsdx9FSf0iBzNQ2Op2HTOGKW3GZeVNNJH8Su4a5xn1phgr/q7kW4YGL9
-	 qs04SWaCwiGmN4b0GY9gSb9Xk3tw9mGKtFf2i+sntsmDGqJCSMRH8c6u5yKKykqjU+
-	 /2wtOIeceqZrU1IQSkAmHWAkA9tVdO7CZCsO11eJYpHimvVdiAh8IJgbL5NDito9dS
-	 ltyfAXc13l8n9OL9igUc8EFeDqlVJLGCeUFT1Yg5ak5Yv0fbNJNO5tVqWlquHbVRaG
-	 pijfu39qLn67Q==
+	b=UeNiFyjdoshNSL9PM600AzR0HhmjrNNWD7RSJLl/HTyT44K+46AlAunMKR0HtbcfB
+	 LGM4hQqoYcRZWn2rblsGKUIUTrW71gYke7ztuz/ykfg7HueCx8t5eeRtOKPN487lhD
+	 FHaKK2lPUR/4PLHhnEiFqdYxMswwam4Ia8UBuDCtMIK9ATbN94qiu9FpOcD/t/E6O4
+	 JmP1ggcvrYhZts0v2jDBfrXAjjgeQvsZO/SFNb0LO1RJEyR8cppsZhV2bBN/vt0sDp
+	 vDr5vomvhpZekDsbzBL9OIHKwmdijNgr67/u6FNaWBGMMWGTgMfay7Qo/pnWZ9Ulrm
+	 32wSf7zUx5jAw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Stephen Gordon <gordoste@iinet.net.au>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
+Cc: Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
-	lgirdwood@gmail.com,
 	perex@perex.cz,
 	tiwai@suse.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 16/29] ASoC: audio-graph-card: Call of_node_put() on correct node
-Date: Fri, 20 Dec 2024 12:11:17 -0500
-Message-Id: <20241220171130.511389-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 05/16] ALSA: hda/ca0132: Use standard HD-audio quirk matching helpers
+Date: Fri, 20 Dec 2024 12:12:29 -0500
+Message-Id: <20241220171240.511904-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171130.511389-1-sashal@kernel.org>
-References: <20241220171130.511389-1-sashal@kernel.org>
+In-Reply-To: <20241220171240.511904-1-sashal@kernel.org>
+References: <20241220171240.511904-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,35 +48,142 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.6
+X-stable-base: Linux 6.6.67
 Content-Transfer-Encoding: 8bit
 
-From: Stephen Gordon <gordoste@iinet.net.au>
+From: Takashi Iwai <tiwai@suse.de>
 
-[ Upstream commit 687630aa582acf674120c87350beb01d836c837c ]
+[ Upstream commit 7c005292e20ac53dfa601bf2a7375fd4815511ad ]
 
-Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://patch.msgid.link/20241207122257.165096-1-gordoste@iinet.net.au
-Signed-off-by: Mark Brown <broonie@kernel.org>
+CA0132 used the PCI SSID lookup helper that doesn't support the model
+string matching or quirk aliasing.
+
+Replace it with the standard HD-audio quirk helpers for supporting
+those, and add the definition of the model strings for supported
+quirks, too.  There should be no visible change to the outside for the
+working system, but the driver will parse the model option and apply
+the quirk based on it from now on.
+
+Link: https://patch.msgid.link/20241207133754.3658-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/soc/generic/audio-graph-card2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/pci/hda/patch_ca0132.c | 37 ++++++++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/sound/soc/generic/audio-graph-card2.c b/sound/soc/generic/audio-graph-card2.c
-index 93eee40cec76..63837e259659 100644
---- a/sound/soc/generic/audio-graph-card2.c
-+++ b/sound/soc/generic/audio-graph-card2.c
-@@ -779,7 +779,7 @@ static void graph_link_init(struct simple_util_priv *priv,
- 	of_node_get(port_codec);
- 	if (graph_lnk_is_multi(port_codec)) {
- 		ep_codec = graph_get_next_multi_ep(&port_codec);
--		of_node_put(port_cpu);
-+		of_node_put(port_codec);
- 		port_codec = ep_to_port(ep_codec);
- 	} else {
- 		ep_codec = port_to_endpoint(port_codec);
+diff --git a/sound/pci/hda/patch_ca0132.c b/sound/pci/hda/patch_ca0132.c
+index 748a3c40966e..27e48fdbbf3a 100644
+--- a/sound/pci/hda/patch_ca0132.c
++++ b/sound/pci/hda/patch_ca0132.c
+@@ -1134,7 +1134,6 @@ struct ca0132_spec {
+ 
+ 	struct hda_codec *codec;
+ 	struct delayed_work unsol_hp_work;
+-	int quirk;
+ 
+ #ifdef ENABLE_TUNING_CONTROLS
+ 	long cur_ctl_vals[TUNING_CTLS_COUNT];
+@@ -1166,7 +1165,6 @@ struct ca0132_spec {
+  * CA0132 quirks table
+  */
+ enum {
+-	QUIRK_NONE,
+ 	QUIRK_ALIENWARE,
+ 	QUIRK_ALIENWARE_M17XR4,
+ 	QUIRK_SBZ,
+@@ -1176,10 +1174,11 @@ enum {
+ 	QUIRK_R3D,
+ 	QUIRK_AE5,
+ 	QUIRK_AE7,
++	QUIRK_NONE = HDA_FIXUP_ID_NOT_SET,
+ };
+ 
+ #ifdef CONFIG_PCI
+-#define ca0132_quirk(spec)		((spec)->quirk)
++#define ca0132_quirk(spec)		((spec)->codec->fixup_id)
+ #define ca0132_use_pci_mmio(spec)	((spec)->use_pci_mmio)
+ #define ca0132_use_alt_functions(spec)	((spec)->use_alt_functions)
+ #define ca0132_use_alt_controls(spec)	((spec)->use_alt_controls)
+@@ -1293,7 +1292,7 @@ static const struct hda_pintbl ae7_pincfgs[] = {
+ 	{}
+ };
+ 
+-static const struct snd_pci_quirk ca0132_quirks[] = {
++static const struct hda_quirk ca0132_quirks[] = {
+ 	SND_PCI_QUIRK(0x1028, 0x057b, "Alienware M17x R4", QUIRK_ALIENWARE_M17XR4),
+ 	SND_PCI_QUIRK(0x1028, 0x0685, "Alienware 15 2015", QUIRK_ALIENWARE),
+ 	SND_PCI_QUIRK(0x1028, 0x0688, "Alienware 17 2015", QUIRK_ALIENWARE),
+@@ -1316,6 +1315,19 @@ static const struct snd_pci_quirk ca0132_quirks[] = {
+ 	{}
+ };
+ 
++static const struct hda_model_fixup ca0132_quirk_models[] = {
++	{ .id = QUIRK_ALIENWARE, .name = "alienware" },
++	{ .id = QUIRK_ALIENWARE_M17XR4, .name = "alienware-m17xr4" },
++	{ .id = QUIRK_SBZ, .name = "sbz" },
++	{ .id = QUIRK_ZXR, .name = "zxr" },
++	{ .id = QUIRK_ZXR_DBPRO, .name = "zxr-dbpro" },
++	{ .id = QUIRK_R3DI, .name = "r3di" },
++	{ .id = QUIRK_R3D, .name = "r3d" },
++	{ .id = QUIRK_AE5, .name = "ae5" },
++	{ .id = QUIRK_AE7, .name = "ae7" },
++	{}
++};
++
+ /* Output selection quirk info structures. */
+ #define MAX_QUIRK_MMIO_GPIO_SET_VALS 3
+ #define MAX_QUIRK_SCP_SET_VALS 2
+@@ -9962,17 +9974,15 @@ static int ca0132_prepare_verbs(struct hda_codec *codec)
+  */
+ static void sbz_detect_quirk(struct hda_codec *codec)
+ {
+-	struct ca0132_spec *spec = codec->spec;
+-
+ 	switch (codec->core.subsystem_id) {
+ 	case 0x11020033:
+-		spec->quirk = QUIRK_ZXR;
++		codec->fixup_id = QUIRK_ZXR;
+ 		break;
+ 	case 0x1102003f:
+-		spec->quirk = QUIRK_ZXR_DBPRO;
++		codec->fixup_id = QUIRK_ZXR_DBPRO;
+ 		break;
+ 	default:
+-		spec->quirk = QUIRK_SBZ;
++		codec->fixup_id = QUIRK_SBZ;
+ 		break;
+ 	}
+ }
+@@ -9981,7 +9991,6 @@ static int patch_ca0132(struct hda_codec *codec)
+ {
+ 	struct ca0132_spec *spec;
+ 	int err;
+-	const struct snd_pci_quirk *quirk;
+ 
+ 	codec_dbg(codec, "patch_ca0132\n");
+ 
+@@ -9992,11 +10001,7 @@ static int patch_ca0132(struct hda_codec *codec)
+ 	spec->codec = codec;
+ 
+ 	/* Detect codec quirk */
+-	quirk = snd_pci_quirk_lookup(codec->bus->pci, ca0132_quirks);
+-	if (quirk)
+-		spec->quirk = quirk->value;
+-	else
+-		spec->quirk = QUIRK_NONE;
++	snd_hda_pick_fixup(codec, ca0132_quirk_models, ca0132_quirks, NULL);
+ 	if (ca0132_quirk(spec) == QUIRK_SBZ)
+ 		sbz_detect_quirk(codec);
+ 
+@@ -10073,7 +10078,7 @@ static int patch_ca0132(struct hda_codec *codec)
+ 		spec->mem_base = pci_iomap(codec->bus->pci, 2, 0xC20);
+ 		if (spec->mem_base == NULL) {
+ 			codec_warn(codec, "pci_iomap failed! Setting quirk to QUIRK_NONE.");
+-			spec->quirk = QUIRK_NONE;
++			codec->fixup_id = QUIRK_NONE;
+ 		}
+ 	}
+ #endif
 -- 
 2.39.5
 
