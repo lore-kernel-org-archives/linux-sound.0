@@ -1,86 +1,90 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 381E51ACDE7;
-	Fri, 20 Dec 2024 08:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA7F1A76D4;
+	Fri, 20 Dec 2024 08:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734684903; cv=none; b=Iy+daNGok8NSH7IHJeKMdVlB3RUCaiJXiNY3zQXA3mcAg23O1UQubFeEUbAkowgZrMmhvW8jV+SZxlujqFatSz7sJqg/3ZMQnWL2SFka9CmprkaKLmcgI2ZSOvr3ZrDJ30pi6hxj3P+aBkNly08SCHF4NcB4Dfgf2w/l/q3+AZw=
+	t=1734685055; cv=none; b=oHirp2n8l1Fm/YRY9bmNhOwGCwsPy7zvcFmnP6Zz44geAn0LCamjvC0q1bB2mo86h6EeT6Exb4vbW9HaeCWa87VqmGVLtpTn4F5uGc7wwmrnYuBOsh8DkBTDZF5xfzfm48erNTHPJD5LXxl1Y7fp83IjER4D3aG/ndL5q/lallU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734684903; c=relaxed/simple;
-	bh=cq6n4Kh6CyG8RrhpH2Ql8b/h+OAH8I1D4yeGhpUNOEE=;
+	s=arc-20240116; t=1734685055; c=relaxed/simple;
+	bh=kdfctPfr+9NnxI2qkiw5WLhuN/gMGgzu6iEAhP6ubrg=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NOPHfTHatRLyJ3f59bg80rzgIlBxMLgx7KjU9PSvhEc0soFsM79vU8UMIs6koAo+YEs0AFpXj5SEXykAAEt4jvamq5PYb9WyAXmBVvGDqEsLvyJFVKsWmw0DGhcpZyZZ6L5MCe+KYgqzjt6DDos9C+TNpTBQRi9Kx13Kb8MHZj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SH6eUUne; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v7AYzpAz; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SH6eUUne; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=v7AYzpAz; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=O7mpiHYY3b7Uu6ug/TbkdKKW9xICCB1WiwdRa5Qcv0fwO696/08C1ykXhctIRIR1IBUOvYTP1PvcR2NYvFyqnwdU44fFb3tctq5yT6htkWShYy13hK3Uep5bxE59akdWKoFGDXXs4a3qkj57Q1lcF6PuAq9lFNDiTbK2UobJ9kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HklfYHie; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5rQZ6GHl; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=HklfYHie; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5rQZ6GHl; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SH6eUUne";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v7AYzpAz";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SH6eUUne";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="v7AYzpAz"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HklfYHie";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5rQZ6GHl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HklfYHie";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5rQZ6GHl"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5E6C82115C;
-	Fri, 20 Dec 2024 08:54:59 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E1D81F365;
+	Fri, 20 Dec 2024 08:57:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734684899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1734685052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WuS82a15vsTRHzOXrPzlufa04nBsn7Jcy9k+KDJr/6w=;
-	b=SH6eUUne9f6BqMxs5ZdOyFyjsOrJyfTKJh04At3lxXEfrEUV7erc1SW+kFaXyYemXe2BdX
-	epmTAcU4DwCnwTRwpD78Ffhymx9yt5aM1tBKmaBVJqzK8SEsPIuRyCSsdrh4yFxNGz6V2e
-	Xtx9QXcOUjWHyUsITuCXREMXLyTYqh8=
+	bh=4KDolRU+wgdZJroxCP01kjwj0YA/8puhtgdduvkqZhU=;
+	b=HklfYHieHMYRssgYXDCKAt53Pt8uVaZv6jSMEUpwRvW5KF4CKW9yeEfgQMdaZIwTobTDVA
+	nLMaUJMyuRDxwM8rBlUHwbk+q+Ge+Y3lPAxr81Yjo94+Cxr5DLwyMe4FDo1OyIAFDbatzN
+	YfLwp8qzEJr2ftKV9yLnoibcq1Fo9X4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734684899;
+	s=susede2_ed25519; t=1734685052;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WuS82a15vsTRHzOXrPzlufa04nBsn7Jcy9k+KDJr/6w=;
-	b=v7AYzpAzAtzWVt0Pbw5uLIQ54aseNboqFK2utJv64WNRhrl7DXuponZz/WzB0N+8OAot4z
-	hw4y0QJH4EbEFtDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
+	bh=4KDolRU+wgdZJroxCP01kjwj0YA/8puhtgdduvkqZhU=;
+	b=5rQZ6GHltddOrtBp4rSoA4idnxE/VPtlcdh0oeaf5A+J1iBeib/dvVM87t7tz9e6vu75We
+	0CkhNROHtidEi/Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=HklfYHie;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5rQZ6GHl
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734684899; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1734685052; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WuS82a15vsTRHzOXrPzlufa04nBsn7Jcy9k+KDJr/6w=;
-	b=SH6eUUne9f6BqMxs5ZdOyFyjsOrJyfTKJh04At3lxXEfrEUV7erc1SW+kFaXyYemXe2BdX
-	epmTAcU4DwCnwTRwpD78Ffhymx9yt5aM1tBKmaBVJqzK8SEsPIuRyCSsdrh4yFxNGz6V2e
-	Xtx9QXcOUjWHyUsITuCXREMXLyTYqh8=
+	bh=4KDolRU+wgdZJroxCP01kjwj0YA/8puhtgdduvkqZhU=;
+	b=HklfYHieHMYRssgYXDCKAt53Pt8uVaZv6jSMEUpwRvW5KF4CKW9yeEfgQMdaZIwTobTDVA
+	nLMaUJMyuRDxwM8rBlUHwbk+q+Ge+Y3lPAxr81Yjo94+Cxr5DLwyMe4FDo1OyIAFDbatzN
+	YfLwp8qzEJr2ftKV9yLnoibcq1Fo9X4=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734684899;
+	s=susede2_ed25519; t=1734685052;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=WuS82a15vsTRHzOXrPzlufa04nBsn7Jcy9k+KDJr/6w=;
-	b=v7AYzpAzAtzWVt0Pbw5uLIQ54aseNboqFK2utJv64WNRhrl7DXuponZz/WzB0N+8OAot4z
-	hw4y0QJH4EbEFtDQ==
+	bh=4KDolRU+wgdZJroxCP01kjwj0YA/8puhtgdduvkqZhU=;
+	b=5rQZ6GHltddOrtBp4rSoA4idnxE/VPtlcdh0oeaf5A+J1iBeib/dvVM87t7tz9e6vu75We
+	0CkhNROHtidEi/Ag==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAF3713A63;
-	Fri, 20 Dec 2024 08:54:58 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B008A13A63;
+	Fri, 20 Dec 2024 08:57:31 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id swn1MeIwZWcVbAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 20 Dec 2024 08:54:58 +0000
-Date: Fri, 20 Dec 2024 09:54:54 +0100
-Message-ID: <878qsaraxt.wl-tiwai@suse.de>
+	id XGJvJ3sxZWfUbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Dec 2024 08:57:31 +0000
+Date: Fri, 20 Dec 2024 09:57:31 +0100
+Message-ID: <875xneratg.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Fedor Pchelkin <pchelkin@ispras.ru>
-Cc: Takashi Iwai <tiwai@suse.com>,
-	Jaroslav Kysela <perex@perex.cz>,
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Mark Brown <broonie@kernel.org>,
+	David Rhodes <drhodes@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: Re: [PATCH] ALSA: memalloc: prefer dma_mapping_error() over explicit address checking
-In-Reply-To: <20241219203345.195898-1-pchelkin@ispras.ru>
-References: <20241219203345.195898-1-pchelkin@ispras.ru>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: hdsp: Use str_on_off() and str_yes_no() helper functions
+In-Reply-To: <20241216123412.64691-2-thorsten.blum@linux.dev>
+References: <20241216123412.64691-2-thorsten.blum@linux.dev>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -89,62 +93,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
+X-Rspamd-Queue-Id: 5E1D81F365
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	TAGGED_RCPT(0.00)[];
-	TO_DN_SOME(0.00)[];
+	MX_GOOD(-0.01)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	RCVD_TLS_ALL(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
 	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[suse.com,perex.cz,vger.kernel.org,gmail.com];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
 	RCVD_COUNT_TWO(0.00)[2];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Score: -1.80
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Thu, 19 Dec 2024 21:33:45 +0100,
-Fedor Pchelkin wrote:
+On Mon, 16 Dec 2024 13:34:11 +0100,
+Thorsten Blum wrote:
 > 
-> With CONFIG_DMA_API_DEBUG enabled, the following warning is observed:
+> Remove hard-coded strings by using the str_on_off() and str_yes_no()
+> helper functions.
 > 
-> DMA-API: snd_hda_intel 0000:03:00.1: device driver failed to check map error[device address=0x00000000ffff0000] [size=20480 bytes] [mapped as single]
-> WARNING: CPU: 28 PID: 2255 at kernel/dma/debug.c:1036 check_unmap+0x1408/0x2430
-> CPU: 28 UID: 42 PID: 2255 Comm: wireplumber Tainted: G  W L  6.12.0-10-133577cad6bf48e5a7848c4338124081393bfe8a+ #759
-> debug_dma_unmap_page+0xe9/0xf0
-> snd_dma_wc_free+0x85/0x130 [snd_pcm]
-> snd_pcm_lib_free_pages+0x1e3/0x440 [snd_pcm]
-> snd_pcm_common_ioctl+0x1c9a/0x2960 [snd_pcm]
-> snd_pcm_ioctl+0x6a/0xc0 [snd_pcm]
-> ...
-> 
-> Check for returned DMA addresses using specialized dma_mapping_error()
-> helper which is generally recommended for this purpose by
-> Documentation/core-api/dma-api.rst.
-> 
-> Fixes: c880a5146642 ("ALSA: memalloc: Use proper DMA mapping API for x86 WC buffer allocations")
-> Reported-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-> Closes: https://lore.kernel.org/r/CABXGCsNB3RsMGvCucOy3byTEOxoc-Ys+zB_HQ=Opb_GhX1ioDA@mail.gmail.com/
-> Tested-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-> Signed-off-by: Fedor Pchelkin <pchelkin@ispras.ru>
-> ---
-> Decided not to wrap long dmesg lines. If it looks really ugly for the
-> commit message, please feel free to adjust them to the standards.
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-It looks fine, so applied now.  Thanks!
+Thanks, applied now to for-next branch.
 
 
 Takashi
