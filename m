@@ -1,191 +1,220 @@
-Received: from omr012.pc5.atmailcloud.com (omr012.pc5.atmailcloud.com [103.150.252.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0696711CAF
-	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 00:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAC19476
+	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 00:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734655398; cv=none; b=Yhup0mEL/6zmgVsP/Xw52ElAYJBTCeAIdChQIqZGtENKavPnz4ioJCwqVYvbm/15/SENZbViqcMQ6w+/aGvv/DWdnSjeXxInAjuO4iHYOLxNb3w8HjMGfhxoh0yafsPbS6zpCwaWINEKjDSQCxMR76pUzOdWYZI6wcmWLIzHl9I=
+	t=1734655517; cv=none; b=axQSEWw2PISLn7k26uNx4Emsejsqo7dlK7+zklJJipvcuwMx/rR4QI4S1zunbuaBaWLmrkeERn/CDsuSCrgI2HEq1PKnauzdb/nsz7zH6c8KGiCcqOR3syX2Y0CG73AeglDuKpNWLK/Ik27Ov4uBaB+0Kynbd4EUemVW31/nUdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734655398; c=relaxed/simple;
-	bh=pnEgFGaNsm+Cs1XoAqXzmSyAhRGX8SfNv2S9Y00pkSw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LeWAmL4f8402BB1YUcZMJoQ/QQDVYwXAKoONkxSHpdl/P53PtWLmH2gDHveiDzgIwbQE5I/QAgC0jmQsSyMwtKenHLgq90YyOwOwImltyYzxt/+vhnz8QITBPlqiBK7c29q1O8xcxXGTWNq0F1fw4iD67XzkhsSS0yMZ8HJ1vJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=Y1iGa1En; arc=none smtp.client-ip=103.150.252.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1734655517; c=relaxed/simple;
+	bh=FS5ZXsgUrqy2DADlVXTBBZ2gYAQ2kym6g8GsJB4PdBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dADEoDSznMnwv3/JMx9upWGv8P114rJuVi0m+VlbRLyuuOh7OQ1MHLx0Eky7GysmSRnw+cVq7Dg+Tw7QQZTuYTdOiHj89bdVtDr1oZ2yMiP0LhCVdiRb7cTyTrwCA9LpQj3iCRLMPJcLKx6ZMvZFvOeveFoOWdsTe9RUbcvdxv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z3foyfEs; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="Y1iGa1En"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=Content-Type:MIME-Version:Message-ID:Subject:To:
-	From:Date; bh=saT6O1p9ChSWePrD5DHUMVps7R1NcDBOoqFrHHjGIdM=; b=Y1iGa1En+Zj3QIx
-	dgqAHZ9IrqmXdiOmBUabAUb6wJPUoNyXzt4GOqfpvSzSkdGP8t393F3FaNe37Nfya8cbamYgziOmH
-	ccbejA/7J8GvCAeNapSINQKy3oBLhKpm4A7Tev52WvZfWErMZn+lEJlNY39U+B2/K0mDoE2suetOB
-	YniQ5g4djswpHSl8AIgLE0z5hNXpkKLGsLbvDMabwKxg/coNj1p4DP4P0SC3ij4JcxNu9Ya+Zwb9D
-	vLKrH0ZuODELtRFoMdujDg710Nd/f7lEpJ4vZttkBB0VAqVzLi3avCgCY7HTdAUgmrX/HrRb0j3SR
-	1PQ9HxXiVFvQACi8vlg==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-0817c713662e434d0) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tOQSW-0000000087S-359y ;
-	Fri, 20 Dec 2024 00:01:36 +0000
-Received: from [220.233.184.101] (helo=rpi5)
-	 by CMR-KAKADU03.i-0817c713662e434d0 with esmtpa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tOQSV-0000000053U-24NZ;
-	Fri, 20 Dec 2024 00:01:36 +0000
-Date: Fri, 20 Dec 2024 11:01:33 +1100
-From: Stephen Gordon <gordoste@iinet.net.au>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] ASoC: extra format on each DAI
-Message-ID: <20241220110133.2e8f1986@rpi5>
-In-Reply-To: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
-References: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z3foyfEs"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5401c52000dso1397983e87.3
+        for <linux-sound@vger.kernel.org>; Thu, 19 Dec 2024 16:45:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734655513; x=1735260313; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GtphmJJvd2huuYFzKRkVf45xsccE6Ms1jkEdDHx6d2E=;
+        b=z3foyfEsCBRd518gbzSChGiDzZ0g38Fsi5WTjDtSDEq4FGTEdorG6+nhUQVrZNHFPO
+         tR/9QjZqV1CoQWj8PZdZSj4ifDvWH4QHJ7VrOHLSOvmTFSTHEf9oZs79CTFkEqGMUVGB
+         hvXCUk1ycaRm0LhUZelFEikJqcqbGlRLOReA7zh7Iw33d7HI9qLzvb/6sttSIvDyjl85
+         gXAAjYQU++U+eaoZOy6iSP4LbfTJ6nQRVTbmGLcNWO8ybGtOQA2VwsmreCMsvw7md0xq
+         gM6+5P7gwvz2R5l5LY4Kh3Io35e40oI9zP5j9XKTu1zbrT6IOgr3JjVtSvJhR4LDLm6w
+         ig4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734655513; x=1735260313;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GtphmJJvd2huuYFzKRkVf45xsccE6Ms1jkEdDHx6d2E=;
+        b=JQaI72D6/5raHsezD4g4po7VAMVylPC2xHdARgn9seuXpWQzaAxYmvDP8t/Agn9cEo
+         sPKVwAbfLo4dWx6oNZ2obmy5/c9px7bq3KRQhBUNgzcCrmGGXBxruLQi1Oe8wTyx2fZG
+         PrfQKZHZx+CNMAXz8X5khahW8Gkx5GxQYJq7tuMHmqF9HGf1OT/BqTgQ2WuYaWUZEWV4
+         HABWTO3kZdEMSYQUcAISYbATKoj0/6jXxim539EYBrmKxoJfuig3UhaC0vZkwoEWlTLi
+         o6OaRZV6Kh2Ax/TMcSjD3C1WyOol1+Mij3HwYT8RfuGxLMu7X71oWF7ELp6xxhTWsO3S
+         0+fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB8p/N1+D9DyCFZo/bm3mvBApx6+hBOJnmTcEvCjBgoR16aqOc2V6mCNl6MYT2/DqiEEHUicuPp2nR5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzh4RhWI9MJT+BN/WR1dS09Z+pxGF0a7cXzxxFBL8ZxBDZAePza
+	JAstHH79yfrOpViRLfHJFd+QXfrTAAfOCX2bhHEaeBxFqrtMKZhu4VcCOdum74w=
+X-Gm-Gg: ASbGncuRVJbuo+/UkV3Q16h5Eu6fOxuVoA1+DZUhjNKSKUnZJshKSUFrK65bltXGKmb
+	/wny+sTJ/d7CT+9wpm1SQXAN10Xcp2P6xZqGJhfriS1WQ0ViHI/T+brUSDeAihfVSrSpR2q+aV7
+	NrJ0/Z0UpE8vuOfMdxA36Be77+qpEZkdwNSSYdL5VBBUGXGhtvLX/5/vqyFXdeRpKUBV1xA+66z
+	IXldM11PyyMfnCX4ZUkA7aDi6jz7iqAXeXeNW/cvFS4wYwbFdeoMuLR55xWJiWqH/eWbeQMLjjZ
+	SoHTIsGkhAcbY/BEJ8eajv/7ExmkMrL+dMyW
+X-Google-Smtp-Source: AGHT+IH6uB6hHFdhZ8g1M8LwKBeApp5BdicV5eI/Ca91+dWC9LroL7URt+wK91yNOSkMF1+1W94jDw==
+X-Received: by 2002:a05:6512:1329:b0:540:1dca:52bb with SMTP id 2adb3069b0e04-5422953c126mr191526e87.28.1734655512484;
+        Thu, 19 Dec 2024 16:45:12 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5422382156dsm315960e87.186.2024.12.19.16.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 16:45:11 -0800 (PST)
+Date: Fri, 20 Dec 2024 02:45:09 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Maxime Ripard <mripard@kernel.org>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Phong LE <ple@baylibre.com>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v7 00/10] drm: add DRM HDMI Codec framework
+Message-ID: <c7qyka3hsrggqevdwdlfcanzps3z63s4joryskijlbuztacmly@tadqjm2vkj24>
+References: <20241217-drm-bridge-hdmi-connector-v7-0-cb9df2b6a515@linaro.org>
+ <20241217-vivacious-chameleon-of-swiftness-f1edc4@houat>
+ <CAA8EJprjCyWBNkRrc4W24uCwPtf_kxZLqNeNP8EJffbutYQ21w@mail.gmail.com>
+ <20241218-wild-red-manatee-bb2a34@houat>
+ <CAPY8ntDdcOXuWVgx6+cbgX5ct_-MXcE7CWDKgGP57EX6bvBLaw@mail.gmail.com>
+ <CAPY8ntAnJ1YDQee=pFSDY3+EXHj4_RZ-M1NMp2C3ZDdD5DsCKA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/7+k9fAFBo/kjv+dNdW0ldHY"
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=ONoh3zaB c=1 sm=1 tr=0 ts=6764b3e0 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=yC-0_ovQAAAA:8 a=wJS4Av5FExyJiEOqahgA:9 a=CjuIK1q_8ugA:10 a=UQzexoHzjaUpTOI2_FUA:9
-X-Cm-Envelope: MS4xfBcfCUFx0d08gCSknGL/oJQdReQRwpvS5dOQ/NZPwJsstOcSvlGcxCkwVoUl6GLO9B9Jn+8mjHiK6ADkUbzjz02oUJ4FKztmpJoMZWrwqMFHNvIqq+/n YYdvDMWeFf9Wn54VM5etKEuIxL6WarNvmo236rxRfbnY5Ptw5dBNZHRlD3PtfrCzgdaJRxLvkiAF1sq+24CiSxXRXmYaM03Xnu0=
-X-atmailcloud-route: unknown
-
---MP_/7+k9fAFBo/kjv+dNdW0ldHY
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <CAPY8ntAnJ1YDQee=pFSDY3+EXHj4_RZ-M1NMp2C3ZDdD5DsCKA@mail.gmail.com>
 
-On Thu, 19 Dec 2024 00:34:27 +0000
-Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
-
-> This patch-set needs Stephen's Tested-by
+On Thu, Dec 19, 2024 at 04:16:37PM +0000, Dave Stevenson wrote:
+> On Wed, 18 Dec 2024 at 14:52, Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > Hi Maxime & Dmitry
+> >
+> > On Wed, 18 Dec 2024 at 07:59, Maxime Ripard <mripard@kernel.org> wrote:
+> > >
+> > > On Wed, Dec 18, 2024 at 07:24:23AM +0200, Dmitry Baryshkov wrote:
+> > > > On Tue, 17 Dec 2024 at 19:21, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > > On Tue, Dec 17, 2024 at 02:40:22AM +0200, Dmitry Baryshkov wrote:
+> > > > > > While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> > > > > > framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> > > > > > The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> > > > > > there was no simple way to get the drm_connector that stayed at the end
+> > > > > > of the bridge chain. At the same point the drm_hdmi_connector functions
+> > > > > > expected to get drm_connector instance.
+> > > > > >
+> > > > > > While looking for a way to solve the issue, I stumbled upon several
+> > > > > > deficiencies in existing hdmi_codec_ops implementations. Only few of the
+> > > > > > implementations were able to handle codec's 'plugged' callback. One
+> > > > > > third of the drivers didn't implement the get_eld() callback.
+> > > > > >
+> > > > > > Most of the issues can be solved if drm_connector handles
+> > > > > > hdmi-audio-codec on its own, delegating functionality to the actual
+> > > > > > implementation, be it a driver that implements drm_connector or
+> > > > > > drm_bridge.
+> > > > > >
+> > > > > > Implement such high-level framework, adding proper support for Audio
+> > > > > > InfoFrame generation to the LT9611 driver.
+> > > > > >
+> > > > > > Several design decisions to be kept in mind:
+> > > > > >
+> > > > > > - drm_connector_hdmi_codec is kept as simple as possible. It implements
+> > > > > >   generic functionality (ELD, hotplug, registration).
+> > > > > >
+> > > > > > - drm_hdmi_connector sets up HDMI codec device if the connector
+> > > > > >   is setup correspondingly (either I2S or S/PDIF is marked as
+> > > > > >   supported).
+> > > > > >
+> > > > > > - drm_bridge_connector provides a way to link HDMI audio codec
+> > > > > >   funcionality in the drm_bridge with the drm_connector_hdmi_codec
+> > > > > >   framework.
+> > > > > >
+> > > > > > - It might be worth reverting the no_i2s_capture / no_spdif_capture
+> > > > > >   bits. Only TDA889x driver sets them, while it's safe to assume that
+> > > > > >   most of HDMI / DP devices do not support ARC / capture. I think the
+> > > > > >   drivers should opt-in capture support rather than having to opt-out of
+> > > > > >   it.
+> > > > >
+> > > > > Sorry if this isn't clear to me and I'm quite late to the party, but did
+> > > > > you test this on vc4 with both a pi3 and pi4, or was it just compile
+> > > > > tested?
+> > > >
+> > > > LT9611 is actually tested, VC4 is only compile-tested. Should I put an RFT tag?
+> > >
+> > > Yeah, we definitely need to test it on the pi3 (polling-based) and the
+> > > pi4 (irq-based) at least.
+> > >
+> > > Dave, Maira, could you give it a try?
+> >
+> > I'm on it.
 > 
+> Basic checks look OK.
+> Pi3 and Pi4 tested, including 4k60 on Pi4 (enables scrambling). Audio
+> works, and all the EDID parsing seems to be correct.
+> 
+> Ideally I would like to do a couple more tests though as I had a
+> couple of spontaneous reboots on Pi4 whilst hotplugging.
+> Most likely it was just grounding issues, as I can't think of an
+> obvious way for the kernel to be triggering an automatic reboot. They
+> seemed to go away when I had enabled drm.debug=0x14, but more likely
+> I'd connected the serial port and therefore provided another ground.
+> Please don't hold the patches waiting on me though - I don't know when
+> I'll have time to do them.
 
-Hi Morimoto-san,
+Tested-by?
 
-I am attempting to test this by applying your patchset on top of
-6.13-rc3. But I am running into a problem, probably because my
-graph-card2 DT is wrong. I've attached the DTS file. I used the
-Semi-Multi example.
+> 
+> 
+> Also unrelated to this patch set, I have noted I'm getting
+> [   60.780897] WARNING: CPU: 3 PID: 501 at
+> drivers/gpu/drm/vc4/vc4_hvs.c:743 __vc4_hvs_stop_channel+0x148/0x164
+> [vc4]
+> ...
+> [   60.781192]  __vc4_hvs_stop_channel+0x148/0x164 [vc4] (P)
+> [   60.781212]  __vc4_hvs_stop_channel+0x40/0x164 [vc4] (L)
+> [   60.781230]  vc4_hvs_stop_channel+0x30/0x3c [vc4]
+> [   60.781248]  vc4_crtc_disable+0x140/0x1e8 [vc4]
+> [   60.781266]  vc4_crtc_atomic_disable+0x98/0xb8 [vc4]
+> [   60.781284]  disable_outputs+0x22c/0x33c [drm_kms_helper]
+> [   60.781326]  drm_atomic_helper_commit_modeset_disables+0x1c/0x4c
+> [drm_kms_helper]
+> [   60.781347]  vc4_atomic_commit_tail+0x10c/0x8e4 [vc4]
+> [   60.781364]  commit_tail+0xa0/0x188 [drm_kms_helper]
+> [   60.781385]  drm_atomic_helper_commit+0x16c/0x180 [drm_kms_helper]
+> [   60.781406]  drm_atomic_commit+0x88/0xc4 [drm]
+> [   60.781500]  drm_client_modeset_commit_atomic+0x204/0x264 [drm]
+> [   60.781553]  drm_client_modeset_commit_locked+0x5c/0x198 [drm]
+> [   60.781603]  drm_client_modeset_commit+0x30/0x58 [drm]
+> [   60.781652]  __drm_fb_helper_restore_fbdev_mode_unlocked+0xb4/0xe8
+> [drm_kms_helper]
+> [   60.781674]  drm_fb_helper_hotplug_event+0x108/0x12c [drm_kms_helper]
+> [   60.781695]  drm_fbdev_client_hotplug+0x28/0xd4 [drm_client_lib]
+> [   60.781700]  drm_client_dev_hotplug+0xc8/0x12c [drm]
+> [   60.781750]  drm_connector_helper_hpd_irq_event+0x70/0xb0 [drm_kms_helper]
+> [   60.781771]  vc4_hdmi_hpd_irq_thread+0x2c/0x3c [vc4]
+> [   60.781790]  irq_thread_fn+0x2c/0xa8
+> [   60.781799]  irq_thread+0x16c/0x2f4
+> [   60.781805]  kthread+0x118/0x11c
+> [   60.781813]  ret_from_fork+0x10/0x20
+> On first plugging or unplugging a second monitor. I suspect that is
+> spurious though and I'll look into it, but probably not this side of
+> the Christmas break.
+> 
+>   Dave
 
-Here is the output of dmesg when I load it:
-
-[   27.277613] /soc@107c000000/sound/multi: Fixed dependency cycle(s)
-with /axi/pcie@120000/rp1/i2s@a4000
-[   27.277635] /axi/pcie@120000/rp1/i2s@a4000: Fixed dependency
-cycle(s) with /soc@107c000000/sound/multi
-[   27.277820] /soc@107c000000/sound/multi: Fixed dependency cycle(s)
-with /axi/pcie@120000/rp1/i2c@74000/audio-codec@45
-[   27.277841] /axi/pcie@120000/rp1/i2c@74000/audio-codec@45: Fixed
-dependency cycle(s) with /soc@107c000000/sound/multi
-[   27.304322] designware-i2s 1f000a4000.i2s: ASoC: Registered DAI
-'1f000a4000.i2s'
-[   27.333791] asoc-audio-graph-card2 soc@107c000000:sound:
-/axi/pcie@120000/rp1/i2s@a4000/ports/port@0 (Normal)
-[   27.333813] asoc-audio-graph-card2 soc@107c000000:sound: link 1,
-dais 3, ccnf 0
-[   27.333822] asoc-audio-graph-card2 soc@107c000000:sound:
-/axi/pcie@120000/rp1/i2s@a4000/ports/port@0 (Normal)
-[   27.333830] asoc-audio-graph-card2 soc@107c000000:sound: probe with
-driver asoc-audio-graph-card2 failed with error -12
-[   27.346051] pcm3168a 1-0045: ASoC: Registered DAI 'pcm3168a-dac'
-[   27.346055] pcm3168a 1-0045: ASoC: Registered DAI 'pcm3168a-adc'
-
-
-I would appreciate any advice you can give.
-
-Regards
-Stephen
-
-
-
-
-
-
---MP_/7+k9fAFBo/kjv+dNdW0ldHY
-Content-Type: audio/vnd.dts
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename=graph.dts
-
-Ly9EZXZpY2UgdHJlZSBvdmVybGF5IGZvciBtdWx0aS1jaGFubmVsIEkyUyBpbiBjbG9jayBjb25z
-dW1lciBtb2RlCi9kdHMtdjEvOwovcGx1Z2luLzsKCi8gewogICAgLy8gUGk1IG9ubHkKICAgIGNv
-bXBhdGlibGUgPSAiYnJjbSxiY20yNzEyIjsKCiAgICAvLyBTZXQgR1BJT3MgZm9yIHRoZSBSUDEg
-STJTIGJsb2NrcyB0byB1c2UKICAgIC8vICh0aGVyZSBpcyBvbmUgZWFjaCBmb3IgY2xrIHByb2R1
-Y2VyL2NvbnN1bWVyIG1vZGVzKQogICAgZnJhZ21lbnRAMCB7CiAgICAgICAgdGFyZ2V0ID0gPCZy
-cDFfaTJzMF8xOF8yMT47CiAgICAgICAgX19vdmVybGF5X18gewogICAgICAgICAgICBwaW5zID0g
-ImdwaW8xOCIsICJncGlvMTkiLCAiZ3BpbzIwIiwgImdwaW8yMiIsICJncGlvMjQiLCAiZ3BpbzI2
-IiwgImdwaW8yMSIsICJncGlvMjMiLCAiZ3BpbzI1IiwgICJncGlvMjciOwogICAgICAgIH07CiAg
-ICB9OwoKICAgIGZyYWdtZW50QDEgewogICAgICAgIHRhcmdldCA9IDwmcnAxX2kyczFfMThfMjE+
-OwogICAgICAgIF9fb3ZlcmxheV9fIHsKICAgICAgICAgICAgcGlucyA9ICJncGlvMTgiLCAiZ3Bp
-bzE5IiwgImdwaW8yMCIsICJncGlvMjIiLCAiZ3BpbzI0IiwgImdwaW8yNiIsICJncGlvMjEiLCAi
-Z3BpbzIzIiwgImdwaW8yNSIsICAiZ3BpbzI3IjsKICAgICAgICB9OwogICAgfTsKCiAgICBmcmFn
-bWVudEAyIHsKICAgICAgICB0YXJnZXQgPSA8JnNvdW5kPjsKICAgICAgICBfX292ZXJsYXlfXyB7
-CgkgICAgY29tcGF0aWJsZSA9ICJhdWRpby1ncmFwaC1jYXJkMiI7CiAgICAgICAgICAgIGxhYmVs
-ID0gImV6c291bmQiOwogICAgICAgICAgICBpMnMtY29udHJvbGxlciA9IDwmaTJzX2Nsa19jb25z
-dW1lcj47CiAgICAgICAgICAgIHN0YXR1cyA9ICJva2F5IjsKCiAgICAgICAgICAgIGxpbmtzID0g
-PCZsaW5rMD47CiAgICAgICAgICAgIAogICAgICAgICAgICBtdWx0aSB7CiAgICAgICAgICAgICAg
-ICAjYWRkcmVzcy1jZWxscyA9IDwxPjsKICAgICAgICAgICAgICAgICNzaXplLWNlbGxzID0gPDA+
-OwoJCS8qCgkJICoJCQkrLS0tKwoJCSAqICAgY3B1X2kycyA8LUAtLS0tLS0tPnxYIEF8LT4gY29k
-ZWNfZGFjCgkJICoJCQl8ICBCfC0+IGNvZGVjX2FkYwoJCSAqCQkJKy0tLSsKCQkgKi8KCQlwb3J0
-c0AwIHsKCQkJcmVnID0gPDA+OwoJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsKCQkJI3NpemUtY2Vs
-bHMgPSA8MD47CgkJCXBvcnRAMCB7IHJlZyA9IDwwPjsgbGlua19jcHU6IGVuZHBvaW50IHsgcmVt
-b3RlLWVuZHBvaW50ID0gPCZjcHVfaTJzPjsgICAgfTt9OwoJCQlwb3J0QDEgeyByZWcgPSA8MT47
-IGxpbmtfZGFjOiBlbmRwb2ludCB7IHJlbW90ZS1lbmRwb2ludCA9IDwmY29kZWNfZGFjPjsgIH07
-fTsKCQkJcG9ydEAyIHsgcmVnID0gPDI+OyBsaW5rX2FkYzogZW5kcG9pbnQgeyByZW1vdGUtZW5k
-cG9pbnQgPSA8JmNvZGVjX2FkYz47ICB9O307CiAgICAgICAgICAgICAgICB9OwogICAgICAgICAg
-ICB9OwogICAgICAgIH07CiAgICB9OwoKICAgIGZyYWdtZW50QDMgewogICAgICAgIHRhcmdldC1w
-YXRoID0gIi8iOwogICAgICAgIF9fb3ZlcmxheV9fIHsKICAgICAgICAgICAgc2NraV9jbGs6IHNj
-a2ktY2xvY2sgewogICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJmaXhlZC1jbG9jayI7CiAg
-ICAgICAgICAgICAgICAjY2xvY2stY2VsbHMgPSA8MD47CiAgICAgICAgICAgICAgICBjbG9jay1m
-cmVxdWVuY3kgPSA8MjQ1NzYwMDA+OwogICAgICAgICAgICB9OwogICAgICAgIH07CiAgICB9OwoK
-ICAgIC8vIEJyaW5nIHRoZSBJMlMgY2xvY2sgY29uc3VtZXIgYmxvY2sgdXAKICAgIGZyYWdtZW50
-QDQgewogICAgICAgIHRhcmdldCA9IDwmaTJzX2Nsa19jb25zdW1lcj47CiAgICAgICAgX19vdmVy
-bGF5X18gewogICAgICAgICAgICAjc291bmQtZGFpLWNlbGxzID0gPDA+OwogICAgICAgICAgICBz
-dGF0dXMgPSAib2theSI7CgkgICAgcG9ydHMgewogICAgICAgICAgICAgICAgI2FkZHJlc3MtY2Vs
-bHMgPSA8MT47CiAgICAgICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKCQlsaW5rMDogcG9y
-dEAwIHsKICAgICAgICAgICAgICAgICAgICByZWcgPSA8MD47CiAgICAgICAgICAgICAgICAgICAg
-Y3B1X2kyczogZW5kcG9pbnQgewogICAgICAgICAgICAgICAgICAgICAgICBkYWktdGRtLXNsb3Qt
-bnVtID0gPDI+OwogICAgICAgICAgICAgICAgICAgICAgICBkYWktdGRtLXNsb3Qtd2lkdGggPSA8
-MzI+OwogICAgICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8JmxpbmtfY3B1
-PjsKICAgICAgICAgICAgICAgICAgICB9OwogICAgICAgICAgICAgICAgfTsKICAgICAgICAgICAg
-fTsKCiAgICAgICAgfTsKICAgIH07CgogICAgZnJhZ21lbnRANSB7CiAgICAgICAgdGFyZ2V0ID0g
-PCZpMmMxPjsKICAgICAgICBfX292ZXJsYXlfXyB7CiAgICAgICAgICAgICNhZGRyZXNzLWNlbGxz
-ID0gPDE+OwogICAgICAgICAgICAjc2l6ZS1jZWxscyA9IDwwPjsKCiAgICAgICAgICAgIHBjbTMx
-NjhhOiBhdWRpby1jb2RlY0A0NSB7CiAgICAgICAgICAgICAgICAjc291bmQtZGFpLWNlbGxzID0g
-PDE+OwogICAgICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJ0aSxwY20zMTY4YSI7CiAgICAgICAg
-ICAgICAgICBzdGF0dXMgPSAib2theSI7CiAgICAgICAgICAgICAgICByZWcgPSA8MHg0NT47CiAg
-ICAgICAgICAgICAgICBjbG9ja3MgPSA8JnNja2lfY2xrPjsKICAgICAgICAgICAgICAgIGNsb2Nr
-LW5hbWVzID0gInNja2kiOwogICAgICAgICAgICAgICAgVkREMS1zdXBwbHkgPSA8JnZkZF8zdjNf
-cmVnPjsKICAgICAgICAgICAgICAgIFZERDItc3VwcGx5ID0gPCZ2ZGRfM3YzX3JlZz47CiAgICAg
-ICAgICAgICAgICBWQ0NBRDEtc3VwcGx5ID0gPCZ2ZGRfNXYwX3JlZz47CiAgICAgICAgICAgICAg
-ICBWQ0NBRDItc3VwcGx5ID0gPCZ2ZGRfNXYwX3JlZz47CiAgICAgICAgICAgICAgICBWQ0NEQTEt
-c3VwcGx5ID0gPCZ2ZGRfNXYwX3JlZz47CiAgICAgICAgICAgICAgICBWQ0NEQTItc3VwcGx5ID0g
-PCZ2ZGRfNXYwX3JlZz47CgkJcG9ydHMgewoJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsKCQkJI3Np
-emUtY2VsbHMgPSA8MD47CiAgICAgICAgICAgICAgICAgICAgICAgIHByZWZpeCA9ICJwY20zMTY4
-YSI7CgoJCQlwb3J0QDAgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDA+Owog
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgY29kZWNfZGFjOiBlbmRwb2ludCB7CiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgcGxheWJhY2stb25seTsKICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBkYWktdGRtLXNsb3QtbnVtID0gPDI+OwogICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGRhaS10ZG0tc2xvdC13aWR0aCA9IDwzMj47CiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZsaW5rX2RhYz47CiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB9OwogICAgICAgICAgICAgICAgICAgICAgICB9OwoJCQlwb3J0QDEg
-ewogICAgICAgICAgICAgICAgICAgICAgICAgICAgcmVnID0gPDE+OwogICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgY29kZWNfYWRjOiBlbmRwb2ludCB7CiAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgYml0Y2xvY2stbWFzdGVyOwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGZyYW1lLW1hc3RlcjsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjYXB0dXJlLW9u
-bHk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGFpLXRkbS1zbG90LW51bSA9IDwy
-PjsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkYWktdGRtLXNsb3Qtd2lkdGggPSA8
-MzI+OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwm
-bGlua19hZGM+OwogICAgICAgICAgICAgICAgICAgICAgICAgICAgfTsKICAgICAgICAgICAgICAg
-ICAgICAgICAgfTsKICAgICAgICAgICAgICAgIH07CiAgICAgICAgICAgIH07CiAgICAgICAgfTsK
-ICAgIH07Cn07Cg==
-
---MP_/7+k9fAFBo/kjv+dNdW0ldHY--
+-- 
+With best wishes
+Dmitry
