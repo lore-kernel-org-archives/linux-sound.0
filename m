@@ -1,48 +1,51 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0720F21CFEF;
-	Fri, 20 Dec 2024 17:13:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE64821A45A;
+	Fri, 20 Dec 2024 17:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714783; cv=none; b=hgrasUSSjAgfVONyp/o04CZhJxeDIZW7VkQGRbmEoWYB86H4K0naqpNzJ5/l8nf0Tn+dc92npTaioTgul8dCTAtL8oev+ZHcQcr15q/pkPBJfVxAQzX8oahsjeGlwzrRNgLEyiSy9f5DAR+WBrSYyM7G0VUsKqCQthSPCpbiAuw=
+	t=1734714808; cv=none; b=udwo3sOk7nmhXi3gMPzSOnQqyf6MXYEYNvnhujjqRwHvf2TzB4944LwWKcv9WKpKGfw39LrpC8d2Aha/o354QUej5IDA62m9N5TFHuFIaMXejOykY4coXX7FXGkdQQrxYdfdwvHGZHsTSqhkn3T82GioFrz5ip6aVT0zV7OKnYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714783; c=relaxed/simple;
-	bh=he1Bkg3qoCJGI2LggxCuifYJzrOSubH4SexUF/l4PMw=;
+	s=arc-20240116; t=1734714808; c=relaxed/simple;
+	bh=ZmU6skRUAaHDOO2tmT+YNt3NFANa5hYasTGlX8D/uKs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PFhkfG5A1bWW8CDwdFow1e1tuomRjpQgEEwQmy5o9A0bkKhHyusPo1R6IJKlClQOyIT05a2TJs91X1IdA0/raaWL43MEzdp1DLiZgT1xdJZsTCgo4+mhHnB1fYhxaY7sWExBgERmWyQFw7cgeFHv1XY5w65BZofDBd4avMlxh5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sLg7VGNx; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=b9oJ+4yihoO9DolVZy5xDaEUhNg/z4Lb3NbYiEvkHhU26iX/Z4vgcOxVcJBPK+4jOnTJYvLwby6NkuqfNuhMOhV/gGXjBPWUN2aSyhMCGtM+pgn5sL8CKEnlt/mPNCqVhQW0/npfLO2HUmgD6mY2NtOzTBii+R7QAwESNKo71qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=biahL2B6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sLg7VGNx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73285C4CECD;
-	Fri, 20 Dec 2024 17:13:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="biahL2B6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1EABC4CED7;
+	Fri, 20 Dec 2024 17:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714782;
-	bh=he1Bkg3qoCJGI2LggxCuifYJzrOSubH4SexUF/l4PMw=;
+	s=k20201202; t=1734714808;
+	bh=ZmU6skRUAaHDOO2tmT+YNt3NFANa5hYasTGlX8D/uKs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sLg7VGNxYH8DJKMJy4wz9/BeUcfttld3SI4X4guj4hSgX6soWCo1e3JF9OOgnYXvb
-	 nb/aG4dLaYc+6+DxzBZsE5Tb94ro4E1f9yL9JT0uGgBaycOnnOiiD9KHKiHkPtuBZO
-	 6SDKCxD3YgfW77T+KZ76AY3O1DiwqnlGAgwxMFIlGvMByP5BZfhy73GzO6/fD1FsqH
-	 H7T2Ob3WU4zUMdN+vHX0l1ANXSgfvyJQRjatRdz1dlT9WebQcZWrxiXHdg09XUgjx9
-	 ww8zDvE5EYHgD/PGFgEFPEEhTaXYmCxp5X2Uen5FlJaLY1pie3o8dst7ZPvpLcNWcU
-	 fY00Gw2/fdVyw==
+	b=biahL2B6LZj0PukTcKNYYUYPY6DohXJD7xU6TXffbA1BBxyh5E8nQ1AYDsRP+MUFK
+	 TC20wnDcV8hdNhqP3e5Bd3Oaza26SLg3KIvbuIDyDiDQmgVZ0wHt5mlDTu+K3zXEK5
+	 G6xMtWxWUOMpzMExZE6FxKAZ/Zr3wNzlQG1RUnwdy1DHk0wgdZN0EKqZT6PhdIfTXW
+	 CCdPIW8pDiN2v5XAon1SeqXq2tUaSmKQq1wnFwJed62UhzflMAe7MuzxoL9NGf2Up5
+	 Ia4DIa/6nWtG/j8MBHnP/SyuRtn7/8y5ceKlH/3NZJxGpHNHLR7yndJTZFxCZmcLrh
+	 PfJSWCF4OiqXA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Takashi Iwai <tiwai@suse.com>,
+Cc: Vasiliy Kovalev <kovalev@altlinux.org>,
 	Takashi Iwai <tiwai@suse.de>,
 	Sasha Levin <sashal@kernel.org>,
 	perex@perex.cz,
-	k.kosik@outlook.com,
-	alexander@tsoy.me,
+	tiwai@suse.com,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	rf@opensource.cirrus.com,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 08/16] sound: usb: format: don't warn that raw DSD is unsupported
-Date: Fri, 20 Dec 2024 12:12:32 -0500
-Message-Id: <20241220171240.511904-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 04/12] ALSA: hda/realtek: Add new alc2xx-fixup-headset-mic model
+Date: Fri, 20 Dec 2024 12:13:09 -0500
+Message-Id: <20241220171317.512120-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171240.511904-1-sashal@kernel.org>
-References: <20241220171240.511904-1-sashal@kernel.org>
+In-Reply-To: <20241220171317.512120-1-sashal@kernel.org>
+References: <20241220171317.512120-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,76 +54,41 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.67
+X-stable-base: Linux 6.1.121
 Content-Transfer-Encoding: 8bit
 
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
+From: Vasiliy Kovalev <kovalev@altlinux.org>
 
-[ Upstream commit b50a3e98442b8d72f061617c7f7a71f7dba19484 ]
+[ Upstream commit 50db91fccea0da5c669bc68e2429e8de303758d3 ]
 
-UAC 2 & 3 DAC's set bit 31 of the format to signal support for a
-RAW_DATA type, typically used for DSD playback.
+Introduces the alc2xx-fixup-headset-mic model to simplify enabling
+headset microphones on ALC2XX codecs.
 
-This is correctly tested by (format & UAC*_FORMAT_TYPE_I_RAW_DATA),
-fp->dsd_raw = true; and call snd_usb_interface_dsd_format_quirks(),
-however a confusing and unnecessary message gets printed because
-the bit is not properly tested in the last "unsupported" if test:
-if (format & ~0x3F) { ... }
+Many recent configurations, as well as older systems that lacked this
+fix for a long time, leave headset microphones inactive by default.
+This addition provides a flexible workaround using the existing
+ALC2XX_FIXUP_HEADSET_MIC quirk.
 
-For example the output:
-
-usb 7-1: new high-speed USB device number 5 using xhci_hcd
-usb 7-1: New USB device found, idVendor=262a, idProduct=9302, bcdDevice=0.01
-usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
-usb 7-1: Product: TC44C
-usb 7-1: Manufacturer: TC44C
-usb 7-1: SerialNumber: 5000000001
-hid-generic 0003:262A:9302.001E: No inputs registered, leaving
-hid-generic 0003:262A:9302.001E: hidraw6: USB HID v1.00 Device [DDHIFI TC44C] on usb-0000:08:00.3-1/input0
-usb 7-1: 2:4 : unsupported format bits 0x100000000
-
-This last "unsupported format" is actually wrong: we know the
-format is a RAW_DATA which we assume is DSD, so there is no need
-to print the confusing message.
-
-This we unset bit 31 of the format after recognizing it, to avoid
-the message.
-
-Suggested-by: Takashi Iwai <tiwai@suse.com>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-Link: https://patch.msgid.link/20241209090529.16134-2-adrian.ratiu@collabora.com
+Signed-off-by: Vasiliy Kovalev <kovalev@altlinux.org>
+Link: https://patch.msgid.link/20241207201836.6879-1-kovalev@altlinux.org
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- sound/usb/format.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ sound/pci/hda/patch_realtek.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 3b45d0ee7693..3b3a5ea6fcbf 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -60,6 +60,8 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
- 			/* flag potentially raw DSD capable altsettings */
- 			fp->dsd_raw = true;
-+			/* clear special format bit to avoid "unsupported format" msg below */
-+			format &= ~UAC2_FORMAT_TYPE_I_RAW_DATA;
- 		}
- 
- 		format <<= 1;
-@@ -71,8 +73,11 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 		sample_width = as->bBitResolution;
- 		sample_bytes = as->bSubslotSize;
- 
--		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA)
-+		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA) {
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
-+			/* clear special format bit to avoid "unsupported format" msg below */
-+			format &= ~UAC3_FORMAT_TYPE_I_RAW_DATA;
-+		}
- 
- 		format <<= 1;
- 		break;
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index bd0f00794c30..8d4cbd9ac2f3 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10436,6 +10436,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
+ 	{.id = ALC255_FIXUP_ACER_HEADPHONE_AND_MIC, .name = "alc255-acer-headphone-and-mic"},
+ 	{.id = ALC285_FIXUP_HP_GPIO_AMP_INIT, .name = "alc285-hp-amp-init"},
+ 	{.id = ALC236_FIXUP_LENOVO_INV_DMIC, .name = "alc236-fixup-lenovo-inv-mic"},
++	{.id = ALC2XX_FIXUP_HEADSET_MIC, .name = "alc2xx-fixup-headset-mic"},
+ 	{}
+ };
+ #define ALC225_STANDARD_PINS \
 -- 
 2.39.5
 
