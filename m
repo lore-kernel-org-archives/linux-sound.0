@@ -1,126 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4380623A589;
-	Fri, 20 Dec 2024 17:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1E722ACDA
+	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 17:27:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714868; cv=none; b=ElueCWpz0lKrlaOO+NwlMn6eNTVRP3KWOqmqubKM2j/oRM0lEopQcnhgqetYqxRWoBjuv3WQ418gPwFI2Oqhw+78MpTBpumfygsFJPWq9nQ05aPNTNAfWOFNrp9+B6v7+9yQs1ZUNwQCSyrUdYwFUrb05BB+VCm4UBk7033yBdg=
+	t=1734715663; cv=none; b=B47qkJ/v6jV27I0W21iSp2Xn2T6yzHrMmH2edMwHObRumNOnvtaKctJBCLaSoeOLBVjs4t+ROqUXnJyV39XKDn0RB9w3RFkEOw099qOaSRjb5etZJ6Ys5b0y3QpeMF8R0jrmmkrNHmY0y/DcWr3NDcTRgtGZ9qJxY402gMxMAbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714868; c=relaxed/simple;
-	bh=+GcQLrydn8SgjXAX/5m0gSJqTHTWX0VI7FL8dcrPJs4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W3p8DtpXuE7vtR2SL7BQH/gqp6SLUQc8IZYy7/fS/PLzP29Rz96PFFRzdm8abWc1bevXvxV+qci4uHLQWLd3+LwS1cICp9c7gimvFBEPl8kmvjMtPSrRfgoChdOdquNfurGxjYcskDRHcXQpOEsN6Mae0qgQAAVpVAmKR3wJu0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5cXuUut; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734715663; c=relaxed/simple;
+	bh=ftFlFL8Hf6gjCPdcRFrVx2YclVhyvU0X+h6fy2EfzIQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=cFO3PXzGsB6yixtV/5l0MAknzrfdpXUu4gXI6KNn9m3t3JXaOeDaBwkBabo9S53Yi5b5hTn0zg0PK2jgBiYr9aW3Dy4Ln7JPbMbua/zDGJWwKKNCPfgwfJ5cKid3cBo4D8hpMXMzCqCrGWNmHGcWXedVvFhsPzDkymmibR1m6c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Sux4smDW; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5cXuUut"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A5FC4CECD;
-	Fri, 20 Dec 2024 17:14:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714865;
-	bh=+GcQLrydn8SgjXAX/5m0gSJqTHTWX0VI7FL8dcrPJs4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y5cXuUutP4X+o8DmfP07POPr7iV9ID4RZWZGJUuBYrgu6Nz8tZ94luDaxymMTWikG
-	 OPvEk4K6GJ+Jbm+Q38GgYnDCrPA7rNciOkQBgVD8ivljR3ged4sVOlY3NLT5BOwlQo
-	 /Bh8DdmSKvj7o9Q/1uw5E5mivgL/AUR13uTPeIuncHZxHbqHUQ1wPowxrWK1py/Eva
-	 Yu9bWWgXYlilMa/bkUBcWplI4UkWuKm8LRrFc5/THFOjlgalltc0XZ2claL68kH87l
-	 oxyL8YWOSm+0NJFCxDtwDnz0Y1lZTulMPd8Q1JEovlS6mv8pw1lpptkRQXkaU0OZGE
-	 jzexsEQEr0zUQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	k.kosik@outlook.com,
-	alexander@tsoy.me,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 2/6] sound: usb: format: don't warn that raw DSD is unsupported
-Date: Fri, 20 Dec 2024 12:14:16 -0500
-Message-Id: <20241220171420.512513-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171420.512513-1-sashal@kernel.org>
-References: <20241220171420.512513-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Sux4smDW"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-385e87b25f0so2163221f8f.0
+        for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 09:27:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1734715658; x=1735320458; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rl2GUGW1SKIB73yuGvAyVPoBfBy5XbBiVj4hV5yN+VI=;
+        b=Sux4smDWvhRYVAocCLrB8sH5Gn4iglVnvLOtYXjw2SwmbrW98B6c98IdTir+VF+VQJ
+         W10BWI4R3GFC1zT/iJoBlxuzYK0hnggsfABamHJxaKShxH8tLAyw6SYs1kiT5Zpq5DY/
+         y8F5G+SxDNISHMSnfr/J8ZC+W2oNrTFwJ0KMsYltX1nRmRejzvK8hykx9rw4E4PSCPjK
+         hBR+wlIXLMxbiloh7lXnf5z8TBJg0j3ePqZ9LWqb7cYYzpaMr36BzlgWIDpW6dDQHpe5
+         znRcS8BpCe/go3BIeiuQzZZSpEoYEyOJCj8IeINw++6FJJgIOUIPFK+PvAzsigdqsUly
+         aZ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734715658; x=1735320458;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rl2GUGW1SKIB73yuGvAyVPoBfBy5XbBiVj4hV5yN+VI=;
+        b=NPBjSr23cWesLxSpm6CozaJPzOjqoWqC72eAKwBCbo+c5ZJCY7MVbU964oii2Wzrqj
+         Ds2DY93dYYHy6eBFs0RaDMTk7Eqd+NP5QEwxcuojhZipJkG8FtFjhMSG7U10DnFJgYun
+         49vlVdyh/f4IATz8cUWVudOy8S3MEEX4boRY6iac6eWwI6gYyABx3h+iXy/LdhjcT4in
+         4fcm9mCzWLw6vAdI8/ZFvn97x2MUgPdWQSRHMUPkNNf7djy1tpBrFGrMKde2SSjCZKoM
+         yKZ7FY/A+48/CqVXLPtCsgx3xADEc8xAiimYUe39daXVBT1SEmCIH4oeTHGyvZICTJxf
+         voVw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1g5zbeIkvkhR61tNcm5r3YJw141Dr2qtSvs6O/U9/LalEQxaLJAhLFrqTxgfAqYmz5k0FrDEZNE/hyg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoLbm24duRrrb0OxIgZWgdd4QnNubUgS2nZVKT9V8Ym5V/27v9
+	c5Ywy8kGAnc86J7cyi63eC7kMmb95vehDObkDxlADBzHOOuYBJ8miTu9oXLbDLc=
+X-Gm-Gg: ASbGncuHKnDmAdVeDd78dtsCbjXifXd1aEP1liOlMwHU+bGyUT5SHjqsxu0FQsxcSzO
+	VrQ9I8ON7Hh7Hj3TMH+qJgrSwSVlI9Vv6gGHNwPyOYeftKeOPGp/pelZuMEpsLlIDebgQ1hfwei
+	gkKH1PR47EAvk+9UoicO67BzXeX4MDbueKzHfsDYtHkHOzskcHoHqLFZy7i5fDd7FhKDTtECElr
+	s15FOlQsuz8Q+x66nye4g6szGplp85P67yDtZ+Y/OEMlE9qxRRpmG8F1v7magxWgZ2inPH61m8=
+X-Google-Smtp-Source: AGHT+IHQofl14bIpVpiQqz6qAEwAjKsEmWVjRCOjis6wH9jKfvKMjWLHCbYlsDgmYPDOjR7ci+Y7xw==
+X-Received: by 2002:a5d:47c3:0:b0:388:cacf:24b0 with SMTP id ffacd0b85a97d-38a1a1f7253mr6745803f8f.2.1734715658179;
+        Fri, 20 Dec 2024 09:27:38 -0800 (PST)
+Received: from [192.168.68.114] ([5.133.47.210])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e357sm4642915f8f.72.2024.12.20.09.27.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Dec 2024 09:27:37 -0800 (PST)
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+To: linux-gpio@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
+Cc: kernel-janitors@vger.kernel.org, audit@vger.kernel.org, 
+ linux-mtd@lists.infradead.org, Zhihao Cheng <chengzhihao1@huawei.com>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-usb@vger.kernel.org, linux-mm@kvack.org, 
+ maple-tree@lists.infradead.org, alsa-devel@alsa-project.org, 
+ Sanyog Kale <sanyog.r.kale@intel.com>, 
+ Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, dccp@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, Jan Kara <jack@suse.cz>, 
+ drbd-dev@lists.linbit.com, linux-sound@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org, 
+ nvdimm@lists.linux.dev, linux-leds@vger.kernel.org, 
+ Nicholas Piggin <npiggin@gmail.com>, 
+ Christophe Leroy <christophe.leroy@csgroup.eu>, 
+ Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+ linuxppc-dev@lists.ozlabs.org, tipc-discussion@lists.sourceforge.net, 
+ Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ linux-trace-kernel@vger.kernel.org, Neil Brown <neilb@suse.de>, 
+ Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
+ Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, linux-wireless@vger.kernel.org, 
+ intel-wired-lan@lists.osuosl.org
+In-Reply-To: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+References: <20240930112121.95324-1-Julia.Lawall@inria.fr>
+Subject: Re: (subset) [PATCH 00/35] Reorganize kerneldoc parameter names
+Message-Id: <173471565665.227782.7244101246430956449.b4-ty@linaro.org>
+Date: Fri, 20 Dec 2024 17:27:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.4.288
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.12.2
 
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
 
-[ Upstream commit b50a3e98442b8d72f061617c7f7a71f7dba19484 ]
+On Mon, 30 Sep 2024 13:20:46 +0200, Julia Lawall wrote:
+> Reorganize kerneldoc parameter names to match the parameter
+> order in the function header.
+> 
+> The misordered cases were identified using the following
+> Coccinelle semantic patch:
+> 
+> // <smpl>
+> @initialize:ocaml@
+> @@
+> 
+> [...]
 
-UAC 2 & 3 DAC's set bit 31 of the format to signal support for a
-RAW_DATA type, typically used for DSD playback.
+Applied, thanks!
 
-This is correctly tested by (format & UAC*_FORMAT_TYPE_I_RAW_DATA),
-fp->dsd_raw = true; and call snd_usb_interface_dsd_format_quirks(),
-however a confusing and unnecessary message gets printed because
-the bit is not properly tested in the last "unsupported" if test:
-if (format & ~0x3F) { ... }
+[31/35] slimbus: messaging: Reorganize kerneldoc parameter names
+        commit: 52d3d7f7a77ee9afc6a846b415790e13e1434847
 
-For example the output:
-
-usb 7-1: new high-speed USB device number 5 using xhci_hcd
-usb 7-1: New USB device found, idVendor=262a, idProduct=9302, bcdDevice=0.01
-usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
-usb 7-1: Product: TC44C
-usb 7-1: Manufacturer: TC44C
-usb 7-1: SerialNumber: 5000000001
-hid-generic 0003:262A:9302.001E: No inputs registered, leaving
-hid-generic 0003:262A:9302.001E: hidraw6: USB HID v1.00 Device [DDHIFI TC44C] on usb-0000:08:00.3-1/input0
-usb 7-1: 2:4 : unsupported format bits 0x100000000
-
-This last "unsupported format" is actually wrong: we know the
-format is a RAW_DATA which we assume is DSD, so there is no need
-to print the confusing message.
-
-This we unset bit 31 of the format after recognizing it, to avoid
-the message.
-
-Suggested-by: Takashi Iwai <tiwai@suse.com>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-Link: https://patch.msgid.link/20241209090529.16134-2-adrian.ratiu@collabora.com
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/usb/format.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 11a4454c6f64..b29190042f30 100644
---- a/sound/usb/format.c
-+++ b/sound/usb/format.c
-@@ -61,6 +61,8 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
- 			/* flag potentially raw DSD capable altsettings */
- 			fp->dsd_raw = true;
-+			/* clear special format bit to avoid "unsupported format" msg below */
-+			format &= ~UAC2_FORMAT_TYPE_I_RAW_DATA;
- 		}
- 
- 		format <<= 1;
-@@ -72,8 +74,11 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
- 		sample_width = as->bBitResolution;
- 		sample_bytes = as->bSubslotSize;
- 
--		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA)
-+		if (format & UAC3_FORMAT_TYPE_I_RAW_DATA) {
- 			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
-+			/* clear special format bit to avoid "unsupported format" msg below */
-+			format &= ~UAC3_FORMAT_TYPE_I_RAW_DATA;
-+		}
- 
- 		format <<= 1;
- 		break;
+Best regards,
 -- 
-2.39.5
+Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
