@@ -1,161 +1,131 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4267B21883F;
-	Fri, 20 Dec 2024 15:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA0521D5AB;
+	Fri, 20 Dec 2024 17:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734707583; cv=none; b=SwsPuGCkvmWJZI+EhccR64uJl/n6y8W8SPNgKqnK8GhbtYNmZXMbtN3Kgb7syevDPxm1dWYzRfPfm2o45ryCEmd0B/riT/Z4sCasJ3tJyKkJ3svdzR3AFyux2wgH64FeZ186ceNHLLSSWowqXptDVANKL+gNE/lu1bE4041m23I=
+	t=1734714706; cv=none; b=mGsLuWK5zE5MQT8ju8/pMl7aeAAsVNsC51NWK1JQTZsccDnhkkFCibCdxApvg7d1oHn+xz1C/8Q47jlKF6HOlLXaECuIuKQ/yMrMjvOigicTQiI8CrQY4VTY9VFi8/KtKGmUj7jtj5hA7Y1m5co9iMXoMdFNhq7r22c65s+WnFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734707583; c=relaxed/simple;
-	bh=nN5BR/mbD/Bk0gNplrI7fyqs0p527avf9JZ5qm60F3U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qaUHwoY8/2l9+33hCz9Jmz9c4CRHLOy3ThNYDrIhz84EHTnyt8zxkO1FxD8dpGsmQUI/iwfa5L+Ejns+C4fn3ESoa+1Fte/sqCeA2zhSGNOvaf+ERlLtevDR4MHmM+yys27W0f0K5CACO//3AXtQegyK+oh6lHk3rRpCRHTfWGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EyqPM2qj; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734714706; c=relaxed/simple;
+	bh=ThH0aDLGcUGbu9Akpish5YXh+1I3B1+y+S5BGsx4ba8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Rn9mHIp3ROLTh1u4qCgn7jQ4/Ov5m8OSI2WADvvRxzWE4AKjYiN5FMAP++3bbTqsRo5NGtMGQdurRhplqRG9AYuXGrJJS4Tk9nHxyTH2kTa45yBkpU4a+atQotRsD6qQL9FOHNI/6TrYkvNJ4lh1idi6aF5nBBs3wKSiRHo/5Co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRQpg0KV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EyqPM2qj"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43622267b2eso20507045e9.0;
-        Fri, 20 Dec 2024 07:13:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734707579; x=1735312379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=f7gZKHaLNVNRMfBbsC2HggMQQau/kJGoNEgYILpnL50=;
-        b=EyqPM2qj8nusE+wtji2c6p5KipfKDJPApImOCkNB+DXOyqElRynPz/WeW3FNZJWDiO
-         4fIA+cIJL5bLmaltkg1Ur6+GXOwdijPkg+FyUq/PiFdgEhF1yjCehkiOgiZQBlKW2RGM
-         r2VordP2pWBfkJmhbFMZ9tZq03amJz7Z5c1a5Vhl1mRIl5H6jwP1k1iO1MoftDSIdqGM
-         b0eFDqAYBl0Fnr+PIsaVoJzNC9pI56xoWmgKQUuypmhQ5pLkcTdN7zwdlnoDcTy4YCCu
-         ucXnTIgvxkmzDxHOCmxjuBkN7O503mHeAiyG7ITH6xpUongh8HU/KuJv2L5F/krcNudj
-         WRhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734707579; x=1735312379;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f7gZKHaLNVNRMfBbsC2HggMQQau/kJGoNEgYILpnL50=;
-        b=eF/QAyLtBNXs50zUNEOeS54nnQhQ/SWsXILO9aHxWlXnv9Y5VX4CqIJE7i6XQgt6u4
-         e1M1xGLt2oZeKyZmp487hrZi9pP84zi9H1fzSnksLkg30a0E+CyiWqInUOJAvec2981f
-         fPUUw2sZcFfm6UrEpfhVAY7ZbCECZ1SwEwhDYF1iFA6m+wO+Kc3JzjwP7ZW1m/dsNy2V
-         yJ68HwOve389vXxZlN1TfouwkSK1a+INRjHEBxHjxN3wINW7ZGbg25Avx8QY2Ey4stXb
-         1jhRfBVbcztCWH0sqQXYWNte0KDlTHjR/O0QCW7MYsWX9Iye5QhvhKFtfu6LHg65uCaQ
-         XRrA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYGtKJdMkF38uwpvnq6gpR+Ir5h6qe/K/6A2gAcxQQsINhTDezw40d2aguKZ/o74BCJMgvC+SawtQLTXc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHEUrSmgv0fkYXXvjdJxgsyEwpioo9tDieOoW2UuNoCIpHZHBd
-	enwEfvFFoQuBHzVEMQnJgXFsJ420I8ZtzHMUVU1ZbwG7nVCZHhLGcrQTzQ==
-X-Gm-Gg: ASbGncsJmQu0H6rsrGUe6dnb0vFbgKBnzG6O+Kc5DVMZ4fBfYwldun1n+dyjO4An6j9
-	ldIgUSy9WNujGOKQbug3yyjq+yZ1AWEl06MIPgSpTUY3NiKt0+dN4m18n1csKVX8AGZI4Ov4Bg/
-	qNe/gWNVVfYRsMib3X0ugHYGtxwk6BaUZWYekYC+24wivnc4xMlGWXFtjxSk5eucmC/wS/5RFiR
-	aGsxX6IpM8MusKUXoqL0z+GaF+Y5qoWqTP+fzEjZw70p0RwG6DNSvAGADXvtYBfDg64HKg54Aaf
-	wx+9YcyVu9CXiSSpziE=
-X-Google-Smtp-Source: AGHT+IFh9RNoUT9gwF+0XyDw+ZnceuCHjZwgMeLL12wWFCb5+0ZvWWLN+x8neJLnTTO7S4tocQ0cEA==
-X-Received: by 2002:a05:6000:4612:b0:385:df5d:622c with SMTP id ffacd0b85a97d-38a221f36e3mr2896891f8f.30.1734707579112;
-        Fri, 20 Dec 2024 07:12:59 -0800 (PST)
-Received: from playground.localdomain ([86.127.146.72])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8a8d3dsm4207172f8f.94.2024.12.20.07.12.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 07:12:58 -0800 (PST)
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFC] ASoC: simple-card-utils: fix priv->dai_props indexing
-Date: Fri, 20 Dec 2024 10:12:13 -0500
-Message-Id: <20241220151213.2462-1-laurentiumihalcea111@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRQpg0KV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAF49C4CECD;
+	Fri, 20 Dec 2024 17:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734714705;
+	bh=ThH0aDLGcUGbu9Akpish5YXh+1I3B1+y+S5BGsx4ba8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SRQpg0KVvGf5jGlVz+o4lewx0EyCPFuCNLICs3F6tszG3JA/fp+q8jLsM+h7s94eA
+	 P9YHoanCklwym++UF+6XbwfP0kOP+1kuvSGoO0JutVClfiWimr+i05VAKTKJkSFGFz
+	 NaOCCq9QUSBdWfWLofbUkJXq8tfpnVqXssa3wJ0TwkJ6BfCJ/+UwvVXXzgDEnz2jDJ
+	 oUU8im/FERY7JUOlnJUSCOMGQ3SYlEdLiapnC3Hi+DjFwqTiXqqxtx1XXKZVADFMUe
+	 c3PHghbEwCO5p9BDkaZW0RlFlo6e4HtyiSfa70LyKUwRcT/FnkpCShpoizUMPUZb+I
+	 bkh/nzkeu3CNw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Simon Trimmer <simont@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	david.rhodes@cirrus.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	patches@opensource.cirrus.com
+Subject: [PATCH AUTOSEL 6.12 07/29] ALSA: hda: cs35l56: Remove calls to cs35l56_force_sync_asp1_registers_from_cache()
+Date: Fri, 20 Dec 2024 12:11:08 -0500
+Message-Id: <20241220171130.511389-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241220171130.511389-1-sashal@kernel.org>
+References: <20241220171130.511389-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.6
 Content-Transfer-Encoding: 8bit
 
-From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+From: Simon Trimmer <simont@opensource.cirrus.com>
 
-As of commit cb18cd26039f ("ASoC: soc-core: do rtd->id trick at
-snd_soc_add_pcm_runtime()") the ID stored in the PCM runtime data can
-no longer be safely used to index the priv->dai_props array. This is
-because the ID may be modified during snd_soc_add_pcm_runtime(), thus
-resulting in an ID that's no longer a valid array index.
+[ Upstream commit 47b17ba05a463b22fa79f132e6f6899d53538802 ]
 
-To fix this, use the position of the dai_link stored inside the PCM
-runtime data relative to the start of the dai_link array as index into
-the priv->dai_props array.
+Commit 5d7e328e20b3 ("ASoC: cs35l56: Revert support for dual-ownership
+of ASP registers")
+replaced cs35l56_force_sync_asp1_registers_from_cache() with a dummy
+implementation so that the HDA driver would continue to build.
 
-Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+Remove the calls from HDA and remove the stub function.
+
+Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+Signed-off-by: Richard Fitzgerald <rf@opensource.cirrus.com>
+Link: https://patch.msgid.link/20241206105757.718750-1-rf@opensource.cirrus.com
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- include/sound/simple_card_utils.h     |  3 +++
- sound/soc/generic/simple-card-utils.c | 10 +++++-----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ include/sound/cs35l56.h     | 6 ------
+ sound/pci/hda/cs35l56_hda.c | 8 --------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/include/sound/simple_card_utils.h b/include/sound/simple_card_utils.h
-index 3360d9eab068..0122f7871a40 100644
---- a/include/sound/simple_card_utils.h
-+++ b/include/sound/simple_card_utils.h
-@@ -89,6 +89,9 @@ struct simple_util_priv {
- #define simple_props_to_dai_codec(props, i)	((props)->codec_dai + i)
- #define simple_props_to_codec_conf(props, i)	((props)->codec_conf + i)
+diff --git a/include/sound/cs35l56.h b/include/sound/cs35l56.h
+index 94e8185c4795..3dc7a1551ac3 100644
+--- a/include/sound/cs35l56.h
++++ b/include/sound/cs35l56.h
+@@ -271,12 +271,6 @@ struct cs35l56_base {
+ 	struct gpio_desc *reset_gpio;
+ };
  
-+#define runtime_simple_priv_to_props(priv, rtd)					\
-+	((priv)->dai_props + ((rtd)->dai_link - (priv)->dai_link))
-+
- #define for_each_prop_dlc_cpus(props, i, cpu)				\
- 	for ((i) = 0;							\
- 	     ((i) < (props)->num.cpus) &&				\
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index a0c3111f7e08..c0f94e1cf0e9 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -296,7 +296,7 @@ int simple_util_startup(struct snd_pcm_substream *substream)
+-/* Temporary to avoid a build break with the HDA driver */
+-static inline int cs35l56_force_sync_asp1_registers_from_cache(struct cs35l56_base *cs35l56_base)
+-{
+-	return 0;
+-}
+-
+ static inline bool cs35l56_is_otp_register(unsigned int reg)
  {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->id);
-+	struct simple_dai_props *props = runtime_simple_priv_to_props(priv, rtd);
- 	struct simple_util_dai *dai;
- 	unsigned int fixed_sysclk = 0;
- 	int i1, i2, i;
-@@ -357,7 +357,7 @@ void simple_util_shutdown(struct snd_pcm_substream *substream)
- {
- 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->id);
-+	struct simple_dai_props *props = runtime_simple_priv_to_props(priv, rtd);
- 	struct simple_util_dai *dai;
- 	int i;
+ 	return (reg >> 16) == 3;
+diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+index e3ac0e23ae32..7baf3b506eef 100644
+--- a/sound/pci/hda/cs35l56_hda.c
++++ b/sound/pci/hda/cs35l56_hda.c
+@@ -151,10 +151,6 @@ static int cs35l56_hda_runtime_resume(struct device *dev)
+ 		}
+ 	}
  
-@@ -446,7 +446,7 @@ int simple_util_hw_params(struct snd_pcm_substream *substream,
- 	struct simple_util_dai *pdai;
- 	struct snd_soc_dai *sdai;
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->id);
-+	struct simple_dai_props *props = runtime_simple_priv_to_props(priv, rtd);
- 	unsigned int mclk, mclk_fs = 0;
- 	int i, ret;
+-	ret = cs35l56_force_sync_asp1_registers_from_cache(&cs35l56->base);
+-	if (ret)
+-		goto err;
+-
+ 	return 0;
  
-@@ -517,7 +517,7 @@ int simple_util_be_hw_params_fixup(struct snd_soc_pcm_runtime *rtd,
- 				   struct snd_pcm_hw_params *params)
- {
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	struct simple_dai_props *dai_props = simple_priv_to_props(priv, rtd->id);
-+	struct simple_dai_props *dai_props = runtime_simple_priv_to_props(priv, rtd);
- 	struct simple_util_data *data = &dai_props->adata;
- 	struct snd_interval *rate = hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
- 	struct snd_interval *channels = hw_param_interval(params, SNDRV_PCM_HW_PARAM_CHANNELS);
-@@ -628,7 +628,7 @@ static int simple_init_for_codec2codec(struct snd_soc_pcm_runtime *rtd,
- int simple_util_dai_init(struct snd_soc_pcm_runtime *rtd)
- {
- 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(rtd->card);
--	struct simple_dai_props *props = simple_priv_to_props(priv, rtd->id);
-+	struct simple_dai_props *props = runtime_simple_priv_to_props(priv, rtd);
- 	struct simple_util_dai *dai;
- 	int i, ret;
+ err:
+@@ -1059,9 +1055,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
  
+ 	regmap_multi_reg_write(cs35l56->base.regmap, cs35l56_hda_dai_config,
+ 			       ARRAY_SIZE(cs35l56_hda_dai_config));
+-	ret = cs35l56_force_sync_asp1_registers_from_cache(&cs35l56->base);
+-	if (ret)
+-		goto dsp_err;
+ 
+ 	/*
+ 	 * By default only enable one ASP1TXn, where n=amplifier index,
+@@ -1087,7 +1080,6 @@ int cs35l56_hda_common_probe(struct cs35l56_hda *cs35l56, int hid, int id)
+ 
+ pm_err:
+ 	pm_runtime_disable(cs35l56->base.dev);
+-dsp_err:
+ 	cs_dsp_remove(&cs35l56->cs_dsp);
+ err:
+ 	gpiod_set_value_cansleep(cs35l56->base.reset_gpio, 0);
 -- 
-2.34.1
+2.39.5
 
