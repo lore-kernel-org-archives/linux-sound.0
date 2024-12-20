@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD52237FF0;
-	Fri, 20 Dec 2024 17:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4380623A589;
+	Fri, 20 Dec 2024 17:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714854; cv=none; b=PFHFjETUIz86Ogumdn1HkB0HtvQuscgoz0jmZFv8JU8Jm7rh3gg7lk5peGVtTArYslaGvGlQCuSnSnWPMMJXD0/sYoRzVkTJzM5UOXohiRJbQYSLHMEJsHVHSv5RCgZasJdfcbExEXIc6j4JIhpXti5VL3xIMxmIm+NJ3KQI4ng=
+	t=1734714868; cv=none; b=ElueCWpz0lKrlaOO+NwlMn6eNTVRP3KWOqmqubKM2j/oRM0lEopQcnhgqetYqxRWoBjuv3WQ418gPwFI2Oqhw+78MpTBpumfygsFJPWq9nQ05aPNTNAfWOFNrp9+B6v7+9yQs1ZUNwQCSyrUdYwFUrb05BB+VCm4UBk7033yBdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714854; c=relaxed/simple;
-	bh=DB9UWibh/wQp+GDutQPzG3b1VoBUBac7Nz/dQCkBW2A=;
+	s=arc-20240116; t=1734714868; c=relaxed/simple;
+	bh=+GcQLrydn8SgjXAX/5m0gSJqTHTWX0VI7FL8dcrPJs4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tiQtZ355tR6P/XeKBlRLq6gzY7J5JTAKyA2OGlPg0ia3ymO7A7CI5xYm0CgR6W6L1g/bwOc04vAzw9E1JbA9N906fbP5101l2o5Cw0uihyB5LHa/S6dF6d64jD2yr9KjdWZyvipE2Flp78OB9axHchMFBXS3PoMEYZ5yuAoMoms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGPvN+rP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=W3p8DtpXuE7vtR2SL7BQH/gqp6SLUQc8IZYy7/fS/PLzP29Rz96PFFRzdm8abWc1bevXvxV+qci4uHLQWLd3+LwS1cICp9c7gimvFBEPl8kmvjMtPSrRfgoChdOdquNfurGxjYcskDRHcXQpOEsN6Mae0qgQAAVpVAmKR3wJu0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5cXuUut; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGPvN+rP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD233C4CECD;
-	Fri, 20 Dec 2024 17:14:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5cXuUut"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A5FC4CECD;
+	Fri, 20 Dec 2024 17:14:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714853;
-	bh=DB9UWibh/wQp+GDutQPzG3b1VoBUBac7Nz/dQCkBW2A=;
+	s=k20201202; t=1734714865;
+	bh=+GcQLrydn8SgjXAX/5m0gSJqTHTWX0VI7FL8dcrPJs4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hGPvN+rPw/YG+Wwkl5LwnrmczGPb0wgpCiUhspcQBA1A4geD1MwGQyJVYPX9/PP09
-	 qploJQxB1cJd/X8s68XiS53rRkRkw+hmgEr+Ggs4+w3VTvAiotIvKj6ElkXf3QJjE9
-	 l0bBNEKSMgvUmvWEp3pg4SLpfnIM4D29d7Mt84T93MMDvqKty72GDWJGKXD8Z258S0
-	 b3cFtFocH4kAmPG84AsWX/9d5lrRfC3+rue51FDouF6OS0E7St399azP0OS0Kzm8Iu
-	 ayli2TDPKi01FVKAwJv+N+oh9iGWlS83DnhOM2hliuWQuKaCoIPlc3HzYbAUwd62Wm
-	 BycKIn/T7A4vQ==
+	b=Y5cXuUutP4X+o8DmfP07POPr7iV9ID4RZWZGJUuBYrgu6Nz8tZ94luDaxymMTWikG
+	 OPvEk4K6GJ+Jbm+Q38GgYnDCrPA7rNciOkQBgVD8ivljR3ged4sVOlY3NLT5BOwlQo
+	 /Bh8DdmSKvj7o9Q/1uw5E5mivgL/AUR13uTPeIuncHZxHbqHUQ1wPowxrWK1py/Eva
+	 Yu9bWWgXYlilMa/bkUBcWplI4UkWuKm8LRrFc5/THFOjlgalltc0XZ2claL68kH87l
+	 oxyL8YWOSm+0NJFCxDtwDnz0Y1lZTulMPd8Q1JEovlS6mv8pw1lpptkRQXkaU0OZGE
+	 jzexsEQEr0zUQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
 	k.kosik@outlook.com,
 	alexander@tsoy.me,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 3/7] sound: usb: format: don't warn that raw DSD is unsupported
-Date: Fri, 20 Dec 2024 12:14:02 -0500
-Message-Id: <20241220171406.512413-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 2/6] sound: usb: format: don't warn that raw DSD is unsupported
+Date: Fri, 20 Dec 2024 12:14:16 -0500
+Message-Id: <20241220171420.512513-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171406.512413-1-sashal@kernel.org>
-References: <20241220171406.512413-1-sashal@kernel.org>
+In-Reply-To: <20241220171420.512513-1-sashal@kernel.org>
+References: <20241220171420.512513-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.232
+X-stable-base: Linux 5.4.288
 Content-Transfer-Encoding: 8bit
 
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
@@ -96,7 +96,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 29ed301c6f06..552094012c49 100644
+index 11a4454c6f64..b29190042f30 100644
 --- a/sound/usb/format.c
 +++ b/sound/usb/format.c
 @@ -61,6 +61,8 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
