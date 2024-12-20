@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F5A235C57;
-	Fri, 20 Dec 2024 17:14:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD52237FF0;
+	Fri, 20 Dec 2024 17:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734714840; cv=none; b=eqn9rezKEM3zjJK7m+b39hPtHXlYc37uTyRlFN+NDiVHCW1YoklLrwxMrn9HbG8vBmskx0DQ7nxV4YqdSbK9S/+jLIC+21rpyAD+0l5clofHFbuqNHQZnaysAMWH92Y0Y40T6EwG10E4lykfTwxLG/2uouI862LI3kBYho2uyJ0=
+	t=1734714854; cv=none; b=PFHFjETUIz86Ogumdn1HkB0HtvQuscgoz0jmZFv8JU8Jm7rh3gg7lk5peGVtTArYslaGvGlQCuSnSnWPMMJXD0/sYoRzVkTJzM5UOXohiRJbQYSLHMEJsHVHSv5RCgZasJdfcbExEXIc6j4JIhpXti5VL3xIMxmIm+NJ3KQI4ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734714840; c=relaxed/simple;
-	bh=he1Bkg3qoCJGI2LggxCuifYJzrOSubH4SexUF/l4PMw=;
+	s=arc-20240116; t=1734714854; c=relaxed/simple;
+	bh=DB9UWibh/wQp+GDutQPzG3b1VoBUBac7Nz/dQCkBW2A=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=d6JHR+sV7vQGbFUoM1OsIi3+5UuriGjgbWAdzNm5y68MNvsq6XXkc6tYZu27DIXGxAOuUkgr3R5u9+YuVPbc4nDiC9VVXc9qhwhhd7oXsa54cHSvtPCgp+SyVi8xbb7nNqXSP8IQjMkfrKF8HPR+mFk9yAyCv6VdHiXXHMhzw6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AIBSJnij; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=tiQtZ355tR6P/XeKBlRLq6gzY7J5JTAKyA2OGlPg0ia3ymO7A7CI5xYm0CgR6W6L1g/bwOc04vAzw9E1JbA9N906fbP5101l2o5Cw0uihyB5LHa/S6dF6d64jD2yr9KjdWZyvipE2Flp78OB9axHchMFBXS3PoMEYZ5yuAoMoms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hGPvN+rP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AIBSJnij"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E59C4CECD;
-	Fri, 20 Dec 2024 17:13:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hGPvN+rP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD233C4CECD;
+	Fri, 20 Dec 2024 17:14:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734714840;
-	bh=he1Bkg3qoCJGI2LggxCuifYJzrOSubH4SexUF/l4PMw=;
+	s=k20201202; t=1734714853;
+	bh=DB9UWibh/wQp+GDutQPzG3b1VoBUBac7Nz/dQCkBW2A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AIBSJnijm4ovlBLzUSqmf2uHan2FKxYr3jppwKqTQZ3WhbggpmYrwQAEQq2RzfEbV
-	 0+8oBbUbliLyxaPKp6uObgnvI32XedcAyTSfosqtOI/veARjiMMp4SIJM/EhyaR7DH
-	 y/UkDoGtBiDYDc0s/jJx+va/RqJ5eSPsEATp1R5lr01J6Ik7M9FcBscyFqQZ72GeVb
-	 Q2OVCBtUoReIOgKj53vQPFKGSJtyumPgHli6/F0RCNNbQy/Qz1z/165ORAON91noXk
-	 t/JDfqbd6rolEFlvP/rN4F8qF/8KKyTe1bWbc+Dw26Wr9/xOF7JLPOLGxvJwfyadqQ
-	 /QHF0ZhRqkW7Q==
+	b=hGPvN+rPw/YG+Wwkl5LwnrmczGPb0wgpCiUhspcQBA1A4geD1MwGQyJVYPX9/PP09
+	 qploJQxB1cJd/X8s68XiS53rRkRkw+hmgEr+Ggs4+w3VTvAiotIvKj6ElkXf3QJjE9
+	 l0bBNEKSMgvUmvWEp3pg4SLpfnIM4D29d7Mt84T93MMDvqKty72GDWJGKXD8Z258S0
+	 b3cFtFocH4kAmPG84AsWX/9d5lrRfC3+rue51FDouF6OS0E7St399azP0OS0Kzm8Iu
+	 ayli2TDPKi01FVKAwJv+N+oh9iGWlS83DnhOM2hliuWQuKaCoIPlc3HzYbAUwd62Wm
+	 BycKIn/T7A4vQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,12 +37,12 @@ Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
 	k.kosik@outlook.com,
 	alexander@tsoy.me,
 	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 5/9] sound: usb: format: don't warn that raw DSD is unsupported
-Date: Fri, 20 Dec 2024 12:13:43 -0500
-Message-Id: <20241220171347.512287-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 3/7] sound: usb: format: don't warn that raw DSD is unsupported
+Date: Fri, 20 Dec 2024 12:14:02 -0500
+Message-Id: <20241220171406.512413-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241220171347.512287-1-sashal@kernel.org>
-References: <20241220171347.512287-1-sashal@kernel.org>
+In-Reply-To: <20241220171406.512413-1-sashal@kernel.org>
+References: <20241220171406.512413-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.175
+X-stable-base: Linux 5.10.232
 Content-Transfer-Encoding: 8bit
 
 From: Adrian Ratiu <adrian.ratiu@collabora.com>
@@ -96,10 +96,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/sound/usb/format.c b/sound/usb/format.c
-index 3b45d0ee7693..3b3a5ea6fcbf 100644
+index 29ed301c6f06..552094012c49 100644
 --- a/sound/usb/format.c
 +++ b/sound/usb/format.c
-@@ -60,6 +60,8 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+@@ -61,6 +61,8 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
  			pcm_formats |= SNDRV_PCM_FMTBIT_SPECIAL;
  			/* flag potentially raw DSD capable altsettings */
  			fp->dsd_raw = true;
@@ -108,7 +108,7 @@ index 3b45d0ee7693..3b3a5ea6fcbf 100644
  		}
  
  		format <<= 1;
-@@ -71,8 +73,11 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+@@ -72,8 +74,11 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
  		sample_width = as->bBitResolution;
  		sample_bytes = as->bSubslotSize;
  
