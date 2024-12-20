@@ -1,47 +1,47 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AE521A453;
-	Fri, 20 Dec 2024 17:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E11A21E0BF;
+	Fri, 20 Dec 2024 17:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734716199; cv=none; b=LzlLS1+hjpZWU9DW1LzPhKGjiKiiwV6l2XJmfg3R2F/d0w12G9Flszhw+gQ0IysvqjXdw0xg8aCKHUnq7bgITZVPZb4sxHc0UKbDv0Kk8mab9XKuaLSg5Ju9+UhG/RLF0PpMVSfG9du5V3dpedIV/IQWzm3Jr0bpfXl0CIsmipA=
+	t=1734716202; cv=none; b=o939LMKjUb+CYBH5/TPOLWLpfcPhoqOT6ugD7gC5TC8uZmi/84R1+MBN1afTOANqxClZ6Kq3JxeOFnIA5EnLuKPdyMGKSY1osTQ26RelQhJrQBJw+JMriL6ZhGUdQKxTMqNCJC0/Mczenur42lOKDA0Z+xspGSERicpjc5ykUIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734716199; c=relaxed/simple;
-	bh=xtF+36SMfxfhe9JRceUbBeqEiyy8uqvUjADdoamyHYU=;
+	s=arc-20240116; t=1734716202; c=relaxed/simple;
+	bh=VJC5/gi/01O6HjbiX7CO4zfrxroD0JoLVZCH0v7SBcY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JrjUKXP3O+ul35OrQjdu2KTnsaeMZVhEbxtzGE3GQLs9psmEIvI7/A3RzhekR7kTbZXayEh2KWKoUmBEbGzDo593JuVcPqTCdb9ow+QCFdyzoBYVC3uyEpJ/UbdCowub3KfQQLpBnmmpybh06uwIyV7JCXem+9Z65Hj3xBQXSCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=OFm7f3Oa; arc=none smtp.client-ip=67.231.152.168
+	 MIME-Version:Content-Type; b=uar5Iz1wewzzOr0RCxv2LCAAaHd1ZgYG7riTq5NrFwfWRzISXAjb0j3EArW3dE8U6BmM64HktzfKkl49U4BRilTbtrygdcVefXBxVudLsn0tPxDG5SJu8ClRvFiU22HhxV52UB+fjVWO8ntTc2s0pBOpTSPewaz2CrC/OKt+H0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=pwkO5Inz; arc=none smtp.client-ip=67.231.149.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="OFm7f3Oa"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BK5g3sn016642;
-	Fri, 20 Dec 2024 11:35:19 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="pwkO5Inz"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BK6qF4H002908;
+	Fri, 20 Dec 2024 11:35:18 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
 	:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=9syz/MhKemx45uOst2LQPmQseehXbKQ2TdZ4lAM/OTU=; b=
-	OFm7f3Oa5djA0tLgSUsLgvxwZdwZSJkmPWNk8D6lfuTk9fadVJKlIyHmddvvuwi/
-	RTUhZji86j23zayVqn8BdwGJw5+PyfUamwOMdIL604MXMEhnz9C2FphtIcw0iH8S
-	NvT946OtV6tszrRBm4oT46+1b2Yjjd2n8+sxkRpVGln1urBuFztw4NUOjqsPWwl2
-	38WS5ETKJikcM9kJCPQ7dY9hArxqKXJktvFOStNLJn0DAH0FOmSZ05ZhOTZE6d6f
-	xq6ghgvfAQ+iCgqCP+19pUC4Jz6EK/bSTjEDNSf9epc1NF9Q3MDxHk1GPUrbkD3z
-	+69C8dQ3Ht5pPiGWRwYTGQ==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43h7akg161-3
+	PODMain02222019; bh=tiF6vpndR/TYQxOPfKuHWxiALPaqlrZfM7Ed/jIvYAI=; b=
+	pwkO5InzRTH9EpGqTnJm2Z48fRfq//LqkNSAnAP2X07hjRW4L2JxO6ERI6EnA4at
+	o7qn5hWhA5jWFx6CgS1JzotHAGbep21Pj7rpT6gpxO7l+X5ENGg0eIpEUI3atDzr
+	air4vFu9l7cK9AcNLri59M5uJO8rSX4mAtUuTU0Jp5BEg0INYHkcJgP02LJJTwy4
+	dwbf1REiWtWwW9CAbpM2k4D7mrDHJwcuMbxElKqEv5IC/y3+HN94K/5K9x6dqoIL
+	8snxMKaZQRHEK9Dx9vMbSoKZWO8dX9Exo1wOkvn3AT+9GWmWgH+xwV6nXprf8V5K
+	Nph2LVIekKF7wY5WQBNduw==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a286sg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Fri, 20 Dec 2024 11:35:18 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Fri, 20 Dec
  2024 17:35:16 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
  15.2.1544.13 via Frontend Transport; Fri, 20 Dec 2024 17:35:16 +0000
 Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2E50D82024D;
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 1C55282024A;
 	Fri, 20 Dec 2024 17:35:16 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -49,9 +49,9 @@ CC: <lgirdwood@gmail.com>, <peter.ujfalusi@linux.intel.com>,
         <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
         <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <patches@opensource.cirrus.com>
-Subject: [PATCH 4/5] ASoC: SDCA: Add missing function type names
-Date: Fri, 20 Dec 2024 17:35:15 +0000
-Message-ID: <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 2/5] ASoC: SDCA: Clean up error messages
+Date: Fri, 20 Dec 2024 17:35:13 +0000
+Message-ID: <20241220173516.907406-2-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
 References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
@@ -63,61 +63,93 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: qnHhMtV70jSfyfR1s5dV58qag6DNhVZo
-X-Proofpoint-ORIG-GUID: qnHhMtV70jSfyfR1s5dV58qag6DNhVZo
+X-Proofpoint-ORIG-GUID: sSdzd9c4gDqB1UWQlaxYYqkGVvfiVduI
+X-Proofpoint-GUID: sSdzd9c4gDqB1UWQlaxYYqkGVvfiVduI
 X-Proofpoint-Spam-Reason: safe
 
-It is not helpful to error out on some SDCA function types, we
-might as well report the correct name and let the driver core
-simply not bind a driver to those functions for which the code
-lacks support. Also given no functions currently have support,
-it seems odd to select some as unsupported.
+All the error messages in the SDCA code manually print the function
+in the output, update these to use dev_fmt instead. Whilst making
+the changes tweak a couple of the error messages to make them a
+little shorter.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/sdca_function.h   |  1 +
- sound/soc/sdca/sdca_functions.c | 12 ++++++++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ sound/soc/sdca/sdca_functions.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-index 6943df0851a9..89e42db6d591 100644
---- a/include/sound/sdca_function.h
-+++ b/include/sound/sdca_function.h
-@@ -42,6 +42,7 @@ enum sdca_function_type {
- #define	SDCA_FUNCTION_TYPE_RJ_NAME		"RJ"
- #define	SDCA_FUNCTION_TYPE_SIMPLE_NAME		"SimpleJack"
- #define	SDCA_FUNCTION_TYPE_HID_NAME		"HID"
-+#define	SDCA_FUNCTION_TYPE_IMP_DEF_NAME		"ImplementationDefined"
- 
- enum sdca_entity0_controls {
- 	SDCA_CONTROL_ENTITY_0_COMMIT_GROUP_MASK		= 0x01,
 diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-index a69fdb9c8b15..400763e056fa 100644
+index 1808e5e7dee2..46aa874bb0aa 100644
 --- a/sound/soc/sdca/sdca_functions.c
 +++ b/sound/soc/sdca/sdca_functions.c
-@@ -75,12 +75,20 @@ static int patch_sdca_function_type(struct device *dev,
- 		*function_name = SDCA_FUNCTION_TYPE_HID_NAME;
+@@ -6,6 +6,8 @@
+  * https://www.mipi.org/mipi-sdca-v1-0-download
+  */
+ 
++#define dev_fmt(fmt) "%s: " fmt, __func__
++
+ #include <linux/acpi.h>
+ #include <linux/device.h>
+ #include <linux/module.h>
+@@ -49,8 +51,8 @@ static int patch_sdca_function_type(struct device *dev,
+ 		function_type_patch = SDCA_FUNCTION_TYPE_HID;
  		break;
- 	case SDCA_FUNCTION_TYPE_SIMPLE_AMP:
-+		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_AMP_NAME;
-+		break;
- 	case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
-+		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_MIC_NAME;
-+		break;
- 	case SDCA_FUNCTION_TYPE_SPEAKER_MIC:
-+		*function_name = SDCA_FUNCTION_TYPE_SPEAKER_MIC_NAME;
-+		break;
- 	case SDCA_FUNCTION_TYPE_RJ:
-+		*function_name = SDCA_FUNCTION_TYPE_RJ_NAME;
-+		break;
- 	case SDCA_FUNCTION_TYPE_IMP_DEF:
--		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
--		return -EINVAL;
-+		*function_name = SDCA_FUNCTION_TYPE_IMP_DEF_NAME;
-+		break;
  	default:
- 		dev_err(dev, "invalid SDCA function type %d\n", *function_type);
+-		dev_warn(dev, "%s: SDCA version %#x unsupported function type %d, skipped\n",
+-			 __func__, interface_revision, *function_type);
++		dev_warn(dev, "SDCA version %#x invalid function type %d\n",
++			 interface_revision, *function_type);
  		return -EINVAL;
+ 	}
+ 
+@@ -77,17 +79,14 @@ static int patch_sdca_function_type(struct device *dev,
+ 	case SDCA_FUNCTION_TYPE_SPEAKER_MIC:
+ 	case SDCA_FUNCTION_TYPE_RJ:
+ 	case SDCA_FUNCTION_TYPE_IMP_DEF:
+-		dev_warn(dev, "%s: found unsupported SDCA function type %d, skipped\n",
+-			 __func__, *function_type);
++		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
+ 		return -EINVAL;
+ 	default:
+-		dev_err(dev, "%s: found invalid SDCA function type %d, skipped\n",
+-			__func__, *function_type);
++		dev_err(dev, "invalid SDCA function type %d\n", *function_type);
+ 		return -EINVAL;
+ 	}
+ 
+-	dev_info(dev, "%s: found SDCA function %s (type %d)\n",
+-		 __func__, *function_name, *function_type);
++	dev_info(dev, "SDCA function %s (type %d)\n", *function_name, *function_type);
+ 
+ 	return 0;
+ }
+@@ -105,7 +104,7 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
+ 	int ret;
+ 
+ 	if (sdca_data->num_functions >= SDCA_MAX_FUNCTION_COUNT) {
+-		dev_err(dev, "%s: maximum number of functions exceeded\n", __func__);
++		dev_err(dev, "maximum number of functions exceeded\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -119,7 +118,7 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
+ 		return ret;
+ 
+ 	if (!addr) {
+-		dev_err(dev, "%s: no addr\n", __func__);
++		dev_err(dev, "no addr\n");
+ 		return -ENODEV;
+ 	}
+ 
+@@ -144,8 +143,7 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
+ 	fwnode_handle_put(control5);
+ 
+ 	if (ret < 0) {
+-		dev_err(dev, "%s: the function type can only be determined from ACPI information\n",
+-			__func__);
++		dev_err(dev, "function type only supported as DisCo constant\n");
+ 		return ret;
+ 	}
+ 
 -- 
 2.39.5
 
