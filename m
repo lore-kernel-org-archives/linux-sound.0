@@ -1,200 +1,317 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3831C4A34;
-	Fri, 20 Dec 2024 10:17:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D19BD1A8402;
+	Fri, 20 Dec 2024 10:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734689834; cv=none; b=VOlvJGILJRpRL2yHsdYgKfQkoq3Whia8Xrh4AOSw0FCXoFTebhzJTlsWsCWz+9GOV9RpRVlumJyclUx/ERckRm6m7GU1PYWU9zg85W4Y/h6BrYZbqh34dGB/LN09XTQtezuU4dgihZIohkZttfzw+LffWz0R8lEky2ugN2DZv/g=
+	t=1734690171; cv=none; b=CZ/xXnsqZX6WZprHTxjdIy3EcVSC0A4SVXRvzY5B4RFOInq1eOF6b/gd+MXBr1gTRnZnq4PxJ3BYk2Px+Un+zxKEGvgfN6CPe82TM4cTpXG0L4aEPGvX8cmRpn2d7wjgTmTKwRGE6KrrfCEFs9967I2Ucvijeee+301MDbw7A10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734689834; c=relaxed/simple;
-	bh=J4+DE+ytXna4c/lGuTqvaPFNwdWpZeeaGNTmlEpZr1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=saMaHz6biycLyRHc5JQ9qaNSHweRQ7s4gwPL8weaJ8ISzNLiewEbxaUd6XXzsBeCfi+fBHS+Mv+mgazuPbfRtuGjbb1pJVIXvVcowLbHoq5Z+WPNjy8OgiBhbw5jVOwmbiy56WGJY33ohfkRDslADT1EBa8mYfEv6IJV6WbDlpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFQWcV3i; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1734690171; c=relaxed/simple;
+	bh=0W9xOjMhKQKFoC4AGcCogY2G8JtaTZwp8VwgCs2PVHA=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l1uc6dBQyRZDdv6PWz8yM426+oRUtNUurb1+AC4hOFtVJvSh2iT3NSgylVAVdo5FnTcQGgmO31aBwdXqEOlomySZrMm07Pxcj9Lu7lIhqY6YkxN6EU3lEMi3qeswXUJpIGDtgh55zSG+q31HUGTmx2uXAFWogQjKXx9MbmGg24Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lJaGztQA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lZ7kh9em; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lJaGztQA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=lZ7kh9em; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFQWcV3i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734689833; x=1766225833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J4+DE+ytXna4c/lGuTqvaPFNwdWpZeeaGNTmlEpZr1c=;
-  b=CFQWcV3iBuE6aiJlL9foijxlztWHwB2hG1t8TRVOi6R+CrHKNUJdVIFQ
-   GpyjFMIO5RWE+Dzb4ciLg9xBcd3DvK7NX9n+BVWQ0ePlGjX/6S6+LX4NI
-   x7EBgWrULmqu81sHwnFmyIPXKMv6EoUGqA1t48VpDeDHlb3He46qwjQL9
-   S1JbQX0LPVt7jtogZ5NVJzi4QskLf01kg+rl3tm/0rrqj6UZItr/qNlnm
-   oazVGMGD02M1UrB+nuJqUoFkksRMw5TPrW/Udvrm01WLcsJiEutQ9YOJz
-   weDjWs09hg8rrEm4uhD2KmSzBrjHk4zPf3e9sKJdaER9swCNLteQMkBsR
-   A==;
-X-CSE-ConnectionGUID: wc25caVQQdO8jM6D37ai+A==
-X-CSE-MsgGUID: K4b0ekbqRbOSS7cTresfqA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11291"; a="46244140"
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="46244140"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2024 02:17:12 -0800
-X-CSE-ConnectionGUID: qvtwB8niQJKNCwAW228hNQ==
-X-CSE-MsgGUID: 3JhIfnHXRTS7jy2ZLzABnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,250,1728975600"; 
-   d="scan'208";a="129294318"
-Received: from lkp-server01.sh.intel.com (HELO a46f226878e0) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Dec 2024 02:17:06 -0800
-Received: from kbuild by a46f226878e0 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tOa48-00012x-1C;
-	Fri, 20 Dec 2024 10:17:04 +0000
-Date: Fri, 20 Dec 2024 18:17:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: wangweidong.a@awinic.com, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	perex@perex.cz, tiwai@suse.com, ivprusov@salutedevices.com,
-	neil.armstrong@linaro.org, jack.yu@realtek.com,
-	rf@opensource.cirrus.com, zhoubinbin@loongson.cn,
-	quic_pkumpatl@quicinc.com, herve.codina@bootlin.com,
-	masahiroy@kernel.org, nuno.sa@analog.com, yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, yijiangtao@awinic.com
-Subject: Re: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-Message-ID: <202412201745.fBpf3Ui5-lkp@intel.com>
-References: <20241219123047.33330-3-wangweidong.a@awinic.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lJaGztQA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lZ7kh9em";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lJaGztQA";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lZ7kh9em"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id BDD962115C;
+	Fri, 20 Dec 2024 10:22:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734690166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRweNnxSNQpHzZ+N44A7dmnRzpwOn4qjl5JmsqijqFU=;
+	b=lJaGztQAw3702Z7ml8HTzZRqE/pJhapyc3ZgeksSNJLVr+/HJpnAbsw0lKuiNnoynfEKN3
+	NnyIp1eLFmNyp2qMK5NFRSZHy3S9K3G989pYWOAnuukyGrtrB8GzdqeeZ4QVrTw96woTTA
+	9kMd97ZLrP9wYWPy8imc4cnJfH+4ZI4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734690166;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRweNnxSNQpHzZ+N44A7dmnRzpwOn4qjl5JmsqijqFU=;
+	b=lZ7kh9emQAm1CoEL8dP/MjErF4H3+OwX4UyffG/j+tw2uybK+pQVmG9BC1lyCp0KP3cFlN
+	EWEWmAx8j2o6YMCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lJaGztQA;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lZ7kh9em
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734690166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRweNnxSNQpHzZ+N44A7dmnRzpwOn4qjl5JmsqijqFU=;
+	b=lJaGztQAw3702Z7ml8HTzZRqE/pJhapyc3ZgeksSNJLVr+/HJpnAbsw0lKuiNnoynfEKN3
+	NnyIp1eLFmNyp2qMK5NFRSZHy3S9K3G989pYWOAnuukyGrtrB8GzdqeeZ4QVrTw96woTTA
+	9kMd97ZLrP9wYWPy8imc4cnJfH+4ZI4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734690166;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CRweNnxSNQpHzZ+N44A7dmnRzpwOn4qjl5JmsqijqFU=;
+	b=lZ7kh9emQAm1CoEL8dP/MjErF4H3+OwX4UyffG/j+tw2uybK+pQVmG9BC1lyCp0KP3cFlN
+	EWEWmAx8j2o6YMCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C3F913ACA;
+	Fri, 20 Dec 2024 10:22:45 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9pUQB3VFZWevBQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 20 Dec 2024 10:22:45 +0000
+Date: Fri, 20 Dec 2024 11:22:40 +0100
+Message-ID: <87v7veu00f.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jackie Dong <xy-jackie@139.com>
+Cc: ike.pan@canonical.com,
+	hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	bo.liu@senarytech.com,
+	kovalev@altlinux.org,
+	me@oldherl.one,
+	jaroslaw.janik@gmail.com,
+	cs@tuxedo.de,
+	songxiebing@kylinos.cn,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	rf@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	mpearson-lenovo@squebb.ca,
+	waterflowdeg@gmail.com,
+	Jackie Dong <dongeg1@lenovo.com>
+Subject: Re: [PATCH 2/2] ALSA : hda : Support for Ideapad hotkey mute LEDs
+In-Reply-To: <20241219101531.35896-2-xy-jackie@139.com>
+References: <20241219101531.35896-1-xy-jackie@139.com>
+	<20241219101531.35896-2-xy-jackie@139.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241219123047.33330-3-wangweidong.a@awinic.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: BDD962115C
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[139.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	FREEMAIL_CC(0.00)[canonical.com,redhat.com,linux.intel.com,perex.cz,suse.com,senarytech.com,altlinux.org,oldherl.one,gmail.com,tuxedo.de,kylinos.cn,realtek.com,opensource.cirrus.com,joshuagrisham.com,vger.kernel.org,squebb.ca,lenovo.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi,
+On Thu, 19 Dec 2024 11:15:31 +0100,
+Jackie Dong wrote:
+> 
+> New ideapad helper file with support for handling FN key mute LEDS.
+> Update conexant and realtec codec to add LED support.
+> 
+> Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> Signed-off-by: Jackie Dong  <xy-jackie@139.com>
+> Signed-off-by: Jackie Dong  <dongeg1@lenovo.com>
+> ---
+>  sound/pci/hda/ideapad_hotkey_led_helper.c | 36 +++++++++++++++++++++++
+>  sound/pci/hda/patch_conexant.c            | 10 +++++++
+>  sound/pci/hda/patch_realtek.c             | 20 +++++++++++++
+>  3 files changed, 66 insertions(+)
+>  create mode 100644 sound/pci/hda/ideapad_hotkey_led_helper.c
+> 
+> diff --git a/sound/pci/hda/ideapad_hotkey_led_helper.c b/sound/pci/hda/ideapad_hotkey_led_helper.c
+> new file mode 100644
+> index 000000000000..e49765304cc0
+> --- /dev/null
+> +++ b/sound/pci/hda/ideapad_hotkey_led_helper.c
+> @@ -0,0 +1,36 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Ideapad helper functions for Lenovo Ideapad LED control,
+> + * It should be included from codec driver.
+> + */
+> +
+> +#if IS_ENABLED(CONFIG_IDEAPAD_LAPTOP)
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/leds.h>
+> +
+> +static bool is_ideapad(struct hda_codec *codec)
+> +{
+> +	return (codec->core.subsystem_id >> 16 == 0x17aa) &&
+> +	       (acpi_dev_found("LHK2019") || acpi_dev_found("VPC2004"));
+> +}
+> +
+> +static void hda_fixup_ideapad_acpi(struct hda_codec *codec,
+> +				   const struct hda_fixup *fix, int action)
+> +{
+> +	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+> +		if (!is_ideapad(codec))
+> +			return;
+> +		snd_hda_gen_add_mute_led_cdev(codec, NULL);
+> +		snd_hda_gen_add_micmute_led_cdev(codec, NULL);
+> +	}
+> +}
+> +
+> +#else /* CONFIG_IDEAPAD_LAPTOP */
+> +
+> +static void hda_fixup_ideapad_acpi(struct hda_codec *codec,
+> +				   const struct hda_fixup *fix, int action)
+> +{
+> +}
+> +
+> +#endif /* CONFIG_IDEAPAD_LAPTOP */
+> diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
+> index 538c37a78a56..127f9a9565c9 100644
+> --- a/sound/pci/hda/patch_conexant.c
+> +++ b/sound/pci/hda/patch_conexant.c
+> @@ -291,6 +291,7 @@ enum {
+>  	CXT_FIXUP_GPIO1,
+>  	CXT_FIXUP_ASPIRE_DMIC,
+>  	CXT_FIXUP_THINKPAD_ACPI,
+> +	CXT_FIXUP_IDEAPAD_ACPI,
+>  	CXT_FIXUP_OLPC_XO,
+>  	CXT_FIXUP_CAP_MIX_AMP,
+>  	CXT_FIXUP_TOSHIBA_P105,
+> @@ -313,6 +314,9 @@ enum {
+>  /* for hda_fixup_thinkpad_acpi() */
+>  #include "thinkpad_helper.c"
+>  
+> +/* for hda_fixup_ideapad_acpi() */
+> +#include "ideapad_hotkey_led_helper.c"
+> +
+>  static void cxt_fixup_stereo_dmic(struct hda_codec *codec,
+>  				  const struct hda_fixup *fix, int action)
+>  {
+> @@ -928,6 +932,10 @@ static const struct hda_fixup cxt_fixups[] = {
+>  		.type = HDA_FIXUP_FUNC,
+>  		.v.func = hda_fixup_thinkpad_acpi,
+>  	},
+> +	[CXT_FIXUP_IDEAPAD_ACPI] = {
+> +		.type = HDA_FIXUP_FUNC,
+> +		.v.func = hda_fixup_ideapad_acpi,
+> +	},
+>  	[CXT_FIXUP_OLPC_XO] = {
+>  		.type = HDA_FIXUP_FUNC,
+>  		.v.func = cxt_fixup_olpc_xo,
+> @@ -1120,6 +1128,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo G50-70", CXT_FIXUP_STEREO_DMIC),
+>  	SND_PCI_QUIRK(0x17aa, 0x397b, "Lenovo S205", CXT_FIXUP_STEREO_DMIC),
+>  	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", CXT_FIXUP_THINKPAD_ACPI),
+> +	SND_PCI_QUIRK_VENDOR(0x17aa, "IdeaPad", CXT_FIXUP_IDEAPAD_ACPI),
 
-kernel test robot noticed the following build errors:
+I'm afraid that this doesn't work.  The former entry with the vendor
+17aa already hits and it's used as the matched quirk.
 
-[auto build test ERROR on eabcdba3ad4098460a376538df2ae36500223c1e]
+You'd need to create a chained quirk entry instead.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/wangweidong-a-awinic-com/ASoC-dt-bindings-Add-schema-for-awinic-aw88083/20241219-203933
-base:   eabcdba3ad4098460a376538df2ae36500223c1e
-patch link:    https://lore.kernel.org/r/20241219123047.33330-3-wangweidong.a%40awinic.com
-patch subject: [PATCH V2 2/2] ASoC: codecs: Add aw88083 amplifier driver
-config: arc-randconfig-002-20241220 (https://download.01.org/0day-ci/archive/20241220/202412201745.fBpf3Ui5-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241220/202412201745.fBpf3Ui5-lkp@intel.com/reproduce)
+>  	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
+>  	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
+>  	HDA_CODEC_QUIRK(0x2782, 0x12c3, "Sirius Gen1", CXT_PINCFG_TOP_SPEAKER),
+> @@ -1133,6 +1142,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
+>  	{ .id = CXT_FIXUP_HEADPHONE_MIC_PIN, .name = "headphone-mic-pin" },
+>  	{ .id = CXT_PINCFG_LENOVO_TP410, .name = "tp410" },
+>  	{ .id = CXT_FIXUP_THINKPAD_ACPI, .name = "thinkpad" },
+> +	{ .id = CXT_FIXUP_IDEAPAD_ACPI, .name = "ideapad" },
+>  	{ .id = CXT_PINCFG_LEMOTE_A1004, .name = "lemote-a1004" },
+>  	{ .id = CXT_PINCFG_LEMOTE_A1205, .name = "lemote-a1205" },
+>  	{ .id = CXT_FIXUP_OLPC_XO, .name = "olpc-xo" },
+> diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+> index 61ba5dc35b8b..3b82be7469a8 100644
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -6934,6 +6934,16 @@ static void alc_fixup_thinkpad_acpi(struct hda_codec *codec,
+>  	hda_fixup_thinkpad_acpi(codec, fix, action);
+>  }
+>  
+> +/* for hda_fixup_ideapad_acpi() */
+> +#include "ideapad_hotkey_led_helper.c"
+> +
+> +static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
+> +				   const struct hda_fixup *fix, int action)
+> +{
+> +	alc_fixup_no_shutup(codec, fix, action); /* reduce click noise */
+> +	hda_fixup_ideapad_acpi(codec, fix, action);
+> +}
+> +
+>  /* Fixup for Lenovo Legion 15IMHg05 speaker output on headset removal. */
+>  static void alc287_fixup_legion_15imhg05_speakers(struct hda_codec *codec,
+>  						  const struct hda_fixup *fix,
+> @@ -7556,6 +7566,7 @@ enum {
+>  	ALC290_FIXUP_SUBWOOFER,
+>  	ALC290_FIXUP_SUBWOOFER_HSJACK,
+>  	ALC269_FIXUP_THINKPAD_ACPI,
+> +	ALC269_FIXUP_IDEAPAD_ACPI,
+>  	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
+>  	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
+>  	ALC269VC_FIXUP_INFINIX_Y4_MAX,
+> @@ -8327,6 +8338,12 @@ static const struct hda_fixup alc269_fixups[] = {
+>  		.chained = true,
+>  		.chain_id = ALC269_FIXUP_SKU_IGNORE,
+>  	},
+> +	[ALC269_FIXUP_IDEAPAD_ACPI] = {
+> +		.type = HDA_FIXUP_FUNC,
+> +		.v.func = alc_fixup_ideapad_acpi,
+> +		.chained = true,
+> +		.chain_id = ALC269_FIXUP_SKU_IGNORE,
+> +	},
+>  	[ALC269_FIXUP_DMIC_THINKPAD_ACPI] = {
+>  		.type = HDA_FIXUP_FUNC,
+>  		.v.func = alc_fixup_inv_dmic,
+> @@ -10897,6 +10914,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+>  	SND_PCI_QUIRK(0x17aa, 0x3880, "Yoga S780-16 pro dual YC", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3881, "YB9 dual power mode2 YC", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3882, "Lenovo Yoga Pro 7 14APH8", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
+> +	SND_PCI_QUIRK_VENDOR(0x17aa, "IdeaPad", ALC269_FIXUP_IDEAPAD_ACPI),
+>  	SND_PCI_QUIRK(0x17aa, 0x3884, "Y780 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3886, "Y780 VECO DUAL", ALC287_FIXUP_TAS2781_I2C),
+>  	SND_PCI_QUIRK(0x17aa, 0x3891, "Lenovo Yoga Pro 7 14AHP9", ALC287_FIXUP_YOGA9_14IAP7_BASS_SPK_PIN),
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412201745.fBpf3Ui5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from sound/soc/codecs/aw88081.c:11:
-   sound/soc/codecs/aw88081.c: In function 'aw8808x_reg_value_check':
->> sound/soc/codecs/aw88081.c:407:25: error: passing argument 1 of '_dev_err' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     407 |                 dev_err(aw_dev, "unsupported this device\n");
-         |                         ^~~~~~
-         |                         |
-         |                         struct aw_device *
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   sound/soc/codecs/aw88081.c:407:17: note: in expansion of macro 'dev_err'
-     407 |                 dev_err(aw_dev, "unsupported this device\n");
-         |                 ^~~~~~~
-   include/linux/dev_printk.h:50:36: note: expected 'const struct device *' but argument is of type 'struct aw_device *'
-      50 | void _dev_err(const struct device *dev, const char *fmt, ...);
-         |               ~~~~~~~~~~~~~~~~~~~~~^~~
-   sound/soc/codecs/aw88081.c: In function 'aw88081_dev_reg_update':
->> sound/soc/codecs/aw88081.c:442:66: error: passing argument 3 of 'aw8808x_reg_value_check' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     442 |                 ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-         |                                                                  ^~~~~~~~
-         |                                                                  |
-         |                                                                  u16 * {aka short unsigned int *}
-   sound/soc/codecs/aw88081.c:394:78: note: expected 'unsigned int *' but argument is of type 'u16 *' {aka 'short unsigned int *'}
-     394 |                                         unsigned int reg_addr, unsigned int *reg_val)
-         |                                                                ~~~~~~~~~~~~~~^~~~~~~
-   cc1: some warnings being treated as errors
+Also, this doesn't look right.  The vendor match should be put after
+all Lenovo entries.  I guess the similar chained quirk is needed like
+for Conexant.
 
 
-vim +/_dev_err +407 sound/soc/codecs/aw88081.c
+thanks,
 
-   392	
-   393	static int aw8808x_reg_value_check(struct aw88081 *aw88081,
-   394						unsigned int reg_addr, unsigned int *reg_val)
-   395	{
-   396		struct aw_device *aw_dev = aw88081->aw_pa;
-   397		int ret;
-   398	
-   399		switch (aw88081->devtype) {
-   400		case AW88081:
-   401			ret = aw88081_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   402			break;
-   403		case AW88083:
-   404			ret = aw88083_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-   405			break;
-   406		default:
- > 407			dev_err(aw_dev, "unsupported this device\n");
-   408			ret = -EINVAL;
-   409			break;
-   410		}
-   411	
-   412		return ret;
-   413	}
-   414	
-   415	static int aw88081_dev_reg_update(struct aw88081 *aw88081,
-   416						unsigned char *data, unsigned int len)
-   417	{
-   418		struct aw_device *aw_dev = aw88081->aw_pa;
-   419		struct aw_volume_desc *vol_desc = &aw_dev->volume_desc;
-   420		int data_len, i, ret;
-   421		int16_t *reg_data;
-   422		u16 reg_val;
-   423		u8 reg_addr;
-   424	
-   425		if (!len || !data) {
-   426			dev_err(aw_dev->dev, "reg data is null or len is 0");
-   427			return -EINVAL;
-   428		}
-   429	
-   430		reg_data = (int16_t *)data;
-   431		data_len = len >> 1;
-   432	
-   433		if (data_len & 0x1) {
-   434			dev_err(aw_dev->dev, "data len:%d unsupported",	data_len);
-   435			return -EINVAL;
-   436		}
-   437	
-   438		for (i = 0; i < data_len; i += 2) {
-   439			reg_addr = reg_data[i];
-   440			reg_val = reg_data[i + 1];
-   441	
- > 442			ret = aw8808x_reg_value_check(aw88081, reg_addr, &reg_val);
-   443			if (ret)
-   444				return ret;
-   445	
-   446			ret = regmap_write(aw_dev->regmap, reg_addr, reg_val);
-   447			if (ret)
-   448				return ret;
-   449		}
-   450	
-   451		if (aw_dev->prof_cur != aw_dev->prof_index)
-   452			vol_desc->ctl_volume = 0;
-   453	
-   454		/* keep min volume */
-   455		aw88081_dev_set_volume(aw_dev, vol_desc->mute_volume);
-   456	
-   457		return 0;
-   458	}
-   459	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi
