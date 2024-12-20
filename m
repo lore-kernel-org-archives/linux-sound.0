@@ -1,128 +1,126 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8043621B199
-	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 17:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C512153EF;
+	Fri, 20 Dec 2024 17:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734715746; cv=none; b=quvZ2IL6t4c2/hFPASDnpYgvsmQZQwgnl6npWwrMT06o50LDFXOXW7t/UeKOuh+5KWSri4EvdCvsm5EysqXMiG37tU+nKc7OD0X6Z58uY8SJWhQl6Ts6yEgiRKV4vWzMWyJuKq9ygWTs/jVB7/J3J3zISEM2U3DVV4aNbDLqp4c=
+	t=1734716143; cv=none; b=XJ0h8B9HlR1dhk+204/12JC1K0UCDL+Fbvs/M+AVBE+3VkhD5EsfMPOiiOAyqLTG6gzxeTX1Zg5xB/cuHT4F4r6QDEgO7fXsrdFpgzZxkVJF7ClQrXlN+gvIZf602QZ4ZfYHRns1uzIWZvK9YIJU9jiyrhRqucmIlluYnONhb6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734715746; c=relaxed/simple;
-	bh=54mNiOr3IQ7krmcawF/Z9Wu7/C+6iT0Y3iYX6CtU7h0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mYiSBJG3mDtmrsSOYsJJzImpPLTS0HUdYtbdDskKwZb5pwGtaiTJqY5mntGgVVjJ/wuvirCOY1NGvzKIFo7hDAU1m3mTNBO0M/G3wfHXNLhX0+ImWYGyYnLvOelMSUrffP7huCYCRMI8PAgvbq8Wi+61r4lGAGNYuuKtOiI1aEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gwbJY55h; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1734716143; c=relaxed/simple;
+	bh=BzqGWroKZjDmhu6P1Hhdsz2LRc18bdKfJrUO20cbr/w=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rhAq1AbKx6w/ZlU81TrYLnoWwN7J42vwRrZhhYb+KNjy38X1DdUcflfi/nLq2zRp+h5I73jB2Rw58FvvnD6XUk51FjRla78+BjmDz5YcgaSKT/On36eb+Zk+0Bevvn/Bv3Q8sr4OkbqRD8sI4LpwgVkd6hm967a+Ta6/xpT4jo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=GmQKQdV8; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gwbJY55h"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385e0e224cbso1255628f8f.2
-        for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 09:29:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734715743; x=1735320543; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Mr5mkQdWXfLMAZrUWH7pKzqkwwdmrlCBRUfvbnxrnPM=;
-        b=gwbJY55hmPGcUk2yrnOfiuopuhTBJibbySBkzkSFUK5jwSaG8DnS8QDqbA/uN8Ea32
-         W418IFqL9n3Q0c2JM0GydtGSzuyZ6aDFCS8ph10U8kGjZfCx0PTaqo8gmBbnUz9C+IxW
-         xUCZL5ZcHKpaYWSJ1zWmcDglA0LgYsWdcOoG5UoTM5Fidzh5jZkv7SdfWNLpIlb2UYuh
-         jrdsmjh1fDVpHNSzlKbg6P7jZ35sN2Anu2ciCEgrLQ/5bauAdRS1SIoNIPSsXr2ggwP6
-         d7wa5j1mh63xrkzpiz2rf2GpfBhmyIZ+qPN7ENe3ynNj9OzWOdkw93ajJY5BlZc5nyoS
-         y/fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734715743; x=1735320543;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Mr5mkQdWXfLMAZrUWH7pKzqkwwdmrlCBRUfvbnxrnPM=;
-        b=owkPNzi1KHKkioKdv6JVBMOxJpNbUmeRMFF6Cd+gqTt2t5+Gjqi0bsZIKMthJ8/iA2
-         aG62FPQOGOzoXTnhm3z3hQXEMHlS9o3mocwlLrysp/8j9ABgborEmTpq3t9w+7nyeKC5
-         hMYFiuLsZsKRoB0dYT9IafU9ppTxCX82sRrL4yn4Vp8laaL0ST/rr4ITtiqWi5hqaeQc
-         CM1gdJKxqF1LzeNsVhQiWgznz9vLhqhwvlOTv14L4ySUgVdHCqMVwvc/icDVyPkSykV1
-         PQBQWczbbfYcmUncVa/jhwi9VUOCzlq0wBT8llTB7MQqvj++Wd/F3KUyOtiCy5P7ODTI
-         UJ7g==
-X-Gm-Message-State: AOJu0YxbeH7evMrSSn70/Trhd8G/5htwEXljODWMqFzg7SwgNsLwnN4C
-	mf4oQlP5517zD/i7ZLQaQeGFh7u6QyVsIizCbqbvZZUvY6FRsOjw45TuwGE6P9qJapWNfcHm5Xn
-	E
-X-Gm-Gg: ASbGncuUvydqNEVKl3dom8iFkMa4POO7zBf0rtVHZrzp1t6TwaxhAJyTGPsM89LOm3L
-	Q73lUQMzb63kKcV1gIY0Lq7wZDxV7QU/W6Orh4d/2aP0/QticF+nAnHlm3HSdEq9invHzJlHgzb
-	hN9hWK2ABkd00wadl0ikC0w2WsWCpCwJfNtVCVRmqcAMu2LEfkdUgCOmScUrSZyGzLC5r40V4mW
-	2t4Q+okz29NspDl6Oa3kVNoJo5M2EgpS2Yioi0xyEEGJ4eO2YMcd1JhcN4M0fnuxF/KWiR2F0E=
-X-Google-Smtp-Source: AGHT+IEI19kxGk/zbuSPDDSjPfqup9SJvXXyMjTViaCcYrvpnJOUwXjZmnZw9ZDld9G7Km7x+i2DAA==
-X-Received: by 2002:a05:6000:4614:b0:386:2e8c:e277 with SMTP id ffacd0b85a97d-38a22408c81mr3945283f8f.55.1734715742755;
-        Fri, 20 Dec 2024 09:29:02 -0800 (PST)
-Received: from [192.168.68.114] ([5.133.47.210])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38a1c89e140sm4608965f8f.79.2024.12.20.09.29.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Dec 2024 09:29:02 -0800 (PST)
-Message-ID: <8055a3db-5bb3-4550-b434-28a9df85c7a1@linaro.org>
-Date: Fri, 20 Dec 2024 17:29:01 +0000
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="GmQKQdV8"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BK6qF4I002908;
+	Fri, 20 Dec 2024 11:35:19 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	PODMain02222019; bh=NKacIoYOjG/4X0rXHByPFb4MP/Q4BaorAIurYMYf09s=; b=
+	GmQKQdV8b9gGckV2Itd0DEwlBx54TYTWbjuj1N1MBcWv3nyzpIk4LXQaC66pEwsr
+	M5RIxYjnqEun5VHSpHXxJMBNahHoCHAkkd7ulWNhw2euN+Tk77MhmAUchVcgLSmj
+	mD28Dz8ieuMF58jcZWYJI1DZ9YhNnw0knJg6PkzqhrkN69+1uNSUpQjSCPh2mZrf
+	zYwbv8hsxRvE3PBLlamjvRfbrSFpGiKM7oJBRfLcMDZH6HphuG5JJYdto0OPmCDN
+	YDpxlnF75J7AwkAOc/eAFc5h7y/huwmsLp42Pl8SZQJlvDiBdroITb30zP9LcxH+
+	cYLRCIaJWj05TY2NWhnOnA==
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43h8a286sg-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Dec 2024 11:35:19 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Fri, 20 Dec
+ 2024 17:35:16 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Fri, 20 Dec 2024 17:35:16 +0000
+Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 2A77382024B;
+	Fri, 20 Dec 2024 17:35:16 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <peter.ujfalusi@linux.intel.com>,
+        <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: [PATCH 3/5] ASoC: SDCA: Add bounds check for function address
+Date: Fri, 20 Dec 2024 17:35:14 +0000
+Message-ID: <20241220173516.907406-3-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
+References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 RESEND] slimbus: messaging: Free transaction ID in
- delayed interrupt scenario
-To: Visweswara Tanuku <quic_vtanuku@quicinc.com>
-Cc: linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241202135708.26219-1-quic_vtanuku@quicinc.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-In-Reply-To: <20241202135708.26219-1-quic_vtanuku@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: Fje3O2f7KKPAeI3Am_anEfY3xalqviKA
+X-Proofpoint-GUID: Fje3O2f7KKPAeI3Am_anEfY3xalqviKA
+X-Proofpoint-Spam-Reason: safe
 
+SDCA only supports 3-bits for the function address, but the ACPI value
+is 64-bits. Update the code that parses this to do a bounds check
+and error out on invalid addresses. Currently, an invalid address
+would truncate to the bottom 3-bits when used and thus use a likely
+incorrect address. With the bounds check, it is also now safe to
+shrink the size of the adr member of sdca_function_desc to a u8 and
+rearrange the struct members to pack better with the new size of adr.
 
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ include/sound/sdca.h            | 4 ++--
+ sound/soc/sdca/sdca_functions.c | 9 ++-------
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
-On 02/12/2024 13:57, Visweswara Tanuku wrote:
-> In case of interrupt delay for any reason, slim_do_transfer()
-> returns timeout error but the transaction ID (TID) is not freed.
-> This results into invalid memory access inside
-> qcom_slim_ngd_rx_msgq_cb() due to invalid TID.
-> 
-> Fix the issue by freeing the TID in slim_do_transfer() before
-> returning timeout error to avoid invalid memory access.
-> 
-> Call trace:
-> __memcpy_fromio+0x20/0x190
-> qcom_slim_ngd_rx_msgq_cb+0x130/0x290 [slim_qcom_ngd_ctrl]
-> vchan_complete+0x2a0/0x4a0
-> tasklet_action_common+0x274/0x700
-> tasklet_action+0x28/0x3c
-> _stext+0x188/0x620
-> run_ksoftirqd+0x34/0x74
-> smpboot_thread_fn+0x1d8/0x464
-> kthread+0x178/0x238
-> ret_from_fork+0x10/0x20
-> Code: aa0003e8 91000429 f100044a 3940002b (3800150b)
-> ---[ end trace 0fe00bec2b975c99 ]---
-> Kernel panic - not syncing: Oops: Fatal exception in interrupt.
-> 
-Missing Fixes and Stable tag.
+diff --git a/include/sound/sdca.h b/include/sound/sdca.h
+index 3eea1dfec16c..973252d0adac 100644
+--- a/include/sound/sdca.h
++++ b/include/sound/sdca.h
+@@ -23,9 +23,9 @@ struct sdw_slave;
+  * @name: human-readable string
+  */
+ struct sdca_function_desc {
+-	u64 adr;
+-	u32 type;
+ 	const char *name;
++	u32 type;
++	u8 adr;
+ };
+ 
+ /**
+diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+index 46aa874bb0aa..a69fdb9c8b15 100644
+--- a/sound/soc/sdca/sdca_functions.c
++++ b/sound/soc/sdca/sdca_functions.c
+@@ -108,17 +108,12 @@ static int find_sdca_function(struct acpi_device *adev, void *data)
+ 		return -EINVAL;
+ 	}
+ 
+-	/*
+-	 * The number of functions cannot exceed 8, we could use
+-	 * acpi_get_local_address() but the value is stored as u64 so
+-	 * we might as well avoid casts and intermediate levels
+-	 */
+ 	ret = acpi_get_local_u64_address(adev->handle, &addr);
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	if (!addr) {
+-		dev_err(dev, "no addr\n");
++	if (!addr || addr > 0x7) {
++		dev_err(dev, "invalid addr: 0x%llx\n", addr);
+ 		return -ENODEV;
+ 	}
+ 
+-- 
+2.39.5
 
---srini
-> Signed-off-by: Visweswara Tanuku <quic_vtanuku@quicinc.com>
-> ---
->   drivers/slimbus/messaging.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/slimbus/messaging.c b/drivers/slimbus/messaging.c
-> index 242570a5e565..455c1fd1490f 100644
-> --- a/drivers/slimbus/messaging.c
-> +++ b/drivers/slimbus/messaging.c
-> @@ -148,8 +148,9 @@ int slim_do_transfer(struct slim_controller *ctrl, struct slim_msg_txn *txn)
->   	}
->   
->   	ret = ctrl->xfer_msg(ctrl, txn);
-> -
-> -	if (!ret && need_tid && !txn->msg->comp) {
-> +	if (ret == -ETIMEDOUT) {
-> +		slim_free_txn_tid(ctrl, txn);
-> +	} else if (!ret && need_tid && !txn->msg->comp) {
->   		unsigned long ms = txn->rl + HZ;
->   
->   		time_left = wait_for_completion_timeout(txn->comp,
