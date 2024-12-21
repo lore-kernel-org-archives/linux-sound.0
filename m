@@ -1,168 +1,122 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5D122913A
-	for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 19:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA491F0E47;
+	Sat, 21 Dec 2024 09:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734722252; cv=none; b=ju444Rwa7QjtXAH2hdw9fJmI7O2A3kCLIdtLsQ6rlyi+McpWB33Zu9pRIWhcsu4QbfqmhDasCXBEKPU50rkmA2SNwOR3R3Z622yIvOA3926BCt9P9q2qrxdfqBExQY8zvM2UW2RZfIjqgY4rcXlsOoU4QyaRl3SyT3Aptx0rALk=
+	t=1734774101; cv=none; b=GKUB/bALBYbTRXY9l74UUUKeMUMbB9KnuqzJd3AR+SiTn49XbTYhy07/YdNDj33l7ZK4wv0VtaTT3WvRzEHueDuJn2oqdLg9wJ1syUSay5kAsQZfKhZZeuircj8mqFpOo0b0caf9+wfN4VmqRonKFJJsu3Oh+onMCZIz+YVSvDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734722252; c=relaxed/simple;
-	bh=zd/Y8mBxMdBApDi5CzqJHH1RW7mj7RyJYMvyUl/+gqU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IftOO+hoAMkCxmV7+XAY94pqQmUN6h1zw2kUc3pFc9Yn9IRwW9fjKbyGAqMaUu4yW4LIV8pJFXJM8w1xjnOd1cBnz7ppZErAmWJ3Da36EzngGeY1cG05ZEkCJhsYZzbORajS82kgYem2OCEhv35SRr+QVZNkNSY0LBJEiNGFgBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=inbrACD7; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1734774101; c=relaxed/simple;
+	bh=JX/AW1kyX2XXAwOvMxFE5Laci7y84AYqsLp0yEgnHpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ia9ce4g4s3gvCgK/LeXJ85Mots++SDD+hsKmWsKrOwpgDDMgwihbG5W02HefF7n6IUq6Vdm+5i77Vh6inc0bDiIN4cqv1bVZCg4h4M+Nt8K9TG7RPkUlmpjBMwgfEAjE9BU4YRUHkPnV6JIMCeMur81ddpxmOQQwEMV0ANz8IhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com; spf=pass smtp.mailfrom=testtoast.com; dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b=mzBK2w6E; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=S77unIHX; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=testtoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=testtoast.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="inbrACD7"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-54026562221so2176676e87.1
-        for <linux-sound@vger.kernel.org>; Fri, 20 Dec 2024 11:17:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1734722246; x=1735327046; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1M6HwiDjtz6MVhwJBxGtnK97LOfqJCVvtnZY32TOfk0=;
-        b=inbrACD7/vW+UV8KPFtOGBc6zYY853DfkcG9W3Tmb01Nhxmbp/d0znzLsnst/Pa5k0
-         CnlEDKGZIpG85yBbJuXARz+mMRDJob4L9icYf/bNC017eLI+SjJlkpCYHhm4PXYmj4UY
-         aD3baAz9oQnzIaraBH4goCUOK6Hj+sVapzVqB9Wj2KftCFNayX4w+IvuatUwfFwlA3tx
-         1KM08OR1fltzpHIlv0ZzjwyvF3zs2TyT2WRnxuK7rYV531qpUgSqBOZTqtVptu3AX1/K
-         6QQi1iIKphYis1TVJoWHIMT7WXnlYNFy1LxYqCBIaBVeLEkNEdQ0yrT5FLDnbApUoCjo
-         xaxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734722246; x=1735327046;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1M6HwiDjtz6MVhwJBxGtnK97LOfqJCVvtnZY32TOfk0=;
-        b=ibcAUA+wuLvvjHR5ANkqslRY1cflrKQKrIKOmF1thc39n3XXOz8l/ufCCkeOBdUG39
-         DyM1b1NF/srF15DCrrqcqeskofywC5Ib9Rct3UV8br4xCEa9Y/EOsEf3T9Tg/ZJMoaY4
-         zGd7X8p8J8JILzxwgPZSy7Xd9yAwbKz4fY7DIyDelGiyvZfPoJxguLFAr08OXbZshL60
-         fCw9DwAaHyemPCXPeA0B5QvipGnElkfsqFGgDNyqeFzFzy4yFqfN0ON2gSCc4Ppofu9q
-         f3h6FuLpBP1p9+NDwWZpLh9lmdGFls1/puSxVPsuTp/pC/l+I5RnFUoYOzws/rd7HuZU
-         uTsA==
-X-Forwarded-Encrypted: i=1; AJvYcCUy8QxZfT7ibCpLlrsjbm6Uv+4BfdvRLkWq1aTC0dCcXIY7FnRbtC+Uiccc14KJ6tIVhB5zz0ttqk0b4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlH5/9tT2wd/BP97g5a0AAWElrgJWG3nA8gmUad9LHPx8uplY4
-	csMFmEmP6U0Djpl6CniAk5fOE7ZTr1IjsS0cB0/hmL/lSqbGzxuujhU69bxfNtE=
-X-Gm-Gg: ASbGnctiruGYsBxCXLGKzeF49fbk14lpxSZx+zt2olnXRsKuPozyK4zxFOzP/qQO+i7
-	mFg90N0AfFAcDQzxOgp0GMSZQImhPHqOkwtJ+aAR0fyO+RYYSgNpPVuq9RvIoA7QPN93/moz+mA
-	hQxqY4q+WznVBu6JgVeUV/6cmJ8PyZp3u4PvBEr7IMDTgA1rRF7wYxA3DKuFk8+ke1v80YGSlfk
-	b1eXW+PcgeUGo76xKtGdj45jSDVACGp69XRaUPQmRetqBc1z6XZ5QzqMnGfvUGJ
-X-Google-Smtp-Source: AGHT+IG6IFV0Usn+06DX+/zaMrThIrt7paHBBkdwNJGqDNn/1W/onv1N2MVoOyFetqejTIcJnFPd6A==
-X-Received: by 2002:a05:6512:398d:b0:542:23a9:bd44 with SMTP id 2adb3069b0e04-5422952e712mr1506321e87.17.1734722246359;
-        Fri, 20 Dec 2024 11:17:26 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223813877sm545141e87.149.2024.12.20.11.17.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Dec 2024 11:17:24 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Fri, 20 Dec 2024 21:17:06 +0200
-Subject: [PATCH v8 09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
+	dkim=pass (2048-bit key) header.d=testtoast.com header.i=@testtoast.com header.b="mzBK2w6E";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="S77unIHX"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 5BA5B1140142;
+	Sat, 21 Dec 2024 04:41:37 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Sat, 21 Dec 2024 04:41:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=testtoast.com;
+	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm2; t=1734774097; x=1734860497; bh=AcxmUTsfXk
+	KeKsl0CZ2NpDh5y41XhobIptv8qZ6IPU4=; b=mzBK2w6EmrAbm/6U9+J3RpP6Z+
+	U7wYPrD5JypyWOvFRAk5Tav+o5Bp9JiB4pudKisll7luVQI4F5qIhg15n/pGF+th
+	5FPY1MUQqh5kaaRrRoFWFZvuld30Q2Zm27iKY1adTZJdZ9yd5HGlJb9mxawF8xhW
+	q0s6pz3hSk3/TaAJggEA2f4qoYCB/JIPtKM8TT0kqcV5M4VBOgeaTB1WKsAHLo0N
+	Y5lc/ZMLObQ2Qrd8M4O0tbVnkGB72ZLT9RoTwZklwsRK2lV8oe+VuaDq4kWyL0yh
+	xmPrG/by2UCPKNwJr4crm5u1H2tzaGhr8ZeYjrNRvlpQWVqQA8HdUTQ2+8Xw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1734774097; x=1734860497; bh=AcxmUTsfXkKeKsl0CZ2NpDh5y41XhobIptv
+	8qZ6IPU4=; b=S77unIHXAKmNkN2mOo8Kjlqo+t27eihwubjN+HoQZUwEcZZcijF
+	dDjtu1+y6+sULW3SeusSLu8LmmQP+Tyh7DJZu7245zoXme4NZ1wSew9zwXCj/u3g
+	xErkQ5m/nwkZyZhrkG/TX2AQ4J5fBxPi+iTlCJKYva3HLRxguywAr1VZfDOyGQSQ
+	0qZgQQgldOqAi5yMlL/XVKwuq1SCqBgH62UaRjtQIcE5Ve+3l7o7Rg5ysWxk7DxA
+	CIUkYiALqB7VgqQUlNCGQgg7bm0eYslmCturHyVt2cb5c+YmXeGqoGsoASCa/t7q
+	unBp5fUE6kbts9gt9bofVdKNlVR21u+6xdA==
+X-ME-Sender: <xms:UI1mZ4B-LzCF0adLk7MyVuHDN4bs_2JLCh2lr_-CB19yLCJVinWC2w>
+    <xme:UI1mZ6j41RVEi4JYOjpIEUwhOOosQrIMoCFnW5gzgLGudvywTMPw8oZ6bF7IxWoqy
+    4iavlFfbrs2Io7CbA>
+X-ME-Received: <xmr:UI1mZ7knwmsyFkvoHGv5eNOioMdgHi1-FoxwLWa_EuLSWCg7vwYyEC8wVN3w4LRyzq9Zf09mdbBj6eErM-7m7vBxOueLHSs2vprOhY3w_hIv>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtgedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+    htshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttdenucfh
+    rhhomheptfihrghnucghrghlkhhlihhnuceorhihrghnsehtvghsthhtohgrshhtrdgtoh
+    hmqeenucggtffrrghtthgvrhhnpeduvdeuudeugedtueffteevveegheehvdfhfeduudev
+    kefggfeftdehgeethffhffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehrhigrnhesthgvshhtthhorghsthdrtghomhdpnhgspghrtghpthht
+    ohepudefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlghhirhgufihoohguse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepphgvrhgvgiesphgvrhgvgidrtgiipdhrtghpthhtohepthhifigrih
+    esshhushgvrdgtohhmpdhrtghpthhtohepfigvnhhssegtshhivgdrohhrghdprhgtphht
+    thhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhope
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgpdhrtghpthhtoheplhhinhhugidqshho
+    uhhnugesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgrrh
+    hmqdhkvghrnhgvlheslhhishhtshdrihhnfhhrrgguvggrugdrohhrgh
+X-ME-Proxy: <xmx:UI1mZ-yLyqLih0pYu_LNYw95o4qznM6mFSYmsA8akjSY6iZITGzh2A>
+    <xmx:UI1mZ9RfxyuWlLRh04y4NI_zHocotrmP2GlTWvWY4I32gKZ7p3aVFw>
+    <xmx:UI1mZ5bhUnToplY64trLt3cxdgO6Pufd2Bc7xpvR5QuJq1ZW3YQvOQ>
+    <xmx:UI1mZ2Ri3HrqAgU7p9pO5HljChKr2QLbforBtE2py8cOVpznnbqRnQ>
+    <xmx:UY1mZzAhfmbhDlnIZlpcwSAGA2dJOkuE9t1rmXkZD8lpXLRAzJR2ZJqJ>
+Feedback-ID: idc0145fc:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 21 Dec 2024 04:41:32 -0500 (EST)
+From: Ryan Walklin <ryan@testtoast.com>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Ryan Walklin <ryan@testtoast.com>
+Subject: [PATCH 0/3] ASoC: sun4i-codec: add headphone dectection for Anbernic RG35XX devices
+Date: Sat, 21 Dec 2024 22:26:31 +1300
+Message-ID: <20241221094122.27325-1-ryan@testtoast.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241220-drm-bridge-hdmi-connector-v8-9-2399dbae2990@linaro.org>
-References: <20241220-drm-bridge-hdmi-connector-v8-0-2399dbae2990@linaro.org>
-In-Reply-To: <20241220-drm-bridge-hdmi-connector-v8-0-2399dbae2990@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1990;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=zd/Y8mBxMdBApDi5CzqJHH1RW7mj7RyJYMvyUl/+gqU=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ3rqofWGWfG2miK9Nk/kt60LsekVXBu+uC1vw6n5PZ3JJ
- /mC567uZDRmYWDkYpAVU2TxKWiZGrMpOezDjqn1MINYmUCmMHBxCsBE7E6y/w9W9tSe7sVjbvzR
- 8FBbRt5itZZTS70/l66Un94pOkuWwdH5lK71svhJ7IVTW8v/1E+7um8Oq/SHghieD8s8E36nX22
- dYGtvPbPjkG758bt7Azk9c/X7bd+um6nE2PPeUjfWRN2Gr2P7Ce30e0Wr4+6KWfuXijlJxD0qzG
- gT5extinq5dKNmBvuX+iVXf9esOtz1siHufcyqFG19p2yZy68X5z4IvpRutuFxufLa2D/85/sCA
- 7/nH2SZf2G25Ulhz2zR7KP7F0Y3i/VcX1Jt2vEozPjs6pcbPiy4kXkuZvpnPaknzj3r2nPNcl0t
- rX6qH1qxql3BNHpX5armvlVFP34LG4pxvVDZeeS+x+2ZAA==
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: 8bit
 
-The vc4_hdmi_connector_detect_ctx() via vc4_hdmi_handle_hotplug()
-already reads EDID and propagates it to the drm_connector. Stop
-rereading EDID as a part of the .get_modes() callback and just update
-the list of modes. This matches the behaviour of the i915 driver.
+Add support for headphone detection on the Anbernic RG35XX series. 
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 21 ---------------------
- 1 file changed, 21 deletions(-)
+This series adds the required device tree bindings to describe GPIOs for jack detection in the sun4i-codec driver, adds support for jack detection to the codec machine driver, and describes the hardware configuration in the RG35XX DTS. The existing speaker amplifier GPIO pin can then be used in concert with jack detection to enable userspace sound servers (via an ALSA UCM configuration) to disable the speaker route when headphones are connected.
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 24199b511f2ee1bc3aa5f4a30e9d3d928d556ff1..5282dd765cc9478361a705dca85f615015b12e8e 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -470,31 +470,10 @@ static int vc4_hdmi_connector_detect_ctx(struct drm_connector *connector,
- 
- static int vc4_hdmi_connector_get_modes(struct drm_connector *connector)
- {
--	struct vc4_hdmi *vc4_hdmi = connector_to_vc4_hdmi(connector);
- 	struct vc4_dev *vc4 = to_vc4_dev(connector->dev);
--	const struct drm_edid *drm_edid;
- 	int ret = 0;
- 
--	/*
--	 * NOTE: This function should really take vc4_hdmi->mutex, but doing so
--	 * results in reentrancy issues since cec_s_phys_addr() might call
--	 * .adap_enable, which leads to that funtion being called with our mutex
--	 * held.
--	 *
--	 * Concurrency isn't an issue at the moment since we don't share
--	 * any state with any of the other frameworks so we can ignore
--	 * the lock for now.
--	 */
--
--	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
--	drm_edid_connector_update(connector, drm_edid);
--	cec_s_phys_addr(vc4_hdmi->cec_adap,
--			connector->display_info.source_physical_address, false);
--	if (!drm_edid)
--		return 0;
--
- 	ret = drm_edid_connector_add_modes(connector);
--	drm_edid_free(drm_edid);
- 
- 	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20) {
- 		struct drm_device *drm = connector->dev;
+Thanks to Chris Morgan for his assistance putting this series together.
+
+Regards,
+
+Ryan
+
+Chris Morgan (3):
+  ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
+  ASoC: sun4i-codec: support hp-det-gpios property
+  arm64: dts: allwinner: h700: Add hp-det-gpios for Anbernic RG35XX
+
+ .../sound/allwinner,sun4i-a10-codec.yaml      |  6 ++
+ .../sun50i-h700-anbernic-rg35xx-2024.dts      |  5 +-
+ sound/soc/sunxi/sun4i-codec.c                 | 59 ++++++++++++++++++-
+ 3 files changed, 67 insertions(+), 3 deletions(-)
 
 -- 
-2.39.5
+2.47.1
 
