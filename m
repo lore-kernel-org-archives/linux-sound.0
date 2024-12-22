@@ -1,64 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF27158D80;
-	Sun, 22 Dec 2024 07:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12971185B56;
+	Sun, 22 Dec 2024 07:37:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734852385; cv=none; b=oGAuTeAR4Ft3hoTCFlAd7aqUouQ762DazIfcETXALcdZmbb6ExwzQ+LBg/boVa/wUmvFoANsJl0FeEYCGn2ncOugu8tH9meWRwY7geRslMpmmky3ndHBc2AMQvEPFi54u2QvNu/58sK9LFGlzYkaNy4am+8RZ4ljvwhFpLFwH3U=
+	t=1734853053; cv=none; b=c8w/MAUCCPqpvZjQKXhVR5Aoe+YHVKl1d+9tzohK6OXza4m7bVz/EJEhUqOoIZWpyZveABw8lGCVRSroxmtAJIdNDvfWCTo6bKhKzgqnTxqk6hzWIakLbUF96Mle3whpMaPagabgqjwP4OatOPtFqZhg8bMyBaINYIYUZ5LH/zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734852385; c=relaxed/simple;
-	bh=pWy3kdeXldtGu26IRD8vfzEq3yKKT5gvwB+rRFZtji4=;
+	s=arc-20240116; t=1734853053; c=relaxed/simple;
+	bh=NAx7BuxW2v7682O6csvhRPUArYnTbC4ZgJ9DLa94yNE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TsTTtLss6txnFsQzygs1mei1pSU17VkPRdaSnjhgEYCiMDdM3oAbEHFpcFI4b+oeIUAW7oUxGWp+oTynVB+7ds/V9AnlplW6AvL1SfqJMleHMDLLn8XidM1V8Du9BAAoCoVgs4naZcTmkbmoUnUfWk7SPVPZfhaeGm8i5ZJV27A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YM5dhuRU; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:Content-Type; b=e0b/S2SIGPjEc+7/ZYsuaQKexyfxg7MJ65mRjMrVZyV/Bn/K/JS7K31Nfs/TmKnME8hy/duX7D63JgY+iOYo+seGDXU2LXRYFia/cEhOIz3e3PVQsjwCUqk48el7dmCdvI/fpIKjOAoauAW6dlsL1Wf9V/11utVVlh6I6SYtMRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fNpSCCjz; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YM5dhuRU"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-436249df846so21835425e9.3;
-        Sat, 21 Dec 2024 23:26:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fNpSCCjz"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43675b1155bso8831025e9.2;
+        Sat, 21 Dec 2024 23:37:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734852382; x=1735457182; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1734853050; x=1735457850; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Arrz5Exy1wRkGEREWcrB7cZbEldgJTKm7kgF6NXkEjg=;
-        b=YM5dhuRU5jEFhXvvnQ7qmaZsWmzLItHhArLm0eOJW4YP2UmErszt1g922ELC7xCv7n
-         mMRSZXchiGLUaqGkjj5ne7qkG+ySc5ysGj1san1Wu4DupEWTfi/9BrTwTjc71yL5gKKd
-         vW2eCwFt2atROnZudrSZdKlGqWWRYyX2CqFKDPmFlEsuXCrFcFiCts8BDOr7/YyxDLbP
-         dCUK5tktZINVrSngOGS/AUpw3rXcaGtA/f4eXIfjR0/bfWxlcPNeLSCA87L4g+5EXl+y
-         /szQZixJZDMb6IXeVcbFQDbuiHQ3hy7Y3yP30cmEpcDu55pvdfk5a6qfL7pF6NKs8jU8
-         NAGg==
+        bh=0nPbiq3g+dxfCRMYLQbYZmL3rmBrcEtirj2UUfzdEIU=;
+        b=fNpSCCjzupGviIzLcvEHamCqifKIQnFTIOoW97G5hLrTy7lxmoHPJCaXMAaJTnYDjU
+         Mjyapm9ax+zoV4vueSVN/rCnGha5gYfxpmIPiHbC8aOdXxvBiADxzu01L5Kf+a9O6qD+
+         G/7M0tqM5IX5vVbZ24BbtOMG4YB9uaJgGA0OPg0VpczdjzWHpFzCvUDRs5b36clmpFNx
+         UTSiglliv1dwj4iRo8zpBpMbtA7B3q2yoK9muABm0CvmfyiALSqhipFAE91kb7Rja3wn
+         ZRILF48Tph4navyk5yKZUpTI961Xyr7o1er86Ei39ntSjSRYw1w0YWZwVr9f/kjRVJx1
+         N7EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734852382; x=1735457182;
+        d=1e100.net; s=20230601; t=1734853050; x=1735457850;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Arrz5Exy1wRkGEREWcrB7cZbEldgJTKm7kgF6NXkEjg=;
-        b=AFPBFvjuORJSWy/Pu9pyH/2PizfaItq1D3bC6ZhFHJr9OMJF9IKnYYj55HVPuvevy2
-         NLtcxwIG8eP1YByqD1lGBpK9RY5t8oGt2Xe14AGFv6AygdLWXZwSk4Il9gL8z1re64ja
-         z/0u9r0l5+i0haQXQZIW9jYAIyVIcgVTUExPsepNuKtE7vrhlJxgDIES9JjAnW7OQB71
-         kUuNCi+SwOO1CLrZ4/NICG5Fh3GcHysq4eSoE2dGamF4W+Z7O936M2g/SrZ/S/+Rbkx/
-         T9bK6T/FoikFEKxjtdXI/x9jFvk9f6moxIVRqprt0AWQIZkgYTcvcz2+w8SBdimFTXQy
-         +EKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVURh7xRIA0+Zkll1KW6DxkhrQY9MRJOsz85zEZyJ8Win8nxC1PhpXssezJm2RK3xRccqHADVm7@vger.kernel.org, AJvYcCWavoS6sQgigmqHYIyEp2bgnv/JIi60diWFRAU1nuk6Zn2NfFs4ZPjK4n9FHRqHxJjcLN4nJGqQ+0QSj8E=@vger.kernel.org, AJvYcCXmlUpvx39lU/yIdwVglXJOR3ZTkg6r/hzhV7CVR44cvpZB1yC0wHXQv+0iYWlHEcLKDue+9T0F6kAfdwg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7UI8OlW0g6hWpzimRm0a/8/aDmhwF1qp/m65W2xCxnOZaGyyb
-	cXgU7G0JIX9FBStMaYomSE8YjEj1ZpJ2nNHt3OaW/JFaZzL1GsCJ
-X-Gm-Gg: ASbGnctVVaV+Pbp0KA4MkG9UBobDsko3WwXQrEEYek++t4F8A9GnC5I28ZVb5dWOvaW
-	TYc69rNawe37nvNyyywaP0aM1zz6EC7Y9Wvha2R2inZsUWHhHvMG6iPITPHqxVLVPIQFnQhzDBP
-	SCF9Su/Hzyu2IFxF7PYtjweas9JDCHxGkB92gCs51qHWszI+nVAe3nkpKoee19gw1OFRQNdIc0U
-	XaCr7OrWZzoWdGU6aCiumUx/45pGrhVNcfHptb5njRKlk9JUaqVLTgFqn202GmERdM6VnoGO3Az
-	VcuEhtPArgXuOlt/qVl7j0LZRe1tIElC8q+kEw==
-X-Google-Smtp-Source: AGHT+IGXRsiI3dpki18d/giNKINZ0eDQrO8MV2boHkATHk8Hsg2zha8flfwfsiyW3NkgTMnCjM/zuw==
-X-Received: by 2002:a05:600c:468f:b0:434:f335:855 with SMTP id 5b1f17b1804b1-43668b78324mr57816825e9.28.1734852382178;
-        Sat, 21 Dec 2024 23:26:22 -0800 (PST)
+        bh=0nPbiq3g+dxfCRMYLQbYZmL3rmBrcEtirj2UUfzdEIU=;
+        b=r+cADI2izOCdySF3zLGErJGQbd82UzY24tDX7PXqnCQhUzgy+eqUeYok0fyepyVQw1
+         d3rcVPffnvvsNn5NjSiPziupHZrgK01QjifGJBStdU3zyuMejc/jEyvzM8NLqFYkeLQM
+         MgpCBpcLn3EiZdXNEU9TaQ11MMrNiWcacNgpwFAnZAZvOOet0g5yhdxiTynjHj6OCSrY
+         J6wrfPQld7fj7AKsuuD9HS10ZD+OGe7wcijSDtVra/645W6zqn9JmkNdTWgSdaTmuijC
+         QO7xfUe+WS7GxnwB2rROcPQ/6SDWNh5qcLcypdtF8ZU3LrNbxDXNk3fJ8GWj21OL7rJZ
+         KEBg==
+X-Forwarded-Encrypted: i=1; AJvYcCUTaN06VUKhB1kpdhLH/fzg9rAlp1EOSidLPH2FnoQa4pKCGY983Apj9pxANLtSo/ofhFe3bwcm@vger.kernel.org, AJvYcCWOXO27X7Oa51/njXqXcYOFqh9eLS+f/WeIvtFuJuj2xs1mLqfH128OKiBkR08pKA5Fd8KOV7j4yepCsLk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRCfDEUExo05LvITwHqgu31PngTDeAvPw/CZdLP9mDCoi0sdb6
+	p/78N3LTC04oocj29wpOrKrbsSIpmvtEjpUpkoyowxBh2YEigOV6DsHw9CK1
+X-Gm-Gg: ASbGncteYa8hUU0mubQVxipRBrzdGY6dy6C6sYeYzVvZRKYv0jz6rdclTrpVbx7tLy8
+	TZBlgp2i1YF/DlXSrnbW99I1nChrHXo7Z+MveWkzIUWTENdYNEO24iLtZdrmb+UrdhU5t0a3kN1
+	zzsSI+Am9fkhHBdJnkN80n04bGcHeSGR8YuZyb9ad+wZE3g6EQZvJwHnoVqoURO30pWRMgdzcOc
+	6/Vab5XQMt9iAaAcglm9CZwOsrXxUXpGL5wh0rBgprQsbFqkp8x9XSI/dIdVv5nL6h5Q3hgZ8oJ
+	gLYZ1eW+XaeK/TykbpeFz+yL1b4qHEUGnsiyaA==
+X-Google-Smtp-Source: AGHT+IFSGdhCog6uSXLpFm+pr0vXhNpzT4F4SrM1oT802P5T6FT4W7Nfz8TaBX8F+8odOeywNFNKxQ==
+X-Received: by 2002:a05:600c:3b13:b0:435:23c:e23e with SMTP id 5b1f17b1804b1-4366864409amr79132085e9.12.1734853049981;
+        Sat, 21 Dec 2024 23:37:29 -0800 (PST)
 Received: from ?IPV6:2a0d:6fc2:56d6:3b00:20f3:5417:1c06:8272? ([2a0d:6fc2:56d6:3b00:20f3:5417:1c06:8272])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c828ba0sm8086400f8f.14.2024.12.21.23.26.20
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8474a9sm8148343f8f.52.2024.12.21.23.37.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Dec 2024 23:26:21 -0800 (PST)
-Message-ID: <a1c2d1e1-4180-48a9-a5c4-7a04feef97c8@gmail.com>
-Date: Sun, 22 Dec 2024 09:26:19 +0200
+        Sat, 21 Dec 2024 23:37:28 -0800 (PST)
+Message-ID: <57883f2e-49cd-4aa4-9879-7dcdf7fec6df@gmail.com>
+Date: Sun, 22 Dec 2024 09:37:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -67,40 +67,33 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
-To: Kailang <kailang@realtek.com>,
- Linux Sound Mailing List <linux-sound@vger.kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>,
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+ Kailang Yang <kailang@realtek.com>,
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux Regressions Mailing List <regressions@lists.linux.dev>,
  Linux Stable Mailing List <stable@vger.kernel.org>
 References: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
- <b4763f69b4004b19ab5c5e0a8f675282@realtek.com>
- <0625722b-5404-406a-b571-ff79693fe980@gmail.com>
- <ff166dfd38db410d8a82489ff487b437@realtek.com>
+ <8734ijwru5.wl-tiwai@suse.de>
 Content-Language: en-US
 From: Evgeny Kapun <abacabadabacaba@gmail.com>
-In-Reply-To: <ff166dfd38db410d8a82489ff487b437@realtek.com>
+In-Reply-To: <8734ijwru5.wl-tiwai@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
- > Headphone or Headset. Which did you use?
- > I don't know your platform has headset mic support or not.
+On 12/19/24 18:38, Takashi Iwai wrote:
+> Could you give alsa-info.sh output with broken and working (reverted)
+> states?  Run the script with --no-upload option and attach the
+> outputs.
 
-I use headphones (no mic). I suppose my laptop should support a mic, 
-because there is an icon next to the headset socket which shows a 
-headset with a mic.
+Hi,
 
- > Could you record sound via headphone?
- >
- > I want to know how the voice distortion.
+I already posted alsa-info output in a previous message:
 
-I've run some experiments to determine the nature of the distortions, 
-and I found that on affected kernels, what I'm hearing is the difference 
-between the left and the right channel of what is playing. So, if I play 
-a mono sound, I hear nothing at all (or rather, almost nothing). If I 
-manually mute one of the channels, I hear the sound normally (through 
-both ears, while on older kernels muting individual channels actually 
-works). If I invert one of the channels, I hear the sound normally as 
-well. If I play a stereo sound (for example, a music track), I hear 
-distortions.
+Broken, kernel version 6.12.5: 
+https://lore.kernel.org/linux-sound/0625722b-5404-406a-b571-ff79693fe980@gmail.com/3-alsa-info-6.12.5.txt
+Working, kernel version 6.7.11: 
+https://lore.kernel.org/linux-sound/0625722b-5404-406a-b571-ff79693fe980@gmail.com/2-alsa-info-6.7.11.txt
 
+Or do you need alsa-info with a new kernel, but with the offending 
+commit reverted?
