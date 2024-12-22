@@ -1,90 +1,87 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73535290F;
-	Sun, 22 Dec 2024 08:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CED816F27F;
+	Sun, 22 Dec 2024 08:43:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734856052; cv=none; b=oam6zjt21mNEBK+hXSlJlezEUwFJjb7fk9a+pcUz05udxx14aAY2W/NpdWmdnf2Wxq18FLyOANs/6u6LiA2HjOwue1X5KbFpc3dotChBjNTMm6oHATpgnVFzFbhlZ1bzCox3ewtRzC8hUufeTnPPfNU6fYz1u7/LD01RJX9ReME=
+	t=1734856989; cv=none; b=cgc5etmjqRACKiyJT7M4dGl9P5ij8TcuY/gmR1WwZv1Yvv2GHu4dEJ0ew5zTaVsMJrcnVYjqUM4fXGGic7n4DjHGmhY8npmVLhz67nLLP/VTPNiQtCvAWMLgg9zQgY+P5q8IBB0b5dWkABMSMqR+v/tNj11oU4oqAIMLjIBoUzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734856052; c=relaxed/simple;
-	bh=P0y6YF7geAMX3Zs7WLZL+7DfTM1U/RAuwLkx93wvwVQ=;
+	s=arc-20240116; t=1734856989; c=relaxed/simple;
+	bh=uomVTppw3hlhi21U12QKqekETxjGjF+ESmXfC67n2gM=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GeH+17LM/MksKYvtPiMzty7gvo5xYzNZtv3aDUfbxpX5+0qJRy3TZumKSpjD5GWh0MXGtjcTe2q9mz53miOiKN/1logeppslnDmdJNWzVCPV+4G4q0ilD4qNbw8QObwFxwcNO2y6wljbXtAeDzJkc+1+bVo4Acgd0C2dW/paxh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=buWx6i7B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H7lqMEmi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=buWx6i7B; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=H7lqMEmi; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=ELN7JRYCG4Czry0RPga/xmtVZt/+QGrgj841nqCfG5k3t2/abyg52flSKUmVNHs8E/5RQnPlPxtMFLR0w2Yl4I7GcJnufuoYY9qAySCHPuZuTF9M1R/wdpFFljq6loNNSkBQ8C12XDWuS9JmWRRPUWwFTn9juG06zbXzgEsAauU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AsNwdMit; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h4KrcJ1E; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=AsNwdMit; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=h4KrcJ1E; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="buWx6i7B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H7lqMEmi";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="buWx6i7B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="H7lqMEmi"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AsNwdMit";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h4KrcJ1E";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AsNwdMit";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="h4KrcJ1E"
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AF37C1F37E;
-	Sun, 22 Dec 2024 08:27:22 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 190EB22641;
+	Sun, 22 Dec 2024 08:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734856042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1734856582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVrI9i3WvxuE/DEox1m2Wwb87x1cqqrB/RdP1vFefzc=;
-	b=buWx6i7B5aAqPEeWIHLuWZhAPoaDLKodRchLIIAP4LMo6ElaEt6pMjPZ6hqd+az4E6Doow
-	2Ixbj78GXC0iVlao4QLjDVrUC/NOG5zFrxopgq/wr+mieIbCdfQBIxMVCrBplPYJ/qsuDD
-	i7GOZERD9wNvtf7IPBq7NE/vk5Fbp2c=
+	bh=rH+jPLTrOwQjY9ySziTfMcwygF9NLYg8Wag/Vqi6e5k=;
+	b=AsNwdMit9qYJhq0xM1MTuFlm1AAPF3SEw5cQcgMUZ02Ow8UlnSDGecFiLzRore0BzQueFI
+	aWu9tFTvwQnjPKAdmoFBzR6nSIFduHpsrqJVmRdlBlTpIAXxjcNw1dQ+rxJdXQygOLwyfc
+	CfVodDpALV6AfvWJueTjJ2FMi6WXpFI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734856042;
+	s=susede2_ed25519; t=1734856582;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVrI9i3WvxuE/DEox1m2Wwb87x1cqqrB/RdP1vFefzc=;
-	b=H7lqMEmilmtLci57ltWPweg7Y65geCD4KZO7cU/xGlC271sPFydFsEr61zVsJ/WnAu5BAM
-	4qHTksWlAIrzrbAw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=buWx6i7B;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=H7lqMEmi
+	bh=rH+jPLTrOwQjY9ySziTfMcwygF9NLYg8Wag/Vqi6e5k=;
+	b=h4KrcJ1EmjJVPGTdGXzcNBlm5FwDlYZbykc5WYY194rmXcTJ+e0x20eQyEBOCoqRAD9YOK
+	wOMXNRXe3IVhSjAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AsNwdMit;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=h4KrcJ1E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734856042; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1734856582; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVrI9i3WvxuE/DEox1m2Wwb87x1cqqrB/RdP1vFefzc=;
-	b=buWx6i7B5aAqPEeWIHLuWZhAPoaDLKodRchLIIAP4LMo6ElaEt6pMjPZ6hqd+az4E6Doow
-	2Ixbj78GXC0iVlao4QLjDVrUC/NOG5zFrxopgq/wr+mieIbCdfQBIxMVCrBplPYJ/qsuDD
-	i7GOZERD9wNvtf7IPBq7NE/vk5Fbp2c=
+	bh=rH+jPLTrOwQjY9ySziTfMcwygF9NLYg8Wag/Vqi6e5k=;
+	b=AsNwdMit9qYJhq0xM1MTuFlm1AAPF3SEw5cQcgMUZ02Ow8UlnSDGecFiLzRore0BzQueFI
+	aWu9tFTvwQnjPKAdmoFBzR6nSIFduHpsrqJVmRdlBlTpIAXxjcNw1dQ+rxJdXQygOLwyfc
+	CfVodDpALV6AfvWJueTjJ2FMi6WXpFI=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734856042;
+	s=susede2_ed25519; t=1734856582;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xVrI9i3WvxuE/DEox1m2Wwb87x1cqqrB/RdP1vFefzc=;
-	b=H7lqMEmilmtLci57ltWPweg7Y65geCD4KZO7cU/xGlC271sPFydFsEr61zVsJ/WnAu5BAM
-	4qHTksWlAIrzrbAw==
+	bh=rH+jPLTrOwQjY9ySziTfMcwygF9NLYg8Wag/Vqi6e5k=;
+	b=h4KrcJ1EmjJVPGTdGXzcNBlm5FwDlYZbykc5WYY194rmXcTJ+e0x20eQyEBOCoqRAD9YOK
+	wOMXNRXe3IVhSjAQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 268A213A6D;
-	Sun, 22 Dec 2024 08:27:22 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 96C9A13A6D;
+	Sun, 22 Dec 2024 08:36:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EKWaBWrNZ2ewCwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 22 Dec 2024 08:27:22 +0000
-Date: Sun, 22 Dec 2024 09:27:17 +0100
-Message-ID: <87ldw89l7e.wl-tiwai@suse.de>
+	id 9yLoIIXPZ2ejDQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 22 Dec 2024 08:36:21 +0000
+Date: Sun, 22 Dec 2024 09:36:12 +0100
+Message-ID: <87ikrc9ksj.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Evgeny Kapun <abacabadabacaba@gmail.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Linux Sound Mailing List <linux-sound@vger.kernel.org>,
-	Kailang Yang <kailang@realtek.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Regressions Mailing List <regressions@lists.linux.dev>,
-	Linux Stable Mailing List <stable@vger.kernel.org>
-Subject: Re: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
-In-Reply-To: <57883f2e-49cd-4aa4-9879-7dcdf7fec6df@gmail.com>
-References: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
-	<8734ijwru5.wl-tiwai@suse.de>
-	<57883f2e-49cd-4aa4-9879-7dcdf7fec6df@gmail.com>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-parisc@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ALSA: ad1889: Use str_enabled_disabled() helper function
+In-Reply-To: <20241221095210.5473-1-thorsten.blum@linux.dev>
+References: <20241221095210.5473-1-thorsten.blum@linux.dev>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -93,65 +90,48 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: AF37C1F37E
+X-Rspamd-Queue-Id: 190EB22641
 X-Spam-Level: 
 X-Spamd-Result: default: False [-3.51 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
 	MX_GOOD(-0.01)[];
-	TO_DN_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,alsa-info.sh:url];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
 	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 X-Rspamd-Action: no action
 X-Spam-Score: -3.51
 X-Spam-Flag: NO
 
-On Sun, 22 Dec 2024 08:37:27 +0100,
-Evgeny Kapun wrote:
+On Sat, 21 Dec 2024 10:52:08 +0100,
+Thorsten Blum wrote:
 > 
-> On 12/19/24 18:38, Takashi Iwai wrote:
-> > Could you give alsa-info.sh output with broken and working (reverted)
-> > states?  Run the script with --no-upload option and attach the
-> > outputs.
+> Remove hard-coded strings by using the str_enabled_disabled() helper
+> function.
 > 
-> Hi,
-> 
-> I already posted alsa-info output in a previous message:
-> 
-> Broken, kernel version 6.12.5:
-> https://lore.kernel.org/linux-sound/0625722b-5404-406a-b571-ff79693fe980@gmail.com/3-alsa-info-6.12.5.txt
-> Working, kernel version 6.7.11:
-> https://lore.kernel.org/linux-sound/0625722b-5404-406a-b571-ff79693fe980@gmail.com/2-alsa-info-6.7.11.txt
-> 
-> Or do you need alsa-info with a new kernel, but with the offending
-> commit reverted?
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Yes, that'll be the best for eliminating other possible artifacts.
+Applied now.  Thanks.
 
-
-thanks,
 
 Takashi
