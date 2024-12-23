@@ -1,94 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C327735;
-	Mon, 23 Dec 2024 07:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4612E38C
+	for <linux-sound@vger.kernel.org>; Mon, 23 Dec 2024 08:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734939061; cv=none; b=Q+aVccCRnfyQwoF1jwyurHa17OdnZ9NjvXJDNOy9YQyV77h4DxEah9c8lmEhz/XqveXoTop3EepqvHB/0GlWwtlhtdLGD+INRygN9gafC1EslQPbiJ9e9FW96866ach+HZ+xbbGoJJt2rXwR4zL7oL+MpH0BnF3QGE/+i8BDzT8=
+	t=1734943676; cv=none; b=puJ8elRfUCQ1Ts6FsIs8BZtJycCxRKI3DlcJLLbJm27mOU2MzsTf7x4Oys5wMjMOrfoqOGXsRSihiSvAZRLsnFfSw9rdLiBmmRg1/srZ2cWgz/TYNViEF+pBvo/sXKB+heDZgjWQs/3tDmflIe/7ad0lkmel/wsUf5XPopsyl3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734939061; c=relaxed/simple;
-	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VZOjLR8mFzjAThfHaAqh3fQIrKm7MFq92wGYLUcAkHb6NtzZkzl+1sLUF64jab/tGfrMrwdmxtFfv+idAPmOoYpG+r2V7+jYKHyHxLWwJo/aercL/2bci/cZJcbPqrSOdmj8gEft9rpfC37NNpP2M5T381lFVYwET0MjB34MviE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwUNEdpV; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwUNEdpV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BFCC4CED4;
-	Mon, 23 Dec 2024 07:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734939060;
-	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UwUNEdpVksa3VeJ8fBbfU5ZM7cveMPPtJwrh5dBwK0gEoqVYDdF0NbABXvUPIJWBw
-	 xCqUqJSqJL6xtKZr6qQ7jAhuhWd71QCPd5TxS1HecY9J/hvR45WyJpacDQHEAg8Nxb
-	 2n3UaUf++ISc2NX01EI862mzeWJQXkc5aNu91d3n3AsdRCNSN+HKnHjEJRyLACr5nh
-	 BOO26q4g07K6IBNRx5aV7gSAqtRZNsSUNg+1F39wB4XcAaYzRqeyumIAvWSZFAj19D
-	 3ux6IHIQ91x+ZZx51WabplqJyaEEdtdtBHP6L6K1CKNx6HfC+4KG2P1qz8+vVZVY4x
-	 5cGLrZr9Tq1ag==
-Date: Mon, 23 Dec 2024 08:30:57 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: Zijun Hu <zijun_hu@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org, 
-	Zijun Hu <quic_zijuhu@quicinc.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-Message-ID: <mrix3q75mawxszrp25yzpsrvenlxx7bihfzyfdcnp7egubvxpf@lzp7fcaxwquc>
-References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
- <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
+	s=arc-20240116; t=1734943676; c=relaxed/simple;
+	bh=ybvJacK0hS7Ibfte41zQGhPNZDLCZ3eZDMs69nd4lJs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=ZqWYitmcwyPg/gnzrDjLVRrWZ6wLm7ePdEUk19zO/yIyeqamD8hGeZh5LnsdjfT4wMpXzCkO0C84Ct7YQNcvihmQr3mVcl4GvRE+5T/sYPhn9ufTdCR9jDGf1d9tU1INHJMm50ZrfTcrcHyGrxKArli9/PVTbfgZrF2PwRXEMkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 927f68aac10a11efa216b1d71e6e1362-20241223
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NO_NAME, HR_CTE_8B, HR_CTT_MISS
+	HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME, HR_SJ_DIGIT_LEN
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR, DN_TRUSTED
+	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD, CIE_GOOD_SPF
+	CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
+	ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:37a044a6-968e-4b9d-abd6-48185b1ae983,IP:10,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:15
+X-CID-INFO: VERSION:1.1.41,REQID:37a044a6-968e-4b9d-abd6-48185b1ae983,IP:10,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:15
+X-CID-META: VersionHash:6dc6a47,CLOUDID:e02388394fafd6136a21daf95707cb39,BulkI
+	D:241223164744D3YJIZ0R,BulkQuantity:0,Recheck:0,SF:19|23|43|66|72|74|78|81
+	|82|102,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS:ni
+	l,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:
+	0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_SNR
+X-UUID: 927f68aac10a11efa216b1d71e6e1362-20241223
+X-User: zhangyongzhen@kylinos.cn
+Received: from localhost.localdomain [(124.64.16.39)] by mailgw.kylinos.cn
+	(envelope-from <zhangyongzhen@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1294006913; Mon, 23 Dec 2024 16:47:42 +0800
+From: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+To: tiwai@suse.de
+Cc: kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	zhangyongzhen@kylinos.cn
+Subject: [PATCH v2] ALSA: hda/realtek: Add a comment for alc_fixup_inv_dmic()
+Date: Mon, 23 Dec 2024 16:47:26 +0800
+Message-Id: <20241223084726.146805-1-zhangyongzhen@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <87plm7wzp7.wl-tiwai@suse.de>
+References: <87plm7wzp7.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2ziq55rb3fq2bwkl"
-Content-Disposition: inline
-In-Reply-To: <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
+alc_fixup_inv_dmic() has an empty comment line above it,
+add a comment here.
 
---2ziq55rb3fq2bwkl
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
- then adapt for various usages
-MIME-Version: 1.0
+Signed-off-by: Yongzhen Zhang <zhangyongzhen@kylinos.cn>
+---
+ sound/pci/hda/patch_realtek.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Hello,
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 61ba5dc35b8b..46e542581809 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -890,9 +890,7 @@ static void alc_ssid_check(struct hda_codec *codec, const hda_nid_t *ports)
+ 	}
+ }
+ 
+-/*
+- */
+-
++/* inverted digital-mic */
+ static void alc_fixup_inv_dmic(struct hda_codec *codec,
+ 			       const struct hda_fixup *fix, int action)
+ {
+-- 
+2.25.1
 
-On Wed, Dec 11, 2024 at 08:08:06AM +0800, Zijun Hu wrote:
->  drivers/pwm/core.c                     |  2 +-
-
-Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for drivers/pwm
-
-Best regards
-Uwe
-
---2ziq55rb3fq2bwkl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdpEa8ACgkQj4D7WH0S
-/k4bUAgAh9LrZmd2eRZtQQDD7RKfHIeOmRCpwZcKO4VAM76QCcEzfVerUpZH2Emh
-tkSaCY38C9pM9hE0HsXsYV6zg/MBAVCwiVGbn+rgTAVtuiDiI8ygmP7cdzKnk7Ke
-+l0xcXunQPwe3UHEzAvvPiu57dMcQ6h8732mqwqWrRh43gPAWdpAgktFqFLPCRQf
-1sOslGEFNX866KAUqB1jjxQSZjq0v0dXyd20GSu7yjzm7s1JzRG+msGCSSxv0vRT
-SWDRWVHepQ1AT5THBbY6xaXnaiwoTbnv6NCw4WFz8OHbBtIb6Fm7UUE1PNTnZM0t
-qDtxzk9rG0eZFX23d+rXwSg2JlM3VQ==
-=zwtk
------END PGP SIGNATURE-----
-
---2ziq55rb3fq2bwkl--
