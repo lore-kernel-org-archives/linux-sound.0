@@ -1,155 +1,94 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2048.outbound.protection.outlook.com [40.107.96.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3EA433AB;
-	Mon, 23 Dec 2024 06:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734935139; cv=fail; b=HiAWMOEYtJrJ2RG/dnHsRu+j6U85l2CIpoyB6enZsUxn4DlTcRyOKOpU3ism7zVmmphhm6Vw+k0WC8VNXF3qvLZZ6kXXFByWYd0Sf0NjWZUAcIf0F9Ba9I1k9jk9E/BtZoUPSJjGIQNTWGG0QV3rnDno0EUZ10fIA2nU3aqI6sQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734935139; c=relaxed/simple;
-	bh=i33nWXBuR3ydrw8hHSncPLvZ85oMgC9gpxRNMiN24ss=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GorkGG3/Ocmw1YQQdHmQmsGR0/g3GCdaz6g/5dyVYtWOCJIe1u3PxKlpuTgiuqnhlTL5SHkvz1KNPm7GHGW0dYOhqyfJnd3Gp4MZRF5MG/S8Ur6CmeMddPAkNLyWsUNENIJv+yeBEWQSor2Gp9HGjmX/BP7JolhAsylReJV6ALY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OZv+sq7j; arc=fail smtp.client-ip=40.107.96.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C327735;
+	Mon, 23 Dec 2024 07:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734939061; cv=none; b=Q+aVccCRnfyQwoF1jwyurHa17OdnZ9NjvXJDNOy9YQyV77h4DxEah9c8lmEhz/XqveXoTop3EepqvHB/0GlWwtlhtdLGD+INRygN9gafC1EslQPbiJ9e9FW96866ach+HZ+xbbGoJJt2rXwR4zL7oL+MpH0BnF3QGE/+i8BDzT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734939061; c=relaxed/simple;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZOjLR8mFzjAThfHaAqh3fQIrKm7MFq92wGYLUcAkHb6NtzZkzl+1sLUF64jab/tGfrMrwdmxtFfv+idAPmOoYpG+r2V7+jYKHyHxLWwJo/aercL/2bci/cZJcbPqrSOdmj8gEft9rpfC37NNpP2M5T381lFVYwET0MjB34MviE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwUNEdpV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OZv+sq7j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DmIh/VQVu8NIat7PUkj/uQcZZzEbI55D8eNOQ0RqBxfeW1QUr0fw56C6IXmUTrRz3TfrGMwqNzm/P4/KntIO3OAV2PmCJAUzdhWf0y4Fcs5H60RV4CFsVWIrl+l2sIm8d31R8A7xdy4FNVZ7lpeY7N4r1ZxAcPjlvVpG2NHH08B8CzkOLcCqWQuco6oRCOo22y+Klodqxgxd7FUExjB09ClH7CSGz6kiSrL5LCcGycxwv1nlU+ovFP0loVQyJr+61jaRUQeCsDo5sI3Ry57tp0FO2HImAtqHQTF3mEHrlULyO2D39Sy5q7DQfGn8aowQRV/RCDnPuZFoAH66scSldw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dhrnOhgr/iOTzfNR08l4QFBOZKZH0dsfHgolXoNoQR8=;
- b=JndoEoFh41zRRijN8rXobz/S653ZJpc25xSVCXibxDmbV/i+W/jvPyhqoHf9BrvMTP8ijg3EMGrERHw29Nh6JRnTDmpmFlDv43YZHuDsxMHugw23O1XROmq1Eqt33lLsDWsVYn5CHQWTjpUkHwQq9BHbsVVYBZIldpiMMSmLcntbzHUaDq/QQvaLdj9d/8y0vtvlv+tnYBVGNFHj8LFOwdRMSfoHuG0pz/oIJdQQNVqQLC+1f0W+WG3TB58ieyStwksePHfX6VzBuyqYEODuKtl9U3x8ImGQyilrXvsVtgBfDEzKEClz4O0zximENkdrIAdOB/2N0tn11P6ywDDJ0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dhrnOhgr/iOTzfNR08l4QFBOZKZH0dsfHgolXoNoQR8=;
- b=OZv+sq7jYyQM1I0h6S/3EQjpUXU9i4r4ti1m0nvQiOwhE9IitEPf3GvE283AjkXLdHnR/9kDykVHlv+BmhMwhjfcWPCEuEuw9OH7T+ruIXk8f4V6W1Wnohqo7OyaIwWvq3nFG79EAc08Dp8VSfc5jVsbkPvYTc1OcwaZMH10Xxo=
-Received: from BN1PR12CA0024.namprd12.prod.outlook.com (2603:10b6:408:e1::29)
- by CY5PR12MB6369.namprd12.prod.outlook.com (2603:10b6:930:21::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.18; Mon, 23 Dec
- 2024 06:25:30 +0000
-Received: from BL6PEPF0001AB4A.namprd04.prod.outlook.com
- (2603:10b6:408:e1:cafe::4c) by BN1PR12CA0024.outlook.office365.com
- (2603:10b6:408:e1::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.20 via Frontend Transport; Mon,
- 23 Dec 2024 06:25:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB4A.mail.protection.outlook.com (10.167.242.68) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8293.12 via Frontend Transport; Mon, 23 Dec 2024 06:25:29 +0000
-Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 23 Dec 2024 00:24:56 -0600
-From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-To: <vkoul@kernel.org>
-CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.dev>,
-	<sanyog.r.kale@intel.com>, <Basavaraj.Hiregoudar@amd.com>,
-	<Sunil-kumar.Dommati@amd.com>, <Mario.Limonciello@amd.com>,
-	<venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>, "open list:SOUNDWIRE SUBSYSTEM"
-	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: [PATCH V2] soundwire: amd: clear wake enable register for power off mode
-Date: Mon, 23 Dec 2024 11:54:29 +0530
-Message-ID: <20241223062429.205985-1-Vijendar.Mukunda@amd.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwUNEdpV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BFCC4CED4;
+	Mon, 23 Dec 2024 07:30:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734939060;
+	bh=Ygk6uUQxjvnjtMIv4tWwERicS++4MRefCsHhXVHUsRo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UwUNEdpVksa3VeJ8fBbfU5ZM7cveMPPtJwrh5dBwK0gEoqVYDdF0NbABXvUPIJWBw
+	 xCqUqJSqJL6xtKZr6qQ7jAhuhWd71QCPd5TxS1HecY9J/hvR45WyJpacDQHEAg8Nxb
+	 2n3UaUf++ISc2NX01EI862mzeWJQXkc5aNu91d3n3AsdRCNSN+HKnHjEJRyLACr5nh
+	 BOO26q4g07K6IBNRx5aV7gSAqtRZNsSUNg+1F39wB4XcAaYzRqeyumIAvWSZFAj19D
+	 3ux6IHIQ91x+ZZx51WabplqJyaEEdtdtBHP6L6K1CKNx6HfC+4KG2P1qz8+vVZVY4x
+	 5cGLrZr9Tq1ag==
+Date: Mon, 23 Dec 2024 08:30:57 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas@t-8ch.de>, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-sound@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-block@vger.kernel.org, linux-cxl@vger.kernel.org, 
+	linux1394-devel@lists.sourceforge.net, arm-scmi@vger.kernel.org, linux-efi@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-mediatek@lists.infradead.org, linux-hwmon@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, netdev@vger.kernel.org, 
+	Zijun Hu <quic_zijuhu@quicinc.com>, Alison Schofield <alison.schofield@intel.com>, 
+	Takashi Sakamoto <o-takashi@sakamocchi.jp>
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+Message-ID: <mrix3q75mawxszrp25yzpsrvenlxx7bihfzyfdcnp7egubvxpf@lzp7fcaxwquc>
+References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
+ <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4A:EE_|CY5PR12MB6369:EE_
-X-MS-Office365-Filtering-Correlation-Id: 588fc90f-fbdd-42ba-6e8c-08dd231a98e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2VYlCkuU8z4njc9uKwyXun30iFXnHpYC6zDQ14aFwDMxdQtDEsrVIzExPO02?=
- =?us-ascii?Q?J7W54IHLCAChI+kYb7U7xhQZzbAwa1EkQOsAYhYM+qSBjqZclX69XWa3w8CL?=
- =?us-ascii?Q?CXkejE+YQJmDXY1L6OHvwUUgR/Mr3vbILgLIJC15u4q32+TpP40nr7kVMt9D?=
- =?us-ascii?Q?l7ZqkNMdOl9O56h1Yf8gnFdY0aakl1E3CP+E8HbCwZ7AQvbsyL9IF37/FspA?=
- =?us-ascii?Q?Np1bgBykvuLLwmAeWATjGm3kDp+QU1TaQCSEmNSTCkwVl4RDIPREmJgh8hOn?=
- =?us-ascii?Q?ATUa1PVrIKRo4w1kczXQQREAZ5dm0rtATw2GKOhZYizFkk+bXZB/x7/TLJRE?=
- =?us-ascii?Q?8S5Da+8QV4pAPg6lrpGiHgVQrcRe+0DAb8YFObwK8FZlT6SI1BI3b+uPbX+A?=
- =?us-ascii?Q?dhJlE3QofQBRutXF1mAiGvb3/EaPfmrth2SHYM+DDq9GOq5UQREsrltkzJE7?=
- =?us-ascii?Q?3E+4E4JdvaucMf1OMV3IwrxF6/Sxa24I5wjoRF6xG4+oPh2LO9pYogDk4v4K?=
- =?us-ascii?Q?n9hKuhgKcVpfwr9nYpnKSMLvSNbf0pw68CQTkO/AYwUqS4LK27BarcIAU6T/?=
- =?us-ascii?Q?JsBqbh9EHAwfUOttpkGvqX3KFD3sR6eVlKrtyHmfIlocqWaAYeTFQsaIZkSx?=
- =?us-ascii?Q?zynMxGz7jTRO3VxR58PTGkZwcv0CVY2IlE3NGW0h7v9IGUkJATJhIcccuMUq?=
- =?us-ascii?Q?EBpoqr2bVHaXKpjS0/RsYoUDBGHoR4/Lsee7W3E8gBqYmEliDK2ut+OnVoW2?=
- =?us-ascii?Q?5JqHHo2V3fmsXefJdJoNvpiw7YvfrfUL4oGwE44LsBG3VJiiOYwD0DPR72L0?=
- =?us-ascii?Q?Kjq3ULpXHA1dJKbKg/d5U3bqcnDkU6uh4HApbuw+KqVeGNsdE5D3qR349otM?=
- =?us-ascii?Q?ukwQyKT7NnyfeoJTF1IG1/uqM8BCfTvQ7ZGAAq3LOG701Sf9BNUWvgXiaPz6?=
- =?us-ascii?Q?P14oPSMU9gFhRNFPeA1n2z8N4gSLa/HU3IwyJnELU9k5kQA66QkZDZ85yYv5?=
- =?us-ascii?Q?uam07Ax6t21+22L4Z7Yy8quk26O6IGNkBFCtypNatRG2SuG4FdBo88R7YGUC?=
- =?us-ascii?Q?lYNkM1Qurvv2komamdfp0SnezyuMZvSihMn7q6rwmCXZ0vtTGihe90JUvNwP?=
- =?us-ascii?Q?XkgHFb80S11KZkfj3pNK07Gf2cbQ2i3kCIA05RCYyusOKZdRgYPDqN0brD9i?=
- =?us-ascii?Q?XOBPYxJGPyVAp/oWeUqbj7XZWeZ2DThYwLsQ9WyepghQzn2YaR92z9w4TXg/?=
- =?us-ascii?Q?sErvfNxSMBO/khGq1Zxq+UDHO63I3fpqby11BIdqKxBsWGO+muKdXBbYZekZ?=
- =?us-ascii?Q?CbHpx/gtkbOlxWSQnXruHORfNyTjejYAC/neqlDMKdUVdctaf/t4duBH9OAc?=
- =?us-ascii?Q?RaQhuKQFQv1l0hLHzpz9UdaqaKfXz8n2avxOBvVnsp2FG3e886XC/PvRVOLT?=
- =?us-ascii?Q?O8PvtVfNlCRw9oZbGfmH/jC38eN+PVdH/wtOuncZidNZNGT/ru9Pbhv05mCs?=
- =?us-ascii?Q?IvtgzHVN4kJsW3s=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 06:25:29.7410
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 588fc90f-fbdd-42ba-6e8c-08dd231a98e9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4A.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6369
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2ziq55rb3fq2bwkl"
+Content-Disposition: inline
+In-Reply-To: <20241211-const_dfc_done-v4-4-583cc60329df@quicinc.com>
 
-As per design for AMD SoundWire manager power off mode, clear the wake
-enable register during resume sequence.
 
-Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
----
-Changes Since v1:
- 	- Replaced 0x00 with 0 in register write
- 	- Updte Commit message
- 
- 	
- drivers/soundwire/amd_manager.c | 1 +
- 1 file changed, 1 insertion(+)
+--2ziq55rb3fq2bwkl
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 04/11] driver core: Constify API device_find_child()
+ then adapt for various usages
+MIME-Version: 1.0
 
-diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
-index 5a4bfaef65fb..ca271a728a65 100644
---- a/drivers/soundwire/amd_manager.c
-+++ b/drivers/soundwire/amd_manager.c
-@@ -1190,6 +1190,7 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
- 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
- 		return amd_sdw_clock_stop_exit(amd_manager);
- 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
-+		writel(0, amd_manager->acp_mmio + ACP_SW_WAKE_EN(amd_manager->instance));
- 		val = readl(amd_manager->mmio + ACP_SW_CLK_RESUME_CTRL);
- 		if (val) {
- 			val |= AMD_SDW_CLK_RESUME_REQ;
--- 
-2.34.1
+Hello,
 
+On Wed, Dec 11, 2024 at 08:08:06AM +0800, Zijun Hu wrote:
+>  drivers/pwm/core.c                     |  2 +-
+
+Acked-by: Uwe Kleine-K=F6nig <ukleinek@kernel.org> # for drivers/pwm
+
+Best regards
+Uwe
+
+--2ziq55rb3fq2bwkl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmdpEa8ACgkQj4D7WH0S
+/k4bUAgAh9LrZmd2eRZtQQDD7RKfHIeOmRCpwZcKO4VAM76QCcEzfVerUpZH2Emh
+tkSaCY38C9pM9hE0HsXsYV6zg/MBAVCwiVGbn+rgTAVtuiDiI8ygmP7cdzKnk7Ke
++l0xcXunQPwe3UHEzAvvPiu57dMcQ6h8732mqwqWrRh43gPAWdpAgktFqFLPCRQf
+1sOslGEFNX866KAUqB1jjxQSZjq0v0dXyd20GSu7yjzm7s1JzRG+msGCSSxv0vRT
+SWDRWVHepQ1AT5THBbY6xaXnaiwoTbnv6NCw4WFz8OHbBtIb6Fm7UUE1PNTnZM0t
+qDtxzk9rG0eZFX23d+rXwSg2JlM3VQ==
+=zwtk
+-----END PGP SIGNATURE-----
+
+--2ziq55rb3fq2bwkl--
