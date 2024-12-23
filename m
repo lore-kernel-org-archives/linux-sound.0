@@ -1,64 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2048.outbound.protection.outlook.com [40.107.96.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351B92F3E;
-	Mon, 23 Dec 2024 06:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734934434; cv=none; b=awmNi/ti/Cxhe/hg/BIYx1vkVnRYFSMXCcdqBYg0jXdv95IYTfzm4GIPe+OnAdCHQ638sQXcwellCj9D6pEYuaezQYiPQhJYu6zsmWKT265u+u3oyRK8ChSavUwEToo/MV0SBIh1jhG+cPbv3nqgRLIwf+L1B2HwmG2uYowkIdQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734934434; c=relaxed/simple;
-	bh=VctB/W+7HaFVArKwpe6QA/EJUqrKxH6yzGEaDyTwf48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eGbnTDGl2xnx8Z7IF6os1YdBjLwxSF6Q4ZMu3BW9zsK+bmVPgxatL2+wxUYS7p7EbqVNdCsbcrSgeB+fb0Yy71xVfalusfIpV9FEqd933G9VyeBq3EPw+fQ94WdwLyanseDFUBBTrV6RUaaw/KoetjMJKrgsE0eyYl9ZfJsuF0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hjQMUoGz; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3EA433AB;
+	Mon, 23 Dec 2024 06:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734935139; cv=fail; b=HiAWMOEYtJrJ2RG/dnHsRu+j6U85l2CIpoyB6enZsUxn4DlTcRyOKOpU3ism7zVmmphhm6Vw+k0WC8VNXF3qvLZZ6kXXFByWYd0Sf0NjWZUAcIf0F9Ba9I1k9jk9E/BtZoUPSJjGIQNTWGG0QV3rnDno0EUZ10fIA2nU3aqI6sQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734935139; c=relaxed/simple;
+	bh=i33nWXBuR3ydrw8hHSncPLvZ85oMgC9gpxRNMiN24ss=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GorkGG3/Ocmw1YQQdHmQmsGR0/g3GCdaz6g/5dyVYtWOCJIe1u3PxKlpuTgiuqnhlTL5SHkvz1KNPm7GHGW0dYOhqyfJnd3Gp4MZRF5MG/S8Ur6CmeMddPAkNLyWsUNENIJv+yeBEWQSor2Gp9HGjmX/BP7JolhAsylReJV6ALY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OZv+sq7j; arc=fail smtp.client-ip=40.107.96.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hjQMUoGz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E436C4CED4;
-	Mon, 23 Dec 2024 06:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734934433;
-	bh=VctB/W+7HaFVArKwpe6QA/EJUqrKxH6yzGEaDyTwf48=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hjQMUoGzfZ9HBSj7iLQg/wtv4EKISj2/mp1zb3F1gFPk1JZbT3ys4bPJAwvnJRFnY
-	 uq88/G4L75kP72i8AR4RxHAdV3VlSm2UkpcyzSRGRTNB9i69LyHqz5tk1FrNIxhBfj
-	 Szq0o1z4Vc5i0mnOXJ+wq/r+yyWxgSYnIbtrGCahPZ0sXPaRfd1X+5o/XLYgMlHvlg
-	 Qy4Tk7Ei7W4EcL5GsQSTKdFL1jOn4LEZEsXP8R3AqJ4FE6W99EZpAdL+QlHlbHGdB1
-	 c168frvaVzCVxa98nunFuPasOWov+E2YiNDA+RtVgBDiM3ICo/BJ0NPCgu7W7ZJU2y
-	 gO8IanZU9HBAQ==
-Date: Mon, 23 Dec 2024 11:43:49 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, oder_chiou@realtek.com, jack.yu@realtek.com,
-	shumingf@realtek.com, lgirdwood@gmail.com,
-	peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
-	sanyog.r.kale@intel.com, pierre-louis.bossart@linux.dev,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH 1/5] soundwire: SDCA: Add additional SDCA address macros
-Message-ID: <Z2j/nQmZsU+3yqXc@vaman>
-References: <20241217135921.3572496-1-ckeepax@opensource.cirrus.com>
- <20241217135921.3572496-2-ckeepax@opensource.cirrus.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OZv+sq7j"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DmIh/VQVu8NIat7PUkj/uQcZZzEbI55D8eNOQ0RqBxfeW1QUr0fw56C6IXmUTrRz3TfrGMwqNzm/P4/KntIO3OAV2PmCJAUzdhWf0y4Fcs5H60RV4CFsVWIrl+l2sIm8d31R8A7xdy4FNVZ7lpeY7N4r1ZxAcPjlvVpG2NHH08B8CzkOLcCqWQuco6oRCOo22y+Klodqxgxd7FUExjB09ClH7CSGz6kiSrL5LCcGycxwv1nlU+ovFP0loVQyJr+61jaRUQeCsDo5sI3Ry57tp0FO2HImAtqHQTF3mEHrlULyO2D39Sy5q7DQfGn8aowQRV/RCDnPuZFoAH66scSldw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dhrnOhgr/iOTzfNR08l4QFBOZKZH0dsfHgolXoNoQR8=;
+ b=JndoEoFh41zRRijN8rXobz/S653ZJpc25xSVCXibxDmbV/i+W/jvPyhqoHf9BrvMTP8ijg3EMGrERHw29Nh6JRnTDmpmFlDv43YZHuDsxMHugw23O1XROmq1Eqt33lLsDWsVYn5CHQWTjpUkHwQq9BHbsVVYBZIldpiMMSmLcntbzHUaDq/QQvaLdj9d/8y0vtvlv+tnYBVGNFHj8LFOwdRMSfoHuG0pz/oIJdQQNVqQLC+1f0W+WG3TB58ieyStwksePHfX6VzBuyqYEODuKtl9U3x8ImGQyilrXvsVtgBfDEzKEClz4O0zximENkdrIAdOB/2N0tn11P6ywDDJ0A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dhrnOhgr/iOTzfNR08l4QFBOZKZH0dsfHgolXoNoQR8=;
+ b=OZv+sq7jYyQM1I0h6S/3EQjpUXU9i4r4ti1m0nvQiOwhE9IitEPf3GvE283AjkXLdHnR/9kDykVHlv+BmhMwhjfcWPCEuEuw9OH7T+ruIXk8f4V6W1Wnohqo7OyaIwWvq3nFG79EAc08Dp8VSfc5jVsbkPvYTc1OcwaZMH10Xxo=
+Received: from BN1PR12CA0024.namprd12.prod.outlook.com (2603:10b6:408:e1::29)
+ by CY5PR12MB6369.namprd12.prod.outlook.com (2603:10b6:930:21::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.18; Mon, 23 Dec
+ 2024 06:25:30 +0000
+Received: from BL6PEPF0001AB4A.namprd04.prod.outlook.com
+ (2603:10b6:408:e1:cafe::4c) by BN1PR12CA0024.outlook.office365.com
+ (2603:10b6:408:e1::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8272.20 via Frontend Transport; Mon,
+ 23 Dec 2024 06:25:29 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BL6PEPF0001AB4A.mail.protection.outlook.com (10.167.242.68) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8293.12 via Frontend Transport; Mon, 23 Dec 2024 06:25:29 +0000
+Received: from vijendar-X570-GAMING-X.amd.com (10.180.168.240) by
+ SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 23 Dec 2024 00:24:56 -0600
+From: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+To: <vkoul@kernel.org>
+CC: <alsa-devel@alsa-project.org>, <pierre-louis.bossart@linux.dev>,
+	<sanyog.r.kale@intel.com>, <Basavaraj.Hiregoudar@amd.com>,
+	<Sunil-kumar.Dommati@amd.com>, <Mario.Limonciello@amd.com>,
+	<venkataprasad.potturu@amd.com>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>, "open list:SOUNDWIRE SUBSYSTEM"
+	<linux-sound@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH V2] soundwire: amd: clear wake enable register for power off mode
+Date: Mon, 23 Dec 2024 11:54:29 +0530
+Message-ID: <20241223062429.205985-1-Vijendar.Mukunda@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241217135921.3572496-2-ckeepax@opensource.cirrus.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4A:EE_|CY5PR12MB6369:EE_
+X-MS-Office365-Filtering-Correlation-Id: 588fc90f-fbdd-42ba-6e8c-08dd231a98e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?2VYlCkuU8z4njc9uKwyXun30iFXnHpYC6zDQ14aFwDMxdQtDEsrVIzExPO02?=
+ =?us-ascii?Q?J7W54IHLCAChI+kYb7U7xhQZzbAwa1EkQOsAYhYM+qSBjqZclX69XWa3w8CL?=
+ =?us-ascii?Q?CXkejE+YQJmDXY1L6OHvwUUgR/Mr3vbILgLIJC15u4q32+TpP40nr7kVMt9D?=
+ =?us-ascii?Q?l7ZqkNMdOl9O56h1Yf8gnFdY0aakl1E3CP+E8HbCwZ7AQvbsyL9IF37/FspA?=
+ =?us-ascii?Q?Np1bgBykvuLLwmAeWATjGm3kDp+QU1TaQCSEmNSTCkwVl4RDIPREmJgh8hOn?=
+ =?us-ascii?Q?ATUa1PVrIKRo4w1kczXQQREAZ5dm0rtATw2GKOhZYizFkk+bXZB/x7/TLJRE?=
+ =?us-ascii?Q?8S5Da+8QV4pAPg6lrpGiHgVQrcRe+0DAb8YFObwK8FZlT6SI1BI3b+uPbX+A?=
+ =?us-ascii?Q?dhJlE3QofQBRutXF1mAiGvb3/EaPfmrth2SHYM+DDq9GOq5UQREsrltkzJE7?=
+ =?us-ascii?Q?3E+4E4JdvaucMf1OMV3IwrxF6/Sxa24I5wjoRF6xG4+oPh2LO9pYogDk4v4K?=
+ =?us-ascii?Q?n9hKuhgKcVpfwr9nYpnKSMLvSNbf0pw68CQTkO/AYwUqS4LK27BarcIAU6T/?=
+ =?us-ascii?Q?JsBqbh9EHAwfUOttpkGvqX3KFD3sR6eVlKrtyHmfIlocqWaAYeTFQsaIZkSx?=
+ =?us-ascii?Q?zynMxGz7jTRO3VxR58PTGkZwcv0CVY2IlE3NGW0h7v9IGUkJATJhIcccuMUq?=
+ =?us-ascii?Q?EBpoqr2bVHaXKpjS0/RsYoUDBGHoR4/Lsee7W3E8gBqYmEliDK2ut+OnVoW2?=
+ =?us-ascii?Q?5JqHHo2V3fmsXefJdJoNvpiw7YvfrfUL4oGwE44LsBG3VJiiOYwD0DPR72L0?=
+ =?us-ascii?Q?Kjq3ULpXHA1dJKbKg/d5U3bqcnDkU6uh4HApbuw+KqVeGNsdE5D3qR349otM?=
+ =?us-ascii?Q?ukwQyKT7NnyfeoJTF1IG1/uqM8BCfTvQ7ZGAAq3LOG701Sf9BNUWvgXiaPz6?=
+ =?us-ascii?Q?P14oPSMU9gFhRNFPeA1n2z8N4gSLa/HU3IwyJnELU9k5kQA66QkZDZ85yYv5?=
+ =?us-ascii?Q?uam07Ax6t21+22L4Z7Yy8quk26O6IGNkBFCtypNatRG2SuG4FdBo88R7YGUC?=
+ =?us-ascii?Q?lYNkM1Qurvv2komamdfp0SnezyuMZvSihMn7q6rwmCXZ0vtTGihe90JUvNwP?=
+ =?us-ascii?Q?XkgHFb80S11KZkfj3pNK07Gf2cbQ2i3kCIA05RCYyusOKZdRgYPDqN0brD9i?=
+ =?us-ascii?Q?XOBPYxJGPyVAp/oWeUqbj7XZWeZ2DThYwLsQ9WyepghQzn2YaR92z9w4TXg/?=
+ =?us-ascii?Q?sErvfNxSMBO/khGq1Zxq+UDHO63I3fpqby11BIdqKxBsWGO+muKdXBbYZekZ?=
+ =?us-ascii?Q?CbHpx/gtkbOlxWSQnXruHORfNyTjejYAC/neqlDMKdUVdctaf/t4duBH9OAc?=
+ =?us-ascii?Q?RaQhuKQFQv1l0hLHzpz9UdaqaKfXz8n2avxOBvVnsp2FG3e886XC/PvRVOLT?=
+ =?us-ascii?Q?O8PvtVfNlCRw9oZbGfmH/jC38eN+PVdH/wtOuncZidNZNGT/ru9Pbhv05mCs?=
+ =?us-ascii?Q?IvtgzHVN4kJsW3s=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2024 06:25:29.7410
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 588fc90f-fbdd-42ba-6e8c-08dd231a98e9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB4A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6369
 
-On 17-12-24, 13:59, Charles Keepax wrote:
-> Compliment the existing macro to construct an SDCA control address
-> with macros to extract the constituent parts, and validation of such
-> an address. Also update the masks for the original macro to use
-> GENMASK to make mental comparisons with the included comment on the
-> address format easier.
+As per design for AMD SoundWire manager power off mode, clear the wake
+enable register during resume sequence.
 
-I guess this could go thru asoc/regmap trees so
+Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+---
+Changes Since v1:
+ 	- Replaced 0x00 with 0 in register write
+ 	- Updte Commit message
+ 
+ 	
+ drivers/soundwire/amd_manager.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Acked-by: Vinod Koul <vkoul@kernel.org>
-
+diff --git a/drivers/soundwire/amd_manager.c b/drivers/soundwire/amd_manager.c
+index 5a4bfaef65fb..ca271a728a65 100644
+--- a/drivers/soundwire/amd_manager.c
++++ b/drivers/soundwire/amd_manager.c
+@@ -1190,6 +1190,7 @@ static int __maybe_unused amd_resume_runtime(struct device *dev)
+ 	if (amd_manager->power_mode_mask & AMD_SDW_CLK_STOP_MODE) {
+ 		return amd_sdw_clock_stop_exit(amd_manager);
+ 	} else if (amd_manager->power_mode_mask & AMD_SDW_POWER_OFF_MODE) {
++		writel(0, amd_manager->acp_mmio + ACP_SW_WAKE_EN(amd_manager->instance));
+ 		val = readl(amd_manager->mmio + ACP_SW_CLK_RESUME_CTRL);
+ 		if (val) {
+ 			val |= AMD_SDW_CLK_RESUME_REQ;
 -- 
-~Vinod
+2.34.1
+
