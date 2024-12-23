@@ -1,171 +1,102 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0101AE01E;
-	Mon, 23 Dec 2024 20:52:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685C77462;
+	Mon, 23 Dec 2024 22:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734987180; cv=none; b=L5J18H2qHdkP0W04n/zjahRpWFjtM0YaqIcaGtjCq4SxHKU9IBMZKD66fDgduibXcPz9qEY6R08bUT4Dogt8mLsN5EsyYNU00arbTG/8kqjIzmnAtqXxE2k39I86FDec2YQxiYfuVFz2ZfNn2d6noqV6HPd07V4qMn377tVAORk=
+	t=1734994487; cv=none; b=LMvKo3JskixJy7OAZTv3/L8zFDZZWjvYkGGYvYmocZ7pCQRLqYsqp2qFAXhuee3sqtQxSjZnld/ls8yi4z01P1itTyK71UnUhDPmzDM7JWBd+vDTsddUl3K+hvtIfNbmt0Bih1uzwEVno8CqeDsi2fCCm5e+PirkKzjUR4Wh8V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734987180; c=relaxed/simple;
-	bh=rKOBVJ18KO/XxbrIs6wnq7uYvmLiERzT2M7jzyWvEEs=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W/G7vkGJfzdeYOK3dfEGpRJjJSbdXfx8tS5ocJpunaDjn5uYiVyiRQgnCDuKJHbEwA/VW5h3BnjrD+oex2MZx4rE8yppAQs7SxViRxfEoEryg9kNCNjtC2RnyObFGGfhvfQVoQ/sZ6h8NhafntrSHxifzOf73sWG7ZfYbDX5kCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YH99X3N2zz6K5Zf;
-	Tue, 24 Dec 2024 04:49:04 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 78F9C14039E;
-	Tue, 24 Dec 2024 04:52:55 +0800 (CST)
-Received: from localhost (10.47.75.118) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Mon, 23 Dec
- 2024 21:52:54 +0100
-Date: Mon, 23 Dec 2024 20:52:52 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Zijun Hu <zijun_hu@icloud.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
-	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, James Bottomley
-	<James.Bottomley@HansenPartnership.com>, Thomas =?ISO-8859-1?Q?Wei=DFschu?=
- =?ISO-8859-1?Q?h?= <thomas@t-8ch.de>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-sound@vger.kernel.org>,
-	<sparclinux@vger.kernel.org>, <linux-block@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
-	<arm-scmi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-	<linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v4 11/11] usb: typec: class: Remove both cable_match()
- and partner_match()
-Message-ID: <20241223205252.00003d6b@huawei.com>
-In-Reply-To: <20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
-References: <20241211-const_dfc_done-v4-0-583cc60329df@quicinc.com>
-	<20241211-const_dfc_done-v4-11-583cc60329df@quicinc.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1734994487; c=relaxed/simple;
+	bh=ClxIXP5NHI13CxkHHmzxTyW1jPeGPA2zkANS5JKRv+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OzkYWCBw4V/r03OZ1WGwwva9veXMH5cQN/ft4vmbEsoEVRIOnEcBJJ8dDQrgjlsTqSg+//RADv9aYD5vOKi7dT6UyukbUJV0imOpvpTw1xfBJq33t9sTpijLw1sIxOdfJanWOXizG+7wbkg/K8qY64W0u+q3nxA9RGQq5yBqPC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OO18xder; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OO18xder"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361f796586so49620335e9.3;
+        Mon, 23 Dec 2024 14:54:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734994484; x=1735599284; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cO1xEZbP9g/Uk0i2EJuhNeVvMUt0RSMhNuU/maAKUJw=;
+        b=OO18xderaPsRAb3vrm+1IGHXNDgRMXitydRnQT5nQB9bKatmlxhUROTOIPBr6RAecT
+         Gj7ZQxY3NCnM4uj2tlIXqLQ/EXCl5EtmIYQdaHKH5P4AQo3wRIw8bakpvcDEQyhVXhVI
+         5M5KfnQbCGh5DrjGqa5mzwnC5I8ZZgIcMWNGPPccIQ5wkEAyx+wRrPAhXQ46Y/4myrwH
+         rj//D7oXxaBVck4RXuzT5Bs3/Tm0F7Gtv72+HIJhCH51secmHaszP9OOkcS8gGCG6enk
+         yW6HGgGUJGv8JWQncucJkDVJ+P9ekIwK60+2ASIKHzSrsbkIf1FmmqQwuntyLFH8ij9N
+         cDnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734994484; x=1735599284;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cO1xEZbP9g/Uk0i2EJuhNeVvMUt0RSMhNuU/maAKUJw=;
+        b=FrITPeyCrY9sJzPbE+wPqhrvUk9Eaq4qt8NNkWfG4N9hP3n2EibkSjWEwOfElfM0q9
+         CxpbpSBl7WiouCHW91XnP0QYS/a6YPB0T09+uCqSWFgv/peUVFxvYWW9dUn7PwBiRO2i
+         g5ImOg9KTVgnf2W4fUrn6Ejiv56txMiS5s6j9dP6XlLXZIAZDLxUEg2lMVBGRAFm3J6r
+         TwBxsfTjHQJY4j0ed9VqoRnSgVmBTtyu5zfwn7COFzy96GQTzWZjooRVFk6Mn7VpQD6H
+         EpGTm1mGcggjZqYXoK+hNuCaDnoD+MAxV24LutfVKlM1zLMnC6GbqRWZddbf0Yy+HALL
+         xshg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUstjIGOMih7LQu5Al5VGRtFQhS9IyJgGVVbFioNjGeZb0VEQWwHdG7z+B0I9LNwBgsaahi4HfGAfQExk=@vger.kernel.org, AJvYcCW2j9eIU4D1rcG+Qs4T4mYEZtL/Mk+Pz112q7aLKz0apq02RQVrzDmpjEerRoAJBQrNsDrXql5lhJ3Jq20=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBWH9EJUf6kOEubGJeEpM/TpJkWRIcCvPaSsCpcn3Mmz1go4hf
+	1YbK1embqDjf5edmX3oZRrls5VMxfo75Ps0CZF4TXog6hY+/Gm3F
+X-Gm-Gg: ASbGncvAp0Ht7Ly06oTpPCS8rTpaCdATp41i4VfUpMeJGBc5ZvA8NOGOT5TgBHcs5XY
+	q+AUpwSe6F021B8zKmTC/KPHwUH/R+4I41ijAAl7cn4TubseWC1sfk9daJAu4GTaaT9Ko6nXFWd
+	ukJ71S7ahEwoi4QmeGZUsdQHungmhI48QjFbmOcuV9fzox9cYXsKJmdp53dsOx6YwsL0unV04B1
+	5AH3ddp6hZt5O6J+kpctJevcnW5hJI3iZ/hq3fzI+mKPcWIN1F99QD0e5eTCPCuGC2FJZKH13ns
+	owQ=
+X-Google-Smtp-Source: AGHT+IF25eYI+7NBNe+4co3f52zpGKUlULVCIKnmRA22DVK1/aq4nXsgytJE2KVJPpvN6hO+lJC9iQ==
+X-Received: by 2002:a05:600c:468d:b0:434:a802:e9a6 with SMTP id 5b1f17b1804b1-4366835c192mr111886125e9.7.1734994483404;
+        Mon, 23 Dec 2024 14:54:43 -0800 (PST)
+Received: from localhost.localdomain ([188.74.74.117])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219578sm150624455e9.20.2024.12.23.14.54.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Dec 2024 14:54:43 -0800 (PST)
+From: Stuart Hayhurst <stuart.a.hayhurst@gmail.com>
+To: tiwai@suse.de
+Cc: 13916275206@139.com,
+	andriy.shevchenko@linux.intel.com,
+	antheas.dk@gmail.com,
+	baojun.xu@ti.com,
+	broonie@kernel.org,
+	lgirdwood@gmail.com,
+	liam.r.girdwood@intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	navada@ti.com,
+	perex@perex.cz,
+	philm@manjaro.org,
+	robh+dt@kernel.org,
+	shenghao-ding@ti.com,
+	v-hampiholi@ti.com,
+	v-po@ti.com,
+	yung-chuan.liao@linux.intel.com
+Subject: Re: [PATCH v6] ALSA: hda/tas2781: Add speaker id check for ASUS projects
+Date: Mon, 23 Dec 2024 22:54:40 +0000
+Message-ID: <20241223225442.1358491-1-stuart.a.hayhurst@gmail.com>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <87v7wajunp.wl-tiwai@suse.de>
+References: <87v7wajunp.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Dec 2024 08:08:13 +0800
-Zijun Hu <zijun_hu@icloud.com> wrote:
+This is causing issues with the TAS2563 in my Yoga 7 Gen 7 (14ARB7):
 
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> cable_match(), as matching function of device_find_child(), matches
-> a device with device type @typec_cable_dev_type, and its task can be
-> simplified by the recently introduced API device_match_type().
-> 
-> partner_match() is similar with cable_match() but with a different
-> device type @typec_partner_dev_type.
-> 
-> Remove both functions and use the API plus respective device type instead.
-> 
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-Looks good, but there is the same trade off here between internal
-detail of type identification and reducing the use of helpers
-where the generic ones are fine.  Here is less obvious even than
-the CXL one as the helper macros do have other uses in these
-files.
-
-So, it's on for USB folk to decide on and I won't be giving a tag
-as a result.
-
-Jonathan
-
-> ---
->  drivers/usb/typec/class.c | 27 ++++++++++++---------------
->  1 file changed, 12 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 601a81aa1e1024265f2359393dee531a7779c6ea..3a4e0bd0131774afd0d746d2f0a306190219feec 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1282,11 +1282,6 @@ const struct device_type typec_cable_dev_type = {
->  	.release = typec_cable_release,
->  };
->  
-> -static int cable_match(struct device *dev, const void *data)
-> -{
-> -	return is_typec_cable(dev);
-> -}
-> -
->  /**
->   * typec_cable_get - Get a reference to the USB Type-C cable
->   * @port: The USB Type-C Port the cable is connected to
-> @@ -1298,7 +1293,8 @@ struct typec_cable *typec_cable_get(struct typec_port *port)
->  {
->  	struct device *dev;
->  
-> -	dev = device_find_child(&port->dev, NULL, cable_match);
-> +	dev = device_find_child(&port->dev, &typec_cable_dev_type,
-> +				device_match_type);
->  	if (!dev)
->  		return NULL;
->  
-> @@ -2028,16 +2024,12 @@ const struct device_type typec_port_dev_type = {
->  /* --------------------------------------- */
->  /* Driver callbacks to report role updates */
->  
-> -static int partner_match(struct device *dev, const void *data)
-> -{
-> -	return is_typec_partner(dev);
-> -}
-> -
->  static struct typec_partner *typec_get_partner(struct typec_port *port)
->  {
->  	struct device *dev;
->  
-> -	dev = device_find_child(&port->dev, NULL, partner_match);
-> +	dev = device_find_child(&port->dev, &typec_partner_dev_type,
-> +				device_match_type);
->  	if (!dev)
->  		return NULL;
->  
-> @@ -2170,7 +2162,9 @@ void typec_set_pwr_opmode(struct typec_port *port,
->  	sysfs_notify(&port->dev.kobj, NULL, "power_operation_mode");
->  	kobject_uevent(&port->dev.kobj, KOBJ_CHANGE);
->  
-> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-> +	partner_dev = device_find_child(&port->dev,
-> +					&typec_partner_dev_type,
-> +					device_match_type);
->  	if (partner_dev) {
->  		struct typec_partner *partner = to_typec_partner(partner_dev);
->  
-> @@ -2334,7 +2328,9 @@ int typec_get_negotiated_svdm_version(struct typec_port *port)
->  	enum usb_pd_svdm_ver svdm_version;
->  	struct device *partner_dev;
->  
-> -	partner_dev = device_find_child(&port->dev, NULL, partner_match);
-> +	partner_dev = device_find_child(&port->dev,
-> +					&typec_partner_dev_type,
-> +					device_match_type);
->  	if (!partner_dev)
->  		return -ENODEV;
->  
-> @@ -2361,7 +2357,8 @@ int typec_get_cable_svdm_version(struct typec_port *port)
->  	enum usb_pd_svdm_ver svdm_version;
->  	struct device *cable_dev;
->  
-> -	cable_dev = device_find_child(&port->dev, NULL, cable_match);
-> +	cable_dev = device_find_child(&port->dev, &typec_cable_dev_type,
-> +				      device_match_type);
->  	if (!cable_dev)
->  		return -ENODEV;
->  
-> 
-
+```
+[    7.264012] tas2781-hda i2c-INT8866:00: Failed to get SUBSYS ID.
+[    7.264065] tas2781-hda i2c-INT8866:00: read acpi error, ret: -61
+[    7.264109] tas2781-hda i2c-INT8866:00: error -ENODATA: Platform
+not supported
+[    7.264252] tas2781-hda i2c-INT8866:00: probe with driver
+tas2781-hda failed with error -61
+```
