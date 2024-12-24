@@ -1,48 +1,59 @@
-Received: from n169-111.mail.139.com (n169-111.mail.139.com [120.232.169.111])
+Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F4154156F54;
-	Tue, 24 Dec 2024 08:38:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2F918FDCE;
+	Tue, 24 Dec 2024 08:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735029536; cv=none; b=VxUQhYaY36kAe54duf5vieQx3OeZi9Yh93Em8uw+InsuEjIw/XfJgvsXTbDl7aGUfxxPW6DWBBCgCTtpEJ9MEqy2zAA3xPk5PBGbchG92qSc2rY5jCFEQ4034GyuLYOm5TTUR4xo3+SrY0+1iQf0/W9h4J+SqXONvbTHkozo4pI=
+	t=1735030621; cv=none; b=C8UAzBwXzFNzUd2B33Hg5cacG/MxupVTPGokhzI1NJjOPk420+q1yaeVKkASorEBsoLOwBE5kPqfxrCoGECSuHau5MW8Y1nuVDSkUVs+9ToQOOuNM9wArZh5EgcZ44Ejeh+Hqbnl/89CQaYSqVWGxTs8LTv45nOJFjI4cXFAY1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735029536; c=relaxed/simple;
-	bh=SyxVVj48dhRBsfg9QfEHfq4lTe8Xyw0CNOgaeAE9UHU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bWXzgCbXcve7qzyU8h/wLduChagd3nLKbBiMyRGv7Mr5K02AOcAgx42P8VRokf3hYRovgyeeoX1bLt6CcZedfwcRWtA23wtnUM+PKwbhotaBCiOhYpCpjzMHC59YHGEuz/PaS2VmvLzEKg5kvrW1SRvjm8Nu1leoh9alDtjoGxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; arc=none smtp.client-ip=120.232.169.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM:                                                                                        
-X-RM-SPAM-FLAG:00000000
-Received:from test-Lenovo-ThinkBook-14-Gen6.lenovo.com (unknown[123.114.236.251])
-	by rmsmtp-lg-appmail-13-12002 (RichMail) with SMTP id 2ee2676a71ef510-71c10;
-	Tue, 24 Dec 2024 16:34:03 +0800 (CST)
-X-RM-TRANSID:2ee2676a71ef510-71c10
-From: Jackie Dong <xy-jackie@139.com>
-To: perex@perex.cz,
-	tiwai@suse.com,
-	bo.liu@senarytech.com,
-	kovalev@altlinux.org,
-	me@oldherl.one,
-	jaroslaw.janik@gmail.com,
-	songxiebing@kylinos.cn,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	rf@opensource.cirrus.com
-Cc: linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	mpearson-lenovo@squebb.ca,
-	dongeg1@lenovo.com,
-	Jackie Dong <xy-jackie@139.com>
-Subject: [PATCH v2] ALSA: hda: Support for Ideapad hotkey mute LEDs
-Date: Tue, 24 Dec 2024 16:33:16 +0800
-Message-Id: <20241224083316.20222-1-xy-jackie@139.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1735030621; c=relaxed/simple;
+	bh=GnYpk40hgLXKcuTRJGovRAfENYFBr24CTB1Z0zr6gDM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JwH8ho2P+zMmGf/Fwbp7cHm3tBWTDpVEOojNBUj4CsZhuHiBbUj3LoGa6R5SemFPQTZ33KwjvskFtoYVrInBij+sFNiG690zQ6U4CXu7u+l/nNNyHT+N1HaFqttbMm9em/aR1JnFnq6zWUanC3nV44MhBUuoEKpm2M7OKxPOd+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Q5mR/V9D; arc=none smtp.client-ip=198.47.23.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Q5mR/V9D"
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4BO8uYMo032732;
+	Tue, 24 Dec 2024 02:56:34 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1735030594;
+	bh=/cHwIvVbqr1mNe38TzIGhYqbk9+IngKbqZapUa57FWQ=;
+	h=From:To:CC:Subject:Date;
+	b=Q5mR/V9DIsZZ8hZaO21gijXBp0Kl6iZ/+Cans/zX5wipLDt/0YsVJ2Z+9BbpOmHOr
+	 AJv0xhUMtZ39cteg+1+mZgSoK3IXVsSg0IO1pkxnlrVeYFl5N5AnTBeFI642/8Jicu
+	 jcI+SpTrPNm0EPgiWDh8i/drHiM9z2ZVR5PRzWUI=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4BO8uY82005183
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 24 Dec 2024 02:56:34 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 24
+ Dec 2024 02:56:34 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 24 Dec 2024 02:56:34 -0600
+Received: from lelvsmtp6.itg.ti.com ([10.250.165.138])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4BO8uQZw099580;
+	Tue, 24 Dec 2024 02:56:27 -0600
+From: Baojun Xu <baojun.xu@ti.com>
+To: <tiwai@suse.de>
+CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <lgirdwood@gmail.com>, <perex@perex.cz>, <shenghao-ding@ti.com>,
+        <navada@ti.com>, <13916275206@139.com>, <v-hampiholi@ti.com>,
+        <v-po@ti.com>, <linux-sound@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <liam.r.girdwood@intel.com>,
+        <yung-chuan.liao@linux.intel.com>, <baojun.xu@ti.com>,
+        <broonie@kernel.org>, <antheas.dk@gmail.com>,
+        <stuart.a.hayhurst@gmail.com>
+Subject: [PATCH v7] ALSA: hda/tas2781: Add speaker id check for ASUS projects
+Date: Tue, 24 Dec 2024 16:56:01 +0800
+Message-ID: <20241224085601.426-1-baojun.xu@ti.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,177 +61,111 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-New ideapad helper file with support for handling FN key mute LEDs.
-Update conexant and realtec codec to add LED support.
+Add speaker id check by gpio in ACPI for ASUS projects.
+In other vendors, speaker id was checked by BIOS, and was applied in
+last bit of subsys id, so we can load corresponding firmware binary file
+for its speaker by subsys id.
+But in ASUS project, the firmware binary name will be appended an extra
+number to tell the speakers from different vendors. And this single digit
+come from gpio level of speaker id in BIOS.
 
-Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-Signed-off-by: Jackie Dong  <xy-jackie@139.com>
+Signed-off-by: Baojun Xu <baojun.xu@ti.com>
 ---
-Changes in v2:
- - Add a new enum CXT_FIXUP_LENOVO_XPAD_ACPI and define it as an entry in patch_conexant.c
- - Add a new enum ALC269_FIXUP_LENOVO_XPAD_ACPI and define it as an entry in patch_realtek.c
+v7:
+ - Do not return with error if subsys id was not found,
+   it will cause error on TAS2563 projects (have no subsys id).
+v6:
+ - Remove define for AUSU in tas2781.h.
+ - Add include linux/pci_ids.h for use public ASUS id define.
+ - Add subid for ASUS id save and check.
+ - Change comments to /* */ from //.
+ - Change next line indented to (.
+ - Change ASUS check from string compare to u16 compare.
+v5:
+ - Change length in strncmp(), use strlen().
+v4:
+ - Change strncasecmp() to strncmp().
+ - Add error debug message print for "add driver gpio".
+ - Put error information (PTR_ERR) to ret for get gpio.
+ - Change %01d to %d in snprintf().
+v3:
+ - Change strstr() to strncasecmp() for compare subsystem id.
+ - Remove result check after devm_acpi_dev_add_driver_gpios().
+ - Remove spk_id > 1 check, as result of gpiod_get_value(),
+   must be 0 or 1, or negative if error happend.
+ - Change scnprintf() to snprintf(), as didn't care the length.
+ - Remove changes which not relative current patch.
+v2:
+ - Change ASUS id from 0x10430000 to "1043".
+ - Move gpio setting to tas2781_read_acpi() from probe.
+ - Remove interrupt gpio in acpi_gpio_mapping.
+ - Add sub and physdev in tas2781_read_acpi() for subsys id read.
+ - Add debug log for get acpi resource failed.
+ - Return error if get resource or subsys id failed.
+ - Return error if get gpio fail for speaker id with ASUS projects.
+ - Change fixed buffer lengh to sizeof().
+ - Change bits calculator to lower_16_bits().
+ - Remove unnecessary empty line in tas2781_hda_i2c_probe().
+---
+ sound/pci/hda/tas2781_hda_i2c.c | 39 +++++++++++++++++----------------
+ 1 file changed, 20 insertions(+), 19 deletions(-)
 
- sound/pci/hda/ideapad_hotkey_led_helper.c | 36 +++++++++++++++++++++++
- sound/pci/hda/patch_conexant.c            | 13 +++++++-
- sound/pci/hda/patch_realtek.c             | 20 ++++++++++++-
- 3 files changed, 67 insertions(+), 2 deletions(-)
- create mode 100644 sound/pci/hda/ideapad_hotkey_led_helper.c
-
-diff --git a/sound/pci/hda/ideapad_hotkey_led_helper.c b/sound/pci/hda/ideapad_hotkey_led_helper.c
-new file mode 100644
-index 000000000000..c10d97964d49
---- /dev/null
-+++ b/sound/pci/hda/ideapad_hotkey_led_helper.c
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Ideapad helper functions for Lenovo Ideapad LED control,
-+ * It should be included from codec driver.
-+ */
-+
-+#if IS_ENABLED(CONFIG_IDEAPAD_LAPTOP)
-+
-+#include <linux/acpi.h>
-+#include <linux/leds.h>
-+
-+static bool is_ideapad(struct hda_codec *codec)
-+{
-+	return (codec->core.subsystem_id >> 16 == 0x17aa) &&
-+	       (acpi_dev_found("LHK2019") || acpi_dev_found("VPC2004"));
-+}
-+
-+static void hda_fixup_ideapad_acpi(struct hda_codec *codec,
-+				   const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		if (!is_ideapad(codec))
-+			return;
-+		snd_hda_gen_add_mute_led_cdev(codec, NULL);
-+		snd_hda_gen_add_micmute_led_cdev(codec, NULL);
-+	}
-+}
-+
-+#else /* CONFIG_IDEAPAD_LAPTOP */
-+
-+static void hda_fixup_ideapad_acpi(struct hda_codec *codec,
-+				   const struct hda_fixup *fix, int action)
-+{
-+}
-+
-+#endif /* CONFIG_IDEAPAD_LAPTOP */
-diff --git a/sound/pci/hda/patch_conexant.c b/sound/pci/hda/patch_conexant.c
-index 538c37a78a56..4985e72b9094 100644
---- a/sound/pci/hda/patch_conexant.c
-+++ b/sound/pci/hda/patch_conexant.c
-@@ -291,6 +291,7 @@ enum {
- 	CXT_FIXUP_GPIO1,
- 	CXT_FIXUP_ASPIRE_DMIC,
- 	CXT_FIXUP_THINKPAD_ACPI,
-+	CXT_FIXUP_LENOVO_XPAD_ACPI,
- 	CXT_FIXUP_OLPC_XO,
- 	CXT_FIXUP_CAP_MIX_AMP,
- 	CXT_FIXUP_TOSHIBA_P105,
-@@ -313,6 +314,9 @@ enum {
- /* for hda_fixup_thinkpad_acpi() */
- #include "thinkpad_helper.c"
+diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
+index 0af015806aba..f2576c53ad6e 100644
+--- a/sound/pci/hda/tas2781_hda_i2c.c
++++ b/sound/pci/hda/tas2781_hda_i2c.c
+@@ -140,28 +140,29 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
+ 		dev_err(p->dev, "Failed to get ACPI resource.\n");
+ 		goto err;
+ 	}
++	p->speaker_id = NULL;
+ 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
+ 	if (IS_ERR(sub)) {
+-		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
+-		ret = PTR_ERR(sub);
+-		goto err;
+-	}
+-	/* Speaker id was needed for ASUS projects. */
+-	ret = kstrtou32(sub, 16, &subid);
+-	if (!ret && upper_16_bits(subid) == PCI_VENDOR_ID_ASUSTEK) {
+-		ret = devm_acpi_dev_add_driver_gpios(p->dev,
+-			tas2781_speaker_id_gpios);
+-		if (ret < 0)
+-			dev_err(p->dev, "Failed to add driver gpio %d.\n",
+-				ret);
+-		p->speaker_id = devm_gpiod_get(p->dev, "speakerid", GPIOD_IN);
+-		if (IS_ERR(p->speaker_id)) {
+-			dev_err(p->dev, "Failed to get Speaker id.\n");
+-			ret = PTR_ERR(p->speaker_id);
+-			goto err;
+-		}
++		/* Project TAS2563 have no subsys id. */
++		dev_info(p->dev, "Failed %d to get SUBSYS ID.\n",
++			 PTR_ERR(sub));
+ 	} else {
+-		p->speaker_id = NULL;
++		/* Speaker id was needed for ASUS projects. */
++		ret = kstrtou32(sub, 16, &subid);
++		if (!ret && upper_16_bits(subid) == PCI_VENDOR_ID_ASUSTEK) {
++			ret = devm_acpi_dev_add_driver_gpios(p->dev,
++				tas2781_speaker_id_gpios);
++			if (ret < 0)
++				dev_err(p->dev, "Failed to add gpio %d.\n",
++					ret);
++			p->speaker_id = devm_gpiod_get(p->dev, "speakerid",
++						       GPIOD_IN);
++			if (IS_ERR(p->speaker_id)) {
++				dev_err(p->dev, "Failed to get Speaker id.\n");
++				ret = PTR_ERR(p->speaker_id);
++				goto err;
++			}
++		}
+ 	}
  
-+/* for hda_fixup_ideapad_acpi() */
-+#include "ideapad_hotkey_led_helper.c"
-+
- static void cxt_fixup_stereo_dmic(struct hda_codec *codec,
- 				  const struct hda_fixup *fix, int action)
- {
-@@ -928,6 +932,12 @@ static const struct hda_fixup cxt_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = hda_fixup_thinkpad_acpi,
- 	},
-+	[CXT_FIXUP_LENOVO_XPAD_ACPI] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = hda_fixup_ideapad_acpi,
-+		.chained = true,
-+		.chain_id = CXT_FIXUP_THINKPAD_ACPI,
-+	},
- 	[CXT_FIXUP_OLPC_XO] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = cxt_fixup_olpc_xo,
-@@ -1119,7 +1129,7 @@ static const struct hda_quirk cxt5066_fixups[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x3977, "Lenovo IdeaPad U310", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x3978, "Lenovo G50-70", CXT_FIXUP_STEREO_DMIC),
- 	SND_PCI_QUIRK(0x17aa, 0x397b, "Lenovo S205", CXT_FIXUP_STEREO_DMIC),
--	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", CXT_FIXUP_THINKPAD_ACPI),
-+	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad/Ideapad", CXT_FIXUP_LENOVO_XPAD_ACPI),
- 	SND_PCI_QUIRK(0x1c06, 0x2011, "Lemote A1004", CXT_PINCFG_LEMOTE_A1004),
- 	SND_PCI_QUIRK(0x1c06, 0x2012, "Lemote A1205", CXT_PINCFG_LEMOTE_A1205),
- 	HDA_CODEC_QUIRK(0x2782, 0x12c3, "Sirius Gen1", CXT_PINCFG_TOP_SPEAKER),
-@@ -1133,6 +1143,7 @@ static const struct hda_model_fixup cxt5066_fixup_models[] = {
- 	{ .id = CXT_FIXUP_HEADPHONE_MIC_PIN, .name = "headphone-mic-pin" },
- 	{ .id = CXT_PINCFG_LENOVO_TP410, .name = "tp410" },
- 	{ .id = CXT_FIXUP_THINKPAD_ACPI, .name = "thinkpad" },
-+	{ .id = CXT_FIXUP_LENOVO_XPAD_ACPI, .name = "thinkpad-ideapad" },
- 	{ .id = CXT_PINCFG_LEMOTE_A1004, .name = "lemote-a1004" },
- 	{ .id = CXT_PINCFG_LEMOTE_A1205, .name = "lemote-a1205" },
- 	{ .id = CXT_FIXUP_OLPC_XO, .name = "olpc-xo" },
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 61ba5dc35b8b..5f9927401322 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -6934,6 +6934,16 @@ static void alc_fixup_thinkpad_acpi(struct hda_codec *codec,
- 	hda_fixup_thinkpad_acpi(codec, fix, action);
- }
- 
-+/* for hda_fixup_ideapad_acpi() */
-+#include "ideapad_hotkey_led_helper.c"
-+
-+static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
-+				   const struct hda_fixup *fix, int action)
-+{
-+	alc_fixup_no_shutup(codec, fix, action); /* reduce click noise */
-+	hda_fixup_ideapad_acpi(codec, fix, action);
-+}
-+
- /* Fixup for Lenovo Legion 15IMHg05 speaker output on headset removal. */
- static void alc287_fixup_legion_15imhg05_speakers(struct hda_codec *codec,
- 						  const struct hda_fixup *fix,
-@@ -7556,6 +7566,7 @@ enum {
- 	ALC290_FIXUP_SUBWOOFER,
- 	ALC290_FIXUP_SUBWOOFER_HSJACK,
- 	ALC269_FIXUP_THINKPAD_ACPI,
-+	ALC269_FIXUP_LENOVO_XPAD_ACPI,
- 	ALC269_FIXUP_DMIC_THINKPAD_ACPI,
- 	ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
- 	ALC269VC_FIXUP_INFINIX_Y4_MAX,
-@@ -8327,6 +8338,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.chained = true,
- 		.chain_id = ALC269_FIXUP_SKU_IGNORE,
- 	},
-+	[ALC269_FIXUP_LENOVO_XPAD_ACPI] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc_fixup_ideapad_acpi,
-+		.chained = true,
-+		.chain_id = ALC269_FIXUP_THINKPAD_ACPI,
-+	},
- 	[ALC269_FIXUP_DMIC_THINKPAD_ACPI] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc_fixup_inv_dmic,
-@@ -11065,7 +11082,7 @@ static const struct hda_quirk alc269_fixup_vendor_tbl[] = {
- 	SND_PCI_QUIRK_VENDOR(0x1025, "Acer Aspire", ALC271_FIXUP_DMIC),
- 	SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK_VENDOR(0x104d, "Sony VAIO", ALC269_FIXUP_SONY_VAIO),
--	SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", ALC269_FIXUP_THINKPAD_ACPI),
-+	SND_PCI_QUIRK_VENDOR(0x17aa, "Lenovo XPAD", ALC269_FIXUP_LENOVO_XPAD_ACPI),
- 	SND_PCI_QUIRK_VENDOR(0x19e5, "Huawei Matebook", ALC255_FIXUP_MIC_MUTE_LED),
- 	{}
- };
-@@ -11130,6 +11147,7 @@ static const struct hda_model_fixup alc269_fixup_models[] = {
- 	{.id = ALC290_FIXUP_MONO_SPEAKERS_HSJACK, .name = "mono-speakers"},
- 	{.id = ALC290_FIXUP_SUBWOOFER_HSJACK, .name = "alc290-subwoofer"},
- 	{.id = ALC269_FIXUP_THINKPAD_ACPI, .name = "thinkpad"},
-+	{.id = ALC269_FIXUP_LENOVO_XPAD_ACPI, .name = "lenovo xpad led"},
- 	{.id = ALC269_FIXUP_DMIC_THINKPAD_ACPI, .name = "dmic-thinkpad"},
- 	{.id = ALC255_FIXUP_ACER_MIC_NO_PRESENCE, .name = "alc255-acer"},
- 	{.id = ALC255_FIXUP_ASUS_MIC_NO_PRESENCE, .name = "alc255-asus"},
+ 	acpi_dev_free_resource_list(&resources);
 -- 
-2.34.1
-
+2.43.0
 
