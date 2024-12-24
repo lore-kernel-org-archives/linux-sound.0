@@ -1,70 +1,76 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch [79.135.106.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9334B1FF1CC;
-	Tue, 24 Dec 2024 16:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAAD3EA76
+	for <linux-sound@vger.kernel.org>; Tue, 24 Dec 2024 23:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.27
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735057540; cv=none; b=BweODugcFkmCUdTIeIGPPkl39Vi/+Z1UQbi2ZZ8Am0bIsB5VOeXa3btGbuVV7TgU3wonU45ymCEOpfzSqNa6s/9didq/OfgYQaIBsvfVQEk7KJyq3FCDSwB+Rlmrkv57OjAMYFErUcwz250llVI2AfYGpM/USpR1bFD7V1G18R8=
+	t=1735082194; cv=none; b=NTZM5lIBSYNOBYO5eTbuVaN6wqCadCEQEDkF86RnsXV27vdChWJ/rw4Wk0idz3Vfe+zeu4QfOfxFGfKwqWFjzZHxDMUAVguNxNrSJGPDLWovraXdccEoluWbGlV5qXYnPUOjC2b3JKxJaBCKDmj7oTCsef6W8mZ8IsdnkJzFxeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735057540; c=relaxed/simple;
-	bh=m5GRbh5lFzes3khbJ1WlrKqbj8nXi86NW1GKdESWHCY=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pVoRpv66bsd5CGAFZ1jllF9luVFd7dPIQF+tNkjldvM8U3wftLtjEfR5Az9xT49czs+pN5hIRKrShUQgvtEZ1Y75vuPmfRnVKFF8smgMi1sMwzUY9AWU5k83zb8X3aE1QZV/LcVZKeHatizjYecyaclpOrDO2iV0OvQE/YmOwPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4YHgBb2yNYz6K5rR;
-	Wed, 25 Dec 2024 00:21:43 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id B7502140391;
-	Wed, 25 Dec 2024 00:25:36 +0800 (CST)
-Received: from localhost (10.48.156.150) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 24 Dec
- 2024 17:25:35 +0100
-Date: Tue, 24 Dec 2024 16:25:32 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Zijun Hu <zijun_hu@icloud.com>
-CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij
-	<linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Uwe
- =?ISO-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>, James Bottomley
-	<James.Bottomley@HansenPartnership.com>, Thomas =?ISO-8859-1?Q?Wei=DFschu?=
- =?ISO-8859-1?Q?h?= <thomas@t-8ch.de>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-sound@vger.kernel.org>,
-	<sparclinux@vger.kernel.org>, <linux-block@vger.kernel.org>,
-	<linux-cxl@vger.kernel.org>, <linux1394-devel@lists.sourceforge.net>,
-	<arm-scmi@vger.kernel.org>, <linux-efi@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-	<linux-remoteproc@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>, <linux-serial@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Zijun Hu <quic_zijuhu@quicinc.com>
-Subject: Re: [PATCH v5 11/12] cxl/pmem: Remove is_cxl_nvdimm_bridge()
-Message-ID: <20241224162532.0000103f@huawei.com>
-In-Reply-To: <20241224-const_dfc_done-v5-11-6623037414d4@quicinc.com>
-References: <20241224-const_dfc_done-v5-0-6623037414d4@quicinc.com>
-	<20241224-const_dfc_done-v5-11-6623037414d4@quicinc.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1735082194; c=relaxed/simple;
+	bh=fGXPe65NwvL6pmaki3ZSfpY1t4rQKVkrQrfY1j1zeZo=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VO3RIBNrOfAt50pjyvkIL7hP5OTG3FvwXSBdpABcPcPP6MgaZk79pQsdNEAGI58T2RNqPQDTGjFP+B/ERglN8mC8CeG/UM2/3zuXZXKwJ1nUpB7rg+wu1cNqUh6jKQfVMu5ZCpxRKCgvgVr774Xh25BTMeqfP6yWFYJJd/YI6qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=Xc/o92uw; arc=none smtp.client-ip=79.135.106.27
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="Xc/o92uw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=protonmail3; t=1735082181; x=1735341381;
+	bh=fGXPe65NwvL6pmaki3ZSfpY1t4rQKVkrQrfY1j1zeZo=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=Xc/o92uwIBrwO9uidI1h+bzV89vfZhAJW+e9sdDoXOWNUOqBkrXBhoswNAfurjMc6
+	 7qeenqUjEE6QcYEvWFro4XcDRgXinGwzV7JmSUkIJisJZUNVUFWEt3luFgPV3XRmtW
+	 8SNi4C7rMfY0LDZEOok1URWCW9ZTPAepwSzbjta8aSv5SEjgSwcAuneLzuS570jTAR
+	 KNGUoGCt9+PP/gOuukxLSzfQaPxjrAHPHGps+zF942jQSD8MuhixsV2skUV89gGrrt
+	 bxa2PHzJyNuhTOL5AmSSvj0O/VEmxcp1dWimh5pI/+edJuFzrD5Vn8hJsuQqouC4KA
+	 OHrM+SAkBjAhw==
+Date: Tue, 24 Dec 2024 23:16:17 +0000
+To: "wychay@ctl.creative.com" <wychay@ctl.creative.com>, "ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>, "tiwai@suse.de" <tiwai@suse.de>
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
+Message-ID: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
+Feedback-ID: 28410670:user:proton
+X-Pm-Message-ID: a9897bc6b12c0bffc19193e399ccbf01bd63bd36
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 24 Dec 2024 21:05:10 +0800
-Zijun Hu <zijun_hu@icloud.com> wrote:
+Hello all,
 
-> From: Zijun Hu <quic_zijuhu@quicinc.com>
-> 
-> Remove is_cxl_nvdimm_bridge() which has no caller now.
-> 
-> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+First of all, happy holidays.=20
+
+I was browsing the ctdaio.c code and I noticed a lot of=20
+duplicate code and functions, specifically:
+
+dao_set_{right,left}_input and
+dao_clear_{right,left}_input functions.
+
+The functions are pretty much identical. They only=20
+differ in the side (left, right). What was the original
+idea in doing this? Wouldn't it make more since to just
+have an ENUM (left, right) as an argument that would=20
+determine the side and just reduce the function to=20
+dao_set_input and dao_clear_input.=20
+
+I would be more than happy to send in a patch doing
+these changes, but before I did I wanted to ask if
+there was a reason the code was written in this way.
+I am pretty new to kernel development.
+
+Thanks,
+Ethan
+--
+Ethan Carter Edwards
+CompTIA A+, Security+, and ISC2 (CC)
+Ham Radio: AE4CE
+Website: https://ethancedwards.com
+
