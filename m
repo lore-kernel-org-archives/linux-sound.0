@@ -1,172 +1,123 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3224518FDC5
-	for <linux-sound@vger.kernel.org>; Tue, 24 Dec 2024 01:48:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2102FB6;
+	Tue, 24 Dec 2024 02:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735004908; cv=none; b=gocosjD4p2Vx4ZvyL30u71v1mmMq1Do2l0xYoqwP5Q7+NMae1lbJgY20Rs7azNNru+PvhCkx4Q/8aEkG1dOYPp504ypG9GrKzr6uV35sue6oGsPasnXeLtypV+LbKmShgObNSmrcSq8YF3Hqf/UXxyJWnwlqT+U6UJmFvYqvoy4=
+	t=1735008895; cv=none; b=np/0d1Wm3twQeK2csyOmSog8CtlfGidibTXrYeYXSjG0CHERECXwPF2TysSekY4pvkWr1p5oZsu1klVzqWPW2CL5GJtuKMN3qVj3GnNRaojySlqieVTIYvGjLVngfqyYaia5nViMtV/ugWloAPXVCVP5mMx2sF8SYnvU6c4dbkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735004908; c=relaxed/simple;
-	bh=B+VyVi47xGS5Rgo1fXAf2iMXQyx6B0hUm57mitVwu5U=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dXDAcHaL2xDErcT8YNh1WjUEAKfVbSzOjAsqUml9b4qn382ATSmLFKsz7Fmb7LqdqecPNCpNAI/PBgv9UM7t7r9hJcNzNT9qjqNkjHS6/7uEYp2XzHhIpjHCTasFIZrWiXy/HueFSY0Dyvs+XORfnLMB/CuqTPw6CjWD9gxygyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iz4c21E8; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1735008895; c=relaxed/simple;
+	bh=xWS3vrD8hACtXK4k8pMX7q+Vj94Gb4GP2O+23x0XvNg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hmfXmitryI6lo8qbNzv7m8VUSM1XGkzAXtSbno9n0YAaCrJm/kVbqTJoDsQhvC6lsDi4ixlZxIOOc3+iRsgnPZTumKH1Nex3bDtLZXUbkaxg2AHrSEw/GX/55umwtiDsn/M/hbDx+bORFVcrD8YNEjLow2O1bvBgizDKDuFmkEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b=YF/OG5Ww; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iz4c21E8"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-53ff1f7caaeso5011477e87.0
-        for <linux-sound@vger.kernel.org>; Mon, 23 Dec 2024 17:48:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735004905; x=1735609705; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x27qjhhHmmSFc4Yew7R/X79LJ3J4qUtREtZZ6cr9W9o=;
-        b=iz4c21E89IsqBSixg1Ijgg6Pdg3xz2qajc7Ld8qKHNo5CMb4+0wJv/2c/xrKCGYKwa
-         /iRx4IaYoPlV0uutV3642wQYM6pKCQ6fMS3GUIH0zzvgMMf3maPf7veJmclo+TLTTarh
-         2HUzY8A6VUUnLUni09zQZofoAHaW23UPuj3NLzkzCQLxv8bvGXXmQ3xpluX9ME25QmnR
-         pzr7EXtBd24ZL2rgU/56WoMvxNh+bXBj3k8I2upkoOI9V2JF6UxKLGB/4j0EXwkoPC3J
-         gNKPVFZ1v2WULUEREuEuFGry02cMSVkvvJAUXRtFDcCnQ/t58psvWJCQkpsXCdN+Qj50
-         N5hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735004905; x=1735609705;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=x27qjhhHmmSFc4Yew7R/X79LJ3J4qUtREtZZ6cr9W9o=;
-        b=BiyoY2zrwMHtlyOZBI/pztrgr1UJjea2NVR6ERKDsbcEOCU5ZhJ1OMSITrOHeKHOUm
-         OPtqR+aNWeAiaKVCVLT1tcw+v1uReCcuN84gItvJKBSYnOPkq76/2ezlkOZ4s7JqFaJm
-         KxOyMPUnfur+wtOBm2Tp3xwIuX0PKzhsvUEz58j56n7s5AYUf0WLBe+YkV9hacW8n470
-         2jXj/zPGlemrdEDnI6xo6Sue3+L2SsEHE8w8TA1YoZ7sQmIODkjOwLnVEZKnCSFM/Mvd
-         MSyA38Fsb0Q2UNj7vRGhAGb0UYqIgAPRY5OL2BvVbtIiwp7iySpiXuvZEhLtJQ0KDiYk
-         YeHA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6fMoq4sQmOEoMFJO4J5Fm2BmGH4ID9NB5xWQivaAXZabj+QWAZH9o2PwPez70/or/UP3bDw4CSgLSBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV1EqqTaTXskq4ocCmA4RTlgaj1dtWKj3yZp4Vk1dGuYYFCwL1
-	U71YqRs9lk5kD9BYs2prVuiv026pIdK02rJOpuojJtl8OFjpg2tr7ZLJw10DJ6M=
-X-Gm-Gg: ASbGnctT3XcDQ/YfPl3o9z1ziSX5vEf3PuoeZbSq2C6G0xEWIy0oGDJzzYh12VKutY+
-	w3nKp3aVCvxs/LW5UykKlKolb+BNCcVSwBCgOcY3bQaOK5XdpVSbXktZgdheG1CDFJlSyZJnsuh
-	3L+C4EdjShVmKbf5wwjJilk3/dV2WIhGv+MZHhEL4lJ42nmNkYj0qksXxXcYX3nsys9ZZxEKfnn
-	E1KGNSObgaxqmVX5qlc6etDmK2i4RK0k8V2F3l6qk5GZjfp2Wmlz+C5CeQn7dEN
-X-Google-Smtp-Source: AGHT+IGxywAHlZ5biHokHnOEm3MPf0yFL5QnCm6g8X8iUKGFmxEoXLpi8MebkWFCTzgOs9+bQfvDzA==
-X-Received: by 2002:a05:6512:1245:b0:53e:395c:688b with SMTP id 2adb3069b0e04-5422956b5b1mr5020537e87.47.1735004905376;
-        Mon, 23 Dec 2024 17:48:25 -0800 (PST)
-Received: from umbar.lan ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-542235f6509sm1425988e87.25.2024.12.23.17.48.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 17:48:24 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Tue, 24 Dec 2024 03:48:02 +0200
-Subject: [PATCH v10 10/10] drm/vc4: hdmi: use
- drm_atomic_helper_connector_hdmi_hotplug()
+	dkim=temperror (0-bit key) header.d=realtek.com header.i=@realtek.com header.b="YF/OG5Ww"
+X-SpamFilter-By: ArmorX SpamTrap 5.78 with qID 4BO2sjYE32799716, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=realtek.com; s=dkim;
+	t=1735008885; bh=xWS3vrD8hACtXK4k8pMX7q+Vj94Gb4GP2O+23x0XvNg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version;
+	b=YF/OG5WwGtcW4D/WJ7NE+etukVeRT66eDsZ9QzQ1ISx/bj9VCCYeV1N8bno+uQ49g
+	 QcubdElEWAndvP9XKxYNLgD7rRcgMwMKM3bhy/g++5hMDLG2FnOwO+HwHgnopJ7BcP
+	 SFCAK2Wmx5U2561mVIOvB7S+ltwZLh+mMVViIhvO+eH8Zi/HRJfbxPENPBYa9NWSRy
+	 9TptdxInk5XNcGNrmxuJnKqqqt0pkqa3uawUXbIVQDbVZJ0FPkyUACusmTCfQgNveT
+	 WZkbYXNt3MYewwizKccLdyz6CLsbepv0onggBjFFjHWziHCmp093uEJTieXH+qNJa8
+	 2edrGu85Y6KYA==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.06/5.92) with ESMTPS id 4BO2sjYE32799716
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Dec 2024 10:54:45 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 24 Dec 2024 10:54:45 +0800
+Received: from RTEXMBS01.realtek.com.tw (172.21.6.94) by
+ RTEXMBS04.realtek.com.tw (172.21.6.97) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Tue, 24 Dec 2024 10:54:45 +0800
+Received: from RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2]) by
+ RTEXMBS01.realtek.com.tw ([fe80::147b:e1e8:e867:41c2%7]) with mapi id
+ 15.01.2507.035; Tue, 24 Dec 2024 10:54:45 +0800
+From: Kailang <kailang@realtek.com>
+To: Evgeny Kapun <abacabadabacaba@gmail.com>, Takashi Iwai <tiwai@suse.de>
+CC: Linux Sound Mailing List <linux-sound@vger.kernel.org>,
+        "Linux Kernel
+ Mailing List" <linux-kernel@vger.kernel.org>,
+        Linux Regressions Mailing List
+	<regressions@lists.linux.dev>,
+        Linux Stable Mailing List
+	<stable@vger.kernel.org>
+Subject: RE: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
+Thread-Topic: [REGRESSION] Distorted sound on Acer Aspire A115-31 laptop
+Thread-Index: AQHbTvIxtyWK99B6LkqZbi3R9/JZE7LtROwAgAQfxYCAAA3tgIAB5qEAgAFmuDA=
+Date: Tue, 24 Dec 2024 02:54:45 +0000
+Message-ID: <58300a2a06e34f3e89bf7a097b3cd4ca@realtek.com>
+References: <e142749b-7714-4733-9452-918fbe328c8f@gmail.com>
+ <8734ijwru5.wl-tiwai@suse.de>
+ <57883f2e-49cd-4aa4-9879-7dcdf7fec6df@gmail.com>
+ <87ldw89l7e.wl-tiwai@suse.de>
+ <fc506097-9d04-442c-9efd-c9e7ce0f3ace@gmail.com>
+In-Reply-To: <fc506097-9d04-442c-9efd-c9e7ce0f3ace@gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: yes
+Content-Type: multipart/mixed;
+	boundary="_002_58300a2a06e34f3e89bf7a097b3cd4carealtekcom_"
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+
+--_002_58300a2a06e34f3e89bf7a097b3cd4carealtekcom_
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241224-drm-bridge-hdmi-connector-v10-10-dc89577cd438@linaro.org>
-References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
-In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Phong LE <ple@baylibre.com>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
- linux-rockchip@lists.infradead.org
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1974;
- i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
- bh=B+VyVi47xGS5Rgo1fXAf2iMXQyx6B0hUm57mitVwu5U=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBnahLO/eNo/39x/HJrv+HFXwG6d8BCBlotDoJCU
- qqGZkD6mo+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZ2oSzgAKCRCLPIo+Aiko
- 1TWHCACeIhaoB+aD1Id5dsTO6uA+nC/AVkJRJD/7UYmW8Ex7Zn2qDhEmWtBdITotMWW3ByYkUvj
- uWd356HEakck9NA8ieyZDfqWEWxIYpA8KfFQcvIFiYtmcFLi8kJSZDn50oFIpYvQaj2/gM0dAUN
- p8u9lmdLuAdFhoJjHaZawfbQ74cmm6k0F0FhKKbhW+u/RzdcsQu+fDZ+GzwQfElhQt5Cabh9VTD
- 9m+cMW8Yv8g3rD7N8BgPs/xSnrX5W/1NqXWaD3O5GzP50Iks3oWr3bfaQmjdOpjCu4PWuKpHVmB
- 5WNoz9+G5V+lgNo6KogfIsR04KOp+MyB/Lr4QH+DuZNDR5I1
-X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
- fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: base64
 
-Use the helper function to update the connector's information. This
-makes sure that HDMI-related events are handled in a generic way.
-Currently it is limited to the HDMI state reporting to the sound system.
+DQpQbGVhc2UgdGVzdCBhdHRhY2ggcGF0Y2guDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
+LS0NCj4gRnJvbTogRXZnZW55IEthcHVuIDxhYmFjYWJhZGFiYWNhYmFAZ21haWwuY29tPg0KPiBT
+ZW50OiBNb25kYXksIERlY2VtYmVyIDIzLCAyMDI0IDk6MjkgUE0NCj4gVG86IFRha2FzaGkgSXdh
+aSA8dGl3YWlAc3VzZS5kZT4NCj4gQ2M6IExpbnV4IFNvdW5kIE1haWxpbmcgTGlzdCA8bGludXgt
+c291bmRAdmdlci5rZXJuZWwub3JnPjsgS2FpbGFuZw0KPiA8a2FpbGFuZ0ByZWFsdGVrLmNvbT47
+IExpbnV4IEtlcm5lbCBNYWlsaW5nIExpc3QNCj4gPGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
+cmc+OyBMaW51eCBSZWdyZXNzaW9ucyBNYWlsaW5nIExpc3QNCj4gPHJlZ3Jlc3Npb25zQGxpc3Rz
+LmxpbnV4LmRldj47IExpbnV4IFN0YWJsZSBNYWlsaW5nIExpc3QNCj4gPHN0YWJsZUB2Z2VyLmtl
+cm5lbC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBbUkVHUkVTU0lPTl0gRGlzdG9ydGVkIHNvdW5kIG9u
+IEFjZXIgQXNwaXJlIEExMTUtMzEgbGFwdG9wDQo+IA0KPiANCj4gRXh0ZXJuYWwgbWFpbC4NCj4g
+DQo+IA0KPiANCj4gPj4gT3IgZG8geW91IG5lZWQgYWxzYS1pbmZvIHdpdGggYSBuZXcga2VybmVs
+LCBidXQgd2l0aCB0aGUgb2ZmZW5kaW5nDQo+ID4+IGNvbW1pdCByZXZlcnRlZD8NCj4gPiBZZXMs
+IHRoYXQnbGwgYmUgdGhlIGJlc3QgZm9yIGVsaW1pbmF0aW5nIG90aGVyIHBvc3NpYmxlIGFydGlm
+YWN0cy4NCj4gDQo+IEhlcmUgYXJlIHR3byBhbHNhLWluZm8gb3V0cHV0cyBmb3IgdGhlIHNhbWUg
+a2VybmVsIHZlcnNpb24sIGV4Y2VwdCB0aGF0IG9uZSBoYXMNCj4gdGhlIHByb2JsZW1hdGljIGNv
+bW1pdCByZXZlcnRlZC4NCg==
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+--_002_58300a2a06e34f3e89bf7a097b3cd4carealtekcom_
+Content-Type: application/octet-stream; name="0000-acer-a115.patch"
+Content-Description: 0000-acer-a115.patch
+Content-Disposition: attachment; filename="0000-acer-a115.patch"; size=904;
+	creation-date="Tue, 24 Dec 2024 02:52:43 GMT";
+	modification-date="Tue, 24 Dec 2024 02:51:38 GMT"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 4949171c28876a9145ddf03e99c00feff4df255a..47d9ada98430634cfd8c1e21c2a4d00d501bab7e 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -384,7 +384,6 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 				    enum drm_connector_status status)
- {
- 	struct drm_connector *connector = &vc4_hdmi->connector;
--	const struct drm_edid *drm_edid;
- 	int ret;
- 
- 	/*
-@@ -406,17 +405,14 @@ static void vc4_hdmi_handle_hotplug(struct vc4_hdmi *vc4_hdmi,
- 		return;
- 	}
- 
--	drm_edid = drm_edid_read_ddc(connector, vc4_hdmi->ddc);
-+	drm_atomic_helper_connector_hdmi_hotplug(connector, status);
- 
--	drm_edid_connector_update(connector, drm_edid);
- 	cec_s_phys_addr(vc4_hdmi->cec_adap,
- 			connector->display_info.source_physical_address, false);
- 
--	if (!drm_edid)
-+	if (status != connector_status_connected)
- 		return;
- 
--	drm_edid_free(drm_edid);
--
- 	for (;;) {
- 		ret = vc4_hdmi_reset_link(connector, ctx);
- 		if (ret == -EDEADLK) {
-@@ -550,6 +546,7 @@ static void vc4_hdmi_connector_reset(struct drm_connector *connector)
- }
- 
- static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
-+	.force = drm_atomic_helper_connector_hdmi_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
- 	.reset = vc4_hdmi_connector_reset,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
+ZGlmZiAtLWdpdCBhL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jIGIvc291bmQvcGNpL2hk
+YS9wYXRjaF9yZWFsdGVrLmMKaW5kZXggNjFiYTVkYzM1YjhiLi4yOTM0Nzk5YjZlMDcgMTAwNjQ0
+Ci0tLSBhL3NvdW5kL3BjaS9oZGEvcGF0Y2hfcmVhbHRlay5jCisrKyBiL3NvdW5kL3BjaS9oZGEv
+cGF0Y2hfcmVhbHRlay5jCkBAIC0xMDE1OCw2ICsxMDE1OCw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1
+Y3QgaGRhX3F1aXJrIGFsYzI2OV9maXh1cF90YmxbXSA9IHsKIAlTTkRfUENJX1FVSVJLKDB4MTAy
+NSwgMHgxMzA4LCAiQWNlciBBc3BpcmUgWjI0LTg5MCIsIEFMQzI4Nl9GSVhVUF9BQ0VSX0FJT19I
+RUFEU0VUX01JQyksCiAJU05EX1BDSV9RVUlSSygweDEwMjUsIDB4MTMyYSwgIkFjZXIgVHJhdmVs
+TWF0ZSBCMTE0LTIxIiwgQUxDMjMzX0ZJWFVQX0FDRVJfSEVBRFNFVF9NSUMpLAogCVNORF9QQ0lf
+UVVJUksoMHgxMDI1LCAweDEzMzAsICJBY2VyIFRyYXZlbE1hdGUgWDUxNC01MVQiLCBBTEMyNTVf
+RklYVVBfQUNFUl9IRUFEU0VUX01JQyksCisJU05EX1BDSV9RVUlSSygweDEwMjUsIDB4MTM2MCwg
+IkFjZXIgQXNwaXJlIEExMTUiLCBBTEMyNTVfRklYVVBfQUNFUl9NSUNfTk9fUFJFU0VOQ0UpLAog
+CVNORF9QQ0lfUVVJUksoMHgxMDI1LCAweDE0MWYsICJBY2VyIFNwaW4gU1A1MTMtNTROIiwgQUxD
+MjU1X0ZJWFVQX0FDRVJfTUlDX05PX1BSRVNFTkNFKSwKIAlTTkRfUENJX1FVSVJLKDB4MTAyNSwg
+MHgxNDJiLCAiQWNlciBTd2lmdCBTRjMxNC00MiIsIEFMQzI1NV9GSVhVUF9BQ0VSX01JQ19OT19Q
+UkVTRU5DRSksCiAJU05EX1BDSV9RVUlSSygweDEwMjUsIDB4MTQzMCwgIkFjZXIgVHJhdmVsTWF0
+ZSBCMzExUi0zMSIsIEFMQzI1Nl9GSVhVUF9BQ0VSX01JQ19OT19QUkVTRU5DRSksCg==
 
--- 
-2.39.5
-
+--_002_58300a2a06e34f3e89bf7a097b3cd4carealtekcom_--
