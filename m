@@ -1,76 +1,95 @@
-Received: from mail-10627.protonmail.ch (mail-10627.protonmail.ch [79.135.106.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EAAD3EA76
-	for <linux-sound@vger.kernel.org>; Tue, 24 Dec 2024 23:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90527182;
+	Wed, 25 Dec 2024 01:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735082194; cv=none; b=NTZM5lIBSYNOBYO5eTbuVaN6wqCadCEQEDkF86RnsXV27vdChWJ/rw4Wk0idz3Vfe+zeu4QfOfxFGfKwqWFjzZHxDMUAVguNxNrSJGPDLWovraXdccEoluWbGlV5qXYnPUOjC2b3JKxJaBCKDmj7oTCsef6W8mZ8IsdnkJzFxeU=
+	t=1735089841; cv=none; b=V06RvXKltqviEiKqkCISy55s9DoysG25KSExS+ogR61QwdG9BLJhj46kbYr/1fISITVg1wAvkNlrWz3WOlyCNF4aoMckWbjZkpXlKEvGAWHtR7dQ8Zh22DfpM5LHQmrF0kZHg5jsnxBgs97SuK43fGwDD9ktH2CDsLkOxWzaTxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735082194; c=relaxed/simple;
-	bh=fGXPe65NwvL6pmaki3ZSfpY1t4rQKVkrQrfY1j1zeZo=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VO3RIBNrOfAt50pjyvkIL7hP5OTG3FvwXSBdpABcPcPP6MgaZk79pQsdNEAGI58T2RNqPQDTGjFP+B/ERglN8mC8CeG/UM2/3zuXZXKwJ1nUpB7rg+wu1cNqUh6jKQfVMu5ZCpxRKCgvgVr774Xh25BTMeqfP6yWFYJJd/YI6qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=Xc/o92uw; arc=none smtp.client-ip=79.135.106.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+	s=arc-20240116; t=1735089841; c=relaxed/simple;
+	bh=e83tqN5huJo0FnC0VrtmBPXzLM9DIYyh5iJdX4rCQ+A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MIwVkjMTXNBOXWLTDG/k++GgS4NEXB8EGBep7pkZ8xtGFcmrdsGycJegi7lgJziUBBqSqgV3mDyDgIhhCD3tpyr+lkqhQtXgzVQJJP4/e6Avpv5BruiIYqzJHva+q4aYHGt3D2cnMdOtZobocquFAG3enKLTjxHgjKLUc0p9hVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQe49WaN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="Xc/o92uw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=protonmail3; t=1735082181; x=1735341381;
-	bh=fGXPe65NwvL6pmaki3ZSfpY1t4rQKVkrQrfY1j1zeZo=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
-	 List-Unsubscribe:List-Unsubscribe-Post;
-	b=Xc/o92uwIBrwO9uidI1h+bzV89vfZhAJW+e9sdDoXOWNUOqBkrXBhoswNAfurjMc6
-	 7qeenqUjEE6QcYEvWFro4XcDRgXinGwzV7JmSUkIJisJZUNVUFWEt3luFgPV3XRmtW
-	 8SNi4C7rMfY0LDZEOok1URWCW9ZTPAepwSzbjta8aSv5SEjgSwcAuneLzuS570jTAR
-	 KNGUoGCt9+PP/gOuukxLSzfQaPxjrAHPHGps+zF942jQSD8MuhixsV2skUV89gGrrt
-	 bxa2PHzJyNuhTOL5AmSSvj0O/VEmxcp1dWimh5pI/+edJuFzrD5Vn8hJsuQqouC4KA
-	 OHrM+SAkBjAhw==
-Date: Tue, 24 Dec 2024 23:16:17 +0000
-To: "wychay@ctl.creative.com" <wychay@ctl.creative.com>, "ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>, "tiwai@suse.de" <tiwai@suse.de>
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
-Message-ID: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
-Feedback-ID: 28410670:user:proton
-X-Pm-Message-ID: a9897bc6b12c0bffc19193e399ccbf01bd63bd36
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FQe49WaN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593EFC4CED0;
+	Wed, 25 Dec 2024 01:23:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735089841;
+	bh=e83tqN5huJo0FnC0VrtmBPXzLM9DIYyh5iJdX4rCQ+A=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=FQe49WaNZEca0ANfqUbzNwF75mBrNOzez/hx4cyZ6YA4CvBFKdIFY28/OBLIwjrLK
+	 uGOaYvUFBqwhRyXTUlSOwoZk7tz2tV62EmuS9MyRaA0whzndVZfsvsGZbYHFR6GnGu
+	 us90opcPVJuXR9sSVKZJ8YAJF3zsy7VnhEHz2SVMHuGpPg27zhyWbOdG34bse6DlbW
+	 9KPqKgkTfQYsv4wIMV7OQo8GmYse1ZVuVQ1V3o/H/oDHV0vYW4i/BPdUYi8BH1AhLC
+	 lQgU81IiSAuS+Ko8g1hFynG/xrDdlY0ObmQHbP2P79q42ov7cOb1YaugNv+mS4U4Hp
+	 6i1XSlBiAO9Jw==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com, 
+ yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev, 
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ patches@opensource.cirrus.com
+In-Reply-To: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
+References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 1/5] ASoC: SDCA: Add missing header includes
+Message-Id: <173508983900.596917.320979208067796021.b4-ty@kernel.org>
+Date: Wed, 25 Dec 2024 01:23:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-355e8
 
-Hello all,
+On Fri, 20 Dec 2024 17:35:12 +0000, Charles Keepax wrote:
+> Several of the SDCA files don't include all the headers they use
+> locally. These are included by the point of use through other
+> headers, so it is not currently causing any issues. However, files
+> should directly include things they directly use, so add the
+> missing header includes.
+> 
+> 
+> [...]
 
-First of all, happy holidays.=20
+Applied to
 
-I was browsing the ctdaio.c code and I noticed a lot of=20
-duplicate code and functions, specifically:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-dao_set_{right,left}_input and
-dao_clear_{right,left}_input functions.
+Thanks!
 
-The functions are pretty much identical. They only=20
-differ in the side (left, right). What was the original
-idea in doing this? Wouldn't it make more since to just
-have an ENUM (left, right) as an argument that would=20
-determine the side and just reduce the function to=20
-dao_set_input and dao_clear_input.=20
+[1/5] ASoC: SDCA: Add missing header includes
+      commit: deb015208f7be9a62cb68dd8337d075b1829ee1d
+[2/5] ASoC: SDCA: Clean up error messages
+      commit: 935cd06bfad4b715195befaf527a2d4fd36361d9
+[3/5] ASoC: SDCA: Add bounds check for function address
+      commit: c36297b1bd6e52a75a8ed75eb5dbf35c50402398
+[4/5] ASoC: SDCA: Add missing function type names
+      commit: c1ed5eb13f39b0058670bc2b1e251a040c306868
+[5/5] ASoC: SDCA: Split function type patching and function naming
+      commit: 69dcf023f1f13ca9c2e9e8f30b9ec52ac0486c0a
 
-I would be more than happy to send in a patch doing
-these changes, but before I did I wanted to ask if
-there was a reason the code was written in this way.
-I am pretty new to kernel development.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-Ethan
---
-Ethan Carter Edwards
-CompTIA A+, Security+, and ISC2 (CC)
-Ham Radio: AE4CE
-Website: https://ethancedwards.com
+Mark
 
