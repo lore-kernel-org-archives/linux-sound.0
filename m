@@ -1,180 +1,1108 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BCBF175BF;
-	Wed, 25 Dec 2024 07:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735112035; cv=fail; b=qNYpRaye65s3FL5ngcz7QeBpe9Kk+2ccvxrQpc4xxxItL2WLFJjPDH6YnasyCy+hlTtci/whx3msGNoh1q9jfWEZ6njV3wYuRAHsMlnsPyZ9HzmqM1ql+bwfn6u4JabVmjPRivFBUcYfLqX1ZUd1dyAelwQyoIFnW2+zkdSzqB8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735112035; c=relaxed/simple;
-	bh=1HEoY1Ks4eMzgu0eoyJuspfZVMDhG1iRMLS4/z0n0as=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=t0PgqBss/Zd6oRBIZ0t2DmhGa2Sb9C7emhd0VKmtfyfzGnqp2XYAgM8aE4VbIPbff3G1UUYXP1YzydqOrsFNkPimYCwj3gIBAbgV5R54vWBOxjSE4fDJfXoVaok/NSnC3c8zvre6Fgt3AB+26RHKYNqUJFQCW8K9prsTIbS91T8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wThvIe3S; arc=fail smtp.client-ip=40.107.236.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D7F8BE8
+	for <linux-sound@vger.kernel.org>; Wed, 25 Dec 2024 21:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735161806; cv=none; b=MKAknui+AbTzZbXhQzPNKYIVZe2WAW3tJa1aAKVnYF3L9jQOZUQAEn6ezMCZ5afm9OUfukX2I9gUIXQh7W7fN6XPBRT8ALrDxqKJnI+OvhI3+XNTiGvFTTXHVCfSpAIe5lVEhfeD0zSCK8oSaHdcd/ve4nI8um+KguIiur58Xd8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735161806; c=relaxed/simple;
+	bh=bdXzRWgp4OZuWCZDPbVtYpTvAtSpW0GGB9/zpfWHtHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jAQqXP9O1oAgGtZE1XjTaUh61gEcOFYlzfMV3NpzXQDbhszX5kPHQzIdijQlmIQ8liqsNxbtUyfPwkqfl6YkruAmWRl0hmIQpExYoPsDo3HrvQYjZBce8VsEyivNqV3tPGBbDdeF3KFvGDeeMudMOwYXUSWSaWJ8UpQPSLFCtmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=WnTdebi5; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wThvIe3S"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aKEfQ2SbzfGLrIOvP/iHd/vFPO1ZtyD+Dd5kKoBvtEcUgJMrjdmEP8XBhRLljd+zCZuH5do/341/pUAlyUy/ncDlwhvDeMxa3ODIhmjoVaQ5JNe/13JWdfX6ArLv15rNXe4vpPkNR73czyj60Vg2eKMSB9NdXtanC1X4Rd4WVH0zbykso4SxzLZhm6xm6AixX6LtcDHja1uZnYIBpi+OmuKCSdyGWgck/YCyJwcZTQJpP3JEHSTcd1A9IOWnhHjuQVtmdhTZ3Fg+HH1NmRFxxXnkL636Oq3hv7SDPDRlhBFY/MGxgv+01N3iHImiivkQNTmMNzKrY8kq3ptDsGH7MA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H81gVgeUd97dYVDwEzjFkT8K8SBrfwqrIKq9qyU0ydQ=;
- b=AI9jsaS3T9sfRdOFu9uIw7BYPcLkuUQuIDCTQnf6OWnW88CA/co5xFPmuoAHG053dBqZxr8kfy0r7i/XInfa3NFmwYtNNIlc8lvRA+Np2efdAMTRhc+zRI+fX6zYs1K1NpFGc4VmSLFA0KlY6hF+BZ7p3fTexGpEQYW+kVfFup61duLa/+FwibGoAhzsihIUWSIvBKNmL8LvunjaHjEXtntMpdIZ5NZsDL7BaSrTrOgSezAE+g8yEDXIkK10j1ay9ERPU2jtqaxcaKgo2WFICWZwSxOBx4tY/ma6ZfPDdt4XCb64VWj17XRoHX0bN5jvBssXwqaLCsEpl01fr8Yh8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H81gVgeUd97dYVDwEzjFkT8K8SBrfwqrIKq9qyU0ydQ=;
- b=wThvIe3SAGBRexwYTkpCtA5DFM4QcHLA2S1ZrwEUfFPTMUV+JHzu/0K5Cc5Q2qLY8O/URJL5oKF8JBwKb7StDM5qo9gIEkHaWmflRtvRjNnqmq5LYZnyuOindPWhmOh3foHLC5SeQlPgbqcx+P+pLs7uCZdeNIrQRMDwh5d+1KA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
- by PH0PR12MB8127.namprd12.prod.outlook.com (2603:10b6:510:292::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.19; Wed, 25 Dec
- 2024 07:33:46 +0000
-Received: from DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
- ([fe80::512d:6caa:552a:7ebf%3]) with mapi id 15.20.8293.000; Wed, 25 Dec 2024
- 07:33:46 +0000
-Message-ID: <1f1138e8-5ee0-43e8-b0af-6bfad6a3532d@amd.com>
-Date: Wed, 25 Dec 2024 13:03:37 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] soundwire: amd: code improvements and new platform
-Content-Language: en-US
-To: vkoul@kernel.org
-Cc: yung-chuan.liao@linux.intel.com, pierre-louis.bossart@linux.dev,
- sanyog.r.kale@intel.com, Basavaraj.Hiregoudar@amd.com,
- Sunil-kumar.Dommati@amd.com, venkataprasad.potturu@amd.com,
- Mario.Limonciello@amd.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org
-References: <20241225072400.912445-1-Vijendar.Mukunda@amd.com>
-From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
-In-Reply-To: <20241225072400.912445-1-Vijendar.Mukunda@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0209.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:e9::20) To DM6PR12MB4123.namprd12.prod.outlook.com
- (2603:10b6:5:21f::23)
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="WnTdebi5"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id C9103646FC0A; Thu, 26 Dec 2024 07:53:19 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu C9103646FC0A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1735161799; bh=PwLtJ4d2ffSMSQgkNxhBER9/Mjl9x6DLo7iwbGZ93VY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WnTdebi5NzWdU1bli9lc660PP7X4mjQd6bTE9fMv0q3PY6guQ/8AK+MJWmXObEzsf
+	 irxViPKkDf72+aKZoNqR3RkOvK4u3nMUQJx7hQHDAf/g/B6uZGC0rFXKYLyWeFxZec
+	 i9roVWptUPB8Lnf9hkGpeDsAWeY5DGubgu0Jr0noqicTUxMf38dNzpZeYuKGj1wHjW
+	 G2GLXY5jnIawNtIA48ayAgRYRJj51f7hPpFlKuKSHpyv1OuyjaK7RumWsgnkvsovv7
+	 Z2i7GsSp22FwKQrgmNd10ffIg2uSvbypnwP5SalymyKdVgj8vbZy+4N+BRs24vrC0R
+	 /6CxKPaBPAjsQ==
+Date: Thu, 26 Dec 2024 07:53:19 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
+Message-ID: <3bbe9f8ec8664e36ca524649a7ec4c1356df17e9.1735159288.git.g@b4.vu>
+References: <cover.1735159288.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|PH0PR12MB8127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4067696d-87a6-4332-6dbc-08dd24b67769
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dkxFVDU1bmt0dkNzR0IvOUtQR2xmUXRYUlZ4RlZZdVhvNnN0ejZoTXo2WFRG?=
- =?utf-8?B?ZEUrRVdwY2lyODVPYTl5N3RLeGZzTUxpTU5TTTU5WEFhYjhzeS9NUitJK2lj?=
- =?utf-8?B?K1hDbmNISTdUeTZRaDRJMHVhT2VpWVpWRWhUZXozZWdGVXR5SUd1bHI5ZEdV?=
- =?utf-8?B?dXVjd1htWXJIbkVuZkpoRHp4emlua2xwaHRoTFlBQ25tSU5Cam1id0p1aGp3?=
- =?utf-8?B?bXM1L1lJbXNPWHFHSG1SWDNmWFhaZzJJNlh1TjA3VEJpMjB5ajdidVNKZlBt?=
- =?utf-8?B?anpDaERvSjN1emZ3dVo5N0VLSU5sWEdlWE9jSGN0a1p4NWJxYkRZTEtiNGU5?=
- =?utf-8?B?ZFpXZittTXdtakt4bTFteEswT3VtYmhEYzczMTlBV24vZGJuVGZQUmYrRmtx?=
- =?utf-8?B?UHhTcTgvQkY0V1oyK2NVWlVoa3BFUXM1TnhtUERYYmJpM2dQYTRYWFdEaDlM?=
- =?utf-8?B?dDkvK2J4dmFGaDNxYnVoOE5TQ2h3ZEdseENMYmtlZ3V3WUtmTjU5RGVUVDdn?=
- =?utf-8?B?VGVLSUNWajJjQnRubWp5Q2dQeGVITG9VcEdBNUFSdUgwZVdEUDFrSThLY0hU?=
- =?utf-8?B?VGpadTJuMmF5aVFrYXYyL1NxVXdpTEhUTXkxY0NwaGMwTkRpRE13MUlNZzdK?=
- =?utf-8?B?eGR1eXBFNEh5Q0lRMkNPRm5ZTEh6bzNHOHkyTjE5UmhFVERpTTlvRDRPQnI2?=
- =?utf-8?B?SmRFYllHM0FLRHpyK3JITHFtcWlWWFMyS3hIR0YzZjdQbklkVXkycFlxWUJw?=
- =?utf-8?B?c25QQ3RiOVBwZExNcFVUcElUek42K1BoT3MwVU5lbHY2RFhrRGtVT29jcWpV?=
- =?utf-8?B?a3BCSWN6MisyS01lcHhnNEI2Y2FJSThEaENHUjl4SDhXTU93UUFRQmk4cUx3?=
- =?utf-8?B?Q1pCSkNaSjZmSnFzb09vNWdqa3NGb1kzeWZjRmIzeGJ4VHplVkliUFFtaU5H?=
- =?utf-8?B?cE8rcGpnVGs2NGx5MDNrNE01WUdPVzdvR1FwazN4bk9EOHRHK05JRTVzUksw?=
- =?utf-8?B?empGZEQ3WENFUnlpbHlvMldydlhpa1FVaWtVaG9qbWFIYktyUWd3V3ZvYXRK?=
- =?utf-8?B?WXMzanFMWVVNTDAzVHZWYVJIWC96N2FSY1MwcE1YbU1GM3Q0bUI4akRQSnpX?=
- =?utf-8?B?MWJYWG9EWU81b3dndnBlS1MvbnVOQnZ2MU1JN0xEQmNJTWlRRTVicDhpUndh?=
- =?utf-8?B?MDUvN1ZlZnhYbVBrSjdEZnhHc2hITEoycGNuRDd2N2NPWUFqSVpyU0RndTVN?=
- =?utf-8?B?dSswNHBmR01aRko3N2J4RlBFeEI3MUNYUnVxRytwY00xSlpJWU5jZFhXRTVp?=
- =?utf-8?B?L1dvY1hqbFVMTlZoMlpLRTJmU2hndEZmOXJlVmdoS1VTMTFWYStvbVNBVFpz?=
- =?utf-8?B?L1hBc2xjQzBLUVRhZGt1SkE2dTlRajhwUFc1RkJUQmtJWmlLeGVXTUo3dEhy?=
- =?utf-8?B?U1gwaEcyZXR6YVFUN0hJTmxZc0I5dTd2QzVGQmdjRm1ld3ZtMGM3SEJYdXY5?=
- =?utf-8?B?aWIwSytkU09YUXk2dFZicmd6VW04REhSWStVaENGMUV0MWRFYUp6TldBb29M?=
- =?utf-8?B?QlVXU0t6S3h4amp4Mi9abUR5bVRJNU94a1EwUVp4Ulk5T240RXYxTHNQTVhO?=
- =?utf-8?B?S3FVbVZzUjN3bmwvMlhxU0EzL2VMeWJ4SFdnYktKZEVEd0hPTnVtUFg5aEI2?=
- =?utf-8?B?ekwzUG9SZVFnSzlrU0c3dzd6QkE0UWZ4WDRobFlQVVNjOWlLaTMwcEV6Q1Jp?=
- =?utf-8?B?WDFwZDA0eHlaVjlldGd2clZzbjFqd0FQbzdyVy9sTDBTWDA5S3Y2NmVkUmkx?=
- =?utf-8?B?RmF5VXU0aGNSUThqV25QZ25KQ05wbGhDa0FwYWpMMHJtR3lORVRnVkx6Znp3?=
- =?utf-8?Q?wIM4NnKWsS6Ud?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ti9UYXJSOVM3YTBza2V6aFNseExHNXVxaXIxTDhDRU1uY21MUFU5SStkNnB6?=
- =?utf-8?B?aGpWTHNWeEQxelp0U1R0d3J4eGFCOTd5UklTVFFOcWZ0eHVYTkU2UWpCclM2?=
- =?utf-8?B?aW4zeEhFR0xXMXJobkFRWDE5SGFUOGJSeHhSS3F2cCtsWC82SkRZS3JpUmlo?=
- =?utf-8?B?UE1oSlkxb0kxNFVCazkxY1U1NldyRjJoWHRxNG9WNC9aZDZ2K2cwbUVrMm9w?=
- =?utf-8?B?ZnloZUp0L0RxWWJKWVBmWGN2Z1BWRVlGTzJYTzAyQlFxVjFTRDB5bE41dGFP?=
- =?utf-8?B?ckQwOEtpYTByR3F1WUIxRm1YbE9EcnExUWRaSDR3ZDhsb1U4azhnY244ZUJT?=
- =?utf-8?B?a0xKRE8wQktHSGpnanNTL0pXcU05d3VxdDVzZmdMOGRLd3VBWFVlMlpqMTNr?=
- =?utf-8?B?WWRsdFVTSjRmK3NoRnE0akJnNUE3TzF2MEwzN1c4NTlwbi9kcXA1ZWNxdmxU?=
- =?utf-8?B?RWdJVEdDMHVwRjlKTlk1UFkzYlFsZlpHL0greWNkUytuS0lSSWFsZ0x5Z0hV?=
- =?utf-8?B?aEhhWGd6WWIxUXhabVVUSVQ1YlpqU3d4RHN6Ti9xYTVLZXQ2SkY0VlM4RWJF?=
- =?utf-8?B?MVlrendGLzRJQkdCamVleGJHTzR4V2g2d1BaSE5vTW03bzhFcGFHRW8vVnh4?=
- =?utf-8?B?RWJWNXZIVGppTEpxbGgzNW0vdnZ6S0l1OXBFdURsaVhmUVYwSDJoWUlPRGVX?=
- =?utf-8?B?aGxTR3lpa0x2ZTRhRGtJNHd3Y2JEZ21BQVFVSUtBOS9qOVF4UXphZGhKbFpS?=
- =?utf-8?B?dk12UjhVd2xzVkJTZnd1RGpNUlNVMVdRU1hXMjFnT0xSQWJCVThrSWE0MjdS?=
- =?utf-8?B?Q0l3aVdKMVZRSVUwa0h0YjNLejQrSmlIN3hiUXp3ditDNzY3eENqTFFxZm1r?=
- =?utf-8?B?c2ZybytLMVA0UDA2VFJrclJ3L29Rd3B4MUMxdzZDUjlGWUFJcm94Ykg1ZXpT?=
- =?utf-8?B?SE8yTTRzTzVtaFJmZWxwQm5WMkdVS2Z6R01wV3F1S2hrcEprenJVTyszbWp2?=
- =?utf-8?B?ZGNEakt4MUEwVWFoYW5ocGE3cDhhOWljMERMV3BsMGJkSGUyRVNYK3E5VG85?=
- =?utf-8?B?dmp4ZlhoTVFwQUxySjluUElrQzJVTzg4d3VmZGxqc0s5RzhJajcyc2taYlQr?=
- =?utf-8?B?eThOT1pRdnltSmFHd2VrUWZyWEwrZ2JpejRVUmtKQzV1Y01aUDJkMmNHY0tv?=
- =?utf-8?B?RDk1ZHc4aHVGRHJIZUNiS2lrL01LVkF4STd4SlV4VkVoNHBaKzhQUDRBWXdX?=
- =?utf-8?B?RTBGZWFIaElqL2N2U29UdmZ5OFRLRnYxSllJSm9QMzAvNk1weGhHTkF1ZExL?=
- =?utf-8?B?dmxyUTh5REhEQWFRWlZlcThJWGFOR3VqeWN6M3pNTktneUMzeXBBYnZLeWVa?=
- =?utf-8?B?TWdMejEwYk1BYVdxWlF3M2xFVTQvRHlwZlg4VEd0aHFUNHNkQTFRTHoyVUNN?=
- =?utf-8?B?VFRjK1AvRmpFUitERjBxUlZic2R1MjFNVHJsUHNBUEluZDRtQ2lzWGtMTjIv?=
- =?utf-8?B?ZE1yWEtRcXd5ZkNvZVBWMDArZVJhb3JHbXlGUEJMNWgwK1pHV3FEQTAwSndq?=
- =?utf-8?B?ZEJiOHYvKzBkcEJ3ZHpYNWExTVEwbldEd2ZRVmhudWU1MnpYMklaaGI4VExD?=
- =?utf-8?B?bkVwSlhjZjhnNmlwdEFKVlVuK3dxOWRUV2RVWnZDSnZIZy9qajZYOExxT290?=
- =?utf-8?B?aE5YSDM5cC9MNjNPUXBIOXZtRVFMZjZQYWNadzI0Q3pvcWZJRGZjNU1XU3Nl?=
- =?utf-8?B?RE8vU3hEOVE3SWJtaDZaQ1pyWS9vZldhWU0zTWtaeVZKdTcydHYzTFl6RmFk?=
- =?utf-8?B?NnRpZ2dsa0huRThyOWNsS3BWa015OGZoN29UVWZ6dkFwVXZuWEs4allsSXdS?=
- =?utf-8?B?N1J1aFF4Y0VPZ3R5Z0RvbCtLYm44OFQ3eVA5dVQ3b0I2amp1M2lGUDRlN0Nu?=
- =?utf-8?B?OWQxemZzL3dTRkFZMS9IUDUyYUM2RXZkZGtnNWpuNFBLZ0FPZVo4ZDg5SUlt?=
- =?utf-8?B?d2NxNzliOGg4a0xZVTgyYmI3SXI0YSsxbnBYY0tiYkt3NjYvcWxsQ3ZZQ0k5?=
- =?utf-8?B?dzlBVllFUGg4elRZMDV2VWtEc2JhbUg2S1Zkd1BBNCtHTklDKzd6VkpPTE0y?=
- =?utf-8?Q?u1xMglX6fMW0ZI6NvQxtHAoSB?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4067696d-87a6-4332-6dbc-08dd24b67769
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2024 07:33:46.5860
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h8rJuvkB2wHp+VkBkK6t5qU0qvWMfF4ppbUHXcLTP+G/ZC3mIjeKHVqiEU+Z6z2smN/lQM7HmAXRQnrWEQ9jSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8127
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1735159288.git.g@b4.vu>
 
-On 25/12/24 12:53, Vijendar Mukunda wrote:
-> This patch series consists of code improvements and new platform support
-> for ACP7.0 & ACP7.1 platforms.
+Add a new kernel driver for the Focusrite Control Protocol (FCP),
+which is used by Focusrite Scarlett 2nd Gen, 3rd Gen, 4th Gen, Clarett
+USB, Clarett+, and Vocaster series audio interfaces. This driver
+provides a user-space control interface via ALSA's hwdep subsystem.
 
-Subject line was not posted correctly. 
-It should be "soundwire: amd: code improvements and new platform support addition"
->
-> Vijendar Mukunda (5):
->   soundwire: amd: change the soundwire wake enable/disable sequence
->   soundwire: amd: add debug log for soundwire wake event
->   soundwire: amd: add support for ACP7.0 & ACP7.1 platforms
->   soundwire: amd: add soundwire host wake interrupt enable/disable
->     sequence
->   soundwire: amd: clear soundwire pme wake status
->
->  drivers/soundwire/amd_manager.c   | 102 ++++++++++++++++++++++++++++++
->  drivers/soundwire/amd_manager.h   |  27 ++++++++
->  include/linux/soundwire/sdw_amd.h |   2 +
->  3 files changed, 131 insertions(+)
->
+Unlike the existing Scarlett2 driver which implements all ALSA
+controls in kernel space, this new FCP driver takes a different
+approach by providing a minimal kernel interface that allows a
+user-space driver to send FCP commands and receive notifications. The
+only control implemented in kernel space is the Level Meter, since it
+requires frequent polling of volatile data.
+
+While this driver supports all interfaces that the Scarlett2 driver
+works with, it is initially enabled only for 4th Gen 16i16, 18i16,
+and 18i20 interfaces that are not supported by the Scarlett2 driver.
+
+Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
+---
+ MAINTAINERS              |  10 +-
+ include/uapi/sound/fcp.h |  59 +++
+ sound/usb/Makefile       |   1 +
+ sound/usb/fcp.c          | 883 +++++++++++++++++++++++++++++++++++++++
+ sound/usb/fcp.h          |   7 +
+ sound/usb/mixer_quirks.c |   7 +
+ 6 files changed, 963 insertions(+), 4 deletions(-)
+ create mode 100644 include/uapi/sound/fcp.h
+ create mode 100644 sound/usb/fcp.c
+ create mode 100644 sound/usb/fcp.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6bb4ec0c162a..2fd0945cb738 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8868,14 +8868,16 @@ L:	linux-input@vger.kernel.org
+ S:	Maintained
+ F:	drivers/input/joystick/fsia6b.c
+ 
+-FOCUSRITE SCARLETT2 MIXER DRIVER (Scarlett Gen 2+ and Clarett)
++FOCUSRITE CONTROL PROTOCOL/SCARLETT2 MIXER DRIVERS (Scarlett Gen 2+, Clarett, and Vocaster)
+ M:	Geoffrey D. Bennett <g@b4.vu>
+ L:	linux-sound@vger.kernel.org
+ S:	Maintained
+-W:	https://github.com/geoffreybennett/scarlett-gen2
+-B:	https://github.com/geoffreybennett/scarlett-gen2/issues
+-T:	git https://github.com/geoffreybennett/scarlett-gen2.git
++W:	https://github.com/geoffreybennett/linux-fcp
++B:	https://github.com/geoffreybennett/linux-fcp/issues
++T:	git https://github.com/geoffreybennett/linux-fcp.git
++F:	include/uapi/sound/fcp.h
+ F:	include/uapi/sound/scarlett2.h
++F:	sound/usb/fcp.c
+ F:	sound/usb/mixer_scarlett2.c
+ 
+ FORCEDETH GIGABIT ETHERNET DRIVER
+diff --git a/include/uapi/sound/fcp.h b/include/uapi/sound/fcp.h
+new file mode 100644
+index 000000000000..2c4391a9aee4
+--- /dev/null
++++ b/include/uapi/sound/fcp.h
+@@ -0,0 +1,59 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++/*
++ * Focusrite Control Protocol Driver for ALSA
++ *
++ * Copyright (c) 2024 by Geoffrey D. Bennett <g at b4.vu>
++ */
++#ifndef __UAPI_SOUND_FCP_H
++#define __UAPI_SOUND_FCP_H
++
++#ifdef __KERNEL__
++#include <linux/types.h>
++#else
++#include <stdint.h>
++#endif
++
++#include <linux/ioctl.h>
++
++#define FCP_HWDEP_MAJOR 2
++#define FCP_HWDEP_MINOR 0
++#define FCP_HWDEP_SUBMINOR 0
++
++#define FCP_HWDEP_VERSION \
++	((FCP_HWDEP_MAJOR << 16) | \
++	 (FCP_HWDEP_MINOR << 8) | \
++	  FCP_HWDEP_SUBMINOR)
++
++#define FCP_HWDEP_VERSION_MAJOR(v) (((v) >> 16) & 0xFF)
++#define FCP_HWDEP_VERSION_MINOR(v) (((v) >> 8) & 0xFF)
++#define FCP_HWDEP_VERSION_SUBMINOR(v) ((v) & 0xFF)
++
++/* Get protocol version */
++#define FCP_IOCTL_PVERSION _IOR('S', 0x60, int)
++
++/* Do FCP step 0 */
++struct fcp_step0 {
++	void     *data;
++	uint16_t  size;
++};
++#define FCP_IOCTL_INIT _IOWR('S', 0x64, struct fcp_step0)
++
++/* Perform a command */
++struct fcp_cmd {
++	uint32_t    opcode;
++	uint16_t    req_size;
++	uint16_t    resp_size;
++	const void *req;
++	void       *resp;
++};
++#define FCP_IOCTL_CMD _IOWR('S', 0x65, struct fcp_cmd)
++
++/* Set the meter map */
++struct fcp_meter_map {
++	const int16_t *map;
++	uint16_t       map_size;
++	uint16_t       meter_slots;
++};
++#define FCP_IOCTL_SET_METER_MAP _IOW('S', 0x66, struct fcp_meter_map)
++
++#endif /* __UAPI_SOUND_FCP_H */
+diff --git a/sound/usb/Makefile b/sound/usb/Makefile
+index 0532499dbc6d..30bd5348477b 100644
+--- a/sound/usb/Makefile
++++ b/sound/usb/Makefile
+@@ -6,6 +6,7 @@
+ snd-usb-audio-y := 	card.o \
+ 			clock.o \
+ 			endpoint.o \
++			fcp.o \
+ 			format.o \
+ 			helper.o \
+ 			implicit.o \
+diff --git a/sound/usb/fcp.c b/sound/usb/fcp.c
+new file mode 100644
+index 000000000000..ff719c64a155
+--- /dev/null
++++ b/sound/usb/fcp.c
+@@ -0,0 +1,883 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Focusrite Control Protocol Driver for ALSA
++ *
++ * FCP is the vendor-specific protocol used by Focusrite Scarlett 2nd
++ * Gen, 3rd Gen, 4th Gen, Clarett USB, Clarett+, and Vocaster series.
++ *
++ * This driver provides a hwdep interface for userspace to send FCP
++ * commands and receive notifications which is sufficient to implement
++ * all user-space controls except the Level Meter (which is volatile
++ * and thus requires a kernel-space control).
++ *
++ * Copyright (c) 2024 by Geoffrey D. Bennett <g at b4.vu>
++ */
++
++#include <linux/slab.h>
++#include <linux/usb.h>
++
++#include <sound/control.h>
++#include <sound/hwdep.h>
++
++#include <uapi/sound/fcp.h>
++
++#include "usbaudio.h"
++#include "mixer.h"
++#include "helper.h"
++
++#include "fcp.h"
++
++struct fcp_data {
++	struct usb_mixer_interface *mixer;
++
++	struct mutex mutex;         /* serialise access to the device */
++	struct completion cmd_done; /* wait for command completion */
++	struct file *file;          /* hwdep file */
++
++	/* notify waiting to send to *file */
++	struct {
++		wait_queue_head_t queue;
++		u32               event;
++		spinlock_t        lock;
++	} notify;
++
++	__u8  bInterfaceNumber;
++	__u8  bEndpointAddress;
++	__u16 wMaxPacketSize;
++	__u8  bInterval;
++
++	u16 seq;
++
++	u8    num_meter_slots;
++	s16  *meter_level_map;
++	char *meter_labels;
++	int   meter_labels_size;
++	struct snd_kcontrol *meter_ctl;
++};
++
++/*** USB Interactions ***/
++
++/* FCP Command ACK notification bit */
++#define FCP_NOTIFY_ACK 1
++
++/* Vendor-specific USB control requests */
++#define FCP_USB_REQ_STEP0  0
++#define FCP_USB_REQ_CMD_TX 2
++#define FCP_USB_REQ_CMD_RX 3
++
++/* Focusrite Control Protocol opcodes that the kernel side needs to
++ * know about
++ */
++#define FCP_USB_INIT_1    0x00000000
++#define FCP_USB_REBOOT    0x00000003
++#define FCP_USB_GET_METER 0x00001001
++
++#define FCP_USB_METER_LEVELS_GET_MAGIC 1
++
++/* FCP command request/response format */
++struct fcp_usb_packet {
++	__le32 opcode;
++	__le16 size;
++	__le16 seq;
++	__le32 error;
++	__le32 pad;
++	u8 data[];
++};
++
++static void fcp_fill_request_header(struct fcp_data *private,
++				    struct fcp_usb_packet *req,
++				    u32 opcode, u16 req_size)
++{
++	/* sequence must go up by 1 for each request */
++	u16 seq = private->seq++;
++
++	req->opcode = cpu_to_le32(opcode);
++	req->size = cpu_to_le16(req_size);
++	req->seq = cpu_to_le16(seq);
++	req->error = 0;
++	req->pad = 0;
++}
++
++static int fcp_usb_tx(struct usb_device *dev, int interface,
++		      void *buf, u16 size)
++{
++	return snd_usb_ctl_msg(dev, usb_sndctrlpipe(dev, 0),
++			FCP_USB_REQ_CMD_TX,
++			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_OUT,
++			0, interface, buf, size);
++}
++
++static int fcp_usb_rx(struct usb_device *dev, int interface,
++		      void *buf, u16 size)
++{
++	return snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
++			FCP_USB_REQ_CMD_RX,
++			USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++			0, interface, buf, size);
++}
++
++/* Send an FCP command and get the response */
++static int fcp_usb(struct usb_mixer_interface *mixer, u32 opcode,
++		   const void *req_data, u16 req_size,
++		   void *resp_data, u16 resp_size)
++{
++	struct fcp_data *private = mixer->private_data;
++	struct usb_device *dev = mixer->chip->dev;
++	struct fcp_usb_packet *req, *resp = NULL;
++	size_t req_buf_size = struct_size(req, data, req_size);
++	size_t resp_buf_size = struct_size(resp, data, resp_size);
++	int retries = 0;
++	const int max_retries = 5;
++	int err;
++
++	req = kmalloc(req_buf_size, GFP_KERNEL);
++	if (!req) {
++		err = -ENOMEM;
++		goto done;
++	}
++
++	resp = kmalloc(resp_buf_size, GFP_KERNEL);
++	if (!resp) {
++		err = -ENOMEM;
++		goto done;
++	}
++
++	/* build request message */
++	fcp_fill_request_header(private, req, opcode, req_size);
++	if (req_size)
++		memcpy(req->data, req_data, req_size);
++
++	/* send the request and retry on EPROTO */
++retry:
++	err = fcp_usb_tx(dev, private->bInterfaceNumber, req, req_buf_size);
++	if (err == -EPROTO && ++retries <= max_retries) {
++		msleep(1 << (retries - 1));
++		goto retry;
++	}
++
++	if (err != req_buf_size) {
++		usb_audio_err(
++			mixer->chip,
++			"FCP request %08x failed: %d\n",
++			opcode, err);
++		err = -EINVAL;
++		goto done;
++	}
++
++	if (!wait_for_completion_timeout(&private->cmd_done,
++					 msecs_to_jiffies(1000))) {
++		usb_audio_err(
++			mixer->chip,
++			"FCP request %08x timed out\n",
++			opcode);
++
++		err = -ETIMEDOUT;
++		goto done;
++	}
++
++	/* send a second message to get the response */
++
++	err = fcp_usb_rx(dev, private->bInterfaceNumber, resp, resp_buf_size);
++
++	/* validate the response */
++
++	if (err != resp_buf_size) {
++
++		/* ESHUTDOWN and EPROTO are valid responses to a
++		 * reboot request
++		 */
++		if (opcode == FCP_USB_REBOOT &&
++		    (err == -ESHUTDOWN || err == -EPROTO)) {
++			err = 0;
++			goto done;
++		}
++
++		usb_audio_err(
++			mixer->chip,
++			"FCP response %08x failed: %d (expected %zu)\n",
++			opcode, err, resp_buf_size);
++		err = -EINVAL;
++		goto done;
++	}
++
++	/* opcode/seq/size should match except when initialising
++	 * seq sent = 1, response = 0
++	 */
++	if (resp->opcode != req->opcode ||
++	    (resp->seq != req->seq &&
++		(le16_to_cpu(req->seq) != 1 || resp->seq != 0)) ||
++	    resp_size != le16_to_cpu(resp->size) ||
++	    resp->error ||
++	    resp->pad) {
++		usb_audio_err(
++			mixer->chip,
++			"FCP response invalid; "
++			    "opcode tx/rx %08x/%08x seq %d/%d size %d/%d "
++			    "error %d pad %d\n",
++			le32_to_cpu(req->opcode), le32_to_cpu(resp->opcode),
++			le16_to_cpu(req->seq), le16_to_cpu(resp->seq),
++			resp_size, le16_to_cpu(resp->size),
++			le32_to_cpu(resp->error),
++			le32_to_cpu(resp->pad));
++		err = -EINVAL;
++		goto done;
++	}
++
++	if (resp_data && resp_size > 0)
++		memcpy(resp_data, resp->data, resp_size);
++
++done:
++	kfree(req);
++	kfree(resp);
++	return err;
++}
++
++/*** Control Functions ***/
++
++/* helper function to create a new control */
++static int fcp_add_new_ctl(struct usb_mixer_interface *mixer,
++			   const struct snd_kcontrol_new *ncontrol,
++			   int index, int channels, const char *name,
++			   struct snd_kcontrol **kctl_return)
++{
++	struct snd_kcontrol *kctl;
++	struct usb_mixer_elem_info *elem;
++	int err;
++
++	elem = kzalloc(sizeof(*elem), GFP_KERNEL);
++	if (!elem)
++		return -ENOMEM;
++
++	/* We set USB_MIXER_BESPOKEN type, so that the core USB mixer code
++	 * ignores them for resume and other operations.
++	 * Also, the head.id field is set to 0, as we don't use this field.
++	 */
++	elem->head.mixer = mixer;
++	elem->control = index;
++	elem->head.id = 0;
++	elem->channels = channels;
++	elem->val_type = USB_MIXER_BESPOKEN;
++
++	kctl = snd_ctl_new1(ncontrol, elem);
++	if (!kctl) {
++		kfree(elem);
++		return -ENOMEM;
++	}
++	kctl->private_free = snd_usb_mixer_elem_free;
++
++	strscpy(kctl->id.name, name, sizeof(kctl->id.name));
++
++	err = snd_usb_mixer_add_control(&elem->head, kctl);
++	if (err < 0)
++		return err;
++
++	if (kctl_return)
++		*kctl_return = kctl;
++
++	return 0;
++}
++
++/*** Level Meter Control ***/
++
++static int fcp_meter_ctl_info(struct snd_kcontrol *kctl,
++			      struct snd_ctl_elem_info *uinfo)
++{
++	struct usb_mixer_elem_info *elem = kctl->private_data;
++
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = elem->channels;
++	uinfo->value.integer.min = 0;
++	uinfo->value.integer.max = 4095;
++	uinfo->value.integer.step = 1;
++	return 0;
++}
++
++static int fcp_meter_ctl_get(struct snd_kcontrol *kctl,
++			     struct snd_ctl_elem_value *ucontrol)
++{
++	struct usb_mixer_elem_info *elem = kctl->private_data;
++	struct usb_mixer_interface *mixer = elem->head.mixer;
++	struct fcp_data *private = mixer->private_data;
++	int num_meter_slots, resp_size;
++	u32 *resp;
++	int i, err = 0;
++
++	struct {
++		__le16 pad;
++		__le16 num_meters;
++		__le32 magic;
++	} __packed req;
++
++	mutex_lock(&private->mutex);
++
++	num_meter_slots = private->num_meter_slots;
++	resp_size = num_meter_slots * sizeof(u32);
++
++	resp = kmalloc(resp_size, GFP_KERNEL);
++	if (!resp) {
++		err = -ENOMEM;
++		goto done;
++	}
++
++	req.pad = 0;
++	req.num_meters = cpu_to_le16(num_meter_slots);
++	req.magic = cpu_to_le32(FCP_USB_METER_LEVELS_GET_MAGIC);
++	err = fcp_usb(mixer, FCP_USB_GET_METER,
++		      &req, sizeof(req), resp, resp_size);
++	if (err < 0)
++		goto done;
++
++	/* copy & translate from meter_levels[] using meter_level_map[] */
++	for (i = 0; i < elem->channels; i++) {
++		int idx = private->meter_level_map[i];
++		int value = idx < 0 ? 0 : le32_to_cpu(resp[idx]);
++
++		ucontrol->value.integer.value[i] = value;
++	}
++
++done:
++	mutex_unlock(&private->mutex);
++	kfree(resp);
++	return err;
++}
++
++static int fcp_meter_tlv_callback(struct snd_kcontrol *kctl,
++				  int op_flag, unsigned int size,
++				  unsigned int __user *tlv)
++{
++	struct usb_mixer_elem_info *elem = kctl->private_data;
++	struct usb_mixer_interface *mixer = elem->head.mixer;
++	struct fcp_data *private = mixer->private_data;
++
++	if (op_flag == SNDRV_CTL_TLV_OP_READ) {
++		if (private->meter_labels_size == 0)
++			return 0;
++
++		if (size > private->meter_labels_size)
++			size = private->meter_labels_size;
++
++		if (copy_to_user(tlv, private->meter_labels, size))
++			return -EFAULT;
++
++		return size;
++	}
++
++	if (op_flag == SNDRV_CTL_TLV_OP_WRITE) {
++		kfree(private->meter_labels);
++		private->meter_labels = NULL;
++		private->meter_labels_size = 0;
++
++		if (size == 0)
++			return 0;
++
++		if (size > 4096)
++			return -EINVAL;
++
++		private->meter_labels = kmalloc(size, GFP_KERNEL);
++		if (!private->meter_labels)
++			return -ENOMEM;
++
++		if (copy_from_user(private->meter_labels, tlv, size)) {
++			kfree(private->meter_labels);
++			private->meter_labels = NULL;
++			return -EFAULT;
++		}
++
++		private->meter_labels_size = size;
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
++static const struct snd_kcontrol_new fcp_meter_ctl = {
++	.iface  = SNDRV_CTL_ELEM_IFACE_PCM,
++	.access = SNDRV_CTL_ELEM_ACCESS_READ |
++		  SNDRV_CTL_ELEM_ACCESS_VOLATILE |
++		  SNDRV_CTL_ELEM_ACCESS_TLV_READWRITE |
++		  SNDRV_CTL_ELEM_ACCESS_TLV_CALLBACK,
++	.info = fcp_meter_ctl_info,
++	.get  = fcp_meter_ctl_get,
++	.tlv  = { .c = fcp_meter_tlv_callback },
++};
++
++/*** Callbacks ***/
++
++static void fcp_notify(struct urb *urb)
++{
++	struct usb_mixer_interface *mixer = urb->context;
++	struct fcp_data *private = mixer->private_data;
++	int len = urb->actual_length;
++	int ustatus = urb->status;
++	u32 data;
++
++	if (ustatus != 0 || len != 8)
++		goto requeue;
++
++	data = le32_to_cpu(*(__le32 *)urb->transfer_buffer);
++
++	/* Handle command acknowledgement */
++	if (data & FCP_NOTIFY_ACK) {
++		complete(&private->cmd_done);
++		data &= ~FCP_NOTIFY_ACK;
++	}
++
++	if (data) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&private->notify.lock, flags);
++		private->notify.event |= data;
++		spin_unlock_irqrestore(&private->notify.lock, flags);
++
++		wake_up_interruptible(&private->notify.queue);
++	}
++
++requeue:
++	if (ustatus != -ENOENT &&
++	    ustatus != -ECONNRESET &&
++	    ustatus != -ESHUTDOWN) {
++		urb->dev = mixer->chip->dev;
++		usb_submit_urb(urb, GFP_ATOMIC);
++	} else {
++		complete(&private->cmd_done);
++	}
++}
++
++/* Submit a URB to receive notifications from the device */
++static int fcp_init_notify(struct usb_mixer_interface *mixer)
++{
++	struct usb_device *dev = mixer->chip->dev;
++	struct fcp_data *private = mixer->private_data;
++	unsigned int pipe = usb_rcvintpipe(dev, private->bEndpointAddress);
++	void *transfer_buffer;
++	int err;
++
++	/* Already set up */
++	if (mixer->urb)
++		return 0;
++
++	if (usb_pipe_type_check(dev, pipe))
++		return -EINVAL;
++
++	mixer->urb = usb_alloc_urb(0, GFP_KERNEL);
++	if (!mixer->urb)
++		return -ENOMEM;
++
++	transfer_buffer = kmalloc(private->wMaxPacketSize, GFP_KERNEL);
++	if (!transfer_buffer) {
++		usb_free_urb(mixer->urb);
++		mixer->urb = NULL;
++		return -ENOMEM;
++	}
++
++	usb_fill_int_urb(mixer->urb, dev, pipe,
++			 transfer_buffer, private->wMaxPacketSize,
++			 fcp_notify, mixer, private->bInterval);
++
++	init_completion(&private->cmd_done);
++
++	err = usb_submit_urb(mixer->urb, GFP_KERNEL);
++	if (err) {
++		usb_audio_err(mixer->chip,
++			      "%s: usb_submit_urb failed: %d\n",
++			      __func__, err);
++		kfree(transfer_buffer);
++		usb_free_urb(mixer->urb);
++		mixer->urb = NULL;
++	}
++
++	return err;
++}
++
++/*** hwdep interface ***/
++
++/* FCP initialisation step 0 */
++static int fcp_ioctl_init(struct usb_mixer_interface *mixer, unsigned long arg)
++{
++	struct fcp_step0 step0;
++	struct usb_device *dev = mixer->chip->dev;
++	struct fcp_data *private = mixer->private_data;
++	void *resp = NULL;
++	int err;
++
++	if (usb_pipe_type_check(dev, usb_sndctrlpipe(dev, 0)))
++		return -EINVAL;
++
++	if (copy_from_user(&step0, (void __user *)arg, sizeof(step0)))
++		return -EFAULT;
++
++	if (step0.size > 255)
++		return -EINVAL;
++
++	if (step0.size > 0) {
++		resp = kmalloc(step0.size, GFP_KERNEL);
++		if (!resp)
++			return -ENOMEM;
++	}
++
++	err = snd_usb_ctl_msg(dev, usb_rcvctrlpipe(dev, 0),
++		FCP_USB_REQ_STEP0,
++		USB_RECIP_INTERFACE | USB_TYPE_CLASS | USB_DIR_IN,
++		0, private->bInterfaceNumber, resp, step0.size);
++	if (err < 0)
++		goto done;
++
++	if (copy_to_user((void __user *)arg, resp, step0.size)) {
++		err = -EFAULT;
++		goto done;
++	}
++
++	err = fcp_init_notify(mixer);
++
++	private->seq = 0;
++
++done:
++	kfree(resp);
++	return err;
++}
++
++/* Execute an FCP command specified by the user */
++static int fcp_ioctl_cmd(struct usb_mixer_interface *mixer, unsigned long arg)
++{
++	struct fcp_cmd cmd;
++	int err;
++	void *req = NULL;
++	void *resp = NULL;
++
++	/* get cmd & req/resp buffers */
++	if (copy_from_user(&cmd, (void __user *)arg, sizeof(cmd)))
++		return -EFAULT;
++
++	/* validate request and response sizes */
++	if (cmd.req_size > 4096 || cmd.resp_size > 4096)
++		return -EINVAL;
++
++	/* allocate request buffer, copy data from user */
++	if (cmd.req_size > 0) {
++		req = kmalloc(cmd.req_size, GFP_KERNEL);
++		if (!req) {
++			err = -ENOMEM;
++			goto exit;
++		}
++		if (copy_from_user(req, cmd.req, cmd.req_size)) {
++			err = -EFAULT;
++			goto exit;
++		}
++	}
++
++	/* allocate response buffer */
++	if (cmd.resp_size > 0) {
++		resp = kmalloc(cmd.resp_size, GFP_KERNEL);
++		if (!resp) {
++			err = -ENOMEM;
++			goto exit;
++		}
++	}
++
++	/* send request, get response */
++	err = fcp_usb(mixer, cmd.opcode,
++		      req, cmd.req_size,
++		      resp, cmd.resp_size);
++	if (err < 0)
++		goto exit;
++
++	/* copy response to user */
++	if (cmd.resp_size > 0)
++		if (copy_to_user(cmd.resp, resp, cmd.resp_size))
++			err = -EFAULT;
++
++exit:
++	kfree(req);
++	kfree(resp);
++
++	return err;
++}
++
++/* Set the Level Meter map and add the control */
++static int fcp_ioctl_set_meter_map(struct usb_mixer_interface *mixer,
++				   unsigned long arg)
++{
++	struct fcp_meter_map map;
++	struct fcp_data *private = mixer->private_data;
++	s16 *new_map;
++	int i, err;
++
++	if (copy_from_user(&map, (void __user *)arg, sizeof(map)))
++		return -EFAULT;
++
++	if (map.map_size > 255)
++		return -EINVAL;
++
++	new_map = kmalloc_array(map.map_size, sizeof(s16), GFP_KERNEL);
++	if (!new_map)
++		return -ENOMEM;
++
++	if (copy_from_user(new_map, map.map, map.map_size * sizeof(s16))) {
++		err = -EFAULT;
++		goto fail;
++	}
++
++	for (i = 0; i < map.map_size; i++) {
++		if (new_map[i] < -1 || new_map[i] >= map.meter_slots) {
++			err = -EINVAL;
++			goto fail;
++		}
++	}
++
++	if (!private->meter_level_map ||
++	    private->meter_ctl->count != map.map_size) {
++		if (private->meter_ctl) {
++			snd_ctl_remove(mixer->chip->card, private->meter_ctl);
++			private->meter_ctl = NULL;
++		}
++		err = fcp_add_new_ctl(mixer, &fcp_meter_ctl, 0, map.map_size,
++				      "Level Meter", &private->meter_ctl);
++		if (err < 0) {
++			kfree(private->meter_level_map);
++			private->meter_level_map = NULL;
++			private->num_meter_slots = 0;
++			private->meter_labels_size = 0;
++			private->meter_labels = NULL;
++			goto fail;
++		}
++	}
++
++	kfree(private->meter_level_map);
++	private->meter_level_map = new_map;
++	private->num_meter_slots = map.meter_slots;
++
++	return 0;
++
++fail:
++	kfree(new_map);
++	return err;
++}
++
++static int fcp_hwdep_open(struct snd_hwdep *hw, struct file *file)
++{
++	struct usb_mixer_interface *mixer = hw->private_data;
++	struct fcp_data *private = mixer->private_data;
++
++	private->file = file;
++
++	return 0;
++}
++
++static int fcp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
++			   unsigned int cmd, unsigned long arg)
++{
++	struct usb_mixer_interface *mixer = hw->private_data;
++	struct fcp_data *private = mixer->private_data;
++	int err;
++
++	mutex_lock(&private->mutex);
++
++	switch (cmd) {
++
++	case FCP_IOCTL_PVERSION:
++		err = put_user(FCP_HWDEP_VERSION,
++			       (int __user *)arg) ? -EFAULT : 0;
++		break;
++
++	case FCP_IOCTL_INIT:
++		err = fcp_ioctl_init(mixer, arg);
++		break;
++
++	case FCP_IOCTL_CMD:
++		err = fcp_ioctl_cmd(mixer, arg);
++		break;
++
++	case FCP_IOCTL_SET_METER_MAP:
++		err = fcp_ioctl_set_meter_map(mixer, arg);
++		break;
++
++	default:
++		err = -ENOIOCTLCMD;
++	}
++
++	mutex_unlock(&private->mutex);
++
++	return err;
++}
++
++static ssize_t fcp_hwdep_read(struct snd_hwdep *hw, char __user *buf,
++			      ssize_t count, loff_t *offset)
++{
++	struct usb_mixer_interface *mixer = hw->private_data;
++	struct fcp_data *private = mixer->private_data;
++	unsigned long flags;
++	ssize_t ret = 0;
++	u32 event;
++
++	if (count < sizeof(event))
++		return -EINVAL;
++
++	ret = wait_event_interruptible(private->notify.queue,
++				       private->notify.event);
++	if (ret)
++		return ret;
++
++	spin_lock_irqsave(&private->notify.lock, flags);
++	event = private->notify.event;
++	private->notify.event = 0;
++	spin_unlock_irqrestore(&private->notify.lock, flags);
++
++	if (copy_to_user(buf, &event, sizeof(event)))
++		return -EFAULT;
++
++	return sizeof(event);
++}
++
++static unsigned int fcp_hwdep_poll(struct snd_hwdep *hw,
++				   struct file *file,
++				   poll_table *wait)
++{
++	struct usb_mixer_interface *mixer = hw->private_data;
++	struct fcp_data *private = mixer->private_data;
++	unsigned int mask = 0;
++
++	poll_wait(file, &private->notify.queue, wait);
++
++	if (private->notify.event)
++		mask |= POLLIN | POLLRDNORM;
++
++	return mask;
++}
++
++static int fcp_hwdep_release(struct snd_hwdep *hw, struct file *file)
++{
++	struct usb_mixer_interface *mixer = hw->private_data;
++	struct fcp_data *private = mixer->private_data;
++
++	if (!private)
++		return 0;
++
++	private->file = NULL;
++
++	return 0;
++}
++
++static int fcp_hwdep_init(struct usb_mixer_interface *mixer)
++{
++	struct snd_hwdep *hw;
++	int err;
++
++	err = snd_hwdep_new(mixer->chip->card, "Focusrite Control", 0, &hw);
++	if (err < 0)
++		return err;
++
++	hw->private_data = mixer;
++	hw->exclusive = 1;
++	hw->ops.open = fcp_hwdep_open;
++	hw->ops.ioctl = fcp_hwdep_ioctl;
++	hw->ops.read = fcp_hwdep_read;
++	hw->ops.poll = fcp_hwdep_poll;
++	hw->ops.release = fcp_hwdep_release;
++
++	return 0;
++}
++
++/*** Cleanup ***/
++
++static void fcp_private_free(struct usb_mixer_interface *mixer)
++{
++	struct fcp_data *private = mixer->private_data;
++
++	if (mixer->urb) {
++		usb_kill_urb(mixer->urb);
++		kfree(mixer->urb->transfer_buffer);
++		usb_free_urb(mixer->urb);
++		mixer->urb = NULL;
++	}
++
++	kfree(private->meter_level_map);
++	kfree(private->meter_labels);
++	kfree(private);
++	mixer->private_data = NULL;
++}
++
++/*** Initialisation ***/
++
++static int fcp_init_private(struct usb_mixer_interface *mixer)
++{
++	struct fcp_data *private =
++		kzalloc(sizeof(struct fcp_data), GFP_KERNEL);
++
++	if (!private)
++		return -ENOMEM;
++
++	mutex_init(&private->mutex);
++	init_waitqueue_head(&private->notify.queue);
++	spin_lock_init(&private->notify.lock);
++
++	mixer->private_data = private;
++	mixer->private_free = fcp_private_free;
++
++	private->mixer = mixer;
++
++	return 0;
++}
++
++/* Look through the interface descriptors for the Focusrite Control
++ * interface (bInterfaceClass = 255 Vendor Specific Class) and set
++ * bInterfaceNumber, bEndpointAddress, wMaxPacketSize, and bInterval
++ * in private
++ */
++static int fcp_find_fc_interface(struct usb_mixer_interface *mixer)
++{
++	struct snd_usb_audio *chip = mixer->chip;
++	struct fcp_data *private = mixer->private_data;
++	struct usb_host_config *config = chip->dev->actconfig;
++	int i;
++
++	for (i = 0; i < config->desc.bNumInterfaces; i++) {
++		struct usb_interface *intf = config->interface[i];
++		struct usb_interface_descriptor *desc =
++			&intf->altsetting[0].desc;
++		struct usb_endpoint_descriptor *epd;
++
++		if (desc->bInterfaceClass != 255)
++			continue;
++
++		epd = get_endpoint(intf->altsetting, 0);
++		private->bInterfaceNumber = desc->bInterfaceNumber;
++		private->bEndpointAddress = epd->bEndpointAddress &
++			USB_ENDPOINT_NUMBER_MASK;
++		private->wMaxPacketSize = le16_to_cpu(epd->wMaxPacketSize);
++		private->bInterval = epd->bInterval;
++		return 0;
++	}
++
++	usb_audio_err(chip, "Focusrite vendor-specific interface not found\n");
++	return -EINVAL;
++}
++
++int snd_fcp_init(struct usb_mixer_interface *mixer)
++{
++	struct snd_usb_audio *chip = mixer->chip;
++	int err;
++
++	/* only use UAC_VERSION_2 */
++	if (!mixer->protocol)
++		return 0;
++
++	err = fcp_init_private(mixer);
++	if (err < 0)
++		return err;
++
++	err = fcp_find_fc_interface(mixer);
++	if (err < 0)
++		return err;
++
++	err = fcp_hwdep_init(mixer);
++	if (err < 0)
++		return err;
++
++	usb_audio_info(chip,
++		"Focusrite Control Protocol Driver ready (pid=0x%04x); "
++		"report any issues to "
++		"https://github.com/geoffreybennett/fcp-support/issues",
++		USB_ID_PRODUCT(chip->usb_id));
++
++	return err;
++}
+diff --git a/sound/usb/fcp.h b/sound/usb/fcp.h
+new file mode 100644
+index 000000000000..d58cc7db75b1
+--- /dev/null
++++ b/sound/usb/fcp.h
+@@ -0,0 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef __USBAUDIO_FCP_H
++#define __USBAUDIO_FCP_H
++
++int snd_fcp_init(struct usb_mixer_interface *mixer);
++
++#endif /* __USBAUDIO_FCP_H */
+diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
+index a95ebcf4e46e..150fbb5ac7ed 100644
+--- a/sound/usb/mixer_quirks.c
++++ b/sound/usb/mixer_quirks.c
+@@ -38,6 +38,7 @@
+ #include "mixer_us16x08.h"
+ #include "mixer_s1810c.h"
+ #include "helper.h"
++#include "fcp.h"
+ 
+ struct std_mono_table {
+ 	unsigned int unitid, control, cmask;
+@@ -4033,6 +4034,12 @@ int snd_usb_mixer_apply_create_quirk(struct usb_mixer_interface *mixer)
+ 		err = snd_scarlett2_init(mixer);
+ 		break;
+ 
++	case USB_ID(0x1235, 0x821b): /* Focusrite Scarlett 16i16 4th Gen */
++	case USB_ID(0x1235, 0x821c): /* Focusrite Scarlett 18i16 4th Gen */
++	case USB_ID(0x1235, 0x821d): /* Focusrite Scarlett 18i20 4th Gen */
++		err = snd_fcp_init(mixer);
++		break;
++
+ 	case USB_ID(0x041e, 0x323b): /* Creative Sound Blaster E1 */
+ 		err = snd_soundblaster_e1_switch_create(mixer);
+ 		break;
+-- 
+2.45.0
 
