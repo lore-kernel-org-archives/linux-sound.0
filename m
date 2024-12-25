@@ -1,223 +1,334 @@
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8F418E25;
-	Wed, 25 Dec 2024 05:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.92.39.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735105128; cv=none; b=OjaHMAQGG9uMcwq+3H5Vb678/QiO1jdlfK8A0Hqf6N+a/BEleet7SeVoG56hOPFOOb+U2n7pSpN9LVhJUhLI1Xhlu+ODKF/aR1e40wvHDf9/QeWx+IlW/8e+PEsdG3A+MCHilpfAk2LKMmGqId7qQLG5fQLBnvcTbKhvRziVyeU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735105128; c=relaxed/simple;
-	bh=zjlEPLnqu32bvG1Vlmf8x+zl3SLjhSQEAtW6cnUwY3w=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=n+FKi/fKly9UZVW8HYNG8vyDMwjxa5vvse9FJDLANJIwq2S14lhqdtDhrajg0j6TgEuh8yrUxZGz55H8sbR/3d7jGQ64R0gN2cQkYu9VnvYD/FWBZAJ0i3nfKql/IwKxX23Y0eA0K/+BIlJNDZyjLhbaBWcmB+KbWYLSZotckn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=pZsOkaNu; arc=none smtp.client-ip=54.92.39.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593AF20DF4;
+	Wed, 25 Dec 2024 06:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1735106440; cv=fail; b=c+6Tkq+IqOaEwkWH1iibvvv1W7Sf6y3n/wHXGqM2FuihPSqvPiRmBvv1eHWFewyB/O8sF33dpdnUNeAbNQ7wTlySrVC9rVvSNAVZxSVWxnXBEqfN27zJsahvmR2BUNVnNVITVyr3dM33zypJ0CAQdebAfG0gLzPi45hSqakocmg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1735106440; c=relaxed/simple;
+	bh=hOzMmbymisfmsXs7eIdWHBj4Ycqq4oJqsRo/p5xV1J8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=t5/4Yjc6cj5kuh75k9BH8wgk0Pr/Bj9XrUMj3knBQTRJuEPjqYlGtjpJQiK90wPS0GijID524Dnol0ALYMIK7cMbROzMoJJLo+9JojXDRG0FlDiNwYPjBadssyPmd8mA+F/fo9fo4kVptl10a53/sGvlBk6dgnIuBsWEJuVGWoQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=njeOoQz9; arc=fail smtp.client-ip=40.107.94.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="pZsOkaNu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
-	s=sorc2401; t=1735105086;
-	bh=1DlpP5M2+VAVmHkj65ImBUu3Uo9aMiQ+mGrgti9XbMc=;
-	h=Mime-Version:Subject:From:Date:Message-Id:To;
-	b=pZsOkaNuQ35RE+qGgTW4UsQTx88tD+wBcSZ0wYkM3F2DkKIzMmHtpjBpsVkKBzSzv
-	 eBk5tJc8MTACfNTlF90VaO9Q4fSQLaVkcgiSD5ijC+PqYtKyunOqDk3tt+iDKnZZWT
-	 omSTmlmDDxHeeo7cBDYyDqaF6KYpU2tlJeE5Jl+4=
-X-QQ-mid: bizesmtp82t1735105081tcqo2x2o
-X-QQ-Originating-IP: U/DrdwVE50kJsYs9/9iaLwzTZkGjsjsVjuUSRe+N9VQ=
-Received: from smtpclient.apple ( [202.120.235.170])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 25 Dec 2024 13:38:00 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 13169310443998990785
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="njeOoQz9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=alZjU6irjGm39g6HEFBy2fZAOicQ9Ax5/sn4OekKjPVBM7LKgMmf3EzGHSGaTEVCAdFjI4ESRYE/raE73H2mM93ZrKxFVD2GVv+YYdIzne9MNJWw24UWZCpfy8ZYs8+65CUCWn5RzJnKA5XMD06xu/eDvNp+lHflY3UTGY2fErba4RkwbknYTjsNKp4Ww2xivGjR2aiiVSksjyYOM4KL3cUzi2FXdBYZW9KmJekSTwK1VSSFQ9vXDyP9A88J3x6XA2r/EdV6hfDxr3KzFSWRm3I6qEvWabdS5Zlifu3bmOpKOOBHJT/jaft/kQCTPUSfkhQX1H28IcPIPv0S9tuYEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hOzMmbymisfmsXs7eIdWHBj4Ycqq4oJqsRo/p5xV1J8=;
+ b=in+DZrh2hBnxk23kf8TNOnkJx6sO7VxniX7qWJDQk+tEcEQq/txisb1teeqrJUFjxew+7MTjyMTahj1jyNwdjjo9rQiaWA+frDLbWZ0a4HsU9a6P8rHqSw0mvkgFYC38SqN5DF7xH0LiOpWML3/IBJI7wY8s8kilx+TQPfmnur2HnHtACk6MXC09Cp0JaCw71/NSo5vsi4ComZ6W67Pf5NdlZMPaYxWIQhf8K/8Jtk0R5awhNO4ESVD2ZYda68E6RoTrslWhCECol3G1WVhpGVdEI05iCflllTmD90lI5dpC/MXo53wd6Y1/gCy5hk6XbAlPbhBcHhsRqHmb47xMrw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hOzMmbymisfmsXs7eIdWHBj4Ycqq4oJqsRo/p5xV1J8=;
+ b=njeOoQz9CY8kgQJ+UdjAiWXqAus9l+sCVd1nTyf8tQ77Zxg8ESIyaCPpJovck857JZAkZDMmsspzoPKEmjWT3s6IKvZ7qe3oIeKbzNcLilmX/rZGFQz/4mvOO0aOdxHAbZmqjS4iUq3aN8XebKJFZnPqcCWMzkp7ECYKvKT10O4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com (2603:10b6:5:21f::23)
+ by BY5PR12MB4146.namprd12.prod.outlook.com (2603:10b6:a03:20d::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8293.14; Wed, 25 Dec
+ 2024 06:00:31 +0000
+Received: from DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::512d:6caa:552a:7ebf]) by DM6PR12MB4123.namprd12.prod.outlook.com
+ ([fe80::512d:6caa:552a:7ebf%3]) with mapi id 15.20.8293.000; Wed, 25 Dec 2024
+ 06:00:30 +0000
+Message-ID: <0381c4f0-1588-45a6-9742-d291a5d18c0f@amd.com>
+Date: Wed, 25 Dec 2024 11:30:21 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 02/21] ASoC: amd: acp70: add acp pci driver for ACP7.0 and
+ ACP7.1 platforms
+Content-Language: en-US
+To: Mario Limonciello <mario.limonciello@amd.com>, broonie@kernel.org
+Cc: alsa-devel@alsa-project.org, lgirdwood@gmail.com, perex@perex.cz,
+ tiwai@suse.com, Basavaraj.Hiregoudar@amd.com, Sunil-kumar.Dommati@amd.com,
+ venkataprasad.potturu@amd.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20241219054857.2070420-1-Vijendar.Mukunda@amd.com>
+ <20241219054857.2070420-3-Vijendar.Mukunda@amd.com>
+ <e805eb22-9177-47c2-84d6-c32d93571a44@amd.com>
+From: "Mukunda,Vijendar" <vijendar.mukunda@amd.com>
+In-Reply-To: <e805eb22-9177-47c2-84d6-c32d93571a44@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BMXPR01CA0074.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::14) To DM6PR12MB4123.namprd12.prod.outlook.com
+ (2603:10b6:5:21f::23)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: Bug: slab-out-of-bounds in snd_seq_oss_synth_sysex
-From: Kun Hu <huk23@m.fudan.edu.cn>
-In-Reply-To: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
-Date: Wed, 25 Dec 2024 13:37:47 +0800
-Cc: linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
-References: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
-To: perex@perex.cz,
- tiwai@suse.com
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MAPXug6uMAG51KsSQyn3o89BhGadQ/s3fCugKAd/A2vm2HQE0xGNNCss
-	1Wq9/ZHEIb8Lz9fxIAxpXkEXPO9SkqTZaSdLKodKpdFOnzWrFUzx84LV17diNVmqRpCCegz
-	1iVfnyOpN5H05+dLK5vz/Mv+KpksiKT8qXUt/3v9zP0eLxgAvw+7sEUnG9T0d6zU+qDw18Z
-	sqQfoFGGpfegEXEFGeUk7HbT72Xq4/cbFDvtfqZYAJbtfcvQA0DlWWHs5k4looTM1gtOVj8
-	d6eh7Wjnu7QZL8w6Hp4PqRY+ogWhkhSAkMPCysSdYCaLt31MYItmMIov7POEhjyVZZyfUku
-	4haK8NZ3qUJyWK+5CCIh4Csz+86nVvDV2ygM2CKXyk43diB9P9Bnj2vQTxj6CLS70sNSE3i
-	SNLZRbCOmO2n0Jl1G8e82FE8/p6gCqzCkdUnwqdUGQpoetbzJHQWnp6idy2avwt1HaXKMiV
-	9fIjuUhozGA7YxPKw8FDw3sEr3Ti6nls9Jzdg2POKn1lrnsfAZ9esKmeDmnPwkjUqdY+hlj
-	J8/PcNdbl3q4fo9Xy8nsjPtK0SSznwQhC29BE+d/o7NNpssL//AHfq85pqDCwXg38JjNvYC
-	8AV+i088h8ZAZHuG3F8sMJI6thvBJcvC9rzD0cJuuPT3pWDM1rLs8Pqgir6xdeFqWcm9D01
-	LNu6LJiFUJD5suJLpOrLqccL2PKIwgKLpX8HSHZtU7CX1BCC6Zks+VAv59gBD9lSzIf5AHq
-	+sMiYQE0SqO61GB+Ggqnpn3greGUes5bJpjQesk13Z14mRdfbtqHD5UcxX0+gbgGIvwsbjI
-	uS7l3MK6BAmDdDJngWNGlVP1UMi69R0jZkFU6eHpIVbfMAH7fDieTZrxaG3vpHj/+Tb6XSF
-	Ccqa83rvW1vsjrqRQhvaLAFZK4v0Lt16LlT6eSmr36x3WH7QyHAOMB8P7DmNjXpHRpb5Sn4
-	TyCLcTA20sBn8AgJOpjzhAQts
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4123:EE_|BY5PR12MB4146:EE_
+X-MS-Office365-Filtering-Correlation-Id: bccd3fbf-414c-4f00-0e6e-08dd24a96fc6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R3hIYjV0YUV0OVZ3VmdNcG1CLzd3VndVODFqUE8yV24wRFBURlU2MTJtL0w5?=
+ =?utf-8?B?ejdLZi9DQnZBWUFDUUZEcVh3ck1NaHFUcVduMEl6b3NvQnREK1NHdDVIOVZD?=
+ =?utf-8?B?ZFBoSEpKMWxnSm1qTWVjMGorOUVGaHN2dlZ2OXFBdHZ4aDA5aThyT3lyNVU2?=
+ =?utf-8?B?MmUvVno0SitZRkhieXduR3BVVkE4cEpTZ1pqVXhDanl4VWVxeHNGQlJiUGlZ?=
+ =?utf-8?B?WWhabU9JSEZTeDFuOGRVbWs3UU9KbUJ4anFrM1FpcC9FWWVUdDhxRjNST2Vp?=
+ =?utf-8?B?T3gvZ1hqeEVjMyt4aFZ6Qm9XZTU1YmpJWHdtYWNoMFVFTlhlM1ZING9BcTAw?=
+ =?utf-8?B?bXY1WE5SdFhVM3VvZUx6SjlraFJ4RDNMOFhPTFpiM2haeDdDd0prZHJsV000?=
+ =?utf-8?B?OUhMejNXbkF2WmhLQUJ2ZWVoWkdKYWRRY2I0aE5GSUdZUWFPR0d3TXA3bXNx?=
+ =?utf-8?B?ZVBVT2VqZkJXa1R2ck1rNGtGSTFaTFV6UXdsTU5KRENURUthKzFENkJ4RVNt?=
+ =?utf-8?B?eUpxUkp6SVhobTFJaXFVcnZJUTI1VVpvamxxcVRZNzZsY05JVEYyWHdsajI5?=
+ =?utf-8?B?N0IrZzdRQXZkZFF3K2NqK0RhZUJraktwYllRYTB0bHZySnMzVENPaXg2NW9u?=
+ =?utf-8?B?VDlVd2Z4VFlJNVQyaDZNbG1KemlVNEdMMFRlaE9iK1J6NnBIS2ZFYjgzKy8x?=
+ =?utf-8?B?YkZBV0FXSlc5UzhhOGM1Wm1yaE1RdEV1N1NseG00bXFqQzAyN2w4YWQ5RFVV?=
+ =?utf-8?B?RWNWam16WlZiMTZCR0hFTTloV25WelgrbTFpVHZ4cTlpMGQxU0w5RHZ3L0RS?=
+ =?utf-8?B?R2p5K0UzL2tXUVpyckFXd0ZPRlpncWc4TmdsblZ5elR5QktkT29VL1NGR3FM?=
+ =?utf-8?B?V0tQQUExSzZiViswYmtKbFN1WGtsN29TQWNoNEZsOHJmdTJKd1gxa2wyT0Zz?=
+ =?utf-8?B?aWNrbmYvc2pGYlJHenZaMHdnYUpFSWdBN3h5M3JNdFRxUHlqY3pPZTR3MjdS?=
+ =?utf-8?B?UGtqTWl4WjJaaUNFTXBsY2VZM1JMWTRwMnVlZU9jbEpucGh6cmdHZG9tT2Zk?=
+ =?utf-8?B?b1pvZWJZL0pNZDZsUitWWkRRNXBscUpYbzJCYW1VK1RoUU5JWHYrZHdNQjRi?=
+ =?utf-8?B?cHVaU0tFbDVxb2ovKytOeGx4dXVySVZzK3VYWHFhVWVsUkYwdTNJWDk3enRS?=
+ =?utf-8?B?dDZtY2RQN0tsUjNtcnBkanlzU016YkZwTkpVd045bVJZU3NRMEtyZVk4MGJl?=
+ =?utf-8?B?VXZLUzB2RWZwTFVEeXkvQk5UaGoyR1hVVGsrTEgrN0hyL0F5QUhXdDJXSEJl?=
+ =?utf-8?B?VVRxOXgzYVZ5TXV2MFdqNUhyWTIxbHBPekhYMTM5MlhraS9RNUNqSjQ1dFpK?=
+ =?utf-8?B?bjRuZE5ZZExaUTVFdUlqZDZCckFrTXkyd2FlVzE1cndCRmdtTkVPSVBwRkx4?=
+ =?utf-8?B?SU15S2tJd0ptd3ZlKzRxdFZrcDhTMSt5WHpXa0pOTElYSWZWeGhoYjdMUy9G?=
+ =?utf-8?B?elRtWDFCdUttL0dpMmdsY2h4ZUc2Vnd0NXBlSFl1UGR4eWprQUdhNzlsQkVx?=
+ =?utf-8?B?aFFFNzZXU1dZb1h1amx1TEdxYkhvYUFkSVJOeVIybGd1Qkg5WFhUeVVxQzRa?=
+ =?utf-8?B?RW83OGdOWEs0NWNUZTJ1bWN1QW0vSXJwYjJ5YXc4OVMrRnRpSE4vdk5OWkRw?=
+ =?utf-8?B?UllsYmUvQjJNTTJDcGNUZHNKbmltVjBpS3R5QzJrVWwwTExDekhnYXVLSjlp?=
+ =?utf-8?B?T3p6R1p1eC9SWXdTT2ZlV01BWDJtK3hDblJ3cDdXS0RnU1FOclVDSW9WaDJk?=
+ =?utf-8?B?Z0orZkN1dGJiaHdySnEwS0Z3MGdPM2txa2RPWXhsRUhteE83cHAxMWYvUTRJ?=
+ =?utf-8?Q?m153sgSzWSDq/?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dnZpWGRFS0NFWjk4cTE1WXowR0JBQ2cwdEhsQlAyanhYMkZNSExKbk8rYVV2?=
+ =?utf-8?B?U2NscWo4ZlZpbnJsTXVwK1hLLzRhdXlrMzhkV1EyaVI2TnFzdHNUejl3OFFB?=
+ =?utf-8?B?QVZJZk9ycFQ0YWphblJoRUpjWTJTc05WTGw4WnJhRGtFNWduTEhFYUh6Zkdk?=
+ =?utf-8?B?WEZ1bzVaSUE0a2xEQkgrN2dRV2tadXJSSitWWlJ1SUFlV0s0cVdPZ0xtbVZT?=
+ =?utf-8?B?a1phdTI1ZHVrWVR1QytrVUcreVUwYXZkQ2hQRHNRM2VNVzhDN2F5bER5Y1F2?=
+ =?utf-8?B?bTlxR3lhblRuSENHMHlDZ3g5V0dDNktCRzJHT3Rsbld4LzBOUklKaU1UU0Vm?=
+ =?utf-8?B?NEkrYTc0UzFvR013d3N0UytrSDZLRVYwVkNpOTd4a1h1OEVyRy95ZTNaTncx?=
+ =?utf-8?B?OTFXTVRJejZubEV3V3IvM2FqMGl5T0FmWFVveFc5SDdHZzFSOG9QQTFWVWJG?=
+ =?utf-8?B?ZWI3SGlHcU1VRTc3Q3FHZFo1aEwyZzZmQSt2WG9KalpmckZySkY0bXFOMnpy?=
+ =?utf-8?B?ajhYWTVtWFJWUXlRNjZNeXA1dTZQNkNyVGxOY1g4cTNkYUFuSGRUQzQ2YkFL?=
+ =?utf-8?B?dkZtMHo2U2E1elVYQjdzWE9PQmVDOGVJd0dMWjlEVHNKcjFJS2hRb1FEVHRh?=
+ =?utf-8?B?d1BPZVZMSDVuWUxjQ2pibDNXbE16eHI2dktMcmk3bkdiZ3ZGTUIzNFUzRENN?=
+ =?utf-8?B?YlY2dUdoejVRVWFteFJ6TkNvelRCeVJMTXQzb2tmNVoxRVNYREFweVQyN1pp?=
+ =?utf-8?B?aUtxbTZNOU9sb3Q4WUo0OUdPbExveElWQzJtS3RTSmJBOFhxUkJpSk02dEtG?=
+ =?utf-8?B?ek96QzNXVkl4SHJRWVNIb1Vubmhyb1V2dnhRaGljeEQzMW9QUFFWVFpQKzB3?=
+ =?utf-8?B?UlNmL3hWREdsaDFXTXJxeHFNQ3N4b09KN2ZuZlJORFF3RFRjQ1k4WEhkSFc4?=
+ =?utf-8?B?Sm0wLzRNc1VXN0N6eGV0WWVRM3JYcDJhK1dlTGl5S1o1ZmVWUWZOZzFQbWNW?=
+ =?utf-8?B?aDR2ejhyZGprK0xIOWo3QUs2VDVvMXRpcjhVbEVuUjc4VzNBVnJVUnhRMGl5?=
+ =?utf-8?B?eElxdDl4cURnNUFuWnhZS2dYZVByaDl6c2JWa0VZUnYvUUUreUtRdjhyRld2?=
+ =?utf-8?B?bmducUtsZ25KbWhsOVlrMjJkTnFuazFsR3dVTTBEUlpId0V5UnZDTXBXcGkv?=
+ =?utf-8?B?QmJQL2MyWjVBWlZHZXllV2Q3a1hFNGVaOThaWlRTYzZiSzQ4L0toNHZnNy9M?=
+ =?utf-8?B?aHFxZmJOZDhCeDhseWozSWM3dHNNUFBNU0F2bWIwU2Z2dUxFVUwxMU81ZURN?=
+ =?utf-8?B?OGQ0UU9uVC9yVzgvRjRHY2ZzM2FRWmVKcVArY2pmUHl3MWhFU0JST0JYNE42?=
+ =?utf-8?B?dGx2K2dJUjJEWkc5Ykl6TkpxRnpzcmtxL2tZYWpLN3NGYXBCZHloNXM3Zk94?=
+ =?utf-8?B?MTA4U3ROZFliZ3Y0REVaSGpLck9VWXlSR2x0M01pKy9qNGhSK1dqMmR5cjVt?=
+ =?utf-8?B?a3dVRjYxb2FzaGxrL05veTNJaDBROUVWVUovQ3I3UGM3Y2QramFSR3N1ODdt?=
+ =?utf-8?B?TVFsSHNxU09ielc0Wjd5dk4yL2FYY0hKKzB3ZWFsOWo4cllwcXBTaXJ4cE1q?=
+ =?utf-8?B?OFdqdFp3SUFJeGlOT2dUN0NyQ0ZaUXlwdWhGY00rK3Y0T0E4QWpsblJnK1cw?=
+ =?utf-8?B?M2JMVkhYNHRtMmpKeFZaZStPQm1Tb3hsOFgybUpSQkpXQTZqQkgyTEptSVg4?=
+ =?utf-8?B?MzR6V3ZsZEkzTXB4UURDTldHUCs2eEx4eE44Z21aeDZzREtRUnZDQ1dqMFZS?=
+ =?utf-8?B?eVhTOUgydXg1TnAvUzg4U1dMbnlCQXFvNVJvcVY3VzFoYTFwRFBEb1BtN0ly?=
+ =?utf-8?B?SWNiRDVvQndra1BEc2pSSmgveXZ2RlZ5Q1pwbUpNYXlGT3lObjBVVEtpY1Vs?=
+ =?utf-8?B?NFg3YlM0RVFSNUtaSUl1SFd4aEpxNG5xY0x0M3hwMUNscXBlK1k0NGZwWDVO?=
+ =?utf-8?B?Nmh6YjJUU1JlR3FwRmVyNXZjNm5IbDNkTFVjanNwRHh6WGpmbk43d0lUV2hG?=
+ =?utf-8?B?UDVuUGpIS3ZVbTNiclhzanpqVG9MbUFCdFhjSEFHWGpFeTNYMlM3UXVyUUU2?=
+ =?utf-8?Q?qr3xuB6oRtE14uCjYmqBNAZJG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bccd3fbf-414c-4f00-0e6e-08dd24a96fc6
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4123.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2024 06:00:30.4480
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x/lBpMIvCVuDKxaTlK3SmtSo7L3QdAFjuqb/MMxb7S3qcRGnCyTFUcWBJFCVgUjuy7RmFFL16iPqWbwMmZJKzA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4146
 
-Hello,
-
-> BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
-
-We further analyzed the issue at line 516 in =
-./sound/core/seq/oss/seq_oss_synth.c.=20
-The slab-out-of-bounds crash occurs in line 509, when sysex->len =3D =
-128. Specifically, the write operation to dest[0] accesses memory beyond =
-the bounds of sysex->buf (128 byte).
-To resolve this issue, we suggest adding 6 lines of code to validate the =
-legality of the address write to sysex->buf before entering the loop:
-
-if (sysex->len >=3D MAX_SYSEX_BUFLEN) {=20
-   sysex->len =3D 0;=20
-   sysex->skip =3D 1;=20
-   return -EINVAL;  /* Exit early if sysex->len is out of bounds */=20
-}
-
-If you fix this issue, please add the following tag to the commit:
-Reported-by: Kun Hu <huk23@m.fudan.edu.cn>
-
-=E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94
-Thanks,
-Kun Hu
-
-> 2024=E5=B9=B412=E6=9C=8824=E6=97=A5 19:16=EF=BC=8CKun Hu =
-<huk23@m.fudan.edu.cn> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hello,
->=20
-> When using fuzzer tool to fuzz the latest Linux kernel, the following =
-crash
-> was triggered.
->=20
-> HEAD commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
-> git tree: upstream
-> Console =
-output:https://drive.google.com/file/d/17oCyKDW_kNhSW5Bbvm23vnpD1eo0MHFi/v=
-iew?usp=3Dsharing
-> Kernel config: =
-https://drive.google.com/file/d/1RhT5dFTs6Vx1U71PbpenN7TPtnPoa3NI/view?usp=
-=3Dsharing
-> C reproducer: =
-https://drive.google.com/file/d/177HJht6a7-6F3YLudKb_d4kiPGd1VA_i/view?usp=
-=3Dsharing
-> Syzlang reproducer: =
-https://drive.google.com/file/d/1AuP5UGGc47rEXXPuvjmCKgJ3d0U1P84j/view?usp=
-=3Dsharing
->=20
->=20
-> If you fix this issue, please add the following tag to the commit:
-> Reported-by: Kun Hu <huk23@m.fudan.edu.cn>
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
-> Write of size 1 at addr ff1100000588e288 by task syz-executor411/824
->=20
-> CPU: 2 UID: 0 PID: 824 Comm: syz-executor411 Not tainted 6.13.0-rc3 #5
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS =
-1.13.0-1ubuntu1.1 04/01/2014
-> Call Trace:
-> <TASK>
-> __dump_stack lib/dump_stack.c:94 [inline]
-> dump_stack_lvl+0x116/0x1b0 lib/dump_stack.c:120
-> print_address_description mm/kasan/report.c:378 [inline]
-> print_report+0xcf/0x5f0 mm/kasan/report.c:489
-> kasan_report+0x93/0xc0 mm/kasan/report.c:602
-> snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
-> snd_seq_oss_process_event+0x46a/0x2620 =
-sound/core/seq/oss/seq_oss_event.c:61
-> insert_queue sound/core/seq/oss/seq_oss_rw.c:167 [inline]
-> snd_seq_oss_write+0x261/0x7f0 sound/core/seq/oss/seq_oss_rw.c:135
-> odev_write+0x53/0xa0 sound/core/seq/oss/seq_oss.c:168
-> vfs_write fs/read_write.c:677 [inline]
-> vfs_write+0x2e3/0x10f0 fs/read_write.c:659
-> ksys_write+0x122/0x240 fs/read_write.c:731
-> do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-> do_syscall_64+0xc3/0x1d0 arch/x86/entry/common.c:83
-> entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> RIP: 0033:0x7f69b379994d
-> Code: c3 e8 97 2a 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 =
-89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d =
-01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-> RSP: 002b:00007f69b3718d78 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-> RAX: ffffffffffffffda RBX: 00007f69b382d2d0 RCX: 00007f69b379994d
-> RDX: 0000000000000008 RSI: 0000000020000140 RDI: 0000000000000003
-> RBP: 00007f69b382d2d8 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f69b382d2dc
-> R13: 0000000020000140 R14: 00007f69b37fa008 R15: 000000000000000d
-> </TASK>
->=20
-> Allocated by task 823:
-> kasan_save_stack+0x24/0x50 mm/kasan/common.c:47
-> kasan_save_track+0x14/0x30 mm/kasan/common.c:68
-> poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
-> __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
-> kmalloc_noprof include/linux/slab.h:901 [inline]
-> kzalloc_noprof include/linux/slab.h:1037 [inline]
-> snd_seq_oss_synth_sysex+0x1d9/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:502
-> snd_seq_oss_process_event+0x46a/0x2620 =
-sound/core/seq/oss/seq_oss_event.c:61
-> insert_queue sound/core/seq/oss/seq_oss_rw.c:167 [inline]
-> snd_seq_oss_write+0x261/0x7f0 sound/core/seq/oss/seq_oss_rw.c:135
-> odev_write+0x53/0xa0 sound/core/seq/oss/seq_oss.c:168
-> vfs_write fs/read_write.c:677 [inline]
-> vfs_write+0x2e3/0x10f0 fs/read_write.c:659
-> ksys_write+0x122/0x240 fs/read_write.c:731
-> do_syscall_x64 arch/x86/entry/common.c:52 [inline]
-> do_syscall_64+0xc3/0x1d0 arch/x86/entry/common.c:83
-> entry_SYSCALL_64_after_hwframe+0x77/0x7f
->=20
-> The buggy address belongs to the object at ff1100000588e200
-> which belongs to the cache kmalloc-192 of size 192
-> The buggy address is located 0 bytes to the right of
-> allocated 136-byte region [ff1100000588e200, ff1100000588e288)
->=20
-> The buggy address belongs to the physical page:
-> page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 =
-pfn:0x588e
-> anon flags: 0x100000000000000(node=3D0|zone=3D1)
-> page_type: f5(slab)
-> raw: 0100000000000000 ff1100000103c3c0 ffd4000000162340 =
-dead000000000003
-> raw: 0000000000000000 0000000080100010 00000001f5000000 =
-0000000000000000
-> page dumped because: kasan: bad access detected
->=20
-> Memory state around the buggy address:
-> ff1100000588e180: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> ff1100000588e200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->> ff1100000588e280: 00 fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->                      ^
-> ff1100000588e300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ff1100000588e380: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20
-> ---------------
-> thanks,
-> Kun Hu
-
+On 19/12/24 22:53, Mario Limonciello wrote:
+> On 12/18/2024 23:48, Vijendar Mukunda wrote:
+>> ACP is a PCI audio device.
+>> This patch adds common PCI driver to bind to this device and get PCI
+>> resources for ACP7.0 & ACP7.1 platforms.
+>>
+>> Signed-off-by: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+>> ---
+>>   sound/soc/amd/acp70/acp70.h     |  33 +++++++++++
+>>   sound/soc/amd/acp70/pci-acp70.c | 100 ++++++++++++++++++++++++++++++++
+>>   2 files changed, 133 insertions(+)
+>>   create mode 100644 sound/soc/amd/acp70/acp70.h
+>>   create mode 100644 sound/soc/amd/acp70/pci-acp70.c
+>>
+>> diff --git a/sound/soc/amd/acp70/acp70.h b/sound/soc/amd/acp70/acp70.h
+>> new file mode 100644
+>> index 000000000000..28a46f0c2026
+>> --- /dev/null
+>> +++ b/sound/soc/amd/acp70/acp70.h
+>> @@ -0,0 +1,33 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * ACP 7.0 platform Common header file
+>> + *
+>> + * Copyright (C) 2024 Advanced Micro Devices, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <sound/acp70_chip_offset_byte.h>
+>> +
+>> +#define ACP_DEVICE_ID        0x15E2
+>> +#define ACP70_REG_START        0x1240000
+>> +#define ACP70_REG_END        0x125C000
+>> +#define ACP70_PCI_REV        0x70
+>> +#define ACP71_PCI_REV        0x71
+>> +
+>> +/**
+>> + * struct acp70_dev_data - acp pci driver context
+>> + * @acp70_base: acp mmio base
+>> + * @acp_lock: used to protect acp common registers
+>> + * @addr: pci ioremap address
+>> + * @reg_range: ACP reigister range
+>> + * @acp_rev : ACP PCI revision id
+>> + */
+>> +
+>> +struct acp70_dev_data {
+>> +    void __iomem *acp70_base;
+>> +    struct mutex acp_lock; /* protect shared registers */
+>> +    u32 addr;
+>> +    u32 reg_range;
+>> +    u32 acp_rev;
+>> +};
+>> +
+>> +int snd_amd_acp_find_config(struct pci_dev *pci);
+>> diff --git a/sound/soc/amd/acp70/pci-acp70.c b/sound/soc/amd/acp70/pci-acp70.c
+>> new file mode 100644
+>> index 000000000000..23e47f619bd7
+>> --- /dev/null
+>> +++ b/sound/soc/amd/acp70/pci-acp70.c
+>> @@ -0,0 +1,100 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * AMD common ACP PCI driver for ACP7.0 & ACP7.1 platforms
+>> + *
+>> + * Copyright 2024 Advanced Micro Devices, Inc.
+>> + */
+>> +
+>> +#include <linux/io.h>
+>> +#include <linux/module.h>
+>> +#include <linux/pci.h>
+>> +#include "../mach-config.h"
+>> +
+>> +#include "acp70.h"
+>> +
+>> +static int snd_acp70_probe(struct pci_dev *pci,
+>> +               const struct pci_device_id *pci_id)
+>> +{
+>> +    struct acp70_dev_data *adata;
+>> +    u32 addr, flag;
+>> +    int ret;
+>> +
+>> +    /* Return if acp config flag is defined */
+>> +    flag = snd_amd_acp_find_config(pci);
+>> +    if (flag)
+>> +        return -ENODEV;
+>> +
+>> +    /* Pink Sardine device check */
+>> +    switch (pci->revision) {
+>> +    case ACP70_PCI_REV:
+>> +    case ACP71_PCI_REV:
+>> +        break;
+>> +    default:
+>> +        dev_dbg(&pci->dev, "acp70 pci device not found\n");
+>> +        return -ENODEV;
+>> +    }
+>> +    if (pci_enable_device(pci)) {
+>> +        dev_err(&pci->dev, "pci_enable_device failed\n");
+>> +        return -ENODEV;
+>> +    }
+>> +
+>> +    ret = pci_request_regions(pci, "AMD ACP6.2 audio");
+>
+> Presumably this should be "ACP7.x audio"
+will fix it.
+>
+>> +    if (ret < 0) {
+>> +        dev_err(&pci->dev, "pci_request_regions failed\n");
+>> +        goto disable_pci;
+>> +    }
+>> +    adata = devm_kzalloc(&pci->dev, sizeof(struct acp70_dev_data),
+>> +                 GFP_KERNEL);
+>> +    if (!adata) {
+>> +        ret = -ENOMEM;
+>> +        goto release_regions;
+>> +    }
+>> +
+>> +    addr = pci_resource_start(pci, 0);
+>> +    adata->acp70_base = devm_ioremap(&pci->dev, addr,
+>> +                     pci_resource_len(pci, 0));
+>> +    if (!adata->acp70_base) {
+>> +        ret = -ENOMEM;
+>> +        goto release_regions;
+>> +    }
+>> +    adata->addr = addr;
+>> +    adata->reg_range = ACP70_REG_END - ACP70_REG_START;
+>> +    adata->acp_rev = pci->revision;
+>> +    pci_set_master(pci);
+>> +    pci_set_drvdata(pci, adata);
+>> +    mutex_init(&adata->acp_lock);
+>> +    return 0;
+>> +release_regions:
+>> +    pci_release_regions(pci);
+>> +disable_pci:
+>> +    pci_disable_device(pci);
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +static void snd_acp70_remove(struct pci_dev *pci)
+>> +{
+>> +    pci_release_regions(pci);
+>> +    pci_disable_device(pci);
+>> +}
+>> +
+>> +static const struct pci_device_id snd_acp70_ids[] = {
+>> +    { PCI_DEVICE(PCI_VENDOR_ID_AMD, ACP_DEVICE_ID),
+>
+> Do you still need to specify the device ID since you already have a class
+> entry in this table below?
+As per our understanding, If another driver uses the same class, in that case we
+need Device ID
+entries for platform distinguish. I think it's still good to go with current
+implementation.
+>
+>> +    .class = PCI_CLASS_MULTIMEDIA_OTHER << 8,
+>> +    .class_mask = 0xffffff },
+>> +    { 0, },
+>> +};
+>> +MODULE_DEVICE_TABLE(pci, snd_acp70_ids);
+>> +
+>> +static struct pci_driver ps_acp70_driver  = {
+>> +    .name = KBUILD_MODNAME,
+>> +    .id_table = snd_acp70_ids,
+>> +    .probe = snd_acp70_probe,
+>> +    .remove = snd_acp70_remove,
+>> +};
+>> +
+>> +module_pci_driver(ps_acp70_driver);
+>> +
+>> +MODULE_AUTHOR("Vijendar.Mukunda@amd.com");
+>> +MODULE_DESCRIPTION("AMD ACP7.0 PCI driver");
+>> +MODULE_LICENSE("GPL");
+>
 
