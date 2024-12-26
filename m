@@ -1,262 +1,140 @@
-Received: from smtpbgau2.qq.com (smtpbgau2.qq.com [54.206.34.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E792837A;
-	Thu, 26 Dec 2024 06:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.34.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CDD14375D
+	for <linux-sound@vger.kernel.org>; Thu, 26 Dec 2024 08:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735193398; cv=none; b=Psuipa7dNMZzMMYuXI0fUfLmZaKJ+FU3R6VfyiERiq1KwR/AwSPwlocE5VlTk4dTuEfufUYyrYGcZbg/yO0K1QoNXPVQbKb3hU6aiU3S2/KR3fYN8sijU842dut14x6mAo26BdpvjKGcQHy1BA5ces1hDYjb3A1q4r6Gj6EKAXk=
+	t=1735201831; cv=none; b=jLL6Adi9qFtuSZY6GYaHHufpVHZesUIsDmviyIJVIwz4fUPGhFeCtKP27Kudg7BQKg+AT7PMWQYNNNZ76mnW2iG9WP3W6edjQMtwBYX97BRSpZHb2wi5HbV5pLPXqNP9WtV3yJ2IfX15yIEmI2jVMZqUn1F9smAGLA1Emf/GB1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735193398; c=relaxed/simple;
-	bh=UnArMA/fGfArM6oTypl+dq5ZOo0yd+Q1EvViV6j0xgY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=L6tnMRRBSuyVok5qabeSZyqiH8xcn0FPUY1YpGUGJsZ8RuR+KrzezcxY60pCGH/qUXZ9Anuk9vU12r89qgsvY0r3wueOWtTeogJvKHhTritZKKUGv0ZWY5AGRBUnnqGs7UZCroic91wVgneBE893g6B4BBrXUWewS01T1s+jdxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=nRKuUy4b; arc=none smtp.client-ip=54.206.34.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
+	s=arc-20240116; t=1735201831; c=relaxed/simple;
+	bh=nWM50cCUl1GmCyL2kBGte515xakw9D+MA9ZwMcrxtm8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qdoZMoRL8/gr+ameO3QOqVArvtGbz0E7qCPm71bFGabpirQhUKObkIxLq/v52aOkycsAzDq1RBh/48nIx+bh4f9qAXo6/kpivbSWaVmyi8oWB9oDaypVIOx55gLe8uyeg3XTEpph50hF6dT6yQm8FLzcn1mU/ACZffGtY5dhPaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CBXyL6H7; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="nRKuUy4b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
-	s=sorc2401; t=1735193306;
-	bh=RewUZwc/fweWU9IO3sqfsaJV2JhPK3JYS/iQLUZBALs=;
-	h=Mime-Version:Subject:From:Date:Message-Id:To;
-	b=nRKuUy4beC/g6w/WczcFA+kQQlZp0/DYE3YmA7u+20Jdu8TcK6F+WjB5HuvLegXba
-	 Tj67u4WSBmBjXJF2RhAVDCZBrdDHNWj63JP2Tr9ngn4Qh8MwqJFlRF2wH9HZCkkKzR
-	 Heca2fRoPNOEOsXL4Zl66cOIIaH7bY185a3VteGY=
-X-QQ-mid: bizesmtpsz5t1735193304tm22dr0
-X-QQ-Originating-IP: tSGkTe2Sd26OU+7JdOuv+mZQ1zoORz5PJRzDsxP1DFc=
-Received: from smtpclient.apple ( [202.120.235.170])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 26 Dec 2024 14:08:21 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 2540630981220103529
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CBXyL6H7"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54026562221so6864486e87.1
+        for <linux-sound@vger.kernel.org>; Thu, 26 Dec 2024 00:30:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1735201828; x=1735806628; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v2S3PhJ8RakNFN2ZNGYVv9qnlRZ5AL3BC9CtYpxM3yU=;
+        b=CBXyL6H7ig3JCJ79EfGox0ioZbTuGZxe2OwfPzOQf+2aYPjLIxFEvUA7C52ilQeErO
+         tQVe6pcTEPLzlXw7geTp9qVntqjs+pxs9NmeN3t5ekn9Rk14vQTRvfNYfxmmB0bHye9a
+         +4HXM1w/T/waLjHhTy+SQGMxAKDxgYGk9pS28=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735201828; x=1735806628;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v2S3PhJ8RakNFN2ZNGYVv9qnlRZ5AL3BC9CtYpxM3yU=;
+        b=iK7a3KtD7Jj2w7pQa6QAvofSZgbXX/FnI3x8bUubPrMPKrMmmHKohRvg3xHP+wOdK3
+         ykW4tcj7IloYVBX7GmPtfOxPwPa7XiGbFz818lqJkVcgw1mrJ6ulYoY7ykGEjiNJLsr2
+         KPBw1mkKnA7FGSrndaj+CQDHH4LD56R49rvw6X7hrKc0KVp+ee2bxSVLAxA/hgGlTBLK
+         bHorW8jaaKYdH45qf/C0lbqzlFQT/ox+Kugy1S3OXQbyxl7GL80QZc9t0SWcag/mkzjj
+         MC8TB9Mt7HSdC6LDU+0kS+JzD4iTJQOj+KZTvUzAFAf+10xw/Ie481NxHN0qv5+GsND3
+         re2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWRMS/K+uusWDbnDrKcaKFt4ooQ9tYV+cSv5LZSFb/XvqNiclDi4kMFGFHielHwdZApSFd+OVYuXvQsag==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFOK5WpEPvpya7tsNmsCcG5GPcriCtJOy9zoREadtyxUGZyFsu
+	c0uXNrnafxvpVA/XmM7LNYRaAQXXUFNJtHE0XlmRy+GNBviFNSntc3OLSscV2B0HnCSmdVWUbU4
+	bXfSHuJF/kjUO3b/NmlV3hJXb0WKUdBlH+ae/
+X-Gm-Gg: ASbGnctTLAZ6yD9mPa+GShBUH+h4KUpgCYVPrq8IGCQvmxhPqcPgDoQGE6BXzyM67D7
+	ngB1Tm1nsmIXHVze1ovVnnMv5pbmV+Fwvq2ncQsN1e1WFrzCeM5Cz6RgPcTm/lRVYaA==
+X-Google-Smtp-Source: AGHT+IGrtTwpjhhwhEtLkMigzaaB7SQidO5BfU1GsTXFJn5f4BLy579qZREaSEycCfwK3L6T9pvM3RblbNdUBiHFoWI=
+X-Received: by 2002:a05:6512:4485:b0:542:2972:4e59 with SMTP id
+ 2adb3069b0e04-54229724f79mr7301629e87.28.1735201828402; Thu, 26 Dec 2024
+ 00:30:28 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
-Subject: Re: Bug: slab-out-of-bounds in snd_seq_oss_synth_sysex
-From: Kun Hu <huk23@m.fudan.edu.cn>
-In-Reply-To: <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
-Date: Thu, 26 Dec 2024 14:08:11 +0800
-Cc: linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- "jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>,
- alsa-devel@alsa-project.org
+MIME-Version: 1.0
+References: <20241203-mt8188-6359-unhardcode-dmic-v1-1-346e3e5cbe6d@collabora.com>
+In-Reply-To: <20241203-mt8188-6359-unhardcode-dmic-v1-1-346e3e5cbe6d@collabora.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 26 Dec 2024 16:30:17 +0800
+Message-ID: <CAGXv+5EG8LbgaWc-Lp_KQc8Yf+m_4TRo8R7B0S7-rXYpnak+7g@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: mediatek: mt8188-mt6359: Remove hardcoded dmic codec
+To: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Trevor Wu <trevor.wu@mediatek.com>, kernel@collabora.com, 
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Fei Shao <fshao@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <A2D50A73-EF90-486F-9F5C-FFC4F0906A01@m.fudan.edu.cn>
-References: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
- <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
-To: perex@perex.cz,
- tiwai@suse.com,
- vkoul@kernel.org,
- lars@metafoo.de,
- broonie@kernel.org,
- Liam Girdwood <lgirdwood@gmail.com>
-X-Mailer: Apple Mail (2.3818.100.11.1.3)
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: M59Ywtx0bkALgCg/C1sl9moKuT9DPNdTDbKng4UGmta8iPCjQfAyKbvc
-	OOPV/QmTXsLOZN1vT5by35vTiQYm0v/FnJ8U+ZNStHoFSMlxmTRutwZVOdRi0WCKsYTl+Xk
-	wLn04lFng8wsjXMRwa1t+cPmClmU8kQDStygajrX2Y246WTvVe0ztTKW4gc14jsjkvYF6ta
-	+28OQbg/wrcvh5r2JRUnjLUQL7SMcM+erNNyDEw3fry2xN9f00d2XqSwg0mgDTuEK0/RIQe
-	6OQMtXEFBHrBJDKjKntFwgfoQeHe8RUQ1Pe0q3aa6DFtftJ2yUQS63SQp32djz0uoRxhBW8
-	gG/9MMOuRvOhakMfLHueifUgZ3eReh0a8qy6pYcbM5jEIx2OETKTKSr3D2SFIGQZu6QjUi5
-	AV9mtM7ZTd+XGd8tPUOhFSISVlVXAPyvt+w98jKpZYCdJbIKuFfi/DV94Mc606/0xAvznrj
-	Ob/eoS6p7wH6UIfhjo8UOPFoNj1zGnNbwKyIFDGBU9Nm7MhsskWxAyUUnAoVpDu2WU2JD1+
-	WJnTeeSr486eWkBkmURv5HqgjiHEegrWB1Hy4nB4zGMtUnBjYStGixXISrjYOodTlK4Z6u8
-	H21fkkbXTiKmPFz8pjh+it4y+7qDInmAm3tt/AuFl07nu/KRFRVfrBQKOYEyFkYZ6f3qxPN
-	5WXRYgcYHcZGnTAT+t8WIZC76Ea/WZoW/RVx+kTObgtH0OjytMB7LxKhkYPs0hAW+7gb7sY
-	s+ubLQwjkJAhZ3Y8dG3WBs4+HIEDP5fpvePa5Hkh96KrzPbHYUHkWM/0fclwaA8+neDj2hg
-	CcFCvzviWVEw0d55Ghm+AZjeFi1CqP01goyWsMud1DcG7TtCeOlZqCnPAr/loWGX8frNjnS
-	qJJG9OMBGxc/M07N+8qQUq+uTbV9ekuFyRIm9PZ9o1lVEhEPx3PhldvE/bYv5N3+N5miQ5e
-	vSyvutJymoUbVU+964ityiiHAXLs00/pWD5bnOU/kasVuFw==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
 
->> BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
+Hi,
 
->=20
-> We further analyzed the issue at line 516 in =
-./sound/core/seq/oss/seq_oss_synth.c.=20
-> The slab-out-of-bounds crash occurs in line 509, when sysex->len =3D =
-128. Specifically, the write operation to dest[0] accesses memory beyond =
-the bounds of sysex->buf (128 byte).
-> To resolve this issue, we suggest adding 6 lines of code to validate =
-the legality of the address write to sysex->buf before entering the =
-loop:
->=20
-> if (sysex->len >=3D MAX_SYSEX_BUFLEN) {=20
->   sysex->len =3D 0;=20
->   sysex->skip =3D 1;=20
->   return -EINVAL;  /* Exit early if sysex->len is out of bounds */=20
-> }
+On Wed, Dec 4, 2024 at 3:22=E2=80=AFAM N=C3=ADcolas F. R. A. Prado
+<nfraprado@collabora.com> wrote:
+>
+> Remove hardcoded dmic codec from the UL_SRC dai link to avoid requiring
+> a dmic codec to be present for the driver to probe, as not every
+> MT8188-based platform might need a dmic codec. The codec can be assigned
+> to the dai link through the dai-link property in Devicetree on the
+> platforms where it is needed.
 
-If you need any more information, please don't hesitate to let me know.
+A followup question about this. The DMICs on the Chromebooks are attached
+to the PMIC codec's input side, which then converts the signals to standard
+I2S and passes them out to the SoC through its AIF1. So the original code
+was somewhat incorrect, though it works.
 
-=E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94
-Best regards,
-Kun Hu
+How should we describe such a connection, given that the MediaTek sound
+bindings aren't a full graph?
+
+> No Devicetree currently relies on it so it is safe to remove without
+> worrying about backward compatibility.
+
+Removing it didn't seem to cause any issues for the Chromebooks that
+do actually have DMICs. I suspect the only difference would be that
+the wakeup-delays no longer apply correctly.
 
 
-> 2024=E5=B9=B412=E6=9C=8825=E6=97=A5 13:37=EF=BC=8CKun Hu =
-<huk23@m.fudan.edu.cn> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> Hello,
->=20
->> BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
->=20
-> We further analyzed the issue at line 516 in =
-./sound/core/seq/oss/seq_oss_synth.c.=20
-> The slab-out-of-bounds crash occurs in line 509, when sysex->len =3D =
-128. Specifically, the write operation to dest[0] accesses memory beyond =
-the bounds of sysex->buf (128 byte).
-> To resolve this issue, we suggest adding 6 lines of code to validate =
-the legality of the address write to sysex->buf before entering the =
-loop:
->=20
-> if (sysex->len >=3D MAX_SYSEX_BUFLEN) {=20
->   sysex->len =3D 0;=20
->   sysex->skip =3D 1;=20
->   return -EINVAL;  /* Exit early if sysex->len is out of bounds */=20
-> }
->=20
-> If you fix this issue, please add the following tag to the commit:
-> Reported-by: Kun Hu <huk23@m.fudan.edu.cn>
->=20
-> =E2=80=94=E2=80=94=E2=80=94=E2=80=94=E2=80=94
-> Thanks,
-> Kun Hu
->=20
->> 2024=E5=B9=B412=E6=9C=8824=E6=97=A5 19:16=EF=BC=8CKun Hu =
-<huk23@m.fudan.edu.cn> =E5=86=99=E9=81=93=EF=BC=9A
->>=20
->> Hello,
->>=20
->> When using fuzzer tool to fuzz the latest Linux kernel, the following =
-crash
->> was triggered.
->>=20
->> HEAD commit: 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8
->> git tree: upstream
->> Console =
-output:https://drive.google.com/file/d/17oCyKDW_kNhSW5Bbvm23vnpD1eo0MHFi/v=
-iew?usp=3Dsharing
->> Kernel config: =
-https://drive.google.com/file/d/1RhT5dFTs6Vx1U71PbpenN7TPtnPoa3NI/view?usp=
-=3Dsharing
->> C reproducer: =
-https://drive.google.com/file/d/177HJht6a7-6F3YLudKb_d4kiPGd1VA_i/view?usp=
-=3Dsharing
->> Syzlang reproducer: =
-https://drive.google.com/file/d/1AuP5UGGc47rEXXPuvjmCKgJ3d0U1P84j/view?usp=
-=3Dsharing
->>=20
->>=20
->> If you fix this issue, please add the following tag to the commit:
->> Reported-by: Kun Hu <huk23@m.fudan.edu.cn>
->>=20
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
->> Write of size 1 at addr ff1100000588e288 by task syz-executor411/824
->>=20
->> CPU: 2 UID: 0 PID: 824 Comm: syz-executor411 Not tainted 6.13.0-rc3 =
-#5
->> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS =
-1.13.0-1ubuntu1.1 04/01/2014
->> Call Trace:
->> <TASK>
->> __dump_stack lib/dump_stack.c:94 [inline]
->> dump_stack_lvl+0x116/0x1b0 lib/dump_stack.c:120
->> print_address_description mm/kasan/report.c:378 [inline]
->> print_report+0xcf/0x5f0 mm/kasan/report.c:489
->> kasan_report+0x93/0xc0 mm/kasan/report.c:602
->> snd_seq_oss_synth_sysex+0x5d1/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:516
->> snd_seq_oss_process_event+0x46a/0x2620 =
-sound/core/seq/oss/seq_oss_event.c:61
->> insert_queue sound/core/seq/oss/seq_oss_rw.c:167 [inline]
->> snd_seq_oss_write+0x261/0x7f0 sound/core/seq/oss/seq_oss_rw.c:135
->> odev_write+0x53/0xa0 sound/core/seq/oss/seq_oss.c:168
->> vfs_write fs/read_write.c:677 [inline]
->> vfs_write+0x2e3/0x10f0 fs/read_write.c:659
->> ksys_write+0x122/0x240 fs/read_write.c:731
->> do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->> do_syscall_64+0xc3/0x1d0 arch/x86/entry/common.c:83
->> entry_SYSCALL_64_after_hwframe+0x77/0x7f
->> RIP: 0033:0x7f69b379994d
->> Code: c3 e8 97 2a 00 00 0f 1f 80 00 00 00 00 f3 0f 1e fa 48 89 f8 48 =
-89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d =
-01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
->> RSP: 002b:00007f69b3718d78 EFLAGS: 00000246 ORIG_RAX: =
-0000000000000001
->> RAX: ffffffffffffffda RBX: 00007f69b382d2d0 RCX: 00007f69b379994d
->> RDX: 0000000000000008 RSI: 0000000020000140 RDI: 0000000000000003
->> RBP: 00007f69b382d2d8 R08: 0000000000000000 R09: 0000000000000000
->> R10: 0000000000000000 R11: 0000000000000246 R12: 00007f69b382d2dc
->> R13: 0000000020000140 R14: 00007f69b37fa008 R15: 000000000000000d
->> </TASK>
->>=20
->> Allocated by task 823:
->> kasan_save_stack+0x24/0x50 mm/kasan/common.c:47
->> kasan_save_track+0x14/0x30 mm/kasan/common.c:68
->> poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
->> __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
->> kmalloc_noprof include/linux/slab.h:901 [inline]
->> kzalloc_noprof include/linux/slab.h:1037 [inline]
->> snd_seq_oss_synth_sysex+0x1d9/0x6c0 =
-sound/core/seq/oss/seq_oss_synth.c:502
->> snd_seq_oss_process_event+0x46a/0x2620 =
-sound/core/seq/oss/seq_oss_event.c:61
->> insert_queue sound/core/seq/oss/seq_oss_rw.c:167 [inline]
->> snd_seq_oss_write+0x261/0x7f0 sound/core/seq/oss/seq_oss_rw.c:135
->> odev_write+0x53/0xa0 sound/core/seq/oss/seq_oss.c:168
->> vfs_write fs/read_write.c:677 [inline]
->> vfs_write+0x2e3/0x10f0 fs/read_write.c:659
->> ksys_write+0x122/0x240 fs/read_write.c:731
->> do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->> do_syscall_64+0xc3/0x1d0 arch/x86/entry/common.c:83
->> entry_SYSCALL_64_after_hwframe+0x77/0x7f
->>=20
->> The buggy address belongs to the object at ff1100000588e200
->> which belongs to the cache kmalloc-192 of size 192
->> The buggy address is located 0 bytes to the right of
->> allocated 136-byte region [ff1100000588e200, ff1100000588e288)
->>=20
->> The buggy address belongs to the physical page:
->> page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 =
-pfn:0x588e
->> anon flags: 0x100000000000000(node=3D0|zone=3D1)
->> page_type: f5(slab)
->> raw: 0100000000000000 ff1100000103c3c0 ffd4000000162340 =
-dead000000000003
->> raw: 0000000000000000 0000000080100010 00000001f5000000 =
-0000000000000000
->> page dumped because: kasan: bad access detected
->>=20
->> Memory state around the buggy address:
->> ff1100000588e180: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
->> ff1100000588e200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->>> ff1100000588e280: 00 fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->>                     ^
->> ff1100000588e300: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ff1100000588e380: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>=20
->> ---------------
->> thanks,
->> Kun Hu
->=20
->=20
+Thanks
+ChenYu
 
+> Fixes: 9f08dcbddeb3 ("ASoC: mediatek: mt8188-mt6359: support new board wi=
+th nau88255")
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  sound/soc/mediatek/mt8188/mt8188-mt6359.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/sound/soc/mediatek/mt8188/mt8188-mt6359.c b/sound/soc/mediat=
+ek/mt8188/mt8188-mt6359.c
+> index 08ae962afeb92965109b303439419bc6e7c2a896..1550e56ab57d54b179ebe5cbd=
+60db1660bb0bd2c 100644
+> --- a/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> +++ b/sound/soc/mediatek/mt8188/mt8188-mt6359.c
+> @@ -188,9 +188,7 @@ SND_SOC_DAILINK_DEFS(pcm1,
+>  SND_SOC_DAILINK_DEFS(ul_src,
+>                      DAILINK_COMP_ARRAY(COMP_CPU("UL_SRC")),
+>                      DAILINK_COMP_ARRAY(COMP_CODEC("mt6359-sound",
+> -                                                  "mt6359-snd-codec-aif1=
+"),
+> -                                       COMP_CODEC("dmic-codec",
+> -                                                  "dmic-hifi")),
+> +                                                  "mt6359-snd-codec-aif1=
+")),
+>                      DAILINK_COMP_ARRAY(COMP_EMPTY()));
+>
+>  SND_SOC_DAILINK_DEFS(AFE_SOF_DL2,
+>
+> ---
+> base-commit: b852e1e7a0389ed6168ef1d38eb0bad71a6b11e8
+> change-id: 20241203-mt8188-6359-unhardcode-dmic-ba7649f8a72b
+>
+> Best regards,
+> --
+> N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+>
+>
