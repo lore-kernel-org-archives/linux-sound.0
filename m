@@ -1,94 +1,55 @@
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
+Received: from smarthost-3.prolan-cloud.de (217-110-162-10.ptr.prolan.de [217.110.162.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE015146A66;
-	Thu, 26 Dec 2024 22:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758A813D893
+	for <linux-sound@vger.kernel.org>; Thu, 26 Dec 2024 22:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.110.162.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735251451; cv=none; b=AJrpUdU5+Ar1eDRhICtjTdLeY+T6mZLAXWdH1KzPFpqlOkwWgWrvdr+voN3kTiO8TdHLsTmj9lYU5mPQf8S5Ok9FJvMSmpsZXHz4EK80gI960Ncg5uuu9Uq2HwK6SrrFfD10lICShzQPhNN0O5o+U5BsYRGwUa7uEbaIbO9mZzc=
+	t=1735253662; cv=none; b=GgzTBxrFPvzbimaMZtDP5tGK0BTOLBKjddqkMiHBSm0YfpXs2hF+DwkQYPX/2BSWvLzZVclho9XWJ70U/2NHBRkM9pJw8vWSvIymE1LVOPl/ZgscoQMrQw66nUSKlVwu8f5p63caSuWUlqFzLSXUe/FUijXBZczQJShod8koLeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735251451; c=relaxed/simple;
-	bh=poIqwxLeYmSZecOI9YUbgM8plRd9MAIn3PmsCQR5NYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gUzZk+m++RdylXcEff43k3icUPGy07be1ai1XzIuB4MEk+PG9mJzAhhtnynYzge91CEQVpk1l9rD1/KgI71OD0qSC+0G+T/rORxes6mn6DpCN+T58Zq3enILlQX8ioucdqYsQgiW9e2uBZGND9x5w8f4tdO7EJzApLeoD6BKCVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=ZJY2D6kd; arc=none smtp.client-ip=62.89.141.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
+	s=arc-20240116; t=1735253662; c=relaxed/simple;
+	bh=lwV7aSIhmL1J4zqGd6QcK0kku1jHwWFZZp7wr11vEIE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JW5cTkVH3hNI4TaULsqOfcLmbwr1Qz9SoKO1Hz8iGLA572weHcgg34FFeE3/4auGNtIJockfdl4R3b+ULfr+0R4ouQB5gBSgsJuyFTOrJnN4+iZkG62RJecaeF3lsHRC5VpuLnC3QfmyrmnkNqQwuEJ9yJzsLfBhDzEaAsnko0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=tautiimagheraus.ro; spf=fail smtp.mailfrom=tautiimagheraus.ro; dkim=fail (0-bit key) header.d=tautiimagheraus.ro header.i=@tautiimagheraus.ro header.b=BZLHn/II reason="key not found in DNS"; arc=none smtp.client-ip=217.110.162.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=tautiimagheraus.ro
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tautiimagheraus.ro
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="ZJY2D6kd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=w/RGq4RNgf8/Vgt1WEsW2ab6QivmnVIkvf/OGGQSyBU=; b=ZJY2D6kdlvy7475nEH5WfZR2ZL
-	j5mtvTtOxYnU4ZPG6ADlBMGYhXeNftr4UrVD3h+XEpZmL1XY+MTA5VDtAaYNaNEGr5C5sg3ZYe6df
-	q1XN0gwLgdq/tdpF8mU6J7BPnAm0pO1qnZ0Bm1ISPDkQWxgJsf8aIDsmuP44XasJ+rbTIL1lpeL0g
-	3Ll1oZRHTzXR0RM120RlDd5wsgr4Tw8nCpjoIm6Z1PevSKsNS1+UpdM9WOywcG+HTeMgHk4UwpNeY
-	9PFNIieNYCTaageT7PIvTqJrLhh14LhbhkS24vJdzw1gZVQLbieq+2XFwu7TZILth7AEtDVdJ08iR
-	O2zybd7w==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tQwAY-0000000Cd7O-1vjH;
-	Thu, 26 Dec 2024 22:17:26 +0000
-Date: Thu, 26 Dec 2024 22:17:26 +0000
-From: Al Viro <viro@zeniv.linux.org.uk>
-To: Jaroslav Kysela <perex@perex.cz>
-Cc: linux-fsdevel@vger.kernel.org,
-	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
-	Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
-	Vinod Koul <vkoul@kernel.org>
-Subject: Re: [CFT][PATCH] fix descriptor uses in sound/core/compress_offload.c
-Message-ID: <20241226221726.GW1977892@ZenIV>
-References: <20241226182959.GU1977892@ZenIV>
- <d01e06bf-9cbc-4c0e-bcce-2b10b1d04971@perex.cz>
- <20241226213122.GV1977892@ZenIV>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=tautiimagheraus.ro header.i=@tautiimagheraus.ro header.b="BZLHn/II"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tautiimagheraus.ro;
+	s=default; t=1735243276;
+	bh=lwV7aSIhmL1J4zqGd6QcK0kku1jHwWFZZp7wr11vEIE=;
+	h=Reply-To:From:To:Subject:Date:From;
+	b=BZLHn/IIHXo529LDmdEWzwZsrGVTbAqUKixUnw/VHA534VzoYzGSsHu8zCc06Tktg
+	 iO71xhbXFYBtvkVgCUh0S4E0p3Htpz2RYlOlKbpZPXKNBGI1Zc2BKa5ED/K6de+tCl
+	 e0Aijp7NK8W1PYdqV9L2DAyWYwley3CSd29jWAUr1GkX5z7cydcGRC8Hd+IRiOeS7U
+	 9rVdKGU+m4ohhqwNCC729UjcMoInHo450nIb27HI0YMnLBMucFygA5a1qwkHCqhD4v
+	 /dFz+K8jBc8Ewfw7tKU+LMb/HzFCjOnK1sjPy5g4x8s1Jonje0IRVt3UJYk+RBuJE3
+	 rX+pqxmsV113Q==
+Reply-To: admin@bceao-tg.org
+From: Kazi <proiecte@tautiimagheraus.ro>
+To: linux-sound@vger.kernel.org
+Subject: Business request
+Date: 26 Dec 2024 21:01:16 +0100
+Message-ID: <20241226210116.7D7AE747E83184FD@tautiimagheraus.ro>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241226213122.GV1977892@ZenIV>
-Sender: Al Viro <viro@ftp.linux.org.uk>
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 26, 2024 at 09:31:22PM +0000, Al Viro wrote:
-> On Thu, Dec 26, 2024 at 08:00:18PM +0100, Jaroslav Kysela wrote:
-> 
-> >   I already made almost similar patch:
-> > 
-> > https://lore.kernel.org/linux-sound/20241217100726.732863-1-perex@perex.cz/
-> 
-> Umm...  The only problem with your variant is that dma_buf_get()
-> is wrong here - it should be get_dma_buf() on actual objects,
-> and it should be done before fd_install().
+Compliment of the Seasons
 
-Incremental on top of what just got merged into mainline:
+It is with great sincerity and concerns that I address this email to you.=
+=20
+I have contacted you in the past regarding this project partnership but you=
+ didn't reply the email.=20
+Did you get the chance to see the email?
 
-Grab the references to dmabuf before moving them into descriptor
-table - trying to do that by descriptor afterwards might end up getting
-a different object, with a dangling reference left in task->{input,output}
+Looking forward to your positive response.=20=20
 
-Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
----
-diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
-index edf5aadf38e5..543c7f525f84 100644
---- a/sound/core/compress_offload.c
-+++ b/sound/core/compress_offload.c
-@@ -1053,13 +1053,13 @@ static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_
- 		put_unused_fd(fd_i);
- 		goto cleanup;
- 	}
-+	/* keep dmabuf reference until freed with task free ioctl */
-+	get_dma_buf(task->input);
-+	get_dma_buf(task->output);
- 	fd_install(fd_i, task->input->file);
- 	fd_install(fd_o, task->output->file);
- 	utask->input_fd = fd_i;
- 	utask->output_fd = fd_o;
--	/* keep dmabuf reference until freed with task free ioctl */
--	dma_buf_get(utask->input_fd);
--	dma_buf_get(utask->output_fd);
- 	list_add_tail(&task->list, &stream->runtime->tasks);
- 	stream->runtime->total_tasks++;
- 	return 0;
+Best Regards,=20
+Kazi
