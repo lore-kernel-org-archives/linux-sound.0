@@ -1,246 +1,123 @@
-Received: from mx.denx.de (mx.denx.de [89.58.32.78])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF115136351;
-	Thu, 26 Dec 2024 16:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464581D63DB;
+	Thu, 26 Dec 2024 18:30:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735230183; cv=none; b=WqR3G7eivn9hHsL5ZoTffjSlRWIls7L7EHpkIvL+cBX5vMbWxglKtgrOZ/iuTTH7HvxPHWL13j+IWX7n/aVjoMw6dyigCxy07e9arJxwtcRgFX+Wm2BRhQBeMEtexlowvZE36eYJPNDfi5Tv/zBYNWkpFHFYZ1OkP0SNw9EWL7c=
+	t=1735237805; cv=none; b=qhps3f+ExltydPpog5KlzI6j9tQWY5P6MYtHEwXA07ZJgxglpKnrwCgUTufoOWlGDDXZ/281teEnkbTm9DB2dihuxaydCOE2uHf0nkWPH9ZSNu6DmMcQNH2h8cbUjvFAyHVI/QPQqpm3sajnHDjWkVa9MnM9rLtvuACtMbhbfKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735230183; c=relaxed/simple;
-	bh=HX2dcd0dEZnWFbH+RWYUNc658kLWSRrTvyAiqCrzkBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cGFtwEggxFyGCppRKq3vTVClhdeILv2P4vxqDK6BtKOHmC4+1LHN2A2IIpM9e61LdXp9kc6WRV1bRW/9/9mdBxiwRyY3GUaA+sVmGZGjXuFRjWtSKd3ea6XM6l2lj0unW8tgBmTqJlmW1Pp3odRGuvFXsexLoOdQbN/5dN80BeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=Ri1EJQsM; arc=none smtp.client-ip=89.58.32.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
+	s=arc-20240116; t=1735237805; c=relaxed/simple;
+	bh=aCT5eoT7KOMM2wNg8xY0LOgj0MgakoLOzgvZihq2OkQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IQ081gy5WDsCUrRIjkWDBSwa2Gcc11v/O9zctEIkTK6sbuCYCW+gVCCagwgiN/UUCOEejccH0v3JPT2wHWV5WMn0KtaT6F7j4nDQjDxWvqxv1Dg2AHGJo3owLdS8/mIxJSLhpze8YiIKjFTA/J+TGRXwKLq9xEhoyWr7rAp0j5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=o1r7d+/F; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="Ri1EJQsM"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CFDCF1040DBF2;
-	Thu, 26 Dec 2024 17:22:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
-	t=1735230179;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xx3lg1AGhCfYl5q5RI/QuoDaHJg4kxp86RO6KSzpna4=;
-	b=Ri1EJQsMEO/EJDHMqGP6bD75N72O32AaUPOlNAHCYywoZE/UB1YxXbPdFe1y9DEPCeVGdv
-	V+IB83+twHO2XrkCwPOsk7lbW01tsTjIBRwrU4kyCmeclRGagu9mxO3ZEiYwWy/clqJSZM
-	ikdFXyObpcuTMLGjndF7GqjGhjzjs3bk3n3j+guu0O1NppgfRNUbSz3ialZPvFhtBx6CGf
-	zI6jw8Cj1A0lYZu0nAArIuc+jxKsjDh5E5iA7mn28Qb71SZzH9xtDNpD/vJB3N3cnJ5PWq
-	lVB4eC/ineI8zbysDpGIuDtrXnE6hTG3iTAJh3UL8K342QzlJE1gwEbff+dkOg==
-From: Marek Vasut <marex@denx.de>
-To: linux-clk@vger.kernel.org
-Cc: Marek Vasut <marex@denx.de>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Michael Walle <michael@walle.cc>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
-Date: Thu, 26 Dec 2024 17:22:24 +0100
-Message-ID: <20241226162234.40141-4-marex@denx.de>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241226162234.40141-1-marex@denx.de>
-References: <20241226162234.40141-1-marex@denx.de>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="o1r7d+/F"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:Content-Type:MIME-Version:
+	Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=Z7d9dM30Bx+zWFRMyHO5BkNJcujujSmvmFRqGt+BFww=; b=o1r7d+/FtYGIw6FGtGvq6XFUZt
+	nIGLjBmU0Y0WUyK3UuiHsvLoJBXbzq50uYX7pJxgbEnL+9t/JXrE4ZXvccAEXWnQnJnqzk/7jUrk2
+	uIVquDeGUOcSDuMMwl6nchoV/NCkGDim4FVQl3mvql8A32dhMtbM+Z9LNIsvmEHyVVJ+5ocCK2EwN
+	Hcxatc+OSG2abljkVudykV2A7QcObWB0qiPI+k+MmvHHK9puvnH7xfmB48rfwIPPjsGunZPrm4rAM
+	nH8YH/6hSAnUZaUjfRyMPPxomLsP7v1TSZnjhXnFPxBO87MbEH/B0NHJTcclNNilt/fA+UEEiyE07
+	mby5a7Xw==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tQscR-0000000CaGL-1u8P;
+	Thu, 26 Dec 2024 18:29:59 +0000
+Date: Thu, 26 Dec 2024 18:29:59 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: linux-fsdevel@vger.kernel.org
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Amadeusz =?utf-8?B?U8WCYXdpxYRza2k=?= <amadeuszx.slawinski@linux.intel.com>,
+	Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: [CFT][PATCH] fix descriptor uses in sound/core/compress_offload.c
+Message-ID: <20241226182959.GU1977892@ZenIV>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-The driver currently supports generating BCLK. There are systems which
-require generation of MCLK instead. Register new MCLK clock and handle
-clock-cells = <1> to differentiate between BCLK and MCLK. In case of a
-legacy system with clock-cells = <0>, the driver behaves as before, i.e.
-always returns BCLK.
+[please, review and test]
 
-Signed-off-by: Marek Vasut <marex@denx.de>
----
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Michael Walle <michael@walle.cc>
-Cc: Nicolin Chen <nicoleotsuka@gmail.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Xiubo Li <Xiubo.Lee@gmail.com>
-Cc: devicetree@vger.kernel.org
-Cc: linux-clk@vger.kernel.org
-Cc: linux-sound@vger.kernel.org
----
-V2: No change
----
- drivers/clk/clk-fsl-sai.c | 81 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 67 insertions(+), 14 deletions(-)
+1) uses of dma_buf_get() are racy - as soon as a reference has been inserted
+into descriptor table, it's fair game for dup2(), etc.; we can no longer
+count upon that descriptor resolving to the same file.  get_dma_buf() should
+be used instead (and before the insertions into table, lest we get hit with
+use-after-free).
 
-diff --git a/drivers/clk/clk-fsl-sai.c b/drivers/clk/clk-fsl-sai.c
-index 628e53a3a26fa..0f8e2f2662d87 100644
---- a/drivers/clk/clk-fsl-sai.c
-+++ b/drivers/clk/clk-fsl-sai.c
-@@ -7,6 +7,7 @@
- 
- #include <linux/module.h>
- #include <linux/platform_device.h>
-+#include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/err.h>
- #include <linux/of.h>
-@@ -15,27 +16,44 @@
- 
- #define I2S_CSR		0x00
- #define I2S_CR2		0x08
-+#define I2S_MCR		0x100
- #define CSR_BCE_BIT	28
-+#define CSR_TE_BIT	31
- #define CR2_BCD		BIT(24)
- #define CR2_DIV_SHIFT	0
- #define CR2_DIV_WIDTH	8
-+#define MCR_MOE		BIT(30)
- 
- struct fsl_sai_clk {
--	struct clk_divider div;
--	struct clk_gate gate;
-+	struct clk_divider bclk_div;
-+	struct clk_divider mclk_div;
-+	struct clk_gate bclk_gate;
-+	struct clk_gate mclk_gate;
-+	struct clk_hw *bclk_hw;
-+	struct clk_hw *mclk_hw;
- 	spinlock_t lock;
- };
- 
- struct fsl_sai_data {
- 	unsigned int	offset;	/* Register offset */
-+	bool		have_mclk; /* Have MCLK control */
- };
- 
-+static struct clk_hw *
-+fsl_sai_of_clk_get(struct of_phandle_args *clkspec, void *data)
-+{
-+	struct fsl_sai_clk *sai_clk = data;
-+
-+	return clkspec->args[0] ? sai_clk->mclk_hw : sai_clk->bclk_hw;
-+}
-+
- static int fsl_sai_clk_probe(struct platform_device *pdev)
+2) there's no cleanup possible past the successful dma_buf_fd() - again,
+once it's in descriptor table, that's it.  Just do fd_install() when
+we are past all failure exits.  As it is, failure in the second
+dma_buf_fd() leads to task->input->file reference moved into
+descriptor table *and* dropped by dma_buf_put() from snd_compr_task_free()
+after goto cleanup.  I.e. a dangling pointer left in descriptor table.
+
+Frankly, dma_buf_fd() is an attractive nuisance - it's very easy to get
+wrong.
+
+Fixes: 04177158cf98 "ALSA: compress_offload: introduce accel operation mode"
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+---
+diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+index 86ed2fbee0c8..97526957d629 100644
+--- a/sound/core/compress_offload.c
++++ b/sound/core/compress_offload.c
+@@ -1026,6 +1026,7 @@ static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_
  {
- 	struct device *dev = &pdev->dev;
- 	const struct fsl_sai_data *data = device_get_match_data(dev);
--	struct fsl_sai_clk *sai_clk;
- 	struct clk_parent_data pdata = { .index = 0 };
-+	struct fsl_sai_clk *sai_clk;
-+	struct clk *clk_bus;
- 	void __iomem *base;
- 	struct clk_hw *hw;
+ 	struct snd_compr_task_runtime *task;
+ 	int retval;
++	int fd[2];
  
-@@ -47,39 +65,74 @@ static int fsl_sai_clk_probe(struct platform_device *pdev)
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
-+	clk_bus = devm_clk_get_enabled(dev, "bus");
-+	if (IS_ERR(clk_bus))
-+		return PTR_ERR(clk_bus);
+ 	if (stream->runtime->total_tasks >= stream->runtime->fragments)
+ 		return -EBUSY;
+@@ -1039,19 +1040,31 @@ static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_
+ 	retval = stream->ops->task_create(stream, task);
+ 	if (retval < 0)
+ 		goto cleanup;
+-	utask->input_fd = dma_buf_fd(task->input, O_WRONLY|O_CLOEXEC);
+-	if (utask->input_fd < 0) {
+-		retval = utask->input_fd;
++	if (!task->input || !task->input->file ||
++	    !task->output || !task->output->file) {
++		retval = -EINVAL;
+ 		goto cleanup;
+ 	}
+-	utask->output_fd = dma_buf_fd(task->output, O_RDONLY|O_CLOEXEC);
+-	if (utask->output_fd < 0) {
+-		retval = utask->output_fd;
 +
- 	spin_lock_init(&sai_clk->lock);
- 
--	sai_clk->gate.reg = base + data->offset + I2S_CSR;
--	sai_clk->gate.bit_idx = CSR_BCE_BIT;
--	sai_clk->gate.lock = &sai_clk->lock;
-+	sai_clk->bclk_gate.reg = base + data->offset + I2S_CSR;
-+	sai_clk->bclk_gate.bit_idx = CSR_BCE_BIT;
-+	sai_clk->bclk_gate.lock = &sai_clk->lock;
- 
--	sai_clk->div.reg = base + data->offset + I2S_CR2;
--	sai_clk->div.shift = CR2_DIV_SHIFT;
--	sai_clk->div.width = CR2_DIV_WIDTH;
--	sai_clk->div.lock = &sai_clk->lock;
-+	sai_clk->bclk_div.reg = base + data->offset + I2S_CR2;
-+	sai_clk->bclk_div.shift = CR2_DIV_SHIFT;
-+	sai_clk->bclk_div.width = CR2_DIV_WIDTH;
-+	sai_clk->bclk_div.lock = &sai_clk->lock;
- 
- 	/* set clock direction, we are the BCLK master */
- 	writel(CR2_BCD, base + data->offset + I2S_CR2);
- 
--	hw = devm_clk_hw_register_composite_pdata(dev, dev->of_node->name,
-+	hw = devm_clk_hw_register_composite_pdata(dev, "BCLK",
- 						  &pdata, 1, NULL, NULL,
--						  &sai_clk->div.hw,
-+						  &sai_clk->bclk_div.hw,
- 						  &clk_divider_ops,
--						  &sai_clk->gate.hw,
-+						  &sai_clk->bclk_gate.hw,
- 						  &clk_gate_ops,
- 						  CLK_SET_RATE_GATE);
- 	if (IS_ERR(hw))
- 		return PTR_ERR(hw);
- 
--	return devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get, hw);
-+	sai_clk->bclk_hw = hw;
-+
-+	if (data->have_mclk) {
-+		sai_clk->mclk_gate.reg = base + data->offset + I2S_CSR;
-+		sai_clk->mclk_gate.bit_idx = CSR_TE_BIT;
-+		sai_clk->mclk_gate.lock = &sai_clk->lock;
-+
-+		sai_clk->mclk_div.reg = base + I2S_MCR;
-+		sai_clk->mclk_div.shift = CR2_DIV_SHIFT;
-+		sai_clk->mclk_div.width = CR2_DIV_WIDTH;
-+		sai_clk->mclk_div.lock = &sai_clk->lock;
-+
-+		pdata.index = 1; /* MCLK1 */
-+		hw = devm_clk_hw_register_composite_pdata(dev, "MCLK",
-+							  &pdata, 1, NULL, NULL,
-+							  &sai_clk->mclk_div.hw,
-+							  &clk_divider_ops,
-+							  &sai_clk->mclk_gate.hw,
-+							  &clk_gate_ops,
-+							  CLK_SET_RATE_GATE);
-+		if (IS_ERR(hw))
-+			return PTR_ERR(hw);
-+
-+		sai_clk->mclk_hw = hw;
-+
-+		/* set clock direction, we are the MCLK output */
-+		writel(MCR_MOE, base + I2S_MCR);
++	fd[0] = get_unused_fd_flags(O_CLOEXEC);
++	if (unlikely(fd[0] < 0)) {
++		retval = fd[0];
++		goto cleanup;
 +	}
++	fd[1] = get_unused_fd_flags(O_CLOEXEC);
++	if (unlikely(fd[1] < 0)) {
++		put_unused_fd(fd[0]);
++		retval = fd[1];
+ 		goto cleanup;
+ 	}
 +
-+	return devm_of_clk_add_hw_provider(dev, fsl_sai_of_clk_get, sai_clk);
- }
- 
- static const struct fsl_sai_data fsl_sai_vf610_data = {
- 	.offset	= 0,
-+	.have_mclk = false,
- };
- 
- static const struct fsl_sai_data fsl_sai_imx8mq_data = {
- 	.offset	= 8,
-+	.have_mclk = true,
- };
- 
- static const struct of_device_id of_fsl_sai_clk_ids[] = {
--- 
-2.45.2
-
+ 	/* keep dmabuf reference until freed with task free ioctl */
+-	dma_buf_get(utask->input_fd);
+-	dma_buf_get(utask->output_fd);
++	get_dma_buf(task->input);
++	get_dma_buf(task->output);
++
++	fd_install(fd[0], task->input->file);
++	fd_install(fd[1], task->output->file);
++
+ 	list_add_tail(&task->list, &stream->runtime->tasks);
+ 	stream->runtime->total_tasks++;
+ 	return 0;
