@@ -1,114 +1,94 @@
-Received: from omr011.pc5.atmailcloud.com (omr011.pc5.atmailcloud.com [103.150.252.11])
+Received: from mail.mutex.one (mail.mutex.one [37.27.84.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0C6155389
-	for <linux-sound@vger.kernel.org>; Fri, 27 Dec 2024 13:53:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DD91F754F;
+	Fri, 27 Dec 2024 16:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.27.84.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735307584; cv=none; b=NXxiFicJzVQqjHGIdmi7UYY9TZ/rudWvt3WNRJBw1BgA1uU0CeOjk4OVqI/3qkY+oYNr3UD2rYuL1sARIO+RUSpYzBAL/xBAF9bNXxoCVioYGCSvRpvwn5Fq/ZRHunxQX/7WXFwbWl2KPzKbUMxfAXM6PY1Yag01SFyUDJ/9blA=
+	t=1735318495; cv=none; b=cQfWz+HMP/7V2XpkssGWJOd1AWmo/UN5Rc4kcjPou8DdHhEf+nNJ8wYLGre5cQeMjMRlTeNRuL3yMZnt5iOwAMnWgCYCvZGtxwE4r4gT843TtG2rg9+A7wqtqzsD1kcmfn0Vad7i2M2rw1iYKakpSxdyv8bZ1jD3plZ3/mMc+ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735307584; c=relaxed/simple;
-	bh=ZQWnd0dhcgVD1FxEgZEpWwWWc1CEl1tpAxkFWycFuYk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=r6aJ63lcd1x7uWQpkOFF541ceEQ99Brlui7ow1zV4IcpPgjsfy6SF5qbLVh0XJ+JysZuhC0YSg5SEqN0OBAVq5uuq8/yKkrEq0b7ggqcODX0xQf1Xio1G6RGkZUccROyAQNmwHtZv+e9truVpn6UcjfuiKP69H5xTcEox5Votck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=uPAYmO7h; arc=none smtp.client-ip=103.150.252.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1735318495; c=relaxed/simple;
+	bh=1iFDCQm++V+V6pkgjb+LTgznaht/lk9GRu1gf/8Fr00=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mj5o4SR1OmKCDKk52YWOjs9W2L+8Vs5Yr8scxKJqFpKw4ZNFu82dWjptUQc3B/TnHKmKOZpTgEsaK0fm+YODAHq8/viCq4OZwM5r/8uYO17J3NyV/ZGlftTytDDrNEksLmvsaSV4cAaH9yrRkGmo24M2gwUWlRj6aj7QZ/heVUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mutex.one; spf=pass smtp.mailfrom=mutex.one; dkim=pass (2048-bit key) header.d=mutex.one header.i=@mutex.one header.b=JcFgMQPG; arc=none smtp.client-ip=37.27.84.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mutex.one
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mutex.one
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="uPAYmO7h"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=Content-Type:From:To:Subject:MIME-Version:Date:
-	Message-ID; bh=zJwizkPNeuFPHG1FNqb1+qVrFO0r0k3ZtANTCZdb0JM=; b=uPAYmO7hDSMTgD
-	mgGPcirFhEis4bXJDgJkhf29k9xS+8EusnL0KS1NlFERTrsxc7ZqgSic6Fmc7IPe0WhJ79qYyxC3T
-	VDv8gJwZz2JSdrTqEEMCL43MNaLU71ZrbaqRXZknVxjdezBStTYSrc4+Mp2xM8cwzsZOldUcMNqD2
-	0RWyYDjCoj/FBNoOULAQOryBF1qi9Ldzn402kaZKjJ5WeV32EjpbkqbeGgQmrs+upgCByY+WobumJ
-	SDfsU1eskA0viCd7z3fOG44HpkwprnREkJVEKLoc91XXt9f53XQ7lHH+B3RkSUK4QUUCRHzkK8J4A
-	5UmCzZBysOGa74PqruIw==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-08216fbfbb76706e2) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tR9Lk-000000008A3-3lOx ;
-	Fri, 27 Dec 2024 12:21:52 +0000
-Received: from [220.233.184.101] (helo=[192.168.20.101])
-	 by CMR-KAKADU03.i-08216fbfbb76706e2 with esmtpa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tR9Lk-000000006A1-21kL;
-	Fri, 27 Dec 2024 12:21:52 +0000
-Message-ID: <83a2706c-1b30-4ea4-94f9-42353f64a653@iinet.net.au>
-Date: Fri, 27 Dec 2024 23:21:44 +1100
+	dkim=pass (2048-bit key) header.d=mutex.one header.i=@mutex.one header.b="JcFgMQPG"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.mutex.one (Postfix) with ESMTP id B5EA8141047;
+	Fri, 27 Dec 2024 16:36:18 +0000 (UTC)
+X-Virus-Scanned: Scanned by mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id DgwGOoqfRKSR; Fri, 27 Dec 2024 16:36:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+	t=1735317378; bh=1iFDCQm++V+V6pkgjb+LTgznaht/lk9GRu1gf/8Fr00=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JcFgMQPGKUDo1Zf5tWtElx8CoBALb5HI82GsRkmudQbI79RutlN8b+M/N0js3wcM2
+	 jUU8MfYemfVAiXmGJJz1YdSsjGARiFNt1SPC0glmYyI27Vtu1I48vfzXp5zSLOrQfN
+	 cY9tII9kl153a6sFZQ02NPz4kVYUSDKh3N+q/tj1HdUtIwOcUQTA20O3NujgjBramy
+	 hubRGMjqBr/wPFqCYo02jbzl4pK4+SjYWzjfdpmb9/ZMM2+8ZRpUPzppWqF+F/t6/4
+	 7v2ywXQa/0idVxZ/kLB2iw1z/ziH05jFytGx1IVqPx3o15AZNzntVFzCNdQOgouK6Y
+	 aR2uIWjzfmglQ==
+Received: You can't see me ;-)
+From: Marian Postevca <posteuca@mutex.one>
+To: Mark Brown <broonie@kernel.org>,
+	alsa-devel@alsa-project.org
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Marian Postevca <posteuca@mutex.one>
+Subject: [PATCH] ASoC: codecs: es8316: Fix HW rate calculation for 48Mhz MCLK
+Date: Fri, 27 Dec 2024 18:36:16 +0200
+Message-ID: <20241227163616.239682-1-posteuca@mutex.one>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] ASoC: extra format on each DAI
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-References: <87r064cxym.wl-kuninori.morimoto.gx@renesas.com>
- <20241220110133.2e8f1986@rpi5>
- <87cyhj88dp.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Stephen Gordon <gordoste@iinet.net.au>
-In-Reply-To: <87cyhj88dp.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=MYZquY/f c=1 sm=1 tr=0 ts=676e9be0 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=p0_t1xZOgthaIOMNxAwA:9 a=QEXdDO2ut3YA:10
-X-Cm-Envelope: MS4xfPRqUgEquhNzvqluZvoXQa3NgN72TRblJzRIM/98FjXam9XIKfH0bFoOfPs8+5SJ2jHhc8nxFTw9wH5aM7FomlELaA8rqJrHFIPVp2eRweXzbtJSOV6x QciakJGn8GqTUrKx3nsu3IzgaKNX8osvajbyYzNypUes6hXheE5hQUy5cA9X6OtmsdlDx3d/v5SXgNLyz2aeU2Jws2IGs4gnhgQ=
-X-atmailcloud-route: unknown
+Content-Transfer-Encoding: 8bit
 
-On 23/12/2024 1:01 pm, Kuninori Morimoto wrote:
-> 
-> Hi Stephen
-> 
-> Thank you for testing
-> 
->> I am attempting to test this by applying your patchset on top of
->> 6.13-rc3. But I am running into a problem, probably because my
->> graph-card2 DT is wrong. I've attached the DTS file. I used the
->> Semi-Multi example.
-> 
-> Hmm... It seems the DT setting itself is correct. I have copied your
-> settings to test-cpu / test-codec, but it could probe without any error.
-> 
->> [   27.333830] asoc-audio-graph-card2 soc@107c000000:sound: probe with
->> driver asoc-audio-graph-card2 failed with error -12
-> 
-> It is -12 = -ENOMEM = kmalloc() error ?
-> 
-> 
-> Thank you for your help !!
-> 
-> Best regards
-> ---
-> Kuninori Morimoto
+For 48Mhz MCLK systems the calculation of the HW rate is broken,
+and will not produce even one sane rate. Since es83xx supports
+the option to halve MCLK, calculate also rates with MCLK/2.
 
+Signed-off-by: Marian Postevca <posteuca@mutex.one>
+---
+ sound/soc/codecs/es8316.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Hi Morimoto-san,
-
-Merry Christmas!
-
-I finally got a chance to look further and after a bit of debugging I 
-found that graph_parse_node_multi() has a loop iterating through the 
-nodes. However, when graph_get_next_multi_ep() is called to get the next 
-endpoint, it returns null. I put a debug statement in there:
-
-                 if (!ep) {
-                         dev_dbg(dev, "no endpoint");
-                         break;
-                 }
-
-and that statement is shown in dmesg.
-After it breaks out of the loop, it just returns the value of 'ret', 
-which was initialised to -ENOMEM.
-
-That's as far as I got.
-
-Regards
-Stephen
+diff --git a/sound/soc/codecs/es8316.c b/sound/soc/codecs/es8316.c
+index 61729e5b50a8..f508df01145b 100644
+--- a/sound/soc/codecs/es8316.c
++++ b/sound/soc/codecs/es8316.c
+@@ -39,7 +39,9 @@ struct es8316_priv {
+ 	struct snd_soc_jack *jack;
+ 	int irq;
+ 	unsigned int sysclk;
+-	unsigned int allowed_rates[ARRAY_SIZE(supported_mclk_lrck_ratios)];
++	/* ES83xx supports halving the MCLK so it supports twice as many rates
++	 */
++	unsigned int allowed_rates[ARRAY_SIZE(supported_mclk_lrck_ratios) * 2];
+ 	struct snd_pcm_hw_constraint_list sysclk_constraints;
+ 	bool jd_inverted;
+ };
+@@ -386,6 +388,12 @@ static int es8316_set_dai_sysclk(struct snd_soc_dai *codec_dai,
+ 
+ 		if (freq % ratio == 0)
+ 			es8316->allowed_rates[count++] = freq / ratio;
++
++		/* We also check if the halved MCLK produces a valid rate
++		 * since the codec supports halving the MCLK.
++		 */
++		if ((freq / ratio) % 2 == 0)
++			es8316->allowed_rates[count++] = freq / ratio / 2;
+ 	}
+ 
+ 	if (count) {
+-- 
+2.45.2
 
