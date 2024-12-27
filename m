@@ -1,55 +1,84 @@
-Received: from smarthost-3.prolan-cloud.de (217-110-162-10.ptr.prolan.de [217.110.162.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758A813D893
-	for <linux-sound@vger.kernel.org>; Thu, 26 Dec 2024 22:54:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.110.162.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3341442F;
+	Fri, 27 Dec 2024 04:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735253662; cv=none; b=GgzTBxrFPvzbimaMZtDP5tGK0BTOLBKjddqkMiHBSm0YfpXs2hF+DwkQYPX/2BSWvLzZVclho9XWJ70U/2NHBRkM9pJw8vWSvIymE1LVOPl/ZgscoQMrQw66nUSKlVwu8f5p63caSuWUlqFzLSXUe/FUijXBZczQJShod8koLeo=
+	t=1735274431; cv=none; b=Ltz+tl2Uv9AUF5E4QsouiIbDhz+HQBrnvXfFwyzJwtQXT8X1hL+c0MzOmsPw5YNpZRwad0RnFtaQe+sTV2QG2oVcMPW5P4Xeb6eDmHx/tjQalbip8JsSmG9tcSlpLu3tc01AwbiRCEAS3AkP6YWJtvI9S41e+dbzTml3jkVsRKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735253662; c=relaxed/simple;
-	bh=lwV7aSIhmL1J4zqGd6QcK0kku1jHwWFZZp7wr11vEIE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JW5cTkVH3hNI4TaULsqOfcLmbwr1Qz9SoKO1Hz8iGLA572weHcgg34FFeE3/4auGNtIJockfdl4R3b+ULfr+0R4ouQB5gBSgsJuyFTOrJnN4+iZkG62RJecaeF3lsHRC5VpuLnC3QfmyrmnkNqQwuEJ9yJzsLfBhDzEaAsnko0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=tautiimagheraus.ro; spf=fail smtp.mailfrom=tautiimagheraus.ro; dkim=fail (0-bit key) header.d=tautiimagheraus.ro header.i=@tautiimagheraus.ro header.b=BZLHn/II reason="key not found in DNS"; arc=none smtp.client-ip=217.110.162.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=tautiimagheraus.ro
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=tautiimagheraus.ro
+	s=arc-20240116; t=1735274431; c=relaxed/simple;
+	bh=UpBc5qkG74txPSfnvRGVxgRrqLbmlKhxmaLe9ORkGyA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HZh/3tomG2gRNGh9c5DVOfCMZE3t1sUbEn2hlwW6de4YosIE6cPGznHIeGKc7v3ZT1zNooevaPyT8fWr4CKdvmlIYyhKrb1vOoZXpxVLCCiGvzTKn7C41K4sWtLosZe38/nfl+C3W+S7EN0zx6PTmOWvKSAsALKqb3COtuRCh2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYyxKIW7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=tautiimagheraus.ro header.i=@tautiimagheraus.ro header.b="BZLHn/II"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tautiimagheraus.ro;
-	s=default; t=1735243276;
-	bh=lwV7aSIhmL1J4zqGd6QcK0kku1jHwWFZZp7wr11vEIE=;
-	h=Reply-To:From:To:Subject:Date:From;
-	b=BZLHn/IIHXo529LDmdEWzwZsrGVTbAqUKixUnw/VHA534VzoYzGSsHu8zCc06Tktg
-	 iO71xhbXFYBtvkVgCUh0S4E0p3Htpz2RYlOlKbpZPXKNBGI1Zc2BKa5ED/K6de+tCl
-	 e0Aijp7NK8W1PYdqV9L2DAyWYwley3CSd29jWAUr1GkX5z7cydcGRC8Hd+IRiOeS7U
-	 9rVdKGU+m4ohhqwNCC729UjcMoInHo450nIb27HI0YMnLBMucFygA5a1qwkHCqhD4v
-	 /dFz+K8jBc8Ewfw7tKU+LMb/HzFCjOnK1sjPy5g4x8s1Jonje0IRVt3UJYk+RBuJE3
-	 rX+pqxmsV113Q==
-Reply-To: admin@bceao-tg.org
-From: Kazi <proiecte@tautiimagheraus.ro>
-To: linux-sound@vger.kernel.org
-Subject: Business request
-Date: 26 Dec 2024 21:01:16 +0100
-Message-ID: <20241226210116.7D7AE747E83184FD@tautiimagheraus.ro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYyxKIW7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEDBBC4CED0;
+	Fri, 27 Dec 2024 04:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735274430;
+	bh=UpBc5qkG74txPSfnvRGVxgRrqLbmlKhxmaLe9ORkGyA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=oYyxKIW7p0Ss2Uy4cVC7u9DQpRwKFha1RBut/xK7LVywhfC0JS4AmL9KcrzvogEBR
+	 1Hsv5hSrAH+cTCDHYjNP3O06BBrRPyEkhimANE4Zl4f1cAcwwRp5Z0YFHX6PDt0J0p
+	 dKu1CzpPwPJodIE4qO06u5SJ7mPsjPkzs2sp+A/sE5hPAN0d4hwW8GhwBc1kf5TrrM
+	 1/FBNGb5y5vjVf/0bQJz7eomA3qDS7s8Q+x2PJZDYxmHRQY8AzA5Z26hmfllJhvgJ5
+	 e7FPaHHjJKQqf7M+EoaRMGDX5POYDTKSIL0YR0JzdAad2xCOrqU9RCDQG7yvy1YyRg
+	 JgIldaqe0SLjw==
+From: Bjorn Andersson <andersson@kernel.org>
+To: konradybcio@kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Alexey Klimov <alexey.klimov@linaro.org>
+Cc: linux-sound@vger.kernel.org,
+	srinivas.kandagatla@linaro.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	dmitry.baryshkov@linaro.org,
+	krzysztof.kozlowski@linaro.org,
+	caleb.connolly@linaro.org,
+	a39.skl@gmail.com,
+	konrad.dybcio@oss.qualcomm.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] qrb4210-rb2: add HDMI audio playback support
+Date: Thu, 26 Dec 2024 22:40:25 -0600
+Message-ID: <173527442286.1473071.12713395655975649786.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241112025306.712122-1-alexey.klimov@linaro.org>
+References: <20241112025306.712122-1-alexey.klimov@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Compliment of the Seasons
 
-It is with great sincerity and concerns that I address this email to you.=
-=20
-I have contacted you in the past regarding this project partnership but you=
- didn't reply the email.=20
-Did you get the chance to see the email?
+On Tue, 12 Nov 2024 02:53:02 +0000, Alexey Klimov wrote:
+> Rebased on top of today's -next and re-tested.
+> 
+> Changes in v5:
+> -- drop MI2S clock in sm8250 patch (seems to be merged);
+> -- fix gpio-ranges in lpass_tlmm (Dmitry);
+> -- added reviewed-by tags from Konrad and Dmitry.
+> 
+> [...]
 
-Looking forward to your positive response.=20=20
+Applied, thanks!
 
-Best Regards,=20
-Kazi
+[1/4] arm64: dts: qcom: sm6115: add apr and its services
+      commit: c722e3ce278826f29a2a8500d685130dd0b6a297
+[2/4] arm64: dts: qcom: sm6115: add LPASS LPI pin controller
+      commit: 4541a5f11e59015d2f4b39864e421bf9e804097d
+[3/4] arm64: dts: qcom: sm4250: add LPASS LPI pin controller
+      commit: 6624d17a8142776e43bcd632c227ebf0bbe9d590
+[4/4] arm64: dts: qcom: qrb4210-rb2: add HDMI audio playback support
+      commit: 1caf6149c3bf41a2ee07869449c4ea1ec8bbc2f8
+
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
