@@ -1,111 +1,174 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437A91487FA
-	for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 10:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38C04D8A3;
+	Sun, 29 Dec 2024 10:45:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735467015; cv=none; b=aWJXl1Twj05WOfuijzjAbrF4txprgOkpY8jeDc3C3sZNCYF7R+Wkb2DOsGoOgLTtgDV5N+/cvQZ4e1fFiX+WCtw4Uuvr6nxbk49OUv3cKXR1cEZsHerHVngUAM3v5Dy4k1eOZHfNTnPipIhjtI2BLopLMpNxeWk91/Z7wXNQIo8=
+	t=1735469155; cv=none; b=BvCOUMdvBEU32jloe+VZ1V/u62iNBlCEtofGIu4hYISmMWpdrKST10v2kD+CTcxbuw6NyNi1vubt3qYawUwh/qWSkbfb1diCoA2HVozSfe/DpLsn+44hDZQt7byH6ojzvK3XBoa6Nav6R66dqRXIEDYO9ACHDeJW90Z+t+mdBiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735467015; c=relaxed/simple;
-	bh=WL8Ny7Z67ccjmsSgCVQ1xohVJKkGxyxoZXIu5HuhE9M=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=A9u5Km76sPEkov1NEMeCpVp64NBpFBWZX0l3Vmwg22eSDJFHPUVPmK3pqaiSTCfG8fDLr8wTKo26ML3uFKH7Eo8YjfICSevN5tPQAlvYCAMV8rtrUSKp81Rve9O6OIE8zwCwbHvNIa4jH75rNHXW1Y26+Dys+kPkDbW9s7JYWkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f2MOFMTl; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1735469155; c=relaxed/simple;
+	bh=DPSaPk53InamwdJ4FzGY9JBqFMO9LOFhUFbNrxOdm3U=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eEvJ/vKIA2VUKMEagjiR3iBvso+ss+ET6R96aa+u74eTFP8mVquprcA0KGtZ/H/eFFlDmTnZ1QK8wOcQmr9DuiF6JybEQj6xGViAmeM/uN08EbzXJZRx7KbbVdu9Scq84jOLGwpOkiFmFHnBwgH9iYmzNb4Jp87d9zMBsDiu2KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OXS9CeX0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LT4CeOXn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OXS9CeX0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LT4CeOXn; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f2MOFMTl"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43616bf3358so12774455e9.3
-        for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 02:10:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735467011; x=1736071811; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jo0lFH0D7L1OyRrRi/rC2RixuHioaZMR/O4UKhCo6m0=;
-        b=f2MOFMTl1jFNNnAvYCXkd3/llDPLgX5NrlaDdP2fgyEPSD7JDJBlhjO8Pl1PyYbIpp
-         vTt83JNYBVke6Mlk1OlR5RCKnWUjMUuYLBkVsdthgw4/21yyE3QWMQJaHG+m1JbFX78P
-         z5LFiOWU6jnO/xWEoqGUqhNoraWb6n7EFRCvLJYQm61wzXqHNRSJPZd2u+LCJuAdx4Av
-         wPG3DLrH7mOw0Jj4dvHX+Q8HPxL3Oe2usvo+Fu7C5fvjvhwOOZ3MjZLJooPza2fLvJR8
-         dPnxPoyIVYaPjKLNPsR9POditxy3pw0T3jrnC50yAzvss17J4Su8vgRU3Lhvpt6HUhzJ
-         e0IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735467011; x=1736071811;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jo0lFH0D7L1OyRrRi/rC2RixuHioaZMR/O4UKhCo6m0=;
-        b=tdD62PFo/iS711lkwXli1ZqNqI6jL1mBfQI2Xu4o+FFNlGZRPZzvSlajyNJuFYTuOO
-         OBNY27u2k9Q4RQlBxnbuprWqViOeekKsVRFymUSjAEgeHrYfTX24xP2MFSN3cJ5A4qKS
-         b1xuHNqa1xkuovmonL7WZtXCFtqygCJfYEgOn/phlGgLORGsENO3dmor4KBKoItdxRk1
-         b80qWo7vb3SZNi01dARD1LjwN2pf14Qk6ILepSOeRAC411PcPh7ZFBihnovfxEwySQ5F
-         ndHoaB4tUoYmuHD8R/JDzvLueuM0gQAIp8PfjHLn+9YWdfjofq7ISL2YqJAIpnlMR7am
-         pOYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWfhPbnHBeIjj8ZAV097OanWPdHbqTd5iyT9OOlotN+UtrNWpoEAaQNuL1HQETWszKStmj89Yf5VtncIA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygVhsO798gX10qF5xn8dpN3ielJgY0IxoV6KFNM+YmJXQJeuYM
-	P6tKxVhKuJuWD10aub0cLjiflNSfKn/TI+oi/25QVVopHny/BVyvcr48hAz2B+E=
-X-Gm-Gg: ASbGnctMpHCToa9IgzTfd4y7q6QmouExHFppmBFdsq1DMhxLMzIbfdlwMOee/vPW3Wa
-	77Ljni4ZO9ZmILUxNeHhPV+O0aKUXIWXNHT5D545IKhdvpcayILa+VH6aPNxy80sex/YOaLH7Bn
-	HW1Bh2aYpNzNOuZA4FJGsmu2hmBlmm2Q2PFpTj4rmZt85yH1dwibvaMcWlb0V+nA167ph5bh4ov
-	OiVdKNQkAWbICUM227WiARPh4WyNH3qB5LxaQ8UDZ+DR/fxA8sYLRGZeBgdPUAF2/Z2QcQr
-X-Google-Smtp-Source: AGHT+IHP1vNO4pX8rCVSoOO8ZA/PKbzvByEOcpImjWXAjaOwj9hxfLF/KNxyi+EPgVTvKCoXvpRUbw==
-X-Received: by 2002:a05:600c:1e23:b0:434:f335:85c with SMTP id 5b1f17b1804b1-43668b7b619mr106181145e9.6.1735467011606;
-        Sun, 29 Dec 2024 02:10:11 -0800 (PST)
-Received: from [127.0.1.1] ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436611ea40csm320505375e9.1.2024.12.29.02.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Dec 2024 02:10:11 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- Artur Weber <aweber.kernel@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-sound@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
-In-Reply-To: <20240816-midas-audio-tab3-v2-0-48ee7f2293b3@gmail.com>
-References: <20240816-midas-audio-tab3-v2-0-48ee7f2293b3@gmail.com>
-Subject: Re: (subset) [PATCH RESEND v2 0/6] ASoC: samsung: midas_wm1811:
- Separate compatible for tab3 + fixes
-Message-Id: <173546701025.10606.6645019448209371865.b4-ty@linaro.org>
-Date: Sun, 29 Dec 2024 11:10:10 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OXS9CeX0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LT4CeOXn";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OXS9CeX0";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LT4CeOXn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 832C95C72D;
+	Sun, 29 Dec 2024 10:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735469150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
+	b=OXS9CeX0EL3yYDwXZrYUgZyfMGs21HT56E/iWPOZ59FW7gU+mK/pZ9MyAgZxe/pxJIjkG+
+	kN37SlAudp89cd3mEFt0q6pp5ucpqIG2EoPDBdQnEmLsXM+8xsZOE/leyX7vTVW1fqdL9S
+	KV55CRXs/IHDmK4MLjTuzOcf2EN8ejY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735469150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
+	b=LT4CeOXnXlk043A/OCF1SY//iN33cMNTFec1kA85QCwNvFvUURvCBS5ITcXyhtoiOMod69
+	yPDqSHAIWjBcraDA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OXS9CeX0;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LT4CeOXn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735469150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
+	b=OXS9CeX0EL3yYDwXZrYUgZyfMGs21HT56E/iWPOZ59FW7gU+mK/pZ9MyAgZxe/pxJIjkG+
+	kN37SlAudp89cd3mEFt0q6pp5ucpqIG2EoPDBdQnEmLsXM+8xsZOE/leyX7vTVW1fqdL9S
+	KV55CRXs/IHDmK4MLjTuzOcf2EN8ejY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735469150;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
+	b=LT4CeOXnXlk043A/OCF1SY//iN33cMNTFec1kA85QCwNvFvUURvCBS5ITcXyhtoiOMod69
+	yPDqSHAIWjBcraDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CF7E139D0;
+	Sun, 29 Dec 2024 10:45:50 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LFg6EV4ocWe/XQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 10:45:50 +0000
+Date: Sun, 29 Dec 2024 11:45:49 +0100
+Message-ID: <87ed1qydgi.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Kun Hu <huk23@m.fudan.edu.cn>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>
+Subject: Re: Bug: slab-out-of-bounds in snd_seq_oss_synth_sysex
+In-Reply-To: <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
+References: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
+	<B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 832C95C72D
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-
-On Fri, 16 Aug 2024 09:50:57 +0200, Artur Weber wrote:
-> This is a follow-up to "ASoC: samsung: midas-audio: Add GPIO-based
-> headset jack detection"[1]; it appears to have been silently merged
-> except for the DTS parts, this patchset is a resend of the DTS patches.
+On Wed, 25 Dec 2024 06:37:47 +0100,
+Kun Hu wrote:
 > 
-> Besides the DTS changes necessary to enable headset jack detection
-> for the Samsung Galaxy Tab 3 8.0, it also adds a new compatible for
-> the Tab 3 (samsung,tab3-audio). This is done so that we can set up
-> different requirements in DT binding (Tab 3 does not have main/sub
-> bias regulators), and drop the main/sub mic bias dummy regulators
-> from the Tab 3 DTSI.
+> Hello,
 > 
-> [...]
+> > BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 sound/core/seq/oss/seq_oss_synth.c:516
+> 
+> We further analyzed the issue at line 516 in ./sound/core/seq/oss/seq_oss_synth.c. 
+> The slab-out-of-bounds crash occurs in line 509, when sysex->len = 128. Specifically, the write operation to dest[0] accesses memory beyond the bounds of sysex->buf (128 byte).
+> To resolve this issue, we suggest adding 6 lines of code to validate the legality of the address write to sysex->buf before entering the loop:
+> 
+> if (sysex->len >= MAX_SYSEX_BUFLEN) { 
+>    sysex->len = 0; 
+>    sysex->skip = 1; 
+>    return -EINVAL;  /* Exit early if sysex->len is out of bounds */ 
+> }
 
-Applied, thanks!
+The only place incrementing sysex->len is that loop and it has already
+the bounce check which resets sysex->len to 0.  That is, the likely
+reason of the buffer overflow is rather the racy calls of this
+function.
 
-[3/6] ARM: dts: samsung: exynos4212-tab3: Fix headset mic, add jack detection
-      https://git.kernel.org/krzk/linux/c/2c3c373555460b79a6a201c87230d32b211f8323
-[4/6] ARM: dts: samsung: exynos4212-tab3: Add MCLK2 clock to WM1811 codec config
-      https://git.kernel.org/krzk/linux/c/d15cc681ba79fdc722d4aa7a83e572850cf5f64a
-[5/6] ARM: dts: samsung: exynos4212-tab3: Drop interrupt from WM1811 codec
-      https://git.kernel.org/krzk/linux/c/acd33b48ce663c7e293b11cd77df7ea702ca34f6
-[6/6] ARM: dts: samsung: exynos4212-tab3: Drop dummy mic bias regulators
-      (no commit info)
+If so, a potential fix would be rather to protect the concurrency,
+e.g. a simplest form is something like below.
+Could you check whether it addresses your problem?
 
-Best regards,
--- 
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
+thanks,
+
+Takashi
+
+-- 8< --
+--- a/sound/core/seq/oss/seq_oss_synth.c
++++ b/sound/core/seq/oss/seq_oss_synth.c
+@@ -66,6 +66,7 @@ static struct seq_oss_synth midi_synth_dev = {
+ };
+ 
+ static DEFINE_SPINLOCK(register_lock);
++static DEFINE_MUTEX(sysex_mutex);
+ 
+ /*
+  * prototypes
+@@ -497,6 +498,7 @@ snd_seq_oss_synth_sysex(struct seq_oss_devinfo *dp, int dev, unsigned char *buf,
+ 	if (!info)
+ 		return -ENXIO;
+ 
++	guard(mutex)(&sysex_mutex);
+ 	sysex = info->sysex;
+ 	if (sysex == NULL) {
+ 		sysex = kzalloc(sizeof(*sysex), GFP_KERNEL);
