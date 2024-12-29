@@ -1,128 +1,172 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262112594AD;
-	Sun, 29 Dec 2024 09:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C43F27462;
+	Sun, 29 Dec 2024 09:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735462952; cv=none; b=kWvdcZ4KOC/1EVYalvF+cczwHLnTaLpACgwyGQLVCPVPThZo7iflVnzKhMVA4wxqpy3/cFnFOISHSo0nxcf7MStC59Yy4M55+VzbZ8ql2JjtA5TNVB9g5dFnuIxxUqTQpwGMb5fSPCi1v8ZT8gjSfytvnvT9H4GuN9vZAeP/J5s=
+	t=1735463052; cv=none; b=t047sEtl9oODyg8FDMpO6QIELJQAQgNO9f7IkwZxO1QrHBJqWZSPtzIQ2p9dkfkF/3iOS4Akxvf6JYOevHkLh7MzY/AdWmezrvOv1YjXQuKxZdVBON//az3XelfMO8SbnUvKuelwqnWjYGFYxwcNomhx5jAe/87KXFmWmq+VNQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735462952; c=relaxed/simple;
-	bh=qGQ17v88ArQaZtJqkfxjB5R+5zjg8kABbg3aoQNaHpI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jfbXMSgNd86YpTkPtaYRpeZDFe5yGmNRYrlXsK83mH8uu+1AjUlKQZpml00O92KyhGPFHWJFCEUFHpHU/qayDO7gtyjBs4ENcq5Y9MfZ4IV6cimguELa72HxmYwAZ4yjqRLwpxiZz5N+oNzwsdsJnzFhu4e94YilI9EyP1CZts8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hlcU/rUl; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735463052; c=relaxed/simple;
+	bh=ZzSghP2FVei/k8acj4m91YTJ60GLpuGtAb4lA+pqwYw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hxf4t+A9kpLKjF2i4/9iDhZ3OJevywPg8+kXA2BnmzFfbmzTP4HXpUaZ+zFPh80Z/+Cs9FqZ3R5zCKifxJnEr9ZVYQWgNruE1NtQ3xq91uhkbtOPiNtlaRibxgZbGH8jr7jv6zseGY9yzKW8aiXMOpALbnc3Dw+fLAVxg0zClQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=y9LN95ft; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=88gLYnSe; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KxNps521; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=XC51ySni; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hlcU/rUl"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43634b570c1so60226855e9.0;
-        Sun, 29 Dec 2024 01:02:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735462949; x=1736067749; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CJo+4hEkig7xYden08+xkjckSGWgXyHMeRUlvi18oZw=;
-        b=hlcU/rUlhVcO9HtXvV6rkXnj/j3adFHqJDqTzOja8blEXcOb6F4iuDPTzZs5DLPqFT
-         sjbzzs/4U6EdmlR+Pq0yd6ocvailANwMFXnjAAEauRFMJXsRggtruFKm3BBQ/hbozoXH
-         VIfpKsA2wXYRh91Wgf8Hr+AwE21lMbG2o9JKPNt9wYcV4GHQBjFL29EX4O/t//D3XHza
-         ck3FzWCwmewG5qh4krvz7GcYcAQ2BQDgWVsBLn9NJ1L0cqd/bRD6jn1kNBREvoj7/KNd
-         //2zWwr9kIcp75xp7775xeb9sIU4O6YQ2PsVqS5v5l1JaP2XxKVePWrs8XDgYalK9g5E
-         5FDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735462949; x=1736067749;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CJo+4hEkig7xYden08+xkjckSGWgXyHMeRUlvi18oZw=;
-        b=Qod+/FKvwgPZeomcB9jmr6sEe8UkdkOmfskDwcAphEzzZvTgdV5jvMQ0KezXYFfv2o
-         3Tcp65+Qxe4aTUogNfGkWf7E53LDZ/LEgWf2nNogaummC5CzMuYuR9DAKRRfH3A/yjSo
-         Tv8Rawk8CcCPJaGOqBnj8UQW/LkCVPupMrA/0jIZzihB2/Kw08/XT7VzdDj21zKIQy4d
-         6/2uUdH3jfLXTd86P0FSrt7KdMNhPKf1fGeoFP7e8l8Upu1Hoa2paMtTWN3mAAGdxk05
-         1gOHK7x+Cms8fLNNrlZ7SUnQzEJA43boykQBjtKhG9fTAWTKFX4TwpQ4ut6a4Oa052yd
-         hgig==
-X-Forwarded-Encrypted: i=1; AJvYcCVb7bmsY/11kVqog0JyY3VUrZkTVH5hHF3M6GNa4k/2VdYQrn8H3S5lPOck0FYD9E6iQtEvlEH6wKDAqBA=@vger.kernel.org, AJvYcCVm9jugnQ75zcCmSMGQJaKBYgWF1SpXXuURsajldIT0uhW2b0fP04B4wyQ275PYw2cpkHnvdfIzctXIPEU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylQI4Ewdl3kUuCj0QE+JMjJTvS49gwePjiswuH1ZglnrjqibLL
-	t4Pfb2g7Bl4D7D0SYD53dvUuFoTojlaYnPwP03zO+8wGbAY5f2/O
-X-Gm-Gg: ASbGncvTvQBowx0hsuZft/h729Nz5MXFbSs64KXUQA/BwM2Br6PX9B1oLVGspTjjLy4
-	/jGAC6uEXxJriLA8KmF5/7jgbHaPRBvC28cbcZdMoMmzfQb1EKiQG0ccqMBYYrqMGSquDna65wj
-	zwY3KMWgui1S6c6w7oBGqiyO/Va3eK/uIhHshwGyerDudcHoLuUUFXqs7rPlt4TUA5gIjo7CHyI
-	jRsUr+T4mo+kKQxTrtrywvWMS6k4l6NiCGxriIqLkvnJc0WWXjWvEYjNP2xnnJFiR9i+hXJHOW7
-	5Nkb6dOXOtdauBOumMMzZkc=
-X-Google-Smtp-Source: AGHT+IG5oK0rKRdwDb5NSQ8QOJDHSBhnZYAmkonggAhQR7uz8cYihM2UhK9KfgKvgzRIZRFio3JmWQ==
-X-Received: by 2002:a05:600c:46ce:b0:434:fdbc:5ce5 with SMTP id 5b1f17b1804b1-43668b78d1fmr256561255e9.29.1735462949361;
-        Sun, 29 Dec 2024 01:02:29 -0800 (PST)
-Received: from dsl-u17-10 (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436840b35b5sm172586545e9.39.2024.12.29.01.02.28
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 29 Dec 2024 01:02:28 -0800 (PST)
-Date: Sun, 29 Dec 2024 09:02:28 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: "wychay@ctl.creative.com" <wychay@ctl.creative.com>,
- "ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>,
- "tiwai@suse.de" <tiwai@suse.de>, "linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
-Message-ID: <20241229090228.75f8a3ba@dsl-u17-10>
-In-Reply-To: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
-References: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="y9LN95ft";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="88gLYnSe";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KxNps521";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XC51ySni"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 0834A1F7C3;
+	Sun, 29 Dec 2024 09:04:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735463049; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0jM5HAVzV9EJZWEtFdFDH2XLkc1QCrwTp4s+vcnT9rI=;
+	b=y9LN95ftJeD3jhXFAr2EAZog9DDHvZaFvyzpeLUvljYly2q4fuQEnmq1fF9bYOrQKPNlnJ
+	Nwxe5oibPuqDTSWA9l9K2/6elziXMUGM0aRESFJQhDmN8mrSdmfKVDJBZnnk5NIbYXJCz2
+	P15k7PIUWWSvPsiots2HnnbJN4vuTpY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735463049;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0jM5HAVzV9EJZWEtFdFDH2XLkc1QCrwTp4s+vcnT9rI=;
+	b=88gLYnSe3LIoMV7JJqXuQd/HwNMa6rUCNpkU/EM1Inao8xRsUZRItxsV9Wu18K5C1KtgYS
+	fkurydLar1Evs9CA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=KxNps521;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XC51ySni
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735463048; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0jM5HAVzV9EJZWEtFdFDH2XLkc1QCrwTp4s+vcnT9rI=;
+	b=KxNps521l6glBNXuD8mjcC8wAZAo5j0Vdf9zhnLmEbey1beBjqhGby2lHncNyqlWYGuOht
+	E2aqCD5yruQCfEZ5zeSzql/LRer5peVNwSOQNdpRDKeEOIkENM5scXpjdnQOoEGdCuHnLC
+	uyq9uWGzE4ygavoiMLg6t+zqHOg8nqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735463048;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0jM5HAVzV9EJZWEtFdFDH2XLkc1QCrwTp4s+vcnT9rI=;
+	b=XC51ySniC8ULE/tMA1VHo9bUPTxlABhfEPRJzdCvmvAzf7qv6T6CuH0wE6R9Qi294zahOT
+	NYPsYB+vim+qCsCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8444313A30;
+	Sun, 29 Dec 2024 09:04:07 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id T7yPHocQcWfZSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 09:04:07 +0000
+Date: Sun, 29 Dec 2024 10:04:07 +0100
+Message-ID: <87ikr2dfnc.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jackie Dong <xy-jackie@139.com>
+Cc: perex@perex.cz,
+	tiwai@suse.com,
+	bo.liu@senarytech.com,
+	kovalev@altlinux.org,
+	me@oldherl.one,
+	jaroslaw.janik@gmail.com,
+	songxiebing@kylinos.cn,
+	kailang@realtek.com,
+	sbinding@opensource.cirrus.com,
+	simont@opensource.cirrus.com,
+	josh@joshuagrisham.com,
+	rf@opensource.cirrus.com,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	mpearson-lenovo@squebb.ca,
+	dongeg1@lenovo.com
+Subject: Re: [PATCH v2] ALSA: hda: Support for Ideapad hotkey mute LEDs
+In-Reply-To: <20241224083316.20222-1-xy-jackie@139.com>
+References: <20241224083316.20222-1-xy-jackie@139.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 0834A1F7C3
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FREEMAIL_TO(0.00)[139.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,senarytech.com,altlinux.org,oldherl.one,gmail.com,kylinos.cn,realtek.com,opensource.cirrus.com,joshuagrisham.com,vger.kernel.org,squebb.ca,lenovo.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, 24 Dec 2024 23:16:17 +0000
-Ethan Carter Edwards <ethan@ethancedwards.com> wrote:
+On Tue, 24 Dec 2024 09:33:16 +0100,
+Jackie Dong wrote:
+> 
+> --- a/sound/pci/hda/patch_realtek.c
+> +++ b/sound/pci/hda/patch_realtek.c
+> @@ -6934,6 +6934,16 @@ static void alc_fixup_thinkpad_acpi(struct hda_codec *codec,
+>  	hda_fixup_thinkpad_acpi(codec, fix, action);
+>  }
+>  
+> +/* for hda_fixup_ideapad_acpi() */
+> +#include "ideapad_hotkey_led_helper.c"
+> +
+> +static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
+> +				   const struct hda_fixup *fix, int action)
+> +{
+> +	alc_fixup_no_shutup(codec, fix, action); /* reduce click noise */
+> +	hda_fixup_ideapad_acpi(codec, fix, action);
+> +}
 
-> Hello all,
-> 
-> First of all, happy holidays. 
-> 
-> I was browsing the ctdaio.c code and I noticed a lot of 
-> duplicate code and functions, specifically:
-> 
-> dao_set_{right,left}_input and
-> dao_clear_{right,left}_input functions.
-> 
-> The functions are pretty much identical. They only 
-> differ in the side (left, right). What was the original
-> idea in doing this? Wouldn't it make more since to just
-> have an ENUM (left, right) as an argument that would 
-> determine the side and just reduce the function to 
-> dao_set_input and dao_clear_input.
+So this unconditionally call alc_fixup_no_shutup(), and this
+introduces another behavior to the existing entry -- i.e. there is a
+chance of breakage.
 
-Hmmm... you'd have a lot of conditionals inside the function.
+If we want to be very conservative, this call should be limited to
+Ideapad.
 
-They also look like a memory leak just waiting to happen.
-I guess that an earlier implementation used a separate kmalloc()
-for each imappers[].
 
-Why is imappers[] an array of pointers not an array of the items?
-Each is just 8 bytes plus a 'list_head' (2 pointers?).
+thanks,
 
-	David
-
-> 
-> I would be more than happy to send in a patch doing
-> these changes, but before I did I wanted to ask if
-> there was a reason the code was written in this way.
-> I am pretty new to kernel development.
-> 
-> Thanks,
-> Ethan
-> --
-> Ethan Carter Edwards
-> CompTIA A+, Security+, and ISC2 (CC)
-> Ham Radio: AE4CE
-> Website: https://ethancedwards.com
-> 
-> 
+Takashi
 
