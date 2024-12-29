@@ -1,174 +1,116 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC662594AD;
-	Sun, 29 Dec 2024 09:10:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5193214;
+	Sun, 29 Dec 2024 10:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735463413; cv=none; b=d1556Pn+gSCwS4TpmlqfozwzlubXnp1EeYSuKig5BErm86Rk24VGk4UqJyR4q1iCPdJOrmhD6i8bnjI+br1Qq7oxVdL6HApLDIaQCJTyARwgbvUiGTW/eOBFBu5OvgThn4DKWXXDbGh+5kLNGYmjz6CvuOjBPKZwtwvlgD6ibgM=
+	t=1735466805; cv=none; b=di9FwTPIzlUIfM/R9e/b3u+Ye7bxtSEsygzXZ2OQoA6OlURGNp/kYd27cjJnMBsES+rw+TxavfJHVk2IEm7P9Ag2RcUKIlQmcPHQyPkTsNVosc0NvAic/A6XOJxpI90nEps58FA0BGZ8Xq4grGrtOg1xOt0kcYjN+roPLR1v8vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735463413; c=relaxed/simple;
-	bh=xx9KSE4j05coPZqicnwPKVi38IyYoe6L5XB7RwxCjQk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t3yI00ii8N8VZ1uJrM3QTohu9V//6s29q86uIsMyt3nTHJtU+83SQ6QCKLLueSNGbrhML+3UExOAAceJgc92Y9WkNWuA0iRdDLT8BtyjXKgjhTrUAl02dHz38u3vYfkFkyPbrtH1SU5k2ffivmgFvHLNpECOlNHLsR15c75gAv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gNDXbG9w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q+MA7G+X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=gNDXbG9w; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=q+MA7G+X; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1735466805; c=relaxed/simple;
+	bh=eOZG26qpKovgOTXc7wfLmShQIAF4R1/NkjuWDvSSFto=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iiox+LRQlgKMATCSzfoxTOeGV2kAYGDTkuQlKvUjnMsfVxpyNIIOAITe2sp/1oed/fQ4qeDjn/mW8fDePoSLeNb5LBfdLd99nq4VP1sVCFHpRGuSqrXSiritoufpFgbFUF2TsK5ijgHRlL8WOUzAqv3ps1u8/e1KiJ9rMneqDSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H5lva9yY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gNDXbG9w";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q+MA7G+X";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="gNDXbG9w";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="q+MA7G+X"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 142A7337AB;
-	Sun, 29 Dec 2024 09:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735463410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s5Fpr9pv5ompAy7+cOpPrZ7NDqJ1knVbASUTf0R1Po4=;
-	b=gNDXbG9w/cXOx3PwNfhmYCrnZnqukxjjfqgqVPma21nazZBdYCv/rdYWgrg2RnuKjsAoHT
-	iFEGFM4slvRt8UyiCx0dWGEF4iQf5Ayh+59KjLNoaftgJbz0KcKkbZngB6Pi88/YM5E+Sr
-	JqmDkLtVE7RDqKM/8vVSwcvOM2IXCF0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735463410;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s5Fpr9pv5ompAy7+cOpPrZ7NDqJ1knVbASUTf0R1Po4=;
-	b=q+MA7G+X3bw+9vwrqzgfJoZslf4tQ5TTpFxOJnka8Sz0Kug1+SC0A4rl/afDe8aep6VeV/
-	GumvGrc4fd4awxCg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gNDXbG9w;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=q+MA7G+X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735463410; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s5Fpr9pv5ompAy7+cOpPrZ7NDqJ1knVbASUTf0R1Po4=;
-	b=gNDXbG9w/cXOx3PwNfhmYCrnZnqukxjjfqgqVPma21nazZBdYCv/rdYWgrg2RnuKjsAoHT
-	iFEGFM4slvRt8UyiCx0dWGEF4iQf5Ayh+59KjLNoaftgJbz0KcKkbZngB6Pi88/YM5E+Sr
-	JqmDkLtVE7RDqKM/8vVSwcvOM2IXCF0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735463410;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s5Fpr9pv5ompAy7+cOpPrZ7NDqJ1knVbASUTf0R1Po4=;
-	b=q+MA7G+X3bw+9vwrqzgfJoZslf4tQ5TTpFxOJnka8Sz0Kug1+SC0A4rl/afDe8aep6VeV/
-	GumvGrc4fd4awxCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C8C9A13A30;
-	Sun, 29 Dec 2024 09:10:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id e25eL/ERcWcbSgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 09:10:09 +0000
-Date: Sun, 29 Dec 2024 10:10:09 +0100
-Message-ID: <87frm6dfda.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Ethan Carter Edwards <ethan@ethancedwards.com>,
-	"wychay@ctl.creative.com" <wychay@ctl.creative.com>,
-	"ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>,
-	"tiwai@suse.de" <tiwai@suse.de>,
-	"linux-sound@vger.kernel.org"
- <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
-In-Reply-To: <20241229090228.75f8a3ba@dsl-u17-10>
-References: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
-	<20241229090228.75f8a3ba@dsl-u17-10>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H5lva9yY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A053C4CED1;
+	Sun, 29 Dec 2024 10:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735466804;
+	bh=eOZG26qpKovgOTXc7wfLmShQIAF4R1/NkjuWDvSSFto=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=H5lva9yYe4D88JWeUj5G7COCMbr0j2jF8bzPI2Hy/M0YIyoEHRm6WkEyZRwXPfgtd
+	 4I6MWDZMOh9EQee6yNouHWhI7mowcSFyyguxwX8sHtcm/oVdorveS5xsY3POZ8lYvt
+	 gdZAjMSVey/wtFj0Nx2jBK/vIYjkEAx6hOxGKc6bxOmZuDWIQgY4/7/yDION80dj5R
+	 8w8t+UR998Faal9VYWozlgGS2R8KNz//9wwTwwgGDP/nVMvmvz3L6IJ67JoNCqNgHx
+	 b3Tjb62waNF/66h/4DCYEWKLMEwzm0Qx9ZGBSm9A3+TN5BddqTunUY3GVehfyo3s/K
+	 Mm0ZoGRWZ64/A==
+Message-ID: <6cd26d64-4e9d-4c5a-a335-591a1cfb914e@kernel.org>
+Date: Sun, 29 Dec 2024 11:06:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 142A7337AB
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -2.01
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 6/6] ARM: dts: samsung: exynos4212-tab3: Drop
+ dummy mic bias regulators
+To: Artur Weber <aweber.kernel@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht
+References: <20240816-midas-audio-tab3-v2-0-48ee7f2293b3@gmail.com>
+ <20240816-midas-audio-tab3-v2-6-48ee7f2293b3@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240816-midas-audio-tab3-v2-6-48ee7f2293b3@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, 29 Dec 2024 10:02:28 +0100,
-David Laight wrote:
-> 
-> On Tue, 24 Dec 2024 23:16:17 +0000
-> Ethan Carter Edwards <ethan@ethancedwards.com> wrote:
-> 
-> > Hello all,
-> > 
-> > First of all, happy holidays. 
-> > 
-> > I was browsing the ctdaio.c code and I noticed a lot of 
-> > duplicate code and functions, specifically:
-> > 
-> > dao_set_{right,left}_input and
-> > dao_clear_{right,left}_input functions.
-> > 
-> > The functions are pretty much identical. They only 
-> > differ in the side (left, right). What was the original
-> > idea in doing this? Wouldn't it make more since to just
-> > have an ENUM (left, right) as an argument that would 
-> > determine the side and just reduce the function to 
-> > dao_set_input and dao_clear_input.
-> 
-> Hmmm... you'd have a lot of conditionals inside the function.
-> 
-> They also look like a memory leak just waiting to happen.
-> I guess that an earlier implementation used a separate kmalloc()
-> for each imappers[].
-> 
-> Why is imappers[] an array of pointers not an array of the items?
-> Each is just 8 bytes plus a 'list_head' (2 pointers?).
+On 16/08/2024 09:51, Artur Weber wrote:
+> -
+> -	earmic_bias_reg: voltage-regulator-6 {
+> +	earmic_bias_reg: voltage-regulator-4 {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "EAR_MICBIAS_LDO_2.8V";
+>  		regulator-min-microvolt = <2800000>;
+> @@ -310,10 +296,8 @@ earmic_bias_reg: voltage-regulator-6 {
+>  	};
+>  
+>  	sound: sound {
+> -		compatible = "samsung,midas-audio";
+> +		compatible = "samsung,tab3-audio", "samsung,midas-audio";
+>  		model = "TAB3";
 
-AFAIUC, it's a setup of a chained element, so no leak there as of
-now.
+This looks still undocumented. Please resend when bindings get accepted
+by Mark. Dropping from my queue.
 
-I agree with that the code is unnecessarily complex, though.
-
-
-thanks,
-
-Takashi
+Best regards,
+Krzysztof
