@@ -1,92 +1,85 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [62.89.141.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFEB9476
-	for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 17:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DB9210FB
+	for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 18:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.89.141.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735494240; cv=none; b=t5iv/mUtM3jQjgpp848hoA/sNhqpBxJChDuaNs+Vz82fy69VUtGdDgzGcGy+FQ7SbXxsZHPLr/34ziNx2eY55KiWgtn/9NAnuyY7nfGTC2PX80sZv87zEHKjjqhVOqU0hKduxcsQPEMbjp1Zw5s3yae9lusTnMzjTukpZFrgAfE=
+	t=1735498356; cv=none; b=KqLl/MJR+qEFfbnqnl0SyhZA+f+Ulw55Myc410ImsQAqKX4b86uaKcuB7qsJos9GpLs59k9pHe5J47dWywJicvqpfELwZ89y0gYTnvYl9jVFal5g+wSLuwD8LTpOAUTuAiyPrslo48/eQF4U0uhnJE5xM3WprzJIudhc4T1KjDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735494240; c=relaxed/simple;
-	bh=SeRSMl6zLVeJg78I9sZ1SRAQ/FgcXFp8bKcaEKNCSyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KA44P4gCVzRIM/yyOqvvpVGqkaPGM3jebg9TcNUqsVFUlzb6OQeVdlWF7d4Ea/T9aMm6qfy7Jz0gIOkjoT6KCGlxqL/LM3MyXVWPhdYaAmvSwkHU65Nf/tg4+1pgXw474J0GZ+2FbEMi3nphoNMAOEboHaxjZoXVG3UY91BPUcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Okuqt/fo; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1735498356; c=relaxed/simple;
+	bh=W4cUdBZBKGeBWuN/cvq67CuVacaJDAYH2puEsKqwAGY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T9Jq0W5pAVS3bAVghOp1GsicqjxGkjZRGfN52xyjiC+35q+hBaoO3SSEXUKANOFH1GTnaY4wySfJtgLF+sWgVHD5LCYFyfuAE+Llt7dqw+76tBlNWZp9qwDt0msz8M8RBFSbNv0swn+HBPH0IUJTS13lBWcKen3ytnoh/b7NIyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk; spf=none smtp.mailfrom=ftp.linux.org.uk; dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b=PmddiF29; arc=none smtp.client-ip=62.89.141.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zeniv.linux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ftp.linux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Okuqt/fo"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735494225;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lZ6p6FAtxrmgDHPJRDTRFHyZSCPREEVTU0sInBqMF9Y=;
-	b=Okuqt/folZwHXHXSEhMcFhGTI+e8sMD0IdNIfahtJUDEDVPg7OrEek7cFiUDfQ71lzOwxn
-	HtEFXAWeRjGLuXOWg0DskPoOtfDLUtfOAHB9F9elYEzo54MRDi+HmZjsVskSSqmkgufXZH
-	7SuD7wOndWOUPXw9+ub27g5G7L2xTOk=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
-	linux-sound@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ASoC: madera: Use str_enabled_disabled() helper function
-Date: Sun, 29 Dec 2024 18:40:44 +0100
-Message-ID: <20241229174043.781856-2-thorsten.blum@linux.dev>
+	dkim=pass (2048-bit key) header.d=linux.org.uk header.i=@linux.org.uk header.b="PmddiF29"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=wRV4NZgBJh5ZdnEc/CATUJJbUruJNckTV40t1sOR+gQ=; b=PmddiF298pNY5fEHotFiBHxmQY
+	q0Fbob4pCYyKXHIJpFf09k86dMB4m2RA04nU0G3VHG7mbWP9pZdwfhrkFn+s1+nAKo4kmZb1HTcMU
+	4sLR2y10Fr/ZVBXh/z8EaGzX0FFyfxrZMH3h0X4UuxVnelOiTDOj8XIsxlnrS6SOl+/UHbfYgiPmN
+	KX80d4xAHh5CkTS/xFXLL6UfMzkbKcKgvYan4f8l+CRWp4sZjLOVBgoLyDId/q4bAhhsur5wgcPbp
+	AD9WGGx4ymFAsI7IkK6bJDfB2Ed3I0byvJMzS/sq86afSrWz+qoRCNLakBSJPzL3hB9caZugo19wK
+	8eqK5Qww==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tRyOu-0000000DXwg-0TSW;
+	Sun, 29 Dec 2024 18:52:32 +0000
+Date: Sun, 29 Dec 2024 18:52:32 +0000
+From: Al Viro <viro@zeniv.linux.org.uk>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, linux-sound@vger.kernel.org
+Subject: [PATCH] fix remaining descriptor races in
+ sound/core/compress_offload.c
+Message-ID: <20241229185232.GA1977892@ZenIV>
+References: <20241226182959.GU1977892@ZenIV>
+ <d01e06bf-9cbc-4c0e-bcce-2b10b1d04971@perex.cz>
+ <20241226213122.GV1977892@ZenIV>
+ <20241226221726.GW1977892@ZenIV>
+ <87o70udgzi.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87o70udgzi.wl-tiwai@suse.de>
+Sender: Al Viro <viro@ftp.linux.org.uk>
 
-Remove hard-coded strings by using the str_enabled_disabled() helper
-function.
+3d3f43fab4cf "ALSA: compress_offload: improve file descriptors installation for dma-buf"
+fixed some of descriptor races in snd_compr_task_new(), but there's a couple more left.
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+We need to grab the references to dmabuf before moving them into descriptor table -
+trying to do that by descriptor afterwards might end up getting a different object,
+with a dangling reference left in task->{input,output}
+
+Fixes: 3d3f43fab4cf "ALSA: compress_offload: improve file descriptors installation for dma-buf"
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 ---
- sound/soc/codecs/madera.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/sound/soc/codecs/madera.c b/sound/soc/codecs/madera.c
-index b24d6472ad5f..86abfbe56e1f 100644
---- a/sound/soc/codecs/madera.c
-+++ b/sound/soc/codecs/madera.c
-@@ -3965,7 +3965,7 @@ static int madera_enable_fll(struct madera_fll *fll)
+diff --git a/sound/core/compress_offload.c b/sound/core/compress_offload.c
+index edf5aadf38e5..543c7f525f84 100644
+--- a/sound/core/compress_offload.c
++++ b/sound/core/compress_offload.c
+@@ -1053,13 +1053,13 @@ static int snd_compr_task_new(struct snd_compr_stream *stream, struct snd_compr_
+ 		put_unused_fd(fd_i);
+ 		goto cleanup;
  	}
- 
- 	madera_fll_dbg(fll, "Enabling FLL, initially %s\n",
--		       already_enabled ? "enabled" : "disabled");
-+		       str_enabled_disabled(already_enabled));
- 
- 	if (fll->fout < MADERA_FLL_MIN_FOUT ||
- 	    fll->fout > MADERA_FLL_MAX_FOUT) {
-@@ -4252,7 +4252,7 @@ static int madera_enable_fll_ao(struct madera_fll *fll,
- 		pm_runtime_get_sync(madera->dev);
- 
- 	madera_fll_dbg(fll, "Enabling FLL_AO, initially %s\n",
--		       already_enabled ? "enabled" : "disabled");
-+		       str_enabled_disabled(already_enabled));
- 
- 	/* FLL_AO_HOLD must be set before configuring any registers */
- 	regmap_update_bits(fll->madera->regmap,
-@@ -4576,7 +4576,7 @@ static int madera_fllhj_enable(struct madera_fll *fll)
- 		pm_runtime_get_sync(madera->dev);
- 
- 	madera_fll_dbg(fll, "Enabling FLL, initially %s\n",
--		       already_enabled ? "enabled" : "disabled");
-+		       str_enabled_disabled(already_enabled));
- 
- 	/* FLLn_HOLD must be set before configuring any registers */
- 	regmap_update_bits(fll->madera->regmap,
--- 
-2.47.1
-
++	/* keep dmabuf reference until freed with task free ioctl */
++	get_dma_buf(task->input);
++	get_dma_buf(task->output);
+ 	fd_install(fd_i, task->input->file);
+ 	fd_install(fd_o, task->output->file);
+ 	utask->input_fd = fd_i;
+ 	utask->output_fd = fd_o;
+-	/* keep dmabuf reference until freed with task free ioctl */
+-	dma_buf_get(utask->input_fd);
+-	dma_buf_get(utask->output_fd);
+ 	list_add_tail(&task->list, &stream->runtime->tasks);
+ 	stream->runtime->total_tasks++;
+ 	return 0;
