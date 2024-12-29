@@ -1,174 +1,134 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38C04D8A3;
-	Sun, 29 Dec 2024 10:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6235626ACC;
+	Sun, 29 Dec 2024 10:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735469155; cv=none; b=BvCOUMdvBEU32jloe+VZ1V/u62iNBlCEtofGIu4hYISmMWpdrKST10v2kD+CTcxbuw6NyNi1vubt3qYawUwh/qWSkbfb1diCoA2HVozSfe/DpLsn+44hDZQt7byH6ojzvK3XBoa6Nav6R66dqRXIEDYO9ACHDeJW90Z+t+mdBiM=
+	t=1735469847; cv=none; b=VLqEZYo86+878FdLNXbuOFn9nswTem+V5e1kbsU6FwIodCjkx0xywoBFAdmk9plgAvHIoV7O1VJY03ld8XIs0fRKsktt+PF2OI5KXf36BHuNLCc/tzvlS1uZWj6//3YzvZ9psFXEOc6ZQWUBkbcqhmG8UrrZ5HNrpCrWjoYQSRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735469155; c=relaxed/simple;
-	bh=DPSaPk53InamwdJ4FzGY9JBqFMO9LOFhUFbNrxOdm3U=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eEvJ/vKIA2VUKMEagjiR3iBvso+ss+ET6R96aa+u74eTFP8mVquprcA0KGtZ/H/eFFlDmTnZ1QK8wOcQmr9DuiF6JybEQj6xGViAmeM/uN08EbzXJZRx7KbbVdu9Scq84jOLGwpOkiFmFHnBwgH9iYmzNb4Jp87d9zMBsDiu2KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OXS9CeX0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LT4CeOXn; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OXS9CeX0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LT4CeOXn; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1735469847; c=relaxed/simple;
+	bh=4Eozzhdl5L/0zPIM1vRD0RuQBaLccXlErOHhaFiV1tA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D1Tss6Nc3d8LInfkqWe+eq1B+lV/VdmT377nanmv/5GUuxDQVCioTLEdMTJYUr3HzEQIe6HkkG/imYxB3RPDtOx5O4lz2vN6L56QLcEj2fNM2R9umbjx5G8VqR353YualbFCbrJPgpXKwwkoJeOkQwHCxgX2bO9/hRHjMbYALbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Icqptgf+; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OXS9CeX0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LT4CeOXn";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OXS9CeX0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LT4CeOXn"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 832C95C72D;
-	Sun, 29 Dec 2024 10:45:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735469150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
-	b=OXS9CeX0EL3yYDwXZrYUgZyfMGs21HT56E/iWPOZ59FW7gU+mK/pZ9MyAgZxe/pxJIjkG+
-	kN37SlAudp89cd3mEFt0q6pp5ucpqIG2EoPDBdQnEmLsXM+8xsZOE/leyX7vTVW1fqdL9S
-	KV55CRXs/IHDmK4MLjTuzOcf2EN8ejY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735469150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
-	b=LT4CeOXnXlk043A/OCF1SY//iN33cMNTFec1kA85QCwNvFvUURvCBS5ITcXyhtoiOMod69
-	yPDqSHAIWjBcraDA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OXS9CeX0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LT4CeOXn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735469150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
-	b=OXS9CeX0EL3yYDwXZrYUgZyfMGs21HT56E/iWPOZ59FW7gU+mK/pZ9MyAgZxe/pxJIjkG+
-	kN37SlAudp89cd3mEFt0q6pp5ucpqIG2EoPDBdQnEmLsXM+8xsZOE/leyX7vTVW1fqdL9S
-	KV55CRXs/IHDmK4MLjTuzOcf2EN8ejY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735469150;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XhHPC8W+Rp34wDyrhlq0DLHtOBvaUbxDBpfdPfmEyoM=;
-	b=LT4CeOXnXlk043A/OCF1SY//iN33cMNTFec1kA85QCwNvFvUURvCBS5ITcXyhtoiOMod69
-	yPDqSHAIWjBcraDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CF7E139D0;
-	Sun, 29 Dec 2024 10:45:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LFg6EV4ocWe/XQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 10:45:50 +0000
-Date: Sun, 29 Dec 2024 11:45:49 +0100
-Message-ID: <87ed1qydgi.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Kun Hu <huk23@m.fudan.edu.cn>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>
-Subject: Re: Bug: slab-out-of-bounds in snd_seq_oss_synth_sysex
-In-Reply-To: <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
-References: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
-	<B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Icqptgf+"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-385eed29d17so4059142f8f.0;
+        Sun, 29 Dec 2024 02:57:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735469844; x=1736074644; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+o4tT17esxM8G7HzSOewSg++in1i/RxP9Ehwp1HsWjk=;
+        b=Icqptgf+n++he09XyLZe3xYKt5YxGQ6eqwoy5gsolDRcYkZGgMiZYia1Wep1ys2N62
+         Gxt//NQZm0Zh1B7o1fMp638DmFrtz+2Dl3Xe/sRy2/B++Z0Y8Ogv7A0tmGnSM5BokMmX
+         gKyzVXbcPXPiSh/z7JOyomIhfSfAUKmXBQwFQv4lNj6La4aR0PHalzqrY0zoUeesv3jq
+         57WC1qkamsxBm6rxyT50u2VlLSX/bvHwnBi6r7PSkF1McSPqzivCb6NyRQzwsex9L1Zu
+         tzH94SRxRlTMv6EuSF/oyswU/lyITveJdxk8qsQ2oCPt+BUT5wt7vJAytwfTX0rXLEZl
+         Ui4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735469844; x=1736074644;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+o4tT17esxM8G7HzSOewSg++in1i/RxP9Ehwp1HsWjk=;
+        b=PEAqug3rHTr/Z7dXR8SpMcrfC72pC5GJFxZFEHNF9USjX73RJuPSqyagWDOgpccEdf
+         xXk1FNWGTqKoQYYYfYr/pX6gYIA9Q2oPflttA0cOjsdy9EF2FQQOc4uMyBpWjACZdYc/
+         SuCeUzz4gIrDExBwK+R+DJT1C//n3Xb7wj39RXHfxfqmKiROpEQr0MgudgcIHAjZfJzU
+         X5h0+haAtes4LmDtY3PfJyEVqFJzLzx5BlS/uznBjaW5ap9ihYo4dA/U0GLcKcQdP7VV
+         ZT9pQa5Rg2dLrRHoiZi65btPfSohl+nI31Ke5lqfrCXVs1MqkqzpTPTCB8OnspeeoHiA
+         357A==
+X-Forwarded-Encrypted: i=1; AJvYcCUiCDILU0t1qD0gf4tGQ9rS8IPbuKeQ5NBIq0nM8dR7/sB+2WNk30jjrZvx6G+J1WZ6yBXvSsM4qxagWW8=@vger.kernel.org, AJvYcCW7i/iz7sIkw6pBpBM+dQUHtP0bMf9uRu32/0kY9gVw3b/zNC5PU8coXZjJ4UXhbW+fQ8+L+swno/frA/k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZRLf7VsBF6s8v41ht4JeJnyX1luBG+FA4a17sUmh5GYIcJ/yi
+	gaVL+xjzHgmoNr43hdfdMaiKXe0xYYU8K2+f1/Rf9mK2InAePCk+
+X-Gm-Gg: ASbGnctR7vmbzT9BbKAagnFQebl5Q+7qxKv6fYgjg1Gao8pvG2zY2Y+wwkl3iFgTaln
+	Z31YacFF0p/J29LzyblwRjhDKjdfOmLtpZuJdPFJYL/Ib+QViRfFypp5VlAaREnO6Zt8se/eZII
+	BkxawsLfMt5FdENdQcfOaCB4kjYBFi9YagReapE9eFN7b0lg789Ur6QELMgAN2r40T4HuCsn8g+
+	oZY4IoVZBb3VqCsOy3hbV8F3GUCUoVVOPnQuBmeqEbCew3D32L1s80l/2gG/idXbuq6VezjwM8Y
+	S7jltCgjOZAznvg22u06a2E=
+X-Google-Smtp-Source: AGHT+IEIIsx9w3o8AZgSBoMB7+O0c3kqmkWAuoe9FDHuSRTt2KC5AAsvu+8sMtlEEWkbEbHnJa9PCA==
+X-Received: by 2002:a05:6000:2ab:b0:385:f2d2:2ef0 with SMTP id ffacd0b85a97d-38a223f723amr21615745f8f.41.1735469843471;
+        Sun, 29 Dec 2024 02:57:23 -0800 (PST)
+Received: from dsl-u17-10 (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e219sm27450002f8f.84.2024.12.29.02.57.22
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 29 Dec 2024 02:57:22 -0800 (PST)
+Date: Sun, 29 Dec 2024 10:57:22 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Ethan Carter Edwards <ethan@ethancedwards.com>,
+ "wychay@ctl.creative.com" <wychay@ctl.creative.com>,
+ "ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
+Message-ID: <20241229105722.03ada34f@dsl-u17-10>
+In-Reply-To: <87frm6dfda.wl-tiwai@suse.de>
+References: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
+	<20241229090228.75f8a3ba@dsl-u17-10>
+	<87frm6dfda.wl-tiwai@suse.de>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 832C95C72D
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 7bit
 
-On Wed, 25 Dec 2024 06:37:47 +0100,
-Kun Hu wrote:
+On Sun, 29 Dec 2024 10:10:09 +0100
+Takashi Iwai <tiwai@suse.de> wrote:
+
+> On Sun, 29 Dec 2024 10:02:28 +0100,
+> David Laight wrote:
+> > 
+> > On Tue, 24 Dec 2024 23:16:17 +0000
+> > Ethan Carter Edwards <ethan@ethancedwards.com> wrote:
+> >   
+> > > Hello all,
+> > > 
+> > > First of all, happy holidays. 
+> > > 
+> > > I was browsing the ctdaio.c code and I noticed a lot of 
+> > > duplicate code and functions, specifically:
+> > > 
+> > > dao_set_{right,left}_input and
+> > > dao_clear_{right,left}_input functions.
+> > > 
+> > > The functions are pretty much identical. They only 
+> > > differ in the side (left, right). What was the original
+> > > idea in doing this? Wouldn't it make more since to just
+> > > have an ENUM (left, right) as an argument that would 
+> > > determine the side and just reduce the function to 
+> > > dao_set_input and dao_clear_input.  
+> > 
+> > Hmmm... you'd have a lot of conditionals inside the function.
+> > 
+> > They also look like a memory leak just waiting to happen.
+> > I guess that an earlier implementation used a separate kmalloc()
+> > for each imappers[].
+> > 
+> > Why is imappers[] an array of pointers not an array of the items?
+> > Each is just 8 bytes plus a 'list_head' (2 pointers?).  
 > 
-> Hello,
+> AFAIUC, it's a setup of a chained element, so no leak there as of
+> now.
+
+Unless someone calls the functions in the wrong order.
+And that seems to be outside the control of this code.
+
+	David
+
 > 
-> > BUG: KASAN: slab-out-of-bounds in snd_seq_oss_synth_sysex+0x5d1/0x6c0 sound/core/seq/oss/seq_oss_synth.c:516
+> I agree with that the code is unnecessarily complex, though.
 > 
-> We further analyzed the issue at line 516 in ./sound/core/seq/oss/seq_oss_synth.c. 
-> The slab-out-of-bounds crash occurs in line 509, when sysex->len = 128. Specifically, the write operation to dest[0] accesses memory beyond the bounds of sysex->buf (128 byte).
-> To resolve this issue, we suggest adding 6 lines of code to validate the legality of the address write to sysex->buf before entering the loop:
 > 
-> if (sysex->len >= MAX_SYSEX_BUFLEN) { 
->    sysex->len = 0; 
->    sysex->skip = 1; 
->    return -EINVAL;  /* Exit early if sysex->len is out of bounds */ 
-> }
+> thanks,
+> 
+> Takashi
 
-The only place incrementing sysex->len is that loop and it has already
-the bounce check which resets sysex->len to 0.  That is, the likely
-reason of the buffer overflow is rather the racy calls of this
-function.
-
-If so, a potential fix would be rather to protect the concurrency,
-e.g. a simplest form is something like below.
-Could you check whether it addresses your problem?
-
-
-thanks,
-
-Takashi
-
--- 8< --
---- a/sound/core/seq/oss/seq_oss_synth.c
-+++ b/sound/core/seq/oss/seq_oss_synth.c
-@@ -66,6 +66,7 @@ static struct seq_oss_synth midi_synth_dev = {
- };
- 
- static DEFINE_SPINLOCK(register_lock);
-+static DEFINE_MUTEX(sysex_mutex);
- 
- /*
-  * prototypes
-@@ -497,6 +498,7 @@ snd_seq_oss_synth_sysex(struct seq_oss_devinfo *dp, int dev, unsigned char *buf,
- 	if (!info)
- 		return -ENXIO;
- 
-+	guard(mutex)(&sysex_mutex);
- 	sysex = info->sysex;
- 	if (sysex == NULL) {
- 		sysex = kzalloc(sizeof(*sysex), GFP_KERNEL);
