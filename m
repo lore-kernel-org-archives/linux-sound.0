@@ -1,86 +1,88 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89ACF2770B;
-	Sun, 29 Dec 2024 08:32:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882AB2770B;
+	Sun, 29 Dec 2024 08:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735461144; cv=none; b=rUNieTdMM1jB1IaE6enIFRdw4zcyukmYgv+TXgOMzbELeQgdyl4807RQY/BxjtGUyshCF4lxJXjBD8ZifCQhcaK0Pprk8LBuojvFzwGKoT7Rq+Y4RrHOJ9+uMLb3jbAYJbiJuxGswlrJrGCUw6vzHujXz43S5UjrWyej7Je0tro=
+	t=1735461318; cv=none; b=QKeFwnPmmn4JPo47mJPertopT6IW3xK0HQ66ELmLFl0iIxLRKgeJ/x4THaAEKLw11Xo01jS/JuRZTbADsCjOECeA+c/X9eB4dYxIUwJemob17hzKK39jB//UeiBMS4j3Anj6wEla6suWy4cohTX9nPVBczTgL0/VqAdMokAoACI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735461144; c=relaxed/simple;
-	bh=VoP9fqUqkbmFEriUbrNCDx5BiUG6QLIQIoUeo1n7cJE=;
+	s=arc-20240116; t=1735461318; c=relaxed/simple;
+	bh=c2RUqAV6dWhkmQsJOS0OsCqahWVBVUYtXxYIkeHgYFA=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tSoYxDMkCMBuXhnxODM0bnxQ6mHeivZxEFnZdxTLaO41hYqjOeG26XYjBGtp9SIE4xIzVeketL07XoTllFgZSjfNH14FcCu7VI/61zS11V5/vt9Jhq395ckhS0J31E7VEtwIxgwjvqoaX+FOayyYZCz9LkthKNY2HHJR6/NMWjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fKsCiCus; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gETDlPDp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=fKsCiCus; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gETDlPDp; arc=none smtp.client-ip=195.135.223.130
+	 MIME-Version:Content-Type; b=YGvSl1Q7FOkcGVL3wbDjJN5jGpWB5nuAVhMHPQtkC/rO6qUgNz7OQ2++9KLooLG6q92pXvuSTlMS2rM4j540RReBe3URtRgDIpy63/SKiMWo3ydNa7JVz11JTLaQg9ylvnAq6YdHNaOT+VHe88lQaGJbTvk4PGB4LSKuHI1oBD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IAABd9Ft; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4/PKIxKi; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IAABd9Ft; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4/PKIxKi; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fKsCiCus";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gETDlPDp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fKsCiCus";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gETDlPDp"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAABd9Ft";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/PKIxKi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IAABd9Ft";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4/PKIxKi"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id B727634BFD;
-	Sun, 29 Dec 2024 08:32:20 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 875A05C835;
+	Sun, 29 Dec 2024 08:35:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735461140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1735461314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LiBbneBccxUc7/hdzcgfEJeLAE1EdeaqUGvLJnfBb30=;
-	b=fKsCiCuskYZhHjLC/iRd+uBHOw3C12iHChOMVK9NR8vcJFt/tz3hKRs1Mab56zGVXH2X1n
-	SCg5TjGBVULCs/cvCYRuK+E9tahnWcxxh5QsNaiPrfdRW1VayDdL9ggPcjaY0YdZektHJl
-	15UICkzt/Y8UCo5TPxTCZIIerMUnvKM=
+	bh=o/n+UkSlvqWi0bMuXJ8U8sr28nWtC7cQ67a5sH+btok=;
+	b=IAABd9FtPmpSgnthTYSGUO2QWyhWoBow04h3OTlRCkA4YxadA5J554m7drjLtlPwZZXgmA
+	WZy+KVGW8OnoxKTsEwqmrN1D8eqUTsItcYK7+fyj78j+0wL0Hk8rv0EjNTzMz+v9gKGjET
+	BO7aT/x27uGbx+47+AawhI0iq/T4eSQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735461140;
+	s=susede2_ed25519; t=1735461314;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LiBbneBccxUc7/hdzcgfEJeLAE1EdeaqUGvLJnfBb30=;
-	b=gETDlPDpkqQ3j9SszbHjNbgGgOQqWTnlKvm8gA2V1UrP5n3ptP+tAhvG18D9vYygxqE8u0
-	KubGKwDfjY0b/FBA==
-Authentication-Results: smtp-out1.suse.de;
+	bh=o/n+UkSlvqWi0bMuXJ8U8sr28nWtC7cQ67a5sH+btok=;
+	b=4/PKIxKiWncXWKj9Sv9Qiq4PH2bsxbfD6ShpPvEeoVaqmrKykMtte01toLH8n/grg4Po+j
+	dnRpqqkXeJhGvPCw==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735461140; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1735461314; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LiBbneBccxUc7/hdzcgfEJeLAE1EdeaqUGvLJnfBb30=;
-	b=fKsCiCuskYZhHjLC/iRd+uBHOw3C12iHChOMVK9NR8vcJFt/tz3hKRs1Mab56zGVXH2X1n
-	SCg5TjGBVULCs/cvCYRuK+E9tahnWcxxh5QsNaiPrfdRW1VayDdL9ggPcjaY0YdZektHJl
-	15UICkzt/Y8UCo5TPxTCZIIerMUnvKM=
+	bh=o/n+UkSlvqWi0bMuXJ8U8sr28nWtC7cQ67a5sH+btok=;
+	b=IAABd9FtPmpSgnthTYSGUO2QWyhWoBow04h3OTlRCkA4YxadA5J554m7drjLtlPwZZXgmA
+	WZy+KVGW8OnoxKTsEwqmrN1D8eqUTsItcYK7+fyj78j+0wL0Hk8rv0EjNTzMz+v9gKGjET
+	BO7aT/x27uGbx+47+AawhI0iq/T4eSQ=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735461140;
+	s=susede2_ed25519; t=1735461314;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LiBbneBccxUc7/hdzcgfEJeLAE1EdeaqUGvLJnfBb30=;
-	b=gETDlPDpkqQ3j9SszbHjNbgGgOQqWTnlKvm8gA2V1UrP5n3ptP+tAhvG18D9vYygxqE8u0
-	KubGKwDfjY0b/FBA==
+	bh=o/n+UkSlvqWi0bMuXJ8U8sr28nWtC7cQ67a5sH+btok=;
+	b=4/PKIxKiWncXWKj9Sv9Qiq4PH2bsxbfD6ShpPvEeoVaqmrKykMtte01toLH8n/grg4Po+j
+	dnRpqqkXeJhGvPCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 80442139D0;
-	Sun, 29 Dec 2024 08:32:20 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4CEA6139D0;
+	Sun, 29 Dec 2024 08:35:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id eDaIHRQJcWcHQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 08:32:20 +0000
-Date: Sun, 29 Dec 2024 09:32:20 +0100
-Message-ID: <87plladh4b.wl-tiwai@suse.de>
+	id 52wdEcIJcWehQgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 08:35:14 +0000
+Date: Sun, 29 Dec 2024 09:35:13 +0100
+Message-ID: <87o70udgzi.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: "wychay@ctl.creative.com" <wychay@ctl.creative.com>,
-	"ryan_richards@creativelabs.com" <ryan_richards@creativelabs.com>,
-	"tiwai@suse.de" <tiwai@suse.de>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: sound/pci/ctxfi/ctdaio.c: duplicate function removal question
-In-Reply-To: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
-References: <NyKCr2VHK_xCQDwNxFKKx2LVd2d_AC2f2j4eAvnD9uRPtb50i2AruCLOp6mHxsGiyYJ0Tgd3Z50Oy1JTi5gPhjd2WQM2skrv7asp3fLl8HU=@ethancedwards.com>
+To: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Jaroslav Kysela <perex@perex.cz>,	linux-fsdevel@vger.kernel.org,
+	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,	Vinod Koul <vkoul@kernel.org>
+Subject: Re: [CFT][PATCH] fix descriptor uses in sound/core/compress_offload.c
+In-Reply-To: <20241226221726.GW1977892@ZenIV>
+References: <20241226182959.GU1977892@ZenIV>
+	<d01e06bf-9cbc-4c0e-bcce-2b10b1d04971@perex.cz>
+	<20241226213122.GV1977892@ZenIV>
+	<20241226221726.GW1977892@ZenIV>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -96,10 +98,10 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_TLS_ALL(0.00)[];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
 	TO_DN_SOME(0.00)[];
@@ -108,40 +110,34 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_FIVE(0.00)[6]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.org.uk:email]
 X-Spam-Score: -3.30
 X-Spam-Flag: NO
 
-On Wed, 25 Dec 2024 00:16:17 +0100,
-Ethan Carter Edwards wrote:
+On Thu, 26 Dec 2024 23:17:26 +0100,
+Al Viro wrote:
 > 
-> Hello all,
+> On Thu, Dec 26, 2024 at 09:31:22PM +0000, Al Viro wrote:
+> > On Thu, Dec 26, 2024 at 08:00:18PM +0100, Jaroslav Kysela wrote:
+> > 
+> > >   I already made almost similar patch:
+> > > 
+> > > https://lore.kernel.org/linux-sound/20241217100726.732863-1-perex@perex.cz/
+> > 
+> > Umm...  The only problem with your variant is that dma_buf_get()
+> > is wrong here - it should be get_dma_buf() on actual objects,
+> > and it should be done before fd_install().
 > 
-> First of all, happy holidays. 
+> Incremental on top of what just got merged into mainline:
 > 
-> I was browsing the ctdaio.c code and I noticed a lot of 
-> duplicate code and functions, specifically:
+> Grab the references to dmabuf before moving them into descriptor
+> table - trying to do that by descriptor afterwards might end up getting
+> a different object, with a dangling reference left in task->{input,output}
 > 
-> dao_set_{right,left}_input and
-> dao_clear_{right,left}_input functions.
-> 
-> The functions are pretty much identical. They only 
-> differ in the side (left, right). What was the original
-> idea in doing this? Wouldn't it make more since to just
-> have an ENUM (left, right) as an argument that would 
-> determine the side and just reduce the function to 
-> dao_set_input and dao_clear_input. 
-> 
-> I would be more than happy to send in a patch doing
-> these changes, but before I did I wanted to ask if
-> there was a reason the code was written in this way.
-> I am pretty new to kernel development.
+> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
 
-Yes, the code simplification would be appreciated.
-You can create a common function and call with the left/right
-argument from each callback or change the call pattern from ctatc.c.
+Could you resubmit this one as a formal patch to be merged?
+Thanks!
 
-
-thanks,
 
 Takashi
