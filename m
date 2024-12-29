@@ -1,39 +1,74 @@
-Received: from out-185.mta1.migadu.com (out-185.mta1.migadu.com [95.215.58.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1E572744B;
-	Sat, 28 Dec 2024 23:39:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6E92594AB;
+	Sun, 29 Dec 2024 06:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735429167; cv=none; b=LY5jSvkswOWFttNE/w5TideaO+BWUelXtREVwt8ArbKn/tlKjJC5UHY6iS6EBrdiRcEVpkAzcp0JGo24vc10lUKAHtG9hwPsXqmdyqlRA9Wf624U2XLyhEOt84NqoVbGTdVq+TRxPK4UpmXAYAYoQg1miOe1W5viDECO9E1t2RM=
+	t=1735452646; cv=none; b=mOaurj4dIUwy9Wpa2l8l4lf2REdsuIGM/nJRWX3a/5ABf8E+6GLabQWFI6ugdeC6Osi2ccrtbBddF3Uuae1801zSKLI/C5U+t90Co7aBnWt9iAjnGLnyal2QFX2fLytMQBbI9Oz9sROH1ITY3sZVvn6OjoNAoFBmlTOKCqNOuco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735429167; c=relaxed/simple;
-	bh=iPUU1OWkFLN+baW5CLTLT1hWusCk7f4syuW+9qtTVdA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mF6eg0dj9sCPmKPdOO5O6id68Q2wDYBEbA/n5tCe6CgolAFoh5CV6+SrGipZcVO0ktl7oCfG3FU46so5+IkC4Li4kZHJnrdC3mefwHHEml/GZ+nPOGUc9NEbXZZ9FKi+DQoDpY322ftv62H2aLXJcBxfvdUzj6jN1iU/p0y7fTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=noDhfCxb; arc=none smtp.client-ip=95.215.58.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1735452646; c=relaxed/simple;
+	bh=uR80Zkj/44HNX0I/YMOMS+li8YY4ZqQveTdmABIp8uM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sPtcYq9pAFInrHUnnQGkG4xYsFWDx8wTRi1g+Y5fjF+tn+Of+8F2KKm0PMgqUfBOC6vGoSLjaB1Jp3T2CR0YpR9P8EX6dNOf3RYxTpk0V6rj0KYNwqi5XEoCm8vbL5dV3nnn1z3wKaQyqXxMWfMFyc3n0sFsbZ1+YFA76HTk0O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xrxhui6B; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="noDhfCxb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735429161;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zDPYW5PhmR+Q6WuCPKiAnJhPiXrCgD+Sn7k8mzE1zHI=;
-	b=noDhfCxbApf5AqUdP5XH8S4/LtNaEKcAn38RnQCkaWXNjCAFSAPPjbZ01eMRuPCyp5dvSd
-	rp8L+6RhvKMcnlGyKXok63li/2OzxPOYq0qyWxhPA0ivX5AtfZus00o+H45iqGbfIUSp3O
-	n+Ne0LnCoZK3Bsn91K6h0Bi+YZUzUO0=
-From: Thorsten Blum <thorsten.blum@linux.dev>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xrxhui6B"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-216728b1836so92098175ad.0;
+        Sat, 28 Dec 2024 22:10:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1735452644; x=1736057444; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R8ifzuecrmdC/9ekPvMEJvtUHykHFq+/kPjZlHUGw1E=;
+        b=Xrxhui6BoVDZYpPhvc/DZUr48YtAHfV9IBqBoIArmeG6uoEmTF/I8t0zaidB9MDoF8
+         E2gmzDU6nDf70edRGHRvf8Du81KLDHeEJeJDfA9qA+FtkSdqVEd64JRKLFM6xRSzv1o3
+         ga/XZQ5jkxaLWkGQbhHyu4QdFMwp1micNsnqSvPc5wu//PJCoSBxrS1tV6wDwIJbZ9B8
+         H+GzZIc4zfA+E98OKcnzjiUcxsXgUFFz8HuSLO8AnguJnD/0/5GuJxgXEFj2sN3zqRHX
+         IFjQYpbHu9e03ggmU6x9D3HtJr0YWiI/Uv/qh0Bw9BMmJfyEaztqWRYw1bpEQacTNb9N
+         x+Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735452644; x=1736057444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R8ifzuecrmdC/9ekPvMEJvtUHykHFq+/kPjZlHUGw1E=;
+        b=jFuCeXMjd47yhqUn87tXbHaAXdEJo5ivZqVyepQA/U36R+OtFGMiLd3dGBc5Q5zEax
+         CRalfTwOz/h3/ikRhdQr8cKQzZMjiV0HOjlGKjQ2R+hQVb2K/nN1K6CkvcoXQ7lCoWb1
+         P3YbAifSpFg6Ur0RIIvs29lE0sO0CbQo2mIqB1MyV+XKn9a3wG090fmqkaUg2oTDkV8j
+         LTxEzIrXOjXvNpDpFFhODyuSqo3OJwPEDDs/W294+owCLNn8gcJuZveXhkiBH3qyLtiT
+         pYH4vJ2Z8p5DrN1UKZBeKBsZ3R19361ar60uXgpmB8HU8kJpb5pA1F0XA1cLN3kidFvH
+         ikRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0nEdgGVhs/GEPoSMuvcyX5y4gBMxxVichrT8IopM9GjuwDU7SZfDgHdY1W+tM9DlmocR04eGjVPSQslA=@vger.kernel.org, AJvYcCXgJRetvkt8BOWqiVL/81RH10MQZHts3QwcGdamRu3pGnFdrZ7MnOQZNPckyheog2rv9v9QD2/DnuGV9WE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5ctOwL+KuorE6enickij2H+m2aWi9E7dVyC4nqFyaJiSKnq6W
+	6LNrfJPvKTbf+BOvIUUIKKF24o0nvVRcS/LbWIMPdfrmuKsEuxN7
+X-Gm-Gg: ASbGnct79A50sKgaca1sHBcPDtQtFE6yDG6B9JXf7aPOC0EhYYK38J4ApjD2Z5rL9fM
+	6ydKUzg6xN0uWPKP6xrqGnXEh0v3Yn3A3Qbs5ZW7H50peBL/j0ASQvl8HXGZjgvEweHNmY3v43f
+	23DRuLw9IWuI/IRkgata3J+RJw5IBfvUS2jd7DjwTywDwLaZOn8evbXhDCHIwDZ0+giZ3d4sxPF
+	d94dKxEaNQi+3bcEjxVCtJp1o6o2y2NlMbE+M/wx18YPsQKltwY
+X-Google-Smtp-Source: AGHT+IFf7ox0+fVRGqW69CnMc6lx6iMnrjP7GqjMN3CwRYopd4BmDoFRoyKSU7nCiD7PGz9V7vpdAw==
+X-Received: by 2002:a17:902:ef4e:b0:216:4b66:1f1f with SMTP id d9443c01a7336-219e6f52240mr472339765ad.54.1735452643861;
+        Sat, 28 Dec 2024 22:10:43 -0800 (PST)
+Received: from localhost.localdomain ([45.115.0.249])
+        by smtp.googlemail.com with ESMTPSA id 41be03b00d2f7-842aba73267sm15727946a12.13.2024.12.28.22.10.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Dec 2024 22:10:42 -0800 (PST)
+From: Tanya Agarwal <tanyaagarwal25699@gmail.com>
+X-Google-Original-From: Tanya Agarwal <tanyaagarwal25699@gmail.com
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: onkel@paraair.de,
+	Markus.Elfring@web.de,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: AC97: Use str_on_off() helper in snd_ac97_proc_read_main()
-Date: Sun, 29 Dec 2024 00:38:48 +0100
-Message-ID: <20241228233849.686755-2-thorsten.blum@linux.dev>
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	anupnewsmail@gmail.com,
+	tanyaagarwal25699@gmail.com
+Subject: [PATCH V2] ALSA: usb-audio: US16x08: Initialize array before use
+Date: Sun, 29 Dec 2024 11:32:42 +0530
+Message-Id: <20241229060240.1642-1-tanyaagarwal25699@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -41,36 +76,41 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Remove hard-coded strings by using the str_on_off() helper function.
+From: Tanya Agarwal <tanyaagarwal25699@gmail.com>
 
-Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+Initialize meter_urb array before use in mixer_us16x08.c.
+
+CID 1410197: (#1 of 1): Uninitialized scalar variable (UNINIT)
+uninit_use_in_call: Using uninitialized value *meter_urb when
+calling get_meter_levels_from_urb.
+
+Coverity Link:
+https://scan7.scan.coverity.com/#/project-view/52849/11354?selectedIssue=1410197
+
+Fixes: d2bb390a2081 ("ALSA: usb-audio: Tascam US-16x08 DSP mixer quirk")
+Signed-off-by: Tanya Agarwal <tanyaagarwal25699@gmail.com>
 ---
- sound/pci/ac97/ac97_proc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Changes in V2:
+- Updated commit text
+- Link to V1: https://lore.kernel.org/all/20241228070317.2956-1-tanyaagarwal25699@gmail.com
+---
+ sound/usb/mixer_us16x08.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/pci/ac97/ac97_proc.c b/sound/pci/ac97/ac97_proc.c
-index 5426f7bc9884..518834964b7b 100644
---- a/sound/pci/ac97/ac97_proc.c
-+++ b/sound/pci/ac97/ac97_proc.c
-@@ -161,12 +161,12 @@ static void snd_ac97_proc_read_main(struct snd_ac97 *ac97, struct snd_info_buffe
- 		    "Mic select       : %s\n"
- 		    "ADC/DAC loopback : %s\n",
- 		    val & 0x8000 ? "post" : "pre",
--		    val & 0x4000 ? "on" : "off",
--		    val & 0x2000 ? "on" : "off",
--		    val & 0x1000 ? "on" : "off",
-+		    str_on_off(val & 0x4000),
-+		    str_on_off(val & 0x2000),
-+		    str_on_off(val & 0x1000),
- 		    val & 0x0200 ? "Mic" : "MIX",
- 		    val & 0x0100 ? "Mic2" : "Mic1",
--		    val & 0x0080 ? "on" : "off");
-+		    str_on_off(val & 0x0080));
- 	if (ac97->ext_id & AC97_EI_DRA)
- 		snd_iprintf(buffer, "Double rate slots: %s\n",
- 			    double_rate_slots[(val >> 10) & 3]);
+diff --git a/sound/usb/mixer_us16x08.c b/sound/usb/mixer_us16x08.c
+index 6eb7d93b358d..20ac32635f1f 100644
+--- a/sound/usb/mixer_us16x08.c
++++ b/sound/usb/mixer_us16x08.c
+@@ -687,7 +687,7 @@ static int snd_us16x08_meter_get(struct snd_kcontrol *kcontrol,
+ 	struct usb_mixer_elem_info *elem = kcontrol->private_data;
+ 	struct snd_usb_audio *chip = elem->head.mixer->chip;
+ 	struct snd_us16x08_meter_store *store = elem->private_data;
+-	u8 meter_urb[64];
++	u8 meter_urb[64] = {0};
+ 
+ 	switch (kcontrol->private_value) {
+ 	case 0: {
 -- 
-2.47.1
+2.39.5
 
