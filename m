@@ -1,88 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8322594AD
-	for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 08:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F914502B
+	for <linux-sound@vger.kernel.org>; Sun, 29 Dec 2024 09:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735461703; cv=none; b=ss67BGeAaKBXoC6z8wRbcnLAiPVQt+LeeJyycJy95AkjZyG/j1pcJqDaA0MptRWs1jXQDs58aIerDxwXW2UBr4cr1/fZu3j3zhCklfTlLFhiZ6yrI/SIxQIU9f947h7biHsXLsBTh76yeeasDc0Wj+NxVxWDlD9w9fFwRvMQZy8=
+	t=1735462884; cv=none; b=oprZj3TQ4gBU8VGU0DxqEfTz8yLWch2CRPovhJOSyM/HnKxhV7YpP3eUavNsQqUoChhuP1g18UzOdfGN5Ez12bu/0SL8wmLJL1KvhGzYWiCW8x0EypYg6+8E5OUtEt/3RwDxfQCtYSQcglXPRhuYDOSUNOKzip64ErOV9dvzBGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735461703; c=relaxed/simple;
-	bh=0z5QFF4/DwBPf8xP9L+rD71DelfzELVKouoGf/OOcfE=;
+	s=arc-20240116; t=1735462884; c=relaxed/simple;
+	bh=PZWDWywaucH5BFlP5nIzvOl+nOKtapvyPCihVilocX8=;
 	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Xbqb3MSFNNC3PZKi2TazDtnR03eNuYLdIXlNKLQArMp9Ohc8vg8c+Ehb83oqvrWh7oXH4m4Styb/UvlLuPzzfk3HTLPQ2cCS95mtzoWOpZoGYoURmVUIMOc45Pkdzy1s8cTQwzcuIzPSasuKfeu6epDaAeCCyYYE1MWZ2I3bL+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dCpvluAu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tstctesh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dCpvluAu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=tstctesh; arc=none smtp.client-ip=195.135.223.131
+	 MIME-Version:Content-Type; b=n4qtm9p23vqAn0OOpHMX1ZiKfn+AD2TI+XwYGr6kFjH4OEWxNXv87srmBFKlLFYaHAt5CK3ct14+Lz3VLHNM2FpKjQIq/Es8d4LdK9sAdh54aXVtkWsHQWIFFzRQoDOoLRLEHoG1CB39Y7edV3LsVVq6uab5mkZzv7qb1rA2FtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Df4Rbrgo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X0ufL+17; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Df4Rbrgo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=X0ufL+17; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dCpvluAu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tstctesh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dCpvluAu";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="tstctesh"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Df4Rbrgo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X0ufL+17";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Df4Rbrgo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="X0ufL+17"
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id BF07C5CAD0;
-	Sun, 29 Dec 2024 08:41:39 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 7A977337AB;
+	Sun, 29 Dec 2024 09:01:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735461699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1735462875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LWIxLr22YEBIb7RgjF+vtB7+2HrFqsy6oJgDxlHCz1o=;
-	b=dCpvluAuJnl89qohJqOWRmT/kkPuWE4/7uQTr1qd9G9uEkxcGLi3ptL0rFbgFyfzGHZk0R
-	8jKjmn+QfBxRzZ4wrBjWq0Px8vFtVd6kPAOaI6a42OBjgQyJgOxNGc0BY3VFCrc3G8J7M5
-	xpPYZVDwVNyeHNjMSaB5d9JsRY/W8I0=
+	bh=fe7cIR5vF8qLalCAcksMYIehvOhwasVdy3m3eoeTlXc=;
+	b=Df4RbrgoTiu72MGsLUIM8D2Q0upPv2OeTGNh+/WxFenlf/zjjWXOGoQATMWwFv8SEFv5UU
+	e0YnHLAKcOTg2C7X9DnderrFVoyjPiiqStaLt5y9ZbXNzhN0XfPuIES5PNM2GE6OwuV30H
+	pP+KPS30JgMnbWI4VYEy0gbt+WxznfM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735461699;
+	s=susede2_ed25519; t=1735462875;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LWIxLr22YEBIb7RgjF+vtB7+2HrFqsy6oJgDxlHCz1o=;
-	b=tstcteshjw5klC6WCXf0ktXKuQ+/2Mp76ElJuseTde7KJCBKEGy7H8tbsYWibGpbXBqbll
-	3JPAvoAHpaUmFtDQ==
-Authentication-Results: smtp-out2.suse.de;
+	bh=fe7cIR5vF8qLalCAcksMYIehvOhwasVdy3m3eoeTlXc=;
+	b=X0ufL+17uzWGtPdpqBjr2NQ810eUK2afzxDgqgOXwGHRv/2OQ0YRpgFFXuUkqwELgbcL1p
+	Rvm2XPOj1syyq1BA==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735461699; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1735462875; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LWIxLr22YEBIb7RgjF+vtB7+2HrFqsy6oJgDxlHCz1o=;
-	b=dCpvluAuJnl89qohJqOWRmT/kkPuWE4/7uQTr1qd9G9uEkxcGLi3ptL0rFbgFyfzGHZk0R
-	8jKjmn+QfBxRzZ4wrBjWq0Px8vFtVd6kPAOaI6a42OBjgQyJgOxNGc0BY3VFCrc3G8J7M5
-	xpPYZVDwVNyeHNjMSaB5d9JsRY/W8I0=
+	bh=fe7cIR5vF8qLalCAcksMYIehvOhwasVdy3m3eoeTlXc=;
+	b=Df4RbrgoTiu72MGsLUIM8D2Q0upPv2OeTGNh+/WxFenlf/zjjWXOGoQATMWwFv8SEFv5UU
+	e0YnHLAKcOTg2C7X9DnderrFVoyjPiiqStaLt5y9ZbXNzhN0XfPuIES5PNM2GE6OwuV30H
+	pP+KPS30JgMnbWI4VYEy0gbt+WxznfM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735461699;
+	s=susede2_ed25519; t=1735462875;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LWIxLr22YEBIb7RgjF+vtB7+2HrFqsy6oJgDxlHCz1o=;
-	b=tstcteshjw5klC6WCXf0ktXKuQ+/2Mp76ElJuseTde7KJCBKEGy7H8tbsYWibGpbXBqbll
-	3JPAvoAHpaUmFtDQ==
+	bh=fe7cIR5vF8qLalCAcksMYIehvOhwasVdy3m3eoeTlXc=;
+	b=X0ufL+17uzWGtPdpqBjr2NQ810eUK2afzxDgqgOXwGHRv/2OQ0YRpgFFXuUkqwELgbcL1p
+	Rvm2XPOj1syyq1BA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8F9B713A30;
-	Sun, 29 Dec 2024 08:41:39 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5394713A30;
+	Sun, 29 Dec 2024 09:01:15 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id GsxCIUMLcWcBRAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 08:41:39 +0000
-Date: Sun, 29 Dec 2024 09:41:39 +0100
-Message-ID: <87ldvydgos.wl-tiwai@suse.de>
+	id dtyZEtsPcWdCSAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sun, 29 Dec 2024 09:01:15 +0000
+Date: Sun, 29 Dec 2024 10:01:14 +0100
+Message-ID: <87jzbidfs5.wl-tiwai@suse.de>
 From: Takashi Iwai <tiwai@suse.de>
 To: "Geoffrey D. Bennett" <g@b4.vu>
 Cc: Takashi Iwai <tiwai@suse.de>,
 	Takashi Iwai <tiwai@suse.com>,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/2] ALSA: Add driver for big Scarlett 4th Gen interfaces
-In-Reply-To: <cover.1735159288.git.g@b4.vu>
+Subject: Re: [PATCH 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
+In-Reply-To: <3bbe9f8ec8664e36ca524649a7ec4c1356df17e9.1735159288.git.g@b4.vu>
 References: <cover.1735159288.git.g@b4.vu>
+	<3bbe9f8ec8664e36ca524649a7ec4c1356df17e9.1735159288.git.g@b4.vu>
 User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -90,9 +87,8 @@ List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
 X-Spamd-Result: default: False [-3.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	MID_CONTAINS_FROM(1.00)[];
@@ -112,98 +108,155 @@ X-Spamd-Result: default: False [-3.30 / 50.00];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Score: -3.30
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, 25 Dec 2024 22:23:06 +0100,
+On Wed, 25 Dec 2024 22:23:19 +0100,
 Geoffrey D. Bennett wrote:
 > 
-> Hi Takashi,
-> 
-> Merry Christmas!
-> 
-> This patch series introduces a new Focusrite Control Protocol (FCP)
-> driver that provides equivalent functionality to the existing
-> Scarlett2 driver, but splits the implementation between a minimal
-> kernel driver and a user-space component. My initial user-space
-> implementation supports the new Scarlett 4th Gen 16i16, 18i16, and
-> 18i20 interfaces, but the new FCP kernel driver can be used with any
-> device supported by the Scarlett2 driver (as an opt-in).
-> 
-> With these new interfaces, I started out by trying to extend the
-> existing Scarlett2 driver but found that that wasn't practical. The
-> control locations (struct scarlett2_config offset field) have
-> previously varied between firmware versions (which is why I added the
-> "Minimum Firmware Version" requirement for previous 4th Gen and
-> Vocaster devices), and the situation was worse with the new 4th Gen
-> devices, with every new firmware version moving the controls.
-> 
-> While the device provides a map indicating control locations,
-> implementing the required JSON parsing in the kernel isn't feasible,
-> necessitating a user-space implementation.
-> 
-> The new approach in the FCP driver significantly improves both
-> maintainability and paves the way for future enhancements:
-> 
-> Firstly, the kernel component of the FCP driver is <10% the size of
-> the Scarlett2 driver, with the obvious maintainability advantages;
-> cloc reports:
-> 
-> File                            blank     comment        code
-> sound/usb/mixer_scarlett2.c      1765         852        7152
-> sound/usb/fcp.c                   174          64         645
-> 
-> Secondly, changes that aren't feasible to implement in the kernel due
-> to backward compatibility constraints will be able to be implemented
-> in user-space, with end-users easily able to choose an older version
-> of the controls if needed. For example:
-> 
-> 1) The largest interface has >500 ALSA controls just for the matrix
-> mixer (one control for each entry in the N×M matrix). This would be
-> better done as N controls with M values each, especially since the
-> device supports writing a row (all input gains for one mixer output)
-> at a time.
-> 
-> 2) Similarly, the mux table entries have a control per entry, but
-> they're all written at once, so it would be better to have a single
-> ALSA control for the whole mux table.
-> 
-> 3) The interfaces have 3 independent mux tables (one per sample rate
-> 48kHz, 96kHz, 192kHz), but supporting them isn't feasible in Scarlett2
-> due to backward compatibility constraints.
-> 
-> 4) Users of the Scarlett2 driver frequently request higher-level
-> controls like stereo-linking, pan, mute, and solo. These would be very
-> challenging to implement in the kernel while maintaining backward
-> compatibility to the existing controls, but again, it's easy to have
-> configurable controls in user-space.
-> 
-> I did consider the alternative of a small user-space helper that just
-> reads the map (this is the direction I was heading with my previous
-> commit 9930c26 ALSA: scarlett2: Add support for device map retrieval)
-> and uploads the offsets to the driver, but this would add even more
-> complexity to the driver while gaining none of the possible benefits
-> of a user-space implementation. Since user-space implementation is
-> unavoidable, moving as much functionality there as possible provides
-> the cleanest and most maintainable solution.
-> 
-> Hence, I present for your consideration the following patches:
-> 
-> 1) The new FCP driver implementation, handling only the essential
-> kernel-space components (base protocol and level meter)
-> 
-> 2) An option enabling Scarlett2-supported devices to use the FCP
-> driver, providing an opt-in migration path forward
-> 
-> The accompanying user-space implementation is available at:
-> https://github.com/geoffreybennett/fcp-support
+> --- /dev/null
+> +++ b/include/uapi/sound/fcp.h
+> @@ -0,0 +1,59 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Focusrite Control Protocol Driver for ALSA
+> + *
+> + * Copyright (c) 2024 by Geoffrey D. Bennett <g at b4.vu>
+> + */
+> +#ifndef __UAPI_SOUND_FCP_H
+> +#define __UAPI_SOUND_FCP_H
+> +
+> +#ifdef __KERNEL__
+> +#include <linux/types.h>
+> +#else
+> +#include <stdint.h>
+> +#endif
+> +
+> +#include <linux/ioctl.h>
+> +
+> +#define FCP_HWDEP_MAJOR 2
+> +#define FCP_HWDEP_MINOR 0
+> +#define FCP_HWDEP_SUBMINOR 0
+> +
+> +#define FCP_HWDEP_VERSION \
+> +	((FCP_HWDEP_MAJOR << 16) | \
+> +	 (FCP_HWDEP_MINOR << 8) | \
+> +	  FCP_HWDEP_SUBMINOR)
+> +
+> +#define FCP_HWDEP_VERSION_MAJOR(v) (((v) >> 16) & 0xFF)
+> +#define FCP_HWDEP_VERSION_MINOR(v) (((v) >> 8) & 0xFF)
+> +#define FCP_HWDEP_VERSION_SUBMINOR(v) ((v) & 0xFF)
+> +
+> +/* Get protocol version */
+> +#define FCP_IOCTL_PVERSION _IOR('S', 0x60, int)
+> +
+> +/* Do FCP step 0 */
+> +struct fcp_step0 {
+> +	void     *data;
+> +	uint16_t  size;
+> +};
+> +#define FCP_IOCTL_INIT _IOWR('S', 0x64, struct fcp_step0)
 
-Thanks for the patches.  The argument about kcontrol sizes sounds
-convincing to have a more flexible implementation with hwdep.
-As far as the backward compatibility is kept, I find it's OK.
+An ioctl with a pointer has to be handled carefully because you must
+convert it for 32bit compat code.  IOW, it's better to be avoided if
+possible.
 
-But, the implementations need more consideration.
-I'll comment on each patch.
+The same is true for other ioctls.
+
+
+> --- /dev/null
+> +++ b/sound/usb/fcp.c
+(snip)
+> +struct fcp_data {
+> +	struct usb_mixer_interface *mixer;
+> +
+> +	struct mutex mutex;         /* serialise access to the device */
+> +	struct completion cmd_done; /* wait for command completion */
+> +	struct file *file;          /* hwdep file */
+> +
+> +	/* notify waiting to send to *file */
+> +	struct {
+> +		wait_queue_head_t queue;
+> +		u32               event;
+> +		spinlock_t        lock;
+> +	} notify;
+
+Might be better to define outside with an explicit type name in case
+of code simplification (e.g. factoring out the struct init code,
+etc).
+
+> +	__u8  bInterfaceNumber;
+> +	__u8  bEndpointAddress;
+> +	__u16 wMaxPacketSize;
+> +	__u8  bInterval;
+
+This is an internal struct and should be types without __ prefix.
+
+> +/* Send an FCP command and get the response */
+> +static int fcp_usb(struct usb_mixer_interface *mixer, u32 opcode,
+> +		   const void *req_data, u16 req_size,
+> +		   void *resp_data, u16 resp_size)
+> +{
+> +	struct fcp_data *private = mixer->private_data;
+> +	struct usb_device *dev = mixer->chip->dev;
+> +	struct fcp_usb_packet *req, *resp = NULL;
+> +	size_t req_buf_size = struct_size(req, data, req_size);
+> +	size_t resp_buf_size = struct_size(resp, data, resp_size);
+> +	int retries = 0;
+> +	const int max_retries = 5;
+> +	int err;
+> +
+> +	req = kmalloc(req_buf_size, GFP_KERNEL);
+> +	if (!req) {
+> +		err = -ENOMEM;
+> +		goto done;
+
+You can use cleanup.h stuff for code simplification.
+(Also for other possible functions.)
+
+> +static int fcp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
+> +			   unsigned int cmd, unsigned long arg)
+> +{
+> +	struct usb_mixer_interface *mixer = hw->private_data;
+> +	struct fcp_data *private = mixer->private_data;
+> +	int err;
+> +
+> +	mutex_lock(&private->mutex);
+> +
+> +	switch (cmd) {
+> +
+> +	case FCP_IOCTL_PVERSION:
+> +		err = put_user(FCP_HWDEP_VERSION,
+> +			       (int __user *)arg) ? -EFAULT : 0;
+> +		break;
+> +
+> +	case FCP_IOCTL_INIT:
+> +		err = fcp_ioctl_init(mixer, arg);
+> +		break;
+> +
+> +	case FCP_IOCTL_CMD:
+> +		err = fcp_ioctl_cmd(mixer, arg);
+> +		break;
+> +
+> +	case FCP_IOCTL_SET_METER_MAP:
+> +		err = fcp_ioctl_set_meter_map(mixer, arg);
+> +		break;
+> +
+> +	default:
+> +		err = -ENOIOCTLCMD;
+> +	}
+> +
+> +	mutex_unlock(&private->mutex);
+
+There seems an implicit ordering of the command -- FCP_IOCTL_INIT must
+be called before *_CMD?  If so, do we have a sanity check for that?
+
+Also, the behavior of *_SET_METER_MAP -- it dynamically creates and
+deletes the meter kcontrol -- can be a bit dangerous.  Can't it be
+without recreating the kcontrol itself?
+
+Last but not least, any need for suspend/resume and disconnect
+handling?
 
 
 thanks,
