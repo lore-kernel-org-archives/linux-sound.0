@@ -1,98 +1,108 @@
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9E6335BA;
-	Mon, 30 Dec 2024 06:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6D3156C6F;
+	Mon, 30 Dec 2024 07:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735541419; cv=none; b=oc9ACo6+LN19quehuaTkhoD3QPjFFjzDRFR43fb98Tw/RqM1cV4FI6cFm5r/ulvpkNi/kVXURRmLa2638TDXXecBw6vlstYT4Far/5dFznFuRB/BzVD7g7qpzy26gnuw/d4za524jJSl12QDL4K1I7wOcd0GgviGNdBAFQQ/Fas=
+	t=1735545563; cv=none; b=MKr0kN0LKO+BtTuW3tGTePKK2PylYj5iRngNOZph0jL5j3xkIzgIw/l249agbrnZ4chSmhEbc7hX1t4BfBHcvDOyMkzYcleHNNAvg8WqYeIMB8Z8d71k4w7ThziqcLF5x5ydVvIDvrenUIaujwZketNvdofsL6/pwldNnsXu0X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735541419; c=relaxed/simple;
-	bh=PQpplCUS5P00Sk1SO95jUX1WrHv+4DJrhq9yziFFqbI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GwUOlAEldp7OKv29JdHUYuA7xo79xXzEt6hApmcfFVSC5Wy2lpAQa9EGAkBlf/lZaMNphA7L+9aLu/v2nPZ+i2H0u+EHRoifG5tyPSq2HVMV8tpbx4rlKklw3U0HxAbaFv9JeHcYusuhmUWcp17C4V41KR2sYZNAt6B/W23PjOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=zTxcaRyw; arc=none smtp.client-ip=198.47.23.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1735545563; c=relaxed/simple;
+	bh=OuYgsSL35Udp34Pc5fAJC7qX8GCX3Q3Y5rM35JSX01Y=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:References:
+	 In-Reply-To; b=SwSKSAtaSQuvqK+PNRQdXUtFuBtDl0eLG3a+gvD0Q5EqGzElx3ziA0T43ClRB0x3YA5zvE6wxD4HMqZO9vVRyk9C/5Ph0EdUvQfiS+41P8EmkXeteJuEBbviALveEYYdjFo9iyq1SFxvBuQBlQK7McZKyM/rO5ucKH8bb2ERzQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=ZzkpSkBX; arc=none smtp.client-ip=159.69.201.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="zTxcaRyw"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4BU6nhLN081397;
-	Mon, 30 Dec 2024 00:49:43 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1735541383;
-	bh=Q/souNdzT4ZzMN6zw/G+ArGFj38Wz1XaK7pqoEQleQI=;
-	h=From:To:CC:Subject:Date;
-	b=zTxcaRyw3Bud1i9hIyBOE6t4Zuwciyd3VcZhdVyPaDHsPmVvHfIPPuS4HSJ3r0Lxm
-	 EjfMO/rbTzrdbLl9vsNWAQUW872JJ1OH5E1NpOZhEFdmPna40QFrWHc0t/lrtWe6Hk
-	 laLske/l8nN/9yWNu/fLirFTFUQ0FEig/xYgWHxQ=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4BU6nhqP075616;
-	Mon, 30 Dec 2024 00:49:43 -0600
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 30
- Dec 2024 00:49:43 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 30 Dec 2024 00:49:43 -0600
-Received: from lelvsmtp5.itg.ti.com ([10.250.165.138])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4BU6nZql071765;
-	Mon, 30 Dec 2024 00:49:36 -0600
-From: Baojun Xu <baojun.xu@ti.com>
-To: <tiwai@suse.de>
-CC: <robh+dt@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <lgirdwood@gmail.com>, <perex@perex.cz>, <shenghao-ding@ti.com>,
-        <navada@ti.com>, <13916275206@139.com>, <v-hampiholi@ti.com>,
-        <v-po@ti.com>, <linux-sound@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <liam.r.girdwood@intel.com>,
-        <yung-chuan.liao@linux.intel.com>, <baojun.xu@ti.com>,
-        <broonie@kernel.org>, <antheas.dk@gmail.com>,
-        <stuart.a.hayhurst@gmail.com>
-Subject: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
-Date: Mon, 30 Dec 2024 14:49:10 +0800
-Message-ID: <20241230064910.1583-1-baojun.xu@ti.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="ZzkpSkBX"
+Received: from localhost (unknown [213.135.10.150])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.3ffe.de (Postfix) with ESMTPSA id F1B0B3E6;
+	Mon, 30 Dec 2024 08:51:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1735545100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+	 references:references; bh=OuYgsSL35Udp34Pc5fAJC7qX8GCX3Q3Y5rM35JSX01Y=;
+	b=ZzkpSkBX3l+SAbCY5zq3NbNmqFsu4PlOumRsJDMAej6xCm15liKWIzIfT2iyPoDcRIXWHi
+	GIIGUU/Dnn4qkGZzukGdwy3mWyZAo3U6CIX8QzGodPl+gzKsYZPsHjpgkeh7LhUsJ34gvI
+	XoLnuaOrFITMdNF1BOMmG1K3OvhV14MFvd9e7JnrgUx3MuV5Mj4baMEav3ImoHxGj6Q1Hm
+	VR45b5cmBrrqIxf22oZ3CQqKnPjzVAyPCIS0bw5wNUsfzoytm+CXKqLyos/FvRMUFcUFZH
+	HLJP/bZYZhvazFRzenUGx778qVjeecsYTqx7Lzxmqs8k96K/o5hCBmYrbg9SwA==
+Content-Type: multipart/signed;
+ boundary=afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Mon, 30 Dec 2024 08:51:37 +0100
+Message-Id: <D6OVE2W07NDX.2Q4AFF46TWCWJ@walle.cc>
+Subject: Re: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
+Cc: "Conor Dooley" <conor+dt@kernel.org>, "Fabio Estevam"
+ <festevam@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Mark Brown" <broonie@kernel.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>, "Rob
+ Herring" <robh@kernel.org>, "Shengjiu Wang" <shengjiu.wang@gmail.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Takashi Iwai" <tiwai@suse.com>, "Xiubo
+ Li" <Xiubo.Lee@gmail.com>, <devicetree@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>
+From: "Michael Walle" <michael@walle.cc>
+To: "Marek Vasut" <marex@denx.de>, <linux-clk@vger.kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20241226162234.40141-1-marex@denx.de>
+ <20241226162234.40141-4-marex@denx.de>
+In-Reply-To: <20241226162234.40141-4-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Driver will return error if no SUBSYS_ID found in BIOS(acpi).
-It will cause error in tas2563 projects, which have no SUBSYS_ID.
+--afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Baojun Xu <baojun.xu@ti.com>
----
- sound/pci/hda/tas2781_hda_i2c.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Hi Marek,
 
-diff --git a/sound/pci/hda/tas2781_hda_i2c.c b/sound/pci/hda/tas2781_hda_i2c.c
-index 0af015806aba..0e42b87dadb8 100644
---- a/sound/pci/hda/tas2781_hda_i2c.c
-+++ b/sound/pci/hda/tas2781_hda_i2c.c
-@@ -142,6 +142,9 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- 	}
- 	sub = acpi_get_subsystem_id(ACPI_HANDLE(physdev));
- 	if (IS_ERR(sub)) {
-+		/* No subsys id in older tas2563 projects. */
-+		if (!strncmp(hid, "INT8866", sizeof("INT8866")))
-+			goto end_2563;
- 		dev_err(p->dev, "Failed to get SUBSYS ID.\n");
- 		ret = PTR_ERR(sub);
- 		goto err;
-@@ -164,6 +167,7 @@ static int tas2781_read_acpi(struct tasdevice_priv *p, const char *hid)
- 		p->speaker_id = NULL;
- 	}
- 
-+end_2563:
- 	acpi_dev_free_resource_list(&resources);
- 	strscpy(p->dev_name, hid, sizeof(p->dev_name));
- 	put_device(physdev);
--- 
-2.43.0
+On Thu Dec 26, 2024 at 5:22 PM CET, Marek Vasut wrote:
+> The driver currently supports generating BCLK.
 
+I'd say the driver supports generating *any* clock on the BCLK pin.
+It's not necessarily the BCLK clock. I.e. on the board where this is
+used, this is the clock with a given frequency sourcing the PLL in
+the audio codec.
+
+> There are systems which require generation of MCLK instead.
+
+You mean systems that use the MCLK pin instead? ..Which is the
+normal use case for this pin. This driver was created because the
+LS1028A doesn't have a MCLK pin, so we've "misused" the BCLK pin,
+with the restriction that only integer dividers are possible. I
+haven't looked at the datasheet, but doesn't the MCLK has a PLL
+which could generate any frequency? Also I'd expect that the imx
+SoCs already supports the MCLK for audio applications. Isn't that
+the case?
+
+> Register new MCLK clock and handle
+> clock-cells =3D <1> to differentiate between BCLK and MCLK. In case of a
+> legacy system with clock-cells =3D <0>, the driver behaves as before, i.e=
+.
+> always returns BCLK.
+
+-michael
+
+--afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZ3JRCREcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+FlWAYCxmDmi0Em3lKwqzoD+898QBK8+aQcL+HXd
+GisHnGsjdylh9oz8KiejTt5WaQQRIs0BgOT4Rt6/o3ToJ/WQlR9+KxF2q7mES/o9
+YPYWc/QV0i9pxm9hzNbDZv6tlm2JcJB1hw==
+=/zRw
+-----END PGP SIGNATURE-----
+
+--afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588--
