@@ -1,108 +1,99 @@
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6D3156C6F;
-	Mon, 30 Dec 2024 07:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6FA1A0BFA
+	for <linux-sound@vger.kernel.org>; Mon, 30 Dec 2024 08:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735545563; cv=none; b=MKr0kN0LKO+BtTuW3tGTePKK2PylYj5iRngNOZph0jL5j3xkIzgIw/l249agbrnZ4chSmhEbc7hX1t4BfBHcvDOyMkzYcleHNNAvg8WqYeIMB8Z8d71k4w7ThziqcLF5x5ydVvIDvrenUIaujwZketNvdofsL6/pwldNnsXu0X8=
+	t=1735549079; cv=none; b=jnl1lb3pI6CEmgFCkL9ysM5QabHeRyjIHC7rZ1DXFuJMxjdQPSUDRWJLYH36JX8+L1uPoIl0ZLZ4H2HDO22yK48IlqnfoTNrV5z2wR2H1nvA6ou2WOaP1HhjtOCcJmZNhcKfTTobgGDdSdvQ2+NAwntWmkq1evxRRc2zcDHUuaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735545563; c=relaxed/simple;
-	bh=OuYgsSL35Udp34Pc5fAJC7qX8GCX3Q3Y5rM35JSX01Y=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:References:
-	 In-Reply-To; b=SwSKSAtaSQuvqK+PNRQdXUtFuBtDl0eLG3a+gvD0Q5EqGzElx3ziA0T43ClRB0x3YA5zvE6wxD4HMqZO9vVRyk9C/5Ph0EdUvQfiS+41P8EmkXeteJuEBbviALveEYYdjFo9iyq1SFxvBuQBlQK7McZKyM/rO5ucKH8bb2ERzQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=ZzkpSkBX; arc=none smtp.client-ip=159.69.201.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
+	s=arc-20240116; t=1735549079; c=relaxed/simple;
+	bh=YvS7IlcHII7Ec1Ap2hjO6zIeRNlxDIEarM6QhxpvSmc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iR9MraW2pjbje6jO8W8s6nO/dhuIaQvHxvFBqiDC/wJx7iwqtsbPoBRWgdk6TVHjNiIWnBLEes8HdjIxlKySaxEbmR4/C2MapucwboujWkqz88shYoZMLO+xw8UQsnK0r9G798yXet4VRnsh58glWUgZ9d3CaL5FfT3mEMM8sfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=okNvuzku; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="ZzkpSkBX"
-Received: from localhost (unknown [213.135.10.150])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.3ffe.de (Postfix) with ESMTPSA id F1B0B3E6;
-	Mon, 30 Dec 2024 08:51:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
-	t=1735545100;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="okNvuzku"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1735549074;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
-	 references:references; bh=OuYgsSL35Udp34Pc5fAJC7qX8GCX3Q3Y5rM35JSX01Y=;
-	b=ZzkpSkBX3l+SAbCY5zq3NbNmqFsu4PlOumRsJDMAej6xCm15liKWIzIfT2iyPoDcRIXWHi
-	GIIGUU/Dnn4qkGZzukGdwy3mWyZAo3U6CIX8QzGodPl+gzKsYZPsHjpgkeh7LhUsJ34gvI
-	XoLnuaOrFITMdNF1BOMmG1K3OvhV14MFvd9e7JnrgUx3MuV5Mj4baMEav3ImoHxGj6Q1Hm
-	VR45b5cmBrrqIxf22oZ3CQqKnPjzVAyPCIS0bw5wNUsfzoytm+CXKqLyos/FvRMUFcUFZH
-	HLJP/bZYZhvazFRzenUGx778qVjeecsYTqx7Lzxmqs8k96K/o5hCBmYrbg9SwA==
-Content-Type: multipart/signed;
- boundary=afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Mon, 30 Dec 2024 08:51:37 +0100
-Message-Id: <D6OVE2W07NDX.2Q4AFF46TWCWJ@walle.cc>
-Subject: Re: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
-Cc: "Conor Dooley" <conor+dt@kernel.org>, "Fabio Estevam"
- <festevam@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
- "Mark Brown" <broonie@kernel.org>, "Michael Turquette"
- <mturquette@baylibre.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>, "Rob
- Herring" <robh@kernel.org>, "Shengjiu Wang" <shengjiu.wang@gmail.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Takashi Iwai" <tiwai@suse.com>, "Xiubo
- Li" <Xiubo.Lee@gmail.com>, <devicetree@vger.kernel.org>,
- <linux-sound@vger.kernel.org>
-From: "Michael Walle" <michael@walle.cc>
-To: "Marek Vasut" <marex@denx.de>, <linux-clk@vger.kernel.org>
-X-Mailer: aerc 0.16.0
-References: <20241226162234.40141-1-marex@denx.de>
- <20241226162234.40141-4-marex@denx.de>
-In-Reply-To: <20241226162234.40141-4-marex@denx.de>
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PgE/DJOCaLAqXOezkuTQtuZKY8OjvgD1FJlU8+ERQyw=;
+	b=okNvuzkuiBajMrv5/rkHTCKlgc1j6UQs6B3UWsrmpgcoDUCnltozlQQUdK7e+LhHthBcvY
+	1BnVwZuNA1rpsTUVeivA3ROTiQQ96EPvFXhFi1QvC8IXbYQQlBiCRYJcijrjtxFEHxLDAK
+	2CEGPO9ODP3tYoxdF67uWVLqo0ggz4I=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Thorsten Blum <thorsten.blum@linux.dev>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: sound-open-firmware@alsa-project.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] ASoC: SOF: Intel: Use str_yes_no() helper in atom_dump()
+Date: Mon, 30 Dec 2024 09:57:15 +0100
+Message-ID: <20241230085717.785718-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
---afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Remove hard-coded strings by using the str_yes_no() helper function.
 
-Hi Marek,
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/sof/intel/atom.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-On Thu Dec 26, 2024 at 5:22 PM CET, Marek Vasut wrote:
-> The driver currently supports generating BCLK.
+diff --git a/sound/soc/sof/intel/atom.c b/sound/soc/sof/intel/atom.c
+index 30e981c558c6..0d364bcdcfa9 100644
+--- a/sound/soc/sof/intel/atom.c
++++ b/sound/soc/sof/intel/atom.c
+@@ -78,20 +78,20 @@ void atom_dump(struct snd_sof_dev *sdev, u32 flags)
+ 	imrd = snd_sof_dsp_read64(sdev, DSP_BAR, SHIM_IMRD);
+ 	dev_err(sdev->dev,
+ 		"error: ipc host -> DSP: pending %s complete %s raw 0x%llx\n",
+-		(panic & SHIM_IPCX_BUSY) ? "yes" : "no",
+-		(panic & SHIM_IPCX_DONE) ? "yes" : "no", panic);
++		str_yes_no(panic & SHIM_IPCX_BUSY),
++		str_yes_no(panic & SHIM_IPCX_DONE), panic);
+ 	dev_err(sdev->dev,
+ 		"error: mask host: pending %s complete %s raw 0x%llx\n",
+-		(imrx & SHIM_IMRX_BUSY) ? "yes" : "no",
+-		(imrx & SHIM_IMRX_DONE) ? "yes" : "no", imrx);
++		str_yes_no(imrx & SHIM_IMRX_BUSY),
++		str_yes_no(imrx & SHIM_IMRX_DONE), imrx);
+ 	dev_err(sdev->dev,
+ 		"error: ipc DSP -> host: pending %s complete %s raw 0x%llx\n",
+-		(status & SHIM_IPCD_BUSY) ? "yes" : "no",
+-		(status & SHIM_IPCD_DONE) ? "yes" : "no", status);
++		str_yes_no(status & SHIM_IPCD_BUSY),
++		str_yes_no(status & SHIM_IPCD_DONE), status);
+ 	dev_err(sdev->dev,
+ 		"error: mask DSP: pending %s complete %s raw 0x%llx\n",
+-		(imrd & SHIM_IMRD_BUSY) ? "yes" : "no",
+-		(imrd & SHIM_IMRD_DONE) ? "yes" : "no", imrd);
++		str_yes_no(imrd & SHIM_IMRD_BUSY),
++		str_yes_no(imrd & SHIM_IMRD_DONE), imrd);
+ 
+ }
+ EXPORT_SYMBOL_NS(atom_dump, "SND_SOC_SOF_INTEL_ATOM_HIFI_EP");
+-- 
+2.47.1
 
-I'd say the driver supports generating *any* clock on the BCLK pin.
-It's not necessarily the BCLK clock. I.e. on the board where this is
-used, this is the clock with a given frequency sourcing the PLL in
-the audio codec.
-
-> There are systems which require generation of MCLK instead.
-
-You mean systems that use the MCLK pin instead? ..Which is the
-normal use case for this pin. This driver was created because the
-LS1028A doesn't have a MCLK pin, so we've "misused" the BCLK pin,
-with the restriction that only integer dividers are possible. I
-haven't looked at the datasheet, but doesn't the MCLK has a PLL
-which could generate any frequency? Also I'd expect that the imx
-SoCs already supports the MCLK for audio applications. Isn't that
-the case?
-
-> Register new MCLK clock and handle
-> clock-cells =3D <1> to differentiate between BCLK and MCLK. In case of a
-> legacy system with clock-cells =3D <0>, the driver behaves as before, i.e=
-.
-> always returns BCLK.
-
--michael
-
---afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZ3JRCREcbWljaGFlbEB3
-YWxsZS5jYwAKCRASJzzuPgIf+FlWAYCxmDmi0Em3lKwqzoD+898QBK8+aQcL+HXd
-GisHnGsjdylh9oz8KiejTt5WaQQRIs0BgOT4Rt6/o3ToJ/WQlR9+KxF2q7mES/o9
-YPYWc/QV0i9pxm9hzNbDZv6tlm2JcJB1hw==
-=/zRw
------END PGP SIGNATURE-----
-
---afee295fd341416c93036e9c1ed652d75b323dcb92731ad9ab1fd3e09588--
