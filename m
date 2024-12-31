@@ -1,44 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB41B4C76;
-	Tue, 31 Dec 2024 01:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20BB1E531
+	for <linux-sound@vger.kernel.org>; Tue, 31 Dec 2024 02:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735606979; cv=none; b=D6MkP0FVlbuRRrub/9x1MJstXAbxLJU+FoojFJIk2nA8ksgt2iuM5kcbhoiB+4N8vnKeaQqAVHKDZSFjmujL9GpSZ76jxJTpaRyJtQYdy3cOBfu6KplWSxqlBsYDvKbp+u17VURa2aCpqazQF5GZZ7tiwxuW1MDEblZt8OVBd9I=
+	t=1735612494; cv=none; b=iZg9EYE1tpPYHwNsHthVtFOeuOfGnu9bb1YsMqZaC66vSHrjmuud4+tD4TtyVbVF97blS0y/z3Mv9IhlkJCY5zw/5pEF2T6V1PVLSeqc56uW8CUEo592Ls6AzNvPYNAg5Axm/Ws2B/trQ/JhMXO/r4U+ugxJxlG7ND0Uv6WsSRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735606979; c=relaxed/simple;
-	bh=0Nso4K7bG/ECC90KQFKPscCeAVbv1vI+5OCQM4Z3vRQ=;
+	s=arc-20240116; t=1735612494; c=relaxed/simple;
+	bh=Ae9/lvO1stBPVGUEAvqBEm1gf+pkvtjIMKWgwUc+1/8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YjC42KagdworZqjnKLWF9l8eqlyDbMDmS3kRMToAuVG0Jr0Q7/q43fA3Ti4vCt/lqIQikBc8hX5sxB0gstororOyktttvunIviBDmkrRFVUvojZiIPnL3HV5CNOe5rUdB8m86cuyNgSz1T/fX7FCuW1jPxTCZdzKGSDPEfNamvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WVteqDjj; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=G16+pMAxrTK3lxx6wFf0LP5tlvo+9ZjOH87bDKeQTb5O6dJ5dGQjk1Ru3bw2IjARxMYTHsJdKvFoqjd9A01V2Mct3KPfjoV9jc78mtllcAt6Cuvhr2mXt19aNWmv+48vKMJ1vNCfUniwwmXqrSS2XdS7tqGOd5n7wyG8mzvfspg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GGg/V7iJ; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WVteqDjj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C073CC4CED0;
-	Tue, 31 Dec 2024 01:02:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735606979;
-	bh=0Nso4K7bG/ECC90KQFKPscCeAVbv1vI+5OCQM4Z3vRQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WVteqDjj3uQon9kc6uaFvAPx9cgmWNXPyuEea51QtODbKG9Ojr1Z0LuxHGyRk8wQn
-	 rLemTfzsdjGVGQCZCIP6KzNRM6HsYUdrHrbVxCIAiy7+gjwWUaNw3P8ediJb9TLTSe
-	 PKj8TKug2vGhpj4ms/cJ8kuQY8RzYvvsHZlrAcWWNwx8ahJxNTNBo4KVmuMHlXVj6L
-	 /Xf+k1PAh2q9ki22SNDt8pTxmEjMwTRiqmu3PsIoNZytf7PEPDob0QEF6cQWVTAS8O
-	 DZx5oPdS+8rM0leVPDhZfgp2dpMKn7kXQN8m46ra0jQXM6pwR97PVj66r+rTe514ev
-	 SP9AByjTj7dQQ==
-Date: Mon, 30 Dec 2024 19:02:57 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	linux-renesas-soc@vger.kernel.org, linux-sound@vger.kernel.org,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v3] ASoC: dt-bindings: renesas,rsnd: remove
- post-init-providers property
-Message-ID: <173560697655.2855593.5371665252641287355.robh@kernel.org>
-References: <87ikrhrfws.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GGg/V7iJ"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-540218726d5so10381453e87.2
+        for <linux-sound@vger.kernel.org>; Mon, 30 Dec 2024 18:34:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1735612491; x=1736217291; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RI+7nbA0Mzu0ksJ91JaVgtOoMaDibvKyhcyw54LCMU4=;
+        b=GGg/V7iJtrlPPyKhqMoqNwpo82vNW1tkutxzLklsgktRtXmjIfsWr5IDVj5kpns9Pi
+         yhFH3Zz0UxCQCzdIvTGNGon2wiwUn062Jeu8X9YaUE7ap/N5Xf0cLJ7dKbl/P+CVHK3h
+         tHL9csp3jLntfRoZqacoR7RTOScd5wQp3tnGbG0Qh4DNOspBZ/fE3uBCLL0BIGMapesR
+         il6yrcPE3OZHpv5mvLq1DnEYIF/kYBGZ8CImjJX67tYiXVPq4YpQchOcoi8jbrTZTonf
+         gJP4P0TDd/jVOEuaHXdqN4uL+z4RPJ1t8gGkXLq9s5Wd9AZIWYpuiY+16fvA0FMwQdJd
+         YNqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1735612491; x=1736217291;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RI+7nbA0Mzu0ksJ91JaVgtOoMaDibvKyhcyw54LCMU4=;
+        b=wQvpC+fvlj2mbUK8tKgEZYaOnyC6vLVljoRdwfQjhGuvNyfPEt/P/a57Xqhss4s1QD
+         oqExshdTktQX4aQN2tHz4PG+y42M5eMz4c24aoLlOhqPUUZXq6K8kZ1mtKMXZLgi22Kb
+         Y2Wlh2CgO9MIEwaGZphvbqWQCa739if1Xqh4czLperTD9GqZpk4inuJqTH4RDLR4QuPj
+         wmbkwuaI96GJHHmxf9UR4Ib74UD2xWxG1MZdaD76/kNhnHpd7JYG0LrjxGPQpkKwpZiP
+         hh056NUmSFHzjBfN5vNqyJ1qku3+N2bSOw8l6TkfCwW/7u99u0vhkZq2CUjHe/03jJRB
+         1QFA==
+X-Forwarded-Encrypted: i=1; AJvYcCV6+TQs1oLBgBpx3n9D3vATdjGh9T6EUGrt40vqQKEkFbVD6xcUKsoP7ME+AAK3ms+9o7WeScXuM7vjaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi+GxEJUULC3xnInHxNO7R+FSF1Qvyg5VcBWtNW/odsC+XMe1o
+	kxdPj7ZoaDyEUtX1kiT9r99JCFM5ZJKv6G7nClBAGTHsvajvvVUblvnc5DoLsSY=
+X-Gm-Gg: ASbGncuT31jn6i2Fnec+/uMCC7wP4qYPjJ4LbnzrYepzDBPaNyLcqOC6hacgLrSSy96
+	rvhVR3x0JA6eZ6tQvBOKAHRGowH8Gukcf+oe9R8smrwZ0SvtLBTVFLecW/pg4LERheLjdV/E0MN
+	rxzFrNjoSln5Tj+20RSzZxGvfeKKUrjYfRXldJjg8x8QfQa8mxII+9NBQptdYaxr2kXUUG1mfJa
+	UDYl8Lpx+VoWoyJqpKANlNN0JLxLUq7keTISvQoQkagQ4d6AkrAb+E9UZnPccw07h7/A6y9MR/H
+	mBUjCrhimxbHBdjpJwCl1E7VbKlitqFYMDdY
+X-Google-Smtp-Source: AGHT+IEQngwlXfM9dt8rjOdrOkpWLx4+BQSwZSDQz+VJSVqmUl9GZRZw3hBdn7Zi64KM99/WDZ1KDg==
+X-Received: by 2002:a05:6512:3405:b0:542:2a8b:d56f with SMTP id 2adb3069b0e04-5422a8bd614mr11921584e87.4.1735612490788;
+        Mon, 30 Dec 2024 18:34:50 -0800 (PST)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5424c72cf59sm980707e87.271.2024.12.30.18.34.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Dec 2024 18:34:49 -0800 (PST)
+Date: Tue, 31 Dec 2024 04:34:47 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+	alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com, 
+	andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
+	chunkuang.hu@kernel.org, dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org, 
+	heiko@sntech.de, hjc@rock-chips.com, inki.dae@samsung.com, 
+	jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
+	kernel-list@raspberrypi.com, krzk@kernel.org, kyungmin.park@samsung.com, lgirdwood@gmail.com, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, 
+	mcanal@igalia.com, mripard@kernel.org, neil.armstrong@linaro.org, 
+	p.zabel@pengutronix.de, perex@perex.cz, ple@baylibre.com, rfoss@kernel.org, 
+	rgallaispou@gmail.com, simona@ffwll.ch, sw0312.kim@samsung.com, tiwai@suse.com, 
+	tzimmermann@suse.de
+Subject: Re: [PATCH v10 03/10] drm/connector: implement generic HDMI audio
+ helpers
+Message-ID: <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
+References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
+ <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,27 +86,90 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87ikrhrfws.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
 
-
-On Wed, 18 Dec 2024 00:30:43 +0000, Kuninori Morimoto wrote:
-> commit f8da001ae7a ("ASoC: audio-graph-card2: Purge absent supplies for
-> device tree nodes") marks multi/dpcm/c2c nodes as no suppliers. We no
-> longer need to use post-init-providers property to break fw_devlink cycle
-> (And no one is using it yet). Let's remove it.
+On Tue, Dec 31, 2024 at 01:43:11AM +0100, Martin Blumenstingl wrote:
+> Hello Dmitry,
 > 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
-> v2 -> v3
-> 	- tidyup missing DT maintainers
-> 	- Remove Fixes: tag
-> v1 -> v2
-> 	- add missing DT maintainers
-> 	- Tidyup the git-log
+> this is great work - thanks for your efforts!
 > 
->  Documentation/devicetree/bindings/sound/renesas,rsnd.yaml | 6 ------
->  1 file changed, 6 deletions(-)
+> To give some context:
+> I am working on a HDMI controller driver for the Amlogic Meson8/8b/8m2
+> SoCs. Unfortunately the driver is not mature enough for upstream
+> submission (all I have is the vendor driver which serves as reference).
+> That said, my goal is to upstream the driver at some point. I have
+> already switched my driver to use hdmi_{clear,write}_infoframe. Now
+> I'm trying this series to simplify my code even further - by using
+> your audio helper work!
 > 
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
+> > @@ -0,0 +1,190 @@
+> > [...]
+> > +static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
+> > +	.audio_startup = drm_connector_hdmi_audio_startup,
+> > +	.prepare = drm_connector_hdmi_audio_prepare,
+> > +	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
+> > +	.mute_stream = drm_connector_hdmi_audio_mute_stream,
+> > +	.get_eld = drm_connector_hdmi_audio_get_eld,
+> > +	.get_dai_id = drm_connector_hdmi_audio_get_dai_id,
+> > +	.hook_plugged_cb = drm_connector_hdmi_audio_hook_plugged_cb,
+> > +};
+> On my platform drm_connector_hdmi_audio_prepare() is never called. As
+> a result of that the audio infoframe is never written to my HDMI
+> controller hardware (hdmi_write_infoframe() is never called with type
+> HDMI_INFOFRAME_TYPE_AUDIO). My hack to make it work is to add the
+> following line to drm_connector_hdmi_audio_ops:
+>   .hw_params = drm_connector_hdmi_audio_prepare,
+> 
+> I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and it
+> seems that there is only a single driver which uses the .prepare
+> callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem to
+> implement .hw_params instead.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Yes. However .hw_params don't have access to the infoframe contents, so
+I had to settle on implementing .prepare.
 
+> 
+> The audio controller code for my platform is already upstream:
+> - sound/soc/meson/aiu-codec-ctrl.c
+> - sound/soc/meson/aiu-encoder-i2s.c
+> - sound/soc/meson/aiu-fifo-i2s.c
+> 
+> My understanding is that you have a platform with a lontium-lt9611
+> HDMI controller available for testing. Can you please help me
+> investigate and find out which piece of code is calling
+> hdmi_codec_prepare() and therefore lt9611_hdmi_audio_prepare() on
+> your board?
+
+Sure, this is the call trace on my platform (Qualcomm SDM845,
+sdm845-db845c.dts):
+
+lt9611_hdmi_audio_prepare+0x1c/0xc0 (P)
+drm_bridge_connector_audio_prepare+0x2c/0x40 (L)
+drm_bridge_connector_audio_prepare+0x2c/0x40
+drm_connector_hdmi_audio_prepare+0x24/0x30
+hdmi_codec_prepare+0xec/0x144
+snd_soc_pcm_dai_prepare+0x78/0x10c
+__soc_pcm_prepare+0x54/0x190
+dpcm_be_dai_prepare+0x120/0x1d0
+dpcm_fe_dai_prepare+0x9c/0x2a0
+snd_pcm_do_prepare+0x30/0x50
+snd_pcm_action_single+0x48/0xa4
+snd_pcm_action_nonatomic+0xa0/0xa8
+snd_pcm_prepare+0x90/0xec
+snd_pcm_common_ioctl+0xd94/0x1a24
+snd_pcm_ioctl+0x30/0x48
+__arm64_sys_ioctl+0xb4/0xec
+invoke_syscall+0x48/0x110
+el0_svc_common.constprop.0+0x40/0xe0
+do_el0_svc+0x1c/0x28
+el0_svc+0x48/0x110
+el0t_64_sync_handler+0x10c/0x138
+el0t_64_sync+0x198/0x19c
+
+Hope, this helps.
+
+-- 
+With best wishes
+Dmitry
