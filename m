@@ -1,175 +1,71 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20BB1E531
-	for <linux-sound@vger.kernel.org>; Tue, 31 Dec 2024 02:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2022F2D;
+	Tue, 31 Dec 2024 03:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735612494; cv=none; b=iZg9EYE1tpPYHwNsHthVtFOeuOfGnu9bb1YsMqZaC66vSHrjmuud4+tD4TtyVbVF97blS0y/z3Mv9IhlkJCY5zw/5pEF2T6V1PVLSeqc56uW8CUEo592Ls6AzNvPYNAg5Axm/Ws2B/trQ/JhMXO/r4U+ugxJxlG7ND0Uv6WsSRE=
+	t=1735616366; cv=none; b=Rl4T1KLeok2zSl1GmfarIYMH5rioDkCudTJQ5KlZ8BkQauxampps8QFYhAbJhBVT7XraAPzuL0AwGmZg4mLrzKARzkILc84jhOXy/JxXkCx3914XMsx6tQTs+uCDy70akaJMFCpnJlgWLCahCv1CRhr9ulbAREHil0aLuMPE5nY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735612494; c=relaxed/simple;
-	bh=Ae9/lvO1stBPVGUEAvqBEm1gf+pkvtjIMKWgwUc+1/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G16+pMAxrTK3lxx6wFf0LP5tlvo+9ZjOH87bDKeQTb5O6dJ5dGQjk1Ru3bw2IjARxMYTHsJdKvFoqjd9A01V2Mct3KPfjoV9jc78mtllcAt6Cuvhr2mXt19aNWmv+48vKMJ1vNCfUniwwmXqrSS2XdS7tqGOd5n7wyG8mzvfspg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GGg/V7iJ; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1735616366; c=relaxed/simple;
+	bh=ZxWLPDviYNxDGsTVL0Iunb2rMCmYmfIK+VOuMMc1240=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MuV0nFcXMu7G+8zWHUxueHYFE0SqMm/zV20H8dcPHZOcYsuvDo1ADJIjzLPFPq2DT1/Olob2+27tqfAROn/fW1vd9o/oryxe8aXJpWMympGB0/f7I57Rziy1vO0sqTEbTW0j86nXds7vDszSGyVmZbLnRqK4kcy6XDGqvKEVwH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=mqs348Gm; arc=none smtp.client-ip=103.150.252.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GGg/V7iJ"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-540218726d5so10381453e87.2
-        for <linux-sound@vger.kernel.org>; Mon, 30 Dec 2024 18:34:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735612491; x=1736217291; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RI+7nbA0Mzu0ksJ91JaVgtOoMaDibvKyhcyw54LCMU4=;
-        b=GGg/V7iJtrlPPyKhqMoqNwpo82vNW1tkutxzLklsgktRtXmjIfsWr5IDVj5kpns9Pi
-         yhFH3Zz0UxCQCzdIvTGNGon2wiwUn062Jeu8X9YaUE7ap/N5Xf0cLJ7dKbl/P+CVHK3h
-         tHL9csp3jLntfRoZqacoR7RTOScd5wQp3tnGbG0Qh4DNOspBZ/fE3uBCLL0BIGMapesR
-         il6yrcPE3OZHpv5mvLq1DnEYIF/kYBGZ8CImjJX67tYiXVPq4YpQchOcoi8jbrTZTonf
-         gJP4P0TDd/jVOEuaHXdqN4uL+z4RPJ1t8gGkXLq9s5Wd9AZIWYpuiY+16fvA0FMwQdJd
-         YNqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735612491; x=1736217291;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RI+7nbA0Mzu0ksJ91JaVgtOoMaDibvKyhcyw54LCMU4=;
-        b=wQvpC+fvlj2mbUK8tKgEZYaOnyC6vLVljoRdwfQjhGuvNyfPEt/P/a57Xqhss4s1QD
-         oqExshdTktQX4aQN2tHz4PG+y42M5eMz4c24aoLlOhqPUUZXq6K8kZ1mtKMXZLgi22Kb
-         Y2Wlh2CgO9MIEwaGZphvbqWQCa739if1Xqh4czLperTD9GqZpk4inuJqTH4RDLR4QuPj
-         wmbkwuaI96GJHHmxf9UR4Ib74UD2xWxG1MZdaD76/kNhnHpd7JYG0LrjxGPQpkKwpZiP
-         hh056NUmSFHzjBfN5vNqyJ1qku3+N2bSOw8l6TkfCwW/7u99u0vhkZq2CUjHe/03jJRB
-         1QFA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6+TQs1oLBgBpx3n9D3vATdjGh9T6EUGrt40vqQKEkFbVD6xcUKsoP7ME+AAK3ms+9o7WeScXuM7vjaQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzi+GxEJUULC3xnInHxNO7R+FSF1Qvyg5VcBWtNW/odsC+XMe1o
-	kxdPj7ZoaDyEUtX1kiT9r99JCFM5ZJKv6G7nClBAGTHsvajvvVUblvnc5DoLsSY=
-X-Gm-Gg: ASbGncuT31jn6i2Fnec+/uMCC7wP4qYPjJ4LbnzrYepzDBPaNyLcqOC6hacgLrSSy96
-	rvhVR3x0JA6eZ6tQvBOKAHRGowH8Gukcf+oe9R8smrwZ0SvtLBTVFLecW/pg4LERheLjdV/E0MN
-	rxzFrNjoSln5Tj+20RSzZxGvfeKKUrjYfRXldJjg8x8QfQa8mxII+9NBQptdYaxr2kXUUG1mfJa
-	UDYl8Lpx+VoWoyJqpKANlNN0JLxLUq7keTISvQoQkagQ4d6AkrAb+E9UZnPccw07h7/A6y9MR/H
-	mBUjCrhimxbHBdjpJwCl1E7VbKlitqFYMDdY
-X-Google-Smtp-Source: AGHT+IEQngwlXfM9dt8rjOdrOkpWLx4+BQSwZSDQz+VJSVqmUl9GZRZw3hBdn7Zi64KM99/WDZ1KDg==
-X-Received: by 2002:a05:6512:3405:b0:542:2a8b:d56f with SMTP id 2adb3069b0e04-5422a8bd614mr11921584e87.4.1735612490788;
-        Mon, 30 Dec 2024 18:34:50 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--b8c.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::b8c])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5424c72cf59sm980707e87.271.2024.12.30.18.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2024 18:34:49 -0800 (PST)
-Date: Tue, 31 Dec 2024 04:34:47 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
-	alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com, 
-	andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com, broonie@kernel.org, 
-	chunkuang.hu@kernel.org, dave.stevenson@raspberrypi.com, dri-devel@lists.freedesktop.org, 
-	heiko@sntech.de, hjc@rock-chips.com, inki.dae@samsung.com, 
-	jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, jonas@kwiboo.se, 
-	kernel-list@raspberrypi.com, krzk@kernel.org, kyungmin.park@samsung.com, lgirdwood@gmail.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com, 
-	mcanal@igalia.com, mripard@kernel.org, neil.armstrong@linaro.org, 
-	p.zabel@pengutronix.de, perex@perex.cz, ple@baylibre.com, rfoss@kernel.org, 
-	rgallaispou@gmail.com, simona@ffwll.ch, sw0312.kim@samsung.com, tiwai@suse.com, 
-	tzimmermann@suse.de
-Subject: Re: [PATCH v10 03/10] drm/connector: implement generic HDMI audio
- helpers
-Message-ID: <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
-References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
- <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="mqs348Gm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=MIME-Version:Message-Id:Date:Subject:To:From:
+	content-type; bh=aYFFXafFdn/UWQUxUayn95kBKM193dtZjA2S97WeIew=; b=mqs348GmGyKC
+	ihUuhYuycLbv67Ir+ikkalU3tcldGQr9emRTuTNXwPLlh6U+62KNajkmc5//2xZ5IlAEl0xb7u7hC
+	Q/ta69kEyhpuYPMgkO1czECQ2/8JJXAoXiHzsiRDrVZ12ESHWj3YOTUKDZIGTetOG2tcQPl9316xo
+	1yNjBhMw57tcETZ3uEwnXA3k9MGauZ7XO1RT9O4yxM6OVijXqN4mahipX1lAG5R4/9la5PnTwVk4N
+	CN1VNqljvdOdmGt3BELBoORXbMIwIcIRhblEf+jLl1a1J6NMhfwRiC2s92yGqdiivzF0k/s5Wm0Oq
+	tA4BoIAE9Pzv9k8+E2ZuTw==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-01ab443d0bcdc103a) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tST6G-000000007sd-0emF ;
+	Tue, 31 Dec 2024 03:39:20 +0000
+Received: from [220.233.184.101] (helo=localhost)
+	 by CMR-KAKADU03.i-01ab443d0bcdc103a with esmtpsa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tST6F-000000003Zm-3000;
+	Tue, 31 Dec 2024 03:39:19 +0000
+From: Stephen Gordon <gordoste@iinet.net.au>
+To: kuninori.morimoto.gx@renesas.com,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stephen Gordon <gordoste@iinet.net.au>
+Subject: [PATCH 0/2] Minor debugging improvements
+Date: Tue, 31 Dec 2024 14:38:39 +1100
+Message-Id: <20241231033841.6213-1-gordoste@iinet.net.au>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
+Content-Transfer-Encoding: 8bit
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=b7W04MGx c=1 sm=1 tr=0 ts=67736767 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=RZcAm9yDv7YA:10 a=x7bEGLp0ZPQA:10 a=gjNZ17yQc1zOlAvepeAA:9
+X-Cm-Envelope: MS4xfFD3lVIfZwy3yGCY2Ams1SjpHBvTQLXHAkT9WuyjgxAiTSNJZd7dkC6wJEzNMfWzM2KMwdAthmFCAGE2csp7ZQtJWXP+5pPO/PDKG2Q4xQWrNaSmBUGM HdOAnUVSrelgJdqUdR4VdTIpZN3s8j1o6jrMSuimcNB6dDTdwCTuunUZKiA/rd8Vr7GrlPOD4a1ULApC4qIIV4CFtRi+ZvFlyHo=
+X-atmailcloud-route: unknown
 
-On Tue, Dec 31, 2024 at 01:43:11AM +0100, Martin Blumenstingl wrote:
-> Hello Dmitry,
-> 
-> this is great work - thanks for your efforts!
-> 
-> To give some context:
-> I am working on a HDMI controller driver for the Amlogic Meson8/8b/8m2
-> SoCs. Unfortunately the driver is not mature enough for upstream
-> submission (all I have is the vendor driver which serves as reference).
-> That said, my goal is to upstream the driver at some point. I have
-> already switched my driver to use hdmi_{clear,write}_infoframe. Now
-> I'm trying this series to simplify my code even further - by using
-> your audio helper work!
-> 
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/display/drm_hdmi_audio_helper.c
-> > @@ -0,0 +1,190 @@
-> > [...]
-> > +static const struct hdmi_codec_ops drm_connector_hdmi_audio_ops = {
-> > +	.audio_startup = drm_connector_hdmi_audio_startup,
-> > +	.prepare = drm_connector_hdmi_audio_prepare,
-> > +	.audio_shutdown = drm_connector_hdmi_audio_shutdown,
-> > +	.mute_stream = drm_connector_hdmi_audio_mute_stream,
-> > +	.get_eld = drm_connector_hdmi_audio_get_eld,
-> > +	.get_dai_id = drm_connector_hdmi_audio_get_dai_id,
-> > +	.hook_plugged_cb = drm_connector_hdmi_audio_hook_plugged_cb,
-> > +};
-> On my platform drm_connector_hdmi_audio_prepare() is never called. As
-> a result of that the audio infoframe is never written to my HDMI
-> controller hardware (hdmi_write_infoframe() is never called with type
-> HDMI_INFOFRAME_TYPE_AUDIO). My hack to make it work is to add the
-> following line to drm_connector_hdmi_audio_ops:
->   .hw_params = drm_connector_hdmi_audio_prepare,
-> 
-> I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and it
-> seems that there is only a single driver which uses the .prepare
-> callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem to
-> implement .hw_params instead.
+Some minor tweaks to debugging for dai_links.
 
-Yes. However .hw_params don't have access to the infoframe contents, so
-I had to settle on implementing .prepare.
+Stephen Gordon (2):
+  asoc: simple_card: Improve debugging messages
+  asoc: simple_card: Show if link is unidirectional
 
-> 
-> The audio controller code for my platform is already upstream:
-> - sound/soc/meson/aiu-codec-ctrl.c
-> - sound/soc/meson/aiu-encoder-i2s.c
-> - sound/soc/meson/aiu-fifo-i2s.c
-> 
-> My understanding is that you have a platform with a lontium-lt9611
-> HDMI controller available for testing. Can you please help me
-> investigate and find out which piece of code is calling
-> hdmi_codec_prepare() and therefore lt9611_hdmi_audio_prepare() on
-> your board?
-
-Sure, this is the call trace on my platform (Qualcomm SDM845,
-sdm845-db845c.dts):
-
-lt9611_hdmi_audio_prepare+0x1c/0xc0 (P)
-drm_bridge_connector_audio_prepare+0x2c/0x40 (L)
-drm_bridge_connector_audio_prepare+0x2c/0x40
-drm_connector_hdmi_audio_prepare+0x24/0x30
-hdmi_codec_prepare+0xec/0x144
-snd_soc_pcm_dai_prepare+0x78/0x10c
-__soc_pcm_prepare+0x54/0x190
-dpcm_be_dai_prepare+0x120/0x1d0
-dpcm_fe_dai_prepare+0x9c/0x2a0
-snd_pcm_do_prepare+0x30/0x50
-snd_pcm_action_single+0x48/0xa4
-snd_pcm_action_nonatomic+0xa0/0xa8
-snd_pcm_prepare+0x90/0xec
-snd_pcm_common_ioctl+0xd94/0x1a24
-snd_pcm_ioctl+0x30/0x48
-__arm64_sys_ioctl+0xb4/0xec
-invoke_syscall+0x48/0x110
-el0_svc_common.constprop.0+0x40/0xe0
-do_el0_svc+0x1c/0x28
-el0_svc+0x48/0x110
-el0t_64_sync_handler+0x10c/0x138
-el0t_64_sync+0x198/0x19c
-
-Hope, this helps.
+ include/sound/simple_card_utils.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.39.5
+
