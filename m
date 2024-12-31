@@ -1,624 +1,94 @@
-Received: from out198-2.us.a.mail.aliyun.com (out198-2.us.a.mail.aliyun.com [47.90.198.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2671119ADBF;
-	Tue, 31 Dec 2024 12:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80975789D;
+	Tue, 31 Dec 2024 13:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735649816; cv=none; b=RCDi7FoWhEJiEJEIADIZlkNFAknw1zOAXwF4GHsZa0+o7CekFaxplccoAoCnPR4oRVZJaWJd+ENdBd5vddLfrd2LX/vi8lQFipPwzbuzuKSg1Y5LH9gubHfZqoIC+8xNwLMdy9YqtH+HX4eG5p4JPtu0TuVrENwQ0mr89RYa7t0=
+	t=1735652255; cv=none; b=q5iooCn6LbqWqmx3PrlocbdwZozWYirkvQMgv6w1ctmhNLtOoORm/wZtKmHFaDe1qFNmbo8mKPAVLTD/ETrrURJDQePxENwCOuUbt4D5ejvHwYOF3tvUFe3QFQi/KTJS1b7yGz1fcZhMEW7GlKo1zstTUiV2KalMOAZz/pOoPU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735649816; c=relaxed/simple;
-	bh=X58iqwHcQN6fchv0CESolcsu/c4rNBmtICwqLw7NQ1I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=U9ZRZsEA7dUuvxu3vaG6LVi1hT9usn4Ax4mcCfyJ80ua9YW6/BMW2id9XzyMdoaGOSNdQqs2kWpv+CbUEabDXd1yrglC0dn0onO1Z9i9edVDXylKTrc5StDPh7+FHwml9Xtd4MziVTdxlsViwjDY3CCuS4zhUeS/3C47/vyow5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com; spf=pass smtp.mailfrom=awinic.com; arc=none smtp.client-ip=47.90.198.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=awinic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=awinic.com
-Received: from ubuntu-VirtualBox..(mailfrom:wangweidong.a@awinic.com fp:SMTPD_---.asDhTte_1735649785 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 31 Dec 2024 20:56:31 +0800
-From: wangweidong.a@awinic.com
-To: lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	jack.yu@realtek.com,
-	rf@opensource.cirrus.com,
-	neil.armstrong@linaro.org,
-	ivprusov@salutedevices.com,
-	luca.ceresoli@bootlin.com,
-	zhoubinbin@loongson.cn,
-	quic_pkumpatl@quicinc.com,
-	herve.codina@bootlin.com,
-	masahiroy@kernel.org,
-	nuno.sa@analog.com,
-	wangweidong.a@awinic.com,
-	yesanishhere@gmail.com,
-	linux-sound@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: yijiangtao@awinic.com
-Subject: [PATCH V4 2/2] ASoC: codecs: Add aw88083 amplifier driver
-Date: Tue, 31 Dec 2024 20:56:10 +0800
-Message-ID: <20241231125610.465614-3-wangweidong.a@awinic.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241231125610.465614-1-wangweidong.a@awinic.com>
-References: <20241231125610.465614-1-wangweidong.a@awinic.com>
+	s=arc-20240116; t=1735652255; c=relaxed/simple;
+	bh=VlKLhUN+zDmr0U5+deIXHrgXfztAdQTHo3T3VjafnL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KpniNZEMXfEXzLAcEiBSVYQBDs9oSrbQdRlhhviogxi0pMzwhTQ6OyoAcilBULIoFq9p2Zj1uKX7V2TBf2tXgzktPKl1Jg7bRGuwV9pGLX/RK+LFjRmspp+nWwOY1GGYJU2mF4HkUt20tQtZEMtN/r+xiCsDaHjFTw2R0ShHvzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQnkiJbc; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQnkiJbc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE259C4CED2;
+	Tue, 31 Dec 2024 13:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1735652255;
+	bh=VlKLhUN+zDmr0U5+deIXHrgXfztAdQTHo3T3VjafnL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vQnkiJbcSg0EI64smS1a4LcCoIU/L0WXtYnGipGgmpWIH2l991MQlg4Yctfk7RYnS
+	 lqG/0sdMv4Kp4uD5s1BwRxmPKSN08NtUzPItbu71bVaCUohaW5ok+3KTF/m3U08bV4
+	 vzrBjkJqbM3yt6fa0fmzZ1MPBzGz7KjBsTPKqT6RgYwDntZknUCREmaDlq4ySlji3s
+	 LhX5mq7G5P9KMdQxJl9sNtHGMv7/qbAxnEv8Uw0bMp1WoOPLxEtnMFIMfSdH5Qs79E
+	 eJ5ZMpN6bT4fKG+TLvWJgGdY36Up+ixdzqVqV8wtV9fsaTia10Vqp/lZJpH2bp6ojD
+	 0W5EY0hh9XY5Q==
+Date: Tue, 31 Dec 2024 07:37:32 -0600
+From: Rob Herring <robh@kernel.org>
+To: Chris Morgan <macroalpha82@gmail.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org, Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH 1/3] ASoC: dt-bindings: sun4i-a10-codec: add hp-det-gpios
+Message-ID: <20241231133732.GA76940-robh@kernel.org>
+References: <20241221094122.27325-1-ryan@testtoast.com>
+ <20241221094122.27325-2-ryan@testtoast.com>
+ <6768438d.4a0a0220.399c57.89b6@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6768438d.4a0a0220.399c57.89b6@mx.google.com>
 
-From: Weidong Wang <wangweidong.a@awinic.com>
+On Sun, Dec 22, 2024 at 10:51:24AM -0600, Chris Morgan wrote:
+> On Sat, Dec 21, 2024 at 10:26:32PM +1300, Ryan Walklin wrote:
+> > From: Chris Morgan <macromorgan@hotmail.com>
+> > 
+> > Devices integrating Allwinner SoCs may use line-out or headphone jacks
+> > with jack detection circuits attached to a GPIO. Support defining these
+> > in DTs.
+> > 
+> > A number of Anbernic devices featuring the H700 SoC use this mechanism
+> > to switch between a headphone jack and an internal speaker, so add these
+> > to the allowed routing items.
+> > 
+> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+> > Signed-off-by: Ryan Walklin <ryan@testtoast.com>
+> > ---
+> >  .../bindings/sound/allwinner,sun4i-a10-codec.yaml           | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
+> > index ebc9097f936ad..b4b711e80b65a 100644
+> > --- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
+> > +++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-codec.yaml
+> > @@ -98,6 +98,10 @@ properties:
+> >      maxItems: 1
+> >      description: GPIO to enable the external amplifier
+> >  
+> > +  allwinner,hp-det-gpios:
+> > +    maxItems: 1
+> > +    description: GPIO for headphone/line-out detection
+> > +
+> 
+> If possible, I wonder if we can keep this without the vendor prefix?
+> It looks like for now Nvidia and some Rockchip codecs have the vendor
+> prefix, but audio-graph bindings and Freescale codec bindings have this
+> as a non-specific property (and it looks like simple-audio-card does it
+> either as "hp-det-gpios" or "simple-audio-card,hp-det-gpios" depending
+> upon the circumstances).
 
-The driver is for amplifiers aw88083 of Awinic Technology
-Corporation. The AW88083 is an intelligent digital audio
-amplifier with low noise.
+Yes, drop the vendor prefix.
 
-Signed-off-by: Weidong Wang <wangweidong.a@awinic.com>
----
- sound/soc/codecs/Kconfig   |   2 +-
- sound/soc/codecs/aw88081.c | 333 ++++++++++++++++++++++++++++++-------
- sound/soc/codecs/aw88081.h |  43 +++++
- 3 files changed, 321 insertions(+), 57 deletions(-)
-
-diff --git a/sound/soc/codecs/Kconfig b/sound/soc/codecs/Kconfig
-index 0f2df7c91e18..0ba319683b6b 100644
---- a/sound/soc/codecs/Kconfig
-+++ b/sound/soc/codecs/Kconfig
-@@ -692,7 +692,7 @@ config SND_SOC_AW88261
- 	  the input amplitude.
- 
- config SND_SOC_AW88081
--	tristate "Soc Audio for awinic aw88081"
-+	tristate "Soc Audio for awinic aw88081/aw88083"
- 	depends on I2C
- 	select REGMAP_I2C
- 	select SND_SOC_AW88395_LIB
-diff --git a/sound/soc/codecs/aw88081.c b/sound/soc/codecs/aw88081.c
-index 58b8e002d76f..ad16ab6812cd 100644
---- a/sound/soc/codecs/aw88081.c
-+++ b/sound/soc/codecs/aw88081.c
-@@ -14,13 +14,18 @@
- #include "aw88081.h"
- #include "aw88395/aw88395_device.h"
- 
-+enum aw8808x_type {
-+	AW88081,
-+	AW88083,
-+};
-+
- struct aw88081 {
- 	struct aw_device *aw_pa;
- 	struct mutex lock;
- 	struct delayed_work start_work;
- 	struct regmap *regmap;
- 	struct aw_container *aw_cfg;
--
-+	enum aw8808x_type devtype;
- 	bool phase_sync;
- };
- 
-@@ -32,6 +37,14 @@ static const struct regmap_config aw88081_regmap_config = {
- 	.val_format_endian = REGMAP_ENDIAN_BIG,
- };
- 
-+static const struct regmap_config aw88083_regmap_config = {
-+	.val_bits = 16,
-+	.reg_bits = 8,
-+	.max_register = AW88083_REG_MAX,
-+	.reg_format_endian = REGMAP_ENDIAN_LITTLE,
-+	.val_format_endian = REGMAP_ENDIAN_BIG,
-+};
-+
- static int aw88081_dev_get_iis_status(struct aw_device *aw_dev)
- {
- 	unsigned int reg_val;
-@@ -196,6 +209,41 @@ static void aw88081_dev_amppd(struct aw_device *aw_dev, bool amppd)
- 				~AW88081_EN_PA_MASK, AW88081_EN_PA_WORKING_VALUE);
- }
- 
-+static void aw88083_i2c_wen(struct aw88081 *aw88081, bool flag)
-+{
-+	struct aw_device *aw_dev = aw88081->aw_pa;
-+
-+	if (aw88081->devtype != AW88083)
-+		return;
-+
-+	if (flag)
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_I2C_WEN_MASK, AW88083_I2C_WEN_ENABLE_VALUE);
-+	else
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_I2C_WEN_MASK, AW88083_I2C_WEN_DISABLE_VALUE);
-+}
-+
-+static void aw88083_dev_amppd(struct aw_device *aw_dev, bool amppd)
-+{
-+	if (amppd)
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_AMPPD_MASK, AW88083_AMPPD_POWER_DOWN_VALUE);
-+	else
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_AMPPD_MASK, AW88083_AMPPD_WORKING_VALUE);
-+}
-+
-+static void aw88083_dev_pllpd(struct aw_device *aw_dev, bool pllpd)
-+{
-+	if (pllpd)
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_PLL_PD_MASK, AW88083_PLL_PD_WORKING_VALUE);
-+	else
-+		regmap_update_bits(aw_dev->regmap, AW88081_SYSCTRL_REG,
-+				~AW88083_PLL_PD_MASK, AW88083_PLL_PD_POWER_DOWN_VALUE);
-+}
-+
- static void aw88081_dev_clear_int_status(struct aw_device *aw_dev)
- {
- 	unsigned int int_status;
-@@ -284,12 +332,90 @@ static void aw88081_dev_uls_hmute(struct aw_device *aw_dev, bool uls_hmute)
- 				AW88081_ULS_HMUTE_DISABLE_VALUE);
- }
- 
-+static int aw88081_dev_reg_value_check(struct aw_device *aw_dev,
-+					unsigned char reg_addr, unsigned short *reg_val)
-+{
-+	unsigned int read_vol;
-+
-+	if (reg_addr == AW88081_SYSCTRL_REG) {
-+		*reg_val &= ~(~AW88081_EN_PA_MASK |
-+			      ~AW88081_PWDN_MASK |
-+			      ~AW88081_HMUTE_MASK |
-+			      ~AW88081_ULS_HMUTE_MASK);
-+
-+		*reg_val |= AW88081_EN_PA_POWER_DOWN_VALUE |
-+			    AW88081_PWDN_POWER_DOWN_VALUE |
-+			    AW88081_HMUTE_ENABLE_VALUE |
-+			    AW88081_ULS_HMUTE_ENABLE_VALUE;
-+	}
-+
-+	if (reg_addr == AW88081_SYSCTRL2_REG) {
-+		read_vol = (*reg_val & (~AW88081_VOL_MASK)) >> AW88081_VOL_START_BIT;
-+		aw_dev->volume_desc.init_volume = read_vol;
-+	}
-+
-+	/* i2stxen */
-+	if (reg_addr == AW88081_I2SCTRL3_REG) {
-+		/* close tx */
-+		*reg_val &= AW88081_I2STXEN_MASK;
-+		*reg_val |= AW88081_I2STXEN_DISABLE_VALUE;
-+	}
-+
-+	return 0;
-+}
-+
-+static int aw88083_dev_reg_value_check(struct aw_device *aw_dev,
-+					unsigned char reg_addr, unsigned short *reg_val)
-+{
-+	unsigned int read_vol;
-+
-+	if (reg_addr == AW88081_SYSCTRL_REG) {
-+		*reg_val &= ~(~AW88083_AMPPD_MASK |
-+			      ~AW88081_PWDN_MASK |
-+			      ~AW88081_HMUTE_MASK |
-+			      ~AW88083_I2C_WEN_MASK);
-+
-+		*reg_val |= AW88083_AMPPD_POWER_DOWN_VALUE |
-+			    AW88081_PWDN_POWER_DOWN_VALUE |
-+			    AW88081_HMUTE_ENABLE_VALUE |
-+			    AW88083_I2C_WEN_ENABLE_VALUE;
-+	}
-+
-+	if (reg_addr == AW88081_SYSCTRL2_REG) {
-+		read_vol = (*reg_val & (~AW88081_VOL_MASK)) >> AW88081_VOL_START_BIT;
-+		aw_dev->volume_desc.init_volume = read_vol;
-+	}
-+
-+	return 0;
-+}
-+
-+static int aw88081_reg_value_check(struct aw88081 *aw88081,
-+					unsigned char reg_addr, unsigned short *reg_val)
-+{
-+	struct aw_device *aw_dev = aw88081->aw_pa;
-+	int ret;
-+
-+	switch (aw88081->devtype) {
-+	case AW88081:
-+		ret = aw88081_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-+		break;
-+	case AW88083:
-+		ret = aw88083_dev_reg_value_check(aw_dev, reg_addr, reg_val);
-+		break;
-+	default:
-+		dev_err(aw_dev->dev, "unsupported device\n");
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static int aw88081_dev_reg_update(struct aw88081 *aw88081,
- 					unsigned char *data, unsigned int len)
- {
- 	struct aw_device *aw_dev = aw88081->aw_pa;
- 	struct aw_volume_desc *vol_desc = &aw_dev->volume_desc;
--	unsigned int read_vol;
- 	int data_len, i, ret;
- 	int16_t *reg_data;
- 	u16 reg_val;
-@@ -312,30 +438,9 @@ static int aw88081_dev_reg_update(struct aw88081 *aw88081,
- 		reg_addr = reg_data[i];
- 		reg_val = reg_data[i + 1];
- 
--		if (reg_addr == AW88081_SYSCTRL_REG) {
--			reg_val &= ~(~AW88081_EN_PA_MASK |
--				    ~AW88081_PWDN_MASK |
--				    ~AW88081_HMUTE_MASK |
--				    ~AW88081_ULS_HMUTE_MASK);
--
--			reg_val |= AW88081_EN_PA_POWER_DOWN_VALUE |
--				   AW88081_PWDN_POWER_DOWN_VALUE |
--				   AW88081_HMUTE_ENABLE_VALUE |
--				   AW88081_ULS_HMUTE_ENABLE_VALUE;
--		}
--
--		if (reg_addr == AW88081_SYSCTRL2_REG) {
--			read_vol = (reg_val & (~AW88081_VOL_MASK)) >>
--				AW88081_VOL_START_BIT;
--			aw_dev->volume_desc.init_volume = read_vol;
--		}
--
--		/* i2stxen */
--		if (reg_addr == AW88081_I2SCTRL3_REG) {
--			/* close tx */
--			reg_val &= AW88081_I2STXEN_MASK;
--			reg_val |= AW88081_I2STXEN_DISABLE_VALUE;
--		}
-+		ret = aw88081_reg_value_check(aw88081, reg_addr, &reg_val);
-+		if (ret)
-+			return ret;
- 
- 		ret = regmap_write(aw_dev->regmap, reg_addr, reg_val);
- 		if (ret)
-@@ -474,8 +579,60 @@ static int aw88081_dev_start(struct aw88081 *aw88081)
- 	return ret;
- }
- 
--static int aw88081_dev_stop(struct aw_device *aw_dev)
-+static int aw88083_dev_start(struct aw88081 *aw88081)
-+{
-+	struct aw_device *aw_dev = aw88081->aw_pa;
-+
-+	if (aw_dev->status == AW88081_DEV_PW_ON) {
-+		dev_dbg(aw_dev->dev, "already power on");
-+		return 0;
-+	}
-+
-+	aw88083_i2c_wen(aw88081, true);
-+
-+	/* power on */
-+	aw88081_dev_pwd(aw_dev, false);
-+	usleep_range(AW88081_2000_US, AW88081_2000_US + 10);
-+
-+	aw88083_dev_pllpd(aw_dev, true);
-+	/* amppd on */
-+	aw88083_dev_amppd(aw_dev, false);
-+	usleep_range(AW88081_2000_US, AW88081_2000_US + 50);
-+
-+	/* close mute */
-+	aw88081_dev_mute(aw_dev, false);
-+
-+	aw88083_i2c_wen(aw88081, false);
-+
-+	aw_dev->status = AW88081_DEV_PW_ON;
-+
-+	return 0;
-+}
-+
-+static int aw88081_device_start(struct aw88081 *aw88081)
-+{
-+	int ret;
-+
-+	switch (aw88081->devtype) {
-+	case AW88081:
-+		ret = aw88081_dev_start(aw88081);
-+		break;
-+	case AW88083:
-+		ret = aw88083_dev_start(aw88081);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		dev_err(aw88081->aw_pa->dev, "unsupported device\n");
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+static int aw88081_dev_stop(struct aw88081 *aw88081)
- {
-+	struct aw_device *aw_dev = aw88081->aw_pa;
-+
- 	if (aw_dev->status == AW88081_DEV_PW_OFF) {
- 		dev_dbg(aw_dev->dev, "already power off");
- 		return 0;
-@@ -503,6 +660,56 @@ static int aw88081_dev_stop(struct aw_device *aw_dev)
- 	return 0;
- }
- 
-+static int aw88083_dev_stop(struct aw88081 *aw88081)
-+{
-+	struct aw_device *aw_dev = aw88081->aw_pa;
-+
-+	if (aw_dev->status == AW88081_DEV_PW_OFF) {
-+		dev_dbg(aw_dev->dev, "already power off");
-+		return 0;
-+	}
-+
-+	aw_dev->status = AW88081_DEV_PW_OFF;
-+
-+	aw88083_i2c_wen(aw88081, true);
-+	/* set mute */
-+	aw88081_dev_mute(aw_dev, true);
-+
-+	usleep_range(AW88081_2000_US, AW88081_2000_US + 100);
-+
-+	/* enable amppd */
-+	aw88083_dev_amppd(aw_dev, true);
-+
-+	aw88083_dev_pllpd(aw_dev, false);
-+
-+	/* set power down */
-+	aw88081_dev_pwd(aw_dev, true);
-+
-+	aw88083_i2c_wen(aw88081, false);
-+
-+	return 0;
-+}
-+
-+static int aw88081_stop(struct aw88081 *aw88081)
-+{
-+	int ret;
-+
-+	switch (aw88081->devtype) {
-+	case AW88081:
-+		ret = aw88081_dev_stop(aw88081);
-+		break;
-+	case AW88083:
-+		ret = aw88083_dev_stop(aw88081);
-+		break;
-+	default:
-+		dev_err(aw88081->aw_pa->dev, "unsupported device\n");
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static int aw88081_reg_update(struct aw88081 *aw88081, bool force)
- {
- 	struct aw_device *aw_dev = aw88081->aw_pa;
-@@ -540,7 +747,7 @@ static void aw88081_start_pa(struct aw88081 *aw88081)
- 			dev_err(aw88081->aw_pa->dev, "fw update failed, cnt:%d\n", i);
- 			continue;
- 		}
--		ret = aw88081_dev_start(aw88081);
-+		ret = aw88081_device_start(aw88081);
- 		if (ret) {
- 			dev_err(aw88081->aw_pa->dev, "aw88081 device start failed. retry = %d", i);
- 			continue;
-@@ -745,7 +952,7 @@ static int aw88081_profile_set(struct snd_kcontrol *kcontrol,
- 	}
- 
- 	if (aw88081->aw_pa->status) {
--		aw88081_dev_stop(aw88081->aw_pa);
-+		aw88081_stop(aw88081);
- 		aw88081_start(aw88081, AW88081_SYNC_START);
- 	}
- 
-@@ -781,12 +988,16 @@ static int aw88081_volume_set(struct snd_kcontrol *kcontrol,
- 	if (value < mc->min || value > mc->max)
- 		return -EINVAL;
- 
-+	aw88083_i2c_wen(aw88081, true);
-+
- 	if (vol_desc->ctl_volume != value) {
- 		vol_desc->ctl_volume = value;
- 		aw88081_dev_set_volume(aw88081->aw_pa, vol_desc->ctl_volume);
- 		return 1;
- 	}
- 
-+	aw88083_i2c_wen(aw88081, false);
-+
- 	return 0;
- }
- 
-@@ -860,13 +1071,19 @@ static int aw88081_init(struct aw88081 *aw88081, struct i2c_client *i2c, struct
- 		dev_err(&i2c->dev, "%s read chipid error. ret = %d", __func__, ret);
- 		return ret;
- 	}
--	if (chip_id != AW88081_CHIP_ID) {
-+
-+	switch (chip_id) {
-+	case AW88081_CHIP_ID:
-+		dev_dbg(&i2c->dev, "chip id = 0x%x\n", chip_id);
-+		break;
-+	case AW88083_CHIP_ID:
-+		dev_dbg(&i2c->dev, "chip id = 0x%x\n", chip_id);
-+		break;
-+	default:
- 		dev_err(&i2c->dev, "unsupported device");
- 		return -ENXIO;
- 	}
- 
--	dev_dbg(&i2c->dev, "chip id = %x\n", chip_id);
--
- 	aw_dev = devm_kzalloc(&i2c->dev, sizeof(*aw_dev), GFP_KERNEL);
- 	if (!aw_dev)
- 		return -ENOMEM;
-@@ -875,7 +1092,7 @@ static int aw88081_init(struct aw88081 *aw88081, struct i2c_client *i2c, struct
- 	aw_dev->i2c = i2c;
- 	aw_dev->regmap = regmap;
- 	aw_dev->dev = &i2c->dev;
--	aw_dev->chip_id = AW88081_CHIP_ID;
-+	aw_dev->chip_id = chip_id;
- 	aw_dev->acf = NULL;
- 	aw_dev->prof_info.prof_desc = NULL;
- 	aw_dev->prof_info.prof_type = AW88395_DEV_NONE_TYPE_ID;
-@@ -912,21 +1129,8 @@ static int aw88081_dev_init(struct aw88081 *aw88081, struct aw_container *aw_cfg
- 		return ret;
- 	}
- 
--	aw88081_dev_clear_int_status(aw_dev);
--
--	aw88081_dev_uls_hmute(aw_dev, true);
--
--	aw88081_dev_mute(aw_dev, true);
--
--	usleep_range(AW88081_5000_US, AW88081_5000_US + 10);
--
--	aw88081_dev_i2s_tx_enable(aw_dev, false);
--
--	usleep_range(AW88081_1000_US, AW88081_1000_US + 100);
--
--	aw88081_dev_amppd(aw_dev, true);
--
--	aw88081_dev_pwd(aw_dev, true);
-+	aw_dev->status = AW88081_DEV_PW_ON;
-+	aw88081_stop(aw88081);
- 
- 	return 0;
- }
-@@ -977,7 +1181,7 @@ static int aw88081_playback_event(struct snd_soc_dapm_widget *w,
- 		aw88081_start(aw88081, AW88081_ASYNC_START);
- 		break;
- 	case SND_SOC_DAPM_POST_PMD:
--		aw88081_dev_stop(aw88081->aw_pa);
-+		aw88081_stop(aw88081);
- 		break;
- 	default:
- 		break;
-@@ -1036,8 +1240,17 @@ static const struct snd_soc_component_driver soc_codec_dev_aw88081 = {
- 	.num_controls = ARRAY_SIZE(aw88081_controls),
- };
- 
-+static const struct i2c_device_id aw88081_i2c_id[] = {
-+	{ AW88081_I2C_NAME, AW88081},
-+	{ AW88083_I2C_NAME, AW88083},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, aw88081_i2c_id);
-+
- static int aw88081_i2c_probe(struct i2c_client *i2c)
- {
-+	const struct regmap_config *regmap_config;
-+	const struct i2c_device_id *id;
- 	struct aw88081 *aw88081;
- 	int ret;
- 
-@@ -1049,11 +1262,25 @@ static int aw88081_i2c_probe(struct i2c_client *i2c)
- 	if (!aw88081)
- 		return -ENOMEM;
- 
-+	id = i2c_match_id(aw88081_i2c_id, i2c);
-+	aw88081->devtype = id->driver_data;
-+
- 	mutex_init(&aw88081->lock);
- 
- 	i2c_set_clientdata(i2c, aw88081);
- 
--	aw88081->regmap = devm_regmap_init_i2c(i2c, &aw88081_regmap_config);
-+	switch (aw88081->devtype) {
-+	case AW88081:
-+		regmap_config = &aw88081_regmap_config;
-+		break;
-+	case AW88083:
-+		regmap_config = &aw88083_regmap_config;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	aw88081->regmap = devm_regmap_init_i2c(i2c, regmap_config);
- 	if (IS_ERR(aw88081->regmap))
- 		return dev_err_probe(&i2c->dev, PTR_ERR(aw88081->regmap),
- 						"failed to init regmap\n");
-@@ -1068,12 +1295,6 @@ static int aw88081_i2c_probe(struct i2c_client *i2c)
- 			aw88081_dai, ARRAY_SIZE(aw88081_dai));
- }
- 
--static const struct i2c_device_id aw88081_i2c_id[] = {
--	{ AW88081_I2C_NAME },
--	{ }
--};
--MODULE_DEVICE_TABLE(i2c, aw88081_i2c_id);
--
- static struct i2c_driver aw88081_i2c_driver = {
- 	.driver = {
- 		.name = AW88081_I2C_NAME,
-diff --git a/sound/soc/codecs/aw88081.h b/sound/soc/codecs/aw88081.h
-index b4bf7288021a..c4679476f524 100644
---- a/sound/soc/codecs/aw88081.h
-+++ b/sound/soc/codecs/aw88081.h
-@@ -231,6 +231,49 @@
- #define AW88081_CCO_MUX_BYPASS_VALUE	\
- 	(AW88081_CCO_MUX_BYPASS << AW88081_CCO_MUX_START_BIT)
- 
-+#define AW88083_I2C_WEN_START_BIT	(14)
-+#define AW88083_I2C_WEN_BITS_LEN	(2)
-+#define AW88083_I2C_WEN_MASK		\
-+	(~(((1<<AW88083_I2C_WEN_BITS_LEN)-1) << AW88083_I2C_WEN_START_BIT))
-+
-+#define AW88083_I2C_WEN_DISABLE	(0)
-+#define AW88083_I2C_WEN_DISABLE_VALUE	\
-+	(AW88083_I2C_WEN_DISABLE << AW88083_I2C_WEN_START_BIT)
-+
-+#define AW88083_I2C_WEN_ENABLE		(2)
-+#define AW88083_I2C_WEN_ENABLE_VALUE	\
-+	(AW88083_I2C_WEN_ENABLE << AW88083_I2C_WEN_START_BIT)
-+
-+#define AW88083_PLL_PD_START_BIT	(2)
-+#define AW88083_PLL_PD_BITS_LEN	(1)
-+#define AW88083_PLL_PD_MASK		\
-+	(~(((1<<AW88083_PLL_PD_BITS_LEN)-1) << AW88083_PLL_PD_START_BIT))
-+
-+#define AW88083_PLL_PD_POWER_DOWN	(1)
-+#define AW88083_PLL_PD_POWER_DOWN_VALUE	\
-+	(AW88083_PLL_PD_POWER_DOWN << AW88083_PLL_PD_START_BIT)
-+
-+#define AW88083_PLL_PD_WORKING		(0)
-+#define AW88083_PLL_PD_WORKING_VALUE	\
-+	(AW88083_PLL_PD_WORKING << AW88083_PLL_PD_START_BIT)
-+
-+#define AW88083_AMPPD_START_BIT	(1)
-+#define AW88083_AMPPD_BITS_LEN		(1)
-+#define AW88083_AMPPD_MASK		\
-+	(~(((1<<AW88083_AMPPD_BITS_LEN)-1) << AW88083_AMPPD_START_BIT))
-+
-+#define AW88083_AMPPD_WORKING		(0)
-+#define AW88083_AMPPD_WORKING_VALUE	\
-+	(AW88083_AMPPD_WORKING << AW88083_AMPPD_START_BIT)
-+
-+#define AW88083_AMPPD_POWER_DOWN	(1)
-+#define AW88083_AMPPD_POWER_DOWN_VALUE	\
-+	(AW88083_AMPPD_POWER_DOWN << AW88083_AMPPD_START_BIT)
-+
-+#define AW88083_REG_MAX		(0x7D)
-+#define AW88083_I2C_NAME		"aw88083"
-+#define AW88083_CHIP_ID		0x2407
-+
- #define AW88081_START_RETRIES		(5)
- #define AW88081_START_WORK_DELAY_MS	(0)
- 
--- 
-2.47.0
-
+Rob
