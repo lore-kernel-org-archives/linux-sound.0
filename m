@@ -1,135 +1,101 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7626017BA9;
-	Tue, 31 Dec 2024 18:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB67C2119;
+	Wed,  1 Jan 2025 06:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735670993; cv=none; b=ABe6sljgx1wTE4/Dbu3/RrRpUT2PTa5luk2sCJdxzeF4T7LgkeL/QL/4s8e+zbUFlydtPFLcwOI2c2hjc9tjHDvRY8yfjPecZ6avFrEc4Uy5Mh3ZegKV8z13iU7WBBa4ncOdbu+sEtDpdOx/dHKmwB6H7EqiFqceOWS/1EhHJRQ=
+	t=1735714496; cv=none; b=EjJp9vlCjBfYm339cKolrd149QwicvZnqkWtoqEfaLS4KtDi8cGV4iF3+Pd1zln6HVrvsJyJj9GM2JKcjh7kA5w6D+w+1KRaSS5NUMzY73l7BEabzjANMx9zE9jPJcf3frda9g5pnmWdpeqD2xIq/OZAB05GQiJOtmxhDyRJpug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735670993; c=relaxed/simple;
-	bh=kltap3Pv1hlN9UPAmHZET72hjTYvMQFRlhAGev33Mns=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f6fwMuhApAG7RspjwDes0Fb/0UWrOyI+1XZNfc5MUwKZRL3Zz92ndXHuQrPH8/WsXwOLkNN0Nk4jjw2yk4w5bNzi0zmnohlnml2rQpb9/jkZ6A53nx3sZviyFPm3nuN9rbQkl+6QX30zMhFz+RSe6DnAtKX6VWXbLvLyJ7lq9dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=ShzrJUXV; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	s=arc-20240116; t=1735714496; c=relaxed/simple;
+	bh=bcVwZ4lyTYH9LEfatK98+NLjU4Gld9ukJzt847JxRw4=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=QyaDe/GW98/JqHAH3UEB2DJAhuVgw3j4aGhT5hOwhUZ3qc1YumrxZ1jrITpqTC0PmesjLtT7ricAegFkNGpdCCD4cya4n78CA287fVXbO0ksDNsbk6UoaDBlfZyr+Aub1mc5JcoLnR2qV6vbETKtCzACY7dNdvr8vsrGWQHz/ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn; spf=pass smtp.mailfrom=m.fudan.edu.cn; dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b=heZMCFYy; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=m.fudan.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=m.fudan.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="ShzrJUXV"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ee86a1a92dso11002077a91.1;
-        Tue, 31 Dec 2024 10:49:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1735670992; x=1736275792; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kltap3Pv1hlN9UPAmHZET72hjTYvMQFRlhAGev33Mns=;
-        b=ShzrJUXVQ53THeA7DGrDyk65OIdoa+hdRV1n2egw5/bTLvoeOYpsxIyg1JE7HP7CX9
-         lEwYWRNE4LRcQui/wcqhGIsLPDlqBAPtEt55jkhc0rxBExPf5KlBFDrCDPL6YrDMpcud
-         3mFIo5O1uPUnc5YfnsE4ACho/iwmghDtUsQTTieuY3xD9Pex8qMjjYjf8awY+lBjOBLG
-         xs3WK9JFm3TvvzB0gRcuhGdVGmh1yBlXm1EvTdYqlFCe/gToWr7OvPC9vfgkYwR7BHxi
-         epW4hmBfinFB6yJ1G+JdgQBMKjMNDB5Xp8f16OCybxdf4yORgsOZlrdyzbglw4cADAF2
-         Om6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735670992; x=1736275792;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kltap3Pv1hlN9UPAmHZET72hjTYvMQFRlhAGev33Mns=;
-        b=EVX/cFC/KVkHXDysX/RUWvT7IDW35vk2Y8pkEwx8A/ku6k35bFj+tqamffCiedcJrJ
-         J2IKwxkKCYRWafR7GFP6glEGiOIxhoIlPrLCW8c5Lx3HJ/bkZYa/7gBlgEUZhRBHaIL2
-         O2FEWupobWlAYG7BLmHO0Q22Tj1ZoZaBfysEET6QX6/GeV5z8fnQ2rhZyAJosO4Y+0YF
-         eRHEJ7GmoxrSN1TB65uNuXDboEV6gvjO/MOP0w23pPWgH/hQ8KjHqA4Fq6cSd1j56c55
-         /t4nd5BHQMaBHCwpCuCy++SXAO7oKVZtxA3du/lU0kdCDqmp1gY3ePO7+bGN+9NHweNn
-         NIFg==
-X-Forwarded-Encrypted: i=1; AJvYcCV0Cpf35XoXSvQ9eZFi5PCwRC6+cmE78kIswm0iRAzDTPNRQkUBxZ0ap2Rhdm+Sn1f5QPVU/rGtPwezPfnDFsTPEkw=@vger.kernel.org, AJvYcCX2OlDk7GZIQfgLFaGvOypGDVdzooERnYamIdL4iGmuou9gM3hBdnGRxqOsJx01VJnCq/ywE7LvX8sOHSo=@vger.kernel.org, AJvYcCXf8De8YPzOJoF6SJ5wJzHCeVOwqwOw7ILXs9RyNy9CNkfwnJzlmEDnWirtYYFWZKMIdHz1bFKkw9CmLEM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk40MX3Rg6HKosiyhiUx17gNNJmXg9D94t+Vfpp8jtlThgcBq3
-	Nu/HqtisHZeWporklLSDuEhmwWfdxKmHezvhByVVmLrKvy+NB59qmcuvPHxy7qEsJScLqeC4gpZ
-	kk7H0MyHBnRY7DMsghg8T4H2w9jE=
-X-Gm-Gg: ASbGncsyLMIqPdx/799Ub+0k0tMQm5UDXNf70qwEC4QdrwK2ZUQaEXg7zqA+OEInba3
-	uEtileAup+I4478WqF84w4CZQzNTKF/wfQbmx36C3vP1zcpp+YA914urh1qvdMsK0WxoNmy8=
-X-Google-Smtp-Source: AGHT+IG5FmkROQoSQHWr4cIegxX2It9OOsT8OUh7KWPdH7VQgx2qIDviezjcsQv6GTMSR51Q0h0ZJEqmX+Qz4Kpzuw4=
-X-Received: by 2002:a17:90a:d645:b0:2ef:30ec:14c9 with SMTP id
- 98e67ed59e1d1-2f452e4ad37mr57281196a91.18.1735670991720; Tue, 31 Dec 2024
- 10:49:51 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=m.fudan.edu.cn header.i=@m.fudan.edu.cn header.b="heZMCFYy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=m.fudan.edu.cn;
+	s=sorc2401; t=1735714453;
+	bh=bcVwZ4lyTYH9LEfatK98+NLjU4Gld9ukJzt847JxRw4=;
+	h=Mime-Version:Subject:From:Date:Message-Id:To;
+	b=heZMCFYyo3Zjsg0uNXHnIDv+he32o78OxX6skGzBFfY6m0dlbw1Ze7zj4GZ/qoHpe
+	 xM9PkiteMTdqvnlsYCPGgjqOhgk9E8ewMys89kIRfQg8psV+XCgDCeGmCqiIpV4avL
+	 ex8hzuz3faa+IWwSh/6g53Ov3kFjRpprIoEHrYbU=
+X-QQ-mid: bizesmtpip2t1735714452tx84g1u
+X-QQ-Originating-IP: 7LW+NU+ROM2JO/KR3ZTROPb3Kg9CixiRd38fSZsG7Eg=
+Received: from smtpclient.apple ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Wed, 01 Jan 2025 14:54:10 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 3850021753389288900
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
- <20241231004311.2574720-1-martin.blumenstingl@googlemail.com> <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
-In-Reply-To: <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Tue, 31 Dec 2024 19:49:40 +0100
-Message-ID: <CAFBinCAh8iazDNx6GtOOJyXh_V-NfUs6Uf=ywN9kvQGPEmjrKQ@mail.gmail.com>
-Subject: Re: [PATCH v10 03/10] drm/connector: implement generic HDMI audio helpers
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
-	alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com, 
-	andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com, 
-	broonie@kernel.org, chunkuang.hu@kernel.org, dave.stevenson@raspberrypi.com, 
-	dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com, 
-	inki.dae@samsung.com, jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, 
-	jonas@kwiboo.se, kernel-list@raspberrypi.com, krzk@kernel.org, 
-	kyungmin.park@samsung.com, lgirdwood@gmail.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com, 
-	matthias.bgg@gmail.com, mcanal@igalia.com, mripard@kernel.org, 
-	neil.armstrong@linaro.org, p.zabel@pengutronix.de, perex@perex.cz, 
-	ple@baylibre.com, rfoss@kernel.org, rgallaispou@gmail.com, simona@ffwll.ch, 
-	sw0312.kim@samsung.com, tiwai@suse.com, tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Re: Bug: slab-out-of-bounds in snd_seq_oss_synth_sysex
+From: Kun Hu <huk23@m.fudan.edu.cn>
+In-Reply-To: <182E26F6-E0BC-44D3-A0E7-124C81B7F8EB@m.fudan.edu.cn>
+Date: Wed, 1 Jan 2025 14:54:00 +0800
+Cc: perex@perex.cz,
+ tiwai@suse.com,
+ linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ "jjtan24@m.fudan.edu.cn" <jjtan24@m.fudan.edu.cn>
 Content-Transfer-Encoding: quoted-printable
-
-On Tue, Dec 31, 2024 at 3:34=E2=80=AFAM Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
-[...]
-> > I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and it
-> > seems that there is only a single driver which uses the .prepare
-> > callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem to
-> > implement .hw_params instead.
->
-> Yes. However .hw_params don't have access to the infoframe contents, so
-> I had to settle on implementing .prepare.
-While debugging I noticed something unrelated to my problem:
-hdmi_codec_spdif_dai_ops does not implement .prepare().
-FYI just in case someone wants to use your patches and feed the
-hdmi-codec with SPDIF instead of I2S.
-
-> >
-> > The audio controller code for my platform is already upstream:
-> > - sound/soc/meson/aiu-codec-ctrl.c
-> > - sound/soc/meson/aiu-encoder-i2s.c
-> > - sound/soc/meson/aiu-fifo-i2s.c
-> >
-> > My understanding is that you have a platform with a lontium-lt9611
-> > HDMI controller available for testing. Can you please help me
-> > investigate and find out which piece of code is calling
-> > hdmi_codec_prepare() and therefore lt9611_hdmi_audio_prepare() on
-> > your board?
->
-> Sure, this is the call trace on my platform (Qualcomm SDM845,
-> sdm845-db845c.dts):
->
-> lt9611_hdmi_audio_prepare+0x1c/0xc0 (P)
-> drm_bridge_connector_audio_prepare+0x2c/0x40 (L)
-> drm_bridge_connector_audio_prepare+0x2c/0x40
-> drm_connector_hdmi_audio_prepare+0x24/0x30
-> hdmi_codec_prepare+0xec/0x144
-> snd_soc_pcm_dai_prepare+0x78/0x10c
-Thank you, this helps! snd_soc_pcm_dai_prepare() is where it breaks for me.
-I suspect that it's an sound card issue on our platform, so I'm hoping
-that Jerome (author of the Amlogic ASoC drivers) will help me debug
-it: [0]
+Message-Id: <110026C0-18DC-486F-8A6F-B4FDB1B8872D@m.fudan.edu.cn>
+References: <2B7E93E4-B13A-4AE4-8E87-306A8EE9BBB7@m.fudan.edu.cn>
+ <B1CA9370-9EFE-4854-B8F7-435E0B9276C6@m.fudan.edu.cn>
+ <87ed1qydgi.wl-tiwai@suse.de>
+ <3326E7C2-1E4F-4F57-AAB5-065C20854F31@m.fudan.edu.cn>
+ <87pll9wi4x.wl-tiwai@suse.de>
+ <182E26F6-E0BC-44D3-A0E7-124C81B7F8EB@m.fudan.edu.cn>
+To: Takashi Iwai <tiwai@suse.de>
+X-Mailer: Apple Mail (2.3818.100.11.1.3)
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: OAVDFi9GVPS7goFS8JwYBwaAZHWay7gfgedsdR2fvclVAM4NHr6bsqFD
+	tR+MlJBndnqWhOnCuSBzwsUIHAPnJ/g+6My3gS7fHavWyEIwDmlLiDrmdnJPE0l8XWkwqrD
+	b1drqJ6e4Fn8xYECchQx1Q7Pz0PXaiSllbskeJN4P0UtOM8A7FPAHXIFey0dxCBwF57/cxZ
+	3eVe4r4k41/gMtbTj9yCgKUl67hDodcm2fwFY3/JncyWFU6ozdR4DM3Bati+7izTmBSu7kz
+	pM49q0972mjQxInKCQDeOyKw+AmMXeP+UJ5eXqZm5I5Q7/jnfDOWGeStfhbshyjHdAe+rmB
+	lUxvnuC/5dc4m7SPZacV9r1LCgjkjclAZ1zYCVQB7xG9m0MDSPbii4oxTRgq3WvRkVU3KK2
+	dsRVb3sTaRK/cBn+IRK0VQ4II/73i7mWWfonuwnWetd28WwYreRy6stOIZuzuqOKrjjCJmr
+	FWC8D+bGPzKji9X+B4ZT8YG6iGw5uLKUAXc2dxzD91t3LFlNK4PolJ2BzR5QELA3ybZuFjQ
+	nc3oMsO+5zZ4PPkP0fLnTBGhbhCSC+s2IpJSdEQQH1gMlyCiKzC+yjpOT9muhox5sNwtWXe
+	iqM+5s8N4EDpAgTCpy7nVVcBInq8AA8Wj4C/tkYhpQa5J0/lR5UGElotJdGUOpChhcAgWmR
+	HnvVtErn9ySDakic98biZiHHMI3mE7rqrofWvKVY6EuQ9pHq3lXSYRPMHC8vZgof5I1fAsi
+	LeF0A8fPGzHwFHdbv/iZDD3o5SFv2bHab8iShdZRiHeatqbwA753c4d2CRvqr9rn2flIFw+
+	499pYmBDvAF33HxvCptxeiFZAWpyUFLLuSZN0i9sDK5oG8z6zRRhQNEROr5ZASs5Uq11nwu
+	hzW7P0NVQlIGZfCJ/z/2ETz3GMBD9l6EOXY78TUQF11Xh7BpYi+vXxne0kSEnWSnDqVQZOM
+	0kaeiNF8pqDyltMjv3pVEO/0Yhq+K6QcZ4eo=
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 
 
+>=20
+> Hi,
+>=20
+> Regarding your changes, I=E2=80=99ve conducted multiple rounds of race =
+condition testing using the same method. The original issue, caused by =
+competition for shared resources, could consistently reproduce an =
+out-of-bounds error in just a few attempts. The temporary band-aid fix =
+and the latest changes have been tested at least 10,000 times, and no =
+issues have occurred so far.
+>=20
+> =E2=80=94=E2=80=94
+> Thanks,
+> Kun Hu
+
+
+Okay, Thanks for your help.
+
+=E2=80=94=E2=80=94
 Best regards,
-Martin
-
-
-[0] https://lore.kernel.org/linux-amlogic/CAFBinCDdiJ3UNVUcShjq=3D7U2=3DoUw=
-T3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com/
+Kun Hu=
