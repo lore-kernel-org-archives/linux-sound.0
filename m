@@ -1,74 +1,78 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1FA53209
-	for <linux-sound@vger.kernel.org>; Wed,  1 Jan 2025 12:55:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FAB2119;
+	Wed,  1 Jan 2025 13:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735736159; cv=none; b=A1UyxT9aYTxxtIJHiGH9TRAEpV1nEgFl2g+VYqQPepvdtoeyIHWHzu7lklnDnLnbYg7MTo6n9stCqI0fkVeif1766ek10BfSs6VkCt2sDFbAxYYCW8fkIZcc4cU6hYgqMSqQeNZJNnd/NF77iS+02EXVxBRhkm+n32+AI5+MBvA=
+	t=1735737093; cv=none; b=X770sBV/0Pccyx2PHmkdE95vChpkbr1ntTiz6ewNV768OKneRS1Sgi3vwCyJO3F+GDdLEqWEZ0XF4vc+dGMjh/GC7RlsnEnOsjKDus4mehLQOGF17foPMtKL4M0nwd2nKON2LkiNiBzecrntSO0wrPS98EAtHrE0cv1/OZa/jxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735736159; c=relaxed/simple;
-	bh=B2h9PtHukrtlxJuSKoKWnZekV5CkNOwX50YPInXc4uQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=bIHmG5+m8TAMtb+K7+eGB+b9ZiVdKM5maOkyO3ctA+OBF6gW2co/TVmMppS7sThSY09+CCYKfhaqOCuPI2CKjVjD5l7IhJZA0OSplQojcYSrdHcPPpPR9zKiqmuxDEbm2t7g+oderwA/BD/tm2Evu6AodE0ZuiOPGppbpdL+nSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D3VW9YO9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0sJQ7NgX; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D3VW9YO9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0sJQ7NgX; arc=none smtp.client-ip=195.135.223.131
+	s=arc-20240116; t=1735737093; c=relaxed/simple;
+	bh=iXtipRhqX16SJITn6I4pfiwoOE5rSI6qeK7xUZzD6yE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=deXGoz4G7sZie9MfeqowEO95RqtlmJo+yjfQHwtfMWR7r/YJEBaGVAXUqNCuQ7o2Owg+V+FT85q7E5kFEfMC2VZozaRsoFITLFUBVFll0hdbt4qXKj70fPio4tnvzCXNQgQBVud+lwgPKmY6HRG+4e7wjZbVcRenwquChxbUt90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mTNLN2ge; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5uVrzIVc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mTNLN2ge; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5uVrzIVc; arc=none smtp.client-ip=195.135.223.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D3VW9YO9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0sJQ7NgX";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D3VW9YO9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0sJQ7NgX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mTNLN2ge";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5uVrzIVc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mTNLN2ge";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5uVrzIVc"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1FCF81F37C;
-	Wed,  1 Jan 2025 12:55:56 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B26C1F37C;
+	Wed,  1 Jan 2025 13:11:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735736156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1735737089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OeBE2HloL2YgswpCjtQCLIeqfm+bsPNReRM8LFg7GVc=;
-	b=D3VW9YO96ehaBAN3XOv0WQhsUNr2CLB9/gVWTxWiJpofXM9FFSrxCCJIk2UZiXQ2QdrJRs
-	j62uSmzYjYbCJeuvAci3yCIkFJaG6DXuRgVdkpKRUt45xQR0f77Sgju1l2J6APMh2laJAS
-	bADiW8WBXlG7qsF3y99vEFW6xaMih54=
+	bh=+tnd7gGjYuw0AJb4owT7E8VLfdvM4MteV/1kdXiZqKQ=;
+	b=mTNLN2geWvckzkao5fXlEylXuxeyPctgGqlwU2ByOCptwIdE7X4iP2rjzYLhFjZYyeLdM3
+	zcsVI41bjwJWeoZiUSF5UfUaVJhaVIFNhc12lc+UpBNwOe+1lefh04FLYlq0GwYON7l8KP
+	7KiySyQOK36jmppLqAv/qzy5y+Zujjk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735736156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	s=susede2_ed25519; t=1735737089;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OeBE2HloL2YgswpCjtQCLIeqfm+bsPNReRM8LFg7GVc=;
-	b=0sJQ7NgX8OCU0YHz1uCCc4NpPBkTaNO7i+B0nWB8z73Jt/gXCx5FYcVtuagv+HrCojtIEu
-	6x2xhi7IMAe0oFDg==
+	bh=+tnd7gGjYuw0AJb4owT7E8VLfdvM4MteV/1kdXiZqKQ=;
+	b=5uVrzIVclfZnOJtw1EoL6cVRToV1K4jp4fQ9N971p0vz/zd8MskTqUvet2fBKbS3+lfScU
+	fYxJbsIDeXZf6FBQ==
 Authentication-Results: smtp-out2.suse.de;
-	none
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=mTNLN2ge;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5uVrzIVc
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1735736156; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	t=1735737089; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OeBE2HloL2YgswpCjtQCLIeqfm+bsPNReRM8LFg7GVc=;
-	b=D3VW9YO96ehaBAN3XOv0WQhsUNr2CLB9/gVWTxWiJpofXM9FFSrxCCJIk2UZiXQ2QdrJRs
-	j62uSmzYjYbCJeuvAci3yCIkFJaG6DXuRgVdkpKRUt45xQR0f77Sgju1l2J6APMh2laJAS
-	bADiW8WBXlG7qsF3y99vEFW6xaMih54=
+	bh=+tnd7gGjYuw0AJb4owT7E8VLfdvM4MteV/1kdXiZqKQ=;
+	b=mTNLN2geWvckzkao5fXlEylXuxeyPctgGqlwU2ByOCptwIdE7X4iP2rjzYLhFjZYyeLdM3
+	zcsVI41bjwJWeoZiUSF5UfUaVJhaVIFNhc12lc+UpBNwOe+1lefh04FLYlq0GwYON7l8KP
+	7KiySyQOK36jmppLqAv/qzy5y+Zujjk=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1735736156;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	s=susede2_ed25519; t=1735737089;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=OeBE2HloL2YgswpCjtQCLIeqfm+bsPNReRM8LFg7GVc=;
-	b=0sJQ7NgX8OCU0YHz1uCCc4NpPBkTaNO7i+B0nWB8z73Jt/gXCx5FYcVtuagv+HrCojtIEu
-	6x2xhi7IMAe0oFDg==
+	bh=+tnd7gGjYuw0AJb4owT7E8VLfdvM4MteV/1kdXiZqKQ=;
+	b=5uVrzIVclfZnOJtw1EoL6cVRToV1K4jp4fQ9N971p0vz/zd8MskTqUvet2fBKbS3+lfScU
+	fYxJbsIDeXZf6FBQ==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0202913A30;
-	Wed,  1 Jan 2025 12:55:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEF5813A30;
+	Wed,  1 Jan 2025 13:11:28 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id aq/OOls7dWcLUQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 01 Jan 2025 12:55:55 +0000
+	id iXWROAA/dWcdVAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 01 Jan 2025 13:11:28 +0000
 From: Takashi Iwai <tiwai@suse.de>
-To: linux-sound@vger.kernel.org
-Subject: [PATCH] ALSA: seq: Make dependency on UMP clearer
-Date: Wed,  1 Jan 2025 13:55:47 +0100
-Message-ID: <20250101125548.25961-1-tiwai@suse.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: midi2: Reverse-select at the right place
+Date: Wed,  1 Jan 2025 14:11:19 +0100
+Message-ID: <20250101131124.27599-1-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -77,69 +81,69 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
+X-Rspamd-Queue-Id: 3B26C1F37C
+X-Spam-Score: -3.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.01 / 50.00];
 	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MX_GOOD(-0.01)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
 	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_ONE(0.00)[1];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_NONE(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid]
-X-Spam-Score: -2.80
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Flag: NO
+X-Spam-Level: 
 
-CONFIG_SND_SEQ_UMP_CLIENT is a Kconfig for a sequencer client
-corresponding to the UMP rawmidi, while we have another major knob
-CONFIG_SND_SEQ_UMP that specifies whether the sequencer core supports
-UMP packets or not.  Strictly speaking both of them are independent,
-but practically seen, it makes no sense to enable
-CONFIG_SND_SEQ_UMP_CLIENT without UMP support itself.
+We should do reverse selection of other components from
+CONFIG_USB_F_MIDI2 which is tristate, instead of
+CONFIG_USB_CONFIGFS_F_MIDI2 which is bool, for satisfying subtle
+module dependencies.
 
-This patch makes such an implicit dependency clearer.  Now
-CONFIG_SND_SEQ_UMP_CLIENT depends on both CONFIG_SND_UMP and
-CONFIG_SND_SEQ_UMP.  Meanwhile, CONFIG_SND_SEQ_UMP is enabled as
-default when CONFIG_SND_UMP is set.
-
-Fixes: 81fd444aa371 ("ALSA: seq: Bind UMP device")
+Fixes: 8b645922b223 ("usb: gadget: Add support for USB MIDI 2.0 function driver")
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- sound/core/seq/Kconfig | 4 ++--
+ drivers/usb/gadget/Kconfig | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/core/seq/Kconfig b/sound/core/seq/Kconfig
-index 0374bbf51cd4..e4f58cb985d4 100644
---- a/sound/core/seq/Kconfig
-+++ b/sound/core/seq/Kconfig
-@@ -62,7 +62,7 @@ config SND_SEQ_VIRMIDI
+diff --git a/drivers/usb/gadget/Kconfig b/drivers/usb/gadget/Kconfig
+index 566ff0b1282a..76521555e3c1 100644
+--- a/drivers/usb/gadget/Kconfig
++++ b/drivers/usb/gadget/Kconfig
+@@ -211,6 +211,8 @@ config USB_F_MIDI
  
- config SND_SEQ_UMP
- 	bool "Support for UMP events"
--	default y if SND_SEQ_UMP_CLIENT
-+	default SND_UMP
+ config USB_F_MIDI2
+ 	tristate
++	select SND_UMP
++	select SND_UMP_LEGACY_RAWMIDI
+ 
+ config USB_F_HID
+ 	tristate
+@@ -445,8 +447,6 @@ config USB_CONFIGFS_F_MIDI2
+ 	depends on USB_CONFIGFS
+ 	depends on SND
+ 	select USB_LIBCOMPOSITE
+-	select SND_UMP
+-	select SND_UMP_LEGACY_RAWMIDI
+ 	select USB_F_MIDI2
  	help
- 	  Say Y here to enable the support for handling UMP (Universal MIDI
- 	  Packet) events via ALSA sequencer infrastructure, which is an
-@@ -71,6 +71,6 @@ config SND_SEQ_UMP
- 	  among legacy and UMP clients.
- 
- config SND_SEQ_UMP_CLIENT
--	def_tristate SND_UMP
-+	def_tristate SND_UMP && SND_SEQ_UMP
- 
- endif # SND_SEQUENCER
+ 	  The MIDI 2.0 function driver provides the generic emulated
 -- 
 2.43.0
 
