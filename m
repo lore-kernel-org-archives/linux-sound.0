@@ -1,205 +1,143 @@
-Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73CA613FEE;
-	Wed,  1 Jan 2025 13:16:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.82.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178D063D;
+	Wed,  1 Jan 2025 17:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735737389; cv=none; b=R0v5q6gbMY7IaSSdKPhZiwy7oPLNWZQMOkxN50xa46+/A0TqhV8xHgmZj4NRofzkJr4wkuYSEo8JIU9ZtiDVJ6pWNwelueZi9T7cLRDqPstGXwi+ovznAxwob0DB3tj8t4PBDiyLFGo7zN3InoJRBn3/GXwL2R7P4J3tupPTofs=
+	t=1735751401; cv=none; b=d0tAnFp2pyIXRrvz2he7pg9JdQqmeoocsjLolAJhSFwBkW8aJWdYhQ7+kJtxZM/C34wYXJGTzy73KAd1fWl61h4VMyK/1+YkYtNg03Tt5n1CD75/U3jKPSmws9SLay6N8W+beg3DVjPfqm05oRTFVhkXhANqb1wVRr7qMdK931Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735737389; c=relaxed/simple;
-	bh=vG3pOQnyvnKGwnoU5zFq9qjXSHCIFvnp01tUD95mnF0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a3XsGhCh+d+trYtDBI+y5/AyeB3s+uc8wXOm3tK8r0/7auBosOx3wfqcgpB4b1KgGCYR6UpQfobCHn5nR4meU+CAjHvX0AaEWy//DI0JA7ppYzVZAsk3e0XP0HJTguIjlsxtR1eP/jr6czfa7Rwq56tXGVbVrb3ImxkVulkXuwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name; spf=pass smtp.mailfrom=vps-ovh.mhejs.net; arc=none smtp.client-ip=145.239.82.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vps-ovh.mhejs.net
-Received: from MUA
-	by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.98)
-	(envelope-from <mhej@vps-ovh.mhejs.net>)
-	id 1tSya3-00000004zI5-1c5V;
-	Wed, 01 Jan 2025 14:16:11 +0100
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Kailang Yang <kailang@realtek.com>,
+	s=arc-20240116; t=1735751401; c=relaxed/simple;
+	bh=ncCTEn+jRSChtA9jVyhQe/bfK3AMg+bm0JrhjTsbosk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qv3lg5ox/BBT7mFU27JkaVck/RUK1tsmQw3D9awUgS7VrxIQRGY1VQdW5q9FqxPgshsRzcYH2OqduDQc7om3jkxA92wC+f/WhUMrpi1iFgt4LEE+QTL9yfPpB5/0TYwFB2YffGUBoK0gHBNIb+NTVBax5Igp3FjbvupfiwuP288=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrRabiw8; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrRabiw8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735751400; x=1767287400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ncCTEn+jRSChtA9jVyhQe/bfK3AMg+bm0JrhjTsbosk=;
+  b=SrRabiw8b4UqKn0KNCv5qXEmHU3cc1iNYC8w/7HDOhr11AXUX4ayHnQy
+   Bp7oUzcl78IgZ6hT8H3+yF79z10SukrR9KoXEGxNFN3A6F669YKi/AUYk
+   ZUB5tLemjwC6RyK7Nx5N4znPcgf6Ik7xVPwUX23BYmFzrZliti8lQO7nK
+   TwPp8rVWU44cAb+KCbgjWUAaw/OrHycy5f2K+vQL8RSI15T4B62CeYiiG
+   nzSN4Y6qlbKP5psVSyzDEKxIKlDcNigAMs/FXGyAOKuPfgj2e5Vs4Y4Dy
+   NGokczoOxq12Vwg96FOtHg/nDvlh7uekW0OImJkiQWb8KrJSMs8GxcCos
+   Q==;
+X-CSE-ConnectionGUID: yugOOwi6RUeuz9f4XA+DVw==
+X-CSE-MsgGUID: pM7L38uZR4Ozv+VQmApfqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="38830072"
+X-IronPort-AV: E=Sophos;i="6.12,282,1728975600"; 
+   d="scan'208";a="38830072"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jan 2025 09:09:58 -0800
+X-CSE-ConnectionGUID: aSkTSNPTTqukQQxmS+5Dig==
+X-CSE-MsgGUID: MdZfwNGNQlG0bdcXOl/zOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="132237853"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 01 Jan 2025 09:09:55 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tT2EC-0007y1-1f;
+	Wed, 01 Jan 2025 17:09:52 +0000
+Date: Thu, 2 Jan 2025 01:09:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kailang Yang <kailang@realtek.com>,
 	Oder Chiou <oder_chiou@realtek.com>,
 	Shuming Fan <shumingf@realtek.com>,
-	Qiu Wenbo <qiuwenbo@kylinos.com.cn>,
-	linux-sound@vger.kernel.org,
+	Qiu Wenbo <qiuwenbo@kylinos.com.cn>, linux-sound@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
-Date: Wed,  1 Jan 2025 14:16:05 +0100
-Message-ID: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
-X-Mailer: git-send-email 2.47.1
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP
+ EliteBook 855 G7
+Message-ID: <202501020006.7acBeOeY-lkp@intel.com>
+References: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: mhej@vps-ovh.mhejs.net
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
 
-PC speaker works well on this platform in BIOS and in Linux until sound
-card drivers are loaded. Then it stops working.
+Hi Maciej,
 
-There seems to be a beep generator node at 0x1a in this CODEC
-(ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
-at nodes 0x22 and 0x23.
-If I unmute the mixer input for 0x1a at node 0x23 and start recording
-from its "ALC285 Analog" capture device I can clearly hear beeps in that
-recording.
+kernel test robot noticed the following build errors:
 
-So the beep generator is indeed working properly, however I wasn't able to
-figure out any way to connect it to speakers.
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.13-rc5 next-20241220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-However, the bits in the "Passthrough Control" register (0x36) seems to
-work at least partially: by zeroing "B" and "h" and setting "S" I can at
-least make the PIT PC speaker output appear either in this laptop speakers
-or headphones (depending on whether they are connected or not).
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-S-Szmigiero/ALSA-hda-realtek-Enable-PC-beep-passthrough-for-HP-EliteBook-855-G7/20250101-211902
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail%40maciej.szmigiero.name
+patch subject: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP EliteBook 855 G7
+config: x86_64-buildonly-randconfig-001-20250101 (https://download.01.org/0day-ci/archive/20250102/202501020006.7acBeOeY-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250102/202501020006.7acBeOeY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501020006.7acBeOeY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from sound/pci/hda/patch_realtek.c:18:
+   In file included from include/linux/pci.h:1644:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> sound/pci/hda/patch_realtek.c:6943:68: error: expected ';' after expression
+    6943 |                 codec_warn(codec, "enable CONFIG_INPUT_PCSPKR to get PC beeps\n")
+         |                                                                                  ^
+         |                                                                                  ;
+   1 warning and 1 error generated.
 
 
-There are some caveats, however:
-* If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
-device for keeping it awake during beeping.
+vim +6943 sound/pci/hda/patch_realtek.c
 
-* If the beep generator node is generating any beep the PC beep passthrough
-seems to be temporarily inhibited, so the HDA beep device has to be
-prevented from using the actual beep generator node - but the beep device
-is still necessary due to the previous point.
+  6925	
+  6926	static void alc285_fixup_hp_beep(struct hda_codec *codec,
+  6927					 const struct hda_fixup *fix, int action)
+  6928	{
+  6929		if (action == HDA_FIXUP_ACT_PRE_PROBE) {
+  6930			codec->beep_just_power_on = true;
+  6931		} else  if (action == HDA_FIXUP_ACT_INIT) {
+  6932	#ifdef CONFIG_SND_HDA_INPUT_BEEP
+  6933			/*
+  6934			 * Just enable loopback to internal speaker and headphone jack.
+  6935			 * Disable amplification to get about the same beep volume as
+  6936			 * was on pure BIOS setup before loading the driver.
+  6937			 */
+  6938			alc_update_coef_idx(codec, 0x36, 0x7070, BIT(13));
+  6939	
+  6940			snd_hda_enable_beep_device(codec, 1);
+  6941	
+  6942	#if !IS_ENABLED(CONFIG_INPUT_PCSPKR)
+> 6943			codec_warn(codec, "enable CONFIG_INPUT_PCSPKR to get PC beeps\n")
+  6944	#endif
+  6945	#endif
+  6946		}
+  6947	}
+  6948	
 
-* In contrast with other platforms here beep amplification has to be
-disabled otherwise the beeps output are WAY louder than they were on pure
-BIOS setup.
-
-
-Unless someone (from Realtek probably) knows how to make the beep generator
-node output appear in speakers / headphones using PC beep passthrough seems
-to be the only way to make PC speaker beeping actually work on this
-platform.
-
-Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
----
- include/sound/hda_codec.h     |  1 +
- sound/pci/hda/hda_beep.c      | 15 +++++++++------
- sound/pci/hda/patch_realtek.c | 33 ++++++++++++++++++++++++++++++++-
- 3 files changed, 42 insertions(+), 7 deletions(-)
-
-diff --git a/include/sound/hda_codec.h b/include/sound/hda_codec.h
-index 575e55aa08ca..c1fe6290d04d 100644
---- a/include/sound/hda_codec.h
-+++ b/include/sound/hda_codec.h
-@@ -195,6 +195,7 @@ struct hda_codec {
- 	/* beep device */
- 	struct hda_beep *beep;
- 	unsigned int beep_mode;
-+	bool beep_just_power_on;
- 
- 	/* widget capabilities cache */
- 	u32 *wcaps;
-diff --git a/sound/pci/hda/hda_beep.c b/sound/pci/hda/hda_beep.c
-index e51d47572557..13a7d92e8d8d 100644
---- a/sound/pci/hda/hda_beep.c
-+++ b/sound/pci/hda/hda_beep.c
-@@ -31,8 +31,9 @@ static void generate_tone(struct hda_beep *beep, int tone)
- 			beep->power_hook(beep, true);
- 		beep->playing = 1;
- 	}
--	snd_hda_codec_write(codec, beep->nid, 0,
--			    AC_VERB_SET_BEEP_CONTROL, tone);
-+	if (!codec->beep_just_power_on)
-+		snd_hda_codec_write(codec, beep->nid, 0,
-+				    AC_VERB_SET_BEEP_CONTROL, tone);
- 	if (!tone && beep->playing) {
- 		beep->playing = 0;
- 		if (beep->power_hook)
-@@ -212,10 +213,12 @@ int snd_hda_attach_beep_device(struct hda_codec *codec, int nid)
- 	struct hda_beep *beep;
- 	int err;
- 
--	if (!snd_hda_get_bool_hint(codec, "beep"))
--		return 0; /* disabled explicitly by hints */
--	if (codec->beep_mode == HDA_BEEP_MODE_OFF)
--		return 0; /* disabled by module option */
-+	if (!codec->beep_just_power_on) {
-+		if (!snd_hda_get_bool_hint(codec, "beep"))
-+			return 0; /* disabled explicitly by hints */
-+		if (codec->beep_mode == HDA_BEEP_MODE_OFF)
-+			return 0; /* disabled by module option */
-+	}
- 
- 	beep = kzalloc(sizeof(*beep), GFP_KERNEL);
- 	if (beep == NULL)
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index 61ba5dc35b8b..90b51aa2322d 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -28,6 +28,7 @@
- #include <sound/hda_codec.h>
- #include "hda_local.h"
- #include "hda_auto_parser.h"
-+#include "hda_beep.h"
- #include "hda_jack.h"
- #include "hda_generic.h"
- #include "hda_component.h"
-@@ -6924,6 +6925,29 @@ static void alc285_fixup_hp_envy_x360(struct hda_codec *codec,
- 	}
- }
- 
-+static void alc285_fixup_hp_beep(struct hda_codec *codec,
-+				 const struct hda_fixup *fix, int action)
-+{
-+	if (action == HDA_FIXUP_ACT_PRE_PROBE) {
-+		codec->beep_just_power_on = true;
-+	} else  if (action == HDA_FIXUP_ACT_INIT) {
-+#ifdef CONFIG_SND_HDA_INPUT_BEEP
-+		/*
-+		 * Just enable loopback to internal speaker and headphone jack.
-+		 * Disable amplification to get about the same beep volume as
-+		 * was on pure BIOS setup before loading the driver.
-+		 */
-+		alc_update_coef_idx(codec, 0x36, 0x7070, BIT(13));
-+
-+		snd_hda_enable_beep_device(codec, 1);
-+
-+#if !IS_ENABLED(CONFIG_INPUT_PCSPKR)
-+		codec_warn(codec, "enable CONFIG_INPUT_PCSPKR to get PC beeps\n")
-+#endif
-+#endif
-+	}
-+}
-+
- /* for hda_fixup_thinkpad_acpi() */
- #include "thinkpad_helper.c"
- 
-@@ -7683,6 +7707,7 @@ enum {
- 	ALC285_FIXUP_HP_GPIO_LED,
- 	ALC285_FIXUP_HP_MUTE_LED,
- 	ALC285_FIXUP_HP_SPECTRE_X360_MUTE_LED,
-+	ALC285_FIXUP_HP_BEEP_MICMUTE_LED,
- 	ALC236_FIXUP_HP_MUTE_LED_COEFBIT2,
- 	ALC236_FIXUP_HP_GPIO_LED,
- 	ALC236_FIXUP_HP_MUTE_LED,
-@@ -9271,6 +9296,12 @@ static const struct hda_fixup alc269_fixups[] = {
- 		.type = HDA_FIXUP_FUNC,
- 		.v.func = alc285_fixup_hp_spectre_x360_mute_led,
- 	},
-+	[ALC285_FIXUP_HP_BEEP_MICMUTE_LED] = {
-+		.type = HDA_FIXUP_FUNC,
-+		.v.func = alc285_fixup_hp_beep,
-+		.chained = true,
-+		.chain_id = ALC285_FIXUP_HP_MUTE_LED,
-+	},
- 	[ALC236_FIXUP_HP_MUTE_LED_COEFBIT2] = {
- 	    .type = HDA_FIXUP_FUNC,
- 	    .v.func = alc236_fixup_hp_mute_led_coefbit2,
-@@ -10348,7 +10379,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x103c, 0x8730, "HP ProBook 445 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8735, "HP ProBook 435 G7", ALC236_FIXUP_HP_MUTE_LED_MICMUTE_VREF),
- 	SND_PCI_QUIRK(0x103c, 0x8736, "HP", ALC285_FIXUP_HP_GPIO_AMP_INIT),
--	SND_PCI_QUIRK(0x103c, 0x8760, "HP", ALC285_FIXUP_HP_MUTE_LED),
-+	SND_PCI_QUIRK(0x103c, 0x8760, "HP EliteBook 8{4,5}5 G7", ALC285_FIXUP_HP_BEEP_MICMUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x876e, "HP ENVY x360 Convertible 13-ay0xxx", ALC245_FIXUP_HP_X360_MUTE_LEDS),
- 	SND_PCI_QUIRK(0x103c, 0x877a, "HP", ALC285_FIXUP_HP_MUTE_LED),
- 	SND_PCI_QUIRK(0x103c, 0x877d, "HP", ALC236_FIXUP_HP_MUTE_LED),
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
