@@ -1,146 +1,97 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from m.b4.vu (m.b4.vu [203.16.231.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13B91AAA22
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 22:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3CA1F16B
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 22:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735856126; cv=none; b=WIYfvVLRR/HJ/fwBTc4CqeDa+62iKNOCoh9oU4SAS/VC7xbEB6Qxgm2r5qdxMOIm70z6a62A0xqQhmLUE4HR4mGL+vThBH5SKYOBHhAAN9ZVK2Q4TC8WKK9kiivStWYl4wbFgzoBsy7jc+QaQJXBCkCd24cEOStbhRiOeXHelEU=
+	t=1735857500; cv=none; b=MXuxmxdkyNj8Dsb3pLLUeczhuRc9BgZWQW3foLLC7uPfJK124ynYAuWnYR1AAwPry0PEbfmxrtqNggIgd2qd27WphS1OSRjYrSaGgZ0CoATaCxUKD2qvAieNl/qzOTT5qlTiGKgKSLzwRnaJvIWnEEIimAMFmjT9Yrm8C2tUBgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735856126; c=relaxed/simple;
-	bh=cwRGEm2GhTUfMvix8X67k91V2kCHX8lGZZobR7umEuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TXov7yxi2BL+lEgSXVKbGz0FJ/hxQ6vEJnc+zVWrKS9qIsInvu+fbCQSaLbzCxTShhE3ffr1F5iViuWIOlLEGJR7WraqWqZ1Wlz1Xu03T9d4cg7Glv47XyqCcBnOPjMGXQj6R9ipKYkA3TSrnhfLj46OqK6szQ2Bc7XpIDzSaKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mbFrkboc; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1735857500; c=relaxed/simple;
+	bh=W+Of2hcepTkjbKYZ4jRE2bxUPVCwu4pRdSEuqCzwscw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ilmV9wMgCs92b6cfkfFQRzLuSk36POBCPLDgoLiQO2CBghvF0VirdusO1dZUH2mu2nbNhELv3gzho5G6lw/xMAeqPIzTtxcZSRHogDKjYTHbp/sT/u0pZSf8oP8bano0/ndWVfiO8VxaD/vzuuB51rS2uP17Mr6oMbXgWBdn0Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=UGZjcdve; arc=none smtp.client-ip=203.16.231.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mbFrkboc"
-Message-ID: <b6908879-363a-4abf-9cb7-767fff6d35a0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735856121;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=P1cKW18Q8+vmV8j7UqoBxkkoauvhuXssjAFbv0nq/ps=;
-	b=mbFrkbocyzEOJDgfHEbDpSYc44K1OrlDLwJZtL0+WYuD0umjZxJ6Qs18+LX6EDM2hV5BwU
-	t6iMU1DIl88EHwfD0TNSm5v/rvtXUiy6UCgbfMp8Wp41JHGV7T4riDGGYqlOiuJBts/N2p
-	axG8NbHmpk0G41MHtHp2W2XWQD55u4w=
-Date: Thu, 2 Jan 2025 16:14:11 -0600
+	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="UGZjcdve"
+Received: by m.b4.vu (Postfix, from userid 1000)
+	id E727C646FC16; Fri,  3 Jan 2025 09:08:07 +1030 (ACDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu E727C646FC16
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
+	t=1735857487; bh=jEwuSQw+z4Ot5pxW29LmVRYNoPH5tj0nIhOJSUbOWQw=;
+	h=Date:From:To:Cc:Subject:From;
+	b=UGZjcdvexPBTPEWOw6tyFqyECXnV1UZidsxZYneGkTQENutk2XEMgJ0PIwS4tFhiM
+	 gX/RF+aioevfjYgdqitUK9JRxzDfb3uNrv95Hxv0KyXxcYvQdWJ7/cXN9o/5m+hnrY
+	 3waB17R8lAKp0L7tEt9zL/YKzblKv0uaABX9v5F8VskWLBBCzMS2vYWjlma3WdaUTY
+	 VWqqfe8nETF0gaf1cUf+9nZi4clvC3GX+w8ljJDa7yPjRygDHn4lAShgEBIgCBG+y4
+	 Px0syOFrTFS1OM2ejJDC7cr2wQLyGeqk6LW4IFOUSpebu8pGL8uoauafg0KrFcNyjx
+	 nhT35LjLVaB/A==
+Date: Fri, 3 Jan 2025 09:08:07 +1030
+From: "Geoffrey D. Bennett" <g@b4.vu>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
+Subject: [PATCH v3 0/2] ALSA: Add driver for big Scarlett 4th Gen interfaces
+Message-ID: <cover.1735855597.git.g@b4.vu>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] soundwire: intel_auxdevice: Don't disable IRQs before
- removing children
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
- peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
- sanyog.r.kale@intel.com, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-References: <20241212110221.1509163-1-ckeepax@opensource.cirrus.com>
- <3eb98099-75da-4464-97d1-9e8538375e34@linux.dev>
- <da4a16f1-0bf6-4597-b1de-55386db85254@opensource.cirrus.com>
- <e6dd9fc3-de55-47d2-a1b5-10884418a66d@linux.dev>
- <Z2KbELGGjeH3NQdY@opensource.cirrus.com>
- <7479a25e-6729-4aa0-b67e-7781bf8232da@linux.dev>
- <9b8ef4d2-e4bd-4336-8980-0fb59d672631@linux.dev>
- <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Takashi,
 
+Static buffers in the ioctl structs didn't seem to be the right way to
+go, so I followed the instructions in
+Documentation/drivers-api/ioctl.rst and the ioctls now work with
+32-bit userspace on 64-bit kernels.
 
-On 12/19/24 04:27, Charles Keepax wrote:
-> On Wed, Dec 18, 2024 at 04:40:22PM -0500, Pierre-Louis Bossart wrote:
->> I agree that the device should be reachable during the remove(),
->> but I believe the scope of expected interaction should be limited
->> to a strict minimum. To be clearer, so far not a single device had
->> a requirement for any sort of interaction on remove. You would need
->> to clarify which codec driver needs this.
-> 
-> Ok I can add that to the commit message.
-> 
->> I don't see how the 'link_lock' and 'bus_lock' are at different
->> levels of the stack, the 'master' device and the 'auxiliary' device
->> are both quite thin and I don't quite see what's different between
->> the two.
-> 
-> Not sure I follow that, like for example I assume I could just make
-> the code use the bus_lock instead of adding a lock but to me that
-> feels like a layer violation, you have a driver directly taking
-> framework locks. But I guess I don't totally object if everyone
-> else prefers that.
+I added suspend/resume handling and all the suspend/resume cases that
+I tried now work too.
 
-To be clear, I am not sure if the bus_lock is enough, I was only asking 
-what the differences are.
+Regards,
+Geoffrey.
 
-> In terms of other solutions, I could look at redoing more of the
-> IRQ handling. If rather than using a hard coded linked list, the
-> IRQs were properly registered as IRQs with the IRQ framework then
-> we could simply add and remove them using the normal APIs, which
-> would be a lot cleaner. Of course, fundamentally that is pretty
-> equivalent but it will then just use a lock from the IRQ framework.
+---
+Changes in v3:
+- Update ioctl structs and add ioctl_compat op to work with 32-bit
+  userspace on 64-bit kernels
+- Update driver to do all init steps so it can re-init after
+  suspend/resume
+- Add version field to init ioctl for future compatibility
+- Improve error messages when unexpected response data is received
 
-You would have to review this with Bard, the IRQs for the SoundWire IP 
-are "interesting", and things started to work reliably only when we 
-ended-up with with a single IRQ that would then check if every manager 
-IP reported something. It's not really possible to view SoundWire 
-interrupts in isolation and deal with the IRQ framework, it's really 
-best to deal with the PCI interrupt and work from there.
+---
+Changes in v2 as per Takashi's feedback:
+- Use fixed-size data arrays instead of pointers in ioctl structs
+- Define notify struct outside of struct fcp_dev
+- Use u8/u16 types without __ prefix
+- Use cleanup.h for code simplification
+- Add init flag to ensure FCP_IOCTL_INIT is called before
+  FCP_IOCTL_CMD and FCP_IOCTL_SET_METER_MAP
+- Do not destroy/recreate the meter control (the number of channels is
+  now fixed when it is created)
 
->> Having looked at the code in more details, I think there are other issues,
->> see e.g. this part of the code called from snd_bus_master_delete().
->>
->> static int sdw_delete_slave(struct device *dev, void *data)
->> {
->> 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
->> 	struct sdw_bus *bus = slave->bus;
->>
->> 	pm_runtime_disable(dev);
->>
->> 	sdw_slave_debugfs_exit(slave);
->>
->> 	mutex_lock(&bus->bus_lock);
->>
->> 	if (slave->dev_num) { /* clear dev_num if assigned */
->> 		clear_bit(slave->dev_num, bus->assigned);
->> 		if (bus->ops && bus->ops->put_device_num)
->> 			bus->ops->put_device_num(bus, slave);
->> 	}
->>
->> So at this point an interaction with the device is not longer possible, even
->> if the Cadence interrupts are kept active, since there's no valid device
->> number to use...
->>
->> 	list_del_init(&slave->node);
->> 	mutex_unlock(&bus->bus_lock);
->>
->> ... but this is where the .remove() will take place.
->>
->> 	device_unregister(dev);
->> 	return 0;
->> }
->>
->> What am I missing?
-> 
-> Hmm... yes that is a good spot, I will investigate that further.
-> Certainly I do see these operations happening in the wrong order
-> but it doesn't seem to cause the register transactions to fail.
-> Most likely it is best to reverse these two, it makes sense
-> to not clear the device number until we are finished with the
-> device, but would be good to understand what is going on first.
+Geoffrey D. Bennett (2):
+  ALSA: FCP: Add Focusrite Control Protocol driver
+  ALSA: scarlett2: Add device_setup option to use FCP driver
 
-Yes, I think reversing the two parts should be enough. It makes no sense 
-to clear a device number since that's not a desired SoundWire operation. 
-But we absolutely want to release the IDAs and make sure there are no 
-leaks during bind/unbind tests.
+ MAINTAINERS                 |  10 +-
+ include/uapi/sound/fcp.h    |  71 +++
+ sound/usb/Makefile          |   1 +
+ sound/usb/fcp.c             | 979 ++++++++++++++++++++++++++++++++++++
+ sound/usb/fcp.h             |   7 +
+ sound/usb/mixer_quirks.c    |   7 +
+ sound/usb/mixer_scarlett2.c |   8 +
+ 7 files changed, 1079 insertions(+), 4 deletions(-)
+ create mode 100644 include/uapi/sound/fcp.h
+ create mode 100644 sound/usb/fcp.c
+ create mode 100644 sound/usb/fcp.h
+
+-- 
+2.45.0
 
