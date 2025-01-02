@@ -1,126 +1,112 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C3D19340B;
-	Thu,  2 Jan 2025 08:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360D11990D3;
+	Thu,  2 Jan 2025 09:59:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.201.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735807002; cv=none; b=AsliNh/d48Kf/MTzW2l6d/YDyEZxmVkroWBAmowPt0olly5HXrdiZNN9Cr0yl5vPxicD2M+Pes/M/Yt3wHIPsRc7CLPp/uF0HlKJIOqnabTxLDAook7w4zAiZ5zmTPeDAXdlyXruHsRef/sUct/suQhBKdNRd3+XF4/VceofnAo=
+	t=1735811952; cv=none; b=V9EF6LWR6cRpBuR9BF+Ar54fEOqiCBKnaNt9xFvIoxaReOO1DsN44IEUPH2S+temFtZpSw3hd4v/bdoBP8cqnqU4U5acW40w3wAkNjW7ooPRgfVWU+MLsqk2iRHFIIf44W1zfRZqilGCv78wn9FK+dxDFSYCaRWZ8demrKVw2Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735807002; c=relaxed/simple;
-	bh=aoVonJahGfaeZcNc5qzat7F0wQh7EIK73+Yul0EUm8U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hd6qjoPVP8v9+xRdINhdKVmsBed+yfOkk+dDLggQhl2pSQlt87Zm2xVrkp9fxpVaUdbrpt1l3AQKOIYqnkcg1I2ZGTRJXKDCPrtyT6J7k0LDQswH4cNeixEFwJuu6g57ZraOIZ0mEtysfAfwPdhH9CUki97cea125PEsowxfAh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eHGoQ6ZQ; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735811952; c=relaxed/simple;
+	bh=IivYDPdicfaKRVo7J3ZVJwfULyTbH2RX6seTNNOcqrM=;
+	h=Content-Type:Date:Message-Id:To:Subject:Cc:From:References:
+	 In-Reply-To; b=mn4isgC3FdQhvF2J7o40/5HxucARo94Z/VLe7TkHQv8FqzmBTOW0ApOXn6k+jHi1SGNZ6GKdFUr7Tk037W43/NC6I/qQ7e+pVAzzedZcHdxcPt+c2MmxRE5UP9a/KKrqLhRvrhBWNJ3EonqB1alDUGh1aKJOZBirEgYNVPuEEK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc; spf=pass smtp.mailfrom=walle.cc; dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b=c9lHpwrL; arc=none smtp.client-ip=159.69.201.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=walle.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=walle.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eHGoQ6ZQ"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4362f61757fso111094725e9.2;
-        Thu, 02 Jan 2025 00:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735806998; x=1736411798; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YYJor2AmGHzULTddD4uxyLN+pbDfv85xFKFL5lFNPng=;
-        b=eHGoQ6ZQeerqxQ65Pan8HybGhA5/nalmr5pwtR3bUA/AdJz2F//84p76KGGEz+z6iX
-         GcA85K1Hwejt/ZC5sKpUyuRZwQQ7+IX0NR6Afi1WymF6RfNwv2XicG+QhJ6KqFFKxO2Q
-         Is/SiEKNr1DiXUyJuidR7677zEIurW4nNwTVMyL9KbhhrnYemDP4RMscwoWlsLQgkfnN
-         U/BP/4ncLy7nVesw4ojxsGtXFNMGwZVmGhhgkYgGqFFCGwRTYdtEWrXP5hU+HqEuroM3
-         dXxxi7Cup5ftxQsZYh+3f1PbIU95ABu4rJ+WcDPUYct3lVuGvax6hTmsMuhL027QmjCC
-         if6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735806998; x=1736411798;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YYJor2AmGHzULTddD4uxyLN+pbDfv85xFKFL5lFNPng=;
-        b=lvlr9msc1fE0UR17+o70UgwUD4EnxWjRh08M3fRm1Et/imKdJbPQqBj+skNqfZWrll
-         zxLqD+mzQlkF0/LTZvu0RpoT7qBtRFqIvDorZZ/MaSfoEp01WpmQgakuhZ3ORhrzAgoG
-         ao8Q74Tcouf08vV1kOaDM9Ny2lcTU0TTJfEpHINlivV/F6WaU/VEoeqWPOsJC9jYIjHl
-         b4wwi7xx8ay3pvo5I3lKe3aPdN5dXpgH8P3TeogCPPzdRbD+pQ5nXEvSFsxWOtVOWDhD
-         xnZJbkoZfeYF2arZoDMflXVpjAK5SpPmuiiYuVp5Yx4B8gcFXrPj57ossBl84wIfRQIb
-         kD4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUmM/TLNW0hykIeOn2X5hEw1RNs1dO8LM6mwDebaG53jQOZi4LCTIl0/zBdQEXphB7dLuU3UcsZDiU6QaI=@vger.kernel.org, AJvYcCVobyC1Q1mhtxHkOMdtWhAzIFqdAwkwjXLP0BanaEA/VIT8z2fFpqGeuZWKYqay8iGqK4s5+rG6bKjlvA==@vger.kernel.org, AJvYcCWsIcBgKZUetSoZW793ixO+vOf6rOrlrzSmgumeXkxEfzkVbx1PdZ3QgltVA1QHXEQjVum+moGz1eVmY5iA@vger.kernel.org, AJvYcCXPa2ifG2knPagG8A3fGoqVOteLo2SaXrBNtsc1yAuMPlkVEZ8xrewXYTjIiOFAmackQ+qidu5ELKme@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5GiR7wFiHXWO/aBl9ntb6sK6Wz7NTBLu8koMqjBqmrqYrwvi5
-	+HZdJ91la6CO4dYxNC8wPDiL5hvzP5Y1sNlqq6f4E2CIWaG8ktVS
-X-Gm-Gg: ASbGncujuaKFIiJZgDqukUtNTU0l5uWWGG0ET/rxV+IPFdwzwVbsTow3G+WdfCPzuK4
-	m7jFUdX0RRPjLDTgTrpj5BZiwVeVB29Kqgy7KeZUcoZ41V3Ni5wei+bXI71TNUkIs5Vgs59Ga+a
-	6Buyy6EY3afuVBmgzbedib4uemBWJPsWIPPZnuvDYkbFwFWE1yaBC8pw8jwZoEjiX/0bzKCs18u
-	3TWaBEl1aITvfyOZRR6Z4pu5g5Uk71e1e/rnJQkvrkFUE7XWfRr34oq3Gk3qmAGVoSbkg==
-X-Google-Smtp-Source: AGHT+IF1+vwaMP1oFD27c9V/NJzPDSUhYFVPYLsw92ZrI3AanIY0LFkHZE0Q66LIV67pErjcgQ1XEw==
-X-Received: by 2002:a5d:6c63:0:b0:386:3e0f:944b with SMTP id ffacd0b85a97d-38a223ffbfbmr33448922f8f.37.1735806998282;
-        Thu, 02 Jan 2025 00:36:38 -0800 (PST)
-Received: from [192.168.1.10] ([95.43.220.235])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38a1c8472d5sm37998379f8f.47.2025.01.02.00.36.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 00:36:37 -0800 (PST)
-Message-ID: <3562e162-a425-4d4a-96c5-e6b748dc87c6@gmail.com>
-Date: Thu, 2 Jan 2025 10:36:36 +0200
+	dkim=pass (2048-bit key) header.d=walle.cc header.i=@walle.cc header.b="c9lHpwrL"
+Received: from localhost (unknown [213.135.10.150])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.3ffe.de (Postfix) with ESMTPSA id 712973E6;
+	Thu,  2 Jan 2025 10:59:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2022082101;
+	t=1735811941;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+	 references:references; bh=IivYDPdicfaKRVo7J3ZVJwfULyTbH2RX6seTNNOcqrM=;
+	b=c9lHpwrLGUSMvMi5tJpjhp0zB0aQvZp1Vrkjdxu1yi9FeA+j1OLqPipUg1E3l4i6E1uW6P
+	uD/w/i8eD8pTJ0EamlyLplk0G9Lbv3Fzw25hZlMeCMKMscli/CA1dznkIIg8rlxn6LAgUA
+	f1R36jLloAs/jejZHYwz12EOvgUrURjfK1AcZR9zOEA6fQDpfMKI55UcV2qfkIuglbMq/G
+	yLtuoHLrd3qZMrW6GpwrbbOZ1Kn8JtR9x2q0QcDnFJz5hyBpFWceWEyS75zntfhtBpQaZT
+	9pMGmhddqRmzUr6vywl2UH5lyaMrQ1y4iA430YRfskOEP5kyJaQ7Pib2M7tn6g==
+Content-Type: multipart/signed;
+ boundary=f82733b877a73b53aabc89efe3ab17e9dfaae230434847c070ab5a5a9016;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Thu, 02 Jan 2025 10:58:59 +0100
+Message-Id: <D6RHZ8B051X5.3NA8EAPRI62XS@walle.cc>
+To: "Marek Vasut" <marex@denx.de>, <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
+Cc: "Conor Dooley" <conor+dt@kernel.org>, "Fabio Estevam"
+ <festevam@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Mark Brown" <broonie@kernel.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>, "Rob
+ Herring" <robh@kernel.org>, "Shengjiu Wang" <shengjiu.wang@gmail.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Takashi Iwai" <tiwai@suse.com>, "Xiubo
+ Li" <Xiubo.Lee@gmail.com>, <devicetree@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>
+From: "Michael Walle" <michael@walle.cc>
+X-Mailer: aerc 0.16.0
+References: <20241226162234.40141-1-marex@denx.de>
+ <20241226162234.40141-4-marex@denx.de>
+ <D6OVE2W07NDX.2Q4AFF46TWCWJ@walle.cc>
+ <36665ab9-16de-4f77-a55f-b7942dc0c1bf@denx.de>
+In-Reply-To: <36665ab9-16de-4f77-a55f-b7942dc0c1bf@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] dt-bindings: mfd: motorola-cpcap: Document
- audio-codec interrupts
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
- <20241228114514.91594-4-ivo.g.dimitrov.75@gmail.com>
- <34ratvyiosxtphzliv6jxcjsddk4op5745jummklumd7fyzoe4@lq4ylmrlokmr>
-Content-Language: en-GB
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-In-Reply-To: <34ratvyiosxtphzliv6jxcjsddk4op5745jummklumd7fyzoe4@lq4ylmrlokmr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
+--f82733b877a73b53aabc89efe3ab17e9dfaae230434847c070ab5a5a9016
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
+Hi,
 
-On 31.12.24 г. 10:41 ч., Krzysztof Kozlowski wrote:
-> On Sat, Dec 28, 2024 at 01:45:12PM +0200, Ivaylo Dimitrov wrote:
->> This adds the DT binding for the audio-codec headset detection interrupts
-> 
-> 
-> Please do not use "This commit/patch/change", but imperative mood. See
-> longer explanation here:
-> https://elixir.bootlin.com/linux/v5.17.1/source/Documentation/process/submitting-patches.rst#L95
-> 
-> Also, missing full stop.
-> 
->>
->> Signed-off-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
->> ---
->>   Documentation/devicetree/bindings/mfd/motorola-cpcap.txt | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
->> index 190230216de8..3ad809e119ff 100644
->> --- a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
->> +++ b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
->> @@ -31,10 +31,15 @@ node must be named "audio-codec".
->>   Required properties for the audio-codec subnode:
->>   
->>   - #sound-dai-cells = <1>;
->> +- interrupts-extended = <&cpcap 9 0>, <&cpcap 10 0>;
-> 
-> Instead: interrupts and say which interrupt is where.
-> 
-> Anyway this should be converted to DT schema.
-> 
+> > ..Which is the
+> > normal use case for this pin. This driver was created because the
+> > LS1028A doesn't have a MCLK pin, so we've "misused" the BCLK pin,
+> > with the restriction that only integer dividers are possible.
+>
+> I have a system that is wired a bit unfortunately, I need to source=20
+> codec clock, where the codec is the clock consumer and needs to be able=
+=20
+> to control the clock (SGTL5000). SAI MCLK is the only way I can get them=
+=20
+> out of the pin I need, hence this patch.
 
-Do you want me to do the conversion? If yes, could it be done in a 
-follow-up patch?
+Which is also the default case, no?
 
-Thanks and happy new year,
-Ivo
+> > Also I'd expect that the imx
+> > SoCs already supports the MCLK for audio applications. Isn't that
+> > the case?
+>
+> That does not work if the MCLK has to be enabled/disabled by the MCLK=20
+> clock consumer .
+
+Why's that?
+
+Don't get me wrong. I don't have anything against this patch, I'm
+just confused, why that isn't already working with the current MCLK
+driver as this seems to be the usual requirements.
+
+-michael
+
+--f82733b877a73b53aabc89efe3ab17e9dfaae230434847c070ab5a5a9016
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZ3ZjYxEcbWljaGFlbEB3
+YWxsZS5jYwAKCRASJzzuPgIf+IJzAX0cVtRiMI9KcfO1uBCHahaFh/HBju/eiM9m
+9UkD3sdSoBW4Ym0Vv1tEqq7LtR90D0gBf0719K8fLM6/DKMC2U391dhtHS/F/VWw
+A0hG9LTODgliw1Z/nIATJDQru9ope4B5ow==
+=DErg
+-----END PGP SIGNATURE-----
+
+--f82733b877a73b53aabc89efe3ab17e9dfaae230434847c070ab5a5a9016--
