@@ -1,123 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mx.denx.de (mx.denx.de [89.58.32.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F61B0424
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 12:33:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40411B0431;
+	Thu,  2 Jan 2025 13:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.58.32.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735821227; cv=none; b=JV87LUdwJtG+qRgvZCX1lEbjM657UWtkhEmxaehEJbH+n2rTY60YErz8CI+6qOGikhzhZDc7m3YlPD+mu3t9t9VcaFRttVAcOyTBxu2oKvlumIJ259ncIeSBcwtjW3EK7An+qktZPJJifLJhJti1HApfiTtu/P59d2jIZ2JPQB0=
+	t=1735825729; cv=none; b=MwN5AuoOsdWlJKHkS8h3ON/xORn52pEGKNt3T3adQeqGDuDfWfGS7oCt6ANabGSdBtFU9VWVXrdYE4NbTbLGJHfACZfKXzlaXjH815d3kcprXFB/7NqgN187xse1PYe7k7JNXA0iP9bWB0mpbQmPsqWm0rIecayd/L361XhcSkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735821227; c=relaxed/simple;
-	bh=PUlyHsp9hk7+1qLwh/j1IlTV46G7+Cf+uHOWnr8u7co=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qsf2Ie4w/IePKV/0szRt+tHdoFhjlzjYypSRKbob/H1o3cBdAPXzJwPWUC+sPsCzt0QEYzutrK9gXcsPFvlE+JU/2fUtPScLkt8p1V5JYy05dOVSNiD/VRvpLUjVMaew2J+k/hnfcaOSHE6dN9yZ/13uaRZGiT8zFUoj24z0KKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EB5Jo3Lf; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1735825729; c=relaxed/simple;
+	bh=YtSzit6LoCB7tcSX2rplRffugEkLd1fkOc5/zoIy6sM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L4qMIpWRo8mjParXZAWZlZO5DjPnnrB7FTTe/Le5uGjoRiiLG+6VFjSgm0Uj5BgUBIMnkUhwaKOyPZW7kcWKgBqmDjJeCAN+f2iyIUTJFo2UFbs061eJcZylVpiP6ZBArsXC3IA9J5v0iMlb3Hl98WWNcnT8/PuDVJnIle+Xq24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=elAiaQiB; arc=none smtp.client-ip=89.58.32.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EB5Jo3Lf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1735821226; x=1767357226;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=PUlyHsp9hk7+1qLwh/j1IlTV46G7+Cf+uHOWnr8u7co=;
-  b=EB5Jo3LfttJAT5zWavd6hATGj/3abOIuGUvGzE2Z5IPVStcr97wF4Aas
-   zTvGZTfQeqIfffL61kqXpvOZRdDzgUkDAU11Tt16ZUbPN5TDVJJ9kYGmD
-   gkHYONmD8ZX4IJ1//ssznKDJPo4b9wCfKOtv6bNzadDCRQDqTW1JkyqH4
-   cT1nU5BvQlROoIjwAUMD+0hmVQYzLbBRVuEqDCXt6sRaIc8t9yojhp1OD
-   cd92lZWfNN69hfrmafRf4p0OTDn6OQEdUViNxIw8KHsuq1Zs+/qfSemm/
-   1SECGx0/H0Yg2PWycDkaEug49JOZ6ETcnj2aivUY07L3MYM/zKsf1kbzk
-   A==;
-X-CSE-ConnectionGUID: BMsy1R8JQzuW+MB2GKdyNA==
-X-CSE-MsgGUID: ICkVeemITsmL6JHfdANrtQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11302"; a="36073887"
-X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
-   d="scan'208";a="36073887"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 04:33:46 -0800
-X-CSE-ConnectionGUID: nvKJY4m7QD2LMlejZCZASw==
-X-CSE-MsgGUID: 39vV+6tnTLWrUX78rO5Xsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,285,1728975600"; 
-   d="scan'208";a="101681381"
-Received: from iweiny-desk3.amr.corp.intel.com (HELO yungchua-desk.intel.com) ([10.124.223.231])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jan 2025 04:33:45 -0800
-From: Bard Liao <yung-chuan.liao@linux.intel.com>
-To: broonie@kernel.org,
-	tiwai@suse.de
-Cc: linux-sound@vger.kernel.org,
-	pierre-louis.bossart@linux.dev,
-	bard.liao@intel.com
-Subject: [PATCH 2/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83JX, 83MC and 83NM
-Date: Thu,  2 Jan 2025 20:33:35 +0800
-Message-ID: <20250102123335.256698-3-yung-chuan.liao@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
-References: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="elAiaQiB"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id ED0DA10408F8C;
+	Thu,  2 Jan 2025 14:48:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de; s=mx-20241105;
+	t=1735825724;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=15t9ZhyD2EL60IMfJo8zc3aw4cpOSTR9eeiviG1C6FM=;
+	b=elAiaQiBbNVs1rHp3/n7UySU9eOa3ejxvBMQi9aK5SOranx5nJwBM00HYZjkihIXBpt9LS
+	wpWHaG6x/8ZS7nB+h17UOGZE72i3QtZbPOK89WBQAs/55hEnx2b2/90jM0SKs2o9xX3s+3
+	fE3epddAp1qHUobmLdZK8oBC018joYaT/RhwwkTlFd7lr2Jf8S2LObB3vqqLEnStD3do22
+	bcoug9PjG1X1MIRIORPskenKAhjd1JNDZzkajNknQtMxOPLR75vb0ZvqjcJJMwR4+pUQU1
+	/NenP4oI3pe7UVgB8cKxsS4D5vx0UIjQOMC4y6MBhV/1XcR/z/nNsj1KwQd8Lw==
+Message-ID: <72d4c42a-7ebf-484f-839b-631d61ac950f@denx.de>
+Date: Thu, 2 Jan 2025 14:34:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
+To: Michael Walle <michael@walle.cc>, linux-clk@vger.kernel.org
+Cc: Conor Dooley <conor+dt@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+ Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Nicolin Chen <nicoleotsuka@gmail.com>, Rob Herring <robh@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+ Takashi Iwai <tiwai@suse.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ devicetree@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20241226162234.40141-1-marex@denx.de>
+ <20241226162234.40141-4-marex@denx.de> <D6OVE2W07NDX.2Q4AFF46TWCWJ@walle.cc>
+ <36665ab9-16de-4f77-a55f-b7942dc0c1bf@denx.de>
+ <D6RHZ8B051X5.3NA8EAPRI62XS@walle.cc>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <D6RHZ8B051X5.3NA8EAPRI62XS@walle.cc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Simon Trimmer <simont@opensource.cirrus.com>
+On 1/2/25 10:58 AM, Michael Walle wrote:
+> Hi,
 
-Update the DMI match for a Lenovo laptop to a new DMI identifier.
+Hi,
 
-This laptop ships with a different DMI identifier to what was expected
-and now has three match entries. It also has the DMICs connected to the
-host rather than the cs42l43 codec.
+>>> ..Which is the
+>>> normal use case for this pin. This driver was created because the
+>>> LS1028A doesn't have a MCLK pin, so we've "misused" the BCLK pin,
+>>> with the restriction that only integer dividers are possible.
+>>
+>> I have a system that is wired a bit unfortunately, I need to source
+>> codec clock, where the codec is the clock consumer and needs to be able
+>> to control the clock (SGTL5000). SAI MCLK is the only way I can get them
+>> out of the pin I need, hence this patch.
+> 
+> Which is also the default case, no?
 
-Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-Fixes: 83c062ae81e8 ("ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops")
-Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
----
- sound/soc/intel/boards/sof_sdw.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+Not quite, there is a difference.
 
-diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-index d054be360d28..b0d35fda7b17 100644
---- a/sound/soc/intel/boards/sof_sdw.c
-+++ b/sound/soc/intel/boards/sof_sdw.c
-@@ -612,9 +612,9 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
- 			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
--			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "3838")
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83JX")
- 		},
--		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
- 	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
-@@ -624,6 +624,21 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
- 		},
- 		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
- 	},
-+	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83MC")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
-+	},	{
-+		.callback = sof_sdw_quirk_cb,
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "83NM")
-+		},
-+		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
-+	},
- 	{
- 		.callback = sof_sdw_quirk_cb,
- 		.matches = {
--- 
-2.43.0
+If SAI (audio driver) is used to control the MCLK enablement, then MCLK 
+clock is not always enabled, and it is not necessarily enabled when the 
+codec may need the clock to be enabled. There is also no way for the 
+codec node to specify phandle to clock provider in DT, because the SAI 
+(audio driver) is not clock provider.
 
+If SAI (clock driver) is used to control the MCLK enablement, then MCLK 
+clock is enabled when the codec needs the clock enabled, because the 
+codec is the clock consumer and the SAI (clock driver) is the clock 
+provider, and the codec driver can request the clock to be enabled when 
+needed. There is also the usual phandle to clock provider in DT, because 
+the SAI (clock driver) is clock provider.
+
+>>> Also I'd expect that the imx
+>>> SoCs already supports the MCLK for audio applications. Isn't that
+>>> the case?
+>>
+>> That does not work if the MCLK has to be enabled/disabled by the MCLK
+>> clock consumer .
+> 
+> Why's that?
+> 
+> Don't get me wrong. I don't have anything against this patch, I'm
+> just confused, why that isn't already working with the current MCLK
+> driver as this seems to be the usual requirements.
+Which current MCLK driver, the SAI in audio driver role ?
+
+Does the paragraph in the middle of this email possibly answer this 
+question ?
