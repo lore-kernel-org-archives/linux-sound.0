@@ -1,112 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9903A1420A8;
-	Thu,  2 Jan 2025 21:26:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9E08F7D
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 21:46:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735853160; cv=none; b=W7xRMsrx5fw2mFpkFRxavapcVZQ+1mx6swJvhecqaNprzov+13BZnES3ehcaeHKdsDHRjDb/2ikM5GvXIpEIbvv3Ok+XVMyfbeL+iIs6KRLlXHWzlmsApYAu+XHGUG1cD45BmuAvCxDmHHFq60XMBhATAcUj7dy8RYXXeY2zCuU=
+	t=1735854412; cv=none; b=nkkCsMLS89tHQPVfqr0rDfFeaQ5HRerYUaF3uVAuWIPi4/t32vYxnpC9l57cj9SAfDI87WFJeXNU9V0p5Yqn4jCFvmeHLKc6rA3PIaqtM/B9gu43jjVsBs2xCpf9WW0J7FneFnHQNKD360qtSVcjhkkFJ3gYNCOm8v6RqditvQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735853160; c=relaxed/simple;
-	bh=kPok3EOQJmCACr+cJ8K2n4ryC1JK+YdP2I1q/Eh5j4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/vCRZOExR0Enj7bozAF7m/ugG89+8SEC+vJuwxql9nSGCbbjzEgRA4VHthJv6SQXs6f4etZzfCXrWZv9+Sbp63CrqQgLd0A2NkLvDdIKFoiN7Rr49zcsDUbj95SBPYBzpxe5gdlRf9yTbu58ZaNn2cjZzDa4soRJtbs0X0+984=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=duFn5+MW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1735854412; c=relaxed/simple;
+	bh=4PLlb1Lv4l3qcRFD2HggIdgPR0aA+/HZX4xOhDWQql8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MQde3MzyucKUP4tvpao1bLxvyNM88/gnQJ1MqwWdR6Ftma5noWrVFH38Pq00Omw71IwAO5O6kahZdWUGkZ07AQ9RpJ0MO2kYRFDz1o/HpftZeEvr5kwCli2SUgiPuBQ/6BCR5gCUx0OcLh8f9cI7vSzZDETweLFBVarGZoSSp74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bhW4vS++; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="duFn5+MW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF0BCC4CED0;
-	Thu,  2 Jan 2025 21:25:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1735853160;
-	bh=kPok3EOQJmCACr+cJ8K2n4ryC1JK+YdP2I1q/Eh5j4Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=duFn5+MW0IHYD8DUP5gs+AnpnPY7uHp1lIegqGYijtL/h/4a2kkVx6nabRA+XZsXN
-	 Sw9ialQz5dfqQSyKWNG7cPyh4bMMW1O5SPbBC26TxlgWrslL7NKoEnaGdqVU74rH6Y
-	 5r0dxRXNN1WewrUeC/p6QwUrqTHkwIDydIMtK/R97MWk2ZsOF9rrUq6aVOOSC7q067
-	 00hiS+AkudfrsSHFrLoXoKg8OjfcfXPIfnNfWEk3CpcPLveA5IR0ivXmqNYeN5io0t
-	 N9CRC/A4vvNrMlDD/vLYfgJAkAE3S9mjLGzgbG3D1NfBphkJai8OhdXoDDqtp9M7+0
-	 VPwwKdmyh9vfA==
-Date: Thu, 2 Jan 2025 15:25:57 -0600
-From: Rob Herring <robh@kernel.org>
-To: Marek Vasut <marex@denx.de>
-Cc: linux-sound@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Michael Walle <michael@walle.cc>,
-	Nicolin Chen <nicoleotsuka@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	Xiubo Li <Xiubo.Lee@gmail.com>, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org
-Subject: Re: [PATCH 1/2] ASoC: dt-bindings: fsl-sai: Document RX/TX BCLK swap
- support
-Message-ID: <20250102212557.GA600708-robh@kernel.org>
-References: <20241226152953.36230-1-marex@denx.de>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bhW4vS++"
+Message-ID: <ee83bf81-dc3f-4452-8ae3-4c4762ad7b86@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1735854407;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=08XiV5K0xxVwVoEGzWp/Tgjh0gbMRkaptA7gAaGLJh8=;
+	b=bhW4vS++7MgoDUt1JSeWDTZlJDpukpD4OIM3PTawYh6IJBJ8i06uVRMbb1+MRP2GZDhxow
+	h3cOnk6ljsyULFGJpcvG1s0cFHWo9I8awol+9DHpyixyFaNhM9mzOE6r2OY2ekAcyCBXHs
+	iWTEwPzElp8raAQV75KkXcZIieSLiaY=
+Date: Thu, 2 Jan 2025 15:46:40 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241226152953.36230-1-marex@denx.de>
+Subject: Re: [PATCH 1/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83LC
+To: Bard Liao <yung-chuan.liao@linux.intel.com>, broonie@kernel.org,
+ tiwai@suse.de
+Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
+References: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
+ <20250102123335.256698-2-yung-chuan.liao@linux.intel.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+In-Reply-To: <20250102123335.256698-2-yung-chuan.liao@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Dec 26, 2024 at 04:29:45PM +0100, Marek Vasut wrote:
-> Document support for setting the Bit Clock Swap bit in CR2 register
-> via new "fsl,sai-bit-clock-swap" DT property. This bit swaps the
-> bit clock used by the transmitter or receiver in asynchronous mode,
-> i.e. makes transmitter use RX_BCLK and TX_SYNC, and vice versa,
-> makes receiver use TX_BCLK and RX_SYNC.
+
+
+On 1/2/25 06:33, Bard Liao wrote:
+> From: Simon Trimmer <simont@opensource.cirrus.com>
 > 
-> Signed-off-by: Marek Vasut <marex@denx.de>
+> Update the DMI match for a Lenovo laptop to the new DMI identifier.
+> 
+> This laptop ships with a different DMI identifier to what was expected,
+> and also has the DMICs connected to the host rather than the cs42l43
+> codec.
+
+If the DMICs are connected to the host, isn't there NHLT information 
+telling the OS how many dmics are connected? If yes, then the 
+machine-level DMI quirk isn't really needed, all you would need is a 
+rule that sets it unconditionally when mach->mach_params.dmic_num is 
+non-zero
+
+> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
+> Fixes: 83c062ae81e8 ("ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops")
+> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
+> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
 > ---
-> Cc: Conor Dooley <conor+dt@kernel.org>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Jaroslav Kysela <perex@perex.cz>
-> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Michael Walle <michael@walle.cc>
-> Cc: Nicolin Chen <nicoleotsuka@gmail.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Shengjiu Wang <shengjiu.wang@gmail.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Takashi Iwai <tiwai@suse.com>
-> Cc: Xiubo Li <Xiubo.Lee@gmail.com>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-clk@vger.kernel.org
-> Cc: linux-sound@vger.kernel.org
-> ---
->  Documentation/devicetree/bindings/sound/fsl,sai.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
+>   sound/soc/intel/boards/sof_sdw.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/sound/fsl,sai.yaml b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> index a5d9c246cc476..7a58df1e3f87c 100644
-> --- a/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> +++ b/Documentation/devicetree/bindings/sound/fsl,sai.yaml
-> @@ -132,6 +132,13 @@ properties:
->        of transmitter.
->      type: boolean
->  
-> +  fsl,sai-bit-clock-swap:
-> +    description: |
+> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
+> index 9f721b88e606..d054be360d28 100644
+> --- a/sound/soc/intel/boards/sof_sdw.c
+> +++ b/sound/soc/intel/boards/sof_sdw.c
+> @@ -620,9 +620,9 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
+>   		.callback = sof_sdw_quirk_cb,
+>   		.matches = {
+>   			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> -			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "3832")
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "83LC")
+>   		},
+> -		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
+> +		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
+>   	},
+>   	{
+>   		.callback = sof_sdw_quirk_cb,
 
-Don't need '|'.
-
-> +      Enable Bit Clock Swap, which swaps the bit clock used by the transmitter
-> +      or receiver in asynchronous mode, i.e. makes transmitter use RX_BCLK and
-> +      TX_SYNC, and vice versa, makes receiver use TX_BCLK and RX_SYNC.
-> +    type: boolean
-> +
->    fsl,shared-interrupt:
->      description: Interrupt is shared with other modules.
->      type: boolean
-> -- 
-> 2.45.2
-> 
