@@ -1,116 +1,146 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A291BC073
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 22:15:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13B91AAA22
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 22:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735856124; cv=none; b=Dle3UmAmqtTg2PgKGI/RFe46tQb1QB4oXqjxDW731bG991UAGVDinIo3zLaKctRkcg6nhTZNkjWRJuiGCKRw55Arz4oTYpBwNMWaVU0DxvvTnQSx98nCh77/tj1OYVp5BisQmU5/kkTuKXVSpY6Lj6JhApEN5HTWfiglXWKtld4=
+	t=1735856126; cv=none; b=WIYfvVLRR/HJ/fwBTc4CqeDa+62iKNOCoh9oU4SAS/VC7xbEB6Qxgm2r5qdxMOIm70z6a62A0xqQhmLUE4HR4mGL+vThBH5SKYOBHhAAN9ZVK2Q4TC8WKK9kiivStWYl4wbFgzoBsy7jc+QaQJXBCkCd24cEOStbhRiOeXHelEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735856124; c=relaxed/simple;
-	bh=nEerf2puQBdwBcW4SXWfgTFn++kXgAdCIREdgjGbHu4=;
+	s=arc-20240116; t=1735856126; c=relaxed/simple;
+	bh=cwRGEm2GhTUfMvix8X67k91V2kCHX8lGZZobR7umEuc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=teiiWvFXV3g64EdUkpvlIO9dQmvoShfv+RPBitCquaVPgjvhM+LYdGfAsxp0NIRDzLmHBT2VPbqeRYvueWvuKpY4CxeNDnro7bXnRyDHNdXoCcEKFvRtNzsPaRRXkyLrjpfxP8I+xzfaG5P/D2KJfia6IwC0rDyLwNJmRcQk3kI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UhlN/J9M; arc=none smtp.client-ip=91.218.175.188
+	 In-Reply-To:Content-Type; b=TXov7yxi2BL+lEgSXVKbGz0FJ/hxQ6vEJnc+zVWrKS9qIsInvu+fbCQSaLbzCxTShhE3ffr1F5iViuWIOlLEGJR7WraqWqZ1Wlz1Xu03T9d4cg7Glv47XyqCcBnOPjMGXQj6R9ipKYkA3TSrnhfLj46OqK6szQ2Bc7XpIDzSaKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mbFrkboc; arc=none smtp.client-ip=91.218.175.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UhlN/J9M"
-Message-ID: <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mbFrkboc"
+Message-ID: <b6908879-363a-4abf-9cb7-767fff6d35a0@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735856118;
+	t=1735856121;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=h4Li18FmBDwsKEGHXDYR1d3v0BjQC1ALcn/iCLqRoys=;
-	b=UhlN/J9MeFkDmNp7t2BP86uoCi7m5wyQ14XqlQTXn8tl9RYNcKpGz5I3ePgDM1JdRiYrXa
-	CaMdbYr3P+ucFRRZTq5L+nLHX0veJVJswPTk7UU1ad7SeESvmxYy/L/W6MUo/GCEtu7nd+
-	Msf5nnExA0V+WdhUkQn8Y9k0D8MvSoU=
-Date: Thu, 2 Jan 2025 16:01:19 -0600
+	bh=P1cKW18Q8+vmV8j7UqoBxkkoauvhuXssjAFbv0nq/ps=;
+	b=mbFrkbocyzEOJDgfHEbDpSYc44K1OrlDLwJZtL0+WYuD0umjZxJ6Qs18+LX6EDM2hV5BwU
+	t6iMU1DIl88EHwfD0TNSm5v/rvtXUiy6UCgbfMp8Wp41JHGV7T4riDGGYqlOiuJBts/N2p
+	axG8NbHmpk0G41MHtHp2W2XWQD55u4w=
+Date: Thu, 2 Jan 2025 16:14:11 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 4/5] ASoC: SDCA: Add missing function type names
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
- yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
+Subject: Re: [PATCH] soundwire: intel_auxdevice: Don't disable IRQs before
+ removing children
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Richard Fitzgerald <rf@opensource.cirrus.com>, vkoul@kernel.org,
+ peter.ujfalusi@linux.intel.com, yung-chuan.liao@linux.intel.com,
+ sanyog.r.kale@intel.com, linux-sound@vger.kernel.org,
  linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
- <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
+References: <20241212110221.1509163-1-ckeepax@opensource.cirrus.com>
+ <3eb98099-75da-4464-97d1-9e8538375e34@linux.dev>
+ <da4a16f1-0bf6-4597-b1de-55386db85254@opensource.cirrus.com>
+ <e6dd9fc3-de55-47d2-a1b5-10884418a66d@linux.dev>
+ <Z2KbELGGjeH3NQdY@opensource.cirrus.com>
+ <7479a25e-6729-4aa0-b67e-7781bf8232da@linux.dev>
+ <9b8ef4d2-e4bd-4336-8980-0fb59d672631@linux.dev>
+ <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
+In-Reply-To: <Z2P1KVLFig0Kh1h2@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 12/20/24 11:35, Charles Keepax wrote:
-> It is not helpful to error out on some SDCA function types, we
-> might as well report the correct name and let the driver core
-> simply not bind a driver to those functions for which the code
-> lacks support. Also given no functions currently have support,
-> it seems odd to select some as unsupported.
+On 12/19/24 04:27, Charles Keepax wrote:
+> On Wed, Dec 18, 2024 at 04:40:22PM -0500, Pierre-Louis Bossart wrote:
+>> I agree that the device should be reachable during the remove(),
+>> but I believe the scope of expected interaction should be limited
+>> to a strict minimum. To be clearer, so far not a single device had
+>> a requirement for any sort of interaction on remove. You would need
+>> to clarify which codec driver needs this.
 > 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->   include/sound/sdca_function.h   |  1 +
->   sound/soc/sdca/sdca_functions.c | 12 ++++++++++--
->   2 files changed, 11 insertions(+), 2 deletions(-)
+> Ok I can add that to the commit message.
 > 
-> diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
-> index 6943df0851a9..89e42db6d591 100644
-> --- a/include/sound/sdca_function.h
-> +++ b/include/sound/sdca_function.h
-> @@ -42,6 +42,7 @@ enum sdca_function_type {
->   #define	SDCA_FUNCTION_TYPE_RJ_NAME		"RJ"
->   #define	SDCA_FUNCTION_TYPE_SIMPLE_NAME		"SimpleJack"
->   #define	SDCA_FUNCTION_TYPE_HID_NAME		"HID"
-> +#define	SDCA_FUNCTION_TYPE_IMP_DEF_NAME		"ImplementationDefined"
->   
->   enum sdca_entity0_controls {
->   	SDCA_CONTROL_ENTITY_0_COMMIT_GROUP_MASK		= 0x01,
-> diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
-> index a69fdb9c8b15..400763e056fa 100644
-> --- a/sound/soc/sdca/sdca_functions.c
-> +++ b/sound/soc/sdca/sdca_functions.c
-> @@ -75,12 +75,20 @@ static int patch_sdca_function_type(struct device *dev,
->   		*function_name = SDCA_FUNCTION_TYPE_HID_NAME;
->   		break;
->   	case SDCA_FUNCTION_TYPE_SIMPLE_AMP:
-> +		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_AMP_NAME;
-> +		break;
->   	case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
-> +		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_MIC_NAME;
-> +		break;
->   	case SDCA_FUNCTION_TYPE_SPEAKER_MIC:
-> +		*function_name = SDCA_FUNCTION_TYPE_SPEAKER_MIC_NAME;
-> +		break;
->   	case SDCA_FUNCTION_TYPE_RJ:
-> +		*function_name = SDCA_FUNCTION_TYPE_RJ_NAME;
-> +		break;
+>> I don't see how the 'link_lock' and 'bus_lock' are at different
+>> levels of the stack, the 'master' device and the 'auxiliary' device
+>> are both quite thin and I don't quite see what's different between
+>> the two.
+> 
+> Not sure I follow that, like for example I assume I could just make
+> the code use the bus_lock instead of adding a lock but to me that
+> feels like a layer violation, you have a driver directly taking
+> framework locks. But I guess I don't totally object if everyone
+> else prefers that.
 
-the changes above are fine...
+To be clear, I am not sure if the bus_lock is enough, I was only asking 
+what the differences are.
 
->   	case SDCA_FUNCTION_TYPE_IMP_DEF:
-> -		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
-> -		return -EINVAL;
-> +		*function_name = SDCA_FUNCTION_TYPE_IMP_DEF_NAME;
-> +		break;
+> In terms of other solutions, I could look at redoing more of the
+> IRQ handling. If rather than using a hard coded linked list, the
+> IRQs were properly registered as IRQs with the IRQ framework then
+> we could simply add and remove them using the normal APIs, which
+> would be a lot cleaner. Of course, fundamentally that is pretty
+> equivalent but it will then just use a lock from the IRQ framework.
 
-but this one is controversial. We really have no idea what to do in this 
-case. There could be completely different 'imp-def' functions that 
-require different drivers. I don't know how the entire binding mechanism 
-would work. Probably best to err on the side of throwing a 'not 
-supported' error?
+You would have to review this with Bard, the IRQs for the SoundWire IP 
+are "interesting", and things started to work reliably only when we 
+ended-up with with a single IRQ that would then check if every manager 
+IP reported something. It's not really possible to view SoundWire 
+interrupts in isolation and deal with the IRQ framework, it's really 
+best to deal with the PCI interrupt and work from there.
 
->   	default:
->   		dev_err(dev, "invalid SDCA function type %d\n", *function_type);
->   		return -EINVAL;
+>> Having looked at the code in more details, I think there are other issues,
+>> see e.g. this part of the code called from snd_bus_master_delete().
+>>
+>> static int sdw_delete_slave(struct device *dev, void *data)
+>> {
+>> 	struct sdw_slave *slave = dev_to_sdw_dev(dev);
+>> 	struct sdw_bus *bus = slave->bus;
+>>
+>> 	pm_runtime_disable(dev);
+>>
+>> 	sdw_slave_debugfs_exit(slave);
+>>
+>> 	mutex_lock(&bus->bus_lock);
+>>
+>> 	if (slave->dev_num) { /* clear dev_num if assigned */
+>> 		clear_bit(slave->dev_num, bus->assigned);
+>> 		if (bus->ops && bus->ops->put_device_num)
+>> 			bus->ops->put_device_num(bus, slave);
+>> 	}
+>>
+>> So at this point an interaction with the device is not longer possible, even
+>> if the Cadence interrupts are kept active, since there's no valid device
+>> number to use...
+>>
+>> 	list_del_init(&slave->node);
+>> 	mutex_unlock(&bus->bus_lock);
+>>
+>> ... but this is where the .remove() will take place.
+>>
+>> 	device_unregister(dev);
+>> 	return 0;
+>> }
+>>
+>> What am I missing?
+> 
+> Hmm... yes that is a good spot, I will investigate that further.
+> Certainly I do see these operations happening in the wrong order
+> but it doesn't seem to cause the register transactions to fail.
+> Most likely it is best to reverse these two, it makes sense
+> to not clear the device number until we are finished with the
+> device, but would be good to understand what is going on first.
+
+Yes, I think reversing the two parts should be enough. It makes no sense 
+to clear a device number since that's not a desired SoundWire operation. 
+But we absolutely want to release the IDAs and make sure there are no 
+leaks during bind/unbind tests.
 
