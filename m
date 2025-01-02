@@ -1,93 +1,116 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9E08F7D
-	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 21:46:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A291BC073
+	for <linux-sound@vger.kernel.org>; Thu,  2 Jan 2025 22:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735854412; cv=none; b=nkkCsMLS89tHQPVfqr0rDfFeaQ5HRerYUaF3uVAuWIPi4/t32vYxnpC9l57cj9SAfDI87WFJeXNU9V0p5Yqn4jCFvmeHLKc6rA3PIaqtM/B9gu43jjVsBs2xCpf9WW0J7FneFnHQNKD360qtSVcjhkkFJ3gYNCOm8v6RqditvQ0=
+	t=1735856124; cv=none; b=Dle3UmAmqtTg2PgKGI/RFe46tQb1QB4oXqjxDW731bG991UAGVDinIo3zLaKctRkcg6nhTZNkjWRJuiGCKRw55Arz4oTYpBwNMWaVU0DxvvTnQSx98nCh77/tj1OYVp5BisQmU5/kkTuKXVSpY6Lj6JhApEN5HTWfiglXWKtld4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735854412; c=relaxed/simple;
-	bh=4PLlb1Lv4l3qcRFD2HggIdgPR0aA+/HZX4xOhDWQql8=;
+	s=arc-20240116; t=1735856124; c=relaxed/simple;
+	bh=nEerf2puQBdwBcW4SXWfgTFn++kXgAdCIREdgjGbHu4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MQde3MzyucKUP4tvpao1bLxvyNM88/gnQJ1MqwWdR6Ftma5noWrVFH38Pq00Omw71IwAO5O6kahZdWUGkZ07AQ9RpJ0MO2kYRFDz1o/HpftZeEvr5kwCli2SUgiPuBQ/6BCR5gCUx0OcLh8f9cI7vSzZDETweLFBVarGZoSSp74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=bhW4vS++; arc=none smtp.client-ip=91.218.175.189
+	 In-Reply-To:Content-Type; b=teiiWvFXV3g64EdUkpvlIO9dQmvoShfv+RPBitCquaVPgjvhM+LYdGfAsxp0NIRDzLmHBT2VPbqeRYvueWvuKpY4CxeNDnro7bXnRyDHNdXoCcEKFvRtNzsPaRRXkyLrjpfxP8I+xzfaG5P/D2KJfia6IwC0rDyLwNJmRcQk3kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UhlN/J9M; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="bhW4vS++"
-Message-ID: <ee83bf81-dc3f-4452-8ae3-4c4762ad7b86@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UhlN/J9M"
+Message-ID: <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1735854407;
+	t=1735856118;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=08XiV5K0xxVwVoEGzWp/Tgjh0gbMRkaptA7gAaGLJh8=;
-	b=bhW4vS++7MgoDUt1JSeWDTZlJDpukpD4OIM3PTawYh6IJBJ8i06uVRMbb1+MRP2GZDhxow
-	h3cOnk6ljsyULFGJpcvG1s0cFHWo9I8awol+9DHpyixyFaNhM9mzOE6r2OY2ekAcyCBXHs
-	iWTEwPzElp8raAQV75KkXcZIieSLiaY=
-Date: Thu, 2 Jan 2025 15:46:40 -0600
+	bh=h4Li18FmBDwsKEGHXDYR1d3v0BjQC1ALcn/iCLqRoys=;
+	b=UhlN/J9MeFkDmNp7t2BP86uoCi7m5wyQ14XqlQTXn8tl9RYNcKpGz5I3ePgDM1JdRiYrXa
+	CaMdbYr3P+ucFRRZTq5L+nLHX0veJVJswPTk7UU1ad7SeESvmxYy/L/W6MUo/GCEtu7nd+
+	Msf5nnExA0V+WdhUkQn8Y9k0D8MvSoU=
+Date: Thu, 2 Jan 2025 16:01:19 -0600
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83LC
-To: Bard Liao <yung-chuan.liao@linux.intel.com>, broonie@kernel.org,
- tiwai@suse.de
-Cc: linux-sound@vger.kernel.org, bard.liao@intel.com
-References: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
- <20250102123335.256698-2-yung-chuan.liao@linux.intel.com>
+Subject: Re: [PATCH 4/5] ASoC: SDCA: Add missing function type names
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, peter.ujfalusi@linux.intel.com,
+ yung-chuan.liao@linux.intel.com, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
+ <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <20250102123335.256698-2-yung-chuan.liao@linux.intel.com>
+In-Reply-To: <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 
 
-On 1/2/25 06:33, Bard Liao wrote:
-> From: Simon Trimmer <simont@opensource.cirrus.com>
+On 12/20/24 11:35, Charles Keepax wrote:
+> It is not helpful to error out on some SDCA function types, we
+> might as well report the correct name and let the driver core
+> simply not bind a driver to those functions for which the code
+> lacks support. Also given no functions currently have support,
+> it seems odd to select some as unsupported.
 > 
-> Update the DMI match for a Lenovo laptop to the new DMI identifier.
-> 
-> This laptop ships with a different DMI identifier to what was expected,
-> and also has the DMICs connected to the host rather than the cs42l43
-> codec.
-
-If the DMICs are connected to the host, isn't there NHLT information 
-telling the OS how many dmics are connected? If yes, then the 
-machine-level DMI quirk isn't really needed, all you would need is a 
-rule that sets it unconditionally when mach->mach_params.dmic_num is 
-non-zero
-
-> Signed-off-by: Simon Trimmer <simont@opensource.cirrus.com>
-> Fixes: 83c062ae81e8 ("ASoC: Intel: sof_sdw: Add quirks for some new Lenovo laptops")
-> Reviewed-by: Liam Girdwood <liam.r.girdwood@intel.com>
-> Reviewed-by: Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
-> Signed-off-by: Bard Liao <yung-chuan.liao@linux.intel.com>
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 > ---
->   sound/soc/intel/boards/sof_sdw.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   include/sound/sdca_function.h   |  1 +
+>   sound/soc/sdca/sdca_functions.c | 12 ++++++++++--
+>   2 files changed, 11 insertions(+), 2 deletions(-)
 > 
-> diff --git a/sound/soc/intel/boards/sof_sdw.c b/sound/soc/intel/boards/sof_sdw.c
-> index 9f721b88e606..d054be360d28 100644
-> --- a/sound/soc/intel/boards/sof_sdw.c
-> +++ b/sound/soc/intel/boards/sof_sdw.c
-> @@ -620,9 +620,9 @@ static const struct dmi_system_id sof_sdw_quirk_table[] = {
->   		.callback = sof_sdw_quirk_cb,
->   		.matches = {
->   			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> -			DMI_EXACT_MATCH(DMI_PRODUCT_SKU, "3832")
-> +			DMI_MATCH(DMI_PRODUCT_NAME, "83LC")
->   		},
-> -		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS),
-> +		.driver_data = (void *)(SOC_SDW_SIDECAR_AMPS | SOC_SDW_CODEC_MIC),
->   	},
->   	{
->   		.callback = sof_sdw_quirk_cb,
+> diff --git a/include/sound/sdca_function.h b/include/sound/sdca_function.h
+> index 6943df0851a9..89e42db6d591 100644
+> --- a/include/sound/sdca_function.h
+> +++ b/include/sound/sdca_function.h
+> @@ -42,6 +42,7 @@ enum sdca_function_type {
+>   #define	SDCA_FUNCTION_TYPE_RJ_NAME		"RJ"
+>   #define	SDCA_FUNCTION_TYPE_SIMPLE_NAME		"SimpleJack"
+>   #define	SDCA_FUNCTION_TYPE_HID_NAME		"HID"
+> +#define	SDCA_FUNCTION_TYPE_IMP_DEF_NAME		"ImplementationDefined"
+>   
+>   enum sdca_entity0_controls {
+>   	SDCA_CONTROL_ENTITY_0_COMMIT_GROUP_MASK		= 0x01,
+> diff --git a/sound/soc/sdca/sdca_functions.c b/sound/soc/sdca/sdca_functions.c
+> index a69fdb9c8b15..400763e056fa 100644
+> --- a/sound/soc/sdca/sdca_functions.c
+> +++ b/sound/soc/sdca/sdca_functions.c
+> @@ -75,12 +75,20 @@ static int patch_sdca_function_type(struct device *dev,
+>   		*function_name = SDCA_FUNCTION_TYPE_HID_NAME;
+>   		break;
+>   	case SDCA_FUNCTION_TYPE_SIMPLE_AMP:
+> +		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_AMP_NAME;
+> +		break;
+>   	case SDCA_FUNCTION_TYPE_SIMPLE_MIC:
+> +		*function_name = SDCA_FUNCTION_TYPE_SIMPLE_MIC_NAME;
+> +		break;
+>   	case SDCA_FUNCTION_TYPE_SPEAKER_MIC:
+> +		*function_name = SDCA_FUNCTION_TYPE_SPEAKER_MIC_NAME;
+> +		break;
+>   	case SDCA_FUNCTION_TYPE_RJ:
+> +		*function_name = SDCA_FUNCTION_TYPE_RJ_NAME;
+> +		break;
+
+the changes above are fine...
+
+>   	case SDCA_FUNCTION_TYPE_IMP_DEF:
+> -		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
+> -		return -EINVAL;
+> +		*function_name = SDCA_FUNCTION_TYPE_IMP_DEF_NAME;
+> +		break;
+
+but this one is controversial. We really have no idea what to do in this 
+case. There could be completely different 'imp-def' functions that 
+require different drivers. I don't know how the entire binding mechanism 
+would work. Probably best to err on the side of throwing a 'not 
+supported' error?
+
+>   	default:
+>   		dev_err(dev, "invalid SDCA function type %d\n", *function_type);
+>   		return -EINVAL;
 
