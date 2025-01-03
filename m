@@ -1,44 +1,44 @@
 Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CAB41F9AA1
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jan 2025 12:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C20D1CA8D
+	for <linux-sound@vger.kernel.org>; Fri,  3 Jan 2025 12:35:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735907359; cv=none; b=H+xEGL4C/bKQMzdcNNVVHUuYwBL2D3L3bUWVVm+ovvt2mI404hf0T0JtirF2D8muxffeZg2OASTcngIDegWVcUsj967GMMCFmBzGsagO3zERU3sjNyjryDP3WYGjTboChSyM0I6sbBhW6vy5U2xbQozlwib5Ejd5+rsp4ARr9Yg=
+	t=1735907748; cv=none; b=gLofeRivg/501v7hbkCYvzDRvrHnfFOGr62hRwTjnQbOdKiSgdsQdPn/aKthsd4z+damcYBFVfCiComeTxIYNY/D6SdktTkOWcNA2u/MFgQIZrDpRlper9ou4kCIy/KsrNQuPOQZ4Nvq/xhJA4vUQTo/nSlzDVNrfhx9YGX6uBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735907359; c=relaxed/simple;
-	bh=Mt79dF5LZFyOeJFzb0aUcYRJxif6AiVV9XY1hEF08bQ=;
+	s=arc-20240116; t=1735907748; c=relaxed/simple;
+	bh=BzI7y/InETv2yQisv1JE52ZAlErFx/QUGUeCBeLwtbo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lOWnPhep+hsEMtEBtG5kTLUc9G6kpq3dNzhIcRINDDhdz5PGtF8yKCmDWOHhdOfKakNiOjH+fvYOJuHk4+XiLvxarcQa+QJ2uNEhClk/izYYTNoyVVeerjGceRMuQnvRicvaVx6Bgt7kl10BwIEq9fLAd6Offo5Mwtu2EbWlIu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=i2LL/3Rn; arc=none smtp.client-ip=194.117.254.33
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lvo8vCEP6ovFf1q5vKHNy531/PhuH5H6NgM8huQO9E3wPuQ+5OHFSKdqCX/3F4GabJ+yYCfBQK9Fwe2hhqXXKm3XVF5Ajw9TscAhKW159QjeWiF7z4+Bpb/GBYhb8T7cSDv812vxnGdknt7TASRchj78BH6E3Qo0sOm+7Nt1N8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=SVOOtRDr; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="i2LL/3Rn"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="SVOOtRDr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=k+S6
-	kIMGdD9Inba7G068U7KObO269XTEjvwYPnnVPws=; b=i2LL/3RnwKqT1+jlXqRM
-	IWMLegMwziLqaHGCxczxo7KngNt9zG8qKqMoQlzTHTvLdzUT0QHfrBcRafUqX5Ys
-	jC36ClbAoRPHfXZVCx+hsuVwiYQzMjQfb9Mdbp0BbFekcQDsxJ9fpVF217FbDb/n
-	GLkmAwl29FWE1Yrj8vsRba+s4ogezV5q3gQuYICYLEp1do1mZx3aWhRckOywB01f
-	Q7un3/KM5/nFdHcGdn9CwLAFwIWysyca1zR2+oWxFD/wc4DV27XxqYvV9Ot8lm/G
-	yUZCXL9VR1YHSbFTycZEcbhH2YyEuZURXnZTStfIoskysnkIwDv06uEWeBd4XXLr
-	Lg==
-Received: (qmail 899452 invoked from network); 3 Jan 2025 13:29:14 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2025 13:29:14 +0100
-X-UD-Smtp-Session: l3s3148p1@cfU5bcwqCOogAwDPXw20AOMQ2KO98fSH
-Date: Fri, 3 Jan 2025 13:29:14 +0100
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=raNC
+	LCMkF9AC0ujz73+z79XXwlusvArtUEynOk2JMMk=; b=SVOOtRDrOG6jAS2kIjmt
+	QoPY2XevtnfixRyo5is5WajkwZypeXSppM9VtCMNiP+ExjxeUAoOdQxVD1oZsyqj
+	eoRiuttVuFul46VARvQGKmUzxdeIZsuPVgqPE7KbDVsXiC8yrplY+jJIXg41Sjz/
+	RFKhV+NjEz+n5GAS3xm9Oh7kShIRellB6Ejyvospqv6RctGo7Cq+++MWFZw3G+fj
+	dDzWP5H9Hf4HPK79hn5akTfvauj1W+stRV+aMOgqpHx6ffqZTehiCTxudIhWVkyr
+	2vax0acombPFZJk3jUVFEqmTjmM+CO2nqCEC1IOODYFojirxbQJ2My+nhW8jA9hP
+	jw==
+Received: (qmail 900939 invoked from network); 3 Jan 2025 13:35:44 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2025 13:35:44 +0100
+X-UD-Smtp-Session: l3s3148p1@zWsxhMwqIsQgAwDPXw20AOMQ2KO98fSH
+Date: Fri, 3 Jan 2025 13:35:39 +0100
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: Heiner Kallweit <hkallweit1@gmail.com>
 Cc: Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>,
 	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
 	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] i2c: Replace list-based mechanism for handling
- auto-detected clients
-Message-ID: <Z3fYGvxAs5HkUx_P@shikoro>
+Subject: Re: [PATCH v3 3/4] i2c: Replace list-based mechanism for handling
+ userspace-created clients
+Message-ID: <Z3fZm_LkzQG1eP7b@shikoro>
 Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	Heiner Kallweit <hkallweit1@gmail.com>,
 	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
@@ -46,7 +46,7 @@ Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
 	linux-sound@vger.kernel.org
 References: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
- <ad839a82-8694-4f99-b1c1-0ee53c9d40cf@gmail.com>
+ <122c72c5-3bae-4c60-ad53-d8b4061db30d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -54,55 +54,81 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dySJziBeBkN/MzbD"
+	protocol="application/pgp-signature"; boundary="fvS+GmTEoRNwp1NG"
 Content-Disposition: inline
-In-Reply-To: <ad839a82-8694-4f99-b1c1-0ee53c9d40cf@gmail.com>
+In-Reply-To: <122c72c5-3bae-4c60-ad53-d8b4061db30d@gmail.com>
 
 
---dySJziBeBkN/MzbD
+--fvS+GmTEoRNwp1NG
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 01, 2024 at 11:09:51PM +0100, Heiner Kallweit wrote:
-> So far a list is used to track auto-detected clients per driver.
-> The same functionality can be achieved much simpler by flagging
-> auto-detected clients.
->=20
-> Two notes regarding the usage of driver_for_each_device:
-> In our case it can't fail, however the function is annotated __must_check.
-> So a little workaround is needed to avoid a compiler warning.
-> Then we may remove nodes from the list over which we iterate.
-> This is safe, see the explanation at the beginning of lib/klist.c.
+On Fri, Nov 01, 2024 at 11:11:39PM +0100, Heiner Kallweit wrote:
+> Similar to the list of auto-detected clients, we can also replace the
+> list of userspace-created clients with flagging such client devices.
 >=20
 > Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-Applied to for-next, thanks! One minor edit:
+Applied to for-next, thanks! Some edits:
 
-> +#define I2C_CLIENT_AUTO		0x100	/* for board_info; auto-detected */
+> +	mutex_lock (&core_lock);
 
-This is not for 'board_info'. I changed it to "client was
-auto-detected".
+Superfluous space before parens. Fixed it and the other two occasions.
+
+> +	child_dev =3D device_find_child(&adap->dev, &addr, __i2c_find_user_addr=
+);
+> +	if (!child_dev) {
+> +		mutex_unlock (&core_lock);
+> +		dev_err(dev, "Can't find userspace-created device at %#x\n", addr);
+> +		return -ENOENT;
+>  	}
+> -	mutex_unlock(&adap->userspace_clients_lock);
+> +	client =3D i2c_verify_client(child_dev);
+> +	i2c_unregister_device(client);
+> +	put_device(child_dev);
+> +	mutex_unlock (&core_lock);
+
+With locks, I really prefer to have a single exit point. Reordered the
+code to:
+
+	if (child_dev) {
+		unreg
+		put
+	} else {
+		dev_err
+		count =3D -ENOENT
+	}
+
+and got rid of the 'client' variable while here which was only used
+once.
+
+> +#define I2C_CLIENT_USER		0x200	/* for board_info; userspace-created */
+
+Like in the previous patch, I fixed the flag desc a little.
+
+You might want to check my for-mergewindow branch to double check my
+edits.
 
 
---dySJziBeBkN/MzbD
+--fvS+GmTEoRNwp1NG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd32BoACgkQFA3kzBSg
-KbbPbw/7BACdJlannB3ripq7pUfzMWnqMPRdrUGJYDTLa82axiBLLFRG5R3G5mQp
-7LDl4FogENRw/jpK2XtnuYBgOhObYuDKvDAWPxpk0huSRlJpCrl4Z/J+qKUmgmBE
-eXMt0i7rMvVamXbomwBZs1sZVXTGB5VR1pRS9HcFtAnGnR1HQL15aCZ+YLvPajLO
-PrW9qCYMmoMbbY93TidIj7kNgF4RhadtDQVIsE9V/Zp6BVVYk6EDsJpf5Mnk4OCD
-rc+JNt9wnIjhMlsMNOQwx2fYUoFzVSOh6/7KF+lLVG1/YPEgxIBKoVNbZgPpYo6R
-IM42OBfdMAsqvSZp0iVPLUkUl59jN+jNUb2PvnHhJR9qTGw4VZtXBAGE4ywL+07X
-7zqgZTbOWC3MOCZRcIGRO+Och6b8VjJRH2xs7WR4LrJSsv4pEh37BH3uWL7ZiemG
-anu8D63zR323p7H6beyAyZ4GFovrmagqulz5fAxf57bP84Kv0kVEkE2OpycM6Lg0
-ndQu2V6Z3AD/gfEDZgCKk5Lk5RWr2xSiEN0ttqOxtqUVmGikaAiIoFsafw0ejdA8
-uw9asX3XQHpPhGxs3xT5lycvcLfhWFNA793QYmVx4hElqYGpwEzAwhAfldaEJsGe
-xE4KzOG19LvhesymTfbhkb/WMiICIFOK5lt50Z6RJ9T/dBOh+wI=
-=6izm
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd32ZsACgkQFA3kzBSg
+KbaPvQ/7Bd5Q/iSTA0He/rMNFmgiiPkxZjWwCCrH6GsGxSI3XnRoU5ie/XmNP4sX
+H2xsN4iefZOW9yurWoTee2zGU3tNBTag+gxxISuTkVG6CYU4X1ai4065iF0sBRHY
+dtxWmUZW55uRCdV3D4u4ad+S5AjXWR9l60QgQrm1D6LrjhQnkdksUdAMkQfR6yeM
+qzo/viZtHf3zLk2sUQm/DN9mAi6QBXk/pgTEpcM85AWc5B2aS4oZ0PobUOfglaq3
+m5PH/WNd5GlvdjROh3PFVMEnor5Xl+dnRZPDCCCOF3lYXuW9PtnsYCKXv2gGVvQq
+wn6e9abtMPVFL1UeimtzoVUUfR2ObkNe0g1NfSZMHhnI8qSLs0Fi+W6JUq++RcQB
+2NDaGJaHyTjuFxq56o86jbDfYexq4RbErHC30F9sap0aMoSatKP73Tf4YmYrG9Y1
+U+aeKqpIB09RDt5a6lIIVUKpFD+jIqeM6fAeT+iFjsSTIqPV8797DjUtqyyM4knG
+KCs9WpuUxCkxqZEQM8jHLjot3CVy4Y1KJc3lGHR/wc+JhLnO49zD8aARFShm8jbM
+cD7lNWOXzlFIYEZcLPoyYtOAcK/UIQyRuJE5ci1xPY8IAQByEXYHiWHLN4qm42nM
+KXhtfWE/rIanjSfsplILv1Z5wzLTAls9DZfJEhLrgJmQ9dql6d8=
+=EeAd
 -----END PGP SIGNATURE-----
 
---dySJziBeBkN/MzbD--
+--fvS+GmTEoRNwp1NG--
