@@ -1,98 +1,166 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3590D1CA8D
-	for <linux-sound@vger.kernel.org>; Fri,  3 Jan 2025 12:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49F217FE;
+	Fri,  3 Jan 2025 14:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735907936; cv=none; b=Z44raY8Y2ScYhGxSB5dFyRttgK07197MaN74bQ3DsyjFMncLomP3zDaEnQQTjqxQQYRFnXLweYfz8HpkCVbpAFvfEMzy+LZf40OH36sgZVX7SIY5oZWSdBkcCSkQrI1m/bloH7gWL729zhDh5d7SeStcBPXUc9Ewv0Ym+j1rxxY=
+	t=1735916172; cv=none; b=DJ7sr3cUbUDR8MdxiH2ynApaFcCvT3wQGhmbZd9/2EhFop4nHXAkQ4xKQ6tcDYovcDu6w7i5HdO7QeKB8pb5CbWypeeoUewpqg0KfDkFma31Wz9zij1eW+IryXxQsn8KSnZhSPRqXvTBLdwHHAfKEOGfS2NIwMCecvRC+HxOzTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735907936; c=relaxed/simple;
-	bh=4JBEV0jTaiXPB1NfF9cvsEnt2Wd2NnsfqTWYyS7tU2I=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bzeORUFgSBBtTpQf02pYp72J1GIt3Xf8KrTwwPqUiBj06mnERUJAgvVKREgs2RxnSZB9YaqMoc8zT5MxyoJFYLTlrqPc0mxF+J1Z+9hsDEehFtBJY6cluq3BFK5Nxx3pLHM7K8lfxyWbBlDA0kYrFctO5eBgIh2iWEUDLIkt7qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DmmHBGhS; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1735916172; c=relaxed/simple;
+	bh=zO9U1lBM7Z5ybRjIXHFxL5FKqCQnUIGpb9HHzEEnpc4=;
+	h=Date:Message-ID:From:To:Cc:Subject:MIME-Version:Content-Type; b=HjCLfyR4tUnkk0YJ7so4sEd6d137aiglb0SmEI6nk2cxsctMPKyPG/yye5WBB5H6XpyBqYfmOvGQPNM1aBirzO0YsfDttBop3JQWMZ3R8nrmeLVcfWKseYlFWfYyZWGXp7EG849TJZSyW0qT3yYhPQskB4+dyWt11M0vccApS0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Il2ZXaE2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ahn+51x4; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Egwf/q4C; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=QlrgHN1G; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DmmHBGhS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=4JBE
-	V0jTaiXPB1NfF9cvsEnt2Wd2NnsfqTWYyS7tU2I=; b=DmmHBGhSywDZcycVO17+
-	P0GWep56yEm/yD9bltyUgEq+0CqU02XVUfQ1JbemKDWrYQ/NWpELwhyHc9Jb81Rl
-	YFvDzH/+A+lUDrcOJMdMxIl3G6je7+svFMIxVf5809t8sfkjh4Ueo3BXlgQVlU8I
-	5WeFqlUqlu0Va4/WboJbG7f4Jfztm+dWidCyhaWDfrCKnMd2hZaxxoOrraslB1t5
-	QTfsv6nJFeAVoiOiA5BmWGRMoOxf4cAiXKr9rLQwGfnYtyPIQaCK5FpCqc6G/m35
-	H1MCg/CxR38ytIxq0I4Uj3953b/4HL7rIWGb5PE8y2Q7ZouRpx0csHv2nFSS5cmz
-	2w==
-Received: (qmail 901559 invoked from network); 3 Jan 2025 13:38:52 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Jan 2025 13:38:52 +0100
-X-UD-Smtp-Session: l3s3148p1@zmWnj8wq/JQgAwDPXw20AOMQ2KO98fSH
-Date: Fri, 3 Jan 2025 13:38:52 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] i2c: Replace lists of special clients with
- flagging of such clients
-Message-ID: <Z3faXNybCFNNHhfe@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	"linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-References: <97970201-24fd-473d-b20a-d21d2cd468f3@gmail.com>
- <Z0NKtrqtJA-vo17k@ninjato>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Il2ZXaE2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ahn+51x4";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Egwf/q4C";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="QlrgHN1G"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E5C6021119;
+	Fri,  3 Jan 2025 14:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735916168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=hp+MvlRi0RdjtGWUlzXAd3ZGMINkN1RwyuU1F3H+5Fo=;
+	b=Il2ZXaE2ynx9p6or4NCQ2cB0jESpwhO4jfo1mZiIeKxRPph8N4i/1mGc0XxxLssOi5h3IF
+	AxvxEX6yn4k4TIYYmYGle3z4TgUNCSlmpEGKamRY0Rg/U0/La6IM7H5K7I5CJeqEPlWAuZ
+	Vc+8HxsJKWVog+dJfZpJGLm52VDXB28=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735916168;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=hp+MvlRi0RdjtGWUlzXAd3ZGMINkN1RwyuU1F3H+5Fo=;
+	b=ahn+51x42aa0ggmqiFj7J7Q0LeN4W8xz+PKIpqBJOQgzUxQl/rqgfjM8luFJnY7xuI0C90
+	2IG8UR4eXAWHKSBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="Egwf/q4C";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=QlrgHN1G
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735916166; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=hp+MvlRi0RdjtGWUlzXAd3ZGMINkN1RwyuU1F3H+5Fo=;
+	b=Egwf/q4CpwTfGyXHnNq0tzNe5vKDZvqs1Dj47+B3TDXGB6YVFMOjVlo2IPDUcw1lljaFRv
+	O8BIk0WRMSgOgOetnw4Lbb+PvXpjeSGxFCeRqJUNI6ri8muo/PRE8Jhuc2cRAI67t4AalN
+	wqeIqDxroRBYkc+IG8m9ctQ5K2Y57e8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735916166;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type;
+	bh=hp+MvlRi0RdjtGWUlzXAd3ZGMINkN1RwyuU1F3H+5Fo=;
+	b=QlrgHN1GChs1mj9+eSFND1Ca30g9DRYlLklTg4QsFVz24R4VmySxSvvnQMSH7yaeClizB9
+	YVsQL8gUMKmPc6Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C60B213418;
+	Fri,  3 Jan 2025 14:56:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id vYAaL4b6d2crZAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 03 Jan 2025 14:56:06 +0000
+Date: Fri, 03 Jan 2025 15:56:06 +0100
+Message-ID: <87ttagymih.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Linux Sound Mailing List <linux-sound@vger.kernel.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL] sound fixes for 6.13-rc6
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IncnI9KVZ9OCRmYF"
-Content-Disposition: inline
-In-Reply-To: <Z0NKtrqtJA-vo17k@ninjato>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: E5C6021119
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim];
+	TO_DN_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
+[ resent due to wrong mail format -- sorry! ]
 
---IncnI9KVZ9OCRmYF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Linus,
 
+please pull sound fixes for v6.13-rc6 from:
 
-> Sorry for not having the time to review it in time for 6.13. As we found
-> with the last version, this really needs in-depth thinking. We will try
-> again for 6.14.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tags/sound-6.13-rc6
 
-So, I reviewed the code two more times and added hacks to test
-auto-detected devices. I think we can let it out now into -next for
-further testing.
+The topmost commit is 8765429279e7d3d68d39ace5f84af2815174bb1e
 
-Thanks for your patience and the continued work here! I really like how
-this simplifies the I2C core. Let's hope we did not overlook something.
+----------------------------------------------------------------
 
+sound fixes for 6.13-rc6
 
---IncnI9KVZ9OCRmYF
-Content-Type: application/pgp-signature; name="signature.asc"
+The first new year PR: no surprise, all small fixes, including:
 
------BEGIN PGP SIGNATURE-----
+- Follow-up fixes for the new compress-offload API extension
+- A couple of fixes for MIDI 2.0 UMP handling
+- A trivial race fix for OSS sequencer emulation ioctls
+- USB-audio and HD-audio fixes / quirks
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmd32lsACgkQFA3kzBSg
-KbYHVQ/+PCSURI2lDdIe/WH/eDYrRHp0CZwn1mMWIxd0VoDD2W2mi0PLoWXaEGy/
-7VpGswRY0T+ERylD17ulffX39sp+Zk+wh9a6iR1V1icseZjvND13tarLUKag3oFe
-6nDBYAImPZejwrjoc2nsLCBYLUWb8MEpKE3fCE9nYH1V5ImnOIPk+XTIMALMQiD6
-Qi2L7iHV56BeUAhP9tjNXNcv4zOUaTOH/rcDqOFsz7zx6CO86tVLKDqC6PMxAaVg
-CL90H2/vO+8sQChSTZqTKcYjnLcGo8BRR+bQbvf5moNxn1zCSp4UGIU8i5RwbogM
-3t086E+s3Y1De64RVQ4MNs8jh+gO/RPG0EjttCpCXj4N0bhTtxQR8yagBCqoIhwF
-MBFgzLSpR03lEbvrAOcTKvtr7QySmVbI1Pvdmb1g0h/V9T1TwSzBYVLxnYa7Xih4
-i8onVSx4/65n3QRQg4szxBQwbbASgKMBnF5PgFgiznQ8vYZ7ShV03q52WApqd9nF
-WSvYtO2kuaS9A1JeDTV9ptgifx+I842rwVtSK+9ukmdRgOknhyWoxdj5kBk0JHuA
-0fSFDsa4pSaRizZRcNDLR3klQVEQwRhBZ5GtQ+ZYLgD/qTkPpXMAsA/s5CpxQgn0
-q0YgyLFljPC1ppxbd9fvRjlJiK891oSPQeSRacGeu6D7Mhc1i/A=
-=MSto
------END PGP SIGNATURE-----
+----------------------------------------------------------------
 
---IncnI9KVZ9OCRmYF--
+Al Viro (1):
+      ALSA: compress_offload: fix remaining descriptor races in sound/core/compress_offload.c
+
+Baojun Xu (1):
+      ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
+
+Daniel Schaefer (1):
+      ALSA hda/realtek: Add quirk for Framework F111:000C
+
+Takashi Iwai (4):
+      ALSA: compress_offload: Drop unneeded no_free_ptr()
+      ALSA: seq: oss: Fix races at processing SysEx messages
+      Revert "ALSA: ump: Don't enumeration invalid groups for legacy rawmidi"
+      ALSA: seq: Check UMP support for midi_version change
+
+Tanya Agarwal (1):
+      ALSA: usb-audio: US16x08: Initialize array before use
+
+---
+ sound/core/compress_offload.c      | 12 ++++++------
+ sound/core/seq/oss/seq_oss_synth.c |  2 ++
+ sound/core/seq/seq_clientmgr.c     | 14 ++++++++++----
+ sound/core/ump.c                   |  2 +-
+ sound/pci/hda/patch_realtek.c      |  1 +
+ sound/pci/hda/tas2781_hda_i2c.c    |  4 ++++
+ sound/usb/mixer_us16x08.c          |  2 +-
+ 7 files changed, 25 insertions(+), 12 deletions(-)
+
