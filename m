@@ -1,156 +1,455 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E8D1E519
-	for <linux-sound@vger.kernel.org>; Sat,  4 Jan 2025 06:48:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D964D14E2E2;
+	Sat,  4 Jan 2025 09:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735973308; cv=none; b=Giaxy41aqWQ/pTsl0GgpYs5UtSSdZhnAla6zLACVjhn2P8e/k88Udt56lr0/zqEyNw1kWEsNG3RHUGedkKeDgl68fYGYDmKDrvrGUVxn1yBN2Vues/GrfbyE5bmQefLsnZik6aFE4cUYyqvezwgkw/Spu5vpPo8kXkJrfjZbP6Q=
+	t=1735983445; cv=none; b=BAqSE0OuV9BDrMMYdwRJC/GA/X2EYYAxqfZV2E1b2y/NlBCJydg54ACSdLQo9NjYhjK2vuBRbelQU1RKuVBq3lNYtrUW+13CNE8lRuazSdkHLqBdA5pv8o4zm/7GXlR8+2glI7hdL1qnWa4bKPBwomRd3lxn+O2NtRp9HBVpLAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735973308; c=relaxed/simple;
-	bh=stYUOuwyY4dfWVz1xVRhq384EFrSnfu5en26KjDHAUM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qOLYriIQIAKfxYMp2NV/s1X8psWlm3XaGxDfyufOWgSXHzTepR5SG3auv2w41GnNC6LRw6TCbDOFaAyKVKaGG7JTRVQgsCdaf+wN3y2ZBqSS9nQM1YMwyrRFN0x5Gmk/mE4wc0M7+QYNNLFlShDc2AfNTG4nF2zEnAnIvF47uJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NoE2vrUs; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1735983445; c=relaxed/simple;
+	bh=B/2hezgO1SGWfqO6nMLSzVz0NAQ4Sf4MvhUIUKSxkss=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kTZre1WxiD3+VwEpidZXJbifJGnpn7vnoKvbTT2yX72zhBE6jYZ73urJ+eiUWw12iL8buTLXLNGr6wCIWbmP4MceoG7AlzQCXvo9EuTqjnys2OfiOOSKYhBwhyn5ple/GDezkmeLa4SDuSPcneXeISBf6WT25AkLamXemUdI0zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=TeXZSTV7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=sC1pT2um; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Xf4dsglL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4vN8JDCn; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NoE2vrUs"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53e3c47434eso13390644e87.3
-        for <linux-sound@vger.kernel.org>; Fri, 03 Jan 2025 22:48:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1735973304; x=1736578104; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
-        b=NoE2vrUspJuoJu3DzjK5OHQ/zqCl46EZy/GwuhfijsyVCgdMwN7uuSl4VD7bW+IC/1
-         qezVBz5orQfNqzuwbgwCI1MAIld5KJIpViGAzVPFW5kj+eTqH1W7tpHc7/jYuM6bP6Gm
-         WPrQi5SEX0UpumlKRIiK0yCDB+LfJBHakRzYg5+OM7KaGIEvd5K/3zkwnEcGBEwQoO96
-         e28CtZQIX5Q7fJJPtBmeqRQurtUAjj0kVAiAMFLzaDRqDmibwabtZmm7B+AwnYeM8qCF
-         +x1kiFUs5eEvOZYGpKK84O+I+rwKPr3X/4O81qLdWl7Dp4wdSJoCi8J+R8MrcgsySj8E
-         mACg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735973304; x=1736578104;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OL2v2cgbonvN/57biijzRWsX5GH+mP+xPVPcn+nnd/k=;
-        b=pyVRIHE7+UUneewRcRinkjWB0CSDsXqB/6Dle54PMTiLY+1cnOSTo9d3minEjLlFv8
-         keP2olfejQDSnzWuokynmvfcLFoI3ublfGqK2jwoBFG6eSCqrHLF54OQRfrhS2WIFAVn
-         frJciqQZVBUfgwOKM8yCxG+HpuVTtc2EmBYpV1PoRBBTrYh2439ffDfCalDGmoUG9xwO
-         Rb/XW8+zFbxb2DZAUv+g0uBJQVenNKQxqVounJy/P3Vv+eAf4uJb9awdyFxb7EiCHeUO
-         lUBNfeQocLYfx4QWyaA/oldgS4LA031khusR/j9pdDHKV8sORvsfyCPK1XB+6iHAaac8
-         2Omw==
-X-Forwarded-Encrypted: i=1; AJvYcCVbZK8i1DMiqgzxkrmylWlG/KOpfDNR2Jb86EsrJugXHcFoxmCvD8s+JQBFPabkaYXvYqFsMu9QNdLAOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaBm50lFS5S6vYX776y0aaCmW8veHPYPYv5EBge3r13WweDgSA
-	8/8940iS8atA89JfY/UYo9RpLwt0gB3lscNHNDil0J4jEuGtjpaXhYziaKQilgU=
-X-Gm-Gg: ASbGncueJ1Wa2UdaZ3Fr8hr2RnjEJhrEiHn5gHcN9AI9NTey7qGKflghmwPa7zrNXny
-	6W9mxvgE40lfuNIiLWabdJz7nZlJsW6JAFCG+4sVETfuiaI8kHyAiztc6eQeaCszeseymG9Z0OO
-	noeLDA7lt/bdj5l5chsWngR5EDZvIxajGaD63Dh2nBV6lApNz4tpBC18W+mQgYZ2MMVRKsJydSN
-	QQCsyx5IDcyloGPJLXgLuBZ2UnG+dnc6yvcbRqPkoFubuoDRxg7Q3qf9VvsWXdGeBJAf1V8EeHY
-	9W8vfY+hwWY0gxzlA0NL921F
-X-Google-Smtp-Source: AGHT+IH3b8Wrusc5F4Hb8fKgaj49rA+Ki+WtT2vpjNm4L2ymezTReLIBxE1xf5KxHdrS/65tedN1lQ==
-X-Received: by 2002:a05:6512:1114:b0:540:2fbb:22cb with SMTP id 2adb3069b0e04-54229533aeemr14027670e87.13.1735973304217;
-        Fri, 03 Jan 2025 22:48:24 -0800 (PST)
-Received: from eriador.lan (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54223825f3csm4213238e87.226.2025.01.03.22.48.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2025 22:48:22 -0800 (PST)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Phong LE <ple@baylibre.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v10 00/10] drm: add DRM HDMI Codec framework
-Date: Sat,  4 Jan 2025 08:48:19 +0200
-Message-ID: <173597328997.875472.12782462213120017264.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
-References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TeXZSTV7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sC1pT2um";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Xf4dsglL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4vN8JDCn"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B96B5210F6;
+	Sat,  4 Jan 2025 09:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735983441; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HNFDPxqL03XYhGt/qHZS8Fj6MSdsIYDimkqf6NOhYj8=;
+	b=TeXZSTV71k/WUImicRucnw5O5x/4WyzyyBrkK1Uwr/q/skYr5R5YoTIGg6IFnt15wAVsxg
+	P+QVmq4oVjl9it/LEbprMub3jk2Xe57rPXEGbcgEc8bOFnr1MmTl9E0U65zLugfao957tO
+	7noEK3n0Rhzn+qwvQca7VW1qND500nA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735983441;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HNFDPxqL03XYhGt/qHZS8Fj6MSdsIYDimkqf6NOhYj8=;
+	b=sC1pT2umQQYb/udZL1DKCbVR0FakaB+6YBK3NIdFQZ2sEU9XgMqOwd0ccWxu9+5BbtZAms
+	61PYd+D1OGrMQMDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Xf4dsglL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=4vN8JDCn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1735983439; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HNFDPxqL03XYhGt/qHZS8Fj6MSdsIYDimkqf6NOhYj8=;
+	b=Xf4dsglLGT/epyZihbybySzlY0aePrBye8FESmZYm0INImfus0+7W3cUsWqKByeYlDOW7k
+	9m4mI4qGN3fkpSycIqpAYY6km7H1SWag4/e3PDAloDHuhiCTLwUoMF5TIYSTBaXwGiDT78
+	sRVrtF6xH6FHs6xpXRc90c69xr44wfA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1735983439;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HNFDPxqL03XYhGt/qHZS8Fj6MSdsIYDimkqf6NOhYj8=;
+	b=4vN8JDCn4YDzEu2csI6eUKadZfRbXXCv7Icw675J6BLxGxUBEHk53QclMmhe1tROYHYV/K
+	KNl6xVafsTH4wKDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28CBB137CF;
+	Sat,  4 Jan 2025 09:37:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id qNQzCE8BeWfAXgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 04 Jan 2025 09:37:19 +0000
+Date: Sat, 04 Jan 2025 10:37:18 +0100
+Message-ID: <8734hyzzqp.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Jaroslav Kysela <perex@perex.cz>,	Takashi Iwai <tiwai@suse.com>,	Clemens
+ Ladisch <clemens@ladisch.de>,	Liam Girdwood <lgirdwood@gmail.com>,	Mark
+ Brown <broonie@kernel.org>,	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.dev>,	Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
+ <amadeuszx.slawinski@linux.intel.com>,	Heiner Kallweit
+ <hkallweit1@gmail.com>,	Rui Salvaterra <rsalvaterra@gmail.com>,	Huacai Chen
+ <chenhuacai@kernel.org>,	David Rhodes <drhodes@opensource.cirrus.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,	He Lugang <helugang@uniontech.com>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,	Binbin Zhou
+ <zhoubinbin@loongson.cn>,	Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>,	Tang Bin <tangbin@cmss.chinamobile.com>,
+	linux-parisc@vger.kernel.org,	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] sound: Replace deprecated PCI functions
+In-Reply-To: <20250103175053.149735-2-phasta@kernel.org>
+References: <20250103175053.149735-2-phasta@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: B96B5210F6
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[perex.cz,suse.com,ladisch.de,gmail.com,kernel.org,linux.intel.com,linux.dev,opensource.cirrus.com,baylibre.com,uniontech.com,renesas.com,loongson.cn,linaro.org,cmss.chinamobile.com,vger.kernel.org];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Tue, 24 Dec 2024 03:47:52 +0200, Dmitry Baryshkov wrote:
-> While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
-> framework, I stumbled upon an issue while handling the Audio InfoFrames.
-> The HDMI codec callbacks weren't receiving the drm_atomic_state, so
-> there was no simple way to get the drm_connector that stayed at the end
-> of the bridge chain. At the same point the drm_hdmi_connector functions
-> expected to get drm_connector instance.
+On Fri, 03 Jan 2025 18:50:54 +0100,
+Philipp Stanner wrote:
 > 
-> [...]
+> pcim_iomap_table() and pcim_iomap_regions() have been deprecated and
+> should be removed from the kernel. Furthermore, some users of the latter
+> function in sound/ currently misuse the @name parameter, which should
+> describe the driver reserving a region, not the device the region is on.
+> 
+> Replace the deprecated functions with pcim_iomap_region().
+> 
+> Always pass the driver's name in that new function's @name parameter.
+> 
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-Applied to drm-misc-next, thanks!
+The changes look OK, but I prefer splitting the patch to each driver,
+so that it can be applied more safely for stable kernels if needed.
 
-[01/10] ASoC: hdmi-codec: pass data to get_dai_id too
-        commit: 6af45d7df1099ccac634b36f8cdfa32fbca8c1d1
-[02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
-        commit: bb1d67bf82fbd2c550fa637e0b8a966ee81a293b
-[03/10] drm/connector: implement generic HDMI audio helpers
-        commit: baf616647fe6f857a0cf2187197de31e9bb17a71
-[04/10] drm/bridge: connector: add support for HDMI codec framework
-        commit: 0beba3f9d366c6df10e5b080fc99c45ac17248ed
-[05/10] drm/bridge: lt9611: switch to using the DRM HDMI codec framework
-        commit: c054aa1bf529a2fa13546b25231d16bb0fd87ca2
-[06/10] drm/display/hdmi: implement hotplug functions
-        commit: ab716b74dc9dd4903b9006f473137e1aa624af56
-[07/10] drm/bridge_connector: hook drm_atomic_helper_connector_hdmi_hotplug()
-        commit: 4b5a79d7f4d5c34120c6f2e8836bc8ad3a43594c
-[08/10] drm/vc4: hdmi: switch to using generic HDMI Codec infrastructure
-        commit: 9640f1437a88d8c617ff5523f1f9dc8c3ff29121
-[09/10] drm/vc4: hdmi: stop rereading EDID in get_modes()
-        commit: b4fa0800760c20fe34318a1079687526fc323572
-[10/10] drm/vc4: hdmi: use drm_atomic_helper_connector_hdmi_hotplug()
-        commit: 2ea9ec5d2c207a41d523f8804053cee00fe50763
+Care to do that?
 
-Best regards,
--- 
-With best wishes
-Dmitry
 
+thanks,
+
+Takashi
+
+> ---
+>  sound/pci/ad1889.c                    |  7 +++----
+>  sound/pci/atiixp.c                    |  7 +++----
+>  sound/pci/atiixp_modem.c              |  7 +++----
+>  sound/pci/au88x0/au88x0.c             |  7 +++----
+>  sound/pci/aw2/aw2-alsa.c              |  7 +++----
+>  sound/pci/bt87x.c                     |  7 +++----
+>  sound/pci/cs4281.c                    | 13 +++++++------
+>  sound/pci/cs5530.c                    |  7 +++----
+>  sound/pci/hda/hda_intel.c             |  7 +++----
+>  sound/pci/lola/lola.c                 | 16 +++++++++++-----
+>  sound/pci/rme9652/hdspm.c             |  7 +++----
+>  sound/soc/loongson/loongson_i2s_pci.c | 13 +++++++------
+>  12 files changed, 52 insertions(+), 53 deletions(-)
+> 
+> diff --git a/sound/pci/ad1889.c b/sound/pci/ad1889.c
+> index 50e30704bf6f..a90c579f77a2 100644
+> --- a/sound/pci/ad1889.c
+> +++ b/sound/pci/ad1889.c
+> @@ -810,12 +810,11 @@ snd_ad1889_create(struct snd_card *card, struct pci_dev *pci)
+>  	chip->irq = -1;
+>  
+>  	/* (1) PCI resource allocation */
+> -	err = pcim_iomap_regions(pci, 1 << 0, card->driver);
+> -	if (err < 0)
+> -		return err;
+> +	chip->iobase = pcim_iomap_region(pci, 0, card->driver);
+> +	if (IS_ERR(chip->iobase))
+> +		return PTR_ERR(chip->iobase);
+>  
+>  	chip->bar = pci_resource_start(pci, 0);
+> -	chip->iobase = pcim_iomap_table(pci)[0];
+>  	
+>  	pci_set_master(pci);
+>  
+> diff --git a/sound/pci/atiixp.c b/sound/pci/atiixp.c
+> index df2fef726d60..427006be240b 100644
+> --- a/sound/pci/atiixp.c
+> +++ b/sound/pci/atiixp.c
+> @@ -1544,11 +1544,10 @@ static int snd_atiixp_init(struct snd_card *card, struct pci_dev *pci)
+>  	chip->card = card;
+>  	chip->pci = pci;
+>  	chip->irq = -1;
+> -	err = pcim_iomap_regions(pci, 1 << 0, "ATI IXP AC97");
+> -	if (err < 0)
+> -		return err;
+> +	chip->remap_addr = pcim_iomap_region(pci, 0, "ATI IXP AC97");
+> +	if (IS_ERR(chip->remap_addr))
+> +		return PTR_ERR(chip->remap_addr);
+>  	chip->addr = pci_resource_start(pci, 0);
+> -	chip->remap_addr = pcim_iomap_table(pci)[0];
+>  
+>  	if (devm_request_irq(&pci->dev, pci->irq, snd_atiixp_interrupt,
+>  			     IRQF_SHARED, KBUILD_MODNAME, chip)) {
+> diff --git a/sound/pci/atiixp_modem.c b/sound/pci/atiixp_modem.c
+> index eb569539f322..8d3083b9b024 100644
+> --- a/sound/pci/atiixp_modem.c
+> +++ b/sound/pci/atiixp_modem.c
+> @@ -1174,11 +1174,10 @@ static int snd_atiixp_init(struct snd_card *card, struct pci_dev *pci)
+>  	chip->card = card;
+>  	chip->pci = pci;
+>  	chip->irq = -1;
+> -	err = pcim_iomap_regions(pci, 1 << 0, "ATI IXP MC97");
+> -	if (err < 0)
+> -		return err;
+> +	chip->remap_addr = pcim_iomap_region(pci, 0, "ATI IXP MC97");
+> +	if (IS_ERR(chip->remap_addr))
+> +		return PTR_ERR(chip->remap_addr);
+>  	chip->addr = pci_resource_start(pci, 0);
+> -	chip->remap_addr = pcim_iomap_table(pci)[0];
+>  
+>  	if (devm_request_irq(&pci->dev, pci->irq, snd_atiixp_interrupt,
+>  			     IRQF_SHARED, KBUILD_MODNAME, chip)) {
+> diff --git a/sound/pci/au88x0/au88x0.c b/sound/pci/au88x0/au88x0.c
+> index 62b10b0e07b1..fd986247331a 100644
+> --- a/sound/pci/au88x0/au88x0.c
+> +++ b/sound/pci/au88x0/au88x0.c
+> @@ -160,12 +160,11 @@ snd_vortex_create(struct snd_card *card, struct pci_dev *pci)
+>  	// (1) PCI resource allocation
+>  	// Get MMIO area
+>  	//
+> -	err = pcim_iomap_regions(pci, 1 << 0, CARD_NAME_SHORT);
+> -	if (err)
+> -		return err;
+> +	chip->mmio = pcim_iomap_region(pci, 0, KBUILD_MODNAME);
+> +	if (IS_ERR(chip->mmio))
+> +		return PTR_ERR(chip->mmio);
+>  
+>  	chip->io = pci_resource_start(pci, 0);
+> -	chip->mmio = pcim_iomap_table(pci)[0];
+>  
+>  	/* Init audio core.
+>  	 * This must be done before we do request_irq otherwise we can get spurious
+> diff --git a/sound/pci/aw2/aw2-alsa.c b/sound/pci/aw2/aw2-alsa.c
+> index 29a4bcdec237..7b4b8f785517 100644
+> --- a/sound/pci/aw2/aw2-alsa.c
+> +++ b/sound/pci/aw2/aw2-alsa.c
+> @@ -225,11 +225,10 @@ static int snd_aw2_create(struct snd_card *card,
+>  	chip->irq = -1;
+>  
+>  	/* (1) PCI resource allocation */
+> -	err = pcim_iomap_regions(pci, 1 << 0, "Audiowerk2");
+> -	if (err < 0)
+> -		return err;
+> +	chip->iobase_virt = pcim_iomap_region(pci, 0, "Audiowerk2");
+> +	if (IS_ERR(chip->iobase_virt))
+> +		return PTR_ERR(chip->iobase_virt);
+>  	chip->iobase_phys = pci_resource_start(pci, 0);
+> -	chip->iobase_virt = pcim_iomap_table(pci)[0];
+>  
+>  	/* (2) initialization of the chip hardware */
+>  	snd_aw2_saa7146_setup(&chip->saa7146, chip->iobase_virt);
+> diff --git a/sound/pci/bt87x.c b/sound/pci/bt87x.c
+> index 621985bfee5d..91492dd2b38a 100644
+> --- a/sound/pci/bt87x.c
+> +++ b/sound/pci/bt87x.c
+> @@ -696,10 +696,9 @@ static int snd_bt87x_create(struct snd_card *card,
+>  	chip->irq = -1;
+>  	spin_lock_init(&chip->reg_lock);
+>  
+> -	err = pcim_iomap_regions(pci, 1 << 0, "Bt87x audio");
+> -	if (err < 0)
+> -		return err;
+> -	chip->mmio = pcim_iomap_table(pci)[0];
+> +	chip->mmio = pcim_iomap_region(pci, 0, "Bt87x audio");
+> +	if (IS_ERR(chip->mmio))
+> +		return PTR_ERR(chip->mmio);
+>  
+>  	chip->reg_control = CTL_A_PWRDN | CTL_DA_ES2 |
+>  			    CTL_PKTP_16 | (15 << CTL_DA_SDR_SHIFT);
+> diff --git a/sound/pci/cs4281.c b/sound/pci/cs4281.c
+> index 0cc86e73cc62..90958a422b75 100644
+> --- a/sound/pci/cs4281.c
+> +++ b/sound/pci/cs4281.c
+> @@ -1302,14 +1302,15 @@ static int snd_cs4281_create(struct snd_card *card,
+>  	}
+>  	chip->dual_codec = dual_codec;
+>  
+> -	err = pcim_iomap_regions(pci, 0x03, "CS4281"); /* 2 BARs */
+> -	if (err < 0)
+> -		return err;
+> +	chip->ba0 = pcim_iomap_region(pci, 0, "CS4281");
+> +	if (IS_ERR(chip->ba0))
+> +		return PTR_ERR(chip->ba0);
+>  	chip->ba0_addr = pci_resource_start(pci, 0);
+> -	chip->ba1_addr = pci_resource_start(pci, 1);
+>  
+> -	chip->ba0 = pcim_iomap_table(pci)[0];
+> -	chip->ba1 = pcim_iomap_table(pci)[1];
+> +	chip->ba1 = pcim_iomap_region(pci, 1, "CS4281");
+> +	if (IS_ERR(chip->ba1))
+> +		return PTR_ERR(chip->ba1);
+> +	chip->ba1_addr = pci_resource_start(pci, 1);
+>  	
+>  	if (devm_request_irq(&pci->dev, pci->irq, snd_cs4281_interrupt,
+>  			     IRQF_SHARED, KBUILD_MODNAME, chip)) {
+> diff --git a/sound/pci/cs5530.c b/sound/pci/cs5530.c
+> index 93ff029e6583..532891e67c34 100644
+> --- a/sound/pci/cs5530.c
+> +++ b/sound/pci/cs5530.c
+> @@ -91,11 +91,10 @@ static int snd_cs5530_create(struct snd_card *card,
+>  	chip->card = card;
+>  	chip->pci = pci;
+>  
+> -	err = pcim_iomap_regions(pci, 1 << 0, "CS5530");
+> -	if (err < 0)
+> -		return err;
+> +	mem = pcim_iomap_region(pci, 0, "CS5530");
+> +	if (IS_ERR(mem))
+> +		return PTR_ERR(mem);
+>  	chip->pci_base = pci_resource_start(pci, 0);
+> -	mem = pcim_iomap_table(pci)[0];
+>  	map = readw(mem + 0x18);
+>  
+>  	/* Map bits
+> diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+> index 4a62440adfaf..73ac16ac6900 100644
+> --- a/sound/pci/hda/hda_intel.c
+> +++ b/sound/pci/hda/hda_intel.c
+> @@ -1863,12 +1863,11 @@ static int azx_first_init(struct azx *chip)
+>  			chip->jackpoll_interval = msecs_to_jiffies(1500);
+>  	}
+>  
+> -	err = pcim_iomap_regions(pci, 1 << 0, "ICH HD audio");
+> -	if (err < 0)
+> -		return err;
+> +	bus->remap_addr = pcim_iomap_region(pci, 0, "ICH HD audio");
+> +	if (IS_ERR(bus->remap_addr))
+> +		return PTR_ERR(bus->remap_addr);
+>  
+>  	bus->addr = pci_resource_start(pci, 0);
+> -	bus->remap_addr = pcim_iomap_table(pci)[0];
+>  
+>  	if (chip->driver_type == AZX_DRIVER_SKL)
+>  		snd_hdac_bus_parse_capabilities(bus);
+> diff --git a/sound/pci/lola/lola.c b/sound/pci/lola/lola.c
+> index 1aa30e90b86a..fb8bd54e4c2d 100644
+> --- a/sound/pci/lola/lola.c
+> +++ b/sound/pci/lola/lola.c
+> @@ -541,6 +541,7 @@ static int lola_create(struct snd_card *card, struct pci_dev *pci, int dev)
+>  	struct lola *chip = card->private_data;
+>  	int err;
+>  	unsigned int dever;
+> +	void __iomem *iomem;
+>  
+>  	err = pcim_enable_device(pci);
+>  	if (err < 0)
+> @@ -580,14 +581,19 @@ static int lola_create(struct snd_card *card, struct pci_dev *pci, int dev)
+>  		chip->sample_rate_min = 16000;
+>  	}
+>  
+> -	err = pcim_iomap_regions(pci, (1 << 0) | (1 << 2), DRVNAME);
+> -	if (err < 0)
+> -		return err;
+> +	iomem = pcim_iomap_region(pci, 0, DRVNAME);
+> +	if (IS_ERR(iomem))
+> +		return PTR_ERR(iomem);
+>  
+> +	chip->bar[0].remap_addr = iomem;
+>  	chip->bar[0].addr = pci_resource_start(pci, 0);
+> -	chip->bar[0].remap_addr = pcim_iomap_table(pci)[0];
+> +
+> +	iomem = pcim_iomap_region(pci, 2, DRVNAME);
+> +	if (IS_ERR(iomem))
+> +		return PTR_ERR(iomem);
+> +
+> +	chip->bar[1].remap_addr = iomem;
+>  	chip->bar[1].addr = pci_resource_start(pci, 2);
+> -	chip->bar[1].remap_addr = pcim_iomap_table(pci)[2];
+>  
+>  	pci_set_master(pci);
+>  
+> diff --git a/sound/pci/rme9652/hdspm.c b/sound/pci/rme9652/hdspm.c
+> index d7290463d654..9aa2b2f37c25 100644
+> --- a/sound/pci/rme9652/hdspm.c
+> +++ b/sound/pci/rme9652/hdspm.c
+> @@ -6561,13 +6561,12 @@ static int snd_hdspm_create(struct snd_card *card,
+>  
+>  	pci_set_master(hdspm->pci);
+>  
+> -	err = pcim_iomap_regions(pci, 1 << 0, "hdspm");
+> -	if (err < 0)
+> -		return err;
+> +	hdspm->iobase = pcim_iomap_region(pci, 0, "hdspm");
+> +	if (IS_ERR(hdspm->iobase))
+> +		return PTR_ERR(hdspm->iobase);
+>  
+>  	hdspm->port = pci_resource_start(pci, 0);
+>  	io_extent = pci_resource_len(pci, 0);
+> -	hdspm->iobase = pcim_iomap_table(pci)[0];
+>  	dev_dbg(card->dev, "remapped region (0x%lx) 0x%lx-0x%lx\n",
+>  			(unsigned long)hdspm->iobase, hdspm->port,
+>  			hdspm->port + io_extent - 1);
+> diff --git a/sound/soc/loongson/loongson_i2s_pci.c b/sound/soc/loongson/loongson_i2s_pci.c
+> index d2d0e5d8cac9..1ea5501a97f8 100644
+> --- a/sound/soc/loongson/loongson_i2s_pci.c
+> +++ b/sound/soc/loongson/loongson_i2s_pci.c
+> @@ -16,6 +16,8 @@
+>  #include "loongson_i2s.h"
+>  #include "loongson_dma.h"
+>  
+> +#define DRIVER_NAME "loongson-i2s-pci"
+> +
+>  static bool loongson_i2s_wr_reg(struct device *dev, unsigned int reg)
+>  {
+>  	switch (reg) {
+> @@ -92,13 +94,12 @@ static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+>  	i2s->dev = dev;
+>  	pci_set_drvdata(pdev, i2s);
+>  
+> -	ret = pcim_iomap_regions(pdev, 1 << 0, dev_name(dev));
+> -	if (ret < 0) {
+> -		dev_err(dev, "iomap_regions failed\n");
+> -		return ret;
+> +	i2s->reg_base = pcim_iomap_region(pdev, 0, DRIVER_NAME);
+> +	if (IS_ERR(i2s->reg_base)) {
+> +		dev_err(dev, "iomap_region failed\n");
+> +		return PTR_ERR(i2s->reg_base);
+>  	}
+>  
+> -	i2s->reg_base = pcim_iomap_table(pdev)[0];
+>  	i2s->regmap = devm_regmap_init_mmio(dev, i2s->reg_base,
+>  					    &loongson_i2s_regmap_config);
+>  	if (IS_ERR(i2s->regmap))
+> @@ -147,7 +148,7 @@ static const struct pci_device_id loongson_i2s_ids[] = {
+>  MODULE_DEVICE_TABLE(pci, loongson_i2s_ids);
+>  
+>  static struct pci_driver loongson_i2s_driver = {
+> -	.name = "loongson-i2s-pci",
+> +	.name = DRIVER_NAME,
+>  	.id_table = loongson_i2s_ids,
+>  	.probe = loongson_i2s_pci_probe,
+>  	.driver = {
+> -- 
+> 2.47.1
+> 
