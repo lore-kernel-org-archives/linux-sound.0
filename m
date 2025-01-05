@@ -1,140 +1,117 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB27156238;
-	Sun,  5 Jan 2025 16:24:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4E514883C;
+	Sun,  5 Jan 2025 16:25:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736094281; cv=none; b=mxfKea09EU3f1+T/jDK34fmJWg2eUC0CvjlfZ41HNiAYPtuEoH3fqA1/smKPal0ULIS/tUVRTD9euzevVltY0mmadH1ed2u9uqXiZ/2ulhcEiZTihB4woC03NHuEFkyrvq+JIRC7O6pwpfwR/Ryb3XrIMfY3WMbzITDMK4acwNo=
+	t=1736094356; cv=none; b=nv7otHarItkln1ghJ/AqPzjDMj0GJyjOiH7HXHATmSERqdvx/GhpO8QyShzgpRxWYsopfdL7r5knv3IEAiA8aBk++2mStVQwK9vdj0Fi597oqCBUkfJbf2HpuYXImI9q3PLnOB4xr/nQQqBYYlb1pDP4JNgdMz60uzC9pg2fefw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736094281; c=relaxed/simple;
-	bh=93keYEgBvz0LSwbojVZVnySM+fK8tKOU/aocT3PzMdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FH+U6e7iv3/n8jYAMBKvQH0dN0z6m3GZnt64Wxif6RhNGSi3iTzgGOQo2+0dsJeSDJoQENDIQ7rbGeOFu+V2uZEfkF+daAQQrnLGHK5pez1A27N0dTuh6rC9D0FbK//uJawhZC2fPTOqEkt4oneNx3/qn55/DC9zQ7d34VECOv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=mMoZlNdv; arc=none smtp.client-ip=209.85.218.45
+	s=arc-20240116; t=1736094356; c=relaxed/simple;
+	bh=Hbu7641CeG8xNiROLSccwQDpo4bojGzR/nTssY8hmOI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hiUB6bLf8E7SGYdSzqDTxwcNP3t8LPwBKM5VW9bqF8xLYGYt5X7naEFFmCwx1wDJlqc4w+WXfCvRSq2rD0ZY3zUa5/NTPNmq7Jwa1oG9pMfkH/YWcdm3R91oFUevamwvJEj3/xf0mbb5VkSy7fmefPwx8IuMz1bSSOeqQxxMdUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=hwP6lRtr; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="mMoZlNdv"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aab925654d9so2398247466b.2;
-        Sun, 05 Jan 2025 08:24:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="hwP6lRtr"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ef714374c0so16584168a91.0;
+        Sun, 05 Jan 2025 08:25:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1736094277; x=1736699077; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2QXCym+qURZLKUjiCAQJjwuz9Yk/HpcW0NRBFsoncNQ=;
-        b=mMoZlNdvPAFwTSFW+zKb7UwiSHXGD7BUzOJj0/vqAggTcVtZk3n1Ig8lhhBgUHiwOb
-         yfIscFGNkKi6pASk9hyo7upeb2X0G5DexLVT32WGbranhVFq9xtKhm9uy4J6hMqNauv5
-         U0TkRvp3f0IoghXPpDtKm/EqxplfJc89um/cEZ5k6M1K3udKGM0HgPcMQBMZHGodTu+M
-         CQuCCAhjY52Td7qTujevAzMqMvTxD9tISOFkSy3aBjoS2a3OpbKiTDp91wVVIqjPN3wT
-         DjTl4HW7ACj7k3RrY692JJq9i2dMKIpYQQih6VURlUlpCTcexDQq3rAAiMhXDx+WYIO2
-         OMyw==
+        d=googlemail.com; s=20230601; t=1736094354; x=1736699154; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hbu7641CeG8xNiROLSccwQDpo4bojGzR/nTssY8hmOI=;
+        b=hwP6lRtrIKggOU9hnTu3WnhOEHky5m9JjNacnFTuu1Ii0StTLxASOygw4jzKGpCHjE
+         gBJEkH0wfBnQgofzQUMsgLKyuoiBFUZt581jzUW3+KFuLnW5/kK7GZsBNDL1qyDHIgTr
+         16GbjkJKyKn1lm/nn4QmSF80ulD9G1TVuTEsiZy863aXrens5yfm18BXnHztTX4Lu7D+
+         +HV6xq7Estk6/Tqmb2PxCnmvj24G8I1Wa+xXiSXKECuJ9hQkneWnkbV0u2ZnBuBDnCud
+         93C/YzacM72eAKypbrciU2XeJ+P98S5Jk49BA0wtQ2rC7Lok+upnG0SD0dflV1B9Vkvb
+         U2iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736094277; x=1736699077;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2QXCym+qURZLKUjiCAQJjwuz9Yk/HpcW0NRBFsoncNQ=;
-        b=IuFGjUCRDdDjlQF4zm8S30iy7JCZgkzuKA7i/M9tQnNhBjo1T68E//QE6+3lmmc60D
-         +Yghw0qR1vjGZd7uoh+G9Ci5hwnZJtSMahIkUcykpHB5n4I2m0Ok2YBiG0vTT8f3Pt/C
-         ITGgllv1Uj/fDAsjeSDh1B/E5ykyVAY+WcVt4dJIu1fiODCL5xoXB03sF/tlLML+o979
-         BriMdMgwRN8KfoBi1YO+Jbn2W3opgPiHJtRw3QQprX/b+3/zz6dIiy2p/UU46T8crKW0
-         Ul705GtQRRQerYx+TbmeufUTD1jAFx3f+KN3GViXchC+qRfqGh57CeAA70aQqOfNOreu
-         TaGA==
-X-Forwarded-Encrypted: i=1; AJvYcCULwLnZmAQs7I/4jBkGLzZ7c0w8QlG1DuJF3SKrWNXdJfxHklFnGNO34b7/1vQZOWQLRJTwAMNTl2pZgdw=@vger.kernel.org, AJvYcCUPKQsMXedeTfKcvCaG6qOBMj0HVr1a1boFE4yfjpNPGEXyrTz8TnUBJWsEqBUty5GEjINWcoOe4dz+o9s=@vger.kernel.org, AJvYcCVXUpT5YKVEqmKjXBInzJxjiqR53LUKdkksqY83syBCHX/4RSTsmCG2SWs8qxCM4XfeaJByWnWOrWyQo2c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/uaX1G0JvzawKjxJ9dq3EX4ExZh+OmuZhMn5VZYvAw2+1n7nT
-	0RoJpSM14w84t/IDA0o5XZsEqu5PcMXYXVV4XjbF1B10vxVaCsMU
-X-Gm-Gg: ASbGncsAXVLSGSMoio/zYkiqIIrK6/3srGdsCqFzwED6Vd1zCclrHa/R4S87thM/zOL
-	juQPCMHp/21zPtXwNCXPaULcEt+SwnYxrrqngDYPeFMSVDKKl/1jnizyp5GkBGaqje4/Ko8/HMV
-	XqGux+e0R4zIWI+B2bC03DtL28osbfX1BuRFmCD9mfBMwfXHXkz7ExXqqbio/UGv5BhYDPQenFr
-	hw4zDymg/ySfgUyrfFkKuoQ+YfdT9PcnxnWAJm51dY3+MFCfuOP1l6eCko/owf9+GzC9kRGjvhq
-	VXIptj4IG+TmuT4TKvBXMY2CJa7yZuJCXgyJwkuxJvqNTHGwwIyF6VuHl1ojqz1kqXcq6H9eloD
-	H4rrzgNM=
-X-Google-Smtp-Source: AGHT+IHOgRt1x/8zuainB/CGlv8dqT970cd91R3y1Tf4vEV7SB96d0jKzjWhEjt5kmSD26M8WWxk9g==
-X-Received: by 2002:a17:906:730f:b0:aab:de31:52d0 with SMTP id a640c23a62f3a-aac2b28ee4dmr6142740866b.18.1736094276643;
-        Sun, 05 Jan 2025 08:24:36 -0800 (PST)
-Received: from localhost.localdomain (dynamic-2a02-3100-ac0a-d800-0000-0000-0000-0e63.310.pool.telefonica.de. [2a02:3100:ac0a:d800::e63])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-aac0e8953b6sm2164707666b.65.2025.01.05.08.24.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 08:24:36 -0800 (PST)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-sound@vger.kernel.org
-Cc: mperttunen@nvidia.com,
-	jonathanh@nvidia.com,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	hjc@rock-chips.com,
-	heiko@sntech.de,
-	andy.yan@rock-chips.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	tiwai@suse.com,
-	dmitry.baryshkov@linaro.org,
-	mripard@kernel.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [RFT PATCH v1] ASoC: hdmi-codec: wire up the .prepare callback also for SPDIF DAI ops
-Date: Sun,  5 Jan 2025 17:24:07 +0100
-Message-ID: <20250105162407.30870-1-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.47.1
+        d=1e100.net; s=20230601; t=1736094354; x=1736699154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Hbu7641CeG8xNiROLSccwQDpo4bojGzR/nTssY8hmOI=;
+        b=Gp8LX7PT8om/IDP+Q0wuw7gC3qLD5+hJA3pwQppw/BqSdDR7k1wxwo2UACxNJ5JhmA
+         JCkPg7tI2y+z2h8IVI2MxA8J7k7SgXzbsEHIRRMN0YRJtJ3+4XGyvejT/TFaTtZ7IK0o
+         k4p4c8qYjIz/HTDIe8klhl0R7e7dUfExwLDsmaEf+i8YcsGq/8d5H+6nkJ8t1bhO5Ciq
+         QLcEErKhOcQRGI+YfbItqUcz6NxA6VZSe2E7o5x/y1/v+567Xfo+6BMFX0mv+qOQ7v1T
+         JWxsSArpkt/IoXlb7uYOlZxZ/UlmtT07Lz84PhJFlr9lC/vL3/meOtH+MQ/gSwA5zc5D
+         OWhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU3Y9l+E2+UM3E20ovzidSUFTdiJJa1XQDtTki1dU5ZK8EO/Jeo7ZDfRnTVZTm7FsjuN7CyeetzBRxREGE=@vger.kernel.org, AJvYcCVJv7fMKRQ7E8+MuS1l/+Xq8ABO3/zH8bIQEX/MxsrxAam5RPrBR5HFEtPyYz6l7hJ2P1pafwiRmw7SZF16br+4cR0=@vger.kernel.org, AJvYcCW2/XUV37uEHex9xrlf9wVOPMkrusgUcj89mIF3gpVnFBrmsbcCUTGsZklJ9X6U3x2qmFgttvAxMwtV1m0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypChskDoXv0vGVHuzv/syU7ExGtJZaU/EN2+Jw715jrxTp9J5W
+	zjAtRuv2LnAh9eI05w7Prjnqz2rysS9OxiLQduhQkstE4ZyhljGt9hhTkeYEF7UGBdHTuoQn8eC
+	kyNy4npLLjdPDqxvo0as9CSOwpFw=
+X-Gm-Gg: ASbGncuQCQVYQ4Kq1fSZJDt1kUqhpl6eBqLFBCFEfiIPTcDHVrtUsoRdkXWcpUF9OHG
+	PJUZAceIUpz5HP/CSf2WohIgYr1j0eNPOrN9bu+esG0wEm3AEpwyi
+X-Google-Smtp-Source: AGHT+IFvM6SBJtTLap+Q+DAFUbWc5zkuC4KMXDzaQJdqhN7s7+4kdqDXZd2/wUV9q/FU9iZ8tCHqn6eI4aaM7ptY90Q=
+X-Received: by 2002:a17:90b:2545:b0:2e2:c2b0:d03e with SMTP id
+ 98e67ed59e1d1-2f453633e61mr74488893a91.5.1736094354238; Sun, 05 Jan 2025
+ 08:25:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241224-drm-bridge-hdmi-connector-v10-3-dc89577cd438@linaro.org>
+ <20241231004311.2574720-1-martin.blumenstingl@googlemail.com>
+ <l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6>
+ <CAFBinCAh8iazDNx6GtOOJyXh_V-NfUs6Uf=ywN9kvQGPEmjrKQ@mail.gmail.com> <x73a2utr5sp4iffk5626zqfth4ayu3x4jkxd7xwjti7ehrgnzi@ploxx4i5db5h>
+In-Reply-To: <x73a2utr5sp4iffk5626zqfth4ayu3x4jkxd7xwjti7ehrgnzi@ploxx4i5db5h>
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Date: Sun, 5 Jan 2025 17:25:43 +0100
+Message-ID: <CAFBinCBstfDa966+5wKLFdQNhnjW+d5Mpj=x3BDY+R5nHNnKLQ@mail.gmail.com>
+Subject: Re: [PATCH v10 03/10] drm/connector: implement generic HDMI audio helpers
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Laurent.pinchart@ideasonboard.com, airlied@gmail.com, 
+	alain.volmat@foss.st.com, alim.akhtar@samsung.com, andrzej.hajda@intel.com, 
+	andy.yan@rock-chips.com, angelogioacchino.delregno@collabora.com, 
+	broonie@kernel.org, chunkuang.hu@kernel.org, dave.stevenson@raspberrypi.com, 
+	dri-devel@lists.freedesktop.org, heiko@sntech.de, hjc@rock-chips.com, 
+	inki.dae@samsung.com, jani.nikula@linux.intel.com, jernej.skrabec@gmail.com, 
+	jonas@kwiboo.se, kernel-list@raspberrypi.com, krzk@kernel.org, 
+	kyungmin.park@samsung.com, lgirdwood@gmail.com, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux@armlinux.org.uk, maarten.lankhorst@linux.intel.com, 
+	matthias.bgg@gmail.com, mcanal@igalia.com, mripard@kernel.org, 
+	neil.armstrong@linaro.org, p.zabel@pengutronix.de, perex@perex.cz, 
+	ple@baylibre.com, rfoss@kernel.org, rgallaispou@gmail.com, simona@ffwll.ch, 
+	sw0312.kim@samsung.com, tiwai@suse.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 2fef64eec23a ("ASoC: hdmi-codec: Add a prepare hook") added a
-prepare implementation. Back then the new callback was only integrated
-with hdmi_codec_i2s_dai_ops (which is used by the I2S input code-path).
-It was not added to hdmi_codec_spdif_dai_ops (which is used by the SPDIF
-input code-path).
-
-With commit baf616647fe6 ("drm/connector: implement generic HDMI audio
-helpers") the DRM subsystem has gained a helper framework which can be
-used by HDMI controller drivers. HDMI controller drivers are often
-tightly coupled with the hdmi-codec because of the so-called HDMI audio
-infoframe (which is often managed by the display controller).
-
-To allow the new DRM HDMI audio framework to work with the hdmi-codec
-driver for SPDIF inputs we also need to hook up the prepare callback to
-hdmi_codec_spdif_dai_ops. Just hooking into the hw_params callback would
-not be enough as hw_params (is called too early and) doesn't have access
-to the HDMI audio infoframe contents.
-
-Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
-The following three upstream drivers can use the hdmi-codec with SPDIF
-inputs:
-- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c
-- drivers/gpu/drm/rockchip/cdn-dp-core.c
-- drivers/gpu/drm/tegra/hdmi.c
-
-It would be great if any of the maintainers of these platforms could
-confirm that this patch doesn't break anything.
-
-Mark, since there are a few minor hdmi-codec changes in the drm-misc
-tree: will or take this patch through your tree or should Dmitry take
-it (he added the other hdmi-codec changes with your Ack in drm-misc)?
+On Fri, Jan 3, 2025 at 1:37=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> On Tue, Dec 31, 2024 at 07:49:40PM +0100, Martin Blumenstingl wrote:
+> > On Tue, Dec 31, 2024 at 3:34=E2=80=AFAM Dmitry Baryshkov
+> > <dmitry.baryshkov@linaro.org> wrote:
+> > [...]
+> > > > I checked all instances of struct hdmi_codec_ops in v6.13-rc3 and i=
+t
+> > > > seems that there is only a single driver which uses the .prepare
+> > > > callback (drivers/gpu/drm/vc4/vc4_hdmi.c). All other drivers seem t=
+o
+> > > > implement .hw_params instead.
+> > >
+> > > Yes. However .hw_params don't have access to the infoframe contents, =
+so
+> > > I had to settle on implementing .prepare.
+> > While debugging I noticed something unrelated to my problem:
+> > hdmi_codec_spdif_dai_ops does not implement .prepare().
+> > FYI just in case someone wants to use your patches and feed the
+> > hdmi-codec with SPDIF instead of I2S.
+>
+> Could you please send submit a patch to the hdmi-codec driver?
+Sure, see [0]
 
 
- sound/soc/codecs/hdmi-codec.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
-index 69f98975e14a..f485f26b9f57 100644
---- a/sound/soc/codecs/hdmi-codec.c
-+++ b/sound/soc/codecs/hdmi-codec.c
-@@ -942,6 +942,7 @@ static const struct snd_soc_dai_ops hdmi_codec_spdif_dai_ops = {
- 	.startup	= hdmi_codec_startup,
- 	.shutdown	= hdmi_codec_shutdown,
- 	.hw_params	= hdmi_codec_hw_params,
-+	.prepare	= hdmi_codec_prepare,
- 	.mute_stream	= hdmi_codec_mute,
- 	.pcm_new	= hdmi_codec_pcm_new,
- };
--- 
-2.47.1
-
+[0] https://lore.kernel.org/linux-sound/20250105162407.30870-1-martin.blume=
+nstingl@googlemail.com/T/#u
