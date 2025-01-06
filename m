@@ -1,86 +1,116 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B7D14900B;
-	Mon,  6 Jan 2025 15:48:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F12650285;
+	Mon,  6 Jan 2025 16:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736178532; cv=none; b=az9qD96Ug/KV+2aD9Lujokpm9E1fcnQRZXIaTaQoNhmXkm4IHDlCxCNjPLb3d3CaPpzM5sqHg9ZOG9AECTaIYEUqP4Js9J1bRRcNWx32LMk7bCDM5wt0fduVdIn4GSHpMcT8HIPdjAID3bwglGA1jXFcsyO2lOyFEZtySsguT68=
+	t=1736179390; cv=none; b=CTCSmVfMoIUEh2I47orN+8YdWrmNHl0+6DO/73lWUzMmwkrKjnK8mLw1sz6gzL0VTJtcMhGk/BiW4T4HihoIBaBp4aW5oHXdqU5B0NNMF/yuPG4h1oTEiewu8mNMm1Mpa8JHUpHl8YwArimm7WF8+Z0kiCv3Q0e0LTM9+pNTL4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736178532; c=relaxed/simple;
-	bh=I5EeJ+Kq41D/Bv0Ajrh0n4I+EJ9ou23hfrzgzaRrU9A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pgY+I9+q07K6lH4TfYjVrFuEbp7bQ0+ruSYYUpBXsy00rKoZxTzLM14aNubYZFmiBnveqGlBWAHjcHXYNPABvU0eCpVri81f7tApHWnh7sk1Q5Kp1EOrKdCv0/Ha8vafPAHdQJmIXL7jIH8yC93pLLON5ikYaBn0FePH4gc3S/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=csie.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30227c56b11so166690621fa.3;
-        Mon, 06 Jan 2025 07:48:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736178528; x=1736783328;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I5EeJ+Kq41D/Bv0Ajrh0n4I+EJ9ou23hfrzgzaRrU9A=;
-        b=MTI5exsJpVyh4SQLum5yY0MuRL+oHcoLJLnnIfBEwwwdvu0E5/ug91tcLcBeUp/E61
-         MUqtrzVwydRxvHBDPtYkKN948P5GzC3xE3KbavNdOwrFB0n4zdX4zNwni4bNvZg+051R
-         IAs9/cQrcmNmXKiAoEvVihmMf33Bem0yZY2mDZKS7djutEZyKx3ftUNVpF6HlOnH1PJq
-         YK+ulSiYVVq/GgSJu4A2Dbyajjc1c9XimGi+4Rm1y8qhFe/j1m0Pt4A9bpwF6wdikrMc
-         HazPPk5S3b7E29tXo8LBBa2l/sEOJixwuEHfSkoui5qm5RkSuSnCHdYF+daA9k50A1CB
-         T4Xg==
-X-Forwarded-Encrypted: i=1; AJvYcCXL8w373k0KFAU5OfeQjVHWG0DlFidNlR5nk85ciABM0C2CHJtqKG4D+f8J5go39hco5aU+arFiyg8XXnI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwH8LHtXwoqDG7Lc/Ow7Sie0RUuweSi885OdyI58vwCNzW6hycj
-	jlUYL2n3IOOwZRJFFrJpR9pUagD9x3Ii44S57D1PITARKtNEuum1B7bnpbLp
-X-Gm-Gg: ASbGncsvUkXx2rp2HTi2Zl2A8IccKhsNl7cp67yk1hTT6QZOfQBGuD6m4YTkrGKBd5v
-	v45NPHWlTypdsRZpaafuFGiTzCd2gXqY1ZsJ589XW8KVVXgAGdDN5HQ1xEp/Rn5/SMNL6d/Lcc9
-	flxlLRoZ3UEfiVb1e5iUmn1y2Zz0iJIviCR8T4saPGIGfv1KIyGKo0I3VMzdWwDuwjqhK6c4QhA
-	aNSEWNPElADa60zCvNoq0kZc5FytBxz+TsNh24heL+UlMz1cXkb7GnLxVG95WKFEeRIkEDdBIni
-	rNrGFX6Z/NRvyg==
-X-Google-Smtp-Source: AGHT+IGN0YuboTKIrmFQpSOUYgzgc+yDJJvZwawWExyaf8cFl88nMGRwlAybn3qE+DgWswk/K1Vw6A==
-X-Received: by 2002:a2e:a588:0:b0:2ff:7a4f:e770 with SMTP id 38308e7fff4ca-30468603d19mr184131301fa.31.1736178527781;
-        Mon, 06 Jan 2025 07:48:47 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3045ad6c626sm56041981fa.13.2025.01.06.07.48.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Jan 2025 07:48:45 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30227c56b11so166689531fa.3;
-        Mon, 06 Jan 2025 07:48:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWfd4PzUmzxh8RPvDrsGThgztrAUW2NXOuBGJmHBfl7HZX5/F/JZ0/xT7nNyEUG3FNrHBoKDlIn8rNwmqo=@vger.kernel.org
-X-Received: by 2002:a05:651c:2129:b0:302:4115:b69 with SMTP id
- 38308e7fff4ca-3046851f488mr190424841fa.8.1736178525182; Mon, 06 Jan 2025
- 07:48:45 -0800 (PST)
+	s=arc-20240116; t=1736179390; c=relaxed/simple;
+	bh=7400QFwYG6Oz3WkwjbzQXI6u+kLXSfgSXiRWwVd3d+4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=naix6IA9YM0Pgavs2pZIC8j/79q0OD3zqCxEzdFP9us3crK6VXy/msBxtZ4rEtCy5aEOWF1kzRXe21uzB1U8XfI/Q8y+MOOIHXyr0Zf9ZqY+9scQALES83mvUjrF9+4lM3cSmnZwV2G7JR4l7C7ro0TNTPSjJSrQdpRUkdeFp3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=CcfQFzoy; arc=none smtp.client-ip=67.231.149.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="CcfQFzoy"
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5064rhqd021827;
+	Mon, 6 Jan 2025 10:02:46 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=jH0MscwFf6qcvQZ4Ub
+	H3qwQw2F4EOOy9u2ZCF7tp1+E=; b=CcfQFzoy5EvMpZGvdp6Et90lMT9rljC436
+	G28bdUYydQfPXW8AUGMEGtFiKKj2ijXHZKCpypj6e72lq30uF3cI4FSJtrxLD7dt
+	SZdi6Wy6X1d5PR06LZ1egMI6jRnGDtQWNzxBcHFuBIHjGaNfUP8GigGIBRKy3MbU
+	5JE6YxRsmDRrN2plfH5QzHr2luI4RwSrIcUVKKkcD/caR/Nd6CRNPJlIc7GwCC3g
+	gEptKRG13OxzxpOF1HHSpCYn6Jk3TU+VovoUbA3v1UpCXiZzWcbysbTBi7jL/QxG
+	hIr9v/M0US8r6M1Ej7HJ8epudMgVg5V9Am4vGbxqbcNXkHWAeefw==
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43y3929xcc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 06 Jan 2025 10:02:46 -0600 (CST)
+Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Mon, 6 Jan
+ 2025 16:02:44 +0000
+Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
+ anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
+ 15.2.1544.13 via Frontend Transport; Mon, 6 Jan 2025 16:02:44 +0000
+Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 4F059820248;
+	Mon,  6 Jan 2025 16:02:44 +0000 (UTC)
+Date: Mon, 6 Jan 2025 16:02:43 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Thorsten Blum <thorsten.blum@linux.dev>
+CC: Richard Fitzgerald <rf@opensource.cirrus.com>,
+        Liam Girdwood
+	<lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela
+	<perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        <linux-sound@vger.kernel.org>, <patches@opensource.cirrus.com>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: madera: Use str_enabled_disabled() helper function
+Message-ID: <Z3v+o8NKvr+Z236V@opensource.cirrus.com>
+References: <20241229174043.781856-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-In-Reply-To: <20241211222205.1915027-1-csokas.bence@prolan.hu>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 6 Jan 2025 23:48:33 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66MgxCV+rNVC4NaXUFtxMk_=g+CyStLjpb=5e8Q0HNJLw@mail.gmail.com>
-Message-ID: <CAGb2v66MgxCV+rNVC4NaXUFtxMk_=g+CyStLjpb=5e8Q0HNJLw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: sun4i-codec: Use new devm clk and reset APIs
-To: =?UTF-8?B?QmVuY2UgQ3PDs2vDoXM=?= <csokas.bence@prolan.hu>
-Cc: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20241229174043.781856-2-thorsten.blum@linux.dev>
+X-Proofpoint-GUID: j4wjBhZIovKEjZD3DzJqOPdQOYKjMJZ-
+X-Proofpoint-ORIG-GUID: j4wjBhZIovKEjZD3DzJqOPdQOYKjMJZ-
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, Dec 12, 2024 at 6:22=E2=80=AFAM Bence Cs=C3=B3k=C3=A1s <csokas.benc=
-e@prolan.hu> wrote:
->
-> Clean up error handling by using the new devm_
-> clock and reset functions. This should make it
-> easier to add new code, as we can eliminate the
-> "goto ladder" in probe().
->
-> Signed-off-by: Bence Cs=C3=B3k=C3=A1s <csokas.bence@prolan.hu>
+On Sun, Dec 29, 2024 at 06:40:44PM +0100, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_enabled_disabled() helper
+> function.
+> 
+> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+> ---
+>  sound/soc/codecs/madera.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/sound/soc/codecs/madera.c b/sound/soc/codecs/madera.c
+> index b24d6472ad5f..86abfbe56e1f 100644
+> --- a/sound/soc/codecs/madera.c
+> +++ b/sound/soc/codecs/madera.c
+> @@ -3965,7 +3965,7 @@ static int madera_enable_fll(struct madera_fll *fll)
+>  	}
+>  
+>  	madera_fll_dbg(fll, "Enabling FLL, initially %s\n",
+> -		       already_enabled ? "enabled" : "disabled");
+> +		       str_enabled_disabled(already_enabled));
+>  
+>  	if (fll->fout < MADERA_FLL_MIN_FOUT ||
+>  	    fll->fout > MADERA_FLL_MAX_FOUT) {
+> @@ -4252,7 +4252,7 @@ static int madera_enable_fll_ao(struct madera_fll *fll,
+>  		pm_runtime_get_sync(madera->dev);
+>  
+>  	madera_fll_dbg(fll, "Enabling FLL_AO, initially %s\n",
+> -		       already_enabled ? "enabled" : "disabled");
+> +		       str_enabled_disabled(already_enabled));
+>  
+>  	/* FLL_AO_HOLD must be set before configuring any registers */
+>  	regmap_update_bits(fll->madera->regmap,
+> @@ -4576,7 +4576,7 @@ static int madera_fllhj_enable(struct madera_fll *fll)
+>  		pm_runtime_get_sync(madera->dev);
+>  
+>  	madera_fll_dbg(fll, "Enabling FLL, initially %s\n",
+> -		       already_enabled ? "enabled" : "disabled");
+> +		       str_enabled_disabled(already_enabled));
+>  
+>  	/* FLLn_HOLD must be set before configuring any registers */
+>  	regmap_update_bits(fll->madera->regmap,
 
-Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+This should also add an include for the string_choices header,
+but otherwise looks fine to me.
+
+Thanks,
+Charles
