@@ -1,77 +1,89 @@
-Received: from smtp.smtpout.orange.fr (smtp-77.smtpout.orange.fr [80.12.242.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omr008.pc5.atmailcloud.com (omr008.pc5.atmailcloud.com [103.150.252.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84598AD24
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 04:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBB417E0;
+	Mon,  6 Jan 2025 05:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736139504; cv=none; b=GUBGUSfE0z5h1F63X+An007KhhEYn9XhBInAFay2AWEVbVPXv0sLRnsrLiUHRFJc1a4Wn7o06rUQtS8iEJq/dDIDguqaGXBMLBTKzLvF5U/LC3DsWv2flESgNxpqmyfCCL1ias+4sUH6p+VL7f7NAB6dhiji7SX/M6QIJWHAOxM=
+	t=1736140045; cv=none; b=okC3N+zkFfmhqIsAuFFQRZkAjHmFMCZfOXVq9l615oVyyTHVZzf1kxM4V5Yo0Zf4mQBqJhMEzT/K0UFcBZHGn5YSKWhD/3XX4+9ziKa93EtyGQDBoE0RtEroDpC3mSE9C0nhh0K4UpIbmFgY16Up0PUY0MgwhhmEtpg0sAz5Hnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736139504; c=relaxed/simple;
-	bh=6DPsIp9lBhnemprGpi0eUco5tfttb9gdZc1SDJIlvJQ=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=o65oBilDxuX/sa1OdICAqWIP40hRS9A8CefO8TSMy6XJM3N9iC6sdqbkfY/GOM4JnP34/5g6+4mZeX4JodpBpYwTq1h82tx5pTbv8/N7dtjbh2dN70RCTyhtgUBziWIa6IqBT0vjbIU0oMN3NtM1GJ/TQyGy+PL14wlnC/zEaRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=Zd+THRQo; arc=none smtp.client-ip=80.12.242.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
+	s=arc-20240116; t=1736140045; c=relaxed/simple;
+	bh=jRUYhxQ7NMExMlLwQP374k+zj9bliP3exrTVXAOWMo8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=XcAf3u5mWZUIHHuM8tAlTlOm2I8M9MOqZLnjuRX3e9o5tje1+yur2QLLXKiRdHz6wcKV/UA4HmYnPCQ1h+n8fSmuxY/17bj/5LCrJgiQeBH0Ps8jxZnP0uApZiBo3Q1vzzjlOkFwUDCv2OPAp1RGEVOFn8Sk1HiJqKqNIKWWeMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=KnoeJBS7; arc=none smtp.client-ip=103.150.252.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="Zd+THRQo"
-Received: from [192.168.1.50] ([92.159.77.98])
-	by smtp.orange.fr with ESMTPA
-	id UfAlt5Ve6JiySUfAotH8hh; Mon, 06 Jan 2025 05:57:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1736139427;
-	bh=cu5Hg7STF5E8oYGewiexrCQR9JleW601qpXjQ2wVPwU=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject;
-	b=Zd+THRQoirnTgyLPdmsrD0hI3Hr1hoS2GjLivPSbz3rL8kutUcSACPSAZem6iqae5
-	 VChdp/Lmp9OgP8iFJMfMGoW2kOpXmhkdWu35c4+5ziu/Q9IM56kBamSZMp/PcbUtXX
-	 sNefEPEH0rnwln7pjLaVa4wRzQp5ngR2QfyrGqEP4ag1zA9co3EPzFB3vhev0lviOv
-	 eRAb4Qnq7hV0fmzYZlt9ZcJJnT3ZdVvN3XNVEBr1Kh2H+US+qzBUYt6ueGJa5Kgp9p
-	 NK/ZxzPIsmfhKjjQD8sIZRVPw8KS1ihbzYh7YS46dIteuN6fLINEYz9Hf8uWp/WQ1j
-	 KEgRHNx8RM4lA==
-X-ME-Helo: [192.168.1.50]
-X-ME-Auth: bG91aXNvbi5mb3VybW95QG9yYW5nZS5mcg==
-X-ME-Date: Mon, 06 Jan 2025 05:57:07 +0100
-X-ME-IP: 92.159.77.98
-Message-ID: <9c4e1156-2768-4b78-b640-2796581a19ec@orange.fr>
-Date: Mon, 6 Jan 2025 05:57:08 +0100
+	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="KnoeJBS7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iinet.net.au; s=202309; h=MIME-Version:Message-Id:Date:Subject:To:From:
+	content-type; bh=IMCtKiq/bz5Kf6LhiUoK+HLLlZ+iqlss2F1pw7iiIg0=; b=KnoeJBS7GmtJ
+	YPu1eFlomS03NjheEbywV/D8eRCFP1cXRT0mNI+wFIl5kYDwEBvUBQrSsfsnHZLkklMtREdgjz2OT
+	zzBzQXJDsaqgNMMkgVGb7KRfYnheZwGoeAvmur6gVhSttj4VPHeAnlnnP3SGhKDx3KjeVh5VN7coR
+	GOjezL/77LKXja/S7IsBnagN92wZrdujswXkgG84d63nzTESv0eioQGOnQ63AUNwu0+ZaeASx0jEN
+	1V2U71TcpTl+e6sEd+psf+VWjqjuP0rFkZl2s9R7OwoAKfyC5QEzYEvijAnG57l49n25t5S5oABbQ
+	RyDQ/NCWvzEVm4iuFHqd8w==;
+Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
+	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-08216fbfbb76706e2) with ESMTPS
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tUfKc-000000005r6-308G ;
+	Mon, 06 Jan 2025 05:07:14 +0000
+Received: from [220.233.184.101] (helo=localhost)
+	 by CMR-KAKADU03.i-08216fbfbb76706e2 with esmtpsa
+	(envelope-from <gordoste@iinet.net.au>)
+	id 1tUfKc-000000000TH-0hjA;
+	Mon, 06 Jan 2025 05:07:14 +0000
+From: Stephen Gordon <gordoste@iinet.net.au>
+To: kuninori.morimoto.gx@renesas.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stephen Gordon <gordoste@iinet.net.au>
+Subject: [PATCH v2 2/2] ASoC: simple_card: Show if link is unidirectional
+Date: Mon,  6 Jan 2025 16:06:59 +1100
+Message-Id: <20250106050659.57924-3-gordoste@iinet.net.au>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250106050659.57924-1-gordoste@iinet.net.au>
+References: <20250106050659.57924-1-gordoste@iinet.net.au>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: fr
-To: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- mario.limonciello@amd.com, venkataprasad.potturu@amd.com
-From: Louison Fourmoy <louison.fourmoy@orange.fr>
-Subject: [PATCH] SoC: amd: yc: Add quirk for microphone for Lenovo Ideapad
- 83J3xxxxxx
-Cc: linux-sound@vger.kernel.org
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Atmail-Id: gordoste@iinet.net.au
+X-atmailcloud-spam-action: no action
+X-Cm-Analysis: v=2.4 cv=MYZquY/f c=1 sm=1 tr=0 ts=677b6502 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=VdSt8ZQiCzkA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=2_3RrZhEg9tCGMFQ2A8A:9
+X-Cm-Envelope: MS4xfJWWeGDTY3xV8xTLwWtNakRvE7OrFWAP28LRBeMhax9aWAIcoCV5EiTBTij4SDDLeO7vdhuY1Li9WpXMMCtYJcA33cs/6U/oHqPDxtTrUgIqPhMN4qd0 2bsb/ibzb56yNAdjxfQ2V+u4ks7AEt7g8fXOyxb/UW+3PTJhQc0huf04jvY9dp8Rq6B8H9rNcJQ6MTCMHjsjJ9PenagDgMIZP38=
+X-atmailcloud-route: unknown
 
-Quirk entry is needed for microphone to work on new Ideapad Slim 5. Full 
-model number is 83J3CTO1WW but 83J3 is what's detected in software.
+It is handy to know whether the link has playback-only/capture-only flags
+when debugging.
 
-Signed-off-by: Louison Fourmoy <louison.fourmoy@orange.fr>
+Signed-off-by: Stephen Gordon <gordoste@iinet.net.au>
+---
+ include/sound/simple_card_utils.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
---- linux/sound/soc/amd/yc/acp6x-mach.c.orig    2025-01-05 
-23:37:36.927778168 +0100
-+++ linux/sound/soc/amd/yc/acp6x-mach.c    2025-01-05 23:38:28.066418534 
-+0100
-@@ -304,6 +304,13 @@ static const struct dmi_system_id yc_acp
-              DMI_MATCH(DMI_PRODUCT_NAME, "83AS"),
-          }
-      },
-+        {
-+            .driver_data = &acp6x_card,
-+            .matches = {
-+                    DMI_MATCH(DMI_BOARD_VENDOR, "LENOVO"),
-+                    DMI_MATCH(DMI_PRODUCT_NAME, "83J3"),
-+            }
-+        },
-      {
-          .driver_data = &acp6x_card,
-          .matches = {
+diff --git a/include/sound/simple_card_utils.h b/include/sound/simple_card_utils.h
+index af79f680c72a..f6bfd485c31a 100644
+--- a/include/sound/simple_card_utils.h
++++ b/include/sound/simple_card_utils.h
+@@ -267,6 +267,10 @@ static inline void simple_util_debug_info(struct simple_util_priv *priv)
+ 			dev_dbg(dev, "link name = %s\n", link->name);
+ 		if (link->dai_fmt)
+ 			dev_dbg(dev, "link format = %04x\n", link->dai_fmt);
++		if (link->playback_only)
++			dev_dbg(dev, "link has playback_only");
++		if (link->capture_only)
++			dev_dbg(dev, "link has capture_only");
+ 		if (props->adata.convert_rate)
+ 			dev_dbg(dev, "convert_rate = %d\n", props->adata.convert_rate);
+ 		if (props->adata.convert_channels)
+-- 
+2.39.5
 
