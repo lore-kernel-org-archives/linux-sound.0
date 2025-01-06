@@ -1,97 +1,92 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594F61DBB38;
-	Mon,  6 Jan 2025 12:13:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.149.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D3C1DB95E;
+	Mon,  6 Jan 2025 12:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736165622; cv=none; b=sMPPEZk+m/kiKZN3apKjuZisbm9kgarA8sZqUrUTsIdczDrC6e7Bvjwrq4yOOsTK5wtjvbRWvArf5NiwT1gKCSLJMMkkUBd4uh7/+ghwxFEfzz0KRqktUcMo7fTndBO0cifGmndurSL3fIpL+sPgttjeHnYVbcMtjn21+Oj+bRk=
+	t=1736166038; cv=none; b=oBft2dN8fbWHo7fCYHIzcYanNDPNsrgf9MCUBbBQQXO37jIliJzq2f/iPKKZOCoxfDshwfe69c2ARQys4dgxV6SExr/B6Dt/C6LLCSHktQOMViqenSC0sxBzfjJSM5SHI4Go5wjliILqPL9Ebnvp9zJc2j2be7GFVM9GyEZWY/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736165622; c=relaxed/simple;
-	bh=ZBVXigcAOJzB0HxsYiRksPwYN9wDZRNEZ81YfqRHcgg=;
+	s=arc-20240116; t=1736166038; c=relaxed/simple;
+	bh=Dg+N5wdZI6HGgQKAgO1KYyGmnPJ/nQ5HV894NIfFIvo=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrRW1HcNVPU2br210vO+iVV83SGNyuU+QQsjA1wO3ym8zmi7TAHa1hA3rDaq7PoXWU4CW3vBvu6IH2BWQJDY+Wyh483qxm8PjkRX3cSzDmyLR6t9j7z835Sx4g1IzPnGhwJEQXyC89zRYU+vx2SEWNG9N5Ic8i5ex+Zz5kf7sig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=h65IP3o6; arc=none smtp.client-ip=67.231.149.25
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qgu7YjXK9IpIAhIiGekiXWqaCnGEboCCKMPpfFG9irYwYsr251SaX3QUMfnDRpOd7HhcElSgZAeZmUH+1pnBuSQYBQ6F+OCHJjOPRBA7KsjOu5sawqRoMvt8KexemCvoY90qbVj5d1LCVGS33q++er1C5OSgD1DbXH9vsGL2XGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ecoAOsPm; arc=none smtp.client-ip=67.231.152.168
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="h65IP3o6"
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5067Ucqo010028;
-	Mon, 6 Jan 2025 06:13:29 -0600
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ecoAOsPm"
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5067ULeJ019030;
+	Mon, 6 Jan 2025 06:20:12 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	PODMain02222019; bh=ZBVXigcAOJzB0HxsYiRksPwYN9wDZRNEZ81YfqRHcgg=; b=
-	h65IP3o6sD5UIPqR5XzyT0nLUCatFv7lSctssO6iNTivx1bnsjfZWkdDEo1F0k6X
-	ccBECGtWGDuMG1SoyyDqt1BrkW22QpVncHFcyKHOO0y8Em2mZzQPd+JJ3XVM/Wgg
-	dV9T35d7z/Z7hP8tYo887sDx8r/AeWOjKCK1Os+LTB1jIl70EAWqbhGt0eQTEqQe
-	tWnwnJ7FqunkoS+z2VmVLi4/XyfOXsdIuQPwfHkmszMe5CNeu2UiRouaE/KrO+VX
-	fbmhtEy0ikLkkwmG/qJfnE/MLGGawjcqlqKBVM6wQdbjK0YFpfySr2eoETfcItvG
-	iigFm91gUg0ywlClkWDKKA==
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=PODMain02222019; bh=4oXb2e7aSrrfUR1gSJ
+	ZmJ39bgwDDSXfuEFCD8GCwHKU=; b=ecoAOsPmkVnwIxxzEN1wlETBvOijVJFndt
+	hkowy7Hk4G7duEBZAvtNX5p5J5l9jPaD+oO9QJQT6rJKUu6SasIFsNBMVNMr4Hy4
+	/cRz8HOYQ2qPGBl7Qbhm7pSL4cAe5DtzL96+s1lBlLgmJmOVe6PCvNlwltjJxwz9
+	sZDD9ahFSgryTwNFSM7aBvEz7ZKMr8BwM//VgmxYGi3/ud04SdDzF6FJ5kndEYqj
+	TTYRr+3nR5KRneDtHvHDEQypknGj+aLyShJ49QgnWiqP47T60d0iqNy0AbQN3cnI
+	+EFJ32vt2q1ATQfHy7GaW8h4SW+Cn14z787+OTFGa6Evo6PI3tCw==
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 43y3929nyg-1
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43y29k9shb-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 06:13:28 -0600 (CST)
+	Mon, 06 Jan 2025 06:20:11 -0600 (CST)
 Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Mon, 6 Jan
- 2025 12:13:26 +0000
+ 2025 12:20:10 +0000
 Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
  anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Mon, 6 Jan 2025 12:13:26 +0000
+ 15.2.1544.13 via Frontend Transport; Mon, 6 Jan 2025 12:20:10 +0000
 Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id A1176820248;
-	Mon,  6 Jan 2025 12:13:26 +0000 (UTC)
-Date: Mon, 6 Jan 2025 12:13:25 +0000
+	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 3A196820248;
+	Mon,  6 Jan 2025 12:20:10 +0000 (UTC)
+Date: Mon, 6 Jan 2025 12:20:09 +0000
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: anish kumar <yesanishhere@gmail.com>
-CC: <lgirdwood@gmail.com>, <broonie@kernel.org>, <perex@perex.cz>,
-        <tiwai@suse.com>, <corbet@lwn.net>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-sound@vger.kernel.org>
-Subject: Re: [PATCH V5] Docs/sound: Update codec-to-codec documentation
-Message-ID: <Z3vI5eJKCLfLeFwX@opensource.cirrus.com>
-References: <20241207193441.15767-1-yesanishhere@gmail.com>
- <Z1ggwXLAu+/Y817c@opensource.cirrus.com>
- <CABCoZhA1g4McaLtsQqZv=Y1UrEg4kmyMVjdJJTfDow0ho-WdCA@mail.gmail.com>
- <CABCoZhAqhUxJSrELx1if1QYQK0wt_wrHMVcPwVbkRoqmHA2==A@mail.gmail.com>
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
+CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
+        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 4/5] ASoC: SDCA: Add missing function type names
+Message-ID: <Z3vKeVipRSC9ABia@opensource.cirrus.com>
+References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
+ <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
+ <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CABCoZhAqhUxJSrELx1if1QYQK0wt_wrHMVcPwVbkRoqmHA2==A@mail.gmail.com>
-X-Proofpoint-GUID: Dru6WVyfcAYv0oTzP6gA1GZlsu3azGaM
-X-Proofpoint-ORIG-GUID: Dru6WVyfcAYv0oTzP6gA1GZlsu3azGaM
+In-Reply-To: <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
+X-Proofpoint-ORIG-GUID: 5fvf8KB-JPdimmYtvwZ9Arhy056YExBX
+X-Proofpoint-GUID: 5fvf8KB-JPdimmYtvwZ9Arhy056YExBX
 X-Proofpoint-Spam-Reason: safe
 
-On Fri, Jan 03, 2025 at 10:10:25AM -0800, anish kumar wrote:
-> On Thu, Dec 12, 2024 at 1:35 PM anish kumar <yesanishhere@gmail.com> wrote:
-> >
-> > On Tue, Dec 10, 2024 at 3:06 AM Charles Keepax
-> > <ckeepax@opensource.cirrus.com> wrote:
-> > >
-> > > On Sat, Dec 07, 2024 at 11:34:41AM -0800, anish kumar wrote:
-> > > Also what do we mean by a "A mixer must be created", I am not
-> > > aware of any requirement for a mixer? The DAI link needs to be on
-> > > a valid DAPM path, but I don't see any requirements other than
-> > > that.
-> >
-> > In my case, I was implementing a mixer widget that users could
-> > trigger to enable the entire DAPM path. However, I believe it's
-> > sufficient to simply state that there should be a mechanism to
-> > trigger the codec-to-codec widget, enabling the full DAPM path.
-> > >
-> Could you please confirm if this explanation is clear? If so,
-> I will proceed with submitting another revision of the patch.
+On Thu, Jan 02, 2025 at 04:01:19PM -0600, Pierre-Louis Bossart wrote:
+> On 12/20/24 11:35, Charles Keepax wrote:
+> >   	case SDCA_FUNCTION_TYPE_IMP_DEF:
+> > -		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
+> > -		return -EINVAL;
+> > +		*function_name = SDCA_FUNCTION_TYPE_IMP_DEF_NAME;
+> > +		break;
+> 
+> but this one is controversial. We really have no idea what to do in this
+> case. There could be completely different 'imp-def' functions that require
+> different drivers. I don't know how the entire binding mechanism would work.
+> Probably best to err on the side of throwing a 'not supported' error?
+> 
 
-I am happy as long as the wording states that being on valid path
-is what is required. What I am keen to remove is the explicit
-reference to mixers as that is not an actual requirement.
+I would certainly agree with you that a generic class driver
+implementation would not bind against an imp def function, but I
+see no reason to prevent custom driver implementations from being
+able to access this function. They will be creating the parent
+auxilary stuff and can bind whatever they like to this imp def
+function.
 
 Thanks,
 Charles
