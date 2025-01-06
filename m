@@ -1,126 +1,130 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C53B1DE4F3;
-	Mon,  6 Jan 2025 14:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CC328F5
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 14:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736172948; cv=none; b=FsY9oEzHCtugfWS+/4dQvSQZRHgAblt4Ipi/HfH+9trwx9OApx0JW2LSOYr5tUJ8cLGTAeiXbk3vZj2LVAnTtggW98+On2+bNgi+ESTyilCAWyIY3cXhXvk42lf/JV6SOgbFryOwY8x996hIuuTCB6/ZIjF1WAcOspyKi8cPvEo=
+	t=1736173721; cv=none; b=FpNsnsuo+/mrh4qUVuRde18m//Wa+VZmbMeZBRp31ewUpdZQZ4ct2XsJajDIDnBZ9Rm19aUEwxkVOH2qWcJq6ttyVR70xzhu1vgJe9lcWUQ44YTjYB5CM13buKrG1MCWfD0uFNza3qDy9el3oYOjlz2Z9HS5SWcMtguGpFMsWTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736172948; c=relaxed/simple;
-	bh=MV9fhVZhcNI++rOvHAbbF2f8B7BcQuVm911rXwPeho0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PZ7/I6jhZbI3Jt/UynYxbw7u2gr15TPMj6BwVJxb5E2OBeHVHiG/CMBu8mZt8cWlblS8Q6onJcP7dqJnMRLoEMNEwOCWbkcU+NVzuBEGKWRKnKHdBmNCKXDTnNGijeY9wMtBXtpUS3oMN7VjqUKysg0PNBsZp710DRoeVKHAE5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=B5F+W/Do; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	s=arc-20240116; t=1736173721; c=relaxed/simple;
+	bh=dVplwCMvCFZoBDUovnBLRlGKBRtbSavrQ1mrBRSC7p4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Jt/HYlafl29jaFMD4JfbsMnQXbTQE9CUP5T/ph8Jv5FTaZm2vjNomJdW7IeoR92wU48k/nx9yyqmVQcqw397Z61ziz2+NfjRtandIZh3D7IUyskSbRrWWGCdOo9SRupUv86jxvJxLymuD/OyeeeqVibqIGMpvY/iU+3zJmTiFTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bGpKys6r; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="B5F+W/Do"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2166651f752so7343755ad.3;
-        Mon, 06 Jan 2025 06:15:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bGpKys6r"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3862b364538so8262826f8f.1
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jan 2025 06:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1736172943; x=1736777743; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MV9fhVZhcNI++rOvHAbbF2f8B7BcQuVm911rXwPeho0=;
-        b=B5F+W/Do1oCPmzikP5ImjCS1KuK4uChQboSpZOW9ufBgtW/n8jMcKf5SLUQWwd35QL
-         9d1zaNWlbhxtoR/DgM/feS8qIavjbsWjVDRdMCldE4Z3IUsQPZkRctNsJSkxapLApzWi
-         C+/ewSyGj9qnsEmlZe/aZBLEkkMA0aOEhq7YDrneBSoNxKadwei/SuskF+HhfAYIo81F
-         4Ov2BzfdpM6q8RjeqGnSVAsl1jz2skf4//w4HSI/zuHN3/qR1tKeYlBkjSK4pKLMt3WL
-         ZV8IoeLk7Zz0yhLZEgqlYRiD9+e0LdF8gb1/0xfqLCBgpLqEG4kwSdClRfA41HvYB2na
-         Jk0Q==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736173717; x=1736778517; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=c91yJOlrCLVePlwLxdpALuqEbbz5CUd+3wU+nXgA/qk=;
+        b=bGpKys6rYt+ogiMLPobHBInUlWiT+6kdjX5GFfvOB3Kzcb8Ttof6PDo8Bnp9n0eDfM
+         QY6rTWCmZ74ppb3U6AfNf4d9YnVm2+pQXfnD2y6meMd7kXt9EeBURvfoamtg/7Fpztea
+         OI6IRBS2UL1i4uC8I7YR1LXnGu9H8kxB+eJPeyq707xo4PjWZW4QdQYNkT7nTxZvJaSh
+         JenxISJ31JXbj+1hSsjroiXD3NCjMBG//1ypgYMq1clo39k8MbYl0z6u8fjvbxDcjF+N
+         cWQY7GTjVE8E5bFlgXDlmVjm0HtRi2LAtldFUfdX9KDXcLnxJB3KnMe90T8gfhVBXU2O
+         h8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736172943; x=1736777743;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MV9fhVZhcNI++rOvHAbbF2f8B7BcQuVm911rXwPeho0=;
-        b=pz2H4kgMk74jULkm+tOBz9UgQLLkd9vz4XTXwoFWWAan9fJsBgbXZHMPqbFzaMmmGY
-         BQd4SOQgPeO8F679TEyPnoF5XIQm2YnIyDg/AuiGT60tFJ48tlK9VPWjK/JbpWKa0C7x
-         ZsQAm5NPFC2I7BhTolopHvC0NohayjA1bFrO1Rru4fcnilmE1Z7fLptcls5pGMvanaX3
-         qcspO3s+ZLyZMXDvneUXcyTuHIcl4eP2Y7CA2zCdCXj1ZRThtUt1UX6/GJXOXtoEfYH+
-         LSZE8d17rr1gnhnUT5K6Xz7yVWqajSjO90RmpWsL3MIYmJqa4sCaenWkYMb2uVPn4SqX
-         ouZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVoKFLbiqjnUse58Shi3IUEJSQdFAtth0sEX3hbgAJLX4cL2MnQi0iRnmb5IBfNc1wuvIMUQusHF3U9XUI=@vger.kernel.org, AJvYcCVsraZfIz34Ujh2dY6liMmX6ufmZvgdblTv3N0jvEEp2CtPUpWduEbP4lpjSeldxUrVUHvgn+aESALdpjo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8Om3ZwVLGmtrgYda5K8KZUgdKDRr3ejgRGpwIqwh8HP2xkbFR
-	qKxaODLOMn0L7qhu6mJ+zHwSmHISOcbyeFDddXzQNo7SHSJpyQjZuuxfIJoUdA69wovTtXnWcjF
-	Vrfb1VLaR9qMQbckUWPsTvk24rkg=
-X-Gm-Gg: ASbGnctJguaEgBRjkPGowa+1LGNpnsmlb9w6RT1MokZnJHd4fYrTUIgfrbXzIapD8Gb
-	G3QOxH0okZT+D7SymWBMvKWjFcFfNOoi32VtwQXGqDxsXBc1iqlE8
-X-Google-Smtp-Source: AGHT+IFEBZJtpqODTcd07D9FVHGKDHkir6SlF3wADzh7P9HVYIG39voEOtEnlLVDhzsY1eefQ0fPozBDVZGOUWxSTaw=
-X-Received: by 2002:a17:902:fc84:b0:216:356b:2685 with SMTP id
- d9443c01a7336-219e6e8bb95mr915796815ad.11.1736172943446; Mon, 06 Jan 2025
- 06:15:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736173717; x=1736778517;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c91yJOlrCLVePlwLxdpALuqEbbz5CUd+3wU+nXgA/qk=;
+        b=If2RNuHH3pzu9CZEYMowmrWjV2r33PVRoNioWJcuyu1ZSzYo9iIMyN+13veZ4IrmG0
+         eaGW/j2Hs1SbKYIQGkTl5369oLmIpf1YGGnFh++7Gmr5L3hq2/L8QE5wlFP3idMve8ZG
+         eT4wBxo9VA+V4BRuvzvvwuE95QjwErbLRK96gw+rX0kz6xBd3kRO2qECi6CxVwEtm8Wu
+         5zGaUGz3WXdiecawKTXjSCAMxXzmZfgPC6DhUVZedVUZ+fsEaFTolyyhBay5fm9sLhf+
+         FJ1OY0R24Y4amOhC/XGVua0QSY9IKmyRIdoioSMPHTOnxJBP4dyq985qscegbyf+CDxp
+         UhFA==
+X-Gm-Message-State: AOJu0YxGxn2uA8nGfbA9JE4X9+0VMtlXSRU/7ulQB9k5G8Z5K4SiEPvK
+	0+tOQ5rP+LH01CzNWPFT0P3fdIvMc64GBQ9j5iN2E+S3i6Sc8ToF52ewEVWtlUY=
+X-Gm-Gg: ASbGnctV+KlZDtSDvAX9/7pffrl29HyPNtWJDSZ6F44Mm20YpicFMIOIWWIE8t+YaLO
+	bpfVbvLecX/WILSUExI4NxXQiSFId55Gv71C5mgnBNhWW4ykD5aD9K8h1BT3DQK6zMqcNK+wuY9
+	Xr94zrgu2ulwgRP5zOVvQWX3RAMAnw5WN3ge6hWSb3mvGZIg+jDli6ru7CTyY4WvpmpE1dZBOey
+	A84LgijzhvfY7NZtEL6iuYxhGIe61QrIogTA8z1gRhQGNWNdwyTA6NA
+X-Google-Smtp-Source: AGHT+IEmhPoHQlfS8R2V6q1qOrsCqIouaOZwP7XgeuLkAOs1MO2g84lb5Tcu2XuCg1CN2bad/NfJPA==
+X-Received: by 2002:a5d:6d0f:0:b0:385:faec:d945 with SMTP id ffacd0b85a97d-38a22a117c4mr45665927f8f.9.1736173716705;
+        Mon, 06 Jan 2025 06:28:36 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:2a4a:e041:e2ff:6b41])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1fa2bdfbsm47230712f8f.102.2025.01.06.06.28.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 06:28:36 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-sound@vger.kernel.org,  linux-amlogic@lists.infradead.org,
+  s.nawrocki@samsung.com,  lgirdwood@gmail.com,  broonie@kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 2/2] ASoC: dapm: add support for preparing streams
+In-Reply-To: <20250106141316.375984-3-martin.blumenstingl@googlemail.com>
+	(Martin Blumenstingl's message of "Mon, 6 Jan 2025 15:13:16 +0100")
+References: <20250106141316.375984-1-martin.blumenstingl@googlemail.com>
+	<20250106141316.375984-3-martin.blumenstingl@googlemail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 06 Jan 2025 15:28:35 +0100
+Message-ID: <1jy0zo9fu4.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFBinCDdiJ3UNVUcShjq=7U2=oUwT3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com>
- <1ja5c4b4rt.fsf@starbuckisacylon.baylibre.com> <CAFBinCCAAZHqrKHyfwHPqk9Ki9nDeGFFQfj34ZF58wj+6AjH-g@mail.gmail.com>
- <1j4j2caxds.fsf@starbuckisacylon.baylibre.com> <CAFBinCA2pz+ZeWr2hA-QRwZ5gC70qp=2iqemX5MpyM75cAbJwg@mail.gmail.com>
-In-Reply-To: <CAFBinCA2pz+ZeWr2hA-QRwZ5gC70qp=2iqemX5MpyM75cAbJwg@mail.gmail.com>
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date: Mon, 6 Jan 2025 15:15:32 +0100
-Message-ID: <CAFBinCBLPFPotAzf_5Pdk1we9ygZdMagOEfnNBKWuCm-20iYHw@mail.gmail.com>
-Subject: Re: meson-aiu: HDMI codec .prepare() callback not called
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: linux-amlogic@lists.infradead.org, linux-sound@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	dmitry.baryshkov@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Mon, Jan 6, 2025 at 2:38=E2=80=AFPM Martin Blumenstingl
-<martin.blumenstingl@googlemail.com> wrote:
+On Mon 06 Jan 2025 at 15:13, Martin Blumenstingl <martin.blumenstingl@googlemail.com> wrote:
+
+> Codec driver can implement .hw_params and/or .prepare from struct
+> snd_soc_dai_ops. For codec-to-codec links only the former (.hw_params)
+> callback has been called.
 >
-> Hi Jerome,
+> On platforms like Amlogic Meson8/8b/8m2 the SoC's sound card
+> (sound/soc/meson/gx-card.c) uses a codec-to-codec link for the HDMI
+> codec output because further digital routing is required after the
+> backend. The new DRM HDMI (audio) codec framework (which internally
+> uses sound/soc/codecs/hdmi-codec.c) relies on the .prepare callback
+> of the hdmi-codec to be called. Implement a call to
+> snd_soc_dai_prepare() so the .prepare callback of the hdmi-codec is
+> called on those platforms.
 >
-> On Mon, Jan 6, 2025 at 2:24=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.co=
-m> wrote:
-> >
-> > On Mon 06 Jan 2025 at 13:49, Martin Blumenstingl <martin.blumenstingl@g=
-ooglemail.com> wrote:
-> >
-> > > Hi Jerome,
-> > >
-> > > On Mon, Jan 6, 2025 at 11:44=E2=80=AFAM Jerome Brunet <jbrunet@baylib=
-re.com> wrote:
-> > > [...]
-> > >> > I have further verified that the gx-card parsing does find the HDM=
-i
-> > >> > controller and links it correctly.
-> > >> > To me it's odd that only the .prepare() callback is not called, al=
-l
-> > >> > others (as mentioned above: .hw_params, .startup, ...) are working
-> > >> > fine.
-> > >>
-> > >> I think the problem you are seeing comes from the quirk of
-> > >> codec-to-codec links. The hdmi codec link is such a link on Amlogic
-> > >> because further digital routing is required after the backend.
-> > >>
-> > >> Those type of links are not used much beside some
-> > >> CPU offloading on Samsung and Amlogic, as far as I know.
-> > >> It is possible, even likely, that things are still missing there.
-> > >>
-> > >> So those C2C links are operated by the DAPM events, not the regualar
-> > >> ASoC code. You can start here:
-> > >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/t=
-ree/sound/soc/soc-dapm.c#n3995
-> > > Thank you - that is indeed the root cause!
-> > >
-> > >> You'll see that .prepare() is not called, same as .trigger()
-> > >> That should propably be fixed :/
-> > > Since I'm still very much clueless about all of this I just came up
-> > > with an experimental patch. Any feedback on it is welcome (I can send
-> > > it as RFC patch - but prepare for me needing support).
-> >
-> > It is probably a good idea to send it to get more feedback, yes.
-> Sure, I'll do that later and keep you Cc'ed.
-patches are sent (with your feedback applied), let's continue in [0]
+> For platforms or sound cards without a codec-to-codec link with
+> additional parameters (which applies to most hardware) this changes
+> nothing as the .prepare callback is already called via
+> snd_pcm_do_prepare() (as well as dpcm_fe_dai_prepare() and
+> dpcm_be_dai_prepare()) on those.
+>
+> Suggested-by: Jerome Brunet <jbrunet@baylibre.com>
+> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 
+Thanks for working on this. Overall it looks good.
 
-[0] https://lore.kernel.org/linux-sound/20250106141316.375984-1-martin.blum=
-enstingl@googlemail.com/
+Not sure if the call the .prepare() should go at the beginning of
+POST_PMU, as done here, or at the end of PRE_PMU ? 
+
+> ---
+>  sound/soc/soc-dapm.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+> index 99521c784a9b..ac8eef217dc4 100644
+> --- a/sound/soc/soc-dapm.c
+> +++ b/sound/soc/soc-dapm.c
+> @@ -4013,6 +4013,13 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
+>  		break;
+>  
+>  	case SND_SOC_DAPM_POST_PMU:
+> +		snd_soc_dapm_widget_for_each_sink_path(w, path) {
+> +			sink = path->sink->priv;
+> +
+> +			snd_soc_dai_prepare(sink, substream);
+> +			ret = 0;
+> +		}
+> +
+>  		snd_soc_dapm_widget_for_each_sink_path(w, path) {
+>  			sink = path->sink->priv;
+
+-- 
+Jerome
