@@ -1,140 +1,118 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C451DCB09
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 14:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076A91DDC30
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 14:47:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736174047; cv=none; b=Njvon8R5EVGvV/wxYU5INIjjJOMAw7wezD7aZrpG3aLdw4Zm6b8w/5KSIVlAp4eAN9jmWRGc8eOTK6b9TBt+nE7HUq9gefsR4iTR/qXWjSWLADsKXlGE6jzszB1O2uRIaDwxjeclbAe5OfOJqQMg2l9IhS70bqCocrtMqWJSdkA=
+	t=1736174875; cv=none; b=n7EKWmDNkEFB3Re7u/zYnWypZjPhswsEBIyMgdgVqxuq0OOLCOqka1yMNfqzUEgX5kW0YUpXPhDBvCbW5dur9H9r+CF27Rq1YhSJqT5EIB6Zkanz57sKKT2iXrn14tM5yQl1uCaBahZO031KR05N9pjvclurYkGd0V4dwfdSD6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736174047; c=relaxed/simple;
-	bh=uiTzVrTUCZ3WSt6oaICrJzKtcpKhbkZxUd3KwPMCmu4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hM9lACP/w5rfkiBr8v2ShFw46Xu/vJawvT4LnbpbN1Wjw4+Lvu/61R1VpLW/d/9/R9kBm2aPvlatf+yok9Q/k5U0c+JH/GPepTLCD4HTPp1V9aIZdKxft00Mu99IES4uRSULtAN9nuFaLJ3DjKLntoHM+MGzD8hXYjuN+wPiNLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=H3vctfrT; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1736174875; c=relaxed/simple;
+	bh=XsIxgXbUZuTD5KK+y/0Q+Q8bZTIptCr2vEQ6/d6j1lc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=IYHsN+DTXOpOyb2dKLiCxl6I1aI8JruEGUoUQGQzELO4StrCVo1xkHvzbcdPhz5I07vxj5Dc82jMDqAxhB3zCnUjSUk05swyaVc3zySe3it5oXvkSFiEWw96GbnBxCuL2a2Lm6MKVuQ/BhZRLRPCbA1BLI4KbCYnS8MSMvFkQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u5OBMbRO; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="H3vctfrT"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4361f65ca01so143827025e9.1
-        for <linux-sound@vger.kernel.org>; Mon, 06 Jan 2025 06:34:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u5OBMbRO"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385dece873cso5345251f8f.0
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jan 2025 06:47:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736174042; x=1736778842; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LJS2rW2T2RcSfQ5iAkA0Gffqe23ezlX4jRnbxIk5ccs=;
-        b=H3vctfrTnrU4CJP/gvbDHoSxmnURSO0sbdBtgkB9RTYQSRktyNCsftGOJe7W/yh1hV
-         +lO/drNR2cmL/vE/a26vsr/GOtEPG32n1Bn3LR7Pkq712wB2rUcdQ3+98ws8kfnuHOim
-         P7y17gGaFQRLRMeoh8tDu61AimBaRwUDpLiCbmfNhTdkU3YQSlOCRRB5KveoyszEf/M6
-         mrZ1o8ckIr+8vus4+w720wTRNd/6SvcO3Odfm22rnSaKuVzRac/4DR5H51de+aQyh5lA
-         l1U2cggfF6AwA8d5olzwevNvyJfzjZdrX6quoGcNiS8XH89bM1A5HAeS/MkhebV6AAoY
-         s0Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736174042; x=1736778842;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1736174869; x=1736779669; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LJS2rW2T2RcSfQ5iAkA0Gffqe23ezlX4jRnbxIk5ccs=;
-        b=OA4mbNiuOFxZKt/wBCWGctTXWkmRj1mSLCP/YkxNax+WrPgeWsbTVdfAJ7K4mfWxJZ
-         ihZnlNIRf2TzGEJoSszRe3oAzoasKOGsdQ0+y6V7fQsXHKRAFnuVjVAfv/gPGiykVNRB
-         eLRWSy0KDs8bUZLigMar3ooXCXA5OgnFvQGrDC+2wnzj5ds96pruaQte0zhs+X+pS9XS
-         Jg9xXxW91LcbZtFjUplTM8nYnnlGClHyyx2fmXfc23HKmixay9Qc9l4xqw4Q+btye9rI
-         Vm//DIkfqxW6g0n0NAscY2v+wbNd9CJZETkZ8/1VYQel0uwtVxDzzU/Gsu5GCIucOlpS
-         V99Q==
-X-Gm-Message-State: AOJu0YxjCe3Jyrtu7OCTmZpTTrkwkeFtCZjuTXsTh51e1j8Zjlt2n1H1
-	ncZgjUtMIOWCVF8sDowS8VaV1KYJmlGfcFf2FBtOtO8ZzvofWI0dkzXYX9pjpME=
-X-Gm-Gg: ASbGncuUMFV6MnCga3FgLnkEYRlLqBxvXq8lRroMUJnHozh7SRnGub8FuyJ+Uxtxnwm
-	oXIig+C2X6LY72EwkQG3JkhKHJIkUwI0vwQF8J5uFfrnRNdEUL96qRwYsFTQtdlGTwodN9HtQXI
-	rIHLxRS/kwM/1G81LSQH0qnkFSALA77qi7bZXW4JgJNSX0FGoCELVqYCdAxOrESEpZ7+7xGZCvN
-	/KgZ9qFpHIkE0wNxqX5vdmmLjChEhBJ49xQg5m8QP/2HFJtmilrmrlS
-X-Google-Smtp-Source: AGHT+IFP7sfF3m4i727Wam1azM0kasnMNja3MbbIcuKtEVEEuVjvrxhTyPP+GTViojdnICts5GSdLA==
-X-Received: by 2002:a7b:cd98:0:b0:42c:b9c8:2bb0 with SMTP id 5b1f17b1804b1-4366b2f95c5mr489415105e9.4.1736174042302;
-        Mon, 06 Jan 2025 06:34:02 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:2a4a:e041:e2ff:6b41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436611ea40csm569164115e9.1.2025.01.06.06.34.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 06:34:01 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: linux-sound@vger.kernel.org,  linux-amlogic@lists.infradead.org,
-  s.nawrocki@samsung.com,  lgirdwood@gmail.com,  broonie@kernel.org,
-  linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 2/2] ASoC: dapm: add support for preparing streams
-In-Reply-To: <1jy0zo9fu4.fsf@starbuckisacylon.baylibre.com> (Jerome Brunet's
-	message of "Mon, 06 Jan 2025 15:28:35 +0100")
-References: <20250106141316.375984-1-martin.blumenstingl@googlemail.com>
-	<20250106141316.375984-3-martin.blumenstingl@googlemail.com>
-	<1jy0zo9fu4.fsf@starbuckisacylon.baylibre.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Mon, 06 Jan 2025 15:34:01 +0100
-Message-ID: <1jsepw9fl2.fsf@starbuckisacylon.baylibre.com>
+        bh=0P0ntcOdwfTK1ckknnSib9L8kT5fhMX/1TeuOQQRzi8=;
+        b=u5OBMbROjqM7Uvpl5dCknAIDx/3Dr/rYxaO4BOyRjwBg0pbEm6bVxj1O2F0gNNdF2K
+         i9p7KpgBlGpH9xRjq/zQbhDlb8ec3AlNphT8LE+J2cEYJXmpImz+W7AbsKUb+2FYeJCa
+         W59m9ydXYL+1pbBqMb90ok72C2q7eU9A9E6lizW/eS97v05lnw4nU8bOivOsCbd7aoi0
+         4yGHsvkWYef1Ldbl6rNTWdF/m3NMth8rIYrLBDlVyvze95RNK1Tn3D+YNrg4wTNlUFoH
+         hHhFCOi+hJ5voBbwh+19tXs0ZmdGSp2eZoy/9qymeEbjXhlJagl+g397SiYtVRpFiLje
+         0Urg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736174869; x=1736779669;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0P0ntcOdwfTK1ckknnSib9L8kT5fhMX/1TeuOQQRzi8=;
+        b=nRa5Dn/l4EC79cMm9Q000/LONY1AvF6xMphScgb4mzg/5cyC7QzPbukmuJPcJDOf9V
+         jKTuWM6WZHxP+0P3t5PmlWVIUHRdWpuFET4WaMQD/pMzDW18K8/SUQ9BDmvbKAcNeR6M
+         dq6qU0sl7ezSYHoeDoavpYx2xLwlaYTsaSNBdUGZktN0d1CiKFK9oQ6wi4SIO2nUmUzI
+         pZCqxUJS8ovG4HGjEGsxTxdlYvW5L99pLMChwMnrWuyUItCf4xmqI7QiwuX5LDKlUQui
+         VhMO2bzGVYXLM9jvOdDCrzkcm8T0tY5GFbGsb1DYL0O+VEkSJpJpBqKbUXzdFLshXzq8
+         ih3A==
+X-Gm-Message-State: AOJu0YwsePVAdLI2ZIPrOPLZITUhO9TOOvF8LYa5qNIuv7FB8n/t1S1e
+	Emmzrr6nO5+8F7slbWu/wE8GQICmG2WBbKJocLL6pF7DKnFVmuQsb2OkJKgG52Q=
+X-Gm-Gg: ASbGnctFlS2nnQC6OYSrt8oWYcuxIskfAANnvj+f4pboy+a/K0Y1IAj6sWH6ktndace
+	NaIsfvtDe2zOga5f6+WNhta9hZDvI9VMSbHHaaqO6jcYGSzK0v7gpVlFz09/yGEWrOOtc/0cL2K
+	ju/FV66CpFXsfrTHX+IY+qtvUm4mpN33PeAFpNxYBy7TU7WFfUR2M1yGvJvw0GtL9AOlgyV+9T2
+	HnrY9vS/UOZyHeAry0byFn/SAUPNdmbgmnA2LHjh7KTdVZApfauiYUinm7sTg==
+X-Google-Smtp-Source: AGHT+IFocU5Kt7cIBiwiA3+35zB5dzuUUOuHVV1AmW3qxjkF+Uvui4xX2ynQgH/d8NYqO2a5Mr9cDw==
+X-Received: by 2002:a5d:59ad:0:b0:386:4277:6cf1 with SMTP id ffacd0b85a97d-38a223fd49dmr51138545f8f.39.1736174869017;
+        Mon, 06 Jan 2025 06:47:49 -0800 (PST)
+Received: from localhost ([2a00:2381:fd67:101:6c39:59e6:b76d:825])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c8292f4sm48841898f8f.3.2025.01.06.06.47.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Jan 2025 06:47:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Jan 2025 14:47:47 +0000
+Message-Id: <D6V2MJHNF54L.L16IHKEY9455@linaro.org>
+Subject: Re: [PATCH v5 0/4] qrb4210-rb2: add HDMI audio playback support
+From: "Alexey Klimov" <alexey.klimov@linaro.org>
+To: "Bjorn Andersson" <andersson@kernel.org>, <konradybcio@kernel.org>,
+ <linux-arm-msm@vger.kernel.org>
+Cc: <linux-sound@vger.kernel.org>, <srinivas.kandagatla@linaro.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <devicetree@vger.kernel.org>, <dmitry.baryshkov@linaro.org>,
+ <krzysztof.kozlowski@linaro.org>, <caleb.connolly@linaro.org>,
+ <a39.skl@gmail.com>, <konrad.dybcio@oss.qualcomm.com>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.18.2
+References: <20241112025306.712122-1-alexey.klimov@linaro.org>
+ <173527442286.1473071.12713395655975649786.b4-ty@kernel.org>
+In-Reply-To: <173527442286.1473071.12713395655975649786.b4-ty@kernel.org>
 
-On Mon 06 Jan 2025 at 15:28, Jerome Brunet <jbrunet@baylibre.com> wrote:
 
-> On Mon 06 Jan 2025 at 15:13, Martin Blumenstingl <martin.blumenstingl@googlemail.com> wrote:
+Hello Bjorn,
+
+On Fri Dec 27, 2024 at 4:40 AM GMT, Bjorn Andersson wrote:
 >
->> Codec driver can implement .hw_params and/or .prepare from struct
->> snd_soc_dai_ops. For codec-to-codec links only the former (.hw_params)
->> callback has been called.
->>
->> On platforms like Amlogic Meson8/8b/8m2 the SoC's sound card
->> (sound/soc/meson/gx-card.c) uses a codec-to-codec link for the HDMI
->> codec output because further digital routing is required after the
->> backend. The new DRM HDMI (audio) codec framework (which internally
->> uses sound/soc/codecs/hdmi-codec.c) relies on the .prepare callback
->> of the hdmi-codec to be called. Implement a call to
->> snd_soc_dai_prepare() so the .prepare callback of the hdmi-codec is
->> called on those platforms.
->>
->> For platforms or sound cards without a codec-to-codec link with
->> additional parameters (which applies to most hardware) this changes
->> nothing as the .prepare callback is already called via
->> snd_pcm_do_prepare() (as well as dpcm_fe_dai_prepare() and
->> dpcm_be_dai_prepare()) on those.
->>
->> Suggested-by: Jerome Brunet <jbrunet@baylibre.com>
->> Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> On Tue, 12 Nov 2024 02:53:02 +0000, Alexey Klimov wrote:
+> > Rebased on top of today's -next and re-tested.
+> >=20
+> > Changes in v5:
+> > -- drop MI2S clock in sm8250 patch (seems to be merged);
+> > -- fix gpio-ranges in lpass_tlmm (Dmitry);
+> > -- added reviewed-by tags from Konrad and Dmitry.
+> >=20
+> > [...]
 >
-> Thanks for working on this. Overall it looks good.
+> Applied, thanks!
 >
-> Not sure if the call the .prepare() should go at the beginning of
-> POST_PMU, as done here, or at the end of PRE_PMU ? 
->
->> ---
->>  sound/soc/soc-dapm.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
->> index 99521c784a9b..ac8eef217dc4 100644
->> --- a/sound/soc/soc-dapm.c
->> +++ b/sound/soc/soc-dapm.c
->> @@ -4013,6 +4013,13 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
->>  		break;
->>  
->>  	case SND_SOC_DAPM_POST_PMU:
->> +		snd_soc_dapm_widget_for_each_sink_path(w, path) {
->> +			sink = path->sink->priv;
->> +
->> +			snd_soc_dai_prepare(sink, substream);
+> [1/4] arm64: dts: qcom: sm6115: add apr and its services
+>       commit: c722e3ce278826f29a2a8500d685130dd0b6a297
+> [2/4] arm64: dts: qcom: sm6115: add LPASS LPI pin controller
+>       commit: 4541a5f11e59015d2f4b39864e421bf9e804097d
+> [3/4] arm64: dts: qcom: sm4250: add LPASS LPI pin controller
+>       commit: 6624d17a8142776e43bcd632c227ebf0bbe9d590
+> [4/4] arm64: dts: qcom: qrb4210-rb2: add HDMI audio playback support
+>       commit: 1caf6149c3bf41a2ee07869449c4ea1ec8bbc2f8
 
-I initially missed it but I think you should do that on the source path
-too
+It seems you applied v5 of this patchset.
+There is also v6 of this patchset that was sent here:
+https://lore.kernel.org/linux-arm-msm/20241204140027.2198763-1-alexey.klimo=
+v@linaro.org/
 
-On Amlogic, the cpu side of the link does not have a .prepare() callback
-but it would be incorrect to do the codec side only if it did.
+Could you please merge v6 instead?
 
->> +			ret = 0;
->> +		}
->> +
->>  		snd_soc_dapm_widget_for_each_sink_path(w, path) {
->>  			sink = path->sink->priv;
+Thanks,
+Alexey
 
--- 
-Jerome
