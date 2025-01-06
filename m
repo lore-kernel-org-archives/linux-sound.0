@@ -1,84 +1,180 @@
-Received: from omr012.pc5.atmailcloud.com (omr012.pc5.atmailcloud.com [103.150.252.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CB979CD
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 08:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.150.252.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B10F1DB344
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 10:44:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736153612; cv=none; b=qnyz9z2qR3g+eiS1MoCd02IessX2SMKGyHOHKCy3qg0dGX1B7QlAzd1tjefFnULhSkoTmSSPwcKSl/mkY9Hl6ZPhn8fSh4zbHtds4drLCh/3k86hlDMHjqTLYYQglvP+FMbnEm9HVmMPPslYUXDlbYGdX71xdF4uDW3BAJprOWc=
+	t=1736160286; cv=none; b=bswY+0kUxhwJKpBpiMivs3+GGzO2CiEeaaUOMvGzz95y1MNVk9sfz8S5NAhdQPrd7wtMHJLfkN4rFnJGDkw+7bnSBpH980YM1BCD6wz/Lq1Y8mIIGt6buMRFwa76RuwecvP7KoBOWgDoAinTV6aGHh73sss+5cCy8pyc599jVSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736153612; c=relaxed/simple;
-	bh=T+9u0jslqIqw6PuYHyI5mEstMbQW/BkD6UuN1toPrnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=N/Lp/jv4pXGRVNBUKfq2EMUbx6FjFPIcnfdFVbjpMiM+QYSGACqxHZe54zbTFuTHApp7ofoh1jKeSM5pKmWz+bs9jdxIqPS8YhJv6uDJ4zFEY8vqeqq7PEe82uKfrsM6O/0WURxJpV8OHeNxC8F+YKSMjVKeM9jMwiPwJja/E+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au; spf=pass smtp.mailfrom=iinet.net.au; dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b=Dfc14ml7; arc=none smtp.client-ip=103.150.252.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iinet.net.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iinet.net.au
+	s=arc-20240116; t=1736160286; c=relaxed/simple;
+	bh=3vH6aleRK2+3XK+sc379vGvt8zx/8VYWMgVOZsCzJmk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iS6m+MxyiE2HO5m3rV9C6j/5n+ivCJ6vmy+0yLMC6q2HQZxrZjzfFMiWmTgsmCoMjq3mL6DiKixqE3ZFzBnVgpP37Gq9WsgreZuOE6cHMWnBgv46XmrqBKnaqnNvYFptdoNu//xME56RQCqgsVqvpmuIBM/9muwYP097MO6FsK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=imzHTGhU; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iinet.net.au header.i=@iinet.net.au header.b="Dfc14ml7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iinet.net.au; s=202309; h=Content-Type:From:To:Subject:MIME-Version:Date:
-	Message-ID; bh=NHWNmUUZA+OhLgOSVGFWUWiGGEwJNu5+mJYgjPhvjX0=; b=Dfc14ml76mcT6F
-	w7tqnePJAEv8Zpo1+UNS1lUNT0d+ld2MkGB8Qxkde9HlkQnzfQXCfQc9NeE5r6lKb0E97iZm73gaN
-	V/pMChXdMkacDpHwC6z+SuxMfSbBvfrFJaQ/BNIVgDU1v0smQZOkQeSfuL1UVr5B3ClqWvkRHxXBO
-	IlG67RAqaW7fbWxSuzchSoSFjTfI6CIx6s2EetsX79mwUYQjBKjLEFE/iW7NSdz5fpdn04bYbPcuN
-	7WoKxyaX5cfpQXKsH99iZBhIbG1URwxkITXcWd7krIwdp1DuKMiVpo943Uk7+kjIriNI0qe3OFzeV
-	pIIBlU2KVzdaEE70a84Q==;
-Received: from cmr-kakadu03.internal.pc5.atmailcloud.com (cmr-kakadu03.internal.pc5.atmailcloud.com [192.168.1.5]) 
-	by omr.internal.pc5.atmailcloud.com (Exim/cmr-kakadu03.i-00c96a0c3c073041d) with ESMTPS
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tUirV-000000004ep-41AC ;
-	Mon, 06 Jan 2025 08:53:25 +0000
-Received: from [220.233.184.101] (helo=[192.168.20.101])
-	 by CMR-KAKADU03.i-00c96a0c3c073041d with esmtpa
-	(envelope-from <gordoste@iinet.net.au>)
-	id 1tUirV-000000004ax-2HyM;
-	Mon, 06 Jan 2025 08:53:25 +0000
-Message-ID: <02b6d112-e4bf-4bc7-8cee-6d6fcd4df5e4@iinet.net.au>
-Date: Mon, 6 Jan 2025 19:53:18 +1100
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="imzHTGhU"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43623f0c574so97382435e9.2
+        for <linux-sound@vger.kernel.org>; Mon, 06 Jan 2025 02:44:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736160280; x=1736765080; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=URK3fgfuzCYj9ufRvcHXSc7DgTihX+ky3vmNQnZQfBc=;
+        b=imzHTGhUiiQVgV749MAYxKSnfji8utwsZkVZSUa2IAkHzwJjvFYjz2i/WAupzQ9ahF
+         tmLlo4QD/3+XrXBSd5Snam1XBayfEKzk8cVcxVHNu//vEKj01YCWWdG5CfqV8nCPn/Xl
+         7DDc4T5Ql3xNBSkPKEKU+mPKvG+QhFWylQdomuUW4x7kqHUwg0jNLFgvtKBqizdFeHnm
+         FVnCsv90O5imn6T538BRnseR4We8Hz3gpH/FPE/W6rOEc+N/zoppg+v8EQlru9JdHUJ2
+         Pt2XEdgU8MlIYU6lBL5fKbGExMGt1wbhjqyQeChVvwJ84EpPfNSRMXtvwWPr+3OQy7xT
+         sYFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736160280; x=1736765080;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=URK3fgfuzCYj9ufRvcHXSc7DgTihX+ky3vmNQnZQfBc=;
+        b=slXVgy6zvQ5ZY/uvC7Ot6vgqHL7A4hJcoU1sLbVp9FJzQKwcHkYc6plq3/B8gHVcdb
+         vzpHZ67Pu42bjy8bY1Ft0g6FuDClSy30W+nGCSv2q5UObplZG4jeLhuywGU/Je2ff1A2
+         n8lwRGOtLzIeHxuQYShzd7N3PDFzDR1zWpnyrK8s8uZ/Lbhd06CUD7hNsyQLUOpNOdZr
+         By0PXnRVZR6z7j0WKdT1yyruHSXqxfm1yYMFyt1mGsRURhFjiehnTabJ1XEKJv29clj6
+         +c8wkbRjpqJ7iG4tcppguV5McD/SPkM+jjUemi/lEWkY05MN1LHLCLc9WcSyiQlIp7UB
+         LE7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUsqAOeLu+SOH7cEGcCINtWuHHdeCVpXw1pS7tbkTZfPE00rS5NejwGdwu+LeoT3cg5TseKT7j3QwdhNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHH/Lh9ElRoH68V8x17sZf0LwTE2vJ4dN907/mu2e7hOqfbsEI
+	hdXr4vFG0nzyf8smAfgB9D38fq3x+GiH799ojNgHTTvabdjudvlyjege+W1Di5c=
+X-Gm-Gg: ASbGncsOzLEAu+u9F5RfNFP6lp7G7UqzYlUeNQGUmyRxnsAKDzBmR9QWJyveWX0QjEh
+	HpMbPFOnhtm0+MWJzIr8yFGHWrmBu/nmTtjvZN4+cs1UdIOaY/eQDG8dPyEbsd7dEFs9naeZlVt
+	IA9o9AEeOyp7wHS0toBksAUmf5Z2lIQfBj9R9hy3Mw7kkk/2IaOpk/xnbLa0BJk5fY5FyRRyOlc
+	DyHydC5oZYMHyc/yua+zJpTlmW3lkRPQhqKoLIC0pAQ2Qdee/wwJLHl
+X-Google-Smtp-Source: AGHT+IHoY2q0XdnrpBdI9reTe90onfZ6dA7Pk+FthfP9lXA7CWjLaTCoOtDhHYEthX6HJnO2DBTxqw==
+X-Received: by 2002:a05:600c:154b:b0:432:d797:404a with SMTP id 5b1f17b1804b1-43668b49976mr470611445e9.22.1736160280576;
+        Mon, 06 Jan 2025 02:44:40 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:2a4a:e041:e2ff:6b41])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43661219578sm569128335e9.20.2025.01.06.02.44.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Jan 2025 02:44:40 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-amlogic@lists.infradead.org,  linux-sound@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org,
+  dmitry.baryshkov@linaro.org
+Subject: Re: meson-aiu: HDMI codec .prepare() callback not called
+In-Reply-To: <CAFBinCDdiJ3UNVUcShjq=7U2=oUwT3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com>
+	(Martin Blumenstingl's message of "Tue, 31 Dec 2024 19:44:20 +0100")
+References: <CAFBinCDdiJ3UNVUcShjq=7U2=oUwT3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Mon, 06 Jan 2025 11:44:38 +0100
+Message-ID: <1ja5c4b4rt.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] ASoC: extra format on each DAI
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Jaroslav Kysela <perex@perex.cz>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Takashi Iwai <tiwai@suse.com>,
- linux-sound@vger.kernel.org
-References: <87zfk4o5l2.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Stephen Gordon <gordoste@iinet.net.au>
-In-Reply-To: <87zfk4o5l2.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Atmail-Id: gordoste@iinet.net.au
-X-atmailcloud-spam-action: no action
-X-Cm-Analysis: v=2.4 cv=UvxlNfwB c=1 sm=1 tr=0 ts=677b9a05 a=HSUqTxjWRdnMbJspRni59w==:117 a=HSUqTxjWRdnMbJspRni59w==:17 a=IkcTkHD0fZMA:10 a=VdSt8ZQiCzkA:10 a=x7bEGLp0ZPQA:10 a=4jraHwQkAAAA:8 a=7OV1BVwYYWXDsmRpvOgA:9 a=QEXdDO2ut3YA:10 a=zgiPjhLxNE0A:10
-X-Cm-Envelope: MS4xfFVAeA+5AKUa/ZZkXPtMy9Fygfvtd8BMvXMk1Q9Xtn1LaW1fTJuGyxQ8iSu2drsZl+cWVNvW6PIFT3YfN/uGs2A3+cNiVjAGLpw5CV/KuCEeCEjyoa1K zPowniSz7VBNJOAnBkm0itW8oTuj9OmAD1fsjm7G2g8Pgq0YtadM4pbcChxGQ2pCCpE3U+Gx52gu4ZdEnkKyxwxTpGXvhzLBxQk=
-X-atmailcloud-route: unknown
+Content-Type: text/plain
 
-On 6/01/2025 4:48 pm, Kuninori Morimoto wrote:
+On Tue 31 Dec 2024 at 19:44, Martin Blumenstingl <martin.blumenstingl@googlemail.com> wrote:
 
-> This patch-set needs Stephen's Tested-by
-> 
-> Kuninori Morimoto (7):
->        ASoC: audio-graph-card2: use __free(device_node) for device node
->        ASoC: audio-graph-card: use __free(device_node) for device node
->        ASoC: simple-card: use __free(device_node) for device node
->        ASoC: soc-core: return 0 if np was NULL on snd_soc_daifmt_parse_clock_provider_raw()
->        ASoC: audio-graph-card2: use of_graph_get_port_by_id() at graph_get_next_multi_ep()
->        ASoC: soc-core: Enable to use extra format on each DAI
->        ASoC: audio-graph-card2: Use extra format on each DAI
-> 
+> Hi Jerome,
+>
+> I am still working on a HDMI controller driver for Meson8/8b/8m2.
+> HDMI output would be incomplete without audio.
+> There's a great series from Dmitry [0] which simplifies the HDMI
+> controller driver implementation by moving all the hdmi-codec related
+> management to a generic framework.
+>
+> I tried integrating Dmitry's work [0] into my HDMI controller driver.
+> While testing I found that hdmi-codec's .prepare() callback is not
+> called at all and asked Dmitry for help [1]. All other callbacks
+> (.hw_params, .startup, .shutdown, ...) however are called.
+> On his board (Qualcomm SDM845, sdm845-db845c.dts) hdmi_codec_prepare()
+> is called by snd_soc_pcm_dai_prepare() (core sound framework, not
+> platform specific).
+> However, on my Odroid-C1 this is not happening.
+>
+> Looking further snd_soc_pcm_dai_prepare() I can see that
+> for_each_rtd_dais() has three entries:
+>   snd_soc_pcm_dai_prepare(), dai name=I2S Encoder, id=2
+>   snd_soc_pcm_dai_prepare(), dai name=CODEC CTRL HDMI I2S IN, id=0
+>   snd_soc_pcm_dai_prepare(), dai name=I2S FIFO, id=0
+> What I'm missing here is a dai name "i2s-hifi" (from
+> sound/soc/codecs/hdmi-codec.c, see hdmi_i2s_dai)
+>
+> My hdmi_tx node looks like this (abbreviated):
+>   hdmi_tx: hdmi-tx@42000 {
+>       compatible = "amlogic,meson8b-hdmi-tx";
+>       reg = <0x42000 0xc>;
+>       #sound-dai-cells = <1>;
+>        ...
+>   };
+>
+> Then I have a "amlogic,gx-sound-card" instance with the following dai-links:
+>   dai-link-0 {
+>       sound-dai = <&aiu AIU_CPU CPU_I2S_FIFO>;
+>   };
+>   dai-link-1 {
+>       sound-dai = <&aiu AIU_CPU CPU_I2S_ENCODER>;
+>       dai-format = "i2s";
+>       mclk-fs = <256>;
+>
+>       codec-0 {
+>           sound-dai = <&aiu AIU_HDMI CTRL_I2S>;
+>     };
+>   };
+>   dai-link-2 {
+>       sound-dai = <&aiu AIU_HDMI CTRL_OUT>;
+>
+>       codec-0 {
+>           sound-dai = <&hdmi_tx 0>;
+>       };
+>   };
+> So apart from the additional cell in the sound-dai towards hdmi_tx
+> (Meson8/8b/8m2's HDMI controller has two inputs: I2C and SPDIF. I2C is
+> the first one, hence &hdmi_tx 0) this is identical to
+> arch/arm64/boot/dts/amlogic/meson-gxbb-odroidc2.dts.
+>
+> I have further verified that the gx-card parsing does find the HDMi
+> controller and links it correctly.
+> To me it's odd that only the .prepare() callback is not called, all
+> others (as mentioned above: .hw_params, .startup, ...) are working
+> fine.
 
-All patches:
+I think the problem you are seeing comes from the quirk of
+codec-to-codec links. The hdmi codec link is such a link on Amlogic
+because further digital routing is required after the backend.
 
-Tested-by: Stephen Gordon <gordoste@iinet.net.au>
+Those type of links are not used much beside some
+CPU offloading on Samsung and Amlogic, as far as I know.
+It is possible, even likely, that things are still missing there.
 
+So those C2C links are operated by the DAPM events, not the regualar
+ASoC code. You can start here:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/soc/soc-dapm.c#n3995
 
-Thanks
+You'll see that .prepare() is not called, same as .trigger()
+That should propably be fixed :/
 
-Stephen
+Side Note:
+While this type of link is not used much, I think that - fully
+implemented - it could hold the key to proper DAI chaining ... possibly
+allowing to get rid of DPCM.
+
+>
+> I'm not familiar with the sound stack and I'm hoping that you have
+> some ideas on how to either debug or fix it.
+>
+>
+> Thanks in advance and best regards,
+> Martin
+>
+>
+> [0] https://lore.kernel.org/dri-devel/20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org/
+> [1] https://lore.kernel.org/dri-devel/20241231004311.2574720-1-martin.blumenstingl@googlemail.com/
+> [2] https://lore.kernel.org/dri-devel/l3u3wtnxyhrwjynevkwfjwarisc4yt4xy2rbzf5kb7k5l5dw3n@lxqtimymyjg6/
+>
+> [2. text/x-patch; sound-soc-soc-dai-snd_soc_pcm_dai_prepare-info.diff]...
+
+-- 
+Jerome
