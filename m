@@ -1,63 +1,63 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426D71DE2B9;
-	Mon,  6 Jan 2025 14:13:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7615B1DE3BF;
+	Mon,  6 Jan 2025 14:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736172829; cv=none; b=q6Wj43loPfhBb4gvPxuj3ikR7T1rSSH9LGJmuFsWajf2wSWIr/IcY4jrhYkDRjdM9KNk3A/oqNkqa4Hh8cncE+Yw0uvO6ILNXMST29z/Ra2J6bYkZxoBUHQezJ2J630DuWlq7cw4m1oylcMy/OHp8/ed7mvCQgD8PHWW/EORDPs=
+	t=1736172830; cv=none; b=j9vU1w1wKKtwzT317Dwi4yiawzfTefEa3ITC8F70upIBL3Oio6yV9Qn5iWUyMeaS8dMbP+pEJJgT1Mz5m6mMx3p6xwmlLm09tYHgVdu9kf4VMJPfqqHoomEYVrvI3ojtMz7J1esB4klVstPbMgVly1BLnRbF32a0iOn1nfDzVrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736172829; c=relaxed/simple;
-	bh=j19jIlCmU/moC0Z5KKXf1j5dd26jPNQQKP1vd2hAggg=;
+	s=arc-20240116; t=1736172830; c=relaxed/simple;
+	bh=YSOS9enDOKE1gkAqjpzLPjwZK0vkXvLtm90+s/qmGtQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hVIz9dB2LYqpC2YXXZbF7Tp0NyXiD7Mou+ev59XqTk0fe0602KzJOZB2U0ZMbkbrS1m9t9pRiQASlBwYnkTiCJbGifDnZ6pmSJ3MBsFg3fo0g0Ns1z84Nr++pstYGLUI9MBFmezUhqUWHe6WEvcdDAdFnc/a6oJmBbD12Jq9Ql4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=gBEjizPD; arc=none smtp.client-ip=209.85.218.54
+	 MIME-Version; b=LU0lLTDjkQsFbxXO5xQ9ZITXZYQH6qWkoK7P0pZmnGekeTSLGHopKJiysy/6rUW+vRU/QHSLhOrLgouGW44T1BgzaJ45AiuoU25K/Z4MQVLvgqnek6o3h1n3elvfgAMunhkCwNo+9Cq/zUGVryQtJksVYFEA6j+3gVijPvz6Yrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=HDQAfZTY; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="gBEjizPD"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aafc9d75f8bso56348766b.2;
-        Mon, 06 Jan 2025 06:13:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="HDQAfZTY"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa684b6d9c7so2396606966b.2;
+        Mon, 06 Jan 2025 06:13:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1736172825; x=1736777625; darn=vger.kernel.org;
+        d=googlemail.com; s=20230601; t=1736172826; x=1736777626; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ue4Bu5Xm3aSnr3aDQKCmaVaK/VUPDoH9ftWxJfeazzw=;
-        b=gBEjizPDeuLYba/H7yzE70MlqDkcJVxKSaa4FTJpWwSv/iRqVqbMNsqoH2fst0KD4P
-         xaKyQ++naBk6JKzCJCLDek1IJ1I7qiZz3nY7GHpmspvue4FPTortKFr7JANEtNt14GT6
-         3jUdt4GRcZGQWFWg4oc/Lz567ROJm1rTci7V48iD7541E7RjLjMSc1X+A3oeqHMCgW/P
-         DmFafVMmNy3gg98avonbNFBq74C65lAsS3IsXeWX5KzhN2E066Zj0rBioGXhx5uSQb1l
-         ttsxv9D2NFwDkB3zEN49AK2ZBTiw+v03euINRJPoVFe76v6q7sVr/1yzkoA/sbFRgerg
-         fcuA==
+        bh=TJsdF/HqDSazQeuRYtol4zBsSURNokKA1EzOunr3pJI=;
+        b=HDQAfZTY88bZ50SU7yY5yZMKwkB96wL1OyPItCVQRYhYjKf0kWL8ip2GaXlblqrT1D
+         yM37abZoWVuEfZQERyAeoH63WE4TZevvv4pDCXa5Kwly/eqttc53k8Vreu+3nipLZsxy
+         11hHOxGCihNpS1fguzFUwToJfSjAX4eWjnsuBDqtSAHcBtuD7+ceQO76B7mIJ8DwMEO9
+         vjVxiXiS0HjYngaqZF6N0IdwNfBfj9RVI8TkrekeP4gp91jU7n9RnKpwyeO1yyHOpSJO
+         geRdYjf+7kLl46HgtIZdJ3gAI/bl4vTQBGQiXXplQLcgSA4Jq53TwamNtm30ms9FPhV2
+         bYMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736172825; x=1736777625;
+        d=1e100.net; s=20230601; t=1736172826; x=1736777626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ue4Bu5Xm3aSnr3aDQKCmaVaK/VUPDoH9ftWxJfeazzw=;
-        b=UT/LUbIy0j5OWMQ1R9SAEFT1WjgAzwaWTr0qU+JfocSWS8kEt94LDRH+QG7YaY5d7u
-         KHzImSHx+HO04MHGdE1u7e48IkB6gw2Fl+paC/Y/OCOWyy5497kkPNgXdF1l3lh/ktUY
-         QoR61f4NV4GbqS9MXUWm6UBp0bCEY55rNf2aOI2ea+Pgi0RK77Wr65YvqPK/DX+4jrrA
-         7KWUlIEjPjgR2zABnoqloSrkf2mdXuJ/bpxcL/4uhfrYK6EMznxLzjWiQM304PwDAiEU
-         1Q+rUmgrQHeddi8lDm9GETjykaKx4urlOcA4ykdIKUtl2X/bTeDzLkgk8BkgimiC/Zk1
-         mxxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXsGf3T/5ZTxLeVSs06d7S8arPyJzIWA0gNL08pw+SuMT44JJTZorzsRI9wi1ZbetKs7Ss0vG2utcNhTM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZnRPEGJlA5Lh/DuBJglDJcuS0crBBbFgQ6OEKl801Oney7tdb
-	bxi9+DQkiaHn9Zhd5bsw7jeeEShiJgwQG3XFkQ55Vt3qQigd7j0VDOgAtQ==
-X-Gm-Gg: ASbGncusoP842m16+loif5gi0xRuUha9O9UrtVVLj2wnavbL5Ycco95sDdltGqIVQrS
-	Rwpj/F/5D6X6rC8ysVCUzeOth2AOJU5H5/EBdkkMaKvk19IzqEppuX2JE4CAdjsSCrKpw1xF5fb
-	qUmjJQiTUiCXmTBGyxzfaVDQV1CzqByICqDkarKMjVGNiFcfBrMeyUfZaKOfI6h2MQFwPLF/t4D
-	tUixK2/YLdXPuqqfeP+GKKYi2GRN0+sAFGKQphzSYz49RwGbuhL1cCskUc/CWAULtkdQSFnM1k6
-	uRtgCZgEF6ZKJCaOMpuThkq+a96E49/NxHGSalCgZQG9vWgrZZX47jL4tX9LnAAy06+BaMLxTyw
-	rq3YmvA==
-X-Google-Smtp-Source: AGHT+IEnu2WBqAc4ZLV2zVb1tutjBgjXj2jnmiXy8Gw+WqDg3zTtAv3hDkZ3fUD63mUvDPlmvBph2w==
-X-Received: by 2002:a17:907:7da8:b0:aa6:8676:3b3d with SMTP id a640c23a62f3a-aac2ba3c134mr5574351166b.29.1736172825126;
-        Mon, 06 Jan 2025 06:13:45 -0800 (PST)
+        bh=TJsdF/HqDSazQeuRYtol4zBsSURNokKA1EzOunr3pJI=;
+        b=X6hYeTu2gkMqJ6RsqYLqMd9ua0IK61MnNIeXLwS/NnZ186PL72bkdp+A0aze8Y1MXK
+         KwMZ718nPOokKAILLYixL6Q5FnjojMacoYFQcJTAy6y58q5zqCOqyA9CnSRHtfpGkq4o
+         0rRfQ1evxByhalBaBETmW4/WvK3zqcBloLJfH1W6LlVfJNqMoBU1dMV31OIU5uPmWdqj
+         afIv927JI/qgxWi1vYoMPBp64mXj+Zlr6LHnou9EVRSmc3r1NHl55hpsGh3/b9wufZ1p
+         gC1B/9efo5ISapxvI8ICEuRkRox6qOZoKdwyy8Egz/Ii6NdGeUuoTS2bufUMm0Jtp5Am
+         pqHg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6AmGReCoZ29ZTUKVl+UfOurbJhYgB1pH7MRcqUFMb3TZYmmGdt0RJ/sgBCIBQXYI8LOiaD9xTzNgZUWg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzytDE9Bvan/s1lcJ7FRRPCsuUbp2PMo3JqO0IKB06jBcUdM01
+	qgMzPylVUnouTgOcwT2jlLFBogGggUKv7sCnfAPmrzgyA3FE8/UvPAlVVw==
+X-Gm-Gg: ASbGncuL3FfasPZ7lZX9rM3BCwGWYgc/jib5d6VAwMkaBowYK38SYkJ8ji275z91UYn
+	Ty7T3F+aQ2midOKIikgKDZRZO42K1C4lPcM3kNvLmaOwRyvh7EdJ9N8XOLWXHquomwxxdvSXwP8
+	tIJAXjW0HCpb5ffKdE0cDb7FOtgAFUmA79aYvBH8B2FYA/ogLIDEGIydW2KS2fCJ5ghu6xzr4wv
+	xklQAVoZT/RBHvO7Y7nA3O+1mfgiYPtByvuLLIK7yntMjJfMj4cUUxMYe49FVStQ1yfG0f051GL
+	cwkSAXyPLVGXv9TmQslndwc3+ACLvYtPb8DMRTqcjGqovVksZ6RP8/4732LW6FD5HlToj3WQMSj
+	DUiquMA==
+X-Google-Smtp-Source: AGHT+IHIuepFynI4A05OgDhT0oqn0GIfPBMm7sdjUOMILAaYgE1oj9VYbYzk1jxK2bfrwjvAPu4g8Q==
+X-Received: by 2002:a17:907:6e90:b0:aa6:5d30:d974 with SMTP id a640c23a62f3a-aac2d3286bfmr6068129366b.28.1736172826189;
+        Mon, 06 Jan 2025 06:13:46 -0800 (PST)
 Received: from localhost.localdomain (dynamic-2a02-3100-a9f2-7d00-0000-0000-0000-0e63.310.pool.telefonica.de. [2a02:3100:a9f2:7d00::e63])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-aaede7ef3cfsm1811342766b.77.2025.01.06.06.13.44
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-aaede7ef3cfsm1811342766b.77.2025.01.06.06.13.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jan 2025 06:13:44 -0800 (PST)
+        Mon, 06 Jan 2025 06:13:45 -0800 (PST)
 From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 To: linux-sound@vger.kernel.org,
 	linux-amlogic@lists.infradead.org
@@ -67,9 +67,9 @@ Cc: s.nawrocki@samsung.com,
 	linux-kernel@vger.kernel.org,
 	jbrunet@baylibre.com,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [RFC PATCH v1 1/2] ASoC: soc-dai: add snd_soc_dai_prepare() and use it internally
-Date: Mon,  6 Jan 2025 15:13:15 +0100
-Message-ID: <20250106141316.375984-2-martin.blumenstingl@googlemail.com>
+Subject: [RFC PATCH v1 2/2] ASoC: dapm: add support for preparing streams
+Date: Mon,  6 Jan 2025 15:13:16 +0100
+Message-ID: <20250106141316.375984-3-martin.blumenstingl@googlemail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250106141316.375984-1-martin.blumenstingl@googlemail.com>
 References: <20250106141316.375984-1-martin.blumenstingl@googlemail.com>
@@ -81,76 +81,49 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a new snd_soc_dai_prepare() which can be used (in an upcoming patch)
-by soc-dapm.c. Use this new function internally in
-snd_soc_pcm_dai_prepare() to avoid duplicating code.
+Codec driver can implement .hw_params and/or .prepare from struct
+snd_soc_dai_ops. For codec-to-codec links only the former (.hw_params)
+callback has been called.
+
+On platforms like Amlogic Meson8/8b/8m2 the SoC's sound card
+(sound/soc/meson/gx-card.c) uses a codec-to-codec link for the HDMI
+codec output because further digital routing is required after the
+backend. The new DRM HDMI (audio) codec framework (which internally
+uses sound/soc/codecs/hdmi-codec.c) relies on the .prepare callback
+of the hdmi-codec to be called. Implement a call to
+snd_soc_dai_prepare() so the .prepare callback of the hdmi-codec is
+called on those platforms.
+
+For platforms or sound cards without a codec-to-codec link with
+additional parameters (which applies to most hardware) this changes
+nothing as the .prepare callback is already called via
+snd_pcm_do_prepare() (as well as dpcm_fe_dai_prepare() and
+dpcm_be_dai_prepare()) on those.
 
 Suggested-by: Jerome Brunet <jbrunet@baylibre.com>
 Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
 ---
- include/sound/soc-dai.h |  3 +++
- sound/soc/soc-dai.c     | 27 +++++++++++++++++++--------
- 2 files changed, 22 insertions(+), 8 deletions(-)
+ sound/soc/soc-dapm.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/sound/soc-dai.h b/include/sound/soc-dai.h
-index aab57c19f62b..a11501752637 100644
---- a/include/sound/soc-dai.h
-+++ b/include/sound/soc-dai.h
-@@ -193,6 +193,9 @@ int snd_soc_dai_set_channel_map(struct snd_soc_dai *dai,
+diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
+index 99521c784a9b..ac8eef217dc4 100644
+--- a/sound/soc/soc-dapm.c
++++ b/sound/soc/soc-dapm.c
+@@ -4013,6 +4013,13 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
+ 		break;
  
- int snd_soc_dai_set_tristate(struct snd_soc_dai *dai, int tristate);
+ 	case SND_SOC_DAPM_POST_PMU:
++		snd_soc_dapm_widget_for_each_sink_path(w, path) {
++			sink = path->sink->priv;
++
++			snd_soc_dai_prepare(sink, substream);
++			ret = 0;
++		}
++
+ 		snd_soc_dapm_widget_for_each_sink_path(w, path) {
+ 			sink = path->sink->priv;
  
-+int snd_soc_dai_prepare(struct snd_soc_dai *dai,
-+			struct snd_pcm_substream *substream);
-+
- /* Digital Audio Interface mute */
- int snd_soc_dai_digital_mute(struct snd_soc_dai *dai, int mute,
- 			     int direction);
-diff --git a/sound/soc/soc-dai.c b/sound/soc/soc-dai.c
-index 34ba1a93a4c9..ca0308f6d41c 100644
---- a/sound/soc/soc-dai.c
-+++ b/sound/soc/soc-dai.c
-@@ -360,6 +360,22 @@ int snd_soc_dai_set_tristate(struct snd_soc_dai *dai, int tristate)
- }
- EXPORT_SYMBOL_GPL(snd_soc_dai_set_tristate);
- 
-+int snd_soc_dai_prepare(struct snd_soc_dai *dai,
-+			struct snd_pcm_substream *substream)
-+{
-+	int ret = 0;
-+
-+	if (!snd_soc_dai_stream_valid(dai, substream->stream))
-+		return 0;
-+
-+	if (dai->driver->ops &&
-+	    dai->driver->ops->prepare)
-+		ret = dai->driver->ops->prepare(substream, dai);
-+
-+	return soc_dai_ret(dai, ret);
-+}
-+EXPORT_SYMBOL_GPL(snd_soc_dai_prepare);
-+
- /**
-  * snd_soc_dai_digital_mute - configure DAI system or master clock.
-  * @dai: DAI
-@@ -577,14 +593,9 @@ int snd_soc_pcm_dai_prepare(struct snd_pcm_substream *substream)
- 	int i, ret;
- 
- 	for_each_rtd_dais(rtd, i, dai) {
--		if (!snd_soc_dai_stream_valid(dai, substream->stream))
--			continue;
--		if (dai->driver->ops &&
--		    dai->driver->ops->prepare) {
--			ret = dai->driver->ops->prepare(substream, dai);
--			if (ret < 0)
--				return soc_dai_ret(dai, ret);
--		}
-+		ret = snd_soc_dai_prepare(dai, substream);
-+		if (ret < 0)
-+			return ret;
- 	}
- 
- 	return 0;
 -- 
 2.47.1
 
