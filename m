@@ -1,92 +1,88 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D3C1DB95E;
-	Mon,  6 Jan 2025 12:20:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9120C1DE2DF
+	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 12:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736166038; cv=none; b=oBft2dN8fbWHo7fCYHIzcYanNDPNsrgf9MCUBbBQQXO37jIliJzq2f/iPKKZOCoxfDshwfe69c2ARQys4dgxV6SExr/B6Dt/C6LLCSHktQOMViqenSC0sxBzfjJSM5SHI4Go5wjliILqPL9Ebnvp9zJc2j2be7GFVM9GyEZWY/g=
+	t=1736166707; cv=none; b=QVADGfXbVAwsfca2/2h1ORPtUlDyu4AyErytzs75nTKCjnQJVIJUYGyr/m2avVHXI0Zg92MbxxTG1vCCRDTBQPmBzJE2/XxByVK1eEh1zkRZ5h/7i6zHts8sn4BEEz/Udm9XCsU6uMvPsRGE8jnZNTMQMiPP+j72HWyQsMTvCf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736166038; c=relaxed/simple;
-	bh=Dg+N5wdZI6HGgQKAgO1KYyGmnPJ/nQ5HV894NIfFIvo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qgu7YjXK9IpIAhIiGekiXWqaCnGEboCCKMPpfFG9irYwYsr251SaX3QUMfnDRpOd7HhcElSgZAeZmUH+1pnBuSQYBQ6F+OCHJjOPRBA7KsjOu5sawqRoMvt8KexemCvoY90qbVj5d1LCVGS33q++er1C5OSgD1DbXH9vsGL2XGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=ecoAOsPm; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1736166707; c=relaxed/simple;
+	bh=10JzLnyn14+DV8qNLCqcQiQasA4+VON31cZAl5XfOoE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jlh1ISiegG3g2J1x+VCwPOjbd/N9T2Mr5h53pKPP1F3Mf2MKlZ5hDSSGuDUDuV3qARmOfp2+hFoL6iXnhWPnOsiYB8mcjwx1uHuD1AmgAEG9LwGqCPa8UcjtmO/GKFMAIJj1wE59fE7z3QcEDaP1Pf1c8SoCKDSpH/lSXRLSefI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UrVxFc6p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="ecoAOsPm"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5067ULeJ019030;
-	Mon, 6 Jan 2025 06:20:12 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PODMain02222019; bh=4oXb2e7aSrrfUR1gSJ
-	ZmJ39bgwDDSXfuEFCD8GCwHKU=; b=ecoAOsPmkVnwIxxzEN1wlETBvOijVJFndt
-	hkowy7Hk4G7duEBZAvtNX5p5J5l9jPaD+oO9QJQT6rJKUu6SasIFsNBMVNMr4Hy4
-	/cRz8HOYQ2qPGBl7Qbhm7pSL4cAe5DtzL96+s1lBlLgmJmOVe6PCvNlwltjJxwz9
-	sZDD9ahFSgryTwNFSM7aBvEz7ZKMr8BwM//VgmxYGi3/ud04SdDzF6FJ5kndEYqj
-	TTYRr+3nR5KRneDtHvHDEQypknGj+aLyShJ49QgnWiqP47T60d0iqNy0AbQN3cnI
-	+EFJ32vt2q1ATQfHy7GaW8h4SW+Cn14z787+OTFGa6Evo6PI3tCw==
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43y29k9shb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 06 Jan 2025 06:20:11 -0600 (CST)
-Received: from ediex01.ad.cirrus.com (198.61.84.80) by ediex01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Mon, 6 Jan
- 2025 12:20:10 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex01.ad.cirrus.com (198.61.84.80) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Mon, 6 Jan 2025 12:20:10 +0000
-Received: from opensource.cirrus.com (ediswmail9.ad.cirrus.com [198.61.86.93])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTPS id 3A196820248;
-	Mon,  6 Jan 2025 12:20:10 +0000 (UTC)
-Date: Mon, 6 Jan 2025 12:20:09 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-CC: <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <peter.ujfalusi@linux.intel.com>, <yung-chuan.liao@linux.intel.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: Re: [PATCH 4/5] ASoC: SDCA: Add missing function type names
-Message-ID: <Z3vKeVipRSC9ABia@opensource.cirrus.com>
-References: <20241220173516.907406-1-ckeepax@opensource.cirrus.com>
- <20241220173516.907406-4-ckeepax@opensource.cirrus.com>
- <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UrVxFc6p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96F50C4CEE1;
+	Mon,  6 Jan 2025 12:31:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736166707;
+	bh=10JzLnyn14+DV8qNLCqcQiQasA4+VON31cZAl5XfOoE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UrVxFc6pU+1aeQ4HGKnu+VnCWncVjkm3+UP+vl5buU+7nGbQpZ0xy7QxmXhqCn/VE
+	 cCN9KAZf9KDL5Mf+doTmw41YerdHNtmdP69kr/jnRVBC6YBmPwTtguTGHEJeBnCRGj
+	 duNs4LZGMFKUZghml+amTPOIPayS61vKH7JbFgVj3MT+Pbrup2gamIZf/4hdMAUKqY
+	 FPLoxOJJT/OjStYAcmhdejjD7tP+O6Zhcvw0tNbWOCbV1D+eWPQPD+iu/cSTn0QzC1
+	 Wt8gudi04EkjDBlEuk+AaBWIasN4wIa79ibNMY9gEc3wRxfsPm81mQ2/Fllqhx0edW
+	 bJm43LpRMo/yw==
+Date: Mon, 6 Jan 2025 12:31:43 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Louison Fourmoy <louison.fourmoy@orange.fr>
+Cc: lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
+	mario.limonciello@amd.com, venkataprasad.potturu@amd.com,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH] SoC: amd: yc: Add quirk for microphone for Lenovo
+ Ideapad 83J3xxxxxx
+Message-ID: <7c3e3b2c-54e5-45c5-8e47-fb08acd10af5@sirena.org.uk>
+References: <9c4e1156-2768-4b78-b640-2796581a19ec@orange.fr>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="NhnCa3ZTjGmZ86aG"
 Content-Disposition: inline
-In-Reply-To: <f2038977-4f5b-4a9a-bd5f-89e6839e1703@linux.dev>
-X-Proofpoint-ORIG-GUID: 5fvf8KB-JPdimmYtvwZ9Arhy056YExBX
-X-Proofpoint-GUID: 5fvf8KB-JPdimmYtvwZ9Arhy056YExBX
-X-Proofpoint-Spam-Reason: safe
+In-Reply-To: <9c4e1156-2768-4b78-b640-2796581a19ec@orange.fr>
+X-Cookie: Do not pick the flowers.
 
-On Thu, Jan 02, 2025 at 04:01:19PM -0600, Pierre-Louis Bossart wrote:
-> On 12/20/24 11:35, Charles Keepax wrote:
-> >   	case SDCA_FUNCTION_TYPE_IMP_DEF:
-> > -		dev_warn(dev, "unsupported SDCA function type %d\n", *function_type);
-> > -		return -EINVAL;
-> > +		*function_name = SDCA_FUNCTION_TYPE_IMP_DEF_NAME;
-> > +		break;
-> 
-> but this one is controversial. We really have no idea what to do in this
-> case. There could be completely different 'imp-def' functions that require
-> different drivers. I don't know how the entire binding mechanism would work.
-> Probably best to err on the side of throwing a 'not supported' error?
-> 
 
-I would certainly agree with you that a generic class driver
-implementation would not bind against an imp def function, but I
-see no reason to prevent custom driver implementations from being
-able to access this function. They will be creating the parent
-auxilary stuff and can bind whatever they like to this imp def
-function.
+--NhnCa3ZTjGmZ86aG
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Charles
+On Mon, Jan 06, 2025 at 05:57:08AM +0100, Louison Fourmoy wrote:
+> Quirk entry is needed for microphone to work on new Ideapad Slim 5. Full
+> model number is 83J3CTO1WW but 83J3 is what's detected in software.
+>=20
+> Signed-off-by: Louison Fourmoy <louison.fourmoy@orange.fr>
+>=20
+> --- linux/sound/soc/amd/yc/acp6x-mach.c.orig=A0=A0=A0 2025-01-05
+> 23:37:36.927778168 +0100
+> +++ linux/sound/soc/amd/yc/acp6x-mach.c=A0=A0=A0 2025-01-05 23:38:28.0664=
+18534
+> +0100
+
+This patch can't be used, it's been badly mangled by your mail client.
+It looks like it's been word wrapped and tabs replaced by spaces.  Try
+using b4 or git send-email to send the patch.
+
+--NhnCa3ZTjGmZ86aG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmd7zS4ACgkQJNaLcl1U
+h9B4bQf/aZpC4Jge2LXg3yklKkGNzCAsTSdoxq9WduiC1zzfsO/8Q9a5y0Y2qbeP
+TAJeVRp47V0wHKxOo3y1icR7UoziIaAqsd/Tj4nqHEu9op3iknSnOL65j0ND1qmY
+w5tDpHmLCalUw5aqzh/QoYyiaDIYB7vNmuJxCGCszL/uMXx4xGTrjj6hy3G65yW3
+DCyxKU/yvDyiFZ+KLDWm24DIQHyxlDORGo+ngSOf067ztgLf6rbRszujw02P0emU
+hFN4DltjnER+0s89ADBxjJ2WRLQgF2ysBKhRKxoTMsbdUF9axOYC4sTk8LcMKoUh
+6zsYeiub0JnyoH2YSsyAKLSs/0dTiQ==
+=YryZ
+-----END PGP SIGNATURE-----
+
+--NhnCa3ZTjGmZ86aG--
