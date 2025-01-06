@@ -1,75 +1,94 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D28D50285
-	for <linux-sound@vger.kernel.org>; Mon,  6 Jan 2025 16:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EED91DF96B;
+	Mon,  6 Jan 2025 16:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736179940; cv=none; b=IDoSSiW0Xqp1NIdrOHBoQg8uZju/6rVO3jn5SfEDgKIDed6d9VyzL0aaks4yYy2OLLexAxo/bpdAbfOTSuR/D6s7qC1u4QMVEbBrvN8BUHAWosD315aVSNJ3q+QApHCa5M5BA296bXzKXUZsLdbSjqI7iKYNPx/va8jwuDdF3Hg=
+	t=1736181725; cv=none; b=K10XnrTu/pu1SWD7nJd8cguAJeiUHbbJzRz+TBiJh46QVmbtSyFhiLZsxcAZJECnTF3rT51UnWSEm96E94qvv5H5gIe1XlZ4/7zZBC4vOsgmEUc3dxtSvNgx5N9Id8oFV5cWOF78naMbh98jq9gG41tjxMKM72SBuIhOetdHUbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736179940; c=relaxed/simple;
-	bh=R8WBzVxQ4TCBcB5LXIow0yyi17CfKqvu81Rh6if5WSU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=REffYgK9Y1m8cb/u1HRqj2DkReeUMkCPFZLo4xFdtyls9DNYLbaeR+iLoaJeaOKNyKorr3YpzGfgt3QovaG3GRfN8uKP3wsBCeAysy1Q6BUeE+53SpI3YHaY1x+Ur+CElsXvTa5PDod9Muc3NyxGN6DYbe986AtVu/0q1M9IZA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K8DjrRcO; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1736181725; c=relaxed/simple;
+	bh=5hRT5JhPOF/CNkdmGdwTsuExu0jUtGaApAIcaepzHHQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=JrQ0H1FJNk6AE0PgKXXo4F+qEG/tb8RgPec2rWgygZqQaQIf2pgcfpmhzLYRK3vmcEyLouPgvsCEpzziydiEdlExU6LGiqLreiShyJtkwkPzssSn1KkzDWhv7VGzheZ1oal0GosJiIalKGLcdTk7PSepTID5AvGz30H/iOmn0co=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEMy0A9g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K8DjrRcO"
-Message-ID: <834e34eb-b293-49b8-a71f-1ee14f3f9684@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1736179931;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SgF1uX2mF9tT19leUAyHkDU0JlCK8JGGSBy3IgdFaTA=;
-	b=K8DjrRcOa70Nv6slkG5fdKXJWoeGFhEfOObFmrIGMxJlLB+1JbuCRZP2nHtLLTEmfS5UoC
-	rtLdeFEzkECFI3cAQXG3VTvO2OmrqwdwGi1l2x09IDR6hlsZiXQnqTXgwotA1G3hpdi/Sc
-	UO7jcEVLaKWxgYgWvOZ0jD3CiOsko0o=
-Date: Mon, 6 Jan 2025 10:09:19 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEMy0A9g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E05C4CED2;
+	Mon,  6 Jan 2025 16:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736181725;
+	bh=5hRT5JhPOF/CNkdmGdwTsuExu0jUtGaApAIcaepzHHQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AEMy0A9g/wbbbwkIYc+uLw2W5pZ9uDEYimBJ4WfDmCMxzEEmJgUaMw55Nf2AQ7g9j
+	 kSi4/bar9PFJnw2W/KYo5Gf5q7dIpgFTuA8ozUWxFl0GCMs4Mq5sRsSlEMd8l7y9qH
+	 Brl60gLW/uzjKeYfWlhLZOQ6ncafvdjwEc7w/ECS3PyTJkZo/H+smi20Kcpih0uU7N
+	 AXFgjFRWn8oshVsM1k8jgii1P2hmqaEA3YaHkvPp54wEvCwNzWQ6XFIubf9QgldRDz
+	 HiHa2IvkK2mpYfT/XuOIc7XUygxTKsoK7ZcjHLnldo1tF1cKlqIBw8478V0siw/j5z
+	 u5j1gF7MwDyrQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Sasha Levin <sashal@kernel.org>,
+	perex@perex.cz,
+	tiwai@suse.com,
+	zhangjiao2@cmss.chinamobile.com,
+	luoyifan@cmss.chinamobile.com,
+	andriy.shevchenko@linux.intel.com,
+	linux-sound@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 8/8] Revert "ALSA: ump: Don't enumeration invalid groups for legacy rawmidi"
+Date: Mon,  6 Jan 2025 11:41:08 -0500
+Message-Id: <20250106164138.1122164-8-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250106164138.1122164-1-sashal@kernel.org>
+References: <20250106164138.1122164-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] ASoC: Intel: sof_sdw: Fix DMI match for Lenovo 83LC
-To: "Liao, Bard" <bard.liao@intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- "broonie@kernel.org" <broonie@kernel.org>, "tiwai@suse.de" <tiwai@suse.de>
-Cc: "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>
-References: <20250102123335.256698-1-yung-chuan.liao@linux.intel.com>
- <20250102123335.256698-2-yung-chuan.liao@linux.intel.com>
- <ee83bf81-dc3f-4452-8ae3-4c4762ad7b86@linux.dev>
- <SJ2PR11MB8424334022EBCF6B4C375DCFFF152@SJ2PR11MB8424.namprd11.prod.outlook.com>
- <SJ2PR11MB8424E5B23AF2CFDA5D4D8CDFFF152@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>
-In-Reply-To: <SJ2PR11MB8424E5B23AF2CFDA5D4D8CDFFF152@SJ2PR11MB8424.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.8
+Content-Transfer-Encoding: 8bit
 
+From: Takashi Iwai <tiwai@suse.de>
 
->>>> This laptop ships with a different DMI identifier to what was expected,
->>>> and also has the DMICs connected to the host rather than the cs42l43
->>>> codec.
->>>
->>> If the DMICs are connected to the host, isn't there NHLT information
->>> telling the OS how many dmics are connected? If yes, then the
->>> machine-level DMI quirk isn't really needed, all you would need is a
->>> rule that sets it unconditionally when mach->mach_params.dmic_num is
->>> non-zero
->>
->> That is a good idea. However, we also test the case where the PCH DMIC
->> and SoundWire DMIC coexist in the developing stage. Maybe use a quirk
->> for the different DMIC coexist case?
-> 
-> On second thought, we will eventually create the dai links by reading
-> the SDCA functions and remove those DMI quirks. Not sure is it worth
-> to change it or even add a new quirk just for temporary used?
+[ Upstream commit abbff41b6932cde359589fd51f4024b7c85f366b ]
 
-If you have any NHLT information, that's a very strong sign that the platform does rely on PCH-connected DMICS.
-If you don't then quirks are indeed needed to select PCH or codec-based solutions. I think it's fine to add such quirks for now, it'd be up to Cirrus to remove them later on when all the SDCA parsing is available, which could take a while.
+This reverts commit c2d188e137e77294323132a760a4608321a36a70.
+
+Although it's fine to filter the invalid UMP groups at the first probe
+time, this will become a problem when UMP groups are updated and
+(re-)activated.  Then there is no way to re-add the substreams
+properly for the legacy rawmidi, and the new active groups will be
+still invisible.
+
+So let's revert the change.  This will move back to showing the full
+16 groups, but it's better than forever lost.
+
+Link: https://patch.msgid.link/20241230114023.3787-1-tiwai@suse.de
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ sound/core/ump.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/core/ump.c b/sound/core/ump.c
+index bd26bb2210cb..abc537d54b73 100644
+--- a/sound/core/ump.c
++++ b/sound/core/ump.c
+@@ -1244,7 +1244,7 @@ static int fill_legacy_mapping(struct snd_ump_endpoint *ump)
+ 
+ 	num = 0;
+ 	for (i = 0; i < SNDRV_UMP_MAX_GROUPS; i++)
+-		if ((group_maps & (1U << i)) && ump->groups[i].valid)
++		if (group_maps & (1U << i))
+ 			ump->legacy_mapping[num++] = i;
+ 
+ 	return num;
+-- 
+2.39.5
+
