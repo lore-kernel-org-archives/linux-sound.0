@@ -1,94 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EED91DF96B;
-	Mon,  6 Jan 2025 16:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3ED3157484;
+	Mon,  6 Jan 2025 17:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736181725; cv=none; b=K10XnrTu/pu1SWD7nJd8cguAJeiUHbbJzRz+TBiJh46QVmbtSyFhiLZsxcAZJECnTF3rT51UnWSEm96E94qvv5H5gIe1XlZ4/7zZBC4vOsgmEUc3dxtSvNgx5N9Id8oFV5cWOF78naMbh98jq9gG41tjxMKM72SBuIhOetdHUbk=
+	t=1736184800; cv=none; b=LDqngKkp4xebXxn5oFIutJcCkATl6hBCorrILyU3JDj1Y+ozPRimhiB6xv72vt+jXjbeJbBQsoInwdVruVseFc3fOv1+5ONh/ha/1zJqTXMQH1XPSrseA6eji/ql8rVgepQUpRNC0V3LnAjZTwT2WKx2s1xK0mlr9Mqx3ructOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736181725; c=relaxed/simple;
-	bh=5hRT5JhPOF/CNkdmGdwTsuExu0jUtGaApAIcaepzHHQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JrQ0H1FJNk6AE0PgKXXo4F+qEG/tb8RgPec2rWgygZqQaQIf2pgcfpmhzLYRK3vmcEyLouPgvsCEpzziydiEdlExU6LGiqLreiShyJtkwkPzssSn1KkzDWhv7VGzheZ1oal0GosJiIalKGLcdTk7PSepTID5AvGz30H/iOmn0co=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AEMy0A9g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736184800; c=relaxed/simple;
+	bh=raQLplo3YHOodoFbQHsJDY5RmZFdu7k7k0Vckr3LSak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nyGx80hQKX4XaAzGTtxUohbzbYFv0rWMcpNJ6bPBVOHXOhjyT6x70fqdQO65qNI8jlKsWoUISnZfh0FDv2nntw2feGb/RSyF1CsREW58bZBPfJ0+5p/nnsi1DTrvdQoJP8wfibH9Xqkrad/U/iD0QA7L9KQEvTjdDjBjwdJEvho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kDFkE5aJ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AEMy0A9g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E05C4CED2;
-	Mon,  6 Jan 2025 16:42:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736181725;
-	bh=5hRT5JhPOF/CNkdmGdwTsuExu0jUtGaApAIcaepzHHQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AEMy0A9g/wbbbwkIYc+uLw2W5pZ9uDEYimBJ4WfDmCMxzEEmJgUaMw55Nf2AQ7g9j
-	 kSi4/bar9PFJnw2W/KYo5Gf5q7dIpgFTuA8ozUWxFl0GCMs4Mq5sRsSlEMd8l7y9qH
-	 Brl60gLW/uzjKeYfWlhLZOQ6ncafvdjwEc7w/ECS3PyTJkZo/H+smi20Kcpih0uU7N
-	 AXFgjFRWn8oshVsM1k8jgii1P2hmqaEA3YaHkvPp54wEvCwNzWQ6XFIubf9QgldRDz
-	 HiHa2IvkK2mpYfT/XuOIc7XUygxTKsoK7ZcjHLnldo1tF1cKlqIBw8478V0siw/j5z
-	 u5j1gF7MwDyrQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	Sasha Levin <sashal@kernel.org>,
-	perex@perex.cz,
-	tiwai@suse.com,
-	zhangjiao2@cmss.chinamobile.com,
-	luoyifan@cmss.chinamobile.com,
-	andriy.shevchenko@linux.intel.com,
-	linux-sound@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.12 8/8] Revert "ALSA: ump: Don't enumeration invalid groups for legacy rawmidi"
-Date: Mon,  6 Jan 2025 11:41:08 -0500
-Message-Id: <20250106164138.1122164-8-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250106164138.1122164-1-sashal@kernel.org>
-References: <20250106164138.1122164-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kDFkE5aJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1736184796;
+	bh=raQLplo3YHOodoFbQHsJDY5RmZFdu7k7k0Vckr3LSak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kDFkE5aJYDigmfNcmJgranJ0zk6OGy24hbawUOhJcOWil7PyDjnBDsvmHO6Jlrm4L
+	 ZSBHl+utX0uxSdH3gLio+HX82zPFbYwalLRUXT9BQjZG+g9ZyhwAXT1Rjj2+93oafn
+	 rGqEhVmjMYcU8rFpHx3+Sm6tT9I/2VBPl5FJo3F/ZkOzd3G7AZdZzj36w/7pZGXXUI
+	 P9fJSZdFp/f0Pf0YU2FvpJIryrg1UtNC2iWia/Iwq/mMU8wZ/PiMIGhL5s6I+PvdE/
+	 2OsYJd4PdQIFYemReHB3Xa8q5mScj3HKE+wlqO6GZIUAiXEDrzmnpTa1BzYr+5buml
+	 HkqUiXnxJAXlw==
+Received: from notapiano (unknown [IPv6:2804:14c:1a9:53ee::1001])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 68E3817E15B6;
+	Mon,  6 Jan 2025 18:33:13 +0100 (CET)
+Date: Mon, 6 Jan 2025 14:33:10 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Trevor Wu <trevor.wu@mediatek.com>, kernel@collabora.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, Fei Shao <fshao@chromium.org>
+Subject: Re: [PATCH] ASoC: mediatek: mt8188-mt6359: Remove hardcoded dmic
+ codec
+Message-ID: <f60f4242-9e4e-4846-b1f0-949daf68f6f5@notapiano>
+References: <20241203-mt8188-6359-unhardcode-dmic-v1-1-346e3e5cbe6d@collabora.com>
+ <CAGXv+5EG8LbgaWc-Lp_KQc8Yf+m_4TRo8R7B0S7-rXYpnak+7g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGXv+5EG8LbgaWc-Lp_KQc8Yf+m_4TRo8R7B0S7-rXYpnak+7g@mail.gmail.com>
 
-From: Takashi Iwai <tiwai@suse.de>
+On Thu, Dec 26, 2024 at 04:30:17PM +0800, Chen-Yu Tsai wrote:
+> Hi,
+> 
+> On Wed, Dec 4, 2024 at 3:22 AM Nícolas F. R. A. Prado
+> <nfraprado@collabora.com> wrote:
+> >
+> > Remove hardcoded dmic codec from the UL_SRC dai link to avoid requiring
+> > a dmic codec to be present for the driver to probe, as not every
+> > MT8188-based platform might need a dmic codec. The codec can be assigned
+> > to the dai link through the dai-link property in Devicetree on the
+> > platforms where it is needed.
+> 
+> A followup question about this. The DMICs on the Chromebooks are attached
+> to the PMIC codec's input side, which then converts the signals to standard
+> I2S and passes them out to the SoC through its AIF1. So the original code
+> was somewhat incorrect, though it works.
+> 
+> How should we describe such a connection, given that the MediaTek sound
+> bindings aren't a full graph?
 
-[ Upstream commit abbff41b6932cde359589fd51f4024b7c85f366b ]
+What you're describing is that the hardware topology looks like this:
 
-This reverts commit c2d188e137e77294323132a760a4608321a36a70.
+--------------------      --------------------
+|    SoC           |      |   MT6359 PMIC    |
+|        UL_SRC BE | <--- | AIF1   AIN0_DMIC | <-- DMic
+--------------------      --------------------
 
-Although it's fine to filter the invalid UMP groups at the first probe
-time, this will become a problem when UMP groups are updated and
-(re-)activated.  Then there is no way to re-add the substreams
-properly for the legacy rawmidi, and the new active groups will be
-still invisible.
+But that the dailink definition in the machine driver had the DMic codec
+connected directly to the UL_SRC BE instead, alongside the connection to the
+PMIC, unlike the topology above.
 
-So let's revert the change.  This will move back to showing the full
-16 groups, but it's better than forever lost.
+My understanding is that the dmic codec was added simply to allow the usage of
+the wakeup-delays. From [1] it appears that DAI connections between two codecs
+are possible, though rare. So the PMIC -> DMic connection description might be
+possible in that way, although I'm not sure it brings any benefits besides
+closer resembling the hardware topology.
 
-Link: https://patch.msgid.link/20241230114023.3787-1-tiwai@suse.de
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- sound/core/ump.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1] https://www.kernel.org/doc/html/latest/sound/soc/codec-to-codec.html
 
-diff --git a/sound/core/ump.c b/sound/core/ump.c
-index bd26bb2210cb..abc537d54b73 100644
---- a/sound/core/ump.c
-+++ b/sound/core/ump.c
-@@ -1244,7 +1244,7 @@ static int fill_legacy_mapping(struct snd_ump_endpoint *ump)
- 
- 	num = 0;
- 	for (i = 0; i < SNDRV_UMP_MAX_GROUPS; i++)
--		if ((group_maps & (1U << i)) && ump->groups[i].valid)
-+		if (group_maps & (1U << i))
- 			ump->legacy_mapping[num++] = i;
- 
- 	return num;
--- 
-2.39.5
+> 
+> > No Devicetree currently relies on it so it is safe to remove without
+> > worrying about backward compatibility.
+> 
+> Removing it didn't seem to cause any issues for the Chromebooks that
+> do actually have DMICs. I suspect the only difference would be that
+> the wakeup-delays no longer apply correctly.
 
+That's my guess too.
+
+Thanks,
+Nícolas
