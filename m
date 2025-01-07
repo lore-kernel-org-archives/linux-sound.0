@@ -1,102 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD33192598;
-	Tue,  7 Jan 2025 07:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499DD1DED45;
+	Tue,  7 Jan 2025 08:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736235621; cv=none; b=UHOHC09wMXYQCRdpkkulmr2psMOQo1WsbG8Ri/qDQ1o0Pa1376Rp8+dYG2ps58oHeFRtc7Xz9c1GmzeJMLBPSNVTf1Md2CK1Uc3r6zVHy3ogkVpk49GynnHzo04bTIu5F39YvqU9rdx0EPgeSsYh68YbIWq1cvbJYkLVjPa8wPc=
+	t=1736239984; cv=none; b=DmrReNwE98bwnsqpiuB1Sbjj1eh8c9RlpVgJa9Mxqq+/Z/ap2dWst/l82yhBdwu8cvvoRN0Ei4LYHUD8BRNMW+mv/m60O03E2Hyg3+a3X442w7cJi/zjd7yerAvHuvg1d2YBfC5MnHL8DSPC6MX5ZlTYvFyXG1IBmyWocfkx5E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736235621; c=relaxed/simple;
-	bh=3JjAFVFRbXwuyLvXfM+2gtbMFEhlrEWhviQRtfgGLPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GgJ6t4/612xNk/EJQo9jjA3Mnuh1xcY9K2MgX/7pomCjfbOt61pr0b068QPhGytTH0lWkP1LCOq/oUkdH7qi4Xj2Wby4cLBimW3wsLV7QoT96/+5eWgdxDmexAHprlMGf37tW8YcIl+tDfX8om3fqpk/Yi12SeLnApQrkL3DQ1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXE6kCXI; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736239984; c=relaxed/simple;
+	bh=01xTrWdA2Ra774BNmcbW6I0L7KA7rprIQ4jaPnbAI/A=;
+	h=Content-Type:Date:Message-Id:Subject:Cc:From:To:References:
+	 In-Reply-To; b=KVbpdkhNdc8Cdj3PJy6lpj/tkviw8SNtKegQ2DWwx3Gdca4VYejHNkm8VajHSExJk3aEUjpmcZAX15B4lZDXQzgakW4BwZ+bo3uqrHTv1wy0qM0CFbEI3voiyYpGm7RH7z3zzZh2PeUKqkLxNvP9l/sYxFtGvkSqdrFHVm2WxBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6HguPPB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXE6kCXI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736235617; x=1767771617;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3JjAFVFRbXwuyLvXfM+2gtbMFEhlrEWhviQRtfgGLPk=;
-  b=NXE6kCXIXo60Sqgra8HqNjuxigZi32rZ1ykHZPwbx/10IZ1LFHMtCUJS
-   EZL5IhzMLgIOS1eMTs3wyv9zUNfIvZaKrBIjEj1pELUCTGgrSbOjXDLks
-   IkS7EKivuD005/598RGOPwcG/G/KQvW9xjhR4jUSRVfJcYe2FMRUM6bVj
-   Dmn5sY8hoOtECG2JV5wYxyWEVZvbIj8hzLTIpdy9OsjK0J1xcHjMenZ+w
-   +LNt03MjKvrij7pB7ldiZyZPYJQ6h38sjy677hIAmRamUkg9vGwNmwfWD
-   taMNTuXHjDEGcWVArUeb9QjjDzD/YbeUKm+2zwUNgmsHlieDp2CzhrGn5
-   g==;
-X-CSE-ConnectionGUID: S7A1gVBrS/OAnkKCcMZmdw==
-X-CSE-MsgGUID: Ji3ytScgR9e+YYKptdVyEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11307"; a="35637721"
-X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="35637721"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jan 2025 23:40:16 -0800
-X-CSE-ConnectionGUID: fG3QCjKSR5iFmwNA8sn1Rw==
-X-CSE-MsgGUID: GgeRfoaeRVy5SejxEYruNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,294,1728975600"; 
-   d="scan'208";a="103202463"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Jan 2025 23:40:14 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tV4CC-000ENL-2Y;
-	Tue, 07 Jan 2025 07:40:12 +0000
-Date: Tue, 7 Jan 2025 15:39:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH] ASoC: wm8994: Add depends on MFD core
-Message-ID: <202501071530.UwIXs7OL-lkp@intel.com>
-References: <20250106154639.3999553-1-ckeepax@opensource.cirrus.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6HguPPB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA39C4CEDD;
+	Tue,  7 Jan 2025 08:53:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736239983;
+	bh=01xTrWdA2Ra774BNmcbW6I0L7KA7rprIQ4jaPnbAI/A=;
+	h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
+	b=k6HguPPBzt4nxG0k2sYivWVxQSuI5DBuP9LLof+Q5gEW0o0skCgV3ARsGwJ6GpS7k
+	 Wxc0Ta1itxg9nuEt60vOLFhUu+VZ2LxEAnxEduSGsshO7JhszNya82NgIrZU5G6I/t
+	 tuFCuaU9v0YjOAvSR21T4t/gm3fRJOijZ8pWG6PzcJu8YbewFi8vcejUNXlYbnFgfu
+	 N994EPkLjAMDOFSaJNLjgquvBHxYlXQ/idQTkllU5ufM/KcrOZGFhk3aSydXhCYFov
+	 FcPFNx9TSuTu9oXuzG/26nR9VeSqT0FRQAVZd+xzhGQ7rsC18SttT+/Wm2qzaDbMmv
+	 4E2M82ggIT8kA==
+Content-Type: multipart/signed;
+ boundary=60e47edfe38543925c72c751d549eb1c55a15e2be67c797b85027bd80743;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Tue, 07 Jan 2025 09:52:59 +0100
+Message-Id: <D6VPPFGFM884.1OUPHTCOA7HG3@kernel.org>
+Subject: Re: [PATCH v2 4/4] clk: fsl-sai: Add MCLK generation support
+Cc: "Conor Dooley" <conor+dt@kernel.org>, "Fabio Estevam"
+ <festevam@gmail.com>, "Jaroslav Kysela" <perex@perex.cz>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Mark Brown" <broonie@kernel.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Nicolin Chen" <nicoleotsuka@gmail.com>, "Rob
+ Herring" <robh@kernel.org>, "Shengjiu Wang" <shengjiu.wang@gmail.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Takashi Iwai" <tiwai@suse.com>, "Xiubo
+ Li" <Xiubo.Lee@gmail.com>, <devicetree@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>
+From: "Michael Walle" <mwalle@kernel.org>
+To: "Marek Vasut" <marex@denx.de>, <linux-clk@vger.kernel.org>
+X-Mailer: aerc 0.16.0
+References: <20241226162234.40141-1-marex@denx.de>
+ <20241226162234.40141-4-marex@denx.de>
+ <D6OVE2W07NDX.2Q4AFF46TWCWJ@walle.cc>
+ <36665ab9-16de-4f77-a55f-b7942dc0c1bf@denx.de>
+ <D6RHZ8B051X5.3NA8EAPRI62XS@walle.cc>
+ <72d4c42a-7ebf-484f-839b-631d61ac950f@denx.de>
+In-Reply-To: <72d4c42a-7ebf-484f-839b-631d61ac950f@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250106154639.3999553-1-ckeepax@opensource.cirrus.com>
 
-Hi Charles,
+--60e47edfe38543925c72c751d549eb1c55a15e2be67c797b85027bd80743
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-kernel test robot noticed the following build warnings:
+On Thu Jan 2, 2025 at 2:34 PM CET, Marek Vasut wrote:
+> On 1/2/25 10:58 AM, Michael Walle wrote:
+> > Hi,
+>
+> Hi,
+>
+> >>> ..Which is the
+> >>> normal use case for this pin. This driver was created because the
+> >>> LS1028A doesn't have a MCLK pin, so we've "misused" the BCLK pin,
+> >>> with the restriction that only integer dividers are possible.
+> >>
+> >> I have a system that is wired a bit unfortunately, I need to source
+> >> codec clock, where the codec is the clock consumer and needs to be abl=
+e
+> >> to control the clock (SGTL5000). SAI MCLK is the only way I can get th=
+em
+> >> out of the pin I need, hence this patch.
+> >=20
+> > Which is also the default case, no?
+>
+> Not quite, there is a difference.
+>
+> If SAI (audio driver) is used to control the MCLK enablement, then MCLK=
+=20
+> clock is not always enabled, and it is not necessarily enabled when the=
+=20
+> codec may need the clock to be enabled. There is also no way for the=20
+> codec node to specify phandle to clock provider in DT, because the SAI=20
+> (audio driver) is not clock provider.
+>
+> If SAI (clock driver) is used to control the MCLK enablement, then MCLK=
+=20
+> clock is enabled when the codec needs the clock enabled, because the=20
+> codec is the clock consumer and the SAI (clock driver) is the clock=20
+> provider, and the codec driver can request the clock to be enabled when=
+=20
+> needed. There is also the usual phandle to clock provider in DT, because=
+=20
+> the SAI (clock driver) is clock provider.
+>
+> >>> Also I'd expect that the imx
+> >>> SoCs already supports the MCLK for audio applications. Isn't that
+> >>> the case?
+> >>
+> >> That does not work if the MCLK has to be enabled/disabled by the MCLK
+> >> clock consumer .
+> >=20
+> > Why's that?
+> >=20
+> > Don't get me wrong. I don't have anything against this patch, I'm
+> > just confused, why that isn't already working with the current MCLK
+> > driver as this seems to be the usual requirements.
+> Which current MCLK driver, the SAI in audio driver role ?
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on linus/master v6.13-rc6 next-20250106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Yes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/ASoC-wm8994-Add-depends-on-MFD-core/20250106-235153
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250106154639.3999553-1-ckeepax%40opensource.cirrus.com
-patch subject: [PATCH] ASoC: wm8994: Add depends on MFD core
-config: alpha-kismet-CONFIG_SND_SOC_WM8994-CONFIG_SND_SOC_SAMSUNG_MIDAS_WM1811-0-0 (https://download.01.org/0day-ci/archive/20250107/202501071530.UwIXs7OL-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250107/202501071530.UwIXs7OL-lkp@intel.com/reproduce)
+> Does the paragraph in the middle of this email possibly answer this=20
+> question ?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501071530.UwIXs7OL-lkp@intel.com/
+Yes thanks!
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SND_SOC_WM8994 when selected by SND_SOC_SAMSUNG_MIDAS_WM1811
-   WARNING: unmet direct dependencies detected for SND_SOC_WM8994
-     Depends on [n]: SOUND [=y] && SND [=y] && SND_SOC [=y] && MFD_WM8994 [=n]
-     Selected by [y]:
-     - SND_SOC_SAMSUNG_MIDAS_WM1811 [=y] && SOUND [=y] && SND [=y] && SND_SOC [=y] && SND_SOC_SAMSUNG [=y] && IIO [=y]
+For reference, IMHO the correct way to do it would be to add clock
+provider support to the original SAI, esp. because both drivers are
+mutually exclusive. But I'm fine to add MCLK support for this driver
+for hardware which has a spare SAI and to just use that as a MCLK
+source.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Michael Walle <mwalle@kernel.org>
+
+-michael
+
+--60e47edfe38543925c72c751d549eb1c55a15e2be67c797b85027bd80743
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCZ3zrbBIcbXdhbGxlQGtl
+cm5lbC5vcmcACgkQEic87j4CH/jGLwF/ZWmiJ2eGuY9CJRdtQ2c0YfLp47Jb92k9
+CLXIBvMSzZTWf1jTWoFprdUXFNI87QfbAYC7BgXfJeZcipGW+Gn8xnIhA9exkNMh
+eifER4VvKwpBdztoNKobUEO9e6Uya+wFtgg=
+=oTca
+-----END PGP SIGNATURE-----
+
+--60e47edfe38543925c72c751d549eb1c55a15e2be67c797b85027bd80743--
