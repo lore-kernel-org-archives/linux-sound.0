@@ -1,125 +1,85 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36B01F0E41;
-	Tue,  7 Jan 2025 13:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934B71EE006;
+	Tue,  7 Jan 2025 14:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736256953; cv=none; b=NRsxKUvuwfrB5l0jc8EZ5BlXILPkYhepE9TOlYWdGyECZDFNA8ZxIqE9/q+FIk3PAQXUeHh1DAOXF+SPhlS1puNtdq+T7j+6QUxv/8os5pzupobKU+VwHrcHvkW34saLbi4iWTQR8m1hrGExs5yVuliijNiSCi17sWYZYK9ojfQ=
+	t=1736260080; cv=none; b=eUkGr8KCH1RCHLVjwOHDdOyEKTlN9jUobwohDMNZ8Q/6WVGrc3ueXsZC9puA0cykyodlLsNjYZP5PDmmEQhdoJBPLRnmOftH8MG3aSKNaXsNaUiSfaI2pVNpAfhRC2k/RmbcyxUWSqFMyWSXZrFBhri6QQIK/KmF8eiMuZzwQeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736256953; c=relaxed/simple;
-	bh=3iYi1rZ4URlPoTwm31YZpZ9JD5DgT9h6LL500ut/Q88=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GXmsRJZutAq5IIfmhJtOTLzJ0d1UG7IaOXeyYkUwVjnvTJB3eJcFW+2C7gNQPKw9klbB0W6HLUeFbuHQlTMFKi0R4bv4KJnETL68hTJOfoCNTyVEl9X+9+ECoDPl4U8o9/ktXkCn4aWiLVzZxujrZs25rjaG5VbVRqOnTHBtnvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=In/u1bcH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LMa+ieP+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=In/u1bcH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LMa+ieP+; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1736260080; c=relaxed/simple;
+	bh=A1BSrnWHAC8gWF3urg63aa18HJ6wAuPYnvIWhN4LzoA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=Kw8VNWaeudp38kmzmDc3NBMTh2kWUeEOdv0JKPtp8TM5zFAZVttvnAYT49Ufw8jOdVyqU6c88KiF0yTc5X3+08cfrojIBdt4jjL31K47wUcKUzE57JcQQAzVBeTG9L3bfG0/EpUIoh61TmpB54FTMzoWE70/5wqlmdKmcItsSc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwTQW0B9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="In/u1bcH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LMa+ieP+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="In/u1bcH";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LMa+ieP+"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B12321F385;
-	Tue,  7 Jan 2025 13:35:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736256939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gnySLUjz3DZBwYTkWURu5F0NHYWDi1nNMPN32QMqJsE=;
-	b=In/u1bcHdo/HYGDMN7BJlQ7tOUkppmA20p0VccVxoNQhqj3i11yUDTlIBgOg8Ejj7Huhdg
-	T95EP28+7vAT3xS3KAIjPM9r/TBrAXP+ktNKo6vMkXo7FK6SdmrTtJJwjJ9nN39A0i9LIa
-	4n111PJ4sHi429ZpzhLSGFpiKIenxhY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736256939;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gnySLUjz3DZBwYTkWURu5F0NHYWDi1nNMPN32QMqJsE=;
-	b=LMa+ieP+GwtdExGN1utGQzirk5XGkaC1C5kBUaoayKPoHTPVYsYY6QEuYQnWa34lTkmpeZ
-	s1G4IIP840phWfBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736256939; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gnySLUjz3DZBwYTkWURu5F0NHYWDi1nNMPN32QMqJsE=;
-	b=In/u1bcHdo/HYGDMN7BJlQ7tOUkppmA20p0VccVxoNQhqj3i11yUDTlIBgOg8Ejj7Huhdg
-	T95EP28+7vAT3xS3KAIjPM9r/TBrAXP+ktNKo6vMkXo7FK6SdmrTtJJwjJ9nN39A0i9LIa
-	4n111PJ4sHi429ZpzhLSGFpiKIenxhY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736256939;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gnySLUjz3DZBwYTkWURu5F0NHYWDi1nNMPN32QMqJsE=;
-	b=LMa+ieP+GwtdExGN1utGQzirk5XGkaC1C5kBUaoayKPoHTPVYsYY6QEuYQnWa34lTkmpeZ
-	s1G4IIP840phWfBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7693213A6A;
-	Tue,  7 Jan 2025 13:35:39 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id QK44G6stfWdUJQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 07 Jan 2025 13:35:39 +0000
-Date: Tue, 07 Jan 2025 14:35:39 +0100
-Message-ID: <87o70iwxuc.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: ens137x: Use str_on_off() helper in snd_ensoniq_proc_read()
-In-Reply-To: <20250107120809.4393-1-thorsten.blum@linux.dev>
-References: <20250107120809.4393-1-thorsten.blum@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwTQW0B9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916CFC4CED6;
+	Tue,  7 Jan 2025 14:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736260080;
+	bh=A1BSrnWHAC8gWF3urg63aa18HJ6wAuPYnvIWhN4LzoA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=DwTQW0B9Cm+SMltXxijCLEXnzHKoFcP4GJze4eh3QbKYJArwSizsueet2FmN1gWx0
+	 6CtS4IQCcICmfTURYFLNe59i7ivwEIJ9vtMpZ71tGThHUWyT+28Su9CX3xDXalAkpS
+	 ucyRp9RmAoKe+wkPxQsD0ngmprW3wCrQqKtAXkh74jaEWc+SDcTqNfa8zKF6456EuL
+	 7vl1RDRo6nNsKHcdjQhQ0Us8CSrn1t6mZxT1GgKTFmE7z0GyLax74Ff1W1w9ZWUTgr
+	 +grdlUAauStM23PZTa4uSixB5MIFkDUtvmHPSW/35CP1FAD9p8ovgcel7xvCg/wVx5
+	 pbVvgIbppOR5g==
+From: Mark Brown <broonie@kernel.org>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
+Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20250107011355.2035-1-thorsten.blum@linux.dev>
+References: <20250107011355.2035-1-thorsten.blum@linux.dev>
+Subject: Re: [PATCH v2] ASoC: madera: Use str_enabled_disabled() helper
+ function
+Message-Id: <173626007834.72678.7144742916428315484.b4-ty@kernel.org>
+Date: Tue, 07 Jan 2025 14:27:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_HAS_DN(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 07 Jan 2025 13:08:06 +0100,
-Thorsten Blum wrote:
+On Tue, 07 Jan 2025 02:13:54 +0100, Thorsten Blum wrote:
+> Remove hard-coded strings by using the str_enabled_disabled() helper
+> function.
 > 
-> Remove hard-coded strings by using the str_on_off() helper function.
 > 
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 
-Thanks, applied now.
+Applied to
 
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Takashi
+Thanks!
+
+[1/1] ASoC: madera: Use str_enabled_disabled() helper function
+      commit: a83678be5ea152dca98791956f7bf2a0e899e3ad
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
