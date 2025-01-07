@@ -1,104 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E860F1F4705;
-	Tue,  7 Jan 2025 16:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994E518C03B;
+	Tue,  7 Jan 2025 19:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.181.215.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736267089; cv=none; b=fVLu4BkJgsJSLPp7X/tiygzeaLLTVx3aLEZzld3vxdLDY3OFGNwCDe8PC4gkNo1TcFLg20plEZY4OWqRSPkYzwgbg9FLSDK0oTpTRANcpHT97WPoH8canVWgxr/Sv9wAR17NjsuoXTNPgHyjbqWlqbKp1qqEO5+aVCbOMZZ23Rs=
+	t=1736278432; cv=none; b=hh/vTtih+MqNuIJCvJKb0Ss9Jbmd8BzMRs0cYPnu6EBzghiMgRg8Tm/+ujTtlZU0lq+mBADUusfI5E0PUYXlWavFETIyC9H8xJY0xWamniWPL4KmHHHLWVz8ZqHKzYYomnD+3crll78steZVgln88y2jlCHpJUMGq+h3elB0JZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736267089; c=relaxed/simple;
-	bh=vpjJVSK+EtxmiAddnVfzd+VKh0ZVQrzhk85rvQ7uXhE=;
+	s=arc-20240116; t=1736278432; c=relaxed/simple;
+	bh=lnUY3E9Xp9HZsjvS0v5cg5xxXO+EoQQewQPHH6SCUvo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jDJGpvtjzRnAtlrDdaEROCoJQxLMBgnqy8T6w6XdUgcVvFr9ACosah/BxvdnRX0WKIpQg/nAvijmbU4A7Pq4lhQaDOBOvDQTMotDOYboMq5dgRh8XGuqbtfc+lnhoeQimrQ2DbUkWjC4wnQ2E4WTyAFUibgsTSSZyvLmuaM8KoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JlHt/6lC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=nVA3DZvXX++9pQLSlYpp7JYgrhe7cCJmLcw6RVqBRmpHQjBqtGZFpVSN/tewOWcrBkbrfNKO7sKb4yNMcooWgQ1PhN0hymzJzUA+kTaQ2ACiwsQn2P7l+2a/eA17j1neucriPrzr3r7XYWmhSj0AJClOFzeThRxIqMsak0q85E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz; spf=pass smtp.mailfrom=xff.cz; dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b=ctOF7/uO; arc=none smtp.client-ip=195.181.215.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xff.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xff.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JlHt/6lC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D60C4CED6;
-	Tue,  7 Jan 2025 16:24:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736267088;
-	bh=vpjJVSK+EtxmiAddnVfzd+VKh0ZVQrzhk85rvQ7uXhE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JlHt/6lC4y14YrTe3+4rEBBFQ1w2CjO+jroJwWsRc9WR5KQQRPsIpC89iGc0ErUlR
-	 meglZFcQABib/ZPPwFswWiuclRUMtrfsunZEh9Iy7N2Ir8ApHgL5qM0CXfrLgQfq6U
-	 RC/7d1C8oRNjPwSw8DPyImxkLJl1TTI50WYtSo87TMCzet98kZdBAKbB7+qTX/uX1x
-	 d1VnLwzOWdx0wWNk6IxTKFv//4O2IZJ9awkJ1uFcpzx7Q6eKeJ9cC5oAbNMmA8XlRe
-	 MScRGFQp8Z9tc/eISSHIt7Sk0coLxpVdBx6x1AFuIIAPeT0/N0r/dQvOOKpT62OtEK
-	 xp5xc0zbjoXcQ==
-Date: Tue, 7 Jan 2025 16:24:44 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: Linux-Kernel <linux-kernel@vger.kernel.org>,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: add missing maintainers for Sound drivers
-Message-ID: <38d57b92-a03c-4dd4-bd0d-2c1ae5d1a8f3@sirena.org.uk>
-References: <87msg4o4zu.wl-kuninori.morimoto.gx@renesas.com>
- <2505bc4e-2968-414e-a7e0-4c0ac0862c55@sirena.org.uk>
- <87ed1fmrsw.wl-kuninori.morimoto.gx@renesas.com>
+	dkim=pass (1024-bit key) header.d=xff.cz header.i=@xff.cz header.b="ctOF7/uO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xff.cz; s=mail;
+	t=1736277829; bh=lnUY3E9Xp9HZsjvS0v5cg5xxXO+EoQQewQPHH6SCUvo=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=ctOF7/uOLwYBNG3JYhZ7w6tnM+ObaiBgyN67W6Hcf8v8aqN6QE40ifinp3fbc5B3a
+	 RqQ5eWCFNBhGzhMIGoBVOxCgPgeOZb2Kdu0uW9sTc+gVhVoOZn0D35urnDBmTYf50B
+	 O53JWrsosK91kVSE/s04Tf9MbzAPUSH/rnyOkiZk=
+Date: Tue, 7 Jan 2025 20:23:48 +0100
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>
+To: Vasily Khoruzhick <anarsoul@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Arnaud Ferraris <arnaud.ferraris@collabora.com>, 
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 0/4] Add support for jack detection to codec present
+ in A64 SoC
+Message-ID: <dfb3lsuqf4yowkovwwi6iiroslb4r357u7ddevntdk72ivxcjz@3spuwm24ubwr>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megi@xff.cz>, 
+	Vasily Khoruzhick <anarsoul@gmail.com>, linux-kernel@vger.kernel.org, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>, linux-sound@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20240302140042.1990256-1-megi@xff.cz>
+ <CA+E=qVdq7AHYj1scKbyGmarSZ7u=vLMsQ63nDTDQBu2UaL=Xag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wjpTvbI2LcdxGZNs"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87ed1fmrsw.wl-kuninori.morimoto.gx@renesas.com>
-X-Cookie: PIZZA!!
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+E=qVdq7AHYj1scKbyGmarSZ7u=vLMsQ63nDTDQBu2UaL=Xag@mail.gmail.com>
 
+Hi Vasily,
 
---wjpTvbI2LcdxGZNs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Dec 27, 2024 at 03:58:44PM -0800, Vasily Khoruzhick wrote:
+> On Sat, Mar 2, 2024 at 6:02 AM Ondřej Jirman <megi@xff.cz> wrote:
+> >
+> > From: Ondrej Jirman <megi@xff.cz>
+> >
+> > This series adds support for jack detection to this codec. I used
+> > and tested this on Pinephone. It works quite nicely. I tested it
+> > against Android headset mic button resistor specification.
+> >
+> > The patches are a rewritten and debugged version of the original
+> > ones from Arnaud Ferraris and Samuel Holland, improved to better
+> > handle headset button presses and with more robust plug-in/out
+> > event debouncing, and to use set_jack API instead of sniffing
+> > the sound card widget names, to detect the type of jack connector.
+> >
+> > Please take a look. :)
+> >
+> > v3:
+> > - removed all device-tree related code
+> >   (it's not necessary for core functionality, it only helps make the jack detect
+> >   functionality of the codec be usable from simple-sound-card driver, and I'll
+> >   send it spearately, because it will apparently need several more rounds
+> >   of review)
+> 
+> Hey Ondrej,
+> 
+> Has it ever materialized? As far as I can tell, this code has been
+> sitting dead due to missing dt-related code.
 
-On Mon, Jan 06, 2025 at 11:43:59PM +0000, Kuninori Morimoto wrote:
+The code is used with some non-mainline patches. There was a bit of
+a problem with simple-sound-card not being flexible enough for complete
+functionality of audio jack on Pinephone, so I had to extend it a bit:
 
-> > >  RENESAS R-CAR & FSI AUDIO (ASoC) DRIVERS
-> > > +M:	Mark Brown <broonie@kernel.org>
-> > >  M:	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+https://codeberg.org/megi/linux/commit/afbe7688083cd1e3ab98c37e0fe0c28d530829e1
+https://codeberg.org/megi/linux/commit/95552b66a269c2da434edd3880f9819c0bd5602f
+https://codeberg.org/megi/linux/commit/c15070c220e7425dd0d0445ae0eacdb4a4872ad7
 
-> > It's fine not to list me for individual drivers, things like
-> > get_maintainers will wrap in all the upper level maintainers
-> > automatically
+Here's a bunch of patches that I use currently for complete audio
+jack detection functionality:
 
-> Indeed no need to add your name for R-Car driver.
-> But I noticed get_maintainers doesn't indicate your name for below header
-> which is used for Simple Card / Audio Graph Card.
+  https://codeberg.org/megi/linux/commits/branch/audio-6.13
 
-> 	include/sound/simple_card*
+But no, complete upstream support did not materialize, yet.
 
-> It seems under include/sound/ is divided into smaller parts.
-> I guess we want to have this instead ?
+I'm not sure about the direction. Whether to push more features to DT or
+just write a sound card driver for Pinephone, that would be able to handle all
+this without extending simple-sound-card or DT changes to codec driver.
 
->  F:     Documentation/sound/soc/
->  F:     include/dt-bindings/sound/
-> -F:     include/sound/soc*
-> -F:     include/sound/sof.h
-> -F:     include/sound/sof/
-> +F:     include/sound/
+Kind regards,
+	o.
 
-We could do, though that'd also pull in generic ALSA stuff that's not
-relevant to me (which is why it's the specific patterns at the minute).
-TBH I get copied on enough stuff and the volume is low enough that it's
-not the end of the world.  The other, more specific, option would be to
-add the individual files.  It'd also be fine to list me for the generic
-cards if you like, it was mainly R-Car that didn't seem right.
-
---wjpTvbI2LcdxGZNs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmd9VUwACgkQJNaLcl1U
-h9Cp7Af/dN+eNAUo9erXzkU/T35mDVIx6NVMELWfqAKV+8LrfIZQO9bBPb23oMKm
-kxqwQ8/Nzuszly4Pvoad48e0KI4tRDcdW8TMN3SFJ+6Hl5SM7FXTU/Q+MJMRXPAf
-PKFwWRrNUBfG9b4R5+T3VNHKwStYHb05r+Ghbq9sB3Dt4hF0iNz/2H4C7sw1VcmY
-bw2nLfI2TRIhy/m5tTPqbXN4se/ra++HoqkOz4wusUJCsO3k2HF7HuPepclLxE/W
-nCXf/PZkVgLDBudVUFOGN3QPKKQiemhtELUQwfumk5zlYtJRdYGfL+yVGorwzPi/
-69lsyufnXROQzPlDvcWoQV5XfAD6XA==
-=M67h
------END PGP SIGNATURE-----
-
---wjpTvbI2LcdxGZNs--
+> Regards,
+> Vasily
+> 
+> > v2:
+> > - use set_jack/get_jack_type
+> > - get rid of some custom poking inside card internals to figure
+> >   out what kind of jack port we should setup the codec for
+> > - read jack-type from OF as suggested here:
+> >   https://elixir.bootlin.com/linux/latest/source/sound/soc/soc-component.c#L288
+> > - add DT bindings
+> >
+> > Thank you very much,
+> >         Ondřej Jirman
+> >
+> > Arnaud Ferraris (2):
+> >   ASoC: sun50i-codec-analog: Enable jack detection on startup
+> >   ASoC: sun8i-codec: Implement jack and accessory detection
+> >
+> > Samuel Holland (2):
+> >   ASoC: sun50i-codec-analog: Move suspend/resume to set_bias_level
+> >   ASoC: sun8i-codec: Enable bus clock at STANDBY and higher bias
+> >
+> >  sound/soc/sunxi/sun50i-codec-analog.c |  73 +++++-
+> >  sound/soc/sunxi/sun8i-codec.c         | 346 +++++++++++++++++++++++++-
+> >  2 files changed, 399 insertions(+), 20 deletions(-)
+> >
+> > --
+> > 2.44.0
+> >
+> >
