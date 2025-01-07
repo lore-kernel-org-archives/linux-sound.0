@@ -1,44 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934B71EE006;
-	Tue,  7 Jan 2025 14:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E431F75B5;
+	Tue,  7 Jan 2025 15:32:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736260080; cv=none; b=eUkGr8KCH1RCHLVjwOHDdOyEKTlN9jUobwohDMNZ8Q/6WVGrc3ueXsZC9puA0cykyodlLsNjYZP5PDmmEQhdoJBPLRnmOftH8MG3aSKNaXsNaUiSfaI2pVNpAfhRC2k/RmbcyxUWSqFMyWSXZrFBhri6QQIK/KmF8eiMuZzwQeo=
+	t=1736263922; cv=none; b=J3IZyYcPwCM1nvuA7WD3N9ro1W/gkvtlgLs3RNFbxFnCfW4SP4qTDJr+au49nnrWTDRtBqXI1BimFweJfdV7+cV8cI4GxHfv75W50ViryKkppH3vSjHfHYk9Mvr3sRpQW/AbmBEqOclg24sD3rLVF9EvURs/EccCbdwkz9t1ArE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736260080; c=relaxed/simple;
-	bh=A1BSrnWHAC8gWF3urg63aa18HJ6wAuPYnvIWhN4LzoA=;
+	s=arc-20240116; t=1736263922; c=relaxed/simple;
+	bh=rmppKVmlM5jQDxLcaabRhJHMM/jp6NqK9tcqaoFB7yg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Kw8VNWaeudp38kmzmDc3NBMTh2kWUeEOdv0JKPtp8TM5zFAZVttvnAYT49Ufw8jOdVyqU6c88KiF0yTc5X3+08cfrojIBdt4jjL31K47wUcKUzE57JcQQAzVBeTG9L3bfG0/EpUIoh61TmpB54FTMzoWE70/5wqlmdKmcItsSc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DwTQW0B9; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=kXV4XMRtZXUwehAvZws7y0vw4SGGbXbTrQ/RzrfkyJoOZrRmtgtO9qudWxd6lXQ0cZpxmHtXtvDJLDT1u6YkEeRYTC+TcgKJzn41dAMGpWVXj2Iv5nXFsKrrZIVwHhgtQyoNH8D2tCtRBznrEfKcmMsu1SisIl12SKCqPiLZDyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tc3eH96F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DwTQW0B9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 916CFC4CED6;
-	Tue,  7 Jan 2025 14:27:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tc3eH96F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4C63C4CEDE;
+	Tue,  7 Jan 2025 15:32:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736260080;
-	bh=A1BSrnWHAC8gWF3urg63aa18HJ6wAuPYnvIWhN4LzoA=;
+	s=k20201202; t=1736263922;
+	bh=rmppKVmlM5jQDxLcaabRhJHMM/jp6NqK9tcqaoFB7yg=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=DwTQW0B9Cm+SMltXxijCLEXnzHKoFcP4GJze4eh3QbKYJArwSizsueet2FmN1gWx0
-	 6CtS4IQCcICmfTURYFLNe59i7ivwEIJ9vtMpZ71tGThHUWyT+28Su9CX3xDXalAkpS
-	 ucyRp9RmAoKe+wkPxQsD0ngmprW3wCrQqKtAXkh74jaEWc+SDcTqNfa8zKF6456EuL
-	 7vl1RDRo6nNsKHcdjQhQ0Us8CSrn1t6mZxT1GgKTFmE7z0GyLax74Ff1W1w9ZWUTgr
-	 +grdlUAauStM23PZTa4uSixB5MIFkDUtvmHPSW/35CP1FAD9p8ovgcel7xvCg/wVx5
-	 pbVvgIbppOR5g==
+	b=Tc3eH96Fk8BoTvx//RzwMjRur49I/EK+4dtswoLTBS+bzAsFpZtcmXoic/D8Db2eY
+	 JYMr5DAa/Zj1m7fo0azlhMdo+NdpHEpTFHcx/sqb8kN7+5selJcyybxp1iqQNxNXmM
+	 88oUVVxO/6OtO67Kn1QX+Gsa2CYtjcC81lvwRMgVvRLU+andTGDUsQQfhkMtRR5Sxf
+	 56wpca/kTboMSsrKK4B9QGQo6r1HniyyxHyOCCbb6AM2tTrsIdZyXTkpbwll7M9a1P
+	 yFFI8O1NVQziScEHExrxBElRCrBEfF2AHknDuFUMow2m5RQhWmqNd2bxx4QX7Nzl7A
+	 uAG490NFreNBg==
 From: Mark Brown <broonie@kernel.org>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, 
- Richard Fitzgerald <rf@opensource.cirrus.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Thorsten Blum <thorsten.blum@linux.dev>
-Cc: linux-sound@vger.kernel.org, patches@opensource.cirrus.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250107011355.2035-1-thorsten.blum@linux.dev>
-References: <20250107011355.2035-1-thorsten.blum@linux.dev>
-Subject: Re: [PATCH v2] ASoC: madera: Use str_enabled_disabled() helper
- function
-Message-Id: <173626007834.72678.7144742916428315484.b4-ty@kernel.org>
-Date: Tue, 07 Jan 2025 14:27:58 +0000
+To: alsa-devel@alsa-project.org, Marian Postevca <posteuca@mutex.one>
+Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
+ Takashi Iwai <tiwai@suse.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>
+In-Reply-To: <20241227202751.244954-1-posteuca@mutex.one>
+References: <20241227202751.244954-1-posteuca@mutex.one>
+Subject: Re: [PATCH RESEND] ASoC: codecs: es8316: Fix HW rate calculation
+ for 48Mhz MCLK
+Message-Id: <173626392060.92253.14506796479428762280.b4-ty@kernel.org>
+Date: Tue, 07 Jan 2025 15:32:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -49,9 +47,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 07 Jan 2025 02:13:54 +0100, Thorsten Blum wrote:
-> Remove hard-coded strings by using the str_enabled_disabled() helper
-> function.
+On Fri, 27 Dec 2024 22:27:51 +0200, Marian Postevca wrote:
+> For 48Mhz MCLK systems the calculation of the HW rate is broken,
+> and will not produce even one sane rate. Since es83xx supports
+> the option to halve MCLK, calculate also rates with MCLK/2.
 > 
 > 
 
@@ -61,8 +60,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: madera: Use str_enabled_disabled() helper function
-      commit: a83678be5ea152dca98791956f7bf2a0e899e3ad
+[1/1] ASoC: codecs: es8316: Fix HW rate calculation for 48Mhz MCLK
+      commit: 85c9ac7a56f731ecd59317c822cb6295464444cc
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
