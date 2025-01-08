@@ -1,39 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6DE415B99E
-	for <linux-sound@vger.kernel.org>; Wed,  8 Jan 2025 14:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDE515B99E;
+	Wed,  8 Jan 2025 14:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736347683; cv=none; b=Vf4i3Aw3Japws9QxmpiXHU1+pQV5nbOkKVotQ2BEc7U55lNmgmQi1WSIrQ8ggxl2ipLp2woJPQ3jlOGsCwhRRgtP5Do2cQL6XrBCqzoLHp/NedkScrUXKvcU2bEfxa8rO818rmtWO/e/wuylB1myJBBCe1rm3AgrqolGrvjNm1I=
+	t=1736347686; cv=none; b=ETm0q6zTtD4TrMCekMEcDmw4YaRayYFUfe4wi4tjhHL46/LSOAdcTpDa1trPDl9ZOxaP4GmEvGHioGr/2d6I7ELgwQqTr6rV52mA61L7lbHQUpNfUYxW15I8pWaDeycIkhZk7k6bMs7/o6WE3FAB4xBEKsQDiahYAhq42Wxjurg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736347683; c=relaxed/simple;
-	bh=LwHO/1GHjUQaLSG6IJAJejVbzq18HDsxqku0DmvhHcA=;
+	s=arc-20240116; t=1736347686; c=relaxed/simple;
+	bh=NxTtR1K2YZHJIUWkMeyKHIFszBgiS5+igLz0WjHsgfM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=J9xBoWsegKWRwG98hkCFfd+KlYlyGl+g0bahM8bvg3tQR/awvhe1R9jE+wjfOEqJJElQvMDP1LUgM4t0n78/kmWey2cwSVMz1EGMCDHp6NZaG0bfUkM/6CG6s4svbaNuJ/DZaGabbGXtSu6Zp89nD4OQ0JkiWWK+lHQv+yqhzAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0A5Yi7n; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Vup2w8f/7EYCvtJiSrgFi3EPya1WzSrncdhDCh4ytLawyyBWSZ0tfEaC8kCvR8hGgb5CGndTioXrg3kpfhIDug0tweHQ5kWjw+XWrv53m4oinwKgDfrpei/M5lgfbyD4MuNpCtDT3lPQb15Hc6nzOfR/RD0FZJOha9XHJYItGoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tTdUg8GN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0A5Yi7n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9C20C4CED3;
-	Wed,  8 Jan 2025 14:48:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tTdUg8GN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D74A9C4CEDD;
+	Wed,  8 Jan 2025 14:48:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736347683;
-	bh=LwHO/1GHjUQaLSG6IJAJejVbzq18HDsxqku0DmvhHcA=;
+	s=k20201202; t=1736347686;
+	bh=NxTtR1K2YZHJIUWkMeyKHIFszBgiS5+igLz0WjHsgfM=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=i0A5Yi7nrr8CAt/ztdHkxtxVh5LBVs0ZPMaCFHD5JJBJ9OrL3yDy/iYiHbifuLiYM
-	 7YxAlLMT5ncN0heYuH/jqBekbpgyKFwGn7CUkCoIgnnm97PvVoFJ/cMi2c+Nnetlgn
-	 hUx4TC3eK6CNoPT3TWeR2SWwF2cZXfuUaqXq/LIB5DjEfPeDY3S4jEq/tb4wV3PFkF
-	 X+Qmy6XF4z9CQPUWmnpZEinDYLSllEoJ5sRc5qwwpNSCyOaukp5IvvU1Q8D4cXm9uf
-	 XVSId2MQJSvma7cjvynb8AzXB3ZShZC3sNL2jLWadEPIWkvjEubQYnIIns0Bj+AnT+
-	 VwEP9U1SkRJLw==
+	b=tTdUg8GNax8Ws/gI7ixtfT81VHxUZEgsykOZqpZ/S8IQkuvEwLbZlq5lFhrUJmDkD
+	 C46CQAHYboCGxzcDzXjJKYjUi7dZF0tvqfJjii/zFbUJRSGdFxpZT5NQxdo5ihYz2K
+	 p2LVig0YfwxEUw4lvUpgBUNADrGqMYlYGkubACEUoZ0ZWROqirF3a6uT+izQeznvuI
+	 kOWTsgGoL6u+XkTJMdCtJoJn76jY8LQBl38/NvfijlSxfz0JhQAj7GuTCGWjXC5pQ5
+	 nbEoPPNcHO1cwoH/Sc/b7xQQDQRWXEJRx2ozsJ3IO0DWg+3frCWzN3ORb8IfQRw0eW
+	 trmyFdlJmjUJQ==
 From: Mark Brown <broonie@kernel.org>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-sound@vger.kernel.org
-In-Reply-To: <87msg2knsg.wl-kuninori.morimoto.gx@renesas.com>
-References: <87msg2knsg.wl-kuninori.morimoto.gx@renesas.com>
-Subject: Re: [PATCH v2] ASoC: soc-card: remove card check
-Message-Id: <173634768255.57096.17726986657710103326.b4-ty@kernel.org>
-Date: Wed, 08 Jan 2025 14:48:02 +0000
+To: Biju Das <biju.das.jz@bp.renesas.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org
+In-Reply-To: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
+References: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
+Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Add a check for negative
+ sample_space
+Message-Id: <173634768360.57096.9164270045125879919.b4-ty@kernel.org>
+Date: Wed, 08 Jan 2025 14:48:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -44,17 +50,15 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 08 Jan 2025 03:05:52 +0000, Kuninori Morimoto wrote:
-> only snd_soc_card_set_bias_level() and snd_soc_card_set_bias_level_post()
-> are checking "card" in the function, like below
+On Wed, 08 Jan 2025 12:28:46 +0300, Dan Carpenter wrote:
+> My static checker rule complains about this code.  The concern is that
+> if "sample_space" is negative then the "sample_space >= runtime->channels"
+> condition will not work as intended because it will be type promoted to a
+> high unsigned int value.
 > 
-> 	int snd_soc_card_set_bias_level(...)
-> 	{
-> 		...
-> =>		if (card && card->xxx)
-> 			ret = card->xxxx(...);
-> 		...
-> 	}
+> strm->fifo_sample_size is SSI_FIFO_DEPTH (32).  The SSIFSR_TDC_MASK is
+> 0x3f.  Without any further context it does seem like a reasonable warning
+> and it can't hurt to add a check for negatives.
 > 
 > [...]
 
@@ -64,8 +68,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: soc-card: remove card check
-      commit: 9c3d68ce5dee76f30b23ca29b2be4774e291f7f1
+[1/1] ASoC: renesas: rz-ssi: Add a check for negative sample_space
+      commit: 82a0a3e6f8c02b3236b55e784a083fa4ee07c321
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
