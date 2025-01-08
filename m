@@ -1,108 +1,122 @@
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F68E1E501C
-	for <linux-sound@vger.kernel.org>; Tue,  7 Jan 2025 23:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE703BBF0;
+	Wed,  8 Jan 2025 01:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736294388; cv=none; b=sg3534giB++1wpOjjqdOgjQNhD1y9sq7+SO2aLIPisL6q8jT6qQctIG84ZAaKHbEY7AcgdSljuu4zEgVmdPZstTF7FmwkQaPoqRF+1dEG6MAYb+iRpMFdVt2V+4DYylqKvQfmcOZ70VwY3NmAgVLgRTLDwxAuVBDZYjweKSs8Z4=
+	t=1736299364; cv=none; b=SvOz40gfrs0wugzDYOFqJEWdtu5DYeWZ8Dii93hzcETs5vl0w4ik8wVBKIrjict+JPGMsGgzL7PxI/iErTdUpI4W41nrwtlqtCcW+3EyI4rNgg37VR9y3ybO3eAi+9bNJUIr85GHjPgqecVTEe/K0/zIY4CjU7V4J0dIOzYyZLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736294388; c=relaxed/simple;
-	bh=uZa/eV/ouGW+0xYQuW2yFI3isuAgHPinS48+hjo9GjY=;
-	h=MIME-Version:Date:From:To:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=BeOnz88SpK8VKaYjbLmBHT08clvGprLEoSWWizZurnEDumRJ8a9QW8L2xD7LabCXFqLYt5Fug0QGlIuCsXSJ/MG6Urfg8a3KRzy37HXFVXrWqen9SdTyt1kMAVBgm573cW0xq7DGNWQ/atkwLHlKgvcdBmsxe3bxzToGBc3GkGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=EXIRT2Qk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KNXzQjBL; arc=none smtp.client-ip=103.168.172.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
+	s=arc-20240116; t=1736299364; c=relaxed/simple;
+	bh=uwMmmc0Pgdf7JRyIqnhB49HyER04IQ0I9JtlA61F2H4=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dhIi91BcwawN5Q+gpEI79F+FCmb5NJCy1PLgw2oxG7wJtJfG55O4T1kur0QjbHyxrnGjKTF851/80j7E+C9ckkAA0csBnD/rf8QKuH/ERJ1c2yYvTvZE7mqR5FYgkoY2ZefSX9r8h+wVmBHKYz39Ojxqym9rgaBLZZ4dfm3P2mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=E05al5q0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b="EXIRT2Qk";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KNXzQjBL"
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 42A5F1380237;
-	Tue,  7 Jan 2025 18:59:44 -0500 (EST)
-Received: from phl-imap-10 ([10.202.2.85])
-  by phl-compute-02.internal (MEProxy); Tue, 07 Jan 2025 18:59:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
-	 h=cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1736294384;
-	 x=1736380784; bh=mXmZLXNQoxoDAobMaeOW+os7GFKCghOZC6q2BzZOfOY=; b=
-	EXIRT2Qk1rMG+GkYHakOrR04coaUjnUiVGJDxY3aTfgDQeVuUC2rBDtLA1PtTjl1
-	l83zZsv5kUpnoqbCKTgJlfaHQDr66bIRN7ycIDh01YQxS2stuDU0hiln/YfJB1DJ
-	EATyo+PXUy6O2fDAHBjfY7wh1Ye+z2S8wnsJNQCdvTX1ZUwrGdVg1Y6c2zR+3n18
-	OTVW22lc/aN9LBsEd0IkgVoAgNlDP6zOl6eH/Hm1kU8A/9fmd2ht4ML7MSyPJV4s
-	aVVzESEXdUTsM2HnhZaiDv8Cc02hyyuwCNmV8K1GjMahyx1pHPL4CyHPmDBSGpVs
-	5jpaIEDLdaul6cjyZVwD4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; t=1736294384; x=1736380784; bh=m
-	XmZLXNQoxoDAobMaeOW+os7GFKCghOZC6q2BzZOfOY=; b=KNXzQjBLUF8DWER3C
-	Ou3wZIwkc5r8iLWAiovGFzvT55vaJD4m0IKiGNW+PZbDvzb/v53veMDk9eHCTFdx
-	eqZV06Lp85EiwIHkAV8kdcmUVdjsrclavD+weQcIfTisf9bJ4XbzkgT4vOGsvBS2
-	Xbz1yCaGNRy3pA+EX9uUmWhFUXRKRbF3ux8Pa4048hAG+kVVfovHCziGvI+gMo4a
-	V+xHL1xNd4c1fbBBDV49Vd61b9Re4AWNxihkd7aqj4B0nQuvXXF3MAYfLULS+OYW
-	n7jrEDLID2ChrrmJgODrBV19goIP6h1isk9NBJT2q+M8ygNSsz6vwlnMF2FYE1MI
-	59wPQ==
-X-ME-Sender: <xms:7799Z4dDluGF-eX2cle46x8cWYs1OSQGzRS7G6Tpq5bp6JYnarf9ZQ>
-    <xme:7799Z6MmEKgU33FO8cvNgw4TJ3bL5xDHe1Za0ng-5CGMKFVSibtlYHFckfYomnQg2
-    yuBBH1Mz4azBvqJG0A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrudegfedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvffkjghfufgtgfesthejredtredttden
-    ucfhrhhomhepfdfvrghkrghshhhiucfurghkrghmohhtohdfuceoohdqthgrkhgrshhhih
-    esshgrkhgrmhhotggthhhirdhjpheqnecuggftrfgrthhtvghrnhepueeigefhleevgeek
-    ieefkeefiefgvdevheethfdvgeefgffhvdeikeehleefffetnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepohdqthgrkhgrshhhihesshgrkhgr
-    mhhotggthhhirdhjphdpnhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepthhifigrihesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhs
-    ohhunhgusehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:7799Z5g9OwEubCzNHJp0yPnunJef7fF5l8UG5RY4R5Y3ozeWYoCgyg>
-    <xmx:7799Z981k5yi2KwjMhNhOhEi7s2MDJszsZ6DpFZx0iROebkv0Mcvag>
-    <xmx:7799Z0sO7DQ8qsPucuMAR9g61xjwKooeOXdGx-PbRKp9524uXrIO4w>
-    <xmx:7799Z0EUZFWBXEJwCA-3jcKIX2T2IJOGptQRRvI1RoFmusgJ2MMf5w>
-    <xmx:8L99ZxV-AQPeCOogpM18VMSQb3TLYurU_Y2o8Ny8wVqKL-OC5dtUEEUy>
-Feedback-ID: ie8e14432:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id CE2323C0069; Tue,  7 Jan 2025 18:59:43 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="E05al5q0"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507L5cQC022672;
+	Wed, 8 Jan 2025 01:22:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4bT/oDsYIvWCvd7KTc4ugKcXx+6hePSFmLJkYUewgaU=; b=E05al5q0NQmkWqpX
+	pC4zhPVTzHjUlQ4CjLNICx61vFidptmoU9k1vPad2TaBQHbOcMd6VVAoxaLy/Ntm
+	gYMZe4MaSwlibL1yb05dat9rru2QiPAsT4kJ7+L5Qn9WFR/AklPkJF9vdnQXK26f
+	s9/FAbndwwNzJ23/bWY3c4LWv+8+VGV/7JrQNwrPb8+usLt0xyzZk9Kum1kiN+Nk
+	uXV/qBCP2rLrZkIcSGNCNGWbN5oPWD3awas7Yb3yENPoojT7hC11ithEjuBYO27w
+	NvbPfsbAXeODvTHgR4Ow+CyRQ20KlmipnrqIsBIQ8dcPoZ41/el3lPYJv5ytv6KP
+	VGzQig==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441bvq0e6t-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Jan 2025 01:22:28 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5081MRHu027991
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 8 Jan 2025 01:22:27 GMT
+Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 7 Jan 2025 17:22:26 -0800
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
+Subject: [PATCH v32 11/32] ALSA: usb-audio: Save UAC sample size information
+Date: Tue, 7 Jan 2025 17:21:52 -0800
+Message-ID: <20250108012213.1659364-12-quic_wcheng@quicinc.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
+References: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 08 Jan 2025 08:59:20 +0900
-From: "Takashi Sakamoto" <o-takashi@sakamocchi.jp>
-To: "Takashi Iwai" <tiwai@suse.de>, linux-sound@vger.kernel.org
-Message-Id: <f0a9e099-b349-4ef6-9ea1-80a39a7148a2@app.fastmail.com>
-In-Reply-To: <20250107155641.4435-6-tiwai@suse.de>
-References: <20250107155641.4435-1-tiwai@suse.de>
- <20250107155641.4435-6-tiwai@suse.de>
-Subject: Re: [PATCH 5/7] ALSA: firewire: Simplify with str_on_off()
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: CgDfJDsfQ2m3dauWG3W2G_8vUVVvtSdS
+X-Proofpoint-GUID: CgDfJDsfQ2m3dauWG3W2G_8vUVVvtSdS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2501080007
 
-Hi,
+Within the UAC descriptor, there is information describing the size of a
+sample (bSubframeSize/bSubslotSize) and the number of relevant bits
+(bBitResolution).  Currently, fmt_bits carries only the bit resolution,
+however, some offloading entities may also require the overall size of the
+sample.  Save this information in a separate parameter, as depending on the
+UAC format type, the sample size can not easily be decoded from other
+existing parameters.
 
-On Wed, Jan 8, 2025, at 00:56, Takashi Iwai wrote:
-> Use the standard helper str_on_off() to simplify the code.
-> Only code refactoring, no behavior change.
->
-> Cc: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-> Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> ---
->  sound/firewire/fireface/ff-protocol-former.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+---
+ sound/usb/card.h   | 1 +
+ sound/usb/format.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-It was in my TODO list, good.
-
-Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
-
-
-# Akeome & Kotoyoro
-
-Takashi Sakamoto
+diff --git a/sound/usb/card.h b/sound/usb/card.h
+index 4f4f3f39b7fa..b65163c60176 100644
+--- a/sound/usb/card.h
++++ b/sound/usb/card.h
+@@ -15,6 +15,7 @@ struct audioformat {
+ 	unsigned int channels;		/* # channels */
+ 	unsigned int fmt_type;		/* USB audio format type (1-3) */
+ 	unsigned int fmt_bits;		/* number of significant bits */
++	unsigned int fmt_sz;		/* overall audio sub frame/slot size */
+ 	unsigned int frame_size;	/* samples per frame for non-audio */
+ 	unsigned char iface;		/* interface number */
+ 	unsigned char altsetting;	/* corresponding alternate setting */
+diff --git a/sound/usb/format.c b/sound/usb/format.c
+index 6049d957694c..f66449e5d634 100644
+--- a/sound/usb/format.c
++++ b/sound/usb/format.c
+@@ -85,6 +85,7 @@ static u64 parse_audio_format_i_type(struct snd_usb_audio *chip,
+ 	}
+ 
+ 	fp->fmt_bits = sample_width;
++	fp->fmt_sz = sample_bytes;
+ 
+ 	if ((pcm_formats == 0) &&
+ 	    (format == 0 || format == BIT(UAC_FORMAT_TYPE_I_UNDEFINED))) {
