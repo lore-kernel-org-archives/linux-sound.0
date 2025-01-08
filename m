@@ -1,122 +1,113 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11501A00FE;
-	Wed,  8 Jan 2025 12:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82D31F942F
+	for <linux-sound@vger.kernel.org>; Wed,  8 Jan 2025 12:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736338761; cv=none; b=iiqKyHu3FQWrn2YY37UsqfX0KWwJBepmwr1Um0b9HGz8mBnXGx/+iysugkFr2HrgQDyIhQmspJre4hcqH6AnwYH4ZWb77FnxbLhWwsdhoHZuH+b8fwOCvTAFdFDhp5HI7x9Px6ObKLbuhXXKcEt+Fm58INDFcirhQ0OIv8m8xYE=
+	t=1736340852; cv=none; b=PM2TbHNul4Pkx1v1OZ7FC3y26ff/yJNFwImjY57bnPsgYS5ESqEd6GFYCRizYR7uYSz8i5U6GEKQcimex9+gj5MMPFi3Hwfs+aQJGjyC8fWNtqonM7BY2IQywx7hCHoYkob35bB18SW5p9IUrUThhWOhvovMpdndzayWQVDBcVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736338761; c=relaxed/simple;
-	bh=l2wuy6uutmjlMwmvqqU1Go/FyQ3viVYg51+dLSMo4CA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ANeq76Ox1LgkN7vHGWpHYCHmTWAdKMBOgXm/DjTi7sec8fJNeptSRiAkEdIjvn7CIQlHDdFwnr6ID10BYTWjTKdNHfOgfYCRzARDwFjVrjcwXKZOoE/Cbo1knDkKBFEK7PnINEbQo2KWKU8K/OogsOKXvp2I89WqteKxzshjYOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cq6zl1ZA; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736340852; c=relaxed/simple;
+	bh=Bdt0Ek+8uNvC9w4e4LSz2+aFt2JoeAnu4IpKWfLXKkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HXOERWD97u7RjAAGrwmdHu7XoQWVe9hP+2BQbkO/FLz8gKWmCyRT20wBzgwkZu3S2QpAk7vvj5ddUXbddKMsSIo9biT8Zjp264P8gUKLho5Ya6sEtU94rYIv6SXD4TdNLXnUbxwuPm4Uujz9hSr+sNfpP6yMi27Icc4k2Y9UWpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k9NrwTST; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cq6zl1ZA"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4361b6f9faeso4998085e9.1;
-        Wed, 08 Jan 2025 04:19:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k9NrwTST"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-435f8f29f8aso120966685e9.2
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jan 2025 04:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736338758; x=1736943558; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1736340849; x=1736945649; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=D0wrsrPGAdDXBV5iPTRGFFFX12teH6issL2b7lrnEgE=;
-        b=Cq6zl1ZAzlNj7lYYxdfbm13gFcewsFaVqxkG2Ru6DHxB6Re4SKrps65qL7IZUzlt6d
-         tHmBBFosWI8QX215hzRDx+2g7tiQTtbPYjukuuO9wv9KpUbnsVAeHT/z9je68ZsP4/7n
-         zq7E0wf4b5pvpPz1xHffxKEQ8g5QmFQtw/kjF6c9naWWdA9sO56ANlweW7OMNgeZf0yA
-         6fv6NAVJUCpii123Xbf9ap0Xj0L5QVx3uHY6/IIgA7fH7I3b44QmWmR2xRSfcwlDYaxn
-         JfSfFDV2wVxDkyWML9AkjQen7xLRZ7Z36XgT5g96ArnBG/Ncm7ZEx8961YqhldBQHHoC
-         klwg==
+        bh=zJ/s9DyS+GEqF9zqnIGYDx8ihdm7eFKYQPvmgM1uC28=;
+        b=k9NrwTSTD1YQoqnW/qYmnUPD9E2T1iC0UNVDK2ddtFggvgleAvHZxzY0lgOIo/pqvl
+         TPDqADY2Wz3ygb9lilxRzt+Mk3rmJwglXrQmD+tx7uV2OFZs8G7USoSNzyfPh8dO5fv9
+         4M+pqYopWE23DzzHR86TcTAuI+YCyWB2nRK2fODn8qR3KujW1QcDoM2+3HKw63xTyAQv
+         46MYizXOwQsOcvS8MtZnpoAQl/QCjJtd/bVA1BQXp7wtx4xGB/rNh/yMGuzOv/3RMOMO
+         4qLDjH21An54bAKqjAs8/LjOcrWm5KrqBMFH8zp3ksil4VkNYIQWfoXyDoAcuWpHQq12
+         BUgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736338758; x=1736943558;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1736340849; x=1736945649;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D0wrsrPGAdDXBV5iPTRGFFFX12teH6issL2b7lrnEgE=;
-        b=awi187fE3UN4rxxJOxdN1V6+m0d/FIvbGZn/sNx4F5FwEKoFzJMFgJvH37LaTrjL83
-         QHCztQO8T1Kv2fn702j2Z6jPhqPZb2JgyRDaHrJmLnQmy8WBAXG2mfzDFc/gUtgjxCFa
-         U9u0jM8kz8BWrspHDaUduJiE1sOL2QeeiaVBAdYoi5L+adjZy3FBop2gnzs08tGkiHde
-         lNMb0aV+pZAq2YhcZu8iQCqL87F19DFemt9lFRzVL4GyFliZCMVxZ0sEufzloJywT8PG
-         ljKEAZMX8BkjqmpNByePiM+/XnsmG0HxqLjQ3QaBV5b8NdLx92pPi8Bat1bzcLGTKKpO
-         UpXg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7yHwDIHTvDZ2b7uI/+aBrMKXtRu2EukfouRjTux7OI3SX45x3tJ8HtbHiROthyLYDCjv/rdRhZq+9QEY=@vger.kernel.org, AJvYcCVZ7P4OVndYkBZakkPtbgwOQtHJw8TGXDyidd7vKRMeIpafgffBv0HfBaWoAG8A4W58yEQ+daQ0pjee@vger.kernel.org, AJvYcCXjfRYyLVwU29TcWFLUloGbUEe6C92uolhYShxodq85Qf+6SQI9eIgq8YdCh4kvXzvpYhFRCfL0juA1rBJO@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/rElMXjc5GHCFKBT7mQuPsj1ArCn1NzdC04og3bn7N32JZztu
-	D4vWJKhByZbgN/M78tco0SrOJGE6anaGJjz6mog05A1TbaLorzAI
-X-Gm-Gg: ASbGncu2c1LlZSK4Lh5TTOBQ+6Wf5opBiDd80jzqIYiRsVyMXQw/aHvZVANXwx1wicH
-	FSdHUElz4h7gJm57en1N7pMNcW1OBpogF0rb1KhawmcCYyVwSoKWehA6sGICgnkQw7hZuhp5e+5
-	lXhx/k6OIV3zq0sI0FmspKfFjfjqRttdjZG5jyu2HgFYPLBO1T5q5NyYsARPMOpYGoya0IJq21M
-	pMDbnJ2GneRSaaFXTR6DPox6Skn8Xm7bTnT/BP8E0OgrCckPuO1fSzmd7J/u92kULrjDmavZckZ
-	cF5EtQ==
-X-Google-Smtp-Source: AGHT+IEZ2TsyG7bFlOCK2TmeGPogWLKZEqI34rc1uiTT2N6nITdoJEt+KA1su4EcHw8h6jyV9z9qzA==
-X-Received: by 2002:a05:600c:510b:b0:434:fb8b:deee with SMTP id 5b1f17b1804b1-436e1e4ae91mr23270555e9.16.1736338757809;
-        Wed, 08 Jan 2025 04:19:17 -0800 (PST)
-Received: from [192.168.4.226] ([92.120.5.1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2c27008sm19375005e9.0.2025.01.08.04.19.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 04:19:17 -0800 (PST)
-Message-ID: <e5665b6a-c2ad-470f-8a36-b7adc05c1cf0@gmail.com>
-Date: Wed, 8 Jan 2025 14:19:14 +0200
+        bh=zJ/s9DyS+GEqF9zqnIGYDx8ihdm7eFKYQPvmgM1uC28=;
+        b=saiXOi8hAjYgnX48S3LeKLcWSv19GGykfEhU1IXMSWvfGLJQwG2h5ZwcVNJz/sWG3t
+         zUnjWZ2osUkt0Bwg2pMNauzYGAnjv0KKRHjPqRv2/NNBTsFAUnQwaLb+IhjUC5ctxBe7
+         8udaxW+raB1/D81AhtUlwq2MuEWA8mrTaMVbhiX/ULG/yd5B0Rx06LcRabqmKZ4PriHc
+         CfZxLe9cs/01PpXGWWaph/bGeTOZTtMfUxLG+gLP+zXzehzv26bY1oXKUWMAXxS0uDW5
+         u5tNUedfLAtvWU9deLLyQihouY/msXqoPcPB8yW8QP7r04BMSBXjOwu8EbQwhelszHs+
+         t33Q==
+X-Gm-Message-State: AOJu0Yz2IWeXfM6NV6v9e40x4QOVtaUBTd4rQDh/RlTdBoTBUFLSqSZd
+	YiA/Tegia8c53yw9p5OV6KO/+3eR2wcxKid/MfxYhNN4aLVXrR5p2hWsZ+MSaisLIDDxANdf+eA
+	z
+X-Gm-Gg: ASbGncubP3RSrUq0iFqCOoP45Fgf8acH8C6U19425uPxpchvcp77IoZgcxLeRsvWi3f
+	oXl6xxU7G8W65UkAXIYKztFj+9WQrNlJuZfOWNUtZoIPCK3C3pkBV0Oh96GmF4UtWRSe9nVq8ys
+	kKBi35MiMQQ84x1Ss//0CClbxOeqU3uZc3fbcQdXiwzNx6irG2zDQAZuE36MnfCItxdvqOk580R
+	Wr8iSE6WKyB/42jGWmNQab08bEWZ4K9/I/j1OVMaewOfEsqw498xi5p0QVhMw==
+X-Google-Smtp-Source: AGHT+IFg6wXxEdnzO2Zv9AUr9gtSJlu5Oev8/rPhVAuL8z4krpc8ks5m1KgWUlEo9M4X84xkx7Qdag==
+X-Received: by 2002:a05:600c:450d:b0:434:a711:ace4 with SMTP id 5b1f17b1804b1-436e26a9510mr23772205e9.17.1736340849040;
+        Wed, 08 Jan 2025 04:54:09 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c89e219sm53572841f8f.84.2025.01.08.04.54.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 04:54:08 -0800 (PST)
+Date: Wed, 8 Jan 2025 15:54:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Shengjiu Wang <shengjiu.wang@nxp.com>
+Cc: linux-sound@vger.kernel.org
+Subject: [bug report] ASoC: fsl_asrc_m2m: Add memory to memory function
+Message-ID: <35e52534-8ea8-4826-a355-c18db459acc8@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: audio-graph-card2: add widgets
- and hp-det-gpios support
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Shawn Guo <shawnguo@kernel.org>, Daniel Baluta <daniel.baluta@nxp.com>,
- Mark Brown <broonie@kernel.org>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Jaroslav Kysela <perex@perex.cz>, Frank Li <Frank.li@nxp.com>,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, imx@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20241216145039.3074-1-laurentiumihalcea111@gmail.com>
- <20241216145039.3074-4-laurentiumihalcea111@gmail.com>
- <nxcoukgiwtcsowi2uxytxa32mdp5dhl4tvnetpd2spti7oiiu3@mpqbv43ivznc>
-From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
-In-Reply-To: <nxcoukgiwtcsowi2uxytxa32mdp5dhl4tvnetpd2spti7oiiu3@mpqbv43ivznc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hello Shengjiu Wang,
 
+Commit 24a01710f627 ("ASoC: fsl_asrc_m2m: Add memory to memory
+function") from Dec 12, 2024 (linux-next), leads to the following
+Smatch static checker warning:
 
+	include/sound/pcm.h:1514 pcm_format_to_bits()
+	error: undefined (user controlled) shift '1 << pcm_format'
 
-On 12/17/2024 9:07 AM, Krzysztof Kozlowski wrote:
-> On Mon, Dec 16, 2024 at 09:50:37AM -0500, Laurentiu Mihalcea wrote:
->> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
->>
->> Introduce the 'widgets' property, allowing the creation of widgets from
->> 4 template widgets: Microphone, Line, Headphone, and Speaker. Also
->> introduce the 'hp-det-gpios' property, which allows using headphone
->> detection using the specified GPIO.
->>
->> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
->> ---
->>  .../devicetree/bindings/sound/audio-graph-card2.yaml          | 4 ++++
-> I have impression you are duplicating audio graph properties instead of
-> referencing proper schema, but considering that the bindings
-> audio-graph-card and audio-graph-card2 differ only by number "2" without
-> any description, not sure what is correct here.
+sound/soc/fsl/fsl_asrc_m2m.c
+   347  static int fsl_asrc_m2m_comp_set_params(struct snd_compr_stream *stream,
+   348                                          struct snd_compr_params *params)
+   349  {
+   350          struct fsl_asrc *asrc = stream->private_data;
+   351          struct snd_compr_runtime *runtime = stream->runtime;
+   352          struct fsl_asrc_pair *pair = runtime->private_data;
+   353          struct fsl_asrc_m2m_cap cap;
+   354          int ret, i;
+   355  
+   356          ret = asrc->m2m_get_cap(&cap);
+   357          if (ret)
+   358                  return -EINVAL;
+   359  
+   360          if (pcm_format_to_bits((__force snd_pcm_format_t)params->codec.format) & cap.fmt_in)
+                                                                 ^^^^^^^^^^^^^^^^^^^^
+This comes from the user via snd_compr_set_params().  Syzbot will
+eventually discover this undefined behavior and generate a stack trace
+etc.  Normally we would add a check for invalid codec.format values in
+snd_compress_check_input().
 
-Please correct me if I'm wrong here.
+   361                  pair->sample_format[IN] = (__force snd_pcm_format_t)params->codec.format;
+   362          else
+   363                  return -EINVAL;
+   364  
+   365          if (pcm_format_to_bits((__force snd_pcm_format_t)params->codec.pcm_format) & cap.fmt_out)
+   366                  pair->sample_format[OUT] = (__force snd_pcm_format_t)params->codec.pcm_format;
+   367          else
+   368                  return -EINVAL;
+   369  
 
-As things stand now and based on Kuninori Morimoto's comment on this
-(https://lore.kernel.org/lkml/87cyhw8lg5.wl-kuninori.morimoto.gx@renesas.com/) I'd say we can't
-(or, rather, shouldn't) directly reference audio-graph.yaml here.
-
-Now, I wonder if the "proper" solution here would be to take the common properties
-of audio-graph.yaml and audio-graph-card2.yaml and create a new binding that can be
-referenced by both aforementioned bindings? Would that make things even more confusing
-(we'd probably end up with audio-graph.yaml, audio-graph-card.yaml, audio-graph-card2.yaml,
-and audio-graph-common.yaml)? Should this be addressed as part of this series?
-
+regards,
+dan carpenter
