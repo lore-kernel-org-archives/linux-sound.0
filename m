@@ -1,108 +1,88 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4691FBEB3;
-	Wed,  8 Jan 2025 13:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.152.168
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DA21FDE09;
+	Wed,  8 Jan 2025 14:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736344119; cv=none; b=OmcB4ubnu7fX+4PdLGxUd3IuSW8Caw4+ujOPWmkgp9cERRds8R3PImg9iRjSxABbtDmOwG4CLDUrzWrv4Cf6wbUxoLdK1KriUPFl2jf+g3php+K6eAhrZzQjc6mQd7ZbggDNo4AQNQFy+roh6Q5Z9XIVjP4SJnhCDGPuWbgzA+A=
+	t=1736345366; cv=none; b=qOIhguOcS1VXDxFlZ9Z6NB1FrZUilk/Wyq7WdzwdxAugEPJqGMhTEhI31n2ABsfgH6QJ7PhWcbTVZL1OJVe7JCYlTlh9HXn9egGAkzspREV2zWfNbhJzbPRuoYJ4Y9f87z8h8MovzHHfoinFspMGL6gsdC/imev3lHb/X2nO7is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736344119; c=relaxed/simple;
-	bh=t12BxcRYi67RbHOzgbEuCXAWdlcQ3q1QLqr7BuQ7zUs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=jLkRSF7USOPBWWoCo+zA1PcLCVph0+7MXp0KtagObVSTBpg0UUiz7hVDjazgBZdsYzfvH6BX7jfR0kK5vqxkv+ClcdOWS1fBrxCmIqDaQNwv+GGSAhO10GBNEIzS4f9OADKZUbZ98XYujlLxSewvJ1IwLMEsDFP82KNgWAje2aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com; spf=pass smtp.mailfrom=opensource.cirrus.com; dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b=FjrMlkyd; arc=none smtp.client-ip=67.231.152.168
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=opensource.cirrus.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=opensource.cirrus.com
+	s=arc-20240116; t=1736345366; c=relaxed/simple;
+	bh=PuHFyvQcUpNFXvyiurlAF4absPlp7FXEo06xZZ4fOyY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EK0eKsMUScRMkBfLXzZqFkmHPsede/qOJg1P+rFCQLa37qt1kSh5ypGjxGkdMEIiBeQscUw5GhpAw6h9ihCA1bYCNFESRkUoxjKOLvlkp6jPW4NiLt2qyDTFJlORtAoArmTSVhvMJghTcnzyUWgXAwsut41mPYOfzOzTA97Ymj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCtxyL65; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="FjrMlkyd"
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5086R9QE032745;
-	Wed, 8 Jan 2025 07:48:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PODMain02222019; bh=RTcy8wzi1kgY4y8z
-	WgC7wny1bynqMA/kruiOt8AOc0U=; b=FjrMlkydDtynzLdTMleioT14gEPqdsZV
-	q7PBId4xfesBgo5B5t0wUmdouUusIwAYuYaN7KeiAnzw/e3H7ftJ7+oB/8RjVN15
-	tZvHke6LorDUc7KND4dhzMPlHp4ReveXrqUktvYCbG17c0xPSdFtTv6iIBtAtKPK
-	wW3k8dD1mxUGg4HEOlgicyyPjNytMDlP/j6ZSvmhpLw5muxXIfW78zkR8BMrH9wx
-	kTERlU7+Pxd9tTv2m83QDb/XXR06upArbX7reVRHeGD0f7LJjtJBDXWaOyY6W9NQ
-	PnD0CB/2e/chDTRlAHkNK/m2ZWhGJ1ut8+yBZaCcmlkYwbesCcPJoA==
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 43y29kcqa3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jan 2025 07:48:30 -0600 (CST)
-Received: from ediex02.ad.cirrus.com (198.61.84.81) by ediex02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.13; Wed, 8 Jan
- 2025 13:48:28 +0000
-Received: from ediswmail9.ad.cirrus.com (198.61.86.93) by
- anon-ediex02.ad.cirrus.com (198.61.84.81) with Microsoft SMTP Server id
- 15.2.1544.13 via Frontend Transport; Wed, 8 Jan 2025 13:48:28 +0000
-Received: from ediswws07.ad.cirrus.com (ediswws07.ad.cirrus.com [198.90.208.14])
-	by ediswmail9.ad.cirrus.com (Postfix) with ESMTP id 7BA17820248;
-	Wed,  8 Jan 2025 13:48:28 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <s.nawrocki@samsung.com>,
-        <linux-sound@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <patches@opensource.cirrus.com>
-Subject: [PATCH] ASoC: samsung: Add missing depends on I2C
-Date: Wed, 8 Jan 2025 13:48:28 +0000
-Message-ID: <20250108134828.246570-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCtxyL65"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736345364; x=1767881364;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PuHFyvQcUpNFXvyiurlAF4absPlp7FXEo06xZZ4fOyY=;
+  b=SCtxyL65pT1jJukT8JbBK0SsD8ZqiwPPABTYCSYIiQYg28BfjVLrju4i
+   GEvkVMbuMhZwLTIQPbegNNfFB35Va1YZUo9oV0b8wseqJ7ofyqfcngNMf
+   5DzM4mExHvW1HxqOlCG/7Fl4SjNW8gRnRF3MQIpeNpRC7Q9LpEIvkH3E3
+   Tq7RgSr4uf3wGHwwTmE+lgi+ycGJE/AzpEMOnc7nOTUXRf7o5xDOD+X7P
+   JxhdTo08EE6QPjeuCiGuyskbR2qol1qW90hwA/FOJfqpr0zoRVWY369Je
+   rxcCxet/HWx96P/P7Cydnk3AQ2lIeWmKwNTW55+1NGU5m566Z/o2bzsNB
+   g==;
+X-CSE-ConnectionGUID: XQR70E4hQi6ejIEi9Dzb9A==
+X-CSE-MsgGUID: G5cLkamWTuq0d3a7y+8fwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11309"; a="36266773"
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="36266773"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jan 2025 06:09:23 -0800
+X-CSE-ConnectionGUID: 5MuKVUQjTz6NCWioya/ZbQ==
+X-CSE-MsgGUID: ten+V83oQxySAdeEDBFw7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,298,1728975600"; 
+   d="scan'208";a="102903221"
+Received: from unknown (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa006.fm.intel.com with ESMTP; 08 Jan 2025 06:09:17 -0800
+Message-ID: <b029c775-a0cf-4991-95b7-a02187c0863b@linux.intel.com>
+Date: Wed, 8 Jan 2025 16:10:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: SjnUkzy5MUpi8QxOCFAAQdc4rB4rB9Ic
-X-Proofpoint-GUID: SjnUkzy5MUpi8QxOCFAAQdc4rB4rB9Ic
-X-Proofpoint-Spam-Reason: safe
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v32 02/32] xhci: sideband: add initial api to register a
+ secondary interrupter entity
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
+ lgirdwood@gmail.com, krzk+dt@kernel.org,
+ pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+ tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
+ <20250108012213.1659364-3-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20250108012213.1659364-3-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When switching to selects for MFD_WM8994 a dependency should have also
-been added for I2C, as the dependency on MFD_WM8994 will not be
-considered by the select.
+On 8.1.2025 3.21, Wesley Cheng wrote:
+> From: Mathias Nyman <mathias.nyman@linux.intel.com>
+> 
+> Introduce XHCI sec intr, which manages the USB endpoints being requested by
+> a client driver.  This is used for when client drivers are attempting to
+> offload USB endpoints to another entity for handling USB transfers.  XHCI
+> sec intr will allow for drivers to fetch the required information about the
+> transfer ring, so the user can submit transfers independently.  Expose the
+> required APIs for drivers to register and request for a USB endpoint and to
+> manage XHCI secondary interrupters.
 
-Fixes: fd55c6065bec ("ASoC: samsung: Add missing selects for MFD_WM8994")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202501082020.2bpGGVTW-lkp@intel.com/
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
+The "sec intr" above should also be renamed back to "sideband"
 
-Phew... this one is the gift that keeps giving hopefully got this nailed
-down this time... hopefully.
-
-Thanks,
-Charles
-
- sound/soc/samsung/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/sound/soc/samsung/Kconfig b/sound/soc/samsung/Kconfig
-index 1a05f0e7078d3..60b4b7b752155 100644
---- a/sound/soc/samsung/Kconfig
-+++ b/sound/soc/samsung/Kconfig
-@@ -127,7 +127,7 @@ config SND_SOC_SAMSUNG_TM2_WM5110
- 
- config SND_SOC_SAMSUNG_ARIES_WM8994
- 	tristate "SoC I2S Audio support for WM8994 on Aries"
--	depends on SND_SOC_SAMSUNG && IIO && EXTCON
-+	depends on SND_SOC_SAMSUNG && I2C && IIO && EXTCON
- 	select SND_SOC_BT_SCO
- 	select MFD_WM8994
- 	select SND_SOC_WM8994
-@@ -141,7 +141,7 @@ config SND_SOC_SAMSUNG_ARIES_WM8994
- 
- config SND_SOC_SAMSUNG_MIDAS_WM1811
- 	tristate "SoC I2S Audio support for Midas boards"
--	depends on SND_SOC_SAMSUNG && IIO
-+	depends on SND_SOC_SAMSUNG && I2C && IIO
- 	select SND_SAMSUNG_I2S
- 	select MFD_WM8994
- 	select SND_SOC_WM8994
--- 
-2.39.5
-
+-Mathias
