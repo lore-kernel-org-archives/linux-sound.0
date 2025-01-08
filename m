@@ -1,111 +1,80 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E4C1FFC44;
-	Wed,  8 Jan 2025 17:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D3014F9FD;
+	Wed,  8 Jan 2025 17:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736356346; cv=none; b=DfUFN/Jz1Kx9isb6JLJCPibNoMBjOx3uvVj85whIaSbXykg89d0gizJe2sMO0wBbmuWdpMcX5s229Hrui5Px90efq58bBaiJHG3eplHBs0Sg4sXZfReiqQof5oVpyEvEf4NgilMqWof9cTC3h3hr6yR21aWrEcU6StSEZzrJsc4=
+	t=1736356963; cv=none; b=IDbdHLrK0BrTNXxne2Q50yLLnAgDc1PjLpQyxDAOEN6Qr318Ua2EKWbvKdG7oBeM8KghPDYMhamRXK4qX03quUAy2dW24+4eB9DbyNDRVKjRqPuxNDs11gw49+QjTsENeDNVY9E6spe0smSFkdJzIK9f5eA6ue6QPfnOnVMRQXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736356346; c=relaxed/simple;
-	bh=v7AdpopRqDKlTTeEPVwlJWJ91Mmeu/wSOyA6cioT7c8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N5cdv8eq1X4O285/ZGBI367LSulKaV3yfPknmvoCwsiHcpoBtJukcputBAQgidp+gjkxxgvfFmOo8f1WMaAUjGbYEd8+acSkFZVAnbynyVSR5YRyoEl+e7ulI+lcszFd9cXxkxL3SCTP/gfhWv3Yz8T8oqB7e+l+PdBToq2y1/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=2ca3nq+o; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	s=arc-20240116; t=1736356963; c=relaxed/simple;
+	bh=PcHYDGejbj7HSnlfwgDmFCrAdoKik0MqYOZ0MbjyP1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dUcmSWgr+5dne2O4GW+sX+6d/bSEx0GgwVUzsuGnEo1w9nUFpABxbc29S2hIk1Nop1rzwv6aLl6wdzCqTqyVITV8QatJJOz6Slf90dQUjgNx8LNcKJl7OjXY0+WarJT/1oc1qmuzaX+ZgVVyFaS/65JRPYDm5xqjgRpjm6im4N4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AoVSKe6h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="2ca3nq+o"
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 508GBj4C015726;
-	Wed, 8 Jan 2025 18:12:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=cq6IxiPnwzMaITNPkaDFnP
-	A8wtn03dwB+70RTIKXb3Y=; b=2ca3nq+oHwyKr0boVB97VnJw1zm3C5DAUFpeUK
-	DVFN2Y2qyNQp5N02f2to4CgufWJB9tT3hBKxMwMuOVWJHXGm4/RXc+/gFYqudgYN
-	gDB73lWJIpjYA0Dv8uiBB/yz8AeaHLO2fCS2KU/a7CyLqp3ZL0Gs/S+Gq75HG6m+
-	DMImjpaDs3YcyREuFq4iHC/lzgyS/RBiW9oydBLQkWCUcyPEv1TF6Fnr/LEP3FQt
-	gqLhLbGlClkJc6ytzgAZXXQ3jSyksFbnO7rOZwPnDW2FnfZQFzYqqrp62r68UqiE
-	jwELFpZWRtQVio0j2GLj+gTQi6mX/+Eh19icMTA6hSDnWNAA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 441vnw06y9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jan 2025 18:12:04 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7E9134004F;
-	Wed,  8 Jan 2025 18:10:35 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A590E28B217;
-	Wed,  8 Jan 2025 18:04:07 +0100 (CET)
-Received: from localhost (10.252.9.41) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Wed, 8 Jan
- 2025 18:04:07 +0100
-From: Olivier Moysan <olivier.moysan@foss.st.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart
-	<Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej
- Skrabec <jernej.skrabec@gmail.com>,
-        Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
-	<broonie@kernel.org>
-CC: Olivier Moysan <olivier.moysan@foss.st.com>,
-        <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>
-Subject: [PATCH v2 0/3] drm: bridge: adv7511: refine actual capabilities
-Date: Wed, 8 Jan 2025 18:03:53 +0100
-Message-ID: <20250108170356.413063-1-olivier.moysan@foss.st.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AoVSKe6h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60A9DC4CED3;
+	Wed,  8 Jan 2025 17:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736356962;
+	bh=PcHYDGejbj7HSnlfwgDmFCrAdoKik0MqYOZ0MbjyP1w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AoVSKe6hXd14uA77x2VmjUuhTvJ+XwvW4Q3fGD/OMFecnIZosrGs8ExDXACEmPLFd
+	 N42XznhnDGncNTYUbd3xUBV2wBVFlJmcEqEUP0k7g9dBL9wF7VA76sp/F6OT65KSC+
+	 j6EvKZMX1Fyb1G94DLemXvBLGPhStPnj1tMvQ6DsUN7Ui9eHZfh1QwFg+lg5+DRRHS
+	 M06+cS40FUTpyvX1KeIJjb5uTSaRzafTlIbyf5spN7ESZQn3EL/aVi+TB+GY8jI9yp
+	 bQ9RIrJSjSvtKy28s5wA68NVhyNRHT6Q/FSPmTshS6b6kHpQOl1uAOu1wu7d4PHnaH
+	 js6dSRRn6equg==
+Date: Wed, 8 Jan 2025 17:22:38 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Olivier Moysan <olivier.moysan@foss.st.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Liam Girdwood <lgirdwood@gmail.com>, linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] ASoC: hdmi-codec: allow to refine formats
+ actually supported
+Message-ID: <485ed7fc-c259-489f-960c-470d6ffd645a@sirena.org.uk>
+References: <20250108170356.413063-1-olivier.moysan@foss.st.com>
+ <20250108170356.413063-3-olivier.moysan@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-
-The STM32MP257F DK board features an ADV7535 HDMI bridge,
-which belongs to the ADV7511 bridges family.
-At startup the Pipewire audio framework parses the audio devices to
-discover their capabilities. The capabilities reported by the ADV7511
-driver are not accurate enough, which results in warning messages from
-Pipewire.
-Adjust the capabilities reported by the ADV7511 driver, to more
-accurately reflect its actual capabilities.
-
-Changes in v2:
-- Re-order patches
-- Set no_spdif_capture flag
-
-Olivier Moysan (3):
-  drm: bridge: adv7511: fill stream capabilities
-  ASoC: hdmi-codec: allow to refine formats actually supported
-  drm: bridge: adv7511: remove s32 format from i2s capabilities
-
- drivers/gpu/drm/bridge/adv7511/adv7511_audio.c | 5 +++++
- include/sound/hdmi-codec.h                     | 1 +
- sound/soc/codecs/hdmi-codec.c                  | 4 ++++
- 3 files changed, 10 insertions(+)
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="AICZ0BGAZMK3hfk5"
+Content-Disposition: inline
+In-Reply-To: <20250108170356.413063-3-olivier.moysan@foss.st.com>
+X-Cookie: You'll be sorry...
 
 
-base-commit: 08767822ac114d510cf6861349e805a4c156dcbc
--- 
-2.25.1
+--AICZ0BGAZMK3hfk5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+On Wed, Jan 08, 2025 at 06:03:55PM +0100, Olivier Moysan wrote:
+> Currently the hdmi-codec driver registers all the formats that are
+> allowed on the I2S bus. Add i2s_formats field to codec data, to allow
+> the hdmi codec client to refine the list of the audio I2S formats
+> actually supported.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--AICZ0BGAZMK3hfk5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmd+tF0ACgkQJNaLcl1U
+h9A6uAf+KCRjDfjMSPoVkSLJh/fAGdDbRdusmyhr/nvmCax9FGaclaM/TDr83kmn
+GRdMve0OW9x1sGjPVLycncH5JVsipMKOH11XrxmBpjAx+yhs+98VZOYu+bxneROp
+TJpmrUpyx/IEpyHzuguXCGn9CUi1qgCYpJ0s3IOWdaqP37kAz4cJv8QBYOpmM89V
+5fuW6UvvEA6emDoIO/stutFQsOZdJwquKz5QoHogm8AKnVrbLEq5xixcXt9+gHqY
+Fe513VTzuSgXeCINdwEijvcOHsJY1eoUc+WGrCnekCg/SYL1StvrdDMX+RTVz9Cm
+Y8xRKWG4M7NdiSuPDgsu3C+LpIMtqw==
+=ny3b
+-----END PGP SIGNATURE-----
+
+--AICZ0BGAZMK3hfk5--
