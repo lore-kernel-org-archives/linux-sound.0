@@ -1,153 +1,131 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30FB1F869E;
-	Wed,  8 Jan 2025 10:58:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDDA188713;
+	Wed,  8 Jan 2025 11:00:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736333892; cv=none; b=mfrjKp7p7As57Qnf47w7DZv6gItGgN1bcE9ynbBcDSp0Fv8oxVKhzW93onizGOY53vulyQhtiAKyVSsXYo1gfshAQHyQGoRAsYjD49Q6VyU0tYYPag6K9UB7awH47IR/J1EK9qqoVv5CsbuUCNnSV2RJ8dQLZiwNssffD0b2pQU=
+	t=1736334058; cv=none; b=dJ4h0WnCvj9Bj/0yUM3ohxlag1bbzsSYlt4wHu2uJ+bSwAVarB1Pp7pATc4L9MAi2NGpSO8J+t8WonRJBC4NcOUchhzE9uD+d3AlNxnaizARVvssVXYausTUWSoLWfgyKc3LBGjPDvrvCNXZCAFevrsd7mtCU81n5VBQttIVFRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736333892; c=relaxed/simple;
-	bh=IgfkRIrIH0RMY0k48NEmL3C4c5XUZOUlbe0a0KYQxQE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=US6D8eY4Aikin+1V7lpSjfUmoTOCw+Bw6XG3DfOLFyW4YYaPhlKF+TPd+NrYLKnalJP+rY8zXB9913dsKTvsFgGSqep7AQTP1EbIifPhcZtdO/FVfueld7vh+GB0zEoYUgaN/mgvfhXuuAkJnsAhvoiRuFqlbHfaI18mRjEZH4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1736334058; c=relaxed/simple;
+	bh=zyGQtcZopqVVf1MmyYLCihSaTQ90pdF+oGAk1HMuDN0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XXYFVNGD5qyfwpTL4txJoUHAMs0qkh2zuCUEXSxuKbFSf4GG59fijKPBgNjQVLXpmzfgqalJGkawuhcohbw77prQlhjspuKDQKXh0SWCkd5AYMHwaNb3Y1AHDrX54BDDYTtWGctUOO15I1ilRpRyZMkfr+ll3dRSas2YcUw7aWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYGJkNfq; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-4afd68271b6so4171869137.0;
-        Wed, 08 Jan 2025 02:58:10 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYGJkNfq"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43675b1155bso159823605e9.2;
+        Wed, 08 Jan 2025 03:00:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736334055; x=1736938855; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nfF6qmOoxm6fuPMOfSX3I5ZVSTqP83B7aYDROD3Hgw8=;
+        b=ZYGJkNfqCaYC0hGf4T7MDrXheiX9jDPy4lEo7Fpgz57T66ZCgTGMrVwgqw8sucjLNy
+         xvzxpY033N29BpRVRHIwRp6Q19qOAxOtIQ7beYyVn0wfdXbU0BMK0zfuZAQFUwtbOwn8
+         dZJPuDwxU7iC0jEFFHz6HLr8Yy9QTswVrPP4keBKjQcj53iY6IaYmYckLKmzAyo0uGUr
+         u4JQn6gfJOYxt0mIYzMppKf9vlwgHqh/SbGwPIwkjeI6RH0NCuI2jkl60j7YaMAW0KdW
+         nqqqoHVA/uaO/GF3fZT6+cIDjDLLKl344MInnmdC/sOq7sJBt3sgQm9kRrlfL0PlCy2s
+         2GOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736333889; x=1736938689;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3qAy8MfUpz5XF23Y6J7TSgyJxjCjgcUeNlspx66UCbI=;
-        b=bVFXfY9HFFWCzmGCikShsmt4Gg/uRy9/9mSRkx3uICrhndeDBSaus+8d5Bn8QggpCq
-         HXPsDS9EM2ZDujPNHHAtQDSb8F2TT480Dctv8Eoveq9bqnBf5Ca3OzYsqfPdw2Af3G5a
-         t4mNcg0ZO9nEYtpxKCbmID0xRIi1IsGxoseXFkJ1TbNY69KvQyWQuREpX4PhFrg31RZV
-         iALzbkoHPTN+qdl4rcuLgVFHOxjRHgq1Qyodv56ZfQ5GmyNl12kzxo7IjGUibDKO5Cyo
-         hu9BBkTdj0mGyoWaco6kCXTXQmaGZhx83FSyrhuqC55NapgbdEjPF2GPifiAPzVjAUuL
-         EfqA==
-X-Forwarded-Encrypted: i=1; AJvYcCU/r/fYTqihJhmsv3fiPNXkchEJR6BVG0d8pslHhgzO/L1K0nUyWuqdoib+D9V1MoYYwcP7z8TBKMvxHW0=@vger.kernel.org, AJvYcCVnEfb4IDj+zdp4r4excJG1Pzr3AWMhtCfmtdzcrwDUX2t9MozXYAiB4r5NjnJtyH0zjZI1nd1Q6QJ+oowSfCA=@vger.kernel.org, AJvYcCWAoi6JkeAHRgF0a0Sqh4RlmzKWlYAPfEUr8PZC53itaZ6HaPjRUUwpKj6bMnoNmxrDkH7VFIqK0oLT3vVI@vger.kernel.org, AJvYcCWLkv3ItWTBaUIWY19mE9vEUlj+F8l7UOEW9VEV1kkFzVVYtZk3n+K1xcycTobyL5YHn69WqM1h2RZNc/7H7H1U7ds=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKt0rOz/iIjI5VjY270FA8haJhWYcxn0n8HAbymSpO8tYhvy8A
-	BM7oOdlfzkK3BknVtLa4/DwLytkXFDZ9oWlZikixqsd/wF9sfvXhc+U48DYW
-X-Gm-Gg: ASbGncurxhPFQofHzgOWRkpSk092buSTajN94JF1W9kfWzgvrTxIcZt+PKQ19ajzZkb
-	D+Vz+/cLFl+4CCxkcUoC3aRvqSdj7rgC3RSihGZmIDPJeH1Y3ypx44iagh7IXUhcnKmW0gUNSNc
-	mRfY8cB8NIKJeKC+kEag2zbhodZJLyECrfGHlRAIhHBO3htNO71u4x9z1LvssxKYuOK90o7epZk
-	IQLk72mjiK3161LNRctpKVOYL7UzpaMA4hj7s36awLSX5z1pnYuv402eeS858iucJ8n3RViMD7e
-	giLjG9Gn3NwJbJL0izaeRSQ=
-X-Google-Smtp-Source: AGHT+IGlta3OccSl8X/5m7W5W92aQV1qMJhWZ6wQf56o1o9rAvQuzuc4sb0JPiYfxRXPU78t9E5pGQ==
-X-Received: by 2002:a05:6102:b02:b0:4b2:cc94:187e with SMTP id ada2fe7eead31-4b3d0fb4cfemr1417056137.18.1736333889051;
-        Wed, 08 Jan 2025 02:58:09 -0800 (PST)
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com. [209.85.221.174])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4b2bf81560fsm8810256137.0.2025.01.08.02.58.08
+        d=1e100.net; s=20230601; t=1736334055; x=1736938855;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nfF6qmOoxm6fuPMOfSX3I5ZVSTqP83B7aYDROD3Hgw8=;
+        b=OpOh/E7hNGKVCVpW4X9R2NvS8JPkCNrhyML6NWRfKaogSoy+XoecHCGPCqH8/4nx5R
+         3BHXC2V3EKAhawRKl48wm1u4xUFrqVxj1hu+R9o1nXvSwW4enjO2GcdzLWVYXC62sTvr
+         Nzf3tekbyrh/ePlQbb9wu2UusxrVH1+0+3OFKXXaqL00mRX5Oqd5g48WcFk11P66/oY8
+         5xdZsKjqEhFVdj81IcpyKBj0PysO383oM8lks7HbpFLYu1O/poXIPqf+Yh2pwI0aklVT
+         jcPWBZM5IJPUaDlDeMMTTFayquksRFVad5/Tt4kzfJ42E5C6uPM5f7fG2w9I+gN5zX4A
+         21IA==
+X-Forwarded-Encrypted: i=1; AJvYcCUuBdCgpGh51iUJs61+8PAO+emy4Z04VROnoY0uCDe0QPp8oiJQWZceJQwJrJgIG5Xx8ZKC7secu1O9gqU=@vger.kernel.org, AJvYcCWzuCmKRnpisAV68SJwnqUPzyESEPuXNbw88PERetGdtyk4zWYZq37THKz67bGEdl9RC0vdtjrcyBwRlHE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+MfLR0PB63mbuFWzjTSWwc+bwtg+Vvs6sCIUOpoRJ6nFTV4W5
+	wl+8uqJuwsYqIPIBQxo+CirL+SfwkjteCFa09Jhw5C5BLqtq0UJi
+X-Gm-Gg: ASbGncuW9LeQseR73pF1fhosLn+PxxSo47C3fFhwBhOi4t0q3tFMHt91zB/Bk2+8UdD
+	Eo5zWdQ2AcbF85rgNSPdapmkB7TV9/PlmHbeH/0VetK3Q2g93y7ZA5RGbbMctCnvMbtmgKVQxDF
+	eEJF/lqb8GFwUGtv2+cG8ema53S9hVRcpHN4wzOhuMu/NDI04k1gvEkC+6KiyIXj1V2aknvZ+u9
+	Je9GDBNqhxX67QElvg8qS7qkKcM53vFWfJW7n3lPls9y+wcTjW6klTviRxcRcXvkdZ/phKoyx9+
+	Cg5cWw==
+X-Google-Smtp-Source: AGHT+IF7djzTQ6cnkvgYCpe8Vb67fK69QPDrp5Oo9Lrk3N/toT6EMw2+pE+Qx1jvUfA4kw2REQsNDw==
+X-Received: by 2002:a05:600c:4fc6:b0:435:172:5052 with SMTP id 5b1f17b1804b1-436e2686492mr17267625e9.1.1736334054994;
+        Wed, 08 Jan 2025 03:00:54 -0800 (PST)
+Received: from [192.168.4.226] ([92.120.5.1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a1c829015sm52630214f8f.13.2025.01.08.03.00.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 02:58:08 -0800 (PST)
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5187f0b893dso5367834e0c.3;
-        Wed, 08 Jan 2025 02:58:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUNPi06WZ6bpZhtQ8om5RsmNH3Z6hOVOlttn7im1vU9wCPfKC2xyPek4OcDPNh2o2lDyEJ3vEJRuQ8SWB8=@vger.kernel.org, AJvYcCUSQ96CrbFE6TC6RZS1I/l32iGsCvR1SxiffNcnt1JAOM+UENa0r3/3o2JuMDhRutRsI7LZ1yW6FzBiX0sCBj1AEnU=@vger.kernel.org, AJvYcCVE+KmBI++LlGRR3DZ4tmyB+UTAqnA5g6/mtnSFLzuDgqJbtb1aAXoo4HVo07kPuydBEpEbE6ymTTLQBsMiJ4o=@vger.kernel.org, AJvYcCVQN7pUHV/hS09RkN7WpNKd5r/ZcAObJCoRRpFUEMUx+OXh+B52ktKm/edtMISb7/p7nAfsAP90LX+vnUtW@vger.kernel.org
-X-Received: by 2002:a05:6102:290f:b0:4b2:5d63:a0f3 with SMTP id
- ada2fe7eead31-4b3d0f2d89cmr1249926137.15.1736333888589; Wed, 08 Jan 2025
- 02:58:08 -0800 (PST)
+        Wed, 08 Jan 2025 03:00:54 -0800 (PST)
+Message-ID: <197add46-752d-4779-98ff-1cde2543dd63@gmail.com>
+Date: Wed, 8 Jan 2025 13:00:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
-In-Reply-To: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 8 Jan 2025 11:57:56 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWRm0UtJ+vZgmizjHW6y7gCfLoWapjC3Hh0w3ABWOG9YA@mail.gmail.com>
-X-Gm-Features: AbW1kvb5i2-wZANeYH767MiRLuwQWXqzOunWrI-QWkodDd2bRT26PqJpN_LSZ2Y
-Message-ID: <CAMuHMdWRm0UtJ+vZgmizjHW6y7gCfLoWapjC3Hh0w3ABWOG9YA@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Add a check for negative sample_space
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] ASoC: simple-card-utils: fix priv->dai_props indexing
+Content-Language: en-US
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241220151213.2462-1-laurentiumihalcea111@gmail.com>
+ <87h66v8bsc.wl-kuninori.morimoto.gx@renesas.com>
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+In-Reply-To: <87h66v8bsc.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dan,
 
-On Wed, Jan 8, 2025 at 10:29=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> My static checker rule complains about this code.  The concern is that
-> if "sample_space" is negative then the "sample_space >=3D runtime->channe=
-ls"
-> condition will not work as intended because it will be type promoted to a
-> high unsigned int value.
+
+On 12/23/2024 2:48 AM, Kuninori Morimoto wrote:
+> Hi Laurentiu
 >
-> strm->fifo_sample_size is SSI_FIFO_DEPTH (32).  The SSIFSR_TDC_MASK is
-> 0x3f.  Without any further context it does seem like a reasonable warning
-> and it can't hurt to add a check for negatives.
+> Thank you for the patch
 >
-> Cc: stable@vger.kernel.org
-> Fixes: 03e786bd4341 ("ASoC: sh: Add RZ/G2L SSIF-2 driver")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-Thanks for your patch!
-
-> --- a/sound/soc/renesas/rz-ssi.c
-> +++ b/sound/soc/renesas/rz-ssi.c
-> @@ -521,6 +521,8 @@ static int rz_ssi_pio_send(struct rz_ssi_priv *ssi, s=
-truct rz_ssi_stream *strm)
->         sample_space =3D strm->fifo_sample_size;
->         ssifsr =3D rz_ssi_reg_readl(ssi, SSIFSR);
->         sample_space -=3D (ssifsr >> SSIFSR_TDC_SHIFT) & SSIFSR_TDC_MASK;
-> +       if (sample_space < 0)
-> +               return -EINVAL;
+>> As of commit cb18cd26039f ("ASoC: soc-core: do rtd->id trick at
+>> snd_soc_add_pcm_runtime()") the ID stored in the PCM runtime data can
+>> no longer be safely used to index the priv->dai_props array. This is
+>> because the ID may be modified during snd_soc_add_pcm_runtime(), thus
+>> resulting in an ID that's no longer a valid array index.
+>>
+>> To fix this, use the position of the dai_link stored inside the PCM
+>> runtime data relative to the start of the dai_link array as index into
+>> the priv->dai_props array.
+>>
+>> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+> (snip)
+>> +#define runtime_simple_priv_to_props(priv, rtd)					\
+>> +	((priv)->dai_props + ((rtd)->dai_link - (priv)->dai_link))
+> Oh yes, indeed.
 >
->         /* Only add full frames at a time */
->         while (frames_left && (sample_space >=3D runtime->channels)) {
+> But I wonder it is needed not only utils, but all drivers
+> (= simple-card/audio-graph-card/audio-graph-card2).
 
-In practice this cannot happen, as the maximum value of the field
-is 0x20 (=3D SSI_FIFO_DEPTH), but better safe than sorry, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+At this point I'd say there's no need to do the replacement anywhere else. That's because the code
+still using simple_priv_to_props() makes use of the link number to index the array, which is fine.
+This is opposed to the PCM runtime data ID that may not correspond to a link number, thus making it
+unfit for use as an array index.
 
-Biju/Prabhakar: The documentation for the TDC bits in the FIFO Status
-Register seems to be incorrect (in all of the RZ/G2L, RZ/G2UL, RZ/G3S,
-and RZ/A2M documentation):
+>
+> Why don't you just replace macro ?
+>
+> 	- #define simple_priv_to_props(priv, i) // old macro
+> 	+ #define simple_priv_to_props(priv, i) // new macro
+>
+> Or, do you have any reasons ?
+>
+> In replase case, we would like to have the comment not only git-log but
+> on header too.
+>
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
 
-    TDC[5:0] Bits
-    These bits indicate the number of valid data that are stored in
-    the transmit FIFO data register (SSIFTDR). With this flag as H=E2=80=99=
-0,
-    there is no data to be transmitted. With H=E2=80=9910, there is no spac=
-e to
-    write data.
-
-As the FIFO size is 4 bytes x 32 stages for both the transmit and
-receive FIFOs, the above should be H'20 instead of H'10.
-
-The documentation for the RDC bits has it right:
-
-    RDC[5:0] Bits
-    These bits indicate the number of valid data that are stored
-    in the receive FIFO data register (SSIFRDR). With this flag as H=E2=80=
-=990,
-    there is no received data. With H=E2=80=9920, the register is filled wi=
-th
-    received data and there is no free space.
-
-The documentation for RZ/A1H (not yet supported by the driver)
-is also correct (8 stages and H'8).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Thanks for taking your time to review this and sorry for the (very) late reply!
