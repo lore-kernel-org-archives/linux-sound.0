@@ -1,45 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDE515B99E;
-	Wed,  8 Jan 2025 14:48:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1781FF1C4;
+	Wed,  8 Jan 2025 16:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736347686; cv=none; b=ETm0q6zTtD4TrMCekMEcDmw4YaRayYFUfe4wi4tjhHL46/LSOAdcTpDa1trPDl9ZOxaP4GmEvGHioGr/2d6I7ELgwQqTr6rV52mA61L7lbHQUpNfUYxW15I8pWaDeycIkhZk7k6bMs7/o6WE3FAB4xBEKsQDiahYAhq42Wxjurg=
+	t=1736353358; cv=none; b=sDq1FmptAjZTy5bI88bSOxSmZOuyJNBdb8lcriMHq2TkyXRekPHj2mJJhNpvPnekUWhqxVb6lL+0SNGDlvUHK1Rl+x7LSJaqLh1263/ASUmaFN2d3d0IPYwUySD2hgHv7MGBKqClhRPoC6F6WDISu5w8LdBNbdRTespWUPetEUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736347686; c=relaxed/simple;
-	bh=NxTtR1K2YZHJIUWkMeyKHIFszBgiS5+igLz0WjHsgfM=;
+	s=arc-20240116; t=1736353358; c=relaxed/simple;
+	bh=+VGNqbgBw8AwiN9n3SgJEcfLQUc+Y5DWxIQInEJRV8c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Vup2w8f/7EYCvtJiSrgFi3EPya1WzSrncdhDCh4ytLawyyBWSZ0tfEaC8kCvR8hGgb5CGndTioXrg3kpfhIDug0tweHQ5kWjw+XWrv53m4oinwKgDfrpei/M5lgfbyD4MuNpCtDT3lPQb15Hc6nzOfR/RD0FZJOha9XHJYItGoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tTdUg8GN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=BY/Z5iL/u5hl2QRhiotfJMGBFhY+oLqBqnz8ccCzAW95Hq+H9mNwURFcZO5dYRzXfC6W2w5nvF1bbnVh0MTZxpplBmZprJubzvDuqebNdKZnHUvThvSzng83DWSUDCE4cPDpdm09gmG/MgRf2qhTdYJwn94fUQ2PQeOyd6Rc0cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X466YpNw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tTdUg8GN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D74A9C4CEDD;
-	Wed,  8 Jan 2025 14:48:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X466YpNw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 362A0C4CEE2;
+	Wed,  8 Jan 2025 16:22:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736347686;
-	bh=NxTtR1K2YZHJIUWkMeyKHIFszBgiS5+igLz0WjHsgfM=;
+	s=k20201202; t=1736353357;
+	bh=+VGNqbgBw8AwiN9n3SgJEcfLQUc+Y5DWxIQInEJRV8c=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=tTdUg8GNax8Ws/gI7ixtfT81VHxUZEgsykOZqpZ/S8IQkuvEwLbZlq5lFhrUJmDkD
-	 C46CQAHYboCGxzcDzXjJKYjUi7dZF0tvqfJjii/zFbUJRSGdFxpZT5NQxdo5ihYz2K
-	 p2LVig0YfwxEUw4lvUpgBUNADrGqMYlYGkubACEUoZ0ZWROqirF3a6uT+izQeznvuI
-	 kOWTsgGoL6u+XkTJMdCtJoJn76jY8LQBl38/NvfijlSxfz0JhQAj7GuTCGWjXC5pQ5
-	 nbEoPPNcHO1cwoH/Sc/b7xQQDQRWXEJRx2ozsJ3IO0DWg+3frCWzN3ORb8IfQRw0eW
-	 trmyFdlJmjUJQ==
+	b=X466YpNwY8MEv2Hft3epY8NzUYYUrCn8IlLD38cE8l2qzhhol53UUxwmXPrz2EkRo
+	 WHMN37dTUIcwYRixH7lfb21R/ELGmQLV+Tg6JoaEzGMfXMOxdz+5A3Cgh/cHZ3vRbU
+	 UgqyUp2KEDeHbNkDsd49GfL1LK1wW2/iFbFYfb/Ixr/Rl6vPfkdlfgr7QZpL2GFm5P
+	 06Q+nBCHJ3intjXaEZGZr4txI4uAureGzrmwgABymuORxbhYJ1O3tSZRSC/V+VMUg8
+	 r8gt6FUk+FGimjxdlbQJonFetrH3Bekc9Kh/OHeeSwpuvf6LmWxPsnVPAItQwIZRSI
+	 Abvz9HmIQxoDg==
 From: Mark Brown <broonie@kernel.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org
-In-Reply-To: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
-References: <e07c3dc5-d885-4b04-a742-71f42243f4fd@stanley.mountain>
-Subject: Re: [PATCH] ASoC: renesas: rz-ssi: Add a check for negative
- sample_space
-Message-Id: <173634768360.57096.9164270045125879919.b4-ty@kernel.org>
-Date: Wed, 08 Jan 2025 14:48:03 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Linux-Kernel <linux-kernel@vger.kernel.org>, 
+ linux-sound@vger.kernel.org
+In-Reply-To: <87v7uqkpye.wl-kuninori.morimoto.gx@renesas.com>
+References: <87v7uqkpye.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v2] MAINTAINERS: add missing maintainers for Simple
+ Audio Card
+Message-Id: <173635335692.82702.13862032000740084108.b4-ty@kernel.org>
+Date: Wed, 08 Jan 2025 16:22:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -50,17 +46,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Wed, 08 Jan 2025 12:28:46 +0300, Dan Carpenter wrote:
-> My static checker rule complains about this code.  The concern is that
-> if "sample_space" is negative then the "sample_space >= runtime->channels"
-> condition will not work as intended because it will be type promoted to a
-> high unsigned int value.
+On Wed, 08 Jan 2025 02:22:43 +0000, Kuninori Morimoto wrote:
+> Mark Brown will take the patch. Add his name.
 > 
-> strm->fifo_sample_size is SSI_FIFO_DEPTH (32).  The SSIFSR_TDC_MASK is
-> 0x3f.  Without any further context it does seem like a reasonable warning
-> and it can't hurt to add a check for negatives.
 > 
-> [...]
 
 Applied to
 
@@ -68,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: renesas: rz-ssi: Add a check for negative sample_space
-      commit: 82a0a3e6f8c02b3236b55e784a083fa4ee07c321
+[1/1] MAINTAINERS: add missing maintainers for Simple Audio Card
+      commit: 1acb73db4893345d5811f48f1ff979cec495009e
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
