@@ -1,46 +1,46 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AA6155382;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA053176AA1;
 	Wed,  8 Jan 2025 01:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736299368; cv=none; b=EFT3oQqF0VqS6PsPVZetFmNehHZaMt6N2zybAz1Bv/BoQl7hOOPPZFTDEvGKsLopQdGvxsTS6Gum3Fxd65oH/xiFCgley5uXSDYrIqsW9SJrAgKxlETe4JIurA9NmJF9Knhr9mJ6fz0FoD79UWH9h6j/cRYMTt6TWQ7ILhfjxsw=
+	t=1736299368; cv=none; b=DLKWURUpNJ80tqKjkTsxaivAEf4ogVU0UHt2adXth9wWFeamgHTUVwmcFXVFYKWDktOgbQ5vYUjnmvN8z5KoOwO1UwZ4+o9JJIRjaOnolUP3F2Vm1PT64gCmzKcJ9VjnYgzjOy8WQIl4+JGXXb+6dl6HZfaGGuoC2Ns/bcvdUd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736299368; c=relaxed/simple;
-	bh=00ovhSUsrpqPmeg9Z97Mold1re0pm4qXWH7dZbojWMc=;
+	bh=vIqXElz3WLdaatP5kgZ1Mhqks2gFIM7XwbAmhm+0NnU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mHAG7RkVzr3Vor630q1iOgoiRtRCTN5NfmwV7RCduJC9ueRKsArZO7bf8FNBbjvAxrcsbGtQDPTfzxsOZdXlL6IEObsDRLPwjLnldxehvSbzBUnjDDS6MWpkiHhIOhxc/hCqymYDW2agQMGGyvS1Q6w1M/LE35x8szCvKadul3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Bx5/pd5x; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=HJYi+cWP/e0SlQzJT3sJ9r06lyA3OG3d054gIewdcDw4pu5tkp9X1txZ/T5krxhn00cfP6buIIYGUN9cUdhrPqsraXfA/ASK+q/qKAVzn02Qioh4TjBn4yjPwhOS3jRyACPKNfoGfv7+KL62MBKKcmRzTdXyKFIn5PO8Bo3w+/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=eE0uTr4n; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Bx5/pd5x"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507E4TMt016204;
-	Wed, 8 Jan 2025 01:22:27 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="eE0uTr4n"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 507L7HBn026926;
+	Wed, 8 Jan 2025 01:22:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IdzR6SU8FWDkEFEo5Q8AckTbqJJi2y2HoHkJbCidabY=; b=Bx5/pd5xk9ehwwzj
-	24Mm95MDmwRD869AiOnlBm27bXo74ejMjZrweMt9mnYPagLvZqB3g4RKAMXQtzsW
-	4g9H10BDXeHBlF51vYJLtKFmnQ0U0NG7mnFKcXbiqO8U0zIEuW9o4HWj/Cc894dF
-	1HaQv0Li9kGsCuzOANZbguUNfOxLifzjiaZ38tTNqFJ3bL4AR+4y5tGdttAWVlSI
-	Gqlm4Qb8+mVnKbK5K2zz6xqgvETIKSBRJJ1IQxFr+o1ENUdRWgYFHj7BADCb8Vic
-	EnG5EViPdjCAUL1fsKSzn0jH14PztS2ijvdVeh8iZCCt5xKiNrj+kLJxTfP7XZv/
-	N6UAYw==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4415qahg00-1
+	00W/w2AvmHYfLFyIEJIq5Hywn8MCnDfcMbNsFyuTHWw=; b=eE0uTr4nqedzyva/
+	gmjhG86yaVCzyY0vjF33q5GlGoFpqjegmXUdisG/64/r7CX2uLpKka5d31yt1h5h
+	6oTJlKVqi+IQLR8G63tZzt6N5DOZgMWFwn1VSnbs9GzTA+msjGDSbcrfmzs/hGvG
+	yfseC2MghW7jt01mW6ipdCX3wd9zDxsmhdw05W9BwMelq2lfPDmgBsA4Q+A5r/4B
+	4sgBiLG0TStUNhQZ+MnsGNSTgE1u5Jy2b5OYYGCVdvNLhV26LxzIPyY7RR4FPCwL
+	NAwGFhPK9wWyta5qKqgnQWi9ucMCkM0SQFLrxavK9eZlbB6dt9D7BQ27okgj4qv2
+	Rmugcw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 441bvq0e6x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 Jan 2025 01:22:26 +0000 (GMT)
+	Wed, 08 Jan 2025 01:22:33 +0000 (GMT)
 Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5081MQVg027979
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5081MWfE023642
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 8 Jan 2025 01:22:26 GMT
+	Wed, 8 Jan 2025 01:22:32 GMT
 Received: from hu-wcheng-lv.qualcomm.com (10.49.16.6) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 7 Jan 2025 17:22:25 -0800
+ 15.2.1544.9; Tue, 7 Jan 2025 17:22:31 -0800
 From: Wesley Cheng <quic_wcheng@quicinc.com>
 To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
         <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
@@ -52,9 +52,9 @@ CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-sound@vger.kernel.org>, <linux-input@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>
-Subject: [PATCH v32 06/32] usb: host: xhci: Notify xHCI sideband on transfer ring free
-Date: Tue, 7 Jan 2025 17:21:47 -0800
-Message-ID: <20250108012213.1659364-7-quic_wcheng@quicinc.com>
+Subject: [PATCH v32 27/32] ASoC: qcom: qdsp6: Fetch USB offload mapped card and PCM device
+Date: Tue, 7 Jan 2025 17:22:08 -0800
+Message-ID: <20250108012213.1659364-28-quic_wcheng@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
 References: <20250108012213.1659364-1-quic_wcheng@quicinc.com>
@@ -70,165 +70,173 @@ X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: eteVyTk1cI7sydYjOPfxpr5bvJ-iQpRh
-X-Proofpoint-GUID: eteVyTk1cI7sydYjOPfxpr5bvJ-iQpRh
+X-Proofpoint-ORIG-GUID: fANeS-fazGRfkd1tdXWg9EYXtvuVjCvf
+X-Proofpoint-GUID: fANeS-fazGRfkd1tdXWg9EYXtvuVjCvf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 mlxscore=0 phishscore=0 impostorscore=0 mlxlogscore=825
- suspectscore=0 bulkscore=0 spamscore=0 clxscore=1015 malwarescore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ suspectscore=0 adultscore=0 spamscore=0 impostorscore=0 bulkscore=0
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2411120000 definitions=main-2501080007
 
-In the case of handling a USB bus reset, the xhci_discover_or_reset_device
-can run without first notifying the xHCI sideband client driver to stop or
-prevent the use of the transfer ring.  It was seen that when a bus reset
-situation happened, the USB offload driver was attempting to fetch the xHCI
-transfer ring information, which was already freed.
+The USB SND path may need to know how the USB offload path is routed, so
+that applications can open the proper sound card and PCM device.  The
+implementation for the QC ASoC design has a "USB Mixer" kcontrol for each
+possible FE (Q6ASM) DAI, which can be utilized to know which front end link
+is enabled.
+
+When an application/userspace queries for the mapped offload devices, the
+logic will lookup the USB mixer status though the following path:
+
+MultiMedia* <-> MM_DL* <-> USB Mixer*
+
+The "USB Mixer" is a DAPM widget, and the q6routing entity will set the
+DAPM connect status accordingly if the USB mixer is enabled.  If enabled,
+the Q6USB backend link can fetch the PCM device number from the FE DAI
+link (Multimedia*).  With respects to the card number, that is
+straightforward, as the ASoC components have direct references to the ASoC
+platform sound card.
+
+An example output can be shown below:
+
+Number of controls: 9
+name                                    value
+Capture Channel Map                     0, 0 (range 0->36)
+Playback Channel Map                    0, 0 (range 0->36)
+Headset Capture Switch                  On
+Headset Capture Volume                  1 (range 0->4)
+Sidetone Playback Switch                On
+Sidetone Playback Volume                4096 (range 0->8192)
+Headset Playback Switch                 On
+Headset Playback Volume                 20, 20 (range 0->24)
+USB Offload Playback Route PCM#0        0, 1 (range -1->255)
+
+The "USB Offload Playback Route PCM#*" kcontrol will signify the
+corresponding card and pcm device it is offload to. (card#0 pcm - device#1)
+If the USB SND device supports multiple audio interfaces, then it will
+contain several PCM streams, hence in those situations, it is expected
+that there will be multiple playback route kcontrols created.
 
 Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 ---
- drivers/usb/host/xhci-sideband.c  | 29 ++++++++++++++++++++++++++++-
- drivers/usb/host/xhci.c           |  3 +++
- include/linux/usb/xhci-sideband.h | 30 +++++++++++++++++++++++++++++-
- 3 files changed, 60 insertions(+), 2 deletions(-)
+ sound/soc/qcom/qdsp6/q6usb.c | 98 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 98 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
-index 6b58d29f57cd..cd1bdba6a9e3 100644
---- a/drivers/usb/host/xhci-sideband.c
-+++ b/drivers/usb/host/xhci-sideband.c
-@@ -88,6 +88,30 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
+diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+index d3698dcecca0..f77c8fe45d18 100644
+--- a/sound/soc/qcom/qdsp6/q6usb.c
++++ b/sound/soc/qcom/qdsp6/q6usb.c
+@@ -132,6 +132,103 @@ static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *compone
+ 	return ret;
+ }
  
- /* sideband api functions */
- 
-+/**
-+ * xhci_sideband_notify_ep_ring_free - notify client of xfer ring free
-+ * @sb: sideband instance for this usb device
-+ * @ep_index: usb endpoint index
-+ *
-+ * Notifies the xHCI sideband client driver of a xHCI transfer ring free
-+ * routine.  This will allow for the client to ensure that all transfers
-+ * are completed.
-+ *
-+ * The callback should be synchronous, as the ring free happens after.
-+ */
-+void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+				       unsigned int ep_index)
++static int q6usb_get_pcm_id_from_widget(struct snd_soc_dapm_widget *w)
 +{
-+	struct xhci_sideband_event evt;
++	struct snd_soc_pcm_runtime *rtd;
++	struct snd_soc_dai *dai;
 +
-+	evt.type = XHCI_SIDEBAND_XFER_RING_FREE;
-+	evt.evt_data = &ep_index;
++	for_each_card_rtds(w->dapm->card, rtd) {
++		dai = snd_soc_rtd_to_cpu(rtd, 0);
++		/*
++		 * Only look for playback widget. RTD number carries the assigned
++		 * PCM index.
++		 */
++		if (dai->stream[0].widget == w)
++			return rtd->id;
++	}
 +
-+	if (sb->notify_client)
-+		sb->notify_client(sb->intf, &evt);
++	return -1;
 +}
-+EXPORT_SYMBOL_GPL(xhci_sideband_notify_ep_ring_free);
 +
- /**
-  * xhci_sideband_add_endpoint - add endpoint to sideband access list
-  * @sb: sideband instance for this usb device
-@@ -344,7 +368,9 @@ EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id);
-  * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
-  */
- struct xhci_sideband *
--xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
-+xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-+		       int (*notify_client)(struct usb_interface *intf,
-+				    struct xhci_sideband_event *evt))
++static int q6usb_usb_mixer_enabled(struct snd_soc_dapm_widget *w)
++{
++	struct snd_soc_dapm_path *p;
++
++	/* Checks to ensure USB path is enabled/connected */
++	snd_soc_dapm_widget_for_each_sink_path(w, p)
++		if (!strcmp(p->sink->name, "USB Mixer") && p->connect)
++			return 1;
++
++	return 0;
++}
++
++static int q6usb_get_pcm_id(struct snd_soc_component *component)
++{
++	struct snd_soc_dapm_widget *w;
++	struct snd_soc_dapm_path *p;
++	int pidx;
++
++	/*
++	 * Traverse widgets to find corresponding FE widget.  The DAI links are
++	 * built like the following:
++	 *    MultiMedia* <-> MM_DL* <-> USB Mixer*
++	 */
++	for_each_card_widgets(component->card, w) {
++		if (!strncmp(w->name, "MultiMedia", 10)) {
++			/*
++			 * Look up all paths associated with the FE widget to see if
++			 * the USB BE is enabled.  The sink widget is responsible to
++			 * link with the USB mixers.
++			 */
++			snd_soc_dapm_widget_for_each_sink_path(w, p) {
++				if (q6usb_usb_mixer_enabled(p->sink)) {
++					pidx = q6usb_get_pcm_id_from_widget(w);
++					return pidx;
++				}
++			}
++		}
++	}
++
++	return -1;
++}
++
++static int q6usb_update_offload_route(struct snd_soc_component *component, int card,
++				      int pcm, int direction, enum snd_soc_usb_kctl path,
++				      long *route)
++{
++	struct q6usb_port_data *data = dev_get_drvdata(component->dev);
++	struct snd_soc_usb_device *sdev;
++	int ret = 0;
++	int idx = -1;
++
++	mutex_lock(&data->mutex);
++
++	if (list_empty(&data->devices) ||
++	    direction == SNDRV_PCM_STREAM_CAPTURE) {
++		ret = -ENODEV;
++		goto out;
++	}
++
++	sdev = list_last_entry(&data->devices, struct snd_soc_usb_device, list);
++
++	/*
++	 * Will always look for last PCM device discovered/probed as the
++	 * active offload index.
++	 */
++	if (card == sdev->card_idx &&
++	    pcm == sdev->ppcm_idx[sdev->num_playback - 1]) {
++		idx = path == SND_SOC_USB_KCTL_CARD_ROUTE ?
++				component->card->snd_card->number :
++				q6usb_get_pcm_id(component);
++	}
++
++out:
++	route[0] = idx;
++	mutex_unlock(&data->mutex);
++
++	return ret;
++}
++
+ static int q6usb_alsa_connection_cb(struct snd_soc_usb *usb,
+ 				    struct snd_soc_usb_device *sdev, bool connected)
  {
- 	struct usb_device *udev = interface_to_usbdev(intf);
- 	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-@@ -383,6 +409,7 @@ xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type)
- 	sb->vdev = vdev;
- 	sb->intf = intf;
- 	sb->type = type;
-+	sb->notify_client = notify_client;
- 	vdev->sideband = sb;
+@@ -202,6 +299,7 @@ static int q6usb_component_probe(struct snd_soc_component *component)
+ 		return -ENOMEM;
  
- 	spin_unlock_irq(&xhci->lock);
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 514a36914ed9..972395d297f1 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -19,6 +19,7 @@
- #include <linux/slab.h>
- #include <linux/dmi.h>
- #include <linux/dma-mapping.h>
-+#include <linux/usb/xhci-sideband.h>
+ 	usb->connection_status_cb = q6usb_alsa_connection_cb;
++	usb->update_offload_route_info = q6usb_update_offload_route;
  
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -3909,6 +3910,8 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
- 		}
- 
- 		if (ep->ring) {
-+			if (ep->sideband)
-+				xhci_sideband_notify_ep_ring_free(ep->sideband, i);
- 			xhci_debugfs_remove_endpoint(xhci, virt_dev, i);
- 			xhci_free_endpoint_ring(xhci, virt_dev, i);
- 		}
-diff --git a/include/linux/usb/xhci-sideband.h b/include/linux/usb/xhci-sideband.h
-index 7ec23e6e27d0..233c3e16d804 100644
---- a/include/linux/usb/xhci-sideband.h
-+++ b/include/linux/usb/xhci-sideband.h
-@@ -21,6 +21,20 @@ enum xhci_sideband_type {
- 	XHCI_SIDEBAND_VENDOR,
- };
- 
-+enum xhci_sideband_notify_type {
-+	XHCI_SIDEBAND_XFER_RING_FREE,
-+};
-+
-+/**
-+ * struct xhci_sideband_event - sideband event
-+ * @type: notifier type
-+ * @evt_data: event data
-+ */
-+struct xhci_sideband_event {
-+	enum xhci_sideband_notify_type type;
-+	void *evt_data;
-+};
-+
- /**
-  * struct xhci_sideband - representation of a sideband accessed usb device.
-  * @xhci: The xhci host controller the usb device is connected to
-@@ -29,6 +43,7 @@ enum xhci_sideband_type {
-  * @ir: event handling and buffer for sideband accessed device
-  * @mutex: mutex for sideband operations
-  * @intf: USB sideband client interface
-+ * @notify_client: callback for xHCI sideband sequences
-  *
-  * FIXME usb device accessed via sideband Keeping track of sideband accessed usb devices.
-  */
-@@ -43,10 +58,14 @@ struct xhci_sideband {
- 	struct mutex			mutex;
- 
- 	struct usb_interface		*intf;
-+	int (*notify_client)(struct usb_interface *intf,
-+			     struct xhci_sideband_event *evt);
- };
- 
- struct xhci_sideband *
--xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type);
-+xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-+		       int (*notify_client)(struct usb_interface *intf,
-+				    struct xhci_sideband_event *evt));
- void
- xhci_sideband_unregister(struct xhci_sideband *sb);
- int
-@@ -70,4 +89,13 @@ void
- xhci_sideband_remove_interrupter(struct xhci_sideband *sb);
- int
- xhci_sideband_interrupter_id(struct xhci_sideband *sb);
-+
-+#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
-+void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+				       unsigned int ep_index);
-+#else
-+static inline void xhci_sideband_notify_ep_ring_free(struct xhci_sideband *sb,
-+						     unsigned int ep_index)
-+{ }
-+#endif /* IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND) */
- #endif /* __LINUX_XHCI_SIDEBAND_H */
+ 	snd_soc_usb_add_port(usb);
+ 	data->usb = usb;
