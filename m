@@ -1,86 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54277218E95
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 13:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 002CF218EBF
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 14:20:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736430334; cv=none; b=HoBSI92GxbepagmBGwu9h1glXyMo7DzYm7D1259C0pjMisHMeaF3yQp0bAEDazY3pVJCYT90nda5LJ485L3n6VXnIauu8kOVTCYh9145M0Re0ru5PFCj5QstMvA3nyxvIQg1ZazrgJwjhTRqAqedAYtwVSYY3EoYG1gOau3k1FU=
+	t=1736432408; cv=none; b=P3GhL/GBedrRvzBk/oqUsGJEPUiaD3Q6I2t/90oeM1KjIhLj+22IOLrfdXeQFa22ftxsPhEqUYBEOVd3KiCSSuLlvhqSEp1jebgXQaEHVBpwu8k1l2GLW+xY0uwZAdkcVDegCQXaB3klOAJa5yWzpxBDoNK5HPWSUCDFKVRdjOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736430334; c=relaxed/simple;
-	bh=bCbe74Hdo8DhwkJN7XUsYIOCGwkTMk0baZv0XiP6VmU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=PZTi0GB6UZm8ARTkcBuXhlcPtLIPFWQ14rY+iRp0k1nCWdTJ7heWim2QE8nMSP0Bw71LVK6lhRIoO3c/i8Q28nxdiblXSHY458d+/z+TYX7oGGCjKMcdU0/3IeRtErwd3Xgt/Fqs+rB0sa1K4G94Fzl4C79g7IRwjp89YUdua+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ife4W0Xa; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1736432408; c=relaxed/simple;
+	bh=g70CgL+QVxsJNSoOwmA2Qar2ER4oNsBUScYDhEoC620=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jtiXEMDpdC5xMlwS1IKx+XQuKQ4h/LHN7tfV1akFWQUKSYUX+8YylTGWvs9BhehKLIo4wNECPIgK65dYRb8mrGR/WZ9EpExYsn2MYFATrqlwyXtLEuWEO9GmiUTWi3LiFm56zrcm0gaMoT6UAIf9hLkvF937rDVgcC1DVFteWls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GE7nK810; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Yj+5dNHy; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GE7nK810; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Yj+5dNHy; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ife4W0Xa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736430334; x=1767966334;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=bCbe74Hdo8DhwkJN7XUsYIOCGwkTMk0baZv0XiP6VmU=;
-  b=Ife4W0XaXWMt8gVEFnE+xWdA/2Z7v6L+Ose/cYzY3j7V/FR4nyavhV7X
-   4dQizQ26DF68yjMFY7zDtA/pw8R8wm21nyNOjCo6hIh2l/JhqaT0typMM
-   CMMc+FLtUngw1lrHb1hm07VATC7O5CI3Byh+7hqOG7PZyJCwzZLy+y5xk
-   Frb+HpX9n2VnHbrinub/yb18S9ceTLppPQtlVM3uK9hOyiUIMhbGHY+67
-   1f+3VJggTL1GRqfhhT5a11W5+B22ijTeLGC+qHnwbHkEFI9WCm76NhF5t
-   M5kbRPYCWpOWH2rU5jHCsC5TomkArz3LrheTfYUrpakLHovMma9kbaeHd
-   Q==;
-X-CSE-ConnectionGUID: VVpKaK6HR4qWHf6rphPCPA==
-X-CSE-MsgGUID: IqdihbSPRoqIPau/uFPNJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="54108902"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="54108902"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 05:45:33 -0800
-X-CSE-ConnectionGUID: cUgeWHxARDix9gcEyVpqVA==
-X-CSE-MsgGUID: oliCGWbqRyOZiZX0IdVm7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="108512107"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 05:45:29 -0800
-Message-ID: <f7332c37-aad3-4cde-ae54-950d0136e46e@linux.intel.com>
-Date: Thu, 9 Jan 2025 14:45:26 +0100
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GE7nK810";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yj+5dNHy";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GE7nK810";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Yj+5dNHy"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 386421F45B;
+	Thu,  9 Jan 2025 14:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736432404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZ00xlb4LtEGzjNmrzgDRtaFVGGUXT5ENEgJTyRBMyM=;
+	b=GE7nK810XfbfVitHP3SPFtl/fOlEZoVfjqR93NQhmHJ/PHxNkczYHP7WBfkHcjX4vQp33m
+	QYuADxRmbZ232khwnBcgxfxaubbiABBUKRDRxNeZ/uYpCTjiKh2r09UdkWap5kN+d6KuiY
+	CQkV1XSWcmKWAyFXCoGZUMYhSrJzrqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736432404;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZ00xlb4LtEGzjNmrzgDRtaFVGGUXT5ENEgJTyRBMyM=;
+	b=Yj+5dNHyXfxNkBcKF7cSjWylWyz3yzMdc4+AclJ+idTNiPdoT9ryDRMZrTPWl/bcXeBZVr
+	AmZ5sTnrJ773SDCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736432404; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZ00xlb4LtEGzjNmrzgDRtaFVGGUXT5ENEgJTyRBMyM=;
+	b=GE7nK810XfbfVitHP3SPFtl/fOlEZoVfjqR93NQhmHJ/PHxNkczYHP7WBfkHcjX4vQp33m
+	QYuADxRmbZ232khwnBcgxfxaubbiABBUKRDRxNeZ/uYpCTjiKh2r09UdkWap5kN+d6KuiY
+	CQkV1XSWcmKWAyFXCoGZUMYhSrJzrqE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736432404;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xZ00xlb4LtEGzjNmrzgDRtaFVGGUXT5ENEgJTyRBMyM=;
+	b=Yj+5dNHyXfxNkBcKF7cSjWylWyz3yzMdc4+AclJ+idTNiPdoT9ryDRMZrTPWl/bcXeBZVr
+	AmZ5sTnrJ773SDCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A1B4139AB;
+	Thu,  9 Jan 2025 14:20:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id q1soARTbf2doXQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Thu, 09 Jan 2025 14:20:04 +0000
+Date: Thu, 09 Jan 2025 15:20:03 +0100
+Message-ID: <87zfk05ass.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Jaroslav Kysela <perex@perex.cz>
+Cc: Cezary Rojewski <cezary.rojewski@intel.com>,
+	tiwai@suse.com,
+	linux-sound@vger.kernel.org,
+	broonie@kernel.org,
+	amadeuszx.slawinski@linux.intel.com
+Subject: Re: [PATCH 1/3] ALSA: hda: Fix compilation of snd_hdac_adsp_xxx() helpers
+In-Reply-To: <99e4c4cc-d380-44a1-b81b-92a20435bf5d@perex.cz>
+References: <20250109125204.3668961-1-cezary.rojewski@intel.com>
+	<20250109125204.3668961-2-cezary.rojewski@intel.com>
+	<99e4c4cc-d380-44a1-b81b-92a20435bf5d@perex.cz>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] ASoC: remove disable_route_checks
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>, Jaroslav Kysela
- <perex@perex.cz>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-References: <87wmf4269n.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87wmf4269n.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On 1/9/2025 1:13 AM, Kuninori Morimoto wrote:
+On Thu, 09 Jan 2025 13:42:18 +0100,
+Jaroslav Kysela wrote:
 > 
-> Hi Mark, Intel test team
+> On 09. 01. 25 13:52, Cezary Rojewski wrote:
+> > The snd_hdac_adsp_xxx() wrap snd_hdac_reg_xxx() helpers to simplify
+> > register access for AudioDSP drivers e.g.: the avs-driver. Byte- and
+> > word-variants of said helps do not expand to bare readx/writex()
+> > operations but functions instead and, due to pointer type
+> > incompatibility, cause compilation to fail.
+> > 
+> > As AudioDSP drivers e.g.: the avs-driver utilize struct hda_bus (and
+> > thus struct hdac_bus) as the base structure, add casts to address the
+> > problem.
+> > 
+> > Fixes: c19bd02e9029 ("ALSA: hda: Add helper macros for DSP capable devices")
+> > Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
+> > ---
+> >   include/sound/hdaudio_ext.h | 16 ++++++++--------
+> >   1 file changed, 8 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/include/sound/hdaudio_ext.h b/include/sound/hdaudio_ext.h
+> > index 957295364a5e..79a010dd0062 100644
+> > --- a/include/sound/hdaudio_ext.h
+> > +++ b/include/sound/hdaudio_ext.h
+> > @@ -120,21 +120,21 @@ int snd_hdac_ext_bus_link_put(struct hdac_bus *bus, struct hdac_ext_link *hlink)
+> >   void snd_hdac_ext_bus_link_power(struct hdac_device *codec, bool enable);
+> >     #define snd_hdac_adsp_writeb(chip, reg, value) \
+> > -	snd_hdac_reg_writeb(chip, (chip)->dsp_ba + (reg), value)
+> > +	snd_hdac_reg_writeb((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg), value)
+> >   #define snd_hdac_adsp_readb(chip, reg) \
+> > -	snd_hdac_reg_readb(chip, (chip)->dsp_ba + (reg))
+> > +	snd_hdac_reg_readb((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg))
+> >   #define snd_hdac_adsp_writew(chip, reg, value) \
+> > -	snd_hdac_reg_writew(chip, (chip)->dsp_ba + (reg), value)
+> > +	snd_hdac_reg_writew((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg), value)
+> >   #define snd_hdac_adsp_readw(chip, reg) \
+> > -	snd_hdac_reg_readw(chip, (chip)->dsp_ba + (reg))
+> > +	snd_hdac_reg_readw((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg))
+> >   #define snd_hdac_adsp_writel(chip, reg, value) \
+> > -	snd_hdac_reg_writel(chip, (chip)->dsp_ba + (reg), value)
+> > +	snd_hdac_reg_writel((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg), value)
+> >   #define snd_hdac_adsp_readl(chip, reg) \
+> > -	snd_hdac_reg_readl(chip, (chip)->dsp_ba + (reg))
+> > +	snd_hdac_reg_readl((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg))
+> >   #define snd_hdac_adsp_writeq(chip, reg, value) \
+> > -	snd_hdac_reg_writeq(chip, (chip)->dsp_ba + (reg), value)
+> > +	snd_hdac_reg_writeq((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg), value)
+> >   #define snd_hdac_adsp_readq(chip, reg) \
+> > -	snd_hdac_reg_readq(chip, (chip)->dsp_ba + (reg))
+> > +	snd_hdac_reg_readq((struct hdac_bus *)(chip), (chip)->dsp_ba + (reg))
+> >     #define snd_hdac_adsp_updateb(chip, reg, mask, val) \
+> >   	snd_hdac_adsp_writeb(chip, reg, \
 > 
-> ASoC framwork has disable_route_checks flag. Intel is the last user of it,
-> but it seems it exists in dead code. So we can remove it.
 > 
-> But I can't test it. This patch needs Intel team's Tested-by.
+> I'm not sure, if this change is wanted. The passed pointer validation
+> from the compiler side is lost with retyping.
 > 
+> Perhaps, it would be better to create another set of defines for other
+> structure pointers.
 
-Not sure what's there to test, when it removes unused code ;). Still I 
-did quick test, current solution (avs driver) works fine with regards to 
-core/topology changes.
+Agreed.  The cast there secretly assumes the type punning and it hides
+potential bugs.
 
-Tested-by: Amadeusz Sławiński <amadeuszx.slawinski@linux.intel.com>
+As those macros are used only by AVS for now, you can move to AVS
+locally and redefine for the more appropriate types, too.
+
+
+thanks,
+
+Takashi
