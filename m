@@ -1,101 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB555204C20;
-	Thu,  9 Jan 2025 21:36:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2BCA2D
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 22:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736458573; cv=none; b=BajiwwbJ83vZTXMfk1frpNWuxoxO21hfk/wHppdhn84ysCKOXAlYyLwTOF73TVK0QyheMmUG5tKED+o187q2bz7cjkHQnzLO1kMmMJHZx5Q7ynBSN3TpbQrbED0HErfGp8TFRA1cBlYM3Xo1Xh3RB9oPfr/MsbecHdpCEeMT/WU=
+	t=1736462350; cv=none; b=WLPz6UVnYhjYcTUgYC4Zb1aoSE5caR7DzelTxbDk+kmVKZLaTB0Zmv5U2V7Hf1BmyATkkasxJYdwlzdMZCHhufnFpAPWRujNcDbAgsUL2mMHjOwk4cJKgQxUNxyV6XLLfYOZlB7wcRSsCXASMzgJ+jVoJLkbyPrng9kP6KqK9kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736458573; c=relaxed/simple;
-	bh=oWeTJvSV3nU7lPJyh9EggaBihBXttmXhilPkA3sJrXc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=HvY3B4CL6YDTcRvwsD5lfhYTbxI6vhy4InaSanb3Dc1hILpykh12cszJW0bcy2U+a13wY0JwtHasT2QAduBTsOc8xsi/hLlLIv+I4/U86GDhwGa8BqNKOlAQ5kuR1l77zfASIWPeG3ZV6iDrktkPxezKpQLRHOBkQhYU3ZEtjxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oVbQgnr2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736462350; c=relaxed/simple;
+	bh=dDrF5kn2f8I+r0F1ahqFoeIi/dBdMF1bwb4V8qFi8K4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i21S1mdZk/3nDAOIzCRI0MJCd+mmFs16GYRnWaNodrv9pE/e9P59w7ZZjenVUFHnVLl9VKRQdFcMyPReZ78GBvuQDUFr3W8vOqusVqJlMbM2Qf8xdYobZ8/q+o3SO0knqrt6mIOMVS+9yI5/yNiilKWxRqayJG5KS/mZjIOeE4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QZTqoHtP; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oVbQgnr2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1BE2C4CED2;
-	Thu,  9 Jan 2025 21:36:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736458572;
-	bh=oWeTJvSV3nU7lPJyh9EggaBihBXttmXhilPkA3sJrXc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=oVbQgnr2o9IBzXfuPGiy6YIzq0h+rk9umsnGXfNRsbuH10pOIdeP0lI6GCklflxI3
-	 /ZbXvbCbz201neyTUEVSVQ0jMXTgBMNG/3qF+isFJBhISHbtdanNLA86+vvZY3PLf/
-	 02mS34PvKCf3VL8shO43TxPmfAbn7qL+L9NFHnV6N62/p/BL2CHPHRuiBNxP2ouUTw
-	 +VrJDJYWPkkE9OfQWwqvPT54ONYeV2uhlGiOapND+gZBv2o8Z37lQ/4BXFwP77aYIC
-	 ba76SHPNNvpi5rlKVwsfXpoApETbhi6wPHfimN1q3B7KsQX64Or6l4YBvnm3cLH+0T
-	 72c+zuf/Uu9+w==
-From: Mark Brown <broonie@kernel.org>
-To: Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, 
- Cezary Rojewski <cezary.rojewski@intel.com>, 
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
- Bard Liao <yung-chuan.liao@linux.intel.com>, 
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>, 
- Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, 
- "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org
-In-Reply-To: <20250109182303.3973082-1-robh@kernel.org>
-References: <20250109182303.3973082-1-robh@kernel.org>
-Subject: Re: [PATCH] ASoC: Use of_property_present() for non-boolean
- properties
-Message-Id: <173645856449.810998.11706229796048790590.b4-ty@kernel.org>
-Date: Thu, 09 Jan 2025 21:36:04 +0000
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QZTqoHtP"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1736462331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jhWD3WyFwqa7sOJY4cvXQNB1taXBNsLKMxnbKbtEvsI=;
+	b=QZTqoHtPRrxhI7ocj6k1w/TuxtsHwz7SbWIySAA5XwNzcvBgkznCuPw4LcecCnGMLpaSjf
+	zVMtCnHYNB7BMOqcW6u/+hwpji6f8o6hIn4OKW1yEHVod1oxvOd8uWN40H09CYU5jJARzE
+	lwrRC+3Xp81TsMDeHjtvh/AqFX9nFIs=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Oswald Buddenhagen <oswald.buddenhagen@gmx.de>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ALSA: emu10k1: Use str_yes_no() helper
+Date: Thu,  9 Jan 2025 23:38:08 +0100
+Message-ID: <20250109223809.198582-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, 09 Jan 2025 12:23:00 -0600, Rob Herring (Arm) wrote:
-> The use of of_property_read_bool() for non-boolean properties is
-> deprecated in favor of of_property_present() when testing for property
-> presence.
-> 
-> 
+Remove hard-coded strings by using the str_yes_no() helper function.
 
-Applied to
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/pci/emu10k1/emuproc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: Use of_property_present() for non-boolean properties
-      commit: 84eac6d478c00f8f9101f91716ea3866d2fc1e54
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+diff --git a/sound/pci/emu10k1/emuproc.c b/sound/pci/emu10k1/emuproc.c
+index 47448750f334..bd4734dc04cd 100644
+--- a/sound/pci/emu10k1/emuproc.c
++++ b/sound/pci/emu10k1/emuproc.c
+@@ -11,6 +11,7 @@
+ 
+ #include <linux/slab.h>
+ #include <linux/init.h>
++#include <linux/string_choices.h>
+ #include <sound/core.h>
+ #include <sound/emu10k1.h>
+ #include "p16v.h"
+@@ -32,9 +33,9 @@ static void snd_emu10k1_proc_spdif_status(struct snd_emu10k1 * emu,
+ 	snd_iprintf(buffer, "\n%s\n", title);
+ 
+ 	if (status != 0xffffffff) {
+-		snd_iprintf(buffer, "Professional Mode     : %s\n", (status & SPCS_PROFESSIONAL) ? "yes" : "no");
+-		snd_iprintf(buffer, "Not Audio Data        : %s\n", (status & SPCS_NOTAUDIODATA) ? "yes" : "no");
+-		snd_iprintf(buffer, "Copyright             : %s\n", (status & SPCS_COPYRIGHT) ? "yes" : "no");
++		snd_iprintf(buffer, "Professional Mode     : %s\n", str_yes_no(status & SPCS_PROFESSIONAL));
++		snd_iprintf(buffer, "Not Audio Data        : %s\n", str_yes_no(status & SPCS_NOTAUDIODATA));
++		snd_iprintf(buffer, "Copyright             : %s\n", str_yes_no(status & SPCS_COPYRIGHT));
+ 		snd_iprintf(buffer, "Emphasis              : %s\n", emphasis[(status & SPCS_EMPHASISMASK) >> 3]);
+ 		snd_iprintf(buffer, "Mode                  : %i\n", (status & SPCS_MODEMASK) >> 6);
+ 		snd_iprintf(buffer, "Category Code         : 0x%x\n", (status & SPCS_CATEGORYCODEMASK) >> 8);
+-- 
+2.47.1
 
