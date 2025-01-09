@@ -1,342 +1,140 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AFD15573F
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 03:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3C361F63CC;
+	Thu,  9 Jan 2025 07:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736395023; cv=none; b=uiUuUSehUQbuNalG3n/4Zxtclv33hrEtCWSzRrqKNi+LO3TTZ5UdZaqQTIMMyFSl5zR3chsLr0VN4Ohpcux8USrHZ+nYAKy8Q9usYxpgpAGTwRpSGG7x+F1HlYGBnEmWitIQaZGpwJIX5gYDXB0CJKQZ2ShB6BoQJhyrbwyi1Wo=
+	t=1736408593; cv=none; b=bMPQGlOb1BC7D+EyH0YFO/8+SCgp0RopcjapWebnl224sitr1zQ7VC3s7mrhgg41jDNcYG6vGcaP51nwQc1MPHkfOURsMSBc2DL1yHjr83di8ZBXkmTJBRoUYDSsn/2zJHvwz53CwOKdcDqX7FYhzAEubhAOVsFwSi4iP2mQT30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736395023; c=relaxed/simple;
-	bh=zIu3mkFQEdRuVFyLlkBColU3jo3Y6o5V9YwSIWBJAHE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pnKawxmu2/Su+e0W3BdgnOpsd9Xr/+5d+o0o4B725/nUFR8VlMhT5vwnRtXU0ffNQ7RlymYN+qNGr7/6k4aVoxZ+AxgP4KtwnH42yGaZVGJctI0BTkhCbOMQMapG5DTWQbh0WJjZMk1a65a0gLkZGAaUg1B3VH0nEGEMTElejdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=k43qo/Me; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
+	s=arc-20240116; t=1736408593; c=relaxed/simple;
+	bh=uhVkM733L7fNjhRvzjhJb8rfKIAVtnDkCGkBhDVQ9ns=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d20tm5q7XXttPf9Sqq6DL2s9JZZPJ+N5zjMYBqpdlS7ssYDPc8y497HZYpurnnVtSYD9rfTbltb6VZUNz+KJFqfjOAguO7iXz5K1kMGh8V+GwnJlO+0jGWTJ1GsxgFji/ITTvFJLaw6onDZafp7RdCpUmflpg42e1xdKYnROfCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sg4Oux6x; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="k43qo/Me"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2164fad3792so7537155ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jan 2025 19:57:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736395021; x=1736999821; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddchxYBmHDxGkGbNYTXj4haAP604kWKrrwtl9P00xoU=;
-        b=k43qo/Me6u7m1QhLuNUUiTaYjgbN30os2k8FmGAYtZ0Ku5bEPu7oKig8PCGFbxEl2A
-         vtZvNcWA8OPNVEHjsOEOK8ga3k0dnVDgSJX1xQEIEoZsrVxkPyYachAfFdxZzEi1N8Tw
-         KHtVkFEnTPsqDuWcaqqT995aK3O17HCXO3yzsJotiJdpZhbVz3RJVwRbeaXIC1NSM+Lh
-         zkrHYQHcAx1WzmioSCz1uU6VUy1L1qABk5yg4hUuLBtCWaJCVRjWd6Agb7wRFyC+OV7Y
-         FIPUmzwdfK68d717l+gYmVP8rYtV3hFs4bJXAZzpNpj9KRyB5vVjF5TRfwBdibQX5n3G
-         +nRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736395021; x=1736999821;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ddchxYBmHDxGkGbNYTXj4haAP604kWKrrwtl9P00xoU=;
-        b=sTEi0Rg3loPco2t0qsS6eLWnY2rkUYcmD2fZ+u1+RWbjpyXxRGR95paOQu897XeOO0
-         ab4BpoIBVLr9LP93WiYue3QdhFO/cV40CVS9CfWCrQml/arWbWDpUerkp3jukzlpSflW
-         FgozMzCzS4tjBRqsOTtAi4Q09ordR8i5oxUeueWbE1TQGMxZel4cd7aZDDQ9SrNZfmh5
-         iyz8OQFtSBabDcFOVWhlR7ayMmPx7m39KHpwETYtKwiKGQHJcvWTsrYJVd1vNF1/3tLZ
-         1Ljus33FuhNpZWsC8LCh7vRrxlzvsq4el5IJC1aXtS9Fs3QjYgsejFmBAoScfFJgmXaU
-         QFKw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0cEC3lunjYTWGMhHRnsgRdslrTroXEICySJhj7yUCmvpYCSg8cPjZ0tPXw+N6gsS6Ir3W0EazCzEkIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoQBwRAtf37NrzCXB0r6PxOGEOmEiIXlqK3Fup6XMa+Ye+yddg
-	tCxCY1KwUBVceez2UiB+lH0xoBhU5B6Tvc4QulLXJa/hyoNwKTN+gshPX5d+cu2Qhd8bJmVS74a
-	VhP3bDayiLFfJsg==
-X-Google-Smtp-Source: AGHT+IGMQpT2N2xu3uiFZIpo9M4OReVfIW/xSsKSBRe77zdn+GWUb+mcChBtX/TWTXDKSxdHdWl/a8tX+zwnSmI=
-X-Received: from plry6.prod.google.com ([2002:a17:902:b486:b0:216:5808:bc6f])
- (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:ecc7:b0:216:2259:a4bd with SMTP id d9443c01a7336-21a83fda87cmr73619255ad.52.1736395021215;
- Wed, 08 Jan 2025 19:57:01 -0800 (PST)
-Date: Thu,  9 Jan 2025 03:55:09 +0000
-In-Reply-To: <20250109035605.1486717-1-guanyulin@google.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sg4Oux6x"
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 5097h0153130516
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 9 Jan 2025 01:43:01 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1736408581;
+	bh=hpVx85l41wfLcfLHWMWxevh+HDfjt8FrBt5c7V56M3I=;
+	h=From:To:CC:Subject:Date;
+	b=sg4Oux6xXGjJLSWfv48NN460TtmGgloUKO9Yitb5omby2MCKQaEnR3Ql/4mwlSrll
+	 GAJgwnn/czGYPnJ1nL1gTVzdb2gdFKNkqtfuQL4yzqdq8KuavBsP4fywKqAO7aw8hg
+	 c+wxNQI/WS0kfLOYZK10qMQshbCLkHf6Cq92vVG0=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 5097h08m008088
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 9 Jan 2025 01:43:00 -0600
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 9
+ Jan 2025 01:43:00 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 9 Jan 2025 01:43:00 -0600
+Received: from LT5CG31242FY.dhcp.ti.com (lt5cg31242fy.dhcp.ti.com [10.85.14.103])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 5097gvb7100213;
+	Thu, 9 Jan 2025 01:42:58 -0600
+From: Shenghao Ding <shenghao-ding@ti.com>
+To: <linux-kernel@vger.kernel.org>
+CC: <baojun.xu@ti.com>, <13564923607@139.com>, <13916275206@139.com>,
+        <alsa-devel@alsa-project.org>, <linux-sound@vger.kernel.org>,
+        Shenghao Ding
+	<shenghao-ding@ti.com>
+Subject: [PATCH v1] MAINTAINERS: update entries in TEXAS INSTRUMENTS LOW/MIDDLE-POWER AUDIO AMPLIFIER (ASoC/HDA) DRIVERS and add entries for haptic driver
+Date: Thu, 9 Jan 2025 15:42:55 +0800
+Message-ID: <20250109074255.1431-1-shenghao-ding@ti.com>
+X-Mailer: git-send-email 2.33.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250109035605.1486717-1-guanyulin@google.com>
-X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109035605.1486717-6-guanyulin@google.com>
-Subject: [PATCH v7 5/5] usb: host: enable USB offload during system sleep
-From: Guan-Yu Lin <guanyulin@google.com>
-To: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
-	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
-	tiwai@suse.com, sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org, Guan-Yu Lin <guanyulin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Sharing a USB controller with another entity via xhci-sideband driver
-creates power management complexities. To prevent the USB controller
-from being inadvertently deactivated while in use by the other entity, a
-usage-count based mechanism is implemented. This allows the system to
-manage power effectively, ensuring the controller remains available
-whenever needed.
-In order to maintain full functionality of an offloaded USB devices,
-several changes are made within the suspend flow of such devices:
-- skip usb_suspend_device() so that the port/hub are still active for
-  USB transfers via offloaded path.
-- not flushing the endpoints which are used by USB interfaces marked
-  with needs_remote_wakeup. Namely, skip usb_suspend_interface() and
-  usb_hcd_flush_endpoint() on associated USB interfaces. This reserves a
-  pending interrupt urb during system suspend for handling the interrupt
-  transfer, which is necessary since remote wakeup doesn't apply in the
-  offloaded USB devices when controller is still active.
+Due to internal re-org, Kevin has no longer maintained audio driver.
+With the job responsibility change, drop entries for the audio converter
+and add entries for both haptics drivers and middle-power audio amplifier
+drivers. Add audio converter, set the Status as Supported.
 
-Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
+Signed-off-by: Shenghao Ding <shenghao-ding@ti.com>
 ---
- drivers/usb/core/driver.c         | 37 ++++++++++++++++++++++++++-----
- drivers/usb/core/endpoint.c       |  8 -------
- drivers/usb/dwc3/core.c           | 28 +++++++++++++++++++++++
- drivers/usb/dwc3/core.h           |  1 +
- drivers/usb/host/xhci-plat.c      | 14 ++++++++++++
- include/linux/usb.h               |  8 ++++++-
- include/linux/usb/hcd.h           |  7 ++++++
- sound/usb/qcom/qc_audio_offload.c |  3 +++
- 8 files changed, 91 insertions(+), 15 deletions(-)
+ MAINTAINERS | 32 ++++++++++++++++++++++++--------
+ 1 file changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 01f6287cf73f..06f9809e2d92 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -1413,19 +1413,32 @@ static int usb_resume_interface(struct usb_device *udev,
-  */
- static int usb_suspend_both(struct usb_device *udev, pm_message_t msg)
- {
--	int			status = 0;
--	int			i = 0, n = 0;
--	struct usb_interface	*intf;
-+	int			 status = 0;
-+	int			 i = 0, n = 0;
-+	bool			 offload = false;
-+	struct usb_interface	 *intf;
-+	struct usb_host_endpoint *ep;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 30cbc3d44cd5..4c806ad2fb16 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23172,25 +23172,42 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/sound/davinci-mcasp-audio.yaml
+ F:	sound/soc/ti/
  
- 	if (udev->state == USB_STATE_NOTATTACHED ||
- 			udev->state == USB_STATE_SUSPENDED)
- 		goto done;
- 
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	if (msg.event == PM_EVENT_SUSPEND && usb_offload_check(udev)) {
-+		dev_dbg(&udev->dev, "device offload active.\n");
-+		offload = true;
-+	}
-+#endif
+-TEXAS INSTRUMENTS AUDIO (ASoC/HDA) DRIVERS
++TEXAS INSTRUMENTS LOW/MIDDLE-POWER AUDIO AMPLIFIER (ASoC/HDA) & HAPTICS DRIVERS
+ M:	Shenghao Ding <shenghao-ding@ti.com>
+-M:	Kevin Lu <kevin-lu@ti.com>
+ M:	Baojun Xu <baojun.xu@ti.com>
+ L:	linux-sound@vger.kernel.org
+-S:	Maintained
++S:	Supported
++F:	Documentation/devicetree/bindings/input/ti,drv260x.yaml
++F:	Documentation/devicetree/bindings/input/ti,drv266x.yaml
+ F:	Documentation/devicetree/bindings/sound/tas2552.txt
++F:	Documentation/devicetree/bindings/sound/tas5720.txt
+ F:	Documentation/devicetree/bindings/sound/ti,tas2562.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tas2770.yaml
++F:	Documentation/devicetree/bindings/sound/ti,tas2781.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tas27xx.yaml
++F:	Documentation/devicetree/bindings/sound/ti,tas5086.txt
++F:	Documentation/devicetree/bindings/sound/ti,tas57xx.yaml
++F:	Documentation/devicetree/bindings/sound/ti,tas5805m.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tpa6130a2.yaml
++F:	drivers/input/misc/drv2*.c
++F:	include/sound/tas2*.h
++F:	include/sound/tas5086.h
++F:	include/sound/tpa6130a2-plat.h
++F:	sound/pci/hda/tas2781_hda_i2c.c
++F:	sound/soc/codecs/tas2*.*
++F:	sound/soc/codecs/tas5*.*
++F:	sound/soc/codecs/tpa6130a2.*
 +
- 	/* Suspend all the interfaces and then udev itself */
- 	if (udev->actconfig) {
- 		n = udev->actconfig->desc.bNumInterfaces;
- 		for (i = n - 1; i >= 0; --i) {
- 			intf = udev->actconfig->interface[i];
-+			if (offload && intf->needs_remote_wakeup) {
-+				dev_dbg(&intf->dev, "interface stays active on an offloaded device\n");
-+				continue;
-+			}
- 			status = usb_suspend_interface(udev, intf, msg);
++TEXAS INSTRUMENTS AUDIO Converter (ASoC) and Touch Screen DRIVERS
++L:	linux-sound@vger.kernel.org
++S:	Maintained
+ F:	Documentation/devicetree/bindings/sound/ti,pcm1681.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,pcm3168a.yaml
++F:	Documentation/devicetree/bindings/sound/ti,pcm6240.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tlv320*.yaml
+ F:	Documentation/devicetree/bindings/sound/ti,tlv320adcx140.yaml
+-F:	include/sound/tas2*.h
++F:	drivers/input/touchscreen/tsc2*.*
+ F:	include/sound/tlv320*.h
+-F:	include/sound/tpa6130a2-plat.h
+-F:	sound/pci/hda/tas2781_hda_i2c.c
+ F:	sound/soc/codecs/pcm1681.c
+ F:	sound/soc/codecs/pcm1789*.*
+ F:	sound/soc/codecs/pcm179x*.*
+@@ -23200,9 +23217,8 @@ F:	sound/soc/codecs/pcm3060*.*
+ F:	sound/soc/codecs/pcm3168a*.*
+ F:	sound/soc/codecs/pcm5102a.c
+ F:	sound/soc/codecs/pcm512x*.*
+-F:	sound/soc/codecs/tas2*.*
++F:	sound/soc/codecs/pcm6240.*
+ F:	sound/soc/codecs/tlv320*.*
+-F:	sound/soc/codecs/tpa6130a2.*
  
- 			/* Ignore errors during system sleep transitions */
-@@ -1436,7 +1449,8 @@ static int usb_suspend_both(struct usb_device *udev, pm_message_t msg)
- 		}
- 	}
- 	if (status == 0) {
--		status = usb_suspend_device(udev, msg);
-+		if (!offload)
-+			status = usb_suspend_device(udev, msg);
- 
- 		/*
- 		 * Ignore errors from non-root-hub devices during
-@@ -1482,8 +1496,19 @@ static int usb_suspend_both(struct usb_device *udev, pm_message_t msg)
- 	} else {
- 		udev->can_submit = 0;
- 		for (i = 0; i < 16; ++i) {
--			usb_hcd_flush_endpoint(udev, udev->ep_out[i]);
--			usb_hcd_flush_endpoint(udev, udev->ep_in[i]);
-+			if (udev->ep_out[i]) {
-+				ep = udev->ep_out[i];
-+				intf = to_usb_interface(ep->ep_dev->dev.parent);
-+				if (!(offload && intf->needs_remote_wakeup))
-+					usb_hcd_flush_endpoint(udev, ep);
-+			}
-+
-+			if (udev->ep_in[i]) {
-+				ep = udev->ep_in[i];
-+				intf = to_usb_interface(ep->ep_dev->dev.parent);
-+				if (!(offload && intf->needs_remote_wakeup))
-+					usb_hcd_flush_endpoint(udev, ep);
-+			}
- 		}
- 	}
- 
-diff --git a/drivers/usb/core/endpoint.c b/drivers/usb/core/endpoint.c
-index e48399401608..658ef39ebcd1 100644
---- a/drivers/usb/core/endpoint.c
-+++ b/drivers/usb/core/endpoint.c
-@@ -18,14 +18,6 @@
- #include <linux/usb.h>
- #include "usb.h"
- 
--struct ep_device {
--	struct usb_endpoint_descriptor *desc;
--	struct usb_device *udev;
--	struct device dev;
--};
--#define to_ep_device(_dev) \
--	container_of(_dev, struct ep_device, dev)
--
- struct ep_attribute {
- 	struct attribute attr;
- 	ssize_t (*show)(struct usb_device *,
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 0735881d4650..793fbc030fc4 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2602,8 +2602,22 @@ static int dwc3_runtime_idle(struct device *dev)
- static int dwc3_suspend(struct device *dev)
- {
- 	struct dwc3	*dwc = dev_get_drvdata(dev);
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	struct platform_device *xhci = dwc->xhci;
-+	struct usb_hcd  *hcd;
-+#endif
- 	int		ret;
- 
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	if (xhci) {
-+		hcd = dev_get_drvdata(&xhci->dev);
-+		if (xhci_sideband_check(hcd)) {
-+			dev_dbg(dev, "sideband instance active.\n");
-+			return 0;
-+		}
-+	}
-+#endif
-+
- 	ret = dwc3_suspend_common(dwc, PMSG_SUSPEND);
- 	if (ret)
- 		return ret;
-@@ -2616,8 +2630,22 @@ static int dwc3_suspend(struct device *dev)
- static int dwc3_resume(struct device *dev)
- {
- 	struct dwc3	*dwc = dev_get_drvdata(dev);
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	struct platform_device *xhci = dwc->xhci;
-+	struct usb_hcd  *hcd;
-+#endif
- 	int		ret = 0;
- 
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	if (xhci) {
-+		hcd = dev_get_drvdata(&xhci->dev);
-+		if (xhci_sideband_check(hcd)) {
-+			dev_dbg(dev, "sideband instance active.\n");
-+			return 0;
-+		}
-+	}
-+#endif
-+
- 	pinctrl_pm_select_default_state(dev);
- 
- 	pm_runtime_disable(dev);
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 0b6a07202609..57c3e768cdac 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -26,6 +26,7 @@
- #include <linux/usb/ch9.h>
- #include <linux/usb/gadget.h>
- #include <linux/usb/otg.h>
-+#include <linux/usb/hcd.h>
- #include <linux/usb/role.h>
- #include <linux/ulpi/interface.h>
- 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index b676d4dbcec1..9e01450328d7 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -456,6 +456,13 @@ static int xhci_plat_suspend_common(struct device *dev, struct pm_message pmsg)
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	int ret;
- 
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	if (pmsg.event == PM_EVENT_SUSPEND && xhci_sideband_check(hcd)) {
-+		dev_dbg(dev, "sideband instance active.\n");
-+		return 0;
-+	}
-+#endif
-+
- 	if (pm_runtime_suspended(dev))
- 		pm_runtime_resume(dev);
- 
-@@ -499,6 +506,13 @@ static int xhci_plat_resume_common(struct device *dev, struct pm_message pmsg)
- 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
- 	int ret;
- 
-+#ifdef CONFIG_USB_XHCI_SIDEBAND
-+	if (pmsg.event == PM_EVENT_RESUME && xhci_sideband_check(hcd)) {
-+		dev_dbg(dev, "sideband instance active.\n");
-+		return 0;
-+	}
-+#endif
-+
- 	if (!device_may_wakeup(dev) && (xhci->quirks & XHCI_SUSPEND_RESUME_CLKS)) {
- 		ret = clk_prepare_enable(xhci->clk);
- 		if (ret)
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 9b3f630e763e..c4ff11ad14d5 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -44,7 +44,13 @@ struct usb_driver;
-  * Devices may also have class-specific or vendor-specific descriptors.
-  */
- 
--struct ep_device;
-+struct ep_device {
-+	struct usb_endpoint_descriptor *desc;
-+	struct usb_device *udev;
-+	struct device dev;
-+};
-+#define to_ep_device(_dev) \
-+	container_of(_dev, struct ep_device, dev)
- 
- /**
-  * struct usb_host_endpoint - host-side endpoint descriptor and queue
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index ac95e7c89df5..a9577da6ecff 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -766,6 +766,13 @@ extern struct rw_semaphore ehci_cf_port_reset_rwsem;
- #define USB_EHCI_LOADED		2
- extern unsigned long usb_hcds_loaded;
- 
-+#if IS_ENABLED(CONFIG_USB_XHCI_SIDEBAND)
-+extern bool xhci_sideband_check(struct usb_hcd *hcd);
-+#else
-+static inline bool xhci_sideband_check(struct usb_hcd *hcd)
-+{ return false; }
-+#endif
-+
- #endif /* __KERNEL__ */
- 
- #endif /* __USB_CORE_HCD_H */
-diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
-index 7dd7e51109df..7928df8df075 100644
---- a/sound/usb/qcom/qc_audio_offload.c
-+++ b/sound/usb/qcom/qc_audio_offload.c
-@@ -1619,8 +1619,11 @@ static void handle_uaudio_stream_req(struct qmi_handle *handle,
- 			mutex_lock(&chip->mutex);
- 			subs->opened = 0;
- 			mutex_unlock(&chip->mutex);
-+		} else {
-+			xhci_sideband_get(uadev[pcm_card_num].si);
- 		}
- 	} else {
-+		xhci_sideband_put(uadev[pcm_card_num].si);
- 		info = &uadev[pcm_card_num].info[info_idx];
- 		if (info->data_ep_pipe) {
- 			ep = usb_pipe_endpoint(uadev[pcm_card_num].udev,
+ TEXAS INSTRUMENTS DMA DRIVERS
+ M:	Peter Ujfalusi <peter.ujfalusi@gmail.com>
 -- 
-2.47.1.613.gc27f4b7a9f-goog
+2.34.1
 
