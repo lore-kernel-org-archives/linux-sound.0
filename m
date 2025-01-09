@@ -1,55 +1,55 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094D15573F
-	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 03:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF5F165F09
+	for <linux-sound@vger.kernel.org>; Thu,  9 Jan 2025 03:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736395002; cv=none; b=qO7FAZqkmP49fWG7BNwkoLzCPzPgqU+VhH4R8CxRcL8U5LdJszfhHI9/TV5d5F0ClGXlSNPar2ihjW4ufu1ebnCxH+A9qTS/sSZUP4WzLwfBnVNvIkAIQ8U9UNQ6EMncdI5E2dr1hGy4UJ/p/xe14Sh5MOwDGYangekeNwBIx8Q=
+	t=1736395007; cv=none; b=L5dhVwYU6Ko/zo2UMfnqvdjzLGRq/iSJwTwD4vFWxQr+M1O7HX7RiIPtWVasd/PELv84D9HrUiHoZH+l+EDf4TJZsoX1suogl+bYHhNDwZp5rE0N3fkIjoEStaluKIgkrppmC2pNOq9R1kgNdG2qeqFn0cleBIJrPtyxNuxl1Ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736395002; c=relaxed/simple;
-	bh=KfAu+/Q9zgHYQiNdpnwbI68oYIXktrQNbrxwqoISvl0=;
+	s=arc-20240116; t=1736395007; c=relaxed/simple;
+	bh=U8jc42PW7/ktoftpSHk8MRrsiNyFroAZ122yKoykeWk=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XU/1/bHgqcGZuwCiIMQKBTxQCrCgP8TBKZwJY5PNAVEl5AHXZuCbXjLkLPQq/7IZG3bcoHN0CiCXNwGI2vkcoI6K0ThFybFfl/PCWEiq0x000G237Z7mOnyhRVl6Wq3H2qY6MUfIzvd9lQtxGzVR4cW6okc6Ni0lekyKqGwO9VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iHY9UXW4; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=uODKlLSPd3ug33ymqDEbsLVaZkXziqRGJfZLYhl6gu4sWHqX8N8izz/EapDRNV4zsMVX/hQa6cLsduKJ/Wxv5waRESNK3Z3a+ctCeKr3tw4luUkRvSwN3kDv8m4EYY1E0AVn5mjq5GlhGQE/IMzesyt5abwBPs3BCGHu4IiqfQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FsCXlOsc; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--guanyulin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iHY9UXW4"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-216311faa51so8611085ad.0
-        for <linux-sound@vger.kernel.org>; Wed, 08 Jan 2025 19:56:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FsCXlOsc"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2164861e1feso7315995ad.1
+        for <linux-sound@vger.kernel.org>; Wed, 08 Jan 2025 19:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736394998; x=1736999798; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1736395004; x=1736999804; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bqpoVW3vY/Vp4JhJHrnaJZTqoC1FMmiLXRADQekEsQ=;
-        b=iHY9UXW4RmrRfKaK9/G/dxMouHOZFKSWkRr1IXso3lXpJD1x3RwdP2MnwW1hDACS+Q
-         gUyXoAC2/9II+YQc607nO9qjxJlhUS0YbGDAasTMCjHl83CV/RgMQcC1WXN44CWni8ht
-         4NsAYuWvv05GnGNAFcsGFXthLdhery7D4K1RUrbU0qKB0omWounsb0kL0wXaz0glp06v
-         7ZI1oPDZymUQkTU+1Xe6cdGa/dsh+ddJuzgJGeKx0tNCNeFRXKyKyX6H62opAhbumFBj
-         oLrOoHeRAZHJNy9TS7q5eqfvdbIhTR/Fmlx5tMEfyQsbRV4ReZto7eU+p9Pnm2Qm0m09
-         uL6Q==
+        bh=kLfOoQDnujr5A1F2r70MA5lfjVLn4qtfns7H9XAvRjU=;
+        b=FsCXlOscOAAOE66PSUT71F7aMzd0jILLTAlrO3XI4vKV4sDpqmoQcdH+r/iXKdt5me
+         STuRQ4pLHDhwebDpOiSwMpG5V4Mfu1KDwUBDzUrQAfRzYdTnnHnquHdrNY5LASX2xQLO
+         JlVPruqY4j8f0mRgEY3jtR7pHXnjLeqblIQVmbbpIzoJ4vDZhJGiPEXFJIBrd1TrE0d2
+         w/6Rg7AlF0A+SftpR9/SMuzxci1zZNahofP0Zzp0OihusG588ClSJAdsOU0jb6HnAKeu
+         zKWyCi5bVoChQOFrsO/LZOGMyBkWM55iaujmk74oY8RsIHOuKiKXCdyNn8oHC4t7h7nd
+         9TjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736394998; x=1736999798;
+        d=1e100.net; s=20230601; t=1736395004; x=1736999804;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1bqpoVW3vY/Vp4JhJHrnaJZTqoC1FMmiLXRADQekEsQ=;
-        b=KbP4uQDPVJWqVL8dQLYFhIoz83OLApmHucsczKcdxOm7DKMa4ARiwiabUp2Ehu7H7X
-         OgVEUyp3Of1Epd9ROw3kHCpBuiQQXMP16XNINMtg0U4weUEpk5lVfThmnQTUZ0t9INpT
-         4VWD7kYzSDpJu2BneIKN5iSSMiqNVhiahjDSgY2Rd+gHmYjkJhe2i4SqwA7BlRhsOooh
-         Iw6xfcjHcN+aGrhTUT/H7BHVUcXWq/v2UkBXtIQEShRv1c68IK2FycVaUxQ+K6dX0t5l
-         Y8FIPtgcOcGCfiuv570/qrKAJzD/dfGnTz5bEOFq21bQ/kXtxxcsAtz5nTLBcz2dEZlK
-         Oi5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUOS5WXq46VBydCHawwfma/PLbIYn5HQ2xT5ZvTnrIZgj8dnzqXYBAapA05JN7y2zPaVNddaRzNeHoIGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YydqyDfynFAtTVPov90r9C+N0cYA8MXNqVJI87zaMu5BRgIYzTp
-	f9h+9FN7RNd2/K1UOk+cswHNLuGipBmurdLL/O08WdFKupfXdWkN3IAaxwoT1xn3MyfOkdaH5ui
-	5SBHWIZITEjBFIw==
-X-Google-Smtp-Source: AGHT+IFVJIqG3yFsoeHkU0ahRDewZcWXAEwQdrSTVFc9DwLmOYW/hNR1O09jqREMSRezVrFqq1pb58ualnh7MVc=
-X-Received: from pldp13.prod.google.com ([2002:a17:902:eacd:b0:21a:807a:3652])
+        bh=kLfOoQDnujr5A1F2r70MA5lfjVLn4qtfns7H9XAvRjU=;
+        b=Tv4Y8iYuaDznv3NQMk2dz+AQqRZ6bTSSCG8eXAYakoPCmM0eQobS/DEp4oBWZX9rBa
+         aPErZMgcAOlfF9rzIL9zVyMFzGI++HW4rgIm89dStRS4u0h71/WQ1/if+PjCKc1leOr3
+         Ynl6pS7vZotSEhmSwCEIqPjtCAWTWofOQJSWr5LZLIEDVYOpEL80wy7WXLMFW85rNoyy
+         y4zm2ebNP0EyQmMRanl1oXDRlxI6NKT5ZFvdZVymYK13DS/ZCFBPAheUeiEVhippXAN+
+         yhWFc7oQRtdXEdwKo8g83gpiMBl0xHjpJPtyoPHZSsyp3JCtJfDie2fybMFHRoqG9GxX
+         l3rg==
+X-Forwarded-Encrypted: i=1; AJvYcCUEIgl9A/tuHJuynV+FtqHYSg01p4nOXsE7WcE1LCF685JHTdtUHlPcxTKmMUu+DsnTJECy6z06x50+zw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLJknv8XZseWkpAPJOa3AKyFkyrwZJnifyTy8pu9duvInzFOAo
+	9M08CDwW5snb8d9iR/cNE3X3duO3QKdqn0iUG1pQc8h+Sz6+F6S+6goivU3Y9Mi+Z3cuJopaL+v
+	ALK3Jsmk0+U6+sg==
+X-Google-Smtp-Source: AGHT+IHGWPQ97evR6CX9zmw6SJkm14AscRbwGnyXik8xyoj2Fb/TGu2ud6/l7gVV23yEO+9v9zzFyVQSJlVKoKg=
+X-Received: from pgg14.prod.google.com ([2002:a05:6a02:4d8e:b0:845:b983:9e34])
  (user=guanyulin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:aa85:b0:21a:7e04:7021 with SMTP id d9443c01a7336-21a8d6b903amr22214385ad.24.1736394998346;
- Wed, 08 Jan 2025 19:56:38 -0800 (PST)
-Date: Thu,  9 Jan 2025 03:55:05 +0000
+ 2002:a05:6a21:101a:b0:1e1:aba4:2095 with SMTP id adf61e73a8af0-1e88d0bb4bfmr10227278637.32.1736395004396;
+ Wed, 08 Jan 2025 19:56:44 -0800 (PST)
+Date: Thu,  9 Jan 2025 03:55:06 +0000
 In-Reply-To: <20250109035605.1486717-1-guanyulin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250109035605.1486717-1-guanyulin@google.com>
 X-Mailer: git-send-email 2.47.1.613.gc27f4b7a9f-goog
-Message-ID: <20250109035605.1486717-2-guanyulin@google.com>
-Subject: [PATCH v7 1/5] usb: dwc3: separate dev_pm_ops for each pm_event
+Message-ID: <20250109035605.1486717-3-guanyulin@google.com>
+Subject: [PATCH v7 2/5] usb: xhci-plat: separate dev_pm_ops for each pm_event
 From: Guan-Yu Lin <guanyulin@google.com>
 To: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
 	mathias.nyman@intel.com, stern@rowland.harvard.edu, perex@perex.cz, 
@@ -71,109 +71,74 @@ Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 
 Separate dev_pm_ops for different power events such as suspend, thaw,
-and hibernation. This is crucial when dwc3 driver needs to adapt its
-behavior based on different power state changes.
+and hibernation. This is crucial when xhci-plat driver needs to adapt
+its behavior based on different power state changes.
 
 Signed-off-by: Guan-Yu Lin <guanyulin@google.com>
 ---
- drivers/usb/dwc3/core.c | 77 ++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 76 insertions(+), 1 deletion(-)
+ drivers/usb/host/xhci-plat.c | 28 ++++++++++++++++++++++++----
+ 1 file changed, 24 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 6c960ff30c92..0735881d4650 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2632,6 +2632,76 @@ static int dwc3_resume(struct device *dev)
- 	return ret;
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 3acdbbd9aea3..b676d4dbcec1 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -450,7 +450,7 @@ void xhci_plat_remove(struct platform_device *dev)
+ }
+ EXPORT_SYMBOL_GPL(xhci_plat_remove);
+ 
+-static int xhci_plat_suspend(struct device *dev)
++static int xhci_plat_suspend_common(struct device *dev, struct pm_message pmsg)
+ {
+ 	struct usb_hcd	*hcd = dev_get_drvdata(dev);
+ 	struct xhci_hcd	*xhci = hcd_to_xhci(hcd);
+@@ -478,6 +478,21 @@ static int xhci_plat_suspend(struct device *dev)
+ 	return 0;
  }
  
-+static int dwc3_freeze(struct device *dev)
++static int xhci_plat_suspend(struct device *dev)
 +{
-+	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	int		ret;
-+
-+	ret = dwc3_suspend_common(dwc, PMSG_FREEZE);
-+	if (ret)
-+		return ret;
-+
-+	pinctrl_pm_select_sleep_state(dev);
-+
-+	return 0;
++	return xhci_plat_suspend_common(dev, PMSG_SUSPEND);
 +}
 +
-+static int dwc3_thaw(struct device *dev)
++static int xhci_plat_freeze(struct device *dev)
 +{
-+	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	int		ret;
-+
-+	pinctrl_pm_select_default_state(dev);
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_active(dev);
-+
-+	ret = dwc3_resume_common(dwc, PMSG_THAW);
-+	if (ret) {
-+		pm_runtime_set_suspended(dev);
-+		return ret;
-+	}
-+
-+	pm_runtime_enable(dev);
-+
-+	return 0;
++	return xhci_plat_suspend_common(dev, PMSG_FREEZE);
 +}
 +
-+static int dwc3_poweroff(struct device *dev)
++static int xhci_plat_poweroff(struct device *dev)
 +{
-+	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	int		ret;
-+
-+	ret = dwc3_suspend_common(dwc, PMSG_HIBERNATE);
-+	if (ret)
-+		return ret;
-+
-+	pinctrl_pm_select_sleep_state(dev);
-+
-+	return 0;
++	return xhci_plat_suspend_common(dev, PMSG_HIBERNATE);
 +}
 +
-+static int dwc3_restore(struct device *dev)
-+{
-+	struct dwc3	*dwc = dev_get_drvdata(dev);
-+	int		ret;
-+
-+	pinctrl_pm_select_default_state(dev);
-+
-+	pm_runtime_disable(dev);
-+	pm_runtime_set_active(dev);
-+
-+	ret = dwc3_resume_common(dwc, PMSG_RESTORE);
-+	if (ret) {
-+		pm_runtime_set_suspended(dev);
-+		return ret;
-+	}
-+
-+	pm_runtime_enable(dev);
-+
-+	return 0;
-+}
-+
- static void dwc3_complete(struct device *dev)
+ static int xhci_plat_resume_common(struct device *dev, struct pm_message pmsg)
  {
- 	struct dwc3	*dwc = dev_get_drvdata(dev);
-@@ -2649,7 +2719,12 @@ static void dwc3_complete(struct device *dev)
- #endif /* CONFIG_PM_SLEEP */
+ 	struct usb_hcd	*hcd = dev_get_drvdata(dev);
+@@ -524,6 +539,11 @@ static int xhci_plat_resume(struct device *dev)
+ 	return xhci_plat_resume_common(dev, PMSG_RESUME);
+ }
  
- static const struct dev_pm_ops dwc3_dev_pm_ops = {
--	SET_SYSTEM_SLEEP_PM_OPS(dwc3_suspend, dwc3_resume)
-+	.suspend = pm_sleep_ptr(dwc3_suspend),
-+	.resume = pm_sleep_ptr(dwc3_resume),
-+	.freeze = pm_sleep_ptr(dwc3_freeze),
-+	.thaw = pm_sleep_ptr(dwc3_thaw),
-+	.poweroff = pm_sleep_ptr(dwc3_poweroff),
-+	.restore = pm_sleep_ptr(dwc3_restore),
- 	.complete = dwc3_complete,
++static int xhci_plat_thaw(struct device *dev)
++{
++	return xhci_plat_resume_common(dev, PMSG_THAW);
++}
++
+ static int xhci_plat_restore(struct device *dev)
+ {
+ 	return xhci_plat_resume_common(dev, PMSG_RESTORE);
+@@ -553,9 +573,9 @@ static int __maybe_unused xhci_plat_runtime_resume(struct device *dev)
+ const struct dev_pm_ops xhci_plat_pm_ops = {
+ 	.suspend = pm_sleep_ptr(xhci_plat_suspend),
+ 	.resume = pm_sleep_ptr(xhci_plat_resume),
+-	.freeze = pm_sleep_ptr(xhci_plat_suspend),
+-	.thaw = pm_sleep_ptr(xhci_plat_resume),
+-	.poweroff = pm_sleep_ptr(xhci_plat_suspend),
++	.freeze = pm_sleep_ptr(xhci_plat_freeze),
++	.thaw = pm_sleep_ptr(xhci_plat_thaw),
++	.poweroff = pm_sleep_ptr(xhci_plat_poweroff),
+ 	.restore = pm_sleep_ptr(xhci_plat_restore),
  
- 	/*
+ 	SET_RUNTIME_PM_OPS(xhci_plat_runtime_suspend,
 -- 
 2.47.1.613.gc27f4b7a9f-goog
 
