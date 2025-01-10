@@ -1,130 +1,92 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198B5207A02;
-	Fri, 10 Jan 2025 08:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEDE1CDFD4;
+	Fri, 10 Jan 2025 10:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736496737; cv=none; b=rxz8P0hRh0bUiN3V2T2KWpRucNVLVoVO6zChvdib5H/rzHIeywKxNTwKTejF8Dbc5BxMBbpBXbkf6vJnu7neY3JQSMiGhXskZoY02F5rxBIKSPa5jT3a+8S2CNvhCZo8T8ZPtULDegG6yc+uAZB5oJFzNKUgCn1EqYOyst1AZFo=
+	t=1736504422; cv=none; b=R0lPON+581IRuyIVcaFd2RRB15WU96yLJwQEKos+YWM9ZqOnCXMFbJUOOUhaLQcogkWoD+pTTHKy7Z61AseekBHPofE2+P3tnhaD9lHxhTnThLhfDr1xeBZQCohk4mUJZ3s8gSPpKms6/mkvgHDGO/St6Ytni9S5aRi1EjPdurY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736496737; c=relaxed/simple;
-	bh=PRSJq2cZTKNs494LVXoDLhL6Zzou72pcy9dzb56fPCM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jbixbn9chTYS047kqz5BSBSUiC1MBlZlGpeW//zhGztOCEaNKUelIip8vK/Mjtkvql+Sy+Ve8yc+Zb+ZQ5A6BruXGp6Hg7op61xKLYSAO/XtB5SG2hc6toswG1cikW8Ec/0kjrZgjt6XogKicUXtywX0bYtdBfrtqDPKmHm9ORI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ER6id5k+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ByWDFAvb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MUqR/o8f; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=PeyzMcyX; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ER6id5k+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ByWDFAvb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MUqR/o8f";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="PeyzMcyX"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B1A441F394;
-	Fri, 10 Jan 2025 08:12:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736496732; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H77USBSvwOwFDuFy2unRFSraEtszHgNhvseuPbHkFXs=;
-	b=ER6id5k+nl2HsWAyZqxEkLCPLUA73IQeLrmHb+gZY8Fdz3aVpvpKksHZUqgNpyl8RlTNhP
-	snr2j/VX/9HbH2IrMdzA8gOmYXIoDBeacL6fjnipi2DllZRoqygGA2qk6FTo/mxN/7gjhs
-	ty5jnPwu4TP5KfqUNG92e+ceu+o+dGE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736496732;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H77USBSvwOwFDuFy2unRFSraEtszHgNhvseuPbHkFXs=;
-	b=ByWDFAvbfLWUYGZ7rog2yREHOAW+QX4rM+npCwpuTzTmP5q4P0hS4Q7SNNtuvkRiPzicQL
-	2QJ+IOJIQ4RqlmCA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736496730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H77USBSvwOwFDuFy2unRFSraEtszHgNhvseuPbHkFXs=;
-	b=MUqR/o8f6lHHn1CqpJ2jIO/ZW8TUHeg/zTRjnSSbcqyA1VPO87DtJHzlIa4uZhQUVxcTDI
-	JBnxStkjPsc9O3j8zOSHBosRHMaXd4ejxu9mGGsfdWtY3YNx5nfYBg6j4IPLgFjABOfPQ8
-	vJpV7p28H9cQSQUC6Z4F1X3Kbjvv+wE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736496730;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H77USBSvwOwFDuFy2unRFSraEtszHgNhvseuPbHkFXs=;
-	b=PeyzMcyXngDBwIrBZbri/JDRFM8Mr2wIo/+DjdZy1xRzIoojZY9IIe8vw/lO/CKVw55NEK
-	vdw5S8/jrhLk0yBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 819EC13A86;
-	Fri, 10 Jan 2025 08:12:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id j05jHlrWgGeEeQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 10 Jan 2025 08:12:10 +0000
-Date: Fri, 10 Jan 2025 09:12:10 +0100
-Message-ID: <87plkvulyd.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: sb: Use str_enabled_disabled() helper in info_read()
-In-Reply-To: <20250109230521.237162-2-thorsten.blum@linux.dev>
-References: <20250109230521.237162-2-thorsten.blum@linux.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	s=arc-20240116; t=1736504422; c=relaxed/simple;
+	bh=S38K2cymcmc43p9xsoWCeOZ4rLP+6KJFfXEl7fXhA3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YPTctff0d+9HHFEE82zQQ1r08TA14qcRWF4GnTvIlaf3LodJekfjLeL/YROWL1eDyQm+X60WMUYbl/QdN9z1qXCUtYj4jkNKiNBm+hWze3cqJmLOzpKg/sulF7Cd7/t3TDYcO3KIF8sBOtq4o+WgcPBMmxk2g+cbLm0ABAzl2fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 7a1f2102cf3c11efa216b1d71e6e1362-20250110
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:ff9dc92b-982e-47d0-b79c-1dce32179f90,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:6493067,CLOUDID:c0838444284fdc6a6fdc967029895c4e,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
+	L:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 7a1f2102cf3c11efa216b1d71e6e1362-20250110
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangheng@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 466538018; Fri, 10 Jan 2025 18:20:12 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 5778BE003509;
+	Fri, 10 Jan 2025 18:20:12 +0800 (CST)
+X-ns-mid: postfix-6780F45C-971251556
+Received: from kylin-pc.. (unknown [172.25.130.133])
+	by mail.kylinos.cn (NSMail) with ESMTPA id C813DE003507;
+	Fri, 10 Jan 2025 18:20:10 +0800 (CST)
+From: Zhang Heng <zhangheng@kylinos.cn>
+To: shenghao-ding@ti.com,
+	kevin-lu@ti.com,
+	baojun.xu@ti.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhang Heng <zhangheng@kylinos.cn>
+Subject: [PATCH] ASoC: tas2781: Use strscpy instead of strcpy.
+Date: Fri, 10 Jan 2025 18:20:07 +0800
+Message-ID: <20250110102007.2695452-1-zhangheng@kylinos.cn>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[wanadoo.fr];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,wanadoo.fr,suse.de,vger.kernel.org];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 10 Jan 2025 00:05:19 +0100,
-Thorsten Blum wrote:
-> 
-> Remove hard-coded strings by using the str_enabled_disabled() helper
-> function.
-> 
-> Suggested-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+strcpy() performs no bounds checking on the destination buffer. This
+could result in linear overflows beyond the end of the buffer, leading
+to all kinds of misbehaviors.[1]
 
-Applied now.  Thanks.
+[1]: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcp=
+y
 
+Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
+---
+ sound/soc/codecs/tas2781-i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Takashi
+diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2=
+c.c
+index fb8cd2284fe8..03d07ab8b41a 100644
+--- a/sound/soc/codecs/tas2781-i2c.c
++++ b/sound/soc/codecs/tas2781-i2c.c
+@@ -1658,7 +1658,7 @@ static void tasdevice_parse_dt(struct tasdevice_pri=
+v *tas_priv)
+ 		dev_err(tas_priv->dev, "%s Can't get reset GPIO\n",
+ 			__func__);
+=20
+-	strcpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
++	strscpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
+ }
+=20
+ static int tasdevice_i2c_probe(struct i2c_client *i2c)
+--=20
+2.45.2
+
