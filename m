@@ -1,16 +1,16 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D483B212B18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD132211A2F
 	for <linux-sound@vger.kernel.org>; Fri, 10 Jan 2025 15:59:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736524795; cv=none; b=dCl6cs/n87HHysREV0HXIzeoja9E7WeFtJ7b0toD1M6/sZr2EYF8EVpr0ADII0eN6fZr+frI2byN989Pe6aW/PnbqEYJFCKkn0n9uVSQC2n0DPApTVo1G6ylH1+500FrNQL7m+wYKdBeLP30tseegENe0eGawU3jhmLmKksdbrg=
+	t=1736524795; cv=none; b=YABKCQtTr3JY42b/euiVhx1gx/tNZFuQKYh1g4S53FH6+XMnykiPHI715gfWvh6ihUc66IecVONaESD0uNjHWSc6OBeo3F9vBkxZx9bFyXfx6oY9ytadgRwWeE80VgpsyrBQTxFkcE+y6JyxLEbIUzjreGnYCO4oUu5AjSOoiz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736524795; c=relaxed/simple;
-	bh=tzkalJs+P6PFRQMAziAXK9HEyaw881+Y2Oj6hu9TMm8=;
+	bh=z4clsnQfFq3Mt0RQaOm1mQ0i58qK5U5aro+NnLFEDrA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KaKbfyPEWcm+oaJVWXk8uLPubOHQF6CB5BNeGYC9VeUTw4AZM63fOW1a5KgZbVYsq6OlRIKEPe8QxZVaqKcmmPu3qahxrAhg43+z85jwJbVdXqbALU07tJVOAiDVRvL7lFkOI5y7B/aT0KPa3LzVqyPbpUimKUTyF+CkGskKvuk=
+	 MIME-Version; b=Arcb8LH9ICQSfkF+AwoegSC2G/TWg6eScnAPxPYnE0xxaIasOEUvUm0NLUqGRG0oEuD4sdm4L2edZNIzYjDukh8IwEuacTwhuQ6ZsU8IYgQwqfUAVs144GgqemrSCb0f3fZNEUQexvaYFM7jOImZfJ0m6RAgxyzV403bHTdnQXk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
@@ -18,7 +18,7 @@ Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id A63FE211A1;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4727A21199;
 	Fri, 10 Jan 2025 15:59:48 +0000 (UTC)
 Authentication-Results: smtp-out1.suse.de;
 	none
@@ -26,18 +26,18 @@ Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CF6513A96;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2CCE713A86;
 	Fri, 10 Jan 2025 15:59:48 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EOs9IfRDgWefEQAAD6G6ig
+	id wPi/CfRDgWefEQAAD6G6ig
 	(envelope-from <tiwai@suse.de>); Fri, 10 Jan 2025 15:59:48 +0000
 From: Takashi Iwai <tiwai@suse.de>
 To: linux-sound@vger.kernel.org
 Cc: Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH 8/8] ALSA: seq: Notify UMP EP and FB changes
-Date: Fri, 10 Jan 2025 16:59:41 +0100
-Message-ID: <20250110155943.31578-9-tiwai@suse.de>
+Subject: [PATCH 5/8] ALSA: ump: Copy safe string name to rawmidi
+Date: Fri, 10 Jan 2025 16:59:38 +0100
+Message-ID: <20250110155943.31578-6-tiwai@suse.de>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250110155943.31578-1-tiwai@suse.de>
 References: <20250110155943.31578-1-tiwai@suse.de>
@@ -56,290 +56,78 @@ X-Spamd-Result: default: False [-4.00 / 50.00];
 	REPLY(-4.00)[]
 X-Spam-Score: -4.00
 X-Spam-Flag: NO
-X-Rspamd-Queue-Id: A63FE211A1
+X-Rspamd-Queue-Id: 4727A21199
 X-Rspamd-Pre-Result: action=no action;
 	module=replies;
 	Message is reply to one we originated
 X-Rspamd-Action: no action
 X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
-So far we notify the sequencer client and port changes upon UMP FB
-changes, but those aren't really corresponding to the UMP updates.
-e.g. when a FB info gets updated, it's not notified but done only when
-some of sequencer port attribute is changed.  This is no ideal
-behavior.
+The UMP helper didn't set up the rawmidi name string by itself but
+left it to the driver.  But since the only user (USB MIDI2 driver)
+picks up the UMP info name string to the rawmidi name as default, it's
+better to set up in the UMP core side.
 
-This patch adds the two new sequencer event types for notifying the
-UMP EP and FB changes via the announce port.  The new event takes
-snd_seq_ev_ump_notify type data, which is compatible with
-snd_seq_addr (where the port number is replaced with the block
-number).
+Meanwhile, UMP receives the EP name string from the device, and it
+might contain garbage letters.  We should purify the string to be
+usable for the kernel as done previously for UMP Group names.
 
-The events are sent when the EP and FB info gets updated explicitly
-via ioctl, or the backend UMP receives the corresponding UMP
-messages.
-
-The sequencer protocol version is bumped to 1.0.5 along with it.
+This implements the copy of the UMP info name string into the rawmidi
+name at the creation of UMP EP object in a safe way to strip the
+non-ASCII or non-printable characters.  Also, change the reference
+from the legacy rawmidi and other places to rawmidi name field instead
+of ump info; this assures the sane strings.
 
 Signed-off-by: Takashi Iwai <tiwai@suse.de>
 ---
- Documentation/sound/designs/midi-2.0.rst |  7 +++++
- include/sound/ump.h                      |  1 +
- include/uapi/sound/asequencer.h          | 12 ++++++-
- sound/core/seq/seq_clientmgr.c           | 10 ++++++
- sound/core/seq/seq_system.h              | 10 ++++++
- sound/core/seq/seq_ump_client.c          | 40 ++++++++++++++++++++++--
- sound/core/ump.c                         | 23 ++++++++++++--
- 7 files changed, 97 insertions(+), 6 deletions(-)
+ sound/core/ump.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/sound/designs/midi-2.0.rst b/Documentation/sound/designs/midi-2.0.rst
-index d6c17a47c832..71a343c93fe7 100644
---- a/Documentation/sound/designs/midi-2.0.rst
-+++ b/Documentation/sound/designs/midi-2.0.rst
-@@ -388,6 +388,13 @@ Sequencer API Extensions
-   announcement to the ALSA sequencer system port, similarly like the
-   normal port change notification.
- 
-+* There are two extended event types for notifying the UMP Endpoint and
-+  Function Block changes via the system announcement port:
-+  type 68 (`SNDRV_SEQ_EVENT_UMP_EP_CHANGE`) and type 69
-+  (`SNDRV_SEQ_EVENT_UMP_BLOCK_CHANGE`). They take the new type,
-+  `snd_seq_ev_ump_notify` in the payload, indicating the client number
-+  and the FB number that are changed.
-+
- 
- MIDI2 USB Gadget Function Driver
- ================================
-diff --git a/include/sound/ump.h b/include/sound/ump.h
-index 532c2c3ea28e..73f97f88e2ed 100644
---- a/include/sound/ump.h
-+++ b/include/sound/ump.h
-@@ -83,6 +83,7 @@ struct snd_ump_ops {
- struct snd_seq_ump_ops {
- 	void (*input_receive)(struct snd_ump_endpoint *ump,
- 			      const u32 *data, int words);
-+	int (*notify_ep_change)(struct snd_ump_endpoint *ump);
- 	int (*notify_fb_change)(struct snd_ump_endpoint *ump,
- 				struct snd_ump_block *fb);
- 	int (*switch_protocol)(struct snd_ump_endpoint *ump);
-diff --git a/include/uapi/sound/asequencer.h b/include/uapi/sound/asequencer.h
-index bc30c1f2a109..a5c41f771e05 100644
---- a/include/uapi/sound/asequencer.h
-+++ b/include/uapi/sound/asequencer.h
-@@ -10,7 +10,7 @@
- #include <sound/asound.h>
- 
- /** version of the sequencer */
--#define SNDRV_SEQ_VERSION SNDRV_PROTOCOL_VERSION(1, 0, 4)
-+#define SNDRV_SEQ_VERSION SNDRV_PROTOCOL_VERSION(1, 0, 5)
- 
- /**
-  * definition of sequencer event types
-@@ -92,6 +92,9 @@
- #define SNDRV_SEQ_EVENT_PORT_SUBSCRIBED	66	/* ports connected */
- #define SNDRV_SEQ_EVENT_PORT_UNSUBSCRIBED 67	/* ports disconnected */
- 
-+#define SNDRV_SEQ_EVENT_UMP_EP_CHANGE	68	/* UMP EP info has changed */
-+#define SNDRV_SEQ_EVENT_UMP_BLOCK_CHANGE 69	/* UMP block info has changed */
-+
- /* 70-89:  synthesizer events - obsoleted */
- 
- /** user-defined events with fixed length
-@@ -253,6 +256,12 @@ struct snd_seq_ev_quote {
- 	struct snd_seq_event *event;		/* quoted event */
- } __packed;
- 
-+	/* UMP info change notify */
-+struct snd_seq_ev_ump_notify {
-+	unsigned char client;	/**< Client number */
-+	unsigned char block;	/**< Block number (optional) */
-+};
-+
- union snd_seq_event_data { /* event data... */
- 	struct snd_seq_ev_note note;
- 	struct snd_seq_ev_ctrl control;
-@@ -265,6 +274,7 @@ union snd_seq_event_data { /* event data... */
- 	struct snd_seq_connect connect;
- 	struct snd_seq_result result;
- 	struct snd_seq_ev_quote quote;
-+	struct snd_seq_ev_ump_notify ump_notify;
- };
- 
- 	/* sequencer event */
-diff --git a/sound/core/seq/seq_clientmgr.c b/sound/core/seq/seq_clientmgr.c
-index 3d27f777f29e..75783d69e708 100644
---- a/sound/core/seq/seq_clientmgr.c
-+++ b/sound/core/seq/seq_clientmgr.c
-@@ -2230,6 +2230,16 @@ static int snd_seq_ioctl_client_ump_info(struct snd_seq_client *caller,
-  error:
- 	mutex_unlock(&cptr->ioctl_mutex);
- 	snd_seq_client_unlock(cptr);
-+	if (!err && cmd == SNDRV_SEQ_IOCTL_SET_CLIENT_UMP_INFO) {
-+		if (type == SNDRV_SEQ_CLIENT_UMP_INFO_ENDPOINT)
-+			snd_seq_system_ump_notify(client, 0,
-+						  SNDRV_SEQ_EVENT_UMP_EP_CHANGE,
-+						  false);
-+		else
-+			snd_seq_system_ump_notify(client, type - 1,
-+						  SNDRV_SEQ_EVENT_UMP_BLOCK_CHANGE,
-+						  false);
-+	}
- 	return err;
- }
- #endif
-diff --git a/sound/core/seq/seq_system.h b/sound/core/seq/seq_system.h
-index a118f7252b62..62e513f74871 100644
---- a/sound/core/seq/seq_system.h
-+++ b/sound/core/seq/seq_system.h
-@@ -16,6 +16,16 @@ void snd_seq_system_broadcast(int client, int port, int type, bool atomic);
- #define notify_event(client, port, type) \
- 	snd_seq_system_broadcast(client, port, type, false)
- 
-+/* notify UMP EP/FB change event */
-+static inline void snd_seq_system_ump_notify(int client, int block, int type,
-+					     bool atomic)
-+{
-+	/* reuse the existing snd_seq_system_broadcast():
-+	 * struct snd_seq_ev_ump_notify is compatible with struct snd_seq_addr
-+	 */
-+	snd_seq_system_broadcast(client, block, type, atomic);
-+}
-+
- #define snd_seq_system_client_ev_client_start(client) notify_event(client, 0, SNDRV_SEQ_EVENT_CLIENT_START)
- #define snd_seq_system_client_ev_client_exit(client) notify_event(client, 0, SNDRV_SEQ_EVENT_CLIENT_EXIT)
- #define snd_seq_system_client_ev_client_change(client) notify_event(client, 0, SNDRV_SEQ_EVENT_CLIENT_CHANGE)
-diff --git a/sound/core/seq/seq_ump_client.c b/sound/core/seq/seq_ump_client.c
-index 27c4dd9940ff..1255351b59ce 100644
---- a/sound/core/seq/seq_ump_client.c
-+++ b/sound/core/seq/seq_ump_client.c
-@@ -388,6 +388,33 @@ static void handle_group_notify(struct work_struct *work)
- 	setup_client_group_filter(client);
- }
- 
-+/* UMP EP change notification */
-+static int seq_ump_notify_ep_change(struct snd_ump_endpoint *ump)
-+{
-+	struct seq_ump_client *client = ump->seq_client;
-+	struct snd_seq_client *cptr;
-+	int client_id;
-+
-+	if (!client)
-+		return -ENODEV;
-+	client_id = client->seq_client;
-+	cptr = snd_seq_kernel_client_get(client_id);
-+	if (!cptr)
-+		return -ENODEV;
-+
-+	snd_seq_system_ump_notify(client_id, 0, SNDRV_SEQ_EVENT_UMP_EP_CHANGE,
-+				  true);
-+
-+	/* update sequencer client name if needed */
-+	if (*ump->core.name && strcmp(ump->core.name, cptr->name)) {
-+		strscpy(cptr->name, ump->core.name, sizeof(cptr->name));
-+		snd_seq_system_client_ev_client_change(client_id);
-+	}
-+
-+	snd_seq_kernel_client_put(cptr);
-+	return 0;
-+}
-+
- /* UMP FB change notification */
- static int seq_ump_notify_fb_change(struct snd_ump_endpoint *ump,
- 				    struct snd_ump_block *fb)
-@@ -397,20 +424,29 @@ static int seq_ump_notify_fb_change(struct snd_ump_endpoint *ump,
- 	if (!client)
- 		return -ENODEV;
- 	schedule_work(&client->group_notify_work);
-+	snd_seq_system_ump_notify(client->seq_client, fb->info.block_id,
-+				  SNDRV_SEQ_EVENT_UMP_BLOCK_CHANGE,
-+				  true);
- 	return 0;
- }
- 
- /* UMP protocol change notification; just update the midi_version field */
- static int seq_ump_switch_protocol(struct snd_ump_endpoint *ump)
- {
--	if (!ump->seq_client)
-+	struct seq_ump_client *client = ump->seq_client;
-+
-+	if (!client)
- 		return -ENODEV;
--	setup_client_midi_version(ump->seq_client);
-+	setup_client_midi_version(client);
-+	snd_seq_system_ump_notify(client->seq_client, 0,
-+				  SNDRV_SEQ_EVENT_UMP_EP_CHANGE,
-+				  true);
- 	return 0;
- }
- 
- static const struct snd_seq_ump_ops seq_ump_ops = {
- 	.input_receive = seq_ump_input_receive,
-+	.notify_ep_change = seq_ump_notify_ep_change,
- 	.notify_fb_change = seq_ump_notify_fb_change,
- 	.switch_protocol = seq_ump_switch_protocol,
- };
 diff --git a/sound/core/ump.c b/sound/core/ump.c
-index c80a0a8b7ad0..ff3cc2386ece 100644
+index ce2e180ca557..5c4dc4dc9ac8 100644
 --- a/sound/core/ump.c
 +++ b/sound/core/ump.c
-@@ -695,6 +695,15 @@ static void choose_default_protocol(struct snd_ump_endpoint *ump)
- 		ump->info.protocol |= SNDRV_UMP_EP_INFO_PROTO_MIDI1;
+@@ -740,6 +740,13 @@ static int ump_handle_device_info_msg(struct snd_ump_endpoint *ump,
+ 	return 1; /* finished */
  }
  
-+/* notify the EP info/name change to sequencer */
-+static void seq_notify_ep_change(struct snd_ump_endpoint *ump)
++/* set up the core rawmidi name from UMP EP name string */
++static void ump_set_rawmidi_name(struct snd_ump_endpoint *ump)
 +{
-+#if IS_ENABLED(CONFIG_SND_SEQUENCER)
-+	if (ump->parsed && ump->seq_ops && ump->seq_ops->notify_ep_change)
-+		ump->seq_ops->notify_ep_change(ump);
-+#endif
++	safe_copy_string(ump->core.name, sizeof(ump->core.name),
++			 ump->info.name, sizeof(ump->info.name));
 +}
 +
- /* handle EP info stream message; update the UMP attributes */
- static int ump_handle_ep_info_msg(struct snd_ump_endpoint *ump,
+ /* handle EP name stream message; update the UMP name string */
+ static int ump_handle_ep_name_msg(struct snd_ump_endpoint *ump,
  				  const union snd_ump_stream_msg *buf)
-@@ -719,6 +728,7 @@ static int ump_handle_ep_info_msg(struct snd_ump_endpoint *ump,
+@@ -1067,6 +1074,8 @@ int snd_ump_parse_endpoint(struct snd_ump_endpoint *ump)
+ 	if (err < 0)
+ 		ump_dbg(ump, "Unable to get UMP EP name string\n");
  
- 	ump->info.protocol &= ump->info.protocol_caps;
- 	choose_default_protocol(ump);
-+	seq_notify_ep_change(ump);
- 
- 	return 1; /* finished */
- }
-@@ -741,6 +751,7 @@ static int ump_handle_device_info_msg(struct snd_ump_endpoint *ump,
- 		ump->info.family_id,
- 		ump->info.model_id,
- 		ump->info.sw_revision);
-+	seq_notify_ep_change(ump);
- 	return 1; /* finished */
- }
- 
-@@ -762,6 +773,7 @@ static int ump_handle_ep_name_msg(struct snd_ump_endpoint *ump,
- 	if (ret && ump->parsed) {
- 		ump_set_rawmidi_name(ump);
- 		ump_legacy_set_rawmidi_name(ump);
-+		seq_notify_ep_change(ump);
- 	}
- 
- 	return ret;
-@@ -771,9 +783,14 @@ static int ump_handle_ep_name_msg(struct snd_ump_endpoint *ump,
- static int ump_handle_product_id_msg(struct snd_ump_endpoint *ump,
- 				     const union snd_ump_stream_msg *buf)
- {
--	return ump_append_string(ump, ump->info.product_id,
--				 sizeof(ump->info.product_id),
--				 buf->raw, 2);
-+	int ret;
++	ump_set_rawmidi_name(ump);
 +
-+	ret = ump_append_string(ump, ump->info.product_id,
-+				sizeof(ump->info.product_id),
-+				buf->raw, 2);
-+	if (ret)
-+		seq_notify_ep_change(ump);
-+	return ret;
- }
- 
- /* notify the protocol change to sequencer */
+ 	/* Request Endpoint Product ID */
+ 	err = ump_req_msg(ump, msg, UMP_STREAM_MSG_REQUEST_PRODUCT_ID,
+ 			  UMP_STREAM_MSG_STATUS_PRODUCT_ID);
+@@ -1283,7 +1292,7 @@ static void update_legacy_substreams(struct snd_ump_endpoint *ump,
+ 		idx = ump->legacy_mapping[s->number];
+ 		name = ump->groups[idx].name;
+ 		if (!*name)
+-			name = ump->info.name;
++			name = ump->core.name;
+ 		scnprintf(s->name, sizeof(s->name), "Group %d (%.16s)%s",
+ 			  idx + 1, name,
+ 			  ump->groups[idx].active ? "" : " [Inactive]");
+@@ -1330,7 +1339,7 @@ int snd_ump_attach_legacy_rawmidi(struct snd_ump_endpoint *ump,
+ 		snd_rawmidi_set_ops(rmidi, SNDRV_RAWMIDI_STREAM_OUTPUT,
+ 				    &snd_ump_legacy_output_ops);
+ 	snprintf(rmidi->name, sizeof(rmidi->name), "%.68s (MIDI 1.0)",
+-		 ump->info.name);
++		 ump->core.name);
+ 	rmidi->info_flags = ump->core.info_flags & ~SNDRV_RAWMIDI_INFO_UMP;
+ 	rmidi->ops = &snd_ump_legacy_ops;
+ 	rmidi->private_data = ump;
 -- 
 2.43.0
 
