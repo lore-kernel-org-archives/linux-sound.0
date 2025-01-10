@@ -1,76 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351D8212B10
-	for <linux-sound@vger.kernel.org>; Fri, 10 Jan 2025 15:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B99211A2D
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jan 2025 15:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736523003; cv=none; b=iSloyMUUKPiJ7/5Ez0Oiq3b183ZfPtA24wyn4Qioxt+ihiTkMISrWHj3c3w7wRoSzxZ7Vbcrb5s9Tu3j1xc/WesARakgXnv56DDZKMfI7RWwr8HNAmFzx/ob9aCrzyqPSUGuRCkUmfsdIw6avWC0JsTdFzfkJkuInBSlR+Uqpqc=
+	t=1736524791; cv=none; b=sRRzQG9ZnAzbmO7C9iWUtidcjlpa7O2ATB92Xx0lpumSjIEG/CLNzzmMoKLb7bmVu/pX3aN/yNSPMV2b9UQnY+JeTzIIXNMcIVmhsLOPIfopt3YJRv1m3HRqByxI3x6KBcl0RyBaceosXe//aSejHHt+NCrJeBMVrqI/8htKzKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736523003; c=relaxed/simple;
-	bh=uhcCkDG+bHae8B5yW5MGZ9tcT2HxQFwZ+lmEJTamsbE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nD3jqeWasqWeLsmL9nsSa+UI12ru4Uu2Q1VdDv2eeMncVgnqIilkyIsPvCrzqo9Vt2EjoQIyVOE9YjOZP5T3+xG6Y8LRVK+ol6PYqxRIEAkSUKC0+xSDAEmx+74afeOMFZLCn6T+6uuPnwQm4TP4NK/+Oy6fEgmNIHx+bNYGU+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mqvd1zDi; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mqvd1zDi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 964E1C4CEE1;
-	Fri, 10 Jan 2025 15:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736523002;
-	bh=uhcCkDG+bHae8B5yW5MGZ9tcT2HxQFwZ+lmEJTamsbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mqvd1zDiOfDQuaLn08dcUsvWho8yFUh+Gr3q3xl8nU7jTCYO+BsuiXLeCnI+X5Rno
-	 4nO+BgPGq+fgKUROSG5K4MD0I5iozF4M8blgR3IhipexHorPRsJeUeC7KaimN4k4EW
-	 tjSZ22jqYLyv/KQ4LTQtFd2VBG2jDKU9hNhEu7fWJNwtVmmTYooTnLW1p14b1QGLuN
-	 naqZbDHA0PjS5HwOeiVU35szQATyFX5mLxYGFUPawpMjYXVWQvfL3iOjyEu7CC06d4
-	 VkI3Dd7P0LQcvpChJPg7jt+W1/4CMKn7avVdWPS6RkIvFrr0/z/rNTnUYkBkj++Cb0
-	 2LTwyIcIJX03g==
-Date: Fri, 10 Jan 2025 15:29:58 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Andreas Herrmann <aherrmann@suse.de>
-Cc: linux-sound@vger.kernel.org,
-	Venkata Prasad Potturu <venkataprasad.potturu@amd.com>
-Subject: Re: [PATCH] ASoC: amd: Fix build dependency for SND_SOC_AMD_YC_MACH
-Message-ID: <de9ba3c6-3dd6-4b09-9047-2a644f37e54c@sirena.org.uk>
-References: <20250110152324.20529-2-aherrmann@suse.de>
+	s=arc-20240116; t=1736524791; c=relaxed/simple;
+	bh=+b7fQahgNR1+5OvUHn4ONM+OhFlEYJePR4j+eXNSC54=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q8w0p9Bj2lXNLr+bOSH7Wp/okaHtceV97SVXNhzulSizJLP+ml7JG9+t+Xivwkzg0XD8KOR2A/X1kgbQPM2QySGziJBfCYaHHD/nV0Hmpf1za7BtOGeAl9a6eEE5IYcctzcfuHna4Z2j4e5n4PxvkTwiUxxZwnJ/0jGPIR94vDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0756F21192;
+	Fri, 10 Jan 2025 15:59:48 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
+	none
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8D1B13A86;
+	Fri, 10 Jan 2025 15:59:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KL69M/NDgWefEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 10 Jan 2025 15:59:47 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: linux-sound@vger.kernel.org
+Cc: Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH 3/8] ALSA: rawmidi: Bump protocol version to 2.0.5
+Date: Fri, 10 Jan 2025 16:59:36 +0100
+Message-ID: <20250110155943.31578-4-tiwai@suse.de>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250110155943.31578-1-tiwai@suse.de>
+References: <20250110155943.31578-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="UtJ2+Njx4QcyOc71"
-Content-Disposition: inline
-In-Reply-To: <20250110152324.20529-2-aherrmann@suse.de>
-X-Cookie: RELATIVES!!
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Spam-Score: -4.00
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 0756F21192
+X-Rspamd-Pre-Result: action=no action;
+	module=replies;
+	Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
 
+Bump the protocol version to 2.0.5, as we extended the rawmidi ABI for
+the new tied_device info and the substream inactive flag.
 
---UtJ2+Njx4QcyOc71
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+ include/uapi/sound/asound.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Jan 10, 2025 at 04:22:39PM +0100, Andreas Herrmann wrote:
-> Commit 4095cf872084 ("ASoC: amd: yc: Fix for enabling DMIC on acp6x
-> via _DSD entry") introduced usage of acpi_evaluate_integer in
-> acp6x-mach.c.
+diff --git a/include/uapi/sound/asound.h b/include/uapi/sound/asound.h
+index 9f3b32602ac1..000b36c0e2b9 100644
+--- a/include/uapi/sound/asound.h
++++ b/include/uapi/sound/asound.h
+@@ -716,7 +716,7 @@ enum {
+  *  Raw MIDI section - /dev/snd/midi??
+  */
+ 
+-#define SNDRV_RAWMIDI_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 4)
++#define SNDRV_RAWMIDI_VERSION		SNDRV_PROTOCOL_VERSION(2, 0, 5)
+ 
+ enum {
+ 	SNDRV_RAWMIDI_STREAM_OUTPUT = 0,
+-- 
+2.43.0
 
-Someone already fixed this.
-
---UtJ2+Njx4QcyOc71
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeBPPUACgkQJNaLcl1U
-h9DWEwf/Tha9gdlHfOZiiOrPXU0dSEOB+HowkGQ/ISqgOU4VtP44QAYhWIk9rVIr
-ayS7ff96Icui7L9+2iCDIiG6pmDpUnzoM+CgxsWBEImYSBl95V1k6dO6D6SozcU/
-YrHEKOF3YXOGqthYp3ha1GqRXYfr2z6PhqDrrD83ze10FQ6SbmFmBTquFy6ZVgfT
-RCdLW3mk5QQEf9f91postb3TY9MZKWXEUT0JWR3u5ntSbyhVQrTIvSAV6JLSg9dp
-kzote1qEciBPbmrkMiE7eVk37XzWHqLm8RTmxDhdoRf20XCeIpFqj/zW/4nBjpvL
-0laBUr7oN2YvRwC5BBVdyZ2cgysu4A==
-=fUvk
------END PGP SIGNATURE-----
-
---UtJ2+Njx4QcyOc71--
