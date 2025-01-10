@@ -1,92 +1,93 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AEDE1CDFD4;
-	Fri, 10 Jan 2025 10:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1AFB18787A
+	for <linux-sound@vger.kernel.org>; Fri, 10 Jan 2025 11:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736504422; cv=none; b=R0lPON+581IRuyIVcaFd2RRB15WU96yLJwQEKos+YWM9ZqOnCXMFbJUOOUhaLQcogkWoD+pTTHKy7Z61AseekBHPofE2+P3tnhaD9lHxhTnThLhfDr1xeBZQCohk4mUJZ3s8gSPpKms6/mkvgHDGO/St6Ytni9S5aRi1EjPdurY=
+	t=1736507987; cv=none; b=ul62KThOr3OS/wdvAmEZQOP7+4qi6CP1kwZr3YCZXwzzwVzspY+30PTjaeqESb/H3hld/VfrkBPUT3B+iTcqZiDXVDu0ZWf1h/L86JVumtISKfiS5bC5hGV/AwHWByD385hofsU1dqhQ/EIc7nrjG7ixMf+4A0n7aic42Acfr7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736504422; c=relaxed/simple;
-	bh=S38K2cymcmc43p9xsoWCeOZ4rLP+6KJFfXEl7fXhA3g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YPTctff0d+9HHFEE82zQQ1r08TA14qcRWF4GnTvIlaf3LodJekfjLeL/YROWL1eDyQm+X60WMUYbl/QdN9z1qXCUtYj4jkNKiNBm+hWze3cqJmLOzpKg/sulF7Cd7/t3TDYcO3KIF8sBOtq4o+WgcPBMmxk2g+cbLm0ABAzl2fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7a1f2102cf3c11efa216b1d71e6e1362-20250110
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.45,REQID:ff9dc92b-982e-47d0-b79c-1dce32179f90,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:6493067,CLOUDID:c0838444284fdc6a6fdc967029895c4e,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
-	L:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
-	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 7a1f2102cf3c11efa216b1d71e6e1362-20250110
-Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
-	(envelope-from <zhangheng@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 466538018; Fri, 10 Jan 2025 18:20:12 +0800
-Received: from mail.kylinos.cn (localhost [127.0.0.1])
-	by mail.kylinos.cn (NSMail) with SMTP id 5778BE003509;
-	Fri, 10 Jan 2025 18:20:12 +0800 (CST)
-X-ns-mid: postfix-6780F45C-971251556
-Received: from kylin-pc.. (unknown [172.25.130.133])
-	by mail.kylinos.cn (NSMail) with ESMTPA id C813DE003507;
-	Fri, 10 Jan 2025 18:20:10 +0800 (CST)
-From: Zhang Heng <zhangheng@kylinos.cn>
-To: shenghao-ding@ti.com,
-	kevin-lu@ti.com,
-	baojun.xu@ti.com,
-	lgirdwood@gmail.com,
+	s=arc-20240116; t=1736507987; c=relaxed/simple;
+	bh=zh6YNPkdR9wZJe9g9qBWs/Q9Y68XOTXgu96Gb+NSFj4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A/U8iQuax/pIbfjdKfaeZiokF8IKyY1mQRJ3cLB6ACRLG2vjN1EFeD5VPCEDr8QH9vviTPO6JN1NXaiMvhMRRKT54JbJXmFjGNzUaMqGnmLD1PyjpvAN77dA3g+kiYmaVD61KIbWXDvBx1rfLWKcKoPnzrJZD96252FUWJN4tQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I1LuFg9C; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I1LuFg9C"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736507985; x=1768043985;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zh6YNPkdR9wZJe9g9qBWs/Q9Y68XOTXgu96Gb+NSFj4=;
+  b=I1LuFg9CoE9mPTQjMLY8sKGkPA9BmjOL7VI0IEoQzYIC3Z8Fy0fu4Cu4
+   brZvphT7GIOp2nk1C9sefwcvrJ1RYyHuyOQJldLc1ppI7FsQAr1Ce07bE
+   M1yz+FAGbXHLpH2n82v9KT0QVcaXLbPvolKhvNXs+K+VANZZL5wfcR3Ns
+   1PpdQIqvmnP8c+l4OXxsDhXD2gbT/le/Oy/IccPg9HSDT55RtbNZ4zlEw
+   nKP6LYPoaiqEzR73qlfCcmZUmbQqkIvZNm93hqEUsOx8+zl+vo5e1z/Dw
+   ahGHf7IjHEbPB4nhxNrZRj0i/n4JKX9kYh/KDdxZW27eeav1O5cL2yTFb
+   g==;
+X-CSE-ConnectionGUID: QQp0kT9TTO2Iotm9u2L+cg==
+X-CSE-MsgGUID: HcBlHYnsRF62cH5ih0ifWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="47373014"
+X-IronPort-AV: E=Sophos;i="6.12,303,1728975600"; 
+   d="scan'208";a="47373014"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2025 03:19:45 -0800
+X-CSE-ConnectionGUID: 7AMF8Nb+SYWZKrr0PX56Aw==
+X-CSE-MsgGUID: tPs0vtjEQd67aBVP+QqltA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="134609908"
+Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jan 2025 03:19:43 -0800
+From: Cezary Rojewski <cezary.rojewski@intel.com>
+To: tiwai@suse.com
+Cc: linux-sound@vger.kernel.org,
 	broonie@kernel.org,
 	perex@perex.cz,
-	tiwai@suse.com
-Cc: linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Zhang Heng <zhangheng@kylinos.cn>
-Subject: [PATCH] ASoC: tas2781: Use strscpy instead of strcpy.
-Date: Fri, 10 Jan 2025 18:20:07 +0800
-Message-ID: <20250110102007.2695452-1-zhangheng@kylinos.cn>
-X-Mailer: git-send-email 2.45.2
+	amadeuszx.slawinski@linux.intel.com,
+	Cezary Rojewski <cezary.rojewski@intel.com>
+Subject: [PATCH v2 0/2] ALSA: hda: Compilation and firmware-loading fixes
+Date: Fri, 10 Jan 2025 12:33:24 +0100
+Message-Id: <20250110113326.3809897-1-cezary.rojewski@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-strcpy() performs no bounds checking on the destination buffer. This
-could result in linear overflows beyond the end of the buffer, leading
-to all kinds of misbehaviors.[1]
+Small set of fixes, one of which addresses the compilation issues with
+snd_hdac_adsp_xxx() macros utilized currently by the avs-driver alone.
 
-[1]: https://www.kernel.org/doc/html/latest/process/deprecated.html#strcp=
-y
+The more impactful change updates the firmware loading flow so that the
+binary is loaded in two chunks rather than just one. This is to follow
+recommendation from the hardware team: SDxLVI is expected to be at least
+1 (0-index based so 1+1=2 BDL entries) when performing any data
+transfer.
 
-Signed-off-by: Zhang Heng <zhangheng@kylinos.cn>
----
- sound/soc/codecs/tas2781-i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- removed the type-mismatch fixing patch as suggested by Takashi
+- relocated snd_hdac_adsp_xxx() macros to avs/ space as suggested by
+  Jaroslav and Takashi
 
-diff --git a/sound/soc/codecs/tas2781-i2c.c b/sound/soc/codecs/tas2781-i2=
-c.c
-index fb8cd2284fe8..03d07ab8b41a 100644
---- a/sound/soc/codecs/tas2781-i2c.c
-+++ b/sound/soc/codecs/tas2781-i2c.c
-@@ -1658,7 +1658,7 @@ static void tasdevice_parse_dt(struct tasdevice_pri=
-v *tas_priv)
- 		dev_err(tas_priv->dev, "%s Can't get reset GPIO\n",
- 			__func__);
-=20
--	strcpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
-+	strscpy(tas_priv->dev_name, tasdevice_id[tas_priv->chip_id].name);
- }
-=20
- static int tasdevice_i2c_probe(struct i2c_client *i2c)
---=20
-2.45.2
+
+Cezary Rojewski (2):
+  ALSA: hda: Fix compilation of snd_hdac_adsp_xxx() helpers
+  ALSA: hda: Transfer firmware in two chunks
+
+ include/sound/hdaudio_ext.h     | 45 ---------------------------------
+ sound/hda/hdac_stream.c         |  3 ++-
+ sound/soc/intel/avs/apl.c       |  1 +
+ sound/soc/intel/avs/cnl.c       |  1 +
+ sound/soc/intel/avs/registers.h | 45 +++++++++++++++++++++++++++++++++
+ sound/soc/intel/avs/skl.c       |  1 +
+ 6 files changed, 50 insertions(+), 46 deletions(-)
+
+-- 
+2.25.1
 
