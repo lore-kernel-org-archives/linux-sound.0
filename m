@@ -1,146 +1,139 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23AF020897F;
-	Fri, 10 Jan 2025 21:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BEA634;
+	Sat, 11 Jan 2025 01:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736543268; cv=none; b=FvT5sRXd1PpM8AfF3yC0qUA+gHY8L9vUvi2JjLh2RJRinTGhuxMv6JftyF07UjSV7tvtD6s4qBtjlJnu/xopp17cnNJICMdaN9fWz8FLv7uRlkRAu9nV//McqdP+YXHw/tpt+RCYN1nYI4xj3Yl6tjTpT7EF/FcofPTnGhdnlDQ=
+	t=1736557834; cv=none; b=pWcVvahG5aW+AMzGAxBmGBCW2wPu5g5BAwAV0qreEDY1jp3nAmqCvM2bysEVgybgzt9xuTWUlbNRR3CgFaCf2FDVCEko2X+YqxDMGYdnmvKDxcb6r2uGKHpU28dkzL7QAAONkvUZWPhNSpfNTvtqD69o8dsxvzgWHQevkttcUZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736543268; c=relaxed/simple;
-	bh=Ri1eKmrS1UuCk6prwkOqC0I+UVrgyzE29B43kb6OXYg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S0s1QkjExkRVjwnfVEw0q4I31WMkTWI0uaLlvLNKqxJcID8yTdtWxyNVSTO0telxOJF/VvlWbzuG2rZOIfIhlQV+H5Cg3Zh1BfzlF4IQSQQGS3ZziSSU/rJ7VJb2egDqZ4FchfPG880bRQUnF2YxxMR55BTedSfh24hxQP2q3UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=jZxfsFnm; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	s=arc-20240116; t=1736557834; c=relaxed/simple;
+	bh=WOhjy1t8ZqxA7xnVFSL8BgssK5ED808jruF04JJpGQQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lBb2EhsnOPnf5t3F6UQs//RCRXPpRndxbn7Esf2T8KrgE28m2UoMmv1Uushznu2mimwEpJIsOaCeVpwNyh7zQ1pgbxx/9DEMcUe64Z0eGvd0sfjsK7zcXnvWlZ6bwKRgYvyU77ivbSfghVgYqny/rzH8/S8CrDH7LiSDBwo3lAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GUgza7db; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="jZxfsFnm"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a9e44654ae3so380556566b.1;
-        Fri, 10 Jan 2025 13:07:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GUgza7db"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso27819195e9.2;
+        Fri, 10 Jan 2025 17:10:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1736543265; x=1737148065; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yIZ+oSgurarcRt8vr8zAYXncwg0sc5woPL8Ha/0VWlY=;
-        b=jZxfsFnmgxPj9UNeJ6Rs/J/6djlnLKabioXWI3YbITuxPj1qmo42oQGuzeooHeBA8D
-         7qHxufHNc/I8B1yRxulkwrAitH3oVJXbxQZFJRfWAWWIsUfucJUwcdd6nNykDKEgiiJY
-         5G6gZi2SHE2HorLbUA0k3F/5okdrXq1HvjxaJgKNJR6oKCUVnnKr+33x70DpAqPtcltQ
-         68Ok4LtxvEEyhKdbl6ekVDRS4AoAsZuBK83k8vKNeG4P1QDMGNRDGKrLQbVza83KwZni
-         U0LPuK4ffOWd3Esfq9aYkIHEMo35K8qSc1tDgeqtV9lCOyPiUuGL/sVoHCF6dIrZSiOc
-         4jNw==
+        d=gmail.com; s=20230601; t=1736557831; x=1737162631; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TCIY2IdhFEaOEDZ2LVLaVqgAjNcdGgTUE0ZB1OTGAFg=;
+        b=GUgza7dbzUbm2OFjzAU8FwTz6Blxdxg/cUGs6YJidzX+qtvM8GW8lE/yfHlbck6Nvk
+         Lk1LXHUiJ91THrNU/n+UcAGXGkFGKCiE3DDn/jJqaCak2q3uwwX0FaSylhiHMAiBaOKv
+         H2AP7EZ1XDTtT7OeMM15sB8iNX/U/PrFKO1er2FVqPsR5liMcuIEAYnELmNUuE0/g1pr
+         4aoKI92IJEhH2Ean9PJkXYEOolD6QUG9OHFYmdpcnumvbZlB5Sj3vaFT8Xb69XW+AsS/
+         fHiWkvnPjGqvKUCXQayDboV3oVfd6z7O76oq4/vZJ2ETREKjrl3z92Ux8RmWLy/hTYyl
+         tCxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736543265; x=1737148065;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yIZ+oSgurarcRt8vr8zAYXncwg0sc5woPL8Ha/0VWlY=;
-        b=afRJTpYsdE4iUfyD2ntkBsU+EyF/NF76P6AKeA+K7tWMDs+bqXI0MkwoJV7O8bY+y3
-         SzVny35mEbRsolkU08g9v+9zgjVlovKD37J5JwEK8jATbuEAiSW6gT1ONugWgafyDqcJ
-         sLDFi2FunVWEONvtvNrfVth/fvdNZeIt9fH3IOQrG6IWT7I3/DAPt4oNI0sjLpiO43Lh
-         +vUFYSDRO+oVfInm1FeFLfIBw96f62GtzizzjoI1TcS9ja83vbUeHl6GZ3RUA5+ZjLj+
-         bUGR+QTR4y8twGcdrZnnCifCD7CitXKMT6tRe+8TAOJ5cSm2cXmkKcatiIjypkYiMxvB
-         7icw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0Zh2q31GwrKUJHHX0RvAaYiMWSYL1lvGpeQihV3KUj5qnClMnF/v3XboDo4OiXNAjJ1AfwUy97+1PAvg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/MTJ35KfisuDYE6coTJzFVLjwg2YUu5eTslPoKmocYBOcA0Tx
-	IKFsP5rvWBGm07MjP2nWPUjU5eHbPuvcBRhk2RAnYZ4cHpK+TNI8d0c1Qsjp
-X-Gm-Gg: ASbGncvokGWy8KeuC11rgs18/uMOp6/D/mY65S9F3FDX2mrdNQRDKnWeHJhaddLxc1M
-	EvUzu2TdncrcQBexJmmZ9AQCEImV8tge31dwuRXHiq67rZsSrsLOthRfl9eInwFP0b2i6BxQUO4
-	JWnrNgBuHcqD/xnT3qEL+GqH53W9LJZlsZ6dOhZ/ux8RUA2XlLCZTQLZA4kj6n8XWtC/d5bIKEl
-	+ZBXKYe1su2quSKcDavtngPBQIzPwEEwHbnE7Nf3j9W4uPw4QrzyI27eX0ckFfsYiWrlQweRc/q
-	ASkSErlffjdgDrO8f4OGqXOvKkEfROmSGE7fJg+9Bsq1JOcTuIO9nTeGxSYoRxuTvN3LrGHSJkR
-	/5Exp/UWiTnO+f4ekj6iv7YCP
-X-Google-Smtp-Source: AGHT+IGfkZEI61CgIzpYxXU8G4mktTudXEmOYpm0fxUboDfEgHg1ACC7bWH08mfx2wWTHyIwtIbcEQ==
-X-Received: by 2002:a17:907:2cc5:b0:aa5:44a8:9ae7 with SMTP id a640c23a62f3a-ab2abdc04b4mr1051516566b.47.1736543265084;
-        Fri, 10 Jan 2025 13:07:45 -0800 (PST)
-Received: from localhost.localdomain (dynamic-2a02-3100-a97f-2b00-1e86-0bff-fe2f-57b7.310.pool.telefonica.de. [2a02:3100:a97f:2b00:1e86:bff:fe2f:57b7])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab2c905e2ebsm207172966b.10.2025.01.10.13.07.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2025 13:07:44 -0800 (PST)
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-To: linux-sound@vger.kernel.org,
-	linux-amlogic@lists.infradead.org
-Cc: s.nawrocki@samsung.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	linux-kernel@vger.kernel.org,
-	jbrunet@baylibre.com,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Subject: [RFC v2 2/2] ASoC: dapm: add support for preparing streams
-Date: Fri, 10 Jan 2025 22:07:30 +0100
-Message-ID: <20250110210730.705613-3-martin.blumenstingl@googlemail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250110210730.705613-1-martin.blumenstingl@googlemail.com>
-References: <20250110210730.705613-1-martin.blumenstingl@googlemail.com>
+        d=1e100.net; s=20230601; t=1736557831; x=1737162631;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TCIY2IdhFEaOEDZ2LVLaVqgAjNcdGgTUE0ZB1OTGAFg=;
+        b=aL/gj2PScJUYJGKX8UJZH44fTEzcIEtXOT4hkXQif1LNVZeMCDmyQ3j4bboyKQXoqH
+         q29kX9ByqtKbmBxKPZQuowIvDzcS9wxOEABONwWBNPjZAz1liCVjOwcCLKtSRxaiSyGf
+         g5+nBkQ3c04qnKABMQDy/Xpng9jRdoQRvj32FwV/or6tIz4l328ZR2HH7y6qLfJWIzg8
+         o98TIpm6GnRuK9TebdX6yYiTl6uzbX0UXMXMrShqBXr72wFYdHsS+fJZ1wcIzrhTGJTS
+         VB7whTX1DJddYOVRaD3wMiokPMKHOIVGpZ86LsNJpIqGLXwc+dvJpMKOFYo2EKwXZNqd
+         dLlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVG6lKR9nRT7ULkop8wz68QtlgmsBHUQua9d5F0NLF9vsvHD9WroaIb0+4J2Z0Ar/BSAMDDn3THBgpPXRE=@vger.kernel.org, AJvYcCWvZbGUWaRr//TnhPJojFH2eAl1LInoFzDNAaFuu6C3xRHpRGrxPKmHu6c+WJaFKCNNhKPNtMtkIMaC1wk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8wZUHAF+BP6Ju5TGUz7RGPzcPPaPaf8L/xIy9akJ1wEzpvGBl
+	zyfwOwMMPPrVz8+lK1B60saVy9xeyDBqNAA0tBN8pgzsAkmzgfdz
+X-Gm-Gg: ASbGnct3HzwNfIC+9Qn1IxxyHkCuNLvFcoeV7+1NEMcDU1swcag1POdBWz9fze+1OUc
+	6sMUZitZFXv/uNp/tM5ek7vGy4i6gIVKXu/i8itzx7MYLf87GVQe5oFv26y/vYvympv8T9kIUsU
+	uJlC1snUcK0nogmtAHrl5Qa356Uk9o7pdy5lB9EpU7fzoTTm6pdbaqQmj/woDMLENfQxPgHkprh
+	YDRADnucrgCsGkEXo4XvcUdxIjpTWec4rr27X4ndK7hj0a3l5FpoF15/BbvpuPDvQEG8KOV7jWC
+	KcrwIcg7EA==
+X-Google-Smtp-Source: AGHT+IGHVIyHcuZIwndnW2bJivKBpG3Hyfmut05YyWRJl0Bt6wOc3xHmWiR13F4ISD8QNAjR/ade5g==
+X-Received: by 2002:a05:600c:1c84:b0:434:e9ee:c2d with SMTP id 5b1f17b1804b1-436e26e2725mr104468985e9.26.1736557830528;
+        Fri, 10 Jan 2025 17:10:30 -0800 (PST)
+Received: from [192.168.1.130] ([82.79.237.175])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4c1d13sm5923108f8f.91.2025.01.10.17.10.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jan 2025 17:10:29 -0800 (PST)
+Message-ID: <709f3aba-b681-4b43-947a-770227cf0afa@gmail.com>
+Date: Sat, 11 Jan 2025 03:10:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC] ASoC: simple-card-utils: fix priv->dai_props indexing
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241220151213.2462-1-laurentiumihalcea111@gmail.com>
+ <87h66v8bsc.wl-kuninori.morimoto.gx@renesas.com>
+ <197add46-752d-4779-98ff-1cde2543dd63@gmail.com>
+ <87y0zk26ko.wl-kuninori.morimoto.gx@renesas.com>
+ <146532e5-1329-433e-852b-e6d400eb5347@gmail.com>
+ <87cygvwgks.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+In-Reply-To: <87cygvwgks.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Codec driver can implement .hw_params and/or .prepare from struct
-snd_soc_dai_ops. For codec-to-codec links only the former (.hw_params)
-callback has been called.
-
-On platforms like Amlogic Meson8/8b/8m2 the SoC's sound card
-(sound/soc/meson/gx-card.c) uses a codec-to-codec link for the HDMI
-codec output because further digital routing is required after the
-backend. The new DRM HDMI (audio) codec framework (which internally
-uses sound/soc/codecs/hdmi-codec.c) relies on the .prepare callback
-of the hdmi-codec to be called. Implement calls to
-snd_soc_dai_prepare() so the .prepare callback is called. In this
-case the mandatory part is the call to prepare the sink (which is
-the hdmi-codec on those platforms). Also call snd_soc_dai_prepare()
-for the source to stay consistent with the rest of the code (even
-though it's not strictly necessary to make the DRM HDMI codec
-framework work on Amlogic Meson8/8b/8m2).
-
-For platforms or sound cards without a codec-to-codec link with
-additional parameters (which applies to most hardware) this changes
-nothing as the .prepare callback is already called via
-snd_pcm_do_prepare() (as well as dpcm_fe_dai_prepare() and
-dpcm_be_dai_prepare()) on those.
-
-Suggested-by: Jerome Brunet <jbrunet@baylibre.com>
-Signed-off-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
----
-Changes since v1:
-- also call snd_soc_dai_prepare() as suggested by Jerome/Mark for the
-  source to keep things symmetrical (this is not strictly necessary
-  for the Amlogic Meson SoC as it doesn't implement the .prepare
-  callback in the platform drivers - but having it symmetrical means
-  less confusion for future platform maintainers)
 
 
- sound/soc/soc-dapm.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/sound/soc/soc-dapm.c b/sound/soc/soc-dapm.c
-index 99521c784a9b..ebb181aac7b7 100644
---- a/sound/soc/soc-dapm.c
-+++ b/sound/soc/soc-dapm.c
-@@ -4013,6 +4013,18 @@ static int snd_soc_dai_link_event(struct snd_soc_dapm_widget *w,
- 		break;
- 
- 	case SND_SOC_DAPM_POST_PMU:
-+		snd_soc_dapm_widget_for_each_source_path(w, path) {
-+			source = path->source->priv;
-+
-+			snd_soc_dai_prepare(source, substream);
-+		}
-+
-+		snd_soc_dapm_widget_for_each_sink_path(w, path) {
-+			sink = path->sink->priv;
-+
-+			snd_soc_dai_prepare(sink, substream);
-+		}
-+
- 		snd_soc_dapm_widget_for_each_sink_path(w, path) {
- 			sink = path->sink->priv;
- 
--- 
-2.47.1
+On 1/10/2025 4:25 AM, Kuninori Morimoto wrote:
+> Hi Laurentiu
+>
+> Thank you for your reply
+>
+>>> -	simple_priv_to_props(priv, rtd->id);
+>>> +	simple_priv_to_props(priv, rtd);
+>> ah, thanks for the clarification! correct me if I'm wrong here but the issue
+>> that I see with the suggested approach is that we have some places in which
+>> simple_priv_to_props() is used before the RTD is created.
+>>
+>> Example scenario: in audio-graph-card2 we call graph_link_init() (which uses simple_priv_to_props)
+>> before the card is registered (during which the RTD is created).
+> Do you mean like this ?
+>
+> Before created RTD: ID is not yet updated : use         simple_priv_to_props()
+> After  created RTD: ID is         updated : use runtime_simple_priv_to_props()
+>
+> Is this correct ?
+
+yep, pretty much.
+
+> If so, do we need to use them differently ?
+> In the end, it end up doing the same thing, I think.
+
+yep, they do the exact same thing. The only difference is the way they do it. As for the usage, the "rule" would be:
+
+if you have an RTD structure =>
+    use runtime_simple_priv_to_props(priv, rtd) if simple_priv_to_props(priv, rtd->id) might be invalid
+
+otherwise =>
+    use simple_priv_to_props()
+
+>
+> If my understanding was correct, it will just makes people confuse, and I
+> don't want to makes code complex. I think just adding comment why it
+> don't/can't use rtd->id directly is simple and enough (almost all user
+> don't care small detail of macros :) but what do you think ?
+
+i agree, no need to overly-complicate things. Will just add a comment in code as you suggested.
+
+Thanks for the input!
+
+>
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Kuninori Morimoto
 
