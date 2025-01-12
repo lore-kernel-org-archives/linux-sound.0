@@ -1,188 +1,154 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C735D1BEF90
-	for <linux-sound@vger.kernel.org>; Sun, 12 Jan 2025 17:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886A1BEF9D;
+	Sun, 12 Jan 2025 19:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.82.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736702026; cv=none; b=ok9vdp0CRbB/HOSh9sbGzm/6AVcbeblDXb1e0/RcPNn3wgYDuzBYsCQ9Ue/0p9OZ2+7yFDkFCwZ3bQhkD7pXVZRw18903NFkHcb3IyKmBfvbkV558bXyccii7mEir20W1ekQbiWETneTjz6bzfJ2G1RwkDHLjkYTCK6RRwVgjg0=
+	t=1736709835; cv=none; b=kidvMo+A4/xBFiog9cUm4EXBAEc6gk9mmt8NaAPxuM1aZPzZesYGrKVE7ZTxXffpKxYdu2KGXyAahiRv+TNdqjIksdr1k7AGn+Q95fmK37ga4ztYocRVlauikbbMWX8zv3SK4TE6eetJcE5PXVPzJhB72FTF+HJ53ytfDECcCFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736702026; c=relaxed/simple;
-	bh=neeegY7ydjRTMkc6rORKW6g12xoIdVhTdPS0Z3mFjm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XOcI1/TRYyp2FVj/wlMOasnCyEutazpUb0u1uQpdHhFTbyZt+vUh0jZtyUVgsPmXekSdN8eAjdT4gOxgzHPoWd2IsDT+k7Uuwub7wSTGuRcno6VrETNB6e2NtUXHsEC1ULYWNr+o5RUeZlHk2kuJtPx8pAYJ0Bf3hlk9fk3T8sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=s7nPFy4z; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="s7nPFy4z"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id 2122E64A2AC2; Mon, 13 Jan 2025 03:40:04 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu 2122E64A2AC2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1736701804; bh=ROyXCxKmwtB61oeyiaGDFTAMQ9U7hxSTNSe6/U0jaqQ=;
-	h=Date:From:To:Cc:Subject:From;
-	b=s7nPFy4z6Up35x/Lk+AIzAEUkcxeF5fSDWJNEfixhxo1QCUkyoHZGM9RIOO6BrLsu
-	 rToEU7LWjwBf1jwEr6GPKWHH77iPaAAqbix4qnRPRO+/0Y6QYFQuUvp+4q1liFYWxU
-	 /qyN77Zq2Z9Gwv4c61jby8kkGYDgs7x66FR6gtYNe1gNNZDboBruK7kHKnb0pP8CPt
-	 JdPk3dvphkOinAclkev6oWgZNjAhMH1UQoF39w73bT+bI+i500C+o5Bg3Bj3RTrZJw
-	 ws1nvL0smAl9z6kZZvktq0/CEOiLZIgjjanHKqxP8pySz0qdZ6tDSGidugCWpaqKPa
-	 DexCXOvC5i1Lw==
-Date: Mon, 13 Jan 2025 03:40:04 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH v5 0/2] ALSA: Add driver for big Scarlett 4th Gen interfaces
-Message-ID: <cover.1736699490.git.g@b4.vu>
+	s=arc-20240116; t=1736709835; c=relaxed/simple;
+	bh=nUnYR05Em6AB4psYKVrHb3Cg+XhmqqqRDotaiyHYHBY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dGfxGEADZDUSXaA1gE8gaUlDGRGHp4ZIa+FGuYsiXg7yhtn7mRzznGGQViyVYMTAstcIqgyAfPJ4du33E7rwPQjIA+PjFHoyoH5TvVLfdsLc7Tsxe8slmfo/WgbsUCJuWTyfLJujQmUiBeYDVNLiXVypj//uOWwoUZmnCEwzlkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name; spf=pass smtp.mailfrom=vps-ovh.mhejs.net; arc=none smtp.client-ip=145.239.82.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vps-ovh.mhejs.net
+Received: from MUA
+	by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
+	(Exim 4.98)
+	(envelope-from <mhej@vps-ovh.mhejs.net>)
+	id 1tX3Yf-00000005aOp-1hGB;
+	Sun, 12 Jan 2025 20:23:37 +0100
+Message-ID: <d5a111cb-c242-4a91-8289-5441495c3ff5@maciej.szmigiero.name>
+Date: Sun, 12 Jan 2025 20:23:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP
+ EliteBook 855 G7
+To: Takashi Iwai <tiwai@suse.de>, Kailang Yang <kailang@realtek.com>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Oder Chiou <oder_chiou@realtek.com>, Shuming Fan <shumingf@realtek.com>,
+ Qiu Wenbo <qiuwenbo@kylinos.com.cn>, linux-sound@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
+ <87sepo2pvn.wl-tiwai@suse.de>
+Content-Language: en-US, pl-PL
+From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Autocrypt: addr=mail@maciej.szmigiero.name; keydata=
+ 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
+In-Reply-To: <87sepo2pvn.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Sender: mhej@vps-ovh.mhejs.net
 
-Hi Takashi,
+On 12.01.2025 13:11, Takashi Iwai wrote:
+> On Wed, 01 Jan 2025 14:16:05 +0100,
+> Maciej S. Szmigiero wrote:
+>>
+>> PC speaker works well on this platform in BIOS and in Linux until sound
+>> card drivers are loaded. Then it stops working.
+>>
+>> There seems to be a beep generator node at 0x1a in this CODEC
+>> (ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
+>> at nodes 0x22 and 0x23.
+>> If I unmute the mixer input for 0x1a at node 0x23 and start recording
+>> from its "ALC285 Analog" capture device I can clearly hear beeps in that
+>> recording.
+>>
+>> So the beep generator is indeed working properly, however I wasn't able to
+>> figure out any way to connect it to speakers.
+>>
+>> However, the bits in the "Passthrough Control" register (0x36) seems to
+>> work at least partially: by zeroing "B" and "h" and setting "S" I can at
+>> least make the PIT PC speaker output appear either in this laptop speakers
+>> or headphones (depending on whether they are connected or not).
+>>
+>>
+>> There are some caveats, however:
+>> * If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
+>> device for keeping it awake during beeping.
+>>
+>> * If the beep generator node is generating any beep the PC beep passthrough
+>> seems to be temporarily inhibited, so the HDA beep device has to be
+>> prevented from using the actual beep generator node - but the beep device
+>> is still necessary due to the previous point.
+>>
+>> * In contrast with other platforms here beep amplification has to be
+>> disabled otherwise the beeps output are WAY louder than they were on pure
+>> BIOS setup.
+>>
+>>
+>> Unless someone (from Realtek probably) knows how to make the beep generator
+>> node output appear in speakers / headphones using PC beep passthrough seems
+>> to be the only way to make PC speaker beeping actually work on this
+>> platform.
+>>
+>> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
+> 
+> It's a change that does handle things completely differently from the
+> current implementation, and it uses undocumented Realtek-specific
+> things, so I'd rather want comments from Realtek.
+> 
+> Kailang, is this feature correct and can be used safely?
+> 
 
-Thank you again for your feedback.
+...and if it is incorrect then it would be nice to know how to do it
+the correct way.
 
-On Fri, Jan 10, 2025 at 06:03:02PM +0100, Takashi Iwai wrote:
-> On Sat, 04 Jan 2025 18:12:54 +0100,
-> Geoffrey D. Bennett wrote:
-[...]
-> > +union fcp_init {
-> > +>--__u32 version;
-> > +>--struct fcp_init_v1 v1;
-> > +};
-> > +
-> > +#define FCP_IOCTL_INIT _IOWR('S', 0x64, union fcp_init)
->-
-> I don't think this version and union are needed.
-> If you need a different way of initialization, you can provide simply
-> a new ioctl, instead of keeping the same ioctl and handles something
-> conditionally in a complex way.
+By the way, the patch will need a respin anyway to correct the typo in
+!IS_ENABLED(CONFIG_INPUT_PCSPKR) code that the kernel test robot found
+and to change that codec_warn() into dev_warn_once(hda_codec_dev(codec))
+to avoid spamming the kernel log at runtime PM CODEC re-init.
 
-Noted and fixed.
+> thanks,
+> 
+> Takashi
 
-> Also, in which situation should the init ioctl be performed?
-> And in which situation it shouldn't (must not) be performed?
-> Currently the driver seems allowing to run it at any time.  e.g. what
-> happens if the init ioctl is called while you're playing or recording
-> streams?  The same question is applied to the fcp_cmd, too.
-
-The init must be performed at least once before any commands will
-work, but can be safely performed again at any time, including during
-playback/recording. Based on my testing, it seems that the control
-interface is completely separate from the audio/isochronous transfers.
-I've updated the comments to explicitly note that the init ioctl can
-be called at any time.
-
-fcp_cmd is expected to be called at any time as well.
-
-> > +>--if (!capable(CAP_SYS_RAWIO))
-> > +>-->-------return -EPERM;
->-
-> So now you limit the hwdep operation essentially only to root user.
-> Is it intended, right?  That is, the hwdep should be accessed only at
-> probe time for configuring the stuff (preferably some service or udev
-> stuff)?
-
-Correct. During development it was convenient to not have that
-restriction, but as you point out there are some risks that way, and
-the user-space side of the driver is intended to be automatically
-started by udev/systemd, which can run it with CAP_SYS_RAWIO.
-
-FYI, the complete end-to-end setup from kernel driver to user-space
-driver (fcp-server from the fcp-support project) (automatically loaded
-by udev/systemd) to user-space control app (alsamixer, amixer, or
-alsa-scarlett-gui) is working well for me and a few other testers.
-
-The ALSA controls created by the user-space driver are nearly
-indistinguishable from those created by the existing scarlett2 driver.
-All the expected features (mixing, routing, gain/volume, levels,
-firmware updates, etc.) are working well. The current public code for
-the user-space driver matches v1 of the kernel side that I previously
-submitted. Once we get the ioctls finalised then I'll push the
-corresponding user-space side.
-
-> Maybe it'd be helpful to give some "big picture" to indicate how
-> things should work.  Also, the more proper documentation should be
-> provided for the hwdep interface, too.  The kernel doc in comments
-> should be fine, too.
-
-Noted and fixed.
-
-> Last but not least, I don't think we need to split to two patches.
-> The second patch merely adds the setup hook, and this can be folded
-> into the main patch.
-
-I'm not sure I agree with combining the patches. Here's my reasoning:
-
-Patch 1 adds the new FCP driver which supports the new 4th Gen
-16i16/18i16/18i20 interfaces. This patch is complete on its own and
-these interfaces don't require patch 2.
-
-Patch 2 is optional and adds the ability (but not the default) to use
-the new FCP driver with existing hardware (that is already supported
-by the scarlett2 driver). This capability is added through a module
-parameter in the scarlett2 driver and is logically separate from the
-FCP driver.
-
-But I'm okay to combine them if you still think that would be better.
-
-Regards,
-Geoffrey.
-
----
-Changes in v5:
-- Remove version/union complexity from init ioctl
-- Add documentation to clarify ioctl usage and big picture
-
----
-Changes in v4:
-- Use variable-length data arrays in ioctl structs instead of pointers
-- Add CAP_SYS_RAWIO requirement to hwdep interface
-- Add validation of flash commands to prevent accidental bricking due
-  to erasing/writing the App_Gold segment
-- Refactor URB cleanup
-
----
-Changes in v3:
-- Update ioctl structs and add ioctl_compat op to work with 32-bit
-  userspace on 64-bit kernels
-- Update driver to do all init steps so it can re-init after
-  suspend/resume
-- Add version field to init ioctl for future compatibility
-- Improve error messages when unexpected response data is received
-
----
-Changes in v2 as per Takashi's feedback:
-- Use fixed-size data arrays instead of pointers in ioctl structs
-- Define notify struct outside of struct fcp_dev
-- Use u8/u16 types without __ prefix
-- Use cleanup.h for code simplification
-- Add init flag to ensure FCP_IOCTL_INIT is called before
-  FCP_IOCTL_CMD and FCP_IOCTL_SET_METER_MAP
-- Do not destroy/recreate the meter control (the number of channels is
-  now fixed when it is created)
-
-Geoffrey D. Bennett (2):
-  ALSA: FCP: Add Focusrite Control Protocol driver
-  ALSA: scarlett2: Add device_setup option to use FCP driver
-
- MAINTAINERS                 |   10 +-
- include/uapi/sound/fcp.h    |  107 ++++
- sound/usb/Makefile          |    1 +
- sound/usb/fcp.c             | 1044 +++++++++++++++++++++++++++++++++++
- sound/usb/fcp.h             |    7 +
- sound/usb/mixer_quirks.c    |    7 +
- sound/usb/mixer_scarlett2.c |    8 +
- 7 files changed, 1180 insertions(+), 4 deletions(-)
- create mode 100644 include/uapi/sound/fcp.h
- create mode 100644 sound/usb/fcp.c
- create mode 100644 sound/usb/fcp.h
-
--- 
-2.45.0
+Thanks,
+Maciej
 
