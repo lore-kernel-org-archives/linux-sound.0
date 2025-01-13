@@ -1,100 +1,114 @@
-Received: from m.b4.vu (m.b4.vu [203.16.231.148])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A59A19922A
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 19:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.16.231.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4186E1BFE05;
+	Mon, 13 Jan 2025 22:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736797336; cv=none; b=nXCRGZcklm9Vi1X17T02OQP2WKyqjJDuvihxIDtb3TFfZUC9rxkuZ8o7YwM2vJlHw1GJzdyAN33rTT9WW7n1Mn98SOPrCB53oF4P9+p4nFK/zftf2EMvdcqj4WB85cUEoazhex7Ri1ys59Bx4NTC+D4cb6qhkXwA5Dk5MAPbXBM=
+	t=1736806562; cv=none; b=jX4ekCBnJanQL4WBC/KpULeKtneV/lR8OCSrFWwlwp2bjuGDCRQg9hXV6HPZj7KOS/iKo1XlE+Bc5/UDUJG9Lm3xUcBI+ofvMkubqRYSs1sa137bHP8GGy6wvjKQ61h0mpFXpBiS7NySWeleSl/vjA6Pq/HcTaouDlDV+d5elX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736797336; c=relaxed/simple;
-	bh=g9Y4M4s0GQu3ILho+7yEbrkac3+uwhE+ELeQ84R+Qh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eR4oqslh5qCvZXIWeqHe6rLnOC+Nw5m/+VyUUiMBHXjtzBc/1uOxSs/MBzv9JzxpSipGDLB778XCVS/Q5etbiASwAT33GpPyfN4H7RlyhuWeqhSJcPdzTIMoxDe/R5jdr4ZsoIzaBq0QH27AYQ2xw1OzfXCl7AvCZCf4TTKEd3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu; spf=pass smtp.mailfrom=b4.vu; dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b=WLK/RIxL; arc=none smtp.client-ip=203.16.231.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=b4.vu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=b4.vu
+	s=arc-20240116; t=1736806562; c=relaxed/simple;
+	bh=Y5S6E31vGrZp2WWQp+J7+BjHJQAeXUygSkYTQTvX4XU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ankeBSuOOFeGE+3dj9NOkMLoBpmfHn38YM3Mevd8B9IdB7KNSfNnqr3DqQHNiBCSvUNGmvATsMWpKnq1w3ry6AZKGjUqlYsdFAQ1YOTfKJnRXBeXnk5Y7kkFKld0HHKA2K0fgK15IIlOyurwkYdyW/AdUInOD3kNlQPfitjlHD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kE0rJD9s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=b4.vu header.i=@b4.vu header.b="WLK/RIxL"
-Received: by m.b4.vu (Postfix, from userid 1000)
-	id B1709649F390; Tue, 14 Jan 2025 06:12:12 +1030 (ACDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 m.b4.vu B1709649F390
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=b4.vu; s=m1;
-	t=1736797332; bh=I1c8cQW2h3IyL5mebxUFKL+d9rNVnhw0SGdH19EqGzI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WLK/RIxLzoZTPIhal+WSG3/lcCEhHMvUz7LIHLCKxJh5fTCDAkkxtBk1buxjL/WR8
-	 hOwhtp8BW9E1Ggdzb9ClXq/6PkfbjYYaUkH5EB5UvdRGIK+G0oVzmGdcP7ac96lF6x
-	 a79uP+eM2bhlr0RqaU2mFIUj60OfofNjl4w1+Se5V2nfuxfqXJ271UfIzrHliOnvS1
-	 W0u4Ll4/XahB/tj6EMPZwQ0Htfga9VIC/fxtN+bcSqjfvS8qzzSEhhePoJ50fWBNPF
-	 mhlZImI//IT2Rv3i7NAOXUzEFr89+rTfxiwkIN9rgSYcyGU7VmSuL/cob/if0PITIa
-	 TtmtptybIUKRg==
-Date: Tue, 14 Jan 2025 06:12:12 +1030
-From: "Geoffrey D. Bennett" <g@b4.vu>
-To: Takashi Iwai <tiwai@suse.de>, Jaroslav Kysela <perex@perex.cz>
-Cc: Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org
-Subject: [PATCH v6 2/2] ALSA: scarlett2: Add device_setup option to use FCP
- driver
-Message-ID: <a15c6e72d69f84c719729be5d5594ef7518ce9ec.1736792486.git.g@b4.vu>
-References: <cover.1736792486.git.g@b4.vu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kE0rJD9s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25987C4CEDD;
+	Mon, 13 Jan 2025 22:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736806561;
+	bh=Y5S6E31vGrZp2WWQp+J7+BjHJQAeXUygSkYTQTvX4XU=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=kE0rJD9sWlhLiE0AKOajjAvKjJxRX3Gsf3vizIKpCPynwBqUdiks0Vk8Ka8rFTODf
+	 piPCBzzT61CxjMeovlpRz7RxSMgCF0Vi9A4MrwJs4Y6JDUdRDBmnCnjBW+YWYkzJGv
+	 bK91aUE0oDE9WO/HUpuN7l7IGMV+C4Cn5PIuQVa/6vfNNyaIC5tEeQ9AL8/i9N1VW2
+	 BQTVM5qT/d+Jz7E0oETwP9wptZgia5mQ9eueT6ae3E+xMm2MzyXyUM2UVcMV7jxzyk
+	 /ZoGu+hS5LuMm+jBkxkvbP0vzPpPw1esO63l5zeJxhJqUSwdASLVpR/zov3QfpQqRq
+	 1GTXWl7lQ74PA==
+From: Mark Brown <broonie@kernel.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>, 
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org
+In-Reply-To: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
+References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
+Subject: Re: (subset) [PATCH v10 00/10] drm: add DRM HDMI Codec framework
+Message-Id: <173680655387.149204.17517246537828613856.b4-ty@kernel.org>
+Date: Mon, 13 Jan 2025 22:15:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1736792486.git.g@b4.vu>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Add a new device_setup option (SCARLETT2_USE_FCP_DRIVER = 0x08) that
-allows users to opt in to using the new FCP driver instead of the
-existing scarlett2 driver for their device. This provides a way to
-test the new FCP driver on existing supported hardware while keeping
-the Scarlett2 driver as the default.
+On Tue, 24 Dec 2024 03:47:52 +0200, Dmitry Baryshkov wrote:
+> While porting lt9611 DSI-to-HDMI bridge driver to use HDMI Connector
+> framework, I stumbled upon an issue while handling the Audio InfoFrames.
+> The HDMI codec callbacks weren't receiving the drm_atomic_state, so
+> there was no simple way to get the drm_connector that stayed at the end
+> of the bridge chain. At the same point the drm_hdmi_connector functions
+> expected to get drm_connector instance.
+> 
+> [...]
 
-When the SCARLETT2_USE_FCP_DRIVER bit is set in device_setup, the
-scarlett2 driver initialisation will hand off to the FCP driver
-instead of proceeding with its own initialisation. The FCP driver then
-provides access to the device via its hwdep interface.
+Applied to
 
-Signed-off-by: Geoffrey D. Bennett <g@b4.vu>
----
- sound/usb/mixer_scarlett2.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-diff --git a/sound/usb/mixer_scarlett2.c b/sound/usb/mixer_scarlett2.c
-index 7f595c1752a5..288d22e6a0b2 100644
---- a/sound/usb/mixer_scarlett2.c
-+++ b/sound/usb/mixer_scarlett2.c
-@@ -166,6 +166,7 @@
- #include "helper.h"
- 
- #include "mixer_scarlett2.h"
-+#include "fcp.h"
- 
- /* device_setup value to allow turning MSD mode back on */
- #define SCARLETT2_MSD_ENABLE 0x02
-@@ -173,6 +174,9 @@
- /* device_setup value to disable this mixer driver */
- #define SCARLETT2_DISABLE 0x04
- 
-+/* device_setup value to use the FCP driver instead */
-+#define SCARLETT2_USE_FCP_DRIVER 0x08
-+
- /* some gui mixers can't handle negative ctl values */
- #define SCARLETT2_VOLUME_BIAS 127
- 
-@@ -9702,6 +9706,10 @@ int snd_scarlett2_init(struct usb_mixer_interface *mixer)
- 	if (!mixer->protocol)
- 		return 0;
- 
-+	/* check if the user wants to use the FCP driver instead */
-+	if (chip->setup & SCARLETT2_USE_FCP_DRIVER)
-+		return snd_fcp_init(mixer);
-+
- 	/* find entry in scarlett2_devices */
- 	entry = get_scarlett2_device_entry(mixer);
- 	if (!entry) {
--- 
-2.45.0
+Thanks!
+
+[01/10] ASoC: hdmi-codec: pass data to get_dai_id too
+        commit: a8e792d3f0bbecb87ab05e9592cadf0b178ab952
+[02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
+        commit: 5b0779ae13de345b405a67c71cbb63705cadb295
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
