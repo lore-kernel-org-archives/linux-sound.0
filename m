@@ -1,131 +1,97 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BBFE1CA8D
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 16:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0512A1FBBD2;
+	Mon, 13 Jan 2025 16:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736784902; cv=none; b=iXrL/u0aY475bBU758bHB1BIRW8CqxIi963yZ+O63ccEKw7WNZIIVv53L/ZTHhTXfMn/rDOhLMYy5EMkEGqUGRUU+4yabnJnxJcZ/qLsFXJw3ZnSxRIFXAwCeGzBEDfZyXKU9BB0rjlLsVZIypj/yc5YRFVS2h+0nP2j3XHT9cQ=
+	t=1736787429; cv=none; b=Nq8UURhWwGu+DqBgTcU+hJ8ELbPkyx1ZeKCfbh08LaaI8lgFy/65zNoOGFddkWyHUiaiiEuSV4blzHMaSNOrGp3nu+RQ/4CblgNjVkXWsK4XAaghXSQ0a6ItgzVnt/USqbb0NDgzt3eTNqQ6nqun7Cmggw6tnscsxZfsapeMLOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736784902; c=relaxed/simple;
-	bh=B9BBV050L1aecQPyYu7lAbyfZYdXk+T6yzMHGJUTUz0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QIOepjW33foyTobH8ufo/ovnqM07Y+2LcAfOAvNuYzuLm9U9mwo1J0fs6ZbIcQ7Dr6R6ByEXjhAT83Cojo9cwEBlElTL3/m+Pip8P+DGM3YNuuK1EiRXU2x8iTePSU1/zN4xxjY0GRkpo/ccy5mAT9Swfuqac10in2pRFuVVFIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xfE+kLa9; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1736787429; c=relaxed/simple;
+	bh=6zHHYWKunh1M6enMUeVEE9Y9YBnnSAPsE4K1pjRUkcI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=VeYtJkwInJ4WYmTGvBlAOeA5HBCD7bi3UmM4EZbokrX/BmJAvJXygbs9ohQ+xtl58ppOScdCRYH0QgJU0y/zH4OizcQ2vEtpwclu9Bdh1jqSDYG1wekTcZ90/jDg6UilvrriK8w8IsifST0fzJ2j9DEFx4GjI03NDrcvN0+d/OM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5HScDVV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xfE+kLa9"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d442f9d285so8805a12.1
-        for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 08:15:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1736784899; x=1737389699; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QShTnDTQ8IHjQQz+4aG3jXHA0yIDJFzr0SGW6gyyWZk=;
-        b=xfE+kLa9vg8qurJiAEFHy4/c/qLcFIdjrooh3WmfFdlX4smWhD6ova6QCV8aFtzYvH
-         DRIC0KbH5OOqO0+sB8DmbUfb8MznlOPSTt6c0AeIiFw0+DSecnCqJbCHEEWqoNLyVuzJ
-         bn5YTj9xCwVKM9H0uz8yX3OK6TXZ4nURgf0JnF2ETgocTyh4TTiXjyHQUtmjDLJ45gY/
-         /7ra5fyP22AMyC7duEbgAsYXtB6mx3zcC0fKwhzW0swwEM2fx5hZ6IM01NSsZVUS2RO7
-         s/1duC93JFqdgPeagEXtVNTTu+rfrxmv58j6UxhQZMNKo4zDVzoq9VX+qO6b1XZJZqjM
-         SjuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736784899; x=1737389699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QShTnDTQ8IHjQQz+4aG3jXHA0yIDJFzr0SGW6gyyWZk=;
-        b=nGgtIzBRObSDEs9FVRz3pZ6gceJs0yJJ9GFRBOXMfiPLPlk/UFCBSTReAHdf+1IF4W
-         K31U7zRMZXrV+BhsvKGJyUq+fJHs4sFvRw5FoRaElE7VMNb7iYIpvxJzIcCoQ8AJ5YTp
-         qSD/GI/R/fqYchlLIju+tSBUd4ssOEc+f9EQ8xSHjQKkZKkBtxZANSQ/TUDNY9R7EDbJ
-         7M/vXvCR8hdX1i/xUrnE9KNiQFu4OVW8pDmJb7+LzjcSxTjrRdHjPQoSo0GB8I6c6pIM
-         q5kz5feARl35Aw0UoMMkh/w1oqMma1bdGOfXqMArsr7gfRRjUByP9lZdIXDOXgM+D0Q9
-         aKJw==
-X-Forwarded-Encrypted: i=1; AJvYcCUlT9Liwjl+tR7D9vFm21cXCkyOmdOzy2oItp4JF6YZvU8BOsntXADzKxkLHvYH+Mk9LcR6IunbZC66Ew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCOglooiP8iDI1HnqH1tSmSE06nisGfEc0RQqb5DWcCrs30VIF
-	GgVuhDhEnTspD8SBaDh2LdhQ7ni1eykUPmChGd1oB1/ny4jLOhoOcPnOm7gyLKLyTuJdi/tu6e6
-	8JwtjaAVk0dFODeJhMmzKJy2q0vmflWr4QK/D
-X-Gm-Gg: ASbGnctpZ1uerCnc74TbpdgeAPsyBbjHVAKPAI0gEBiEy8ancoxSlt9wORRT+dszcth
-	fR0qiQS2n0rUpA++I/H0O8zP//Ocuw2aedTofVmkB
-X-Google-Smtp-Source: AGHT+IEJmuDgymat/mpM2w1X1B9v8DJdUfMBCtBUnEyqa90eiWvc9ZY/XouqD+U+64QHR2U7Agi8HY3FQnq/fCx/tJQ=
-X-Received: by 2002:a50:934a:0:b0:5d0:8752:cecd with SMTP id
- 4fb4d7f45d1cf-5d9a0cca0a0mr219019a12.3.1736784899141; Mon, 13 Jan 2025
- 08:14:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5HScDVV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B3AC4CED6;
+	Mon, 13 Jan 2025 16:57:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736787428;
+	bh=6zHHYWKunh1M6enMUeVEE9Y9YBnnSAPsE4K1pjRUkcI=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=d5HScDVVKb+DwfnbCcV97/QF65GOYRX+jx4ie0+HUelITeYsvWlQ9cBkTCr24oE/a
+	 iXauNEme1/v3qzVJDsUBM6DPgb35WmlHzAaXH2RXu3OybMl8r3oQ9gxgIcTpCVd7+3
+	 8mSoMjL4yxD1Aa6QV85Al6v9YbOtTJOVwyJhDebb785CaDcVuhKxJnIIwlbQPj49NE
+	 GzZMjFNxDJPkXxErwlt76ewBfR661vtAWXQMLR8DbdAKyGs0X5ys9Qq4dSXeSCQE27
+	 eb64ETmhE8zLC5QZ+mwsYDlDSK5+Vct0ACPc+NkG2j/yb0c2/5jugtRMKBgBQ5uWfF
+	 MP3cVr0H4NbLg==
+From: Mark Brown <broonie@kernel.org>
+To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
+ Maxim Kochetkov <fido_max@inbox.ru>
+Cc: andy.shevchenko@gmail.com, u.kleine-koenig@pengutronix.de, 
+ tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20241219042227.7075-1-fido_max@inbox.ru>
+References: <20241219042227.7075-1-fido_max@inbox.ru>
+Subject: Re: [PATCH v2 1/1] ASoC: codecs: nau8824: fix max volume for
+ Speaker output
+Message-Id: <173678742609.75237.6112979080454530319.b4-ty@kernel.org>
+Date: Mon, 13 Jan 2025 16:57:06 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250109035605.1486717-1-guanyulin@google.com>
- <20250109035605.1486717-6-guanyulin@google.com> <e8de4837-4c4a-4acd-bb33-6811d7381d20@rowland.harvard.edu>
-In-Reply-To: <e8de4837-4c4a-4acd-bb33-6811d7381d20@rowland.harvard.edu>
-From: Guan-Yu Lin <guanyulin@google.com>
-Date: Tue, 14 Jan 2025 00:14:00 +0800
-X-Gm-Features: AbW1kvYwXaUbFjPK9wIVT04AzGYANqAMNH3YYWmL8F7mYAvOMFgPmFNG0hcSTdA
-Message-ID: <CAOuDEK0jNn-nSb7Rk_0EYtFg+Mxybij6cGnOenq4FPJdTKyjng@mail.gmail.com>
-Subject: Re: [PATCH v7 5/5] usb: host: enable USB offload during system sleep
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com, 
-	mathias.nyman@intel.com, perex@perex.cz, tiwai@suse.com, 
-	sumit.garg@linaro.org, kekrby@gmail.com, oneukum@suse.com, 
-	ricardo@marliere.net, lijiayi@kylinos.cn, quic_jjohnson@quicinc.com, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sound@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-On Thu, Jan 9, 2025 at 11:08=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
-du> wrote:
->
-> On Thu, Jan 09, 2025 at 03:55:09AM +0000, Guan-Yu Lin wrote:
-> > Sharing a USB controller with another entity via xhci-sideband driver
-> > creates power management complexities. To prevent the USB controller
-> > from being inadvertently deactivated while in use by the other entity, =
-a
-> > usage-count based mechanism is implemented. This allows the system to
-> > manage power effectively, ensuring the controller remains available
-> > whenever needed.
-> > In order to maintain full functionality of an offloaded USB devices,
-> > several changes are made within the suspend flow of such devices:
-> > - skip usb_suspend_device() so that the port/hub are still active for
-> >   USB transfers via offloaded path.
-> > - not flushing the endpoints which are used by USB interfaces marked
-> >   with needs_remote_wakeup. Namely, skip usb_suspend_interface() and
-> >   usb_hcd_flush_endpoint() on associated USB interfaces. This reserves =
-a
-> >   pending interrupt urb during system suspend for handling the interrup=
-t
-> >   transfer, which is necessary since remote wakeup doesn't apply in the
-> >   offloaded USB devices when controller is still active.
->
-> Does this reasoning apply to interrupt-OUT as well as interrupt-IN?
->
+On Thu, 19 Dec 2024 07:22:27 +0300, Maxim Kochetkov wrote:
+> There is no audio output if Speaker volume is set above 25.
+> According to datasheet Rev 2.5 maximum allowed value for the
+> Speaker output is 0b11001 (25)
+> 
+> 0x6D CLASSD_GAIN_1/ 0x6E CLASSD_GAIN_2:
+> 
+> Left/Right Channel Class-D Driver Gain For DAC Left/Right
+> Input
+> (Step size is 1dB.)
+> 00000 = Mute (DEFAULT)
+> 00001 = 0dB
+> 00002 = 1dB
+> ...
+> 11000 = 23dB
+> 11001 = 24dB
+> 
+> [...]
 
-Interrupt-OUT endpoints seem unnecessary in our current use cases. Our
-primary concern lies with interrupt-IN endpoints, specifically those
-associated with the remote wakeup feature.
-Remote wakeup presents a unique challenge within our audio offloading
-model during system suspend. Functions typically reliant on remote
-wakeup, such as key-events, bypass remote wakeup because the
-controller remains active during system suspend. Consequently, these
-functions are handled as if the system were active, with events
-received by a pending URB. Flushing the endpoint would remove this
-pending URB, leaving no mechanism to handle these interrupt events.
-Therefore, we should avoid flushing endpoints associated with remote
-wakeup to ensure continued functionality for audio offloading during
-system suspend.
+Applied to
 
->
-> Or looking at it another way: Since the device's endpoints are being
-> used by the coprocessor, should the system flush any of them at all?
->
-Our local experiments reveal issues when we flush interrupt endpoints.
-For other endpoints, we didn't see any problem. However, since
-usb_hcd_flush_endpoint() still modifies the endpoints, it'll be better
-to avoid flushing the endpoints associated with the offloaded USB
-devices. This could mitigate potential conflicts in the future.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Regards,
-Guan-Yu
+Thanks!
+
+[1/1] ASoC: codecs: nau8824: fix max volume for Speaker output
+      commit: d5a4d7f10fcdcae952f7d5c603c61795c0abb7a7
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
