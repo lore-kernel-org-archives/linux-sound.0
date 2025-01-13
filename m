@@ -1,92 +1,94 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B195C22CF02;
-	Mon, 13 Jan 2025 11:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E34233D7C;
+	Mon, 13 Jan 2025 13:00:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736769576; cv=none; b=LZNOX7R6TNWuTzeFQ/5o4NBgFaxf+E+kd9vLdfL2R5efa8DHXONcGYCUGYZ6jM0XCZlMnDyrhB3lExW+niMoOvshA6bHkecR4Bvkww4mumGjeiWIbiF3sL3nSw6M8y7/QQmI48w3M9xnXneTR55c7eFgiZgDuK506uuJL9F0d2w=
+	t=1736773210; cv=none; b=O2fW4ebiD5iF/key+WigctmAb5riFrJwDO+p94BrSWkTU7pm+1ZTO1/izgNq4GjNT4JKjj2GrzdtisAsYjDC7p3J46S8prWIcTS30/LF0b2Db013BX4KC1kGhYqgouWyg0ap18NB3U216P3Md1ZNfKHBDIcSjFa7WNFxZkavFrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736769576; c=relaxed/simple;
-	bh=0ziyVnqwVO91ruckBX8kVtEvVd6P0Dly9BB+fEhpFWQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OV1oNmr9yFzccd+eqIRfzcNCD+K2YmAlnxF7wrgAU45ZrT1QEHhB9v3YYoIWyIu4TZ4lHzDNi7nIZG/0TxFoiQltZXKlA1wGbKNa98sUkJq1BWsZOhkbon1ipXgHn9mj+xPpR7u5tUULeOzs+brzWWciCYWbAjAJuFrqs4DsZv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ia40z2Pd; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736773210; c=relaxed/simple;
+	bh=8fxejSnj7Vmhk27SVFdD9TVyLiLKcYlRJjTpEcchn3g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ooeB5Dcnb2789klOWGkWMt5PIHXSDn3XGcCSJgtzQSvKREfdJaVnnDgcoWUpZgPguRnL4KgtdQtJqx/0sB6JRXSQ0WiuqZEh2cv404xXhSIlecpm5gXFY75IoClWDzfrrlCo8shlhjk/hJGqOW8TonNNgj/FJLleJRUOU7sDbyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkBhVLYr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ia40z2Pd"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ef89dbd8eeso5261668a91.0;
-        Mon, 13 Jan 2025 03:59:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736769574; x=1737374374; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4BZHmOiaKjZIN7/i2N/P/VavWYL8MUkbjD/7u3MK1MA=;
-        b=ia40z2PdkoysNkJhqQBg0oKhHaWwmuYMsGI/fmOjIT9PCmkXR9lKUqtcwd4od1NGYD
-         MHeVkzCeXWh0sw+5tID86tJrCGBDyPpymJeam6ByR6RvI6YsQHPDPxF6hDRKvX+DwYgA
-         GbJO23utpuzLxEzfnlG3yCmRHuhS7sQBu53HYI/4zhKrRrHcZ43pIWwlImhOeFrgD1Xs
-         lHRLYjjc95BkQK27ogfbKYU5rjpz4BTdc2LZxRHGn6wnPd//0RT0rUMIjCGWZz+1jFcx
-         JpRxLtzoEAwI+Zhh7jV//PeScVodIVss5kysptq6yu4oyhoxYLJNJRUz2Rk8SHha0Fl8
-         yHHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736769574; x=1737374374;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4BZHmOiaKjZIN7/i2N/P/VavWYL8MUkbjD/7u3MK1MA=;
-        b=SrLOa0GqwsSz8K5Eg3wvqH/UYff0NR6CL+U2TW+hR6by0oHR11KlsrUgruTLH80Grg
-         q6YX4shkcaek78JzqWt4H4xtn/YtUU4IL3zfbK7LdU/tYpjHgutor/IAPQe/lgB0ysvB
-         f6CtfUikzUH1kmOkAhYYTrRw8hVrtT7rgMk9cyxY12a9jLiRjNn9zt7BqUVDFag9gaxS
-         Hpq0WmcQ5RgHbufCIXGN67d6g+KJhyDYxZZTnBGp5Y+EvsYqbEMLYDT8SuDR9/tB0rYS
-         cnBtolg6mwgijWOGqggIe1nLgmm/sF85xvfqRZopbawRPn/ExFJYA9LEFtJ6iwzkDYHK
-         eAhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXIw5qt4zdiObRBhXFPhrQDcd96p1cE+h5/Q78/nJPc33IJ0iEvzUvf5YmYRGbNUo2EJP5tCkLUDZKN@vger.kernel.org, AJvYcCXqFqUKrC4jPG280tIEy6rBEYVpLmmW7ULdZyBFTSi4QQvskn5fo29PTGC6wzln/oVemigfPoz2e+iQhGM=@vger.kernel.org, AJvYcCXsb3+AAxIbe8BkgFS6WiZBEJioPoQxwsaJBiwLARJVCfi2LbMKpW9omkapvUR7DS1BhqPNyruhDhdeDdNq@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/ZN6tCuVHm3gzqjCP5tGlb9u3jPdj8vF7CeIf5RNfs1h2AXvQ
-	Sn+RrsOn8mKbyNqIk4fI6T4b2lSBHP7icrmZG7ArOp+yN3usHZUkG/yVyLdUZrL792p2/OiMDOO
-	ILlPv7DpQ/7Lsqq5xFpH4Q6T3ZNU=
-X-Gm-Gg: ASbGncufwKu4MEXGVpkAbi1oLnH3I+ra/dPfZYf4m1nFufPdk28KpAD8Ys7ZLnoJexc
-	JfiykcluYFlcAhuVZ7o+urIFO+eI3F2W9Hw==
-X-Google-Smtp-Source: AGHT+IFFtFvwWjMl/5EMpK2S7nSEZ6pgoPxNoo69HRCpuXIwKyRJxcrGj6mncXjqy6XcaiA0mXO/qFfFeO0UEvjFYlo=
-X-Received: by 2002:a17:90b:2c8e:b0:2f6:539:3cd8 with SMTP id
- 98e67ed59e1d1-2f6060edd49mr13264006a91.18.1736769573984; Mon, 13 Jan 2025
- 03:59:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkBhVLYr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8B18C4CED6;
+	Mon, 13 Jan 2025 13:00:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736773210;
+	bh=8fxejSnj7Vmhk27SVFdD9TVyLiLKcYlRJjTpEcchn3g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fkBhVLYrd9TSA3zGQKNh1iGH0znOgjdbJZDbu80sWuJdIsHGuD6tcAfV00LQ8IC3K
+	 mYNpjXzkorrzfKJAFX3M5T/HFscaaXEHbY13AFmSEkxHkp3LKOAJoaGHLJvCZ23KYC
+	 SsEbhwXRfvvCFLzM8SDks14zPZlj85PJNVOlAaujR+GYbTABKrIYkNT9F9dVTRZILT
+	 vwEuEswUIL2ZCmN5iJyWrZgxJbYBrLVjfAQ2EZcNFb5L2Byg7BcIGyF/hke5jl8sIZ
+	 ZF4haaVOVlGyBZsAJ/tWOh1m5LdSN8NlYG7MALd5vh9zPJVZBHZ7iNc4i3gI4Ff855
+	 txW+A35PWeXTg==
+Date: Mon, 13 Jan 2025 13:00:03 +0000
+From: Mark Brown <broonie@kernel.org>
+To: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/5] ASoC: cpcap: Implement jack headset detection
+Message-ID: <cd396e7a-3861-42ea-9e02-c4701e684df2@sirena.org.uk>
+References: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
+ <a35c8cfc-d7a1-4c3f-9541-ee247e2490f4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250113090321.3193464-1-shengjiu.wang@nxp.com>
-In-Reply-To: <20250113090321.3193464-1-shengjiu.wang@nxp.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 13 Jan 2025 14:01:00 +0200
-X-Gm-Features: AbW1kvZExglXQIlMfF2a_bl5zrshwSuduhxAp_KYgu9q4zErtaUNw0cuP3BKxhQ
-Message-ID: <CAEnQRZCz5Okdy1RPh-Cs3+E8zJdmC7XeQtU1H-8F5oGu2madaA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] ASoC: fsl: Support MQS on i.MX943
-To: Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="3hDDK6MCElFz9qGL"
+Content-Disposition: inline
+In-Reply-To: <a35c8cfc-d7a1-4c3f-9541-ee247e2490f4@gmail.com>
+X-Cookie: You will outgrow your usefulness.
+
+
+--3hDDK6MCElFz9qGL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 13, 2025 at 11:04=E2=80=AFAM Shengjiu Wang <shengjiu.wang@nxp.c=
-om> wrote:
->
-> There are two MQS instances on the i.MX943 platform.
-> The definition of bit positions in the control register are
-> different. In order to support these MQS modules, define
-> two compatible strings to distinguish them.
->
-> Shengjiu Wang (2):
->   ASoC: fsl_mqs: Add i.MX943 platform support
->   ASoC: dt-bindings: fsl,mqs: Add compatible string for i.MX943 platform
+On Mon, Jan 13, 2025 at 07:56:38AM +0200, Ivaylo Dimitrov wrote:
+> ping
 
+Please don't send content free pings and please allow a reasonable time
+for review.  People get busy, go on holiday, attend conferences and so=20
+on so unless there is some reason for urgency (like critical bug fixes)
+please allow at least a couple of weeks for review.  If there have been
+review comments then people may be waiting for those to be addressed.
 
-For entire patchseries:
+Sending content free pings adds to the mail volume (if they are seen at
+all) which is often the problem and since they can't be reviewed
+directly if something has gone wrong you'll have to resend the patches
+anyway, so sending again is generally a better approach though there are
+some other maintainers who like them - if in doubt look at how patches
+for the subsystem are normally handled.
 
-Reviewed-by: Daniel Baluta <daniel.baluta@nxp.com>
+--3hDDK6MCElFz9qGL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeFDlMACgkQJNaLcl1U
+h9DuzAgAhaPADhA+7VYoP5SNGDV/Sq09OSw0JDoYkc2HVCasJ6dnBV1K+t8RMxTT
+FGtTMNbZWA6G2kP2yFNLNG786c9ipiBI+8bGrJYroVUHZdatR11i8pjbqJiPpwZZ
+JmlPY0xu9+al7s6eYXJ8AcQrU8A0eCQHja67QzI8yZUGD2x/VChYbVIXK8e2G1Tr
+Jt/9/3W5oF80oSoVCFZVFuUFP4YRpjzE+I8ggmvkcz0ZEcrX3kT1b8B1ljMbRDit
+BMPR+xzi4AyVLL2vmGPdPQb+FlWBYaZ/3XmNEQs40yIw03VVucbzq9hTx6wzWTMj
+45piVjT714PN8AAMKFla5lByG4afKg==
+=+72S
+-----END PGP SIGNATURE-----
+
+--3hDDK6MCElFz9qGL--
