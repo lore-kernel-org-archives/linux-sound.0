@@ -1,212 +1,171 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CCB3C1F;
-	Mon, 13 Jan 2025 07:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C475231A56;
+	Mon, 13 Jan 2025 08:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736754437; cv=none; b=gcoOUQwcVRaUXk8BomiuC7Yryz9dDKCTWSCLg9ynnisDmyiesQvPULW+iXiGpzOjCe5ten7b0MST5GjEsSPUhsFXDFzRlSIa8EJFJ47eeZGlx4cekx/Qc10Yk1QTR20VVpa4zz44VrRgKYikxG44yiOGx8hSKTFY/hfUICjJXoc=
+	t=1736756417; cv=none; b=ISCQfBcWkWQ2a+wVypGQnymnUsjrKcTO2bkQ04F8VtjLLbx76N2EpSL0UG8U1eQtZGL450upLG3a6IbHO0ZCP4fgmIqNmqgkTjw86xNUOSczVS4g3jINqfjulTprgxKucHmSXMnGf/jeieD4eNpy9XueidoSiB0MWxkgWixX7yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736754437; c=relaxed/simple;
-	bh=AIfmDf8D9NJz4NJc1zYT3jVwqLbDET0CFn6I3+Fn2bM=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W/TswkcG4TQmRM6xWyGHsH9y7y8v1AJbpczd8BXM0DWz7+nbbzedI7D0sHQB4XsmPekKcaCV+zZkfe2u8EgYftZWOKHEn3gP/GZzkH5FL3nfYVqfvZaw5AEwPqqJfDV27rmVNF9PjZ54m94tP0GwxCVBecczupE23jBHv0V6rng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=naTkfRWR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZIV65bIM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=naTkfRWR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZIV65bIM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1736756417; c=relaxed/simple;
+	bh=5pLPcZ8yabrDbW3lp7BMwEn3TBAcxsnS1EE6kSEXj5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTuNHuF7PBq4LlPkZlxxockj2KIdEAdjQtKSgSeYSlVdWoQU+oe+MznPEHOTu5bdxSIncrRrT6ao0isFlBUBUq4Ebu0eSkAAa1JhkwblJGcfFWJfRGB+tY3SqogsXe7jtZBVuPvJ5CZU0caU9LXrbBG8wkBK5Rwsgbi7Flt+hr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0YQetJb; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="naTkfRWR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZIV65bIM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="naTkfRWR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZIV65bIM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0451A21175;
-	Mon, 13 Jan 2025 07:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736754433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
-	b=naTkfRWR155rv6a8JPL36vXStqYH9h5Mvt8TofBFtA2/FgjMashiSd0c1f+5MHox5DRmov
-	GwdsoODK8Vz1Bi4Fkiy0GAUUL/RK8mMwauIIUehHYJz6zi58Oqj23CJw3/rDl5lrMDGdAc
-	QxEfbLZt8YIuDOallrzAmAKlqHS3cxk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736754433;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
-	b=ZIV65bIM/u8IX7081ishY6r8Tl752VD2TWnahmT/T7pmkjziiboJd38HLfcBBWGEquxVk0
-	WFVLPAxQEv5yVlCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=naTkfRWR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZIV65bIM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736754433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
-	b=naTkfRWR155rv6a8JPL36vXStqYH9h5Mvt8TofBFtA2/FgjMashiSd0c1f+5MHox5DRmov
-	GwdsoODK8Vz1Bi4Fkiy0GAUUL/RK8mMwauIIUehHYJz6zi58Oqj23CJw3/rDl5lrMDGdAc
-	QxEfbLZt8YIuDOallrzAmAKlqHS3cxk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736754433;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
-	b=ZIV65bIM/u8IX7081ishY6r8Tl752VD2TWnahmT/T7pmkjziiboJd38HLfcBBWGEquxVk0
-	WFVLPAxQEv5yVlCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8061E13310;
-	Mon, 13 Jan 2025 07:47:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1FKnHQDFhGfrNAAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 Jan 2025 07:47:12 +0000
-Date: Mon, 13 Jan 2025 08:47:12 +0100
-Message-ID: <87ldvf2m0v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Xu, Baojun" <baojun.xu@ti.com>
-Cc: Takashi Iwai <tiwai@suse.de>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-	"perex@perex.cz"
-	<perex@perex.cz>,
-	"Ding, Shenghao" <shenghao-ding@ti.com>,
-	"Navada Kanyana, Mukund" <navada@ti.com>,
-	"13916275206@139.com" <13916275206@139.com>,
-	"Hampiholi, Vallabha" <v-hampiholi@ti.com>,
-	"P O, Vijeth" <v-po@ti.com>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
-	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
-	"broonie@kernel.org" <broonie@kernel.org>,
-	"antheas.dk@gmail.com"
-	<antheas.dk@gmail.com>,
-	"stuart.a.hayhurst@gmail.com"
-	<stuart.a.hayhurst@gmail.com>,
-	"dan.carpenter@linaro.org"
-	<dan.carpenter@linaro.org>
-Subject: Re: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
-In-Reply-To: <311e99af8c6d4041ac2c19b115a8c0ab@ti.com>
-References: <20250111095728.1232-1-baojun.xu@ti.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0YQetJb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736756416; x=1768292416;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5pLPcZ8yabrDbW3lp7BMwEn3TBAcxsnS1EE6kSEXj5M=;
+  b=B0YQetJbbQ2vYlebfX+aV7lcHZJJXVvH7WfP478ztnDjZ/PY0cxywiAV
+   H3MF07nVKuSCdHwdETXDr27O01FMLYeBkczNDkmVSGhKrd0deClIFMjR0
+   D1SCx6Resae9k9gIcleNobsQHqL0WNvxEC6F5Hr1cGWPXPdguta6jW+Vq
+   pRSjEX4XkTMupOcm7MiD+NjscsTGItHdrFlVJwb97g4HNEkVwowuqTIWZ
+   OVXmgZr5UvrmqDytiLQenqlliWAe5hRPYKheqhNvXwd4aqucLVOS1bvoj
+   kS9cPSmJC3CKgtg7YtZ8F8xz/QED+Bxv++BXOsa06O3+1WRo6sWSOSc1B
+   Q==;
+X-CSE-ConnectionGUID: 5hC61WEiQUik60EEiCoGFQ==
+X-CSE-MsgGUID: dY5RCiZKRTmoyCwX2uiqQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11313"; a="40939594"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="40939594"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 00:20:14 -0800
+X-CSE-ConnectionGUID: KCg7WpbAQcSYbAfxPDwFsA==
+X-CSE-MsgGUID: 5WI2NzFVT5qU7omgEtNt/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="109033681"
+Received: from unknown (HELO smile.fi.intel.com) ([10.237.72.154])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2025 00:20:10 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tXFg6-00000000NVQ-3uAn;
+	Mon, 13 Jan 2025 10:20:06 +0200
+Date: Mon, 13 Jan 2025 10:20:06 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Baojun Xu <baojun.xu@ti.com>, robh+dt@kernel.org, lgirdwood@gmail.com,
+	perex@perex.cz, shenghao-ding@ti.com, navada@ti.com,
+	13916275206@139.com, v-hampiholi@ti.com, v-po@ti.com,
+	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
+	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
+	broonie@kernel.org, antheas.dk@gmail.com,
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	=?iso-8859-1?B?IklscG8gSuRydmluZW4i?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v12] ALSA: hda/tas2781: Add tas2781 hda SPI driver
+Message-ID: <Z4TMtilTTxbTnXNu@smile.fi.intel.com>
+References: <20241216122008.15425-1-baojun.xu@ti.com>
+ <87bjwnzw1i.wl-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 0451A21175
-X-Spam-Score: -2.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
-	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,linaro.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	REDIRECTOR_URL(0.00)[proofpoint.com];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87bjwnzw1i.wl-tiwai@suse.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, 13 Jan 2025 07:41:02 +0100,
-Xu, Baojun wrote:
+On Fri, Jan 03, 2025 at 05:44:57PM +0100, Takashi Iwai wrote:
+> On Mon, 16 Dec 2024 13:20:08 +0100,
+> Baojun Xu wrote:
+> > 
+> > This patch was used to add TAS2781 devices on SPI support in sound/pci/hda.
+> > It use ACPI node descript about parameters of TAS2781 on SPI, it like:
+> >     Scope (_SB.PC00.SPI0)
+> >     {
+> >         Device (GSPK)
+> >         {
+> >             Name (_HID, "TXNW2781")  // _HID: Hardware ID
+> >             Method (_CRS, 0, NotSerialized)
+> >             {
+> >                 Name (RBUF, ResourceTemplate ()
+> >                 {
+> >                     SpiSerialBusV2 (...)
+> >                     SpiSerialBusV2 (...)
+> >                 }
+> >             }
+> >         }
+> >     }
+> > 
+> > And in platform/x86/serial-multi-instantiate.c, those spi devices will be
+> > added into system as a single SPI device, so TAS2781 SPI driver will
+> > probe twice for every single SPI device. And driver will also parser
+> > mono DSP firmware binary and RCA binary for itself.
+> > The code support Realtek as the primary codec.
+> > In patch version-10, add multi devices firmware binary support,
+> > to compatble with windows driver, they can share same firmware binary.
+
+...
+
+> So this series reached already v12, and we'd really like to take in
+> some form.  Although the code is still much more complex than I
+> wished, it's more or less readable and understandable in some level,
+> so I'm fine about the sound/* part.
 > 
-> > ________________________________________
-> > From: Takashi Iwai <tiwai@suse.de>
-> > Sent: 12 January 2025 16:26
-> > To: Xu, Baojun
-> > Cc: tiwai@suse.de; robh+dt@kernel.org; andriy.shevchenko@linux.intel.com; lgirdwood@gmail.com; perex@perex.cz; Ding, Shenghao; Navada Kanyana, Mukund; 13916275206@139.com; Hampiholi, Vallabha; P O, Vijeth; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; liam.r.girdwood@intel.com; yung-chuan.liao@linux.intel.com; broonie@kernel.org; antheas.dk@gmail.com; stuart.a.hayhurst@gmail.com; dan.carpenter@linaro.org
-> > Subject: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
-> > 
-> > On Sat, 11 Jan 2025 10: 57: 28 +0100, Baojun Xu wrote: > > Driver will return error if no SUBSYS_ID found in BIOS(acpi). > It will cause error in tas2563 projects, which have no SUBSYS_ID. > Change strncmp to strcmp to avoid warning
-> > ZjQcmQRYFpfptBannerStart
-> > This message was sent from outside of Texas Instruments.
-> > Do not click links or open attachments unless you recognize the source of this email and know the content is safe.
-> > <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!vxdrHfwF_qfzogYE_xtoX7lTozH70XOKA0HRu-ioBvUvCv8QNkmAsR1WurvR9Zlh7GmU7A$>
-> > Report Suspicious
-> > 
-> > ZjQcmQRYFpfptBannerEnd
-> > 
-> > On Sat, 11 Jan 2025 10:57:28 +0100,
-> > Baojun Xu wrote:
-> > >
-> > > Driver will return error if no SUBSYS_ID found in BIOS(acpi).
-> > > It will cause error in tas2563 projects, which have no SUBSYS_ID.
-> > > Change strncmp to strcmp to avoid warning for weird length.
-> > 
-> > I don't understand the logic.
-> > The use of strncmp() there already matches only with the exact string
-> > "INT8866", not the substring, because you use sizeof("INT8866") which
-> > is 8 including the NUL-terminator.
-> > The only merit of strncmp() in this case is that it can be used for an
-> > unterminated char array.
-> > 
-> > In which situation do you see the problem and how does your patch
-> > improve / fix it?  Please give a more concrete example.
-> > 
+> OTOH, this contains also the changes for drivers/acpi/scan.c and
+> drivers/platform/x86/serial-multi-instantiate.c, and those need Acks
+> from the corresponding people, but it missed Cc to them (and MLs).
+> Now I put them to Cc.
 > 
-> Because it will have Smatch Static Checker warning:
-> 
-> 	sound/pci/hda/tas2781_hda_i2c.c:146 tas2781_read_acpi()
-> 	warn: strncmp() with weird length: 7 vs 8
-> 
-> sound/pci/hda/tas2781_hda_i2c.c
->     144         if (IS_ERR(sub)) {
->     145                 /* No subsys id in older tas2563 projects. */
-> --> 146                 if (!strncmp(hid, "INT8866", sizeof("INT8866")))
-> 
-> This patch will avoid this warning, and this hid will be a null terminated
-> "INT8866", so have no different when this code was go through.
+> Rafael, Hans, Ilpo, Andy, anyone else - could you guys check it?
 
-Ah, so your change is only about the last line in the sentence.
-The former two lines describe what the current driver already does.
+From ACPI ID usage perspective the changes are fine.
 
-As the driver behavior won't change, your current patch subject and
-description are way too confusing.  Please rephrase them and
-resubmit.  It's nothing but just a code refactoring that eventually
-shuts up the Smatch warning, after all.
+> > diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+> > index 74dcccdc6482..55a9a3d5afa8 100644
+> > --- a/drivers/acpi/scan.c
+> > +++ b/drivers/acpi/scan.c
+> > @@ -1769,6 +1769,7 @@ static bool acpi_device_enumeration_by_parent(struct acpi_device *device)
+> >  		{"CSC3557", },
+> >  		{"INT33FE", },
+> >  		{"INT3515", },
+> > +		{"TXNW2781", },
+> >  		/* Non-conforming _HID for Cirrus Logic already released */
+> >  		{"CLSA0100", },
+> >  		{"CLSA0101", },
+> > diff --git a/drivers/platform/x86/serial-multi-instantiate.c b/drivers/platform/x86/serial-multi-instantiate.c
+> > index ed6b28505cd6..db030b0f176a 100644
+> > --- a/drivers/platform/x86/serial-multi-instantiate.c
+> > +++ b/drivers/platform/x86/serial-multi-instantiate.c
+> > @@ -384,6 +384,17 @@ static const struct smi_node cs35l57_hda = {
+> >  	.bus_type = SMI_AUTO_DETECT,
+> >  };
+> >  
+> > +static const struct smi_node tas2781_hda = {
+> > +	.instances = {
+> > +		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> > +		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> > +		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> > +		{ "tas2781-hda", IRQ_RESOURCE_AUTO, 0 },
+> > +		{}
+> > +	},
+> > +	.bus_type = SMI_AUTO_DETECT,
+> > +};
+> > +
+> >  /*
+> >   * Note new device-ids must also be added to ignore_serial_bus_ids in
+> >   * drivers/acpi/scan.c: acpi_device_enumeration_by_parent().
+> > @@ -396,6 +407,7 @@ static const struct acpi_device_id smi_acpi_ids[] = {
+> >  	{ "CSC3556", (unsigned long)&cs35l56_hda },
+> >  	{ "CSC3557", (unsigned long)&cs35l57_hda },
+> >  	{ "INT3515", (unsigned long)&int3515_data },
+> > +	{ "TXNW2781", (unsigned long)&tas2781_hda },
+> >  	/* Non-conforming _HID for Cirrus Logic already released */
+> >  	{ "CLSA0100", (unsigned long)&cs35l41_hda },
+> >  	{ "CLSA0101", (unsigned long)&cs35l41_hda },
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-thanks,
-
-Takashi
