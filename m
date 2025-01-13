@@ -1,120 +1,104 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC815249F9;
-	Mon, 13 Jan 2025 08:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E1B145A16;
+	Mon, 13 Jan 2025 08:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736757985; cv=none; b=RgN8K6S7L5RKrZVtiYY194Kl88d1X7pnG6QLKWwIAPV9+fOHQq7inUXYi0comzNeyTL5NiA2t63oojHOLwepfqLwUW6NSwkDhsaOokSgmqFnONi/bd/llIZrdOYO/vR/1PxVfm5OleAbSupbPuqMx48Aeo7u16F62KXATS3fALU=
+	t=1736758339; cv=none; b=nN8j0m3vYQJ/jtaFxpjN0f9X+/7WrsZtlSZGdB7sv91OPe2GZXIpwMEtX4oe/S8GcbzK2vSzbKZAYvsSfwcWkIkBDil/+6QPcx5eYCCoNfMK9QZ+1PMHqKeIwjRRhFYn4tLW32eFtlc5fp9PYadHwAE4X7NLSv0I/7Nvgi/N7Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736757985; c=relaxed/simple;
-	bh=+Xd/JDPbfWhSZ1zN+xjntYZsSKZVeXnQB7aaWNCW11Y=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=R63bF2CCetrLwURFsl8jaFFBFrvV7+1WWciR2vLP/u9/vkuTAhHjTziN6oD13i7nKlmFu5hA2+OyhvAASOePNyqTgQfQeaFfratsPNUBZYqG23rXKsIF9uHATvbixPpXOa4Enrd1UdedUNVt3Q7n3g+uq5YX3ef73cJM2foxvJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=FgSwVWTr; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1736758339; c=relaxed/simple;
+	bh=9hyjKs8iyKRE5gt8z1GpYpk9gBBTEGxMHq6iG2C03gE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KihGuc9zZvvaHDYtRjMlNzdoY88t6xVZ/f+X60RmsaHLUF7pHYTjzEr0DBhbxypc2yzCowMw0onklRhGKUpuyoCCpYBMATX7KJ2DjsaWpDpg0Pu8y+LQ2DqYIYTSTq4/RYJgeTpQroXS8+XcLOQ6OVdzKkxbF/lYh0/6DtyhKO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Axf5dshj; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FgSwVWTr"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 50D8jnsj3672571
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 13 Jan 2025 02:45:49 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1736757949;
-	bh=+Xd/JDPbfWhSZ1zN+xjntYZsSKZVeXnQB7aaWNCW11Y=;
-	h=From:To:CC:Subject:Date:References:In-Reply-To;
-	b=FgSwVWTrLoXFRqcmOPc/Jrybl6i0Kc0eoeE0L08db/KLb/xGejznMcUH64s3ZYtze
-	 WZHJ8lfPvSf8rZnFiD4TICuxbEMN2DCuftLdc8cYpsg9vpzNqTgF4mR9Ya6Blam392
-	 zMSMh6DjQ4ltHnKyP8kPxzbViZByT76G0Ldq2fvg=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 50D8jnth069396;
-	Mon, 13 Jan 2025 02:45:49 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 13
- Jan 2025 02:45:48 -0600
-Received: from DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d]) by
- DLEE100.ent.ti.com ([fe80::ad4d:c227:3f85:880d%17]) with mapi id
- 15.01.2507.023; Mon, 13 Jan 2025 02:45:48 -0600
-From: "Xu, Baojun" <baojun.xu@ti.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: "tiwai@suse.de" <tiwai@suse.de>,
-        "robh+dt@kernel.org"
-	<robh+dt@kernel.org>,
-        "lgirdwood@gmail.com" <lgirdwood@gmail.com>,
-        "perex@perex.cz" <perex@perex.cz>,
-        "Ding, Shenghao" <shenghao-ding@ti.com>,
-        "Navada Kanyana, Mukund" <navada@ti.com>,
-        "13916275206@139.com"
-	<13916275206@139.com>,
-        "Hampiholi, Vallabha" <v-hampiholi@ti.com>,
-        "P O,
- Vijeth" <v-po@ti.com>,
-        "linux-sound@vger.kernel.org"
-	<linux-sound@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "liam.r.girdwood@intel.com"
-	<liam.r.girdwood@intel.com>,
-        "yung-chuan.liao@linux.intel.com"
-	<yung-chuan.liao@linux.intel.com>,
-        "broonie@kernel.org" <broonie@kernel.org>,
-        "antheas.dk@gmail.com" <antheas.dk@gmail.com>,
-        "stuart.a.hayhurst@gmail.com"
-	<stuart.a.hayhurst@gmail.com>
-Subject: Re: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not
- found for tas2563 projects
-Thread-Topic: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID
- not found for tas2563 projects
-Thread-Index: AQHbWocC/VIw4o0NkEacY/Y8wduTTLMU3GUA//+cnR4=
-Date: Mon, 13 Jan 2025 08:45:48 +0000
-Message-ID: <d17798c25acf437cb2b1b7bf58fe947c@ti.com>
-References: <20241230064910.1583-1-baojun.xu@ti.com>,<Z4TQ4MAjFwVOjWtt@smile.fi.intel.com>
-In-Reply-To: <Z4TQ4MAjFwVOjWtt@smile.fi.intel.com>
-Accept-Language: en-GB, zh-CN, en-US
-Content-Language: en-GB
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-c2processedorg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Axf5dshj"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-21634338cfdso49005545ad.2;
+        Mon, 13 Jan 2025 00:52:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1736758336; x=1737363136; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I+GhzZqGjbVxoyE6ZO1kH+vxchnYcbgVkxsjfSQRWTw=;
+        b=Axf5dshj6y/WmuZ5E1f8kgH1zMp0j+RdZKghVMOQ6c2PpaKAo5FazLCh6a9mkdXUcO
+         ktw0qKJvF319QuWdCIgZ4/0UAAqxHqVCVJOwuYLK5He+k3Qg5pA3DroTG/qNAjUcGyIi
+         FigCdlpBidSj3B15xkAdU2hvEW7m/gMtZOs/kP86NNwIMruQgaxb1Yz1Q8DqI2QLpsN+
+         xgf0LG6RZGXdKYuAutt0ErWeIUzgC6GheLlq9YQSDL/jCP3j9hllvSrFFZ1VWAu2wDO0
+         4NLvwrBT26c9UusZ9AYVaualOkZY74WgGn+rEygO6447KtXeHXTJjEssKDKqq9btZScq
+         FZzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736758336; x=1737363136;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I+GhzZqGjbVxoyE6ZO1kH+vxchnYcbgVkxsjfSQRWTw=;
+        b=cQUXjMdqvWKO82MHz0LOtj+ZnRvL1WLvPuuld9bRDyQRDIYNmX+f+2qFB9TGy9mcv8
+         veAN6kwAA1u8pGS45KL5PXXgBWoPJmiGjZ573kVdWnLKZakEOX+saun6uZ8/+GovM3u0
+         NXjZXh0VdLv6NCI81qxOBj+UIfj6VMCoW15GcIt2ElrkfZ1FsOAE7EyY73Q5XO3Gtb3g
+         UmOD4gDX3kKC0eGRi6qMQ4HLWqZGEd0DDceHkxXBS317E2GzVTd9CnBMe9yxUO1xVs3n
+         FOsnvOdt+N9hR2tMUx9nsn4gtSPQHvsQmm/yzdBRdkoR6GGE5aEkWHRs38JUS0XA7b1e
+         GWeg==
+X-Forwarded-Encrypted: i=1; AJvYcCUHeXYmyLIyuRLdSRQnfn5GajWp+IvZQkvTCIhqwpviRrtrRb5pzwo7mKJVoCmBksrwxu6z2+OBSK2ARoU=@vger.kernel.org, AJvYcCVW2XZcUbBXcMmfaTxxAgSObLOn6T1oWLOqin3Ti74HVMnwZ+kJTP+fRDk4ZNlGxtsKcf08NV5DtOKvmc0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwO0xwibRAK7sgbCMLD2HFMqfqKsa8G5tb0KBptr8EuyOmYCM96
+	zblNhibY6Wby9t7uKXvqL/ycE7rEA+a49ebtYczC5J/YWg75f8uVjg4M5PkEB+RDQg==
+X-Gm-Gg: ASbGncvRCRDC5RLCOMK4iaJdvu1Lw6Bqc8+b8DwahQeghWLgkQc0B66jmaCFr3RLqFO
+	v2az4NDUQuKkglmLF4Oo7P7pXUH/sVgV6+py8X1Jxxvmc9p03WyvuCCfwUqjdY01Ijbo9CC6uW8
+	iMhw85uqXT48fS3BzA3ezS3uGo6IAVaKx61eayuId6AOV09IKVJJYzS58pCYHTeTwGEB4ef/ms5
+	pUrIpn5nfAGQUQnZzc3dmI9zrAMc4Vsmz9QehaZVvG/gtIabR4CNHwdRs1mhj4akV9QPw==
+X-Google-Smtp-Source: AGHT+IE9qD7/8k1vivvblRXgshE0qnGXbzlhPXu46LIXjZsaGBVrv/C7fgmBe07EnqmPeAIdcz3tnA==
+X-Received: by 2002:a17:903:246:b0:216:4cc0:aa4e with SMTP id d9443c01a7336-21a83fded0amr258217665ad.47.1736758336475;
+        Mon, 13 Jan 2025 00:52:16 -0800 (PST)
+Received: from localhost.localdomain ([104.28.243.105])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21a9f2516b0sm48472355ad.219.2025.01.13.00.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2025 00:52:15 -0800 (PST)
+From: Yage <icoderdev@gmail.com>
+To: perex@perex.cz
+Cc: tiwai@suse.com,
+	kailang@realtek.com,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yage <icoderdev@gmail.com>
+Subject: [PATCH] ALSA: hda/realtek: Fix volume adjustment issue on Lenovo ThinkBook 16P Gen5
+Date: Mon, 13 Jan 2025 16:52:08 +0800
+Message-ID: <20250113085208.15351-1-icoderdev@gmail.com>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-DQpfPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gRnJvbTogQW5k
-eSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+DQo+IFNlbnQ6
-IDEzIEphbnVhcnkgMjAyNSAxNjozNw0KPiBUbzogWHUsIEJhb2p1bg0KPiBDYzogdGl3YWlAc3Vz
-ZS5kZTsgcm9iaCtkdEBrZXJuZWwub3JnOyBsZ2lyZHdvb2RAZ21haWwuY29tOyBwZXJleEBwZXJl
-eC5jejsgRGluZywgU2hlbmdoYW87IE5hdmFkYSBLYW55YW5hLCBNdWt1bmQ7IDEzOTE2Mjc1MjA2
-QDEzOS5jb207IEhhbXBpaG9saSwgVmFsbGFiaGE7IFAgTywgVmlqZXRoOyBsaW51eC1zb3VuZEB2
-Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpYW0uci5naXJk
-d29vZEBpbnRlbC5jb207IHl1bmctY2h1YW4ubGlhb0BsaW51eC5pbnRlbC5jb207IGJyb29uaWVA
-a2VybmVsLm9yZzsgYW50aGVhcy5ka0BnbWFpbC5jb207IHN0dWFydC5hLmhheWh1cnN0QGdtYWls
-LmNvbQ0KPiBTdWJqZWN0OiBbRVhURVJOQUxdIFJlOiBbUEFUQ0ggdjFdIEFMU0E6IGhkYS90YXMy
-NzgxOiBJZ25vcmUgU1VCU1lTX0lEIG5vdCBmb3VuZCBmb3IgdGFzMjU2MyBwcm9qZWN0cw0KPiAN
-Cj4gT24gTW9uLCBEZWMgMzAsIDIwMjQgYXQgMDI64oCKNDk64oCKMTBQTSArMDgwMCwgQmFvanVu
-IFh1IHdyb3RlOiA+IERyaXZlciB3aWxsIHJldHVybiBlcnJvciBpZiBubyBTVUJTWVNfSUQgZm91
-bmQgaW4gQklPUyhhY3BpKS4gPiBJdCB3aWxsIGNhdXNlIGVycm9yIGluIHRhczI1NjMgcHJvamVj
-dHMsIHdoaWNoIGhhdmUgbm8gU1VCU1lTX0lELiAuLuKAii4gPiArIC8qIE5vIHN1YnN5cyBpZCBp
-biBvbGRlciB0YXMyNTYzDQo+IFpqUWNtUVJZRnBmcHRCYW5uZXJTdGFydA0KPiBUaGlzIG1lc3Nh
-Z2Ugd2FzIHNlbnQgZnJvbSBvdXRzaWRlIG9mIFRleGFzIEluc3RydW1lbnRzLg0KPiBEbyBub3Qg
-Y2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJlY29nbml6ZSB0aGUg
-c291cmNlIG9mIHRoaXMgZW1haWwgYW5kIGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZS4NCj4gPGh0
-dHBzOi8vdXMtcGhpc2hhbGFybS1ld3QucHJvb2Zwb2ludC5jb20vRVdUL3YxL0czdkshdUJkblha
-c0RWdUsxQVVpczBCeG9rRllsMFU4bXNLSnFRUVRhbThqQnI1czZBcXp3OVdFQWQ1TExGTjBlVnkw
-TjIwQl9GN3dTVkRBRkdENzAkPg0KPiBSZXBvcnQgU3VzcGljaW91cw0KPiANCj4gWmpRY21RUllG
-cGZwdEJhbm5lckVuZA0KPiANCj4gT24gTW9uLCBEZWMgMzAsIDIwMjQgYXQgMDI6NDk6MTBQTSAr
-MDgwMCwgQmFvanVuIFh1IHdyb3RlOg0KPiA+IERyaXZlciB3aWxsIHJldHVybiBlcnJvciBpZiBu
-byBTVUJTWVNfSUQgZm91bmQgaW4gQklPUyhhY3BpKS4NCj4gPiBJdCB3aWxsIGNhdXNlIGVycm9y
-IGluIHRhczI1NjMgcHJvamVjdHMsIHdoaWNoIGhhdmUgbm8gU1VCU1lTX0lELg0KPiANCj4gLi4u
-DQo+IA0KPiA+ICsgICAgICAgICAgICAgLyogTm8gc3Vic3lzIGlkIGluIG9sZGVyIHRhczI1NjMg
-cHJvamVjdHMuICovDQo+ID4gKyAgICAgICAgICAgICBpZiAoIXN0cm5jbXAoaGlkLCAiSU5UODg2
-NiIsIHNpemVvZigiSU5UODg2NiIpKSkNCj4gPiArICAgICAgICAgICAgICAgICAgICAgZ290byBl
-bmRfMjU2MzsNCj4gDQo+IElzIHRoaXMgSUQgd2FzIHVzZWQgb24gb2xkIHBsYXRmb3Jtcz8NCg0K
-WWVzLiBBbmQgaXQgd2lsbCBuZXZlciBiZSB1c2VkIGluIG91ciBwcm9kdWN0IGFnYWluLg0KDQo+
-IA0KPiAtLQ0KPiBXaXRoIEJlc3QgUmVnYXJkcywNCj4gQW5keSBTaGV2Y2hlbmtvDQo+IA0KPiA=
+This patch fixes the volume adjustment issue on the Lenovo ThinkBook 16P Gen5
+by applying the necessary quirk configuration for the Realtek ALC287 codec.
+
+The issue was caused by incorrect configuration in the driver,
+which prevented proper volume control on certain systems.
+
+Signed-off-by: Yage Geng <icoderdev@gmail.com>
+---
+ sound/pci/hda/patch_realtek.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
+index 61ba5dc35b8b..000dd85f9f21 100644
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -10930,8 +10930,8 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
+ 	SND_PCI_QUIRK(0x17aa, 0x38e0, "Yoga Y990 Intel VECO Dual", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38f8, "Yoga Book 9i", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x38df, "Y990 YG DUAL", ALC287_FIXUP_TAS2781_I2C),
+-	SND_PCI_QUIRK(0x17aa, 0x38f9, "Thinkbook 16P Gen5", ALC287_FIXUP_CS35L41_I2C_2),
+-	SND_PCI_QUIRK(0x17aa, 0x38fa, "Thinkbook 16P Gen5", ALC287_FIXUP_CS35L41_I2C_2),
++	SND_PCI_QUIRK(0x17aa, 0x38f9, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
++	SND_PCI_QUIRK(0x17aa, 0x38fa, "Thinkbook 16P Gen5", ALC287_FIXUP_MG_RTKC_CSAMP_CS35L41_I2C_THINKPAD),
+ 	SND_PCI_QUIRK(0x17aa, 0x38fd, "ThinkBook plus Gen5 Hybrid", ALC287_FIXUP_TAS2781_I2C),
+ 	SND_PCI_QUIRK(0x17aa, 0x3902, "Lenovo E50-80", ALC269_FIXUP_DMIC_THINKPAD_ACPI),
+ 	SND_PCI_QUIRK(0x17aa, 0x3913, "Lenovo 145", ALC236_FIXUP_LENOVO_INV_DMIC),
+-- 
+2.48.0
+
