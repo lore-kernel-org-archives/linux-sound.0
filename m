@@ -1,131 +1,148 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874D322CF0C;
-	Mon, 13 Jan 2025 11:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA80D22CF03;
+	Mon, 13 Jan 2025 11:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736768172; cv=none; b=JTXi1piDSBpopIsPMYKrLDTbPPnuL1WZhpPdL76V1M0WflVKOL/Hpn/RMBlJFnxAhS6iZO0uEPKilveOHHxtk8H7DBzRuk+KlMVd/fHH08hxYrpngWTLcFqLNU+oQNU2qQr4hjjvykPkh8JYifhUheoW8bhgwFlk0WFjfGFy7jQ=
+	t=1736768697; cv=none; b=Sk6O5ifZkhJs9/TXKkxXcpf55dHTGCp4+lZlYWuE47Y8S74YOzgO9EDBtjaYrBAVcQPAevoGZgf8jEW3W7IyzQptSV+REkqxnOm0OaRapIwe9oZMzo/z3Z64iWvTY8ftgC6/uB4lgSpoRnwfJs7KZ13heEz8jX5P9LrxAKugVCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736768172; c=relaxed/simple;
-	bh=tmADMhGl+CbAmxOrDUaGYbQPgsCRLI/poXyP1fWwTyg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=d3rgfPv54ZySqngPmM51p/YFTY7exZTAq9epN9Ukohw09j7rSJqGUJNh0pfmrb6gaMjxD2Q9UwcAPChGG4DdvoA4ZOdWLz1Nez+Ku3UeTPN4cdEyDx55+CtlnpQBR1nmfG84izd2d9t6sDeJ/J6TqO/EgE0cEHKfHOYYTb/oS4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IUISksMi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0WF9EbGA; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IUISksMi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=0WF9EbGA; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1736768697; c=relaxed/simple;
+	bh=LVtEFY41ensxufRFG4hAMlaOCuTkTZrxHeKsNslynlY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Baj2SQQUeMpjqSxJBKUCDEF+4408/5tJyGTnTEz8s3iIzhxk+/L9mWe+6OMRAt4+Bxa8jFMqoY8rLsMihuL9ex/oGRf8hUzlauBtCCr0Hcb0YgimiNdjNS8KRlFRnmihkG3OWNGvwLjHMgpPYYDtSNq3kGBVQJZCi1QKaj1QRvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iUJTtFYG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IUISksMi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0WF9EbGA";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IUISksMi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0WF9EbGA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B4F8B1F37C;
-	Mon, 13 Jan 2025 11:36:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736768168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qCre/YS7qWet8fDBKUpP/qr12r1ky1g24G7VB5/MCM=;
-	b=IUISksMiLL7csQ9kYK/EOpf+d4BIdbzFOsg75sUTm8Q9zpFDbxzhbJwvS76lsXN7DXW9Oc
-	XAA0eAL0XGEFmBsWo2tEUR4wzoez38PyszSJjMA4vPlxo7s5OLbOMIgb3dyOMCZS4sedpS
-	wIZeAEwLiymFxe7APD00nLYjlf4V85o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736768168;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qCre/YS7qWet8fDBKUpP/qr12r1ky1g24G7VB5/MCM=;
-	b=0WF9EbGAD5ccMgxOhzPYXRBelRfDNGFuGriEVG0T+25LNbQQw4GLbuHfJB8nyCLvT3LBcX
-	Cwjb9pbowZ7mhaDw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736768168; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qCre/YS7qWet8fDBKUpP/qr12r1ky1g24G7VB5/MCM=;
-	b=IUISksMiLL7csQ9kYK/EOpf+d4BIdbzFOsg75sUTm8Q9zpFDbxzhbJwvS76lsXN7DXW9Oc
-	XAA0eAL0XGEFmBsWo2tEUR4wzoez38PyszSJjMA4vPlxo7s5OLbOMIgb3dyOMCZS4sedpS
-	wIZeAEwLiymFxe7APD00nLYjlf4V85o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736768168;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9qCre/YS7qWet8fDBKUpP/qr12r1ky1g24G7VB5/MCM=;
-	b=0WF9EbGAD5ccMgxOhzPYXRBelRfDNGFuGriEVG0T+25LNbQQw4GLbuHfJB8nyCLvT3LBcX
-	Cwjb9pbowZ7mhaDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7F7E113310;
-	Mon, 13 Jan 2025 11:36:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ZjASHaj6hGesfwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 13 Jan 2025 11:36:08 +0000
-Date: Mon, 13 Jan 2025 12:36:08 +0100
-Message-ID: <87sepn2bfb.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Yage <icoderdev@gmail.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	kailang@realtek.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/realtek: Fix volume adjustment issue on Lenovo ThinkBook 16P Gen5
-In-Reply-To: <20250113085208.15351-1-icoderdev@gmail.com>
-References: <20250113085208.15351-1-icoderdev@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iUJTtFYG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB246C4CED6;
+	Mon, 13 Jan 2025 11:44:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736768696;
+	bh=LVtEFY41ensxufRFG4hAMlaOCuTkTZrxHeKsNslynlY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iUJTtFYGhRtto7Q3CbZ3GIkwWMLu5Cyb2J1ciWAftdVwfY69rW1h3XTDgnxfm5oHQ
+	 C+4yiDqDchI9QOQEi2lQtQpaiynatrAs2NtCwnJ3UE3CgEUGWeXeoPTu3w22WKqjvs
+	 DEFeshE5Wbvq5wgVPNQ//G03vJdi8+EdWq1rJhFS8RXANh2pyPH0EiMxv7mOOlriT6
+	 wzMc5ml+kl7BJZs+hgaRfSLc36weK54iCFK3L1evHkofYjvnf3aXhtDgIy2G3X+Bfv
+	 uyBHNovzgGk6SY7PZeZI8C4yvMut6iQcImtspCViAvxh+kDY2fCOTLgaKRIqtwn6fo
+	 xm5fB6Dd/0wag==
+Message-ID: <79672620-9bfa-4162-9555-3f7274914cbf@kernel.org>
+Date: Mon, 13 Jan 2025 12:44:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.998];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/5] ASoC: dt-bindings: audio-graph-card2: add widgets
+ and hp-det-gpios support
+To: Laurentiu Mihalcea <laurentiumihalcea111@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Shawn Guo <shawnguo@kernel.org>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Mark Brown <broonie@kernel.org>,
+ Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+ Takashi Iwai <tiwai@suse.com>, Bard Liao <yung-chuan.liao@linux.intel.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Jaroslav Kysela <perex@perex.cz>, Frank Li <Frank.li@nxp.com>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20241216145039.3074-1-laurentiumihalcea111@gmail.com>
+ <20241216145039.3074-4-laurentiumihalcea111@gmail.com>
+ <nxcoukgiwtcsowi2uxytxa32mdp5dhl4tvnetpd2spti7oiiu3@mpqbv43ivznc>
+ <e5665b6a-c2ad-470f-8a36-b7adc05c1cf0@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <e5665b6a-c2ad-470f-8a36-b7adc05c1cf0@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Jan 2025 09:52:08 +0100,
-Yage wrote:
+On 08/01/2025 13:19, Laurentiu Mihalcea wrote:
 > 
-> This patch fixes the volume adjustment issue on the Lenovo ThinkBook 16P Gen5
-> by applying the necessary quirk configuration for the Realtek ALC287 codec.
 > 
-> The issue was caused by incorrect configuration in the driver,
-> which prevented proper volume control on certain systems.
 > 
-> Signed-off-by: Yage Geng <icoderdev@gmail.com>
+> On 12/17/2024 9:07 AM, Krzysztof Kozlowski wrote:
+>> On Mon, Dec 16, 2024 at 09:50:37AM -0500, Laurentiu Mihalcea wrote:
+>>> From: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+>>>
+>>> Introduce the 'widgets' property, allowing the creation of widgets from
+>>> 4 template widgets: Microphone, Line, Headphone, and Speaker. Also
+>>> introduce the 'hp-det-gpios' property, which allows using headphone
+>>> detection using the specified GPIO.
+>>>
+>>> Signed-off-by: Laurentiu Mihalcea <laurentiu.mihalcea@nxp.com>
+>>> ---
+>>>  .../devicetree/bindings/sound/audio-graph-card2.yaml          | 4 ++++
+>> I have impression you are duplicating audio graph properties instead of
+>> referencing proper schema, but considering that the bindings
+>> audio-graph-card and audio-graph-card2 differ only by number "2" without
+>> any description, not sure what is correct here.
+> 
+> Please correct me if I'm wrong here.
+> 
+> As things stand now and based on Kuninori Morimoto's comment on this
+> (https://lore.kernel.org/lkml/87cyhw8lg5.wl-kuninori.morimoto.gx@renesas.com/) I'd say we can't
+> (or, rather, shouldn't) directly reference audio-graph.yaml here.
 
-Applied now.  Thanks.
+Thanks
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+> 
+> Now, I wonder if the "proper" solution here would be to take the common properties
+> of audio-graph.yaml and audio-graph-card2.yaml and create a new binding that can be
+> referenced by both aforementioned bindings? Would that make things even more confusing
+> (we'd probably end up with audio-graph.yaml, audio-graph-card.yaml, audio-graph-card2.yaml,
+> and audio-graph-common.yaml)? Should this be addressed as part of this series?
 
 
-Takashi
+Really not sure. Common bindings are often good choice but I already
+struggle with grasping the differences between both audio-graph-cards,
+so more of it might not help.
+
+Best regards,
+Krzysztof
