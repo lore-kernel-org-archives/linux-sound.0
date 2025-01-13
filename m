@@ -1,103 +1,97 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89D231A49;
-	Mon, 13 Jan 2025 05:56:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916081B4236;
+	Mon, 13 Jan 2025 06:35:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736747803; cv=none; b=eKlrDcJek17Z4VgymJLIW1W4jZ93Q8anq7Dd8Op2Pil8wWYZug605wSXFZWxGIIaI9u/xjax2xVInfGaadxH7BTcgrjIiLIqgBY5K6AAwhhXLJeP1h0yu5aZ4UG3BU+pslM+wJJxc80R5/I9FryrRZ58rv8Ta+EpczXiTokqKl0=
+	t=1736750146; cv=none; b=OSGpCIXOUBhxnRTMoEGHxWpu0DmfdgJvx2eyLz0/MWxI3RY+ikZ4og9iuQ4efMl2mOP87HP/3OfXLtIGkptfY9xeYstJ6JvgNAPUc/HyHhQFs7y+0jKS1DKrkAZb2jrSIrFgtThUP6ieiMSN8YA4XS38LtYlvhM6k/iTGqhHNKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736747803; c=relaxed/simple;
-	bh=1OcVdR8QXo7h7I9CrTdObAst3NnP9BFHsBeH404rn5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dqfug+C6Up9/MPQz3qQZJaDpX4MHGs6SViZx24hm0QiFWqL4DCOMkRt3Y0aSUSZnY9uySmhDWOl2JJi4VbVrQ7LyrTpK65M4r5YG09KmyAy4xiaOiMHTY0TSa+E88k7eL/yay/PFnH/3lOomyP8ZNocRnBE/uCUtnUtqIO6PMfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtGL52a9; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736750146; c=relaxed/simple;
+	bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CfNWgDzDtoSLuK6oIqSuJ/zEOcOnBivJ8RA4ZNKCcXf2g09snsQJ3+44CNohU28LGaeiQpiQwtbDHCQkoCfZykbTzT0JNWYA7G5VsbV0+hCXjNOGgquoFks3x/lqnFpxfjSDj1/YnvoH+4jKbMX7nZXNS5SkXYjbjUSwCs8b12c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoMkt8YH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtGL52a9"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aaecf50578eso772116866b.2;
-        Sun, 12 Jan 2025 21:56:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736747800; x=1737352600; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UsALnG9/Q3jBM38ejFycw2fZLXx4mUZU9n4CJ679lYQ=;
-        b=HtGL52a9/Tj3YE0vTTCSMkOkbDRZyxx+kELT55tbd3H58foJQcH0AhBRoga6r0JDH8
-         HmT/pmKuptoRw1SG3a8jnVFwY/MosLDo8+2DSkOWuqcu6H3t1ZSRfcgAtl1wkOVSes7j
-         gzUj9LKk0s2+TCXUAbxuyFyclJxjuXqAvqPM7ezxfdlXk1wWMaSQmfbTQu6VHRlAORpa
-         rUjGSkUY0xADWCdsE6DJP+tqjV4DUJrl3hr5kHTf/lML+REvBrV+wY9lmTKofvJGGMme
-         ghde5GOzH32iUgRuajCcI5IDcRa84iDhhJf1st8jaYJBRdUaxx3jEpKW1Ik76W4Qvf1R
-         5MDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736747800; x=1737352600;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UsALnG9/Q3jBM38ejFycw2fZLXx4mUZU9n4CJ679lYQ=;
-        b=fM/mvaQ23HIKpU1o82FziElfW6VF2xf5vnaLiYhXZyogRkHkgfMuhy6p+ktBQ8qcUD
-         Q7n5Mbq+o3qT6SaZuKlWkp8SrxBB7X7+n0Uv6FaBcPeEuKk7C6Gfnii6WqaqaoMDvMEH
-         5a6Pt3g1yHKSAKL/UxzypQWbz2iVMXm5ej9BvLgCC+P3Ud7AXOCp3nyfSUGBX+OHP+mI
-         mF95p8OZWQDfigxCMymp1bpvtzyqJrhuDOHXwIzEC4AbcT+MMkzq4slk2pgReVcy8oql
-         Ex67SZuvjh3KCq/Nvm6jiaD7o2Q/mql3U4giXpszblxAB8EiGmFbtz/QuY9S2ebm9J0y
-         RiYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUoBtbM4wx6iTpa4cY1zPsfoF1q2ruZprj1jX6DLZmkPlybIXGddsbpUthFKPywdLlSFvfn2KaQ0Wum8Q==@vger.kernel.org, AJvYcCWh3b4NDyMTTgV1imZ5vQCq7dm+FT/k5eWva79IbzbCVqZJa4ZCze04QnWsrSxiwK6UQibFh33PdHmA9N4=@vger.kernel.org, AJvYcCXYjv4SWW9Nk888tTU3HE6j+EtwSBkQ+o5e+xGoj5eP4SdSry4B4UFyyJoMG8hkZ+ftXCaeKm0AAhbFgHg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbWowYxLEkfrZaVt+yL8Sc71mtljq9bdCBKyv8d63Dd55U4MN+
-	GwrwPCDX+/lO2l3IEa5nW+/Az9b5g24VnSBjQEOwy1jJ5kEtP6XWXrxu5A==
-X-Gm-Gg: ASbGncv05MrKyibvo2chfXsHcMp9VBnTETdqEuaKPPFi28moJAZUWO5+dqyBbpgLQYs
-	nFzROapF+9k8qNJqhICv9ta5O/AJC5gqD7jieN1uqceGlbMApQdePe5Ci+dI6P0mVGosTHa7zsR
-	rRrenQBMb0Gl6KnvZ2Ao6m5bUG/HggO/09wk6w8wcyOKOqBpXrxM4+Q0aDdHAL7oSbxTkb8rul/
-	S8Wogh1v1L4WBDU90TS2+R+bb48+NcOM8BSGCNZsxe9ZMsHfLoqNyyTYffwpXmuR5zxrg==
-X-Google-Smtp-Source: AGHT+IGV0nYkYjJVPqWOd5aTZADzdU5bEMNbbXVQ393U2Hur3U0GrL/ykyQaGM250ELY1CffgHr8nw==
-X-Received: by 2002:a17:906:1196:b0:ab2:eb1a:9471 with SMTP id a640c23a62f3a-ab2eb1a9d1cmr767396266b.48.1736747799518;
-        Sun, 12 Jan 2025 21:56:39 -0800 (PST)
-Received: from [192.168.1.10] ([95.43.220.235])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab2c90dad57sm458909566b.66.2025.01.12.21.56.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Jan 2025 21:56:39 -0800 (PST)
-Message-ID: <a35c8cfc-d7a1-4c3f-9541-ee247e2490f4@gmail.com>
-Date: Mon, 13 Jan 2025 07:56:38 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoMkt8YH"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C714C4CED6;
+	Mon, 13 Jan 2025 06:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736750146;
+	bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=MoMkt8YHcrwIqGAAUSz8wPAph1rZMXMe0aRXDbRfgSdTp8AZpNqaAK/J/kdEONx23
+	 jFUR75ep9xRmy5c1P2UovMT9EdtfLVIy/Gx8zmqD6oLUGkzjFVMZhA9qf4FIdM2YiW
+	 W3NMBRtRG/q/J4XG5R6CEpvGQK1Ky8UN9ck9XS0qqGUHVoDcN+hycGI6XvoYmYoWWh
+	 QCpwL6e0eIiO4296uoWh/GPkbeuxwc94FXDwE1DSYg8AEx46TTXpSwMCAwTzNNNqZX
+	 KBvJpjSlMie/g71hLkAb/eP+GJ6KTcKofb3iUIXY7H/XNBDizueUVHLdWJJrbi/02W
+	 +LMkfj52fewIg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C4EE7719E;
+	Mon, 13 Jan 2025 06:35:45 +0000 (UTC)
+From: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
+Subject: [PATCH 0/3] Add support for S4 audio
+Date: Mon, 13 Jan 2025 14:35:12 +0800
+Message-Id: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/5] ASoC: cpcap: Implement jack headset detection
-To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Tony Lindgren <tony@atomide.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
-References: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
-Content-Language: en-GB
-From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-In-Reply-To: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACG0hGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDQ0MD3cTSlMz8+JSisszUIl0D80RTYwvDZBNLkyQloJaCotS0zAqwcdG
+ xtbUAVy28hV4AAAA=
+X-Change-ID: 20250110-audio_drvier-07a5381c494b
+To: Jerome Brunet <jbrunet@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-amlogic@lists.infradead.org, jiebing chen <jiebing.chen@amlogic.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736750144; l=1136;
+ i=jiebing.chen@amlogic.com; s=20250110; h=from:subject:message-id;
+ bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
+ b=zGklfCbSRH4yBG2RsEX2vhu/9ldv5Wjvg/qtKRhQIJW7IToz0zt7qIztoJwr2Tg7lR98AKjfB
+ 4eXneib0EVrClzcwjQKfqXlUYUGjcwHG4T4zCfukXL2UQFptj3PvQys
+X-Developer-Key: i=jiebing.chen@amlogic.com; a=ed25519;
+ pk=6rFvvF45A84pLNRy03hfUHeROxHCnZ+1KAGw/DoqKic=
+X-Endpoint-Received: by B4 Relay for jiebing.chen@amlogic.com/20250110 with
+ auth_id=316
+X-Original-From: jiebing chen <jiebing.chen@amlogic.com>
+Reply-To: jiebing.chen@amlogic.com
 
-ping
+Add the tdmout pad control and tocodec control driver. 
 
-On 28.12.24 г. 13:45 ч., Ivaylo Dimitrov wrote:
-> cpcap audio codec found on cpcap PMIC supports headset detection
-> and PTT button through its 3.5 mm jack. This series implements
-> support for those capabilities.
-> 
-> Ivaylo Dimitrov (5):
->    arch: arm: dts: cpcap-mapphone: Set VAUDIO regulator always-on
->    ASoC: cpcap: Implement .set_bias_level
->    dt-bindings: mfd: motorola-cpcap: Document audio-codec interrupts
->    arch: arm: dts: cpcap-mapphone: Add audio-codec jack detection
->      interrupts
->    ASoC: cpcap: Implement jack detection
-> 
->   .../bindings/mfd/motorola-cpcap.txt           |   9 +
->   .../dts/ti/omap/motorola-cpcap-mapphone.dtsi  |   8 +-
->   sound/soc/codecs/cpcap.c                      | 200 +++++++++++++++++-
->   3 files changed, 215 insertions(+), 2 deletions(-)
-> 
+Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
+---
+jiebing chen (3):
+      ASoC: dt-bindings: Add Amlogic S4 audio
+      ASoC: meson: s4:support for the on-chip audio
+      arm64: dts: amlogic: Add Amlogic S4 Audio
+
+ .../bindings/sound/amlogic,s4-tdmout-pad.yaml      |  36 ++
+ .../bindings/sound/amlogic,s4-tocodec.yaml         |  44 +++
+ .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 226 ++++++++++++
+ arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 385 ++++++++++++++++++++-
+ sound/soc/meson/Kconfig                            |  16 +
+ sound/soc/meson/Makefile                           |   6 +
+ sound/soc/meson/s4-pad-out-control.c               | 372 ++++++++++++++++++++
+ sound/soc/meson/s4-tocodec-control.c               | 376 ++++++++++++++++++++
+ sound/soc/meson/t9015.c                            |   5 +-
+ 9 files changed, 1461 insertions(+), 5 deletions(-)
+---
+base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
+change-id: 20250110-audio_drvier-07a5381c494b
+
+Best regards,
+-- 
+jiebing chen <jiebing.chen@amlogic.com>
+
+
