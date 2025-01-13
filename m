@@ -1,154 +1,73 @@
-Received: from vps-ovh.mhejs.net (vps-ovh.mhejs.net [145.239.82.108])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1886A1BEF9D;
-	Sun, 12 Jan 2025 19:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.239.82.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAC6629
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 00:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736709835; cv=none; b=kidvMo+A4/xBFiog9cUm4EXBAEc6gk9mmt8NaAPxuM1aZPzZesYGrKVE7ZTxXffpKxYdu2KGXyAahiRv+TNdqjIksdr1k7AGn+Q95fmK37ga4ztYocRVlauikbbMWX8zv3SK4TE6eetJcE5PXVPzJhB72FTF+HJ53ytfDECcCFg=
+	t=1736727218; cv=none; b=eQfw8wGueXMbcxFBi3cVNM7lpQOHF7pVXDigUsqaKJrDl4i71PwMExrE+R46He1V0E1D16qKlc78pcFx2yxfHeWzAgzTPJIOdMS1irgQfmJMxLnGOTiEjE6jg+xLsnGtBfTN9dofpcrYoiFzofG4MZsS0w+pWi4Q0E6cMgbQ1ms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736709835; c=relaxed/simple;
-	bh=nUnYR05Em6AB4psYKVrHb3Cg+XhmqqqRDotaiyHYHBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dGfxGEADZDUSXaA1gE8gaUlDGRGHp4ZIa+FGuYsiXg7yhtn7mRzznGGQViyVYMTAstcIqgyAfPJ4du33E7rwPQjIA+PjFHoyoH5TvVLfdsLc7Tsxe8slmfo/WgbsUCJuWTyfLJujQmUiBeYDVNLiXVypj//uOWwoUZmnCEwzlkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name; spf=pass smtp.mailfrom=vps-ovh.mhejs.net; arc=none smtp.client-ip=145.239.82.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maciej.szmigiero.name
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vps-ovh.mhejs.net
-Received: from MUA
-	by vps-ovh.mhejs.net with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.98)
-	(envelope-from <mhej@vps-ovh.mhejs.net>)
-	id 1tX3Yf-00000005aOp-1hGB;
-	Sun, 12 Jan 2025 20:23:37 +0100
-Message-ID: <d5a111cb-c242-4a91-8289-5441495c3ff5@maciej.szmigiero.name>
-Date: Sun, 12 Jan 2025 20:23:32 +0100
+	s=arc-20240116; t=1736727218; c=relaxed/simple;
+	bh=ZlFBYo5h7LGJ1/l/QHz7H3DE/AcrJCuOo/lpN9ULRkM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O/ehTWls2T00AWGVXQMrwyzELr7pub6CkV05T+M76lfQSERbRawZiadqw/8PzPb+noKHoZzOP9xU53lFViNIVSSIAm9N/a669uib0Jw55Aiuwvn3J0I1O4s5j1DIpPWfQwPsQKdMTj8lNGz9HRZGDjtxYyJD8P8GF+SryaqaNVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VOPv9KKZ; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VOPv9KKZ"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1736727213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=dO2Yboz2F3pGEQEYNYbFyosxQ8UlBjN9Z7A4NSykAgU=;
+	b=VOPv9KKZ6cM1Z9qOR2ARV2EPzX7KTc9FGCTBJ+aXjk6BoUprF6pERE/qfbGZGKtBP80Dr3
+	6gMRAKaMVGMyT7NP8i2/dk8OAN7kR3A/0pPIjoMpxmzCvwlYGnYCVExncePKJ4jVaIQErz
+	FsutSBcB/jHRgLp785kBZVsDqJDceUc=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Herve Codina <herve.codina@bootlin.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ASoC: codecs: Use ARRAY_SIZE() to calculate PEB2466_TLV_SIZE
+Date: Mon, 13 Jan 2025 01:10:01 +0100
+Message-ID: <20250113001001.400669-2-thorsten.blum@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] ALSA: hda/realtek: Enable PC beep passthrough for HP
- EliteBook 855 G7
-To: Takashi Iwai <tiwai@suse.de>, Kailang Yang <kailang@realtek.com>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Oder Chiou <oder_chiou@realtek.com>, Shuming Fan <shumingf@realtek.com>,
- Qiu Wenbo <qiuwenbo@kylinos.com.cn>, linux-sound@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <8be5018af1d2b26b495719b122eff0eaa1333561.1735737289.git.mail@maciej.szmigiero.name>
- <87sepo2pvn.wl-tiwai@suse.de>
-Content-Language: en-US, pl-PL
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
-Autocrypt: addr=mail@maciej.szmigiero.name; keydata=
- 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
-In-Reply-To: <87sepo2pvn.wl-tiwai@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Sender: mhej@vps-ovh.mhejs.net
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 12.01.2025 13:11, Takashi Iwai wrote:
-> On Wed, 01 Jan 2025 14:16:05 +0100,
-> Maciej S. Szmigiero wrote:
->>
->> PC speaker works well on this platform in BIOS and in Linux until sound
->> card drivers are loaded. Then it stops working.
->>
->> There seems to be a beep generator node at 0x1a in this CODEC
->> (ALC269_TYPE_ALC215) but it seems to be only connected to capture mixers
->> at nodes 0x22 and 0x23.
->> If I unmute the mixer input for 0x1a at node 0x23 and start recording
->> from its "ALC285 Analog" capture device I can clearly hear beeps in that
->> recording.
->>
->> So the beep generator is indeed working properly, however I wasn't able to
->> figure out any way to connect it to speakers.
->>
->> However, the bits in the "Passthrough Control" register (0x36) seems to
->> work at least partially: by zeroing "B" and "h" and setting "S" I can at
->> least make the PIT PC speaker output appear either in this laptop speakers
->> or headphones (depending on whether they are connected or not).
->>
->>
->> There are some caveats, however:
->> * If the CODEC gets runtime-suspended the beeps stop so it needs HDA beep
->> device for keeping it awake during beeping.
->>
->> * If the beep generator node is generating any beep the PC beep passthrough
->> seems to be temporarily inhibited, so the HDA beep device has to be
->> prevented from using the actual beep generator node - but the beep device
->> is still necessary due to the previous point.
->>
->> * In contrast with other platforms here beep amplification has to be
->> disabled otherwise the beeps output are WAY louder than they were on pure
->> BIOS setup.
->>
->>
->> Unless someone (from Realtek probably) knows how to make the beep generator
->> node output appear in speakers / headphones using PC beep passthrough seems
->> to be the only way to make PC speaker beeping actually work on this
->> platform.
->>
->> Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
-> 
-> It's a change that does handle things completely differently from the
-> current implementation, and it uses undocumented Realtek-specific
-> things, so I'd rather want comments from Realtek.
-> 
-> Kailang, is this feature correct and can be used safely?
-> 
+Use the ARRAY_SIZE() macro to calculate PEB2466_TLV_SIZE and improve the
+code's readability.
 
-...and if it is incorrect then it would be nice to know how to do it
-the correct way.
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
+---
+ sound/soc/codecs/peb2466.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-By the way, the patch will need a respin anyway to correct the typo in
-!IS_ENABLED(CONFIG_INPUT_PCSPKR) code that the kernel test robot found
-and to change that codec_warn() into dev_warn_once(hda_codec_dev(codec))
-to avoid spamming the kernel log at runtime PM CODEC re-init.
-
-> thanks,
-> 
-> Takashi
-
-Thanks,
-Maciej
+diff --git a/sound/soc/codecs/peb2466.c b/sound/soc/codecs/peb2466.c
+index bb9ca6354ae1..a989cfe058f0 100644
+--- a/sound/soc/codecs/peb2466.c
++++ b/sound/soc/codecs/peb2466.c
+@@ -26,8 +26,7 @@ struct peb2466_lookup {
+ 	unsigned int count;
+ };
+ 
+-#define PEB2466_TLV_SIZE  (sizeof((unsigned int []){TLV_DB_SCALE_ITEM(0, 0, 0)}) / \
+-			   sizeof(unsigned int))
++#define PEB2466_TLV_SIZE ARRAY_SIZE(((unsigned int[]){TLV_DB_SCALE_ITEM(0, 0, 0)}))
+ 
+ struct peb2466_lkup_ctrl {
+ 	int reg;
+-- 
+2.47.1
 
