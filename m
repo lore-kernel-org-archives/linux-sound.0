@@ -1,95 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B8D28FD;
-	Mon, 13 Jan 2025 07:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13CCB3C1F;
+	Mon, 13 Jan 2025 07:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736752797; cv=none; b=BGxVtUBL4oZaY+yBfOI9/NX+GAczC5JJSwjSPGlwKOOlDHrDiay60vz7lmZPe2pcLQtXppOpuxQx0Fer4HLP3SHzBkao5SYPF0MUHw2+gFCjwM6wkLNIcCfvvVR6zn0prcuLQdH0dam0peAwITkmHOEUapC1wvDjDujavWO2NX8=
+	t=1736754437; cv=none; b=gcoOUQwcVRaUXk8BomiuC7Yryz9dDKCTWSCLg9ynnisDmyiesQvPULW+iXiGpzOjCe5ten7b0MST5GjEsSPUhsFXDFzRlSIa8EJFJ47eeZGlx4cekx/Qc10Yk1QTR20VVpa4zz44VrRgKYikxG44yiOGx8hSKTFY/hfUICjJXoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736752797; c=relaxed/simple;
-	bh=MYJh3nER0YHHitikyQndEMbpoJyhZPDW6g9Dil0vlRY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Qy0m4JS89y+I51EKrcUJ/ILrhXgq5HwL1LHcPk+WrhJdkKvRLR6DD5OXUXIkfk/ycPo/qSVyUtLVo7ayCjpAZvUYO8DOY7EVSJyI7MtMY+bbiN2rTnm43a/nSKy9m9zI/Y5jC5ixbc/zoLDo7qHZ7amFHya+oUftxGfYW98BO+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjKFkpRj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736754437; c=relaxed/simple;
+	bh=AIfmDf8D9NJz4NJc1zYT3jVwqLbDET0CFn6I3+Fn2bM=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W/TswkcG4TQmRM6xWyGHsH9y7y8v1AJbpczd8BXM0DWz7+nbbzedI7D0sHQB4XsmPekKcaCV+zZkfe2u8EgYftZWOKHEn3gP/GZzkH5FL3nfYVqfvZaw5AEwPqqJfDV27rmVNF9PjZ54m94tP0GwxCVBecczupE23jBHv0V6rng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=naTkfRWR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZIV65bIM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=naTkfRWR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ZIV65bIM; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjKFkpRj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9A8C4CED6;
-	Mon, 13 Jan 2025 07:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736752797;
-	bh=MYJh3nER0YHHitikyQndEMbpoJyhZPDW6g9Dil0vlRY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=mjKFkpRjdNsXXJ5zthwnqTsDxtfOwux3uS6dTV9/A8lV3ByHLs7QPzZoG5eOX3XTu
-	 Z9Y6yGThfI432tMiVYIueQY4bFTd1oy20h+H2JfbtijnbZom14Vzd9PoG9p+HObrH+
-	 9iCFrUMlX5B8RSLX1xf+dtGPqjlK/NNjZjtmjShbqyj14xpNMwiLKjA9JdT4ucp919
-	 asB5Q5Di+p3sPXIQ08Tf8telCIYOX1wkRg4Iqvhzmzl28rHR9ZATGve5/jmPTXItjZ
-	 7ccTeP5T3pn2qLLwpSljNU4DSYOWTiFUyD7EwozyfUT+HrvoLTZ3kkBaTgI8KnFP/n
-	 MppiBw38PetPw==
-Date: Mon, 13 Jan 2025 01:19:56 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="naTkfRWR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZIV65bIM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="naTkfRWR";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZIV65bIM"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0451A21175;
+	Mon, 13 Jan 2025 07:47:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736754433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
+	b=naTkfRWR155rv6a8JPL36vXStqYH9h5Mvt8TofBFtA2/FgjMashiSd0c1f+5MHox5DRmov
+	GwdsoODK8Vz1Bi4Fkiy0GAUUL/RK8mMwauIIUehHYJz6zi58Oqj23CJw3/rDl5lrMDGdAc
+	QxEfbLZt8YIuDOallrzAmAKlqHS3cxk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736754433;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
+	b=ZIV65bIM/u8IX7081ishY6r8Tl752VD2TWnahmT/T7pmkjziiboJd38HLfcBBWGEquxVk0
+	WFVLPAxQEv5yVlCA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=naTkfRWR;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ZIV65bIM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736754433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
+	b=naTkfRWR155rv6a8JPL36vXStqYH9h5Mvt8TofBFtA2/FgjMashiSd0c1f+5MHox5DRmov
+	GwdsoODK8Vz1Bi4Fkiy0GAUUL/RK8mMwauIIUehHYJz6zi58Oqj23CJw3/rDl5lrMDGdAc
+	QxEfbLZt8YIuDOallrzAmAKlqHS3cxk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736754433;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z/EQOF1+61kv5e32o3JG7oTiAGUcUEaXdeUdhhtsp90=;
+	b=ZIV65bIM/u8IX7081ishY6r8Tl752VD2TWnahmT/T7pmkjziiboJd38HLfcBBWGEquxVk0
+	WFVLPAxQEv5yVlCA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8061E13310;
+	Mon, 13 Jan 2025 07:47:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 1FKnHQDFhGfrNAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 13 Jan 2025 07:47:12 +0000
+Date: Mon, 13 Jan 2025 08:47:12 +0100
+Message-ID: <87ldvf2m0v.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Xu, Baojun" <baojun.xu@ti.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"lgirdwood@gmail.com" <lgirdwood@gmail.com>,
+	"perex@perex.cz"
+	<perex@perex.cz>,
+	"Ding, Shenghao" <shenghao-ding@ti.com>,
+	"Navada Kanyana, Mukund" <navada@ti.com>,
+	"13916275206@139.com" <13916275206@139.com>,
+	"Hampiholi, Vallabha" <v-hampiholi@ti.com>,
+	"P O, Vijeth" <v-po@ti.com>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"liam.r.girdwood@intel.com" <liam.r.girdwood@intel.com>,
+	"yung-chuan.liao@linux.intel.com" <yung-chuan.liao@linux.intel.com>,
+	"broonie@kernel.org" <broonie@kernel.org>,
+	"antheas.dk@gmail.com"
+	<antheas.dk@gmail.com>,
+	"stuart.a.hayhurst@gmail.com"
+	<stuart.a.hayhurst@gmail.com>,
+	"dan.carpenter@linaro.org"
+	<dan.carpenter@linaro.org>
+Subject: Re: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
+In-Reply-To: <311e99af8c6d4041ac2c19b115a8c0ab@ti.com>
+References: <20250111095728.1232-1-baojun.xu@ti.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Jaroslav Kysela <perex@perex.cz>, Kevin Hilman <khilman@baylibre.com>, 
- linux-sound@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, linux-kernel@vger.kernel.org, 
- Conor Dooley <conor+dt@kernel.org>, Mark Brown <broonie@kernel.org>, 
- Takashi Iwai <tiwai@suse.com>, devicetree@vger.kernel.org, 
- linux-amlogic@lists.infradead.org, 
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
- Liam Girdwood <lgirdwood@gmail.com>
-To: jiebing chen <jiebing.chen@amlogic.com>
-In-Reply-To: <20250113-audio_drvier-v1-1-8c14770f38a0@amlogic.com>
-References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
- <20250113-audio_drvier-v1-1-8c14770f38a0@amlogic.com>
-Message-Id: <173675279619.745064.11661644624607210871.robh@kernel.org>
-Subject: Re: [PATCH 1/3] ASoC: dt-bindings: Add Amlogic S4 audio
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 0451A21175
+X-Spam-Score: -2.01
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[139.com,gmail.com];
+	FREEMAIL_CC(0.00)[suse.de,kernel.org,linux.intel.com,gmail.com,perex.cz,ti.com,139.com,vger.kernel.org,intel.com,linaro.org];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REDIRECTOR_URL(0.00)[proofpoint.com];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-
-On Mon, 13 Jan 2025 14:35:13 +0800, jiebing chen wrote:
-> Add documentation describing the Amlogic S4 TDM output pad and toacodec.
+On Mon, 13 Jan 2025 07:41:02 +0100,
+Xu, Baojun wrote:
 > 
-> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
-> ---
->  .../bindings/sound/amlogic,s4-tdmout-pad.yaml      | 36 ++++++++++++++++++
->  .../bindings/sound/amlogic,s4-tocodec.yaml         | 44 ++++++++++++++++++++++
->  2 files changed, 80 insertions(+)
+> > ________________________________________
+> > From: Takashi Iwai <tiwai@suse.de>
+> > Sent: 12 January 2025 16:26
+> > To: Xu, Baojun
+> > Cc: tiwai@suse.de; robh+dt@kernel.org; andriy.shevchenko@linux.intel.com; lgirdwood@gmail.com; perex@perex.cz; Ding, Shenghao; Navada Kanyana, Mukund; 13916275206@139.com; Hampiholi, Vallabha; P O, Vijeth; linux-sound@vger.kernel.org; linux-kernel@vger.kernel.org; liam.r.girdwood@intel.com; yung-chuan.liao@linux.intel.com; broonie@kernel.org; antheas.dk@gmail.com; stuart.a.hayhurst@gmail.com; dan.carpenter@linaro.org
+> > Subject: [EXTERNAL] Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for tas2563 projects
+> > 
+> > On Sat, 11 Jan 2025 10: 57: 28 +0100, Baojun Xu wrote: > > Driver will return error if no SUBSYS_ID found in BIOS(acpi). > It will cause error in tas2563 projects, which have no SUBSYS_ID. > Change strncmp to strcmp to avoid warning
+> > ZjQcmQRYFpfptBannerStart
+> > This message was sent from outside of Texas Instruments.
+> > Do not click links or open attachments unless you recognize the source of this email and know the content is safe.
+> > <https://us-phishalarm-ewt.proofpoint.com/EWT/v1/G3vK!vxdrHfwF_qfzogYE_xtoX7lTozH70XOKA0HRu-ioBvUvCv8QNkmAsR1WurvR9Zlh7GmU7A$>
+> > Report Suspicious
+> > 
+> > ZjQcmQRYFpfptBannerEnd
+> > 
+> > On Sat, 11 Jan 2025 10:57:28 +0100,
+> > Baojun Xu wrote:
+> > >
+> > > Driver will return error if no SUBSYS_ID found in BIOS(acpi).
+> > > It will cause error in tas2563 projects, which have no SUBSYS_ID.
+> > > Change strncmp to strcmp to avoid warning for weird length.
+> > 
+> > I don't understand the logic.
+> > The use of strncmp() there already matches only with the exact string
+> > "INT8866", not the substring, because you use sizeof("INT8866") which
+> > is 8 including the NUL-terminator.
+> > The only merit of strncmp() in this case is that it can be used for an
+> > unterminated char array.
+> > 
+> > In which situation do you see the problem and how does your patch
+> > improve / fix it?  Please give a more concrete example.
+> > 
 > 
+> Because it will have Smatch Static Checker warning:
+> 
+> 	sound/pci/hda/tas2781_hda_i2c.c:146 tas2781_read_acpi()
+> 	warn: strncmp() with weird length: 7 vs 8
+> 
+> sound/pci/hda/tas2781_hda_i2c.c
+>     144         if (IS_ERR(sub)) {
+>     145                 /* No subsys id in older tas2563 projects. */
+> --> 146                 if (!strncmp(hid, "INT8866", sizeof("INT8866")))
+> 
+> This patch will avoid this warning, and this hid will be a null terminated
+> "INT8866", so have no different when this code was go through.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Ah, so your change is only about the last line in the sentence.
+The former two lines describe what the current driver already does.
 
-yamllint warnings/errors:
+As the driver behavior won't change, your current patch subject and
+description are way too confusing.  Please rephrase them and
+resubmit.  It's nothing but just a code refactoring that eventually
+shuts up the Smatch warning, after all.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/sound/amlogic,s4-tocodec.example.dts:23.35-36 syntax error
-FATAL ERROR: Unable to parse input tree
-make[2]: *** [scripts/Makefile.dtbs:131: Documentation/devicetree/bindings/sound/amlogic,s4-tocodec.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1506: dt_binding_check] Error 2
-make: *** [Makefile:251: __sub-make] Error 2
 
-doc reference errors (make refcheckdocs):
+thanks,
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250113-audio_drvier-v1-1-8c14770f38a0@amlogic.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Takashi
