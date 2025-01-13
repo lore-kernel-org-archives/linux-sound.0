@@ -1,97 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0512A1FBBD2;
-	Mon, 13 Jan 2025 16:57:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C0B18FC86
+	for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 17:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736787429; cv=none; b=Nq8UURhWwGu+DqBgTcU+hJ8ELbPkyx1ZeKCfbh08LaaI8lgFy/65zNoOGFddkWyHUiaiiEuSV4blzHMaSNOrGp3nu+RQ/4CblgNjVkXWsK4XAaghXSQ0a6ItgzVnt/USqbb0NDgzt3eTNqQ6nqun7Cmggw6tnscsxZfsapeMLOQ=
+	t=1736787782; cv=none; b=cVwHoJ5gCHoTd8Xqa8jo2FbkMZD9azJsguVz1G8Jpsq7dkJiCJiuaVtJPW41OANVBqcpniSEVqcq+EKfNjkYGTFezw50dEgxff1XSAic0pCLExUFTY3sw+50G50KJczZMCu7qJwfn9/BXR2PNXOuH1XtmujcCSrkLSvg/Wp4vMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736787429; c=relaxed/simple;
-	bh=6zHHYWKunh1M6enMUeVEE9Y9YBnnSAPsE4K1pjRUkcI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=VeYtJkwInJ4WYmTGvBlAOeA5HBCD7bi3UmM4EZbokrX/BmJAvJXygbs9ohQ+xtl58ppOScdCRYH0QgJU0y/zH4OizcQ2vEtpwclu9Bdh1jqSDYG1wekTcZ90/jDg6UilvrriK8w8IsifST0fzJ2j9DEFx4GjI03NDrcvN0+d/OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5HScDVV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736787782; c=relaxed/simple;
+	bh=d5oQtQ8jpiv6Squ+ab7ufLaKlLfgZAKlrvhWJJUrbuY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FK2aAohKT3+roqzBpeFk4V5x1eaSECv5xAYt1muaUHw/i/poBrOCKRPxX2CU3ACx3YUjluAZkI8mVroeiCVutFNECKPWaMP78hh+epMWBxruWypFzb/FI5enLraWPZpQ9/Tgrxi+9FZAR5weZcTpfzjEgB/iYx4J2jgW7rejdSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PFAb10j/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5gmCzoAf; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PFAb10j/; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5gmCzoAf; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5HScDVV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B3AC4CED6;
-	Mon, 13 Jan 2025 16:57:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736787428;
-	bh=6zHHYWKunh1M6enMUeVEE9Y9YBnnSAPsE4K1pjRUkcI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=d5HScDVVKb+DwfnbCcV97/QF65GOYRX+jx4ie0+HUelITeYsvWlQ9cBkTCr24oE/a
-	 iXauNEme1/v3qzVJDsUBM6DPgb35WmlHzAaXH2RXu3OybMl8r3oQ9gxgIcTpCVd7+3
-	 8mSoMjL4yxD1Aa6QV85Al6v9YbOtTJOVwyJhDebb785CaDcVuhKxJnIIwlbQPj49NE
-	 GzZMjFNxDJPkXxErwlt76ewBfR661vtAWXQMLR8DbdAKyGs0X5ys9Qq4dSXeSCQE27
-	 eb64ETmhE8zLC5QZ+mwsYDlDSK5+Vct0ACPc+NkG2j/yb0c2/5jugtRMKBgBQ5uWfF
-	 MP3cVr0H4NbLg==
-From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, alsa-devel@alsa-project.org, 
- Maxim Kochetkov <fido_max@inbox.ru>
-Cc: andy.shevchenko@gmail.com, u.kleine-koenig@pengutronix.de, 
- tiwai@suse.com, perex@perex.cz, lgirdwood@gmail.com, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20241219042227.7075-1-fido_max@inbox.ru>
-References: <20241219042227.7075-1-fido_max@inbox.ru>
-Subject: Re: [PATCH v2 1/1] ASoC: codecs: nau8824: fix max volume for
- Speaker output
-Message-Id: <173678742609.75237.6112979080454530319.b4-ty@kernel.org>
-Date: Mon, 13 Jan 2025 16:57:06 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PFAb10j/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5gmCzoAf";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PFAb10j/";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="5gmCzoAf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 374011F441;
+	Mon, 13 Jan 2025 17:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736787779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uOVfkbwwfj+P+QapJFEKtt699+gc0NgpKthLh3u8KgU=;
+	b=PFAb10j/3sQySEf17Wydc9EM9/N4DetQV3Mx2Am6SPMHwUtDcm2/Bx7R896o9Yg5WeNkRx
+	oduk/T93Bz7wELTl9rKF8NYJeG1DLNj0v/u5nDyO+fYJh0BBaXnV0PdfTS15+BhqBvLlD9
+	LKVYifSGsfPhSn5TVFzejjayHRZ9bao=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736787779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uOVfkbwwfj+P+QapJFEKtt699+gc0NgpKthLh3u8KgU=;
+	b=5gmCzoAfCg5rCHkhdzz7DEjfvw4wpPmfWdB1lkN1XV+e+92t6pDhrfQ+rW81fUvJCtZvzX
+	id6P6XsOdq0a5uAw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736787779; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uOVfkbwwfj+P+QapJFEKtt699+gc0NgpKthLh3u8KgU=;
+	b=PFAb10j/3sQySEf17Wydc9EM9/N4DetQV3Mx2Am6SPMHwUtDcm2/Bx7R896o9Yg5WeNkRx
+	oduk/T93Bz7wELTl9rKF8NYJeG1DLNj0v/u5nDyO+fYJh0BBaXnV0PdfTS15+BhqBvLlD9
+	LKVYifSGsfPhSn5TVFzejjayHRZ9bao=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736787779;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uOVfkbwwfj+P+QapJFEKtt699+gc0NgpKthLh3u8KgU=;
+	b=5gmCzoAfCg5rCHkhdzz7DEjfvw4wpPmfWdB1lkN1XV+e+92t6pDhrfQ+rW81fUvJCtZvzX
+	id6P6XsOdq0a5uAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0A95D13876;
+	Mon, 13 Jan 2025 17:02:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id A3PnAENHhWeobgAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 13 Jan 2025 17:02:59 +0000
+Date: Mon, 13 Jan 2025 18:02:58 +0100
+Message-ID: <87plkq1wal.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
+In-Reply-To: <e2fa99cd1eefd2bd25584a5bfe93a21c643622dd.1736699490.git.g@b4.vu>
+References: <cover.1736699490.git.g@b4.vu>
+	<e2fa99cd1eefd2bd25584a5bfe93a21c643622dd.1736699490.git.g@b4.vu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On Thu, 19 Dec 2024 07:22:27 +0300, Maxim Kochetkov wrote:
-> There is no audio output if Speaker volume is set above 25.
-> According to datasheet Rev 2.5 maximum allowed value for the
-> Speaker output is 0b11001 (25)
+On Sun, 12 Jan 2025 18:10:31 +0100,
+Geoffrey D. Bennett wrote:
 > 
-> 0x6D CLASSD_GAIN_1/ 0x6E CLASSD_GAIN_2:
-> 
-> Left/Right Channel Class-D Driver Gain For DAC Left/Right
-> Input
-> (Step size is 1dB.)
-> 00000 = Mute (DEFAULT)
-> 00001 = 0dB
-> 00002 = 1dB
-> ...
-> 11000 = 23dB
-> 11001 = 24dB
-> 
-> [...]
+> +/* Send an FCP command and get the response */
+> +static int fcp_usb(struct usb_mixer_interface *mixer, u32 opcode,
+> +		   const void *req_data, u16 req_size,
+> +		   void *resp_data, u16 resp_size)
+> +{
+> +	struct fcp_data *private = mixer->private_data;
+> +	struct usb_device *dev = mixer->chip->dev;
+> +	struct fcp_usb_packet *req __free(kfree) = NULL;
+> +	struct fcp_usb_packet *resp __free(kfree) = NULL;
+> +	size_t req_buf_size = struct_size(req, data, req_size);
+> +	size_t resp_buf_size = struct_size(resp, data, resp_size);
+> +	int retries = 0;
+> +	const int max_retries = 5;
+> +	int err;
+> +
+> +	if (!mixer->urb) {
+> +		void *step0_resp __free(kfree) = NULL;
+> +		void *step2_resp __free(kfree) = NULL;
+> +
+> +		step0_resp = kmalloc(private->step0_resp_size, GFP_KERNEL);
+> +		if (!step0_resp)
+> +			return -ENOMEM;
+> +		step2_resp = kmalloc(private->step2_resp_size, GFP_KERNEL);
+> +		if (!step2_resp)
+> +			return -ENOMEM;
+> +		err = fcp_init(mixer, step0_resp, step2_resp);
+> +		if (err < 0)
+> +			return err;
+> +	}
 
-Applied to
+This happens only after the suspend, and this is for automatic
+re-initialization, right?
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+It's a bit scary that such a low-level function itself does
+re-initialization, as fcp_init() will call this function again.
+That said, it's more straightforward if the re-initialization is
+checked and done in the upper level.  (And here check only mixer->urb
+and return error (or spew WARN_ON()).
 
-Thanks!
+> +static int fcp_meter_tlv_callback(struct snd_kcontrol *kctl,
+> +				  int op_flag, unsigned int size,
+> +				  unsigned int __user *tlv)
+> +{
+> +	struct usb_mixer_elem_info *elem = kctl->private_data;
+> +	struct usb_mixer_interface *mixer = elem->head.mixer;
+> +	struct fcp_data *private = mixer->private_data;
+> +
+> +	if (op_flag == SNDRV_CTL_TLV_OP_READ) {
+> +		if (private->meter_labels_size == 0)
+> +			return 0;
+> +
+> +		if (size > private->meter_labels_size)
+> +			size = private->meter_labels_size;
+> +
+> +		if (copy_to_user(tlv, private->meter_labels, size))
+> +			return -EFAULT;
+> +
+> +		return size;
+> +	}
+> +
+> +	if (op_flag == SNDRV_CTL_TLV_OP_WRITE) {
+> +		kfree(private->meter_labels);
+> +		private->meter_labels = NULL;
+> +		private->meter_labels_size = 0;
+> +
+> +		if (size == 0)
+> +			return 0;
+> +
+> +		if (size > 4096)
+> +			return -EINVAL;
+> +
+> +		private->meter_labels = kmalloc(size, GFP_KERNEL);
+> +		if (!private->meter_labels)
+> +			return -ENOMEM;
+> +
+> +		if (copy_from_user(private->meter_labels, tlv, size)) {
+> +			kfree(private->meter_labels);
+> +			private->meter_labels = NULL;
+> +			return -EFAULT;
+> +		}
+> +
+> +		private->meter_labels_size = size;
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
 
-[1/1] ASoC: codecs: nau8824: fix max volume for Speaker output
-      commit: d5a4d7f10fcdcae952f7d5c603c61795c0abb7a7
+Hmm, this special is a special use of TLV in non-standard way, which
+needs definitely documentation.  The use is no longer TLV, just some
+raw read/write of a bulk data for the kcontrol , after all.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Also, I couldn't figure out what exactly this "meter_labels" stuff
+serves for.  It's not referred from anywhere else than TLV read?
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+> +/* Execute an FCP command specified by the user */
+> +static int fcp_ioctl_cmd(struct usb_mixer_interface *mixer, unsigned long arg)
+> +{
+> +	struct fcp_cmd cmd;
+> +	int err, buf_size;
+> +	void *data __free(kfree) = NULL;
+> +
+> +	/* get opcode and request/response size */
+> +	if (copy_from_user(&cmd, (void __user *)arg, sizeof(cmd)))
+> +		return -EFAULT;
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+You can avoid unneeded multiple cast.  e.g. make a void * pointer in
+the caller side cast from arg, then pass it to each function.
+Each function may have an argument with the explicit type pointer,
+here would be "struct fcp_cmd *arg".  Then the rest can be just "arg"
+here as the address, and...
 
-Thanks,
-Mark
+> +	/* copy request from user */
+> +	if (cmd.req_size > 0)
+> +		if (copy_from_user(data, ((void __user *)arg) + sizeof(cmd),
+> +				   cmd.req_size))
 
+"arg.data" here instead of the error-prone cast + offset.
+
+
+thanks,
+
+Takashi
