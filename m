@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916081B4236;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916A6230D32;
 	Mon, 13 Jan 2025 06:35:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736750146; cv=none; b=OSGpCIXOUBhxnRTMoEGHxWpu0DmfdgJvx2eyLz0/MWxI3RY+ikZ4og9iuQ4efMl2mOP87HP/3OfXLtIGkptfY9xeYstJ6JvgNAPUc/HyHhQFs7y+0jKS1DKrkAZb2jrSIrFgtThUP6ieiMSN8YA4XS38LtYlvhM6k/iTGqhHNKs=
+	t=1736750146; cv=none; b=Nqg4aIap4BEgJTMMaTOw6jGjIOfc/NagqhNKeQ8C7DNDnEuadZez9MYcN92KmY1A+J6UWNJoJH6nXsoCXWBNOOLjAeCgE5eSX9wWX6C5Y5s8q4eeMiScSL9Vks5NWIJcvt8sHApNYw/H1Z5oatFLnxQTJAVd8TmF4AZQSl03xpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1736750146; c=relaxed/simple;
-	bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CfNWgDzDtoSLuK6oIqSuJ/zEOcOnBivJ8RA4ZNKCcXf2g09snsQJ3+44CNohU28LGaeiQpiQwtbDHCQkoCfZykbTzT0JNWYA7G5VsbV0+hCXjNOGgquoFks3x/lqnFpxfjSDj1/YnvoH+4jKbMX7nZXNS5SkXYjbjUSwCs8b12c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MoMkt8YH; arc=none smtp.client-ip=10.30.226.201
+	bh=TVWgIhv7jNPBn03yzeSSA6nU+Yg1gSNtcBJ4IGCNeJw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=I9a2jXF5h5Bcq/lgfwreRWG+gOETx150WeafLmoIQ6Za8nU0bl5pJi6/003Cv73QzhxC0eMTkHuyNvUpnaK62Muid+BJ/JNcLF0vzXKawx9/zBD3w/AQcXYQDzQtyNx16KWlKewo/xcoSVKvI5499z06HK6KqlT6bMpkOdqwsQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d1f3cbF5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MoMkt8YH"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1C714C4CED6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d1f3cbF5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2794CC4CEE3;
 	Mon, 13 Jan 2025 06:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1736750146;
-	bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=MoMkt8YHcrwIqGAAUSz8wPAph1rZMXMe0aRXDbRfgSdTp8AZpNqaAK/J/kdEONx23
-	 jFUR75ep9xRmy5c1P2UovMT9EdtfLVIy/Gx8zmqD6oLUGkzjFVMZhA9qf4FIdM2YiW
-	 W3NMBRtRG/q/J4XG5R6CEpvGQK1Ky8UN9ck9XS0qqGUHVoDcN+hycGI6XvoYmYoWWh
-	 QCpwL6e0eIiO4296uoWh/GPkbeuxwc94FXDwE1DSYg8AEx46TTXpSwMCAwTzNNNqZX
-	 KBvJpjSlMie/g71hLkAb/eP+GJ6KTcKofb3iUIXY7H/XNBDizueUVHLdWJJrbi/02W
-	 +LMkfj52fewIg==
+	bh=TVWgIhv7jNPBn03yzeSSA6nU+Yg1gSNtcBJ4IGCNeJw=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=d1f3cbF5Jlts0cA079nixdITOu2A6yJOvh1HemRh4Qk3aHbyn+Bli3MTQT5YclCZM
+	 6FOTMrYRk5KMUUGIYh7begdpW8Z6qEP5praTmx45aT5XQUOzoi81bYzlzRZLAIe07R
+	 zvAbCnOj6LhIWGLSAq4F8e3op8zFilpUAXstcJKON0kRopovUb9UtIHPbw+X+M61IY
+	 RGy84gcPDr//LNRi3b2vmyOIn4A60rdG/ol+U1JCYtckrFISiri9KIYbfxk/naoJxB
+	 dkmRuKaKvvx/ps14MfyueHFNh9jgMrZF4ZVnirlfjCMWdac9d8nbZYfIY/aZLqsNfz
+	 1su8mPzOaJVTw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1C4EE7719E;
-	Mon, 13 Jan 2025 06:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11338C02181;
+	Mon, 13 Jan 2025 06:35:46 +0000 (UTC)
 From: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>
-Subject: [PATCH 0/3] Add support for S4 audio
-Date: Mon, 13 Jan 2025 14:35:12 +0800
-Message-Id: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
+Date: Mon, 13 Jan 2025 14:35:13 +0800
+Subject: [PATCH 1/3] ASoC: dt-bindings: Add Amlogic S4 audio
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -40,10 +40,9 @@ List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACG0hGcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDQ0MD3cTSlMz8+JSisszUIl0D80RTYwvDZBNLkyQloJaCotS0zAqwcdG
- xtbUAVy28hV4AAAA=
-X-Change-ID: 20250110-audio_drvier-07a5381c494b
+Message-Id: <20250113-audio_drvier-v1-1-8c14770f38a0@amlogic.com>
+References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
+In-Reply-To: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
 To: Jerome Brunet <jbrunet@baylibre.com>, 
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -55,11 +54,11 @@ Cc: linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-amlogic@lists.infradead.org, jiebing chen <jiebing.chen@amlogic.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1736750144; l=1136;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1736750144; l=2813;
  i=jiebing.chen@amlogic.com; s=20250110; h=from:subject:message-id;
- bh=jTNH048J8/e37rPd6oTYl8kF3JhnEDxWF56FPekHMjE=;
- b=zGklfCbSRH4yBG2RsEX2vhu/9ldv5Wjvg/qtKRhQIJW7IToz0zt7qIztoJwr2Tg7lR98AKjfB
- 4eXneib0EVrClzcwjQKfqXlUYUGjcwHG4T4zCfukXL2UQFptj3PvQys
+ bh=WCHwNizSKV+MVm8cr+tvi7sYlTiE07e5O4lnJdR4l0s=;
+ b=EAQ/sWZRwRHDES9kXCR4bRpzb5k5JJQvE7U+C4aMeBUpmUb95W8OSeWgevMGcsLYQkNFO64Yf
+ zYgk09Bs42sDcegEYaRYDt0ObX2B+i8IhDGiH0cY7qebfgvrr4m5mpA
 X-Developer-Key: i=jiebing.chen@amlogic.com; a=ed25519;
  pk=6rFvvF45A84pLNRy03hfUHeROxHCnZ+1KAGw/DoqKic=
 X-Endpoint-Received: by B4 Relay for jiebing.chen@amlogic.com/20250110 with
@@ -67,31 +66,110 @@ X-Endpoint-Received: by B4 Relay for jiebing.chen@amlogic.com/20250110 with
 X-Original-From: jiebing chen <jiebing.chen@amlogic.com>
 Reply-To: jiebing.chen@amlogic.com
 
-Add the tdmout pad control and tocodec control driver. 
+From: jiebing chen <jiebing.chen@amlogic.com>
+
+Add documentation describing the Amlogic S4 TDM output pad and toacodec.
 
 Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
 ---
-jiebing chen (3):
-      ASoC: dt-bindings: Add Amlogic S4 audio
-      ASoC: meson: s4:support for the on-chip audio
-      arm64: dts: amlogic: Add Amlogic S4 Audio
+ .../bindings/sound/amlogic,s4-tdmout-pad.yaml      | 36 ++++++++++++++++++
+ .../bindings/sound/amlogic,s4-tocodec.yaml         | 44 ++++++++++++++++++++++
+ 2 files changed, 80 insertions(+)
 
- .../bindings/sound/amlogic,s4-tdmout-pad.yaml      |  36 ++
- .../bindings/sound/amlogic,s4-tocodec.yaml         |  44 +++
- .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts     | 226 ++++++++++++
- arch/arm64/boot/dts/amlogic/meson-s4.dtsi          | 385 ++++++++++++++++++++-
- sound/soc/meson/Kconfig                            |  16 +
- sound/soc/meson/Makefile                           |   6 +
- sound/soc/meson/s4-pad-out-control.c               | 372 ++++++++++++++++++++
- sound/soc/meson/s4-tocodec-control.c               | 376 ++++++++++++++++++++
- sound/soc/meson/t9015.c                            |   5 +-
- 9 files changed, 1461 insertions(+), 5 deletions(-)
----
-base-commit: 6ecd20965bdc21b265a0671ccf36d9ad8043f5ab
-change-id: 20250110-audio_drvier-07a5381c494b
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,s4-tdmout-pad.yaml b/Documentation/devicetree/bindings/sound/amlogic,s4-tdmout-pad.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..52c945e63fb277c92149fad7abd69355f5c9fc9d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/amlogic,s4-tdmout-pad.yaml
+@@ -0,0 +1,36 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2024 Amlogic, Inc. All rights reserved
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/amlogic,s4-tdmout-pad.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Amlogic TDM Internal PAD
++
++maintainers:
++  - Jiebing Chen <jiebing.chen@amlogic.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: amlogic,s4-tdmout-pad
++  reg:
++    maxItems: 1
++
++  sound-name-prefix: true
++
++required:
++  - compatible
++  - reg
++
++additionalProperties: false
++
++examples:
++  - |
++    audio-controller@e58 {
++        compatible = "amlogic,s4-tdmout-pad";
++        reg = <0xe58 0x28>;
++    };
+diff --git a/Documentation/devicetree/bindings/sound/amlogic,s4-tocodec.yaml b/Documentation/devicetree/bindings/sound/amlogic,s4-tocodec.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..a4d7388c0e48095b4aea0530c7feafcaf066b063
+--- /dev/null
++++ b/Documentation/devicetree/bindings/sound/amlogic,s4-tocodec.yaml
+@@ -0,0 +1,44 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2024 Amlogic, Inc. All rights reserved
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/sound/amlogic,s4-tocodec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Amlogic S4 Audio Tocodec Control
++
++maintainers:
++  - Jiebing Chen <jiebing.chen@amlogic.com>
++
++allOf:
++  - $ref: dai-common.yaml#
++
++properties:
++  compatible:
++    items:
++      - const: amlogic,s4-tocodec
++
++  reg:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  sound-name-prefix: true
++
++required:
++  - compatible
++  - reg
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/reset/amlogic,meson-g12a-reset.h>
++    audio-controller@740 {
++        compatible = "amlogic,s4-tocodec";
++        reg = <0x0 0x740 0x0 0x4>;
++        sound-name-prefix = "TOACODEC";
++        resets = <&clkc_audio AUD_RESET_TOACODEC>;
++    };
 
-Best regards,
 -- 
-jiebing chen <jiebing.chen@amlogic.com>
+2.43.0
 
 
