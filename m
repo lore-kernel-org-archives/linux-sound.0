@@ -1,111 +1,103 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F6B2F852
-	for <linux-sound@vger.kernel.org>; Mon, 13 Jan 2025 05:33:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D89D231A49;
+	Mon, 13 Jan 2025 05:56:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736746434; cv=none; b=cn2K5b7Z7LmyRcJ1y4ndQ+7ecp0TWW4zAMYzr6ug9mYZUIy+Iy1iPZECkN7sOjy11D8HHhLyMKtwD9T0LZfxyVfctn6sbbyfiHscIg3+EvummSoCidK0GmYjNBeqgJqmuNBSdVCSigf4NkhoYnIRO3MCvRtQ713YQY4dQ0/jt14=
+	t=1736747803; cv=none; b=eKlrDcJek17Z4VgymJLIW1W4jZ93Q8anq7Dd8Op2Pil8wWYZug605wSXFZWxGIIaI9u/xjax2xVInfGaadxH7BTcgrjIiLIqgBY5K6AAwhhXLJeP1h0yu5aZ4UG3BU+pslM+wJJxc80R5/I9FryrRZ58rv8Ta+EpczXiTokqKl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736746434; c=relaxed/simple;
-	bh=5heIPAsKRGJhjd6yh/aHAsv4y1PGz6QQ2oa5DxdPkFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G+GIdOAo8/XOzDCWg51TGSUAcTF6leGm1oeCiWS4FYmfK06vBQI9pPfW2V9X/OhmvxeLXdG3ahg604GxuFlcpScyo3w7YDxuSfneimjWAHs/7+TgjW9Hgm93zSMo9I6Wl2RFuOBaQ3a30VqyqXn5P+nmzOqbPs6klRp1O5QKSWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k/k64NZZ; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736747803; c=relaxed/simple;
+	bh=1OcVdR8QXo7h7I9CrTdObAst3NnP9BFHsBeH404rn5k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dqfug+C6Up9/MPQz3qQZJaDpX4MHGs6SViZx24hm0QiFWqL4DCOMkRt3Y0aSUSZnY9uySmhDWOl2JJi4VbVrQ7LyrTpK65M4r5YG09KmyAy4xiaOiMHTY0TSa+E88k7eL/yay/PFnH/3lOomyP8ZNocRnBE/uCUtnUtqIO6PMfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtGL52a9; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k/k64NZZ"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-aaee0b309adso640192566b.3
-        for <linux-sound@vger.kernel.org>; Sun, 12 Jan 2025 21:33:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtGL52a9"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-aaecf50578eso772116866b.2;
+        Sun, 12 Jan 2025 21:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736746431; x=1737351231; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jx9mLYUd3fwN1g6ctPLax1GPr6UmLJ/TnHHe56uL/18=;
-        b=k/k64NZZaWMc4dtbJOeYAg2OVWUj8jfIru9GyIrHH9VMAC/cnqcRueTk+0F3m2sJ+/
-         CxzxhrWUYTWujeVOesx6cqNSza09iD9hAoIA/9TNC29+6FETr9M7IRi97VbgbfXs1/Hs
-         I0MOPQP0ClzR8XOsZEciqehQaFV4I7wmIpNMKsUGc3DKYDWCtphePMm8THCsURNzRuDz
-         Ch/yU+mdUM8/z6xATBPyY6F7+DjfUHVGi1ovMmjsC8GKlddBOOdeA2n9ZwcXL/KTknlU
-         B8bTm7FNotFS3/j6MmnUtpJJMlK/mPcT9DcVXGIT3IcNDgHnXPOj7NxalqigunLxn1pa
-         hxYA==
+        d=gmail.com; s=20230601; t=1736747800; x=1737352600; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UsALnG9/Q3jBM38ejFycw2fZLXx4mUZU9n4CJ679lYQ=;
+        b=HtGL52a9/Tj3YE0vTTCSMkOkbDRZyxx+kELT55tbd3H58foJQcH0AhBRoga6r0JDH8
+         HmT/pmKuptoRw1SG3a8jnVFwY/MosLDo8+2DSkOWuqcu6H3t1ZSRfcgAtl1wkOVSes7j
+         gzUj9LKk0s2+TCXUAbxuyFyclJxjuXqAvqPM7ezxfdlXk1wWMaSQmfbTQu6VHRlAORpa
+         rUjGSkUY0xADWCdsE6DJP+tqjV4DUJrl3hr5kHTf/lML+REvBrV+wY9lmTKofvJGGMme
+         ghde5GOzH32iUgRuajCcI5IDcRa84iDhhJf1st8jaYJBRdUaxx3jEpKW1Ik76W4Qvf1R
+         5MDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736746431; x=1737351231;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jx9mLYUd3fwN1g6ctPLax1GPr6UmLJ/TnHHe56uL/18=;
-        b=jl/zwsDRcm5uScwVM70mOhzUZhSzKwWFM6l0sJoYu7EFIudKp15YNPRs6is/ilAaZh
-         Qtc0yJQ5sfRbXXQGToSjCVXLGyHWzyo/e05priMuc6JUYVrawB6qtKdgDLw1/2Qv4lPV
-         k6zOztI9uW4Vvy0eR48NV/YwEuYM3jIluKvgzFjUlKvp/JuNUL2FiXK++P0gHkUxfGG8
-         rtawhIrlqGjVDy60ehcuGb6PAqPIEhfb+1/DCrWQ1VHHB2XyrNElKPd4cAAwyBSk0vpV
-         JwEFlW2SNjC/m8ZmlEi1RhBryVOXyWG1J66CwEfzzAPKVox1gfjykJZiVkLKUqY5QOr4
-         Lrig==
-X-Forwarded-Encrypted: i=1; AJvYcCVZG/M5q6sSHUTyhvdIsvDnQ0JIaON80s5dhhQtq7It/NYvjV/XPYTinBBrKkM05njbM+IM9XNZoPzNdg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYiVIAH4M7pZUDrjr1b8imQGUuQU41PGenzHHqobzKqAYufshY
-	bjx/RpIN20k92x9tAljtjK5tV9p71dOuhlkuMzowB+076fHeSKe2AQpXFZF7jVA=
-X-Gm-Gg: ASbGncsoleZa1Kjhfs8aIhNNK4L5W1x9HbQ+ZLadBxPv8HRFnhxyKNDrNddVwCadgoR
-	UKV4YHNYgTcCbS/q4fIi8SLNFg2vCPIWq1smiLS751xN7uc8wQMYNl9WfIXoYcEfc8rMv8OaSR6
-	opnP8T77YNaOQABjs+cGJEMV6Ie2oFoe8UlYIGGHR9f6srNM7UkQr0uENpwGqset4YbSQqgbZNR
-	PsyWW9WcYW8bZ0cyIcTnCQMhS5969ejxgAgkCdomABcwSNsJOXypK+KXjjjBQ==
-X-Google-Smtp-Source: AGHT+IFYw22y/eLH77Gjbmv0pKt7BPnC6SN4yqVobhVoCI3kGDgmTSZ0ZbPrn8ago34vjn93qCioSA==
-X-Received: by 2002:a17:907:6d12:b0:aa6:950c:ae18 with SMTP id a640c23a62f3a-ab2ab6b5406mr1508679266b.22.1736746430617;
-        Sun, 12 Jan 2025 21:33:50 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9060badsm452144966b.29.2025.01.12.21.33.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jan 2025 21:33:50 -0800 (PST)
-Date: Mon, 13 Jan 2025 08:33:46 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Baojun Xu <baojun.xu@ti.com>, robh+dt@kernel.org,
-	andriy.shevchenko@linux.intel.com, lgirdwood@gmail.com,
-	perex@perex.cz, shenghao-ding@ti.com, navada@ti.com,
-	13916275206@139.com, v-hampiholi@ti.com, v-po@ti.com,
-	linux-sound@vger.kernel.org, linux-kernel@vger.kernel.org,
-	liam.r.girdwood@intel.com, yung-chuan.liao@linux.intel.com,
-	broonie@kernel.org, antheas.dk@gmail.com,
-	stuart.a.hayhurst@gmail.com
-Subject: Re: [PATCH v1] ALSA: hda/tas2781: Ignore SUBSYS_ID not found for
- tas2563 projects
-Message-ID: <92d30be2-4f77-455a-ae5f-8fe4a5a365ee@stanley.mountain>
-References: <20250111095728.1232-1-baojun.xu@ti.com>
- <87ldvgtp36.wl-tiwai@suse.de>
+        d=1e100.net; s=20230601; t=1736747800; x=1737352600;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UsALnG9/Q3jBM38ejFycw2fZLXx4mUZU9n4CJ679lYQ=;
+        b=fM/mvaQ23HIKpU1o82FziElfW6VF2xf5vnaLiYhXZyogRkHkgfMuhy6p+ktBQ8qcUD
+         Q7n5Mbq+o3qT6SaZuKlWkp8SrxBB7X7+n0Uv6FaBcPeEuKk7C6Gfnii6WqaqaoMDvMEH
+         5a6Pt3g1yHKSAKL/UxzypQWbz2iVMXm5ej9BvLgCC+P3Ud7AXOCp3nyfSUGBX+OHP+mI
+         mF95p8OZWQDfigxCMymp1bpvtzyqJrhuDOHXwIzEC4AbcT+MMkzq4slk2pgReVcy8oql
+         Ex67SZuvjh3KCq/Nvm6jiaD7o2Q/mql3U4giXpszblxAB8EiGmFbtz/QuY9S2ebm9J0y
+         RiYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUoBtbM4wx6iTpa4cY1zPsfoF1q2ruZprj1jX6DLZmkPlybIXGddsbpUthFKPywdLlSFvfn2KaQ0Wum8Q==@vger.kernel.org, AJvYcCWh3b4NDyMTTgV1imZ5vQCq7dm+FT/k5eWva79IbzbCVqZJa4ZCze04QnWsrSxiwK6UQibFh33PdHmA9N4=@vger.kernel.org, AJvYcCXYjv4SWW9Nk888tTU3HE6j+EtwSBkQ+o5e+xGoj5eP4SdSry4B4UFyyJoMG8hkZ+ftXCaeKm0AAhbFgHg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbWowYxLEkfrZaVt+yL8Sc71mtljq9bdCBKyv8d63Dd55U4MN+
+	GwrwPCDX+/lO2l3IEa5nW+/Az9b5g24VnSBjQEOwy1jJ5kEtP6XWXrxu5A==
+X-Gm-Gg: ASbGncv05MrKyibvo2chfXsHcMp9VBnTETdqEuaKPPFi28moJAZUWO5+dqyBbpgLQYs
+	nFzROapF+9k8qNJqhICv9ta5O/AJC5gqD7jieN1uqceGlbMApQdePe5Ci+dI6P0mVGosTHa7zsR
+	rRrenQBMb0Gl6KnvZ2Ao6m5bUG/HggO/09wk6w8wcyOKOqBpXrxM4+Q0aDdHAL7oSbxTkb8rul/
+	S8Wogh1v1L4WBDU90TS2+R+bb48+NcOM8BSGCNZsxe9ZMsHfLoqNyyTYffwpXmuR5zxrg==
+X-Google-Smtp-Source: AGHT+IGV0nYkYjJVPqWOd5aTZADzdU5bEMNbbXVQ393U2Hur3U0GrL/ykyQaGM250ELY1CffgHr8nw==
+X-Received: by 2002:a17:906:1196:b0:ab2:eb1a:9471 with SMTP id a640c23a62f3a-ab2eb1a9d1cmr767396266b.48.1736747799518;
+        Sun, 12 Jan 2025 21:56:39 -0800 (PST)
+Received: from [192.168.1.10] ([95.43.220.235])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ab2c90dad57sm458909566b.66.2025.01.12.21.56.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Jan 2025 21:56:39 -0800 (PST)
+Message-ID: <a35c8cfc-d7a1-4c3f-9541-ee247e2490f4@gmail.com>
+Date: Mon, 13 Jan 2025 07:56:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ldvgtp36.wl-tiwai@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] ASoC: cpcap: Implement jack headset detection
+To: Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Tony Lindgren <tony@atomide.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Javier Carrasco <javier.carrasco.cruz@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-omap@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
+Content-Language: en-GB
+From: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+In-Reply-To: <20241228114514.91594-1-ivo.g.dimitrov.75@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 12, 2025 at 09:26:37AM +0100, Takashi Iwai wrote:
-> On Sat, 11 Jan 2025 10:57:28 +0100,
-> Baojun Xu wrote:
-> > 
-> > Driver will return error if no SUBSYS_ID found in BIOS(acpi).
-> > It will cause error in tas2563 projects, which have no SUBSYS_ID.
-> > Change strncmp to strcmp to avoid warning for weird length.
+ping
+
+On 28.12.24 г. 13:45 ч., Ivaylo Dimitrov wrote:
+> cpcap audio codec found on cpcap PMIC supports headset detection
+> and PTT button through its 3.5 mm jack. This series implements
+> support for those capabilities.
 > 
-> I don't understand the logic.
-> The use of strncmp() there already matches only with the exact string
-> "INT8866", not the substring, because you use sizeof("INT8866") which
-> is 8 including the NUL-terminator.
-> The only merit of strncmp() in this case is that it can be used for an
-> unterminated char array.
+> Ivaylo Dimitrov (5):
+>    arch: arm: dts: cpcap-mapphone: Set VAUDIO regulator always-on
+>    ASoC: cpcap: Implement .set_bias_level
+>    dt-bindings: mfd: motorola-cpcap: Document audio-codec interrupts
+>    arch: arm: dts: cpcap-mapphone: Add audio-codec jack detection
+>      interrupts
+>    ASoC: cpcap: Implement jack detection
 > 
-> In which situation do you see the problem and how does your patch
-> improve / fix it?  Please give a more concrete example.
+>   .../bindings/mfd/motorola-cpcap.txt           |   9 +
+>   .../dts/ti/omap/motorola-cpcap-mapphone.dtsi  |   8 +-
+>   sound/soc/codecs/cpcap.c                      | 200 +++++++++++++++++-
+>   3 files changed, 215 insertions(+), 2 deletions(-)
 > 
-
-I was just confused by the initial code and wondered if it was
-intended to be: if (!strncmp(hid, "INT8866", sizeof("INT8866") - 1)).
-This change doesn't affect anything, it's just a clarification.
-
-But the subject "Ignore SUBSYS_ID not found for tas2563 projects" implies
-that it's a change.
-
-regards,
-dan carpenter
