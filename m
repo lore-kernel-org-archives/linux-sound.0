@@ -1,138 +1,131 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C3620E01D;
-	Tue, 14 Jan 2025 20:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD7B1CDFC1;
+	Tue, 14 Jan 2025 21:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736887402; cv=none; b=gqftGQfnJQS+P+RLfTAYPQ8fsUklAh3UCpe7boVlzIOT0Am2yge8NoYk//GLVNGooQ6mdEBIF4rpdpEMfUhxyUz9nHEOCzB386VMZPuh/DEP7Z1IgV22CJAN05XQfS8b70oA3izqwOXHfZYhMrFg95QkGagJEKA/hsDkVtHZ4/Y=
+	t=1736891790; cv=none; b=EBpRvmiAeEgrIUSGvBqH0jz8mYjfY5gKY84tkpReoToeMaSt70dcsDLrDwZYxlplOB8VMhgQzjc+nIviHWLOQwpQ744oS9CbSQRN96OiKeE71vQ8Ma3CHmzMbdQPGFD+ofkJRYVydro0/vGuwqKXNsxVnDPlMdDqTmmxrIUbQWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736887402; c=relaxed/simple;
-	bh=vuLGJWWWPOxXs1PhleeQNa9QpoUeiQzpYHQoVn/uUuc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=WyoFppEVCyJS4opxpDWTNkDXQ9G/caJpJj7Ydt08PR525JDYkFDjJOhlnPXeCi5PK1DCSxxIuXUpKg5ROWgxAXvbwmLnBXkkxXJ7YjzHtwxrMrrmc5/7zXhXXVXkDKRyqhXPzk2RUa3PMKEGCrjT5t42az4bkxaO7duvy3yyRMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=j0aeQiiY; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1736891790; c=relaxed/simple;
+	bh=gh0lpHh8VzIUvo4hdXNcy95X0YHL4tiUy5rgZF4hwgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GKDl8gFbwL7EP9b1THsjeErtdl0ttT4ckexh5Qh7kL1lveilME6K/t16NoHllVatre5efnt0m4jjzKkGW+jW21tpuTXMcRtFqrKQOceRRwoofMDesidH710IETy/wIGZxYkq6l94vhoq+qFinJUHJe4MI2Lkxjgig1io9f2IFQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com; spf=pass smtp.mailfrom=googlemail.com; dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b=j48jSyj9; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="j0aeQiiY"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50EGjt7A032511;
-	Tue, 14 Jan 2025 20:43:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	umlQhVy2M+CQipFDCc+b+/LwaU2H+7yYsOGc4pT54LA=; b=j0aeQiiYggAREeso
-	K6zQkbGc56r5MNAFva7+hf45f+Cwgvo1ncqYG83Ud38iTbwvADW5+4CpyNvGRIDV
-	4RxaAMugt/t7gfCr/6aBqLW0BIQ+G0TXBsN/iO4YwEqTSQsPlwWxgkAbXpvX7hqE
-	R5CFMb9HiX7cX2/rPvIwimiE9XxfoBX9eW+g8Vjn6jh+CcQEZdc74SREA3xUinVP
-	EC5wKzVcTHXWSU7R4fNelhG+xhWXQPQI8WFDmXVL3LrVncNvgAnemQJeOhp6eFRp
-	sxKZQpKNWjzIEZ64ykEsNKeMSy8lbCx2BlMPZ6Tpx9ih4cwcuObOSppoy33HtI2t
-	4F8pKA==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445uqsghbg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 20:43:02 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50EKh1Nf005980
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 20:43:01 GMT
-Received: from [10.110.124.91] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 14 Jan
- 2025 12:43:00 -0800
-Message-ID: <5d5e9ba4-d544-416e-b57b-dc5c8692b737@quicinc.com>
-Date: Tue, 14 Jan 2025 12:42:59 -0800
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="j48jSyj9"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436281c8a38so43246475e9.3;
+        Tue, 14 Jan 2025 13:56:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1736891785; x=1737496585; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p2eZg1PKQqZ9YYAUBcMUhhlmqXakQ7nr/UKhPf4mHew=;
+        b=j48jSyj9p2LDUPKFqZlgJZMoAs9RHtayAMOGYMVOnvO0XDkGMfw5bLDo3WbbFq5QiW
+         7XQXYevaS2o3xj9m3qZmluQLdT8u0tiagO6NVcBq/dh+EawLbZNRvPoSXzZKF7j/tYTh
+         76D+7/5oxa0Oa0+tuUloxK5b1On0P+ieLdNupJLBZGfVfvE50edBY9LzVQptEIY7jEHZ
+         Ln9GVOdK23/ZOyDptewvr8M893RcOlIuFqr5+DDUKC/M4M9n8UtU7VLuVUyKWcTN1Nkc
+         4MPjRHizmAF+CU9YSwZ704iP+N2+eGVSzd8J5JstwNCSXNADCPFLAL3rRDf1jzrYIUT4
+         u7ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736891785; x=1737496585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p2eZg1PKQqZ9YYAUBcMUhhlmqXakQ7nr/UKhPf4mHew=;
+        b=vBPysrXc2E8rV4MdUrwfNYbs8jvuRYH4DiDLlwpeO3XFKMiBsM6OAAaeJsr8Y/HmXI
+         GfB1/J/etygfdOf6cKMFjQqw1bkDvzN06xhSDWBLBp2U1jNIvxbMvSx0PlSEULJDAz/I
+         rmEw6AJlqjv6C8DM4mrkvn4OR7qVQ4nmOSfNhHnYHIS7FTlcuQNA1zIYx9Xr8eYuuDEY
+         Nf/2ZS+uEaHR4q5yeUCEVpz8upHwuQtrNiSqgkFc5GaVMTQtmHlUAZOjXke89OdIZ4yz
+         q142ny0xEpOjByfG2lJkD8vOopKCenAYhb6O/JQb52J/OYWbiinGpF4iOsGX7ktxI14g
+         nG7g==
+X-Forwarded-Encrypted: i=1; AJvYcCX/LIfKLcNQxFW1Dj3uBJHyfRr2+hUuRWyvUX1/WKdIBh3DoZQ4pUuYeKDTL8vLYX6a4AO/S+f2mJUdLbQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZJj9M8EGPYVwhAwUCOao+snIClOrx/o/Ven0CcPJHAmkk0af2
+	jhULxEmpqZUYxXKd/VmJkzhPI660gMBZEyjQGMCrxCZh1FyoUkuHOHdMvNQK
+X-Gm-Gg: ASbGncv1KeUPKYK5EQLIdYne+mvc0+GWOgHWQHZlrC18kzxAwnmIs+OLQ/XfsJ5W9D0
+	KVy4cXlyZS2ABtwLhMPfR618f/fYdWDdkXwjCDg3ujuLVh7r1jV2EruP0IBtcoSTSEVafXi+u2S
+	dehQkuGmXJFeD4sv192NCfCkNkLIu7DJlcyUlyrJY2rEQQRoGJw+nJeTsQwbPAMwzcpYt7jt6hA
+	jkZKN1ZaTZQj4rkccpWA+2+XH22X+UGgZEdOYVE+0hViTF3ajQ2uDBIJqucxfdV+MztA0toarpv
+	lSpb096/I/nSLwr0805BoXzfS4uJlyx4OnKDkUWqLIaDkwYU3Mp4G3bTHR15fTcX5oeK/kGQ3JN
+	7UjIaFFrdISZGGJ94tB3xAXU/
+X-Google-Smtp-Source: AGHT+IH3l/c6QJbI2r9eoREI4drK7rOHvPwd5jsNZKRYlZkJfY19djGYlMRF8kwqOLR/O9llaVmJYg==
+X-Received: by 2002:a5d:6da6:0:b0:385:f573:1f78 with SMTP id ffacd0b85a97d-38a8730abc6mr21681017f8f.24.1736891785176;
+        Tue, 14 Jan 2025 13:56:25 -0800 (PST)
+Received: from localhost.localdomain (dynamic-2a02-3100-aca8-de00-1e86-0bff-fe2f-57b7.310.pool.telefonica.de. [2a02:3100:aca8:de00:1e86:bff:fe2f:57b7])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-38bddbf50a2sm5483918f8f.43.2025.01.14.13.56.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 13:56:24 -0800 (PST)
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: linux-sound@vger.kernel.org,
+	linux-amlogic@lists.infradead.org
+Cc: s.nawrocki@samsung.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	linux-kernel@vger.kernel.org,
+	jbrunet@baylibre.com,
+	ckeepax@opensource.cirrus.com,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: [PATCH v3 0/2] ASoC: prepare streams on codec-to-codec links
+Date: Tue, 14 Jan 2025 22:56:15 +0100
+Message-ID: <20250114215617.336105-1-martin.blumenstingl@googlemail.com>
+X-Mailer: git-send-email 2.48.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
- skipping interrupter events
-To: =?UTF-8?Q?Micha=C5=82_Pecio?= <michal.pecio@gmail.com>
-CC: <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <devicetree@vger.kernel.org>,
-        <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
-        <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>,
-        <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
-        <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
-References: <20250113143632.63c52d74@foxbook>
- <f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
- <20250114150847.1c3c9ebe@foxbook>
-Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <20250114150847.1c3c9ebe@foxbook>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: tQ44ouugD3MuZAEKQAnvUaXJKuGsS2L6
-X-Proofpoint-GUID: tQ44ouugD3MuZAEKQAnvUaXJKuGsS2L6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-01-14_07,2025-01-13_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- adultscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2411120000
- definitions=main-2501140157
 
-Hi Michal,
+Hello,
 
-On 1/14/2025 6:08 AM, Michał Pecio wrote:
-> Thanks, I think I now see how this is meant to work.
->
->
-> Cover leter mostly discusses the ALSA side of things, but not low level
-> details of xHCI operation, such as who will be ringing doorbells and
-> how, handling IRQs, updating event ring dequeue, or handling halted EPs.
->
-> So for the record, as far as I see:
-> 1. There is no API for ringing doorbells or even getting a pointer,
->    the coprocessor needs to have its own access. Fair enough.
-> 2. Same for event ring dequeue, but the driver must clean up leftover
->    unacknowledged events after sideband operation stops.
-> 3. Linux IRQ handler never needs to worry about sideband interrupts.
-> 4. Resetting halted endpoints is not implemented at all, I think?
->    So this code is currently mostly useful with isochronous.
+the DRM subsystem has recently gained a HDMI audio codec framework [0].
+This is already queued for Linux 6.14.
+
+I want to implement a HDMI controller driver for the Amlogic
+Meson8/8b/8m2 SoCs using the DRM HDMI audio codec framework. Internally
+the DRM HDMI audio codec framework relies on hdmi-codec's .prepare
+callback to be called. This unfortunately is not happening on Amlogic
+Meson8/8b/8m2 platforms [1].
+
+Jerome suggested that this may be because of the codec-to-codec link on
+our Amlogic AIU audio driver [2]. He encouraged me to send this series
+to allow hdmi-codec's .prepare() callback to be called - even on
+platforms that connect it via a codec-to-codec link.
+
+The reason why this series is marked as RFC is that I'm not familiar
+with the ASoC subsystem and lot of the functionality and terminology
+is new to me.
+
+Also I Cc'ed Sylwester Nawrocki (Samsung maintainer) as codec-to-codec
+links seem to be most heavily used on Samsung and Amlogic platforms.
+
+Changes since v2 at [4]:
+- add Reviewed-by from Charles and Jerome (thank you!)
+- dropped RFC status
+
+Changes since v1 at [3]:
+- updated patch #2 to also prepare the source side of the link for
+  consistency reasons (as suggested by Jerome and Mark)
 
 
-Yep, all your points about the code with respects to the xHCI perspective is correct.
+[0] https://lore.kernel.org/dri-devel/20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org/
+[1] https://lore.kernel.org/linux-amlogic/CAFBinCDdiJ3UNVUcShjq=7U2=oUwT3ciYdKSuZ5TdcrikxFBpg@mail.gmail.com/
+[2] https://lore.kernel.org/linux-amlogic/1ja5c4b4rt.fsf@starbuckisacylon.baylibre.com/
+[3] https://lore.kernel.org/linux-sound/20250106141316.375984-1-martin.blumenstingl@googlemail.com/
+[4] https://lore.kernel.org/linux-sound/20250110210730.705613-1-martin.blumenstingl@googlemail.com/
 
 
->
-> And the 'skip_events' flag only exists to enable ring cleanup when the
-> interrupter is removed? In such case I think it's overkill.
->
-> The code would be simpler and its intent more visible if 'skip_events'
-> were a new parameter of xhci_handle_events(). Existing IRQ would call
-> the function normally, while xhci_skip_sec_intr_events() would use the
-> new parameter to suppress event handling in this one special case.
->
-> It would be immediately clear that skipping only applies on removal.
->
-> You could completely get rid of PATCH 01/32 because 02/32 would no
-> longer need to set this flag on the interrupter, and the 'if' branch
-> adedd by 01/32 could go into 03/32 where it logically belongs.
->
-> Just a suggestion. I simply don't see any need to have a flag which
-> causes events on a ring to always be skipped as a matter of policy.
-> Your code doesn't seem to require it. Probably nobody ever will.
->
+Martin Blumenstingl (2):
+  ASoC: soc-dai: add snd_soc_dai_prepare() and use it internally
+  ASoC: dapm: add support for preparing streams
 
-In my previous discussions with Mathias, I think the plan was that he wanted it to be built in a way where we should be able to accommodate a use case where the secondary interrupter was going to be actually handled by the Linux side.  This is why the skip_events is populated/defined by the xHCI sideband calls, so that we can differentiate between the secondary interrupter use cases.  Although, it is the correct assumption that this series doesn't actually implement that functionality. 
+ include/sound/soc-dai.h |  3 +++
+ sound/soc/soc-dai.c     | 27 +++++++++++++++++++--------
+ sound/soc/soc-dapm.c    | 12 ++++++++++++
+ 3 files changed, 34 insertions(+), 8 deletions(-)
 
-
-Thanks
-
-Wesley Cheng
+-- 
+2.48.0
 
