@@ -1,103 +1,92 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63EC3596E;
-	Tue, 14 Jan 2025 17:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320B41D5AA9;
+	Tue, 14 Jan 2025 17:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736874399; cv=none; b=noN3c6mr9R8pVTsDqDTnJVUlwYTU+f0Ly1odBP2Zim+7+6uoRwJAAmggOwQfp5PMLl+sIRjMXsoP1DY/ePA5eA+PBzYD2nC+yV3OI6jddeWtrseuS/zmQXWZveleg2bx0aDRS7SKZzfdBh2PW7SBH4BzMQhur8Y3vNch/duvXAQ=
+	t=1736875092; cv=none; b=jIvPi07+cSPuAZHJxVTUKvKSlF0WdJ0pmFQWk7U/6Zt+GaYdGRKAWONrLENdwo9WKUnyMIzx6HCyzbYQovAxh5fcK77VzyvqIIU4NqeNIdm3Yu248kwTmuW4iIdhSJ1jZijwXQrKoveLKFRuP4WdNWB9tvFw9ZBeRAW2dfXK1v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736874399; c=relaxed/simple;
-	bh=pArq6x99HQfMQIhDDRpqjVkt+aSZWxwebvxXk+W7mKY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QWO1vGlSq6ZjSfi2tpmAB2708MTqaI/XZYutdlPLBkPNZrIYjMmDVly9YK66NGHUgrishG+UpI5R30mO0iI2+clnJgnu3WM6GgMuNX6y46w7yy66eEsOErfcpUJPL4ehKtcsDM1Dj/gP8mWeiIH4nVi5BegtyvkoLn7xqcNYZuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B9MbT6Ag; arc=none smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736875092; c=relaxed/simple;
+	bh=/5Iyd6ukvw+wlfQuDAyxHew2KnpdZoyclKKn5oIODnc=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BTszssJw60vOScXWa4QuVUEIBxEdkzbznznT5jAZs6CSQfXRrbze+6gM/qqPy++ufyXX1XvAHoRP7tRcnBOM7oBvvX6TbKRNuAtEKRyRxxjjdUreRs6ZjLijsDGlpMUCyIHuF5ZoT4GkE5/kc3NxFJ8clvay/Y2bx5txLCo2D2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/0xJnkK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9MbT6Ag"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-27d0e994ae3so2487650fac.3;
-        Tue, 14 Jan 2025 09:06:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736874397; x=1737479197; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=St+zk6jCiYKILJc4L1dtjGb/dSkeZ/qtoSJtqkuYVyc=;
-        b=B9MbT6AgAV9yHwlvPtspK3bAbheYUDg+IZFr815aiwJoq+1/VIDaM+hp1hgpzwr8rn
-         WME+9mFQYrgcaH9bH12h0C/3aSDg5yOehFk0lAhHbIh9xIRU2nr1hHRi8Az+kGaa/bUl
-         +LnZa7zEA6wsUPXLgWh9rlhlxLrEhEtaqw1mo/kwUa9uT3NZrwPQ03W/AEwyw9+COvvR
-         4mnL1lWCVLLhxyp0tI3VnEWeDtIT4L9UcBLVzoLuVb6oZ30zm34kmTJTX0IHaruRUt3E
-         mHsEs/NG+ZnHCPDgDPoMs466VdfTTWgnuzjlmvUT0jvGBaQeVTVLj29f5kfXN1GGFEOf
-         VAJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736874397; x=1737479197;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=St+zk6jCiYKILJc4L1dtjGb/dSkeZ/qtoSJtqkuYVyc=;
-        b=tQyR2Zm8mwHNlQlY3VWAJFtWaFZsJzF47wA8bBRYjHc27OxIf6BS8L/iFrD/i3U7gm
-         Naf+zo+SgHb8zU5dENPVc62qHJLX8ohRrQf1lH+nxjyz+PQd8LspnR3QQQjeYH/TltF+
-         KuAXTKKkuqXn5/M94BTue85mrLUD4EVhS8FE9zygPFlchIVpQTCxvFnYlPQGAvSCtyEK
-         EFDBi8uRiXp3JU4KueFsuTkywp6c3rxQ8JNkDeccExPKWi0wrk3ysjOG5cmhrqouW6/j
-         TSAgZNM+wS43UOcPFVhdNzcKLm0/952LnxDgWlYvMAPhdfLsdHhYE2h3jfs1vQeF28iS
-         XBfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX5RUiQAF3ibAc2QFZ2jTQVlu5Iyp/IGpL33CJwklirhaXzwZje7U4RXvlqK42pAXkICVLShv4zzGrGCYg=@vger.kernel.org, AJvYcCXHVd1SA8Bhtv1DxCqJ1HxgA6mbgrHuEsOuZpRh5FNXhk4WRQKOmX3hhPDFn7fIkF7MM7N+l+OSLxnGpHg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVUHiCHBgQPsop1czyetz7VEcTipD5zw/Lvt1D+tCxCiF5kWM/
-	+W3NubZf7rXn8v1kTNMJKv2aCRNcQbE9De/2d3sLkNoO6o70Uz0J
-X-Gm-Gg: ASbGncuSr8YfPbTs9/EXSttsQw2KWLEs2JjkDbRO+sE5yKN0ty7/hp03xetaVpDWw2w
-	on4j92vIJpQMHejcXqAyZJIes1/899/6Cf8uIIDCzYITc3pHb+oo4dpI5qYrjdQqhcUBKyxqg9i
-	nmXvGihUq39CGBJIHpHV1ABaVkh7gAKtQ0BVqvQNVOm94yALfz6IzOMMnEKksYXWCbIuqKl7AA8
-	EnJHe+si1UrttgwzUclTEO3H/5gVZl2o7L0Zr2HIPtgn51xQL0yd95FFOlLJHPYYdYSgA0GoywL
-X-Google-Smtp-Source: AGHT+IE03O/l2mhtRHTXbbC6LBkkBTbj3jkDhhbI0WMipb8+eDyePl/QyCIX33/3C+e2MbQRJfAMxw==
-X-Received: by 2002:a05:6871:4108:b0:29e:6211:1262 with SMTP id 586e51a60fabf-2aa0609f198mr14317644fac.0.1736874396902;
-        Tue, 14 Jan 2025 09:06:36 -0800 (PST)
-Received: from localhost.localdomain ([187.17.229.111])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ad805a43dcsm5292969fac.32.2025.01.14.09.06.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 09:06:36 -0800 (PST)
-From: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
-To: tiwai@suse.com
-Cc: perex@perex.cz,
-	kailang@realtek.com,
-	sbinding@opensource.cirrus.com,
-	simont@opensource.cirrus.com,
-	josh@joshuagrisham.com,
-	rf@opensource.cirrus.com,
-	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	edson.drosdeck@gmail.com
-Subject: [PATCH] ALSA: hda/realtek: Enable headset mic on Positivo C6400
-Date: Tue, 14 Jan 2025 14:06:19 -0300
-Message-Id: <20250114170619.11510-1-edson.drosdeck@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/0xJnkK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E103C4CEDD;
+	Tue, 14 Jan 2025 17:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1736875091;
+	bh=/5Iyd6ukvw+wlfQuDAyxHew2KnpdZoyclKKn5oIODnc=;
+	h=From:To:In-Reply-To:References:Subject:Date:From;
+	b=p/0xJnkKcMlzgcYf+caIAsKLu41HOHiDmbDt7TflB3ciDUvNV0mapiUS4aZ2sl8bM
+	 71BZlEr1vxuE8K3p0XpbdGKjlF6vqqSduHIRtX7WVMQ33NP1aT3GB0h7FCl72XhYtU
+	 hIwy0e6+K71x9qrGKINpjjN4dBZQhfpnX86/Qb9AQSuGYc3YjNMnLZvcnP5fSFY8fo
+	 PnMigJHQe+Az0t5Xdw5B4HZ4zZndZ5lL/gCZb603LvkFNE9u0opnxUTLSaubJ8/HqM
+	 2VlFEX8r+qF36MobSHXgHk5yDP37XCMr/U9kKMyqn+FBtlg/zdBeHnWcW00jW9H568
+	 NrC5sgbnSG9JQ==
+From: Mark Brown <broonie@kernel.org>
+To: shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com, 
+ linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+ linux-kernel@vger.kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+ conor+dt@kernel.org, devicetree@vger.kernel.org, 
+ Shengjiu Wang <shengjiu.wang@nxp.com>
+In-Reply-To: <20250114102720.3664667-1-shengjiu.wang@nxp.com>
+References: <20250114102720.3664667-1-shengjiu.wang@nxp.com>
+Subject: Re: [PATCH 0/2] ASoC: fsl: Support micfil on i.MX943
+Message-Id: <173687508729.71321.6375235704794853519.b4-ty@kernel.org>
+Date: Tue, 14 Jan 2025 17:18:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15-dev-1b0d6
 
-Positivo C6400 is equipped with ALC269VB, and it needs
-ALC269VB_FIXUP_ASUS_ZENBOOK quirk to make its headset mic work.
-Also must to limits the microphone boost.
+On Tue, 14 Jan 2025 18:27:18 +0800, Shengjiu Wang wrote:
+> On i.MX943, the FIFO data address is changed and the bit width
+> of CICOSR is changed.
+> Add a new compatible string and update driver for these changes.
+> 
+> Shengjiu Wang (2):
+>   ASoC: fsl_micfil: Add i.MX943 platform support
+>   ASoC: dt-bindings: fsl,micfil: Add compatible string for i.MX943
+>     platform
+> 
+> [...]
 
-Signed-off-by: Edson Juliano Drosdeck <edson.drosdeck@gmail.com>
----
- sound/pci/hda/patch_realtek.c | 1 +
- 1 file changed, 1 insertion(+)
+Applied to
 
-diff --git a/sound/pci/hda/patch_realtek.c b/sound/pci/hda/patch_realtek.c
-index b74b566f675e..91976dea49fb 100644
---- a/sound/pci/hda/patch_realtek.c
-+++ b/sound/pci/hda/patch_realtek.c
-@@ -10961,6 +10961,7 @@ static const struct hda_quirk alc269_fixup_tbl[] = {
- 	SND_PCI_QUIRK(0x17aa, 0x511f, "Thinkpad", ALC298_FIXUP_TPT470_DOCK),
- 	SND_PCI_QUIRK(0x17aa, 0x9e54, "LENOVO NB", ALC269_FIXUP_LENOVO_EAPD),
- 	SND_PCI_QUIRK(0x17aa, 0x9e56, "Lenovo ZhaoYang CF4620Z", ALC286_FIXUP_SONY_MIC_NO_PRESENCE),
-+	SND_PCI_QUIRK(0x1849, 0x0269, "Positivo Master C6400", ALC269VB_FIXUP_ASUS_ZENBOOK),
- 	SND_PCI_QUIRK(0x1849, 0x1233, "ASRock NUC Box 1100", ALC233_FIXUP_NO_AUDIO_JACK),
- 	SND_PCI_QUIRK(0x1849, 0xa233, "Positivo Master C6300", ALC269_FIXUP_HEADSET_MIC),
- 	SND_PCI_QUIRK(0x1854, 0x0440, "LG CQ6", ALC256_FIXUP_HEADPHONE_AMP_VOL),
--- 
-2.39.5
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/2] ASoC: fsl_micfil: Add i.MX943 platform support
+      commit: eab69050450ba63a4edb17d3d1a8654d2a130786
+[2/2] ASoC: dt-bindings: fsl,micfil: Add compatible string for i.MX943 platform
+      commit: 3927c51e49c1a45785334dc578f0b29c685619ec
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
