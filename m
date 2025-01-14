@@ -1,45 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A52B1CEAC8;
-	Tue, 14 Jan 2025 16:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 348CC1D5154
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 16:35:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736872535; cv=none; b=FHSWWTsAu04YpCNmND1BV5ivJ2J0lraoGQ/nNR/eWc0qohFzgwELX0Q3GjIJYtr8DjsvM1UffrnjxA0pON6ARaS9VS/9ssXY0u/WrJ69y7V8ET14N13FZTZwDSCiTJ8MLCJnLCo7kLPGfGVvpFLHSpFneprDTGOWGt0PcWUtVOw=
+	t=1736872536; cv=none; b=exvLRtOMFjF3/arvldEsbjg3G9/fm0j32wvj3ranU9q9+39NszDflqWjBfBkFQZUa15nvyOftCIlVh0jkJ0r3EivNQk83tsFQKyRd11cpopdAV7IUoFJ7qeJeEs9fKgAmxYW7hbX2KOCJh99OS/KP13zKZdU/V+s2fbjIPRz/O4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736872535; c=relaxed/simple;
-	bh=Elen7iUmj/EPR3RMtRSgFS7j/YgmhA9JWL4WxMVNBM8=;
+	s=arc-20240116; t=1736872536; c=relaxed/simple;
+	bh=TGqPLlXm23CoYhhrWoKZifWYlvLNZf3VPvrmmLSMYJU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=Rv57HC9KZ/q3KoVLhuHQCfRDwYWCMkLlI8v2mldaecMZnigtdYvg97M0Y6Ndc2pR8d/RzoDaLtu49nmWU6kssJCGH9geuKjCDzgFuZiIzs3OqYqOIQj/dLCsdB6fdDUnO7e9aNSuEJWdVUO5xt/BcnKu6QEYzKGWGveZFRqHBHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rkat0leY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=iLlLG+0mz/gMO+ETpC3uzvamQqKTkTd5mEiWWT5yCTIVC+RNSzAiDKVCS0Q2xY28ntdJ88Kmk/2pw6yRbudLTPo9RwEECzuJ4CAKq2Yqs1e7QLnIuPuoSsr/r1cP44ovUct77HDc97au7fWDDqPuNmUSU4dEYFYVVDD82sBKTho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mf0C7CcY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rkat0leY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFE78C4CEDD;
-	Tue, 14 Jan 2025 16:35:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mf0C7CcY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638CEC4CEDF;
+	Tue, 14 Jan 2025 16:35:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736872535;
-	bh=Elen7iUmj/EPR3RMtRSgFS7j/YgmhA9JWL4WxMVNBM8=;
+	s=k20201202; t=1736872536;
+	bh=TGqPLlXm23CoYhhrWoKZifWYlvLNZf3VPvrmmLSMYJU=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Rkat0leYsLAj5X6N28+LDl2UqlEzxJRcN9aWFzt6cDS/MmmYPLJXUQjUP+UQSXitK
-	 WKUZB2sW4EK2OvSyMpxRwMlRjF9PsWkX0ut0jOuQuqrBqQSeCSi3FUSXByOIUnepwR
-	 FOS/85CRD8c4yESOa5xQBVrWAZv7/7D7Avi8MaJkIJG3aSlvn80Y52Wn1Ydk33lCtj
-	 guY9CwiOfe+I0yhCfh59C8/eiX1b5fKx5nyP+6gHwa6uoOcQtnpU4p6q+VuWga+qBf
-	 eOcpX//sI9TZEcIKGrZuHf7YgKlG+idTxKBpv7a7jNvSWXuEOSm4vs7rGwbIwCUVm9
-	 IS6F6caqkMeug==
+	b=Mf0C7CcYHtCvOrb3N37ao/ZxryY1dHcc/R5y2TBtuVuus/oc74ST8aF4vZ+UvSr05
+	 kJcTLgWjPnuduCVPPIQNpuGg4/p942b2x0FkXbf4Jsc044+BgYf/lfcuX7LG5vtHda
+	 4di4/eW0VuBEO38KSlIF42FF63DUTRUcKox4V4fk7kzZiOvNCTj2gJens34K3s0U2t
+	 HNa+LrFJWhvoYQ71uMl8Xic+SEL0HytE37w5nD/Fd+rHFDr30smYSmumYjG0nBNhdV
+	 C8W+8WP3KYPAsxlLbjBRQqQtFIwefstMDUfTmqaxZ6IzrM5btWHKTCZ24jWHP3VNTZ
+	 1r23lnFwqkorQ==
 From: Mark Brown <broonie@kernel.org>
-To: linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Bence_Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-In-Reply-To: <20250114095909.798559-1-csokas.bence@prolan.hu>
-References: <20250114095909.798559-1-csokas.bence@prolan.hu>
-Subject: Re: [PATCH v2] ASoC: sun4i-codec: Use new devm clk and reset APIs
-Message-Id: <173687253259.61795.6623030930207706042.b4-ty@kernel.org>
-Date: Tue, 14 Jan 2025 16:35:32 +0000
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: linux-sound@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>
+In-Reply-To: <877c6ytd9t.wl-kuninori.morimoto.gx@renesas.com>
+References: <877c6ytd9t.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] ASoC: soc-dapm: remove !card check from
+ snd_soc_dapm_set_bias_level()
+Message-Id: <173687253515.61795.2748491696120857053.b4-ty@kernel.org>
+Date: Tue, 14 Jan 2025 16:35:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
@@ -47,14 +42,12 @@ List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.15-dev-1b0d6
 
-On Tue, 14 Jan 2025 10:59:07 +0100, Bence Csókás wrote:
-> Clean up error handling by using the new devm_
-> clock and reset functions. This should make it
-> easier to add new code, as we can eliminate the
-> "goto ladder" in probe().
+On Tue, 14 Jan 2025 01:06:22 +0000, Kuninori Morimoto wrote:
+> dapm is setup by snd_soc_dapm_init(), thus dapm->card never been NULL.
+> We don't need if (!card) check for it.
 > 
 > 
 
@@ -64,8 +57,8 @@ Applied to
 
 Thanks!
 
-[1/1] ASoC: sun4i-codec: Use new devm clk and reset APIs
-      commit: 65880d32e1d7eb1ef03253c454fcd8f9d41aaa09
+[1/1] ASoC: soc-dapm: remove !card check from snd_soc_dapm_set_bias_level()
+      commit: 41f1d2bd4998829341cdada022ede610068a0f33
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
