@@ -1,140 +1,182 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D14236A96
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 13:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85BA45C14
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 14:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736860575; cv=none; b=NFyBj7SO1V5VchVOzjRvnPhsMfYSYEhxGmmRWu2SdmYlJZm+YPwCJCvVn35fgp1bO5vztS0urf83YFe4eVdwaTYu+Pv20ofaRR4p3gfP3keRYNWKJG90qAcHOQrs+Hca33INtdF3AiqtBpAMbqj1wuZ7omwGjy0Wdn/OfnNAYfY=
+	t=1736863530; cv=none; b=FIXN71zNbELEOPXhw7NFg157CSpo1pXNr8bMToIH+ebhlcu3+PBoqjsRbpHynv5zz3P+pznxpPkqhnBHGWMc51LF9zIPxtGMXrO53VdACOSpPJuLpHF3sAAYqfw/LcvnEpZX6PoyFXoYt99DDNNhtR0jX1CfDokQnsGQ0pALKtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736860575; c=relaxed/simple;
-	bh=WO19nlWM7CGc0Reml8TCdKXJIFLBSYNZScA7c9gIx3o=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=N1PSAlpeA43mAU3AHOQL9lG73ta5vFkvS/NitSQsQjHBALv9FQqEo7YjH06XMd8+fblmmbENnK//hIw6Eutq8MOqTPwf5CH9KFG+5gdNE0MwQVyRWTuzUFHLOa9QONWCKmg1IzjITqZt0ikyX0INpBxJ4x4GG4+tyO6V2R56UBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OTCf0OKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNKWE+9h; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OTCf0OKA; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=pNKWE+9h; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1736863530; c=relaxed/simple;
+	bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SVrI5H64nvFUVVdhYgqC8anFgzk0aXy7cfUZobw3fyCWEtycB4MYV4k6tcYycF1BMUNwoWKJRWnLVe+RjVWbHVZN1ZzVlCqDR0pr1p3nlsC1WoTqRlwqWTOT3PHDnDUpENc+ay7J9Q9uN99tMu0+nqjiqxTFOXV8nILXYJq6ujA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zxLaka5h; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OTCf0OKA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNKWE+9h";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OTCf0OKA";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="pNKWE+9h"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 1BC921F37C;
-	Tue, 14 Jan 2025 13:16:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736860572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnAyL4u1c0ou59iKgOiab/oM33gIxTY1zK7p1ZoOexU=;
-	b=OTCf0OKAcM3aTZ1vNpf1vjCGBMdn00YvnjwFGYwmFO6wcnVjPdERfPDPGks80vptWPnelJ
-	M64atg2xGTjNFZWENvx7u8YXGBgBdyMXQYA5T7x25//QAbIKCUpMmFk2UGKt2ljZxZFV84
-	pIKPu7OUN2U9OHpQrgcM/Y0g/ARNmFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736860572;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnAyL4u1c0ou59iKgOiab/oM33gIxTY1zK7p1ZoOexU=;
-	b=pNKWE+9hrN62nFio/z5fWTw8wAn32tpIJrd9km8nLo1tuc9Wm2nMbTzrMHe19aXTuFBd/l
-	j+txIQBY/tyd8tBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OTCf0OKA;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=pNKWE+9h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1736860572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnAyL4u1c0ou59iKgOiab/oM33gIxTY1zK7p1ZoOexU=;
-	b=OTCf0OKAcM3aTZ1vNpf1vjCGBMdn00YvnjwFGYwmFO6wcnVjPdERfPDPGks80vptWPnelJ
-	M64atg2xGTjNFZWENvx7u8YXGBgBdyMXQYA5T7x25//QAbIKCUpMmFk2UGKt2ljZxZFV84
-	pIKPu7OUN2U9OHpQrgcM/Y0g/ARNmFo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1736860572;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fnAyL4u1c0ou59iKgOiab/oM33gIxTY1zK7p1ZoOexU=;
-	b=pNKWE+9hrN62nFio/z5fWTw8wAn32tpIJrd9km8nLo1tuc9Wm2nMbTzrMHe19aXTuFBd/l
-	j+txIQBY/tyd8tBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F13961384C;
-	Tue, 14 Jan 2025 13:16:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id nmXBOZtjhmdrQgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 14 Jan 2025 13:16:11 +0000
-Date: Tue, 14 Jan 2025 14:15:56 +0100
-Message-ID: <87ed15zgc3.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Cezary Rojewski <cezary.rojewski@intel.com>
-Cc: tiwai@suse.com,
-	broonie@kernel.org,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	linux-sound@vger.kernel.org
-Subject: Re: [PATCH v3] ALSA: hda: Transfer firmware in two chunks
-In-Reply-To: <20250114125813.11567-1-cezary.rojewski@intel.com>
-References: <20250114125813.11567-1-cezary.rojewski@intel.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zxLaka5h"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-437a92d7b96so7568725e9.2
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 06:05:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736863526; x=1737468326; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
+        b=zxLaka5hYGgofHs76q25QEOy75B3+rFA0WfYvOvZyAnj7iWI6+5m6hBSri6TLPzJ54
+         xjmAbueWQ/wNkuZTVFXMtp0CXUJvfoV9w4PTz+0ZR0TKtoNB0Gwq+tDRkLsXiezh/U0n
+         ZMpdb19uusTeim/SU5p0iHPpb6x33XnrCEGj8868XBr5y10jo+IG39g55rXd4rqYYTmh
+         sctJp2qe7bIp27b4STvMrbFJOv24wLHWTtqXwuPy4T4BR4DxskTavNYw2QZ6zDu/uOQF
+         l2BSiTGf/8tBfFABa7xJBUd/0OwB4990OVqbE1Q7QnpaeSgsgSHyTS8CXL1FHhMoKyAu
+         t2gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736863526; x=1737468326;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
+        b=woL8lsuBWvQTVq4+BxxGha68P9xzGOCk0NAJVUddWWRkvswblCm1wuHPgVjOpXoRgP
+         uaCwlnFSpm5StbzoJSbcKFmlGbHH4KeM1mhnOiMEWYSGVHNExVe1Pqc+ZCIHN86mY1Yl
+         nrAhJZSzSgvg1rAu5W2It9HD/SA78H5UZZk8qTcJ1MMGgk5QYa3kKVCkvUjs52JOsG6/
+         eGM9MePAHDEBJpObDcIKwjOYuK171m0e6/eKb5j2i6xaAcT5h7vHnOV+QmtDcK7jjQTF
+         18Z77MsLM5bxaD211OqTOvBGcIAbGqdIvNyfFrlDluu63HXCbZaOgcYYK6KMcMXLP3VX
+         PcEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIvDHCBQy/G82q/ggSGspZdAazNIMLRFm+8vuisvHWyOyyeSBIM2rZrF/SsiuRZrPCrYTJfmh4CbKi7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygWA8XBa+GoGJx5LtL7OCfDBh6ZpMqGhfZxTXCQPjGn+1RNNO8
+	Z9TwdwY+kKyvMWuTgiQL2AxGwY/tnmmYivpXpLUtipp3WiHliJDet1HjQht6/c4=
+X-Gm-Gg: ASbGncvZR/AzkurD6hwR8CsHJAaW17o3CZ9pVDByfF365hQWAGyPy2IqJV391OaPuAV
+	HoCDXmbIn+9Es9vL1FjefF0uLZCdDTfjUo0a5ZvQpu859/zfJYrpjEelaT5MXgEqYIfY6796I9v
+	IyuS4RwcCjbcYqR3Ah4O/UpZxA0JEYwxMHaw9jo5a3GbMd5Obwclq3kyoGSm7wN55uTOKq/vpnb
+	7ArocBU5jwFdTyNlP7xoWgid4JJxG7DYL7UUt/tigogurWkqNVKeCs7
+X-Google-Smtp-Source: AGHT+IGYBCH61RKlTG9lkoFWiyGMe6exY5OKDG7Opi27JjRz3QS+q+QxKENJfYtPEqBwzJBVByTGvA==
+X-Received: by 2002:a05:600c:1d03:b0:434:a0bf:98ea with SMTP id 5b1f17b1804b1-436e2699e91mr225375155e9.9.1736863525942;
+        Tue, 14 Jan 2025 06:05:25 -0800 (PST)
+Received: from localhost ([2a01:e0a:3c5:5fb1:317c:3d93:b7d4:96cd])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddc5f5sm210760595e9.18.2025.01.14.06.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2025 06:05:25 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Jiebing Chen <jiebing.chen@amlogic.com>
+Cc: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>,
+  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
+  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
+  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
+  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
+ <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>,
+  linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+  linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 2/3] ASoC: meson: s4:support for the on-chip audio
+In-Reply-To: <e69cd38e-898c-4cbc-a327-14148a71c764@amlogic.com> (Jiebing
+	Chen's message of "Tue, 14 Jan 2025 19:20:00 +0800")
+References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
+	<20250113-audio_drvier-v1-2-8c14770f38a0@amlogic.com>
+	<1jwmey9451.fsf@starbuckisacylon.baylibre.com>
+	<e2f26ca2-4c38-4b07-bf17-95544588a2f2@amlogic.com>
+	<e69cd38e-898c-4cbc-a327-14148a71c764@amlogic.com>
+User-Agent: mu4e 1.12.7; emacs 29.4
+Date: Tue, 14 Jan 2025 15:05:24 +0100
+Message-ID: <1j8qrd7aor.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 1BC921F37C
-X-Spam-Score: -3.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Jan 2025 13:58:13 +0100,
-Cezary Rojewski wrote:
-> --- a/include/sound/hdaudio.h
-> +++ b/include/sound/hdaudio.h
-> @@ -577,6 +577,8 @@ struct hdac_stream *snd_hdac_get_stream(struct hdac_bus *bus,
->  
->  int snd_hdac_stream_setup(struct hdac_stream *azx_dev, bool code_loading);
->  void snd_hdac_stream_cleanup(struct hdac_stream *azx_dev);
-> +int snd_hdac_stream_setup_bdle(struct hdac_stream *azx_dev, struct snd_dma_buffer *dmab,
-> +			       struct snd_pcm_runtime *runtime);
+On Tue 14 Jan 2025 at 19:20, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
 
-Will you use this function by other driver in future?
-Otherwise it makes little sense to export this function.
+>>>> +
+>>>> +MODULE_DESCRIPTION("Amlogic to codec driver");
+>>>> +MODULE_AUTHOR("jiebing.chen@amlogic.com");
+>>>> +MODULE_LICENSE("GPL");
+>>>> diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
+>>>> index
+>>>> 571f65788c592050abdca264f5656d4d1a9d99f6..2db1cd18cf2cea507f3d7282054e=
+03d953586648
+>>>> 100644
+>>>> --- a/sound/soc/meson/t9015.c
+>>>> +++ b/sound/soc/meson/t9015.c
+>>>> @@ -89,10 +89,7 @@ static struct snd_soc_dai_driver t9015_dai =3D {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 .channels_min =3D 1,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 .channels_max =3D 2,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 .rates =3D SNDRV_PCM_RATE_8000_96000,
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 .formats =3D (SNDRV_PCM_FMTBIT_S8 |
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ SNDRV_PCM_FMTBIT_S16_LE |
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ SNDRV_PCM_FMTBIT_S20_LE |
+>>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ SNDRV_PCM_FMTBIT_S24_LE),
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 .formats =3D (SNDRV_PCM_FMTBIT_S16_LE |
+>>>> SNDRV_PCM_FMTBIT_S32_LE),
+>>> Again, mixed up changes with zero justification.
+>>>
+>>> This drops S8 and S16 format support for the existing SoCs (such as GXL)
+>>> which is known to work and add S32 support on an HW documented as 24bits
+>>> only. Can you explain ?
+>
+> for g12a, sm1 etc, it is use new audio ip, GXL is old ip,
 
+If there are chips difference we did not know about, then you should
+introduce those difference, without breaking existing support -
+including for GXL, which is what you did IIUC.
 
-thanks,
+> the new ip not support 24 bit,
 
-Takashi
+Are sure about that ? that code has been there for a while.
+
+If sm1 does not support SNDRV_PCM_FMTBIT_S24_LE, you should a fix up patch =
+for
+that, with the proper "Fixes:" tag, how to reproduce the problem and
+explaining the fix.
+
+>
+> usually support 16/32 bit for new audio ip , for SNDRV_PCM_FMTBIT_S24_LE,
+> it width =3D24, phy =3D32
+
+Yes physical of SNDRV_PCM_FMTBIT_S24_LE, so most chip supporting 32 bits
+width would support this S24_LE, unless there is something odd.
+
+>
+> it was=C2=A0 treated as 32 bit to send for tdm, so we can only add the S3=
+2LE
+> base on it , right ?
+
+You are asking me ? How am I suppose to know ?
+
+> but if the gxl not support the 32bit
+
+I don't see a problem with a DAC taking input on 32bits physical
+interface and ignoring some bit on processing.
+
+If that's not the case, please send a proper fix change with some explanati=
+on
+
+>
+> we need add new snd_soc_dai_driver t9015_dai_s4 ?
+>
+
+If I understood correctly format depends on the chip and needs to
+adjusted including for sm1.=20
+
+>>>
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &t9015_dai_ops,
+>>>> =C2=A0 };
+>>> -- Jerome
+
+--=20
+Jerome
