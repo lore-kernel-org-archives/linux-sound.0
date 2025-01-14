@@ -1,213 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA09F236A91
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 12:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6336236A6D
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 12:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736858650; cv=none; b=ct679PFX26GG+7xwraTkAYMdPcefDq+bvEKvI0AwgA7OOfh9wop6hYLRxEs8bH2N3lrUo9b+cfQVcIJv4D7U4ozIuekq/v89XhVHfPflYBVYh5zthYf7j373dO2Ra7ERhGwKIaUwdqEIFGBBqhptYncwLkqJh0R8U8RhNruSzh8=
+	t=1736859466; cv=none; b=WQYSy+HP4AH5cV6wO2kb2GGGVDxV5HXXtgbmuTVdx3IQ9upLIri6vVWi0tG14svFMGRFvouVEEqlWhUm+ubdVEDj6AU6PHNWVrlyn+uJdaswghqBL7ZXz6N3nzzwKZWnjiGXWfox94Nd/H5Fea4a1crMk11zywnR0lJ8JhuQnUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736858650; c=relaxed/simple;
-	bh=4v2KPlXzL6HgBPrlfIKAcJn8DZWA5FfyfHYr01iVa+k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iXJXmPuL0TmPm9NteQS/WZOW4hKkhEA5Vrh+K0x62RDTVKVg8hI8/oXjUISzLiqdfSTEuewrXBRH4s6664sa1bZ9d2nRkj9etgHJLKkLhuQ0arQyC8Dmw9h+WYTOhb+n+YD5iX1q2sYznC4zjrw7JUhOwUmjFxKMs5bhQEUqxf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjvDFk8T; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736859466; c=relaxed/simple;
+	bh=1x/7oaeG6L8FPuYeWIFD0+aBqXPU1HCIcOurLrsl/2c=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qkjFKlau1ZKOnDc9/VnwPJFOkrteHba/TSw9zGdEfAbpzSCc7cmOWFAw7Mf62BmYOThr0+VAXRebyOiNrr8BuUwXTeF6SIwZa3ci7ktuKPTk4XhHLNEr9k6MhGi05x/39JUO5O3KsTA4uiDrEgytbyQ7Zkee/UlhonlHvO2cja8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GED7tdgk; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=FNJ/HSUh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LzVQfzvN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=nF5w3IWO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjvDFk8T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736858649; x=1768394649;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4v2KPlXzL6HgBPrlfIKAcJn8DZWA5FfyfHYr01iVa+k=;
-  b=EjvDFk8TKFCscSlq8utrySFW9ZZ7JboXxzsyi9EBKZqkxyqaShUv0ZEx
-   4RFvG9Atp5fo7R9ByN5VVFtneEeUEGqYP0UYwOACQxcwvnO66Ke0+n9an
-   xjGn5Qsn9hq1e+egjZZD/pAQHTBO/ZB7J1EkqXbIeoUGr0n+fmG/MDzGO
-   uP+lWTUPFCJ3Is9+Vx4ShXvMM78BQz+8PG//zIiBkDuzCB2J43KH3Mz/8
-   0yZIeNceLtcYbXL+JrxiRKdyttS5dW4DBCqQxRgBeFDXkQLpEVtopV+YU
-   3hOdVfl1lNw77u2H31LUdYmPM6WTYTZ79LrcEpOwodNLrZpMdgpMDrb09
-   A==;
-X-CSE-ConnectionGUID: pkA78BKgTVynxueMaaE6uQ==
-X-CSE-MsgGUID: jup9+gksS/+zxyEZ1vXVbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="48559587"
-X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
-   d="scan'208";a="48559587"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2025 04:44:08 -0800
-X-CSE-ConnectionGUID: EXJKHAB3QfiDJGyFV5oKnw==
-X-CSE-MsgGUID: FJlAD66UTGet0gU4wBcVoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,314,1728975600"; 
-   d="scan'208";a="109779377"
-Received: from crojewsk-ctrl.igk.intel.com ([10.237.149.254])
-  by orviesa004.jf.intel.com with ESMTP; 14 Jan 2025 04:44:06 -0800
-From: Cezary Rojewski <cezary.rojewski@intel.com>
-To: tiwai@suse.com
-Cc: broonie@kernel.org,
-	perex@perex.cz,
-	amadeuszx.slawinski@linux.intel.com,
-	linux-sound@vger.kernel.org,
-	Cezary Rojewski <cezary.rojewski@intel.com>
-Subject: [PATCH v3] ALSA: hda: Transfer firmware in two chunks
-Date: Tue, 14 Jan 2025 13:58:13 +0100
-Message-Id: <20250114125813.11567-1-cezary.rojewski@intel.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GED7tdgk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="FNJ/HSUh";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LzVQfzvN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nF5w3IWO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EAC521F37C;
+	Tue, 14 Jan 2025 12:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736859463; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0Raxzgiz7AtWIhBD6KlRXJR80eB3ToHjly+CNrK2YM=;
+	b=GED7tdgk2wY50SndRL9YTjGL0WsREiFZXnDSxwkq48bdoOGOixdMZ+MzrzpZUUbUp4p4yF
+	KJHjPKK+RgddmQFNaUsA1LvSFA3IQsOKSCTy8/HyrzXDA89R/ytw3QYmgP9I8GXtQKqV9f
+	sxETjs8lm2DY848VeELAEc2FW4/z3zg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736859463;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0Raxzgiz7AtWIhBD6KlRXJR80eB3ToHjly+CNrK2YM=;
+	b=FNJ/HSUhbN9rKP7O8NtgXRtzl2+8r7K2HPshOqd76srGts25E6if5cl9sPWkoFl7qUJ9Wj
+	EaNf+7W8s8akBzBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736859462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0Raxzgiz7AtWIhBD6KlRXJR80eB3ToHjly+CNrK2YM=;
+	b=LzVQfzvNMNrWW9raYRkqptDA447CKncjSN8y913j0dg9cxAooY229uGCeLJRID2mQK3CyL
+	61bFPPDIaTTcG1J6zaTJB/ar1MBRnFuzwY0inSbzbn1auBzScJUSxTeNCDm21qANY7GQvG
+	f/GxMaIN6PeQWBpXccavYh90iao65bk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736859462;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=z0Raxzgiz7AtWIhBD6KlRXJR80eB3ToHjly+CNrK2YM=;
+	b=nF5w3IWOgYUbUAQGM9P7PV7kn8KSXk6zVG5uLKFViOuyeUceWS5LufzRuHZWtw1SEy5ZMk
+	XIxAF6yD8zatOuDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D35A51384C;
+	Tue, 14 Jan 2025 12:57:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 64ntMkZfhmdNPAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 14 Jan 2025 12:57:42 +0000
+Date: Tue, 14 Jan 2025 13:57:38 +0100
+Message-ID: <87h661zh6l.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: "Geoffrey D. Bennett" <g@b4.vu>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] ALSA: FCP: Add Focusrite Control Protocol driver
+In-Reply-To: <df86969ea91cd2a3dd07c0c63c00c5b97a4d8485.1736792486.git.g@b4.vu>
+References: <cover.1736792486.git.g@b4.vu>
+	<df86969ea91cd2a3dd07c0c63c00c5b97a4d8485.1736792486.git.g@b4.vu>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCPT_COUNT_FIVE(0.00)[5];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-As per specification, SDxLVI shall be at least 1 i.e.: two chunks to
-perform a valid transfer. This is true for the PCM transfer code but
-not firmware-transfer one.
+On Mon, 13 Jan 2025 20:42:01 +0100,
+Geoffrey D. Bennett wrote:
+> +static int fcp_meter_ctl_get(struct snd_kcontrol *kctl,
+> +			     struct snd_ctl_elem_value *ucontrol)
+> +{
+> +	struct usb_mixer_elem_info *elem = kctl->private_data;
+> +	struct usb_mixer_interface *mixer = elem->head.mixer;
+> +	struct fcp_data *private = mixer->private_data;
+> +	int num_meter_slots, resp_size;
+> +	u32 *resp __free(kfree) = NULL;
+> +	int i, err = 0;
+> +
+> +	struct {
+> +		__le16 pad;
+> +		__le16 num_meters;
+> +		__le32 magic;
+> +	} __packed req;
+> +
+> +	guard(mutex)(&private->mutex);
+> +
+> +	num_meter_slots = private->num_meter_slots;
+> +	resp_size = num_meter_slots * sizeof(u32);
+> +
+> +	resp = kmalloc(resp_size, GFP_KERNEL);
+> +	if (!resp)
+> +		return -ENOMEM;
+> +
+> +	req.pad = 0;
+> +	req.num_meters = cpu_to_le16(num_meter_slots);
+> +	req.magic = cpu_to_le32(FCP_USB_METER_LEVELS_GET_MAGIC);
+> +	err = fcp_usb(mixer, FCP_USB_GET_METER,
+> +		      &req, sizeof(req), resp, resp_size);
+> +
+> +	/* reinit and retry if needed */
+> +	if (err == -ENODEV) {
+> +		err = fcp_reinit(mixer);
+> +		if (err < 0)
+> +			return err;
+> +		err = fcp_usb(mixer, FCP_USB_GET_METER,
+> +			      &req, sizeof(req), resp, resp_size);
+> +	} else if (err < 0) {
+> +		return err;
+> +	}
 
-Technical background:
-- the LVI > 0 rule shall be obeyed in PCM transfer
-- HW permits LVI == 0 when transfer is SW-controlled (SPIB)
-- FW download is not a PCM transfer and is SW-controlled (SPIB)
+You seem to have forgotten to check the error after the second
+fcp_usb()?
 
-The above is the fundament which AudioDSP firmware loading functions
-have been built upon and worked since 2016. The presented changes are to
-align the loading flows and avoid rising more questions in the future.
+I think fcp_reinit() can be better checked before the first fcb_usb()
+call, just by checking mixer->urb.  i.e.
 
-Achieve the goal by splitting snd_hdac_stream_setup_periods() into
-substream-dependent and -independent part. Let snd_hdac_dsp_prepare()
-utilize the latter so that both DSP-loading and PCM flows utilize same
-BLDE setup loop which already takes care of cutting the buffer based on
-azx_dev->period_bytes.
+	if (!mixer->urb) {
+		err = fcp_reinit(mixer);
+		if (err < 0)
+			return err;
+	}
 
-Signed-off-by: Cezary Rojewski <cezary.rojewski@intel.com>
----
- include/sound/hdaudio.h |  2 ++
- sound/hda/hdac_stream.c | 64 ++++++++++++++++++++++++-----------------
- 2 files changed, 40 insertions(+), 26 deletions(-)
+	err = fcp_usb(...);
+	if (err < 0)
+		return err;
 
-diff --git a/include/sound/hdaudio.h b/include/sound/hdaudio.h
-index b098ceadbe74..3a3cfb832ddc 100644
---- a/include/sound/hdaudio.h
-+++ b/include/sound/hdaudio.h
-@@ -577,6 +577,8 @@ struct hdac_stream *snd_hdac_get_stream(struct hdac_bus *bus,
- 
- int snd_hdac_stream_setup(struct hdac_stream *azx_dev, bool code_loading);
- void snd_hdac_stream_cleanup(struct hdac_stream *azx_dev);
-+int snd_hdac_stream_setup_bdle(struct hdac_stream *azx_dev, struct snd_dma_buffer *dmab,
-+			       struct snd_pcm_runtime *runtime);
- int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev);
- int snd_hdac_stream_set_params(struct hdac_stream *azx_dev,
- 				unsigned int format_val);
-diff --git a/sound/hda/hdac_stream.c b/sound/hda/hdac_stream.c
-index 2670792f43b4..da6c48eaf29c 100644
---- a/sound/hda/hdac_stream.c
-+++ b/sound/hda/hdac_stream.c
-@@ -492,32 +492,21 @@ static int setup_bdle(struct hdac_bus *bus,
- }
- 
- /**
-- * snd_hdac_stream_setup_periods - set up BDL entries
-+ * snd_hdac_stream_setup_bdle - set up BDL entries
-  * @azx_dev: HD-audio core stream to set up
-+ * @dmab: allocated DMA buffer
-+ * @runtime: substream runtime, optional
-  *
-  * Set up the buffer descriptor table of the given stream based on the
-  * period and buffer sizes of the assigned PCM substream.
-  */
--int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev)
-+int snd_hdac_stream_setup_bdle(struct hdac_stream *azx_dev, struct snd_dma_buffer *dmab,
-+			       struct snd_pcm_runtime *runtime)
- {
- 	struct hdac_bus *bus = azx_dev->bus;
--	struct snd_pcm_substream *substream = azx_dev->substream;
--	struct snd_compr_stream *cstream = azx_dev->cstream;
--	struct snd_pcm_runtime *runtime = NULL;
--	struct snd_dma_buffer *dmab;
--	__le32 *bdl;
- 	int i, ofs, periods, period_bytes;
- 	int pos_adj, pos_align;
--
--	if (substream) {
--		runtime = substream->runtime;
--		dmab = snd_pcm_get_dma_buf(substream);
--	} else if (cstream) {
--		dmab = snd_pcm_get_dma_buf(cstream);
--	} else {
--		WARN(1, "No substream or cstream assigned\n");
--		return -EINVAL;
--	}
-+	__le32 *bdl;
- 
- 	/* reset BDL address */
- 	snd_hdac_stream_writel(azx_dev, SD_BDLPL, 0);
-@@ -571,6 +560,34 @@ int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev)
- 		azx_dev->bufsize, period_bytes);
- 	return -EINVAL;
- }
-+EXPORT_SYMBOL_GPL(snd_hdac_stream_setup_bdle);
-+
-+/**
-+ * snd_hdac_stream_setup_periods - set up BDL entries
-+ * @azx_dev: HD-audio core stream to set up
-+ *
-+ * Set up the buffer descriptor table of the given stream based on the
-+ * period and buffer sizes of the assigned PCM substream.
-+ */
-+int snd_hdac_stream_setup_periods(struct hdac_stream *azx_dev)
-+{
-+	struct snd_pcm_substream *substream = azx_dev->substream;
-+	struct snd_compr_stream *cstream = azx_dev->cstream;
-+	struct snd_pcm_runtime *runtime = NULL;
-+	struct snd_dma_buffer *dmab;
-+
-+	if (substream) {
-+		runtime = substream->runtime;
-+		dmab = snd_pcm_get_dma_buf(substream);
-+	} else if (cstream) {
-+		dmab = snd_pcm_get_dma_buf(cstream);
-+	} else {
-+		WARN(1, "No substream or cstream assigned\n");
-+		return -EINVAL;
-+	}
-+
-+	return snd_hdac_stream_setup_bdle(azx_dev, dmab, runtime);
-+}
- EXPORT_SYMBOL_GPL(snd_hdac_stream_setup_periods);
- 
- /**
-@@ -923,7 +940,6 @@ int snd_hdac_dsp_prepare(struct hdac_stream *azx_dev, unsigned int format,
- 			 unsigned int byte_size, struct snd_dma_buffer *bufp)
- {
- 	struct hdac_bus *bus = azx_dev->bus;
--	__le32 *bdl;
- 	int err;
- 
- 	snd_hdac_dsp_lock(azx_dev);
-@@ -943,18 +959,14 @@ int snd_hdac_dsp_prepare(struct hdac_stream *azx_dev, unsigned int format,
- 
- 	azx_dev->substream = NULL;
- 	azx_dev->bufsize = byte_size;
--	azx_dev->period_bytes = byte_size;
-+	/* It is recommended to transfer the firmware in two or more chunks. */
-+	azx_dev->period_bytes = byte_size / 2;
- 	azx_dev->format_val = format;
-+	azx_dev->no_period_wakeup = 1;
- 
- 	snd_hdac_stream_reset(azx_dev);
- 
--	/* reset BDL address */
--	snd_hdac_stream_writel(azx_dev, SD_BDLPL, 0);
--	snd_hdac_stream_writel(azx_dev, SD_BDLPU, 0);
--
--	azx_dev->frags = 0;
--	bdl = (__le32 *)azx_dev->bdl.area;
--	err = setup_bdle(bus, bufp, azx_dev, &bdl, 0, byte_size, 0);
-+	err = snd_hdac_stream_setup_bdle(azx_dev, bufp, NULL);
- 	if (err < 0)
- 		goto error;
- 
--- 
-2.25.1
+Or change fcp_reinit() to return 0 if mixer->urbs is already set, then
+you can call fcp_reinit() unconditionally, too.
 
+
+> +/* Execute an FCP command specified by the user */
+> +static int fcp_ioctl_cmd(struct usb_mixer_interface *mixer,
+> +			 struct fcp_cmd __user *arg)
+> +{
+(snip)
+> +	/* copy response to user */
+> +	if (cmd.resp_size > 0)
+> +		if (copy_to_user(((void __user *)arg) + sizeof(cmd), data,
+> +				 cmd.resp_size))
+
+This should be
+		if (copy_to_user(arg->data, data, cmd.resp_size))
+
+(snip)
+> +/* Set the Level Meter map and add the control */
+> +static int fcp_ioctl_set_meter_map(struct usb_mixer_interface *mixer,
+> +				   unsigned long arg)
+> +{
+> +	struct fcp_meter_map map;
+> +	struct fcp_data *private = mixer->private_data;
+> +	s16 *tmp_map __free(kfree) = NULL;
+> +	int err;
+> +
+> +	if (copy_from_user(&map, (void __user *)arg, sizeof(map)))
+
+This function can also take struct fcp_meter_map __user * argument,
+and you can avoid the cast.
+
+Ditto for fcp_ioctl_init().
+
+> +static int fcp_hwdep_ioctl(struct snd_hwdep *hw, struct file *file,
+> +			   unsigned int cmd, unsigned long arg)
+> +{
+> +	struct usb_mixer_interface *mixer = hw->private_data;
+> +	struct fcp_data *private = mixer->private_data;
+
+You can assign a void __user pointer, e.g.
+
+	void __user *argp = (void __user *)arg;
+
+and pass it to each function, e.g.
+
+> +	guard(mutex)(&private->mutex);
+> +
+> +	switch (cmd) {
+> +
+> +	case FCP_IOCTL_PVERSION:
+> +		return put_user(FCP_HWDEP_VERSION,
+> +				(int __user *)arg) ? -EFAULT : 0;
+> +		break;
+> +
+> +	case FCP_IOCTL_INIT:
+> +		return fcp_ioctl_init(mixer, arg);
+
+This will be:
+		return fcp_ioctl_init(mixer, argp);
+
+and make fcp_ioctl_init() receiving it like:
+
+static int fcp_ioctl_init(struct usb_mixer_interface *mixer,
+			  struct fcp_init __user *arg)
+{
+	struct fcp_init init;
+	....
+
+	if (copy_from_user(&init, arg, sizeof(init)))
+		return -EFAULT;	
+	....
+	if (copy_to_user(arg->resp, resp, buf_size))
+		return -EFAULT;
+
+
+Takashi
