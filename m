@@ -1,182 +1,124 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85BA45C14
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 14:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C4F13E02E;
+	Tue, 14 Jan 2025 14:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736863530; cv=none; b=FIXN71zNbELEOPXhw7NFg157CSpo1pXNr8bMToIH+ebhlcu3+PBoqjsRbpHynv5zz3P+pznxpPkqhnBHGWMc51LF9zIPxtGMXrO53VdACOSpPJuLpHF3sAAYqfw/LcvnEpZX6PoyFXoYt99DDNNhtR0jX1CfDokQnsGQ0pALKtc=
+	t=1736863738; cv=none; b=Wnux/iYS9a9a5Fabc47PQIqh1vK6sznglEI3lp/4uGdrlUJn6dihU/JZ63S41t8DfbsmVjJsf61CXU5Eo8H3Ff0aXouYMPmRnP6zAuiIHKy2Yi2xlZxNucfqa16Dk28fcybJtcXWqOeyie8lzdCg0GU1c7HYTCXH9FmRvLKySCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736863530; c=relaxed/simple;
-	bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=SVrI5H64nvFUVVdhYgqC8anFgzk0aXy7cfUZobw3fyCWEtycB4MYV4k6tcYycF1BMUNwoWKJRWnLVe+RjVWbHVZN1ZzVlCqDR0pr1p3nlsC1WoTqRlwqWTOT3PHDnDUpENc+ay7J9Q9uN99tMu0+nqjiqxTFOXV8nILXYJq6ujA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zxLaka5h; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1736863738; c=relaxed/simple;
+	bh=LKLfIkczdAeAEqoQum/VH0YMDdlw2/4likL6Vp+GRnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rdsezGjQj1Us9R7Pej6Cfq6LEZ903X4Tjj6NUjG6zj+shgqz4VHkwVwDjIHJsY8qhcDmLoWuRdo49b1hq9Z0S47ciNkMyliyxUHQxqwPX0Kgxf9esXHDN9PEzGbCVHf8dlz4OgFnrB9R2VDu1n5FCzX6v0RRSC4iBg6O29senDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jurpx9Tp; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zxLaka5h"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-437a92d7b96so7568725e9.2
-        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 06:05:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jurpx9Tp"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-aafc9d75f8bso1064019366b.2;
+        Tue, 14 Jan 2025 06:08:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736863526; x=1737468326; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1736863735; x=1737468535; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
-        b=zxLaka5hYGgofHs76q25QEOy75B3+rFA0WfYvOvZyAnj7iWI6+5m6hBSri6TLPzJ54
-         xjmAbueWQ/wNkuZTVFXMtp0CXUJvfoV9w4PTz+0ZR0TKtoNB0Gwq+tDRkLsXiezh/U0n
-         ZMpdb19uusTeim/SU5p0iHPpb6x33XnrCEGj8868XBr5y10jo+IG39g55rXd4rqYYTmh
-         sctJp2qe7bIp27b4STvMrbFJOv24wLHWTtqXwuPy4T4BR4DxskTavNYw2QZ6zDu/uOQF
-         l2BSiTGf/8tBfFABa7xJBUd/0OwB4990OVqbE1Q7QnpaeSgsgSHyTS8CXL1FHhMoKyAu
-         t2gw==
+        bh=gb1b/9RqdKd5KXtgNSScAQgWp7C/b3VuxIQL7OqFmG8=;
+        b=Jurpx9TpQNlRflh0YdEdXlLCXsZeje6G6OjTwLaMuIbDwFy25/uT8/mi0YZtIPpF58
+         vcy01Ps12qNMWRXDCvO0DXwaRNfD6NX7atlTohafdCceCmtLpmDdMGKgntAbvxMFZxuw
+         dGIJlptf3su5AdBDCJy3Vk679IBwKc6EHEVlZiESOyDr4BFr0FOnjtADxUun1kXEKkqe
+         g6fsgZfQrnWLsx29j2vCRXm5NKGRhY0+9bSf/1G/kVYlBSf15PdCP7rVqTCqhZJR4PvY
+         ig583Ce/vP0ljxu2qAshtj4+L2Jck+RlvN0p/whGzTDMbPF2DxMZEWYuXCoJUvliEoHJ
+         S0Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736863526; x=1737468326;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6tKjcpDmSDVi0I0Iymsx6pKq7XeGCNlnh/DkEXq+Kvg=;
-        b=woL8lsuBWvQTVq4+BxxGha68P9xzGOCk0NAJVUddWWRkvswblCm1wuHPgVjOpXoRgP
-         uaCwlnFSpm5StbzoJSbcKFmlGbHH4KeM1mhnOiMEWYSGVHNExVe1Pqc+ZCIHN86mY1Yl
-         nrAhJZSzSgvg1rAu5W2It9HD/SA78H5UZZk8qTcJ1MMGgk5QYa3kKVCkvUjs52JOsG6/
-         eGM9MePAHDEBJpObDcIKwjOYuK171m0e6/eKb5j2i6xaAcT5h7vHnOV+QmtDcK7jjQTF
-         18Z77MsLM5bxaD211OqTOvBGcIAbGqdIvNyfFrlDluu63HXCbZaOgcYYK6KMcMXLP3VX
-         PcEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIvDHCBQy/G82q/ggSGspZdAazNIMLRFm+8vuisvHWyOyyeSBIM2rZrF/SsiuRZrPCrYTJfmh4CbKi7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygWA8XBa+GoGJx5LtL7OCfDBh6ZpMqGhfZxTXCQPjGn+1RNNO8
-	Z9TwdwY+kKyvMWuTgiQL2AxGwY/tnmmYivpXpLUtipp3WiHliJDet1HjQht6/c4=
-X-Gm-Gg: ASbGncvZR/AzkurD6hwR8CsHJAaW17o3CZ9pVDByfF365hQWAGyPy2IqJV391OaPuAV
-	HoCDXmbIn+9Es9vL1FjefF0uLZCdDTfjUo0a5ZvQpu859/zfJYrpjEelaT5MXgEqYIfY6796I9v
-	IyuS4RwcCjbcYqR3Ah4O/UpZxA0JEYwxMHaw9jo5a3GbMd5Obwclq3kyoGSm7wN55uTOKq/vpnb
-	7ArocBU5jwFdTyNlP7xoWgid4JJxG7DYL7UUt/tigogurWkqNVKeCs7
-X-Google-Smtp-Source: AGHT+IGYBCH61RKlTG9lkoFWiyGMe6exY5OKDG7Opi27JjRz3QS+q+QxKENJfYtPEqBwzJBVByTGvA==
-X-Received: by 2002:a05:600c:1d03:b0:434:a0bf:98ea with SMTP id 5b1f17b1804b1-436e2699e91mr225375155e9.9.1736863525942;
-        Tue, 14 Jan 2025 06:05:25 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:317c:3d93:b7d4:96cd])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2ddc5f5sm210760595e9.18.2025.01.14.06.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 06:05:25 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jiebing Chen <jiebing.chen@amlogic.com>
-Cc: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>,
-  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
-  linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 2/3] ASoC: meson: s4:support for the on-chip audio
-In-Reply-To: <e69cd38e-898c-4cbc-a327-14148a71c764@amlogic.com> (Jiebing
-	Chen's message of "Tue, 14 Jan 2025 19:20:00 +0800")
-References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
-	<20250113-audio_drvier-v1-2-8c14770f38a0@amlogic.com>
-	<1jwmey9451.fsf@starbuckisacylon.baylibre.com>
-	<e2f26ca2-4c38-4b07-bf17-95544588a2f2@amlogic.com>
-	<e69cd38e-898c-4cbc-a327-14148a71c764@amlogic.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Tue, 14 Jan 2025 15:05:24 +0100
-Message-ID: <1j8qrd7aor.fsf@starbuckisacylon.baylibre.com>
+        d=1e100.net; s=20230601; t=1736863735; x=1737468535;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gb1b/9RqdKd5KXtgNSScAQgWp7C/b3VuxIQL7OqFmG8=;
+        b=g7QtVdmSsZX8v+L9tAEFSGafAHJ8ECZSOcMiDyXt9tR1NUlMEnKrTF45MVQCJJo9Q4
+         LsKFkyeG1vlQ31TSwZ0SM61v0DC0kUK9mR0QF4yVDzs2/aJBKQwR+ROhDCOy1Q4LUSLq
+         WiA5ZZ+byeUs5ChJe7H+W0KuMLZn1ukCn2BjzQK8kAyxKGvmcyYYSq+gJMSbfMZngXzZ
+         LByV94V4+xxtFMKggHwYRzkpetspaUN5+v0p4p1SGpPTLyMAKKCTwmJ5CetqO6bHDnSu
+         M/WWopCityNtsr+EaXptORXs/sGnI5a9rh27/lkHKxHO0++5yTUiEZ2Gzo9DYkK8AoXN
+         0SwA==
+X-Forwarded-Encrypted: i=1; AJvYcCU8Vf/rtmmq6AQ7Jx3h8s22hdReYqUNmFrZGSItbEgY8AwQK2DT+XrTG+q6/Z1t44Ftf6famE+yIIJHNy3v0w==@vger.kernel.org, AJvYcCUBrInkz870dzIJbzRQwJuYKG297QYQvPwXiWPyS2cfyv3+N1XFWDlf+PSD70THJKDRXHb+aCO0ps/cDvc=@vger.kernel.org, AJvYcCUniEMLj8i8+SMRWidsYyVEh0unfB/bgNNglIGDGTp/BG024/k2lQtYGnDIMYlbobV+phbsgwfmRtNSoXA=@vger.kernel.org, AJvYcCVEwDj1LxljVlo1s4qpDZs/olapNMudWRjjxdy8D5RX+zERj8Qt5rk9tq/tq6C+kL5R2NixjRunpfwQ@vger.kernel.org, AJvYcCVjNhr7D/6/HuPoQwrY35p7uld/pyIQ5qAZ1+7LmQNBoCGI6rFCPNy9Bj0EABTmo3uH1OXByA4/v0RF@vger.kernel.org, AJvYcCWIbo0gKRFx4/ssxv8RnE5b99MCAaadutgjVwoEMFDPLimjlYjPyW6Rdtbch3IVj/KwAczCPCBiGTNU@vger.kernel.org, AJvYcCWa9uBzll5iOTeYo5YDbs71Z+Hwh1WrihTuIuasPtvyyBpAI4N67v63wh/4wj4NEpQItjhyCksbAiPQQ+As@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxMR6fD/PUNUFUOseLKtOGE1VdEv8RgfR69j+SR6H3gaSb2HDl
+	S1hUv/IjRRW9LKUTVkPRi0jksAIBTkci9NwpaA0bPK6nlmaNVTsk
+X-Gm-Gg: ASbGncsp2zXKh1M3DhXB0+PgnAJ7SD/Evb4rxtZUS6wnASmJ9re3c+taDclQc/lhrGn
+	giPKbsLMziTQfui5rgEOacFRscluLUEmkMGwRyNta5F/EgDwBvLaFFXAGaHlKX+lrcGLHHisXTg
+	6M0YkGl8jBd+kl1t98pIxvtRD5fX5Hz2k6Im68XQkvbosjHRt50XF7P7M0A0xabHR8GiSo3AnyM
+	eh3tIYbIIe2XCr/bD0jZFZFkyc12TDAgYKjorMTo3x3v6f/jPw9XAmng/L1TZ/RjMgJjvbO6A==
+X-Google-Smtp-Source: AGHT+IHg+26ImkrnaHx4f06Z3uIYfL6CCoYkDwVz3k6+euEU7ujJitxiK1iLBauB18LY8tUFYwPmBw==
+X-Received: by 2002:a17:906:f59a:b0:aa6:9503:aa73 with SMTP id a640c23a62f3a-ab2abcb1135mr2473124266b.51.1736863734231;
+        Tue, 14 Jan 2025 06:08:54 -0800 (PST)
+Received: from foxbook (adqh124.neoplus.adsl.tpnet.pl. [79.185.141.124])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c9647299sm640635166b.177.2025.01.14.06.08.52
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 14 Jan 2025 06:08:53 -0800 (PST)
+Date: Tue, 14 Jan 2025 15:08:47 +0100
+From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <devicetree@vger.kernel.org>,
+ <dmitry.torokhov@gmail.com>, <gregkh@linuxfoundation.org>,
+ <krzk+dt@kernel.org>, <lgirdwood@gmail.com>,
+ <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-input@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+ <mathias.nyman@intel.com>, <perex@perex.cz>,
+ <pierre-louis.bossart@linux.intel.com>, <robh@kernel.org>,
+ <srinivas.kandagatla@linaro.org>, <tiwai@suse.com>
+Subject: Re: [PATCH v32 01/32] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+Message-ID: <20250114150847.1c3c9ebe@foxbook>
+In-Reply-To: <f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
+References: <20250113143632.63c52d74@foxbook>
+	<f8a9e454-72f4-4979-b29d-109700b2a204@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue 14 Jan 2025 at 19:20, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
+Thanks, I think I now see how this is meant to work.
 
->>>> +
->>>> +MODULE_DESCRIPTION("Amlogic to codec driver");
->>>> +MODULE_AUTHOR("jiebing.chen@amlogic.com");
->>>> +MODULE_LICENSE("GPL");
->>>> diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
->>>> index
->>>> 571f65788c592050abdca264f5656d4d1a9d99f6..2db1cd18cf2cea507f3d7282054e=
-03d953586648
->>>> 100644
->>>> --- a/sound/soc/meson/t9015.c
->>>> +++ b/sound/soc/meson/t9015.c
->>>> @@ -89,10 +89,7 @@ static struct snd_soc_dai_driver t9015_dai =3D {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 .channels_min =3D 1,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 .channels_max =3D 2,
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 .rates =3D SNDRV_PCM_RATE_8000_96000,
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 .formats =3D (SNDRV_PCM_FMTBIT_S8 |
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- SNDRV_PCM_FMTBIT_S16_LE |
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- SNDRV_PCM_FMTBIT_S20_LE |
->>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- SNDRV_PCM_FMTBIT_S24_LE),
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 .formats =3D (SNDRV_PCM_FMTBIT_S16_LE |
->>>> SNDRV_PCM_FMTBIT_S32_LE),
->>> Again, mixed up changes with zero justification.
->>>
->>> This drops S8 and S16 format support for the existing SoCs (such as GXL)
->>> which is known to work and add S32 support on an HW documented as 24bits
->>> only. Can you explain ?
->
-> for g12a, sm1 etc, it is use new audio ip, GXL is old ip,
 
-If there are chips difference we did not know about, then you should
-introduce those difference, without breaking existing support -
-including for GXL, which is what you did IIUC.
+Cover leter mostly discusses the ALSA side of things, but not low level
+details of xHCI operation, such as who will be ringing doorbells and
+how, handling IRQs, updating event ring dequeue, or handling halted EPs.
 
-> the new ip not support 24 bit,
+So for the record, as far as I see:
+1. There is no API for ringing doorbells or even getting a pointer,
+   the coprocessor needs to have its own access. Fair enough.
+2. Same for event ring dequeue, but the driver must clean up leftover
+   unacknowledged events after sideband operation stops.
+3. Linux IRQ handler never needs to worry about sideband interrupts.
+4. Resetting halted endpoints is not implemented at all, I think?
+   So this code is currently mostly useful with isochronous.
 
-Are sure about that ? that code has been there for a while.
 
-If sm1 does not support SNDRV_PCM_FMTBIT_S24_LE, you should a fix up patch =
-for
-that, with the proper "Fixes:" tag, how to reproduce the problem and
-explaining the fix.
+And the 'skip_events' flag only exists to enable ring cleanup when the
+interrupter is removed? In such case I think it's overkill.
 
->
-> usually support 16/32 bit for new audio ip , for SNDRV_PCM_FMTBIT_S24_LE,
-> it width =3D24, phy =3D32
+The code would be simpler and its intent more visible if 'skip_events'
+were a new parameter of xhci_handle_events(). Existing IRQ would call
+the function normally, while xhci_skip_sec_intr_events() would use the
+new parameter to suppress event handling in this one special case.
 
-Yes physical of SNDRV_PCM_FMTBIT_S24_LE, so most chip supporting 32 bits
-width would support this S24_LE, unless there is something odd.
+It would be immediately clear that skipping only applies on removal.
 
->
-> it was=C2=A0 treated as 32 bit to send for tdm, so we can only add the S3=
-2LE
-> base on it , right ?
+You could completely get rid of PATCH 01/32 because 02/32 would no
+longer need to set this flag on the interrupter, and the 'if' branch
+adedd by 01/32 could go into 03/32 where it logically belongs.
 
-You are asking me ? How am I suppose to know ?
+Just a suggestion. I simply don't see any need to have a flag which
+causes events on a ring to always be skipped as a matter of policy.
+Your code doesn't seem to require it. Probably nobody ever will.
 
-> but if the gxl not support the 32bit
 
-I don't see a problem with a DAC taking input on 32bits physical
-interface and ignoring some bit on processing.
-
-If that's not the case, please send a proper fix change with some explanati=
-on
-
->
-> we need add new snd_soc_dai_driver t9015_dai_s4 ?
->
-
-If I understood correctly format depends on the chip and needs to
-adjusted including for sm1.=20
-
->>>
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ops =3D &t9015_dai_ops,
->>>> =C2=A0 };
->>> -- Jerome
-
---=20
-Jerome
+Regards,
+Michal
