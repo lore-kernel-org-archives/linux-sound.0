@@ -1,70 +1,87 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF0F20C010
-	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 20:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B65A81459FD
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 20:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736885253; cv=none; b=QkdevEOYxN/iUeoFmOBE2uLBV6avNtAOdTYbjdJM7Q7xBIZGH9gs2HcjLq38FdRePEHMaPWFAlo7v5nVxLhlAt1atRQKQZ5jwlzvLaV8FPa+7azk0HWfsqEidJYP589GHDMBl7PNKfp0tZos325QMflE2yPmtrKxTDSERcROAro=
+	t=1736886971; cv=none; b=IdpulbRYfM//L1ePW7TDXmA/02Z8EvhWB9ps6Rl5eDmmPhAkUKX8RzDKVSYs+JMpxlV2V0qREMUxTCZztia+b3phjm0kpGZsapwUCKiVOU/pm/tku6Zdh87ZJyHnJwCiSDjZIcmeCCWYyzHP91V4CD35tyjlQdvvR/qpsrF7FWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736885253; c=relaxed/simple;
-	bh=7B6kyAiupF62kaPfm1JUZNDYqJWr8hGZNAtwxV5qv1g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T2Ei0ugYhyvl9hSyJRvLch1XkJL7Zclo5Ab4OfQWUrFItrf8Zl4f6t+VkmkCKUQ5QMhlDyNwRck8U0cnKwMgoe3OPZKo55fB33rONiOiJA3LZHx8YD/WvY+6vPL6P84+vZH4fxi1GXf7Ul6vbMQyHnUWNiY9TYOQ5rbaP0XMwFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PxZMTOy4; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1736886971; c=relaxed/simple;
+	bh=ukkkIja32iI6alXYqQ/IJwbxkrTfoSw4yAFk/qnS/hA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rqStPSgOtquhvO6j4QXBOJ3lb/QYDzspwp8roYm2setolOdNhHizNsl6IOJ05GiQhhv3urfTOjFhd1Crc5jLEvRVVNUCPY1Ssi5+980zRP15L4wdzI8XS7mClHprM1mBNH4hXutiBI58XRJiBA3TNcNTAzGpIbGpWPMAA0z2MV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SESh8x1q; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PxZMTOy4"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385db79aafbso493418f8f.1
-        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 12:07:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SESh8x1q"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436284cdbe0so7482335e9.3
+        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 12:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736885249; x=1737490049; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1736886966; x=1737491766; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fk9bg9Fvbyh2/MUDhXbi+FEpTJ36YRKNsAKXHLaeSm0=;
-        b=PxZMTOy4b0iLdPfvJn9B+hi7Z0UjyEymsM7x2v01bB88ulatyLICitrCkO9a2Pc6d1
-         almIWDkfZLBO0KKfN79tKkjK9NexfimF6LujvP4UEtrYOb2h+A6sMiEfehy/KXUy6aHH
-         D/CBST7KUnfiBFaFHqxIgwf4I0MI7QcGBUyhGTvnUC+E/HL//LPBWJLn1UPizBLwgwVa
-         RWb2lijV4DgA6QAvXWV/mCtdtkL1/YTHr7WwCt0sEvAi81VKmpbkaTs4ztBgCYJvCchr
-         aCTHoqnx9Pa0Hb8SFT9b/iJeDwO+DarNGCILBxs6Au54D2cw2BTcsyHww22h68yVQh5g
-         mc8Q==
+        bh=HbH/voKF25Fs4JYbEAVD7Vza/rm5Lq/+qQ/NpgvqfSw=;
+        b=SESh8x1qfGcz5JwBhx/WH2gzgXklEyeeiMcU8OapbMBlekRwbo3mWyZDgLknt0jvfE
+         rV9QWakWe/fwec6O+kyt2xDz6lWexTUVq9lt7oHbNziQix651Jj6Ny3OSOvxFr7YkK9b
+         AeV6Rx8nQZ2vqO1DA0O/uL14ccX7SrLlZrOZ9dkD5VAcTx66CXiYtzP+KzhteCsvldZ3
+         /AIrlQ1chy31ArtCsjiJBQGU6U1gwqsbFi09DoPTiNQ13hJ/rDg2vJnpH0YLIMLY+8fU
+         9DayfLRdr0ozeiMLHFWHhphz2Ox5fuh9lnZgYEQYuNXH8dNNJ82PLOhca951tKeekcM8
+         JfDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736885249; x=1737490049;
+        d=1e100.net; s=20230601; t=1736886966; x=1737491766;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fk9bg9Fvbyh2/MUDhXbi+FEpTJ36YRKNsAKXHLaeSm0=;
-        b=iLTLiFUjGs4XfdiPeESmrRyPleQ2yFmPWnljbeb6ogDvvrgn9hsbKtRJ+Nfs/fqly8
-         W7SCCntvEPVV5YYpSDAy3IybkQpq9Hkkl7H8uoomPaSwDEoejPhSupPTtwYOJmncys5X
-         7+fe9GYd2f/dKDzjekU19uqhOL0BE8Rb+vwtZsQTUDAdkUUh+VKj66Z7628afF1QVu1x
-         d+6vpB0eYA7MMyYVqi8sVW8CCnbJSyjiQ8q0gt2Nl4DHeVBzLKf+iMEsZ6Yt4nKAikXC
-         34YD8jMOcc4zt/MYPUW75WLM8eA18aU+IVNlJtZf1jwP7eIux7J4EsgUeZ4WDNKZMo4s
-         fpOw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWnajItlaH6iouRzI5+mgjHGOJHSzjuy+Gwt8gjsFd5MDXHdmJxA1ajXgLdiY+4zcZksvoGONDm0Iycg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUWNzZHOqWEhkIWCJMbgXYF5zXAheT7edstbMh41dCbm5uZgWa
-	kZHQpVoB3fQPDC7KPcezdMZjyIbjMnMjZaQP56w6oUOHFsOqHSRYAgtNrgk10JE=
-X-Gm-Gg: ASbGncu4SjLemUVlFMmvdlwzzy0fSXehsTui8Pl8oIVkfqec3zbHbWyY1+iMdioY8w7
-	hknrGmLGhtxyOiCKReCBi1CEUREGEXB8sXpUHO3SJNyKAMUCTaLT0Dmbt75jk+iBMvGvrJvKmf3
-	UR6yHuE3cCb4/T4AZXNOqrHqVrxiq3xF5dUChOVDLN/LaEGsRYeJt+LlDE9qukmYBnNlZl2yFET
-	Xd2hNb9wrnQe4/U4XZLgW4V2S705U6F1tMNfF0aA2kkvPIWaHuxZjZToXRMYs2PfNvyudg=
-X-Google-Smtp-Source: AGHT+IG4QNSfKEGdbODnRfkgtkES/VQLAMYQWTj1XLLF8uY1GBB4vrLQlygciFe4X+jQEBLErZI9+w==
-X-Received: by 2002:a05:600c:35c2:b0:434:941c:9df2 with SMTP id 5b1f17b1804b1-436e272c89cmr94469765e9.8.1736885249454;
-        Tue, 14 Jan 2025 12:07:29 -0800 (PST)
+        bh=HbH/voKF25Fs4JYbEAVD7Vza/rm5Lq/+qQ/NpgvqfSw=;
+        b=dpLI/pZJ7zs5IjFQApB4gVXuPH+VyoS4uEo86SknC7UgfeaLyiVUYkLWSMQafPWWSI
+         pvzpsFImiyFEKi1WMEDujSQHHR85bAj45f9Swl5K7m3dNuUelmu1WZ//PcNW8g7gL4m4
+         /9ZbeUPPxnDXqPav7ZdjJSGmneK8PeDM9uZIQZVj0BZgFwGKiHhGonbtK/9xUl/xBD3q
+         dx6xR+8XQfdnKZxN+J/wq4v/rek2YcHL8RJjDNhOtX2qJtPVB9zpMGnGGbuT8RaHH8Bx
+         tH1BJdkM6K19dRESkHOpxEh8YxSrE2k1wA6QdKfxLDVotPSwwnyKqrn3RnHOBIGoWMSb
+         p4gw==
+X-Forwarded-Encrypted: i=1; AJvYcCXx5T8svdO+sYUzvPw3ZmcLq6rbklPKIEohBLeN2rLbhnwhkHP7QlyBrII64JA343Nl7jWiQx8yfR8RVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDTwiC+Jd6ymcJ033FBcDIUlNBkKMj0VQBZ1Gzbc8Q2kBpChs3
+	aAGIeeHg5HocuvgU9RihAl/FP5Jx2WUbXL2nYH0hEW6N25Wp6CPENnK+R/H1EZQ=
+X-Gm-Gg: ASbGncsNTGXQl3UeBjIbyoaCsCRzaGEI26/eQA6a5oOxMO6vYc6/pzr5eDYFzlfO7l6
+	sWG6la7FLhKTmonXuKzhQ3tLu/TnQPChkD3Vo6hZ+1or5Z8yjAK1OIpJ52o9O9YuT5W++ms3gUH
+	Uz4TrAkw6/X7DyGFCGGgfS8UX61twOkDDppcpLPP/PVs/WLuFVEkIOJVUpi0pw17dAUAqmklRXr
+	zwr4RXRRCX9nFF60CA3Hk5UWvTl5dxJfRTqt6JZqhkOTokqn+OqrQ8gEZuZ05zabBBmTFA=
+X-Google-Smtp-Source: AGHT+IEmnDRCiFUzVpMMNcRLd0A3Y1MS6nFOyUmHSYtTVhJ7ylQMchNI3gHDhJrSomau6Vg1xNwZJg==
+X-Received: by 2002:a05:600c:1c1a:b0:42c:bfd6:9d2f with SMTP id 5b1f17b1804b1-436e26867ebmr101130925e9.1.1736886966041;
+        Tue, 14 Jan 2025 12:36:06 -0800 (PST)
 Received: from krzk-bin.. ([178.197.223.165])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e9e62333sm183268835e9.36.2025.01.14.12.07.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-436e2dc05a1sm224190415e9.15.2025.01.14.12.36.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 12:07:28 -0800 (PST)
+        Tue, 14 Jan 2025 12:36:05 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Vinod Koul <vkoul@kernel.org>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Sanyog Kale <sanyog.r.kale@intel.com>,
+To: Ray Jui <rjui@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
 	linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-msm@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org
 Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] soundwire: Use str_enable_disable-like helpers
-Date: Tue, 14 Jan 2025 21:07:26 +0100
-Message-ID: <20250114200726.969501-1-krzysztof.kozlowski@linaro.org>
+Subject: [PATCH] pinctrl: Use str_enable_disable-like helpers
+Date: Tue, 14 Jan 2025 21:36:02 +0100
+Message-ID: <20250114203602.1013275-1-krzysztof.kozlowski@linaro.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
@@ -86,83 +103,393 @@ from string_choices.h because:
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 ---
- drivers/soundwire/bus.c     | 5 +++--
- drivers/soundwire/debugfs.c | 3 ++-
- drivers/soundwire/stream.c  | 3 ++-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ drivers/pinctrl/bcm/pinctrl-nsp-gpio.c     |  3 ++-
+ drivers/pinctrl/cirrus/pinctrl-lochnagar.c |  3 ++-
+ drivers/pinctrl/nomadik/pinctrl-abx500.c   |  5 +++--
+ drivers/pinctrl/nomadik/pinctrl-nomadik.c  |  7 ++++---
+ drivers/pinctrl/pinctrl-amd.c              |  3 ++-
+ drivers/pinctrl/pinctrl-gemini.c           | 11 ++++++-----
+ drivers/pinctrl/pinctrl-stmfx.c            |  2 +-
+ drivers/pinctrl/qcom/pinctrl-msm.c         |  3 ++-
+ drivers/pinctrl/qcom/pinctrl-spmi-gpio.c   |  3 ++-
+ drivers/pinctrl/qcom/pinctrl-spmi-mpp.c    |  3 ++-
+ drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c   |  3 ++-
+ drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c    | 10 ++++------
+ drivers/pinctrl/samsung/pinctrl-exynos.c   |  3 ++-
+ drivers/pinctrl/stm32/pinctrl-stm32.c      |  5 +++--
+ 14 files changed, 37 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/soundwire/bus.c b/drivers/soundwire/bus.c
-index 9b295fc9acd5..25120aa3bd67 100644
---- a/drivers/soundwire/bus.c
-+++ b/drivers/soundwire/bus.c
-@@ -8,6 +8,7 @@
- #include <linux/soundwire/sdw_registers.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_type.h>
-+#include <linux/string_choices.h>
- #include "bus.h"
- #include "irq.h"
- #include "sysfs_local.h"
-@@ -277,7 +278,7 @@ static int sdw_transfer_unlocked(struct sdw_bus *bus, struct sdw_msg *msg)
- 	if (ret != 0 && ret != -ENODATA)
- 		dev_err(bus->dev, "trf on Slave %d failed:%d %s addr %x count %d\n",
- 			msg->dev_num, ret,
--			(msg->flags & SDW_MSG_FLAG_WRITE) ? "write" : "read",
-+			str_write_read(msg->flags & SDW_MSG_FLAG_WRITE),
- 			msg->addr, msg->len);
- 
- 	return ret;
-@@ -1263,7 +1264,7 @@ int sdw_configure_dpn_intr(struct sdw_slave *slave,
- 
- 	if (slave->bus->params.s_data_mode != SDW_PORT_DATA_MODE_NORMAL) {
- 		dev_dbg(&slave->dev, "TEST FAIL interrupt %s\n",
--			enable ? "on" : "off");
-+			str_on_off(enable));
- 		mask |= SDW_DPN_INT_TEST_FAIL;
- 	}
- 
-diff --git a/drivers/soundwire/debugfs.c b/drivers/soundwire/debugfs.c
-index c30f571934ee..5bf0d9552433 100644
---- a/drivers/soundwire/debugfs.c
-+++ b/drivers/soundwire/debugfs.c
-@@ -10,6 +10,7 @@
+diff --git a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+index 84af6aae36d1..a96be8f244e0 100644
+--- a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
++++ b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+@@ -21,6 +21,7 @@
+ #include <linux/pinctrl/pinctrl.h>
+ #include <linux/platform_device.h>
  #include <linux/slab.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_registers.h>
 +#include <linux/string_choices.h>
- #include "bus.h"
  
- static struct dentry *sdw_debugfs_root;
-@@ -153,7 +154,7 @@ static int set_command(void *data, u64 value)
- 	/* Userspace changed the hardware state behind the kernel's back */
- 	add_taint(TAINT_USER, LOCKDEP_STILL_OK);
+ #include "../pinctrl-utils.h"
  
--	dev_dbg(&slave->dev, "command: %s\n", value ? "read" : "write");
-+	dev_dbg(&slave->dev, "command: %s\n", str_read_write(value));
- 	cmd = value;
+@@ -254,7 +255,7 @@ static int nsp_gpio_irq_set_type(struct irq_data *d, unsigned int type)
+ 	raw_spin_unlock_irqrestore(&chip->lock, flags);
+ 
+ 	dev_dbg(chip->dev, "gpio:%u level_low:%s falling:%s\n", gpio,
+-		level_low ? "true" : "false", falling ? "true" : "false");
++		str_true_false(level_low), str_true_false(falling));
+ 	return 0;
+ }
+ 
+diff --git a/drivers/pinctrl/cirrus/pinctrl-lochnagar.c b/drivers/pinctrl/cirrus/pinctrl-lochnagar.c
+index 014297a3fbd2..0f32866a4aef 100644
+--- a/drivers/pinctrl/cirrus/pinctrl-lochnagar.c
++++ b/drivers/pinctrl/cirrus/pinctrl-lochnagar.c
+@@ -15,6 +15,7 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
++#include <linux/string_choices.h>
+ 
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -1068,7 +1069,7 @@ static void lochnagar_gpio_set(struct gpio_chip *chip,
+ 	value = !!value;
+ 
+ 	dev_dbg(priv->dev, "Set GPIO %s to %s\n",
+-		pin->name, value ? "high" : "low");
++		pin->name, str_high_low(value));
+ 
+ 	switch (pin->type) {
+ 	case LN_PTYPE_MUX:
+diff --git a/drivers/pinctrl/nomadik/pinctrl-abx500.c b/drivers/pinctrl/nomadik/pinctrl-abx500.c
+index 4ce2e35a6373..8cd4ba5cf0bd 100644
+--- a/drivers/pinctrl/nomadik/pinctrl-abx500.c
++++ b/drivers/pinctrl/nomadik/pinctrl-abx500.c
+@@ -22,6 +22,7 @@
+ #include <linux/property.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ 
+ #include <linux/mfd/abx500.h>
+@@ -496,7 +497,7 @@ static void abx500_gpio_dbg_show_one(struct seq_file *s,
+ 
+ 		seq_printf(s, " %-9s", pull_up_down[pd]);
+ 	} else
+-		seq_printf(s, " %-9s", chip->get(chip, offset) ? "hi" : "lo");
++		seq_printf(s, " %-9s", str_hi_lo(chip->get(chip, offset)));
+ 
+ 	mode = abx500_get_mode(pctldev, chip, offset);
+ 
+@@ -865,7 +866,7 @@ static int abx500_pin_config_set(struct pinctrl_dev *pctldev,
+ 			pin, configs[i],
+ 			(param == PIN_CONFIG_OUTPUT) ? "output " : "input",
+ 			(param == PIN_CONFIG_OUTPUT) ?
+-			(argument ? "high" : "low") :
++			str_high_low(argument) :
+ 			(argument ? "pull up" : "pull down"));
+ 
+ 		/* on ABx500, there is no GPIO0, so adjust the offset */
+diff --git a/drivers/pinctrl/nomadik/pinctrl-nomadik.c b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+index dcc662be0800..8940e04fcf4c 100644
+--- a/drivers/pinctrl/nomadik/pinctrl-nomadik.c
++++ b/drivers/pinctrl/nomadik/pinctrl-nomadik.c
+@@ -28,6 +28,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ 
+ /* Since we request GPIOs from ourself */
+@@ -1125,15 +1126,15 @@ static int nmk_pin_config_set(struct pinctrl_dev *pctldev, unsigned int pin,
+ 				slpm_pull ? pullnames[pull] : "same",
+ 				slpm_output ? (output ? "output" : "input")
+ 				: "same",
+-				slpm_val ? (val ? "high" : "low") : "same");
++				slpm_val ? str_high_low(val) : "same");
+ 		}
+ 
+ 		dev_dbg(nmk_chip->chip.parent,
+ 			"pin %d [%#lx]: pull %s, slpm %s (%s%s), lowemi %s\n",
+ 			pin, cfg, pullnames[pull], slpmnames[slpm],
+ 			output ? "output " : "input",
+-			output ? (val ? "high" : "low") : "",
+-			lowemi ? "on" : "off");
++			output ? str_high_low(val) : "",
++			str_on_off(lowemi));
+ 
+ 		ret = clk_enable(nmk_chip->clk);
+ 		if (ret)
+diff --git a/drivers/pinctrl/pinctrl-amd.c b/drivers/pinctrl/pinctrl-amd.c
+index fff6d4209ad5..6d395a528f55 100644
+--- a/drivers/pinctrl/pinctrl-amd.c
++++ b/drivers/pinctrl/pinctrl-amd.c
+@@ -30,6 +30,7 @@
+ #include <linux/pinctrl/pinconf.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinmux.h>
++#include <linux/string_choices.h>
+ #include <linux/suspend.h>
+ 
+ #include "core.h"
+@@ -458,7 +459,7 @@ static int amd_gpio_irq_set_wake(struct irq_data *d, unsigned int on)
+ 
+ 	if (err)
+ 		dev_err(&gpio_dev->pdev->dev, "failed to %s wake-up interrupt\n",
+-			on ? "enable" : "disable");
++			str_enable_disable(on));
  
  	return 0;
-diff --git a/drivers/soundwire/stream.c b/drivers/soundwire/stream.c
-index e9df503332bb..dd8de88d8b46 100644
---- a/drivers/soundwire/stream.c
-+++ b/drivers/soundwire/stream.c
+ }
+diff --git a/drivers/pinctrl/pinctrl-gemini.c b/drivers/pinctrl/pinctrl-gemini.c
+index 631612539af7..e9f61927858d 100644
+--- a/drivers/pinctrl/pinctrl-gemini.c
++++ b/drivers/pinctrl/pinctrl-gemini.c
 @@ -14,6 +14,7 @@
- #include <linux/soundwire/sdw_registers.h>
- #include <linux/soundwire/sdw.h>
- #include <linux/soundwire/sdw_type.h>
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
 +#include <linux/string_choices.h>
- #include <sound/soc.h>
- #include "bus.h"
  
-@@ -358,7 +359,7 @@ static int sdw_enable_disable_master_ports(struct sdw_master_runtime *m_rt,
- 	} else {
- 		dev_err(bus->dev,
- 			"dpn_port_enable_ch not supported, %s failed\n",
--			en ? "enable" : "disable");
-+			str_enable_disable(en));
- 		return -EINVAL;
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -2237,7 +2238,7 @@ static int gemini_pmx_set_mux(struct pinctrl_dev *pctldev,
+ 				"pin group %s could not be %s: "
+ 				"probably a hardware limitation\n",
+ 				gemini_padgroups[i],
+-				enabled ? "enabled" : "disabled");
++				str_enabled_disabled(enabled));
+ 			dev_err(pmx->dev,
+ 				"GLOBAL MISC CTRL before: %08x, after %08x, expected %08x\n",
+ 				before, after, expected);
+@@ -2245,7 +2246,7 @@ static int gemini_pmx_set_mux(struct pinctrl_dev *pctldev,
+ 			dev_dbg(pmx->dev,
+ 				"padgroup %s %s\n",
+ 				gemini_padgroups[i],
+-				enabled ? "enabled" : "disabled");
++				str_enabled_disabled(enabled));
+ 		}
  	}
  
+@@ -2259,7 +2260,7 @@ static int gemini_pmx_set_mux(struct pinctrl_dev *pctldev,
+ 				"pin group %s could not be %s: "
+ 				"probably a hardware limitation\n",
+ 				gemini_padgroups[i],
+-				enabled ? "enabled" : "disabled");
++				str_enabled_disabled(enabled));
+ 			dev_err(pmx->dev,
+ 				"GLOBAL MISC CTRL before: %08x, after %08x, expected %08x\n",
+ 				before, after, expected);
+@@ -2267,7 +2268,7 @@ static int gemini_pmx_set_mux(struct pinctrl_dev *pctldev,
+ 			dev_dbg(pmx->dev,
+ 				"padgroup %s %s\n",
+ 				gemini_padgroups[i],
+-				enabled ? "enabled" : "disabled");
++				str_enabled_disabled(enabled));
+ 		}
+ 	}
+ 
+@@ -2588,7 +2589,7 @@ static int gemini_pmx_probe(struct platform_device *pdev)
+ 	tmp = val;
+ 	for_each_set_bit(i, &tmp, PADS_MAXBIT) {
+ 		dev_dbg(dev, "pad group %s %s\n", gemini_padgroups[i],
+-			(val & BIT(i)) ? "enabled" : "disabled");
++			str_enabled_disabled(val & BIT(i)));
+ 	}
+ 
+ 	/* Check if flash pin is set */
+diff --git a/drivers/pinctrl/pinctrl-stmfx.c b/drivers/pinctrl/pinctrl-stmfx.c
+index 521f6fef0b9f..aae01120dc52 100644
+--- a/drivers/pinctrl/pinctrl-stmfx.c
++++ b/drivers/pinctrl/pinctrl-stmfx.c
+@@ -380,7 +380,7 @@ static void stmfx_pinconf_dbg_show(struct pinctrl_dev *pctldev,
+ 		seq_printf(s, "input %s ", str_high_low(val));
+ 		if (type)
+ 			seq_printf(s, "with internal pull-%s ",
+-				   pupd ? "up" : "down");
++				   str_up_down(pupd));
+ 		else
+ 			seq_printf(s, "%s ", pupd ? "floating" : "analog");
+ 	}
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
+index ec913c2e200f..47daa47153c9 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.c
++++ b/drivers/pinctrl/qcom/pinctrl-msm.c
+@@ -19,6 +19,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/string_choices.h>
+ 
+ #include <linux/pinctrl/machine.h>
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -714,7 +715,7 @@ static void msm_gpio_dbg_show_one(struct seq_file *s,
+ 	}
+ 
+ 	seq_printf(s, " %-8s: %-3s", g->grp.name, is_out ? "out" : "in");
+-	seq_printf(s, " %-4s func%d", val ? "high" : "low", func);
++	seq_printf(s, " %-4s func%d", str_high_low(val), func);
+ 	seq_printf(s, " %dmA", msm_regval_to_drive(drive));
+ 	if (pctrl->soc->pull_no_keeper)
+ 		seq_printf(s, " %s", pulls_no_keeper[pull]);
+diff --git a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
+index 0c806b8128b6..c8ce61066070 100644
+--- a/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
++++ b/drivers/pinctrl/qcom/pinctrl-spmi-gpio.c
+@@ -14,6 +14,7 @@
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
+ #include <linux/spmi.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -702,7 +703,7 @@ static void pmic_gpio_config_dbg_show(struct pinctrl_dev *pctldev,
+ 		else
+ 			seq_printf(s, " %-4s",
+ 					pad->output_enabled ? "out" : "in");
+-		seq_printf(s, " %-4s", pad->out_value ? "high" : "low");
++		seq_printf(s, " %-4s", str_high_low(pad->out_value));
+ 		seq_printf(s, " %-7s", pmic_gpio_functions[function]);
+ 		seq_printf(s, " vin-%d", pad->power_source);
+ 		seq_printf(s, " %-27s", biases[pad->pullup]);
+diff --git a/drivers/pinctrl/qcom/pinctrl-spmi-mpp.c b/drivers/pinctrl/qcom/pinctrl-spmi-mpp.c
+index 84de584cf7eb..7b28c5fb2402 100644
+--- a/drivers/pinctrl/qcom/pinctrl-spmi-mpp.c
++++ b/drivers/pinctrl/qcom/pinctrl-spmi-mpp.c
+@@ -11,6 +11,7 @@
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ #include <linux/types.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+@@ -544,7 +545,7 @@ static void pmic_mpp_config_dbg_show(struct pinctrl_dev *pctldev,
+ 		seq_printf(s, " %d", pad->aout_level);
+ 		if (pad->has_pullup)
+ 			seq_printf(s, " %-8s", biases[pad->pullup]);
+-		seq_printf(s, " %-4s", pad->out_value ? "high" : "low");
++		seq_printf(s, " %-4s", str_high_low(pad->out_value));
+ 		if (pad->dtest)
+ 			seq_printf(s, " dtest%d", pad->dtest);
+ 		if (pad->paired)
+diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+index 2225dc49d477..82679417e25f 100644
+--- a/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
++++ b/drivers/pinctrl/qcom/pinctrl-ssbi-gpio.c
+@@ -13,6 +13,7 @@
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinconf.h>
+@@ -569,7 +570,7 @@ static void pm8xxx_gpio_dbg_show_one(struct seq_file *s,
+ 		seq_printf(s, " VIN%d", pin->power_source);
+ 		seq_printf(s, " %-27s", biases[pin->bias]);
+ 		seq_printf(s, " %-10s", buffer_types[pin->open_drain]);
+-		seq_printf(s, " %-4s", pin->output_value ? "high" : "low");
++		seq_printf(s, " %-4s", str_high_low(pin->output_value));
+ 		seq_printf(s, " %-7s", strengths[pin->output_strength]);
+ 		if (pin->inverted)
+ 			seq_puts(s, " inverted");
+diff --git a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
+index 9b1039c08aa6..4841bbfe4864 100644
+--- a/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
++++ b/drivers/pinctrl/qcom/pinctrl-ssbi-mpp.c
+@@ -13,6 +13,7 @@
+ #include <linux/regmap.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <linux/pinctrl/pinconf-generic.h>
+ #include <linux/pinctrl/pinconf.h>
+@@ -576,8 +577,7 @@ static void pm8xxx_mpp_dbg_show_one(struct seq_file *s,
+ 			seq_puts(s, "out ");
+ 
+ 			if (!pin->paired) {
+-				seq_puts(s, pin->output_value ?
+-					 "high" : "low");
++				seq_puts(s, str_high_low(pin->output_value));
+ 			} else {
+ 				seq_puts(s, pin->output_value ?
+ 					 "inverted" : "follow");
+@@ -589,8 +589,7 @@ static void pm8xxx_mpp_dbg_show_one(struct seq_file *s,
+ 		if (pin->output) {
+ 			seq_printf(s, "out %s ", aout_lvls[pin->aout_level]);
+ 			if (!pin->paired) {
+-				seq_puts(s, pin->output_value ?
+-					 "high" : "low");
++				seq_puts(s, str_high_low(pin->output_value));
+ 			} else {
+ 				seq_puts(s, pin->output_value ?
+ 					 "inverted" : "follow");
+@@ -605,8 +604,7 @@ static void pm8xxx_mpp_dbg_show_one(struct seq_file *s,
+ 			seq_printf(s, "dtest%d", pin->dtest);
+ 		} else {
+ 			if (!pin->paired) {
+-				seq_puts(s, pin->output_value ?
+-					 "high" : "low");
++				seq_puts(s, str_high_low(pin->output_value));
+ 			} else {
+ 				seq_puts(s, pin->output_value ?
+ 					 "inverted" : "follow");
+diff --git a/drivers/pinctrl/samsung/pinctrl-exynos.c b/drivers/pinctrl/samsung/pinctrl-exynos.c
+index ac6dc22b37c9..42093bae8bb7 100644
+--- a/drivers/pinctrl/samsung/pinctrl-exynos.c
++++ b/drivers/pinctrl/samsung/pinctrl-exynos.c
+@@ -23,6 +23,7 @@
+ #include <linux/of_irq.h>
+ #include <linux/slab.h>
+ #include <linux/spinlock.h>
++#include <linux/string_choices.h>
+ #include <linux/regmap.h>
+ #include <linux/err.h>
+ #include <linux/soc/samsung/exynos-pmu.h>
+@@ -442,7 +443,7 @@ static int exynos_wkup_irq_set_wake(struct irq_data *irqd, unsigned int on)
+ 	struct samsung_pin_bank *bank = irq_data_get_irq_chip_data(irqd);
+ 	unsigned long bit = 1UL << (2 * bank->eint_offset + irqd->hwirq);
+ 
+-	pr_info("wake %s for irq %u (%s-%lu)\n", on ? "enabled" : "disabled",
++	pr_info("wake %s for irq %u (%s-%lu)\n", str_enabled_disabled(on),
+ 		irqd->irq, bank->name, irqd->hwirq);
+ 
+ 	if (!on)
+diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
+index 5b7fa77c1184..563dd3abd428 100644
+--- a/drivers/pinctrl/stm32/pinctrl-stm32.c
++++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
+@@ -22,6 +22,7 @@
+ #include <linux/reset.h>
+ #include <linux/seq_file.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/pinctrl/machine.h>
+@@ -1217,7 +1218,7 @@ static void stm32_pconf_dbg_show(struct pinctrl_dev *pctldev,
+ 	case 0:
+ 		val = stm32_pconf_get(bank, offset, true);
+ 		seq_printf(s, "- %s - %s",
+-			   val ? "high" : "low",
++			   str_high_low(val),
+ 			   biasing[bias]);
+ 		break;
+ 
+@@ -1227,7 +1228,7 @@ static void stm32_pconf_dbg_show(struct pinctrl_dev *pctldev,
+ 		speed = stm32_pconf_get_speed(bank, offset);
+ 		val = stm32_pconf_get(bank, offset, false);
+ 		seq_printf(s, "- %s - %s - %s - %s %s",
+-			   val ? "high" : "low",
++			   str_high_low(val),
+ 			   drive ? "open drain" : "push pull",
+ 			   biasing[bias],
+ 			   speeds[speed], "speed");
 -- 
 2.43.0
 
