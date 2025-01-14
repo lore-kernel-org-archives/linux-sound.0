@@ -1,189 +1,114 @@
-Received: from fw2.prolan.hu (fw2.prolan.hu [193.68.50.107])
+Received: from mail1.perex.cz (mail1.perex.cz [77.48.224.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BF61CBE95;
-	Tue, 14 Jan 2025 09:59:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.68.50.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B8A1ADC60
+	for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 10:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.48.224.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736848789; cv=none; b=eOWdcDupFeMotbfElZBj4JEN72gEkF6lLEBMYggUAqa/845xsuKAtJjy1IkIYjsY7bx6NTQYyQUathLrD7RV5A2CDmb9C/mePIqU/oUkkFNqYsVaaWAl9H6WphrnOff/tbYTfNODml85eiX0CrMW02kjky/BUJ4uuvT5NaOtJ2w=
+	t=1736850318; cv=none; b=WhZV2xIuivINOti+xBz/l3Pn9U7K2zeGU4t+2PFsAdkyVh4Nwjrj68qGiGMBI05LX/waMtGOi8SOcAdiGKb81mTI6UuQLs8XbC8byUHzBi4fmzxu2TP2Cf23Ul079jGPYM8XMGUEoMkFxlKn46tOnDf7jmKIRwfhfUNdm+DqSlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736848789; c=relaxed/simple;
-	bh=7/3z6S5SUm+jJ4qxcZc4MrW49/k7CUcxLf+113y6sVE=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=u1EwsG60AXlKyou1ED9we9b5ZtMRgYjopvRKbVWGTYH34mxBC43kR0eX/fgNcsZooKPoUYJmFi7sTBpS2DHmIId07yMsEdLJWj049Gs/4OKdiZyNU2iIb+GA/V6bBisnZgCOQKpMk3/aW9LW7nLxlf0Y3volg34xwpUFuZ0xxCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu; spf=pass smtp.mailfrom=prolan.hu; dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b=Vlx49ypu; arc=none smtp.client-ip=193.68.50.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=prolan.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=prolan.hu
+	s=arc-20240116; t=1736850318; c=relaxed/simple;
+	bh=+mYRxSZgMPKR0OlpSWj/yFMFRYa/Oj03aW0IgjkT4CY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RCACVM/67UcUqKxZlqHNwcuCaS9AgDMIv7Hh8JaaYcCuTVAmzsQYCqaxq+f463PpddNoq+gb6QGRIvfPIh92KwNzP+zKZ34NTa+HSV4FXO4Be3q3PgD1yiUK4Mo1jluJOLw6IpSMn7qUOfrB6fkxo7yFXPNa8EA+baM88j/CV1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz; spf=pass smtp.mailfrom=perex.cz; dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b=kNE2Fix2; arc=none smtp.client-ip=77.48.224.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=perex.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perex.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=prolan.hu header.i=@prolan.hu header.b="Vlx49ypu"
-Received: from proxmox-mailgw.intranet.prolan.hu (localhost.localdomain [127.0.0.1])
-	by proxmox-mailgw.intranet.prolan.hu (Proxmox) with ESMTP id 0943CA0AB9;
-	Tue, 14 Jan 2025 10:59:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prolan.hu; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:from:from:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=mail; bh=jzX5EdLsCWjyFAlDUCXLOh7T18XLl+qs3XwQKiuLtpU=; b=
-	Vlx49ypumGK4OYALTAT+3gqfJ37n+GyTzB9YcrZhg4vvDhSSXP/xgqjghbq3BqkW
-	99auOeXdbCUZ/ZT1f1KuE3Y0OgBfTHzApliAmgk0bpCmqMvb3P1ZulajE03l3TCo
-	yACcZa9AKvEJS+SCqDZJkFY8x/ESB2BXHCn61BINGXdaj/W/+OcE+H+4joKcu4zB
-	0CXsVUDJRekrWNSKsedX2WBW7wARoKGpDmsfbzeVCQxkoRDKdcJtVnDq9kQDWj8T
-	xjHEei3Zn+R/2PSfguprp4vBMnjwM0GeE3NXfKWXfoCX7bmq4KFALUXH1fBjLIgY
-	XT/oBNBDJNiiS3MgerUjOFfZW+h1ZHHaFfGm3IJaZi+KojaP1Ov8FThP6qBWhd0z
-	Jsw+WxsRA1xi+SZSOKjB0QS7bppm26gDhbdVKCzBiX/MYpmTerSN5/ny00JYxfsX
-	YwOAWTAg+kxjRjXp/S3gjCDgmhfmtxoMdsvOSWAMf3l2DPj0kcNvCQqmgAY1lE9S
-	+HM+gknf3avJybCVpjZA0FGquknN5qtvAi9EE+BToCLWZ7e+ZHIRxEFj9lEUKAIW
-	xyUn3IVUQpjacz4d0tMSld6wkAnjGMToP3Ekhfe/al0fjBsza13gms7IlZQ5lhzY
-	cOtFNmvn/o5gAQwGtmGlSy+3T+uinoHrX0pY1u4IKmU=
-From: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>
-To: <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: =?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <csokas.bence@prolan.hu>, "Liam
- Girdwood" <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, "Jaroslav
- Kysela" <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Chen-Yu Tsai
-	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
-	<samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v2] ASoC: sun4i-codec: Use new devm clk and reset APIs
-Date: Tue, 14 Jan 2025 10:59:07 +0100
-Message-ID: <20250114095909.798559-1-csokas.bence@prolan.hu>
-X-Mailer: git-send-email 2.48.0
+	dkim=pass (1024-bit key) header.d=perex.cz header.i=@perex.cz header.b="kNE2Fix2"
+Received: from mail1.perex.cz (localhost [127.0.0.1])
+	by smtp1.perex.cz (Perex's E-mail Delivery System) with ESMTP id 88CB24BA0;
+	Tue, 14 Jan 2025 11:25:08 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.perex.cz 88CB24BA0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=perex.cz; s=default;
+	t=1736850309; bh=RnVHmL24vC/snSPmII3gI5/yO/mb2JkcrwbblJyEIuM=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=kNE2Fix2MUczi50lyMb7JyaXLqbPEpDXOUDSNANhAo2yUMMBtKXuo6f7sr0cPu4oV
+	 WzJZ3oTufwBLr4TvX0ivbisqdby1Q0xIK3WvlCO7KlbDTA1LNoeWK3Rts7re+TRML/
+	 BjxX5Ra1Tjkcd7nzyLRHV3wcOnBOZEQRsBjsm94w=
+Received: from [192.168.100.98] (unknown [192.168.100.98])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: perex)
+	by mail1.perex.cz (Perex's E-mail Delivery System) with ESMTPSA;
+	Tue, 14 Jan 2025 11:25:06 +0100 (CET)
+Message-ID: <c44312ea-8995-4027-9616-846e73959eee@perex.cz>
+Date: Tue, 14 Jan 2025 11:25:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ESET-AS: R=OK;S=0;OP=CALC;TIME=1736848776;VERSION=7983;MC=2726077745;ID=287044;TRN=0;CRV=0;IPC=;SP=0;SIPS=0;PI=3;F=0
-X-ESET-Antispam: OK
-X-EsetResult: clean, is OK
-X-EsetId: 37303A2980D9485264766B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] ALSA: rawmidi: Expose the tied device number in info
+ ioctl
+To: Takashi Iwai <tiwai@suse.de>, linux-sound@vger.kernel.org
+References: <20250110155943.31578-1-tiwai@suse.de>
+ <20250110155943.31578-2-tiwai@suse.de>
+Content-Language: en-US
+From: Jaroslav Kysela <perex@perex.cz>
+Autocrypt: addr=perex@perex.cz; keydata=
+ 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
+In-Reply-To: <20250110155943.31578-2-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Clean up error handling by using the new devm_
-clock and reset functions. This should make it
-easier to add new code, as we can eliminate the
-"goto ladder" in probe().
+On 10. 01. 25 16:59, Takashi Iwai wrote:
+> The UMP legacy rawmidi is derived from the UMP rawmidi, but currently
+> there is no way to know which device is involved in other side.
+> 
+> This patch extends the rawmidi info ioctl to show the tied device
+> number.  As default it stores -1, indicating that no tied device.
 
-Signed-off-by: Bence Csókás <csokas.bence@prolan.hu>
----
+Seeing the alsa-lib changes, it may be probably better to keep zero as unknown 
+and define this field as (device number + 1) to avoid bad interpretation for 
+older kernels without protocol version checks.
 
-Notes:
-    Changes in v2:
-    * remove unused `scodec` var
-    * rebase onto current for-next
+					Jaroslav
 
- sound/soc/sunxi/sun4i-codec.c | 42 ++++++-----------------------------
- 1 file changed, 7 insertions(+), 35 deletions(-)
-
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 3d6156fefe75..886b3fa537d2 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -2273,7 +2273,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	/* Get the clocks from the DT */
--	scodec->clk_apb = devm_clk_get(&pdev->dev, "apb");
-+	scodec->clk_apb = devm_clk_get_enabled(&pdev->dev, "apb");
- 	if (IS_ERR(scodec->clk_apb)) {
- 		dev_err(&pdev->dev, "Failed to get the APB clock\n");
- 		return PTR_ERR(scodec->clk_apb);
-@@ -2286,8 +2286,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	}
- 
- 	if (quirks->has_reset) {
--		scodec->rst = devm_reset_control_get_exclusive(&pdev->dev,
--							       NULL);
-+		scodec->rst = devm_reset_control_get_exclusive_deasserted(&pdev->dev, NULL);
- 		if (IS_ERR(scodec->rst)) {
- 			dev_err(&pdev->dev, "Failed to get reset control\n");
- 			return PTR_ERR(scodec->rst);
-@@ -2323,22 +2322,6 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	/* Enable the bus clock */
--	if (clk_prepare_enable(scodec->clk_apb)) {
--		dev_err(&pdev->dev, "Failed to enable the APB clock\n");
--		return -EINVAL;
--	}
--
--	/* Deassert the reset control */
--	if (scodec->rst) {
--		ret = reset_control_deassert(scodec->rst);
--		if (ret) {
--			dev_err(&pdev->dev,
--				"Failed to deassert the reset control\n");
--			goto err_clk_disable;
--		}
--	}
--
- 	/* DMA configuration for TX FIFO */
- 	scodec->playback_dma_data.addr = res->start + quirks->reg_dac_txdata;
- 	scodec->playback_dma_data.maxburst = quirks->dma_max_burst;
-@@ -2356,7 +2339,7 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 				     &sun4i_codec_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our codec\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	ret = devm_snd_soc_register_component(&pdev->dev,
-@@ -2364,20 +2347,20 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 					      &dummy_cpu_dai, 1);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register our DAI\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register against DMAEngine\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	card = quirks->create_card(&pdev->dev);
- 	if (IS_ERR(card)) {
- 		ret = PTR_ERR(card);
- 		dev_err(&pdev->dev, "Failed to create our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	snd_soc_card_set_drvdata(card, scodec);
-@@ -2385,28 +2368,17 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
- 		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
--		goto err_assert_reset;
-+		return ret;
- 	}
- 
- 	return 0;
--
--err_assert_reset:
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--err_clk_disable:
--	clk_disable_unprepare(scodec->clk_apb);
--	return ret;
- }
- 
- static void sun4i_codec_remove(struct platform_device *pdev)
- {
- 	struct snd_soc_card *card = platform_get_drvdata(pdev);
--	struct sun4i_codec *scodec = snd_soc_card_get_drvdata(card);
- 
- 	snd_soc_unregister_card(card);
--	if (scodec->rst)
--		reset_control_assert(scodec->rst);
--	clk_disable_unprepare(scodec->clk_apb);
- }
- 
- static struct platform_driver sun4i_codec_driver = {
 -- 
-2.48.0
-
-
+Jaroslav Kysela <perex@perex.cz>
+Linux Sound Maintainer; ALSA Project; Red Hat, Inc.
