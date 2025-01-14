@@ -1,121 +1,270 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from n169-112.mail.139.com (n169-112.mail.139.com [120.232.169.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3841E232424;
-	Tue, 14 Jan 2025 14:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2DF423242C;
+	Tue, 14 Jan 2025 15:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=120.232.169.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736865933; cv=none; b=sFlFeieNER1VaFqX+80TjnMUEC5krzyhEsV9zAFXQ2C/ruKY+gjNP7+pcv1h0EHAW+bih8h6ZYoq+gfWqqXgiOlzO11Etffi4+Rc5qBN1hhMBkRMWH5TQeU01JQp2+TnxlwUIGojo8pmLge+oxrcF3w/b2ugqcdshUGRUK50a0s=
+	t=1736869864; cv=none; b=V9giCPuIH+hMoGxwgwRkzmYp7jnInbaPwAHNj/64mqrm/q7W+NHpQjKy75youElCSzu6wuwxAD6L09fBZ4371EX4tr3WauUbKP0BeBWHoTVjfEH0gFftN+RdAWgcOGJM8AJJDf5TOLroWJOaKP0gRotUlIhV7GGe7GhOupWXIFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736865933; c=relaxed/simple;
-	bh=njLUbHodj+PkFFJbOpBXMJe/dUHzlPds6g689ssKjDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=opUqt55ehEHBbXLmrgCwE8VSScmuL7yDLVGfoI4KvypRXnp9K7Ggke+YUaRAOp4zQYWmVwR80bfezss4L645ZVhId1P9xiA3nfvS2bkiNc/hwc1Wsumdjx4vCOo3lsfbvbXIESJxSVboS1iqniSDJxW6Q67FQ14x77BQmkdoKPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ArLYPNP+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ArLYPNP+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D8DC4CEE3;
-	Tue, 14 Jan 2025 14:45:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1736865932;
-	bh=njLUbHodj+PkFFJbOpBXMJe/dUHzlPds6g689ssKjDA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ArLYPNP+SZ3jG9EoUmQe5FLLdIDakxwq6Q7RuSD32e73BsYYGiP0HGskwiYISsVk/
-	 A4cN4oaepryylm2zcdyZvwXYmrLXtLEkSjmh3sypogzbKV5dGowGgn5utBYogoeqCQ
-	 gGkaQY0DleA1JU9QhyMp3KQpXRHFHLHLiauaOSxLBjUzjflCEWHxRDD1Tr5JejWzfB
-	 rDcIoXWLIpb1nRBKBBEyfnD3XWjNbkCB8L9qbqxDEpYrpu5k96LEAYFBhQj/kso8Re
-	 cSId/vsSLtV+VWwQndcoz6njFJXIniqcEvPmIAynpF235AZiTHCOJKUOH9gpbPBxqK
-	 RiYjQh2gbztFQ==
-Date: Tue, 14 Jan 2025 14:45:22 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Phong LE <ple@baylibre.com>,
-	Inki Dae <inki.dae@samsung.com>,
-	Seung-Woo Kim <sw0312.kim@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Raphael Gallais-Pou <rgallaispou@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: (subset) [PATCH v10 00/10] drm: add DRM HDMI Codec framework
-Message-ID: <078e2d2f-3bd1-47ed-b6f8-60f6913fdce9@sirena.org.uk>
-References: <20241224-drm-bridge-hdmi-connector-v10-0-dc89577cd438@linaro.org>
- <173680655387.149204.17517246537828613856.b4-ty@kernel.org>
- <CAA8EJprDaOTEOYf5JHC7UYwqRn2vXUH9FT==HjZg1QNfDMmBcA@mail.gmail.com>
+	s=arc-20240116; t=1736869864; c=relaxed/simple;
+	bh=YeTZoUUCxz5v+At197G/OqHuOIamzXdXHssiXaK0TOc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=idZkT/VeMySe3sJE/HB2oEdKKsXryLjUkf88iUMS7BXd4Oy6HLuys/9yRb9IaC5kukewCeMpvJCwR2VrwI3ZwXg6ALfQBrM8FQduySzf371KEwHsbq4zUXzWGcI3nDcOENeRxQ4I+BbWcQpboWQAPGjTxgkXH1qnfpTD/E5u4aI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com; spf=pass smtp.mailfrom=139.com; arc=none smtp.client-ip=120.232.169.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=139.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=139.com
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM:                                                                                        
+X-RM-SPAM-FLAG:00000000
+Received:from [IPV6:2409:8a00:7871:c6f0:955a:8c35:21aa:a5e6] (unknown[2409:8A00:7871:C6F0:955A:8C35:21AA:A5E6])
+	by rmsmtp-lg-appmail-22-12025 (RichMail) with SMTP id 2ef96786870a7ff-229cb;
+	Tue, 14 Jan 2025 23:47:29 +0800 (CST)
+X-RM-TRANSID:2ef96786870a7ff-229cb
+Message-ID: <bfec0774-6c74-46ad-a802-b9361638df17@139.com>
+Date: Tue, 14 Jan 2025 23:47:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nKWVI6A6JSkBavZP"
-Content-Disposition: inline
-In-Reply-To: <CAA8EJprDaOTEOYf5JHC7UYwqRn2vXUH9FT==HjZg1QNfDMmBcA@mail.gmail.com>
-X-Cookie: Sauron is alive in Argentina!
+User-Agent: Mozilla Thunderbird
+Subject: Re: [External] Re: [PATCH v2] ALSA: hda: Support for Ideapad
+ hotkeymute LEDs
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jackie EG1 Dong <dongeg1@lenovo.com>, "perex@perex.cz" <perex@perex.cz>,
+ "tiwai@suse.com" <tiwai@suse.com>,
+ "bo.liu@senarytech.com" <bo.liu@senarytech.com>,
+ "kovalev@altlinux.org" <kovalev@altlinux.org>,
+ "me@oldherl.one" <me@oldherl.one>,
+ "jaroslaw.janik@gmail.com" <jaroslaw.janik@gmail.com>,
+ "songxiebing@kylinos.cn" <songxiebing@kylinos.cn>,
+ "kailang@realtek.com" <kailang@realtek.com>,
+ "sbinding@opensource.cirrus.com" <sbinding@opensource.cirrus.com>,
+ "simont@opensource.cirrus.com" <simont@opensource.cirrus.com>,
+ "josh@joshuagrisham.com" <josh@joshuagrisham.com>,
+ "rf@opensource.cirrus.com" <rf@opensource.cirrus.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ "linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+ "mpearson-lenovo@squebb.ca" <mpearson-lenovo@squebb.ca>
+References: <20241224083316.20222-1-xy-jackie@139.com>
+ <87ikr2dfnc.wl-tiwai@suse.de>
+ <SEYPR03MB8067D30F466738C51808461995092@SEYPR03MB8067.apcprd03.prod.outlook.com>
+ <87o70oylir.wl-tiwai@suse.de> <da1959f2-a30e-45b4-bf64-2d413254d7bc@139.com>
+ <b02fbf19-280c-48b0-8853-40139a573d6a@139.com> <87h661277u.wl-tiwai@suse.de>
+ <877c6x23zp.wl-tiwai@suse.de>
+Content-Language: en-US
+From: Jackie Dong <xy-jackie@139.com>
+In-Reply-To: <877c6x23zp.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 1/14/25 16:28, Takashi Iwai wrote:
+> On Tue, 14 Jan 2025 08:19:17 +0100,
+> Takashi Iwai wrote:
+>>
+>> On Tue, 14 Jan 2025 07:54:01 +0100,
+>> Jackie Dong wrote:
+>>>
+>>> On 1/6/25 20:49, Jackie Dong wrote:
+>>>> On 2025/1/3 23:17, Takashi Iwai wrote:
+>>>>> On Mon, 30 Dec 2024 01:33:01 +0100,
+>>>>> Jackie EG1 Dong wrote:
+>>>>>>
+>>>>>>> On Tue, 24 Dec 2024 09:33:16 +0100,
+>>>>>>    > Jackie Dong wrote:
+>>>>>>    >>
+>>>>>>    >> --- a/sound/pci/hda/patch_realtek.c
+>>>>>>    >> +++ b/sound/pci/hda/patch_realtek.c
+>>>>>>    >> @@ -6934,6 +6934,16 @@ static void
+>>>>>> alc_fixup_thinkpad_acpi(struct hda_codec *codec,
+>>>>>>    >>       hda_fixup_thinkpad_acpi(codec, fix, action);
+>>>>>>    >>   }
+>>>>>>    >>
+>>>>>>    >> +/* for hda_fixup_ideapad_acpi() */
+>>>>>>    >> +#include "ideapad_hotkey_led_helper.c"
+>>>>>>    >> +
+>>>>>>    >> +static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
+>>>>>>    >> +                   const struct hda_fixup *fix, int action)
+>>>>>>    >> +{
+>>>>>>    >> +    alc_fixup_no_shutup(codec, fix, action); /* reduce click
+>>>>>> noise */
+>>>>>>    >> +    hda_fixup_ideapad_acpi(codec, fix, action);
+>>>>>>    >> +}
+>>>>>>    >
+>>>>>>    > So this unconditionally call alc_fixup_no_shutup(), and this
+>>>>>>> introduces another behavior to the existing entry -- i.e. there
+>>>>>> is a  > chance of breakage.
+>>>>>>    >
+>>>>>>    > If we want to be very conservative, this call should be
+>>>>>> limited to  > Ideapad.
+>>>>>>    > For alc_fixup_no_shutup(codec, fix, action),
+>>>>>>    I want to keep same behavior with alc_fixup_thinkpad_apci() and
+>>>>>> alc_fixup_idea_acpi() for one sound card. So, I add
+>>>>>> alc_fixup_no_shutup() in alc_fixup_ideapad_acpi().
+>>>>>> ----------Related source code of patch_reatek.c are FYR as below.
+>>>>>> static void alc_fixup_thinkpad_acpi(struct hda_codec *codec,
+>>>>>>                                        const struct hda_fixup *fix, int
+>>>>>> action)
+>>>>>> {
+>>>>>>            alc_fixup_no_shutup(codec, fix, action); /* reduce click
+>>>>>> noise */
+>>>>>>            hda_fixup_thinkpad_acpi(codec, fix, action); }
+>>>>>>
+>>>>>> /* for hda_fixup_ideapad_acpi() */
+>>>>>> #include "ideapad_hotkey_led_helper.c"
+>>>>>>
+>>>>>> static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
+>>>>>>                                       const struct hda_fixup *fix,
+>>>>>> int action) {
+>>>>>>            alc_fixup_no_shutup(codec, fix, action); /* reduce click
+>>>>>> noise */
+>>>>>>            hda_fixup_ideapad_acpi(codec, fix, action);
+>>>>>> }
+>>>>>
+>>>>> Oh yeah, but then it can be bad in other way round; the chain call of
+>>>>> alc_fixup_thinkpad_acpi() contains alc_fixup_no_shutup() and the
+>>>>> alc_fixup_ideadpad_acpi() also contains alc_fixup_no_shutup().
+>>>>> That is, alc_fixup_no_shutup() will be called twice for Thinkpad.
+>>>>>
+>>>> Many thanks to Takashi for your detail comments  and sample code, I
+>>>> understand it now.
+>>>>
+>>>> I'll check the logic of the code and update the patch later.
+>>>>
+>>>> Best Regards,
+>>>>
+>>>> Jackie Dong
+>>>
+>>> Hi Takashi,
+>>>    For this function, I added three debug message in patch_realtek.c as
+>>> below. I find alc_fixup_no_shutup() only run once, no matter it's in
+>>> alc_fixup_thinkpad_acpi(), or it's in alc_fixup_ideadpad_acpi(). Some
+>>> kernel log for your reference.
+>>>    So, I think the patch is ok for this concern.
+>>>    If you have any other concern for the patch, let me know.
+>>>    Thanks for your comment and guide in past.
+>>
+>> That's really weird.  Are you testing your v2 patch, right?
+>> (That is, the ALC269_FIXUP_LENOVO_XPAD_ACPI entry calls
+>> alc_fixup_ideadpad_acpi() and is chained with
+>> ALC269_FIXUP_THINKPAD_ACPI.  If this entry is really used, it *must*
+>> call the alc_fixup_thinkpad_acpi() as well.
+>>
+>> Please double-check.
+Hi Takashi,
+   You're right.
+   I commented two lines in [ALC269_FIXUP_LENOVO_XPAD_ACPI] and got the 
+result of previous mail. I try to look for which funcion call 
+alc_fixup_thinkpad_acpi() after add below patch. And I hope to impeleted 
+the function with minimum changes.
+   Many thanks,
+-----------------------------------------------------------------------
+--- a/sound/pci/hda/patch_realtek.c
++++ b/sound/pci/hda/patch_realtek.c
+@@ -6126,6 +6126,7 @@ static void alc_fixup_no_shutup(struct hda_codec 
+*codec,
+                 struct alc_spec *spec = codec->spec;
+                 spec->no_shutup_pins = 1;
+         }
++       printk("This is from 
+alc_fixup_no_shutup++444444444444444444444444444444+-.\n");//Deg
+  }
+
+  static void alc_fixup_disable_aamix(struct hda_codec *codec,
+@@ -6930,10 +6931,22 @@ static void alc285_fixup_hp_envy_x360(struct 
+hda_codec *codec,
+  static void alc_fixup_thinkpad_acpi(struct hda_codec *codec,
+                                     const struct hda_fixup *fix, int 
+action)
+  {
+-       alc_fixup_no_shutup(codec, fix, action); /* reduce click noise */
++       alc_fixup_no_shutup(codec, fix, action); /* reduce click noise 
+*/ //Deg
++       printk("This is from 
+alc_fixup_no_shutup++TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT+-.\n");//Deg
+         hda_fixup_thinkpad_acpi(codec, fix, action);
+  }
+
++/* for hda_fixup_ideapad_acpi() */
++#include "ideapad_hotkey_led_helper.c"
++
++static void alc_fixup_ideapad_acpi(struct hda_codec *codec,
++                                  const struct hda_fixup *fix, int action)
++{
++       alc_fixup_no_shutup(codec, fix, action); /* reduce click noise 
+*/ //Deg
++       printk("This is from 
+alc_fixup_no_shutup++IIIIIIIIIIIIIIIIIIIIIIIIIIIIII+-.\n");//Deg
++       hda_fixup_ideapad_acpi(codec, fix, action);
++}
++
+  /* Fixup for Lenovo Legion 15IMHg05 speaker output on headset removal. */
+  static void alc287_fixup_legion_15imhg05_speakers(struct hda_codec *codec,
+                                                   const struct 
+hda_fixup *fix,
+@@ -7556,6 +7569,7 @@ enum {
+         ALC290_FIXUP_SUBWOOFER,
+         ALC290_FIXUP_SUBWOOFER_HSJACK,
+         ALC269_FIXUP_THINKPAD_ACPI,
++       ALC269_FIXUP_LENOVO_XPAD_ACPI,
+         ALC269_FIXUP_DMIC_THINKPAD_ACPI,
+         ALC269VB_FIXUP_INFINIX_ZERO_BOOK_13,
+         ALC269VC_FIXUP_INFINIX_Y4_MAX,
+@@ -8327,6 +8341,12 @@ static const struct hda_fixup alc269_fixups[] = {
+                 .chained = true,
+                 .chain_id = ALC269_FIXUP_SKU_IGNORE,
+         },
++       [ALC269_FIXUP_LENOVO_XPAD_ACPI] = {
++               .type = HDA_FIXUP_FUNC,
++               .v.func = alc_fixup_ideapad_acpi,
++//             .chained = true,
++//             .chain_id = ALC269_FIXUP_THINKPAD_ACPI,
++       },
+         [ALC269_FIXUP_DMIC_THINKPAD_ACPI] = {
+                 .type = HDA_FIXUP_FUNC,
+                 .v.func = alc_fixup_inv_dmic,
+@@ -11065,7 +11085,7 @@ static const struct hda_quirk 
+alc269_fixup_vendor_tbl[] = {
+         SND_PCI_QUIRK_VENDOR(0x1025, "Acer Aspire", ALC271_FIXUP_DMIC),
+         SND_PCI_QUIRK_VENDOR(0x103c, "HP", ALC269_FIXUP_HP_MUTE_LED),
+         SND_PCI_QUIRK_VENDOR(0x104d, "Sony VAIO", ALC269_FIXUP_SONY_VAIO),
+-       SND_PCI_QUIRK_VENDOR(0x17aa, "Thinkpad", 
+ALC269_FIXUP_THINKPAD_ACPI),
++       SND_PCI_QUIRK_VENDOR(0x17aa, "Lenovo XPAD", 
+ALC269_FIXUP_LENOVO_XPAD_ACPI),
+         SND_PCI_QUIRK_VENDOR(0x19e5, "Huawei Matebook", 
+ALC255_FIXUP_MIC_MUTE_LED),
+         {}
+  };
+@@ -11130,6 +11150,7 @@ static const struct hda_model_fixup 
+alc269_fixup_models[] = {
+         {.id = ALC290_FIXUP_MONO_SPEAKERS_HSJACK, .name = "mono-speakers"},
+         {.id = ALC290_FIXUP_SUBWOOFER_HSJACK, .name = "alc290-subwoofer"},
+         {.id = ALC269_FIXUP_THINKPAD_ACPI, .name = "thinkpad"},
++       {.id = ALC269_FIXUP_LENOVO_XPAD_ACPI, .name = "lenovo xpad led"},
+         {.id = ALC269_FIXUP_DMIC_THINKPAD_ACPI, .name = "dmic-thinkpad"},
+         {.id = ALC255_FIXUP_ACER_MIC_NO_PRESENCE, .name = "alc255-acer"},
+         {.id = ALC255_FIXUP_ASUS_MIC_NO_PRESENCE, .name = "alc255-asus"},
+-- 
+2.43.0
 
 
---nKWVI6A6JSkBavZP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> 
+> On the second thought, alc_fixup_no_shutup() itself is mostly harmless
+> even if it's called multiple times, as it sets only the flag.
+> But, unifying the quirk function makes more sense as it results in
+> smaller changes.
+> 
+> In anyway, the check of the alc_fixup_no_shutup() should be done
+> again; if a test is negative, it doesn't mean it's OK but it's
+> something wrong.
+> 
+> 
+> thanks,
+> 
+> Takashi
 
-On Tue, Jan 14, 2025 at 03:45:15AM +0200, Dmitry Baryshkov wrote:
-> On Tue, 14 Jan 2025 at 00:16, Mark Brown <broonie@kernel.org> wrote:
 
-> > [01/10] ASoC: hdmi-codec: pass data to get_dai_id too
-> >         commit: a8e792d3f0bbecb87ab05e9592cadf0b178ab952
-> > [02/10] ASoC: hdmi-codec: move no_capture_mute to struct hdmi_codec_pdata
-> >         commit: 5b0779ae13de345b405a67c71cbb63705cadb295
-
-> Mark, they had your Acks, so they were picked into drm-misc-next.
-> Would that be a problem?
-
-No, the reason I applied them was because I was getting fed up of the
-resends and figured it would be easier to just apply the patches so they
-were in -rc1 and could be dropped.  I'll have missed any mail about this
-being applied due to the drm: header.
-
---nKWVI6A6JSkBavZP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmeGeIIACgkQJNaLcl1U
-h9BABAf/Rpl0QApU53vHkXku439fvk1W2JlcIkEhtO9wlYIsly+z2mnUMkCOSX4i
-JLpb+GVB0L2TJAF1Y3HQ0ESBC6JzV7JzQiUqBkOTZEOQIXLdCu40xDg5coebNiS4
-sw5DHqMiE7q3rAcXPCkkACdE+o+7S6CuIKgnMXuvMBcNUlNCcmbDEei/z3aSihs+
-A/02s7UlSruEVd5UZv84abvqrMTVq963YEtAnbufnFJ/+xmJzqxzreVWOOMZFG3v
-EmzqBpCq91RmV1JJ8gJe6RnmIfKn2PjesCresNQhoIQecqVkff5nZFIxu77C2vVF
-UlobtBVzPrmFG8C//RkIpQUHCptnCQ==
-=oDw/
------END PGP SIGNATURE-----
-
---nKWVI6A6JSkBavZP--
