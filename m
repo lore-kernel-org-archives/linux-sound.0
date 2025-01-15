@@ -1,597 +1,197 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11011011.outbound.protection.outlook.com [52.101.129.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E6F1E7C05
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 08:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736930644; cv=none; b=l81yMtTJEjERM0otHlB9bWt971BQZg+VkpHZhkBq8QUss9ffZOGm9kWdvI/01fKcKmtGb8Wl9OmpjJBQaYEvEmtiBnU6EAqM6oy2v2TOlXQWuS5sDPMnPbr1nmGW3Eda8feCaRaPS7K/BqPr0uTExeMXTwsGNe6qDJtjGrXc+BQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736930644; c=relaxed/simple;
-	bh=Jlps63D8qXJTe4S2BPohPBcJySEcRf9igXcKjpPSYW8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EF632vm6rci3rgsjV3YDMMCEUHeZqsDM7LCC1qcZCcrR02WhCT8f+nz0mI7Ly+vAfCI/zUuYfADMCTBfZ/cOUVCnd9E/Nr8b51WUpML/fqxkygnOq8ojBfqqRLQj0zlpfmJDAJxpm32jl94G1mlSi5j+07p3iUMB1jNsli74rFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=V/iW1UdA; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF6F23F29B;
+	Wed, 15 Jan 2025 08:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1736930777; cv=fail; b=t0yh4Wb0uYD7u7vOGh1rEohzqCoNILon7+KaXfUpUr5euzouZlIjsPnyNVsq90I0KoSZZgHFjUTNcuXtd2i0Xda9101FJym1KwpoDAJqVXnRQfYDxLN4JFNRDYWtSqkuv+tpsQ0ha/Ul0CEXCfSNgAP+NjSWSJuvWZUPISe5rWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1736930777; c=relaxed/simple;
+	bh=SPtOUdsR78VXu2E9FW+oCZ19+0aqzRdoJsQqoxp/EOE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Rv8Juubr2U/Ww8GhiniZObSen1TpGeugU71Rm85NEyCm0Lv03ndffy0wwV9kdGrjfqoxkpqZDM3SeBiRkrjRQ5M5xc1I1gBSKFHaiRi2ynilG1cKYtujwuDJyiS2/+aHeRQqrFy3ijhXc8ZjZ25lzG1E3KE+dy6EbMrwecup/1g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=o0BW9Kgs; arc=fail smtp.client-ip=52.101.129.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="V/iW1UdA"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3863494591bso3351439f8f.1
-        for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 00:44:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1736930639; x=1737535439; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jlps63D8qXJTe4S2BPohPBcJySEcRf9igXcKjpPSYW8=;
-        b=V/iW1UdApA2rjTJP3wkyrbDp5WJVYCTsti7LT13tp/1sQRaB67VyIrXPh5NruWw28v
-         dO5DrrnZRuS0QvjkBpN4QqSHkJRTBz3Qv9l5hV+REoLyaIhhH7NftsMZOc4pLLsnV9NL
-         9RyQKTboRlEnkP9RcgveWSGUxN0yPMX63hALqa9VTaT2jZ/kswwBQy+3KzHxaWXN7ImE
-         OCKJtvgrO0+cUtIDoswDSut0gH+ZBymAGp+TRNhodb3aH5KcTuK2NU+ue7bgSyyCNf9O
-         r3JcUb3Ef5MhSoC3FGYCRMPXWX0kHgYHvasgbvGVBkLnkG48NmYEL010cG+F5xejj0mF
-         MqFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736930639; x=1737535439;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Jlps63D8qXJTe4S2BPohPBcJySEcRf9igXcKjpPSYW8=;
-        b=jsYRq/+PUJylfqyjqBdF1lxFuSVYr4nyhg2tL9YR115Iu4vEgSpDQ94T+UAkmqbsau
-         b+BTv18DdqOmoBDpQ6Eoxv9M7tnev+8OeIqAVOMC2+L8wJFL9hlIBzbWCwNhC7ixG04c
-         jAh3ACFYSdsgH1OL2abyIS5jpEIQoh9J7Es4UEQgOobXjt+DniDypxlH5p3bSTmFU8on
-         yNq2Z807ibW2kp1iZX4G8JdGIdNl9G7zSNGdw8aq6bELaqz5UmdRJmCRMHhoGaanYWYR
-         S6oMD5frPZ1GdV30gxgDL+iN7W5uwiz8mpgIFOD2Fx98GflWD7OqGnVlgYadPhae301W
-         d1mA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPXhAwE9jUH1kP1ECuDIetauhrhfjg0BqUhgrmQNjPo9BWxv9fEEO9i/dmaVmEvIqeVssnMp2qITjyzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVcJ3r8sVuzVbMYw4FarSphIVQ74Iw7gm25XfYsbzY5ftfRKnf
-	vX4njbLHobkjseOa3RCV68nw4wa270EgExQlvNRPPWcZJuEcfkDrHpqPr5mYDbI=
-X-Gm-Gg: ASbGncs3eO3YSYJbXIAfTWR0VWtYsosiAEYJxxYsFN8QaarRxbYxv9+dijFZA0kzAEj
-	K5lEUQllQ0Tbf00rTGIs8oe54tNbGFcqvWzNJ06EkVd/FWcdUcfkiY5S68iKgf6Cb/imIN1Rqak
-	nV8bB2uWC3zLXjrTDJ6h05O+arJ5YYz3dI79JcktOFbKbIyZuyFgOJ5sNS+VBVoPD1PuJeKm/Sb
-	fNtX3Y950CLxPxkovq4gWYPzckxlzYZUhI/itrOBxaFM/zf//XG5QQL
-X-Google-Smtp-Source: AGHT+IG2H+6y0eWpBBPqc/usYlYZ6/zW1u7ml5Q64EmeOJAugzknjFHHXxoi0D7iwJuJ/ZSqnQe5aA==
-X-Received: by 2002:a5d:64cc:0:b0:386:366d:5d0b with SMTP id ffacd0b85a97d-38a8732098dmr23603545f8f.55.1736930639403;
-        Wed, 15 Jan 2025 00:43:59 -0800 (PST)
-Received: from localhost ([2a01:e0a:3c5:5fb1:e7b8:6186:fc23:f678])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38c76esm16696578f8f.47.2025.01.15.00.43.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2025 00:43:58 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Jiebing Chen <jiebing.chen@amlogic.com>
-Cc: jiebing chen via B4 Relay <devnull+jiebing.chen.amlogic.com@kernel.org>,
-  Liam Girdwood <lgirdwood@gmail.com>,  Mark Brown <broonie@kernel.org>,
-  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,
-  Conor Dooley <conor+dt@kernel.org>,  Jaroslav Kysela <perex@perex.cz>,
-  Takashi Iwai <tiwai@suse.com>,  Neil Armstrong
- <neil.armstrong@linaro.org>,  Kevin Hilman <khilman@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>,
-  linux-sound@vger.kernel.org,  devicetree@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-  linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 3/3] arm64: dts: amlogic: Add Amlogic S4 Audio
-In-Reply-To: <83a93dfc-2fcd-4166-98ed-e0491645f4e5@amlogic.com> (Jiebing
-	Chen's message of "Wed, 15 Jan 2025 14:16:27 +0800")
-References: <20250113-audio_drvier-v1-0-8c14770f38a0@amlogic.com>
-	<20250113-audio_drvier-v1-3-8c14770f38a0@amlogic.com>
-	<1jldve939f.fsf@starbuckisacylon.baylibre.com>
-	<813e2564-8c4c-4adb-8184-ab88156e3e4c@amlogic.com>
-	<1jmsft7ihz.fsf@starbuckisacylon.baylibre.com>
-	<0e8b78c1-5c56-40e7-a2d8-41a7f49d52bc@amlogic.com>
-	<1j34hl7a8b.fsf@starbuckisacylon.baylibre.com>
-	<40aca60e-92e7-4344-8f7d-f62a61dd1898@amlogic.com>
-	<83a93dfc-2fcd-4166-98ed-e0491645f4e5@amlogic.com>
-User-Agent: mu4e 1.12.7; emacs 29.4
-Date: Wed, 15 Jan 2025 09:43:58 +0100
-Message-ID: <1jldvc5uwh.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="o0BW9Kgs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AWSoiXT1gKR9Gd2ldqggjNuAJ9DcXRzB4fFaMU2+hm8cwhiqruE8GHNe8YEpyR3BmmRaN8bJKVnPxVt3+9WkNtZZm5zI09lFus4C+myUuaDwfwD5F9j+8mppbM0Ouna9mV6uB5kKglUb7F1xfQ1o9i9RtTHpwUu6WKgxtfQce1/nFEElYeMClmN7Ah6UjAHOXG0afjToJVD1zOXc4B1JwSiQSL/M0bst0bo/9klHreeuojZYBbItrMIuRhDYY3pmD9zILD4vKNFJBBqdiZTHczSqwifE5L31P71MIIoa+FGSypGhxuMuZBiuOWp+X0dC2kHkbUJm9mMD6Fb3SYlP6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SPtOUdsR78VXu2E9FW+oCZ19+0aqzRdoJsQqoxp/EOE=;
+ b=NIBl4FO1g/lw/o1EQ7HkTos1zaSyZYLNrskpPsu5xTEgISGZMmGXGkLEXrQgyX6WHhhCJjmVXuJ06SRdLctFz0MdL2Qh86lgjyLGPqQ+PxoPq+PjcOHxtRN8z9y0fSfT1FLVZH7eQq25Bt/wIL2bY2BQ/aeDBUTvTD9BgxWaMR8uxxiyPzqzfVMLocpPLsEdlFS4imILRmimdPQW3AK4cMogh15p7Zu/SMkms07sBFoaidp4VCo4tNk+rNb6k9ApQIvVCUImS3DlfjndpjoSBid9AYOxAHYqguQOC6I0vuBjsDDgxLTBrUrLUP/78XrDXKl7e3q1aha5T0LEmyuSIw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SPtOUdsR78VXu2E9FW+oCZ19+0aqzRdoJsQqoxp/EOE=;
+ b=o0BW9KgswY3GxEzRI+GAEbyZqoU0TmtsHoTjGpSmXZlgukm20ctHwMNUUJuIRh6DKgyqSHR9Hdeg87fvZVz8W62IjsQLRiQNNTVkRpSvoNJd9Mr2U/BVQnrwn6JI+Ns89RVn+Il2Kue3gbiE0dw2FfexNiC6WReQrXE7vvtZF3F3EgNrW8U2GPEcAHJwJqG8zqqpADzgye013F/FCmQiIOzn5hM3NcQ9LVV4WBsTDpC/ItO8a/STsfO4W4GljpmndMvba8QO4dFOEWXXUS5C4PA2F1kWqbgLTHJIMEJn53/o3J6eO7NGwNQlq7zG6eHmRCceS5U0nTpq5hdnMa2MNw==
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com (2603:1096:400:358::7)
+ by TYSPR06MB6713.apcprd06.prod.outlook.com (2603:1096:400:479::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8356.11; Wed, 15 Jan
+ 2025 08:46:10 +0000
+Received: from TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::c18d:f7c6:7590:64fe]) by TYUPR06MB6217.apcprd06.prod.outlook.com
+ ([fe80::c18d:f7c6:7590:64fe%7]) with mapi id 15.20.8356.009; Wed, 15 Jan 2025
+ 08:46:10 +0000
+From: =?gb2312?B?uvrBrMfa?= <hulianqin@vivo.com>
+To: Takashi Iwai <tiwai@suse.de>
+CC: "perex@perex.cz" <perex@perex.cz>, "tiwai@suse.com" <tiwai@suse.com>,
+	"lina@asahilina.net" <lina@asahilina.net>, "mbarriolinares@gmail.com"
+	<mbarriolinares@gmail.com>, "wangdicheng@kylinos.cn"
+	<wangdicheng@kylinos.cn>, "cyan.vtb@gmail.com" <cyan.vtb@gmail.com>,
+	"dan.carpenter@linaro.org" <dan.carpenter@linaro.org>, "bsevens@google.com"
+	<bsevens@google.com>, "linux-sound@vger.kernel.org"
+	<linux-sound@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject:
+ =?gb2312?B?tPC4tDogtPC4tDogW1BBVENIXSBBTFNBOiB1c2ItYXVkaW86IEFkZCBkZWxh?=
+ =?gb2312?Q?y_quirk_for_USB_Audio_Device?=
+Thread-Topic:
+ =?gb2312?B?tPC4tDogW1BBVENIXSBBTFNBOiB1c2ItYXVkaW86IEFkZCBkZWxheSBxdWly?=
+ =?gb2312?Q?k_for_USB_Audio_Device?=
+Thread-Index: AdtnFv8z0lRZHPtzSmuJqDN3ZgXhGgADMiKAAACxLIAAALHGgAAAHS3w
+Date: Wed, 15 Jan 2025 08:46:10 +0000
+Message-ID:
+ <TYUPR06MB621751EBD63ACB0655CA22BED2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
+References:
+ <TYUPR06MB6217F6DFCF671E7B0E001D9ED2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
+	<878qrcld30.wl-tiwai@suse.de>
+	<TYUPR06MB6217CFAAB5BFD9308351BD32D2192@TYUPR06MB6217.apcprd06.prod.outlook.com>
+ <875xmglb8u.wl-tiwai@suse.de>
+In-Reply-To: <875xmglb8u.wl-tiwai@suse.de>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYUPR06MB6217:EE_|TYSPR06MB6713:EE_
+x-ms-office365-filtering-correlation-id: 69f0f759-ad0e-4d18-fc85-08dd35410f4d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?gb2312?B?UUs3OWlvMlBYQVNPQVU2YjlyczRpWGlud25jWDBPN3FoVUJENjVrYmo1c1l1?=
+ =?gb2312?B?U0VBWVpaQnpYVkh0M2pobDNoYXN4OTMveWtod1BOKzVlTDljUisya1Y2VVd1?=
+ =?gb2312?B?MzV1Q0RvQWcrK0Y5ZjRUbnBsb1NOR2pDZzl6M2p6QUp5UnZXSm9rR09xbWFh?=
+ =?gb2312?B?SCtheWZVNlpJZVExNEFaK0tyUEM2VXlJTGpHNksvbUM0cFFJUnc3Yk5DRG9r?=
+ =?gb2312?B?bTJBMFJXTzZpNHl0N1BtTjB2eXR0cDVuS21WT09sanZpVGRjV3dWaFVHRElX?=
+ =?gb2312?B?eEMzamZNdmFieHJ2d2dCWUpid0w2cTB2Q3k5REZUNk5wN0YwMFk4SUg5Q01T?=
+ =?gb2312?B?cGZwaytERmJOdmpVeGE1UEt6NG1aR3RXVDdtWUZjYnRVeXU3RDdGQVUralRa?=
+ =?gb2312?B?WnVrdjlNNEhrZ3ZkMG5SeklFKzlNcEJkOWNIRjE3ZmtLdFp6eHdrdlN5RUhp?=
+ =?gb2312?B?YnlhRHBQWjlUazhVN3hEejJDQTN1NDlGYkRTVlN2aG1EMDNrWnRZRG1uOUJq?=
+ =?gb2312?B?bjY0Q2JndW1BcE1QVW1RMHVzMWZCRWdvVWt0SGdPTS9kZzhLWHlIdUpLREtj?=
+ =?gb2312?B?d2VGWit2L1QzaHNBSXlxL2lHdGw4aW5DODhNaExUZldyOXg3WjRreGl0cFE0?=
+ =?gb2312?B?YU9UVkZOQnVwRXpPVlM1Q2tDYVN5bktGL1ZHcThtSWJZYXVGdk83Ti9BQVdV?=
+ =?gb2312?B?WURzVzV4a3hKRnZvSENSYWFZZXNjYm1xMEFXRDVLRmFVcVdrVEo0RFZwWWRZ?=
+ =?gb2312?B?L3p5cVk3VUtabnhGelVxTUZNN09sL2YyN2xjbmo0eHdseVhidHpsSU5VM0Rk?=
+ =?gb2312?B?b2VFam94NVZkNHh6VFVhcnpqZDROQ01nemFMRFU3VlQ1L3dwcVB6TkswaW5R?=
+ =?gb2312?B?eW1qN1dzMXp3L0I5SFVoUy9yWCtrWVpkL3k2Tk5DY2gxUE5lVzIwakc4SWtq?=
+ =?gb2312?B?U0dYa0x0OXE5NGg0ZzhqaGE0aTJTUGxBR3A2Q21Fc3lrR08yU3liU29Sd0xB?=
+ =?gb2312?B?cHkzZjlFUnNmRk80UEJBNC9OVlR4VWxNd0dzNUxSZndGampoOVEvR3lucXlT?=
+ =?gb2312?B?MHBVZGlvM0RpVHNSalU2VXBxMGxjZnlTVkFNU3d5RmJwc1FSOWJGTktBQ2RS?=
+ =?gb2312?B?RW9jOXZlallRUUJ0eVpmam1obUhiNGVFR1lsU0RtcjI5eXpoQm5hZEdVS29I?=
+ =?gb2312?B?bUxoK3dGTDNqWnVLTXBjVXVMOHBnU0doeVd6cFljSUIvdmVwNElpeVpwdndu?=
+ =?gb2312?B?c2FTWHhEaG9sM29HVVExWjREQmhaZFRnZ3dkUnZlVW9UTzRFampYRG9Iek5C?=
+ =?gb2312?B?MUNMallNV3BsZ05EN1lVK290UDFNMVY2R05LZkpuNnEreG9DaWJmSkJIWnlM?=
+ =?gb2312?B?ZG9MLzdDSVBjKzlvQkQ3eUNwbUJDaHljN3hieDRsQnQwakpRVHhITW9hT3l5?=
+ =?gb2312?B?cC9USE50Y245bFE2YjVGS2Z2U2NrKzhoNDM3K0ZJakRkNENoclgvaEdFd1Iw?=
+ =?gb2312?B?Q1pteHRmK05HcS9HQXN2Z2VTRE1MUExuYWhwdVlKNW1VL29CSEFOc0d2c0h5?=
+ =?gb2312?B?NUdac3BnZzFIMCtmcmNwTExwRzN1K2NiUnFscytWcVV0VlFsU2Vmb1VYc3BT?=
+ =?gb2312?B?RERaNXoxblVNV3htMVNKZzdycDF5b3hCMU1iSGdROC80SXlVeFVuelFLUjQ1?=
+ =?gb2312?B?MFlYNmZGRG5SYjErcWc5YjY3aEV3SlFma0hYRW9uZEQyZCtyYnVqZFVDNDFF?=
+ =?gb2312?B?d1pDRVljQ0R3bkF1MFJjcW5xMWJtaXl1bXhaQzdDUGRRTVhsTUNjK2hBbFdF?=
+ =?gb2312?B?bEpSRldqYXlFd1pYWU1adGdaQWZlUVphKzJ5aGk0ek5PZ1NOanpSeXllZ2tU?=
+ =?gb2312?B?U0tJT3pud0RSNitUcXNCRFdialdSQjdpMGpmc2J2TENmU0RHYVlVMHRkWEpD?=
+ =?gb2312?Q?zSb+kVvzkI8F3K8nMwVl84Ky4Wa+ndi2?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYUPR06MB6217.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?gb2312?B?Z2hPelRVeHVQKzVWOCsydFdMS1loZXgzaC9DT0FPb3RsQUJTb29oc25nZkox?=
+ =?gb2312?B?S0pLSmdkemlZbG9ZcmZSQ0hLUEFDdWdNYUhraHNOYisxdFlEOE1SSVl6dUVr?=
+ =?gb2312?B?WHRqVDdQdG11S2tSQXBkSGtEMzlFVlBTdVlvV2FmNGFKUzlIMUdvNC9TSm42?=
+ =?gb2312?B?WGQzVFFrMGZqRytPKzZxVGxJaGtoVkJPZ0Irb1IvVHdyWlg0cm9Td0RHSjhP?=
+ =?gb2312?B?U3dqdGliT2Y5WFBFYUJvdEo1WUVkemxsT1NmbnpnUVRtK1JNdENLQWxFYWJz?=
+ =?gb2312?B?QTJKU1pVcWd2V245M3hQOW1YR1JMVDBIZTNJSnNNcVJOcDNBMEdZdldwc09v?=
+ =?gb2312?B?a2wrbnh3Vk8wS0NvMnVEZVF0OXNkS3VRNFhWMXc3SWdDbUQ4VDQ0TGdmWGJK?=
+ =?gb2312?B?aWZ6c2xVN0toSVNETFNhckYxM1hKTC91cFF5SW9rd0JmWmlmRk1KbHY5cXNZ?=
+ =?gb2312?B?Y0lYbU1qVDRRK2t1ZjZqdjZ6MUxIS0d1aDJ6SmlXQzZ3dkMxNzZHd1hJMkpp?=
+ =?gb2312?B?SWhyYUhXd25mcTltSW9Ha2ZyRkZXMjhMTm9VM2VTdFBNRktaY2R6K2Y3dkQy?=
+ =?gb2312?B?b2xLQmRZSkdUekJtQnVqRGFxSjFGTStDSFB3c1duS1FPU0xKYStQdzh3QytN?=
+ =?gb2312?B?bjUxOHlKTDhweE5QRis1LzZoMkF4eVdKcWVldWYxaTRJOE5YZ3pzYkxlRExN?=
+ =?gb2312?B?eXBaSzlQRWd4bU5QaXNJT1Z1L0JvN0lLYTZtQnFLTXRTMUFmUUJzMUNDa2lF?=
+ =?gb2312?B?blVPQ3JyQ0FhRGR3THYxVlJnR29ITlVUWUt1ckdDR00xaStsWTNUNW5XSVNm?=
+ =?gb2312?B?eEZCMmgvWUJTU01PN3lNQW1BVkVUeWxDcHJUYW1MSGpJRTQ3R3NZWUkzV3Qv?=
+ =?gb2312?B?SGFnbnpIM29Ta3JMVEhxZFMranBSNHVkRnV4SU13NmZwSGx6WXlsclhQNzlV?=
+ =?gb2312?B?SVFQMGQ5OElQVlZQZjFLNVVxV29kRTJrTHhCN1NGdVNYSDNzYWdyWmI3TDRv?=
+ =?gb2312?B?QmpENk1rQXpKbktIbGx4RzVWRjI1ZEhndGN5TlA3MXJ6VVVhK3IxSjladENN?=
+ =?gb2312?B?N2ROL2V6TGViUzl2ejdpNzkybCt4aTA4aERsSWxCWTJmQllpRzJZOEZKN3ZD?=
+ =?gb2312?B?TjNTeFNxLzVJN2RJN3lCOHpWVjQyMXkvM2hYU2l2NENuR2Rjd1NhTUFSWTZQ?=
+ =?gb2312?B?MVRkZ0t2OFRSSDdGTUlMemN6V2RHOVR4dXR3ak82WlBWNDlaL0xPQ1g0bGRp?=
+ =?gb2312?B?YmZPamdubWRPUHJQRktiaVF5TmhrdWFpa2hxc0Q2T0p6ZXhPd1VCK3l1Y3pN?=
+ =?gb2312?B?bS9wb3k5KzFpdVJEVUcwWWdOSzJybnpIU2lZMW9zbmdUbnR6bzQraXEzUksy?=
+ =?gb2312?B?aW50QWNUWUdnZjRzU0pzTStkUngrZXFYOTMzajJYdFI1U2VWMGJrYllpV2xu?=
+ =?gb2312?B?QnhiTHNaN0xrVjRvSXo4YWR2WTZGbkRRL3Y2Y1VRL3Z2bDl1eTdEQXdDdHRG?=
+ =?gb2312?B?Ymd1NkViZW5MbDFVOXZmZGp3NzNsMDZFNmtzYUNJUXVJQ2dBV2YwQWtjd0dO?=
+ =?gb2312?B?NklOZGNTK1VBVGtXM3Myd2ljZEZMNWxIZE1MbE00UGluSi9JWnZ3OGphblN2?=
+ =?gb2312?B?ZFBVUTZQczlUNWM2VWVjSVVzR0pYVVkrWFYreCs4OSs1OEZzVjhrODg4d1I1?=
+ =?gb2312?B?UGJ6UU5tVjVlT3M0S3M1aGY4S0xuU0NzRUc1NzZVOUIrREdVaFNVZVc5Tm92?=
+ =?gb2312?B?bWg2WU1LWDd0VHZ0aEwvN0toTi9DajRJL085T2dNVkxvY0x6UENkblR1bE00?=
+ =?gb2312?B?V20xMUp1TlNxSzRiZkEvQTZsREhtVXZXSHhpZG9vOXg0SlFzZGVUaE1HaUw3?=
+ =?gb2312?B?dTdUZ0VrbjcyVGFnbmwzNGdxRlAxc3BFaDdyV0VBOXhKa0k5b0JLQSthempj?=
+ =?gb2312?B?Z0RGRHhhVVBxMmJVMWdGdFBDUWFzaUtVaG45ZS8vTXBtK0lGaFhuMkd6YTZv?=
+ =?gb2312?B?WklKcy9GQ2ZFb3NoRVJFK3huemRvSUNwOHVCRytQWVBMY05lQUtjK0FQb0pP?=
+ =?gb2312?B?NWIxWWdrMTArNjdwOWl0b0NVby9KdDRTSkNFMVc1N28yTkZ2dngxT3lFa1FK?=
+ =?gb2312?Q?0nTw=3D?=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYUPR06MB6217.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69f0f759-ad0e-4d18-fc85-08dd35410f4d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2025 08:46:10.2020
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W1WltV8dKYb7P2BUJRVt7NSlcyXK7EL/LMn4t0bcelftNoSA1AN19f55dfmLH7s3tH8mKX+jP9nyNwdDAug4gA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR06MB6713
 
-On Wed 15 Jan 2025 at 14:16, Jiebing Chen <jiebing.chen@amlogic.com> wrote:
-
-> =E5=9C=A8 2025/1/15 11:38, Jiebing Chen =E5=86=99=E9=81=93:
->>
->> =E5=9C=A8 2025/1/14 22:15, Jerome Brunet =E5=86=99=E9=81=93:
->>> [ EXTERNAL EMAIL ]
->>>
->>> On Tue 14 Jan 2025 at 20:34, Jiebing Chen <jiebing.chen@amlogic.com>
->>> wrote:
->>>
->>>> =E5=9C=A8 2025/1/14 19:16, Jerome Brunet =E5=86=99=E9=81=93:
->>>>> [ EXTERNAL EMAIL ]
->>>>>
->>>>> On Tue 14 Jan 2025 at 16:52, Jiebing Chen <jiebing.chen@amlogic.com>
->>>>> wrote:
->>>>>
->>>>>> =E5=9C=A8 2025/1/13 22:50, Jerome Brunet =E5=86=99=E9=81=93:
->>>>>>> [ EXTERNAL EMAIL ]
->>>>>>>
->>>>>>> On Mon 13 Jan 2025 at 14:35, jiebing chen via B4 Relay
->>>>>>> <devnull+jiebing.chen.amlogic.com@kernel.org> wrote:
->>>>>>>
->>>>>>>> From: jiebing chen <jiebing.chen@amlogic.com>
->>>>>>>>
->>>>>>>> Add basic audio driver support for the Amlogic S4 based Amlogic
->>>>>>>> AQ222 board.
->>>>>>>>
->>>>>>>> Signed-off-by: jiebing chen <jiebing.chen@amlogic.com>
->>>>>>>> ---
->>>>>>>> =C2=A0=C2=A0=C2=A0 .../boot/dts/amlogic/meson-s4-s805x2-aq222.dts =
-| 226
->>>>>>>> ++++++++++++
->>>>>>>> =C2=A0=C2=A0=C2=A0 arch/arm64/boot/dts/amlogic/meson-s4.dtsi | 385
->>>>>>>> ++++++++++++++++++++-
->>>>>>>> =C2=A0=C2=A0=C2=A0 2 files changed, 610 insertions(+), 1 deletion(=
--)
->>>>>>>>
->>>>>>>> diff --git a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
->>>> b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
->>>>>>>> index
->>>>>>>> 6730c44642d2910d42ec0c4adf49fefc3514dbec..32f50a5b860435d50d9c5528=
-b43422b705b20130
->>>>>>>> 100644
->>>>>>>> --- a/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
->>>>>>>> +++ b/arch/arm64/boot/dts/amlogic/meson-s4-s805x2-aq222.dts
->>>>>>>> @@ -75,6 +75,19 @@ vddio_ao1v8: regulator-vddio-ao1v8 {
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 regulator-always-on;
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>>
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 vcc5v_reg: regulator-vcc-5v {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "regulator-fixed";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 vin-supply =3D <&main_12v>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 regulator-name =3D "VCC5V";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 regulator-min-microvolt =3D <5000000>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 regulator-max-microvolt =3D <5000000>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 gpio =3D <&gpio GPIOH_7 GPIO_ACTIVE_HIGH>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 startup-delay-us =3D <7000>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 enable-active-high;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 regulator-boot-on;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 regulator-always-on;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* SY8120B1ABC DC=
-/DC Regulator. */
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vddcpu: regulator=
--vddcpu {
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "pwm-regulator";
->>>>>>>> @@ -129,6 +142,219 @@ vddcpu: regulator-vddcpu {
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <699000 98>,
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <689000 100>;
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 dmics: audio-codec-1 {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "dmic-codec";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 #sound-dai-cells =3D <0>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 num-channels =3D <2>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 wakeup-delay-ms =3D <50>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 sound-name-prefix =3D "MIC";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 dioo2133: audio-amplifier-0 {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "simple-audio-amplifier";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 enable-gpios =3D <&gpio GPIOH_8 GPIO_ACTIVE_HIGH>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 VCC-supply =3D <&vcc5v_reg>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 #sound-dai-cells =3D <0>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 sound-name-prefix =3D "10U2";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 spdif_dir: audio-spdif-in {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "linux,spdif-dir";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 #sound-dai-cells =3D <0>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 sound-name-prefix =3D "DIR";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 spdif_dit: audio-spdif-out {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "linux,spdif-dit";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 #sound-dai-cells =3D <0>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 sound-name-prefix =3D "DIT";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> +
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0 sound {
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 compatible =3D "amlogic,axg-sound-card";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 model =3D "aq222";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 audio-widgets =3D "Line", "Lineout";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 audio-aux-devs =3D <&tdmout_a>, <&tdmout_b>,
->>>>>>>> <&tdmout_c>,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <&tdmin_a>, <&tdmin_b>, <&tdmin_c>,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <&tdmin_lb>, <&dioo2133>,
->>>>>>>> <&tdmout_pad>, <&toacodec>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 audio-routing =3D "TDMOUT_A IN 0", "FRDDR_A OUT 0",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_A IN 1", "FRDDR_B OUT 0",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_A IN 2", "FRDDR_C OUT 0",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDM_A Playback", "TDMOUT_A OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMA_OUT SEL",=C2=A0=C2=A0 "TDM_A Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_B IN 0", "FRDDR_A OUT 1",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_B IN 1", "FRDDR_B OUT 1",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_B IN 2", "FRDDR_C OUT 1",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDM_B Playback", "TDMOUT_B OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMB_OUT SEL",=C2=A0=C2=A0 "TDM_B Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_C IN 0", "FRDDR_A OUT 2",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_C IN 1", "FRDDR_B OUT 2",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMOUT_C IN 2", "FRDDR_C OUT 2",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDM_C Playback", "TDMOUT_C OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMC_OUT SEL",=C2=A0=C2=A0 "TDM_C Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TOACODEC TDMA", "TDM_A Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TOACODEC TDMB", "TDM_B Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TOACODEC TDMC", "TDM_C Playback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_A IN 0", "FRDDR_A OUT 3",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_A IN 1", "FRDDR_B OUT 3",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_A IN 2", "FRDDR_C OUT 3",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_B IN 0", "FRDDR_A OUT 4",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_B IN 1", "FRDDR_B OUT 4",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "SPDIFOUT_B IN 2", "FRDDR_C OUT 4",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 0", "TDM_A Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 1", "TDM_B Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 2", "TDM_C Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 3", "TDM_A Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 4", "TDM_B Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_A IN 5", "TDM_C Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 0", "TDM_A Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 1", "TDM_B Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 2", "TDM_C Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 3", "TDM_A Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 4", "TDM_B Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_B IN 5", "TDM_C Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 0", "TDM_A Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 1", "TDM_B Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 2", "TDM_C Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 3", "TDM_A Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 4", "TDM_B Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_C IN 5", "TDM_C Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 3", "TDM_A Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 4", "TDM_B Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 5", "TDM_C Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 0", "TDM_A Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 1", "TDM_B Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TDMIN_LB IN 2", "TDM_C Loopback",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_A IN 0", "TDMIN_A OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_B IN 0", "TDMIN_A OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_C IN 0", "TDMIN_A OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_A IN 1", "TDMIN_B OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_B IN 1", "TDMIN_B OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_C IN 1", "TDMIN_B OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_A IN 2", "TDMIN_C OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_B IN 2", "TDMIN_C OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_C IN 2", "TDMIN_C OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_A IN 3", "SPDIFIN Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_B IN 3", "SPDIFIN Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_C IN 3", "SPDIFIN Capture",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_A IN 6", "TDMIN_LB OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_B IN 6", "TDMIN_LB OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "TODDR_C IN 6", "TDMIN_LB OUT",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "10U2 INL", "ACODEC LOLP",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "10U2 INR", "ACODEC LORP",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Lineout", "10U2 OUTL",
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Lineout", "10U2 OUTR";
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 assigned-clocks =3D <&clkc_pll CLKID_HIFI_PLL>,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <&clkc_pll CLKID_MPLL2>,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <&clkc_pll CLKID_MPLL0>,
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <&clkc_pll CLKID_MPLL1>;
->>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 assigned-clock-rates =3D <491520000>,
->>>>>>>> + <294912000>,
->>>>>>>> + <270950400>,
->>>>>>>> + <393216000>;
->>>>>>> Why do you need 4 base rates ? Which rate family does each provide ?
->>>>>> hifipll 49152000, mpll2 294912000 mpll0 270950400, mpll1 393216000,
->>>>>> the
->>>>>> accuracy of hifipll
->>>>>>
->>>>>> is relatively high, for tdm/pdm/spdif 16/48/96/192k we can use it. if
->>>>>> the
->>>>>> tdm and spdif work on
->>>>> It is fine to use the HiFi. I'm glad this clock finally got fixed
->>>>>
->>>>>> the same time, for example ,tdm 48k. spdif 44.1k, we can't use the
->>>>>> same
->>>>>> pll, so spdif need use the mpll 0
->>>>>>
->>>>>> other pll , only set a default value, at the latest chip, we remove
->>>>>> all
->>>>>> mpll for hardware, only two hifipll
->>>>> I'm not sure you understand how this works.
->>>>> There is 3 families of audio rate: 48kHz, 44.1kHz and 32kHz
->>>>>
->>>>> Each family needs a PLL assigned, so you need 3, not 4, unless there
->>>>> is
->>>>> another specific rate family you want to support. If that's the case,
->>>>> document it.
->>>>>
->>>>> Setting the rate of the PLL should follow this principle:
->>>>> * Family rate
->>>>> =C2=A0=C2=A0=C2=A0 - multiplied by (32 x 24): to accomodate different=
- sample sizes
->>>>> =C2=A0=C2=A0=C2=A0 - multiplied by 2 until you reach the maximum rate=
- of selected
->>>>> PLLs
->>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This allows to support rates such 192k=
- or even 768k
->>>>>
->>>>> 491520000 is not dividable by 3, it won't allow 24 bits words. It is a
->>>>> poor choice.
->>>>>
->>>>> Have a look at the s400 for an example using the HiFi PLL. The axg was
->>>>> restricted to a 68 PLL multiplier but the S4 is not so you should be
->>>>> able to use a higher base rate (4 718 592 000 Hz), providing better
->>>>> accuracy in the end
->>>> for new soc audio ip, the hardware will not support the 24bit(include
->>>> g12a,
->>>> sm1,axg)
->>> That may be what you chose to support in your BSP but that not how it
->>> works in mainline. 24bits slot width is supported and has been tested on
->>> axg, g12 and sm1. This is not going away.
->>>
->>> I would find extremely odd that 24 bits slot width is not supported on
->>> s4,
->>> but as long you document this, it is fine by me.
->>
->> i understand your meaning, you sad we configure the slot width 24bit for
->> tdmout control
->>
->> if the format the SNDRV_PCM_FMTBIT_S24,=C2=A0 it send the 24bit data, fo=
-r the
->> format, and send the 24bit clock
->>
->> if tdmout control can cut out [24:0] from the fddr, maybe your right, we
->> can send the 24 bit accoring to the slot width
->>
->> but it can't confirm by us,=C2=A0we are worried that there may be potent=
-ial
->> risks, so we don't use it thay way
->>
->> so this why i sad can't support the 24bit slot clock, 16/32 sample bit is
->> fully validated
->>
->>
-> i did some tests for the S24_LE format use the tdm base drvier
->
-> aplay -f S24_LE test.pcm -r48000 -c2
->
-> =C2=A0# cat /proc/asound/card0/pcm0p/sub0/hw_params
-> access: RW_INTERLEAVED
-> format: S24_LE
-> subformat: STD
-> channels: 2
-> rate: 48000 (48000/1)
-> period_size: 6000
-> buffer_size: 24000
->
-> we dump the mclk
->
-> aud_mst_a_mclk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 2=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 12288000 0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 0=C2=A0=C2=A0=C2=A0=C2=A0
-> 50000=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Y audio-controller-0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mclk
->
-> according to the base driver
->
-> in the api axg_tdm_set_tdm_slots function
-> switch (slot_width) {
-> =C2=A0=C2=A0=C2=A0 case 0:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slot_width =3D 32;
-
-32 bits is the default slot width if none is specified, yes. So ?
-
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fallthrough;
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ...
->
-> if dts not configure "dai-tdm-slot-width"
->
-> it use the 32 bit slot width
->
-> the api -> axg_tdm_iface_set_sclk
->
-> srate =3D iface->slots * iface->slot_width * params_rate(params);
->
-> set mclk rate
->
-> we dump tdmout control register
->
-> # devmem 0xfe330500
-> 0xB001003F
->
-> it set 32bit slot width to send
->
-> the base driver is the smae behavior that we wound expect,
-
-The driver set a slot width of 32 bits because you did choose any and
-then behave as it should.
-
-I don't get your point here or what such test is supposed to show.
-
-You did not test 24bits slot width at all.
-
->
->
->>>> SNDRV_PCM_FMTBIT_S24_3LE, 24 bit in memory
->>> I think you are mixing up slot width and memory representation
->>>
-
---=20
-Jerome
+SGVsbG8gbGludXgga2VybmVsIGV4cGVydDoNCg0KDQo+ID4gPiA+DQo+ID4gPiA+IEZyb206IExp
+YW5xaW4gSHUgPGh1bGlhbnFpbkB2aXZvLmNvbT4NCj4gPiA+ID4NCj4gPiA+ID4gQXVkaW8gY29u
+dHJvbCByZXF1ZXN0cyB0aGF0IHNldHMgc2FtcGxpbmcgZnJlcXVlbmN5IHNvbWV0aW1lcyBmYWls
+DQo+ID4gPiA+IG9uIHRoaXMgY2FyZC4gQWRkaW5nIGRlbGF5IGJldHdlZW4gY29udHJvbCBtZXNz
+YWdlcyBlbGltaW5hdGVzIHRoYXQNCj4gcHJvYmxlbS4NCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVk
+LW9mZi1ieTogTGlhbnFpbiBIdSA8aHVsaWFucWluQHZpdm8uY29tPg0KPiA+ID4NCj4gPiA+IENv
+dWxkIHlvdSBnaXZlIGEgYml0IG1vcmUgc3BlY2lmaWMgbmFtZSAvIG1vZGVsIHRvIGJvdGggdGhl
+IHN1YmplY3QNCj4gPiA+IGFuZCB0aGUgcXVpcmsgY29tbWVudD8gIFRoZW4gaXQnZCBiZSBtb3Jl
+IGhlbHBmdWwgZm9yIHBlb3BsZSB3aG8NCj4gPiA+IHJlYWQgLyBjaGVjayB0aGUgY2hhbmdlcyBs
+YXRlci4NCj4gPg0KPiA+IFdlIHVzZWQgdGhpcyBzb3VuZCBjYXJkIHRvIGNvbm5lY3QgdG8gdGhl
+IHBob25lLCBhbmQgb25seSBzYXcgdGhlDQo+IGZvbGxvd2luZyBpbmZvcm1hdGlvbiBpbiB0aGUg
+bG9nLCB3aXRob3V0IHNwZWNpZmljIHNvdW5kIGNhcmQgbW9kZWwNCj4gaW5mb3JtYXRpb246DQo+
+ID4NCj4gPiB1c2IgMS0xOiBOZXcgVVNCIGRldmljZSBmb3VuZCwgaWRWZW5kb3I9MGQ4YywgaWRQ
+cm9kdWN0PTAwMTQsDQo+ID4gYmNkRGV2aWNlPSAxLjAwIHVzYiAxLTE6IE5ldyBVU0IgZGV2aWNl
+IHN0cmluZ3M6IE1mcj0xLCBQcm9kdWN0PTIsDQo+ID4gU2VyaWFsTnVtYmVyPTAgdXNiIDEtMTog
+UHJvZHVjdDogVVNCIEF1ZGlvIERldmljZSB1c2IgMS0xOg0KPiA+IE1hbnVmYWN0dXJlcjogQy1N
+ZWRpYSBFbGVjdHJvbmljcyBJbmMuDQo+ID4gdXNiIDEtMTogdXNiX3Byb2JlX2RldmljZQ0KPiA+
+DQo+ID4gV2UgY3VycmVudGx5IGRvIG5vdCBoYXZlIGFuIGVmZmVjdGl2ZSB3YXkgdG8gb2J0YWlu
+IHRoZSBkZXRhaWxlZCBtb2RlbCBvZg0KPiB0aGlzIHNvdW5kIGNhcmQuIFdlIGFyZSB2ZXJ5IHNv
+cnJ5Lg0KPiANCj4gV2VsbCwgeW91IGNhbiBwdXQgc3VjaCBpbmZvIGluIHRoZSBwYXRjaCBkZXNj
+cmlwdGlvbi4gIEl0J3MgYWxyZWFkeSBoZWxwZnVsIHRvDQo+IGtub3cgd2hldGhlciBpdCdzIGFu
+IGFuIHVua25vd24gLyB1bm5hbWVkIHByb2R1Y3QuDQoNCk9LLCBJIHdpbGwgbW9kaWZ5IGl0IGFu
+ZCBzZW5kIGEgbmV3IHBhdGNoLg0KDQpUaGFua3MNCg==
