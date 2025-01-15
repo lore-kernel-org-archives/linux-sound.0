@@ -1,156 +1,176 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4AB22F3B0
-	for <linux-sound@vger.kernel.org>; Wed, 15 Jan 2025 06:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0F31EEF9;
+	Wed, 15 Jan 2025 07:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736924119; cv=none; b=ZAXnQfg1LqIuD4oqxJcP/ow3vanz+ddmsKPovGF0X+WKG609yPHeRnBvmA8qOoVeD2QR35SG8AhBbdUmPkIwk9Cb7YYNjuVQdxqCYzLJUWIv6xKCsA8IW5KggnnBYBXvhW6Q6L8eWxAsS4eYX3s7rLpxjUGedB2KY+aDkQBeFHo=
+	t=1736926933; cv=none; b=WePKR5peGVJ/JWk/VgK2pmGJFjY7hW1pKrcNZU4lNmq/p0a+8sIwES9vqHgZ5XsNsOiz9c5Gpcp7noe0BWS/HEqzSAGqoIvKFY6UdUcUKXqt75NzDbwjS4hu16rTWyaerAzvEB1Rg7UzZnsLLBX5YjQDA4Z2K4BSzrpK/CGU9QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736924119; c=relaxed/simple;
-	bh=93Zf6r6djTsOLjTwFwQbsL4xCusRovQNhv2ba7R6CRg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g5NmIo3LYKaPVu2ewc02WRvJO5xtMkcDeEYxvf9obT1z01aR/mw7ZyRm9+2QlZqM2lyvAUHP5fcb/c9jHb4NsB4wQ+d7xKHdCUug0GSJNtUlnQp8Bwl6MaKEMyILNRwfpj8E9xJ0t1wCQuELQI3kWxnDbx5Wd/xBcPPoceeQYdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tiwZg4eN; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1736926933; c=relaxed/simple;
+	bh=pYacy/6ZdIWOcaimeT1Gu9rL5/mDXiDG1MJDjNXLvOs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=vBpbJJKr1VWSexGebeHZZgv5WKersfB3rwJU3OBLF2hp2oC3fpezgWKJ5phgD76CVbzUNkoS3AtAIxJ24hLqpwJYeoJ8ZwOYIhifusH6t0SIVNL8paIBj6i9nmI1lrht5pn39JgqlYt4vMe5/kvxOm80MYmVHRiEuwiN5fns2Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xeCPZaTf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WTehAooR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=xeCPZaTf; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WTehAooR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tiwZg4eN"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5d0d32cd31aso8990222a12.0
-        for <linux-sound@vger.kernel.org>; Tue, 14 Jan 2025 22:55:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736924116; x=1737528916; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=XKBt5/R3U0Riotc/EXMrk2lAFncNvsaicQi2el/Oz1E=;
-        b=tiwZg4eNkMCQTIuLSSaWe8AFU4NrkteMjU1mRT6lcKvRz4vY+smtNulsSNIWk1tQix
-         MPcclIgP+smcS6d/QrKT+gBn4eHFMp1UguEPXQXbQIxcSmdekVdql4H2Ss/mzG/3m7I8
-         l8WEA0EE+lmzImzcKVY8jzPm6/wwkJ6VpoBioszN4Me+KXYqFQrMVa8YRIMIMhDGpIBD
-         SwsY3N68xcIfrKnoaILDdV6VXgRLEaKEauMmnDPhShd2V3Jy7/dzBfk4oNK9vAP4QzHX
-         4Fi1YhwydsBYK8RL1E1KaKWzVkIdQHgFYSu+1b/xPhoC+MvQjZb5Hgpeb5vl5ESbN6Dy
-         +RyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736924116; x=1737528916;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XKBt5/R3U0Riotc/EXMrk2lAFncNvsaicQi2el/Oz1E=;
-        b=ZXXIdSK34HoMJKtcmjPfgadZeY9HDcZBb+RhVEqYKYAQcYKBtzjbcSu5o1PCWKtcT6
-         PXxo+Ce40batB5GHcEIZHtyRhLymO9L9J91qhw4fWGRf2LUBvSuuojUP94sXiN7tPuCr
-         Ap7y5uKBVzbXhHyhkJN3rJAvKZaUHAhFoRZAO3XrOUy/ltFSuAkRl10QK4emAew/az9X
-         4IuUXXzund1yHUF0VbyVmu+E2KVgmw9CRXjzbIGmzaWR2maIz1qYyYueWCyzQwBEcHU3
-         oFb+OUmqSh/fQY772w/cT0Tx9KTtgPaBw3VyvEs+FXNDxqU14vFLsr2wcWA/VNfZA2MM
-         byQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUR6xnMVfQXSDlFiJj8zjsCnN3lo+KhahnyEmJnnvbEXpL304RAqOz0kchRVbsi4qngmXxLUAmiP/xR3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVkAmMfi5StVWWbYeW9wFg5H82YplW6NYNCWZcQttTKGy5IXRA
-	SoC89gl3WfX6PSAAw7nDpBEJKcFtXow2YThceZ4DGEfFG5tU9FekvifcSRmyBSI=
-X-Gm-Gg: ASbGncvs/Y0hwAwNzPZOhAjcA+1acwkxyUCToNSVG1fJcCwoRccV6V17Iw5d5KGn/3s
-	Hx2Q36wzsMqjzpKZJxJauT4f3TBDVzpF3Yg+Q8Ve5+oPQY8FGQKRk5aPJ/eJ5zMV2SYmpTknPtv
-	n1FRP+MPgCK1ESnZXQmGByafMjcRrnhNnpcf/mNDD7LwbTd8ewtMqZaBvgoFxhfmG6D1wjPhJFE
-	T0oPrNLgi8eyuYvkpesxW3V95DY/wqPPOGRgNZJy1m+G7fP/arswiVAJNI8Gw==
-X-Google-Smtp-Source: AGHT+IExCD1XX9izJi90Kdc42+9qhGwcjFZAxBY7JMxh2yX9I9+lBRCI+6LTlP3SWrBy5me6fxhpIw==
-X-Received: by 2002:a05:6402:354a:b0:5d2:7396:b0ed with SMTP id 4fb4d7f45d1cf-5d972e0e3abmr58693927a12.14.1736924115733;
-        Tue, 14 Jan 2025 22:55:15 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab2c90da11esm726930166b.69.2025.01.14.22.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2025 22:55:15 -0800 (PST)
-Date: Wed, 15 Jan 2025 09:55:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] ASoC: renesas: rz-ssi: Clean up on error in probe()
-Message-ID: <14864a18-c256-4c7d-b064-ba1400bed894@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xeCPZaTf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WTehAooR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xeCPZaTf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WTehAooR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 598801F37C;
+	Wed, 15 Jan 2025 07:42:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736926930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Eub/Ig+AmiblrsWo5X2ZSkmVuWJI0/VHedFLDwKHy1E=;
+	b=xeCPZaTfcGuMhrltVtsyFjlitI0b9DlU2f562qjaI0isIVYhwrZW2TZKaUOi7vJiH6og4X
+	xdDBc2eMOAM79TmO0Tt1/+W9u7SNUrVIUw/tgoJFP+zK21mu/naHAczREn154roh17AF97
+	wlZVEUqphlPc2TJ6yAP8TxCGOsf/cyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736926930;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Eub/Ig+AmiblrsWo5X2ZSkmVuWJI0/VHedFLDwKHy1E=;
+	b=WTehAooRQbrRsTlS0F2sMO9s2okXmMEBdEgmP7f672umeosHoI1Hp3PFLWUu/VLfNLkvTD
+	HR9sthI67mfSAMAg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xeCPZaTf;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=WTehAooR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1736926930; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Eub/Ig+AmiblrsWo5X2ZSkmVuWJI0/VHedFLDwKHy1E=;
+	b=xeCPZaTfcGuMhrltVtsyFjlitI0b9DlU2f562qjaI0isIVYhwrZW2TZKaUOi7vJiH6og4X
+	xdDBc2eMOAM79TmO0Tt1/+W9u7SNUrVIUw/tgoJFP+zK21mu/naHAczREn154roh17AF97
+	wlZVEUqphlPc2TJ6yAP8TxCGOsf/cyE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1736926930;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Eub/Ig+AmiblrsWo5X2ZSkmVuWJI0/VHedFLDwKHy1E=;
+	b=WTehAooRQbrRsTlS0F2sMO9s2okXmMEBdEgmP7f672umeosHoI1Hp3PFLWUu/VLfNLkvTD
+	HR9sthI67mfSAMAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 10994139CB;
+	Wed, 15 Jan 2025 07:42:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id djR7AtJmh2dqbAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 15 Jan 2025 07:42:10 +0000
+Date: Wed, 15 Jan 2025 08:42:09 +0100
+Message-ID: <87ed14le0e.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	Jiri Kosina <jikos@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>,
+	Wade Wang <wade.wang@hp.com>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linux-input@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ALSA: usb-audio: Add quirk for Plantronics headsets to fix control names
+In-Reply-To: <6273ad6b-3c3c-4cc3-9b7e-1da5066d2321@cosmicgizmosystems.com>
+References: <20250113235212.78127-1-linuxhid@cosmicgizmosystems.com>
+	<20250113235212.78127-3-linuxhid@cosmicgizmosystems.com>
+	<87jzaxzi24.wl-tiwai@suse.de>
+	<6273ad6b-3c3c-4cc3-9b7e-1da5066d2321@cosmicgizmosystems.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-sound@vger.kernel.org
 List-Id: <linux-sound.vger.kernel.org>
 List-Subscribe: <mailto:linux-sound+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-sound+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: 598801F37C
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_TLS_ALL(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
+X-Spam-Flag: NO
 
-Call rz_ssi_release_dma_channels() on these error paths to clean up from
-rz_ssi_dma_request().
+On Tue, 14 Jan 2025 23:14:13 +0100,
+Terry Junge wrote:
+> 
+> On 1/14/25 4:38 AM, Takashi Iwai wrote:
+> > On Tue, 14 Jan 2025 00:51:59 +0100,
+> > Terry Junge wrote:
+> >>
+> >> +/*
+> >> + * Some Plantronics headsets have control names that don't meet ALSA naming
+> >> + * standards. This function fixes nonstandard source names. By the time
+> >> + * this function is called the control name should look like one of these:
+> >> + * "source names Playback Volume"
+> >> + * "source names Playback Switch"
+> >> + * "source names Capture Volume"
+> >> + * "source names Capture Switch"
+> >> + * If any of the trigger words are found in the name then the name will
+> >> + * be changed to:
+> >> + * "Headset Playback Volume"
+> >> + * "Headset Playback Switch"
+> >> + * "Headset Capture Volume"
+> >> + * "Headset Capture Switch"
+> >> + * depending on the current suffix.
+> >> + */
+> >> +static void snd_fix_plt_name(struct snd_usb_audio *chip,
+> >> +			     typeof_member(struct snd_ctl_elem_id, name) * name)
+> > 
+> > I personally find this style of argument is difficult to use.
+> > That said, IMO, it's better to stick with the argument
+> >   struct snd_ctl_elem_id *id
+> > and access via id->name as in your earlier patch; it's more idiomatic,
+> > and easier to read.
+> > 
+> So, is the coding of the rest of the function body acceptable if I just pass a
+>    struct snd_ctl_elem_id *id
+> instead of an
+>    unsigned char[44] *name
+> ?
 
-Fixes: 26ac471c5354 ("ASoC: sh: rz-ssi: Add SSI DMAC support")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- sound/soc/renesas/rz-ssi.c | 42 ++++++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 15 deletions(-)
+Likely yes.
 
-diff --git a/sound/soc/renesas/rz-ssi.c b/sound/soc/renesas/rz-ssi.c
-index 3a0af4ca7ab6..4b3016282717 100644
---- a/sound/soc/renesas/rz-ssi.c
-+++ b/sound/soc/renesas/rz-ssi.c
-@@ -1150,35 +1150,47 @@ static int rz_ssi_probe(struct platform_device *pdev)
- 		ssi->irq_rx = platform_get_irq_byname(pdev, "dma_rx");
- 		if (ssi->irq_tx == -ENXIO && ssi->irq_rx == -ENXIO) {
- 			ssi->irq_rt = platform_get_irq_byname(pdev, "dma_rt");
--			if (ssi->irq_rt < 0)
--				return ssi->irq_rt;
-+			if (ssi->irq_rt < 0) {
-+				ret = ssi->irq_rt;
-+				goto err_release_dma_chs;
-+			}
- 
- 			ret = devm_request_irq(dev, ssi->irq_rt,
- 					       &rz_ssi_interrupt, 0,
- 					       dev_name(dev), ssi);
--			if (ret < 0)
--				return dev_err_probe(dev, ret,
--						     "irq request error (dma_rt)\n");
-+			if (ret < 0) {
-+				dev_err_probe(dev, ret,
-+					      "irq request error (dma_rt)\n");
-+				goto err_release_dma_chs;
-+			}
- 		} else {
--			if (ssi->irq_tx < 0)
--				return ssi->irq_tx;
-+			if (ssi->irq_tx < 0) {
-+				ret = ssi->irq_tx;
-+				goto err_release_dma_chs;
-+			}
- 
--			if (ssi->irq_rx < 0)
--				return ssi->irq_rx;
-+			if (ssi->irq_rx < 0) {
-+				ret = ssi->irq_rx;
-+				goto err_release_dma_chs;
-+			}
- 
- 			ret = devm_request_irq(dev, ssi->irq_tx,
- 					       &rz_ssi_interrupt, 0,
- 					       dev_name(dev), ssi);
--			if (ret < 0)
--				return dev_err_probe(dev, ret,
--						"irq request error (dma_tx)\n");
-+			if (ret < 0) {
-+				dev_err_probe(dev, ret,
-+					      "irq request error (dma_tx)\n");
-+				goto err_release_dma_chs;
-+			}
- 
- 			ret = devm_request_irq(dev, ssi->irq_rx,
- 					       &rz_ssi_interrupt, 0,
- 					       dev_name(dev), ssi);
--			if (ret < 0)
--				return dev_err_probe(dev, ret,
--						"irq request error (dma_rx)\n");
-+			if (ret < 0) {
-+				dev_err_probe(dev, ret,
-+					      "irq request error (dma_rx)\n");
-+				goto err_release_dma_chs;
-+			}
- 		}
- 	}
- 
--- 
-2.45.2
 
+thanks,
+
+Takashi
